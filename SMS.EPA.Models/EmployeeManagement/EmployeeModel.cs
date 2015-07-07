@@ -1,0 +1,30 @@
+﻿// ----------------------------------------------------------------------
+// <copyright file="EmployeeModel.cs" company="Nexcel Solutions Viet Nam">
+// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
+// </copyright>
+// ------------------------------------------------------------------------
+// <history>
+//   <change who="Josh.Phan" date="7/6/2015 10:51:11 AM">Created.</change>
+// </history>
+
+namespace SMS.EPA.Model.EmployeeManagement
+{
+    using System.Collections.Generic;
+    using SMS.EPA.Model.Enitites;
+    using SMS.EPA.Model.RoleManagement;
+
+    /// <summary>
+    /// The employee model.
+    /// </summary>
+    public class EmployeeModel : Employee
+    {
+        public EmployeeModel()
+        {
+            Roles = new List<SystemRoleModel>();
+        }
+
+        public Group Group { get; set; }
+
+        public IList<SystemRoleModel> Roles { get; set; }
+    }
+}

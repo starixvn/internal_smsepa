@@ -1,0 +1,23 @@
+﻿@using System.Web.Optimization
+@using SMS.EPA.Resources;
+
+<!DOCTYPE html>
+<html data-ng-app="appModule">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@Lang.TitlePage</title>
+    @Styles.Render("~/Content/Common/css")
+    @Styles.Render("~/bundles/less")
+    @RenderSection("Head", false)
+    <base href="@Url.Content("~/")" />
+</head>
+<body>
+    <div class="container page">
+        @RenderBody()
+    </div>
+    @Scripts.Render("~/bundles/vendor")
+    @Scripts.Render("~/bundles/common/js")
+    @Scripts.Render("~/bundles/app")
+</body>
+</html>

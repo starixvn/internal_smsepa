@@ -1,0 +1,142 @@
+﻿'use strict';
+/*global appModule*/
+
+appModule.factory('utilitiesFactory',
+['$filter', function ($filter) {
+    var utilities = {};
+    var limitNumber = 100,
+        dateTimeFormatString = "MM/DD/YYYY HH:mm",
+        dateFormat = "dd MMM, yyyy";
+
+    utilities.numberEntryList = function (vm) {
+        vm.entries = [10, 15, 20, 50, 100, 200];
+    };
+
+    utilities.getDateFormat = function (vm) {
+        vm.dateFormat = dateFormat;
+    };
+
+    /*
+    ** event read more/less text.
+    */
+    utilities.maxLengthDescription = function (vm) {
+        vm.maxLengthDescription = limitNumber;
+    };
+
+    utilities.readMore = function (item) {
+        item.numLimit = 10000;
+        item.showReadMore = true;
+    };
+
+    utilities.readLess = function (item) {
+        item.numLimit = limitNumber;
+        item.showReadMore = false;
+    };
+
+    utilities.pageOption = {
+        pageIndex: 0,
+        itemsPerPage: 50,
+        itemsPerPageArray: [50, 100, 200, 500]
+    };
+
+    utilities.dateTimeFormatString = function () {
+        return dateTimeFormatString;
+    };
+
+    /*jshint ignore:start */
+    /*moment is third party*/
+    utilities.getDateTime = function (dateObject) {
+        var resultDate = '';
+
+        if (dateObject) {
+            resultDate = moment(dateObject).format(dateTimeFormatString);
+        }
+
+        return resultDate;
+    };
+    /*jshint ignore:end */
+
+    utilities.getInt = function (number) {
+        var result = number;
+
+        if (number) {
+            result = parseInt(number);
+        }
+
+        return result;
+    };
+
+    utilities.openPopupStartDate = function ($event, vm) {
+        $event.preventDefault();
+        $event.stopPropagation();
+
+        vm.calendar.startDateOpened = true;
+        vm.calendar.endDateOpened = false;
+    };
+
+    utilities.openPopupEndDate = function ($event, vm) {
+        $event.preventDefault();
+        $event.stopPropagation();
+
+        vm.calendar.endDateOpened = true;
+        vm.calendar.startDateOpened = false;
+    };
+
+    utilities.searchOnPage = function (vm, originalData) {
+        /*
+        * Check if item match search text. 
+        */
+        var searchMatch = function (haystack, needle) {
+            if (!needle) {
+                return true;
+            }
+
+            return haystack.toLowerCase().indexOf(needle.toLowerCase()) !== -1;
+        };
+
+        /*
+        * Check all item recursion.
+        */
+        var checkAllItemRecursion = function (item, searchKey) {
+            for (var attr in item) {
+                var childItem = item[attr];
+
+                if (childItem != null && /^[a-zA-Z0-9]*$/.test(attr) &&
+                        attr.toLowerCase().search('id') === -1 && attr.toLowerCase().search('length') === -1 &&
+                        attr.toLowerCase().search('index') === -1 && attr.toLowerCase().search('hash') === -1 &&
+                        attr.toLowerCase().search('time') === -1 && attr.toLowerCase().search('date') === -1 &&
+                        attr.toLowerCase().search('modifiedby') === -1 && attr.toLowerCase().search('createdby') === -1) {
+
+                    if (typeof (childItem) === 'object') {
+                        var exist = checkAllItemRecursion(childItem, searchKey);
+
+                        if (exist) {
+                            return exist;
+                        }
+                    }
+                    else {
+                        if (searchMatch(item[attr].toString(), searchKey)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            return false;
+        };
+
+        vm.search = function () {
+            vm.filteredItems = [];
+
+            if (originalData && originalData.length > 0) {
+                vm.filteredItems = $filter('filter')(originalData, function (item) {
+                    return checkAllItemRecursion(item, vm.searchKey);
+                });
+            }
+        };
+
+        vm.search();
+    };
+
+    return utilities;
+}]);

@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Functions>
+  <Function Name="Authorization">
+    <Setting Key="EpaEmployee_GetByCode" SpName="EpaEmployee_GetByCode" DbName="SMSEPA" Plain="0" >
+    </Setting>
+    <Setting Key="EpaEmployee_GetByDomainUsername" SpName="EpaEmployee_GetByDomainUsername" DbName="SMSEPA" Plain="0" >
+    </Setting>
+  </Function>
+</Functions>

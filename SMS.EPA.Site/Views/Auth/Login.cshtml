@@ -1,0 +1,34 @@
+﻿@using System.Web.Optimization
+@using SMS.EPA.Resources
+@model SMS.EPA.Model.Authentication.LoginModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@Lang.EPAWelcome</title>
+    @Styles.Render("~/Content/login/css")
+</head>
+<body>
+    <div id="panel" class="container login">
+        <div class="header-login row">
+        </div>
+        <div id="formContainer" class="row auth">
+            @using (Html.BeginForm())
+            {
+                @Html.TextBoxFor(model => model.Username, new { placeholder = "Username", @class = "col-sm-12 username" })
+                @Html.PasswordFor(model => model.Password, new { placeholder = "Password", @class = "col-sm-12 password" })
+                <input type="submit" name="submit" class="col-sm-12 btn-submit" value="Log In" />
+            }
+            <div class="message-error">
+                @if (Model != null && !ViewData.ModelState.IsValid)
+                { 
+                    <i class="icon-error"></i>@Lang.InvalidUsernameOrPassword
+                }
+            </div>
+        </div>
+    </div>
+</body>
+</html>

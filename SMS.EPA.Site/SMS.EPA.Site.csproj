@@ -1,0 +1,444 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CA0ABDFC-9F6E-4823-BBA3-35AE18139237}</ProjectGuid>
+    <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SMS.EPA.Site</RootNamespace>
+    <AssemblyName>SMS.EPA.Site</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>false</UseIISExpress>
+    <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
+    <JSLintSkip>\Libs\</JSLintSkip>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="BundleTransformer.Core">
+      <HintPath>..\packages\BundleTransformer.Core.1.7.20\lib\net40\BundleTransformer.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="BundleTransformer.Less">
+      <HintPath>..\packages\BundleTransformer.Less.1.7.20\lib\net40\BundleTransformer.Less.dll</HintPath>
+    </Reference>
+    <Reference Include="Fanex.Data">
+      <HintPath>..\packages\Fanex.Data.0.5.404.63\lib\net40\Fanex.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=5.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EnterpriseLibrary.Common.5.0.414.0\lib\net40\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Data">
+      <HintPath>..\packages\EnterpriseLibrary.Data.5.0.414.0\lib\net40\Microsoft.Practices.EnterpriseLibrary.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\packages\EnterpriseLibrary.Unity.5.0.414.0\lib\net40\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=2.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EnterpriseLibrary.Unity.5.0.414.0\lib\net40\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Interception">
+      <HintPath>..\packages\EnterpriseLibrary.Unity.5.0.414.0\lib\net40\Microsoft.Practices.Unity.Interception.dll</HintPath>
+    </Reference>
+    <Reference Include="MsieJavaScriptEngine">
+      <HintPath>..\packages\MsieJavaScriptEngine.1.1.2\lib\net40\MsieJavaScriptEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.20710.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.20710.0\lib\net40\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.20710.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Providers">
+      <HintPath>..\packages\Microsoft.AspNet.Providers.Core.1.1\lib\net40\System.Web.Providers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.20710.0\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\BundleEntensions.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\API\ResourcesController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\AuthController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\SpNames.xml" />
+    <Content Include="Content\Common\angular-multi-select.css" />
+    <Content Include="Content\Common\bootstrap-spacelab.min.css" />
+    <Content Include="Content\Common\bootstrap-theme.min.css" />
+    <Content Include="Content\Common\chosen-sprite.png" />
+    <Content Include="Content\Common\chosen.min.css" />
+    <Content Include="Content\Common\Fanex.Grid.css" />
+    <Content Include="Content\Common\Fanex.Pagination.css" />
+    <Content Include="Content\Common\Images\animated-overlay.gif" />
+    <Content Include="Content\Common\Images\auth-bg.png" />
+    <Content Include="Content\Common\Images\collapse-small.png" />
+    <Content Include="Content\Common\Images\delete.png" />
+    <Content Include="Content\Common\Images\edit.png" />
+    <Content Include="Content\Common\Images\EPA.png" />
+    <Content Include="Content\Common\Images\excel-icon.png" />
+    <Content Include="Content\Common\Images\expand-small.png" />
+    <Content Include="Content\Common\Images\go-hover-icon.png" />
+    <Content Include="Content\Common\Images\lock.png" />
+    <Content Include="Content\Common\Images\seperations.png" />
+    <Content Include="Content\Common\Images\sprite_btn.png" />
+    <Content Include="Content\Common\Images\title-bg.jpg" />
+    <Content Include="Content\Common\Images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
+    <Content Include="Content\Common\Images\ui-bg_diagonals-thick_20_666666_40x40.png" />
+    <Content Include="Content\Common\Images\ui-bg_flat_10_000000_40x100.png" />
+    <Content Include="Content\Common\Images\ui-bg_glass_100_f6f6f6_1x400.png" />
+    <Content Include="Content\Common\Images\ui-bg_glass_100_fdf5ce_1x400.png" />
+    <Content Include="Content\Common\Images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\Common\Images\ui-bg_gloss-wave_35_f6a828_500x100.png" />
+    <Content Include="Content\Common\Images\ui-bg_highlight-soft_100_eeeeee_1x100.png" />
+    <Content Include="Content\Common\Images\ui-bg_highlight-soft_75_ffe45c_1x100.png" />
+    <Content Include="Content\Common\Images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\Common\Images\ui-icons_228ef1_256x240.png" />
+    <Content Include="Content\Common\Images\ui-icons_ef8c08_256x240.png" />
+    <Content Include="Content\Common\Images\ui-icons_ffd27a_256x240.png" />
+    <Content Include="Content\Common\Images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\Common\jquery-ui.min.css" />
+    <Content Include="Content\Common\table.css" />
+    <Content Include="Content\Common\toastr.css" />
+    <Content Include="Content\Fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\Site\auth\images\bg-login.jpg" />
+    <Content Include="Content\Site\auth\images\icon-error.png" />
+    <Content Include="Content\Site\auth\images\icon-pass.png" />
+    <Content Include="Content\Site\auth\images\icon-user.png" />
+    <Content Include="Content\Site\auth\images\logo.png" />
+    <Content Include="Content\Site\images\accept.png" />
+    <Content Include="Content\Site\images\arrow-down.png" />
+    <Content Include="Content\Site\images\arrow-left.png" />
+    <Content Include="Content\Site\images\bg-login.png" />
+    <Content Include="Content\Site\images\btn-login-hover.png" />
+    <Content Include="Content\Site\images\btn-login.png" />
+    <Content Include="Content\Site\images\bullet-grey.png" />
+    <Content Include="Content\Site\images\calendar.png" />
+    <Content Include="Content\Site\images\department-collapse.png" />
+    <Content Include="Content\Site\images\department-expand.png" />
+    <Content Include="Content\Site\images\icon-breadcrumb.png" />
+    <Content Include="Content\Site\images\icon-search.png" />
+    <Content Include="Content\Site\images\icon_sprite.png" />
+    <Content Include="Content\Site\images\line-menu.png" />
+    <Content Include="Content\Site\images\logo-login.png" />
+    <Content Include="Content\Site\images\logo.png" />
+    <Content Include="Content\Site\images\sprite_ico_2012-05-15.png" />
+    <Content Include="Content\Site\images\success.png" />
+    <Content Include="Content\Site\images\table_header_repeat.jpg" />
+    <Content Include="Content\Site\images\toggle_collapsed.png" />
+    <Content Include="Content\Site\images\toggle_expanded.png" />
+    <Content Include="Content\Site\images\user.png" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="Libs\angular-chosen.js" />
+    <Content Include="Libs\angular-multi-select.js" />
+    <Content Include="Libs\angular-resource.min.js" />
+    <Content Include="Libs\angular-route.min.js" />
+    <Content Include="Libs\angular-translate.js" />
+    <Content Include="Libs\angular.js" />
+    <Content Include="Libs\angular.min.js" />
+    <Content Include="Libs\bootstrap.min.js" />
+    <Content Include="Libs\checklist-model.js" />
+    <Content Include="Libs\chosen.jquery.min.js" />
+    <Content Include="Libs\date.js" />
+    <Content Include="Libs\datepicker.js" />
+    <Content Include="Libs\dirPagination.js" />
+    <Content Include="Libs\Fanex.Grid.js" />
+    <Content Include="Libs\Fanex.Pagination.js" />
+    <Content Include="Libs\jquery-2.1.0-vsdoc.js" />
+    <Content Include="Libs\jquery-2.1.0.min.js" />
+    <Content Include="Libs\jquery-ui.min.js" />
+    <Content Include="Libs\moment.min.js" />
+    <Content Include="Libs\numeral.min.js" />
+    <Content Include="Libs\tai-placeholder.js" />
+    <Content Include="Libs\toastr.js" />
+    <Content Include="Libs\ui-bootstrap-contextMenu.js" />
+    <Content Include="Libs\ui-bootstrap-tpls-0.13.0.min.js" />
+    <Content Include="Libs\_references.js" />
+    <Content Include="SourceApp\app.js" />
+    <Content Include="SourceApp\Components\Resources\resources-controller.js" />
+    <Content Include="SourceApp\Components\Resources\resources-factory.js" />
+    <Content Include="SourceApp\routes.js" />
+    <Content Include="SourceApp\Shared\error-factory.js" />
+    <Content Include="SourceApp\Shared\modalconfirm-controller.js" />
+    <Content Include="SourceApp\Shared\epa-directives.js" />
+    <Content Include="SourceApp\Shared\notification-factory.js" />
+    <Content Include="SourceApp\Shared\Templates\AccessDenied.html" />
+    <Content Include="SourceApp\Shared\Templates\dirPagination.tpl.html" />
+    <Content Include="SourceApp\Shared\Templates\ModalConfirmContent.html" />
+    <Content Include="SourceApp\Shared\utilities-factory.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BundleTransformer.Configuration.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Content\Common\bootstrap-theme.css.map" />
+    <Content Include="Content\Common\bootstrap.css.map" />
+    <Content Include="Content\Fonts\big_noodle_titling.ttf" />
+    <Content Include="Content\Fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\Fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\Fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\Less\.csscomb.json" />
+    <Content Include="Content\Less\.csslintrc" />
+    <Content Include="Content\Less\alerts.less" />
+    <Content Include="Content\Less\badges.less" />
+    <Content Include="Content\Less\bootstrap.less" />
+    <Content Include="Content\Less\breadcrumbs.less" />
+    <Content Include="Content\Less\button-groups.less" />
+    <Content Include="Content\Less\buttons.less" />
+    <Content Include="Content\Less\carousel.less" />
+    <Content Include="Content\Less\close.less" />
+    <Content Include="Content\Less\code.less" />
+    <Content Include="Content\Less\component-animations.less" />
+    <Content Include="Content\Less\dropdowns.less" />
+    <Content Include="Content\Less\forms.less" />
+    <Content Include="Content\Less\glyphicons.less" />
+    <Content Include="Content\Less\grid.less" />
+    <Content Include="Content\Less\input-groups.less" />
+    <Content Include="Content\Less\jumbotron.less" />
+    <Content Include="Content\Less\labels.less" />
+    <Content Include="Content\Less\list-group.less" />
+    <Content Include="Content\Less\media.less" />
+    <Content Include="Content\Less\mixins.less" />
+    <Content Include="Content\Less\mixins\alerts.less" />
+    <Content Include="Content\Less\mixins\background-variant.less" />
+    <Content Include="Content\Less\mixins\border-radius.less" />
+    <Content Include="Content\Less\mixins\buttons.less" />
+    <Content Include="Content\Less\mixins\center-block.less" />
+    <Content Include="Content\Less\mixins\clearfix.less" />
+    <Content Include="Content\Less\mixins\forms.less" />
+    <Content Include="Content\Less\mixins\gradients.less" />
+    <Content Include="Content\Less\mixins\grid-framework.less" />
+    <Content Include="Content\Less\mixins\grid.less" />
+    <Content Include="Content\Less\mixins\hide-text.less" />
+    <Content Include="Content\Less\mixins\image.less" />
+    <Content Include="Content\Less\mixins\labels.less" />
+    <Content Include="Content\Less\mixins\list-group.less" />
+    <Content Include="Content\Less\mixins\nav-divider.less" />
+    <Content Include="Content\Less\mixins\nav-vertical-align.less" />
+    <Content Include="Content\Less\mixins\opacity.less" />
+    <Content Include="Content\Less\mixins\pagination.less" />
+    <Content Include="Content\Less\mixins\panels.less" />
+    <Content Include="Content\Less\mixins\progress-bar.less" />
+    <Content Include="Content\Less\mixins\reset-filter.less" />
+    <Content Include="Content\Less\mixins\resize.less" />
+    <Content Include="Content\Less\mixins\responsive-visibility.less" />
+    <Content Include="Content\Less\mixins\size.less" />
+    <Content Include="Content\Less\mixins\tab-focus.less" />
+    <Content Include="Content\Less\mixins\table-row.less" />
+    <Content Include="Content\Less\mixins\text-emphasis.less" />
+    <Content Include="Content\Less\mixins\text-overflow.less" />
+    <Content Include="Content\Less\mixins\vendor-prefixes.less" />
+    <Content Include="Content\Less\modals.less" />
+    <Content Include="Content\Less\navbar.less" />
+    <Content Include="Content\Less\navs.less" />
+    <Content Include="Content\Less\normalize.less" />
+    <Content Include="Content\Less\pager.less" />
+    <Content Include="Content\Less\pagination.less" />
+    <Content Include="Content\Less\panels.less" />
+    <Content Include="Content\Less\popovers.less" />
+    <Content Include="Content\Less\print.less" />
+    <Content Include="Content\Less\progress-bars.less" />
+    <Content Include="Content\Less\responsive-embed.less" />
+    <Content Include="Content\Less\responsive-utilities.less" />
+    <Content Include="Content\Less\scaffolding.less" />
+    <Content Include="Content\Less\tables.less" />
+    <Content Include="Content\Less\theme.less" />
+    <Content Include="Content\Less\thumbnails.less" />
+    <Content Include="Content\Less\tooltip.less" />
+    <Content Include="Content\Less\type.less" />
+    <Content Include="Content\Less\utilities.less" />
+    <Content Include="Content\Less\variables.less" />
+    <Content Include="Content\Less\wells.less" />
+    <Content Include="Content\Site\layout.less" />
+    <Content Include="Content\Site\mixins.less" />
+    <Content Include="Content\Site\variables.less" />
+    <Content Include="Content\Site\auth\style.less" />
+    <None Include="Libs\angular-resource.min.js.map" />
+    <None Include="Libs\angular-route.min.js.map" />
+    <None Include="Libs\angular.min.js.map" />
+    <None Include="Libs\jquery-2.1.0.min.map" />
+    <Content Include="Views\Auth\Login.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">
+      <Project>{76EE2DA4-7127-4C21-B218-ADFF51B2B74E}</Project>
+      <Name>SMS.EPA.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SMS.EPA.Criteria\SMS.EPA.Criteria.csproj">
+      <Project>{23BD1141-64A1-4684-8A1E-83E8CC0D46AA}</Project>
+      <Name>SMS.EPA.Criteria</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SMS.EPA.Models\SMS.EPA.Model.csproj">
+      <Project>{235C8D9E-97EC-4183-BAF2-3783F2F816CC}</Project>
+      <Name>SMS.EPA.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SMS.EPA.Resources\SMS.EPA.Resources.csproj">
+      <Project>{F855C077-310D-43DC-A8F6-ADE400BC74EF}</Project>
+      <Name>SMS.EPA.Resources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SMS.EPA.Services\SMS.EPA.Services.csproj">
+      <Project>{8EB3D578-B2A0-4B11-9386-50F394DE396C}</Project>
+      <Name>SMS.EPA.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SMS.EPA.Web\SMS.EPA.Web.csproj">
+      <Project>{A3B07D4D-1AC3-42E7-A698-658C5C2D4CD7}</Project>
+      <Name>SMS.EPA.Web</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>49973</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

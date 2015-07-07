@@ -1,0 +1,55 @@
+﻿@using SMS.EPA.Resources;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row header">
+    <a class="logo col-xs-12 col-sm-2" href="/">
+        <img src="~/Content/Site/Images/logo.png" alt="SMS-EPA" title="SMS-EPA" />
+    </a>
+    <div class="nav col-xs-12 col-sm-10">
+        <nav id="navbar-example" class="navbar navbar-static top-menu" role="navigation">
+            <div class="bs-example-js-navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="">@Lang.Home</a>
+                    </li>
+                    <li class="dropdown" dropdown>
+                        <a id="drop1" href="#" data-role="button" class="dropdown-toggle" dropdown-toggle>@Lang.Admin<b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu" data-role="button" aria-labelledby="drop1">
+                            <li data-role="presentation"><a data-role="menuitem" tabindex="-1" href="">@Lang.KPI</a>
+                            </li>
+                            <li data-role="presentation"><a data-role="menuitem" tabindex="-1" href="">@Lang.KPIGroup</a>
+                            </li>
+                            <li data-role="presentation"><a data-role="menuitem" tabindex="-1" href="">@Lang.TargetTemplate</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="">@Lang.SelfEvaluation</a>
+                    </li>
+                    <li>
+                        <a href="">@Lang.Evaluator</a>
+                    </li>
+                    <li>
+                        <a href="">@Lang.Reviewer</a>
+                    </li>
+                    <li>
+                        <a href="">@Lang.Management</a>
+                    </li>
+                    <li>
+                        <a href="">@Lang.HumanResource</a>
+                    </li>
+                    <li>
+                        <a href="">@Lang.Report</a>
+                    </li>
+                    <li>
+                        <a href="">@Lang.Support</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</div>
+<div class="row" data-ng-view>
+</div>
