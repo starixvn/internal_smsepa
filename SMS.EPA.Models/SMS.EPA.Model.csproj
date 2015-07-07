@@ -47,9 +47,13 @@
     <Compile Include="Enitites\Employee.cs" />
     <Compile Include="Enitites\Group.cs" />
     <Compile Include="Enitites\JobTitle.cs" />
+    <Compile Include="KPIGroup\KPIGroupModel.cs" />
+    <Compile Include="KPI\KPIModel.cs" />
+    <Compile Include="KPI\RawKPIModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoleManagement\SystemRoleModel.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

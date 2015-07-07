@@ -120,6 +120,9 @@
   <data name="Action" xml:space="preserve">
     <value>Action</value>
   </data>
+  <data name="Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
   <data name="Admin" xml:space="preserve">
     <value>Admin</value>
   </data>
@@ -144,6 +147,12 @@
   <data name="FullName" xml:space="preserve">
     <value>Full Name</value>
   </data>
+  <data name="CreateKPI" xml:space="preserve">
+    <value>Create KPI</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
   <data name="Group" xml:space="preserve">
     <value>Group</value>
   </data>
@@ -152,6 +161,9 @@
   </data>
   <data name="HumanResource" xml:space="preserve">
     <value>Human Resource</value>
+  </data>
+  <data name="InActive" xml:space="preserve">
+    <value>In Active</value>
   </data>
   <data name="InvalidInputData" xml:space="preserve">
     <value>Invalid input.</value>
@@ -170,6 +182,9 @@
   </data>
   <data name="KPIGroup" xml:space="preserve">
     <value>KPI Group</value>
+  </data>
+  <data name="ManageKPI" xml:space="preserve">
+    <value>KPI Management</value>
   </data>
   <data name="Management" xml:space="preserve">
     <value>Management</value>
@@ -203,6 +218,12 @@
   </data>
   <data name="TargetTemplate" xml:space="preserve">
     <value>Target Template</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Title</value>
   </data>
   <data name="TitlePage" xml:space="preserve">
     <value>SMS-EPA</value>

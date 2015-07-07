@@ -1,0 +1,91 @@
+﻿<div class="kpi-management" ng-controller="KPIController as kpiCtrl">
+    <ul class="row breadcrumb">
+        <li class="current" data-translate="ManageKPI"></li>
+    </ul>
+    <div class="row filter filter-max-width">
+        <form class="form-inline form-common" role="form">
+            <div class="form-group">
+                <label data-translate="Group">
+                </label>
+                <select class="form-control kpi-group" ng-model="filter.kpiGroupId" 
+                    ng-options="opt.KPIGroupId as opt.name for opt in kpiCtrl.groupOptions">
+                    <option value="">-- {{"All" | translate}} --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="control-label" data-translate="Status"></label>
+                <select class="form-control" ng-model="kpiCtrl.filter.isActive">
+                    <option value="">-- {{"All" | translate}} --</option>
+                    <option selected value="true" data-translate="Active"></option>
+                    <option value="false" data-translate="InActive"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button class="button" ng-click="kpiCtrl.query(kpiCtrl.filter)" data-translate="Submit"></button>
+            </div>
+        </form>
+    </div>
+    <div class="row content filter-max-width">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="header-table">
+                    <th colspan="6">
+                        <a class="button-icon" ng-click="kpiCtrl.createKPI()">
+                            <span class="glyphicon glyphicon-plus"></span>
+                            <span class="button-text" data-translate="CreateKPI"></span>
+                        </a>
+                        <input type="text" ng-model="kpiCtrl.searchKey" ng-change="kpiCtrl.search()" class="search-inline-textbox pull-right">
+                    </th>
+                </tr>
+                <tr class="headerName">
+                    <th class="width-percent-4 text-center" data-translate="SymbolCount"></th>
+                    <th class="text-center" data-translate="Group"></th>
+                    <th class="text-center" data-translate="Title"></th>
+                    <th class="width-percent-6 text-center" data-translate="Active"></th>
+                    <th class="text-center" data-translate="Description"></th>
+                    <th class="width-percent-6 text-center" data-translate="Action"></th>
+                </tr>
+            </thead>
+            <tbody class="table-body">
+                <tr dir-paginate="kpi in kpiCtrl.filteredItems | itemsPerPage: kpiCtrl.pageSize" current-page="kpiCtrl.currentPage">
+                    <td class="text-center" ng-bind="kpiCtrl.getIndex($index, kpiCtrl.currentPage, kpiCtrl.pageSize)"></td>
+                    <td>
+                        <div ng-show="kpi.Groups.length == 1">
+                            <span ng-bind="kpi.Groups[0].Name"></span>
+                        </div>
+                        <div ng-show="kpi.Groups.length > 1">
+                            <ul class="group-toggle-item">
+                                <li ng-repeat="group in kpi.Groups" ng-bind="group.Name"></li>
+                            </ul>
+                        </div>
+                    </td>
+                    <td ng-bind="kpi.Name"></td>
+                    <td class="text-center">
+                        <input type="checkbox" ng-checked="kpi.IsActive" ng-click="kpiCtrl.updateStatusKPI(kpi)" />
+                    </td>
+                    <td ng-bind="kpi.Description"></td>
+                    <td class="text-center">
+                        <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="kpiCtrl.updateKPI(kpi)" ng-attr-title='{{"Edit" | translate}}'></a>
+                        <a class="glyphicon glyphicon-remove icon-remove" href="" ng-click="kpiCtrl.deleteKPI(kpi)" ng-attr-title='{{"Delete" | translate}}'></a>
+                    </td>
+                </tr>
+                <tr ng-show="kpiCtrl.filteredItems.length == 0">
+                    <td class="empty-result" colspan="6" data-translate="EmptyResult"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="6" class="paging">
+                        <span data-translate="Show"></span>
+                        <select class="dropdown-entry form-control" ng-model="kpiCtrl.pageSize"
+                                ng-options="entry for entry in kpiCtrl.entries"></select>
+                        <span data-translate="entries"></span>
+                        <div class="pull-right custom-paging">
+                            <dir-pagination-controls boundary-links="true"></dir-pagination-controls>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

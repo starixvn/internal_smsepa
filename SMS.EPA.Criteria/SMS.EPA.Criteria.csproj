@@ -67,6 +67,7 @@
     <Compile Include="Employee\GetAllGroupCriteria.cs" />
     <Compile Include="Employee\InsertSpecialEmployeeCriteria.cs" />
     <Compile Include="Employee\UpdateSpecialEmployeeCriteria.cs" />
+    <Compile Include="KPI\GetKpiCriteria.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

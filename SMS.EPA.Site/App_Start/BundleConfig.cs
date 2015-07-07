@@ -52,7 +52,8 @@ namespace SMS.EPA.Site
             bundles.AddAndInclude(
                             "~/bundles/less",
                             "~/Content/Less/bootstrap.less",
-                            "~/Content/Site/layout.less");
+                            "~/Content/Site/layout.less",
+                            "~/SourceApp/Components/KPI/kpi.less");
 
             bundles.Add(new ScriptBundle("~/bundles/app").Include(
                             "~/SourceApp/app.js",
@@ -63,7 +64,10 @@ namespace SMS.EPA.Site
                             "~/SourceApp/Components/Common/common-model.js",
                             "~/SourceApp/Components/Employee/employee-factory.js",
                             "~/SourceApp/Components/Employee/employee-model.js",
-                            "~/SourceApp/Components/Employee/employee-controller.js"));
+                            "~/SourceApp/Components/Employee/employee-controller.js",
+                            "~/SourceApp/Components/KPI/kpi-factory.js",
+                            "~/SourceApp/Components/KPI/kpi-model.js",
+                            "~/SourceApp/Components/KPI/kpi-controller.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/epa-directives.js",

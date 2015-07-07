@@ -33,7 +33,8 @@ namespace SMS.EPA.Site
 
             var homeRouteUrls = new List<string>
             {
-                "Employee/Index"
+                "Employee/Index",
+                "KPI/Index"
             };
 
             homeRouteUrls.ForEach(url => routes.MapRoute(

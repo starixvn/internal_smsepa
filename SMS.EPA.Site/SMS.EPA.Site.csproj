@@ -156,6 +156,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\API\BaseController.cs" />
+    <Compile Include="Controllers\API\KPIController.cs" />
     <Compile Include="Controllers\API\EmployeeController.cs" />
     <Compile Include="Controllers\API\ResourcesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -270,6 +271,10 @@
     <Content Include="SourceApp\Components\Employee\Templates\index.html" />
     <Content Include="SourceApp\Components\Resources\resources-controller.js" />
     <Content Include="SourceApp\Components\Resources\resources-factory.js" />
+    <Content Include="SourceApp\Components\KPI\kpi-controller.js" />
+    <Content Include="SourceApp\Components\KPI\kpi-factory.js" />
+    <Content Include="SourceApp\Components\KPI\kpi-model.js" />
+    <Content Include="SourceApp\Components\KPI\Templates\index.html" />
     <Content Include="SourceApp\routes.js" />
     <Content Include="SourceApp\Shared\error-factory.js" />
     <Content Include="SourceApp\Shared\modalconfirm-controller.js" />
@@ -389,6 +394,7 @@
     <None Include="Libs\angular.min.js.map" />
     <None Include="Libs\jquery-2.1.0.min.map" />
     <Content Include="Views\Auth\Login.cshtml" />
+    <None Include="SourceApp\Components\KPI\kpi.less" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">
@@ -432,7 +438,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>49973</DevelopmentServerPort>
+          <DevelopmentServerPort>57290</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>
