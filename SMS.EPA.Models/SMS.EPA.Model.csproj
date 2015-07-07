@@ -46,6 +46,7 @@
     <Compile Include="EmployeeManagement\EmployeeModel.cs" />
     <Compile Include="Enitites\Employee.cs" />
     <Compile Include="Enitites\Group.cs" />
+    <Compile Include="Enitites\JobTitle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoleManagement\SystemRoleModel.cs" />
   </ItemGroup>

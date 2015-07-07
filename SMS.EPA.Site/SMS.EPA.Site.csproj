@@ -155,6 +155,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\API\BaseController.cs" />
+    <Compile Include="Controllers\API\EmployeeController.cs" />
     <Compile Include="Controllers\API\ResourcesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
@@ -258,6 +260,14 @@
     <Content Include="Libs\ui-bootstrap-tpls-0.13.0.min.js" />
     <Content Include="Libs\_references.js" />
     <Content Include="SourceApp\app.js" />
+    <Content Include="SourceApp\Components\Common\common-factory.js" />
+    <Content Include="SourceApp\Components\Common\common-model.js" />
+    <Content Include="SourceApp\Components\Employee\employee-controller.js" />
+    <Content Include="SourceApp\Components\Employee\employee-factory.js" />
+    <Content Include="SourceApp\Components\Employee\employee-model.js" />
+    <Content Include="SourceApp\Components\Employee\Templates\create.html" />
+    <Content Include="SourceApp\Components\Employee\Templates\edit.html" />
+    <Content Include="SourceApp\Components\Employee\Templates\index.html" />
     <Content Include="SourceApp\Components\Resources\resources-controller.js" />
     <Content Include="SourceApp\Components\Resources\resources-factory.js" />
     <Content Include="SourceApp\routes.js" />

@@ -1,0 +1,97 @@
+﻿<div ng-controller="EmployeeController as employeeCtrl">
+    <div class="col-sm-12 sub-header">
+        <ul class="row breadcrumb">
+            <li class="current" data-translate="UserManagement"></li>
+        </ul>
+    </div>
+    <div class="col-sm-12">
+        <form novalidate class="row form-inline filter">
+        <div class="form-group">
+            <label data-translate="Keyword">
+            </label>
+            <input class="form-control lstBox-limit" type="text" ng-model="employeeCtrl.filter.query" placeholder="full name or nick name" />
+        </div>
+        <div class="form-group">
+            <label data-translate="Group">
+            </label>
+            <select ng-model="employeeCtrl.filter.groupId" ng-options="opt.GroupId as opt.GroupName for opt in employeeCtrl.groupOptions"
+                class="form-control lstBox-limit">
+                <option value="">-- {{"All" | translate}} --</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <button class="button" ng-click="employeeCtrl.queryEmployee(employeeCtrl.filter)" data-translate="Submit">
+            </button>
+        </div>
+        </form>
+        <table class="row table table-bordered table-striped" id="data">
+            <thead>
+                <tr class="header-table">
+                    <th colspan="9">
+                        <a class="pull-left button-icon create-button" ng-click="employeeCtrl.addEmployee()" >
+                            <span class="icon plus"></span>
+                            <span class="button-text" data-translate="CreateUser"></span>
+                        </a>
+                        <input type="text" ng-model="employeeCtrl.searchKey" ng-change="employeeCtrl.search()" class="search-inline-textbox search pull-right">
+                    </th>
+                </tr>
+                <tr class="headerName">
+                    <th data-translate="SymbolCount">
+                    </th>
+                    <th data-translate="Code">
+                    </th>
+                    <th data-translate="NickName">
+                    </th>
+                    <th data-translate="FullName">
+                    </th>
+                    <th data-translate="JobTitle">
+                    </th>
+                    <th data-translate="Group">
+                    </th>
+                    <th data-translate="ShortSpecialUser">
+                    </th>
+                    <th data-translate="Roles">
+                    </th>
+                    <th data-translate="Action" >
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="table-body">
+                <tr dir-paginate="employee in employeeCtrl.filteredItems | itemsPerPage: employeeCtrl.pageSize" current-page="employeeCtrl.currentPage">
+                    <td class="text-center" ng-bind="employeeCtrl.getIndex($index, employeeCtrl.currentPage, employeeCtrl.pageSize)"></td>
+                    <td class="text-center" ng-bind="employee.Code"></td>
+                    <td class="text-center" ng-bind="employee.NickName"></td>
+                    <td ng-bind="employee.FullName"></td>
+                    <td class="text-center" ng-bind="employee.JobTitle.JobTitleName"></td>
+                    <td class="text-center">
+                        <span tooltip="{{employee.Group.GroupName}}" ng-bind="employee.Group.GroupCode"></span>
+                    </td>
+                    <td class="text-center">
+                        <span data-translate="Yes" ng-if="employee.IsSpecialUser"></span>
+                        <span data-translate="No" ng-if="!employee.IsSpecialUser"></span>
+                    </td>
+                    <td class="authority-employee-role" ng-bind="employee.Roles"></td>
+                    <td class="text-center authority-employee-action">
+                        <a class="glyphicon glyphicon-edit icon-edit" href="" title="Assign role to user" ng-click="employeeCtrl.assignRole(employee)" />
+                    </td>
+                </tr>
+                <tr ng-show="employeeCtrl.filteredItems.length == 0">
+                    <td class="empty-result" colspan="7" data-translate="EmptyResult"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="9" class="paging">
+                        <span data-translate="Show"></span>
+                        <select class="dropdown-entry form-control" ng-model="employeeCtrl.pageSize"
+                                ng-options="entry for entry in employeeCtrl.entries"></select>
+                        <span data-translate="entries"></span>
+                        <div class="pull-right custom-paging">
+                            <dir-pagination-controls boundary-links="true"></dir-pagination-controls>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

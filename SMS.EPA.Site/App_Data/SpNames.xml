@@ -1,9 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Functions>
-  <Function Name="Authorization">
+  <Function Name="Authentication">
     <Setting Key="EpaEmployee_GetByCode" SpName="EpaEmployee_GetByCode" DbName="SMSEPA" Plain="0" >
     </Setting>
     <Setting Key="EpaEmployee_GetByDomainUsername" SpName="EpaEmployee_GetByDomainUsername" DbName="SMSEPA" Plain="0" >
+    </Setting>
+  </Function>
+  <Function Name="Employee">
+    <Setting Key="EpaEmployee_Get" SpName="EpaEmployee_Get" DbName="SMSEPA" Plain="0" >
+    </Setting>
+    <Setting Key="EpaGroup_Get" SpName="EpaGroup_Get" DbName="SMSEPA" Plain="0" >
+    </Setting>
+    <Setting Key="EpaEmployee_Insert" SpName="EpaEmployee_Insert" DbName="SMSEPA" Plain="0" >
+    </Setting>
+    <Setting Key="EpaEmployee_Update" SpName="EpaEmployee_Update" DbName="SMSEPA" Plain="0" >
     </Setting>
   </Function>
 </Functions>

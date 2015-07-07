@@ -23,6 +23,10 @@ namespace SMS.EPA.Model.EmployeeManagement
             Roles = new List<SystemRoleModel>();
         }
 
+        public bool IsSpecialUser { get; set; }
+
+        public JobTitle JobTitle { get; set; }
+
         public Group Group { get; set; }
 
         public IList<SystemRoleModel> Roles { get; set; }

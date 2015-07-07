@@ -117,14 +117,35 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Action" xml:space="preserve">
+    <value>Action</value>
+  </data>
   <data name="Admin" xml:space="preserve">
     <value>Admin</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="Code" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="CreateUser" xml:space="preserve">
+    <value>Create New User</value>
+  </data>
+  <data name="EmptyResult" xml:space="preserve">
+    <value>No information available!</value>
   </data>
   <data name="EPAWelcome" xml:space="preserve">
     <value>Welcome to SMS EPA</value>
   </data>
   <data name="Evaluator" xml:space="preserve">
     <value>Evaluator</value>
+  </data>
+  <data name="FullName" xml:space="preserve">
+    <value>Full Name</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Group</value>
   </data>
   <data name="Home" xml:space="preserve">
     <value>Home</value>
@@ -138,6 +159,12 @@
   <data name="InvalidUsernameOrPassword" xml:space="preserve">
     <value>Invalid user name or password. Please try again.</value>
   </data>
+  <data name="JobTitle" xml:space="preserve">
+    <value>Job Title</value>
+  </data>
+  <data name="Keyword" xml:space="preserve">
+    <value>Keyword</value>
+  </data>
   <data name="KPI" xml:space="preserve">
     <value>KPI</value>
   </data>
@@ -147,22 +174,43 @@
   <data name="Management" xml:space="preserve">
     <value>Management</value>
   </data>
+  <data name="NickName" xml:space="preserve">
+    <value>Nick Name</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
   <data name="Report" xml:space="preserve">
     <value>Report</value>
   </data>
   <data name="Reviewer" xml:space="preserve">
     <value>Reviewer</value>
   </data>
+  <data name="Roles" xml:space="preserve">
+    <value>Roles</value>
+  </data>
   <data name="SelfEvaluation" xml:space="preserve">
     <value>Self-Evaluation</value>
   </data>
+  <data name="ShortSpecialUser" xml:space="preserve">
+    <value>SPCL User</value>
+  </data>
   <data name="Support" xml:space="preserve">
     <value>Support</value>
+  </data>
+  <data name="SymbolCount" xml:space="preserve">
+    <value>#</value>
   </data>
   <data name="TargetTemplate" xml:space="preserve">
     <value>Target Template</value>
   </data>
   <data name="TitlePage" xml:space="preserve">
     <value>SMS-EPA</value>
+  </data>
+  <data name="UserManagement" xml:space="preserve">
+    <value>User Management</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
   </data>
 </root>

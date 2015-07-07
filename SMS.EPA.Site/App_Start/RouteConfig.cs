@@ -9,6 +9,7 @@
 
 namespace SMS.EPA.Site
 {
+    using System.Collections.Generic;
     using System.Web.Mvc;
     using System.Web.Routing;
 
@@ -29,6 +30,20 @@ namespace SMS.EPA.Site
                name: "Login",
                url: "Auth/Login",
                defaults: new { controller = "Auth", action = "Login" });
+
+            var homeRouteUrls = new List<string>
+            {
+                "Employee/Index"
+            };
+
+            homeRouteUrls.ForEach(url => routes.MapRoute(
+                name: url,
+                url: url,
+                defaults: new
+                {
+                    controller = "Home",
+                    action = "Index"
+                }));
 
             routes.MapRoute(
                 name: "Default",

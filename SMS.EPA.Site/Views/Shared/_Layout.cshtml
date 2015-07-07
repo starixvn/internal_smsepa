@@ -13,11 +13,11 @@
     <base href="@Url.Content("~/")" />
 </head>
 <body>
-    <div class="container page">
+    <div class="container-fluid page">
         @RenderBody()
     </div>
     @Scripts.Render("~/bundles/vendor")
-    @Scripts.Render("~/bundles/common/js")
     @Scripts.Render("~/bundles/app")
+    @Scripts.Render("~/bundles/common/js")
 </body>
 </html>

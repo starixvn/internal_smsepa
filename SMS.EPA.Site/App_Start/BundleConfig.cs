@@ -58,7 +58,12 @@ namespace SMS.EPA.Site
                             "~/SourceApp/app.js",
                             "~/SourceApp/routes.js",
                             "~/SourceApp/Components/Resources/resources-factory.js",
-                            "~/SourceApp/Components/Resources/resources-controller.js"));
+                            "~/SourceApp/Components/Resources/resources-controller.js",
+                            "~/SourceApp/Components/Common/common-factory.js",
+                            "~/SourceApp/Components/Common/common-model.js",
+                            "~/SourceApp/Components/Employee/employee-factory.js",
+                            "~/SourceApp/Components/Employee/employee-model.js",
+                            "~/SourceApp/Components/Employee/employee-controller.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/epa-directives.js",

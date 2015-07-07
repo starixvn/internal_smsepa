@@ -85,6 +85,10 @@
       <Project>{235C8D9E-97EC-4183-BAF2-3783F2F816CC}</Project>
       <Name>SMS.EPA.Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SMS.EPA.Repositories\SMS.EPA.Repositories.csproj">
+      <Project>{45A93EB3-8D1E-41FD-92CD-0875399FBF42}</Project>
+      <Name>SMS.EPA.Repositories</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

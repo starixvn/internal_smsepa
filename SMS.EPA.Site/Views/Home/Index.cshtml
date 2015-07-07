@@ -3,10 +3,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="row header">
-    <a class="logo col-xs-12 col-sm-2" href="/">
+    <a class="logo" href="/">
         <img src="~/Content/Site/Images/logo.png" alt="SMS-EPA" title="SMS-EPA" />
     </a>
-    <div class="nav col-xs-12 col-sm-10">
+    <div class="nav">
         <nav id="navbar-example" class="navbar navbar-static top-menu" role="navigation">
             <div class="bs-example-js-navbar-collapse">
                 <ul class="nav navbar-nav">
@@ -22,6 +22,8 @@
                             <li data-role="presentation"><a data-role="menuitem" tabindex="-1" href="">@Lang.KPIGroup</a>
                             </li>
                             <li data-role="presentation"><a data-role="menuitem" tabindex="-1" href="">@Lang.TargetTemplate</a>
+                            </li>
+                            <li data-role="presentation"><a data-role="menuitem" tabindex="-1" href="/Employee/Index">@Lang.UserManagement</a>
                             </li>
                         </ul>
                     </li>
