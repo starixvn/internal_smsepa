@@ -10,6 +10,7 @@
 namespace SMS.EPA.Site.Controllers
 {
     using System.Web.Mvc;
+    using SMS.EPA.Model.Authentication;
     using SMS.EPA.Web;
 
     /// <summary>
@@ -21,7 +22,8 @@ namespace SMS.EPA.Site.Controllers
         {
             if (SessionManager.CurrentUser != null)
             {
-                return View();
+                UserSession user = SessionManager.CurrentUser;
+                return View(user);
             }
 
             return RedirectToAction("Login", "Auth");

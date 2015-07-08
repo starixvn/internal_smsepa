@@ -154,5 +154,42 @@ namespace SMS.EPA.Services.Implement
 
             return commandResult;
         }
+
+        /// <summary>
+        /// Get all job title.
+        /// </summary>
+        /// <param name="criteria">The criteria.</param>
+        /// <returns>The enumerator job title.</returns>
+        public IEnumerable<JobTitle> GetAllJobTitle(GetAllJobTitleCriteria criteria)
+        {
+            IEnumerable<JobTitle> jobTitles = new List<JobTitle>();
+            Check.Argument.IsNotNull(criteria, "criteria");
+
+            if (criteria.IsValid())
+            {
+                jobTitles = GetData<JobTitle>(criteria);
+            }
+
+            return jobTitles;
+        }
+
+        /// <summary>
+        /// Change password.
+        /// </summary>
+        /// <param name="criteria">The criteria.</param>
+        /// <returns>The command result.</returns>
+        public CommandResult ChangePassword(ChangePasswordCriteria criteria)
+        {
+            CommandResult commandResult = new CommandResult();
+            Check.Argument.IsNotNull(criteria, "criteria");
+
+            if (criteria.IsValid())
+            {
+                criteria.NewPassword = Encryption.ComputeHash(HashProvider.Sha1, criteria.NewPassword);
+                commandResult = Repository.Update(criteria);
+            }
+
+            return commandResult;
+        }
     }
 }

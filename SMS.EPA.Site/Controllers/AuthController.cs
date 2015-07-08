@@ -43,6 +43,14 @@ namespace SMS.EPA.Site.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult Logout()
+        {
+            SessionManager.ClearAll();
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Login");
+        }
+
         /// <summary>
         /// The login action.
         /// </summary>

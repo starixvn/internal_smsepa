@@ -228,6 +228,7 @@
     <Content Include="Content\Site\images\line-menu.png" />
     <Content Include="Content\Site\images\logo-login.png" />
     <Content Include="Content\Site\images\logo.png" />
+    <Content Include="Content\Site\images\sprites.png" />
     <Content Include="Content\Site\images\sprite_ico_2012-05-15.png" />
     <Content Include="Content\Site\images\success.png" />
     <Content Include="Content\Site\images\table_header_repeat.jpg" />
@@ -262,6 +263,7 @@
     <Content Include="Libs\ui-bootstrap-tpls-0.13.0.min.js" />
     <Content Include="Libs\_references.js" />
     <Content Include="SourceApp\app.js" />
+    <Content Include="SourceApp\Components\Employee\Templates\changePassword.html" />
     <Content Include="SourceApp\Components\Common\common-factory.js" />
     <Content Include="SourceApp\Components\Common\common-model.js" />
     <Content Include="SourceApp\Components\Employee\employee-controller.js" />
@@ -399,7 +401,8 @@
     <None Include="Libs\angular.min.js.map" />
     <None Include="Libs\jquery-2.1.0.min.map" />
     <Content Include="Views\Auth\Login.cshtml" />
-    <None Include="SourceApp\Components\KPI\kpi.less" />
+    <Content Include="SourceApp\Components\KPI\kpi.less" />
+    <Content Include="SourceApp\Components\Employee\employee.less" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">

@@ -11,7 +11,9 @@ namespace SMS.EPA.Site.Controllers.API
 {
     using System.Collections.Generic;
     using System.Web.Http;
+    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
+    using SMS.EPA.Core.Security;
     using SMS.EPA.Criteria.Employee;
     using SMS.EPA.Model.EmployeeManagement;
     using SMS.EPA.Model.Enitites;
@@ -40,13 +42,15 @@ namespace SMS.EPA.Site.Controllers.API
         /// </summary>
         /// <param name="query">The query.</param>
         /// <param name="groupId">The group ID.</param>
+        /// <param name="isSpecialUser">Is special user.</param>
         /// <returns>The enumerator employee model.</returns>
-        public IEnumerable<EmployeeModel> GetAllEmployee(string query = "", int? groupId = null)
+        public IEnumerable<EmployeeModel> GetAllEmployee(string query = "", int? groupId = null, bool? isSpecialUser = null)
         {
             var criteria = new GetAllEmployeeCriteria
             {
                 Query = query,
-                GroupId = groupId
+                GroupId = groupId,
+                IsSpecialUser = isSpecialUser
             };
 
             IEnumerable<EmployeeModel> employees = _employeeService.GetAllEmployee(criteria);
@@ -66,6 +70,7 @@ namespace SMS.EPA.Site.Controllers.API
             if (criteria != null)
             {
                 criteria.CreatedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.Password = Encryption.ComputeHash(HashProvider.Sha1, criteria.Password);
             }
 
             CommandResult commandResult = _employeeService.InsertSpecialEmployee(criteria);
@@ -81,6 +86,31 @@ namespace SMS.EPA.Site.Controllers.API
             }
 
             CommandResult commandResult = _employeeService.UpdateSpecialEmployee(criteria);
+            return commandResult;
+        }
+
+        public IEnumerable<JobTitle> GetAllJobTitle()
+        {
+            var criteria = new GetAllJobTitleCriteria();
+            IEnumerable<JobTitle> jobTitles = _employeeService.GetAllJobTitle(criteria);
+            return jobTitles;
+        }
+
+        /// <summary>
+        /// Change password.
+        /// </summary>
+        /// <param name="criteria">The criteria.</param>
+        /// <returns>The command result.</returns>
+        [HttpPut]
+        public CommandResult ChangePassword(ChangePasswordCriteria criteria)
+        {
+            if (criteria != null)
+            {
+                criteria.EmployeeId = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+            }
+
+            CommandResult commandResult = _employeeService.ChangePassword(criteria);
             return commandResult;
         }
     }

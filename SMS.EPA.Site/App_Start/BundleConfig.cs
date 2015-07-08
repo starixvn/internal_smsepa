@@ -9,7 +9,7 @@
 
 namespace SMS.EPA.Site
 {
-    using System.Web;
+    using System.Diagnostics.CodeAnalysis;
     using System.Web.Optimization;
 
     /// <summary>
@@ -21,6 +21,7 @@ namespace SMS.EPA.Site
         /// Register Bundles.
         /// </summary>
         /// <param name="bundles">The bundles.</param>
+        [SuppressMessage("StyleCop.CSharp.Nexcel.NexcelCustomRules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.AddAndInclude(
@@ -55,7 +56,8 @@ namespace SMS.EPA.Site
                             "~/bundles/less",
                             "~/Content/Less/bootstrap.less",
                             "~/Content/Site/layout.less",
-                            "~/SourceApp/Components/KPI/kpi.less");
+                            "~/SourceApp/Components/KPI/kpi.less",
+                            "~/SourceApp/Components/Employee/employee.less");
 
             bundles.Add(new ScriptBundle("~/bundles/app").Include(
                             "~/SourceApp/app.js",

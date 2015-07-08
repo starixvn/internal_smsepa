@@ -34,5 +34,9 @@ namespace SMS.EPA.Services.Interfaces
         CommandResult InsertSpecialEmployee(InsertSpecialEmployeeCriteria criteria);
 
         CommandResult UpdateSpecialEmployee(UpdateSpecialEmployeeCriteria criteria);
+
+        IEnumerable<JobTitle> GetAllJobTitle(GetAllJobTitleCriteria criteria);
+
+        CommandResult ChangePassword(ChangePasswordCriteria criteria);
     }
 }

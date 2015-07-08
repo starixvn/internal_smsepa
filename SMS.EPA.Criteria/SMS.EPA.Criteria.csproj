@@ -63,8 +63,12 @@
   <ItemGroup>
     <Compile Include="Authentication\GetEmployeeByCodeCriteria.cs" />
     <Compile Include="Authentication\GetEmployeeByDomainUsernameCriteria.cs" />
+    <Compile Include="Employee\ChangePasswordCriteria.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Employee\GetAllEmployeeCriteria.cs" />
     <Compile Include="Employee\GetAllGroupCriteria.cs" />
+    <Compile Include="Employee\GetAllJobTitleCriteria.cs" />
     <Compile Include="Employee\InsertSpecialEmployeeCriteria.cs" />
     <Compile Include="Employee\UpdateSpecialEmployeeCriteria.cs" />
     <Compile Include="KPIGroup\GetKPIGroupCriteria.cs" />

@@ -7,17 +7,22 @@
     <div class="col-sm-12">
         <form novalidate class="row form-inline filter">
         <div class="form-group">
-            <label data-translate="Keyword">
+            <label class="control-label" data-translate="Keyword">
             </label>
             <input class="form-control lstBox-limit" type="text" ng-model="employeeCtrl.filter.query" placeholder="full name or nick name" />
         </div>
         <div class="form-group">
-            <label data-translate="Group">
+            <label class="control-label" data-translate="Group">
             </label>
             <select ng-model="employeeCtrl.filter.groupId" ng-options="opt.GroupId as opt.GroupName for opt in employeeCtrl.groupOptions"
                 class="form-control lstBox-limit">
                 <option value="">-- {{"All" | translate}} --</option>
             </select>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="IsSpecialUser">
+            </label>
+            <input class="form-control" type="checkbox" ng-model="employeeCtrl.filter.isSpecialUser" />
         </div>
         <div class="form-group">
             <button class="button" ng-click="employeeCtrl.queryEmployee(employeeCtrl.filter)" data-translate="Submit">
@@ -28,7 +33,7 @@
             <thead>
                 <tr class="header-table">
                     <th colspan="9">
-                        <a class="pull-left button-icon create-button" ng-click="employeeCtrl.addEmployee()" >
+                        <a class="pull-left button-icon create-button" ng-click="employeeCtrl.createEmployee()" >
                             <span class="icon plus"></span>
                             <span class="button-text" data-translate="CreateUser"></span>
                         </a>
@@ -67,7 +72,12 @@
                         <span tooltip="{{employee.Group.GroupName}}" ng-bind="employee.Group.GroupCode"></span>
                     </td>
                     <td class="text-center">
-                        <span data-translate="Yes" ng-if="employee.IsSpecialUser"></span>
+                        <div ng-if="employee.IsSpecialUser">
+                            <a href="" ng-click="employeeCtrl.updateEmployee(employee)">
+                                <span data-translate="Yes">
+                                </span>
+                            </a>
+                        </div>
                         <span data-translate="No" ng-if="!employee.IsSpecialUser"></span>
                     </td>
                     <td class="authority-employee-role" ng-bind="employee.Roles"></td>
@@ -76,7 +86,7 @@
                     </td>
                 </tr>
                 <tr ng-show="employeeCtrl.filteredItems.length == 0">
-                    <td class="empty-result" colspan="7" data-translate="EmptyResult"></td>
+                    <td class="empty-result" colspan="9" data-translate="EmptyResult"></td>
                 </tr>
             </tbody>
             <tfoot>

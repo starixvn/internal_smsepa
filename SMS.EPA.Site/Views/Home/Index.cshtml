@@ -1,4 +1,6 @@
 ﻿@using SMS.EPA.Resources;
+@using SMS.EPA.Model.Authentication;
+@model UserSession
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -51,6 +53,19 @@
                 </ul>
             </div>
         </nav>
+        <div id="user_utilities" class="user-info info" data-ng-controller="EmployeeController as employeeCtrl">
+            <h2>@Model.EmployeeInfo.FullName - @Model.EmployeeInfo.NickName
+            </h2>
+            <a class="dropdown-arrow" href="javascript:;"></a>
+            <ol>
+                @if (@Model.EmployeeInfo.IsSpecialUser)
+                { 
+                    <li><a href="javascript:;" data-ng-click="employeeCtrl.changePassword('@Model.EmployeeInfo.Password')">@Lang.ChangePassword</a>
+                    </li>
+                }
+                <li><a href="javascript:;" data-ng-click="employeeCtrl.logout()">@Lang.Logout</a> </li>
+            </ol>
+        </div>
     </div>
 </div>
 <div class="row" data-ng-view>

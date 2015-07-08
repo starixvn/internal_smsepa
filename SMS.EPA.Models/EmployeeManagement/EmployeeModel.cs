@@ -23,6 +23,14 @@ namespace SMS.EPA.Model.EmployeeManagement
             Roles = new List<SystemRoleModel>();
         }
 
+        public string Username
+        {
+            get
+            {
+                return !string.IsNullOrWhiteSpace(DomainUsername) && IsSpecialUser ? DomainUsername.Replace("sms\\", string.Empty) : string.Empty;
+            }
+        }
+
         public bool IsSpecialUser { get; set; }
 
         public JobTitle JobTitle { get; set; }

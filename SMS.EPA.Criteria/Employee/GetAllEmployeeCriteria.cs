@@ -20,6 +20,8 @@ namespace SMS.EPA.Criteria.Employee
 
         public int? GroupId { get; set; }
 
+        public bool? IsSpecialUser { get; set; }
+
         public override bool IsValid()
         {
             return true;

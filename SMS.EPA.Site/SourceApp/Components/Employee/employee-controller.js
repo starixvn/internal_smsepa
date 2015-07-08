@@ -2,14 +2,15 @@
 /*global employeeModule*/
 
 employeeModule.controller('EmployeeController',
-['EmployeeModel', 'utilitiesFactory', 'CommonModel',
-function (EmployeeModel, utilitiesFactory, CommonModel) {
+['$window', 'EmployeeModel', 'utilitiesFactory', 'CommonModel',
+function ($window, EmployeeModel, utilitiesFactory, CommonModel) {
     var vm = this;
 
     vm.employees = EmployeeModel.employees;
     vm.filter = {
         query: '',
-        groupId: ''
+        groupId: '',
+        isSpecialUser: ''
     };
 
     vm.groupOptions = [];
@@ -22,17 +23,17 @@ function (EmployeeModel, utilitiesFactory, CommonModel) {
         vm.groupOptions = EmployeeModel.groups;
     });
 
-    var getEmployee = function (query, groupId) {
-        EmployeeModel.getAllEmployee(query, groupId).then(function () {
+    var getEmployee = function (query, groupId, isSpecialUser) {
+        EmployeeModel.getAllEmployee(query, groupId, isSpecialUser).then(function () {
             vm.employees = EmployeeModel.employees;
             utilitiesFactory.searchOnPage(vm, vm.employees);
         });
     };
 
-    getEmployee(vm.filter.query, vm.filter.groupId);
+    getEmployee(vm.filter.query, vm.filter.groupId, vm.filter.isSpecialUser);
 
     vm.queryEmployee = function (filter) {
-        getEmployee(filter.query, filter.groupId);
+        getEmployee(filter.query, filter.groupId, filter.isSpecialUser);
     };
 
     /*
@@ -42,10 +43,28 @@ function (EmployeeModel, utilitiesFactory, CommonModel) {
         return CommonModel.getIndex(index, currentPage, pageSize);
     };
 
-    vm.addEmployee = function () {
-        EmployeeModel.openPopupAddNewEmployee(vm).then()['finally'](function () {
+    vm.createEmployee = function () {
+        EmployeeModel.openPopupCreateNewEmployee(vm).then()['finally'](function () {
             vm.modalInstance = '';
-            getEmployee(vm.filter.query, vm.filter.groupId);
+            getEmployee(vm.filter.query, vm.filter.groupId, vm.filter.isSpecialUser);
+        });
+    };
+
+    vm.updateEmployee = function (employee) {
+        EmployeeModel.openPopupUpdateEmployee(vm, employee).then(function (updatedEmployee) {
+            EmployeeModel.updateChangedEmployee(employee, updatedEmployee);
+        })['finally'](function () {
+            vm.modalInstance = '';
+        });
+    };
+
+    vm.logout = function () {
+        $window.location.href = "Auth/Logout";
+    };
+
+    vm.changePassword = function (password) {
+        EmployeeModel.openPopupChangePassword(vm, password).then()['finally'](function () {
+            vm.modalInstance = '';
         });
     };
 } ]);
@@ -55,11 +74,95 @@ employeeModule.controller('CreateEmployeeController',
 function ($modalInstance, EmployeeModel) {
     var vm = this;
 
+    vm.groupOptions = EmployeeModel.groups;
+    vm.jobTitleOptions = EmployeeModel.jobTitles;
+
     vm.employee = {
+        Code: '',
+        NickName: '',
+        FullName: '',
+        GroupId: '',
+        JobTitleId: '',
+        Username: '',
+        Password: '',
+        Enabled: true
     };
 
+    EmployeeModel.getAllGroup().then(function () {
+        vm.groupOptions = EmployeeModel.groups;
+    });
+
+    EmployeeModel.getAllJobTitle().then(function () {
+        vm.jobTitleOptions = EmployeeModel.jobTitles;
+    });
+
     vm.save = function (employee) {
-        EmployeeModel.createEmployee(employee, $modalInstance);
+        if (EmployeeModel.validateEmployee(employee)) {
+            EmployeeModel.createEmployee(employee, $modalInstance);
+        }
+    };
+
+    vm.cancel = function () {
+        $modalInstance.dismiss("cancel");
+    };
+} ]);
+
+employeeModule.controller('UpdateEmployeeController',
+['$modalInstance', 'EmployeeModel', 'employee',
+function ($modalInstance, EmployeeModel, employee) {
+    var vm = this;
+
+    vm.groupOptions = EmployeeModel.groups;
+    vm.jobTitleOptions = EmployeeModel.jobTitles;
+    vm.originalEmployee = employee;
+
+    vm.employee = {
+        EmployeeId: employee.EmployeeId,
+        Code: employee.Code,
+        NickName: employee.NickName,
+        FullName: employee.FullName,
+        GroupId: employee.Group ? employee.Group.GroupId : '',
+        JobTitleId: employee.JobTitle ? employee.JobTitle.JobTitleId : '',
+        Username: employee.Username,
+        Password: employee.Password,
+        Enabled: employee.Enabled
+    };
+
+    EmployeeModel.getAllGroup().then(function () {
+        vm.groupOptions = EmployeeModel.groups;
+    });
+
+    EmployeeModel.getAllJobTitle().then(function () {
+        vm.jobTitleOptions = EmployeeModel.jobTitles;
+    });
+
+    vm.save = function (updatedEmployee) {
+        if (EmployeeModel.validateEmployee(updatedEmployee) && updatedEmployee.Password === vm.originalEmployee.Password) {
+            EmployeeModel.updateEmployee(updatedEmployee, $modalInstance);
+        }
+    };
+
+    vm.cancel = function () {
+        $modalInstance.dismiss("cancel");
+    };
+} ]);
+
+employeeModule.controller('ChangePasswordEmployeeController',
+['$modalInstance', 'EmployeeModel', 'oldPassword',
+function ($modalInstance, EmployeeModel, oldPassword) {
+    var vm = this;
+
+    vm.originalOldPassword = oldPassword;
+    vm.password = {
+        oldPassword: oldPassword,
+        newPassword: '',
+        confirmPassword: ''
+    };
+
+    vm.save = function (password) {
+        if (EmployeeModel.validatePassword(password, vm.originalOldPassword)) {
+            EmployeeModel.changePassword(password, $modalInstance);
+        }
     };
 
     vm.cancel = function () {

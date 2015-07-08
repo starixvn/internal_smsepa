@@ -9,11 +9,13 @@
 
 namespace SMS.EPA.Site
 {
+    using System;
     using System.Web;
     using System.Web.Http;
     using System.Web.Mvc;
     using System.Web.Optimization;
     using System.Web.Routing;
+    using System.Web.SessionState;
     using Fanex.Data.Configuration;
 
     /// <summary>
@@ -21,6 +23,9 @@ namespace SMS.EPA.Site
     /// </summary>
     public class WebApiApplication : HttpApplication
     {
+        private const string _WebApiPrefix = "api";
+        private static string _webApiExecutionPath = string.Format("~/{0}", _WebApiPrefix);
+
         /// <summary>
         /// Application Start.
         /// </summary>
@@ -33,6 +38,19 @@ namespace SMS.EPA.Site
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             DbSettingProviderManager.Current.Start();
+        }
+
+        protected void Application_PostAuthorizeRequest()
+        {
+            if (IsWebApiRequest())
+            {
+                HttpContext.Current.SetSessionStateBehavior(SessionStateBehavior.Required);
+            }
+        }
+
+        private static bool IsWebApiRequest()
+        {
+            return HttpContext.Current.Request.AppRelativeCurrentExecutionFilePath.StartsWith(_webApiExecutionPath, StringComparison.OrdinalIgnoreCase);
         }
     }
 }

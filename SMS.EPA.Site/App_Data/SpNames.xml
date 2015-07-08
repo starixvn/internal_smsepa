@@ -15,6 +15,10 @@
         </Setting>
         <Setting Key="EpaEmployee_Update" SpName="EpaEmployee_Update" DbName="SMSEPA" Plain="0" >
         </Setting>
+    <Setting Key="EpaJobTitle_Get" SpName="EpaJobTitle_Get" DbName="SMSEPA" Plain="0" >
+    </Setting>
+    <Setting Key="EpaEmployee_ChangePassword" SpName="EpaEmployee_ChangePassword" DbName="SMSEPA" Plain="0" >
+    </Setting>
     </Function>
     <Function Name="KPI">
         <Setting Key="KPI_Get" SpName="KPI_Get" DbName="SMSEPA" Plain="0" >
