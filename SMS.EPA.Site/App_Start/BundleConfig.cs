@@ -52,8 +52,7 @@ namespace SMS.EPA.Site
             bundles.AddAndInclude(
                             "~/bundles/less",
                             "~/Content/Less/bootstrap.less",
-                            "~/Content/Site/layout.less",
-                            "~/SourceApp/Components/KPI/kpi.less");
+                            "~/Content/Site/layout.less");
 
             bundles.Add(new ScriptBundle("~/bundles/app").Include(
                             "~/SourceApp/app.js",

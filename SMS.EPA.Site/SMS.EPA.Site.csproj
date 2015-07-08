@@ -394,7 +394,6 @@
     <None Include="Libs\angular.min.js.map" />
     <None Include="Libs\jquery-2.1.0.min.map" />
     <Content Include="Views\Auth\Login.cshtml" />
-    <None Include="SourceApp\Components\KPI\kpi.less" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">

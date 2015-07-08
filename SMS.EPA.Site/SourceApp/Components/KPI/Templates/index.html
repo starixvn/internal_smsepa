@@ -1,14 +1,15 @@
-﻿<div class="kpi-management" ng-controller="KPIController as kpiCtrl">
-    <ul class="row breadcrumb">
-        <li class="current" data-translate="ManageKPI"></li>
-    </ul>
-    <div class="row filter filter-max-width">
-        <form class="form-inline form-common" role="form">
+﻿<div ng-controller="KPIController as kpiCtrl">
+    <div class="col-sm-12 sub-header">
+        <ul class="row breadcrumb">
+            <li class="current" data-translate="ManageKPI"></li>
+        </ul>
+    </div>
+    <div class="col-sm-12">
+        <form novalidate class="row filter form-inline" role="form">
             <div class="form-group">
-                <label data-translate="Group">
-                </label>
-                <select class="form-control kpi-group" ng-model="filter.kpiGroupId" 
-                    ng-options="opt.KPIGroupId as opt.name for opt in kpiCtrl.groupOptions">
+                <label data-translate="Group"></label>
+                <select class="form-control lstBox-limit" ng-model="filter.kpiGroupId" 
+                    ng-options="opt.KPIGroupId as opt.Name for opt in kpiCtrl.groupOptions">
                     <option value="">-- {{"All" | translate}} --</option>
                 </select>
             </div>
@@ -24,26 +25,24 @@
                 <button class="button" ng-click="kpiCtrl.query(kpiCtrl.filter)" data-translate="Submit"></button>
             </div>
         </form>
-    </div>
-    <div class="row content filter-max-width">
-        <table class="table table-bordered table-striped">
+        <table class="row table table-bordered table-striped">
             <thead>
                 <tr class="header-table">
                     <th colspan="6">
-                        <a class="button-icon" ng-click="kpiCtrl.createKPI()">
-                            <span class="glyphicon glyphicon-plus"></span>
+                        <a class="pull-left button-icon create-button" ng-click="kpiCtrl.createKPI()" >
+                            <span class="icon plus"></span>
                             <span class="button-text" data-translate="CreateKPI"></span>
                         </a>
-                        <input type="text" ng-model="kpiCtrl.searchKey" ng-change="kpiCtrl.search()" class="search-inline-textbox pull-right">
+                        <input type="text" ng-model="kpiCtrl.searchKey" ng-change="kpiCtrl.search()" class="search-inline-textbox search pull-right">
                     </th>
                 </tr>
                 <tr class="headerName">
-                    <th class="width-percent-4 text-center" data-translate="SymbolCount"></th>
+                    <th class="text-center" data-translate="SymbolCount"></th>
                     <th class="text-center" data-translate="Group"></th>
                     <th class="text-center" data-translate="Title"></th>
-                    <th class="width-percent-6 text-center" data-translate="Active"></th>
+                    <th class="text-center" data-translate="Active"></th>
                     <th class="text-center" data-translate="Description"></th>
-                    <th class="width-percent-6 text-center" data-translate="Action"></th>
+                    <th class="text-center" data-translate="Action"></th>
                 </tr>
             </thead>
             <tbody class="table-body">
