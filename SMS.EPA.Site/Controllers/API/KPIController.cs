@@ -60,5 +60,18 @@ namespace SMS.EPA.Site.Controllers.API
 
             return commandResult;
         }
+
+        [HttpPut]
+        public CommandResult UpdateKPI(UpdateKPICriteria criteria)
+        {
+            if (criteria != null)
+            {
+                // criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+            }
+
+            CommandResult commandResult = _kpiService.UpdateKPI(criteria);
+
+            return commandResult;
+        }
     }
 }

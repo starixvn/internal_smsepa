@@ -47,6 +47,20 @@ function (KPIModel, KPIGroupModel, CommonModel, utilitiesFactory) {
         });
     };
 
+    /// Update KPI.
+    vm.updateKPI = function (kpi) {
+        KPIModel.openPopupUpdateKPI(vm, kpi).then(function (updatedKPI) {
+            kpi.Name = updatedKPI.Name;
+            kpi.HasComment = updatedKPI.HasComment;
+            kpi.IsRequiredComment = updatedKPI.IsRequiredComment;
+            kpi.IsRequiredEvaluate = updatedKPI.IsRequiredEvaluate;
+            kpi.Description = updatedKPI.Description;
+            kpi.KPIGroups = updatedKPI.KPIGroups;
+        })['finally'](function () {
+            vm.modalInstance = '';
+        });
+    };
+
     /// Get index of row in table.
     vm.getIndex = function (index, currentPage, pageSize) {
         return CommonModel.getIndex(index, currentPage, pageSize);
@@ -88,6 +102,75 @@ function ($modalInstance, KPIModel, KPIGroupModel) {
         if (KPIModel.validateKPI(vm.kpi, vm.currentChosenKPIGroups)) {
             vm.kpi.KPIGroupIds = vm.currentChosenKPIGroups.join(',');
             KPIModel.insertKPI(vm, isCreateAndContinued, $modalInstance);
+        }
+    };
+
+    vm.cancel = function () {
+        $modalInstance.dismiss("cancel");
+    };
+} ]);
+
+kpiModule.controller('UpdateKPIController',
+['$modalInstance', 'KPIModel', 'KPIGroupModel', 'kpi',
+function ($modalInstance, KPIModel, KPIGroupModel, kpi) {
+    var vm = this;
+
+    vm.currentChosenKPIGroups = [];
+    vm.kpiGroups = KPIGroupModel.kpiGroups;
+
+    vm.kpi = {
+        KPIId: kpi.KPIId,
+        Name: kpi.Name,
+        KPIGroupIds: '',
+        HasComment: kpi.HasComment,
+        IsRequiredComment: kpi.IsRequiredComment,
+        IsRequiredEvaluate: kpi.IsRequiredEvaluate,
+        Description: kpi.Description,
+        KPIGroups: []
+    };
+
+    vm.initialize = function () {
+        KPIGroupModel.getKPIGroup(true).then(function () {
+            vm.kpiGroups = KPIGroupModel.kpiGroups;
+
+            angular.forEach(kpi.KPIGroups, function (kpiGroup) {
+                vm.currentChosenKPIGroups.push(kpiGroup.KPIGroupId);
+
+                var index = vm.kpiGroups.map(function (e) { return e.KPIGroupId; }).indexOf(kpiGroup.KPIGroupId);
+                if (index === -1) {
+                    vm.kpiGroups.push(kpiGroup);
+                }
+            });
+        });
+    };
+
+    vm.initialize();
+
+    var getChosenKPIGroups = function () {
+        var kpiGroups = [];
+
+        angular.forEach(vm.currentChosenKPIGroups, function (kpiGroupId) {
+            angular.forEach(vm.kpiGroups, function (kpiGroup) {
+                if (kpiGroup.KPIGroupId === kpiGroupId) {
+                    kpiGroups.push(kpiGroup);
+                }
+            });
+        });
+
+        return kpiGroups;
+    };
+
+    vm.changeHasComment = function () {
+        if (vm.kpi.HasComment === false) {
+            vm.kpi.IsRequiredComment = false;
+        }
+    };
+
+    vm.save = function () {
+        if (KPIModel.validateKPI(vm.kpi, vm.currentChosenKPIGroups)) {
+            vm.kpi.KPIGroupIds = vm.currentChosenKPIGroups.join(',');
+            vm.kpi.KPIGroups = getChosenKPIGroups();
+            KPIModel.updateKPI(vm.kpi, $modalInstance);
         }
     };
 

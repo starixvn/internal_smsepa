@@ -70,6 +70,7 @@
     <Compile Include="KPIGroup\GetKPIGroupCriteria.cs" />
     <Compile Include="KPI\GetKpiCriteria.cs" />
     <Compile Include="KPI\InsertKPICriteria.cs" />
+    <Compile Include="KPI\UpdateKPICriteria.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

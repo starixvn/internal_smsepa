@@ -20,7 +20,7 @@ namespace SMS.EPA.Model.KPI
     {
         public KPIModel()
         {
-            Groups = new List<KPIGroupModel>();
+            KPIGroups = new List<KPIGroupModel>();
         }
 
         public int KPIId { get; set; }
@@ -37,7 +37,7 @@ namespace SMS.EPA.Model.KPI
 
         public bool IsRequiredEvaluate { get; set; }
 
-        public IList<KPIGroupModel> Groups { get; set; }
+        public IList<KPIGroupModel> KPIGroups { get; set; }
 
         public int CreatedBy { get; set; }
 

@@ -1,0 +1,58 @@
+﻿<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="updateKPICtrl.cancel()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">{{"EditKPI" | translate}}</h4>
+</div>
+<div class="modal-body kpi-modal-body">
+    <form class="form-horizontal col-sm-11" role="form">
+        <div class="form-group required">
+            <label class="col-sm-4 control-label" data-translate="Group"></label>
+            <div class="col-sm-8 field">
+                <select disabled class="form-control select-kpi-group" multiple chosen
+                    options="updateKPICtrl.kpiGroups"
+                    ng-model="updateKPICtrl.currentChosenKPIGroups"
+                    data-placeholder="Select the group"
+                    ng-options="opt.KPIGroupId as opt.Name for opt in updateKPICtrl.kpiGroups"></select>
+            </div>
+        </div>
+        <div class="form-group required">
+            <label class="col-sm-4 control-label" data-translate="Title"></label>
+            <div class="col-sm-8 field">
+                <input type="text" class="form-control" ng-model="updateKPICtrl.kpi.Name" required maxlength="100" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label" data-translate="RequireEvaluate"></label>
+            <div class="col-sm-8 field active-label">
+                <input type="checkbox" ng-model="updateKPICtrl.kpi.IsRequiredEvaluate" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label" data-translate="Description"></label>
+            <div class="col-sm-8 field description">
+                <textarea type="text" class="form-control" maxlength="2000" ng-model="updateKPICtrl.kpi.Description"></textarea>
+            </div>
+        </div>
+        <div class="form-group"> 
+            <div class="col-sm-offset-4 col-sm-8">
+                <div class="checkbox col-sm-5">
+                    <label>
+                        <input type="checkbox" ng-model="updateKPICtrl.kpi.HasComment" 
+                            ng-click="updateKPICtrl.changeHasComment()" /> {{"HasComment" | translate}}
+                    </label>
+                </div>
+                <div class="checkbox col-sm-7">
+                    <label>
+                        <input type="checkbox" ng-model="updateKPICtrl.kpi.IsRequiredComment" 
+                            ng-disabled="!updateKPICtrl.kpi.HasComment" /> {{"RequireComment" | translate}}
+                    </label>
+                </div>
+             </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="button" ng-click="updateKPICtrl.save()" data-translate="Submit"></button>
+    <button class="btn btn-default customize" ng-click="updateKPICtrl.cancel()" data-translate="Cancel"></button>
+</div>

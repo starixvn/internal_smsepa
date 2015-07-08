@@ -50,12 +50,12 @@
                 <tr dir-paginate="kpi in kpiCtrl.filteredItems | itemsPerPage: kpiCtrl.pageSize" current-page="kpiCtrl.currentPage">
                     <td class="text-center" ng-bind="kpiCtrl.getIndex($index, kpiCtrl.currentPage, kpiCtrl.pageSize)"></td>
                     <td>
-                        <div ng-show="kpi.Groups.length == 1">
-                            <span ng-bind="kpi.Groups[0].Name"></span>
+                        <div ng-show="kpi.KPIGroups.length == 1">
+                            <span ng-bind="kpi.KPIGroups[0].Name"></span>
                         </div>
-                        <div ng-show="kpi.Groups.length > 1">
+                        <div ng-show="kpi.KPIGroups.length > 1">
                             <ul class="group-toggle-item">
-                                <li ng-repeat="group in kpi.Groups" ng-bind="group.Name"></li>
+                                <li ng-repeat="group in kpi.KPIGroups" ng-bind="group.Name"></li>
                             </ul>
                         </div>
                     </td>

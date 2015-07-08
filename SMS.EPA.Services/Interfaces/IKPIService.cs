@@ -22,5 +22,7 @@ namespace SMS.EPA.Services.Interfaces
         IEnumerable<KPIModel> GetKPI(GetKPICriteria criteria);
 
         CommandResult InsertKPI(InsertKPICriteria criteria);
+
+        CommandResult UpdateKPI(UpdateKPICriteria criteria);
     }
 }

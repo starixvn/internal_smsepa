@@ -32,7 +32,7 @@ namespace SMS.EPA.Repositories.Implement
 
                     foreach (var kpi in kpis)
                     {
-                        kpi.Groups = GroupKPIGroupByKPI(kpi.KPIId, kpiKPIGroups);
+                        kpi.KPIGroups = GroupKPIGroupByKPI(kpi.KPIId, kpiKPIGroups);
                     }
 
                     return kpis;

@@ -39,7 +39,7 @@ function ($modal, kpiFactory, notificationFactory, errorFactory) {
     kpiModel.openPopupCreateKPI = function (vm) {
         vm.modalInstance = $modal.open({
             templateUrl: 'SourceApp/Components/KPI/Templates/create.html',
-            controller: "CreateKPIController as createKPICtrl",
+            controller: "CreateKPIController as updateKPICtrl",
             backdrop: 'static',
             windowClass: "modal-confirm-center"
         });
@@ -66,6 +66,39 @@ function ($modal, kpiFactory, notificationFactory, errorFactory) {
                 else {
                     modalInstance.close();
                 }
+            }
+            else {
+                notificationFactory.error("", response.Message);
+            }
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    /// Update KPI
+    kpiModel.openPopupUpdateKPI = function (vm, kpi) {
+        vm.modalInstance = $modal.open({
+            templateUrl: 'SourceApp/Components/KPI/Templates/edit.html',
+            controller: "UpdateKPIController as updateKPICtrl",
+            backdrop: 'static',
+            resolve: {
+                kpi: function () {
+                    return angular.copy(kpi);
+                }
+            },
+            windowClass: "modal-confirm-center"
+        });
+
+        return vm.modalInstance.result;
+    };
+
+    kpiModel.updateKPI = function (kpi, modalInstance) {
+        return kpiFactory.updateKPI(kpi)
+        .success(function (response) {
+            if (response.IsSuccessful) {
+                notificationFactory.success("DataChangeSuccessfully");
+                modalInstance.close(kpi);
             }
             else {
                 notificationFactory.error("", response.Message);

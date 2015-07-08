@@ -258,4 +258,10 @@
   <data name="SubmitAndContinue" xml:space="preserve">
     <value>Submit and continue</value>
   </data>
+  <data name="EditKPI" xml:space="preserve">
+    <value>Edit KPI</value>
+  </data>
+  <data name="DataChangeSuccessfully" xml:space="preserve">
+    <value>Updated successfully!</value>
+  </data>
 </root>
