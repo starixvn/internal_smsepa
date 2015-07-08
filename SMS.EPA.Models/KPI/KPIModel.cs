@@ -33,7 +33,7 @@ namespace SMS.EPA.Model.KPI
 
         public bool HasComment { get; set; }
 
-        public bool IsRequireComment { get; set; }
+        public bool IsRequiredComment { get; set; }
 
         public bool IsRequiredEvaluate { get; set; }
 

@@ -1,5 +1,5 @@
 ﻿'use strict';
-/*exported employeeModule, commonModule, kpiModule*/
+/*exported employeeModule, commonModule, kpiModule, kpiGroupModule*/
 
 var employeeModule = angular.module("employeeModule", ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
@@ -14,3 +14,5 @@ var kpiModule = angular.module("kpiModule", ['ngRoute'])
     $routeProvider.when('/KPI/Index',
     { templateUrl: '/SourceApp/Components/KPI/Templates/index.html' });
 } ]);
+
+var kpiGroupModule = angular.module("kpiGroupModule", ['ngRoute']);

@@ -106,11 +106,11 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create New User.
+        ///   Looks up a localized string similar to Created successfully!.
         /// </summary>
-        public static string CreateUser {
+        public static string CreatedSuccessfully {
             get {
-                return ResourceManager.GetString("CreateUser", resourceCulture);
+                return ResourceManager.GetString("CreatedSuccessfully", resourceCulture);
             }
         }
         
@@ -120,6 +120,15 @@ namespace SMS.EPA.Resources {
         public static string CreateKPI {
             get {
                 return ResourceManager.GetString("CreateKPI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create New User.
+        /// </summary>
+        public static string CreateUser {
+            get {
+                return ResourceManager.GetString("CreateUser", resourceCulture);
             }
         }
         
@@ -174,6 +183,24 @@ namespace SMS.EPA.Resources {
         public static string Group {
             get {
                 return ResourceManager.GetString("Group", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Group field is required!.
+        /// </summary>
+        public static string GroupRequire {
+            get {
+                return ResourceManager.GetString("GroupRequire", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Has comment.
+        /// </summary>
+        public static string HasComment {
+            get {
+                return ResourceManager.GetString("HasComment", resourceCulture);
             }
         }
         
@@ -304,6 +331,33 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Require evaluatee&apos;s comment.
+        /// </summary>
+        public static string RequireComment {
+            get {
+                return ResourceManager.GetString("RequireComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Required.
+        /// </summary>
+        public static string Required {
+            get {
+                return ResourceManager.GetString("Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Require evaluate.
+        /// </summary>
+        public static string RequireEvaluate {
+            get {
+                return ResourceManager.GetString("RequireEvaluate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reviewer.
         /// </summary>
         public static string Reviewer {
@@ -349,6 +403,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Submit and continue.
+        /// </summary>
+        public static string SubmitAndContinue {
+            get {
+                return ResourceManager.GetString("SubmitAndContinue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Support.
         /// </summary>
         public static string Support {
@@ -390,6 +453,15 @@ namespace SMS.EPA.Resources {
         public static string TitlePage {
             get {
                 return ResourceManager.GetString("TitlePage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Title field is required!.
+        /// </summary>
+        public static string TitleRequire {
+            get {
+                return ResourceManager.GetString("TitleRequire", resourceCulture);
             }
         }
         

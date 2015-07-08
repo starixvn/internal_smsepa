@@ -10,6 +10,7 @@
 namespace SMS.EPA.Services.Interfaces
 {
     using System.Collections.Generic;
+    using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.KPI;
     using SMS.EPA.Model.KPI;
 
@@ -18,6 +19,8 @@ namespace SMS.EPA.Services.Interfaces
     /// </summary>
     public interface IKPIService
     {
-        List<KPIModel> GetKPI(GetKPICriteria criteria);
+        IEnumerable<KPIModel> GetKPI(GetKPICriteria criteria);
+
+        CommandResult InsertKPI(InsertKPICriteria criteria);
     }
 }

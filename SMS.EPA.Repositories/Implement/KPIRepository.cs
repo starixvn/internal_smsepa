@@ -40,7 +40,7 @@ namespace SMS.EPA.Repositories.Implement
             }
         }
 
-        private List<KPIGroupModel> GroupKPIGroupByKPI(int kpiId, IEnumerable<RawKPIModel> kpiKPIGroups)
+        private IList<KPIGroupModel> GroupKPIGroupByKPI(int kpiId, IEnumerable<RawKPIModel> kpiKPIGroups)
         {
             var result = new List<KPIGroupModel>();
 

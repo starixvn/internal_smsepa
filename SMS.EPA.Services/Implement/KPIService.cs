@@ -11,6 +11,7 @@ namespace SMS.EPA.Services.Implement
 {
     using System.Collections.Generic;
     using Fanex.Common.Helper;
+    using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.KPI;
     using SMS.EPA.Model.KPI;
@@ -35,17 +36,30 @@ namespace SMS.EPA.Services.Implement
             _kpiRepository = kpiRepository ?? new KPIRepository();
         }
 
-        public List<KPIModel> GetKPI(GetKPICriteria criteria)
+        public IEnumerable<KPIModel> GetKPI(GetKPICriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");
-            var kpis = new List<KPIModel>();
+            IEnumerable<KPIModel> kpis = new List<KPIModel>();
 
             if (criteria.IsValid())
             {
-                kpis = (List<KPIModel>)_kpiRepository.GetKPI(criteria);
+                kpis = _kpiRepository.GetKPI(criteria);
             }
 
             return kpis;
+        }
+
+        public CommandResult InsertKPI(InsertKPICriteria criteria)
+        {
+            CommandResult commandResult = new CommandResult();
+            Check.Argument.IsNotNull(criteria, "criteria");
+
+            if (criteria.IsValid())
+            {
+                commandResult = Repository.Insert(criteria);
+            }
+
+            return commandResult;
         }
     }
 }

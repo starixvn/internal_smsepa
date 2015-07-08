@@ -234,4 +234,28 @@
   <data name="Yes" xml:space="preserve">
     <value>Yes</value>
   </data>
+  <data name="GroupRequire" xml:space="preserve">
+    <value>The Group field is required!</value>
+  </data>
+  <data name="TitleRequire" xml:space="preserve">
+    <value>The Title field is required!</value>
+  </data>
+  <data name="CreatedSuccessfully" xml:space="preserve">
+    <value>Created successfully!</value>
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value>Required</value>
+  </data>
+  <data name="HasComment" xml:space="preserve">
+    <value>Has comment</value>
+  </data>
+  <data name="RequireComment" xml:space="preserve">
+    <value>Require evaluatee's comment</value>
+  </data>
+  <data name="RequireEvaluate" xml:space="preserve">
+    <value>Require evaluate</value>
+  </data>
+  <data name="SubmitAndContinue" xml:space="preserve">
+    <value>Submit and continue</value>
+  </data>
 </root>

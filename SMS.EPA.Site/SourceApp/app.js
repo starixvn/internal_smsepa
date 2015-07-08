@@ -1,8 +1,8 @@
 ﻿'use strict';
 /*exported appModule*/
 
-var appModule = angular.module("appModule", ['employeeModule', 'commonModule', 'kpiModule',
-'ui.bootstrap', 'pascalprecht.translate', 'angularUtils.directives.dirPagination', 'ngRoute'])
+var appModule = angular.module("appModule", ['employeeModule', 'commonModule', 'kpiModule', 'kpiGroupModule',
+'ui.bootstrap', 'angular.chosen', 'pascalprecht.translate', 'angularUtils.directives.dirPagination', 'ngRoute'])
 .config(['$translateProvider', '$locationProvider', 'paginationTemplateProvider', '$routeProvider', 'datepickerConfig', 'datepickerPopupConfig',
 function ($translateProvider, $locationProvider, paginationTemplateProvider, $routeProvider, datepickerConfig, datepickerPopupConfig) {
     $translateProvider.useLoader('resourceFactory', {});

@@ -11,12 +11,16 @@ namespace SMS.EPA.Site.Controllers.API
 {
     using System.Collections.Generic;
     using System.Web.Http;
+    using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.KPI;
     using SMS.EPA.Model.KPI;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
 
-    public class KPIController : ApiController
+    /// <summary>
+    /// The KPI Controller.
+    /// </summary>
+    public class KPIController : BaseController
     {
         private readonly IKPIService _kpiService;
 
@@ -31,7 +35,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpGet]
-        public List<KPIModel> GetKPI(
+        public IEnumerable<KPIModel> GetKPI(
             int? kpiGroupId = null,
             bool? isActive = null)
         {
@@ -42,6 +46,19 @@ namespace SMS.EPA.Site.Controllers.API
             };
 
             return _kpiService.GetKPI(criteria);
+        }
+
+        [HttpPost]
+        public CommandResult InsertKPI(InsertKPICriteria criteria)
+        {
+            if (criteria != null)
+            {
+                // criteria.CreatedBy = CurrentUser.EmployeeInfo.EmployeeId;
+            }
+
+            CommandResult commandResult = _kpiService.InsertKPI(criteria);
+
+            return commandResult;
         }
     }
 }

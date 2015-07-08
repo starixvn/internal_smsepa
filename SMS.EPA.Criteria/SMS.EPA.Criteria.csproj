@@ -67,12 +67,20 @@
     <Compile Include="Employee\GetAllGroupCriteria.cs" />
     <Compile Include="Employee\InsertSpecialEmployeeCriteria.cs" />
     <Compile Include="Employee\UpdateSpecialEmployeeCriteria.cs" />
+    <Compile Include="KPIGroup\GetKPIGroupCriteria.cs" />
     <Compile Include="KPI\GetKpiCriteria.cs" />
+    <Compile Include="KPI\InsertKPICriteria.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">
+      <Project>{76EE2DA4-7127-4C21-B218-ADFF51B2B74E}</Project>
+      <Name>SMS.EPA.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

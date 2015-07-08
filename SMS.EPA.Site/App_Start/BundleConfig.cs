@@ -47,12 +47,15 @@ namespace SMS.EPA.Site
                             "~/Libs/jquery-ui.min.js",
                             "~/Libs/datepicker.js",
                             "~/Libs/tai-placeholder.js",
-                            "~/Libs/dirPagination.js"));
+                            "~/Libs/dirPagination.js",
+                            "~/Libs/chosen.jquery.min.js",
+                            "~/Libs/angular-chosen.js"));
 
             bundles.AddAndInclude(
                             "~/bundles/less",
                             "~/Content/Less/bootstrap.less",
-                            "~/Content/Site/layout.less");
+                            "~/Content/Site/layout.less",
+                            "~/SourceApp/Components/KPI/kpi.less");
 
             bundles.Add(new ScriptBundle("~/bundles/app").Include(
                             "~/SourceApp/app.js",
@@ -66,7 +69,9 @@ namespace SMS.EPA.Site
                             "~/SourceApp/Components/Employee/employee-controller.js",
                             "~/SourceApp/Components/KPI/kpi-factory.js",
                             "~/SourceApp/Components/KPI/kpi-model.js",
-                            "~/SourceApp/Components/KPI/kpi-controller.js"));
+                            "~/SourceApp/Components/KPI/kpi-controller.js",
+                            "~/SourceApp/Components/KPIGroup/kpiGroup-factory.js",
+                            "~/SourceApp/Components/KPIGroup/kpiGroup-model.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/epa-directives.js",
