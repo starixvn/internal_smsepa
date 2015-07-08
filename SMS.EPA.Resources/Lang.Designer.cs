@@ -194,25 +194,7 @@ namespace SMS.EPA.Resources {
                 return ResourceManager.GetString("CreateUnsuccessfully", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Create New User.
-        /// </summary>
-        public static string CreateUser {
-            get {
-                return ResourceManager.GetString("CreateUser", resourceCulture);
-            }
-        }
 
-        /// <summary>
-        ///   Looks up a localized string similar to Create New User.
-        /// </summary>
-        public static string CreateUser {
-            get {
-                return ResourceManager.GetString("CreateUser", resourceCulture);
-            }
-        }
-        
         /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
