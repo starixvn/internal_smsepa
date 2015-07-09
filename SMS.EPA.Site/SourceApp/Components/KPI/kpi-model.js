@@ -6,10 +6,10 @@ kpiModule.factory('KPIModel',
 function ($modal, kpiFactory, utilitiesFactory, notificationFactory, errorFactory) {
     var kpiModel = {};
 
-    kpiModel.kpis = {};
+    kpiModel.kpis = [];
 
-    kpiModel.getKPI = function (kpiGroupId, isActive) {
-        return kpiFactory.getKPI(kpiGroupId, isActive)
+    kpiModel.getKPI = function (targetTypeId, kpiGroupId, isActive) {
+        return kpiFactory.getKPI(targetTypeId, kpiGroupId, isActive)
         .success(function (kpis) {
             kpiModel.kpis = kpis;
         }).error(function (response, status) {
@@ -160,6 +160,62 @@ function ($modal, kpiFactory, utilitiesFactory, notificationFactory, errorFactor
             });
         }, function () {
             kpi.IsActive = !newKPI.IsActive;
+        })['finally'](function () {
+            modalInstance = '';
+        });
+    };
+
+    /// Update required evaluate KPI.
+    kpiModel.openPopupUpdateRequiredEvaluateKPI = function (kpi) {
+        kpi.IsRequiredEvaluate = !kpi.IsRequiredEvaluate;
+
+        var action = kpi.IsRequiredEvaluate ? "activate required evaluate" : "deactivate required evaluate",
+            newKPI = {
+                KPIId: kpi.KPIId,
+                IsRequiredEvaluate: kpi.IsRequiredEvaluate
+            };
+
+        var modalInstance = $modal.open({
+            templateUrl: 'SourceApp/Shared/Templates/ModalConfirmContent.html',
+            controller: "ModalConfirmController as modalConfirmCtrl",
+            backdrop: 'static',
+            resolve: {
+                name: function () {
+                    return kpi.Name;
+                },
+                action: function () {
+                    return action;
+                }
+            },
+            windowClass: "modal-confirm-center"
+        });
+
+        var keyMessage = '';
+
+        modalInstance.result.then(function () {
+            kpiFactory.updateRequiredEvaluateKPI(newKPI)
+            .success(function (response) {
+                if (response.IsSuccessful) {
+                    keyMessage = action === "activate required evaluate" ? "ActivationSuccess" : "DeactivationSuccess";
+                    notificationFactory.success(keyMessage);
+                }
+                else {
+                    kpi.IsRequiredEvaluate = !newKPI.IsRequiredEvaluate;
+                    notificationFactory.error("", response.Message);
+                }
+            })
+            .error(function (response, status) {
+                if (status === 405) {
+                    errorFactory.errorHandle(status);
+                }
+                else {
+                    keyMessage = action === "activate required evaluate" ? "ActivationFail" : "DeactivationFail";
+                    kpi.IsRequiredEvaluate = !newKPI.IsRequiredEvaluate;
+                    notificationFactory.error(keyMessage);
+                }
+            });
+        }, function () {
+            kpi.IsRequiredEvaluate = !newKPI.IsRequiredEvaluate;
         })['finally'](function () {
             modalInstance = '';
         });

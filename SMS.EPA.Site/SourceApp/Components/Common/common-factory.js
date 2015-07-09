@@ -1,7 +1,10 @@
 ﻿'use strict';
 /*global commonModule*/
 
-commonModule.factory('commonFactory', function () {
+commonModule.factory('commonFactory', ['$http', function ($http) {
     return {
+        getTargetType: function (isActive) {
+            return $http.get('/api/Common/GetTargetType', { params: { isActive: isActive} });
+        }
     };
-});
+} ]);

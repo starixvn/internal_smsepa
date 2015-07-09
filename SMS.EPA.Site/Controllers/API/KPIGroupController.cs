@@ -34,10 +34,13 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpGet]
-        public IEnumerable<KPIGroupModel> GetKPIGroup(bool? isActive = null)
+        public IEnumerable<KPIGroupModel> GetKPIGroup(
+            int? targetTypeId = null,
+            bool? isActive = null)
         {
             var criteria = new GetKPIGroupCriteria
             {
+                TargetTypeId = targetTypeId,
                 IsActive = isActive
             };
 

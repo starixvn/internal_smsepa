@@ -6,10 +6,10 @@ kpiGroupModule.factory('KPIGroupModel',
 function ($modal, kpiGroupFactory, notificationFactory, errorFactory) {
     var kpiGroupModel = {};
 
-    kpiGroupModel.kpiGroups = {};
+    kpiGroupModel.kpiGroups = [];
 
-    kpiGroupModel.getKPIGroup = function (isActive) {
-        return kpiGroupFactory.getKPIGroup(isActive)
+    kpiGroupModel.getKPIGroup = function (targetTypeId, isActive) {
+        return kpiGroupFactory.getKPIGroup(targetTypeId, isActive)
         .success(function (kpiGroups) {
             kpiGroupModel.kpiGroups = kpiGroups;
         }).error(function (response, status) {

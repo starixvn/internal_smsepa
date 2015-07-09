@@ -7,9 +7,11 @@ function (KPIModel, KPIGroupModel, CommonModel, utilitiesFactory) {
     var vm = this;
 
     vm.kpis = KPIModel.kpis;
+    vm.targetTypes = CommonModel.targetTypes;
     vm.kpiGroups = KPIGroupModel.kpiGroups;
 
     vm.filter = {
+        targetTypeId: '',
         kpiGroupId: '',
         isActive: 'true'
     };
@@ -18,25 +20,35 @@ function (KPIModel, KPIGroupModel, CommonModel, utilitiesFactory) {
     vm.pageSize = 15;
     vm.currentPage = 1;
 
-    var getKPI = function (kpiGroupId, isActive) {
-        KPIModel.getKPI(kpiGroupId, isActive).then(function () {
+    var getKPI = function (targetTypeId, kpiGroupId, isActive) {
+        KPIModel.getKPI(targetTypeId, kpiGroupId, isActive).then(function () {
             vm.kpis = KPIModel.kpis;
             utilitiesFactory.searchOnPage(vm, vm.kpis);
         });
     };
 
     vm.initialize = function () {
+        CommonModel.getTargetType().then(function () {
+            vm.targetTypes = CommonModel.targetTypes;
+        });
+
         KPIGroupModel.getKPIGroup().then(function () {
             vm.kpiGroups = KPIGroupModel.kpiGroups;
         });
 
-        getKPI(vm.filter.kpiGroupId, vm.filter.isActive);
+        getKPI(vm.filter.targetTypeId, vm.filter.kpiGroupId, vm.filter.isActive);
     };
 
     vm.initialize();
 
+    vm.getKPIGroupByTargetType = function (targetTypeId) {
+        KPIGroupModel.getKPIGroup(targetTypeId).then(function () {
+            vm.kpiGroups = KPIGroupModel.kpiGroups;
+        });
+    };
+
     vm.query = function (filter) {
-        getKPI(filter.kpiGroupId, filter.isActive);
+        getKPI(filter.targetTypeId, filter.kpiGroupId, filter.isActive);
     };
 
     /// Create KPI.
@@ -61,11 +73,17 @@ function (KPIModel, KPIGroupModel, CommonModel, utilitiesFactory) {
         });
     };
 
+    /// Update required evaluate KPI.
+    vm.updateRequiredEvaluate = function (kpi) {
+        KPIModel.openPopupUpdateRequiredEvaluateKPI(kpi);
+    };
+
     /// Update status KPI.
     vm.updateStatusKPI = function (kpi) {
         KPIModel.openPopupUpdateStatusKPI(kpi);
     };
 
+    /// Delete KPI.
     vm.deleteKPI = function (kpi) {
         KPIModel.openPopupDeleteKPI(vm, kpi);
     };
@@ -77,12 +95,17 @@ function (KPIModel, KPIGroupModel, CommonModel, utilitiesFactory) {
 } ]);
 
 kpiModule.controller('CreateKPIController',
-['$modalInstance', 'KPIModel', 'KPIGroupModel',
-function ($modalInstance, KPIModel, KPIGroupModel) {
+['$modalInstance', 'KPIModel', 'KPIGroupModel', 'CommonModel',
+function ($modalInstance, KPIModel, KPIGroupModel, CommonModel) {
     var vm = this;
 
     vm.currentChosenKPIGroups = [];
+    vm.targetTypes = CommonModel.targetTypes;
     vm.kpiGroups = KPIGroupModel.kpiGroups;
+
+    vm.filter = {
+        targetTypeId: ''
+    };
 
     vm.kpi = {
         Name: '',
@@ -94,12 +117,51 @@ function ($modalInstance, KPIModel, KPIGroupModel) {
     };
 
     vm.initialize = function () {
-        KPIGroupModel.getKPIGroup(true).then(function () {
+        CommonModel.getTargetType(true).then(function () {
+            vm.targetTypes = CommonModel.targetTypes;
+        });
+
+        KPIGroupModel.getKPIGroup(null, true).then(function () {
             vm.kpiGroups = KPIGroupModel.kpiGroups;
         });
     };
 
     vm.initialize();
+
+    // check if kpi group exist in list kpi group
+    var checkExist = function (kpiGroups, kpiGroupId) {
+        var hasExist = false;
+
+        $.each(kpiGroups, function (index, kpiGroup) {
+            if (kpiGroup.KPIGroupId === kpiGroupId) {
+                hasExist = true;
+            }
+        });
+
+        return hasExist;
+    };
+
+    vm.getKPIGroupByTargetType = function (targetTypeId) {
+        KPIGroupModel.getKPIGroup(targetTypeId, true).then(function () {
+            vm.kpiGroups = KPIGroupModel.kpiGroups;
+
+            var temps = [];
+            if (vm.currentChosenKPIGroups.length > 0) {
+                $.each(vm.currentChosenKPIGroups, function (index, kpiGroupId) {
+                    if (checkExist(vm.kpiGroups, kpiGroupId)) {
+                        temps.push(kpiGroupId);
+                    }
+                });
+            }
+
+            vm.currentChosenKPIGroups = temps;
+            $('.select-kpi-group').trigger('chosen:updated');
+        });
+    };
+
+    vm.updateTrigger = function () {
+        $('.select-kpi-group').trigger('chosen:updated');
+    };
 
     vm.changeHasComment = function () {
         if (vm.kpi.HasComment === false) {
@@ -139,7 +201,7 @@ function ($modalInstance, KPIModel, KPIGroupModel, kpi) {
     };
 
     vm.initialize = function () {
-        KPIGroupModel.getKPIGroup(true).then(function () {
+        KPIGroupModel.getKPIGroup(null, true).then(function () {
             vm.kpiGroups = KPIGroupModel.kpiGroups;
 
             angular.forEach(kpi.KPIGroups, function (kpiGroup) {

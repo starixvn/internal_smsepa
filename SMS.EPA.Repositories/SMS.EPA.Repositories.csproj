@@ -62,8 +62,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Implement\EmployeeRepository.cs" />
+    <Compile Include="Implement\KPIGroupRepository.cs" />
     <Compile Include="Interfaces\IEmployeeRepository.cs" />
     <Compile Include="Implement\KPIRepository.cs" />
+    <Compile Include="Interfaces\IKPIGroupRepository.cs" />
     <Compile Include="Interfaces\IKPIRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

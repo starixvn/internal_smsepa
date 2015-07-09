@@ -7,6 +7,14 @@
     <div class="col-sm-12">
         <form novalidate class="row filter form-inline" role="form">
             <div class="form-group">
+                <label data-translate="Form"></label>
+                <select class="form-control lstBox-limit" ng-model="kpiCtrl.filter.targetTypeId" 
+                    ng-options="opt.TargetTypeId as opt.Name for opt in kpiCtrl.targetTypes"
+                    ng-change="kpiCtrl.getKPIGroupByTargetType(kpiCtrl.filter.targetTypeId)">
+                    <option value="">-- {{"All" | translate}} --</option>
+                </select>
+            </div>
+            <div class="form-group">
                 <label data-translate="Group"></label>
                 <select class="form-control lstBox-limit" ng-model="kpiCtrl.filter.kpiGroupId" 
                     ng-options="opt.KPIGroupId as opt.Name for opt in kpiCtrl.kpiGroups">
@@ -73,7 +81,7 @@
                     </td>
                 </tr>
                 <tr ng-show="kpiCtrl.filteredItems.length == 0">
-                    <td class="empty-result" colspan="6" data-translate="EmptyResult"></td>
+                    <td class="empty-result" colspan="7" data-translate="EmptyResult"></td>
                 </tr>
             </tbody>
             <tfoot>

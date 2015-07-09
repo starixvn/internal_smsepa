@@ -27,6 +27,8 @@ namespace SMS.EPA.Services.Interfaces
 
         CommandResult UpdateStatusKPI(UpdateStatusKPICriteria criteria);
 
+        CommandResult UpdateRequiredEvaluateKPI(UpdateRequiredEvaluateKPICriteria criteria);
+
         CommandResult DeleteKPI(DeleteKPICriteria criteria);
     }
 }

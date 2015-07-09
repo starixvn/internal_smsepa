@@ -10,6 +10,7 @@
 namespace SMS.EPA.Model.KPIGroup
 {
     using System;
+    using SMS.EPA.Model.TargetType;
 
     /// <summary>
     /// KPI Group model.
@@ -21,6 +22,10 @@ namespace SMS.EPA.Model.KPIGroup
         public string Name { get; set; }
 
         public string Description { get; set; }
+
+        public int NumberKPI { get; set; }
+
+        public TargetTypeModel TargetType { get; set; }
 
         public bool IsActive { get; set; }
 

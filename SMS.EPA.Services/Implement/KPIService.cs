@@ -88,6 +88,19 @@ namespace SMS.EPA.Services.Implement
             return commandResult;
         }
 
+        public CommandResult UpdateRequiredEvaluateKPI(UpdateRequiredEvaluateKPICriteria criteria)
+        {
+            CommandResult commandResult = new CommandResult();
+            Check.Argument.IsNotNull(criteria, "criteria");
+
+            if (criteria.IsValid())
+            {
+                commandResult = Repository.Update(criteria);
+            }
+
+            return commandResult;
+        }
+
         public CommandResult DeleteKPI(DeleteKPICriteria criteria)
         {
             CommandResult commandResult = new CommandResult();

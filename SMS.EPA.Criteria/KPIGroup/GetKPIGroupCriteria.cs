@@ -16,6 +16,8 @@ namespace SMS.EPA.Criteria.KPIGroup
     /// </summary>
     public class GetKPIGroupCriteria : CriteriaBase
     {
+        public int? TargetTypeId { get; set; }
+
         public bool? IsActive { get; set; }
 
         public override bool IsValid()

@@ -36,11 +36,13 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpGet]
         public IEnumerable<KPIModel> GetKPI(
+            int? targetTypeId = null,
             int? kpiGroupId = null,
             bool? isActive = null)
         {
             var criteria = new GetKPICriteria
             {
+                TargetTypeId = targetTypeId,
                 KPIGroupId = kpiGroupId,
                 IsActive = isActive
             };
@@ -83,6 +85,19 @@ namespace SMS.EPA.Site.Controllers.API
             }
 
             CommandResult commandResult = _kpiService.UpdateStatusKPI(criteria);
+
+            return commandResult;
+        }
+
+        [HttpPut]
+        public CommandResult UpdateRequiredEvaluateKPI(UpdateRequiredEvaluateKPICriteria criteria)
+        {
+            if (criteria != null)
+            {
+                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+            }
+
+            CommandResult commandResult = _kpiService.UpdateRequiredEvaluateKPI(criteria);
 
             return commandResult;
         }

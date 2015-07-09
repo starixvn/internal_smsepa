@@ -6,6 +6,16 @@
 </div>
 <div class="modal-body kpi-modal-body">
     <form class="form-horizontal col-sm-11" role="form">
+        <div class="form-group">
+            <label class="col-sm-4 control-label" data-translate="Form"></label>
+            <div class="col-sm-8 field active-label">
+                <select class="form-control" ng-model="createKPICtrl.filter.targetTypeId"
+                    ng-options="opt.TargetTypeId as opt.Name for opt in createKPICtrl.targetTypes"
+                    ng-change="createKPICtrl.getKPIGroupByTargetType(createKPICtrl.filter.targetTypeId)">
+                    <option value="">-- {{"All" | translate}} --</option>
+                </select>
+            </div>
+        </div>
         <div class="form-group required">
             <label class="col-sm-4 control-label" data-translate="Group"></label>
             <div class="col-sm-8 field">
@@ -13,7 +23,8 @@
                     options="createKPICtrl.kpiGroups"
                     ng-model="createKPICtrl.currentChosenKPIGroups"
                     data-placeholder="Select the group"
-                    ng-options="opt.KPIGroupId as opt.Name for opt in createKPICtrl.kpiGroups"></select>
+                    ng-options="opt.KPIGroupId as opt.Name for opt in createKPICtrl.kpiGroups"
+                    on-show-dropdown="createKPICtrl.updateTrigger()"></select>
             </div>
         </div>
         <div class="form-group required">
