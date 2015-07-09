@@ -124,6 +124,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Assign Role To User.
+        /// </summary>
+        public static string AssignRoleToUser {
+            get {
+                return ResourceManager.GetString("AssignRoleToUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change Password.
         /// </summary>
         public static string ChangePassword {
@@ -134,14 +143,6 @@ namespace SMS.EPA.Resources {
         
         /// <summary>
         ///   Looks up a localized string similar to Code.
-        /// </summary>
-        public static string Code {
-            get {
-                return ResourceManager.GetString("Code", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The Code field is required!.
         /// </summary>
         public static string CodeRequried {
@@ -189,6 +190,23 @@ namespace SMS.EPA.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Create KPI Group.
         /// </summary>
+        public static string CreateSuccessfully {
+            get {
+                return ResourceManager.GetString("CreateSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Created Unsuccessfully!.
+        /// </summary>
+        public static string CreateUnsuccessfully {
+            get {
+                return ResourceManager.GetString("CreateUnsuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        /// </summary>
         public static string CreateKPIGroup {
             get {
                 return ResourceManager.GetString("CreateKPIGroup", resourceCulture);
@@ -233,23 +251,12 @@ namespace SMS.EPA.Resources {
         
         /// <summary>
         ///   Looks up a localized string similar to Deactivated successfully!.
-        /// </summary>
         public static string DeactivationSuccess {
-            get {
                 return ResourceManager.GetString("DeactivationSuccess", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Deleted successfully!.
-        /// </summary>
         public static string DeletedSuccessfully {
-            get {
                 return ResourceManager.GetString("DeletedSuccessfully", resourceCulture);
-            }
-        }
         
-        /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
         public static string Description {
@@ -628,11 +635,38 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Role Management.
+        /// </summary>
+        public static string RoleManagement {
+            get {
+                return ResourceManager.GetString("RoleManagement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Role Permission.
+        /// </summary>
+        public static string RolePermission {
+            get {
+                return ResourceManager.GetString("RolePermission", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Roles.
         /// </summary>
         public static string Roles {
             get {
                 return ResourceManager.GetString("Roles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
             }
         }
         

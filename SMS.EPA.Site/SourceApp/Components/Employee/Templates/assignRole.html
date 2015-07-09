@@ -1,0 +1,39 @@
+﻿<div>
+    <div class="modal-header">
+        <div class="popup-header">
+            {{"AssignRoleToUser" | translate}}<span class="close-popup" ng-click="assignRoleCtrl.cancel()"></span>
+        </div>
+    </div>
+
+    <div class="modal-body assign-role-modal">
+        <form class="form-horizontal table-popup" novalidate>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <td data-translate="NickName" class="width-150 text-right bold"></td>
+                        <td ng-bind="assignRoleCtrl.employee.NickName"></td>
+                    </tr>
+                    <tr>
+                        <td data-translate="Roles" class="width-150 text-right bold"></td>
+                        <td name="employeeRoles">
+                            <div class="form-control-static" ng-repeat="role in assignRoleCtrl.systemRoles">
+                                <div>
+                                    <input id="role{{role.RoleId}}" name="role" type="checkbox" assign-user-permission value="{{role.RoleId}}"
+                                           ng-checked="assignRoleCtrl.checkRolePermission(role.RoleId)" />
+                                    <span id="roleName{{role.RoleId}}" ng-bind="role.RoleName">
+                                    </span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <button class="button" data-translate="Save" get-employee-permission ></button>
+        <button class="button" ng-click="assignRoleCtrl.cancel()" data-translate="Cancel"></button>
+    </div>
+</div>
+

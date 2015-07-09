@@ -22,6 +22,8 @@ namespace SMS.EPA.Criteria.Employee
 
         public bool? IsSpecialUser { get; set; }
 
+        public int? RoleId { get; set; }
+
         public override bool IsValid()
         {
             return true;

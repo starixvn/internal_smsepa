@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="Authentication\GetEmployeeByCodeCriteria.cs" />
     <Compile Include="Authentication\GetEmployeeByDomainUsernameCriteria.cs" />
+    <Compile Include="Employee\AssignRoleToEmployeeCriteria.cs" />
     <Compile Include="Employee\ChangePasswordCriteria.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
@@ -81,6 +82,8 @@
     <Compile Include="KPI\UpdateStatusKPICriteria.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TargetType\GetTargetTypeCriteria.cs" />
+    <Compile Include="RoleManagement\AssignFunctionToRoleCriteria.cs" />
+    <Compile Include="RoleManagement\GetFunctionByRoleIdCriteria.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

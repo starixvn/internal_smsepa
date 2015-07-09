@@ -363,4 +363,16 @@
   <data name="NameRequire" xml:space="preserve">
     <value>The Name field is required!</value>
   </data>
+   <data name="RoleManagement" xml:space="preserve">
+    <value>Role Management</value>
+  </data>
+  <data name="AssignRoleToUser" xml:space="preserve">
+    <value>Assign Role To User</value>
+  </data>
+  <data name="RolePermission" xml:space="preserve">
+    <value>Role Permission</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+ </data>
 </root>

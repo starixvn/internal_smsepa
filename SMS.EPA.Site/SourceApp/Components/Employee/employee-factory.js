@@ -21,6 +21,9 @@ employeeModule.factory('employeeFactory', ['$http', function ($http) {
         },
         changePassword: function (employee) {
             return $http.put('/api/Employee/ChangePassword', employee);
+        },
+        assignRoleToEmployee: function (employeeRoles) {
+            return $http.put('/api/Employee/AssignRoleToEmployee', employeeRoles);
         }
     };
 } ]);

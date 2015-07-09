@@ -10,10 +10,13 @@
 namespace SMS.EPA.Repositories.Implement
 {
     using System.Collections.Generic;
+    using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using SMS.EPA.Model.EmployeeManagement;
+    using SMS.EPA.Model.Authentication;
+    using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.Enitites;
+    using SMS.EPA.Model.RoleManagement;
     using SMS.EPA.Repositories.Interfaces;
 
     /// <summary>
@@ -25,20 +28,71 @@ namespace SMS.EPA.Repositories.Implement
         /// Get all employee.
         /// </summary>
         /// <param name="criteria">The criteria.</param>
-        /// <returns>The enumerator employee model.</returns>
-        public IEnumerable<EmployeeModel> GetAllEmployee(ICriteria criteria)
+        /// <returns>The raw employee model.</returns>
+        public RawEmployeeModel GetAllEmployee(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                return db.Query<EmployeeModel, JobTitle, Group, EmployeeModel>(
-                    (emp, jb, gr) =>
+                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                {
+                    IEnumerable<EmployeeModel> employees = multi.Read<EmployeeModel, JobTitle, Group, EmployeeModel>(
+                           (emp, jb, gr) =>
+                           {
+                               emp.JobTitle = jb;
+                               emp.Group = gr;
+                               return emp;
+                           },
+                           "JobTitleId, GroupId");
+                    IEnumerable<RawEmployeeRoleModel> roles = multi.Read<RawEmployeeRoleModel>();
+
+                    var rawEmployee = new RawEmployeeModel
                     {
-                        emp.JobTitle = jb;
-                        emp.Group = gr;
-                        return emp;
-                    },
-                    "JobTitleId, GroupId",
-                    criteria.GetSpParams());
+                        Employees = employees,
+                        Roles = roles
+                    };
+
+                    return rawEmployee;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get employee by code or by domain username.
+        /// </summary>
+        /// <param name="criteria">The criteria.</param>
+        /// <returns>The employee.</returns>
+        public UserSession GetEmployee(ICriteria criteria)
+        {
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                {
+                    UserSession userSession = null;
+                    IEnumerable<EmployeeModel> employees = multi.Read<EmployeeModel, JobTitle, Group, EmployeeModel>(
+                           (emp, jb, gr) =>
+                           {
+                               emp.JobTitle = jb;
+                               emp.Group = gr;
+                               return emp;
+                           },
+                           "JobTitleId, GroupId");
+
+                    if (employees != null && employees.Count() > 0)
+                    {
+                        EmployeeModel employee = employees.First();
+                        IEnumerable<SystemRoleModel> roles = multi.Read<SystemRoleModel>();
+                        IEnumerable<FunctionModel> functions = multi.Read<FunctionModel>();
+
+                        userSession = new UserSession
+                        {
+                            EmployeeInfo = employee,
+                            Roles = roles,
+                            Functions = functions
+                        };
+                    }
+
+                    return userSession;
+                }
             }
         }
     }

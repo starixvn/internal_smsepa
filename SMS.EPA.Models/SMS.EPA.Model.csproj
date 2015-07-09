@@ -43,7 +43,9 @@
   <ItemGroup>
     <Compile Include="Authentication\LoginModel.cs" />
     <Compile Include="Authentication\UserSession.cs" />
-    <Compile Include="EmployeeManagement\EmployeeModel.cs" />
+    <Compile Include="Employee\EmployeeModel.cs" />
+    <Compile Include="Employee\RawEmployeeModel.cs" />
+    <Compile Include="Employee\RawEmployeeRoleModel.cs" />
     <Compile Include="Enitites\Employee.cs" />
     <Compile Include="Enitites\Group.cs" />
     <Compile Include="Enitites\JobTitle.cs" />
@@ -51,6 +53,8 @@
     <Compile Include="KPI\KPIModel.cs" />
     <Compile Include="KPI\RawKPIModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RoleManagement\FunctionModel.cs" />
+    <Compile Include="RoleManagement\RoleFunctionModel.cs" />
     <Compile Include="RoleManagement\SystemRoleModel.cs" />
     <Compile Include="TargetType\TargetTypeModel.cs" />
   </ItemGroup>

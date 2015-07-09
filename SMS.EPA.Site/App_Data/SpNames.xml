@@ -19,6 +19,8 @@
     </Setting>
     <Setting Key="EpaEmployee_ChangePassword" SpName="EpaEmployee_ChangePassword" DbName="SMSEPA" Plain="0" >
     </Setting>
+      <Setting Key="EpaEmployee_AssignRoleToEmployee" SpName="EpaEmployee_AssignRoleToEmployee" DbName="SMSEPA" Plain="0" >
+      </Setting>
     </Function>
     <Function Name="KPI">
         <Setting Key="KPI_Get" SpName="KPI_Get" DbName="SMSEPA" Plain="0" >
@@ -44,4 +46,10 @@
         <Setting Key="TargetType_Get" SpName="TargetType_Get" DbName="SMSEPA" Plain="0" >
         </Setting>
     </Function>
+  <Function Name="Role">
+    <Setting Key="EpaRole_AssignFunctionToRole" SpName="EpaRole_AssignFunctionToRole" DbName="SMSEPA" Plain="0" >
+    </Setting>
+    <Setting Key="EpaRole_GetFunctionByRoleId" SpName="EpaRole_GetFunctionByRoleId" DbName="SMSEPA" Plain="0" >
+    </Setting>
+  </Function>
 </Functions>

@@ -35,5 +35,43 @@ namespace SMS.EPA.Site.Controllers.API
         {
             return _utilitiesController.GetTargetType(isActive);
         }
+        
+  /// <summary>
+    /// The common controller.
+    /// </summary>
+    public class CommonController : BaseController
+    {
+        /// <summary>
+        /// Get all system role.
+        /// </summary>
+        /// <param name="exceptNone">Except none or not.</param>
+        /// <returns>The list system role.</returns>
+        public List<object> GetSystemRoles(bool exceptNone)
+        {
+            var roles = new List<object>();
+
+            foreach (SystemRole roleEnum in (SystemRole[])System.Enum.GetValues(typeof(SystemRole)))
+            {
+                var role = new
+                {
+                    RoleId = (int)roleEnum,
+                    RoleName = Enumerations.GetDescription(roleEnum)
+                };
+
+                if (exceptNone && roleEnum != 0)
+                {
+                    roles.Add(role);
+                }
+                else if (!exceptNone)
+                {
+                    roles.Add(role);
+                }
+            }
+
+            return roles;
+        }
+
+   	
+
     }
 }

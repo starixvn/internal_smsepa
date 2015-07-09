@@ -57,7 +57,8 @@ namespace SMS.EPA.Site
                             "~/Content/Less/bootstrap.less",
                             "~/Content/Site/layout.less",
                             "~/SourceApp/Components/KPI/kpi.less",
-                            "~/SourceApp/Components/Employee/employee.less");
+                            "~/SourceApp/Components/Employee/employee.less",
+                            "~/SourceApp/Components/Role/role.less");
 
             bundles.Add(new ScriptBundle("~/bundles/app").Include(
                             "~/SourceApp/app.js",
@@ -69,12 +70,17 @@ namespace SMS.EPA.Site
                             "~/SourceApp/Components/Employee/employee-factory.js",
                             "~/SourceApp/Components/Employee/employee-model.js",
                             "~/SourceApp/Components/Employee/employee-controller.js",
+                            "~/SourceApp/Components/Employee/employee-directive.js",
                             "~/SourceApp/Components/KPI/kpi-factory.js",
                             "~/SourceApp/Components/KPI/kpi-model.js",
                             "~/SourceApp/Components/KPI/kpi-controller.js",
                             "~/SourceApp/Components/KPIGroup/kpiGroup-factory.js",
                             "~/SourceApp/Components/KPIGroup/kpiGroup-model.js",
-                            "~/SourceApp/Components/KPIGroup/kpiGroup-controller.js"));
+                            "~/SourceApp/Components/KPIGroup/kpiGroup-controller.js",
+                            "~/SourceApp/Components/Role/role-directive.js",
+                            "~/SourceApp/Components/Role/role-factory.js",
+                            "~/SourceApp/Components/Role/role-model.js",
+                            "~/SourceApp/Components/Role/role-controller.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/epa-directives.js",

@@ -35,7 +35,8 @@ namespace SMS.EPA.Site
             {
                 "Employee/Index",
                 "KPI/Index",
-                "KPIGroup/Index"
+                "KPIGroup/Index",
+                "Role/Index"
             };
 
             homeRouteUrls.ForEach(url => routes.MapRoute(

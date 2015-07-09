@@ -10,6 +10,7 @@
 namespace SMS.EPA.Services.Implement
 {
     using System.Collections.Generic;
+    using System.Linq;
     using Fanex.Common.Helper;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
@@ -17,8 +18,10 @@ namespace SMS.EPA.Services.Implement
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.Authentication;
     using SMS.EPA.Criteria.Employee;
-    using SMS.EPA.Model.EmployeeManagement;
+    using SMS.EPA.Model.Authentication;
+    using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.Enitites;
+    using SMS.EPA.Model.RoleManagement;
     using SMS.EPA.Repositories.Implement;
     using SMS.EPA.Repositories.Interfaces;
     using SMS.EPA.Services.Interfaces;
@@ -44,15 +47,15 @@ namespace SMS.EPA.Services.Implement
         /// Get employee by code.
         /// </summary>
         /// <param name="criteria">The criteria.</param>
-        /// <returns>The employee model.</returns>
-        public EmployeeModel GetEmployeeByCode(GetEmployeeByCodeCriteria criteria)
+        /// <returns>The employee model contain employee information, roles and functions.</returns>
+        public UserSession GetEmployeeByCode(GetEmployeeByCodeCriteria criteria)
         {
-            var employee = new EmployeeModel();
+            var employee = new UserSession();
             Check.Argument.IsNotNull(criteria, "criteria");
 
             if (criteria.IsValid())
             {
-                employee = GetDataEntity<EmployeeModel>(criteria);
+                employee = _employeeRepository.GetEmployee(criteria);
             }
 
             return employee;
@@ -62,15 +65,15 @@ namespace SMS.EPA.Services.Implement
         /// Get employee by username.
         /// </summary>
         /// <param name="criteria">The criteria.</param>
-        /// <returns>The employee model.</returns>
-        public EmployeeModel GetEmployeeByUsername(GetEmployeeByDomainUsernameCriteria criteria)
+        /// <returns>The employee model contain employee information, roles and functions.</returns>
+        public UserSession GetEmployeeByUsername(GetEmployeeByDomainUsernameCriteria criteria)
         {
-            var employee = new EmployeeModel();
+            var employee = new UserSession();
             Check.Argument.IsNotNull(criteria, "criteria");
 
             if (criteria.IsValid())
             {
-                employee = GetDataEntity<EmployeeModel>(criteria);
+                employee = _employeeRepository.GetEmployee(criteria);
             }
 
             return employee;
@@ -95,7 +98,8 @@ namespace SMS.EPA.Services.Implement
 
             if (criteria.IsValid())
             {
-                employees = _employeeRepository.GetAllEmployee(criteria);
+                RawEmployeeModel rawEmployee = _employeeRepository.GetAllEmployee(criteria);
+                employees = GetRoleOfEmployee(rawEmployee);
             }
 
             return employees;
@@ -190,6 +194,50 @@ namespace SMS.EPA.Services.Implement
             }
 
             return commandResult;
+        }
+
+        /// <summary>
+        /// Assign role to employee.
+        /// </summary>
+        /// <param name="criteria">The criteria.</param>
+        /// <returns>The command result.</returns>
+        public CommandResult AssignRoleToEmployee(AssignRoleToEmployeeCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            var commandResult = new CommandResult();
+
+            if (criteria.IsValid())
+            {
+                commandResult = Repository.Update(criteria);
+            }
+
+            return commandResult;
+        }
+
+        /// <summary>
+        /// Get roles of each employee.
+        /// </summary>
+        /// <param name="rawEmployee">The object contain employees and roles.</param>
+        /// <returns>The list employees contain roles of each employee.</returns>
+        private IEnumerable<EmployeeModel> GetRoleOfEmployee(RawEmployeeModel rawEmployee)
+        {
+            foreach (EmployeeModel employee in rawEmployee.Employees)
+            {
+                IEnumerable<RawEmployeeRoleModel> rolesOfCurrentEmployee = rawEmployee.Roles.Where(role => role.EmployeeId == employee.EmployeeId);
+
+                foreach (RawEmployeeRoleModel rawRole in rolesOfCurrentEmployee)
+                {
+                    var role = new SystemRoleModel
+                    {
+                        RoleId = rawRole.RoleId,
+                        RoleName = rawRole.RoleName
+                    };
+
+                    employee.Roles.Add(role);
+                }
+            }
+
+            return rawEmployee.Employees;
         }
     }
 }

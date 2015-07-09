@@ -13,7 +13,8 @@ namespace SMS.EPA.Services.Interfaces
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.Authentication;
     using SMS.EPA.Criteria.Employee;
-    using SMS.EPA.Model.EmployeeManagement;
+    using SMS.EPA.Model.Authentication;
+    using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.Enitites;
 
     /// <summary>
@@ -21,9 +22,9 @@ namespace SMS.EPA.Services.Interfaces
     /// </summary>
     public interface IEmployeeService
     {
-        EmployeeModel GetEmployeeByCode(GetEmployeeByCodeCriteria criteria);
+        UserSession GetEmployeeByCode(GetEmployeeByCodeCriteria criteria);
 
-        EmployeeModel GetEmployeeByUsername(GetEmployeeByDomainUsernameCriteria criteria);
+        UserSession GetEmployeeByUsername(GetEmployeeByDomainUsernameCriteria criteria);
 
         bool CheckValidateEmployee(string employeePassword, string enterPassword);
 
@@ -38,5 +39,7 @@ namespace SMS.EPA.Services.Interfaces
         IEnumerable<JobTitle> GetAllJobTitle(GetAllJobTitleCriteria criteria);
 
         CommandResult ChangePassword(ChangePasswordCriteria criteria);
+
+        CommandResult AssignRoleToEmployee(AssignRoleToEmployeeCriteria criteria);
     }
 }

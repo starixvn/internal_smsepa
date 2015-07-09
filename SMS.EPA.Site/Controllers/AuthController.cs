@@ -14,7 +14,7 @@ namespace SMS.EPA.Site.Controllers
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Criteria.Authentication;
     using SMS.EPA.Model.Authentication;
-    using SMS.EPA.Model.EmployeeManagement;
+    using SMS.EPA.Model.Employee;
     using SMS.EPA.Resources;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
@@ -114,18 +114,15 @@ namespace SMS.EPA.Site.Controllers
             {
                 Code = model.Username
             };
-            EmployeeModel employeeInfo = _employeeService.GetEmployeeByCode(criteria);
+            employee = _employeeService.GetEmployeeByCode(criteria);
 
-            if (employeeInfo != null)
+            if (employee != null && string.Compare(model.Password, Constants.DefaultPassword, System.StringComparison.OrdinalIgnoreCase) != 0)
             {
-                bool isValid = _employeeService.CheckValidateEmployee(employeeInfo.Password, model.Password);
+                bool isValid = _employeeService.CheckValidateEmployee(employee.EmployeeInfo.Password, model.Password);
 
-                if (isValid || string.Compare(model.Password, Constants.DefaultPassword, System.StringComparison.OrdinalIgnoreCase) == 0)
+                if (!isValid)
                 {
-                    employee = new UserSession
-                    {
-                        EmployeeInfo = employeeInfo
-                    };
+                    employee = null;
                 }
             }
 
@@ -144,18 +141,15 @@ namespace SMS.EPA.Site.Controllers
             {
                 Username = model.Username
             };
-            EmployeeModel employeeInfo = _employeeService.GetEmployeeByUsername(criteria);
+            employee = _employeeService.GetEmployeeByUsername(criteria);
 
-            if (employeeInfo != null)
+            if (employee != null && string.Compare(model.Password, Constants.DefaultPassword, System.StringComparison.OrdinalIgnoreCase) != 0)
             {
-                bool isValid = _employeeService.CheckValidateEmployee(employeeInfo.Password, model.Password);
+                bool isValid = _employeeService.CheckValidateEmployee(employee.EmployeeInfo.Password, model.Password);
 
-                if (isValid || string.Compare(model.Password, Constants.DefaultPassword, System.StringComparison.OrdinalIgnoreCase) == 0)
+                if (!isValid)
                 {
-                    employee = new UserSession
-                    {
-                        EmployeeInfo = employeeInfo
-                    };
+                    employee = null;
                 }
             }
 

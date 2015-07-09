@@ -9,15 +9,17 @@
 
 namespace SMS.EPA.Repositories.Interfaces
 {
-    using System.Collections.Generic;
     using Fanex.Data.Repository;
-    using SMS.EPA.Model.EmployeeManagement;
+    using SMS.EPA.Model.Authentication;
+    using SMS.EPA.Model.Employee;
 
     /// <summary>
     /// The interface of employee repository.
     /// </summary>
     public interface IEmployeeRepository
     {
-        IEnumerable<EmployeeModel> GetAllEmployee(ICriteria criteria);
+        RawEmployeeModel GetAllEmployee(ICriteria criteria);
+
+        UserSession GetEmployee(ICriteria criteria);
     }
 }

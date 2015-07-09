@@ -67,6 +67,10 @@ function ($window, EmployeeModel, utilitiesFactory, CommonModel) {
             vm.modalInstance = '';
         });
     };
+
+    vm.assignRole = function (employee) {
+        EmployeeModel.openPopupAssignRole(employee);
+    };
 } ]);
 
 employeeModule.controller('CreateEmployeeController',
@@ -163,6 +167,48 @@ function ($modalInstance, EmployeeModel, oldPassword) {
         if (EmployeeModel.validatePassword(password, vm.originalOldPassword)) {
             EmployeeModel.changePassword(password, $modalInstance);
         }
+    };
+
+    vm.cancel = function () {
+        $modalInstance.dismiss("cancel");
+    };
+} ]);
+
+employeeModule.controller('AssignRoleToUserController',
+['$modalInstance', 'EmployeeModel', 'employee', 'CommonModel',
+function ($modalInstance, EmployeeModel, employee, CommonModel) {
+    var vm = this;
+
+    vm.employee = employee;
+    vm.systemRoles = [];
+
+    CommonModel.getSystemRoles(true).then(function () {
+        vm.systemRoles = CommonModel.systemRoles;
+    });
+
+    vm.checkRolePermission = function (roleId) {
+        var isChecked = false;
+        angular.forEach(vm.employee.Roles, function (role) {
+            if (role.RoleId === roleId) {
+                isChecked = true;
+            }
+        });
+
+        return isChecked;
+    };
+
+    vm.save = function (roleIds) {
+        var roles = [];
+
+        if (roleIds) {
+            roles = EmployeeModel.createRoles(roleIds, vm.systemRoles);
+        }
+
+        var editedRole = {
+            roles: roles,
+            roleIds: roleIds
+        };
+        $modalInstance.close(editedRole);
     };
 
     vm.cancel = function () {

@@ -10,7 +10,7 @@
 namespace SMS.EPA.Model.Authentication
 {
     using System.Collections.Generic;
-    using SMS.EPA.Model.EmployeeManagement;
+    using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.RoleManagement;
 
     /// <summary>
@@ -26,5 +26,7 @@ namespace SMS.EPA.Model.Authentication
         public EmployeeModel EmployeeInfo { get; set; }
 
         public IEnumerable<SystemRoleModel> Roles { get; set; }
+
+        public IEnumerable<FunctionModel> Functions { get; set; }
     }
 }

@@ -210,5 +210,61 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
         });
     };
 
+    employeeModel.openPopupAssignRole = function (employee) {
+        var modalInstance = $modal.open({
+            templateUrl: 'SourceApp/Components/Employee/Templates/assignRole.html',
+            controller: "AssignRoleToUserController as assignRoleCtrl",
+            backdrop: 'static',
+            resolve: {
+                employee: function () {
+                    return angular.copy(employee);
+                }
+            },
+            windowClass: "modal-confirm-center"
+        });
+
+        modalInstance.result.then(function (editedRole) {
+            employeeModel.assignRoleToEmployee(employee.EmployeeId, editedRole.roleIds).then(function () {
+                employee.Roles = editedRole.roles;
+            });
+        })['finally'](function () {
+            modalInstance = '';
+        });
+    };
+
+    employeeModel.assignRoleToEmployee = function (employeeId, roleIds) {
+        var employeeRoles = {
+            employeeId: employeeId,
+            roleIds: roleIds
+        };
+
+        return employeeFactory.assignRoleToEmployee(employeeRoles).success(function (response) {
+            if (response.IsSuccessful) {
+                notificationFactory.success("DataChangeSuccessfully");
+            }
+            else {
+                notificationFactory.error("", response.Message);
+            }
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    employeeModel.createRoles = function (roleIds, systemRoles) {
+        var roles = [],
+            roleIdList = roleIds.split(",");
+
+        angular.forEach(roleIdList, function (roleId) {
+            angular.forEach(systemRoles, function (role) {
+                if (parseInt(roleId) === role.RoleId) {
+                    roles.push(angular.copy(role));
+                }
+            });
+        });
+
+        return roles;
+    };
+
     return employeeModel;
 } ]);

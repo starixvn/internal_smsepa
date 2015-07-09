@@ -7,7 +7,7 @@
 //   <change who="Josh.Phan" date="7/6/2015 10:51:11 AM">Created.</change>
 // </history>
 
-namespace SMS.EPA.Model.EmployeeManagement
+namespace SMS.EPA.Model.Employee
 {
     using System.Collections.Generic;
     using SMS.EPA.Model.Enitites;

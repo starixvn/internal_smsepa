@@ -1,0 +1,47 @@
+﻿<div class="col-sm-12" ng-controller="RoleController as roleCtrl">
+    <div class="sub-header">
+        <ul class="row breadcrumb">
+            <li class="current" data-translate="RoleManagement"></li>
+        </ul>
+    </div>
+    <div class="row filter role-filter-width">
+        <form class="form-inline form-common" role="form">
+            <div class="form-group">
+                <label data-translate="Role" class="control-label"></label>
+                <select class="form-control" ng-model="roleCtrl.filter.roleId"
+                        ng-options="opt.RoleId as opt.RoleName for opt in roleCtrl.systemRoleOptions">
+                </select>
+            </div>
+            <button class="button" ng-click="roleCtrl.query(roleCtrl.filter)" ng-disabled="submitted" data-translate="Submit">
+            </button>
+        </form>
+    </div>
+    <div class="row ">
+        <form class="col-sm-6 authority-table clearfix" novalidate>
+            <table name="tableFunction" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="text-center" data-translate="Function" rowspan="2">
+                        </th>
+                        <th class="text-center" data-translate="RolePermission" colspan="2">
+                        </th>
+                    </tr>
+                    <tr>
+                        <th class="text-center" data-translate="Read">
+                        </th>
+                        <th class="text-center" data-translate="Host">
+                        </th>
+                    </tr>
+                </thead>
+                <tr ng-repeat="data in roleCtrl.roleFunctions">
+                    <td ng-include src="'/SourceApp/Components/Role/Templates/treeItem.html'"></td>
+                    <td class="text-center" ng-include src="'/SourceApp/Components/Role/Templates/treeReadCheckbox.html'"></td>
+                    <td class="text-center" ng-include src="'/SourceApp/Components/Role/Templates/treeHostCheckbox.html'"></td>
+                </tr>
+            </table>
+            <div class="btn-save">
+                <button class="button" get-role-permission ng-disabled="disabledSubmitButton" data-translate="Save"></button>
+            </div>
+        </form>
+    </div>
+</div>

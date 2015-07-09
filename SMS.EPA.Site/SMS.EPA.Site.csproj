@@ -162,6 +162,7 @@
     <Compile Include="Controllers\API\KPIGroupController.cs" />
     <Compile Include="Controllers\API\ResourcesController.cs" />
     <Compile Include="Controllers\API\UtilitiesController.cs" />
+    <Compile Include="Controllers\API\RoleController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Global.asax.cs">
@@ -265,6 +266,8 @@
     <Content Include="Libs\ui-bootstrap-tpls-0.13.0.min.js" />
     <Content Include="Libs\_references.js" />
     <Content Include="SourceApp\app.js" />
+    <Content Include="SourceApp\Components\Employee\employee-directive.js" />
+    <Content Include="SourceApp\Components\Employee\Templates\assignRole.html" />
     <Content Include="SourceApp\Components\Employee\Templates\changePassword.html" />
     <Content Include="SourceApp\Components\Common\common-factory.js" />
     <Content Include="SourceApp\Components\Common\common-model.js" />
@@ -287,6 +290,14 @@
     <Content Include="SourceApp\Components\KPI\kpi-factory.js" />
     <Content Include="SourceApp\Components\KPI\kpi-model.js" />
     <Content Include="SourceApp\Components\KPI\Templates\index.html" />
+    <Content Include="SourceApp\Components\Role\role-controller.js" />
+    <Content Include="SourceApp\Components\Role\role-directive.js" />
+    <Content Include="SourceApp\Components\Role\role-factory.js" />
+    <Content Include="SourceApp\Components\Role\role-model.js" />
+    <Content Include="SourceApp\Components\Role\Templates\index.html" />
+    <Content Include="SourceApp\Components\Role\Templates\treeHostCheckbox.html" />
+    <Content Include="SourceApp\Components\Role\Templates\treeItem.html" />
+    <Content Include="SourceApp\Components\Role\Templates\treeReadCheckbox.html" />
     <Content Include="SourceApp\routes.js" />
     <Content Include="SourceApp\Shared\error-factory.js" />
     <Content Include="SourceApp\Shared\modalconfirm-controller.js" />
@@ -408,6 +419,7 @@
     <Content Include="Views\Auth\Login.cshtml" />
     <Content Include="SourceApp\Components\KPI\kpi.less" />
     <Content Include="SourceApp\Components\Employee\employee.less" />
+    <None Include="SourceApp\Components\Role\role.less" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">

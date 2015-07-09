@@ -15,7 +15,7 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Security;
     using SMS.EPA.Criteria.Employee;
-    using SMS.EPA.Model.EmployeeManagement;
+    using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
@@ -111,6 +111,23 @@ namespace SMS.EPA.Site.Controllers.API
             }
 
             CommandResult commandResult = _employeeService.ChangePassword(criteria);
+            return commandResult;
+        }
+
+        /// <summary>
+        /// Assign role to employee.
+        /// </summary>
+        /// <param name="criteria">The criteria.</param>
+        /// <returns>The command result.</returns>
+        [HttpPut]
+        public CommandResult AssignRoleToEmployee(AssignRoleToEmployeeCriteria criteria)
+        {
+            if (criteria != null)
+            {
+                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+            }
+
+            CommandResult commandResult = _employeeService.AssignRoleToEmployee(criteria);
             return commandResult;
         }
     }
