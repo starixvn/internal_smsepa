@@ -70,6 +70,24 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Activated unsuccessfully!.
+        /// </summary>
+        public static string ActivationFail {
+            get {
+                return ResourceManager.GetString("ActivationFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Activated successfully!.
+        /// </summary>
+        public static string ActivationSuccess {
+            get {
+                return ResourceManager.GetString("ActivationSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Active.
         /// </summary>
         public static string Active {
@@ -174,6 +192,33 @@ namespace SMS.EPA.Resources {
         public static string DataChangeSuccessfully {
             get {
                 return ResourceManager.GetString("DataChangeSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deactivated unsuccessfully!.
+        /// </summary>
+        public static string DeactivationFail {
+            get {
+                return ResourceManager.GetString("DeactivationFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deactivated successfully!.
+        /// </summary>
+        public static string DeactivationSuccess {
+            get {
+                return ResourceManager.GetString("DeactivationSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deleted successfully!.
+        /// </summary>
+        public static string DeletedSuccessfully {
+            get {
+                return ResourceManager.GetString("DeletedSuccessfully", resourceCulture);
             }
         }
         

@@ -27,6 +27,8 @@
         </Setting>
         <Setting Key="KPI_Update" SpName="KPI_Update" DbName="SMSEPA" Plain="0" >
         </Setting>
+        <Setting Key="KPI_UpdateStatus" SpName="KPI_UpdateStatus" DbName="SMSEPA" Plain="0" >
+        </Setting>
     </Function>
     <Function Name="KPIGroup">
         <Setting Key="KPIGroup_Get" SpName="KPIGroup_Get" DbName="SMSEPA" Plain="0" >

@@ -1,13 +1,13 @@
 ﻿<div id="confirmPopup">
-	<div class="modal-header">
+    <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="modalConfirmCtrl.cancel()"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" data-translate="Confirm"></h4>
-	</div>
-	<div class="modal-body">
-		Are you sure you want to {{modalConfirmCtrl.action}} <b>{{modalConfirmCtrl.name}}</b>?
-	</div>
-	<div class="modal-footer">
-		<button class="btn btn-default btnSubmit" ng-click="modalConfirmCtrl.ok()" data-translate="OK"></button>
-		<button class="btn btn-default" ng-click="modalConfirmCtrl.cancel()" data-translate="Cancel"></button>
-	</div>
+    </div>
+    <div class="modal-body">
+        Are you sure you want to {{modalConfirmCtrl.action}} <b>{{modalConfirmCtrl.name}}</b>?
+    </div>
+    <div class="modal-footer">
+        <button class="button" ng-click="modalConfirmCtrl.ok()" data-translate="OK"></button>
+        <button class="btn btn-default customize" ng-click="modalConfirmCtrl.cancel()" data-translate="Cancel"></button>
+    </div>
 </div>

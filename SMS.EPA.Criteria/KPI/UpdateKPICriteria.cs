@@ -43,7 +43,7 @@ namespace SMS.EPA.Criteria.KPI
 
         public override bool IsValid()
         {
-            return !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(KPIGroupIds);
+            return KPIId > 0 && !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(KPIGroupIds);
         }
     }
 }

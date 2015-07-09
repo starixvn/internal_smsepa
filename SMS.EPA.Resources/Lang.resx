@@ -331,4 +331,19 @@
   <data name="WrongConfirmPassword" xml:space="preserve">
     <value>New password does not match the confirm password.</value>
   </data>
+   <data name="ActivationFail" xml:space="preserve">
+    <value>Activated unsuccessfully!</value>
+  </data>
+  <data name="ActivationSuccess" xml:space="preserve">
+    <value>Activated successfully!</value>
+  </data>
+  <data name="DeactivationFail" xml:space="preserve">
+    <value>Deactivated unsuccessfully!</value>
+  </data>
+  <data name="DeactivationSuccess" xml:space="preserve">
+    <value>Deactivated successfully!</value>
+  </data>
+  <data name="DeletedSuccessfully" xml:space="preserve">
+    <value>Deleted successfully!</value>
+  </data>
 </root>

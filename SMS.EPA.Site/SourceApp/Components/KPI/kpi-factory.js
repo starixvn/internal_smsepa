@@ -8,9 +8,12 @@ kpiModule.factory('kpiFactory', ['$http', function ($http) {
         },
         insertKPI: function (kpi) {
             return $http.post('/api/KPI/InsertKPI', kpi);
-        }        ,
+        },
         updateKPI: function (kpi) {
             return $http.put('/api/KPI/UpdateKPI', kpi);
+        },
+        updateStatusKPI: function (kpi) {
+            return $http.put('/api/KPI/UpdateStatusKPI', kpi);
         }
     };
 } ]);

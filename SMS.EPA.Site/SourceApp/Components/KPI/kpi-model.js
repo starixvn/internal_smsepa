@@ -39,7 +39,7 @@ function ($modal, kpiFactory, notificationFactory, errorFactory) {
     kpiModel.openPopupCreateKPI = function (vm) {
         vm.modalInstance = $modal.open({
             templateUrl: 'SourceApp/Components/KPI/Templates/create.html',
-            controller: "CreateKPIController as updateKPICtrl",
+            controller: "CreateKPIController as createKPICtrl",
             backdrop: 'static',
             windowClass: "modal-confirm-center"
         });
@@ -106,6 +106,62 @@ function ($modal, kpiFactory, notificationFactory, errorFactory) {
         })
         .error(function (response, status) {
             errorFactory.errorHandle(status);
+        });
+    };
+
+    /// Update status KPI.
+    kpiModel.openPopupUpdateStatusKPI = function (kpi) {
+        kpi.IsActive = !kpi.IsActive;
+
+        var action = kpi.IsActive ? "activate" : "deactivate",
+            newKPI = {
+                KPIId: kpi.KPIId,
+                IsActive: kpi.IsActive
+            };
+
+        var modalInstance = $modal.open({
+            templateUrl: 'SourceApp/Shared/Templates/ModalConfirmContent.html',
+            controller: "ModalConfirmController as modalConfirmCtrl",
+            backdrop: 'static',
+            resolve: {
+                name: function () {
+                    return kpi.Name;
+                },
+                action: function () {
+                    return action;
+                }
+            },
+            windowClass: "modal-confirm-center"
+        });
+
+        var keyMessage = '';
+
+        modalInstance.result.then(function () {
+            kpiFactory.updateStatusKPI(newKPI)
+            .success(function (response) {
+                if (response.IsSuccessful) {
+                    keyMessage = action === "activate" ? "ActivationSuccess" : "DeactivationSuccess";
+                    notificationFactory.success(keyMessage);
+                }
+                else {
+                    kpi.IsActive = !newKPI.IsActive;
+                    notificationFactory.error("", response.Message);
+                }
+            })
+            .error(function (response, status) {
+                if (status === 405) {
+                    errorFactory.errorHandle(status);
+                }
+                else {
+                    keyMessage = action === "activate" ? "ActivationFail" : "DeactivationFail";
+                    kpi.IsActive = !newKPI.IsActive;
+                    notificationFactory.error(keyMessage);
+                }
+            });
+        }, function () {
+            kpi.IsActive = !newKPI.IsActive;
+        })['finally'](function () {
+            modalInstance = '';
         });
     };
 

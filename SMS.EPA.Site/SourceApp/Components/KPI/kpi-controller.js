@@ -61,6 +61,11 @@ function (KPIModel, KPIGroupModel, CommonModel, utilitiesFactory) {
         });
     };
 
+    /// Update status KPI.
+    vm.updateStatusKPI = function (kpi) {
+        KPIModel.openPopupUpdateStatusKPI(kpi);
+    };
+
     /// Get index of row in table.
     vm.getIndex = function (index, currentPage, pageSize) {
         return CommonModel.getIndex(index, currentPage, pageSize);

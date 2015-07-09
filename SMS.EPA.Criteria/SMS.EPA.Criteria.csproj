@@ -75,6 +75,7 @@
     <Compile Include="KPI\GetKpiCriteria.cs" />
     <Compile Include="KPI\InsertKPICriteria.cs" />
     <Compile Include="KPI\UpdateKPICriteria.cs" />
+    <Compile Include="KPI\UpdateStatusKPICriteria.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
