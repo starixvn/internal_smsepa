@@ -97,6 +97,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add KPI.
+        /// </summary>
+        public static string AddKPI {
+            get {
+                return ResourceManager.GetString("AddKPI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Admin.
         /// </summary>
         public static string Admin {
@@ -174,6 +183,15 @@ namespace SMS.EPA.Resources {
         public static string CreateKPI {
             get {
                 return ResourceManager.GetString("CreateKPI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create KPI Group.
+        /// </summary>
+        public static string CreateKPIGroup {
+            get {
+                return ResourceManager.GetString("CreateKPIGroup", resourceCulture);
             }
         }
         
@@ -291,6 +309,24 @@ namespace SMS.EPA.Resources {
         public static string Evaluator {
             get {
                 return ResourceManager.GetString("Evaluator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Form.
+        /// </summary>
+        public static string Form {
+            get {
+                return ResourceManager.GetString("Form", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Form field is required!.
+        /// </summary>
+        public static string FormRequire {
+            get {
+                return ResourceManager.GetString("FormRequire", resourceCulture);
             }
         }
         
@@ -430,6 +466,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to KPIs.
+        /// </summary>
+        public static string KPIs {
+            get {
+                return ResourceManager.GetString("KPIs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Logout.
         /// </summary>
         public static string Logout {
@@ -448,11 +493,29 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to KPI Group Management.
+        /// </summary>
+        public static string ManageKPIGroup {
+            get {
+                return ResourceManager.GetString("ManageKPIGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Management.
         /// </summary>
         public static string Management {
             get {
                 return ResourceManager.GetString("Management", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Name field is required!.
+        /// </summary>
+        public static string NameRequire {
+            get {
+                return ResourceManager.GetString("NameRequire", resourceCulture);
             }
         }
         

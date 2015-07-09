@@ -44,6 +44,13 @@ function (KPIModel, KPIGroupModel, CommonModel, utilitiesFactory) {
     vm.getKPIGroupByTargetType = function (targetTypeId) {
         KPIGroupModel.getKPIGroup(targetTypeId).then(function () {
             vm.kpiGroups = KPIGroupModel.kpiGroups;
+
+            if (targetTypeId) {
+                var index = vm.kpiGroups.map(function (e) { return e.KPIGroupId; }).indexOf(targetTypeId);
+                if (index === -1) {
+                    vm.filter.kpiGroupId = '';
+                }
+            }
         });
     };
 
@@ -55,7 +62,7 @@ function (KPIModel, KPIGroupModel, CommonModel, utilitiesFactory) {
     vm.createKPI = function () {
         KPIModel.openPopupCreateKPI(vm).then()['finally'](function () {
             vm.modalInstance = '';
-            getKPI(vm.filter.kpiGroupId, vm.filter.isActive);
+            getKPI(vm.filter.targetTypeId, vm.filter.kpiGroupId, vm.filter.isActive);
         });
     };
 

@@ -73,7 +73,8 @@ namespace SMS.EPA.Site
                             "~/SourceApp/Components/KPI/kpi-model.js",
                             "~/SourceApp/Components/KPI/kpi-controller.js",
                             "~/SourceApp/Components/KPIGroup/kpiGroup-factory.js",
-                            "~/SourceApp/Components/KPIGroup/kpiGroup-model.js"));
+                            "~/SourceApp/Components/KPIGroup/kpiGroup-model.js",
+                            "~/SourceApp/Components/KPIGroup/kpiGroup-controller.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/epa-directives.js",

@@ -37,6 +37,8 @@
     <Function Name="KPIGroup">
         <Setting Key="KPIGroup_Get" SpName="KPIGroup_Get" DbName="SMSEPA" Plain="0" >
         </Setting>
+        <Setting Key="KPIGroup_Insert" SpName="KPIGroup_Insert" DbName="SMSEPA" Plain="0" >
+        </Setting>
     </Function>
     <Function Name="TargetType">
         <Setting Key="TargetType_Get" SpName="TargetType_Get" DbName="SMSEPA" Plain="0" >

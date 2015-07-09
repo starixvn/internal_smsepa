@@ -10,6 +10,7 @@
 namespace SMS.EPA.Services.Interfaces
 {
     using System.Collections.Generic;
+    using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.KPIGroup;
     using SMS.EPA.Model.KPIGroup;
 
@@ -19,5 +20,7 @@ namespace SMS.EPA.Services.Interfaces
     public interface IKPIGroupService
     {
         IEnumerable<KPIGroupModel> GetKPIGroup(GetKPIGroupCriteria criteria);
+
+        CommandResult InsertKPIGroup(InsertKPIGroupCriteria criteria);
     }
 }

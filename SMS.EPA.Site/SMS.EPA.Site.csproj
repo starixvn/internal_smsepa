@@ -274,8 +274,11 @@
     <Content Include="SourceApp\Components\Employee\Templates\create.html" />
     <Content Include="SourceApp\Components\Employee\Templates\edit.html" />
     <Content Include="SourceApp\Components\Employee\Templates\index.html" />
+    <Content Include="SourceApp\Components\KPIGroup\kpiGroup-controller.js" />
     <Content Include="SourceApp\Components\KPIGroup\kpiGroup-factory.js" />
     <Content Include="SourceApp\Components\KPIGroup\kpiGroup-model.js" />
+    <Content Include="SourceApp\Components\KPIGroup\Templates\create.html" />
+    <Content Include="SourceApp\Components\KPIGroup\Templates\index.html" />
     <Content Include="SourceApp\Components\KPI\Templates\edit.html" />
     <Content Include="SourceApp\Components\KPI\Templates\create.html" />
     <Content Include="SourceApp\Components\Resources\resources-controller.js" />
@@ -308,9 +311,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="SourceApp\Components\KPIGroup\Templates\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>

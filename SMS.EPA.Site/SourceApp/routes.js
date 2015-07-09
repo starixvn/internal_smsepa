@@ -15,4 +15,8 @@ var kpiModule = angular.module("kpiModule", ['ngRoute'])
     { templateUrl: '/SourceApp/Components/KPI/Templates/index.html' });
 } ]);
 
-var kpiGroupModule = angular.module("kpiGroupModule", ['ngRoute']);
+var kpiGroupModule = angular.module("kpiGroupModule", ['ngRoute'])
+.config(['$routeProvider', function ($routeProvider) {
+    $routeProvider.when('/KPIGroup/Index',
+    { templateUrl: '/SourceApp/Components/KPIGroup/Templates/index.html' });
+} ]);

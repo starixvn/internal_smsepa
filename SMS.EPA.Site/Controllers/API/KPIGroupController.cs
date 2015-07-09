@@ -11,6 +11,7 @@ namespace SMS.EPA.Site.Controllers.API
 {
     using System.Collections.Generic;
     using System.Web.Http;
+    using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.KPIGroup;
     using SMS.EPA.Model.KPIGroup;
     using SMS.EPA.Services.Implement;
@@ -45,6 +46,19 @@ namespace SMS.EPA.Site.Controllers.API
             };
 
             return _kpiGroupService.GetKPIGroup(criteria);
+        }
+
+        [HttpPost]
+        public CommandResult InsertKPIGroup(InsertKPIGroupCriteria criteria)
+        {
+            if (criteria != null)
+            {
+                criteria.CreatedBy = CurrentUser.EmployeeInfo.EmployeeId;
+            }
+
+            CommandResult commandResult = _kpiGroupService.InsertKPIGroup(criteria);
+
+            return commandResult;
         }
     }
 }

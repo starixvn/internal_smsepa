@@ -11,6 +11,7 @@ namespace SMS.EPA.Services.Implement
 {
     using System.Collections.Generic;
     using Fanex.Common.Helper;
+    using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.KPIGroup;
     using SMS.EPA.Model.KPIGroup;
@@ -46,6 +47,19 @@ namespace SMS.EPA.Services.Implement
             }
 
             return kpiGroups;
+        }
+
+        public CommandResult InsertKPIGroup(InsertKPIGroupCriteria criteria)
+        {
+            CommandResult commandResult = new CommandResult();
+            Check.Argument.IsNotNull(criteria, "criteria");
+
+            if (criteria.IsValid())
+            {
+                commandResult = Repository.Insert(criteria);
+            }
+
+            return commandResult;
         }
     }
 }

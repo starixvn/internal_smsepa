@@ -17,6 +17,7 @@ function ($modal, kpiFactory, utilitiesFactory, notificationFactory, errorFactor
         });
     };
 
+    /// Validate KPI.
     kpiModel.validateKPI = function (kpi, currentChoseKPIGroups) {
         if (!kpi) {
             return false;
