@@ -1,7 +1,9 @@
 ﻿<div id="confirmPopup">
     <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="modalConfirmCtrl.cancel()"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" data-translate="Confirm"></h4>
+        <div class="popup-header">
+            {{"Confirm" | translate}}
+            <span class="close-popup" ng-click="modalConfirmCtrl.cancel()"></span>
+        </div>
     </div>
     <div class="modal-body">
         Are you sure you want to {{modalConfirmCtrl.action}} <b>{{modalConfirmCtrl.name}}</b>?

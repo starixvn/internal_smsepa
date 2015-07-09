@@ -261,9 +261,6 @@
   <data name="EditKPI" xml:space="preserve">
     <value>Edit KPI</value>
   </data>
-  <data name="DataChangeSuccessfully" xml:space="preserve">
-    <value>Updated successfully!</value>
-  </data>
   <data name="CreateSuccessfully" xml:space="preserve">
     <value>Created Successfully!</value>
   </data>
@@ -300,7 +297,6 @@
   <data name="ChangePassword" xml:space="preserve">
     <value>Change Password</value>
   </data>
-
   <data name="IsSpecialUser" xml:space="preserve">
     <value>Is Special User</value>
   </data>
@@ -331,7 +327,7 @@
   <data name="WrongConfirmPassword" xml:space="preserve">
     <value>New password does not match the confirm password.</value>
   </data>
-   <data name="ActivationFail" xml:space="preserve">
+  <data name="ActivationFail" xml:space="preserve">
     <value>Activated unsuccessfully!</value>
   </data>
   <data name="ActivationSuccess" xml:space="preserve">

@@ -2,8 +2,8 @@
 /*global kpiModule*/
 
 kpiModule.factory('KPIModel',
-['$modal', 'kpiFactory', 'notificationFactory', 'errorFactory',
-function ($modal, kpiFactory, notificationFactory, errorFactory) {
+['$modal', 'kpiFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory',
+function ($modal, kpiFactory, utilitiesFactory, notificationFactory, errorFactory) {
     var kpiModel = {};
 
     kpiModel.kpis = {};
@@ -97,7 +97,7 @@ function ($modal, kpiFactory, notificationFactory, errorFactory) {
         return kpiFactory.updateKPI(kpi)
         .success(function (response) {
             if (response.IsSuccessful) {
-                notificationFactory.success("DataChangeSuccessfully");
+                notificationFactory.success("UpdateSuccessfully");
                 modalInstance.close(kpi);
             }
             else {
@@ -160,6 +160,43 @@ function ($modal, kpiFactory, notificationFactory, errorFactory) {
             });
         }, function () {
             kpi.IsActive = !newKPI.IsActive;
+        })['finally'](function () {
+            modalInstance = '';
+        });
+    };
+
+    /// Delete KPI.
+    kpiModel.openPopupDeleteKPI = function (vm, kpi) {
+        var modalInstance = $modal.open({
+            templateUrl: 'SourceApp/Shared/Templates/ModalConfirmContent.html',
+            controller: "ModalConfirmController as modalConfirmCtrl",
+            backdrop: 'static',
+            resolve: {
+                name: function () {
+                    return kpi.Name;
+                },
+                action: function () {
+                    return 'delete';
+                }
+            },
+            windowClass: "modal-confirm-center"
+        });
+
+        modalInstance.result.then(function () {
+            kpiFactory.deleteKPI(kpi.KPIId).success(function (response) {
+                if (response.IsSuccessful) {
+                    var index = vm.kpis.indexOf(kpi);
+                    vm.kpis.splice(index, 1);
+                    utilitiesFactory.searchOnPage(vm, vm.kpis);
+
+                    notificationFactory.success("DeletedSuccessfully");
+                }
+                else {
+                    notificationFactory.error("", response.Message);
+                }
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
         })['finally'](function () {
             modalInstance = '';
         });

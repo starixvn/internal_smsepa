@@ -53,7 +53,7 @@ namespace SMS.EPA.Site.Controllers.API
         {
             if (criteria != null)
             {
-                // criteria.CreatedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.CreatedBy = CurrentUser.EmployeeInfo.EmployeeId;
             }
 
             CommandResult commandResult = _kpiService.InsertKPI(criteria);
@@ -66,7 +66,7 @@ namespace SMS.EPA.Site.Controllers.API
         {
             if (criteria != null)
             {
-                // criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
             }
 
             CommandResult commandResult = _kpiService.UpdateKPI(criteria);
@@ -79,10 +79,24 @@ namespace SMS.EPA.Site.Controllers.API
         {
             if (criteria != null)
             {
-                // criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
             }
 
             CommandResult commandResult = _kpiService.UpdateStatusKPI(criteria);
+
+            return commandResult;
+        }
+
+        [HttpDelete]
+        public CommandResult DeleteKPI(int kpiId)
+        {
+            var criteria = new DeleteKPICriteria
+            {
+                KPIId = kpiId,
+                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+            };
+
+            CommandResult commandResult = _kpiService.DeleteKPI(criteria);
 
             return commandResult;
         }

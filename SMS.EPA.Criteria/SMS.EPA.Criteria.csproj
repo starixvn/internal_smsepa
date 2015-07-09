@@ -72,6 +72,7 @@
     <Compile Include="Employee\InsertSpecialEmployeeCriteria.cs" />
     <Compile Include="Employee\UpdateSpecialEmployeeCriteria.cs" />
     <Compile Include="KPIGroup\GetKPIGroupCriteria.cs" />
+    <Compile Include="KPI\DeleteKPICriteria.cs" />
     <Compile Include="KPI\GetKpiCriteria.cs" />
     <Compile Include="KPI\InsertKPICriteria.cs" />
     <Compile Include="KPI\UpdateKPICriteria.cs" />

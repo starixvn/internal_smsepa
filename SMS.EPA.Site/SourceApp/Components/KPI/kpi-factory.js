@@ -14,6 +14,9 @@ kpiModule.factory('kpiFactory', ['$http', function ($http) {
         },
         updateStatusKPI: function (kpi) {
             return $http.put('/api/KPI/UpdateStatusKPI', kpi);
+        },
+        deleteKPI: function (kpiId) {
+            return $http['delete']('/api/KPI/DeleteKPI', { params: { kpiId: kpiId} });
         }
     };
 } ]);

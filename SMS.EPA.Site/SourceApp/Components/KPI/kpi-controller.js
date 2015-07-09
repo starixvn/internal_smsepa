@@ -66,6 +66,10 @@ function (KPIModel, KPIGroupModel, CommonModel, utilitiesFactory) {
         KPIModel.openPopupUpdateStatusKPI(kpi);
     };
 
+    vm.deleteKPI = function (kpi) {
+        KPIModel.openPopupDeleteKPI(vm, kpi);
+    };
+
     /// Get index of row in table.
     vm.getIndex = function (index, currentPage, pageSize) {
         return CommonModel.getIndex(index, currentPage, pageSize);

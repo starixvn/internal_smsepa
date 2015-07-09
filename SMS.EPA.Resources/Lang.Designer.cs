@@ -133,15 +133,6 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Created successfully!.
-        /// </summary>
-        public static string CreatedSuccessfully {
-            get {
-                return ResourceManager.GetString("CreatedSuccessfully", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The Code field is required!.
         /// </summary>
         public static string CodeRequried {
@@ -169,6 +160,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Created successfully!.
+        /// </summary>
+        public static string CreatedSuccessfully {
+            get {
+                return ResourceManager.GetString("CreatedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create KPI.
         /// </summary>
         public static string CreateKPI {
@@ -178,20 +178,29 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Created Successfully!.
+        /// </summary>
+        public static string CreateSuccessfully {
+            get {
+                return ResourceManager.GetString("CreateSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Created Unsuccessfully!.
+        /// </summary>
+        public static string CreateUnsuccessfully {
+            get {
+                return ResourceManager.GetString("CreateUnsuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create New User.
         /// </summary>
         public static string CreateUser {
             get {
                 return ResourceManager.GetString("CreateUser", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Updated successfully!.
-        /// </summary>
-        public static string DataChangeSuccessfully {
-            get {
-                return ResourceManager.GetString("DataChangeSuccessfully", resourceCulture);
             }
         }
         
@@ -223,24 +232,6 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Created Successfully!.
-        /// </summary>
-        public static string CreateSuccessfully {
-            get {
-                return ResourceManager.GetString("CreateSuccessfully", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Created Unsuccessfully!.
-        /// </summary>
-        public static string CreateUnsuccessfully {
-            get {
-                return ResourceManager.GetString("CreateUnsuccessfully", resourceCulture);
-            }
-        }
-
-        /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
         public static string Description {
@@ -266,7 +257,7 @@ namespace SMS.EPA.Resources {
                 return ResourceManager.GetString("EditUser", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to No information available!.
         /// </summary>

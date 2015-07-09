@@ -8,7 +8,7 @@
         <form novalidate class="row filter form-inline" role="form">
             <div class="form-group">
                 <label data-translate="Group"></label>
-                <select class="form-control lstBox-limit" ng-model="filter.kpiGroupId" 
+                <select class="form-control lstBox-limit" ng-model="kpiCtrl.filter.kpiGroupId" 
                     ng-options="opt.KPIGroupId as opt.Name for opt in kpiCtrl.kpiGroups">
                     <option value="">-- {{"All" | translate}} --</option>
                 </select>
