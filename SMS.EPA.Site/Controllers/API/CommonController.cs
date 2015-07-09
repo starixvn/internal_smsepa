@@ -11,6 +11,8 @@ namespace SMS.EPA.Site.Controllers.API
 {
     using System.Collections.Generic;
     using System.Web.Http;
+    using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Core.Utilities;
     using SMS.EPA.Model.TargetType;
 
     /// <summary>
@@ -35,12 +37,7 @@ namespace SMS.EPA.Site.Controllers.API
         {
             return _utilitiesController.GetTargetType(isActive);
         }
-        
-  /// <summary>
-    /// The common controller.
-    /// </summary>
-    public class CommonController : BaseController
-    {
+
         /// <summary>
         /// Get all system role.
         /// </summary>
@@ -70,8 +67,5 @@ namespace SMS.EPA.Site.Controllers.API
 
             return roles;
         }
-
-   	
-
     }
 }

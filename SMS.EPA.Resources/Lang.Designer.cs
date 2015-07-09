@@ -212,25 +212,7 @@ namespace SMS.EPA.Resources {
                 return ResourceManager.GetString("CreateKPIGroup", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Created Successfully!.
-        /// </summary>
-        public static string CreateSuccessfully {
-            get {
-                return ResourceManager.GetString("CreateSuccessfully", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Created Unsuccessfully!.
-        /// </summary>
-        public static string CreateUnsuccessfully {
-            get {
-                return ResourceManager.GetString("CreateUnsuccessfully", resourceCulture);
-            }
-        }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Create New User.
         /// </summary>
@@ -252,11 +234,11 @@ namespace SMS.EPA.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Deactivated successfully!.
         public static string DeactivationSuccess {
+            get {
                 return ResourceManager.GetString("DeactivationSuccess", resourceCulture);
-        ///   Looks up a localized string similar to Deleted successfully!.
-        public static string DeletedSuccessfully {
-                return ResourceManager.GetString("DeletedSuccessfully", resourceCulture);
-        
+            }
+        }
+
         ///   Looks up a localized string similar to Description.
         /// </summary>
         public static string Description {
