@@ -212,15 +212,7 @@ namespace SMS.EPA.Resources {
                 return ResourceManager.GetString("CreateKPIGroup", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Created Successfully!.
-        /// </summary>
-            get {
-                return ResourceManager.GetString("CreateKPIGroup", resourceCulture);
-            }
-        }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Created Successfully!.
         /// </summary>
