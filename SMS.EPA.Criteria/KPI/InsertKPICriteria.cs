@@ -13,9 +13,6 @@ namespace SMS.EPA.Criteria.KPI
     using Fanex.Data.Repository;
     using SMS.EPA.Core.Attribute;
 
-    /// <summary>
-    /// Insert KPI criteria.
-    /// </summary>
     public class InsertKPICriteria : CriteriaBase
     {
         [Output]

@@ -9,9 +9,6 @@
 
 namespace SMS.EPA.Model.TargetType
 {
-    /// <summary>
-    /// Target Type model.
-    /// </summary>
     public class TargetTypeModel
     {
         public int TargetTypeId { get; set; }

@@ -1,6 +1,4 @@
 .kpi-modal-body {
-    overflow-y: auto;
-
     .chosen-container {
         .chosen-choices {
             border-radius: 3px;
@@ -23,13 +21,6 @@
         }
     }
 
-    .description {
-        textarea.form-control {
-            resize: none;
-            min-height: 110px;
-        }
-    }
-
     .checkbox {
         padding-left: 0;
         padding-right: 0;
@@ -41,6 +32,13 @@
     top: 7px;
 }
 
-.kpiGroup-modal-body {
+.kpi-modal-body, .kpiGroup-modal-body {
     overflow-y: auto;
+
+    .description {
+        textarea.form-control {
+            resize: none;
+            min-height: 110px;
+        }
+    }
 }

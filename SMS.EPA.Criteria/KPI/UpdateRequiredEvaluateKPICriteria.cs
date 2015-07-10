@@ -11,9 +11,6 @@ namespace SMS.EPA.Criteria.KPI
 {
     using Fanex.Data.Repository;
 
-    /// <summary>
-    /// Update required evaluate criteria.
-    /// </summary>
     public class UpdateRequiredEvaluateKPICriteria : CriteriaBase
     {
         public int KPIId { get; set; }

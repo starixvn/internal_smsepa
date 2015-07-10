@@ -77,7 +77,7 @@ function ($modal, kpiFactory, utilitiesFactory, notificationFactory, errorFactor
         });
     };
 
-    /// Update KPI
+    /// Update KPI.
     kpiModel.openPopupUpdateKPI = function (vm, kpi) {
         vm.modalInstance = $modal.open({
             templateUrl: 'SourceApp/Components/KPI/Templates/edit.html',

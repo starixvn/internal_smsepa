@@ -19,9 +19,6 @@ namespace SMS.EPA.Services.Implement
     using SMS.EPA.Repositories.Interfaces;
     using SMS.EPA.Services.Interfaces;
 
-    /// <summary>
-    /// The implement of KPI Group Service.
-    /// </summary>
     public class KPIGroupService : BaseService, IKPIGroupService
     {
         private readonly IKPIGroupRepository _kpiGroupRepository;
@@ -57,6 +54,45 @@ namespace SMS.EPA.Services.Implement
             if (criteria.IsValid())
             {
                 commandResult = Repository.Insert(criteria);
+            }
+
+            return commandResult;
+        }
+
+        public CommandResult UpdateKPIGroup(UpdateKPIGroupCriteria criteria)
+        {
+            CommandResult commandResult = new CommandResult();
+            Check.Argument.IsNotNull(criteria, "criteria");
+
+            if (criteria.IsValid())
+            {
+                commandResult = Repository.Update(criteria);
+            }
+
+            return commandResult;
+        }
+
+        public CommandResult UpdateStatusKPIGroup(UpdateStatusKPIGroupCriteria criteria)
+        {
+            CommandResult commandResult = new CommandResult();
+            Check.Argument.IsNotNull(criteria, "criteria");
+
+            if (criteria.IsValid())
+            {
+                commandResult = Repository.Update(criteria);
+            }
+
+            return commandResult;
+        }
+
+        public CommandResult DeleteKPIGroup(DeleteKPIGroupCriteria criteria)
+        {
+            CommandResult commandResult = new CommandResult();
+            Check.Argument.IsNotNull(criteria, "criteria");
+
+            if (criteria.IsValid())
+            {
+                commandResult = Repository.Delete(criteria);
             }
 
             return commandResult;

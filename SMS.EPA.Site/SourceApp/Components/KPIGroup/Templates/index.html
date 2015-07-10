@@ -62,9 +62,9 @@
                     </td>
                     <td ng-bind="kpiGroup.Description"></td>
                     <td class="text-center">
-                        <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="kpiGroupCtrl.updateKPI(kpiGroup)" ng-attr-title='{{"Edit" | translate}}'></a>
-                        <a class="glyphicon glyphicon-remove icon-remove" href="" ng-click="kpiGroupCtrl.deleteKPI(kpiGroup)" ng-attr-title='{{"Delete" | translate}}'></a>
-                        <a class="glyphicon glyphicon-plus icon-add" href="" ng-click="addKPI(group.targetTypeId, group.kpiGroupID)" ng-attr-title='{{"AddKPI" | translate}}'></a>
+                        <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="kpiGroupCtrl.updateKPIGroup(kpiGroup)" ng-attr-title='{{"Edit" | translate}}'></a>
+                        <a class="glyphicon glyphicon-remove icon-remove" href="" ng-click="kpiGroupCtrl.deleteKPIGroup(kpiGroup)" ng-attr-title='{{"Delete" | translate}}'></a>
+                        <a class="glyphicon glyphicon-plus icon-add" href="" ng-click="kpiGroupCtrl.addKPIGroup(kpiGroup.TargetTypeId, kpiGroup.KPIGroupId)" ng-attr-title='{{"AddKPI" | translate}}'></a>
                     </td>
                 </tr>
                 <tr ng-show="kpiGroupCtrl.filteredItems.length == 0">

@@ -16,9 +16,6 @@ namespace SMS.EPA.Services.Implement
     using SMS.EPA.Model.TargetType;
     using SMS.EPA.Services.Interfaces;
 
-    /// <summary>
-    /// The implement of Target Type Service.
-    /// </summary>
     public class TargetTypeService : BaseService, ITargetTypeService
     {
         public IEnumerable<TargetTypeModel> GetTargetType(GetTargetTypeCriteria criteria)

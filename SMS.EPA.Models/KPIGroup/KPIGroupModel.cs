@@ -12,9 +12,6 @@ namespace SMS.EPA.Model.KPIGroup
     using System;
     using SMS.EPA.Model.TargetType;
 
-    /// <summary>
-    /// KPI Group model.
-    /// </summary>
     public class KPIGroupModel
     {
         public int KPIGroupId { get; set; }

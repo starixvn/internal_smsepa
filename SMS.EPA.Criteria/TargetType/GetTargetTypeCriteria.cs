@@ -11,9 +11,6 @@ namespace SMS.EPA.Criteria.TargetType
 {
     using Fanex.Data.Repository;
 
-    /// <summary>
-    /// Get target type criteria.
-    /// </summary>
     public class GetTargetTypeCriteria : CriteriaBase
     {
         public bool? IsActive { get; set; }

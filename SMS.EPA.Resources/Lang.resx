@@ -375,4 +375,7 @@
   <data name="Save" xml:space="preserve">
     <value>Save</value>
  </data>
+  <data name="EditKPIGroup" xml:space="preserve">
+    <value>Edit KPI Group</value>
+  </data>
 </root>

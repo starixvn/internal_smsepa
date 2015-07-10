@@ -19,9 +19,6 @@ namespace SMS.EPA.Services.Implement
     using SMS.EPA.Repositories.Interfaces;
     using SMS.EPA.Services.Interfaces;
 
-    /// <summary>
-    /// The implement of KPI Service.
-    /// </summary>
     public class KPIService : BaseService, IKPIService
     {
         private readonly IKPIRepository _kpiRepository;

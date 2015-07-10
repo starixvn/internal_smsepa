@@ -17,9 +17,6 @@ namespace SMS.EPA.Repositories.Implement
     using SMS.EPA.Model.TargetType;
     using SMS.EPA.Repositories.Interfaces;
 
-    /// <summary>
-    /// The implement of KPI Repository.
-    /// </summary>
     public class KPIRepository : IKPIRepository
     {
         public IEnumerable<KPIModel> GetKPI(ICriteria criteria)

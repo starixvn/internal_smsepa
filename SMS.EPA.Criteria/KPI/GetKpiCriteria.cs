@@ -11,9 +11,6 @@ namespace SMS.EPA.Criteria.KPI
 {
     using Fanex.Data.Repository;
 
-    /// <summary>
-    /// Get KPI criteria.
-    /// </summary>
     public class GetKPICriteria : CriteriaBase
     {
         public int? TargetTypeId { get; set; }

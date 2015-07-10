@@ -13,9 +13,6 @@ namespace SMS.EPA.Repositories.Interfaces
     using Fanex.Data.Repository;
     using SMS.EPA.Model.KPI;
 
-    /// <summary>
-    /// The interface of KPI Repository.
-    /// </summary>
     public interface IKPIRepository
     {
         IEnumerable<KPIModel> GetKPI(ICriteria criteria);

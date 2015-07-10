@@ -14,13 +14,16 @@ namespace SMS.EPA.Services.Interfaces
     using SMS.EPA.Criteria.KPIGroup;
     using SMS.EPA.Model.KPIGroup;
 
-    /// <summary>
-    /// The interface of KPI Group Service.
-    /// </summary>
     public interface IKPIGroupService
     {
         IEnumerable<KPIGroupModel> GetKPIGroup(GetKPIGroupCriteria criteria);
 
         CommandResult InsertKPIGroup(InsertKPIGroupCriteria criteria);
+
+        CommandResult UpdateKPIGroup(UpdateKPIGroupCriteria criteria);
+
+        CommandResult UpdateStatusKPIGroup(UpdateStatusKPIGroupCriteria criteria);
+
+        CommandResult DeleteKPIGroup(DeleteKPIGroupCriteria criteria);
     }
 }

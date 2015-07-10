@@ -12,9 +12,6 @@ namespace SMS.EPA.Criteria.KPIGroup
     using Fanex.Data.Repository;
     using SMS.EPA.Core.Attribute;
 
-    /// <summary>
-    /// Insert KPI Group criteria.
-    /// </summary>
     public class InsertKPIGroupCriteria : CriteriaBase
     {
         [Output]

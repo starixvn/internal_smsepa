@@ -13,9 +13,6 @@ namespace SMS.EPA.Services.Interfaces
     using SMS.EPA.Criteria.TargetType;
     using SMS.EPA.Model.TargetType;
 
-    /// <summary>
-    /// The interface of Target Type Service.
-    /// </summary>
     public interface ITargetTypeService
     {
         IEnumerable<TargetTypeModel> GetTargetType(GetTargetTypeCriteria criteria);

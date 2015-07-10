@@ -16,9 +16,6 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
 
-    /// <summary>
-    /// The utilities controller.
-    /// </summary>
     public class UtilitiesController
     {
         private readonly ITargetTypeService _targetTypeService;

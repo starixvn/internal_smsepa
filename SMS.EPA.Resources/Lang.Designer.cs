@@ -257,6 +257,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit KPI Group.
+        /// </summary>
+        public static string EditKPIGroup {
+            get {
+                return ResourceManager.GetString("EditKPIGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit User.
         /// </summary>
         public static string EditUser {

@@ -1,7 +1,7 @@
 ﻿'use strict';
-/*global kpiModule*/
+/*global kpiGroupModule*/
 
-kpiModule.controller('KPIGroupController',
+kpiGroupModule.controller('KPIGroupController',
 ['KPIGroupModel', 'CommonModel', 'utilitiesFactory',
 function (KPIGroupModel, CommonModel, utilitiesFactory) {
     var vm = this;
@@ -47,13 +47,35 @@ function (KPIGroupModel, CommonModel, utilitiesFactory) {
         });
     };
 
+    /// Update KPI Group.
+    vm.updateKPIGroup = function (kpiGroup) {
+        KPIGroupModel.openPopupUpdateKPIGroup(vm, kpiGroup).then(function (updatedKPIGroup) {
+            kpiGroup.Name = updatedKPIGroup.Name;
+            kpiGroup.TargetType = updatedKPIGroup.TargetType;
+            kpiGroup.IsActive = updatedKPIGroup.IsActive;
+            kpiGroup.Description = updatedKPIGroup.Description;
+        })['finally'](function () {
+            vm.modalInstance = '';
+        });
+    };
+
+    /// Update status KPI Group.
+    vm.updateStatusKPIGroup = function (kpiGroup) {
+        KPIGroupModel.openPopupUpdateStatusKPIGroup(kpiGroup);
+    };
+
+    /// Delete KPI Group.
+    vm.deleteKPIGroup = function (kpiGroup) {
+        KPIGroupModel.openPopupDeleteKPIGroup(vm, kpiGroup);
+    };
+
     /// Get index of row in table.
     vm.getIndex = function (index, currentPage, pageSize) {
         return CommonModel.getIndex(index, currentPage, pageSize);
     };
 } ]);
 
-kpiModule.controller('CreateKPIGroupController',
+kpiGroupModule.controller('CreateKPIGroupController',
 ['$modalInstance', 'KPIGroupModel', 'CommonModel',
 function ($modalInstance, KPIGroupModel, CommonModel) {
     var vm = this;
@@ -78,6 +100,51 @@ function ($modalInstance, KPIGroupModel, CommonModel) {
     vm.save = function () {
         if (KPIGroupModel.validateKPIGroup(vm.kpiGroup)) {
             KPIGroupModel.insertKPIGroup(vm.kpiGroup, $modalInstance);
+        }
+    };
+
+    vm.cancel = function () {
+        $modalInstance.dismiss("cancel");
+    };
+} ]);
+
+kpiGroupModule.controller('UpdateKPIGroupController',
+['$modalInstance', 'KPIGroupModel', 'CommonModel', 'kpiGroup',
+function ($modalInstance, KPIGroupModel, CommonModel, kpiGroup) {
+    var vm = this;
+
+    vm.targetTypes = CommonModel.targetTypes;
+
+    vm.kpiGroup = {
+        KPIGroupId: kpiGroup.KPIGroupId,
+        Name: kpiGroup.Name,
+        TargetTypeId: kpiGroup.TargetType.TargetTypeId,
+        IsActive: kpiGroup.IsActive,
+        Description: kpiGroup.Description,
+        TargetType: {}
+    };
+
+    vm.initialize = function () {
+        CommonModel.getTargetType(true).then(function () {
+            vm.targetTypes = CommonModel.targetTypes;
+
+            var index = vm.targetTypes.map(function (e) { return e.TargetTypeId; }).indexOf(kpiGroup.TargetType.TargetTypeId);
+            if (index === -1) {
+                vm.targetTypes.push(kpiGroup.TargetType);
+            }
+        });
+    };
+
+    vm.initialize();
+
+    vm.save = function () {
+        if (KPIGroupModel.validateKPIGroup(vm.kpiGroup)) {
+            var index = vm.targetTypes.map(function (e) { return e.TargetTypeId; }).indexOf(vm.kpiGroup.TargetTypeId);
+            if (index !== -1) {
+                vm.kpiGroup.TargetType = vm.targetTypes[index];
+            }
+             
+            KPIGroupModel.updateKPIGroup(vm.kpiGroup, $modalInstance);
         }
     };
 

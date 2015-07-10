@@ -14,9 +14,6 @@ namespace SMS.EPA.Services.Interfaces
     using SMS.EPA.Criteria.KPI;
     using SMS.EPA.Model.KPI;
 
-    /// <summary>
-    /// The interface of KPI Service.
-    /// </summary>
     public interface IKPIService
     {
         IEnumerable<KPIModel> GetKPI(GetKPICriteria criteria);

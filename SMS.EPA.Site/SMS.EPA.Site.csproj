@@ -280,6 +280,7 @@
     <Content Include="SourceApp\Components\KPIGroup\kpiGroup-controller.js" />
     <Content Include="SourceApp\Components\KPIGroup\kpiGroup-factory.js" />
     <Content Include="SourceApp\Components\KPIGroup\kpiGroup-model.js" />
+    <Content Include="SourceApp\Components\KPIGroup\Templates\edit.html" />
     <Content Include="SourceApp\Components\KPIGroup\Templates\create.html" />
     <Content Include="SourceApp\Components\KPIGroup\Templates\index.html" />
     <Content Include="SourceApp\Components\KPI\Templates\edit.html" />

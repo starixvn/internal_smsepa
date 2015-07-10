@@ -11,9 +11,6 @@ namespace SMS.EPA.Criteria.KPI
 {
     using Fanex.Data.Repository;
 
-    /// <summary>
-    /// Delete KPI criteria.
-    /// </summary>
     public class DeleteKPICriteria : CriteriaBase
     {
         public int KPIId { get; set; }

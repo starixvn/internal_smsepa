@@ -16,9 +16,6 @@ namespace SMS.EPA.Repositories.Implement
     using SMS.EPA.Model.TargetType;
     using SMS.EPA.Repositories.Interfaces;
 
-    /// <summary>
-    /// The implement of KPI Group Repository.
-    /// </summary>
     public class KPIGroupRepository : IKPIGroupRepository
     {
         public IEnumerable<KPIGroupModel> GetKPIGroup(ICriteria criteria)

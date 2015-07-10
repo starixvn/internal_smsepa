@@ -15,9 +15,6 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Core.Utilities;
     using SMS.EPA.Model.TargetType;
 
-    /// <summary>
-    /// The Common controller.
-    /// </summary>
     public class CommonController : BaseController
     {
         private readonly UtilitiesController _utilitiesController;

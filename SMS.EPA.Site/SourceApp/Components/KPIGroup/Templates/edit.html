@@ -1,0 +1,41 @@
+﻿<div class="modal-header">
+    <div class="popup-header">
+        {{"EditKPIGroup" | translate}}
+        <span class="close-popup" ng-click="updateKPIGroupCtrl.cancel()"></span>
+    </div>
+</div>
+<div class="modal-body kpiGroup-modal-body">
+    <form class="form-horizontal col-sm-11" role="form">
+        <div class="form-group required">
+            <label class="col-sm-4 control-label" data-translate="Form"></label>
+            <div class="col-sm-6 field active-label">
+                <select class="form-control" ng-model="updateKPIGroupCtrl.kpiGroup.TargetTypeId"
+                    ng-options="opt.TargetTypeId as opt.Name for opt in updateKPIGroupCtrl.targetTypes">
+                    <option value="">-- {{"All" | translate}} --</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group required">
+            <label class="col-sm-4 control-label" data-translate="Name"></label>
+            <div class="col-sm-8 field">
+                <input type="text" class="form-control" ng-model="updateKPIGroupCtrl.kpiGroup.Name" required maxlength="500" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label" data-translate="Active"></label>
+            <div class="col-sm-8 field active-label">
+                <input type="checkbox" ng-model="updateKPIGroupCtrl.kpiGroup.IsActive" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label" data-translate="Description"></label>
+            <div class="col-sm-8 field description">
+                <textarea type="text" class="form-control" maxlength="2000" ng-model="updateKPIGroupCtrl.kpiGroup.Description"></textarea>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="button" ng-click="updateKPIGroupCtrl.save()" data-translate="Submit"></button>
+    <button class="btn btn-default customize" ng-click="updateKPIGroupCtrl.cancel()" data-translate="Cancel"></button>
+</div>

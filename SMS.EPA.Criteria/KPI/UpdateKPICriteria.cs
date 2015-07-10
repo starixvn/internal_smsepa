@@ -15,9 +15,6 @@ namespace SMS.EPA.Criteria.KPI
     using System.Text;
     using Fanex.Data.Repository;
 
-    /// <summary>
-    /// Update KPI criteria.
-    /// </summary>
     public class UpdateKPICriteria : CriteriaBase
     {
         public int KPIId { get; set; }

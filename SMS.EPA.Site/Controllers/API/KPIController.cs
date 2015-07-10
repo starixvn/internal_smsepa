@@ -17,9 +17,6 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
 
-    /// <summary>
-    /// The KPI Controller.
-    /// </summary>
     public class KPIController : BaseController
     {
         private readonly IKPIService _kpiService;

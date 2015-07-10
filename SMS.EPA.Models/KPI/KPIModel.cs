@@ -14,9 +14,6 @@ namespace SMS.EPA.Model.KPI
     using SMS.EPA.Model.KPIGroup;
     using SMS.EPA.Model.TargetType;
 
-    /// <summary>
-    /// KPI model.
-    /// </summary>
     public class KPIModel
     {
         public KPIModel()

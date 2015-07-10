@@ -11,9 +11,6 @@ namespace SMS.EPA.Model.KPI
 {
     using SMS.EPA.Model.KPIGroup;
 
-    /// <summary>
-    /// Raw KPI Model.
-    /// </summary>
     public class RawKPIModel
     {
         public int KPIId { get; set; }

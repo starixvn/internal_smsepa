@@ -17,9 +17,6 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
 
-    /// <summary>
-    /// The KPI Group Controller.
-    /// </summary>
     public class KPIGroupController : BaseController
     {
         private readonly IKPIGroupService _kpiGroupService;
@@ -57,6 +54,46 @@ namespace SMS.EPA.Site.Controllers.API
             }
 
             CommandResult commandResult = _kpiGroupService.InsertKPIGroup(criteria);
+
+            return commandResult;
+        }
+
+        [HttpPut]
+        public CommandResult UpdateKPIGroup(UpdateKPIGroupCriteria criteria)
+        {
+            if (criteria != null)
+            {
+                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+            }
+
+            CommandResult commandResult = _kpiGroupService.UpdateKPIGroup(criteria);
+
+            return commandResult;
+        }
+
+        [HttpPut]
+        public CommandResult UpdateStatusKPIGroup(UpdateStatusKPIGroupCriteria criteria)
+        {
+            if (criteria != null)
+            {
+                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+            }
+
+            CommandResult commandResult = _kpiGroupService.UpdateStatusKPIGroup(criteria);
+
+            return commandResult;
+        }
+
+        [HttpDelete]
+        public CommandResult DeleteKPIGroup(int kpiGroupId)
+        {
+            var criteria = new DeleteKPIGroupCriteria
+            {
+                KPIGroupId = kpiGroupId,
+                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+            };
+
+            CommandResult commandResult = _kpiGroupService.DeleteKPIGroup(criteria);
 
             return commandResult;
         }
