@@ -1,0 +1,18 @@
+﻿<div class="col-sm-12" ng-controller="UpdateTargetTemplateController as updateCtrl">
+    <div class="sub-header">
+        <ul class="row breadcrumb">
+            <li class="current" data-translate="EditTargetTemplate"></li>
+        </ul>
+    </div>
+    <div class="target-tabset">
+        <tabset id="TargetTemplateTab">
+            <tab heading="GENERAL INFORMATION" class="tab-cursor" active="dataTab.information" select="tabInfoSelect()">
+                 <div ng-include src="'/SourceApp/Components/TargetTemplate/Templates/generalInformation.html'"></div>
+            </tab>
+            <tab heading="TARGET KPI LIST" class="tab-cursor" active="dataTab.kpi" select="tabKPISelect()">
+                 <div ng-include src="'/SourceApp/Components/TargetTemplate/Templates/KPIList.html'"></div>
+            </tab>
+        </tabset>
+    </div>
+
+</div>

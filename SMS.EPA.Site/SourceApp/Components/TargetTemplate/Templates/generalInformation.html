@@ -1,0 +1,42 @@
+﻿<div ng-controller="GeneralInformationController as generalInfoCtrl">
+    <form class="col-sm-8 form-horizontal common-form info-form" novalidate>
+        <div class="form-group required">
+            <label class="col-sm-2 control-label" data-translate="Name">
+            </label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" ng-model="updateCtrl.targetTemplate.Name" required maxlength="200" />
+            </div>
+        </div>
+        <div class="form-group top-buffer required">
+            <label class="col-sm-2 control-label" data-translate="TargetType">
+            </label>
+            <div class="col-sm-8">
+                <select class="form-control" ng-options="targetType.TargetTypeId as targetType.Name for targetType in generalInfoCtrl.targetTypes"
+                    ng-model="updateCtrl.targetTemplate.TargetTypeId" required name="targetType">
+                    <option style="display: none" value="">-- {{"Select" | translate}} --</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group top-buffer">
+            <label class="col-sm-2 control-label" data-translate="Active">
+            </label>
+            <div class="col-sm-8 field active-div">
+                <input ng-model="updateCtrl.targetTemplate.IsActive" type="checkbox">
+            </div>
+        </div>
+        <div class="form-group top-buffer">
+            <label class="col-sm-2 control-label" data-translate="Description">
+            </label>
+            <div class="col-sm-8">
+                <textarea class="form-control custom-texarea" ng-model="updateCtrl.targetTemplate.Description"
+                    id="description" maxlength="500"></textarea>
+            </div>
+        </div>
+        <div class="col-sm-offset-5 top-buffer">
+            <button class="button" ng-click="updateCtrl.save(updateCtrl.targetTemplate)" data-translate="Submit">
+            </button>
+            <button class="btn btn-default customize" ng-click="updateCtrl.cancel()" data-translate="Cancel">
+            </button>
+        </div>
+    </form>
+</div>

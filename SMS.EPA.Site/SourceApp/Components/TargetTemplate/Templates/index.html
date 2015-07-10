@@ -1,0 +1,68 @@
+﻿<div ng-controller="TargetTemplateController as targetTemplateCtrl">
+    <div class="col-sm-12 sub-header">
+        <ul class="row breadcrumb">
+            <li class="current" data-translate="TargetTemplateManagement"></li>
+        </ul>
+    </div>
+    <div class="col-sm-12">
+        <table class="row table table-bordered table-striped">
+            <thead>
+                <tr class="header-table">
+                    <th colspan="7">
+                        <a class="pull-left button-icon create-button" href="" ng-href="{{targetTemplateCtrl.createTargetTemplateUrl}}" ng-click="targetTemplateCtrl.create()" >
+                            <span class="icon plus"></span>
+                            <span class="button-text" data-translate="CreateTargetTemplate"></span>
+                        </a>
+                        <input type="text" ng-model="targetTemplateCtrl.searchKey" ng-change="targetTemplateCtrl.search()" class="search-inline-textbox search pull-right">
+                    </th>
+                </tr>
+                <tr class="headerName">
+                    <th data-translate="SymbolCount">
+                    </th>
+                    <th data-translate="Name">
+                    </th>
+                    <th data-translate="TargetType">
+                    </th>
+                    <th data-translate="Description">
+                    </th>
+                    <th data-translate="KPIs">
+                    </th>
+                    <th data-translate="Active">
+                    </th>
+                    <th data-translate="Action">
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr dir-paginate="targetTemplate in targetTemplateCtrl.filteredItems | itemsPerPage: targetTemplateCtrl.pageSize" current-page="targetTemplateCtrl.currentPage">
+                    <td class="text-center" ng-bind="targetTemplateCtrl.getIndex($index, targetTemplateCtrl.currentPage, targetTemplateCtrl.pageSize)">
+                    </td>
+                    <td class="column-limit">
+                        <a href="" ng-bind="targetTemplate.Name"></a>
+                    </td>
+                    <td class="text-center" ng-bind="targetTemplate.TargetTypeName">
+                    </td>
+                    <td ng-bind="targetTemplate.Description">
+                    </td>
+                    <td class="text-center">
+                        <a href="" ng-click="">{{targetTemplate.KPIs}}</a>
+                    </td>
+                    <td class="text-center">
+                        <input type="checkbox" ng-checked="targetTemplate.IsActive" ng-click="targetTemplateCtrl.confirmActive(targetTemplate)" />
+                    </td>
+                    <td class="target-template-action text-center">
+                        <div class="btn-group">
+                            <a class="glyphicon glyphicon-edit icon-edit" title="Edit"  href="" ng-href="{{targetTemplateCtrl.updateTargetTemplateUrl}}" 
+                                    ng-click="targetTemplateCtrl.update(targetTemplate)"></a>
+                            <a href="javascript:;" class="glyphicon glyphicon-remove icon-remove" title="Delete" ng-click="targetTemplateCtrl.deleteTargetTemplate(targetTemplate)"></a>
+                        </div>
+                    </td>
+                </tr>
+                <tr ng-show="targetTemplateCtrl.filteredItems.length == 0">
+                    <td class="empty-result" colspan="7" data-translate="EmptyResult">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

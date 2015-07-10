@@ -216,6 +216,14 @@ namespace SMS.EPA.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Created Successfully!.
         /// </summary>
+            get {
+                return ResourceManager.GetString("CreateKPIGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Created Successfully!.
+        /// </summary>
         public static string CreateSuccessfully {
             get {
                 return ResourceManager.GetString("CreateSuccessfully", resourceCulture);
@@ -228,6 +236,15 @@ namespace SMS.EPA.Resources {
         public static string CreateUnsuccessfully {
             get {
                 return ResourceManager.GetString("CreateUnsuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create Target Template.
+        /// </summary>
+        public static string CreateTargetTemplate {
+            get {
+                return ResourceManager.GetString("CreateTargetTemplate", resourceCulture);
             }
         }
         
@@ -291,6 +308,15 @@ namespace SMS.EPA.Resources {
         public static string EditKPIGroup {
             get {
                 return ResourceManager.GetString("EditKPIGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Target Template.
+        /// </summary>
+        public static string EditTargetTemplate {
+            get {
+                return ResourceManager.GetString("EditTargetTemplate", resourceCulture);
             }
         }
         
@@ -759,6 +785,33 @@ namespace SMS.EPA.Resources {
         public static string TargetTemplate {
             get {
                 return ResourceManager.GetString("TargetTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Target Template Management.
+        /// </summary>
+        public static string TargetTemplateManagement {
+            get {
+                return ResourceManager.GetString("TargetTemplateManagement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Target Type.
+        /// </summary>
+        public static string TargetType {
+            get {
+                return ResourceManager.GetString("TargetType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Target Type field is required!.
+        /// </summary>
+        public static string TargetTypeRequired {
+            get {
+                return ResourceManager.GetString("TargetTypeRequired", resourceCulture);
             }
         }
         

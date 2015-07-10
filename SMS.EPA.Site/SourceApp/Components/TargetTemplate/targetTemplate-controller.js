@@ -1,0 +1,110 @@
+﻿'use strict';
+/*global targetTemplateModule*/
+
+targetTemplateModule.controller('TargetTemplateController',
+['TargetTemplateModel', 'utilitiesFactory', 'CommonModel',
+function (TargetTemplateModel, utilitiesFactory, CommonModel) {
+    var vm = this;
+
+    vm.targetTemplates = TargetTemplateModel.targetTemplates;
+
+    vm.currentPage = 1;
+    vm.pageSize = 20;
+
+    utilitiesFactory.numberEntryList(vm);
+
+    var getTargetTemplate = function (targetTypeId, isActive) {
+        TargetTemplateModel.getTargetTemplate(targetTypeId, isActive).then(function () {
+            vm.targetTemplates = TargetTemplateModel.targetTemplates;
+            utilitiesFactory.searchOnPage(vm, vm.targetTemplates);
+        });
+    };
+
+    getTargetTemplate(null, null);
+
+    vm.getIndex = function (index, currentPage, pageSize) {
+        return CommonModel.getIndex(index, currentPage, pageSize);
+    };
+
+    vm.create = function () {
+        vm.createTargetTemplateUrl = '/TargetTemplate/Create';
+    };
+
+    vm.confirmActive = function (targetTemplate) {
+        TargetTemplateModel.openPopupUpdateStatusTargetTemplate(targetTemplate);
+    };
+
+    vm.update = function (targetTemplate) {
+        vm.updateTargetTemplateUrl = '/TargetTemplate/Update/' + targetTemplate.TargetTemplateId;
+    };
+
+    vm.deleteTargetTemplate = function (targetTemplate) {
+        TargetTemplateModel.openPopupDeleteTargetTemplate(vm, targetTemplate);
+    };
+} ]);
+
+targetTemplateModule.controller('CreateTargetTemplateController',
+['$window', 'TargetTemplateModel', 'CommonModel',
+function ($window, TargetTemplateModel, CommonModel) {
+    var vm = this;
+
+    vm.targetTemplate = {
+        Name: '',
+        TargetTypeId: '',
+        IsActive: true,
+        Description: ''
+    };
+    vm.targetTypes = CommonModel.targetTypes;
+
+    CommonModel.getTargetType(true).then(function () {
+        vm.targetTypes = CommonModel.targetTypes;
+    });
+
+    vm.save = function (targetTemplate) {
+        if (TargetTemplateModel.validateTargetTemplate(targetTemplate)) {
+            TargetTemplateModel.createTargetTemplate(targetTemplate).then(function () {
+                $window.history.back();
+            });
+        }
+    };
+
+    vm.cancel = function () {
+        $window.history.back();
+    };
+} ]);
+
+targetTemplateModule.controller('UpdateTargetTemplateController',
+['$window', '$routeParams', 'TargetTemplateModel',
+function ($window, $routeParams, TargetTemplateModel) {
+    var vm = this;
+
+    vm.targetTemplateId = parseInt($routeParams.id);
+    vm.targetTemplate = TargetTemplateModel.targetTemplate;
+
+    TargetTemplateModel.getTargetTemplateById(vm.targetTemplateId).then(function () {
+        vm.targetTemplate = TargetTemplateModel.targetTemplate;
+    });
+
+    vm.save = function (targetTemplate) {
+        if (TargetTemplateModel.validateTargetTemplate(targetTemplate)) {
+            TargetTemplateModel.updateTargetTemplate(targetTemplate).then(function () {
+                $window.history.back();
+            });
+        }
+    };
+
+    vm.cancel = function () {
+        $window.history.back();
+    };
+} ]);
+
+targetTemplateModule.controller('GeneralInformationController',
+['TargetTemplateModel', 'CommonModel',
+function (TargetTemplateModel, CommonModel) {
+    var vm = this;
+    vm.targetTypes = CommonModel.targetTypes;
+
+    CommonModel.getTargetType(true).then(function () {
+        vm.targetTypes = CommonModel.targetTypes;
+    });
+} ]);

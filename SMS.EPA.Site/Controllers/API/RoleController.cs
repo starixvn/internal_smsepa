@@ -11,15 +11,15 @@ namespace SMS.EPA.Site.Controllers.API
 {
     using System.Collections.Generic;
     using System.Web.Http;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.RoleManagement;
     using SMS.EPA.Model.RoleManagement;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
+    using SMS.EPA.Web.ApiAuthorizeAttribute;
 
-    /// <summary>
-    /// The role controller.
-    /// </summary>
     public class RoleController : BaseController
     {
         private IRoleService _roleService;
@@ -34,11 +34,7 @@ namespace SMS.EPA.Site.Controllers.API
             _roleService = roleService ?? new RoleService();
         }
 
-        /// <summary>
-        /// Get functions of role by role ID.
-        /// </summary>
-        /// <param name="roleId">The role ID.</param>
-        /// <returns>The enumerator functions of role.</returns>
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.RoleManagement, Policy = Policy.Read)]
         public IEnumerable<RoleFunctionModel> GetRoleFunctionByRoleId(int roleId)
         {
             var criteria = new GetFunctionByRoleIdCriteria
@@ -50,12 +46,8 @@ namespace SMS.EPA.Site.Controllers.API
             return functions;
         }
 
-        /// <summary>
-        /// Assign function to role.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>The command result.</returns>
         [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.RoleManagement, Policy = Policy.Host)]
         public CommandResult AssignFunctionToRole(AssignFunctionToRoleCriteria criteria)
         {
             if (criteria != null)

@@ -1,0 +1,80 @@
+﻿<div class="row">
+    <form class="col-sm-11 form-horizontal common-form project-form" novalidate>
+    <div class="row first boxtitle">
+        <a class="button-icon btn-boxTitle" title="Manage KPI Group" ng-click="addKPIGroup()">
+            <span class="glyphicon glyphicon-cog icon-setting"></span>Manage KPI Group </a>
+        <input class="search-textbox pull-right" placeholder="filter kpi..." type="text"
+            ng-model="KPIName" />
+    </div>
+    <div class="row boxcontent">
+        <div class="line top-buffer">
+            <div class="row">
+                <table class="table table-bordered table-striped table-hover" id="tblKPI">
+                    <thead>
+                        <th>
+                            <input type="checkbox" ng-model="selectedAll" ng-click="checkAll(selectedAll)" />
+                        </th>
+                        <th data-translate="KPIName">
+                        </th>
+                        <th data-translate="KPIGroupWeight">
+                        </th>
+                        <th class="middle-align" data-translate="Priority">
+                        </th>
+                    </thead>
+                    <tbody ng-repeat="kpi in lstKPI | filter: KPIName" class="kpiItemBody" list-sortable>
+                        <tr class="row-header unsortable">
+                            <td class="text-center row-highlight">
+                                <input type="checkbox" ng-model="kpi.groupSelected" ng-click="checkAllGroup(kpi.groupSelected, kpi)" />
+                            </td>
+                            <td class="criteria-title row-highlight group-header">
+                                <span>{{ kpi.kpiGroupName}} ({{kpi.kpiGroupItems[0].kpiGroupWeight}}%)</span> <a
+                                    class="glyphicon glyphicon-remove icon-remove left-buffer" title="Remove Group"
+                                    ng-click="removeKPIGroup(kpi.id, kpi.kpiGroupName)" href="javascript:;"></a>
+                            </td>
+                            <td class="text-center row-highlight">
+                                <a ng-show="!kpi.isSpreadKPI" href="javascript:;" ng-click="scoreSpread(kpi)">Spread</a>
+                            </td>
+                            <td class="text-center row-highlight">
+                            </td>
+                        </tr>
+                        <tr class="row-data" ng-repeat="item in kpi.kpiGroupItems | filter: KPIName">
+                            <td class="text-center" item-id="{{item.kpiId}}" group-id="{{item.kpiGroupId}}">
+                                <input class="check-group" type="checkbox" value="{{item.name}}" ng-model="item.selected" />
+                            </td>
+                            <td>
+                                {{item.name}}
+                            </td>
+                            <td class="column-weight-max text-center">
+                                <input type="text" class="custom-form-control text-center" ng-show="!item.isSpreadKPI && item.selected"
+                                    ng-model="item.weight" ng-show="item.selected == true" percentage />
+                                <span ng-show="item.isSpreadKPI && !item.selected">-</span> <span ng-show="item.isSpreadKPI && item.selected"
+                                    class="glyphicon glyphicon-ok item-list-icon"></span>
+                            </td>
+                            <td class="text-center priority-limit">
+                                <a ng-click="setPriority($event)" href="javascript:;" title="Top" class="glyphicon glyphicon-open kpiTop">
+                                    | </a><a ng-click="setPriority($event)" href="javascript:;" title="Move Up" class="glyphicon glyphicon-arrow-up kpiUp">
+                                        | </a><a ng-click="setPriority($event)" href="javascript:;" title="Move Down" class="glyphicon glyphicon-arrow-down kpiDown">
+                                            | </a><a ng-click="setPriority($event)" href="javascript:;" title="Bottom" class="glyphicon glyphicon-save kpiBottom">
+                                            </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr ng-show="lstKPI == ''">
+                            <td class="empty-result" colspan="4" data-translate="EmptyResult">
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <div class="col-sm-offset-5 top-buffer">
+                    <button class="button" ng-disabled="editTargetTemplate.$invalid" ng-click="update(editTemplate)"
+                        data-translate="Submit">
+                    </button>
+                    <button class="btn btn-default customize" ng-click="cancel()" data-translate="Cancel">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+</div>

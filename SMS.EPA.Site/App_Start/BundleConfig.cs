@@ -1,13 +1,4 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="BundleConfig.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="7/2/2015 10:00:37 AM">Created.</change>
-// </history>
-
-namespace SMS.EPA.Site
+﻿namespace SMS.EPA.Site
 {
     using System.Diagnostics.CodeAnalysis;
     using System.Web.Optimization;
@@ -58,7 +49,8 @@ namespace SMS.EPA.Site
                             "~/Content/Site/layout.less",
                             "~/SourceApp/Components/KPI/kpi.less",
                             "~/SourceApp/Components/Employee/employee.less",
-                            "~/SourceApp/Components/Role/role.less");
+                            "~/SourceApp/Components/Role/role.less",
+                            "~/SourceApp/Components/TargetTemplate/targetTemplate.less");
 
             bundles.Add(new ScriptBundle("~/bundles/app").Include(
                             "~/SourceApp/app.js",
@@ -80,7 +72,10 @@ namespace SMS.EPA.Site
                             "~/SourceApp/Components/Role/role-directive.js",
                             "~/SourceApp/Components/Role/role-factory.js",
                             "~/SourceApp/Components/Role/role-model.js",
-                            "~/SourceApp/Components/Role/role-controller.js"));
+                            "~/SourceApp/Components/Role/role-controller.js",
+                            "~/SourceApp/Components/TargetTemplate/targetTemplate-factory.js",
+                            "~/SourceApp/Components/TargetTemplate/targetTemplate-model.js",
+                            "~/SourceApp/Components/TargetTemplate/targetTemplate-controller.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/epa-directives.js",

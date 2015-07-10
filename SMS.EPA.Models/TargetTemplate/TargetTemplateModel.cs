@@ -1,0 +1,76 @@
+﻿// ----------------------------------------------------------------------
+// <copyright file="TargetTemplateModel.cs" company="Nexcel Solutions Viet Nam">
+// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
+// </copyright>
+// ------------------------------------------------------------------------
+// <history>
+//   <change who="Josh.Phan" date="7/10/2015 11:28:37 AM">Created and clone from NexEPA.</change>
+// </history>
+
+namespace SMS.EPA.Model.TargetTemplate
+{
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Text;
+
+    public class TargetTemplateModel
+    {
+        private const string _KPIItem = "<KPI KPIId='{0}' KPIGroupId='{1}' Weight='{2}' DisplayOrder='{3}'></KPI>";
+        private const string _BeginRootTag = "<ROOT>";
+        private const string _EndRootTag = "</ROOT>";
+
+        public int TargetTemplateId { get; set; }
+
+        public string Name { get; set; }
+
+        public string Description { get; set; }
+
+        public byte? TargetTypeId { get; set; }
+
+        public string TargetTypeName { get; set; }
+
+        public DateTime? CreatedDate { get; set; }
+
+        public int CreatedBy { get; set; }
+
+        public bool IsActive { get; set; }
+
+        public int KPIs { get; set; }
+
+        public DateTime? ModifiedDate { get; set; }
+
+        public int ModifiedBy { get; set; }
+
+        public List<TargetTemplateKPIModel> KPIIds { get; set; }
+
+        public string CreatedNickName { get; set; }
+
+        public string CreatedFullName { get; set; }
+
+        public string ModifiedNickName { get; set; }
+
+        public string ModifiedFullName { get; set; }
+
+        public string ConvertKPIItemToXml
+        {
+            get
+            {
+                if (KPIIds != null)
+                {
+                    var value = new StringBuilder(_BeginRootTag);
+                    foreach (var item in KPIIds)
+                    {
+                        value.AppendFormat(_KPIItem, item.KPIId, item.KPIGroupId, item.Weight, item.DisplayOrder);
+                    }
+
+                    return value.Append(_EndRootTag).ToString();
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            }
+        }
+    }
+}

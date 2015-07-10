@@ -36,7 +36,11 @@ namespace SMS.EPA.Site
                 "Employee/Index",
                 "KPI/Index",
                 "KPIGroup/Index",
-                "Role/Index"
+                "Role/Index",
+                "Home/AccessDenied",
+                "TargetTemplate/Index",
+                "TargetTemplate/Create",
+                "TargetTemplate/Update/{id}"
             };
 
             homeRouteUrls.ForEach(url => routes.MapRoute(

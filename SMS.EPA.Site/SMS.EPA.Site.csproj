@@ -161,6 +161,7 @@
     <Compile Include="Controllers\API\EmployeeController.cs" />
     <Compile Include="Controllers\API\KPIGroupController.cs" />
     <Compile Include="Controllers\API\ResourcesController.cs" />
+    <Compile Include="Controllers\API\TargetTemplateController.cs" />
     <Compile Include="Controllers\API\UtilitiesController.cs" />
     <Compile Include="Controllers\API\RoleController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -299,6 +300,14 @@
     <Content Include="SourceApp\Components\Role\Templates\treeHostCheckbox.html" />
     <Content Include="SourceApp\Components\Role\Templates\treeItem.html" />
     <Content Include="SourceApp\Components\Role\Templates\treeReadCheckbox.html" />
+    <Content Include="SourceApp\Components\TargetTemplate\targetTemplate-factory.js" />
+    <Content Include="SourceApp\Components\TargetTemplate\targetTemplate-controller.js" />
+    <Content Include="SourceApp\Components\TargetTemplate\targetTemplate-model.js" />
+    <Content Include="SourceApp\Components\TargetTemplate\Templates\create.html" />
+    <Content Include="SourceApp\Components\TargetTemplate\Templates\generalInformation.html" />
+    <Content Include="SourceApp\Components\TargetTemplate\Templates\index.html" />
+    <Content Include="SourceApp\Components\TargetTemplate\Templates\KPIList.html" />
+    <Content Include="SourceApp\Components\TargetTemplate\Templates\update.html" />
     <Content Include="SourceApp\routes.js" />
     <Content Include="SourceApp\Shared\error-factory.js" />
     <Content Include="SourceApp\Shared\modalconfirm-controller.js" />
@@ -421,6 +430,7 @@
     <Content Include="SourceApp\Components\KPI\kpi.less" />
     <Content Include="SourceApp\Components\Employee\employee.less" />
     <None Include="SourceApp\Components\Role\role.less" />
+    <None Include="SourceApp\Components\TargetTemplate\targetTemplate.less" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">

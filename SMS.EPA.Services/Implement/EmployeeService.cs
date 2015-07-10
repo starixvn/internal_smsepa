@@ -26,9 +26,6 @@ namespace SMS.EPA.Services.Implement
     using SMS.EPA.Repositories.Interfaces;
     using SMS.EPA.Services.Interfaces;
 
-    /// <summary>
-    /// The employee service.
-    /// </summary>
     public class EmployeeService : BaseService, IEmployeeService
     {
         private readonly IEmployeeRepository _employeeRepository;
@@ -43,11 +40,6 @@ namespace SMS.EPA.Services.Implement
             _employeeRepository = employeeRepository ?? new EmployeeRepository();
         }
 
-        /// <summary>
-        /// Get employee by code.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>The employee model contain employee information, roles and functions.</returns>
         public UserSession GetEmployeeByCode(GetEmployeeByCodeCriteria criteria)
         {
             var employee = new UserSession();
@@ -61,11 +53,6 @@ namespace SMS.EPA.Services.Implement
             return employee;
         }
 
-        /// <summary>
-        /// Get employee by username.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>The employee model contain employee information, roles and functions.</returns>
         public UserSession GetEmployeeByUsername(GetEmployeeByDomainUsernameCriteria criteria)
         {
             var employee = new UserSession();
@@ -86,11 +73,6 @@ namespace SMS.EPA.Services.Implement
             return isValid;
         }
 
-        /// <summary>
-        /// Get all employee.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>The enumerator employee model.</returns>
         public IEnumerable<EmployeeModel> GetAllEmployee(GetAllEmployeeCriteria criteria)
         {
             IEnumerable<EmployeeModel> employees = new List<EmployeeModel>();
@@ -105,11 +87,6 @@ namespace SMS.EPA.Services.Implement
             return employees;
         }
 
-        /// <summary>
-        /// Get all group.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>The enumerators group.</returns>
         public IEnumerable<Group> GetAllGroup(GetAllGroupCriteria criteria)
         {
             IEnumerable<Group> groups = new List<Group>();
@@ -123,11 +100,6 @@ namespace SMS.EPA.Services.Implement
             return groups;
         }
 
-        /// <summary>
-        /// Insert special employee.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>The command result.</returns>
         public CommandResult InsertSpecialEmployee(InsertSpecialEmployeeCriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
@@ -141,11 +113,6 @@ namespace SMS.EPA.Services.Implement
             return commandResult;
         }
 
-        /// <summary>
-        /// Update special employee.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>The command result.</returns>
         public CommandResult UpdateSpecialEmployee(UpdateSpecialEmployeeCriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
@@ -159,11 +126,6 @@ namespace SMS.EPA.Services.Implement
             return commandResult;
         }
 
-        /// <summary>
-        /// Get all job title.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>The enumerator job title.</returns>
         public IEnumerable<JobTitle> GetAllJobTitle(GetAllJobTitleCriteria criteria)
         {
             IEnumerable<JobTitle> jobTitles = new List<JobTitle>();
@@ -177,11 +139,6 @@ namespace SMS.EPA.Services.Implement
             return jobTitles;
         }
 
-        /// <summary>
-        /// Change password.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>The command result.</returns>
         public CommandResult ChangePassword(ChangePasswordCriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
@@ -196,11 +153,6 @@ namespace SMS.EPA.Services.Implement
             return commandResult;
         }
 
-        /// <summary>
-        /// Assign role to employee.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>The command result.</returns>
         public CommandResult AssignRoleToEmployee(AssignRoleToEmployeeCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");
@@ -214,11 +166,6 @@ namespace SMS.EPA.Services.Implement
             return commandResult;
         }
 
-        /// <summary>
-        /// Get roles of each employee.
-        /// </summary>
-        /// <param name="rawEmployee">The object contain employees and roles.</param>
-        /// <returns>The list employees contain roles of each employee.</returns>
         private IEnumerable<EmployeeModel> GetRoleOfEmployee(RawEmployeeModel rawEmployee)
         {
             foreach (EmployeeModel employee in rawEmployee.Employees)

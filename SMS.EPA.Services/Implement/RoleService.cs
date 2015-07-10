@@ -18,16 +18,8 @@ namespace SMS.EPA.Services.Implement
     using SMS.EPA.Model.RoleManagement;
     using SMS.EPA.Services.Interfaces;
 
-    /// <summary>
-    /// The implement of role service.
-    /// </summary>
     public class RoleService : BaseService, IRoleService
     {
-        /// <summary>
-        /// Get function of role by role ID.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>The enumerator functions of role.</returns>
         public IEnumerable<RoleFunctionModel> GetFunctionByRoleId(GetFunctionByRoleIdCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");
@@ -42,11 +34,6 @@ namespace SMS.EPA.Services.Implement
             return functions;
         }
 
-        /// <summary>
-        /// Assign role to user.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>The command result.</returns>
         public CommandResult AssignFunctionToRole(AssignFunctionToRoleCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");
@@ -60,11 +47,6 @@ namespace SMS.EPA.Services.Implement
             return commandResult;
         }
 
-        /// <summary>
-        /// Group child function.
-        /// </summary>
-        /// <param name="rawFunctions">The raw functions.</param>
-        /// <returns>The child functions.</returns>
         private IEnumerable<RoleFunctionModel> GroupFunction(IEnumerable<RoleFunctionModel> rawFunctions)
         {
             IEnumerable<RoleFunctionModel> functions = rawFunctions.Where<RoleFunctionModel>(func => func.ParentFunctionId == null);

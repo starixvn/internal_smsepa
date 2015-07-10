@@ -11,6 +11,7 @@ namespace SMS.EPA.Site.Controllers.API
 {
     using System.Collections.Generic;
     using System.Web.Http;
+    using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Security;
@@ -19,10 +20,8 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
+    using SMS.EPA.Web.ApiAuthorizeAttribute;
 
-    /// <summary>
-    /// The employee controller.
-    /// </summary>
     public class EmployeeController : BaseController
     {
         private readonly IEmployeeService _employeeService;
@@ -37,13 +36,7 @@ namespace SMS.EPA.Site.Controllers.API
             _employeeService = employeeService ?? new EmployeeService();
         }
 
-        /// <summary>
-        /// Get all employee.
-        /// </summary>
-        /// <param name="query">The query.</param>
-        /// <param name="groupId">The group ID.</param>
-        /// <param name="isSpecialUser">Is special user.</param>
-        /// <returns>The enumerator employee model.</returns>
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Read)]
         public IEnumerable<EmployeeModel> GetAllEmployee(string query = "", int? groupId = null, bool? isSpecialUser = null)
         {
             var criteria = new GetAllEmployeeCriteria
@@ -65,6 +58,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpPost]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Host)]
         public CommandResult InsertSpecialEmployee(InsertSpecialEmployeeCriteria criteria)
         {
             if (criteria != null)
@@ -78,6 +72,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Host)]
         public CommandResult UpdateSpecialEmployee(UpdateSpecialEmployeeCriteria criteria)
         {
             if (criteria != null)
@@ -96,11 +91,6 @@ namespace SMS.EPA.Site.Controllers.API
             return jobTitles;
         }
 
-        /// <summary>
-        /// Change password.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>The command result.</returns>
         [HttpPut]
         public CommandResult ChangePassword(ChangePasswordCriteria criteria)
         {
@@ -114,12 +104,8 @@ namespace SMS.EPA.Site.Controllers.API
             return commandResult;
         }
 
-        /// <summary>
-        /// Assign role to employee.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>The command result.</returns>
         [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Host)]
         public CommandResult AssignRoleToEmployee(AssignRoleToEmployeeCriteria criteria)
         {
             if (criteria != null)

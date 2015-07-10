@@ -1,0 +1,50 @@
+﻿<div ng-controller="CreateTargetTemplateController as createCtrl">
+    <div class="col-sm-12 sub-header">
+        <ul class="row breadcrumb">
+            <li class="current" data-translate="CreateTargetTemplate"></li>
+        </ul>
+    </div>
+    <div>
+        <form class="col-sm-6 form-horizontal common-form" novalidate>
+            <div class="form-group required">
+                <label class="col-sm-3 control-label" data-translate="Name">
+                 </label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" ng-model="createCtrl.targetTemplate.Name" required maxlength="200" />
+                </div>
+            </div>
+            <div class="form-group top-buffer required">
+                <label class="col-sm-3 control-label" data-translate="TargetType">
+                </label>
+                <div class="col-sm-9">
+                    <select class="form-control" ng-options="targetType.TargetTypeId as targetType.Name for targetType in createCtrl.targetTypes"
+                        ng-model="createCtrl.targetTemplate.TargetTypeId" required name="targetType">
+                        <option style="display: none" value="">-- {{"Select" | translate}} --</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group top-buffer">
+                <label class="col-sm-3 control-label" data-translate="Active"></label>
+                <div class="col-sm-9 field active-div">
+                    <input ng-model="createCtrl.targetTemplate.IsActive" type="checkbox">
+                </div>
+            </div>
+            <div class="form-group top-buffer">
+                <label class="col-sm-3 control-label" data-translate="Description">
+                </label>
+                <div class="col-sm-9">
+                    <textarea class="form-control custom-texarea" ng-model="createCtrl.targetTemplate.Description" id="description"
+                        maxlength="500"></textarea>
+                </div>
+            </div>
+            <div class="form-group top-buffer">
+                <div class="col-sm-offset-5">
+                    <button class="button" ng-click="createCtrl.save(createCtrl.targetTemplate)" data-translate="Submit">
+                    </button>
+                    <button class="btn btn-default customize" ng-click="createCtrl.cancel()" data-translate="Cancel">
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

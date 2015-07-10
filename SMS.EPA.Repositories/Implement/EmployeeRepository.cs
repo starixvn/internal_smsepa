@@ -19,16 +19,8 @@ namespace SMS.EPA.Repositories.Implement
     using SMS.EPA.Model.RoleManagement;
     using SMS.EPA.Repositories.Interfaces;
 
-    /// <summary>
-    /// The employee repository.
-    /// </summary>
     public class EmployeeRepository : IEmployeeRepository
     {
-        /// <summary>
-        /// Get all employee.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>The raw employee model.</returns>
         public RawEmployeeModel GetAllEmployee(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
@@ -56,11 +48,6 @@ namespace SMS.EPA.Repositories.Implement
             }
         }
 
-        /// <summary>
-        /// Get employee by code or by domain username.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>The employee.</returns>
         public UserSession GetEmployee(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
