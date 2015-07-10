@@ -2,12 +2,13 @@
 /*global kpiGroupModule*/
 
 kpiGroupModule.controller('KPIGroupController',
-['KPIGroupModel', 'CommonModel', 'utilitiesFactory',
-function (KPIGroupModel, CommonModel, utilitiesFactory) {
+['KPIGroupModel', 'KPIModel', 'CommonModel', 'utilitiesFactory',
+function (KPIGroupModel, KPIModel, CommonModel, utilitiesFactory) {
     var vm = this;
 
     vm.targetTypes = CommonModel.targetTypes;
-    vm.kpiGroups = KPIGroupModel.kpiGroups;
+    vm.kpiGroups = CommonModel.kpiGroups;
+    vm.permission = KPIGroupModel.permission;
 
     vm.filter = {
         targetTypeId: '',
@@ -19,13 +20,17 @@ function (KPIGroupModel, CommonModel, utilitiesFactory) {
     vm.currentPage = 1;
 
     var getKPIGroup = function (targetTypeId, isActive) {
-        KPIGroupModel.getKPIGroup(targetTypeId, isActive).then(function () {
-            vm.kpiGroups = KPIGroupModel.kpiGroups;
+        CommonModel.getKPIGroup(targetTypeId, isActive).then(function () {
+            vm.kpiGroups = CommonModel.kpiGroups;
             utilitiesFactory.searchOnPage(vm, vm.kpiGroups);
         });
     };
 
     vm.initialize = function () {
+        KPIGroupModel.getUserPermissionOnKPIGroup().then(function () {
+            vm.permission = KPIGroupModel.permission;
+        });
+
         CommonModel.getTargetType().then(function () {
             vm.targetTypes = CommonModel.targetTypes;
         });
@@ -69,6 +74,17 @@ function (KPIGroupModel, CommonModel, utilitiesFactory) {
         KPIGroupModel.openPopupDeleteKPIGroup(vm, kpiGroup);
     };
 
+    /// Ad KPI.
+    vm.addKPI = function (kpiGroup) {
+        KPIModel.openPopupCreateKPI(vm, kpiGroup).then()['finally'](function () {
+            vm.modalInstance = '';
+        });
+    };
+
+    vm.viewKPI = function (kpiGroupId) {
+        vm.viewKPIUrl = '/KPI/Index' + '?groupId=' + kpiGroupId;
+    };
+
     /// Get index of row in table.
     vm.getIndex = function (index, currentPage, pageSize) {
         return CommonModel.getIndex(index, currentPage, pageSize);
@@ -99,7 +115,7 @@ function ($modalInstance, KPIGroupModel, CommonModel) {
 
     vm.save = function () {
         if (KPIGroupModel.validateKPIGroup(vm.kpiGroup)) {
-            KPIGroupModel.insertKPIGroup(vm.kpiGroup, $modalInstance);
+            KPIGroupModel.createKPIGroup(vm.kpiGroup, $modalInstance);
         }
     };
 

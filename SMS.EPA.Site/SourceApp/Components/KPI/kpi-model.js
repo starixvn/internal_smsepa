@@ -7,6 +7,7 @@ function ($modal, kpiFactory, utilitiesFactory, notificationFactory, errorFactor
     var kpiModel = {};
 
     kpiModel.kpis = [];
+    kpiModel.permission = 0;
 
     kpiModel.getKPI = function (targetTypeId, kpiGroupId, isActive) {
         return kpiFactory.getKPI(targetTypeId, kpiGroupId, isActive)
@@ -37,22 +38,31 @@ function ($modal, kpiFactory, utilitiesFactory, notificationFactory, errorFactor
     };
 
     /// Insert KPI.
-    kpiModel.openPopupCreateKPI = function (vm) {
+    kpiModel.openPopupCreateKPI = function (vm, kpiGroup) {
         vm.modalInstance = $modal.open({
             templateUrl: 'SourceApp/Components/KPI/Templates/create.html',
             controller: "CreateKPIController as createKPICtrl",
             backdrop: 'static',
+            resolve: {
+                kpiGroup: function () {
+                    return kpiGroup;
+                }
+            },
             windowClass: "modal-confirm-center"
         });
 
         return vm.modalInstance.result;
     };
 
-    kpiModel.insertKPI = function (vm, isCreateAndContinued, modalInstance) {
-        return kpiFactory.insertKPI(vm.kpi)
+    kpiModel.createKPI = function (vm, isCreateAndContinued, kpiGroup, modalInstance) {
+        return kpiFactory.createKPI(vm.kpi)
         .success(function (response) {
             if (response.IsSuccessful) {
                 notificationFactory.success("CreatedSuccessfully");
+
+                if (kpiGroup) {
+                    kpiGroup.NumberKPI += 1;
+                }
 
                 if (isCreateAndContinued) {
                     vm.kpi = {
@@ -256,6 +266,17 @@ function ($modal, kpiFactory, utilitiesFactory, notificationFactory, errorFactor
             });
         })['finally'](function () {
             modalInstance = '';
+        });
+    };
+
+    /// Get user permission on KPI.
+    kpiModel.getUserPermissionOnKPI = function () {
+        return kpiFactory.getUserPermissionOnKPI()
+        .success(function (permission) {
+            kpiModel.permission = parseInt(permission);
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
         });
     };
 

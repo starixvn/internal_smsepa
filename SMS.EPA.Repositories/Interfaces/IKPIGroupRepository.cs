@@ -16,5 +16,7 @@ namespace SMS.EPA.Repositories.Interfaces
     public interface IKPIGroupRepository
     {
         IEnumerable<KPIGroupModel> GetKPIGroup(ICriteria criteria);
+
+        KPIGroupModel GetKPIGroupById(ICriteria criteria);
     }
 }

@@ -2,17 +2,23 @@
 /*global kpiModule*/
 
 kpiModule.controller('KPIController',
-['KPIModel', 'KPIGroupModel', 'CommonModel', 'utilitiesFactory',
-function (KPIModel, KPIGroupModel, CommonModel, utilitiesFactory) {
+['$window', '$routeParams', 'KPIModel', 'CommonModel', 'utilitiesFactory',
+function ($window, $routeParams, KPIModel, CommonModel, utilitiesFactory) {
     var vm = this;
 
     vm.kpis = KPIModel.kpis;
     vm.targetTypes = CommonModel.targetTypes;
-    vm.kpiGroups = KPIGroupModel.kpiGroups;
+    vm.kpiGroups = CommonModel.kpiGroups;
+    vm.kpiGroup = CommonModel.kpiGroup;
+    vm.permission = KPIModel.permission;
+
+    vm.routeParam = {
+        kpiGroupId: $routeParams.groupId
+    };
 
     vm.filter = {
         targetTypeId: '',
-        kpiGroupId: '',
+        kpiGroupId: vm.routeParam.kpiGroupId ? vm.routeParam.kpiGroupId : '',
         isActive: 'true'
     };
 
@@ -27,13 +33,33 @@ function (KPIModel, KPIGroupModel, CommonModel, utilitiesFactory) {
         });
     };
 
+    vm.backToList = function () {
+        $window.history.back();
+    };
+
     vm.initialize = function () {
+        if (vm.routeParam.kpiGroupId) {
+            vm.isViewAll = false;
+
+            CommonModel.getKPIGroupById(vm.routeParam.kpiGroupId).then(function () {
+                vm.kpiGroup = CommonModel.kpiGroup;
+                vm.filter.targetTypeId = vm.kpiGroup.TargetType.TargetTypeId;
+            });
+        }
+        else {
+            vm.isViewAll = true;
+        }
+
+        KPIModel.getUserPermissionOnKPI().then(function () {
+            vm.permission = KPIModel.permission;
+        });
+
         CommonModel.getTargetType().then(function () {
             vm.targetTypes = CommonModel.targetTypes;
         });
 
-        KPIGroupModel.getKPIGroup().then(function () {
-            vm.kpiGroups = KPIGroupModel.kpiGroups;
+        CommonModel.getKPIGroup().then(function () {
+            vm.kpiGroups = CommonModel.kpiGroups;
         });
 
         getKPI(vm.filter.targetTypeId, vm.filter.kpiGroupId, vm.filter.isActive);
@@ -42,8 +68,8 @@ function (KPIModel, KPIGroupModel, CommonModel, utilitiesFactory) {
     vm.initialize();
 
     vm.getKPIGroupByTargetType = function (targetTypeId) {
-        KPIGroupModel.getKPIGroup(targetTypeId).then(function () {
-            vm.kpiGroups = KPIGroupModel.kpiGroups;
+        CommonModel.getKPIGroup(targetTypeId).then(function () {
+            vm.kpiGroups = CommonModel.kpiGroups;
 
             if (targetTypeId) {
                 var index = vm.kpiGroups.map(function (e) { return e.KPIGroupId; }).indexOf(targetTypeId);
@@ -60,7 +86,7 @@ function (KPIModel, KPIGroupModel, CommonModel, utilitiesFactory) {
 
     /// Create KPI.
     vm.createKPI = function () {
-        KPIModel.openPopupCreateKPI(vm).then()['finally'](function () {
+        KPIModel.openPopupCreateKPI(vm, vm.kpiGroup).then()['finally'](function () {
             vm.modalInstance = '';
             getKPI(vm.filter.targetTypeId, vm.filter.kpiGroupId, vm.filter.isActive);
         });
@@ -102,13 +128,14 @@ function (KPIModel, KPIGroupModel, CommonModel, utilitiesFactory) {
 } ]);
 
 kpiModule.controller('CreateKPIController',
-['$modalInstance', 'KPIModel', 'KPIGroupModel', 'CommonModel',
-function ($modalInstance, KPIModel, KPIGroupModel, CommonModel) {
+['$modalInstance', 'KPIModel', 'CommonModel', 'kpiGroup',
+function ($modalInstance, KPIModel, CommonModel, kpiGroup) {
     var vm = this;
 
     vm.currentChosenKPIGroups = [];
     vm.targetTypes = CommonModel.targetTypes;
-    vm.kpiGroups = KPIGroupModel.kpiGroups;
+    vm.kpiGroups = CommonModel.kpiGroups;
+    vm.isDisable = false;
 
     vm.filter = {
         targetTypeId: ''
@@ -124,12 +151,32 @@ function ($modalInstance, KPIModel, KPIGroupModel, CommonModel) {
     };
 
     vm.initialize = function () {
+        if (kpiGroup.KPIGroupId) {
+            vm.filter.targetTypeId = kpiGroup.TargetType.TargetTypeId;
+            vm.currentChosenKPIGroups.push(kpiGroup.KPIGroupId);
+            vm.isDisable = true;
+        }
+
         CommonModel.getTargetType(true).then(function () {
             vm.targetTypes = CommonModel.targetTypes;
+
+            if (kpiGroup.KPIGroupId) {
+                var index = vm.targetTypes.map(function (e) { return e.TargetTypeId; }).indexOf(kpiGroup.TargetType.TargetTypeId);
+                if (index === -1) {
+                    vm.targetTypes.push(kpiGroup.TargetType);
+                }
+            }
         });
 
-        KPIGroupModel.getKPIGroup(null, true).then(function () {
-            vm.kpiGroups = KPIGroupModel.kpiGroups;
+        CommonModel.getKPIGroup(null, true).then(function () {
+            vm.kpiGroups = CommonModel.kpiGroups;
+
+            if (kpiGroup.KPIGroupId) {
+                var index = vm.kpiGroups.map(function (e) { return e.KPIGroupId; }).indexOf(kpiGroup.KPIGroupId);
+                if (index === -1) {
+                    vm.kpiGroups.push(kpiGroup);
+                }
+            }
         });
     };
 
@@ -149,8 +196,8 @@ function ($modalInstance, KPIModel, KPIGroupModel, CommonModel) {
     };
 
     vm.getKPIGroupByTargetType = function (targetTypeId) {
-        KPIGroupModel.getKPIGroup(targetTypeId, true).then(function () {
-            vm.kpiGroups = KPIGroupModel.kpiGroups;
+        CommonModel.getKPIGroup(targetTypeId, true).then(function () {
+            vm.kpiGroups = CommonModel.kpiGroups;
 
             var temps = [];
             if (vm.currentChosenKPIGroups.length > 0) {
@@ -179,7 +226,7 @@ function ($modalInstance, KPIModel, KPIGroupModel, CommonModel) {
     vm.save = function (isCreateAndContinued) {
         if (KPIModel.validateKPI(vm.kpi, vm.currentChosenKPIGroups)) {
             vm.kpi.KPIGroupIds = vm.currentChosenKPIGroups.join(',');
-            KPIModel.insertKPI(vm, isCreateAndContinued, $modalInstance);
+            KPIModel.createKPI(vm, isCreateAndContinued, kpiGroup, $modalInstance);
         }
     };
 
@@ -189,12 +236,12 @@ function ($modalInstance, KPIModel, KPIGroupModel, CommonModel) {
 } ]);
 
 kpiModule.controller('UpdateKPIController',
-['$modalInstance', 'KPIModel', 'KPIGroupModel', 'kpi',
-function ($modalInstance, KPIModel, KPIGroupModel, kpi) {
+['$modalInstance', 'KPIModel', 'CommonModel', 'kpi',
+function ($modalInstance, KPIModel, CommonModel, kpi) {
     var vm = this;
 
     vm.currentChosenKPIGroups = [];
-    vm.kpiGroups = KPIGroupModel.kpiGroups;
+    vm.kpiGroups = CommonModel.kpiGroups;
 
     vm.kpi = {
         KPIId: kpi.KPIId,
@@ -208,8 +255,8 @@ function ($modalInstance, KPIModel, KPIGroupModel, kpi) {
     };
 
     vm.initialize = function () {
-        KPIGroupModel.getKPIGroup(null, true).then(function () {
-            vm.kpiGroups = KPIGroupModel.kpiGroups;
+        CommonModel.getKPIGroup(null, true).then(function () {
+            vm.kpiGroups = CommonModel.kpiGroups;
 
             angular.forEach(kpi.KPIGroups, function (kpiGroup) {
                 vm.currentChosenKPIGroups.push(kpiGroup.KPIGroupId);

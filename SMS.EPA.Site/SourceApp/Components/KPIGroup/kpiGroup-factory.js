@@ -3,11 +3,8 @@
 
 kpiGroupModule.factory('kpiGroupFactory', ['$http', function ($http) {
     return {
-        getKPIGroup: function (targetTypeId, isActive) {
-            return $http.get('/api/KPIGroup/GetKPIGroup', { params: { targetTypeId: targetTypeId, isActive: isActive} });
-        },
-        insertKPIGroup: function (kpiGroup) {
-            return $http.post('/api/KPIGroup/InsertKPIGroup', kpiGroup);
+        createKPIGroup: function (kpiGroup) {
+            return $http.post('/api/KPIGroup/CreateKPIGroup', kpiGroup);
         },
         updateKPIGroup: function (kpiGroup) {
             return $http.put('/api/KPIGroup/UpdateKPIGroup', kpiGroup);
@@ -17,6 +14,9 @@ kpiGroupModule.factory('kpiGroupFactory', ['$http', function ($http) {
         },
         deleteKPIGroup: function (kpiGroupId) {
             return $http['delete']('/api/KPIGroup/DeleteKPIGroup', { params: { kpiGroupId: kpiGroupId} });
+        },
+        getUserPermissionOnKPIGroup: function () {
+            return $http.get('/api/KPIGroup/GetUserPermissionOnKPIGroup');
         }
     };
 } ]);

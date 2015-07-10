@@ -1,4 +1,4 @@
-﻿<div ng-controller="KPIGroupController as kpiGroupCtrl">
+﻿<div class="kpiGroup-management" ng-controller="KPIGroupController as kpiGroupCtrl">
     <div class="col-sm-12 sub-header">
         <ul class="row breadcrumb">
             <li class="current" data-translate="ManageKPIGroup"></li>
@@ -29,7 +29,7 @@
             <thead>
                 <tr class="header-table">
                     <th colspan="7">
-                        <a class="pull-left button-icon create-button" ng-click="kpiGroupCtrl.createKPIGroup()" >
+                        <a class="pull-left button-icon create-button" ng-click="kpiGroupCtrl.createKPIGroup()" ng-if="kpiGroupCtrl.permission == 2">
                             <span class="icon plus"></span>
                             <span class="button-text" data-translate="CreateKPIGroup"></span>
                         </a>
@@ -44,7 +44,7 @@
                     <th class="text-center" data-translate="KPIs"></th>
                     <th class="text-center" data-translate="Active"></th>
                     <th class="text-center" data-translate="Description"></th>
-                    <th class="text-center" data-translate="Action"></th>
+                    <th class="text-center" data-translate="Action" ng-if="kpiGroupCtrl.permission == 2"></th>
                 </tr>
             </thead>
             <tbody class="table-body">
@@ -53,18 +53,20 @@
                     <td ng-bind="kpiGroup.TargetType.Name"></td>
                     <td ng-bind="kpiGroup.Name"></td>
                     <td class="text-center">
-                        <a href="" ng-show="kpiGroup.NumberKPI > 0" ng-click="viewKPI(kpiGroup.TargetType.TargetTypeId, kpiGroup.KPIGroupId)"
-                            ng-bind="kpiGroup.NumberKPI" ng-href="{{viewKPIUrl}}"></a>
+                        <a href="" ng-show="kpiGroup.NumberKPI > 0" ng-click="kpiGroupCtrl.viewKPI(kpiGroup.KPIGroupId)"
+                            ng-bind="kpiGroup.NumberKPI" ng-href="{{kpiGroupCtrl.viewKPIUrl}}" class="number-kpi"></a>
                         <span ng-show="kpiGroup.NumberKPI === 0" ng-bind="0"></span>
                     </td>
                     <td class="text-center">
-                        <input type="checkbox" ng-checked="kpiGroup.IsActive" ng-click="kpiGroupCtrl.updateStatusKPIGroup(kpiGroup)" />
+                        <input type="checkbox" ng-checked="kpiGroup.IsActive" 
+                            ng-click="kpiGroupCtrl.updateStatusKPIGroup(kpiGroup)"
+                            ng-disabled="kpiGroupCtrl.permission != 2" />
                     </td>
                     <td ng-bind="kpiGroup.Description"></td>
-                    <td class="text-center">
+                    <td class="text-center" ng-if="kpiGroupCtrl.permission == 2">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="kpiGroupCtrl.updateKPIGroup(kpiGroup)" ng-attr-title='{{"Edit" | translate}}'></a>
                         <a class="glyphicon glyphicon-remove icon-remove" href="" ng-click="kpiGroupCtrl.deleteKPIGroup(kpiGroup)" ng-attr-title='{{"Delete" | translate}}'></a>
-                        <a class="glyphicon glyphicon-plus icon-add" href="" ng-click="kpiGroupCtrl.addKPIGroup(kpiGroup.TargetTypeId, kpiGroup.KPIGroupId)" ng-attr-title='{{"AddKPI" | translate}}'></a>
+                        <a class="glyphicon glyphicon-plus icon-add" href="" ng-click="kpiGroupCtrl.addKPI(kpiGroup)" ng-attr-title='{{"AddKPI" | translate}}'></a>
                     </td>
                 </tr>
                 <tr ng-show="kpiGroupCtrl.filteredItems.length == 0">

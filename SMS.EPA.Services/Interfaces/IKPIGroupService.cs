@@ -18,7 +18,9 @@ namespace SMS.EPA.Services.Interfaces
     {
         IEnumerable<KPIGroupModel> GetKPIGroup(GetKPIGroupCriteria criteria);
 
-        CommandResult InsertKPIGroup(InsertKPIGroupCriteria criteria);
+        KPIGroupModel GetKPIGroupById(GetKPIGroupByIdCriteria criteria);
+
+        CommandResult CreateKPIGroup(CreateKPIGroupCriteria criteria);
 
         CommandResult UpdateKPIGroup(UpdateKPIGroupCriteria criteria);
 

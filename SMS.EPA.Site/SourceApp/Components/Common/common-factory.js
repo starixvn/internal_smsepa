@@ -8,6 +8,12 @@ commonModule.factory('commonFactory', ['$http', function ($http) {
         },
         getSystemRoles: function (exceptNone) {
             return $http.get('/api/Common/GetSystemRoles', { params: { exceptNone: exceptNone } });
+        },
+        getKPIGroup: function (targetTypeId, isActive) {
+            return $http.get('/api/Common/GetKPIGroup', { params: { targetTypeId: targetTypeId, isActive: isActive} });
+        },
+        getKPIGroupById: function (kpiGroupId) {
+            return $http.get('/api/Common/GetKPIGroupById', { params: { kpiGroupId: kpiGroupId} });
         }
     };
 } ]);

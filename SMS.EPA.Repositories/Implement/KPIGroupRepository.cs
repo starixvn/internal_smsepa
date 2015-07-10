@@ -33,5 +33,21 @@ namespace SMS.EPA.Repositories.Implement
                     criteria.GetSpParams());
             }
         }
+
+        public KPIGroupModel GetKPIGroupById(ICriteria criteria)
+        {
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                return db.QueryEntity<KPIGroupModel, TargetTypeModel, KPIGroupModel>(
+                    (g, ty) =>
+                    {
+                        g.TargetType = ty;
+
+                        return g;
+                    },
+                    "TargetTypeId",
+                    criteria.GetSpParams());
+            }
+        }
     }
 }

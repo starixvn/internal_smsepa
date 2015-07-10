@@ -6,8 +6,8 @@ kpiModule.factory('kpiFactory', ['$http', function ($http) {
         getKPI: function (targetTypeId, kpiGroupId, isActive) {
             return $http.get('/api/KPI/GetKPI', { params: { targetTypeId: targetTypeId, kpiGroupId: kpiGroupId, isActive: isActive} });
         },
-        insertKPI: function (kpi) {
-            return $http.post('/api/KPI/InsertKPI', kpi);
+        createKPI: function (kpi) {
+            return $http.post('/api/KPI/CreateKPI', kpi);
         },
         updateKPI: function (kpi) {
             return $http.put('/api/KPI/UpdateKPI', kpi);
@@ -20,6 +20,9 @@ kpiModule.factory('kpiFactory', ['$http', function ($http) {
         },
         deleteKPI: function (kpiId) {
             return $http['delete']('/api/KPI/DeleteKPI', { params: { kpiId: kpiId} });
+        },
+        getUserPermissionOnKPI: function () {
+            return $http.get('/api/KPI/GetUserPermissionOnKPI');
         }
     };
 } ]);

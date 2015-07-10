@@ -9,56 +9,50 @@
 
 namespace SMS.EPA.Site.Controllers.API
 {
-    using System.Collections.Generic;
     using System.Web.Http;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.KPIGroup;
-    using SMS.EPA.Model.KPIGroup;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
+    using SMS.EPA.Web.ApiAuthorizeAttribute;
+    using SMS.EPA.Web.Services;
 
     public class KPIGroupController : BaseController
     {
         private readonly IKPIGroupService _kpiGroupService;
+        private readonly IWebCommonService _webCommonService;
 
         public KPIGroupController()
-            : this(null)
+            : this(null, null)
         {
         }
 
-        public KPIGroupController(IKPIGroupService kpiGroupService)
+        public KPIGroupController(
+            IKPIGroupService kpiGroupService,
+            IWebCommonService webCommonService)
         {
             _kpiGroupService = kpiGroupService ?? new KPIGroupService();
-        }
-
-        [HttpGet]
-        public IEnumerable<KPIGroupModel> GetKPIGroup(
-            int? targetTypeId = null,
-            bool? isActive = null)
-        {
-            var criteria = new GetKPIGroupCriteria
-            {
-                TargetTypeId = targetTypeId,
-                IsActive = isActive
-            };
-
-            return _kpiGroupService.GetKPIGroup(criteria);
+            _webCommonService = webCommonService ?? new WebCommonService();
         }
 
         [HttpPost]
-        public CommandResult InsertKPIGroup(InsertKPIGroupCriteria criteria)
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPIGroup, Policy = Policy.Host)]
+        public CommandResult CreateKPIGroup(CreateKPIGroupCriteria criteria)
         {
             if (criteria != null)
             {
                 criteria.CreatedBy = CurrentUser.EmployeeInfo.EmployeeId;
             }
 
-            CommandResult commandResult = _kpiGroupService.InsertKPIGroup(criteria);
+            CommandResult commandResult = _kpiGroupService.CreateKPIGroup(criteria);
 
             return commandResult;
         }
 
         [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPIGroup, Policy = Policy.Host)]
         public CommandResult UpdateKPIGroup(UpdateKPIGroupCriteria criteria)
         {
             if (criteria != null)
@@ -72,6 +66,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPIGroup, Policy = Policy.Host)]
         public CommandResult UpdateStatusKPIGroup(UpdateStatusKPIGroupCriteria criteria)
         {
             if (criteria != null)
@@ -85,6 +80,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpDelete]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPIGroup, Policy = Policy.Host)]
         public CommandResult DeleteKPIGroup(int kpiGroupId)
         {
             var criteria = new DeleteKPIGroupCriteria
@@ -96,6 +92,12 @@ namespace SMS.EPA.Site.Controllers.API
             CommandResult commandResult = _kpiGroupService.DeleteKPIGroup(criteria);
 
             return commandResult;
+        }
+
+        public int GetUserPermissionOnKPIGroup()
+        {
+            int permission = _webCommonService.GetPermission(EPAFunctionKey.KPIGroup);
+            return permission;
         }
     }
 }

@@ -1,11 +1,14 @@
-﻿<div ng-controller="KPIController as kpiCtrl">
+﻿<div class="kpi-management" ng-controller="KPIController as kpiCtrl">
     <div class="col-sm-12 sub-header">
-        <ul class="row breadcrumb">
+        <ul class="row breadcrumb" ng-if="kpiCtrl.isViewAll">
             <li class="current" data-translate="ManageKPI"></li>
+        </ul>
+        <ul class="row breadcrumb" ng-if="kpiCtrl.isViewAll == false">
+            <li class="current">{{"ManageKPI" | translate}} of "{{kpiCtrl.kpiGroup.Name}}"</li>
         </ul>
     </div>
     <div class="col-sm-12">
-        <form novalidate class="row filter form-inline" role="form">
+        <form novalidate class="row filter form-inline" role="form" ng-if="kpiCtrl.isViewAll">
             <div class="form-group">
                 <label data-translate="Form"></label>
                 <select class="form-control lstBox-limit" ng-model="kpiCtrl.filter.targetTypeId" 
@@ -37,27 +40,31 @@
             <thead>
                 <tr class="header-table">
                     <th colspan="7">
-                        <a class="pull-left button-icon create-button" ng-click="kpiCtrl.createKPI()" >
+                        <a class="pull-left button-icon create-button" ng-click="kpiCtrl.createKPI()" ng-if="kpiCtrl.permission == 2">
                             <span class="icon plus"></span>
                             <span class="button-text" data-translate="CreateKPI"></span>
+                        </a>
+                        <a class="pull-left button-icon back-button" ng-click="kpiCtrl.backToList()" ng-if="kpiCtrl.isViewAll == false">
+                            <span class="icon back"></span>
+                            <span class="button-text" data-translate="BackToList"></span>
                         </a>
                         <input type="text" ng-model="kpiCtrl.searchKey" ng-change="kpiCtrl.search()" class="search-inline-textbox search pull-right">
                     </th>
                 </tr>
                 <tr class="headerName">
                     <th class="text-center" data-translate="SymbolCount"></th>
-                    <th class="text-center" data-translate="Group"></th>
+                    <th class="text-center" data-translate="Group" ng-if="kpiCtrl.isViewAll"></th>
                     <th class="text-center" data-translate="Title"></th>
                     <th class="text-center" data-translate="Active"></th>
                     <th class="text-center" data-translate="Required"></th>
                     <th class="text-center" data-translate="Description"></th>
-                    <th class="text-center" data-translate="Action"></th>
+                    <th class="text-center" data-translate="Action" ng-if="kpiCtrl.permission == 2"></th>
                 </tr>
             </thead>
             <tbody class="table-body">
                 <tr dir-paginate="kpi in kpiCtrl.filteredItems | itemsPerPage: kpiCtrl.pageSize" current-page="kpiCtrl.currentPage">
                     <td class="text-center" ng-bind="kpiCtrl.getIndex($index, kpiCtrl.currentPage, kpiCtrl.pageSize)"></td>
-                    <td>
+                    <td ng-if="kpiCtrl.isViewAll">
                         <div ng-show="kpi.KPIGroups.length == 1">
                             <span ng-bind="kpi.KPIGroups[0].Name"></span>
                         </div>
@@ -72,10 +79,12 @@
                         <input type="checkbox" ng-checked="kpi.IsActive" ng-click="kpiCtrl.updateStatusKPI(kpi)" />
                     </td>
                     <td class="text-center">
-                        <input type="checkbox" ng-checked="kpi.IsRequiredEvaluate" ng-click="kpiCtrl.updateRequiredEvaluate(kpi)" />
+                        <input type="checkbox" ng-checked="kpi.IsRequiredEvaluate" 
+                            ng-click="kpiCtrl.updateRequiredEvaluate(kpi)"
+                            ng-disabled="kpiCtrl.permission != 2" />
                     </td>
                     <td ng-bind="kpi.Description"></td>
-                    <td class="text-center">
+                    <td class="text-center" ng-if="kpiCtrl.permission == 2">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="kpiCtrl.updateKPI(kpi)" ng-attr-title='{{"Edit" | translate}}'></a>
                         <a class="glyphicon glyphicon-remove icon-remove" href="" ng-click="kpiCtrl.deleteKPI(kpi)" ng-attr-title='{{"Delete" | translate}}'></a>
                     </td>

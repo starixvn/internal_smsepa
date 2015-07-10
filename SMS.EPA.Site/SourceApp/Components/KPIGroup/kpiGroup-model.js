@@ -6,16 +6,7 @@ kpiGroupModule.factory('KPIGroupModel',
 function ($modal, kpiGroupFactory, utilitiesFactory, notificationFactory, errorFactory) {
     var kpiGroupModel = {};
 
-    kpiGroupModel.kpiGroups = [];
-
-    kpiGroupModel.getKPIGroup = function (targetTypeId, isActive) {
-        return kpiGroupFactory.getKPIGroup(targetTypeId, isActive)
-        .success(function (kpiGroups) {
-            kpiGroupModel.kpiGroups = kpiGroups;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
+    kpiGroupModel.permission = 0;
 
     /// Validate KPI Group.
     kpiGroupModel.validateKPIGroup = function (kpiGroup) {
@@ -48,8 +39,8 @@ function ($modal, kpiGroupFactory, utilitiesFactory, notificationFactory, errorF
         return vm.modalInstance.result;
     };
 
-    kpiGroupModel.insertKPIGroup = function (kpiGroup, modalInstance) {
-        return kpiGroupFactory.insertKPIGroup(kpiGroup)
+    kpiGroupModel.createKPIGroup = function (kpiGroup, modalInstance) {
+        return kpiGroupFactory.createKPIGroup(kpiGroup)
         .success(function (response) {
             if (response.IsSuccessful) {
                 notificationFactory.success("CreatedSuccessfully");
@@ -187,6 +178,17 @@ function ($modal, kpiGroupFactory, utilitiesFactory, notificationFactory, errorF
             });
         })['finally'](function () {
             modalInstance = '';
+        });
+    };
+
+    /// Get user permission on KPI Group.
+    kpiGroupModel.getUserPermissionOnKPIGroup = function () {
+        return kpiGroupFactory.getUserPermissionOnKPIGroup()
+        .success(function (permission) {
+            kpiGroupModel.permission = parseInt(permission);
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
         });
     };
 

@@ -46,7 +46,7 @@ namespace SMS.EPA.Services.Implement
             return kpis;
         }
 
-        public CommandResult InsertKPI(InsertKPICriteria criteria)
+        public CommandResult CreateKPI(CreateKPICriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
             Check.Argument.IsNotNull(criteria, "criteria");

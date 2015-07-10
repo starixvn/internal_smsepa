@@ -73,13 +73,14 @@
     <Compile Include="Employee\InsertSpecialEmployeeCriteria.cs" />
     <Compile Include="Employee\UpdateSpecialEmployeeCriteria.cs" />
     <Compile Include="KPIGroup\DeleteKPIGroupCriteria.cs" />
+    <Compile Include="KPIGroup\GetKPIGroupByIdCriteria.cs" />
     <Compile Include="KPIGroup\GetKPIGroupCriteria.cs" />
-    <Compile Include="KPIGroup\InsertKPIGroupCriteria.cs" />
+    <Compile Include="KPIGroup\CreateKPIGroupCriteria.cs" />
     <Compile Include="KPIGroup\UpdateKPIGroupCriteria.cs" />
     <Compile Include="KPIGroup\UpdateStatusKPIGroupCriteria.cs" />
     <Compile Include="KPI\DeleteKPICriteria.cs" />
     <Compile Include="KPI\GetKPICriteria.cs" />
-    <Compile Include="KPI\InsertKPICriteria.cs" />
+    <Compile Include="KPI\CreateKPICriteria.cs" />
     <Compile Include="KPI\UpdateKPICriteria.cs" />
     <Compile Include="KPI\UpdateRequiredEvaluateKPICriteria.cs" />
     <Compile Include="KPI\UpdateStatusKPICriteria.cs" />

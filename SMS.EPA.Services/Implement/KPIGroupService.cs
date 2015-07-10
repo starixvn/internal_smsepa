@@ -46,7 +46,20 @@ namespace SMS.EPA.Services.Implement
             return kpiGroups;
         }
 
-        public CommandResult InsertKPIGroup(InsertKPIGroupCriteria criteria)
+        public KPIGroupModel GetKPIGroupById(GetKPIGroupByIdCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            KPIGroupModel kpiGroup = new KPIGroupModel();
+
+            if (criteria.IsValid())
+            {
+                kpiGroup = _kpiGroupRepository.GetKPIGroupById(criteria);
+            }
+
+            return kpiGroup;
+        }
+
+        public CommandResult CreateKPIGroup(CreateKPIGroupCriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
             Check.Argument.IsNotNull(criteria, "criteria");

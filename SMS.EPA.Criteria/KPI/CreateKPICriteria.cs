@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="InsertKPICriteria.cs" company="Nexcel Solutions Viet Nam">
+// <copyright file="CreateKPICriteria.cs" company="Nexcel Solutions Viet Nam">
 // Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -13,7 +13,7 @@ namespace SMS.EPA.Criteria.KPI
     using Fanex.Data.Repository;
     using SMS.EPA.Core.Attribute;
 
-    public class InsertKPICriteria : CriteriaBase
+    public class CreateKPICriteria : CriteriaBase
     {
         [Output]
         public int KPIId { get; set; }

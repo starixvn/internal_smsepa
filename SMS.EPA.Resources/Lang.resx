@@ -363,7 +363,7 @@
   <data name="NameRequire" xml:space="preserve">
     <value>The Name field is required!</value>
   </data>
-   <data name="RoleManagement" xml:space="preserve">
+  <data name="RoleManagement" xml:space="preserve">
     <value>Role Management</value>
   </data>
   <data name="AssignRoleToUser" xml:space="preserve">
@@ -374,8 +374,11 @@
   </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
- </data>
+  </data>
   <data name="EditKPIGroup" xml:space="preserve">
     <value>Edit KPI Group</value>
+  </data>
+  <data name="BackToList" xml:space="preserve">
+    <value>Back to list</value>
   </data>
 </root>

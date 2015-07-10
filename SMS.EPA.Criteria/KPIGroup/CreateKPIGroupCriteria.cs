@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="InsertKPIGroupCriteria.cs" company="Nexcel Solutions Viet Nam">
+// <copyright file="CreateKPIGroupCriteria.cs" company="Nexcel Solutions Viet Nam">
 // Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -12,7 +12,7 @@ namespace SMS.EPA.Criteria.KPIGroup
     using Fanex.Data.Repository;
     using SMS.EPA.Core.Attribute;
 
-    public class InsertKPIGroupCriteria : CriteriaBase
+    public class CreateKPIGroupCriteria : CriteriaBase
     {
         [Output]
         public int KPIGroupId { get; set; }

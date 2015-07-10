@@ -11,9 +11,12 @@ namespace SMS.EPA.Site.Controllers.API
 {
     using System.Collections.Generic;
     using System.Web.Http;
+    using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Utilities;
+    using SMS.EPA.Model.KPIGroup;
     using SMS.EPA.Model.TargetType;
+    using SMS.EPA.Web.ApiAuthorizeAttribute;
 
     public class CommonController : BaseController
     {
@@ -35,11 +38,24 @@ namespace SMS.EPA.Site.Controllers.API
             return _utilitiesController.GetTargetType(isActive);
         }
 
-        /// <summary>
-        /// Get all system role.
-        /// </summary>
-        /// <param name="exceptNone">Except none or not.</param>
-        /// <returns>The list system role.</returns>
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPI, Policy = Policy.Read)]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPIGroup, Policy = Policy.Read)]
+        public IEnumerable<KPIGroupModel> GetKPIGroup(
+            int? targetTypeId = null,
+            bool? isActive = null)
+        {
+            return _utilitiesController.GetKPIGroup(targetTypeId, isActive);
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPI, Policy = Policy.Read)]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPIGroup, Policy = Policy.Read)]
+        public KPIGroupModel GetKPIGroupById(int kpiGroupId)
+        {
+            return _utilitiesController.GetKPIGroupById(kpiGroupId);
+        }
+
         public List<object> GetSystemRoles(bool exceptNone)
         {
             var roles = new List<object>();
