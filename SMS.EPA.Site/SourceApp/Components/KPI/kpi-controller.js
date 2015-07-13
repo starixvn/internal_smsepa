@@ -40,6 +40,7 @@ function ($window, $routeParams, KPIModel, CommonModel, utilitiesFactory) {
     vm.initialize = function () {
         if (vm.routeParam.kpiGroupId) {
             vm.isViewAll = false;
+            vm.filter.isActive = '';
 
             CommonModel.getKPIGroupById(vm.routeParam.kpiGroupId).then(function () {
                 vm.kpiGroup = CommonModel.kpiGroup;
@@ -47,6 +48,7 @@ function ($window, $routeParams, KPIModel, CommonModel, utilitiesFactory) {
             });
         }
         else {
+            vm.kpiGroup = {};
             vm.isViewAll = true;
         }
 
@@ -119,6 +121,17 @@ function ($window, $routeParams, KPIModel, CommonModel, utilitiesFactory) {
     /// Delete KPI.
     vm.deleteKPI = function (kpi) {
         KPIModel.openPopupDeleteKPI(vm, kpi);
+    };
+
+    // Event read more / less text.
+    utilitiesFactory.maxLengthDescription(vm);
+
+    vm.readMore = function (item) {
+        utilitiesFactory.readMore(item);
+    };
+
+    vm.readLess = function (item) {
+        utilitiesFactory.readLess(item);
     };
 
     /// Get index of row in table.
@@ -250,6 +263,7 @@ function ($modalInstance, KPIModel, CommonModel, kpi) {
         HasComment: kpi.HasComment,
         IsRequiredComment: kpi.IsRequiredComment,
         IsRequiredEvaluate: kpi.IsRequiredEvaluate,
+        IsActive: kpi.IsActive,
         Description: kpi.Description,
         KPIGroups: []
     };

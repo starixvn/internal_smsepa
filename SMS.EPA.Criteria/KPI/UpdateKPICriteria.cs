@@ -31,6 +31,8 @@ namespace SMS.EPA.Criteria.KPI
 
         public bool IsRequiredEvaluate { get; set; }
 
+        public bool IsActive { get; set; }
+
         public int ModifiedBy { get; set; }
 
         public override string GetSettingKey()

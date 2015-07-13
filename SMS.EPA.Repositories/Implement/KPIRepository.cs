@@ -14,7 +14,6 @@ namespace SMS.EPA.Repositories.Implement
     using Fanex.Data.Repository;
     using SMS.EPA.Model.KPI;
     using SMS.EPA.Model.KPIGroup;
-    using SMS.EPA.Model.TargetType;
     using SMS.EPA.Repositories.Interfaces;
 
     public class KPIRepository : IKPIRepository
@@ -25,14 +24,7 @@ namespace SMS.EPA.Repositories.Implement
             {
                 using (var multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    IEnumerable<KPIModel> kpis = multi.Read<KPIModel, TargetTypeModel, KPIModel>(
-                        (kpi, ty) =>
-                        {
-                            kpi.TargetType = ty;
-
-                            return kpi;
-                        },
-                        "TargetTypeId");
+                    IEnumerable<KPIModel> kpis = multi.Read<KPIModel>();
                     IEnumerable<RawKPIModel> kpiKPIGroups = multi.Read<RawKPIModel>();
 
                     foreach (var kpi in kpis)

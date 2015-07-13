@@ -85,6 +85,17 @@ function (KPIGroupModel, KPIModel, CommonModel, utilitiesFactory) {
         vm.viewKPIUrl = '/KPI/Index' + '?groupId=' + kpiGroupId;
     };
 
+    /// Event read more / less text.
+    utilitiesFactory.maxLengthDescription(vm);
+
+    vm.readMore = function (item) {
+        utilitiesFactory.readMore(item);
+    };
+
+    vm.readLess = function (item) {
+        utilitiesFactory.readLess(item);
+    };
+
     /// Get index of row in table.
     vm.getIndex = function (index, currentPage, pageSize) {
         return CommonModel.getIndex(index, currentPage, pageSize);

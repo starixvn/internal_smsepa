@@ -396,4 +396,10 @@
   <data name="EditTargetTemplate" xml:space="preserve">
     <value>Edit Target Template</value>
   </data>
+  <data name="ReadLess" xml:space="preserve">
+    <value>less</value>
+  </data>
+  <data name="ReadMore" xml:space="preserve">
+    <value>...more</value>
+  </data>
 </root>

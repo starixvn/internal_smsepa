@@ -12,7 +12,6 @@ namespace SMS.EPA.Model.KPI
     using System;
     using System.Collections.Generic;
     using SMS.EPA.Model.KPIGroup;
-    using SMS.EPA.Model.TargetType;
 
     public class KPIModel
     {
@@ -36,8 +35,6 @@ namespace SMS.EPA.Model.KPI
         public bool IsRequiredEvaluate { get; set; }
 
         public IList<KPIGroupModel> KPIGroups { get; set; }
-
-        public TargetTypeModel TargetType { get; set; }
 
         public int CreatedBy { get; set; }
 

@@ -212,7 +212,7 @@ namespace SMS.EPA.Resources {
                 return ResourceManager.GetString("CreateKPIGroup", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Created Successfully!.
         /// </summary>
@@ -223,20 +223,20 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Created Unsuccessfully!.
-        /// </summary>
-        public static string CreateUnsuccessfully {
-            get {
-                return ResourceManager.GetString("CreateUnsuccessfully", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Create Target Template.
         /// </summary>
         public static string CreateTargetTemplate {
             get {
                 return ResourceManager.GetString("CreateTargetTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Created Unsuccessfully!.
+        /// </summary>
+        public static string CreateUnsuccessfully {
+            get {
+                return ResourceManager.GetString("CreateUnsuccessfully", resourceCulture);
             }
         }
         
@@ -624,6 +624,24 @@ namespace SMS.EPA.Resources {
         public static string PasswordRequried {
             get {
                 return ResourceManager.GetString("PasswordRequried", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to less.
+        /// </summary>
+        public static string ReadLess {
+            get {
+                return ResourceManager.GetString("ReadLess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ...more.
+        /// </summary>
+        public static string ReadMore {
+            get {
+                return ResourceManager.GetString("ReadMore", resourceCulture);
             }
         }
         

@@ -43,6 +43,22 @@
     }
 }
 
+.kpi-management, .kpiGroup-management {
+    .table.table-striped {
+        .col-number-kpis, .col-required, .col-active {
+            max-width: 60px;
+        }
+
+        .col-description {
+            max-width: 300px;
+        }
+
+        .col-action {
+            max-width: 80px;
+        }
+    }
+}
+
 .kpi-management {
     .button-icon {
         &.back-button {
@@ -53,6 +69,15 @@
                 top: -2px;
                 padding: 0;
             }
+        }
+    }
+
+    .list-kpi-groups {
+        margin: 0;
+        padding: 0 0 0 15px;
+
+        .kpi-group-item {
+            padding: 2px 0;
         }
     }
 }
