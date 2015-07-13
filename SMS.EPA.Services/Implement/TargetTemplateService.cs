@@ -10,16 +10,32 @@
 namespace SMS.EPA.Services.Implement
 {
     using System.Collections.Generic;
+    using System.Linq;
     using Fanex.Common.Helper;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.TargetTemplate;
+    using SMS.EPA.Model.KPI;
     using SMS.EPA.Model.KPIGroup;
     using SMS.EPA.Model.TargetTemplate;
+    using SMS.EPA.Repositories.Implement;
+    using SMS.EPA.Repositories.Interfaces;
     using SMS.EPA.Services.Interfaces;
 
     public class TargetTemplateService : BaseService, ITargetTemplateService
     {
+        private readonly ITargetTemplateRepository _targetTemplateRepository;
+
+        public TargetTemplateService()
+            : this(null)
+        {
+        }
+
+        public TargetTemplateService(ITargetTemplateRepository targetTemplateRepository)
+        {
+            _targetTemplateRepository = targetTemplateRepository ?? new TargetTemplateRepository();
+        }
+
         public TargetTemplateModel GetTargetTemplateById(GetTargetTemplateByIdCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");
@@ -92,13 +108,21 @@ namespace SMS.EPA.Services.Implement
             return result;
         }
 
-        public IEnumerable<KPIGroupModel> GetSelectedKPIGroup(GetKPIGroupOfTargetTemplateCriteria criteria)
+        public IEnumerable<KPIGroupModel> GetKPIGroupOfTargetTemplate(GetKPIGroupOfTargetTemplateCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<KPIGroupModel> groups = null;
             if (criteria.IsValid())
             {
                 groups = GetData<KPIGroupModel>(criteria);
+
+                foreach (KPIGroupModel group in groups)
+                {
+                    if (group.Weight > 0)
+                    {
+                        group.Selected = true;
+                    }
+                }
             }
 
             return groups;
@@ -117,7 +141,7 @@ namespace SMS.EPA.Services.Implement
             return result;
         }
 
-        public CommandResult RemoveKPIGroup(DeleteKPIGroupOfTargetTemplateCriteria criteria)
+        public CommandResult DeleteKPIGroup(DeleteKPIGroupOfTargetTemplateCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");
             CommandResult result = null;
@@ -127,6 +151,33 @@ namespace SMS.EPA.Services.Implement
             }
 
             return result;
+        }
+
+        public IEnumerable<TargetTemplateKPIGroupModel> GetKPIOfTargetTemplate(GetKPIOfTargetTemplateCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<TargetTemplateKPIGroupModel> kpiGroups = new List<TargetTemplateKPIGroupModel>();
+
+            if (criteria.IsValid())
+            {
+                IEnumerable<KPIModel> kpiList = _targetTemplateRepository.GetKPIOfTargetTemplate(criteria);
+                kpiGroups = GroupKPI(kpiList);
+            }
+
+            return kpiGroups;
+        }
+
+        private IEnumerable<TargetTemplateKPIGroupModel> GroupKPI(IEnumerable<KPIModel> kpiList)
+        {
+            return kpiList.GroupBy(x => x.KPIGroups.First().KPIGroupId).Select(x => new TargetTemplateKPIGroupModel
+                                            {
+                                                KPIGroupId = x.Key,
+                                                Name = x.First().KPIGroups.First().Name,
+                                                IsSpreadKPI = x.First().KPIGroups.First().IsSpreadKPI,
+                                                Weight = x.First().KPIGroups.First().Weight,
+                                                Selected = false,
+                                                KPIs = x.ToList()
+                                            });
         }
     }
 }

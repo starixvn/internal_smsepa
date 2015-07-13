@@ -13,6 +13,7 @@ namespace SMS.EPA.Site.Controllers.API
     using System.Web.Http;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.TargetTemplate;
+    using SMS.EPA.Model.KPIGroup;
     using SMS.EPA.Model.TargetTemplate;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
@@ -114,6 +115,56 @@ namespace SMS.EPA.Site.Controllers.API
             };
 
             CommandResult commandResult = _targetTemplateService.DeleteTargetTemplate(criteria);
+            return commandResult;
+        }
+
+        [HttpPost]
+        public CommandResult AddKPIGroupWeight(TargetKPIGroupWeightModel model)
+        {
+            var criteria = new SetKPIGroupOfTargetTemplateCriteria
+            {
+                TargetTemplateId = model.TargetTemplateId,
+                KPIGroups = model.ConvertKPIGroupWeightToXml,
+                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+            };
+
+            CommandResult commandResult = _targetTemplateService.AddKPIGroupWeight(criteria);
+            return commandResult;
+        }
+
+        public IEnumerable<KPIGroupModel> GetKPIGroupOfTargetTemplate(int targetTemplateId)
+        {
+            var criteria = new GetKPIGroupOfTargetTemplateCriteria
+            {
+                TargetTemplateId = targetTemplateId
+            };
+
+            IEnumerable<KPIGroupModel> groups = _targetTemplateService.GetKPIGroupOfTargetTemplate(criteria);
+            return groups;
+        }
+
+        public IEnumerable<TargetTemplateKPIGroupModel> GetKPIOfTargetTemplate(int targetTemplateId)
+        {
+            var criteria = new GetKPIOfTargetTemplateCriteria
+            {
+                TargetTemplateId = targetTemplateId
+            };
+
+            IEnumerable<TargetTemplateKPIGroupModel> kpiList = _targetTemplateService.GetKPIOfTargetTemplate(criteria);
+            return kpiList;
+        }
+
+        [HttpDelete]
+        public CommandResult DeleteKPIGroupOfTargetTemplate(int targetTemplateId, int kpiGroupId)
+        {
+            var criteria = new DeleteKPIGroupOfTargetTemplateCriteria
+            {
+                TargetTemplateId = targetTemplateId,
+                KPIGroupId = kpiGroupId,
+                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+            };
+
+            CommandResult commandResult = _targetTemplateService.DeleteKPIGroup(criteria);
             return commandResult;
         }
     }

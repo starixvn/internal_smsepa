@@ -8,6 +8,8 @@ function ($modal, targetTemplateFactory, errorFactory, notificationFactory, util
 
     targetTemplateModel.targetTemplates = [];
     targetTemplateModel.targetTemplate = {};
+    targetTemplateModel.kpiGroups = [];
+    targetTemplateModel.kpiList = [];
 
     targetTemplateModel.getTargetTemplate = function (targetTypeId, isActive) {
         return targetTemplateFactory.getTargetTemplate(targetTypeId, isActive).success(function (targetTemplates) {
@@ -149,6 +151,110 @@ function ($modal, targetTemplateFactory, errorFactory, notificationFactory, util
                     var index = vm.targetTemplates.indexOf(targetTemplate);
                     vm.targetTemplates.splice(index, 1);
                     utilitiesFactory.searchOnPage(vm, vm.targetTemplates);
+                    notificationFactory.success("DeletedSuccessfully");
+                }
+                else {
+                    notificationFactory.error("", response.Message);
+                }
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        })['finally'](function () {
+            modalInstance = '';
+        });
+    };
+
+    targetTemplateModel.openPopupAddKPIGroup = function (vm, targetTemplateId) {
+        vm.modalInstance = $modal.open({
+            templateUrl: 'SourceApp/Components/TargetTemplate/Templates/addKPIGroup.html',
+            controller: "AddedKPIGroupController as addKPIGroupCtrl",
+            backdrop: 'static',
+            resolve: {
+                targetTemplateId: function () {
+                    return targetTemplateId;
+                }
+            },
+            windowClass: "modal-confirm-center kpi-group-popup"
+        });
+
+        return vm.modalInstance.result;
+    };
+
+    targetTemplateModel.getKPIGroupOfTargetTemplate = function (targetTemplateId) {
+        return targetTemplateFactory.getKPIGroupOfTargetTemplate(targetTemplateId).success(function (groups) {
+            targetTemplateModel.kpiGroups = groups;
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    targetTemplateModel.addKPIGroupWeight = function (kpiGroupWeightModel) {
+        return targetTemplateFactory.addKPIGroupWeight(kpiGroupWeightModel).success(function (response) {
+            if (response.IsSuccessful) {
+                notificationFactory.success("UpdateSuccessfully");
+            }
+            else {
+                notificationFactory.error("", response.Message);
+            }
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    targetTemplateModel.validateKPIGroupWeight = function (kpiGroups) {
+        var hasWeight = true,
+            totalWeight = 0;
+
+        angular.forEach(kpiGroups, function (group) {
+            if (!group.Weight) {
+                hasWeight = false;
+            }
+
+            totalWeight += group.Weight;
+        });
+
+        if (!hasWeight) {
+            notificationFactory.error('WeightKPIGroupRequired');
+            return false;
+        }
+        else if (totalWeight > 100) {
+            notificationFactory.error('TotalWeightWarning');
+            return false;
+        }
+
+        return true;
+    };
+
+    targetTemplateModel.getKPIOfTargetTemplate = function (targetTemplateId) {
+        return targetTemplateFactory.getKPIOfTargetTemplate(targetTemplateId).success(function (kpiGroups) {
+            targetTemplateModel.kpiList = kpiGroups;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    targetTemplateModel.openPopupDeleteKPIGroup = function (targetTemplateId, kpiGroup) {
+        var modalInstance = $modal.open({
+            templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
+            controller: "ModalConfirmController as modalConfirmCtrl",
+            backdrop: 'static',
+            resolve: {
+                name: function () {
+                    return kpiGroup.Name;
+                },
+                action: function () {
+                    return 'delete';
+                }
+            },
+            windowClass: "modal-confirm-center"
+        });
+
+        return modalInstance.result.then(function () {
+            targetTemplateFactory.deleteKPIGroupOfTargetTemplate(targetTemplateId, kpiGroup.KPIGroupId)
+            .success(function (response) {
+                if (response.IsSuccessful) {
                     notificationFactory.success("DeletedSuccessfully");
                 }
                 else {

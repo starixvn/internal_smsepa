@@ -1,54 +1,52 @@
-﻿<div class="row">
-    <form class="col-sm-11 form-horizontal common-form project-form" novalidate>
-    <div class="row first boxtitle">
-        <a class="button-icon btn-boxTitle" title="Manage KPI Group" ng-click="addKPIGroup()">
-            <span class="glyphicon glyphicon-cog icon-setting"></span>Manage KPI Group </a>
-        <input class="search-textbox pull-right" placeholder="filter kpi..." type="text"
-            ng-model="KPIName" />
+﻿<div ng-controller="KPIListController as kpiListCtrl">
+    <form class="form-horizontal common-form project-form" novalidate>
+    <div class="first boxtitle">
+        <a class="button" title="Manage KPI Group" ng-click="kpiListCtrl.addKPIGroup()">
+            <span class="glyphicon glyphicon-cog icon-setting"></span> {{"ManageKPIGroupTargetTemplate" | translate}}</a>
+        <input class="search-textbox pull-right" placeholder="filter kpi..." type="text" ng-model="KPIName" />
     </div>
-    <div class="row boxcontent">
+    <div class="boxcontent">
         <div class="line top-buffer">
-            <div class="row">
+            <div>
                 <table class="table table-bordered table-striped table-hover" id="tblKPI">
                     <thead>
                         <th>
-                            <input type="checkbox" ng-model="selectedAll" ng-click="checkAll(selectedAll)" />
+                            <input type="checkbox" ng-model="kpiListCtrl.SelectedAll" ng-click="kpiListCtrl.checkAll(kpiListCtrl.SelectedAll)" />
                         </th>
                         <th data-translate="KPIName">
                         </th>
-                        <th data-translate="KPIGroupWeight">
+                        <th data-translate="Weight">
                         </th>
                         <th class="middle-align" data-translate="Priority">
                         </th>
                     </thead>
-                    <tbody ng-repeat="kpi in lstKPI | filter: KPIName" class="kpiItemBody" list-sortable>
+                    <tbody ng-repeat="group in kpiListCtrl.kpiList | filter: KPIName" class="kpiItemBody" list-sortable>
                         <tr class="row-header unsortable">
                             <td class="text-center row-highlight">
-                                <input type="checkbox" ng-model="kpi.groupSelected" ng-click="checkAllGroup(kpi.groupSelected, kpi)" />
+                                <input type="checkbox" ng-model="group.GroupSelected" ng-click="kpiListCtrl.checkAllGroup(group.GroupSelected, group)" />
                             </td>
                             <td class="criteria-title row-highlight group-header">
-                                <span>{{ kpi.kpiGroupName}} ({{kpi.kpiGroupItems[0].kpiGroupWeight}}%)</span> <a
+                                <span>{{ group.Name}} ({{group.Weight}}%)</span> <a
                                     class="glyphicon glyphicon-remove icon-remove left-buffer" title="Remove Group"
-                                    ng-click="removeKPIGroup(kpi.id, kpi.kpiGroupName)" href="javascript:;"></a>
+                                    ng-click="kpiListCtrl.removeKPIGroup(group)" href="javascript:;"></a>
                             </td>
                             <td class="text-center row-highlight">
-                                <a ng-show="!kpi.isSpreadKPI" href="javascript:;" ng-click="scoreSpread(kpi)">Spread</a>
+                                <a ng-show="!group.IsSpreadKPI" href="javascript:;" ng-click="kpiListCtrl.scoreSpread(group)">Spread</a>
                             </td>
                             <td class="text-center row-highlight">
                             </td>
                         </tr>
-                        <tr class="row-data" ng-repeat="item in kpi.kpiGroupItems | filter: KPIName">
-                            <td class="text-center" item-id="{{item.kpiId}}" group-id="{{item.kpiGroupId}}">
-                                <input class="check-group" type="checkbox" value="{{item.name}}" ng-model="item.selected" />
+                        <tr class="row-data" ng-repeat="item in group.KPIs | filter: KPIName">
+                            <td class="text-center" item-id="{{item.KPIId}}" group-id="{{group.KPIGroupId}}">
+                                <input class="check-group" type="checkbox" value="{{item.Name}}" ng-model="item.Selected" />
                             </td>
-                            <td>
-                                {{item.name}}
+                            <td ng-bind="item.Name">
                             </td>
-                            <td class="column-weight-max text-center">
-                                <input type="text" class="custom-form-control text-center" ng-show="!item.isSpreadKPI && item.selected"
-                                    ng-model="item.weight" ng-show="item.selected == true" percentage />
-                                <span ng-show="item.isSpreadKPI && !item.selected">-</span> <span ng-show="item.isSpreadKPI && item.selected"
-                                    class="glyphicon glyphicon-ok item-list-icon"></span>
+                            <td class="width-100 text-center">
+                                <input type="text" class="weight-form-control text-center" ng-show="!group.IsSpreadKPI && item.Selected"
+                                    ng-model="item.Weight" percentage />
+                                <span ng-show="group.IsSpreadKPI && !item.Selected">-</span> 
+                                <span ng-show="group.IsSpreadKPI && item.Selected" class="glyphicon glyphicon-ok item-list-icon"></span>
                             </td>
                             <td class="text-center priority-limit">
                                 <a ng-click="setPriority($event)" href="javascript:;" title="Top" class="glyphicon glyphicon-open kpiTop">

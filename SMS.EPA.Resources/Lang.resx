@@ -402,4 +402,28 @@
   <data name="ReadMore" xml:space="preserve">
     <value>...more</value>
   </data>
+  <data name="Weight" xml:space="preserve">
+    <value>Weight</value>
+  </data>
+   <data name="ManageKPIGroupTargetTemplate" xml:space="preserve">
+    <value>Manage KPI Group</value>
+  </data>
+  <data name="SpreadWeight" xml:space="preserve">
+    <value>Spread KPIs Weight</value>
+  </data>
+  <data name="Priority" xml:space="preserve">
+    <value>Priority</value>
+  </data>
+  <data name="UncheckKPIGroupWarning" xml:space="preserve">
+    <value>* Note: All KPIs in KPI Group setting will be removed. Please check carefully before unchecked KPI Group !</value>
+  </data>
+  <data name="TotalWeightWarning" xml:space="preserve">
+    <value>Total Groups weight must be equal or less than 100</value>
+  </data>
+  <data name="WeightKPIGroupRequired" xml:space="preserve">
+    <value>All weight of selected KPI Groups is required!</value>
+  </data>
+  <data name="KPIName" xml:space="preserve">
+    <value>KPI Name</value>
+  </data>
 </root>

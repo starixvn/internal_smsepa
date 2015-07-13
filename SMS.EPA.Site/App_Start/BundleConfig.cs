@@ -75,6 +75,7 @@
                             "~/SourceApp/Components/Role/role-controller.js",
                             "~/SourceApp/Components/TargetTemplate/targetTemplate-factory.js",
                             "~/SourceApp/Components/TargetTemplate/targetTemplate-model.js",
+                            "~/SourceApp/Components/TargetTemplate/targetTemplate-directive.js",
                             "~/SourceApp/Components/TargetTemplate/targetTemplate-controller.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(

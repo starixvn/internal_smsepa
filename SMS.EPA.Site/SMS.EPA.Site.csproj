@@ -300,9 +300,11 @@
     <Content Include="SourceApp\Components\Role\Templates\treeHostCheckbox.html" />
     <Content Include="SourceApp\Components\Role\Templates\treeItem.html" />
     <Content Include="SourceApp\Components\Role\Templates\treeReadCheckbox.html" />
+    <Content Include="SourceApp\Components\TargetTemplate\targetTemplate-directive.js" />
     <Content Include="SourceApp\Components\TargetTemplate\targetTemplate-factory.js" />
     <Content Include="SourceApp\Components\TargetTemplate\targetTemplate-controller.js" />
     <Content Include="SourceApp\Components\TargetTemplate\targetTemplate-model.js" />
+    <Content Include="SourceApp\Components\TargetTemplate\Templates\addKPIGroup.html" />
     <Content Include="SourceApp\Components\TargetTemplate\Templates\create.html" />
     <Content Include="SourceApp\Components\TargetTemplate\Templates\generalInformation.html" />
     <Content Include="SourceApp\Components\TargetTemplate\Templates\index.html" />

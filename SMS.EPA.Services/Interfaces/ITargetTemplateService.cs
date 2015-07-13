@@ -29,10 +29,12 @@ namespace SMS.EPA.Services.Interfaces
 
         CommandResult AddKPIGroupWeight(SetKPIGroupOfTargetTemplateCriteria criteria);
 
-        IEnumerable<KPIGroupModel> GetSelectedKPIGroup(GetKPIGroupOfTargetTemplateCriteria criteria);
+        IEnumerable<KPIGroupModel> GetKPIGroupOfTargetTemplate(GetKPIGroupOfTargetTemplateCriteria criteria);
 
         CommandResult UpdateStatusTargetTemplate(UpdateStatusTargetTemplateCriteria criteria);
 
-        CommandResult RemoveKPIGroup(DeleteKPIGroupOfTargetTemplateCriteria criteria);
+        CommandResult DeleteKPIGroup(DeleteKPIGroupOfTargetTemplateCriteria criteria);
+
+        IEnumerable<TargetTemplateKPIGroupModel> GetKPIOfTargetTemplate(GetKPIOfTargetTemplateCriteria criteria);
     }
 }

@@ -511,6 +511,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to KPI Name.
+        /// </summary>
+        public static string KPIName {
+            get {
+                return ResourceManager.GetString("KPIName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to KPIs.
         /// </summary>
         public static string KPIs {
@@ -543,6 +552,15 @@ namespace SMS.EPA.Resources {
         public static string ManageKPIGroup {
             get {
                 return ResourceManager.GetString("ManageKPIGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage KPI Group.
+        /// </summary>
+        public static string ManageKPIGroupTargetTemplate {
+            get {
+                return ResourceManager.GetString("ManageKPIGroupTargetTemplate", resourceCulture);
             }
         }
         
@@ -642,6 +660,15 @@ namespace SMS.EPA.Resources {
         public static string ReadMore {
             get {
                 return ResourceManager.GetString("ReadMore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Priority.
+        /// </summary>
+        public static string Priority {
+            get {
+                return ResourceManager.GetString("Priority", resourceCulture);
             }
         }
         
@@ -754,6 +781,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Spread KPIs Weight.
+        /// </summary>
+        public static string SpreadWeight {
+            get {
+                return ResourceManager.GetString("SpreadWeight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Status.
         /// </summary>
         public static string Status {
@@ -853,6 +889,24 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Total Groups weight must be equal or less than 100.
+        /// </summary>
+        public static string TotalWeightWarning {
+            get {
+                return ResourceManager.GetString("TotalWeightWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to * Note: All KPIs in KPI Group setting will be removed. Please check carefully before unchecked KPI Group !.
+        /// </summary>
+        public static string UncheckKPIGroupWarning {
+            get {
+                return ResourceManager.GetString("UncheckKPIGroupWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Updated Successfully!.
         /// </summary>
         public static string UpdateSuccessfully {
@@ -894,6 +948,24 @@ namespace SMS.EPA.Resources {
         public static string UsernameRequried {
             get {
                 return ResourceManager.GetString("UsernameRequried", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Weight.
+        /// </summary>
+        public static string Weight {
+            get {
+                return ResourceManager.GetString("Weight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All weight of selected KPI Groups is required!.
+        /// </summary>
+        public static string WeightKPIGroupRequired {
+            get {
+                return ResourceManager.GetString("WeightKPIGroupRequired", resourceCulture);
             }
         }
         

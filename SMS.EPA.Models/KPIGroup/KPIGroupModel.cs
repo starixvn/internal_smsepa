@@ -4,7 +4,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 // <history>
-//   <change who="Tim.Trinh" date="2015.07.07">Created</change>
+//   <change who="Tim.Trinh" date="2015.07.07">Created.</change>
 // </history>
 
 namespace SMS.EPA.Model.KPIGroup
@@ -25,6 +25,14 @@ namespace SMS.EPA.Model.KPIGroup
         public TargetTypeModel TargetType { get; set; }
 
         public bool IsActive { get; set; }
+
+        public int Weight { get; set; }
+
+        public bool IsSpreadKPI { get; set; }
+
+        public int DisplayOrder { get; set; }
+
+        public bool Selected { get; set; }
 
         public int CreatedBy { get; set; }
 
