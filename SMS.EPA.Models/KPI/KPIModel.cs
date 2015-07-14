@@ -35,9 +35,9 @@ namespace SMS.EPA.Model.KPI
 
         public bool IsRequiredEvaluate { get; set; }
 
-        public bool Selected { get; set; }
+        public bool? Selected { get; set; }
 
-        public int Weight { get; set; }
+        public int? Weight { get; set; }
 
         public IList<KPIGroupModel> KPIGroups { get; set; }
 

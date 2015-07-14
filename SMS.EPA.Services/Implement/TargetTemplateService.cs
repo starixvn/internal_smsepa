@@ -175,9 +175,34 @@ namespace SMS.EPA.Services.Implement
                                                 Name = x.First().KPIGroups.First().Name,
                                                 IsSpreadKPI = x.First().KPIGroups.First().IsSpreadKPI,
                                                 Weight = x.First().KPIGroups.First().Weight,
-                                                Selected = false,
-                                                KPIs = x.ToList()
+                                                Selected = CheckGroupSelected(x.ToList()),
+                                                KPIs = CheckKPISelected(x.ToList())
                                             });
+        }
+
+        private bool CheckGroupSelected(List<KPIModel> listKPI)
+        {
+            bool allSelected = true;
+            listKPI.ForEach(x =>
+                {
+                    if (x.Weight == null)
+                    {
+                        allSelected = false;
+                    }
+                });
+            return allSelected;
+        }
+
+        private IEnumerable<KPIModel> CheckKPISelected(List<KPIModel> listKPI)
+        {
+            listKPI.ForEach(x => 
+            { 
+                if (x.Weight >= 0) 
+                {
+                    x.Selected = true;
+                }
+            });
+            return listKPI;
         }
     }
 }

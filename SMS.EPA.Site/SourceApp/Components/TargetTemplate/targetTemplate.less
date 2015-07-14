@@ -1,5 +1,5 @@
 ﻿.top-buffer {
-    margin-top: 10px !important;
+    margin-top: 15px !important;
 }
 
 table { 
@@ -18,16 +18,15 @@ table {
             height: 21px !important;
             width: 100%;
     }
-
-    .item-list-icon {
-        color: #87b84b;
-        font-size: 11px;
-        margin-right: 6px;
-        position: relative;
-        top: 0;
-    }
 }
 
+.item-list-icon {
+    color: #87b84b;
+    font-size: 11px;
+    margin-right: 6px;
+    position: relative;
+    top: 0;
+}
 
 .kpi-group-popup {
     .modal-dialog {
@@ -36,5 +35,55 @@ table {
         .error-message {
             color: red;
         }
+    }
+}
+
+.kpi-list-form {
+    margin: 10px 0 !important;
+    padding: 0 !important;
+
+    .tab-header {
+        text-transform: uppercase;
+    }
+
+    .boxtitle.first {
+        border-top: 1px solid #fafafa;
+    }
+
+    .information {
+        content: " ";
+        display: table;
+    }
+
+    .boxtitle {
+        background-image: linear-gradient(to bottom, #ebebeb, #e5e5e5);
+        background-repeat: repeat-x;
+        border-bottom: 1px solid #fafafa;
+        border-top: 1px solid #d2d2d2;
+        color: #0f0f13;
+        cursor: pointer;
+        font-family: "Myriad Pro",Tahoma,REZ,Arial;
+        font-size: 14px;
+        padding: 8px 12px;
+        position: relative;
+        text-shadow: 0.05em 0.05em white;
+    }
+
+    .line {
+        border-bottom: 1px solid #e5e3e3;
+        margin-bottom: 8px;
+    }
+
+    .label-bold {
+        font-weight: bold !important;
+    }
+
+    .kpi-list li {
+        color: #333333;
+        padding: 3px 0;
+    }
+
+    .action-button {
+        margin: 0 0 15px;
     }
 }

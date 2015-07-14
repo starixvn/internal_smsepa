@@ -40,7 +40,8 @@ namespace SMS.EPA.Site
                 "Home/AccessDenied",
                 "TargetTemplate/Index",
                 "TargetTemplate/Create",
-                "TargetTemplate/Update/{id}"
+                "TargetTemplate/Update/{id}",
+                "TargetTemplate/Detail/{id}"
             };
 
             homeRouteUrls.ForEach(url => routes.MapRoute(

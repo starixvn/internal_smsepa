@@ -34,12 +34,21 @@ function (TargetTemplateModel, utilitiesFactory, CommonModel) {
         TargetTemplateModel.openPopupUpdateStatusTargetTemplate(targetTemplate);
     };
 
-    vm.update = function (targetTemplate) {
-        vm.updateTargetTemplateUrl = '/TargetTemplate/Update/' + targetTemplate.TargetTemplateId;
+    vm.update = function (targetTemplate, viewKPIs) {
+        if (!viewKPIs) {
+            vm.updateTargetTemplateUrl = '/TargetTemplate/Update/' + targetTemplate.TargetTemplateId + '?viewInfo';
+        }
+        else {
+            vm.updateTargetTemplateUrl = '/TargetTemplate/Update/' + targetTemplate.TargetTemplateId + '?viewKPIs';
+        }
     };
 
     vm.deleteTargetTemplate = function (targetTemplate) {
         TargetTemplateModel.openPopupDeleteTargetTemplate(vm, targetTemplate);
+    };
+
+    vm.detail = function (targetTemplate) {
+        vm.detailTargetTemplate = '/TargetTemplate/Detail/' + targetTemplate.TargetTemplateId;
     };
 } ]);
 
@@ -81,15 +90,28 @@ function ($window, $routeParams, TargetTemplateModel) {
     vm.targetTemplateId = parseInt($routeParams.id);
     vm.targetTemplate = TargetTemplateModel.targetTemplate;
 
+    vm.dataTab = {
+        information: $routeParams.viewInfo ? true : false,
+        kpi: $routeParams.viewKPIs ? true : false
+    };
+
     TargetTemplateModel.getTargetTemplateById(vm.targetTemplateId).then(function () {
         vm.targetTemplate = TargetTemplateModel.targetTemplate;
     });
 
+    vm.tabInfoSelect = function () {
+        vm.dataTab.information = true;
+        vm.dataTab.kpi = false;
+    };
+
+    vm.tabKPISelect = function () {
+        vm.dataTab.information = false;
+        vm.dataTab.kpi = true;
+    };
+
     vm.save = function (targetTemplate) {
         if (TargetTemplateModel.validateTargetTemplate(targetTemplate)) {
-            TargetTemplateModel.updateTargetTemplate(targetTemplate).then(function () {
-                $window.history.back();
-            });
+            TargetTemplateModel.updateTargetTemplate(targetTemplate);
         }
     };
 
@@ -135,7 +157,7 @@ function ($scope, TargetTemplateModel) {
 
     vm.checkAll = function (selectedAll) {
         angular.forEach(vm.kpiList, function (kpiGroup) {
-            kpiGroup.GroupSelected = selectedAll;
+            kpiGroup.Selected = selectedAll;
             vm.checkAllGroup(selectedAll, kpiGroup);
         });
     };
@@ -207,5 +229,29 @@ function ($modalInstance, TargetTemplateModel, targetTemplateId) {
 
     vm.cancel = function () {
         $modalInstance.dismiss("cancel");
+    };
+} ]);
+
+targetTemplateModule.controller('DetailTargetTemplateController',
+['$window', '$routeParams', 'TargetTemplateModel', 'utilitiesFactory',
+function ($window, $routeParams, TargetTemplateModel, utilitiesFactory) {
+    var vm = this;
+
+    vm.targetTemplateId = parseInt($routeParams.id);
+    vm.targetTemplate = TargetTemplateModel.targetTemplate;
+    vm.kpiList = TargetTemplateModel.kpiList;
+
+    utilitiesFactory.getDateFormat(vm);
+
+    TargetTemplateModel.getTargetTemplateById(vm.targetTemplateId).then(function () {
+        vm.targetTemplate = TargetTemplateModel.targetTemplate;
+    });
+
+    TargetTemplateModel.getKPIOfTargetTemplate(vm.targetTemplateId).then(function () {
+        vm.kpiList = TargetTemplateModel.kpiList;
+    });
+
+    vm.back = function () {
+        $window.history.back();
     };
 } ]);

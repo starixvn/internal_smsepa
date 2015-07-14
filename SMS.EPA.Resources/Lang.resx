@@ -429,4 +429,19 @@
   <data name="DataChangeSuccessfully" xml:space="preserve">
     <value>Data changed successfully!</value>
   </data>
+    <data name="KPIList" xml:space="preserve">
+    <value>KPI List</value>
+  </data>
+  <data name="TargetTemplateDetail" xml:space="preserve">
+    <value>Target Template Detail</value>
+  </data>
+  <data name="TargetTemplateInformation" xml:space="preserve">
+    <value>Target Template Information</value>
+  </data>
+  <data name="LastModifiedBy" xml:space="preserve">
+    <value>Last Modified By</value>
+  </data>
+  <data name="LastModifiedDate" xml:space="preserve">
+    <value>Last Modified Date</value>
+  </data>
 </root>

@@ -44,6 +44,26 @@ targetTemplateModule.directive('listDraggable', function () {
     };
 });
 
+targetTemplateModule.directive('tableRowLevel', ['$timeout', function (timeout) {
+    return function () {
+        var moveTableRow = function () {
+            $(".up,.down,.top,.bottom").click(function () {
+                var row = $(this).parents("tr:first");
+                if ($(this).is(".up")) {
+                    row.insertBefore(row.prev());
+                } else if ($(this).is(".down")) {
+                    row.insertAfter(row.next());
+                } else if ($(this).is(".bottom")) {
+                    row.insertAfter($("table#tblKPIGroup tbody tr:last"));
+                } else if ($(this).is(".top")) {
+                    row.insertBefore($("table#tblKPIGroup tbody tr:first"));
+                }
+            });
+        };
+        timeout(moveTableRow, 1);
+    };
+} ]);
+
 targetTemplateModule.directive('getGroupWeight', function () {
     return {
         restrict: 'A',
@@ -56,7 +76,7 @@ targetTemplateModule.directive('getGroupWeight', function () {
                 angular.forEach(selectedRows, function (selectedRow, index) {
                     var selectedRowElement = $(selectedRow),
                         group = {
-                            KPIGRoupId: parseInt(selectedRowElement.find('td').attr('data-id')),
+                            KPIGroupId: parseInt(selectedRowElement.find('td').attr('data-id')),
                             Weight: parseInt(selectedRowElement.find("[name='weight']").val()),
                             IsSpreadKPI: selectedRowElement.find("[name='spread']").is(':checked'),
                             DisplayOrder: index + 1
@@ -66,6 +86,35 @@ targetTemplateModule.directive('getGroupWeight', function () {
                 });
 
                 scope.addKPIGroupCtrl.save.call(this, selectedGroups);
+            });
+        }
+    };
+});
+
+targetTemplateModule.directive('getWeight', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, iElement) {
+            iElement.on('click', function () {
+                var KPIs = [],
+                    groupTable = $('#tblKPI'),
+                    selectedRows = groupTable.find('tr.row-data').has('.check-group:checked');
+
+                angular.forEach(selectedRows, function (selectedRow, index) {
+                    var selectedRowElement = $(selectedRow),
+                        weight = selectedRowElement.find("[name='weight']").val(),
+                        kpi = {
+                            KPIId: parseInt(selectedRowElement.find('td').attr('item-id')),
+                            KPIGroupId: parseInt(selectedRowElement.find('td').attr('group-id')),
+                            Weight: weight ? parseInt(weight) : 0,
+                            DisplayOrder: index + 1
+                        };
+
+                    KPIs.push(kpi);
+                });
+
+                scope.updateCtrl.targetTemplate.KPIIds = KPIs;
+                scope.updateCtrl.save.call(this, scope.updateCtrl.targetTemplate);
             });
         }
     };

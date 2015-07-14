@@ -35,4 +35,6 @@ var targetTemplateModule = angular.module("targetTemplateModule", ['ngRoute'])
     { templateUrl: '/SourceApp/Components/TargetTemplate/Templates/create.html' });
     $routeProvider.when('/TargetTemplate/Update/:id',
     { templateUrl: '/SourceApp/Components/TargetTemplate/Templates/update.html' });
+    $routeProvider.when('/TargetTemplate/Detail/:id',
+    { templateUrl: '/SourceApp/Components/TargetTemplate/Templates/detail.html' });
 } ]);

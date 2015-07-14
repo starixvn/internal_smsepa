@@ -26,13 +26,13 @@ namespace SMS.EPA.Model.KPIGroup
 
         public bool IsActive { get; set; }
 
-        public int Weight { get; set; }
+        public int? Weight { get; set; }
 
         public bool IsSpreadKPI { get; set; }
 
         public int DisplayOrder { get; set; }
 
-        public bool Selected { get; set; }
+        public bool? Selected { get; set; }
 
         public int CreatedBy { get; set; }
 

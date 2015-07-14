@@ -520,6 +520,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to KPI List.
+        /// </summary>
+        public static string KPIList {
+            get {
+                return ResourceManager.GetString("KPIList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to KPI Name.
         /// </summary>
         public static string KPIName {
@@ -534,6 +543,24 @@ namespace SMS.EPA.Resources {
         public static string KPIs {
             get {
                 return ResourceManager.GetString("KPIs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last Modified By.
+        /// </summary>
+        public static string LastModifiedBy {
+            get {
+                return ResourceManager.GetString("LastModifiedBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last Modified Date.
+        /// </summary>
+        public static string LastModifiedDate {
+            get {
+                return ResourceManager.GetString("LastModifiedDate", resourceCulture);
             }
         }
         
@@ -840,6 +867,24 @@ namespace SMS.EPA.Resources {
         public static string TargetTemplate {
             get {
                 return ResourceManager.GetString("TargetTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Target Template Detail.
+        /// </summary>
+        public static string TargetTemplateDetail {
+            get {
+                return ResourceManager.GetString("TargetTemplateDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Target Template Information.
+        /// </summary>
+        public static string TargetTemplateInformation {
+            get {
+                return ResourceManager.GetString("TargetTemplateInformation", resourceCulture);
             }
         }
         

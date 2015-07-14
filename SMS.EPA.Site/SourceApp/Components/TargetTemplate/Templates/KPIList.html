@@ -23,7 +23,7 @@
                     <tbody ng-repeat="group in kpiListCtrl.kpiList | filter: KPIName" class="kpiItemBody" list-sortable>
                         <tr class="row-header unsortable">
                             <td class="text-center row-highlight">
-                                <input type="checkbox" ng-model="group.GroupSelected" ng-click="kpiListCtrl.checkAllGroup(group.GroupSelected, group)" />
+                                <input type="checkbox" ng-model="group.Selected" ng-click="kpiListCtrl.checkAllGroup(group.Selected, group)" />
                             </td>
                             <td class="criteria-title row-highlight group-header">
                                 <span>{{ group.Name}} ({{group.Weight}}%)</span> <a
@@ -44,7 +44,7 @@
                             </td>
                             <td class="width-100 text-center">
                                 <input type="text" class="weight-form-control text-center" ng-show="!group.IsSpreadKPI && item.Selected"
-                                    ng-model="item.Weight" percentage />
+                                    ng-model="item.Weight" name="weight" percentage />
                                 <span ng-show="group.IsSpreadKPI && !item.Selected">-</span> 
                                 <span ng-show="group.IsSpreadKPI && item.Selected" class="glyphicon glyphicon-ok item-list-icon"></span>
                             </td>
@@ -58,17 +58,16 @@
                         </tr>
                     </tbody>
                     <tfoot>
-                        <tr ng-show="lstKPI == ''">
+                        <tr ng-show="kpiListCtrl.kpiList.length == 0">
                             <td class="empty-result" colspan="4" data-translate="EmptyResult">
                             </td>
                         </tr>
                     </tfoot>
                 </table>
                 <div class="col-sm-offset-5 top-buffer">
-                    <button class="button" ng-disabled="editTargetTemplate.$invalid" ng-click="update(editTemplate)"
-                        data-translate="Submit">
+                    <button class="button" ng-disabled="editTargetTemplate.$invalid" get-weight data-translate="Submit">
                     </button>
-                    <button class="btn btn-default customize" ng-click="cancel()" data-translate="Cancel">
+                    <button class="btn btn-default customize" ng-click="updateCtrl.cancel()" data-translate="Cancel">
                     </button>
                 </div>
             </div>

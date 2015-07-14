@@ -6,13 +6,12 @@
     </div>
     <div class="target-tabset">
         <tabset id="TargetTemplateTab">
-            <tab heading="GENERAL INFORMATION" class="tab-cursor" active="dataTab.information" select="tabInfoSelect()">
+            <tab heading="GENERAL INFORMATION" class="tab-cursor" active="updateCtrl.dataTab.information" select="updateCtrl.tabInfoSelect()">
                  <div ng-include src="'/SourceApp/Components/TargetTemplate/Templates/generalInformation.html'"></div>
             </tab>
-            <tab heading="TARGET KPI LIST" class="tab-cursor" active="dataTab.kpi" select="tabKPISelect()">
+            <tab heading="TARGET KPI LIST" class="tab-cursor" active="updateCtrl.dataTab.kpi" select="updateCtrl.tabKPISelect()">
                  <div ng-include src="'/SourceApp/Components/TargetTemplate/Templates/KPIList.html'"></div>
             </tab>
         </tabset>
     </div>
-
 </div>

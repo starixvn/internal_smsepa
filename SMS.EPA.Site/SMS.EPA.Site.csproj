@@ -306,6 +306,7 @@
     <Content Include="SourceApp\Components\TargetTemplate\targetTemplate-model.js" />
     <Content Include="SourceApp\Components\TargetTemplate\Templates\addKPIGroup.html" />
     <Content Include="SourceApp\Components\TargetTemplate\Templates\create.html" />
+    <Content Include="SourceApp\Components\TargetTemplate\Templates\detail.html" />
     <Content Include="SourceApp\Components\TargetTemplate\Templates\generalInformation.html" />
     <Content Include="SourceApp\Components\TargetTemplate\Templates\index.html" />
     <Content Include="SourceApp\Components\TargetTemplate\Templates\KPIList.html" />
@@ -476,7 +477,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>62516</DevelopmentServerPort>
+          <DevelopmentServerPort>60843</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>
