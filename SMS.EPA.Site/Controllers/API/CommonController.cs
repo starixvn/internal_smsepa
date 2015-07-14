@@ -14,6 +14,7 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Utilities;
+    using SMS.EPA.Model.KPI;
     using SMS.EPA.Model.KPIGroup;
     using SMS.EPA.Model.TargetType;
     using SMS.EPA.Web.ApiAuthorizeAttribute;
@@ -36,6 +37,17 @@ namespace SMS.EPA.Site.Controllers.API
         public IEnumerable<TargetTypeModel> GetTargetType(bool? isActive = null)
         {
             return _utilitiesController.GetTargetType(isActive);
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPI, Policy = Policy.Read)]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPIGroup, Policy = Policy.Read)]
+        public IEnumerable<KPIModel> GetKPI(
+           int? targetTypeId = null,
+           int? kpiGroupId = null,
+           bool? isActive = null)
+        {
+            return _utilitiesController.GetKPI(targetTypeId, kpiGroupId, isActive);
         }
 
         [HttpGet]

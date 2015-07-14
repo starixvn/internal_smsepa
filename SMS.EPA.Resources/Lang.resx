@@ -405,7 +405,7 @@
   <data name="Weight" xml:space="preserve">
     <value>Weight</value>
   </data>
-   <data name="ManageKPIGroupTargetTemplate" xml:space="preserve">
+  <data name="ManageKPIGroupTargetTemplate" xml:space="preserve">
     <value>Manage KPI Group</value>
   </data>
   <data name="SpreadWeight" xml:space="preserve">
@@ -425,5 +425,8 @@
   </data>
   <data name="KPIName" xml:space="preserve">
     <value>KPI Name</value>
+  </data>
+  <data name="DataChangeSuccessfully" xml:space="preserve">
+    <value>Data changed successfully!</value>
   </data>
 </root>

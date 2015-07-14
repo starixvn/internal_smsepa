@@ -1,22 +1,22 @@
 ﻿'use strict';
 /*global kpiGroupModule*/
 
-kpiGroupModule.factory('kpiGroupFactory', ['$http', function ($http) {
+kpiGroupModule.factory('kpiGroupFactory', ['$http', 'baseUrl', function ($http, baseUrl) {
     return {
         createKPIGroup: function (kpiGroup) {
-            return $http.post('/api/KPIGroup/CreateKPIGroup', kpiGroup);
+            return $http.post(baseUrl + 'api/KPIGroup/CreateKPIGroup', kpiGroup);
         },
         updateKPIGroup: function (kpiGroup) {
-            return $http.put('/api/KPIGroup/UpdateKPIGroup', kpiGroup);
+            return $http.put(baseUrl + 'api/KPIGroup/UpdateKPIGroup', kpiGroup);
         },
         updateStatusKPIGroup: function (kpiGroup) {
-            return $http.put('/api/KPIGroup/UpdateStatusKPIGroup', kpiGroup);
+            return $http.put(baseUrl + 'api/KPIGroup/UpdateStatusKPIGroup', kpiGroup);
         },
         deleteKPIGroup: function (kpiGroupId) {
-            return $http['delete']('/api/KPIGroup/DeleteKPIGroup', { params: { kpiGroupId: kpiGroupId} });
+            return $http['delete'](baseUrl + 'api/KPIGroup/DeleteKPIGroup', { params: { kpiGroupId: kpiGroupId} });
         },
         getUserPermissionOnKPIGroup: function () {
-            return $http.get('/api/KPIGroup/GetUserPermissionOnKPIGroup');
+            return $http.get(baseUrl + 'api/KPIGroup/GetUserPermissionOnKPIGroup');
         }
     };
 } ]);

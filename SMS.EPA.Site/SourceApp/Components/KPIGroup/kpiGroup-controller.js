@@ -74,7 +74,7 @@ function (KPIGroupModel, KPIModel, CommonModel, utilitiesFactory) {
         KPIGroupModel.openPopupDeleteKPIGroup(vm, kpiGroup);
     };
 
-    /// Ad KPI.
+    /// Add KPI.
     vm.addKPI = function (kpiGroup) {
         KPIModel.openPopupCreateKPI(vm, kpiGroup).then()['finally'](function () {
             vm.modalInstance = '';

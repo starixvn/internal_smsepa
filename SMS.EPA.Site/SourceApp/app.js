@@ -4,8 +4,8 @@
 var appModule = angular.module("appModule", ['employeeModule', 'commonModule', 'kpiModule', 'kpiGroupModule', 'roleModule',
 'targetTemplateModule',
 'ui.bootstrap', 'angular.chosen', 'pascalprecht.translate', 'angularUtils.directives.dirPagination', 'ngRoute'])
-.config(['$translateProvider', '$locationProvider', 'paginationTemplateProvider', '$routeProvider', 'datepickerConfig', 'datepickerPopupConfig',
-function ($translateProvider, $locationProvider, paginationTemplateProvider, $routeProvider, datepickerConfig, datepickerPopupConfig) {
+.config(['$translateProvider', '$locationProvider', 'paginationTemplateProvider', '$routeProvider', 'datepickerConfig', 'datepickerPopupConfig', '$provide',
+function ($translateProvider, $locationProvider, paginationTemplateProvider, $routeProvider, datepickerConfig, datepickerPopupConfig, $provide) {
     $translateProvider.useLoader('resourceFactory', {});
     $routeProvider.when('/Home/AccessDenied', { templateUrl: '/SourceApp/Shared/Templates/AccessDenied.html' });
     $translateProvider.preferredLanguage('en');
@@ -13,4 +13,6 @@ function ($translateProvider, $locationProvider, paginationTemplateProvider, $ro
     datepickerConfig.showWeeks = false;
     datepickerPopupConfig.showButtonBar = false;
     paginationTemplateProvider.setPath('SourceApp/Shared/Templates/dirPagination.tpl.html');
+    var baseUrl = $("base").first().attr("href");
+    $provide.value("baseUrl", baseUrl);
 } ]);

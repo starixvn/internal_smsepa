@@ -250,6 +250,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Data changed successfully!.
+        /// </summary>
+        public static string DataChangeSuccessfully {
+            get {
+                return ResourceManager.GetString("DataChangeSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Deactivated unsuccessfully!.
         /// </summary>
         public static string DeactivationFail {
@@ -646,6 +655,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Priority.
+        /// </summary>
+        public static string Priority {
+            get {
+                return ResourceManager.GetString("Priority", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to less.
         /// </summary>
         public static string ReadLess {
@@ -660,15 +678,6 @@ namespace SMS.EPA.Resources {
         public static string ReadMore {
             get {
                 return ResourceManager.GetString("ReadMore", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Priority.
-        /// </summary>
-        public static string Priority {
-            get {
-                return ResourceManager.GetString("Priority", resourceCulture);
             }
         }
         

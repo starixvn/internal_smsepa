@@ -7,6 +7,7 @@ function (commonFactory, errorFactory) {
 
     commonModel.targetTypes = [];
     commonModel.systemRoles = [];
+    commonModel.kpis = [];
     commonModel.kpiGroups = [];
     commonModel.kpiGroup = {};
 
@@ -29,6 +30,16 @@ function (commonFactory, errorFactory) {
     commonModel.getSystemRoles = function (exceptNone) {
         return commonFactory.getSystemRoles(exceptNone).success(function (systemRoles) {
             commonModel.systemRoles = systemRoles;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    /// Get KPI.
+    commonModel.getKPI = function (targetTypeId, kpiGroupId, isActive) {
+        return commonFactory.getKPI(targetTypeId, kpiGroupId, isActive)
+        .success(function (kpis) {
+            commonModel.kpis = kpis;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });

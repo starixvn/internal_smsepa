@@ -1,19 +1,22 @@
 ﻿'use strict';
 /*global commonModule*/
 
-commonModule.factory('commonFactory', ['$http', function ($http) {
+commonModule.factory('commonFactory', ['$http', 'baseUrl', function ($http, baseUrl) {
     return {
         getTargetType: function (isActive) {
-            return $http.get('/api/Common/GetTargetType', { params: { isActive: isActive} });
+            return $http.get(baseUrl + 'api/Common/GetTargetType', { params: { isActive: isActive} });
         },
         getSystemRoles: function (exceptNone) {
-            return $http.get('/api/Common/GetSystemRoles', { params: { exceptNone: exceptNone } });
+            return $http.get(baseUrl + 'api/Common/GetSystemRoles', { params: { exceptNone: exceptNone } });
+        },
+        getKPI: function (targetTypeId, kpiGroupId, isActive) {
+            return $http.get(baseUrl + 'api/Common/GetKPI', { params: { targetTypeId: targetTypeId, kpiGroupId: kpiGroupId, isActive: isActive} });
         },
         getKPIGroup: function (targetTypeId, isActive) {
-            return $http.get('/api/Common/GetKPIGroup', { params: { targetTypeId: targetTypeId, isActive: isActive} });
+            return $http.get(baseUrl + 'api/Common/GetKPIGroup', { params: { targetTypeId: targetTypeId, isActive: isActive} });
         },
         getKPIGroupById: function (kpiGroupId) {
-            return $http.get('/api/Common/GetKPIGroupById', { params: { kpiGroupId: kpiGroupId} });
+            return $http.get(baseUrl + 'api/Common/GetKPIGroupById', { params: { kpiGroupId: kpiGroupId} });
         }
     };
 } ]);

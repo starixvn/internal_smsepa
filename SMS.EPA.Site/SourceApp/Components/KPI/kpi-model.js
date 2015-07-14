@@ -6,17 +6,7 @@ kpiModule.factory('KPIModel',
 function ($modal, kpiFactory, utilitiesFactory, notificationFactory, errorFactory) {
     var kpiModel = {};
 
-    kpiModel.kpis = [];
     kpiModel.permission = 0;
-
-    kpiModel.getKPI = function (targetTypeId, kpiGroupId, isActive) {
-        return kpiFactory.getKPI(targetTypeId, kpiGroupId, isActive)
-        .success(function (kpis) {
-            kpiModel.kpis = kpis;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
 
     /// Validate KPI.
     kpiModel.validateKPI = function (kpi, currentChoseKPIGroups) {

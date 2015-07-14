@@ -1,13 +1,13 @@
 ﻿'use strict';
 /*global roleModule*/
 
-roleModule.factory('roleFactory', ['$http', function ($http) {
+roleModule.factory('roleFactory', ['$http', 'baseUrl', function ($http, baseUrl) {
     return {
         getRoleFunctionByRoleId: function (roleId) {
-            return $http.get('/api/Role/GetRoleFunctionByRoleId', { params: { roleId: roleId} });
+            return $http.get(baseUrl + 'api/Role/GetRoleFunctionByRoleId', { params: { roleId: roleId} });
         },
         assignFunctionToRole: function (roleFunction) {
-            return $http.put('/api/Role/AssignFunctionToRole', roleFunction);
+            return $http.put(baseUrl + 'api/Role/AssignFunctionToRole', roleFunction);
         }
     };
 } ]);

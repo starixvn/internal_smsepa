@@ -11,8 +11,10 @@ namespace SMS.EPA.Site.Controllers.API
 {
     using System.Collections.Generic;
     using System.Web.Http;
+    using SMS.EPA.Criteria.KPI;
     using SMS.EPA.Criteria.KPIGroup;
     using SMS.EPA.Criteria.TargetType;
+    using SMS.EPA.Model.KPI;
     using SMS.EPA.Model.KPIGroup;
     using SMS.EPA.Model.TargetType;
     using SMS.EPA.Services.Implement;
@@ -21,18 +23,21 @@ namespace SMS.EPA.Site.Controllers.API
     public class UtilitiesController
     {
         private readonly ITargetTypeService _targetTypeService;
+        private readonly IKPIService _kpiService;
         private readonly IKPIGroupService _kpiGroupService;
 
         public UtilitiesController()
-            : this(null, null)
+            : this(null, null, null)
         {
         }
 
         public UtilitiesController(
             ITargetTypeService targetTypeService,
+            IKPIService kpiService,
             IKPIGroupService kpiGroupService)
         {
             _targetTypeService = targetTypeService ?? new TargetTypeService();
+            _kpiService = kpiService ?? new KPIService();
             _kpiGroupService = kpiGroupService ?? new KPIGroupService();
         }
 
@@ -45,6 +50,22 @@ namespace SMS.EPA.Site.Controllers.API
             };
 
             return _targetTypeService.GetTargetType(criteria);
+        }
+
+        [NonAction]
+        public IEnumerable<KPIModel> GetKPI(
+           int? targetTypeId = null,
+           int? kpiGroupId = null,
+           bool? isActive = null)
+        {
+            var criteria = new GetKPICriteria
+            {
+                TargetTypeId = targetTypeId,
+                KPIGroupId = kpiGroupId,
+                IsActive = isActive
+            };
+
+            return _kpiService.GetKPI(criteria);
         }
 
         [NonAction]

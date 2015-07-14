@@ -2,11 +2,11 @@
 /*global kpiModule*/
 
 kpiModule.controller('KPIController',
-['$window', '$routeParams', 'KPIModel', 'CommonModel', 'utilitiesFactory',
-function ($window, $routeParams, KPIModel, CommonModel, utilitiesFactory) {
+['$window', '$routeParams', 'KPIModel', 'KPIGroupModel', 'CommonModel', 'utilitiesFactory',
+function ($window, $routeParams, KPIModel, KPIGroupModel, CommonModel, utilitiesFactory) {
     var vm = this;
 
-    vm.kpis = KPIModel.kpis;
+    vm.kpis = CommonModel.kpis;
     vm.targetTypes = CommonModel.targetTypes;
     vm.kpiGroups = CommonModel.kpiGroups;
     vm.kpiGroup = CommonModel.kpiGroup;
@@ -18,7 +18,7 @@ function ($window, $routeParams, KPIModel, CommonModel, utilitiesFactory) {
 
     vm.filter = {
         targetTypeId: '',
-        kpiGroupId: vm.routeParam.kpiGroupId ? vm.routeParam.kpiGroupId : '',
+        kpiGroupId: vm.routeParam.kpiGroupId ? parseInt(vm.routeParam.kpiGroupId) : '',
         isActive: 'true'
     };
 
@@ -27,8 +27,8 @@ function ($window, $routeParams, KPIModel, CommonModel, utilitiesFactory) {
     vm.currentPage = 1;
 
     var getKPI = function (targetTypeId, kpiGroupId, isActive) {
-        KPIModel.getKPI(targetTypeId, kpiGroupId, isActive).then(function () {
-            vm.kpis = KPIModel.kpis;
+        CommonModel.getKPI(targetTypeId, kpiGroupId, isActive).then(function () {
+            vm.kpis = CommonModel.kpis;
             utilitiesFactory.searchOnPage(vm, vm.kpis);
         });
     };
@@ -38,22 +38,16 @@ function ($window, $routeParams, KPIModel, CommonModel, utilitiesFactory) {
     };
 
     vm.initialize = function () {
-        if (vm.routeParam.kpiGroupId) {
-            vm.isViewAll = false;
-            vm.filter.isActive = '';
-
-            CommonModel.getKPIGroupById(vm.routeParam.kpiGroupId).then(function () {
-                vm.kpiGroup = CommonModel.kpiGroup;
-                vm.filter.targetTypeId = vm.kpiGroup.TargetType.TargetTypeId;
-            });
-        }
-        else {
-            vm.kpiGroup = {};
-            vm.isViewAll = true;
-        }
-
         KPIModel.getUserPermissionOnKPI().then(function () {
             vm.permission = KPIModel.permission;
+
+            KPIGroupModel.getUserPermissionOnKPIGroup().then(function () {
+                var permission = KPIGroupModel.permission;
+
+                if (permission !== vm.permission && permission === 2) {
+                    vm.permission = permission;
+                }
+            });
         });
 
         CommonModel.getTargetType().then(function () {
@@ -64,7 +58,24 @@ function ($window, $routeParams, KPIModel, CommonModel, utilitiesFactory) {
             vm.kpiGroups = CommonModel.kpiGroups;
         });
 
-        getKPI(vm.filter.targetTypeId, vm.filter.kpiGroupId, vm.filter.isActive);
+        if (vm.routeParam.kpiGroupId) {
+            vm.isViewAll = false;
+            vm.filter.isActive = '';
+
+            CommonModel.getKPIGroupById(vm.routeParam.kpiGroupId).then(function () {
+                vm.kpiGroup = CommonModel.kpiGroup;
+                vm.filter.targetTypeId = vm.kpiGroup.TargetType.TargetTypeId;
+
+                getKPI(vm.filter.targetTypeId, vm.filter.kpiGroupId, vm.filter.isActive);
+            });
+        }
+        else {
+            vm.kpiGroup = {};
+            vm.isViewAll = true;
+            vm.filter.targetTypeId = '';
+
+            getKPI(vm.filter.targetTypeId, vm.filter.kpiGroupId, vm.filter.isActive);
+        }
     };
 
     vm.initialize();
