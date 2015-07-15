@@ -43,7 +43,12 @@
                     </td>
                     <td class="text-center" ng-bind="targetTemplate.TargetTypeName">
                     </td>
-                    <td ng-bind="targetTemplate.Description">
+                    <td class="col-description">
+                        {{targetTemplate.Description | limitTo: targetTemplate.numLimit > 0 ? targetTemplate.numLimit: targetTemplateCtrl.maxLengthDescription}}
+                        <a ng-show="!targetTemplate.showReadMore && (targetTemplate.Description.length >= targetTemplateCtrl.maxLengthDescription)"
+                            href="javascript:;" ng-click="targetTemplateCtrl.readMore(targetTemplate)" data-translate="ReadMore"></a>
+                        <a ng-show="targetTemplate.showReadMore && (targetTemplate.Description.length >= targetTemplateCtrl.maxLengthDescription)"
+                            href="javascript:;" ng-click="targetTemplateCtrl.readLess(targetTemplate)" data-translate="ReadLess"></a>
                     </td>
                     <td class="text-center">
                         <a href="{{targetTemplateCtrl.updateTargetTemplateUrl}}" ng-if="targetTemplateCtrl.permission == 2"

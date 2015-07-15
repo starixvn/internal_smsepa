@@ -14,6 +14,17 @@ function (TargetTemplateModel, utilitiesFactory, CommonModel) {
 
     utilitiesFactory.numberEntryList(vm);
 
+    // Event read more / less text.
+    utilitiesFactory.maxLengthDescription(vm);
+
+    vm.readMore = function (item) {
+        utilitiesFactory.readMore(item);
+    };
+
+    vm.readLess = function (item) {
+        utilitiesFactory.readLess(item);
+    };
+
     TargetTemplateModel.getPermissionOnTargetTemplate().then(function () {
         vm.permission = TargetTemplateModel.permission;
     });
