@@ -24,19 +24,19 @@ namespace SMS.EPA.Core.Enumerations
         /// <summary>
         /// System Admin item.
         /// </summary>
-        [Description("System Admin")]
+        [Description("SA")]
         SystemAdmin = 1,
 
         /// <summary>
         /// Human Resource item.
         /// </summary>
-        [Description("Human Resource")]
+        [Description("HR")]
         HumanResource = 2,
 
         /// <summary>
         /// Management item.
         /// </summary>
-        [Description("Management")]
+        [Description("Mgt")]
         Management = 3,
 
         /// <summary>

@@ -55,17 +55,17 @@
                 </ul>
             </div>
         </nav>
-        <div id="user_utilities" class="user-info info" data-ng-controller="EmployeeController as employeeCtrl">
+        <div id="user_utilities" class="user-info info" data-ng-controller="EmployeeProfileController as employeeProfileCtrl">
             <h2>@Model.EmployeeInfo.FullName - @Model.EmployeeInfo.NickName
             </h2>
             <a class="dropdown-arrow" href="javascript:;"></a>
             <ol>
                 @if (@Model.EmployeeInfo.IsSpecialUser)
                 { 
-                    <li><a href="javascript:;" data-ng-click="employeeCtrl.changePassword()">@Lang.ChangePassword</a>
+                    <li><a href="javascript:;" data-ng-click="employeeProfileCtrl.changePassword()">@Lang.ChangePassword</a>
                     </li>
                 }
-                <li><a href="javascript:;" data-ng-click="employeeCtrl.logout()">@Lang.Logout</a> </li>
+                <li><a href="javascript:;" data-ng-click="employeeProfileCtrl.logout()">@Lang.Logout</a> </li>
             </ol>
         </div>
     </div>

@@ -58,16 +58,6 @@ function ($window, EmployeeModel, utilitiesFactory, CommonModel) {
         });
     };
 
-    vm.logout = function () {
-        $window.location.href = "Auth/Logout";
-    };
-
-    vm.changePassword = function () {
-        EmployeeModel.openPopupChangePassword(vm).then()['finally'](function () {
-            vm.modalInstance = '';
-        });
-    };
-
     vm.assignRole = function (employee) {
         EmployeeModel.openPopupAssignRole(employee);
     };
@@ -148,6 +138,21 @@ function ($modalInstance, EmployeeModel, employee) {
 
     vm.cancel = function () {
         $modalInstance.dismiss("cancel");
+    };
+} ]);
+
+employeeModule.controller('EmployeeProfileController',
+['$window', 'EmployeeModel', function ($window, EmployeeModel) {
+    var vm = this;
+
+    vm.logout = function () {
+        $window.location.href = "Auth/Logout";
+    };
+
+    vm.changePassword = function () {
+        EmployeeModel.openPopupChangePassword(vm).then()['finally'](function () {
+            vm.modalInstance = '';
+        });
     };
 } ]);
 

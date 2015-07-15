@@ -177,7 +177,8 @@ namespace SMS.EPA.Services.Implement
                     var role = new SystemRoleModel
                     {
                         RoleId = rawRole.RoleId,
-                        RoleName = rawRole.RoleName
+                        RoleName = rawRole.RoleName,
+                        RoleCode = rawRole.RoleCode
                     };
 
                     employee.Roles.Add(role);
