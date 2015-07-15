@@ -50,7 +50,7 @@ namespace SMS.EPA.Site.Controllers.API
                 IsActive = isActive
             };
 
-            targetTemplates =_targetTemplateService.GetAllTargetTemplate(getAllTargetTemplateCriteria);
+            targetTemplates = _targetTemplateService.GetAllTargetTemplate(getAllTargetTemplateCriteria);
             return targetTemplates;
         }
 
