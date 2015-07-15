@@ -48,7 +48,7 @@ function (TargetTemplateModel, utilitiesFactory, CommonModel) {
     };
 
     vm.detail = function (targetTemplate) {
-        vm.detailTargetTemplate = '/TargetTemplate/Detail/' + targetTemplate.TargetTemplateId;
+        vm.detailTargetTemplateUrl = '/TargetTemplate/Detail/' + targetTemplate.TargetTemplateId;
     };
 } ]);
 

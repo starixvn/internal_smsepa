@@ -20,7 +20,7 @@
                         <th class="middle-align" data-translate="Priority">
                         </th>
                     </thead>
-                    <tbody ng-repeat="group in kpiListCtrl.kpiList | filter: KPIName" class="kpiItemBody" list-sortable>
+                    <tbody ng-repeat="group in (filterKPIs = (kpiListCtrl.kpiList | filter: KPIName))" class="kpiItemBody" list-sortable>
                         <tr class="row-header unsortable">
                             <td class="text-center row-highlight">
                                 <input type="checkbox" ng-model="group.Selected" ng-click="kpiListCtrl.checkAllGroup(group.Selected, group)" />
@@ -49,16 +49,15 @@
                                 <span ng-show="group.IsSpreadKPI && item.Selected" class="glyphicon glyphicon-ok item-list-icon"></span>
                             </td>
                             <td class="text-center priority-limit">
-                                <a ng-click="setPriority($event)" href="javascript:;" title="Top" class="glyphicon glyphicon-open kpiTop">
-                                    | </a><a ng-click="setPriority($event)" href="javascript:;" title="Move Up" class="glyphicon glyphicon-arrow-up kpiUp">
-                                        | </a><a ng-click="setPriority($event)" href="javascript:;" title="Move Down" class="glyphicon glyphicon-arrow-down kpiDown">
-                                            | </a><a ng-click="setPriority($event)" href="javascript:;" title="Bottom" class="glyphicon glyphicon-save kpiBottom">
-                                            </a>
+                                <a href="javascript:;" title="Top" class="glyphicon glyphicon-open kpiTop" move-kpi-row> | </a>
+                                <a href="javascript:;" title="Move Up" class="glyphicon glyphicon-arrow-up kpiUp" move-kpi-row> | </a>
+                                <a href="javascript:;" title="Move Down" class="glyphicon glyphicon-arrow-down kpiDown" move-kpi-row> | </a>
+                                <a href="javascript:;" title="Bottom" class="glyphicon glyphicon-save kpiBottom" move-kpi-row></a>
                             </td>
                         </tr>
                     </tbody>
                     <tfoot>
-                        <tr ng-show="kpiListCtrl.kpiList.length == 0">
+                        <tr ng-show="filterKPIs.length == 0">
                             <td class="empty-result" colspan="4" data-translate="EmptyResult">
                             </td>
                         </tr>

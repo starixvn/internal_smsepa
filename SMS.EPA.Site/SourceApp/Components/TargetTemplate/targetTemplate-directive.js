@@ -44,10 +44,10 @@ targetTemplateModule.directive('listDraggable', function () {
     };
 });
 
-targetTemplateModule.directive('tableRowLevel', ['$timeout', function (timeout) {
-    return function () {
-        var moveTableRow = function () {
-            $(".up,.down,.top,.bottom").click(function () {
+targetTemplateModule.directive('moveGroupRow', function () {
+    return {
+        link: function (scope, iElement) {
+            iElement.on('click', function () {
                 var row = $(this).parents("tr:first");
                 if ($(this).is(".up")) {
                     row.insertBefore(row.prev());
@@ -59,10 +59,37 @@ targetTemplateModule.directive('tableRowLevel', ['$timeout', function (timeout) 
                     row.insertBefore($("table#tblKPIGroup tbody tr:first"));
                 }
             });
-        };
-        timeout(moveTableRow, 1);
+        }
     };
-} ]);
+});
+
+targetTemplateModule.directive('moveKpiRow', function () {
+    return {
+        link: function (scope, iElement) {
+            iElement.on('click', function () {
+                var row = $(this).parents("table#tblKPI tbody tr.row-data:first");
+                var firstItem = $(this).parents('table#tblKPI tbody').find('tr.row-data:first');
+                var lastItem = $(this).parents('table#tblKPI tbody').find('tr:last');
+
+                if ($(this).is(".kpiUp")) {
+                    if ($(this).parents('tr')[0] !== firstItem[0]) {
+                        row.insertBefore(row.prev());
+                    }
+                } else if ($(this).is(".kpiDown")) {
+                    row.insertAfter(row.next());
+                } else if ($(this).is(".kpiBottom")) {
+                    if ($(this).parents('tr')[0] !== lastItem[0]) {
+                        row.insertAfter(lastItem);
+                    }
+                } else if ($(this).is(".kpiTop")) {
+                    if ($(this).parents('tr')[0] !== firstItem[0]) {
+                        row.insertBefore(firstItem);
+                    }
+                }
+            });
+        }
+    };
+});
 
 targetTemplateModule.directive('getGroupWeight', function () {
     return {
