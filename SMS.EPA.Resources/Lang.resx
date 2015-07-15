@@ -432,7 +432,7 @@
   <data name="OldPasswordRequired" xml:space="preserve">
     <value>The Old Password field is required!</value>
   </data>
-    <data name="KPIList" xml:space="preserve">
+  <data name="KPIList" xml:space="preserve">
     <value>KPI List</value>
   </data>
   <data name="TargetTemplateDetail" xml:space="preserve">
@@ -446,5 +446,26 @@
   </data>
   <data name="LastModifiedDate" xml:space="preserve">
     <value>Last Modified Date</value>
+  </data>
+  <data name="EPA" xml:space="preserve">
+    <value>EPA</value>
+  </data>
+  <data name="AdjustAttendance" xml:space="preserve">
+    <value>Adjust Attendance</value>
+  </data>
+  <data name="AttendanceReport" xml:space="preserve">
+    <value>Attendance Report</value>
+  </data>
+  <data name="CheckAssignment" xml:space="preserve">
+    <value>Check Assignment</value>
+  </data>
+  <data name="EPAReport" xml:space="preserve">
+    <value>EPA Report</value>
+  </data>
+  <data name="FlowManagement" xml:space="preserve">
+    <value>Flow Management</value>
+  </data>
+  <data name="TargetEmployeeSetting" xml:space="preserve">
+    <value>Target Employee Setting</value>
   </data>
 </root>

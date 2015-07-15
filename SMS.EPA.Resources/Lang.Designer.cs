@@ -106,6 +106,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Adjust Attendance.
+        /// </summary>
+        public static string AdjustAttendance {
+            get {
+                return ResourceManager.GetString("AdjustAttendance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Admin.
         /// </summary>
         public static string Admin {
@@ -133,6 +142,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Attendance Report.
+        /// </summary>
+        public static string AttendanceReport {
+            get {
+                return ResourceManager.GetString("AttendanceReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Back to list.
         /// </summary>
         public static string BackToList {
@@ -147,6 +165,15 @@ namespace SMS.EPA.Resources {
         public static string ChangePassword {
             get {
                 return ResourceManager.GetString("ChangePassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check Assignment.
+        /// </summary>
+        public static string CheckAssignment {
+            get {
+                return ResourceManager.GetString("CheckAssignment", resourceCulture);
             }
         }
         
@@ -340,6 +367,24 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to EPA.
+        /// </summary>
+        public static string EPA {
+            get {
+                return ResourceManager.GetString("EPA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to EPA Report.
+        /// </summary>
+        public static string EPAReport {
+            get {
+                return ResourceManager.GetString("EPAReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Welcome to SMS EPA.
         /// </summary>
         public static string EPAWelcome {
@@ -354,6 +399,15 @@ namespace SMS.EPA.Resources {
         public static string Evaluator {
             get {
                 return ResourceManager.GetString("Evaluator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Flow Management.
+        /// </summary>
+        public static string FlowManagement {
+            get {
+                return ResourceManager.GetString("FlowManagement", resourceCulture);
             }
         }
         
@@ -858,6 +912,15 @@ namespace SMS.EPA.Resources {
         public static string SymbolCount {
             get {
                 return ResourceManager.GetString("SymbolCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Target Employee Setting.
+        /// </summary>
+        public static string TargetEmployeeSetting {
+            get {
+                return ResourceManager.GetString("TargetEmployeeSetting", resourceCulture);
             }
         }
         
