@@ -10,6 +10,7 @@ function ($modal, targetTemplateFactory, errorFactory, notificationFactory, util
     targetTemplateModel.targetTemplate = {};
     targetTemplateModel.kpiGroups = [];
     targetTemplateModel.kpiList = [];
+    targetTemplateModel.permission = '';
 
     targetTemplateModel.getTargetTemplate = function (targetTypeId, isActive) {
         return targetTemplateFactory.getTargetTemplate(targetTypeId, isActive).success(function (targetTemplates) {
@@ -265,6 +266,15 @@ function ($modal, targetTemplateFactory, errorFactory, notificationFactory, util
             });
         })['finally'](function () {
             modalInstance = '';
+        });
+    };
+
+    targetTemplateModel.getPermissionOnTargetTemplate = function () {
+        return targetTemplateFactory.getPermissonOnTargetTemplate()
+        .success(function (permission) {
+            targetTemplateModel.permission = permission;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
         });
     };
 

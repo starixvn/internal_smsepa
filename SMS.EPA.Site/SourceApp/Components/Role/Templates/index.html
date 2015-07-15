@@ -9,7 +9,7 @@
             <div class="form-group">
                 <label data-translate="Role" class="control-label"></label>
                 <select class="form-control" ng-model="roleCtrl.filter.roleId"
-                        ng-options="opt.RoleId as opt.RoleName for opt in roleCtrl.systemRoleOptions">
+                        ng-options="opt.RoleId as opt.RoleCode for opt in roleCtrl.systemRoleOptions">
                 </select>
             </div>
             <button class="button" ng-click="roleCtrl.query(roleCtrl.filter)" ng-disabled="submitted" data-translate="Submit">

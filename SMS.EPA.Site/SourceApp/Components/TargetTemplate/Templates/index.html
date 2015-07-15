@@ -9,7 +9,8 @@
             <thead>
                 <tr class="header-table">
                     <th colspan="7">
-                        <a class="pull-left button-icon create-button" href="" ng-href="{{targetTemplateCtrl.createTargetTemplateUrl}}" ng-click="targetTemplateCtrl.create()" >
+                        <a class="pull-left button-icon create-button" href="" ng-href="{{targetTemplateCtrl.createTargetTemplateUrl}}" ng-click="targetTemplateCtrl.create()" 
+                            ng-if="targetTemplateCtrl.permission == 2">
                             <span class="icon plus"></span>
                             <span class="button-text" data-translate="CreateTargetTemplate"></span>
                         </a>
@@ -29,7 +30,7 @@
                     </th>
                     <th data-translate="Active">
                     </th>
-                    <th data-translate="Action">
+                    <th data-translate="Action" ng-if="targetTemplateCtrl.permission == 2">
                     </th>
                 </tr>
             </thead>
@@ -45,12 +46,15 @@
                     <td ng-bind="targetTemplate.Description">
                     </td>
                     <td class="text-center">
-                        <a href="{{targetTemplateCtrl.updateTargetTemplateUrl}}" ng-click="targetTemplateCtrl.update(targetTemplate, true)">{{targetTemplate.KPIs}}</a>
+                        <a href="{{targetTemplateCtrl.updateTargetTemplateUrl}}" ng-if="targetTemplateCtrl.permission == 2"
+                            ng-click="targetTemplateCtrl.update(targetTemplate, true)" ng-bind="targetTemplate.KPIs"></a>
+                        <span ng-if="targetTemplateCtrl.permission == 1" ng-bind="targetTemplate.KPIs"></span>
                     </td>
                     <td class="text-center">
-                        <input type="checkbox" ng-checked="targetTemplate.IsActive" ng-click="targetTemplateCtrl.confirmActive(targetTemplate)" />
+                        <input type="checkbox" ng-checked="targetTemplate.IsActive" ng-click="targetTemplateCtrl.confirmActive(targetTemplate)" 
+                                ng-disabled="targetTemplateCtrl.permission != 2"/>
                     </td>
-                    <td class="target-template-action text-center">
+                    <td class="target-template-action text-center" ng-if="targetTemplateCtrl.permission == 2">
                         <div class="btn-group">
                             <a class="glyphicon glyphicon-edit icon-edit" title="Edit" href="{{targetTemplateCtrl.updateTargetTemplateUrl}}" 
                                     ng-click="targetTemplateCtrl.update(targetTemplate)"></a>

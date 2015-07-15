@@ -77,7 +77,7 @@ namespace SMS.EPA.Site.Controllers.API
                 var role = new
                 {
                     RoleId = (int)roleEnum,
-                    RoleName = Enumerations.GetDescription(roleEnum)
+                    RoleCode = Enumerations.GetDescription(roleEnum)
                 };
 
                 if (exceptNone && roleEnum != 0)

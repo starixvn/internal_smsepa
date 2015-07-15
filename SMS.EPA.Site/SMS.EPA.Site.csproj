@@ -232,6 +232,7 @@
     <Content Include="Content\Site\images\line-menu.png" />
     <Content Include="Content\Site\images\logo-login.png" />
     <Content Include="Content\Site\images\logo.png" />
+    <Content Include="Content\Site\images\save_submit.png" />
     <Content Include="Content\Site\images\sprites.png" />
     <Content Include="Content\Site\images\sprite_ico_2012-05-15.png" />
     <Content Include="Content\Site\images\success.png" />

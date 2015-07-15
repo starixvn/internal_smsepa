@@ -25,7 +25,7 @@ function (roleFactory, errorFactory, notificationFactory) {
     roleModel.assignFunctionToRole = function (roleFunction) {
         return roleFactory.assignFunctionToRole(roleFunction).success(function (response) {
             if (response.IsSuccessful) {
-                notificationFactory.success("DataChangeSuccessfully");
+                notificationFactory.success("UpdateSuccessfully");
             }
             else {
                 notificationFactory.error("", response.Message);

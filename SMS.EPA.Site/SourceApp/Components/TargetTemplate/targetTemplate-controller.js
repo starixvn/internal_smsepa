@@ -7,11 +7,16 @@ function (TargetTemplateModel, utilitiesFactory, CommonModel) {
     var vm = this;
 
     vm.targetTemplates = TargetTemplateModel.targetTemplates;
+    vm.permission = TargetTemplateModel.permission;
 
     vm.currentPage = 1;
     vm.pageSize = 20;
 
     utilitiesFactory.numberEntryList(vm);
+
+    TargetTemplateModel.getPermissionOnTargetTemplate().then(function () {
+        vm.permission = TargetTemplateModel.permission;
+    });
 
     var getTargetTemplate = function (targetTypeId, isActive) {
         TargetTemplateModel.getTargetTemplate(targetTypeId, isActive).then(function () {

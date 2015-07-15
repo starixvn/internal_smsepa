@@ -11,28 +11,36 @@ namespace SMS.EPA.Site.Controllers.API
 {
     using System.Collections.Generic;
     using System.Web.Http;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.TargetTemplate;
     using SMS.EPA.Model.KPIGroup;
     using SMS.EPA.Model.TargetTemplate;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
+    using SMS.EPA.Web.ApiAuthorizeAttribute;
+    using SMS.EPA.Web.Services;
 
     public class TargetTemplateController : BaseController
     {
         private readonly ITargetTemplateService _targetTemplateService;
+        private readonly IWebCommonService _webCommonService;
 
         public TargetTemplateController()
-            : this(null)
+            : this(null, null)
         {
         }
 
         public TargetTemplateController(
-            ITargetTemplateService targetTemplateService)
+            ITargetTemplateService targetTemplateService,
+            IWebCommonService webCommonService)
         {
-            this._targetTemplateService = targetTemplateService ?? new TargetTemplateService();
+            _targetTemplateService = targetTemplateService ?? new TargetTemplateService();
+            _webCommonService = webCommonService ?? new WebCommonService();
         }
 
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Read)]
         public IEnumerable<TargetTemplateModel> GetAllTargetTemplate(int? targetTypeId = null, bool? isActive = null)
         {
             IEnumerable<TargetTemplateModel> targetTemplates = null;
@@ -42,10 +50,11 @@ namespace SMS.EPA.Site.Controllers.API
                 IsActive = isActive
             };
 
-            targetTemplates = this._targetTemplateService.GetAllTargetTemplate(getAllTargetTemplateCriteria);
+            targetTemplates =_targetTemplateService.GetAllTargetTemplate(getAllTargetTemplateCriteria);
             return targetTemplates;
         }
 
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Read)]
         public TargetTemplateModel GetTargetTemplateById(int targetTemplateId)
         {
             TargetTemplateModel targetTemplate = null;
@@ -54,11 +63,12 @@ namespace SMS.EPA.Site.Controllers.API
                 TargetTemplateId = targetTemplateId
             };
 
-            targetTemplate = this._targetTemplateService.GetTargetTemplateById(getTargetTemplateByIdCriteria);
+            targetTemplate = _targetTemplateService.GetTargetTemplateById(getTargetTemplateByIdCriteria);
             return targetTemplate;
         }
 
         [HttpPost]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Host)]
         public CommandResult CreateTargetTemplate(CreateTargetTemplateCriteria criteria)
         {
             if (criteria != null)
@@ -71,6 +81,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Host)]
         public CommandResult UpdateStatusTargetTemplate(UpdateStatusTargetTemplateCriteria criteria)
         {
             if (criteria != null)
@@ -83,6 +94,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Host)]
         public CommandResult UpdateTargetTemplate(TargetTemplateModel targetTemplate)
         {
             CommandResult commandResult = new CommandResult();
@@ -106,6 +118,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpDelete]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Host)]
         public CommandResult DeleteTargetTemplate(int targetTemplateId)
         {
             var criteria = new DeleteTargetTemplateCriteria
@@ -119,6 +132,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpPost]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Host)]
         public CommandResult AddKPIGroupWeight(TargetKPIGroupWeightModel model)
         {
             var criteria = new SetKPIGroupOfTargetTemplateCriteria
@@ -132,6 +146,7 @@ namespace SMS.EPA.Site.Controllers.API
             return commandResult;
         }
 
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Read)]
         public IEnumerable<KPIGroupModel> GetKPIGroupOfTargetTemplate(int targetTemplateId)
         {
             var criteria = new GetKPIGroupOfTargetTemplateCriteria
@@ -143,6 +158,7 @@ namespace SMS.EPA.Site.Controllers.API
             return groups;
         }
 
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Read)]
         public IEnumerable<TargetTemplateKPIGroupModel> GetKPIOfTargetTemplate(int targetTemplateId)
         {
             var criteria = new GetKPIOfTargetTemplateCriteria
@@ -155,6 +171,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpDelete]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Host)]
         public CommandResult DeleteKPIGroupOfTargetTemplate(int targetTemplateId, int kpiGroupId)
         {
             var criteria = new DeleteKPIGroupOfTargetTemplateCriteria
@@ -166,6 +183,12 @@ namespace SMS.EPA.Site.Controllers.API
 
             CommandResult commandResult = _targetTemplateService.DeleteKPIGroup(criteria);
             return commandResult;
+        }
+
+        public int GetUserPermissionOnTargetTemplate()
+        {
+            int permission = _webCommonService.GetPermission(EPAFunctionKey.TargetTemplate);
+            return permission;
         }
     }
 }

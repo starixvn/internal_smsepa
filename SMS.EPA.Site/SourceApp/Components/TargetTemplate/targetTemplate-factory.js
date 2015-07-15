@@ -32,7 +32,10 @@ targetTemplateModule.factory('targetTemplateFactory', ['$http', 'baseUrl', funct
         },
         deleteKPIGroupOfTargetTemplate: function (targetTemplateId, kpiGroupId) {
             return $http['delete'](baseUrl + 'api/TargetTemplate/DeleteKPIGroupOfTargetTemplate',
-                        { params: { targetTemplateId: targetTemplateId, kpiGroupId: kpiGroupId } });
+                        { params: { targetTemplateId: targetTemplateId, kpiGroupId: kpiGroupId} });
+        },
+        getPermissonOnTargetTemplate: function () {
+            return $http.get('/api/TargetTemplate/GetUserPermissionOnTargetTemplate');
         }
     };
 } ]);
