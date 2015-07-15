@@ -18,6 +18,7 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Criteria.Employee;
     using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.Enitites;
+    using SMS.EPA.Resources;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
     using SMS.EPA.Web.ApiAuthorizeAttribute;
@@ -94,13 +95,22 @@ namespace SMS.EPA.Site.Controllers.API
         [HttpPut]
         public CommandResult ChangePassword(ChangePasswordCriteria criteria)
         {
-            if (criteria != null)
+            var commandResult = new CommandResult();
+            if (Encryption.CompareStringToHash(HashProvider.Sha1, criteria.OldPassword, CurrentUser.EmployeeInfo.Password))
             {
-                criteria.EmployeeId = CurrentUser.EmployeeInfo.EmployeeId;
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                if (criteria != null)
+                {
+                    criteria.EmployeeId = CurrentUser.EmployeeInfo.EmployeeId;
+                    criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                }
+
+                commandResult = _employeeService.ChangePassword(criteria);
+            }
+            else
+            {
+                commandResult.Message = Lang.ValidateWrongPassword;
             }
 
-            CommandResult commandResult = _employeeService.ChangePassword(criteria);
             return commandResult;
         }
 

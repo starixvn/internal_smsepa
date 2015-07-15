@@ -426,8 +426,11 @@
   <data name="KPIName" xml:space="preserve">
     <value>KPI Name</value>
   </data>
-  <data name="DataChangeSuccessfully" xml:space="preserve">
-    <value>Data changed successfully!</value>
+  <data name="ValidateWrongPassword" xml:space="preserve">
+    <value>The old password is incorrect.</value>
+  </data>
+  <data name="OldPasswordRequired" xml:space="preserve">
+    <value>The Old Password field is required!</value>
   </data>
     <data name="KPIList" xml:space="preserve">
     <value>KPI List</value>

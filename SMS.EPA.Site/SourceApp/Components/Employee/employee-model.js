@@ -155,28 +155,24 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
         employee.JobTitle = findEmployeeJobTitleById(updatedEmployee.JobTitleId);
     };
 
-    employeeModel.openPopupChangePassword = function (vm, oldPassword) {
+    employeeModel.openPopupChangePassword = function (vm) {
         vm.modalInstance = $modal.open({
             templateUrl: 'SourceApp/Components/Employee/Templates/changePassword.html',
             controller: "ChangePasswordEmployeeController as changePasswordEmployeeCtrl",
             backdrop: 'static',
-            resolve: {
-                oldPassword: function () {
-                    return oldPassword;
-                }
-            },
             windowClass: "modal-confirm-center"
         });
 
         return vm.modalInstance.result;
     };
 
-    employeeModel.validatePassword = function (password, oldPassword) {
+    employeeModel.validatePassword = function (password) {
         if (!password) {
             return false;
         }
         else {
-            if (password.oldPassword !== oldPassword) {
+            if (!password.oldPassword) {
+                notificationFactory.error("OldPasswordRequired");
                 return false;
             }
             else if (!password.newPassword) {
@@ -240,7 +236,7 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
 
         return employeeFactory.assignRoleToEmployee(employeeRoles).success(function (response) {
             if (response.IsSuccessful) {
-                notificationFactory.success("DataChangeSuccessfully");
+                notificationFactory.success("UpdateSuccessfully");
             }
             else {
                 notificationFactory.error("", response.Message);

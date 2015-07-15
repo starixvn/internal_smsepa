@@ -62,7 +62,7 @@
             <ol>
                 @if (@Model.EmployeeInfo.IsSpecialUser)
                 { 
-                    <li><a href="javascript:;" data-ng-click="employeeCtrl.changePassword('@Model.EmployeeInfo.Password')">@Lang.ChangePassword</a>
+                    <li><a href="javascript:;" data-ng-click="employeeCtrl.changePassword()">@Lang.ChangePassword</a>
                     </li>
                 }
                 <li><a href="javascript:;" data-ng-click="employeeCtrl.logout()">@Lang.Logout</a> </li>

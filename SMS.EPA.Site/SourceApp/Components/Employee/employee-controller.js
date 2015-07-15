@@ -62,8 +62,8 @@ function ($window, EmployeeModel, utilitiesFactory, CommonModel) {
         $window.location.href = "Auth/Logout";
     };
 
-    vm.changePassword = function (password) {
-        EmployeeModel.openPopupChangePassword(vm, password).then()['finally'](function () {
+    vm.changePassword = function () {
+        EmployeeModel.openPopupChangePassword(vm).then()['finally'](function () {
             vm.modalInstance = '';
         });
     };
@@ -152,19 +152,18 @@ function ($modalInstance, EmployeeModel, employee) {
 } ]);
 
 employeeModule.controller('ChangePasswordEmployeeController',
-['$modalInstance', 'EmployeeModel', 'oldPassword',
-function ($modalInstance, EmployeeModel, oldPassword) {
+['$modalInstance', 'EmployeeModel',
+function ($modalInstance, EmployeeModel) {
     var vm = this;
 
-    vm.originalOldPassword = oldPassword;
     vm.password = {
-        oldPassword: oldPassword,
+        oldPassword: '',
         newPassword: '',
         confirmPassword: ''
     };
 
     vm.save = function (password) {
-        if (EmployeeModel.validatePassword(password, vm.originalOldPassword)) {
+        if (EmployeeModel.validatePassword(password)) {
             EmployeeModel.changePassword(password, $modalInstance);
         }
     };

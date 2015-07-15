@@ -250,15 +250,6 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Data changed successfully!.
-        /// </summary>
-        public static string DataChangeSuccessfully {
-            get {
-                return ResourceManager.GetString("DataChangeSuccessfully", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Deactivated unsuccessfully!.
         /// </summary>
         public static string DeactivationFail {
@@ -673,6 +664,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Old Password field is required!.
+        /// </summary>
+        public static string OldPasswordRequired {
+            get {
+                return ResourceManager.GetString("OldPasswordRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Password field is required!.
         /// </summary>
         public static string PasswordRequried {
@@ -1002,6 +1002,15 @@ namespace SMS.EPA.Resources {
         public static string UsernameRequried {
             get {
                 return ResourceManager.GetString("UsernameRequried", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The old password is incorrect..
+        /// </summary>
+        public static string ValidateWrongPassword {
+            get {
+                return ResourceManager.GetString("ValidateWrongPassword", resourceCulture);
             }
         }
         
