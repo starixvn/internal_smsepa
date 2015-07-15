@@ -435,6 +435,7 @@
     <Content Include="SourceApp\Components\Employee\employee.less" />
     <None Include="SourceApp\Components\Role\role.less" />
     <None Include="SourceApp\Components\TargetTemplate\targetTemplate.less" />
+    <Content Include="Web.local.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">
