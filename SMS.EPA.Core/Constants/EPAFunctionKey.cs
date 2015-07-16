@@ -16,9 +16,9 @@ namespace SMS.EPA.Core.Constants
     {
         public const string Home = "Home";
 
-        public const string Admin = "Admin";
+        public const string EPA = "EPA";
 
-        public const string SelfEvaluation = "SelfEvaluation";
+        public const string Self = "Self";
 
         public const string Evaluator = "Evaluator";
 
@@ -26,11 +26,13 @@ namespace SMS.EPA.Core.Constants
 
         public const string Management = "Management";
 
-        public const string HumanResources = "HumanResources";
-
         public const string Report = "Report";
 
-        public const string Support = "Support";
+        public const string AttendanceReport = "Attendance Report";
+
+        public const string EPAReport = "EPA Report";
+
+        public const string Admin = "Admin";
 
         public const string KPI = "KPI";
 
