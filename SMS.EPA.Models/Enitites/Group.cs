@@ -19,7 +19,5 @@ namespace SMS.EPA.Model.Enitites
         public string GroupName { get; set; }
 
         public string GroupCode { get; set; }
-
-        public bool IsDeleted { get; set; }
     }
 }

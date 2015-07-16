@@ -60,7 +60,7 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpPost]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Host)]
-        public CommandResult InsertSpecialEmployee(InsertSpecialEmployeeCriteria criteria)
+        public CommandResult InsertSpecialEmployee(CreateSpecialEmployeeCriteria criteria)
         {
             if (criteria != null)
             {

@@ -100,7 +100,7 @@ namespace SMS.EPA.Services.Implement
             return groups;
         }
 
-        public CommandResult InsertSpecialEmployee(InsertSpecialEmployeeCriteria criteria)
+        public CommandResult InsertSpecialEmployee(CreateSpecialEmployeeCriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
             Check.Argument.IsNotNull(criteria, "criteria");

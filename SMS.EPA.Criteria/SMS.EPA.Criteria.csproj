@@ -70,7 +70,7 @@
     <Compile Include="Employee\GetAllEmployeeCriteria.cs" />
     <Compile Include="Employee\GetAllGroupCriteria.cs" />
     <Compile Include="Employee\GetAllJobTitleCriteria.cs" />
-    <Compile Include="Employee\InsertSpecialEmployeeCriteria.cs" />
+    <Compile Include="Employee\CreateSpecialEmployeeCriteria.cs" />
     <Compile Include="Employee\UpdateSpecialEmployeeCriteria.cs" />
     <Compile Include="KPIGroup\DeleteKPIGroupCriteria.cs" />
     <Compile Include="KPIGroup\GetKPIGroupByIdCriteria.cs" />

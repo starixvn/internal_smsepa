@@ -1,5 +1,5 @@
 ﻿// ----------------------------------------------------------------------
-// <copyright file="InsertSpecialEmployeeCriteria.cs" company="Nexcel Solutions Viet Nam">
+// <copyright file="CreateSpecialEmployeeCriteria.cs" company="Nexcel Solutions Viet Nam">
 // Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
 // </copyright>
 // ------------------------------------------------------------------------
@@ -14,7 +14,7 @@ namespace SMS.EPA.Criteria.Employee
     /// <summary>
     /// Insert employee criteria.
     /// </summary>
-    public class InsertSpecialEmployeeCriteria : CriteriaBase
+    public class CreateSpecialEmployeeCriteria : CriteriaBase
     {
         public string Code { get; set; }
 
