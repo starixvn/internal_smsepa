@@ -104,7 +104,7 @@ targetTemplateModule.directive('getGroupWeight', function () {
                     var selectedRowElement = $(selectedRow),
                         group = {
                             KPIGroupId: parseInt(selectedRowElement.find('td').attr('data-id')),
-                            Weight: parseInt(selectedRowElement.find("[name='weight']").val()),
+                            Weight: parseFloat(selectedRowElement.find("[name='weight']").val()),
                             IsSpreadKPI: selectedRowElement.find("[name='spread']").is(':checked'),
                             DisplayOrder: index + 1
                         };
@@ -133,7 +133,7 @@ targetTemplateModule.directive('getWeight', function () {
                         kpi = {
                             KPIId: parseInt(selectedRowElement.find('td').attr('item-id')),
                             KPIGroupId: parseInt(selectedRowElement.find('td').attr('group-id')),
-                            Weight: weight ? parseInt(weight) : 0,
+                            Weight: weight ? parseFloat(weight) : 0,
                             DisplayOrder: index + 1
                         };
 

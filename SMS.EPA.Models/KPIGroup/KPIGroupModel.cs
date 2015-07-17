@@ -26,7 +26,7 @@ namespace SMS.EPA.Model.KPIGroup
 
         public bool IsActive { get; set; }
 
-        public int? Weight { get; set; }
+        public double? Weight { get; set; }
 
         public bool IsSpreadKPI { get; set; }
 

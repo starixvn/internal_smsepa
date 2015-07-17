@@ -37,7 +37,7 @@ namespace SMS.EPA.Model.KPI
 
         public bool? Selected { get; set; }
 
-        public int? Weight { get; set; }
+        public double? Weight { get; set; }
 
         public IList<KPIGroupModel> KPIGroups { get; set; }
 

@@ -418,7 +418,7 @@
     <value>* Note: All KPIs in KPI Group setting will be removed. Please check carefully before unchecked KPI Group !</value>
   </data>
   <data name="TotalWeightWarning" xml:space="preserve">
-    <value>Total Groups weight must be equal or less than 100</value>
+    <value>Total Groups weight must be equal or less than 60</value>
   </data>
   <data name="WeightKPIGroupRequired" xml:space="preserve">
     <value>All weight of selected KPI Groups is required!</value>

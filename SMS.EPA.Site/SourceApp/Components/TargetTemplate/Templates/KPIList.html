@@ -26,7 +26,7 @@
                                 <input type="checkbox" ng-model="group.Selected" ng-click="kpiListCtrl.checkAllGroup(group.Selected, group)" />
                             </td>
                             <td class="criteria-title row-highlight group-header">
-                                <span>{{ group.Name}} ({{group.Weight}}%)</span> <a
+                                <span>{{ group.Name}} ({{group.Weight}})</span> <a
                                     class="glyphicon glyphicon-remove icon-remove left-buffer" title="Remove Group"
                                     ng-click="kpiListCtrl.removeKPIGroup(group)" href="javascript:;"></a>
                             </td>
@@ -44,7 +44,7 @@
                             </td>
                             <td class="width-100 text-center">
                                 <input type="text" class="weight-form-control text-center" ng-show="!group.IsSpreadKPI && item.Selected"
-                                    ng-model="item.Weight" name="weight" percentage />
+                                       ng-model="item.Weight" name="weight" number-dot />
                                 <span ng-show="group.IsSpreadKPI && !item.Selected">-</span> 
                                 <span ng-show="group.IsSpreadKPI && item.Selected" class="glyphicon glyphicon-ok item-list-icon"></span>
                             </td>

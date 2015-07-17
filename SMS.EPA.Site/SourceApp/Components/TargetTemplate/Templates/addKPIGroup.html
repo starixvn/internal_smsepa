@@ -31,7 +31,7 @@
                         </td>
                         <td class="width-100 text-center">
                             <span ng-show="group.selected == false" ng-bind="group.Weight"></span>
-                            <input type="text" class="weight-form-control text-center" name="weight" ng-model="group.Weight" ng-show="group.Selected == true" />
+                            <input type="text" class="weight-form-control text-center" name="weight" ng-model="group.Weight" ng-show="group.Selected == true" number-dot />
                         </td>
                         <td class="width-100 text-center">
                             <input type="checkbox" name="spread" ng-model="group.IsSpreadKPI" ng-show="group.Selected" />

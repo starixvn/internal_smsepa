@@ -1006,7 +1006,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Total Groups weight must be equal or less than 100.
+        ///   Looks up a localized string similar to Total Groups weight must be equal or less than 60.
         /// </summary>
         public static string TotalWeightWarning {
             get {

@@ -220,7 +220,7 @@ function ($modal, targetTemplateFactory, errorFactory, notificationFactory, util
             notificationFactory.error('WeightKPIGroupRequired');
             return false;
         }
-        else if (totalWeight > 100) {
+        else if (totalWeight > 60) {
             notificationFactory.error('TotalWeightWarning');
             return false;
         }

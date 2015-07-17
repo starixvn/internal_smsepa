@@ -195,7 +195,7 @@ function ($scope, TargetTemplateModel) {
         });
 
         if (totalKPISelected > 0) {
-            var averageWeight = 100 / totalKPISelected;
+            var averageWeight = group.Weight / totalKPISelected;
 
             angular.forEach(kpiList, function (kpi) {
                 if (kpi.Selected) {
