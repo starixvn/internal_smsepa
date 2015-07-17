@@ -72,6 +72,19 @@
                     </td>
                 </tr>
             </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="9" class="paging">
+                        <span data-translate="Show"></span>
+                        <select class="dropdown-entry form-control" ng-model="targetTemplateCtrl.pageSize"
+                                ng-options="entry for entry in targetTemplateCtrl.entries"></select>
+                        <span data-translate="entries"></span>
+                        <div class="pull-right custom-paging">
+                            <dir-pagination-controls boundary-links="true"></dir-pagination-controls>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
         </table>
     </div>
 </div>

@@ -58,6 +58,9 @@
     <Compile Include="RoleManagement\FunctionModel.cs" />
     <Compile Include="RoleManagement\RoleFunctionModel.cs" />
     <Compile Include="RoleManagement\SystemRoleModel.cs" />
+    <Compile Include="TargetEmployeeSetting\RawTargetEmployeeModel.cs" />
+    <Compile Include="TargetEmployeeSetting\RawTargetEmployeeSettingModel.cs" />
+    <Compile Include="TargetEmployeeSetting\TargetEmployeeModel.cs" />
     <Compile Include="TargetTemplate\TargetKPIGroupWeightModel.cs" />
     <Compile Include="TargetTemplate\TargetTemplateKPIGroupModel.cs" />
     <Compile Include="TargetTemplate\TargetTemplateKPIModel.cs" />

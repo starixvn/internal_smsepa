@@ -1015,6 +1015,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The total score of all KPI of the group must be equal to the score of the group!.
+        /// </summary>
+        public static string TotalKPIWeightWarning {
+            get {
+                return ResourceManager.GetString("TotalKPIWeightWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Total Groups weight must be equal or less than 60.
         /// </summary>
         public static string TotalWeightWarning {
