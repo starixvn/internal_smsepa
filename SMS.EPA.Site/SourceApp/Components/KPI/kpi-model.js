@@ -170,14 +170,14 @@ function ($modal, kpiFactory, utilitiesFactory, notificationFactory, errorFactor
     kpiModel.openPopupUpdateRequiredEvaluateKPI = function (kpi) {
         kpi.IsRequiredEvaluate = !kpi.IsRequiredEvaluate;
 
-        var action = kpi.IsRequiredEvaluate ? "activate required evaluate" : "deactivate required evaluate",
+        var action = kpi.IsRequiredEvaluate ? "required" : "not required",
             newKPI = {
                 KPIId: kpi.KPIId,
                 IsRequiredEvaluate: kpi.IsRequiredEvaluate
             };
 
         var modalInstance = $modal.open({
-            templateUrl: 'SourceApp/Shared/Templates/ModalConfirmContent.html',
+            templateUrl: 'SourceApp/Components/KPI/Templates/modalConfirmRequired.html',
             controller: "ModalConfirmController as modalConfirmCtrl",
             backdrop: 'static',
             resolve: {
@@ -197,7 +197,7 @@ function ($modal, kpiFactory, utilitiesFactory, notificationFactory, errorFactor
             kpiFactory.updateRequiredEvaluateKPI(newKPI)
             .success(function (response) {
                 if (response.IsSuccessful) {
-                    keyMessage = action === "activate required evaluate" ? "ActivationSuccess" : "DeactivationSuccess";
+                    keyMessage = action === "required" ? "ActivationSuccess" : "DeactivationSuccess";
                     notificationFactory.success(keyMessage);
                 }
                 else {
@@ -210,7 +210,7 @@ function ($modal, kpiFactory, utilitiesFactory, notificationFactory, errorFactor
                     errorFactory.errorHandle(status);
                 }
                 else {
-                    keyMessage = action === "activate required evaluate" ? "ActivationFail" : "DeactivationFail";
+                    keyMessage = action === "required" ? "ActivationFail" : "DeactivationFail";
                     kpi.IsRequiredEvaluate = !newKPI.IsRequiredEvaluate;
                     notificationFactory.error(keyMessage);
                 }

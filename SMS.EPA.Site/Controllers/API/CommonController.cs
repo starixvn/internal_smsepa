@@ -43,11 +43,12 @@ namespace SMS.EPA.Site.Controllers.API
         [ApiAuthorize(FunctionKey = EPAFunctionKey.KPI, Policy = Policy.Read)]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.KPIGroup, Policy = Policy.Read)]
         public IEnumerable<KPIModel> GetKPI(
-           int? targetTypeId = null,
-           int? kpiGroupId = null,
-           bool? isActive = null)
+            int? targetTypeId = null,
+            int? kpiGroupId = null,
+            bool? isActive = null,
+            bool? isRequiredEvaluate = null)
         {
-            return _utilitiesController.GetKPI(targetTypeId, kpiGroupId, isActive);
+            return _utilitiesController.GetKPI(targetTypeId, kpiGroupId, isActive, isRequiredEvaluate);
         }
 
         [HttpGet]

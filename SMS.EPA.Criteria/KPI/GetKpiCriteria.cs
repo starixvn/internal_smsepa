@@ -19,6 +19,8 @@ namespace SMS.EPA.Criteria.KPI
 
         public bool? IsActive { get; set; }
 
+        public bool? IsRequiredEvaluate { get; set; }
+
         public override bool IsValid()
         {
             return true;

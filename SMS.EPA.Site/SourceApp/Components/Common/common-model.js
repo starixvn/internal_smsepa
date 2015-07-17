@@ -36,8 +36,8 @@ function (commonFactory, errorFactory) {
     };
 
     /// Get KPI.
-    commonModel.getKPI = function (targetTypeId, kpiGroupId, isActive) {
-        return commonFactory.getKPI(targetTypeId, kpiGroupId, isActive)
+    commonModel.getKPI = function (targetTypeId, kpiGroupId, isActive, isRequiredEvaluate) {
+        return commonFactory.getKPI(targetTypeId, kpiGroupId, isActive, isRequiredEvaluate)
         .success(function (kpis) {
             commonModel.kpis = kpis;
         }).error(function (response, status) {

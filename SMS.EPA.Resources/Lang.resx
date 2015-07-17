@@ -468,4 +468,7 @@
   <data name="TargetEmployeeSetting" xml:space="preserve">
     <value>Target Employee Setting</value>
   </data>
+  <data name="NotRequired" xml:space="preserve">
+    <value>Not Required</value>
+  </data>
 </root>

@@ -709,6 +709,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Not Required.
+        /// </summary>
+        public static string NotRequired {
+            get {
+                return ResourceManager.GetString("NotRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Old Password.
         /// </summary>
         public static string OldPassword {

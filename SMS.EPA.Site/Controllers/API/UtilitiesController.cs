@@ -54,15 +54,17 @@ namespace SMS.EPA.Site.Controllers.API
 
         [NonAction]
         public IEnumerable<KPIModel> GetKPI(
-           int? targetTypeId = null,
-           int? kpiGroupId = null,
-           bool? isActive = null)
+            int? targetTypeId = null,
+            int? kpiGroupId = null,
+            bool? isActive = null,
+            bool? isRequiredEvaluate = null)
         {
             var criteria = new GetKPICriteria
             {
                 TargetTypeId = targetTypeId,
                 KPIGroupId = kpiGroupId,
-                IsActive = isActive
+                IsActive = isActive,
+                IsRequiredEvaluate = isRequiredEvaluate
             };
 
             return _kpiService.GetKPI(criteria);

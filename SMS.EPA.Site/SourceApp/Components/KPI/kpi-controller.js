@@ -19,15 +19,16 @@ function ($window, $routeParams, KPIModel, KPIGroupModel, CommonModel, utilities
     vm.filter = {
         targetTypeId: '',
         kpiGroupId: vm.routeParam.kpiGroupId ? parseInt(vm.routeParam.kpiGroupId) : '',
-        isActive: 'true'
+        isActive: 'true',
+        isRequiredEvaluate : ''
     };
 
     utilitiesFactory.numberEntryList(vm);
     vm.pageSize = 15;
     vm.currentPage = 1;
 
-    var getKPI = function (targetTypeId, kpiGroupId, isActive) {
-        CommonModel.getKPI(targetTypeId, kpiGroupId, isActive).then(function () {
+    var getKPI = function (targetTypeId, kpiGroupId, isActive, isRequiredEvaluate) {
+        CommonModel.getKPI(targetTypeId, kpiGroupId, isActive, isRequiredEvaluate).then(function () {
             vm.kpis = CommonModel.kpis;
             utilitiesFactory.searchOnPage(vm, vm.kpis);
         });
@@ -66,7 +67,7 @@ function ($window, $routeParams, KPIModel, KPIGroupModel, CommonModel, utilities
                 vm.kpiGroup = CommonModel.kpiGroup;
                 vm.filter.targetTypeId = vm.kpiGroup.TargetType.TargetTypeId;
 
-                getKPI(vm.filter.targetTypeId, vm.filter.kpiGroupId, vm.filter.isActive);
+                getKPI(vm.filter.targetTypeId, vm.filter.kpiGroupId, vm.filter.isActive, vm.filter.isRequiredEvaluate);
             });
         }
         else {
@@ -74,7 +75,7 @@ function ($window, $routeParams, KPIModel, KPIGroupModel, CommonModel, utilities
             vm.isViewAll = true;
             vm.filter.targetTypeId = '';
 
-            getKPI(vm.filter.targetTypeId, vm.filter.kpiGroupId, vm.filter.isActive);
+            getKPI(vm.filter.targetTypeId, vm.filter.kpiGroupId, vm.filter.isActive, vm.filter.isRequiredEvaluate);
         }
     };
 
@@ -94,14 +95,14 @@ function ($window, $routeParams, KPIModel, KPIGroupModel, CommonModel, utilities
     };
 
     vm.query = function (filter) {
-        getKPI(filter.targetTypeId, filter.kpiGroupId, filter.isActive);
+        getKPI(filter.targetTypeId, filter.kpiGroupId, filter.isActive, filter.isRequiredEvaluate);
     };
 
     /// Create KPI.
     vm.createKPI = function () {
         KPIModel.openPopupCreateKPI(vm, vm.kpiGroup).then()['finally'](function () {
             vm.modalInstance = '';
-            getKPI(vm.filter.targetTypeId, vm.filter.kpiGroupId, vm.filter.isActive);
+            getKPI(vm.filter.targetTypeId, vm.filter.kpiGroupId, vm.filter.isActive, vm.filter.isRequiredEvaluate);
         });
     };
 

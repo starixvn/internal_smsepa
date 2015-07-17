@@ -307,6 +307,7 @@
     <Content Include="SourceApp\Components\KPIGroup\Templates\index.html" />
     <Content Include="SourceApp\Components\KPI\Templates\edit.html" />
     <Content Include="SourceApp\Components\KPI\Templates\create.html" />
+    <Content Include="SourceApp\Components\KPI\Templates\modalConfirmRequired.html" />
     <Content Include="SourceApp\Components\Resources\resources-controller.js" />
     <Content Include="SourceApp\Components\Resources\resources-factory.js" />
     <Content Include="SourceApp\Components\KPI\kpi-controller.js" />

@@ -33,6 +33,14 @@
                 </select>
             </div>
             <div class="form-group">
+                <label class="control-label" data-translate="Required"></label>
+                <select class="form-control" ng-model="kpiCtrl.filter.isRequiredEvaluate">
+                    <option value="">-- {{"All" | translate}} --</option>
+                    <option selected value="true" data-translate="Required"></option>
+                    <option value="false" data-translate="NotRequired"></option>
+                </select>
+            </div>
+            <div class="form-group">
                 <button class="button" ng-click="kpiCtrl.query(kpiCtrl.filter)" data-translate="Submit"></button>
             </div>
         </form>
