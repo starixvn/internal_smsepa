@@ -169,6 +169,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\API\BaseController.cs" />
     <Compile Include="Controllers\API\CommonController.cs" />
+    <Compile Include="Controllers\API\FlowManagementController.cs" />
     <Compile Include="Controllers\API\KPIController.cs" />
     <Compile Include="Controllers\API\EmployeeController.cs" />
     <Compile Include="Controllers\API\KPIGroupController.cs" />
@@ -291,6 +292,13 @@
     <Content Include="SourceApp\Components\Employee\Templates\create.html" />
     <Content Include="SourceApp\Components\Employee\Templates\edit.html" />
     <Content Include="SourceApp\Components\Employee\Templates\index.html" />
+    <Content Include="SourceApp\Components\FlowManagement\departmentFlow-controller.js" />
+    <Content Include="SourceApp\Components\FlowManagement\flowManagement-controller.js" />
+    <Content Include="SourceApp\Components\FlowManagement\flowManagement-factory.js" />
+    <Content Include="SourceApp\Components\FlowManagement\flowManagement-model.js" />
+    <Content Include="SourceApp\Components\FlowManagement\Templates\departmentFlow.html" />
+    <Content Include="SourceApp\Components\FlowManagement\Templates\index.html" />
+    <Content Include="SourceApp\Components\FlowManagement\Templates\personalFlow.html" />
     <Content Include="SourceApp\Components\KPIGroup\kpiGroup-controller.js" />
     <Content Include="SourceApp\Components\KPIGroup\kpiGroup-factory.js" />
     <Content Include="SourceApp\Components\KPIGroup\kpiGroup-model.js" />
@@ -446,6 +454,7 @@
     <Content Include="SourceApp\Components\KPI\kpi.less" />
     <Content Include="SourceApp\Components\Employee\employee.less" />
     <Content Include="SourceApp\Components\Role\role.less" />
+    <None Include="SourceApp\Components\FlowManagement\flowManagement.less" />
     <Content Include="SourceApp\Components\TargetTemplate\targetTemplate.less" />
     <Content Include="Web.local.config" />
   </ItemGroup>

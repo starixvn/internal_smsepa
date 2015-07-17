@@ -73,6 +73,7 @@
     <Compile Include="Employee\GetAllJobTitleCriteria.cs" />
     <Compile Include="Employee\CreateSpecialEmployeeCriteria.cs" />
     <Compile Include="Employee\UpdateSpecialEmployeeCriteria.cs" />
+    <Compile Include="Flowmanagement\GetDepartmentFlowCriteria.cs" />
     <Compile Include="KPIGroup\DeleteKPIGroupCriteria.cs" />
     <Compile Include="KPIGroup\GetKPIGroupByIdCriteria.cs" />
     <Compile Include="KPIGroup\GetKPIGroupCriteria.cs" />

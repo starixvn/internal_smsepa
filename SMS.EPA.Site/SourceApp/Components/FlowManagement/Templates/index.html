@@ -1,0 +1,17 @@
+﻿<div class="col-sm-12 flow-management" ng-controller="FlowMngController as flowMngCtrl">
+    <div class="sub-header">
+        <ul class="row breadcrumb">
+            <li class="current" data-translate="FlowManagement"></li>
+        </ul>
+    </div>
+    <div class="target-tabset">
+        <tabset id="FlowMngTab">
+            <tab heading="DEPARTMENT / GROUP" class="tab-cursor" select="updateCtrl.tabDepartmemtFlowSelect()">
+                 <div ng-include src="'/SourceApp/Components/FlowManagement/Templates/departmentFlow.html'"></div>
+            </tab>
+            <tab heading="PERSONAL" class="tab-cursor" select="updateCtrl.tabPersonalFlowSelect()">
+                 <div ng-include src="'/SourceApp/Components/FlowManagement/Templates/personalFlow.html'"></div>
+            </tab>
+        </tabset>
+    </div>
+</div>

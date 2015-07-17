@@ -84,8 +84,8 @@ function ($window, $routeParams, KPIModel, KPIGroupModel, CommonModel, utilities
         CommonModel.getKPIGroup(targetTypeId).then(function () {
             vm.kpiGroups = CommonModel.kpiGroups;
 
-            if (targetTypeId) {
-                var index = vm.kpiGroups.map(function (e) { return e.KPIGroupId; }).indexOf(targetTypeId);
+            if (vm.filter.kpiGroupId) {
+                var index = vm.kpiGroups.map(function (e) { return e.KPIGroupId; }).indexOf(vm.filter.kpiGroupId);
                 if (index === -1) {
                     vm.filter.kpiGroupId = '';
                 }

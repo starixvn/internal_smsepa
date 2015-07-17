@@ -26,6 +26,10 @@ namespace SMS.EPA.Model.Enitites
 
         public string Password { get; set; }
 
+        public string Email { get; set; }
+
+        public string Gravatar { get; set; }
+
         public bool Enabled { get; set; }
 
         public bool IsDeleted { get; set; }

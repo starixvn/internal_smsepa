@@ -41,7 +41,8 @@ namespace SMS.EPA.Site
                 "TargetTemplate/Index",
                 "TargetTemplate/Create",
                 "TargetTemplate/Update/{id}",
-                "TargetTemplate/Detail/{id}"
+                "TargetTemplate/Detail/{id}",
+                "Flow/Index"
             };
 
             homeRouteUrls.ForEach(url => routes.MapRoute(

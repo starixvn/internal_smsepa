@@ -1,0 +1,84 @@
+@import "../../../Content/Site/variables.less";
+@import "../../../Content/Site/mixins.less";
+
+.flow-management {
+    .row {
+        margin: 0;
+    }
+
+    .flow-header {
+        font-size:  @font-size + 3;
+        text-transform: uppercase;
+        text-align: center;
+        color: #fff;
+        padding: 7px  10px;
+
+        .glyphicon.glyphicon-plus {
+            color: #fff;
+            font-size: @font-size;
+            float: right;
+        }
+    }
+
+    .employee-list {
+        background-color: #fff;
+        padding: 0 0 15px;
+        margin-top: 10px;
+        border: 1px solid @border-light-color;
+        .border-radius(4px);
+
+        .flow-header {
+            background-color: #acacac;
+
+            .glyphicon.glyphicon-arrow-left {
+                color: #fff;
+                font-size: @font-size;
+            }
+        }
+
+        .employee-ul {
+            max-height: 620px;
+            overflow: auto;
+            padding: 0 5% 0;
+
+            li {
+                text-align: left;
+                background: #e1e1e1;
+                margin-bottom: 1px;
+                border: none;
+                padding: 3px 5px;
+            }
+        }
+
+        .txt-search {
+            background: url(../../../Content/Site/images/icon-search.png) no-repeat right center;
+            border: 1px solid #ccc;
+            height: 30px;
+            margin: 15px 5%;
+            padding: 5px 23px 5px 5px;
+            width: 90%;
+            .border-radius(3px);
+        }
+    }
+
+    .department-form {
+        margin: 14px 0 0 5px;
+
+        .sel-department {
+            border: 1px solid #ccc;
+            margin-left: 5px;
+            margin-bottom: 10px;
+            .border-radius(3px);
+            height: 29px;
+            padding: 2px 5px;
+        }
+
+        .btn.customize {
+            margin-top: 6px;
+        }
+
+        label {
+            font-weight: normal;
+        }
+    }
+}

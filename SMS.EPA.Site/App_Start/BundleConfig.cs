@@ -50,7 +50,8 @@
                             "~/SourceApp/Components/KPI/kpi.less",
                             "~/SourceApp/Components/Employee/employee.less",
                             "~/SourceApp/Components/Role/role.less",
-                            "~/SourceApp/Components/TargetTemplate/targetTemplate.less");
+                            "~/SourceApp/Components/TargetTemplate/targetTemplate.less",
+                            "~/SourceApp/Components/FlowManagement/flowManagement.less");
 
             bundles.Add(new ScriptBundle("~/bundles/app").Include(
                             "~/SourceApp/app.js",
@@ -76,7 +77,11 @@
                             "~/SourceApp/Components/TargetTemplate/targetTemplate-factory.js",
                             "~/SourceApp/Components/TargetTemplate/targetTemplate-model.js",
                             "~/SourceApp/Components/TargetTemplate/targetTemplate-directive.js",
-                            "~/SourceApp/Components/TargetTemplate/targetTemplate-controller.js"));
+                            "~/SourceApp/Components/TargetTemplate/targetTemplate-controller.js",
+                            "~/SourceApp/Components/FlowManagement/flowManagement-factory.js",
+                            "~/SourceApp/Components/FlowManagement/flowManagement-model.js",
+                            "~/SourceApp/Components/FlowManagement/flowManagement-controller.js",
+                            "~/SourceApp/Components/FlowManagement/departmentFlow-controller.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/epa-directives.js",

@@ -66,12 +66,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Implement\EmployeeService.cs" />
+    <Compile Include="Implement\FlowManagementService.cs" />
     <Compile Include="Implement\KPIGroupService.cs" />
     <Compile Include="Implement\KPIService.cs" />
     <Compile Include="Implement\TargetTemplateService.cs" />
     <Compile Include="Implement\TargetTypeService.cs" />
     <Compile Include="Implement\RoleService.cs" />
     <Compile Include="Interfaces\IEmployeeService.cs" />
+    <Compile Include="Interfaces\IFlowManagementService.cs" />
     <Compile Include="Interfaces\IKPIGroupService.cs" />
     <Compile Include="Interfaces\IKPIService.cs" />
     <Compile Include="Interfaces\ITargetTemplateService.cs" />

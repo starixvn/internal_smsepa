@@ -1,5 +1,6 @@
 ﻿'use strict';
 /*exported employeeModule, commonModule, kpiModule, kpiGroupModule, roleModule, targetTemplateModule*/
+/*exported flowMngModule*/
 
 var employeeModule = angular.module("employeeModule", ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
@@ -37,4 +38,10 @@ var targetTemplateModule = angular.module("targetTemplateModule", ['ngRoute'])
     { templateUrl: '/SourceApp/Components/TargetTemplate/Templates/update.html' });
     $routeProvider.when('/TargetTemplate/Detail/:id',
     { templateUrl: '/SourceApp/Components/TargetTemplate/Templates/detail.html' });
+} ]);
+
+var flowMngModule = angular.module("flowMngModule", ['ngRoute'])
+.config(['$routeProvider', function ($routeProvider) {
+    $routeProvider.when('/Flow/Index',
+    { templateUrl: '/SourceApp/Components/FlowManagement/Templates/index.html' });
 } ]);

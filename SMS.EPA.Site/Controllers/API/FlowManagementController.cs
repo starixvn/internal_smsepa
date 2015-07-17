@@ -1,0 +1,45 @@
+﻿// -----------------------------------------------------------------------
+// <copyright file="FlowManagementController.cs" company="Nexcel Solutions Viet Nam">
+// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
+// <history>
+//   <change who="Tim.Trinh" date="2015.07.17">Created</change>
+// </history>
+
+namespace SMS.EPA.Site.Controllers.API
+{
+    using System.Collections.Generic;
+    using System.Web.Http;
+    using SMS.EPA.Criteria.Flowmanagement;
+    using SMS.EPA.Model.FlowManagement;
+    using SMS.EPA.Services.Implement;
+    using SMS.EPA.Services.Interfaces;
+
+    public class FlowManagementController : ApiController
+    {
+        private readonly IFlowManagementService _flowManagementService;
+
+        public FlowManagementController()
+            : this(null)
+        {
+        }
+
+        public FlowManagementController(IFlowManagementService flowManagementService)
+        {
+            this._flowManagementService = flowManagementService ?? new FlowManagementService();
+        }
+
+        public IEnumerable<EPAFlowModel> GetFlow(int departmentId, int flowType)
+        {
+            IEnumerable<EPAFlowModel> data = new List<EPAFlowModel>();
+            if (flowType > 0)
+            {
+                var departmentFlowCriteria = new GetDepartmentFlowCriteria() { DepartmentId = departmentId };
+                data = _flowManagementService.GetFlowDepartment(departmentFlowCriteria);
+            }
+
+            return data;
+        }
+    }
+}
