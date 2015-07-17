@@ -445,7 +445,7 @@
     <Content Include="Views\Auth\Login.cshtml" />
     <Content Include="SourceApp\Components\KPI\kpi.less" />
     <Content Include="SourceApp\Components\Employee\employee.less" />
-    <None Include="SourceApp\Components\Role\role.less" />
+    <Content Include="SourceApp\Components\Role\role.less" />
     <Content Include="SourceApp\Components\TargetTemplate\targetTemplate.less" />
     <Content Include="Web.local.config" />
   </ItemGroup>
