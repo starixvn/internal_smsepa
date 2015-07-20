@@ -7,7 +7,7 @@
 //   <change who="Tim.Trinh" date="2015.07.17">Created</change>
 // </history>
 
-namespace SMS.EPA.Criteria.Flowmanagement
+namespace SMS.EPA.Criteria.FlowManagement
 {
     using Fanex.Data.Repository;
 

@@ -41,7 +41,8 @@
                             "~/Libs/tai-placeholder.js",
                             "~/Libs/dirPagination.js",
                             "~/Libs/chosen.jquery.min.js",
-                            "~/Libs/angular-chosen.js"));
+                            "~/Libs/angular-chosen.js",
+                            "~/Libs/moment.min.js"));
 
             bundles.AddAndInclude(
                             "~/bundles/less",

@@ -23,6 +23,12 @@ commonModule.factory('commonFactory', ['$http', 'baseUrl', function ($http, base
         },
         getKPIGroupById: function (kpiGroupId) {
             return $http.get(baseUrl + 'api/Common/GetKPIGroupById', { params: { kpiGroupId: kpiGroupId} });
+        },
+        getEmployeeById: function (employeeId) {
+            return $http.get(baseUrl + 'api/Common/GetEmployeeById', { params: { employeeId: employeeId} });
+        },
+        getAllGroup: function () {
+            return $http.get(baseUrl + 'api/Common/GetAllGroup');
         }
     };
 } ]);

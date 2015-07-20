@@ -9,6 +9,8 @@
     <Function Name="Employee">
         <Setting Key="EpaEmployee_Get" SpName="EpaEmployee_Get" DbName="SMSEPA" Plain="0" >
         </Setting>
+        <Setting Key="EpaEmployee_GetById" SpName="EpaEmployee_GetById" DbName="SMSEPA" Plain="0" >
+        </Setting>
         <Setting Key="EpaGroup_Get" SpName="EpaGroup_Get" DbName="SMSEPA" Plain="0" >
         </Setting>
         <Setting Key="EpaEmployee_Insert" SpName="EpaEmployee_Insert" DbName="SMSEPA" Plain="0" >
@@ -84,6 +86,10 @@
     </Function>
     <Function Name="Flow">
         <Setting Key="SettingFlowDepartment_Get" SpName="SettingFlowDepartment_Get" DbName="SMSEPA" Plain="0" >
+        </Setting>
+        <Setting Key="SettingFlowDepartment_Set" SpName="SettingFlowDepartment_Set" DbName="SMSEPA" Plain="0" >
+        </Setting>
+        <Setting Key="SettingFlowGroup_Get" SpName="SettingFlowGroup_Get" DbName="SMSEPA" Plain="0" >
         </Setting>
     </Function>
       <Function Name="TargetEmployeeSetting">

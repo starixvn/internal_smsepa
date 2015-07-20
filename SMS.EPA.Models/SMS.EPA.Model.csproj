@@ -51,6 +51,8 @@
     <Compile Include="Enitites\Group.cs" />
     <Compile Include="Enitites\JobTitle.cs" />
     <Compile Include="FlowManagement\EPAFlowModel.cs" />
+    <Compile Include="FlowManagement\InsertEPAFlowItemModel.cs" />
+    <Compile Include="FlowManagement\InsertEPAFlowModel.cs" />
     <Compile Include="KPIGroup\KPIGroupModel.cs" />
     <Compile Include="KPI\KPIModel.cs" />
     <Compile Include="KPI\RawKPIModel.cs" />
@@ -67,7 +69,12 @@
     <Compile Include="TargetTemplate\TargetTemplateModel.cs" />
     <Compile Include="TargetType\TargetTypeModel.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">
+      <Project>{76EE2DA4-7127-4C21-B218-ADFF51B2B74E}</Project>
+      <Name>SMS.EPA.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

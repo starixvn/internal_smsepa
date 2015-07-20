@@ -9,7 +9,7 @@
         <div class="form-group required">
             <label class="col-sm-4 control-label" data-translate="Form"></label>
             <div class="col-sm-6 field active-label">
-                <select class="form-control" ng-model="updateKPIGroupCtrl.kpiGroup.TargetTypeId"
+                <select disabled class="form-control" ng-model="updateKPIGroupCtrl.kpiGroup.TargetTypeId"
                     ng-options="opt.TargetTypeId as opt.Name for opt in updateKPIGroupCtrl.targetTypes">
                     <option value="">-- {{"All" | translate}} --</option>
                 </select>

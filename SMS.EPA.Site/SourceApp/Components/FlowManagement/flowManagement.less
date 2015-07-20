@@ -6,6 +6,10 @@
         margin: 0;
     }
 
+    .tab-pane {
+        position: relative;
+    }
+
     .flow-header {
         font-size:  @font-size + 3;
         text-transform: uppercase;
@@ -18,6 +22,44 @@
             font-size: @font-size;
             float: right;
         }
+    }
+
+    .expand-user {
+        background-color: #acacac;
+        left: -15px;
+        position: absolute;
+        top: 11px;
+        width: 22px;
+        height: 37px;
+        z-index: 200;
+        padding: 7px 5px;
+        cursor: pointer;
+        .border-radius( 0 4px 4px 0);
+
+        .icon-user {
+            color: #fff;
+            font-size: @font-size - 2;
+        }
+    }
+
+    .custom-ul {
+        margin: 0;
+        padding: 0;
+
+        li {
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .img-flow {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 10px;
+        }
+    }
+
+    .sortable {
+        min-height: 300px;
     }
 
     .employee-list {
@@ -79,6 +121,66 @@
 
         label {
             font-weight: normal;
+        }
+    }
+
+    .table.table-bordered {
+        .table-body {
+            .btn {
+                color: #4f4f4f;
+            }
+
+            .col-self, .col-evaluator, .col-reviewer, .col-management, .col-human-resource {
+                .calendar-form-control {
+                    width: 80%;
+                    height: 25px;
+                    float: left;
+                    padding: 4px 7px;
+                }
+
+                .dropdown-menu {
+                    padding: 0;
+                }
+
+                .calendar-image {
+                    margin-top: 0;
+                }
+            }
+
+            .col-self {
+                background: #d8e4bc;
+                padding: 15px;
+
+                a:hover {
+                    text-decoration: none;
+                }
+            }
+
+            .col-evaluator {
+                background: #e8b8b7;
+            }
+
+            .col-reviewer{
+                background: #b1a0c7;
+            }
+
+            .col-management {
+                background: #ffff99;
+            }
+
+            .col-human-resource {
+                background: #fcd5b4;
+            }
+
+            .custom-ul li {
+                position: relative;
+            }
+
+            .icon-close {
+                position: absolute;
+                right: 6px;
+                top: 6px; 
+            }
         }
     }
 }

@@ -5,10 +5,13 @@ flowMngModule.factory('flowMngFactory', ['$http', 'baseUrl', function ($http, ba
     return {
         getFlow: function (departmentId, flowType) {
             return $http.get(baseUrl + 'api/FlowManagement/GetFlow', { params: {
-                    departmentId: departmentId,
-                    flowType: flowType
-                }
+                departmentId: departmentId,
+                flowType: flowType
+            }
             });
+        },
+        createFlow: function (model) {
+            return $http.post('/api/FlowManagement/CreateFlow', model);
         }
     };
 } ]);

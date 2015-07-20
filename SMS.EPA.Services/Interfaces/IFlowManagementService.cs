@@ -10,11 +10,18 @@
 namespace SMS.EPA.Services.Interfaces
 {
     using System.Collections.Generic;
-    using SMS.EPA.Criteria.Flowmanagement;
+    using SMS.EPA.Core.Model;
+    using SMS.EPA.Criteria.FlowManagement;
     using SMS.EPA.Model.FlowManagement;
 
     public interface IFlowManagementService
     {
         IEnumerable<EPAFlowModel> GetFlowDepartment(GetDepartmentFlowCriteria criteria);
+
+        IEnumerable<EPAFlowModel> GetFlowGroup(GetGroupFlowCriteria criteria);
+
+        CommandResult CreateDepartmentFlow(CreateDepartmentFlowCriteria criteria);
+
+        CommandResult CreateGroupFlow(CreateGroupFlowCriteria criteria);
     }
 }

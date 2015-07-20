@@ -10,6 +10,8 @@ function (commonFactory, errorFactory) {
     commonModel.kpis = [];
     commonModel.kpiGroups = [];
     commonModel.kpiGroup = {};
+    commonModel.groups = [];
+    commonModel.employee = {};
 
     /// Get target type.
     commonModel.getTargetType = function (isActive) {
@@ -60,6 +62,25 @@ function (commonFactory, errorFactory) {
         return commonFactory.getKPIGroupById(kpiGroupId)
         .success(function (kpiGroup) {
             commonModel.kpiGroup = kpiGroup;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    /// Get group.
+    commonModel.getAllGroup = function () {
+        return commonFactory.getAllGroup().success(function (groups) {
+            commonModel.groups = groups;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    /// Get employee by id.
+    commonModel.getEmployeeById = function (employeeId) {
+        return commonFactory.getEmployeeById(employeeId)
+        .success(function (employee) {
+            commonModel.employee = employee;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });

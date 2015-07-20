@@ -21,5 +21,7 @@ namespace SMS.EPA.Repositories.Interfaces
         RawEmployeeModel GetAllEmployee(ICriteria criteria);
 
         UserSession GetEmployee(ICriteria criteria);
+
+        EmployeeModel GetEmployeeById(ICriteria criteria);
     }
 }

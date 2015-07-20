@@ -72,8 +72,12 @@
     <Compile Include="Employee\GetAllGroupCriteria.cs" />
     <Compile Include="Employee\GetAllJobTitleCriteria.cs" />
     <Compile Include="Employee\CreateSpecialEmployeeCriteria.cs" />
+    <Compile Include="Employee\GetEmployeeByIdCriteria.cs" />
     <Compile Include="Employee\UpdateSpecialEmployeeCriteria.cs" />
-    <Compile Include="Flowmanagement\GetDepartmentFlowCriteria.cs" />
+    <Compile Include="FlowManagement\CreateDepartmentFlowCriteria.cs" />
+    <Compile Include="FlowManagement\CreateGroupFlowCriteria.cs" />
+    <Compile Include="FlowManagement\GetDepartmentFlowCriteria.cs" />
+    <Compile Include="FlowManagement\GetGroupFlowCriteria.cs" />
     <Compile Include="KPIGroup\DeleteKPIGroupCriteria.cs" />
     <Compile Include="KPIGroup\GetKPIGroupByIdCriteria.cs" />
     <Compile Include="KPIGroup\GetKPIGroupCriteria.cs" />

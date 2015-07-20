@@ -30,6 +30,8 @@ namespace SMS.EPA.Services.Interfaces
 
         IEnumerable<EmployeeModel> GetAllEmployee(GetAllEmployeeCriteria criteria);
 
+        EmployeeModel GetEmployeeById(GetEmployeeByIdCriteria criteria);
+
         IEnumerable<Group> GetAllGroup(GetAllGroupCriteria criteria);
 
         CommandResult InsertSpecialEmployee(CreateSpecialEmployeeCriteria criteria);

@@ -376,6 +376,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to End Date.
+        /// </summary>
+        public static string EndDate {
+            get {
+                return ResourceManager.GetString("EndDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to EPA.
         /// </summary>
         public static string EPA {
@@ -502,11 +511,29 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to In Active.
+        ///   Looks up a localized string similar to Ignore Self-Evaluation.
+        /// </summary>
+        public static string IgnoreSelfEvaluation {
+            get {
+                return ResourceManager.GetString("IgnoreSelfEvaluation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inactive.
         /// </summary>
         public static string InActive {
             get {
                 return ResourceManager.GetString("InActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Include Self-Evaluation.
+        /// </summary>
+        public static string IncludeSelfEvaluation {
+            get {
+                return ResourceManager.GetString("IncludeSelfEvaluation", resourceCulture);
             }
         }
         
@@ -817,6 +844,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Required Evaluation.
+        /// </summary>
+        public static string RequiredEvaluation {
+            get {
+                return ResourceManager.GetString("RequiredEvaluation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Require evaluate.
         /// </summary>
         public static string RequireEvaluate {
@@ -907,6 +943,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Self-Evaluator.
+        /// </summary>
+        public static string SelfEvaluator {
+            get {
+                return ResourceManager.GetString("SelfEvaluator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SPCL User.
         /// </summary>
         public static string ShortSpecialUser {
@@ -921,6 +966,15 @@ namespace SMS.EPA.Resources {
         public static string SpreadWeight {
             get {
                 return ResourceManager.GetString("SpreadWeight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start Date.
+        /// </summary>
+        public static string StartDate {
+            get {
+                return ResourceManager.GetString("StartDate", resourceCulture);
             }
         }
         

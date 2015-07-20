@@ -15,7 +15,7 @@
             </div>
             <ul class="row custom-ul employee-ul list-unstyled">
                 <li class="ui-state-highlight" list-draggable=".sortable" 
-                    ng-repeat="employee in flowMngCtrl.employees"
+                    ng-repeat="employee in flowMngCtrl.employees | filter: deptFlowCtrl.employeeName"
                     id="{{employee.EmployeeId}}">
                     {{employee.NickName}} ({{employee.FullName}})</li>
             </ul>
@@ -23,23 +23,179 @@
         <div class="col-sm-9">
             <form class="row form-inline department-form">
                 <label data-translate="Department"></label>
-                <select class="sel-department" required ng-model="deptFlowCtrl.EPAFlow.departmentId"
-                    ng-options="opt.DepartmentId as opt.Name for opt in flowMngCtrl.departments"
+                <select class="sel-department" required ng-model="deptFlowCtrl.departmentId"
+                    ng-options="opt.GroupId as opt.GroupName for opt in flowMngCtrl.departments"
                     ng-change="deptFlowCtrl.onSelectedDepartment()">
                     <option style="display: none" value="">-- Select a Department / Group --</option>
                 </select>
             </form>
-            <div class="row">
-                <!--<div class="col-sm-2 col">
-                    <div class="flow-group self">
-                        <div class="flow-header" >
-                            <span data-translate="SelfEvaluator"></span>
-                        </div>
-                        <ul list-sortable class="sortable custom-ul list-unstyled" id="adminList">
-                        </ul>
-                    </div>
-                </div>-->
-            </div>
+            <table class="row table table-bordered table-striped">
+                <thead>
+                    <tr class="headerName">
+                        <th></th>
+                        <th class="col-sm-2 text-center" data-translate="SelfEvaluator"></th>
+                        <th class="col-sm-2 text-center" data-translate="Evaluator"></th>
+                        <th class="col-sm-2 text-center" data-translate="Reviewer"></th>
+                        <th class="col-sm-2 text-center" data-translate="Management"></th>
+                        <th class="col-sm-2 text-center" data-translate="HumanResource"></th>
+                    </tr>
+                </thead>
+                <tbody class="table-body">
+                    <tr>
+                        <td class="col-sm-2" data-translate="StartDate"></td>
+                        <td class="col-sm-2 col-self">
+                            <input readonly class="calendar-form-control" type="text" 
+                                ng-model="deptFlowCtrl.selfs.startDate" datepicker-popup="{{deptFlowCtrl.dateFormat}}"
+                                ng-click="deptFlowCtrl.openPopupStartDate($event, deptFlowCtrl.calendar.selfs)"
+                                is-open="deptFlowCtrl.calendar.selfs.startDateOpened" />
+                            <calendar-image class="calendar-image" ng-click="deptFlowCtrl.openPopupStartDate($event, deptFlowCtrl.calendar.selfs)"></calendar-image>
+                        </td>
+                        <td class="col-sm-2 col-evaluator">
+                            <input readonly class="calendar-form-control" type="text" 
+                                ng-model="deptFlowCtrl.evaluators.startDate" datepicker-popup="{{deptFlowCtrl.dateFormat}}"
+                                ng-click="deptFlowCtrl.openPopupStartDate($event, deptFlowCtrl.calendar.evaluators)"
+                                is-open="deptFlowCtrl.calendar.evaluators.startDateOpened" />
+                            <calendar-image class="calendar-image" ng-click="deptFlowCtrl.openPopupStartDate($event, deptFlowCtrl.calendar.evaluators)"></calendar-image>
+                        </td>
+                        <td class="col-sm-2 col-reviewer">
+                            <input readonly class="calendar-form-control" type="text" 
+                                ng-model="deptFlowCtrl.reviewers.startDate" datepicker-popup="{{deptFlowCtrl.dateFormat}}"
+                                ng-click="deptFlowCtrl.openPopupStartDate($event, deptFlowCtrl.calendar.reviewers)"
+                                is-open="deptFlowCtrl.calendar.reviewers.startDateOpened" />
+                            <calendar-image class="calendar-image" ng-click="deptFlowCtrl.openPopupStartDate($event, deptFlowCtrl.calendar.reviewers)"></calendar-image>
+                        </td>
+                        <td class="col-sm-2 col-management">
+                            <input readonly class="calendar-form-control" type="text" 
+                                ng-model="deptFlowCtrl.managements.startDate" datepicker-popup="{{deptFlowCtrl.dateFormat}}"
+                                ng-click="deptFlowCtrl.openPopupStartDate($event, deptFlowCtrl.calendar.managements)"
+                                is-open="deptFlowCtrl.calendar.managements.startDateOpened" />
+                            <calendar-image class="calendar-image" ng-click="deptFlowCtrl.openPopupStartDate($event, deptFlowCtrl.calendar.managements)"></calendar-image>
+                        </td>
+                        <td class="col-sm-2 col-human-resource">
+                            <input readonly class="calendar-form-control" type="text" 
+                                ng-model="deptFlowCtrl.humanResources.startDate" datepicker-popup="{{deptFlowCtrl.dateFormat}}"
+                                ng-click="deptFlowCtrl.openPopupStartDate($event, deptFlowCtrl.calendar.humanResources)"
+                                is-open="deptFlowCtrl.calendar.humanResources.startDateOpened" />
+                            <calendar-image class="calendar-image" ng-click="deptFlowCtrl.openPopupStartDate($event, deptFlowCtrl.calendar.humanResources)"></calendar-image>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-2" data-translate="EndDate"></td>
+                        <td class="col-sm-2 col-self">
+                            <input readonly class="calendar-form-control" type="text" 
+                                ng-model="deptFlowCtrl.selfs.endDate" datepicker-popup="{{deptFlowCtrl.dateFormat}}"
+                                ng-click="deptFlowCtrl.openPopupEndDate($event, deptFlowCtrl.calendar.selfs)"
+                                is-open="deptFlowCtrl.calendar.selfs.endDateOpened" />
+                            <calendar-image class="calendar-image" ng-click="deptFlowCtrl.openPopupEndDate($event, deptFlowCtrl.calendar.selfs)"></calendar-image>
+                        </td>
+                        <td class="col-sm-2 col-evaluator">
+                            <input readonly class="calendar-form-control" type="text" 
+                                ng-model="deptFlowCtrl.evaluators.endDate" datepicker-popup="{{deptFlowCtrl.dateFormat}}"
+                                ng-click="deptFlowCtrl.openPopupEndDate($event, deptFlowCtrl.calendar.evaluators)"
+                                is-open="deptFlowCtrl.calendar.evaluators.endDateOpened" />
+                            <calendar-image class="calendar-image" ng-click="deptFlowCtrl.openPopupEndDate($event, deptFlowCtrl.calendar.evaluators)"></calendar-image>
+                        </td>
+                        <td class="col-sm-2 col-reviewer">
+                            <input readonly class="calendar-form-control" type="text" 
+                                ng-model="deptFlowCtrl.reviewers.endDate" datepicker-popup="{{deptFlowCtrl.dateFormat}}"
+                                ng-click="deptFlowCtrl.openPopupEndDate($event, deptFlowCtrl.calendar.reviewers)"
+                                is-open="deptFlowCtrl.calendar.reviewers.endDateOpened" />
+                            <calendar-image class="calendar-image" ng-click="deptFlowCtrl.openPopupEndDate($event, deptFlowCtrl.calendar.reviewers)"></calendar-image>
+                        </td>
+                        <td class="col-sm-2 col-management">
+                            <input readonly class="calendar-form-control" type="text" 
+                                ng-model="deptFlowCtrl.managements.endDate" datepicker-popup="{{deptFlowCtrl.dateFormat}}"
+                                ng-click="deptFlowCtrl.openPopupEndDate($event, deptFlowCtrl.calendar.managements)"
+                                is-open="deptFlowCtrl.calendar.managements.endDateOpened" />
+                            <calendar-image class="calendar-image" ng-click="deptFlowCtrl.openPopupEndDate($event, deptFlowCtrl.calendar.managements)"></calendar-image>
+                        </td>
+                        <td class="col-sm-2 col-human-resource">
+                            <input readonly class="calendar-form-control" type="text" 
+                                ng-model="deptFlowCtrl.humanResources.endDate" datepicker-popup="{{deptFlowCtrl.dateFormat}}"
+                                ng-click="deptFlowCtrl.openPopupEndDate($event, deptFlowCtrl.calendar.humanResources)"
+                                is-open="deptFlowCtrl.calendar.humanResources.endDateOpened" />
+                            <calendar-image class="calendar-image" ng-click="deptFlowCtrl.openPopupEndDate($event, deptFlowCtrl.calendar.humanResources)"></calendar-image>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-2" data-translate="Email"></td>
+                        <td class="col-sm-2 text-center col-self">
+                            <input type="checkbox" ng-checked="deptFlowCtrl.selfs.hasSendMail" />
+                        </td>
+                        <td class="col-sm-2 text-center col-evaluator">
+                            <input type="checkbox" ng-checked="deptFlowCtrl.evaluators.hasSendMail" />
+                        </td>
+                        <td class="col-sm-2 text-center col-reviewer">
+                            <input type="checkbox" ng-checked="deptFlowCtrl.reviewers.hasSendMail" />
+                        </td>
+                        <td class="col-sm-2 text-center col-management">
+                            <input type="checkbox" ng-checked="deptFlowCtrl.managements.hasSendMail" />
+                        </td>
+                        <td class="col-sm-2 text-center col-human-resource">
+                            <input type="checkbox" ng-checked="deptFlowCtrl.humanResources.hasSendMail" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-2"></td>
+                        <td class="col-sm-2 text-center col-self">
+                            <a href="javascript:;" ng-if="deptFlowCtrl.selfs.IncludeSelfEvaluation"
+                                ng-click="deptFlowCtrl.selfs.IncludeSelfEvaluation = !deptFlowCtrl.selfs.IncludeSelfEvaluation"
+                                data-translate="IgnoreSelfEvaluation"></a>
+                            <a href="javascript:;" ng-if="!deptFlowCtrl.selfs.IncludeSelfEvaluation"
+                                ng-click="deptFlowCtrl.selfs.IncludeSelfEvaluation = !deptFlowCtrl.selfs.IncludeSelfEvaluation"
+                                data-translate="IncludeSelfEvaluation"></a>
+                        </td>
+                        <td class="col-sm-2 col-evaluator">
+                            <ul list-sortable class="sortable custom-ul list-unstyled" id="evaluatorList">
+                                <li class="alert alert-info nomargin" ng-repeat="evaluator in deptFlowCtrl.evaluators.employees">
+                                    <a href="javascript:;" class="glyphicon glyphicon-remove icon-close" 
+                                        ng-click="deptFlowCtrl.removeItemFromList(evaluator, deptFlowCtrl.evaluators.employees)"></a>
+                                    <img tooltip="{{evaluator.FullName}}" class="img-flow" 
+                                        src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;f=y" />
+                                    <p>{{evaluator.NickName}}</p>
+                                </li>
+                            </ul>
+                        </td>
+                        <td class="col-sm-2 col-reviewer">
+                            <ul list-sortable class="sortable custom-ul list-unstyled" id="reviewerList">
+                                <li class="alert alert-info nomargin" ng-repeat="reviewer in deptFlowCtrl.reviewers.employees">
+                                    <a href="javascript:;" class="glyphicon glyphicon-remove icon-close" 
+                                        ng-click="deptFlowCtrl.removeItemFromList(reviewer, deptFlowCtrl.reviewers.employees)"></a>
+                                    <img tooltip="{{reviewer.FullName}}" class="img-flow" 
+                                        src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;f=y" />
+                                    <p>{{reviewer.NickName}}</p>
+                                </li>
+                            </ul>
+                        </td>
+                        <td class="col-sm-2 col-management">
+                            <ul list-sortable class="sortable custom-ul list-unstyled" id="managementList">
+                                <li class="alert alert-info nomargin" ng-repeat="management in deptFlowCtrl.managements.employees">
+                                    <a href="javascript:;" class="glyphicon glyphicon-remove icon-close" 
+                                        ng-click="deptFlowCtrl.removeItemFromList(management, deptFlowCtrl.managements.employees)"></a>
+                                    <img tooltip="{{management.FullName}}" class="img-flow" 
+                                        src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;f=y" />
+                                    <p>{{management.NickName}}</p>
+                                </li>
+                            </ul>
+                        </td>
+                        <td class="col-sm-2 col-human-resource">
+                            <ul list-sortable class="sortable custom-ul list-unstyled" id="humanResourceList">
+                                <li class="alert alert-info nomargin" ng-repeat="humanResource in deptFlowCtrl.humanResources.employees">
+                                    <a href="javascript:;" class="glyphicon glyphicon-remove icon-close" 
+                                        ng-click="deptFlowCtrl.removeItemFromList(humanResource, deptFlowCtrl.humanResources.employees)"></a>
+                                    <img tooltip="{{humanResource.FullName}}" class="img-flow" 
+                                        src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;f=y" />
+                                    <p>{{humanResource.NickName}}</p>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <form class="row form-inline department-form" role="form">
+                <button class="button" ng-click="deptFlowCtrl.saveFlow()" data-translate="Save"></button>
+                <button class="button" ng-click="deptFlowCtrl.deleteFlow()" data-translate="Delete"></button>
+            </form>
         </div>
     </div>
 </div>

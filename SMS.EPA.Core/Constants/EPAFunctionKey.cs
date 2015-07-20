@@ -43,5 +43,7 @@ namespace SMS.EPA.Core.Constants
         public const string UserManagement = "UserManagement";
 
         public const string RoleManagement = "RoleManagement";
+
+        public const string FlowManagement = "FlowManagement";
     }
 }

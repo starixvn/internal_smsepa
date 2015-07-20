@@ -87,6 +87,19 @@ namespace SMS.EPA.Services.Implement
             return employees;
         }
 
+        public EmployeeModel GetEmployeeById(GetEmployeeByIdCriteria criteria)
+        {
+            var employee = new EmployeeModel();
+            Check.Argument.IsNotNull(criteria, "criteria");
+
+            if (criteria.IsValid())
+            {
+                employee = _employeeRepository.GetEmployeeById(criteria);
+            }
+
+            return employee;
+        }
+
         public IEnumerable<Group> GetAllGroup(GetAllGroupCriteria criteria)
         {
             IEnumerable<Group> groups = new List<Group>();

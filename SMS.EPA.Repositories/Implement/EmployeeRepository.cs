@@ -82,5 +82,30 @@ namespace SMS.EPA.Repositories.Implement
                 }
             }
         }
+
+        public EmployeeModel GetEmployeeById(ICriteria criteria)
+        {
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                {
+                    EmployeeModel employee = multi.Read<EmployeeModel, JobTitle, Group, EmployeeModel>(
+                           (emp, jb, gr) =>
+                           {
+                               emp.JobTitle = jb;
+                               emp.Group = gr;
+                               return emp;
+                           },
+                           "JobTitleId, GroupId").First();
+
+                    if (employee != null)
+                    {
+                        employee.Roles = multi.Read<SystemRoleModel>().ToList();
+                    }
+
+                    return employee;
+                }
+            }
+        }
     }
 }

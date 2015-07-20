@@ -14,6 +14,8 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Utilities;
+    using SMS.EPA.Model.Employee;
+    using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.KPI;
     using SMS.EPA.Model.KPIGroup;
     using SMS.EPA.Model.TargetType;
@@ -92,6 +94,22 @@ namespace SMS.EPA.Site.Controllers.API
             }
 
             return roles;
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Read)]
+        public EmployeeModel GetEmployeeById(int employeeId)
+        {
+            EmployeeModel employee = _utilitiesController.GetEmployeeById(employeeId);
+
+            return employee;
+        }
+
+        public IEnumerable<Group> GetAllGroup()
+        {
+            IEnumerable<Group> groups = _utilitiesController.GetAllGroup();
+
+            return groups;
         }
     }
 }

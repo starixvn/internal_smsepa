@@ -11,8 +11,9 @@ namespace SMS.EPA.Services.Implement
 {
     using System.Collections.Generic;
     using Fanex.Common.Helper;
+    using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria.Flowmanagement;
+    using SMS.EPA.Criteria.FlowManagement;
     using SMS.EPA.Model.FlowManagement;
     using SMS.EPA.Repositories.Implement;
     using SMS.EPA.Repositories.Interfaces;
@@ -42,6 +43,42 @@ namespace SMS.EPA.Services.Implement
             }
 
             return flowDepartment;
+        }
+
+        public IEnumerable<EPAFlowModel> GetFlowGroup(GetGroupFlowCriteria criteria)
+        {
+            IEnumerable<EPAFlowModel> flowGroup = new List<EPAFlowModel>();
+            Check.Argument.IsNotNull(criteria, "criteria");
+            if (criteria.IsValid())
+            {
+                flowGroup = _flowManagementRepository.GetFlowManagement(criteria);
+            }
+
+            return flowGroup;
+        }
+
+        public CommandResult CreateDepartmentFlow(CreateDepartmentFlowCriteria criteria)
+        {
+            CommandResult result = new CommandResult();
+            Check.Argument.IsNotNull(criteria, "criteria");
+            if (criteria.IsValid())
+            {
+                result = Repository.Insert(criteria);
+            }
+
+            return result;
+        }
+
+        public CommandResult CreateGroupFlow(CreateGroupFlowCriteria criteria)
+        {
+            CommandResult result = new CommandResult();
+            Check.Argument.IsNotNull(criteria, "criteria");
+            if (criteria.IsValid())
+            {
+                result = Repository.Insert(criteria);
+            }
+
+            return result;
         }
     }
 }

@@ -11,9 +11,12 @@ namespace SMS.EPA.Site.Controllers.API
 {
     using System.Collections.Generic;
     using System.Web.Http;
+    using SMS.EPA.Criteria.Employee;
     using SMS.EPA.Criteria.KPI;
     using SMS.EPA.Criteria.KPIGroup;
     using SMS.EPA.Criteria.TargetType;
+    using SMS.EPA.Model.Employee;
+    using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.KPI;
     using SMS.EPA.Model.KPIGroup;
     using SMS.EPA.Model.TargetType;
@@ -25,20 +28,23 @@ namespace SMS.EPA.Site.Controllers.API
         private readonly ITargetTypeService _targetTypeService;
         private readonly IKPIService _kpiService;
         private readonly IKPIGroupService _kpiGroupService;
+        private readonly IEmployeeService _employeeService;
 
         public UtilitiesController()
-            : this(null, null, null)
+            : this(null, null, null, null)
         {
         }
 
         public UtilitiesController(
             ITargetTypeService targetTypeService,
             IKPIService kpiService,
-            IKPIGroupService kpiGroupService)
+            IKPIGroupService kpiGroupService,
+            IEmployeeService employeeService)
         {
             _targetTypeService = targetTypeService ?? new TargetTypeService();
             _kpiService = kpiService ?? new KPIService();
             _kpiGroupService = kpiGroupService ?? new KPIGroupService();
+            _employeeService = employeeService ?? new EmployeeService();
         }
 
         [NonAction]
@@ -93,6 +99,24 @@ namespace SMS.EPA.Site.Controllers.API
             };
 
             return _kpiGroupService.GetKPIGroupById(criteria);
+        }
+
+        [NonAction]
+        public EmployeeModel GetEmployeeById(int employeeId)
+        {
+            var criteria = new GetEmployeeByIdCriteria
+            {
+                EmployeeId = employeeId
+            };
+
+            return _employeeService.GetEmployeeById(criteria);
+        }
+
+        public IEnumerable<Group> GetAllGroup()
+        {
+            var criteria = new GetAllGroupCriteria();
+            IEnumerable<Group> groups = _employeeService.GetAllGroup(criteria);
+            return groups;
         }
     }
 }
