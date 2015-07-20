@@ -19,7 +19,7 @@ targetTemplateModule.factory('targetTemplateFactory', ['$http', 'baseUrl', funct
             return $http.put(baseUrl + 'api/TargetTemplate/UpdateTargetTemplate', targetTemplate);
         },
         deleteTargetTemplate: function (targetTemplateId) {
-            return $http['delete'](baseUrl + '/api/TargetTemplate/DeleteTargetTemplate', { params: { targetTemplateId: targetTemplateId} });
+            return $http['delete'](baseUrl + 'api/TargetTemplate/DeleteTargetTemplate', { params: { targetTemplateId: targetTemplateId} });
         },
         getKPIGroupOfTargetTemplate: function (targetTemplateId) {
             return $http.get(baseUrl + 'api/TargetTemplate/GetKPIGroupOfTargetTemplate', { params: { targetTemplateId: targetTemplateId} });
@@ -35,7 +35,7 @@ targetTemplateModule.factory('targetTemplateFactory', ['$http', 'baseUrl', funct
                         { params: { targetTemplateId: targetTemplateId, kpiGroupId: kpiGroupId} });
         },
         getPermissonOnTargetTemplate: function () {
-            return $http.get('/api/TargetTemplate/GetUserPermissionOnTargetTemplate');
+            return $http.get(baseUrl + 'api/TargetTemplate/GetUserPermissionOnTargetTemplate');
         }
     };
 } ]);

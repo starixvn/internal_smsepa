@@ -30,9 +30,9 @@ appModule.directive('searchAutoComplete', ['$timeout', 'errorFactory', function 
                             data.push(
                             {
                                 value: employee.NickName + ' (' + employee.FullName + ')',
-                                id: employee.UserId,
+                                id: employee.EmployeeId,
                                 employee: {
-                                    UserId: employee.UserId,
+                                    EmployeeId: employee.EmployeeId,
                                     Name: employee.NickName
                                 }
                             });

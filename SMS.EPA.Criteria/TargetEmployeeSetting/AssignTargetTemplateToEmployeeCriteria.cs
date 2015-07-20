@@ -13,7 +13,11 @@ namespace SMS.EPA.Criteria.TargetEmployeeSetting
 
     public class AssignTargetTemplateToEmployeeCriteria : CriteriaBase
     {
-        public string TargetEmployees { get; set; }
+        public int TargetTemplateId { get; set; }
+
+        public string EmployeeIds { get; set; }
+
+        public int ModifiedBy { get; set; }
 
         public override bool IsValid()
         {

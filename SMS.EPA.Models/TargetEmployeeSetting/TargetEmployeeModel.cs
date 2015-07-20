@@ -14,6 +14,8 @@ namespace SMS.EPA.Model.TargetEmployeeSetting
 
     public class TargetEmployeeModel : Employee
     {
+        public bool Selected { get; set; }
+
         public Group Group { get; set; }
 
         public TargetTemplateModel TargetTemplate { get; set; }

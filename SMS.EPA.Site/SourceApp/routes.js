@@ -1,6 +1,6 @@
 ﻿'use strict';
 /*exported employeeModule, commonModule, kpiModule, kpiGroupModule, roleModule, targetTemplateModule*/
-/*exported flowMngModule*/
+/*exported flowMngModule, targetEmployeeSettingModule*/
 
 var employeeModule = angular.module("employeeModule", ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
@@ -44,4 +44,10 @@ var flowMngModule = angular.module("flowMngModule", ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
     $routeProvider.when('/Flow/Index',
     { templateUrl: '/SourceApp/Components/FlowManagement/Templates/index.html' });
-} ]);
+}]);
+
+var targetEmployeeSettingModule = angular.module("targetEmployeeSettingModule", ['ngRoute'])
+.config(['$routeProvider', function ($routeProvider) {
+    $routeProvider.when('/TargetEmployeeSetting/Index',
+    { templateUrl: '/SourceApp/Components/TargetEmployeeSetting/Templates/index.html' });
+}]);

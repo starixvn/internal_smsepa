@@ -471,8 +471,19 @@
   <data name="NotRequired" xml:space="preserve">
     <value>Not Required</value>
   </data>
-    <data name="TotalKPIWeightWarning" xml:space="preserve">
+  <data name="TotalKPIWeightWarning" xml:space="preserve">
     <value>The total score of all KPI of the group must be equal to the score of the group!</value>
   </data>
-
+  <data name="String1" xml:space="preserve">
+    <value>Target Employee Setting</value>
+  </data>
+  <data name="Assign" xml:space="preserve">
+    <value>Assign</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="SelectEmployeeBeforeAssingWarning" xml:space="preserve">
+    <value>Please select employee to assign target template!</value>
+  </data>
 </root>

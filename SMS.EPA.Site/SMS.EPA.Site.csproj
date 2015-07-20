@@ -174,6 +174,7 @@
     <Compile Include="Controllers\API\EmployeeController.cs" />
     <Compile Include="Controllers\API\KPIGroupController.cs" />
     <Compile Include="Controllers\API\ResourcesController.cs" />
+    <Compile Include="Controllers\API\TargetEmployeeSettingController.cs" />
     <Compile Include="Controllers\API\TargetTemplateController.cs" />
     <Compile Include="Controllers\API\UtilitiesController.cs" />
     <Compile Include="Controllers\API\RoleController.cs" />
@@ -322,6 +323,11 @@
     <Content Include="SourceApp\Components\Role\Templates\treeHostCheckbox.html" />
     <Content Include="SourceApp\Components\Role\Templates\treeItem.html" />
     <Content Include="SourceApp\Components\Role\Templates\treeReadCheckbox.html" />
+    <Content Include="SourceApp\Components\TargetEmployeeSetting\targetEmployeeSetting-controller.js" />
+    <Content Include="SourceApp\Components\TargetEmployeeSetting\targetEmployeeSetting-directive.js" />
+    <Content Include="SourceApp\Components\TargetEmployeeSetting\targetEmployeeSetting-factory.js" />
+    <Content Include="SourceApp\Components\TargetEmployeeSetting\targetEmployeeSetting-model.js" />
+    <Content Include="SourceApp\Components\TargetEmployeeSetting\Templates\index.html" />
     <Content Include="SourceApp\Components\TargetTemplate\targetTemplate-directive.js" />
     <Content Include="SourceApp\Components\TargetTemplate\targetTemplate-factory.js" />
     <Content Include="SourceApp\Components\TargetTemplate\targetTemplate-controller.js" />
@@ -458,6 +464,7 @@
     <None Include="SourceApp\Components\FlowManagement\flowManagement.less" />
     <Content Include="SourceApp\Components\TargetTemplate\targetTemplate.less" />
     <Content Include="Web.local.config" />
+    <Content Include="SourceApp\Components\TargetEmployeeSetting\targetEmployeeSetting.less" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">

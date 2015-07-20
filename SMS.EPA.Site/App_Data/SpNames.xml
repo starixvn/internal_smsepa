@@ -92,6 +92,4 @@
     <Setting Key="EpaTargetTemplateEmployee_Get" SpName="EpaTargetTemplateEmployee_Get" DbName="SMSEPA" Plain="0" >
     </Setting>
   </Function>
-    </Setting>
-  </Function>
 </Functions>

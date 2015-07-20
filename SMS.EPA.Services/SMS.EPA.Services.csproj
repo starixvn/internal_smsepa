@@ -69,6 +69,7 @@
     <Compile Include="Implement\FlowManagementService.cs" />
     <Compile Include="Implement\KPIGroupService.cs" />
     <Compile Include="Implement\KPIService.cs" />
+    <Compile Include="Implement\TargetEmployeeSettingService.cs" />
     <Compile Include="Implement\TargetTemplateService.cs" />
     <Compile Include="Implement\TargetTypeService.cs" />
     <Compile Include="Implement\RoleService.cs" />
