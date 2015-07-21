@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="InsertEPAFlowModel.cs" company="Nexcel Solutions Viet Nam">
+// <copyright file="InsertFlowModel.cs" company="Nexcel Solutions Viet Nam">
 // Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -13,9 +13,9 @@ namespace SMS.EPA.Model.FlowManagement
     using System.Text;
     using SMS.EPA.Core.Enumerations;
 
-    public class InsertEPAFlowModel
+    public class InsertFlowModel
     {
-        private const string _Process = "<Process ProcessId='{0}' StartDate='{1}' EndDate='{2}' HasSendMail='{3}'>{4}</Process>";
+        private const string _Process = "<Process ProcessId='{0}' StartDate='{1}' EndDate='{2}' HasSendMail='{3}' IncludeSelfEvaluation='{4}'>{5}</Process>";
         private const string _Evaluator = "<Evaluator EvaluatorId='{0}'></Evaluator>";
 
         public int GroupId { get; set; }
@@ -24,15 +24,15 @@ namespace SMS.EPA.Model.FlowManagement
 
         public int FlowType { get; set; }
 
-        public InsertEPAFlowItemModel Selfs { get; set; }
+        public InsertFlowItemModel Selfs { get; set; }
 
-        public InsertEPAFlowItemModel Evaluators { get; set; }
+        public InsertFlowItemModel Evaluators { get; set; }
 
-        public InsertEPAFlowItemModel Reviewers { get; set; }
+        public InsertFlowItemModel Reviewers { get; set; }
 
-        public InsertEPAFlowItemModel Managements { get; set; }
+        public InsertFlowItemModel Managements { get; set; }
 
-        public InsertEPAFlowItemModel HumanResources { get; set; }
+        public InsertFlowItemModel HumanResources { get; set; }
 
         public string FlowDetails
         {
@@ -56,7 +56,7 @@ namespace SMS.EPA.Model.FlowManagement
                         evaluator.AppendFormat(_Evaluator, -1);
                     }
 
-                    process.AppendFormat(_Process, (int)ProcessType.Self, Selfs.StartDate, Selfs.EndDate, Selfs.HasSendMail, evaluator);
+                    process.AppendFormat(_Process, (int)ProcessType.Self, Selfs.StartDate, Selfs.EndDate, Selfs.HasSendMail, Selfs.IncludeSelfEvaluation, evaluator);
                 }
 
                 if (Evaluators != null)
@@ -75,7 +75,7 @@ namespace SMS.EPA.Model.FlowManagement
                         evaluator.AppendFormat(_Evaluator, -1);
                     }
 
-                    process.AppendFormat(_Process, (int)ProcessType.Evaluator, Evaluators.StartDate, Evaluators.EndDate, Evaluators.HasSendMail, evaluator);
+                    process.AppendFormat(_Process, (int)ProcessType.Evaluator, Evaluators.StartDate, Evaluators.EndDate, Evaluators.HasSendMail, Evaluators.IncludeSelfEvaluation, evaluator);
                 }
 
                 if (Reviewers != null)
@@ -94,7 +94,7 @@ namespace SMS.EPA.Model.FlowManagement
                         evaluator.AppendFormat(_Evaluator, -1);
                     }
 
-                    process.AppendFormat(_Process, (int)ProcessType.Reviewer, Reviewers.StartDate, Reviewers.EndDate, Reviewers.HasSendMail, evaluator);
+                    process.AppendFormat(_Process, (int)ProcessType.Reviewer, Reviewers.StartDate, Reviewers.EndDate, Reviewers.HasSendMail, Reviewers.IncludeSelfEvaluation, evaluator);
                 }
 
                 if (Managements != null)
@@ -113,7 +113,7 @@ namespace SMS.EPA.Model.FlowManagement
                         evaluator.AppendFormat(_Evaluator, -1);
                     }
 
-                    process.AppendFormat(_Process, (int)ProcessType.Management, Managements.StartDate, Managements.EndDate, Managements.HasSendMail, evaluator);
+                    process.AppendFormat(_Process, (int)ProcessType.Management, Managements.StartDate, Managements.EndDate, Managements.HasSendMail, Managements.IncludeSelfEvaluation, evaluator);
                 }
 
                 if (HumanResources != null)
@@ -132,7 +132,7 @@ namespace SMS.EPA.Model.FlowManagement
                         evaluator.AppendFormat(_Evaluator, -1);
                     }
 
-                    process.AppendFormat(_Process, (int)ProcessType.HumanResource, HumanResources.StartDate, HumanResources.EndDate, HumanResources.HasSendMail, evaluator);
+                    process.AppendFormat(_Process, (int)ProcessType.HumanResource, HumanResources.StartDate, HumanResources.EndDate, HumanResources.HasSendMail, HumanResources.IncludeSelfEvaluation, evaluator);
                 }
 
                 process.Append("</ROOT>");

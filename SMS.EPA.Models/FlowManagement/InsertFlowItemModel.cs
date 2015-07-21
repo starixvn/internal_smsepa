@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="InsertEPAFlowItemModel.cs" company="Nexcel Solutions Viet Nam">
+// <copyright file="InsertFlowItemModel.cs" company="Nexcel Solutions Viet Nam">
 // Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -13,7 +13,7 @@ namespace SMS.EPA.Model.FlowManagement
     using System.Collections.Generic;
     using SMS.EPA.Model.Employee;
 
-    public class InsertEPAFlowItemModel
+    public class InsertFlowItemModel
     {
         public DateTime StartDate { get; set; }
 
@@ -21,7 +21,7 @@ namespace SMS.EPA.Model.FlowManagement
 
         public bool HasSendMail { get; set; }
 
-        public bool IncludeSelfEvlauation { get; set; }
+        public bool IncludeSelfEvaluation { get; set; }
 
         public List<EmployeeModel> Employees { get; set; }
     }

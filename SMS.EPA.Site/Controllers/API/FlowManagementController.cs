@@ -33,9 +33,9 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpGet]
-        public IEnumerable<EPAFlowModel> GetFlow(int departmentId, int flowType)
+        public IEnumerable<FlowModel> GetFlow(int departmentId, int flowType)
         {
-            IEnumerable<EPAFlowModel> data = new List<EPAFlowModel>();
+            IEnumerable<FlowModel> data = new List<FlowModel>();
             if (flowType > 0)
             {
                 var departmentFlowCriteria = new GetDepartmentFlowCriteria() { DepartmentId = departmentId };
@@ -51,7 +51,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpPost]
-        public CommandResult CreateFlow(InsertEPAFlowModel model)
+        public CommandResult CreateFlow(InsertFlowModel model)
         {
             CommandResult result = new CommandResult();
 

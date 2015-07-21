@@ -33,10 +33,10 @@ namespace SMS.EPA.Services.Implement
             this._flowManagementRepository = flowManagementRepository ?? new FlowManagementRepository();
         }
 
-        public IEnumerable<EPAFlowModel> GetFlowDepartment(GetDepartmentFlowCriteria criteria)
+        public IEnumerable<FlowModel> GetFlowDepartment(GetDepartmentFlowCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");
-            IEnumerable<EPAFlowModel> flowDepartment = new List<EPAFlowModel>();
+            IEnumerable<FlowModel> flowDepartment = new List<FlowModel>();
             if (criteria.IsValid())
             {
                 flowDepartment = _flowManagementRepository.GetFlowManagement(criteria);
@@ -45,9 +45,9 @@ namespace SMS.EPA.Services.Implement
             return flowDepartment;
         }
 
-        public IEnumerable<EPAFlowModel> GetFlowGroup(GetGroupFlowCriteria criteria)
+        public IEnumerable<FlowModel> GetFlowGroup(GetGroupFlowCriteria criteria)
         {
-            IEnumerable<EPAFlowModel> flowGroup = new List<EPAFlowModel>();
+            IEnumerable<FlowModel> flowGroup = new List<FlowModel>();
             Check.Argument.IsNotNull(criteria, "criteria");
             if (criteria.IsValid())
             {

@@ -18,12 +18,12 @@ namespace SMS.EPA.Repositories.Implement
 
     public class FlowManagementRepository : IFlowManagementRepository
     {
-        public IEnumerable<EPAFlowModel> GetFlowManagement(ICriteria criteria)
+        public IEnumerable<FlowModel> GetFlowManagement(ICriteria criteria)
         {
-            IEnumerable<EPAFlowModel> epaFlow = null;
+            IEnumerable<FlowModel> epaFlow = null;
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                epaFlow = db.Query<EPAFlowModel, EmployeeModel, EPAFlowModel>(
+                epaFlow = db.Query<FlowModel, EmployeeModel, FlowModel>(
                    (f, e) =>
                    {
                        f.EvaluatorInfo = e;

@@ -138,11 +138,11 @@
                     <tr>
                         <td class="col-sm-2"></td>
                         <td class="col-sm-2 text-center col-self">
-                            <a href="javascript:;" ng-if="deptFlowCtrl.selfs.IncludeSelfEvaluation"
-                                ng-click="deptFlowCtrl.selfs.IncludeSelfEvaluation = !deptFlowCtrl.selfs.IncludeSelfEvaluation"
+                            <a ng-if="deptFlowCtrl.selfs.includeSelfEvaluation"
+                                ng-click="deptFlowCtrl.confirmIncludeSelfEvaluation(deptFlowCtrl.selfs)"
                                 data-translate="IgnoreSelfEvaluation"></a>
-                            <a href="javascript:;" ng-if="!deptFlowCtrl.selfs.IncludeSelfEvaluation"
-                                ng-click="deptFlowCtrl.selfs.IncludeSelfEvaluation = !deptFlowCtrl.selfs.IncludeSelfEvaluation"
+                            <a ng-if="!deptFlowCtrl.selfs.includeSelfEvaluation"
+                                ng-click="deptFlowCtrl.confirmIncludeSelfEvaluation(deptFlowCtrl.selfs)"
                                 data-translate="IncludeSelfEvaluation"></a>
                         </td>
                         <td class="col-sm-2 col-evaluator">

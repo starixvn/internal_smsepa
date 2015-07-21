@@ -126,6 +126,12 @@ function ($scope, FlowMngModel, CommonModel, utilitiesFactory) {
         getEmployeeById(val.sender, val.id, val.to);
     });
 
+    vm.confirmIncludeSelfEvaluation = function (flow) {
+        if (vm.department && vm.department.GroupId) {
+            FlowMngModel.openPopupConfirmIncludeSelfEvaluation(flow);
+        }
+    };
+
     vm.saveFlow = function () {
         FlowMngModel.createFlow(vm);
     };

@@ -18,24 +18,28 @@ function ($modal, flowMngFactory, notificationFactory, errorFactory) {
         startDate: date,
         endDate: date,
         hasSendMail: true,
+        includeSelfEvaluation: true,
         employees: []
     };
     flowMngModel.reviewers = {
         startDate: date,
         endDate: date,
         hasSendMail: true,
+        includeSelfEvaluation: true,
         employees: []
     };
     flowMngModel.managements = {
         startDate: date,
         endDate: date,
         hasSendMail: true,
+        includeSelfEvaluation: true,
         employees: []
     };
     flowMngModel.humanResources = {
         startDate: date,
         endDate: date,
         hasSendMail: true,
+        includeSelfEvaluation: true,
         employees: []
     };
 
@@ -43,28 +47,58 @@ function ($modal, flowMngFactory, notificationFactory, errorFactory) {
         vm.selfs.startDate = date;
         vm.selfs.endDate = date;
         vm.selfs.hasSendMail = true;
-        vm.selfs.ignoreSelfEvaluation = false;
+        vm.selfs.includeSelfEvaluation = true;
         vm.selfs.employees = [];
 
         vm.evaluators.startDate = date;
         vm.evaluators.endDate = date;
         vm.evaluators.hasSendMail = true;
+        vm.evaluators.includeSelfEvaluation = true;
         vm.evaluators.employees = [];
 
         vm.reviewers.startDate = date;
         vm.reviewers.endDate = date;
         vm.reviewers.hasSendMail = true;
+        vm.reviewers.includeSelfEvaluation = true;
         vm.reviewers.employees = [];
 
         vm.managements.startDate = date;
         vm.managements.endDate = date;
         vm.managements.hasSendMail = true;
+        vm.managements.includeSelfEvaluation = true;
         vm.managements.employees = [];
 
         vm.humanResources.startDate = date;
         vm.humanResources.endDate = date;
         vm.humanResources.hasSendMail = true;
+        vm.humanResources.includeSelfEvaluation = true;
         vm.humanResources.employees = [];
+    };
+
+    flowMngModel.openPopupConfirmIncludeSelfEvaluation = function (flow) {
+        var name = "Self-Evaluation",
+            action = flow.includeSelfEvaluation ? "ignore" : "include";
+
+        var modalInstance = $modal.open({
+            templateUrl: 'SourceApp/Shared/Templates/ModalConfirmContent.html',
+            controller: "ModalConfirmController as modalConfirmCtrl",
+            backdrop: 'static',
+            resolve: {
+                name: function () {
+                    return name;
+                },
+                action: function () {
+                    return action;
+                }
+            },
+            windowClass: "modal-confirm-center"
+        });
+
+        modalInstance.result.then(function () {
+            flow.includeSelfEvaluation = !flow.includeSelfEvaluation;
+        })['finally'](function () {
+            modalInstance = '';
+        });
     };
 
     /// Get flow.
@@ -80,6 +114,7 @@ function ($modal, flowMngFactory, notificationFactory, errorFactory) {
                         flowMngModel.selfs.startDate = flow.StartDate;
                         flowMngModel.selfs.endDate = flow.EndDate;
                         flowMngModel.selfs.hasSendMail = flow.HasSendMail;
+                        flowMngModel.selfs.includeSelfEvaluation = flow.IncludeSelfEvaluation;
                         if (flow.EvaluatorInfo.EmployeeId > 0) {
                             flowMngModel.selfs.employees.push(flow.EvaluatorInfo);
                         }
@@ -88,6 +123,7 @@ function ($modal, flowMngFactory, notificationFactory, errorFactory) {
                         flowMngModel.evaluators.startDate = flow.StartDate;
                         flowMngModel.evaluators.endDate = flow.EndDate;
                         flowMngModel.evaluators.hasSendMail = flow.HasSendMail;
+                        flowMngModel.evaluators.includeSelfEvaluation = flow.IncludeSelfEvaluation;
                         if (flow.EvaluatorInfo.EmployeeId > 0) {
                             flowMngModel.evaluators.employees.push(flow.EvaluatorInfo);
                         }
@@ -96,6 +132,7 @@ function ($modal, flowMngFactory, notificationFactory, errorFactory) {
                         flowMngModel.reviewers.startDate = flow.StartDate;
                         flowMngModel.reviewers.endDate = flow.EndDate;
                         flowMngModel.reviewers.hasSendMail = flow.HasSendMail;
+                        flowMngModel.reviewers.includeSelfEvaluation = flow.IncludeSelfEvaluation;
                         if (flow.EvaluatorInfo.EmployeeId > 0) {
                             flowMngModel.reviewers.employees.push(flow.EvaluatorInfo);
                         }
@@ -104,6 +141,7 @@ function ($modal, flowMngFactory, notificationFactory, errorFactory) {
                         flowMngModel.managements.startDate = flow.StartDate;
                         flowMngModel.managements.endDate = flow.EndDate;
                         flowMngModel.managements.hasSendMail = flow.HasSendMail;
+                        flowMngModel.managements.includeSelfEvaluation = flow.IncludeSelfEvaluation;
                         if (flow.EvaluatorInfo.EmployeeId > 0) {
                             flowMngModel.managements.employees.push(flow.EvaluatorInfo);
                         }
@@ -112,6 +150,7 @@ function ($modal, flowMngFactory, notificationFactory, errorFactory) {
                         flowMngModel.humanResources.startDate = flow.StartDate;
                         flowMngModel.humanResources.endDate = flow.EndDate;
                         flowMngModel.humanResources.hasSendMail = flow.HasSendMail;
+                        flowMngModel.humanResources.includeSelfEvaluation = flow.IncludeSelfEvaluation;
                         if (flow.EvaluatorInfo.EmployeeId > 0) {
                             flowMngModel.humanResources.employees.push(flow.EvaluatorInfo);
                         }

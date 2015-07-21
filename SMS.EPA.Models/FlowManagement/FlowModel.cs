@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="EPAFlowModel.cs" company="Nexcel Solutions Viet Nam">
+// <copyright file="FlowModel.cs" company="Nexcel Solutions Viet Nam">
 // Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -12,7 +12,7 @@ namespace SMS.EPA.Model.FlowManagement
     using System;
     using SMS.EPA.Model.Employee;
 
-    public class EPAFlowModel
+    public class FlowModel
     {
         public int ProcessId { get; set; }
 
@@ -21,6 +21,8 @@ namespace SMS.EPA.Model.FlowManagement
         public DateTime EndDate { get; set; }
 
         public bool HasSendMail { get; set; }
+
+        public bool IncludeSelfEvaluation { get; set; }
 
         public EmployeeModel EvaluatorInfo { get; set; }
     }

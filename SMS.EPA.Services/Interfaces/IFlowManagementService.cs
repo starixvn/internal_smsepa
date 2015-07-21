@@ -16,9 +16,9 @@ namespace SMS.EPA.Services.Interfaces
 
     public interface IFlowManagementService
     {
-        IEnumerable<EPAFlowModel> GetFlowDepartment(GetDepartmentFlowCriteria criteria);
+        IEnumerable<FlowModel> GetFlowDepartment(GetDepartmentFlowCriteria criteria);
 
-        IEnumerable<EPAFlowModel> GetFlowGroup(GetGroupFlowCriteria criteria);
+        IEnumerable<FlowModel> GetFlowGroup(GetGroupFlowCriteria criteria);
 
         CommandResult CreateDepartmentFlow(CreateDepartmentFlowCriteria criteria);
 
