@@ -25,6 +25,11 @@
             <input class="form-control" type="checkbox" ng-model="employeeCtrl.filter.isSpecialUser" />
         </div>
         <div class="form-group">
+            <label class="control-label" data-translate="IsDisabledUser">
+            </label>
+            <input class="form-control" type="checkbox" ng-model="employeeCtrl.filter.isDisabledUser" />
+        </div>
+        <div class="form-group">
             <button class="button" ng-click="employeeCtrl.queryEmployee(employeeCtrl.filter)" data-translate="Submit">
             </button>
         </div>

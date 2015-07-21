@@ -118,31 +118,68 @@ targetTemplateModule.directive('getGroupWeight', function () {
     };
 });
 
-targetTemplateModule.directive('getWeight', function () {
+targetTemplateModule.directive('getWeight', ['notificationFactory', function (notificationFactory) {
+
+    var validateKPIList = function (groups) {
+        var isValid = true;
+
+        angular.forEach(groups, function (group) {
+            if (!group.IsSpreadKPI) {
+                var totalWeightOfGroup = 0,
+                    kpis = group.KPIs;
+
+                for (var i = 0; i < kpis.length; i++) {
+                    var kpiItem = kpis[i];
+
+                    if (kpiItem.Selected) {
+                        if (!kpiItem.Weight || parseFloat(kpiItem.Weight) === 0) {
+                            notificationFactory.error("WeightKPIRequired");
+                            isValid = false;
+                            break;
+                        }
+                        else {
+                            totalWeightOfGroup += parseFloat(kpiItem.Weight);
+                        }
+                    }
+                }
+
+                if (isValid && totalWeightOfGroup !== group.Weight) {
+                    isValid = false;
+                    notificationFactory.error("TotalKPIWeightWarning");
+                }
+            }
+            
+        });
+
+        return isValid;
+    };
+
     return {
         restrict: 'A',
         link: function (scope, iElement) {
             iElement.on('click', function () {
-                var KPIs = [],
-                    groupTable = $('#tblKPI'),
-                    selectedRows = groupTable.find('tr.row-data').has('.check-group:checked');
+                if (!scope.kpiListCtrl || validateKPIList(scope.kpiListCtrl.kpiList)) {
+                    var KPIs = [],
+                        groupTable = $('#tblKPI'),
+                        selectedRows = groupTable.find('tr.row-data').has('.check-group:checked');
 
-                angular.forEach(selectedRows, function (selectedRow, index) {
-                    var selectedRowElement = $(selectedRow),
-                        weight = selectedRowElement.find("[name='weight']").val(),
-                        kpi = {
-                            KPIId: parseInt(selectedRowElement.find('td').attr('item-id')),
-                            KPIGroupId: parseInt(selectedRowElement.find('td').attr('group-id')),
-                            Weight: weight ? parseFloat(weight) : 0,
-                            DisplayOrder: index + 1
-                        };
+                    angular.forEach(selectedRows, function (selectedRow, index) {
+                        var selectedRowElement = $(selectedRow),
+                            weight = selectedRowElement.find("[name='weight']").val(),
+                            kpi = {
+                                KPIId: parseInt(selectedRowElement.find('td').attr('item-id')),
+                                KPIGroupId: parseInt(selectedRowElement.find('td').attr('group-id')),
+                                Weight: weight ? parseFloat(weight) : 0,
+                                DisplayOrder: index + 1
+                            };
 
-                    KPIs.push(kpi);
-                });
+                        KPIs.push(kpi);
+                    });
 
-                scope.updateCtrl.targetTemplate.KPIIds = KPIs;
-                scope.updateCtrl.save.call(this, scope.updateCtrl.targetTemplate);
+                    scope.updateCtrl.targetTemplate.KPIIds = KPIs;
+                    scope.updateCtrl.save.call(this, scope.updateCtrl.targetTemplate);
+                }
             });
         }
     };
-});
+}]);

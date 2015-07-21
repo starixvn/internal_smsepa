@@ -10,7 +10,8 @@ function ($window, EmployeeModel, utilitiesFactory, CommonModel) {
     vm.filter = {
         query: '',
         groupId: '',
-        isSpecialUser: ''
+        isSpecialUser: '',
+        isDisabledUser: ''
     };
 
     vm.groupOptions = [];
@@ -23,17 +24,17 @@ function ($window, EmployeeModel, utilitiesFactory, CommonModel) {
         vm.groupOptions = EmployeeModel.groups;
     });
 
-    var getEmployee = function (query, groupId, isSpecialUser) {
-        EmployeeModel.getAllEmployee(query, groupId, isSpecialUser).then(function () {
+    var getEmployee = function (query, groupId, isSpecialUser, isDisabledUser) {
+        EmployeeModel.getAllEmployee(query, groupId, isSpecialUser, isDisabledUser).then(function () {
             vm.employees = EmployeeModel.employees;
             utilitiesFactory.searchOnPage(vm, vm.employees);
         });
     };
 
-    getEmployee(vm.filter.query, vm.filter.groupId, vm.filter.isSpecialUser);
+    getEmployee(vm.filter.query, vm.filter.groupId, vm.filter.isSpecialUser, vm.filter.isDisabledUser);
 
     vm.queryEmployee = function (filter) {
-        getEmployee(filter.query, filter.groupId, filter.isSpecialUser);
+        getEmployee(filter.query, filter.groupId, filter.isSpecialUser, filter.isDisabledUser);
     };
 
     /*
@@ -91,7 +92,7 @@ function ($modalInstance, EmployeeModel) {
     });
 
     vm.save = function (employee) {
-        if (EmployeeModel.validateEmployee(employee)) {
+        if (EmployeeModel.validateEmployee(employee, 'create')) {
             EmployeeModel.createEmployee(employee, $modalInstance);
         }
     };
@@ -118,7 +119,6 @@ function ($modalInstance, EmployeeModel, employee) {
         GroupId: employee.Group ? employee.Group.GroupId : '',
         JobTitleId: employee.JobTitle ? employee.JobTitle.JobTitleId : '',
         Username: employee.Username,
-        Password: employee.Password,
         Enabled: employee.Enabled
     };
 
@@ -131,7 +131,7 @@ function ($modalInstance, EmployeeModel, employee) {
     });
 
     vm.save = function (updatedEmployee) {
-        if (EmployeeModel.validateEmployee(updatedEmployee) && updatedEmployee.Password === vm.originalEmployee.Password) {
+        if (EmployeeModel.validateEmployee(updatedEmployee, 'update')) {
             EmployeeModel.updateEmployee(updatedEmployee, $modalInstance);
         }
     };

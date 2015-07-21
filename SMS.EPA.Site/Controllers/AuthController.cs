@@ -14,7 +14,6 @@ namespace SMS.EPA.Site.Controllers
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Criteria.Authentication;
     using SMS.EPA.Model.Authentication;
-    using SMS.EPA.Model.Employee;
     using SMS.EPA.Resources;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;

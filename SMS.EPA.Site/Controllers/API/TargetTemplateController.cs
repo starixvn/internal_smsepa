@@ -106,6 +106,7 @@ namespace SMS.EPA.Site.Controllers.API
                     TargetTemplateId = targetTemplate.TargetTemplateId,
                     Name = targetTemplate.Name,
                     TargetTypeId = targetTemplate.TargetTypeId,
+                    IsActive = targetTemplate.IsActive,
                     Description = targetTemplate.Description,
                     ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
                     KPIs = targetTemplate.ConvertKPIItemToXml

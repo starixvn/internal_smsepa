@@ -5,6 +5,19 @@
         </ul>
     </div>
     <div class="col-sm-12">
+        <form novalidate class="row filter form-inline" role="form">
+            <div class="form-group">
+                <label class="control-label" data-translate="Status"></label>
+                <select class="form-control" ng-model="targetTemplateCtrl.filter.isActive">
+                    <option value="">-- {{"All" | translate}} --</option>
+                    <option selected value="true" data-translate="Active"></option>
+                    <option value="false" data-translate="InActive"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button class="button" ng-click="targetTemplateCtrl.query(targetTemplateCtrl.filter)" data-translate="Submit"></button>
+            </div>
+        </form>
         <table class="row table table-bordered table-striped">
             <thead>
                 <tr class="header-table">

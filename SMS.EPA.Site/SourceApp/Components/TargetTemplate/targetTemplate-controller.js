@@ -8,6 +8,10 @@ function (TargetTemplateModel, utilitiesFactory, CommonModel) {
 
     vm.targetTemplates = TargetTemplateModel.targetTemplates;
     vm.permission = TargetTemplateModel.permission;
+    vm.filter = {
+        targetTypeId: null,
+        isActive: 'true'
+    };
 
     vm.currentPage = 1;
     vm.pageSize = 20;
@@ -36,7 +40,11 @@ function (TargetTemplateModel, utilitiesFactory, CommonModel) {
         });
     };
 
-    getTargetTemplate(null, null);
+    getTargetTemplate(vm.filter.targetTypeId, vm.filter.isActive);
+
+    vm.query = function (filter) {
+        getTargetTemplate(filter.targetTypeId, filter.isActive);
+    };
 
     vm.getIndex = function (index, currentPage, pageSize) {
         return CommonModel.getIndex(index, currentPage, pageSize);
@@ -105,6 +113,7 @@ function ($window, $routeParams, TargetTemplateModel) {
 
     vm.targetTemplateId = parseInt($routeParams.id);
     vm.targetTemplate = TargetTemplateModel.targetTemplate;
+    vm.originalTargetTypeId = '';
 
     vm.dataTab = {
         information: $routeParams.viewInfo ? true : false,
@@ -113,6 +122,7 @@ function ($window, $routeParams, TargetTemplateModel) {
 
     TargetTemplateModel.getTargetTemplateById(vm.targetTemplateId).then(function () {
         vm.targetTemplate = TargetTemplateModel.targetTemplate;
+        vm.originalTargetTypeId = vm.targetTemplate.TargetTypeId;
     });
 
     vm.tabInfoSelect = function () {
@@ -127,7 +137,19 @@ function ($window, $routeParams, TargetTemplateModel) {
 
     vm.save = function (targetTemplate) {
         if (TargetTemplateModel.validateTargetTemplate(targetTemplate)) {
-            TargetTemplateModel.updateTargetTemplate(targetTemplate);
+            if (vm.targetTemplate.TargetTypeId !== vm.originalTargetTypeId) {
+                TargetTemplateModel.openPopupConfirmChangeTargetType(vm, vm.originalTargetTypeId, vm.targetTemplate.TargetTypeId).then(function () {
+                    TargetTemplateModel.updateTargetTemplate(targetTemplate).then(function () {
+                        vm.originalTargetTypeId = vm.targetTemplate.TargetTypeId;
+                        TargetTemplateModel.changeTargetType = true;
+                    });
+                })["finally"](function () {
+                    vm.modalInstance = '';
+                });
+            }
+            else {
+                TargetTemplateModel.updateTargetTemplate(targetTemplate);
+            }
         }
     };
 
@@ -152,12 +174,22 @@ targetTemplateModule.controller('KPIListController',
 function ($scope, TargetTemplateModel) {
     var vm = this;
 
+    $scope.$watch(function () {
+        return TargetTemplateModel.changeTargetType;
+    }, function (newVal, oldVal) {
+        if (newVal) {
+            getKPIOfTargetTemplate(vm.targetTemplateId);
+            TargetTemplateModel.changeTargetType = false;
+        }
+    });
+
     vm.targetTemplateId = $scope.updateCtrl.targetTemplateId;
     vm.kpiList = TargetTemplateModel.kpiList;
 
     var getKPIOfTargetTemplate = function (targetTemplateId) {
         TargetTemplateModel.getKPIOfTargetTemplate(targetTemplateId).then(function () {
             vm.kpiList = TargetTemplateModel.kpiList;
+            TargetTemplateModel.checkSelectedAllKPI(vm, vm.kpiList);
         });
     };
 
@@ -210,6 +242,13 @@ function ($scope, TargetTemplateModel) {
             getKPIOfTargetTemplate(vm.targetTemplateId);
         });
     };
+
+    vm.preventEnter = function (event) {
+        if (event.which === 13) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+    };
 } ]);
 
 targetTemplateModule.controller('AddedKPIGroupController',
@@ -223,6 +262,7 @@ function ($modalInstance, TargetTemplateModel, targetTemplateId) {
 
     TargetTemplateModel.getKPIGroupOfTargetTemplate(vm.targetTemplateId).then(function () {
         vm.kpiGroups = TargetTemplateModel.kpiGroups;
+        TargetTemplateModel.checkSelectedAllKPIGroup(vm, vm.kpiGroups);
     });
 
     vm.checkAll = function (selectedAll) {
@@ -270,4 +310,17 @@ function ($window, $routeParams, TargetTemplateModel, utilitiesFactory) {
     vm.back = function () {
         $window.history.back();
     };
-} ]);
+}]);
+
+targetTemplateModule.controller("ModalConfirmChangeTargetTypeController", ['$modalInstance', 
+ function ($modalInstance) {
+     var vm = this;
+
+     vm.ok = function () {
+         $modalInstance.close();
+     };
+
+     vm.cancel = function () {
+         $modalInstance.dismiss("cancel");
+     };
+ }]);

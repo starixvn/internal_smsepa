@@ -38,13 +38,18 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Read)]
-        public IEnumerable<EmployeeModel> GetAllEmployee(string query = "", int? groupId = null, bool? isSpecialUser = null)
+        public IEnumerable<EmployeeModel> GetAllEmployee(
+            string query = "",
+            int? groupId = null,
+            bool? isSpecialUser = null,
+            bool? isDisabledUser = null)
         {
             var criteria = new GetAllEmployeeCriteria
             {
                 Query = query,
                 GroupId = groupId,
-                IsSpecialUser = isSpecialUser
+                IsSpecialUser = isSpecialUser,
+                IsDisabledUser = isDisabledUser
             };
 
             IEnumerable<EmployeeModel> employees = _employeeService.GetAllEmployee(criteria);
@@ -60,7 +65,7 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpPost]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Host)]
-        public CommandResult InsertSpecialEmployee(CreateSpecialEmployeeCriteria criteria)
+        public CommandResult CreateSpecialEmployee(CreateSpecialEmployeeCriteria criteria)
         {
             if (criteria != null)
             {
@@ -68,7 +73,7 @@ namespace SMS.EPA.Site.Controllers.API
                 criteria.Password = Encryption.ComputeHash(HashProvider.Sha1, criteria.Password);
             }
 
-            CommandResult commandResult = _employeeService.InsertSpecialEmployee(criteria);
+            CommandResult commandResult = _employeeService.CreateSpecialEmployee(criteria);
             return commandResult;
         }
 

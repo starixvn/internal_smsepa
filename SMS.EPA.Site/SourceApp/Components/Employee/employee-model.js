@@ -10,8 +10,8 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
     employeeModel.groups = [];
     employeeModel.jobTitles = [];
 
-    employeeModel.getAllEmployee = function (query, groupId, isSpecialUser) {
-        return employeeFactory.getAllEmployee(query, groupId, isSpecialUser).success(function (employees) {
+    employeeModel.getAllEmployee = function (query, groupId, isSpecialUser, isDisabledUser) {
+        return employeeFactory.getAllEmployee(query, groupId, isSpecialUser, isDisabledUser).success(function (employees) {
             employeeModel.employees = employees;
         })
         .error(function (response, status) {
@@ -39,7 +39,7 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
     };
 
     employeeModel.createEmployee = function (employee, modalInstance) {
-        return employeeFactory.insertSpecialEmployee(employee).success(function (response) {
+        return employeeFactory.createSpecialEmployee(employee).success(function (response) {
             if (response.IsSuccessful) {
                 notificationFactory.success("CreateSuccessfully");
                 modalInstance.close();
@@ -60,7 +60,7 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
         });
     };
 
-    employeeModel.validateEmployee = function (employee) {
+    employeeModel.validateEmployee = function (employee, mode) {
         if (!employee) {
             return false;
         }
@@ -81,8 +81,16 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
                 notificationFactory.error("UsernameRequried");
                 return false;
             }
-            else if (!employee.Password) {
+            else if (employee.Username.indexOf(' ') !== -1) {
+                notificationFactory.error("UsernameNotSpaceWarning");
+                return false;
+            }
+            else if (mode === 'create' && !employee.Password) {
                 notificationFactory.error("PasswordRequried");
+                return false;
+            }
+            else if (mode === 'create' && (employee.Password.length < 6 || employee.Password.length > 32)) {
+                notificationFactory.error("PasswordLengthWarning");
                 return false;
             }
         }
@@ -149,7 +157,6 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
         employee.NickName = updatedEmployee.NickName;
         employee.FullName = updatedEmployee.FullName;
         employee.Username = updatedEmployee.Username;
-        employee.Password = updatedEmployee.Password;
         employee.Enabled = updatedEmployee.Enabled;
         employee.Group = findEmployeeGroupById(updatedEmployee.GroupId);
         employee.JobTitle = findEmployeeJobTitleById(updatedEmployee.JobTitleId);

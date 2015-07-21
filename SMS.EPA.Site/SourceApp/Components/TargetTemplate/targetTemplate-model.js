@@ -11,6 +11,7 @@ function ($modal, targetTemplateFactory, errorFactory, notificationFactory, util
     targetTemplateModel.kpiGroups = [];
     targetTemplateModel.kpiList = [];
     targetTemplateModel.permission = '';
+    targetTemplateModel.changeTargetType = false;
 
     targetTemplateModel.getTargetTemplate = function (targetTypeId, isActive) {
         return targetTemplateFactory.getTargetTemplate(targetTypeId, isActive).success(function (targetTemplates) {
@@ -276,6 +277,49 @@ function ($modal, targetTemplateFactory, errorFactory, notificationFactory, util
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
+    };
+
+    targetTemplateModel.checkSelectedAllKPI = function (vm, kpiList) {
+        vm.SelectedAll = true;
+
+        if (kpiList && kpiList.length > 0) {
+            angular.forEach(kpiList, function (group) {
+                angular.forEach(group.KPIs, function (kpi) {
+                    if (!kpi.Selected) {
+                        vm.SelectedAll = false;
+                    }
+                });
+            });
+        }
+        else {
+            vm.SelectedAll = false;
+        }
+    };
+
+    targetTemplateModel.checkSelectedAllKPIGroup = function (vm, kpiGroups) {
+        vm.selectedAll = true;
+
+        if (kpiGroups && kpiGroups.length > 0) {
+            angular.forEach(kpiGroups, function (group) {
+                if (!group.Selected) {
+                    vm.selectedAll = false;
+                }
+            });
+        }
+        else {
+            vm.selectedAll = false;
+        }
+    };
+
+    targetTemplateModel.openPopupConfirmChangeTargetType = function (vm, originalTargetTypeId, newTargetTypeId) {
+        vm.modalInstance = $modal.open({
+            templateUrl: '/SourceApp/Components/TargetTemplate/Templates/ConfirmChangeTargetType.html',
+            controller: "ModalConfirmChangeTargetTypeController as modalConfirmCtrl",
+            backdrop: 'static',
+            windowClass: "modal-confirm-center"
+        });
+
+        return vm.modalInstance.result;
     };
 
     return targetTemplateModel;

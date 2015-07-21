@@ -34,7 +34,7 @@ namespace SMS.EPA.Services.Interfaces
 
         IEnumerable<Group> GetAllGroup(GetAllGroupCriteria criteria);
 
-        CommandResult InsertSpecialEmployee(CreateSpecialEmployeeCriteria criteria);
+        CommandResult CreateSpecialEmployee(CreateSpecialEmployeeCriteria criteria);
 
         CommandResult UpdateSpecialEmployee(UpdateSpecialEmployeeCriteria criteria);
 

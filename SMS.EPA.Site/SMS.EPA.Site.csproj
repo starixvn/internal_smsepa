@@ -333,6 +333,7 @@
     <Content Include="SourceApp\Components\TargetTemplate\targetTemplate-controller.js" />
     <Content Include="SourceApp\Components\TargetTemplate\targetTemplate-model.js" />
     <Content Include="SourceApp\Components\TargetTemplate\Templates\addKPIGroup.html" />
+    <Content Include="SourceApp\Components\TargetTemplate\Templates\ConfirmChangeTargetType.html" />
     <Content Include="SourceApp\Components\TargetTemplate\Templates\create.html" />
     <Content Include="SourceApp\Components\TargetTemplate\Templates\detail.html" />
     <Content Include="SourceApp\Components\TargetTemplate\Templates\generalInformation.html" />

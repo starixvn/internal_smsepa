@@ -46,7 +46,8 @@ namespace SMS.EPA.Criteria.Employee
         public override bool IsValid()
         {
             return !string.IsNullOrWhiteSpace(Code) && !string.IsNullOrWhiteSpace(NickName) 
-                && !string.IsNullOrWhiteSpace(Username) && !string.IsNullOrWhiteSpace(Password);
+                && !string.IsNullOrWhiteSpace(Username) && !string.IsNullOrWhiteSpace(Password)
+                && Username.IndexOf(' ') == -1;
         }
 
         public override string GetSettingKey()

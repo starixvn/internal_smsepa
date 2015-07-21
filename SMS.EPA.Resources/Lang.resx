@@ -415,7 +415,7 @@
     <value>Priority</value>
   </data>
   <data name="UncheckKPIGroupWarning" xml:space="preserve">
-    <value>* Note: All KPIs in KPI Group setting will be removed. Please check carefully before unchecked KPI Group !</value>
+    <value>* Note: All KPIs in KPI Group setting will be removed. Please check carefully before unchecking KPI Group !</value>
   </data>
   <data name="TotalWeightWarning" xml:space="preserve">
     <value>Total Groups weight must be equal or less than 60</value>
@@ -506,5 +506,20 @@
   </data>
   <data name="None" xml:space="preserve">
     <value>None</value>
+  </data>
+  <data name="WeightKPIRequired" xml:space="preserve">
+    <value>All weight of selected KPI is required!</value>
+  </data>
+  <data name="ChangeTargetTypeWarning" xml:space="preserve">
+    <value>All KPIs of this target template will be removed after changing Target Type. You have to go to Target KPI list and add KPIs again. Are you sure you want to proceed?</value>
+  </data>
+  <data name="IsDisabledUser" xml:space="preserve">
+    <value>Is Disabled User</value>
+  </data>
+  <data name="PasswordLengthWarning" xml:space="preserve">
+    <value>Password must be between 6-32 characters!</value>
+  </data>
+  <data name="UsernameNotSpaceWarning" xml:space="preserve">
+    <value>The username must not contain whitespace!</value>
   </data>
 </root>

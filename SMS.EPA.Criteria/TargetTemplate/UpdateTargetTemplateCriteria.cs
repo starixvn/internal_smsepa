@@ -19,6 +19,8 @@ namespace SMS.EPA.Criteria.TargetTemplate
 
         public string Description { get; set; }
 
+        public bool IsActive { get; set; }
+
         public int ModifiedBy { get; set; }
 
         public int? TargetTypeId { get; set; }

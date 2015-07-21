@@ -178,6 +178,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All KPIs of this target template will be removed after changing Target Type. You have to go to Target KPI list and add KPIs again. Are you sure you want to proceed?.
+        /// </summary>
+        public static string ChangeTargetTypeWarning {
+            get {
+                return ResourceManager.GetString("ChangeTargetTypeWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Check Assignment.
         /// </summary>
         public static string CheckAssignment {
@@ -556,6 +565,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Is Disabled User.
+        /// </summary>
+        public static string IsDisabledUser {
+            get {
+                return ResourceManager.GetString("IsDisabledUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Is Special User.
         /// </summary>
         public static string IsSpecialUser {
@@ -777,6 +795,15 @@ namespace SMS.EPA.Resources {
         public static string OldPasswordRequired {
             get {
                 return ResourceManager.GetString("OldPasswordRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password must be between 6-32 characters!.
+        /// </summary>
+        public static string PasswordLengthWarning {
+            get {
+                return ResourceManager.GetString("PasswordLengthWarning", resourceCulture);
             }
         }
         
@@ -1132,7 +1159,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to * Note: All KPIs in KPI Group setting will be removed. Please check carefully before unchecked KPI Group !.
+        ///   Looks up a localized string similar to * Note: All KPIs in KPI Group setting will be removed. Please check carefully before unchecking KPI Group !.
         /// </summary>
         public static string UncheckKPIGroupWarning {
             get {
@@ -1177,6 +1204,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The username must not contain whitespace!.
+        /// </summary>
+        public static string UsernameNotSpaceWarning {
+            get {
+                return ResourceManager.GetString("UsernameNotSpaceWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The UserName field is required!.
         /// </summary>
         public static string UsernameRequried {
@@ -1209,6 +1245,15 @@ namespace SMS.EPA.Resources {
         public static string WeightKPIGroupRequired {
             get {
                 return ResourceManager.GetString("WeightKPIGroupRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All weight of selected KPI is required!.
+        /// </summary>
+        public static string WeightKPIRequired {
+            get {
+                return ResourceManager.GetString("WeightKPIRequired", resourceCulture);
             }
         }
         
