@@ -138,7 +138,7 @@ function ($window, $routeParams, TargetTemplateModel) {
     vm.save = function (targetTemplate) {
         if (TargetTemplateModel.validateTargetTemplate(targetTemplate)) {
             if (vm.targetTemplate.TargetTypeId !== vm.originalTargetTypeId) {
-                TargetTemplateModel.openPopupConfirmChangeTargetType(vm, vm.originalTargetTypeId, vm.targetTemplate.TargetTypeId).then(function () {
+                TargetTemplateModel.openPopupConfirmChangeTargetType(vm).then(function () {
                     TargetTemplateModel.updateTargetTemplate(targetTemplate).then(function () {
                         vm.originalTargetTypeId = vm.targetTemplate.TargetTypeId;
                         TargetTemplateModel.changeTargetType = true;
@@ -176,7 +176,7 @@ function ($scope, TargetTemplateModel) {
 
     $scope.$watch(function () {
         return TargetTemplateModel.changeTargetType;
-    }, function (newVal, oldVal) {
+    }, function (newVal) {
         if (newVal) {
             getKPIOfTargetTemplate(vm.targetTemplateId);
             TargetTemplateModel.changeTargetType = false;

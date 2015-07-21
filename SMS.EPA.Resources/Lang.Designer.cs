@@ -1204,7 +1204,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The username must not contain whitespace!.
+        ///   Looks up a localized string similar to The UserName must not contain white space!.
         /// </summary>
         public static string UsernameNotSpaceWarning {
             get {

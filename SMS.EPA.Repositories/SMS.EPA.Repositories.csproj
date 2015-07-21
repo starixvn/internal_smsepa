@@ -76,7 +76,9 @@
     <Compile Include="Interfaces\ITargetTemplateRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="FxCopDictionary.xml" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Models\SMS.EPA.Model.csproj">
       <Project>{235C8D9E-97EC-4183-BAF2-3783F2F816CC}</Project>

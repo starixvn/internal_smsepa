@@ -27,12 +27,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS.EPA.Model", "SMS.EPA.Mo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS.EPA.Services", "SMS.EPA.Services\SMS.EPA.Services.csproj", "{8EB3D578-B2A0-4B11-9386-50F394DE396C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CodeAnalysis", "CodeAnalysis", "{ECC2C123-A2DB-48D3-BA01-45F1E6D5C09D}"
-	ProjectSection(SolutionItems) = preProject
-		CodeAnalysis\CodeAnalysisConfiguration.xml = CodeAnalysis\CodeAnalysisConfiguration.xml
-		CodeAnalysis\FxCopDictionary.xml = CodeAnalysis\FxCopDictionary.xml
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

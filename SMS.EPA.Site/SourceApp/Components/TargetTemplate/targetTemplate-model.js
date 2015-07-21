@@ -311,7 +311,7 @@ function ($modal, targetTemplateFactory, errorFactory, notificationFactory, util
         }
     };
 
-    targetTemplateModel.openPopupConfirmChangeTargetType = function (vm, originalTargetTypeId, newTargetTypeId) {
+    targetTemplateModel.openPopupConfirmChangeTargetType = function (vm) {
         vm.modalInstance = $modal.open({
             templateUrl: '/SourceApp/Components/TargetTemplate/Templates/ConfirmChangeTargetType.html',
             controller: "ModalConfirmChangeTargetTypeController as modalConfirmCtrl",

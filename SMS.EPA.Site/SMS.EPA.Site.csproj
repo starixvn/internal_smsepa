@@ -255,6 +255,7 @@
     <Content Include="Content\Site\images\toggle_expanded.png" />
     <Content Include="Content\Site\images\user.png" />
     <Content Include="favicon.ico" />
+    <CodeAnalysisDictionary Include="FxCopDictionary.xml" />
     <Content Include="Global.asax" />
     <Content Include="Libs\angular-chosen.js" />
     <Content Include="Libs\angular-multi-select.js" />

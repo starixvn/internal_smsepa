@@ -520,6 +520,6 @@
     <value>Password must be between 6-32 characters!</value>
   </data>
   <data name="UsernameNotSpaceWarning" xml:space="preserve">
-    <value>The username must not contain whitespace!</value>
+    <value>The UserName must not contain white space!</value>
   </data>
 </root>
