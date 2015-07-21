@@ -486,4 +486,7 @@
   <data name="SelectEmployeeBeforeAssingWarning" xml:space="preserve">
     <value>Please select employee to assign target template!</value>
   </data>
+  <data name="None" xml:space="preserve">
+    <value>None</value>
+  </data>
 </root>

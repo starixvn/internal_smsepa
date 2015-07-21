@@ -32,23 +32,19 @@
             </div>
         </form>
 
-        <form novalidate class="row form-inline filter">
-            <div class="form-group">
-                <label class="control-label" data-translate="TargetTemplate">
-                </label>
-                <select ng-model="targetEmployeeCtrl.targetEmployeeSetting.targetTemplateId" ng-options="opt.TargetTemplateId as opt.Name for opt in targetEmployeeCtrl.targetTemplates"
-                        class="form-control lstBox-limit">
-                </select>
-            </div>
-            <div class="form-group">
-                <button class="button" data-translate="Assign" ng-click="targetEmployeeCtrl.assignTargetTemplate()"></button>
-            </div>
-        </form>
-
         <table class="row table table-bordered table-striped" id="data">
             <thead>
                 <tr class="header-table">
                     <th colspan="8">
+                        <div class="pull-left div-target-templatesetting">
+                            <label class="control-label" data-translate="TargetTemplate">
+                            </label>
+                            <select ng-model="targetEmployeeCtrl.targetEmployeeSetting.targetTemplateId" ng-options="opt.TargetTemplateId as opt.Name for opt in targetEmployeeCtrl.targetTemplates"
+                                    class="target-template-setting-select lstBox-limit">
+                                <option value="">-- {{"None" | translate}} --</option>
+                            </select>
+                        </div>
+                        <button class="button pull-left btn-assign" data-translate="Assign" ng-click="targetEmployeeCtrl.assignTargetTemplate()"></button>
                         <input type="text" ng-model="targetEmployeeCtrl.searchKey" ng-change="targetEmployeeCtrl.search()" class="search-inline-textbox search pull-right">
                     </th>
                 </tr>
