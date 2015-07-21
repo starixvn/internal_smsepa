@@ -78,8 +78,8 @@ function ($scope, FlowMngModel, CommonModel, utilitiesFactory) {
     };
 
     vm.onSelectedDepartment = function () {
-        vm.flowType = vm.departmentId;
-        FlowMngModel.getFlow(vm.departmentId, vm.flowType).then(function () {
+        vm.flowType = vm.department.GroupId;
+        FlowMngModel.getFlow(vm.department, vm.flowType).then(function () {
             vm.selfs = FlowMngModel.selfs;
             vm.evaluators = FlowMngModel.evaluators;
             vm.reviewers = FlowMngModel.reviewers;
@@ -131,6 +131,7 @@ function ($scope, FlowMngModel, CommonModel, utilitiesFactory) {
     };
 
     vm.deleteFlow = function () {
+        FlowMngModel.openPopupDeleteFlow(vm.department, vm.flowType);
     };
 
     vm.initialize = function () {

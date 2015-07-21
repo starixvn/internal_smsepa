@@ -80,5 +80,29 @@ namespace SMS.EPA.Services.Implement
 
             return result;
         }
+
+        public CommandResult DeleteDepartmentFlow(DeleteDepartmentFlowCriteria criteria)
+        {
+            CommandResult result = new CommandResult();
+            Check.Argument.IsNotNull(criteria, "criteria");
+            if (criteria.IsValid())
+            {
+                result = Repository.Delete(criteria);
+            }
+
+            return result;
+        }
+
+        public CommandResult DeleteGroupFlow(DeleteGroupFlowCriteria criteria)
+        {
+            CommandResult result = new CommandResult();
+            Check.Argument.IsNotNull(criteria, "criteria");
+            if (criteria.IsValid())
+            {
+                result = Repository.Delete(criteria);
+            }
+
+            return result;
+        }
     }
 }

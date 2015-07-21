@@ -15,7 +15,8 @@ namespace SMS.EPA.Model.FlowManagement
 
     public class InsertEPAFlowModel
     {
-        private const string _EPAFlow = "<Process StartDate='{0}' EndDate='{1}' HasSendMail='{2}' ProcessId='{3}' EvaluatorId='{4}'></Process>";
+        private const string _Process = "<Process ProcessId='{0}' StartDate='{1}' EndDate='{2}' HasSendMail='{3}'>{4}</Process>";
+        private const string _Evaluator = "<Evaluator EvaluatorId='{0}'></Evaluator>";
 
         public int GroupId { get; set; }
 
@@ -37,51 +38,106 @@ namespace SMS.EPA.Model.FlowManagement
         {
             get
             {
-                var value = new StringBuilder("<ROOT>");
+                var process = new StringBuilder("<ROOT>");
 
                 if (Selfs != null)
                 {
-                    foreach (var self in Selfs.Employees)
+                    var evaluator = new StringBuilder();
+
+                    if (Selfs.Employees.Count > 0)
                     {
-                        value.AppendFormat(_EPAFlow, Selfs.StartDate, Selfs.EndDate, Selfs.HasSendMail, (int)ProcessType.Self, -Math.Abs(self.EmployeeId));
+                        foreach (var emp in Selfs.Employees)
+                        {
+                            evaluator.AppendFormat(_Evaluator, -Math.Abs(emp.EmployeeId));
+                        }
                     }
+                    else
+                    {
+                        evaluator.AppendFormat(_Evaluator, -1);
+                    }
+
+                    process.AppendFormat(_Process, (int)ProcessType.Self, Selfs.StartDate, Selfs.EndDate, Selfs.HasSendMail, evaluator);
                 }
 
                 if (Evaluators != null)
                 {
-                    foreach (var evaluator in Evaluators.Employees)
+                    var evaluator = new StringBuilder();
+
+                    if (Evaluators.Employees.Count > 0)
                     {
-                        value.AppendFormat(_EPAFlow, Evaluators.StartDate, Evaluators.EndDate, Evaluators.HasSendMail, (int)ProcessType.Evaluator, evaluator.EmployeeId);
+                        foreach (var emp in Evaluators.Employees)
+                        {
+                            evaluator.AppendFormat(_Evaluator, Math.Abs(emp.EmployeeId));
+                        }
                     }
+                    else
+                    {
+                        evaluator.AppendFormat(_Evaluator, -1);
+                    }
+
+                    process.AppendFormat(_Process, (int)ProcessType.Evaluator, Evaluators.StartDate, Evaluators.EndDate, Evaluators.HasSendMail, evaluator);
                 }
 
                 if (Reviewers != null)
                 {
-                    foreach (var reviewer in Reviewers.Employees)
+                    var evaluator = new StringBuilder();
+
+                    if (Reviewers.Employees.Count > 0)
                     {
-                        value.AppendFormat(_EPAFlow, Reviewers.StartDate, Reviewers.EndDate, Reviewers.HasSendMail, (int)ProcessType.Reviewer, reviewer.EmployeeId);
+                        foreach (var emp in Reviewers.Employees)
+                        {
+                            evaluator.AppendFormat(_Evaluator, Math.Abs(emp.EmployeeId));
+                        }
                     }
+                    else
+                    {
+                        evaluator.AppendFormat(_Evaluator, -1);
+                    }
+
+                    process.AppendFormat(_Process, (int)ProcessType.Reviewer, Reviewers.StartDate, Reviewers.EndDate, Reviewers.HasSendMail, evaluator);
                 }
 
                 if (Managements != null)
                 {
-                    foreach (var management in Managements.Employees)
+                    var evaluator = new StringBuilder();
+
+                    if (Reviewers.Employees.Count > 0)
                     {
-                        value.AppendFormat(_EPAFlow, Managements.StartDate, Managements.EndDate, Managements.HasSendMail, (int)ProcessType.Management, management.EmployeeId);
+                        foreach (var emp in Managements.Employees)
+                        {
+                            evaluator.AppendFormat(_Evaluator, Math.Abs(emp.EmployeeId));
+                        }
                     }
+                    else
+                    {
+                        evaluator.AppendFormat(_Evaluator, -1);
+                    }
+
+                    process.AppendFormat(_Process, (int)ProcessType.Management, Managements.StartDate, Managements.EndDate, Managements.HasSendMail, evaluator);
                 }
 
                 if (HumanResources != null)
                 {
-                    foreach (var hr in HumanResources.Employees)
+                    var evaluator = new StringBuilder();
+
+                    if (HumanResources.Employees.Count > 0)
                     {
-                        value.AppendFormat(_EPAFlow, HumanResources.StartDate, HumanResources.EndDate, HumanResources.HasSendMail, (int)ProcessType.HumanResource, hr.EmployeeId);
+                        foreach (var emp in HumanResources.Employees)
+                        {
+                            evaluator.AppendFormat(_Evaluator, Math.Abs(emp.EmployeeId));
+                        }
                     }
+                    else
+                    {
+                        evaluator.AppendFormat(_Evaluator, -1);
+                    }
+
+                    process.AppendFormat(_Process, (int)ProcessType.HumanResource, HumanResources.StartDate, HumanResources.EndDate, HumanResources.HasSendMail, evaluator);
                 }
 
-                value.Append("</ROOT>");
+                process.Append("</ROOT>");
 
-                return value.ToString();
+                return process.ToString();
             }
         }
     }

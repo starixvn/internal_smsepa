@@ -23,8 +23,8 @@
         <div class="col-sm-9">
             <form class="row form-inline department-form">
                 <label data-translate="Department"></label>
-                <select class="sel-department" required ng-model="deptFlowCtrl.departmentId"
-                    ng-options="opt.GroupId as opt.GroupName for opt in flowMngCtrl.departments"
+                <select class="sel-department" required ng-model="deptFlowCtrl.department"
+                    ng-options="opt as opt.GroupName for opt in flowMngCtrl.departments"
                     ng-change="deptFlowCtrl.onSelectedDepartment()">
                     <option style="display: none" value="">-- Select a Department / Group --</option>
                 </select>
@@ -120,19 +120,19 @@
                     <tr>
                         <td class="col-sm-2" data-translate="Email"></td>
                         <td class="col-sm-2 text-center col-self">
-                            <input type="checkbox" ng-checked="deptFlowCtrl.selfs.hasSendMail" />
+                            <input type="checkbox" ng-model="deptFlowCtrl.selfs.hasSendMail" ng-checked="deptFlowCtrl.selfs.hasSendMail" />
                         </td>
                         <td class="col-sm-2 text-center col-evaluator">
-                            <input type="checkbox" ng-checked="deptFlowCtrl.evaluators.hasSendMail" />
+                            <input type="checkbox" ng-model="deptFlowCtrl.evaluators.hasSendMail" ng-checked="deptFlowCtrl.evaluators.hasSendMail" />
                         </td>
                         <td class="col-sm-2 text-center col-reviewer">
-                            <input type="checkbox" ng-checked="deptFlowCtrl.reviewers.hasSendMail" />
+                            <input type="checkbox" ng-model="deptFlowCtrl.reviewers.hasSendMail" ng-checked="deptFlowCtrl.reviewers.hasSendMail" />
                         </td>
                         <td class="col-sm-2 text-center col-management">
-                            <input type="checkbox" ng-checked="deptFlowCtrl.managements.hasSendMail" />
+                            <input type="checkbox" ng-model="deptFlowCtrl.managements.hasSendMail" ng-checked="deptFlowCtrl.managements.hasSendMail" />
                         </td>
                         <td class="col-sm-2 text-center col-human-resource">
-                            <input type="checkbox" ng-checked="deptFlowCtrl.humanResources.hasSendMail" />
+                            <input type="checkbox" ng-model="deptFlowCtrl.humanResources.hasSendMail" ng-checked="deptFlowCtrl.humanResources.hasSendMail" />
                         </td>
                     </tr>
                     <tr>

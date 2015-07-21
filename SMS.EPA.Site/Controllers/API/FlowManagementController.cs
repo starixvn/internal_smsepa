@@ -80,5 +80,33 @@ namespace SMS.EPA.Site.Controllers.API
 
             return result;
         }
+
+        public CommandResult DeleteFlow(int departmentId, int flowType)
+        {
+            CommandResult result = new CommandResult();
+
+            if (flowType > 0)
+            {
+                var deleteDepartmentFlowCriteria = new DeleteDepartmentFlowCriteria()
+                {
+                    DepartmentId = departmentId,
+                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                };
+
+                result = _flowManagementService.DeleteDepartmentFlow(deleteDepartmentFlowCriteria);
+            }
+            else if (flowType < 0)
+            {
+                var deleteGroupFlowCriteria = new DeleteGroupFlowCriteria()
+                {
+                    GroupId = departmentId,
+                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                };
+
+                result = _flowManagementService.DeleteGroupFlow(deleteGroupFlowCriteria);
+            }
+
+            return result;
+        }
     }
 }

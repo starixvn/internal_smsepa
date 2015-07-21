@@ -23,5 +23,9 @@ namespace SMS.EPA.Services.Interfaces
         CommandResult CreateDepartmentFlow(CreateDepartmentFlowCriteria criteria);
 
         CommandResult CreateGroupFlow(CreateGroupFlowCriteria criteria);
+
+        CommandResult DeleteDepartmentFlow(DeleteDepartmentFlowCriteria criteria);
+
+        CommandResult DeleteGroupFlow(DeleteGroupFlowCriteria criteria);
     }
 }

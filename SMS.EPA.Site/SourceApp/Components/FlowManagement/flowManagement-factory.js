@@ -12,6 +12,13 @@ flowMngModule.factory('flowMngFactory', ['$http', 'baseUrl', function ($http, ba
         },
         createFlow: function (model) {
             return $http.post('/api/FlowManagement/CreateFlow', model);
+        },
+        deleteFlow: function (departmentId, flowType) {
+            return $http['delete']('/api/FlowManagement/DeleteFlow', { params: {
+                departmentId: departmentId,
+                flowType: flowType
+            }
+            });
         }
     };
 } ]);

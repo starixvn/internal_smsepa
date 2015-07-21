@@ -29,7 +29,7 @@ namespace SMS.EPA.Repositories.Implement
                        f.EvaluatorInfo = e;
                        return f;
                    },
-                   "EvaluatorId",
+                   "EmployeeId",
                    criteria.GetSpParams());
             }
 
