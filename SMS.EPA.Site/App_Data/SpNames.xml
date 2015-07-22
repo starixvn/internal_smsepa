@@ -102,4 +102,8 @@
         <Setting Key="EpaTargetTemplateEmployee_Get" SpName="EpaTargetTemplateEmployee_Get" DbName="SMSEPA" Plain="0" >
         </Setting>
     </Function>
+    <Function Name="Department">
+        <Setting Key="Department_Get" SpName="Department_Get" DbName="SMSEPA" Plain="0" >
+        </Setting>
+    </Function>
 </Functions>

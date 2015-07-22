@@ -2,8 +2,8 @@
 /*global flowMngModule*/
 
 flowMngModule.controller("DepartmentFlowController",
-['$scope', 'FlowMngModel', 'CommonModel', 'utilitiesFactory',
-function ($scope, FlowMngModel, CommonModel, utilitiesFactory) {
+['$scope', 'FlowMngModel', 'CommonModel',
+function ($scope, FlowMngModel, CommonModel) {
     var vm = this;
 
     vm.selfs = FlowMngModel.selfs;
@@ -14,52 +14,13 @@ function ($scope, FlowMngModel, CommonModel, utilitiesFactory) {
 
     vm.showListEmployee = true;
 
-    utilitiesFactory.getDateFormat(vm);
-    vm.calendar = {
-        selfs: {
-            startDateOpened: false,
-            endDateOpened: false
-        },
-        evaluators: {
-            startDateOpened: false,
-            endDateOpened: false
-        },
-        reviewers: {
-            startDateOpened: false,
-            endDateOpened: false
-        },
-        managements: {
-            startDateOpened: false,
-            endDateOpened: false
-        },
-        humanResources: {
-            startDateOpened: false,
-            endDateOpened: false
-        }
-    };
-
-    var resetOpenCalendar = function () {
-        vm.calendar.selfs.startDateOpened = false;
-        vm.calendar.selfs.endDateOpened = false;
-
-        vm.calendar.evaluators.startDateOpened = false;
-        vm.calendar.evaluators.endDateOpened = false;
-
-        vm.calendar.reviewers.startDateOpened = false;
-        vm.calendar.reviewers.endDateOpened = false;
-
-        vm.calendar.managements.startDateOpened = false;
-        vm.calendar.managements.endDateOpened = false;
-
-        vm.calendar.humanResources.startDateOpened = false;
-        vm.calendar.humanResources.endDateOpened = false;
-    };
+    FlowMngModel.calendar(vm);
 
     /// Open calendar.
     vm.openPopupStartDate = function ($event, obj) {
         $event.preventDefault();
         $event.stopPropagation();
-        resetOpenCalendar();
+        FlowMngModel.resetOpenCalendar();
 
         obj.startDateOpened = true;
     };
@@ -67,7 +28,7 @@ function ($scope, FlowMngModel, CommonModel, utilitiesFactory) {
     vm.openPopupEndDate = function ($event, obj) {
         $event.preventDefault();
         $event.stopPropagation();
-        resetOpenCalendar();
+        FlowMngModel.resetOpenCalendar();
 
         obj.endDateOpened = true;
     };
@@ -78,7 +39,7 @@ function ($scope, FlowMngModel, CommonModel, utilitiesFactory) {
     };
 
     vm.onSelectedDepartment = function () {
-        vm.flowType = vm.department.GroupId;
+        vm.flowType = vm.department.DepartmentId;
         FlowMngModel.getFlow(vm.department, vm.flowType).then(function () {
             vm.selfs = FlowMngModel.selfs;
             vm.evaluators = FlowMngModel.evaluators;
@@ -127,7 +88,7 @@ function ($scope, FlowMngModel, CommonModel, utilitiesFactory) {
     });
 
     vm.confirmIncludeSelfEvaluation = function (flow) {
-        if (vm.department && vm.department.GroupId) {
+        if (vm.department && vm.department.DepartmentId) {
             FlowMngModel.openPopupConfirmIncludeSelfEvaluation(flow);
         }
     };

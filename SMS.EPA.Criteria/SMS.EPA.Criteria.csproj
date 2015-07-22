@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="Authentication\GetEmployeeByCodeCriteria.cs" />
     <Compile Include="Authentication\GetEmployeeByDomainUsernameCriteria.cs" />
+    <Compile Include="Department\GetDepartmentCriteria.cs" />
     <Compile Include="Employee\AssignRoleToEmployeeCriteria.cs" />
     <Compile Include="Employee\ChangePasswordCriteria.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>

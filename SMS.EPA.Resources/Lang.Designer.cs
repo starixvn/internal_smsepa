@@ -403,6 +403,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to EPA Processing.
+        /// </summary>
+        public static string EPAProcessing {
+            get {
+                return ResourceManager.GetString("EPAProcessing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to EPA Report.
         /// </summary>
         public static string EPAReport {
@@ -813,6 +822,15 @@ namespace SMS.EPA.Resources {
         public static string PasswordRequried {
             get {
                 return ResourceManager.GetString("PasswordRequried", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Personal Flow.
+        /// </summary>
+        public static string PersonalFlow {
+            get {
+                return ResourceManager.GetString("PersonalFlow", resourceCulture);
             }
         }
         

@@ -14,6 +14,7 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Utilities;
+    using SMS.EPA.Model.Department;
     using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.KPI;
@@ -105,11 +106,20 @@ namespace SMS.EPA.Site.Controllers.API
             return employee;
         }
 
+        [HttpGet]
         public IEnumerable<Group> GetAllGroup()
         {
             IEnumerable<Group> groups = _utilitiesController.GetAllGroup();
 
             return groups;
+        }
+
+        [HttpGet]
+        public DepartmentInfoModel GetDepartment(
+            int? parentId = null,
+            bool? isActive = null)
+        {
+            return _utilitiesController.GetDepartment(parentId, isActive);
         }
     }
 }

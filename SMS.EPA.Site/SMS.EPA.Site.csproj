@@ -298,6 +298,7 @@
     <Content Include="SourceApp\Components\FlowManagement\flowManagement-controller.js" />
     <Content Include="SourceApp\Components\FlowManagement\flowManagement-factory.js" />
     <Content Include="SourceApp\Components\FlowManagement\flowManagement-model.js" />
+    <Content Include="SourceApp\Components\FlowManagement\personalFlow-controller.js" />
     <Content Include="SourceApp\Components\FlowManagement\Templates\departmentFlow.html" />
     <Content Include="SourceApp\Components\FlowManagement\Templates\index.html" />
     <Content Include="SourceApp\Components\FlowManagement\Templates\personalFlow.html" />

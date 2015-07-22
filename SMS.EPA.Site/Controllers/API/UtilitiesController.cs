@@ -10,11 +10,14 @@
 namespace SMS.EPA.Site.Controllers.API
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Web.Http;
+    using SMS.EPA.Criteria.Department;
     using SMS.EPA.Criteria.Employee;
     using SMS.EPA.Criteria.KPI;
     using SMS.EPA.Criteria.KPIGroup;
     using SMS.EPA.Criteria.TargetType;
+    using SMS.EPA.Model.Department;
     using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.KPI;
@@ -29,9 +32,10 @@ namespace SMS.EPA.Site.Controllers.API
         private readonly IKPIService _kpiService;
         private readonly IKPIGroupService _kpiGroupService;
         private readonly IEmployeeService _employeeService;
+        private readonly IDepartmentService _departmentService;
 
         public UtilitiesController()
-            : this(null, null, null, null)
+            : this(null, null, null, null, null)
         {
         }
 
@@ -39,12 +43,14 @@ namespace SMS.EPA.Site.Controllers.API
             ITargetTypeService targetTypeService,
             IKPIService kpiService,
             IKPIGroupService kpiGroupService,
-            IEmployeeService employeeService)
+            IEmployeeService employeeService,
+            IDepartmentService departmentService)
         {
             _targetTypeService = targetTypeService ?? new TargetTypeService();
             _kpiService = kpiService ?? new KPIService();
             _kpiGroupService = kpiGroupService ?? new KPIGroupService();
             _employeeService = employeeService ?? new EmployeeService();
+            _departmentService = departmentService ?? new DepartmentService();
         }
 
         [NonAction]
@@ -112,11 +118,40 @@ namespace SMS.EPA.Site.Controllers.API
             return _employeeService.GetEmployeeById(criteria);
         }
 
+        [NonAction]
         public IEnumerable<Group> GetAllGroup()
         {
             var criteria = new GetAllGroupCriteria();
             IEnumerable<Group> groups = _employeeService.GetAllGroup(criteria);
             return groups;
+        }
+
+        [NonAction]
+        public DepartmentInfoModel GetDepartment(
+            int? parentId = null,
+            bool? isActive = null)
+        {
+            DepartmentModel treeList = null;
+            var getDepartmentCriteria = new GetDepartmentCriteria()
+            {
+                ParentId = parentId,
+                IsActive = isActive
+            };
+
+            List<DepartmentModel> departments = _departmentService.GetDepartment(getDepartmentCriteria);
+            if (departments != null)
+            {
+                treeList = new DepartmentModel();
+                ///treeList.Childrens.Add(departments.Where(x => x.ParentId == null).SingleOrDefault());
+            }
+
+            var departmentInfo = new DepartmentInfoModel
+            {
+                TreeDepartment = treeList,
+                Departments = departments
+            };
+
+            return departmentInfo;
         }
     }
 }

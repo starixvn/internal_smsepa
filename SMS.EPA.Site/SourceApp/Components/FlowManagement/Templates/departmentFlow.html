@@ -20,11 +20,11 @@
                     {{employee.NickName}} ({{employee.FullName}})</li>
             </ul>
         </div>
-        <div class="col-sm-9">
+        <div class="col-sm-9 set-flow">
             <form class="row form-inline department-form">
                 <label data-translate="Department"></label>
                 <select class="sel-department" required ng-model="deptFlowCtrl.department"
-                    ng-options="opt as opt.GroupName for opt in flowMngCtrl.departments"
+                    ng-options="opt as opt.Name for opt in flowMngCtrl.departments.Departments"
                     ng-change="deptFlowCtrl.onSelectedDepartment()">
                     <option style="display: none" value="">-- Select a Department / Group --</option>
                 </select>
@@ -45,35 +45,35 @@
                         <td class="col-sm-2" data-translate="StartDate"></td>
                         <td class="col-sm-2 col-self">
                             <input readonly class="calendar-form-control" type="text" 
-                                ng-model="deptFlowCtrl.selfs.startDate" datepicker-popup="{{deptFlowCtrl.dateFormat}}"
+                                ng-model="deptFlowCtrl.selfs.startDate" datepicker-popup="{{flowMngCtrl.dateFormat}}"
                                 ng-click="deptFlowCtrl.openPopupStartDate($event, deptFlowCtrl.calendar.selfs)"
                                 is-open="deptFlowCtrl.calendar.selfs.startDateOpened" />
                             <calendar-image class="calendar-image" ng-click="deptFlowCtrl.openPopupStartDate($event, deptFlowCtrl.calendar.selfs)"></calendar-image>
                         </td>
                         <td class="col-sm-2 col-evaluator">
                             <input readonly class="calendar-form-control" type="text" 
-                                ng-model="deptFlowCtrl.evaluators.startDate" datepicker-popup="{{deptFlowCtrl.dateFormat}}"
+                                ng-model="deptFlowCtrl.evaluators.startDate" datepicker-popup="{{flowMngCtrl.dateFormat}}"
                                 ng-click="deptFlowCtrl.openPopupStartDate($event, deptFlowCtrl.calendar.evaluators)"
                                 is-open="deptFlowCtrl.calendar.evaluators.startDateOpened" />
                             <calendar-image class="calendar-image" ng-click="deptFlowCtrl.openPopupStartDate($event, deptFlowCtrl.calendar.evaluators)"></calendar-image>
                         </td>
                         <td class="col-sm-2 col-reviewer">
                             <input readonly class="calendar-form-control" type="text" 
-                                ng-model="deptFlowCtrl.reviewers.startDate" datepicker-popup="{{deptFlowCtrl.dateFormat}}"
+                                ng-model="deptFlowCtrl.reviewers.startDate" datepicker-popup="{{flowMngCtrl.dateFormat}}"
                                 ng-click="deptFlowCtrl.openPopupStartDate($event, deptFlowCtrl.calendar.reviewers)"
                                 is-open="deptFlowCtrl.calendar.reviewers.startDateOpened" />
                             <calendar-image class="calendar-image" ng-click="deptFlowCtrl.openPopupStartDate($event, deptFlowCtrl.calendar.reviewers)"></calendar-image>
                         </td>
                         <td class="col-sm-2 col-management">
                             <input readonly class="calendar-form-control" type="text" 
-                                ng-model="deptFlowCtrl.managements.startDate" datepicker-popup="{{deptFlowCtrl.dateFormat}}"
+                                ng-model="deptFlowCtrl.managements.startDate" datepicker-popup="{{flowMngCtrl.dateFormat}}"
                                 ng-click="deptFlowCtrl.openPopupStartDate($event, deptFlowCtrl.calendar.managements)"
                                 is-open="deptFlowCtrl.calendar.managements.startDateOpened" />
                             <calendar-image class="calendar-image" ng-click="deptFlowCtrl.openPopupStartDate($event, deptFlowCtrl.calendar.managements)"></calendar-image>
                         </td>
                         <td class="col-sm-2 col-human-resource">
                             <input readonly class="calendar-form-control" type="text" 
-                                ng-model="deptFlowCtrl.humanResources.startDate" datepicker-popup="{{deptFlowCtrl.dateFormat}}"
+                                ng-model="deptFlowCtrl.humanResources.startDate" datepicker-popup="{{flowMngCtrl.dateFormat}}"
                                 ng-click="deptFlowCtrl.openPopupStartDate($event, deptFlowCtrl.calendar.humanResources)"
                                 is-open="deptFlowCtrl.calendar.humanResources.startDateOpened" />
                             <calendar-image class="calendar-image" ng-click="deptFlowCtrl.openPopupStartDate($event, deptFlowCtrl.calendar.humanResources)"></calendar-image>
@@ -83,35 +83,35 @@
                         <td class="col-sm-2" data-translate="EndDate"></td>
                         <td class="col-sm-2 col-self">
                             <input readonly class="calendar-form-control" type="text" 
-                                ng-model="deptFlowCtrl.selfs.endDate" datepicker-popup="{{deptFlowCtrl.dateFormat}}"
+                                ng-model="deptFlowCtrl.selfs.endDate" datepicker-popup="{{flowMngCtrl.dateFormat}}"
                                 ng-click="deptFlowCtrl.openPopupEndDate($event, deptFlowCtrl.calendar.selfs)"
                                 is-open="deptFlowCtrl.calendar.selfs.endDateOpened" />
                             <calendar-image class="calendar-image" ng-click="deptFlowCtrl.openPopupEndDate($event, deptFlowCtrl.calendar.selfs)"></calendar-image>
                         </td>
                         <td class="col-sm-2 col-evaluator">
                             <input readonly class="calendar-form-control" type="text" 
-                                ng-model="deptFlowCtrl.evaluators.endDate" datepicker-popup="{{deptFlowCtrl.dateFormat}}"
+                                ng-model="deptFlowCtrl.evaluators.endDate" datepicker-popup="{{flowMngCtrl.dateFormat}}"
                                 ng-click="deptFlowCtrl.openPopupEndDate($event, deptFlowCtrl.calendar.evaluators)"
                                 is-open="deptFlowCtrl.calendar.evaluators.endDateOpened" />
                             <calendar-image class="calendar-image" ng-click="deptFlowCtrl.openPopupEndDate($event, deptFlowCtrl.calendar.evaluators)"></calendar-image>
                         </td>
                         <td class="col-sm-2 col-reviewer">
                             <input readonly class="calendar-form-control" type="text" 
-                                ng-model="deptFlowCtrl.reviewers.endDate" datepicker-popup="{{deptFlowCtrl.dateFormat}}"
+                                ng-model="deptFlowCtrl.reviewers.endDate" datepicker-popup="{{flowMngCtrl.dateFormat}}"
                                 ng-click="deptFlowCtrl.openPopupEndDate($event, deptFlowCtrl.calendar.reviewers)"
                                 is-open="deptFlowCtrl.calendar.reviewers.endDateOpened" />
                             <calendar-image class="calendar-image" ng-click="deptFlowCtrl.openPopupEndDate($event, deptFlowCtrl.calendar.reviewers)"></calendar-image>
                         </td>
                         <td class="col-sm-2 col-management">
                             <input readonly class="calendar-form-control" type="text" 
-                                ng-model="deptFlowCtrl.managements.endDate" datepicker-popup="{{deptFlowCtrl.dateFormat}}"
+                                ng-model="deptFlowCtrl.managements.endDate" datepicker-popup="{{flowMngCtrl.dateFormat}}"
                                 ng-click="deptFlowCtrl.openPopupEndDate($event, deptFlowCtrl.calendar.managements)"
                                 is-open="deptFlowCtrl.calendar.managements.endDateOpened" />
                             <calendar-image class="calendar-image" ng-click="deptFlowCtrl.openPopupEndDate($event, deptFlowCtrl.calendar.managements)"></calendar-image>
                         </td>
                         <td class="col-sm-2 col-human-resource">
                             <input readonly class="calendar-form-control" type="text" 
-                                ng-model="deptFlowCtrl.humanResources.endDate" datepicker-popup="{{deptFlowCtrl.dateFormat}}"
+                                ng-model="deptFlowCtrl.humanResources.endDate" datepicker-popup="{{flowMngCtrl.dateFormat}}"
                                 ng-click="deptFlowCtrl.openPopupEndDate($event, deptFlowCtrl.calendar.humanResources)"
                                 is-open="deptFlowCtrl.calendar.humanResources.endDateOpened" />
                             <calendar-image class="calendar-image" ng-click="deptFlowCtrl.openPopupEndDate($event, deptFlowCtrl.calendar.humanResources)"></calendar-image>

@@ -2,8 +2,8 @@
 /*global flowMngModule*/
 
 flowMngModule.controller("FlowMngController",
-['FlowMngModel', 'EmployeeModel', 'CommonModel',
-function (FlowMngModel, EmployeeModel, CommonModel) {
+['FlowMngModel', 'EmployeeModel', 'CommonModel', 'utilitiesFactory',
+function (FlowMngModel, EmployeeModel, CommonModel, utilitiesFactory) {
     var vm = this;
 
     vm.selfs = FlowMngModel.selfs;
@@ -13,15 +13,17 @@ function (FlowMngModel, EmployeeModel, CommonModel) {
     vm.humanResources = FlowMngModel.humanResources;
 
     vm.employees = EmployeeModel.employees;
-    vm.departments = CommonModel.groups;
+    vm.departments = CommonModel.departments;
+
+    utilitiesFactory.getDateFormat(vm);
 
     vm.initialize = function () {
         EmployeeModel.getAllEmployee().then(function () {
             vm.employees = EmployeeModel.employees;
         });
 
-        CommonModel.getAllGroup().then(function () {
-            vm.departments = CommonModel.groups;
+        CommonModel.getDepartment().then(function () {
+            vm.departments = CommonModel.departments;
         });
     };
 

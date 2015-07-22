@@ -522,4 +522,10 @@
   <data name="UsernameNotSpaceWarning" xml:space="preserve">
     <value>The UserName must not contain white space!</value>
   </data>
+  <data name="EPAProcessing" xml:space="preserve">
+    <value>EPA Processing</value>
+  </data>
+  <data name="PersonalFlow" xml:space="preserve">
+    <value>Personal Flow</value>
+  </data>
 </root>

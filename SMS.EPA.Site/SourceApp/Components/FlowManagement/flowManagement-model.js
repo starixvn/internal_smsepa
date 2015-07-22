@@ -75,6 +75,50 @@ function ($modal, flowMngFactory, notificationFactory, errorFactory) {
         vm.humanResources.employees = [];
     };
 
+    /// Setting calendar.
+    flowMngModel.calendar = function (vm) {
+        vm.calendar = {
+            selfs: {
+                startDateOpened: false,
+                endDateOpened: false
+            },
+            evaluators: {
+                startDateOpened: false,
+                endDateOpened: false
+            },
+            reviewers: {
+                startDateOpened: false,
+                endDateOpened: false
+            },
+            managements: {
+                startDateOpened: false,
+                endDateOpened: false
+            },
+            humanResources: {
+                startDateOpened: false,
+                endDateOpened: false
+            }
+        };
+    };
+
+    flowMngModel.resetOpenCalendar = function (vm) {
+        vm.calendar.selfs.startDateOpened = false;
+        vm.calendar.selfs.endDateOpened = false;
+
+        vm.calendar.evaluators.startDateOpened = false;
+        vm.calendar.evaluators.endDateOpened = false;
+
+        vm.calendar.reviewers.startDateOpened = false;
+        vm.calendar.reviewers.endDateOpened = false;
+
+        vm.calendar.managements.startDateOpened = false;
+        vm.calendar.managements.endDateOpened = false;
+
+        vm.calendar.humanResources.startDateOpened = false;
+        vm.calendar.humanResources.endDateOpened = false;
+    };
+
+    /// Ignore/Include Self-Evaluation.
     flowMngModel.openPopupConfirmIncludeSelfEvaluation = function (flow) {
         var name = "Self-Evaluation",
             action = flow.includeSelfEvaluation ? "ignore" : "include";
@@ -103,7 +147,7 @@ function ($modal, flowMngFactory, notificationFactory, errorFactory) {
 
     /// Get flow.
     flowMngModel.getFlow = function (department, flowType) {
-        return flowMngFactory.getFlow(department.GroupId, flowType)
+        return flowMngFactory.getFlow(department.DepartmentId, flowType)
         .success(function (flows) {
             flowMngModel.resetCurrentFlow(flowMngModel);
 
@@ -215,7 +259,7 @@ function ($modal, flowMngFactory, notificationFactory, errorFactory) {
         }
         else {
             var model = {
-                departmentId: vm.department.GroupId,
+                departmentId: vm.department.DepartmentId,
                 flowType: vm.flowType,
                 selfs: vm.selfs,
                 evaluators: vm.evaluators,
@@ -241,7 +285,7 @@ function ($modal, flowMngFactory, notificationFactory, errorFactory) {
 
     /// Delete flow.
     flowMngModel.openPopupDeleteFlow = function (vm) {
-        if (!vm.department || !vm.department.GroupId) {
+        if (!vm.department || !vm.department.DepartmentId) {
             notificationFactory.error('', 'Please select a department!');
         }
         else {
@@ -261,7 +305,7 @@ function ($modal, flowMngFactory, notificationFactory, errorFactory) {
             });
 
             modalInstance.result.then(function () {
-                flowMngFactory.deleteFlow(vm.department.GroupId, vm.flowType).success(function (response) {
+                flowMngFactory.deleteFlow(vm.department.DepartmentId, vm.flowType).success(function (response) {
                     if (response.IsSuccessful) {
                         notificationFactory.success("DeletedSuccessfully");
 
