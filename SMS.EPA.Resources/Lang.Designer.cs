@@ -1258,7 +1258,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to All weight of selected KPI Groups is required!.
+        ///   Looks up a localized string similar to All weights of selected KPI Groups is required!.
         /// </summary>
         public static string WeightKPIGroupRequired {
             get {
@@ -1267,7 +1267,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to All weight of selected KPI is required!.
+        ///   Looks up a localized string similar to All weights of selected KPIs is required!.
         /// </summary>
         public static string WeightKPIRequired {
             get {

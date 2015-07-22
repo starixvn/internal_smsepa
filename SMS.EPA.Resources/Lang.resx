@@ -421,7 +421,7 @@
     <value>Total Groups weight must be equal or less than 60</value>
   </data>
   <data name="WeightKPIGroupRequired" xml:space="preserve">
-    <value>All weight of selected KPI Groups is required!</value>
+    <value>All weights of selected KPI Groups is required!</value>
   </data>
   <data name="KPIName" xml:space="preserve">
     <value>KPI Name</value>
@@ -508,7 +508,7 @@
     <value>None</value>
   </data>
   <data name="WeightKPIRequired" xml:space="preserve">
-    <value>All weight of selected KPI is required!</value>
+    <value>All weights of selected KPIs is required!</value>
   </data>
   <data name="ChangeTargetTypeWarning" xml:space="preserve">
     <value>All KPIs of this target template will be removed after changing Target Type. You have to go to Target KPI list and add KPIs again. Are you sure you want to proceed?</value>
