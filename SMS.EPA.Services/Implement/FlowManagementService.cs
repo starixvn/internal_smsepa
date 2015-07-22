@@ -30,7 +30,7 @@ namespace SMS.EPA.Services.Implement
 
         public FlowManagementService(IFlowManagementRepository flowManagementRepository)
         {
-            this._flowManagementRepository = flowManagementRepository ?? new FlowManagementRepository();
+            _flowManagementRepository = flowManagementRepository ?? new FlowManagementRepository();
         }
 
         public IEnumerable<FlowModel> GetFlowDepartment(GetDepartmentFlowCriteria criteria)
@@ -57,6 +57,18 @@ namespace SMS.EPA.Services.Implement
             return flowGroup;
         }
 
+        public IEnumerable<FlowModel> GetFlowEmployee(GetEmployeeFlowCriteria criteria)
+        {
+            IEnumerable<FlowModel> flowEmployee = new List<FlowModel>();
+            Check.Argument.IsNotNull(criteria, "criteria");
+            if (criteria.IsValid())
+            {
+                flowEmployee = _flowManagementRepository.GetFlowManagement(criteria);
+            }
+
+            return flowEmployee;
+        }
+
         public CommandResult CreateDepartmentFlow(CreateDepartmentFlowCriteria criteria)
         {
             CommandResult result = new CommandResult();
@@ -76,6 +88,18 @@ namespace SMS.EPA.Services.Implement
             if (criteria.IsValid())
             {
                 result = Repository.Insert(criteria);
+            }
+
+            return result;
+        }
+
+        public CommandResult CreateEmployeeFlow(CreateEmployeeFlowCriteria criteria)
+        {
+            CommandResult result = new CommandResult();
+            Check.Argument.IsNotNull(criteria, "criteria");
+            if (criteria.IsValid())
+            {
+                result = this.Repository.Insert(criteria);
             }
 
             return result;

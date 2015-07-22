@@ -142,7 +142,7 @@ namespace SMS.EPA.Site.Controllers.API
             if (departments != null)
             {
                 treeList = new DepartmentModel();
-                ///treeList.Childrens.Add(departments.Where(x => x.ParentId == null).SingleOrDefault());
+                treeList.Childrens.Add(departments.Where(x => x.ParentId == null).SingleOrDefault());
             }
 
             var departmentInfo = new DepartmentInfoModel

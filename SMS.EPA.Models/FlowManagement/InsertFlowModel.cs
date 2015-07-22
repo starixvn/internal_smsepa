@@ -48,12 +48,8 @@ namespace SMS.EPA.Model.FlowManagement
                     {
                         foreach (var emp in Selfs.Employees)
                         {
-                            evaluator.AppendFormat(_Evaluator, -Math.Abs(emp.EmployeeId));
+                            evaluator.AppendFormat(_Evaluator, -1);
                         }
-                    }
-                    else
-                    {
-                        evaluator.AppendFormat(_Evaluator, -1);
                     }
 
                     process.AppendFormat(_Process, (int)ProcessType.Self, Selfs.StartDate, Selfs.EndDate, Selfs.HasSendMail, Selfs.IncludeSelfEvaluation, evaluator);

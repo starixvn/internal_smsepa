@@ -9,6 +9,7 @@
 
 namespace SMS.EPA.Repositories.Interfaces
 {
+    using System.Collections.Generic;
     using Fanex.Data.Repository;
     using SMS.EPA.Model.Authentication;
     using SMS.EPA.Model.Employee;
@@ -23,5 +24,9 @@ namespace SMS.EPA.Repositories.Interfaces
         UserSession GetEmployee(ICriteria criteria);
 
         EmployeeModel GetEmployeeById(ICriteria criteria);
+
+        IEnumerable<EmployeeModel> GetEmployeeByDepartmentId(ICriteria criteria);
+
+        IEnumerable<EmployeeModel> GetEmployeeByGroupId(ICriteria criteria);
     }
 }

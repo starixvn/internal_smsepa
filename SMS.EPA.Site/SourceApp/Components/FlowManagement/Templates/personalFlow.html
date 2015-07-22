@@ -10,8 +10,30 @@
                     <option style="display: none" value="">-- Select a Department / Group --</option>
                 </select>
             </form>
-        <div>
-        </div>
+        <div class="row">
+            <div class="col-sm-3 personal">
+                <select class="flow-personal" ng-model="personalFlowCtrl.fromModel" multiple
+                    ng-options="e.EmployeeId as e.NickName + ' (' + e.FullName + ')' for e in personalFlowCtrl.defaultSettingFlowEmployees"></select>
+            </div>
+            <div class="col-sm-1 buttons">
+                <a title="Move Right" class="button glyphicon glyphicon-arrow-right"
+                   ng-click="personalFlowCtrl.moveItem(personalFlowCtrl.fromModel, personalFlowCtrl.defaultSettingFlowEmployees, personalFlowCtrl.personalSettingFlowEmployees)">
+                </a>
+                <a title="Move Left" class="button glyphicon glyphicon-arrow-left"
+                   ng-click="personalFlowCtrl.moveItem(personalFlowCtrl.toModel, personalFlowCtrl.personalSettingFlowEmployees, personalFlowCtrl.defaultSettingFlowEmployees)">
+                </a>
+                <a title="Move Right All" class="button glyphicon glyphicon-fast-forward"
+                   ng-click="personalFlowCtrl.moveAll(personalFlowCtrl.defaultSettingFlowEmployees, personalFlowCtrl.personalSettingFlowEmployees)">
+                </a>
+                <a title="Move Left All" class="button glyphicon glyphicon-fast-backward"
+                   ng-click="personalFlowCtrl.moveAll(personalFlowCtrl.personalSettingFlowEmployees, personalFlowCtrl.defaultSettingFlowEmployees)">
+                </a>
+            </div>
+            <div class="col-sm-3 personal">
+                <select class="flow-personal" ng-model="personalFlowCtrl.toModel" multiple
+                    ng-change="personalFlowCtrl.getEmployeeFlow(personalFlowCtrl.toModel)"
+                    ng-options="e.EmployeeId as e.NickName +' (' + e.FullName + ')'  for e in personalFlowCtrl.personalSettingFlowEmployees"></select>
+            </div>
         </div>
     </div>
     <div class="row">
@@ -149,7 +171,7 @@
                             <tr>
                                 <td class="col-sm-2"></td>
                                 <td class="col-sm-2 text-center col-self">
-                                    <ul list-sortable class="sortable custom-ul list-unstyled" id="selfList">
+                                    <ul class="sortable custom-ul list-unstyled" id="selfList">
                                         <li class="alert alert-info nomargin" ng-repeat="self in personalFlowCtrl.selfs.employees">
                                             <img tooltip="{{self.FullName}}" class="img-flow" 
                                                 src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;f=y" />
@@ -206,7 +228,7 @@
                     </table>
                     <form class="row form-inline department-form" role="form">
                         <button class="button" ng-click="personalFlowCtrl.saveFlow()" data-translate="Save"></button>
-                        <button class="button" ng-click="personalFlowCtrl.deleteFlow()" data-translate="Delete"></button>
+                        <button class="button" ng-click="personalFlowCtrl.deleteFlow()" data-translate="Delete" ng-if="personalFlowCtrl.showDeleteButton"></button>
                     </form>
                 </div>
             </div>

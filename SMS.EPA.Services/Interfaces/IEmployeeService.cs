@@ -43,5 +43,9 @@ namespace SMS.EPA.Services.Interfaces
         CommandResult ChangePassword(ChangePasswordCriteria criteria);
 
         CommandResult AssignRoleToEmployee(AssignRoleToEmployeeCriteria criteria);
+
+        IEnumerable<EmployeeModel> GetEmployeeByDepartmentId(GetEmployeeByDepartmentIdCriteria criteria);
+
+        IEnumerable<EmployeeModel> GetEmployeeByGroupId(GetEmployeeByGroupIdCriteria criteria);
     }
 }

@@ -179,6 +179,32 @@ namespace SMS.EPA.Services.Implement
             return commandResult;
         }
 
+        public IEnumerable<EmployeeModel> GetEmployeeByDepartmentId(GetEmployeeByDepartmentIdCriteria criteria)
+        {
+            IEnumerable<EmployeeModel> employees = new List<EmployeeModel>();
+            Check.Argument.IsNotNull(criteria, "criteria");
+
+            if (criteria.IsValid())
+            {
+                employees = _employeeRepository.GetEmployeeByDepartmentId(criteria);
+            }
+
+            return employees;
+        }
+
+        public IEnumerable<EmployeeModel> GetEmployeeByGroupId(GetEmployeeByGroupIdCriteria criteria)
+        {
+            IEnumerable<EmployeeModel> employees = new List<EmployeeModel>();
+            Check.Argument.IsNotNull(criteria, "criteria");
+
+            if (criteria.IsValid())
+            {
+                employees = _employeeRepository.GetEmployeeByGroupId(criteria);
+            }
+
+            return employees;
+        }
+
         private IEnumerable<EmployeeModel> GetRoleOfEmployee(RawEmployeeModel rawEmployee)
         {
             foreach (EmployeeModel employee in rawEmployee.Employees)

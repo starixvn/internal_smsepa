@@ -11,6 +11,8 @@ function ($scope, FlowMngModel, CommonModel) {
     vm.reviewers = FlowMngModel.reviewers;
     vm.managements = FlowMngModel.managements;
     vm.humanResources = FlowMngModel.humanResources;
+    vm.defaultSettingFlowEmployees = [];
+    vm.personalSettingFlowEmployees = [];
 
     vm.showListEmployee = true;
 
@@ -38,6 +40,68 @@ function ($scope, FlowMngModel, CommonModel) {
         vm.showListEmployee = !vm.showListEmployee;
     };
 
+    /// Remove item from list.
+    vm.removeItemFromList = function (item, list) {
+        FlowMngModel.removeItemFromList(item, list);
+    };
+
+    vm.onSelectedDepartment = function () {
+        FlowMngModel.getEmployeeSettingFlowInDepartment(vm.department.DepartmentId).then(function () {
+            vm.defaultSettingFlowEmployees = FlowMngModel.employeeSettings.DefaultFlowSettingEmployees;
+            vm.personalSettingFlowEmployees = FlowMngModel.employeeSettings.PersonalFlowSettingEmployees;
+        });
+    };
+
+    vm.moveItem = function (item, from, to) {
+        $.each(from, function (i) {
+            var currentItem = from[i];
+
+            if (currentItem.EmployeeId === parseInt(item)) {
+                from.splice(i, 1);
+                to.push(currentItem);
+
+                return false;
+            }
+        });
+    };
+
+    vm.moveAll = function (from, to) {
+        $.each(from, function (i) {
+            to.push(from[i]);
+        });
+
+        from.length = 0;
+    };
+
+    var getEmployeeById = function (sender, employeeId, position) {
+        CommonModel.getEmployeeById(parseInt(employeeId)).then(function () {
+            FlowMngModel.addEmployee(sender, vm, CommonModel.employee, position);
+        });
+    };
+
+    vm.getEmployeeFlow = function (item) {
+        var employeeId = parseInt(item[0]);
+        vm.currentSelectedEmployee = employeeId;
+
+        FlowMngModel.getFlowEmployee(employeeId).then(function () {
+            vm.selfs = FlowMngModel.selfs;
+            vm.evaluators = FlowMngModel.evaluators;
+            vm.reviewers = FlowMngModel.reviewers;
+            vm.managements = FlowMngModel.managements;
+            vm.humanResources = FlowMngModel.humanResources;
+
+            if (vm.selfs.employees.length > 0) {
+                vm.showDeleteButton = true;
+            }
+            else {
+                CommonModel.getEmployeeById(employeeId).then(function () {
+                    vm.selfs.employees.push(CommonModel.employee);
+                });
+                vm.showDeleteButton = false;
+            }
+        });
+    };
+
     // Sort item in list.
     $scope.$on('list-sorted', function (ev, val) {
         var sender = val.sender;
@@ -60,22 +124,19 @@ function ($scope, FlowMngModel, CommonModel) {
         }
     });
 
-    var getEmployeeById = function (sender, employeeId, position) {
-        CommonModel.getEmployeeById(parseInt(employeeId)).then(function () {
-            FlowMngModel.addEmployee(sender, vm, CommonModel.employee, position);
-        });
-    };
-
     // On Created list after Drag & Drop.
     $scope.$on('list-created', function (ev, val) {
         getEmployeeById(val.sender, val.id, val.to);
     });
 
+    vm.saveFlow = function () {
+        FlowMngModel.createEmployeeFlow(vm);
+    };
+
     vm.initialize = function () {
         FlowMngModel.resetCurrentFlow(vm);
+        vm.showDeleteButton = false;
     };
 
     vm.initialize();
-
-    vm.showListEmployee = true;
 } ]);

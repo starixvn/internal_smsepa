@@ -11,9 +11,12 @@ namespace SMS.EPA.Site.Controllers.API
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Web.Http;
     using SMS.EPA.Core.Model;
+    using SMS.EPA.Criteria.Employee;
     using SMS.EPA.Criteria.FlowManagement;
+    using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.FlowManagement;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
@@ -21,15 +24,19 @@ namespace SMS.EPA.Site.Controllers.API
     public class FlowManagementController : BaseController
     {
         private readonly IFlowManagementService _flowManagementService;
+        private readonly IEmployeeService _employeeService;
 
         public FlowManagementController()
-            : this(null)
+            : this(null, null)
         {
         }
 
-        public FlowManagementController(IFlowManagementService flowManagementService)
+        public FlowManagementController(
+            IFlowManagementService flowManagementService,
+            IEmployeeService employeeService)
         {
-            this._flowManagementService = flowManagementService ?? new FlowManagementService();
+            _flowManagementService = flowManagementService ?? new FlowManagementService();
+            _employeeService = employeeService ?? new EmployeeService();
         }
 
         [HttpGet]
@@ -45,6 +52,23 @@ namespace SMS.EPA.Site.Controllers.API
             {
                 var groupFlowCriteria = new GetGroupFlowCriteria() { GroupId = Math.Abs(departmentId) };
                 data = _flowManagementService.GetFlowGroup(groupFlowCriteria);
+            }
+
+            return data;
+        }
+
+        [HttpGet]
+        public IEnumerable<FlowModel> GetFlowEmployee(int employeeId)
+        {
+            IEnumerable<FlowModel> data = new List<FlowModel>();
+            if (employeeId > 0)
+            {
+                var getEmployeeFlowCriteria = new GetEmployeeFlowCriteria()
+                {
+                    EmployeeId = employeeId
+                };
+
+                data = _flowManagementService.GetFlowEmployee(getEmployeeFlowCriteria);
             }
 
             return data;
@@ -81,6 +105,24 @@ namespace SMS.EPA.Site.Controllers.API
             return result;
         }
 
+        [HttpPost]
+        public CommandResult CreateEmployeeFlow(InsertFlowModel model)
+        {
+            CommandResult result = new CommandResult();
+
+            var employeeFlowCriteria = new CreateEmployeeFlowCriteria()
+            {
+                EmployeeId = model.Selfs.Employees[0].EmployeeId,
+                FlowDetails = model.FlowDetails,
+                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+            };
+
+            result = _flowManagementService.CreateEmployeeFlow(employeeFlowCriteria);
+
+            return result;
+        }
+
+        [HttpDelete]
         public CommandResult DeleteFlow(int departmentId, int flowType)
         {
             CommandResult result = new CommandResult();
@@ -104,6 +146,41 @@ namespace SMS.EPA.Site.Controllers.API
                 };
 
                 result = _flowManagementService.DeleteGroupFlow(deleteGroupFlowCriteria);
+            }
+
+            return result;
+        }
+
+        [HttpGet]
+        public EmployeeSettingFlowInDepartmentModel GetEmployeeSettingFlowInDepartment(int departmentId)
+        {
+            IEnumerable<EmployeeModel> employees = new List<EmployeeModel>();
+            var result = new EmployeeSettingFlowInDepartmentModel();
+
+            if (departmentId > 0)
+            {
+                var getEmployeeByDepartment = new GetEmployeeByDepartmentIdCriteria()
+                {
+                    DepartmentId = departmentId
+                };
+
+                employees = _employeeService.GetEmployeeByDepartmentId(getEmployeeByDepartment);
+            }
+
+            if (departmentId < 0)
+            {
+                var getEmployeeByGroup = new GetEmployeeByGroupIdCriteria()
+                {
+                    GroupId = Math.Abs(departmentId)
+                };
+
+                employees = _employeeService.GetEmployeeByGroupId(getEmployeeByGroup);
+            }
+
+            if (employees != null)
+            {
+                result.PersonalFlowSettingEmployees = employees.Where(x => x.IsExistsSetting == true);
+                result.DefaultFlowSettingEmployees = employees.Where(x => x.IsExistsSetting == false);
             }
 
             return result;

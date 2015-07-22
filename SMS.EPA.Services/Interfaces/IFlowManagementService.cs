@@ -20,9 +20,13 @@ namespace SMS.EPA.Services.Interfaces
 
         IEnumerable<FlowModel> GetFlowGroup(GetGroupFlowCriteria criteria);
 
+        IEnumerable<FlowModel> GetFlowEmployee(GetEmployeeFlowCriteria criteria);
+
         CommandResult CreateDepartmentFlow(CreateDepartmentFlowCriteria criteria);
 
         CommandResult CreateGroupFlow(CreateGroupFlowCriteria criteria);
+
+        CommandResult CreateEmployeeFlow(CreateEmployeeFlowCriteria criteria);
 
         CommandResult DeleteDepartmentFlow(DeleteDepartmentFlowCriteria criteria);
 

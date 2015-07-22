@@ -107,5 +107,27 @@ namespace SMS.EPA.Repositories.Implement
                 }
             }
         }
+
+        public IEnumerable<EmployeeModel> GetEmployeeByDepartmentId(ICriteria criteria)
+        {
+            List<EmployeeModel> employees = new List<EmployeeModel>();
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                employees = db.Query<EmployeeModel>(criteria.GetSpParams()).ToList();
+            }
+
+            return employees;
+        }
+
+        public IEnumerable<EmployeeModel> GetEmployeeByGroupId(ICriteria criteria)
+        {
+            List<EmployeeModel> employees = new List<EmployeeModel>();
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                employees = db.Query<EmployeeModel>(criteria.GetSpParams()).ToList();
+            }
+
+            return employees;
+        }
     }
 }

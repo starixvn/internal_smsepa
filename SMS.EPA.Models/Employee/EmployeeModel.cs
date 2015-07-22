@@ -33,6 +33,8 @@ namespace SMS.EPA.Model.Employee
 
         public bool IsSpecialUser { get; set; }
 
+        public bool IsExistsSetting { get; set; }
+
         public JobTitle JobTitle { get; set; }
 
         public Group Group { get; set; }
