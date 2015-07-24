@@ -64,6 +64,8 @@
   <ItemGroup>
     <Compile Include="Authentication\GetEmployeeByCodeCriteria.cs" />
     <Compile Include="Authentication\GetEmployeeByDomainUsernameCriteria.cs" />
+    <Compile Include="CheckFlowAssignment\GetEmployeeFlowSettingCriteria.cs" />
+    <Compile Include="CheckFlowAssignment\UpdateEmployeeFlowSettingCriteria.cs" />
     <Compile Include="Department\GetDepartmentCriteria.cs" />
     <Compile Include="Employee\AssignRoleToEmployeeCriteria.cs" />
     <Compile Include="Employee\ChangePasswordCriteria.cs">
@@ -127,6 +129,7 @@
   <ItemGroup>
     <CodeAnalysisDictionary Include="FxCopDictionary.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

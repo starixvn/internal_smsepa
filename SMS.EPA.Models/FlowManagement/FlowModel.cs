@@ -24,6 +24,8 @@ namespace SMS.EPA.Model.FlowManagement
 
         public bool IncludeSelfEvaluation { get; set; }
 
+        public bool IsPersonal { get; set; }
+
         public EmployeeModel EvaluatorInfo { get; set; }
     }
 }

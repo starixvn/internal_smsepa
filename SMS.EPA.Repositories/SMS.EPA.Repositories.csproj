@@ -62,12 +62,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implement\CheckFlowAssignmentRepository.cs" />
     <Compile Include="Implement\DepartmentRepository.cs" />
     <Compile Include="Implement\EmployeeRepository.cs" />
     <Compile Include="Implement\FlowManagementRepository.cs" />
     <Compile Include="Implement\KPIGroupRepository.cs" />
     <Compile Include="Implement\TargetEmployeeSettingRepository.cs" />
     <Compile Include="Implement\TargetTemplateRepository.cs" />
+    <Compile Include="Interfaces\ICheckFlowAssignmentRepository.cs" />
     <Compile Include="Interfaces\IDepartmentRepository.cs" />
     <Compile Include="Interfaces\IEmployeeRepository.cs" />
     <Compile Include="Implement\KPIRepository.cs" />

@@ -18,6 +18,8 @@ namespace SMS.EPA.Model.TargetEmployeeSetting
 
         public Group Group { get; set; }
 
+        public JobTitle JobTitle { get; set; }
+
         public TargetTemplateModel TargetTemplate { get; set; }
     }
 }

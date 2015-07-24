@@ -53,7 +53,8 @@
                             "~/SourceApp/Components/Role/role.less",
                             "~/SourceApp/Components/TargetTemplate/targetTemplate.less",
                             "~/SourceApp/Components/FlowManagement/flowManagement.less",
-                            "~/SourceApp/Components/TargetEmployeeSetting/targetEmployeeSetting.less");
+                            "~/SourceApp/Components/TargetEmployeeSetting/targetEmployeeSetting.less",
+                            "~/SourceApp/Components/CheckFlowAssignment/checkFlow.less");
 
             bundles.Add(new ScriptBundle("~/bundles/app").Include(
                             "~/SourceApp/app.js",
@@ -87,7 +88,10 @@
                             "~/SourceApp/Components/FlowManagement/personalFlow-controller.js",
                             "~/SourceApp/Components/TargetEmployeeSetting/targetEmployeeSetting-factory.js",
                             "~/SourceApp/Components/TargetEmployeeSetting/targetEmployeeSetting-model.js",
-                            "~/SourceApp/Components/TargetEmployeeSetting/targetEmployeeSetting-controller.js"));
+                            "~/SourceApp/Components/TargetEmployeeSetting/targetEmployeeSetting-controller.js",
+                            "~/SourceApp/Components/CheckFlowAssignment/checkFlow-factory.js",
+                            "~/SourceApp/Components/CheckFlowAssignment/checkFlow-model.js",
+                            "~/SourceApp/Components/CheckFlowAssignment/checkFlow-controller.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/epa-directives.js",

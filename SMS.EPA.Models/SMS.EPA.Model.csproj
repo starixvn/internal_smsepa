@@ -44,6 +44,9 @@
   <ItemGroup>
     <Compile Include="Authentication\LoginModel.cs" />
     <Compile Include="Authentication\UserSession.cs" />
+    <Compile Include="CheckFlowAssignment\EmployeeFlowTargetSettingModel.cs" />
+    <Compile Include="CheckFlowAssignment\RawEmployeeFlowModel.cs" />
+    <Compile Include="CheckFlowAssignment\RawEmployeeFlowTargetSettingModel.cs" />
     <Compile Include="Department\DepartmentInfoModel.cs" />
     <Compile Include="Department\DepartmentModel.cs" />
     <Compile Include="Employee\EmployeeModel.cs" />

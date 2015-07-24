@@ -15,22 +15,19 @@ namespace SMS.EPA.Core.Enumerations
     {
         None = 0,
 
-        [Description("Admin")]
-        Admin = 1,
-
-        [Description("Self")]
-        Self = 2,
+        [Description("Self Evaluator")]
+        Self = 1,
 
         [Description("Evaluator")]
-        Evaluator = 3,
+        Evaluator = 2,
 
         [Description("Reviewer")]
-        Reviewer = 4,
+        Reviewer = 3,
 
         [Description("Management")]
-        Management = 5,
+        Management = 4,
 
-        [Description("HumanResource")]
-        HumanResource = 6
+        [Description("Human Resource")]
+        HumanResource = 5
     }
 }
