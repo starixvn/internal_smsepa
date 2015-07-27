@@ -32,27 +32,111 @@
             </div>
         </form>
 
-        <!--<form novalidate class="row form-horizontal form-multiLine ng-pristine ng-valid">
+        <form novalidate class="row form-horizontal form-multiLine filter" evaluator-chosen>
             <div class="form-group">
-                <label class="col-sm-1" data-translate="Evaluator">
+                <label class="col-sm-1 control-label" data-translate="Evaluator">
                 </label>
-                <div>
-                    <select class="form-control select-kpi-group" multiple chosen
-                            options="createKPICtrl.kpiGroups"
-                            ng-model="createKPICtrl.currentChosenKPIGroups"
-                            data-placeholder="Select the group"
-                            ng-options="opt.KPIGroupId as opt.Name for opt in createKPICtrl.kpiGroups"
-                            on-show-dropdown="createKPICtrl.updateTrigger()"
-                            ng-disabled="createKPICtrl.isDisable"></select>
+                <div class="col-sm-4">
+                    <select class="form-control" multiple chosen
+                            options="checkFlowCtrl.filterAssign.evaluatorEmployees"
+                            ng-model="checkFlowCtrl.filterAssign.evaluator.ids"
+                            data-placeholder="Select the evaluator" name="evaluatorSelect"
+                            ng-options="opt.EmployeeId as opt.NickName + ' (' + opt.FullName + ')' for opt in checkFlowCtrl.filterAssign.evaluatorEmployees"
+                            on-show-dropdown="checkFlowCtrl.updateTrigger()"></select>
+                </div>
+                <label class="col-sm-1 control-label" data-translate="StartDate">
+                </label>
+                <div class="col-sm-2">
+                    <input readonly class="calendar-form-control" type="text"
+                           ng-model="checkFlowCtrl.filterAssign.evaluator.startDate" datepicker-popup
+                           ng-click="checkFlowCtrl.openPopupStartDate($event, checkFlowCtrl.evaluatorType.Evaluator)"
+                           is-open="checkFlowCtrl.calendar.evaluator.startDateOpened" />
+                    <calendar-image class="calendar-image" ng-click="checkFlowCtrl.openPopupStartDate($event, checkFlowCtrl.evaluatorType.Evaluator)"></calendar-image>
+                </div>
+                <label class="col-sm-1 control-label" data-translate="EndDate">
+                </label>
+                <div class="col-sm-2">
+                    <input readonly class="calendar-form-control" type="text"
+                           ng-model="checkFlowCtrl.filterAssign.evaluator.endDate" datepicker-popup
+                           ng-click="checkFlowCtrl.openPopupEndDate($event, checkFlowCtrl.evaluatorType.Evaluator)"
+                           is-open="checkFlowCtrl.calendar.evaluator.endDateOpened" />
+                    <calendar-image class="calendar-image" ng-click="checkFlowCtrl.openPopupEndDate($event, checkFlowCtrl.evaluatorType.Evaluator)"></calendar-image>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label" data-translate="Employee"></label>
-                <input class="form-control employee-search" ng-model="checkFlowCtrl.searchEmployee"
-                       placeholder="Enter full name or nick name" search-auto-complete search-employees="checkFlowCtrl.getEmployee()"
-                       ng-change="checkFlowCtrl.unSelectEmployee()" employee="checkFlowCtrl.filter.employee" />
+                <label class="col-sm-1 control-label" data-translate="Reviewer">
+                </label>
+                <div class="col-sm-4">
+                    <select class="form-control" multiple chosen
+                            options="checkFlowCtrl.filterAssign.reviewerEmployees"
+                            ng-model="checkFlowCtrl.filterAssign.reviewer.ids"
+                            data-placeholder="Select the reviewer" name="reviewerSelect"
+                            ng-options="opt.EmployeeId as opt.NickName + ' (' + opt.FullName + ')' for opt in checkFlowCtrl.filterAssign.reviewerEmployees"
+                            on-show-dropdown="checkFlowCtrl.updateTrigger()"></select>
+                </div>
+                <label class="col-sm-1 control-label" data-translate="StartDate">
+                </label>
+                <div class="col-sm-2">
+                    <input readonly class="calendar-form-control" type="text"
+                           ng-model="checkFlowCtrl.filterAssign.reviewer.startDate" datepicker-popup
+                           ng-click="checkFlowCtrl.openPopupStartDate($event, checkFlowCtrl.evaluatorType.Reviewer)"
+                           is-open="checkFlowCtrl.calendar.reviewer.startDateOpened" />
+                    <calendar-image class="calendar-image" ng-click="checkFlowCtrl.openPopupStartDate($event, checkFlowCtrl.evaluatorType.Reviewer)"></calendar-image>
+                </div>
+                <label class="col-sm-1 control-label" data-translate="EndDate">
+                </label>
+                <div class="col-sm-2">
+                    <input readonly class="calendar-form-control" type="text"
+                           ng-model="checkFlowCtrl.filterAssign.reviewer.endDate" datepicker-popup
+                           ng-click="checkFlowCtrl.openPopupEndDate($event, checkFlowCtrl.evaluatorType.Reviewer)"
+                           is-open="checkFlowCtrl.calendar.reviewer.endDateOpened" />
+                    <calendar-image class="calendar-image" ng-click="checkFlowCtrl.openPopupEndDate($event, checkFlowCtrl.evaluatorType.Reviewer)"></calendar-image>
+                </div>
             </div>
-        </form>-->
+            <div class="form-group">
+                <label class="col-sm-1 control-label" data-translate="Management">
+                </label>
+                <div class="col-sm-4">
+                    <select class="form-control" multiple chosen
+                            options="checkFlowCtrl.filterAssign.management" employees"
+                            ng-model="checkFlowCtrl.filterAssign.management.ids"
+                            data-placeholder="Select the management" name="managementSelect"
+                            ng-options="opt.EmployeeId as opt.NickName + ' (' + opt.FullName + ')' for opt in checkFlowCtrl.filterAssign.managementEmployees"
+                            on-show-dropdown="checkFlowCtrl.updateTrigger()"></select>
+                </div>
+                <label class="col-sm-1 control-label" data-translate="StartDate">
+                </label>
+                <div class="col-sm-2">
+                    <input readonly class="calendar-form-control" type="text"
+                           ng-model="checkFlowCtrl.filterAssign.management.startDate" datepicker-popup
+                           ng-click="checkFlowCtrl.openPopupStartDate($event, checkFlowCtrl.evaluatorType.Management)"
+                           is-open="checkFlowCtrl.calendar.management.startDateOpened" />
+                    <calendar-image class="calendar-image" ng-click="checkFlowCtrl.openPopupStartDate($event, checkFlowCtrl.evaluatorType.Management)"></calendar-image>
+                </div>
+                <label class="col-sm-1 control-label" data-translate="EndDate">
+                </label>
+                <div class="col-sm-2">
+                    <input readonly class="calendar-form-control" type="text"
+                           ng-model="checkFlowCtrl.filterAssign.management.endDate" datepicker-popup
+                           ng-click="checkFlowCtrl.openPopupEndDate($event, checkFlowCtrl.evaluatorType.Management)"
+                           is-open="checkFlowCtrl.calendar.management.endDateOpened" />
+                    <calendar-image class="calendar-image" ng-click="checkFlowCtrl.openPopupEndDate($event, checkFlowCtrl.evaluatorType.Management)"></calendar-image>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" data-translate="TargetTemplate">
+                </label>
+                <div class="col-sm-3">
+                    <select ng-model="checkFlowCtrl.filterAssign.targetTemplateId" ng-options="opt.TargetTemplateId as opt.Name for opt in checkFlowCtrl.targetTemplates"
+                            class="form-control lstBox-limit">
+                        <option value="">-- {{"None" | translate}} --</option>
+                    </select>
+                </div>
+                <div class="col-sm-1">
+                    <button class="button" ng-click="checkFlowCtrl.editFlowSetting(checkFlowCtrl.filterAssign)" data-translate="Assign"></button>
+                </div>
+            </div>
+        </form>
 
         <table class="row table table-bordered table-striped" id="data">
             <thead>
@@ -107,7 +191,7 @@
                     <td ng-bind="employee.TargetTemplate.Name" rowspan="{{employee.NumberEvaluators}}"></td>
                     <td data-translate="Evaluator"></td>
                     <td>
-                        <div ng-show="employee.Evaluators.length == 1">
+                        <div ng-show="employee.Evaluators.length == 1 && employee.Evaluators[0].EvaluatorInfo.EmployeeId != -1">
                             <span ng-bind="employee.Evaluators[0].EvaluatorInfo.FullName +' ('+ employee.Evaluators[0].EvaluatorInfo.NickName + ')'"></span>
                         </div>
                         <div ng-show="employee.Evaluators.length > 1">
@@ -128,7 +212,7 @@
                 <tr ng-class="{oddRow: $index % 2 == 0, evenRow: $index % 2 != 0}">
                     <td data-translate="Reviewer"></td>
                     <td>
-                        <div ng-show="employee.Reviewers.length == 1">
+                        <div ng-show="employee.Reviewers.length == 1 && employee.Reviewers[0].EvaluatorInfo.EmployeeId != -1">
                             <span ng-bind="employee.Reviewers[0].EvaluatorInfo.FullName +' ('+ employee.Reviewers[0].EvaluatorInfo.NickName + ')'"></span>
                         </div>
                         <div ng-show="employee.Reviewers.length > 1">
@@ -144,7 +228,7 @@
                 <tr ng-class="{oddRow: $index % 2 == 0, evenRow: $index % 2 != 0}">
                     <td data-translate="Management"></td>
                     <td>
-                        <div ng-show="employee.Managements.length == 1">
+                        <div ng-show="employee.Managements.length == 1 && employee.Managements[0].EvaluatorInfo.EmployeeId != -1">
                             <span ng-bind="employee.Managements[0].EvaluatorInfo.FullName +' ('+ employee.Managements[0].EvaluatorInfo.NickName + ')'"></span>
                         </div>
                         <div ng-show="employee.Managements.length > 1">

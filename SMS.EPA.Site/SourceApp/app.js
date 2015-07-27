@@ -12,6 +12,7 @@ function ($translateProvider, $locationProvider, paginationTemplateProvider, $ro
     $locationProvider.html5Mode(true);
     datepickerConfig.showWeeks = false;
     datepickerPopupConfig.showButtonBar = false;
+    datepickerPopupConfig.datepickerPopup = 'dd MMM, yyyy';
     paginationTemplateProvider.setPath('SourceApp/Shared/Templates/dirPagination.tpl.html');
     var baseUrl = $("base").first().attr("href");
     $provide.value("baseUrl", baseUrl);

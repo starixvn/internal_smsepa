@@ -50,7 +50,6 @@ function (TargetEmployeeSettingModel, EmployeeModel, CommonModel, TargetTemplate
 
     TargetTemplateModel.getTargetTemplate(null, true).then(function () {
         vm.targetTemplates = TargetTemplateModel.targetTemplates;
-        //vm.targetEmployeeSetting.targetTemplateId = vm.targetTemplates[0].TargetTemplateId;
     });
 
     var getTargetEmployeeSetting = function (groupId, employeeId, targetTypeId) {

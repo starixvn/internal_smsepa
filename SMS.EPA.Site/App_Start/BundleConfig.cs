@@ -91,6 +91,7 @@
                             "~/SourceApp/Components/TargetEmployeeSetting/targetEmployeeSetting-controller.js",
                             "~/SourceApp/Components/CheckFlowAssignment/checkFlow-factory.js",
                             "~/SourceApp/Components/CheckFlowAssignment/checkFlow-model.js",
+                            "~/SourceApp/Components/CheckFlowAssignment/checkFlow-directive.js",
                             "~/SourceApp/Components/CheckFlowAssignment/checkFlow-controller.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(

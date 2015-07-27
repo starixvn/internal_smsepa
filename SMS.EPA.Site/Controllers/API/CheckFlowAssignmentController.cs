@@ -61,7 +61,7 @@ namespace SMS.EPA.Site.Controllers.API
 
         private string TransformSettingToXml(IList<RawEmployeeFlowModel> employeeFlowSettings)
         {
-            string employeeAssignment = "<Assignment EmployeeId='{0}' TargetTemplateId='{1}' ProcessId='{2}' EvaluatorId='{3}' StartDate='{4}' EndDate='{5}' IsPersonal='{6}' HasSendMail='{7}'></Assignment>";
+            string employeeAssignment = "<Assignment EmployeeId='{0}' TargetTemplateId='{1}' ProcessId='{2}' EvaluatorId='{3}' StartDate='{4}' EndDate='{5}' HasSendMail='{7}'></Assignment>";
             string beginRootTag = "<ROOT>";
             string endRootTag = "</ROOT>";
 
