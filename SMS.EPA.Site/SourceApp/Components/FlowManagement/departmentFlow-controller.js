@@ -12,7 +12,8 @@ function ($scope, FlowMngModel, CommonModel) {
     vm.managements = FlowMngModel.managements;
     vm.humanResources = FlowMngModel.humanResources;
 
-    vm.showListEmployee = true;
+    vm.showListEmployee = FlowMngModel.showListEmployee;
+    vm.department = FlowMngModel.department;
 
     FlowMngModel.calendar(vm);
 
@@ -20,7 +21,7 @@ function ($scope, FlowMngModel, CommonModel) {
     vm.openPopupStartDate = function ($event, obj) {
         $event.preventDefault();
         $event.stopPropagation();
-        FlowMngModel.resetOpenCalendar();
+        FlowMngModel.resetOpenCalendar(vm);
 
         obj.startDateOpened = true;
     };
@@ -28,7 +29,7 @@ function ($scope, FlowMngModel, CommonModel) {
     vm.openPopupEndDate = function ($event, obj) {
         $event.preventDefault();
         $event.stopPropagation();
-        FlowMngModel.resetOpenCalendar();
+        FlowMngModel.resetOpenCalendar(vm);
 
         obj.endDateOpened = true;
     };
@@ -39,8 +40,7 @@ function ($scope, FlowMngModel, CommonModel) {
     };
 
     vm.onSelectedDepartment = function () {
-        vm.flowType = vm.department.DepartmentId;
-        FlowMngModel.getFlow(vm.department, vm.flowType).then(function () {
+        FlowMngModel.getDepartmentFlow(vm.department).then(function () {
             vm.selfs = FlowMngModel.selfs;
             vm.evaluators = FlowMngModel.evaluators;
             vm.reviewers = FlowMngModel.reviewers;
@@ -87,22 +87,11 @@ function ($scope, FlowMngModel, CommonModel) {
         getEmployeeById(val.sender, val.id, val.to);
     });
 
-    vm.confirmIncludeSelfEvaluation = function (flow) {
-        if (vm.department && vm.department.DepartmentId) {
-            FlowMngModel.openPopupConfirmIncludeSelfEvaluation(flow);
-        }
+    vm.saveDepartmentFlow = function () {
+        FlowMngModel.createDepartmentFlow(vm);
     };
 
-    vm.saveFlow = function () {
-        FlowMngModel.createFlow(vm);
+    vm.deleteDepartmentFlow = function () {
+        FlowMngModel.openPopupDeleteDepartmentFlow(vm);
     };
-
-    vm.deleteFlow = function () {
-        FlowMngModel.openPopupDeleteFlow(vm.department, vm.flowType);
-    };
-
-    vm.initialize = function () {
-    };
-
-    vm.initialize();
 } ]);

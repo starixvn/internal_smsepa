@@ -3,30 +3,23 @@
 
 flowMngModule.factory('flowMngFactory', ['$http', 'baseUrl', function ($http, baseUrl) {
     return {
-        getFlow: function (departmentId, flowType) {
-            return $http.get(baseUrl + 'api/FlowManagement/GetFlow', {
-                params: {
-                    departmentId: departmentId,
-                    flowType: flowType
-                }
-            });
+        getDepartmentFlow: function (departmentId) {
+            return $http.get(baseUrl + 'api/FlowManagement/GetDepartmentFlow', { params: { departmentId: departmentId } });
         },
-        getFlowEmployee: function (employeeId) {
-            return $http.get(baseUrl + 'api/FlowManagement/GetFlowEmployee', { params: { employeeId: employeeId } });
+        getPersonalFlow: function (employeeId) {
+            return $http.get(baseUrl + 'api/FlowManagement/GetPersonalFlow', { params: { employeeId: employeeId } });
         },
-        createFlow: function (model) {
-            return $http.post(baseUrl + 'api/FlowManagement/CreateFlow', model);
+        createDepartmentFlow: function (model) {
+            return $http.post(baseUrl + 'api/FlowManagement/CreateDepartmentFlow', model);
         },
-        createEmployeeFlow: function(model) {
-            return $http.post(baseUrl + 'api/FlowManagement/CreateEmployeeFlow', model);
+        createPersonalFlow: function (model) {
+            return $http.post(baseUrl + 'api/FlowManagement/CreatePersonalFlow', model);
         },
-        deleteFlow: function (departmentId, flowType) {
-            return $http['delete'](baseUrl + 'api/FlowManagement/DeleteFlow', {
-                params: {
-                    departmentId: departmentId,
-                    flowType: flowType
-                }
-            });
+        deleteDepartmentFlow: function (departmentId) {
+            return $http['delete'](baseUrl + 'api/FlowManagement/DeleteDepartmentFlow', { params: { departmentId: departmentId } });
+        },
+        deletePersonalFlow: function (employeeId) {
+            return $http['delete'](baseUrl + 'api/FlowManagement/DeletePersonalFlow', { params: { employeeId: employeeId } });
         },
         getEmployeeSettingFlowInDepartment: function (departmentId) {
             return $http.get(baseUrl + 'api/FlowManagement/GetEmployeeSettingFlowInDepartment', { params: { departmentId: departmentId } });

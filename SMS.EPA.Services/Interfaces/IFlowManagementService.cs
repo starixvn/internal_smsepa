@@ -16,20 +16,16 @@ namespace SMS.EPA.Services.Interfaces
 
     public interface IFlowManagementService
     {
-        IEnumerable<FlowModel> GetFlowDepartment(GetDepartmentFlowCriteria criteria);
+        IEnumerable<FlowModel> GetDepartmentFlow(GetDepartmentFlowCriteria criteria);
 
-        IEnumerable<FlowModel> GetFlowGroup(GetGroupFlowCriteria criteria);
-
-        IEnumerable<FlowModel> GetFlowEmployee(GetEmployeeFlowCriteria criteria);
+        IEnumerable<FlowModel> GetPersonalFlow(GetPersonalFlowCriteria criteria);
 
         CommandResult CreateDepartmentFlow(CreateDepartmentFlowCriteria criteria);
 
-        CommandResult CreateGroupFlow(CreateGroupFlowCriteria criteria);
-
-        CommandResult CreateEmployeeFlow(CreateEmployeeFlowCriteria criteria);
+        CommandResult CreatePersonalFlow(CreatePersonalFlowCriteria criteria);
 
         CommandResult DeleteDepartmentFlow(DeleteDepartmentFlowCriteria criteria);
 
-        CommandResult DeleteGroupFlow(DeleteGroupFlowCriteria criteria);
+        CommandResult DeletePersonalFlow(DeletePersonalFlowCriteria criteria);
     }
 }

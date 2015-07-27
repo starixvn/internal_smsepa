@@ -15,6 +15,8 @@ namespace SMS.EPA.Criteria.FlowManagement
     {
         public int DepartmentId { get; set; }
 
+        public bool IsGroup { get; set; }
+
         public override bool IsValid()
         {
             return DepartmentId > 0;
@@ -22,7 +24,7 @@ namespace SMS.EPA.Criteria.FlowManagement
 
         public override string GetSettingKey()
         {
-            return "SettingFlowDepartment_Get";
+            return "SettingDepartmentFlow_Get";
         }
     }
 }

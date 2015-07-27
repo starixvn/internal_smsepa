@@ -11,10 +11,13 @@ function ($scope, FlowMngModel, CommonModel) {
     vm.reviewers = FlowMngModel.reviewers;
     vm.managements = FlowMngModel.managements;
     vm.humanResources = FlowMngModel.humanResources;
-    vm.defaultSettingFlowEmployees = [];
-    vm.personalSettingFlowEmployees = [];
 
-    vm.showListEmployee = true;
+    vm.defaultSettingFlowEmployees = FlowMngModel.defaultSettingFlowEmployees;
+    vm.personalSettingFlowEmployees = FlowMngModel.personalSettingFlowEmployees;
+
+    vm.showListEmployee = FlowMngModel.showListEmployee;
+    vm.showDeleteButton = FlowMngModel.showDeleteButton;
+    vm.department = FlowMngModel.department;
 
     FlowMngModel.calendar(vm);
 
@@ -47,8 +50,8 @@ function ($scope, FlowMngModel, CommonModel) {
 
     vm.onSelectedDepartment = function () {
         FlowMngModel.getEmployeeSettingFlowInDepartment(vm.department.DepartmentId).then(function () {
-            vm.defaultSettingFlowEmployees = FlowMngModel.employeeSettings.DefaultFlowSettingEmployees;
-            vm.personalSettingFlowEmployees = FlowMngModel.employeeSettings.PersonalFlowSettingEmployees;
+            vm.defaultSettingFlowEmployees = FlowMngModel.defaultFlowSettingEmployees;
+            vm.personalSettingFlowEmployees = FlowMngModel.personalFlowSettingEmployees;
         });
     };
 
@@ -79,11 +82,11 @@ function ($scope, FlowMngModel, CommonModel) {
         });
     };
 
-    vm.getEmployeeFlow = function (item) {
+    vm.getPersonalFlow = function (item) {
         var employeeId = parseInt(item[0]);
         vm.currentSelectedEmployee = employeeId;
 
-        FlowMngModel.getFlowEmployee(employeeId).then(function () {
+        FlowMngModel.getPersonalFlow(employeeId).then(function () {
             vm.selfs = FlowMngModel.selfs;
             vm.evaluators = FlowMngModel.evaluators;
             vm.reviewers = FlowMngModel.reviewers;
@@ -129,14 +132,11 @@ function ($scope, FlowMngModel, CommonModel) {
         getEmployeeById(val.sender, val.id, val.to);
     });
 
-    vm.saveFlow = function () {
-        FlowMngModel.createEmployeeFlow(vm);
+    vm.savePersonalFlow = function () {
+        FlowMngModel.createPersonalFlow(vm);
     };
 
-    vm.initialize = function () {
-        FlowMngModel.resetCurrentFlow(vm);
-        vm.showDeleteButton = false;
+    vm.deletePersonalFlow = function () {
+        FlowMngModel.openPopupDeletePersonalFlow(vm);
     };
-
-    vm.initialize();
 } ]);

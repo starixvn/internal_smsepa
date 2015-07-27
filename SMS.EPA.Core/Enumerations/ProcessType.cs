@@ -15,7 +15,7 @@ namespace SMS.EPA.Core.Enumerations
     {
         None = 0,
 
-        [Description("Self Evaluator")]
+        [Description("Self")]
         Self = 1,
 
         [Description("Evaluator")]

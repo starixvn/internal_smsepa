@@ -303,6 +303,12 @@
     <Content Include="SourceApp\Components\FlowManagement\flowManagement-controller.js" />
     <Content Include="SourceApp\Components\FlowManagement\flowManagement-factory.js" />
     <Content Include="SourceApp\Components\FlowManagement\flowManagement-model.js" />
+    <Content Include="SourceApp\Components\FlowManagement\flowManagement.css">
+      <DependentUpon>flowManagement.less</DependentUpon>
+    </Content>
+    <Content Include="SourceApp\Components\FlowManagement\flowManagement.min.css">
+      <DependentUpon>flowManagement.css</DependentUpon>
+    </Content>
     <Content Include="SourceApp\Components\FlowManagement\personalFlow-controller.js" />
     <Content Include="SourceApp\Components\FlowManagement\Templates\departmentFlow.html" />
     <Content Include="SourceApp\Components\FlowManagement\Templates\index.html" />
@@ -470,7 +476,10 @@
     <Content Include="SourceApp\Components\Employee\employee.less" />
     <Content Include="SourceApp\Components\Role\role.less" />
     <Content Include="SourceApp\Components\CheckFlowAssignment\checkFlow.less" />
-    <None Include="SourceApp\Components\FlowManagement\flowManagement.less" />
+    <Content Include="SourceApp\Components\FlowManagement\flowManagement.css.map">
+      <DependentUpon>flowManagement.css</DependentUpon>
+    </Content>
+    <Content Include="SourceApp\Components\FlowManagement\flowManagement.less" />
     <Content Include="SourceApp\Components\TargetTemplate\targetTemplate.less" />
     <Content Include="Web.local.config" />
     <Content Include="SourceApp\Components\TargetEmployeeSetting\targetEmployeeSetting.less" />

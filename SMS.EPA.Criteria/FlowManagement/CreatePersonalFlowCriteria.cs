@@ -1,30 +1,32 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="DeleteGroupFlowCriteria.cs" company="Nexcel Solutions Viet Nam">
+// <copyright file="CreatePersonalFlowCriteria.cs" company="Nexcel Solutions Viet Nam">
 // Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 // <history>
-//   <change who="Tim.Trinh" date="2015.07.21">Created</change>
+//   <change who="Tim.Trinh" date="2015.07.22">Created</change>
 // </history>
 
 namespace SMS.EPA.Criteria.FlowManagement
 {
     using Fanex.Data.Repository;
 
-    public class DeleteGroupFlowCriteria : CriteriaBase
+    public class CreatePersonalFlowCriteria : CriteriaBase
     {
-        public int GroupId { get; set; }
+        public int EmployeeId { get; set; }
+
+        public string FlowDetails { get; set; }
 
         public int ModifiedBy { get; set; }
 
         public override bool IsValid()
         {
-            return GroupId > 0;
+            return EmployeeId > 0;
         }
 
         public override string GetSettingKey()
         {
-            return "SettingFlowGroup_Delete";
+            return "SettingEmployeeFlow_Set";
         }
     }
 }

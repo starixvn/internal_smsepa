@@ -89,23 +89,17 @@
         </Setting>
     </Function>
     <Function Name="Flow">
-        <Setting Key="SettingFlowDepartment_Get" SpName="SettingFlowDepartment_Get" DbName="SMSEPA" Plain="0" >
+        <Setting Key="SettingDepartmentFlow_Get" SpName="SettingDepartmentFlow_Get" DbName="SMSEPA" Plain="0" >
         </Setting>
-        <Setting Key="SettingFlowDepartment_Set" SpName="SettingFlowDepartment_Set" DbName="SMSEPA" Plain="0" >
+        <Setting Key="SettingDepartmentFlow_Set" SpName="SettingDepartmentFlow_Set" DbName="SMSEPA" Plain="0" >
         </Setting>
-        <Setting Key="SettingFlowDepartment_Delete" SpName="SettingFlowDepartment_Delete" DbName="SMSEPA" Plain="0" >
+        <Setting Key="SettingDepartmentFlow_Delete" SpName="SettingDepartmentFlow_Delete" DbName="SMSEPA" Plain="0" >
         </Setting>
-        <Setting Key="SettingFlowGroup_Get" SpName="SettingFlowGroup_Get" DbName="SMSEPA" Plain="0" >
+        <Setting Key="SettingEmployeeFlow_Get" SpName="SettingEmployeeFlow_Get" DbName="SMSEPA" Plain="0" >
         </Setting>
-        <Setting Key="SettingFlowGroup_Set" SpName="SettingFlowGroup_Set" DbName="SMSEPA" Plain="0" >
+        <Setting Key="SettingEmployeeFlow_Set" SpName="SettingEmployeeFlow_Set" DbName="SMSEPA" Plain="0" >
         </Setting>
-        <Setting Key="SettingFlowGroup_Delete" SpName="SettingFlowGroup_Delete" DbName="SMSEPA" Plain="0" >
-        </Setting>
-        <Setting Key="SettingFlowEmployee_Get" SpName="SettingFlowEmployee_Get" DbName="SMSEPA" Plain="0" >
-        </Setting>
-        <Setting Key="SettingFlowEmployee_Set" SpName="SettingFlowEmployee_Set" DbName="SMSEPA" Plain="0" >
-        </Setting>
-        <Setting Key="SettingFlowEmployee_Delete" SpName="SettingFlowEmployee_Delete" DbName="SMSEPA" Plain="0" >
+        <Setting Key="SettingEmployeeFlow_Delete" SpName="SettingEmployeeFlow_Delete" DbName="SMSEPA" Plain="0" >
         </Setting>
     </Function>
     <Function Name="TargetEmployeeSetting">

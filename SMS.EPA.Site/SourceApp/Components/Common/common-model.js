@@ -13,6 +13,7 @@ function (commonFactory, errorFactory) {
     commonModel.groups = [];
     commonModel.employee = {};
     commonModel.departments = [];
+    commonModel.treeDepartment = {};
 
     /// Get target type.
     commonModel.getTargetType = function (isActive) {
@@ -87,11 +88,42 @@ function (commonFactory, errorFactory) {
         });
     };
 
+    var createLabel = function (item, level) {
+        var label = '',
+			space = '',
+			levelTemp = level;
+
+        if (level > 0) {
+            while (levelTemp > 0) {
+                label = label + " " + space;
+                space = String.fromCharCode(160) + String.fromCharCode(160) + String.fromCharCode(160);
+                levelTemp--;
+            }
+
+            label = label + item.Name;
+        }
+        else {
+            label = item.Name;
+        }
+
+        return label;
+    };
+
+    var generateTreeDepartment = function (departments, options, level) {
+        angular.forEach(departments, function (item) {
+            options.push({ Name: createLabel(item, level), DepartmentId: item.DepartmentId });
+            generateTreeDepartment(item.Childrens, options, level + 1);
+        });
+
+        return options;
+    };
+
     /// Get department.
     commonModel.getDepartment = function (parentId, isActive) {
         return commonFactory.getDepartment(parentId, isActive)
-        .success(function (departments) {
-            commonModel.departments = departments;
+        .success(function (data) {
+            commonModel.treeDepartment = generateTreeDepartment(data.TreeDepartment.Childrens, [], 0);
+            commonModel.departments = data.Departments;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });

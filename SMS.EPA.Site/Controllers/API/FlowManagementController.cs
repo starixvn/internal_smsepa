@@ -40,113 +40,129 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpGet]
-        public IEnumerable<FlowModel> GetFlow(int departmentId, int flowType)
+        public IEnumerable<FlowModel> GetDepartmentFlow(int departmentId)
         {
             IEnumerable<FlowModel> data = new List<FlowModel>();
-            if (flowType > 0)
+            var criteria = new GetDepartmentFlowCriteria();
+
+            if (departmentId > 0)
             {
-                var departmentFlowCriteria = new GetDepartmentFlowCriteria() { DepartmentId = departmentId };
-                data = _flowManagementService.GetFlowDepartment(departmentFlowCriteria);
+                criteria.DepartmentId = departmentId;
+                criteria.IsGroup = false;
+
+                data = _flowManagementService.GetDepartmentFlow(criteria);
             }
-            else if (flowType < 0)
+            else if (departmentId < 0)
             {
-                var groupFlowCriteria = new GetGroupFlowCriteria() { GroupId = Math.Abs(departmentId) };
-                data = _flowManagementService.GetFlowGroup(groupFlowCriteria);
+                criteria.DepartmentId = Math.Abs(departmentId);
+                criteria.IsGroup = true;
+
+                data = _flowManagementService.GetDepartmentFlow(criteria);
             }
 
             return data;
         }
 
         [HttpGet]
-        public IEnumerable<FlowModel> GetFlowEmployee(int employeeId)
+        public IEnumerable<FlowModel> GetPersonalFlow(int employeeId)
         {
             IEnumerable<FlowModel> data = new List<FlowModel>();
             if (employeeId > 0)
             {
-                var getEmployeeFlowCriteria = new GetEmployeeFlowCriteria()
+                var getEmployeeFlowCriteria = new GetPersonalFlowCriteria()
                 {
                     EmployeeId = employeeId
                 };
 
-                data = _flowManagementService.GetFlowEmployee(getEmployeeFlowCriteria);
+                data = _flowManagementService.GetPersonalFlow(getEmployeeFlowCriteria);
             }
 
             return data;
         }
 
         [HttpPost]
-        public CommandResult CreateFlow(InsertFlowModel model)
+        public CommandResult CreateDepartmentFlow(InsertFlowModel model)
         {
             CommandResult result = new CommandResult();
+            var criteria = new CreateDepartmentFlowCriteria();
 
-            if (model.FlowType > 0)
+            if (model.DepartmentId > 0)
             {
-                var departmentFlowCriteria = new CreateDepartmentFlowCriteria()
-                {
-                    DepartmentId = model.DepartmentId,
-                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
-                    FlowDetails = model.FlowDetails
-                };
+                criteria.DepartmentId = model.DepartmentId;
+                criteria.IsGroup = false;
+                criteria.FlowDetails = model.FlowDetails;
+                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
 
-                result = _flowManagementService.CreateDepartmentFlow(departmentFlowCriteria);
+                result = _flowManagementService.CreateDepartmentFlow(criteria);
             }
-            else if (model.FlowType < 0)
+            else if (model.DepartmentId < 0)
             {
-                var groupFlowCriteria = new CreateGroupFlowCriteria()
-                {
-                    GroupId = Math.Abs(model.DepartmentId),
-                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
-                    FlowDetails = model.FlowDetails
-                };
+                criteria.DepartmentId = Math.Abs(model.DepartmentId);
+                criteria.IsGroup = true;
+                criteria.FlowDetails = model.FlowDetails;
+                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
 
-                result = _flowManagementService.CreateGroupFlow(groupFlowCriteria);
+                result = _flowManagementService.CreateDepartmentFlow(criteria);
             }
 
             return result;
         }
 
         [HttpPost]
-        public CommandResult CreateEmployeeFlow(InsertFlowModel model)
+        public CommandResult CreatePersonalFlow(InsertFlowModel model)
         {
             CommandResult result = new CommandResult();
 
-            var employeeFlowCriteria = new CreateEmployeeFlowCriteria()
+            var employeeFlowCriteria = new CreatePersonalFlowCriteria()
             {
                 EmployeeId = model.Selfs.Employees[0].EmployeeId,
                 FlowDetails = model.FlowDetails,
                 ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
             };
 
-            result = _flowManagementService.CreateEmployeeFlow(employeeFlowCriteria);
+            result = _flowManagementService.CreatePersonalFlow(employeeFlowCriteria);
 
             return result;
         }
 
         [HttpDelete]
-        public CommandResult DeleteFlow(int departmentId, int flowType)
+        public CommandResult DeleteDepartmentFlow(int departmentId)
+        {
+            CommandResult result = new CommandResult();
+            var criteria = new DeleteDepartmentFlowCriteria();
+
+            if (departmentId > 0)
+            {
+                criteria.DepartmentId = departmentId;
+                criteria.IsGroup = false;
+                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+
+                result = _flowManagementService.DeleteDepartmentFlow(criteria);
+            }
+            else if (departmentId < 0)
+            {
+                criteria.DepartmentId = Math.Abs(departmentId);
+                criteria.IsGroup = true;
+                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+
+                result = _flowManagementService.DeleteDepartmentFlow(criteria);
+            }
+
+            return result;
+        }
+
+        [HttpDelete]
+        public CommandResult DeletePersonalFlow(int employeeId)
         {
             CommandResult result = new CommandResult();
 
-            if (flowType > 0)
+            var criteria = new DeletePersonalFlowCriteria()
             {
-                var deleteDepartmentFlowCriteria = new DeleteDepartmentFlowCriteria()
-                {
-                    DepartmentId = departmentId,
-                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
-                };
+                EmployeeId = employeeId,
+                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+            };
 
-                result = _flowManagementService.DeleteDepartmentFlow(deleteDepartmentFlowCriteria);
-            }
-            else if (flowType < 0)
-            {
-                var deleteGroupFlowCriteria = new DeleteGroupFlowCriteria()
-                {
-                    GroupId = departmentId,
-                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
-                };
-
-                result = _flowManagementService.DeleteGroupFlow(deleteGroupFlowCriteria);
-            }
+            result = _flowManagementService.DeletePersonalFlow(criteria);
 
             return result;
         }

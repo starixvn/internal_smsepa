@@ -33,7 +33,7 @@ namespace SMS.EPA.Services.Implement
             _flowManagementRepository = flowManagementRepository ?? new FlowManagementRepository();
         }
 
-        public IEnumerable<FlowModel> GetFlowDepartment(GetDepartmentFlowCriteria criteria)
+        public IEnumerable<FlowModel> GetDepartmentFlow(GetDepartmentFlowCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<FlowModel> flowDepartment = new List<FlowModel>();
@@ -45,19 +45,7 @@ namespace SMS.EPA.Services.Implement
             return flowDepartment;
         }
 
-        public IEnumerable<FlowModel> GetFlowGroup(GetGroupFlowCriteria criteria)
-        {
-            IEnumerable<FlowModel> flowGroup = new List<FlowModel>();
-            Check.Argument.IsNotNull(criteria, "criteria");
-            if (criteria.IsValid())
-            {
-                flowGroup = _flowManagementRepository.GetFlowManagement(criteria);
-            }
-
-            return flowGroup;
-        }
-
-        public IEnumerable<FlowModel> GetFlowEmployee(GetEmployeeFlowCriteria criteria)
+        public IEnumerable<FlowModel> GetPersonalFlow(GetPersonalFlowCriteria criteria)
         {
             IEnumerable<FlowModel> flowEmployee = new List<FlowModel>();
             Check.Argument.IsNotNull(criteria, "criteria");
@@ -81,19 +69,7 @@ namespace SMS.EPA.Services.Implement
             return result;
         }
 
-        public CommandResult CreateGroupFlow(CreateGroupFlowCriteria criteria)
-        {
-            CommandResult result = new CommandResult();
-            Check.Argument.IsNotNull(criteria, "criteria");
-            if (criteria.IsValid())
-            {
-                result = Repository.Insert(criteria);
-            }
-
-            return result;
-        }
-
-        public CommandResult CreateEmployeeFlow(CreateEmployeeFlowCriteria criteria)
+        public CommandResult CreatePersonalFlow(CreatePersonalFlowCriteria criteria)
         {
             CommandResult result = new CommandResult();
             Check.Argument.IsNotNull(criteria, "criteria");
@@ -117,7 +93,7 @@ namespace SMS.EPA.Services.Implement
             return result;
         }
 
-        public CommandResult DeleteGroupFlow(DeleteGroupFlowCriteria criteria)
+        public CommandResult DeletePersonalFlow(DeletePersonalFlowCriteria criteria)
         {
             CommandResult result = new CommandResult();
             Check.Argument.IsNotNull(criteria, "criteria");

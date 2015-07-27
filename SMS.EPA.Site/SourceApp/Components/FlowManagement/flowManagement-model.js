@@ -11,69 +11,72 @@ function ($modal, flowMngFactory, notificationFactory, errorFactory) {
         startDate: date,
         endDate: date,
         hasSendMail: true,
-        includeSelfEvaluation: true,
         employees: []
     };
     flowMngModel.evaluators = {
         startDate: date,
         endDate: date,
         hasSendMail: true,
-        includeSelfEvaluation: true,
         employees: []
     };
     flowMngModel.reviewers = {
         startDate: date,
         endDate: date,
         hasSendMail: true,
-        includeSelfEvaluation: true,
         employees: []
     };
     flowMngModel.managements = {
         startDate: date,
         endDate: date,
         hasSendMail: true,
-        includeSelfEvaluation: true,
         employees: []
     };
     flowMngModel.humanResources = {
         startDate: date,
         endDate: date,
         hasSendMail: true,
-        includeSelfEvaluation: true,
         employees: []
     };
 
-    flowMngModel.employeeSettings = [];
+    flowMngModel.showListEmployee = true;
+    flowMngModel.showDeleteButton = false;
+    flowMngModel.defaultSettingFlowEmployees = [];
+    flowMngModel.personalSettingFlowEmployees = [];
+    flowMngModel.department = null;
+
+    flowMngModel.resetCurrentData = function () {
+        flowMngModel.resetCurrentFlow(flowMngModel);
+        flowMngModel.showListEmployee = true;
+        flowMngModel.showDeleteButton = false;
+        flowMngModel.defaultSettingFlowEmployees = [];
+        flowMngModel.personalSettingFlowEmployees = [];
+        flowMngModel.department = null;
+    };
 
     flowMngModel.resetCurrentFlow = function (vm) {
         vm.selfs.startDate = date;
         vm.selfs.endDate = date;
         vm.selfs.hasSendMail = true;
-        vm.selfs.includeSelfEvaluation = true;
         vm.selfs.employees = [];
 
         vm.evaluators.startDate = date;
         vm.evaluators.endDate = date;
         vm.evaluators.hasSendMail = true;
-        vm.evaluators.includeSelfEvaluation = true;
         vm.evaluators.employees = [];
 
         vm.reviewers.startDate = date;
         vm.reviewers.endDate = date;
         vm.reviewers.hasSendMail = true;
-        vm.reviewers.includeSelfEvaluation = true;
         vm.reviewers.employees = [];
 
         vm.managements.startDate = date;
         vm.managements.endDate = date;
         vm.managements.hasSendMail = true;
-        vm.managements.includeSelfEvaluation = true;
         vm.managements.employees = [];
 
         vm.humanResources.startDate = date;
         vm.humanResources.endDate = date;
         vm.humanResources.hasSendMail = true;
-        vm.humanResources.includeSelfEvaluation = true;
         vm.humanResources.employees = [];
     };
 
@@ -120,90 +123,62 @@ function ($modal, flowMngFactory, notificationFactory, errorFactory) {
         vm.calendar.humanResources.endDateOpened = false;
     };
 
-    /// Ignore/Include Self-Evaluation.
-    flowMngModel.openPopupConfirmIncludeSelfEvaluation = function (flow) {
-        var name = "Self-Evaluation",
-            action = flow.includeSelfEvaluation ? "ignore" : "include";
-
-        var modalInstance = $modal.open({
-            templateUrl: 'SourceApp/Shared/Templates/ModalConfirmContent.html',
-            controller: "ModalConfirmController as modalConfirmCtrl",
-            backdrop: 'static',
-            resolve: {
-                name: function () {
-                    return name;
-                },
-                action: function () {
-                    return action;
-                }
-            },
-            windowClass: "modal-confirm-center"
-        });
-
-        modalInstance.result.then(function () {
-            flow.includeSelfEvaluation = !flow.includeSelfEvaluation;
-        })['finally'](function () {
-            modalInstance = '';
-        });
-    };
-
     /// Get employee setting flow in department.
     flowMngModel.getEmployeeSettingFlowInDepartment = function (departmentId) {
         return flowMngFactory.getEmployeeSettingFlowInDepartment(departmentId)
-        .success(function (employeeSettings) {
-            flowMngModel.employeeSettings = employeeSettings;
+        .success(function (data) {
+            flowMngModel.defaultSettingFlowEmployees = data.DefaultFlowSettingEmployees;
+            flowMngModel.personalSettingFlowEmployees = data.PersonalFlowSettingEmployees;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
     };
 
     var successGetFlow = function (flows) {
-        flowMngModel.resetCurrentFlow(flowMngModel);
-
         angular.forEach(flows, function (flow) {
             var processId = flow.ProcessId;
             switch (processId) {
-                case 2:
+                case 1:
+                    var object;
                     flowMngModel.selfs.startDate = flow.StartDate;
                     flowMngModel.selfs.endDate = flow.EndDate;
                     flowMngModel.selfs.hasSendMail = flow.HasSendMail;
-                    flowMngModel.selfs.includeSelfEvaluation = flow.IncludeSelfEvaluation;
-                    if (flow.EvaluatorInfo.EmployeeId > 0) {
-                        flowMngModel.selfs.employees.push(flow.EvaluatorInfo);
+                    if (flow.EvaluatorInfo.EmployeeId === -1) {
+                        object = { NickName: "Self", EmployeeId: -1 };
                     }
+                    else if (flow.EvaluatorInfo.EmployeeId > 0) {
+                        object = flow.EvaluatorInfo;
+                    }
+                    flowMngModel.selfs.employees.push(object);
                     break;
-                case 3:
+                case 2:
                     flowMngModel.evaluators.startDate = flow.StartDate;
                     flowMngModel.evaluators.endDate = flow.EndDate;
                     flowMngModel.evaluators.hasSendMail = flow.HasSendMail;
-                    flowMngModel.evaluators.includeSelfEvaluation = flow.IncludeSelfEvaluation;
                     if (flow.EvaluatorInfo.EmployeeId > 0) {
                         flowMngModel.evaluators.employees.push(flow.EvaluatorInfo);
                     }
                     break;
-                case 4:
+                case 3:
                     flowMngModel.reviewers.startDate = flow.StartDate;
                     flowMngModel.reviewers.endDate = flow.EndDate;
                     flowMngModel.reviewers.hasSendMail = flow.HasSendMail;
-                    flowMngModel.reviewers.includeSelfEvaluation = flow.IncludeSelfEvaluation;
                     if (flow.EvaluatorInfo.EmployeeId > 0) {
                         flowMngModel.reviewers.employees.push(flow.EvaluatorInfo);
                     }
                     break;
-                case 5:
+                case 4:
                     flowMngModel.managements.startDate = flow.StartDate;
                     flowMngModel.managements.endDate = flow.EndDate;
                     flowMngModel.managements.hasSendMail = flow.HasSendMail;
-                    flowMngModel.managements.includeSelfEvaluation = flow.IncludeSelfEvaluation;
                     if (flow.EvaluatorInfo.EmployeeId > 0) {
                         flowMngModel.managements.employees.push(flow.EvaluatorInfo);
                     }
                     break;
-                case 6:
+                case 5:
                     flowMngModel.humanResources.startDate = flow.StartDate;
                     flowMngModel.humanResources.endDate = flow.EndDate;
                     flowMngModel.humanResources.hasSendMail = flow.HasSendMail;
-                    flowMngModel.humanResources.includeSelfEvaluation = flow.IncludeSelfEvaluation;
                     if (flow.EvaluatorInfo.EmployeeId > 0) {
                         flowMngModel.humanResources.employees.push(flow.EvaluatorInfo);
                     }
@@ -212,20 +187,27 @@ function ($modal, flowMngFactory, notificationFactory, errorFactory) {
         });
     };
 
-    /// Get flow.
-    flowMngModel.getFlow = function (department, flowType) {
-        return flowMngFactory.getFlow(department.DepartmentId, flowType)
+    /// Get department flow.
+    flowMngModel.getDepartmentFlow = function (department) {
+        return flowMngFactory.getDepartmentFlow(department.DepartmentId)
         .success(function (flows) {
-            successGetFlow(flows);
+            flowMngModel.resetCurrentFlow(flowMngModel);
+            if (flows.length > 0) {
+                successGetFlow(flows);
+            }
+            else {
+                flowMngModel.selfs.employees = [{ NickName: "Self", EmployeeId: -1 }];
+            }
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
     };
 
     /// Get flow employee.
-    flowMngModel.getFlowEmployee = function (employeeId) {
-        return flowMngFactory.getFlowEmployee(employeeId)
+    flowMngModel.getPersonalFlow = function (employeeId) {
+        return flowMngFactory.getPersonalFlow(employeeId)
         .success(function (flows) {
+            flowMngModel.resetCurrentFlow(flowMngModel);
             successGetFlow(flows);
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
@@ -278,15 +260,14 @@ function ($modal, flowMngFactory, notificationFactory, errorFactory) {
         }
     };
 
-    /// Set flow.
-    flowMngModel.createFlow = function (vm) {
-        if (!vm.flowType) {
+    /// Set department flow.
+    flowMngModel.createDepartmentFlow = function (vm) {
+        if (!vm.department || !vm.department.DepartmentId) {
             notificationFactory.error('', 'Please select a department!');
         }
         else {
             var model = {
                 departmentId: vm.department.DepartmentId,
-                flowType: vm.flowType,
                 selfs: vm.selfs,
                 evaluators: vm.evaluators,
                 reviewers: vm.reviewers,
@@ -294,7 +275,7 @@ function ($modal, flowMngFactory, notificationFactory, errorFactory) {
                 humanResources: vm.humanResources
             };
 
-            return flowMngFactory.createFlow(model)
+            return flowMngFactory.createDepartmentFlow(model)
             .success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("CreatedSuccessfully");
@@ -309,8 +290,8 @@ function ($modal, flowMngFactory, notificationFactory, errorFactory) {
         }
     };
 
-    /// Set employee flow.
-    flowMngModel.createEmployeeFlow = function (vm) {
+    /// Set personal flow.
+    flowMngModel.createPersonalFlow = function (vm) {
         if (!vm.currentSelectedEmployee) {
             notificationFactory.error('', 'Please select an employee!');
         } else {
@@ -322,7 +303,7 @@ function ($modal, flowMngFactory, notificationFactory, errorFactory) {
                 humanResources: vm.humanResources
             };
 
-            return flowMngFactory.createEmployeeFlow(model)
+            return flowMngFactory.createPersonalFlow(model)
             .success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("CreatedSuccessfully");
@@ -337,8 +318,8 @@ function ($modal, flowMngFactory, notificationFactory, errorFactory) {
         }
     };
 
-    /// Delete flow.
-    flowMngModel.openPopupDeleteFlow = function (vm) {
+    /// Delete department flow.
+    flowMngModel.openPopupDeleteDepartmentFlow = function (vm) {
         if (!vm.department || !vm.department.DepartmentId) {
             notificationFactory.error('', 'Please select a department!');
         }
@@ -359,7 +340,7 @@ function ($modal, flowMngFactory, notificationFactory, errorFactory) {
             });
 
             modalInstance.result.then(function () {
-                flowMngFactory.deleteFlow(vm.department.DepartmentId, vm.flowType).success(function (response) {
+                flowMngFactory.deleteDepartmentFlow(vm.department.DepartmentId, vm.flowType).success(function (response) {
                     if (response.IsSuccessful) {
                         notificationFactory.success("DeletedSuccessfully");
 
@@ -376,6 +357,42 @@ function ($modal, flowMngFactory, notificationFactory, errorFactory) {
                 modalInstance = '';
             });
         }
+    };
+
+    /// Delete personal flow.
+    flowMngModel.openPopupDeletePersonalFlow = function (vm) {
+        var modalInstance = $modal.open({
+            templateUrl: 'SourceApp/Shared/Templates/ModalConfirmContent.html',
+            controller: "ModalConfirmController as modalConfirmCtrl",
+            backdrop: 'static',
+            resolve: {
+                name: function () {
+                    return '';
+                },
+                action: function () {
+                    return 'delete';
+                }
+            },
+            windowClass: "modal-confirm-center"
+        });
+
+        modalInstance.result.then(function () {
+            flowMngFactory.deletePersonalFlow(vm.currentSelectedEmployee).success(function (response) {
+                if (response.IsSuccessful) {
+                    notificationFactory.success("DeletedSuccessfully");
+
+                    vm.currentSelectedEmployee = null;
+                    flowMngModel.resetCurrentFlow(vm);
+                }
+                else {
+                    notificationFactory.error("", response.Message);
+                }
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        })['finally'](function () {
+            modalInstance = '';
+        });
     };
 
     return flowMngModel;

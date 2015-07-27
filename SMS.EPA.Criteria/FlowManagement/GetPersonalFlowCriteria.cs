@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="CreateEmployeeFlowCriteria.cs" company="Nexcel Solutions Viet Nam">
+// <copyright file="GetPersonalFlowCriteria.cs" company="Nexcel Solutions Viet Nam">
 // Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -11,13 +11,9 @@ namespace SMS.EPA.Criteria.FlowManagement
 {
     using Fanex.Data.Repository;
 
-    public class CreateEmployeeFlowCriteria : CriteriaBase
+    public class GetPersonalFlowCriteria : CriteriaBase
     {
         public int EmployeeId { get; set; }
-
-        public string FlowDetails { get; set; }
-
-        public int ModifiedBy { get; set; }
 
         public override bool IsValid()
         {
@@ -26,7 +22,7 @@ namespace SMS.EPA.Criteria.FlowManagement
 
         public override string GetSettingKey()
         {
-            return "SettingFlowEmployee_Set";
+            return "SettingEmployeeFlow_Get";
         }
     }
 }

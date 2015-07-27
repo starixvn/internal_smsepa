@@ -5,15 +5,15 @@
         <div class="row">
             <form class="row form-inline department-form">
                 <select class="sel-department departmentList" required ng-model="personalFlowCtrl.department"
-                    ng-options="opt as opt.Name for opt in flowMngCtrl.departments.Departments"
-                    ng-change="personalFlowCtrl.onSelectedDepartment()">
+                        ng-options="opt as opt.Name for opt in flowMngCtrl.treeDepartment"
+                        ng-change="personalFlowCtrl.onSelectedDepartment()">
                     <option style="display: none" value="">-- Select a Department / Group --</option>
                 </select>
             </form>
         <div class="row">
             <div class="col-sm-3 personal">
                 <select class="flow-personal" ng-model="personalFlowCtrl.fromModel" multiple
-                    ng-options="e.EmployeeId as e.NickName + ' (' + e.FullName + ')' for e in personalFlowCtrl.defaultSettingFlowEmployees"></select>
+                        ng-options="e.EmployeeId as e.NickName + ' (' + e.FullName + ')' for e in personalFlowCtrl.defaultSettingFlowEmployees"></select>
             </div>
             <div class="col-sm-1 buttons">
                 <a title="Move Right" class="button glyphicon glyphicon-arrow-right"
@@ -31,8 +31,8 @@
             </div>
             <div class="col-sm-3 personal">
                 <select class="flow-personal" ng-model="personalFlowCtrl.toModel" multiple
-                    ng-change="personalFlowCtrl.getEmployeeFlow(personalFlowCtrl.toModel)"
-                    ng-options="e.EmployeeId as e.NickName +' (' + e.FullName + ')'  for e in personalFlowCtrl.personalSettingFlowEmployees"></select>
+                        ng-change="personalFlowCtrl.getPersonalFlow(personalFlowCtrl.toModel)"
+                        ng-options="e.EmployeeId as e.NickName +' (' + e.FullName + ')'  for e in personalFlowCtrl.personalSettingFlowEmployees"></select>
             </div>
         </div>
     </div>
@@ -227,8 +227,8 @@
                         </tbody>
                     </table>
                     <form class="row form-inline department-form" role="form">
-                        <button class="button" ng-click="personalFlowCtrl.saveFlow()" data-translate="Save"></button>
-                        <button class="button" ng-click="personalFlowCtrl.deleteFlow()" data-translate="Delete" ng-if="personalFlowCtrl.showDeleteButton"></button>
+                        <button class="button" ng-click="personalFlowCtrl.savePersonalFlow()" data-translate="Save"></button>
+                        <button class="button" ng-click="personalFlowCtrl.deletePersonalFlow()" data-translate="Delete" ng-if="personalFlowCtrl.showDeleteButton"></button>
                     </form>
                 </div>
             </div>

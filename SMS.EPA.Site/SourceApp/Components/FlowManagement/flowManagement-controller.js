@@ -6,16 +6,15 @@ flowMngModule.controller("FlowMngController",
 function (FlowMngModel, EmployeeModel, CommonModel, utilitiesFactory) {
     var vm = this;
 
-    vm.selfs = FlowMngModel.selfs;
-    vm.evaluators = FlowMngModel.evaluators;
-    vm.reviewers = FlowMngModel.reviewers;
-    vm.managements = FlowMngModel.managements;
-    vm.humanResources = FlowMngModel.humanResources;
-
     vm.employees = EmployeeModel.employees;
     vm.departments = CommonModel.departments;
+    vm.treeDepartment = CommonModel.treeDepartment;
 
     utilitiesFactory.getDateFormat(vm);
+
+    vm.tabSelected = function () {
+        FlowMngModel.resetCurrentData();
+    };
 
     vm.initialize = function () {
         EmployeeModel.getAllEmployee().then(function () {
@@ -24,7 +23,10 @@ function (FlowMngModel, EmployeeModel, CommonModel, utilitiesFactory) {
 
         CommonModel.getDepartment().then(function () {
             vm.departments = CommonModel.departments;
+            vm.treeDepartment = CommonModel.treeDepartment;
         });
+
+        FlowMngModel.resetCurrentFlow(FlowMngModel);
     };
 
     vm.initialize();
