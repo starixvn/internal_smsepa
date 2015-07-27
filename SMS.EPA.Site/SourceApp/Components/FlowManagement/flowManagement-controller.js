@@ -2,8 +2,8 @@
 /*global flowMngModule*/
 
 flowMngModule.controller("FlowMngController",
-['FlowMngModel', 'EmployeeModel', 'CommonModel', 'utilitiesFactory',
-function (FlowMngModel, EmployeeModel, CommonModel, utilitiesFactory) {
+['FlowMngModel', 'EmployeeModel', 'CommonModel', 'utilitiesFactory', 'cacheService',
+function (FlowMngModel, EmployeeModel, CommonModel, utilitiesFactory, cacheService) {
     var vm = this;
 
     vm.employees = EmployeeModel.employees;
@@ -12,8 +12,12 @@ function (FlowMngModel, EmployeeModel, CommonModel, utilitiesFactory) {
 
     utilitiesFactory.getDateFormat(vm);
 
-    vm.tabSelected = function () {
-        FlowMngModel.resetCurrentData();
+    vm.tabDepartmentSelected = function () {
+        cacheService.setProperty(1);
+    };
+
+    vm.tabPersonalSelected = function () {
+        cacheService.setProperty(2);
     };
 
     vm.initialize = function () {

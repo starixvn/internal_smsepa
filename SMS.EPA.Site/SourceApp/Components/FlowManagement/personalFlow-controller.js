@@ -2,8 +2,8 @@
 /*global flowMngModule*/
 
 flowMngModule.controller("PersonalFlowController",
-['$scope', 'FlowMngModel', 'CommonModel',
-function ($scope, FlowMngModel, CommonModel) {
+['$scope', 'FlowMngModel', 'CommonModel', 'cacheService',
+function ($scope, FlowMngModel, CommonModel, cacheService) {
     var vm = this;
 
     vm.selfs = FlowMngModel.selfs;
@@ -12,12 +12,11 @@ function ($scope, FlowMngModel, CommonModel) {
     vm.managements = FlowMngModel.managements;
     vm.humanResources = FlowMngModel.humanResources;
 
-    vm.defaultSettingFlowEmployees = FlowMngModel.defaultSettingFlowEmployees;
-    vm.personalSettingFlowEmployees = FlowMngModel.personalSettingFlowEmployees;
-
-    vm.showListEmployee = FlowMngModel.showListEmployee;
-    vm.showDeleteButton = FlowMngModel.showDeleteButton;
-    vm.department = FlowMngModel.department;
+    vm.showListEmployee = true;
+    vm.department = null;
+    vm.showDeleteButton = false;
+    vm.defaultSettingFlowEmployees = [];
+    vm.personalSettingFlowEmployees = [];
 
     FlowMngModel.calendar(vm);
 
@@ -50,8 +49,9 @@ function ($scope, FlowMngModel, CommonModel) {
 
     vm.onSelectedDepartment = function () {
         FlowMngModel.getEmployeeSettingFlowInDepartment(vm.department.DepartmentId).then(function () {
-            vm.defaultSettingFlowEmployees = FlowMngModel.defaultFlowSettingEmployees;
-            vm.personalSettingFlowEmployees = FlowMngModel.personalFlowSettingEmployees;
+            vm.defaultSettingFlowEmployees = FlowMngModel.defaultSettingFlowEmployees;
+            vm.personalSettingFlowEmployees = FlowMngModel.personalSettingFlowEmployees;
+            FlowMngModel.resetCurrentFlow(vm);
         });
     };
 
@@ -130,6 +130,19 @@ function ($scope, FlowMngModel, CommonModel) {
     // On Created list after Drag & Drop.
     $scope.$on('list-created', function (ev, val) {
         getEmployeeById(val.sender, val.id, val.to);
+    });
+
+    $scope.$watch(function () {
+        return cacheService.getProperty();
+    }, function (value) {
+        if (value === 2) {
+            FlowMngModel.resetCurrentFlow(vm);
+            vm.showListEmployee = true;
+            vm.showDeleteButton = false;
+            vm.department = null;
+            vm.defaultSettingFlowEmployees = [];
+            vm.personalSettingFlowEmployees = [];
+        }
     });
 
     vm.savePersonalFlow = function () {

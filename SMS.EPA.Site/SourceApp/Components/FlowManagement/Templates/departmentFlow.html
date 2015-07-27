@@ -1,6 +1,6 @@
 ﻿<div class="department-flow" ng-controller="DepartmentFlowController as deptFlowCtrl">
-    <div class="expand-user" title="Show Employee List" ng-if="!deptFlowCtrl.showListEmployee" 
-        ng-click="deptFlowCtrl.toggleDepartmentDraggableList()">
+    <div class="expand-user" title="Show Employee List" ng-if="!deptFlowCtrl.showListEmployee"
+         ng-click="deptFlowCtrl.toggleDepartmentDraggableList()">
         <span class="glyphicon glyphicon-user icon-user"></span>
     </div>
     <div class="row">
@@ -8,16 +8,17 @@
             <div class="row flow-header">
                 <span data-translate="Employee"></span>
                 <a ng-click="deptFlowCtrl.toggleDepartmentDraggableList()" href="javascript:;"
-                    class="pull-right glyphicon glyphicon-arrow-left"></a>
+                   class="pull-right glyphicon glyphicon-arrow-left"></a>
             </div>
             <div class="row">
                 <input type="text" ng-model="deptFlowCtrl.employeeName" class="txt-search" />
             </div>
             <ul class="row custom-ul employee-ul list-unstyled">
-                <li class="ui-state-highlight" list-draggable=".sortable" 
+                <li class="ui-state-highlight" list-draggable=".sortable"
                     ng-repeat="employee in flowMngCtrl.employees | filter: deptFlowCtrl.employeeName"
                     id="{{employee.EmployeeId}}">
-                    {{employee.NickName}} ({{employee.FullName}})</li>
+                    {{employee.NickName}} ({{employee.FullName}})
+                </li>
             </ul>
         </div>
         <div class="col-sm-9 set-flow">
@@ -44,76 +45,76 @@
                     <tr>
                         <td class="col-sm-2" data-translate="StartDate"></td>
                         <td class="col-sm-2 col-self">
-                            <input readonly class="calendar-form-control" type="text" 
-                                ng-model="deptFlowCtrl.selfs.startDate" datepicker-popup="{{flowMngCtrl.dateFormat}}"
-                                ng-click="deptFlowCtrl.openPopupStartDate($event, deptFlowCtrl.calendar.selfs)"
-                                is-open="deptFlowCtrl.calendar.selfs.startDateOpened" />
+                            <input readonly class="calendar-form-control" type="text"
+                                   ng-model="deptFlowCtrl.selfs.startDate" datepicker-popup="{{flowMngCtrl.dateFormat}}"
+                                   ng-click="deptFlowCtrl.openPopupStartDate($event, deptFlowCtrl.calendar.selfs)"
+                                   is-open="deptFlowCtrl.calendar.selfs.startDateOpened" />
                             <calendar-image class="calendar-image" ng-click="deptFlowCtrl.openPopupStartDate($event, deptFlowCtrl.calendar.selfs)"></calendar-image>
                         </td>
                         <td class="col-sm-2 col-evaluator">
-                            <input readonly class="calendar-form-control" type="text" 
-                                ng-model="deptFlowCtrl.evaluators.startDate" datepicker-popup="{{flowMngCtrl.dateFormat}}"
-                                ng-click="deptFlowCtrl.openPopupStartDate($event, deptFlowCtrl.calendar.evaluators)"
-                                is-open="deptFlowCtrl.calendar.evaluators.startDateOpened" />
+                            <input readonly class="calendar-form-control" type="text"
+                                   ng-model="deptFlowCtrl.evaluators.startDate" datepicker-popup="{{flowMngCtrl.dateFormat}}"
+                                   ng-click="deptFlowCtrl.openPopupStartDate($event, deptFlowCtrl.calendar.evaluators)"
+                                   is-open="deptFlowCtrl.calendar.evaluators.startDateOpened" />
                             <calendar-image class="calendar-image" ng-click="deptFlowCtrl.openPopupStartDate($event, deptFlowCtrl.calendar.evaluators)"></calendar-image>
                         </td>
                         <td class="col-sm-2 col-reviewer">
-                            <input readonly class="calendar-form-control" type="text" 
-                                ng-model="deptFlowCtrl.reviewers.startDate" datepicker-popup="{{flowMngCtrl.dateFormat}}"
-                                ng-click="deptFlowCtrl.openPopupStartDate($event, deptFlowCtrl.calendar.reviewers)"
-                                is-open="deptFlowCtrl.calendar.reviewers.startDateOpened" />
+                            <input readonly class="calendar-form-control" type="text"
+                                   ng-model="deptFlowCtrl.reviewers.startDate" datepicker-popup="{{flowMngCtrl.dateFormat}}"
+                                   ng-click="deptFlowCtrl.openPopupStartDate($event, deptFlowCtrl.calendar.reviewers)"
+                                   is-open="deptFlowCtrl.calendar.reviewers.startDateOpened" />
                             <calendar-image class="calendar-image" ng-click="deptFlowCtrl.openPopupStartDate($event, deptFlowCtrl.calendar.reviewers)"></calendar-image>
                         </td>
                         <td class="col-sm-2 col-management">
-                            <input readonly class="calendar-form-control" type="text" 
-                                ng-model="deptFlowCtrl.managements.startDate" datepicker-popup="{{flowMngCtrl.dateFormat}}"
-                                ng-click="deptFlowCtrl.openPopupStartDate($event, deptFlowCtrl.calendar.managements)"
-                                is-open="deptFlowCtrl.calendar.managements.startDateOpened" />
+                            <input readonly class="calendar-form-control" type="text"
+                                   ng-model="deptFlowCtrl.managements.startDate" datepicker-popup="{{flowMngCtrl.dateFormat}}"
+                                   ng-click="deptFlowCtrl.openPopupStartDate($event, deptFlowCtrl.calendar.managements)"
+                                   is-open="deptFlowCtrl.calendar.managements.startDateOpened" />
                             <calendar-image class="calendar-image" ng-click="deptFlowCtrl.openPopupStartDate($event, deptFlowCtrl.calendar.managements)"></calendar-image>
                         </td>
                         <td class="col-sm-2 col-human-resource">
-                            <input readonly class="calendar-form-control" type="text" 
-                                ng-model="deptFlowCtrl.humanResources.startDate" datepicker-popup="{{flowMngCtrl.dateFormat}}"
-                                ng-click="deptFlowCtrl.openPopupStartDate($event, deptFlowCtrl.calendar.humanResources)"
-                                is-open="deptFlowCtrl.calendar.humanResources.startDateOpened" />
+                            <input readonly class="calendar-form-control" type="text"
+                                   ng-model="deptFlowCtrl.humanResources.startDate" datepicker-popup="{{flowMngCtrl.dateFormat}}"
+                                   ng-click="deptFlowCtrl.openPopupStartDate($event, deptFlowCtrl.calendar.humanResources)"
+                                   is-open="deptFlowCtrl.calendar.humanResources.startDateOpened" />
                             <calendar-image class="calendar-image" ng-click="deptFlowCtrl.openPopupStartDate($event, deptFlowCtrl.calendar.humanResources)"></calendar-image>
                         </td>
                     </tr>
                     <tr>
                         <td class="col-sm-2" data-translate="EndDate"></td>
                         <td class="col-sm-2 col-self">
-                            <input readonly class="calendar-form-control" type="text" 
-                                ng-model="deptFlowCtrl.selfs.endDate" datepicker-popup="{{flowMngCtrl.dateFormat}}"
-                                ng-click="deptFlowCtrl.openPopupEndDate($event, deptFlowCtrl.calendar.selfs)"
-                                is-open="deptFlowCtrl.calendar.selfs.endDateOpened" />
+                            <input readonly class="calendar-form-control" type="text"
+                                   ng-model="deptFlowCtrl.selfs.endDate" datepicker-popup="{{flowMngCtrl.dateFormat}}"
+                                   ng-click="deptFlowCtrl.openPopupEndDate($event, deptFlowCtrl.calendar.selfs)"
+                                   is-open="deptFlowCtrl.calendar.selfs.endDateOpened" />
                             <calendar-image class="calendar-image" ng-click="deptFlowCtrl.openPopupEndDate($event, deptFlowCtrl.calendar.selfs)"></calendar-image>
                         </td>
                         <td class="col-sm-2 col-evaluator">
-                            <input readonly class="calendar-form-control" type="text" 
-                                ng-model="deptFlowCtrl.evaluators.endDate" datepicker-popup="{{flowMngCtrl.dateFormat}}"
-                                ng-click="deptFlowCtrl.openPopupEndDate($event, deptFlowCtrl.calendar.evaluators)"
-                                is-open="deptFlowCtrl.calendar.evaluators.endDateOpened" />
+                            <input readonly class="calendar-form-control" type="text"
+                                   ng-model="deptFlowCtrl.evaluators.endDate" datepicker-popup="{{flowMngCtrl.dateFormat}}"
+                                   ng-click="deptFlowCtrl.openPopupEndDate($event, deptFlowCtrl.calendar.evaluators)"
+                                   is-open="deptFlowCtrl.calendar.evaluators.endDateOpened" />
                             <calendar-image class="calendar-image" ng-click="deptFlowCtrl.openPopupEndDate($event, deptFlowCtrl.calendar.evaluators)"></calendar-image>
                         </td>
                         <td class="col-sm-2 col-reviewer">
-                            <input readonly class="calendar-form-control" type="text" 
-                                ng-model="deptFlowCtrl.reviewers.endDate" datepicker-popup="{{flowMngCtrl.dateFormat}}"
-                                ng-click="deptFlowCtrl.openPopupEndDate($event, deptFlowCtrl.calendar.reviewers)"
-                                is-open="deptFlowCtrl.calendar.reviewers.endDateOpened" />
+                            <input readonly class="calendar-form-control" type="text"
+                                   ng-model="deptFlowCtrl.reviewers.endDate" datepicker-popup="{{flowMngCtrl.dateFormat}}"
+                                   ng-click="deptFlowCtrl.openPopupEndDate($event, deptFlowCtrl.calendar.reviewers)"
+                                   is-open="deptFlowCtrl.calendar.reviewers.endDateOpened" />
                             <calendar-image class="calendar-image" ng-click="deptFlowCtrl.openPopupEndDate($event, deptFlowCtrl.calendar.reviewers)"></calendar-image>
                         </td>
                         <td class="col-sm-2 col-management">
-                            <input readonly class="calendar-form-control" type="text" 
-                                ng-model="deptFlowCtrl.managements.endDate" datepicker-popup="{{flowMngCtrl.dateFormat}}"
-                                ng-click="deptFlowCtrl.openPopupEndDate($event, deptFlowCtrl.calendar.managements)"
-                                is-open="deptFlowCtrl.calendar.managements.endDateOpened" />
+                            <input readonly class="calendar-form-control" type="text"
+                                   ng-model="deptFlowCtrl.managements.endDate" datepicker-popup="{{flowMngCtrl.dateFormat}}"
+                                   ng-click="deptFlowCtrl.openPopupEndDate($event, deptFlowCtrl.calendar.managements)"
+                                   is-open="deptFlowCtrl.calendar.managements.endDateOpened" />
                             <calendar-image class="calendar-image" ng-click="deptFlowCtrl.openPopupEndDate($event, deptFlowCtrl.calendar.managements)"></calendar-image>
                         </td>
                         <td class="col-sm-2 col-human-resource">
-                            <input readonly class="calendar-form-control" type="text" 
-                                ng-model="deptFlowCtrl.humanResources.endDate" datepicker-popup="{{flowMngCtrl.dateFormat}}"
-                                ng-click="deptFlowCtrl.openPopupEndDate($event, deptFlowCtrl.calendar.humanResources)"
-                                is-open="deptFlowCtrl.calendar.humanResources.endDateOpened" />
+                            <input readonly class="calendar-form-control" type="text"
+                                   ng-model="deptFlowCtrl.humanResources.endDate" datepicker-popup="{{flowMngCtrl.dateFormat}}"
+                                   ng-click="deptFlowCtrl.openPopupEndDate($event, deptFlowCtrl.calendar.humanResources)"
+                                   is-open="deptFlowCtrl.calendar.humanResources.endDateOpened" />
                             <calendar-image class="calendar-image" ng-click="deptFlowCtrl.openPopupEndDate($event, deptFlowCtrl.calendar.humanResources)"></calendar-image>
                         </td>
                     </tr>
@@ -149,10 +150,10 @@
                         <td class="col-sm-2 col-evaluator">
                             <ul list-sortable class="sortable custom-ul list-unstyled" id="evaluatorList">
                                 <li class="alert alert-info nomargin" ng-repeat="evaluator in deptFlowCtrl.evaluators.employees">
-                                    <a href="javascript:;" class="glyphicon glyphicon-remove icon-close" 
-                                        ng-click="deptFlowCtrl.removeItemFromList(evaluator, deptFlowCtrl.evaluators.employees)"></a>
-                                    <img tooltip="{{evaluator.FullName}}" class="img-flow" 
-                                        src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;f=y" />
+                                    <a href="javascript:;" class="glyphicon glyphicon-remove icon-close"
+                                       ng-click="deptFlowCtrl.removeItemFromList(evaluator, deptFlowCtrl.evaluators.employees)"></a>
+                                    <img tooltip="{{evaluator.FullName}}" class="img-flow"
+                                         src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;f=y" />
                                     <p>{{evaluator.NickName}}</p>
                                 </li>
                             </ul>
@@ -160,10 +161,10 @@
                         <td class="col-sm-2 col-reviewer">
                             <ul list-sortable class="sortable custom-ul list-unstyled" id="reviewerList">
                                 <li class="alert alert-info nomargin" ng-repeat="reviewer in deptFlowCtrl.reviewers.employees">
-                                    <a href="javascript:;" class="glyphicon glyphicon-remove icon-close" 
-                                        ng-click="deptFlowCtrl.removeItemFromList(reviewer, deptFlowCtrl.reviewers.employees)"></a>
-                                    <img tooltip="{{reviewer.FullName}}" class="img-flow" 
-                                        src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;f=y" />
+                                    <a href="javascript:;" class="glyphicon glyphicon-remove icon-close"
+                                       ng-click="deptFlowCtrl.removeItemFromList(reviewer, deptFlowCtrl.reviewers.employees)"></a>
+                                    <img tooltip="{{reviewer.FullName}}" class="img-flow"
+                                         src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;f=y" />
                                     <p>{{reviewer.NickName}}</p>
                                 </li>
                             </ul>
@@ -171,10 +172,10 @@
                         <td class="col-sm-2 col-management">
                             <ul list-sortable class="sortable custom-ul list-unstyled" id="managementList">
                                 <li class="alert alert-info nomargin" ng-repeat="management in deptFlowCtrl.managements.employees">
-                                    <a href="javascript:;" class="glyphicon glyphicon-remove icon-close" 
-                                        ng-click="deptFlowCtrl.removeItemFromList(management, deptFlowCtrl.managements.employees)"></a>
-                                    <img tooltip="{{management.FullName}}" class="img-flow" 
-                                        src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;f=y" />
+                                    <a href="javascript:;" class="glyphicon glyphicon-remove icon-close"
+                                       ng-click="deptFlowCtrl.removeItemFromList(management, deptFlowCtrl.managements.employees)"></a>
+                                    <img tooltip="{{management.FullName}}" class="img-flow"
+                                         src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;f=y" />
                                     <p>{{management.NickName}}</p>
                                 </li>
                             </ul>
@@ -182,10 +183,10 @@
                         <td class="col-sm-2 col-human-resource">
                             <ul list-sortable class="sortable custom-ul list-unstyled" id="humanResourceList">
                                 <li class="alert alert-info nomargin" ng-repeat="humanResource in deptFlowCtrl.humanResources.employees">
-                                    <a href="javascript:;" class="glyphicon glyphicon-remove icon-close" 
-                                        ng-click="deptFlowCtrl.removeItemFromList(humanResource, deptFlowCtrl.humanResources.employees)"></a>
-                                    <img tooltip="{{humanResource.FullName}}" class="img-flow" 
-                                        src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;f=y" />
+                                    <a href="javascript:;" class="glyphicon glyphicon-remove icon-close"
+                                       ng-click="deptFlowCtrl.removeItemFromList(humanResource, deptFlowCtrl.humanResources.employees)"></a>
+                                    <img tooltip="{{humanResource.FullName}}" class="img-flow"
+                                         src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;f=y" />
                                     <p>{{humanResource.NickName}}</p>
                                 </li>
                             </ul>

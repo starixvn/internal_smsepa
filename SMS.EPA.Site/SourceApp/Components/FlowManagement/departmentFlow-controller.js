@@ -2,8 +2,8 @@
 /*global flowMngModule*/
 
 flowMngModule.controller("DepartmentFlowController",
-['$scope', 'FlowMngModel', 'CommonModel',
-function ($scope, FlowMngModel, CommonModel) {
+['$scope', 'FlowMngModel', 'CommonModel', 'cacheService',
+function ($scope, FlowMngModel, CommonModel, cacheService) {
     var vm = this;
 
     vm.selfs = FlowMngModel.selfs;
@@ -12,8 +12,8 @@ function ($scope, FlowMngModel, CommonModel) {
     vm.managements = FlowMngModel.managements;
     vm.humanResources = FlowMngModel.humanResources;
 
-    vm.showListEmployee = FlowMngModel.showListEmployee;
-    vm.department = FlowMngModel.department;
+    vm.showListEmployee = true;
+    vm.department = null;
 
     FlowMngModel.calendar(vm);
 
@@ -85,6 +85,16 @@ function ($scope, FlowMngModel, CommonModel) {
     // On Created list after Drag & Drop.
     $scope.$on('list-created', function (ev, val) {
         getEmployeeById(val.sender, val.id, val.to);
+    });
+
+    $scope.$watch(function () {
+        return cacheService.getProperty();
+    }, function (value) {
+        if (value === 1) {
+            FlowMngModel.resetCurrentFlow(vm);
+            vm.showListEmployee = true;
+            vm.department = null;
+        }
     });
 
     vm.saveDepartmentFlow = function () {

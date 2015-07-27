@@ -77,7 +77,6 @@ namespace SMS.EPA.Site.Controllers.API
                     setting.EvaluatorInfo.EmployeeId,
                     setting.StartDate,
                     setting.EndDate,
-                    setting.IsPersonal,
                     setting.HasSendMail);
             }
 

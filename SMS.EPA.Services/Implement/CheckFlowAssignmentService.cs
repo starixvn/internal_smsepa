@@ -148,8 +148,7 @@ namespace SMS.EPA.Services.Implement
                 EvaluatorInfo = rawEmployeeFlow.EvaluatorInfo,
                 StartDate = rawEmployeeFlow.StartDate,
                 EndDate = rawEmployeeFlow.EndDate,
-                HasSendMail = rawEmployeeFlow.HasSendMail,
-                IsPersonal = rawEmployeeFlow.IsPersonal
+                HasSendMail = rawEmployeeFlow.HasSendMail
             };
 
             return evaluator;

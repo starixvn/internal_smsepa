@@ -25,4 +25,17 @@ flowMngModule.factory('flowMngFactory', ['$http', 'baseUrl', function ($http, ba
             return $http.get(baseUrl + 'api/FlowManagement/GetEmployeeSettingFlowInDepartment', { params: { departmentId: departmentId } });
         }
     };
-} ]);
+}]);
+
+flowMngModule.service('cacheService', function () {
+    var property;
+
+    return {
+        getProperty: function () {
+            return property;
+        },
+        setProperty: function (value) {
+            property = value;
+        }
+    };
+});

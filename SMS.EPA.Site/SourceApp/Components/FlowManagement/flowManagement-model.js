@@ -38,20 +38,8 @@ function ($modal, flowMngFactory, notificationFactory, errorFactory) {
         employees: []
     };
 
-    flowMngModel.showListEmployee = true;
-    flowMngModel.showDeleteButton = false;
     flowMngModel.defaultSettingFlowEmployees = [];
     flowMngModel.personalSettingFlowEmployees = [];
-    flowMngModel.department = null;
-
-    flowMngModel.resetCurrentData = function () {
-        flowMngModel.resetCurrentFlow(flowMngModel);
-        flowMngModel.showListEmployee = true;
-        flowMngModel.showDeleteButton = false;
-        flowMngModel.defaultSettingFlowEmployees = [];
-        flowMngModel.personalSettingFlowEmployees = [];
-        flowMngModel.department = null;
-    };
 
     flowMngModel.resetCurrentFlow = function (vm) {
         vm.selfs.startDate = date;

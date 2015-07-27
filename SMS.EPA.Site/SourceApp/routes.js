@@ -65,4 +65,4 @@ var checkFlowAssignmentModule = angular.module("checkFlowAssignmentModule", ['ng
     var baseUrl = $("base").first().attr("href");
     $routeProvider.when('/CheckAssignment/Index',
     { templateUrl: baseUrl + 'SourceApp/Components/CheckFlowAssignment/Templates/index.html' });
-}]);;
+}]);
