@@ -546,4 +546,10 @@
   <data name="ParentNodeRequired" xml:space="preserve">
     <value>The Parent Node field is required!</value>
   </data>
+    <data name="SelectEmployeeBeforeAssingFlowSettingWarning" xml:space="preserve">
+    <value>Please select employee before assign!</value>
+  </data>
+  <data name="EditFlowSetting" xml:space="preserve">
+    <value>Edit Flow Setting</value>
+  </data>
 </root>

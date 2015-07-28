@@ -180,6 +180,7 @@
     <Compile Include="Controllers\API\TargetTemplateController.cs" />
     <Compile Include="Controllers\API\UtilitiesController.cs" />
     <Compile Include="Controllers\API\RoleController.cs" />
+    <Compile Include="Controllers\ExportReportController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Global.asax.cs">
@@ -202,7 +203,6 @@
     <Content Include="Content\Common\Images\delete.png" />
     <Content Include="Content\Common\Images\edit.png" />
     <Content Include="Content\Common\Images\EPA.png" />
-    <Content Include="Content\Common\Images\excel-icon.png" />
     <Content Include="Content\Common\Images\expand-small.png" />
     <Content Include="Content\Common\Images\go-hover-icon.png" />
     <Content Include="Content\Common\Images\lock.png" />
@@ -242,6 +242,7 @@
     <Content Include="Content\Site\images\calendar.png" />
     <Content Include="Content\Site\images\department-collapse.png" />
     <Content Include="Content\Site\images\department-expand.png" />
+    <Content Include="Content\Site\images\excel-icon.png" />
     <Content Include="Content\Site\images\icon-breadcrumb.png" />
     <Content Include="Content\Site\images\icon-search.png" />
     <Content Include="Content\Site\images\icon_sprite.png" />
@@ -289,6 +290,7 @@
     <Content Include="SourceApp\Components\CheckFlowAssignment\checkFlow-directive.js" />
     <Content Include="SourceApp\Components\CheckFlowAssignment\checkFlow-factory.js" />
     <Content Include="SourceApp\Components\CheckFlowAssignment\checkFlow-model.js" />
+    <Content Include="SourceApp\Components\CheckFlowAssignment\Templates\editFlowSetting.html" />
     <Content Include="SourceApp\Components\CheckFlowAssignment\Templates\index.html" />
     <Content Include="SourceApp\Components\Department\department-controller.js" />
     <Content Include="SourceApp\Components\Department\department-directive.js" />
@@ -387,7 +389,9 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="SourceApp\Components\CheckFlowAssignment\ExcelTemplates\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>

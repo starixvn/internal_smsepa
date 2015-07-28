@@ -11,6 +11,7 @@ namespace SMS.EPA.Site.Controllers.API
 {
     using System.Collections.Generic;
     using System.Text;
+    using System.Web.Http;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.CheckFlowAssignment;
     using SMS.EPA.Model.CheckFlowAssignment;
@@ -47,6 +48,7 @@ namespace SMS.EPA.Site.Controllers.API
             return employeeFlowSettings;
         }
 
+        [HttpPut]
         public CommandResult UpdateEmployeeFlowTargetSetting(IList<RawEmployeeFlowModel> employeeFlowSettings)
         {
             var criteria = new UpdateEmployeeFlowSettingCriteria
@@ -61,7 +63,7 @@ namespace SMS.EPA.Site.Controllers.API
 
         private string TransformSettingToXml(IList<RawEmployeeFlowModel> employeeFlowSettings)
         {
-            string employeeAssignment = "<Assignment EmployeeId='{0}' TargetTemplateId='{1}' ProcessId='{2}' EvaluatorId='{3}' StartDate='{4}' EndDate='{5}' HasSendMail='{7}'></Assignment>";
+            string employeeAssignment = "<Assignment EmployeeId='{0}' TargetTemplateId='{1}' ProcessId='{2}' EvaluatorId='{3}' StartDate='{4}' EndDate='{5}' HasSendMail='{6}'></Assignment>";
             string beginRootTag = "<ROOT>";
             string endRootTag = "</ROOT>";
 
@@ -75,8 +77,8 @@ namespace SMS.EPA.Site.Controllers.API
                     setting.TargetTemplateId,
                     setting.ProcessId,
                     setting.EvaluatorInfo.EmployeeId,
-                    setting.StartDate,
-                    setting.EndDate,
+                    setting.StartDate.ToShortDateString(),
+                    setting.EndDate.ToShortDateString(),
                     setting.HasSendMail);
             }
 

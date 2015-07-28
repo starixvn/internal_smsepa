@@ -349,6 +349,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit Flow Setting.
+        /// </summary>
+        public static string EditFlowSetting {
+            get {
+                return ResourceManager.GetString("EditFlowSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit KPI.
         /// </summary>
         public static string EditKPI {
@@ -1020,6 +1029,15 @@ namespace SMS.EPA.Resources {
         public static string Select {
             get {
                 return ResourceManager.GetString("Select", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select employee before assign!.
+        /// </summary>
+        public static string SelectEmployeeBeforeAssingFlowSettingWarning {
+            get {
+                return ResourceManager.GetString("SelectEmployeeBeforeAssingFlowSettingWarning", resourceCulture);
             }
         }
         
