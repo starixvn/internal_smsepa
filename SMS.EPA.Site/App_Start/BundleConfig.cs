@@ -42,7 +42,8 @@
                             "~/Libs/dirPagination.js",
                             "~/Libs/chosen.jquery.min.js",
                             "~/Libs/angular-chosen.js",
-                            "~/Libs/moment.min.js"));
+                            "~/Libs/moment.min.js",
+                            "~/Libs/ui-bootstrap-contextMenu.js"));
 
             bundles.AddAndInclude(
                             "~/bundles/less",
@@ -92,7 +93,11 @@
                             "~/SourceApp/Components/CheckFlowAssignment/checkFlow-factory.js",
                             "~/SourceApp/Components/CheckFlowAssignment/checkFlow-model.js",
                             "~/SourceApp/Components/CheckFlowAssignment/checkFlow-directive.js",
-                            "~/SourceApp/Components/CheckFlowAssignment/checkFlow-controller.js"));
+                            "~/SourceApp/Components/CheckFlowAssignment/checkFlow-controller.js",
+                            "~/SourceApp/Components/Department/department-factory.js",
+                            "~/SourceApp/Components/Department/department-model.js",
+                            "~/SourceApp/Components/Department/department-controller.js",
+                            "~/SourceApp/Components/Department/department-directive.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/epa-directives.js",

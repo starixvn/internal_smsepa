@@ -232,6 +232,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Created Date.
+        /// </summary>
+        public static string CreatedDate {
+            get {
+                return ResourceManager.GetString("CreatedDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Created successfully!.
         /// </summary>
         public static string CreatedSuccessfully {
@@ -318,6 +327,15 @@ namespace SMS.EPA.Resources {
         public static string DeletedSuccessfully {
             get {
                 return ResourceManager.GetString("DeletedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Department Management.
+        /// </summary>
+        public static string DepartmentManagement {
+            get {
+                return ResourceManager.GetString("DepartmentManagement", resourceCulture);
             }
         }
         
@@ -574,6 +592,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Is Disabled.
+        /// </summary>
+        public static string IsDisabled {
+            get {
+                return ResourceManager.GetString("IsDisabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Is Disabled User.
         /// </summary>
         public static string IsDisabledUser {
@@ -718,6 +745,24 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Manager field is required!.
+        /// </summary>
+        public static string ManagerRequired {
+            get {
+                return ResourceManager.GetString("ManagerRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Modified Date.
+        /// </summary>
+        public static string ModifiedDate {
+            get {
+                return ResourceManager.GetString("ModifiedDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Name field is required!.
         /// </summary>
         public static string NameRequire {
@@ -804,6 +849,15 @@ namespace SMS.EPA.Resources {
         public static string OldPasswordRequired {
             get {
                 return ResourceManager.GetString("OldPasswordRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Parent Node field is required!.
+        /// </summary>
+        public static string ParentNodeRequired {
+            get {
+                return ResourceManager.GetString("ParentNodeRequired", resourceCulture);
             }
         }
         

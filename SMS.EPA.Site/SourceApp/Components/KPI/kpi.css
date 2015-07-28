@@ -1,0 +1,157 @@
+﻿/********************************************************/
+/*					    Table                           */
+/********************************************************/
+/********************************************************/
+/*					    Login page                      */
+/********************************************************/
+@font-face {
+  font-family: BigNoodleTitling;
+  src: url(../../../Content/fonts/big_noodle_titling.ttf);
+}
+.kpi-modal-body .chosen-container .chosen-choices {
+  border-radius: 3px;
+}
+.kpi-modal-body .chosen-container .chosen-choices .search-field input[type="text"] {
+  height: auto;
+}
+.kpi-modal-body .chosen-container.chosen-container-multi .chosen-choices {
+  border: 1px solid #cccccc;
+}
+.kpi-modal-body .chosen-container.chosen-container-active .chosen-choices {
+  border: 1px solid #5897fb;
+}
+.kpi-modal-body .checkbox {
+  padding-left: 0;
+  padding-right: 0;
+}
+.field.active-label input[type="checkbox"] {
+  position: relative;
+  top: 7px;
+}
+.kpi-modal-body,
+.kpiGroup-modal-body {
+  overflow-y: auto;
+}
+.kpi-modal-body .description textarea.form-control,
+.kpiGroup-modal-body .description textarea.form-control {
+  resize: none;
+  min-height: 110px;
+}
+.kpi-management .table.table-striped .col-number-kpis,
+.kpiGroup-management .table.table-striped .col-number-kpis,
+.kpi-management .table.table-striped .col-active,
+.kpiGroup-management .table.table-striped .col-active {
+  max-width: 60px;
+}
+.kpi-management .table.table-striped .col-description,
+.kpiGroup-management .table.table-striped .col-description {
+  max-width: 300px;
+}
+.kpi-management .table.table-striped .col-required,
+.kpiGroup-management .table.table-striped .col-required,
+.kpi-management .table.table-striped .col-action,
+.kpiGroup-management .table.table-striped .col-action {
+  max-width: 80px;
+}
+.kpi-management .button-icon.back-button {
+  margin: 5px 0 0 5px;
+  height: 23px;
+}
+.kpi-management .button-icon.back-button .button-text {
+  top: -2px;
+  padding: 0;
+}
+.kpi-management .list-kpi-groups {
+  margin: 0;
+  padding: 0 0 0 15px;
+}
+.kpi-management .list-kpi-groups .kpi-group-item {
+  padding: 2px 0;
+}
+.kpiGroup-management .number-kpi {
+  cursor: pointer;
+}
+.kpiGroup-management .number-kpi:hover {
+  text-decoration: none;
+}
+.department-management .treeview {
+  padding: 0;
+}
+.department-management .treeview .tree {
+  min-height: 300px;
+  padding: 10px;
+  margin: 10px 0 20px;
+  background-color: #f4f4f4;
+  border: 1px solid #c8c8c8;
+  overflow: auto;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+.department-management .treeview .tree ul {
+  padding-left: 20px;
+  margin: 0;
+}
+.department-management .treeview .tree li {
+  list-style-type: none;
+  margin: 0;
+  padding: 11px 5px 0 3px;
+  position: relative;
+  white-space: nowrap;
+}
+.department-management .treeview .tree li:before,
+.department-management .treeview .tree li:after {
+  content: '';
+  left: -15px;
+  position: absolute;
+  right: auto;
+}
+.department-management .treeview .tree li:before {
+  border-left: 1px solid #999;
+  bottom: 50px;
+  height: 100%;
+  top: -4px;
+  width: 1px;
+}
+.department-management .treeview .tree li:after {
+  border-top: 1px solid #999;
+  height: 15px;
+  top: 22px;
+  width: 15px;
+}
+.department-management .treeview .tree li:last-child:before {
+  height: 26px;
+}
+.department-management .treeview .tree li.parent_li > span {
+  cursor: pointer;
+}
+.department-management .treeview .tree li a {
+  border: 1px solid #999;
+  display: inline-block;
+  padding: 2px 8px 4px;
+  line-height: 18px;
+  text-decoration: none;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+.department-management .treeview .tree li ul li i.glyphicon {
+  color: #aeaeae;
+  top: 0;
+}
+.department-management .tree > ul > li:before,
+.department-management .tree > ul > li:after {
+  border: 0;
+}
+.department-management .tree li.root .glyphicon {
+  color: #ED6524;
+  cursor: pointer;
+  font-size: 10px;
+}
+.dropdown-menu {
+  padding: 0;
+}
+/*# sourceMappingURL=kpi.css.map */

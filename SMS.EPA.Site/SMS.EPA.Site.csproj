@@ -170,6 +170,7 @@
     <Compile Include="Controllers\API\BaseController.cs" />
     <Compile Include="Controllers\API\CheckFlowAssignmentController.cs" />
     <Compile Include="Controllers\API\CommonController.cs" />
+    <Compile Include="Controllers\API\DepartmentController.cs" />
     <Compile Include="Controllers\API\FlowManagementController.cs" />
     <Compile Include="Controllers\API\KPIController.cs" />
     <Compile Include="Controllers\API\EmployeeController.cs" />
@@ -289,6 +290,14 @@
     <Content Include="SourceApp\Components\CheckFlowAssignment\checkFlow-factory.js" />
     <Content Include="SourceApp\Components\CheckFlowAssignment\checkFlow-model.js" />
     <Content Include="SourceApp\Components\CheckFlowAssignment\Templates\index.html" />
+    <Content Include="SourceApp\Components\Department\department-controller.js" />
+    <Content Include="SourceApp\Components\Department\department-directive.js" />
+    <Content Include="SourceApp\Components\Department\department-factory.js" />
+    <Content Include="SourceApp\Components\Department\department-model.js" />
+    <Content Include="SourceApp\Components\Department\Templates\create.html" />
+    <Content Include="SourceApp\Components\Department\Templates\edit.html" />
+    <Content Include="SourceApp\Components\Department\Templates\index.html" />
+    <Content Include="SourceApp\Components\Department\Templates\tree.html" />
     <Content Include="SourceApp\Components\Employee\employee-directive.js" />
     <Content Include="SourceApp\Components\Employee\Templates\assignRole.html" />
     <Content Include="SourceApp\Components\Employee\Templates\changePassword.html" />
@@ -304,12 +313,6 @@
     <Content Include="SourceApp\Components\FlowManagement\flowManagement-controller.js" />
     <Content Include="SourceApp\Components\FlowManagement\flowManagement-factory.js" />
     <Content Include="SourceApp\Components\FlowManagement\flowManagement-model.js" />
-    <Content Include="SourceApp\Components\FlowManagement\flowManagement.css">
-      <DependentUpon>flowManagement.less</DependentUpon>
-    </Content>
-    <Content Include="SourceApp\Components\FlowManagement\flowManagement.min.css">
-      <DependentUpon>flowManagement.css</DependentUpon>
-    </Content>
     <Content Include="SourceApp\Components\FlowManagement\personalFlow-controller.js" />
     <Content Include="SourceApp\Components\FlowManagement\Templates\departmentFlow.html" />
     <Content Include="SourceApp\Components\FlowManagement\Templates\index.html" />
@@ -320,6 +323,12 @@
     <Content Include="SourceApp\Components\KPIGroup\Templates\edit.html" />
     <Content Include="SourceApp\Components\KPIGroup\Templates\create.html" />
     <Content Include="SourceApp\Components\KPIGroup\Templates\index.html" />
+    <Content Include="SourceApp\Components\KPI\kpi.css">
+      <DependentUpon>kpi.less</DependentUpon>
+    </Content>
+    <Content Include="SourceApp\Components\KPI\kpi.min.css">
+      <DependentUpon>kpi.css</DependentUpon>
+    </Content>
     <Content Include="SourceApp\Components\KPI\Templates\edit.html" />
     <Content Include="SourceApp\Components\KPI\Templates\create.html" />
     <Content Include="SourceApp\Components\KPI\Templates\modalConfirmRequired.html" />
@@ -477,13 +486,13 @@
     <Content Include="SourceApp\Components\Employee\employee.less" />
     <Content Include="SourceApp\Components\Role\role.less" />
     <Content Include="SourceApp\Components\CheckFlowAssignment\checkFlow.less" />
-    <Content Include="SourceApp\Components\FlowManagement\flowManagement.css.map">
-      <DependentUpon>flowManagement.css</DependentUpon>
-    </Content>
     <Content Include="SourceApp\Components\FlowManagement\flowManagement.less" />
     <Content Include="SourceApp\Components\TargetTemplate\targetTemplate.less" />
     <Content Include="Web.local.config" />
     <Content Include="SourceApp\Components\TargetEmployeeSetting\targetEmployeeSetting.less" />
+    <Content Include="SourceApp\Components\KPI\kpi.css.map">
+      <DependentUpon>kpi.css</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">

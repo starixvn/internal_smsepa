@@ -67,6 +67,7 @@
     <Compile Include="CheckFlowAssignment\GetEmployeeFlowSettingCriteria.cs" />
     <Compile Include="CheckFlowAssignment\UpdateEmployeeFlowSettingCriteria.cs" />
     <Compile Include="Department\GetDepartmentCriteria.cs" />
+    <Compile Include="Department\UpdateDepartmentCriteria.cs" />
     <Compile Include="Employee\AssignRoleToEmployeeCriteria.cs" />
     <Compile Include="Employee\ChangePasswordCriteria.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>

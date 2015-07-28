@@ -528,4 +528,22 @@
   <data name="PersonalFlow" xml:space="preserve">
     <value>Personal Flow</value>
   </data>
+  <data name="DepartmentManagement" xml:space="preserve">
+    <value>Department Management</value>
+  </data>
+  <data name="CreatedDate" xml:space="preserve">
+    <value>Created Date</value>
+  </data>
+  <data name="IsDisabled" xml:space="preserve">
+    <value>Is Disabled</value>
+  </data>
+  <data name="ModifiedDate" xml:space="preserve">
+    <value>Modified Date</value>
+  </data>
+  <data name="ManagerRequired" xml:space="preserve">
+    <value>The Manager field is required!</value>
+  </data>
+  <data name="ParentNodeRequired" xml:space="preserve">
+    <value>The Parent Node field is required!</value>
+  </data>
 </root>

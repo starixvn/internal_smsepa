@@ -11,6 +11,7 @@ namespace SMS.EPA.Services.Implement
 {
     using System.Collections.Generic;
     using Fanex.Common.Helper;
+    using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.Department;
     using SMS.EPA.Model.Department;
@@ -43,6 +44,19 @@ namespace SMS.EPA.Services.Implement
             }
 
             return departments;
+        }
+
+        public CommandResult UpdateDepartment(UpdateDepartmentCriteria criteria)
+        {
+            CommandResult result = new CommandResult();
+            Check.Argument.IsNotNull(criteria, "criteria");
+
+            if (criteria.IsValid())
+            {
+                result = Repository.Update(criteria);
+            }
+
+            return result;
         }
     }
 }

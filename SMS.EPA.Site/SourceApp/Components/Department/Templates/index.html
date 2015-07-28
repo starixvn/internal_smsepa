@@ -1,0 +1,24 @@
+﻿<div class="department-management" ng-controller="DepartmentController as deptCtrl">
+    <div class="col-sm-12 sub-header">
+        <ul class="row breadcrumb">
+            <li class="current" data-translate="DepartmentManagement"></li>
+        </ul>
+    </div>
+    <div class="col-sm-12">
+        <div class="col-sm-4 treeview" tree-event>
+            <div class="tree">
+                <ul>
+                    <li ng-repeat="dept in deptCtrl.treeDepartment.Childrens" class="root" ng-include
+                        src="'/SourceApp/Components/Department/Templates/tree.html'">
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-sm-8" ng-if="deptCtrl.createMode" ng-include
+             src="'/SourceApp/Components/Department/Templates/create.html'">
+        </div>
+        <div class="col-sm-8" ng-if="deptCtrl.editMode" ng-include
+             src="'/SourceApp/Components/Department/Templates/edit.html'">
+        </div>
+    </div>
+</div>
