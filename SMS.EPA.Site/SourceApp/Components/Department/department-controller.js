@@ -22,7 +22,6 @@ function (DepartmentModel, EmployeeModel, CommonModel, utilitiesFactory) {
     };
 
     var resetCurrentData = function () {
-        vm.hasTreeEvent = false;
         vm.createMode = false;
         vm.editMode = false;
         vm.isDisabled = false;

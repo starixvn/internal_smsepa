@@ -1,31 +1,31 @@
 ﻿<form class="col-sm-11 form-horizontal common-form" novalidate>
-    <div class="form-group required">
+    <div class="form-group">
         <label class="col-sm-3 control-label" data-translate="Code"></label>
         <div class="col-sm-8">
-            <input class="form-control" ng-disabled="deptCtrl.isDisabled" type="text" ng-model="deptCtrl.deptSelected.Code"
+            <input class="form-control" disabled type="text" ng-model="deptCtrl.deptSelected.Code"
                    maxlength="200" placeholder="Department Code" />
         </div>
     </div>
-    <div class="form-group required">
+    <div class="form-group">
         <label class="col-sm-3 control-label" data-translate="Name"></label>
         <div class="col-sm-8">
-            <input class="form-control" ng-disabled="deptCtrl.isDisabled" type="text" ng-model="deptCtrl.deptSelected.Name"
+            <input class="form-control" disabled type="text" ng-model="deptCtrl.deptSelected.Name"
                    maxlength="200" placeholder="Department Name" />
         </div>
     </div>
-    <div class="form-group required" ng-if="deptCtrl.deptSelected.ParentId != null">
+    <div class="form-group" ng-if="deptCtrl.deptSelected.ParentId != null">
         <label class="col-sm-3 control-label" data-translate="Parent Node"></label>
         <div class="col-sm-8">
-            <select ng-disabled="deptCtrl.isDisabled" class="form-control" ng-model="deptCtrl.deptSelected.ParentId"
+            <select disabled class="form-control" ng-model="deptCtrl.deptSelected.ParentId"
                     ng-options="dept.DepartmentId as dept.Name for dept in deptCtrl.exclusiveDepartment">
                 <option style="display: none" value="">-- Select a Parent Node --</option>
             </select>
         </div>
     </div>
-    <div class="form-group required">
+    <div class="form-group">
         <label class="col-sm-3 control-label" data-translate="Manager"></label>
         <div class="col-sm-5">
-            <input ng-disabled="deptCtrl.isDisabled" class="form-control" type="text" ng-model="deptCtrl.searchKey"
+            <input disabled class="form-control" type="text" ng-model="deptCtrl.searchKey"
                    search-auto-complete search-employees="deptCtrl.getEmployee()" ng-change="deptCtrl.unSelectEmployee()"
                    employee="deptCtrl.deptSelected.Manager" maxlength="200" placeholder="Manager" />
         </div>
@@ -33,29 +33,25 @@
     <div class="form-group">
         <label class="col-sm-3 control-label" data-translate="IsDisabled"></label>
         <div class="col-sm-8">
-            <input ng-disabled="deptCtrl.isDisabled" type="checkbox" ng-model="deptCtrl.deptSelected.IsActive" />
+            <input disabled type="checkbox" ng-model="!deptCtrl.deptSelected.IsActive" />
         </div>
     </div>
-    <div class="form-group" ng-if="deptCtrl.isDisabled">
+    <div class="form-group">
         <label class="col-sm-3 control-label" data-translate="CreatedDate"></label>
         <div class="col-sm-8">
-            <input readonly ng-disabled="deptCtrl.isDisabled" type="text" class="form-control custom-date" ng-model="deptCtrl.deptSelected.CreatedDate"
+            <input readonly disabled type="text" class="form-control custom-date" ng-model="deptCtrl.deptSelected.CreatedDate"
                    placeholder="Start Date" datepicker-popup="{{deptCtrl.dateFormat}}" />
         </div>
     </div>
     <div class="form-group" ng-if="deptCtrl.isDisabled">
         <label class="col-sm-3 control-label" data-translate="ModifiedDate"></label>
         <div class="col-sm-8">
-            <input readonly ng-disabled="deptCtrl.isDisabled" type="text" class="form-control custom-date" ng-model="deptCtrl.deptSelected.ModifiedDate"
+            <input readonly disabled type="text" class="form-control custom-date" ng-model="deptCtrl.deptSelected.ModifiedDate"
                    placeholder="End Date" datepicker-popup="{{deptCtrl.dateFormat}}" />
         </div>
     </div>
     <div class="form-group">
         <div class="col-sm-offset-3">
-            <button class="button" ng-click="deptCtrl.toggleEditMode()" data-translate="Edit"
-                    ng-if="deptCtrl.isDisabled && deptCtrl.deptSelected.DepartmentId > 0"></button>
-            <button class="button" ng-click="deptCtrl.updateDepartment(deptCtrl.deptSelected)" data-translate="Submit"
-                    ng-if="!deptCtrl.isDisabled"></button>
             <button class="btn btn-default customize" ng-click="deptCtrl.cancel()" data-translate="Cancel"></button>
         </div>
     </div>
