@@ -66,6 +66,8 @@
     <Compile Include="Authentication\GetEmployeeByDomainUsernameCriteria.cs" />
     <Compile Include="CheckFlowAssignment\GetEmployeeFlowSettingCriteria.cs" />
     <Compile Include="CheckFlowAssignment\UpdateEmployeeFlowSettingCriteria.cs" />
+    <Compile Include="Department\CreateDepartmentCriteria.cs" />
+    <Compile Include="Department\DeleteDepartmentCriteria.cs" />
     <Compile Include="Department\GetDepartmentCriteria.cs" />
     <Compile Include="Department\UpdateDepartmentCriteria.cs" />
     <Compile Include="Employee\AssignRoleToEmployeeCriteria.cs" />

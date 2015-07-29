@@ -114,7 +114,11 @@
             <Mapping DataField="ManagerId" ObjectProperty="EmployeeId"/>
             <Mapping DataField="ModifiedBy" ObjectProperty="EmployeeId"/>
         </Setting>
+        <Setting Key="Department_Insert" SpName="Department_Insert" DbName="SMSEPA" Plain="0" >
+        </Setting>
         <Setting Key="Department_Update" SpName="Department_Update" DbName="SMSEPA" Plain="0" >
+        </Setting>
+        <Setting Key="Department_Delete" SpName="Department_Delete" DbName="SMSEPA" Plain="0" >
         </Setting>
     </Function>
   <Function Name="CheckAssignment">

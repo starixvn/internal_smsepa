@@ -84,7 +84,7 @@ function ($scope, FlowMngModel, CommonModel, cacheService) {
 
     vm.getPersonalFlow = function (item) {
         var employeeId = parseInt(item[0]);
-        vm.currentSelectedEmployee = employeeId;
+        vm.employeeId = employeeId;
 
         FlowMngModel.getPersonalFlow(employeeId).then(function () {
             vm.selfs = FlowMngModel.selfs;
@@ -146,7 +146,9 @@ function ($scope, FlowMngModel, CommonModel, cacheService) {
     });
 
     vm.savePersonalFlow = function () {
-        FlowMngModel.createPersonalFlow(vm);
+        if (FlowMngModel.validatePersonalFlow(vm)) {
+            FlowMngModel.createPersonalFlow(vm);
+        }
     };
 
     vm.deletePersonalFlow = function () {

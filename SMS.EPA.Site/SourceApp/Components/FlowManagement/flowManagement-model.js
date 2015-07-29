@@ -248,62 +248,85 @@ function ($modal, flowMngFactory, notificationFactory, errorFactory) {
         }
     };
 
+    flowMngModel.validateDepartmentFlow = function (vm) {
+        if (!vm.department || !vm.department.DepartmentId) {
+            notificationFactory.error("DepartmentNotSelectedWarning");
+            return false;
+        }
+        else if(vm.evaluators.employees.length === 0 &&
+            vm.reviewers.employees.length === 0 &&
+            vm.managements.employees.length === 0 &&
+            vm.humanResources.employees.length === 0) {
+            notificationFactory.error('', 'Please setting flow for Evaluator or Reviewer or Management or Human Resource.');
+            return false;
+        }
+        
+        return true;
+    };
+
     /// Set department flow.
     flowMngModel.createDepartmentFlow = function (vm) {
-        if (!vm.department || !vm.department.DepartmentId) {
-            notificationFactory.error('', 'Please select a department!');
-        }
-        else {
-            var model = {
-                departmentId: vm.department.DepartmentId,
-                selfs: vm.selfs,
-                evaluators: vm.evaluators,
-                reviewers: vm.reviewers,
-                managements: vm.managements,
-                humanResources: vm.humanResources
-            };
+        var model = {
+            departmentId: vm.department.DepartmentId,
+            selfs: vm.selfs,
+            evaluators: vm.evaluators,
+            reviewers: vm.reviewers,
+            managements: vm.managements,
+            humanResources: vm.humanResources
+        };
 
-            return flowMngFactory.createDepartmentFlow(model)
-            .success(function (response) {
-                if (response.IsSuccessful) {
-                    notificationFactory.success("CreatedSuccessfully");
-                }
-                else {
-                    notificationFactory.error("", response.Message);
-                }
-            })
-            .error(function (response, status) {
-                errorFactory.errorHandle(status);
-            });
+        return flowMngFactory.createDepartmentFlow(model)
+        .success(function (response) {
+            if (response.IsSuccessful) {
+                notificationFactory.success("CreatedSuccessfully");
+            }
+            else {
+                notificationFactory.error("", response.Message);
+            }
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    flowMngModel.validatePersonalFlow = function (vm) {
+        if (!vm.employeeId) {
+            notificationFactory.error("EmployeeNotSelectedWarning");
+            return false;
         }
+        else if (vm.evaluators.employees.length === 0 &&
+            vm.reviewers.employees.length === 0 &&
+            vm.managements.employees.length === 0 &&
+            vm.humanResources.employees.length === 0) {
+            notificationFactory.error('', 'Please setting flow for Evaluator or Reviewer or Management or Human Resource.');
+            return false;
+        }
+
+        return true;
     };
 
     /// Set personal flow.
     flowMngModel.createPersonalFlow = function (vm) {
-        if (!vm.currentSelectedEmployee) {
-            notificationFactory.error('', 'Please select an employee!');
-        } else {
-            var model = {
-                selfs: vm.selfs,
-                evaluators: vm.evaluators,
-                reviewers: vm.reviewers,
-                managements: vm.managements,
-                humanResources: vm.humanResources
-            };
+        var model = {
+            selfs: vm.selfs,
+            evaluators: vm.evaluators,
+            reviewers: vm.reviewers,
+            managements: vm.managements,
+            humanResources: vm.humanResources
+        };
 
-            return flowMngFactory.createPersonalFlow(model)
-            .success(function (response) {
-                if (response.IsSuccessful) {
-                    notificationFactory.success("CreatedSuccessfully");
-                }
-                else {
-                    notificationFactory.error("", response.Message);
-                }
-            })
-            .error(function (response, status) {
-                errorFactory.errorHandle(status);
-            });
-        }
+        return flowMngFactory.createPersonalFlow(model)
+        .success(function (response) {
+            if (response.IsSuccessful) {
+                notificationFactory.success("CreatedSuccessfully");
+            }
+            else {
+                notificationFactory.error("", response.Message);
+            }
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
     };
 
     /// Delete department flow.
@@ -349,6 +372,8 @@ function ($modal, flowMngFactory, notificationFactory, errorFactory) {
 
     /// Delete personal flow.
     flowMngModel.openPopupDeletePersonalFlow = function (vm) {
+        var index = -1;
+
         var modalInstance = $modal.open({
             templateUrl: 'SourceApp/Shared/Templates/ModalConfirmContent.html',
             controller: "ModalConfirmController as modalConfirmCtrl",
@@ -365,11 +390,21 @@ function ($modal, flowMngFactory, notificationFactory, errorFactory) {
         });
 
         modalInstance.result.then(function () {
-            flowMngFactory.deletePersonalFlow(vm.currentSelectedEmployee).success(function (response) {
+            flowMngFactory.deletePersonalFlow(vm.employeeId).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("DeletedSuccessfully");
 
-                    vm.currentSelectedEmployee = null;
+                    index = vm.personalSettingFlowEmployees.map(function (e) {
+                        return e.EmployeeId;
+                    }).indexOf(vm.employeeId);
+
+                    if (index !== -1) {
+                        vm.defaultSettingFlowEmployees.push(vm.personalSettingFlowEmployees[index]);
+                        vm.personalSettingFlowEmployees.splice(index, 1);
+                    }
+
+                    vm.employeeId = null;
+                    vm.showDeleteButton = false;
                     flowMngModel.resetCurrentFlow(vm);
                 }
                 else {

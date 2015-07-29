@@ -552,4 +552,10 @@
   <data name="EditFlowSetting" xml:space="preserve">
     <value>Edit Flow Setting</value>
   </data>
+   <data name="DepartmentNotSelectedWarning" xml:space="preserve">
+    <value>Please select a department!</value>
+  </data>
+  <data name="EmployeeNotSelectedWarning" xml:space="preserve">
+    <value>Please select an employee!</value>
+  </data>
 </root>

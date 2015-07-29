@@ -98,7 +98,9 @@ function ($scope, FlowMngModel, CommonModel, cacheService) {
     });
 
     vm.saveDepartmentFlow = function () {
-        FlowMngModel.createDepartmentFlow(vm);
+        if (FlowMngModel.validateDepartmentFlow(vm)) {
+            FlowMngModel.createDepartmentFlow(vm);
+        }
     };
 
     vm.deleteDepartmentFlow = function () {

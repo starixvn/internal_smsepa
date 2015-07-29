@@ -32,7 +32,32 @@ function ($modal, departmentFactory, notificationFactory, errorFactory) {
         return true;
     };
 
-    deptModel.updateDepartment = function (department) {
+    deptModel.createDepartment = function (vm, department) {
+        var criteria = {
+            Code: department.Code,
+            Name: department.Name,
+            ManagerId: department.Manager.EmployeeId,
+            ParentId: department.ParentId,
+            IsActive: department.IsActive
+        };
+
+        return departmentFactory.createDepartment(criteria)
+        .success(function (response) {
+            if (response.IsSuccessful) {
+                notificationFactory.success("CreatedSuccessfully");
+
+                vm.initialize();
+            }
+            else {
+                notificationFactory.error("", response.Message);
+            }
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    deptModel.updateDepartment = function (vm, department) {
         var criteria = {
             DepartmentId: department.DepartmentId,
             Code: department.Code,
@@ -46,6 +71,8 @@ function ($modal, departmentFactory, notificationFactory, errorFactory) {
         .success(function (response) {
             if (response.IsSuccessful) {
                 notificationFactory.success("UpdateSuccessfully");
+
+                vm.initialize();
             }
             else {
                 notificationFactory.error("", response.Message);
@@ -53,6 +80,40 @@ function ($modal, departmentFactory, notificationFactory, errorFactory) {
         })
         .error(function (response, status) {
             errorFactory.errorHandle(status);
+        });
+    };
+
+    deptModel.openPopupDeleteDepartment = function (vm, department) {
+        var modalInstance = $modal.open({
+            templateUrl: 'SourceApp/Shared/Templates/ModalConfirmContent.html',
+            controller: "ModalConfirmController as modalConfirmCtrl",
+            backdrop: 'static',
+            resolve: {
+                name: function () {
+                    return department.Name;
+                },
+                action: function () {
+                    return 'delete';
+                }
+            },
+            windowClass: "modal-confirm-center"
+        });
+
+        modalInstance.result.then(function () {
+            departmentFactory.deleteDepartment(department.DepartmentId).success(function (response) {
+                if (response.IsSuccessful) {
+                    notificationFactory.success("DeletedSuccessfully");
+
+                    vm.initialize();
+                }
+                else {
+                    notificationFactory.error("", response.Message);
+                }
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        })['finally'](function () {
+            modalInstance = '';
         });
     };
 

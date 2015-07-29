@@ -9,14 +9,22 @@ function (DepartmentModel, EmployeeModel, CommonModel, utilitiesFactory) {
     vm.departments = CommonModel.departments;
     vm.treeDepartment = CommonModel.treeDepartment;
 
-    vm.deptSelected = {};
+    var findExclusiveDepartment = function () {
+        angular.forEach(vm.departments, function (dept) {
+            if (dept.DepartmentId < 0) {
+                vm.exclusiveDepartment.push(dept.DepartmentId);
+            }
+        });
+    };
 
-    vm.hasTreeEvent = false;
-    vm.createMode = false;
-    vm.editMode = false;
-    vm.isDisabled = false;
-
-    utilitiesFactory.getDateFormat(vm);
+    var resetCurrentData = function () {
+        vm.hasTreeEvent = false;
+        vm.createMode = false;
+        vm.editMode = false;
+        vm.isDisabled = false;
+        vm.newDepartment = {};
+        vm.deptSelected = {};
+    };
 
     /// Search employee auto complete.
     vm.getEmployee = function () {
@@ -42,9 +50,11 @@ function (DepartmentModel, EmployeeModel, CommonModel, utilitiesFactory) {
 
     vm.toggleEditMode = function () {
         vm.isDisabled = false;
+        vm.exclusiveDepartment = [];
+        findExclusiveDepartment();
     };
 
-    vm.treeEvent = function () {
+    vm.toggleCollapseExpand = function () {
         if (!vm.hasTreeEvent) {
             $('.tree li.parent_li > span').on('click', function (e) {
                 var children = $(this).parent('li.parent_li').find(' > ul > li');
@@ -63,30 +73,70 @@ function (DepartmentModel, EmployeeModel, CommonModel, utilitiesFactory) {
         }
     };
 
-    vm.updateDepartment = function (dept) {
-        if (DepartmentModel.validateDepartment(dept)) {
-            DepartmentModel.updateDepartment(dept);
+    vm.hideChildNode = function (dept) {
+        var index = vm.exclusiveDepartment.indexOf(dept.DepartmentId);
+        if (index !== -1) {
+            return true;
         }
+
+        return false;
     };
 
     vm.menuOptions = function (dept) {
         return [
             ['Add Child', function () {
-                vm.deptSelected = angular.copy(dept);
+                vm.newDepartment = {
+                    Code: '',
+                    Name: '',
+                    ParentId: dept.DepartmentId,
+                    Manager: {},
+                    IsActive: true
+                };
                 vm.createMode = true;
                 vm.editMode = false;
+                vm.searchKey = null;
+            }, function () {
+                if (dept.DepartmentId < 0) {
+                    return false;
+                }
+
+                return true;
             }],
             ['Delete', function () {
+                DepartmentModel.openPopupDeleteDepartment(vm, dept);
+            }, function () {
+                if (dept.DepartmentId < 0 || dept.DepartmentId === 1) {
+                    return false;
+                }
+
+                return true;
             }]
         ];
     };
 
+    vm.createDepartment = function (dept) {
+        if (DepartmentModel.validateDepartment(dept)) {
+            DepartmentModel.createDepartment(vm, dept);
+        }
+    };
+
+    vm.updateDepartment = function (dept) {
+        if (DepartmentModel.validateDepartment(dept)) {
+            DepartmentModel.updateDepartment(vm, dept);
+        }
+    };
+
+    vm.cancel = function () {
+        resetCurrentData();
+    };
+
     vm.initialize = function () {
+        utilitiesFactory.getDateFormat(vm);
+        resetCurrentData();
+
         CommonModel.getDepartment().then(function () {
             vm.departments = CommonModel.departments;
             vm.treeDepartment = CommonModel.treeDepartment;
-
-            vm.hasTreeEvent = false;
         });
     };
 

@@ -18,6 +18,10 @@ namespace SMS.EPA.Services.Interfaces
     {
         List<DepartmentModel> GetDepartment(GetDepartmentCriteria criteria);
 
+        CommandResult CreateDepartment(CreateDepartmentCriteria criteria);
+
         CommandResult UpdateDepartment(UpdateDepartmentCriteria criteria);
+
+        CommandResult DeleteDepartment(DeleteDepartmentCriteria criteria);
     }
 }

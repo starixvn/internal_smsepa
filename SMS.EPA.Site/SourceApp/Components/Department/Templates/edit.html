@@ -13,10 +13,11 @@
                    maxlength="200" placeholder="Department Name" />
         </div>
     </div>
-    <div class="form-group required" ng-show="deptCtrl.deptSelected.ParentId != null">
+    <div class="form-group required" ng-if="deptCtrl.deptSelected.ParentId != null">
         <label class="col-sm-3 control-label" data-translate="Parent Node"></label>
         <div class="col-sm-8">
-            <select ng-disabled="deptCtrl.isDisabled" class="form-control" ng-model="deptCtrl.deptSelected.ParentId">
+            <select ng-disabled="deptCtrl.isDisabled" class="form-control" ng-model="deptCtrl.deptSelected.ParentId"
+                    ng-options="dept.DepartmentId as dept.Name for dept in deptCtrl.departments">
                 <option style="display: none" value="">-- Select a Parent Node --</option>
                 <option ng-repeat="dept in deptCtrl.departments" value="{{dept.DepartmentId}}"
                         ng-hide="deptCtrl.hideChildNode(dept) || dept.DepartmentId == deptCtrl.deptSelected.DepartmentId">

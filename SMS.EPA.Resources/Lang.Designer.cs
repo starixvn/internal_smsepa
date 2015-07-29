@@ -340,6 +340,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please select a department!.
+        /// </summary>
+        public static string DepartmentNotSelectedWarning {
+            get {
+                return ResourceManager.GetString("DepartmentNotSelectedWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
         public static string Description {
@@ -390,6 +399,15 @@ namespace SMS.EPA.Resources {
         public static string EditUser {
             get {
                 return ResourceManager.GetString("EditUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select an employee!.
+        /// </summary>
+        public static string EmployeeNotSelectedWarning {
+            get {
+                return ResourceManager.GetString("EmployeeNotSelectedWarning", resourceCulture);
             }
         }
         

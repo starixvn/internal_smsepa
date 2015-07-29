@@ -46,6 +46,19 @@ namespace SMS.EPA.Services.Implement
             return departments;
         }
 
+        public CommandResult CreateDepartment(CreateDepartmentCriteria criteria)
+        {
+            CommandResult result = new CommandResult();
+            Check.Argument.IsNotNull(criteria, "criteria");
+
+            if (criteria.IsValid())
+            {
+                result = Repository.Insert(criteria);
+            }
+
+            return result;
+        }
+
         public CommandResult UpdateDepartment(UpdateDepartmentCriteria criteria)
         {
             CommandResult result = new CommandResult();
@@ -54,6 +67,19 @@ namespace SMS.EPA.Services.Implement
             if (criteria.IsValid())
             {
                 result = Repository.Update(criteria);
+            }
+
+            return result;
+        }
+
+        public CommandResult DeleteDepartment(DeleteDepartmentCriteria criteria)
+        {
+            CommandResult result = new CommandResult();
+            Check.Argument.IsNotNull(criteria, "criteria");
+
+            if (criteria.IsValid())
+            {
+                result = Repository.Delete(criteria);
             }
 
             return result;

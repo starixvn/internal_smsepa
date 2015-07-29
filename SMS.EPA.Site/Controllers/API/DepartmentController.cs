@@ -29,6 +29,19 @@ namespace SMS.EPA.Site.Controllers.API
             _departmentService = departmentService ?? new DepartmentService();
         }
 
+        [HttpPost]
+        public CommandResult CreateDepartment(CreateDepartmentCriteria criteria)
+        {
+            if (criteria != null)
+            {
+                criteria.CreatedBy = CurrentUser.EmployeeInfo.EmployeeId;
+            }
+
+            CommandResult commandResult = _departmentService.CreateDepartment(criteria);
+
+            return commandResult;
+        }
+
         [HttpPut]
         public CommandResult UpdateDepartment(UpdateDepartmentCriteria criteria)
         {
@@ -38,6 +51,20 @@ namespace SMS.EPA.Site.Controllers.API
             }
 
             CommandResult commandResult = _departmentService.UpdateDepartment(criteria);
+
+            return commandResult;
+        }
+
+        [HttpDelete]
+        public CommandResult DeleteDepartment(int departmentId)
+        {
+            var criteria = new DeleteDepartmentCriteria
+            {
+                DepartmentId = departmentId,
+                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+            };
+
+            CommandResult commandResult = _departmentService.DeleteDepartment(criteria);
 
             return commandResult;
         }

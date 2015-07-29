@@ -29,7 +29,7 @@ namespace SMS.EPA.Criteria.Department
 
         public override bool IsValid()
         {
-            return DepartmentId > 0;
+            return DepartmentId > 0 && !string.IsNullOrWhiteSpace(Code) && !string.IsNullOrEmpty(Name);
         }
 
         public override string GetSettingKey()
