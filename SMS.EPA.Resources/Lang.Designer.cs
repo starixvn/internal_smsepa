@@ -403,13 +403,6 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-<<<<<<< HEAD
-        ///   Looks up a localized string similar to Please select an employee!.
-        /// </summary>
-        public static string EmployeeNotSelectedWarning {
-            get {
-                return ResourceManager.GetString("EmployeeNotSelectedWarning", resourceCulture);
-=======
         ///   Looks up a localized string similar to EPA_Evaluator_Reviewer_List_of_Section.
         /// </summary>
         public static string EmployeeFlowSettingReportName {
@@ -433,7 +426,15 @@ namespace SMS.EPA.Resources {
         public static string EmployeeFlowSettingReportTitle {
             get {
                 return ResourceManager.GetString("EmployeeFlowSettingReportTitle", resourceCulture);
->>>>>>> #39783 - Export report
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select an employee!.
+        /// </summary>
+        public static string EmployeeNotSelectedWarning {
+            get {
+                return ResourceManager.GetString("EmployeeNotSelectedWarning", resourceCulture);
             }
         }
         

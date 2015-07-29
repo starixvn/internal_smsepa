@@ -552,13 +552,12 @@
   <data name="EditFlowSetting" xml:space="preserve">
     <value>Edit Flow Setting</value>
   </data>
-<<<<<<< HEAD
    <data name="DepartmentNotSelectedWarning" xml:space="preserve">
     <value>Please select a department!</value>
   </data>
   <data name="EmployeeNotSelectedWarning" xml:space="preserve">
     <value>Please select an employee!</value>
-=======
+  </data>
   <data name="SendEmail" xml:space="preserve">
     <value>Send Email</value>
   </data>
@@ -582,6 +581,5 @@
   </data>
   <data name="EmployeeFlowSettingReportTitle" xml:space="preserve">
     <value>EPA Evaluator/Reviewer List of Section</value>
->>>>>>> #39783 - Export report
   </data>
 </root>
