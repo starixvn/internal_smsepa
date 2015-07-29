@@ -325,12 +325,6 @@
     <Content Include="SourceApp\Components\KPIGroup\Templates\edit.html" />
     <Content Include="SourceApp\Components\KPIGroup\Templates\create.html" />
     <Content Include="SourceApp\Components\KPIGroup\Templates\index.html" />
-    <Content Include="SourceApp\Components\KPI\kpi.css">
-      <DependentUpon>kpi.less</DependentUpon>
-    </Content>
-    <Content Include="SourceApp\Components\KPI\kpi.min.css">
-      <DependentUpon>kpi.css</DependentUpon>
-    </Content>
     <Content Include="SourceApp\Components\KPI\Templates\edit.html" />
     <Content Include="SourceApp\Components\KPI\Templates\create.html" />
     <Content Include="SourceApp\Components\KPI\Templates\modalConfirmRequired.html" />
@@ -494,9 +488,6 @@
     <Content Include="SourceApp\Components\TargetTemplate\targetTemplate.less" />
     <Content Include="Web.local.config" />
     <Content Include="SourceApp\Components\TargetEmployeeSetting\targetEmployeeSetting.less" />
-    <Content Include="SourceApp\Components\KPI\kpi.css.map">
-      <DependentUpon>kpi.css</DependentUpon>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">

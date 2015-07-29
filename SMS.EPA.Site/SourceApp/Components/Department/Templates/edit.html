@@ -17,12 +17,8 @@
         <label class="col-sm-3 control-label" data-translate="Parent Node"></label>
         <div class="col-sm-8">
             <select ng-disabled="deptCtrl.isDisabled" class="form-control" ng-model="deptCtrl.deptSelected.ParentId"
-                    ng-options="dept.DepartmentId as dept.Name for dept in deptCtrl.departments">
+                    ng-options="dept.DepartmentId as dept.Name for dept in deptCtrl.exclusiveDepartment">
                 <option style="display: none" value="">-- Select a Parent Node --</option>
-                <option ng-repeat="dept in deptCtrl.departments" value="{{dept.DepartmentId}}"
-                        ng-hide="deptCtrl.hideChildNode(dept) || dept.DepartmentId == deptCtrl.deptSelected.DepartmentId">
-                    {{dept.Name}}
-                </option>
             </select>
         </div>
     </div>

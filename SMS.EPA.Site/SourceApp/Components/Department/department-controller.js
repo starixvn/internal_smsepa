@@ -9,12 +9,16 @@ function (DepartmentModel, EmployeeModel, CommonModel, utilitiesFactory) {
     vm.departments = CommonModel.departments;
     vm.treeDepartment = CommonModel.treeDepartment;
 
-    var findExclusiveDepartment = function () {
+    var findExclusiveDepartment = function (department) {
+        var result = [];
+
         angular.forEach(vm.departments, function (dept) {
-            if (dept.DepartmentId < 0) {
-                vm.exclusiveDepartment.push(dept.DepartmentId);
+            if (dept.DepartmentId > 0 && dept.DepartmentId != department.DepartmentId) {
+                result.push(dept);
             }
         });
+
+        return result;
     };
 
     var resetCurrentData = function () {
@@ -24,6 +28,7 @@ function (DepartmentModel, EmployeeModel, CommonModel, utilitiesFactory) {
         vm.isDisabled = false;
         vm.newDepartment = {};
         vm.deptSelected = {};
+        vm.exclusiveDepartment = [];
     };
 
     /// Search employee auto complete.
@@ -43,6 +48,7 @@ function (DepartmentModel, EmployeeModel, CommonModel, utilitiesFactory) {
         vm.deptSelected = angular.copy(dept);
         vm.searchKey = vm.deptSelected.Manager.NickName + " (" + vm.deptSelected.Manager.FullName + ")";
 
+        vm.exclusiveDepartment = findExclusiveDepartment(vm.deptSelected);
         vm.createMode = false;
         vm.editMode = true;
         vm.isDisabled = true;
@@ -50,8 +56,6 @@ function (DepartmentModel, EmployeeModel, CommonModel, utilitiesFactory) {
 
     vm.toggleEditMode = function () {
         vm.isDisabled = false;
-        vm.exclusiveDepartment = [];
-        findExclusiveDepartment();
     };
 
     vm.toggleCollapseExpand = function () {
@@ -73,15 +77,6 @@ function (DepartmentModel, EmployeeModel, CommonModel, utilitiesFactory) {
         }
     };
 
-    vm.hideChildNode = function (dept) {
-        var index = vm.exclusiveDepartment.indexOf(dept.DepartmentId);
-        if (index !== -1) {
-            return true;
-        }
-
-        return false;
-    };
-
     vm.menuOptions = function (dept) {
         return [
             ['Add Child', function () {
@@ -92,6 +87,9 @@ function (DepartmentModel, EmployeeModel, CommonModel, utilitiesFactory) {
                     Manager: {},
                     IsActive: true
                 };
+
+                vm.exclusiveDepartment = findExclusiveDepartment(dept);
+                vm.exclusiveDepartment.push(dept);
                 vm.createMode = true;
                 vm.editMode = false;
                 vm.searchKey = null;
