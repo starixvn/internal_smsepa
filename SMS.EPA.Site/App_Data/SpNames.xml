@@ -127,5 +127,8 @@
       </Setting>
       <Setting Key="EpaEmployeeAssignmentSetting_Edit" SpName="EpaEmployeeAssignmentSetting_Edit" DbName="SMSEPA" Plain="0" >
       </Setting>
+    <Setting Key="EpaDepartmentAssignmentSetting_Get" SpName="EpaDepartmentAssignmentSetting_Get" DbName="SMSEPA" Plain="0" >
+      <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId"/>
+    </Setting>
   </Function>
 </Functions>

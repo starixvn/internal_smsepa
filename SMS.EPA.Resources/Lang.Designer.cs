@@ -403,11 +403,37 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+<<<<<<< HEAD
         ///   Looks up a localized string similar to Please select an employee!.
         /// </summary>
         public static string EmployeeNotSelectedWarning {
             get {
                 return ResourceManager.GetString("EmployeeNotSelectedWarning", resourceCulture);
+=======
+        ///   Looks up a localized string similar to EPA_Evaluator_Reviewer_List_of_Section.
+        /// </summary>
+        public static string EmployeeFlowSettingReportName {
+            get {
+                return ResourceManager.GetString("EmployeeFlowSettingReportName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to EPA_Evaluator_Reviewer_List_of_Section.
+        /// </summary>
+        public static string EmployeeFlowSettingReportSheet {
+            get {
+                return ResourceManager.GetString("EmployeeFlowSettingReportSheet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to EPA Evaluator/Reviewer List of Section.
+        /// </summary>
+        public static string EmployeeFlowSettingReportTitle {
+            get {
+                return ResourceManager.GetString("EmployeeFlowSettingReportTitle", resourceCulture);
+>>>>>>> #39783 - Export report
             }
         }
         
@@ -480,6 +506,15 @@ namespace SMS.EPA.Resources {
         public static string Evaluator {
             get {
                 return ResourceManager.GetString("Evaluator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The End Date of Evaluator must be less than or equal the Start Date of Reviewer!.
+        /// </summary>
+        public static string EvaluatorRangeDateGreaterThanReviewerRangeDateWarning {
+            get {
+                return ResourceManager.GetString("EvaluatorRangeDateGreaterThanReviewerRangeDateWarning", resourceCulture);
             }
         }
         
@@ -732,6 +767,15 @@ namespace SMS.EPA.Resources {
         public static string Logout {
             get {
                 return ResourceManager.GetString("Logout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage Flow Setting.
+        /// </summary>
+        public static string ManageFlowSetting {
+            get {
+                return ResourceManager.GetString("ManageFlowSetting", resourceCulture);
             }
         }
         
@@ -997,6 +1041,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The End Date of Reviewer must be less than or equal the Start Date of Management!.
+        /// </summary>
+        public static string ReviewerRangeDateGreaterThanManagementRangeDateWarning {
+            get {
+                return ResourceManager.GetString("ReviewerRangeDateGreaterThanManagementRangeDateWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Role Management.
         /// </summary>
         public static string RoleManagement {
@@ -1087,6 +1140,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Send Email.
+        /// </summary>
+        public static string SendEmail {
+            get {
+                return ResourceManager.GetString("SendEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SPCL User.
         /// </summary>
         public static string ShortSpecialUser {
@@ -1110,6 +1172,15 @@ namespace SMS.EPA.Resources {
         public static string StartDate {
             get {
                 return ResourceManager.GetString("StartDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Start Date must be less than or equal the End Date!.
+        /// </summary>
+        public static string StartDateGreaterThanEndDateWarning {
+            get {
+                return ResourceManager.GetString("StartDateGreaterThanEndDateWarning", resourceCulture);
             }
         }
         

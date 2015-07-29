@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="Authentication\GetEmployeeByCodeCriteria.cs" />
     <Compile Include="Authentication\GetEmployeeByDomainUsernameCriteria.cs" />
+    <Compile Include="CheckFlowAssignment\GetDepartmentFlowSettingCriteria.cs" />
     <Compile Include="CheckFlowAssignment\GetEmployeeFlowSettingCriteria.cs" />
     <Compile Include="CheckFlowAssignment\UpdateEmployeeFlowSettingCriteria.cs" />
     <Compile Include="Department\CreateDepartmentCriteria.cs" />

@@ -24,7 +24,7 @@ checkFlowAssignmentModule.directive('exportCheckAssignmentReport', ['baseUrl', f
         link: function (scope) {
             scope.$on('exportCheckAssignmentReport', function () {
                 var data = $.param(scope.checkFlowCtrl.exportCriteria),
-                    url = baseUrl + 'ExportReport/ExportCheckAssignmentReport',
+                    url = baseUrl + 'ExportReport/ExportEmployeeFlowSettingReport',
                     downloadUrl = url + "?" + data,
                     iframe = $('body iframe');
 

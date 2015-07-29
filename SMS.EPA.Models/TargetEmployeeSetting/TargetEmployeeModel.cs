@@ -9,6 +9,7 @@
 
 namespace SMS.EPA.Model.TargetEmployeeSetting
 {
+    using SMS.EPA.Model.Department;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.TargetTemplate;
 
@@ -17,6 +18,8 @@ namespace SMS.EPA.Model.TargetEmployeeSetting
         public bool Selected { get; set; }
 
         public Group Group { get; set; }
+
+        public DepartmentModel Department { get; set; }
 
         public JobTitle JobTitle { get; set; }
 

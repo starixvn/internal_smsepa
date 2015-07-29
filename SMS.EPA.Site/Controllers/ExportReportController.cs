@@ -9,14 +9,16 @@
 
 namespace SMS.EPA.Site.Controllers
 {
+    using System.Collections.Generic;
     using System.Web.Mvc;
     using SMS.EPA.Criteria.CheckFlowAssignment;
+    using SMS.EPA.Model.CheckFlowAssignment;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
 
     public class ExportReportController : Controller
     {
-        private const string _CheckAssignmentReportTemplatePath = @"~\SourceApp\Components\CheckFlowAssignment\ExcelTemplates\CheckAssignmentReport.xls";
+        private const string _EmployeeFlowSettingReportTemplatePath = @"~\SourceApp\Components\CheckFlowAssignment\ExcelTemplates\EmployeeFlowSettingReport.xls";
 
         private readonly ICheckFlowAssignmentService _checkFlowService;
 
@@ -35,8 +37,13 @@ namespace SMS.EPA.Site.Controllers
             return View();
         }
 
-        public ActionResult ExportCheckAssignmentReport(GetEmployeeFlowSettingCriteria criteria)
+        
+        public ActionResult ExportEmployeeFlowSettingReport(GetEmployeeFlowSettingCriteria criteria)
         {
+            IEnumerable<EmployeeFlowTargetSettingModel> employeeFlowSettings = _checkFlowService.GetEmployeeFlowTargetSetting(criteria);
+            string templatePath = Server.MapPath(_EmployeeFlowSettingReportTemplatePath);
+            _checkFlowService.ExportEmployeeFlowSettingReport(employeeFlowSettings, templatePath);
+
             return new EmptyResult();
         }
     }

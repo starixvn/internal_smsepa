@@ -18,6 +18,10 @@ namespace SMS.EPA.Core.Constants
 
         public const string DefaultPassword = "123456";
 
+        public const string EmployeeFlowSettingReport = "SMS.EPA.Report.EmployeeFlowSettingReport";
+
+        public const string DepartmentFlowSettingReport = "SMS.EPA.Report.DepartmentFlowSettingReport";
+
         private Constants()
         {
         }

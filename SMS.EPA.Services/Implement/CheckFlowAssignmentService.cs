@@ -12,6 +12,7 @@ namespace SMS.EPA.Services.Implement
     using System.Collections.Generic;
     using System.Linq;
     using Fanex.Common.Helper;
+    using NexFB.Core.Utilities;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
@@ -22,6 +23,7 @@ namespace SMS.EPA.Services.Implement
     using SMS.EPA.Model.TargetTemplate;
     using SMS.EPA.Repositories.Implement;
     using SMS.EPA.Repositories.Interfaces;
+    using SMS.EPA.Resources;
     using SMS.EPA.Services.Interfaces;
 
     public class CheckFlowAssignmentService : BaseService, ICheckFlowAssignmentService
@@ -63,6 +65,27 @@ namespace SMS.EPA.Services.Implement
             }
 
             return commandResult;
+        }
+
+        public void ExportEmployeeFlowSettingReport(
+            IEnumerable<EmployeeFlowTargetSettingModel> employeeFlowSettings,
+            string templatePath)
+        {
+            string reportName = Lang.EmployeeFlowSettingReportName;
+            string reportTitle = Lang.EmployeeFlowSettingReportTitle;
+            var writer = new ExcelTemplateWriter(templatePath, reportName, Lang.EmployeeFlowSettingReportSheet);
+
+            // Fill report title.
+            writer.CopyRows(0, 2);
+            writer.WriteRow(2, new object[] { reportTitle });
+
+            // Fill report header.
+            writer.CopyRows(3, 1);
+
+            FillContentRow(employeeFlowSettings, ref writer);
+            writer.SyncColumnsWidth(10);
+
+            writer.Render();
         }
 
         private static IEnumerable<EmployeeFlowTargetSettingModel> GroupAndGetEmployeeTargetSetting(
@@ -152,6 +175,62 @@ namespace SMS.EPA.Services.Implement
             };
 
             return evaluator;
+        }
+
+        private void FillContentRow(
+          IEnumerable<EmployeeFlowTargetSettingModel> employeeFlowSettings,
+          ref ExcelTemplateWriter writer)
+        {
+            int rowIndex = 1;
+
+            foreach (EmployeeFlowTargetSettingModel employeeSetting in employeeFlowSettings)
+            {
+                FillRow(employeeSetting, ref writer, ref rowIndex);
+            }
+        }
+
+        private void FillRow(
+            EmployeeFlowTargetSettingModel employeeSetting,
+            ref ExcelTemplateWriter writer,
+            ref int rowIndex)
+        {
+            object record = CreateRecord(employeeSetting, ref rowIndex);
+            writer.WriteRow(4, record);
+        }
+
+        private object CreateRecord(
+            EmployeeFlowTargetSettingModel employeeSetting,
+            ref int rowIndex)
+        {
+            var record = new
+            {
+                Count = rowIndex,
+                Department = employeeSetting.Department != null ? employeeSetting.Department.Name : string.Empty,
+                ID = employeeSetting.EmployeeId,
+                Section = employeeSetting.Group != null ? employeeSetting.Group.GroupName : string.Empty,
+                FullName = employeeSetting.FullName,
+                NickName = employeeSetting.NickName,
+                Evaluator = GetEvaluator(employeeSetting.Evaluators),
+                Reviewer = GetEvaluator(employeeSetting.Reviewers),
+                Management = GetEvaluator(employeeSetting.Managements),
+                Form = employeeSetting.TargetTemplate != null ? employeeSetting.TargetTemplate.TargetTypeName : string.Empty
+            };
+            rowIndex++;
+
+            return record;
+        }
+
+        private object GetEvaluator(IList<FlowModel> evaluators)
+        {
+            string evaluatorNames = string.Empty;
+
+            foreach (FlowModel evaluator in evaluators)
+            {
+                string name = evaluator.EvaluatorInfo.NickName;
+                evaluatorNames += !string.IsNullOrEmpty(evaluatorNames) ? " ," + name : name;
+            }
+
+            return evaluatorNames;
         }
     }
 }

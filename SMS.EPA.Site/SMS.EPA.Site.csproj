@@ -383,9 +383,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="SourceApp\Components\CheckFlowAssignment\ExcelTemplates\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
@@ -488,6 +486,14 @@
     <Content Include="SourceApp\Components\TargetTemplate\targetTemplate.less" />
     <Content Include="Web.local.config" />
     <Content Include="SourceApp\Components\TargetEmployeeSetting\targetEmployeeSetting.less" />
+<<<<<<< HEAD
+=======
+    <Content Include="SourceApp\Components\KPI\kpi.css.map">
+      <DependentUpon>kpi.css</DependentUpon>
+    </Content>
+    <Content Include="SourceApp\Components\CheckFlowAssignment\ExcelTemplates\EmployeeFlowSettingReport.xls" />
+    <Content Include="SourceApp\Components\CheckFlowAssignment\ExcelTemplates\DepartmentFlowSettingReport.xls" />
+>>>>>>> #39783 - Export report
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">

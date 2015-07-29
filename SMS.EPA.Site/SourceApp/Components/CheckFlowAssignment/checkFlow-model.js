@@ -1,5 +1,5 @@
 ﻿'use strict';
-/*global moment, checkFlowAssignmentModule*/
+/*global checkFlowAssignmentModule*/
 
 checkFlowAssignmentModule.factory('CheckFlowModel',
 ['$modal', 'checkFlowFactory', 'errorFactory', 'notificationFactory',
@@ -7,7 +7,7 @@ function ($modal, checkFlowFactory, errorFactory, notificationFactory) {
     var checkFlowModel = {};
 
     checkFlowModel.employeeSettings = [];
-    checkFlowModel.date = moment(new Date()).format("DD MMM, YYYY");
+    checkFlowModel.date = new Date();
 
     checkFlowModel.evaluatorType = {
         Evaluator: 2,
@@ -63,18 +63,34 @@ function ($modal, checkFlowFactory, errorFactory, notificationFactory) {
         });
     };
 
-    checkFlowModel.validateCheckAssignments = function (selectedEmployees, employeeAssignmentSettings) {
-        var isValid = true;
-
+    checkFlowModel.validateCheckAssignments = function (selectedEmployees, employeeAssignmentSettings, employeeOptions) {
         if (!employeeAssignmentSettings) {
-            isValid = false;
+            return false;
         }
         else if (selectedEmployees && selectedEmployees.length === 0) {
-            isValid = false;
-            notificationFactory.warning("SelectEmployeeBeforeAssingFlowSettingWarning");
+            notificationFactory.error("SelectEmployeeBeforeAssingFlowSettingWarning");
+            return false;
         }
 
-        return isValid;
+        if (employeeOptions.evaluator.startDate <= employeeOptions.evaluator.endDate
+            && employeeOptions.reviewer.startDate <= employeeOptions.reviewer.endDate
+            && employeeOptions.management.startDate <= employeeOptions.management.endDate) {
+        }
+        else {
+            notificationFactory.error("StartDateGreaterThanEndDateWarning");
+            return false;
+        }
+
+        if (employeeOptions.evaluator.endDate > employeeOptions.reviewer.startDate) {
+            notificationFactory.error("EvaluatorRangeDateGreaterThanReviewerRangeDateWarning");
+            return false;
+        }
+        else if (employeeOptions.reviewer.endDate > employeeOptions.management.startDate) {
+            notificationFactory.error("ReviewerRangeDateGreaterThanManagementRangeDateWarning");
+            return false;
+        }
+
+        return true;
     };
 
     checkFlowModel.updateEmployeeFlowTargetSetting = function (employeeAssignments) {
@@ -160,8 +176,8 @@ function ($modal, checkFlowFactory, errorFactory, notificationFactory) {
                         employeeId: selectedEmployeeId,
                         targetTemplateId: filterAssign.targetTemplateId,
                         processId: checkFlowModel.evaluatorType.Evaluator,
-                        startDate: filterAssign.evaluator.startDate.toDateString(),
-                        endDate: filterAssign.evaluator.endDate.toDateString(),
+                        startDate: filterAssign.evaluator.startDate,
+                        endDate: filterAssign.evaluator.endDate,
                         hasSendMail: filterAssign.evaluator.hasSendMail,
                         evaluatorInfo: {
                             employeeId: evaluatorId
@@ -176,8 +192,8 @@ function ($modal, checkFlowFactory, errorFactory, notificationFactory) {
                     employeeId: selectedEmployeeId,
                     targetTemplateId: filterAssign.targetTemplateId,
                     processId: checkFlowModel.evaluatorType.Evaluator,
-                    startDate: filterAssign.evaluator.startDate.toDateString(),
-                    endDate: filterAssign.evaluator.endDate.toDateString(),
+                    startDate: filterAssign.evaluator.startDate,
+                    endDate: filterAssign.evaluator.endDate,
                     hasSendMail: filterAssign.evaluator.hasSendMail,
                     evaluatorInfo: {
                         employeeId: -1
@@ -192,8 +208,8 @@ function ($modal, checkFlowFactory, errorFactory, notificationFactory) {
                         employeeId: selectedEmployeeId,
                         targetTemplateId: filterAssign.targetTemplateId,
                         processId: checkFlowModel.evaluatorType.Reviewer,
-                        startDate: filterAssign.reviewer.startDate.toDateString(),
-                        endDate: filterAssign.reviewer.endDate.toDateString(),
+                        startDate: filterAssign.reviewer.startDate,
+                        endDate: filterAssign.reviewer.endDate,
                         hasSendMail: filterAssign.reviewer.hasSendMail,
                         evaluatorInfo: {
                             employeeId: reviewerId
@@ -208,8 +224,8 @@ function ($modal, checkFlowFactory, errorFactory, notificationFactory) {
                     employeeId: selectedEmployeeId,
                     targetTemplateId: filterAssign.targetTemplateId,
                     processId: checkFlowModel.evaluatorType.Reviewer,
-                    startDate: filterAssign.reviewer.startDate.toDateString(),
-                    endDate: filterAssign.reviewer.endDate.toDateString(),
+                    startDate: filterAssign.reviewer.startDate,
+                    endDate: filterAssign.reviewer.endDate,
                     hasSendMail: filterAssign.reviewer.hasSendMail,
                     evaluatorInfo: {
                         employeeId: -1
@@ -224,8 +240,8 @@ function ($modal, checkFlowFactory, errorFactory, notificationFactory) {
                         employeeId: selectedEmployeeId,
                         targetTemplateId: filterAssign.targetTemplateId,
                         processId: checkFlowModel.evaluatorType.Management,
-                        startDate: filterAssign.management.startDate.toDateString(),
-                        endDate: filterAssign.management.endDate.toDateString(),
+                        startDate: filterAssign.management.startDate,
+                        endDate: filterAssign.management.endDate,
                         hasSendMail: filterAssign.management.hasSendMail,
                         evaluatorInfo: {
                             employeeId: managementId
@@ -240,8 +256,8 @@ function ($modal, checkFlowFactory, errorFactory, notificationFactory) {
                     employeeId: selectedEmployeeId,
                     targetTemplateId: filterAssign.targetTemplateId,
                     processId: checkFlowModel.evaluatorType.Management,
-                    startDate: filterAssign.management.startDate.toDateString(),
-                    endDate: filterAssign.management.endDate.toDateString(),
+                    startDate: filterAssign.management.startDate,
+                    endDate: filterAssign.management.endDate,
                     hasSendMail: filterAssign.management.hasSendMail,
                     evaluatorInfo: {
                         employeeId: -1
@@ -254,12 +270,15 @@ function ($modal, checkFlowFactory, errorFactory, notificationFactory) {
         return employeeAssignments;
     };
 
-    checkFlowModel.openPopupEditEmployeeSetting = function (employeeSetting) {
+    checkFlowModel.openPopupEditEmployeeSetting = function (vm, selectedEmployees, employeeSetting) {
         var modalInstance = $modal.open({
             templateUrl: 'SourceApp/Components/CheckFlowAssignment/Templates/editFlowSetting.html',
             controller: "EditEmployeeSettingController as editFlowCtrl",
             backdrop: 'static',
             resolve: {
+                selectedEmployees: function () {
+                    return selectedEmployees;
+                },
                 employeeSetting: function () {
                     return angular.copy(employeeSetting);
                 }
@@ -268,12 +287,19 @@ function ($modal, checkFlowFactory, errorFactory, notificationFactory) {
         });
 
         modalInstance.result.then(function (editEmployeeSetting) {
-            employeeSetting.TargetTemplate = editEmployeeSetting.TargetTemplate;
-            employeeSetting.Evaluators = editEmployeeSetting.Evaluators;
-            employeeSetting.Reviewers = editEmployeeSetting.Reviewers;
-            employeeSetting.Managements = editEmployeeSetting.Managements;
+            if (editEmployeeSetting) {
+                employeeSetting.TargetTemplate = editEmployeeSetting.TargetTemplate;
+                employeeSetting.Evaluators = editEmployeeSetting.Evaluators;
+                employeeSetting.Reviewers = editEmployeeSetting.Reviewers;
+                employeeSetting.Managements = editEmployeeSetting.Managements;
+            }
+            else {
+                vm.query(vm.filter);
+                vm.selectedAll = false;
+            }
         })['finally'](function () {
             modalInstance = null;
+            checkFlowModel.resetFilterAssign(vm);
         });
     };
 
@@ -302,6 +328,27 @@ function ($modal, checkFlowFactory, errorFactory, notificationFactory) {
             reviewerEmployees: [],
             managementEmployees: []
         };
+    };
+
+    checkFlowModel.uncheckPersonalSetting = function (employeeOptions) {
+        var uncheck = true;
+
+        angular.forEach(employeeOptions.evaluator.ids, function (id) {
+            if (id !== -1) {
+                uncheck = false;
+            }
+        });
+        angular.forEach(employeeOptions.reviewer.ids, function (id) {
+            if (id !== -1) {
+                uncheck = false;
+            }
+        });
+        angular.forEach(employeeOptions.management.ids, function (id) {
+            if (id !== -1) {
+                uncheck = false;
+            }
+        });
+        return uncheck;
     };
 
     return checkFlowModel;

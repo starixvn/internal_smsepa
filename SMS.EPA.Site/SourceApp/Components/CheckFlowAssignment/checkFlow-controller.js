@@ -1,5 +1,5 @@
 ﻿'use strict';
-/*global moment, checkFlowAssignmentModule*/
+/*global checkFlowAssignmentModule*/
 
 checkFlowAssignmentModule.controller('CheckFlowAssignmentController',
 ['$scope', 'CheckFlowModel', 'EmployeeModel', 'CommonModel', 'utilitiesFactory', 'TargetTemplateModel',
@@ -10,8 +10,6 @@ function ($scope, CheckFlowModel, EmployeeModel, CommonModel, utilitiesFactory, 
     ** Variable setting.
     */
     vm.employeeSettings = CheckFlowModel.employeeSettings;
-    vm.targetTemplates = TargetTemplateModel.targetTemplates;
-    vm.employees = [];
 
     vm.filter = {
         groupId: null,
@@ -19,26 +17,11 @@ function ($scope, CheckFlowModel, EmployeeModel, CommonModel, utilitiesFactory, 
         targetTypeId: null,
         employee: null
     };
-    vm.filterAssign = angular.copy(CheckFlowModel.filterAssign);
 
     vm.selectedAll = false;
     vm.groupOptions = [];
     vm.currentPage = 1;
     vm.pageSize = 15;
-
-    /*
-    ** Calendar setting.
-    */
-    vm.calendar = CheckFlowModel.calendar;
-    vm.evaluatorType = CheckFlowModel.evaluatorType;
-
-    vm.openPopupStartDate = function (event, evaluatorType) {
-        CheckFlowModel.openPopupStartDate(vm, event, evaluatorType);
-    };
-
-    vm.openPopupEndDate = function (event, evaluatorType) {
-        CheckFlowModel.openPopupEndDate(vm, event, evaluatorType);
-    };
 
     /*
     ** Get data to filter and setting information.
@@ -57,17 +40,6 @@ function ($scope, CheckFlowModel, EmployeeModel, CommonModel, utilitiesFactory, 
     TargetTemplateModel.getTargetTemplate(null, true).then(function () {
         vm.targetTemplates = TargetTemplateModel.targetTemplates;
     });
-
-    EmployeeModel.getAllEmployee().then(function () {
-        vm.employees = EmployeeModel.employees;
-        vm.filterAssign.evaluatorEmployees = angular.copy(vm.employees);
-        vm.filterAssign.reviewerEmployees = angular.copy(vm.employees);
-        vm.filterAssign.managementEmployees = angular.copy(vm.employees);
-    });
-
-    vm.updateTrigger = function () {
-        $scope.$broadcast('evaluatorChosen');
-    };
 
     /*
     ** Search employee auto complete.
@@ -136,21 +108,13 @@ function ($scope, CheckFlowModel, EmployeeModel, CommonModel, utilitiesFactory, 
         });
     };
 
-    vm.updateFlowSetting = function (filterAssign) {
-        var selectedEmployees = CheckFlowModel.getSelectedEmployee(vm.employeeSettings),
-            employeeAssignmentSettings = CheckFlowModel.createAssignmentSettings(filterAssign, selectedEmployees);
-
-        if (CheckFlowModel.validateCheckAssignments(selectedEmployees, employeeAssignmentSettings)) {
-            CheckFlowModel.updateEmployeeFlowTargetSetting(employeeAssignmentSettings).then(function () {
-                vm.query(vm.filter);
-                vm.selectedAll = false;
-                CheckFlowModel.resetFilterAssign(vm);
-            });
-        }
+    vm.manageSetting = function () {
+        var selectedEmployees = CheckFlowModel.getSelectedEmployee(vm.employeeSettings);
+        CheckFlowModel.openPopupEditEmployeeSetting(vm, selectedEmployees);
     };
 
     vm.editEmployeeSetting = function (employeeSetting) {
-        CheckFlowModel.openPopupEditEmployeeSetting(employeeSetting);
+        CheckFlowModel.openPopupEditEmployeeSetting(vm, null, employeeSetting);
     };
 
     /*
@@ -174,10 +138,11 @@ function ($scope, CheckFlowModel, EmployeeModel, CommonModel, utilitiesFactory, 
 }]);
 
 checkFlowAssignmentModule.controller('EditEmployeeSettingController',
-['$scope', '$modalInstance', 'CheckFlowModel', 'employeeSetting', 'EmployeeModel', 'TargetTemplateModel',
-function ($scope, $modalInstance, CheckFlowModel, employeeSetting, EmployeeModel, TargetTemplateModel) {
+['$scope', '$modalInstance', 'selectedEmployees', 'employeeSetting', 'CheckFlowModel', 'EmployeeModel', 'TargetTemplateModel', 'utilitiesFactory',
+function ($scope, $modalInstance, selectedEmployees, employeeSetting, CheckFlowModel, EmployeeModel, TargetTemplateModel, utilitiesFactory) {
     var vm = this;
 
+    vm.selectedEmployees = selectedEmployees;
     vm.employeeSetting = employeeSetting;
     vm.employeeOptions = angular.copy(CheckFlowModel.filterAssign);
 
@@ -200,8 +165,8 @@ function ($scope, $modalInstance, CheckFlowModel, employeeSetting, EmployeeModel
         };
 
         if (evaluators && evaluators.length > 0) {
-            evaluator.startDate = moment(new Date(evaluators[0].StartDate)).format(vm.dateFormat);
-            evaluator.endDate = moment(new Date(evaluators[0].EndDate)).format(vm.dateFormat);
+            evaluator.startDate = new Date(evaluators[0].StartDate);
+            evaluator.endDate = new Date(evaluators[0].EndDate);
             evaluator.hasSendMail = evaluators[0].HasSendMail;
             evaluator.ids = createEmployeeIds(evaluators);
         }
@@ -229,7 +194,9 @@ function ($scope, $modalInstance, CheckFlowModel, employeeSetting, EmployeeModel
         vm.employeeOptions.reviewerEmployees = angular.copy(vm.employees);
         vm.employeeOptions.managementEmployees = angular.copy(vm.employees);
 
-        setEmployeeSetting();
+        if (!vm.selectedEmployees) {
+            setEmployeeSetting();
+        }
     });
 
     vm.updateTrigger = function () {
@@ -239,6 +206,7 @@ function ($scope, $modalInstance, CheckFlowModel, employeeSetting, EmployeeModel
     /*
     ** Calendar setting.
     */
+    utilitiesFactory.getDateFormat(vm);
     vm.calendar = CheckFlowModel.calendar;
     vm.evaluatorType = CheckFlowModel.evaluatorType;
 
@@ -322,14 +290,39 @@ function ($scope, $modalInstance, CheckFlowModel, employeeSetting, EmployeeModel
     };
 
     vm.save = function () {
-        var selectedEmployees = [vm.employeeSetting.EmployeeId],
-            employeeAssignmentSettings = CheckFlowModel.createAssignmentSettings(vm.employeeOptions, selectedEmployees);
+        var selectedEmployees = null;
 
-        CheckFlowModel.updateEmployeeFlowTargetSetting(employeeAssignmentSettings).then(function () {
-            updateEmployeeSetting(vm.employeeSetting, vm.employeeOptions);
-            $modalInstance.close(vm.employeeSetting);
-            CheckFlowModel.resetFilterAssign(vm);
-        });
+        if (vm.selectedEmployees) {
+            selectedEmployees = vm.selectedEmployees;
+            var employeeAssignmentSettings = CheckFlowModel.createAssignmentSettings(vm.employeeOptions, selectedEmployees);
+        }
+        else {
+            selectedEmployees = [vm.employeeSetting.EmployeeId];
+        }
+
+        var employeeAssignmentSettings = CheckFlowModel.createAssignmentSettings(vm.employeeOptions, selectedEmployees);
+
+        if (CheckFlowModel.validateCheckAssignments(selectedEmployees, employeeAssignmentSettings, vm.employeeOptions)) {
+            CheckFlowModel.updateEmployeeFlowTargetSetting(employeeAssignmentSettings).then(function () {
+                if (vm.selectedEmployees) {
+                    $modalInstance.close(null);
+                }
+                else {
+                    if (CheckFlowModel.uncheckPersonalSetting(vm.employeeOptions)) {
+                        CheckFlowModel.getEmployeeFlowTargetSetting(null, vm.employeeSetting.EmployeeId, null).then(function () {
+                            vm.employeeSettings = CheckFlowModel.employeeSettings;
+                            $modalInstance.close(vm.employeeSettings[0]);
+                        });
+                    }
+                    else {
+                        updateEmployeeSetting(vm.employeeSetting, vm.employeeOptions);
+                        $modalInstance.close(vm.employeeSetting);
+                    }
+                }
+
+                CheckFlowModel.resetFilterAssign(vm);
+            });
+        }
     };
 
     vm.cancel = function () {

@@ -1,7 +1,8 @@
 ﻿<div id="confirmPopup">
     <div class="modal-header">
         <div class="popup-header">
-            {{"EditFlowSetting" | translate}}
+            <span data-translate="ManageFlowSetting" ng-show="editFlowCtrl.selectedEmployees"></span>
+            <span data-translate="EditFlowSetting" ng-show="!editFlowCtrl.selectedEmployees"></span>
             <span class="close-popup" ng-click="editFlowCtrl.cancel()"></span>
         </div>
     </div>
@@ -32,7 +33,7 @@
                 </label>
                 <div class="col-sm-2">
                     <input readonly class="calendar-form-control" type="text"
-                           ng-model="editFlowCtrl.employeeOptions.evaluator.startDate" datepicker-popup
+                           ng-model="editFlowCtrl.employeeOptions.evaluator.startDate" datepicker-popup="{{editFlowCtrl.dateFormat}}"
                            ng-click="editFlowCtrl.openPopupStartDate($event, editFlowCtrl.evaluatorType.Evaluator)"
                            is-open="editFlowCtrl.calendar.evaluator.startDateOpened" />
                     <calendar-image class="calendar-image" ng-click="editFlowCtrl.openPopupStartDate($event, editFlowCtrl.evaluatorType.Evaluator)"></calendar-image>

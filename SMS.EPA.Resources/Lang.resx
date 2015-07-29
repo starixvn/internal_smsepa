@@ -546,16 +546,42 @@
   <data name="ParentNodeRequired" xml:space="preserve">
     <value>The Parent Node field is required!</value>
   </data>
-    <data name="SelectEmployeeBeforeAssingFlowSettingWarning" xml:space="preserve">
+  <data name="SelectEmployeeBeforeAssingFlowSettingWarning" xml:space="preserve">
     <value>Please select employee before assign!</value>
   </data>
   <data name="EditFlowSetting" xml:space="preserve">
     <value>Edit Flow Setting</value>
   </data>
+<<<<<<< HEAD
    <data name="DepartmentNotSelectedWarning" xml:space="preserve">
     <value>Please select a department!</value>
   </data>
   <data name="EmployeeNotSelectedWarning" xml:space="preserve">
     <value>Please select an employee!</value>
+=======
+  <data name="SendEmail" xml:space="preserve">
+    <value>Send Email</value>
+  </data>
+  <data name="ManageFlowSetting" xml:space="preserve">
+    <value>Manage Flow Setting</value>
+  </data>
+  <data name="EvaluatorRangeDateGreaterThanReviewerRangeDateWarning" xml:space="preserve">
+    <value>The End Date of Evaluator must be less than or equal the Start Date of Reviewer!</value>
+  </data>
+  <data name="ReviewerRangeDateGreaterThanManagementRangeDateWarning" xml:space="preserve">
+    <value>The End Date of Reviewer must be less than or equal the Start Date of Management!</value>
+  </data>
+  <data name="StartDateGreaterThanEndDateWarning" xml:space="preserve">
+    <value>The Start Date must be less than or equal the End Date!</value>
+  </data>
+  <data name="EmployeeFlowSettingReportName" xml:space="preserve">
+    <value>EPA_Evaluator_Reviewer_List_of_Section</value>
+  </data>
+  <data name="EmployeeFlowSettingReportSheet" xml:space="preserve">
+    <value>EPA_Evaluator_Reviewer_List_of_Section</value>
+  </data>
+  <data name="EmployeeFlowSettingReportTitle" xml:space="preserve">
+    <value>EPA Evaluator/Reviewer List of Section</value>
+>>>>>>> #39783 - Export report
   </data>
 </root>

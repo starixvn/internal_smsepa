@@ -33,7 +33,7 @@ function (targetEmployeeSettingFactory, notificationFactory, errorFactory) {
             });
         }
         else {
-            notificationFactory.warning("SelectEmployeeBeforeAssingWarning");
+            notificationFactory.error("SelectEmployeeBeforeAssingWarning");
         }
     };
 
