@@ -228,10 +228,10 @@
     <Content Include="Content\Common\toastr.css" />
     <Content Include="Content\Fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\Site\auth\images\bg-login.jpg" />
+    <Content Include="Content\Site\auth\images\epa_logo.png" />
     <Content Include="Content\Site\auth\images\icon-error.png" />
     <Content Include="Content\Site\auth\images\icon-pass.png" />
     <Content Include="Content\Site\auth\images\icon-user.png" />
-    <Content Include="Content\Site\auth\images\logo.png" />
     <Content Include="Content\Site\images\accept.png" />
     <Content Include="Content\Site\images\arrow-down.png" />
     <Content Include="Content\Site\images\arrow-left.png" />
@@ -248,8 +248,8 @@
     <Content Include="Content\Site\images\icon_sprite.png" />
     <Content Include="Content\Site\images\line-menu.png" />
     <Content Include="Content\Site\images\logo-login.png" />
-    <Content Include="Content\Site\images\logo.png" />
     <Content Include="Content\Site\images\save_submit.png" />
+    <Content Include="Content\Site\images\sms_epa_logo.png" />
     <Content Include="Content\Site\images\sprites.png" />
     <Content Include="Content\Site\images\sprite_ico_2012-05-15.png" />
     <Content Include="Content\Site\images\success.png" />
