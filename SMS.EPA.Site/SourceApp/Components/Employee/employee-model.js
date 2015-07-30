@@ -9,6 +9,7 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
     employeeModel.employees = [];
     employeeModel.groups = [];
     employeeModel.jobTitles = [];
+    employeeModel.defaultPassword = null;
 
     employeeModel.getAllEmployee = function (query, groupId, isSpecialUser, isDisabledUser) {
         return employeeFactory.getAllEmployee(query, groupId, isSpecialUser, isDisabledUser).success(function (employees) {
@@ -267,6 +268,46 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
         });
 
         return roles;
+    };
+
+    employeeModel.getDefaultPassword = function () {
+        return employeeFactory.getDefaultPassword().success(function (password) {
+            employeeModel.defaultPassword = password;
+        }).error(function (response, status) {
+            ErrorFactory.errorHandle(status);
+        });
+    }
+
+    employeeModel.openPopupResetPassword = function (employee, defaultPassword) {
+        var modalInstance = $modal.open({
+            templateUrl: 'SourceApp/Components/Employee/Templates/resetPassword.html',
+            controller: "ResetPasswordController as resetPasswordCtrl",
+            backdrop: 'static',
+            resolve: {
+                employee: function () {
+                    return angular.copy(employee);
+                },
+                defaultPassword: function () {
+                    return defaultPassword;
+                }
+            },
+            windowClass: "modal-confirm-center"
+        });
+
+        modalInstance.result.then(function () {
+            employeeFactory.resetPassword(employee.EmployeeId).success(function (response) {
+                if (response.IsSuccessful) {
+                    notificationFactory.success("UpdateSuccessfully");
+                }
+                else {
+                    notificationFactory.error("", response.Message);
+                }
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        })['finally'](function () {
+            modalInstance = '';
+        });
     };
 
     return employeeModel;

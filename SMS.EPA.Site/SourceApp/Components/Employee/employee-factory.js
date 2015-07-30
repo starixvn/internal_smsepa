@@ -24,6 +24,12 @@ employeeModule.factory('employeeFactory', ['$http', 'baseUrl', function ($http, 
         },
         assignRoleToEmployee: function (employeeRoles) {
             return $http.put(baseUrl + 'api/Employee/AssignRoleToEmployee', employeeRoles);
+        },
+        getDefaultPassword: function () {
+            return $http.get(baseUrl + 'api/Employee/GetDefaultPassword');
+        },
+        resetPassword: function (employeeId) {
+            return $http.get(baseUrl + 'api/Employee/ResetPassword', { params: { employeeId: employeeId } });
         }
     };
 } ]);

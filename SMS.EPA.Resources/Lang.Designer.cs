@@ -331,11 +331,11 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Department Management.
+        ///   Looks up a localized string similar to Department.
         /// </summary>
-        public static string DepartmentManagement {
+        public static string Department {
             get {
-                return ResourceManager.GetString("DepartmentManagement", resourceCulture);
+                return ResourceManager.GetString("Department", resourceCulture);
             }
         }
         
@@ -925,6 +925,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Organization Chart.
+        /// </summary>
+        public static string OrganizationChart {
+            get {
+                return ResourceManager.GetString("OrganizationChart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Parent Node field is required!.
         /// </summary>
         public static string ParentNodeRequired {
@@ -1029,6 +1038,15 @@ namespace SMS.EPA.Resources {
         public static string RequireEvaluate {
             get {
                 return ResourceManager.GetString("RequireEvaluate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset Password.
+        /// </summary>
+        public static string ResetPassword {
+            get {
+                return ResourceManager.GetString("ResetPassword", resourceCulture);
             }
         }
         

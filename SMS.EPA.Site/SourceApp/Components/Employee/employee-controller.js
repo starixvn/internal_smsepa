@@ -7,6 +7,8 @@ function ($window, EmployeeModel, utilitiesFactory, CommonModel) {
     var vm = this;
 
     vm.employees = EmployeeModel.employees;
+    vm.defaultPassword = EmployeeModel.defaultPassword;
+
     vm.filter = {
         query: '',
         groupId: '',
@@ -22,6 +24,10 @@ function ($window, EmployeeModel, utilitiesFactory, CommonModel) {
 
     EmployeeModel.getAllGroup().then(function () {
         vm.groupOptions = EmployeeModel.groups;
+    });
+
+    EmployeeModel.getDefaultPassword().then(function () {
+        vm.defaultPassword = EmployeeModel.defaultPassword;
     });
 
     var getEmployee = function (query, groupId, isSpecialUser, isDisabledUser) {
@@ -61,6 +67,10 @@ function ($window, EmployeeModel, utilitiesFactory, CommonModel) {
 
     vm.assignRole = function (employee) {
         EmployeeModel.openPopupAssignRole(employee);
+    };
+
+    vm.resetPassword = function (employee) {
+        EmployeeModel.openPopupResetPassword(employee, vm.defaultPassword);
     };
 } ]);
 
@@ -218,4 +228,21 @@ function ($modalInstance, EmployeeModel, employee, CommonModel) {
     vm.cancel = function () {
         $modalInstance.dismiss("cancel");
     };
-} ]);
+}]);
+
+appModule.controller("ResetPasswordController",
+ ['$modalInstance', 'employee', 'defaultPassword',
+ function ($modalInstance, employee, defaultPassword) {
+     var vm = this;
+
+     vm.employee = employee;
+     vm.defaultPassword = defaultPassword;
+
+     vm.save = function () {
+         $modalInstance.close();
+     };
+
+     vm.cancel = function () {
+         $modalInstance.dismiss("cancel");
+     };
+ }]);

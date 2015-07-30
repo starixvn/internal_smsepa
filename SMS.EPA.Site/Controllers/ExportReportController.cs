@@ -37,7 +37,6 @@ namespace SMS.EPA.Site.Controllers
             return View();
         }
 
-        
         public ActionResult ExportEmployeeFlowSettingReport(GetEmployeeFlowSettingCriteria criteria)
         {
             IEnumerable<EmployeeFlowTargetSettingModel> employeeFlowSettings = _checkFlowService.GetEmployeeFlowTargetSetting(criteria);

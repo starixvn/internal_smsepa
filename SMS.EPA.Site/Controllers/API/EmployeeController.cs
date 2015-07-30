@@ -131,5 +131,29 @@ namespace SMS.EPA.Site.Controllers.API
             CommandResult commandResult = _employeeService.AssignRoleToEmployee(criteria);
             return commandResult;
         }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Host)]
+        public CommandResult ResetPassword(int employeeId)
+        {
+            var criteria = new ChangePasswordCriteria()
+            {
+                EmployeeId = employeeId,
+                OldPassword = CurrentUser.EmployeeInfo.Password,
+                NewPassword = Constants.DefaultPassword,
+                ConfirmPassword = Constants.DefaultPassword,
+                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+            };
+
+            return _employeeService.ChangePassword(criteria);
+        }
+
+        [HttpGet]
+        public string GetDefaultPassword()
+        {
+            string defaultPassword = Constants.DefaultPassword;
+
+            return defaultPassword;
+        }
     }
 }

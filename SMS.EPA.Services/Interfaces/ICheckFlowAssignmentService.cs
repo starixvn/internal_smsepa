@@ -21,6 +21,5 @@ namespace SMS.EPA.Services.Interfaces
         CommandResult UpdateEmployeeFlowTargetSetting(UpdateEmployeeFlowSettingCriteria criteria);
 
         void ExportEmployeeFlowSettingReport(IEnumerable<EmployeeFlowTargetSettingModel> employeeFlowSettings, string templatePath);
-
     }
 }

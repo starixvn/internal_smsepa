@@ -311,6 +311,7 @@
     <Content Include="SourceApp\Components\Employee\Templates\create.html" />
     <Content Include="SourceApp\Components\Employee\Templates\edit.html" />
     <Content Include="SourceApp\Components\Employee\Templates\index.html" />
+    <Content Include="SourceApp\Components\Employee\Templates\resetPassword.html" />
     <Content Include="SourceApp\Components\FlowManagement\departmentFlow-controller.js" />
     <Content Include="SourceApp\Components\FlowManagement\flowManagement-controller.js" />
     <Content Include="SourceApp\Components\FlowManagement\flowManagement-factory.js" />

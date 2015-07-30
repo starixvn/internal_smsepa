@@ -32,7 +32,7 @@ function (FlowMngModel, EmployeeModel, CommonModel, utilitiesFactory, cacheServi
                 levelTemp--;
             }
 
-            label = label + item.Name;
+            label = label + ' ├─○ ' + item.Name;
         }
         else {
             label = item.Name;

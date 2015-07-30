@@ -37,7 +37,7 @@
         <table class="row table table-bordered table-striped" id="data">
             <thead>
                 <tr class="header-table">
-                    <th colspan="9">
+                    <th colspan="10">
                         <a class="pull-left button-icon create-button" ng-click="employeeCtrl.createEmployee()" >
                             <span class="icon plus"></span>
                             <span class="button-text" data-translate="CreateUser"></span>
@@ -46,24 +46,16 @@
                     </th>
                 </tr>
                 <tr class="headerName">
-                    <th data-translate="SymbolCount">
-                    </th>
-                    <th data-translate="Code">
-                    </th>
-                    <th data-translate="NickName">
-                    </th>
-                    <th data-translate="FullName">
-                    </th>
-                    <th data-translate="JobTitle">
-                    </th>
-                    <th data-translate="Group">
-                    </th>
-                    <th data-translate="ShortSpecialUser">
-                    </th>
-                    <th data-translate="Roles">
-                    </th>
-                    <th data-translate="Action" >
-                    </th>
+                    <th data-translate="SymbolCount"></th>
+                    <th data-translate="Code"></th>
+                    <th data-translate="NickName"></th>
+                    <th data-translate="FullName"></th>
+                    <th data-translate="JobTitle"></th>
+                    <th data-translate="Group"></th>
+                    <th data-translate="ShortSpecialUser"></th>
+                    <th data-translate="Roles"></th>
+                    <th data-translate="Action"></th>
+                    <th class="col-reset-password" data-translate="ResetPassword"></th>
                 </tr>
             </thead>
             <tbody class="table-body">
@@ -93,6 +85,11 @@
                     <td class="text-center authority-employee-action">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" title="Assign role to user" ng-click="employeeCtrl.assignRole(employee)" />
                     </td>
+                    <td class="text-center col-reset-password">
+                        <a class="glyphicon glyphicon-refresh icon-refresh" href="" title="Reset Password"
+                           ng-if="employee.IsSpecialUser" ng-click="employeeCtrl.resetPassword(employee)" />
+                        <a class="glyphicon glyphicon-ban-circle icon-ban-circle disabled" href="" ng-if="!employee.IsSpecialUser"></a>
+                    </td>
                 </tr>
                 <tr ng-show="employeeCtrl.filteredItems.length == 0">
                     <td class="empty-result" colspan="9" data-translate="EmptyResult"></td>
@@ -100,7 +97,7 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="9" class="paging">
+                    <td colspan="10" class="paging">
                         <span data-translate="Show"></span>
                         <select class="dropdown-entry form-control" ng-model="employeeCtrl.pageSize"
                                 ng-options="entry for entry in employeeCtrl.entries"></select>

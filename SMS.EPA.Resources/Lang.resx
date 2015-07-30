@@ -525,8 +525,8 @@
   <data name="PersonalFlow" xml:space="preserve">
     <value>Personal Flow</value>
   </data>
-  <data name="DepartmentManagement" xml:space="preserve">
-    <value>Department Management</value>
+  <data name="Department" xml:space="preserve">
+    <value>Department</value>
   </data>
   <data name="CreatedDate" xml:space="preserve">
     <value>Created Date</value>
@@ -581,5 +581,11 @@
   </data>
   <data name="UserIsDisabled" xml:space="preserve">
     <value>This user is disabled!</value>
+  </data>
+  <data name="ResetPassword" xml:space="preserve">
+    <value>Reset Password</value>
+  </data>
+  <data name="OrganizationChart" xml:space="preserve">
+    <value>Organization Chart</value>
   </data>
 </root>
