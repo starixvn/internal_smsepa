@@ -486,9 +486,6 @@
     <Content Include="SourceApp\Components\TargetTemplate\targetTemplate.less" />
     <Content Include="Web.local.config" />
     <Content Include="SourceApp\Components\TargetEmployeeSetting\targetEmployeeSetting.less" />
-    <Content Include="SourceApp\Components\KPI\kpi.css.map">
-      <DependentUpon>kpi.css</DependentUpon>
-    </Content>
     <Content Include="SourceApp\Components\CheckFlowAssignment\ExcelTemplates\EmployeeFlowSettingReport.xls" />
     <Content Include="SourceApp\Components\CheckFlowAssignment\ExcelTemplates\DepartmentFlowSettingReport.xls" />
   </ItemGroup>
