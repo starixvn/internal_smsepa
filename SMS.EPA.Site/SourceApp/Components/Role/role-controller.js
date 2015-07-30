@@ -31,6 +31,12 @@ function (RoleModel, CommonModel) {
     var getFunctionsOfRole = function (roleId) {
         RoleModel.getRoleFunctionByRoleId(roleId).then(function () {
             vm.roleFunctions = RoleModel.roleFunctions;
+            if (roleId === 1) {
+                vm.isSystemAdmin = true;
+            }
+            else {
+                vm.isSystemAdmin = false;
+            }
         });
     };
 
