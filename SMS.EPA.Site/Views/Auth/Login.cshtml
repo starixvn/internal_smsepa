@@ -24,8 +24,9 @@
             }
             <div class="message-error">
                 @if (Model != null && !ViewData.ModelState.IsValid)
-                { 
-                    <i class="icon-error"></i>@Lang.InvalidUsernameOrPassword
+                {
+                    string errMsg = ViewData.ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).LastOrDefault();
+                    <i class="icon-error"></i>@errMsg
                 }
             </div>
         </div>

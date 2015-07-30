@@ -1195,15 +1195,6 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Target Employee Setting.
-        /// </summary>
-        public static string String1 {
-            get {
-                return ResourceManager.GetString("String1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Submit and continue.
         /// </summary>
         public static string SubmitAndContinue {
@@ -1362,6 +1353,15 @@ namespace SMS.EPA.Resources {
         public static string UpdateUnsuccessfully {
             get {
                 return ResourceManager.GetString("UpdateUnsuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This user is disabled!.
+        /// </summary>
+        public static string UserIsDisabled {
+            get {
+                return ResourceManager.GetString("UserIsDisabled", resourceCulture);
             }
         }
         

@@ -492,9 +492,6 @@
   <data name="TotalKPIWeightWarning" xml:space="preserve">
     <value>The total score of all KPI of the group must be equal to the score of the group!</value>
   </data>
-  <data name="String1" xml:space="preserve">
-    <value>Target Employee Setting</value>
-  </data>
   <data name="Assign" xml:space="preserve">
     <value>Assign</value>
   </data>
@@ -552,7 +549,7 @@
   <data name="EditFlowSetting" xml:space="preserve">
     <value>Edit Flow Setting</value>
   </data>
-   <data name="DepartmentNotSelectedWarning" xml:space="preserve">
+  <data name="DepartmentNotSelectedWarning" xml:space="preserve">
     <value>Please select a department!</value>
   </data>
   <data name="EmployeeNotSelectedWarning" xml:space="preserve">
@@ -581,5 +578,8 @@
   </data>
   <data name="EmployeeFlowSettingReportTitle" xml:space="preserve">
     <value>EPA Evaluator/Reviewer List of Section</value>
+  </data>
+  <data name="UserIsDisabled" xml:space="preserve">
+    <value>This user is disabled!</value>
   </data>
 </root>

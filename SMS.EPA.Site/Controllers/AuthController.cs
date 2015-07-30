@@ -63,16 +63,23 @@ namespace SMS.EPA.Site.Controllers
                 UserSession user = GetEmployeeLogin(model);
                 if (user != null)
                 {
-                    SessionManager.CurrentUser = user;
-                    FormsAuthentication.SetAuthCookie(model.Username, false);
-
-                    string returnUrl = "/";
-                    if (!string.IsNullOrEmpty(Request.QueryString["ReturnUrl"]))
+                    if (user.EmployeeInfo.Enabled)
                     {
-                        returnUrl = Request.QueryString["ReturnUrl"];
-                    }
+                        SessionManager.CurrentUser = user;
+                        FormsAuthentication.SetAuthCookie(model.Username, false);
 
-                    Response.Redirect(returnUrl, false);
+                        string returnUrl = "/";
+                        if (!string.IsNullOrEmpty(Request.QueryString["ReturnUrl"]))
+                        {
+                            returnUrl = Request.QueryString["ReturnUrl"];
+                        }
+
+                        Response.Redirect(returnUrl, false);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, Lang.UserIsDisabled);
+                    }
                 }
                 else
                 {
