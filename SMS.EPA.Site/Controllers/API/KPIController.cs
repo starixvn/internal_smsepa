@@ -9,11 +9,13 @@
 
 namespace SMS.EPA.Site.Controllers.API
 {
+    using System.Collections.Generic;
     using System.Web.Http;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.KPI;
+    using SMS.EPA.Model.KPI;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
     using SMS.EPA.Web.ApiAuthorizeAttribute;
@@ -37,9 +39,27 @@ namespace SMS.EPA.Site.Controllers.API
             _webCommonService = webCommonService ?? new WebCommonService();
         }
 
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPI, Policy = Policy.Read)]
+        public IEnumerable<KPIModel> GetKPI(
+            int? targetTypeId = null,
+            int? kpiGroupId = null,
+            bool? isActive = null,
+            bool? isRequiredEvaluate = null)
+        {
+            var criteria = new GetKPICriteria
+            {
+                TargetTypeId = targetTypeId,
+                KPIGroupId = kpiGroupId,
+                IsActive = isActive,
+                IsRequiredEvaluate = isRequiredEvaluate
+            };
+
+            return _kpiService.GetKPI(criteria);
+        }
+
         [HttpPost]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.KPI, Policy = Policy.Host)]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPIGroup, Policy = Policy.Host)]
         public CommandResult CreateKPI(CreateKPICriteria criteria)
         {
             if (criteria != null)
@@ -54,7 +74,6 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.KPI, Policy = Policy.Host)]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPIGroup, Policy = Policy.Host)]
         public CommandResult UpdateKPI(UpdateKPICriteria criteria)
         {
             if (criteria != null)
@@ -69,7 +88,6 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.KPI, Policy = Policy.Host)]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPIGroup, Policy = Policy.Host)]
         public CommandResult UpdateStatusKPI(UpdateStatusKPICriteria criteria)
         {
             if (criteria != null)
@@ -84,7 +102,6 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.KPI, Policy = Policy.Host)]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPIGroup, Policy = Policy.Host)]
         public CommandResult UpdateRequiredEvaluateKPI(UpdateRequiredEvaluateKPICriteria criteria)
         {
             if (criteria != null)
@@ -99,7 +116,6 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpDelete]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.KPI, Policy = Policy.Host)]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPIGroup, Policy = Policy.Host)]
         public CommandResult DeleteKPI(int kpiId)
         {
             var criteria = new DeleteKPICriteria

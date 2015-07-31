@@ -9,11 +9,13 @@
 
 namespace SMS.EPA.Site.Controllers.API
 {
+    using System.Collections.Generic;
     using System.Web.Http;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.KPIGroup;
+    using SMS.EPA.Model.KPIGroup;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
     using SMS.EPA.Web.ApiAuthorizeAttribute;
@@ -35,6 +37,33 @@ namespace SMS.EPA.Site.Controllers.API
         {
             _kpiGroupService = kpiGroupService ?? new KPIGroupService();
             _webCommonService = webCommonService ?? new WebCommonService();
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPIGroup, Policy = Policy.Read)]
+        public IEnumerable<KPIGroupModel> GetKPIGroup(
+            int? targetTypeId = null,
+            bool? isActive = null)
+        {
+            var criteria = new GetKPIGroupCriteria
+            {
+                TargetTypeId = targetTypeId,
+                IsActive = isActive
+            };
+
+            return _kpiGroupService.GetKPIGroup(criteria);
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPIGroup, Policy = Policy.Read)]
+        public KPIGroupModel GetKPIGroupById(int kpiGroupId)
+        {
+            var criteria = new GetKPIGroupByIdCriteria
+            {
+                KPIGroupId = kpiGroupId
+            };
+
+            return _kpiGroupService.GetKPIGroupById(criteria);
         }
 
         [HttpPost]

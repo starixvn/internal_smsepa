@@ -7,7 +7,7 @@ function (KPIGroupModel, KPIModel, CommonModel, utilitiesFactory) {
     var vm = this;
 
     vm.targetTypes = CommonModel.targetTypes;
-    vm.kpiGroups = CommonModel.kpiGroups;
+    vm.kpiGroups = KPIGroupModel.kpiGroups;
     vm.permission = KPIGroupModel.permission;
 
     vm.filter = {
@@ -20,13 +20,17 @@ function (KPIGroupModel, KPIModel, CommonModel, utilitiesFactory) {
     vm.currentPage = 1;
 
     var getKPIGroup = function (targetTypeId, isActive) {
-        CommonModel.getKPIGroup(targetTypeId, isActive).then(function () {
-            vm.kpiGroups = CommonModel.kpiGroups;
+        KPIGroupModel.getKPIGroup(targetTypeId, isActive).then(function () {
+            vm.kpiGroups = KPIGroupModel.kpiGroups;
             utilitiesFactory.searchOnPage(vm, vm.kpiGroups);
         });
     };
 
     vm.initialize = function () {
+        KPIModel.getUserPermissionOnKPI().then(function () {
+            vm.permissionOnKPI = KPIModel.permission;
+        });
+
         KPIGroupModel.getUserPermissionOnKPIGroup().then(function () {
             vm.permission = KPIGroupModel.permission;
         });

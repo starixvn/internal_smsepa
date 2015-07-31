@@ -53,26 +53,28 @@
                     <td ng-bind="kpiGroup.TargetType.Name"></td>
                     <td ng-bind="kpiGroup.Name"></td>
                     <td class="text-center col-number-kpis">
-                        <a href="" ng-show="kpiGroup.NumberKPI > 0" ng-click="kpiGroupCtrl.viewKPI(kpiGroup.KPIGroupId)"
-                            ng-bind="kpiGroup.NumberKPI" ng-href="{{kpiGroupCtrl.viewKPIUrl}}" class="number-kpi"></a>
-                        <span ng-show="kpiGroup.NumberKPI === 0" ng-bind="0"></span>
+                        <a href="" ng-if="kpiGroup.NumberKPI > 0 && kpiGroupCtrl.permissionOnKPI > 0" ng-click="kpiGroupCtrl.viewKPI(kpiGroup.KPIGroupId)"
+                           ng-bind="kpiGroup.NumberKPI" ng-href="{{kpiGroupCtrl.viewKPIUrl}}" class="number-kpi"></a>
+                        <span ng-if="kpiGroup.NumberKPI === 0 || kpiGroupCtrl.permissionOnKPI == 0" ng-bind="kpiGroup.NumberKPI"></span>
                     </td>
                     <td class="text-center col-active">
-                        <input type="checkbox" ng-checked="kpiGroup.IsActive" 
-                            ng-click="kpiGroupCtrl.updateStatusKPIGroup(kpiGroup)"
-                            ng-disabled="kpiGroupCtrl.permission != 2" />
+                        <input type="checkbox" ng-checked="kpiGroup.IsActive"
+                               ng-click="kpiGroupCtrl.updateStatusKPIGroup(kpiGroup)"
+                               ng-disabled="kpiGroupCtrl.permission != 2" />
                     </td>
                     <td class="col-description">
                         {{kpiGroup.Description | limitTo: kpiGroup.numLimit > 0 ? kpiGroup.numLimit: kpiGroupCtrl.maxLengthDescription}}
-                        <a ng-show="!kpiGroup.showReadMore && (kpiGroup.Description.length >= kpiGroupCtrl.maxLengthDescription)"
+                        <a ng-if="!kpiGroup.showReadMore && (kpiGroup.Description.length >= kpiGroupCtrl.maxLengthDescription)"
                             href="javascript:;" ng-click="kpiGroupCtrl.readMore(kpiGroup)" data-translate="ReadMore"></a>
-                        <a ng-show="kpiGroup.showReadMore && (kpiGroup.Description.length >= kpiGroupCtrl.maxLengthDescription)"
+                        <a ng-if="kpiGroup.showReadMore && (kpiGroup.Description.length >= kpiGroupCtrl.maxLengthDescription)"
                              href="javascript:;" ng-click="kpiGroupCtrl.readLess(kpiGroup)" data-translate="ReadLess"></a>
                     </td>
                     <td class="text-center col-action" ng-if="kpiGroupCtrl.permission == 2">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="kpiGroupCtrl.updateKPIGroup(kpiGroup)" ng-attr-title='{{"Edit" | translate}}'></a>
                         <a class="glyphicon glyphicon-remove icon-remove" href="" ng-click="kpiGroupCtrl.deleteKPIGroup(kpiGroup)" ng-attr-title='{{"Delete" | translate}}'></a>
-                        <a class="glyphicon glyphicon-plus icon-add" href="" ng-click="kpiGroupCtrl.addKPI(kpiGroup)" ng-attr-title='{{"AddKPI" | translate}}'></a>
+                        <a class="glyphicon glyphicon-plus icon-add" href=""
+                            ng-if="kpiGroupCtrl.permissionOnKPI == 2"
+                            ng-click="kpiGroupCtrl.addKPI(kpiGroup)" ng-attr-title='{{"AddKPI" | translate}}'></a>
                     </td>
                 </tr>
                 <tr ng-show="kpiGroupCtrl.filteredItems.length == 0">

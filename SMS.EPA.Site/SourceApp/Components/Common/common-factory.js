@@ -21,9 +21,6 @@ commonModule.factory('commonFactory', ['$http', 'baseUrl', function ($http, base
         getKPIGroup: function (targetTypeId, isActive) {
             return $http.get(baseUrl + 'api/Common/GetKPIGroup', { params: { targetTypeId: targetTypeId, isActive: isActive } });
         },
-        getKPIGroupById: function (kpiGroupId) {
-            return $http.get(baseUrl + 'api/Common/GetKPIGroupById', { params: { kpiGroupId: kpiGroupId } });
-        },
         getEmployeeById: function (employeeId) {
             return $http.get(baseUrl + 'api/Common/GetEmployeeById', { params: { employeeId: employeeId } });
         },

@@ -6,7 +6,29 @@ kpiGroupModule.factory('KPIGroupModel',
 function ($modal, kpiGroupFactory, utilitiesFactory, notificationFactory, errorFactory) {
     var kpiGroupModel = {};
 
+    kpiGroupModel.kpiGroups = [];
+    kpiGroupModel.kpiGroup = {};
     kpiGroupModel.permission = 0;
+
+    /// Get KPI Group.
+    kpiGroupModel.getKPIGroup = function (targetTypeId, isActive) {
+        return kpiGroupFactory.getKPIGroup(targetTypeId, isActive)
+        .success(function (kpiGroups) {
+            kpiGroupModel.kpiGroups = kpiGroups;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    /// Get KPI Group By Id.
+    kpiGroupModel.getKPIGroupById = function (kpiGroupId) {
+        return kpiGroupFactory.getKPIGroupById(kpiGroupId)
+        .success(function (kpiGroup) {
+            kpiGroupModel.kpiGroup = kpiGroup;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
 
     /// Validate KPI Group.
     kpiGroupModel.validateKPIGroup = function (kpiGroup) {

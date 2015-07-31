@@ -9,7 +9,6 @@ function (commonFactory, errorFactory) {
     commonModel.systemRoles = [];
     commonModel.kpis = [];
     commonModel.kpiGroups = [];
-    commonModel.kpiGroup = {};
     commonModel.groups = [];
     commonModel.employee = {};
     commonModel.departments = [];
@@ -54,16 +53,6 @@ function (commonFactory, errorFactory) {
         return commonFactory.getKPIGroup(targetTypeId, isActive)
         .success(function (kpiGroups) {
             commonModel.kpiGroups = kpiGroups;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
-
-    /// Get KPI Group By Id.
-    commonModel.getKPIGroupById = function (kpiGroupId) {
-        return commonFactory.getKPIGroupById(kpiGroupId)
-        .success(function (kpiGroup) {
-            commonModel.kpiGroup = kpiGroup;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });

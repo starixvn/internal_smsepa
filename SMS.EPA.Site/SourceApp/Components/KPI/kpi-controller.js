@@ -6,10 +6,10 @@ kpiModule.controller('KPIController',
 function ($window, $routeParams, KPIModel, KPIGroupModel, CommonModel, utilitiesFactory) {
     var vm = this;
 
-    vm.kpis = CommonModel.kpis;
+    vm.kpis = KPIModel.kpis;
     vm.targetTypes = CommonModel.targetTypes;
     vm.kpiGroups = CommonModel.kpiGroups;
-    vm.kpiGroup = CommonModel.kpiGroup;
+    vm.kpiGroup = KPIGroupModel.kpiGroup;
     vm.permission = KPIModel.permission;
 
     vm.routeParam = {
@@ -28,8 +28,8 @@ function ($window, $routeParams, KPIModel, KPIGroupModel, CommonModel, utilities
     vm.currentPage = 1;
 
     var getKPI = function (targetTypeId, kpiGroupId, isActive, isRequiredEvaluate) {
-        CommonModel.getKPI(targetTypeId, kpiGroupId, isActive, isRequiredEvaluate).then(function () {
-            vm.kpis = CommonModel.kpis;
+        KPIModel.getKPI(targetTypeId, kpiGroupId, isActive, isRequiredEvaluate).then(function () {
+            vm.kpis = KPIModel.kpis;
             utilitiesFactory.searchOnPage(vm, vm.kpis);
         });
     };
@@ -41,14 +41,6 @@ function ($window, $routeParams, KPIModel, KPIGroupModel, CommonModel, utilities
     vm.initialize = function () {
         KPIModel.getUserPermissionOnKPI().then(function () {
             vm.permission = KPIModel.permission;
-
-            KPIGroupModel.getUserPermissionOnKPIGroup().then(function () {
-                var permission = KPIGroupModel.permission;
-
-                if (permission !== vm.permission && permission === 2) {
-                    vm.permission = permission;
-                }
-            });
         });
 
         CommonModel.getTargetType().then(function () {
@@ -63,8 +55,8 @@ function ($window, $routeParams, KPIModel, KPIGroupModel, CommonModel, utilities
             vm.isViewAll = false;
             vm.filter.isActive = '';
 
-            CommonModel.getKPIGroupById(vm.routeParam.kpiGroupId).then(function () {
-                vm.kpiGroup = CommonModel.kpiGroup;
+            KPIGroupModel.getKPIGroupById(vm.routeParam.kpiGroupId).then(function () {
+                vm.kpiGroup = KPIGroupModel.kpiGroup;
                 vm.filter.targetTypeId = vm.kpiGroup.TargetType.TargetTypeId;
 
                 getKPI(vm.filter.targetTypeId, vm.filter.kpiGroupId, vm.filter.isActive, vm.filter.isRequiredEvaluate);

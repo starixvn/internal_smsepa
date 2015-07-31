@@ -97,17 +97,6 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [NonAction]
-        public KPIGroupModel GetKPIGroupById(int kpiGroupId)
-        {
-            var criteria = new GetKPIGroupByIdCriteria
-            {
-                KPIGroupId = kpiGroupId
-            };
-
-            return _kpiGroupService.GetKPIGroupById(criteria);
-        }
-
-        [NonAction]
         public EmployeeModel GetEmployeeById(int employeeId)
         {
             var criteria = new GetEmployeeByIdCriteria

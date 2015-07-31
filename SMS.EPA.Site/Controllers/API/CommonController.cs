@@ -43,8 +43,6 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpGet]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPI, Policy = Policy.Read)]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPIGroup, Policy = Policy.Read)]
         public IEnumerable<KPIModel> GetKPI(
             int? targetTypeId = null,
             int? kpiGroupId = null,
@@ -55,21 +53,11 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpGet]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPI, Policy = Policy.Read)]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPIGroup, Policy = Policy.Read)]
         public IEnumerable<KPIGroupModel> GetKPIGroup(
             int? targetTypeId = null,
             bool? isActive = null)
         {
             return _utilitiesController.GetKPIGroup(targetTypeId, isActive);
-        }
-
-        [HttpGet]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPI, Policy = Policy.Read)]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPIGroup, Policy = Policy.Read)]
-        public KPIGroupModel GetKPIGroupById(int kpiGroupId)
-        {
-            return _utilitiesController.GetKPIGroupById(kpiGroupId);
         }
 
         public List<object> GetSystemRoles(bool exceptNone)
