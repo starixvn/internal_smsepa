@@ -3,6 +3,7 @@
 @model UserSession
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var index = 1;
 }
 <div class="row header">
     <a class="col-xs-12 col-sm-2 logo" href="/">
@@ -12,40 +13,38 @@
         <nav id="navbar-example" class="navbar navbar-static top-menu" role="navigation">
             <div class="bs-example-js-navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li>
-                        <a href="">@Lang.Home</a>
-                    </li>
-                    <li class="dropdown" dropdown>
-                        <a id="drop1" href="#" data-role="button" class="dropdown-toggle" dropdown-toggle>@Lang.EPA<b class="caret"></b></a>
-                        <ul class="dropdown-menu" data-role="button" aria-labelledby="drop1">
-                            <li data-role="presentation"><a data-role="menuitem" tabindex="-1" href="">@Lang.SelfEvaluation</a></li>
-                            <li data-role="presentation"><a data-role="menuitem" tabindex="-1" href="">@Lang.Evaluator</a></li>
-                            <li data-role="presentation"><a data-role="menuitem" tabindex="-1" href="">@Lang.Reviewer</a></li>
-                            <li data-role="presentation"><a data-role="menuitem" tabindex="-1" href="">@Lang.Management</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown" dropdown>
-                        <a id="drop1" href="#" data-role="button" class="dropdown-toggle" dropdown-toggle>@Lang.Report<b class="caret"></b></a>
-                        <ul class="dropdown-menu" data-role="button" aria-labelledby="drop1">
-                            <li data-role="presentation"><a data-role="menuitem" tabindex="-1" href="">@Lang.AttendanceReport</a></li>
-                            <li data-role="presentation"><a data-role="menuitem" tabindex="-1" href="">@Lang.EPAReport</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown" dropdown>
-                        <a id="drop1" href="#" data-role="button" class="dropdown-toggle" dropdown-toggle>@Lang.Admin<b class="caret"></b></a>
-                        <ul class="dropdown-menu" data-role="button" aria-labelledby="drop1">
-                            <li data-role="presentation"><a data-role="menuitem" tabindex="-1" href="KPI/Index">@Lang.KPI</a></li>
-                            <li data-role="presentation"><a data-role="menuitem" tabindex="-1" href="KPIGroup/Index">@Lang.KPIGroup</a></li>
-                            <li data-role="presentation"><a data-role="menuitem" tabindex="-1" href="TargetTemplate/Index">@Lang.TargetTemplate</a></li>
-                            <li data-role="presentation"><a data-role="menuitem" tabindex="-1" href="Employee/Index">@Lang.UserManagement</a></li>
-                            <li data-role="presentation"><a data-role="menuitem" tabindex="-1" href="Role/Index">@Lang.RoleManagement</a></li>
-                            <li data-role="presentation"><a data-role="menuitem" tabindex="-1" href="Department/Index">@Lang.Department</a></li>
-                            <li data-role="presentation"><a data-role="menuitem" tabindex="-1" href="Flow/Index">@Lang.FlowManagement</a></li>
-                            <li data-role="presentation"><a data-role="menuitem" tabindex="-1" href="TargetEmployeeSetting/Index">@Lang.TargetEmployeeSetting</a></li>
-                            <li data-role="presentation"><a data-role="menuitem" tabindex="-1" href="CheckAssignment/Index">@Lang.CheckAssignment</a></li>
-                            <li data-role="presentation"><a data-role="menuitem" tabindex="-1" href="">@Lang.AdjustAttendance</a></li>
-                        </ul>
-                    </li>
+                    @if (@Model.Menus != null)
+                    {
+                        foreach (var menuParentItem in @Model.Menus)
+                        {
+                            var childMenuItems = menuParentItem.MenuItems;
+                            if (childMenuItems != null && childMenuItems.Count() > 0)
+                            {
+                                var id = "drop" + index;
+
+                                <li class="dropdown" dropdown>
+                                    <a id="@id" href="#" data-role="button" class="dropdown-toggle" dropdown-toggle>
+                                        @menuParentItem.MenuName<b class="caret"></b>
+                                    </a>
+                                    <ul class="dropdown-menu" data-role="button" aria-labelledby="@id">
+                                        @foreach (var childMenu in childMenuItems)
+                                        {
+                                            <li data-role="presentation">
+                                                <a data-role="menuitem" tabindex="-1" href="@childMenu.MenuLink">@childMenu.MenuName</a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </li>
+                                index++;
+                            }
+                            else
+                            {
+                                <li>
+                                    <a href="@menuParentItem.MenuLink">@menuParentItem.MenuName</a>
+                                </li>
+                            }
+                        }
+                    }
                 </ul>
             </div>
         </nav>

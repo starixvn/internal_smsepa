@@ -39,8 +39,8 @@
                     <td class="text-center" ng-include src="'/SourceApp/Components/Role/Templates/treeHostCheckbox.html'"></td>
                 </tr>
             </table>
-            <div class="btn-save">
-                <button class="button" get-role-permission ng-disabled="disabledSubmitButton" data-translate="Save"></button>
+            <div>
+                <button class="button" get-role-permission ng-if="!roleCtrl.isSystemAdmin" data-translate="Save"></button>
             </div>
         </form>
     </div>

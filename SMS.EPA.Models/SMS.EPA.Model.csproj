@@ -51,6 +51,8 @@
     <Compile Include="Department\DepartmentInfoModel.cs" />
     <Compile Include="Department\DepartmentModel.cs" />
     <Compile Include="Employee\EmployeeModel.cs" />
+    <Compile Include="Employee\MenuGroupModel.cs" />
+    <Compile Include="Employee\MenuItemModel.cs" />
     <Compile Include="Employee\RawEmployeeModel.cs" />
     <Compile Include="Employee\RawEmployeeRoleModel.cs" />
     <Compile Include="Enitites\Employee.cs" />

@@ -28,5 +28,7 @@ namespace SMS.EPA.Model.Authentication
         public IEnumerable<SystemRoleModel> Roles { get; set; }
 
         public IEnumerable<FunctionModel> Functions { get; set; }
+
+        public IEnumerable<MenuGroupModel> Menus { get; set; }
     }
 }
