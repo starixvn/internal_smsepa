@@ -14,6 +14,7 @@ namespace SMS.EPA.Web.ApiAuthorizeAttribute
     using System.Diagnostics.CodeAnalysis;
     using System.Net;
     using System.Net.Http;
+    using System.Web;
     using System.Web.Http;
     using System.Web.Http.Controllers;
     using SMS.EPA.Core.Enumerations;
@@ -61,12 +62,19 @@ namespace SMS.EPA.Web.ApiAuthorizeAttribute
         /// <param name="actionContext">HttpAction Context.</param>
         public override void OnAuthorization(HttpActionContext actionContext)
         {
-            UserSession currentUser = SessionManager.CurrentUser;
-
-            if (currentUser != null)
+            if (HttpContext.Current.User.Identity.IsAuthenticated)
             {
-                CheckUserPermission(actionContext);
-                return;
+                UserSession currentUser = SessionManager.CurrentUser;
+
+                if (currentUser != null)
+                {
+                    CheckUserPermission(actionContext);
+                    return;
+                }
+                else
+                {
+                    HandleUnauthorizedRequest(actionContext);
+                }
             }
             else
             {

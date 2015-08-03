@@ -2,12 +2,15 @@
 'use strict';
 
 appModule.factory("errorFactory",
-['$location', 'notificationFactory',
-function ($location, notificationFactory) {
+['$location', '$window', 'notificationFactory', 'baseUrl', 
+function ($location, $window, notificationFactory, baseUrl) {
     return {
         errorHandle: function (status) {
             if (status === 405) {
-                $location.path('Home/AccessDenied');
+                $location.path(baseUrl + 'Home/AccessDenied');
+            }
+            else if (status === 401) {
+                $window.location.href = baseUrl + "Auth/Login";
             }
             else {
                 notificationFactory.error("ErrorMessage");

@@ -38,7 +38,7 @@
                         </tr>
                         <tr class="row-data" ng-repeat="item in group.KPIs | filter: KPIName">
                             <td class="text-center" item-id="{{item.KPIId}}" group-id="{{group.KPIGroupId}}">
-                                <input class="check-group" type="checkbox" value="{{item.Name}}" ng-model="item.Selected" />
+                                <input class="check-group" type="checkbox" value="{{item.Name}}" ng-model="item.Selected" ng-click="kpiListCtrl.check(group, item.Selected)" />
                             </td>
                             <td ng-bind="item.Name">
                             </td>

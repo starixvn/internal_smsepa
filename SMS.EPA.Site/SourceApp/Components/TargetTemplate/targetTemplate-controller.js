@@ -211,9 +211,69 @@ function ($scope, TargetTemplateModel) {
     };
 
     vm.checkAllGroup = function (groupSelected, group) {
+        var allUnchecked = true,
+            allChecked = true;
+
         angular.forEach(group.KPIs, function (kpi) {
             kpi.Selected = groupSelected;
         });
+
+        angular.forEach(vm.kpiList, function (kpiGroup) {
+            if (kpiGroup.Selected) {
+                allUnchecked = false;
+            }
+            else {
+                allChecked = false;
+            }
+        });
+
+        if (allUnchecked) {
+            vm.SelectedAll = false;
+        }
+        if (allChecked) {
+            vm.SelectedAll = true;
+        }
+    };
+
+    vm.check = function (group, selected) {
+        var allGroupUnchecked = true,
+            allGroupChecked = true,
+            allUnchecked = true,
+            allChecked = true;
+
+        angular.forEach(group.KPIs, function (kpi) {
+            if (kpi.Selected) {
+                allGroupUnchecked = false;
+            }
+            else {
+                allGroupChecked = false;
+            }
+        });
+
+        if (allGroupUnchecked) {
+            group.Selected = false;
+        }
+        if (allGroupChecked) {
+            group.Selected = true;
+        }
+
+        angular.forEach(vm.kpiList, function (kpiGroup) {
+            angular.forEach(kpiGroup.KPIs, function (kpi) {
+                if (kpi.Selected) {
+                    allUnchecked = false;
+                }
+                else {
+                    allChecked = false;
+                }
+            });
+        });
+
+        if (allUnchecked) {
+            vm.SelectedAll = false;
+        }
+        if (allChecked) {
+            vm.SelectedAll = true;
+        }
     };
 
     vm.scoreSpread = function (group) {
@@ -269,6 +329,28 @@ function ($modalInstance, TargetTemplateModel, targetTemplateId) {
         angular.forEach(vm.kpiGroups, function (group) {
             group.Selected = selectedAll;
         });
+    };
+
+    vm.check = function (selected) {
+        var allUnchecked = true,
+            allChecked = true;
+
+        angular.forEach(vm.kpiGroups, function (group) {
+            if (group.Selected) {
+                allUnchecked = false;
+            }
+            else {
+                allChecked = false;
+            }
+        });
+
+        if (allUnchecked) {
+            vm.selectedAll = false;
+        }
+
+        if (allChecked) {
+            vm.selectedAll = true;
+        }
     };
 
     vm.save = function (kpiGroups) {
