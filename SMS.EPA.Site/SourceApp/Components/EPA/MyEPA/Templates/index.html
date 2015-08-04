@@ -1,0 +1,34 @@
+﻿<div class="my-epa" ng-controller="MyEPAController as myEPACtrl">
+    <div class="col-sm-12 sub-header">
+        <ul class="row breadcrumb">
+            <li class="current" data-translate="ManageMyEPA"></li>
+        </ul>
+    </div>
+    <div class="col-sm-12">
+        <form novalidate class="row filter form-inline" role="form">
+            <div class="form-group">
+                <label data-translate="Status"></label>
+                <select class="form-control" ng-model="myEPACtrl.filter.status"
+                        ng-options="opt.StatusId as opt.Name for opt in myEPACtrl.statusList">
+                    <option value="">-- {{"All" | translate}} --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button class="button" ng-click="myEPACtrl.query(filter)" data-translate="Submit"></button>
+            </div>
+        </form>
+        <table class="row table table-bordered table-striped">
+            <thead>
+            <th data-translate="SymbolCount"></th>
+            <th data-translate="Department"></th>
+            <th data-translate="Team"></th>
+            <th data-translate="Target"></th>
+            <th data-translate="Score"></th>
+            <th data-translate="Status"></th>
+            <th data-translate="Evaluator"></th>
+            <th data-translate="EvaluateDate"></th>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>

@@ -226,12 +226,7 @@ function ($modalInstance, KPIModel, CommonModel, kpiGroup) {
             }
 
             vm.currentChosenKPIGroups = temps;
-            $('.select-kpi-group').trigger('chosen:updated');
         });
-    };
-
-    vm.updateTrigger = function () {
-        $('.select-kpi-group').trigger('chosen:updated');
     };
 
     vm.changeHasComment = function () {

@@ -588,4 +588,10 @@
   <data name="OrganizationChart" xml:space="preserve">
     <value>Organization Chart</value>
   </data>
+  <data name="ManageMyEPA" xml:space="preserve">
+    <value>Manage My EPA</value>
+  </data>
+  <data name="EvaluateDate" xml:space="preserve">
+    <value>Evaluate Date</value>
+  </data>
 </root>

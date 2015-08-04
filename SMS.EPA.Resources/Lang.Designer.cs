@@ -502,6 +502,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Evaluate Date.
+        /// </summary>
+        public static string EvaluateDate {
+            get {
+                return ResourceManager.GetString("EvaluateDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Evaluator.
         /// </summary>
         public static string Evaluator {
@@ -813,6 +822,15 @@ namespace SMS.EPA.Resources {
         public static string Management {
             get {
                 return ResourceManager.GetString("Management", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage My EPA.
+        /// </summary>
+        public static string ManageMyEPA {
+            get {
+                return ResourceManager.GetString("ManageMyEPA", resourceCulture);
             }
         }
         

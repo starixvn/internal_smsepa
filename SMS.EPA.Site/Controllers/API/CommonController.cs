@@ -109,5 +109,23 @@ namespace SMS.EPA.Site.Controllers.API
         {
             return _utilitiesController.GetDepartment(parentId, isActive);
         }
+
+        public List<object> GetAllStatus()
+        {
+            var statusList = new List<object>();
+
+            foreach (Status statusEnum in (Status[])System.Enum.GetValues(typeof(Status)))
+            {
+                var status = new
+                {
+                    StatusId = (int)statusEnum,
+                    Name = Enumerations.GetDescription(statusEnum)
+                };
+
+                statusList.Add(status);
+            }
+
+            return statusList;
+        }
     }
 }

@@ -32,4 +32,14 @@ kpiModule.factory('kpiFactory', ['$http', 'baseUrl', function ($http, baseUrl) {
             return $http.get(baseUrl + 'api/KPI/GetUserPermissionOnKPI');
         }
     };
-} ]);
+}]);
+
+kpiModule.directive('updateTrigger', function () {
+    return {
+        link: function (scope, iElement, attrs) {
+            scope.$watch(attrs.ngModel, function () {
+                iElement.trigger('chosen:updated');
+            });
+        }
+    };
+});

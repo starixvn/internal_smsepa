@@ -13,6 +13,7 @@ function (commonFactory, errorFactory) {
     commonModel.employee = {};
     commonModel.departments = [];
     commonModel.treeDepartment = {};
+    commonModel.statusList = [];
 
     /// Get target type.
     commonModel.getTargetType = function (isActive) {
@@ -83,6 +84,16 @@ function (commonFactory, errorFactory) {
         .success(function (data) {
             commonModel.treeDepartment = data.TreeDepartment;
             commonModel.departments = data.Departments;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    /// Get all status.
+    commonModel.getAllStatus = function () {
+        return commonFactory.getAllStatus()
+        .success(function (statusList) {
+            commonModel.statusList = statusList;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });

@@ -67,6 +67,7 @@
     <Compile Include="Implement\EmployeeRepository.cs" />
     <Compile Include="Implement\FlowManagementRepository.cs" />
     <Compile Include="Implement\KPIGroupRepository.cs" />
+    <Compile Include="Implement\MemberEPARepository.cs" />
     <Compile Include="Implement\TargetEmployeeSettingRepository.cs" />
     <Compile Include="Implement\TargetTemplateRepository.cs" />
     <Compile Include="Interfaces\ICheckFlowAssignmentRepository.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="Interfaces\IFlowManagementRepository.cs" />
     <Compile Include="Interfaces\IKPIGroupRepository.cs" />
     <Compile Include="Interfaces\IKPIRepository.cs" />
+    <Compile Include="Interfaces\IMemberEPARepository.cs" />
     <Compile Include="Interfaces\ITargetEmployeeSettingRepository.cs" />
     <Compile Include="Interfaces\ITargetTemplateRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

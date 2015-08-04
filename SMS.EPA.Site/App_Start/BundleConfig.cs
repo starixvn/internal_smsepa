@@ -97,7 +97,8 @@
                             "~/SourceApp/Components/Department/department-factory.js",
                             "~/SourceApp/Components/Department/department-model.js",
                             "~/SourceApp/Components/Department/department-controller.js",
-                            "~/SourceApp/Components/Department/department-directive.js"));
+                            "~/SourceApp/Components/Department/department-directive.js",
+                            "~/SourceApp/Components/EPA/MyEPA/myepa-controller.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/epa-directives.js",

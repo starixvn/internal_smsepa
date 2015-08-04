@@ -29,6 +29,9 @@ commonModule.factory('commonFactory', ['$http', 'baseUrl', function ($http, base
         },
         getDepartment: function (parentId, isActive) {
             return $http.get(baseUrl + 'api/Common/GetDepartment', { params: { parentId: parentId, isActive: isActive } });
+        },
+        getAllStatus: function () {
+            return $http.get(baseUrl + 'api/Common/GetAllStatus');
         }
     };
 } ]);

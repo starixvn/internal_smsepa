@@ -20,13 +20,12 @@
         <div class="form-group required">
             <label class="col-sm-4 control-label" data-translate="Group"></label>
             <div class="col-sm-8 field">
-                <select class="form-control select-kpi-group" multiple chosen
-                    options="createKPICtrl.kpiGroups"
-                    ng-model="createKPICtrl.currentChosenKPIGroups"
-                    data-placeholder="Select the group"
-                    ng-options="opt.KPIGroupId as opt.Name for opt in createKPICtrl.kpiGroups"
-                    on-show-dropdown="createKPICtrl.updateTrigger()"
-                    ng-disabled="createKPICtrl.isDisable"></select>
+                <select class="form-control select-kpi-group" multiple chosen update-trigger
+                        options="createKPICtrl.kpiGroups"
+                        ng-model="createKPICtrl.currentChosenKPIGroups"
+                        data-placeholder="Select the group"
+                        ng-options="opt.KPIGroupId as opt.Name for opt in createKPICtrl.kpiGroups"
+                        ng-disabled="createKPICtrl.isDisable"></select>
             </div>
         </div>
         <div class="form-group required">
