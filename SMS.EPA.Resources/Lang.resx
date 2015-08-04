@@ -594,4 +594,7 @@
   <data name="EvaluateDate" xml:space="preserve">
     <value>Evaluate Date</value>
   </data>
+  <data name="CreateFlowTemplate" xml:space="preserve">
+    <value>Create Flow Template</value>
+  </data>
 </root>

@@ -59,6 +59,7 @@
     <Compile Include="Enitites\Group.cs" />
     <Compile Include="Enitites\JobTitle.cs" />
     <Compile Include="Enitites\StatusModel.cs" />
+    <Compile Include="FlowManagement\FlowTemplateModel.cs" />
     <Compile Include="MemberEPA\MemberEPAModel.cs" />
     <Compile Include="FlowManagement\EmployeeSettingFlowInDepartmentModel.cs" />
     <Compile Include="FlowManagement\FlowModel.cs" />

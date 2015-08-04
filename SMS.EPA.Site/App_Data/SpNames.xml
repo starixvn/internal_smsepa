@@ -91,6 +91,8 @@
         </Setting>
     </Function>
     <Function Name="Flow">
+        <Setting Key="FlowTemplate_Get" SpName="FlowTemplate_Get" DbName="SMSEPA" Plain="0" >
+        </Setting>
         <Setting Key="SettingDepartmentFlow_Get" SpName="SettingDepartmentFlow_Get" DbName="SMSEPA" Plain="0" >
         </Setting>
         <Setting Key="SettingDepartmentFlow_Set" SpName="SettingDepartmentFlow_Set" DbName="SMSEPA" Plain="0" >

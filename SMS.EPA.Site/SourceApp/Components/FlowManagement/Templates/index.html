@@ -1,17 +1,88 @@
-﻿<div class="col-sm-12 flow-management" ng-controller="FlowMngController as flowMngCtrl">
-    <div class="sub-header">
+﻿<div class="flow-management" ng-controller="FlowMngController as flowMngCtrl">
+    <div class="col-sm-12 sub-header">
         <ul class="row breadcrumb">
             <li class="current" data-translate="FlowManagement"></li>
         </ul>
     </div>
-    <div class="target-tabset">
-        <tabset id="FlowMngTab">
-            <tab heading="DEPARTMENT / GROUP" class="tab-cursor" select="flowMngCtrl.tabDepartmentSelected()">
-                <div ng-include src="'/SourceApp/Components/FlowManagement/Templates/departmentFlow.html'"></div>
-            </tab>
-            <tab heading="PERSONAL" class="tab-cursor" select="flowMngCtrl.tabPersonalSelected()">
-                <div ng-include src="'/SourceApp/Components/FlowManagement/Templates/personalFlow.html'"></div>
-            </tab>
-        </tabset>
+    <div class="col-sm-12">
+        <form novalidate class="row filter form-inline" role="form">
+            <div class="form-group">
+                <label data-translate="Form"></label>
+                <select class="form-control lstBox-limit" ng-model="flowMngCtrl.filter.targetTypeId"
+                        ng-options="opt.TargetTypeId as opt.Name for opt in flowMngCtrl.targetTypes">
+                    <option value="">-- {{"All" | translate}} --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="control-label" data-translate="Status"></label>
+                <select class="form-control" ng-model="flowMngCtrl.filter.isActive">
+                    <option value="">-- {{"All" | translate}} --</option>
+                    <option selected value="true" data-translate="Active"></option>
+                    <option value="false" data-translate="InActive"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button class="button" ng-click="flowMngCtrl.query(flowMngCtrl.filter)" data-translate="Submit"></button>
+            </div>
+        </form>
+        <table class="row table table-bordered table-striped">
+            <thead>
+                <tr class="header-table">
+                    <th colspan="6">
+                        <a class="pull-left button-icon create-button" ng-click="flowMngCtrl.createFlowGroup()">
+                            <span class="icon plus"></span>
+                            <span class="button-text" data-translate="CreateFlowTemplate"></span>
+                        </a>
+                        <input type="text" ng-model="flowMngCtrl.searchKey" ng-change="flowMngCtrl.search()"
+                               class="search-inline-textbox search pull-right">
+                    </th>
+                </tr>
+                <tr class="headerName">
+                    <th class="text-center" data-translate="SymbolCount"></th>
+                    <th data-translate="Name"></th>
+                    <th data-translate="Form"></th>
+                    <th class="text-center col-active" data-translate="Active"></th>
+                    <th class="text-center col-description" data-translate="Description"></th>
+                    <th class="text-center col-action" data-translate="Action"></th>
+                </tr>
+            </thead>
+            <tbody class="table-body">
+                <tr dir-paginate="flowTemplate in flowMngCtrl.filteredItems | itemsPerPage: flowMngCtrl.pageSize" current-page="flowMngCtrl.currentPage">
+                    <td class="text-center" ng-bind="flowMngCtrl.getIndex($index, flowMngCtrl.currentPage, flowMngCtrl.pageSize)"></td>
+                    <td ng-bind="flowTemplate.Name"></td>
+                    <td ng-bind="flowTemplate.TargetType.Name"></td>
+                    <td class="text-center col-active">
+                        <input type="checkbox" ng-checked="flowTemplate.IsActive" ng-click="flowMngCtrl.updateStatusFlowGroup(flowTemplate)" />
+                    </td>
+                    <td class="col-description">
+                        {{flowTemplate.Description | limitTo: flowTemplate.numLimit > 0 ? flowTemplate.numLimit: flowMngCtrl.maxLengthDescription}}
+                        <a ng-if="!flowTemplate.showReadMore && (flowTemplate.Description.length >= flowMngCtrl.maxLengthDescription)"
+                           href="javascript:;" ng-click="flowMngCtrl.readMore(flowGroup)" data-translate="ReadMore"></a>
+                        <a ng-if="kpiGroup.showReadMore && (flowTemplate.Description.length >= flowMngCtrl.maxLengthDescription)"
+                           href="javascript:;" ng-click="flowMngCtrl.readLess(flowGroup)" data-translate="ReadLess"></a>
+                    </td>
+                    <td class="text-center col-action">
+                        <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="flowMngCtrl.updateFlowGroup(flowGroup)" ng-attr-title='{{"Edit" | translate}}'></a>
+                        <a class="glyphicon glyphicon-remove icon-remove" href="" ng-click="flowMngCtrl.deleteFlowGroup(flowGroup)" ng-attr-title='{{"Delete" | translate}}'></a>
+                    </td>
+                </tr>
+                <tr ng-show="flowMngCtrl.filteredItems.length == 0">
+                    <td class="empty-result" colspan="6" data-translate="EmptyResult"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="6" class="paging">
+                        <span data-translate="Show"></span>
+                        <select class="dropdown-entry form-control" ng-model="flowMngCtrl.pageSize"
+                                ng-options="entry for entry in flowMngCtrl.entries"></select>
+                        <span data-translate="entries"></span>
+                        <div class="pull-right custom-paging">
+                            <dir-pagination-controls boundary-links="true"></dir-pagination-controls>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
     </div>
 </div>

@@ -15,6 +15,8 @@ namespace SMS.EPA.Repositories.Interfaces
 
     public interface IFlowManagementRepository
     {
+        IEnumerable<FlowTemplateModel> GetFlowTemplate(ICriteria criteria);
+
         IEnumerable<FlowModel> GetFlowManagement(ICriteria criteria);
     }
 }

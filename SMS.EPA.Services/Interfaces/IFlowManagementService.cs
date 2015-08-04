@@ -16,6 +16,8 @@ namespace SMS.EPA.Services.Interfaces
 
     public interface IFlowManagementService
     {
+        IEnumerable<FlowTemplateModel> GetFlowTemplate(GetFlowTemplateCriteria criteria);
+
         IEnumerable<FlowModel> GetDepartmentFlow(GetDepartmentFlowCriteria criteria);
 
         IEnumerable<FlowModel> GetPersonalFlow(GetPersonalFlowCriteria criteria);

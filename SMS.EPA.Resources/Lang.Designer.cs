@@ -250,6 +250,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create Flow Template.
+        /// </summary>
+        public static string CreateFlowTemplate {
+            get {
+                return ResourceManager.GetString("CreateFlowTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create KPI.
         /// </summary>
         public static string CreateKPI {

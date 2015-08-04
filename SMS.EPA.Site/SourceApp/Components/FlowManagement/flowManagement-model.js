@@ -38,6 +38,7 @@ function ($modal, flowMngFactory, notificationFactory, errorFactory) {
         employees: []
     };
 
+    flowMngModel.flowTemplates = [];
     flowMngModel.defaultSettingFlowEmployees = [];
     flowMngModel.personalSettingFlowEmployees = [];
 
@@ -109,6 +110,16 @@ function ($modal, flowMngFactory, notificationFactory, errorFactory) {
 
         vm.calendar.humanResources.startDateOpened = false;
         vm.calendar.humanResources.endDateOpened = false;
+    };
+
+    /// Get flow template.
+    flowMngModel.getFlowTemplate = function (targetTypeId, isActive) {
+        return flowMngFactory.getFlowTemplate(targetTypeId, isActive)
+        .success(function (flowTemplates) {
+            flowMngModel.flowTemplates = flowTemplates;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
     };
 
     /// Get employee setting flow in department.

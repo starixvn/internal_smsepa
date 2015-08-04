@@ -33,6 +33,18 @@ namespace SMS.EPA.Services.Implement
             _flowManagementRepository = flowManagementRepository ?? new FlowManagementRepository();
         }
 
+        public IEnumerable<FlowTemplateModel> GetFlowTemplate(GetFlowTemplateCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<FlowTemplateModel> flowTemplates = new List<FlowTemplateModel>();
+            if (criteria.IsValid())
+            {
+                flowTemplates = _flowManagementRepository.GetFlowTemplate(criteria);
+            }
+
+            return flowTemplates;
+        }
+
         public IEnumerable<FlowModel> GetDepartmentFlow(GetDepartmentFlowCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");

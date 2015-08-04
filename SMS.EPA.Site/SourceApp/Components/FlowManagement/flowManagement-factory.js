@@ -3,6 +3,14 @@
 
 flowMngModule.factory('flowMngFactory', ['$http', 'baseUrl', function ($http, baseUrl) {
     return {
+        getFlowTemplate: function (targetTypeId, isActive) {
+            return $http.get(baseUrl + 'api/FlowManagement/GetFlowTemplate', {
+                params: {
+                    targetTypeId: targetTypeId,
+                    isActive: isActive
+                }
+            });
+        },
         getDepartmentFlow: function (departmentId) {
             return $http.get(baseUrl + 'api/FlowManagement/GetDepartmentFlow', { params: { departmentId: departmentId } });
         },

@@ -40,6 +40,20 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpGet]
+        public IEnumerable<FlowTemplateModel> GetFlowTemplate(
+            int? targetTypeId = null,
+            bool? isActive = null)
+        {
+            var criteria = new GetFlowTemplateCriteria()
+            {
+                TargetTypeId = targetTypeId,
+                IsActive = isActive
+            };
+
+            return _flowManagementService.GetFlowTemplate(criteria);
+        }
+
+        [HttpGet]
         public IEnumerable<FlowModel> GetDepartmentFlow(int departmentId)
         {
             IEnumerable<FlowModel> data = new List<FlowModel>();

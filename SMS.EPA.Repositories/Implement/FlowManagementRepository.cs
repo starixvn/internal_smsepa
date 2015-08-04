@@ -14,10 +14,26 @@ namespace SMS.EPA.Repositories.Implement
     using Fanex.Data.Repository;
     using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.FlowManagement;
+    using SMS.EPA.Model.TargetType;
     using SMS.EPA.Repositories.Interfaces;
 
     public class FlowManagementRepository : IFlowManagementRepository
     {
+        public IEnumerable<FlowTemplateModel> GetFlowTemplate(ICriteria criteria)
+        {
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                return db.Query<FlowTemplateModel, TargetTypeModel, FlowTemplateModel>(
+                   (ft, tt) =>
+                   {
+                       ft.TargetType = tt;
+                       return ft;
+                   },
+                   "TargetTypeId",
+                   criteria.GetSpParams());
+            }
+        }
+
         public IEnumerable<FlowModel> GetFlowManagement(ICriteria criteria)
         {
             IEnumerable<FlowModel> epaFlow = null;
