@@ -1,0 +1,20 @@
+﻿<div class="col-sm-12" ng-controller="UpdateFlowTemplateController as updateCtrl">
+    <div class="sub-header">
+        <ul class="row breadcrumb">
+            <li class="current" data-translate="EditFlowTemplate"></li>
+        </ul>
+    </div>
+    <div class="target-tabset">
+        <tabset id="FlowTemplateTab">
+            <tab heading="GENERAL INFORMATION" class="tab-cursor" active="updateCtrl.dataTab.information" select="updateCtrl.tabInfoSelect()">
+                <div ng-include src="'/SourceApp/Components/FlowManagement/Templates/generalInformation.html'"></div>
+            </tab>
+            <!--<tab heading="DEPARTMENT / GROUP" class="tab-cursor" select="flowMngCtrl.tabDepartmentSelected()">
+                <div ng-include src="'/SourceApp/Components/FlowManagement/Templates/departmentFlow.html'"></div>
+            </tab>
+            <tab heading="PERSONAL" class="tab-cursor" select="flowMngCtrl.tabPersonalSelected()">
+                <div ng-include src="'/SourceApp/Components/FlowManagement/Templates/personalFlow.html'"></div>
+            </tab>-->
+        </tabset>
+    </div>
+</div>

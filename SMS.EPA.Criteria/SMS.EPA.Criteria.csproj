@@ -85,12 +85,15 @@
     <Compile Include="Employee\GetMenuCriteria.cs" />
     <Compile Include="Employee\UpdateSpecialEmployeeCriteria.cs" />
     <Compile Include="FlowManagement\CreateDepartmentFlowCriteria.cs" />
+    <Compile Include="FlowManagement\CreateFlowTemplateCriteria.cs" />
     <Compile Include="FlowManagement\CreatePersonalFlowCriteria.cs" />
     <Compile Include="FlowManagement\DeleteDepartmentFlowCriteria.cs" />
     <Compile Include="FlowManagement\DeletePersonalFlowCriteria.cs" />
     <Compile Include="FlowManagement\GetDepartmentFlowCriteria.cs" />
+    <Compile Include="FlowManagement\GetFlowTemplateByIdCriteria.cs" />
     <Compile Include="FlowManagement\GetFlowTemplateCriteria.cs" />
     <Compile Include="FlowManagement\GetPersonalFlowCriteria.cs" />
+    <Compile Include="FlowManagement\UpdateFlowTemplateCriteria.cs" />
     <Compile Include="KPIGroup\DeleteKPIGroupCriteria.cs" />
     <Compile Include="KPIGroup\GetKPIGroupByIdCriteria.cs" />
     <Compile Include="KPIGroup\GetKPIGroupCriteria.cs" />

@@ -43,6 +43,8 @@ namespace SMS.EPA.Site
                 "TargetTemplate/Update/{id}",
                 "TargetTemplate/Detail/{id}",
                 "Flow/Index",
+                "Flow/Create",
+                "Flow/Update/{id}",
                 "TargetEmployeeSetting/Index",
                 "CheckAssignment/Index",
                 "Department/Index",

@@ -29,7 +29,9 @@
             <thead>
                 <tr class="header-table">
                     <th colspan="6">
-                        <a class="pull-left button-icon create-button" ng-click="flowMngCtrl.createFlowGroup()">
+                        <a class="pull-left button-icon create-button"
+                           href="" ng-href="{{flowMngCtrl.createFlowTemplateUrl}}"
+                           ng-click="flowMngCtrl.createFlowTemplate()">
                             <span class="icon plus"></span>
                             <span class="button-text" data-translate="CreateFlowTemplate"></span>
                         </a>
@@ -57,13 +59,15 @@
                     <td class="col-description">
                         {{flowTemplate.Description | limitTo: flowTemplate.numLimit > 0 ? flowTemplate.numLimit: flowMngCtrl.maxLengthDescription}}
                         <a ng-if="!flowTemplate.showReadMore && (flowTemplate.Description.length >= flowMngCtrl.maxLengthDescription)"
-                           href="javascript:;" ng-click="flowMngCtrl.readMore(flowGroup)" data-translate="ReadMore"></a>
+                           href="javascript:;" ng-click="flowMngCtrl.readMore(flowTemplate)" data-translate="ReadMore"></a>
                         <a ng-if="kpiGroup.showReadMore && (flowTemplate.Description.length >= flowMngCtrl.maxLengthDescription)"
-                           href="javascript:;" ng-click="flowMngCtrl.readLess(flowGroup)" data-translate="ReadLess"></a>
+                           href="javascript:;" ng-click="flowMngCtrl.readLess(flowTemplate)" data-translate="ReadLess"></a>
                     </td>
                     <td class="text-center col-action">
-                        <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="flowMngCtrl.updateFlowGroup(flowGroup)" ng-attr-title='{{"Edit" | translate}}'></a>
-                        <a class="glyphicon glyphicon-remove icon-remove" href="" ng-click="flowMngCtrl.deleteFlowGroup(flowGroup)" ng-attr-title='{{"Delete" | translate}}'></a>
+                        <a class="glyphicon glyphicon-edit icon-edit" href="{{flowMngCtrl.updateFlowTemplateUrl}}"
+                           ng-click="flowMngCtrl.updateFlowTemplate(flowTemplate)" ng-attr-title='{{"Edit" | translate}}'></a>
+                        <a class="glyphicon glyphicon-remove icon-remove" href=""
+                           ng-click="flowMngCtrl.deleteFlowTemplate(flowTemplate)" ng-attr-title='{{"Delete" | translate}}'></a>
                     </td>
                 </tr>
                 <tr ng-show="flowMngCtrl.filteredItems.length == 0">

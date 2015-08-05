@@ -11,6 +11,15 @@ flowMngModule.factory('flowMngFactory', ['$http', 'baseUrl', function ($http, ba
                 }
             });
         },
+        getFlowTemplateById: function(flowTemplateId){
+            return $http.get(baseUrl + 'api/FlowManagement/GetFlowTemplateById', { params: { flowTemplateId: flowTemplateId } });
+        },
+        createFlowTemplate: function(flowTemplate){
+            return $http.post(baseUrl + 'api/FlowManagement/CreateFlowTemplate', flowTemplate);
+        },
+        updateFlowTemplate: function(flowTemplate){
+            return $http.put(baseUrl + 'api/FlowManagement/UpdateFlowTemplate', flowTemplate);
+        },
         getDepartmentFlow: function (departmentId) {
             return $http.get(baseUrl + 'api/FlowManagement/GetDepartmentFlow', { params: { departmentId: departmentId } });
         },

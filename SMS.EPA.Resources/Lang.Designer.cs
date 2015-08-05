@@ -376,6 +376,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit Flow Template.
+        /// </summary>
+        public static string EditFlowTemplate {
+            get {
+                return ResourceManager.GetString("EditFlowTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit KPI.
         /// </summary>
         public static string EditKPI {

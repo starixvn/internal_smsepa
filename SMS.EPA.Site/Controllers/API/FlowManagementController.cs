@@ -54,6 +54,43 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpGet]
+        public FlowTemplateModel GetFlowTemplateById(int flowTemplateId)
+        {
+            var criteria = new GetFlowTemplateByIdCriteria()
+            {
+                FlowTemplateId = flowTemplateId
+            };
+
+            return _flowManagementService.GetFlowTemplateById(criteria);
+        }
+
+        [HttpPost]
+        public CommandResult CreateFlowTemplate(CreateFlowTemplateCriteria criteria)
+        {
+            if (criteria != null)
+            {
+                criteria.CreatedBy = CurrentUser.EmployeeInfo.EmployeeId;
+            }
+
+            CommandResult commandResult = _flowManagementService.CreateFlowTemplate(criteria);
+
+            return commandResult;
+        }
+
+        [HttpPut]
+        public CommandResult UpdateFlowTemplate(UpdateFlowTemplateCriteria criteria)
+        {
+            if (criteria != null)
+            {
+                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+            }
+
+            CommandResult commandResult = _flowManagementService.UpdateFlowTemplate(criteria);
+
+            return commandResult;
+        }
+
+        [HttpGet]
         public IEnumerable<FlowModel> GetDepartmentFlow(int departmentId)
         {
             IEnumerable<FlowModel> data = new List<FlowModel>();

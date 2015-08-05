@@ -45,6 +45,42 @@ namespace SMS.EPA.Services.Implement
             return flowTemplates;
         }
 
+        public FlowTemplateModel GetFlowTemplateById(GetFlowTemplateByIdCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            FlowTemplateModel flowTemplate = new FlowTemplateModel();
+            if (criteria.IsValid())
+            {
+                flowTemplate = _flowManagementRepository.GetFlowTemplateById(criteria);
+            }
+
+            return flowTemplate;
+        }
+
+        public CommandResult CreateFlowTemplate(CreateFlowTemplateCriteria criteria)
+        {
+            CommandResult result = new CommandResult();
+            Check.Argument.IsNotNull(criteria, "criteria");
+            if (criteria.IsValid())
+            {
+                result = Repository.Insert(criteria);
+            }
+
+            return result;
+        }
+
+        public CommandResult UpdateFlowTemplate(UpdateFlowTemplateCriteria criteria)
+        {
+            CommandResult result = new CommandResult();
+            Check.Argument.IsNotNull(criteria, "criteria");
+            if (criteria.IsValid())
+            {
+                result = Repository.Update(criteria);
+            }
+
+            return result;
+        }
+
         public IEnumerable<FlowModel> GetDepartmentFlow(GetDepartmentFlowCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");

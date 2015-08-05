@@ -52,6 +52,10 @@ var flowMngModule = angular.module("flowMngModule", ['ngRoute'])
     var baseUrl = $("base").first().attr("href");
     $routeProvider.when('/Flow/Index',
     { templateUrl: baseUrl + 'SourceApp/Components/FlowManagement/Templates/index.html' });
+    $routeProvider.when('/Flow/Create',
+    { templateUrl: baseUrl + 'SourceApp/Components/FlowManagement/Templates/create.html' });
+    $routeProvider.when('/Flow/Update/:id',
+    { templateUrl: baseUrl + 'SourceApp/Components/FlowManagement/Templates/update.html' });
 }]);
 
 var targetEmployeeSettingModule = angular.module("targetEmployeeSettingModule", ['ngRoute'])

@@ -93,6 +93,12 @@
     <Function Name="Flow">
         <Setting Key="FlowTemplate_Get" SpName="FlowTemplate_Get" DbName="SMSEPA" Plain="0" >
         </Setting>
+        <Setting Key="FlowTemplate_GetById" SpName="FlowTemplate_GetById" DbName="SMSEPA" Plain="0" >
+        </Setting>
+        <Setting Key="FlowTemplate_Insert" SpName="FlowTemplate_Insert" DbName="SMSEPA" Plain="0" >
+        </Setting>
+        <Setting Key="FlowTemplate_Update" SpName="FlowTemplate_Update" DbName="SMSEPA" Plain="0" >
+        </Setting>
         <Setting Key="SettingDepartmentFlow_Get" SpName="SettingDepartmentFlow_Get" DbName="SMSEPA" Plain="0" >
         </Setting>
         <Setting Key="SettingDepartmentFlow_Set" SpName="SettingDepartmentFlow_Set" DbName="SMSEPA" Plain="0" >

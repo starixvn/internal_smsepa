@@ -39,6 +39,7 @@ function ($modal, flowMngFactory, notificationFactory, errorFactory) {
     };
 
     flowMngModel.flowTemplates = [];
+    flowMngModel.flowTemplate = {};
     flowMngModel.defaultSettingFlowEmployees = [];
     flowMngModel.personalSettingFlowEmployees = [];
 
@@ -118,6 +119,60 @@ function ($modal, flowMngFactory, notificationFactory, errorFactory) {
         .success(function (flowTemplates) {
             flowMngModel.flowTemplates = flowTemplates;
         }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    /// Get flow template by Id.
+    flowMngModel.getFlowTemplateById = function (flowTemplateId) {
+        return flowMngFactory.getFlowTemplateById(flowTemplateId)
+        .success(function (flowTemplate) {
+            flowMngModel.flowTemplate = flowTemplate;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    flowMngModel.validateFlowTemplate = function (flowTemplate) {
+        if (!flowTemplate) {
+            return false;
+        }
+        else {
+            if (!flowTemplate.Name) {
+                notificationFactory.error("NameRequire");
+                return false;
+            }
+            else if (!flowTemplate.TargetTypeId) {
+                notificationFactory.error("FormRequire");
+                return false;
+            }
+        }
+
+        return true;
+    };
+
+    flowMngModel.createFlowTemplate = function (flowTemplate) {
+        return flowMngFactory.createFlowTemplate(flowTemplate).success(function (response) {
+            if (response.IsSuccessful) {
+                notificationFactory.success("CreateSuccessfully");
+            }
+            else {
+                notificationFactory.error("", response.Message);
+            }
+        }).error(function () {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    flowMngModel.updateFlowTemplate = function (flowTemplate) {
+        return flowMngFactory.updateFlowTemplate(flowTemplate).success(function (response) {
+            if (response.IsSuccessful) {
+                notificationFactory.success("UpdateSuccessfully");
+            }
+            else {
+                notificationFactory.error("", response.Message);
+            }
+        }).error(function () {
             errorFactory.errorHandle(status);
         });
     };

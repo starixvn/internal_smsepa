@@ -31,6 +31,14 @@ function (FlowMngModel, EmployeeModel, CommonModel, utilitiesFactory, cacheServi
         });
     };
 
+    vm.createFlowTemplate = function () {
+        vm.createFlowTemplateUrl = '/Flow/Create';
+    };
+
+    vm.updateFlowTemplate = function (flowTemplate) {
+        vm.updateFlowTemplateUrl = '/Flow/Update/' + flowTemplate.FlowTemplateId;
+    };
+
     vm.tabDepartmentSelected = function () {
         cacheService.setProperty(1);
     };
@@ -109,4 +117,77 @@ function (FlowMngModel, EmployeeModel, CommonModel, utilitiesFactory, cacheServi
     vm.getIndex = function (index, currentPage, pageSize) {
         return CommonModel.getIndex(index, currentPage, pageSize);
     };
-} ]);
+}]);
+
+flowMngModule.controller("CreateFlowTemplateController",
+['$window', 'FlowMngModel', 'CommonModel',
+function ($window, FlowMngModel, CommonModel) {
+    var vm = this;
+
+    vm.targetTypes = CommonModel.targetTypes;
+
+    vm.flowTemplate = {
+        Name: '',
+        TargetTypeId: '',
+        IsActive: true,
+        Description: ''
+    };
+
+    vm.initialize = function () {
+        CommonModel.getTargetType(true).then(function () {
+            vm.targetTypes = CommonModel.targetTypes;
+        });
+    };
+
+    vm.initialize();
+
+    vm.save = function (flowTemplate) {
+        if (FlowMngModel.validateFlowTemplate(flowTemplate)) {
+            FlowMngModel.createFlowTemplate(flowTemplate);
+        }
+    };
+
+    vm.cancel = function () {
+        $window.history.back();
+    };
+}]);
+
+flowMngModule.controller("UpdateFlowTemplateController",
+['$window', '$routeParams', 'FlowMngModel', 'CommonModel',
+function ($window, $routeParams, FlowMngModel, CommonModel) {
+    var vm = this;
+
+    vm.flowTemplateId = parseInt($routeParams.id);
+}]);
+
+flowMngModule.controller("GeneralInformationController",
+['$window', '$routeParams', 'FlowMngModel', 'CommonModel',
+function ($window, $routeParams, FlowMngModel, CommonModel) {
+    var vm = this;
+
+    vm.flowTemplateId = parseInt($routeParams.id);
+    vm.targetTypes = CommonModel.targetTypes;
+
+    vm.initialize = function () {
+        CommonModel.getTargetType(true).then(function () {
+            vm.targetTypes = CommonModel.targetTypes;
+        });
+
+        FlowMngModel.getFlowTemplateById(vm.flowTemplateId).then(function () {
+            vm.flowTemplate = FlowMngModel.flowTemplate;
+            vm.flowTemplate.TargetTypeId = FlowMngModel.flowTemplate.TargetType.TargetTypeId;
+        });
+    };
+
+    vm.initialize();
+
+    vm.save = function (flowTemplate) {
+        if (FlowMngModel.validateFlowTemplate(flowTemplate)) {
+            FlowMngModel.updateFlowTemplate(flowTemplate);
+        }
+    };
+
+    vm.cancel = function () {
+        $window.history.back();
+    };
+}]);

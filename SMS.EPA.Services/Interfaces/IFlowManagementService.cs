@@ -18,6 +18,12 @@ namespace SMS.EPA.Services.Interfaces
     {
         IEnumerable<FlowTemplateModel> GetFlowTemplate(GetFlowTemplateCriteria criteria);
 
+        FlowTemplateModel GetFlowTemplateById(GetFlowTemplateByIdCriteria criteria);
+
+        CommandResult CreateFlowTemplate(CreateFlowTemplateCriteria criteria);
+
+        CommandResult UpdateFlowTemplate(UpdateFlowTemplateCriteria criteria);
+
         IEnumerable<FlowModel> GetDepartmentFlow(GetDepartmentFlowCriteria criteria);
 
         IEnumerable<FlowModel> GetPersonalFlow(GetPersonalFlowCriteria criteria);
