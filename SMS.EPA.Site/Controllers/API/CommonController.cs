@@ -44,20 +44,17 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpGet]
         public IEnumerable<KPIModel> GetKPI(
-            int? targetTypeId = null,
             int? kpiGroupId = null,
             bool? isActive = null,
             bool? isRequiredEvaluate = null)
         {
-            return _utilitiesController.GetKPI(targetTypeId, kpiGroupId, isActive, isRequiredEvaluate);
+            return _utilitiesController.GetKPI(kpiGroupId, isActive, isRequiredEvaluate);
         }
 
         [HttpGet]
-        public IEnumerable<KPIGroupModel> GetKPIGroup(
-            int? targetTypeId = null,
-            bool? isActive = null)
+        public IEnumerable<KPIGroupModel> GetKPIGroup(bool? isActive = null)
         {
-            return _utilitiesController.GetKPIGroup(targetTypeId, isActive);
+            return _utilitiesController.GetKPIGroup(isActive);
         }
 
         public List<object> GetSystemRoles(bool exceptNone)

@@ -7,13 +7,6 @@
     <div class="col-sm-12">
         <form novalidate class="row filter form-inline" role="form">
             <div class="form-group">
-                <label data-translate="Form"></label>
-                <select class="form-control lstBox-limit" ng-model="kpiGroupCtrl.filter.targetTypeId" 
-                    ng-options="opt.TargetTypeId as opt.Name for opt in kpiGroupCtrl.targetTypes">
-                    <option value="">-- {{"All" | translate}} --</option>
-                </select>
-            </div>
-            <div class="form-group">
                 <label class="control-label" data-translate="Status"></label>
                 <select class="form-control" ng-model="kpiGroupCtrl.filter.isActive">
                     <option value="">-- {{"All" | translate}} --</option>
@@ -39,7 +32,6 @@
                 </tr>
                 <tr class="headerName">
                     <th class="text-center" data-translate="SymbolCount"></th>
-                    <th class="text-center" data-translate="Form"></th>
                     <th class="text-center" data-translate="Group"></th>
                     <th class="text-center" data-translate="KPIs"></th>
                     <th class="text-center col-active" data-translate="Active"></th>
@@ -50,7 +42,6 @@
             <tbody class="table-body">
                 <tr dir-paginate="kpiGroup in kpiGroupCtrl.filteredItems | itemsPerPage: kpiGroupCtrl.pageSize" current-page="kpiGroupCtrl.currentPage">
                     <td class="text-center" ng-bind="kpiGroupCtrl.getIndex($index, kpiGroupCtrl.currentPage, kpiGroupCtrl.pageSize)"></td>
-                    <td ng-bind="kpiGroup.TargetType.Name"></td>
                     <td ng-bind="kpiGroup.Name"></td>
                     <td class="text-center col-number-kpis">
                         <a href="" ng-if="kpiGroup.NumberKPI > 0 && kpiGroupCtrl.permissionOnKPI > 0" ng-click="kpiGroupCtrl.viewKPI(kpiGroup.KPIGroupId)"

@@ -41,13 +41,10 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.KPIGroup, Policy = Policy.Read)]
-        public IEnumerable<KPIGroupModel> GetKPIGroup(
-            int? targetTypeId = null,
-            bool? isActive = null)
+        public IEnumerable<KPIGroupModel> GetKPIGroup(bool? isActive = null)
         {
             var criteria = new GetKPIGroupCriteria
             {
-                TargetTypeId = targetTypeId,
                 IsActive = isActive
             };
 

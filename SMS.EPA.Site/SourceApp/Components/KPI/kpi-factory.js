@@ -3,10 +3,9 @@
 
 kpiModule.factory('kpiFactory', ['$http', 'baseUrl', function ($http, baseUrl) {
     return {
-        getKPI: function (targetTypeId, kpiGroupId, isActive, isRequiredEvaluate) {
+        getKPI: function (kpiGroupId, isActive, isRequiredEvaluate) {
             return $http.get(baseUrl + 'api/KPI/GetKPI', {
                 params: {
-                    targetTypeId: targetTypeId,
                     kpiGroupId: kpiGroupId,
                     isActive: isActive,
                     isRequiredEvaluate: isRequiredEvaluate

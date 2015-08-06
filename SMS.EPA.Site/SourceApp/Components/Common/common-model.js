@@ -40,8 +40,8 @@ function (commonFactory, errorFactory) {
     };
 
     /// Get KPI.
-    commonModel.getKPI = function (targetTypeId, kpiGroupId, isActive, isRequiredEvaluate) {
-        return commonFactory.getKPI(targetTypeId, kpiGroupId, isActive, isRequiredEvaluate)
+    commonModel.getKPI = function (kpiGroupId, isActive, isRequiredEvaluate) {
+        return commonFactory.getKPI(kpiGroupId, isActive, isRequiredEvaluate)
         .success(function (kpis) {
             commonModel.kpis = kpis;
         }).error(function (response, status) {
@@ -50,8 +50,8 @@ function (commonFactory, errorFactory) {
     };
 
     /// Get KPI Group.
-    commonModel.getKPIGroup = function (targetTypeId, isActive) {
-        return commonFactory.getKPIGroup(targetTypeId, isActive)
+    commonModel.getKPIGroup = function (isActive) {
+        return commonFactory.getKPIGroup(isActive)
         .success(function (kpiGroups) {
             commonModel.kpiGroups = kpiGroups;
         }).error(function (response, status) {

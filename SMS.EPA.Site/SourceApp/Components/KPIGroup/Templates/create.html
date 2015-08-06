@@ -7,15 +7,6 @@
 <div class="modal-body kpiGroup-modal-body">
     <form class="form-horizontal col-sm-11" role="form">
         <div class="form-group required">
-            <label class="col-sm-4 control-label" data-translate="Form"></label>
-            <div class="col-sm-6 field active-label">
-                <select class="form-control" ng-model="createKPIGroupCtrl.kpiGroup.TargetTypeId"
-                    ng-options="opt.TargetTypeId as opt.Name for opt in createKPIGroupCtrl.targetTypes">
-                    <option value="">-- {{"All" | translate}} --</option>
-                </select>
-            </div>
-        </div>
-        <div class="form-group required">
             <label class="col-sm-4 control-label" data-translate="Name"></label>
             <div class="col-sm-8 field">
                 <input type="text" class="form-control" ng-model="createKPIGroupCtrl.kpiGroup.Name" required maxlength="500" />

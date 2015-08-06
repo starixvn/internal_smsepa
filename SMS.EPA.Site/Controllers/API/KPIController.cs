@@ -42,14 +42,12 @@ namespace SMS.EPA.Site.Controllers.API
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.KPI, Policy = Policy.Read)]
         public IEnumerable<KPIModel> GetKPI(
-            int? targetTypeId = null,
             int? kpiGroupId = null,
             bool? isActive = null,
             bool? isRequiredEvaluate = null)
         {
             var criteria = new GetKPICriteria
             {
-                TargetTypeId = targetTypeId,
                 KPIGroupId = kpiGroupId,
                 IsActive = isActive,
                 IsRequiredEvaluate = isRequiredEvaluate

@@ -11,8 +11,8 @@ function ($modal, kpiGroupFactory, utilitiesFactory, notificationFactory, errorF
     kpiGroupModel.permission = 0;
 
     /// Get KPI Group.
-    kpiGroupModel.getKPIGroup = function (targetTypeId, isActive) {
-        return kpiGroupFactory.getKPIGroup(targetTypeId, isActive)
+    kpiGroupModel.getKPIGroup = function (isActive) {
+        return kpiGroupFactory.getKPIGroup(isActive)
         .success(function (kpiGroups) {
             kpiGroupModel.kpiGroups = kpiGroups;
         }).error(function (response, status) {
@@ -36,11 +36,7 @@ function ($modal, kpiGroupFactory, utilitiesFactory, notificationFactory, errorF
             return false;
         }
         else {
-            if (!kpiGroup.TargetTypeId) {
-                notificationFactory.error("FormRequire");
-                return false;
-            }
-            else if (!kpiGroup.Name) {
+            if (!kpiGroup.Name) {
                 notificationFactory.error("NameRequire");
                 return false;
             }

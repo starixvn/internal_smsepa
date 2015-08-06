@@ -6,12 +6,10 @@ kpiGroupModule.controller('KPIGroupController',
 function (KPIGroupModel, KPIModel, CommonModel, utilitiesFactory) {
     var vm = this;
 
-    vm.targetTypes = CommonModel.targetTypes;
     vm.kpiGroups = KPIGroupModel.kpiGroups;
     vm.permission = KPIGroupModel.permission;
 
     vm.filter = {
-        targetTypeId: '',
         isActive: 'true'
     };
 
@@ -19,8 +17,8 @@ function (KPIGroupModel, KPIModel, CommonModel, utilitiesFactory) {
     vm.pageSize = 15;
     vm.currentPage = 1;
 
-    var getKPIGroup = function (targetTypeId, isActive) {
-        KPIGroupModel.getKPIGroup(targetTypeId, isActive).then(function () {
+    var getKPIGroup = function (isActive) {
+        KPIGroupModel.getKPIGroup(isActive).then(function () {
             vm.kpiGroups = KPIGroupModel.kpiGroups;
             utilitiesFactory.searchOnPage(vm, vm.kpiGroups);
         });
@@ -35,24 +33,20 @@ function (KPIGroupModel, KPIModel, CommonModel, utilitiesFactory) {
             vm.permission = KPIGroupModel.permission;
         });
 
-        CommonModel.getTargetType().then(function () {
-            vm.targetTypes = CommonModel.targetTypes;
-        });
-
-        getKPIGroup(vm.filter.targetTypeId, vm.filter.isActive);
+        getKPIGroup(vm.filter.isActive);
     };
 
     vm.initialize();
 
     vm.query = function (filter) {
-        getKPIGroup(filter.targetTypeId, filter.isActive);
+        getKPIGroup(filter.isActive);
     };
 
     /// Create KPI Group.
     vm.createKPIGroup = function () {
         KPIGroupModel.openPopupCreateKPIGroup(vm).then()['finally'](function () {
             vm.modalInstance = '';
-            getKPIGroup(vm.filter.targetTypeId, vm.filter.isActive);
+            getKPIGroup(vm.filter.isActive);
         });
     };
 
@@ -60,7 +54,6 @@ function (KPIGroupModel, KPIModel, CommonModel, utilitiesFactory) {
     vm.updateKPIGroup = function (kpiGroup) {
         KPIGroupModel.openPopupUpdateKPIGroup(vm, kpiGroup).then(function (updatedKPIGroup) {
             kpiGroup.Name = updatedKPIGroup.Name;
-            kpiGroup.TargetType = updatedKPIGroup.TargetType;
             kpiGroup.IsActive = updatedKPIGroup.IsActive;
             kpiGroup.Description = updatedKPIGroup.Description;
         })['finally'](function () {
@@ -107,26 +100,15 @@ function (KPIGroupModel, KPIModel, CommonModel, utilitiesFactory) {
 } ]);
 
 kpiGroupModule.controller('CreateKPIGroupController',
-['$modalInstance', 'KPIGroupModel', 'CommonModel',
-function ($modalInstance, KPIGroupModel, CommonModel) {
+['$modalInstance', 'KPIGroupModel',
+function ($modalInstance, KPIGroupModel) {
     var vm = this;
-
-    vm.targetTypes = CommonModel.targetTypes;
 
     vm.kpiGroup = {
         Name: '',
-        TargetTypeId: '',
         IsActive: true,
         Description: ''
     };
-
-    vm.initialize = function () {
-        CommonModel.getTargetType(true).then(function () {
-            vm.targetTypes = CommonModel.targetTypes;
-        });
-    };
-
-    vm.initialize();
 
     vm.save = function () {
         if (KPIGroupModel.validateKPIGroup(vm.kpiGroup)) {
@@ -140,41 +122,19 @@ function ($modalInstance, KPIGroupModel, CommonModel) {
 } ]);
 
 kpiGroupModule.controller('UpdateKPIGroupController',
-['$modalInstance', 'KPIGroupModel', 'CommonModel', 'kpiGroup',
-function ($modalInstance, KPIGroupModel, CommonModel, kpiGroup) {
+['$modalInstance', 'KPIGroupModel', 'kpiGroup',
+function ($modalInstance, KPIGroupModel, kpiGroup) {
     var vm = this;
-
-    vm.targetTypes = CommonModel.targetTypes;
 
     vm.kpiGroup = {
         KPIGroupId: kpiGroup.KPIGroupId,
         Name: kpiGroup.Name,
-        TargetTypeId: kpiGroup.TargetType.TargetTypeId,
         IsActive: kpiGroup.IsActive,
-        Description: kpiGroup.Description,
-        TargetType: {}
+        Description: kpiGroup.Description
     };
-
-    vm.initialize = function () {
-        CommonModel.getTargetType(true).then(function () {
-            vm.targetTypes = CommonModel.targetTypes;
-
-            var index = vm.targetTypes.map(function (e) { return e.TargetTypeId; }).indexOf(kpiGroup.TargetType.TargetTypeId);
-            if (index === -1) {
-                vm.targetTypes.push(kpiGroup.TargetType);
-            }
-        });
-    };
-
-    vm.initialize();
 
     vm.save = function () {
         if (KPIGroupModel.validateKPIGroup(vm.kpiGroup)) {
-            var index = vm.targetTypes.map(function (e) { return e.TargetTypeId; }).indexOf(vm.kpiGroup.TargetTypeId);
-            if (index !== -1) {
-                vm.kpiGroup.TargetType = vm.targetTypes[index];
-            }
-             
             KPIGroupModel.updateKPIGroup(vm.kpiGroup, $modalInstance);
         }
     };

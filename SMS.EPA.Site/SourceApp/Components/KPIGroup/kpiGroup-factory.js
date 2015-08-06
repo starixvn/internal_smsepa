@@ -3,8 +3,8 @@
 
 kpiGroupModule.factory('kpiGroupFactory', ['$http', 'baseUrl', function ($http, baseUrl) {
     return {
-        getKPIGroup: function (targetTypeId, isActive) {
-            return $http.get(baseUrl + 'api/KPIGroup/GetKPIGroup', { params: { targetTypeId: targetTypeId, isActive: isActive } });
+        getKPIGroup: function (isActive) {
+            return $http.get(baseUrl + 'api/KPIGroup/GetKPIGroup', { params: { isActive: isActive } });
         },
         getKPIGroupById: function (kpiGroupId) {
             return $http.get(baseUrl + 'api/KPIGroup/GetKPIGroupById', { params: { kpiGroupId: kpiGroupId } });

@@ -15,24 +15,10 @@ namespace SMS.EPA.Services.Implement
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.KPIGroup;
     using SMS.EPA.Model.KPIGroup;
-    using SMS.EPA.Repositories.Implement;
-    using SMS.EPA.Repositories.Interfaces;
     using SMS.EPA.Services.Interfaces;
 
     public class KPIGroupService : BaseService, IKPIGroupService
     {
-        private readonly IKPIGroupRepository _kpiGroupRepository;
-
-        public KPIGroupService()
-            : this(null)
-        {
-        }
-
-        public KPIGroupService(IKPIGroupRepository kpiGroupRepository)
-        {
-            _kpiGroupRepository = kpiGroupRepository ?? new KPIGroupRepository();
-        }
-
         public IEnumerable<KPIGroupModel> GetKPIGroup(GetKPIGroupCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");
@@ -40,7 +26,7 @@ namespace SMS.EPA.Services.Implement
 
             if (criteria.IsValid())
             {
-                kpiGroups = _kpiGroupRepository.GetKPIGroup(criteria);
+                kpiGroups = this.GetData<KPIGroupModel>(criteria);
             }
 
             return kpiGroups;
@@ -53,7 +39,7 @@ namespace SMS.EPA.Services.Implement
 
             if (criteria.IsValid())
             {
-                kpiGroup = _kpiGroupRepository.GetKPIGroupById(criteria);
+                kpiGroup = this.GetDataEntity<KPIGroupModel>(criteria);
             }
 
             return kpiGroup;

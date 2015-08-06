@@ -19,8 +19,6 @@ namespace SMS.EPA.Criteria.KPIGroup
 
         public string Name { get; set; }
 
-        public int TargetTypeId { get; set; }
-
         public bool IsActive { get; set; }
 
         public string Description { get; set; }
@@ -34,7 +32,7 @@ namespace SMS.EPA.Criteria.KPIGroup
 
         public override bool IsValid()
         {
-            return !string.IsNullOrWhiteSpace(Name) && TargetTypeId > 0;
+            return !string.IsNullOrWhiteSpace(Name);
         }
     }
 }

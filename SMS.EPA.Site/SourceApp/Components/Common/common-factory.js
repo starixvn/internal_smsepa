@@ -9,17 +9,16 @@ commonModule.factory('commonFactory', ['$http', 'baseUrl', function ($http, base
         getSystemRoles: function (exceptNone) {
             return $http.get(baseUrl + 'api/Common/GetSystemRoles', { params: { exceptNone: exceptNone } });
         },
-        getKPI: function (targetTypeId, kpiGroupId, isActive, isRequiredEvaluate) {
+        getKPI: function (kpiGroupId, isActive, isRequiredEvaluate) {
             return $http.get(baseUrl + 'api/Common/GetKPI', { params: {
-                targetTypeId: targetTypeId,
                 kpiGroupId: kpiGroupId,
                 isActive: isActive,
                 isRequiredEvaluate: isRequiredEvaluate
             }
             });
         },
-        getKPIGroup: function (targetTypeId, isActive) {
-            return $http.get(baseUrl + 'api/Common/GetKPIGroup', { params: { targetTypeId: targetTypeId, isActive: isActive } });
+        getKPIGroup: function (isActive) {
+            return $http.get(baseUrl + 'api/Common/GetKPIGroup', { params: { isActive: isActive } });
         },
         getEmployeeById: function (employeeId) {
             return $http.get(baseUrl + 'api/Common/GetEmployeeById', { params: { employeeId: employeeId } });
