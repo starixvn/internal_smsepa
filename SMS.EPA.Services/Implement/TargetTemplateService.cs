@@ -40,9 +40,10 @@ namespace SMS.EPA.Services.Implement
         {
             Check.Argument.IsNotNull(criteria, "criteria");
             TargetTemplateModel targetTemplate = null;
+
             if (criteria.IsValid())
             {
-                targetTemplate = this.GetDataEntity<TargetTemplateModel>(criteria);
+                targetTemplate = GetDataEntity<TargetTemplateModel>(criteria);
             }
 
             return targetTemplate;
@@ -52,6 +53,7 @@ namespace SMS.EPA.Services.Implement
         {
             Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<TargetTemplateModel> targetTemplates = null;
+
             if (criteria.IsValid())
             {
                 targetTemplates = GetData<TargetTemplateModel>(criteria);
@@ -64,9 +66,10 @@ namespace SMS.EPA.Services.Implement
         {
             Check.Argument.IsNotNull(criteria, "criteria");
             CommandResult result = null;
+
             if (criteria.IsValid())
             {
-                result = this.Repository.Insert(criteria);
+                result = Repository.Insert(criteria);
             }
 
             return result;
@@ -76,9 +79,10 @@ namespace SMS.EPA.Services.Implement
         {
             Check.Argument.IsNotNull(criteria, "criteria");
             CommandResult result = null;
+
             if (criteria.IsValid())
             {
-                result = this.Repository.Update(criteria);
+                result = Repository.Update(criteria);
             }
 
             return result;
@@ -88,9 +92,10 @@ namespace SMS.EPA.Services.Implement
         {
             Check.Argument.IsNotNull(criteria, "criteria");
             CommandResult result = null;
+
             if (criteria.IsValid())
             {
-                result = this.Repository.Delete(criteria);
+                result = Repository.Delete(criteria);
             }
 
             return result;
@@ -100,9 +105,10 @@ namespace SMS.EPA.Services.Implement
         {
             Check.Argument.IsNotNull(criteria, "criteria");
             CommandResult result = null;
+
             if (criteria.IsValid())
             {
-                result = this.Repository.Insert(criteria);
+                result = Repository.Insert(criteria);
             }
 
             return result;
@@ -112,6 +118,7 @@ namespace SMS.EPA.Services.Implement
         {
             Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<KPIGroupModel> groups = null;
+
             if (criteria.IsValid())
             {
                 groups = GetData<KPIGroupModel>(criteria);
@@ -145,6 +152,7 @@ namespace SMS.EPA.Services.Implement
         {
             Check.Argument.IsNotNull(criteria, "criteria");
             CommandResult result = null;
+
             if (criteria.IsValid())
             {
                 result = Repository.Delete(criteria);

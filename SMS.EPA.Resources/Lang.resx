@@ -418,7 +418,7 @@
     <value>* Note: All KPIs in KPI Group setting will be removed. Please check carefully before unchecking KPI Group !</value>
   </data>
   <data name="TotalWeightWarning" xml:space="preserve">
-    <value>Total Groups weight must be equal or less than 60</value>
+    <value>Total Groups weight must be equal or less than {0}</value>
   </data>
   <data name="WeightKPIGroupRequired" xml:space="preserve">
     <value>All weights of selected KPI Groups is required!</value>
@@ -599,5 +599,11 @@
   </data>
   <data name="EditFlowTemplate" xml:space="preserve">
     <value>Edit Flow Template</value>
+  </data>
+  <data name="ScoreRatingType" xml:space="preserve">
+    <value>Score Rating Type</value>
+  </data>
+  <data name="ScoreRatingTypeRequired" xml:space="preserve">
+    <value>The Score Rating Type filed is required!</value>
   </data>
 </root>

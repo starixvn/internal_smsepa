@@ -36,6 +36,10 @@ targetTemplateModule.factory('targetTemplateFactory', ['$http', 'baseUrl', funct
         },
         getPermissonOnTargetTemplate: function () {
             return $http.get(baseUrl + 'api/TargetTemplate/GetUserPermissionOnTargetTemplate');
+        },
+        getScoreRatingType: function (scoreRatingTypeId, isActive) {
+            return $http.get(baseUrl + 'api/TargetTemplate/GetScoreRatingType',
+                { params: { scoreRatingTypeId: scoreRatingTypeId, isActive: isActive } });
         }
     };
 } ]);

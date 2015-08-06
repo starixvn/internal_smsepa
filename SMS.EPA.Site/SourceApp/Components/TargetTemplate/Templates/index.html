@@ -21,7 +21,7 @@
         <table class="row table table-bordered table-striped">
             <thead>
                 <tr class="header-table">
-                    <th colspan="7">
+                    <th colspan="8">
                         <a class="pull-left button-icon create-button" href="" ng-href="{{targetTemplateCtrl.createTargetTemplateUrl}}" ng-click="targetTemplateCtrl.create()" 
                             ng-if="targetTemplateCtrl.permission == 2">
                             <span class="icon plus"></span>
@@ -36,6 +36,8 @@
                     <th data-translate="Name">
                     </th>
                     <th data-translate="TargetType">
+                    </th>
+                    <th data-translate="ScoreRatingType">
                     </th>
                     <th data-translate="Description">
                     </th>
@@ -55,6 +57,8 @@
                         <a href="{{targetTemplateCtrl.detailTargetTemplateUrl}}" ng-click="targetTemplateCtrl.detail(targetTemplate)" ng-bind="targetTemplate.Name"></a>
                     </td>
                     <td class="text-center" ng-bind="targetTemplate.TargetTypeName">
+                    </td>
+                    <td class="text-center" ng-bind="targetTemplate.ScoreRatingTypeName">
                     </td>
                     <td class="col-description">
                         {{targetTemplate.Description | limitTo: targetTemplate.numLimit > 0 ? targetTemplate.numLimit: targetTemplateCtrl.maxLengthDescription}}
@@ -81,13 +85,13 @@
                     </td>
                 </tr>
                 <tr ng-show="targetTemplateCtrl.filteredItems.length == 0">
-                    <td class="empty-result" colspan="7" data-translate="EmptyResult">
+                    <td class="empty-result" colspan="8" data-translate="EmptyResult">
                     </td>
                 </tr>
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="9" class="paging">
+                    <td colspan="8" class="paging">
                         <span data-translate="Show"></span>
                         <select class="dropdown-entry form-control" ng-model="targetTemplateCtrl.pageSize"
                                 ng-options="entry for entry in targetTemplateCtrl.entries"></select>

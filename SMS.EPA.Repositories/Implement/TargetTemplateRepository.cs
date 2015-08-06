@@ -14,7 +14,6 @@ namespace SMS.EPA.Repositories.Implement
     using Fanex.Data.Repository;
     using SMS.EPA.Model.KPI;
     using SMS.EPA.Model.KPIGroup;
-    using SMS.EPA.Model.TargetType;
     using SMS.EPA.Repositories.Interfaces;
 
     public class TargetTemplateRepository : ITargetTemplateRepository
@@ -23,14 +22,13 @@ namespace SMS.EPA.Repositories.Implement
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                return db.Query<KPIModel, KPIGroupModel, TargetTypeModel, KPIModel>(
-                    (kpi, gr, tar) =>
+                return db.Query<KPIModel, KPIGroupModel, KPIModel>(
+                    (kpi, gr) =>
                     {
                         kpi.KPIGroups.Add(gr);
-                        kpi.TargetType = tar;
                         return kpi;
                     },
-                    "KPIGroupId,TargetTypeId",
+                    "KPIGroupId",
                     criteria.GetSpParams());
             }
         }

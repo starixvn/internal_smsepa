@@ -14,8 +14,10 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
+    using SMS.EPA.Criteria.ScoreRatingType;
     using SMS.EPA.Criteria.TargetTemplate;
     using SMS.EPA.Model.KPIGroup;
+    using SMS.EPA.Model.ScoreRatingType;
     using SMS.EPA.Model.TargetTemplate;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
@@ -26,18 +28,21 @@ namespace SMS.EPA.Site.Controllers.API
     {
         private readonly ITargetTemplateService _targetTemplateService;
         private readonly IWebCommonService _webCommonService;
+        private readonly IScoreRatingTypeService _scoreRatingTypeService;
 
         public TargetTemplateController()
-            : this(null, null)
+            : this(null, null, null)
         {
         }
 
         public TargetTemplateController(
             ITargetTemplateService targetTemplateService,
-            IWebCommonService webCommonService)
+            IWebCommonService webCommonService,
+            IScoreRatingTypeService scoreRatingTypeService)
         {
             _targetTemplateService = targetTemplateService ?? new TargetTemplateService();
             _webCommonService = webCommonService ?? new WebCommonService();
+            _scoreRatingTypeService = scoreRatingTypeService ?? new ScoreRatingTypeService();
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Read)]
@@ -106,6 +111,7 @@ namespace SMS.EPA.Site.Controllers.API
                     TargetTemplateId = targetTemplate.TargetTemplateId,
                     Name = targetTemplate.Name,
                     TargetTypeId = targetTemplate.TargetTypeId,
+                    ScoreRatingTypeId = targetTemplate.ScoreRatingTypeId,
                     IsActive = targetTemplate.IsActive,
                     Description = targetTemplate.Description,
                     ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
@@ -190,6 +196,18 @@ namespace SMS.EPA.Site.Controllers.API
         {
             int permission = _webCommonService.GetPermission(EPAFunctionKey.TargetTemplate);
             return permission;
+        }
+
+        public IEnumerable<ScoreRatingTypeModel> GetScoreRatingType(int? scoreRatingTypeId = null, bool isActive = true)
+        {
+            var criteria = new GetScoreRatingTypeCriteria
+            {
+                ScoreRatingTypeId = scoreRatingTypeId,
+                IsActive = isActive
+            };
+
+            IEnumerable<ScoreRatingTypeModel> scoreRatingTypes = _scoreRatingTypeService.GetScoreRatingType(criteria);
+            return scoreRatingTypes;
         }
     }
 }

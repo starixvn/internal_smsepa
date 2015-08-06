@@ -80,10 +80,12 @@ targetTemplateModule.controller('CreateTargetTemplateController',
 ['$window', 'TargetTemplateModel', 'CommonModel',
 function ($window, TargetTemplateModel, CommonModel) {
     var vm = this;
+    vm.scoreRatingTypeOptions = TargetTemplateModel.scoreRatingTypes;
 
     vm.targetTemplate = {
         Name: '',
         TargetTypeId: '',
+        ScoreRatingTypeId: '',
         IsActive: true,
         Description: ''
     };
@@ -91,6 +93,10 @@ function ($window, TargetTemplateModel, CommonModel) {
 
     CommonModel.getTargetType(true).then(function () {
         vm.targetTypes = CommonModel.targetTypes;
+    });
+
+    TargetTemplateModel.getScoreRatingType(null, true).then(function () {
+        vm.scoreRatingTypeOptions = TargetTemplateModel.scoreRatingTypes;
     });
 
     vm.save = function (targetTemplate) {
@@ -113,17 +119,21 @@ function ($window, $routeParams, TargetTemplateModel) {
 
     vm.targetTemplateId = parseInt($routeParams.id);
     vm.targetTemplate = TargetTemplateModel.targetTemplate;
-    vm.originalTargetTypeId = '';
+    vm.originalScoreTypeId = '';
 
     vm.dataTab = {
         information: $routeParams.viewInfo ? true : false,
         kpi: $routeParams.viewKPIs ? true : false
     };
 
-    TargetTemplateModel.getTargetTemplateById(vm.targetTemplateId).then(function () {
-        vm.targetTemplate = TargetTemplateModel.targetTemplate;
-        vm.originalTargetTypeId = vm.targetTemplate.TargetTypeId;
-    });
+    var getTargetTemplateById = function (targetTemplateId) {
+        TargetTemplateModel.getTargetTemplateById(targetTemplateId).then(function () {
+            vm.targetTemplate = TargetTemplateModel.targetTemplate;
+            vm.originalScoreTypeId = vm.targetTemplate.ScoreRatingTypeId;
+        });
+    };
+
+    getTargetTemplateById(vm.targetTemplateId);
 
     vm.tabInfoSelect = function () {
         vm.dataTab.information = true;
@@ -137,19 +147,11 @@ function ($window, $routeParams, TargetTemplateModel) {
 
     vm.save = function (targetTemplate) {
         if (TargetTemplateModel.validateTargetTemplate(targetTemplate)) {
-            if (vm.targetTemplate.TargetTypeId !== vm.originalTargetTypeId) {
-                TargetTemplateModel.openPopupConfirmChangeTargetType(vm).then(function () {
-                    TargetTemplateModel.updateTargetTemplate(targetTemplate).then(function () {
-                        vm.originalTargetTypeId = vm.targetTemplate.TargetTypeId;
-                        TargetTemplateModel.changeTargetType = true;
-                    });
-                })["finally"](function () {
-                    vm.modalInstance = '';
-                });
-            }
-            else {
-                TargetTemplateModel.updateTargetTemplate(targetTemplate);
-            }
+            TargetTemplateModel.updateTargetTemplate(targetTemplate).then(function () {
+                if (vm.targetTemplate.ScoreRatingTypeId !== vm.originalScoreTypeId) {
+                    getTargetTemplateById(vm.targetTemplateId);
+                }
+            });
         }
     };
 
@@ -158,14 +160,20 @@ function ($window, $routeParams, TargetTemplateModel) {
     };
 } ]);
 
-targetTemplateModule.controller('GeneralInformationController',
+targetTemplateModule.controller('TargetTemplateGeneralInformationController',
 ['TargetTemplateModel', 'CommonModel',
 function (TargetTemplateModel, CommonModel) {
     var vm = this;
+
+    vm.scoreRatingTypeOptions = TargetTemplateModel.scoreRatingTypes;
     vm.targetTypes = CommonModel.targetTypes;
 
     CommonModel.getTargetType(true).then(function () {
         vm.targetTypes = CommonModel.targetTypes;
+    });
+
+    TargetTemplateModel.getScoreRatingType(null, true).then(function () {
+        vm.scoreRatingTypeOptions = TargetTemplateModel.scoreRatingTypes;
     });
 } ]);
 
@@ -174,16 +182,13 @@ targetTemplateModule.controller('KPIListController',
 function ($scope, TargetTemplateModel) {
     var vm = this;
 
-    $scope.$watch(function () {
-        return TargetTemplateModel.changeTargetType;
-    }, function (newVal) {
-        if (newVal) {
-            getKPIOfTargetTemplate(vm.targetTemplateId);
-            TargetTemplateModel.changeTargetType = false;
-        }
-    });
-
     vm.targetTemplateId = $scope.updateCtrl.targetTemplateId;
+
+    $scope.$watch(function () { return $scope.updateCtrl.targetTemplate.MaxWeightSelf; },
+        function (newVal) {
+            vm.maxWeight = newVal;
+        });
+
     vm.kpiList = TargetTemplateModel.kpiList;
 
     var getKPIOfTargetTemplate = function (targetTemplateId) {
@@ -196,7 +201,7 @@ function ($scope, TargetTemplateModel) {
     getKPIOfTargetTemplate(vm.targetTemplateId);
 
     vm.addKPIGroup = function () {
-        TargetTemplateModel.openPopupAddKPIGroup(vm, vm.targetTemplateId).then(function () {
+        TargetTemplateModel.openPopupAddKPIGroup(vm, vm.targetTemplateId, vm.maxWeight).then(function () {
             getKPIOfTargetTemplate(vm.targetTemplateId);
         })['finally'](function () {
             vm.modalInstance = '';
@@ -312,13 +317,22 @@ function ($scope, TargetTemplateModel) {
 } ]);
 
 targetTemplateModule.controller('AddedKPIGroupController',
-['$modalInstance', 'TargetTemplateModel', 'targetTemplateId',
-function ($modalInstance, TargetTemplateModel, targetTemplateId) {
+['$modalInstance', '$translate', 'TargetTemplateModel', 'targetTemplateId', 'maxWeight',
+function ($modalInstance, $translate, TargetTemplateModel, targetTemplateId, maxWeight) {
     var vm = this;
 
     vm.targetTemplateId = targetTemplateId;
+    vm.maxWeight = maxWeight;
     vm.kpiGroups = TargetTemplateModel.kpiGroups;
     vm.selectedAll = false;
+
+    var getMessage = function () {
+        $translate('TotalWeightWarning').then(function (message) {
+            vm.totalWeightWarningMessage = message;
+        });
+    };
+
+    getMessage();
 
     TargetTemplateModel.getKPIGroupOfTargetTemplate(vm.targetTemplateId).then(function () {
         vm.kpiGroups = TargetTemplateModel.kpiGroups;
@@ -354,7 +368,7 @@ function ($modalInstance, TargetTemplateModel, targetTemplateId) {
     };
 
     vm.save = function (kpiGroups) {
-        if (TargetTemplateModel.validateKPIGroupWeight(kpiGroups)) {
+        if (TargetTemplateModel.validateKPIGroupWeight(kpiGroups, vm.maxWeight, vm.totalWeightWarningMessage)) {
             var model = {
                 targetTemplateId: vm.targetTemplateId,
                 KPIGroups: kpiGroups

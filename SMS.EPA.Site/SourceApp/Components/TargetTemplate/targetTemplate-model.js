@@ -11,7 +11,7 @@ function ($modal, targetTemplateFactory, errorFactory, notificationFactory, util
     targetTemplateModel.kpiGroups = [];
     targetTemplateModel.kpiList = [];
     targetTemplateModel.permission = '';
-    targetTemplateModel.changeTargetType = false;
+    targetTemplateModel.scoreRatingTypes = [];
 
     targetTemplateModel.getTargetTemplate = function (targetTypeId, isActive) {
         return targetTemplateFactory.getTargetTemplate(targetTypeId, isActive).success(function (targetTemplates) {
@@ -32,6 +32,10 @@ function ($modal, targetTemplateFactory, errorFactory, notificationFactory, util
             }
             else if (!targetTemplate.TargetTypeId) {
                 notificationFactory.error("TargetTypeRequired");
+                return false;
+            }
+            else if (!targetTemplate.ScoreRatingTypeId) {
+                notificationFactory.error("ScoreRatingTypeRequired");
                 return false;
             }
         }
@@ -166,7 +170,7 @@ function ($modal, targetTemplateFactory, errorFactory, notificationFactory, util
         });
     };
 
-    targetTemplateModel.openPopupAddKPIGroup = function (vm, targetTemplateId) {
+    targetTemplateModel.openPopupAddKPIGroup = function (vm, targetTemplateId, maxWeight) {
         vm.modalInstance = $modal.open({
             templateUrl: 'SourceApp/Components/TargetTemplate/Templates/addKPIGroup.html',
             controller: "AddedKPIGroupController as addKPIGroupCtrl",
@@ -174,6 +178,9 @@ function ($modal, targetTemplateFactory, errorFactory, notificationFactory, util
             resolve: {
                 targetTemplateId: function () {
                     return targetTemplateId;
+                },
+                maxWeight: function () {
+                    return maxWeight;
                 }
             },
             windowClass: "modal-confirm-center kpi-group-popup"
@@ -205,7 +212,7 @@ function ($modal, targetTemplateFactory, errorFactory, notificationFactory, util
         });
     };
 
-    targetTemplateModel.validateKPIGroupWeight = function (kpiGroups) {
+    targetTemplateModel.validateKPIGroupWeight = function (kpiGroups, maxWeight, totalWeightWarningMessage) {
         var hasWeight = true,
             totalWeight = 0;
 
@@ -221,8 +228,9 @@ function ($modal, targetTemplateFactory, errorFactory, notificationFactory, util
             notificationFactory.error('WeightKPIGroupRequired');
             return false;
         }
-        else if (totalWeight > 60) {
-            notificationFactory.error('TotalWeightWarning');
+        else if (totalWeight > maxWeight) {
+            var message = utilitiesFactory.formatString(totalWeightWarningMessage, maxWeight);
+            notificationFactory.error('', message);
             return false;
         }
 
@@ -311,15 +319,13 @@ function ($modal, targetTemplateFactory, errorFactory, notificationFactory, util
         }
     };
 
-    targetTemplateModel.openPopupConfirmChangeTargetType = function (vm) {
-        vm.modalInstance = $modal.open({
-            templateUrl: '/SourceApp/Components/TargetTemplate/Templates/ConfirmChangeTargetType.html',
-            controller: "ModalConfirmChangeTargetTypeController as modalConfirmCtrl",
-            backdrop: 'static',
-            windowClass: "modal-confirm-center"
+    targetTemplateModel.getScoreRatingType = function (scoreRatingTypeId, isActive) {
+        return targetTemplateFactory.getScoreRatingType(scoreRatingTypeId, isActive).success(function (scoreRatingTypes) {
+            targetTemplateModel.scoreRatingTypes = scoreRatingTypes;
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
         });
-
-        return vm.modalInstance.result;
     };
 
     return targetTemplateModel;

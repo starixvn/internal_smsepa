@@ -1141,6 +1141,24 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Score Rating Type.
+        /// </summary>
+        public static string ScoreRatingType {
+            get {
+                return ResourceManager.GetString("ScoreRatingType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Score Rating Type filed is required!.
+        /// </summary>
+        public static string ScoreRatingTypeRequired {
+            get {
+                return ResourceManager.GetString("ScoreRatingTypeRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Search.
         /// </summary>
         public static string Search {
@@ -1375,7 +1393,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Total Groups weight must be equal or less than 60.
+        ///   Looks up a localized string similar to Total Groups weight must be equal or less than {0}.
         /// </summary>
         public static string TotalWeightWarning {
             get {

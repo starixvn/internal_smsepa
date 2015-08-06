@@ -108,6 +108,7 @@
     <Compile Include="KPI\UpdateStatusKPICriteria.cs" />
     <Compile Include="MemberEPA\GetEPAByEmployeeCriteria.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScoreRatingType\GetScoreRatingTypeCriteria.cs" />
     <Compile Include="TargetEmployeeSetting\AssignTargetTemplateToEmployeeCriteria.cs" />
     <Compile Include="TargetEmployeeSetting\GetAllTargetEmployeeSettingCriteria.cs" />
     <Compile Include="TargetTemplate\DeleteKPIGroupOfTargetTemplateCriteria.cs" />

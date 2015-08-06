@@ -72,6 +72,7 @@
     <Compile Include="RoleManagement\FunctionModel.cs" />
     <Compile Include="RoleManagement\RoleFunctionModel.cs" />
     <Compile Include="RoleManagement\SystemRoleModel.cs" />
+    <Compile Include="ScoreRatingType\ScoreRatingTypeModel.cs" />
     <Compile Include="TargetEmployeeSetting\RawTargetEmployeeModel.cs" />
     <Compile Include="TargetEmployeeSetting\RawTargetEmployeeSettingModel.cs" />
     <Compile Include="TargetEmployeeSetting\TargetEmployeeModel.cs" />
