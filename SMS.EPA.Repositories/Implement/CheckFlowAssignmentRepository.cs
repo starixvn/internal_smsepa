@@ -41,7 +41,7 @@ namespace SMS.EPA.Repositories.Implement
                     IEnumerable<TargetEmployeeModel> targetEmployees = multi.Read<TargetEmployeeModel, TargetTemplateModel, TargetEmployeeModel>(
                         (tarEmp, tar) =>
                         {
-                            tarEmp.TargetTemplate = tar;
+                            tarEmp.RawTargetTemplate = tar;
                             return tarEmp;
                         },
                         "TargetTemplateId");

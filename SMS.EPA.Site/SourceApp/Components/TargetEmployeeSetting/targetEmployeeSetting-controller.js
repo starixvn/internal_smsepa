@@ -1,6 +1,27 @@
 ﻿'use strict';
 /*global targetEmployeeSettingModule*/
 
+targetEmployeSettingModule.controller('TargetSettingTemplateController',
+['TargetEmployeeSettingModel',
+function (TargetEmployeeSettingModel) {
+    var vm = this;
+
+    vm.dataTab = {
+        department: true,
+        personnel: false
+    };
+
+    vm.tabDepartmentSelect = function () {
+        vm.dataTab.department = true;
+        vm.dataTab.personnel = false;
+    };
+
+    vm.tabpersonnelSelect = function () {
+        vm.dataTab.department = false;
+        vm.dataTab.personnel = true;
+    };
+}]);
+
 targetEmployeeSettingModule.controller('TargetEmployeeSettingController',
 ['TargetEmployeeSettingModel', 'EmployeeModel', 'CommonModel', 'TargetTemplateModel', 'utilitiesFactory',
 function (TargetEmployeeSettingModel, EmployeeModel, CommonModel, TargetTemplateModel, utilitiesFactory) {
@@ -13,7 +34,8 @@ function (TargetEmployeeSettingModel, EmployeeModel, CommonModel, TargetTemplate
     vm.filter = {
         groupId: null,
         targetTypeId: null,
-        employee: null
+        employee: null,
+        showAll: null
     };
 
     vm.targetEmployeeSetting = {
@@ -52,14 +74,14 @@ function (TargetEmployeeSettingModel, EmployeeModel, CommonModel, TargetTemplate
         vm.targetTemplates = TargetTemplateModel.targetTemplates;
     });
 
-    var getTargetEmployeeSetting = function (groupId, employeeId, targetTypeId) {
-        TargetEmployeeSettingModel.getTargetEmployeeSetting(groupId, employeeId, targetTypeId).then(function () {
+    var getTargetEmployeeSetting = function (groupId, employeeId, targetTypeId, showAll) {
+        TargetEmployeeSettingModel.getTargetEmployeeSetting(groupId, employeeId, targetTypeId, showAll).then(function () {
             vm.targetEmployeeSettings = TargetEmployeeSettingModel.targetEmployeeSettings;
             utilitiesFactory.searchOnPage(vm, vm.targetEmployeeSettings);
         });
     };
 
-    getTargetEmployeeSetting(null, null, null);
+    getTargetEmployeeSetting(null, null, null, null);
 
     vm.query = function (filter) {
         var employeeId = null;
@@ -68,7 +90,7 @@ function (TargetEmployeeSettingModel, EmployeeModel, CommonModel, TargetTemplate
             employeeId = filter.employee.EmployeeId;
         }
 
-        getTargetEmployeeSetting(filter.groupId, employeeId, filter.targetTypeId);
+        getTargetEmployeeSetting(filter.groupId, employeeId, filter.targetTypeId, filter.showAll);
     };
 
     var getSelectedEmployees = function (targetEmployeeSettings) {

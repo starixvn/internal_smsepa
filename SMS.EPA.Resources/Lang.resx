@@ -498,7 +498,7 @@
   <data name="Search" xml:space="preserve">
     <value>Search</value>
   </data>
-  <data name="SelectEmployeeBeforeAssingWarning" xml:space="preserve">
+  <data name="SelectEmployeeBeforeAssignWarning" xml:space="preserve">
     <value>Please select employee to assign target template!</value>
   </data>
   <data name="None" xml:space="preserve">
@@ -605,6 +605,12 @@
   </data>
   <data name="ScoreRatingTypeRequired" xml:space="preserve">
     <value>The Score Rating Type filed is required!</value>
+  </data>
+  <data name="ShowAll" xml:space="preserve">
+    <value>Show All</value>
+  </data>
+  <data name="TargetEmployeeSettingTemplate" xml:space="preserve">
+    <value>Target Employee Setting Template</value>
   </data>
   <data name="ApplyToDepartment" xml:space="preserve">
     <value>Apply to Department</value>

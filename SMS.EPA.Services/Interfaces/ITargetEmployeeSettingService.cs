@@ -19,5 +19,13 @@ namespace SMS.EPA.Services.Interfaces
         IList<TargetEmployeeModel> GetTargetEmployeeSetting(GetAllTargetEmployeeSettingCriteria criteria);
 
         CommandResult AssignTargetTemplateToEmployee(AssignTargetTemplateToEmployeeCriteria criteria);
+
+        CommandResult DeleteTargetEmployeeSetting(DeleteTargetEmployeeSettingCriteria criteria);
+
+        IList<TargetDepartmentModel> GetTargetDepartmentSetting(GetTargetDepartmentSettingCriteria criteria);
+
+        CommandResult AssignTargetTemplateToDepartment(AssignTargetDepartmentSettingCriteria criteria);
+
+        CommandResult DeleteTargetDepartmentSetting(DeleteTargetDepartmentSettingCriteria criteria);
     }
 }

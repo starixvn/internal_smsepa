@@ -32,6 +32,8 @@ namespace SMS.EPA.Model.Department
 
         public bool IsActive { get; set; }
 
+        public bool IsGroup { get; set; }
+
         public int DepartmentLevel { get; set; }
 
         public DateTime? CreatedDate { get; set; }

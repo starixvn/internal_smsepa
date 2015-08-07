@@ -9,12 +9,18 @@
 
 namespace SMS.EPA.Model.TargetEmployeeSetting
 {
+    using System.Collections.Generic;
     using SMS.EPA.Model.Department;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.TargetTemplate;
 
     public class TargetEmployeeModel : Employee
     {
+        public TargetEmployeeModel()
+        {
+            TargetTemplates = new List<TargetTemplateModel>();
+        }
+
         public bool Selected { get; set; }
 
         public Group Group { get; set; }
@@ -23,6 +29,8 @@ namespace SMS.EPA.Model.TargetEmployeeSetting
 
         public JobTitle JobTitle { get; set; }
 
-        public TargetTemplateModel TargetTemplate { get; set; }
+        public TargetTemplateModel RawTargetTemplate { get; set; }
+
+        public IList<TargetTemplateModel> TargetTemplates { get; set; }
     }
 }

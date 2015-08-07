@@ -118,10 +118,18 @@
         <Setting Key="EpaEmployeeFlowSetting_Get" SpName="EpaEmployeeFlowSetting_Get" DbName="SMSEPA" Plain="0" >
         </Setting>
     </Function>
-    <Function Name="TargetEmployeeSetting">
+    <Function Name="Target Employee Setting Template">
         <Setting Key="EpaTargetTemplateEmployee_Assign" SpName="EpaTargetTemplateEmployee_Assign" DbName="SMSEPA" Plain="0" >
         </Setting>
         <Setting Key="EpaTargetTemplateEmployee_Get" SpName="EpaTargetTemplateEmployee_Get" DbName="SMSEPA" Plain="0" >
+        </Setting>
+        <Setting Key="EpaTargetTemplateEmployee_Delete" SpName="EpaTargetTemplateEmployee_Delete" DbName="SMSEPA" Plain="0" >
+        </Setting>
+        <Setting Key="EpaTargetTemplateDepartment_Assign" SpName="EpaTargetTemplateDepartment_Assign" DbName="SMSEPA" Plain="0" >
+        </Setting>
+        <Setting Key="EpaTargetTemplateDepartment_Get" SpName="EpaTargetTemplateDepartment_Get" DbName="SMSEPA" Plain="0" >
+        </Setting>
+        <Setting Key="EpaTargetTemplateDepartment_Delete" SpName="EpaTargetTemplateDepartment_Delete" DbName="SMSEPA" Plain="0" >
         </Setting>
     </Function>
     <Function Name="Department">

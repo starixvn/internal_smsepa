@@ -19,6 +19,8 @@ namespace SMS.EPA.Criteria.TargetEmployeeSetting
 
         public int? TargetTypeId { get; set; }
 
+        public bool? ShowAll { get; set; }
+
         public override bool IsValid()
         {
             return true;

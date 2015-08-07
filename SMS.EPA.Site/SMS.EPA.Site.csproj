@@ -352,6 +352,8 @@
     <Content Include="SourceApp\Components\TargetEmployeeSetting\targetEmployeeSetting-directive.js" />
     <Content Include="SourceApp\Components\TargetEmployeeSetting\targetEmployeeSetting-factory.js" />
     <Content Include="SourceApp\Components\TargetEmployeeSetting\targetEmployeeSetting-model.js" />
+    <Content Include="SourceApp\Components\TargetEmployeeSetting\Templates\department.html" />
+    <Content Include="SourceApp\Components\TargetEmployeeSetting\Templates\personnel.html" />
     <Content Include="SourceApp\Components\TargetEmployeeSetting\Templates\index.html" />
     <Content Include="SourceApp\Components\TargetTemplate\targetTemplate-directive.js" />
     <Content Include="SourceApp\Components\TargetTemplate\targetTemplate-factory.js" />

@@ -1186,20 +1186,20 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please select employee to assign target template!.
+        /// </summary>
+        public static string SelectEmployeeBeforeAssignWarning {
+            get {
+                return ResourceManager.GetString("SelectEmployeeBeforeAssignWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please select employee before assign!.
         /// </summary>
         public static string SelectEmployeeBeforeAssingFlowSettingWarning {
             get {
                 return ResourceManager.GetString("SelectEmployeeBeforeAssingFlowSettingWarning", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Please select employee to assign target template!.
-        /// </summary>
-        public static string SelectEmployeeBeforeAssingWarning {
-            get {
-                return ResourceManager.GetString("SelectEmployeeBeforeAssingWarning", resourceCulture);
             }
         }
         
@@ -1236,6 +1236,15 @@ namespace SMS.EPA.Resources {
         public static string ShortSpecialUser {
             get {
                 return ResourceManager.GetString("ShortSpecialUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show All.
+        /// </summary>
+        public static string ShowAll {
+            get {
+                return ResourceManager.GetString("ShowAll", resourceCulture);
             }
         }
         
@@ -1308,6 +1317,15 @@ namespace SMS.EPA.Resources {
         public static string TargetEmployeeSetting {
             get {
                 return ResourceManager.GetString("TargetEmployeeSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Target Employee Setting Template.
+        /// </summary>
+        public static string TargetEmployeeSettingTemplate {
+            get {
+                return ResourceManager.GetString("TargetEmployeeSettingTemplate", resourceCulture);
             }
         }
         

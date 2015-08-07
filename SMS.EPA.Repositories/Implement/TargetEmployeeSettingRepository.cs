@@ -12,6 +12,7 @@ namespace SMS.EPA.Repositories.Implement
     using System.Collections.Generic;
     using Fanex.Data;
     using Fanex.Data.Repository;
+    using SMS.EPA.Model.Department;
     using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.TargetEmployeeSetting;
@@ -37,7 +38,7 @@ namespace SMS.EPA.Repositories.Implement
                     IEnumerable<TargetEmployeeModel> targetEmployees = multi.Read<TargetEmployeeModel, TargetTemplateModel, TargetEmployeeModel>(
                         (tarEmp, tar) =>
                         {
-                            tarEmp.TargetTemplate = tar;
+                            tarEmp.RawTargetTemplate = tar;
                             return tarEmp;
                         },
                         "TargetTemplateId");
@@ -49,6 +50,33 @@ namespace SMS.EPA.Repositories.Implement
                     };
 
                     return targetEmployeeSetting;
+                }
+            }
+        }
+
+        public RawTargetDepartmentSettingModel GetTargetDepartmentSetting(ICriteria criteria)
+        {
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                using (var multi = db.QueryMultiple(criteria.GetSpParams()))
+                {
+                    IEnumerable<DepartmentModel> deparments = multi.Read<DepartmentModel>();
+
+                    IEnumerable<TargetDepartmentModel> targetDepartments = multi.Read<TargetDepartmentModel, TargetTemplateModel, TargetDepartmentModel>(
+                        (tarEmp, tar) =>
+                        {
+                            tarEmp.RawTargetTemplate = tar;
+                            return tarEmp;
+                        },
+                        "TargetTemplateId");
+
+                    var targetDepartmentSetting = new RawTargetDepartmentSettingModel
+                    {
+                        Departments = deparments,
+                        TargetDepartments = targetDepartments
+                    };
+
+                    return targetDepartmentSetting;
                 }
             }
         }

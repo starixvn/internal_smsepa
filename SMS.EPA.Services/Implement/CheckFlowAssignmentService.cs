@@ -111,7 +111,7 @@ namespace SMS.EPA.Services.Implement
             IEnumerable<TargetEmployeeModel> targetEmployees,
             EmployeeFlowTargetSettingModel employeeSetting)
         {
-            employeeSetting.TargetTemplate = new TargetTemplateModel();
+            employeeSetting.RawTargetTemplate = new TargetTemplateModel();
 
             if (targetEmployees != null)
             {
@@ -119,7 +119,7 @@ namespace SMS.EPA.Services.Implement
 
                 if (rawTargetEmployee != null && rawTargetEmployee.Count() > 0)
                 {
-                    employeeSetting.TargetTemplate = rawTargetEmployee.First().TargetTemplate;
+                    employeeSetting.RawTargetTemplate = rawTargetEmployee.First().RawTargetTemplate;
                 }
             }
         }
@@ -214,7 +214,7 @@ namespace SMS.EPA.Services.Implement
                 Evaluator = GetEvaluator(employeeSetting.Evaluators),
                 Reviewer = GetEvaluator(employeeSetting.Reviewers),
                 Management = GetEvaluator(employeeSetting.Managements),
-                Form = employeeSetting.TargetTemplate != null ? employeeSetting.TargetTemplate.TargetTypeName : string.Empty
+                Form = employeeSetting.RawTargetTemplate != null ? employeeSetting.RawTargetTemplate.TargetTypeName : string.Empty
             };
             rowIndex++;
 

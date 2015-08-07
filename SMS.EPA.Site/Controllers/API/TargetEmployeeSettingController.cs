@@ -34,13 +34,15 @@ namespace SMS.EPA.Site.Controllers.API
         public IList<TargetEmployeeModel> GetTargetEmployeeSetting(
             int? groupId = null,
             int? employeeId = null,
-            int? targetTypeId = null)
+            int? targetTypeId = null,
+            bool? showAll = null)
         {
             var criteria = new GetAllTargetEmployeeSettingCriteria
             {
                 GroupId = groupId,
                 EmployeeId = employeeId,
-                TargetTypeId = targetTypeId
+                TargetTypeId = targetTypeId,
+                ShowAll = showAll
             };
 
             IList<TargetEmployeeModel> targetEmployeeSettings = _targetEmployeeSettingService.GetTargetEmployeeSetting(criteria);
@@ -56,6 +58,57 @@ namespace SMS.EPA.Site.Controllers.API
             }
 
             CommandResult commandResult = _targetEmployeeSettingService.AssignTargetTemplateToEmployee(criteria);
+            return commandResult;
+        }
+
+        [HttpDelete]
+        public CommandResult DeleteTargetEmployeeSetting(int targetTemplateId, int employeeId)
+        {
+            var criteria = new DeleteTargetEmployeeSettingCriteria
+            {
+                TargetTemplateId = targetTemplateId,
+                EmployeeId = employeeId
+            };
+
+            CommandResult commandResult = _targetEmployeeSettingService.DeleteTargetEmployeeSetting(criteria);
+            return commandResult;
+        }
+
+        public IList<TargetDepartmentModel> GetTargetDepartmentSetting()
+        {
+            var criteria = new GetTargetDepartmentSettingCriteria();
+            IList<TargetDepartmentModel> targetDepartments = _targetEmployeeSettingService.GetTargetDepartmentSetting(criteria);
+            return targetDepartments;
+        }
+
+        [HttpPut]
+        public CommandResult AssignTargetTemplateToDepartment(RawTargetSettingAssignModel model)
+        {
+            var criteria = new AssignTargetDepartmentSettingCriteria
+            {
+                TargetTemplateId = model.TargetTemplateId,
+                Departments = model.ConvertToXml(),
+                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+            };
+
+            CommandResult commandResult = _targetEmployeeSettingService.AssignTargetTemplateToDepartment(criteria);
+            return commandResult;
+        }
+
+        [HttpDelete]
+        public CommandResult DeleteTargetDepartmentSetting(
+            int targetTemplateId,
+            int departmentId,
+            bool isGroup)
+        {
+            var criteria = new DeleteTargetDepartmentSettingCriteria
+            {
+                TargetTemplateId = targetTemplateId,
+                DepartmentId = departmentId,
+                IsGroup = isGroup
+            };
+
+            CommandResult commandResult = _targetEmployeeSettingService.DeleteTargetDepartmentSetting(criteria);
             return commandResult;
         }
     }
