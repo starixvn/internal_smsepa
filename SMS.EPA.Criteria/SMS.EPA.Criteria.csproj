@@ -88,6 +88,7 @@
     <Compile Include="FlowManagement\CreateFlowTemplateCriteria.cs" />
     <Compile Include="FlowManagement\CreatePersonalFlowCriteria.cs" />
     <Compile Include="FlowManagement\DeleteDepartmentFlowCriteria.cs" />
+    <Compile Include="FlowManagement\DeleteFlowTemplateCriteria.cs" />
     <Compile Include="FlowManagement\DeletePersonalFlowCriteria.cs" />
     <Compile Include="FlowManagement\GetDepartmentFlowCriteria.cs" />
     <Compile Include="FlowManagement\GetEmployeeFlowSettingCriteria.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="FlowManagement\GetFlowTemplateCriteria.cs" />
     <Compile Include="FlowManagement\GetPersonalFlowCriteria.cs" />
     <Compile Include="FlowManagement\UpdateFlowTemplateCriteria.cs" />
+    <Compile Include="FlowManagement\UpdateStatusFlowTemplateCriteria.cs" />
     <Compile Include="KPIGroup\DeleteKPIGroupCriteria.cs" />
     <Compile Include="KPIGroup\GetKPIGroupByIdCriteria.cs" />
     <Compile Include="KPIGroup\GetKPIGroupCriteria.cs" />

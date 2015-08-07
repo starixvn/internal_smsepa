@@ -88,6 +88,32 @@ namespace SMS.EPA.Services.Implement
             return result;
         }
 
+        public CommandResult UpdateStatusFlowTemplate(UpdateStatusFlowTemplateCriteria criteria)
+        {
+            CommandResult result = new CommandResult();
+            Check.Argument.IsNotNull(criteria, "criteria");
+
+            if (criteria.IsValid())
+            {
+                result = Repository.Update(criteria);
+            }
+
+            return result;
+        }
+
+        public CommandResult DeleteFlowTemplate(DeleteFlowTemplateCriteria criteria)
+        {
+            CommandResult result = new CommandResult();
+            Check.Argument.IsNotNull(criteria, "criteria");
+
+            if (criteria.IsValid())
+            {
+                result = Repository.Delete(criteria);
+            }
+
+            return result;
+        }
+
         #endregion Flow Template
 
         #region Department Flow Setting

@@ -20,6 +20,12 @@ flowMngModule.factory('flowMngFactory', ['$http', 'baseUrl', function ($http, ba
         updateFlowTemplate: function(flowTemplate){
             return $http.put(baseUrl + 'api/FlowManagement/UpdateFlowTemplate', flowTemplate);
         },
+        updateStatusFlowTemplate: function (flowTemplate) {
+            return $http.put(baseUrl + 'api/FlowManagement/UpdateStatusFlowTemplate', flowTemplate);
+        },
+        deleteFlowTemplate: function (flowTemplateId) {
+            return $http['delete'](baseUrl + 'api/FlowManagement/DeleteFlowTemplate', { params: { flowTemplateId: flowTemplateId } });
+        },
         getDepartmentFlow: function (departmentId, flowTemplateId) {
             return $http.get(baseUrl + 'api/FlowManagement/GetDepartmentFlow', {
                 params: {

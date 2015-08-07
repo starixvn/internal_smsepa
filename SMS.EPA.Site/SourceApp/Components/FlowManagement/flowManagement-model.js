@@ -2,8 +2,8 @@
 /*global moment, flowMngModule*/
 
 flowMngModule.factory('FlowMngModel',
-['$modal', 'flowMngFactory', 'notificationFactory', 'errorFactory',
-function ($modal, flowMngFactory, notificationFactory, errorFactory) {
+['$modal', 'flowMngFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory',
+function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFactory) {
     var flowMngModel = {};
 
     flowMngModel.selfs = {
@@ -216,6 +216,97 @@ function ($modal, flowMngFactory, notificationFactory, errorFactory) {
             }
         }).error(function () {
             errorFactory.errorHandle(status);
+        });
+    };
+
+    flowMngModel.openPopupUpdateStatusFlowTemplate = function (flowTemplate) {
+        flowTemplate.IsActive = !flowTemplate.IsActive;
+
+        var action = flowTemplate.IsActive ? "activate" : "deactivate",
+            newFlowTemplate = {
+                flowTemplateId: flowTemplate.FlowTemplateId,
+                IsActive: flowTemplate.IsActive
+            };
+
+        var modalInstance = $modal.open({
+            templateUrl: 'SourceApp/Shared/Templates/ModalConfirmContent.html',
+            controller: "ModalConfirmController as modalConfirmCtrl",
+            backdrop: 'static',
+            resolve: {
+                name: function () {
+                    return flowTemplate.Name;
+                },
+                action: function () {
+                    return action;
+                }
+            },
+            windowClass: "modal-confirm-center"
+        });
+
+        var keyMessage = '';
+
+        modalInstance.result.then(function () {
+            flowMngFactory.updateStatusFlowTemplate(newFlowTemplate)
+            .success(function (response) {
+                if (response.IsSuccessful) {
+                    keyMessage = action === "activate" ? "ActivationSuccess" : "DeactivationSuccess";
+                    notificationFactory.success(keyMessage);
+                }
+                else {
+                    flowTemplate.IsActive = !newFlowTemplate.IsActive;
+                    notificationFactory.error("", response.Message);
+                }
+            })
+            .error(function (response, status) {
+                if (status === 405) {
+                    errorFactory.errorHandle(status);
+                }
+                else {
+                    keyMessage = action === "activate" ? "ActivationFail" : "DeactivationFail";
+                    flowTemplate.IsActive = !newFlowTemplate.IsActive;
+                    notificationFactory.error(keyMessage);
+                }
+            });
+        }, function () {
+            flowTemplate.IsActive = !newFlowTemplate.IsActive;
+        })['finally'](function () {
+            modalInstance = '';
+        });
+    };
+
+    flowMngModel.openPopupDeleteFlowTemplate = function (vm, flowTemplate) {
+        var modalInstance = $modal.open({
+            templateUrl: 'SourceApp/Shared/Templates/ModalConfirmContent.html',
+            controller: "ModalConfirmController as modalConfirmCtrl",
+            backdrop: 'static',
+            resolve: {
+                name: function () {
+                    return flowTemplate.Name;
+                },
+                action: function () {
+                    return 'delete';
+                }
+            },
+            windowClass: "modal-confirm-center"
+        });
+
+        modalInstance.result.then(function () {
+            flowMngFactory.deleteFlowTemplate(flowTemplate.FlowTemplateId).success(function (response) {
+                if (response.IsSuccessful) {
+                    var index = vm.flowTemplates.indexOf(flowTemplate);
+                    vm.flowTemplates.splice(index, 1);
+                    utilitiesFactory.searchOnPage(vm, vm.flowTemplates);
+
+                    notificationFactory.success("DeletedSuccessfully");
+                }
+                else {
+                    notificationFactory.error("", response.Message);
+                }
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        })['finally'](function () {
+            modalInstance = '';
         });
     };
 

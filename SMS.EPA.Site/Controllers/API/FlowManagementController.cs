@@ -70,9 +70,7 @@ namespace SMS.EPA.Site.Controllers.API
                 criteria.CreatedBy = CurrentUser.EmployeeInfo.EmployeeId;
             }
 
-            CommandResult commandResult = _flowManagementService.CreateFlowTemplate(criteria);
-
-            return commandResult;
+            return _flowManagementService.CreateFlowTemplate(criteria);
         }
 
         [HttpPut]
@@ -83,9 +81,30 @@ namespace SMS.EPA.Site.Controllers.API
                 criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
             }
 
-            CommandResult commandResult = _flowManagementService.UpdateFlowTemplate(criteria);
+            return _flowManagementService.UpdateFlowTemplate(criteria);
+        }
 
-            return commandResult;
+        [HttpPut]
+        public CommandResult UpdateStatusFlowTemplate(UpdateStatusFlowTemplateCriteria criteria)
+        {
+            if (criteria != null)
+            {
+                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+            }
+
+            return _flowManagementService.UpdateStatusFlowTemplate(criteria);
+        }
+
+        [HttpDelete]
+        public CommandResult DeleteFlowTemplate(int flowTemplateId)
+        {
+            var criteria = new DeleteFlowTemplateCriteria()
+            {
+                FlowTemplateId = flowTemplateId,
+                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+            };
+
+            return _flowManagementService.DeleteFlowTemplate(criteria);
         }
 
         #endregion Flow Template

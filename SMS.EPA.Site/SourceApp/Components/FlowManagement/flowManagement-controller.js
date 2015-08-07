@@ -33,6 +33,14 @@ function (FlowMngModel, CommonModel, utilitiesFactory) {
         vm.updateFlowTemplateUrl = '/Flow/Update/' + flowTemplate.FlowTemplateId;
     };
 
+    vm.updateStatusFlowGroup = function (flowTemplate) {
+        FlowMngModel.openPopupUpdateStatusFlowTemplate(flowTemplate);
+    };
+
+    vm.deleteFlowTemplate = function (flowTemplate) {
+        FlowMngModel.openPopupDeleteFlowTemplate(vm, flowTemplate);
+    };
+
     vm.query = function (filter) {
         getFlowTemplate(filter.targetTypeId, filter.isActive);
     };

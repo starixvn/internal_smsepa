@@ -27,6 +27,10 @@ namespace SMS.EPA.Services.Interfaces
 
         CommandResult UpdateFlowTemplate(UpdateFlowTemplateCriteria criteria);
 
+        CommandResult UpdateStatusFlowTemplate(UpdateStatusFlowTemplateCriteria criteria);
+
+        CommandResult DeleteFlowTemplate(DeleteFlowTemplateCriteria criteria);
+
         #endregion Flow Template
 
         #region Department Flow Setting
