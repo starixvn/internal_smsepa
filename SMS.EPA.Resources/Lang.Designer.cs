@@ -133,6 +133,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Apply to Department.
+        /// </summary>
+        public static string ApplyToDepartment {
+            get {
+                return ResourceManager.GetString("ApplyToDepartment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Assign.
         /// </summary>
         public static string Assign {

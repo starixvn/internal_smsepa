@@ -146,14 +146,17 @@ namespace SMS.EPA.Services.Implement
                     FlowModel evaluator = CreateEvaluator(rawEmployeeFlow);
                     employeeSetting.Evaluators.Add(evaluator);
                     break;
+
                 case (int)ProcessType.Reviewer:
                     FlowModel reviewer = CreateEvaluator(rawEmployeeFlow);
                     employeeSetting.Reviewers.Add(reviewer);
                     break;
+
                 case (int)ProcessType.Management:
                     FlowModel management = CreateEvaluator(rawEmployeeFlow);
                     employeeSetting.Managements.Add(management);
                     break;
+
                 case (int)ProcessType.HumanResource:
                     FlowModel humanResource = CreateEvaluator(rawEmployeeFlow);
                     employeeSetting.HumanResources.Add(humanResource);
@@ -169,8 +172,6 @@ namespace SMS.EPA.Services.Implement
             {
                 ProcessId = rawEmployeeFlow.ProcessId,
                 EvaluatorInfo = rawEmployeeFlow.EvaluatorInfo,
-                StartDate = rawEmployeeFlow.StartDate,
-                EndDate = rawEmployeeFlow.EndDate,
                 HasSendMail = rawEmployeeFlow.HasSendMail
             };
 

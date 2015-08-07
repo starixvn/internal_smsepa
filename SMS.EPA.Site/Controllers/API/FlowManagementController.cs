@@ -39,6 +39,8 @@ namespace SMS.EPA.Site.Controllers.API
             _employeeService = employeeService ?? new EmployeeService();
         }
 
+        #region Flow Template
+
         [HttpGet]
         public IEnumerable<FlowTemplateModel> GetFlowTemplate(
             int? targetTypeId = null,
@@ -90,28 +92,22 @@ namespace SMS.EPA.Site.Controllers.API
             return commandResult;
         }
 
+        #endregion Flow Template
+
+        #region Flow Setting
         [HttpGet]
-        public IEnumerable<FlowModel> GetDepartmentFlow(int departmentId)
+        public IEnumerable<FlowModel> GetDepartmentFlow(
+            int departmentId,
+            int flowTemplateId)
         {
-            IEnumerable<FlowModel> data = new List<FlowModel>();
-            var criteria = new GetDepartmentFlowCriteria();
-
-            if (departmentId > 0)
+            var criteria = new GetDepartmentFlowCriteria()
             {
-                criteria.DepartmentId = departmentId;
-                criteria.IsGroup = false;
+                FlowTemplateId = flowTemplateId,
+                DepartmentId = Math.Abs(departmentId),
+                IsGroup = departmentId > 0 ? false : true
+            };
 
-                data = _flowManagementService.GetDepartmentFlow(criteria);
-            }
-            else if (departmentId < 0)
-            {
-                criteria.DepartmentId = Math.Abs(departmentId);
-                criteria.IsGroup = true;
-
-                data = _flowManagementService.GetDepartmentFlow(criteria);
-            }
-
-            return data;
+            return _flowManagementService.GetDepartmentFlow(criteria);
         }
 
         [HttpGet]
@@ -135,14 +131,18 @@ namespace SMS.EPA.Site.Controllers.API
         public CommandResult CreateDepartmentFlow(InsertFlowModel model)
         {
             CommandResult result = new CommandResult();
-            var criteria = new CreateDepartmentFlowCriteria();
+
+            var criteria = new CreateDepartmentFlowCriteria()
+            {
+                FlowTemplateId = model.FlowTemplateId,
+                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
+                FlowDetails = model.FlowDetails
+            };
 
             if (model.DepartmentId > 0)
             {
                 criteria.DepartmentId = model.DepartmentId;
                 criteria.IsGroup = false;
-                criteria.FlowDetails = model.FlowDetails;
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
 
                 result = _flowManagementService.CreateDepartmentFlow(criteria);
             }
@@ -150,8 +150,6 @@ namespace SMS.EPA.Site.Controllers.API
             {
                 criteria.DepartmentId = Math.Abs(model.DepartmentId);
                 criteria.IsGroup = true;
-                criteria.FlowDetails = model.FlowDetails;
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
 
                 result = _flowManagementService.CreateDepartmentFlow(criteria);
             }
@@ -252,5 +250,7 @@ namespace SMS.EPA.Site.Controllers.API
 
             return result;
         }
+
+        #endregion Flow Setting
     }
 }

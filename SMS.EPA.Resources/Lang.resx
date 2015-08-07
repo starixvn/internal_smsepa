@@ -606,4 +606,7 @@
   <data name="ScoreRatingTypeRequired" xml:space="preserve">
     <value>The Score Rating Type filed is required!</value>
   </data>
+  <data name="ApplyToDepartment" xml:space="preserve">
+    <value>Apply to Department</value>
+  </data>
 </root>

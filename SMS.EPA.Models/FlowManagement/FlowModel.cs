@@ -9,16 +9,13 @@
 
 namespace SMS.EPA.Model.FlowManagement
 {
-    using System;
     using SMS.EPA.Model.Employee;
 
     public class FlowModel
     {
         public int ProcessId { get; set; }
 
-        public DateTime StartDate { get; set; }
-
-        public DateTime EndDate { get; set; }
+        public int Duration { get; set; }
 
         public bool HasSendMail { get; set; }
 

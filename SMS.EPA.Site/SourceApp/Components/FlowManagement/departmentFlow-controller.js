@@ -2,9 +2,11 @@
 /*global flowMngModule*/
 
 flowMngModule.controller("DepartmentFlowController",
-['$scope', 'FlowMngModel', 'CommonModel', 'cacheService',
-function ($scope, FlowMngModel, CommonModel, cacheService) {
+['$scope', '$routeParams', 'FlowMngModel', 'CommonModel', 'cacheService',
+function ($scope, $routeParams, FlowMngModel, CommonModel, cacheService) {
     var vm = this;
+
+    vm.FlowTemplateId = parseInt($routeParams.id);
 
     vm.selfs = FlowMngModel.selfs;
     vm.evaluators = FlowMngModel.evaluators;
@@ -12,35 +14,31 @@ function ($scope, FlowMngModel, CommonModel, cacheService) {
     vm.managements = FlowMngModel.managements;
     vm.humanResources = FlowMngModel.humanResources;
 
+    vm.employees = [];
     vm.showListEmployee = true;
     vm.department = null;
-
-    FlowMngModel.calendar(vm);
-
-    /// Open calendar.
-    vm.openPopupStartDate = function ($event, obj) {
-        $event.preventDefault();
-        $event.stopPropagation();
-        FlowMngModel.resetOpenCalendar(vm);
-
-        obj.startDateOpened = true;
-    };
-
-    vm.openPopupEndDate = function ($event, obj) {
-        $event.preventDefault();
-        $event.stopPropagation();
-        FlowMngModel.resetOpenCalendar(vm);
-
-        obj.endDateOpened = true;
-    };
+    vm.departmentId = null;
 
     /// Show or hide list Employee.
     vm.toggleDepartmentDraggableList = function () {
         vm.showListEmployee = !vm.showListEmployee;
     };
 
-    vm.onSelectedDepartment = function () {
-        FlowMngModel.getDepartmentFlow(vm.department).then(function () {
+    vm.getEmployee = function () {
+        if (vm.departmentId > 0) {
+            CommonModel.getEmployeeByDepartmentId(vm.departmentId).then(function () {
+                vm.employees = CommonModel.employees;
+            });
+        }
+        else if (vm.departmentId < 0) {
+            CommonModel.getEmployeeByGroupId(Math.abs(vm.departmentId)).then(function () {
+                vm.employees = CommonModel.employees;
+            });
+        }
+    };
+
+    vm.getDepartmentFlow = function () {
+        FlowMngModel.getDepartmentFlow(vm.department, vm.FlowTemplateId).then(function () {
             vm.selfs = FlowMngModel.selfs;
             vm.evaluators = FlowMngModel.evaluators;
             vm.reviewers = FlowMngModel.reviewers;
@@ -91,9 +89,14 @@ function ($scope, FlowMngModel, CommonModel, cacheService) {
         return cacheService.getProperty();
     }, function (value) {
         if (value === 1) {
+            CommonModel.getAllEmployee().then(function () {
+                vm.employees = CommonModel.employees;
+            });
+
             FlowMngModel.resetCurrentFlow(vm);
             vm.showListEmployee = true;
             vm.department = null;
+            vm.departmentId = null;
         }
     });
 

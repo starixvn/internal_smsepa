@@ -10,6 +10,7 @@ function (commonFactory, errorFactory) {
     commonModel.kpis = [];
     commonModel.kpiGroups = [];
     commonModel.groups = [];
+    commonModel.employees = [];
     commonModel.employee = {};
     commonModel.departments = [];
     commonModel.treeDepartment = {};
@@ -64,6 +65,39 @@ function (commonFactory, errorFactory) {
         return commonFactory.getAllGroup().success(function (groups) {
             commonModel.groups = groups;
         }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    /// Get all employee.
+    commonModel.getAllEmployee = function (query, groupId, isSpecialUser, isDisabledUser) {
+        return commonFactory.getAllEmployee(query, groupId, isSpecialUser, isDisabledUser)
+        .success(function (employees) {
+            commonModel.employees = employees;
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    /// Get employee by department id.
+    commonModel.getEmployeeByDepartmentId = function (departmentId) {
+        return commonFactory.getEmployeeByDepartmentId(departmentId)
+        .success(function (employees) {
+            commonModel.employees = employees;
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    /// Get employee by group id.
+    commonModel.getEmployeeByGroupId = function (groupId) {
+        return commonFactory.getEmployeeByGroupId(groupId)
+        .success(function (employees) {
+            commonModel.employees = employees;
+        })
+        .error(function (response, status) {
             errorFactory.errorHandle(status);
         });
     };

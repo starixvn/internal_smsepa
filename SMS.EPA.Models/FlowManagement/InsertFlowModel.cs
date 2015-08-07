@@ -9,16 +9,17 @@
 
 namespace SMS.EPA.Model.FlowManagement
 {
-    using System;
     using System.Text;
     using SMS.EPA.Core.Enumerations;
 
     public class InsertFlowModel
     {
-        private const string _Process = "<Process ProcessId='{0}' StartDate='{1}' EndDate='{2}' HasSendMail='{3}'>{4}</Process>";
+        private const string _Process = "<Process ProcessId='{0}' Duration='{1}' HasSendMail='{2}'>{3}</Process>";
         private const string _Evaluator = "<Evaluator EvaluatorId='{0}' Priority='{1}'></Evaluator>";
 
         public int DepartmentId { get; set; }
+
+        public int FlowTemplateId { get; set; }
 
         public InsertFlowItemModel Selfs { get; set; }
 
@@ -41,7 +42,7 @@ namespace SMS.EPA.Model.FlowManagement
                     var evaluator = new StringBuilder();
                     evaluator.AppendFormat(_Evaluator, -1, 1);
 
-                    process.AppendFormat(_Process, (int)ProcessType.Self, Selfs.StartDate, Selfs.EndDate, Selfs.HasSendMail, evaluator);
+                    process.AppendFormat(_Process, (int)ProcessType.Self, Selfs.Duration, Selfs.HasSendMail, evaluator);
                 }
 
                 if (Evaluators != null)
@@ -60,7 +61,7 @@ namespace SMS.EPA.Model.FlowManagement
                         evaluator.AppendFormat(_Evaluator, -1, 1);
                     }
 
-                    process.AppendFormat(_Process, (int)ProcessType.Evaluator, Evaluators.StartDate, Evaluators.EndDate, Evaluators.HasSendMail, evaluator);
+                    process.AppendFormat(_Process, (int)ProcessType.Evaluator, Evaluators.Duration, Evaluators.HasSendMail, evaluator);
                 }
 
                 if (Reviewers != null)
@@ -79,7 +80,7 @@ namespace SMS.EPA.Model.FlowManagement
                         evaluator.AppendFormat(_Evaluator, -1, 1);
                     }
 
-                    process.AppendFormat(_Process, (int)ProcessType.Reviewer, Reviewers.StartDate, Reviewers.EndDate, Reviewers.HasSendMail, evaluator);
+                    process.AppendFormat(_Process, (int)ProcessType.Reviewer, Reviewers.Duration, Reviewers.HasSendMail, evaluator);
                 }
 
                 if (Managements != null)
@@ -98,7 +99,7 @@ namespace SMS.EPA.Model.FlowManagement
                         evaluator.AppendFormat(_Evaluator, -1, 1);
                     }
 
-                    process.AppendFormat(_Process, (int)ProcessType.Management, Managements.StartDate, Managements.EndDate, Managements.HasSendMail, evaluator);
+                    process.AppendFormat(_Process, (int)ProcessType.Management, Managements.Duration, Managements.HasSendMail, evaluator);
                 }
 
                 if (HumanResources != null)
@@ -117,7 +118,7 @@ namespace SMS.EPA.Model.FlowManagement
                         evaluator.AppendFormat(_Evaluator, -1, 1);
                     }
 
-                    process.AppendFormat(_Process, (int)ProcessType.HumanResource, HumanResources.StartDate, HumanResources.EndDate, HumanResources.HasSendMail, evaluator);
+                    process.AppendFormat(_Process, (int)ProcessType.HumanResource, HumanResources.Duration, HumanResources.HasSendMail, evaluator);
                 }
 
                 process.Append("</ROOT>");

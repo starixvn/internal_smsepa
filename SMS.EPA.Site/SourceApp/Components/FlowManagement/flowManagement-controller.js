@@ -2,18 +2,12 @@
 /*global flowMngModule*/
 
 flowMngModule.controller("FlowMngController",
-['FlowMngModel', 'EmployeeModel', 'CommonModel', 'utilitiesFactory', 'cacheService',
-function (FlowMngModel, EmployeeModel, CommonModel, utilitiesFactory, cacheService) {
+['FlowMngModel', 'CommonModel', 'utilitiesFactory',
+function (FlowMngModel, CommonModel, utilitiesFactory) {
     var vm = this;
-
-    vm.employees = EmployeeModel.employees;
-    vm.departments = CommonModel.departments;
-    vm.treeDepartment = CommonModel.treeDepartment;
 
     vm.targetTypes = CommonModel.targetTypes;
     vm.flowTemplates = FlowMngModel.flowTemplates;
-
-    utilitiesFactory.getDateFormat(vm);
 
     vm.filter = {
         targetTypeId: '',
@@ -39,63 +33,14 @@ function (FlowMngModel, EmployeeModel, CommonModel, utilitiesFactory, cacheServi
         vm.updateFlowTemplateUrl = '/Flow/Update/' + flowTemplate.FlowTemplateId;
     };
 
-    vm.tabDepartmentSelected = function () {
-        cacheService.setProperty(1);
-    };
-
-    vm.tabPersonalSelected = function () {
-        cacheService.setProperty(2);
-    };
-
-    var createLabel = function (item, level) {
-        var label = '',
-			space = '',
-			levelTemp = level;
-
-        if (level > 0) {
-            while (levelTemp > 0) {
-                label = label + " " + space;
-                space = String.fromCharCode(160) + String.fromCharCode(160) + String.fromCharCode(160);
-                levelTemp--;
-            }
-
-            label = label + ' ├─○ ' + item.Name;
-        }
-        else {
-            label = item.Name;
-        }
-
-        return label;
-    };
-
-    var generateTreeDepartment = function (departments, options, level) {
-        angular.forEach(departments, function (item) {
-            options.push({ Name: createLabel(item, level), DepartmentId: item.DepartmentId });
-            generateTreeDepartment(item.Childrens, options, level + 1);
-        });
-
-        return options;
-    };
-
     vm.query = function (filter) {
         getFlowTemplate(filter.targetTypeId, filter.isActive);
     };
 
     vm.initialize = function () {
-        EmployeeModel.getAllEmployee().then(function () {
-            vm.employees = EmployeeModel.employees;
-        });
-
-        CommonModel.getDepartment().then(function () {
-            vm.departments = CommonModel.departments;
-            vm.treeDepartment = generateTreeDepartment(CommonModel.treeDepartment.Childrens, [], 0);
-        });
-
         CommonModel.getTargetType().then(function () {
             vm.targetTypes = CommonModel.targetTypes;
         });
-
-        FlowMngModel.resetCurrentFlow(FlowMngModel);
 
         getFlowTemplate(vm.filter.targetTypeId, vm.filter.isActive);
     };
@@ -153,11 +98,59 @@ function ($window, FlowMngModel, CommonModel) {
 }]);
 
 flowMngModule.controller("UpdateFlowTemplateController",
-['$window', '$routeParams', 'FlowMngModel', 'CommonModel',
-function ($window, $routeParams, FlowMngModel, CommonModel) {
+['$window', 'FlowMngModel', 'CommonModel', 'cacheService',
+function ($window, FlowMngModel, CommonModel, cacheService) {
     var vm = this;
 
-    vm.flowTemplateId = parseInt($routeParams.id);
+    vm.departments = CommonModel.departments;
+    vm.treeDepartment = CommonModel.treeDepartment;
+
+    vm.tabDepartmentSelected = function () {
+        cacheService.setProperty(1);
+    };
+
+    vm.tabPersonalSelected = function () {
+        cacheService.setProperty(2);
+    };
+
+    var createLabel = function (item, level) {
+        var label = '',
+            space = '',
+            levelTemp = level;
+
+        if (level > 0) {
+            while (levelTemp > 0) {
+                label = label + " " + space;
+                space = String.fromCharCode(160) + String.fromCharCode(160) + String.fromCharCode(160);
+                levelTemp--;
+            }
+
+            label = label + ' ├─○ ' + item.Name;
+        }
+        else {
+            label = item.Name;
+        }
+
+        return label;
+    };
+
+    var generateTreeDepartment = function (departments, options, level) {
+        angular.forEach(departments, function (item) {
+            options.push({ Name: createLabel(item, level), DepartmentId: item.DepartmentId });
+            generateTreeDepartment(item.Childrens, options, level + 1);
+        });
+
+        return options;
+    };
+
+    vm.initialize = function () {
+        CommonModel.getDepartment().then(function () {
+            vm.departments = CommonModel.departments;
+            vm.treeDepartment = generateTreeDepartment(CommonModel.treeDepartment.Childrens, [], 0);
+        });
+    };
+
+    vm.initialize();
 }]);
 
 flowMngModule.controller("GeneralInformationController",

@@ -9,15 +9,12 @@
 
 namespace SMS.EPA.Model.FlowManagement
 {
-    using System;
     using System.Collections.Generic;
     using SMS.EPA.Model.Employee;
 
     public class InsertFlowItemModel
     {
-        public DateTime StartDate { get; set; }
-
-        public DateTime EndDate { get; set; }
+        public int Duration { get; set; }
 
         public bool HasSendMail { get; set; }
 

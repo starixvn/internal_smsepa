@@ -92,6 +92,47 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [NonAction]
+        public IEnumerable<EmployeeModel> GetAllEmployee(
+            string query = "",
+            int? groupId = null,
+            bool? isSpecialUser = null,
+            bool? isDisabledUser = null)
+        {
+            var criteria = new GetAllEmployeeCriteria
+            {
+                Query = query,
+                GroupId = groupId,
+                IsSpecialUser = isSpecialUser,
+                IsDisabledUser = isDisabledUser
+            };
+
+            IEnumerable<EmployeeModel> employees = _employeeService.GetAllEmployee(criteria);
+            return employees;
+        }
+
+        [NonAction]
+        public IEnumerable<EmployeeModel> GetEmployeeByDepartmentId(int departmentId)
+        {
+            var criteria = new GetEmployeeByDepartmentIdCriteria()
+            {
+                DepartmentId = departmentId
+            };
+
+            return _employeeService.GetEmployeeByDepartmentId(criteria);
+        }
+
+        [NonAction]
+        public IEnumerable<EmployeeModel> GetEmployeeByGroupId(int groupId)
+        {
+            var criteria = new GetEmployeeByGroupIdCriteria()
+            {
+                GroupId = groupId
+            };
+
+            return _employeeService.GetEmployeeByGroupId(criteria);
+        }
+
+        [NonAction]
         public EmployeeModel GetEmployeeById(int employeeId)
         {
             var criteria = new GetEmployeeByIdCriteria

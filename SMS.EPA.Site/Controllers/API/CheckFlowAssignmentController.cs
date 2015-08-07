@@ -77,8 +77,6 @@ namespace SMS.EPA.Site.Controllers.API
                     setting.TargetTemplateId,
                     setting.ProcessId,
                     setting.EvaluatorInfo.EmployeeId,
-                    setting.StartDate.ToShortDateString(),
-                    setting.EndDate.ToShortDateString(),
                     setting.HasSendMail);
             }
 

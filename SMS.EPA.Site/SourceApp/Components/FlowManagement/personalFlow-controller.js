@@ -12,30 +12,13 @@ function ($scope, FlowMngModel, CommonModel, cacheService) {
     vm.managements = FlowMngModel.managements;
     vm.humanResources = FlowMngModel.humanResources;
 
+    vm.employees = [];
     vm.showListEmployee = true;
     vm.department = null;
     vm.showDeleteButton = false;
     vm.defaultSettingFlowEmployees = [];
     vm.personalSettingFlowEmployees = [];
 
-    FlowMngModel.calendar(vm);
-
-    /// Open calendar.
-    vm.openPopupStartDate = function ($event, obj) {
-        $event.preventDefault();
-        $event.stopPropagation();
-        FlowMngModel.resetOpenCalendar(vm);
-
-        obj.startDateOpened = true;
-    };
-
-    vm.openPopupEndDate = function ($event, obj) {
-        $event.preventDefault();
-        $event.stopPropagation();
-        FlowMngModel.resetOpenCalendar(vm);
-
-        obj.endDateOpened = true;
-    };
 
     /// Show or hide list Employee.
     vm.toggleDepartmentDraggableList = function () {
@@ -45,6 +28,19 @@ function ($scope, FlowMngModel, CommonModel, cacheService) {
     /// Remove item from list.
     vm.removeItemFromList = function (item, list) {
         FlowMngModel.removeItemFromList(item, list);
+    };
+
+    vm.getEmployee = function () {
+        if (vm.departmentId > 0) {
+            CommonModel.getEmployeeByDepartmentId(vm.departmentId).then(function () {
+                vm.employees = CommonModel.employees;
+            });
+        }
+        else if (vm.departmentId < 0) {
+            CommonModel.getEmployeeByGroupId(Math.abs(vm.departmentId)).then(function () {
+                vm.employees = CommonModel.employees;
+            });
+        }
     };
 
     vm.onSelectedDepartment = function () {
@@ -136,10 +132,15 @@ function ($scope, FlowMngModel, CommonModel, cacheService) {
         return cacheService.getProperty();
     }, function (value) {
         if (value === 2) {
+            CommonModel.getAllEmployee().then(function () {
+                vm.employees = CommonModel.employees;
+            });
+
             FlowMngModel.resetCurrentFlow(vm);
             vm.showListEmployee = true;
             vm.showDeleteButton = false;
             vm.department = null;
+            vm.departmentId = null;
             vm.defaultSettingFlowEmployees = [];
             vm.personalSettingFlowEmployees = [];
         }

@@ -11,7 +11,6 @@ namespace SMS.EPA.Site.Controllers.API
 {
     using System.Collections.Generic;
     using System.Web.Http;
-    using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Utilities;
     using SMS.EPA.Model.Department;
@@ -20,7 +19,6 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Model.KPI;
     using SMS.EPA.Model.KPIGroup;
     using SMS.EPA.Model.TargetType;
-    using SMS.EPA.Web.ApiAuthorizeAttribute;
 
     public class CommonController : BaseController
     {
@@ -82,8 +80,27 @@ namespace SMS.EPA.Site.Controllers.API
             return roles;
         }
 
+        public IEnumerable<EmployeeModel> GetAllEmployee(
+            string query = "",
+            int? groupId = null,
+            bool? isSpecialUser = null,
+            bool? isDisabledUser = null)
+        {
+            return _utilitiesController.GetAllEmployee(query, groupId, isSpecialUser, isDisabledUser);
+        }
+
+        public IEnumerable<EmployeeModel> GetEmployeeByDepartmentId(int departmentId)
+        {
+            return _utilitiesController.GetEmployeeByDepartmentId(departmentId);
+        }
+
         [HttpGet]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Read)]
+        public IEnumerable<EmployeeModel> GetEmployeeByGroupId(int groupId)
+        {
+            return _utilitiesController.GetEmployeeByGroupId(groupId);
+        }
+
+        [HttpGet]
         public EmployeeModel GetEmployeeById(int employeeId)
         {
             EmployeeModel employee = _utilitiesController.GetEmployeeById(employeeId);

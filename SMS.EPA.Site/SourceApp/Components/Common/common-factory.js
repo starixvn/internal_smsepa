@@ -31,6 +31,16 @@ commonModule.factory('commonFactory', ['$http', 'baseUrl', function ($http, base
         },
         getAllStatus: function () {
             return $http.get(baseUrl + 'api/Common/GetAllStatus');
+        },
+        getAllEmployee: function (query, groupId, isSpecialUser, isDisabledUser) {
+            return $http.get(baseUrl + 'api/Common/GetAllEmployee',
+                { params: { query: query, groupId: groupId, isSpecialUser: isSpecialUser, isDisabledUser: isDisabledUser } });
+        },
+        getEmployeeByDepartmentId: function (departmentId) {
+            return $http.get(baseUrl + 'api/Common/GetEmployeeByDepartmentId', { params: { departmentId: departmentId } });
+        },
+        getEmployeeByGroupId: function (groupId) {
+            return $http.get(baseUrl + 'api/Common/GetEmployeeByGroupId', { params: { groupId: groupId } });
         }
     };
 } ]);

@@ -8,32 +8,27 @@ function ($modal, flowMngFactory, notificationFactory, errorFactory) {
     var date = moment(new Date()).format("DD MMM, YYYY");
 
     flowMngModel.selfs = {
-        startDate: date,
-        endDate: date,
+        duration: 0,
         hasSendMail: true,
         employees: []
     };
     flowMngModel.evaluators = {
-        startDate: date,
-        endDate: date,
+        duration: 0,
         hasSendMail: true,
         employees: []
     };
     flowMngModel.reviewers = {
-        startDate: date,
-        endDate: date,
+        duration: 0,
         hasSendMail: true,
         employees: []
     };
     flowMngModel.managements = {
-        startDate: date,
-        endDate: date,
+        duration: 0,
         hasSendMail: true,
         employees: []
     };
     flowMngModel.humanResources = {
-        startDate: date,
-        endDate: date,
+        duration: 0,
         hasSendMail: true,
         employees: []
     };
@@ -44,73 +39,25 @@ function ($modal, flowMngFactory, notificationFactory, errorFactory) {
     flowMngModel.personalSettingFlowEmployees = [];
 
     flowMngModel.resetCurrentFlow = function (vm) {
-        vm.selfs.startDate = date;
-        vm.selfs.endDate = date;
+        vm.selfs.duration = 0;
         vm.selfs.hasSendMail = true;
         vm.selfs.employees = [];
 
-        vm.evaluators.startDate = date;
-        vm.evaluators.endDate = date;
+        vm.evaluators.duration = 0;
         vm.evaluators.hasSendMail = true;
         vm.evaluators.employees = [];
 
-        vm.reviewers.startDate = date;
-        vm.reviewers.endDate = date;
+        vm.reviewers.duration = 0;
         vm.reviewers.hasSendMail = true;
         vm.reviewers.employees = [];
 
-        vm.managements.startDate = date;
-        vm.managements.endDate = date;
+        vm.managements.duration = 0;
         vm.managements.hasSendMail = true;
         vm.managements.employees = [];
 
-        vm.humanResources.startDate = date;
-        vm.humanResources.endDate = date;
+        vm.humanResources.duration = 0;
         vm.humanResources.hasSendMail = true;
         vm.humanResources.employees = [];
-    };
-
-    /// Setting calendar.
-    flowMngModel.calendar = function (vm) {
-        vm.calendar = {
-            selfs: {
-                startDateOpened: false,
-                endDateOpened: false
-            },
-            evaluators: {
-                startDateOpened: false,
-                endDateOpened: false
-            },
-            reviewers: {
-                startDateOpened: false,
-                endDateOpened: false
-            },
-            managements: {
-                startDateOpened: false,
-                endDateOpened: false
-            },
-            humanResources: {
-                startDateOpened: false,
-                endDateOpened: false
-            }
-        };
-    };
-
-    flowMngModel.resetOpenCalendar = function (vm) {
-        vm.calendar.selfs.startDateOpened = false;
-        vm.calendar.selfs.endDateOpened = false;
-
-        vm.calendar.evaluators.startDateOpened = false;
-        vm.calendar.evaluators.endDateOpened = false;
-
-        vm.calendar.reviewers.startDateOpened = false;
-        vm.calendar.reviewers.endDateOpened = false;
-
-        vm.calendar.managements.startDateOpened = false;
-        vm.calendar.managements.endDateOpened = false;
-
-        vm.calendar.humanResources.startDateOpened = false;
-        vm.calendar.humanResources.endDateOpened = false;
     };
 
     /// Get flow template.
@@ -193,9 +140,15 @@ function ($modal, flowMngFactory, notificationFactory, errorFactory) {
             var processId = flow.ProcessId;
             switch (processId) {
                 case 1:
+                    flowMngModel.humanResources.duration = flow.Duration;
+                    flowMngModel.humanResources.hasSendMail = flow.HasSendMail;
+                    if (flow.EvaluatorInfo.EmployeeId > 0) {
+                        flowMngModel.humanResources.employees.push(flow.EvaluatorInfo);
+                    }
+                    break;
+                case 2:
                     var object;
-                    flowMngModel.selfs.startDate = flow.StartDate;
-                    flowMngModel.selfs.endDate = flow.EndDate;
+                    flowMngModel.selfs.duration = flow.Duration;
                     flowMngModel.selfs.hasSendMail = flow.HasSendMail;
                     if (flow.EvaluatorInfo.EmployeeId === -1) {
                         object = { NickName: "Self", EmployeeId: -1 };
@@ -205,36 +158,25 @@ function ($modal, flowMngFactory, notificationFactory, errorFactory) {
                     }
                     flowMngModel.selfs.employees.push(object);
                     break;
-                case 2:
-                    flowMngModel.evaluators.startDate = flow.StartDate;
-                    flowMngModel.evaluators.endDate = flow.EndDate;
+                case 3:
+                    flowMngModel.evaluators.duration = flow.Duration;
                     flowMngModel.evaluators.hasSendMail = flow.HasSendMail;
                     if (flow.EvaluatorInfo.EmployeeId > 0) {
                         flowMngModel.evaluators.employees.push(flow.EvaluatorInfo);
                     }
                     break;
-                case 3:
-                    flowMngModel.reviewers.startDate = flow.StartDate;
-                    flowMngModel.reviewers.endDate = flow.EndDate;
+                case 4:
+                    flowMngModel.reviewers.duration = flow.Duration;
                     flowMngModel.reviewers.hasSendMail = flow.HasSendMail;
                     if (flow.EvaluatorInfo.EmployeeId > 0) {
                         flowMngModel.reviewers.employees.push(flow.EvaluatorInfo);
                     }
                     break;
-                case 4:
-                    flowMngModel.managements.startDate = flow.StartDate;
-                    flowMngModel.managements.endDate = flow.EndDate;
+                case 5:
+                    flowMngModel.managements.duration = flow.Duration;
                     flowMngModel.managements.hasSendMail = flow.HasSendMail;
                     if (flow.EvaluatorInfo.EmployeeId > 0) {
                         flowMngModel.managements.employees.push(flow.EvaluatorInfo);
-                    }
-                    break;
-                case 5:
-                    flowMngModel.humanResources.startDate = flow.StartDate;
-                    flowMngModel.humanResources.endDate = flow.EndDate;
-                    flowMngModel.humanResources.hasSendMail = flow.HasSendMail;
-                    if (flow.EvaluatorInfo.EmployeeId > 0) {
-                        flowMngModel.humanResources.employees.push(flow.EvaluatorInfo);
                     }
                     break;
             }
@@ -242,8 +184,8 @@ function ($modal, flowMngFactory, notificationFactory, errorFactory) {
     };
 
     /// Get department flow.
-    flowMngModel.getDepartmentFlow = function (department) {
-        return flowMngFactory.getDepartmentFlow(department.DepartmentId)
+    flowMngModel.getDepartmentFlow = function (department, flowTemplateId) {
+        return flowMngFactory.getDepartmentFlow(department.DepartmentId, flowTemplateId)
         .success(function (flows) {
             flowMngModel.resetCurrentFlow(flowMngModel);
             if (flows.length > 0) {
@@ -319,10 +261,13 @@ function ($modal, flowMngFactory, notificationFactory, errorFactory) {
             notificationFactory.error("DepartmentNotSelectedWarning");
             return false;
         }
+        else if (vm.humanResources.employees.length === 0) {
+            notificationFactory.error('', 'Please setting flow for Human Resource.');
+            return false;
+        }
         else if(vm.evaluators.employees.length === 0 &&
             vm.reviewers.employees.length === 0 &&
-            vm.managements.employees.length === 0 &&
-            vm.humanResources.employees.length === 0) {
+            vm.managements.employees.length === 0) {
             notificationFactory.error('', 'Please setting flow for Evaluator or Reviewer or Management or Human Resource.');
             return false;
         }
@@ -334,6 +279,7 @@ function ($modal, flowMngFactory, notificationFactory, errorFactory) {
     flowMngModel.createDepartmentFlow = function (vm) {
         var model = {
             departmentId: vm.department.DepartmentId,
+            flowTemplateId: vm.FlowTemplateId,
             selfs: vm.selfs,
             evaluators: vm.evaluators,
             reviewers: vm.reviewers,
