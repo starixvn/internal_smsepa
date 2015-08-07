@@ -111,6 +111,8 @@
         </Setting>
         <Setting Key="SettingEmployeeFlow_Delete" SpName="SettingEmployeeFlow_Delete" DbName="SMSEPA" Plain="0" >
         </Setting>
+        <Setting Key="EpaEmployeeFlowSetting_Get" SpName="EpaEmployeeFlowSetting_Get" DbName="SMSEPA" Plain="0" >
+        </Setting>
     </Function>
     <Function Name="TargetEmployeeSetting">
         <Setting Key="EpaTargetTemplateEmployee_Assign" SpName="EpaTargetTemplateEmployee_Assign" DbName="SMSEPA" Plain="0" >

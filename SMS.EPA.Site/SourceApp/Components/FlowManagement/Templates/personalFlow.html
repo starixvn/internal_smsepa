@@ -12,27 +12,27 @@
             </form>
             <div class="row">
                 <div class="col-sm-3 personal">
-                    <select class="flow-personal" ng-model="personalFlowCtrl.fromModel" multiple
-                            ng-options="e.EmployeeId as e.NickName + ' (' + e.FullName + ')' for e in personalFlowCtrl.defaultSettingFlowEmployees"></select>
+                    <select class="flow-personal" ng-model="personalFlowCtrl.defaultSelect" multiple
+                            ng-options="e.EmployeeId as e.NickName + ' (' + e.FullName + ')' for e in personalFlowCtrl.defaultFlowSettings"></select>
                 </div>
                 <div class="col-sm-1 buttons">
                     <a title="Move Right" class="button glyphicon glyphicon-arrow-right"
-                       ng-click="personalFlowCtrl.moveItem(personalFlowCtrl.fromModel, personalFlowCtrl.defaultSettingFlowEmployees, personalFlowCtrl.personalSettingFlowEmployees)">
+                       ng-click="personalFlowCtrl.moveItem(personalFlowCtrl.defaultSelect, personalFlowCtrl.defaultFlowSettings, personalFlowCtrl.personalFlowSettings)">
                     </a>
                     <a title="Move Left" class="button glyphicon glyphicon-arrow-left"
-                       ng-click="personalFlowCtrl.moveItem(personalFlowCtrl.toModel, personalFlowCtrl.personalSettingFlowEmployees, personalFlowCtrl.defaultSettingFlowEmployees)">
+                       ng-click="personalFlowCtrl.moveItem(personalFlowCtrl.personalSelect, personalFlowCtrl.personalFlowSettings, personalFlowCtrl.defaultFlowSettings)">
                     </a>
                     <a title="Move Right All" class="button glyphicon glyphicon-fast-forward"
-                       ng-click="personalFlowCtrl.moveAll(personalFlowCtrl.defaultSettingFlowEmployees, personalFlowCtrl.personalSettingFlowEmployees)">
+                       ng-click="personalFlowCtrl.moveAll(personalFlowCtrl.defaultFlowSettings, personalFlowCtrl.personalFlowSettings)">
                     </a>
                     <a title="Move Left All" class="button glyphicon glyphicon-fast-backward"
-                       ng-click="personalFlowCtrl.moveAll(personalFlowCtrl.personalSettingFlowEmployees, personalFlowCtrl.defaultSettingFlowEmployees)">
+                       ng-click="personalFlowCtrl.moveAll(personalFlowCtrl.personalFlowSettings, personalFlowCtrl.defaultFlowSettings)">
                     </a>
                 </div>
                 <div class="col-sm-3 personal">
-                    <select class="flow-personal" ng-model="personalFlowCtrl.toModel" multiple
-                            ng-change="personalFlowCtrl.getPersonalFlow(personalFlowCtrl.toModel)"
-                            ng-options="e.EmployeeId as e.NickName +' (' + e.FullName + ')'  for e in personalFlowCtrl.personalSettingFlowEmployees"></select>
+                    <select class="flow-personal" ng-model="personalFlowCtrl.personalSelect" multiple
+                            ng-change="personalFlowCtrl.getPersonalFlow(personalFlowCtrl.personalSelect)"
+                            ng-options="e.EmployeeId as e.NickName +' (' + e.FullName + ')'  for e in personalFlowCtrl.personalFlowSettings"></select>
                 </div>
             </div>
         </div>

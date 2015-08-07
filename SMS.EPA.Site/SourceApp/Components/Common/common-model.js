@@ -11,6 +11,8 @@ function (commonFactory, errorFactory) {
     commonModel.kpiGroups = [];
     commonModel.groups = [];
     commonModel.employees = [];
+    commonModel.employeesInDepartment = [];
+    commonModel.employeesInGroup = [];
     commonModel.employee = {};
     commonModel.departments = [];
     commonModel.treeDepartment = {};
@@ -84,7 +86,7 @@ function (commonFactory, errorFactory) {
     commonModel.getEmployeeByDepartmentId = function (departmentId) {
         return commonFactory.getEmployeeByDepartmentId(departmentId)
         .success(function (employees) {
-            commonModel.employees = employees;
+            commonModel.employeesInDepartment = employees;
         })
         .error(function (response, status) {
             errorFactory.errorHandle(status);
@@ -95,7 +97,7 @@ function (commonFactory, errorFactory) {
     commonModel.getEmployeeByGroupId = function (groupId) {
         return commonFactory.getEmployeeByGroupId(groupId)
         .success(function (employees) {
-            commonModel.employees = employees;
+            commonModel.employeesInGroup = employees;
         })
         .error(function (response, status) {
             errorFactory.errorHandle(status);

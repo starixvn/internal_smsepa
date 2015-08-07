@@ -54,13 +54,14 @@ namespace SMS.EPA.Repositories.Implement
             IEnumerable<FlowModel> epaFlow = null;
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                epaFlow = db.Query<FlowModel, EmployeeModel, FlowModel>(
-                   (f, e) =>
+                epaFlow = db.Query<FlowModel, FlowTemplateModel, EmployeeModel, FlowModel>(
+                   (f, ft, e) =>
                    {
+                       f.FlowTemplate = ft;
                        f.EvaluatorInfo = e;
                        return f;
                    },
-                   "EmployeeId",
+                   "FlowTemplateId, EmployeeId",
                    criteria.GetSpParams());
             }
 

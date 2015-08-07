@@ -16,6 +16,7 @@ function ($scope, $routeParams, FlowMngModel, CommonModel, cacheService) {
 
     vm.employees = [];
     vm.showListEmployee = true;
+    vm.showDeleteButton = false;
     vm.department = null;
     vm.departmentId = null;
 
@@ -27,12 +28,12 @@ function ($scope, $routeParams, FlowMngModel, CommonModel, cacheService) {
     vm.getEmployee = function () {
         if (vm.departmentId > 0) {
             CommonModel.getEmployeeByDepartmentId(vm.departmentId).then(function () {
-                vm.employees = CommonModel.employees;
+                vm.employees = CommonModel.employeesInDepartment;
             });
         }
         else if (vm.departmentId < 0) {
             CommonModel.getEmployeeByGroupId(Math.abs(vm.departmentId)).then(function () {
-                vm.employees = CommonModel.employees;
+                vm.employees = CommonModel.employeesInGroup;
             });
         }
     };
@@ -44,6 +45,16 @@ function ($scope, $routeParams, FlowMngModel, CommonModel, cacheService) {
             vm.reviewers = FlowMngModel.reviewers;
             vm.managements = FlowMngModel.managements;
             vm.humanResources = FlowMngModel.humanResources;
+
+            if (vm.evaluators.employees.length > 0 ||
+                vm.reviewers.employees.length > 0 ||
+                vm.managements.employees.length > 0 ||
+                vm.humanResources.employees.length > 0) {
+                vm.showDeleteButton = true;
+            }
+            else {
+                vm.showDeleteButton = false;
+            }
         });
     };
 
@@ -95,6 +106,7 @@ function ($scope, $routeParams, FlowMngModel, CommonModel, cacheService) {
 
             FlowMngModel.resetCurrentFlow(vm);
             vm.showListEmployee = true;
+            vm.showDeleteButton = false;
             vm.department = null;
             vm.departmentId = null;
         }

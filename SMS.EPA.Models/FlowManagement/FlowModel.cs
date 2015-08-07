@@ -19,6 +19,8 @@ namespace SMS.EPA.Model.FlowManagement
 
         public bool HasSendMail { get; set; }
 
+        public FlowTemplateModel FlowTemplate { get; set; }
+
         public EmployeeModel EvaluatorInfo { get; set; }
     }
 }

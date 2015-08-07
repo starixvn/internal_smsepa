@@ -14,7 +14,6 @@ namespace SMS.EPA.Site.Controllers.API
     using System.Linq;
     using System.Web.Http;
     using SMS.EPA.Core.Model;
-    using SMS.EPA.Criteria.Employee;
     using SMS.EPA.Criteria.FlowManagement;
     using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.FlowManagement;
@@ -24,19 +23,16 @@ namespace SMS.EPA.Site.Controllers.API
     public class FlowManagementController : BaseController
     {
         private readonly IFlowManagementService _flowManagementService;
-        private readonly IEmployeeService _employeeService;
 
         public FlowManagementController()
-            : this(null, null)
+            : this(null)
         {
         }
 
         public FlowManagementController(
-            IFlowManagementService flowManagementService,
-            IEmployeeService employeeService)
+            IFlowManagementService flowManagementService)
         {
             _flowManagementService = flowManagementService ?? new FlowManagementService();
-            _employeeService = employeeService ?? new EmployeeService();
         }
 
         #region Flow Template
@@ -94,7 +90,8 @@ namespace SMS.EPA.Site.Controllers.API
 
         #endregion Flow Template
 
-        #region Flow Setting
+        #region Department Flow Setting
+
         [HttpGet]
         public IEnumerable<FlowModel> GetDepartmentFlow(
             int departmentId,
@@ -110,147 +107,111 @@ namespace SMS.EPA.Site.Controllers.API
             return _flowManagementService.GetDepartmentFlow(criteria);
         }
 
-        [HttpGet]
-        public IEnumerable<FlowModel> GetPersonalFlow(int employeeId)
-        {
-            IEnumerable<FlowModel> data = new List<FlowModel>();
-            if (employeeId > 0)
-            {
-                var getEmployeeFlowCriteria = new GetPersonalFlowCriteria()
-                {
-                    EmployeeId = employeeId
-                };
-
-                data = _flowManagementService.GetPersonalFlow(getEmployeeFlowCriteria);
-            }
-
-            return data;
-        }
-
         [HttpPost]
         public CommandResult CreateDepartmentFlow(InsertFlowModel model)
         {
-            CommandResult result = new CommandResult();
-
             var criteria = new CreateDepartmentFlowCriteria()
             {
+                DepartmentId = Math.Abs(model.DepartmentId),
                 FlowTemplateId = model.FlowTemplateId,
+                IsGroup = model.DepartmentId > 0 ? false : true,
                 ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
                 FlowDetails = model.FlowDetails
             };
 
-            if (model.DepartmentId > 0)
+            return _flowManagementService.CreateDepartmentFlow(criteria);
+        }
+
+        [HttpDelete]
+        public CommandResult DeleteDepartmentFlow(
+            int departmentId,
+            int flowTemplateId)
+        {
+            var criteria = new DeleteDepartmentFlowCriteria()
             {
-                criteria.DepartmentId = model.DepartmentId;
-                criteria.IsGroup = false;
+                FlowTemplateId = flowTemplateId,
+                DepartmentId = Math.Abs(departmentId),
+                IsGroup = departmentId > 0 ? false : true,
+                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+            };
 
-                result = _flowManagementService.CreateDepartmentFlow(criteria);
-            }
-            else if (model.DepartmentId < 0)
+            return _flowManagementService.DeleteDepartmentFlow(criteria);
+        }
+
+        #endregion Department Flow Setting
+
+        #region Personal Flow Setting
+
+        [HttpGet]
+        public IEnumerable<FlowModel> GetPersonalFlow(
+            int employeeId,
+            int flowTemplateId)
+        {
+            var criteria = new GetPersonalFlowCriteria()
             {
-                criteria.DepartmentId = Math.Abs(model.DepartmentId);
-                criteria.IsGroup = true;
+                EmployeeId = employeeId,
+                FlowTemplateId = flowTemplateId
+            };
 
-                result = _flowManagementService.CreateDepartmentFlow(criteria);
-            }
-
-            return result;
+            return _flowManagementService.GetPersonalFlow(criteria);
         }
 
         [HttpPost]
         public CommandResult CreatePersonalFlow(InsertFlowModel model)
         {
-            CommandResult result = new CommandResult();
-
-            var employeeFlowCriteria = new CreatePersonalFlowCriteria()
+            var criteria = new CreatePersonalFlowCriteria()
             {
                 EmployeeId = model.Selfs.Employees[0].EmployeeId,
+                FlowTemplateId = model.FlowTemplateId,
                 FlowDetails = model.FlowDetails,
                 ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
             };
 
-            result = _flowManagementService.CreatePersonalFlow(employeeFlowCriteria);
-
-            return result;
+            return _flowManagementService.CreatePersonalFlow(criteria);
         }
 
         [HttpDelete]
-        public CommandResult DeleteDepartmentFlow(int departmentId)
+        public CommandResult DeletePersonalFlow(
+            int employeeId,
+            int flowTemplateId)
         {
-            CommandResult result = new CommandResult();
-            var criteria = new DeleteDepartmentFlowCriteria();
-
-            if (departmentId > 0)
-            {
-                criteria.DepartmentId = departmentId;
-                criteria.IsGroup = false;
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
-
-                result = _flowManagementService.DeleteDepartmentFlow(criteria);
-            }
-            else if (departmentId < 0)
-            {
-                criteria.DepartmentId = Math.Abs(departmentId);
-                criteria.IsGroup = true;
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
-
-                result = _flowManagementService.DeleteDepartmentFlow(criteria);
-            }
-
-            return result;
-        }
-
-        [HttpDelete]
-        public CommandResult DeletePersonalFlow(int employeeId)
-        {
-            CommandResult result = new CommandResult();
-
             var criteria = new DeletePersonalFlowCriteria()
             {
                 EmployeeId = employeeId,
+                FlowTemplateId = flowTemplateId,
                 ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
             };
 
-            result = _flowManagementService.DeletePersonalFlow(criteria);
-
-            return result;
+            return _flowManagementService.DeletePersonalFlow(criteria);
         }
 
         [HttpGet]
-        public EmployeeSettingFlowInDepartmentModel GetEmployeeSettingFlowInDepartment(int departmentId)
+        public EmployeeFlowSettingModel GetEmployeeFlowSetting(
+            int flowTemplateId,
+            int? departmentId = null,
+            int? groupId = null)
         {
             IEnumerable<EmployeeModel> employees = new List<EmployeeModel>();
-            var result = new EmployeeSettingFlowInDepartmentModel();
+            var result = new EmployeeFlowSettingModel();
 
-            if (departmentId > 0)
+            var criteria = new GetEmployeeFlowSettingCriteria()
             {
-                var getEmployeeByDepartment = new GetEmployeeByDepartmentIdCriteria()
-                {
-                    DepartmentId = departmentId
-                };
+                FlowTemplateId = flowTemplateId,
+                DepartmentId = departmentId,
+                GroupId = groupId
+            };
 
-                employees = _employeeService.GetEmployeeByDepartmentId(getEmployeeByDepartment);
-            }
-
-            if (departmentId < 0)
-            {
-                var getEmployeeByGroup = new GetEmployeeByGroupIdCriteria()
-                {
-                    GroupId = Math.Abs(departmentId)
-                };
-
-                employees = _employeeService.GetEmployeeByGroupId(getEmployeeByGroup);
-            }
+            employees = _flowManagementService.GetEmployeeFlowSetting(criteria);
 
             if (employees != null)
             {
-                result.PersonalFlowSettingEmployees = employees.Where(x => x.IsExistsSetting == true);
-                result.DefaultFlowSettingEmployees = employees.Where(x => x.IsExistsSetting == false);
+                result.DefaultFlowSettings = employees.Where(x => x.IsExistsSetting == false);
+                result.PersonalFlowSettings = employees.Where(x => x.IsExistsSetting == true);
             }
 
             return result;
         }
 
-        #endregion Flow Setting
+        #endregion Personal Flow Setting
     }
 }

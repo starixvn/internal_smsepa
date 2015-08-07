@@ -28,8 +28,13 @@ flowMngModule.factory('flowMngFactory', ['$http', 'baseUrl', function ($http, ba
                 }
             });
         },
-        getPersonalFlow: function (employeeId) {
-            return $http.get(baseUrl + 'api/FlowManagement/GetPersonalFlow', { params: { employeeId: employeeId } });
+        getPersonalFlow: function (employeeId, flowTemplateId) {
+            return $http.get(baseUrl + 'api/FlowManagement/GetPersonalFlow', {
+                params: {
+                    employeeId: employeeId,
+                    flowTemplateId: flowTemplateId
+                }
+            });
         },
         createDepartmentFlow: function (model) {
             return $http.post(baseUrl + 'api/FlowManagement/CreateDepartmentFlow', model);
@@ -37,14 +42,30 @@ flowMngModule.factory('flowMngFactory', ['$http', 'baseUrl', function ($http, ba
         createPersonalFlow: function (model) {
             return $http.post(baseUrl + 'api/FlowManagement/CreatePersonalFlow', model);
         },
-        deleteDepartmentFlow: function (departmentId) {
-            return $http['delete'](baseUrl + 'api/FlowManagement/DeleteDepartmentFlow', { params: { departmentId: departmentId } });
+        deleteDepartmentFlow: function (departmentId, flowTemplateId) {
+            return $http['delete'](baseUrl + 'api/FlowManagement/DeleteDepartmentFlow', {
+                params: {
+                    departmentId: departmentId,
+                    flowTemplateId: flowTemplateId
+                }
+            });
         },
-        deletePersonalFlow: function (employeeId) {
-            return $http['delete'](baseUrl + 'api/FlowManagement/DeletePersonalFlow', { params: { employeeId: employeeId } });
+        deletePersonalFlow: function (employeeId, flowTemplateId) {
+            return $http['delete'](baseUrl + 'api/FlowManagement/DeletePersonalFlow', {
+                params: {
+                    employeeId: employeeId,
+                    flowTemplateId: flowTemplateId
+                }
+            });
         },
-        getEmployeeSettingFlowInDepartment: function (departmentId) {
-            return $http.get(baseUrl + 'api/FlowManagement/GetEmployeeSettingFlowInDepartment', { params: { departmentId: departmentId } });
+        getEmployeeFlowSetting: function (flowTemplateId, departmentId, groupId) {
+            return $http.get(baseUrl + 'api/FlowManagement/GetEmployeeFlowSetting', {
+                params: {
+                    flowTemplateId: flowTemplateId,
+                    departmentId: departmentId,
+                    groupId: groupId
+                }
+            });
         }
     };
 }]);

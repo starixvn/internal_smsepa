@@ -145,7 +145,7 @@
             </table>
             <form class="row form-inline department-form" role="form">
                 <button class="button" ng-click="deptFlowCtrl.saveDepartmentFlow()" data-translate="Save"></button>
-                <button class="button" ng-click="deptFlowCtrl.deleteDepartmentFlow()" data-translate="Delete"></button>
+                <button class="button" ng-click="deptFlowCtrl.deleteDepartmentFlow()" data-translate="Delete" ng-if="deptFlowCtrl.showDeleteButton"></button>
             </form>
         </div>
     </div>

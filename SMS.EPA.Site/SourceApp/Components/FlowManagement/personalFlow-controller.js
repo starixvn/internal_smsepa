@@ -2,9 +2,11 @@
 /*global flowMngModule*/
 
 flowMngModule.controller("PersonalFlowController",
-['$scope', 'FlowMngModel', 'CommonModel', 'cacheService',
-function ($scope, FlowMngModel, CommonModel, cacheService) {
+['$scope', '$routeParams', 'FlowMngModel', 'CommonModel', 'cacheService',
+function ($scope, $routeParams, FlowMngModel, CommonModel, cacheService) {
     var vm = this;
+
+    vm.FlowTemplateId = parseInt($routeParams.id);
 
     vm.selfs = FlowMngModel.selfs;
     vm.evaluators = FlowMngModel.evaluators;
@@ -16,9 +18,8 @@ function ($scope, FlowMngModel, CommonModel, cacheService) {
     vm.showListEmployee = true;
     vm.department = null;
     vm.showDeleteButton = false;
-    vm.defaultSettingFlowEmployees = [];
-    vm.personalSettingFlowEmployees = [];
-
+    vm.defaultFlowSettings = [];
+    vm.personalFlowSettings = [];
 
     /// Show or hide list Employee.
     vm.toggleDepartmentDraggableList = function () {
@@ -33,22 +34,34 @@ function ($scope, FlowMngModel, CommonModel, cacheService) {
     vm.getEmployee = function () {
         if (vm.departmentId > 0) {
             CommonModel.getEmployeeByDepartmentId(vm.departmentId).then(function () {
-                vm.employees = CommonModel.employees;
+                vm.employees = CommonModel.employeesInDepartment;
             });
         }
         else if (vm.departmentId < 0) {
             CommonModel.getEmployeeByGroupId(Math.abs(vm.departmentId)).then(function () {
-                vm.employees = CommonModel.employees;
+                vm.employees = CommonModel.employeesInGroup;
             });
         }
     };
 
     vm.onSelectedDepartment = function () {
-        FlowMngModel.getEmployeeSettingFlowInDepartment(vm.department.DepartmentId).then(function () {
-            vm.defaultSettingFlowEmployees = FlowMngModel.defaultSettingFlowEmployees;
-            vm.personalSettingFlowEmployees = FlowMngModel.personalSettingFlowEmployees;
-            FlowMngModel.resetCurrentFlow(vm);
-        });
+        if (vm.department.DepartmentId > 0) {
+            FlowMngModel.getEmployeeFlowSetting(vm.FlowTemplateId, vm.department.DepartmentId, null).then(function () {
+                vm.defaultFlowSettings = FlowMngModel.defaultFlowSettings;
+                vm.personalFlowSettings = FlowMngModel.personalFlowSettings;
+            });
+        }
+        else if (vm.department.DepartmentId < 0) {
+            FlowMngModel.getEmployeeFlowSetting(vm.FlowTemplateId, null, Math.abs(vm.department.DepartmentId)).then(function () {
+                vm.defaultFlowSettings = FlowMngModel.defaultFlowSettings;
+                vm.personalFlowSettings = FlowMngModel.personalFlowSettings;
+            });
+        }
+
+        FlowMngModel.resetCurrentFlow(vm);
+        vm.defaultSelect = null;
+        vm.personalSelect = null;
+        vm.showDeleteButton = false;
     };
 
     vm.moveItem = function (item, from, to) {
@@ -82,7 +95,7 @@ function ($scope, FlowMngModel, CommonModel, cacheService) {
         var employeeId = parseInt(item[0]);
         vm.employeeId = employeeId;
 
-        FlowMngModel.getPersonalFlow(employeeId).then(function () {
+        FlowMngModel.getPersonalFlow(employeeId, vm.FlowTemplateId).then(function () {
             vm.selfs = FlowMngModel.selfs;
             vm.evaluators = FlowMngModel.evaluators;
             vm.reviewers = FlowMngModel.reviewers;
@@ -96,6 +109,7 @@ function ($scope, FlowMngModel, CommonModel, cacheService) {
                 CommonModel.getEmployeeById(employeeId).then(function () {
                     vm.selfs.employees.push(CommonModel.employee);
                 });
+
                 vm.showDeleteButton = false;
             }
         });
@@ -141,8 +155,8 @@ function ($scope, FlowMngModel, CommonModel, cacheService) {
             vm.showDeleteButton = false;
             vm.department = null;
             vm.departmentId = null;
-            vm.defaultSettingFlowEmployees = [];
-            vm.personalSettingFlowEmployees = [];
+            vm.defaultFlowSettings = [];
+            vm.personalFlowSettings = [];
         }
     });
 
