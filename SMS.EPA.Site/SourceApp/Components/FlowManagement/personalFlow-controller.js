@@ -2,8 +2,8 @@
 /*global flowMngModule*/
 
 flowMngModule.controller("PersonalFlowController",
-['$scope', '$routeParams', 'FlowMngModel', 'CommonModel', 'cacheService',
-function ($scope, $routeParams, FlowMngModel, CommonModel, cacheService) {
+['$scope', '$window', '$routeParams', 'FlowMngModel', 'CommonModel', 'cacheService',
+function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService) {
     var vm = this;
 
     vm.FlowTemplateId = parseInt($routeParams.id);
@@ -65,21 +65,19 @@ function ($scope, $routeParams, FlowMngModel, CommonModel, cacheService) {
     };
 
     vm.moveItem = function (item, from, to) {
-        $.each(from, function (i) {
-            var currentItem = from[i];
+        angular.forEach(item, function (i) {
+            var index = from.map(function (e) { return e.EmployeeId; }).indexOf(i);
 
-            if (currentItem.EmployeeId === parseInt(item)) {
-                from.splice(i, 1);
-                to.push(currentItem);
-
-                return false;
+            if (index !== -1) {
+                to.push(from[index]);
+                from.splice(index, 1);
             }
         });
     };
 
     vm.moveAll = function (from, to) {
-        $.each(from, function (i) {
-            to.push(from[i]);
+        angular.forEach(from, function (item) {
+            to.push(item);
         });
 
         from.length = 0;
@@ -168,5 +166,9 @@ function ($scope, $routeParams, FlowMngModel, CommonModel, cacheService) {
 
     vm.deletePersonalFlow = function () {
         FlowMngModel.openPopupDeletePersonalFlow(vm);
+    };
+
+    vm.cancel = function () {
+        $window.history.back();
     };
 } ]);

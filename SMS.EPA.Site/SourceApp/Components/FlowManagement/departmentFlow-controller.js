@@ -2,8 +2,8 @@
 /*global flowMngModule*/
 
 flowMngModule.controller("DepartmentFlowController",
-['$scope', '$routeParams', 'FlowMngModel', 'CommonModel', 'cacheService',
-function ($scope, $routeParams, FlowMngModel, CommonModel, cacheService) {
+['$scope', '$window', '$routeParams', 'FlowMngModel', 'CommonModel', 'cacheService',
+function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService) {
     var vm = this;
 
     vm.FlowTemplateId = parseInt($routeParams.id);
@@ -120,5 +120,9 @@ function ($scope, $routeParams, FlowMngModel, CommonModel, cacheService) {
 
     vm.deleteDepartmentFlow = function () {
         FlowMngModel.openPopupDeleteDepartmentFlow(vm);
+    };
+
+    vm.cancel = function () {
+        $window.history.back();
     };
 } ]);

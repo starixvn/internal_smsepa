@@ -177,6 +177,11 @@ function ($window, $routeParams, FlowMngModel, CommonModel) {
         FlowMngModel.getFlowTemplateById(vm.flowTemplateId).then(function () {
             vm.flowTemplate = FlowMngModel.flowTemplate;
             vm.flowTemplate.TargetTypeId = FlowMngModel.flowTemplate.TargetType.TargetTypeId;
+
+            var index = vm.targetTypes.map(function (e) { return e.TargetTypeId; }).indexOf(vm.flowTemplate.TargetTypeId);
+            if (index === -1) {
+                vm.targetTypes.push(vm.flowTemplate.TargetType);
+            }
         });
     };
 
