@@ -61,7 +61,7 @@
     <Compile Include="Enitites\StatusModel.cs" />
     <Compile Include="FlowManagement\EmployeeFlowSettingModel.cs" />
     <Compile Include="FlowManagement\FlowTemplateModel.cs" />
-    <Compile Include="MemberEPA\MemberEPAModel.cs" />
+    <Compile Include="EmployeeEPA\EmployeeEPAModel.cs" />
     <Compile Include="FlowManagement\FlowModel.cs" />
     <Compile Include="FlowManagement\InsertFlowItemModel.cs" />
     <Compile Include="FlowManagement\InsertFlowModel.cs" />

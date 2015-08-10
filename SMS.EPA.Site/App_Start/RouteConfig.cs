@@ -48,7 +48,8 @@ namespace SMS.EPA.Site
                 "TargetEmployeeSetting/Index",
                 "CheckAssignment/Index",
                 "Department/Index",
-                "SelfEvaluation/Index"
+                "SelfEvaluation/Index",
+                "MyEPA/Index"
             };
 
             homeRouteUrls.ForEach(url => routes.MapRoute(

@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="MemberEPAModel.cs" company="Nexcel Solutions Viet Nam">
+// <copyright file="EmployeeEPAModel.cs" company="Nexcel Solutions Viet Nam">
 // Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -7,14 +7,15 @@
 //   <change who="Tim.Trinh" date="2015.08.04">Created</change>
 // </history>
 
-namespace SMS.EPA.Model.MemberEPA
+namespace SMS.EPA.Model.EmployeeEPA
 {
     using System;
+    using SMS.EPA.Model.Department;
     using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.TargetTemplate;
 
-    public class MemberEPAModel
+    public class EmployeeEPAModel
     {
         public int EmployeeId { get; set; }
 
@@ -27,6 +28,10 @@ namespace SMS.EPA.Model.MemberEPA
         public string Comment { get; set; }
 
         public int Permission { get; set; }
+
+        public DepartmentModel Department { get; set; }
+
+        public Group Group { get; set; }
 
         public TargetTemplateModel Target { get; set; }
 

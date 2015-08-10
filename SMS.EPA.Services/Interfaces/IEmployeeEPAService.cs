@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="IMemberEPAService.cs" company="Nexcel Solutions Viet Nam">
+// <copyright file="IEmployeeEPAService.cs" company="Nexcel Solutions Viet Nam">
 // Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -10,11 +10,11 @@
 namespace SMS.EPA.Services.Interfaces
 {
     using System.Collections.Generic;
-    using SMS.EPA.Criteria.MemberEPA;
-    using SMS.EPA.Model.MemberEPA;
+    using SMS.EPA.Criteria.EmployeeEPA;
+    using SMS.EPA.Model.EmployeeEPA;
 
-    public interface IMemberEPAService
+    public interface IEmployeeEPAService
     {
-        IEnumerable<MemberEPAModel> GetEPAByEmployee(GetEPAByEmployeeCriteria criteria);
+        IEnumerable<EmployeeEPAModel> GetEPAByEmployee(GetEPAByEmployeeCriteria criteria);
     }
 }

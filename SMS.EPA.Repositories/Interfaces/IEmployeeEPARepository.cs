@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="IMemberEPARepository.cs" company="Nexcel Solutions Viet Nam">
+// <copyright file="IEmployeeEPARepository.cs" company="Nexcel Solutions Viet Nam">
 // Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -11,10 +11,10 @@ namespace SMS.EPA.Repositories.Interfaces
 {
     using System.Collections.Generic;
     using Fanex.Data.Repository;
-    using SMS.EPA.Model.MemberEPA;
+    using SMS.EPA.Model.EmployeeEPA;
 
-    public interface IMemberEPARepository
+    public interface IEmployeeEPARepository
     {
-        IEnumerable<MemberEPAModel> GetEPAByEmployee(ICriteria criteria);
+        IEnumerable<EmployeeEPAModel> GetEPAByEmployee(ICriteria criteria);
     }
 }

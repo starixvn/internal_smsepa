@@ -1,7 +1,7 @@
 ﻿'use strict';
 /*global targetEmployeeSettingModule*/
 
-targetEmployeSettingModule.controller('TargetSettingTemplateController',
+targetEmployeeSettingModule.controller('TargetSettingTemplateController',
 ['TargetEmployeeSettingModel',
 function (TargetEmployeeSettingModel) {
     var vm = this;

@@ -98,10 +98,13 @@
                             "~/SourceApp/Components/Department/department-model.js",
                             "~/SourceApp/Components/Department/department-controller.js",
                             "~/SourceApp/Components/Department/department-directive.js",
+                            "~/SourceApp/Components/EPA/employeeEPA-factory.js",
+                            "~/SourceApp/Components/EPA/employeeEPA-model.js",
                             "~/SourceApp/Components/EPA/MyEPA/myepa-controller.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/epa-directives.js",
+                            "~/SourceApp/Shared/epa-filter.js",
                             "~/SourceApp/Shared/error-factory.js",
                             "~/SourceApp/Shared/modalconfirm-controller.js",
                             "~/SourceApp/Shared/notification-factory.js",

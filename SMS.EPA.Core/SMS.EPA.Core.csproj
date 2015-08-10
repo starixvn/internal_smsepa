@@ -35,6 +35,10 @@
     <Reference Include="Fanex.Data">
       <HintPath>..\packages\Fanex.Data.0.5.404.63\lib\net40\Fanex.Data.dll</HintPath>
     </Reference>
+    <Reference Include="IBCCrypt, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\IBCCrypt\IBCCrypt.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\packages\NPOI.2.1.3.1\lib\net40\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
@@ -94,6 +98,8 @@
     <Compile Include="Security\Encryption.cs" />
     <Compile Include="Security\Random.cs" />
     <Compile Include="Services\BaseService.cs" />
+    <Compile Include="Services\EncodeService.cs" />
+    <Compile Include="Services\Interfaces\IEncodeService.cs" />
     <Compile Include="Utilities\Enumerations.cs" />
     <Compile Include="Utilities\ExcelTemplateWriter.cs" />
     <Compile Include="Utilities\NPOIExtensions\HSSFCellExtensions.cs" />
