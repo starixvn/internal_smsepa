@@ -35,8 +35,7 @@
     <Reference Include="Fanex.Data">
       <HintPath>..\packages\Fanex.Data.0.5.404.63\lib\net40\Fanex.Data.dll</HintPath>
     </Reference>
-    <Reference Include="IBCCrypt, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="IBCCrypt">
       <HintPath>..\Dependencies\IBCCrypt\IBCCrypt.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
