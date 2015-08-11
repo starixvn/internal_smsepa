@@ -1,1 +1,105 @@
-﻿
+﻿<div ng-controller="TargetDepartmentSettingController as departmentCtrl">
+    <form novalidate class="row form-inline filter">
+        <div class="form-group">
+            <label class="control-label" data-translate="Department">
+            </label>
+            <select ng-model="departmentCtrl.filter.departmentId" ng-options="opt.DepartmentId as opt.Name for opt in departmentCtrl.departments"
+                    class="form-control lstBox-limit" ng-change="departmentCtrl.updateIsGroup(departmentCtrl.filter.departmentId)">
+                <option value="">-- {{"All" | translate}} --</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label data-translate="TargetType"></label>
+            <select class="form-control lstBox-limit" ng-model="departmentCtrl.filter.targetTypeId"
+                    ng-options="opt.TargetTypeId as opt.Name for opt in departmentCtrl.targetTypes">
+                <option value="">-- {{"All" | translate}} --</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="ShowAll">
+            </label>
+            <input class="form-control" type="checkbox" ng-model="departmentCtrl.filter.showAll" />
+        </div>
+        <div class="form-group">
+            <button class="button" ng-click="departmentCtrl.query(departmentCtrl.filter)" data-translate="Search"></button>
+        </div>
+    </form>
+
+    <table class="row table table-bordered table-striped target-setting-template" id="data">
+        <thead>
+            <tr class="header-table">
+                <th colspan="6">
+                    <div class="pull-left div-target-templatesetting">
+                        <label class="control-label" data-translate="TargetTemplate">
+                        </label>
+                        <select ng-model="departmentCtrl.targetDepartmentSetting.targetTemplateId" ng-options="opt.TargetTemplateId as opt.Name for opt in departmentCtrl.targetTemplates"
+                                class="target-template-setting-select lstBox-limit"></select>
+                    </div>
+                    <button class="button pull-left btn-assign" data-translate="Assign" ng-click="departmentCtrl.assignTargetTemplate()"></button>
+                    <input type="text" ng-model="departmentCtrl.searchKey" ng-change="departmentCtrl.search()" class="search-inline-textbox search pull-right">
+                </th>
+            </tr>
+            <tr class="headerName">
+                <th>
+                    <input type="checkbox" ng-click="departmentCtrl.checkAll(departmentCtrl.selectedAll)"
+                           ng-model="departmentCtrl.selectedAll" />
+                </th>
+                <th data-translate="SymbolCount">
+                </th>
+                <th data-translate="Name">
+                </th>
+                <th data-translate="TargetType">
+                </th>
+                <th data-translate="TargetTemplate">
+                </th>
+                <th data-translate="Delete">
+                </th>
+            </tr>
+        </thead>
+            <tbody class="table-body" dir-paginate="department in departmentCtrl.filteredItems | itemsPerPage: departmentCtrl.pageSize"
+                pagination-id="department" current-page="departmentCtrl.currentPage" ng-class="{oddRow: $index % 2 == 0, evenRow: $index % 2 != 0}">
+            <tr ng-repeat="targetTemplate in department.TargetTemplates" ng-show="department.TargetTemplates.length > 0">
+                <td class="text-center" rowspan="{{department.NumberTargetTemplates}}" ng-show="$first">
+                    <input type="checkbox" ng-model="department.Selected" ng-click="departmentCtrl.syncSelectedDepartment(department, department.Selected)" />
+                </td>
+                <td class="text-center" ng-bind="departmentCtrl.getIndex($parent.$index, departmentCtrl.currentPage, departmentCtrl.pageSize)"
+                    ng-show="$first" rowspan="{{department.NumberTargetTemplates}}"></td>
+                <td class="text-center" ng-bind="department.Name" ng-show="$first" rowspan="{{department.NumberTargetTemplates}}"></td>
+                <td class="text-center" ng-bind="targetTemplate.TargetTypeName"></td>
+                <td ng-bind="targetTemplate.Name"></td>
+                <td class="text-center">
+                    <a class="glyphicon glyphicon-remove icon-remove" href="" ng-click="departmentCtrl.deleteTargetTemplate(department, targetTemplate)"
+                       ng-attr-title='{{"Delete" | translate}}'></a>
+                </td>
+            </tr>
+            <tr ng-show="department.TargetTemplates.length == 0">
+                <td class="text-center">
+                    <input type="checkbox" ng-model="department.Selected" ng-click="departmentCtrl.syncSelectedDepartment(department, department.Selected)" />
+                </td>
+                <td class="text-center" ng-bind="departmentCtrl.getIndex($index, departmentCtrl.currentPage, departmentCtrl.pageSize)"></td>
+                <td class="text-center" ng-bind="department.Name"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+        <tbody ng-show="departmentCtrl.filteredItems.length == 0">
+            <tr>
+                <td class="empty-result" colspan="6" data-translate="EmptyResult"></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="6" class="paging">
+                    <span data-translate="Show"></span>
+                    <select class="dropdown-entry form-control" ng-model="departmentCtrl.pageSize"
+                            ng-options="entry for entry in departmentCtrl.entries"></select>
+                    <span data-translate="entries"></span>
+                    <div class="pull-right custom-paging">
+                        <dir-pagination-controls boundary-links="true" pagination-id="department"></dir-pagination-controls>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

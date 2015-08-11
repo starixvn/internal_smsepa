@@ -1,111 +1,127 @@
-﻿<div class="col-sm-12" ng-controller="TargetEmployeeSettingController as targetEmployeeCtrl">
-    <div class="sub-header">
-        <ul class="row breadcrumb">
-            <li class="current" data-translate="TargetEmployeeSetting"></li>
-        </ul>
-    </div>
-    <div>
-        <form novalidate class="row form-inline filter">
-            <div class="form-group">
-                <label class="control-label" data-translate="Group">
-                </label>
-                <select ng-model="targetEmployeeCtrl.filter.groupId" ng-options="opt.GroupId as opt.GroupName for opt in targetEmployeeCtrl.groupOptions"
-                        class="form-control lstBox-limit">
-                    <option value="">-- {{"All" | translate}} --</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label class="control-label" data-translate="Employee"></label>
-                <input class="form-control employee-search" ng-model="targetEmployeeCtrl.searchEmployee"
-                       placeholder="Enter full name or nick name" search-auto-complete search-employees="targetEmployeeCtrl.getEmployee()"
-                       ng-change="targetEmployeeCtrl.unSelectEmployee()" employee="targetEmployeeCtrl.filter.employee" />
-            </div>
-            <div class="form-group">
-                <label data-translate="Form"></label>
-                <select class="form-control lstBox-limit" ng-model="targetEmployeeCtrl.filter.targetTypeId"
-                        ng-options="opt.TargetTypeId as opt.Name for opt in targetEmployeeCtrl.targetTypes">
-                    <option value="">-- {{"All" | translate}} --</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label class="control-label" data-translate="ShowAll">
-                </label>
-                <input class="form-control" type="checkbox" ng-model="targetEmployeeCtrl.filter.showAll" />
-            </div>
-            <div class="form-group">
-                <button class="button" ng-click="targetEmployeeCtrl.query(targetEmployeeCtrl.filter)" data-translate="Search"></button>
-            </div>
-        </form>
+﻿<div ng-controller="TargetPersonnelSettingController as personnelCtrl">
+    <form novalidate class="row form-inline filter">
+        <div class="form-group">
+            <label class="control-label" data-translate="Group">
+            </label>
+            <select ng-model="personnelCtrl.filter.groupId" ng-options="opt.GroupId as opt.GroupName for opt in personnelCtrl.groupOptions"
+                    class="form-control lstBox-limit">
+                <option value="">-- {{"All" | translate}} --</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="Employee"></label>
+            <input class="form-control employee-search" ng-model="personnelCtrl.searchEmployee"
+                    placeholder="Enter full name or nick name" search-auto-complete search-employees="personnelCtrl.getEmployee()"
+                    ng-change="personnelCtrl.unSelectEmployee()" employee="personnelCtrl.filter.employee" />
+        </div>
+        <div class="form-group">
+            <label data-translate="TargetType"></label>
+            <select class="form-control lstBox-limit" ng-model="personnelCtrl.filter.targetTypeId"
+                    ng-options="opt.TargetTypeId as opt.Name for opt in personnelCtrl.targetTypes">
+                <option value="">-- {{"All" | translate}} --</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="ShowAll">
+            </label>
+            <input class="form-control" type="checkbox" ng-model="personnelCtrl.filter.showAll" />
+        </div>
+        <div class="form-group">
+            <button class="button" ng-click="personnelCtrl.query(personnelCtrl.filter)" data-translate="Search"></button>
+        </div>
+    </form>
 
-        <table class="row table table-bordered table-striped" id="data">
-            <thead>
-                <tr class="header-table">
-                    <th colspan="8">
-                        <div class="pull-left div-target-templatesetting">
-                            <label class="control-label" data-translate="TargetTemplate">
-                            </label>
-                            <select ng-model="targetEmployeeCtrl.targetEmployeeSetting.targetTemplateId" ng-options="opt.TargetTemplateId as opt.Name for opt in targetEmployeeCtrl.targetTemplates"
-                                    class="target-template-setting-select lstBox-limit">
-                                <option value="">-- {{"None" | translate}} --</option>
-                            </select>
-                        </div>
-                        <button class="button pull-left btn-assign" data-translate="Assign" ng-click="targetEmployeeCtrl.assignTargetTemplate()"></button>
-                        <input type="text" ng-model="targetEmployeeCtrl.searchKey" ng-change="targetEmployeeCtrl.search()" class="search-inline-textbox search pull-right">
-                    </th>
-                </tr>
-                <tr class="headerName">
-                    <th>
-                        <input type="checkbox" ng-click="targetEmployeeCtrl.checkAll(targetEmployeeCtrl.selectedAll)"
-                               ng-model="targetEmployeeCtrl.selectedAll" />
-                    </th>
-                    <th data-translate="SymbolCount">
-                    </th>
-                    <th data-translate="Code">
-                    </th>
-                    <th data-translate="Group">
-                    </th>
-                    <th data-translate="NickName">
-                    </th>
-                    <th data-translate="FullName">
-                    </th>
-                    <th data-translate="Form">
-                    </th>
-                    <th data-translate="TargetTemplate">
-                    </th>
-                </tr>
-            </thead>
-            <tbody class="table-body">
-                <tr dir-paginate="employee in targetEmployeeCtrl.filteredItems | itemsPerPage: targetEmployeeCtrl.pageSize" current-page="targetEmployeeCtrl.currentPage">
-                    <td class="text-center">
-                        <input type="checkbox" ng-model="employee.Selected" ng-click="targetEmployeeCtrl.syncSelectedEmployee(employee.EmployeeId, employee.Selected)" />
-                    </td>
-                    <td class="text-center" ng-bind="targetEmployeeCtrl.getIndex($index, targetEmployeeCtrl.currentPage, targetEmployeeCtrl.pageSize)"></td>
-                    <td class="text-center" ng-bind="employee.Code"></td>
-                    <td class="text-center">
-                        <span tooltip="{{employee.Group.GroupName}}" ng-bind="employee.Group.GroupCode"></span>
-                    </td>
-                    <td class="text-center" ng-bind="employee.NickName"></td>
-                    <td ng-bind="employee.FullName"></td>
-                    <td class="text-center" ng-bind="employee.TargetTemplate.TargetTypeName"></td>
-                    <td ng-bind="employee.TargetTemplate.Name"></td>
-                </tr>
-                <tr ng-show="targetEmployeeCtrl.filteredItems.length == 0">
-                    <td class="empty-result" colspan="8" data-translate="EmptyResult"></td>
-                </tr>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="9" class="paging">
-                        <span data-translate="Show"></span>
-                        <select class="dropdown-entry form-control" ng-model="targetEmployeeCtrl.pageSize"
-                                ng-options="entry for entry in targetEmployeeCtrl.entries"></select>
-                        <span data-translate="entries"></span>
-                        <div class="pull-right custom-paging">
-                            <dir-pagination-controls boundary-links="true"></dir-pagination-controls>
-                        </div>
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
-    </div>
+    <table class="row table table-bordered table-striped target-setting-template" id="data">
+        <thead>
+            <tr class="header-table">
+                <th colspan="9">
+                    <div class="pull-left div-target-templatesetting">
+                        <label class="control-label" data-translate="TargetTemplate">
+                        </label>
+                        <select ng-model="personnelCtrl.targetEmployeeSetting.targetTemplateId" ng-options="opt.TargetTemplateId as opt.Name for opt in personnelCtrl.targetTemplates"
+                                class="target-template-setting-select lstBox-limit"></select>
+                    </div>
+                    <button class="button pull-left btn-assign" data-translate="Assign" ng-click="personnelCtrl.assignTargetTemplate()"></button>
+                    <input type="text" ng-model="personnelCtrl.searchKey" ng-change="personnelCtrl.search()" class="search-inline-textbox search pull-right">
+                </th>
+            </tr>
+            <tr class="headerName">
+                <th>
+                    <input type="checkbox" ng-click="personnelCtrl.checkAll(personnelCtrl.selectedAll)"
+                           ng-model="personnelCtrl.selectedAll" />
+                </th>
+                <th data-translate="SymbolCount">
+                </th>
+                <th data-translate="Code">
+                </th>
+                <th data-translate="Group">
+                </th>
+                <th data-translate="NickName">
+                </th>
+                <th data-translate="FullName">
+                </th>
+                <th data-translate="TargetType">
+                </th>
+                <th data-translate="TargetTemplate">
+                </th>
+                <th data-translate="Delete">
+                </th>
+            </tr>
+        </thead>
+        <tbody class="table-body" current-page="personnelCtrl.currentPage" ng-class="{oddRow: $index % 2 == 0, evenRow: $index % 2 != 0}"
+               dir-paginate="employee in personnelCtrl.filteredItems | itemsPerPage: personnelCtrl.pageSize" pagination-id="personnel">
+            <tr ng-repeat="targetTemplate in employee.TargetTemplates" ng-show="employee.TargetTemplates.length > 0">
+                <td class="text-center" rowspan="{{employee.NumberTargetTemplates}}" ng-show="$first">
+                    <input type="checkbox" ng-model="employee.Selected" ng-click="personnelCtrl.syncSelectedEmployee(employee.EmployeeId, employee.Selected)" />
+                </td>
+                <td class="text-center" ng-bind="personnelCtrl.getIndex($parent.$index, personnelCtrl.currentPage, personnelCtrl.pageSize)"
+                    ng-show="$first" rowspan="{{employee.NumberTargetTemplates}}"></td>
+                <td class="text-center" ng-bind="employee.Code" ng-show="$first" rowspan="{{employee.NumberTargetTemplates}}"></td>
+                <td class="text-center" ng-show="$first" rowspan="{{employee.NumberTargetTemplates}}">
+                    <span tooltip="{{employee.Group.GroupName}}" ng-bind="employee.Group.GroupCode"></span>
+                </td>
+                <td class="text-center" ng-bind="employee.NickName" ng-show="$first" rowspan="{{employee.NumberTargetTemplates}}"></td>
+                <td ng-bind="employee.FullName" ng-show="$first" rowspan="{{employee.NumberTargetTemplates}}"></td>
+                <td class="text-center" ng-bind="targetTemplate.TargetTypeName"></td>
+                <td ng-bind="targetTemplate.Name"></td>
+                <td class="text-center">
+                    <a class="glyphicon glyphicon-remove icon-remove" href="" ng-click="personnelCtrl.deleteTargetTemplate(employee, targetTemplate)"
+                       ng-attr-title='{{"Delete" | translate}}'></a>
+                </td>
+            </tr>
+            <tr ng-class="{oddRow: $index % 2 == 0, evenRow: $index % 2 != 0}" ng-show="employee.TargetTemplates.length == 0">
+                <td class="text-center">
+                    <input type="checkbox" ng-model="employee.Selected" ng-click="personnelCtrl.syncSelectedEmployee(employee.EmployeeId, employee.Selected)" />
+                </td>
+                <td class="text-center" ng-bind="personnelCtrl.getIndex($index, personnelCtrl.currentPage, personnelCtrl.pageSize)"></td>
+                <td class="text-center" ng-bind="employee.Code"></td>
+                <td class="text-center">
+                    <span tooltip="{{employee.Group.GroupName}}" ng-bind="employee.Group.GroupCode"></span>
+                </td>
+                <td class="text-center" ng-bind="employee.NickName"></td>
+                <td ng-bind="employee.FullName"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+        <tbody ng-show="personnelCtrl.filteredItems.length == 0">
+            <tr>
+                <td class="empty-result" colspan="9" data-translate="EmptyResult"></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="9" class="paging">
+                    <span data-translate="Show"></span>
+                    <select class="dropdown-entry form-control" ng-model="personnelCtrl.pageSize"
+                            ng-options="entry for entry in personnelCtrl.entries"></select>
+                    <span data-translate="entries"></span>
+                    <div class="pull-right custom-paging">
+                        <dir-pagination-controls boundary-links="true" pagination-id="personnel"></dir-pagination-controls>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
 </div>

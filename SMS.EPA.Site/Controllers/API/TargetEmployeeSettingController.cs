@@ -74,9 +74,19 @@ namespace SMS.EPA.Site.Controllers.API
             return commandResult;
         }
 
-        public IList<TargetDepartmentModel> GetTargetDepartmentSetting()
+        public IList<TargetDepartmentModel> GetTargetDepartmentSetting(
+            int? departmentId = null,
+            bool? isGroup = null,
+            int? targetTypeId = null,
+            bool? showAll = null)
         {
-            var criteria = new GetTargetDepartmentSettingCriteria();
+            var criteria = new GetTargetDepartmentSettingCriteria
+            {
+                DepartmentId = departmentId,
+                IsGroup = isGroup,
+                TargetTypeId = targetTypeId,
+                ShowAll = showAll
+            };
             IList<TargetDepartmentModel> targetDepartments = _targetEmployeeSettingService.GetTargetDepartmentSetting(criteria);
             return targetDepartments;
         }

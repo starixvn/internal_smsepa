@@ -2,8 +2,8 @@
 /*global targetEmployeeSettingModule*/
 
 targetEmployeeSettingModule.factory('TargetEmployeeSettingModel',
-['targetEmployeeSettingFactory', 'notificationFactory', 'errorFactory',
-function (targetEmployeeSettingFactory, notificationFactory, errorFactory) {
+['$modal', 'targetEmployeeSettingFactory', 'notificationFactory', 'errorFactory',
+function ($modal, targetEmployeeSettingFactory, notificationFactory, errorFactory) {
     var targetEmployeeSettingModel = {};
 
     targetEmployeeSettingModel.targetEmployeeSettings = [];
@@ -38,7 +38,7 @@ function (targetEmployeeSettingFactory, notificationFactory, errorFactory) {
         }
     };
 
-    targetEmployeeSettingModel.openPopupDeleteTargetEmployeeSetting = function (targetTemplate, employeeId) {
+    targetEmployeeSettingModel.openPopupDeleteTargetEmployeeSetting = function (targetTemplate, employee) {
         var modalInstance = $modal.open({
             templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
             controller: "ModalConfirmController as modalConfirmCtrl",
@@ -55,9 +55,11 @@ function (targetEmployeeSettingFactory, notificationFactory, errorFactory) {
         });
 
         modalInstance.result.then(function () {
-            return targetEmployeeSettingFactory.deleteTargetEmployeeSetting(targetTemplate.TargetTemplateId, employeeId)
+            return targetEmployeeSettingFactory.deleteTargetEmployeeSetting(targetTemplate.TargetTemplateId, employee.EmployeeId)
                 .success(function (response) {
                 if (response.IsSuccessful) {
+                    var index = employee.TargetTemplates.indexOf(targetTemplate);
+                    employee.TargetTemplates.splice(index, 1);
                     notificationFactory.success("DeletedSuccessfully");
                 }
                 else {
@@ -72,8 +74,8 @@ function (targetEmployeeSettingFactory, notificationFactory, errorFactory) {
         });
     };
 
-    targetEmployeeSettingModel.getTargetDepartmentSetting = function () {
-        targetEmployeeSettingFactory.getTargetDepartmentSetting().success(function (targetDepartments) {
+    targetEmployeeSettingModel.getTargetDepartmentSetting = function (departmentId, isGroup, targetTypeId, showAll) {
+        return targetEmployeeSettingFactory.getTargetDepartmentSetting(departmentId, isGroup, targetTypeId, showAll).success(function (targetDepartments) {
             targetEmployeeSettingModel.targetDepartmentSettings = targetDepartments;
         })
         .error(function (response, status) {
@@ -82,8 +84,8 @@ function (targetEmployeeSettingFactory, notificationFactory, errorFactory) {
     };
 
     targetEmployeeSettingModel.assignTargetTemplateToDepartment = function (targetSetting) {
-        if (targetSetting.DepartmentSettings) {
-            targetEmployeeSettingFactory.assignTargetTemplateToDepartment(targetSetting).success(function (response) {
+        if (targetSetting.departmentSettings.length > 0) {
+            return targetEmployeeSettingFactory.assignTargetTemplateToDepartment(targetSetting).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("UpdateSuccessfully");
                 }
@@ -96,11 +98,11 @@ function (targetEmployeeSettingFactory, notificationFactory, errorFactory) {
             });
         }
         else {
-            notificationFactory.error("SelectEmployeeBeforeAssignWarning");
+            notificationFactory.error("SelectDepartmentBeforeAssignWarning");
         }
     };
 
-    targetEmployeeSettingModel.openPopupDeleteTargetDepartmentSetting = function (targetTemplate, departmentId) {
+    targetEmployeeSettingModel.openPopupDeleteTargetDepartmentSetting = function (targetTemplate, department) {
         var modalInstance = $modal.open({
             templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
             controller: "ModalConfirmController as modalConfirmCtrl",
@@ -117,9 +119,11 @@ function (targetEmployeeSettingFactory, notificationFactory, errorFactory) {
         });
 
         modalInstance.result.then(function () {
-            return targetEmployeeSettingFactory.deleteTargetDepartmentSetting(targetTemplate.TargetTemplateId, departmentId, targetTemplate.IsGroup)
+            return targetEmployeeSettingFactory.deleteTargetDepartmentSetting(targetTemplate.TargetTemplateId, department.DepartmentId, department.IsGroup)
                 .success(function (response) {
                 if (response.IsSuccessful) {
+                    var index = department.TargetTemplates.indexOf(targetTemplate);
+                    department.TargetTemplates.splice(index, 1);
                     notificationFactory.success("DeletedSuccessfully");
                 }
                 else {

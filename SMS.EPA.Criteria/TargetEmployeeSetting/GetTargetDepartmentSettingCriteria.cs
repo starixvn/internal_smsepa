@@ -13,6 +13,14 @@ namespace SMS.EPA.Criteria.TargetEmployeeSetting
 
     public class GetTargetDepartmentSettingCriteria : CriteriaBase
     {
+        public int? DepartmentId { get; set; }
+
+        public bool? IsGroup { get; set; }
+
+        public int? TargetTypeId { get; set; }
+
+        public bool? ShowAll { get; set; }
+
         public override bool IsValid()
         {
             return true;

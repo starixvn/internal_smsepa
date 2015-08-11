@@ -22,14 +22,15 @@ function (TargetEmployeeSettingModel) {
     };
 }]);
 
-targetEmployeeSettingModule.controller('TargetEmployeeSettingController',
-['TargetEmployeeSettingModel', 'EmployeeModel', 'CommonModel', 'TargetTemplateModel', 'utilitiesFactory',
-function (TargetEmployeeSettingModel, EmployeeModel, CommonModel, TargetTemplateModel, utilitiesFactory) {
+targetEmployeeSettingModule.controller('TargetPersonnelSettingController',
+['$scope', 'TargetEmployeeSettingModel', 'EmployeeModel', 'CommonModel', 'TargetTemplateModel', 'utilitiesFactory',
+function ($scope, TargetEmployeeSettingModel, EmployeeModel, CommonModel, TargetTemplateModel, utilitiesFactory) {
     var vm = this;
 
     vm.targetEmployeeSettings = TargetEmployeeSettingModel.targetEmployeeSettings;
     vm.targetTypes = CommonModel.targetTypes;
     vm.targetTemplates = TargetTemplateModel.targetTemplates;
+    vm.isFirstLoad = true;
 
     vm.filter = {
         groupId: null,
@@ -50,13 +51,36 @@ function (TargetEmployeeSettingModel, EmployeeModel, CommonModel, TargetTemplate
 
     utilitiesFactory.numberEntryList(vm);
 
-    EmployeeModel.getAllGroup().then(function () {
-        vm.groupOptions = EmployeeModel.groups;
-    });
+    var getTargetEmployeeSetting = function (groupId, employeeId, targetTypeId, showAll) {
+        TargetEmployeeSettingModel.getTargetEmployeeSetting(groupId, employeeId, targetTypeId, showAll).then(function () {
+            vm.targetEmployeeSettings = TargetEmployeeSettingModel.targetEmployeeSettings;
+            utilitiesFactory.searchOnPage(vm, vm.targetEmployeeSettings);
+            vm.isFirstLoad = false;
+        });
+    };
 
-    CommonModel.getTargetType().then(function () {
-        vm.targetTypes = CommonModel.targetTypes;
-    });
+    $scope.$watch(function () { return $scope.targetCtrl.dataTab.personnel; },
+        function (newVal) {
+            if (newVal && vm.isFirstLoad) {
+                EmployeeModel.getAllGroup().then(function () {
+                    vm.groupOptions = EmployeeModel.groups;
+                });
+
+                CommonModel.getTargetType().then(function () {
+                    vm.targetTypes = CommonModel.targetTypes;
+                });
+
+                TargetTemplateModel.getTargetTemplate(null, true).then(function () {
+                    vm.targetTemplates = TargetTemplateModel.targetTemplates;
+
+                    if (vm.targetTemplates && vm.targetTemplates.length > 0) {
+                        vm.targetEmployeeSetting.targetTemplateId = vm.targetTemplates[0].TargetTemplateId;
+                    }
+                });
+
+                getTargetEmployeeSetting(null, null, null, null);
+            }
+        });
 
     vm.getEmployee = function () {
         return EmployeeModel.getAllEmployee(vm.searchEmployee);
@@ -69,19 +93,6 @@ function (TargetEmployeeSettingModel, EmployeeModel, CommonModel, TargetTemplate
             }
         }
     };
-
-    TargetTemplateModel.getTargetTemplate(null, true).then(function () {
-        vm.targetTemplates = TargetTemplateModel.targetTemplates;
-    });
-
-    var getTargetEmployeeSetting = function (groupId, employeeId, targetTypeId, showAll) {
-        TargetEmployeeSettingModel.getTargetEmployeeSetting(groupId, employeeId, targetTypeId, showAll).then(function () {
-            vm.targetEmployeeSettings = TargetEmployeeSettingModel.targetEmployeeSettings;
-            utilitiesFactory.searchOnPage(vm, vm.targetEmployeeSettings);
-        });
-    };
-
-    getTargetEmployeeSetting(null, null, null, null);
 
     vm.query = function (filter) {
         var employeeId = null;
@@ -132,12 +143,153 @@ function (TargetEmployeeSettingModel, EmployeeModel, CommonModel, TargetTemplate
         angular.forEach(vm.targetEmployeeSettings, function (targetEmployee) {
             if (targetEmployee.EmployeeId === employeeId) {
                 angular.forEach(vm.filteredItems, function (filterItem) {
-                    if (targetEmployee.EmployeeId === filterItem.EmployeeId ) {
+                    if (targetEmployee.EmployeeId === filterItem.EmployeeId) {
                         filterItem.Selected = selected;
                         targetEmployee.Selected = selected;
                     }
                 });
-             }
+            }
         });
+    };
+
+    vm.deleteTargetTemplate = function (employee, targetTemplate) {
+        TargetEmployeeSettingModel.openPopupDeleteTargetEmployeeSetting(targetTemplate, employee);
+    };
+}]);
+
+targetEmployeeSettingModule.controller('TargetDepartmentSettingController',
+['$scope', 'TargetEmployeeSettingModel', 'CommonModel', 'TargetTemplateModel', 'utilitiesFactory',
+function ($scope, TargetEmployeeSettingModel, CommonModel, TargetTemplateModel, utilitiesFactory) {
+    var vm = this;
+
+    vm.targetDepartmentSettings = TargetEmployeeSettingModel.targetDepartmentSettings;
+    vm.targetTemplates = TargetTemplateModel.targetTemplates;
+    vm.departments = CommonModel.departments;
+    vm.targetTypes = CommonModel.targetTypes;
+    vm.isFirstLoad = true;
+
+    vm.filter = {
+        departmentId: null,
+        isGroup: null,
+        targetTypeId: null,
+        showAll: null
+    };
+    vm.targetDepartmentSetting = {
+        targetTemplateId: null,
+        departmentSettings: []
+    };
+
+    vm.selectedAll = false;
+    vm.currentPage = 1;
+    vm.pageSize = 15;
+
+    utilitiesFactory.numberEntryList(vm);
+
+    var getTargetDepartmentSetting = function (departmentId, isGroup, targetTypeId, showAll) {
+        TargetEmployeeSettingModel.getTargetDepartmentSetting(departmentId, isGroup, targetTypeId, showAll).then(function () {
+            vm.targetDepartmentSettings = TargetEmployeeSettingModel.targetDepartmentSettings;
+            utilitiesFactory.searchOnPage(vm, vm.targetDepartmentSettings);
+            vm.isFirstLoad = false;
+        });
+    };
+
+    $scope.$watch(function () { return $scope.targetCtrl.dataTab.department; },
+        function (newVal) {
+            if (newVal && vm.isFirstLoad) {
+                CommonModel.getDepartment(null, true).then(function () {
+                    vm.departments = CommonModel.departments;
+                });
+
+                CommonModel.getTargetType().then(function () {
+                    vm.targetTypes = CommonModel.targetTypes;
+                });
+
+                TargetTemplateModel.getTargetTemplate(null, true).then(function () {
+                    vm.targetTemplates = TargetTemplateModel.targetTemplates;
+
+                    if (vm.targetTemplates && vm.targetTemplates.length > 0) {
+                        vm.targetDepartmentSetting.targetTemplateId = vm.targetTemplates[0].TargetTemplateId;
+                    }
+                });
+
+                getTargetDepartmentSetting(vm.filter.departmentId, null, vm.filter.targetTypeId, vm.filter.showAll);
+            }
+        });
+
+    vm.updateIsGroup = function (departmentId) {
+        if (departmentId) {
+            vm.filter.isGroup = departmentId < 0 ? true : false;
+        }
+        else {
+            vm.filter.isGroup = null;
+        }
+    };
+
+    vm.query = function (filter) {
+        var departmentId = null;
+
+        if (filter.departmentId) {
+            filter.departmentId = filter.departmentId < 0 ? -filter.departmentId : filter.departmentId;
+        }
+
+        getTargetDepartmentSetting(filter.departmentId, filter.isGroup, filter.targetTypeId, filter.showAll);
+    };
+
+    var getSelectedDepartments = function (targetDepartmentSettings) {
+        var departments = [];
+
+        angular.forEach(targetDepartmentSettings, function (targetDepartment) {
+            if (targetDepartment.Selected) {
+                var department = {
+                    DepartmentId: targetDepartment.DepartmentId,
+                    IsGroup: targetDepartment.IsGroup
+                };
+                departments.push(department);
+            }
+        });
+
+        return departments;
+    };
+
+    vm.assignTargetTemplate = function () {
+        vm.targetDepartmentSetting.departmentSettings = getSelectedDepartments(vm.targetDepartmentSettings);
+
+        TargetEmployeeSettingModel.assignTargetTemplateToDepartment(vm.targetDepartmentSetting).then(function () {
+            getTargetDepartmentSetting(vm.filter.departmentId, vm.filter.isGroup, vm.filter.targetTypeId, vm.filter.showAll);
+            vm.selectedAll = false;
+        });
+    };
+
+    vm.getIndex = function (index, currentPage, pageSize) {
+        return CommonModel.getIndex(index, currentPage, pageSize);
+    };
+
+    vm.checkAll = function (selectedAll) {
+        angular.forEach(vm.filteredItems, function (targetDepartment) {
+            targetDepartment.Selected = selectedAll;
+        });
+
+        angular.forEach(vm.targetDepartmentSettings, function (targetDepartment) {
+            targetDepartment.Selected = selectedAll;
+        });
+    };
+
+    vm.syncSelectedDepartment = function (department, selected) {
+        angular.forEach(vm.targetDepartmentSettings, function (targetDepartment) {
+            if (targetDepartment.DepartmentId === department.DepartmentId
+                    && targetDepartment.IsGroup === department.IsGroup) {
+                angular.forEach(vm.filteredItems, function (filterItem) {
+                    if (targetDepartment.DepartmentId === filterItem.DepartmentId
+                            && targetDepartment.IsGroup === filterItem.IsGroup) {
+                        filterItem.Selected = selected;
+                        targetDepartment.Selected = selected;
+                    }
+                });
+            }
+        });
+    };
+
+    vm.deleteTargetTemplate = function (department, targetTemplate) {
+        TargetEmployeeSettingModel.openPopupDeleteTargetDepartmentSetting(targetTemplate, department);
     };
 }]);

@@ -13,6 +13,7 @@
                         <th>
                             <input type="checkbox" ng-model="kpiListCtrl.SelectedAll" ng-click="kpiListCtrl.checkAll(kpiListCtrl.SelectedAll)" />
                         </th>
+                        <th></th>
                         <th data-translate="KPIName">
                         </th>
                         <th data-translate="Weight">
@@ -25,6 +26,7 @@
                             <td class="text-center row-highlight">
                                 <input type="checkbox" ng-model="group.Selected" ng-click="kpiListCtrl.checkAllGroup(group.Selected, group)" />
                             </td>
+                            <td></td>
                             <td class="criteria-title row-highlight group-header">
                                 <span>{{ group.Name}} ({{group.Weight}})</span> <a
                                     class="glyphicon glyphicon-remove icon-remove left-buffer" title="Remove Group"
@@ -40,6 +42,7 @@
                             <td class="text-center" item-id="{{item.KPIId}}" group-id="{{group.KPIGroupId}}">
                                 <input class="check-group" type="checkbox" value="{{item.Name}}" ng-model="item.Selected" ng-click="kpiListCtrl.check(group, item.Selected)" />
                             </td>
+                            <td ng-bind="$parent.$index + $index + 1"></td>
                             <td ng-bind="item.Name">
                             </td>
                             <td class="width-100 text-center">

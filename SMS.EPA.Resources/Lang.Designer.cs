@@ -1186,6 +1186,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please select department to assign target template!.
+        /// </summary>
+        public static string SelectDepartmentBeforeAssignWarning {
+            get {
+                return ResourceManager.GetString("SelectDepartmentBeforeAssignWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please select employee to assign target template!.
         /// </summary>
         public static string SelectEmployeeBeforeAssignWarning {

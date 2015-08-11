@@ -13,10 +13,11 @@ targetEmployeeSettingModule.factory('targetEmployeeSettingFactory',
         },
         deleteTargetEmployeeSetting: function (targetTemplateId, employeeId) {
             return $http['delete'](baseUrl + 'api/TargetEmployeeSetting/DeleteTargetEmployeeSetting',
-                { params: { targetTemplateId: targetTemplateId, employeId: employeeId } });
+                { params: { employeeId: employeeId, targetTemplateId: targetTemplateId } });
         },
-        getTargetDepartmentSetting: function () {
-            return $http.get(baseUrl + 'api/TargetEmployeeSetting/GetTargetDepartmentSetting');
+        getTargetDepartmentSetting: function (departmentId, isGroup, targetTypeId, showAll) {
+            return $http.get(baseUrl + 'api/TargetEmployeeSetting/GetTargetDepartmentSetting', 
+                { params: { departmentId: departmentId, isGroup: isGroup, targetTypeId: targetTypeId, showAll: showAll }});
         },
         assignTargetTemplateToDepartment: function (targetSetting) {
             return $http.put(baseUrl + 'api/TargetEmployeeSetting/AssignTargetTemplateToDepartment', targetSetting);

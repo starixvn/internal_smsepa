@@ -199,6 +199,8 @@ namespace SMS.EPA.Services.Implement
                             targetDepartmentSetting.TargetTemplates = GetTargetTemplateOfDepartment(rawTargetDepartments);
                         }
                     }
+
+                    targetDepartmentSettings.Add(targetDepartmentSetting);
                 }
             }
 

@@ -615,4 +615,7 @@
   <data name="ApplyToDepartment" xml:space="preserve">
     <value>Apply to Department</value>
   </data>
+  <data name="SelectDepartmentBeforeAssignWarning" xml:space="preserve">
+    <value>Please select department to assign target template!</value>
+  </data>
 </root>

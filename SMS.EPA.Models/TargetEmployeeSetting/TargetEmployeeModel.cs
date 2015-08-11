@@ -32,5 +32,14 @@ namespace SMS.EPA.Model.TargetEmployeeSetting
         public TargetTemplateModel RawTargetTemplate { get; set; }
 
         public IList<TargetTemplateModel> TargetTemplates { get; set; }
+
+        public int NumberTargetTemplates
+        {
+            get
+            {
+                int numberTargetTemplates = TargetTemplates.Count;
+                return numberTargetTemplates != 0 ? numberTargetTemplates : 1;
+            }
+        }
     }
 }
