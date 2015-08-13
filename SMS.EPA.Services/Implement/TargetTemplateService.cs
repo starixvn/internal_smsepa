@@ -161,7 +161,7 @@ namespace SMS.EPA.Services.Implement
             return result;
         }
 
-        public IEnumerable<TargetTemplateKPIGroupModel> GetKPIOfTargetTemplate(GetKPIOfTargetTemplateCriteria criteria)
+        public IEnumerable<TargetTemplateKPIGroupModel> GetKPIOfTargetTemplate(GetKPIOfTargetTemplateCriteria criteria, bool onlyKPISelected)
         {
             Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<TargetTemplateKPIGroupModel> kpiGroups = new List<TargetTemplateKPIGroupModel>();
@@ -170,6 +170,11 @@ namespace SMS.EPA.Services.Implement
             {
                 IEnumerable<KPIModel> kpiList = _targetTemplateRepository.GetKPIOfTargetTemplate(criteria);
                 kpiGroups = GroupKPI(kpiList);
+
+                if (onlyKPISelected)
+                {
+                    kpiGroups = GetSelectedKPI(kpiGroups);
+                }
             }
 
             return kpiGroups;
@@ -211,6 +216,26 @@ namespace SMS.EPA.Services.Implement
                 }
             });
             return listKPI;
+        }
+
+        private IEnumerable<TargetTemplateKPIGroupModel> GetSelectedKPI(IEnumerable<TargetTemplateKPIGroupModel> kpiGroups)
+        {
+            return kpiGroups.Where(x => CheckHasSelectedKPI(x));
+        }
+
+        private bool CheckHasSelectedKPI(TargetTemplateKPIGroupModel group)
+        {
+            bool hasSelectedKPI = false;
+
+            foreach (KPIModel item in group.KPIs)
+            {
+                if (item.Selected == true)
+                {
+                    hasSelectedKPI = true;
+                }
+            }
+
+            return hasSelectedKPI;
         }
     }
 }

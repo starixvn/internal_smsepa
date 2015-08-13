@@ -35,6 +35,6 @@ namespace SMS.EPA.Services.Interfaces
 
         CommandResult DeleteKPIGroup(DeleteKPIGroupOfTargetTemplateCriteria criteria);
 
-        IEnumerable<TargetTemplateKPIGroupModel> GetKPIOfTargetTemplate(GetKPIOfTargetTemplateCriteria criteria);
+        IEnumerable<TargetTemplateKPIGroupModel> GetKPIOfTargetTemplate(GetKPIOfTargetTemplateCriteria criteria, bool onlyKPISelected);
     }
 }

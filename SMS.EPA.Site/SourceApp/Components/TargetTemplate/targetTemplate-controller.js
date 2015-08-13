@@ -192,7 +192,7 @@ function ($scope, TargetTemplateModel) {
     vm.kpiList = TargetTemplateModel.kpiList;
 
     var getKPIOfTargetTemplate = function (targetTemplateId) {
-        TargetTemplateModel.getKPIOfTargetTemplate(targetTemplateId).then(function () {
+        TargetTemplateModel.getKPIOfTargetTemplate(targetTemplateId, false).then(function () {
             vm.kpiList = TargetTemplateModel.kpiList;
             TargetTemplateModel.checkSelectedAllKPI(vm, vm.kpiList);
         });
@@ -399,7 +399,7 @@ function ($window, $routeParams, TargetTemplateModel, utilitiesFactory) {
         vm.targetTemplate = TargetTemplateModel.targetTemplate;
     });
 
-    TargetTemplateModel.getKPIOfTargetTemplate(vm.targetTemplateId).then(function () {
+    TargetTemplateModel.getKPIOfTargetTemplate(vm.targetTemplateId, true).then(function () {
         vm.kpiList = TargetTemplateModel.kpiList;
     });
 

@@ -166,14 +166,14 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Read)]
-        public IEnumerable<TargetTemplateKPIGroupModel> GetKPIOfTargetTemplate(int targetTemplateId)
+        public IEnumerable<TargetTemplateKPIGroupModel> GetKPIOfTargetTemplate(int targetTemplateId, bool onlySelected = false)
         {
             var criteria = new GetKPIOfTargetTemplateCriteria
             {
                 TargetTemplateId = targetTemplateId
             };
 
-            IEnumerable<TargetTemplateKPIGroupModel> kpiList = _targetTemplateService.GetKPIOfTargetTemplate(criteria);
+            IEnumerable<TargetTemplateKPIGroupModel> kpiList = _targetTemplateService.GetKPIOfTargetTemplate(criteria, onlySelected);
             return kpiList;
         }
 

@@ -237,8 +237,8 @@ function ($modal, targetTemplateFactory, errorFactory, notificationFactory, util
         return true;
     };
 
-    targetTemplateModel.getKPIOfTargetTemplate = function (targetTemplateId) {
-        return targetTemplateFactory.getKPIOfTargetTemplate(targetTemplateId).success(function (kpiGroups) {
+    targetTemplateModel.getKPIOfTargetTemplate = function (targetTemplateId, onlySelected) {
+        return targetTemplateFactory.getKPIOfTargetTemplate(targetTemplateId, onlySelected).success(function (kpiGroups) {
             targetTemplateModel.kpiList = kpiGroups;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);

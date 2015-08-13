@@ -66,8 +66,10 @@
                 <ul class="col-sm-12 list-unstyled kpi-list">
                     <li class="title-list"><strong>{{ group.Name }}</strong> <strong ng-show="group.KPIs.length > 0">
                         ({{ group.Weight }})</strong> </li>
-                    <li ng-repeat="item in group.KPIs | filter: KPIName"><span class="glyphicon glyphicon-ok item-list-icon">
-                    </span>{{item.Name}} <span ng-show="!group.IsSpreadKPI">({{item.Weight}})</span>
+                    <li ng-repeat="item in group.KPIs | filter: KPIName" ng-show="item.Selected">
+                        <span class="glyphicon glyphicon-ok item-list-icon">
+                        </span>{{item.Name}}
+                        <span ng-show="!group.IsSpreadKPI">({{item.Weight}})</span>
                     </li>
                 </ul>
             </div>
