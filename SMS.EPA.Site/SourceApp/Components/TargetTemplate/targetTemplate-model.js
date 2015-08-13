@@ -46,7 +46,7 @@ function ($modal, targetTemplateFactory, errorFactory, notificationFactory, util
     targetTemplateModel.createTargetTemplate = function (targetTemplate) {
         return targetTemplateFactory.createTargetTemplate(targetTemplate).success(function (response) {
             if (response.IsSuccessful) {
-                notificationFactory.success("CreateSuccessfully");
+                notificationFactory.success("CreatedSuccessfully");
             }
             else {
                 notificationFactory.error("", response.Message);
@@ -124,7 +124,7 @@ function ($modal, targetTemplateFactory, errorFactory, notificationFactory, util
     targetTemplateModel.updateTargetTemplate = function (targetTemplate) {
         return targetTemplateFactory.updateTargetTemplate(targetTemplate).success(function (response) {
             if (response.IsSuccessful) {
-                notificationFactory.success("UpdateSuccessfully");
+                notificationFactory.success("UpdatedSuccessfully");
             }
             else {
                 notificationFactory.error("", response.Message);
@@ -201,7 +201,7 @@ function ($modal, targetTemplateFactory, errorFactory, notificationFactory, util
     targetTemplateModel.addKPIGroupWeight = function (kpiGroupWeightModel) {
         return targetTemplateFactory.addKPIGroupWeight(kpiGroupWeightModel).success(function (response) {
             if (response.IsSuccessful) {
-                notificationFactory.success("UpdateSuccessfully");
+                notificationFactory.success("UpdatedSuccessfully");
             }
             else {
                 notificationFactory.error("", response.Message);

@@ -37,7 +37,7 @@ function ($modal, kpiGroupFactory, utilitiesFactory, notificationFactory, errorF
         }
         else {
             if (!kpiGroup.Name) {
-                notificationFactory.error("NameRequire");
+                notificationFactory.error("NameRequired");
                 return false;
             }
         }
@@ -94,7 +94,7 @@ function ($modal, kpiGroupFactory, utilitiesFactory, notificationFactory, errorF
         return kpiGroupFactory.updateKPIGroup(kpiGroup)
         .success(function (response) {
             if (response.IsSuccessful) {
-                notificationFactory.success("UpdateSuccessfully");
+                notificationFactory.success("UpdatedSuccessfully");
                 modalInstance.close(kpiGroup);
             }
             else {

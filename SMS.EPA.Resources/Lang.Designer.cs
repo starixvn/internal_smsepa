@@ -259,6 +259,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create Evaluation Period.
+        /// </summary>
+        public static string CreateEvaluationPeriod {
+            get {
+                return ResourceManager.GetString("CreateEvaluationPeriod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create Flow Template.
         /// </summary>
         public static string CreateFlowTemplate {
@@ -282,15 +291,6 @@ namespace SMS.EPA.Resources {
         public static string CreateKPIGroup {
             get {
                 return ResourceManager.GetString("CreateKPIGroup", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Created Successfully!.
-        /// </summary>
-        public static string CreateSuccessfully {
-            get {
-                return ResourceManager.GetString("CreateSuccessfully", resourceCulture);
             }
         }
         
@@ -534,6 +534,15 @@ namespace SMS.EPA.Resources {
         public static string EvaluateDate {
             get {
                 return ResourceManager.GetString("EvaluateDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Evaluation Period.
+        /// </summary>
+        public static string EvaluationPeriod {
+            get {
+                return ResourceManager.GetString("EvaluationPeriod", resourceCulture);
             }
         }
         
@@ -882,9 +891,9 @@ namespace SMS.EPA.Resources {
         /// <summary>
         ///   Looks up a localized string similar to The Name field is required!.
         /// </summary>
-        public static string NameRequire {
+        public static string NameRequired {
             get {
-                return ResourceManager.GetString("NameRequire", resourceCulture);
+                return ResourceManager.GetString("NameRequired", resourceCulture);
             }
         }
         
@@ -1449,18 +1458,27 @@ namespace SMS.EPA.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Updated Successfully!.
         /// </summary>
-        public static string UpdateSuccessfully {
+        public static string UpdatedSuccessfully {
             get {
-                return ResourceManager.GetString("UpdateSuccessfully", resourceCulture);
+                return ResourceManager.GetString("UpdatedSuccessfully", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Update Unsuccessfully!.
+        ///   Looks up a localized string similar to Updated Unsuccessfully!.
         /// </summary>
-        public static string UpdateUnsuccessfully {
+        public static string UpdatedUnsuccessfully {
             get {
-                return ResourceManager.GetString("UpdateUnsuccessfully", resourceCulture);
+                return ResourceManager.GetString("UpdatedUnsuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update Period.
+        /// </summary>
+        public static string UpdatePeriod {
+            get {
+                return ResourceManager.GetString("UpdatePeriod", resourceCulture);
             }
         }
         

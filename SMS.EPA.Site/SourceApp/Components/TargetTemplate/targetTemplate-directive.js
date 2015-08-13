@@ -121,7 +121,8 @@ targetTemplateModule.directive('getGroupWeight', function () {
 targetTemplateModule.directive('getWeight', ['notificationFactory', function (notificationFactory) {
 
     var validateKPIList = function (groups) {
-        var isValid = true;
+        var isValid = true,
+            hasSelected = false;
 
         angular.forEach(groups, function (group) {
             if (!group.IsSpreadKPI) {
@@ -132,7 +133,9 @@ targetTemplateModule.directive('getWeight', ['notificationFactory', function (no
                     var kpiItem = kpis[i];
 
                     if (kpiItem.Selected) {
-                        if (!kpiItem.Weight || parseFloat(kpiItem.Weight) === 0) {
+                        hasSelected = true;
+
+                        if (!kpiItem.Weight) {
                             notificationFactory.error("WeightKPIRequired");
                             isValid = false;
                             break;
@@ -143,9 +146,11 @@ targetTemplateModule.directive('getWeight', ['notificationFactory', function (no
                     }
                 }
 
-                if (isValid && totalWeightOfGroup !== group.Weight) {
-                    isValid = false;
-                    notificationFactory.error("TotalKPIWeightWarning");
+                if (hasSelected) {
+                    if (isValid && totalWeightOfGroup !== group.Weight) {
+                        isValid = false;
+                        notificationFactory.error("TotalKPIWeightWarning");
+                    }
                 }
             }
             

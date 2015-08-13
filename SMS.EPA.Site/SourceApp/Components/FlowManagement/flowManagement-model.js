@@ -181,7 +181,7 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
         }
         else {
             if (!flowTemplate.Name) {
-                notificationFactory.error("NameRequire");
+                notificationFactory.error("NameRequired");
                 return false;
             }
             else if (!flowTemplate.TargetTypeId) {
@@ -196,7 +196,7 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
     flowMngModel.createFlowTemplate = function (flowTemplate) {
         return flowMngFactory.createFlowTemplate(flowTemplate).success(function (response) {
             if (response.IsSuccessful) {
-                notificationFactory.success("CreateSuccessfully");
+                notificationFactory.success("CreatedSuccessfully");
             }
             else {
                 notificationFactory.error("", response.Message);
@@ -209,7 +209,7 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
     flowMngModel.updateFlowTemplate = function (flowTemplate) {
         return flowMngFactory.updateFlowTemplate(flowTemplate).success(function (response) {
             if (response.IsSuccessful) {
-                notificationFactory.success("UpdateSuccessfully");
+                notificationFactory.success("UpdatedSuccessfully");
             }
             else {
                 notificationFactory.error("", response.Message);

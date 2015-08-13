@@ -1,0 +1,55 @@
+﻿
+<div class="modal-header">
+    <div class="popup-header">
+        {{"CreateEvaluationPeriod" | translate}}
+        <span class="close-popup" ng-click="createPeriodCtrl.cancel()"></span>
+    </div>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal" role="form">
+        <div class="form-group required">
+            <label class="col-sm-3 control-label" data-translate="Name">
+            </label>
+            <div class="col-sm-8 field">
+                <input type="text" class="form-control" maxlength="200"  ng-model="createPeriodCtrl.period.Name" required />
+            </div>
+        </div>
+        <div class="form-group required">
+            <label class="col-sm-3 control-label" data-translate="TargetType"></label>
+            <div class="col-sm-8 field">
+                <select class="form-control lstBox-limit" ng-model="createPeriodCtrl.period.TargetTypeId"
+                        ng-options="opt.TargetTypeId as opt.Name for opt in createPeriodCtrl.targetTypes">
+                    <option value="">-- {{"All" | translate}} --</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label" data-translate="StartDate">
+            </label>
+            <div class="col-sm-8">
+                <input readonly class="calendar-form-control" type="text"
+                       ng-model="createPeriodCtrl.period.RawStartDate" datepicker-popup="{{createPeriodCtrl.calendar.dateFormat}}"
+                       ng-click="createPeriodCtrl.openPopupStartDate($event)" min-date="{{createPeriodCtrl.calendar.minDate}}"
+                       is-open="createPeriodCtrl.calendar.startDateOpened" />
+                <calendar-image class="calendar-image" ng-click="createPeriodCtrl.openPopupStartDate($event)"></calendar-image>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label" data-translate="Active"></label>
+            <div class="col-sm-8 field active-label">
+                <input type="checkbox" ng-model="createPeriodCtrl.period.IsActive" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label" data-translate="Description"></label>
+            <div class="col-sm-8 field description">
+                <textarea type="text" class="form-control" maxlength="2000" ng-model="createPeriodCtrl.period.Description"></textarea>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer">
+    <button class="button" data-translate="Submit" ng-click="createPeriodCtrl.save(createPeriodCtrl.period)"></button>
+    <button class="btn btn-default customize" ng-click="createPeriodCtrl.cancel()" data-translate="Cancel"></button>
+</div>

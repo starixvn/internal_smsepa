@@ -109,7 +109,7 @@ function ($modal, kpiFactory, utilitiesFactory, notificationFactory, errorFactor
         return kpiFactory.updateKPI(kpi)
         .success(function (response) {
             if (response.IsSuccessful) {
-                notificationFactory.success("UpdateSuccessfully");
+                notificationFactory.success("UpdatedSuccessfully");
                 modalInstance.close(kpi);
             }
             else {

@@ -221,6 +221,10 @@ function ($scope, TargetTemplateModel) {
 
         angular.forEach(group.KPIs, function (kpi) {
             kpi.Selected = groupSelected;
+
+            if (!groupSelected) {
+                kpi.Weight = '';
+            }
         });
 
         angular.forEach(vm.kpiList, function (kpiGroup) {
@@ -240,11 +244,16 @@ function ($scope, TargetTemplateModel) {
         }
     };
 
-    vm.check = function (group, selected) {
-        var allGroupUnchecked = true,
+    vm.check = function (group, item) {
+        var selected = item.Selected,
+            allGroupUnchecked = true,
             allGroupChecked = true,
             allUnchecked = true,
             allChecked = true;
+
+        if (!selected) {
+            item.Weight = '';
+        }
 
         angular.forEach(group.KPIs, function (kpi) {
             if (kpi.Selected) {
@@ -342,12 +351,23 @@ function ($modalInstance, $translate, TargetTemplateModel, targetTemplateId, max
     vm.checkAll = function (selectedAll) {
         angular.forEach(vm.kpiGroups, function (group) {
             group.Selected = selectedAll;
+
+            if (!selectedAll) {
+                group.Weight = '';
+                group.IsSpreadKPI = false;
+            }
         });
     };
 
-    vm.check = function (selected) {
-        var allUnchecked = true,
+    vm.check = function (group) {
+        var selected = group.Selected,
+            allUnchecked = true,
             allChecked = true;
+
+        if (!selected) {
+            group.Weight = '';
+            group.IsSpreadKPI = false;
+        }
 
         angular.forEach(vm.kpiGroups, function (group) {
             if (group.Selected) {

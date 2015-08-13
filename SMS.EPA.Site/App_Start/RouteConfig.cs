@@ -49,7 +49,9 @@ namespace SMS.EPA.Site
                 "CheckAssignment/Index",
                 "Department/Index",
                 "SelfEvaluation/Index",
-                "MyEPA/Index"
+                "MyEPA/Index",
+                "Period/Index",
+                "Period/Update/{id}"
             };
 
             homeRouteUrls.ForEach(url => routes.MapRoute(

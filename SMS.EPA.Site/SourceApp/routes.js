@@ -1,7 +1,7 @@
 ﻿'use strict';
 /*exported employeeModule, commonModule, kpiModule, kpiGroupModule, roleModule, targetTemplateModule*/
 /*exported flowMngModule, targetEmployeeSettingModule, checkFlowAssignmentModule, departmentModule*/
-/*exported epaModule*/
+/*exported epaModule, periodModule*/
 
 var employeeModule = angular.module("employeeModule", ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
@@ -84,4 +84,13 @@ var epaModule = angular.module("epaModule", ['ngRoute'])
     var baseUrl = $("base").first().attr("href");
     $routeProvider.when('/SelfEvaluation/Index',
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/MyEPA/Templates/index.html' });
+}]);
+
+var periodModule = angular.module("periodModule", ['ngRoute'])
+.config(['$routeProvider', function ($routeProvider) {
+    var baseUrl = $("base").first().attr("href");
+    $routeProvider.when('/Period/Index',
+    { templateUrl: baseUrl + 'SourceApp/Components/Period/Templates/index.html' });
+    $routeProvider.when('/Period/Update/:id',
+    { templateUrl: baseUrl + 'SourceApp/Components/Period/Templates/edit.html' });
 }]);

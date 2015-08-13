@@ -55,7 +55,8 @@
                             "~/SourceApp/Components/TargetTemplate/targetTemplate.less",
                             "~/SourceApp/Components/FlowManagement/flowManagement.less",
                             "~/SourceApp/Components/TargetEmployeeSetting/targetEmployeeSetting.less",
-                            "~/SourceApp/Components/CheckFlowAssignment/checkFlow.less");
+                            "~/SourceApp/Components/CheckFlowAssignment/checkFlow.less",
+                            "~/SourceApp/Components/Period/period.less");
 
             bundles.Add(new ScriptBundle("~/bundles/app").Include(
                             "~/SourceApp/app.js",
@@ -100,7 +101,10 @@
                             "~/SourceApp/Components/Department/department-directive.js",
                             "~/SourceApp/Components/EPA/employeeEPA-factory.js",
                             "~/SourceApp/Components/EPA/employeeEPA-model.js",
-                            "~/SourceApp/Components/EPA/MyEPA/myepa-controller.js"));
+                            "~/SourceApp/Components/EPA/MyEPA/myepa-controller.js",
+                            "~/SourceApp/Components/Period/period-factory.js",
+                            "~/SourceApp/Components/Period/period-model.js",
+                            "~/SourceApp/Components/Period/period-controller.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/epa-directives.js",

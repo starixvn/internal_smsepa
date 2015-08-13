@@ -1,0 +1,31 @@
+﻿// ----------------------------------------------------------------------
+// <copyright file="IPeriodService.cs" company="Nexcel Solutions Viet Nam">
+// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
+// </copyright>
+// ------------------------------------------------------------------------
+// <history>
+//   <change who="Josh.Phan" date="8/13/2015">Created.</change>
+// </history>
+
+namespace SMS.EPA.Services.Interfaces
+{
+    using System.Collections.Generic;
+    using SMS.EPA.Core.Model;
+    using SMS.EPA.Criteria.Period;
+    using SMS.EPA.Model.Period;
+
+    public interface IPeriodService
+    {
+        IEnumerable<PeriodModel> GetPeriod(GetPeriodCriteria criteria);
+
+        CommandResult CreatePeriod(CreatePeriodCriteria criteria);
+
+        CommandResult UpdateBasicInformationPeriod(UpdateBasicInformationPeriodCriteria criteria);
+
+        PeriodModel GetPeriodById(GetPeriodByIdCriteria criteria);
+
+        CommandResult UpdateStatusPeriod(UpdateStatusPeriodCriteria criteria);
+
+        CommandResult DeletePeriod(DeletePeriodCriteria criteria);
+    }
+}

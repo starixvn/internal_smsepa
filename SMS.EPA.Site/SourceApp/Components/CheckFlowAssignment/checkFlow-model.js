@@ -96,7 +96,7 @@ function ($modal, checkFlowFactory, errorFactory, notificationFactory) {
     checkFlowModel.updateEmployeeFlowTargetSetting = function (employeeAssignments) {
         return checkFlowFactory.updateEmployeeFlowTargetSetting(employeeAssignments).success(function (response) {
             if (response.IsSuccessful) {
-                notificationFactory.success("UpdateSuccessfully");
+                notificationFactory.success("UpdatedSuccessfully");
             }
             else {
                 notificationFactory.error("", response.Message);

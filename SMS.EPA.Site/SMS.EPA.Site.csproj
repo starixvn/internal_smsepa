@@ -176,6 +176,7 @@
     <Compile Include="Controllers\API\KPIController.cs" />
     <Compile Include="Controllers\API\EmployeeController.cs" />
     <Compile Include="Controllers\API\KPIGroupController.cs" />
+    <Compile Include="Controllers\API\PeriodController.cs" />
     <Compile Include="Controllers\API\ResourcesController.cs" />
     <Compile Include="Controllers\API\TargetEmployeeSettingController.cs" />
     <Compile Include="Controllers\API\TargetTemplateController.cs" />
@@ -337,6 +338,13 @@
     <Content Include="SourceApp\Components\KPI\Templates\edit.html" />
     <Content Include="SourceApp\Components\KPI\Templates\create.html" />
     <Content Include="SourceApp\Components\KPI\Templates\modalConfirmRequired.html" />
+    <Content Include="SourceApp\Components\Period\period-controller.js" />
+    <Content Include="SourceApp\Components\Period\period-factory.js" />
+    <Content Include="SourceApp\Components\Period\period-model.js" />
+    <Content Include="SourceApp\Components\Period\Templates\basicInformation.html" />
+    <Content Include="SourceApp\Components\Period\Templates\create.html" />
+    <Content Include="SourceApp\Components\Period\Templates\edit.html" />
+    <Content Include="SourceApp\Components\Period\Templates\index.html" />
     <Content Include="SourceApp\Components\Resources\resources-controller.js" />
     <Content Include="SourceApp\Components\Resources\resources-factory.js" />
     <Content Include="SourceApp\Components\KPI\kpi-controller.js" />
@@ -500,6 +508,7 @@
     <Content Include="SourceApp\Components\TargetEmployeeSetting\targetEmployeeSetting.less" />
     <Content Include="SourceApp\Components\CheckFlowAssignment\ExcelTemplates\EmployeeFlowSettingReport.xls" />
     <Content Include="SourceApp\Components\CheckFlowAssignment\ExcelTemplates\DepartmentFlowSettingReport.xls" />
+    <Content Include="SourceApp\Components\Period\period.less" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">

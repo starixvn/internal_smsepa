@@ -1,0 +1,17 @@
+﻿<div class="col-sm-12" ng-controller="UpdatePeriodController as updateCtrl">
+    <div class="sub-header">
+        <ul class="row breadcrumb">
+            <li class="current" data-translate="UpdatePeriod"></li>
+        </ul>
+    </div>
+    <div class="target-tabset">
+        <tabset id="PeriodTab">
+            <tab heading="BASIC INFORMATION" class="tab-cursor" active="updateCtrl.dataTab.basicInformation" select="updateCtrl.tabBasicSelect()">
+                <div ng-include src="'/SourceApp/Components/Period/Templates/basicInformation.html'"></div>
+            </tab>
+            <tab heading="EMPLOYEE SETTING" class="tab-cursor" active="updateCtrl.dataTab.employeeSetting" select="updateCtrl.tabSettingSelect()">
+                <!--<div ng-include src="'/SourceApp/Components/TargetEmployeeSetting/Templates/personnel.html'"></div>-->
+            </tab>
+        </tabset>
+    </div>
+</div>

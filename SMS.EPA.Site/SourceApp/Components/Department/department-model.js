@@ -16,7 +16,7 @@ function ($modal, departmentFactory, notificationFactory, errorFactory) {
                 return false;
             }
             else if (!department.Name) {
-                notificationFactory.error("NameRequire");
+                notificationFactory.error("NameRequired");
                 return false;
             }
             else if(!department.ParentId){
@@ -70,7 +70,7 @@ function ($modal, departmentFactory, notificationFactory, errorFactory) {
         return departmentFactory.updateDepartment(criteria)
         .success(function (response) {
             if (response.IsSuccessful) {
-                notificationFactory.success("UpdateSuccessfully");
+                notificationFactory.success("UpdatedSuccessfully");
 
                 vm.initialize();
             }

@@ -261,9 +261,6 @@
   <data name="EditKPI" xml:space="preserve">
     <value>Edit KPI</value>
   </data>
-  <data name="CreateSuccessfully" xml:space="preserve">
-    <value>Created Successfully!</value>
-  </data>
   <data name="CreateUnsuccessfully" xml:space="preserve">
     <value>Created Unsuccessfully!</value>
   </data>
@@ -303,11 +300,11 @@
   <data name="Logout" xml:space="preserve">
     <value>Logout</value>
   </data>
-  <data name="UpdateSuccessfully" xml:space="preserve">
+  <data name="UpdatedSuccessfully" xml:space="preserve">
     <value>Updated Successfully!</value>
   </data>
-  <data name="UpdateUnsuccessfully" xml:space="preserve">
-    <value>Update Unsuccessfully!</value>
+  <data name="UpdatedUnsuccessfully" xml:space="preserve">
+    <value>Updated Unsuccessfully!</value>
   </data>
   <data name="ConfirmPassword" xml:space="preserve">
     <value>Confirm Password</value>
@@ -360,7 +357,7 @@
   <data name="FormRequire" xml:space="preserve">
     <value>The Form field is required!</value>
   </data>
-  <data name="NameRequire" xml:space="preserve">
+  <data name="NameRequired" xml:space="preserve">
     <value>The Name field is required!</value>
   </data>
   <data name="RoleManagement" xml:space="preserve">
@@ -617,5 +614,14 @@
   </data>
   <data name="SelectDepartmentBeforeAssignWarning" xml:space="preserve">
     <value>Please select department to assign target template!</value>
+  </data>
+  <data name="CreateEvaluationPeriod" xml:space="preserve">
+    <value>Create Evaluation Period</value>
+  </data>
+  <data name="EvaluationPeriod" xml:space="preserve">
+    <value>Evaluation Period</value>
+  </data>
+  <data name="UpdatePeriod" xml:space="preserve">
+    <value>Update Period</value>
   </data>
 </root>

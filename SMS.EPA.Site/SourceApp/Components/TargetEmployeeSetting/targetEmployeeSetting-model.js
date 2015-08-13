@@ -24,7 +24,7 @@ function ($modal, targetEmployeeSettingFactory, notificationFactory, errorFactor
             return targetEmployeeSettingFactory.assignTargetTemplateToEmployee(targetEmployeeSetting)
             .success(function (response) {
                 if (response.IsSuccessful) {
-                    notificationFactory.success("UpdateSuccessfully");
+                    notificationFactory.success("UpdatedSuccessfully");
                 }
                 else {
                     notificationFactory.error("", response.Message);
@@ -87,7 +87,7 @@ function ($modal, targetEmployeeSettingFactory, notificationFactory, errorFactor
         if (targetSetting.departmentSettings.length > 0) {
             return targetEmployeeSettingFactory.assignTargetTemplateToDepartment(targetSetting).success(function (response) {
                 if (response.IsSuccessful) {
-                    notificationFactory.success("UpdateSuccessfully");
+                    notificationFactory.success("UpdatedSuccessfully");
                 }
                 else {
                     notificationFactory.error("", response.Message);

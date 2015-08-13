@@ -25,7 +25,7 @@
                 <tbody list-sortable>
                     <tr ng-repeat="group in addKPIGroupCtrl.kpiGroups" title="Drag to sort table rows">
                         <td class="text-center" data-id="{{group.KPIGroupId}}">
-                            <input class="check-group" type="checkbox" ng-model="group.Selected" ng-click="addKPIGroupCtrl.check(group.Selected)" />
+                            <input class="check-group" type="checkbox" ng-model="group.Selected" ng-click="addKPIGroupCtrl.check(group)" />
                         </td>
                         <td class="kpigroup-column-max" ng-bind="group.Name">
                         </td>

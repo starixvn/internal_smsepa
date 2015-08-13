@@ -1,0 +1,47 @@
+﻿<div ng-controller="UpdateBasicInformationPeriodController as basicInfoPeriodCtrl">
+    <form class="col-sm-8 form-horizontal common-form info-form" novalidate>
+        <div class="form-group required">
+            <label class="col-sm-3 control-label" data-translate="Name">
+            </label>
+            <div class="col-sm-8 field">
+                <input type="text" class="form-control" maxlength="200" ng-model="basicInfoPeriodCtrl.period.Name" required />
+            </div>
+        </div>
+        <div class="form-group top-buffer required">
+            <label class="col-sm-3 control-label" data-translate="TargetType"></label>
+            <div class="col-sm-8 field">
+                <select class="form-control lstBox-limit" ng-model="basicInfoPeriodCtrl.period.TargetTypeId"
+                        ng-options="opt.TargetTypeId as opt.Name for opt in basicInfoPeriodCtrl.targetTypes">
+                    <option value="">-- {{"All" | translate}} --</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group top-buffer">
+            <label class="col-sm-3 control-label" data-translate="StartDate">
+            </label>
+            <div class="col-sm-8">
+                <input readonly class="calendar-form-control" type="text"
+                       ng-model="basicInfoPeriodCtrl.period.RawStartDate" datepicker-popup="{{basicInfoPeriodCtrl.calendar.dateFormat}}"
+                       ng-click="basicInfoPeriodCtrl.openPopupStartDate($event)" min-date="{{basicInfoPeriodCtrl.calendar.minDate}}"
+                       is-open="basicInfoPeriodCtrl.calendar.startDateOpened" />
+                <calendar-image class="calendar-image" ng-click="basicInfoPeriodCtrl.openPopupStartDate($event)"></calendar-image>
+            </div>
+        </div>
+        <div class="form-group top-buffer">
+            <label class="col-sm-3 control-label" data-translate="Active"></label>
+            <div class="col-sm-8 field active-label">
+                <input type="checkbox" ng-model="basicInfoPeriodCtrl.period.IsActive" />
+            </div>
+        </div>
+        <div class="form-group top-buffer">
+            <label class="col-sm-3 control-label" data-translate="Description"></label>
+            <div class="col-sm-8 field description">
+                <textarea type="text" class="form-control" maxlength="2000" ng-model="basicInfoPeriodCtrl.period.Description"></textarea>
+            </div>
+        </div>
+        <div class="col-sm-offset-5 top-buffer">
+            <button class="button" data-translate="Submit" ng-click="basicInfoPeriodCtrl.save(basicInfoPeriodCtrl.period)"></button>
+            <button class="btn btn-default customize" ng-click="basicInfoPeriodCtrl.cancel()" data-translate="Cancel"></button>
+        </div>
+    </form>
+</div>

@@ -42,7 +42,7 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
     employeeModel.createEmployee = function (employee, modalInstance) {
         return employeeFactory.createSpecialEmployee(employee).success(function (response) {
             if (response.IsSuccessful) {
-                notificationFactory.success("CreateSuccessfully");
+                notificationFactory.success("CreatedSuccessfully");
                 modalInstance.close();
             }
             else {
@@ -118,7 +118,7 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
     employeeModel.updateEmployee = function (updatedEmployee, modalInstance) {
         return employeeFactory.updateSpecialEmployee(updatedEmployee).success(function (response) {
             if (response.IsSuccessful) {
-                notificationFactory.success("UpdateSuccessfully");
+                notificationFactory.success("UpdatedSuccessfully");
                 modalInstance.close(updatedEmployee);
             }
             else {
@@ -203,7 +203,7 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
     employeeModel.changePassword = function (password, modalInstance) {
         return employeeFactory.changePassword(password).success(function (response) {
             if (response.IsSuccessful) {
-                notificationFactory.success("UpdateSuccessfully");
+                notificationFactory.success("UpdatedSuccessfully");
                 modalInstance.close();
             }
             else {
@@ -244,7 +244,7 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
 
         return employeeFactory.assignRoleToEmployee(employeeRoles).success(function (response) {
             if (response.IsSuccessful) {
-                notificationFactory.success("UpdateSuccessfully");
+                notificationFactory.success("UpdatedSuccessfully");
             }
             else {
                 notificationFactory.error("", response.Message);
@@ -297,7 +297,7 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
         modalInstance.result.then(function () {
             employeeFactory.resetPassword(employee.EmployeeId).success(function (response) {
                 if (response.IsSuccessful) {
-                    notificationFactory.success("UpdateSuccessfully");
+                    notificationFactory.success("UpdatedSuccessfully");
                 }
                 else {
                     notificationFactory.error("", response.Message);

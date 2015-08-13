@@ -68,6 +68,7 @@
     <Compile Include="KPIGroup\KPIGroupModel.cs" />
     <Compile Include="KPI\KPIModel.cs" />
     <Compile Include="KPI\RawKPIModel.cs" />
+    <Compile Include="Period\PeriodModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoleManagement\FunctionModel.cs" />
     <Compile Include="RoleManagement\RoleFunctionModel.cs" />
