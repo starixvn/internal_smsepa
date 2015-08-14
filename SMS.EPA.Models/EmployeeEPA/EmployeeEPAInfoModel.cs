@@ -23,6 +23,8 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public int EPAId { get; set; }
 
+        public int PeriodId { get; set; }
+
         public EmployeeModel Employee { get; set; }
 
         public EmployeeModel Evaluator { get; set; }
@@ -41,6 +43,6 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public string FinalScore { get; set; }
 
-        public int Permission { get; set; }
+        public DateTime? ModifiedDate { get; set; }
     }
 }

@@ -26,17 +26,35 @@ namespace SMS.EPA.Repositories.Implement
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                return db.Query<EmployeeEPAModel, DepartmentModel, Group, StatusModel, EmployeeModel, EmployeeEPAModel>(
-                    (me, dept, group, status, ev) =>
+                using (var multi = db.QueryMultiple(criteria.GetSpParams()))
+                {
+                    IEnumerable<EmployeeEPAModel> epas = multi.Read<EmployeeEPAModel, DepartmentModel, Group, StatusModel, EmployeeEPAModel>(
+                    (me, dept, group, status) =>
                     {
                         me.Department = dept;
                         me.Group = group;
                         me.Status = status;
-                        me.Evaluator = ev;
+
                         return me;
                     },
-                    "DepartmentId, GroupId, StatusId, EvaluatorId",
-                    criteria.GetSpParams());
+                    "DepartmentId, GroupId, StatusId");
+
+                    IEnumerable<RawEmployeeEPAModel> evaluators = multi.Read<RawEmployeeEPAModel, EmployeeModel, RawEmployeeEPAModel>(
+                        (result, eva) =>
+                        {
+                            result.Evaluator = eva;
+
+                            return result;
+                        },
+                        "EvaluatorId");
+
+                    foreach (var epa in epas)
+                    {
+                        epa.Evaluators = GroupEvaluatorByEPAId(epa.EPAId, evaluators);
+                    }
+
+                    return epas;
+                }
             }
         }
 
@@ -79,6 +97,21 @@ namespace SMS.EPA.Repositories.Implement
             }
 
             return data;
+        }
+
+        private IList<EmployeeModel> GroupEvaluatorByEPAId(int epaId, IEnumerable<RawEmployeeEPAModel> evaluators)
+        {
+            IList<EmployeeModel> evas = new List<EmployeeModel>();
+
+            foreach (var evaluator in evaluators)
+            {
+                if (evaluator.EPAId == epaId)
+                {
+                    evas.Add(evaluator.Evaluator);
+                }
+            }
+
+            return evas;
         }
 
         private List<KPIGroupViewModel> GetDistinctKPIGroup(IEnumerable<KPIGroupViewModel> groups)

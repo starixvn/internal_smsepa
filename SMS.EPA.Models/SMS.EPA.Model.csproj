@@ -52,6 +52,7 @@
     <Compile Include="Department\DepartmentModel.cs" />
     <Compile Include="EmployeeEPA\EmployeeEPAInfoModel.cs" />
     <Compile Include="EmployeeEPA\KPIGroupViewModel.cs" />
+    <Compile Include="EmployeeEPA\RawEmployeeEPAModel.cs" />
     <Compile Include="Employee\EmployeeModel.cs" />
     <Compile Include="Employee\MenuGroupModel.cs" />
     <Compile Include="Employee\MenuItemModel.cs" />

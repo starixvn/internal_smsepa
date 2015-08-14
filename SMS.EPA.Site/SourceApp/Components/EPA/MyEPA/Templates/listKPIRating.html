@@ -15,26 +15,28 @@
                     <span ng-if="kpi.IsSpreadKPI"> ({{kpi.Weight}} pts)</span>
                 </div>
                 <div class="col-sm-2 text-center list-star">
-                    <rating ng-model="kpi.Score" value="kpi.Score" max="empEPAInfoCtrl.max"
+                    <rating ng-model="kpi.Rate" max="empEPAInfoCtrl.maxStar"
                             on-hover="empEPAInfoCtrl.hoveringOver(value, kpi)"
-                            on-leave="empEPAInfoCtrl.hoveringLeave(kpi)"></rating>
-                    <span class="badge percent">{{0}}%</span>
+                            on-leave="empEPAInfoCtrl.hoveringLeave(kpiGroup, kpi)"></rating>
+                    <span class="badge percent" ng-show="kpi.Percent > 0">{{kpi.Percent}}%</span>
+                    <span class="badge percent" ng-show="kpi.Percent == 0" data-translate="NaN"></span>
                 </div>
                 <div class="col-sm-1">
                     <input type="text" class="form-control text-center kpi-score" ng-model="kpi.Score" ng-value="kpi.Score" number-dot
-                           ng-change="empEPAInfoCtrl.onChange(kpi)" />
+                           ng-change="empEPAInfoCtrl.inputScore(kpi)" />
                 </div>
             </div>
             <div class="row kpi-description" ng-if="kpi.Description.length > 0">
                 <div class="col-sm-8" ng-bind="kpi.Description"></div>
             </div>
-            <div class="row textarea-comment">
+            <div class="row textarea-comment" ng-if="kpi.HasComment">
                 <div class="col-sm-7">
-                    <textarea class="form-control" ng-model="kpi.Comment" ng-show="kpi.HasComment">
+                    <div class="error-message" ng-if="kpi.CommentValid" data-translate="FieldRequire"></div>
+                    <textarea class="form-control" ng-model="kpi.Comment">
                         {{kpi.Comment}}
                     </textarea>
                 </div>
-                <div class="col-sm-1" ng-if="kpi.HasComment && !kpi.IsRequiredComment">
+                <div class="col-sm-1" ng-if="kpi.HasComment && kpi.IsRequiredComment">
                     <label class="error-message" data-translate="*"></label>
                 </div>
             </div>

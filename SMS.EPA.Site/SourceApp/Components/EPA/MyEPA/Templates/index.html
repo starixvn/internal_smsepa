@@ -40,11 +40,18 @@
                         <a href="" ng-bind="item.Score | customNumber" ng-click="empEPACtrl.viewEPADetail(item)"
                            ng-href="{{empEPACtrl.viewEPADetailUrl}}" ng-if="item.Score" />
                         <a href="" ng-bind="'N/A'" ng-click="empEPACtrl.viewEPADetail(item)"
-                           ng-href="{{empEPACtrl.viewEPADetailUrl}} ng-if=" !item.score" />
+                           ng-href="{{empEPACtrl.viewEPADetailUrl}}" ng-if="!item.Score" />
                     </td>
                     <td class="text-center" ng-bind="item.Status.Name"></td>
                     <td>
-                        <span ng-bind="item.Evaluator.NickName" tooltip="{{item.Evaluator.FullName}}"></span>
+                        <div ng-show="item.Evaluators.length == 1">
+                            <span ng-bind="item.Evaluators[0].NickName" tooltip="{{item.Evaluators[0].FullName}}"></span>
+                        </div>
+                        <div ng-show="item.Evaluators.length > 1">
+                            <ul>
+                                <li ng-repeat="evaluator in item.Evaluators" ng-bind="evaluator.NickName" tooltip="{{evaluator.FullName}}"></li>
+                            </ul>
+                        </div>
                     </td>
                     <td class="text-center">
                         {{item.evaluateDate | customDate }}

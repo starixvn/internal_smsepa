@@ -10,6 +10,7 @@
 namespace SMS.EPA.Model.EmployeeEPA
 {
     using System;
+    using System.Collections.Generic;
     using SMS.EPA.Model.Department;
     using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.Enitites;
@@ -17,6 +18,15 @@ namespace SMS.EPA.Model.EmployeeEPA
 
     public class EmployeeEPAModel
     {
+        public EmployeeEPAModel()
+        {
+            Evaluators = new List<EmployeeModel>();
+        }
+
+        public int EPAId { get; set; }
+
+        public int PeriodId { get; set; }
+
         public int EmployeeId { get; set; }
 
         public string NickName { get; set; }
@@ -37,7 +47,7 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public StatusModel Status { get; set; }
 
-        public EmployeeModel Evaluator { get; set; }
+        public IList<EmployeeModel> Evaluators { get; set; }
 
         public DateTime EvaluateDate { get; set; }
     }

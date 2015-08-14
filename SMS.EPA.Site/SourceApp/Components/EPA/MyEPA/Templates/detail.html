@@ -1,4 +1,4 @@
-﻿﻿<div ng-controller="EmployeeEPAInfoController as empEPAInfoCtrl">
+﻿<div ng-controller="EmployeeEPAInfoController as empEPAInfoCtrl">
     <div class="col-sm-12 sub-header">
         <ul class="row breadcrumb">
             <li class="current" data-translate="MyEPA"></li>
@@ -34,7 +34,8 @@
                 <div class="boxcontent" collapse="empEPAInfoCtrl.collapses['Comments']">
                     <div class="row row-item">
                         <div class="col-sm-8 textarea-comment">
-                            <textarea class="form-control"></textarea>
+                            <div class="error-message" ng-show="empEPAInfoCtrl.epaInfo.CommentValid" data-translate="FieldRequire"></div>
+                            <textarea class="form-control" ng-model="empEPAInfoCtrl.epaInfo.Comment"></textarea>
                         </div>
                         <div class="col-sm-1">
                             <label class="error-message" data-translate="*"></label>
@@ -42,7 +43,7 @@
                         <div class="col-sm-3">
                             <div class="total text-center pull-right">
                                 <p data-translate="Total"></p>
-                                <p class="finalscore"></p>
+                                <p class="finalscore" ng-bind="empEPAInfoCtrl.epaInfo.FinalScore"></p>
                             </div>
                         </div>
                     </div>
@@ -54,7 +55,7 @@
                 </div>
             </div>
             <div class="col-sm-12 epa-action-button text-center">
-                <button class="button" ng-click="empEPAInfoCtrl.save()" data-translate="Save"></button>
+                <button class="button" ng-click="empEPAInfoCtrl.save(empEPAInfoCtrl.epaInfo)" data-translate="Save"></button>
                 <button class="btn btn-default customize" ng-click="empEPAInfoCtrl.cancel()" data-translate="Cancel"></button>
             </div>
         </form>

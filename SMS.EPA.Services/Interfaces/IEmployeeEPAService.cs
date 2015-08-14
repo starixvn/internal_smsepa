@@ -10,6 +10,7 @@
 namespace SMS.EPA.Services.Interfaces
 {
     using System.Collections.Generic;
+    using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.EmployeeEPA;
     using SMS.EPA.Model.EmployeeEPA;
 
@@ -18,5 +19,13 @@ namespace SMS.EPA.Services.Interfaces
         IEnumerable<EmployeeEPAModel> GetEPAByEmployee(GetEPAByEmployeeCriteria criteria);
 
         EmployeeEPAInfoModel GetEPAInfo(GetEPAInfoCriteria criteria);
+
+        CommandResult UpdateEmployeeEPA(UpdateEPAScoreCriteria criteria);
+
+        string Encode(string plainText);
+
+        string Decode(string cipherText);
+
+        string ConvertKPIInfoToXml(IList<KPIGroupViewModel> kpiGroups);
     }
 }

@@ -24,7 +24,7 @@ function (EmployeeEPAModel, CommonModel) {
     };
 
     vm.viewEPADetail = function (epa) {
-        vm.viewEPADetailUrl = '/MyEPA/Index?employeeId=' + epa.EmployeeId;
+        vm.viewEPADetailUrl = '/MyEPA/Index?epaId=' + epa.EPAId + '&periodId=' + epa.PeriodId + '&employeeId=' + epa.EmployeeId;
     };
 
     vm.initialize = function () {
@@ -39,17 +39,55 @@ function (EmployeeEPAModel, CommonModel) {
 }]);
 
 epaModule.controller('EmployeeEPAInfoController',
-['$routeParams', 'EmployeeEPAModel',
-function ($routeParams, EmployeeEPAModel) {
+['$window', '$routeParams', 'EmployeeEPAModel',
+function ($window, $routeParams, EmployeeEPAModel) {
     var vm = this;
 
-    vm.max = 5;
+    vm.epaId = parseInt($routeParams.epaId);
+    vm.periodId = parseInt($routeParams.periodId);
     vm.employeeId = parseInt($routeParams.employeeId);
+
+    vm.maxStar = 5;
 
     vm.epaInfo = EmployeeEPAModel.epaInfo;
 
+    vm.hoveringOver = function (value, kpi) {
+        kpi.Percent = (100 * value) / vm.maxStar;
+    };
+
+    vm.hoveringLeave = function (kpiGroup, kpi) {
+        kpi.Percent = (100 * kpi.Rate) / vm.maxStar;
+
+        if (kpiGroup.IsSpreadKPI) {
+            kpi.Score = (kpiGroup.Weight / kpiGroup.KPIs.length) * (kpi.Percent / 100);
+        }
+        else {
+            kpi.Score = kpi.Weight * (kpi.Percent / 100);
+        }
+
+        if (kpi.Rate > 0) {
+            EmployeeEPAModel.calculateScore(vm, vm.epaInfo);
+        }
+    };
+
+    vm.inputScore = function (kpi) {
+        kpi.Rate = 0;
+        kpi.Percent = 0;
+        EmployeeEPAModel.calculateScore(vm, vm.epaInfo);
+    };
+
+    vm.save = function (epaInfo) {
+        if (EmployeeEPAModel.validateEPA(epaInfo)) {
+            EmployeeEPAModel.updateEmployeeEPA(epaInfo);
+        }
+    };
+
+    vm.cancel = function () {
+        $window.history.back();
+    };
+
     vm.initialize = function () {
-        EmployeeEPAModel.getEPAInformation(vm.employeeId).then(function () {
+        EmployeeEPAModel.getEPAInformation(vm.epaId, vm.periodId, vm.employeeId).then(function () {
             vm.epaInfo = EmployeeEPAModel.epaInfo;
         });
     };

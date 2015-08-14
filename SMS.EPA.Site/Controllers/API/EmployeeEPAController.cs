@@ -11,6 +11,7 @@ namespace SMS.EPA.Site.Controllers.API
 {
     using System.Collections.Generic;
     using System.Web.Http;
+    using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.EmployeeEPA;
     using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Services.Implement;
@@ -18,7 +19,7 @@ namespace SMS.EPA.Site.Controllers.API
 
     public class EmployeeEPAController : BaseController
     {
-        private readonly IEmployeeEPAService _memberEPAService;
+        private readonly IEmployeeEPAService _employeeEPAService;
         private readonly UtilitiesController _utilitiesController;
 
         public EmployeeEPAController()
@@ -27,10 +28,10 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         public EmployeeEPAController(
-            IEmployeeEPAService memberEPAService,
+            IEmployeeEPAService employeeEPAService,
             UtilitiesController utilitiesController)
         {
-            _memberEPAService = memberEPAService ?? new EmployeeEPAService();
+            _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
             _utilitiesController = utilitiesController ?? new UtilitiesController();
         }
 
@@ -43,23 +44,50 @@ namespace SMS.EPA.Site.Controllers.API
                 Status = status
             };
 
-            return _memberEPAService.GetEPAByEmployee(criteria);
+            return _employeeEPAService.GetEPAByEmployee(criteria);
         }
 
         [HttpGet]
-        public EmployeeEPAInfoModel GetEPAInformation(int employeeId)
+        public EmployeeEPAInfoModel GetEPAInformation(
+            int epaId,
+            int periodId,
+            int employeeId)
         {
             EmployeeEPAInfoModel epaInfo = new EmployeeEPAInfoModel();
 
             var getEPAInfoCriteria = new GetEPAInfoCriteria()
             {
+                EPAId = epaId,
+                PeriodId = periodId,
                 EmployeeId = employeeId
             };
 
-            epaInfo = _memberEPAService.GetEPAInfo(getEPAInfoCriteria);
+            epaInfo = _employeeEPAService.GetEPAInfo(getEPAInfoCriteria);
             epaInfo.Employee = _utilitiesController.GetEmployeeById(employeeId);
 
             return epaInfo;
+        }
+
+        [HttpPut]
+        public CommandResult UpdateEmployeeEPA(EmployeeEPAInfoModel model)
+        {
+            CommandResult commondResult = new CommandResult();
+
+            var criteria = new UpdateEPAScoreCriteria()
+            {
+                EPAId = model.EPAId,
+                PeriodId = model.PeriodId,
+                EmployeeId = model.Employee.EmployeeId,
+                EvaluatorId = model.Employee.EmployeeId == CurrentUser.EmployeeInfo.EmployeeId ? model.Employee.EmployeeId : model.Evaluator.EmployeeId,
+                Comment = model.Comment,
+                Score = _employeeEPAService.Encode(model.FinalScore),
+                KPIDetails = _employeeEPAService.ConvertKPIInfoToXml(model.KPIGroups),
+                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
+            };
+
+            commondResult = _employeeEPAService.UpdateEmployeeEPA(criteria);
+
+            return commondResult;
         }
     }
 }
