@@ -18,6 +18,7 @@ namespace SMS.EPA.Model.EmployeeEPA
     {
         public EmployeeEPAInfoModel()
         {
+            Evaluators = new List<EmployeeModel>();
             KPIGroups = new List<KPIGroupViewModel>();
         }
 
@@ -27,7 +28,7 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public EmployeeModel Employee { get; set; }
 
-        public EmployeeModel Evaluator { get; set; }
+        public IList<EmployeeModel> Evaluators { get; set; }
 
         public EmployeeModel Modifier { get; set; }
 

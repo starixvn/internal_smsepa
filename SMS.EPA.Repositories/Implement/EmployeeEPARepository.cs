@@ -66,16 +66,17 @@ namespace SMS.EPA.Repositories.Implement
             {
                 using (var multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    data = multi.Read<EmployeeEPAInfoModel, StatusModel, EmployeeModel, EmployeeModel, EmployeeEPAInfoModel>(
-                        (info, status, evaluator, modifier) =>
+                    data = multi.Read<EmployeeEPAInfoModel, StatusModel, EmployeeModel, EmployeeEPAInfoModel>(
+                        (info, status, modifier) =>
                         {
                             info.Status = status;
-                            info.Evaluator = evaluator;
                             info.Modifier = modifier;
 
                             return info;
                         },
-                        "StatusId, EvaluatorId, ModifierId").FirstOrDefault();
+                        "StatusId, ModifierId").FirstOrDefault();
+
+                    data.Evaluators = multi.Read<EmployeeModel>().ToList();
 
                     IEnumerable<KPIGroupViewModel> groups = multi.Read<KPIGroupViewModel, KPIModel, KPIGroupViewModel>(
                         (group, kpi) =>
@@ -86,7 +87,8 @@ namespace SMS.EPA.Repositories.Implement
                         },
                         "KPIId");
 
-                    List<KPIGroupViewModel> kpiGroups = GetDistinctKPIGroup(groups);
+                    IList<KPIGroupViewModel> kpiGroups = GetDistinctKPIGroup(groups);
+
                     foreach (var kpiGroup in kpiGroups)
                     {
                         GroupKPIByKPIGroup(kpiGroup, groups);
@@ -114,7 +116,7 @@ namespace SMS.EPA.Repositories.Implement
             return evas;
         }
 
-        private List<KPIGroupViewModel> GetDistinctKPIGroup(IEnumerable<KPIGroupViewModel> groups)
+        private IList<KPIGroupViewModel> GetDistinctKPIGroup(IEnumerable<KPIGroupViewModel> groups)
         {
             List<KPIGroupViewModel> result = new List<KPIGroupViewModel>();
             List<int> listId = new List<int>();

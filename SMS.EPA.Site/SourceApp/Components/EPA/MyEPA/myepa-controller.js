@@ -48,6 +48,7 @@ function ($window, $routeParams, EmployeeEPAModel) {
     vm.employeeId = parseInt($routeParams.employeeId);
 
     vm.maxStar = 5;
+    vm.dataSaved = false;
 
     vm.epaInfo = EmployeeEPAModel.epaInfo;
 
@@ -78,7 +79,7 @@ function ($window, $routeParams, EmployeeEPAModel) {
 
     vm.save = function (epaInfo) {
         if (EmployeeEPAModel.validateEPA(epaInfo)) {
-            EmployeeEPAModel.updateEmployeeEPA(epaInfo);
+            EmployeeEPAModel.updateEmployeeEPA(vm.dataSaved, epaInfo);
         }
     };
 
@@ -89,6 +90,20 @@ function ($window, $routeParams, EmployeeEPAModel) {
     vm.initialize = function () {
         EmployeeEPAModel.getEPAInformation(vm.epaId, vm.periodId, vm.employeeId).then(function () {
             vm.epaInfo = EmployeeEPAModel.epaInfo;
+
+            angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
+                if (kpiGroup.IsSpreadKPI) {
+                    var weight = kpiGroup.Weight / kpiGroup.KPIs.length;
+                    angular.forEach(kpiGroup.KPIs, function (kpi) {
+                        if ((weight % 1) === 0) {
+                            kpi.Weight = weight;
+                        }
+                        else {
+                            kpi.Weight = weight.toFixed(2);
+                        }
+                    });
+                }
+            });
         });
     };
 

@@ -78,7 +78,7 @@ namespace SMS.EPA.Site.Controllers.API
                 EPAId = model.EPAId,
                 PeriodId = model.PeriodId,
                 EmployeeId = model.Employee.EmployeeId,
-                EvaluatorId = model.Employee.EmployeeId == CurrentUser.EmployeeInfo.EmployeeId ? model.Employee.EmployeeId : model.Evaluator.EmployeeId,
+                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
                 Comment = model.Comment,
                 Score = _employeeEPAService.Encode(model.FinalScore),
                 KPIDetails = _employeeEPAService.ConvertKPIInfoToXml(model.KPIGroups),

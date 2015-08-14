@@ -30,8 +30,18 @@
         <div class="col-sm-6">
             <div class="col-sm-4" data-translate="Evaluator"></div>
             <div class="col-sm-7 txt-value">
-                <strong ng-bind="empEPAInfoCtrl.epaInfo.Evaluator.FullName"></strong>
-                <strong ng-if="empEPAInfoCtrl.epaInfo.Evaluator.NickName">({{empEPAInfoCtrl.epaInfo.Evaluator.NickName}})</strong>
+                <div ng-if="empEPAInfoCtrl.epaInfo.Evaluators.length == 1">
+                    <strong ng-bind="empEPAInfoCtrl.epaInfo.Evaluators[0].FullName"></strong>
+                    <strong ng-if="empEPAInfoCtrl.epaInfo.Evaluators[0].NickName">({{empEPAInfoCtrl.epaInfo.Evaluators[0].NickName}})</strong>
+                </div>
+                <div ng-show="empEPAInfoCtrl.epaInfo.Evaluators.length > 1">
+                    <ul>
+                        <li ng-repeat="evaluator in empEPAInfoCtrl.epaInfo.Evaluators">
+                            <strong ng-bind="evaluator.FullName"></strong>
+                            <strong ng-if="evaluator.NickName">({{evaluator.NickName}})</strong>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -53,7 +63,7 @@
         <div class="col-sm-6">
             <div class="col-sm-4" data-translate="LastModifiedBy"></div>
             <div class="col-sm-7 txt-value">
-                <strong ng-bind="empEPAInfoCtrl.epaInfo.Modifier.FullName">{{}} ({{}})</strong>
+                <strong ng-bind="empEPAInfoCtrl.epaInfo.Modifier.FullName"></strong>
                 <strong ng-if="empEPAInfoCtrl.epaInfo.Modifier.NickName">({{empEPAInfoCtrl.epaInfo.Modifier.NickName}})</strong>
             </div>
         </div>
@@ -67,8 +77,11 @@
     <div class="row row-item line">
         <div class="col-sm-6">
             <div class="col-sm-4" data-translate="Evaluated"></div>
-            <div class="col-sm-7 txt-value">
-                <strong></strong>
+            <div class="col-sm-7">
+                <span class="glyphicon glyphicon-saved epa-saved"
+                      ng-if="(empEPAInfoCtrl.epaInfo.Modifier && empEPAInfoCtrl.epaInfo.ModifiedDate != null) || empEPAInfoCtrl.dataSaved"></span>
+                <span class="glyphicon glyphicon-list-alt epa-unsaved"
+                      ng-if="(!empEPAInfoCtrl.epaInfo.Modifier && empEPAInfoCtrl.epaInfo.ModifiedDate == null)"></span>
             </div>
         </div>
         <div class="col-sm-6">

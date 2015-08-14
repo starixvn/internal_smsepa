@@ -38,7 +38,12 @@ function (employeeEPAFactory, notificationFactory, errorFactory) {
             });
         });
 
-        epaInfo.FinalScore = finalScore.toFixed(2);
+        if ((finalScore % 1) === 0) {
+            epaInfo.FinalScore = finalScore;
+        }
+        else {
+            epaInfo.FinalScore = finalScore.toFixed(2);
+        }
     };
 
     employeeEPAModel.validateEPA = function (epaInfo) {
@@ -66,10 +71,12 @@ function (employeeEPAFactory, notificationFactory, errorFactory) {
         return isValid;
     };
 
-    employeeEPAModel.updateEmployeeEPA = function (epaInfo) {
+    employeeEPAModel.updateEmployeeEPA = function (dataSaved, epaInfo) {
         return employeeEPAFactory.updateEmployeeEPA(epaInfo)
         .success(function (response) {
             if (response.IsSuccessful) {
+                notificationFactory.success("UpdatedSuccessfully");
+                dataSaved = true;
             }
             else {
                 notificationFactory.error("", response.Message);

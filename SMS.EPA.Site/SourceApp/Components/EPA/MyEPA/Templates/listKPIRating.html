@@ -12,7 +12,7 @@
             <div class="row kpi-name">
                 <div class="col-sm-9">
                     <span>{{$index + 1}}. {{kpi.Name}}</span>
-                    <span ng-if="kpi.IsSpreadKPI"> ({{kpi.Weight}} pts)</span>
+                    <span> ({{kpi.Weight}} pts)</span>
                 </div>
                 <div class="col-sm-2 text-center list-star">
                     <rating ng-model="kpi.Rate" max="empEPAInfoCtrl.maxStar"
@@ -29,9 +29,9 @@
             <div class="row kpi-description" ng-if="kpi.Description.length > 0">
                 <div class="col-sm-8" ng-bind="kpi.Description"></div>
             </div>
+            <div class="row error-message" ng-if="kpi.CommentValid" data-translate="RequireComment"></div>
             <div class="row textarea-comment" ng-if="kpi.HasComment">
                 <div class="col-sm-7">
-                    <div class="error-message" ng-if="kpi.CommentValid" data-translate="FieldRequire"></div>
                     <textarea class="form-control" ng-model="kpi.Comment">
                         {{kpi.Comment}}
                     </textarea>
