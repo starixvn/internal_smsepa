@@ -18,5 +18,7 @@ namespace SMS.EPA.Repositories.Interfaces
         IEnumerable<PeriodModel> GetPeriod(ICriteria criteria);
 
         PeriodModel GetPeriodById(ICriteria criteria);
+
+        RawPeriodEmployeeSettingModel GetPeriodEmployeeSettingById(ICriteria criteria);
     }
 }

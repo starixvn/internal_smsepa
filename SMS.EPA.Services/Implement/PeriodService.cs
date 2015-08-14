@@ -10,7 +10,9 @@
 namespace SMS.EPA.Services.Implement
 {
     using System.Collections.Generic;
+    using System.Linq;
     using Fanex.Common.Helper;
+    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.Period;
@@ -109,6 +111,94 @@ namespace SMS.EPA.Services.Implement
             }
 
             return commandResult;
+        }
+
+        public IEnumerable<PeriodEmployeeSettingModel> GetPeriodEmployeeSettingById(GetPeriodEmployeeSettingCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<PeriodEmployeeSettingModel> periodEmployeeSettings = new List<PeriodEmployeeSettingModel>();
+
+            if (criteria.IsValid())
+            {
+                RawPeriodEmployeeSettingModel rawPeriodEmployeeSetting = _periodRepository.GetPeriodEmployeeSettingById(criteria);
+
+                if (rawPeriodEmployeeSetting.Employees != null && rawPeriodEmployeeSetting.Employees.Count() > 0)
+                {
+                    periodEmployeeSettings = ConvertToPeriodEmployeeSetting(rawPeriodEmployeeSetting);
+                }
+            }
+
+            return periodEmployeeSettings;
+        }
+
+        private static IEnumerable<PeriodEmployeeSettingModel> ConvertToPeriodEmployeeSetting(RawPeriodEmployeeSettingModel rawPeriodEmployeeSetting)
+        {
+            IEnumerable<PeriodEmployeeSettingModel> employeeSettings = rawPeriodEmployeeSetting.Employees;
+
+            foreach (PeriodEmployeeSettingModel employeeSetting in employeeSettings)
+            {
+                GetFlowSetting(rawPeriodEmployeeSetting.FlowSettings, employeeSetting);
+            }
+
+            return employeeSettings;
+        }
+
+        private static void GetFlowSetting(
+            IEnumerable<RawPeriodFlowSettingModel> rawFlowSettings,
+            PeriodEmployeeSettingModel employeeSetting)
+        {
+            if (rawFlowSettings != null)
+            {
+                IEnumerable<RawPeriodFlowSettingModel> rawEmployeeFlowSettings =
+                           rawFlowSettings.Where(x => x.PeriodId == employeeSetting.PeriodId && x.EmployeeId == employeeSetting.EmployeeId);
+
+                foreach (RawPeriodFlowSettingModel rawFlowSetting in rawEmployeeFlowSettings)
+                {
+                    employeeSetting = GetEvaluators(rawFlowSetting, employeeSetting);
+                }
+            }
+        }
+
+        private static PeriodEmployeeSettingModel GetEvaluators(
+            RawPeriodFlowSettingModel rawFlowSetting,
+            PeriodEmployeeSettingModel employeeSetting)
+        {
+            switch (rawFlowSetting.ProcessId)
+            {
+                case (int)ProcessType.Evaluator:
+                    PeriodFlowModel evaluator = CreateEvaluator(rawFlowSetting);
+                    employeeSetting.Evaluators.Add(evaluator);
+                    break;
+
+                case (int)ProcessType.Reviewer:
+                    PeriodFlowModel reviewer = CreateEvaluator(rawFlowSetting);
+                    employeeSetting.Reviewers.Add(reviewer);
+                    break;
+
+                case (int)ProcessType.Management:
+                    PeriodFlowModel management = CreateEvaluator(rawFlowSetting);
+                    employeeSetting.Managements.Add(management);
+                    break;
+            }
+
+            return employeeSetting;
+        }
+
+        private static PeriodFlowModel CreateEvaluator(RawPeriodFlowSettingModel rawFlowSetting)
+        {
+            var evaluator = new PeriodFlowModel
+            {
+                ProcessId = rawFlowSetting.ProcessId,
+                Priority = rawFlowSetting.Priority,
+                Duration = rawFlowSetting.Duration,
+                RemindDay = rawFlowSetting.RemindDay,
+                StartDate = rawFlowSetting.StartDate,
+                EndDate = rawFlowSetting.EndDate,
+                HasSendMail = rawFlowSetting.HasSendMail,
+                EvaluatorInfo = rawFlowSetting.EvaluatorInfo
+            };
+
+            return evaluator;
         }
     }
 }

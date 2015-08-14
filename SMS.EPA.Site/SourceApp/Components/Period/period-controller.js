@@ -94,9 +94,13 @@ function ($modalInstance, PeriodModel, CommonModel) {
 }]);
 
 periodModule.controller('UpdatePeriodController',
-['PeriodModel', 'CommonModel',
-function (PeriodModel, CommonModel) {
+['$window', '$routeParams', 'PeriodModel', 
+function ($window, $routeParams, PeriodModel) {
     var vm = this;
+
+    vm.period = {};
+    vm.periodId = parseInt($routeParams.id);
+    vm.date = new Date();
 
     vm.dataTab = {
         basicInformation: true,
@@ -112,36 +116,45 @@ function (PeriodModel, CommonModel) {
         vm.dataTab.basicInformation = false;
         vm.dataTab.employeeSetting = true;
     };
+
+    PeriodModel.getPeriodById(vm.periodId).then(function () {
+        vm.period = PeriodModel.period;
+        vm.period.TargetTypeId = vm.period.TargetType.TargetTypeId;
+        var startDate = vm.period.StartDate + ', ' + vm.date.getFullYear();
+        vm.period.RawStartDate = new Date(startDate);
+    });
+
+    vm.backToList = function () {
+        $window.history.back();
+    };
 }]);
 
 periodModule.controller('UpdateBasicInformationPeriodController',
-['$scope', '$routeParams', '$window', 'PeriodModel', 'CommonModel',
-function ($scope, $routeParams, $window, PeriodModel, CommonModel) {
+['$scope', '$window', 'PeriodModel', 'CommonModel',
+function ($scope, $window, PeriodModel, CommonModel) {
     var vm = this;
 
     vm.targetTypes = CommonModel.targetTypes;
-    vm.periodId = parseInt($routeParams.id);
     vm.period = {};
     vm.isFirstLoad = true;
 
-    vm.date = new Date();
     vm.calendar = PeriodModel.calendar;
     vm.openPopupStartDate = function (event) {
         PeriodModel.openPopupStartDate(event);
     };
+
+    $scope.$watch(function () { return $scope.updateCtrl.period; },
+        function (newVal) {
+            if (newVal) {
+                vm.period = $scope.updateCtrl.period;
+            }
+        });
 
     $scope.$watch(function () { return $scope.updateCtrl.dataTab.basicInformation; },
         function (newVal) {
             if (newVal && vm.isFirstLoad) {
                 CommonModel.getTargetType().then(function () {
                     vm.targetTypes = CommonModel.targetTypes;
-                });
-
-                PeriodModel.getPeriodById(vm.periodId).then(function () {
-                    vm.period = PeriodModel.period;
-                    vm.period.TargetTypeId = vm.period.TargetType.TargetTypeId;
-                    var startDate = vm.period.StartDate + ', ' + vm.date.getFullYear();
-                    vm.period.RawStartDate = new Date(startDate);
                     vm.isFirstLoad = false;
                 });
             }
@@ -156,5 +169,66 @@ function ($scope, $routeParams, $window, PeriodModel, CommonModel) {
 
     vm.cancel = function () {
         $window.history.back();
+    };
+}]);
+
+periodModule.controller('UpdateEmployeeSettingPeriodController',
+['$scope', '$window', 'PeriodModel', 'utilitiesFactory', 'CommonModel', 'EmployeeModel', 'FlowMngModel',
+function ($scope, $window, PeriodModel, utilitiesFactory, CommonModel, EmployeeModel, FlowMngModel) {
+    var vm = this;
+
+    vm.period = $scope.updateCtrl.period;
+    vm.employeeSettings = PeriodModel.employeeSettings;
+    vm.flowTemplates = FlowMngModel.flowTemplates;
+    vm.departments = CommonModel.departments;
+    vm.isFirstLoad = true;
+
+    vm.currentPage = 1;
+    vm.pageSize = 15;
+    utilitiesFactory.numberEntryList(vm);
+
+    vm.filter = {
+        departmentId: '',
+        employeeId: '',
+        flowTemplateId: ''
+    };
+
+    $scope.$watch(function () { return $scope.updateCtrl.dataTab.employeeSetting; },
+        function (newVal) {
+            if (newVal && vm.isFirstLoad) {
+                CommonModel.getDepartment(null, true).then(function () {
+                    vm.departments = CommonModel.departments;
+                });
+
+                FlowMngModel.getFlowTemplate(vm.period.TargetType.TargetTypeId, true).then(function () {
+                    vm.flowTemplates = FlowMngModel.flowTemplates;
+                });
+
+                PeriodModel.getPeriodEmployeeSettingById(vm.period.PeriodId).then(function () {
+                    vm.employeeSettings = PeriodModel.employeeSettings;
+                    utilitiesFactory.searchOnPage(vm, vm.employeeSettings);
+                    vm.isFirstLoad = false;
+                });
+            }
+        });
+
+    vm.getIndex = function (index, currentPage, pageSize) {
+        return CommonModel.getIndex(index, currentPage, pageSize);
+    };
+
+    vm.getEmployee = function () {
+        return EmployeeModel.getAllEmployee(vm.searchEmployee);
+    };
+
+    vm.getEmployee = function () {
+        return EmployeeModel.getAllEmployee(vm.searchEmployee);
+    };
+
+    vm.unSelectEmployee = function () {
+        if (vm.searchEmployee.trim() === '') {
+            if (vm.filter.employee) {
+                vm.filter.employee = null;
+            }
+        }
     };
 }]);

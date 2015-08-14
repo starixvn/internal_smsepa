@@ -101,5 +101,16 @@ namespace SMS.EPA.Site.Controllers.API
             CommandResult commandResult = _periodService.DeletePeriod(criteria);
             return commandResult;
         }
+
+        public IEnumerable<PeriodEmployeeSettingModel> GetPeriodEmployeeSettingById(int periodId)
+        {
+            var criteria = new GetPeriodEmployeeSettingCriteria
+            {
+                PeriodId = periodId
+            };
+
+            IEnumerable<PeriodEmployeeSettingModel> periodEmployeeSettings = _periodService.GetPeriodEmployeeSettingById(criteria);
+            return periodEmployeeSettings;
+        }
     }
 }

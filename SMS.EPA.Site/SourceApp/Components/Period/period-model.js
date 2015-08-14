@@ -10,6 +10,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
     periodModel.period = {};
     periodModel.periodDateFormat = 'dd MMM';
     periodModel.shortNameMonth = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    periodModel.employeeSettings = [];
 
     periodModel.calendar = {
         startDateOpened: false,
@@ -192,6 +193,15 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             });
         })['finally'](function () {
             modalInstance = '';
+        });
+    };
+
+    periodModel.getPeriodEmployeeSettingById = function (periodId) {
+        return periodFactory.getPeriodEmployeeSettingById(periodId).success(function (employeeSettings) {
+            periodModel.employeeSettings = employeeSettings;
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
         });
     };
 

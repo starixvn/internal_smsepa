@@ -646,6 +646,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Flow Template.
+        /// </summary>
+        public static string FlowTemplate {
+            get {
+                return ResourceManager.GetString("FlowTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Form.
         /// </summary>
         public static string Form {

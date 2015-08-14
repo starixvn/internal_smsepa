@@ -17,6 +17,10 @@ namespace SMS.EPA.Model.FlowManagement
 
         public int Duration { get; set; }
 
+        public int Priority { get; set; }
+
+        public int RemindDay { get; set; }
+
         public bool HasSendMail { get; set; }
 
         public FlowTemplateModel FlowTemplate { get; set; }

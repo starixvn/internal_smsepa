@@ -1,8 +1,12 @@
 ﻿<div class="col-sm-12" ng-controller="UpdatePeriodController as updateCtrl">
     <div class="sub-header">
-        <ul class="row breadcrumb">
+        <ul class="row breadcrumb period-breadcrumb">
             <li class="current" data-translate="UpdatePeriod"></li>
         </ul>
+        <div class="button-icon button-period-back">
+            <span class="glyphicon glyphicon-arrow-left icon-back"></span>
+            <a data-translate="BackToList" ng-click="updateCtrl.backToList()" href="" class="ng-scope"></a>
+        </div>
     </div>
     <div class="target-tabset">
         <tabset id="PeriodTab">
@@ -10,7 +14,7 @@
                 <div ng-include src="'/SourceApp/Components/Period/Templates/basicInformation.html'"></div>
             </tab>
             <tab heading="EMPLOYEE SETTING" class="tab-cursor" active="updateCtrl.dataTab.employeeSetting" select="updateCtrl.tabSettingSelect()">
-                <!--<div ng-include src="'/SourceApp/Components/TargetEmployeeSetting/Templates/personnel.html'"></div>-->
+                <div ng-include src="'/SourceApp/Components/Period/Templates/employeeSetting.html'"></div>
             </tab>
         </tabset>
     </div>

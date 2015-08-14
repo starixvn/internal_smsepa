@@ -183,5 +183,8 @@
     </Setting>
     <Setting Key="EpaPeriod_Delete" SpName="EpaPeriod_Delete" DbName="SMSEPA" Plain="0">
     </Setting>
+    <Setting Key="EpaPeriod_GetEmployeeSetting" SpName="EpaPeriod_GetEmployeeSetting" DbName="SMSEPA" Plain="0">
+        <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
+    </Setting>
   </Function>
 </Functions>
