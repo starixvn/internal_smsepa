@@ -177,7 +177,7 @@ periodModule.controller('UpdateEmployeeSettingPeriodController',
 function ($scope, $window, PeriodModel, utilitiesFactory, CommonModel, EmployeeModel, FlowMngModel) {
     var vm = this;
 
-    vm.period = $scope.updateCtrl.period;
+    vm.period = {};
     vm.employeeSettings = PeriodModel.employeeSettings;
     vm.flowTemplates = FlowMngModel.flowTemplates;
     vm.departments = CommonModel.departments;
@@ -192,6 +192,13 @@ function ($scope, $window, PeriodModel, utilitiesFactory, CommonModel, EmployeeM
         employeeId: '',
         flowTemplateId: ''
     };
+
+    $scope.$watch(function () { return $scope.updateCtrl.period; },
+    function (newVal) {
+        if (newVal) {
+            vm.period = $scope.updateCtrl.period;
+        }
+    });
 
     $scope.$watch(function () { return $scope.updateCtrl.dataTab.employeeSetting; },
         function (newVal) {
