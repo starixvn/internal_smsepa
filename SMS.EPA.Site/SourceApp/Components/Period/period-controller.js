@@ -173,13 +173,12 @@ function ($scope, $window, PeriodModel, CommonModel) {
 }]);
 
 periodModule.controller('UpdateEmployeeSettingPeriodController',
-['$scope', '$window', 'PeriodModel', 'utilitiesFactory', 'CommonModel', 'EmployeeModel', 'FlowMngModel',
-function ($scope, $window, PeriodModel, utilitiesFactory, CommonModel, EmployeeModel, FlowMngModel) {
+['$scope', '$window', 'PeriodModel', 'utilitiesFactory', 'CommonModel', 'EmployeeModel',
+function ($scope, $window, PeriodModel, utilitiesFactory, CommonModel, EmployeeModel) {
     var vm = this;
 
     vm.period = {};
     vm.employeeSettings = PeriodModel.employeeSettings;
-    vm.flowTemplates = FlowMngModel.flowTemplates;
     vm.departments = CommonModel.departments;
     vm.isFirstLoad = true;
 
@@ -205,10 +204,6 @@ function ($scope, $window, PeriodModel, utilitiesFactory, CommonModel, EmployeeM
             if (newVal && vm.isFirstLoad) {
                 CommonModel.getDepartment(null, true).then(function () {
                     vm.departments = CommonModel.departments;
-                });
-
-                FlowMngModel.getFlowTemplate(vm.period.TargetType.TargetTypeId, true).then(function () {
-                    vm.flowTemplates = FlowMngModel.flowTemplates;
                 });
 
                 PeriodModel.getPeriodEmployeeSettingById(vm.period.PeriodId).then(function () {

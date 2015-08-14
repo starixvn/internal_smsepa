@@ -15,14 +15,6 @@
                    ng-change="employeeSettingPeriodCtrl.unSelectEmployee()" employee="employeeSettingPeriodCtrl.filter.employee" />
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="FlowTemplate">
-            </label>
-            <select ng-model="employeeSettingPeriodCtrl.filter.flowTemplateId" ng-options="opt.FlowTemlateId as opt.Name for opt in employeeSettingPeriodCtrl.flowTemplates"
-                    class="form-control lstBox-limit" ng-change="">
-                <option value="">-- {{"Select" | translate}} --</option>
-            </select>
-        </div>
-        <div class="form-group">
             <button class="button" ng-click="employeeSettingPeriodCtrl.query(employeeSettingPeriodCtrl.filter)" data-translate="Add"></button>
         </div>
     </form>
