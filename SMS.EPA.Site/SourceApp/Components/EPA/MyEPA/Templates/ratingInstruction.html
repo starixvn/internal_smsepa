@@ -1,0 +1,57 @@
+﻿<table class="table-rating table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th data-translate="Stars" class="star-limit"></th>
+            <th data-translate="Assessment"></th>
+            <th data-translate="Description"></th>
+        </tr>
+    </thead>
+    <tr>
+        <td class="star-limit text-center">
+            <rating ng-init="old = 0" ng-model="old" max="5" readonly="true"></rating>
+            <span class="star-rating">{{"0 " + "star" | translate}}</span>
+        </td>
+        <td class="text-center" data-translate="NotAvailable"></td>
+        <td class="column-limit" data-translate="NotAvailableDescription"></td>
+    </tr>
+    <tr>
+        <td class="star-limit text-center">
+            <rating ng-init="one = 1" ng-model="one" max="5" readonly="true"></rating>
+            <span class="star-rating">{{"1 " + "star" | translate}}</span>
+        </td>
+        <td class="text-center" data-translate="Poor"></td>
+        <td class="column-limit" data-translate="PoorDescription"></td>
+    </tr>
+    <tr>
+        <td class="star-limit text-center">
+            <rating ng-init="two = 2" ng-model="two" max="5" readonly="true"></rating>
+            <span class="star-rating">{{"2 " + "stars" | translate}}</span>
+        </td>
+        <td class="text-center" data-translate="BelowAverage"></td>
+        <td class="column-limit" data-translate="BelowAverageDescription"></td>
+    </tr>
+    <tr>
+        <td class="star-limit text-center">
+            <rating ng-init="three = 3" ng-model="three" max="5" readonly="true"></rating>
+            <span class="star-rating">{{"3 " + "stars" | translate}}</span>
+        </td>
+        <td class="text-center" data-translate="Satisfactory"></td>
+        <td class="column-limit" data-translate="SatisfactoryDescription"></td>
+    </tr>
+    <tr>
+        <td class="star-limit text-center">
+            <rating ng-init="four = 4" ng-model="four" max="5" readonly="true"></rating>
+            <span class="star-rating">{{"4 " + "stars" | translate}}</span>
+        </td>
+        <td class="text-center" data-translate="Good"></td>
+        <td class="column-limit" data-translate="GoodDescription"></td>
+    </tr>
+    <tr>
+        <td class="star-limit text-center">
+            <rating ng-init="five = 5" ng-model="five" max="5" readonly="true"></rating>
+            <span class="star-rating">{{"5 " + "stars" | translate}}</span>
+        </td>
+        <td class="text-center" data-translate="Excellent"></td>
+        <td class="column-limit" data-translate="ExcellentDescription"></td>
+    </tr>
+</table>

@@ -317,7 +317,11 @@
     <Content Include="SourceApp\Components\EPA\employeeEPA-factory.js" />
     <Content Include="SourceApp\Components\EPA\employeeEPA-model.js" />
     <Content Include="SourceApp\Components\EPA\MyEPA\myepa-controller.js" />
+    <Content Include="SourceApp\Components\EPA\MyEPA\Templates\detail.html" />
+    <Content Include="SourceApp\Components\EPA\MyEPA\Templates\generalInformation.html" />
     <Content Include="SourceApp\Components\EPA\MyEPA\Templates\index.html" />
+    <Content Include="SourceApp\Components\EPA\MyEPA\Templates\listKPIRating.html" />
+    <Content Include="SourceApp\Components\EPA\MyEPA\Templates\ratingInstruction.html" />
     <Content Include="SourceApp\Components\FlowManagement\departmentFlow-controller.js" />
     <Content Include="SourceApp\Components\FlowManagement\flowManagement-controller.js" />
     <Content Include="SourceApp\Components\FlowManagement\flowManagement-factory.js" />
@@ -509,6 +513,7 @@
     <Content Include="SourceApp\Components\CheckFlowAssignment\ExcelTemplates\EmployeeFlowSettingReport.xls" />
     <Content Include="SourceApp\Components\CheckFlowAssignment\ExcelTemplates\DepartmentFlowSettingReport.xls" />
     <Content Include="SourceApp\Components\Period\period.less" />
+    <Content Include="SourceApp\Components\EPA\epa.less" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">

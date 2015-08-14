@@ -1,0 +1,43 @@
+﻿<div class="list-kpi-rating" ng-repeat="kpiGroup in empEPAInfoCtrl.epaInfo.KPIGroups"
+     ng-init="empEPAInfoCtrl.collapses[kpiGroup.Name] = false;"
+     ng-if="kpiGroup.KPIs.length > 0">
+    <div class="boxtitle col-sm-12"
+         ng-click="empEPAInfoCtrl.collapses[kpiGroup.Name] = !empEPAInfoCtrl.collapses[kpiGroup.Name]">
+        <div class="col-sm-9 kpiGroup-name">{{kpiGroup.Name}} ({{kpiGroup.Weight}} pts)</div>
+        <div class="col-sm-2 text-center" data-translate="Rate"></div>
+        <div class="col-sm-1 text-center" data-translate="Enter pts"></div>
+    </div>
+    <div class="boxcontent col-sm-12" collapse="empEPAInfoCtrl.collapses[kpiGroup.Name]">
+        <div class="row row-item" ng-repeat="kpi in kpiGroup.KPIs">
+            <div class="row kpi-name">
+                <div class="col-sm-9">
+                    <span>{{$index + 1}}. {{kpi.Name}}</span>
+                    <span ng-if="kpi.IsSpreadKPI"> ({{kpi.Weight}} pts)</span>
+                </div>
+                <div class="col-sm-2 text-center list-star">
+                    <rating ng-model="kpi.Score" value="kpi.Score" max="empEPAInfoCtrl.max"
+                            on-hover="empEPAInfoCtrl.hoveringOver(value, kpi)"
+                            on-leave="empEPAInfoCtrl.hoveringLeave(kpi)"></rating>
+                    <span class="badge percent">{{0}}%</span>
+                </div>
+                <div class="col-sm-1">
+                    <input type="text" class="form-control text-center kpi-score" ng-model="kpi.Score" ng-value="kpi.Score" number-dot
+                           ng-change="empEPAInfoCtrl.onChange(kpi)" />
+                </div>
+            </div>
+            <div class="row kpi-description" ng-if="kpi.Description.length > 0">
+                <div class="col-sm-8" ng-bind="kpi.Description"></div>
+            </div>
+            <div class="row textarea-comment">
+                <div class="col-sm-7">
+                    <textarea class="form-control" ng-model="kpi.Comment" ng-show="kpi.HasComment">
+                        {{kpi.Comment}}
+                    </textarea>
+                </div>
+                <div class="col-sm-1" ng-if="kpi.HasComment && !kpi.IsRequiredComment">
+                    <label class="error-message" data-translate="*"></label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

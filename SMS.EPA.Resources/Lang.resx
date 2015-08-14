@@ -624,4 +624,70 @@
   <data name="UpdatePeriod" xml:space="preserve">
     <value>Update Period</value>
   </data>
+  <data name="BelowAverage" xml:space="preserve">
+    <value>Below Average</value>
+  </data>
+  <data name="BelowAverageDescription" xml:space="preserve">
+    <value>Partially meets expectations: refers to performance and skills which are adequate in some respects but not fully up to standard; some corrective action is needed.</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>COMMENTS</value>
+  </data>
+  <data name="EPATilte" xml:space="preserve">
+    <value>EMPLOYEE PERFORMANCE APPRAISAL (EPA)</value>
+  </data>
+  <data name="Evaluated" xml:space="preserve">
+    <value>Evaluated</value>
+  </data>
+  <data name="Excellent" xml:space="preserve">
+    <value>Excellent</value>
+  </data>
+  <data name="ExcellentDescription" xml:space="preserve">
+    <value>Substantially exceeds expectations: refers to truly outstanding performance; should be someone you regard as a role model in the area rated.</value>
+  </data>
+  <data name="FieldRequire" xml:space="preserve">
+    <value>This field is required!</value>
+  </data>
+  <data name="GeneralInfo" xml:space="preserve">
+    <value>GENERAL INFORMATION</value>
+  </data>
+  <data name="Good" xml:space="preserve">
+    <value>Good</value>
+  </data>
+  <data name="GoodDescription" xml:space="preserve">
+    <value>Exceeds expectations: refers to significant performance ability; only very strong performers should receive this rating.</value>
+  </data>
+  <data name="MessageRatingInstructions" xml:space="preserve">
+    <value>please evaluate by point as this scale</value>
+  </data>
+  <data name="MyEPA" xml:space="preserve">
+    <value>My EPA</value>
+  </data>
+  <data name="NotAvailable" xml:space="preserve">
+    <value>N/A</value>
+  </data>
+  <data name="NotAvailableDescription" xml:space="preserve">
+    <value>Unable to judge, if the nature or extent of your interaction does not enable you to provide feedback on a particular category for a particular individual, select the “NA” rating.</value>
+  </data>
+  <data name="Poor" xml:space="preserve">
+    <value>Poor</value>
+  </data>
+  <data name="PoorDescription" xml:space="preserve">
+    <value>Needs much Improvement: refers to performance which fails to measure up to standard and must be improved through corrective action steps.</value>
+  </data>
+  <data name="RatingCriteria" xml:space="preserve">
+    <value>Rating criteria</value>
+  </data>
+  <data name="RatingInstruction" xml:space="preserve">
+    <value>RATING INSTRUCTIONS</value>
+  </data>
+  <data name="RequiredField" xml:space="preserve">
+    <value>Required field</value>
+  </data>
+  <data name="Satisfactory" xml:space="preserve">
+    <value>Satisfactory</value>
+  </data>
+  <data name="SatisfactoryDescription" xml:space="preserve">
+    <value>Meets expectations: refers to solid performance with a full skills base; most people fall into this category.</value>
+  </data>
 </root>

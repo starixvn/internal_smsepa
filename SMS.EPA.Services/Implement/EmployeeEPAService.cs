@@ -23,7 +23,7 @@ namespace SMS.EPA.Services.Implement
 
     public class EmployeeEPAService : BaseService, IEmployeeEPAService
     {
-        private readonly IEmployeeEPARepository _memberEPARepository;
+        private readonly IEmployeeEPARepository _employeeEPARepository;
         private readonly IEncodeService _encodeService;
 
         public EmployeeEPAService()
@@ -32,10 +32,10 @@ namespace SMS.EPA.Services.Implement
         }
 
         public EmployeeEPAService(
-            IEmployeeEPARepository memberEPARepository,
+            IEmployeeEPARepository employeeEPARepository,
             IEncodeService encodeService)
         {
-            _memberEPARepository = memberEPARepository ?? new EmployeeEPARepository();
+            _employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
             _encodeService = encodeService ?? new EncodeService();
         }
 
@@ -46,7 +46,7 @@ namespace SMS.EPA.Services.Implement
 
             if (criteria.IsValid())
             {
-                employeeEPAs = _memberEPARepository.GetEPAByEmployee(criteria);
+                employeeEPAs = _employeeEPARepository.GetEPAByEmployee(criteria);
 
                 foreach (var employeeEPA in employeeEPAs)
                 {
@@ -56,6 +56,25 @@ namespace SMS.EPA.Services.Implement
             }
 
             return employeeEPAs;
+        }
+
+        public EmployeeEPAInfoModel GetEPAInfo(GetEPAInfoCriteria criteria)
+        {
+            EmployeeEPAInfoModel result = new EmployeeEPAInfoModel();
+            Check.Argument.IsNotNull(criteria, "criteria");
+
+            if (criteria.IsValid())
+            {
+                result = _employeeEPARepository.GetEPAInfo(criteria);
+
+                if (result != null)
+                {
+                    result.Status.Name = Enumerations.GetDescription((Status)result.Status.StatusId);
+                    result.FinalScore = !string.IsNullOrEmpty(result.FinalScore) ? Decode(result.FinalScore) : string.Empty;
+                }
+            }
+
+            return result;
         }
 
         public string Encode(string plainText)

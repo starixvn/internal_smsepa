@@ -56,7 +56,8 @@
                             "~/SourceApp/Components/FlowManagement/flowManagement.less",
                             "~/SourceApp/Components/TargetEmployeeSetting/targetEmployeeSetting.less",
                             "~/SourceApp/Components/CheckFlowAssignment/checkFlow.less",
-                            "~/SourceApp/Components/Period/period.less");
+                            "~/SourceApp/Components/Period/period.less",
+                            "~/SourceApp/Components/EPA/epa.less");
 
             bundles.Add(new ScriptBundle("~/bundles/app").Include(
                             "~/SourceApp/app.js",

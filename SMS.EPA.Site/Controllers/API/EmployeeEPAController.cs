@@ -10,6 +10,7 @@
 namespace SMS.EPA.Site.Controllers.API
 {
     using System.Collections.Generic;
+    using System.Web.Http;
     using SMS.EPA.Criteria.EmployeeEPA;
     using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Services.Implement;
@@ -18,17 +19,22 @@ namespace SMS.EPA.Site.Controllers.API
     public class EmployeeEPAController : BaseController
     {
         private readonly IEmployeeEPAService _memberEPAService;
+        private readonly UtilitiesController _utilitiesController;
 
         public EmployeeEPAController()
-            : this(null)
+            : this(null, null)
         {
         }
 
-        public EmployeeEPAController(IEmployeeEPAService memberEPAService)
+        public EmployeeEPAController(
+            IEmployeeEPAService memberEPAService,
+            UtilitiesController utilitiesController)
         {
             _memberEPAService = memberEPAService ?? new EmployeeEPAService();
+            _utilitiesController = utilitiesController ?? new UtilitiesController();
         }
 
+        [HttpGet]
         public IEnumerable<EmployeeEPAModel> GetEPAOfCurrentMember(int? status = null)
         {
             var criteria = new GetEPAByEmployeeCriteria
@@ -38,6 +44,22 @@ namespace SMS.EPA.Site.Controllers.API
             };
 
             return _memberEPAService.GetEPAByEmployee(criteria);
+        }
+
+        [HttpGet]
+        public EmployeeEPAInfoModel GetEPAInformation(int employeeId)
+        {
+            EmployeeEPAInfoModel epaInfo = new EmployeeEPAInfoModel();
+
+            var getEPAInfoCriteria = new GetEPAInfoCriteria()
+            {
+                EmployeeId = employeeId
+            };
+
+            epaInfo = _memberEPAService.GetEPAInfo(getEPAInfoCriteria);
+            epaInfo.Employee = _utilitiesController.GetEmployeeById(employeeId);
+
+            return epaInfo;
         }
     }
 }

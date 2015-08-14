@@ -1,0 +1,81 @@
+﻿<div class="col-sm-2 text-center">
+    <div class="row">
+        <div class="img-user">
+            <img class="img-default" src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;f=y" alt="User" />
+        </div>
+    </div>
+    <div class="row text-center">
+        <label>{{"Code" | translate}}: {{empEPAInfoCtrl.epaInfo.Employee.Code}}</label>
+    </div>
+    <div class="row text-center">
+        <label>{{empEPAInfoCtrl.epaInfo.Employee.FullName}} ({{empEPAInfoCtrl.epaInfo.Employee.NickName}})</label>
+    </div>
+</div>
+<div class="col-sm-10">
+    <div class="row row-item line">
+        <div class="col-sm-6">
+            <div class="col-sm-4" data-translate="Team"></div>
+            <div class="col-sm-7 txt-value">
+                <strong ng-bind="empEPAInfoCtrl.epaInfo.Employee.Group.GroupName"></strong>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="col-sm-4" data-translate="JobTitle"></div>
+            <div class="col-sm-7 txt-value">
+                <strong ng-bind="empEPAInfoCtrl.epaInfo.Employee.JobTitle.JobTitleName"></strong>
+            </div>
+        </div>
+    </div>
+    <div class="row row-item line">
+        <div class="col-sm-6">
+            <div class="col-sm-4" data-translate="Evaluator"></div>
+            <div class="col-sm-7 txt-value">
+                <strong ng-bind="empEPAInfoCtrl.epaInfo.Evaluator.FullName"></strong>
+                <strong ng-if="empEPAInfoCtrl.epaInfo.Evaluator.NickName">({{empEPAInfoCtrl.epaInfo.Evaluator.NickName}})</strong>
+            </div>
+        </div>
+    </div>
+    <div class="row row-item line">
+        <div class="col-sm-6">
+            <div class="col-sm-4" data-translate="StartDate"></div>
+            <div class="col-sm-7 txt-value">
+                <strong></strong>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="col-sm-4" data-translate="EndDate"></div>
+            <div class="col-sm-7 txt-value">
+                <strong></strong>
+            </div>
+        </div>
+    </div>
+    <div class="row row-item line">
+        <div class="col-sm-6">
+            <div class="col-sm-4" data-translate="LastModifiedBy"></div>
+            <div class="col-sm-7 txt-value">
+                <strong ng-bind="empEPAInfoCtrl.epaInfo.Modifier.FullName">{{}} ({{}})</strong>
+                <strong ng-if="empEPAInfoCtrl.epaInfo.Modifier.NickName">({{empEPAInfoCtrl.epaInfo.Modifier.NickName}})</strong>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="col-sm-4" data-translate="LastModifiedDate"></div>
+            <div class="col-sm-7 txt-value">
+                <strong></strong>
+            </div>
+        </div>
+    </div>
+    <div class="row row-item line">
+        <div class="col-sm-6">
+            <div class="col-sm-4" data-translate="Evaluated"></div>
+            <div class="col-sm-7 txt-value">
+                <strong></strong>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="col-sm-4" data-translate="Status"></div>
+            <div class="col-sm-7 txt-value">
+                <strong ng-bind="empEPAInfoCtrl.epaInfo.Status.Name"></strong>
+            </div>
+        </div>
+    </div>
+</div>

@@ -178,6 +178,24 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Below Average.
+        /// </summary>
+        public static string BelowAverage {
+            get {
+                return ResourceManager.GetString("BelowAverage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Partially meets expectations: refers to performance and skills which are adequate in some respects but not fully up to standard; some corrective action is needed..
+        /// </summary>
+        public static string BelowAverageDescription {
+            get {
+                return ResourceManager.GetString("BelowAverageDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change Password.
         /// </summary>
         public static string ChangePassword {
@@ -219,6 +237,15 @@ namespace SMS.EPA.Resources {
         public static string CodeRequried {
             get {
                 return ResourceManager.GetString("CodeRequried", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to COMMENTS.
+        /// </summary>
+        public static string Comments {
+            get {
+                return ResourceManager.GetString("Comments", resourceCulture);
             }
         }
         
@@ -520,11 +547,29 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to EMPLOYEE PERFORMANCE APPRAISAL (EPA).
+        /// </summary>
+        public static string EPATilte {
+            get {
+                return ResourceManager.GetString("EPATilte", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Welcome to SMS EPA.
         /// </summary>
         public static string EPAWelcome {
             get {
                 return ResourceManager.GetString("EPAWelcome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Evaluated.
+        /// </summary>
+        public static string Evaluated {
+            get {
+                return ResourceManager.GetString("Evaluated", resourceCulture);
             }
         }
         
@@ -561,6 +606,33 @@ namespace SMS.EPA.Resources {
         public static string EvaluatorRangeDateGreaterThanReviewerRangeDateWarning {
             get {
                 return ResourceManager.GetString("EvaluatorRangeDateGreaterThanReviewerRangeDateWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Excellent.
+        /// </summary>
+        public static string Excellent {
+            get {
+                return ResourceManager.GetString("Excellent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Substantially exceeds expectations: refers to truly outstanding performance; should be someone you regard as a role model in the area rated..
+        /// </summary>
+        public static string ExcellentDescription {
+            get {
+                return ResourceManager.GetString("ExcellentDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This field is required!.
+        /// </summary>
+        public static string FieldRequire {
+            get {
+                return ResourceManager.GetString("FieldRequire", resourceCulture);
             }
         }
         
@@ -606,6 +678,33 @@ namespace SMS.EPA.Resources {
         public static string FullNameRequried {
             get {
                 return ResourceManager.GetString("FullNameRequried", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to GENERAL INFORMATION.
+        /// </summary>
+        public static string GeneralInfo {
+            get {
+                return ResourceManager.GetString("GeneralInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Good.
+        /// </summary>
+        public static string Good {
+            get {
+                return ResourceManager.GetString("Good", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exceeds expectations: refers to significant performance ability; only very strong performers should receive this rating..
+        /// </summary>
+        public static string GoodDescription {
+            get {
+                return ResourceManager.GetString("GoodDescription", resourceCulture);
             }
         }
         
@@ -880,11 +979,29 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to please evaluate by point as this scale.
+        /// </summary>
+        public static string MessageRatingInstructions {
+            get {
+                return ResourceManager.GetString("MessageRatingInstructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Modified Date.
         /// </summary>
         public static string ModifiedDate {
             get {
                 return ResourceManager.GetString("ModifiedDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My EPA.
+        /// </summary>
+        public static string MyEPA {
+            get {
+                return ResourceManager.GetString("MyEPA", resourceCulture);
             }
         }
         
@@ -948,6 +1065,24 @@ namespace SMS.EPA.Resources {
         public static string None {
             get {
                 return ResourceManager.GetString("None", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to N/A.
+        /// </summary>
+        public static string NotAvailable {
+            get {
+                return ResourceManager.GetString("NotAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to judge, if the nature or extent of your interaction does not enable you to provide feedback on a particular category for a particular individual, select the “NA” rating..
+        /// </summary>
+        public static string NotAvailableDescription {
+            get {
+                return ResourceManager.GetString("NotAvailableDescription", resourceCulture);
             }
         }
         
@@ -1024,11 +1159,47 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Poor.
+        /// </summary>
+        public static string Poor {
+            get {
+                return ResourceManager.GetString("Poor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Needs much Improvement: refers to performance which fails to measure up to standard and must be improved through corrective action steps..
+        /// </summary>
+        public static string PoorDescription {
+            get {
+                return ResourceManager.GetString("PoorDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Priority.
         /// </summary>
         public static string Priority {
             get {
                 return ResourceManager.GetString("Priority", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rating criteria.
+        /// </summary>
+        public static string RatingCriteria {
+            get {
+                return ResourceManager.GetString("RatingCriteria", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RATING INSTRUCTIONS.
+        /// </summary>
+        public static string RatingInstruction {
+            get {
+                return ResourceManager.GetString("RatingInstruction", resourceCulture);
             }
         }
         
@@ -1083,6 +1254,15 @@ namespace SMS.EPA.Resources {
         public static string RequiredEvaluation {
             get {
                 return ResourceManager.GetString("RequiredEvaluation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Required field.
+        /// </summary>
+        public static string RequiredField {
+            get {
+                return ResourceManager.GetString("RequiredField", resourceCulture);
             }
         }
         
@@ -1146,6 +1326,24 @@ namespace SMS.EPA.Resources {
         public static string Roles {
             get {
                 return ResourceManager.GetString("Roles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Satisfactory.
+        /// </summary>
+        public static string Satisfactory {
+            get {
+                return ResourceManager.GetString("Satisfactory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Meets expectations: refers to solid performance with a full skills base; most people fall into this category..
+        /// </summary>
+        public static string SatisfactoryDescription {
+            get {
+                return ResourceManager.GetString("SatisfactoryDescription", resourceCulture);
             }
         }
         
