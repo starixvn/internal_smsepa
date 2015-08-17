@@ -9,26 +9,31 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
     flowMngModel.selfs = {
         duration: 0,
         hasSendMail: true,
+        remindDay: 0,
         employees: []
     };
     flowMngModel.evaluators = {
         duration: 0,
         hasSendMail: true,
+        remindDay: 0,
         employees: []
     };
     flowMngModel.reviewers = {
         duration: 0,
         hasSendMail: true,
+        remindDay: 0,
         employees: []
     };
     flowMngModel.managements = {
         duration: 0,
         hasSendMail: true,
+        remindDay: 0,
         employees: []
     };
     flowMngModel.humanResources = {
         duration: 0,
         hasSendMail: true,
+        remindDay: 0,
         employees: []
     };
 
@@ -42,22 +47,27 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
     flowMngModel.resetCurrentFlow = function (vm) {
         vm.selfs.duration = 0;
         vm.selfs.hasSendMail = true;
+        vm.selfs.remindDay = 0;
         vm.selfs.employees = [];
 
         vm.evaluators.duration = 0;
         vm.evaluators.hasSendMail = true;
+        vm.evaluators.remindDay = 0;
         vm.evaluators.employees = [];
 
         vm.reviewers.duration = 0;
         vm.reviewers.hasSendMail = true;
+        vm.reviewers.remindDay = 0;
         vm.reviewers.employees = [];
 
         vm.managements.duration = 0;
         vm.managements.hasSendMail = true;
+        vm.managements.remindDay = 0;
         vm.managements.employees = [];
 
         vm.humanResources.duration = 0;
         vm.humanResources.hasSendMail = true;
+        vm.humanResources.remindDay = 0;
         vm.humanResources.employees = [];
     };
 
@@ -112,18 +122,18 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
                 case 1:
                     flowMngModel.humanResources.duration = flow.Duration;
                     flowMngModel.humanResources.hasSendMail = flow.HasSendMail;
-                    if (flow.EvaluatorInfo.EmployeeId > 0) {
-                        flowMngModel.humanResources.employees.push(flow.EvaluatorInfo);
-                    }
+                    flowMngModel.humanResources.remindDay = flow.RemindDay;
+                    flowMngModel.humanResources.employees.push(flow.EvaluatorInfo);
                     break;
                 case 2:
                     var object;
                     flowMngModel.selfs.duration = flow.Duration;
                     flowMngModel.selfs.hasSendMail = flow.HasSendMail;
+                    flowMngModel.selfs.remindDay = flow.RemindDay;
                     if (flow.EvaluatorInfo.EmployeeId === -1) {
                         object = { NickName: "Self", EmployeeId: -1 };
                     }
-                    else if (flow.EvaluatorInfo.EmployeeId > 0) {
+                    else {
                         object = flow.EvaluatorInfo;
                     }
                     flowMngModel.selfs.employees.push(object);
@@ -131,23 +141,20 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
                 case 3:
                     flowMngModel.evaluators.duration = flow.Duration;
                     flowMngModel.evaluators.hasSendMail = flow.HasSendMail;
-                    if (flow.EvaluatorInfo.EmployeeId > 0) {
-                        flowMngModel.evaluators.employees.push(flow.EvaluatorInfo);
-                    }
+                    flowMngModel.evaluators.remindDay = flow.RemindDay;
+                    flowMngModel.evaluators.employees.push(flow.EvaluatorInfo);
                     break;
                 case 4:
                     flowMngModel.reviewers.duration = flow.Duration;
                     flowMngModel.reviewers.hasSendMail = flow.HasSendMail;
-                    if (flow.EvaluatorInfo.EmployeeId > 0) {
-                        flowMngModel.reviewers.employees.push(flow.EvaluatorInfo);
-                    }
+                    flowMngModel.reviewers.remindDay = flow.RemindDay;
+                    flowMngModel.reviewers.employees.push(flow.EvaluatorInfo);
                     break;
                 case 5:
                     flowMngModel.managements.duration = flow.Duration;
                     flowMngModel.managements.hasSendMail = flow.HasSendMail;
-                    if (flow.EvaluatorInfo.EmployeeId > 0) {
-                        flowMngModel.managements.employees.push(flow.EvaluatorInfo);
-                    }
+                    flowMngModel.managements.remindDay = flow.RemindDay;
+                    flowMngModel.managements.employees.push(flow.EvaluatorInfo);
                     break;
             }
         });

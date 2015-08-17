@@ -1240,6 +1240,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remind Day.
+        /// </summary>
+        public static string RemindDay {
+            get {
+                return ResourceManager.GetString("RemindDay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Report.
         /// </summary>
         public static string Report {

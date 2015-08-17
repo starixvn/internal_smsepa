@@ -14,7 +14,7 @@ namespace SMS.EPA.Model.FlowManagement
 
     public class InsertFlowModel
     {
-        private const string _Process = "<Process ProcessId='{0}' Duration='{1}' HasSendMail='{2}'>{3}</Process>";
+        private const string _Process = "<Process ProcessId='{0}' Duration='{1}' HasSendMail='{2}' RemindDay='{3}'>{4}</Process>";
         private const string _Evaluator = "<Evaluator EvaluatorId='{0}' Priority='{1}'></Evaluator>";
 
         public int DepartmentId { get; set; }
@@ -37,12 +37,27 @@ namespace SMS.EPA.Model.FlowManagement
             {
                 var process = new StringBuilder("<ROOT>");
 
+                if (HumanResources != null)
+                {
+                    var evaluator = new StringBuilder();
+
+                    if (HumanResources.Employees.Count > 0)
+                    {
+                        for (int i = 0; i < HumanResources.Employees.Count; i++)
+                        {
+                            evaluator.AppendFormat(_Evaluator, HumanResources.Employees[i].EmployeeId, i + 1);
+                        }
+
+                        process.AppendFormat(_Process, (int)ProcessType.HumanResource, HumanResources.Duration, HumanResources.HasSendMail, HumanResources.RemindDay, evaluator);
+                    }
+                }
+
                 if (Selfs != null)
                 {
                     var evaluator = new StringBuilder();
                     evaluator.AppendFormat(_Evaluator, -1, 1);
 
-                    process.AppendFormat(_Process, (int)ProcessType.Self, Selfs.Duration, Selfs.HasSendMail, evaluator);
+                    process.AppendFormat(_Process, (int)ProcessType.Self, Selfs.Duration, Selfs.HasSendMail, Selfs.RemindDay, evaluator);
                 }
 
                 if (Evaluators != null)
@@ -55,13 +70,9 @@ namespace SMS.EPA.Model.FlowManagement
                         {
                             evaluator.AppendFormat(_Evaluator, Evaluators.Employees[i].EmployeeId, i + 1);
                         }
-                    }
-                    else
-                    {
-                        evaluator.AppendFormat(_Evaluator, -1, 1);
-                    }
 
-                    process.AppendFormat(_Process, (int)ProcessType.Evaluator, Evaluators.Duration, Evaluators.HasSendMail, evaluator);
+                        process.AppendFormat(_Process, (int)ProcessType.Evaluator, Evaluators.Duration, Evaluators.HasSendMail, Evaluators.RemindDay, evaluator);
+                    }
                 }
 
                 if (Reviewers != null)
@@ -74,13 +85,9 @@ namespace SMS.EPA.Model.FlowManagement
                         {
                             evaluator.AppendFormat(_Evaluator, Reviewers.Employees[i].EmployeeId, i + 1);
                         }
-                    }
-                    else
-                    {
-                        evaluator.AppendFormat(_Evaluator, -1, 1);
-                    }
 
-                    process.AppendFormat(_Process, (int)ProcessType.Reviewer, Reviewers.Duration, Reviewers.HasSendMail, evaluator);
+                        process.AppendFormat(_Process, (int)ProcessType.Reviewer, Reviewers.Duration, Reviewers.HasSendMail, Reviewers.RemindDay, evaluator);
+                    }
                 }
 
                 if (Managements != null)
@@ -93,32 +100,9 @@ namespace SMS.EPA.Model.FlowManagement
                         {
                             evaluator.AppendFormat(_Evaluator, Managements.Employees[i].EmployeeId, i + 1);
                         }
-                    }
-                    else
-                    {
-                        evaluator.AppendFormat(_Evaluator, -1, 1);
-                    }
 
-                    process.AppendFormat(_Process, (int)ProcessType.Management, Managements.Duration, Managements.HasSendMail, evaluator);
-                }
-
-                if (HumanResources != null)
-                {
-                    var evaluator = new StringBuilder();
-
-                    if (HumanResources.Employees.Count > 0)
-                    {
-                        for (int i = 0; i < HumanResources.Employees.Count; i++)
-                        {
-                            evaluator.AppendFormat(_Evaluator, HumanResources.Employees[i].EmployeeId, i + 1);
-                        }
+                        process.AppendFormat(_Process, (int)ProcessType.Management, Managements.Duration, Managements.HasSendMail, Managements.RemindDay, evaluator);
                     }
-                    else
-                    {
-                        evaluator.AppendFormat(_Evaluator, -1, 1);
-                    }
-
-                    process.AppendFormat(_Process, (int)ProcessType.HumanResource, HumanResources.Duration, HumanResources.HasSendMail, evaluator);
                 }
 
                 process.Append("</ROOT>");

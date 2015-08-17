@@ -68,7 +68,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="col-sm-2" data-translate="Email"></td>
+                        <td class="col-sm-2" data-translate="SendEmail"></td>
                         <td class="col-sm-2 text-center col-human-resource">
                             <input type="checkbox" ng-model="deptFlowCtrl.humanResources.hasSendMail" ng-checked="deptFlowCtrl.humanResources.hasSendMail" />
                         </td>
@@ -83,6 +83,29 @@
                         </td>
                         <td class="col-sm-2 text-center col-management">
                             <input type="checkbox" ng-model="deptFlowCtrl.managements.hasSendMail" ng-checked="deptFlowCtrl.managements.hasSendMail" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-2" data-translate="RemindDay"></td>
+                        <td class="col-sm-2 text-center col-human-resource">
+                            <select ng-model="deptFlowCtrl.humanResources.remindDay"
+                                    ng-options="opt for opt in updateCtrl.remindDay"></select>
+                        </td>
+                        <td class="col-sm-2 text-center col-self">
+                            <select ng-model="deptFlowCtrl.selfs.remindDay"
+                                    ng-options="opt for opt in updateCtrl.remindDay"></select>
+                        </td>
+                        <td class="col-sm-2 text-center col-evaluator">
+                            <select ng-model="deptFlowCtrl.evaluators.remindDay"
+                                    ng-options="opt for opt in updateCtrl.remindDay"></select>
+                        </td>
+                        <td class="col-sm-2 text-center col-reviewer">
+                            <select ng-model="deptFlowCtrl.reviewers.remindDay"
+                                    ng-options="opt for opt in updateCtrl.remindDay"></select>
+                        </td>
+                        <td class="col-sm-2 text-center col-management">
+                            <select ng-model="deptFlowCtrl.managements.remindDay"
+                                    ng-options="opt for opt in updateCtrl.remindDay"></select>
                         </td>
                     </tr>
                     <tr>
