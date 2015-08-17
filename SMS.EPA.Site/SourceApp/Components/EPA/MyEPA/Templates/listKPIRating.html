@@ -9,20 +9,22 @@
     </div>
     <div class="boxcontent col-sm-12" collapse="empEPAInfoCtrl.collapses[kpiGroup.Name]">
         <div class="row row-item" ng-repeat="kpi in kpiGroup.KPIs">
+            <div class="row col-sm-12 error-message" ng-if="kpi.EvaluateValid" data-translate="RequireEvaluate"></div>
             <div class="row kpi-name">
                 <div class="col-sm-9">
                     <span>{{$index + 1}}. {{kpi.Name}}</span>
                     <span> ({{kpi.Weight}} pts)</span>
                 </div>
                 <div class="col-sm-2 text-center list-star">
-                    <rating ng-model="kpi.Rate" max="empEPAInfoCtrl.maxStar"
+                    <rating ng-model="kpi.Rate" max="empEPAInfoCtrl.maxStar" readonly="empepainfoctrl.isreadonly"
                             on-hover="empEPAInfoCtrl.hoveringOver(value, kpi)"
                             on-leave="empEPAInfoCtrl.hoveringLeave(kpiGroup, kpi)"></rating>
                     <span class="badge percent" ng-show="kpi.Percent > 0">{{kpi.Percent}}%</span>
                     <span class="badge percent" ng-show="kpi.Percent == 0" data-translate="NaN"></span>
                 </div>
                 <div class="col-sm-1">
-                    <input type="text" class="form-control text-center kpi-score" ng-model="kpi.Score" ng-value="kpi.Score" number-dot
+                    <input type="text" class="form-control text-center kpi-score" maxlength="5" ng-readonly="empEPAInfoCtrl.isReadonly"
+                           ng-model="kpi.Score" ng-value="kpi.Score" ng-decimal fraction="2"
                            ng-change="empEPAInfoCtrl.inputScore(kpi)" />
                 </div>
             </div>
@@ -32,7 +34,7 @@
             <div class="row error-message" ng-if="kpi.CommentValid" data-translate="RequireComment"></div>
             <div class="row textarea-comment" ng-if="kpi.HasComment">
                 <div class="col-sm-7">
-                    <textarea class="form-control" ng-model="kpi.Comment">
+                    <textarea class="form-control" ng-model="kpi.Comment" ng-readonly="empEPAInfoCtrl.isReadonly">
                         {{kpi.Comment}}
                     </textarea>
                 </div>

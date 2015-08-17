@@ -18,6 +18,7 @@ namespace SMS.EPA.Repositories.Implement
     using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.KPI;
+    using SMS.EPA.Model.TargetType;
     using SMS.EPA.Repositories.Interfaces;
 
     public class EmployeeEPARepository : IEmployeeEPARepository
@@ -28,16 +29,17 @@ namespace SMS.EPA.Repositories.Implement
             {
                 using (var multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    IEnumerable<EmployeeEPAModel> epas = multi.Read<EmployeeEPAModel, DepartmentModel, Group, StatusModel, EmployeeEPAModel>(
-                    (me, dept, group, status) =>
+                    IEnumerable<EmployeeEPAModel> epas = multi.Read<EmployeeEPAModel, TargetTypeModel, DepartmentModel, Group, StatusModel, EmployeeEPAModel>(
+                    (me, target, dept, group, status) =>
                     {
+                        me.TargetType = target;
                         me.Department = dept;
                         me.Group = group;
                         me.Status = status;
 
                         return me;
                     },
-                    "DepartmentId, GroupId, StatusId");
+                    "TargetTypeId, DepartmentId, GroupId, StatusId");
 
                     IEnumerable<RawEmployeeEPAModel> evaluators = multi.Read<RawEmployeeEPAModel, EmployeeModel, RawEmployeeEPAModel>(
                         (result, eva) =>

@@ -84,7 +84,7 @@ var epaModule = angular.module("epaModule", ['ngRoute'])
     var baseUrl = $("base").first().attr("href");
     $routeProvider.when('/SelfEvaluation/Index',
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/MyEPA/Templates/index.html' });
-    $routeProvider.when('/MyEPA/Index',
+    $routeProvider.when('/SelfEvaluation/Detail',
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/MyEPA/Templates/detail.html' });
 }]);
 

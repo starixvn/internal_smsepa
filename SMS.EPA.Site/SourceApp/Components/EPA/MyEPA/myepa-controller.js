@@ -24,7 +24,7 @@ function (EmployeeEPAModel, CommonModel) {
     };
 
     vm.viewEPADetail = function (epa) {
-        vm.viewEPADetailUrl = '/MyEPA/Index?epaId=' + epa.EPAId + '&periodId=' + epa.PeriodId + '&employeeId=' + epa.EmployeeId;
+        vm.viewEPADetailUrl = '/SelfEvaluation/Detail?epaId=' + epa.EPAId + '&periodId=' + epa.PeriodId + '&employeeId=' + epa.EmployeeId;
     };
 
     vm.initialize = function () {
@@ -39,8 +39,8 @@ function (EmployeeEPAModel, CommonModel) {
 }]);
 
 epaModule.controller('EmployeeEPAInfoController',
-['$window', '$routeParams', 'EmployeeEPAModel',
-function ($window, $routeParams, EmployeeEPAModel) {
+['$window', '$translate', '$routeParams', 'EmployeeEPAModel',
+function ($window, $translate, $routeParams, EmployeeEPAModel) {
     var vm = this;
 
     vm.epaId = parseInt($routeParams.epaId);
@@ -49,32 +49,48 @@ function ($window, $routeParams, EmployeeEPAModel) {
 
     vm.maxStar = 5;
     vm.dataSaved = false;
+    vm.isReadonly = false;
 
     vm.epaInfo = EmployeeEPAModel.epaInfo;
 
-    vm.hoveringOver = function (value, kpi) {
-        kpi.Percent = (100 * value) / vm.maxStar;
-    };
-
-    vm.hoveringLeave = function (kpiGroup, kpi) {
-        kpi.Percent = (100 * kpi.Rate) / vm.maxStar;
-
-        if (kpiGroup.IsSpreadKPI) {
-            kpi.Score = (kpiGroup.Weight / kpiGroup.KPIs.length) * (kpi.Percent / 100);
+    vm.checkStatus = function (status) {
+        if (status === 1) {
+            vm.isReadonly = true;
+            vm.hoveringOver = null;
+            vm.hoveringLeave = null;
         }
         else {
-            kpi.Score = kpi.Weight * (kpi.Percent / 100);
-        }
+            vm.hoveringOver = function (value, kpi) {
+                kpi.Percent = (100 * value) / vm.maxStar;
+            };
 
-        if (kpi.Rate > 0) {
-            EmployeeEPAModel.calculateScore(vm, vm.epaInfo);
+            vm.hoveringLeave = function (kpiGroup, kpi) {
+                kpi.Percent = (100 * kpi.Rate) / vm.maxStar;
+
+                if (kpiGroup.IsSpreadKPI && kpi.Percent > 0) {
+                    kpi.Score = (kpiGroup.Weight / kpiGroup.KPIs.length) * (kpi.Percent / 100);
+                }
+                else if (kpi.Percent > 0) {
+                    kpi.Score = kpi.Weight * (kpi.Percent / 100);
+                }
+
+                if (kpi.Rate > 0) {
+                    EmployeeEPAModel.calculateScore(vm, vm.epaInfo);
+                }
+            };
         }
     };
 
     vm.inputScore = function (kpi) {
         kpi.Rate = 0;
         kpi.Percent = 0;
-        EmployeeEPAModel.calculateScore(vm, vm.epaInfo);
+
+        if (!EmployeeEPAModel.validateWeightInput(kpi.Score, kpi.Weight, vm.weightInputValidMessage)) {
+            kpi.Score = null;
+        }
+        else {
+            EmployeeEPAModel.calculateScore(vm, vm.epaInfo);
+        }
     };
 
     vm.save = function (epaInfo) {
@@ -88,8 +104,13 @@ function ($window, $routeParams, EmployeeEPAModel) {
     };
 
     vm.initialize = function () {
+        $translate('WeightInputValid').then(function (message) {
+            vm.weightInputValidMessage = message;
+        });
+
         EmployeeEPAModel.getEPAInformation(vm.epaId, vm.periodId, vm.employeeId).then(function () {
             vm.epaInfo = EmployeeEPAModel.epaInfo;
+            vm.checkStatus(vm.epaInfo.Status.StatusId);
 
             angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
                 if (kpiGroup.IsSpreadKPI) {

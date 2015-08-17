@@ -14,7 +14,7 @@ namespace SMS.EPA.Model.EmployeeEPA
     using SMS.EPA.Model.Department;
     using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Model.TargetTemplate;
+    using SMS.EPA.Model.TargetType;
 
     public class EmployeeEPAModel
     {
@@ -43,7 +43,7 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public Group Group { get; set; }
 
-        public TargetTemplateModel Target { get; set; }
+        public TargetTypeModel TargetType { get; set; }
 
         public StatusModel Status { get; set; }
 

@@ -1240,7 +1240,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Require evaluatee&apos;s comment.
+        ///   Looks up a localized string similar to Require evaluate&apos;s comment.
         /// </summary>
         public static string RequireComment {
             get {
@@ -1749,6 +1749,15 @@ namespace SMS.EPA.Resources {
         public static string Weight {
             get {
                 return ResourceManager.GetString("Weight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Weight must be equal or less than {0}.
+        /// </summary>
+        public static string WeightInputValid {
+            get {
+                return ResourceManager.GetString("WeightInputValid", resourceCulture);
             }
         }
         

@@ -20,3 +20,34 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
         }
     };
 }]);
+
+epaModule.directive('ngDecimal', [function () {
+    return {
+        require: 'ngModel',
+        scope: {
+            fraction: "@"
+        },
+        link: function (scope, element, attr, ctrl) {
+            var fraction = parseInt(scope.fraction) || 2;
+
+            ctrl.$parsers.push(function (inputValue) {
+                if (inputValue) {
+                    var digits = inputValue.replace(/[^\d+\.?\d+$]/, '');
+
+                    if ((parseFloat(digits) * Math.pow(10, fraction)) % 1 !== 0) {
+                        digits = parseFloat(digits).toFixed(fraction).toString();
+                    }
+
+                    if (digits !== inputValue) {
+                        ctrl.$setViewValue(digits);
+                        ctrl.$render();
+                    }
+
+                    return digits;
+                }
+
+                return '';
+            });
+        }
+    };
+}]);

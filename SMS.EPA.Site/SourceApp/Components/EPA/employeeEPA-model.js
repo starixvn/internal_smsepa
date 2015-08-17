@@ -2,8 +2,8 @@
 /*global epaModule*/
 
 epaModule.factory('EmployeeEPAModel',
-['employeeEPAFactory', 'notificationFactory', 'errorFactory',
-function (employeeEPAFactory, notificationFactory, errorFactory) {
+['employeeEPAFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory',
+function (employeeEPAFactory, utilitiesFactory, notificationFactory, errorFactory) {
     var employeeEPAModel = this;
 
     employeeEPAModel.listEPA = [];
@@ -38,13 +38,21 @@ function (employeeEPAFactory, notificationFactory, errorFactory) {
             });
         });
 
-        if ((finalScore % 1) === 0) {
-            epaInfo.FinalScore = finalScore;
-        }
-        else {
-            epaInfo.FinalScore = finalScore.toFixed(2);
-        }
+        epaInfo.FinalScore = finalScore.toFixed(2);
     };
+
+    employeeEPAModel.validateWeightInput = function (weight, maxWeight, weightInputValidMessage) {
+        var isValid = true;
+
+        if (weight > maxWeight) {
+            isValid = false;
+
+            var message = utilitiesFactory.formatString(weightInputValidMessage, maxWeight);
+            notificationFactory.error('', message);
+        }
+
+        return isValid;
+    }
 
     employeeEPAModel.validateEPA = function (epaInfo) {
         var isValid = true;
@@ -56,7 +64,7 @@ function (employeeEPAFactory, notificationFactory, errorFactory) {
 
         angular.forEach(epaInfo.KPIGroups, function (kpiGroup) {
             angular.forEach(kpiGroup.KPIs, function (kpi) {
-                if (kpi.IsRequiredEvaluate && kpi.Score === 0) {
+                if (kpi.IsRequiredEvaluate && (!kpi.Score || kpi.Score === 0)) {
                     isValid = false;
                     kpi.EvaluateValid = true;
                 }

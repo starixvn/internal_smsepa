@@ -250,7 +250,7 @@
     <value>Has comment</value>
   </data>
   <data name="RequireComment" xml:space="preserve">
-    <value>Require evaluatee's comment</value>
+    <value>Require evaluate's comment</value>
   </data>
   <data name="RequireEvaluate" xml:space="preserve">
     <value>Require evaluate</value>
@@ -689,6 +689,9 @@
   </data>
   <data name="SatisfactoryDescription" xml:space="preserve">
     <value>Meets expectations: refers to solid performance with a full skills base; most people fall into this category.</value>
+  </data>
+  <data name="WeightInputValid" xml:space="preserve">
+    <value>Weight must be equal or less than {0}</value>
   </data>
     <data name="FlowTemplate" xml:space="preserve">
     <value>Flow Template</value>

@@ -49,7 +49,7 @@ namespace SMS.EPA.Site
                 "CheckAssignment/Index",
                 "Department/Index",
                 "SelfEvaluation/Index",
-                "MyEPA/Index",
+                "SelfEvaluation/Detail",
                 "Period/Index",
                 "Period/Update/{id}"
             };

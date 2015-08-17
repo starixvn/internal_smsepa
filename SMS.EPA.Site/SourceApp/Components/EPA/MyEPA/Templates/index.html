@@ -35,7 +35,7 @@
                     <td class="text-center">
                         <span tooltip="{{item.Group.GroupName}}" ng-bind="item.Group.GroupCode"></span>
                     </td>
-                    <td></td>
+                    <td ng-bind="item.TargetType.Name"></td>
                     <td class="text-center epa-score">
                         <a href="" ng-bind="item.Score | customNumber" ng-click="empEPACtrl.viewEPADetail(item)"
                            ng-href="{{empEPACtrl.viewEPADetailUrl}}" ng-if="item.Score" />
