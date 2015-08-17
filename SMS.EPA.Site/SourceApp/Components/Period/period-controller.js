@@ -172,7 +172,7 @@ function ($scope, $window, PeriodModel, CommonModel) {
     };
 }]);
 
-periodModule.controller('UpdateEmployeeSettingPeriodController',
+periodModule.controller('EmployeeSettingPeriodController',
 ['$scope', '$window', 'PeriodModel', 'utilitiesFactory', 'CommonModel', 'EmployeeModel',
 function ($scope, $window, PeriodModel, utilitiesFactory, CommonModel, EmployeeModel) {
     var vm = this;
@@ -187,9 +187,7 @@ function ($scope, $window, PeriodModel, utilitiesFactory, CommonModel, EmployeeM
     utilitiesFactory.numberEntryList(vm);
 
     vm.filter = {
-        departmentId: '',
-        employeeId: '',
-        flowTemplateId: ''
+        employee: ''
     };
 
     $scope.$watch(function () { return $scope.updateCtrl.period; },
@@ -206,7 +204,7 @@ function ($scope, $window, PeriodModel, utilitiesFactory, CommonModel, EmployeeM
                     vm.departments = CommonModel.departments;
                 });
 
-                PeriodModel.getPeriodEmployeeSettingById(vm.period.PeriodId).then(function () {
+                PeriodModel.getPeriodEmployeeSettingById(vm.period.PeriodId, vm.period.StartDate).then(function () {
                     vm.employeeSettings = PeriodModel.employeeSettings;
                     utilitiesFactory.searchOnPage(vm, vm.employeeSettings);
                     vm.isFirstLoad = false;
@@ -232,5 +230,156 @@ function ($scope, $window, PeriodModel, utilitiesFactory, CommonModel, EmployeeM
                 vm.filter.employee = null;
             }
         }
+    };
+
+    var getSelectedDepartment = function (departments) {
+        var selectedDepartments = [];
+
+        angular.forEach(departments, function (department) {
+            if (department.ticked) {
+                var departmentId = department.DepartmentId,
+                    selectedDepartment = {
+                        departmentId: departmentId < 0 ? -departmentId : departmentId,
+                        isGroup: department.IsGroup
+                    };
+
+                selectedDepartments.push(selectedDepartment);
+            }
+        });
+
+        return selectedDepartments;
+    };
+
+    vm.addEmployee = function (filter) {
+        var employeeId = null;
+
+        if (filter.employee) {
+            employeeId = filter.employee.EmployeeId;
+        }
+
+        var employeeInfo = {
+            periodId: vm.period.PeriodId,
+            employeeId: employeeId,
+            departments: getSelectedDepartment(vm.departments)
+        };
+
+        PeriodModel.addEmployeeToPeriod(employeeInfo);
+    };
+
+    vm.updateEmployeeSetting = function (employeeSetting) {
+        PeriodModel.openPopupUpdateEmployeeSetting(employeeSetting);
+    };
+}]);
+
+periodModule.controller('UpdateEmployeeSettingPeriodController',
+['$scope', '$modalInstance', 'employeeSetting', 'PeriodModel', 'EmployeeModel', 'TargetTemplateModel',
+function ($scope, $modalInstance, employeeSetting, PeriodModel, EmployeeModel, TargetTemplateModel) {
+    var vm = this;
+
+    vm.employeeSetting = employeeSetting;
+
+    vm.employeeOptions = {
+        selftEvaluator: {
+            ids: null,
+            startDate: null,
+            endDate: null,
+            hasSendMail: true,
+            remindDay: 0,
+            duration: 0
+        },
+        evaluator: {
+            ids: null,
+            startDate: null,
+            endDate: null,
+            hasSendMail: true,
+            remindDay: 0,
+            duration: 0
+        },
+        reviewer: {
+            ids: null,
+            startDate: null,
+            endDate: null,
+            hasSendMail: true,
+            remindDay: 0,
+            duration: 0
+        },
+        management: {
+            ids: null,
+            startDate: null,
+            endDate: null,
+            hasSendMail: true,
+            remindDay: 0,
+            duration: 0
+        },
+        targetTemplateId: null,
+        evaluatorEmployees: [],
+        reviewerEmployees: [],
+        managementEmployees: []
+    };
+
+    var createEmployeeIds = function (evaluators) {
+        var ids = [];
+
+        angular.forEach(evaluators, function (evaluator) {
+            ids.push(evaluator.EvaluatorInfo.EmployeeId);
+        });
+
+        return ids;
+    };
+
+    var getEvaluators = function (evaluators) {
+        var evaluator = {
+            startDate: '',
+            endDate: '',
+            hasSendMail: true,
+            remindDay: 0,
+            duration: 0,
+            ids: []
+        };
+
+        if (evaluators && evaluators.length > 0) {
+            evaluator.startDate = evaluators[0].StartDate;
+            evaluator.endDate = evaluators[0].EndDate;
+            evaluator.hasSendMail = evaluators[0].HasSendMail;
+            evaluator.remindDay = evaluators[0].RemindDay;
+            evaluator.duration = evaluators[0].Duration;
+            evaluator.ids = createEmployeeIds(evaluators);
+        }
+
+        return evaluator;
+    };
+
+    var setEmployeeSetting = function () {
+        vm.employeeOptions.selfEvaluator = getEvaluators(vm.employeeSetting.SelfEvaluators);
+        vm.employeeOptions.evaluator = getEvaluators(vm.employeeSetting.Evaluators);
+        vm.employeeOptions.reviewer = getEvaluators(vm.employeeSetting.Reviewers);
+        vm.employeeOptions.management = getEvaluators(vm.employeeSetting.Managements);
+        vm.employeeOptions.targetTemplateId = vm.employeeSetting.TargetTemplate.TargetTemplateId;
+    };
+
+    /*
+   ** Get employees flow and target setting.
+   */
+    TargetTemplateModel.getTargetTemplate(null, true).then(function () {
+        vm.targetTemplates = TargetTemplateModel.targetTemplates;
+    });
+
+    EmployeeModel.getAllEmployee().then(function () {
+        vm.employees = EmployeeModel.employees;
+        vm.employeeOptions.evaluatorEmployees = angular.copy(vm.employees);
+        vm.employeeOptions.reviewerEmployees = angular.copy(vm.employees);
+        vm.employeeOptions.managementEmployees = angular.copy(vm.employees);
+
+        if (!vm.selectedEmployees) {
+            setEmployeeSetting();
+        }
+    });
+
+    vm.updateTrigger = function () {
+        $scope.$broadcast('evaluatorChosen');
+    };
+
+    vm.cancel = function () {
+        $modalInstance.dismiss("cancel");
     };
 }]);

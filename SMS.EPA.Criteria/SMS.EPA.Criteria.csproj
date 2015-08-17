@@ -112,12 +112,14 @@
     <Compile Include="KPI\UpdateRequiredEvaluateKPICriteria.cs" />
     <Compile Include="KPI\UpdateStatusKPICriteria.cs" />
     <Compile Include="EmployeeEPA\GetEPAByEmployeeCriteria.cs" />
+    <Compile Include="Period\AddEmployeeToPeriodCriteria.cs" />
     <Compile Include="Period\CreatePeriodCriteria.cs" />
     <Compile Include="Period\DeletePeriodCriteria.cs" />
     <Compile Include="Period\GetPeriodEmployeeSettingCriteria.cs" />
     <Compile Include="Period\GetPeriodByIdCriteria.cs" />
     <Compile Include="Period\GetPeriodCriteria.cs" />
     <Compile Include="Period\UpdateBasicInformationPeriodCriteria.cs" />
+    <Compile Include="Period\UpdateEmployeeSettingOfPeriodCriteria.cs" />
     <Compile Include="Period\UpdateStatusPeriodCriteria.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScoreRatingType\GetScoreRatingTypeCriteria.cs" />

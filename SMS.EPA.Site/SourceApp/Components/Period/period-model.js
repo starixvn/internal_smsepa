@@ -196,9 +196,62 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         });
     };
 
-    periodModel.getPeriodEmployeeSettingById = function (periodId) {
-        return periodFactory.getPeriodEmployeeSettingById(periodId).success(function (employeeSettings) {
+    periodModel.getPeriodEmployeeSettingById = function (periodId, startDate) {
+        return periodFactory.getPeriodEmployeeSettingById(periodId, startDate).success(function (employeeSettings) {
             periodModel.employeeSettings = employeeSettings;
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    periodModel.addEmployeeToPeriod = function (employeeInfo) {
+        return periodFactory.addEmployeeToPeriod(employeeInfo).success(function (response) {
+            if (response.IsSuccessful) {
+                notificationFactory.success("CreatedSuccessfully");
+            }
+            else {
+                notificationFactory.error("", response.Message);
+            }
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    periodModel.openPopupUpdateEmployeeSetting = function (employeeSetting) {
+        var modalInstance = $modal.open({
+            templateUrl: 'SourceApp/Components/Period/Templates/editEmployeeSetting.html',
+            controller: "UpdateEmployeeSettingPeriodController as updatePeriodSettingCtrl",
+            backdrop: 'static',
+            resolve: {
+                employeeSetting: function () {
+                    return angular.copy(employeeSetting);
+                }
+            },
+            windowClass: "modal-confirm-center employee-period-setting"
+        });
+
+        modalInstance.result.then(function (editEmployeeSetting) {
+            if (editEmployeeSetting) {
+                employeeSetting.TargetTemplate = editEmployeeSetting.TargetTemplate;
+                employeeSetting.Evaluators = editEmployeeSetting.Evaluators;
+                employeeSetting.Reviewers = editEmployeeSetting.Reviewers;
+                employeeSetting.Managements = editEmployeeSetting.Managements;
+            }
+        })['finally'](function () {
+            modalInstance = null;
+        });
+    };
+
+    periodModel.updateEmployeeSettingOfPeriod = function (employeeSetting) {
+        return periodFactory.updateEmployeeSettingOfPeriod(employeeSetting).success(function (response) {
+            if (response.IsSuccessful) {
+                notificationFactory.success("UpdatedSuccessfully");
+            }
+            else {
+                notificationFactory.error("", response.Message);
+            }
         })
         .error(function (response, status) {
             errorFactory.errorHandle(status);

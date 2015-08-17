@@ -1,0 +1,119 @@
+﻿
+<div id="confirmPopup">
+    <div class="modal-header">
+        <div class="popup-header">
+            <span data-translate="EidtEmployeeSetting"></span>
+            <span class="close-popup" ng-click="updatePeriodSettingCtrl.cancel()"></span>
+        </div>
+    </div>
+    <div class="modal-body">
+        <form novalidate class="row form-horizontal form-multiLine filter check-assignment-filter" evaluator-chosen>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" data-translate="TargetTemplate">
+                </label>
+                <div class="col-sm-3">
+                    <select ng-model="updatePeriodSettingCtrl.employeeOptions.targetTemplateId" ng-options="opt.TargetTemplateId as opt.Name for opt in updatePeriodSettingCtrl.targetTemplates"
+                            class="form-control lstBox-limit">
+                        <option value="">-- {{"None" | translate}} --</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+
+        <table class="row table table-bordered table-striped table-period-setting">
+            <thead>
+                <tr class="headerName">
+                    <th data-translate="SymbolCount">
+                    </th>
+                    <th data-translate="SelfEvaluator">
+                    </th>
+                    <th data-translate="Evaluator">
+                    </th>
+                    <th data-translate="Reviewer">
+                    </th>
+                    <th data-translate="Management">
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-translate="Evaluator"></td>
+                    <td></td>
+                    <td>
+                        <select class="form-control" multiple chosen
+                                options="updatePeriodSettingCtrl.employeeOptions.evaluatorEmployees"
+                                ng-model="updatePeriodSettingCtrl.employeeOptions.evaluator.ids"
+                                data-placeholder="Select the evaluator" name="evaluatorSelect"
+                                ng-options="opt.EmployeeId as opt.NickName + ' (' + opt.FullName + ')' for opt in updatePeriodSettingCtrl.employeeOptions.evaluatorEmployees"
+                                on-show-dropdown="updatePeriodSettingCtrl.updateTrigger()"></select>
+                    </td>
+                    <td>
+                        <select class="form-control" multiple chosen
+                                options="updatePeriodSettingCtrl.employeeOptions.reviewerEmployees"
+                                ng-model="updatePeriodSettingCtrl.employeeOptions.reviewer.ids"
+                                data-placeholder="Select the reviewer" name="reviewerSelect"
+                                ng-options="opt.EmployeeId as opt.NickName + ' (' + opt.FullName + ')' for opt in updatePeriodSettingCtrl.employeeOptions.reviewerEmployees"
+                                on-show-dropdown="updatePeriodSettingCtrl.updateTrigger()"></select>
+                    </td>
+                    <td>
+                        <select class="form-control" multiple chosen
+                                options="updatePeriodSettingCtrl.employeeOptions.management" employees"
+                                ng-model="updatePeriodSettingCtrl.employeeOptions.management.ids"
+                                data-placeholder="Select the management" name="managementSelect"
+                                ng-options="opt.EmployeeId as opt.NickName + ' (' + opt.FullName + ')' for opt in updatePeriodSettingCtrl.employeeOptions.managementEmployees"
+                                on-show-dropdown="updatePeriodSettingCtrl.updateTrigger()"></select>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-translate="Duration"></td>
+                    <td>
+                        <input type="text" ng-model="updatePeriodSettingCtrl.employeeOptions.selfEvaluator.duration" />
+                    </td>
+                    <td>
+                        <input type="text" ng-model="updatePeriodSettingCtrl.employeeOptions.evaluator.duration" />
+                    </td>
+                    <td>
+                        <input type="text" ng-model="updatePeriodSettingCtrl.employeeOptions.reviewer.duration" />
+                    </td>
+                    <td>
+                        <input type="text" ng-model="updatePeriodSettingCtrl.employeeOptions.management.duration" />
+                    </td>
+                </tr>
+                <tr>
+                    <td data-translate="RemindDay"></td>
+                    <td>
+                        <input type="text" ng-model="updatePeriodSettingCtrl.employeeOptions.selfEvaluator.remindDay" />
+                    </td>
+                    <td>
+                        <input type="text" ng-model="updatePeriodSettingCtrl.employeeOptions.evaluator.remindDay" />
+                    </td>
+                    <td>
+                        <input type="text" ng-model="updatePeriodSettingCtrl.employeeOptions.reviewer.remindDay" />
+                    </td>
+                    <td>
+                        <input type="text" ng-model="updatePeriodSettingCtrl.employeeOptions.management.remindDay" />
+                    </td>
+                </tr>
+                <tr>
+                    <td data-translate="Email"></td>
+                    <td>
+                        <input type="checkbox" ng-model="updatePeriodSettingCtrl.employeeOptions.selfEvaluator.hasSendMail" />
+                    </td>
+                    <td>
+                        <input type="checkbox" ng-model="updatePeriodSettingCtrl.employeeOptions.evaluator.hasSendMail" />
+                    </td>
+                    <td>
+                        <input type="checkbox" ng-model="updatePeriodSettingCtrl.employeeOptions.reviewer.hasSendMail" />
+                    </td>
+                    <td>
+                        <input type="checkbox" ng-model="updatePeriodSettingCtrl.employeeOptions.management.hasSendMail" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button class="button" ng-click="updatePeriodSettingCtrl.save()" data-translate="OK"></button>
+        <button class="btn btn-default customize" ng-click="updatePeriodSettingCtrl.cancel()" data-translate="Cancel"></button>
+    </div>
+</div>

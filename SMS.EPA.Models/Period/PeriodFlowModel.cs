@@ -9,12 +9,13 @@
 
 namespace SMS.EPA.Model.Period
 {
+    using System;
     using SMS.EPA.Model.FlowManagement;
 
     public class PeriodFlowModel : FlowModel
     {
-        public string StartDate { get; set; }
+        public DateTime? StartDate { get; set; }
 
-        public string EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
     }
 }

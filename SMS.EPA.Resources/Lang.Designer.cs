@@ -1141,6 +1141,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Parameter invalid..
+        /// </summary>
+        public static string ParameterInvalid {
+            get {
+                return ResourceManager.GetString("ParameterInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Parent Node field is required!.
         /// </summary>
         public static string ParentNodeRequired {

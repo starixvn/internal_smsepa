@@ -350,6 +350,7 @@
     <Content Include="SourceApp\Components\Period\Templates\basicInformation.html" />
     <Content Include="SourceApp\Components\Period\Templates\create.html" />
     <Content Include="SourceApp\Components\Period\Templates\edit.html" />
+    <Content Include="SourceApp\Components\Period\Templates\editEmployeeSetting.html" />
     <Content Include="SourceApp\Components\Period\Templates\employeeSetting.html" />
     <Content Include="SourceApp\Components\Period\Templates\index.html" />
     <Content Include="SourceApp\Components\Resources\resources-controller.js" />

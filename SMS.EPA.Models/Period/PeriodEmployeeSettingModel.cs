@@ -18,6 +18,7 @@ namespace SMS.EPA.Model.Period
         public PeriodEmployeeSettingModel()
         {
             HumanResources = new List<PeriodFlowModel>();
+            SelfEvaluators = new List<PeriodFlowModel>();
             Evaluators = new List<PeriodFlowModel>();
             Reviewers = new List<PeriodFlowModel>();
             Managements = new List<PeriodFlowModel>();
@@ -29,13 +30,16 @@ namespace SMS.EPA.Model.Period
 
         public JobTitle JobTitle { get; set; }
 
+        public IList<PeriodFlowModel> HumanResources { get; set; }
+
+        public IList<PeriodFlowModel> SelfEvaluators { get; set; }
+
         public IList<PeriodFlowModel> Evaluators { get; set; }
 
         public IList<PeriodFlowModel> Reviewers { get; set; }
 
         public IList<PeriodFlowModel> Managements { get; set; }
 
-        public IList<PeriodFlowModel> HumanResources { get; set; }
 
         public TargetTemplateModel TargetTemplate { get; set; }
 

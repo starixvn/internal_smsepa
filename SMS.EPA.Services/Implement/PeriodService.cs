@@ -9,6 +9,7 @@
 
 namespace SMS.EPA.Services.Implement
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Fanex.Common.Helper;
@@ -113,7 +114,7 @@ namespace SMS.EPA.Services.Implement
             return commandResult;
         }
 
-        public IEnumerable<PeriodEmployeeSettingModel> GetPeriodEmployeeSettingById(GetPeriodEmployeeSettingCriteria criteria)
+        public IEnumerable<PeriodEmployeeSettingModel> GetPeriodEmployeeSettingById(GetPeriodEmployeeSettingCriteria criteria, string startDate)
         {
             Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<PeriodEmployeeSettingModel> periodEmployeeSettings = new List<PeriodEmployeeSettingModel>();
@@ -124,20 +125,48 @@ namespace SMS.EPA.Services.Implement
 
                 if (rawPeriodEmployeeSetting.Employees != null && rawPeriodEmployeeSetting.Employees.Count() > 0)
                 {
-                    periodEmployeeSettings = ConvertToPeriodEmployeeSetting(rawPeriodEmployeeSetting);
+                    periodEmployeeSettings = ConvertToPeriodEmployeeSetting(rawPeriodEmployeeSetting, startDate);
                 }
             }
 
             return periodEmployeeSettings;
         }
 
-        private static IEnumerable<PeriodEmployeeSettingModel> ConvertToPeriodEmployeeSetting(RawPeriodEmployeeSettingModel rawPeriodEmployeeSetting)
+        public CommandResult AddEmployeeToPeriod(AddEmployeeToPeriodCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            CommandResult commandResult = new CommandResult();
+
+            if (criteria.IsValid())
+            {
+                commandResult = Repository.Update(criteria);
+            }
+
+            return commandResult;
+        }
+
+        public CommandResult UpdateEmployeeSettingOfPeriod(UpdateEmployeeSettingOfPeriodCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            CommandResult commandResult = new CommandResult();
+
+            if (criteria.IsValid())
+            {
+                commandResult = Repository.Update(criteria);
+            }
+
+            return commandResult;
+        }
+
+        private static IEnumerable<PeriodEmployeeSettingModel> ConvertToPeriodEmployeeSetting(
+            RawPeriodEmployeeSettingModel rawPeriodEmployeeSetting,
+            string startDate)
         {
             IEnumerable<PeriodEmployeeSettingModel> employeeSettings = rawPeriodEmployeeSetting.Employees;
 
             foreach (PeriodEmployeeSettingModel employeeSetting in employeeSettings)
             {
-                GetFlowSetting(rawPeriodEmployeeSetting.FlowSettings, employeeSetting);
+                GetFlowSetting(rawPeriodEmployeeSetting.FlowSettings, employeeSetting, startDate);
             }
 
             return employeeSettings;
@@ -145,7 +174,8 @@ namespace SMS.EPA.Services.Implement
 
         private static void GetFlowSetting(
             IEnumerable<RawPeriodFlowSettingModel> rawFlowSettings,
-            PeriodEmployeeSettingModel employeeSetting)
+            PeriodEmployeeSettingModel employeeSetting,
+            string startDate)
         {
             if (rawFlowSettings != null)
             {
@@ -156,6 +186,72 @@ namespace SMS.EPA.Services.Implement
                 {
                     employeeSetting = GetEvaluators(rawFlowSetting, employeeSetting);
                 }
+
+                if (!string.IsNullOrWhiteSpace(startDate))
+                {
+                    employeeSetting = CalculateFlowDate(employeeSetting, startDate);
+                }
+            }
+        }
+
+        private static PeriodEmployeeSettingModel CalculateFlowDate(PeriodEmployeeSettingModel employeeSetting, string startDate)
+        {
+            DateTime periodStartDate = Convert.ToDateTime(startDate);
+
+            int duration = employeeSetting.HumanResources.Count() > 0 ? employeeSetting.HumanResources[0].Duration : 0;
+            int startDuration = 0,
+                endDuration = duration > 0 ? duration - 1 : duration;
+
+            IList<PeriodFlowModel> selfEvaluators = employeeSetting.SelfEvaluators;
+            IList<PeriodFlowModel> evaluators = employeeSetting.Evaluators;
+            IList<PeriodFlowModel> reviewers = employeeSetting.Reviewers;
+            IList<PeriodFlowModel> managements = employeeSetting.Managements;
+
+            if (selfEvaluators.Count() > 0)
+            {
+                duration = employeeSetting.SelfEvaluators[0].Duration;
+                startDuration = duration > 0 ? endDuration + 1 : endDuration;
+                endDuration = duration > 0 ? startDuration + duration - 1 : startDuration;
+                CalculateEvaluatorDate(employeeSetting.SelfEvaluators, periodStartDate, startDuration, endDuration);
+            }
+
+            if (evaluators.Count() > 0 && evaluators[0].EvaluatorInfo != null && evaluators[0].EvaluatorInfo.EmployeeId != -1)
+            {
+                duration = employeeSetting.Evaluators[0].Duration;
+                startDuration = duration > 0 ? endDuration + 1 : endDuration;
+                endDuration = duration > 0 ? startDuration + duration - 1 : startDuration;
+                CalculateEvaluatorDate(employeeSetting.Evaluators, periodStartDate, startDuration, endDuration);
+            }
+
+            if (reviewers.Count() > 0 && reviewers[0].EvaluatorInfo != null && reviewers[0].EvaluatorInfo.EmployeeId != -1)
+            {
+                duration = employeeSetting.Reviewers[0].Duration;
+                startDuration = duration > 0 ? endDuration + 1 : endDuration;
+                endDuration = duration > 0 ? startDuration + duration - 1 : startDuration;
+                CalculateEvaluatorDate(employeeSetting.Reviewers, periodStartDate, startDuration, endDuration);
+            }
+
+            if (managements.Count() > 0 && managements[0].EvaluatorInfo != null && managements[0].EvaluatorInfo.EmployeeId != -1) 
+            {
+                duration = employeeSetting.Managements[0].Duration;
+                startDuration = duration > 0 ? endDuration + 1 : endDuration;
+                endDuration = duration > 0 ? startDuration + duration - 1 : startDuration;
+                CalculateEvaluatorDate(employeeSetting.Managements, periodStartDate, startDuration, endDuration);
+            }
+
+            return employeeSetting;
+        }
+
+        private static void CalculateEvaluatorDate(
+            IList<PeriodFlowModel> evaluators,
+            DateTime periodStartDate,
+            int startDuration,
+            int endDuration)
+        {
+            foreach (PeriodFlowModel evaluator in evaluators)
+            {
+                evaluator.StartDate = periodStartDate.AddDays(startDuration);
+                evaluator.EndDate = periodStartDate.AddDays(endDuration);
             }
         }
 
@@ -165,6 +261,16 @@ namespace SMS.EPA.Services.Implement
         {
             switch (rawFlowSetting.ProcessId)
             {
+                case (int)ProcessType.HumanResource:
+                    PeriodFlowModel humanResources = CreateEvaluator(rawFlowSetting);
+                    employeeSetting.HumanResources.Add(humanResources);
+                    break;
+
+                case (int)ProcessType.Self:
+                    PeriodFlowModel selfEvaluator = CreateEvaluator(rawFlowSetting);
+                    employeeSetting.SelfEvaluators.Add(selfEvaluator);
+                    break;
+
                 case (int)ProcessType.Evaluator:
                     PeriodFlowModel evaluator = CreateEvaluator(rawFlowSetting);
                     employeeSetting.Evaluators.Add(evaluator);

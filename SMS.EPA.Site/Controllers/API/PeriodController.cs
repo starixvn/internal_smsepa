@@ -14,6 +14,7 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.Period;
     using SMS.EPA.Model.Period;
+    using SMS.EPA.Resources;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
 
@@ -102,15 +103,68 @@ namespace SMS.EPA.Site.Controllers.API
             return commandResult;
         }
 
-        public IEnumerable<PeriodEmployeeSettingModel> GetPeriodEmployeeSettingById(int periodId)
+        public IEnumerable<PeriodEmployeeSettingModel> GetPeriodEmployeeSettingById(int periodId, string startDate = "")
         {
             var criteria = new GetPeriodEmployeeSettingCriteria
             {
                 PeriodId = periodId
             };
 
-            IEnumerable<PeriodEmployeeSettingModel> periodEmployeeSettings = _periodService.GetPeriodEmployeeSettingById(criteria);
+            IEnumerable<PeriodEmployeeSettingModel> periodEmployeeSettings = _periodService.GetPeriodEmployeeSettingById(criteria, startDate);
             return periodEmployeeSettings;
+        }
+
+        [HttpPost]
+        public CommandResult AddEmployeToPeriod(RawAssignEmployeePeriodModel model)
+        {
+            CommandResult commandResult = new CommandResult();
+
+            if (ModelState.IsValid)
+            {
+                var criteria = new AddEmployeeToPeriodCriteria
+                {
+                    PeriodId = model.PeriodId,
+                    EmployeeId = model.EmployeeId,
+                    Departments = model.ConvertToXml(),
+                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                };
+
+                commandResult = _periodService.AddEmployeeToPeriod(criteria);
+            }
+            else
+            {
+                commandResult.Code = 1;
+                commandResult.Message = Lang.ParameterInvalid;
+            }
+
+            return commandResult;
+        }
+
+        [HttpPut]
+        public CommandResult UpdateEmployeeSettingOfPeriod(RawUpdatedEmployeeSettingPeriodModel model)
+        {
+            CommandResult commandResult = new CommandResult();
+
+            if (ModelState.IsValid)
+            {
+                var criteria = new UpdateEmployeeSettingOfPeriodCriteria
+                {
+                    PeriodId = model.PeriodId,
+                    EmployeeId = model.EmployeeId,
+                    TargetTemplateId = model.TargetTemplateId,
+                    EmployeeAssignments = model.ConvertToXml(),
+                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                };
+
+                commandResult = _periodService.UpdateEmployeeSettingOfPeriod(criteria);
+            }
+            else
+            {
+                commandResult.Code = 1;
+                commandResult.Message = Lang.ParameterInvalid;
+            }
+
+            return commandResult;
         }
     }
 }
