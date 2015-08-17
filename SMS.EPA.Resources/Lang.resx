@@ -693,7 +693,10 @@
   <data name="WeightInputValid" xml:space="preserve">
     <value>Weight must be equal or less than {0}</value>
   </data>
-    <data name="FlowTemplate" xml:space="preserve">
+  <data name="FlowTemplate" xml:space="preserve">
     <value>Flow Template</value>
+  </data>
+  <data name="Evaluation" xml:space="preserve">
+    <value>Evaluation</value>
   </data>
 </root>

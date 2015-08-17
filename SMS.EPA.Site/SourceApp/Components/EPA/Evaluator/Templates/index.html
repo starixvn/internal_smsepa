@@ -1,0 +1,60 @@
+﻿<div ng-controller="EvaluatorController as evaluatorCtrl">
+    <div class="col-sm-12 sub-header">
+        <ul class="row breadcrumb">
+            <li class="current" data-translate="Evaluation"></li>
+        </ul>
+    </div>
+    <div class="col-sm-12">
+        <form novalidate class="row filter form-horizontal" role="form">
+            <div class="form-group">
+                <label class="col-sm-1 control-label" data-translate="Target"></label>
+                <div class="col-sm-2">
+                    <select class="form-control" ng-model="evaluatorCtrl.filter.targetTypeId"
+                            ng-options="opt.TargetTypeId as opt.Name for opt in evaluatorCtrl.targetTypes">
+                        <option value="">-- {{"All" | translate}} --</option>
+                    </select>
+                </div>
+                <label class="col-sm-1 control-label" data-translate="From"></label>
+                <div class="col-sm-2">
+                    <input readonly class="calendar-form-control" type="text"
+                           ng-model="evaluatorCtrl.filter.fromDate" datepicker-popup="{{evaluatorCtrl.dateFormat}}"
+                           ng-click="evaluatorCtrl.openPopupStartDate($event, evaluatorCtrl.calendar.startDateOpened)"
+                           is-open="evaluatorCtrl.calendar.startDateOpened" />
+                    <calendar-image class="calendar-image"
+                                    ng-click="evaluatorCtrl.openPopupStartDate($event, evaluatorCtrl.calendar.startDateOpened)"></calendar-image>
+                </div>
+                <label class="col-sm-1 control-label" data-translate="To"></label>
+                <div class="col-sm-2">
+                    <input readonly class="calendar-form-control" type="text"
+                           ng-model="evaluatorCtrl.filter.toDate" datepicker-popup="{{evaluatorCtrl.dateFormat}}"
+                           ng-click="evaluatorCtrl.openPopupEndDate($event, evaluatorCtrl.calendar.endDateOpened)"
+                           is-open="evaluatorCtrl.calendar.endDateOpened" />
+                    <calendar-image class="calendar-image"
+                                    ng-click="evaluatorCtrl.openPopupEndDate($event, evaluatorCtrl.calendar.endDateOpened)"></calendar-image>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-1 control-label" data-translate="Team"></label>
+                <div class="col-sm-2">
+                    <select class="form-control" ng-model="evaluatorCtrl.filter.groupId"
+                            ng-options="opt.GroupId as opt.GroupName for opt in evaluatorCtrl.groupOptions"
+                            ng-change="evaluatorCtrl.getEmployeeByGroup(evaluatorCtrl.filter.groupId)">
+                        <option value="">-- {{"All" | translate}} --</option>
+                    </select>
+                </div>
+                <label class="col-sm-1 control-label" data-translate="Employee"></label>
+                <div class="col-sm-2">
+                    <add-class-to-role-filter class="multi-select" multi-select input-model="evaluatorCtrl.employees" button-label="EmployeeId"
+                                              helper-elements="all reset filter" item-label="FullName" tick-property="ticked" max-labels="0">
+                    </add-class-to-role-filter>
+                </div>
+                <label class="col-sm-1 control-label" data-translate="Status"></label>
+                <div class="col-sm-2">
+                </div>
+                <div class="col-sm-1">
+                    <button class="button" ng-click="evaluatorCtrl.query(evaluatorCtrl.filter)" data-translate="Submit"></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -316,6 +316,8 @@
     <Content Include="SourceApp\Components\Employee\Templates\resetPassword.html" />
     <Content Include="SourceApp\Components\EPA\employeeEPA-factory.js" />
     <Content Include="SourceApp\Components\EPA\employeeEPA-model.js" />
+    <Content Include="SourceApp\Components\EPA\Evaluator\evaluator-controller.js" />
+    <Content Include="SourceApp\Components\EPA\Evaluator\Templates\index.html" />
     <Content Include="SourceApp\Components\EPA\MyEPA\myepa-controller.js" />
     <Content Include="SourceApp\Components\EPA\MyEPA\Templates\detail.html" />
     <Content Include="SourceApp\Components\EPA\MyEPA\Templates\generalInformation.html" />

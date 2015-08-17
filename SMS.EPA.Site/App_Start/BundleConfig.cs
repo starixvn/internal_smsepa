@@ -103,6 +103,7 @@
                             "~/SourceApp/Components/EPA/employeeEPA-factory.js",
                             "~/SourceApp/Components/EPA/employeeEPA-model.js",
                             "~/SourceApp/Components/EPA/MyEPA/myepa-controller.js",
+                            "~/SourceApp/Components/EPA/Evaluator/evaluator-controller.js",
                             "~/SourceApp/Components/Period/period-factory.js",
                             "~/SourceApp/Components/Period/period-model.js",
                             "~/SourceApp/Components/Period/period-controller.js"));

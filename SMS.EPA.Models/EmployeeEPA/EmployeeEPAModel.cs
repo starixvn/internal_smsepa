@@ -49,6 +49,6 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public IList<EmployeeModel> Evaluators { get; set; }
 
-        public DateTime EvaluateDate { get; set; }
+        public DateTime? EvaluateDate { get; set; }
     }
 }

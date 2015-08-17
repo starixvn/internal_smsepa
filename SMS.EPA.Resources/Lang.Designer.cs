@@ -583,6 +583,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Evaluation.
+        /// </summary>
+        public static string Evaluation {
+            get {
+                return ResourceManager.GetString("Evaluation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Evaluation Period.
         /// </summary>
         public static string EvaluationPeriod {

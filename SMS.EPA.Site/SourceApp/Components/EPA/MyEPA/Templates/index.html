@@ -53,9 +53,7 @@
                             </ul>
                         </div>
                     </td>
-                    <td class="text-center">
-                        {{item.evaluateDate | customDate }}
-                    </td>
+                    <td class="text-center">{{ item.EvaluateDate | customDate }}</td>
                 </tr>
                 <tr ng-if="empEPACtrl.listEPA.length == 0">
                     <td class="empty-result" colspan="8" data-translate="EmptyResult"></td>
