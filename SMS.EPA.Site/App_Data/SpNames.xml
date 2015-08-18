@@ -188,7 +188,9 @@
     <Setting Key="EpaPeriod_GetEmployeeSetting" SpName="EpaPeriod_GetEmployeeSetting" DbName="SMSEPA" Plain="0">
         <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
     </Setting>
-      <Setting Key="EpaPeriod_AddEmployee" SpName="EpaPeriod_AddEmployee" DbName="SMSEPA" Plain="0">
+    <Setting Key="EpaPeriod_AddEmployee" SpName="EpaPeriod_AddEmployee" DbName="SMSEPA" Plain="0">
+    </Setting>
+    <Setting Key="EpaPeriod_EditEmployeeSetting" SpName="EpaPeriod_EditEmployeeSetting" DbName="SMSEPA" Plain="0">
     </Setting>
   </Function>
 </Functions>

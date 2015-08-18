@@ -181,6 +181,7 @@ function ($scope, $window, PeriodModel, utilitiesFactory, CommonModel, EmployeeM
     vm.employeeSettings = PeriodModel.employeeSettings;
     vm.departments = CommonModel.departments;
     vm.isFirstLoad = true;
+    vm.periodDateFormat = PeriodModel.periodDateFormat;
 
     vm.currentPage = 1;
     vm.pageSize = 15;
@@ -272,44 +273,50 @@ function ($scope, $window, PeriodModel, utilitiesFactory, CommonModel, EmployeeM
 }]);
 
 periodModule.controller('UpdateEmployeeSettingPeriodController',
-['$scope', '$modalInstance', 'employeeSetting', 'PeriodModel', 'EmployeeModel', 'TargetTemplateModel',
-function ($scope, $modalInstance, employeeSetting, PeriodModel, EmployeeModel, TargetTemplateModel) {
+['$scope', '$modalInstance', 'employeeSetting', 'PeriodModel', 'EmployeeModel', 'TargetTemplateModel', 'FlowMngModel',
+function ($scope, $modalInstance, employeeSetting, PeriodModel, EmployeeModel, TargetTemplateModel, FlowMngModel) {
     var vm = this;
 
     vm.employeeSetting = employeeSetting;
+    vm.periodDateFormat = PeriodModel.periodDateFormat;
+    vm.remindDay = FlowMngModel.remindDay;
 
     vm.employeeOptions = {
         selftEvaluator: {
             ids: null,
-            startDate: null,
-            endDate: null,
-            hasSendMail: true,
-            remindDay: 0,
-            duration: 0
+            StartDate: null,
+            EndDate: null,
+            HasSendMail: true,
+            RemindDay: 0,
+            Duration: 0,
+            originalDuration: 0
         },
         evaluator: {
             ids: null,
-            startDate: null,
-            endDate: null,
-            hasSendMail: true,
-            remindDay: 0,
-            duration: 0
+            StartDate: null,
+            EndDate: null,
+            HasSendMail: true,
+            RemindDay: 0,
+            Duration: 0,
+            originalDuration: 0
         },
         reviewer: {
             ids: null,
-            startDate: null,
-            endDate: null,
-            hasSendMail: true,
-            remindDay: 0,
-            duration: 0
+            StartDate: null,
+            EndDate: null,
+            HasSendMail: true,
+            RemindDay: 0,
+            Duration: 0,
+            originalDuration: 0
         },
         management: {
             ids: null,
-            startDate: null,
-            endDate: null,
-            hasSendMail: true,
-            remindDay: 0,
-            duration: 0
+            StartDate: null,
+            EndDate: null,
+            HasSendMail: true,
+            RemindDay: 0,
+            Duration: 0,
+            originalDuration: 0
         },
         targetTemplateId: null,
         evaluatorEmployees: [],
@@ -320,30 +327,41 @@ function ($scope, $modalInstance, employeeSetting, PeriodModel, EmployeeModel, T
     var createEmployeeIds = function (evaluators) {
         var ids = [];
 
-        angular.forEach(evaluators, function (evaluator) {
-            ids.push(evaluator.EvaluatorInfo.EmployeeId);
-        });
+        if (evaluators && evaluators.length > 0) {
+            angular.forEach(evaluators, function (evaluator) {
+                if (evaluator.EvaluatorInfo) {
+                    ids.push(evaluator.EvaluatorInfo.EmployeeId);
+                }
+                else {
+                    ids.push(-1);
+                }
+            });
+        }
 
         return ids;
     };
 
     var getEvaluators = function (evaluators) {
         var evaluator = {
-            startDate: '',
-            endDate: '',
-            hasSendMail: true,
-            remindDay: 0,
-            duration: 0,
-            ids: []
+            StartDate: '',
+            EndDate: '',
+            HasSendMail: true,
+            RemindDay: 0,
+            Duration: 0,
+            originalDuration: 0,
+            ids: [],
+            ProcessId: 0
         };
 
         if (evaluators && evaluators.length > 0) {
-            evaluator.startDate = evaluators[0].StartDate;
-            evaluator.endDate = evaluators[0].EndDate;
-            evaluator.hasSendMail = evaluators[0].HasSendMail;
-            evaluator.remindDay = evaluators[0].RemindDay;
-            evaluator.duration = evaluators[0].Duration;
+            evaluator.StartDate = evaluators[0].StartDate ? new Date(evaluators[0].StartDate) : null;
+            evaluator.EndDate = evaluators[0].EndDate ? new Date(evaluators[0].EndDate) : null;
+            evaluator.HasSendMail = evaluators[0].HasSendMail;
+            evaluator.RemindDay = evaluators[0].RemindDay;
+            evaluator.Duration = evaluators[0].Duration;
+            evaluator.originalDuration = evaluator.Duration;
             evaluator.ids = createEmployeeIds(evaluators);
+            evaluator.ProcessId = evaluators[0].ProcessId;
         }
 
         return evaluator;
@@ -370,13 +388,56 @@ function ($scope, $modalInstance, employeeSetting, PeriodModel, EmployeeModel, T
         vm.employeeOptions.reviewerEmployees = angular.copy(vm.employees);
         vm.employeeOptions.managementEmployees = angular.copy(vm.employees);
 
-        if (!vm.selectedEmployees) {
-            setEmployeeSetting();
-        }
+        setEmployeeSetting();
     });
 
     vm.updateTrigger = function () {
         $scope.$broadcast('evaluatorChosen');
+    };
+
+    vm.updateDate = function (evaluator) {
+        if (evaluator && evaluator.ids.length > 0) {
+            var duration = evaluator.Duration,
+                originalDuration = evaluator.originalDuration,
+                changeDuration = duration - originalDuration,
+                processId = evaluator.ProcessId;
+
+            evaluator.EndDate = new Date(evaluator.EndDate.setDate(evaluator.EndDate.getDate() + changeDuration));
+
+            if (vm.employeeOptions.evaluator.ids.length > 0 && vm.employeeOptions.evaluator.ProcessId > processId) {
+                var evaluatorStartDate = vm.employeeOptions.evaluator.StartDate,
+                    evaluatorEndDate = vm.employeeOptions.evaluator.EndDate;
+
+                vm.employeeOptions.evaluator.StartDate = new Date(evaluatorStartDate.setDate(evaluatorStartDate.getDate() + changeDuration));
+                vm.employeeOptions.evaluator.EndDate = new Date(evaluatorEndDate.setDate(evaluatorEndDate.getDate() + changeDuration));
+            }
+
+            if (vm.employeeOptions.reviewer.ids.length > 0 && vm.employeeOptions.reviewer.ProcessId > processId) {
+                var reviewerStartDate = vm.employeeOptions.reviewer.StartDate,
+                    reviewerEndDate = vm.employeeOptions.reviewer.EndDate;
+
+                vm.employeeOptions.reviewer.StartDate = new Date(reviewerStartDate.setDate(reviewerStartDate.getDate() + changeDuration));
+                vm.employeeOptions.reviewer.EndDate = new Date(reviewerEndDate.setDate(reviewerEndDate.getDate() + changeDuration));
+            }
+
+            if (vm.employeeOptions.management.ids.length > 0 && vm.employeeOptions.management.ProcessId > processId) {
+                var managementStartDate = vm.employeeOptions.management.StartDate,
+                    managementEndDate = vm.employeeOptions.management.EndDate;
+
+                vm.employeeOptions.management.StartDate = new Date(managementStartDate.setDate(managementStartDate.getDate() + changeDuration));
+                vm.employeeOptions.management.EndDate = new Date(managementEndDate.setDate(managementEndDate.getDate() + changeDuration));
+            }
+
+            evaluator.originalDuration = duration;
+        }
+    };
+
+    vm.save = function () {
+        var employeeAssignmentSetting = PeriodModel.createAssignmentSettings(vm.employeeOptions, vm.employeeSetting);
+
+        PeriodModel.updateEmployeeSettingOfPeriod(employeeAssignmentSetting).then(function () {
+            $modalInstance.close();
+        });
     };
 
     vm.cancel = function () {

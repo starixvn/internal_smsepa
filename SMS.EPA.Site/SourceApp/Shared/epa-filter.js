@@ -15,4 +15,15 @@ appModule.filter('customNumber', ['$filter', function ($filter) {
         var _number = $filter('number')(input, 2);
         return _number;
     };
-} ]);
+}]);
+
+appModule.filter('range', function () {
+    return function (input, max) {
+        max = parseInt(max);
+
+        for (var i = 0; i < max; i++)
+            input.push(i);
+
+        return input;
+    };
+});

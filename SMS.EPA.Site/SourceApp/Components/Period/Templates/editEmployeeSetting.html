@@ -2,7 +2,7 @@
 <div id="confirmPopup">
     <div class="modal-header">
         <div class="popup-header">
-            <span data-translate="EidtEmployeeSetting"></span>
+            <span data-translate="EditEmployeeSetting"></span>
             <span class="close-popup" ng-click="updatePeriodSettingCtrl.cancel()"></span>
         </div>
     </div>
@@ -23,15 +23,15 @@
         <table class="row table table-bordered table-striped table-period-setting">
             <thead>
                 <tr class="headerName">
-                    <th data-translate="SymbolCount">
+                    <th class="width200" data-translate="SymbolCount">
                     </th>
-                    <th data-translate="SelfEvaluator">
+                    <th class="width200 text-center" data-translate="SelfEvaluator">
                     </th>
-                    <th data-translate="Evaluator">
+                    <th class="width200 text-center" data-translate="Evaluator">
                     </th>
-                    <th data-translate="Reviewer">
+                    <th class="width200 text-center" data-translate="Reviewer">
                     </th>
-                    <th data-translate="Management">
+                    <th class="width200 text-center" data-translate="Management">
                     </th>
                 </tr>
             </thead>
@@ -65,48 +65,114 @@
                     </td>
                 </tr>
                 <tr>
-                    <td data-translate="Duration"></td>
-                    <td>
-                        <input type="text" ng-model="updatePeriodSettingCtrl.employeeOptions.selfEvaluator.duration" />
-                    </td>
-                    <td>
-                        <input type="text" ng-model="updatePeriodSettingCtrl.employeeOptions.evaluator.duration" />
-                    </td>
-                    <td>
-                        <input type="text" ng-model="updatePeriodSettingCtrl.employeeOptions.reviewer.duration" />
-                    </td>
-                    <td>
-                        <input type="text" ng-model="updatePeriodSettingCtrl.employeeOptions.management.duration" />
-                    </td>
-                </tr>
-                <tr>
                     <td data-translate="RemindDay"></td>
-                    <td>
-                        <input type="text" ng-model="updatePeriodSettingCtrl.employeeOptions.selfEvaluator.remindDay" />
+                    <td class="text-center">
+                        <select ng-model="updatePeriodSettingCtrl.employeeOptions.selfEvaluator.RemindDay"
+                                ng-options="opt for opt in updatePeriodSettingCtrl.remindDay"></select>
                     </td>
-                    <td>
-                        <input type="text" ng-model="updatePeriodSettingCtrl.employeeOptions.evaluator.remindDay" />
+                    <td class="text-center">
+                        <select ng-model="updatePeriodSettingCtrl.employeeOptions.evaluator.RemindDay"
+                                ng-options="opt for opt in updatePeriodSettingCtrl.remindDay"></select>
                     </td>
-                    <td>
-                        <input type="text" ng-model="updatePeriodSettingCtrl.employeeOptions.reviewer.remindDay" />
+                    <td class="text-center">
+                        <select ng-model="updatePeriodSettingCtrl.employeeOptions.reviewer.RemindDay"
+                                ng-options="opt for opt in updatePeriodSettingCtrl.remindDay"></select>
                     </td>
-                    <td>
-                        <input type="text" ng-model="updatePeriodSettingCtrl.employeeOptions.management.remindDay" />
+                    <td class="text-center">
+                        <select ng-model="updatePeriodSettingCtrl.employeeOptions.management.RemindDay"
+                                ng-options="opt for opt in updatePeriodSettingCtrl.remindDay"></select>
                     </td>
                 </tr>
                 <tr>
                     <td data-translate="Email"></td>
-                    <td>
-                        <input type="checkbox" ng-model="updatePeriodSettingCtrl.employeeOptions.selfEvaluator.hasSendMail" />
+                    <td class="text-center">
+                        <input type="checkbox" ng-model="updatePeriodSettingCtrl.employeeOptions.selfEvaluator.HasSendMail" />
                     </td>
-                    <td>
-                        <input type="checkbox" ng-model="updatePeriodSettingCtrl.employeeOptions.evaluator.hasSendMail" />
+                    <td class="text-center">
+                        <input type="checkbox" ng-model="updatePeriodSettingCtrl.employeeOptions.evaluator.HasSendMail" />
                     </td>
-                    <td>
-                        <input type="checkbox" ng-model="updatePeriodSettingCtrl.employeeOptions.reviewer.hasSendMail" />
+                    <td class="text-center">
+                        <input type="checkbox" ng-model="updatePeriodSettingCtrl.employeeOptions.reviewer.HasSendMail" />
                     </td>
-                    <td>
-                        <input type="checkbox" ng-model="updatePeriodSettingCtrl.employeeOptions.management.hasSendMail" />
+                    <td class="text-center">
+                        <input type="checkbox" ng-model="updatePeriodSettingCtrl.employeeOptions.management.HasSendMail" />
+                    </td>
+                </tr>
+                <tr>
+                    <td data-translate="Duration"></td>
+                    <td class="text-center">
+                        <select ng-model="updatePeriodSettingCtrl.employeeOptions.selfEvaluator.Duration"
+                                ng-change="updatePeriodSettingCtrl.updateDate(updatePeriodSettingCtrl.employeeOptions.selfEvaluator)"
+                                ng-options="opt for opt in [] | range:30"></select>
+                    </td>
+                    <td class="text-center">
+                        <select ng-model="updatePeriodSettingCtrl.employeeOptions.evaluator.Duration"
+                                ng-change="updatePeriodSettingCtrl.updateDate(updatePeriodSettingCtrl.employeeOptions.evaluator)"
+                                ng-options="opt for opt in [] | range:30"></select>
+                    </td>
+                    <td class="text-center">
+                        <select ng-model="updatePeriodSettingCtrl.employeeOptions.reviewer.Duration"
+                                ng-change="updatePeriodSettingCtrl.updateDate(updatePeriodSettingCtrl.employeeOptions.reviewer)"
+                                ng-options="opt for opt in [] | range:30"></select>
+                    </td>
+                    <td class="text-center">
+                        <select ng-model="updatePeriodSettingCtrl.employeeOptions.management.Duration"
+                                ng-change="updatePeriodSettingCtrl.updateDate(updatePeriodSettingCtrl.employeeOptions.management)"
+                                ng-options="opt for opt in [] | range:30"></select>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-translate="StartDate"></td>
+                    <td class="text-center">
+                        <input readonly class="calendar-form-control" type="text"
+                               ng-model="updatePeriodSettingCtrl.employeeOptions.selfEvaluator.StartDate"
+                               datepicker-popup="{{updatePeriodSettingCtrl.periodDateFormat}}" />
+                        <calendar-image class="calendar-image period-calendar"></calendar-image>
+                    </td>
+                    <td class="text-center">
+                        <input readonly class="calendar-form-control" type="text"
+                               ng-model="updatePeriodSettingCtrl.employeeOptions.evaluator.StartDate"
+                               datepicker-popup="{{updatePeriodSettingCtrl.periodDateFormat}}" />
+                        <calendar-image class="calendar-image period-calendar"></calendar-image>
+                    </td>
+                    <td class="text-center">
+                        <input readonly class="calendar-form-control" type="text"
+                               ng-model="updatePeriodSettingCtrl.employeeOptions.reviewer.StartDate"
+                               datepicker-popup="{{updatePeriodSettingCtrl.periodDateFormat}}" />
+                        <calendar-image class="calendar-image period-calendar"></calendar-image>
+                    </td>
+                    <td class="text-center">
+                        <input readonly class="calendar-form-control" type="text"
+                               ng-model="updatePeriodSettingCtrl.employeeOptions.management.StartDate"
+                               datepicker-popup="{{updatePeriodSettingCtrl.periodDateFormat}}" />
+                        <calendar-image class="calendar-image period-calendar"></calendar-image>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-translate="EndDate"></td>
+                    <td class="text-center">
+                        <input readonly class="calendar-form-control" type="text"
+                               ng-model="updatePeriodSettingCtrl.employeeOptions.selfEvaluator.EndDate"
+                               datepicker-popup="{{updatePeriodSettingCtrl.periodDateFormat}}" />
+                        <calendar-image class="calendar-image"></calendar-image>
+                    </td>
+                    <td class="text-center">
+                        <input readonly class="calendar-form-control" type="text"
+                               ng-model="updatePeriodSettingCtrl.employeeOptions.evaluator.EndDate"
+                               datepicker-popup="{{updatePeriodSettingCtrl.periodDateFormat}}" />
+                        <calendar-image class="calendar-image"></calendar-image>
+                    </td>
+                    <td class="text-center">
+                        <input readonly class="calendar-form-control" type="text"
+                               ng-model="updatePeriodSettingCtrl.employeeOptions.reviewer.EndDate"
+                               datepicker-popup="{{updatePeriodSettingCtrl.periodDateFormat}}" />
+                        <calendar-image class="calendar-image"></calendar-image>
+                    </td>
+                    <td class="text-center">
+                        <input readonly class="calendar-form-control" type="text"
+                               ng-model="updatePeriodSettingCtrl.employeeOptions.management.EndDate"
+                               datepicker-popup="{{updatePeriodSettingCtrl.periodDateFormat}}" />
+                        <calendar-image class="calendar-image"></calendar-image>
                     </td>
                 </tr>
             </tbody>

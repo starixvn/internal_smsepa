@@ -403,6 +403,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit Employee Setting.
+        /// </summary>
+        public static string EditEmployeeSetting {
+            get {
+                return ResourceManager.GetString("EditEmployeeSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit Flow Setting.
         /// </summary>
         public static string EditFlowSetting {

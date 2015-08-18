@@ -112,7 +112,7 @@ function ($window, FlowMngModel, CommonModel, cacheService) {
 
     vm.departments = CommonModel.departments;
     vm.treeDepartment = CommonModel.treeDepartment;
-    vm.remindDay = [0, 1, 2, 3, 4, 5, 6, 7];
+    vm.remindDay = FlowMngModel.remindDay;
 
     vm.tabDepartmentSelected = function () {
         cacheService.setProperty(1);

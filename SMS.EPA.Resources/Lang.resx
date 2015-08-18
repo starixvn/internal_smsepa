@@ -720,4 +720,8 @@
   <data name="SelfEvaluationScore" xml:space="preserve">
     <value>Self-Evaluation Score</value>
   </data>
+  <data name="EditEmployeeSetting" xml:space="preserve">
+    <value>Edit Employee Setting</value>
+  </data>
+
 </root>

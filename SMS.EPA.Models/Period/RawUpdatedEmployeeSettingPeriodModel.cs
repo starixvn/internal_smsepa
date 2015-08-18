@@ -15,7 +15,7 @@ namespace SMS.EPA.Model.Period
 
     public class RawUpdatedEmployeeSettingPeriodModel
     {
-        private const string _AssignmentItem = "<Assignment ProcessId='{0}' EvaluatorId='{1}' Duration='{1}' HasSendMail='{1}' RemindDay='{1}'></Assignment>";
+        private const string _AssignmentItem = "<Assignment ProcessId='{0}' EvaluatorId='{1}' Duration='{2}' HasSendMail='{3}' RemindDay='{4}'></Assignment>";
         private const string _BeginRootTag = "<ROOT>";
         private const string _EndRootTag = "</ROOT>";
 

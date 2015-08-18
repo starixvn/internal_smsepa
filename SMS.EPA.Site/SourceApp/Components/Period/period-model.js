@@ -11,6 +11,12 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
     periodModel.periodDateFormat = 'dd MMM';
     periodModel.shortNameMonth = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     periodModel.employeeSettings = [];
+    periodModel.evaluatorType = {
+        SelfEvaluator: 2,
+        Evaluator: 3,
+        Reviewer: 4,
+        Management: 5
+    };
 
     periodModel.calendar = {
         startDateOpened: false,
@@ -256,6 +262,81 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         .error(function (response, status) {
             errorFactory.errorHandle(status);
         });
+    };
+
+    periodModel.createAssignmentSettings = function (employeeOptions, employeeSetting) {
+        var employeeAssignments = [],
+            periodId = employeeSetting.PeriodId,
+            employeeId = employeeSetting.EmployeeId,
+            targetTemplateId = employeeOptions.targetTemplateId;
+
+        var selfEvaluatorAssignments = {
+            processId: periodModel.evaluatorType.SelfEvaluator,
+            duration: employeeOptions.selfEvaluator.Duration,
+            remindDay: employeeOptions.selfEvaluator.RemindDay,
+            hasSendMail: employeeOptions.selfEvaluator.HasSendMail,
+            evaluatorInfo: {
+                employeeId: -1
+            }
+        };
+        employeeAssignments.push(selfEvaluatorAssignments);
+
+        if (employeeOptions.evaluator.ids && employeeOptions.evaluator.ids.length > 0) {
+            angular.forEach(employeeOptions.evaluator.ids, function (evaluatorId) {
+                var evaluatorAssignment = {
+                        processId: periodModel.evaluatorType.Evaluator,
+                        duration: employeeOptions.evaluator.Duration,
+                        remindDay: employeeOptions.evaluator.RemindDay,
+                        hasSendMail: employeeOptions.evaluator.HasSendMail,
+                        evaluatorInfo: {
+                            employeeId: evaluatorId
+                        }
+                };
+
+                employeeAssignments.push(evaluatorAssignment);
+            });
+        }
+
+        if (employeeOptions.reviewer.ids && employeeOptions.reviewer.ids.length > 0) {
+            angular.forEach(employeeOptions.reviewer.ids, function (reviewerId) {
+                var reviewerAssignment = {
+                        processId: periodModel.evaluatorType.Reviewer,
+                        duration: employeeOptions.reviewer.Duration,
+                        remindDay: employeeOptions.reviewer.RemindDay,
+                        hasSendMail: employeeOptions.reviewer.HasSendMail,
+                        evaluatorInfo: {
+                            employeeId: reviewerId
+                        }
+                };
+
+                employeeAssignments.push(reviewerAssignment);
+            });
+        }
+
+        if (employeeOptions.management.ids && employeeOptions.management.ids.length > 0) {
+            angular.forEach(employeeOptions.management.ids, function (managementId) {
+                var managementAssignment = {
+                    processId: periodModel.evaluatorType.Management,
+                    duration: employeeOptions.management.Duration,
+                    remindDay: employeeOptions.management.RemindDay,
+                    hasSendMail: employeeOptions.management.HasSendMail,
+                    evaluatorInfo: {
+                        employeeId: managementId
+                    }
+                };
+
+                employeeAssignments.push(managementAssignment);
+            });
+        }
+
+        var employeeSetting = {
+            periodId: periodId,
+            employeeId: employeeId,
+            targetTemplateId: targetTemplateId,
+            employeeAssignments: employeeAssignments
+        };
+
+        return employeeSetting;
     };
 
     return periodModel;

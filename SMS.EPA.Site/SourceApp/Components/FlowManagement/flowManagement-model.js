@@ -6,6 +6,8 @@ flowMngModule.factory('FlowMngModel',
 function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFactory) {
     var flowMngModel = {};
 
+    flowMngModel.remindDay = [0, 1, 2, 3, 4, 5, 6, 7];
+
     flowMngModel.selfs = {
         duration: 0,
         hasSendMail: true,
