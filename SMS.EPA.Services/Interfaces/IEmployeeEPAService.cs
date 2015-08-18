@@ -13,6 +13,7 @@ namespace SMS.EPA.Services.Interfaces
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.EmployeeEPA;
     using SMS.EPA.Model.EmployeeEPA;
+    using SMS.EPA.Model.Enitites;
 
     public interface IEmployeeEPAService
     {
@@ -21,6 +22,8 @@ namespace SMS.EPA.Services.Interfaces
         EmployeeEPAInfoModel GetEPAInfo(GetEPAInfoCriteria criteria);
 
         CommandResult UpdateEmployeeEPA(UpdateEPAScoreCriteria criteria);
+
+        IEnumerable<Employee> GetMember(GetMemberCriteria criteria);
 
         string Encode(string plainText);
 

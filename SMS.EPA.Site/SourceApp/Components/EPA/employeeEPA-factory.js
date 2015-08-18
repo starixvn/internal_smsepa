@@ -3,6 +3,14 @@
 
 epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, baseUrl) {
     return {
+        getMember: function (processId, groupId) {
+            return $http.get(baseUrl + 'api/EmployeeEPA/GetMember', {
+                params: {
+                    processId: processId,
+                    groupId: groupId
+                }
+            });
+        },
         getEPAOfCurrentMember: function (status) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAOfCurrentMember', { params: { status: status } });
         },

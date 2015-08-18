@@ -20,6 +20,7 @@ namespace SMS.EPA.Services.Implement
     using SMS.EPA.Core.Utilities;
     using SMS.EPA.Criteria.EmployeeEPA;
     using SMS.EPA.Model.EmployeeEPA;
+    using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.KPI;
     using SMS.EPA.Repositories.Implement;
     using SMS.EPA.Repositories.Interfaces;
@@ -93,6 +94,19 @@ namespace SMS.EPA.Services.Implement
             }
 
             return commandResult;
+        }
+
+        public IEnumerable<Employee> GetMember(GetMemberCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<Employee> employees = new List<Employee>();
+
+            if (criteria.IsValid())
+            {
+                employees = this.GetData<Employee>(criteria);
+            }
+
+            return employees;
         }
 
         public string Encode(string plainText)

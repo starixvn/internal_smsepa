@@ -702,8 +702,22 @@
   <data name="RemindDay" xml:space="preserve">
     <value>Remind Day</value>
   </data>
-   <data name="ParameterInvalid" xml:space="preserve">
+  <data name="ParameterInvalid" xml:space="preserve">
     <value>Parameter invalid.</value>
   </data>
-
+  <data name="EvaluateNow" xml:space="preserve">
+    <value>Evaluate Now</value>
+  </data>
+  <data name="EvaluationDate" xml:space="preserve">
+    <value>Evaluation Date</value>
+  </data>
+  <data name="EvaluationScore" xml:space="preserve">
+    <value>Evaluation Score</value>
+  </data>
+  <data name="EvaluationStatus" xml:space="preserve">
+    <value>Evaluation Status</value>
+  </data>
+  <data name="SelfEvaluationScore" xml:space="preserve">
+    <value>Self-Evaluation Score</value>
+  </data>
 </root>

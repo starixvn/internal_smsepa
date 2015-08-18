@@ -72,6 +72,7 @@
     <Compile Include="Department\GetDepartmentCriteria.cs" />
     <Compile Include="Department\UpdateDepartmentCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEPAInfoCriteria.cs" />
+    <Compile Include="EmployeeEPA\GetMemberCriteria.cs" />
     <Compile Include="EmployeeEPA\UpdateEPAScoreCriteria.cs" />
     <Compile Include="Employee\AssignRoleToEmployeeCriteria.cs" />
     <Compile Include="Employee\ChangePasswordCriteria.cs">

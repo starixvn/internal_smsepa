@@ -583,6 +583,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Evaluate Now.
+        /// </summary>
+        public static string EvaluateNow {
+            get {
+                return ResourceManager.GetString("EvaluateNow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Evaluation.
         /// </summary>
         public static string Evaluation {
@@ -592,11 +601,38 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Evaluation Date.
+        /// </summary>
+        public static string EvaluationDate {
+            get {
+                return ResourceManager.GetString("EvaluationDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Evaluation Period.
         /// </summary>
         public static string EvaluationPeriod {
             get {
                 return ResourceManager.GetString("EvaluationPeriod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Evaluation Score.
+        /// </summary>
+        public static string EvaluationScore {
+            get {
+                return ResourceManager.GetString("EvaluationScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Evaluation Status.
+        /// </summary>
+        public static string EvaluationStatus {
+            get {
+                return ResourceManager.GetString("EvaluationStatus", resourceCulture);
             }
         }
         
@@ -1461,6 +1497,15 @@ namespace SMS.EPA.Resources {
         public static string SelfEvaluation {
             get {
                 return ResourceManager.GetString("SelfEvaluation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Self-Evaluation Score.
+        /// </summary>
+        public static string SelfEvaluationScore {
+            get {
+                return ResourceManager.GetString("SelfEvaluationScore", resourceCulture);
             }
         }
         

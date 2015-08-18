@@ -8,6 +8,16 @@ function (employeeEPAFactory, utilitiesFactory, notificationFactory, errorFactor
 
     employeeEPAModel.listEPA = [];
     employeeEPAModel.epaInfo = {};
+    employeeEPAModel.members = [];
+
+    employeeEPAModel.getMember = function (processId, groupId) {
+        return employeeEPAFactory.getMember(processId, groupId)
+        .success(function (members) {
+            employeeEPAModel.members = members;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
 
     employeeEPAModel.getEPAOfCurrentMember = function (status) {
         return employeeEPAFactory.getEPAOfCurrentMember(status)

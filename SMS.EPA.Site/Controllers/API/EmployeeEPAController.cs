@@ -14,6 +14,7 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.EmployeeEPA;
     using SMS.EPA.Model.EmployeeEPA;
+    using SMS.EPA.Model.Enitites;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
 
@@ -33,6 +34,19 @@ namespace SMS.EPA.Site.Controllers.API
         {
             _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
             _utilitiesController = utilitiesController ?? new UtilitiesController();
+        }
+
+        [HttpGet]
+        public IEnumerable<Employee> GetMember(int processId, int? groupId)
+        {
+            var criteria = new GetMemberCriteria()
+            {
+                ActorUserId = CurrentUser.EmployeeInfo.EmployeeId,
+                ProcessId = processId,
+                GroupId = groupId
+            };
+
+            return _employeeEPAService.GetMember(criteria);
         }
 
         [HttpGet]

@@ -169,6 +169,8 @@
         </Setting>
         <Setting Key="EPA_UpdateScore" SpName="EPA_UpdateScore" DbName="SMSEPA" Plain="0">
         </Setting>
+        <Setting Key="EPA_GetMember" SpName="EPA_GetMember" DbName="SMSEPA" Plain="0">
+        </Setting>
     </Function>
   <Function Name="Period">
     <Setting Key="EpaPeriod_Get" SpName="EpaPeriod_Get" DbName="SMSEPA" Plain="0">

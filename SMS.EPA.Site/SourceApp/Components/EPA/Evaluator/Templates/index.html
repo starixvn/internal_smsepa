@@ -1,4 +1,4 @@
-﻿<div ng-controller="EvaluatorController as evaluatorCtrl">
+﻿<div class="evaluator" ng-controller="EvaluatorController as evaluatorCtrl">
     <div class="col-sm-12 sub-header">
         <ul class="row breadcrumb">
             <li class="current" data-translate="Evaluation"></li>
@@ -7,13 +7,6 @@
     <div class="col-sm-12">
         <form novalidate class="row filter form-horizontal" role="form">
             <div class="form-group">
-                <label class="col-sm-1 control-label" data-translate="Target"></label>
-                <div class="col-sm-2">
-                    <select class="form-control" ng-model="evaluatorCtrl.filter.targetTypeId"
-                            ng-options="opt.TargetTypeId as opt.Name for opt in evaluatorCtrl.targetTypes">
-                        <option value="">-- {{"All" | translate}} --</option>
-                    </select>
-                </div>
                 <label class="col-sm-1 control-label" data-translate="From"></label>
                 <div class="col-sm-2">
                     <input readonly class="calendar-form-control" type="text"
@@ -32,29 +25,72 @@
                     <calendar-image class="calendar-image"
                                     ng-click="evaluatorCtrl.openPopupEndDate($event, evaluatorCtrl.calendar.endDateOpened)"></calendar-image>
                 </div>
+                <label class="col-sm-1 control-label" data-translate="Target"></label>
+                <div class="col-sm-2">
+                    <select class="form-control" ng-model="evaluatorCtrl.filter.targetTypeId"
+                            ng-options="opt.TargetTypeId as opt.Name for opt in evaluatorCtrl.targetTypes">
+                        <option value="">-- {{"All" | translate}} --</option>
+                    </select>
+                </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-1 control-label" data-translate="Team"></label>
                 <div class="col-sm-2">
                     <select class="form-control" ng-model="evaluatorCtrl.filter.groupId"
                             ng-options="opt.GroupId as opt.GroupName for opt in evaluatorCtrl.groupOptions"
-                            ng-change="evaluatorCtrl.getEmployeeByGroup(evaluatorCtrl.filter.groupId)">
+                            ng-change="evaluatorCtrl.getMember(evaluatorCtrl.filter.groupId)">
                         <option value="">-- {{"All" | translate}} --</option>
                     </select>
                 </div>
                 <label class="col-sm-1 control-label" data-translate="Employee"></label>
                 <div class="col-sm-2">
-                    <add-class-to-role-filter class="multi-select" multi-select input-model="evaluatorCtrl.employees" button-label="EmployeeId"
+                    <add-class-to-role-filter class="multi-select" multi-select input-model="evaluatorCtrl.members" button-label="EmployeeId"
                                               helper-elements="all reset filter" item-label="FullName" tick-property="ticked" max-labels="0">
                     </add-class-to-role-filter>
                 </div>
                 <label class="col-sm-1 control-label" data-translate="Status"></label>
                 <div class="col-sm-2">
+                    <select class="form-control" ng-model="evaluatorCtrl.filter.status">
+                        <option value="">-- {{"All" | translate}} --</option>
+                        <option selected value="true" data-translate="Yes"></option>
+                        <option value="false" data-translate="No"></option>
+                    </select>
                 </div>
                 <div class="col-sm-1">
                     <button class="button" ng-click="evaluatorCtrl.query(evaluatorCtrl.filter)" data-translate="Submit"></button>
                 </div>
             </div>
         </form>
+        <table class="row table table-bordered table-striped">
+            <thead>
+            <th data-translate="SymbolCount"></th>
+            <th data-translate="Team"></th>
+            <th data-translate="Employee"></th>
+            <th data-translate="Target"></th>
+            <th data-translate="SelfEvaluationScore"></th>
+            <th data-translate="EvaluationStatus"></th>
+            <th data-translate="EvaluationDate"></th>
+            <th data-translate="EvaluationScore"></th>
+            <th data-translate="Action"></th>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in evaluatorCtrl.listEPA">
+                    <td class="text-center" ng-bind="$index + 1"></td>
+                    <td class="text-center">
+                        <span tooltip="{{item.Group.GroupName}}" ng-bind="item.Group.GroupCode"></span>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr ng-if="evaluatorCtrl.listEPA.length == 0">
+                    <td class="empty-result" colspan="9" data-translate="EmptyResult"></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>

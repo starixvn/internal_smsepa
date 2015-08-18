@@ -6,8 +6,9 @@ epaModule.controller('EvaluatorController',
 function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
     var vm = this;
 
+    vm.listEPA = [];
     vm.targetTypes = CommonModel.targetTypes;
-    vm.employees = CommonModel.employees;
+    vm.members = EmployeeEPAModel.members;
 
     vm.filter = {
         fromDate: new Date(),
@@ -15,7 +16,7 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
         targetTypeId: '',
         groupId: '',
         employeeId: '',
-        statusId: ''
+        status: ''
     };
 
     utilitiesFactory.getDateFormat(vm);
@@ -33,9 +34,9 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
         utilitiesFactory.openPopupEndDate($event, vm);
     };
 
-    vm.getEmployeeByGroup = function (groupId) {
-        CommonModel.getAllEmployee('', groupId, null, false).then(function () {
-            vm.employees = CommonModel.employees;
+    vm.getMember = function (groupId) {
+        EmployeeEPAModel.getMember(3, groupId).then(function () {
+            vm.members = EmployeeEPAModel.members;
         });
     };
 
@@ -51,7 +52,7 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
             vm.groupOptions = CommonModel.groups;
         });
 
-        vm.getEmployeeByGroup(vm.filter.groupId);
+        vm.getMember(vm.filter.groupId);
     };
 
     vm.initialize();
