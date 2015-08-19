@@ -28,10 +28,14 @@ namespace SMS.EPA.Services.Interfaces
 
         CommandResult DeletePeriod(DeletePeriodCriteria criteria);
 
-        IEnumerable<PeriodEmployeeSettingModel> GetPeriodEmployeeSettingById(GetPeriodEmployeeSettingCriteria criteria, string startDate);
+        IEnumerable<PeriodEmployeeSettingModel> GetPeriodEmployeeSettingById(GetPeriodEmployeeSettingCriteria criteria);
 
         CommandResult AddEmployeeToPeriod(AddEmployeeToPeriodCriteria criteria);
 
         CommandResult UpdateEmployeeSettingOfPeriod(UpdateEmployeeSettingOfPeriodCriteria criteria);
+
+        CommandResult UpdateIncludeStatusEmployeePeriod(UpdateIncludeStatusEmployeePeriodCriteria criteria);
+
+        void ExportEmployeeSettingReport(IEnumerable<PeriodEmployeeSettingModel> employeeFlowSettings, string templatePath);
     }
 }

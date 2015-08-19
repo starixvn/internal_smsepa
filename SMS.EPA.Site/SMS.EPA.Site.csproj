@@ -345,6 +345,7 @@
     <Content Include="SourceApp\Components\KPI\Templates\create.html" />
     <Content Include="SourceApp\Components\KPI\Templates\modalConfirmRequired.html" />
     <Content Include="SourceApp\Components\Period\period-controller.js" />
+    <Content Include="SourceApp\Components\Period\period-directive.js" />
     <Content Include="SourceApp\Components\Period\period-factory.js" />
     <Content Include="SourceApp\Components\Period\period-model.js" />
     <Content Include="SourceApp\Components\Period\Templates\basicInformation.html" />
@@ -518,6 +519,7 @@
     <Content Include="SourceApp\Components\CheckFlowAssignment\ExcelTemplates\DepartmentFlowSettingReport.xls" />
     <Content Include="SourceApp\Components\Period\period.less" />
     <Content Include="SourceApp\Components\EPA\epa.less" />
+    <Content Include="SourceApp\Components\Period\ExcelTemplates\EmployeeFlowSettingReport.xls" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">

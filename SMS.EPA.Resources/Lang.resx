@@ -723,5 +723,19 @@
   <data name="EditEmployeeSetting" xml:space="preserve">
     <value>Edit Employee Setting</value>
   </data>
-
+  <data name="ShowExcludedEmployee" xml:space="preserve">
+    <value>Show Excluded Employee</value>
+  </data>
+  <data name="NumberEmployees" xml:space="preserve">
+    <value>Number Employee (s)</value>
+  </data>
+  <data name="AttendanceEndDate" xml:space="preserve">
+    <value>Attendance End Date</value>
+  </data>
+  <data name="AttendanceStartDate" xml:space="preserve">
+    <value>Attendance Start Date</value>
+  </data>
+  <data name="Include" xml:space="preserve">
+    <value> Include</value>
+  </data>
 </root>

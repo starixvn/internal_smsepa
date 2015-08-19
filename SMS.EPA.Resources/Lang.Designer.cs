@@ -160,11 +160,29 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Attendance End Date.
+        /// </summary>
+        public static string AttendanceEndDate {
+            get {
+                return ResourceManager.GetString("AttendanceEndDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Attendance Report.
         /// </summary>
         public static string AttendanceReport {
             get {
                 return ResourceManager.GetString("AttendanceReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attendance Start Date.
+        /// </summary>
+        public static string AttendanceStartDate {
+            get {
+                return ResourceManager.GetString("AttendanceStartDate", resourceCulture);
             }
         }
         
@@ -835,6 +853,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to  Include.
+        /// </summary>
+        public static string Include {
+            get {
+                return ResourceManager.GetString("Include", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Include Self-Evaluation.
         /// </summary>
         public static string IncludeSelfEvaluation {
@@ -1155,6 +1182,15 @@ namespace SMS.EPA.Resources {
         public static string NotRequired {
             get {
                 return ResourceManager.GetString("NotRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number Employee (s).
+        /// </summary>
+        public static string NumberEmployees {
+            get {
+                return ResourceManager.GetString("NumberEmployees", resourceCulture);
             }
         }
         
@@ -1551,6 +1587,15 @@ namespace SMS.EPA.Resources {
         public static string ShowAll {
             get {
                 return ResourceManager.GetString("ShowAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Excluded Employee.
+        /// </summary>
+        public static string ShowExcludedEmployee {
+            get {
+                return ResourceManager.GetString("ShowExcludedEmployee", resourceCulture);
             }
         }
         

@@ -106,7 +106,8 @@
                             "~/SourceApp/Components/EPA/Evaluator/evaluator-controller.js",
                             "~/SourceApp/Components/Period/period-factory.js",
                             "~/SourceApp/Components/Period/period-model.js",
-                            "~/SourceApp/Components/Period/period-controller.js"));
+                            "~/SourceApp/Components/Period/period-controller.js",
+                            "~/SourceApp/Components/Period/period-directive.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/epa-directives.js",

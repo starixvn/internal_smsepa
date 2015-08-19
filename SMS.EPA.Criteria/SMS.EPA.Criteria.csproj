@@ -116,6 +116,7 @@
     <Compile Include="Period\AddEmployeeToPeriodCriteria.cs" />
     <Compile Include="Period\CreatePeriodCriteria.cs" />
     <Compile Include="Period\DeletePeriodCriteria.cs" />
+    <Compile Include="Period\UpdateIncludeStatusEmployeePeriodCriteria.cs" />
     <Compile Include="Period\GetPeriodEmployeeSettingCriteria.cs" />
     <Compile Include="Period\GetPeriodByIdCriteria.cs" />
     <Compile Include="Period\GetPeriodCriteria.cs" />

@@ -9,6 +9,7 @@
 
 namespace SMS.EPA.Criteria.Period
 {
+    using System;
     using Fanex.Data.Repository;
 
     public class UpdateBasicInformationPeriodCriteria : CriteriaBase
@@ -19,7 +20,13 @@ namespace SMS.EPA.Criteria.Period
 
         public int TargetTypeId { get; set; }
 
-        public string StartDate { get; set; }
+        public DateTime StartDate { get; set; }
+
+        public DateTime EndDate { get; set; }
+
+        public DateTime AttendanceStartDate { get; set; }
+
+        public DateTime AttendanceEndDate { get; set; }
 
         public bool IsActive { get; set; }
 

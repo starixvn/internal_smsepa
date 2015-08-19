@@ -21,14 +21,18 @@ periodModule.factory('periodFactory', ['$http', 'baseUrl', function ($http, base
         deletePeriod: function (periodId) {
             return $http['delete'](baseUrl + 'api/Period/DeletePeriod', { params: { periodId: periodId } });
         },
-        getPeriodEmployeeSettingById: function (periodId, startDate) {
-            return $http.get(baseUrl + 'api/Period/GetPeriodEmployeeSettingById', { params: { periodId: periodId, startDate: startDate }});
+        getPeriodEmployeeSettingById: function (periodId, departmentId, isExcludedEmployee) {
+            return $http.get(baseUrl + 'api/Period/GetPeriodEmployeeSettingById',
+                { params: { periodId: periodId, departmentId: departmentId, isExcludedEmployee: isExcludedEmployee } });
         },
         addEmployeeToPeriod: function (employeeInfo) {
             return $http.post(baseUrl + 'api/Period/AddEmployeToPeriod', employeeInfo);
         },
         updateEmployeeSettingOfPeriod: function (employeeSetting) {
             return $http.put(baseUrl + 'api/Period/UpdateEmployeeSettingOfPeriod', employeeSetting);
+        },
+        updateIncludeStatusEmployeePeriod: function (employeeStatusSetting) {
+            return $http.put(baseUrl + 'api/Period/UpdateIncludeStatusEmployeePeriod', employeeStatusSetting);
         }
     };
 }]);

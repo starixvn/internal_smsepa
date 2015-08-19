@@ -11,8 +11,8 @@ namespace SMS.EPA.Site.Controllers
 {
     using System.Collections.Generic;
     using System.Web.Mvc;
-    using SMS.EPA.Criteria.CheckFlowAssignment;
-    using SMS.EPA.Model.CheckFlowAssignment;
+    using SMS.EPA.Criteria.Period;
+    using SMS.EPA.Model.Period;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
 
@@ -20,16 +20,16 @@ namespace SMS.EPA.Site.Controllers
     {
         private const string _EmployeeFlowSettingReportTemplatePath = @"~\SourceApp\Components\CheckFlowAssignment\ExcelTemplates\EmployeeFlowSettingReport.xls";
 
-        private readonly ICheckFlowAssignmentService _checkFlowService;
+        private readonly IPeriodService _periodService;
 
         public ExportReportController()
             : this(null)
         {
         }
 
-        public ExportReportController(ICheckFlowAssignmentService checkFlowService)
+        public ExportReportController(IPeriodService checkFlowService)
         {
-            _checkFlowService = checkFlowService ?? new CheckFlowAssignmentService();
+            _periodService = checkFlowService ?? new PeriodService();
         }
 
         public ActionResult Index()
@@ -37,11 +37,11 @@ namespace SMS.EPA.Site.Controllers
             return View();
         }
 
-        public ActionResult ExportEmployeeFlowSettingReport(GetEmployeeFlowSettingCriteria criteria)
+        public ActionResult ExportEmployeeSettingReport(GetPeriodEmployeeSettingCriteria criteria)
         {
-            IEnumerable<EmployeeFlowTargetSettingModel> employeeFlowSettings = _checkFlowService.GetEmployeeFlowTargetSetting(criteria);
+            IEnumerable<PeriodEmployeeSettingModel> employeeFlowSettings = _periodService.GetPeriodEmployeeSettingById(criteria);
             string templatePath = Server.MapPath(_EmployeeFlowSettingReportTemplatePath);
-            _checkFlowService.ExportEmployeeFlowSettingReport(employeeFlowSettings, templatePath);
+            _periodService.ExportEmployeeSettingReport(employeeFlowSettings, templatePath);
 
             return new EmptyResult();
         }

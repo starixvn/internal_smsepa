@@ -10,6 +10,7 @@
 namespace SMS.EPA.Model.Period
 {
     using System.Collections.Generic;
+    using SMS.EPA.Model.Department;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.TargetTemplate;
 
@@ -26,6 +27,8 @@ namespace SMS.EPA.Model.Period
 
         public int PeriodId { get; set; }
 
+        public DepartmentModel Department { get; set; }
+
         public Group Group { get; set; }
 
         public JobTitle JobTitle { get; set; }
@@ -40,6 +43,7 @@ namespace SMS.EPA.Model.Period
 
         public IList<PeriodFlowModel> Managements { get; set; }
 
+        public bool IsIncluded { get; set; }
 
         public TargetTemplateModel TargetTemplate { get; set; }
 

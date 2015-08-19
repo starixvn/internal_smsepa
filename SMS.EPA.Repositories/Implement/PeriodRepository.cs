@@ -13,6 +13,7 @@ namespace SMS.EPA.Repositories.Implement
     using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
+    using SMS.EPA.Model.Department;
     using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.Period;
@@ -59,15 +60,16 @@ namespace SMS.EPA.Repositories.Implement
                 using (var multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     IEnumerable<PeriodEmployeeSettingModel> employees = 
-                        multi.Read<PeriodEmployeeSettingModel, Group, JobTitle, TargetTemplateModel, PeriodEmployeeSettingModel>(
-                            (pe, gr, job, tar) =>
+                        multi.Read<PeriodEmployeeSettingModel, DepartmentModel, Group, JobTitle, TargetTemplateModel, PeriodEmployeeSettingModel>(
+                            (pe, dep, gr, job, tar) =>
                             {
+                                pe.Department = dep;
                                 pe.Group = gr;
                                 pe.JobTitle = job;
                                 pe.TargetTemplate = tar;
                                 return pe;
                             },
-                            "GroupId, JobTitleId, TargetTemplateId");
+                            "DepartmentId, GroupId, JobTitleId, TargetTemplateId");
 
                     IEnumerable<RawPeriodFlowSettingModel> flowSettings = 
                         multi.Read<RawPeriodFlowSettingModel, EmployeeModel, RawPeriodFlowSettingModel>(

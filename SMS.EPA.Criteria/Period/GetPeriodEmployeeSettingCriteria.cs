@@ -15,6 +15,10 @@ namespace SMS.EPA.Criteria.Period
     {
         public int PeriodId { get; set; }
 
+        public int? DepartmentId { get; set; }
+
+        public bool? IsExcludedEmployee { get; set; }
+
         public override bool IsValid()
         {
             return PeriodId > 0;

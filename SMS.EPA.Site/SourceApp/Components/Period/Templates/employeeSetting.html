@@ -1,5 +1,23 @@
 ﻿<div ng-controller="EmployeeSettingPeriodController as employeeSettingPeriodCtrl">
-    <form class="row form-inline filter"></form>
+    <form class="row form-inline filter">
+        <div class="form-group">
+            <label class="control-label" data-translate="Department">
+            </label>
+            <select ng-model="employeeSettingPeriodCtrl.filter.departmentId"
+                    ng-options="opt.DepartmentId as opt.Name for opt in employeeSettingPeriodCtrl.departmentOptions"
+                    class="form-control lstBox-limit">
+                <option value="">-- {{"All" | translate}} --</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="ShowExcludedEmployee">
+            </label>
+            <input class="form-control" type="checkbox" ng-model="employeeSettingPeriodCtrl.filter.isExcludedEmployee" />
+        </div>
+        <div class="form-group">
+            <button class="button" ng-click="employeeSettingPeriodCtrl.query(employeeSettingPeriodCtrl.filter)" data-translate="Search"></button>
+        </div>
+    </form>
 
     <table class="row table table-bordered table-striped" id="data">
         <thead>
@@ -15,9 +33,12 @@
                         <label class="control-label" data-translate="Employee"></label>
                         <input class="form-control period-employee" ng-model="employeeSettingPeriodCtrl.searchEmployee"
                                placeholder="Enter full name or nick name" search-auto-complete search-employees="employeeSettingPeriodCtrl.getEmployee()"
-                               ng-change="employeeSettingPeriodCtrl.unSelectEmployee()" employee="employeeSettingPeriodCtrl.filter.employee" />
+                               ng-change="employeeSettingPeriodCtrl.unSelectEmployee()" employee="employeeSettingPeriodCtrl.filterAssign.employee" />
                     </div>
-                    <button class="button pull-left period-add" ng-click="employeeSettingPeriodCtrl.addEmployee(employeeSettingPeriodCtrl.filter)" data-translate="Add"></button>
+                    <button class="button pull-left period-add" ng-click="employeeSettingPeriodCtrl.addEmployee(employeeSettingPeriodCtrl.filterAssign)" data-translate="Add"></button>
+                    <input class="btnExcel pull-right" export-employee-setting-report 
+                           ng-click="employeeSettingPeriodCtrl.exportReport(employeeSettingPeriodCtrl.filter)" 
+                           type="button" title="Export to Excel">
                     <input type="text" ng-model="employeeSettingPeriodCtrl.searchKey" ng-change="employeeSettingPeriodCtrl.search()" class="search-inline-textbox search pull-right">
                 </th>
             </tr>
@@ -39,6 +60,8 @@
                 <th data-translate="StartDate">
                 </th>
                 <th data-translate="EndDate">
+                </th>
+                <th data-translate="Include">
                 </th>
                 <th data-translate="Edit">
                 </th>
@@ -76,10 +99,11 @@
                 <td ng-bind="employee.Evaluators[0].StartDate | date: employeeSettingPeriodCtrl.periodDateFormat"></td>
                 <td ng-bind="employee.Evaluators[0].EndDate | date: employeeSettingPeriodCtrl.periodDateFormat"></td>
                 <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
+                    <input type="checkbox" ng-checked="employee.IsIncluded" ng-click="employeeSettingPeriodCtrl.includeExcludeEmployee(employee)" />
+                </td>
+                <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
                     <div class="btn-group">
                         <a class="glyphicon glyphicon-edit icon-edit" title="Edit" href="" ng-click="employeeSettingPeriodCtrl.updateEmployeeSetting(employee)"></a>
-                        <a class="glyphicon glyphicon-remove icon-remove" href="" ng-click="employeeSettingPeriodCtrl.deleteEmployeeSetting(employee)"
-                           ng-attr-title='{{"Delete" | translate}}'></a>
                     </div>
                 </td>
             </tr>

@@ -47,24 +47,38 @@ namespace SMS.EPA.Site.Controllers.API
         [HttpPost]
         public CommandResult CreatePeriod(CreatePeriodCriteria criteria)
         {
+            var commandResult = new CommandResult();
+
             if (criteria != null)
             {
                 criteria.CreatedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                commandResult = _periodService.CreatePeriod(criteria);
+            }
+            else
+            {
+                commandResult.Code = 1;
+                commandResult.Message = Lang.ParameterInvalid;
             }
 
-            CommandResult commandResult = _periodService.CreatePeriod(criteria);
             return commandResult;
         }
 
         [HttpPut]
         public CommandResult UpdateBasicInformationPeriod(UpdateBasicInformationPeriodCriteria criteria)
         {
+            var commandResult = new CommandResult();
+
             if (criteria != null)
             {
                 criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                commandResult = _periodService.UpdateBasicInformationPeriod(criteria);
+            }
+            else
+            {
+                commandResult.Code = 1;
+                commandResult.Message = Lang.ParameterInvalid;
             }
 
-            CommandResult commandResult = _periodService.UpdateBasicInformationPeriod(criteria);
             return commandResult;
         }
 
@@ -82,12 +96,19 @@ namespace SMS.EPA.Site.Controllers.API
         [HttpPut]
         public CommandResult UpdateStatusPeriod(UpdateStatusPeriodCriteria criteria)
         {
+            var commandResult = new CommandResult();
+
             if (criteria != null)
             {
                 criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                commandResult = _periodService.UpdateStatusPeriod(criteria);
+            }
+            else
+            {
+                commandResult.Code = 1;
+                commandResult.Message = Lang.ParameterInvalid;
             }
 
-            CommandResult commandResult = _periodService.UpdateStatusPeriod(criteria);
             return commandResult;
         }
 
@@ -103,21 +124,26 @@ namespace SMS.EPA.Site.Controllers.API
             return commandResult;
         }
 
-        public IEnumerable<PeriodEmployeeSettingModel> GetPeriodEmployeeSettingById(int periodId, string startDate = "")
+        public IEnumerable<PeriodEmployeeSettingModel> GetPeriodEmployeeSettingById(
+            int periodId,
+            int? departmentId = null,
+            bool? isExcludedEmployee = null)
         {
             var criteria = new GetPeriodEmployeeSettingCriteria
             {
-                PeriodId = periodId
+                PeriodId = periodId,
+                DepartmentId = departmentId,
+                IsExcludedEmployee = isExcludedEmployee
             };
 
-            IEnumerable<PeriodEmployeeSettingModel> periodEmployeeSettings = _periodService.GetPeriodEmployeeSettingById(criteria, startDate);
+            IEnumerable<PeriodEmployeeSettingModel> periodEmployeeSettings = _periodService.GetPeriodEmployeeSettingById(criteria);
             return periodEmployeeSettings;
         }
 
         [HttpPost]
         public CommandResult AddEmployeToPeriod(RawAssignEmployeePeriodModel model)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (ModelState.IsValid)
             {
@@ -143,7 +169,7 @@ namespace SMS.EPA.Site.Controllers.API
         [HttpPut]
         public CommandResult UpdateEmployeeSettingOfPeriod(RawUpdatedEmployeeSettingPeriodModel model)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (ModelState.IsValid)
             {
@@ -157,6 +183,25 @@ namespace SMS.EPA.Site.Controllers.API
                 };
 
                 commandResult = _periodService.UpdateEmployeeSettingOfPeriod(criteria);
+            }
+            else
+            {
+                commandResult.Code = 1;
+                commandResult.Message = Lang.ParameterInvalid;
+            }
+
+            return commandResult;
+        }
+
+        [HttpPut]
+        public CommandResult UpdateIncludeStatusEmployeePeriod(UpdateIncludeStatusEmployeePeriodCriteria criteria)
+        {
+            var commandResult = new CommandResult();
+
+            if (criteria != null)
+            {
+                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                commandResult = _periodService.UpdateIncludeStatusEmployeePeriod(criteria);
             }
             else
             {

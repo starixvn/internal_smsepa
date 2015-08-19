@@ -13,6 +13,7 @@ namespace SMS.EPA.Services.Implement
     using System.Collections.Generic;
     using System.Linq;
     using Fanex.Common.Helper;
+    using NexFB.Core.Utilities;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
@@ -20,6 +21,7 @@ namespace SMS.EPA.Services.Implement
     using SMS.EPA.Model.Period;
     using SMS.EPA.Repositories.Implement;
     using SMS.EPA.Repositories.Interfaces;
+    using SMS.EPA.Resources;
     using SMS.EPA.Services.Interfaces;
 
     public class PeriodService : BaseService, IPeriodService
@@ -114,7 +116,7 @@ namespace SMS.EPA.Services.Implement
             return commandResult;
         }
 
-        public IEnumerable<PeriodEmployeeSettingModel> GetPeriodEmployeeSettingById(GetPeriodEmployeeSettingCriteria criteria, string startDate)
+        public IEnumerable<PeriodEmployeeSettingModel> GetPeriodEmployeeSettingById(GetPeriodEmployeeSettingCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<PeriodEmployeeSettingModel> periodEmployeeSettings = new List<PeriodEmployeeSettingModel>();
@@ -125,7 +127,7 @@ namespace SMS.EPA.Services.Implement
 
                 if (rawPeriodEmployeeSetting.Employees != null && rawPeriodEmployeeSetting.Employees.Count() > 0)
                 {
-                    periodEmployeeSettings = ConvertToPeriodEmployeeSetting(rawPeriodEmployeeSetting, startDate);
+                    periodEmployeeSettings = ConvertToPeriodEmployeeSetting(rawPeriodEmployeeSetting);
                 }
             }
 
@@ -158,15 +160,47 @@ namespace SMS.EPA.Services.Implement
             return commandResult;
         }
 
-        private static IEnumerable<PeriodEmployeeSettingModel> ConvertToPeriodEmployeeSetting(
-            RawPeriodEmployeeSettingModel rawPeriodEmployeeSetting,
-            string startDate)
+        public CommandResult UpdateIncludeStatusEmployeePeriod(UpdateIncludeStatusEmployeePeriodCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            CommandResult commandResult = new CommandResult();
+
+            if (criteria.IsValid())
+            {
+                commandResult = Repository.Update(criteria);
+            }
+
+            return commandResult;
+        }
+
+        public void ExportEmployeeSettingReport(
+            IEnumerable<PeriodEmployeeSettingModel> employeeFlowSettings,
+            string templatePath)
+        {
+            string reportName = Lang.EmployeeFlowSettingReportName;
+            string reportTitle = Lang.EmployeeFlowSettingReportTitle;
+            var writer = new ExcelTemplateWriter(templatePath, reportName, Lang.EmployeeFlowSettingReportSheet);
+
+            // Fill report title.
+            writer.CopyRows(0, 2);
+            writer.WriteRow(2, new object[] { reportTitle });
+
+            // Fill report header.
+            writer.CopyRows(3, 1);
+
+            FillContentRow(employeeFlowSettings, ref writer);
+            writer.SyncColumnsWidth(10);
+
+            writer.Render();
+        }
+
+        private static IEnumerable<PeriodEmployeeSettingModel> ConvertToPeriodEmployeeSetting(RawPeriodEmployeeSettingModel rawPeriodEmployeeSetting)
         {
             IEnumerable<PeriodEmployeeSettingModel> employeeSettings = rawPeriodEmployeeSetting.Employees;
 
             foreach (PeriodEmployeeSettingModel employeeSetting in employeeSettings)
             {
-                GetFlowSetting(rawPeriodEmployeeSetting.FlowSettings, employeeSetting, startDate);
+                GetFlowSetting(rawPeriodEmployeeSetting.FlowSettings, employeeSetting);
             }
 
             return employeeSettings;
@@ -174,8 +208,7 @@ namespace SMS.EPA.Services.Implement
 
         private static void GetFlowSetting(
             IEnumerable<RawPeriodFlowSettingModel> rawFlowSettings,
-            PeriodEmployeeSettingModel employeeSetting,
-            string startDate)
+            PeriodEmployeeSettingModel employeeSetting)
         {
             if (rawFlowSettings != null)
             {
@@ -186,72 +219,6 @@ namespace SMS.EPA.Services.Implement
                 {
                     employeeSetting = GetEvaluators(rawFlowSetting, employeeSetting);
                 }
-
-                if (!string.IsNullOrWhiteSpace(startDate))
-                {
-                    employeeSetting = CalculateFlowDate(employeeSetting, startDate);
-                }
-            }
-        }
-
-        private static PeriodEmployeeSettingModel CalculateFlowDate(PeriodEmployeeSettingModel employeeSetting, string startDate)
-        {
-            DateTime periodStartDate = Convert.ToDateTime(startDate);
-
-            int duration = employeeSetting.HumanResources.Count() > 0 ? employeeSetting.HumanResources[0].Duration : 0;
-            int startDuration = 0,
-                endDuration = duration > 0 ? duration - 1 : duration;
-
-            IList<PeriodFlowModel> selfEvaluators = employeeSetting.SelfEvaluators;
-            IList<PeriodFlowModel> evaluators = employeeSetting.Evaluators;
-            IList<PeriodFlowModel> reviewers = employeeSetting.Reviewers;
-            IList<PeriodFlowModel> managements = employeeSetting.Managements;
-
-            if (selfEvaluators.Count() > 0)
-            {
-                duration = employeeSetting.SelfEvaluators[0].Duration;
-                startDuration = duration > 0 ? endDuration + 1 : endDuration;
-                endDuration = duration > 0 ? startDuration + duration - 1 : startDuration;
-                CalculateEvaluatorDate(employeeSetting.SelfEvaluators, periodStartDate, startDuration, endDuration);
-            }
-
-            if (evaluators.Count() > 0 && evaluators[0].EvaluatorInfo != null && evaluators[0].EvaluatorInfo.EmployeeId != -1)
-            {
-                duration = employeeSetting.Evaluators[0].Duration;
-                startDuration = duration > 0 ? endDuration + 1 : endDuration;
-                endDuration = duration > 0 ? startDuration + duration - 1 : startDuration;
-                CalculateEvaluatorDate(employeeSetting.Evaluators, periodStartDate, startDuration, endDuration);
-            }
-
-            if (reviewers.Count() > 0 && reviewers[0].EvaluatorInfo != null && reviewers[0].EvaluatorInfo.EmployeeId != -1)
-            {
-                duration = employeeSetting.Reviewers[0].Duration;
-                startDuration = duration > 0 ? endDuration + 1 : endDuration;
-                endDuration = duration > 0 ? startDuration + duration - 1 : startDuration;
-                CalculateEvaluatorDate(employeeSetting.Reviewers, periodStartDate, startDuration, endDuration);
-            }
-
-            if (managements.Count() > 0 && managements[0].EvaluatorInfo != null && managements[0].EvaluatorInfo.EmployeeId != -1) 
-            {
-                duration = employeeSetting.Managements[0].Duration;
-                startDuration = duration > 0 ? endDuration + 1 : endDuration;
-                endDuration = duration > 0 ? startDuration + duration - 1 : startDuration;
-                CalculateEvaluatorDate(employeeSetting.Managements, periodStartDate, startDuration, endDuration);
-            }
-
-            return employeeSetting;
-        }
-
-        private static void CalculateEvaluatorDate(
-            IList<PeriodFlowModel> evaluators,
-            DateTime periodStartDate,
-            int startDuration,
-            int endDuration)
-        {
-            foreach (PeriodFlowModel evaluator in evaluators)
-            {
-                evaluator.StartDate = periodStartDate.AddDays(startDuration);
-                evaluator.EndDate = periodStartDate.AddDays(endDuration);
             }
         }
 
@@ -305,6 +272,62 @@ namespace SMS.EPA.Services.Implement
             };
 
             return evaluator;
+        }
+
+        private void FillContentRow(
+         IEnumerable<PeriodEmployeeSettingModel> employeeFlowSettings,
+         ref ExcelTemplateWriter writer)
+        {
+            int rowIndex = 1;
+
+            foreach (PeriodEmployeeSettingModel employeeSetting in employeeFlowSettings)
+            {
+                FillRow(employeeSetting, ref writer, ref rowIndex);
+            }
+        }
+
+        private void FillRow(
+            PeriodEmployeeSettingModel employeeSetting,
+            ref ExcelTemplateWriter writer,
+            ref int rowIndex)
+        {
+            object record = CreateRecord(employeeSetting, ref rowIndex);
+            writer.WriteRow(4, record);
+        }
+
+        private object CreateRecord(
+            PeriodEmployeeSettingModel employeeSetting,
+            ref int rowIndex)
+        {
+            var record = new
+            {
+                Count = rowIndex,
+                Department = employeeSetting.Department != null ? employeeSetting.Department.Name : string.Empty,
+                ID = employeeSetting.EmployeeId,
+                Section = employeeSetting.Group != null ? employeeSetting.Group.GroupName : string.Empty,
+                FullName = employeeSetting.FullName,
+                NickName = employeeSetting.NickName,
+                Evaluator = GetEvaluator(employeeSetting.Evaluators),
+                Reviewer = GetEvaluator(employeeSetting.Reviewers),
+                Management = GetEvaluator(employeeSetting.Managements),
+                Form = employeeSetting.TargetTemplate != null ? employeeSetting.TargetTemplate.TargetTypeName : string.Empty
+            };
+            rowIndex++;
+
+            return record;
+        }
+
+        private object GetEvaluator(IList<PeriodFlowModel> evaluators)
+        {
+            string evaluatorNames = string.Empty;
+
+            foreach (PeriodFlowModel evaluator in evaluators)
+            {
+                string name = evaluator.EvaluatorInfo.NickName;
+                evaluatorNames += !string.IsNullOrEmpty(evaluatorNames) ? " ," + name : name;
+            }
+
+            return evaluatorNames;
         }
     }
 }

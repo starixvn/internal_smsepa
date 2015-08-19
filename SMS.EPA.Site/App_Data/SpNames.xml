@@ -192,5 +192,7 @@
     </Setting>
     <Setting Key="EpaPeriod_EditEmployeeSetting" SpName="EpaPeriod_EditEmployeeSetting" DbName="SMSEPA" Plain="0">
     </Setting>
+    <Setting Key="EpaPeriod_UpdateIncludeStatusEmployeeToPeriod" SpName="EpaPeriod_UpdateIncludeStatusEmployeeToPeriod" DbName="SMSEPA" Plain="0">
+    </Setting>
   </Function>
 </Functions>

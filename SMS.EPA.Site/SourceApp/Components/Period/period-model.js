@@ -12,6 +12,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
     periodModel.shortNameMonth = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     periodModel.employeeSettings = [];
     periodModel.evaluatorType = {
+        HumanResources: 1,
         SelfEvaluator: 2,
         Evaluator: 3,
         Reviewer: 4,
@@ -20,8 +21,9 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
 
     periodModel.calendar = {
         startDateOpened: false,
-        dateFormat: periodModel.periodDateFormat,
-        minDate: new Date()
+        endDateOpened: false,
+        attendanceStartDateOpened: false,
+        attendanceEndDateOpened: false
     };
 
     periodModel.openPopupStartDate = function (event) {
@@ -29,6 +31,39 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         event.stopPropagation();
 
         periodModel.calendar.startDateOpened = true;
+        periodModel.calendar.endDateOpened = false;
+        periodModel.calendar.attendanceStartDateOpened = false;
+        periodModel.calendar.attendanceEndDateOpened = false;
+    };
+
+    periodModel.openPopupEndDate = function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        periodModel.calendar.startDateOpened = false;
+        periodModel.calendar.endDateOpened = true;
+        periodModel.calendar.attendanceStartDateOpened = false;
+        periodModel.calendar.attendanceEndDateOpened = false;
+    };
+
+    periodModel.openPopupAttendanceStartDate = function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        periodModel.calendar.startDateOpened = false;
+        periodModel.calendar.endDateOpened = false;
+        periodModel.calendar.attendanceStartDateOpened = true;
+        periodModel.calendar.attendanceEndDateOpened = false;
+    };
+
+    periodModel.openPopupAttendanceEndDate = function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        periodModel.calendar.startDateOpened = false;
+        periodModel.calendar.endDateOpened = false;
+        periodModel.calendar.attendanceStartDateOpened = false;
+        periodModel.calendar.attendanceEndDateOpened = true;
     };
 
     periodModel.getPeriod = function (targetTypeId, isActive) {
@@ -45,7 +80,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             templateUrl: 'SourceApp/Components/Period/Templates/create.html',
             controller: "CreatePeriodController as createPeriodCtrl",
             backdrop: 'static',
-            windowClass: "modal-confirm-center"
+            windowClass: "modal-confirm-center period-create-popup"
         });
 
         return vm.modalInstance.result;
@@ -202,8 +237,8 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         });
     };
 
-    periodModel.getPeriodEmployeeSettingById = function (periodId, startDate) {
-        return periodFactory.getPeriodEmployeeSettingById(periodId, startDate).success(function (employeeSettings) {
+    periodModel.getPeriodEmployeeSettingById = function (periodId, departmentId, isExcludedEmployee) {
+        return periodFactory.getPeriodEmployeeSettingById(periodId, departmentId, isExcludedEmployee).success(function (employeeSettings) {
             periodModel.employeeSettings = employeeSettings;
         })
         .error(function (response, status) {
@@ -241,6 +276,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         modalInstance.result.then(function (editEmployeeSetting) {
             if (editEmployeeSetting) {
                 employeeSetting.TargetTemplate = editEmployeeSetting.TargetTemplate;
+                employeeSetting.SelfEvaluators = editEmployeeSetting.SelfEvaluators;
                 employeeSetting.Evaluators = editEmployeeSetting.Evaluators;
                 employeeSetting.Reviewers = editEmployeeSetting.Reviewers;
                 employeeSetting.Managements = editEmployeeSetting.Managements;
@@ -337,6 +373,114 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         };
 
         return employeeSetting;
+    };
+
+    periodModel.getUpdateTargetTemplate = function (targetTemplateId, targetTemplates) {
+        var targetTemplate = '';
+
+        for (var i = 0; i < targetTemplates.length; i++) {
+            var item = targetTemplates[i];
+
+            if (item.TargetTemplateId === targetTemplateId) {
+                targetTemplate = item;
+                i = targetTemplates.length;
+            }
+        }
+
+        return targetTemplate;
+    };
+
+    var getEmployeeById = function (employees, employeeId) {
+        var employee = null;
+
+        for (var i = 0; i < employees.length; i++) {
+            var employeeItem = employees[i];
+
+            if (employeeItem.EmployeeId === employeeId) {
+                employee = employeeItem;
+            };
+        };
+
+        return employee;
+    };
+
+    periodModel.getUpdateEvaluators = function (evaluator, evaluatorType, employees) {
+        var evaluators = [];
+
+        if (evaluator && evaluator.ids != null && evaluator.ids.length > 0) {
+            angular.forEach(evaluator.ids, function (id) {
+                var employee = getEmployeeById(employees, id),
+                    evaluatorItem = {
+                        ProcessId: evaluatorType,
+                        Duration: evaluator.Duration,
+                        RemindDay: evaluator.RemindDay,
+                        StartDate: evaluator.StartDate,
+                        EndDate: evaluator.EndDate,
+                        HasSendMail: evaluator.hasSendMail,
+                        EvaluatorInfo: employee ? employee : {
+                            EmployeeId: -1
+                        }
+                    };
+
+                evaluators.push(evaluatorItem);
+            });
+        }
+
+        return evaluators;
+    };
+
+    periodModel.openPopupIncludeExcludeEmployee = function (periodId, employee) {
+        employee.IsIncluded = !employee.IsIncluded;
+
+        var action = employee.IsIncluded ? "include" : "exclude",
+        newEmployeeStatus = {
+            PeriodId: periodId,
+            EmployeeId: employee.EmployeeId,
+            IsIncluded: employee.IsIncluded
+        };
+
+        var modalInstance = $modal.open({
+            templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
+            controller: "ModalConfirmController as modalConfirmCtrl",
+            backdrop: 'static',
+            resolve: {
+                name: function () {
+                    return employee.NickName;
+                },
+                action: function () {
+                    return action;
+                }
+            },
+            windowClass: "modal-confirm-center"
+        });
+
+        var keyMessage = '';
+
+        modalInstance.result.then(function () {
+            periodFactory.updateIncludeStatusEmployeePeriod(newEmployeeStatus)
+            .success(function (response) {
+                if (response.IsSuccessful) {
+                    notificationFactory.success("UpdatedSuccessfully");
+                }
+                else {
+                    employee.IsIncluded = !newEmployeeStatus.IsIncluded;
+                    notificationFactory.error("UpdatedUnsuccessfully");
+                }
+            })
+            .error(function (response, status) {
+                if (status === 405) {
+                    errorFactory.errorHandle(status);
+                }
+                else {
+                    employee.IsIncluded = !newEmployeeStatus.IsIncluded;
+                    notificationFactory.error("UpdatedUnsuccessfully");
+                }
+            });
+        }, function () {
+            employee.IsIncluded = !newEmployeeStatus.IsIncluded;
+        })['finally'](function () {
+            modalInstance = '';
+        });
     };
 
     return periodModel;
