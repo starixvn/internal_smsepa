@@ -26,6 +26,8 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public int PeriodId { get; set; }
 
+        public bool IsEndProcess { get; set; }
+
         public EmployeeModel Employee { get; set; }
 
         public IList<EmployeeModel> Evaluators { get; set; }

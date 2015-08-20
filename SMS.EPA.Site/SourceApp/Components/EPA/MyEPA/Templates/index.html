@@ -7,6 +7,13 @@
     <div class="col-sm-12">
         <form novalidate class="row filter form-inline" role="form">
             <div class="form-group">
+                <label data-translate="Target"></label>
+                <select class="form-control lstBox-limit" ng-model="empEPACtrl.filter.targetTypeId"
+                        ng-options="opt.TargetTypeId as opt.Name for opt in empEPACtrl.targetTypes">
+                    <option value="">-- {{"All" | translate}} --</option>
+                </select>
+            </div>
+            <div class="form-group">
                 <label data-translate="Status"></label>
                 <select class="form-control" ng-model="empEPACtrl.filter.status"
                         ng-options="opt.StatusId as opt.Name for opt in empEPACtrl.statusList">
@@ -29,33 +36,43 @@
             <th data-translate="EvaluateDate"></th>
             </thead>
             <tbody>
-                <tr ng-repeat="item in empEPACtrl.listEPA">
+                <tr ng-repeat="myEPA in empEPACtrl.myEPAs">
                     <td class="text-center" ng-bind="$index + 1"></td>
-                    <td ng-bind="item.Department.Name"></td>
+                    <td ng-bind="myEPA.Department.Name"></td>
                     <td class="text-center">
-                        <span tooltip="{{item.Group.GroupName}}" ng-bind="item.Group.GroupCode"></span>
+                        <span tooltip="{{myEPA.Group.GroupName}}" ng-bind="myEPA.Group.GroupCode"></span>
                     </td>
-                    <td ng-bind="item.TargetType.Name"></td>
+                    <td class="text-center" ng-bind="myEPA.TargetType.Name"></td>
                     <td class="text-center epa-score">
-                        <a href="" ng-bind="item.Score | customNumber" ng-click="empEPACtrl.viewEPADetail(item)"
-                           ng-href="{{empEPACtrl.viewEPADetailUrl}}" ng-if="item.Score" />
-                        <a href="" ng-bind="'N/A'" ng-click="empEPACtrl.viewEPADetail(item)"
-                           ng-href="{{empEPACtrl.viewEPADetailUrl}}" ng-if="!item.Score" />
+                        <a href="" ng-bind="myEPA.Score | customNumber" ng-click="empEPACtrl.viewEPADetail(myEPA)"
+                           ng-href="{{empEPACtrl.viewEPADetailUrl}}" ng-if="myEPA.Score" />
+                        <a href="" ng-bind="'N/A'" ng-click="empEPACtrl.viewEPADetail(myEPA)"
+                           ng-href="{{empEPACtrl.viewEPADetailUrl}}" ng-if="!myEPA.Score" />
                     </td>
-                    <td class="text-center" ng-bind="item.Status.Name"></td>
-                    <td>
-                        <div ng-show="item.Evaluators.length == 1">
-                            <span ng-bind="item.Evaluators[0].NickName" tooltip="{{item.Evaluators[0].FullName}}"></span>
+                    <td class="text-center">
+                        <span class="dropdown" dropdown on-toggle="empEPACtrl.toggled(open)" ng-if="!myEPA.IsEndProcess">
+                            <a href="javascript:;" class="changeStatus" dropdown-toggle>{{myEPA.Status.Name}}</a>
+                            <ul class="dropdown-menu dropdown-menu-width">
+                                <li ng-repeat="item in empEPACtrl.epaStatus | filter:{ Name: '!' + myEPA.Status.Name }">
+                                    <a ng-click="empEPACtrl.updateStatusEPA(myEPA, item)" href="javascript:;">{{item.Name}}</a>
+                                </li>
+                            </ul>
+                        </span>
+                        <span ng-if="myEPA.IsEndProcess" ng-bind="myEPA.Status.Name"></span>
+                    </td>
+                    <td class="text-center">
+                        <div ng-show="myEPA.Evaluators.length == 1">
+                            <span ng-bind="myEPA.Evaluators[0].NickName" tooltip="{{myEPA.Evaluators[0].FullName}}"></span>
                         </div>
-                        <div ng-show="item.Evaluators.length > 1">
+                        <div ng-show="myEPA.Evaluators.length > 1">
                             <ul>
-                                <li ng-repeat="evaluator in item.Evaluators" ng-bind="evaluator.NickName" tooltip="{{evaluator.FullName}}"></li>
+                                <li ng-repeat="evaluator in myEPA.Evaluators" ng-bind="evaluator.NickName" tooltip="{{evaluator.FullName}}"></li>
                             </ul>
                         </div>
                     </td>
-                    <td class="text-center">{{ item.EvaluateDate | customDate }}</td>
+                    <td class="text-center">{{ myEPA.EvaluateDate | customDate }}</td>
                 </tr>
-                <tr ng-if="empEPACtrl.listEPA.length == 0">
+                <tr ng-if="empEPACtrl.myEPAs.length == 0">
                     <td class="empty-result" colspan="8" data-translate="EmptyResult"></td>
                 </tr>
             </tbody>

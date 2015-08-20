@@ -2,13 +2,34 @@
 /*global epaModule*/
 
 epaModule.factory('EmployeeEPAModel',
-['employeeEPAFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory',
-function (employeeEPAFactory, utilitiesFactory, notificationFactory, errorFactory) {
+['$modal', 'employeeEPAFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory',
+function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, errorFactory) {
     var employeeEPAModel = this;
 
-    employeeEPAModel.listEPA = [];
+    employeeEPAModel.epaStatus = [{ Id: 0, Name: 'Open' }, { Id: 1, Name: 'Closed' }];
+
+    employeeEPAModel.myEPAs = [];
     employeeEPAModel.epaInfo = {};
     employeeEPAModel.members = [];
+    employeeEPAModel.memberEPAs = [];
+
+    employeeEPAModel.getEPAOfCurrentMember = function (targetTypeId, status) {
+        return employeeEPAFactory.getEPAOfCurrentMember(targetTypeId, status)
+        .success(function (myEPAs) {
+            employeeEPAModel.myEPAs = myEPAs;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    employeeEPAModel.getEPAInformation = function (epaId, periodId, employeeId) {
+        return employeeEPAFactory.getEPAInformation(epaId, periodId, employeeId)
+        .success(function (epaInfo) {
+            employeeEPAModel.epaInfo = epaInfo;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
 
     employeeEPAModel.getMember = function (processId, groupId) {
         return employeeEPAFactory.getMember(processId, groupId)
@@ -19,19 +40,10 @@ function (employeeEPAFactory, utilitiesFactory, notificationFactory, errorFactor
         });
     };
 
-    employeeEPAModel.getEPAOfCurrentMember = function (status) {
-        return employeeEPAFactory.getEPAOfCurrentMember(status)
-        .success(function (listEPA) {
-            employeeEPAModel.listEPA = listEPA;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
-
-    employeeEPAModel.getEPAInformation = function (epaId, periodId, employeeId) {
-        return employeeEPAFactory.getEPAInformation(epaId, periodId, employeeId)
-        .success(function (epaInfo) {
-            employeeEPAModel.epaInfo = epaInfo;
+    employeeEPAModel.getEPAByEvaluator = function (fromDate, toDate, targetTypeId, groupId, employeeIds, status) {
+        return employeeEPAFactory.getEPAByEvaluator(fromDate, toDate, targetTypeId, groupId, employeeIds, status)
+        .success(function (memberEPAs) {
+            employeeEPAModel.memberEPAs = memberEPAs;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
@@ -101,6 +113,49 @@ function (employeeEPAFactory, utilitiesFactory, notificationFactory, errorFactor
             }
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
+        });
+    };
+
+    employeeEPAModel.openPopupUpdateStatusEPA = function (epa, epaId, periodId, processId, employeeId, status) {
+        var criteria = {
+            epaId: epaId,
+            periodId: periodId,
+            processId: processId,
+            employeeId: employeeId,
+            status: status.Id
+        };
+
+        var modalInstance = $modal.open({
+            templateUrl: 'SourceApp/Shared/Templates/ModalConfirmContent.html',
+            controller: "ModalConfirmController as modalConfirmCtrl",
+            backdrop: 'static',
+            resolve: {
+                name: function () {
+                    return '';
+                },
+                action: function () {
+                    return "change status";
+                }
+            },
+            windowClass: "modal-confirm-center"
+        });
+
+        modalInstance.result.then(function () {
+            employeeEPAFactory.updateStatusEPA(criteria)
+            .success(function (response) {
+                if (response.IsSuccessful) {
+                    notificationFactory.success("UpdatedSuccessfully");
+                    epa.Status = status;
+                }
+                else {
+                    notificationFactory.error("", response.Message);
+                }
+            })
+            .error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        })['finally'](function () {
+            modalInstance = '';
         });
     };
 

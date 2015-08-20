@@ -25,6 +25,10 @@ namespace SMS.EPA.Services.Interfaces
 
         IEnumerable<Employee> GetMember(GetMemberCriteria criteria);
 
+        IEnumerable<MemberEPAModel> GetEPAByEvaluator(GetEPAByEvaluatorCriteria criteria);
+
+        CommandResult UpdateStatusEPA(UpdateStatusEPACriteria criteria);
+
         string Encode(string plainText);
 
         string Decode(string cipherText);

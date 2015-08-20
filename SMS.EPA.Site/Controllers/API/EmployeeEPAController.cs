@@ -9,6 +9,7 @@
 
 namespace SMS.EPA.Site.Controllers.API
 {
+    using System;
     using System.Collections.Generic;
     using System.Web.Http;
     using SMS.EPA.Core.Model;
@@ -37,7 +38,9 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpGet]
-        public IEnumerable<Employee> GetMember(int processId, int? groupId)
+        public IEnumerable<Employee> GetMember(
+            int processId,
+            int? groupId = null)
         {
             var criteria = new GetMemberCriteria()
             {
@@ -50,11 +53,14 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpGet]
-        public IEnumerable<EmployeeEPAModel> GetEPAOfCurrentMember(int? status = null)
+        public IEnumerable<EmployeeEPAModel> GetEPAOfCurrentMember(
+            int? targetTypeId = null,
+            int? status = null)
         {
             var criteria = new GetEPAByEmployeeCriteria
             {
                 EmployeeId = CurrentUser.EmployeeInfo.EmployeeId,
+                TargetTypeId = targetTypeId,
                 Status = status
             };
 
@@ -82,11 +88,32 @@ namespace SMS.EPA.Site.Controllers.API
             return epaInfo;
         }
 
+        [HttpGet]
+        public IEnumerable<MemberEPAModel> GetEPAByEvaluator(
+            DateTime fromDate,
+            DateTime toDate,
+            int? targetTypeId = null,
+            int? groupId = null,
+            string employeeIds = null,
+            int? status = null)
+        {
+            var criteria = new GetEPAByEvaluatorCriteria()
+            {
+                FromDate = fromDate,
+                ToDate = toDate,
+                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
+                TargetTypeId = targetTypeId,
+                GroupId = groupId,
+                EmployeeIds = employeeIds,
+                Status = status
+            };
+
+            return _employeeEPAService.GetEPAByEvaluator(criteria);
+        }
+
         [HttpPut]
         public CommandResult UpdateEmployeeEPA(EmployeeEPAInfoModel model)
         {
-            CommandResult commondResult = new CommandResult();
-
             var criteria = new UpdateEPAScoreCriteria()
             {
                 EPAId = model.EPAId,
@@ -99,9 +126,18 @@ namespace SMS.EPA.Site.Controllers.API
                 ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
             };
 
-            commondResult = _employeeEPAService.UpdateEmployeeEPA(criteria);
+            return _employeeEPAService.UpdateEmployeeEPA(criteria);
+        }
 
-            return commondResult;
+        [HttpPut]
+        public CommandResult UpdateStatusEPA(UpdateStatusEPACriteria criteria)
+        {
+            if (criteria != null)
+            {
+                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+            }
+
+            return _employeeEPAService.UpdateStatusEPA(criteria);
         }
     }
 }

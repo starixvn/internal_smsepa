@@ -167,6 +167,14 @@
             }
         }
 
+        .remove-star {
+            color: #DE5245;
+            margin-right: 3px;
+            cursor: pointer;
+            font-size: 16px;
+            top: 2px;
+        }
+
         .badge.percent {
             width: 50px;
             font-weight: normal;
@@ -219,6 +227,35 @@
             max-height: 300px;
             overflow-x: hidden;
             overflow-y: auto;
+        }
+    }
+
+    .table.table-bordered {
+        .col-score {
+            width: 10%;
+
+            a {
+                cursor: pointer;
+
+                &:hover, &:focus {
+                    text-decoration: none;
+                }
+            }
+        }
+
+        .col-evaluation-status, .col-evaluate-date {
+            width: 10%;
+        }
+
+        .col-action {
+            width: 14%;
+            padding-left: 0;
+            padding-right: 0;
+
+            .evaluate-now {
+                background: #0d9cb6;
+                color: #fff;
+            }
         }
     }
 }

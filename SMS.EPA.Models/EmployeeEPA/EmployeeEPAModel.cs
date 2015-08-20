@@ -27,17 +27,13 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public int PeriodId { get; set; }
 
-        public int EmployeeId { get; set; }
+        public bool IsEndProcess { get; set; }
 
-        public string NickName { get; set; }
-
-        public string FullName { get; set; }
+        public Employee Employee { get; set; }
 
         public string Score { get; set; }
 
         public string Comment { get; set; }
-
-        public int Permission { get; set; }
 
         public DepartmentModel Department { get; set; }
 

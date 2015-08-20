@@ -87,7 +87,15 @@
         <div class="col-sm-6">
             <div class="col-sm-4" data-translate="Status"></div>
             <div class="col-sm-7 txt-value">
-                <strong ng-bind="empEPAInfoCtrl.epaInfo.Status.Name"></strong>
+                <span class="dropdown" dropdown on-toggle="empEPAInfoCtrl.toggled(open)" ng-if="!empEPAInfoCtrl.epaInfo.IsEndProcess">
+                    <a href="javascript:;" class="changeStatus" dropdown-toggle>{{empEPAInfoCtrl.epaInfo.Status.Name}}</a>
+                    <ul class="dropdown-menu dropdown-menu-width">
+                        <li ng-repeat="item in empEPAInfoCtrl.epaStatus | filter:{ Name: '!' + empEPAInfoCtrl.epaInfo.Status.Name }">
+                            <a ng-click="empEPAInfoCtrl.updateStatusEPA(item)" href="javascript:;">{{item.Name}}</a>
+                        </li>
+                    </ul>
+                </span>
+                <strong ng-if="empEPAInfoCtrl.epaInfo.IsEndProcess" ng-bind="empEPAInfoCtrl.epaInfo.Status.Name"></strong>
             </div>
         </div>
     </div>

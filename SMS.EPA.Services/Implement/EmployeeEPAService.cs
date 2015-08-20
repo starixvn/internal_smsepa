@@ -109,6 +109,39 @@ namespace SMS.EPA.Services.Implement
             return employees;
         }
 
+        public IEnumerable<MemberEPAModel> GetEPAByEvaluator(GetEPAByEvaluatorCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<MemberEPAModel> memberEPAs = new List<MemberEPAModel>();
+
+            if (criteria.IsValid())
+            {
+                memberEPAs = _employeeEPARepository.GetEPAByEvaluator(criteria);
+
+                foreach (var memberEPA in memberEPAs)
+                {
+                    memberEPA.Status.Name = Enumerations.GetDescription((Status)memberEPA.Status.StatusId);
+                    memberEPA.SelfEvaluationScore = !string.IsNullOrEmpty(memberEPA.SelfEvaluationScore) ? Decode(memberEPA.SelfEvaluationScore) : string.Empty;
+                    memberEPA.EvaluationScore = !string.IsNullOrEmpty(memberEPA.EvaluationScore) ? Decode(memberEPA.EvaluationScore) : string.Empty;
+                }
+            }
+
+            return memberEPAs;
+        }
+
+        public CommandResult UpdateStatusEPA(UpdateStatusEPACriteria criteria)
+        {
+            CommandResult commandResult = new CommandResult();
+            Check.Argument.IsNotNull(criteria, "criteria");
+
+            if (criteria.IsValid())
+            {
+                commandResult = Repository.Update(criteria);
+            }
+
+            return commandResult;
+        }
+
         public string Encode(string plainText)
         {
             return _encodeService.Encode(plainText);

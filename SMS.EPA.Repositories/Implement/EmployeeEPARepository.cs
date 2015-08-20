@@ -29,9 +29,10 @@ namespace SMS.EPA.Repositories.Implement
             {
                 using (var multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    IEnumerable<EmployeeEPAModel> epas = multi.Read<EmployeeEPAModel, TargetTypeModel, DepartmentModel, Group, StatusModel, EmployeeEPAModel>(
-                    (me, target, dept, group, status) =>
+                    IEnumerable<EmployeeEPAModel> epas = multi.Read<EmployeeEPAModel, Employee, TargetTypeModel, DepartmentModel, Group, StatusModel, EmployeeEPAModel>(
+                    (me, emp, target, dept, group, status) =>
                     {
+                        me.Employee = emp;
                         me.TargetType = target;
                         me.Department = dept;
                         me.Group = group;
@@ -39,7 +40,7 @@ namespace SMS.EPA.Repositories.Implement
 
                         return me;
                     },
-                    "TargetTypeId, DepartmentId, GroupId, StatusId");
+                    "EmployeeId, TargetTypeId, DepartmentId, GroupId, StatusId");
 
                     IEnumerable<RawEmployeeEPAModel> evaluators = multi.Read<RawEmployeeEPAModel, EmployeeModel, RawEmployeeEPAModel>(
                         (result, eva) =>
@@ -101,6 +102,25 @@ namespace SMS.EPA.Repositories.Implement
             }
 
             return data;
+        }
+
+        public IEnumerable<MemberEPAModel> GetEPAByEvaluator(ICriteria criteria)
+        {
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                return db.Query<MemberEPAModel, Employee, Group, TargetTypeModel, StatusModel, MemberEPAModel>(
+                    (epa, emp, gr, tt, status) =>
+                    {
+                        epa.Employee = emp;
+                        epa.Group = gr;
+                        epa.TargetType = tt;
+                        epa.Status = status;
+
+                        return epa;
+                    },
+                    "EmployeeId, GroupId, TargetTypeId, StatusId",
+                    criteria.GetSpParams());
+            }
         }
 
         private IList<EmployeeModel> GroupEvaluatorByEPAId(int epaId, IEnumerable<RawEmployeeEPAModel> evaluators)

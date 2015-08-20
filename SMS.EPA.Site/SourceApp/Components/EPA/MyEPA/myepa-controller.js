@@ -6,33 +6,54 @@ epaModule.controller('EmployeeEPAController',
 function (EmployeeEPAModel, CommonModel) {
     var vm = this;
 
-    vm.myEPAs = EmployeeEPAModel.listEPA;
+    vm.myEPAs = EmployeeEPAModel.myEPAs;
     vm.statusList = CommonModel.statusList;
+    vm.targetTypes = CommonModel.targetTypes;
+
+    vm.status = {
+        isopen: false
+    };
+    vm.epaStatus = EmployeeEPAModel.epaStatus;
 
     vm.filter = {
+        targetTypeId: '',
         status: ''
     };
 
-    var getEPAOfCurrentMember = function (status) {
-        EmployeeEPAModel.getEPAOfCurrentMember(status).then(function () {
-            vm.listEPA = EmployeeEPAModel.listEPA;
+    vm.toggleDropdown = function ($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        vm.status.isopen = !vm.status.isopen;
+    };
+
+    var getEPAOfCurrentMember = function (targetTypeId, status) {
+        EmployeeEPAModel.getEPAOfCurrentMember(targetTypeId, status).then(function () {
+            vm.myEPAs = EmployeeEPAModel.myEPAs;
         });
     };
 
     vm.query = function (filter) {
-        getEPAOfCurrentMember(filter.status);
+        getEPAOfCurrentMember(filter.targetTypeId, filter.status);
+    };
+
+    vm.updateStatusEPA = function (epa, status) {
+        EmployeeEPAModel.openPopupUpdateStatusEPA(epa, epa.EPAId, epa.PeriodId, 2, epa.Employee.EmployeeId, status);
     };
 
     vm.viewEPADetail = function (epa) {
-        vm.viewEPADetailUrl = '/SelfEvaluation/Detail?epaId=' + epa.EPAId + '&periodId=' + epa.PeriodId + '&employeeId=' + epa.EmployeeId;
+        vm.viewEPADetailUrl = '/SelfEvaluation/Detail?epaId=' + epa.EPAId + '&periodId=' + epa.PeriodId + '&employeeId=' + epa.Employee.EmployeeId;
     };
 
     vm.initialize = function () {
+        CommonModel.getTargetType().then(function () {
+            vm.targetTypes = CommonModel.targetTypes;
+        });
+
         CommonModel.getAllStatus().then(function () {
             vm.statusList = CommonModel.statusList;
         });
 
-        getEPAOfCurrentMember(vm.filter.status);
+        vm.query(vm.filter);
     };
 
     vm.initialize();
@@ -53,8 +74,19 @@ function ($window, $translate, $routeParams, EmployeeEPAModel) {
 
     vm.epaInfo = EmployeeEPAModel.epaInfo;
 
-    vm.checkStatus = function (status) {
-        if (status === 1) {
+    vm.status = {
+        isopen: false
+    };
+    vm.epaStatus = EmployeeEPAModel.epaStatus;
+
+    vm.toggleDropdown = function ($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        vm.status.isopen = !vm.status.isopen;
+    };
+
+    vm.checkStatus = function (isEndProcess) {
+        if (isEndProcess) {
             vm.isReadonly = true;
             vm.hoveringOver = null;
             vm.hoveringLeave = null;
@@ -81,6 +113,14 @@ function ($window, $translate, $routeParams, EmployeeEPAModel) {
         }
     };
 
+    vm.cancelRating = function (kpi) {
+        kpi.Rate = 0;
+        kpi.Percent = 0;
+        kpi.Score = null;
+
+        EmployeeEPAModel.calculateScore(vm, vm.epaInfo);
+    };
+
     vm.inputScore = function (kpi) {
         kpi.Rate = 0;
         kpi.Percent = 0;
@@ -91,6 +131,10 @@ function ($window, $translate, $routeParams, EmployeeEPAModel) {
         else {
             EmployeeEPAModel.calculateScore(vm, vm.epaInfo);
         }
+    };
+
+    vm.updateStatusEPA = function (status) {
+        EmployeeEPAModel.openPopupUpdateStatusEPA(vm.epaInfo, vm.epaId, vm.periodId, 2, vm.employeeId, status);
     };
 
     vm.save = function (epaInfo) {
@@ -110,7 +154,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel) {
 
         EmployeeEPAModel.getEPAInformation(vm.epaId, vm.periodId, vm.employeeId).then(function () {
             vm.epaInfo = EmployeeEPAModel.epaInfo;
-            vm.checkStatus(vm.epaInfo.Status.StatusId);
+            vm.checkStatus(vm.epaInfo.IsEndProcess);
 
             angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
                 if (kpiGroup.IsSpreadKPI) {

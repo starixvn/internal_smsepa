@@ -113,7 +113,7 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
             }
         }
         else {
-            notificationFactory.error('', 'This employee has already exists!');
+            notificationFactory.error('', 'This employee has already existed!');
         }
     };
 
@@ -343,14 +343,8 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
             notificationFactory.error("DepartmentNotSelectedWarning");
             return false;
         }
-        else if (vm.humanResources.employees.length === 0) {
-            notificationFactory.error('', 'Please setting flow for Human Resource.');
-            return false;
-        }
-        else if (vm.evaluators.employees.length === 0 &&
-            vm.reviewers.employees.length === 0 &&
-            vm.managements.employees.length === 0) {
-            notificationFactory.error('', 'Please setting flow for Evaluator or Reviewer or Management.');
+        else if (vm.humanResources.employees.length === 0 || vm.evaluators.employees.length === 0) {
+            notificationFactory.error('', 'Please setting flow for Human Resource or Evaluator.');
             return false;
         }
 
@@ -442,14 +436,8 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
             notificationFactory.error("EmployeeNotSelectedWarning");
             return false;
         }
-        else if (vm.humanResources.employees.length === 0) {
-            notificationFactory.error('', 'Please setting flow for Human Resource.');
-            return false;
-        }
-        else if (vm.evaluators.employees.length === 0 &&
-            vm.reviewers.employees.length === 0 &&
-            vm.managements.employees.length === 0) {
-            notificationFactory.error('', 'Please setting flow for Evaluator or Reviewer or Management.');
+        else if (vm.humanResources.employees.length === 0 || vm.evaluators.employees.length === 0) {
+            notificationFactory.error('', 'Please setting flow for Human Resource or Evaluator.');
             return false;
         }
 

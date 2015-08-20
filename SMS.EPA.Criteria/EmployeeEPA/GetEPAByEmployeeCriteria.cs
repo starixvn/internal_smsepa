@@ -15,6 +15,8 @@ namespace SMS.EPA.Criteria.EmployeeEPA
     {
         public int EmployeeId { get; set; }
 
+        public int? TargetTypeId { get; set; }
+
         public int? Status { get; set; }
 
         public override string GetSettingKey()
