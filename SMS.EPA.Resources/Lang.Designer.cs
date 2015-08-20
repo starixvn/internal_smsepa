@@ -1069,6 +1069,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Member EPA.
+        /// </summary>
+        public static string MemberEPA {
+            get {
+                return ResourceManager.GetString("MemberEPA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to please evaluate by point as this scale.
         /// </summary>
         public static string MessageRatingInstructions {

@@ -22,8 +22,8 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         });
     };
 
-    employeeEPAModel.getEPAInformation = function (epaId, periodId, employeeId) {
-        return employeeEPAFactory.getEPAInformation(epaId, periodId, employeeId)
+    employeeEPAModel.getEPAInfoByEmployee = function (epaId, periodId, employeeId) {
+        return employeeEPAFactory.getEPAInfoByEmployee(epaId, periodId, employeeId)
         .success(function (epaInfo) {
             employeeEPAModel.epaInfo = epaInfo;
         }).error(function (response, status) {
@@ -49,18 +49,47 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         });
     };
 
+    employeeEPAModel.getEPAInfoByEvaluator = function (epaId, periodId, employeeId) {
+        return employeeEPAFactory.getEPAInfoByEvaluator(epaId, periodId, employeeId)
+        .success(function (epaInfo) {
+            employeeEPAModel.epaInfo = epaInfo;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    employeeEPAModel.viewEPAInfoOfMember = function (epaId, periodId, employeeId) {
+        return $modal.open({
+            templateUrl: 'SourceApp/Components/EPA/Evaluator/Templates/viewEPAInfoOfMember.html',
+            controller: "ViewEPAInfoOfMemberController as memberEPAInfoCtrl",
+            size: 'lg',
+            resolve: {
+                epaId: function () {
+                    return epaId;
+                },
+                periodId: function () {
+                    return periodId;
+                },
+                employeeId: function () {
+                    return employeeId;
+                }
+            },
+            windowClass: "modal-confirm-center"
+        });
+    };
+
     employeeEPAModel.calculateScore = function (vm, epaInfo) {
-        var finalScore = 0;
+        var totalScore = 0;
 
         angular.forEach(epaInfo.KPIGroups, function (kpiGroup) {
             angular.forEach(kpiGroup.KPIs, function (kpi) {
                 if (kpi.Score && parseFloat(kpi.Score) > 0) {
-                    finalScore += parseFloat(kpi.Score);
+                    totalScore += parseFloat(kpi.Score);
                 }
             });
         });
 
-        epaInfo.FinalScore = finalScore.toFixed(2);
+        epaInfo.TotalScore = totalScore.toFixed(2);
     };
 
     employeeEPAModel.validateWeightInput = function (weight, maxWeight, weightInputValidMessage) {

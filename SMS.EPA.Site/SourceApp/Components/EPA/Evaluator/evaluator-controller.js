@@ -68,6 +68,14 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
         getEPAByEvaluator(filter.fromDate, filter.toDate, filter.targetTypeId, filter.groupId, filter.employeeIds, filter.status);
     };
 
+    vm.viewEPAInfoOfMember = function (memberEPA) {
+        EmployeeEPAModel.viewEPAInfoOfMember(memberEPA.EPAId, memberEPA.PeriodId, memberEPA.Employee.EmployeeId);
+    };
+
+    vm.viewEPADetail = function (memberEPA) {
+        vm.viewEPADetailUrl = '/Evaluator/Detail?epaId=' + memberEPA.EPAId + '&periodId=' + memberEPA.PeriodId + '&employeeId=' + memberEPA.Employee.EmployeeId;
+    };
+
     vm.initialize = function () {
         CommonModel.getTargetType().then(function () {
             vm.targetTypes = CommonModel.targetTypes;
@@ -87,4 +95,70 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
     };
 
     vm.initialize();
+}]);
+
+epaModule.controller('MemberEPAInfoController',
+['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'CommonModel', 'utilitiesFactory',
+function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, utilitiesFactory) {
+    var vm = this;
+
+    vm.epaId = parseInt($routeParams.epaId);
+    vm.periodId = parseInt($routeParams.periodId);
+    vm.employeeId = parseInt($routeParams.employeeId);
+
+    vm.maxStar = 5;
+    vm.dataSaved = false;
+    vm.isReadonly = false;
+
+    vm.cancel = function () {
+        $window.history.back();
+    };
+
+    vm.initialize = function () {
+        EmployeeEPAModel.getEPAInfoByEvaluator(vm.epaId, vm.periodId, vm.employeeId).then(function () {
+            var data = EmployeeEPAModel.epaInfo;
+
+            vm.employee = data.EmployeeEPAInfo.Employee;
+            vm.evaluators = data.EmployeeEPAInfo.Evaluators;
+            vm.memberEPA = data.EmployeeEPAInfo;
+            vm.epaInfo = data;
+        });
+    };
+
+    vm.initialize();
+}]);
+
+kpiModule.controller('ViewEPAInfoOfMemberController',
+['$modalInstance', 'EmployeeEPAModel', 'epaId', 'periodId', 'employeeId',
+function ($modalInstance, EmployeeEPAModel, epaId, periodId, employeeId) {
+    var vm = this;
+
+    vm.isReadonly = true;
+    vm.maxStar = 5;
+
+    EmployeeEPAModel.getEPAInfoByEmployee(epaId, periodId, employeeId).then(function () {
+        var data = EmployeeEPAModel.epaInfo;
+
+        vm.employee = data.Employee;
+        vm.evaluators = data.Evaluators;
+        vm.epaInfo = data;
+
+        angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
+            if (kpiGroup.IsSpreadKPI) {
+                var weight = kpiGroup.Weight / kpiGroup.KPIs.length;
+                angular.forEach(kpiGroup.KPIs, function (kpi) {
+                    if ((weight % 1) === 0) {
+                        kpi.Weight = weight;
+                    }
+                    else {
+                        kpi.Weight = weight.toFixed(2);
+                    }
+                });
+            }
+        });
+    });
+
+    vm.cancel = function () {
+        $modalInstance.dismiss("cancel");
+    };
 }]);

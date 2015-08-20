@@ -1,13 +1,13 @@
-﻿<div class="list-kpi-rating" ng-repeat="kpiGroup in empEPAInfoCtrl.epaInfo.KPIGroups"
-     ng-init="empEPAInfoCtrl.collapses[kpiGroup.Name] = false;"
+﻿<div class="list-kpi-rating" ng-repeat="kpiGroup in memberEPAInfoCtrl.epaInfo.KPIGroups"
+     ng-init="memberEPAInfoCtrl.collapses[kpiGroup.Name] = false;"
      ng-if="kpiGroup.KPIs.length > 0">
     <div class="boxtitle col-sm-12"
-         ng-click="empEPAInfoCtrl.collapses[kpiGroup.Name] = !empEPAInfoCtrl.collapses[kpiGroup.Name]">
+         ng-click="memberEPAInfoCtrl.collapses[kpiGroup.Name] = !memberEPAInfoCtrl.collapses[kpiGroup.Name]">
         <div class="col-sm-9 kpiGroup-name">{{kpiGroup.Name}} ({{kpiGroup.Weight}} pts)</div>
         <div class="col-sm-2 text-center" data-translate="Rate"></div>
         <div class="col-sm-1 text-center" data-translate="Enter pts"></div>
     </div>
-    <div class="boxcontent col-sm-12" collapse="empEPAInfoCtrl.collapses[kpiGroup.Name]">
+    <div class="boxcontent col-sm-12" collapse="memberEPAInfoCtrl.collapses[kpiGroup.Name]">
         <div class="row row-item" ng-repeat="kpi in kpiGroup.KPIs">
             <div class="row col-sm-12 error-message" ng-if="kpi.EvaluateValid" data-translate="RequireEvaluate"></div>
             <div class="row kpi-name">
@@ -16,18 +16,18 @@
                     <span> ({{kpi.Weight}} pts)</span>
                 </div>
                 <div class="col-sm-2 text-center list-star">
-                    <a ng-show="!empEPAInfoCtrl.isReadonly && kpi.Rate > 0" class="glyphicon glyphicon-remove-circle remove-star"
-                       title="Cancel" href="javascript:;" ng-click="empEPAInfoCtrl.cancelRating(kpi)"></a>
-                    <rating ng-model="kpi.Rate" max="empEPAInfoCtrl.maxStar" readonly="empepainfoctrl.isReadonly"
-                            on-hover="empEPAInfoCtrl.hoveringOver(value, kpi)"
-                            on-leave="empEPAInfoCtrl.hoveringLeave(kpiGroup, kpi)"></rating>
-                    <span class="badge percent" ng-show="kpi.Percent > 0">{{kpi.Percent}}%</span>
-                    <span class="badge percent" ng-show="kpi.Percent == 0" data-translate="NaN"></span>
+                    <a ng-show="!memberEPAInfoCtrl.isReadonly && kpi.RateBySelf > 0" class="glyphicon glyphicon-remove-circle remove-star"
+                       title="Cancel" href="javascript:;" ng-click="memberEPAInfoCtrl.cancelRating(kpi)"></a>
+                    <rating ng-model="kpi.RateBySelf" max="memberEPAInfoCtrl.maxStar" readonly="memberEPAInfoCtrl.isReadonly"
+                            on-hover="memberEPAInfoCtrl.hoveringOver(value, kpi)"
+                            on-leave="memberEPAInfoCtrl.hoveringLeave(kpiGroup, kpi)"></rating>
+                    <span class="badge percent" ng-show="kpi.PercentBySelf > 0">{{kpi.PercentBySelf}}%</span>
+                    <span class="badge percent" ng-show="kpi.PercentBySelf == 0" data-translate="NaN"></span>
                 </div>
                 <div class="col-sm-1">
-                    <input type="text" class="form-control text-center kpi-score" maxlength="5" ng-readonly="empEPAInfoCtrl.isReadonly"
-                           ng-model="kpi.Score" ng-value="kpi.Score" ng-decimal fraction="2"
-                           ng-change="empEPAInfoCtrl.inputScore(kpi)" />
+                    <input type="text" class="form-control text-center kpi-score" maxlength="5" ng-readonly="memberEPAInfoCtrl.isReadonly"
+                           ng-model="kpi.ScoreBySelf" ng-value="kpi.ScoreBySelf" ng-decimal fraction="2"
+                           ng-change="memberEPAInfoCtrl.inputScore(kpi)" />
                 </div>
             </div>
             <div class="row kpi-description" ng-if="kpi.Description.length > 0">
@@ -36,7 +36,7 @@
             <div class="row error-message" ng-if="kpi.CommentValid" data-translate="RequireComment"></div>
             <div class="row textarea-comment" ng-if="kpi.HasComment">
                 <div class="col-sm-7">
-                    <textarea class="form-control" ng-model="kpi.Comment" ng-readonly="empEPAInfoCtrl.isReadonly">
+                    <textarea class="form-control" ng-model="kpi.Comment" ng-readonly="memberEPAInfoCtrl.isReadonly">
                         {{kpi.Comment}}
                     </textarea>
                 </div>

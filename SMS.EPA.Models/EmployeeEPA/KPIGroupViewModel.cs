@@ -10,13 +10,12 @@
 namespace SMS.EPA.Model.EmployeeEPA
 {
     using System.Collections.Generic;
-    using SMS.EPA.Model.KPI;
 
     public class KPIGroupViewModel
     {
         public KPIGroupViewModel()
         {
-            KPIs = new List<KPIModel>();
+            KPIs = new List<KPIViewModel>();
         }
 
         public int KPIGroupId { get; set; }
@@ -29,6 +28,6 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public int DisplayOrder { get; set; }
 
-        public IList<KPIModel> KPIs { get; set; }
+        public IList<KPIViewModel> KPIs { get; set; }
     }
 }

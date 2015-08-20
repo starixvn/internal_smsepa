@@ -81,10 +81,8 @@
                     <td>{{memberEPA.Employee.FullName}} ({{memberEPA.Employee.NickName}})</td>
                     <td class="text-center" ng-bind="memberEPA.TargetType.Name"></td>
                     <td class="text-center col-score">
-                        <a href="" ng-bind="memberEPA.SelfEvaluationScore | customNumber" ng-click="evaluatorCtrl.viewEPADetail(memberEPA)"
-                           ng-href="{{evaluatorCtrl.viewEPADetailUrl}}" ng-if="memberEPA.SelfEvaluationScore" />
-                        <a href="" ng-bind="'N/A'" ng-click="evaluatorCtrl.viewEPADetail(memberEPA)"
-                           ng-href="{{evaluatorCtrl.viewEPADetailUrl}}" ng-if="!memberEPA.SelfEvaluationScore" />
+                        <a ng-bind="memberEPA.SelfEvaluationScore | customNumber" ng-click="evaluatorCtrl.viewEPAInfoOfMember(memberEPA)" ng-if="memberEPA.SelfEvaluationScore" />
+                        <a ng-bind="'N/A'" ng-click="evaluatorCtrl.viewEPAInfoOfMember(memberEPA)" ng-if="!memberEPA.SelfEvaluationScore" />
                     </td>
                     <td class="text-center col-score">
                         <a href="" ng-bind="memberEPA.EvaluationScore | customNumber" ng-click="evaluatorCtrl.viewEPADetail(memberEPA)"

@@ -17,7 +17,6 @@ namespace SMS.EPA.Repositories.Implement
     using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Model.KPI;
     using SMS.EPA.Model.TargetType;
     using SMS.EPA.Repositories.Interfaces;
 
@@ -81,7 +80,7 @@ namespace SMS.EPA.Repositories.Implement
 
                     data.Evaluators = multi.Read<EmployeeModel>().ToList();
 
-                    IEnumerable<KPIGroupViewModel> groups = multi.Read<KPIGroupViewModel, KPIModel, KPIGroupViewModel>(
+                    IEnumerable<KPIGroupViewModel> groups = multi.Read<KPIGroupViewModel, KPIViewModel, KPIGroupViewModel>(
                         (group, kpi) =>
                         {
                             group.KPIs.Add(kpi);
@@ -121,6 +120,46 @@ namespace SMS.EPA.Repositories.Implement
                     "EmployeeId, GroupId, TargetTypeId, StatusId",
                     criteria.GetSpParams());
             }
+        }
+
+        public MemberEPAInfoModel GetEPAInfoByEvaluator(ICriteria criteria)
+        {
+            MemberEPAInfoModel data = new MemberEPAInfoModel();
+
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                using (var multi = db.QueryMultiple(criteria.GetSpParams()))
+                {
+                    data = multi.Read<MemberEPAInfoModel, StatusModel, MemberEPAInfoModel>(
+                        (info, status) =>
+                        {
+                            info.Status = status;
+
+                            return info;
+                        },
+                        "StatusId").FirstOrDefault();
+
+                    IEnumerable<KPIGroupViewModel> groups = multi.Read<KPIGroupViewModel, KPIViewModel, KPIGroupViewModel>(
+                        (group, kpi) =>
+                        {
+                            group.KPIs.Add(kpi);
+
+                            return group;
+                        },
+                        "KPIId");
+
+                    IList<KPIGroupViewModel> kpiGroups = GetDistinctKPIGroup(groups);
+
+                    foreach (var kpiGroup in kpiGroups)
+                    {
+                        GroupKPIByKPIGroup(kpiGroup, groups);
+                    }
+
+                    data.KPIGroups = kpiGroups;
+                }
+            }
+
+            return data;
         }
 
         private IList<EmployeeModel> GroupEvaluatorByEPAId(int epaId, IEnumerable<RawEmployeeEPAModel> evaluators)

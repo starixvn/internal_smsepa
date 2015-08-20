@@ -76,7 +76,7 @@ namespace SMS.EPA.Services.Implement
                 {
                     result.Status.Name = Enumerations.GetDescription((Status)result.Status.StatusId);
                     result.KPIGroups = DecodeScoreOfKPI(result.KPIGroups);
-                    result.FinalScore = !string.IsNullOrEmpty(result.FinalScore) ? Decode(result.FinalScore) : string.Empty;
+                    result.TotalScore = !string.IsNullOrEmpty(result.TotalScore) ? Decode(result.TotalScore) : string.Empty;
                 }
             }
 
@@ -129,6 +129,26 @@ namespace SMS.EPA.Services.Implement
             return memberEPAs;
         }
 
+        public MemberEPAInfoModel GetEPAInfoByEvaluator(GetEPAInfoByEvaluatorCriteria criteria)
+        {
+            MemberEPAInfoModel result = new MemberEPAInfoModel();
+            Check.Argument.IsNotNull(criteria, "criteria");
+
+            if (criteria.IsValid())
+            {
+                result = _employeeEPARepository.GetEPAInfoByEvaluator(criteria);
+
+                if (result != null)
+                {
+                    result.Status.Name = Enumerations.GetDescription((Status)result.Status.StatusId);
+                    result.KPIGroups = DecodeScoreOfKPI(result.KPIGroups);
+                    result.TotalScore = !string.IsNullOrEmpty(result.TotalScore) ? Decode(result.TotalScore) : string.Empty;
+                }
+            }
+
+            return result;
+        }
+
         public CommandResult UpdateStatusEPA(UpdateStatusEPACriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
@@ -163,8 +183,8 @@ namespace SMS.EPA.Services.Implement
             {
                 foreach (var kpi in kpiGroup.KPIs)
                 {
-                    string cipherScore = !string.IsNullOrEmpty(kpi.Score) ? Encode(kpi.Score + "_" + kpi.KPIId) : null;
-                    epaXML.AppendFormat(employeeEPAScore, kpi.KPIId, kpiGroup.KPIGroupId, cipherScore, kpi.Rate, HttpUtility.HtmlEncode(kpi.Comment));
+                    string cipherScore = !string.IsNullOrEmpty(kpi.ScoreBySelf) ? Encode(kpi.ScoreBySelf + "_" + kpi.KPIId) : null;
+                    epaXML.AppendFormat(employeeEPAScore, kpi.KPIId, kpiGroup.KPIGroupId, cipherScore, kpi.RateBySelf, HttpUtility.HtmlEncode(kpi.CommentBySelf));
                 }
             }
 
@@ -177,10 +197,10 @@ namespace SMS.EPA.Services.Implement
         {
             foreach (KPIGroupViewModel kpiGroup in kpiGroups)
             {
-                foreach (KPIModel kpi in kpiGroup.KPIs)
+                foreach (KPIViewModel kpi in kpiGroup.KPIs)
                 {
-                    string plainScore = !string.IsNullOrEmpty(kpi.Score) ? Decode(kpi.Score).Replace("_" + kpi.KPIId, string.Empty) : string.Empty;
-                    kpi.Score = plainScore;
+                    string plainScore = !string.IsNullOrEmpty(kpi.ScoreBySelf) ? Decode(kpi.ScoreBySelf).Replace("_" + kpi.KPIId, string.Empty) : string.Empty;
+                    kpi.ScoreBySelf = plainScore;
                 }
             }
 

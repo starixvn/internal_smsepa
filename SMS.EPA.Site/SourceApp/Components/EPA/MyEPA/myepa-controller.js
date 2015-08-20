@@ -152,8 +152,12 @@ function ($window, $translate, $routeParams, EmployeeEPAModel) {
             vm.weightInputValidMessage = message;
         });
 
-        EmployeeEPAModel.getEPAInformation(vm.epaId, vm.periodId, vm.employeeId).then(function () {
-            vm.epaInfo = EmployeeEPAModel.epaInfo;
+        EmployeeEPAModel.getEPAInfoByEmployee(vm.epaId, vm.periodId, vm.employeeId).then(function () {
+            var data = EmployeeEPAModel.epaInfo;
+
+            vm.employee = data.Employee;
+            vm.evaluators = data.Evaluators;
+            vm.epaInfo = data;
             vm.checkStatus(vm.epaInfo.IsEndProcess);
 
             angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {

@@ -19,8 +19,8 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
                 }
             });
         },
-        getEPAInformation: function (epaId, periodId, employeeId) {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAInformation', {
+        getEPAInfoByEmployee: function (epaId, periodId, employeeId) {
+            return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAInfoByEmployee', {
                 params: {
                     epaId: epaId,
                     periodId: periodId,
@@ -37,6 +37,15 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
                     groupId: groupId,
                     employeeIds: employeeIds,
                     status: status
+                }
+            });
+        },
+        getEPAInfoByEvaluator: function (epaId, periodId, employeeId) {
+            return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAInfoByEvaluator', {
+                params: {
+                    epaId: epaId,
+                    periodId: periodId,
+                    employeeId: employeeId
                 }
             });
         },

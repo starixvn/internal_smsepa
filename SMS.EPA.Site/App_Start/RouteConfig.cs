@@ -51,6 +51,7 @@ namespace SMS.EPA.Site
                 "SelfEvaluation/Index",
                 "SelfEvaluation/Detail",
                 "Evaluator/Index",
+                "Evaluator/Detail",
                 "Period/Index",
                 "Period/Update/{id}"
             };

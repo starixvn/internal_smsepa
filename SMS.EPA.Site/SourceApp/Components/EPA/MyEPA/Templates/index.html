@@ -60,13 +60,13 @@
                         </span>
                         <span ng-if="myEPA.IsEndProcess" ng-bind="myEPA.Status.Name"></span>
                     </td>
-                    <td class="text-center">
-                        <div ng-show="myEPA.Evaluators.length == 1">
+                    <td class="epa-evaluator">
+                        <div ng-if="myEPA.Evaluators.length == 1">
                             <span ng-bind="myEPA.Evaluators[0].NickName" tooltip="{{myEPA.Evaluators[0].FullName}}"></span>
                         </div>
-                        <div ng-show="myEPA.Evaluators.length > 1">
+                        <div ng-if="myEPA.Evaluators.length > 1">
                             <ul>
-                                <li ng-repeat="evaluator in myEPA.Evaluators" ng-bind="evaluator.NickName" tooltip="{{evaluator.FullName}}"></li>
+                                <li ng-repeat="evaluator in myEPA.Evaluators"><span ng-bind="evaluator.NickName" tooltip="{{evaluator.FullName}}"></span></li>
                             </ul>
                         </div>
                     </td>

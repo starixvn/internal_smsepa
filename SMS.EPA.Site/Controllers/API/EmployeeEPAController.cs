@@ -68,21 +68,21 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpGet]
-        public EmployeeEPAInfoModel GetEPAInformation(
+        public EmployeeEPAInfoModel GetEPAInfoByEmployee(
             int epaId,
             int periodId,
             int employeeId)
         {
             EmployeeEPAInfoModel epaInfo = new EmployeeEPAInfoModel();
 
-            var getEPAInfoCriteria = new GetEPAInfoCriteria()
+            var criteria = new GetEPAInfoCriteria()
             {
                 EPAId = epaId,
                 PeriodId = periodId,
                 EmployeeId = employeeId
             };
 
-            epaInfo = _employeeEPAService.GetEPAInfo(getEPAInfoCriteria);
+            epaInfo = _employeeEPAService.GetEPAInfo(criteria);
             epaInfo.Employee = _utilitiesController.GetEmployeeById(employeeId);
 
             return epaInfo;
@@ -111,6 +111,26 @@ namespace SMS.EPA.Site.Controllers.API
             return _employeeEPAService.GetEPAByEvaluator(criteria);
         }
 
+        [HttpGet]
+        public MemberEPAInfoModel GetEPAInfoByEvaluator(
+            int epaId,
+            int periodId,
+            int employeeId)
+        {
+            MemberEPAInfoModel memberEPAInfo = new MemberEPAInfoModel();
+
+            var criteria = new GetEPAInfoByEvaluatorCriteria()
+            {
+                EPAId = epaId,
+                PeriodId = periodId,
+                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId
+            };
+
+            memberEPAInfo = _employeeEPAService.GetEPAInfoByEvaluator(criteria);
+
+            return memberEPAInfo;
+        }
+
         [HttpPut]
         public CommandResult UpdateEmployeeEPA(EmployeeEPAInfoModel model)
         {
@@ -121,7 +141,7 @@ namespace SMS.EPA.Site.Controllers.API
                 EmployeeId = model.Employee.EmployeeId,
                 EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
                 Comment = model.Comment,
-                Score = _employeeEPAService.Encode(model.FinalScore),
+                Score = _employeeEPAService.Encode(model.TotalScore),
                 KPIDetails = _employeeEPAService.ConvertKPIInfoToXml(model.KPIGroups),
                 ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
             };

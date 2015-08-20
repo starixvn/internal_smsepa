@@ -1,0 +1,88 @@
+﻿<div class="col-sm-2 text-center">
+    <div class="row">
+        <div class="img-user">
+            <img class="img-default" src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;f=y" alt="User" />
+        </div>
+    </div>
+    <div class="row text-center">
+        <label>{{"Code" | translate}}: {{memberEPAInfoCtrl.employee.Code}}</label>
+    </div>
+    <div class="row text-center">
+        <label>{{memberEPAInfoCtrl.employee.FullName}} ({{memberEPAInfoCtrl.employee.NickName}})</label>
+    </div>
+</div>
+<div class="col-sm-10">
+    <div class="row row-item line">
+        <div class="col-sm-6">
+            <div class="col-sm-4" data-translate="Team"></div>
+            <div class="col-sm-7">
+                <strong ng-bind="memberEPAInfoCtrl.employee.Group.GroupName"></strong>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="col-sm-4" data-translate="JobTitle"></div>
+            <div class="col-sm-7">
+                <strong ng-bind="memberEPAInfoCtrl.employee.JobTitle.JobTitleName"></strong>
+            </div>
+        </div>
+    </div>
+    <div class="row row-item line">
+        <div class="col-sm-6">
+            <div class="col-sm-4" data-translate="Evaluator"></div>
+            <div class="col-sm-7 epa-evaluator">
+                <div ng-if="memberEPAInfoCtrl.evaluators.length == 1">
+                    <strong ng-bind="memberEPAInfoCtrl.evaluators[0].FullName"></strong>
+                    <strong ng-if="memberEPAInfoCtrl.evaluators[0].NickName">({{memberEPAInfoCtrl.evaluators[0].NickName}})</strong>
+                </div>
+                <div ng-show="memberEPAInfoCtrl.evaluators.length > 1">
+                    <ul>
+                        <li ng-repeat="evaluator in memberEPAInfoCtrl.evaluators">
+                            <strong ng-bind="evaluator.FullName"></strong>
+                            <strong ng-if="evaluator.NickName">({{evaluator.NickName}})</strong>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row row-item line">
+        <div class="col-sm-6">
+            <div class="col-sm-4" data-translate="StartDate"></div>
+            <div class="col-sm-7">
+                <strong>{{memberEPAInfoCtrl.epaInfo.StartDate| customDate}}</strong>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="col-sm-4" data-translate="EndDate"></div>
+            <div class="col-sm-7">
+                <strong>{{memberEPAInfoCtrl.epaInfo.EndDate | customDate}}</strong>
+            </div>
+        </div>
+    </div>
+    <div class="row row-item line">
+        <div class="col-sm-6">
+            <div class="col-sm-4" data-translate="Evaluated"></div>
+            <div class="col-sm-7">
+                <span class="glyphicon glyphicon-saved epa-saved"
+                      ng-if="(memberEPAInfoCtrl.epaInfo.Modifier && memberEPAInfoCtrl.epaInfo.ModifiedDate != null) || memberEPAInfoCtrl.dataSaved"></span>
+                <span class="glyphicon glyphicon-list-alt epa-unsaved"
+                      ng-if="(!memberEPAInfoCtrl.epaInfo.Modifier && memberEPAInfoCtrl.epaInfo.ModifiedDate == null)"></span>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="col-sm-4" data-translate="Status"></div>
+            <div class="col-sm-7">
+                <span class="dropdown" dropdown on-toggle="memberEPAInfoCtrl.toggled(open)"
+                      ng-if="!memberEPAInfoCtrl.epaInfo.IsEndProcess && !memberEPAInfoCtrl.isReadonly">
+                    <a href="javascript:;" class="changeStatus" dropdown-toggle>{{memberEPAInfoCtrl.epaInfo.Status.Name}}</a>
+                    <ul class="dropdown-menu dropdown-menu-width">
+                        <li ng-repeat="item in memberEPAInfoCtrl.epaStatus | filter:{ Name: '!' + memberEPAInfoCtrl.epaInfo.Status.Name }">
+                            <a ng-click="memberEPAInfoCtrl.updateStatusEPA(item)" href="javascript:;">{{item.Name}}</a>
+                        </li>
+                    </ul>
+                </span>
+                <strong ng-if="memberEPAInfoCtrl.epaInfo.IsEndProcess || memberEPAInfoCtrl.isReadonly" ng-bind="memberEPAInfoCtrl.epaInfo.Status.Name"></strong>
+            </div>
+        </div>
+    </div>
+</div>

@@ -44,7 +44,7 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public DateTime EndDate { get; set; }
 
-        public string FinalScore { get; set; }
+        public string TotalScore { get; set; }
 
         public DateTime? ModifiedDate { get; set; }
     }

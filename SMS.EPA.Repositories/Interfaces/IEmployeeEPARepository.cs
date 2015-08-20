@@ -20,5 +20,7 @@ namespace SMS.EPA.Repositories.Interfaces
         EmployeeEPAInfoModel GetEPAInfo(ICriteria criteria);
 
         IEnumerable<MemberEPAModel> GetEPAByEvaluator(ICriteria criteria);
+
+        MemberEPAInfoModel GetEPAInfoByEvaluator(ICriteria criteria);
     }
 }
