@@ -11,14 +11,13 @@ namespace SMS.EPA.Model.EmployeeEPA
 {
     using System;
     using System.Collections.Generic;
-    using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.Enitites;
 
     public class EmployeeEPAInfoModel
     {
         public EmployeeEPAInfoModel()
         {
-            Evaluators = new List<EmployeeModel>();
+            Evaluators = new List<Employee>();
             KPIGroups = new List<KPIGroupViewModel>();
         }
 
@@ -26,15 +25,19 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public int PeriodId { get; set; }
 
+        public int ProcessId { get; set; }
+
         public bool IsEndProcess { get; set; }
 
-        public EmployeeModel Employee { get; set; }
+        public Employee Employee { get; set; }
 
-        public IList<EmployeeModel> Evaluators { get; set; }
+        public IList<Employee> Evaluators { get; set; }
 
-        public EmployeeModel Modifier { get; set; }
+        public Employee Modifier { get; set; }
 
-        public string Comment { get; set; }
+        public string CommentBySelf { get; set; }
+
+        public string CommentByEvaluator { get; set; }
 
         public StatusModel Status { get; set; }
 
@@ -44,7 +47,9 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public DateTime EndDate { get; set; }
 
-        public string TotalScore { get; set; }
+        public string TotalScoreBySelf { get; set; }
+
+        public string TotalScoreByEvaluator { get; set; }
 
         public DateTime? ModifiedDate { get; set; }
     }

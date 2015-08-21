@@ -10,8 +10,6 @@
 namespace SMS.EPA.Services.Implement
 {
     using System.Collections.Generic;
-    using System.Text;
-    using System.Web;
     using Fanex.Common.Helper;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
@@ -21,7 +19,6 @@ namespace SMS.EPA.Services.Implement
     using SMS.EPA.Criteria.EmployeeEPA;
     using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Model.KPI;
     using SMS.EPA.Repositories.Implement;
     using SMS.EPA.Repositories.Interfaces;
     using SMS.EPA.Services.Interfaces;
@@ -76,7 +73,7 @@ namespace SMS.EPA.Services.Implement
                 {
                     result.Status.Name = Enumerations.GetDescription((Status)result.Status.StatusId);
                     result.KPIGroups = DecodeScoreOfKPI(result.KPIGroups);
-                    result.TotalScore = !string.IsNullOrEmpty(result.TotalScore) ? Decode(result.TotalScore) : string.Empty;
+                    result.TotalScoreBySelf = !string.IsNullOrEmpty(result.TotalScoreBySelf) ? Decode(result.TotalScoreBySelf) : string.Empty;
                 }
             }
 
@@ -129,9 +126,9 @@ namespace SMS.EPA.Services.Implement
             return memberEPAs;
         }
 
-        public MemberEPAInfoModel GetEPAInfoByEvaluator(GetEPAInfoByEvaluatorCriteria criteria)
+        public EmployeeEPAInfoModel GetEPAInfoByEvaluator(GetEPAInfoByEvaluatorCriteria criteria)
         {
-            MemberEPAInfoModel result = new MemberEPAInfoModel();
+            EmployeeEPAInfoModel result = new EmployeeEPAInfoModel();
             Check.Argument.IsNotNull(criteria, "criteria");
 
             if (criteria.IsValid())
@@ -142,7 +139,8 @@ namespace SMS.EPA.Services.Implement
                 {
                     result.Status.Name = Enumerations.GetDescription((Status)result.Status.StatusId);
                     result.KPIGroups = DecodeScoreOfKPI(result.KPIGroups);
-                    result.TotalScore = !string.IsNullOrEmpty(result.TotalScore) ? Decode(result.TotalScore) : string.Empty;
+                    result.TotalScoreBySelf = !string.IsNullOrEmpty(result.TotalScoreBySelf) ? Decode(result.TotalScoreBySelf) : string.Empty;
+                    result.TotalScoreByEvaluator = !string.IsNullOrEmpty(result.TotalScoreByEvaluator) ? Decode(result.TotalScoreByEvaluator) : string.Empty;
                 }
             }
 
@@ -172,35 +170,14 @@ namespace SMS.EPA.Services.Implement
             return _encodeService.Decode(cipherText);
         }
 
-        public string ConvertKPIInfoToXml(IList<KPIGroupViewModel> kpiGroups)
-        {
-            string beginRootTag = "<ROOT>";
-            string endRootTag = "</ROOT>";
-            string employeeEPAScore = "<KPI KPIId='{0}' KPIGroupId='{1}' Score='{2}' Rate='{3}' Comment='{4}'></KPI>";
-            var epaXML = new StringBuilder(beginRootTag);
-
-            foreach (KPIGroupViewModel kpiGroup in kpiGroups)
-            {
-                foreach (var kpi in kpiGroup.KPIs)
-                {
-                    string cipherScore = !string.IsNullOrEmpty(kpi.ScoreBySelf) ? Encode(kpi.ScoreBySelf + "_" + kpi.KPIId) : null;
-                    epaXML.AppendFormat(employeeEPAScore, kpi.KPIId, kpiGroup.KPIGroupId, cipherScore, kpi.RateBySelf, HttpUtility.HtmlEncode(kpi.CommentBySelf));
-                }
-            }
-
-            epaXML = epaXML.Append(endRootTag);
-
-            return epaXML.ToString();
-        }
-
         private IList<KPIGroupViewModel> DecodeScoreOfKPI(IList<KPIGroupViewModel> kpiGroups)
         {
             foreach (KPIGroupViewModel kpiGroup in kpiGroups)
             {
                 foreach (KPIViewModel kpi in kpiGroup.KPIs)
                 {
-                    string plainScore = !string.IsNullOrEmpty(kpi.ScoreBySelf) ? Decode(kpi.ScoreBySelf).Replace("_" + kpi.KPIId, string.Empty) : string.Empty;
-                    kpi.ScoreBySelf = plainScore;
+                    kpi.ScoreBySelf  = !string.IsNullOrEmpty(kpi.ScoreBySelf) ? Decode(kpi.ScoreBySelf).Replace("_" + kpi.KPIId, string.Empty) : string.Empty;
+                    kpi.ScoreByEvaluator = !string.IsNullOrEmpty(kpi.ScoreByEvaluator) ? Decode(kpi.ScoreByEvaluator).Replace("_" + kpi.KPIId, string.Empty) : string.Empty;
                 }
             }
 

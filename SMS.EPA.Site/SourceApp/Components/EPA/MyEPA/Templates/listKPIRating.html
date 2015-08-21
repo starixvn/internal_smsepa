@@ -13,7 +13,8 @@
             <div class="row kpi-name">
                 <div class="col-sm-9">
                     <span>{{$index + 1}}. {{kpi.Name}}</span>
-                    <span> ({{kpi.Weight}} pts)</span>
+                    <strong> ({{kpi.Weight}} pts)</strong>
+                    <label class="error-message" ng-if="kpi.IsRequiredEvaluate" data-translate="(*)"></label>
                 </div>
                 <div class="col-sm-2 text-center list-star">
                     <a ng-show="!memberEPAInfoCtrl.isReadonly && kpi.RateBySelf > 0" class="glyphicon glyphicon-remove-circle remove-star"
@@ -33,15 +34,13 @@
             <div class="row kpi-description" ng-if="kpi.Description.length > 0">
                 <div class="col-sm-8" ng-bind="kpi.Description"></div>
             </div>
-            <div class="row error-message" ng-if="kpi.CommentValid" data-translate="RequireComment"></div>
+            <div class="row col-sm-12 error-message" ng-if="kpi.CommentValid" data-translate="RequireComment"></div>
             <div class="row textarea-comment" ng-if="kpi.HasComment">
                 <div class="col-sm-7">
-                    <textarea class="form-control" ng-model="kpi.Comment" ng-readonly="memberEPAInfoCtrl.isReadonly">
-                        {{kpi.Comment}}
-                    </textarea>
+                    <textarea class="form-control" ng-model="kpi.CommentBySelf" ng-readonly="memberEPAInfoCtrl.isReadonly"></textarea>
                 </div>
                 <div class="col-sm-1" ng-if="kpi.HasComment && kpi.IsRequiredComment">
-                    <label class="error-message" data-translate="*"></label>
+                    <label class="error-message" data-translate="(*)"></label>
                 </div>
             </div>
         </div>

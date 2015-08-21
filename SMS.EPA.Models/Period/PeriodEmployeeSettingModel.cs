@@ -44,6 +44,7 @@ namespace SMS.EPA.Model.Period
         public IList<PeriodFlowModel> Managements { get; set; }
 
         public bool IsIncluded { get; set; }
+
         public TargetTemplateModel TargetTemplate { get; set; }
 
         public int NumberEvaluators

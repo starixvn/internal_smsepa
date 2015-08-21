@@ -32,18 +32,34 @@
                      ng-click="memberEPAInfoCtrl.collapses['Comments'] = !memberEPAInfoCtrl.collapses['Comments']">
                 </div>
                 <div class="boxcontent" collapse="memberEPAInfoCtrl.collapses['Comments']">
-                    <div class="row error-message" ng-show="memberEPAInfoCtrl.epaInfo.CommentValid" data-translate="RequireComment"></div>
                     <div class="row row-item">
-                        <div class="col-sm-8 textarea-comment">
-                            <textarea class="form-control" ng-readonly="memberEPAInfoCtrl.isReadonly" ng-model="memberEPAInfoCtrl.epaInfo.Comment"></textarea>
+                        <div class="col-sm-6">
+                            <label class="control-label">{{"Comment by employee" | translate}}</label>
+                            <div class="col-sm-10 textarea-comment">
+                                <textarea class="form-control" ng-readonly="true" ng-model="memberEPAInfoCtrl.epaInfo.CommentBySelf"></textarea>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="total text-center pull-right">
+                                    <p data-translate="Total"></p>
+                                    <p class="totalscore" ng-bind="memberEPAInfoCtrl.epaInfo.TotalScoreBySelf | customNumber"></p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-sm-1">
-                            <label class="error-message" data-translate="*"></label>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="total text-center pull-right">
-                                <p data-translate="Total"></p>
-                                <p class="totalscore" ng-bind="memberEPAInfoCtrl.epaInfo.TotalScore | customNumber"></p>
+                        <div class="col-sm-6">
+                            <label class="col-sm-12 control-label">{{"Comment by me" | translate}}</label>
+                            <div class="col-sm-12 error-message" ng-show="memberEPAInfoCtrl.epaInfo.CommentValid" data-translate="RequireComment"></div>
+                            <div class="col-sm-8 textarea-comment">
+                                <textarea class="form-control" ng-readonly="memberEPAInfoCtrl.isReadonly"
+                                          ng-model="memberEPAInfoCtrl.epaInfo.CommentByEvaluator"></textarea>
+                            </div>
+                            <div class="col-sm-1">
+                                <label class="error-message" data-translate="*"></label>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="total text-center pull-right">
+                                    <p data-translate="Total"></p>
+                                    <p class="totalscore" ng-bind="memberEPAInfoCtrl.epaInfo.TotalScoreByEvaluator | customNumber"></p>
+                                </div>
                             </div>
                         </div>
                     </div>

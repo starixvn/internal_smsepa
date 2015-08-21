@@ -110,18 +110,125 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
     vm.dataSaved = false;
     vm.isReadonly = false;
 
+    vm.status = {
+        isopen: false
+    };
+    vm.epaStatus = EmployeeEPAModel.epaStatus;
+
+    vm.toggleDropdown = function ($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        vm.status.isopen = !vm.status.isopen;
+    };
+
+    var calculateScore = function (epaInfo) {
+        var totalScore = 0;
+
+        angular.forEach(epaInfo.KPIGroups, function (kpiGroup) {
+            angular.forEach(kpiGroup.KPIs, function (kpi) {
+                if (kpi.ScoreByEvaluator && parseFloat(kpi.ScoreByEvaluator) > 0) {
+                    totalScore += parseFloat(kpi.ScoreByEvaluator);
+                }
+            });
+        });
+
+        epaInfo.TotalScoreByEvaluator = totalScore.toFixed(2);
+    };
+
+    var checkStatus = function (isEndProcess) {
+        if (isEndProcess) {
+            vm.isReadonly = true;
+            vm.hoveringOver = null;
+            vm.hoveringLeave = null;
+        }
+        else {
+            vm.hoveringOver = function (value, kpi) {
+                kpi.PercentByEvaluator = (100 * value) / vm.maxStar;
+            };
+
+            vm.hoveringLeave = function (kpiGroup, kpi) {
+                kpi.PercentByEvaluator = (100 * kpi.RateByEvaluator) / vm.maxStar;
+
+                if (kpiGroup.IsSpreadKPI && kpi.PercentByEvaluator > 0) {
+                    kpi.ScoreByEvaluator = (kpiGroup.Weight / kpiGroup.KPIs.length) * (kpi.PercentByEvaluator / 100);
+                }
+                else if (kpi.PercentByEvaluator > 0) {
+                    kpi.ScoreByEvaluator = kpi.Weight * (kpi.PercentByEvaluator / 100);
+                }
+
+                if (kpi.RateByEvaluator > 0) {
+                    kpi.ScoreByEvaluator = kpi.ScoreByEvaluator.toFixed(2);
+                    calculateScore(vm.epaInfo);
+                }
+            };
+        }
+    };
+
+    var validateEPA = function (epaInfo) {
+        var isValid = true;
+
+        if (!epaInfo.CommentByEvaluator || epaInfo.CommentByEvaluator.length === 0) {
+            isValid = false;
+            epaInfo.CommentValid = true;
+        }
+
+        angular.forEach(epaInfo.KPIGroups, function (kpiGroup) {
+            angular.forEach(kpiGroup.KPIs, function (kpi) {
+                if (kpi.IsRequiredEvaluate && (!kpi.ScoreByEvaluator || kpi.ScoreByEvaluator === 0)) {
+                    isValid = false;
+                    kpi.EvaluateValid = true;
+                }
+
+                if (kpi.HasComment && kpi.IsRequiredComment && (!kpi.CommentByEvaluator || kpi.CommentByEvaluator.length === 0)) {
+                    isValid = false;
+                    kpi.CommentValid = true;
+                }
+            });
+        });
+
+        return isValid;
+    };
+
+    vm.cancelRating = function (kpi) {
+        kpi.RateByEvaluator = 0;
+        kpi.PercentByEvaluator = 0;
+        kpi.ScoreByEvaluator = null;
+
+        calculateScore(vm.epaInfo);
+    };
+
     vm.cancel = function () {
         $window.history.back();
+    };
+
+    vm.save = function (epaInfo) {
+        if (validateEPA(epaInfo)) {
+            EmployeeEPAModel.updateEmployeeEPA(vm.dataSaved, epaInfo);
+        }
     };
 
     vm.initialize = function () {
         EmployeeEPAModel.getEPAInfoByEvaluator(vm.epaId, vm.periodId, vm.employeeId).then(function () {
             var data = EmployeeEPAModel.epaInfo;
 
-            vm.employee = data.EmployeeEPAInfo.Employee;
-            vm.evaluators = data.EmployeeEPAInfo.Evaluators;
-            vm.memberEPA = data.EmployeeEPAInfo;
+            vm.employee = data.Employee;
+            vm.evaluators = data.Evaluators;
             vm.epaInfo = data;
+            checkStatus(vm.epaInfo.IsEndProcess);
+
+            angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
+                if (kpiGroup.IsSpreadKPI) {
+                    var weight = kpiGroup.Weight / kpiGroup.KPIs.length;
+                    angular.forEach(kpiGroup.KPIs, function (kpi) {
+                        if ((weight % 1) === 0) {
+                            kpi.Weight = weight;
+                        }
+                        else {
+                            kpi.Weight = weight.toFixed(2);
+                        }
+                    });
+                }
+            });
         });
     };
 

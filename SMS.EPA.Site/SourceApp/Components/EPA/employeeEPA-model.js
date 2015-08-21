@@ -78,20 +78,6 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         });
     };
 
-    employeeEPAModel.calculateScore = function (vm, epaInfo) {
-        var totalScore = 0;
-
-        angular.forEach(epaInfo.KPIGroups, function (kpiGroup) {
-            angular.forEach(kpiGroup.KPIs, function (kpi) {
-                if (kpi.Score && parseFloat(kpi.Score) > 0) {
-                    totalScore += parseFloat(kpi.Score);
-                }
-            });
-        });
-
-        epaInfo.TotalScore = totalScore.toFixed(2);
-    };
-
     employeeEPAModel.validateWeightInput = function (weight, maxWeight, weightInputValidMessage) {
         var isValid = true;
 
@@ -104,31 +90,6 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
 
         return isValid;
     }
-
-    employeeEPAModel.validateEPA = function (epaInfo) {
-        var isValid = true;
-
-        if (!epaInfo.Comment || epaInfo.Comment.length === 0) {
-            isValid = false;
-            epaInfo.CommentValid = true;
-        }
-
-        angular.forEach(epaInfo.KPIGroups, function (kpiGroup) {
-            angular.forEach(kpiGroup.KPIs, function (kpi) {
-                if (kpi.IsRequiredEvaluate && (!kpi.Score || kpi.Score === 0)) {
-                    isValid = false;
-                    kpi.EvaluateValid = true;
-                }
-
-                if (kpi.HasComment && kpi.IsRequiredComment && (!kpi.Comment || kpi.Comment.length === 0)) {
-                    isValid = false;
-                    kpi.CommentValid = true;
-                }
-            });
-        });
-
-        return isValid;
-    };
 
     employeeEPAModel.updateEmployeeEPA = function (dataSaved, epaInfo) {
         return employeeEPAFactory.updateEmployeeEPA(epaInfo)

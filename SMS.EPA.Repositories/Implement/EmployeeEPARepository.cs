@@ -68,7 +68,7 @@ namespace SMS.EPA.Repositories.Implement
             {
                 using (var multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    data = multi.Read<EmployeeEPAInfoModel, StatusModel, EmployeeModel, EmployeeEPAInfoModel>(
+                    data = multi.Read<EmployeeEPAInfoModel, StatusModel, Employee, EmployeeEPAInfoModel>(
                         (info, status, modifier) =>
                         {
                             info.Status = status;
@@ -78,7 +78,7 @@ namespace SMS.EPA.Repositories.Implement
                         },
                         "StatusId, ModifierId").FirstOrDefault();
 
-                    data.Evaluators = multi.Read<EmployeeModel>().ToList();
+                    data.Evaluators = multi.Read<Employee>().ToList();
 
                     IEnumerable<KPIGroupViewModel> groups = multi.Read<KPIGroupViewModel, KPIViewModel, KPIGroupViewModel>(
                         (group, kpi) =>
@@ -122,22 +122,25 @@ namespace SMS.EPA.Repositories.Implement
             }
         }
 
-        public MemberEPAInfoModel GetEPAInfoByEvaluator(ICriteria criteria)
+        public EmployeeEPAInfoModel GetEPAInfoByEvaluator(ICriteria criteria)
         {
-            MemberEPAInfoModel data = new MemberEPAInfoModel();
+            EmployeeEPAInfoModel data = new EmployeeEPAInfoModel();
 
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
                 using (var multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    data = multi.Read<MemberEPAInfoModel, StatusModel, MemberEPAInfoModel>(
-                        (info, status) =>
+                    data = multi.Read<EmployeeEPAInfoModel, StatusModel, Employee, EmployeeEPAInfoModel>(
+                        (info, status, modifier) =>
                         {
                             info.Status = status;
+                            info.Modifier = modifier;
 
                             return info;
                         },
-                        "StatusId").FirstOrDefault();
+                        "StatusId, ModifierId").FirstOrDefault();
+
+                    data.Evaluators = multi.Read<Employee>().ToList();
 
                     IEnumerable<KPIGroupViewModel> groups = multi.Read<KPIGroupViewModel, KPIViewModel, KPIGroupViewModel>(
                         (group, kpi) =>

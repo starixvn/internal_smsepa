@@ -53,7 +53,6 @@
     <Compile Include="EmployeeEPA\EmployeeEPAInfoModel.cs" />
     <Compile Include="EmployeeEPA\KPIGroupViewModel.cs" />
     <Compile Include="EmployeeEPA\KPIViewModel.cs" />
-    <Compile Include="EmployeeEPA\MemberEPAInfoModel.cs" />
     <Compile Include="EmployeeEPA\MemberEPAModel.cs" />
     <Compile Include="EmployeeEPA\RawEmployeeEPAModel.cs" />
     <Compile Include="Employee\EmployeeModel.cs" />
