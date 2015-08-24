@@ -610,7 +610,7 @@
     <value>Target Employee Setting Template</value>
   </data>
   <data name="ApplyToDepartment" xml:space="preserve">
-    <value>Apply to Department</value>
+    <value>Apply to Department / Section</value>
   </data>
   <data name="SelectDepartmentBeforeAssignWarning" xml:space="preserve">
     <value>Please select department to assign target template!</value>
@@ -740,5 +740,17 @@
   </data>
   <data name="MemberEPA" xml:space="preserve">
     <value>Member EPA</value>
+  </data>
+  <data name="DepartmentSection" xml:space="preserve">
+    <value>Department / Section</value>
+  </data>
+  <data name="AttendanceScore" xml:space="preserve">
+    <value>Attendance Score</value>
+  </data>
+  <data name="FinalScore" xml:space="preserve">
+    <value>Final Score</value>
+  </data>
+  <data name="TotalRatingScore" xml:space="preserve">
+    <value>Total Rating Score</value>
   </data>
 </root>

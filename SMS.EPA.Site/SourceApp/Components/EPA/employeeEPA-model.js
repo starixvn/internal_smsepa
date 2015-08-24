@@ -149,5 +149,21 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         });
     };
 
+    employeeEPAModel.checkKPIOptional = function (kpiGroup) {
+        var hasKPIOptional = false, totalKPIOptional = 0;
+
+
+        angular.forEach(kpiGroup.KPIs, function (kpi) {
+            if (!kpi.IsRequiredEvaluate) {
+                hasKPIOptional = true;
+                totalKPIOptional += 1;
+            }
+        });
+
+        kpiGroup.TotalKPIOptional = totalKPIOptional;
+
+        return hasKPIOptional;
+    };
+
     return employeeEPAModel;
 }]);

@@ -100,7 +100,7 @@
                             </ul>
                         </span>
                     </td>
-                    <td class="text-center col-evaluate-date">{{ memberEPA.EvaluateDate | customDate }}</td>
+                    <td class="text-center col-evaluate-date">{{ memberEPA.ModifiedDate | customDate }}</td>
                     <td class="text-center text-uppercase col-action">
                         <a class="evaluate-now button" href="" ng-click="evaluatorCtrl.viewEPADetail(memberEPA)"
                            ng-href="{{evaluatorCtrl.viewEPADetailUrl}}">

@@ -49,6 +49,14 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public string TotalScoreBySelf { get; set; }
 
+        public int AttendanceScore
+        {
+            get
+            {
+                return 20;
+            }
+        }
+
         public string TotalScoreByEvaluator { get; set; }
 
         public DateTime? ModifiedDate { get; set; }

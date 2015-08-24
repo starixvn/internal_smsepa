@@ -89,14 +89,31 @@ function ($window, $translate, $routeParams, EmployeeEPAModel) {
         var totalScore = 0;
 
         angular.forEach(epaInfo.KPIGroups, function (kpiGroup) {
-            angular.forEach(kpiGroup.KPIs, function (kpi) {
-                if (kpi.ScoreBySelf && parseFloat(kpi.ScoreBySelf) > 0) {
-                    totalScore += parseFloat(kpi.ScoreBySelf);
-                }
-            });
+            if (kpiGroup.TotalKPIOptional > 0) {
+                var totalRating = 0, totalKPIOptional = angular.copy(kpiGroup.TotalKPIOptional);
+
+                angular.forEach(kpiGroup.KPIs, function (kpi) {
+                    if (!kpi.IsRequiredEvaluate && kpi.RateBySelf > 0) {
+                        totalKPIOptional -= 1;
+                    }
+
+                    totalRating += kpi.RateBySelf;
+                });
+
+                var totalStar = (kpiGroup.KPIs.length - totalKPIOptional) * vm.maxStar;
+                totalScore += (totalRating / totalStar) * kpiGroup.Weight;
+            }
+            else {
+                angular.forEach(kpiGroup.KPIs, function (kpi) {
+                    if (kpi.ScoreBySelf && parseFloat(kpi.ScoreBySelf) > 0) {
+                        totalScore += parseFloat(kpi.ScoreBySelf);
+                    }
+                });
+            }
         });
 
         epaInfo.TotalScoreBySelf = totalScore.toFixed(2);
+        vm.finalScore = totalScore + epaInfo.AttendanceScore;
     };
 
     var checkStatus = function (isEndProcess) {
@@ -113,15 +130,13 @@ function ($window, $translate, $routeParams, EmployeeEPAModel) {
             vm.hoveringLeave = function (kpiGroup, kpi) {
                 kpi.PercentBySelf = (100 * kpi.RateBySelf) / vm.maxStar;
 
-                if (kpiGroup.IsSpreadKPI && kpi.PercentBySelf > 0) {
-                    kpi.ScoreBySelf = (kpiGroup.Weight / kpiGroup.KPIs.length) * (kpi.PercentBySelf / 100);
-                }
-                else if (kpi.PercentBySelf > 0) {
-                    kpi.ScoreBySelf = kpi.Weight * (kpi.PercentBySelf / 100);
-                }
+                if (kpi.PercentBySelf > 0) {
+                    if (kpiGroup.TotalKPIOptional == 0) {
+                        var score = kpi.Weight * (kpi.PercentBySelf / 100);
 
-                if (kpi.RateBySelf > 0) {
-                    kpi.ScoreBySelf = (kpi.ScoreBySelf % 1) == 0 ? kpi.ScoreBySelf : kpi.ScoreBySelf.toFixed(2);
+                        kpi.ScoreBySelf = (score % 1) == 0 ? score : score.toFixed(2);
+                    }
+
                     calculateScore(vm.epaInfo);
                 }
             };
@@ -197,12 +212,14 @@ function ($window, $translate, $routeParams, EmployeeEPAModel) {
 
             vm.employee = data.Employee;
             vm.evaluators = data.Evaluators;
+            vm.finalScore = data.TotalScoreBySelf ? (parseFloat(data.TotalScoreBySelf) + data.AttendanceScore) : data.AttendanceScore;
             vm.epaInfo = data;
             checkStatus(vm.epaInfo.IsEndProcess);
 
             angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
-                if (kpiGroup.IsSpreadKPI) {
+                if (!EmployeeEPAModel.checkKPIOptional(kpiGroup) && kpiGroup.IsSpreadKPI) {
                     var weight = kpiGroup.Weight / kpiGroup.KPIs.length;
+
                     angular.forEach(kpiGroup.KPIs, function (kpi) {
                         if ((weight % 1) === 0) {
                             kpi.Weight = weight;

@@ -133,7 +133,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Apply to Department.
+        ///   Looks up a localized string similar to Apply to Department / Section.
         /// </summary>
         public static string ApplyToDepartment {
             get {
@@ -174,6 +174,15 @@ namespace SMS.EPA.Resources {
         public static string AttendanceReport {
             get {
                 return ResourceManager.GetString("AttendanceReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attendance Score.
+        /// </summary>
+        public static string AttendanceScore {
+            get {
+                return ResourceManager.GetString("AttendanceScore", resourceCulture);
             }
         }
         
@@ -408,6 +417,15 @@ namespace SMS.EPA.Resources {
         public static string DepartmentNotSelectedWarning {
             get {
                 return ResourceManager.GetString("DepartmentNotSelectedWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Department / Section.
+        /// </summary>
+        public static string DepartmentSection {
+            get {
+                return ResourceManager.GetString("DepartmentSection", resourceCulture);
             }
         }
         
@@ -705,6 +723,15 @@ namespace SMS.EPA.Resources {
         public static string FieldRequire {
             get {
                 return ResourceManager.GetString("FieldRequire", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Final Score.
+        /// </summary>
+        public static string FinalScore {
+            get {
+                return ResourceManager.GetString("FinalScore", resourceCulture);
             }
         }
         
@@ -1776,6 +1803,15 @@ namespace SMS.EPA.Resources {
         public static string TotalKPIWeightWarning {
             get {
                 return ResourceManager.GetString("TotalKPIWeightWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total Rating Score.
+        /// </summary>
+        public static string TotalRatingScore {
+            get {
+                return ResourceManager.GetString("TotalRatingScore", resourceCulture);
             }
         }
         

@@ -125,14 +125,31 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
         var totalScore = 0;
 
         angular.forEach(epaInfo.KPIGroups, function (kpiGroup) {
-            angular.forEach(kpiGroup.KPIs, function (kpi) {
-                if (kpi.ScoreByEvaluator && parseFloat(kpi.ScoreByEvaluator) > 0) {
-                    totalScore += parseFloat(kpi.ScoreByEvaluator);
-                }
-            });
+            if (kpiGroup.TotalKPIOptional > 0) {
+                var totalRating = 0, totalKPIOptional = angular.copy(kpiGroup.TotalKPIOptional);
+
+                angular.forEach(kpiGroup.KPIs, function (kpi) {
+                    if (!kpi.IsRequiredEvaluate && kpi.RateByEvaluator > 0) {
+                        totalKPIOptional -= 1;
+                    }
+
+                    totalRating += kpi.RateByEvaluator;
+                });
+
+                var totalStar = (kpiGroup.KPIs.length - totalKPIOptional) * vm.maxStar;
+                totalScore += (totalRating / totalStar) * kpiGroup.Weight;
+            }
+            else {
+                angular.forEach(kpiGroup.KPIs, function (kpi) {
+                    if (kpi.ScoreByEvaluator && parseFloat(kpi.ScoreByEvaluator) > 0) {
+                        totalScore += parseFloat(kpi.ScoreByEvaluator);
+                    }
+                });
+            }
         });
 
         epaInfo.TotalScoreByEvaluator = totalScore.toFixed(2);
+        vm.finalScore = totalScore + epaInfo.AttendanceScore;
     };
 
     var checkStatus = function (isEndProcess) {
@@ -149,15 +166,13 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
             vm.hoveringLeave = function (kpiGroup, kpi) {
                 kpi.PercentByEvaluator = (100 * kpi.RateByEvaluator) / vm.maxStar;
 
-                if (kpiGroup.IsSpreadKPI && kpi.PercentByEvaluator > 0) {
-                    kpi.ScoreByEvaluator = (kpiGroup.Weight / kpiGroup.KPIs.length) * (kpi.PercentByEvaluator / 100);
-                }
-                else if (kpi.PercentByEvaluator > 0) {
-                    kpi.ScoreByEvaluator = kpi.Weight * (kpi.PercentByEvaluator / 100);
-                }
+                if (kpi.PercentByEvaluator > 0) {
+                    if (kpiGroup.TotalKPIOptional == 0) {
+                        var score = kpi.Weight * (kpi.PercentByEvaluator / 100);
 
-                if (kpi.RateByEvaluator > 0) {
-                    kpi.ScoreByEvaluator = kpi.ScoreByEvaluator.toFixed(2);
+                        kpi.ScoreByEvaluator = (score % 1) == 0 ? score : score.toFixed(2);
+                    }
+
                     calculateScore(vm.epaInfo);
                 }
             };
@@ -213,11 +228,12 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
 
             vm.employee = data.Employee;
             vm.evaluators = data.Evaluators;
+            vm.finalScore = data.TotalScoreBySelf ? (parseFloat(data.TotalScoreBySelf) + data.AttendanceScore) : data.AttendanceScore;
             vm.epaInfo = data;
             checkStatus(vm.epaInfo.IsEndProcess);
 
             angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
-                if (kpiGroup.IsSpreadKPI) {
+                if (!EmployeeEPAModel.checkKPIOptional(kpiGroup) && kpiGroup.IsSpreadKPI) {
                     var weight = kpiGroup.Weight / kpiGroup.KPIs.length;
                     angular.forEach(kpiGroup.KPIs, function (kpi) {
                         if ((weight % 1) === 0) {
@@ -248,10 +264,11 @@ function ($modalInstance, EmployeeEPAModel, epaId, periodId, employeeId) {
 
         vm.employee = data.Employee;
         vm.evaluators = data.Evaluators;
+        vm.finalScore = data.TotalScoreBySelf ? (parseFloat(data.TotalScoreBySelf) + data.AttendanceScore) : data.AttendanceScore;
         vm.epaInfo = data;
 
         angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
-            if (kpiGroup.IsSpreadKPI) {
+            if (!EmployeeEPAModel.checkKPIOptional(kpiGroup) && kpiGroup.IsSpreadKPI) {
                 var weight = kpiGroup.Weight / kpiGroup.KPIs.length;
                 angular.forEach(kpiGroup.KPIs, function (kpi) {
                     if ((weight % 1) === 0) {

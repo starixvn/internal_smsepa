@@ -41,9 +41,17 @@
                             <label class="error-message" data-translate="(*)"></label>
                         </div>
                         <div class="col-sm-3">
-                            <div class="total text-center pull-right">
-                                <p data-translate="Total"></p>
+                            <div class="row total text-center pull-right">
+                                <p data-translate="TotalRatingScore"></p>
                                 <p class="totalscore" ng-bind="memberEPAInfoCtrl.epaInfo.TotalScoreBySelf | customNumber"></p>
+                            </div>
+                            <div class="row total text-center pull-right">
+                                <p data-translate="AttendanceScore"></p>
+                                <p class="totalscore" ng-bind="memberEPAInfoCtrl.epaInfo.AttendanceScore | customNumber"></p>
+                            </div>
+                            <div class="row total text-center pull-right">
+                                <p data-translate="FinalScore"></p>
+                                <p class="totalscore" ng-bind="memberEPAInfoCtrl.finalScore | customNumber"></p>
                             </div>
                         </div>
                     </div>

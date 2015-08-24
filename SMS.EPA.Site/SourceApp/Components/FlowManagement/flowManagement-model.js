@@ -390,7 +390,7 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
                         return '';
                     },
                     action: function () {
-                        return 'delete';
+                        return "delete this department's setting";
                     }
                 },
                 windowClass: "modal-confirm-center"
@@ -480,7 +480,7 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
                     return '';
                 },
                 action: function () {
-                    return 'delete';
+                    return "delete this personal's setting";
                 }
             },
             windowClass: "modal-confirm-center"

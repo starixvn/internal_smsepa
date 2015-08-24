@@ -1,7 +1,7 @@
 ﻿<div ng-controller="TargetDepartmentSettingController as departmentCtrl">
     <form novalidate class="row form-inline filter">
         <div class="form-group">
-            <label class="control-label" data-translate="Department">
+            <label class="control-label" data-translate="DepartmentSection">
             </label>
             <select ng-model="departmentCtrl.filter.departmentId" ng-options="opt.DepartmentId as opt.Name for opt in departmentCtrl.departments"
                     class="form-control lstBox-limit" ng-change="departmentCtrl.updateIsGroup(departmentCtrl.filter.departmentId)">
@@ -46,7 +46,7 @@
                 </th>
                 <th data-translate="SymbolCount">
                 </th>
-                <th data-translate="Name">
+                <th data-translate="DepartmentSection">
                 </th>
                 <th data-translate="TargetType">
                 </th>

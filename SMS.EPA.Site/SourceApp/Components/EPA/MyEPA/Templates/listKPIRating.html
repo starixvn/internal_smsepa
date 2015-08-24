@@ -3,9 +3,9 @@
      ng-if="kpiGroup.KPIs.length > 0">
     <div class="boxtitle col-sm-12"
          ng-click="memberEPAInfoCtrl.collapses[kpiGroup.Name] = !memberEPAInfoCtrl.collapses[kpiGroup.Name]">
-        <div class="col-sm-9 kpiGroup-name">{{kpiGroup.Name}} ({{kpiGroup.Weight}} pts)</div>
+        <div class="col-sm-9 kpiGroup-name">{{kpiGroup.Name}} <strong>({{kpiGroup.Weight}} pts)</strong></div>
         <div class="col-sm-2 text-center" data-translate="Rate"></div>
-        <div class="col-sm-1 text-center" data-translate="Enter pts"></div>
+        <div class="col-sm-1 text-center" ng-if="kpiGroup.TotalKPIOptional == 0" data-translate="Enter pts"></div>
     </div>
     <div class="boxcontent col-sm-12" collapse="memberEPAInfoCtrl.collapses[kpiGroup.Name]">
         <div class="row row-item" ng-repeat="kpi in kpiGroup.KPIs">
@@ -13,8 +13,8 @@
             <div class="row kpi-name">
                 <div class="col-sm-9">
                     <span>{{$index + 1}}. {{kpi.Name}}</span>
-                    <strong> ({{kpi.Weight}} pts)</strong>
-                    <label class="error-message" ng-if="kpi.IsRequiredEvaluate" data-translate="(*)"></label>
+                    <strong ng-if="kpiGroup.TotalKPIOptional == 0"> ({{kpi.Weight}} pts)</strong>
+                    <label class="note" ng-if="kpi.IsRequiredEvaluate" data-translate="(*)"></label>
                 </div>
                 <div class="col-sm-2 text-center list-star">
                     <a ng-show="!memberEPAInfoCtrl.isReadonly && kpi.RateBySelf > 0" class="glyphicon glyphicon-remove-circle remove-star"
@@ -27,7 +27,7 @@
                 </div>
                 <div class="col-sm-1">
                     <input type="text" class="form-control text-center kpi-score" maxlength="5" ng-readonly="memberEPAInfoCtrl.isReadonly"
-                           ng-model="kpi.ScoreBySelf" ng-value="kpi.ScoreBySelf" ng-decimal fraction="2"
+                           ng-if="kpiGroup.TotalKPIOptional == 0" ng-model="kpi.ScoreBySelf" ng-decimal fraction="2"
                            ng-change="memberEPAInfoCtrl.inputScore(kpi)" />
                 </div>
             </div>
