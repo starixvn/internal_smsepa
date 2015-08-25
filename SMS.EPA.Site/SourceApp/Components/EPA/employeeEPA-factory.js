@@ -40,12 +40,14 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
                 }
             });
         },
-        getEPAInfoByEvaluator: function (epaId, periodId, employeeId) {
+        getEPAInfoByEvaluator: function (epaId, periodId, employeeId, evaluatorId, isViewMode) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAInfoByEvaluator', {
                 params: {
                     epaId: epaId,
                     periodId: periodId,
-                    employeeId: employeeId
+                    employeeId: employeeId,
+                    isViewMode: isViewMode,
+                    evaluatorId: evaluatorId
                 }
             });
         },

@@ -52,6 +52,11 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
         });
     };
 
+    vm.viewEvaluationDetail = function (memberEPA, evaluator) {
+        vm.viewEvaluationDetailUrl = '/Evaluator/Detail?epaId=' + memberEPA.EPAId + '&periodId=' + memberEPA.PeriodId
+            + '&employeeId=' + memberEPA.Employee.EmployeeId + '&evaluatorId=' + evaluator.EvaluatorId + '&viewDetail';
+    };
+
     var getEPAByReviewer = function (fromDate, toDate, targetTypeId, groupId, employeeIds, status) {
         EmployeeEPAModel.getEPAByReviewer(fromDate, toDate, targetTypeId, groupId, employeeIds, status).then(function () {
             vm.memberEPAs = EmployeeEPAModel.memberEPAs;

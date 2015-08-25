@@ -196,6 +196,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Average Evaluation Score.
+        /// </summary>
+        public static string AverageEvaluationScore {
+            get {
+                return ResourceManager.GetString("AverageEvaluationScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Back to list.
         /// </summary>
         public static string BackToList {

@@ -15,20 +15,20 @@
         <div class="col-sm-12 list-group-item">
             <div class="list-kpi-rating" ng-repeat="kpiGroup in memberEPAInfoCtrl.epaInfo.KPIGroups"
                  ng-init="memberEPAInfoCtrl.collapses[kpiGroup.Name] = true;"
-                 ng-if="kpiGroup.KPIs.length > 0">
+                 ng-show="kpiGroup.KPIs.length > 0">
                 <div class="boxtitle col-sm-12"
                      ng-click="memberEPAInfoCtrl.collapses[kpiGroup.Name] = !memberEPAInfoCtrl.collapses[kpiGroup.Name]">
                     <div class="col-sm-7 kpiGroup-name">{{kpiGroup.Name}} <strong>({{kpiGroup.Weight}} pts)</strong></div>
                     <div class="col-sm-3 text-center" data-translate="Rate"></div>
-                    <div class="col-sm-2 text-center" ng-if="kpiGroup.TotalKPIOptional == 0" data-translate="Enter pts"></div>
+                    <div class="col-sm-2 text-center" ng-show="kpiGroup.TotalKPIOptional == 0" data-translate="Enter pts"></div>
                 </div>
                 <div class="boxcontent col-sm-12" collapse="memberEPAInfoCtrl.collapses[kpiGroup.Name]">
                     <div class="row row-item" ng-repeat="kpi in kpiGroup.KPIs">
                         <div class="row kpi-name">
                             <div class="col-sm-7">
                                 <span>{{$index + 1}}. {{kpi.Name}}</span>
-                                <strong ng-if="kpiGroup.TotalKPIOptional == 0"> ({{kpi.Weight}} pts)</strong>
-                                <label class="note" ng-if="kpi.IsRequiredEvaluate" data-translate="(*)"></label>
+                                <strong ng-show="kpiGroup.TotalKPIOptional == 0"> ({{kpi.Weight}} pts)</strong>
+                                <label class="note" ng-show="kpi.IsRequiredEvaluate" data-translate="(*)"></label>
                             </div>
                             <div class="col-sm-3 text-center list-star">
                                 <rating ng-model="kpi.RateBySelf" max="memberEPAInfoCtrl.maxStar" readonly="memberEPAInfoCtrl.isReadonly"></rating>
@@ -37,13 +37,13 @@
                             </div>
                             <div class="col-sm-2">
                                 <input type="text" class="form-control text-center kpi-score" maxlength="5" ng-readonly="memberEPAInfoCtrl.isReadonly"
-                                       ng-if="kpiGroup.TotalKPIOptional == 0" ng-model="kpi.ScoreBySelf" ng-value="kpi.ScoreBySelf" ng-decimal fraction="2" />
+                                       ng-show="kpiGroup.TotalKPIOptional == 0" ng-model="kpi.ScoreBySelf" ng-value="kpi.ScoreBySelf" ng-decimal fraction="2" />
                             </div>
                         </div>
-                        <div class="row kpi-description" ng-if="kpi.Description.length > 0">
+                        <div class="row kpi-description" ng-show="kpi.Description.length > 0">
                             <div class="col-sm-7" ng-bind="kpi.Description"></div>
                         </div>
-                        <div class="row textarea-comment" ng-if="kpi.HasComment">
+                        <div class="row textarea-comment" ng-show="kpi.HasComment">
                             <div class="col-sm-7">
                                 <textarea class="form-control" ng-model="kpi.CommentBySelf" ng-readonly="memberEPAInfoCtrl.isReadonly"></textarea>
                             </div>

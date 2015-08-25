@@ -30,15 +30,15 @@
         <div class="col-sm-6">
             <div class="col-sm-4" data-translate="Evaluator"></div>
             <div class="col-sm-7 epa-evaluator">
-                <div ng-if="memberEPAInfoCtrl.evaluators.length == 1">
+                <div ng-show="memberEPAInfoCtrl.evaluators.length == 1">
                     <strong ng-bind="memberEPAInfoCtrl.evaluators[0].FullName"></strong>
-                    <strong ng-if="memberEPAInfoCtrl.evaluators[0].NickName">({{memberEPAInfoCtrl.evaluators[0].NickName}})</strong>
+                    <strong ng-show="memberEPAInfoCtrl.evaluators[0].NickName">({{memberEPAInfoCtrl.evaluators[0].NickName}})</strong>
                 </div>
                 <div ng-show="memberEPAInfoCtrl.evaluators.length > 1">
                     <ul>
                         <li ng-repeat="evaluator in memberEPAInfoCtrl.evaluators">
                             <strong ng-bind="evaluator.FullName"></strong>
-                            <strong ng-if="evaluator.NickName">({{evaluator.NickName}})</strong>
+                            <strong ng-show="evaluator.NickName">({{evaluator.NickName}})</strong>
                         </li>
                     </ul>
                 </div>
@@ -64,16 +64,16 @@
             <div class="col-sm-4" data-translate="Evaluated"></div>
             <div class="col-sm-7">
                 <span class="glyphicon glyphicon-saved epa-saved"
-                      ng-if="(memberEPAInfoCtrl.epaInfo.Modifier && memberEPAInfoCtrl.epaInfo.ModifiedDate != null) || memberEPAInfoCtrl.dataSaved"></span>
+                      ng-show="(memberEPAInfoCtrl.epaInfo.Modifier && memberEPAInfoCtrl.epaInfo.ModifiedDate != null) || memberEPAInfoCtrl.dataSaved"></span>
                 <span class="glyphicon glyphicon-list-alt epa-unsaved"
-                      ng-if="(!memberEPAInfoCtrl.epaInfo.Modifier && memberEPAInfoCtrl.epaInfo.ModifiedDate == null)"></span>
+                      ng-show="(!memberEPAInfoCtrl.epaInfo.Modifier && memberEPAInfoCtrl.epaInfo.ModifiedDate == null)"></span>
             </div>
         </div>
         <div class="col-sm-6">
             <div class="col-sm-4" data-translate="Status"></div>
             <div class="col-sm-7">
                 <span class="dropdown" dropdown on-toggle="memberEPAInfoCtrl.toggled(open)"
-                      ng-if="!memberEPAInfoCtrl.epaInfo.IsEndProcess && !memberEPAInfoCtrl.isReadonly">
+                      ng-show="!memberEPAInfoCtrl.epaInfo.IsEndProcess && !memberEPAInfoCtrl.isReadonly">
                     <a href="javascript:;" class="changeStatus" dropdown-toggle>{{memberEPAInfoCtrl.epaInfo.Status.Name}}</a>
                     <ul class="dropdown-menu dropdown-menu-width">
                         <li ng-repeat="item in memberEPAInfoCtrl.epaStatus | filter:{ Name: '!' + memberEPAInfoCtrl.epaInfo.Status.Name }">
@@ -81,7 +81,7 @@
                         </li>
                     </ul>
                 </span>
-                <strong ng-if="memberEPAInfoCtrl.epaInfo.IsEndProcess || memberEPAInfoCtrl.isReadonly" ng-bind="memberEPAInfoCtrl.epaInfo.Status.Name"></strong>
+                <strong ng-show="memberEPAInfoCtrl.epaInfo.IsEndProcess || memberEPAInfoCtrl.isReadonly" ng-bind="memberEPAInfoCtrl.epaInfo.Status.Name"></strong>
             </div>
         </div>
     </div>

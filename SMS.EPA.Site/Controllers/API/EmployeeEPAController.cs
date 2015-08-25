@@ -124,7 +124,9 @@ namespace SMS.EPA.Site.Controllers.API
         public EmployeeEPAInfoModel GetEPAInfoByEvaluator(
             int epaId,
             int periodId,
-            int employeeId)
+            int employeeId,
+            bool isViewMode,
+            int? evaluatorId = null)
         {
             EmployeeEPAInfoModel memberEPAInfo = new EmployeeEPAInfoModel();
 
@@ -132,9 +134,17 @@ namespace SMS.EPA.Site.Controllers.API
             {
                 EPAId = epaId,
                 PeriodId = periodId,
-                EmployeeId = employeeId,
-                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId
+                EmployeeId = employeeId
             };
+
+            if (isViewMode && evaluatorId > 0)
+            {
+                criteria.EvaluatorId = (int)evaluatorId;
+            }
+            else
+            {
+                criteria.EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId;
+            }
 
             memberEPAInfo = _employeeEPAService.GetEPAInfoByEvaluator(criteria);
             memberEPAInfo.Employee = _utilitiesController.GetEmployeeById(employeeId);

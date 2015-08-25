@@ -106,6 +106,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
     vm.epaId = parseInt($routeParams.epaId);
     vm.periodId = parseInt($routeParams.periodId);
     vm.employeeId = parseInt($routeParams.employeeId);
+    vm.isViewDetail = $routeParams.viewDetail ? true : false;
+    vm.evaluatorId = $routeParams.evaluatorId ? parseInt($routeParams.evaluatorId) : null;
 
     vm.maxStar = 5;
     vm.dataSaved = false;
@@ -138,7 +140,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
     };
 
     var checkStatus = function (isEndProcess) {
-        if (isEndProcess) {
+        if (isEndProcess || vm.isViewDetail) {
             vm.isReadonly = true;
             vm.hoveringOver = null;
             vm.hoveringLeave = null;
@@ -247,7 +249,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
     };
 
     vm.initialize = function () {
-        EmployeeEPAModel.getEPAInfoByEvaluator(vm.epaId, vm.periodId, vm.employeeId).then(function () {
+        EmployeeEPAModel.getEPAInfoByEvaluator(vm.epaId, vm.periodId, vm.employeeId, vm.evaluatorId, vm.isViewDetail).then(function () {
             var data = EmployeeEPAModel.epaInfo;
 
             vm.employee = data.Employee;

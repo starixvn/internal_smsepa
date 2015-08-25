@@ -229,11 +229,11 @@ namespace SMS.EPA.Services.Implement
 
                 if (count > 0)
                 {
-                    memberEPA.EvaluationScore = (score / count).ToString();
+                    memberEPA.AverageEvaluationScore = (score / count).ToString();
                 }
                 else
                 {
-                    memberEPA.EvaluationScore = string.Empty;
+                    memberEPA.AverageEvaluationScore = string.Empty;
                 }
             }
 

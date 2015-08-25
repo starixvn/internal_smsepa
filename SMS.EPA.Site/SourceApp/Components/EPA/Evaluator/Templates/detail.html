@@ -13,7 +13,8 @@
                 <div class="boxcontent" collapse="memberEPAInfoCtrl.collapses['GeneralInfo']"
                      ng-include src="'/SourceApp/Components/EPA/Templates/generalInformation.html'"></div>
             </div>
-            <div class="col-sm-12 list-group-item bottom-buffer" ng-init="memberEPAInfoCtrl.collapses['RatingInstruction'] = true;">
+            <div class="col-sm-12 list-group-item bottom-buffer" ng-show="!memberEPAInfoCtrl.isViewDetail"
+                 ng-init="memberEPAInfoCtrl.collapses['RatingInstruction'] = true;">
                 <div class="boxtitle" data-translate="RatingInstruction"
                      ng-click="memberEPAInfoCtrl.collapses['RatingInstruction'] = !memberEPAInfoCtrl.collapses['RatingInstruction']"></div>
                 <div class="boxcontent" collapse="memberEPAInfoCtrl.collapses['RatingInstruction']">
@@ -49,7 +50,8 @@
                         </div>
                         <div class="col-sm-6 textarea-comment">
                             <div class="row col-sm-12">
-                                <label class="control-label">{{"Comment by me" | translate}}</label>
+                                <label class="control-label" ng-show="!memberEPAInfoCtrl.isViewDetail">{{"Comment by me" | translate}}</label>
+                                <label class="control-label" ng-show="memberEPAInfoCtrl.isViewDetail">{{"Comment by evaluator" | translate}}</label>
                             </div>
                             <div class="row col-sm-12 error-message" ng-show="memberEPAInfoCtrl.epaInfo.CommentValid">
                                 <div class="control-label" data-translate="RequireComment"></div>
@@ -86,7 +88,7 @@
             </div>
             <div class="col-sm-12 epa-action-button text-center">
                 <button class="button" ng-click="memberEPAInfoCtrl.save(memberEPAInfoCtrl.epaInfo)"
-                        ng-if="memberEPAInfoCtrl.epaInfo && !memberEPAInfoCtrl.isReadonly" data-translate="Save"></button>
+                        ng-show="memberEPAInfoCtrl.epaInfo && !memberEPAInfoCtrl.isReadonly" data-translate="Save"></button>
                 <button class="btn btn-default customize" ng-click="memberEPAInfoCtrl.cancel()" data-translate="Cancel"></button>
             </div>
         </form>

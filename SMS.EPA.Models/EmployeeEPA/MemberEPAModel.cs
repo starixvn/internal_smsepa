@@ -39,7 +39,18 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public string EvaluationScore { get; set; }
 
+        public string AverageEvaluationScore { get; set; }
+
         public IList<EvaluatorModel> Evaluators { get; set; }
+
+        public int NumberEvaluators
+        {
+            get
+            {
+                int numberEvaluators = Evaluators.Count;
+                return numberEvaluators != 0 ? numberEvaluators : 1;
+            }
+        }
 
         public string ReviewerScore { get; set; }
 

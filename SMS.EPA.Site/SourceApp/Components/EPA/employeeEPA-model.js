@@ -49,8 +49,8 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         });
     };
 
-    employeeEPAModel.getEPAInfoByEvaluator = function (epaId, periodId, employeeId) {
-        return employeeEPAFactory.getEPAInfoByEvaluator(epaId, periodId, employeeId)
+    employeeEPAModel.getEPAInfoByEvaluator = function (epaId, periodId, employeeId, evaluatorId, isViewMode) {
+        return employeeEPAFactory.getEPAInfoByEvaluator(epaId, periodId, employeeId, evaluatorId, isViewMode)
         .success(function (epaInfo) {
             employeeEPAModel.epaInfo = epaInfo;
         }).error(function (response, status) {

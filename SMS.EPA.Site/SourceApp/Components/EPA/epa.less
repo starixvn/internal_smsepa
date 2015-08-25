@@ -1,4 +1,20 @@
 ﻿﻿.table.table-bordered {
+    .oddRow > tr {
+        background-color: #ececec;
+
+        td {
+            background-color: #ececec !important;
+        }
+    }
+
+     .evenRow {
+        background-color: #fff;
+
+        td {
+            background-color: #fff !important;
+        }
+    }
+
     .epa-score {
         width: 80px;
 
@@ -8,6 +24,37 @@
             &:hover, &:focus {
                 text-decoration: none;
             }
+        }
+    }
+
+    .col-score {
+        width: 10%;
+
+        a {
+            cursor: pointer;
+
+            &:hover, &:focus {
+                text-decoration: none;
+            }
+        }
+    }
+
+    .col-status {
+        width: 8%;
+    }
+        
+    .col-evaluate-date {
+        width: 10%;
+    }
+
+    .col-action {
+        width: 12%;
+        padding-left: 0;
+        padding-right: 0;
+
+        .evaluate-now {
+            background: #0d9cb6;
+            color: #fff;
         }
     }
 
@@ -216,7 +263,7 @@
     }
 }
 
-.evaluator {
+.evaluator, .reviewer {
     .multiSelect { 
         .multiSelectButton {
             text-align: left;
@@ -247,35 +294,6 @@
             max-height: 300px;
             overflow-x: hidden;
             overflow-y: auto;
-        }
-    }
-
-    .table.table-bordered {
-        .col-score {
-            width: 10%;
-
-            a {
-                cursor: pointer;
-
-                &:hover, &:focus {
-                    text-decoration: none;
-                }
-            }
-        }
-
-        .col-evaluation-status, .col-evaluate-date {
-            width: 10%;
-        }
-
-        .col-action {
-            width: 14%;
-            padding-left: 0;
-            padding-right: 0;
-
-            .evaluate-now {
-                background: #0d9cb6;
-                color: #fff;
-            }
         }
     }
 }

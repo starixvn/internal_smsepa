@@ -68,7 +68,7 @@
             <th data-translate="Target"></th>
             <th data-translate="SelfEvaluationScore" class="col-score"></th>
             <th data-translate="EvaluationScore" class="col-score"></th>
-            <th data-translate="EvaluationStatus" class="col-evaluation-status"></th>
+            <th data-translate="Status" class="col-status"></th>
             <th data-translate="EvaluationDate" class="col-evaluate-date"></th>
             <th data-translate="Action" class="col-action"></th>
             </thead>
@@ -81,17 +81,17 @@
                     <td>{{memberEPA.Employee.FullName}} ({{memberEPA.Employee.NickName}})</td>
                     <td class="text-center" ng-bind="memberEPA.TargetType.Name"></td>
                     <td class="text-center col-score">
-                        <a ng-bind="memberEPA.SelfEvaluationScore | customNumber" ng-click="evaluatorCtrl.viewEPAInfoOfMember(memberEPA)" ng-if="memberEPA.SelfEvaluationScore" />
-                        <a ng-bind="'N/A'" ng-click="evaluatorCtrl.viewEPAInfoOfMember(memberEPA)" ng-if="!memberEPA.SelfEvaluationScore" />
+                        <a ng-bind="memberEPA.SelfEvaluationScore | customNumber" ng-click="evaluatorCtrl.viewEPAInfoOfMember(memberEPA)" ng-show="memberEPA.SelfEvaluationScore" />
+                        <a ng-bind="'N/A'" ng-click="evaluatorCtrl.viewEPAInfoOfMember(memberEPA)" ng-show="!memberEPA.SelfEvaluationScore" />
                     </td>
                     <td class="text-center col-score">
                         <a href="" ng-bind="memberEPA.EvaluationScore | customNumber" ng-click="evaluatorCtrl.viewEPADetail(memberEPA)"
-                           ng-href="{{evaluatorCtrl.viewEPADetailUrl}}" ng-if="memberEPA.EvaluationScore" />
+                           ng-href="{{evaluatorCtrl.viewEPADetailUrl}}" ng-show="memberEPA.EvaluationScore" />
                         <a href="" ng-bind="'N/A'" ng-click="evaluatorCtrl.viewEPADetail(memberEPA)"
-                           ng-href="{{evaluatorCtrl.viewEPADetailUrl}}" ng-if="!memberEPA.EvaluationScore" />
+                           ng-href="{{evaluatorCtrl.viewEPADetailUrl}}" ng-show="!memberEPA.EvaluationScore" />
                     </td>
-                    <td class="text-center col-evaluation-status">
-                        <span class="dropdown" dropdown on-toggle="evaluatorCtrl.toggled(open)">
+                    <td class="text-center col-status">
+                        <span class="dropdown" dropdown on-toggle="evaluatorCtrl.toggled(open)" ng-show="!memberEPA.IsEndProcess">
                             <a href="javascript:;" class="changeStatus" dropdown-toggle>{{memberEPA.Status.Name}}</a>
                             <ul class="dropdown-menu dropdown-menu-width">
                                 <li ng-repeat="item in evaluatorCtrl.epaStatus | filter:{ Name: '!' + memberEPA.Status.Name }">
@@ -99,6 +99,7 @@
                                 </li>
                             </ul>
                         </span>
+                        <span ng-show="memberEPA.IsEndProcess" ng-bind="memberEPA.Status.Name"></span>
                     </td>
                     <td class="text-center col-evaluate-date">{{ memberEPA.EvaluateDate | customDate }}</td>
                     <td class="text-center text-uppercase col-action">
@@ -109,7 +110,7 @@
                         </a>
                     </td>
                 </tr>
-                <tr ng-if="evaluatorCtrl.memberEPAs.length == 0">
+                <tr ng-show="evaluatorCtrl.memberEPAs.length == 0">
                     <td class="empty-result" colspan="9" data-translate="EmptyResult"></td>
                 </tr>
             </tbody>

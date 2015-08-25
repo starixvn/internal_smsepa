@@ -45,12 +45,12 @@
                     <td class="text-center" ng-bind="myEPA.TargetType.Name"></td>
                     <td class="text-center epa-score">
                         <a href="" ng-bind="myEPA.Score | customNumber" ng-click="empEPACtrl.viewEPADetail(myEPA)"
-                           ng-href="{{empEPACtrl.viewEPADetailUrl}}" ng-if="myEPA.Score" />
+                           ng-href="{{empEPACtrl.viewEPADetailUrl}}" ng-show="myEPA.Score" />
                         <a href="" ng-bind="'N/A'" ng-click="empEPACtrl.viewEPADetail(myEPA)"
-                           ng-href="{{empEPACtrl.viewEPADetailUrl}}" ng-if="!myEPA.Score" />
+                           ng-href="{{empEPACtrl.viewEPADetailUrl}}" ng-show="!myEPA.Score" />
                     </td>
                     <td class="text-center">
-                        <span class="dropdown" dropdown on-toggle="empEPACtrl.toggled(open)" ng-if="!myEPA.IsEndProcess">
+                        <span class="dropdown" dropdown on-toggle="empEPACtrl.toggled(open)" ng-show="!myEPA.IsEndProcess">
                             <a href="javascript:;" class="changeStatus" dropdown-toggle>{{myEPA.Status.Name}}</a>
                             <ul class="dropdown-menu dropdown-menu-width">
                                 <li ng-repeat="item in empEPACtrl.epaStatus | filter:{ Name: '!' + myEPA.Status.Name }">
@@ -58,13 +58,13 @@
                                 </li>
                             </ul>
                         </span>
-                        <span ng-if="myEPA.IsEndProcess" ng-bind="myEPA.Status.Name"></span>
+                        <span ng-show="myEPA.IsEndProcess" ng-bind="myEPA.Status.Name"></span>
                     </td>
                     <td class="epa-evaluator">
-                        <div ng-if="myEPA.Evaluators.length == 1">
+                        <div ng-show="myEPA.Evaluators.length == 1">
                             <span ng-bind="myEPA.Evaluators[0].NickName" tooltip="{{myEPA.Evaluators[0].FullName}}"></span>
                         </div>
-                        <div ng-if="myEPA.Evaluators.length > 1">
+                        <div ng-show="myEPA.Evaluators.length > 1">
                             <ul>
                                 <li ng-repeat="evaluator in myEPA.Evaluators"><span ng-bind="evaluator.NickName" tooltip="{{evaluator.FullName}}"></span></li>
                             </ul>
@@ -72,7 +72,7 @@
                     </td>
                     <td class="text-center">{{ myEPA.EvaluateDate | customDate }}</td>
                 </tr>
-                <tr ng-if="empEPACtrl.myEPAs.length == 0">
+                <tr ng-show="empEPACtrl.myEPAs.length == 0">
                     <td class="empty-result" colspan="8" data-translate="EmptyResult"></td>
                 </tr>
             </tbody>

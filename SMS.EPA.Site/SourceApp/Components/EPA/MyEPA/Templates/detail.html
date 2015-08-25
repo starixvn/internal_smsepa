@@ -64,7 +64,7 @@
             </div>
             <div class="col-sm-12 epa-action-button text-center">
                 <button class="button" ng-click="memberEPAInfoCtrl.save(memberEPAInfoCtrl.epaInfo)"
-                        ng-if="memberEPAInfoCtrl.epaInfo && !memberEPAInfoCtrl.isReadonly" data-translate="Save"></button>
+                        ng-show="memberEPAInfoCtrl.epaInfo && !memberEPAInfoCtrl.isReadonly" data-translate="Save"></button>
                 <button class="btn btn-default customize" ng-click="memberEPAInfoCtrl.cancel()" data-translate="Cancel"></button>
             </div>
         </form>
