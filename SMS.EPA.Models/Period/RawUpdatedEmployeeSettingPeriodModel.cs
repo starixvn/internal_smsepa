@@ -15,17 +15,17 @@ namespace SMS.EPA.Model.Period
 
     public class RawUpdatedEmployeeSettingPeriodModel
     {
-        private const string _AssignmentItem = "<Assignment ProcessId='{0}' EvaluatorId='{1}' Duration='{2}' HasSendMail='{3}' RemindDay='{4}'></Assignment>";
+        private const string _AssignmentItem = "<Assignment ProcessId='{0}' EvaluatorId='{1}' Duration='{2}' HasSendMail='{3}' RemindDay='{4}' StartDate='{5}' EndDate='{6}'></Assignment>";
         private const string _BeginRootTag = "<ROOT>";
         private const string _EndRootTag = "</ROOT>";
 
         public int PeriodId { get; set; }
 
-        public int EmployeeId { get; set; }
+        public string EmployeeIds { get; set; }
 
         public int? TargetTemplateId { get; set; }
 
-        public IEnumerable<FlowModel> EmployeeAssignments { get; set; }
+        public IEnumerable<PeriodFlowModel> EmployeeAssignments { get; set; }
 
         public string ConvertToXml()
         {
@@ -33,9 +33,9 @@ namespace SMS.EPA.Model.Period
 
             if (EmployeeAssignments != null)
             {
-                foreach (FlowModel assignment in EmployeeAssignments)
+                foreach (PeriodFlowModel assignment in EmployeeAssignments)
                 {
-                    value.AppendFormat(_AssignmentItem, assignment.ProcessId, assignment.EvaluatorInfo.EmployeeId, assignment.Duration, assignment.HasSendMail, assignment.RemindDay);
+                    value.AppendFormat(_AssignmentItem, assignment.ProcessId, assignment.EvaluatorInfo.EmployeeId, assignment.Duration, assignment.HasSendMail, assignment.RemindDay, assignment.StartDate, assignment.EndDate);
                 }
             }
 

@@ -33,6 +33,9 @@ periodModule.factory('periodFactory', ['$http', 'baseUrl', function ($http, base
         },
         updateIncludeStatusEmployeePeriod: function (employeeStatusSetting) {
             return $http.put(baseUrl + 'api/Period/UpdateIncludeStatusEmployeePeriod', employeeStatusSetting);
+        },
+        getPermissionOnPeriod: function () {
+            return $http.get(baseUrl + 'api/Period/GetUserPermissionOnPeriod');
         }
     };
 }]);

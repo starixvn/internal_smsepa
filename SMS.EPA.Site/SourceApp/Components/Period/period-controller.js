@@ -8,6 +8,7 @@ function (PeriodModel, CommonModel, utilitiesFactory, baseUrl) {
 
     vm.periods = PeriodModel.periods;
     vm.targetTypes = CommonModel.targetTypes;
+    vm.permission = PeriodModel.permission;
 
     vm.filter = {
         targetTypeId: null,
@@ -59,6 +60,14 @@ function (PeriodModel, CommonModel, utilitiesFactory, baseUrl) {
     vm.delete = function (period) {
         PeriodModel.openPopupDeletePeriod(vm, period);
     };
+
+    PeriodModel.getPermissionOnPeriod().then(function () {
+        vm.permission = PeriodModel.permission;
+    });
+
+    vm.viewEmployeeSetting = function (period) {
+        vm.viewEmployeeSettingUrl = baseUrl + 'Period/Update/' + period.PeriodId + '?viewSetting';
+    };
 }]);
 
 periodModule.controller('CreatePeriodController',
@@ -70,8 +79,10 @@ function ($modalInstance, PeriodModel, CommonModel) {
     vm.period = {
         Name: null,
         TargetTypeId: null,
-        RawStartDate: new Date(),
         StartDate: null,
+        EndDate: null,
+        AttendanceStartDate: null,
+        AttendanceEndDate: null,
         IsActive: true,
         Description: null
     };
@@ -112,11 +123,14 @@ function ($window, $routeParams, PeriodModel) {
 
     vm.period = {};
     vm.periodId = parseInt($routeParams.id);
+    vm.viewMode = $routeParams.viewSetting ? true : false;
+
     vm.date = new Date();
+    vm.permission = null;
 
     vm.dataTab = {
-        basicInformation: true,
-        employeeSetting: false
+        basicInformation: !vm.viewMode,
+        employeeSetting: vm.viewMode
     };
 
     vm.tabBasicSelect = function () {
@@ -132,13 +146,15 @@ function ($window, $routeParams, PeriodModel) {
     PeriodModel.getPeriodById(vm.periodId).then(function () {
         vm.period = PeriodModel.period;
         vm.period.TargetTypeId = vm.period.TargetType.TargetTypeId;
-        var startDate = vm.period.StartDate + ', ' + vm.date.getFullYear();
-        vm.period.RawStartDate = new Date(startDate);
     });
 
     vm.backToList = function () {
         $window.history.back();
     };
+
+    PeriodModel.getPermissionOnPeriod().then(function () {
+        vm.permission = PeriodModel.permission;
+    });
 }]);
 
 periodModule.controller('UpdateBasicInformationPeriodController',
@@ -168,20 +184,28 @@ function ($scope, $window, PeriodModel, CommonModel) {
         PeriodModel.openPopupAttendanceEndDate(event);
     };
 
+    var getTargetType = function () {
+        CommonModel.getTargetType().then(function () {
+            vm.targetTypes = CommonModel.targetTypes;
+            vm.isFirstLoad = false;
+        });
+    };
+
     $scope.$watch(function () { return $scope.updateCtrl.period; },
         function (newVal) {
             if (newVal) {
                 vm.period = $scope.updateCtrl.period;
+
+                if ($scope.updateCtrl.dataTab.basicInformation && vm.isFirstLoad && vm.period.PeriodId) {
+                    getTargetType();
+                }
             }
         });
 
     $scope.$watch(function () { return $scope.updateCtrl.dataTab.basicInformation; },
         function (newVal) {
-            if (newVal && vm.isFirstLoad) {
-                CommonModel.getTargetType().then(function () {
-                    vm.targetTypes = CommonModel.targetTypes;
-                    vm.isFirstLoad = false;
-                });
+            if (newVal && vm.isFirstLoad && vm.period.PeriodId) {
+                getTargetType();
             }
         });
 
@@ -197,20 +221,22 @@ function ($scope, $window, PeriodModel, CommonModel) {
 }]);
 
 periodModule.controller('EmployeeSettingPeriodController',
-['$scope', '$window', 'PeriodModel', 'utilitiesFactory', 'CommonModel', 'EmployeeModel',
-function ($scope, $window, PeriodModel, utilitiesFactory, CommonModel, EmployeeModel) {
+['$scope', '$routeParams', '$window', 'PeriodModel', 'utilitiesFactory', 'CommonModel', 'EmployeeModel', 'notificationFactory',
+function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonModel, EmployeeModel, notificationFactory) {
     var vm = this;
 
-    vm.period = {};
+    vm.period = null;
+    vm.periodId = null;
     vm.employeeSettings = PeriodModel.employeeSettings;
     vm.departments = CommonModel.departments;
     vm.isFirstLoad = true;
-    vm.periodDateFormat = PeriodModel.periodDateFormat;
     vm.departmentOptions = [];
 
     vm.currentPage = 1;
     vm.pageSize = 15;
     utilitiesFactory.numberEntryList(vm);
+    utilitiesFactory.getDateFormat(vm);
+    vm.selectedAll = false;
 
     vm.filter = {
         periodId: null,
@@ -222,31 +248,41 @@ function ($scope, $window, PeriodModel, utilitiesFactory, CommonModel, EmployeeM
         employee: ''
     };
 
-    $scope.$watch(function () { return $scope.updateCtrl.period; },
-    function (newVal) {
-        if (newVal) {
-            vm.period = $scope.updateCtrl.period;
-            vm.filter.periodId = vm.period.PeriodId;
-        }
-    });
-
     var getPeriodEmployeeSetting = function (periodId, departmentId, isExcludedEmployee) {
         PeriodModel.getPeriodEmployeeSettingById(periodId, departmentId, isExcludedEmployee).then(function () {
             vm.employeeSettings = PeriodModel.employeeSettings;
             utilitiesFactory.searchOnPage(vm, vm.employeeSettings);
             vm.isFirstLoad = false;
+            vm.selectedAll = false;
         });
     };
 
+    var getDepartmentAndEmployeeSetting = function () {
+        CommonModel.getDepartment(null, true).then(function () {
+            vm.departments = CommonModel.departments;
+            vm.departmentOptions = angular.copy(CommonModel.departments);
+        });
+
+        getPeriodEmployeeSetting(vm.filter.periodId, vm.filter.departmentId, vm.filter.isExcludedEmployee);
+        vm.permission = $scope.updateCtrl.permission;
+    };
+
+    $scope.$watch(function () { return $scope.updateCtrl.period && $scope.updateCtrl.permission; },
+    function (newVal) {
+        if (newVal) {
+            vm.period = $scope.updateCtrl.period;
+            vm.filter.periodId = vm.period.PeriodId;
+
+            if ($scope.updateCtrl.dataTab.employeeSetting && vm.isFirstLoad) {
+                getDepartmentAndEmployeeSetting();
+            }
+        }
+    });
+
     $scope.$watch(function () { return $scope.updateCtrl.dataTab.employeeSetting; },
         function (newVal) {
-            if (newVal && vm.isFirstLoad) {
-                CommonModel.getDepartment(null, true).then(function () {
-                    vm.departments = CommonModel.departments;
-                    vm.departmentOptions = angular.copy(CommonModel.departments);
-                });
-
-                getPeriodEmployeeSetting(vm.filter.periodId, vm.filter.departmentId, vm.filter.isExcludedEmployee);
+            if (newVal && vm.isFirstLoad && vm.period && $scope.updateCtrl.permission) {
+                getDepartmentAndEmployeeSetting();
             }
         });
 
@@ -311,11 +347,71 @@ function ($scope, $window, PeriodModel, utilitiesFactory, CommonModel, EmployeeM
     };
 
     vm.updateEmployeeSetting = function (employeeSetting) {
-        PeriodModel.openPopupUpdateEmployeeSetting(employeeSetting);
+        PeriodModel.openPopupUpdateEmployeeSetting(vm, employeeSetting.EmployeeId, employeeSetting);
     };
 
     vm.includeExcludeEmployee = function (employee) {
         PeriodModel.openPopupIncludeExcludeEmployee(vm.period.PeriodId, employee);
+    };
+
+    vm.manageSetting = function () {
+        var selectedEmployees = PeriodModel.getSelectedEmployee(vm.employeeSettings);
+
+        if (!selectedEmployees) {
+            notificationFactory.error("SelectEmployeeBeforeEditSettingWarning");
+        }
+        else {
+            PeriodModel.openPopupUpdateEmployeeSetting(vm, selectedEmployees);
+        }
+    };
+
+    /*
+    ** Check all and sync selected employee setting between full list and filter list.
+    */
+    vm.checkAll = function (selectedAll) {
+        angular.forEach(vm.filteredItems, function (employeeSetting) {
+            employeeSetting.Selected = selectedAll;
+        });
+
+        angular.forEach(vm.employeeSettings, function (employeeSetting) {
+            employeeSetting.Selected = selectedAll;
+        });
+    };
+
+    vm.syncSelectedEmployee = function (employeeId, selected) {
+        var allUnchecked = true,
+            allChecked = true;
+
+        angular.forEach(vm.employeeSettings, function (employeeSetting) {
+            if (employeeSetting.EmployeeId === employeeId) {
+                angular.forEach(vm.filteredItems, function (filterItem) {
+                    if (employeeSetting.EmployeeId === filterItem.EmployeeId) {
+                        filterItem.selected = selected;
+                        employeeSetting.selected = selected;
+                    }
+                });
+            }
+        });
+
+        angular.forEach(vm.filteredItems, function (filterItem) {
+            if (filterItem.Selected) {
+                allUnchecked = false;
+            }
+            else {
+                allChecked = false;
+            }
+        });
+
+        if (allUnchecked) {
+            vm.selectedAll = false;
+        }
+
+        if (allChecked) {
+            vm.selectedAll = true;
+        }
+        else {
+            vm.selectedAll = false;
+        }
     };
 
     /*
@@ -333,24 +429,37 @@ function ($scope, $window, PeriodModel, utilitiesFactory, CommonModel, EmployeeM
 }]);
 
 periodModule.controller('UpdateEmployeeSettingPeriodController',
-['$scope', '$modalInstance', 'employeeSetting', 'PeriodModel', 'EmployeeModel', 'TargetTemplateModel', 'FlowMngModel',
-function ($scope, $modalInstance, employeeSetting, PeriodModel, EmployeeModel, TargetTemplateModel, FlowMngModel) {
+['$scope', '$modalInstance', 'period', 'employeeSetting', 'selectedEmployee', 'permission', 'PeriodModel', 'EmployeeModel', 'TargetTemplateModel', 'FlowMngModel',
+function ($scope, $modalInstance, period, employeeSetting, selectedEmployee, permission, PeriodModel, EmployeeModel, TargetTemplateModel, FlowMngModel) {
     var vm = this;
 
+    vm.period = period;
     vm.employeeSetting = employeeSetting;
+    vm.permission = permission;
     vm.periodDateFormat = PeriodModel.periodDateFormat;
     vm.remindDay = FlowMngModel.remindDay;
     vm.evaluatorType = PeriodModel.evaluatorType;
-
+    vm.selectedEmployee = selectedEmployee;
+    vm.flowCalendar = PeriodModel.flowCalendar;
+    
     vm.employeeOptions = {
-        selftEvaluator: {
+        humanResource: {
             ids: null,
             StartDate: null,
             EndDate: null,
             HasSendMail: true,
             RemindDay: 0,
-            Duration: 0,
-            originalDuration: 0
+            Duration: 1,
+            originalDuration: 1
+        },
+        selfEvaluator: {
+            ids: null,
+            StartDate: null,
+            EndDate: null,
+            HasSendMail: true,
+            RemindDay: 0,
+            Duration: 1,
+            originalDuration: 1
         },
         evaluator: {
             ids: null,
@@ -358,8 +467,8 @@ function ($scope, $modalInstance, employeeSetting, PeriodModel, EmployeeModel, T
             EndDate: null,
             HasSendMail: true,
             RemindDay: 0,
-            Duration: 0,
-            originalDuration: 0
+            Duration: 1,
+            originalDuration: 1
         },
         reviewer: {
             ids: null,
@@ -367,8 +476,8 @@ function ($scope, $modalInstance, employeeSetting, PeriodModel, EmployeeModel, T
             EndDate: null,
             HasSendMail: true,
             RemindDay: 0,
-            Duration: 0,
-            originalDuration: 0
+            Duration: 1,
+            originalDuration: 1
         },
         management: {
             ids: null,
@@ -376,10 +485,11 @@ function ($scope, $modalInstance, employeeSetting, PeriodModel, EmployeeModel, T
             EndDate: null,
             HasSendMail: true,
             RemindDay: 0,
-            Duration: 0,
-            originalDuration: 0
+            Duration: 1,
+            originalDuration: 1
         },
         targetTemplateId: null,
+        humanResourceEmployees: [],
         evaluatorEmployees: [],
         reviewerEmployees: [],
         managementEmployees: []
@@ -404,12 +514,12 @@ function ($scope, $modalInstance, employeeSetting, PeriodModel, EmployeeModel, T
 
     var getEvaluators = function (evaluators) {
         var evaluator = {
-            StartDate: '',
-            EndDate: '',
+            StartDate: null,
+            EndDate: null,
             HasSendMail: true,
             RemindDay: 0,
-            Duration: 0,
-            originalDuration: 0,
+            Duration: 1,
+            originalDuration: 1,
             ids: [],
             ProcessId: 0
         };
@@ -429,6 +539,7 @@ function ($scope, $modalInstance, employeeSetting, PeriodModel, EmployeeModel, T
     };
 
     var setEmployeeSetting = function () {
+        vm.employeeOptions.humanResource = getEvaluators(vm.employeeSetting.HumanResources);
         vm.employeeOptions.selfEvaluator = getEvaluators(vm.employeeSetting.SelfEvaluators);
         vm.employeeOptions.evaluator = getEvaluators(vm.employeeSetting.Evaluators);
         vm.employeeOptions.reviewer = getEvaluators(vm.employeeSetting.Reviewers);
@@ -439,59 +550,70 @@ function ($scope, $modalInstance, employeeSetting, PeriodModel, EmployeeModel, T
     /*
    ** Get employees flow and target setting.
    */
-    TargetTemplateModel.getTargetTemplate(null, true).then(function () {
+    TargetTemplateModel.getTargetTemplate(vm.period.TargetType.TargetTypeId, true).then(function () {
         vm.targetTemplates = TargetTemplateModel.targetTemplates;
     });
 
     EmployeeModel.getAllEmployee().then(function () {
         vm.employees = EmployeeModel.employees;
+        vm.employeeOptions.humanResourceEmployees = angular.copy(vm.employees);
         vm.employeeOptions.evaluatorEmployees = angular.copy(vm.employees);
         vm.employeeOptions.reviewerEmployees = angular.copy(vm.employees);
         vm.employeeOptions.managementEmployees = angular.copy(vm.employees);
 
-        setEmployeeSetting();
+        if (vm.employeeSetting) {
+            setEmployeeSetting();
+        }
     });
 
     vm.updateTrigger = function () {
         $scope.$broadcast('evaluatorChosen');
     };
 
-    vm.updateDate = function (evaluator) {
-        if (evaluator && evaluator.ids.length > 0) {
-            var duration = evaluator.Duration,
-                originalDuration = evaluator.originalDuration,
-                changeDuration = duration - originalDuration,
-                processId = evaluator.ProcessId;
-
-            evaluator.EndDate = new Date(evaluator.EndDate.setDate(evaluator.EndDate.getDate() + changeDuration));
-
-            if (vm.employeeOptions.evaluator.ids.length > 0 && vm.employeeOptions.evaluator.ProcessId > processId) {
-                var evaluatorStartDate = vm.employeeOptions.evaluator.StartDate,
-                    evaluatorEndDate = vm.employeeOptions.evaluator.EndDate;
-
-                vm.employeeOptions.evaluator.StartDate = new Date(evaluatorStartDate.setDate(evaluatorStartDate.getDate() + changeDuration));
-                vm.employeeOptions.evaluator.EndDate = new Date(evaluatorEndDate.setDate(evaluatorEndDate.getDate() + changeDuration));
-            }
-
-            if (vm.employeeOptions.reviewer.ids.length > 0 && vm.employeeOptions.reviewer.ProcessId > processId) {
-                var reviewerStartDate = vm.employeeOptions.reviewer.StartDate,
-                    reviewerEndDate = vm.employeeOptions.reviewer.EndDate;
-
-                vm.employeeOptions.reviewer.StartDate = new Date(reviewerStartDate.setDate(reviewerStartDate.getDate() + changeDuration));
-                vm.employeeOptions.reviewer.EndDate = new Date(reviewerEndDate.setDate(reviewerEndDate.getDate() + changeDuration));
-            }
-
-            if (vm.employeeOptions.management.ids.length > 0 && vm.employeeOptions.management.ProcessId > processId) {
-                var managementStartDate = vm.employeeOptions.management.StartDate,
-                    managementEndDate = vm.employeeOptions.management.EndDate;
-
-                vm.employeeOptions.management.StartDate = new Date(managementStartDate.setDate(managementStartDate.getDate() + changeDuration));
-                vm.employeeOptions.management.EndDate = new Date(managementEndDate.setDate(managementEndDate.getDate() + changeDuration));
-            }
-
-            evaluator.originalDuration = duration;
-        }
+    vm.openFlowPopupStartDate = function (event, evaluatorType) {
+        PeriodModel.openFlowPopupStartDate(vm, event, evaluatorType);
     };
+
+    vm.openFlowPopupEndDate = function (event, evaluatorType) {
+        PeriodModel.openFlowPopupEndDate(vm, event, evaluatorType);
+    };
+
+    ////vm.updateDate = function (evaluator) {
+    ////    if (evaluator && evaluator.ids && evaluator.ids.length > 0) {
+    ////        var duration = evaluator.Duration,
+    ////            originalDuration = evaluator.originalDuration,
+    ////            changeDuration = duration - originalDuration,
+    ////            processId = evaluator.ProcessId;
+
+    ////        evaluator.EndDate = new Date(evaluator.EndDate.setDate(evaluator.EndDate.getDate() + changeDuration));
+
+    ////        if (vm.employeeOptions.evaluator.ids.length > 0 && vm.employeeOptions.evaluator.ProcessId > processId) {
+    ////            var evaluatorStartDate = vm.employeeOptions.evaluator.StartDate,
+    ////                evaluatorEndDate = vm.employeeOptions.evaluator.EndDate;
+
+    ////            vm.employeeOptions.evaluator.StartDate = new Date(evaluatorStartDate.setDate(evaluatorStartDate.getDate() + changeDuration));
+    ////            vm.employeeOptions.evaluator.EndDate = new Date(evaluatorEndDate.setDate(evaluatorEndDate.getDate() + changeDuration));
+    ////        }
+
+    ////        if (vm.employeeOptions.reviewer.ids.length > 0 && vm.employeeOptions.reviewer.ProcessId > processId) {
+    ////            var reviewerStartDate = vm.employeeOptions.reviewer.StartDate,
+    ////                reviewerEndDate = vm.employeeOptions.reviewer.EndDate;
+
+    ////            vm.employeeOptions.reviewer.StartDate = new Date(reviewerStartDate.setDate(reviewerStartDate.getDate() + changeDuration));
+    ////            vm.employeeOptions.reviewer.EndDate = new Date(reviewerEndDate.setDate(reviewerEndDate.getDate() + changeDuration));
+    ////        }
+
+    ////        if (vm.employeeOptions.management.ids.length > 0 && vm.employeeOptions.management.ProcessId > processId) {
+    ////            var managementStartDate = vm.employeeOptions.management.StartDate,
+    ////                managementEndDate = vm.employeeOptions.management.EndDate;
+
+    ////            vm.employeeOptions.management.StartDate = new Date(managementStartDate.setDate(managementStartDate.getDate() + changeDuration));
+    ////            vm.employeeOptions.management.EndDate = new Date(managementEndDate.setDate(managementEndDate.getDate() + changeDuration));
+    ////        }
+
+    ////        evaluator.originalDuration = duration;
+    ////    }
+    ////};
 
     var getUpdatedEmployeeSetting = function (employeeSetting, employeeOptions) {
         employeeSetting.TargetTemplate = PeriodModel.getUpdateTargetTemplate(employeeOptions.targetTemplateId, vm.targetTemplates);
@@ -504,12 +626,19 @@ function ($scope, $modalInstance, employeeSetting, PeriodModel, EmployeeModel, T
     };
 
     vm.save = function () {
-        var employeeAssignmentSetting = PeriodModel.createAssignmentSettings(vm.employeeOptions, vm.employeeSetting);
+        if (PeriodModel.validateEmployeeSetting(vm.employeeOptions)) {
+            var employeeAssignmentSetting = PeriodModel.createAssignmentSettings(vm.employeeOptions, vm.period.PeriodId, vm.selectedEmployee);
 
-        PeriodModel.updateEmployeeSettingOfPeriod(employeeAssignmentSetting).then(function () {
-            var updatedEmployeeSetting = getUpdatedEmployeeSetting(vm.employeeSetting, vm.employeeOptions);
-            $modalInstance.close(updatedEmployeeSetting);
-        });
+            PeriodModel.updateEmployeeSettingOfPeriod(employeeAssignmentSetting).then(function () {
+                if (!vm.employeeSetting) {
+                    $modalInstance.close();
+                }
+                else {
+                    var updatedEmployeeSetting = getUpdatedEmployeeSetting(vm.employeeSetting, vm.employeeOptions);
+                    $modalInstance.close(updatedEmployeeSetting);
+                }
+            });
+        }
     };
 
     vm.cancel = function () {

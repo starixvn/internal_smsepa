@@ -22,27 +22,40 @@
     <table class="row table table-bordered table-striped" id="data">
         <thead>
             <tr class="header-table">
-                <th colspan="11">
-                    <div class="pull-left div-period-department-setting" name="multiSelectOption">
+                <th colspan="12">
+                    <div class="pull-left div-period-department-setting" name="multiSelectOption" ng-show="updateCtrl.permission == 2">
                         <label class="control-label" data-translate="Department"></label>
                         <add-class-to-role-filter multi-select input-model="employeeSettingPeriodCtrl.departments" button-label="Name" helper-elements="all reset"
                                                   item-label="Name" tick-property="ticked" max-labels="3" class="multi-select period-department-select">
                         </add-class-to-role-filter>
                     </div>
-                    <div class="pull-left div-period-employee-setting">
+                    <div class="pull-left div-period-employee-setting" ng-show="updateCtrl.permission == 2">
                         <label class="control-label" data-translate="Employee"></label>
                         <input class="form-control period-employee" ng-model="employeeSettingPeriodCtrl.searchEmployee"
                                placeholder="Enter full name or nick name" search-auto-complete search-employees="employeeSettingPeriodCtrl.getEmployee()"
                                ng-change="employeeSettingPeriodCtrl.unSelectEmployee()" employee="employeeSettingPeriodCtrl.filterAssign.employee" />
                     </div>
-                    <button class="button pull-left period-add" ng-click="employeeSettingPeriodCtrl.addEmployee(employeeSettingPeriodCtrl.filterAssign)" data-translate="Add"></button>
+                    <button class="button pull-left period-add" ng-click="employeeSettingPeriodCtrl.addEmployee(employeeSettingPeriodCtrl.filterAssign)"
+                            ng-show="updateCtrl.permission == 2" data-translate="Add"></button>
                     <input class="btnExcel pull-right" export-employee-setting-report 
                            ng-click="employeeSettingPeriodCtrl.exportReport(employeeSettingPeriodCtrl.filter)" 
                            type="button" title="Export to Excel">
                     <input type="text" ng-model="employeeSettingPeriodCtrl.searchKey" ng-change="employeeSettingPeriodCtrl.search()" class="search-inline-textbox search pull-right">
                 </th>
             </tr>
+            <tr class="header-table" ng-show="updateCtrl.permission == 2">
+                <th colspan="12">
+                    <a class="pull-left button-icon period-create-button" ng-click="employeeSettingPeriodCtrl.manageSetting()">
+                        <span class="icon-edit glyphicon glyphicon-edit"></span>
+                        <span class="button-text btn-edit-employee-setting" data-translate="EditEmployeeSetting"></span>
+                    </a>
+                </th>
+            </tr>
             <tr class="headerName">
+                <th>
+                    <input type="checkbox" ng-click="employeeSettingPeriodCtrl.checkAll(employeeSettingPeriodCtrl.selectedAll)"
+                           ng-model="employeeSettingPeriodCtrl.selectedAll" />
+                </th>
                 <th data-translate="SymbolCount">
                 </th>
                 <th data-translate="Group">
@@ -70,6 +83,9 @@
         <tbody class="table-body" dir-paginate="employee in employeeSettingPeriodCtrl.filteredItems | itemsPerPage: employeeSettingPeriodCtrl.pageSize"
                current-page="employeeSettingPeriodCtrl.currentPage">
             <tr ng-class="{oddRow: $index % 2 == 0, evenRow: $index % 2 != 0}">
+                <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
+                    <input type="checkbox" ng-model="employee.Selected" ng-click="employeeSettingPeriodCtrl.syncSelectedEmployee(employee.EmployeeId, employee.Selected)" />
+                </td>
                 <td class="text-center" ng-bind="employeeSettingPeriodCtrl.getIndex($index, employeeSettingPeriodCtrl.currentPage, employeeSettingPeriodCtrl.pageSize)"
                     rowspan="{{employee.NumberEvaluators}}"></td>
                 <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
@@ -96,10 +112,11 @@
                         </ul>
                     </div>
                 </td>
-                <td ng-bind="employee.Evaluators[0].StartDate | date: employeeSettingPeriodCtrl.periodDateFormat"></td>
-                <td ng-bind="employee.Evaluators[0].EndDate | date: employeeSettingPeriodCtrl.periodDateFormat"></td>
+                <td ng-bind="employee.Evaluators[0].StartDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
+                <td ng-bind="employee.Evaluators[0].EndDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
                 <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
-                    <input type="checkbox" ng-checked="employee.IsIncluded" ng-click="employeeSettingPeriodCtrl.includeExcludeEmployee(employee)" />
+                    <input type="checkbox" ng-checked="employee.IsIncluded" ng-click="employeeSettingPeriodCtrl.includeExcludeEmployee(employee)"
+                           ng-disabled="updateCtrl.permission != 2" />
                 </td>
                 <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
                     <div class="btn-group">
@@ -121,8 +138,8 @@
                         </ul>
                     </div>
                 </td>
-                <td ng-bind="employee.Reviewers[0].StartDate | date: employeeSettingPeriodCtrl.periodDateFormat"></td>
-                <td ng-bind="employee.Reviewers[0].EndDate | date: employeeSettingPeriodCtrl.periodDateFormat"></td>
+                <td ng-bind="employee.Reviewers[0].StartDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
+                <td ng-bind="employee.Reviewers[0].EndDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
             </tr>
             <tr ng-class="{oddRow: $index % 2 == 0, evenRow: $index % 2 != 0}">
                 <td data-translate="Management"></td>
@@ -138,18 +155,18 @@
                         </ul>
                     </div>
                 </td>
-                <td ng-bind="employee.Managements[0].StartDate | date: employeeSettingPeriodCtrl.periodDateFormat"></td>
-                <td ng-bind="employee.Managements[0].EndDate | date: employeeSettingPeriodCtrl.periodDateFormat"></td>
+                <td ng-bind="employee.Managements[0].StartDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
+                <td ng-bind="employee.Managements[0].EndDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
             </tr>
         </tbody>
         <tbody ng-show="employeeSettingPeriodCtrl.filteredItems.length == 0">
             <tr>
-                <td class="empty-result" colspan="11" data-translate="EmptyResult"></td>
+                <td class="empty-result" colspan="12" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="11" class="paging">
+                <td colspan="12" class="paging">
                     <span data-translate="Show"></span>
                     <select class="dropdown-entry form-control" ng-model="employeeSettingPeriodCtrl.pageSize"
                             ng-options="entry for entry in employeeSettingPeriodCtrl.entries"></select>

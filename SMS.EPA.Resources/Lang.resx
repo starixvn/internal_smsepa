@@ -777,4 +777,13 @@
   <data name="ValidateMaximumOneYear" xml:space="preserve">
     <value>Report period must not exceed 365 days</value>
   </data>
+  <data name="SelectEmployeeBeforeEditSettingWarning" xml:space="preserve">
+    <value>Please select employee before edit setting!</value>
+  </data>
+  <data name="HRRangeDateGreaterThanSelfRangeDateWarning" xml:space="preserve">
+    <value>The End Date of Human Resources must be less than or equal the Start Date of Self Evaluator!</value>
+  </data>
+  <data name="SelfRangeDateGreaterThanEvaluatorRangeDateWarning" xml:space="preserve">
+    <value>The End Date of Self Evaluator must be less than or equal the Start Date of Evaluator!</value>
+  </data>
 </root>

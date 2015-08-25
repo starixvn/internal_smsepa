@@ -862,6 +862,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The End Date of Human Resources must be less than or equal the Start Date of Self Evaluator!.
+        /// </summary>
+        public static string HRRangeDateGreaterThanSelfRangeDateWarning {
+            get {
+                return ResourceManager.GetString("HRRangeDateGreaterThanSelfRangeDateWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Human Resource.
         /// </summary>
         public static string HumanResource {
@@ -1618,6 +1627,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please select employee before edit setting!.
+        /// </summary>
+        public static string SelectEmployeeBeforeEditSettingWarning {
+            get {
+                return ResourceManager.GetString("SelectEmployeeBeforeEditSettingWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Self-Evaluation.
         /// </summary>
         public static string SelfEvaluation {
@@ -1641,6 +1659,15 @@ namespace SMS.EPA.Resources {
         public static string SelfEvaluator {
             get {
                 return ResourceManager.GetString("SelfEvaluator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The End Date of Self Evaluator must be less than or equal the Start Date of Evaluator!.
+        /// </summary>
+        public static string SelfRangeDateGreaterThanEvaluatorRangeDateWarning {
+            get {
+                return ResourceManager.GetString("SelfRangeDateGreaterThanEvaluatorRangeDateWarning", resourceCulture);
             }
         }
         

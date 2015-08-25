@@ -25,6 +25,8 @@
                 <tr class="headerName">
                     <th class="width200" data-translate="SymbolCount">
                     </th>
+                    <th class="width200 text-center" data-translate="HumanResource">
+                    </th>
                     <th class="width200 text-center" data-translate="SelfEvaluator">
                     </th>
                     <th class="width200 text-center" data-translate="Evaluator">
@@ -38,12 +40,20 @@
             <tbody>
                 <tr>
                     <td data-translate="Evaluator"></td>
+                    <td>
+                        <select class="form-control" multiple chosen
+                                options="updatePeriodSettingCtrl.employeeOptions.humanResourceEmployees"
+                                ng-model="updatePeriodSettingCtrl.employeeOptions.humanResource.ids"
+                                data-placeholder="-- Select --" name="humanResourceSelect"
+                                ng-options="opt.EmployeeId as opt.NickName + ' (' + opt.FullName + ')' for opt in updatePeriodSettingCtrl.employeeOptions.humanResourceEmployees"
+                                on-show-dropdown="updatePeriodSettingCtrl.updateTrigger()"></select>
+                    </td>
                     <td></td>
                     <td>
                         <select class="form-control" multiple chosen
                                 options="updatePeriodSettingCtrl.employeeOptions.evaluatorEmployees"
                                 ng-model="updatePeriodSettingCtrl.employeeOptions.evaluator.ids"
-                                data-placeholder="Select the evaluator" name="evaluatorSelect"
+                                data-placeholder="-- Select --" name="evaluatorSelect"
                                 ng-options="opt.EmployeeId as opt.NickName + ' (' + opt.FullName + ')' for opt in updatePeriodSettingCtrl.employeeOptions.evaluatorEmployees"
                                 on-show-dropdown="updatePeriodSettingCtrl.updateTrigger()"></select>
                     </td>
@@ -51,7 +61,7 @@
                         <select class="form-control" multiple chosen
                                 options="updatePeriodSettingCtrl.employeeOptions.reviewerEmployees"
                                 ng-model="updatePeriodSettingCtrl.employeeOptions.reviewer.ids"
-                                data-placeholder="Select the reviewer" name="reviewerSelect"
+                                data-placeholder="-- Select --" name="reviewerSelect"
                                 ng-options="opt.EmployeeId as opt.NickName + ' (' + opt.FullName + ')' for opt in updatePeriodSettingCtrl.employeeOptions.reviewerEmployees"
                                 on-show-dropdown="updatePeriodSettingCtrl.updateTrigger()"></select>
                     </td>
@@ -59,13 +69,17 @@
                         <select class="form-control" multiple chosen
                                 options="updatePeriodSettingCtrl.employeeOptions.management" employees"
                                 ng-model="updatePeriodSettingCtrl.employeeOptions.management.ids"
-                                data-placeholder="Select the management" name="managementSelect"
+                                data-placeholder="-- Select --" name="managementSelect"
                                 ng-options="opt.EmployeeId as opt.NickName + ' (' + opt.FullName + ')' for opt in updatePeriodSettingCtrl.employeeOptions.managementEmployees"
                                 on-show-dropdown="updatePeriodSettingCtrl.updateTrigger()"></select>
                     </td>
                 </tr>
                 <tr>
                     <td data-translate="RemindDay"></td>
+                    <td class="text-center">
+                        <select ng-model="updatePeriodSettingCtrl.employeeOptions.humanResource.RemindDay"
+                                ng-options="opt for opt in updatePeriodSettingCtrl.remindDay"></select>
+                    </td>
                     <td class="text-center">
                         <select ng-model="updatePeriodSettingCtrl.employeeOptions.selfEvaluator.RemindDay"
                                 ng-options="opt for opt in updatePeriodSettingCtrl.remindDay"></select>
@@ -86,6 +100,9 @@
                 <tr>
                     <td data-translate="Email"></td>
                     <td class="text-center">
+                        <input type="checkbox" ng-model="updatePeriodSettingCtrl.employeeOptions.humanResource.HasSendMail" />
+                    </td>
+                    <td class="text-center">
                         <input type="checkbox" ng-model="updatePeriodSettingCtrl.employeeOptions.selfEvaluator.HasSendMail" />
                     </td>
                     <td class="text-center">
@@ -99,87 +116,127 @@
                     </td>
                 </tr>
                 <tr>
-                    <td data-translate="Duration"></td>
-                    <td class="text-center">
-                        <select ng-model="updatePeriodSettingCtrl.employeeOptions.selfEvaluator.Duration"
-                                ng-change="updatePeriodSettingCtrl.updateDate(updatePeriodSettingCtrl.employeeOptions.selfEvaluator)"
-                                ng-options="opt for opt in [] | range:30"></select>
-                    </td>
-                    <td class="text-center">
-                        <select ng-model="updatePeriodSettingCtrl.employeeOptions.evaluator.Duration"
-                                ng-change="updatePeriodSettingCtrl.updateDate(updatePeriodSettingCtrl.employeeOptions.evaluator)"
-                                ng-options="opt for opt in [] | range:30"></select>
-                    </td>
-                    <td class="text-center">
-                        <select ng-model="updatePeriodSettingCtrl.employeeOptions.reviewer.Duration"
-                                ng-change="updatePeriodSettingCtrl.updateDate(updatePeriodSettingCtrl.employeeOptions.reviewer)"
-                                ng-options="opt for opt in [] | range:30"></select>
-                    </td>
-                    <td class="text-center">
-                        <select ng-model="updatePeriodSettingCtrl.employeeOptions.management.Duration"
-                                ng-change="updatePeriodSettingCtrl.updateDate(updatePeriodSettingCtrl.employeeOptions.management)"
-                                ng-options="opt for opt in [] | range:30"></select>
-                    </td>
-                </tr>
-                <tr>
                     <td data-translate="StartDate"></td>
                     <td class="text-center">
                         <input readonly class="calendar-form-control" type="text"
+                               ng-model="updatePeriodSettingCtrl.employeeOptions.humanResource.StartDate"
+                               datepicker-popup ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.HumanResources)"
+                               is-open="updatePeriodSettingCtrl.flowCalendar.humanResource.startDateOpened" />
+                        <calendar-image class="calendar-image period-calendar"
+                                        ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.HumanResources)"></calendar-image>
+                    </td>
+                    <td class="text-center">
+                        <input readonly class="calendar-form-control" type="text"
                                ng-model="updatePeriodSettingCtrl.employeeOptions.selfEvaluator.StartDate"
-                               datepicker-popup="{{updatePeriodSettingCtrl.periodDateFormat}}" />
-                        <calendar-image class="calendar-image period-calendar"></calendar-image>
+                               ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.SelfEvaluator)"
+                               datepicker-popup
+                               is-open="updatePeriodSettingCtrl.flowCalendar.selfEvaluator.startDateOpened" />
+                        <calendar-image class="calendar-image period-calendar"
+                                        ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.SelfEvaluator)"></calendar-image>
                     </td>
                     <td class="text-center">
                         <input readonly class="calendar-form-control" type="text"
                                ng-model="updatePeriodSettingCtrl.employeeOptions.evaluator.StartDate"
-                               datepicker-popup="{{updatePeriodSettingCtrl.periodDateFormat}}" />
-                        <calendar-image class="calendar-image period-calendar"></calendar-image>
+                               ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.Evaluator)"
+                               datepicker-popup
+                               is-open="updatePeriodSettingCtrl.flowCalendar.evaluator.startDateOpened" />
+                        <calendar-image class="calendar-image period-calendar"
+                               ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.Evaluator)"></calendar-image>
                     </td>
                     <td class="text-center">
                         <input readonly class="calendar-form-control" type="text"
                                ng-model="updatePeriodSettingCtrl.employeeOptions.reviewer.StartDate"
-                               datepicker-popup="{{updatePeriodSettingCtrl.periodDateFormat}}" />
-                        <calendar-image class="calendar-image period-calendar"></calendar-image>
+                               ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.Reviewer)"
+                               datepicker-popup
+                               is-open="updatePeriodSettingCtrl.flowCalendar.reviewer.startDateOpened" />
+                        <calendar-image class="calendar-image period-calendar"
+                               ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.Reviewer)"></calendar-image>
                     </td>
                     <td class="text-center">
                         <input readonly class="calendar-form-control" type="text"
                                ng-model="updatePeriodSettingCtrl.employeeOptions.management.StartDate"
-                               datepicker-popup="{{updatePeriodSettingCtrl.periodDateFormat}}" />
-                        <calendar-image class="calendar-image period-calendar"></calendar-image>
+                               ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.Management)"
+                               datepicker-popup
+                               is-open="updatePeriodSettingCtrl.flowCalendar.management.startDateOpened" />
+                        <calendar-image class="calendar-image period-calendar"
+                               ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.Management)"></calendar-image>
                     </td>
                 </tr>
                 <tr>
                     <td data-translate="EndDate"></td>
                     <td class="text-center">
                         <input readonly class="calendar-form-control" type="text"
+                               ng-model="updatePeriodSettingCtrl.employeeOptions.humanResource.EndDate"
+                               datepicker-popup ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.HumanResources)"
+                               is-open="updatePeriodSettingCtrl.flowCalendar.humanResource.endDateOpened" />
+                        <calendar-image class="calendar-image period-calendar"
+                               ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.HumanResources)"></calendar-image>
+                    </td>
+                    <td class="text-center">
+                        <input readonly class="calendar-form-control" type="text"
                                ng-model="updatePeriodSettingCtrl.employeeOptions.selfEvaluator.EndDate"
-                               datepicker-popup="{{updatePeriodSettingCtrl.periodDateFormat}}" />
-                        <calendar-image class="calendar-image"></calendar-image>
+                               ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.SelfEvaluator)"
+                               datepicker-popup
+                               is-open="updatePeriodSettingCtrl.flowCalendar.selfEvaluator.endDateOpened" />
+                        <calendar-image class="calendar-image period-calendar"
+                               ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.SelfEvaluator)"></calendar-image>
                     </td>
                     <td class="text-center">
                         <input readonly class="calendar-form-control" type="text"
                                ng-model="updatePeriodSettingCtrl.employeeOptions.evaluator.EndDate"
-                               datepicker-popup="{{updatePeriodSettingCtrl.periodDateFormat}}" />
-                        <calendar-image class="calendar-image"></calendar-image>
+                               ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.Evaluator)"
+                               datepicker-popup
+                               is-open="updatePeriodSettingCtrl.flowCalendar.evaluator.endDateOpened" />
+                        <calendar-image class="calendar-image period-calendar"
+                               ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.Evaluator)"></calendar-image>
                     </td>
                     <td class="text-center">
                         <input readonly class="calendar-form-control" type="text"
                                ng-model="updatePeriodSettingCtrl.employeeOptions.reviewer.EndDate"
-                               datepicker-popup="{{updatePeriodSettingCtrl.periodDateFormat}}" />
-                        <calendar-image class="calendar-image"></calendar-image>
+                               ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.Reviewer)"
+                               datepicker-popup
+                               is-open="updatePeriodSettingCtrl.flowCalendar.reviewer.endDateOpened" />
+                        <calendar-image class="calendar-image period-calendar"
+                               ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.Reviewer)"></calendar-image>
                     </td>
                     <td class="text-center">
                         <input readonly class="calendar-form-control" type="text"
                                ng-model="updatePeriodSettingCtrl.employeeOptions.management.EndDate"
-                               datepicker-popup="{{updatePeriodSettingCtrl.periodDateFormat}}" />
-                        <calendar-image class="calendar-image"></calendar-image>
+                               ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.Management)"
+                               datepicker-popup
+                               is-open="updatePeriodSettingCtrl.flowCalendar.management.endDateOpened" />
+                        <calendar-image class="calendar-image period-calendar"
+                               ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.Management)"></calendar-image>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-translate="Duration"></td>
+                    <td class="text-center">
+                        <select ng-model="updatePeriodSettingCtrl.employeeOptions.humanResource.Duration"
+                                ng-options="opt for opt in [] | range:30"></select>
+                    </td>
+                    <td class="text-center">
+                        <select ng-model="updatePeriodSettingCtrl.employeeOptions.selfEvaluator.Duration"
+                                ng-options="opt for opt in [] | range:30"></select>
+                    </td>
+                    <td class="text-center">
+                        <select ng-model="updatePeriodSettingCtrl.employeeOptions.evaluator.Duration"
+                                ng-options="opt for opt in [] | range:30"></select>
+                    </td>
+                    <td class="text-center">
+                        <select ng-model="updatePeriodSettingCtrl.employeeOptions.reviewer.Duration"
+                                ng-options="opt for opt in [] | range:30"></select>
+                    </td>
+                    <td class="text-center">
+                        <select ng-model="updatePeriodSettingCtrl.employeeOptions.management.Duration"
+                                ng-options="opt for opt in [] | range:30"></select>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
     <div class="modal-footer">
-        <button class="button" ng-click="updatePeriodSettingCtrl.save()" data-translate="OK"></button>
+        <button class="button" ng-click="updatePeriodSettingCtrl.save()" data-translate="OK" ng-show="updatePeriodSettingCtrl.permission == 2"></button>
         <button class="btn btn-default customize" ng-click="updatePeriodSettingCtrl.cancel()" data-translate="Cancel"></button>
     </div>
 </div>

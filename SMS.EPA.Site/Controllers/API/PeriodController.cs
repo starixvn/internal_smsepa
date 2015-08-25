@@ -11,27 +11,34 @@ namespace SMS.EPA.Site.Controllers.API
 {
     using System.Collections.Generic;
     using System.Web.Http;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.Period;
     using SMS.EPA.Model.Period;
     using SMS.EPA.Resources;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
+    using SMS.EPA.Web.ApiAuthorizeAttribute;
+    using SMS.EPA.Web.Services;
 
     public class PeriodController : BaseController
     {
         private readonly IPeriodService _periodService;
+        private readonly IWebCommonService _webCommonService;
 
         public PeriodController()
-            : this(null)
+            : this(null, null)
         {
         }
 
-        public PeriodController(IPeriodService periodService)
+        public PeriodController(IPeriodService periodService, IWebCommonService webCommonService)
         {
             _periodService = periodService ?? new PeriodService();
+            _webCommonService = webCommonService ?? new WebCommonService();
         }
 
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Read)]
         public IEnumerable<PeriodModel> GetPeriod(int? targetTypeId = null, bool? isActive = true)
         {
             var criteria = new GetPeriodCriteria
@@ -45,6 +52,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpPost]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Host)]
         public CommandResult CreatePeriod(CreatePeriodCriteria criteria)
         {
             var commandResult = new CommandResult();
@@ -64,6 +72,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Host)]
         public CommandResult UpdateBasicInformationPeriod(UpdateBasicInformationPeriodCriteria criteria)
         {
             var commandResult = new CommandResult();
@@ -82,6 +91,7 @@ namespace SMS.EPA.Site.Controllers.API
             return commandResult;
         }
 
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Read)]
         public PeriodModel GetPeriodById(int periodId)
         {
             var criteria = new GetPeriodByIdCriteria
@@ -94,6 +104,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Host)]
         public CommandResult UpdateStatusPeriod(UpdateStatusPeriodCriteria criteria)
         {
             var commandResult = new CommandResult();
@@ -113,6 +124,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpDelete]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Host)]
         public CommandResult DeletePeriod(int periodId)
         {
             var criteria = new DeletePeriodCriteria
@@ -124,6 +136,7 @@ namespace SMS.EPA.Site.Controllers.API
             return commandResult;
         }
 
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Read)]
         public IEnumerable<PeriodEmployeeSettingModel> GetPeriodEmployeeSettingById(
             int periodId,
             int? departmentId = null,
@@ -141,6 +154,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpPost]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Host)]
         public CommandResult AddEmployeToPeriod(RawAssignEmployeePeriodModel model)
         {
             var commandResult = new CommandResult();
@@ -167,6 +181,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Host)]
         public CommandResult UpdateEmployeeSettingOfPeriod(RawUpdatedEmployeeSettingPeriodModel model)
         {
             var commandResult = new CommandResult();
@@ -176,7 +191,7 @@ namespace SMS.EPA.Site.Controllers.API
                 var criteria = new UpdateEmployeeSettingOfPeriodCriteria
                 {
                     PeriodId = model.PeriodId,
-                    EmployeeId = model.EmployeeId,
+                    EmployeeIds = model.EmployeeIds,
                     TargetTemplateId = model.TargetTemplateId,
                     EmployeeAssignments = model.ConvertToXml(),
                     ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
@@ -194,6 +209,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Host)]
         public CommandResult UpdateIncludeStatusEmployeePeriod(UpdateIncludeStatusEmployeePeriodCriteria criteria)
         {
             var commandResult = new CommandResult();
@@ -210,6 +226,12 @@ namespace SMS.EPA.Site.Controllers.API
             }
 
             return commandResult;
+        }
+
+        public int GetUserPermissionOnPeriod()
+        {
+            int permission = _webCommonService.GetPermission(EPAFunctionKey.Period);
+            return permission;
         }
     }
 }

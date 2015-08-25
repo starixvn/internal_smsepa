@@ -15,7 +15,7 @@ namespace SMS.EPA.Criteria.Period
     {
         public int PeriodId { get; set; }
 
-        public int EmployeeId { get; set; }
+        public string EmployeeIds { get; set; }
 
         public int? TargetTemplateId { get; set; }
 
@@ -25,7 +25,7 @@ namespace SMS.EPA.Criteria.Period
 
         public override bool IsValid()
         {
-            return PeriodId > 0 && EmployeeId > 0;
+            return PeriodId > 0 && !string.IsNullOrWhiteSpace(EmployeeIds);
         }
 
         public override string GetSettingKey()

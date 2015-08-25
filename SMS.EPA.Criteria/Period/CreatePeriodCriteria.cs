@@ -18,13 +18,13 @@ namespace SMS.EPA.Criteria.Period
 
         public int TargetTypeId { get; set; }
 
-        public DateTime StartDate { get; set; }
+        public DateTime? StartDate { get; set; }
 
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
-        public DateTime AttendanceStartDate { get; set; }
+        public DateTime? AttendanceStartDate { get; set; }
 
-        public DateTime AttendanceEndDate { get; set; }
+        public DateTime? AttendanceEndDate { get; set; }
 
         public bool IsActive { get; set; }
 

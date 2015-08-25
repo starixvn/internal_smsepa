@@ -10,7 +10,7 @@
         <div class="form-group top-buffer required">
             <label class="col-sm-3 control-label" data-translate="TargetType"></label>
             <div class="col-sm-8 field">
-                <select class="form-control lstBox-limit" ng-model="basicInfoPeriodCtrl.period.TargetTypeId"
+                <select class="form-control lstBox-limit" ng-model="basicInfoPeriodCtrl.period.TargetTypeId" ng-disabled="true"
                         ng-options="opt.TargetTypeId as opt.Name for opt in basicInfoPeriodCtrl.targetTypes">
                     <option value="">-- {{"All" | translate}} --</option>
                 </select>
@@ -69,7 +69,8 @@
             </div>
         </div>
         <div class="col-sm-offset-5 top-buffer">
-            <button class="button" data-translate="Submit" ng-click="basicInfoPeriodCtrl.save(basicInfoPeriodCtrl.period)"></button>
+            <button class="button" data-translate="Submit" ng-click="basicInfoPeriodCtrl.save(basicInfoPeriodCtrl.period)"
+                    ng-show="updateCtrl.permission == 2"></button>
             <button class="btn btn-default customize" ng-click="basicInfoPeriodCtrl.cancel()" data-translate="Cancel"></button>
         </div>
     </form>

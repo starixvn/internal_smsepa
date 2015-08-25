@@ -18,12 +18,44 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         Reviewer: 4,
         Management: 5
     };
+    periodModel.permission = 0;
 
     periodModel.calendar = {
         startDateOpened: false,
         endDateOpened: false,
         attendanceStartDateOpened: false,
         attendanceEndDateOpened: false
+    };
+
+    periodModel.flowCalendar = {
+        humanResource: {
+            startDateOpened: false,
+            endDateOpened: false
+        },
+        selfEvaluator: {
+            startDateOpened: false,
+            endDateOpened: false
+        },
+        evaluator: {
+            startDateOpened: false,
+            endDateOpened: false
+        },
+        reviewer: {
+            startDateOpened: false,
+            endDateOpened: false
+        },
+        management: {
+            startDateOpened: false,
+            endDateOpened: false
+        }
+    };
+
+    periodModel.getPermissionOnPeriod = function () {
+        return periodFactory.getPermissionOnPeriod().success(function (permisson) {
+            periodModel.permission = permisson;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
     };
 
     periodModel.openPopupStartDate = function (event) {
@@ -64,6 +96,103 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         periodModel.calendar.endDateOpened = false;
         periodModel.calendar.attendanceStartDateOpened = false;
         periodModel.calendar.attendanceEndDateOpened = true;
+    };
+
+    periodModel.resetCalendar = function (vm) {
+        vm.flowCalendar.humanResource.startDateOpened = false;
+        vm.flowCalendar.humanResource.endDateOpened = false;
+
+        vm.flowCalendar.selfEvaluator.startDateOpened = false;
+        vm.flowCalendar.selfEvaluator.endDateOpened = false;
+
+        vm.flowCalendar.evaluator.startDateOpened = false;
+        vm.flowCalendar.evaluator.endDateOpened = false;
+
+        vm.flowCalendar.reviewer.startDateOpened = false;
+        vm.flowCalendar.reviewer.endDateOpened = false;
+
+        vm.flowCalendar.management.startDateOpened = false;
+        vm.flowCalendar.management.endDateOpened = false;
+    };
+
+    periodModel.openFlowPopupStartDate = function (vm, event, evaluatorType) {
+        event.preventDefault();
+        event.stopPropagation();
+        periodModel.resetCalendar(vm);
+
+        switch (evaluatorType) {
+            case periodModel.evaluatorType.HumanResources:
+                vm.flowCalendar.humanResource.startDateOpened = true;
+                break;
+            case periodModel.evaluatorType.SelfEvaluator:
+                vm.flowCalendar.selfEvaluator.startDateOpened = true;
+                break;
+            case periodModel.evaluatorType.Evaluator:
+                vm.flowCalendar.evaluator.startDateOpened = true;
+                break;
+            case periodModel.evaluatorType.Reviewer:
+                vm.flowCalendar.reviewer.startDateOpened = true;
+                break;
+            case periodModel.evaluatorType.Management:
+                vm.flowCalendar.management.startDateOpened = true;
+                break;
+        }
+    };
+
+    periodModel.openFlowPopupEndDate = function (vm, event, evaluatorType) {
+        event.preventDefault();
+        event.stopPropagation();
+        periodModel.resetCalendar(vm);
+
+        switch (evaluatorType) {
+            case periodModel.evaluatorType.HumanResources:
+                vm.flowCalendar.humanResource.endDateOpened = true;
+                break;
+            case periodModel.evaluatorType.SelfEvaluator:
+                vm.flowCalendar.selfEvaluator.endDateOpened = true;
+                break;
+            case periodModel.evaluatorType.Evaluator:
+                vm.flowCalendar.evaluator.endDateOpened = true;
+                break;
+            case periodModel.evaluatorType.Reviewer:
+                vm.flowCalendar.reviewer.endDateOpened = true;
+                break;
+            case periodModel.evaluatorType.Management:
+                vm.flowCalendar.management.endDateOpened = true;
+                break;
+        }
+    };
+
+    periodModel.validateEmployeeSetting = function (employeeOptions) {
+        if (employeeOptions.humanResource.StartDate <= employeeOptions.humanResource.EndDate
+            && employeeOptions.selfEvaluator.StartDate <= employeeOptions.selfEvaluator.EndDate
+            && employeeOptions.evaluator.StartDate <= employeeOptions.evaluator.EndDate
+            && employeeOptions.reviewer.StartDate <= employeeOptions.reviewer.EndDate
+            && employeeOptions.management.StartDate <= employeeOptions.management.EndDate) {
+        }
+        else {
+            notificationFactory.error("StartDateGreaterThanEndDateWarning");
+            return false;
+        }
+
+        if (employeeOptions.humanResource.EndDate > employeeOptions.selfEvaluator.StartDate) {
+            notificationFactory.error("HRRangeDateGreaterThanSelfRangeDateWarning");
+            return false;
+        }
+        if (employeeOptions.selfEvaluator.EndDate > employeeOptions.evaluator.StartDate) {
+            notificationFactory.error("SelfRangeDateGreaterThanEvaluatorRangeDateWarning");
+            return false;
+        }
+        if (employeeOptions.evaluator.EndDate > employeeOptions.reviewer.StartDate) {
+            notificationFactory.error("EvaluatorRangeDateGreaterThanReviewerRangeDateWarning");
+            return false;
+        }
+        else if (employeeOptions.reviewer.EndDate > employeeOptions.management.StartDate) {
+            notificationFactory.error("ReviewerRangeDateGreaterThanManagementRangeDateWarning");
+            return false;
+        }
+
+        return true;
     };
 
     periodModel.getPeriod = function (targetTypeId, isActive) {
@@ -260,14 +389,23 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         });
     };
 
-    periodModel.openPopupUpdateEmployeeSetting = function (employeeSetting) {
+    periodModel.openPopupUpdateEmployeeSetting = function (vm, selectedEmployees, employeeSetting) {
         var modalInstance = $modal.open({
             templateUrl: 'SourceApp/Components/Period/Templates/editEmployeeSetting.html',
             controller: "UpdateEmployeeSettingPeriodController as updatePeriodSettingCtrl",
             backdrop: 'static',
             resolve: {
+                period: function () {
+                    return vm.period;
+                },
                 employeeSetting: function () {
                     return angular.copy(employeeSetting);
+                },
+                selectedEmployee: function () {
+                    return selectedEmployees;
+                },
+                permission: function () {
+                    return vm.permission;
                 }
             },
             windowClass: "modal-confirm-center employee-period-setting"
@@ -280,6 +418,10 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                 employeeSetting.Evaluators = editEmployeeSetting.Evaluators;
                 employeeSetting.Reviewers = editEmployeeSetting.Reviewers;
                 employeeSetting.Managements = editEmployeeSetting.Managements;
+            }
+            else {
+                vm.query(vm.filter);
+                vm.selectedAll = false;
             }
         })['finally'](function () {
             modalInstance = null;
@@ -300,17 +442,35 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         });
     };
 
-    periodModel.createAssignmentSettings = function (employeeOptions, employeeSetting) {
+    periodModel.createAssignmentSettings = function (employeeOptions, periodId, selectedEmployee) {
         var employeeAssignments = [],
-            periodId = employeeSetting.PeriodId,
-            employeeId = employeeSetting.EmployeeId,
             targetTemplateId = employeeOptions.targetTemplateId;
+
+        if (employeeOptions.humanResource.ids && employeeOptions.humanResource.ids.length > 0) {
+            angular.forEach(employeeOptions.humanResource.ids, function (humanResourceId) {
+                var humanResourceAssignment = {
+                    processId: periodModel.evaluatorType.HumanResources,
+                    duration: employeeOptions.humanResource.Duration,
+                    remindDay: employeeOptions.humanResource.RemindDay,
+                    hasSendMail: employeeOptions.humanResource.HasSendMail,
+                    startDate: employeeOptions.humanResource.StartDate,
+                    endDate: employeeOptions.humanResource.EndDate,
+                    evaluatorInfo: {
+                        employeeId: humanResourceId
+                    }
+                };
+
+                employeeAssignments.push(humanResourceAssignment);
+            });
+        }
 
         var selfEvaluatorAssignments = {
             processId: periodModel.evaluatorType.SelfEvaluator,
             duration: employeeOptions.selfEvaluator.Duration,
             remindDay: employeeOptions.selfEvaluator.RemindDay,
             hasSendMail: employeeOptions.selfEvaluator.HasSendMail,
+            startDate: employeeOptions.selfEvaluator.StartDate,
+            endDate: employeeOptions.selfEvaluator.EndDate,
             evaluatorInfo: {
                 employeeId: -1
             }
@@ -324,6 +484,8 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                         duration: employeeOptions.evaluator.Duration,
                         remindDay: employeeOptions.evaluator.RemindDay,
                         hasSendMail: employeeOptions.evaluator.HasSendMail,
+                        startDate: employeeOptions.evaluator.StartDate,
+                        endDate: employeeOptions.evaluator.EndDate,
                         evaluatorInfo: {
                             employeeId: evaluatorId
                         }
@@ -340,6 +502,8 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                         duration: employeeOptions.reviewer.Duration,
                         remindDay: employeeOptions.reviewer.RemindDay,
                         hasSendMail: employeeOptions.reviewer.HasSendMail,
+                        startDate: employeeOptions.reviewer.StartDate,
+                        endDate: employeeOptions.reviewer.EndDate,
                         evaluatorInfo: {
                             employeeId: reviewerId
                         }
@@ -356,6 +520,8 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                     duration: employeeOptions.management.Duration,
                     remindDay: employeeOptions.management.RemindDay,
                     hasSendMail: employeeOptions.management.HasSendMail,
+                    startDate: employeeOptions.management.StartDate,
+                    endDate: employeeOptions.management.EndDate,
                     evaluatorInfo: {
                         employeeId: managementId
                     }
@@ -367,7 +533,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
 
         var employeeSetting = {
             periodId: periodId,
-            employeeId: employeeId,
+            employeeIds: selectedEmployee,
             targetTemplateId: targetTemplateId,
             employeeAssignments: employeeAssignments
         };
@@ -481,6 +647,18 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         })['finally'](function () {
             modalInstance = '';
         });
+    };
+
+    periodModel.getSelectedEmployee = function (employeeSettings) {
+        var selectedEmployees = '';
+
+        angular.forEach(employeeSettings, function (employeeSetting) {
+            if (employeeSetting.Selected) {
+                selectedEmployees += selectedEmployees ? ', ' + employeeSetting.EmployeeId : employeeSetting.EmployeeId;
+            }
+        });
+
+        return selectedEmployees;
     };
 
     return periodModel;
