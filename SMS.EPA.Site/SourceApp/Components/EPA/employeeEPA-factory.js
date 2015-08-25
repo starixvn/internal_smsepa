@@ -49,6 +49,18 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
                 }
             });
         },
+        getEPAByReviewer: function (fromDate, toDate, targetTypeId, groupId, employeeIds, status) {
+            return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAByReviewer', {
+                params: {
+                    fromDate: fromDate,
+                    toDate: toDate,
+                    targetTypeId: targetTypeId,
+                    groupId: groupId,
+                    employeeIds: employeeIds,
+                    status: status
+                }
+            });
+        },
         updateEmployeeEPA: function (model) {
             return $http.put(baseUrl + 'api/EmployeeEPA/UpdateEmployeeEPA', model);
         },

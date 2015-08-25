@@ -772,6 +772,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The From Date is required!.
+        /// </summary>
+        public static string FromDateRequire {
+            get {
+                return ResourceManager.GetString("FromDateRequire", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Full Name.
         /// </summary>
         public static string FullName {
@@ -1438,6 +1447,24 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Review And Update Score.
+        /// </summary>
+        public static string ReviewAndUpdateScore {
+            get {
+                return ResourceManager.GetString("ReviewAndUpdateScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Review Date.
+        /// </summary>
+        public static string ReviewDate {
+            get {
+                return ResourceManager.GetString("ReviewDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reviewer.
         /// </summary>
         public static string Reviewer {
@@ -1452,6 +1479,15 @@ namespace SMS.EPA.Resources {
         public static string ReviewerRangeDateGreaterThanManagementRangeDateWarning {
             get {
                 return ResourceManager.GetString("ReviewerRangeDateGreaterThanManagementRangeDateWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reviewer Score.
+        /// </summary>
+        public static string ReviewerScore {
+            get {
+                return ResourceManager.GetString("ReviewerScore", resourceCulture);
             }
         }
         
@@ -1533,6 +1569,15 @@ namespace SMS.EPA.Resources {
         public static string Search {
             get {
                 return ResourceManager.GetString("Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Section.
+        /// </summary>
+        public static string Section {
+            get {
+                return ResourceManager.GetString("Section", resourceCulture);
             }
         }
         
@@ -1798,6 +1843,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The To Date is required!.
+        /// </summary>
+        public static string ToDateRequire {
+            get {
+                return ResourceManager.GetString("ToDateRequire", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The total score of all KPI of the group must be equal to the score of the group!.
         /// </summary>
         public static string TotalKPIWeightWarning {
@@ -1902,6 +1956,24 @@ namespace SMS.EPA.Resources {
         public static string UsernameRequried {
             get {
                 return ResourceManager.GetString("UsernameRequried", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To date must not be before than From date.
+        /// </summary>
+        public static string ValidateFromToDate {
+            get {
+                return ResourceManager.GetString("ValidateFromToDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Report period must not exceed 365 days.
+        /// </summary>
+        public static string ValidateMaximumOneYear {
+            get {
+                return ResourceManager.GetString("ValidateMaximumOneYear", resourceCulture);
             }
         }
         

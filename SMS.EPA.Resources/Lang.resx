@@ -753,4 +753,28 @@
   <data name="TotalRatingScore" xml:space="preserve">
     <value>Total Rating Score</value>
   </data>
+  <data name="Section" xml:space="preserve">
+    <value>Section</value>
+  </data>
+  <data name="ReviewAndUpdateScore" xml:space="preserve">
+    <value>Review And Update Score</value>
+  </data>
+  <data name="ReviewDate" xml:space="preserve">
+    <value>Review Date</value>
+  </data>
+  <data name="ReviewerScore" xml:space="preserve">
+    <value>Reviewer Score</value>
+  </data>
+  <data name="FromDateRequire" xml:space="preserve">
+    <value>The From Date is required!</value>
+  </data>
+  <data name="ToDateRequire" xml:space="preserve">
+    <value>The To Date is required!</value>
+  </data>
+  <data name="ValidateFromToDate" xml:space="preserve">
+    <value>To date must not be before than From date</value>
+  </data>
+  <data name="ValidateMaximumOneYear" xml:space="preserve">
+    <value>Report period must not exceed 365 days</value>
+  </data>
 </root>

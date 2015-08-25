@@ -78,6 +78,15 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         });
     };
 
+    employeeEPAModel.getEPAByReviewer = function (fromDate, toDate, targetTypeId, groupId, employeeIds, status) {
+        return employeeEPAFactory.getEPAByReviewer(fromDate, toDate, targetTypeId, groupId, employeeIds, status)
+        .success(function (memberEPAs) {
+            employeeEPAModel.memberEPAs = memberEPAs;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
     employeeEPAModel.validateWeightInput = function (weight, maxWeight, weightInputValidMessage) {
         var isValid = true;
 
@@ -163,6 +172,33 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         kpiGroup.TotalKPIOptional = totalKPIOptional;
 
         return hasKPIOptional;
+    };
+
+    employeeEPAModel.validateFromToDate = function (fromDate, toDate) {
+        var isValid = true;
+
+        if (!fromDate) {
+            isValid = false;
+            notificationFactory.error("FromDateRequire");
+        } else if (!toDate) {
+            isValid = false;
+            notificationFactory.error("ToDateRequire");
+        } else {
+            fromDate = new Date(fromDate.toDateString());
+            toDate = new Date(toDate.toDateString());
+            var maxDate = new Date(fromDate.getFullYear() + 1, fromDate.getMonth(), fromDate.getDate());
+
+            if (fromDate > toDate) {
+                isValid = false;
+                notificationFactory.error("ValidateFromToDate");
+            }
+            else if (toDate > maxDate) {
+                isValid = false;
+                notificationFactory.error("ValidateMaximumOneYear");
+            }
+        }
+
+        return isValid;
     };
 
     return employeeEPAModel;

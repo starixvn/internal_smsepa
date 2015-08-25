@@ -179,6 +179,8 @@
             <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
             <Mapping DataField="ModifierId" ObjectProperty="EmployeeId" />
         </Setting>
+        <Setting Key="EPA_GetByReviewer" SpName="EPA_GetByReviewer" DbName="SMSEPA" Plain="0">
+        </Setting>
     </Function>
     <Function Name="Period">
         <Setting Key="EpaPeriod_Get" SpName="EpaPeriod_Get" DbName="SMSEPA" Plain="0">

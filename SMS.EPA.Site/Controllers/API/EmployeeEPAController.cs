@@ -144,6 +144,33 @@ namespace SMS.EPA.Site.Controllers.API
 
         #endregion Evaluator
 
+        #region Reviewer
+
+        [HttpGet]
+        public IEnumerable<MemberEPAModel> GetEPAByReviewer(
+            DateTime fromDate,
+            DateTime toDate,
+            int? targetTypeId = null,
+            int? groupId = null,
+            string employeeIds = null,
+            int? status = null)
+        {
+            var criteria = new GetEPAByReviewerCriteria()
+            {
+                FromDate = fromDate,
+                ToDate = toDate,
+                ReviewerId = CurrentUser.EmployeeInfo.EmployeeId,
+                TargetTypeId = targetTypeId,
+                GroupId = groupId,
+                EmployeeIds = employeeIds,
+                Status = status
+            };
+
+            return _employeeEPAService.GetEPAByReviewer(criteria);
+        }
+
+        #endregion Reviewer
+
         [HttpPut]
         public CommandResult UpdateEmployeeEPA(EmployeeEPAInfoModel model)
         {

@@ -50,10 +50,7 @@ namespace SMS.EPA.Repositories.Implement
                         },
                         "EvaluatorId");
 
-                    foreach (var epa in epas)
-                    {
-                        epa.Evaluators = GroupEvaluatorByEPAId(epa.EPAId, evaluators);
-                    }
+                    epas = GroupEvaluator(epas, evaluators);
 
                     return epas;
                 }
@@ -165,19 +162,65 @@ namespace SMS.EPA.Repositories.Implement
             return data;
         }
 
-        private IList<EmployeeModel> GroupEvaluatorByEPAId(int epaId, IEnumerable<RawEmployeeEPAModel> evaluators)
+        public IEnumerable<MemberEPAModel> GetEPAByReviewer(ICriteria criteria)
         {
-            IList<EmployeeModel> evas = new List<EmployeeModel>();
+            IEnumerable<MemberEPAModel> memberEPAs = new List<MemberEPAModel>();
 
-            foreach (var evaluator in evaluators)
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                if (evaluator.EPAId == epaId)
+                using (var multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    evas.Add(evaluator.Evaluator);
+                    memberEPAs = multi.Read<MemberEPAModel, Employee, Group, TargetTypeModel, StatusModel, MemberEPAModel>(
+                    (epa, emp, gr, tt, status) =>
+                    {
+                        epa.Employee = emp;
+                        epa.Group = gr;
+                        epa.TargetType = tt;
+                        epa.Status = status;
+
+                        return epa;
+                    },
+                    "EmployeeId, GroupId, TargetTypeId, StatusId");
+
+                    IEnumerable<EvaluatorModel> evaluators = multi.Read<EvaluatorModel>();
+
+                    memberEPAs = GroupEvaluator(memberEPAs, evaluators);
                 }
             }
 
-            return evas;
+            return memberEPAs;
+        }
+
+        private IEnumerable<EmployeeEPAModel> GroupEvaluator(IEnumerable<EmployeeEPAModel> epas, IEnumerable<RawEmployeeEPAModel> evaluators)
+        {
+            foreach (var epa in epas)
+            {
+                foreach (var evaluator in evaluators)
+                {
+                    if (evaluator.EPAId == epa.EPAId)
+                    {
+                        epa.Evaluators.Add(evaluator.Evaluator);
+                    }
+                }
+            }
+
+            return epas;
+        }
+
+        private IEnumerable<MemberEPAModel> GroupEvaluator(IEnumerable<MemberEPAModel> memberEPAs, IEnumerable<EvaluatorModel> evaluators)
+        {
+            foreach (var memberEPA in memberEPAs)
+            {
+                foreach (var evaluator in evaluators)
+                {
+                    if (evaluator.EPAId == memberEPA.EPAId)
+                    {
+                        memberEPA.Evaluators.Add(evaluator);
+                    }
+                }
+            }
+
+            return memberEPAs;
         }
 
         private IList<KPIGroupViewModel> GetDistinctKPIGroup(IEnumerable<KPIGroupViewModel> groups)

@@ -19,13 +19,17 @@
                 </div>
                 <div class="col-sm-1 text-center employee-score"><strong ng-bind="kpi.ScoreBySelf | customNumber"></strong></div>
                 <div class="col-sm-2 text-center list-star">
-                    <a ng-if="!memberEPAInfoCtrl.isReadonly && kpi.RateByEvaluator > 0" class="glyphicon glyphicon-remove-circle remove-star"
-                       title="Cancel" href="javascript:;" ng-click="memberEPAInfoCtrl.cancelRating(kpi)"></a>
-                    <rating ng-model="kpi.RateByEvaluator" max="memberEPAInfoCtrl.maxStar" readonly="memberEPAInfoCtrl.isReadonly"
-                            on-hover="memberEPAInfoCtrl.hoveringOver(value, kpi)"
-                            on-leave="memberEPAInfoCtrl.hoveringLeave(kpiGroup, kpi)"></rating>
-                    <span class="badge percent" ng-if="kpi.PercentByEvaluator > 0">{{kpi.PercentByEvaluator}}%</span>
-                    <span class="badge percent" ng-if="kpi.PercentByEvaluator == 0" data-translate="NaN"></span>
+                    <div class="col-sm-2 cancel-rating">
+                        <a ng-if="!memberEPAInfoCtrl.isReadonly && kpi.RateByEvaluator > 0" class="glyphicon glyphicon-remove-circle remove-star"
+                           title="Cancel" href="javascript:;" ng-click="memberEPAInfoCtrl.cancelRating(kpiGroup, kpi)"></a>
+                    </div>
+                    <div class="col-sm-10 rating">
+                        <rating ng-model="kpi.RateByEvaluator" max="memberEPAInfoCtrl.maxStar" readonly="memberEPAInfoCtrl.isReadonly"
+                                on-hover="memberEPAInfoCtrl.hoveringOver(value, kpi)"
+                                on-leave="memberEPAInfoCtrl.hoveringLeave(kpiGroup, kpi)"></rating>
+                        <span class="badge percent" ng-if="kpi.PercentByEvaluator > 0">{{kpi.PercentByEvaluator}}%</span>
+                        <span class="badge percent" ng-if="kpi.PercentByEvaluator == 0" data-translate="NaN"></span>
+                    </div>
                 </div>
                 <div class="col-sm-1">
                     <input type="text" class="form-control text-center kpi-score" maxlength="5" ng-readonly="memberEPAInfoCtrl.isReadonly"

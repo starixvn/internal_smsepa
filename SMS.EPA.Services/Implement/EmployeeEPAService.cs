@@ -147,6 +147,33 @@ namespace SMS.EPA.Services.Implement
             return result;
         }
 
+        public IEnumerable<MemberEPAModel> GetEPAByReviewer(GetEPAByReviewerCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<MemberEPAModel> memberEPAs = new List<MemberEPAModel>();
+
+            if (criteria.IsValid())
+            {
+                memberEPAs = _employeeEPARepository.GetEPAByReviewer(criteria);
+
+                foreach (var memberEPA in memberEPAs)
+                {
+                    memberEPA.Status.Name = Enumerations.GetDescription((Status)memberEPA.Status.StatusId);
+                    memberEPA.SelfEvaluationScore = !string.IsNullOrEmpty(memberEPA.SelfEvaluationScore) ? Decode(memberEPA.SelfEvaluationScore) : string.Empty;
+                    memberEPA.ReviewerScore = !string.IsNullOrEmpty(memberEPA.ReviewerScore) ? Decode(memberEPA.ReviewerScore) : string.Empty;
+
+                    foreach (var evaluator in memberEPA.Evaluators)
+                    {
+                        evaluator.EvaluationScore = !string.IsNullOrEmpty(evaluator.EvaluationScore) ? Decode(evaluator.EvaluationScore) : string.Empty;
+                    }
+                }
+
+                AverageScore(memberEPAs);
+            }
+
+            return memberEPAs;
+        }
+
         public CommandResult UpdateStatusEPA(UpdateStatusEPACriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
@@ -176,12 +203,41 @@ namespace SMS.EPA.Services.Implement
             {
                 foreach (KPIViewModel kpi in kpiGroup.KPIs)
                 {
-                    kpi.ScoreBySelf  = !string.IsNullOrEmpty(kpi.ScoreBySelf) ? Decode(kpi.ScoreBySelf).Replace("_" + kpi.KPIId, string.Empty) : string.Empty;
+                    kpi.ScoreBySelf = !string.IsNullOrEmpty(kpi.ScoreBySelf) ? Decode(kpi.ScoreBySelf).Replace("_" + kpi.KPIId, string.Empty) : string.Empty;
                     kpi.ScoreByEvaluator = !string.IsNullOrEmpty(kpi.ScoreByEvaluator) ? Decode(kpi.ScoreByEvaluator).Replace("_" + kpi.KPIId, string.Empty) : string.Empty;
                 }
             }
 
             return kpiGroups;
+        }
+
+        private IEnumerable<MemberEPAModel> AverageScore(IEnumerable<MemberEPAModel> memberEPAs)
+        {
+            foreach (var memberEPA in memberEPAs)
+            {
+                float score = 0;
+                int count = 0;
+
+                foreach (var evaluator in memberEPA.Evaluators)
+                {
+                    if (!string.IsNullOrEmpty(evaluator.EvaluationScore))
+                    {
+                        count++;
+                        score += float.Parse(evaluator.EvaluationScore);
+                    }
+                }
+
+                if (count > 0)
+                {
+                    memberEPA.EvaluationScore = (score / count).ToString();
+                }
+                else
+                {
+                    memberEPA.EvaluationScore = string.Empty;
+                }
+            }
+
+            return memberEPAs;
         }
     }
 }

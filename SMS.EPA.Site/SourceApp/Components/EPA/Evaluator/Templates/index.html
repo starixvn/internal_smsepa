@@ -34,7 +34,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-1 control-label" data-translate="Team"></label>
+                <label class="col-sm-1 control-label" data-translate="Section"></label>
                 <div class="col-sm-2">
                     <select class="form-control" ng-model="evaluatorCtrl.filter.groupId"
                             ng-options="opt.GroupId as opt.GroupName for opt in evaluatorCtrl.groupOptions"
@@ -63,7 +63,7 @@
         <table class="row table table-bordered table-striped">
             <thead>
             <th data-translate="SymbolCount"></th>
-            <th data-translate="Team"></th>
+            <th data-translate="Section"></th>
             <th data-translate="Employee"></th>
             <th data-translate="Target"></th>
             <th data-translate="SelfEvaluationScore" class="col-score"></th>
@@ -100,7 +100,7 @@
                             </ul>
                         </span>
                     </td>
-                    <td class="text-center col-evaluate-date">{{ memberEPA.ModifiedDate | customDate }}</td>
+                    <td class="text-center col-evaluate-date">{{ memberEPA.EvaluateDate | customDate }}</td>
                     <td class="text-center text-uppercase col-action">
                         <a class="evaluate-now button" href="" ng-click="evaluatorCtrl.viewEPADetail(memberEPA)"
                            ng-href="{{evaluatorCtrl.viewEPADetailUrl}}">

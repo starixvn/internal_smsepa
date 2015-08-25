@@ -10,11 +10,17 @@
 namespace SMS.EPA.Model.EmployeeEPA
 {
     using System;
+    using System.Collections.Generic;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.TargetType;
 
     public class MemberEPAModel
     {
+        public MemberEPAModel()
+        {
+            Evaluators = new List<EvaluatorModel>();
+        }
+
         public int EPAId { get; set; }
 
         public int PeriodId { get; set; }
@@ -33,6 +39,10 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public string EvaluationScore { get; set; }
 
-        public DateTime? EvaluationDate { get; set; }
+        public IList<EvaluatorModel> Evaluators { get; set; }
+
+        public string ReviewerScore { get; set; }
+
+        public DateTime? EvaluateDate { get; set; }
     }
 }
