@@ -328,6 +328,15 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
         return selectedDepartments;
     };
 
+    var resetFilterAssign = function () {
+        vm.filterAssign.employee = '';
+        vm.searchEmployee = '';
+
+        angular.forEach(vm.departments, function (department) {
+            department.ticked = false;
+        });
+    };
+
     vm.addEmployee = function (filterAssign) {
         var employeeId = null;
 
@@ -342,6 +351,7 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
         };
 
         PeriodModel.addEmployeeToPeriod(employeeInfo).then(function () {
+            resetFilterAssign();
             getPeriodEmployeeSetting(vm.filter.periodId, vm.filter.departmentId, vm.filter.isExcludedEmployee);
         });
     };
