@@ -29,13 +29,13 @@
         <thead>
             <tr class="header-table">
                 <th colspan="6">
-                    <div class="pull-left div-target-templatesetting">
+                    <div class="pull-left div-target-templatesetting" ng-show="targetCtrl.permission == 2">
                         <label class="control-label" data-translate="TargetTemplate">
                         </label>
                         <select ng-model="departmentCtrl.targetDepartmentSetting.targetTemplateId" ng-options="opt.TargetTemplateId as opt.Name for opt in departmentCtrl.targetTemplates"
                                 class="target-template-setting-select lstBox-limit"></select>
                     </div>
-                    <button class="button pull-left btn-assign" data-translate="Assign" ng-click="departmentCtrl.assignTargetTemplate()"></button>
+                    <button class="button pull-left btn-assign" data-translate="Assign" ng-click="departmentCtrl.assignTargetTemplate()" ng-show="targetCtrl.permission == 2"></button>
                     <input type="text" ng-model="departmentCtrl.searchKey" ng-change="departmentCtrl.search()" class="search-inline-textbox search pull-right">
                 </th>
             </tr>
@@ -52,7 +52,7 @@
                 </th>
                 <th data-translate="TargetTemplate">
                 </th>
-                <th data-translate="Delete">
+                <th data-translate="Delete" ng-show="targetCtrl.permission == 2">
                 </th>
             </tr>
         </thead>
@@ -67,7 +67,7 @@
                 <td class="text-center" ng-bind="department.Name" ng-show="$first" rowspan="{{department.NumberTargetTemplates}}"></td>
                 <td class="text-center" ng-bind="targetTemplate.TargetTypeName"></td>
                 <td ng-bind="targetTemplate.Name"></td>
-                <td class="text-center">
+                <td class="text-center" ng-show="targetCtrl.permission == 2">
                     <a class="glyphicon glyphicon-remove icon-remove" href="" ng-click="departmentCtrl.deleteTargetTemplate(department, targetTemplate)"
                        ng-attr-title='{{"Delete" | translate}}'></a>
                 </td>

@@ -25,6 +25,9 @@ targetEmployeeSettingModule.factory('targetEmployeeSettingFactory',
         deleteTargetDepartmentSetting: function (targetTemplateId, departmentId, isGroup) {
             return $http['delete'](baseUrl + 'api/TargetEmployeeSetting/DeleteTargetDepartmentSetting', 
                 { params: { targetTemplateId: targetTemplateId, departmentId: departmentId, isGroup: isGroup }});
+        },
+        getUserPermissionOnTargetEmployeeSetting: function () {
+            return $http.get(baseUrl + 'api/TargetEmployeeSetting/GetUserPermissionOnTargetEmployeeSetting');
         }
     };
 }]);

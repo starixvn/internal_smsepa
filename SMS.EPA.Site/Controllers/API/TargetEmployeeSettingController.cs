@@ -11,26 +11,35 @@ namespace SMS.EPA.Site.Controllers.API
 {
     using System.Collections.Generic;
     using System.Web.Http;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.TargetEmployeeSetting;
     using SMS.EPA.Model.TargetEmployeeSetting;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
+    using SMS.EPA.Web.ApiAuthorizeAttribute;
+    using SMS.EPA.Web.Services;
 
     public class TargetEmployeeSettingController : BaseController
     {
         private readonly ITargetEmployeeSettingService _targetEmployeeSettingService;
+        private readonly IWebCommonService _webCommonService;
 
         public TargetEmployeeSettingController()
-            : this(null)
+            : this(null, null)
         {
         }
 
-        public TargetEmployeeSettingController(ITargetEmployeeSettingService targetEmployeeSettingService)
+        public TargetEmployeeSettingController(
+            ITargetEmployeeSettingService targetEmployeeSettingService,
+            IWebCommonService webCommonService)
         {
             _targetEmployeeSettingService = targetEmployeeSettingService ?? new TargetEmployeeSettingService();
+            _webCommonService = webCommonService ?? new WebCommonService();
         }
 
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetEmployeeSetting, Policy = Policy.Read)]
         public IList<TargetEmployeeModel> GetTargetEmployeeSetting(
             int? groupId = null,
             int? employeeId = null,
@@ -50,6 +59,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetEmployeeSetting, Policy = Policy.Host)]
         public CommandResult AssignTargetTemplateToEmployee(AssignTargetTemplateToEmployeeCriteria criteria)
         {
             if (criteria != null)
@@ -62,6 +72,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpDelete]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetEmployeeSetting, Policy = Policy.Host)]
         public CommandResult DeleteTargetEmployeeSetting(int targetTemplateId, int employeeId)
         {
             var criteria = new DeleteTargetEmployeeSettingCriteria
@@ -74,6 +85,7 @@ namespace SMS.EPA.Site.Controllers.API
             return commandResult;
         }
 
+                [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetEmployeeSetting, Policy = Policy.Read)]
         public IList<TargetDepartmentModel> GetTargetDepartmentSetting(
             int? departmentId = null,
             bool? isGroup = null,
@@ -92,6 +104,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetEmployeeSetting, Policy = Policy.Host)]
         public CommandResult AssignTargetTemplateToDepartment(RawTargetSettingAssignModel model)
         {
             var criteria = new AssignTargetDepartmentSettingCriteria
@@ -106,6 +119,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpDelete]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetEmployeeSetting, Policy = Policy.Host)]
         public CommandResult DeleteTargetDepartmentSetting(
             int targetTemplateId,
             int departmentId,
@@ -120,6 +134,12 @@ namespace SMS.EPA.Site.Controllers.API
 
             CommandResult commandResult = _targetEmployeeSettingService.DeleteTargetDepartmentSetting(criteria);
             return commandResult;
+        }
+
+        public int GetUserPermissionOnTargetEmployeeSetting()
+        {
+            int permission = _webCommonService.GetPermission(EPAFunctionKey.TargetEmployeeSetting);
+            return permission;
         }
     }
 }

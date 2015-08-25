@@ -8,6 +8,15 @@ function ($modal, targetEmployeeSettingFactory, notificationFactory, errorFactor
 
     targetEmployeeSettingModel.targetEmployeeSettings = [];
     targetEmployeeSettingModel.targetDepartmentSettings = [];
+    targetEmployeeSettingModel.permission = null;
+
+    targetEmployeeSettingModel.getPermissionOnTargetEmployeeSetting = function () {
+        return targetEmployeeSettingFactory.getUserPermissionOnTargetEmployeeSetting().success(function (permission) {
+            targetEmployeeSettingModel.permission = permission;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    }
 
     targetEmployeeSettingModel.getTargetEmployeeSetting = function (groupId, employeeId, targetTypeId, showAll) {
         return targetEmployeeSettingFactory.getTargetEmployeeSetting(groupId, employeeId, targetTypeId, showAll)

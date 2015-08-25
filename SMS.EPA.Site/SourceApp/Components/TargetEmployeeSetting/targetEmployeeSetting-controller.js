@@ -5,6 +5,7 @@ targetEmployeeSettingModule.controller('TargetSettingTemplateController',
 ['TargetEmployeeSettingModel',
 function (TargetEmployeeSettingModel) {
     var vm = this;
+    vm.permission = TargetEmployeeSettingModel.permission;
 
     vm.dataTab = {
         department: true,
@@ -20,6 +21,10 @@ function (TargetEmployeeSettingModel) {
         vm.dataTab.department = false;
         vm.dataTab.personnel = true;
     };
+
+    TargetEmployeeSettingModel.getPermissionOnTargetEmployeeSetting().then(function () {
+        vm.permission = TargetEmployeeSettingModel.permission;
+    });
 }]);
 
 targetEmployeeSettingModule.controller('TargetPersonnelSettingController',
