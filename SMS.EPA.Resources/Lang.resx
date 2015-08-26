@@ -727,7 +727,7 @@
     <value>Show Excluded Employee</value>
   </data>
   <data name="NumberEmployees" xml:space="preserve">
-    <value>Number Employee (s)</value>
+    <value>Number Of Employees</value>
   </data>
   <data name="AttendanceEndDate" xml:space="preserve">
     <value>Attendance End Date</value>

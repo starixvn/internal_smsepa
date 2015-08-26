@@ -1249,7 +1249,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Number Employee (s).
+        ///   Looks up a localized string similar to Number Of Employees.
         /// </summary>
         public static string NumberEmployees {
             get {

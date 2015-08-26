@@ -121,7 +121,7 @@ periodModule.controller('UpdatePeriodController',
 function ($window, $routeParams, PeriodModel) {
     var vm = this;
 
-    vm.period = {};
+    vm.period = null;
     vm.periodId = parseInt($routeParams.id);
     vm.viewMode = $routeParams.viewSetting ? true : false;
 
