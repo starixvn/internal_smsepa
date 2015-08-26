@@ -19,11 +19,10 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
                 }
             });
         },
-        getEPAInfoByEmployee: function (epaId, periodId, employeeId) {
+        getEPAInfoByEmployee: function (epaId, employeeId) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAInfoByEmployee', {
                 params: {
                     epaId: epaId,
-                    periodId: periodId,
                     employeeId: employeeId
                 }
             });
@@ -63,8 +62,8 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
                 }
             });
         },
-        updateEmployeeEPA: function (model) {
-            return $http.put(baseUrl + 'api/EmployeeEPA/UpdateEmployeeEPA', model);
+        updateEPAScore: function (model) {
+            return $http.put(baseUrl + 'api/EmployeeEPA/UpdateEPAScore', model);
         },
         updateStatusEPA: function (epa) {
             return $http.put(baseUrl + 'api/EmployeeEPA/UpdateStatusEPA', epa);

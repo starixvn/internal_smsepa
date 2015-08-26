@@ -4,14 +4,22 @@
 // </copyright>
 // -----------------------------------------------------------------------
 // <history>
-//   <change who="Tim.Trinh" date="2015.08.20">Created</change>
+//   <change who="Tim.Trinh" date="2015.08.26">Created</change>
 // </history>
 
 namespace SMS.EPA.Model.EmployeeEPA
 {
     public class KPIViewModel
     {
+        public int EPAId { get; set; }
+
+        public int ProcessId { get; set; }
+
         public int KPIId { get; set; }
+
+        public int KPIGroupId { get; set; }
+
+        public int EvaluatorId { get; set; }
 
         public string Name { get; set; }
 
@@ -23,44 +31,25 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public bool IsRequiredEvaluate { get; set; }
 
-        public double? Weight { get; set; }
+        public double Weight { get; set; }
 
-        public string ScoreBySelf { get; set; }
+        public string Score { get; set; }
 
-        public int RateBySelf { get; set; }
+        public int Rate { get; set; }
 
-        public int PercentBySelf
+        public int Percent
         {
             get
             {
-                if (RateBySelf > 0)
+                if (Rate > 0)
                 {
-                    return RateBySelf * 20;
+                    return Rate * 20;
                 }
 
                 return 0;
             }
         }
 
-        public string CommentBySelf { get; set; }
-
-        public string ScoreByEvaluator { get; set; }
-
-        public int RateByEvaluator { get; set; }
-
-        public int PercentByEvaluator
-        {
-            get
-            {
-                if (RateByEvaluator > 0)
-                {
-                    return RateByEvaluator * 20;
-                }
-
-                return 0;
-            }
-        }
-
-        public string CommentByEvaluator { get; set; }
+        public string Comment { get; set; }
     }
 }

@@ -22,8 +22,8 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         });
     };
 
-    employeeEPAModel.getEPAInfoByEmployee = function (epaId, periodId, employeeId) {
-        return employeeEPAFactory.getEPAInfoByEmployee(epaId, periodId, employeeId)
+    employeeEPAModel.getEPAInfoByEmployee = function (epaId, employeeId) {
+        return employeeEPAFactory.getEPAInfoByEmployee(epaId, employeeId)
         .success(function (epaInfo) {
             employeeEPAModel.epaInfo = epaInfo;
         }).error(function (response, status) {
@@ -100,8 +100,8 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         return isValid;
     }
 
-    employeeEPAModel.updateEmployeeEPA = function (dataSaved, epaInfo) {
-        return employeeEPAFactory.updateEmployeeEPA(epaInfo)
+    employeeEPAModel.updateEPAScore = function (dataSaved, epaInfo) {
+        return employeeEPAFactory.updateEPAScore(epaInfo)
         .success(function (response) {
             if (response.IsSuccessful) {
                 notificationFactory.success("UpdatedSuccessfully");
@@ -115,10 +115,9 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         });
     };
 
-    employeeEPAModel.openPopupUpdateStatusEPA = function (epa, epaId, periodId, processId, employeeId, status) {
+    employeeEPAModel.openPopupUpdateStatusEPA = function (epa, epaId, processId, employeeId, status) {
         var criteria = {
             epaId: epaId,
-            periodId: periodId,
             processId: processId,
             employeeId: employeeId,
             status: status.Id
@@ -160,7 +159,6 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
 
     employeeEPAModel.checkKPIOptional = function (kpiGroup) {
         var hasKPIOptional = false, totalKPIOptional = 0;
-
 
         angular.forEach(kpiGroup.KPIs, function (kpi) {
             if (!kpi.IsRequiredEvaluate) {

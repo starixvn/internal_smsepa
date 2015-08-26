@@ -17,19 +17,13 @@ namespace SMS.EPA.Services.Interfaces
 
     public interface IEmployeeEPAService
     {
-        IEnumerable<EmployeeEPAModel> GetEPAByEmployee(GetEPAByEmployeeCriteria criteria);
+        IEnumerable<EPAModel> GetEPAByEmployee(GetEPAByEmployeeCriteria criteria);
 
-        EmployeeEPAInfoModel GetEPAInfo(GetEPAInfoCriteria criteria);
+        EPAModel GetEPAInfoByEmployee(GetEPAInfoCriteria criteria);
 
-        CommandResult UpdateEmployeeEPA(UpdateEPAScoreCriteria criteria);
+        CommandResult UpdateEPAScore(UpdateEPAScoreCriteria criteria);
 
         IEnumerable<Employee> GetMember(GetMemberCriteria criteria);
-
-        IEnumerable<MemberEPAModel> GetEPAByEvaluator(GetEPAByEvaluatorCriteria criteria);
-
-        EmployeeEPAInfoModel GetEPAInfoByEvaluator(GetEPAInfoByEvaluatorCriteria criteria);
-
-        IEnumerable<MemberEPAModel> GetEPAByReviewer(GetEPAByReviewerCriteria criteria);
 
         CommandResult UpdateStatusEPA(UpdateStatusEPACriteria criteria);
 

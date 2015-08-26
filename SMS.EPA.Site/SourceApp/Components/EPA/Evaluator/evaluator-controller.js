@@ -98,7 +98,7 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
     vm.initialize();
 }]);
 
-epaModule.controller('MemberEPAInfoController',
+epaModule.controller('MemberEPAInfoOfEvaluatorController',
 ['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'CommonModel', 'utilitiesFactory',
 function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, utilitiesFactory) {
     var vm = this;

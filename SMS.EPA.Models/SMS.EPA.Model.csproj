@@ -50,12 +50,13 @@
     <Compile Include="CheckFlowAssignment\RawEmployeeFlowTargetSettingModel.cs" />
     <Compile Include="Department\DepartmentInfoModel.cs" />
     <Compile Include="Department\DepartmentModel.cs" />
-    <Compile Include="EmployeeEPA\EmployeeEPAInfoModel.cs" />
+    <Compile Include="EmployeeEPA\DepartmentViewModel.cs" />
+    <Compile Include="EmployeeEPA\EPAInfoModel.cs" />
+    <Compile Include="EmployeeEPA\EPAModel.cs" />
+    <Compile Include="EmployeeEPA\EPAProcessModel.cs" />
     <Compile Include="EmployeeEPA\EvaluatorModel.cs" />
     <Compile Include="EmployeeEPA\KPIGroupViewModel.cs" />
     <Compile Include="EmployeeEPA\KPIViewModel.cs" />
-    <Compile Include="EmployeeEPA\MemberEPAModel.cs" />
-    <Compile Include="EmployeeEPA\RawEmployeeEPAModel.cs" />
     <Compile Include="Employee\EmployeeModel.cs" />
     <Compile Include="Employee\MenuGroupModel.cs" />
     <Compile Include="Employee\MenuItemModel.cs" />
@@ -67,7 +68,6 @@
     <Compile Include="Enitites\StatusModel.cs" />
     <Compile Include="FlowManagement\EmployeeFlowSettingModel.cs" />
     <Compile Include="FlowManagement\FlowTemplateModel.cs" />
-    <Compile Include="EmployeeEPA\EmployeeEPAModel.cs" />
     <Compile Include="FlowManagement\FlowModel.cs" />
     <Compile Include="FlowManagement\InsertFlowItemModel.cs" />
     <Compile Include="FlowManagement\InsertFlowModel.cs" />

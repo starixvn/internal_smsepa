@@ -160,12 +160,9 @@
         </Setting>
     </Function>
     <Function Name="EPA">
-        <Setting Key="EPA_GetByEmployee" SpName="EPA_GetByEmployee" DbName="SMSEPA" Plain="0">
-            <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
+        <Setting Key="EPA_GetByEmployee" SpName="EPA_GetByEmployee_xtest" DbName="SMSEPA" Plain="0">
         </Setting>
-        <Setting Key="EPA_GetInfo" SpName="EPA_GetInfo" DbName="SMSEPA" Plain="0">
-            <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
-            <Mapping DataField="ModifierId" ObjectProperty="EmployeeId" />
+        <Setting Key="EPA_GetInfoByEmployee" SpName="EPA_GetInfoByEmployee" DbName="SMSEPA" Plain="0">
         </Setting>
         <Setting Key="EPA_UpdateScore" SpName="EPA_UpdateScore" DbName="SMSEPA" Plain="0">
         </Setting>

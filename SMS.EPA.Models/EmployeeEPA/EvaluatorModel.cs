@@ -20,7 +20,5 @@ namespace SMS.EPA.Model.EmployeeEPA
         public string NickName { get; set; }
 
         public string FullName { get; set; }
-
-        public string EvaluationScore { get; set; }
     }
 }

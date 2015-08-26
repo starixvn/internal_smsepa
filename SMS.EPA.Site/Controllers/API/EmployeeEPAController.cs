@@ -9,7 +9,6 @@
 
 namespace SMS.EPA.Site.Controllers.API
 {
-    using System;
     using System.Collections.Generic;
     using System.Text;
     using System.Web;
@@ -58,7 +57,7 @@ namespace SMS.EPA.Site.Controllers.API
         #region Self
 
         [HttpGet]
-        public IEnumerable<EmployeeEPAModel> GetEPAOfCurrentMember(
+        public IEnumerable<EPAModel> GetEPAOfCurrentMember(
             int? targetTypeId = null,
             int? status = null)
         {
@@ -73,131 +72,37 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpGet]
-        public EmployeeEPAInfoModel GetEPAInfoByEmployee(
+        public EPAModel GetEPAInfoByEmployee(
             int epaId,
-            int periodId,
             int employeeId)
         {
-            EmployeeEPAInfoModel epaInfo = new EmployeeEPAInfoModel();
-
             var criteria = new GetEPAInfoCriteria()
             {
                 EPAId = epaId,
-                PeriodId = periodId,
                 EmployeeId = employeeId
             };
 
-            epaInfo = _employeeEPAService.GetEPAInfo(criteria);
-            epaInfo.Employee = _utilitiesController.GetEmployeeById(employeeId);
-
-            return epaInfo;
+            return _employeeEPAService.GetEPAInfoByEmployee(criteria);
         }
 
         #endregion Self
 
-        #region Evaluator
-
-        [HttpGet]
-        public IEnumerable<MemberEPAModel> GetEPAByEvaluator(
-            DateTime fromDate,
-            DateTime toDate,
-            int? targetTypeId = null,
-            int? groupId = null,
-            string employeeIds = null,
-            int? status = null)
-        {
-            var criteria = new GetEPAByEvaluatorCriteria()
-            {
-                FromDate = fromDate,
-                ToDate = toDate,
-                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
-                TargetTypeId = targetTypeId,
-                GroupId = groupId,
-                EmployeeIds = employeeIds,
-                Status = status
-            };
-
-            return _employeeEPAService.GetEPAByEvaluator(criteria);
-        }
-
-        [HttpGet]
-        public EmployeeEPAInfoModel GetEPAInfoByEvaluator(
-            int epaId,
-            int periodId,
-            int employeeId,
-            bool isViewMode,
-            int? evaluatorId = null)
-        {
-            EmployeeEPAInfoModel memberEPAInfo = new EmployeeEPAInfoModel();
-
-            var criteria = new GetEPAInfoByEvaluatorCriteria()
-            {
-                EPAId = epaId,
-                PeriodId = periodId,
-                EmployeeId = employeeId
-            };
-
-            if (isViewMode && evaluatorId > 0)
-            {
-                criteria.EvaluatorId = (int)evaluatorId;
-            }
-            else
-            {
-                criteria.EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId;
-            }
-
-            memberEPAInfo = _employeeEPAService.GetEPAInfoByEvaluator(criteria);
-            memberEPAInfo.Employee = _utilitiesController.GetEmployeeById(employeeId);
-
-            return memberEPAInfo;
-        }
-
-        #endregion Evaluator
-
-        #region Reviewer
-
-        [HttpGet]
-        public IEnumerable<MemberEPAModel> GetEPAByReviewer(
-            DateTime fromDate,
-            DateTime toDate,
-            int? targetTypeId = null,
-            int? groupId = null,
-            string employeeIds = null,
-            int? status = null)
-        {
-            var criteria = new GetEPAByReviewerCriteria()
-            {
-                FromDate = fromDate,
-                ToDate = toDate,
-                ReviewerId = CurrentUser.EmployeeInfo.EmployeeId,
-                TargetTypeId = targetTypeId,
-                GroupId = groupId,
-                EmployeeIds = employeeIds,
-                Status = status
-            };
-
-            return _employeeEPAService.GetEPAByReviewer(criteria);
-        }
-
-        #endregion Reviewer
-
         [HttpPut]
-        public CommandResult UpdateEmployeeEPA(EmployeeEPAInfoModel model)
+        public CommandResult UpdateEPAScore(EPAModel model)
         {
             var criteria = new UpdateEPAScoreCriteria()
             {
                 EPAId = model.EPAId,
-                ProcessId = model.ProcessId,
-                PeriodId = model.PeriodId,
+                ProcessId = model.ProcessBySelf.ProcessId,
                 EmployeeId = model.Employee.EmployeeId,
                 EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
-                Comment = model.CommentBySelf,
+                Comment = model.ProcessBySelf.Comment,
                 Score = EncodeTotalScore(model),
-                KPIDetails = ConvertKPIInfoToXml(model.KPIGroups, model.ProcessId),
+                KPIDetails = ConvertKPIInfoToXml(model.EPAInfoBySelf),
                 ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
             };
 
-            return _employeeEPAService.UpdateEmployeeEPA(criteria);
+            return _employeeEPAService.UpdateEPAScore(criteria);
         }
 
         [HttpPut]
@@ -205,29 +110,26 @@ namespace SMS.EPA.Site.Controllers.API
         {
             if (criteria != null)
             {
+                criteria.EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId;
                 criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
             }
 
             return _employeeEPAService.UpdateStatusEPA(criteria);
         }
 
-        private string EncodeTotalScore(EmployeeEPAInfoModel model)
+        private string EncodeTotalScore(EPAModel model)
         {
             string score = string.Empty;
 
-            if (model.ProcessId == (int)ProcessType.Self)
+            if (model.ProcessBySelf.ProcessId == (int)ProcessType.Self)
             {
-                score = _employeeEPAService.Encode(model.TotalScoreBySelf);
-            }
-            else if (model.ProcessId == (int)ProcessType.Evaluator)
-            {
-                score = _employeeEPAService.Encode(model.TotalScoreByEvaluator);
+                score = _employeeEPAService.Encode(model.ProcessBySelf.TotalScore);
             }
 
             return score;
         }
 
-        private string ConvertKPIInfoToXml(IList<KPIGroupViewModel> kpiGroups, int processId)
+        private string ConvertKPIInfoToXml(IList<EPAInfoModel> epaInfos)
         {
             string beginRootTag = "<ROOT>";
             string endRootTag = "</ROOT>";
@@ -235,20 +137,12 @@ namespace SMS.EPA.Site.Controllers.API
             string employeeEPAScore = "<KPI KPIId='{0}' KPIGroupId='{1}' Score='{2}' Rate='{3}' Comment='{4}'></KPI>";
             var epaXML = new StringBuilder(beginRootTag);
 
-            foreach (KPIGroupViewModel kpiGroup in kpiGroups)
+            foreach (var epaInfo in epaInfos)
             {
-                foreach (var kpi in kpiGroup.KPIs)
+                foreach (var kpi in epaInfo.KPIGroup.KPIs)
                 {
-                    if (processId == (int)ProcessType.Self)
-                    {
-                        cipherScore = !string.IsNullOrEmpty(kpi.ScoreBySelf) ? _employeeEPAService.Encode(kpi.ScoreBySelf + "_" + kpi.KPIId) : null;
-                        epaXML.AppendFormat(employeeEPAScore, kpi.KPIId, kpiGroup.KPIGroupId, cipherScore, kpi.RateBySelf, HttpUtility.HtmlEncode(kpi.CommentBySelf));
-                    }
-                    else if (processId == (int)ProcessType.Evaluator)
-                    {
-                        cipherScore = !string.IsNullOrEmpty(kpi.ScoreByEvaluator) ? _employeeEPAService.Encode(kpi.ScoreByEvaluator + "_" + kpi.KPIId) : null;
-                        epaXML.AppendFormat(employeeEPAScore, kpi.KPIId, kpiGroup.KPIGroupId, cipherScore, kpi.RateByEvaluator, HttpUtility.HtmlEncode(kpi.CommentByEvaluator));
-                    }
+                    cipherScore = !string.IsNullOrEmpty(kpi.Score) ? _employeeEPAService.Encode(kpi.Score + "_" + kpi.KPIId) : null;
+                    epaXML.AppendFormat(employeeEPAScore, kpi.KPIId, epaInfo.KPIGroup.KPIGroupId, cipherScore, kpi.Rate, HttpUtility.HtmlEncode(kpi.Comment));
                 }
             }
 

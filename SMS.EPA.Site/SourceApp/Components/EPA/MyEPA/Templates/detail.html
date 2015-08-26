@@ -32,10 +32,10 @@
                      ng-click="memberEPAInfoCtrl.collapses['Comments'] = !memberEPAInfoCtrl.collapses['Comments']">
                 </div>
                 <div class="boxcontent" collapse="memberEPAInfoCtrl.collapses['Comments']">
-                    <div class="row error-message" ng-show="memberEPAInfoCtrl.epaInfo.CommentValid" data-translate="RequireComment"></div>
+                    <div class="row error-message" ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.CommentValid" data-translate="RequireComment"></div>
                     <div class="row row-item">
                         <div class="col-sm-8 textarea-comment">
-                            <textarea class="form-control" ng-readonly="memberEPAInfoCtrl.isReadonly" ng-model="memberEPAInfoCtrl.epaInfo.CommentBySelf"></textarea>
+                            <textarea class="form-control" ng-readonly="memberEPAInfoCtrl.isReadonly" ng-model="memberEPAInfoCtrl.epaInfo.ProcessBySelf.Comment"></textarea>
                         </div>
                         <div class="col-sm-1">
                             <label class="error-message" data-translate="(*)"></label>
@@ -43,7 +43,7 @@
                         <div class="col-sm-3">
                             <div class="row total text-center pull-right">
                                 <p data-translate="TotalRatingScore"></p>
-                                <p class="totalscore" ng-bind="memberEPAInfoCtrl.epaInfo.TotalScoreBySelf | customNumber"></p>
+                                <p class="totalscore" ng-bind="memberEPAInfoCtrl.epaInfo.ProcessBySelf.TotalScore | customNumber"></p>
                             </div>
                             <div class="row total text-center pull-right">
                                 <p data-translate="AttendanceScore"></p>

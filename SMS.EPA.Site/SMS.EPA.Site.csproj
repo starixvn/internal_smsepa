@@ -323,6 +323,7 @@
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\viewEPAInfoOfMember.html" />
     <Content Include="SourceApp\Components\EPA\MyEPA\myepa-controller.js" />
     <Content Include="SourceApp\Components\EPA\MyEPA\Templates\detail.html" />
+    <Content Include="SourceApp\Components\EPA\Reviewer\Templates\detail.html" />
     <Content Include="SourceApp\Components\EPA\Reviewer\Templates\index.html" />
     <Content Include="SourceApp\Components\EPA\Reviewer\reviewer-controller.js" />
     <Content Include="SourceApp\Components\EPA\Templates\generalInformation.html" />

@@ -15,8 +15,6 @@ namespace SMS.EPA.Criteria.EmployeeEPA
     {
         public int EPAId { get; set; }
 
-        public int PeriodId { get; set; }
-
         public int EmployeeId { get; set; }
 
         public override bool IsValid()
@@ -26,7 +24,7 @@ namespace SMS.EPA.Criteria.EmployeeEPA
 
         public override string GetSettingKey()
         {
-            return "EPA_GetInfo";
+            return "EPA_GetInfoByEmployee";
         }
     }
 }

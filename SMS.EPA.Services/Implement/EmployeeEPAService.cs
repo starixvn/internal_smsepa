@@ -41,10 +41,10 @@ namespace SMS.EPA.Services.Implement
             _encodeService = encodeService ?? new EncodeService();
         }
 
-        public IEnumerable<EmployeeEPAModel> GetEPAByEmployee(GetEPAByEmployeeCriteria criteria)
+        public IEnumerable<EPAModel> GetEPAByEmployee(GetEPAByEmployeeCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");
-            IEnumerable<EmployeeEPAModel> employeeEPAs = new List<EmployeeEPAModel>();
+            IEnumerable<EPAModel> employeeEPAs = new List<EPAModel>();
 
             if (criteria.IsValid())
             {
@@ -52,35 +52,44 @@ namespace SMS.EPA.Services.Implement
 
                 foreach (var employeeEPA in employeeEPAs)
                 {
-                    employeeEPA.Status.Name = Enumerations.GetDescription((Status)employeeEPA.Status.StatusId);
-                    employeeEPA.Score = !string.IsNullOrEmpty(employeeEPA.Score) ? Decode(employeeEPA.Score) : string.Empty;
+                    employeeEPA.ProcessBySelf.Status.Name = Enumerations.GetDescription((Status)employeeEPA.ProcessBySelf.Status.StatusId);
+                    employeeEPA.FinalScore = !string.IsNullOrEmpty(employeeEPA.FinalScore) ? Decode(employeeEPA.FinalScore) : string.Empty;
+                    employeeEPA.ProcessBySelf.TotalScore = !string.IsNullOrEmpty(employeeEPA.ProcessBySelf.TotalScore) ? Decode(employeeEPA.ProcessBySelf.TotalScore) : string.Empty;
                 }
             }
 
             return employeeEPAs;
         }
 
-        public EmployeeEPAInfoModel GetEPAInfo(GetEPAInfoCriteria criteria)
+        public EPAModel GetEPAInfoByEmployee(GetEPAInfoCriteria criteria)
         {
-            EmployeeEPAInfoModel result = new EmployeeEPAInfoModel();
+            EPAModel result = new EPAModel();
             Check.Argument.IsNotNull(criteria, "criteria");
 
             if (criteria.IsValid())
             {
-                result = _employeeEPARepository.GetEPAInfo(criteria);
+                result = _employeeEPARepository.GetEPAInfoByEmployee(criteria);
 
                 if (result != null)
                 {
-                    result.Status.Name = Enumerations.GetDescription((Status)result.Status.StatusId);
-                    result.KPIGroups = DecodeScoreOfKPI(result.KPIGroups);
-                    result.TotalScoreBySelf = !string.IsNullOrEmpty(result.TotalScoreBySelf) ? Decode(result.TotalScoreBySelf) : string.Empty;
+                    result.ProcessBySelf.Status.Name = Enumerations.GetDescription((Status)result.ProcessBySelf.Status.StatusId);
+                    result.FinalScore = !string.IsNullOrEmpty(result.FinalScore) ? Decode(result.FinalScore) : string.Empty;
+                    result.ProcessBySelf.TotalScore = !string.IsNullOrEmpty(result.ProcessBySelf.TotalScore) ? Decode(result.ProcessBySelf.TotalScore) : string.Empty;
+
+                    foreach (var info in result.EPAInfoBySelf)
+                    {
+                        foreach (var kpi in info.KPIGroup.KPIs)
+                        {
+                            kpi.Score = !string.IsNullOrEmpty(kpi.Score) ? Decode(kpi.Score).Replace("_" + kpi.KPIId, string.Empty) : string.Empty;
+                        }
+                    }
                 }
             }
 
             return result;
         }
 
-        public CommandResult UpdateEmployeeEPA(UpdateEPAScoreCriteria criteria)
+        public CommandResult UpdateEPAScore(UpdateEPAScoreCriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
             Check.Argument.IsNotNull(criteria, "criteria");
@@ -106,74 +115,6 @@ namespace SMS.EPA.Services.Implement
             return employees;
         }
 
-        public IEnumerable<MemberEPAModel> GetEPAByEvaluator(GetEPAByEvaluatorCriteria criteria)
-        {
-            Check.Argument.IsNotNull(criteria, "criteria");
-            IEnumerable<MemberEPAModel> memberEPAs = new List<MemberEPAModel>();
-
-            if (criteria.IsValid())
-            {
-                memberEPAs = _employeeEPARepository.GetEPAByEvaluator(criteria);
-
-                foreach (var memberEPA in memberEPAs)
-                {
-                    memberEPA.Status.Name = Enumerations.GetDescription((Status)memberEPA.Status.StatusId);
-                    memberEPA.SelfEvaluationScore = !string.IsNullOrEmpty(memberEPA.SelfEvaluationScore) ? Decode(memberEPA.SelfEvaluationScore) : string.Empty;
-                    memberEPA.EvaluationScore = !string.IsNullOrEmpty(memberEPA.EvaluationScore) ? Decode(memberEPA.EvaluationScore) : string.Empty;
-                }
-            }
-
-            return memberEPAs;
-        }
-
-        public EmployeeEPAInfoModel GetEPAInfoByEvaluator(GetEPAInfoByEvaluatorCriteria criteria)
-        {
-            EmployeeEPAInfoModel result = new EmployeeEPAInfoModel();
-            Check.Argument.IsNotNull(criteria, "criteria");
-
-            if (criteria.IsValid())
-            {
-                result = _employeeEPARepository.GetEPAInfoByEvaluator(criteria);
-
-                if (result != null)
-                {
-                    result.Status.Name = Enumerations.GetDescription((Status)result.Status.StatusId);
-                    result.KPIGroups = DecodeScoreOfKPI(result.KPIGroups);
-                    result.TotalScoreBySelf = !string.IsNullOrEmpty(result.TotalScoreBySelf) ? Decode(result.TotalScoreBySelf) : string.Empty;
-                    result.TotalScoreByEvaluator = !string.IsNullOrEmpty(result.TotalScoreByEvaluator) ? Decode(result.TotalScoreByEvaluator) : string.Empty;
-                }
-            }
-
-            return result;
-        }
-
-        public IEnumerable<MemberEPAModel> GetEPAByReviewer(GetEPAByReviewerCriteria criteria)
-        {
-            Check.Argument.IsNotNull(criteria, "criteria");
-            IEnumerable<MemberEPAModel> memberEPAs = new List<MemberEPAModel>();
-
-            if (criteria.IsValid())
-            {
-                memberEPAs = _employeeEPARepository.GetEPAByReviewer(criteria);
-
-                foreach (var memberEPA in memberEPAs)
-                {
-                    memberEPA.Status.Name = Enumerations.GetDescription((Status)memberEPA.Status.StatusId);
-                    memberEPA.SelfEvaluationScore = !string.IsNullOrEmpty(memberEPA.SelfEvaluationScore) ? Decode(memberEPA.SelfEvaluationScore) : string.Empty;
-                    memberEPA.ReviewerScore = !string.IsNullOrEmpty(memberEPA.ReviewerScore) ? Decode(memberEPA.ReviewerScore) : string.Empty;
-
-                    foreach (var evaluator in memberEPA.Evaluators)
-                    {
-                        evaluator.EvaluationScore = !string.IsNullOrEmpty(evaluator.EvaluationScore) ? Decode(evaluator.EvaluationScore) : string.Empty;
-                    }
-                }
-
-                AverageScore(memberEPAs);
-            }
-
-            return memberEPAs;
-        }
-
         public CommandResult UpdateStatusEPA(UpdateStatusEPACriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
@@ -195,49 +136,6 @@ namespace SMS.EPA.Services.Implement
         public string Decode(string cipherText)
         {
             return _encodeService.Decode(cipherText);
-        }
-
-        private IList<KPIGroupViewModel> DecodeScoreOfKPI(IList<KPIGroupViewModel> kpiGroups)
-        {
-            foreach (KPIGroupViewModel kpiGroup in kpiGroups)
-            {
-                foreach (KPIViewModel kpi in kpiGroup.KPIs)
-                {
-                    kpi.ScoreBySelf = !string.IsNullOrEmpty(kpi.ScoreBySelf) ? Decode(kpi.ScoreBySelf).Replace("_" + kpi.KPIId, string.Empty) : string.Empty;
-                    kpi.ScoreByEvaluator = !string.IsNullOrEmpty(kpi.ScoreByEvaluator) ? Decode(kpi.ScoreByEvaluator).Replace("_" + kpi.KPIId, string.Empty) : string.Empty;
-                }
-            }
-
-            return kpiGroups;
-        }
-
-        private IEnumerable<MemberEPAModel> AverageScore(IEnumerable<MemberEPAModel> memberEPAs)
-        {
-            foreach (var memberEPA in memberEPAs)
-            {
-                float score = 0;
-                int count = 0;
-
-                foreach (var evaluator in memberEPA.Evaluators)
-                {
-                    if (!string.IsNullOrEmpty(evaluator.EvaluationScore))
-                    {
-                        count++;
-                        score += float.Parse(evaluator.EvaluationScore);
-                    }
-                }
-
-                if (count > 0)
-                {
-                    memberEPA.AverageEvaluationScore = (score / count).ToString();
-                }
-                else
-                {
-                    memberEPA.AverageEvaluationScore = string.Empty;
-                }
-            }
-
-            return memberEPAs;
         }
     }
 }

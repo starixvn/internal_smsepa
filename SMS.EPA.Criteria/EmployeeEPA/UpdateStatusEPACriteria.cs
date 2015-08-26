@@ -15,9 +15,9 @@ namespace SMS.EPA.Criteria.EmployeeEPA
     {
         public int EPAId { get; set; }
 
-        public int PeriodId { get; set; }
-
         public int ProcessId { get; set; }
+
+        public int EvaluatorId { get; set; }
 
         public int EmployeeId { get; set; }
 

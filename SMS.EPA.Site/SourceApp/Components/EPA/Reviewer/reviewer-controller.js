@@ -52,9 +52,18 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
         });
     };
 
+    vm.updateStatusEPA = function (epa, status) {
+        EmployeeEPAModel.openPopupUpdateStatusEPA(epa, epa.EPAId, epa.PeriodId, 4, epa.Employee.EmployeeId, status);
+    };
+
     vm.viewEvaluationDetail = function (memberEPA, evaluator) {
         vm.viewEvaluationDetailUrl = '/Evaluator/Detail?epaId=' + memberEPA.EPAId + '&periodId=' + memberEPA.PeriodId
             + '&employeeId=' + memberEPA.Employee.EmployeeId + '&evaluatorId=' + evaluator.EvaluatorId + '&viewDetail';
+    };
+
+    vm.viewEPADetail = function (memberEPA) {
+        vm.viewEPADetailUrl = '/Reviewer/Detail?epaId=' + memberEPA.EPAId + '&periodId=' + memberEPA.PeriodId
+            + '&employeeId=' + memberEPA.Employee.EmployeeId;
     };
 
     var getEPAByReviewer = function (fromDate, toDate, targetTypeId, groupId, employeeIds, status) {
@@ -89,4 +98,33 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
     };
 
     vm.initialize();
+}]);
+
+epaModule.controller('MemberEPAInfoOfReviewerController',
+['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'CommonModel', 'utilitiesFactory',
+function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, utilitiesFactory) {
+    var vm = this;
+
+    vm.epaId = parseInt($routeParams.epaId);
+    vm.periodId = parseInt($routeParams.periodId);
+    vm.employeeId = parseInt($routeParams.employeeId);
+
+    vm.maxStar = 5;
+    vm.dataSaved = false;
+    vm.isReadonly = false;
+
+    vm.status = {
+        isopen: false
+    };
+    vm.epaStatus = EmployeeEPAModel.epaStatus;
+
+    vm.toggleDropdown = function ($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        vm.status.isopen = !vm.status.isopen;
+    };
+
+    vm.cancel = function () {
+        $window.history.back();
+    };
 }]);
