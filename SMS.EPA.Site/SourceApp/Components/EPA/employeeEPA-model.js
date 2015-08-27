@@ -40,8 +40,8 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         });
     };
 
-    employeeEPAModel.getEPAByEvaluator = function (fromDate, toDate, targetTypeId, groupId, employeeIds, status) {
-        return employeeEPAFactory.getEPAByEvaluator(fromDate, toDate, targetTypeId, groupId, employeeIds, status)
+    employeeEPAModel.getEPAByEvaluator = function (targetTypeId, groupId, employeeIds, status) {
+        return employeeEPAFactory.getEPAByEvaluator(targetTypeId, groupId, employeeIds, status)
         .success(function (memberEPAs) {
             employeeEPAModel.memberEPAs = memberEPAs;
         }).error(function (response, status) {

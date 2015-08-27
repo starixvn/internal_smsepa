@@ -21,6 +21,8 @@ namespace SMS.EPA.Services.Interfaces
 
         EPAModel GetEPAInfoByEmployee(GetEPAInfoCriteria criteria);
 
+        IEnumerable<EPAModel> GetEPAByEvaluator(GetEPAByEvaluatorCriteria criteria);
+
         CommandResult UpdateEPAScore(UpdateEPAScoreCriteria criteria);
 
         IEnumerable<Employee> GetMember(GetMemberCriteria criteria);

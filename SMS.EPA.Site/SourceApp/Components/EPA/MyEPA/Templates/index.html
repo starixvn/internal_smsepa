@@ -55,7 +55,7 @@
                            ng-href="{{empEPACtrl.viewEPADetailUrl}}" ng-show="!myEPA.ProcessBySelf.TotalScore" />
                     </td>
                     <td class="text-center">
-                        <span class="dropdown" dropdown on-toggle="empEPACtrl.toggled(open)" ng-show="!myEPA.IsEndProcess">
+                        <span class="dropdown" dropdown on-toggle="empEPACtrl.toggled(open)" ng-show="!myEPA.ProcessBySelf.IsEndProcess">
                             <a href="javascript:;" class="changeStatus" dropdown-toggle>{{myEPA.ProcessBySelf.Status.Name}}</a>
                             <ul class="dropdown-menu dropdown-menu-width">
                                 <li ng-repeat="item in empEPACtrl.epaStatus | filter:{ Name: '!' + myEPA.ProcessBySelf.Status.Name }">

@@ -51,7 +51,7 @@
         <div class="col-sm-6">
             <div class="col-sm-4" data-translate="StartDate"></div>
             <div class="col-sm-7">
-                <strong>{{memberEPAInfoCtrl.epaInfo.ProcessBySelf.StartDate| customDate}}</strong>
+                <strong>{{memberEPAInfoCtrl.epaInfo.ProcessBySelf.StartDate | customDate}}</strong>
             </div>
         </div>
         <div class="col-sm-6">
@@ -83,7 +83,8 @@
                         </li>
                     </ul>
                 </span>
-                <strong ng-show="memberEPAInfoCtrl.epaInfo.IsEndProcess || memberEPAInfoCtrl.isReadonly" ng-bind="memberEPAInfoCtrl.epaInfo.Status.Name"></strong>
+                <strong ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess || memberEPAInfoCtrl.isReadonly"
+                        ng-bind="memberEPAInfoCtrl.epaInfo.ProcessBySelf.Status.Name"></strong>
             </div>
         </div>
     </div>

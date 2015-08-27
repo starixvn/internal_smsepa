@@ -31,13 +31,14 @@
                                 <label class="note" ng-show="kpi.IsRequiredEvaluate" data-translate="(*)"></label>
                             </div>
                             <div class="col-sm-3 text-center list-star">
-                                <rating ng-model="kpi.RateBySelf" max="memberEPAInfoCtrl.maxStar" readonly="memberEPAInfoCtrl.isReadonly"></rating>
-                                <span class="badge percent" ng-show="kpi.PercentBySelf > 0">{{kpi.PercentBySelf}}%</span>
-                                <span class="badge percent" ng-show="kpi.PercentBySelf == 0" data-translate="NaN"></span>
+                                <rating ng-model="kpi.EvaluateBySelf.Rate" max="memberEPAInfoCtrl.maxStar" readonly="memberEPAInfoCtrl.isReadonly"></rating>
+                                <span class="badge percent" ng-show="kpi.EvaluateBySelf.Percent > 0">{{kpi.EvaluateBySelf.Percent}}%</span>
+                                <span class="badge percent" ng-show="kpi.EvaluateBySelf.Percent == 0" data-translate="NaN"></span>
                             </div>
                             <div class="col-sm-2">
                                 <input type="text" class="form-control text-center kpi-score" maxlength="5" ng-readonly="memberEPAInfoCtrl.isReadonly"
-                                       ng-show="kpiGroup.TotalKPIOptional == 0" ng-model="kpi.ScoreBySelf" ng-value="kpi.ScoreBySelf" ng-decimal fraction="2" />
+                                       ng-show="kpiGroup.TotalKPIOptional == 0" ng-model="kpi.EvaluateBySelf.Score" 
+                                       ng-value="kpi.EvaluateBySelf.Score" ng-decimal fraction="2" />
                             </div>
                         </div>
                         <div class="row kpi-description" ng-show="kpi.Description.length > 0">
@@ -45,7 +46,7 @@
                         </div>
                         <div class="row textarea-comment" ng-show="kpi.HasComment">
                             <div class="col-sm-7">
-                                <textarea class="form-control" ng-model="kpi.CommentBySelf" ng-readonly="memberEPAInfoCtrl.isReadonly"></textarea>
+                                <textarea class="form-control" ng-model="kpi.EvaluateBySelf.Comment" ng-readonly="memberEPAInfoCtrl.isReadonly"></textarea>
                             </div>
                         </div>
                     </div>
@@ -59,13 +60,13 @@
             <div class="boxcontent" collapse="memberEPAInfoCtrl.collapses['Comments']">
                 <div class="row row-item">
                     <div class="col-sm-8 textarea-comment">
-                        <textarea class="form-control" ng-readonly="memberEPAInfoCtrl.isReadonly" ng-model="memberEPAInfoCtrl.epaInfo.CommentBySelf"></textarea>
+                        <textarea class="form-control" ng-readonly="memberEPAInfoCtrl.isReadonly" ng-model="memberEPAInfoCtrl.epaInfo.ProcessBySelf.Comment"></textarea>
                     </div>
                     <div class="col-sm-1"></div>
                     <div class="col-sm-3">
                         <div class="row total text-center pull-right">
                             <p data-translate="TotalRatingScore"></p>
-                            <p class="totalscore" ng-bind="memberEPAInfoCtrl.epaInfo.TotalScoreBySelf | customNumber"></p>
+                            <p class="totalscore" ng-bind="memberEPAInfoCtrl.epaInfo.ProcessBySelf.TotalScore | customNumber"></p>
                         </div>
                         <div class="row total text-center pull-right">
                             <p data-translate="AttendanceScore"></p>

@@ -10,7 +10,6 @@
 namespace SMS.EPA.Model.EmployeeEPA
 {
     using System;
-    using System.Collections.Generic;
     using SMS.EPA.Model.Enitites;
 
     public class EPAProcessModel
@@ -19,22 +18,28 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public int ProcessId { get; set; }
 
-        public int Priority { get; set; }
-
-        public string TotalScore { get; set; }
-
-        public string Comment { get; set; }
-
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
 
         public bool IsEndProcess { get; set; }
 
+        public int EvaluatorId { get; set; }
+
+        public string Code { get; set; }
+
+        public string NickName { get; set; }
+
+        public string FullName { get; set; }
+
+        public int Priority { get; set; }
+
+        public string Comment { get; set; }
+
+        public string TotalScore { get; set; }
+
         public StatusModel Status { get; set; }
 
         public DateTime? EvaluateDate { get; set; }
-
-        public Employee Evaluator { get; set; }
     }
 }

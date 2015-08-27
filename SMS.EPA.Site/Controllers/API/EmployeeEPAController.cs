@@ -87,6 +87,29 @@ namespace SMS.EPA.Site.Controllers.API
 
         #endregion Self
 
+        #region Evaluator
+
+        [HttpGet]
+        public IEnumerable<EPAModel> GetEPAByEvaluator(
+            int? targetTypeId = null,
+            int? groupId = null,
+            string employeeIds = null,
+            int? status = null)
+        {
+            var criteria = new GetEPAByEvaluatorCriteria()
+            {
+                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
+                TargetTypeId = targetTypeId,
+                GroupId = groupId,
+                EmployeeIds = employeeIds,
+                Status = status
+            };
+
+            return _employeeEPAService.GetEPAByEvaluator(criteria);
+        }
+
+        #endregion Evaluator
+
         [HttpPut]
         public CommandResult UpdateEPAScore(EPAModel model)
         {
@@ -98,7 +121,7 @@ namespace SMS.EPA.Site.Controllers.API
                 EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
                 Comment = model.ProcessBySelf.Comment,
                 Score = EncodeTotalScore(model),
-                KPIDetails = ConvertKPIInfoToXml(model.EPAInfoBySelf),
+                KPIDetails = ConvertKPIInfoToXml(model.KPIGroups),
                 ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
             };
 
@@ -129,7 +152,7 @@ namespace SMS.EPA.Site.Controllers.API
             return score;
         }
 
-        private string ConvertKPIInfoToXml(IList<EPAInfoModel> epaInfos)
+        private string ConvertKPIInfoToXml(IList<KPIGroupViewModel> kpiGroups)
         {
             string beginRootTag = "<ROOT>";
             string endRootTag = "</ROOT>";
@@ -137,12 +160,12 @@ namespace SMS.EPA.Site.Controllers.API
             string employeeEPAScore = "<KPI KPIId='{0}' KPIGroupId='{1}' Score='{2}' Rate='{3}' Comment='{4}'></KPI>";
             var epaXML = new StringBuilder(beginRootTag);
 
-            foreach (var epaInfo in epaInfos)
+            foreach (var kpiGroup in kpiGroups)
             {
-                foreach (var kpi in epaInfo.KPIGroup.KPIs)
+                foreach (var kpi in kpiGroup.KPIs)
                 {
-                    cipherScore = !string.IsNullOrEmpty(kpi.Score) ? _employeeEPAService.Encode(kpi.Score + "_" + kpi.KPIId) : null;
-                    epaXML.AppendFormat(employeeEPAScore, kpi.KPIId, epaInfo.KPIGroup.KPIGroupId, cipherScore, kpi.Rate, HttpUtility.HtmlEncode(kpi.Comment));
+                    cipherScore = !string.IsNullOrEmpty(kpi.EvaluateBySelf.Score) ? _employeeEPAService.Encode(kpi.EvaluateBySelf.Score + "_" + kpi.KPIId) : null;
+                    epaXML.AppendFormat(employeeEPAScore, kpi.KPIId, kpiGroup.KPIGroupId, cipherScore, kpi.EvaluateBySelf.Rate, HttpUtility.HtmlEncode(kpi.EvaluateBySelf.Comment));
                 }
             }
 

@@ -17,27 +17,10 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
     vm.epaStatus = EmployeeEPAModel.epaStatus;
 
     vm.filter = {
-        fromDate: new Date(),
-        toDate: new Date(),
         targetTypeId: '',
         groupId: '',
         employeeIds: '',
         status: ''
-    };
-
-    utilitiesFactory.getDateFormat(vm);
-
-    vm.calendar = {
-        startDateOpened: false,
-        endDateOpened: false
-    };
-
-    vm.openPopupStartDate = function ($event) {
-        utilitiesFactory.openPopupStartDate($event, vm);
-    };
-
-    vm.openPopupEndDate = function ($event) {
-        utilitiesFactory.openPopupEndDate($event, vm);
     };
 
     vm.toggleDropdown = function ($event) {
@@ -53,28 +36,26 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
     };
 
     vm.updateStatusEPA = function (epa, status) {
-        EmployeeEPAModel.openPopupUpdateStatusEPA(epa, epa.EPAId, epa.PeriodId, 3, epa.Employee.EmployeeId, status);
+        EmployeeEPAModel.openPopupUpdateStatusEPA(epa.ProcessByEvaluators[0], epa.EPAId, 3, epa.Employee.EmployeeId, status);
     };
 
-    var getEPAByEvaluator = function (fromDate, toDate, targetTypeId, groupId, employeeIds, status) {
-        EmployeeEPAModel.getEPAByEvaluator(fromDate, toDate, targetTypeId, groupId, employeeIds, status).then(function () {
+    var getEPAByEvaluator = function (targetTypeId, groupId, employeeIds, status) {
+        EmployeeEPAModel.getEPAByEvaluator(targetTypeId, groupId, employeeIds, status).then(function () {
             vm.memberEPAs = EmployeeEPAModel.memberEPAs;
         });
     };
 
     vm.query = function (filter) {
-        if (EmployeeEPAModel.validateFromToDate(filter.fromDate, filter.toDate)) {
-            filter.employeeIds = utilitiesFactory.getSelectedData(vm.members, 'EmployeeId');
-            getEPAByEvaluator(filter.fromDate, filter.toDate, filter.targetTypeId, filter.groupId, filter.employeeIds, filter.status);
-        }
+        filter.employeeIds = utilitiesFactory.getSelectedData(vm.members, 'EmployeeId');
+        getEPAByEvaluator(filter.targetTypeId, filter.groupId, filter.employeeIds, filter.status);
     };
 
     vm.viewEPAInfoOfMember = function (memberEPA) {
-        EmployeeEPAModel.viewEPAInfoOfMember(memberEPA.EPAId, memberEPA.PeriodId, memberEPA.Employee.EmployeeId);
+        EmployeeEPAModel.viewEPAInfoOfMember(memberEPA.EPAId, memberEPA.Employee.EmployeeId);
     };
 
     vm.viewEPADetail = function (memberEPA) {
-        vm.viewEPADetailUrl = '/Evaluator/Detail?epaId=' + memberEPA.EPAId + '&periodId=' + memberEPA.PeriodId + '&employeeId=' + memberEPA.Employee.EmployeeId;
+        vm.viewEPADetailUrl = '/Evaluator/Detail?epaId=' + memberEPA.EPAId + '&employeeId=' + memberEPA.Employee.EmployeeId;
     };
 
     vm.initialize = function () {
@@ -290,7 +271,7 @@ function ($modalInstance, EmployeeEPAModel, epaId, periodId, employeeId) {
 
         vm.employee = data.Employee;
         vm.evaluators = data.Evaluators;
-        vm.finalScore = data.TotalScoreBySelf ? (parseFloat(data.TotalScoreBySelf) + data.AttendanceScore) : data.AttendanceScore;
+        vm.finalScore = data.ProcessBySelf.TotalScore ? (parseFloat(data.ProcessBySelf.TotalScore) + data.AttendanceScore) : data.AttendanceScore;
         vm.epaInfo = data;
 
         angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {

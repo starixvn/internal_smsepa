@@ -4,7 +4,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 // <history>
-//   <change who="Tim.Trinh" date="2015.08.24">Created</change>
+//   <change who="Tim.Trinh" date="2015.08.26">Created</change>
 // </history>
 
 namespace SMS.EPA.Model.EmployeeEPA

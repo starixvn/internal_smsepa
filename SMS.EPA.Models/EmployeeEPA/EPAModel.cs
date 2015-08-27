@@ -10,6 +10,7 @@
 namespace SMS.EPA.Model.EmployeeEPA
 {
     using System.Collections.Generic;
+    using SMS.EPA.Model.Department;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.TargetType;
 
@@ -18,22 +19,25 @@ namespace SMS.EPA.Model.EmployeeEPA
         public EPAModel()
         {
             Evaluators = new List<EvaluatorModel>();
-            EPAInfoBySelf = new List<EPAInfoModel>();
+            ProcessByEvaluators = new List<EPAProcessModel>();
+            ProcessByReviewers = new List<EPAProcessModel>();
+            ProcessByManagements = new List<EPAProcessModel>();
+            KPIGroups = new List<KPIGroupViewModel>();
         }
 
         public int EPAId { get; set; }
 
         public Employee Employee { get; set; }
 
-        public DepartmentViewModel Department { get; set; }
-
         public Group Group { get; set; }
+
+        public DepartmentModel Department { get; set; }
 
         public JobTitle JobTitle { get; set; }
 
         public TargetTypeModel TargetType { get; set; }
 
-        public bool Status { get; set; }
+        public StatusModel Status { get; set; }
 
         public string FinalScore { get; set; }
 
@@ -47,7 +51,13 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public EPAProcessModel ProcessBySelf { get; set; }
 
-        public IList<EPAInfoModel> EPAInfoBySelf { get; set; }
+        public IList<EPAProcessModel> ProcessByEvaluators { get; set; }
+
+        public IList<EPAProcessModel> ProcessByReviewers { get; set; }
+
+        public IList<EPAProcessModel> ProcessByManagements { get; set; }
+
+        public IList<KPIGroupViewModel> KPIGroups { get; set; }
 
         public IList<EvaluatorModel> Evaluators { get; set; }
     }

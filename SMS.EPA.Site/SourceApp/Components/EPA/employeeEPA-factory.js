@@ -27,11 +27,9 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
                 }
             });
         },
-        getEPAByEvaluator: function (fromDate, toDate, targetTypeId, groupId, employeeIds, status) {
+        getEPAByEvaluator: function (targetTypeId, groupId, employeeIds, status) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAByEvaluator', {
                 params: {
-                    fromDate: fromDate,
-                    toDate: toDate,
                     targetTypeId: targetTypeId,
                     groupId: groupId,
                     employeeIds: employeeIds,

@@ -7,28 +7,17 @@
     <div class="col-sm-12">
         <form novalidate class="row filter form-horizontal" role="form">
             <div class="form-group">
-                <label class="col-sm-1 control-label" data-translate="From"></label>
-                <div class="col-sm-2">
-                    <input readonly class="calendar-form-control" type="text"
-                           ng-model="evaluatorCtrl.filter.fromDate" datepicker-popup="{{evaluatorCtrl.dateFormat}}"
-                           ng-click="evaluatorCtrl.openPopupStartDate($event, evaluatorCtrl.calendar.startDateOpened)"
-                           is-open="evaluatorCtrl.calendar.startDateOpened" />
-                    <calendar-image class="calendar-image"
-                                    ng-click="evaluatorCtrl.openPopupStartDate($event, evaluatorCtrl.calendar.startDateOpened)"></calendar-image>
-                </div>
-                <label class="col-sm-1 control-label" data-translate="To"></label>
-                <div class="col-sm-2">
-                    <input readonly class="calendar-form-control" type="text"
-                           ng-model="evaluatorCtrl.filter.toDate" datepicker-popup="{{evaluatorCtrl.dateFormat}}"
-                           ng-click="evaluatorCtrl.openPopupEndDate($event, evaluatorCtrl.calendar.endDateOpened)"
-                           is-open="evaluatorCtrl.calendar.endDateOpened" />
-                    <calendar-image class="calendar-image"
-                                    ng-click="evaluatorCtrl.openPopupEndDate($event, evaluatorCtrl.calendar.endDateOpened)"></calendar-image>
-                </div>
                 <label class="col-sm-1 control-label" data-translate="Target"></label>
                 <div class="col-sm-2">
                     <select class="form-control" ng-model="evaluatorCtrl.filter.targetTypeId"
                             ng-options="opt.TargetTypeId as opt.Name for opt in evaluatorCtrl.targetTypes">
+                        <option value="">-- {{"All" | translate}} --</option>
+                    </select>
+                </div>
+                <label class="col-sm-1 control-label" data-translate="Status"></label>
+                <div class="col-sm-2">
+                    <select class="form-control" ng-model="evaluatorCtrl.filter.status"
+                            ng-options="opt.StatusId as opt.Name for opt in evaluatorCtrl.statusList">
                         <option value="">-- {{"All" | translate}} --</option>
                     </select>
                 </div>
@@ -48,14 +37,7 @@
                                               helper-elements="all reset filter" item-label="FullName" tick-property="ticked" max-labels="0">
                     </add-class-to-role-filter>
                 </div>
-                <label class="col-sm-1 control-label" data-translate="Status"></label>
-                <div class="col-sm-2">
-                    <select class="form-control" ng-model="evaluatorCtrl.filter.status"
-                            ng-options="opt.StatusId as opt.Name for opt in evaluatorCtrl.statusList">
-                        <option value="">-- {{"All" | translate}} --</option>
-                    </select>
-                </div>
-                <div class="col-sm-1">
+                <div class="col-sm-offset-1 col-sm-1">
                     <button class="button" ng-click="evaluatorCtrl.query(evaluatorCtrl.filter)" data-translate="Submit"></button>
                 </div>
             </div>
@@ -69,6 +51,8 @@
             <th data-translate="SelfEvaluationScore" class="col-score"></th>
             <th data-translate="EvaluationScore" class="col-score"></th>
             <th data-translate="Status" class="col-status"></th>
+            <th data-translate="StartDate"></th>
+            <th data-translate="EndDate"></th>
             <th data-translate="EvaluationDate" class="col-evaluate-date"></th>
             <th data-translate="Action" class="col-action"></th>
             </thead>
@@ -81,27 +65,30 @@
                     <td>{{memberEPA.Employee.FullName}} ({{memberEPA.Employee.NickName}})</td>
                     <td class="text-center" ng-bind="memberEPA.TargetType.Name"></td>
                     <td class="text-center col-score">
-                        <a ng-bind="memberEPA.SelfEvaluationScore | customNumber" ng-click="evaluatorCtrl.viewEPAInfoOfMember(memberEPA)" ng-show="memberEPA.SelfEvaluationScore" />
-                        <a ng-bind="'N/A'" ng-click="evaluatorCtrl.viewEPAInfoOfMember(memberEPA)" ng-show="!memberEPA.SelfEvaluationScore" />
+                        <a ng-bind="memberEPA.ProcessBySelf.TotalScore | customNumber" ng-click="evaluatorCtrl.viewEPAInfoOfMember(memberEPA)"
+                           ng-show="memberEPA.ProcessBySelf.TotalScore" />
+                        <a ng-bind="'N/A'" ng-click="evaluatorCtrl.viewEPAInfoOfMember(memberEPA)" ng-show="!memberEPA.ProcessBySelf.TotalScore" />
                     </td>
                     <td class="text-center col-score">
-                        <a href="" ng-bind="memberEPA.EvaluationScore | customNumber" ng-click="evaluatorCtrl.viewEPADetail(memberEPA)"
-                           ng-href="{{evaluatorCtrl.viewEPADetailUrl}}" ng-show="memberEPA.EvaluationScore" />
+                        <a href="" ng-bind="memberEPA.ProcessByEvaluators[0].TotalScore | customNumber" ng-click="evaluatorCtrl.viewEPADetail(memberEPA)"
+                           ng-href="{{evaluatorCtrl.viewEPADetailUrl}}" ng-show="memberEPA.ProcessByEvaluators[0].TotalScore" />
                         <a href="" ng-bind="'N/A'" ng-click="evaluatorCtrl.viewEPADetail(memberEPA)"
-                           ng-href="{{evaluatorCtrl.viewEPADetailUrl}}" ng-show="!memberEPA.EvaluationScore" />
+                           ng-href="{{evaluatorCtrl.viewEPADetailUrl}}" ng-show="!memberEPA.ProcessByEvaluators[0].TotalScore" />
                     </td>
                     <td class="text-center col-status">
-                        <span class="dropdown" dropdown on-toggle="evaluatorCtrl.toggled(open)" ng-show="!memberEPA.IsEndProcess">
-                            <a href="javascript:;" class="changeStatus" dropdown-toggle>{{memberEPA.Status.Name}}</a>
+                        <span class="dropdown" dropdown on-toggle="evaluatorCtrl.toggled(open)" ng-show="!memberEPA.ProcessByEvaluators[0].IsEndProcess">
+                            <a href="javascript:;" class="changeStatus" dropdown-toggle>{{memberEPA.ProcessByEvaluators[0].Status.Name}}</a>
                             <ul class="dropdown-menu dropdown-menu-width">
-                                <li ng-repeat="item in evaluatorCtrl.epaStatus | filter:{ Name: '!' + memberEPA.Status.Name }">
+                                <li ng-repeat="item in evaluatorCtrl.epaStatus | filter:{ Name: '!' + memberEPA.ProcessByEvaluators[0].Status.Name }">
                                     <a ng-click="evaluatorCtrl.updateStatusEPA(memberEPA, item)" href="javascript:;">{{item.Name}}</a>
                                 </li>
                             </ul>
                         </span>
-                        <span ng-show="memberEPA.IsEndProcess" ng-bind="memberEPA.Status.Name"></span>
+                        <span ng-show="memberEPA.IsEndProcess" ng-bind="memberEPA.ProcessByEvaluators[0].Status.Name"></span>
                     </td>
-                    <td class="text-center col-evaluate-date">{{ memberEPA.EvaluateDate | customDate }}</td>
+                    <td class="text-center">{{ memberEPA.ProcessByEvaluators[0].StartDate | customDate }}</td>
+                    <td class="text-center">{{ memberEPA.ProcessByEvaluators[0].EndDate | customDate }}</td>
+                    <td class="text-center col-evaluate-date">{{ memberEPA.ProcessByEvaluators[0].EvaluateDate | customDate }}</td>
                     <td class="text-center text-uppercase col-action">
                         <a class="evaluate-now button" href="" ng-click="evaluatorCtrl.viewEPADetail(memberEPA)"
                            ng-href="{{evaluatorCtrl.viewEPADetailUrl}}">
@@ -111,7 +98,7 @@
                     </td>
                 </tr>
                 <tr ng-show="evaluatorCtrl.memberEPAs.length == 0">
-                    <td class="empty-result" colspan="9" data-translate="EmptyResult"></td>
+                    <td class="empty-result" colspan="11" data-translate="EmptyResult"></td>
                 </tr>
             </tbody>
         </table>

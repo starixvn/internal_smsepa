@@ -18,6 +18,8 @@ namespace SMS.EPA.Model.EmployeeEPA
             KPIs = new List<KPIViewModel>();
         }
 
+        public int EPAId { get; set; }
+
         public int KPIGroupId { get; set; }
 
         public string Name { get; set; }
