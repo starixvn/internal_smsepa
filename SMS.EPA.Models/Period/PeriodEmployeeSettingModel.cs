@@ -27,6 +27,8 @@ namespace SMS.EPA.Model.Period
 
         public int PeriodId { get; set; }
 
+        public string Name { get; set; }
+
         public DepartmentModel Department { get; set; }
 
         public Group Group { get; set; }

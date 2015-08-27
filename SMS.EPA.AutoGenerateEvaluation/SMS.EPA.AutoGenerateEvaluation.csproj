@@ -75,6 +75,9 @@
     <Compile Include="AutoService.Designer.cs">
       <DependentUpon>AutoService.cs</DependentUpon>
     </Compile>
+    <Compile Include="Criteria\InsertEmployeeToSemiAnnualPeriodCriteria.cs" />
+    <Compile Include="Criteria\AutoGenerateEvaluationCriteria.cs" />
+    <Compile Include="Criteria\GetSemiAnnualPeriodStartedCriteria.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\GenerationEvaluationService.cs" />
@@ -87,7 +90,10 @@
     <Content Include="SpName.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Criteria\" />
+    <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">
+      <Project>{76ee2da4-7127-4c21-b218-adff51b2b74e}</Project>
+      <Name>SMS.EPA.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

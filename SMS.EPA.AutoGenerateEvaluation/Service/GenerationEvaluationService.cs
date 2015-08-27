@@ -9,13 +9,56 @@
 
 namespace SMS.EPA.AutoGenerateEvaluation.Service
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+    using SMS.EPA.AutoGenerateEvaluation.Criteria;
+    using SMS.EPA.Core.Model;
+    using SMS.EPA.Core.Services;
 
-    public class GenerationEvaluationService
+    public class GenerationEvaluationService : BaseService
     {
+        public IEnumerable<int> CheckStartSemiAnnual()
+        {
+            var criteria = new GetSemiAnnualPeriodStartedCriteria();
+            IEnumerable<int> startedPeriods = new List<int>();
+
+            if (criteria.IsValid())
+            {
+                startedPeriods = GetData<int>(criteria);
+            }
+
+            return startedPeriods;
+        }
+
+        public CommandResult InsertEmployeeToSemiAnnualPeriod(int periodId)
+        {
+            var commandResult = new CommandResult();
+            var criteria = new InsertEmployeeToSemiAnnualPeriodCriteria
+            {
+                PeriodId = periodId
+            };
+
+            if (criteria.IsValid())
+            {
+                commandResult = Repository.Insert(criteria);
+            }
+
+            return commandResult;
+        }
+
+        public CommandResult AutoGenerateEvaluation(int periodId)
+        {
+            var commandResult = new CommandResult();
+            var criteria = new AutoGenerateEvaluationCriteria
+            {
+                PeriodId = periodId
+            };
+
+            if (criteria.IsValid())
+            {
+                commandResult = Repository.Insert(criteria);
+            }
+
+            return commandResult;
+        }
     }
 }

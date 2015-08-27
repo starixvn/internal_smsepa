@@ -1,6 +1,6 @@
 ﻿namespace SMS.EPA.AutoGenerateEvaluation
 {
-    partial class AutoService
+    public partial class AutoService
     {
         /// <summary> 
         /// Required designer variable.
@@ -17,6 +17,7 @@
             {
                 components.Dispose();
             }
+
             base.Dispose(disposing);
         }
 
@@ -29,7 +30,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            this.ServiceName = "Service1";
+            this.ServiceName = "SMS.EPA.AutoGenerateEPA";
         }
 
         #endregion
