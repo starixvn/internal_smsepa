@@ -4,53 +4,91 @@
 // </copyright>
 // ------------------------------------------------------------------------
 // <history>
-//   <change who="Josh.Phan" date="8/27/2015">Created.</change>
+//   <change who="Josh.Phan" date="8/28/2015">Created.</change>
 // </history>
 
 namespace SMS.EPA.Services.Implement
 {
-    using System.Configuration;
-    using System.Text.RegularExpressions;
-    using Fanex.MailDeliver.Model;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using SMS.EPA.Core.Services.Implement;
+    using SMS.EPA.Core.Services.Interfaces;
+    using SMS.EPA.Model.Enitites;
+    using SMS.EPA.Model.Period;
+    using SMS.EPA.Resources;
     using SMS.EPA.Services.Interfaces;
 
     public class MailService : IMailService
     {
-        public void SendEmail(string senderEmail, string receiverEmail, string mailCc, string subject, string body)
+        private readonly IBaseMailService _baseMailService;
+
+        private string _startDateMailToHumanResources = "~/Views/Emails/StartDateEmailToHR.cshtml";
+        private string _startDateMailToSelf = "~/Views/Emails/StartDateEmailToSelf.cshtml";
+        private string _startDateMailToEvaluator = "~/Views/Emails/StartDateEmailToEvaluator.cshtml";
+        private string _startDateMailToSpecialEvaluator = "~/Views/Emails/StartDateEmailToSpecialEvaluator.cshtml";
+        private string _startDateMailToReviewer = "~/Views/Emails/StartDateEmailToReviewer.cshtml";
+        private string _startDateMailToSpecialReviewer = "~/Views/Emails/StartDateEmailToSpecialReviewer.cshtml";
+        private string _startDateMailToManagement = "~/Views/Emails/StartDateEmailToManagement.cshtml";
+        private string _startDateMailToSpecialManagement = "~/Views/Emails/StartDateEmailToSpecialManagement.cshtml";
+
+        public MailService()
+            : this(null)
         {
-            this.SendEmail(senderEmail, senderEmail, receiverEmail, mailCc, subject, body);
         }
 
-        public void SendEmail(string senderEmail, string senderName, string receiverEmail, string mailCc, string subject, string body)
+        public MailService(IBaseMailService baseMailService)
         {
-            if (!IsValidEmail(senderEmail) || !IsValidEmail(receiverEmail))
-            {
-                return;
-            }
-
-            var mailItem = new MailRecord
-            {
-                MailTo = receiverEmail,
-                MailCc = mailCc,
-                Subject = subject,
-                Title = ConfigurationManager.AppSettings["Email.SenderName"],
-                Body = body
-            };
-            using (var client = new Fanex.MailDeliver.MailClient.API.MailDeliver())
-            {
-                client.SendMail(mailItem);
-            }
+            _baseMailService = baseMailService ?? new BaseMailService();
         }
 
-        private static bool IsValidEmail(string email)
+        public void SendMailToHRStartDate(PeriodFlowModel employeeSetting, string periodName)
         {
-            if (string.IsNullOrWhiteSpace(email))
-            {
-                return false;
-            }
+            var email = new MailModel();
+            email.Subject = string.Format(Lang.StartDateEmailToHRSubject, periodName, employeeSetting.StartDate, employeeSetting.EndDate);
+            email.Body = _baseMailService.ReadTextFile(_startDateMailToHumanResources);
+            email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, periodName, employeeSetting.StartDate, employeeSetting.EndDate);
+        }
 
-            var regex = new Regex(@"\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*");
-            return regex.IsMatch(email);
+        public void SendMailToSelfStartDate(PeriodFlowModel employeeSetting, string periodName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SendMailToEvaluatorStartDate(PeriodFlowModel employeeSetting, string periodName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SendMailToReviewerStartDate(PeriodFlowModel employeeSetting, string periodName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SendMailToManagementStartDate(PeriodFlowModel employeeSetting, string periodName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SendMailToSelfRemindDate(PeriodFlowModel employeeSetting, string periodName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SendMailToEvaluatorRemindDate(PeriodFlowModel employeeSetting, string periodName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SendMailToReviewerRemindDate(PeriodFlowModel employeeSetting, string periodName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SendMailToManagementRemindDate(PeriodFlowModel employeeSetting, string periodName)
+        {
+            throw new NotImplementedException();
         }
     }
 }

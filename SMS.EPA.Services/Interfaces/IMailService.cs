@@ -4,15 +4,31 @@
 // </copyright>
 // ------------------------------------------------------------------------
 // <history>
-//   <change who="Josh.Phan" date="8/27/2015">Created.</change>
+//   <change who="Josh.Phan" date="8/28/2015">Created.</change>
 // </history>
 
 namespace SMS.EPA.Services.Interfaces
 {
+    using SMS.EPA.Model.Period;
+
     public interface IMailService
     {
-        void SendEmail(string senderEmail, string receiverEmail, string mailCc, string subject, string body);
+        void SendMailToHRStartDate(PeriodFlowModel employeeSetting, string periodName);
 
-        void SendEmail(string senderEmail, string senderName, string receiverEmail, string mailCc, string subject, string body);
+        void SendMailToSelfStartDate(PeriodFlowModel employeeSetting, string periodName);
+
+        void SendMailToEvaluatorStartDate(PeriodFlowModel employeeSetting, string periodName);
+
+        void SendMailToReviewerStartDate(PeriodFlowModel employeeSetting, string periodName);
+
+        void SendMailToManagementStartDate(PeriodFlowModel employeeSetting, string periodName);
+
+        void SendMailToSelfRemindDate(PeriodFlowModel employeeSetting, string periodName);
+
+        void SendMailToEvaluatorRemindDate(PeriodFlowModel employeeSetting, string periodName);
+
+        void SendMailToReviewerRemindDate(PeriodFlowModel employeeSetting, string periodName);
+
+        void SendMailToManagementRemindDate(PeriodFlowModel employeeSetting, string periodName);
     }
 }

@@ -35,6 +35,9 @@
     <Reference Include="Fanex.Data">
       <HintPath>..\packages\Fanex.Data.0.5.404.63\lib\net40\Fanex.Data.dll</HintPath>
     </Reference>
+    <Reference Include="Fanex.MailDeliver.MailClient">
+      <HintPath>..\packages\Fanex.MailDeliver.MailClient.1.0.0.2\lib\net40\Fanex.MailDeliver.MailClient.dll</HintPath>
+    </Reference>
     <Reference Include="IBCCrypt">
       <HintPath>..\Dependencies\IBCCrypt\IBCCrypt.dll</HintPath>
     </Reference>
@@ -99,6 +102,8 @@
     <Compile Include="Services\BaseService.cs" />
     <Compile Include="Services\EncodeService.cs" />
     <Compile Include="Services\Interfaces\IEncodeService.cs" />
+    <Compile Include="Services\Interfaces\IBaseMailService.cs" />
+    <Compile Include="Services\BaseMailService.cs" />
     <Compile Include="Utilities\Enumerations.cs" />
     <Compile Include="Utilities\ExcelTemplateWriter.cs" />
     <Compile Include="Utilities\NPOIExtensions\HSSFCellExtensions.cs" />

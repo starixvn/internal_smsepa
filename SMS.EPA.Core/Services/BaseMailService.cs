@@ -1,34 +1,36 @@
 ﻿// ----------------------------------------------------------------------
-// <copyright file="EmailService.cs" company="Nexcel Solutions Viet Nam">
+// <copyright file="BaseMailService.cs" company="Nexcel Solutions Viet Nam">
 // Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
 // </copyright>
 // ------------------------------------------------------------------------
 // <history>
-//   <change who="Josh.Phan" date="7/29/2015">Created.</change>
+//   <change who="Josh.Phan" date="8/27/2015">Created.</change>
 // </history>
 
-namespace SMS.EPA.Services.Implement
+namespace SMS.EPA.Core.Services.Implement
 {
     using System.Configuration;
+    using System.IO;
     using System.Text.RegularExpressions;
-    using Fanex.MailDeliver.MailClient.API;
     using Fanex.MailDeliver.Model;
-    using SMS.EPA.Services.Interfaces;
+    using SMS.EPA.Core.Services.Interfaces;
 
-    public class EmailService : IEmailService
+    public class BaseMailService : IBaseMailService
     {
-        public void SendEmail(string senderEmail, string receiverEmail, string mailCC, string subject, string body)
+        public string ReadTextFile(string filePath)
         {
-            this.SendEmail(senderEmail, senderEmail, receiverEmail, mailCC, subject, body);
+            using (var sr = new StreamReader(filePath))
+            {
+                return sr.ReadToEnd();
+            }
         }
 
-        public void SendEmail(
-            string senderEmail,
-            string senderName,
-            string receiverEmail,
-            string mailCC,
-            string subject,
-            string body)
+        public void SendEmail(string senderEmail, string receiverEmail, string mailCc, string subject, string body)
+        {
+            this.SendEmail(senderEmail, senderEmail, receiverEmail, mailCc, subject, body);
+        }
+
+        public void SendEmail(string senderEmail, string senderName, string receiverEmail, string mailCc, string subject, string body)
         {
             if (!IsValidEmail(senderEmail) || !IsValidEmail(receiverEmail))
             {
@@ -38,13 +40,12 @@ namespace SMS.EPA.Services.Implement
             var mailItem = new MailRecord
             {
                 MailTo = receiverEmail,
-                MailCc = mailCC,
+                MailCc = mailCc,
                 Subject = subject,
                 Title = ConfigurationManager.AppSettings["Email.SenderName"],
                 Body = body
             };
-
-            using (var client = new MailDeliver())
+            using (var client = new Fanex.MailDeliver.MailClient.API.MailDeliver())
             {
                 client.SendMail(mailItem);
             }

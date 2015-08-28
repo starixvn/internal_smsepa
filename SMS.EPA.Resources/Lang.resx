@@ -798,4 +798,31 @@
   <data name="ScoreRequire" xml:space="preserve">
     <value>The Score field is required!</value>
   </data>
+  <data name="RemindDateEmailToEvaluatorSubject" xml:space="preserve">
+    <value>Reminder - {0} for evaluation from {1} to {2}</value>
+  </data>
+  <data name="RemindDateEmailToManagementSubject" xml:space="preserve">
+    <value>Reminder - {0} for final review from {1} to {2}</value>
+  </data>
+  <data name="RemindDateEmailToReviewerSubject" xml:space="preserve">
+    <value>Reminder - {0} for review from {1} to {2}</value>
+  </data>
+  <data name="RemindDateEmailToSelfSubject" xml:space="preserve">
+    <value>Reminder - {0} for self-evaluation from {1} to {2}</value>
+  </data>
+  <data name="StartDateEmailToEvaluatorSubject" xml:space="preserve">
+    <value>{0} for evaluation from {1} to {2}</value>
+  </data>
+  <data name="StartDateEmailToHRSubject" xml:space="preserve">
+    <value>{0} for confirmation from {1} to {2}</value>
+  </data>
+  <data name="StartDateEmailToManagementSubject" xml:space="preserve">
+    <value>{0} for final review from {1} to {2}</value>
+  </data>
+  <data name="StartDateEmailToReviewerSubject" xml:space="preserve">
+    <value>{0} for review from {1} to {2}</value>
+  </data>
+  <data name="StartDateEmailToSelfSubject" xml:space="preserve">
+    <value>{0} for self-evaluation from {1} to {2}</value>
+  </data>
 </root>

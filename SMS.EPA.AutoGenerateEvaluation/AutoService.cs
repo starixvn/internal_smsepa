@@ -18,7 +18,12 @@ namespace SMS.EPA.AutoGenerateEvaluation
     using System.Timers;
     using log4net;
     using SMS.EPA.AutoGenerateEvaluation.Service;
+    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
+    using SMS.EPA.Criteria.Period;
+    using SMS.EPA.Model.Period;
+    using SMS.EPA.Services.Implement;
+    using SMS.EPA.Services.Interfaces;
 
     public partial class AutoService : ServiceBase
     {
@@ -26,6 +31,8 @@ namespace SMS.EPA.AutoGenerateEvaluation
         private bool _isBusy = false;
         private Timer _updateCounterTimer = null;
         private GenerationEvaluationService _generationEvaluationService;
+        private IMailService _mailService;
+        private IPeriodService _periodService;
 
         public AutoService()
         {
@@ -37,6 +44,8 @@ namespace SMS.EPA.AutoGenerateEvaluation
             _updateCounterTimer.Enabled = false;
 
             _generationEvaluationService = new GenerationEvaluationService();
+            _mailService = new MailService();
+            _periodService = new PeriodService();
         }
 
         public int TimerInterval { get; private set; }
@@ -93,9 +102,9 @@ namespace SMS.EPA.AutoGenerateEvaluation
 
                 if (addEmployeeResult.IsSuccessful)
                 {
-                    _LOG.Info("Auto generate EPA to all employee of current semi annual period " + periodId + ": started at " + DateTime.Now.ToString());
+                    _LOG.Info("Auto generate EPA to all employees of current semi annual period " + periodId + ": started at " + DateTime.Now.ToString());
                     CommandResult generateEvaluationResult = _generationEvaluationService.AutoGenerateEvaluation(periodId);
-                    _LOG.Info("Result of auto generate EPA to all employee of current semi annual period " + periodId + ": " + (generateEvaluationResult.IsSuccessful ? "0" : generateEvaluationResult.Message));
+                    _LOG.Info("Result of auto generate EPA to all employees of current semi annual period " + periodId + ": " + (generateEvaluationResult.IsSuccessful ? "0" : generateEvaluationResult.Message));
 
                     if (generateEvaluationResult.IsSuccessful)
                     {
@@ -107,7 +116,36 @@ namespace SMS.EPA.AutoGenerateEvaluation
 
         private void SendEmailSemiAnnual(int periodId)
         {
-            throw new NotImplementedException();
+            _LOG.Info("Send mail to all employees of current semi annual period " + periodId + ": started at " + DateTime.Now.ToString());
+
+            var criteria = new GetPeriodByIdCriteria
+            {
+                PeriodId = periodId
+            };
+            PeriodModel period = _periodService.GetPeriodById(criteria);
+            IEnumerable<PeriodFlowModel> employeeSettings = new List<PeriodFlowModel>();
+
+            foreach (PeriodFlowModel employeeSetting in employeeSettings)
+            {
+                switch (employeeSetting.ProcessId)
+                {
+                    case (int)ProcessType.HumanResource:
+                        _mailService.SendMailToHRStartDate(employeeSetting, period.Name);
+                        break;
+                    case (int)ProcessType.Self:
+                        _mailService.SendMailToSelfStartDate(employeeSetting, period.Name);
+                        break;
+                    case (int)ProcessType.Evaluator:
+                        _mailService.SendMailToEvaluatorStartDate(employeeSetting, period.Name);
+                        break;
+                    case (int)ProcessType.Reviewer:
+                        _mailService.SendMailToReviewerStartDate(employeeSetting, period.Name);
+                        break;
+                    case (int)ProcessType.Management:
+                        _mailService.SendMailToManagementStartDate(employeeSetting, period.Name);
+                        break;
+                }
+            }
         }
     }
 }

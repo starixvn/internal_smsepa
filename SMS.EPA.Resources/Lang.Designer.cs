@@ -1402,6 +1402,42 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reminder - {0} for evaluation from {1} to {2}.
+        /// </summary>
+        public static string RemindDateEmailToEvaluatorSubject {
+            get {
+                return ResourceManager.GetString("RemindDateEmailToEvaluatorSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reminder - {0} for final review from {1} to {2}.
+        /// </summary>
+        public static string RemindDateEmailToManagementSubject {
+            get {
+                return ResourceManager.GetString("RemindDateEmailToManagementSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reminder - {0} for review from {1} to {2}.
+        /// </summary>
+        public static string RemindDateEmailToReviewerSubject {
+            get {
+                return ResourceManager.GetString("RemindDateEmailToReviewerSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reminder - {0} for self-evaluation from {1} to {2}.
+        /// </summary>
+        public static string RemindDateEmailToSelfSubject {
+            get {
+                return ResourceManager.GetString("RemindDateEmailToSelfSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remind Day.
         /// </summary>
         public static string RemindDay {
@@ -1749,6 +1785,51 @@ namespace SMS.EPA.Resources {
         public static string StartDate {
             get {
                 return ResourceManager.GetString("StartDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} for evaluation from {1} to {2}.
+        /// </summary>
+        public static string StartDateEmailToEvaluatorSubject {
+            get {
+                return ResourceManager.GetString("StartDateEmailToEvaluatorSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} for confirmation from {1} to {2}.
+        /// </summary>
+        public static string StartDateEmailToHRSubject {
+            get {
+                return ResourceManager.GetString("StartDateEmailToHRSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} for final review from {1} to {2}.
+        /// </summary>
+        public static string StartDateEmailToManagementSubject {
+            get {
+                return ResourceManager.GetString("StartDateEmailToManagementSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} for review from {1} to {2}.
+        /// </summary>
+        public static string StartDateEmailToReviewerSubject {
+            get {
+                return ResourceManager.GetString("StartDateEmailToReviewerSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} for self-evaluation from {1} to {2}.
+        /// </summary>
+        public static string StartDateEmailToSelfSubject {
+            get {
+                return ResourceManager.GetString("StartDateEmailToSelfSubject", resourceCulture);
             }
         }
         

@@ -94,6 +94,18 @@
       <Project>{76ee2da4-7127-4c21-b218-adff51b2b74e}</Project>
       <Name>SMS.EPA.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SMS.EPA.Criteria\SMS.EPA.Criteria.csproj">
+      <Project>{23bd1141-64a1-4684-8a1e-83e8cc0d46aa}</Project>
+      <Name>SMS.EPA.Criteria</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SMS.EPA.Models\SMS.EPA.Model.csproj">
+      <Project>{235c8d9e-97ec-4183-baf2-3783f2f816cc}</Project>
+      <Name>SMS.EPA.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SMS.EPA.Services\SMS.EPA.Services.csproj">
+      <Project>{8eb3d578-b2a0-4b11-9386-50f394de396c}</Project>
+      <Name>SMS.EPA.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
