@@ -49,6 +49,17 @@ namespace SMS.EPA.Model.EmployeeEPA
             }
         }
 
+        public int NumberEvaluators
+        {
+            get
+            {
+                int numberEvaluators = Evaluators.Count;
+                return numberEvaluators != 0 ? numberEvaluators : 1;
+            }
+        }
+
+        public string AverageScoreByEvaluators { get; set; }
+
         public EPAProcessModel ProcessBySelf { get; set; }
 
         public IList<EPAProcessModel> ProcessByEvaluators { get; set; }

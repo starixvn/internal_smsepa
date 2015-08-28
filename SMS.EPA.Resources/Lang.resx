@@ -777,8 +777,8 @@
   <data name="ValidateMaximumOneYear" xml:space="preserve">
     <value>Report period must not exceed 365 days</value>
   </data>
-  <data name="AverageEvaluationScore" xml:space="preserve">
-    <value>Average Evaluation Score</value>
+  <data name="AverageScoreByEvaluators" xml:space="preserve">
+    <value>Average Score By Evaluators</value>
   </data>
   <data name="SelectEmployeeBeforeEditSettingWarning" xml:space="preserve">
     <value>Please select employee before edit setting!</value>
@@ -788,5 +788,14 @@
   </data>
   <data name="SelfRangeDateGreaterThanEvaluatorRangeDateWarning" xml:space="preserve">
     <value>The End Date of Self Evaluator must be less than or equal the Start Date of Evaluator!</value>
+  </data>
+  <data name="TotalScore" xml:space="preserve">
+    <value>Total Score</value>
+  </data>
+  <data name="CommentRequire" xml:space="preserve">
+    <value>The Comment field is required!</value>
+  </data>
+  <data name="ScoreRequire" xml:space="preserve">
+    <value>The Score field is required!</value>
   </data>
 </root>

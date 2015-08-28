@@ -7,28 +7,17 @@
     <div class="col-sm-12">
         <form novalidate class="row filter form-horizontal" role="form">
             <div class="form-group">
-                <label class="col-sm-1 control-label" data-translate="From"></label>
-                <div class="col-sm-2">
-                    <input readonly class="calendar-form-control" type="text"
-                           ng-model="reviewerCtrl.filter.fromDate" datepicker-popup="{{reviewerCtrl.dateFormat}}"
-                           ng-click="reviewerCtrl.openPopupStartDate($event, reviewerCtrl.calendar.startDateOpened)"
-                           is-open="reviewerCtrl.calendar.startDateOpened" />
-                    <calendar-image class="calendar-image"
-                                    ng-click="reviewerCtrl.openPopupStartDate($event, reviewerCtrl.calendar.startDateOpened)"></calendar-image>
-                </div>
-                <label class="col-sm-1 control-label" data-translate="To"></label>
-                <div class="col-sm-2">
-                    <input readonly class="calendar-form-control" type="text"
-                           ng-model="reviewerCtrl.filter.toDate" datepicker-popup="{{reviewerCtrl.dateFormat}}"
-                           ng-click="reviewerCtrl.openPopupEndDate($event, reviewerCtrl.calendar.endDateOpened)"
-                           is-open="reviewerCtrl.calendar.endDateOpened" />
-                    <calendar-image class="calendar-image"
-                                    ng-click="reviewerCtrl.openPopupEndDate($event, reviewerCtrl.calendar.endDateOpened)"></calendar-image>
-                </div>
                 <label class="col-sm-1 control-label" data-translate="Target"></label>
                 <div class="col-sm-2">
                     <select class="form-control" ng-model="reviewerCtrl.filter.targetTypeId"
                             ng-options="opt.TargetTypeId as opt.Name for opt in reviewerCtrl.targetTypes">
+                        <option value="">-- {{"All" | translate}} --</option>
+                    </select>
+                </div>
+                <label class="col-sm-1 control-label" data-translate="Status"></label>
+                <div class="col-sm-2">
+                    <select class="form-control" ng-model="reviewerCtrl.filter.status"
+                            ng-options="opt.StatusId as opt.Name for opt in reviewerCtrl.statusList">
                         <option value="">-- {{"All" | translate}} --</option>
                     </select>
                 </div>
@@ -48,14 +37,7 @@
                                               helper-elements="all reset filter" item-label="FullName" tick-property="ticked" max-labels="0">
                     </add-class-to-role-filter>
                 </div>
-                <label class="col-sm-1 control-label" data-translate="Status"></label>
-                <div class="col-sm-2">
-                    <select class="form-control" ng-model="reviewerCtrl.filter.status"
-                            ng-options="opt.StatusId as opt.Name for opt in reviewerCtrl.statusList">
-                        <option value="">-- {{"All" | translate}} --</option>
-                    </select>
-                </div>
-                <div class="col-sm-1">
+                <div class="col-sm-offset-1 col-sm-1">
                     <button class="button" ng-click="reviewerCtrl.query(reviewerCtrl.filter)" data-translate="Submit"></button>
                 </div>
             </div>
@@ -68,7 +50,7 @@
                     <th rowspan="2" data-translate="Employee"></th>
                     <th rowspan="2" data-translate="Target"></th>
                     <th colspan="2" data-translate="Evaluator"></th>
-                    <th rowspan="2" data-translate="AverageEvaluationScore" class="col-score"></th>
+                    <th rowspan="2" data-translate="AverageScoreByEvaluators" class="col-score"></th>
                     <th rowspan="2" data-translate="ReviewerScore" class="col-score"></th>
                     <th rowspan="2" data-translate="Status" class="col-status"></th>
                     <th rowspan="2" data-translate="ReviewDate"></th>
@@ -80,7 +62,7 @@
                 </tr>
             </thead>
             <tbody ng-repeat="memberEPA in reviewerCtrl.memberEPAs" ng-class-odd="'oddRow'" ng-class-even="'evenRow'">
-                <tr ng-repeat="evaluator in memberEPA.Evaluators">
+                <tr ng-repeat="evaluator in memberEPA.ProcessByEvaluators">
                     <td class="text-center" rowspan="{{memberEPA.NumberEvaluators}}" ng-bind="$index + 1" ng-show="$first"></td>
                     <td class="text-center" rowspan="{{memberEPA.NumberEvaluators}}" ng-show="$first">
                         <span tooltip="{{memberEPA.Group.GroupName}}" ng-bind="memberEPA.Group.GroupCode"></span>
@@ -89,33 +71,33 @@
                     <td class="text-center" rowspan="{{memberEPA.NumberEvaluators}}" ng-show="$first" ng-bind="memberEPA.TargetType.Name"></td>
                     <td ng-bind="evaluator.NickName"></td>
                     <td class="text-center col-score">
-                        <a href="" ng-bind="evaluator.EvaluationScore | customNumber" ng-click="reviewerCtrl.viewEvaluationDetail(memberEPA, evaluator)"
-                           ng-href="{{reviewerCtrl.viewEvaluationDetailUrl}}" ng-show="evaluator.EvaluationScore" />
-                        <a href="" ng-bind="'N/A'" ng-click="reviewerCtrl.viewEvaluationDetail(memberEPA, evaluator)"
-                           ng-href="{{reviewerCtrl.viewEvaluationDetailUrl}}" ng-show="!evaluator.EvaluationScore" />
+                        <a href="" ng-bind="evaluator.TotalScore | customNumber" ng-click="reviewerCtrl.viewEPADetailOfEvaluator(memberEPA, evaluator)"
+                           ng-href="{{reviewerCtrl.viewEPADetailOfEvaluatorUrl}}" ng-show="evaluator.TotalScore" />
+                        <a href="" ng-bind="'N/A'" ng-click="reviewerCtrl.viewEPADetailOfEvaluator(memberEPA, evaluator)"
+                           ng-href="{{reviewerCtrl.viewEPADetailOfEvaluatorUrl}}" ng-show="!evaluator.TotalScore" />
                     </td>
                     <td class="text-center" rowspan="{{memberEPA.NumberEvaluators}}" ng-show="$first">
-                        <span ng-show="memberEPA.AverageEvaluationScore" ng-bind="memberEPA.AverageEvaluationScore"></span>
-                        <span ng-show="!memberEPA.AverageEvaluationScore" ng-bind="'N/A'"></span>
+                        <span ng-show="memberEPA.AverageScoreByEvaluators" ng-bind="memberEPA.AverageScoreByEvaluators | customNumber"></span>
+                        <span ng-show="!memberEPA.AverageScoreByEvaluators" ng-bind="'N/A'"></span>
                     </td>
                     <td class="text-center col-score" rowspan="{{memberEPA.NumberEvaluators}}" ng-show="$first">
-                        <a href="" ng-bind="memberEPA.ReviewerScore | customNumber" ng-click="reviewerCtrl.viewEPADetail(memberEPA)"
-                           ng-href="{{reviewerCtrl.viewEPADetailUrl}}" ng-show="memberEPA.ReviewerScore" />
-                        <a href="" ng-bind="'N/A'" ng-click="reviewerCtrl.viewEPADetail(memberEPA)"
-                           ng-href="{{reviewerCtrl.viewEPADetailUrl}}" ng-show="!memberEPA.ReviewerScore" />
+                        <a href="" ng-bind="memberEPA.ProcessByReviewers[0].TotalScore | customNumber" ng-click="reviewerCtrl.viewEPADetail(memberEPA, evaluator)"
+                           ng-href="{{reviewerCtrl.viewEPADetailUrl}}" ng-show="memberEPA.ProcessByReviewers[0].TotalScore" />
+                        <a href="" ng-bind="'N/A'" ng-click="reviewerCtrl.viewEPADetail(memberEPA, evaluator)"
+                           ng-href="{{reviewerCtrl.viewEPADetailUrl}}" ng-show="!memberEPA.ProcessByReviewers[0].TotalScore" />
                     </td>
                     <td class="text-center col-status" rowspan="{{memberEPA.NumberEvaluators}}" ng-show="$first">
-                        <span class="dropdown" dropdown on-toggle="reviewerCtrl.toggled(open)" ng-show="!memberEPA.IsEndProcess">
-                            <a href="javascript:;" class="changeStatus" dropdown-toggle>{{memberEPA.Status.Name}}</a>
+                        <span class="dropdown" dropdown on-toggle="reviewerCtrl.toggled(open)" ng-show="!memberEPA.ProcessByReviewers[0].IsEndProcess">
+                            <a href="javascript:;" class="changeStatus" dropdown-toggle>{{memberEPA.ProcessByReviewers[0].Status.Name}}</a>
                             <ul class="dropdown-menu dropdown-menu-width">
-                                <li ng-repeat="item in reviewerCtrl.epaStatus | filter:{ Name: '!' + memberEPA.Status.Name }">
+                                <li ng-repeat="item in reviewerCtrl.epaStatus | filter:{ Name: '!' + memberEPA.ProcessByReviewers[0].Status.Name }">
                                     <a ng-click="reviewerCtrl.updateStatusEPA(memberEPA, item)" href="javascript:;">{{item.Name}}</a>
                                 </li>
                             </ul>
                         </span>
-                        <span ng-show="memberEPA.IsEndProcess" ng-bind="memberEPA.Status.Name"></span>
+                        <span ng-show="memberEPA.ProcessByReviewers[0].IsEndProcess" ng-bind="memberEPA.ProcessByReviewers[0].Status.Name"></span>
                     </td>
-                    <td class="text-center col-evaluate-date" rowspan="{{memberEPA.NumberEvaluators}}" ng-show="$first">{{ memberEPA.EvaluateDate | customDate }}</td>
+                    <td class="text-center col-evaluate-date" rowspan="{{memberEPA.NumberEvaluators}}" ng-show="$first">{{ memberEPA.ProcessByReviewers[0].EvaluateDate | customDate }}</td>
                     <td class="text-center text-uppercase col-action" rowspan="{{memberEPA.NumberEvaluators}}" ng-show="$first">
                         <a class="evaluate-now button" href="" ng-click="reviewerCtrl.viewEPADetail(memberEPA)" ng-href="{{reviewerCtrl.viewEPADetailUrl}}">
                             <span data-translate="EvaluateNow"></span>

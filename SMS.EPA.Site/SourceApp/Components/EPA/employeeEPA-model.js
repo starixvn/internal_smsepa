@@ -49,8 +49,8 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         });
     };
 
-    employeeEPAModel.getEPAInfoByEvaluator = function (epaId, periodId, employeeId, evaluatorId, isViewMode) {
-        return employeeEPAFactory.getEPAInfoByEvaluator(epaId, periodId, employeeId, evaluatorId, isViewMode)
+    employeeEPAModel.getEPAInfoByEvaluator = function (epaId, periodId, employeeId, evaluatorId) {
+        return employeeEPAFactory.getEPAInfoByEvaluator(epaId, periodId, employeeId, evaluatorId)
         .success(function (epaInfo) {
             employeeEPAModel.epaInfo = epaInfo;
         }).error(function (response, status) {
@@ -78,10 +78,19 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         });
     };
 
-    employeeEPAModel.getEPAByReviewer = function (fromDate, toDate, targetTypeId, groupId, employeeIds, status) {
-        return employeeEPAFactory.getEPAByReviewer(fromDate, toDate, targetTypeId, groupId, employeeIds, status)
+    employeeEPAModel.getEPAByReviewer = function (targetTypeId, groupId, employeeIds, status) {
+        return employeeEPAFactory.getEPAByReviewer(targetTypeId, groupId, employeeIds, status)
         .success(function (memberEPAs) {
             employeeEPAModel.memberEPAs = memberEPAs;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    employeeEPAModel.getEPAInfoByReviewer = function (epaId, periodId, employeeId, evaluatorId) {
+        return employeeEPAFactory.getEPAInfoByReviewer(epaId, periodId, employeeId, evaluatorId)
+        .success(function (epaInfo) {
+            employeeEPAModel.epaInfo = epaInfo;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
@@ -90,7 +99,7 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
     employeeEPAModel.validateWeightInput = function (weight, maxWeight, weightInputValidMessage) {
         var isValid = true;
 
-        if (weight > maxWeight) {
+        if (parseFloat(weight) > parseFloat(maxWeight)) {
             isValid = false;
 
             var message = utilitiesFactory.formatString(weightInputValidMessage, maxWeight);
@@ -102,6 +111,49 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
 
     employeeEPAModel.updateEPAScore = function (dataSaved, epaInfo) {
         return employeeEPAFactory.updateEPAScore(epaInfo)
+        .success(function (response) {
+            if (response.IsSuccessful) {
+                notificationFactory.success("UpdatedSuccessfully");
+                dataSaved = true;
+            }
+            else {
+                notificationFactory.error("", response.Message);
+            }
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    employeeEPAModel.updateScoreByReviewerOrManagement = function (dataSaved, criteria) {
+        return employeeEPAFactory.updateScoreByReviewerOrManagement(criteria)
+        .success(function (response) {
+            if (response.IsSuccessful) {
+                notificationFactory.success("UpdatedSuccessfully");
+                dataSaved = true;
+            }
+            else {
+                notificationFactory.error("", response.Message);
+            }
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    employeeEPAModel.validateEvaluationOfReviewerOrManagement = function (score, comment) {
+        if (!score) {
+            notificationFactory.error("ScoreRequire");
+            return false;
+        }
+        else if (!comment || comment.length === 0) {
+            notificationFactory.error("CommentRequire");
+            return false;
+        }
+
+        return true;
+    };
+
+    employeeEPAModel.updateEPAScoreByEvaluator = function (dataSaved, epaInfo) {
+        return employeeEPAFactory.updateEPAScoreByEvaluator(epaInfo)
         .success(function (response) {
             if (response.IsSuccessful) {
                 notificationFactory.success("UpdatedSuccessfully");

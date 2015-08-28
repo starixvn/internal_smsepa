@@ -46,22 +46,22 @@ namespace SMS.EPA.Services.Implement
         public IEnumerable<EPAModel> GetEPAByEmployee(GetEPAByEmployeeCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");
-            IEnumerable<EPAModel> myEPAs = new List<EPAModel>();
+            IEnumerable<EPAModel> epas = new List<EPAModel>();
 
             if (criteria.IsValid())
             {
-                myEPAs = _employeeEPARepository.GetEPAByEmployee(criteria);
+                epas = _employeeEPARepository.GetEPAByEmployee(criteria);
 
-                foreach (var myEPA in myEPAs)
+                foreach (var epa in epas)
                 {
-                    myEPA.Status.Name = Enumerations.GetDescription((Status)myEPA.Status.StatusId);
-                    myEPA.FinalScore = !string.IsNullOrEmpty(myEPA.FinalScore) ? Decode(myEPA.FinalScore) : string.Empty;
-                    myEPA.ProcessBySelf.Status.Name = Enumerations.GetDescription((Status)myEPA.ProcessBySelf.Status.StatusId);
-                    myEPA.ProcessBySelf.TotalScore = !string.IsNullOrEmpty(myEPA.ProcessBySelf.TotalScore) ? Decode(myEPA.ProcessBySelf.TotalScore) : string.Empty;
+                    epa.Status.Name = Enumerations.GetDescription((Status)epa.Status.StatusId);
+                    epa.FinalScore = !string.IsNullOrEmpty(epa.FinalScore) ? Decode(epa.FinalScore) : string.Empty;
+                    epa.ProcessBySelf.Status.Name = Enumerations.GetDescription((Status)epa.ProcessBySelf.Status.StatusId);
+                    epa.ProcessBySelf.TotalScore = !string.IsNullOrEmpty(epa.ProcessBySelf.TotalScore) ? Decode(epa.ProcessBySelf.TotalScore) : string.Empty;
                 }
             }
 
-            return myEPAs;
+            return epas;
         }
 
         public EPAModel GetEPAInfoByEmployee(GetEPAInfoCriteria criteria)
@@ -119,9 +119,98 @@ namespace SMS.EPA.Services.Implement
             return memberEPAs;
         }
 
+        public EPAModel GetEPAInfoByEvaluator(GetEPAInfoByEvaluatorCriteria criteria)
+        {
+            EPAModel result = new EPAModel();
+            Check.Argument.IsNotNull(criteria, "criteria");
+
+            if (criteria.IsValid())
+            {
+                result = _employeeEPARepository.GetEPAInfoByEvaluator(criteria);
+
+                if (result != null)
+                {
+                    result.Status.Name = Enumerations.GetDescription((Status)result.Status.StatusId);
+                    result.FinalScore = !string.IsNullOrEmpty(result.FinalScore) ? Decode(result.FinalScore) : string.Empty;
+                    result.ProcessBySelf.TotalScore = !string.IsNullOrEmpty(result.ProcessBySelf.TotalScore) ? Decode(result.ProcessBySelf.TotalScore) : string.Empty;
+                    result.ProcessBySelf.Status.Name = Enumerations.GetDescription((Status)result.ProcessBySelf.Status.StatusId);
+                    DecodeTotalScoreAndGetStatus(result.ProcessByEvaluators);
+                    DecodeScoreOnEachKPI(result.KPIGroups);
+                }
+            }
+
+            return result;
+        }
+
         #endregion Evaluator
 
+        #region Reviewer
+
+        public IEnumerable<EPAModel> GetEPAByReviewer(GetEPAByReviewerCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<EPAModel> memberEPAs = new List<EPAModel>();
+
+            if (criteria.IsValid())
+            {
+                memberEPAs = _employeeEPARepository.GetEPAByReviewer(criteria);
+
+                foreach (var memberEPA in memberEPAs)
+                {
+                    memberEPA.Status.Name = Enumerations.GetDescription((Status)memberEPA.Status.StatusId);
+                    memberEPA.FinalScore = !string.IsNullOrEmpty(memberEPA.FinalScore) ? Decode(memberEPA.FinalScore) : string.Empty;
+                    memberEPA.ProcessBySelf.Status.Name = Enumerations.GetDescription((Status)memberEPA.ProcessBySelf.Status.StatusId);
+                    memberEPA.ProcessBySelf.TotalScore = !string.IsNullOrEmpty(memberEPA.ProcessBySelf.TotalScore) ? Decode(memberEPA.ProcessBySelf.TotalScore) : string.Empty;
+                    DecodeTotalScoreAndGetStatus(memberEPA.ProcessByEvaluators);
+                    DecodeTotalScoreAndGetStatus(memberEPA.ProcessByReviewers);
+                    memberEPA.AverageScoreByEvaluators = AverageTotalScore(memberEPA.ProcessByEvaluators);
+                }
+            }
+
+            return memberEPAs;
+        }
+
+        public EPAModel GetEPAInfoByReviewer(GetEPAInfoByReviewerCriteria criteria)
+        {
+            EPAModel result = new EPAModel();
+            Check.Argument.IsNotNull(criteria, "criteria");
+
+            if (criteria.IsValid())
+            {
+                result = _employeeEPARepository.GetEPAInfoByReviewer(criteria);
+
+                if (result != null)
+                {
+                    result.Status.Name = Enumerations.GetDescription((Status)result.Status.StatusId);
+                    result.FinalScore = !string.IsNullOrEmpty(result.FinalScore) ? Decode(result.FinalScore) : string.Empty;
+                    result.ProcessBySelf.TotalScore = !string.IsNullOrEmpty(result.ProcessBySelf.TotalScore) ? Decode(result.ProcessBySelf.TotalScore) : string.Empty;
+                    result.ProcessBySelf.Status.Name = Enumerations.GetDescription((Status)result.ProcessBySelf.Status.StatusId);
+                    DecodeTotalScoreAndGetStatus(result.ProcessByEvaluators);
+                    DecodeTotalScoreAndGetStatus(result.ProcessByReviewers);
+                    result.AverageScoreByEvaluators = AverageTotalScore(result.ProcessByEvaluators);
+                    DecodeScoreOnEachKPI(result.KPIGroups);
+                }
+            }
+
+            return result;
+        }
+
+        #endregion Reviewer
+
         public CommandResult UpdateEPAScore(UpdateEPAScoreCriteria criteria)
+        {
+            CommandResult commandResult = new CommandResult();
+            Check.Argument.IsNotNull(criteria, "criteria");
+
+            if (criteria.IsValid())
+            {
+                commandResult = Repository.Update(criteria);
+            }
+
+            return commandResult;
+        }
+
+        public CommandResult UpdateScoreByReviewerOrManagement(UpdateScoreByReviewerOrManagementCriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
             Check.Argument.IsNotNull(criteria, "criteria");
@@ -177,6 +266,48 @@ namespace SMS.EPA.Services.Implement
                 epaProcess.Status.Name = Enumerations.GetDescription((Status)epaProcess.Status.StatusId);
                 epaProcess.TotalScore = !string.IsNullOrEmpty(epaProcess.TotalScore) ? Decode(epaProcess.TotalScore) : string.Empty;
             }
+        }
+
+        private void DecodeScoreOnEachKPI(IList<KPIGroupViewModel> kpiGroups)
+        {
+            foreach (var kpiGroup in kpiGroups)
+            {
+                foreach (var kpi in kpiGroup.KPIs)
+                {
+                    kpi.EvaluateBySelf.Score = !string.IsNullOrEmpty(kpi.EvaluateBySelf.Score) ? Decode(kpi.EvaluateBySelf.Score).Replace("_" + kpi.KPIId, string.Empty) : string.Empty;
+                    DecodeScore(kpi.EvaluateByEvaluators);
+                }
+            }
+        }
+
+        private void DecodeScore(IList<EvaluateModel> evaluates)
+        {
+            foreach (var evaluate in evaluates)
+            {
+                evaluate.Score = !string.IsNullOrEmpty(evaluate.Score) ? Decode(evaluate.Score).Replace("_" + evaluate.KPIId, string.Empty) : string.Empty;
+            }
+        }
+
+        private string AverageTotalScore(IList<EPAProcessModel> epaProcesses)
+        {
+            float score = 0;
+            int count = 0;
+
+            foreach (var epaProcess in epaProcesses)
+            {
+                if (!string.IsNullOrEmpty(epaProcess.TotalScore))
+                {
+                    count++;
+                    score += float.Parse(epaProcess.TotalScore);
+                }
+            }
+
+            if (count > 0)
+            {
+                return (score / count).ToString();
+            }
+
+            return string.Empty;
         }
     }
 }

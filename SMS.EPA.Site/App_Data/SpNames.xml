@@ -160,7 +160,7 @@
         </Setting>
     </Function>
     <Function Name="EPA">
-        <Setting Key="EPA_GetByEmployee" SpName="EPA_GetByEmployee_xtest" DbName="SMSEPA" Plain="0">
+        <Setting Key="EPA_GetByEmployee" SpName="EPA_GetByEmployee" DbName="SMSEPA" Plain="0">
         </Setting>
         <Setting Key="EPA_GetInfoByEmployee" SpName="EPA_GetInfoByEmployee" DbName="SMSEPA" Plain="0">
         </Setting>
@@ -168,15 +168,17 @@
         </Setting>
         <Setting Key="EPA_GetMember" SpName="EPA_GetMember" DbName="SMSEPA" Plain="0">
         </Setting>
-        <Setting Key="EPA_GetByEvaluator" SpName="EPA_GetByEvaluator_xtest" DbName="SMSEPA" Plain="0">
+        <Setting Key="EPA_GetByEvaluator" SpName="EPA_GetByEvaluator" DbName="SMSEPA" Plain="0">
         </Setting>
         <Setting Key="EPA_UpdateStatus" SpName="EPA_UpdateStatus" DbName="SMSEPA" Plain="0">
         </Setting>
         <Setting Key="EPA_GetInfoByEvaluator" SpName="EPA_GetInfoByEvaluator" DbName="SMSEPA" Plain="0">
-            <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
-            <Mapping DataField="ModifierId" ObjectProperty="EmployeeId" />
         </Setting>
         <Setting Key="EPA_GetByReviewer" SpName="EPA_GetByReviewer" DbName="SMSEPA" Plain="0">
+        </Setting>
+        <Setting Key="EPA_GetInfoByReviewer" SpName="EPA_GetInfoByReviewer" DbName="SMSEPA" Plain="0">
+        </Setting>
+        <Setting Key="EPA_UpdateScoreByReviewerOrManagement" SpName="EPA_UpdateScoreByReviewerOrManagement" DbName="SMSEPA" Plain="0">
         </Setting>
     </Function>
     <Function Name="Period">

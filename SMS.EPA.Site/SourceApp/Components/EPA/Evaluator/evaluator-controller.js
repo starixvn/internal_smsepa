@@ -87,8 +87,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
     vm.epaId = parseInt($routeParams.epaId);
     vm.periodId = parseInt($routeParams.periodId);
     vm.employeeId = parseInt($routeParams.employeeId);
-    vm.isViewDetail = $routeParams.viewDetail ? true : false;
     vm.evaluatorId = $routeParams.evaluatorId ? parseInt($routeParams.evaluatorId) : null;
+    vm.isViewDetail = $routeParams.evaluatorId ? true : false;
 
     vm.maxStar = 5;
     vm.dataSaved = false;
@@ -110,41 +110,41 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
 
         angular.forEach(epaInfo.KPIGroups, function (kpiGroup) {
             angular.forEach(kpiGroup.KPIs, function (kpi) {
-                if (kpi.ScoreByEvaluator && parseFloat(kpi.ScoreByEvaluator) > 0) {
-                    totalScore += parseFloat(kpi.ScoreByEvaluator);
+                if (kpi.EvaluateByEvaluators[0].Score && parseFloat(kpi.EvaluateByEvaluators[0].Score) > 0) {
+                    totalScore += parseFloat(kpi.EvaluateByEvaluators[0].Score);
                 }
             });
         });
 
-        epaInfo.TotalScoreByEvaluator = totalScore.toFixed(2);
+        epaInfo.ProcessByEvaluators[0].TotalScore = totalScore.toFixed(2);
         vm.finalScore = totalScore + epaInfo.AttendanceScore;
     };
 
-    var checkStatus = function (isEndProcess) {
-        if (isEndProcess || vm.isViewDetail) {
+    var checkStatus = function (epaInfo) {
+        if (epaInfo.ProcessByEvaluators[0].IsEndProcess || vm.isViewDetail) {
             vm.isReadonly = true;
             vm.hoveringOver = null;
             vm.hoveringLeave = null;
         }
         else {
             vm.hoveringOver = function (value, kpi) {
-                kpi.PercentByEvaluator = (100 * value) / vm.maxStar;
+                kpi.EvaluateByEvaluators[0].Percent = (100 * value) / vm.maxStar;
             };
 
             vm.hoveringLeave = function (kpiGroup, kpi) {
-                kpi.PercentByEvaluator = (100 * kpi.RateByEvaluator) / vm.maxStar;
+                kpi.EvaluateByEvaluators[0].Percent = (100 * kpi.EvaluateByEvaluators[0].Rate) / vm.maxStar;
 
-                if (kpi.PercentByEvaluator > 0) {
+                if (kpi.EvaluateByEvaluators[0].Percent > 0) {
                     if (kpiGroup.TotalKPIOptional == 0) {
-                        var score = kpi.Weight * (kpi.PercentByEvaluator / 100);
+                        var score = kpi.Weight * (kpi.EvaluateByEvaluators[0].Percent / 100);
 
-                        kpi.ScoreByEvaluator = (score % 1) == 0 ? score : score.toFixed(2);
+                        kpi.EvaluateByEvaluators[0].Score = (score % 1) == 0 ? score : score.toFixed(2);
                     }
                     else {
                         var weight, totalKPIOptional = angular.copy(kpiGroup.TotalKPIOptional);
 
                         angular.forEach(kpiGroup.KPIs, function (item) {
-                            if (!item.IsRequiredEvaluate && item.RateByEvaluator > 0) {
+                            if (!item.IsRequiredEvaluate && item.EvaluateByEvaluators[0].Rate > 0) {
                                 totalKPIOptional -= 1;
                             }
                         });
@@ -152,10 +152,10 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
                         weight = kpiGroup.Weight / (kpiGroup.KPIs.length - totalKPIOptional);
 
                         angular.forEach(kpiGroup.KPIs, function (item) {
-                            if (item.RateByEvaluator > 0) {
-                                var score = weight * (item.PercentByEvaluator / 100);
+                            if (item.EvaluateByEvaluators[0].Rate > 0) {
+                                var score = weight * (item.EvaluateByEvaluators[0].Percent / 100);
 
-                                item.ScoreByEvaluator = (score % 1) == 0 ? score : score.toFixed(2);
+                                item.EvaluateByEvaluators[0].Score = (score % 1) == 0 ? score : score.toFixed(2);
                             }
                         });
                     }
@@ -169,21 +169,30 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
     var validateEPA = function (epaInfo) {
         var isValid = true;
 
-        if (!epaInfo.CommentByEvaluator || epaInfo.CommentByEvaluator.length === 0) {
+        if (!epaInfo.ProcessByEvaluators[0].Comment || epaInfo.ProcessByEvaluators[0].Comment.length === 0) {
             isValid = false;
-            epaInfo.CommentValid = true;
+            epaInfo.ProcessByEvaluators[0].CommentValid = true;
+        }
+        else {
+            epaInfo.ProcessByEvaluators[0].CommentValid = false;
         }
 
         angular.forEach(epaInfo.KPIGroups, function (kpiGroup) {
             angular.forEach(kpiGroup.KPIs, function (kpi) {
-                if (kpi.IsRequiredEvaluate && (!kpi.ScoreByEvaluator || kpi.ScoreByEvaluator === 0)) {
+                if (kpi.IsRequiredEvaluate && (!kpi.EvaluateByEvaluators[0].Score || kpi.EvaluateByEvaluators[0].Score === 0)) {
                     isValid = false;
-                    kpi.EvaluateValid = true;
+                    kpi.EvaluateByEvaluators[0].EvaluateValid = true;
+                }
+                else {
+                    kpi.EvaluateByEvaluators[0].EvaluateValid = false;
                 }
 
-                if (kpi.HasComment && kpi.IsRequiredComment && (!kpi.CommentByEvaluator || kpi.CommentByEvaluator.length === 0)) {
+                if (kpi.HasComment && kpi.IsRequiredComment && (!kpi.EvaluateByEvaluators[0].Comment || kpi.EvaluateByEvaluators[0].Comment.length === 0)) {
                     isValid = false;
-                    kpi.CommentValid = true;
+                    kpi.EvaluateByEvaluators[0].CommentValid = true;
+                }
+                else {
+                    kpi.EvaluateByEvaluators[0].CommentValid = true;
                 }
             });
         });
@@ -191,16 +200,32 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
         return isValid;
     };
 
+    vm.updateStatusEPA = function (epa, status) {
+        EmployeeEPAModel.openPopupUpdateStatusEPA(epa.ProcessByEvaluators[0], epa.EPAId, 3, epa.Employee.EmployeeId, status);
+    };
+
+    vm.inputScore = function (kpi) {
+        kpi.EvaluateByEvaluators[0].Rate = 0;
+        kpi.EvaluateByEvaluators[0].Percent = null;
+
+        if (!EmployeeEPAModel.validateWeightInput(kpi.EvaluateByEvaluators[0].Score, kpi.Weight, vm.weightInputValidMessage)) {
+            kpi.EvaluateByEvaluators[0].Score = null;
+        }
+        else {
+            calculateScore(vm.epaInfo);
+        }
+    };
+
     vm.cancelRating = function (kpiGroup, kpi) {
-        kpi.RateByEvaluator = 0;
-        kpi.PercentByEvaluator = 0;
-        kpi.ScoreByEvaluator = null;
+        kpi.EvaluateByEvaluators[0].Rate = 0;
+        kpi.EvaluateByEvaluators[0].Percent = 0;
+        kpi.EvaluateByEvaluators[0].Score = null;
 
         if (kpiGroup.TotalKPIOptional > 0) {
             var weight, totalKPIOptional = angular.copy(kpiGroup.TotalKPIOptional);
 
             angular.forEach(kpiGroup.KPIs, function (item) {
-                if (!item.IsRequiredEvaluate && item.RateByEvaluator > 0) {
+                if (!item.IsRequiredEvaluate && item.EvaluateByEvaluators[0].Rate > 0) {
                     totalKPIOptional -= 1;
                 }
             });
@@ -208,10 +233,10 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
             weight = kpiGroup.Weight / (kpiGroup.KPIs.length - totalKPIOptional);
 
             angular.forEach(kpiGroup.KPIs, function (item) {
-                if (item.RateByEvaluator > 0) {
-                    var score = weight * (item.PercentByEvaluator / 100);
+                if (item.EvaluateByEvaluators[0].Rate > 0) {
+                    var score = weight * (item.EvaluateByEvaluators[0].Percent / 100);
 
-                    item.ScoreByEvaluator = (score % 1) == 0 ? score : score.toFixed(2);
+                    item.EvaluateByEvaluators[0].Score = (score % 1) == 0 ? score : score.toFixed(2);
                 }
             });
         }
@@ -225,19 +250,21 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
 
     vm.save = function (epaInfo) {
         if (validateEPA(epaInfo)) {
-            EmployeeEPAModel.updateEmployeeEPA(vm.dataSaved, epaInfo);
+            EmployeeEPAModel.updateEPAScoreByEvaluator(vm.dataSaved, epaInfo);
         }
     };
 
     vm.initialize = function () {
-        EmployeeEPAModel.getEPAInfoByEvaluator(vm.epaId, vm.periodId, vm.employeeId, vm.evaluatorId, vm.isViewDetail).then(function () {
+        $translate('WeightInputValid').then(function (message) {
+            vm.weightInputValidMessage = message;
+        });
+
+        EmployeeEPAModel.getEPAInfoByEvaluator(vm.epaId, vm.employeeId, vm.evaluatorId).then(function () {
             var data = EmployeeEPAModel.epaInfo;
 
-            vm.employee = data.Employee;
-            vm.evaluators = data.Evaluators;
-            vm.finalScore = data.TotalScoreBySelf ? (parseFloat(data.TotalScoreBySelf) + data.AttendanceScore) : data.AttendanceScore;
+            vm.finalScore = data.ProcessByEvaluators[0].TotalScore ? (parseFloat(data.ProcessByEvaluators[0].TotalScore) + data.AttendanceScore) : data.AttendanceScore;
             vm.epaInfo = data;
-            checkStatus(vm.epaInfo.IsEndProcess);
+            checkStatus(vm.epaInfo);
 
             angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
                 if (!EmployeeEPAModel.checkKPIOptional(kpiGroup) && kpiGroup.IsSpreadKPI) {

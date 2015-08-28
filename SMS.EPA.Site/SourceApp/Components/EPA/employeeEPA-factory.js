@@ -37,22 +37,18 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
                 }
             });
         },
-        getEPAInfoByEvaluator: function (epaId, periodId, employeeId, evaluatorId, isViewMode) {
+        getEPAInfoByEvaluator: function (epaId, employeeId, evaluatorId) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAInfoByEvaluator', {
                 params: {
                     epaId: epaId,
-                    periodId: periodId,
                     employeeId: employeeId,
-                    isViewMode: isViewMode,
                     evaluatorId: evaluatorId
                 }
             });
         },
-        getEPAByReviewer: function (fromDate, toDate, targetTypeId, groupId, employeeIds, status) {
+        getEPAByReviewer: function (targetTypeId, groupId, employeeIds, status) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAByReviewer', {
                 params: {
-                    fromDate: fromDate,
-                    toDate: toDate,
                     targetTypeId: targetTypeId,
                     groupId: groupId,
                     employeeIds: employeeIds,
@@ -60,8 +56,23 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
                 }
             });
         },
+        getEPAInfoByReviewer: function (epaId, employeeId, evaluatorId) {
+            return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAInfoByReviewer', {
+                params: {
+                    epaId: epaId,
+                    employeeId: employeeId,
+                    evaluatorId: evaluatorId
+                }
+            });
+        },
         updateEPAScore: function (model) {
             return $http.put(baseUrl + 'api/EmployeeEPA/UpdateEPAScore', model);
+        },
+        updateScoreByReviewerOrManagement: function (model) {
+            return $http.put(baseUrl + 'api/EmployeeEPA/UpdateScoreByReviewerOrManagement', model);
+        },
+        updateEPAScoreByEvaluator: function (model) {
+            return $http.put(baseUrl + 'api/EmployeeEPA/UpdateEPAScoreByEvaluator', model);
         },
         updateStatusEPA: function (epa) {
             return $http.put(baseUrl + 'api/EmployeeEPA/UpdateStatusEPA', epa);

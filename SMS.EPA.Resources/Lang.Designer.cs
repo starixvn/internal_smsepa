@@ -196,11 +196,11 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Average Evaluation Score.
+        ///   Looks up a localized string similar to Average Score By Evaluators.
         /// </summary>
-        public static string AverageEvaluationScore {
+        public static string AverageScoreByEvaluators {
             get {
-                return ResourceManager.GetString("AverageEvaluationScore", resourceCulture);
+                return ResourceManager.GetString("AverageScoreByEvaluators", resourceCulture);
             }
         }
         
@@ -273,6 +273,15 @@ namespace SMS.EPA.Resources {
         public static string CodeRequried {
             get {
                 return ResourceManager.GetString("CodeRequried", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Comment field is required!.
+        /// </summary>
+        public static string CommentRequire {
+            get {
+                return ResourceManager.GetString("CommentRequire", resourceCulture);
             }
         }
         
@@ -1582,6 +1591,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Score field is required!.
+        /// </summary>
+        public static string ScoreRequire {
+            get {
+                return ResourceManager.GetString("ScoreRequire", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Search.
         /// </summary>
         public static string Search {
@@ -1902,6 +1920,15 @@ namespace SMS.EPA.Resources {
         public static string TotalRatingScore {
             get {
                 return ResourceManager.GetString("TotalRatingScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total Score.
+        /// </summary>
+        public static string TotalScore {
+            get {
+                return ResourceManager.GetString("TotalScore", resourceCulture);
             }
         }
         

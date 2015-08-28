@@ -17,27 +17,10 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
     vm.epaStatus = EmployeeEPAModel.epaStatus;
 
     vm.filter = {
-        fromDate: new Date(),
-        toDate: new Date(),
         targetTypeId: '',
         groupId: '',
         employeeIds: '',
         status: ''
-    };
-
-    utilitiesFactory.getDateFormat(vm);
-
-    vm.calendar = {
-        startDateOpened: false,
-        endDateOpened: false
-    };
-
-    vm.openPopupStartDate = function ($event) {
-        utilitiesFactory.openPopupStartDate($event, vm);
-    };
-
-    vm.openPopupEndDate = function ($event) {
-        utilitiesFactory.openPopupEndDate($event, vm);
     };
 
     vm.toggleDropdown = function ($event) {
@@ -53,30 +36,30 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
     };
 
     vm.updateStatusEPA = function (epa, status) {
-        EmployeeEPAModel.openPopupUpdateStatusEPA(epa, epa.EPAId, epa.PeriodId, 4, epa.Employee.EmployeeId, status);
+        EmployeeEPAModel.openPopupUpdateStatusEPA(epa.ProcessByReviewers[0], epa.EPAId, 4, epa.Employee.EmployeeId, status);
     };
 
-    vm.viewEvaluationDetail = function (memberEPA, evaluator) {
-        vm.viewEvaluationDetailUrl = '/Evaluator/Detail?epaId=' + memberEPA.EPAId + '&periodId=' + memberEPA.PeriodId
-            + '&employeeId=' + memberEPA.Employee.EmployeeId + '&evaluatorId=' + evaluator.EvaluatorId + '&viewDetail';
+    vm.viewEPADetailOfEvaluator = function (memberEPA, evaluator) {
+        vm.viewEPADetailOfEvaluatorUrl = '/Evaluator/Detail?epaId=' + memberEPA.EPAId
+            + '&employeeId=' + memberEPA.Employee.EmployeeId
+            + '&evaluatorId=' + evaluator.EvaluatorId;
     };
 
-    vm.viewEPADetail = function (memberEPA) {
-        vm.viewEPADetailUrl = '/Reviewer/Detail?epaId=' + memberEPA.EPAId + '&periodId=' + memberEPA.PeriodId
-            + '&employeeId=' + memberEPA.Employee.EmployeeId;
+    vm.viewEPADetail = function (memberEPA, evaluator) {
+        vm.viewEPADetailUrl = '/Reviewer/Detail?epaId=' + memberEPA.EPAId
+            + '&employeeId=' + memberEPA.Employee.EmployeeId
+            + '&evaluatorId=' + evaluator.EvaluatorId;
     };
 
-    var getEPAByReviewer = function (fromDate, toDate, targetTypeId, groupId, employeeIds, status) {
-        EmployeeEPAModel.getEPAByReviewer(fromDate, toDate, targetTypeId, groupId, employeeIds, status).then(function () {
+    var getEPAByReviewer = function (targetTypeId, groupId, employeeIds, status) {
+        EmployeeEPAModel.getEPAByReviewer(targetTypeId, groupId, employeeIds, status).then(function () {
             vm.memberEPAs = EmployeeEPAModel.memberEPAs;
         });
     };
 
     vm.query = function (filter) {
-        if (EmployeeEPAModel.validateFromToDate(filter.fromDate, filter.toDate)) {
-            filter.employeeIds = utilitiesFactory.getSelectedData(vm.members, 'EmployeeId');
-            getEPAByReviewer(filter.fromDate, filter.toDate, filter.targetTypeId, filter.groupId, filter.employeeIds, filter.status);
-        }
+        filter.employeeIds = utilitiesFactory.getSelectedData(vm.members, 'EmployeeId');
+        getEPAByReviewer(filter.targetTypeId, filter.groupId, filter.employeeIds, filter.status);
     };
 
     vm.initialize = function () {
@@ -106,10 +89,9 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
     var vm = this;
 
     vm.epaId = parseInt($routeParams.epaId);
-    vm.periodId = parseInt($routeParams.periodId);
     vm.employeeId = parseInt($routeParams.employeeId);
+    vm.evaluatorId = parseInt($routeParams.evaluatorId);
 
-    vm.maxStar = 5;
     vm.dataSaved = false;
     vm.isReadonly = false;
 
@@ -124,7 +106,58 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
         vm.status.isopen = !vm.status.isopen;
     };
 
+    var checkStatus = function (epaInfo) {
+        if (epaInfo.ProcessByReviewers[0].IsEndProcess) {
+            vm.isReadonly = true;
+        }
+    };
+
+    vm.updateStatusEPA = function (epa, status) {
+        EmployeeEPAModel.openPopupUpdateStatusEPA(epa.ProcessByReviewers[0], epa.EPAId, 4, epa.Employee.EmployeeId, status);
+    };
+
+    vm.save = function (epaInfo) {
+        var totalcore = epaInfo.ProcessByReviewers[0].TotalScore,
+            comment = epaInfo.ProcessByReviewers[0].Comment;
+        if (EmployeeEPAModel.validateEvaluationOfReviewerOrManagement(totalcore, comment)) {
+            var criteria = {
+                epaId: epaInfo.EPAId,
+                processId: 4,
+                employeeId: epaInfo.Employee.EmployeeId,
+                score: totalcore,
+                comment: comment
+            };
+
+            EmployeeEPAModel.updateScoreByReviewerOrManagement(vm.dataSaved, criteria);
+        }
+    };
+
     vm.cancel = function () {
         $window.history.back();
     };
+
+    vm.initialize = function () {
+        EmployeeEPAModel.getEPAInfoByReviewer(vm.epaId, vm.employeeId, vm.evaluatorId).then(function () {
+            var data = EmployeeEPAModel.epaInfo;
+
+            vm.epaInfo = data;
+            checkStatus(vm.epaInfo);
+
+            angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
+                if (!EmployeeEPAModel.checkKPIOptional(kpiGroup) && kpiGroup.IsSpreadKPI) {
+                    var weight = kpiGroup.Weight / kpiGroup.KPIs.length;
+                    angular.forEach(kpiGroup.KPIs, function (kpi) {
+                        if ((weight % 1) === 0) {
+                            kpi.Weight = weight;
+                        }
+                        else {
+                            kpi.Weight = weight.toFixed(2);
+                        }
+                    });
+                }
+            });
+        });
+    };
+
+    vm.initialize();
 }]);

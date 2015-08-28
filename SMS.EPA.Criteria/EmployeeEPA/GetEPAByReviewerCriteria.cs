@@ -9,16 +9,11 @@
 
 namespace SMS.EPA.Criteria.EmployeeEPA
 {
-    using System;
     using Fanex.Data.Repository;
 
     public class GetEPAByReviewerCriteria : CriteriaBase
     {
         public int ReviewerId { get; set; }
-
-        public DateTime FromDate { get; set; }
-
-        public DateTime ToDate { get; set; }
 
         public string EmployeeIds { get; set; }
 
@@ -35,7 +30,7 @@ namespace SMS.EPA.Criteria.EmployeeEPA
 
         public override bool IsValid()
         {
-            return FromDate <= ToDate;
+            return true;
         }
     }
 }

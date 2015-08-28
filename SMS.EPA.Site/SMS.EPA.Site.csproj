@@ -326,6 +326,7 @@
     <Content Include="SourceApp\Components\EPA\Reviewer\Templates\detail.html" />
     <Content Include="SourceApp\Components\EPA\Reviewer\Templates\index.html" />
     <Content Include="SourceApp\Components\EPA\Reviewer\reviewer-controller.js" />
+    <Content Include="SourceApp\Components\EPA\Reviewer\Templates\listKPIRating.html" />
     <Content Include="SourceApp\Components\EPA\Templates\generalInformation.html" />
     <Content Include="SourceApp\Components\EPA\MyEPA\Templates\index.html" />
     <Content Include="SourceApp\Components\EPA\MyEPA\Templates\listKPIRating.html" />

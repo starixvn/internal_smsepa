@@ -208,14 +208,14 @@ function ($window, $translate, $routeParams, EmployeeEPAModel) {
     };
 
     vm.inputScore = function (kpi) {
-        kpi.Rate = 0;
-        kpi.Percent = 0;
+        kpi.EvaluateBySelf.Rate = 0;
+        kpi.EvaluateBySelf.Percent = null;
 
-        if (!EmployeeEPAModel.validateWeightInput(kpi.Score, kpi.Weight, vm.weightInputValidMessage)) {
-            kpi.Score = null;
+        if (!EmployeeEPAModel.validateWeightInput(kpi.EvaluateBySelf.Score, kpi.Weight, vm.weightInputValidMessage)) {
+            kpi.EvaluateBySelf.Score = null;
         }
         else {
-            calculateScore(vm, vm.epaInfo);
+            calculateScore(vm.epaInfo);
         }
     };
 

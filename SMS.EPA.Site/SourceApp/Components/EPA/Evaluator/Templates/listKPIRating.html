@@ -16,7 +16,7 @@
     </div>
     <div class="boxcontent col-sm-12" collapse="memberEPAInfoCtrl.collapses[kpiGroup.Name]">
         <div class="row row-item" ng-repeat="kpi in kpiGroup.KPIs">
-            <div class="row col-sm-12 error-message" ng-show="kpi.EvaluateValid" data-translate="RequireEvaluate"></div>
+            <div class="row col-sm-12 error-message" ng-show="kpi.EvaluateByEvaluators[0].EvaluateValid" data-translate="RequireEvaluate"></div>
             <div class="row kpi-name">
                 <div class="col-sm-8">
                     <span>{{$index + 1}}. {{kpi.Name}}</span>
@@ -25,33 +25,33 @@
                 </div>
                 <!-- edit mode -->
                 <div class="col-sm-1 text-center employee-score" ng-show="!memberEPAInfoCtrl.isViewDetail">
-                    <strong ng-bind="kpi.ScoreBySelf | customNumber"></strong>
+                    <strong ng-bind="kpi.EvaluateBySelf.Score | customNumber"></strong>
                 </div>
                 <div class="col-sm-2 text-center list-star" ng-show="!memberEPAInfoCtrl.isViewDetail">
                     <div class="col-sm-2 cancel-rating">
-                        <a ng-show="!memberEPAInfoCtrl.isReadonly && kpi.RateByEvaluator > 0" class="glyphicon glyphicon-remove-circle remove-star"
+                        <a ng-show="!memberEPAInfoCtrl.isReadonly && kpi.EvaluateByEvaluators[0].Rate > 0" class="glyphicon glyphicon-remove-circle remove-star"
                            title="Cancel" href="javascript:;" ng-click="memberEPAInfoCtrl.cancelRating(kpiGroup, kpi)"></a>
                     </div>
                     <div class="col-sm-10 rating">
-                        <rating ng-model="kpi.RateByEvaluator" max="memberEPAInfoCtrl.maxStar" readonly="memberEPAInfoCtrl.isReadonly"
+                        <rating ng-model="kpi.EvaluateByEvaluators[0].Rate" max="memberEPAInfoCtrl.maxStar" readonly="memberEPAInfoCtrl.isReadonly"
                                 on-hover="memberEPAInfoCtrl.hoveringOver(value, kpi)"
                                 on-leave="memberEPAInfoCtrl.hoveringLeave(kpiGroup, kpi)"></rating>
-                        <span class="badge percent" ng-show="kpi.PercentByEvaluator > 0">{{kpi.PercentByEvaluator}}%</span>
-                        <span class="badge percent" ng-show="kpi.PercentByEvaluator == 0" data-translate="NaN"></span>
+                        <span class="badge percent" ng-show="kpi.EvaluateByEvaluators[0].Percent > 0">{{kpi.EvaluateByEvaluators[0].Percent}}%</span>
+                        <span class="badge percent" ng-show="kpi.EvaluateByEvaluators[0].Percent == 0" data-translate="NaN"></span>
                     </div>
                 </div>
                 <div class="col-sm-1" ng-show="!memberEPAInfoCtrl.isViewDetail">
                     <input type="text" class="form-control text-center kpi-score" maxlength="5" ng-readonly="memberEPAInfoCtrl.isReadonly"
-                           ng-show="kpiGroup.TotalKPIOptional == 0" ng-model="kpi.ScoreByEvaluator" ng-decimal fraction="2"
+                           ng-show="kpiGroup.TotalKPIOptional == 0" ng-model="kpi.EvaluateByEvaluators[0].Score" ng-decimal fraction="2"
                            ng-change="memberEPAInfoCtrl.inputScore(kpi)" />
                 </div>
                 <!-- end edit mode-->
                 <!-- view mode -->
                 <div class="col-sm-offset-1 col-sm-1 text-center employee-score" ng-show="memberEPAInfoCtrl.isViewDetail">
-                    <strong ng-bind="kpi.ScoreBySelf | customNumber"></strong>
+                    <strong ng-bind="kpi.EvaluateBySelf.Score | customNumber"></strong>
                 </div>
                 <div class="col-sm-1 text-center employee-score" ng-show="memberEPAInfoCtrl.isViewDetail">
-                    <strong ng-bind="kpi.ScoreByEvaluator | customNumber"></strong>
+                    <strong ng-bind="kpi.EvaluateByEvaluators[0].Score | customNumber"></strong>
                 </div>
                 <!-- end view mode -->
             </div>
@@ -61,8 +61,8 @@
             <div class="row textarea-comment" ng-show="kpi.HasComment">
                 <div class="col-sm-4">
                     <label class="control-label">{{"Comment by employee" | translate}}</label>
-                    <textarea class="form-control" ng-model="kpi.CommentBySelf" ng-readonly="true">
-                        {{kpi.CommentBySelf}}
+                    <textarea class="form-control" ng-model="kpi.EvaluateBySelf.Comment" ng-readonly="true">
+                        {{kpi.EvaluateBySelf.Comment}}
                     </textarea>
                 </div>
                 <div class="col-sm-5">
@@ -73,8 +73,8 @@
                     <div class="row col-sm-12 error-message" ng-show="kpi.CommentValid" data-translate="RequireComment"></div>
                     <div class="row">
                         <div class="col-sm-9">
-                            <textarea class="form-control" ng-model="kpi.CommentByEvaluator" ng-readonly="memberEPAInfoCtrl.isReadonly">
-                                {{kpi.CommentByEvaluator}}
+                            <textarea class="form-control" ng-model="kpi.EvaluateByEvaluators[0].Comment" ng-readonly="memberEPAInfoCtrl.isReadonly">
+                                {{kpi.EvaluateByEvaluators[0].Comment}}
                             </textarea>
                         </div>
                         <div class="row col-sm-1" ng-show="kpi.HasComment && kpi.IsRequiredComment">

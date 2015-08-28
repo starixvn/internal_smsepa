@@ -1,0 +1,34 @@
+﻿// -----------------------------------------------------------------------
+// <copyright file="GetEPAInfoByReviewerCriteria.cs" company="Nexcel Solutions Viet Nam">
+// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
+// <history>
+//   <change who="Tim.Trinh" date="2015.08.20">Created</change>
+// </history>
+
+namespace SMS.EPA.Criteria.EmployeeEPA
+{
+    using Fanex.Data.Repository;
+
+    public class GetEPAInfoByReviewerCriteria : CriteriaBase
+    {
+        public int EPAId { get; set; }
+
+        public int EmployeeId { get; set; }
+
+        public int EvaluatorId { get; set; }
+
+        public int ReviewerId { get; set; }
+
+        public override bool IsValid()
+        {
+            return EvaluatorId > 0 && EmployeeId > 0 && ReviewerId > 0;
+        }
+
+        public override string GetSettingKey()
+        {
+            return "EPA_GetInfoByReviewer";
+        }
+    }
+}

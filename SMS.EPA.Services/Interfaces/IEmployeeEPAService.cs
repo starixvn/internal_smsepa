@@ -23,7 +23,15 @@ namespace SMS.EPA.Services.Interfaces
 
         IEnumerable<EPAModel> GetEPAByEvaluator(GetEPAByEvaluatorCriteria criteria);
 
+        EPAModel GetEPAInfoByEvaluator(GetEPAInfoByEvaluatorCriteria criteria);
+
+        IEnumerable<EPAModel> GetEPAByReviewer(GetEPAByReviewerCriteria criteria);
+
+        EPAModel GetEPAInfoByReviewer(GetEPAInfoByReviewerCriteria criteria);
+
         CommandResult UpdateEPAScore(UpdateEPAScoreCriteria criteria);
+
+        CommandResult UpdateScoreByReviewerOrManagement(UpdateScoreByReviewerOrManagementCriteria criteria);
 
         IEnumerable<Employee> GetMember(GetMemberCriteria criteria);
 

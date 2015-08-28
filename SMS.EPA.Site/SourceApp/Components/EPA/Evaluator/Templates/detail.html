@@ -39,12 +39,12 @@
                                 <label class="control-label">{{"Comment by employee" | translate}}</label>
                             </div>
                             <div class="col-sm-7 textarea-comment">
-                                <textarea class="form-control" ng-readonly="true" ng-model="memberEPAInfoCtrl.epaInfo.CommentBySelf"></textarea>
+                                <textarea class="form-control" ng-readonly="true" ng-model="memberEPAInfoCtrl.epaInfo.ProcessBySelf.Comment"></textarea>
                             </div>
                             <div class="col-sm-4">
                                 <div class="total text-center pull-right">
                                     <p data-translate="TotalRatingScore"></p>
-                                    <p class="totalscore" ng-bind="memberEPAInfoCtrl.epaInfo.TotalScoreBySelf | customNumber"></p>
+                                    <p class="totalscore" ng-bind="memberEPAInfoCtrl.epaInfo.ProcessBySelf.TotalScore | customNumber"></p>
                                 </div>
                             </div>
                         </div>
@@ -53,12 +53,12 @@
                                 <label class="control-label" ng-show="!memberEPAInfoCtrl.isViewDetail">{{"Comment by me" | translate}}</label>
                                 <label class="control-label" ng-show="memberEPAInfoCtrl.isViewDetail">{{"Comment by evaluator" | translate}}</label>
                             </div>
-                            <div class="row col-sm-12 error-message" ng-show="memberEPAInfoCtrl.epaInfo.CommentValid">
+                            <div class="row col-sm-12 error-message" ng-show="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].CommentValid">
                                 <div class="control-label" data-translate="RequireComment"></div>
                             </div>
                             <div class="col-sm-7 textarea-comment">
                                 <textarea class="form-control" ng-readonly="memberEPAInfoCtrl.isReadonly"
-                                          ng-model="memberEPAInfoCtrl.epaInfo.CommentByEvaluator"></textarea>
+                                          ng-model="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].Comment"></textarea>
                             </div>
                             <div class="col-sm-1">
                                 <label class="error-message" data-translate="(*)"></label>
@@ -66,7 +66,7 @@
                             <div class="col-sm-4">
                                 <div class="row total text-center pull-right">
                                     <p data-translate="TotalRatingScore"></p>
-                                    <p class="totalscore" ng-bind="memberEPAInfoCtrl.epaInfo.TotalScoreByEvaluator | customNumber"></p>
+                                    <p class="totalscore" ng-bind="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].TotalScore | customNumber"></p>
                                 </div>
                                 <div class="row total text-center pull-right">
                                     <p data-translate="AttendanceScore"></p>
