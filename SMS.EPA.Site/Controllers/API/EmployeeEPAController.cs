@@ -72,7 +72,7 @@ namespace SMS.EPA.Site.Controllers.API
             int epaId,
             int employeeId)
         {
-            var criteria = new GetEPAInfoCriteria()
+            var criteria = new GetEPAInfoByEmployeeCriteria()
             {
                 EPAId = epaId,
                 EmployeeId = employeeId
@@ -187,6 +187,38 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         #endregion Reviewer
+
+        #region Management
+
+        [HttpGet]
+        public IEnumerable<EPAModel> GetEPAByManagement(
+            int? groupId = null,
+            string employeeIds = null,
+            int? status = null)
+        {
+            var criteria = new GetEPAByManagementCriteria()
+            {
+                ManagementId = CurrentUser.EmployeeInfo.EmployeeId,
+                GroupId = groupId,
+                EmployeeIds = employeeIds,
+                Status = status
+            };
+
+            return _employeeEPAService.GetEPAByManagement(criteria);
+        }
+
+        [HttpGet]
+        public EPAModel GetEPAInfoByManagement(int epaId)
+        {
+            var criteria = new GetEPAInfoByManagementCriteria()
+            {
+                EPAId = epaId
+            };
+
+            return _employeeEPAService.GetEPAInfoByManagement(criteria);
+        }
+
+        #endregion Management
 
         [HttpPut]
         public CommandResult UpdateEPAScore(EPAModel model)

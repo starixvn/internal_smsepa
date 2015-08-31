@@ -15,6 +15,10 @@ namespace SMS.EPA.Repositories.Interfaces
 
     public interface IEmployeeEPARepository
     {
+        IEnumerable<EPAModel> GetEPA(ICriteria criteria);
+
+        EPAModel GetEPAInfo(ICriteria criteria);
+
         IEnumerable<EPAModel> GetEPAByEmployee(ICriteria criteria);
 
         EPAModel GetEPAInfoByEmployee(ICriteria criteria);
@@ -26,5 +30,7 @@ namespace SMS.EPA.Repositories.Interfaces
         IEnumerable<EPAModel> GetEPAByReviewer(ICriteria criteria);
 
         EPAModel GetEPAInfoByReviewer(ICriteria criteria);
+
+        IEnumerable<EPAModel> GetEPAByManagement(ICriteria criteria);
     }
 }

@@ -1,0 +1,47 @@
+﻿<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th data-translate="Employee"></th>
+            <th data-translate="Evaluator"></th>
+            <th data-translate="AverageScoreByEvaluators"></th>
+            <th data-translate="Reviewer"></th>
+            <th data-translate="AverageScoreByReviewers"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="text-center col-total-score" ng-bind="memberEPAInfoCtrl.epaInfo.ProcessBySelf.TotalScore | customNumber"></td>
+            <td>
+                <table>
+                    <tr ng-repeat="evaluator in memberEPAInfoCtrl.epaInfo.ProcessByEvaluators">
+                        <td ng-bind="evaluator.NickName"></td>
+                        <td class="text-center col-total-score" ng-bind="evaluator.TotalScore"></td>
+                        <td class="text-center">
+                            <span class="glyphicon icon-description"
+                                  ng-show="evaluator.Comment.length > 0" tooltip="{{evaluator.Comment}}"></span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td ng-bind="memberEPAInfoCtrl.epaInfo.AverageScoreByEvaluators | customNumber" class="text-center col-total-score"></td>
+            <td>
+                <table>
+                    <tr ng-repeat="reviewer in memberEPAInfoCtrl.epaInfo.ProcessByReviewers">
+                        <td ng-bind="reviewer.NickName"></td>
+                        <td class="text-center col-total-score" ng-bind="reviewer.TotalScore"></td>
+                        <td class="text-center">
+                            <span class="glyphicon icon-description"
+                                  ng-show="reviewer.Comment.length > 0" tooltip="{{reviewer.Comment}}"></span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td ng-bind="memberEPAInfoCtrl.epaInfo.AverageScoreByReviewers | customNumber" class="text-center col-total-score"></td>
+        </tr>
+    </tbody>
+    <tbody ng-show="memberEPAInfoCtrl.epaInfo == null">
+        <tr>
+            <td class="empty-result" colspan="9" data-translate="EmptyResult"></td>
+        </tr>
+    </tbody>
+</table>

@@ -60,6 +60,10 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public string AverageScoreByEvaluators { get; set; }
 
+        public string AverageScoreByReviewers { get; set; }
+
+        public string AverageScoreByManagements { get; set; }
+
         public EPAProcessModel ProcessBySelf { get; set; }
 
         public IList<EPAProcessModel> ProcessByEvaluators { get; set; }
@@ -71,5 +75,9 @@ namespace SMS.EPA.Model.EmployeeEPA
         public IList<KPIGroupViewModel> KPIGroups { get; set; }
 
         public IList<EvaluatorModel> Evaluators { get; set; }
+
+        public IList<EvaluatorModel> Reviewers { get; set; }
+
+        public IList<EvaluatorModel> Managements { get; set; }
     }
 }

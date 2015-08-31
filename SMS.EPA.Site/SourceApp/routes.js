@@ -94,6 +94,10 @@ var epaModule = angular.module("epaModule", ['ngRoute'])
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/Reviewer/Templates/index.html' });
     $routeProvider.when('/Reviewer/Detail',
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/Reviewer/Templates/detail.html' });
+    $routeProvider.when('/Management/Index',
+    { templateUrl: baseUrl + 'SourceApp/Components/EPA/Management/Templates/index.html' });
+    $routeProvider.when('/Management/Detail',
+    { templateUrl: baseUrl + 'SourceApp/Components/EPA/Management/Templates/detail.html' });
 }]);
 
 var periodModule = angular.module("periodModule", ['ngRoute'])

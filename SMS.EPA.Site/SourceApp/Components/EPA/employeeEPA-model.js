@@ -49,8 +49,8 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         });
     };
 
-    employeeEPAModel.getEPAInfoByEvaluator = function (epaId, periodId, employeeId, evaluatorId) {
-        return employeeEPAFactory.getEPAInfoByEvaluator(epaId, periodId, employeeId, evaluatorId)
+    employeeEPAModel.getEPAInfoByEvaluator = function (epaId, employeeId, evaluatorId) {
+        return employeeEPAFactory.getEPAInfoByEvaluator(epaId, employeeId, evaluatorId)
         .success(function (epaInfo) {
             employeeEPAModel.epaInfo = epaInfo;
         }).error(function (response, status) {
@@ -87,8 +87,26 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         });
     };
 
-    employeeEPAModel.getEPAInfoByReviewer = function (epaId, periodId, employeeId, evaluatorId) {
-        return employeeEPAFactory.getEPAInfoByReviewer(epaId, periodId, employeeId, evaluatorId)
+    employeeEPAModel.getEPAInfoByReviewer = function (epaId, employeeId, evaluatorId) {
+        return employeeEPAFactory.getEPAInfoByReviewer(epaId, employeeId, evaluatorId)
+        .success(function (epaInfo) {
+            employeeEPAModel.epaInfo = epaInfo;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    employeeEPAModel.getEPAByManagement = function (groupId, employeeIds, status) {
+        return employeeEPAFactory.getEPAByManagement(groupId, employeeIds, status)
+        .success(function (memberEPAs) {
+            employeeEPAModel.memberEPAs = memberEPAs;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    employeeEPAModel.getEPAInfoByManagement = function (epaId) {
+        return employeeEPAFactory.getEPAInfoByManagement(epaId)
         .success(function (epaInfo) {
             employeeEPAModel.epaInfo = epaInfo;
         }).error(function (response, status) {

@@ -19,7 +19,7 @@ namespace SMS.EPA.Services.Interfaces
     {
         IEnumerable<EPAModel> GetEPAByEmployee(GetEPAByEmployeeCriteria criteria);
 
-        EPAModel GetEPAInfoByEmployee(GetEPAInfoCriteria criteria);
+        EPAModel GetEPAInfoByEmployee(GetEPAInfoByEmployeeCriteria criteria);
 
         IEnumerable<EPAModel> GetEPAByEvaluator(GetEPAByEvaluatorCriteria criteria);
 
@@ -28,6 +28,10 @@ namespace SMS.EPA.Services.Interfaces
         IEnumerable<EPAModel> GetEPAByReviewer(GetEPAByReviewerCriteria criteria);
 
         EPAModel GetEPAInfoByReviewer(GetEPAInfoByReviewerCriteria criteria);
+
+        IEnumerable<EPAModel> GetEPAByManagement(GetEPAByManagementCriteria criteria);
+
+        EPAModel GetEPAInfoByManagement(GetEPAInfoByManagementCriteria criteria);
 
         CommandResult UpdateEPAScore(UpdateEPAScoreCriteria criteria);
 

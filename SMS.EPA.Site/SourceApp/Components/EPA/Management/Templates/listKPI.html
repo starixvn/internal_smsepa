@@ -1,0 +1,50 @@
+﻿<div class="list-kpi-rating" ng-repeat="kpiGroup in memberEPAInfoCtrl.epaInfo.KPIGroups"
+     ng-init="memberEPAInfoCtrl.collapses[kpiGroup.Name] = true;"
+     ng-show="kpiGroup.KPIs.length > 0">
+    <div class="boxtitle col-sm-12"
+         ng-click="memberEPAInfoCtrl.collapses[kpiGroup.Name] = !memberEPAInfoCtrl.collapses[kpiGroup.Name]">
+        <div class="col-sm-8 kpiGroup-name">{{kpiGroup.Name}} <strong>({{kpiGroup.Weight}} pts)</strong></div>
+    </div>
+    <div class="boxcontent col-sm-12" collapse="memberEPAInfoCtrl.collapses[kpiGroup.Name]">
+        <div class="row row-item">
+            <table class="row table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th rowspan="2" data-translate="SymbolCount"></th>
+                        <th rowspan="2" data-translate="KPI"></th>
+                        <th colspan="2" data-translate="Employee"></th>
+                        <th colspan="3" data-translate="Evaluator"></th>
+                    </tr>
+                    <tr>
+                        <th data-translate="Enter pts"></th>
+                        <th data-translate="Comment"></th>
+                        <th data-translate="NickName"></th>
+                        <th data-translate="Enter pts"></th>
+                        <th data-translate="Comment"></th>
+                    </tr>
+                </thead>
+                <tbody ng-repeat="kpi in kpiGroup.KPIs" ng-class-odd="'oddRow'" ng-class-even="'evenRow'">
+                    <tr ng-repeat="evaluator in kpi.EvaluateByEvaluators">
+                        <td class="text-center" rowspan="{{memberEPAInfoCtrl.epaInfo.NumberEvaluators}}" ng-bind="$parent.$index + 1" ng-show="$first"></td>
+                        <td rowspan="{{memberEPAInfoCtrl.epaInfo.NumberEvaluators}}" ng-show="$first">
+                            <span ng-bind="kpi.Name"></span>
+                            <strong ng-show="kpiGroup.TotalKPIOptional == 0"> ({{kpi.Weight}} pts)</strong>
+                            <label class="note" ng-show="kpi.IsRequiredEvaluate" data-translate="(*)"></label>
+                        </td>
+                        <td class="text-center" rowspan="{{memberEPAInfoCtrl.epaInfo.NumberEvaluators}}" ng-bind="kpi.EvaluateBySelf.Score | customNumber" ng-show="$first"></td>
+                        <td rowspan="{{memberEPAInfoCtrl.epaInfo.NumberEvaluators}}" class="text-center" ng-show="$first">
+                            <span class="glyphicon icon-description"
+                                  ng-show="kpi.EvaluateBySelf.Comment.length > 0" tooltip="{{kpi.EvaluateBySelf.Comment}}"></span>
+                        </td>
+                        <td ng-bind="evaluator.NickName"></td>
+                        <td class="text-center" ng-bind="evaluator.Score | customNumber"></td>
+                        <td class="text-center">
+                            <span class="glyphicon icon-description"
+                                  ng-show="evaluator.Comment.length > 0" tooltip="{{evaluator.Comment}}"></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

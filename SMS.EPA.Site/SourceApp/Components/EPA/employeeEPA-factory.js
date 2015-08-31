@@ -65,6 +65,18 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
                 }
             });
         },
+        getEPAByManagement: function (groupId, employeeIds, status) {
+            return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAByManagement', {
+                params: {
+                    groupId: groupId,
+                    employeeIds: employeeIds,
+                    status: status
+                }
+            });
+        },
+        getEPAInfoByManagement: function (epaId) {
+            return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAInfoByManagement', { params: { epaId: epaId } });
+        },
         updateEPAScore: function (model) {
             return $http.put(baseUrl + 'api/EmployeeEPA/UpdateEPAScore', model);
         },

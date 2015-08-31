@@ -205,6 +205,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Average Score By Reviewers.
+        /// </summary>
+        public static string AverageScoreByReviewers {
+            get {
+                return ResourceManager.GetString("AverageScoreByReviewers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Back to list.
         /// </summary>
         public static string BackToList {
@@ -1857,6 +1866,15 @@ namespace SMS.EPA.Resources {
         public static string SubmitAndContinue {
             get {
                 return ResourceManager.GetString("SubmitAndContinue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SUMMARY.
+        /// </summary>
+        public static string Summary {
+            get {
+                return ResourceManager.GetString("Summary", resourceCulture);
             }
         }
         

@@ -54,6 +54,8 @@ namespace SMS.EPA.Site
                 "Evaluator/Detail",
                 "Reviewer/Index",
                 "Reviewer/Detail",
+                "Management/Index",
+                "Management/Detail",
                 "Period/Index",
                 "Period/Update/{id}"
             };

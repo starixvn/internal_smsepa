@@ -1,0 +1,88 @@
+﻿﻿<div class="management" ng-controller="ManagementController as managementCtrl">
+    <div class="col-sm-12 sub-header">
+        <ul class="row breadcrumb">
+            <li class="current" data-translate="ReviewAndUpdateScore"></li>
+        </ul>
+    </div>
+    <div class="col-sm-12">
+        <form novalidate class="row filter form-horizontal" role="form">
+            <div class="form-group">
+                <label class="col-sm-1 control-label" data-translate="Section"></label>
+                <div class="col-sm-2">
+                    <select class="form-control" ng-model="managementCtrl.filter.groupId"
+                            ng-options="opt.GroupId as opt.GroupName for opt in managementCtrl.groupOptions"
+                            ng-change="managementCtrl.getMember(managementCtrl.filter.groupId)">
+                        <option value="">-- {{"All" | translate}} --</option>
+                    </select>
+                </div>
+                <label class="col-sm-1 control-label" data-translate="Employee"></label>
+                <div class="col-sm-2">
+                    <add-class-to-role-filter class="multi-select" multi-select input-model="managementCtrl.members" button-label="EmployeeId"
+                                              helper-elements="all reset filter" item-label="FullName" tick-property="ticked" max-labels="0">
+                    </add-class-to-role-filter>
+                </div>
+                <label class="col-sm-1 control-label" data-translate="Status"></label>
+                <div class="col-sm-2">
+                    <select class="form-control" ng-model="managementCtrl.filter.status"
+                            ng-options="opt.StatusId as opt.Name for opt in managementCtrl.statusList">
+                        <option value="">-- {{"All" | translate}} --</option>
+                    </select>
+                </div>
+                <div class="col-sm-1">
+                    <button class="button" ng-click="managementCtrl.query(managementCtrl.filter)" data-translate="Submit"></button>
+                </div>
+            </div>
+        </form>
+        <table class="row table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th data-translate="SymbolCount"></th>
+                    <th data-translate="Department"></th>
+                    <th data-translate="Section"></th>
+                    <th data-translate="NickName"></th>
+                    <th data-translate="FullName"></th>
+                    <th data-translate="StartDate"></th>
+                    <th data-translate="EndDate"></th>
+                    <th data-translate="Status" class="col-status"></th>
+                    <th data-translate="Action" class="col-action"></th>
+                </tr>
+            </thead>
+            <tbody ng-repeat="memberEPA in managementCtrl.memberEPAs">
+                <tr>
+                    <td class="text-center" ng-bind="$index + 1"></td>
+                    <td ng-bind="memberEPA.Department.Name"></td>
+                    <td class="text-center">
+                        <span tooltip="{{memberEPA.Group.GroupName}}" ng-bind="memberEPA.Group.GroupCode"></span>
+                    </td>
+                    <td class="text-center" ng-bind="memberEPA.Employee.NickName"></td>
+                    <td ng-bind="memberEPA.Employee.FullName"></td>
+                    <td class="text-center" ng-bind="memberEPA.ProcessByManagements[0].StartDate | customDate"></td>
+                    <td class="text-center" ng-bind="memberEPA.ProcessByManagements[0].EndDate | customDate"></td>
+                    <td class="text-center col-status">
+                        <span class="dropdown" dropdown on-toggle="managementCtrl.toggled(open)" ng-show="!memberEPA.ProcessByManagements[0].IsEndProcess">
+                            <a href="javascript:;" class="changeStatus" dropdown-toggle>{{memberEPA.ProcessByManagements[0].Status.Name}}</a>
+                            <ul class="dropdown-menu dropdown-menu-width">
+                                <li ng-repeat="item in managementCtrl.epaStatus | filter:{ Name: '!' + memberEPA.ProcessByManagements[0].Status.Name }">
+                                    <a ng-click="managementCtrl.updateStatusEPA(memberEPA, item)" href="javascript:;">{{item.Name}}</a>
+                                </li>
+                            </ul>
+                        </span>
+                        <span ng-show="memberEPA.ProcessByManagements[0].IsEndProcess" ng-bind="memberEPA.ProcessByManagements[0].Status.Name"></span>
+                    </td>
+                    <td class="text-center text-uppercase col-action">
+                        <a class="evaluate-now button" href="" ng-click="managementCtrl.viewEPADetail(memberEPA)"
+                           ng-href="{{managementCtrl.viewEPADetailUrl}}" ng-show="!memberEPA.IsEndProcess">
+                            <span data-translate="EvaluateNow"></span>
+                            <span class="glyphicon icon-breadcrumb"></span>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+            <tbody ng-show="managementCtrl.memberEPAs.length == 0">
+                <tr>
+                    <td class="empty-result" colspan="9" data-translate="EmptyResult"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

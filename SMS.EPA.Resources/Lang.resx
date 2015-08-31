@@ -825,4 +825,10 @@
   <data name="StartDateEmailToSelfSubject" xml:space="preserve">
     <value>{0} for self-evaluation from {1} to {2}</value>
   </data>
+  <data name="AverageScoreByReviewers" xml:space="preserve">
+    <value>Average Score By Reviewers</value>
+  </data>
+  <data name="Summary" xml:space="preserve">
+    <value>SUMMARY</value>
+  </data>
 </root>
