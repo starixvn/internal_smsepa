@@ -94,6 +94,7 @@
     <Compile Include="Enumerations\Status.cs" />
     <Compile Include="Enumerations\SystemRole.cs" />
     <Compile Include="Model\CommandResult.cs" />
+    <Compile Include="Model\MailModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
     <Compile Include="Repositories\IBaseRepository.cs" />

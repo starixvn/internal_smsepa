@@ -7,7 +7,7 @@
 //   <change who="Josh.Phan" date="8/28/2015">Created.</change>
 // </history>
 
-namespace SMS.EPA.Model.Enitites
+namespace SMS.EPA.Core
 {
     public class MailModel
     {
@@ -15,14 +15,14 @@ namespace SMS.EPA.Model.Enitites
 
         public string Body { get; set; }
 
-        public string SendTo { get; set; }
+        public string SenderEmail { get; set; }
 
-        public string SendCc { get; set; }
+        public string SenderName { get; set; }
 
-        public string Sender { get; set; }
+        public string Title { get; set; }
 
-        public string SendToNickName { get; set; }
+        public string ReceiverEmail { get; set; }
 
-        public bool IsAllowSendRequester { get; set; }
+        public string MailCc { get; set; }
     }
 }

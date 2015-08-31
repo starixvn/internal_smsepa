@@ -69,7 +69,7 @@ namespace SMS.EPA.AutoGenerateEvaluation
                 if (!_isBusy)
                 {
                     _isBusy = true;
-                    CheckAddEmployeeAndGenerateEvaluation();
+                    CheckAndExecute();
                     _isBusy = false;
                 }
             }
@@ -80,7 +80,15 @@ namespace SMS.EPA.AutoGenerateEvaluation
             }
         }
 
-        private void CheckAddEmployeeAndGenerateEvaluation()
+        private void CheckAndExecute()
+        {
+            CheckSemiAnnualPeriod();
+            CheckProbationPeriod();
+            CheckPromotionPeriod();
+            CheckSendMail();
+        }
+
+        private void CheckSemiAnnualPeriod()
         {
             _LOG.Info("Check the start of semi annual period: started at " + DateTime.Now.ToString());
             IEnumerable<int> semiAnnualPeriods = _generationEvaluationService.CheckStartSemiAnnual();
@@ -88,11 +96,27 @@ namespace SMS.EPA.AutoGenerateEvaluation
 
             if (semiAnnualPeriods != null && semiAnnualPeriods.Count() > 0)
             {
-                AddAndGenerateSemiAnnual(semiAnnualPeriods);
+                AddEmployeeAndGenerateEPASemiAnnual(semiAnnualPeriods);
             }
         }
 
-        private void AddAndGenerateSemiAnnual(IEnumerable<int> semiAnnualPeriods)
+        private void CheckProbationPeriod()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void CheckPromotionPeriod()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void CheckSendMail()
+        {
+            CheckSendNoticeAtBeginEmail();
+            CheckSendReminderEmail();
+        }
+
+        private void AddEmployeeAndGenerateEPASemiAnnual(IEnumerable<int> semiAnnualPeriods)
         {
             foreach (int periodId in semiAnnualPeriods)
             {
@@ -114,6 +138,16 @@ namespace SMS.EPA.AutoGenerateEvaluation
             }
         }
 
+        private void CheckSendNoticeAtBeginEmail()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void CheckSendReminderEmail()
+        {
+            throw new NotImplementedException();
+        }
+
         private void SendEmailSemiAnnual(int periodId)
         {
             _LOG.Info("Send mail to all employees of current semi annual period " + periodId + ": started at " + DateTime.Now.ToString());
@@ -123,7 +157,7 @@ namespace SMS.EPA.AutoGenerateEvaluation
                 PeriodId = periodId
             };
             PeriodModel period = _periodService.GetPeriodById(criteria);
-            IEnumerable<PeriodFlowModel> employeeSettings = new List<PeriodFlowModel>();
+            IEnumerable<PeriodFlowModel> employeeSettings = _generationEvaluationService.GetEmployeeSettingByPeriodId(periodId);
 
             foreach (PeriodFlowModel employeeSetting in employeeSettings)
             {

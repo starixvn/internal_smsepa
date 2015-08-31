@@ -11,9 +11,7 @@ namespace SMS.EPA.Core.Services.Interfaces
 {
     public interface IBaseMailService
     {
-        void SendEmail(string senderEmail, string receiverEmail, string mailCc, string subject, string body);
-
-        void SendEmail(string senderEmail, string senderName, string receiverEmail, string mailCc, string subject, string body);
+        void SendEmail(MailModel email);
 
         string ReadTextFile(string filePath);
     }

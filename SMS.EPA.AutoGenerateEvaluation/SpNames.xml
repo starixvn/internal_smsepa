@@ -7,5 +7,7 @@
     </Setting>
     <Setting Key="EpaAuto_SemiAnnual_GenerateEPA" SpName="EpaAuto_SemiAnnual_GenerateEPA" DbName="SMSEPA" Plain="0" >
     </Setting>
+    <Setting Key="EpaAuto_GetEmployeeSettingToSendMail" SpName="EpaAuto_GetEmployeeSettingToSendMail" DbName="SMSEPA" Plain="0" >
+    </Setting>
   </Function>
 </Functions>

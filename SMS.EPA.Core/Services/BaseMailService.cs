@@ -25,25 +25,20 @@ namespace SMS.EPA.Core.Services.Implement
             }
         }
 
-        public void SendEmail(string senderEmail, string receiverEmail, string mailCc, string subject, string body)
+        public void SendEmail(MailModel email)
         {
-            this.SendEmail(senderEmail, senderEmail, receiverEmail, mailCc, subject, body);
-        }
-
-        public void SendEmail(string senderEmail, string senderName, string receiverEmail, string mailCc, string subject, string body)
-        {
-            if (!IsValidEmail(senderEmail) || !IsValidEmail(receiverEmail))
+            if (!IsValidEmail(email.SenderEmail) || !IsValidEmail(email.ReceiverEmail))
             {
                 return;
             }
 
             var mailItem = new MailRecord
             {
-                MailTo = receiverEmail,
-                MailCc = mailCc,
-                Subject = subject,
+                MailTo = email.ReceiverEmail,
+                MailCc = email.MailCc,
+                Subject = email.Subject,
                 Title = ConfigurationManager.AppSettings["Email.SenderName"],
-                Body = body
+                Body = email.Body
             };
             using (var client = new Fanex.MailDeliver.MailClient.API.MailDeliver())
             {

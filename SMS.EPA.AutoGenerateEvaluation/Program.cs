@@ -10,6 +10,7 @@
 namespace SMS.EPA.AutoGenerateEvaluation
 {
     using System.ServiceProcess;
+    using Fanex.Data.Configuration;
 
     public static class Program
     {
@@ -18,6 +19,9 @@ namespace SMS.EPA.AutoGenerateEvaluation
         /// </summary>
         public static void Main()
         {
+            DbSettingProviderManager.Current.Start();
+            log4net.Config.XmlConfigurator.Configure();
+
             ServiceBase[] _servicesToRun;
             _servicesToRun = new ServiceBase[] 
             { 

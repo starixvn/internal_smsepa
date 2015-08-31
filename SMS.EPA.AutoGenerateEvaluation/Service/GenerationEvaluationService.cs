@@ -11,11 +11,25 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service
 {
     using System.Collections.Generic;
     using SMS.EPA.AutoGenerateEvaluation.Criteria;
+    using SMS.EPA.AutoGenerateEvaluation.Repository;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
+    using SMS.EPA.Model.Period;
 
     public class GenerationEvaluationService : BaseService
     {
+        private readonly GenerateEvaluationRepository _generateEvaluationRepository;
+
+        public GenerationEvaluationService()
+            : this(null)
+        {
+        }
+
+        public GenerationEvaluationService(GenerateEvaluationRepository generationEvaluationRepository)
+        {
+            _generateEvaluationRepository = generationEvaluationRepository ?? new GenerateEvaluationRepository();
+        }
+
         public IEnumerable<int> CheckStartSemiAnnual()
         {
             var criteria = new GetSemiAnnualPeriodStartedCriteria();
@@ -59,6 +73,22 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service
             }
 
             return commandResult;
+        }
+
+        public IEnumerable<PeriodFlowModel> GetEmployeeSettingByPeriodId(int periodId)
+        {
+            var criteria = new GetEmployeeSettingByPeriodIdCriteria
+            {
+                PeriodId = periodId
+            };
+            IEnumerable<PeriodFlowModel> employeeSettings = new List<PeriodFlowModel>();
+
+            if (criteria.IsValid())
+            {
+                employeeSettings = _generateEvaluationRepository.GetEmployeeSettingByPeriodId(criteria);
+            }
+
+            return employeeSettings;
         }
     }
 }

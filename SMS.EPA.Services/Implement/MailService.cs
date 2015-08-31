@@ -10,12 +10,10 @@
 namespace SMS.EPA.Services.Implement
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
+    using System.Configuration;
+    using SMS.EPA.Core;
     using SMS.EPA.Core.Services.Implement;
     using SMS.EPA.Core.Services.Interfaces;
-    using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.Period;
     using SMS.EPA.Resources;
     using SMS.EPA.Services.Interfaces;
@@ -46,29 +44,93 @@ namespace SMS.EPA.Services.Implement
         public void SendMailToHRStartDate(PeriodFlowModel employeeSetting, string periodName)
         {
             var email = new MailModel();
+
             email.Subject = string.Format(Lang.StartDateEmailToHRSubject, periodName, employeeSetting.StartDate, employeeSetting.EndDate);
             email.Body = _baseMailService.ReadTextFile(_startDateMailToHumanResources);
             email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, periodName, employeeSetting.StartDate, employeeSetting.EndDate);
+            email.SenderEmail = ConfigurationManager.AppSettings["Email"].ToString();
+            email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
+
+            _baseMailService.SendEmail(email);
         }
 
         public void SendMailToSelfStartDate(PeriodFlowModel employeeSetting, string periodName)
         {
-            throw new NotImplementedException();
+            var email = new MailModel();
+
+            email.Subject = string.Format(Lang.StartDateEmailToSelfSubject, periodName, employeeSetting.StartDate, employeeSetting.EndDate);
+            email.Body = _baseMailService.ReadTextFile(_startDateMailToSelf);
+            email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, periodName, employeeSetting.StartDate, employeeSetting.EndDate);
+            email.SenderEmail = ConfigurationManager.AppSettings["Email"].ToString();
+            email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
+
+            _baseMailService.SendEmail(email);
         }
 
         public void SendMailToEvaluatorStartDate(PeriodFlowModel employeeSetting, string periodName)
         {
-            throw new NotImplementedException();
+            var email = new MailModel();
+
+            email.Subject = string.Format(Lang.StartDateEmailToEvaluatorSubject, periodName, employeeSetting.StartDate, employeeSetting.EndDate);
+
+            if (employeeSetting.EvaluatorInfo.IsSpecialUser)
+            {
+                email.Body = _baseMailService.ReadTextFile(_startDateMailToSpecialEvaluator);
+            }
+            else
+            {
+                email.Body = _baseMailService.ReadTextFile(_startDateMailToEvaluator);
+            }
+
+            email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, periodName, employeeSetting.StartDate, employeeSetting.EndDate);
+            email.SenderEmail = ConfigurationManager.AppSettings["Email"].ToString();
+            email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
+
+            _baseMailService.SendEmail(email);
         }
 
         public void SendMailToReviewerStartDate(PeriodFlowModel employeeSetting, string periodName)
         {
-            throw new NotImplementedException();
+            var email = new MailModel();
+
+            email.Subject = string.Format(Lang.StartDateEmailToReviewerSubject, periodName, employeeSetting.StartDate, employeeSetting.EndDate);
+
+            if (employeeSetting.EvaluatorInfo.IsSpecialUser)
+            {
+                email.Body = _baseMailService.ReadTextFile(_startDateMailToSpecialReviewer);
+            }
+            else
+            {
+                email.Body = _baseMailService.ReadTextFile(_startDateMailToReviewer);
+            }
+
+            email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, periodName, employeeSetting.StartDate, employeeSetting.EndDate);
+            email.SenderEmail = ConfigurationManager.AppSettings["Email"].ToString();
+            email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
+
+            _baseMailService.SendEmail(email);
         }
 
         public void SendMailToManagementStartDate(PeriodFlowModel employeeSetting, string periodName)
         {
-            throw new NotImplementedException();
+            var email = new MailModel();
+
+            email.Subject = string.Format(Lang.StartDateEmailToManagementSubject, periodName, employeeSetting.StartDate, employeeSetting.EndDate);
+
+            if (employeeSetting.EvaluatorInfo.IsSpecialUser)
+            {
+                email.Body = _baseMailService.ReadTextFile(_startDateMailToSpecialManagement);
+            }
+            else
+            {
+                email.Body = _baseMailService.ReadTextFile(_startDateMailToManagement);
+            }
+
+            email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, periodName, employeeSetting.StartDate, employeeSetting.EndDate);
+            email.SenderEmail = ConfigurationManager.AppSettings["Email"].ToString();
+            email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
+
+            _baseMailService.SendEmail(email);
         }
 
         public void SendMailToSelfRemindDate(PeriodFlowModel employeeSetting, string periodName)
