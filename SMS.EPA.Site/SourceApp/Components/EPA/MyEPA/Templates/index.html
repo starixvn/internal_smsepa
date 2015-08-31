@@ -5,81 +5,36 @@
         </ul>
     </div>
     <div class="col-sm-12">
-        <form novalidate class="row filter form-inline" role="form">
-            <div class="form-group">
-                <label data-translate="Target"></label>
-                <select class="form-control lstBox-limit" ng-model="empEPACtrl.filter.targetTypeId"
-                        ng-options="opt.TargetTypeId as opt.Name for opt in empEPACtrl.targetTypes">
-                    <option value="">-- {{"All" | translate}} --</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label data-translate="Status"></label>
-                <select class="form-control" ng-model="empEPACtrl.filter.status"
-                        ng-options="opt.StatusId as opt.Name for opt in empEPACtrl.statusList">
-                    <option value="">-- {{"All" | translate}} --</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <button class="button" ng-click="empEPACtrl.query(empEPACtrl.filter)" data-translate="Submit"></button>
-            </div>
-        </form>
         <table class="row table table-bordered table-striped">
             <thead>
                 <tr>
                     <th data-translate="SymbolCount"></th>
-                    <th data-translate="Department"></th>
-                    <th data-translate="Team"></th>
-                    <th data-translate="Target"></th>
-                    <th data-translate="Score" class="epa-score"></th>
-                    <th data-translate="Status"></th>
-                    <th data-translate="Evaluator"></th>
+                    <th data-translate="PeriodName"></th>
                     <th data-translate="StartDate"></th>
                     <th data-translate="EndDate"></th>
-                    <th data-translate="EvaluateDate"></th>
+                    <th data-translate="Action"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="myEPA in empEPACtrl.myEPAs">
                     <td class="text-center" ng-bind="$index + 1"></td>
-                    <td ng-bind="myEPA.Department.Name"></td>
-                    <td class="text-center">
-                        <span tooltip="{{myEPA.Group.GroupName}}" ng-bind="myEPA.Group.GroupCode"></span>
-                    </td>
-                    <td class="text-center" ng-bind="myEPA.TargetType.Name"></td>
-                    <td class="text-center epa-score">
-                        <a href="" ng-bind="myEPA.ProcessBySelf.TotalScore | customNumber"
-                           ng-click="empEPACtrl.viewEPADetail(myEPA)"
-                           ng-href="{{empEPACtrl.viewEPADetailUrl}}" ng-show="myEPA.ProcessBySelf.TotalScore" />
-                        <a href="" ng-bind="'N/A'" ng-click="empEPACtrl.viewEPADetail(myEPA)"
-                           ng-href="{{empEPACtrl.viewEPADetailUrl}}" ng-show="!myEPA.ProcessBySelf.TotalScore" />
-                    </td>
-                    <td class="text-center">
-                        <span class="dropdown" dropdown on-toggle="empEPACtrl.toggled(open)" ng-show="!myEPA.ProcessBySelf.IsEndProcess">
-                            <a href="javascript:;" class="changeStatus" dropdown-toggle>{{myEPA.ProcessBySelf.Status.Name}}</a>
-                            <ul class="dropdown-menu dropdown-menu-width">
-                                <li ng-repeat="item in empEPACtrl.epaStatus | filter:{ Name: '!' + myEPA.ProcessBySelf.Status.Name }">
-                                    <a ng-click="empEPACtrl.updateStatusEPA(myEPA, item)" href="javascript:;">{{item.Name}}</a>
-                                </li>
-                            </ul>
-                        </span>
-                        <span ng-show="myEPA.IsEndProcess" ng-bind="myEPA.ProcessBySelf.Status.Name"></span>
-                    </td>
-                    <td class="epa-evaluator">
-                        <div ng-show="myEPA.Evaluators.length == 1">
-                            <span ng-bind="myEPA.Evaluators[0].NickName" tooltip="{{myEPA.Evaluators[0].FullName}}"></span>
-                        </div>
-                        <div ng-show="myEPA.Evaluators.length > 1">
-                            <ul>
-                                <li ng-repeat="evaluator in myEPA.Evaluators">
-                                    <span ng-bind="evaluator.NickName" tooltip="{{evaluator.FullName}}"></span>
-                                </li>
-                            </ul>
-                        </div>
-                    </td>
+                    <td ng-bind="myEPA.Period.Name"></td>
                     <td class="text-center">{{ myEPA.ProcessBySelf.StartDate | customDate }}</td>
                     <td class="text-center">{{ myEPA.ProcessBySelf.EndDate | customDate }}</td>
-                    <td class="text-center">{{ myEPA.ProcessBySelf.EvaluateDate | customDate }}</td>
+                    <td class="text-center text-uppercase col-action">
+                        <a class="evaluate-now button" href="" ng-click="empEPACtrl.viewEPADetail(myEPA)"
+                           ng-href="{{empEPACtrl.viewEPADetailUrl}}"
+                           ng-show="!myEPA.ProcessBySelf.IsEndProcess && myEPA.Status.StatusId == 0">
+                            <span data-translate="EvaluateNow"></span>
+                            <span class="glyphicon icon-breadcrumb"></span>
+                        </a>
+                        <a class="evaluate-now button" href="" ng-click="empEPACtrl.viewEPAResult(myEPA)"
+                           ng-href="{{empEPACtrl.viewEPAResultUrl}}"
+                           ng-show="myEPA.ProcessBySelf.IsEndProcess && myEPA.Status.StatusId != 0">
+                            <span data-translate="View"></span>
+                            <span class="glyphicon glyphicon-search"></span>
+                        </a>
+                    </td>
                 </tr>
                 <tr ng-show="empEPACtrl.myEPAs.length == 0">
                     <td class="empty-result" colspan="10" data-translate="EmptyResult"></td>

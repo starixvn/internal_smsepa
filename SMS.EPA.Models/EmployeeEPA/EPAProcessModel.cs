@@ -36,6 +36,8 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public string Comment { get; set; }
 
+        public float MaxScore { get; set; }
+
         public string TotalScore { get; set; }
 
         public StatusModel Status { get; set; }

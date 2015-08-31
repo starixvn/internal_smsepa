@@ -13,8 +13,8 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
     employeeEPAModel.members = [];
     employeeEPAModel.memberEPAs = [];
 
-    employeeEPAModel.getEPAOfCurrentMember = function (targetTypeId, status) {
-        return employeeEPAFactory.getEPAOfCurrentMember(targetTypeId, status)
+    employeeEPAModel.getEPAOfCurrentMember = function () {
+        return employeeEPAFactory.getEPAOfCurrentMember()
         .success(function (myEPAs) {
             employeeEPAModel.myEPAs = myEPAs;
         }).error(function (response, status) {
@@ -22,8 +22,8 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         });
     };
 
-    employeeEPAModel.getEPAInfoByEmployee = function (epaId, employeeId) {
-        return employeeEPAFactory.getEPAInfoByEmployee(epaId, employeeId)
+    employeeEPAModel.getEPAInfoByEmployee = function (epaId) {
+        return employeeEPAFactory.getEPAInfoByEmployee(epaId)
         .success(function (epaInfo) {
             employeeEPAModel.epaInfo = epaInfo;
         }).error(function (response, status) {

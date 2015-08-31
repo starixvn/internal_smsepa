@@ -12,6 +12,7 @@ namespace SMS.EPA.Model.EmployeeEPA
     using System.Collections.Generic;
     using SMS.EPA.Model.Department;
     using SMS.EPA.Model.Enitites;
+    using SMS.EPA.Model.Period;
     using SMS.EPA.Model.TargetType;
 
     public class EPAModel
@@ -35,7 +36,7 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public JobTitle JobTitle { get; set; }
 
-        public TargetTypeModel TargetType { get; set; }
+        public PeriodModel Period { get; set; }
 
         public StatusModel Status { get; set; }
 

@@ -12,20 +12,10 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
             });
         },
         getEPAOfCurrentMember: function (targetTypeId, status) {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAOfCurrentMember', {
-                params: {
-                    targetTypeId: targetTypeId,
-                    status: status
-                }
-            });
+            return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAOfCurrentMember');
         },
-        getEPAInfoByEmployee: function (epaId, employeeId) {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAInfoByEmployee', {
-                params: {
-                    epaId: epaId,
-                    employeeId: employeeId
-                }
-            });
+        getEPAInfoByEmployee: function (epaId) {
+            return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAInfoByEmployee', { params: { epaId: epaId } });
         },
         getEPAByEvaluator: function (targetTypeId, groupId, employeeIds, status) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAByEvaluator', {

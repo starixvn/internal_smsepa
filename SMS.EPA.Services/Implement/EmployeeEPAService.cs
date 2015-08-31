@@ -50,7 +50,7 @@ namespace SMS.EPA.Services.Implement
 
             if (criteria.IsValid())
             {
-                epas = _employeeEPARepository.GetEPAByEmployee(criteria);
+                epas = _employeeEPARepository.GetEPA(criteria);
 
                 foreach (var epa in epas)
                 {
@@ -70,7 +70,7 @@ namespace SMS.EPA.Services.Implement
 
             if (criteria.IsValid())
             {
-                result = _employeeEPARepository.GetEPAInfoByEmployee(criteria);
+                result = _employeeEPARepository.GetEPAInfo(criteria);
 
                 if (result != null)
                 {
@@ -102,7 +102,7 @@ namespace SMS.EPA.Services.Implement
 
             if (criteria.IsValid())
             {
-                memberEPAs = _employeeEPARepository.GetEPAByEvaluator(criteria);
+                memberEPAs = _employeeEPARepository.GetEPA(criteria);
 
                 foreach (var memberEPA in memberEPAs)
                 {
@@ -123,7 +123,7 @@ namespace SMS.EPA.Services.Implement
 
             if (criteria.IsValid())
             {
-                result = _employeeEPARepository.GetEPAInfoByEvaluator(criteria);
+                result = _employeeEPARepository.GetEPAInfo(criteria);
 
                 if (result != null)
                 {
@@ -149,7 +149,7 @@ namespace SMS.EPA.Services.Implement
 
             if (criteria.IsValid())
             {
-                memberEPAs = _employeeEPARepository.GetEPAByReviewer(criteria);
+                memberEPAs = _employeeEPARepository.GetEPA(criteria);
 
                 foreach (var memberEPA in memberEPAs)
                 {
@@ -172,7 +172,7 @@ namespace SMS.EPA.Services.Implement
 
             if (criteria.IsValid())
             {
-                result = _employeeEPARepository.GetEPAInfoByReviewer(criteria);
+                result = _employeeEPARepository.GetEPAInfo(criteria);
 
                 if (result != null)
                 {

@@ -831,4 +831,7 @@
   <data name="Summary" xml:space="preserve">
     <value>SUMMARY</value>
   </data>
+  <data name="PeriodName" xml:space="preserve">
+    <value>Period Name</value>
+  </data>
 </root>

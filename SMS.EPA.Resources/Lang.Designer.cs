@@ -1339,6 +1339,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Period Name.
+        /// </summary>
+        public static string PeriodName {
+            get {
+                return ResourceManager.GetString("PeriodName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Personal Flow.
         /// </summary>
         public static string PersonalFlow {

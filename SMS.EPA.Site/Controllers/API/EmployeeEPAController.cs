@@ -53,29 +53,23 @@ namespace SMS.EPA.Site.Controllers.API
         #region Self
 
         [HttpGet]
-        public IEnumerable<EPAModel> GetEPAOfCurrentMember(
-            int? targetTypeId = null,
-            int? status = null)
+        public IEnumerable<EPAModel> GetEPAOfCurrentMember()
         {
             var criteria = new GetEPAByEmployeeCriteria
             {
-                EmployeeId = CurrentUser.EmployeeInfo.EmployeeId,
-                TargetTypeId = targetTypeId,
-                Status = status
+                EmployeeId = CurrentUser.EmployeeInfo.EmployeeId
             };
 
             return _employeeEPAService.GetEPAByEmployee(criteria);
         }
 
         [HttpGet]
-        public EPAModel GetEPAInfoByEmployee(
-            int epaId,
-            int employeeId)
+        public EPAModel GetEPAInfoByEmployee(int epaId)
         {
             var criteria = new GetEPAInfoByEmployeeCriteria()
             {
                 EPAId = epaId,
-                EmployeeId = employeeId
+                EmployeeId = CurrentUser.EmployeeInfo.EmployeeId
             };
 
             return _employeeEPAService.GetEPAInfoByEmployee(criteria);

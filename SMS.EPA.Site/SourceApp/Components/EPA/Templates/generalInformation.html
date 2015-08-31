@@ -14,7 +14,7 @@
 <div class="col-sm-10">
     <div class="row row-item line">
         <div class="col-sm-6">
-            <div class="col-sm-4" data-translate="Team"></div>
+            <div class="col-sm-4" data-translate="Section"></div>
             <div class="col-sm-7">
                 <strong ng-bind="memberEPAInfoCtrl.epaInfo.Group.GroupName"></strong>
             </div>
@@ -28,63 +28,12 @@
     </div>
     <div class="row row-item line">
         <div class="col-sm-6">
-            <div class="col-sm-4" data-translate="Evaluator"></div>
-            <div class="col-sm-7 epa-evaluator">
-                <div ng-show="memberEPAInfoCtrl.epaInfo.Evaluators.length == 1">
-                    <strong ng-bind="memberEPAInfoCtrl.epaInfo.Evaluators[0].FullName"></strong>
-                    <strong ng-show="memberEPAInfoCtrl.epaInfo.Evaluators[0].NickName">
-                        ({{memberEPAInfoCtrl.epaInfo.Evaluators[0].NickName}})
-                    </strong>
-                </div>
-                <div ng-show="memberEPAInfoCtrl.epaInfo.Evaluators.length > 1">
-                    <ul>
-                        <li ng-repeat="evaluator in memberEPAInfoCtrl.epaInfo.Evaluators">
-                            <strong ng-bind="evaluator.FullName"></strong>
-                            <strong ng-show="evaluator.NickName">({{evaluator.NickName}})</strong>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row row-item line">
-        <div class="col-sm-6">
-            <div class="col-sm-4" data-translate="StartDate"></div>
-            <div class="col-sm-7">
-                <strong>{{memberEPAInfoCtrl.epaInfo.ProcessBySelf.StartDate | customDate}}</strong>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <div class="col-sm-4" data-translate="EndDate"></div>
-            <div class="col-sm-7">
-                <strong>{{memberEPAInfoCtrl.epaInfo.ProcessBySelf.EndDate | customDate}}</strong>
-            </div>
-        </div>
-    </div>
-    <div class="row row-item line">
-        <div class="col-sm-6">
             <div class="col-sm-4" data-translate="Evaluated"></div>
             <div class="col-sm-7">
                 <span class="glyphicon glyphicon-saved epa-saved"
-                      ng-show="(memberEPAInfoCtrl.epaInfo.ProcessBySelf.EvaluateDate) || memberEPAInfoCtrl.dataSaved"></span>
+                      ng-show="(memberEPAInfoCtrl.evaluatedDate) || memberEPAInfoCtrl.dataSaved"></span>
                 <span class="glyphicon glyphicon-list-alt epa-unsaved"
-                      ng-show="(memberEPAInfoCtrl.epaInfo.ProcessBySelf.EvaluateDate == null)"></span>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <div class="col-sm-4" data-translate="Status"></div>
-            <div class="col-sm-7">
-                <span class="dropdown" dropdown on-toggle="memberEPAInfoCtrl.toggled(open)"
-                      ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess && !memberEPAInfoCtrl.isReadonly">
-                    <a href="javascript:;" class="changeStatus" dropdown-toggle>{{memberEPAInfoCtrl.epaInfo.ProcessBySelf.Status.Name}}</a>
-                    <ul class="dropdown-menu dropdown-menu-width">
-                        <li ng-repeat="item in memberEPAInfoCtrl.epaStatus | filter:{ Name: '!' + memberEPAInfoCtrl.epaInfo.ProcessBySelf.Status.Name }">
-                            <a ng-click="memberEPAInfoCtrl.updateStatusEPA(item)" href="javascript:;">{{item.Name}}</a>
-                        </li>
-                    </ul>
-                </span>
-                <strong ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess || memberEPAInfoCtrl.isReadonly"
-                        ng-bind="memberEPAInfoCtrl.epaInfo.ProcessBySelf.Status.Name"></strong>
+                      ng-show="(memberEPAInfoCtrl.evaluatedDate == null)"></span>
             </div>
         </div>
     </div>
