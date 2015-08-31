@@ -15,13 +15,11 @@ namespace SMS.EPA.Criteria.EmployeeEPA
     {
         public int EPAId { get; set; }
 
-        public int EmployeeId { get; set; }
-
         public int EvaluatorId { get; set; }
 
         public override bool IsValid()
         {
-            return EvaluatorId > 0 && EmployeeId > 0;
+            return EvaluatorId > 0;
         }
 
         public override string GetSettingKey()

@@ -40,8 +40,8 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         });
     };
 
-    employeeEPAModel.getEPAByEvaluator = function (targetTypeId, groupId, employeeIds, status) {
-        return employeeEPAFactory.getEPAByEvaluator(targetTypeId, groupId, employeeIds, status)
+    employeeEPAModel.getEPAByEvaluator = function (groupId, employeeIds) {
+        return employeeEPAFactory.getEPAByEvaluator(groupId, employeeIds)
         .success(function (memberEPAs) {
             employeeEPAModel.memberEPAs = memberEPAs;
         }).error(function (response, status) {
@@ -49,32 +49,12 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         });
     };
 
-    employeeEPAModel.getEPAInfoByEvaluator = function (epaId, employeeId, evaluatorId) {
-        return employeeEPAFactory.getEPAInfoByEvaluator(epaId, employeeId, evaluatorId)
+    employeeEPAModel.getEPAInfoByEvaluator = function (epaId) {
+        return employeeEPAFactory.getEPAInfoByEvaluator(epaId)
         .success(function (epaInfo) {
             employeeEPAModel.epaInfo = epaInfo;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
-        });
-    };
-
-    employeeEPAModel.viewEPAInfoOfMember = function (epaId, periodId, employeeId) {
-        return $modal.open({
-            templateUrl: 'SourceApp/Components/EPA/Evaluator/Templates/viewEPAInfoOfMember.html',
-            controller: "ViewEPAInfoOfMemberController as memberEPAInfoCtrl",
-            size: 'lg',
-            resolve: {
-                epaId: function () {
-                    return epaId;
-                },
-                periodId: function () {
-                    return periodId;
-                },
-                employeeId: function () {
-                    return employeeId;
-                }
-            },
-            windowClass: "modal-confirm-center"
         });
     };
 

@@ -319,7 +319,7 @@
     <Content Include="SourceApp\Components\EPA\Evaluator\evaluator-controller.js" />
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\detail.html" />
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\index.html" />
-    <Content Include="SourceApp\Components\EPA\Evaluator\Templates\listKPIRating.html" />
+    <Content Include="SourceApp\Components\EPA\Evaluator\Templates\listKPI.html" />
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\viewEPAInfoOfMember.html" />
     <Content Include="SourceApp\Components\EPA\Management\management-controller.js" />
     <Content Include="SourceApp\Components\EPA\Management\Templates\detail.html" />

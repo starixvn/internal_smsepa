@@ -81,43 +81,27 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpGet]
         public IEnumerable<EPAModel> GetEPAByEvaluator(
-            int? targetTypeId = null,
             int? groupId = null,
-            string employeeIds = null,
-            int? status = null)
+            string employeeIds = null)
         {
             var criteria = new GetEPAByEvaluatorCriteria()
             {
                 EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
-                TargetTypeId = targetTypeId,
                 GroupId = groupId,
-                EmployeeIds = employeeIds,
-                Status = status
+                EmployeeIds = employeeIds
             };
 
             return _employeeEPAService.GetEPAByEvaluator(criteria);
         }
 
         [HttpGet]
-        public EPAModel GetEPAInfoByEvaluator(
-            int epaId,
-            int employeeId,
-            int? evaluatorId = null)
+        public EPAModel GetEPAInfoByEvaluator(int epaId)
         {
             var criteria = new GetEPAInfoByEvaluatorCriteria()
             {
                 EPAId = epaId,
-                EmployeeId = employeeId
+                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId
             };
-
-            if (evaluatorId != null)
-            {
-                criteria.EvaluatorId = (int)evaluatorId;
-            }
-            else
-            {
-                criteria.EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId;
-            }
 
             return _employeeEPAService.GetEPAInfoByEvaluator(criteria);
         }

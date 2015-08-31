@@ -46,7 +46,7 @@
                                 <p data-translate="TotalRatingScore"></p>
                                 <p class="totalscore" ng-bind="memberEPAInfoCtrl.epaInfo.ProcessBySelf.TotalScore | customNumber"></p>
                             </div>
-                            <div class="row total text-center pull-right">
+                            <div class="row total text-center pull-right" ng-show="memberEPAInfoCtrl.epaInfo.Department.DepartmentId == 2">
                                 <p data-translate="AttendanceScore"></p>
                                 <p class="totalscore" ng-bind="memberEPAInfoCtrl.epaInfo.AttendanceScore | customNumber"></p>
                             </div>

@@ -7,26 +7,12 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
     var vm = this;
 
     vm.memberEPAs = EmployeeEPAModel.memberEPAs;
-    vm.targetTypes = CommonModel.targetTypes;
-    vm.statusList = CommonModel.statusList;
     vm.members = EmployeeEPAModel.members;
 
-    vm.status = {
-        isopen: false
-    };
-    vm.epaStatus = EmployeeEPAModel.epaStatus;
-
     vm.filter = {
-        targetTypeId: '',
         groupId: '',
         employeeIds: '',
         status: ''
-    };
-
-    vm.toggleDropdown = function ($event) {
-        $event.preventDefault();
-        $event.stopPropagation();
-        vm.status.isopen = !vm.status.isopen;
     };
 
     vm.getMember = function (groupId) {
@@ -35,40 +21,24 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
         });
     };
 
-    vm.updateStatusEPA = function (epa, status) {
-        EmployeeEPAModel.openPopupUpdateStatusEPA(epa.ProcessByEvaluators[0], epa.EPAId, 3, epa.Employee.EmployeeId, status);
-    };
-
-    var getEPAByEvaluator = function (targetTypeId, groupId, employeeIds, status) {
-        EmployeeEPAModel.getEPAByEvaluator(targetTypeId, groupId, employeeIds, status).then(function () {
+    var getEPAByEvaluator = function (groupId, employeeIds, status) {
+        EmployeeEPAModel.getEPAByEvaluator(groupId, employeeIds, status).then(function () {
             vm.memberEPAs = EmployeeEPAModel.memberEPAs;
         });
     };
 
     vm.query = function (filter) {
         filter.employeeIds = utilitiesFactory.getSelectedData(vm.members, 'EmployeeId');
-        getEPAByEvaluator(filter.targetTypeId, filter.groupId, filter.employeeIds, filter.status);
-    };
-
-    vm.viewEPAInfoOfMember = function (memberEPA) {
-        EmployeeEPAModel.viewEPAInfoOfMember(memberEPA.EPAId, memberEPA.Employee.EmployeeId);
+        getEPAByEvaluator(filter.groupId, filter.employeeIds, filter.status);
     };
 
     vm.viewEPADetail = function (memberEPA) {
-        vm.viewEPADetailUrl = '/Evaluator/Detail?epaId=' + memberEPA.EPAId + '&employeeId=' + memberEPA.Employee.EmployeeId;
+        vm.viewEPADetailUrl = '/Evaluator/Detail?epaId=' + memberEPA.EPAId;
     };
 
     vm.initialize = function () {
-        CommonModel.getTargetType().then(function () {
-            vm.targetTypes = CommonModel.targetTypes;
-        });
-
         CommonModel.getAllGroup().then(function () {
             vm.groupOptions = CommonModel.groups;
-        });
-
-        CommonModel.getAllStatus().then(function () {
-            vm.statusList = CommonModel.statusList;
         });
 
         vm.getMember(vm.filter.groupId);
@@ -85,25 +55,11 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
     var vm = this;
 
     vm.epaId = parseInt($routeParams.epaId);
-    vm.periodId = parseInt($routeParams.periodId);
-    vm.employeeId = parseInt($routeParams.employeeId);
-    vm.evaluatorId = $routeParams.evaluatorId ? parseInt($routeParams.evaluatorId) : null;
-    vm.isViewDetail = $routeParams.evaluatorId ? true : false;
 
     vm.maxStar = 5;
     vm.dataSaved = false;
     vm.isReadonly = false;
-
-    vm.status = {
-        isopen: false
-    };
-    vm.epaStatus = EmployeeEPAModel.epaStatus;
-
-    vm.toggleDropdown = function ($event) {
-        $event.preventDefault();
-        $event.stopPropagation();
-        vm.status.isopen = !vm.status.isopen;
-    };
+    vm.evaluatedDate = null;
 
     var calculateScore = function (epaInfo) {
         var totalScore = 0;
@@ -261,7 +217,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
 
         EmployeeEPAModel.getEPAInfoByEvaluator(vm.epaId, vm.employeeId, vm.evaluatorId).then(function () {
             var data = EmployeeEPAModel.epaInfo;
-
+            vm.evaluatedDate = data.ProcessByEvaluators[0].EvaluateDate ? data.ProcessByEvaluators[0].EvaluateDate : null;
             vm.finalScore = data.ProcessByEvaluators[0].TotalScore ? (parseFloat(data.ProcessByEvaluators[0].TotalScore) + data.AttendanceScore) : data.AttendanceScore;
             vm.epaInfo = data;
             checkStatus(vm.epaInfo);
@@ -283,40 +239,4 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
     };
 
     vm.initialize();
-}]);
-
-kpiModule.controller('ViewEPAInfoOfMemberController',
-['$modalInstance', 'EmployeeEPAModel', 'epaId', 'periodId', 'employeeId',
-function ($modalInstance, EmployeeEPAModel, epaId, periodId, employeeId) {
-    var vm = this;
-
-    vm.isReadonly = true;
-    vm.maxStar = 5;
-
-    EmployeeEPAModel.getEPAInfoByEmployee(epaId, periodId, employeeId).then(function () {
-        var data = EmployeeEPAModel.epaInfo;
-
-        vm.employee = data.Employee;
-        vm.evaluators = data.Evaluators;
-        vm.finalScore = data.ProcessBySelf.TotalScore ? (parseFloat(data.ProcessBySelf.TotalScore) + data.AttendanceScore) : data.AttendanceScore;
-        vm.epaInfo = data;
-
-        angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
-            if (!EmployeeEPAModel.checkKPIOptional(kpiGroup) && kpiGroup.IsSpreadKPI) {
-                var weight = kpiGroup.Weight / kpiGroup.KPIs.length;
-                angular.forEach(kpiGroup.KPIs, function (kpi) {
-                    if ((weight % 1) === 0) {
-                        kpi.Weight = weight;
-                    }
-                    else {
-                        kpi.Weight = weight.toFixed(2);
-                    }
-                });
-            }
-        });
-    });
-
-    vm.cancel = function () {
-        $modalInstance.dismiss("cancel");
-    };
 }]);

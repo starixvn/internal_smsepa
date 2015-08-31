@@ -26,13 +26,13 @@
                 </div>
             </div>
             <div class="col-sm-12 list-group-item">
-                <div ng-include src="'/SourceApp/Components/EPA/Evaluator/Templates/listKPIRating.html'"></div>
+                <div ng-include src="'/SourceApp/Components/EPA/Evaluator/Templates/listKPI.html'"></div>
             </div>
-            <div class="col-sm-12 list-group-item" ng-init="memberEPAInfoCtrl.collapses['Comments'] = false;">
-                <div class="boxtitle" data-translate="Comments"
-                     ng-click="memberEPAInfoCtrl.collapses['Comments'] = !memberEPAInfoCtrl.collapses['Comments']">
+            <div class="col-sm-12 list-group-item" ng-init="memberEPAInfoCtrl.collapses['Summary'] = false;">
+                <div class="boxtitle" data-translate="Summary"
+                     ng-click="memberEPAInfoCtrl.collapses['Summary'] = !memberEPAInfoCtrl.collapses['Summary']">
                 </div>
-                <div class="boxcontent" collapse="memberEPAInfoCtrl.collapses['Comments']">
+                <div class="boxcontent" collapse="memberEPAInfoCtrl.collapses['Summary']">
                     <div class="row row-item">
                         <div class="col-sm-6 textarea-comment">
                             <div class="row col-sm-12">
@@ -68,7 +68,7 @@
                                     <p data-translate="TotalRatingScore"></p>
                                     <p class="totalscore" ng-bind="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].TotalScore | customNumber"></p>
                                 </div>
-                                <div class="row total text-center pull-right">
+                                <div class="row total text-center pull-right" ng-show="memberEPAInfoCtrl.epaInfo.Department.DepartmentId == 2">
                                     <p data-translate="AttendanceScore"></p>
                                     <p class="totalscore" ng-bind="memberEPAInfoCtrl.epaInfo.AttendanceScore | customNumber"></p>
                                 </div>
