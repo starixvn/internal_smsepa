@@ -237,7 +237,6 @@ namespace SMS.EPA.Services.Implement
                     DecodeTotalScoreAndGetStatus(result.ProcessByManagements);
                     result.AverageScoreByEvaluators = AverageTotalScore(result.ProcessByEvaluators);
                     result.AverageScoreByReviewers = AverageTotalScore(result.ProcessByReviewers);
-                    DecodeTotalScoreAndGetStatus(result.ProcessByManagements);
                     DecodeScoreOnEachKPI(result.KPIGroups);
                 }
             }

@@ -90,7 +90,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel) {
         EmployeeEPAModel.getEPAInfoByReviewer(vm.epaId, vm.employeeId, vm.evaluatorId).then(function () {
             var data = EmployeeEPAModel.epaInfo;
 
-            if (data.AverageScoreByEvaluators && parseFloat(data.AverageScoreByEvaluators) > 0) {
+            if (!data.ProcessByReviewers[0].EvaluateDate && data.AverageScoreByEvaluators && parseFloat(data.AverageScoreByEvaluators) > 0) {
                 data.ProcessByReviewers[0].TotalScore = data.AverageScoreByEvaluators;
             }
 

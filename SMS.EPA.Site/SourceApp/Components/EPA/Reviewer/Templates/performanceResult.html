@@ -44,9 +44,9 @@
                     <textarea class="form-control" ng-readonly="memberEPAInfoCtrl.isReadonly"
                               ng-model="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[0].Comment"></textarea>
                 </td>
-                <td rowspan="{{memberEPAInfoCtrl.epaInfo.NumberEvaluators}}" class="text-center"
+                <td rowspan="{{memberEPAInfoCtrl.epaInfo.NumberEvaluators}}" class="text-center td-total-score"
                     ng-bind="memberEPAInfoCtrl.epaInfo.AttendanceScore | customNumber" ng-show="$first"></td>
-                <td rowspan="{{memberEPAInfoCtrl.epaInfo.NumberEvaluators}}" class="text-center"
+                <td rowspan="{{memberEPAInfoCtrl.epaInfo.NumberEvaluators}}" class="text-center td-total-score"
                     ng-show="memberEPAInfoCtrl.epaInfo.Department.DepartmentId == 2 && $first"
                     ng-bind="memberEPAInfoCtrl.finalScore | customNumber"></td>
             </tr>

@@ -57,6 +57,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
 
     vm.dataSaved = false;
     vm.isReadonly = false;
+    vm.evaluatedDate = null;
+    vm.finalScore = null;
 
     var checkStatus = function (epaInfo) {
         if (epaInfo.ProcessByManagements[0].IsEndProcess) {
@@ -88,6 +90,18 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
         EmployeeEPAModel.getEPAInfoByManagement(vm.epaId).then(function () {
             var data = EmployeeEPAModel.epaInfo;
 
+            if (!data.ProcessByManagements[0].EvaluateDate && data.AverageScoreByEvaluators && parseFloat(data.AverageScoreByEvaluators) > 0) {
+                data.ProcessByManagements[0].TotalScore = data.AverageScoreByReviewers;
+            }
+
+            if (data.Department.DepartmentId == 2) {
+                vm.finalScore = data.ProcessByManagements[0].TotalScore ? (parseFloat(data.ProcessByManagements[0].TotalScore) + data.AttendanceScore) : data.AttendanceScore;
+            }
+            else {
+                vm.finalScore = data.ProcessByManagements[0].TotalScore;
+            }
+
+            vm.evaluatedDate = data.ProcessByManagements[0].EvaluateDate ? data.ProcessByManagements[0].EvaluateDate : null;
             vm.epaInfo = data;
             checkStatus(vm.epaInfo);
 
