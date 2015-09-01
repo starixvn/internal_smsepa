@@ -19,10 +19,6 @@ namespace SMS.EPA.Criteria.EmployeeEPA
 
         public int? GroupId { get; set; }
 
-        public int? TargetTypeId { get; set; }
-
-        public int? Status { get; set; }
-
         public override string GetSettingKey()
         {
             return "EPA_GetByReviewer";
@@ -30,7 +26,7 @@ namespace SMS.EPA.Criteria.EmployeeEPA
 
         public override bool IsValid()
         {
-            return true;
+            return ReviewerId > 0;
         }
     }
 }

@@ -58,8 +58,8 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         });
     };
 
-    employeeEPAModel.getEPAByReviewer = function (targetTypeId, groupId, employeeIds, status) {
-        return employeeEPAFactory.getEPAByReviewer(targetTypeId, groupId, employeeIds, status)
+    employeeEPAModel.getEPAByReviewer = function (groupId, employeeIds) {
+        return employeeEPAFactory.getEPAByReviewer(groupId, employeeIds)
         .success(function (memberEPAs) {
             employeeEPAModel.memberEPAs = memberEPAs;
         }).error(function (response, status) {

@@ -130,18 +130,14 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpGet]
         public IEnumerable<EPAModel> GetEPAByReviewer(
-            int? targetTypeId = null,
             int? groupId = null,
-            string employeeIds = null,
-            int? status = null)
+            string employeeIds = null)
         {
             var criteria = new GetEPAByReviewerCriteria()
             {
                 ReviewerId = CurrentUser.EmployeeInfo.EmployeeId,
-                TargetTypeId = targetTypeId,
                 GroupId = groupId,
-                EmployeeIds = employeeIds,
-                Status = status
+                EmployeeIds = employeeIds
             };
 
             return _employeeEPAService.GetEPAByReviewer(criteria);

@@ -7,26 +7,11 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
     var vm = this;
 
     vm.memberEPAs = EmployeeEPAModel.memberEPAs;
-    vm.targetTypes = CommonModel.targetTypes;
-    vm.statusList = CommonModel.statusList;
     vm.members = EmployeeEPAModel.members;
 
-    vm.status = {
-        isopen: false
-    };
-    vm.epaStatus = EmployeeEPAModel.epaStatus;
-
     vm.filter = {
-        targetTypeId: '',
         groupId: '',
-        employeeIds: '',
-        status: ''
-    };
-
-    vm.toggleDropdown = function ($event) {
-        $event.preventDefault();
-        $event.stopPropagation();
-        vm.status.isopen = !vm.status.isopen;
+        employeeIds: ''
     };
 
     vm.getMember = function (groupId) {
@@ -35,44 +20,24 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
         });
     };
 
-    vm.updateStatusEPA = function (epa, status) {
-        EmployeeEPAModel.openPopupUpdateStatusEPA(epa.ProcessByReviewers[0], epa.EPAId, 4, epa.Employee.EmployeeId, status);
-    };
-
-    vm.viewEPADetailOfEvaluator = function (memberEPA, evaluator) {
-        vm.viewEPADetailOfEvaluatorUrl = '/Evaluator/Detail?epaId=' + memberEPA.EPAId
-            + '&employeeId=' + memberEPA.Employee.EmployeeId
-            + '&evaluatorId=' + evaluator.EvaluatorId;
-    };
-
     vm.viewEPADetail = function (memberEPA, evaluator) {
-        vm.viewEPADetailUrl = '/Reviewer/Detail?epaId=' + memberEPA.EPAId
-            + '&employeeId=' + memberEPA.Employee.EmployeeId
-            + '&evaluatorId=' + evaluator.EvaluatorId;
+        vm.viewEPADetailUrl = '/Reviewer/Detail?epaId=' + memberEPA.EPAId;
     };
 
-    var getEPAByReviewer = function (targetTypeId, groupId, employeeIds, status) {
-        EmployeeEPAModel.getEPAByReviewer(targetTypeId, groupId, employeeIds, status).then(function () {
+    var getEPAByReviewer = function (groupId, employeeIds) {
+        EmployeeEPAModel.getEPAByReviewer(groupId, employeeIds).then(function () {
             vm.memberEPAs = EmployeeEPAModel.memberEPAs;
         });
     };
 
     vm.query = function (filter) {
         filter.employeeIds = utilitiesFactory.getSelectedData(vm.members, 'EmployeeId');
-        getEPAByReviewer(filter.targetTypeId, filter.groupId, filter.employeeIds, filter.status);
+        getEPAByReviewer(filter.groupId, filter.employeeIds);
     };
 
     vm.initialize = function () {
-        CommonModel.getTargetType().then(function () {
-            vm.targetTypes = CommonModel.targetTypes;
-        });
-
         CommonModel.getAllGroup().then(function () {
             vm.groupOptions = CommonModel.groups;
-        });
-
-        CommonModel.getAllStatus().then(function () {
-            vm.statusList = CommonModel.statusList;
         });
 
         vm.getMember(vm.filter.groupId);
