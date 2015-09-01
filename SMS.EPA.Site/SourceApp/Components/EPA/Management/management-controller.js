@@ -7,24 +7,11 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
     var vm = this;
 
     vm.memberEPAs = EmployeeEPAModel.memberEPAs;
-    vm.statusList = CommonModel.statusList;
     vm.members = EmployeeEPAModel.members;
-
-    vm.status = {
-        isopen: false
-    };
-    vm.epaStatus = EmployeeEPAModel.epaStatus;
 
     vm.filter = {
         groupId: '',
-        employeeIds: '',
-        status: ''
-    };
-
-    vm.toggleDropdown = function ($event) {
-        $event.preventDefault();
-        $event.stopPropagation();
-        vm.status.isopen = !vm.status.isopen;
+        employeeIds: ''
     };
 
     vm.getMember = function (groupId) {
@@ -33,32 +20,24 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
         });
     };
 
-    vm.updateStatusEPA = function (epa, status) {
-        EmployeeEPAModel.openPopupUpdateStatusEPA(epa.ProcessByManagements[0], epa.EPAId, 5, epa.Employee.EmployeeId, status);
-    };
-
-    vm.viewEPADetail = function (memberEPA, evaluator) {
+    vm.viewEPADetail = function (memberEPA) {
         vm.viewEPADetailUrl = '/Management/Detail?epaId=' + memberEPA.EPAId;
     };
 
-    var getEPAByManagement = function (groupId, employeeIds, status) {
-        EmployeeEPAModel.getEPAByManagement(groupId, employeeIds, status).then(function () {
+    var getEPAByManagement = function (groupId, employeeIds) {
+        EmployeeEPAModel.getEPAByManagement(groupId, employeeIds).then(function () {
             vm.memberEPAs = EmployeeEPAModel.memberEPAs;
         });
     };
 
     vm.query = function (filter) {
         filter.employeeIds = utilitiesFactory.getSelectedData(vm.members, 'EmployeeId');
-        getEPAByManagement(filter.groupId, filter.employeeIds, filter.status);
+        getEPAByManagement(filter.groupId, filter.employeeIds);
     };
 
     vm.initialize = function () {
         CommonModel.getAllGroup().then(function () {
             vm.groupOptions = CommonModel.groups;
-        });
-
-        CommonModel.getAllStatus().then(function () {
-            vm.statusList = CommonModel.statusList;
         });
 
         vm.getMember(vm.filter.groupId);

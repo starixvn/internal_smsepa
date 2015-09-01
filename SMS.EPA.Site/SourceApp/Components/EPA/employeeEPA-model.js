@@ -76,8 +76,8 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         });
     };
 
-    employeeEPAModel.getEPAByManagement = function (groupId, employeeIds, status) {
-        return employeeEPAFactory.getEPAByManagement(groupId, employeeIds, status)
+    employeeEPAModel.getEPAByManagement = function (groupId, employeeIds) {
+        return employeeEPAFactory.getEPAByManagement(groupId, employeeIds)
         .success(function (memberEPAs) {
             employeeEPAModel.memberEPAs = memberEPAs;
         }).error(function (response, status) {

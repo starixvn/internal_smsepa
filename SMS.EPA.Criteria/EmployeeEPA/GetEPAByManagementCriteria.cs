@@ -18,8 +18,6 @@ namespace SMS.EPA.Criteria.EmployeeEPA
 
         public int? GroupId { get; set; }
 
-        public int? Status { get; set; }
-
         public override string GetSettingKey()
         {
             return "EPA_GetByManagement";

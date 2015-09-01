@@ -167,15 +167,13 @@ namespace SMS.EPA.Site.Controllers.API
         [HttpGet]
         public IEnumerable<EPAModel> GetEPAByManagement(
             int? groupId = null,
-            string employeeIds = null,
-            int? status = null)
+            string employeeIds = null)
         {
             var criteria = new GetEPAByManagementCriteria()
             {
                 ManagementId = CurrentUser.EmployeeInfo.EmployeeId,
                 GroupId = groupId,
-                EmployeeIds = employeeIds,
-                Status = status
+                EmployeeIds = employeeIds
             };
 
             return _employeeEPAService.GetEPAByManagement(criteria);

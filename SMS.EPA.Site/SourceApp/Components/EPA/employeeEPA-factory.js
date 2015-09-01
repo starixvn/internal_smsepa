@@ -28,12 +28,11 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
         getEPAInfoByEvaluator: function (epaId) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAInfoByEvaluator', { params: { epaId: epaId } });
         },
-        getEPAByReviewer: function (groupId, employeeIds, status) {
+        getEPAByReviewer: function (groupId, employeeIds) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAByReviewer', {
                 params: {
                     groupId: groupId,
-                    employeeIds: employeeIds,
-                    status: status
+                    employeeIds: employeeIds
                 }
             });
         },
@@ -46,12 +45,11 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
                 }
             });
         },
-        getEPAByManagement: function (groupId, employeeIds, status) {
+        getEPAByManagement: function (groupId, employeeIds) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAByManagement', {
                 params: {
                     groupId: groupId,
-                    employeeIds: employeeIds,
-                    status: status
+                    employeeIds: employeeIds
                 }
             });
         },

@@ -20,7 +20,7 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
         });
     };
 
-    vm.viewEPADetail = function (memberEPA, evaluator) {
+    vm.viewEPADetail = function (memberEPA) {
         vm.viewEPADetailUrl = '/Reviewer/Detail?epaId=' + memberEPA.EPAId;
     };
 
