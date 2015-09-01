@@ -17,6 +17,8 @@ namespace SMS.EPA.AutoGenerateEvaluation
     using System.ServiceProcess;
     using System.Timers;
     using log4net;
+    using SMS.EPA.AutoGenerateEvaluation.Criteria;
+    using SMS.EPA.AutoGenerateEvaluation.Model;
     using SMS.EPA.AutoGenerateEvaluation.Service;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
@@ -30,7 +32,7 @@ namespace SMS.EPA.AutoGenerateEvaluation
         private static readonly ILog _LOG = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private bool _isBusy = false;
         private Timer _updateCounterTimer = null;
-        private GenerationEvaluationService _generationEvaluationService;
+        private IGenerationEvaluationService _generationEvaluationService;
         private IMailService _mailService;
         private IPeriodService _periodService;
 
@@ -91,7 +93,8 @@ namespace SMS.EPA.AutoGenerateEvaluation
         private void CheckSemiAnnualPeriod()
         {
             _LOG.Info("Check the start of semi annual period: started at " + DateTime.Now.ToString());
-            IEnumerable<int> semiAnnualPeriods = _generationEvaluationService.CheckStartSemiAnnual();
+            var criteria = new GetSemiAnnualPeriodStartedCriteria();
+            IEnumerable<int> semiAnnualPeriods = _generationEvaluationService.CheckStartSemiAnnual(criteria);
             _LOG.Info("Result of check the start of semi annual period: " + string.Join(",", semiAnnualPeriods));
 
             if (semiAnnualPeriods != null && semiAnnualPeriods.Count() > 0)
@@ -102,7 +105,15 @@ namespace SMS.EPA.AutoGenerateEvaluation
 
         private void CheckProbationPeriod()
         {
-            throw new NotImplementedException();
+            _LOG.Info("Check the start of probation evaluation: started at " + DateTime.Now.ToString());
+            var criteria = new GetEmployeeProbationEvaluationCriteria();
+            AutoEmployeePeriodModel employeePeriod = _generationEvaluationService.GetEmployeeProbationEvaluation(criteria);
+            _LOG.Info("Result of check the start of probation evaluation: employee: " + employeePeriod.EmployeeIds + "; periodId: " + employeePeriod.PeriodId);
+
+            if (!string.IsNullOrWhiteSpace(employeePeriod.EmployeeIds) && employeePeriod.PeriodId > 0)
+            {
+                AddEmployeeAndGenerateEPAProbation(employeePeriod);
+            }
         }
 
         private void CheckPromotionPeriod()
@@ -121,26 +132,68 @@ namespace SMS.EPA.AutoGenerateEvaluation
             foreach (int periodId in semiAnnualPeriods)
             {
                 _LOG.Info("Auto add employee to semi annual period " + periodId + ": started at " + DateTime.Now.ToString());
-                CommandResult addEmployeeResult = _generationEvaluationService.InsertEmployeeToSemiAnnualPeriod(periodId);
-                _LOG.Info("Result of auto add employee to semi annual period " + periodId + ": " + (addEmployeeResult.IsSuccessful ? "0" : addEmployeeResult.Message));
+                var insertEmployeeCriteria = new InsertEmployeeToSemiAnnualPeriodCriteria
+                {
+                    PeriodId = periodId
+                };
+                CommandResult insertEmployeeResult = _generationEvaluationService.InsertEmployeeToSemiAnnualPeriod(insertEmployeeCriteria);
+                _LOG.Info("Result of auto add employee to semi annual period " + periodId + ": " + (insertEmployeeResult.IsSuccessful ? "0" : insertEmployeeResult.Message));
 
-                if (addEmployeeResult.IsSuccessful)
+                if (insertEmployeeResult.IsSuccessful)
                 {
                     _LOG.Info("Auto generate EPA to all employees of current semi annual period " + periodId + ": started at " + DateTime.Now.ToString());
-                    CommandResult generateEvaluationResult = _generationEvaluationService.AutoGenerateEvaluation(periodId);
+                    var generateEvaluationCriteria = new AutoGenerateEvaluationCriteria
+                    {
+                        PeriodId = periodId
+                    };
+                    CommandResult generateEvaluationResult = _generationEvaluationService.AutoGenerateEvaluation(generateEvaluationCriteria);
                     _LOG.Info("Result of auto generate EPA to all employees of current semi annual period " + periodId + ": " + (generateEvaluationResult.IsSuccessful ? "0" : generateEvaluationResult.Message));
 
                     if (generateEvaluationResult.IsSuccessful)
                     {
-                        SendEmailSemiAnnual(periodId);
+                        GetAndSendEmailToAllRelatedEmployee(periodId, string.Empty);
                     }
+                }
+            }
+        }
+
+        private void AddEmployeeAndGenerateEPAProbation(AutoEmployeePeriodModel employeePeriod)
+        {
+            _LOG.Info("Auto add employee to probation period " + employeePeriod.PeriodId + ": started at " + DateTime.Now.ToString());
+            var insertEmployeeCriteria = new InsertEmployeeToProbationPeriodCriteria
+            {
+                PeriodId = employeePeriod.PeriodId,
+                EmployeeIds = employeePeriod.EmployeeIds
+            };
+
+            CommandResult insertEmployeeResult = _generationEvaluationService.InsertEmployeeToProbationPeriod(insertEmployeeCriteria);
+            _LOG.Info("Result of auto add employee to probation period " + employeePeriod.PeriodId + ": " + (insertEmployeeResult.IsSuccessful ? "0" : insertEmployeeResult.Message));
+
+            if (insertEmployeeResult.IsSuccessful)
+            {
+                _LOG.Info("Auto generate EPA to all employees of current probation period " + employeePeriod.PeriodId + ": started at " + DateTime.Now.ToString());
+                var generateEvaluationCriteria = new AutoGenerateEvaluationCriteria
+                {
+                    PeriodId = employeePeriod.PeriodId
+                };
+                CommandResult generateEvaluationResult = _generationEvaluationService.AutoGenerateEvaluation(generateEvaluationCriteria);
+                _LOG.Info("Result of auto generate EPA to all employees of current probation period " + employeePeriod.PeriodId + ": " + (generateEvaluationResult.IsSuccessful ? "0" : generateEvaluationResult.Message));
+
+                if (generateEvaluationResult.IsSuccessful)
+                {
+                    GetAndSendEmailToAllRelatedEmployee(employeePeriod.PeriodId, employeePeriod.EmployeeIds);
                 }
             }
         }
 
         private void CheckSendNoticeAtBeginEmail()
         {
-            throw new NotImplementedException();
+            _LOG.Info("Get employee has evaluation started today: started at " + DateTime.Now.ToString());
+            IEnumerable<PeriodFlowModel> employeeSettings = GetEmployeeSettings(null, string.Empty);
+            _LOG.Info("Get employee has evaluation started today: ended at " + DateTime.Now.ToString());
+
+            _LOG.Info("Send email to all related employee of periodId " + periodId + ": started at " + DateTime.Now.ToString());
+            SendMail(period, employeeSettings);
         }
 
         private void CheckSendReminderEmail()
@@ -148,17 +201,49 @@ namespace SMS.EPA.AutoGenerateEvaluation
             throw new NotImplementedException();
         }
 
-        private void SendEmailSemiAnnual(int periodId)
+        private void GetAndSendEmailToAllRelatedEmployee(int periodId, string employeeIds)
         {
-            _LOG.Info("Send mail to all employees of current semi annual period " + periodId + ": started at " + DateTime.Now.ToString());
+            _LOG.Info("Get period name of periodId " + periodId + ": started at " + DateTime.Now.ToString());
+            PeriodModel period = GetPeriodInformation(periodId);
+            _LOG.Info("Result of get period name of periodId " + periodId + ": " + period.Name);
+
+            _LOG.Info("Get employee setting of periodId " + periodId + ": started at " + DateTime.Now.ToString());
+            IEnumerable<PeriodFlowModel> employeeSettings = GetEmployeeSettings(periodId, employeeIds);
+            _LOG.Info("Get employee setting of periodId " + periodId + ": ended at " + DateTime.Now.ToString());
+
+            _LOG.Info("Send email to all related employee of periodId " + periodId + ": started at " + DateTime.Now.ToString());
+            SendMail(period, employeeSettings);
+        }
+
+        private PeriodModel GetPeriodInformation(int periodId)
+        {
+            var period = new PeriodModel();
 
             var criteria = new GetPeriodByIdCriteria
             {
                 PeriodId = periodId
             };
-            PeriodModel period = _periodService.GetPeriodById(criteria);
-            IEnumerable<PeriodFlowModel> employeeSettings = _generationEvaluationService.GetEmployeeSettingByPeriodId(periodId);
+             period = _periodService.GetPeriodById(criteria);
 
+             return period;
+        }
+
+        private IEnumerable<PeriodFlowModel> GetEmployeeSettings(int? periodId, string employeeIds)
+        {
+            IEnumerable<PeriodFlowModel> employeeSettings = new List<PeriodFlowModel>();
+
+            var getEmployeeSettingCriteria = new GetEmployeeSettingByPeriodIdCriteria
+            {
+                PeriodId = periodId,
+                EmployeeIds = employeeIds
+            };
+            employeeSettings = _generationEvaluationService.GetEmployeeSettingByPeriodId(getEmployeeSettingCriteria);
+
+            return employeeSettings;
+        }
+
+        private void SendMail(PeriodModel period, IEnumerable<PeriodFlowModel> employeeSettings)
+        {
             foreach (PeriodFlowModel employeeSetting in employeeSettings)
             {
                 switch (employeeSetting.ProcessId)

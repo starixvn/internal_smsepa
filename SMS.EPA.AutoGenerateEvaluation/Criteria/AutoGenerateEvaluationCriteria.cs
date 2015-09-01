@@ -22,7 +22,7 @@ namespace SMS.EPA.AutoGenerateEvaluation.Criteria
 
         public override string GetSettingKey()
         {
-            return "EpaAuto_SemiAnnual_GenerateEPA";
+            return "EpaAuto_GenerateEPA";
         }
     }
 }

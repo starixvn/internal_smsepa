@@ -1,13 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Functions>
-  <Function Name="Semi Annual">
+  <Function Name="Auto">
     <Setting Key="EpaAuto_SemiAnnual_GetPeriodStartedToday" SpName="EpaAuto_SemiAnnual_GetPeriodStartedToday" DbName="SMSEPA" Plain="0" >
     </Setting>
     <Setting Key="EpaAuto_SemiAnnual_AddEmployeeToPeriod" SpName="EpaAuto_SemiAnnual_AddEmployeeToPeriod" DbName="SMSEPA" Plain="0" >
     </Setting>
-    <Setting Key="EpaAuto_SemiAnnual_GenerateEPA" SpName="EpaAuto_SemiAnnual_GenerateEPA" DbName="SMSEPA" Plain="0" >
+    <Setting Key="EpaAuto_GenerateEPA" SpName="EpaAuto_GenerateEPA" DbName="SMSEPA" Plain="0" >
     </Setting>
     <Setting Key="EpaAuto_GetEmployeeSettingToSendMail" SpName="EpaAuto_GetEmployeeSettingToSendMail" DbName="SMSEPA" Plain="0" >
+    </Setting>
+    <Setting Key="EpaAuto_Probation_GetEmployees" SpName="EpaAuto_Probation_GetEmployees" DbName="SMSEPA" Plain="0" >
+    </Setting>
+    <Setting Key="EpaAuto_Probation_AddEmployeeToPeriod" SpName="EpaAuto_Probation_AddEmployeeToPeriod" DbName="SMSEPA" Plain="0" >
     </Setting>
   </Function>
 </Functions>

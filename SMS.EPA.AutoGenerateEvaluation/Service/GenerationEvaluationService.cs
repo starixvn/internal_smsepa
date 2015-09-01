@@ -10,29 +10,31 @@
 namespace SMS.EPA.AutoGenerateEvaluation.Service
 {
     using System.Collections.Generic;
+    using Fanex.Common.Helper;
     using SMS.EPA.AutoGenerateEvaluation.Criteria;
+    using SMS.EPA.AutoGenerateEvaluation.Model;
     using SMS.EPA.AutoGenerateEvaluation.Repository;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Model.Period;
 
-    public class GenerationEvaluationService : BaseService
+    public class GenerationEvaluationService : BaseService, IGenerationEvaluationService
     {
-        private readonly GenerateEvaluationRepository _generateEvaluationRepository;
+        private readonly IGenerationEvaluationRepository _generateEvaluationRepository;
 
         public GenerationEvaluationService()
             : this(null)
         {
         }
 
-        public GenerationEvaluationService(GenerateEvaluationRepository generationEvaluationRepository)
+        public GenerationEvaluationService(IGenerationEvaluationRepository generationEvaluationRepository)
         {
-            _generateEvaluationRepository = generationEvaluationRepository ?? new GenerateEvaluationRepository();
+            _generateEvaluationRepository = generationEvaluationRepository ?? new GenerationEvaluationRepository();
         }
 
-        public IEnumerable<int> CheckStartSemiAnnual()
+        public IEnumerable<int> CheckStartSemiAnnual(GetSemiAnnualPeriodStartedCriteria criteria)
         {
-            var criteria = new GetSemiAnnualPeriodStartedCriteria();
+            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<int> startedPeriods = new List<int>();
 
             if (criteria.IsValid())
@@ -43,13 +45,10 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service
             return startedPeriods;
         }
 
-        public CommandResult InsertEmployeeToSemiAnnualPeriod(int periodId)
+        public CommandResult InsertEmployeeToSemiAnnualPeriod(InsertEmployeeToSemiAnnualPeriodCriteria criteria)
         {
+            Check.Argument.IsNotNull(criteria, "criteria");
             var commandResult = new CommandResult();
-            var criteria = new InsertEmployeeToSemiAnnualPeriodCriteria
-            {
-                PeriodId = periodId
-            };
 
             if (criteria.IsValid())
             {
@@ -59,13 +58,10 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service
             return commandResult;
         }
 
-        public CommandResult AutoGenerateEvaluation(int periodId)
+        public CommandResult AutoGenerateEvaluation(AutoGenerateEvaluationCriteria criteria)
         {
+            Check.Argument.IsNotNull(criteria, "criteria");
             var commandResult = new CommandResult();
-            var criteria = new AutoGenerateEvaluationCriteria
-            {
-                PeriodId = periodId
-            };
 
             if (criteria.IsValid())
             {
@@ -75,12 +71,9 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service
             return commandResult;
         }
 
-        public IEnumerable<PeriodFlowModel> GetEmployeeSettingByPeriodId(int periodId)
+        public IEnumerable<PeriodFlowModel> GetEmployeeSettingByPeriodId(GetEmployeeSettingByPeriodIdCriteria criteria)
         {
-            var criteria = new GetEmployeeSettingByPeriodIdCriteria
-            {
-                PeriodId = periodId
-            };
+            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<PeriodFlowModel> employeeSettings = new List<PeriodFlowModel>();
 
             if (criteria.IsValid())
@@ -89,6 +82,32 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service
             }
 
             return employeeSettings;
+        }
+
+        public AutoEmployeePeriodModel GetEmployeeProbationEvaluation(GetEmployeeProbationEvaluationCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            var employeePeriod = new AutoEmployeePeriodModel();
+
+            if (criteria.IsValid())
+            {
+                employeePeriod = _generateEvaluationRepository.GetEmployeeProbationEvaluation(criteria);
+            }
+
+            return employeePeriod;
+        }
+
+        public CommandResult InsertEmployeeToProbationPeriod(InsertEmployeeToProbationPeriodCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            var comandResult = new CommandResult();
+
+            if (criteria.IsValid())
+            {
+                comandResult = Repository.Insert(criteria);
+            }
+
+            return comandResult;
         }
     }
 }
