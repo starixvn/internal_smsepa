@@ -144,16 +144,11 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpGet]
-        public EPAModel GetEPAInfoByReviewer(
-            int epaId,
-            int employeeId,
-            int evaluatorId)
+        public EPAModel GetEPAInfoByReviewer(int epaId)
         {
             var criteria = new GetEPAInfoByReviewerCriteria()
             {
                 EPAId = epaId,
-                EmployeeId = employeeId,
-                EvaluatorId = evaluatorId,
                 ReviewerId = CurrentUser.EmployeeInfo.EmployeeId
             };
 

@@ -332,6 +332,7 @@
     <Content Include="SourceApp\Components\EPA\Reviewer\Templates\index.html" />
     <Content Include="SourceApp\Components\EPA\Reviewer\reviewer-controller.js" />
     <Content Include="SourceApp\Components\EPA\Reviewer\Templates\listKPI.html" />
+    <Content Include="SourceApp\Components\EPA\Reviewer\Templates\performanceResult.html" />
     <Content Include="SourceApp\Components\EPA\Templates\generalInformation.html" />
     <Content Include="SourceApp\Components\EPA\MyEPA\Templates\index.html" />
     <Content Include="SourceApp\Components\EPA\MyEPA\Templates\listKPI.html" />

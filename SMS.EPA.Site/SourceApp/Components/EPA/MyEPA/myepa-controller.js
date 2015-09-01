@@ -171,10 +171,6 @@ function ($window, $translate, $routeParams, EmployeeEPAModel) {
         }
     };
 
-    vm.updateStatusEPA = function (status) {
-        EmployeeEPAModel.openPopupUpdateStatusEPA(vm.epaInfo.ProcessBySelf, vm.epaId, 2, vm.employeeId, status);
-    };
-
     vm.save = function (epaInfo) {
         if (validateEPA(epaInfo)) {
             EmployeeEPAModel.updateEPAScore(vm.dataSaved, epaInfo);

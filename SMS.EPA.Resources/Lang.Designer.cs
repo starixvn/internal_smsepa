@@ -1339,6 +1339,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Performance Result.
+        /// </summary>
+        public static string PerformanceResult {
+            get {
+                return ResourceManager.GetString("PerformanceResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Period Name.
         /// </summary>
         public static string PeriodName {

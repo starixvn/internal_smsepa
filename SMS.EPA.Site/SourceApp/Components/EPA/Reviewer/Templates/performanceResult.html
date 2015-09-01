@@ -1,0 +1,60 @@
+﻿<div class="row row-item">
+    <table class="table table-bordered table-striped table-performance-result">
+        <thead>
+            <tr>
+                <th colspan="2" data-translate="Employee"></th>
+                <th colspan="3">
+                    <span data-translate="Evaluator"></span>
+                    <span ng-show="memberEPAInfoCtrl.epaInfo.AverageScoreByEvaluators">(<strong ng-bind="memberEPAInfoCtrl.epaInfo.AverageScoreByEvaluators | customNumber"></strong>)</span>
+                </th>
+                <th colspan="2" data-translate="Reviewer"></th>
+                <th rowspan="2" data-translate="AttendanceScore" class="col-attendance-score"
+                    ng-show="memberEPAInfoCtrl.epaInfo.Department.DepartmentId == 2"></th>
+                <th rowspan="2" data-translate="FinalScore" class="col-score"></th>
+            </tr>
+            <tr>
+                <th data-translate="TotalScore" class="col-score"></th>
+                <th data-translate="Comment"></th>
+                <th data-translate="NickName"></th>
+                <th data-translate="TotalScore" class="col-score"></th>
+                <th data-translate="Comment"></th>
+                <th data-translate="TotalScore" class="col-score"></th>
+                <th data-translate="Comment"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="evaluator in memberEPAInfoCtrl.epaInfo.ProcessByEvaluators">
+                <td rowspan="{{memberEPAInfoCtrl.epaInfo.NumberEvaluators}}" class="text-center col-score"
+                    ng-bind="memberEPAInfoCtrl.epaInfo.ProcessBySelf.TotalScore | customNumber" ng-show="$first"></td>
+                <td rowspan="{{memberEPAInfoCtrl.epaInfo.NumberEvaluators}}" class="text-center" ng-show="$first">
+                    <span class="glyphicon icon-description"
+                          ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.Comment.length > 0" tooltip="{{memberEPAInfoCtrl.epaInfo.ProcessBySelf.Comment}}"></span>
+                </td>
+                <td ng-bind="evaluator.NickName"></td>
+                <td ng-bind="evaluator.TotalScore | customNumber" class="text-center col-score"></td>
+                <td class="text-center">
+                    <span class="glyphicon icon-description"
+                          ng-show="evaluator.Comment.length > 0" tooltip="{{evaluator.Comment}}"></span>
+                </td>
+                <td rowspan="{{memberEPAInfoCtrl.epaInfo.NumberEvaluators}}" class="total-score" ng-show="$first">
+                    <input type="text" class="form-control text-center" maxlength="5" ng-readonly="memberEPAInfoCtrl.isReadonly"
+                           ng-model="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[0].TotalScore" ng-decimal fraction="2" />
+                </td>
+                <td rowspan="{{memberEPAInfoCtrl.epaInfo.NumberEvaluators}}" class="summary-comment" ng-show="$first">
+                    <textarea class="form-control" ng-readonly="memberEPAInfoCtrl.isReadonly"
+                              ng-model="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[0].Comment"></textarea>
+                </td>
+                <td rowspan="{{memberEPAInfoCtrl.epaInfo.NumberEvaluators}}" class="text-center"
+                    ng-bind="memberEPAInfoCtrl.epaInfo.AttendanceScore | customNumber" ng-show="$first"></td>
+                <td rowspan="{{memberEPAInfoCtrl.epaInfo.NumberEvaluators}}" class="text-center"
+                    ng-show="memberEPAInfoCtrl.epaInfo.Department.DepartmentId == 2 && $first"
+                    ng-bind="memberEPAInfoCtrl.finalScore | customNumber"></td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="col-sm-12 epa-action-button text-center">
+        <button class="button" ng-click="memberEPAInfoCtrl.save(memberEPAInfoCtrl.epaInfo)"
+                ng-show="memberEPAInfoCtrl.epaInfo && !memberEPAInfoCtrl.isReadonly" data-translate="Save"></button>
+        <button class="btn btn-default customize" ng-click="memberEPAInfoCtrl.cancel()" data-translate="Cancel"></button>
+    </div>
+</div>

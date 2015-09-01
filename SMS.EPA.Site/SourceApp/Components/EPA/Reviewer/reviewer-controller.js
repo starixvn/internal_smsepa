@@ -49,36 +49,21 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
 }]);
 
 epaModule.controller('MemberEPAInfoOfReviewerController',
-['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'CommonModel', 'utilitiesFactory',
-function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, utilitiesFactory) {
+['$window', '$translate', '$routeParams', 'EmployeeEPAModel',
+function ($window, $translate, $routeParams, EmployeeEPAModel) {
     var vm = this;
 
     vm.epaId = parseInt($routeParams.epaId);
-    vm.employeeId = parseInt($routeParams.employeeId);
-    vm.evaluatorId = parseInt($routeParams.evaluatorId);
 
     vm.dataSaved = false;
     vm.isReadonly = false;
-
-    vm.status = {
-        isopen: false
-    };
-    vm.epaStatus = EmployeeEPAModel.epaStatus;
-
-    vm.toggleDropdown = function ($event) {
-        $event.preventDefault();
-        $event.stopPropagation();
-        vm.status.isopen = !vm.status.isopen;
-    };
+    vm.evaluatedDate = null;
+    vm.finalScore = null;
 
     var checkStatus = function (epaInfo) {
         if (epaInfo.ProcessByReviewers[0].IsEndProcess) {
             vm.isReadonly = true;
         }
-    };
-
-    vm.updateStatusEPA = function (epa, status) {
-        EmployeeEPAModel.openPopupUpdateStatusEPA(epa.ProcessByReviewers[0], epa.EPAId, 4, epa.Employee.EmployeeId, status);
     };
 
     vm.save = function (epaInfo) {
@@ -105,6 +90,18 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
         EmployeeEPAModel.getEPAInfoByReviewer(vm.epaId, vm.employeeId, vm.evaluatorId).then(function () {
             var data = EmployeeEPAModel.epaInfo;
 
+            if (data.AverageScoreByEvaluators && parseFloat(data.AverageScoreByEvaluators) > 0) {
+                data.ProcessByReviewers[0].TotalScore = data.AverageScoreByEvaluators;
+            }
+
+            if (data.Department.DepartmentId == 2) {
+                vm.finalScore = data.ProcessByReviewers[0].TotalScore ? (parseFloat(data.ProcessByReviewers[0].TotalScore) + data.AttendanceScore) : data.AttendanceScore;
+            }
+            else {
+                vm.finalScore = data.ProcessByReviewers[0].TotalScore;
+            }
+
+            vm.evaluatedDate = data.ProcessByReviewers[0].EvaluateDate ? data.ProcessByReviewers[0].EvaluateDate : null;
             vm.epaInfo = data;
             checkStatus(vm.epaInfo);
 
