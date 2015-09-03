@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="EvaluateModel.cs" company="Nexcel Solutions Viet Nam">
+// <copyright file="EvaluationModel.cs" company="Nexcel Solutions Viet Nam">
 // Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -9,7 +9,7 @@
 
 namespace SMS.EPA.Model.EmployeeEPA
 {
-    public class EvaluateModel
+    public class EvaluationModel
     {
         public int EPAId { get; set; }
 

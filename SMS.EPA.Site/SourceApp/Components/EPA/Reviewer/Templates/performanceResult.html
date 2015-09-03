@@ -10,14 +10,14 @@
                 <th colspan="2" data-translate="Reviewer"></th>
                 <th rowspan="2" data-translate="AttendanceScore" class="col-attendance-score"
                     ng-show="memberEPAInfoCtrl.epaInfo.Department.DepartmentId == 2"></th>
-                <th rowspan="2" data-translate="FinalScore" class="col-score"></th>
+                <th rowspan="2" data-translate="TotalScore" class="col-score"></th>
             </tr>
             <tr>
                 <th data-translate="TotalScore" class="col-score"></th>
-                <th data-translate="Comment"></th>
+                <th data-translate="Comment" class="col-comment"></th>
                 <th data-translate="NickName"></th>
                 <th data-translate="TotalScore" class="col-score"></th>
-                <th data-translate="Comment"></th>
+                <th data-translate="Comment" class="col-comment"></th>
                 <th data-translate="TotalScore" class="col-score"></th>
                 <th data-translate="Comment"></th>
             </tr>
@@ -26,13 +26,13 @@
             <tr ng-repeat="evaluator in memberEPAInfoCtrl.epaInfo.ProcessByEvaluators">
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.NumberEvaluators}}" class="text-center col-score"
                     ng-bind="memberEPAInfoCtrl.epaInfo.ProcessBySelf.TotalScore | customNumber" ng-show="$first"></td>
-                <td rowspan="{{memberEPAInfoCtrl.epaInfo.NumberEvaluators}}" class="text-center" ng-show="$first">
+                <td rowspan="{{memberEPAInfoCtrl.epaInfo.NumberEvaluators}}" class="text-center col-comment" ng-show="$first">
                     <span class="glyphicon icon-description"
                           ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.Comment.length > 0" tooltip="{{memberEPAInfoCtrl.epaInfo.ProcessBySelf.Comment}}"></span>
                 </td>
                 <td ng-bind="evaluator.NickName"></td>
                 <td ng-bind="evaluator.TotalScore | customNumber" class="text-center col-score"></td>
-                <td class="text-center">
+                <td class="text-center col-comment">
                     <span class="glyphicon icon-description"
                           ng-show="evaluator.Comment.length > 0" tooltip="{{evaluator.Comment}}"></span>
                 </td>

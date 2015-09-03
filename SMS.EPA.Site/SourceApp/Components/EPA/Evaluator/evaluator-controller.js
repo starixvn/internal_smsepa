@@ -77,7 +77,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
     };
 
     var checkStatus = function (epaInfo) {
-        if (epaInfo.ProcessByEvaluators[0].IsEndProcess || vm.isViewDetail) {
+        if (epaInfo.ProcessByEvaluators[0].IsEndProcess) {
             vm.isReadonly = true;
             vm.hoveringOver = null;
             vm.hoveringLeave = null;
@@ -125,14 +125,6 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
     var validateEPA = function (epaInfo) {
         var isValid = true;
 
-        if (!epaInfo.ProcessByEvaluators[0].Comment || epaInfo.ProcessByEvaluators[0].Comment.length === 0) {
-            isValid = false;
-            epaInfo.ProcessByEvaluators[0].CommentValid = true;
-        }
-        else {
-            epaInfo.ProcessByEvaluators[0].CommentValid = false;
-        }
-
         angular.forEach(epaInfo.KPIGroups, function (kpiGroup) {
             angular.forEach(kpiGroup.KPIs, function (kpi) {
                 if (kpi.IsRequiredEvaluate && (!kpi.EvaluateByEvaluators[0].Score || kpi.EvaluateByEvaluators[0].Score === 0)) {
@@ -154,10 +146,6 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
         });
 
         return isValid;
-    };
-
-    vm.updateStatusEPA = function (epa, status) {
-        EmployeeEPAModel.openPopupUpdateStatusEPA(epa.ProcessByEvaluators[0], epa.EPAId, 3, epa.Employee.EmployeeId, status);
     };
 
     vm.inputScore = function (kpi) {
@@ -217,6 +205,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
 
         EmployeeEPAModel.getEPAInfoByEvaluator(vm.epaId, vm.employeeId, vm.evaluatorId).then(function () {
             var data = EmployeeEPAModel.epaInfo;
+
             vm.evaluatedDate = data.ProcessByEvaluators[0].EvaluateDate ? data.ProcessByEvaluators[0].EvaluateDate : null;
             vm.finalScore = data.ProcessByEvaluators[0].TotalScore ? (parseFloat(data.ProcessByEvaluators[0].TotalScore) + data.AttendanceScore) : data.AttendanceScore;
             vm.epaInfo = data;

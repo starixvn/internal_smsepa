@@ -1,0 +1,31 @@
+﻿<div class="row row-item">
+    <div class="col-sm-6 textarea-comment">
+        <label class="control-label" data-translate="CommentByEmployee"></label>
+        <textarea class="form-control" ng-model="memberEPAInfoCtrl.epaInfo.ProcessBySelf.Comment" ng-readonly="true"></textarea>
+        <label class="control-label" data-translate="CommentByEvaluator"></label>
+        <textarea class="form-control" ng-model="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].Comment"
+                  ng-readonly="memberEPAInfoCtrl.isReadonly"></textarea>
+    </div>
+    <div class="col-sm-6">
+        <div class="col-sm-5">
+            <div class="total text-center pull-right">
+                <p data-translate="PerformanceScore"></p>
+                <p class="totalscore" ng-bind="memberEPAInfoCtrl.epaInfo.ProcessBySelf.TotalScore | customNumber"></p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="row total text-center pull-right">
+                <p data-translate="PerformanceScore"></p>
+                <p class="totalscore" ng-bind="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].TotalScore | customNumber"></p>
+            </div>
+            <div class="row total text-center pull-right" ng-show="memberEPAInfoCtrl.epaInfo.Department.DepartmentId == 2">
+                <p data-translate="AttendanceScore"></p>
+                <p class="totalscore" ng-bind="memberEPAInfoCtrl.epaInfo.AttendanceScore | customNumber"></p>
+            </div>
+            <div class="row total text-center pull-right">
+                <p data-translate="TotalScore"></p>
+                <p class="totalscore" ng-bind="memberEPAInfoCtrl.finalScore | customNumber"></p>
+            </div>
+        </div>
+    </div>
+</div>

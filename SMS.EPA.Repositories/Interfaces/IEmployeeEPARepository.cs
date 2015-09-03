@@ -9,14 +9,13 @@
 
 namespace SMS.EPA.Repositories.Interfaces
 {
-    using System.Collections.Generic;
     using Fanex.Data.Repository;
     using SMS.EPA.Model.EmployeeEPA;
 
     public interface IEmployeeEPARepository
     {
-        IEnumerable<EPAModel> GetEPA(ICriteria criteria);
+        RawEPAModel GetEPA(ICriteria criteria);
 
-        EPAModel GetEPAInfo(ICriteria criteria);
+        RawEPAInfoModel GetEPAInfo(ICriteria criteria);
     }
 }

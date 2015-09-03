@@ -100,14 +100,6 @@ function ($window, $translate, $routeParams, EmployeeEPAModel) {
     var validateEPA = function (epaInfo) {
         var isValid = true;
 
-        if (!epaInfo.ProcessBySelf.Comment || epaInfo.ProcessBySelf.Comment.length === 0) {
-            isValid = false;
-            epaInfo.ProcessBySelf.CommentValid = true;
-        }
-        else {
-            epaInfo.ProcessBySelf.CommentValid = false;
-        }
-
         angular.forEach(epaInfo.KPIGroups, function (kpiGroup) {
             angular.forEach(kpiGroup.KPIs, function (kpi) {
                 if (kpi.IsRequiredEvaluate && (!kpi.EvaluateBySelf.Score || kpi.EvaluateBySelf.Score === 0)) {
@@ -188,6 +180,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel) {
 
         EmployeeEPAModel.getEPAInfoByEmployee(vm.epaId, vm.employeeId).then(function () {
             var data = EmployeeEPAModel.epaInfo;
+
             vm.evaluatedDate = data.ProcessBySelf.EvaluateDate ? data.ProcessBySelf.EvaluateDate : null;
             vm.finalScore = data.ProcessBySelf.TotalScore ? (parseFloat(data.ProcessBySelf.TotalScore) + data.AttendanceScore) : data.AttendanceScore;
             vm.epaInfo = data;

@@ -1,56 +1,4 @@
 ﻿﻿.table.table-bordered {
-    .oddRow > tr {
-        background-color: #ececec;
-
-        td {
-            background-color: #ececec !important;
-        }
-    }
-
-    .evenRow {
-        background-color: #fff;
-
-        td {
-            background-color: #fff !important;
-        }
-    }
-
-    .epa-score {
-        width: 80px;
-
-        a {
-            cursor: pointer;
-
-            &:hover, &:focus {
-                text-decoration: none;
-            }
-        }
-    }
-
-    .col-score {
-        width: 10%;
-
-        a {
-            cursor: pointer;
-
-            &:hover, &:focus {
-                text-decoration: none;
-            }
-        }
-    }
-
-    .col-total-score {
-        width: 12%;
-    }
-
-    .col-status {
-        width: 8%;
-    }
-        
-    .col-evaluate-date {
-        width: 10%;
-    }
-
     .col-action {
         width: 12%;
         padding-left: 0;
@@ -62,9 +10,11 @@
         }
     }
 
-    .epa-evaluator ul {
-        padding-left: 12px;
-        margin-bottom: 0;
+    .col-evaluator {
+        ul {
+            padding-left: 12px;
+            margin-bottom: 0;
+        }
     }
 }
 
@@ -125,11 +75,6 @@
 
                 &.line {
                     border-bottom: 1px solid #e5e3e3;
-                }
-
-                .epa-evaluator ul {
-                    padding-left: 12px;
-                    margin-bottom: 0;
                 }
 
                 .epa-saved
@@ -226,7 +171,7 @@
     }
 
     .list-star {
-        .cancel-rating, .rating {
+        .cancel-rating, .rating, .percent-rating {
             padding: 0;
         }
 
@@ -261,8 +206,20 @@
     }
 
     .textarea-comment {
+        &.comment-by-evaluator {
+            margin-top: 10px;
+
+            div.note {
+                padding-left: 0;
+
+                label.note {
+                    color: #df1501;
+                }
+            }
+        }
+
         textarea {
-            height: 60px !important;
+            height: 50px !important;
         }
     }
 }
@@ -326,12 +283,8 @@
         }
     }
 
-    .col-score {
+    .col-comment, .col-score, .col-attendance-score {
         width: 8% !important;
-    }
-
-    .col-attendance-score {
-        width: 10% !important;
     }
 
     .total-score {
@@ -351,6 +304,42 @@
             height: 80px;
             resize: none;
             color: #39F;
+        }
+    }
+}
+
+.table-performance-detail {
+    .oddRow > tr {
+        background-color: #ececec;
+
+        td {
+            background-color: #ececec !important;
+        }
+    }
+
+    .evenRow {
+        background-color: #fff;
+
+        td {
+            background-color: #fff !important;
+        }
+    }
+
+    .col-kpi-name {
+        width: 40%;
+    }
+
+    .col-score {
+        width: 5%;
+    }
+
+    .col-comment {
+        a {
+            cursor: pointer;
+
+            &:hover, &:focus {
+                text-decoration: none;
+            }
         }
     }
 }

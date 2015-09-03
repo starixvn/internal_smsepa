@@ -320,6 +320,7 @@
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\detail.html" />
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\index.html" />
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\listKPI.html" />
+    <Content Include="SourceApp\Components\EPA\Evaluator\Templates\summary.html" />
     <Content Include="SourceApp\Components\EPA\Management\management-controller.js" />
     <Content Include="SourceApp\Components\EPA\Management\Templates\detail.html" />
     <Content Include="SourceApp\Components\EPA\Management\Templates\index.html" />
@@ -332,6 +333,7 @@
     <Content Include="SourceApp\Components\EPA\Reviewer\reviewer-controller.js" />
     <Content Include="SourceApp\Components\EPA\Reviewer\Templates\listKPI.html" />
     <Content Include="SourceApp\Components\EPA\Reviewer\Templates\performanceResult.html" />
+    <Content Include="SourceApp\Components\EPA\Templates\evaluationProcess.html" />
     <Content Include="SourceApp\Components\EPA\Templates\generalInformation.html" />
     <Content Include="SourceApp\Components\EPA\MyEPA\Templates\index.html" />
     <Content Include="SourceApp\Components\EPA\MyEPA\Templates\listKPI.html" />

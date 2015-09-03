@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="KPIGroupViewModel.cs" company="Nexcel Solutions Viet Nam">
+// <copyright file="EPAKpiGroupModel.cs" company="Nexcel Solutions Viet Nam">
 // Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -11,11 +11,11 @@ namespace SMS.EPA.Model.EmployeeEPA
 {
     using System.Collections.Generic;
 
-    public class KPIGroupViewModel
+    public class EPAKpiGroupModel
     {
-        public KPIGroupViewModel()
+        public EPAKpiGroupModel()
         {
-            KPIs = new List<KPIViewModel>();
+            KPIs = new List<EPAKpiModel>();
         }
 
         public int EPAId { get; set; }
@@ -30,6 +30,6 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public int DisplayOrder { get; set; }
 
-        public IList<KPIViewModel> KPIs { get; set; }
+        public IList<EPAKpiModel> KPIs { get; set; }
     }
 }

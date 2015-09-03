@@ -13,17 +13,18 @@ namespace SMS.EPA.Model.EmployeeEPA
     using SMS.EPA.Model.Department;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.Period;
-    using SMS.EPA.Model.TargetType;
 
     public class EPAModel
     {
         public EPAModel()
         {
             Evaluators = new List<EvaluatorModel>();
+            Reviewers = new List<EvaluatorModel>();
+            Managements = new List<EvaluatorModel>();
             ProcessByEvaluators = new List<EPAProcessModel>();
             ProcessByReviewers = new List<EPAProcessModel>();
             ProcessByManagements = new List<EPAProcessModel>();
-            KPIGroups = new List<KPIGroupViewModel>();
+            KPIGroups = new List<EPAKpiGroupModel>();
         }
 
         public int EPAId { get; set; }
@@ -73,7 +74,7 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public IList<EPAProcessModel> ProcessByManagements { get; set; }
 
-        public IList<KPIGroupViewModel> KPIGroups { get; set; }
+        public IList<EPAKpiGroupModel> KPIGroups { get; set; }
 
         public IList<EvaluatorModel> Evaluators { get; set; }
 

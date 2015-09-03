@@ -246,7 +246,7 @@ namespace SMS.EPA.Site.Controllers.API
             return score;
         }
 
-        private string ConvertKPIInfoToXml(IList<KPIGroupViewModel> kpiGroups, int processId)
+        private string ConvertKPIInfoToXml(IList<EPAKpiGroupModel> kpiGroups, int processId)
         {
             string beginRootTag = "<ROOT>";
             string endRootTag = "</ROOT>";

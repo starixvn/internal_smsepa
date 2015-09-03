@@ -137,13 +137,9 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         });
     };
 
-    employeeEPAModel.validateEvaluationOfReviewerOrManagement = function (score, comment) {
+    employeeEPAModel.validateEvaluationOfReviewerOrManagement = function (score) {
         if (!score) {
             notificationFactory.error("ScoreRequire");
-            return false;
-        }
-        else if (!comment || comment.length === 0) {
-            notificationFactory.error("CommentRequire");
             return false;
         }
 

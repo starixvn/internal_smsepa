@@ -837,4 +837,37 @@
   <data name="PerformanceResult" xml:space="preserve">
     <value>Performance Result</value>
   </data>
+  <data name="EvaluationProcess" xml:space="preserve">
+    <value>Evaluation Process</value>
+  </data>
+  <data name="SignBy" xml:space="preserve">
+    <value>SignBy</value>
+  </data>
+  <data name="Step" xml:space="preserve">
+    <value>Step</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="EmployeeRating" xml:space="preserve">
+    <value>Employee Rating</value>
+  </data>
+  <data name="EmployeeScore" xml:space="preserve">
+    <value>Employee Score</value>
+  </data>
+  <data name="PerformanceScore" xml:space="preserve">
+    <value>Performance Score</value>
+  </data>
+  <data name="EvaluatorRating" xml:space="preserve">
+    <value>Evaluator Rating</value>
+  </data>
+  <data name="EvaluatorScore" xml:space="preserve">
+    <value>Evaluator Score</value>
+  </data>
+  <data name="CommentByEmployee" xml:space="preserve">
+    <value>Comment by employee</value>
+  </data>
+  <data name="CommentByEvaluator" xml:space="preserve">
+    <value>Comment by evaluator</value>
+  </data>
 </root>

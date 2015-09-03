@@ -1,5 +1,5 @@
 ﻿<div class="list-kpi-rating" ng-repeat="kpiGroup in memberEPAInfoCtrl.epaInfo.KPIGroups"
-     ng-init="memberEPAInfoCtrl.collapses[kpiGroup.Name] = true;"
+     ng-init="memberEPAInfoCtrl.collapses[kpiGroup.Name] = false;"
      ng-show="kpiGroup.KPIs.length > 0">
     <div class="boxtitle col-sm-12"
          ng-click="memberEPAInfoCtrl.collapses[kpiGroup.Name] = !memberEPAInfoCtrl.collapses[kpiGroup.Name]">
@@ -7,41 +7,46 @@
     </div>
     <div class="boxcontent col-sm-12" collapse="memberEPAInfoCtrl.collapses[kpiGroup.Name]">
         <div class="row row-item">
-            <table class="row table table-bordered table-striped">
+            <table class="row table table-bordered table-striped table-performance-detail">
                 <thead>
                     <tr>
                         <th rowspan="2" data-translate="SymbolCount"></th>
-                        <th rowspan="2" data-translate="KPI"></th>
+                        <th rowspan="2" data-translate="KPI" class="col-kpi-name"></th>
                         <th colspan="2" data-translate="Employee"></th>
                         <th colspan="3" data-translate="Evaluator"></th>
                     </tr>
                     <tr>
-                        <th data-translate="Enter pts"></th>
-                        <th data-translate="Comment"></th>
+                        <th data-translate="Score" class="col-score"></th>
+                        <th data-translate="Comment" class="col-comment"></th>
                         <th data-translate="NickName"></th>
-                        <th data-translate="Enter pts"></th>
+                        <th data-translate="Score" class="col-score"></th>
                         <th data-translate="Comment"></th>
                     </tr>
                 </thead>
                 <tbody ng-repeat="kpi in kpiGroup.KPIs" ng-class-odd="'oddRow'" ng-class-even="'evenRow'">
                     <tr ng-repeat="evaluator in kpi.EvaluateByEvaluators">
                         <td class="text-center" rowspan="{{memberEPAInfoCtrl.epaInfo.NumberEvaluators}}" ng-bind="$parent.$index + 1" ng-show="$first"></td>
-                        <td rowspan="{{memberEPAInfoCtrl.epaInfo.NumberEvaluators}}" ng-show="$first">
+                        <td class="col-kpi-name" rowspan="{{memberEPAInfoCtrl.epaInfo.NumberEvaluators}}" ng-show="$first">
                             <span ng-bind="kpi.Name"></span>
                             <strong ng-show="kpiGroup.TotalKPIOptional == 0"> ({{kpi.Weight}} pts)</strong>
                             <label class="note" ng-show="kpi.IsRequiredEvaluate" data-translate="(*)"></label>
                         </td>
-                        <td class="text-center" rowspan="{{memberEPAInfoCtrl.epaInfo.NumberEvaluators}}" ng-bind="kpi.EvaluateBySelf.Score | customNumber" ng-show="$first"></td>
-                        <td rowspan="{{memberEPAInfoCtrl.epaInfo.NumberEvaluators}}" class="text-center" ng-show="$first">
-                            <span class="glyphicon icon-description"
-                                  ng-show="kpi.EvaluateBySelf.Comment.length > 0" tooltip="{{kpi.EvaluateBySelf.Comment}}"></span>
+                        <td class="text-center col-score" rowspan="{{memberEPAInfoCtrl.epaInfo.NumberEvaluators}}" ng-bind="kpi.EvaluateBySelf.Score | customNumber" ng-show="$first"></td>
+                        <td class="col-comment" rowspan="{{memberEPAInfoCtrl.epaInfo.NumberEvaluators}}" ng-show="$first">
+                            {{kpi.EvaluateBySelf.Comment | limitTo:kpi.EvaluateBySelf.numLimit > 0 ? kpi.EvaluateBySelf.numLimit : memberEPAInfoCtrl.maxLengthDescription}}
+                            <a ng-show="!kpi.EvaluateBySelf.showReadMore && (kpi.EvaluateBySelf.Comment.length > memberEPAInfoCtrl.maxLengthDescription)" href="javascript:;"
+                               ng-click="memberEPAInfoCtrl.readMore(kpi.EvaluateBySelf)" data-translate="ReadMore"></a>
+                            <a ng-show="kpi.EvaluateBySelf.showReadMore"
+                               href="javascript:;" ng-click="memberEPAInfoCtrl.readLess(kpi.EvaluateBySelf)" data-translate="ReadLess">
                         </td>
                         <td ng-bind="evaluator.NickName"></td>
-                        <td class="text-center" ng-bind="evaluator.Score | customNumber"></td>
-                        <td class="text-center">
-                            <span class="glyphicon icon-description"
-                                  ng-show="evaluator.Comment.length > 0" tooltip="{{evaluator.Comment}}"></span>
-                        </td>
+                        <td class="text-center col-score" ng-bind="evaluator.Score | customNumber"></td>
+                        <td class="col-comment">
+                            {{evaluator.Comment | limitTo:evaluator.numLimit > 0 ? evaluator.numLimit : memberEPAInfoCtrl.maxLengthDescription}}
+                            <a ng-show="!evaluator.showReadMore && (evaluator.Comment.length > memberEPAInfoCtrl.maxLengthDescription)" href="javascript:;"
+                               ng-click="memberEPAInfoCtrl.readMore(evaluator)" data-translate="ReadMore"></a>
+                            <a ng-show="evaluator.showReadMore"
+                               href="javascript:;" ng-click="memberEPAInfoCtrl.readLess(evaluator)" data-translate="ReadLess"></td>
                     </tr>
                 </tbody>
             </table>

@@ -1,0 +1,70 @@
+﻿<div class="col-sm-12">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th data-translate="Step"></th>
+                <th data-translate="Type"></th>
+                <th data-translate="SignBy"></th>
+                <th data-translate="StartDate"></th>
+                <th data-translate="EndDate"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td data-translate="Self"></td>
+                <td>{{memberEPAInfoCtrl.epaInfo.Employee.FullName}} ({{memberEPAInfoCtrl.epaInfo.Employee.NickName}})</td>
+                <td class="text-center" ng-bind="memberEPAInfoCtrl.epaInfo.ProcessBySelf.StartDate | customDate"></td>
+                <td class="text-center" ng-bind="memberEPAInfoCtrl.epaInfo.ProcessBySelf.EndDate | customDate"></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td data-translate="Evaluator"></td>
+                <td class="col-evaluator">
+                    <span ng-show="memberEPAInfoCtrl.epaInfo.Evaluators.length == 1">
+                        {{memberEPAInfoCtrl.epaInfo.Evaluators[0].FullName}} ({{memberEPAInfoCtrl.epaInfo.Evaluators[0].NickName}})
+                    </span>
+                    <ul ng-show="memberEPAInfoCtrl.epaInfo.Evaluators.length > 1">
+                        <li ng-repeat="evaluator in memberEPAInfoCtrl.epaInfo.Evaluators">
+                            {{evaluator.FullName}} ({{evaluator.NickName}})
+                        </li>
+                    </ul>
+                </td>
+                <td class="text-center" ng-bind="memberEPAInfoCtrl.epaInfo.Evaluators[0].StartDate | customDate"></td>
+                <td class="text-center" ng-bind="memberEPAInfoCtrl.epaInfo.Evaluators[0].EndDate | customDate"></td>
+            </tr>
+            <tr ng-show="memberEPAInfoCtrl.epaInfo.Reviewers.length > 0">
+                <td>3</td>
+                <td data-translate="Reviewer"></td>
+                <td class="col-evaluator">
+                    <span ng-show="memberEPAInfoCtrl.epaInfo.Reviewers.length == 1">
+                        {{memberEPAInfoCtrl.epaInfo.Reviewers[0].FullName}} ({{memberEPAInfoCtrl.epaInfo.Reviewers[0].NickName}})
+                    </span>
+                    <ul ng-show="memberEPAInfoCtrl.epaInfo.Reviewers.length > 1">
+                        <li ng-repeat="reviewer in memberEPAInfoCtrl.epaInfo.Reviewers">
+                            {{reviewer.FullName}} ({{reviewer.NickName}})
+                        </li>
+                    </ul>
+                </td>
+                <td class="text-center" ng-bind="memberEPAInfoCtrl.epaInfo.Reviewers[0].StartDate | customDate"></td>
+                <td class="text-center" ng-bind="memberEPAInfoCtrl.epaInfo.Reviewers[0].EndDate | customDate"></td>
+            </tr>
+            <tr ng-show="memberEPAInfoCtrl.epaInfo.Managements.length > 0">
+                <td>4</td>
+                <td data-translate="Management"></td>
+                <td class="col-evaluator">
+                    <span ng-show="memberEPAInfoCtrl.epaInfo.Managements.length == 1">
+                        {{memberEPAInfoCtrl.epaInfo.Managements[0].FullName}} ({{memberEPAInfoCtrl.epaInfo.Managements[0].NickName}})
+                    </span>
+                    <ul ng-show="memberEPAInfoCtrl.epaInfo.Managements.length > 1">
+                        <li ng-repeat="evaluator in memberEPAInfoCtrl.epaInfo.Managements">
+                            {{management.FullName}} ({{management.NickName}})
+                        </li>
+                    </ul>
+                </td>
+                <td class="text-center" ng-bind="memberEPAInfoCtrl.epaInfo.Managements[0].StartDate | customDate"></td>
+                <td class="text-center" ng-bind="memberEPAInfoCtrl.epaInfo.Managements[0].EndDate | customDate"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

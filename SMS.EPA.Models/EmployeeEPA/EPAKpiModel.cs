@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="KPIViewModel.cs" company="Nexcel Solutions Viet Nam">
+// <copyright file="EPAKpiModel.cs" company="Nexcel Solutions Viet Nam">
 // Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -11,11 +11,11 @@ namespace SMS.EPA.Model.EmployeeEPA
 {
     using System.Collections.Generic;
 
-    public class KPIViewModel
+    public class EPAKpiModel
     {
-        public KPIViewModel()
+        public EPAKpiModel()
         {
-            EvaluateByEvaluators = new List<EvaluateModel>();
+            EvaluateByEvaluators = new List<EvaluationModel>();
         }
 
         public int EPAId { get; set; }
@@ -36,8 +36,8 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public double Weight { get; set; }
 
-        public EvaluateModel EvaluateBySelf { get; set; }
+        public EvaluationModel EvaluateBySelf { get; set; }
 
-        public IList<EvaluateModel> EvaluateByEvaluators { get; set; }
+        public IList<EvaluationModel> EvaluateByEvaluators { get; set; }
     }
 }

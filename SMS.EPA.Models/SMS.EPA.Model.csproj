@@ -52,10 +52,12 @@
     <Compile Include="Department\DepartmentModel.cs" />
     <Compile Include="EmployeeEPA\EPAModel.cs" />
     <Compile Include="EmployeeEPA\EPAProcessModel.cs" />
-    <Compile Include="EmployeeEPA\EvaluateModel.cs" />
+    <Compile Include="EmployeeEPA\EvaluationModel.cs" />
     <Compile Include="EmployeeEPA\EvaluatorModel.cs" />
-    <Compile Include="EmployeeEPA\KPIGroupViewModel.cs" />
-    <Compile Include="EmployeeEPA\KPIViewModel.cs" />
+    <Compile Include="EmployeeEPA\EPAKpiGroupModel.cs" />
+    <Compile Include="EmployeeEPA\EPAKpiModel.cs" />
+    <Compile Include="EmployeeEPA\RawEPAInfoModel.cs" />
+    <Compile Include="EmployeeEPA\RawEPAModel.cs" />
     <Compile Include="Employee\EmployeeModel.cs" />
     <Compile Include="Employee\MenuGroupModel.cs" />
     <Compile Include="Employee\MenuItemModel.cs" />

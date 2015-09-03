@@ -49,8 +49,8 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
 }]);
 
 epaModule.controller('MemberEPAInfoOfManagentController',
-['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'CommonModel', 'utilitiesFactory',
-function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, utilitiesFactory) {
+['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'utilitiesFactory',
+function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory) {
     var vm = this;
 
     vm.epaId = parseInt($routeParams.epaId);
@@ -66,10 +66,21 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
         }
     };
 
+    // Event read more / less text.
+    utilitiesFactory.maxLengthDescription(vm);
+
+    vm.readMore = function (item) {
+        utilitiesFactory.readMore(item);
+    };
+
+    vm.readLess = function (item) {
+        utilitiesFactory.readLess(item);
+    };
+
     vm.save = function (epaInfo) {
         var totalcore = epaInfo.ProcessByManagements[0].TotalScore,
             comment = epaInfo.ProcessByManagements[0].Comment;
-        if (EmployeeEPAModel.validateEvaluationOfReviewerOrManagement(totalcore, comment)) {
+        if (EmployeeEPAModel.validateEvaluationOfReviewerOrManagement(totalcore)) {
             var criteria = {
                 epaId: epaInfo.EPAId,
                 processId: 5,

@@ -9,9 +9,13 @@
 
 namespace SMS.EPA.Model.EmployeeEPA
 {
+    using System;
+
     public class EvaluatorModel
     {
         public int EPAId { get; set; }
+
+        public int ProcessId { get; set; }
 
         public int EvaluatorId { get; set; }
 
@@ -20,5 +24,9 @@ namespace SMS.EPA.Model.EmployeeEPA
         public string NickName { get; set; }
 
         public string FullName { get; set; }
+
+        public DateTime StartDate { get; set; }
+
+        public DateTime EndDate { get; set; }
     }
 }
