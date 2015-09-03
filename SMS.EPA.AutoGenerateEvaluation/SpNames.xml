@@ -13,5 +13,7 @@
     </Setting>
     <Setting Key="EpaAuto_Probation_AddEmployeeToPeriod" SpName="EpaAuto_Probation_AddEmployeeToPeriod" DbName="SMSEPA" Plain="0" >
     </Setting>
+    <Setting Key="EpaAuto_GetPeriodHasStartedProcess" SpName="EpaAuto_GetPeriodHasStartedProcess" DbName="SMSEPA" Plain="0" >
+    </Setting>
   </Function>
 </Functions>

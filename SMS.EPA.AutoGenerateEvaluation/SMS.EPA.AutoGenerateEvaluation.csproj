@@ -80,6 +80,7 @@
     </Compile>
     <Compile Include="Criteria\GetEmployeeProbationEvaluationCriteria.cs" />
     <Compile Include="Criteria\GetEmployeeSettingByPeriodIdCriteria.cs" />
+    <Compile Include="Criteria\GetPeriodHasStartedProcessCriteria.cs" />
     <Compile Include="Criteria\InsertEmployeeToProbationPeriodCriteria.cs" />
     <Compile Include="Criteria\InsertEmployeeToSemiAnnualPeriodCriteria.cs" />
     <Compile Include="Criteria\AutoGenerateEvaluationCriteria.cs" />

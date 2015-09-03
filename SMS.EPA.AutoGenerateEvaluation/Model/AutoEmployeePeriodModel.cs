@@ -16,5 +16,7 @@ namespace SMS.EPA.AutoGenerateEvaluation.Model
         public string EmployeeIds { get; set; }
 
         public int PeriodId { get; set; }
+
+        public int ProcessId { get; set; }
     }
 }

@@ -109,5 +109,18 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service
 
             return comandResult;
         }
+
+        public IEnumerable<AutoEmployeePeriodModel> GetPeriodHasStartedProcess(GetPeriodHasStartedProcessCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<AutoEmployeePeriodModel> startedPeriods = new List<AutoEmployeePeriodModel>();
+
+            if (criteria.IsValid())
+            {
+                startedPeriods = GetData<AutoEmployeePeriodModel>(criteria);
+            }
+
+            return startedPeriods;
+        }
     }
 }

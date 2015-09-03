@@ -13,7 +13,7 @@ namespace SMS.EPA.AutoGenerateEvaluation.Criteria
 
     public class GetEmployeeSettingByPeriodIdCriteria : CriteriaBase
     {
-        public int? PeriodId { get; set; }
+        public int PeriodId { get; set; }
 
         public int? ProcessId { get; set; }
 
@@ -21,7 +21,7 @@ namespace SMS.EPA.AutoGenerateEvaluation.Criteria
 
         public override bool IsValid()
         {
-            return true;
+            return PeriodId > 0;
         }
 
         public override string GetSettingKey()

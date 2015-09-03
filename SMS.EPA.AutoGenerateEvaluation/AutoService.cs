@@ -151,7 +151,7 @@ namespace SMS.EPA.AutoGenerateEvaluation
 
                     if (generateEvaluationResult.IsSuccessful)
                     {
-                        GetAndSendEmailToAllRelatedEmployee(periodId, string.Empty);
+                        GetAndSendEmailToAllRelatedEmployee(periodId, string.Empty, null);
                     }
                 }
             }
@@ -181,19 +181,22 @@ namespace SMS.EPA.AutoGenerateEvaluation
 
                 if (generateEvaluationResult.IsSuccessful)
                 {
-                    GetAndSendEmailToAllRelatedEmployee(employeePeriod.PeriodId, employeePeriod.EmployeeIds);
+                    GetAndSendEmailToAllRelatedEmployee(employeePeriod.PeriodId, employeePeriod.EmployeeIds, null);
                 }
             }
         }
 
         private void CheckSendNoticeAtBeginEmail()
         {
-            _LOG.Info("Get employee has evaluation started today: started at " + DateTime.Now.ToString());
-            IEnumerable<PeriodFlowModel> employeeSettings = GetEmployeeSettings(null, string.Empty);
-            _LOG.Info("Get employee has evaluation started today: ended at " + DateTime.Now.ToString());
+            _LOG.Info("Get period has process evaluation started today: started at " + DateTime.Now.ToString());
+            var criteria = new GetPeriodHasStartedProcessCriteria();
+            IEnumerable<AutoEmployeePeriodModel> startedProcess = _generationEvaluationService.GetPeriodHasStartedProcess(criteria);
+            _LOG.Info("Result of get period has process evaluation started today: " + string.Join(",", startedProcess));
 
-            _LOG.Info("Send email to all related employee of periodId " + periodId + ": started at " + DateTime.Now.ToString());
-            SendMail(period, employeeSettings);
+            foreach (AutoEmployeePeriodModel periodProcess in startedProcess)
+            {
+                GetAndSendEmailToAllRelatedEmployee(periodProcess.PeriodId, string.Empty, periodProcess.ProcessId);
+            }
         }
 
         private void CheckSendReminderEmail()
@@ -201,14 +204,14 @@ namespace SMS.EPA.AutoGenerateEvaluation
             throw new NotImplementedException();
         }
 
-        private void GetAndSendEmailToAllRelatedEmployee(int periodId, string employeeIds)
+        private void GetAndSendEmailToAllRelatedEmployee(int periodId, string employeeIds, int? processId)
         {
             _LOG.Info("Get period name of periodId " + periodId + ": started at " + DateTime.Now.ToString());
             PeriodModel period = GetPeriodInformation(periodId);
             _LOG.Info("Result of get period name of periodId " + periodId + ": " + period.Name);
 
             _LOG.Info("Get employee setting of periodId " + periodId + ": started at " + DateTime.Now.ToString());
-            IEnumerable<PeriodFlowModel> employeeSettings = GetEmployeeSettings(periodId, employeeIds);
+            IEnumerable<PeriodFlowModel> employeeSettings = GetEmployeeSettings(periodId, employeeIds, processId);
             _LOG.Info("Get employee setting of periodId " + periodId + ": ended at " + DateTime.Now.ToString());
 
             _LOG.Info("Send email to all related employee of periodId " + periodId + ": started at " + DateTime.Now.ToString());
@@ -228,14 +231,15 @@ namespace SMS.EPA.AutoGenerateEvaluation
              return period;
         }
 
-        private IEnumerable<PeriodFlowModel> GetEmployeeSettings(int? periodId, string employeeIds)
+        private IEnumerable<PeriodFlowModel> GetEmployeeSettings(int periodId, string employeeIds, int? processId)
         {
             IEnumerable<PeriodFlowModel> employeeSettings = new List<PeriodFlowModel>();
 
             var getEmployeeSettingCriteria = new GetEmployeeSettingByPeriodIdCriteria
             {
                 PeriodId = periodId,
-                EmployeeIds = employeeIds
+                EmployeeIds = employeeIds,
+                ProcessId = processId
             };
             employeeSettings = _generationEvaluationService.GetEmployeeSettingByPeriodId(getEmployeeSettingCriteria);
 
