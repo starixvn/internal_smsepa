@@ -1,5 +1,5 @@
 ﻿// ----------------------------------------------------------------------
-// <copyright file="IGenerationEvaluationSerivce.cs" company="Nexcel Solutions Viet Nam">
+// <copyright file="IGenerationEvaluationService.cs" company="Nexcel Solutions Viet Nam">
 // Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
 // </copyright>
 // ------------------------------------------------------------------------
@@ -30,5 +30,9 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service
         CommandResult InsertEmployeeToProbationPeriod(InsertEmployeeToProbationPeriodCriteria criteria);
 
         IEnumerable<AutoEmployeePeriodModel> GetPeriodHasStartedProcess(GetPeriodHasStartedProcessCriteria criteria);
+
+        bool CheckPeriodStartedSendMailAll(CheckPeriodStartedSendMailAllCriteria criteria);
+
+        IEnumerable<AutoEmployeePeriodModel> GetPeriodHasReminderProcess(GetPeriodHasReminderProcessCriteria criteria);
     }
 }

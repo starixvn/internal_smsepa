@@ -122,5 +122,31 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service
 
             return startedPeriods;
         }
+
+        public bool CheckPeriodStartedSendMailAll(CheckPeriodStartedSendMailAllCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            bool hasSendMailAll = false;
+
+            if (criteria.IsValid())
+            {
+                hasSendMailAll = GetDataEntity<bool>(criteria);
+            }
+
+            return hasSendMailAll;
+        }
+
+        public IEnumerable<AutoEmployeePeriodModel> GetPeriodHasReminderProcess(GetPeriodHasReminderProcessCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<AutoEmployeePeriodModel> reminderPeriods = new List<AutoEmployeePeriodModel>();
+
+            if (criteria.IsValid())
+            {
+                reminderPeriods = GetData<AutoEmployeePeriodModel>(criteria);
+            }
+
+            return reminderPeriods;
+        }
     }
 }

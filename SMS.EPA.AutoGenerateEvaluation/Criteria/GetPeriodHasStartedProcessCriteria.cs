@@ -4,7 +4,7 @@
 // </copyright>
 // ------------------------------------------------------------------------
 // <history>
-//   <change who="Josh.Phan" date="9/01/2015">Created.</change>
+//   <change who="Josh.Phan" date="9/03/2015">Created.</change>
 // </history>
 
 namespace SMS.EPA.AutoGenerateEvaluation.Criteria

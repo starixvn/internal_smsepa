@@ -15,5 +15,9 @@
     </Setting>
     <Setting Key="EpaAuto_GetPeriodHasStartedProcess" SpName="EpaAuto_GetPeriodHasStartedProcess" DbName="SMSEPA" Plain="0" >
     </Setting>
+    <Setting Key="EpaAuto_CheckSendMailAllWhenPeriodStarted" SpName="EpaAuto_CheckSendMailAllWhenPeriodStarted" DbName="SMSEPA" Plain="0" >
+    </Setting>
+    <Setting Key="EpaAuto_GetPeriodHasReminderProcess" SpName="EpaAuto_GetPeriodHasReminderProcess" DbName="SMSEPA" Plain="0" >
+    </Setting>
   </Function>
 </Functions>

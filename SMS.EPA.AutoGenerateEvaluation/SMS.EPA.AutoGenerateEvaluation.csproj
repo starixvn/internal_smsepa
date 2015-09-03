@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SMS.EPA.AutoGenerateEvaluation</RootNamespace>
     <AssemblyName>SMS.EPA.AutoGenerateEvaluation</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -78,14 +79,17 @@
     <Compile Include="AutoService.Designer.cs">
       <DependentUpon>AutoService.cs</DependentUpon>
     </Compile>
+    <Compile Include="Criteria\CheckPeriodStartedSendMailAllCriteria.cs" />
     <Compile Include="Criteria\GetEmployeeProbationEvaluationCriteria.cs" />
     <Compile Include="Criteria\GetEmployeeSettingByPeriodIdCriteria.cs" />
+    <Compile Include="Criteria\GetPeriodHasReminderProcessCriteria.cs" />
     <Compile Include="Criteria\GetPeriodHasStartedProcessCriteria.cs" />
     <Compile Include="Criteria\InsertEmployeeToProbationPeriodCriteria.cs" />
     <Compile Include="Criteria\InsertEmployeeToSemiAnnualPeriodCriteria.cs" />
     <Compile Include="Criteria\AutoGenerateEvaluationCriteria.cs" />
     <Compile Include="Criteria\GetSemiAnnualPeriodStartedCriteria.cs" />
     <Compile Include="Model\AutoEmployeePeriodModel.cs" />
+    <Compile Include="Model\MailMode.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>

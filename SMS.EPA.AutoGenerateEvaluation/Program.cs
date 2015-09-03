@@ -23,7 +23,7 @@ namespace SMS.EPA.AutoGenerateEvaluation
             log4net.Config.XmlConfigurator.Configure();
 
             ServiceBase[] _servicesToRun;
-            _servicesToRun = new ServiceBase[] 
+            _servicesToRun = new ServiceBase[]
             { 
                 new AutoService() 
             };
