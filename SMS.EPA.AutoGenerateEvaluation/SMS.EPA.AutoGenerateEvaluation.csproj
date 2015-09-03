@@ -65,6 +65,7 @@
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -100,17 +101,26 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\GenerationEvaluationRepository.cs" />
     <Compile Include="Repository\IGenerationEvaluationRepository.cs" />
-    <Compile Include="Service\GenerationEvaluationService.cs">
+    <Compile Include="Service\Implement\AutoMailService.cs" />
+    <Compile Include="Service\Implement\GenerationEvaluationService.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="Service\IGenerationEvaluationService.cs" />
+    <Compile Include="Service\Interfaces\IAutoMailService.cs" />
+    <Compile Include="Service\Interfaces\IGenerationEvaluationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="SpNames.xml" />
+    <Content Include="SpNames.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ProjectInstaller.resx">
+      <DependentUpon>ProjectInstaller.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">
@@ -129,11 +139,6 @@
       <Project>{8eb3d578-b2a0-4b11-9386-50f394de396c}</Project>
       <Name>SMS.EPA.Services</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ProjectInstaller.resx">
-      <DependentUpon>ProjectInstaller.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

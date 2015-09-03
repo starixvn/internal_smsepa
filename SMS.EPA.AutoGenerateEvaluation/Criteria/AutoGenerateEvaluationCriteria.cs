@@ -15,6 +15,8 @@ namespace SMS.EPA.AutoGenerateEvaluation.Criteria
     {
         public int PeriodId { get; set; }
 
+        public string EmployeeIds { get; set; }
+
         public override bool IsValid()
         {
             return PeriodId > 0;

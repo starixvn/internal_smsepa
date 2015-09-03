@@ -16,6 +16,7 @@ namespace SMS.EPA.AutoGenerateEvaluation.Repository
     using SMS.EPA.AutoGenerateEvaluation.Model;
     using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.Period;
+    using SMS.EPA.Model.TargetType;
 
     public class GenerationEvaluationRepository : IGenerationEvaluationRepository
     {

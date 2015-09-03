@@ -19,5 +19,7 @@
     </Setting>
     <Setting Key="EpaAuto_GetPeriodHasReminderProcess" SpName="EpaAuto_GetPeriodHasReminderProcess" DbName="SMSEPA" Plain="0" >
     </Setting>
+    <Setting Key="EpaPeriod_GetById" SpName="EpaPeriod_GetById" DbName="SMSEPA" Plain="0">
+    </Setting>
   </Function>
 </Functions>

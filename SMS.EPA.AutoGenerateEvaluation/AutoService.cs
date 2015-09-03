@@ -19,8 +19,8 @@ namespace SMS.EPA.AutoGenerateEvaluation
     using log4net;
     using SMS.EPA.AutoGenerateEvaluation.Criteria;
     using SMS.EPA.AutoGenerateEvaluation.Model;
-    using SMS.EPA.AutoGenerateEvaluation.Service;
-    using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.AutoGenerateEvaluation.Service.Implement;
+    using SMS.EPA.AutoGenerateEvaluation.Service.Interfaces;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.Period;
     using SMS.EPA.Model.Period;
@@ -33,8 +33,8 @@ namespace SMS.EPA.AutoGenerateEvaluation
         private bool _isBusy = false;
         private Timer _updateCounterTimer = null;
         private IGenerationEvaluationService _generationEvaluationService;
-        private IMailService _mailService;
         private IPeriodService _periodService;
+        private IAutoMailService _autoMailService;
 
         public AutoService()
         {
@@ -46,8 +46,8 @@ namespace SMS.EPA.AutoGenerateEvaluation
             _updateCounterTimer.Enabled = false;
 
             _generationEvaluationService = new GenerationEvaluationService();
-            _mailService = new MailService();
             _periodService = new PeriodService();
+            _autoMailService = new AutoMailService();
         }
 
         public int TimerInterval { get; private set; }
@@ -85,9 +85,9 @@ namespace SMS.EPA.AutoGenerateEvaluation
         private void CheckAndExecute()
         {
             CheckSemiAnnualPeriod();
-            CheckProbationPeriod();
-            CheckPromotionPeriod();
-            CheckSendMail();
+            ////CheckProbationPeriod();
+            ////CheckPromotionPeriod();
+            ////CheckSendMail();
         }
 
         private void CheckSemiAnnualPeriod()
@@ -179,7 +179,8 @@ namespace SMS.EPA.AutoGenerateEvaluation
                 _LOG.Info("Auto generate EPA to all employees of current probation period " + employeePeriod.PeriodId + ": started at " + DateTime.Now.ToString());
                 var generateEvaluationCriteria = new AutoGenerateEvaluationCriteria
                 {
-                    PeriodId = employeePeriod.PeriodId
+                    PeriodId = employeePeriod.PeriodId,
+                    EmployeeIds = employeePeriod.EmployeeIds
                 };
                 CommandResult generateEvaluationResult = _generationEvaluationService.AutoGenerateEvaluation(generateEvaluationCriteria);
                 _LOG.Info("Result of auto generate EPA to all employees of current probation period " + employeePeriod.PeriodId + ": " + (generateEvaluationResult.IsSuccessful ? "0" : generateEvaluationResult.Message));
@@ -240,11 +241,11 @@ namespace SMS.EPA.AutoGenerateEvaluation
             {
                 case (int)MailMode.Start:
                     _LOG.Info("Send start email to all related employee of periodId " + periodId + ": started at " + DateTime.Now.ToString());
-                    SendStartMail(period, employeeSettings);
+                    _autoMailService.SendStartMail(period, employeeSettings);
                     break;
                 case (int)MailMode.Reminder:
                     _LOG.Info("Send reminder email to all related employee of periodId " + periodId + ": started at " + DateTime.Now.ToString());
-                    SendReminderMail(period, employeeSettings);
+                    _autoMailService.SendReminderMail(period, employeeSettings);
                     break;
             }
         }
@@ -275,53 +276,6 @@ namespace SMS.EPA.AutoGenerateEvaluation
             employeeSettings = _generationEvaluationService.GetEmployeeSettingByPeriodId(getEmployeeSettingCriteria);
 
             return employeeSettings;
-        }
-
-        private void SendStartMail(PeriodModel period, IEnumerable<PeriodFlowModel> employeeSettings)
-        {
-            foreach (PeriodFlowModel employeeSetting in employeeSettings)
-            {
-                switch (employeeSetting.ProcessId)
-                {
-                    case (int)ProcessType.HumanResource:
-                        _mailService.SendMailToHRStartDate(employeeSetting, period.Name);
-                        break;
-                    case (int)ProcessType.Self:
-                        _mailService.SendMailToSelfStartDate(employeeSetting, period.Name);
-                        break;
-                    case (int)ProcessType.Evaluator:
-                        _mailService.SendMailToEvaluatorStartDate(employeeSetting, period.Name);
-                        break;
-                    case (int)ProcessType.Reviewer:
-                        _mailService.SendMailToReviewerStartDate(employeeSetting, period.Name);
-                        break;
-                    case (int)ProcessType.Management:
-                        _mailService.SendMailToManagementStartDate(employeeSetting, period.Name);
-                        break;
-                }
-            }
-        }
-
-        private void SendReminderMail(PeriodModel period, IEnumerable<PeriodFlowModel> employeeSettings)
-        {
-            foreach (PeriodFlowModel employeeSetting in employeeSettings)
-            {
-                switch (employeeSetting.ProcessId)
-                {
-                    case (int)ProcessType.Self:
-                        _mailService.SendMailToSelfRemindDate(employeeSetting, period.Name);
-                        break;
-                    case (int)ProcessType.Evaluator:
-                        _mailService.SendMailToEvaluatorRemindDate(employeeSetting, period.Name);
-                        break;
-                    case (int)ProcessType.Reviewer:
-                        _mailService.SendMailToReviewerRemindDate(employeeSetting, period.Name);
-                        break;
-                    case (int)ProcessType.Management:
-                        _mailService.SendMailToManagementRemindDate(employeeSetting, period.Name);
-                        break;
-                }
-            }
         }
     }
 }

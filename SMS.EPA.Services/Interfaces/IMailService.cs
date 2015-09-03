@@ -13,22 +13,22 @@ namespace SMS.EPA.Services.Interfaces
 
     public interface IMailService
     {
-        void SendMailToHRStartDate(PeriodFlowModel employeeSetting, string periodName);
+        void SendMailToHRStartDate(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName);
 
-        void SendMailToSelfStartDate(PeriodFlowModel employeeSetting, string periodName);
+        void SendMailToSelfStartDate(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName);
 
-        void SendMailToEvaluatorStartDate(PeriodFlowModel employeeSetting, string periodName);
+        void SendMailToEvaluatorStartDate(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName);
 
-        void SendMailToReviewerStartDate(PeriodFlowModel employeeSetting, string periodName);
+        void SendMailToReviewerStartDate(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName);
 
-        void SendMailToManagementStartDate(PeriodFlowModel employeeSetting, string periodName);
+        void SendMailToManagementStartDate(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName);
 
-        void SendMailToSelfRemindDate(PeriodFlowModel employeeSetting, string periodName);
+        void SendMailToSelfRemindDate(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName);
 
-        void SendMailToEvaluatorRemindDate(PeriodFlowModel employeeSetting, string periodName);
+        void SendMailToEvaluatorRemindDate(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName);
 
-        void SendMailToReviewerRemindDate(PeriodFlowModel employeeSetting, string periodName);
+        void SendMailToReviewerRemindDate(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName);
 
-        void SendMailToManagementRemindDate(PeriodFlowModel employeeSetting, string periodName);
+        void SendMailToManagementRemindDate(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName);
     }
 }

@@ -158,15 +158,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <CodeAnalysisDictionary Include="FxCopDictionary.xml" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">
-      <Project>{76EE2DA4-7127-4C21-B218-ADFF51B2B74E}</Project>
+      <Project>{76ee2da4-7127-4c21-b218-adff51b2b74e}</Project>
       <Name>SMS.EPA.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <CodeAnalysisDictionary Include="FxCopDictionary.xml" />
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

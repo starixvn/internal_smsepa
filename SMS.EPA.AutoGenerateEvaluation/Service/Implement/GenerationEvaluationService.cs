@@ -7,13 +7,14 @@
 //   <change who="Josh.Phan" date="8/26/2015">Created.</change>
 // </history>
 
-namespace SMS.EPA.AutoGenerateEvaluation.Service
+namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
 {
     using System.Collections.Generic;
     using Fanex.Common.Helper;
     using SMS.EPA.AutoGenerateEvaluation.Criteria;
     using SMS.EPA.AutoGenerateEvaluation.Model;
     using SMS.EPA.AutoGenerateEvaluation.Repository;
+    using SMS.EPA.AutoGenerateEvaluation.Service.Interfaces;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Model.Period;
@@ -125,6 +126,7 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service
 
         public bool CheckPeriodStartedSendMailAll(CheckPeriodStartedSendMailAllCriteria criteria)
         {
+
             Check.Argument.IsNotNull(criteria, "criteria");
             bool hasSendMailAll = false;
 

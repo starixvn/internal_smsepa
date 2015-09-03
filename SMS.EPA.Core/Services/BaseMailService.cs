@@ -17,14 +17,6 @@ namespace SMS.EPA.Core.Services.Implement
 
     public class BaseMailService : IBaseMailService
     {
-        public string ReadTextFile(string filePath)
-        {
-            using (var sr = new StreamReader(filePath))
-            {
-                return sr.ReadToEnd();
-            }
-        }
-
         public void SendEmail(MailModel email)
         {
             if (!IsValidEmail(email.SenderEmail) || !IsValidEmail(email.ReceiverEmail))
@@ -55,6 +47,14 @@ namespace SMS.EPA.Core.Services.Implement
 
             var regex = new Regex(@"\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*");
             return regex.IsMatch(email);
+        }
+
+        public string ReadTextFile(string filePath)
+        {
+            using (var sr = new StreamReader(filePath))
+            {
+                return sr.ReadToEnd();
+            }
         }
     }
 }

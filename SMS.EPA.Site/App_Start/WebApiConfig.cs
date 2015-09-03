@@ -11,6 +11,7 @@ namespace SMS.EPA.Site
 {
     using System.Web.Http;
     using Newtonsoft.Json;
+    using SMS.EPA.Web.ApiAuthorizeAttribute;
 
     /// <summary>
     /// The Web API config.
@@ -33,6 +34,7 @@ namespace SMS.EPA.Site
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional });
 
+            config.Filters.Add(new ExceptionHandlingAttribute());
             var jsonFormatter = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
             jsonFormatter.SerializerSettings.Formatting = Formatting.Indented;
         }

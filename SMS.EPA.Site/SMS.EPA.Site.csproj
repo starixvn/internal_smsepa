@@ -534,21 +534,51 @@
     <Content Include="SourceApp\Components\Period\period.less" />
     <Content Include="SourceApp\Components\EPA\epa.less" />
     <Content Include="SourceApp\Components\Period\ExcelTemplates\EmployeeFlowSettingReport.xls" />
-    <Content Include="Views\Emails\StartDateEmailToHR.cshtml" />
-    <Content Include="Views\Emails\StartDateEmailToSelf.cshtml" />
-    <Content Include="Views\Emails\StartDateEmailToEvaluator.cshtml" />
-    <Content Include="Views\Emails\StartDateEmailToReviewer.cshtml" />
-    <Content Include="Views\Emails\StartDateEmailToManagement.cshtml" />
-    <Content Include="Views\Emails\StartDateEmailToSpecialReviewer.cshtml" />
-    <Content Include="Views\Emails\StartDateEmailToSpecialEvaluator.cshtml" />
-    <Content Include="Views\Emails\StartDateEmailToSpecialManagement.cshtml" />
-    <Content Include="Views\Emails\RemindDateEmailToSelf.cshtml" />
-    <Content Include="Views\Emails\RemindDateEmailToEvaluator.cshtml" />
-    <Content Include="Views\Emails\RemindDateEmailToSpecialEvaluator.cshtml" />
-    <Content Include="Views\Emails\RemindDateEmailToReviewer.cshtml" />
-    <Content Include="Views\Emails\RemindDateEmailToSpecialReviewer.cshtml" />
-    <Content Include="Views\Emails\RemindDateEmailToManagement.cshtml" />
-    <Content Include="Views\Emails\RemindDateEmailToSpecialManagement.cshtml" />
+    <Content Include="Views\Emails\StartDateEmailToHR.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Emails\StartDateEmailToSelf.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Emails\StartDateEmailToEvaluator.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Emails\StartDateEmailToReviewer.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Emails\StartDateEmailToManagement.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Emails\StartDateEmailToSpecialReviewer.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Emails\StartDateEmailToSpecialEvaluator.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Emails\StartDateEmailToSpecialManagement.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Emails\RemindDateEmailToSelf.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Emails\RemindDateEmailToEvaluator.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Emails\RemindDateEmailToSpecialEvaluator.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Emails\RemindDateEmailToReviewer.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Emails\RemindDateEmailToSpecialReviewer.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Emails\RemindDateEmailToManagement.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Emails\RemindDateEmailToSpecialManagement.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">
