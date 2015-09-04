@@ -13,7 +13,7 @@ function (DepartmentModel, EmployeeModel, CommonModel, utilitiesFactory) {
         var result = [];
 
         angular.forEach(vm.departments, function (dept) {
-            if (dept.DepartmentId > 0 && dept.DepartmentId != department.DepartmentId) {
+            if (dept.DepartmentId > 0 && dept.DepartmentId !== department.DepartmentId) {
                 result.push(dept);
             }
         });

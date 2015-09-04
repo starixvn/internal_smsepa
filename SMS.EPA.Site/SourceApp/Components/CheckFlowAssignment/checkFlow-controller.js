@@ -179,7 +179,7 @@ function ($scope, $modalInstance, selectedEmployees, employeeSetting, CheckFlowM
         vm.employeeOptions.reviewer = getEvaluators(vm.employeeSetting.Reviewers);
         vm.employeeOptions.management = getEvaluators(vm.employeeSetting.Managements);
         vm.employeeOptions.targetTemplateId = vm.employeeSetting.TargetTemplate.TargetTemplateId;
-    }
+    };
 
     /*
     ** Get employees flow and target setting.
@@ -241,8 +241,8 @@ function ($scope, $modalInstance, selectedEmployees, employeeSetting, CheckFlowM
 
             if (employeeItem.EmployeeId === employeeId) {
                 employee = employeeItem;
-            };
-        };
+            }
+        }
 
         return employee;
     };
@@ -291,16 +291,17 @@ function ($scope, $modalInstance, selectedEmployees, employeeSetting, CheckFlowM
 
     vm.save = function () {
         var selectedEmployees = null;
+        var employeeAssignmentSettings = null;
 
         if (vm.selectedEmployees) {
             selectedEmployees = vm.selectedEmployees;
-            var employeeAssignmentSettings = CheckFlowModel.createAssignmentSettings(vm.employeeOptions, selectedEmployees);
+            employeeAssignmentSettings = CheckFlowModel.createAssignmentSettings(vm.employeeOptions, selectedEmployees);
         }
         else {
             selectedEmployees = [vm.employeeSetting.EmployeeId];
         }
 
-        var employeeAssignmentSettings = CheckFlowModel.createAssignmentSettings(vm.employeeOptions, selectedEmployees);
+        employeeAssignmentSettings = CheckFlowModel.createAssignmentSettings(vm.employeeOptions, selectedEmployees);
 
         if (CheckFlowModel.validateCheckAssignments(selectedEmployees, employeeAssignmentSettings, vm.employeeOptions)) {
             CheckFlowModel.updateEmployeeFlowTargetSetting(employeeAssignmentSettings).then(function () {

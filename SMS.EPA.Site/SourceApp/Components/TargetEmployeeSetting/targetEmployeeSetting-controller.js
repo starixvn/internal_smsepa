@@ -231,8 +231,6 @@ function ($scope, TargetEmployeeSettingModel, CommonModel, TargetTemplateModel, 
     };
 
     vm.query = function (filter) {
-        var departmentId = null;
-
         if (filter.departmentId) {
             filter.departmentId = filter.departmentId < 0 ? -filter.departmentId : filter.departmentId;
         }

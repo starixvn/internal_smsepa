@@ -21,8 +21,9 @@ appModule.filter('range', function () {
     return function (input, max) {
         max = parseInt(max);
 
-        for (var i = 1; i < max; i++)
+        for (var i = 1; i < max; i++) {
             input.push(i);
+        }
 
         return input;
     };

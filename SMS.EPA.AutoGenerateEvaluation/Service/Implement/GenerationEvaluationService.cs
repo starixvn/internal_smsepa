@@ -126,7 +126,6 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
 
         public bool CheckPeriodStartedSendMailAll(CheckPeriodStartedSendMailAllCriteria criteria)
         {
-
             Check.Argument.IsNotNull(criteria, "criteria");
             bool hasSendMailAll = false;
 

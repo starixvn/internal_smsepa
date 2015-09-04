@@ -2,8 +2,8 @@
 /*global epaModule*/
 
 epaModule.controller('EmployeeEPAController',
-['EmployeeEPAModel', 'CommonModel',
-function (EmployeeEPAModel, CommonModel) {
+['EmployeeEPAModel',
+function (EmployeeEPAModel) {
     var vm = this;
 
     vm.myEPAs = EmployeeEPAModel.myEPAs;
@@ -70,10 +70,10 @@ function ($window, $translate, $routeParams, EmployeeEPAModel) {
                 kpi.EvaluateBySelf.Percent = (100 * kpi.EvaluateBySelf.Rate) / vm.maxStar;
 
                 if (kpi.EvaluateBySelf.Percent > 0) {
-                    if (kpiGroup.TotalKPIOptional == 0) {
+                    if (kpiGroup.TotalKPIOptional === 0) {
                         var score = kpi.Weight * (kpi.EvaluateBySelf.Percent / 100);
 
-                        kpi.EvaluateBySelf.Score = (score % 1) == 0 ? score : score.toFixed(2);
+                        kpi.EvaluateBySelf.Score = (score % 1) === 0 ? score : score.toFixed(2);
                     }
                     else {
                         var weight, totalKPIOptional = angular.copy(kpiGroup.TotalKPIOptional);
@@ -90,7 +90,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel) {
                             if (item.EvaluateBySelf.Rate > 0) {
                                 var score = weight * (item.EvaluateBySelf.Percent / 100);
 
-                                item.EvaluateBySelf.Score = (score % 1) == 0 ? score : score.toFixed(2);
+                                item.EvaluateBySelf.Score = (score % 1) === 0 ? score : score.toFixed(2);
                             }
                         });
                     }
@@ -147,7 +147,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel) {
                 if (item.EvaluateBySelf.Rate > 0) {
                     var score = weight * (item.EvaluateBySelf.Percent / 100);
 
-                    item.EvaluateBySelf.Score = (score % 1) == 0 ? score : score.toFixed(2);
+                    item.EvaluateBySelf.Score = (score % 1) === 0 ? score : score.toFixed(2);
                 }
             });
         }

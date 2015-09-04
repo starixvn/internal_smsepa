@@ -274,9 +274,9 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
         return employeeFactory.getDefaultPassword().success(function (password) {
             employeeModel.defaultPassword = password;
         }).error(function (response, status) {
-            ErrorFactory.errorHandle(status);
+            errorFactory.errorHandle(status);
         });
-    }
+    };
 
     employeeModel.openPopupResetPassword = function (employee, defaultPassword) {
         var modalInstance = $modal.open({

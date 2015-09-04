@@ -114,7 +114,7 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         }
 
         return isValid;
-    }
+    };
 
     employeeEPAModel.updateEPAScore = function (dataSaved, epaInfo) {
         return employeeEPAFactory.updateEPAScore(epaInfo)

@@ -16,7 +16,7 @@ function ($modal, targetEmployeeSettingFactory, notificationFactory, errorFactor
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
-    }
+    };
 
     targetEmployeeSettingModel.getTargetEmployeeSetting = function (groupId, employeeId, targetTypeId, showAll) {
         return targetEmployeeSettingFactory.getTargetEmployeeSetting(groupId, employeeId, targetTypeId, showAll)

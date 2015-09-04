@@ -6,8 +6,8 @@ checkFlowAssignmentModule.directive('evaluatorChosen', function () {
         restrict: 'A',
         link: function (scope) {
             scope.$on('evaluatorChosen', function () {
-                var evaluatorElement = $('[name="humanResourceSelect"]');
-                $(evaluatorElement).trigger("chosen:updated");
+                var humanResourceElement = $('[name="humanResourceSelect"]');
+                $(humanResourceElement).trigger("chosen:updated");
 
                 var evaluatorElement = $('[name="evaluatorSelect"]');
                 $(evaluatorElement).trigger("chosen:updated");

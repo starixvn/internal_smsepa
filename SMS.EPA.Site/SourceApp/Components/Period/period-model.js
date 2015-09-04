@@ -179,11 +179,11 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             notificationFactory.error("HRRangeDateGreaterThanSelfRangeDateWarning");
             return false;
         }
-        if (employeeOptions.selfEvaluator.EndDate > employeeOptions.evaluator.StartDate) {
+        else if (employeeOptions.selfEvaluator.EndDate > employeeOptions.evaluator.StartDate) {
             notificationFactory.error("SelfRangeDateGreaterThanEvaluatorRangeDateWarning");
             return false;
         }
-        if (employeeOptions.evaluator.EndDate > employeeOptions.reviewer.StartDate) {
+        else if (employeeOptions.evaluator.EndDate > employeeOptions.reviewer.StartDate) {
             notificationFactory.error("EvaluatorRangeDateGreaterThanReviewerRangeDateWarning");
             return false;
         }
@@ -619,8 +619,6 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             },
             windowClass: "modal-confirm-center"
         });
-
-        var keyMessage = '';
 
         modalInstance.result.then(function () {
             periodFactory.updateIncludeStatusEmployeePeriod(newEmployeeStatus)

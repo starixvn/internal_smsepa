@@ -91,10 +91,10 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
                 kpi.EvaluateByEvaluators[0].Percent = (100 * kpi.EvaluateByEvaluators[0].Rate) / vm.maxStar;
 
                 if (kpi.EvaluateByEvaluators[0].Percent > 0) {
-                    if (kpiGroup.TotalKPIOptional == 0) {
+                    if (kpiGroup.TotalKPIOptional === 0) {
                         var score = kpi.Weight * (kpi.EvaluateByEvaluators[0].Percent / 100);
 
-                        kpi.EvaluateByEvaluators[0].Score = (score % 1) == 0 ? score : score.toFixed(2);
+                        kpi.EvaluateByEvaluators[0].Score = (score % 1) === 0 ? score : score.toFixed(2);
                     }
                     else {
                         var weight, totalKPIOptional = angular.copy(kpiGroup.TotalKPIOptional);
@@ -111,7 +111,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
                             if (item.EvaluateByEvaluators[0].Rate > 0) {
                                 var score = weight * (item.EvaluateByEvaluators[0].Percent / 100);
 
-                                item.EvaluateByEvaluators[0].Score = (score % 1) == 0 ? score : score.toFixed(2);
+                                item.EvaluateByEvaluators[0].Score = (score % 1) === 0 ? score : score.toFixed(2);
                             }
                         });
                     }
@@ -127,7 +127,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
 
         angular.forEach(epaInfo.KPIGroups, function (kpiGroup) {
             angular.forEach(kpiGroup.KPIs, function (kpi) {
-                if (kpi.IsRequiredEvaluate && (!kpi.EvaluateByEvaluators[0].Score || kpi.EvaluateByEvaluators[0].Score === 0)) {
+                if (kpi.IsRequiredEvaluate
+                    && (!kpi.EvaluateByEvaluators[0].Score || kpi.EvaluateByEvaluators[0].Score === 0)) {
                     isValid = false;
                     kpi.EvaluateByEvaluators[0].EvaluateValid = true;
                 }
@@ -135,7 +136,9 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
                     kpi.EvaluateByEvaluators[0].EvaluateValid = false;
                 }
 
-                if (kpi.HasComment && kpi.IsRequiredComment && (!kpi.EvaluateByEvaluators[0].Comment || kpi.EvaluateByEvaluators[0].Comment.length === 0)) {
+                if (kpi.HasComment
+                    && kpi.IsRequiredComment
+                    && (!kpi.EvaluateByEvaluators[0].Comment || kpi.EvaluateByEvaluators[0].Comment.length === 0)) {
                     isValid = false;
                     kpi.EvaluateByEvaluators[0].CommentValid = true;
                 }
@@ -180,7 +183,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
                 if (item.EvaluateByEvaluators[0].Rate > 0) {
                     var score = weight * (item.EvaluateByEvaluators[0].Percent / 100);
 
-                    item.EvaluateByEvaluators[0].Score = (score % 1) == 0 ? score : score.toFixed(2);
+                    item.EvaluateByEvaluators[0].Score = (score % 1) === 0 ? score : score.toFixed(2);
                 }
             });
         }
@@ -205,9 +208,10 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
 
         EmployeeEPAModel.getEPAInfoByEvaluator(vm.epaId, vm.employeeId, vm.evaluatorId).then(function () {
             var data = EmployeeEPAModel.epaInfo;
+            var totalScoreOfEvaluator = data.ProcessByEvaluators[0].TotalScore;
 
             vm.evaluatedDate = data.ProcessByEvaluators[0].EvaluateDate ? data.ProcessByEvaluators[0].EvaluateDate : null;
-            vm.finalScore = data.ProcessByEvaluators[0].TotalScore ? (parseFloat(data.ProcessByEvaluators[0].TotalScore) + data.AttendanceScore) : data.AttendanceScore;
+            vm.finalScore = totalScoreOfEvaluator ? (parseFloat(totalScoreOfEvaluator) + data.AttendanceScore) : data.AttendanceScore;
             vm.epaInfo = data;
             checkStatus(vm.epaInfo);
 

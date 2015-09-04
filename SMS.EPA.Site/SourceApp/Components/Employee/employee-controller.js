@@ -230,7 +230,7 @@ function ($modalInstance, EmployeeModel, employee, CommonModel) {
     };
 }]);
 
-appModule.controller("ResetPasswordController",
+employeeModule.controller("ResetPasswordController",
  ['$modalInstance', 'employee', 'defaultPassword',
  function ($modalInstance, employee, defaultPassword) {
      var vm = this;

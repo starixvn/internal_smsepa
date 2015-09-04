@@ -100,13 +100,18 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory)
     vm.initialize = function () {
         EmployeeEPAModel.getEPAInfoByManagement(vm.epaId).then(function () {
             var data = EmployeeEPAModel.epaInfo;
+            var totalScoreOfManagement = null;
 
-            if (!data.ProcessByManagements[0].EvaluateDate && data.AverageScoreByEvaluators && parseFloat(data.AverageScoreByEvaluators) > 0) {
+            if (!data.ProcessByManagements[0].EvaluateDate
+                && data.AverageScoreByEvaluators
+                && parseFloat(data.AverageScoreByEvaluators) > 0) {
                 data.ProcessByManagements[0].TotalScore = data.AverageScoreByReviewers;
             }
 
-            if (data.Department.DepartmentId == 2) {
-                vm.finalScore = data.ProcessByManagements[0].TotalScore ? (parseFloat(data.ProcessByManagements[0].TotalScore) + data.AttendanceScore) : data.AttendanceScore;
+            totalScoreOfManagement = data.ProcessByManagements[0].TotalScore;
+
+            if (data.Department.DepartmentId === 2) {
+                vm.finalScore = totalScoreOfManagement ? (parseFloat(totalScoreOfManagement) + data.AttendanceScore) : data.AttendanceScore;
             }
             else {
                 vm.finalScore = data.ProcessByManagements[0].TotalScore;

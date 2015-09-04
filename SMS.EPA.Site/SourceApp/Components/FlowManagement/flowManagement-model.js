@@ -1,5 +1,5 @@
 ﻿'use strict';
-/*global moment, flowMngModule*/
+/*global flowMngModule*/
 
 flowMngModule.factory('FlowMngModel',
 ['$modal', 'flowMngFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory',

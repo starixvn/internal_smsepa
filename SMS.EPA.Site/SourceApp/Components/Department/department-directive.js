@@ -12,7 +12,7 @@ departmentModule.directive('treeEvent', function () {
                     var li = $(this).find('ul > li');
                     if (li.length > 0) {
                         $(this).addClass('parent_li').find('> span').attr('title', 'Collapse this branch');
-                    };
+                    }
                 });
             });
         }

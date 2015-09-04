@@ -287,7 +287,7 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
         });
 
     vm.query = function (filter) {
-        getPeriodEmployeeSetting(vm.filter.periodId, vm.filter.departmentId, vm.filter.isExcludedEmployee);
+        getPeriodEmployeeSetting(filter.periodId, filter.departmentId, filter.isExcludedEmployee);
     };
 
     vm.getIndex = function (index, currentPage, pageSize) {
