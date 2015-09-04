@@ -24,6 +24,8 @@ namespace SMS.EPA.Core.Constants
 
         public const string DepartmentFlowSettingReport = "SMS.EPA.Report.DepartmentFlowSettingReport";
 
+        public const string FormatDateTimeEmail = "MMM dd, yyyy HH:mm";
+
         private Constants()
         {
         }

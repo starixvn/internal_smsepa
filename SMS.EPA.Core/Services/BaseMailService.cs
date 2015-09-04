@@ -19,7 +19,7 @@ namespace SMS.EPA.Core.Services.Implement
     {
         public void SendEmail(MailModel email)
         {
-            if (!IsValidEmail(email.SenderEmail) || !IsValidEmail(email.ReceiverEmail))
+            if (!IsValidEmail(email.ReceiverEmail))
             {
                 return;
             }

@@ -9,9 +9,11 @@
 
 namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
 {
+    using System;
     using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using System.Web;
+    using System.IO;
+    using System.Reflection;
+    using log4net;
     using SMS.EPA.AutoGenerateEvaluation.Service.Interfaces;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Model.Period;
@@ -20,22 +22,22 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
 
     public class AutoMailService : IAutoMailService
     {
-        private string _startDateMailToHumanResources = "~/Views/Emails/StartDateEmailToHR.cshtml";
-        private string _startDateMailToSelf = "~/Views/Emails/StartDateEmailToSelf.cshtml";
-        private string _startDateMailToEvaluator = "~/Views/Emails/StartDateEmailToEvaluator.cshtml";
-        private string _startDateMailToSpecialEvaluator = "~/Views/Emails/StartDateEmailToSpecialEvaluator.cshtml";
-        private string _startDateMailToReviewer = "~/Views/Emails/StartDateEmailToReviewer.cshtml";
-        private string _startDateMailToSpecialReviewer = "~/Views/Emails/StartDateEmailToSpecialReviewer.cshtml";
-        private string _startDateMailToManagement = "~/Views/Emails/StartDateEmailToManagement.cshtml";
-        private string _startDateMailToSpecialManagement = "~/Views/Emails/StartDateEmailToSpecialManagement.cshtml";
+        private string _startDateMailToHumanResources = "Views\\Emails\\StartDateEmailToHR.cshtml";
+        private string _startDateMailToSelf = "Views\\Emails\\StartDateEmailToSelf.cshtml";
+        private string _startDateMailToEvaluator = "Views\\Emails\\StartDateEmailToEvaluator.cshtml";
+        private string _startDateMailToSpecialEvaluator = "Views\\Emails\\StartDateEmailToSpecialEvaluator.cshtml";
+        private string _startDateMailToReviewer = "Views\\Emails\\StartDateEmailToReviewer.cshtml";
+        private string _startDateMailToSpecialReviewer = "Views\\Emails\\StartDateEmailToSpecialReviewer.cshtml";
+        private string _startDateMailToManagement = "Views\\Emails\\StartDateEmailToManagement.cshtml";
+        private string _startDateMailToSpecialManagement = "Views\\Emails\\StartDateEmailToSpecialManagement.cshtml";
 
-        private string _reminderMailToSelf = "~/Views/Emails/RemindDateEmailToSelf.cshtml";
-        private string _reminderMailToEvaluator = "~/Views/Emails/RemindDateEmailToEvaluator.cshtml";
-        private string _reminderMailToSpecialEvaluator = "~/Views/Emails/RemindDateEmailToSpecialEvaluator.cshtml";
-        private string _reminderMailToReviewer = "~/Views/Emails/RemindDateEmailToReviewer.cshtml";
-        private string _reminderMailToSpecialReviewer = "~/Views/Emails/RemindDateEmailToSpecialReviewer.cshtml";
-        private string _reminderMailToManagement = "~/Views/Emails/RemindDateEmailToManagement.cshtml";
-        private string _reminderMailToSpecialManagement = "~/Views/Emails/RemindDateEmailToSpecialManagement.cshtml";
+        private string _reminderMailToSelf = "Views\\Emails\\RemindDateEmailToSelf.cshtml";
+        private string _reminderMailToEvaluator = "\\Views\\Emails\\RemindDateEmailToEvaluator.cshtml";
+        private string _reminderMailToSpecialEvaluator = "Views\\Emails\\RemindDateEmailToSpecialEvaluator.cshtml";
+        private string _reminderMailToReviewer = "Views\\Emails\\RemindDateEmailToReviewer.cshtml";
+        private string _reminderMailToSpecialReviewer = "Views\\Emails\\RemindDateEmailToSpecialReviewer.cshtml";
+        private string _reminderMailToManagement = "Views\\Emails\\RemindDateEmailToManagement.cshtml";
+        private string _reminderMailToSpecialManagement = "Views\\Emails\\RemindDateEmailToSpecialManagement.cshtml";
 
         private IMailService _mailService;
 
@@ -52,63 +54,59 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
         public void SendStartMail(PeriodModel period, IEnumerable<PeriodFlowModel> employeeSettings)
         {
             string templateEmailPath = string.Empty;
+            string assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
 
             foreach (PeriodFlowModel employeeSetting in employeeSettings)
             {
                 switch (employeeSetting.ProcessId)
                 {
                     case (int)ProcessType.HumanResource:
-                        templateEmailPath = HttpContext.Current.Server.MapPath(_startDateMailToHumanResources);
-                        var taskHumanResourceSendMail = new Task(() => _mailService.SendMailToHRStartDate(templateEmailPath, employeeSetting, period.Name));
-                        taskHumanResourceSendMail.Start();
+                        templateEmailPath = Path.Combine(assemblyPath, _startDateMailToHumanResources);
+                        _mailService.SendMailToHRStartDate(templateEmailPath, employeeSetting, period.Name);
                         break;
 
                     case (int)ProcessType.Self:
-                        templateEmailPath = HttpContext.Current.Server.MapPath(_startDateMailToSelf);
-                        var taskSelfSendMail = new Task(() => _mailService.SendMailToSelfStartDate(templateEmailPath, employeeSetting, period.Name));
-                        taskSelfSendMail.Start();
+                        templateEmailPath = Path.Combine(assemblyPath, _startDateMailToSelf);
+                        _mailService.SendMailToSelfStartDate(templateEmailPath, employeeSetting, period.Name);
                         break;
 
                     case (int)ProcessType.Evaluator:
                         if (employeeSetting.EvaluatorInfo.IsSpecialUser)
                         {
-                            templateEmailPath = HttpContext.Current.Server.MapPath(_startDateMailToSpecialEvaluator);
+                            templateEmailPath = Path.Combine(assemblyPath, _startDateMailToSpecialEvaluator);
                         }
                         else
                         {
-                            templateEmailPath = HttpContext.Current.Server.MapPath(_startDateMailToEvaluator);
+                            templateEmailPath = Path.Combine(assemblyPath, _startDateMailToEvaluator);
                         }
 
-                        var taskEvaluatorSendMail = new Task(() => _mailService.SendMailToEvaluatorStartDate(templateEmailPath, employeeSetting, period.Name));
-                        taskEvaluatorSendMail.Start();
+                        _mailService.SendMailToEvaluatorStartDate(templateEmailPath, employeeSetting, period.Name);
                         break;
 
                     case (int)ProcessType.Reviewer:
                         if (employeeSetting.EvaluatorInfo.IsSpecialUser)
                         {
-                            templateEmailPath = HttpContext.Current.Server.MapPath(_startDateMailToSpecialReviewer);
+                            templateEmailPath = Path.Combine(assemblyPath, _startDateMailToSpecialReviewer);
                         }
                         else
                         {
-                            templateEmailPath = HttpContext.Current.Server.MapPath(_startDateMailToReviewer);
+                            templateEmailPath = Path.Combine(assemblyPath, _startDateMailToReviewer);
                         }
 
-                        var taskReviewerSendMail = new Task(() => _mailService.SendMailToReviewerStartDate(templateEmailPath, employeeSetting, period.Name));
-                        taskReviewerSendMail.Start();
+                        _mailService.SendMailToReviewerStartDate(templateEmailPath, employeeSetting, period.Name);
                         break;
 
                     case (int)ProcessType.Management:
                         if (employeeSetting.EvaluatorInfo.IsSpecialUser)
                         {
-                            templateEmailPath = HttpContext.Current.Server.MapPath(_startDateMailToSpecialManagement);
+                            templateEmailPath = Path.Combine(assemblyPath, _startDateMailToSpecialManagement);
                         }
                         else
                         {
-                            templateEmailPath = HttpContext.Current.Server.MapPath(_startDateMailToManagement);
+                            templateEmailPath = Path.Combine(assemblyPath, _startDateMailToManagement);
                         }
 
-                        var taskManagementSendMail = new Task(() => _mailService.SendMailToManagementStartDate(templateEmailPath, employeeSetting, period.Name));
-                        taskManagementSendMail.Start();
+                        _mailService.SendMailToManagementStartDate(templateEmailPath, employeeSetting, period.Name);
                         break;
                 }
             }
@@ -117,57 +115,54 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
         public void SendReminderMail(PeriodModel period, IEnumerable<PeriodFlowModel> employeeSettings)
         {
             string templateEmailPath = string.Empty;
+            string assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
 
             foreach (PeriodFlowModel employeeSetting in employeeSettings)
             {
                 switch (employeeSetting.ProcessId)
                 {
                     case (int)ProcessType.Self:
-                        templateEmailPath = HttpContext.Current.Server.MapPath(_reminderMailToSelf);
-                        var taskSelfSendMail = new Task(() => _mailService.SendMailToSelfRemindDate(templateEmailPath, employeeSetting, period.Name));
-                        taskSelfSendMail.Start();
+                        templateEmailPath = Path.Combine(assemblyPath, _reminderMailToSelf);
+                        _mailService.SendMailToSelfRemindDate(templateEmailPath, employeeSetting, period.Name);
                         break;
 
                     case (int)ProcessType.Evaluator:
                         if (employeeSetting.EvaluatorInfo.IsSpecialUser)
                         {
-                            templateEmailPath = HttpContext.Current.Server.MapPath(_reminderMailToSpecialEvaluator);
+                            templateEmailPath = Path.Combine(assemblyPath, _reminderMailToSpecialEvaluator);
                         }
                         else
                         {
-                            templateEmailPath = HttpContext.Current.Server.MapPath(_reminderMailToEvaluator);
+                            templateEmailPath = Path.Combine(assemblyPath, _reminderMailToEvaluator);
                         }
 
-                        var taskEvaluatorSendMail = new Task(() => _mailService.SendMailToEvaluatorRemindDate(templateEmailPath, employeeSetting, period.Name));
-                        taskEvaluatorSendMail.Start();
+                        _mailService.SendMailToEvaluatorRemindDate(templateEmailPath, employeeSetting, period.Name);
                         break;
 
                     case (int)ProcessType.Reviewer:
                         if (employeeSetting.EvaluatorInfo.IsSpecialUser)
                         {
-                            templateEmailPath = HttpContext.Current.Server.MapPath(_reminderMailToSpecialReviewer);
+                            templateEmailPath = Path.Combine(assemblyPath, _reminderMailToSpecialReviewer);
                         }
                         else
                         {
-                            templateEmailPath = HttpContext.Current.Server.MapPath(_reminderMailToReviewer);
+                            templateEmailPath = Path.Combine(assemblyPath, _reminderMailToReviewer);
                         }
 
-                        var taskReviewerSendMail = new Task(() => _mailService.SendMailToReviewerRemindDate(templateEmailPath, employeeSetting, period.Name));
-                        taskReviewerSendMail.Start();
+                        _mailService.SendMailToReviewerRemindDate(templateEmailPath, employeeSetting, period.Name);
                         break;
 
                     case (int)ProcessType.Management:
                         if (employeeSetting.EvaluatorInfo.IsSpecialUser)
                         {
-                            templateEmailPath = HttpContext.Current.Server.MapPath(_reminderMailToSpecialManagement);
+                            templateEmailPath = Path.Combine(assemblyPath, _reminderMailToSpecialManagement);
                         }
                         else
                         {
-                            templateEmailPath = HttpContext.Current.Server.MapPath(_reminderMailToManagement);
+                            templateEmailPath = Path.Combine(assemblyPath, _reminderMailToManagement);
                         }
 
-                        var taskManagementSendMail = new Task(() => _mailService.SendMailToManagementRemindDate(templateEmailPath, employeeSetting, period.Name));
-                        taskManagementSendMail.Start();
+                        _mailService.SendMailToManagementRemindDate(templateEmailPath, employeeSetting, period.Name);
                         break;
                 }
             }

@@ -10,13 +10,14 @@
 namespace SMS.EPA.Services.Implement
 {
     using System;
-using System.Configuration;
-using SMS.EPA.Core;
-using SMS.EPA.Core.Services.Implement;
-using SMS.EPA.Core.Services.Interfaces;
-using SMS.EPA.Model.Period;
-using SMS.EPA.Resources;
-using SMS.EPA.Services.Interfaces;
+    using System.Configuration;
+    using SMS.EPA.Core;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Services.Implement;
+    using SMS.EPA.Core.Services.Interfaces;
+    using SMS.EPA.Model.Period;
+    using SMS.EPA.Resources;
+    using SMS.EPA.Services.Interfaces;
 
     public class MailService : IMailService
     {
@@ -35,14 +36,13 @@ using SMS.EPA.Services.Interfaces;
         public void SendMailToHRStartDate(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName)
         {
             var email = new MailModel();
+            string startDate = ChangeStartDate(employeeSetting.StartDate.Value);
+            string endDate = ChangeEndDate(employeeSetting.EndDate.Value);
 
-            employeeSetting.StartDate = ChangeStartDate(employeeSetting.StartDate.Value);
-            employeeSetting.EndDate = ChangeEndDate(employeeSetting.EndDate.Value);
-
-            email.Subject = string.Format(Lang.StartDateEmailToHRSubject, periodName, employeeSetting.StartDate, employeeSetting.EndDate);
+            email.Subject = string.Format(Lang.StartDateEmailToHRSubject, periodName, startDate, endDate);
             email.Title = ConfigurationManager.AppSettings["Email.SenderName"];
             email.Body = _baseMailService.ReadTextFile(templateEmailPath);
-            email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, email.Title, periodName, employeeSetting.StartDate, employeeSetting.EndDate);
+            email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, email.Title, periodName, startDate, endDate);
             email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
 
             _baseMailService.SendEmail(email);
@@ -52,13 +52,13 @@ using SMS.EPA.Services.Interfaces;
         {
             var email = new MailModel();
 
-            employeeSetting.StartDate = ChangeStartDate(employeeSetting.StartDate.Value);
-            employeeSetting.EndDate = ChangeEndDate(employeeSetting.EndDate.Value);
+            string startDate = ChangeStartDate(employeeSetting.StartDate.Value);
+            string endDate = ChangeEndDate(employeeSetting.EndDate.Value);
 
-            email.Subject = string.Format(Lang.StartDateEmailToSelfSubject, periodName, employeeSetting.StartDate, employeeSetting.EndDate);
+            email.Subject = string.Format(Lang.StartDateEmailToSelfSubject, periodName, startDate, endDate);
             email.Title = ConfigurationManager.AppSettings["Email.SenderName"];
             email.Body = _baseMailService.ReadTextFile(templateEmailPath);
-            email.Body = string.Format(email.Body, "Josh", email.Title, periodName, employeeSetting.StartDate, employeeSetting.EndDate);
+            email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, email.Title, periodName, startDate, endDate);
             email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
 
             _baseMailService.SendEmail(email);
@@ -68,13 +68,13 @@ using SMS.EPA.Services.Interfaces;
         {
             var email = new MailModel();
 
-            employeeSetting.StartDate = ChangeStartDate(employeeSetting.StartDate.Value);
-            employeeSetting.EndDate = ChangeEndDate(employeeSetting.EndDate.Value);
+            string startDate = ChangeStartDate(employeeSetting.StartDate.Value);
+            string endDate = ChangeEndDate(employeeSetting.EndDate.Value);
 
-            email.Subject = string.Format(Lang.StartDateEmailToEvaluatorSubject, periodName, employeeSetting.StartDate, employeeSetting.EndDate);
+            email.Subject = string.Format(Lang.StartDateEmailToEvaluatorSubject, periodName, startDate, endDate);
             email.Title = ConfigurationManager.AppSettings["Email.SenderName"];
             email.Body = _baseMailService.ReadTextFile(templateEmailPath);
-            email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, email.Title, periodName, employeeSetting.StartDate, employeeSetting.EndDate);
+            email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, email.Title, periodName, startDate, endDate);
             email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
 
             _baseMailService.SendEmail(email);
@@ -84,13 +84,13 @@ using SMS.EPA.Services.Interfaces;
         {
             var email = new MailModel();
 
-            employeeSetting.StartDate = ChangeStartDate(employeeSetting.StartDate.Value);
-            employeeSetting.EndDate = ChangeEndDate(employeeSetting.EndDate.Value);
+            string startDate = ChangeStartDate(employeeSetting.StartDate.Value);
+            string endDate = ChangeEndDate(employeeSetting.EndDate.Value);
 
-            email.Subject = string.Format(Lang.StartDateEmailToReviewerSubject, periodName, employeeSetting.StartDate, employeeSetting.EndDate);
+            email.Subject = string.Format(Lang.StartDateEmailToReviewerSubject, periodName, startDate, endDate);
             email.Title = ConfigurationManager.AppSettings["Email.SenderName"];
             email.Body = _baseMailService.ReadTextFile(templateEmailPath);
-            email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, email.Title, periodName, employeeSetting.StartDate, employeeSetting.EndDate);
+            email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, email.Title, periodName, startDate, endDate);
             email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
 
             _baseMailService.SendEmail(email);
@@ -100,13 +100,13 @@ using SMS.EPA.Services.Interfaces;
         {
             var email = new MailModel();
 
-            employeeSetting.StartDate = ChangeStartDate(employeeSetting.StartDate.Value);
-            employeeSetting.EndDate = ChangeEndDate(employeeSetting.EndDate.Value);
+            string startDate = ChangeStartDate(employeeSetting.StartDate.Value);
+            string endDate = ChangeEndDate(employeeSetting.EndDate.Value);
 
-            email.Subject = string.Format(Lang.StartDateEmailToManagementSubject, periodName, employeeSetting.StartDate, employeeSetting.EndDate);
+            email.Subject = string.Format(Lang.StartDateEmailToManagementSubject, periodName, startDate, endDate);
             email.Title = ConfigurationManager.AppSettings["Email.SenderName"];
             email.Body = _baseMailService.ReadTextFile(templateEmailPath);
-            email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, email.Title, periodName, employeeSetting.StartDate, employeeSetting.EndDate);
+            email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, email.Title, periodName, startDate, endDate);
             email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
 
             _baseMailService.SendEmail(email);
@@ -116,12 +116,12 @@ using SMS.EPA.Services.Interfaces;
         {
             var email = new MailModel();
 
-            employeeSetting.StartDate = ChangeStartDate(employeeSetting.StartDate.Value);
-            employeeSetting.EndDate = ChangeEndDate(employeeSetting.EndDate.Value);
+            string startDate = ChangeStartDate(employeeSetting.StartDate.Value);
+            string endDate = ChangeEndDate(employeeSetting.EndDate.Value);
 
-            email.Subject = string.Format(Lang.RemindDateEmailToSelfSubject, periodName, employeeSetting.StartDate, employeeSetting.EndDate);
+            email.Subject = string.Format(Lang.RemindDateEmailToSelfSubject, periodName, startDate, endDate);
             email.Body = _baseMailService.ReadTextFile(templateEmailPath);
-            email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, periodName, employeeSetting.StartDate, employeeSetting.EndDate);
+            email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, periodName, startDate, endDate);
             email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
 
             _baseMailService.SendEmail(email);
@@ -131,12 +131,12 @@ using SMS.EPA.Services.Interfaces;
         {
             var email = new MailModel();
 
-            employeeSetting.StartDate = ChangeStartDate(employeeSetting.StartDate.Value);
-            employeeSetting.EndDate = ChangeEndDate(employeeSetting.EndDate.Value);
+            string startDate = ChangeStartDate(employeeSetting.StartDate.Value);
+            string endDate = ChangeEndDate(employeeSetting.EndDate.Value);
 
-            email.Subject = string.Format(Lang.RemindDateEmailToEvaluatorSubject, periodName, employeeSetting.StartDate, employeeSetting.EndDate);
+            email.Subject = string.Format(Lang.RemindDateEmailToEvaluatorSubject, periodName, startDate, endDate);
             email.Body = _baseMailService.ReadTextFile(templateEmailPath);
-            email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, periodName, employeeSetting.StartDate, employeeSetting.EndDate);
+            email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, periodName, startDate, endDate);
             email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
 
             _baseMailService.SendEmail(email);
@@ -146,12 +146,12 @@ using SMS.EPA.Services.Interfaces;
         {
             var email = new MailModel();
 
-            employeeSetting.StartDate = ChangeStartDate(employeeSetting.StartDate.Value);
-            employeeSetting.EndDate = ChangeEndDate(employeeSetting.EndDate.Value);
+            string startDate = ChangeStartDate(employeeSetting.StartDate.Value);
+            string endDate = ChangeEndDate(employeeSetting.EndDate.Value);
 
-            email.Subject = string.Format(Lang.RemindDateEmailToReviewerSubject, periodName, employeeSetting.StartDate, employeeSetting.EndDate);
+            email.Subject = string.Format(Lang.RemindDateEmailToReviewerSubject, periodName, startDate, endDate);
             email.Body = _baseMailService.ReadTextFile(templateEmailPath);
-            email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, periodName, employeeSetting.StartDate, employeeSetting.EndDate);
+            email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, periodName, startDate, endDate);
             email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
 
             _baseMailService.SendEmail(email);
@@ -161,25 +161,27 @@ using SMS.EPA.Services.Interfaces;
         {
             var email = new MailModel();
 
-            employeeSetting.StartDate = ChangeStartDate(employeeSetting.StartDate.Value);
-            employeeSetting.EndDate = ChangeEndDate(employeeSetting.EndDate.Value);
+            string startDate = ChangeStartDate(employeeSetting.StartDate.Value);
+            string endDate = ChangeEndDate(employeeSetting.EndDate.Value);
 
-            email.Subject = string.Format(Lang.RemindDateEmailToManagementSubject, periodName, employeeSetting.StartDate, employeeSetting.EndDate);
+            email.Subject = string.Format(Lang.RemindDateEmailToManagementSubject, periodName, startDate, endDate);
             email.Body = _baseMailService.ReadTextFile(templateEmailPath);
-            email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, periodName, employeeSetting.StartDate, employeeSetting.EndDate);
+            email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, periodName, startDate, endDate);
             email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
 
             _baseMailService.SendEmail(email);
         }
 
-        public DateTime ChangeStartDate(DateTime startDate)
+        public string ChangeStartDate(DateTime startDate)
         {
-            return new DateTime(startDate.Year,startDate.Month, startDate.Day, 0, 0, 0, 0, startDate.Kind);
+            var result = new DateTime(startDate.Year, startDate.Month, startDate.Day, 0, 0, 0, 0, startDate.Kind);
+            return result.ToString(Constants.FormatDateTimeEmail);
         }
 
-        public DateTime ChangeEndDate(DateTime endDate)
+        public string ChangeEndDate(DateTime endDate)
         {
-            return new DateTime(endDate.Year, endDate.Month, endDate.Day, 23, 59, 0, 0, endDate.Kind);
+            var result = new DateTime(endDate.Year, endDate.Month, endDate.Day, 23, 59, 0, 0, endDate.Kind);
+            return result.ToString(Constants.FormatDateTimeEmail);
         }
     }
 }
