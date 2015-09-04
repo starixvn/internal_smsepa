@@ -882,4 +882,13 @@
   <data name="SelectEmployeeBeforeGenerateEvaluation" xml:space="preserve">
     <value>Please select employee before generate EPA!</value>
   </data>
+  <data name="PersonalProfile" xml:space="preserve">
+    <value>Personal Profile</value>
+  </data>
+  <data name="EmployeeCode" xml:space="preserve">
+    <value>Employee Code</value>
+  </data>
+  <data name="MyEPAs" xml:space="preserve">
+    <value>My EPAs</value>
+  </data>
 </root>

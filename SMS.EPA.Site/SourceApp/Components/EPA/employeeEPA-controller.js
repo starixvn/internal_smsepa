@@ -1,4 +1,7 @@
-﻿epaModule.controller('ViewEPADetailController',
+﻿'use strict';
+/*global epaModule*/
+
+epaModule.controller('ViewEPADetailController',
 ['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'utilitiesFactory',
 function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory) {
     var vm = this;

@@ -294,6 +294,10 @@
     <Content Include="SourceApp\Components\CheckFlowAssignment\checkFlow-model.js" />
     <Content Include="SourceApp\Components\CheckFlowAssignment\Templates\editFlowSetting.html" />
     <Content Include="SourceApp\Components\CheckFlowAssignment\Templates\index.html" />
+    <Content Include="SourceApp\Components\Dashboard\dashboard-controller.js" />
+    <Content Include="SourceApp\Components\Dashboard\Templates\index.html" />
+    <Content Include="SourceApp\Components\Dashboard\Templates\myEPA.html" />
+    <Content Include="SourceApp\Components\Dashboard\Templates\personalProfile.html" />
     <Content Include="SourceApp\Components\Department\department-controller.js" />
     <Content Include="SourceApp\Components\Department\department-directive.js" />
     <Content Include="SourceApp\Components\Department\department-factory.js" />
@@ -581,6 +585,7 @@
     <Content Include="Views\Emails\RemindDateEmailToSpecialManagement.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="SourceApp\Components\Dashboard\dashboard.less" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">

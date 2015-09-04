@@ -556,6 +556,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Employee Code.
+        /// </summary>
+        public static string EmployeeCode {
+            get {
+                return ResourceManager.GetString("EmployeeCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to EPA_Evaluator_Reviewer_List_of_Section.
         /// </summary>
         public static string EmployeeFlowSettingReportName {
@@ -1267,6 +1276,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to My EPAs.
+        /// </summary>
+        public static string MyEPAs {
+            get {
+                return ResourceManager.GetString("MyEPAs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Name field is required!.
         /// </summary>
         public static string NameRequired {
@@ -1461,6 +1479,15 @@ namespace SMS.EPA.Resources {
         public static string PersonalFlow {
             get {
                 return ResourceManager.GetString("PersonalFlow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Personal Profile.
+        /// </summary>
+        public static string PersonalProfile {
+            get {
+                return ResourceManager.GetString("PersonalProfile", resourceCulture);
             }
         }
         

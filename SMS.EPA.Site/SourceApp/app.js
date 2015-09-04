@@ -3,7 +3,7 @@
 
 var appModule = angular.module("appModule", ['employeeModule', 'commonModule', 'kpiModule', 'kpiGroupModule', 'roleModule',
 'targetTemplateModule', 'flowMngModule', 'targetEmployeeSettingModule', 'checkFlowAssignmentModule', 'departmentModule',
-'epaModule', 'periodModule',
+'epaModule', 'periodModule', 'dashboardModule',
 'ui.bootstrap.contextMenu', 'ui.bootstrap', 'angular.chosen', 'pascalprecht.translate', 'angularUtils.directives.dirPagination', 'ngRoute', 'multi-select'])
 .config(['$translateProvider', '$locationProvider', 'paginationTemplateProvider', '$routeProvider', 'datepickerConfig', 'datepickerPopupConfig', '$provide',
 function ($translateProvider, $locationProvider, paginationTemplateProvider, $routeProvider, datepickerConfig, datepickerPopupConfig, $provide) {
@@ -17,4 +17,4 @@ function ($translateProvider, $locationProvider, paginationTemplateProvider, $ro
     paginationTemplateProvider.setPath('SourceApp/Shared/Templates/dirPagination.tpl.html');
     var baseUrl = $("base").first().attr("href");
     $provide.value("baseUrl", baseUrl);
-} ]);
+}]);

@@ -8,7 +8,7 @@ var employeeModule = angular.module("employeeModule", ['ngRoute'])
     var baseUrl = $("base").first().attr("href");
     $routeProvider.when('/Employee/Index',
     { templateUrl: baseUrl + 'SourceApp/Components/Employee/Templates/index.html' });
-} ]);
+}]);
 
 var commonModule = angular.module("commonModule", ['ngRoute']);
 
@@ -17,21 +17,21 @@ var kpiModule = angular.module("kpiModule", ['ngRoute'])
     var baseUrl = $("base").first().attr("href");
     $routeProvider.when('/KPI/Index',
     { templateUrl: baseUrl + 'SourceApp/Components/KPI/Templates/index.html' });
-} ]);
+}]);
 
 var kpiGroupModule = angular.module("kpiGroupModule", ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
     var baseUrl = $("base").first().attr("href");
     $routeProvider.when('/KPIGroup/Index',
     { templateUrl: baseUrl + 'SourceApp/Components/KPIGroup/Templates/index.html' });
-} ]);
+}]);
 
 var roleModule = angular.module("roleModule", ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
     var baseUrl = $("base").first().attr("href");
     $routeProvider.when('/Role/Index',
     { templateUrl: baseUrl + 'SourceApp/Components/Role/Templates/index.html' });
-} ]);
+}]);
 
 var targetTemplateModule = angular.module("targetTemplateModule", ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
@@ -45,7 +45,7 @@ var targetTemplateModule = angular.module("targetTemplateModule", ['ngRoute'])
     { templateUrl: baseUrl + 'SourceApp/Components/TargetTemplate/Templates/update.html' });
     $routeProvider.when('/TargetTemplate/Detail/:id',
     { templateUrl: baseUrl + 'SourceApp/Components/TargetTemplate/Templates/detail.html' });
-} ]);
+}]);
 
 var flowMngModule = angular.module("flowMngModule", ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
@@ -109,4 +109,11 @@ var periodModule = angular.module("periodModule", ['ngRoute'])
     { templateUrl: baseUrl + 'SourceApp/Components/Period/Templates/index.html' });
     $routeProvider.when('/Period/Update/:id',
     { templateUrl: baseUrl + 'SourceApp/Components/Period/Templates/edit.html' });
+}]);
+
+var dashboardModule = angular.module("dashboardModule", ['ngRoute'])
+.config(['$routeProvider', function ($routeProvider) {
+    var baseUrl = $("base").first().attr("href");
+    $routeProvider.when('/',
+    { templateUrl: baseUrl + 'SourceApp/Components/Dashboard/Templates/index.html' });
 }]);
