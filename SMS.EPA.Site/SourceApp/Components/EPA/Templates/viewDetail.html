@@ -1,0 +1,27 @@
+﻿<div ng-controller="ViewEPADetailController as memberEPAInfoCtrl">
+    <div class="col-sm-12 sub-header">
+        <ul class="row breadcrumb">
+            <li class="current" data-translate="EPAResult"></li>
+        </ul>
+    </div>
+    <div class="col-sm-12">
+        <form class="epa-form">
+            <div class="text-center epa-title" data-translate="EPATilte"></div>
+            <div class="col-sm-12 list-group-item bottom-buffer" ng-init="memberEPAInfoCtrl.collapses['GeneralInfo'] = false;">
+                <div class="boxtitle" data-translate="GeneralInfo"
+                     ng-click="memberEPAInfoCtrl.collapses['GeneralInfo'] = !memberEPAInfoCtrl.collapses['GeneralInfo']"></div>
+                <div class="boxcontent" collapse="memberEPAInfoCtrl.collapses['GeneralInfo']"
+                     ng-include src="'/SourceApp/Components/EPA/Templates/generalInformation.html'"></div>
+            </div>
+            <div class="col-sm-12 list-group-item bottom-buffer" ng-init="memberEPAInfoCtrl.collapses['PerformanceResult'] = false;">
+                <div class="boxtitle text-uppercase" data-translate="PerformanceResult"
+                     ng-click="memberEPAInfoCtrl.collapses['PerformanceResult'] = !memberEPAInfoCtrl.collapses['PerformanceResult']"></div>
+                <div class="boxcontent" collapse="memberEPAInfoCtrl.collapses['PerformanceResult']"
+                     ng-include src="'/SourceApp/Components/EPA/Templates/performanceResult.html'"></div>
+            </div>
+            <div class="col-sm-12 list-group-item">
+                <div ng-include src="'/SourceApp/Components/EPA/Templates/performanceDetails.html'"></div>
+            </div>
+        </form>
+    </div>
+</div>

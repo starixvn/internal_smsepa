@@ -180,7 +180,9 @@
         </Setting>
         <Setting Key="EPA_GetByManagement" SpName="EPA_GetByManagement" DbName="SMSEPA" Plain="0">
         </Setting>
-        <Setting Key="EPA_GetInfoBymanagement" SpName="EPA_GetInfoBymanagement" DbName="SMSEPA" Plain="0">
+        <Setting Key="EPA_GetInfoByManagement" SpName="EPA_GetInfoByManagement" DbName="SMSEPA" Plain="0">
+        </Setting>
+        <Setting Key="EPA_GetInfoById" SpName="EPA_GetInfoById" DbName="SMSEPA" Plain="0">
         </Setting>
         <Setting Key="EPA_UpdateScoreByReviewerOrManagement" SpName="EPA_UpdateScoreByReviewerOrManagement" DbName="SMSEPA" Plain="0">
         </Setting>

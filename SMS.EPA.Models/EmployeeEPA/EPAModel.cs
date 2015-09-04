@@ -10,6 +10,7 @@
 namespace SMS.EPA.Model.EmployeeEPA
 {
     using System.Collections.Generic;
+    using System.Linq;
     using SMS.EPA.Model.Department;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.Period;
@@ -24,7 +25,7 @@ namespace SMS.EPA.Model.EmployeeEPA
             ProcessByEvaluators = new List<EPAProcessModel>();
             ProcessByReviewers = new List<EPAProcessModel>();
             ProcessByManagements = new List<EPAProcessModel>();
-            KPIGroups = new List<EPAKpiGroupModel>();
+            KPIGroups = new List<EPAKPIGroupModel>();
         }
 
         public int EPAId { get; set; }
@@ -60,6 +61,16 @@ namespace SMS.EPA.Model.EmployeeEPA
             }
         }
 
+        public int Rowspan
+        {
+            get
+            {
+                List<int> numbers = new List<int> { Evaluators.Count, Reviewers.Count, Managements.Count };
+
+                return numbers.Max();
+            }
+        }
+
         public string AverageScoreByEvaluators { get; set; }
 
         public string AverageScoreByReviewers { get; set; }
@@ -74,7 +85,7 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public IList<EPAProcessModel> ProcessByManagements { get; set; }
 
-        public IList<EPAKpiGroupModel> KPIGroups { get; set; }
+        public IList<EPAKPIGroupModel> KPIGroups { get; set; }
 
         public IList<EvaluatorModel> Evaluators { get; set; }
 

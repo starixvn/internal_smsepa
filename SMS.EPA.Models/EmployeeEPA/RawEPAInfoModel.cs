@@ -17,7 +17,7 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public IEnumerable<EPAProcessModel> Processes { get; set; }
 
-        public IEnumerable<EPAKpiModel> KPIs { get; set; }
+        public IEnumerable<EPAKPIModel> KPIs { get; set; }
 
         public IEnumerable<EvaluationModel> Evaluations { get; set; }
 

@@ -5,11 +5,15 @@
                 <th colspan="2" data-translate="Employee"></th>
                 <th colspan="3">
                     <span data-translate="Evaluator"></span>
-                    <span ng-show="memberEPAInfoCtrl.epaInfo.AverageScoreByEvaluators">(<strong ng-bind="memberEPAInfoCtrl.epaInfo.AverageScoreByEvaluators | customNumber"></strong>)</span>
+                    <span ng-show="memberEPAInfoCtrl.epaInfo.AverageScoreByEvaluators">
+                        ({{memberEPAInfoCtrl.epaInfo.AverageScoreByEvaluators | customNumber}})
+                    </span>
                 </th>
                 <th colspan="3">
                     <span data-translate="Reviewer"></span>
-                    <span ng-show="memberEPAInfoCtrl.epaInfo.AverageScoreByReviewers">(<strong ng-bind="memberEPAInfoCtrl.epaInfo.AverageScoreByReviewers | customNumber"></strong>)</span>
+                    <span ng-show="memberEPAInfoCtrl.epaInfo.AverageScoreByReviewers">
+                        ({{memberEPAInfoCtrl.epaInfo.AverageScoreByReviewers | customNumber}})
+                    </span>
                 </th>
                 <th colspan="2" data-translate="Management"></th>
                 <th rowspan="2" data-translate="AttendanceScore" class="col-attendance-score"

@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="EPAKpiModel.cs" company="Nexcel Solutions Viet Nam">
+// <copyright file="EPAKPIModel.cs" company="Nexcel Solutions Viet Nam">
 // Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -11,9 +11,9 @@ namespace SMS.EPA.Model.EmployeeEPA
 {
     using System.Collections.Generic;
 
-    public class EPAKpiModel
+    public class EPAKPIModel
     {
-        public EPAKpiModel()
+        public EPAKPIModel()
         {
             EvaluateByEvaluators = new List<EvaluationModel>();
         }

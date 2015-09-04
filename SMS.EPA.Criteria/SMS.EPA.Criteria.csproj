@@ -74,6 +74,7 @@
     <Compile Include="EmployeeEPA\GetEPAByManagementCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEPAByReviewerCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEPAInfoByEvaluatorCriteria.cs" />
+    <Compile Include="EmployeeEPA\GetEPAInfoByIdCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEPAInfoByManagementCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEPAInfoByReviewerCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEPAInfoByEmployeeCriteria.cs" />

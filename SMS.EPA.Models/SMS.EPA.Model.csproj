@@ -54,8 +54,8 @@
     <Compile Include="EmployeeEPA\EPAProcessModel.cs" />
     <Compile Include="EmployeeEPA\EvaluationModel.cs" />
     <Compile Include="EmployeeEPA\EvaluatorModel.cs" />
-    <Compile Include="EmployeeEPA\EPAKpiGroupModel.cs" />
-    <Compile Include="EmployeeEPA\EPAKpiModel.cs" />
+    <Compile Include="EmployeeEPA\EPAKPIGroupModel.cs" />
+    <Compile Include="EmployeeEPA\EPAKPIModel.cs" />
     <Compile Include="EmployeeEPA\RawEPAInfoModel.cs" />
     <Compile Include="EmployeeEPA\RawEPAModel.cs" />
     <Compile Include="Employee\EmployeeModel.cs" />

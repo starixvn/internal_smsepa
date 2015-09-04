@@ -12,6 +12,10 @@ function (EmployeeEPAModel, CommonModel) {
         vm.viewEPADetailUrl = '/SelfEvaluation/Detail?epaId=' + epa.EPAId;
     };
 
+    vm.viewEPAResult = function (epa) {
+        vm.viewEPAResultUrl = '/EPA/Detail/' + epa.EPAId;
+    };
+
     vm.initialize = function () {
         EmployeeEPAModel.getEPAOfCurrentMember().then(function () {
             vm.myEPAs = EmployeeEPAModel.myEPAs;

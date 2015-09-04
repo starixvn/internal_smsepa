@@ -94,6 +94,15 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         });
     };
 
+    employeeEPAModel.getEPAInfoById = function (epaId) {
+        return employeeEPAFactory.getEPAInfoById(epaId)
+        .success(function (epaInfo) {
+            employeeEPAModel.epaInfo = epaInfo;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
     employeeEPAModel.validateWeightInput = function (weight, maxWeight, weightInputValidMessage) {
         var isValid = true;
 

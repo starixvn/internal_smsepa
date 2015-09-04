@@ -179,13 +179,25 @@ namespace SMS.EPA.Site.Controllers.API
         {
             var criteria = new GetEPAInfoByManagementCriteria()
             {
-                EPAId = epaId
+                EPAId = epaId,
+                ManagementId = CurrentUser.EmployeeInfo.EmployeeId
             };
 
             return _employeeEPAService.GetEPAInfoByManagement(criteria);
         }
 
         #endregion Management
+
+        [HttpGet]
+        public EPAModel GetEPAInfoById(int epaId)
+        {
+            var criteria = new GetEPAInfoByIdCriteria()
+            {
+                EPAId = epaId
+            };
+
+            return _employeeEPAService.GetEPAInfoById(criteria);
+        }
 
         [HttpPut]
         public CommandResult UpdateEPAScore(EPAModel model)
@@ -246,7 +258,7 @@ namespace SMS.EPA.Site.Controllers.API
             return score;
         }
 
-        private string ConvertKPIInfoToXml(IList<EPAKpiGroupModel> kpiGroups, int processId)
+        private string ConvertKPIInfoToXml(IList<EPAKPIGroupModel> kpiGroups, int processId)
         {
             string beginRootTag = "<ROOT>";
             string endRootTag = "</ROOT>";

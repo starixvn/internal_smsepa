@@ -89,9 +89,9 @@ namespace SMS.EPA.Repositories.Implement
                         },
                         "StatusId");
 
-                    epaInfo.EPA.KPIGroups = multi.Read<EPAKpiGroupModel>().ToList();
+                    epaInfo.EPA.KPIGroups = multi.Read<EPAKPIGroupModel>().ToList();
 
-                    epaInfo.KPIs = multi.Read<EPAKpiModel>();
+                    epaInfo.KPIs = multi.Read<EPAKPIModel>();
 
                     epaInfo.Evaluations = multi.Read<EvaluationModel>();
 

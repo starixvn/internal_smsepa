@@ -547,6 +547,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Emplooyee Performance Score.
+        /// </summary>
+        public static string EmplooyeePerformanceScore {
+            get {
+                return ResourceManager.GetString("EmplooyeePerformanceScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to EPA_Evaluator_Reviewer_List_of_Section.
         /// </summary>
         public static string EmployeeFlowSettingReportName {
@@ -651,6 +660,15 @@ namespace SMS.EPA.Resources {
         public static string EPAReport {
             get {
                 return ResourceManager.GetString("EPAReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to EPA Result.
+        /// </summary>
+        public static string EPAResult {
+            get {
+                return ResourceManager.GetString("EPAResult", resourceCulture);
             }
         }
         

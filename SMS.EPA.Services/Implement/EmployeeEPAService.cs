@@ -267,6 +267,36 @@ namespace SMS.EPA.Services.Implement
 
         #endregion Management
 
+        public EPAModel GetEPAInfoById(GetEPAInfoByIdCriteria criteria)
+        {
+            EPAModel result = new EPAModel();
+            Check.Argument.IsNotNull(criteria, "criteria");
+
+            if (criteria.IsValid())
+            {
+                RawEPAInfoModel rawEPAInfoModel = _employeeEPARepository.GetEPAInfo(criteria);
+
+                result = rawEPAInfoModel.EPA;
+                result.Status.Name = Enumerations.GetDescription((Status)result.Status.StatusId);
+                result.FinalScore = !string.IsNullOrEmpty(result.FinalScore) ? Decode(result.FinalScore) : string.Empty;
+
+                GroupEvaluatorByProcess(result, rawEPAInfoModel.Evaluators);
+                GroupEPAProcessByEPA(result, rawEPAInfoModel.Processes);
+                GroupKPIByKPIGroup(result.KPIGroups, rawEPAInfoModel.KPIs);
+                DecodeTotalScoreAndGetStatusOnEachProcess(result);
+                result.AverageScoreByEvaluators = AverageTotalScore(result.ProcessByEvaluators);
+                result.AverageScoreByReviewers = AverageTotalScore(result.ProcessByReviewers);
+                result.AverageScoreByManagements = AverageTotalScore(result.ProcessByManagements);
+
+                foreach (var kpiGroup in result.KPIGroups)
+                {
+                    GroupEvaluationAndDecodeScoreOnEachKPI(kpiGroup.KPIs, rawEPAInfoModel.Evaluations);
+                }
+            }
+
+            return result;
+        }
+
         public CommandResult UpdateEPAScore(UpdateEPAScoreCriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
@@ -427,7 +457,7 @@ namespace SMS.EPA.Services.Implement
             }
         }
 
-        private void GroupKPIByKPIGroup(IList<EPAKpiGroupModel> kpiGroups, IEnumerable<EPAKpiModel> kpis)
+        private void GroupKPIByKPIGroup(IList<EPAKPIGroupModel> kpiGroups, IEnumerable<EPAKPIModel> kpis)
         {
             foreach (var kpiGroup in kpiGroups)
             {
@@ -442,7 +472,7 @@ namespace SMS.EPA.Services.Implement
             }
         }
 
-        private void GroupEvaluationAndDecodeScoreOnEachKPI(IEnumerable<EPAKpiModel> kpis, IEnumerable<EvaluationModel> evaluations)
+        private void GroupEvaluationAndDecodeScoreOnEachKPI(IEnumerable<EPAKPIModel> kpis, IEnumerable<EvaluationModel> evaluations)
         {
             foreach (var kpi in kpis)
             {
