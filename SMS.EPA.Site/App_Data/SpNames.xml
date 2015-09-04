@@ -210,4 +210,12 @@
         <Setting Key="EpaPeriod_UpdateIncludeStatusEmployeeToPeriod" SpName="EpaPeriod_UpdateIncludeStatusEmployeeToPeriod" DbName="SMSEPA" Plain="0">
         </Setting>
     </Function>
+  <Function Name="Generation Evaluation">
+    <Setting Key="EpaAuto_GenerateEPA" SpName="EpaAuto_GenerateEPA" DbName="SMSEPA" Plain="0">
+    </Setting>
+    <Setting Key="EpaAuto_GetEmployeeSettingToSendMail" SpName="EpaAuto_GetEmployeeSettingToSendMail" DbName="SMSEPA" Plain="0">
+    </Setting>
+    <Setting Key="EpaAuto_GetPeriodHasStartedProcess" SpName="EpaAuto_GetPeriodHasStartedProcess" DbName="SMSEPA" Plain="0">
+    </Setting>
+  </Function>
 </Functions>

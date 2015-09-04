@@ -9,13 +9,13 @@
 
 namespace SMS.EPA.Site.Controllers.API
 {
-    using System;
     using System.Collections.Generic;
     using System.Web.Http;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.Period;
+    using SMS.EPA.Criteria.Period.GenerationEvaluation;
     using SMS.EPA.Model.Period;
     using SMS.EPA.Resources;
     using SMS.EPA.Services.Implement;
@@ -224,6 +224,20 @@ namespace SMS.EPA.Site.Controllers.API
             {
                 commandResult.Code = 1;
                 commandResult.Message = Lang.ParameterInvalid;
+            }
+
+            return commandResult;
+        }
+
+        [HttpPost]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Host)]
+        public CommandResult GenerateEvaluation(AutoGenerateEvaluationCriteria criteria)
+        {
+            CommandResult commandResult = _periodService.GenerateEvaluation(criteria);
+
+            if (commandResult.IsSuccessful)
+            {
+                _periodService.SendEmailNoticeAtBegin(criteria.PeriodId);
             }
 
             return commandResult;

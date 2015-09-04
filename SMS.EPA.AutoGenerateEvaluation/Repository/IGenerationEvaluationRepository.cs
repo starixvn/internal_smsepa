@@ -9,15 +9,11 @@
 
 namespace SMS.EPA.AutoGenerateEvaluation.Repository
 {
-    using System.Collections.Generic;
     using Fanex.Data.Repository;
-    using SMS.EPA.AutoGenerateEvaluation.Model;
     using SMS.EPA.Model.Period;
 
     public interface IGenerationEvaluationRepository
     {
-        IEnumerable<PeriodFlowModel> GetEmployeeSettingByPeriodId(ICriteria criteria);
-
         AutoEmployeePeriodModel GetEmployeeProbationEvaluation(ICriteria criteria);
     }
 }

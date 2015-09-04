@@ -11,7 +11,6 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Interfaces
 {
     using System.Collections.Generic;
     using SMS.EPA.AutoGenerateEvaluation.Criteria;
-    using SMS.EPA.AutoGenerateEvaluation.Model;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Model.Period;
 
@@ -21,18 +20,12 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Interfaces
 
         CommandResult InsertEmployeeToSemiAnnualPeriod(InsertEmployeeToSemiAnnualPeriodCriteria criteria);
 
-        CommandResult AutoGenerateEvaluation(AutoGenerateEvaluationCriteria criteria);
-
-        IEnumerable<PeriodFlowModel> GetEmployeeSettingByPeriodId(GetEmployeeSettingByPeriodIdCriteria criteria);
-
         AutoEmployeePeriodModel GetEmployeeProbationEvaluation(GetEmployeeProbationEvaluationCriteria criteria);
 
         CommandResult InsertEmployeeToProbationPeriod(InsertEmployeeToProbationPeriodCriteria criteria);
 
-        IEnumerable<AutoEmployeePeriodModel> GetPeriodHasStartedProcess(GetPeriodHasStartedProcessCriteria criteria);
+        IEnumerable<AutoEmployeePeriodModel> GetPeriodHasReminderProcess(GetPeriodHasReminderProcessCriteria criteria);
 
         bool CheckPeriodStartedSendMailAll(CheckPeriodStartedSendMailAllCriteria criteria);
-
-        IEnumerable<AutoEmployeePeriodModel> GetPeriodHasReminderProcess(GetPeriodHasReminderProcessCriteria criteria);
     }
 }

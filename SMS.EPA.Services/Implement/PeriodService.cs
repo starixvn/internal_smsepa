@@ -9,7 +9,6 @@
 
 namespace SMS.EPA.Services.Implement
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Fanex.Common.Helper;
@@ -18,6 +17,7 @@ namespace SMS.EPA.Services.Implement
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.Period;
+    using SMS.EPA.Criteria.Period.GenerationEvaluation;
     using SMS.EPA.Model.Period;
     using SMS.EPA.Repositories.Implement;
     using SMS.EPA.Repositories.Interfaces;
@@ -27,15 +27,17 @@ namespace SMS.EPA.Services.Implement
     public class PeriodService : BaseService, IPeriodService
     {
         private readonly IPeriodRepository _periodRepository;
+        private readonly IManualMailService _manualMailService;
 
         public PeriodService()
-            : this(null)
+            : this(null, null)
         {
         }
 
-        public PeriodService(IPeriodRepository periodRepository)
+        public PeriodService(IPeriodRepository periodRepository, IManualMailService manualMailService)
         {
             _periodRepository = periodRepository ?? new PeriodRepository();
+            _manualMailService = manualMailService ?? new ManualMailService();
         }
 
         public IEnumerable<PeriodModel> GetPeriod(GetPeriodCriteria criteria)
@@ -171,6 +173,59 @@ namespace SMS.EPA.Services.Implement
             }
 
             return commandResult;
+        }
+
+        public CommandResult GenerateEvaluation(AutoGenerateEvaluationCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            var commandResult = new CommandResult();
+
+            if (criteria.IsValid())
+            {
+                commandResult = Repository.Insert(criteria);
+            }
+
+            return commandResult;
+        }
+
+        public void SendEmailNoticeAtBegin(int? periodId)
+        {
+            var criteria = new GetPeriodHasStartedProcessCriteria
+            {
+                PeriodId = periodId
+            };
+            IEnumerable<AutoEmployeePeriodModel> startedProcess = GetPeriodHasStartedProcess(criteria);
+
+            foreach (AutoEmployeePeriodModel periodProcess in startedProcess)
+            {
+                GetAndSendEmailToAllRelatedEmployee(periodProcess.PeriodId, string.Empty, periodProcess.ProcessId);
+            }
+        }
+
+        public IEnumerable<PeriodFlowModel> GetEmployeeSettingByPeriodId(GetEmployeeSettingByPeriodIdCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<PeriodFlowModel> employeeSettings = new List<PeriodFlowModel>();
+
+            if (criteria.IsValid())
+            {
+                employeeSettings = _periodRepository.GetEmployeeSettingByPeriodId(criteria);
+            }
+
+            return employeeSettings;
+        }
+
+        public IEnumerable<AutoEmployeePeriodModel> GetPeriodHasStartedProcess(GetPeriodHasStartedProcessCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<AutoEmployeePeriodModel> startedPeriods = new List<AutoEmployeePeriodModel>();
+
+            if (criteria.IsValid())
+            {
+                startedPeriods = GetData<AutoEmployeePeriodModel>(criteria);
+            }
+
+            return startedPeriods;
         }
 
         public void ExportEmployeeSettingReport(
@@ -328,6 +383,41 @@ namespace SMS.EPA.Services.Implement
             }
 
             return evaluatorNames;
+        }
+
+        private void GetAndSendEmailToAllRelatedEmployee(int periodId, string employeeIds, int? processId)
+        {
+            PeriodModel period = GetPeriodInformation(periodId);
+            IEnumerable<PeriodFlowModel> employeeSettings = GetEmployeeSettings(periodId, employeeIds, processId);
+            _manualMailService.SendStartMail(period, employeeSettings);
+        }
+
+        private PeriodModel GetPeriodInformation(int periodId)
+        {
+            var period = new PeriodModel();
+
+            var criteria = new GetPeriodByIdCriteria
+            {
+                PeriodId = periodId
+            };
+            period = GetPeriodById(criteria);
+
+            return period;
+        }
+
+        private IEnumerable<PeriodFlowModel> GetEmployeeSettings(int periodId, string employeeIds, int? processId)
+        {
+            IEnumerable<PeriodFlowModel> employeeSettings = new List<PeriodFlowModel>();
+
+            var getEmployeeSettingCriteria = new GetEmployeeSettingByPeriodIdCriteria
+            {
+                PeriodId = periodId,
+                EmployeeIds = employeeIds,
+                ProcessId = processId
+            };
+            employeeSettings = GetEmployeeSettingByPeriodId(getEmployeeSettingCriteria);
+
+            return employeeSettings;
         }
     }
 }

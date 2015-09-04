@@ -375,6 +375,21 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
         }
     };
 
+    vm.generateEvaluation = function () {
+        var selectedEmployees = PeriodModel.getSelectedEmployee(vm.employeeSettings),
+            period = {
+                periodId: vm.period.PeriodId,
+                employeeIds: selectedEmployees
+            };
+
+        if (!selectedEmployees) {
+            notificationFactory.error("SelectEmployeeBeforeGenerateEvaluation");
+        }
+        else {
+            PeriodModel.openPopupGenerateEvaluation(period);
+        }
+    };
+
     /*
     ** Check all and sync selected employee setting between full list and filter list.
     */

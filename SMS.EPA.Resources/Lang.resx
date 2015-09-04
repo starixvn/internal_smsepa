@@ -876,4 +876,10 @@
   <data name="EPAResult" xml:space="preserve">
     <value>EPA Result</value>
   </data>
+  <data name="GenerateEvaluation" xml:space="preserve">
+    <value>Generate EPA</value>
+  </data>
+  <data name="SelectEmployeeBeforeGenerateEvaluation" xml:space="preserve">
+    <value>Please select employee before generate EPA!</value>
+  </data>
 </root>

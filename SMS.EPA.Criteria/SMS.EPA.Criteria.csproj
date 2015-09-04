@@ -109,6 +109,7 @@
     <Compile Include="FlowManagement\GetPersonalFlowCriteria.cs" />
     <Compile Include="FlowManagement\UpdateFlowTemplateCriteria.cs" />
     <Compile Include="FlowManagement\UpdateStatusFlowTemplateCriteria.cs" />
+    <Compile Include="Period\GenerationEvaluation\AutoGenerateEvaluationCriteria.cs" />
     <Compile Include="KPIGroup\DeleteKPIGroupCriteria.cs" />
     <Compile Include="KPIGroup\GetKPIGroupByIdCriteria.cs" />
     <Compile Include="KPIGroup\GetKPIGroupCriteria.cs" />
@@ -125,6 +126,8 @@
     <Compile Include="Period\AddEmployeeToPeriodCriteria.cs" />
     <Compile Include="Period\CreatePeriodCriteria.cs" />
     <Compile Include="Period\DeletePeriodCriteria.cs" />
+    <Compile Include="Period\GenerationEvaluation\GetEmployeeSettingByPeriodIdCriteria.cs" />
+    <Compile Include="Period\GenerationEvaluation\GetPeriodHasStartedProcessCriteria.cs" />
     <Compile Include="Period\UpdateIncludeStatusEmployeePeriodCriteria.cs" />
     <Compile Include="Period\GetPeriodEmployeeSettingCriteria.cs" />
     <Compile Include="Period\GetPeriodByIdCriteria.cs" />

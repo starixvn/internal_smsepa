@@ -916,6 +916,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Generate EPA.
+        /// </summary>
+        public static string GenerateEvaluation {
+            get {
+                return ResourceManager.GetString("GenerateEvaluation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Good.
         /// </summary>
         public static string Good {
@@ -1812,6 +1821,15 @@ namespace SMS.EPA.Resources {
         public static string SelectEmployeeBeforeEditSettingWarning {
             get {
                 return ResourceManager.GetString("SelectEmployeeBeforeEditSettingWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select employee before generate EPA!.
+        /// </summary>
+        public static string SelectEmployeeBeforeGenerateEvaluation {
+            get {
+                return ResourceManager.GetString("SelectEmployeeBeforeGenerateEvaluation", resourceCulture);
             }
         }
         

@@ -1,30 +1,28 @@
 ﻿// ----------------------------------------------------------------------
-// <copyright file="AutoGenerateEvaluationCriteria.cs" company="Nexcel Solutions Viet Nam">
+// <copyright file="GetPeriodHasStartedProcessCriteria.cs" company="Nexcel Solutions Viet Nam">
 // Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
 // </copyright>
 // ------------------------------------------------------------------------
 // <history>
-//   <change who="Josh.Phan" date="8/27/2015">Created.</change>
+//   <change who="Josh.Phan" date="8/13/2015">Created.</change>
 // </history>
 
-namespace SMS.EPA.AutoGenerateEvaluation.Criteria
+namespace SMS.EPA.Criteria.Period.GenerationEvaluation
 {
     using Fanex.Data.Repository;
 
-    public class AutoGenerateEvaluationCriteria : CriteriaBase
+    public class GetPeriodHasStartedProcessCriteria : CriteriaBase
     {
-        public int PeriodId { get; set; }
-
-        public string EmployeeIds { get; set; }
+        public int? PeriodId { get; set; }
 
         public override bool IsValid()
         {
-            return PeriodId > 0;
+            return true;
         }
 
         public override string GetSettingKey()
         {
-            return "EpaAuto_GenerateEPA";
+            return "EpaAuto_GetPeriodHasStartedProcess";
         }
     }
 }

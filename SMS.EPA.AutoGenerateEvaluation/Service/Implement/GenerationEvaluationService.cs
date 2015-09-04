@@ -12,7 +12,6 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
     using System.Collections.Generic;
     using Fanex.Common.Helper;
     using SMS.EPA.AutoGenerateEvaluation.Criteria;
-    using SMS.EPA.AutoGenerateEvaluation.Model;
     using SMS.EPA.AutoGenerateEvaluation.Repository;
     using SMS.EPA.AutoGenerateEvaluation.Service.Interfaces;
     using SMS.EPA.Core.Model;
@@ -59,32 +58,6 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
             return commandResult;
         }
 
-        public CommandResult AutoGenerateEvaluation(AutoGenerateEvaluationCriteria criteria)
-        {
-            Check.Argument.IsNotNull(criteria, "criteria");
-            var commandResult = new CommandResult();
-
-            if (criteria.IsValid())
-            {
-                commandResult = Repository.Insert(criteria);
-            }
-
-            return commandResult;
-        }
-
-        public IEnumerable<PeriodFlowModel> GetEmployeeSettingByPeriodId(GetEmployeeSettingByPeriodIdCriteria criteria)
-        {
-            Check.Argument.IsNotNull(criteria, "criteria");
-            IEnumerable<PeriodFlowModel> employeeSettings = new List<PeriodFlowModel>();
-
-            if (criteria.IsValid())
-            {
-                employeeSettings = _generateEvaluationRepository.GetEmployeeSettingByPeriodId(criteria);
-            }
-
-            return employeeSettings;
-        }
-
         public AutoEmployeePeriodModel GetEmployeeProbationEvaluation(GetEmployeeProbationEvaluationCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");
@@ -111,17 +84,17 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
             return comandResult;
         }
 
-        public IEnumerable<AutoEmployeePeriodModel> GetPeriodHasStartedProcess(GetPeriodHasStartedProcessCriteria criteria)
+        public IEnumerable<AutoEmployeePeriodModel> GetPeriodHasReminderProcess(GetPeriodHasReminderProcessCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");
-            IEnumerable<AutoEmployeePeriodModel> startedPeriods = new List<AutoEmployeePeriodModel>();
+            IEnumerable<AutoEmployeePeriodModel> reminderPeriods = new List<AutoEmployeePeriodModel>();
 
             if (criteria.IsValid())
             {
-                startedPeriods = GetData<AutoEmployeePeriodModel>(criteria);
+                reminderPeriods = GetData<AutoEmployeePeriodModel>(criteria);
             }
 
-            return startedPeriods;
+            return reminderPeriods;
         }
 
         public bool CheckPeriodStartedSendMailAll(CheckPeriodStartedSendMailAllCriteria criteria)
@@ -135,19 +108,6 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
             }
 
             return hasSendMailAll;
-        }
-
-        public IEnumerable<AutoEmployeePeriodModel> GetPeriodHasReminderProcess(GetPeriodHasReminderProcessCriteria criteria)
-        {
-            Check.Argument.IsNotNull(criteria, "criteria");
-            IEnumerable<AutoEmployeePeriodModel> reminderPeriods = new List<AutoEmployeePeriodModel>();
-
-            if (criteria.IsValid())
-            {
-                reminderPeriods = GetData<AutoEmployeePeriodModel>(criteria);
-            }
-
-            return reminderPeriods;
         }
     }
 }

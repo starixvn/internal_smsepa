@@ -659,5 +659,39 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         return selectedEmployees;
     };
 
+    periodModel.openPopupGenerateEvaluation = function (period) {
+        var modalInstance = $modal.open({
+            templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
+            controller: "ModalConfirmController as modalConfirmCtrl",
+            backdrop: 'static',
+            resolve: {
+                name: function () {
+                    return "EPA";
+                },
+                action: function () {
+                    return 'generate';
+                }
+            },
+            windowClass: "modal-confirm-center"
+        });
+
+        modalInstance.result.then(function () {
+            periodFactory.generateEvaluation(period).success(function (response) {
+                if (response.IsSuccessful) {
+                    notificationFactory.success("CreatedSuccessfully");
+                }
+                else {
+                    employee.IsIncluded = !newEmployeeStatus.IsIncluded;
+                    notificationFactory.error("CreatedUnsuccessfully");
+                }
+            })
+            .error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        })['finally'](function () {
+            modalInstance = '';
+        });
+    };
+
     return periodModel;
 }]);

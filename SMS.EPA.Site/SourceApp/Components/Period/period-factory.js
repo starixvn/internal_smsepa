@@ -36,6 +36,9 @@ periodModule.factory('periodFactory', ['$http', 'baseUrl', function ($http, base
         },
         getPermissionOnPeriod: function () {
             return $http.get(baseUrl + 'api/Period/GetUserPermissionOnPeriod');
+        },
+        generateEvaluation: function (period) {
+            return $http.post(baseUrl + 'api/Period/GenerateEvaluation', period);
         }
     };
 }]);

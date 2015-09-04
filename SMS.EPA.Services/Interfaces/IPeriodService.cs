@@ -12,6 +12,7 @@ namespace SMS.EPA.Services.Interfaces
     using System.Collections.Generic;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.Period;
+    using SMS.EPA.Criteria.Period.GenerationEvaluation;
     using SMS.EPA.Model.Period;
 
     public interface IPeriodService
@@ -37,5 +38,13 @@ namespace SMS.EPA.Services.Interfaces
         CommandResult UpdateIncludeStatusEmployeePeriod(UpdateIncludeStatusEmployeePeriodCriteria criteria);
 
         void ExportEmployeeSettingReport(IEnumerable<PeriodEmployeeSettingModel> employeeFlowSettings, string templatePath);
+
+        CommandResult GenerateEvaluation(AutoGenerateEvaluationCriteria criteria);
+
+        void SendEmailNoticeAtBegin(int? periodId);
+
+        IEnumerable<AutoEmployeePeriodModel> GetPeriodHasStartedProcess(GetPeriodHasStartedProcessCriteria criteria);
+
+        IEnumerable<PeriodFlowModel> GetEmployeeSettingByPeriodId(GetEmployeeSettingByPeriodIdCriteria criteria);
     }
 }

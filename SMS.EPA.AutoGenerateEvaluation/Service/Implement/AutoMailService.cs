@@ -12,8 +12,6 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Reflection;
-    using log4net;
     using SMS.EPA.AutoGenerateEvaluation.Service.Interfaces;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Model.Period;

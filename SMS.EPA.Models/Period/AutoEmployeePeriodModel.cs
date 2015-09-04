@@ -4,13 +4,11 @@
 // </copyright>
 // ------------------------------------------------------------------------
 // <history>
-//   <change who="Josh.Phan" date="8/14/2015">Created.</change>
+//   <change who="Josh.Phan" date="9/04/2015">Created.</change>
 // </history>
 
-namespace SMS.EPA.AutoGenerateEvaluation.Model
+namespace SMS.EPA.Model.Period
 {
-    using System.Collections.Generic;
-
     public class AutoEmployeePeriodModel
     {
         public string EmployeeIds { get; set; }

@@ -4,10 +4,10 @@
 // </copyright>
 // ------------------------------------------------------------------------
 // <history>
-//   <change who="Josh.Phan" date="8/31/2015">Created.</change>
+//   <change who="Josh.Phan" date="9/04/2015">Created.</change>
 // </history>
 
-namespace SMS.EPA.AutoGenerateEvaluation.Criteria
+namespace SMS.EPA.Criteria.Period.GenerationEvaluation
 {
     using Fanex.Data.Repository;
 

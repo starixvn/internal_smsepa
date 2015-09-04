@@ -13,28 +13,10 @@ namespace SMS.EPA.AutoGenerateEvaluation.Repository
     using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using SMS.EPA.AutoGenerateEvaluation.Model;
-    using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.Period;
-    using SMS.EPA.Model.TargetType;
 
     public class GenerationEvaluationRepository : IGenerationEvaluationRepository
     {
-        public IEnumerable<PeriodFlowModel> GetEmployeeSettingByPeriodId(ICriteria criteria)
-        {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
-            {
-                return db.Query<PeriodFlowModel, EmployeeModel, PeriodFlowModel>(
-                    (empS, eva) =>
-                    {
-                        empS.EvaluatorInfo = eva;
-                        return empS;
-                    },
-                    "EvaluatorId",
-                    criteria.GetSpParams());
-            }
-        }
-
         public AutoEmployeePeriodModel GetEmployeeProbationEvaluation(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))

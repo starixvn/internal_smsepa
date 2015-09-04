@@ -18,11 +18,12 @@ namespace SMS.EPA.AutoGenerateEvaluation
     using System.Timers;
     using log4net;
     using SMS.EPA.AutoGenerateEvaluation.Criteria;
-    using SMS.EPA.AutoGenerateEvaluation.Model;
     using SMS.EPA.AutoGenerateEvaluation.Service.Implement;
     using SMS.EPA.AutoGenerateEvaluation.Service.Interfaces;
+    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.Period;
+    using SMS.EPA.Criteria.Period.GenerationEvaluation;
     using SMS.EPA.Model.Period;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
@@ -85,9 +86,9 @@ namespace SMS.EPA.AutoGenerateEvaluation
         private void CheckAndExecute()
         {
             CheckSemiAnnualPeriod();
-            ////CheckProbationPeriod();
-            ////CheckPromotionPeriod();
-            ////CheckSendMail();
+            CheckProbationPeriod();
+            CheckPromotionPeriod();
+            CheckSendMail();
         }
 
         private void CheckSemiAnnualPeriod()
@@ -146,7 +147,7 @@ namespace SMS.EPA.AutoGenerateEvaluation
                     {
                         PeriodId = periodId
                     };
-                    CommandResult generateEvaluationResult = _generationEvaluationService.AutoGenerateEvaluation(generateEvaluationCriteria);
+                    CommandResult generateEvaluationResult = _periodService.GenerateEvaluation(generateEvaluationCriteria);
                     _LOG.Info("Result of auto generate EPA to all employees of current semi annual period " + periodId + ": " + (generateEvaluationResult.IsSuccessful ? "0" : generateEvaluationResult.Message));
 
                     _LOG.Info("Check period has send mail to all employees when period started: started at " + DateTime.Now.ToString());
@@ -182,7 +183,7 @@ namespace SMS.EPA.AutoGenerateEvaluation
                     PeriodId = employeePeriod.PeriodId,
                     EmployeeIds = employeePeriod.EmployeeIds
                 };
-                CommandResult generateEvaluationResult = _generationEvaluationService.AutoGenerateEvaluation(generateEvaluationCriteria);
+                CommandResult generateEvaluationResult = _periodService.GenerateEvaluation(generateEvaluationCriteria);
                 _LOG.Info("Result of auto generate EPA to all employees of current probation period " + employeePeriod.PeriodId + ": " + (generateEvaluationResult.IsSuccessful ? "0" : generateEvaluationResult.Message));
 
                 _LOG.Info("Check period has send mail to all employees when period started: started at " + DateTime.Now.ToString());
@@ -201,7 +202,7 @@ namespace SMS.EPA.AutoGenerateEvaluation
         {
             _LOG.Info("Get period has process evaluation started today: started at " + DateTime.Now.ToString());
             var criteria = new GetPeriodHasStartedProcessCriteria();
-            IEnumerable<AutoEmployeePeriodModel> startedProcess = _generationEvaluationService.GetPeriodHasStartedProcess(criteria);
+            IEnumerable<AutoEmployeePeriodModel> startedProcess = _periodService.GetPeriodHasStartedProcess(criteria);
             _LOG.Info("Result of get period has process evaluation started today: " + string.Join(",", startedProcess));
 
             foreach (AutoEmployeePeriodModel periodProcess in startedProcess)
@@ -273,7 +274,7 @@ namespace SMS.EPA.AutoGenerateEvaluation
                 EmployeeIds = employeeIds,
                 ProcessId = processId
             };
-            employeeSettings = _generationEvaluationService.GetEmployeeSettingByPeriodId(getEmployeeSettingCriteria);
+            employeeSettings = _periodService.GetEmployeeSettingByPeriodId(getEmployeeSettingCriteria);
 
             return employeeSettings;
         }
