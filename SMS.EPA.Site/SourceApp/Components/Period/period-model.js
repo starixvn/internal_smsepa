@@ -414,6 +414,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         modalInstance.result.then(function (editEmployeeSetting) {
             if (editEmployeeSetting) {
                 employeeSetting.TargetTemplate = editEmployeeSetting.TargetTemplate;
+                employeeSetting.HumanResources = editEmployeeSetting.HumanResources;
                 employeeSetting.SelfEvaluators = editEmployeeSetting.SelfEvaluators;
                 employeeSetting.Evaluators = editEmployeeSetting.Evaluators;
                 employeeSetting.Reviewers = editEmployeeSetting.Reviewers;
@@ -582,7 +583,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                         RemindDay: evaluator.RemindDay,
                         StartDate: evaluator.StartDate,
                         EndDate: evaluator.EndDate,
-                        HasSendMail: evaluator.hasSendMail,
+                        HasSendMail: evaluator.HasSendMail,
                         EvaluatorInfo: employee ? employee : {
                             EmployeeId: -1
                         }

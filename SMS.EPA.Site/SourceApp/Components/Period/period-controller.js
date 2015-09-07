@@ -563,6 +563,20 @@ function ($scope, $modalInstance, period, employeeSetting, selectedEmployee, per
         return evaluator;
     };
 
+    var updateTargetTemplates = function (targetTemplate) {
+        var existed = false;
+
+        angular.forEach(vm.targetTemplates, function (item) {
+            if (item.TargetTemplateId === targetTemplate.TargetTemplateId) {
+                existed = true;
+            }
+        });
+
+        if (!existed) {
+            vm.targetTemplates.push(targetTemplate);
+        }
+    };
+
     var setEmployeeSetting = function () {
         vm.employeeOptions.humanResource = getEvaluators(vm.employeeSetting.HumanResources);
         vm.employeeOptions.selfEvaluator = getEvaluators(vm.employeeSetting.SelfEvaluators);
@@ -570,6 +584,8 @@ function ($scope, $modalInstance, period, employeeSetting, selectedEmployee, per
         vm.employeeOptions.reviewer = getEvaluators(vm.employeeSetting.Reviewers);
         vm.employeeOptions.management = getEvaluators(vm.employeeSetting.Managements);
         vm.employeeOptions.targetTemplateId = vm.employeeSetting.TargetTemplate.TargetTemplateId;
+
+        updateTargetTemplates(vm.employeeSetting.TargetTemplate);
     };
 
     /*
@@ -642,6 +658,7 @@ function ($scope, $modalInstance, period, employeeSetting, selectedEmployee, per
 
     var getUpdatedEmployeeSetting = function (employeeSetting, employeeOptions) {
         employeeSetting.TargetTemplate = PeriodModel.getUpdateTargetTemplate(employeeOptions.targetTemplateId, vm.targetTemplates);
+        employeeSetting.HumanResources = PeriodModel.getUpdateEvaluators(employeeOptions.humanResource, vm.evaluatorType.HumanResources, vm.employees);
         employeeSetting.SelfEvaluators = PeriodModel.getUpdateEvaluators(employeeOptions.selfEvaluator, vm.evaluatorType.SelfEvaluator, vm.employees);
         employeeSetting.Evaluators = PeriodModel.getUpdateEvaluators(employeeOptions.evaluator, vm.evaluatorType.Evaluator, vm.employees);
         employeeSetting.Reviewers = PeriodModel.getUpdateEvaluators(employeeOptions.reviewer, vm.evaluatorType.Reviewer, vm.employees);
