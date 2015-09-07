@@ -33,6 +33,7 @@ namespace SMS.EPA.AutoGenerateEvaluation
         private static readonly ILog _LOG = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private bool _isBusy = false;
         private Timer _updateCounterTimer = null;
+        private DateTime _schedulerTime;
         private IGenerationEvaluationService _generationEvaluationService;
         private IPeriodService _periodService;
         private IAutoMailService _autoMailService;
@@ -41,8 +42,11 @@ namespace SMS.EPA.AutoGenerateEvaluation
         {
             InitializeComponent();
 
+            _schedulerTime = DateTime.Today.AddDays(1).AddHours(0);
             TimerInterval = int.Parse(ConfigurationManager.AppSettings["TimerInterval"]);
-            _updateCounterTimer = new Timer(TimerInterval * 1000);
+
+            _updateCounterTimer = new Timer();
+            _updateCounterTimer.Interval = _schedulerTime.Subtract(DateTime.Now).TotalSeconds * 1000;
             _updateCounterTimer.Elapsed += new ElapsedEventHandler(ExecuteJob);
             _updateCounterTimer.Enabled = false;
 
@@ -74,6 +78,11 @@ namespace SMS.EPA.AutoGenerateEvaluation
                     _isBusy = true;
                     CheckAndExecute();
                     _isBusy = false;
+                }
+
+                if (_updateCounterTimer.Interval != TimerInterval)
+                {
+                    _updateCounterTimer.Interval = TimerInterval;
                 }
             }
             catch (Exception ex)
