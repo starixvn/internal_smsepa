@@ -10,6 +10,7 @@
 namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
 {
     using System.Collections.Generic;
+    using System.Linq;
     using Fanex.Common.Helper;
     using SMS.EPA.AutoGenerateEvaluation.Criteria;
     using SMS.EPA.AutoGenerateEvaluation.Repository;
@@ -108,6 +109,36 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
             }
 
             return hasSendMailAll;
+        }
+
+        public IEnumerable<AutoEmployeePeriodModel> GetEmployeePromotionEvaluation(GetEmployeePromotionEvaluationCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<AutoEmployeePeriodModel> employeePeriods = new List<AutoEmployeePeriodModel>();
+
+            if (criteria.IsValid())
+            {
+                employeePeriods = GetData<AutoEmployeePeriodModel>(criteria);
+                employeePeriods = employeePeriods.GroupBy(x => x.PeriodId).Select(x => new AutoEmployeePeriodModel
+                {
+                    PeriodId = x.Key,
+                    EmployeeIds = JoinEmployeeId(x.ToList())
+                });
+            }
+
+            return employeePeriods;
+        }
+
+        private string JoinEmployeeId(List<AutoEmployeePeriodModel> employeePeriods)
+        {
+            string employeeIds = string.Empty;
+
+            foreach (AutoEmployeePeriodModel employeePeriod in employeePeriods)
+            {
+                employeeIds += !string.IsNullOrWhiteSpace(employeeIds) ? "," + employeePeriod.EmployeeId.ToString() : employeePeriod.EmployeeId.ToString();
+            }
+
+            return employeeIds;
         }
     }
 }

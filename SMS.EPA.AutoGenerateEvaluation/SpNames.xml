@@ -21,5 +21,7 @@
     </Setting>
     <Setting Key="EpaAuto_GetPeriodHasStartedProcess" SpName="EpaAuto_GetPeriodHasStartedProcess" DbName="SMSEPA" Plain="0">
     </Setting>
+    <Setting Key="EpaAuto_Promotion_GetEmployees" SpName="EpaAuto_Promotion_GetEmployees" DbName="SMSEPA" Plain="0">
+    </Setting>
   </Function>
 </Functions>

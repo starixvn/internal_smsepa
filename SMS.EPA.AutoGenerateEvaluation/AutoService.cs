@@ -119,7 +119,15 @@ namespace SMS.EPA.AutoGenerateEvaluation
 
         private void CheckPromotionPeriod()
         {
-            throw new NotImplementedException();
+            _LOG.Info("Check the start of promotion evaluation: started at " + DateTime.Now.ToString());
+            var criteria = new GetEmployeePromotionEvaluationCriteria();
+            IEnumerable<AutoEmployeePeriodModel> employeePeriods = _generationEvaluationService.GetEmployeePromotionEvaluation(criteria);
+            _LOG.Info("Result of check the start of promotion evaluation: ended at  " + DateTime.Now.ToString());
+
+            if (employeePeriods != null && employeePeriods.Count() > 0)
+            {
+                GenerateEPAPromotion(employeePeriods);
+            }
         }
 
         private void CheckSendMail()
@@ -198,12 +206,37 @@ namespace SMS.EPA.AutoGenerateEvaluation
             }
         }
 
+        private void GenerateEPAPromotion(IEnumerable<AutoEmployeePeriodModel> employeePeriods)
+        {
+            _LOG.Info("Check period has send mail to all employees when period started: started at " + DateTime.Now.ToString());
+            var checkSendMailAllCriteria = new CheckPeriodStartedSendMailAllCriteria();
+            bool hasSendMailAll = _generationEvaluationService.CheckPeriodStartedSendMailAll(checkSendMailAllCriteria);
+            _LOG.Info("Result of check period has send mail to all employees when period started: " + hasSendMailAll);
+
+            foreach (AutoEmployeePeriodModel period in employeePeriods)
+            {
+                _LOG.Info("Auto generate EPA to all employees of current promotion period " + period.PeriodId + ": started at " + DateTime.Now.ToString());
+                var generateEvaluationCriteria = new AutoGenerateEvaluationCriteria
+                {
+                    PeriodId = period.PeriodId,
+                    EmployeeIds = period.EmployeeIds
+                };
+                CommandResult generateEvaluationResult = _periodService.GenerateEvaluation(generateEvaluationCriteria);
+                _LOG.Info("Result of auto generate EPA to all employees of current promotion period " + period.PeriodId + ": " + (generateEvaluationResult.IsSuccessful ? "0" : generateEvaluationResult.Message));
+
+                if (generateEvaluationResult.IsSuccessful && hasSendMailAll)
+                {
+                    GetAndSendEmailToAllRelatedEmployee(period.PeriodId, period.EmployeeIds, null, (int)MailMode.Start);
+                }
+            }
+        }
+
         private void CheckSendNoticeAtBeginEmail()
         {
             _LOG.Info("Get period has process evaluation started today: started at " + DateTime.Now.ToString());
             var criteria = new GetPeriodHasStartedProcessCriteria();
             IEnumerable<AutoEmployeePeriodModel> startedProcess = _periodService.GetPeriodHasStartedProcess(criteria);
-            _LOG.Info("Result of get period has process evaluation started today: " + string.Join(",", startedProcess));
+            _LOG.Info("Result of get period has process evaluation started today: ended at " + DateTime.Now.ToString());
 
             foreach (AutoEmployeePeriodModel periodProcess in startedProcess)
             {
@@ -216,7 +249,7 @@ namespace SMS.EPA.AutoGenerateEvaluation
             _LOG.Info("Get period has process evaluation reminder today: started at " + DateTime.Now.ToString());
             var criteria = new GetPeriodHasReminderProcessCriteria();
             IEnumerable<AutoEmployeePeriodModel> reminderProcess = _generationEvaluationService.GetPeriodHasReminderProcess(criteria);
-            _LOG.Info("Result of get period has process evaluation reminder today: " + string.Join(",", reminderProcess));
+            _LOG.Info("Result of get period has process evaluation reminder today: ended at " + DateTime.Now.ToString());
 
             foreach (AutoEmployeePeriodModel periodProcess in reminderProcess)
             {
