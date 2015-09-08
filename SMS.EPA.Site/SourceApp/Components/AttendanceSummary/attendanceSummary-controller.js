@@ -2,8 +2,8 @@
 /*global attendanceModule*/
 
 attendanceModule.controller('AttendanceSummaryController',
-['AttendanceModel', 'utilitiesFactory', 'EmployeeModel',
-function (AttendanceModel, utilitiesFactory, EmployeeModel) {
+['AttendanceModel', 'utilitiesFactory', 'EmployeeModel', 'CommonModel',
+function (AttendanceModel, utilitiesFactory, EmployeeModel, CommonModel) {
     var vm = this,
         date = new Date();
 
@@ -35,6 +35,11 @@ function (AttendanceModel, utilitiesFactory, EmployeeModel) {
     utilitiesFactory.numberEntryList(vm);
     utilitiesFactory.getDateFormat(vm);
 
+    CommonModel.getDepartment().then(function () {
+        vm.departments = CommonModel.departments;
+        vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
+    });
+
     var getAttendanceSummary = function (startDate, endDate, departmentId, employeeId) {
         AttendanceModel.getAttendanceSummary(startDate, endDate, departmentId, employeeId).then(function () {
             vm.attendanceEmployees = AttendanceModel.attendanceEmployees;
@@ -59,10 +64,14 @@ function (AttendanceModel, utilitiesFactory, EmployeeModel) {
     vm.query = function (filter) {
         var employeeId = null;
 
-        if (filer.employee) {
+        if (filter.employee) {
             employeeId = filter.employee.EmployeeId;
         }
 
         getAttendanceSummary(filter.startDate, filter.endDate, filter.departmentId, employeeId);
+    };
+
+    vm.getIndex = function (index, currentPage, pageSize) {
+        return CommonModel.getIndex(index, currentPage, pageSize);
     };
 }]);
