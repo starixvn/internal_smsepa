@@ -19,6 +19,19 @@ function (AttendanceModel, utilitiesFactory, EmployeeModel) {
         employeeId: null
     };
 
+    vm.calendar = {
+        startDateOpened: false,
+        endDateOpened: false
+    };
+
+    vm.openPopupStartDate = function (event) {
+        utilitiesFactory.openPopupStartDate(event, vm);
+    };
+
+    vm.openPopupEndDate = function (event) {
+        utilitiesFactory.openPopupEndDate(event, vm);
+    };
+
     utilitiesFactory.numberEntryList(vm);
     utilitiesFactory.getDateFormat(vm);
 
