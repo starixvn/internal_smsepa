@@ -11,7 +11,7 @@
                    class="pull-right glyphicon glyphicon-arrow-left"></a>
             </div>
             <div class="row">
-                <select class="department-select" ng-model="deptFlowCtrl.departmentId"
+                <select class="department-select form-control" ng-model="deptFlowCtrl.departmentId"
                         ng-options="opt.DepartmentId as opt.Name for opt in updateCtrl.treeDepartment"
                         ng-change="deptFlowCtrl.getEmployee()">
                     <option style="display: none" value="">-- Select a Department / Section --</option>
@@ -31,7 +31,7 @@
         <div class="col-sm-9 set-flow">
             <form class="row form-inline department-form">
                 <label data-translate="ApplyToDepartment"></label>
-                <select class="sel-department" required ng-model="deptFlowCtrl.department"
+                <select class="sel-department form-control" required ng-model="deptFlowCtrl.department"
                         ng-options="opt as opt.Name for opt in updateCtrl.treeDepartment"
                         ng-change="deptFlowCtrl.getDepartmentFlow()">
                     <option style="display: none" value="">-- Select a Department / Section --</option>

@@ -2,59 +2,29 @@
 /*global departmentModule*/
 
 departmentModule.controller('DepartmentController',
-['DepartmentModel', 'EmployeeModel', 'CommonModel', 'utilitiesFactory',
-function (DepartmentModel, EmployeeModel, CommonModel, utilitiesFactory) {
+['CommonModel', 'utilitiesFactory',
+function (CommonModel, utilitiesFactory) {
     var vm = this;
 
     vm.departments = CommonModel.departments;
     vm.treeDepartment = CommonModel.treeDepartment;
 
-    var findExclusiveDepartment = function (department) {
-        var result = [];
-
-        angular.forEach(vm.departments, function (dept) {
-            if (dept.DepartmentId > 0 && dept.DepartmentId !== department.DepartmentId) {
-                result.push(dept);
-            }
-        });
-
-        return result;
-    };
-
     var resetCurrentData = function () {
-        vm.createMode = false;
-        vm.editMode = false;
-        vm.isDisabled = false;
-        vm.newDepartment = {};
+        vm.viewMode = false;
         vm.deptSelected = {};
-        vm.exclusiveDepartment = [];
-    };
-
-    /// Search employee auto complete.
-    vm.getEmployee = function () {
-        return EmployeeModel.getAllEmployee(vm.searchKey);
-    };
-
-    vm.unSelectEmployee = function () {
-        if (vm.searchKey.trim() === '') {
-            if (vm.deptSelected.Manager) {
-                vm.deptSelected.Manager = null;
-            }
-        }
     };
 
     vm.viewDetails = function (dept) {
-        vm.deptSelected = angular.copy(dept);
-        vm.searchKey = vm.deptSelected.Manager.NickName + " (" + vm.deptSelected.Manager.FullName + ")";
+        vm.deptSelected = dept;
 
-        vm.exclusiveDepartment = findExclusiveDepartment(vm.deptSelected);
-        vm.createMode = false;
-        vm.editMode = true;
-        vm.isDisabled = true;
-    };
+        if (dept.Manager && dept.Manager.EmployeeId) {
+            vm.manager = vm.deptSelected.Manager.NickName + " (" + vm.deptSelected.Manager.FullName + ")";
+        }
+        else {
+            vm.manager = null;
+        }
 
-    vm.toggleEditMode = function () {
-        vm.isDisabled = false;
+        vm.viewMode = true;
     };
 
     vm.toggleCollapseExpand = function () {
@@ -73,53 +43,6 @@ function (DepartmentModel, EmployeeModel, CommonModel, utilitiesFactory) {
             });
 
             vm.hasTreeEvent = true;
-        }
-    };
-
-    vm.menuOptions = function (dept) {
-        return [
-            ['Add Child', function () {
-                vm.newDepartment = {
-                    Code: '',
-                    Name: '',
-                    ParentId: dept.DepartmentId,
-                    Manager: {},
-                    IsActive: true
-                };
-
-                vm.exclusiveDepartment = findExclusiveDepartment(dept);
-                vm.exclusiveDepartment.push(dept);
-                vm.createMode = true;
-                vm.editMode = false;
-                vm.searchKey = null;
-            }, function () {
-                if (dept.DepartmentId < 0) {
-                    return false;
-                }
-
-                return true;
-            }],
-            ['Delete', function () {
-                DepartmentModel.openPopupDeleteDepartment(vm, dept);
-            }, function () {
-                if (dept.DepartmentId < 0 || dept.DepartmentId === 1) {
-                    return false;
-                }
-
-                return true;
-            }]
-        ];
-    };
-
-    vm.createDepartment = function (dept) {
-        if (DepartmentModel.validateDepartment(dept)) {
-            DepartmentModel.createDepartment(vm, dept);
-        }
-    };
-
-    vm.updateDepartment = function (dept) {
-        if (DepartmentModel.validateDepartment(dept)) {
-            DepartmentModel.updateDepartment(vm, dept);
         }
     };
 

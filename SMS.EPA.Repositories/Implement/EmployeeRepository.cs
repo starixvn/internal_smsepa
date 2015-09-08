@@ -14,6 +14,7 @@ namespace SMS.EPA.Repositories.Implement
     using Fanex.Data;
     using Fanex.Data.Repository;
     using SMS.EPA.Model.Authentication;
+    using SMS.EPA.Model.Department;
     using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.RoleManagement;
@@ -89,14 +90,15 @@ namespace SMS.EPA.Repositories.Implement
             {
                 using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    EmployeeModel employee = multi.Read<EmployeeModel, JobTitle, Group, EmployeeModel>(
-                           (emp, jb, gr) =>
+                    EmployeeModel employee = multi.Read<EmployeeModel, JobTitle, DepartmentModel, Group, EmployeeModel>(
+                           (emp, jb, dept, gr) =>
                            {
                                emp.JobTitle = jb;
+                               emp.Department = dept;
                                emp.Group = gr;
                                return emp;
                            },
-                           "JobTitleId, GroupId").First();
+                           "JobTitleId, DepartmentId, GroupId").First();
 
                     if (employee != null)
                     {

@@ -97,8 +97,6 @@
                             "~/SourceApp/Components/CheckFlowAssignment/checkFlow-model.js",
                             "~/SourceApp/Components/CheckFlowAssignment/checkFlow-directive.js",
                             "~/SourceApp/Components/CheckFlowAssignment/checkFlow-controller.js",
-                            "~/SourceApp/Components/Department/department-factory.js",
-                            "~/SourceApp/Components/Department/department-model.js",
                             "~/SourceApp/Components/Department/department-controller.js",
                             "~/SourceApp/Components/Department/department-directive.js",
                             "~/SourceApp/Components/EPA/employeeEPA-factory.js",
@@ -112,6 +110,8 @@
                             "~/SourceApp/Components/Period/period-model.js",
                             "~/SourceApp/Components/Period/period-controller.js",
                             "~/SourceApp/Components/Period/period-directive.js",
+                            "~/SourceApp/Components/Dashboard/dashboard-factory.js",
+                            "~/SourceApp/Components/Dashboard/dashboard-model.js",
                             "~/SourceApp/Components/Dashboard/dashboard-controller.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(

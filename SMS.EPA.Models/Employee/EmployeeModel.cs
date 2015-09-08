@@ -10,6 +10,7 @@
 namespace SMS.EPA.Model.Employee
 {
     using System.Collections.Generic;
+    using SMS.EPA.Model.Department;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.RoleManagement;
 
@@ -36,6 +37,8 @@ namespace SMS.EPA.Model.Employee
         public bool IsExistsSetting { get; set; }
 
         public JobTitle JobTitle { get; set; }
+
+        public DepartmentModel Department { get; set; }
 
         public Group Group { get; set; }
 

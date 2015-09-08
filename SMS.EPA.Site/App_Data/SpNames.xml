@@ -138,12 +138,6 @@
             <Mapping DataField="ManagerId" ObjectProperty="EmployeeId"/>
             <Mapping DataField="ModifiedBy" ObjectProperty="EmployeeId"/>
         </Setting>
-        <Setting Key="Department_Insert" SpName="Department_Insert" DbName="SMSEPA" Plain="0" >
-        </Setting>
-        <Setting Key="Department_Update" SpName="Department_Update" DbName="SMSEPA" Plain="0" >
-        </Setting>
-        <Setting Key="Department_Delete" SpName="Department_Delete" DbName="SMSEPA" Plain="0" >
-        </Setting>
     </Function>
     <Function Name="CheckAssignment">
         <Setting Key="EpaEmployeeAssignmentSetting_Get" SpName="EpaEmployeeAssignmentSetting_Get" DbName="SMSEPA" Plain="0" >
@@ -208,6 +202,10 @@
         <Setting Key="EpaPeriod_EditEmployeeSetting" SpName="EpaPeriod_EditEmployeeSetting" DbName="SMSEPA" Plain="0">
         </Setting>
         <Setting Key="EpaPeriod_UpdateIncludeStatusEmployeeToPeriod" SpName="EpaPeriod_UpdateIncludeStatusEmployeeToPeriod" DbName="SMSEPA" Plain="0">
+        </Setting>
+    </Function>
+    <Function Name="Dashboard">
+        <Setting Key="Epa_Dashboard" SpName="Epa_Dashboard" DbName="SMSEPA" Plain="0" >
         </Setting>
     </Function>
   <Function Name="Generation Evaluation">

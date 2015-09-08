@@ -5,12 +5,40 @@
             <th data-translate="PeriodName"></th>
             <th data-translate="StartDate"></th>
             <th data-translate="EndDate"></th>
-            <th data-translate="Score"></th>
-            <th data-translate="Action"></th>
+            <th class="show-hide-score">
+                <span data-translate="Score"></span>
+                <a data-translate="Show" ng-show="!dashboardCtrl.enableViewScore && dashboardCtrl.myEPAs.length > 0"
+                   ng-click="dashboardCtrl.enableViewScore = !dashboardCtrl.enableViewScore"></a>
+                <a data-translate="Hide" ng-show="dashboardCtrl.enableViewScore && dashboardCtrl.myEPAs.length > 0"
+                   ng-click="dashboardCtrl.enableViewScore = !dashboardCtrl.enableViewScore"></a>
+            </th>
+            <th data-translate="Action" class="col-action"></th>
         </tr>
     </thead>
     <tbody>
-        
+        <tr ng-repeat="myEPA in dashboardCtrl.myEPAs">
+            <td class="text-center" ng-bind="$index + 1"></td>
+            <td ng-bind="myEPA.Period.Name"></td>
+            <td class="text-center" ng-bind="myEPA.Period.StartDate | customDate"></td>
+            <td class="text-center" ng-bind="myEPA.Period.EndDate | customDate"></td>
+            <td class="text-center">
+                <span ng-show="dashboardCtrl.enableViewScore" ng-bind="myEPA.FinalScore | customNumber"></span>
+            </td>
+            <td class="text-center col-action">
+                <a class="evaluate-now button" href="" ng-click="dashboardCtrl.viewEPADetail(myEPA)"
+                   ng-href="{{dashboardCtrl.viewEPADetailUrl}}"
+                   ng-show="!myEPA.IsEndProcessBySelf && myEPA.Status.StatusId == 0">
+                    <span data-translate="EvaluateNow"></span>
+                    <span class="glyphicon icon-breadcrumb"></span>
+                </a>
+                <a class="evaluate-now button" href="" ng-click="dashboardCtrl.viewEPAResult(myEPA)"
+                   ng-href="{{dashboardCtrl.viewEPAResultUrl}}"
+                   ng-show="myEPA.IsEndProcessBySelf && myEPA.Status.StatusId == 0">
+                    <span data-translate="View"></span>
+                    <span class="glyphicon glyphicon-search"></span>
+                </a>
+            </td>
+        </tr>
     </tbody>
     <tbody ng-show="dashboardCtrl.myEPAs.length == 0">
         <tr>

@@ -170,7 +170,7 @@
     <Compile Include="Controllers\API\BaseController.cs" />
     <Compile Include="Controllers\API\CheckFlowAssignmentController.cs" />
     <Compile Include="Controllers\API\CommonController.cs" />
-    <Compile Include="Controllers\API\DepartmentController.cs" />
+    <Compile Include="Controllers\API\DashboardController.cs" />
     <Compile Include="Controllers\API\EmployeeEPAController.cs" />
     <Compile Include="Controllers\API\FlowManagementController.cs" />
     <Compile Include="Controllers\API\KPIController.cs" />
@@ -295,15 +295,14 @@
     <Content Include="SourceApp\Components\CheckFlowAssignment\Templates\editFlowSetting.html" />
     <Content Include="SourceApp\Components\CheckFlowAssignment\Templates\index.html" />
     <Content Include="SourceApp\Components\Dashboard\dashboard-controller.js" />
+    <Content Include="SourceApp\Components\Dashboard\dashboard-factory.js" />
+    <Content Include="SourceApp\Components\Dashboard\dashboard-model.js" />
     <Content Include="SourceApp\Components\Dashboard\Templates\index.html" />
     <Content Include="SourceApp\Components\Dashboard\Templates\myEPA.html" />
     <Content Include="SourceApp\Components\Dashboard\Templates\personalProfile.html" />
     <Content Include="SourceApp\Components\Department\department-controller.js" />
     <Content Include="SourceApp\Components\Department\department-directive.js" />
-    <Content Include="SourceApp\Components\Department\department-factory.js" />
-    <Content Include="SourceApp\Components\Department\department-model.js" />
-    <Content Include="SourceApp\Components\Department\Templates\create.html" />
-    <Content Include="SourceApp\Components\Department\Templates\edit.html" />
+    <Content Include="SourceApp\Components\Department\Templates\view.html" />
     <Content Include="SourceApp\Components\Department\Templates\index.html" />
     <Content Include="SourceApp\Components\Department\Templates\tree.html" />
     <Content Include="SourceApp\Components\Employee\employee-directive.js" />

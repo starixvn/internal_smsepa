@@ -67,6 +67,7 @@
     <Compile Include="CheckFlowAssignment\GetDepartmentFlowSettingCriteria.cs" />
     <Compile Include="CheckFlowAssignment\GetEmployeeFlowSettingCriteria.cs" />
     <Compile Include="CheckFlowAssignment\UpdateEmployeeFlowSettingCriteria.cs" />
+    <Compile Include="Report\GetDashboardCriteria.cs" />
     <Compile Include="Department\CreateDepartmentCriteria.cs" />
     <Compile Include="Department\DeleteDepartmentCriteria.cs" />
     <Compile Include="Department\GetDepartmentCriteria.cs" />

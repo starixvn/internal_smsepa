@@ -17,17 +17,15 @@
         <label class="col-sm-3 control-label" data-translate="Parent Node"></label>
         <div class="col-sm-8">
             <select disabled class="form-control" ng-model="deptCtrl.deptSelected.ParentId"
-                    ng-options="dept.DepartmentId as dept.Name for dept in deptCtrl.exclusiveDepartment">
-                <option style="display: none" value="">-- Select a Parent Node --</option>
+                    ng-options="dept.DepartmentId as dept.Name for dept in deptCtrl.departments">
+                <option style="display: none" value="">-- None --</option>
             </select>
         </div>
     </div>
     <div class="form-group">
         <label class="col-sm-3 control-label" data-translate="Manager"></label>
         <div class="col-sm-5">
-            <input disabled class="form-control" type="text" ng-model="deptCtrl.searchKey"
-                   search-auto-complete search-employees="deptCtrl.getEmployee()" ng-change="deptCtrl.unSelectEmployee()"
-                   employee="deptCtrl.deptSelected.Manager" maxlength="200" placeholder="Manager" />
+            <input disabled class="form-control" type="text" ng-model="deptCtrl.manager" />
         </div>
     </div>
     <div class="form-group">
@@ -37,21 +35,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-sm-3 control-label" data-translate="CreatedDate"></label>
-        <div class="col-sm-8">
-            <input readonly disabled type="text" class="form-control custom-date" ng-model="deptCtrl.deptSelected.CreatedDate"
-                   placeholder="Start Date" datepicker-popup="{{deptCtrl.dateFormat}}" />
-        </div>
-    </div>
-    <div class="form-group" ng-if="deptCtrl.isDisabled">
-        <label class="col-sm-3 control-label" data-translate="ModifiedDate"></label>
-        <div class="col-sm-8">
-            <input readonly disabled type="text" class="form-control custom-date" ng-model="deptCtrl.deptSelected.ModifiedDate"
-                   placeholder="End Date" datepicker-popup="{{deptCtrl.dateFormat}}" />
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-sm-offset-3">
+        <div class="text-center">
             <button class="btn btn-default customize" ng-click="deptCtrl.cancel()" data-translate="Cancel"></button>
         </div>
     </div>

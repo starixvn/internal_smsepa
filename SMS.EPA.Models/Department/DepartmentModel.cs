@@ -9,9 +9,8 @@
 
 namespace SMS.EPA.Model.Department
 {
-    using System;
     using System.Collections.Generic;
-    using SMS.EPA.Model.Employee;
+    using SMS.EPA.Model.Enitites;
 
     public class DepartmentModel
     {
@@ -28,21 +27,11 @@ namespace SMS.EPA.Model.Department
 
         public int? ParentId { get; set; }
 
-        public DateTime? ModifiedDate { get; set; }
-
         public bool IsActive { get; set; }
 
         public bool IsGroup { get; set; }
 
-        public int DepartmentLevel { get; set; }
-
-        public DateTime? CreatedDate { get; set; }
-
-        public EmployeeModel Creator { get; set; }
-
-        public EmployeeModel Manager { get; set; }
-
-        public EmployeeModel Modifier { get; set; }
+        public Employee Manager { get; set; }
 
         public List<DepartmentModel> Childrens { get; set; }
     }
