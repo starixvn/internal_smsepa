@@ -27,7 +27,7 @@ namespace SMS.EPA.AutoGenerateEvaluation.Repository
                     IEnumerable<int> periods = multi.Read<int>();
                     var employeePeriod = new AutoEmployeePeriodModel();
 
-                    if (periods != null && employees != null)
+                    if (periods != null && periods.Count() > 0 && employees != null && employees.Count() > 0)
                     {
                         employeePeriod.PeriodId = periods.First();
                         employeePeriod.EmployeeIds = string.Join(",", employees);

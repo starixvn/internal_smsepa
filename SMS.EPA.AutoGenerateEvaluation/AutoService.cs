@@ -80,9 +80,9 @@ namespace SMS.EPA.AutoGenerateEvaluation
                     _isBusy = false;
                 }
 
-                if (_updateCounterTimer.Interval != TimerInterval)
+                if (_updateCounterTimer.Interval != TimerInterval * 1000)
                 {
-                    _updateCounterTimer.Interval = TimerInterval;
+                    _updateCounterTimer.Interval = TimerInterval * 1000;
                 }
             }
             catch (Exception ex)
