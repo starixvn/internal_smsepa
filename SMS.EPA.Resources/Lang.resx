@@ -891,4 +891,34 @@
   <data name="MyEPAs" xml:space="preserve">
     <value>My EPAs</value>
   </data>
+  <data name="AttendanceSummary" xml:space="preserve">
+    <value>Attendance Summary</value>
+  </data>
+  <data name="Absent" xml:space="preserve">
+    <value>Absent</value>
+  </data>
+  <data name="ApproverSubtractScore" xml:space="preserve">
+    <value>Approver Subtract Score</value>
+  </data>
+  <data name="CheckInOut" xml:space="preserve">
+    <value>Check In/Out</value>
+  </data>
+  <data name="EarlyOut" xml:space="preserve">
+    <value>Early Out</value>
+  </data>
+  <data name="LateIn" xml:space="preserve">
+    <value>Late In</value>
+  </data>
+  <data name="SystemSubtractScore" xml:space="preserve">
+    <value>System Subtract Score</value>
+  </data>
+  <data name="UnpaidLeave" xml:space="preserve">
+    <value>Unpaid Leave</value>
+  </data>
+  <data name="WorkingTime" xml:space="preserve">
+    <value>Working &lt; 7h</value>
+  </data>
+  <data name="ChangeShift" xml:space="preserve">
+    <value>Change Shift</value>
+  </data>
 </root>

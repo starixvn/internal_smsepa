@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AttendanceSummary\AttendanceSummaryModel.cs" />
     <Compile Include="Authentication\LoginModel.cs" />
     <Compile Include="Authentication\UserSession.cs" />
     <Compile Include="CheckFlowAssignment\DepartmentFlowSetingModel.cs" />

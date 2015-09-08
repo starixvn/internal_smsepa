@@ -1,0 +1,114 @@
+﻿<div class="col-sm-12" ng-controller="AttendanceSummaryController as attendanceCtrl">
+    <div class="sub-header">
+        <ul class="row breadcrumb">
+            <li class="current" data-translate="AttendanceSummary"></li>
+        </ul>
+    </div>
+
+    <form novalidate class="row form-inline filter">
+        <div class="form-group">
+            <label class="control-label" data-translate="StartDate">
+            </label>
+            <input readonly class="calendar-form-control" type="text"
+                   ng-model="attendanceCtrl.filter.startDate" datepicker-popup
+                   ng-click="attendanceCtrl.openPopupStartDate($event)"
+                   is-open="attendanceCtrl.calendar.startDateOpened" />
+            <calendar-image class="calendar-image" ng-click="attendanceCtrl.openPopupStartDate($event)"></calendar-image>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="EndDate">
+            </label>
+            <input readonly class="calendar-form-control" type="text"
+                   ng-model="attendanceCtrl.filter.endDate" datepicker-popup
+                   ng-click="attendanceCtrl.openPopupEndDate($event)"
+                   is-open="attendanceCtrl.calendar.endDateOpened" />
+            <calendar-image class="calendar-image" ng-click="attendanceCtrl.openPopupEndDate($event)"></calendar-image>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="Employee"></label>
+            <input class="form-control employee-search" ng-model="attendanceCtrl.searchEmployee"
+                   placeholder="Enter full name or nick name" search-auto-complete search-employees="attendanceCtrl.getEmployee()"
+                   ng-change="attendanceCtrl.unSelectEmployee()" employee="attendanceCtrl.filter.employee" />
+        </div>
+        <div class="form-group">
+            <button class="button" ng-click="attendanceCtrl.query(attendanceCtrl.filter)" data-translate="Search"></button>
+        </div>
+    </form>
+
+    <table class="row table table-bordered table-striped">
+        <thead>
+            <tr class="header-table">
+                <th colspan="14">
+                    <input type="text" ng-model="attendanceCtrl.searchKey" ng-change="attendanceCtrl.search()" class="search-inline-textbox search pull-right">
+                </th>
+            </tr>
+            <tr class="headerName">
+                <th data-translate="SymbolCount">
+                </th>
+                <th data-translate="Section">
+                </th>
+                <th data-translate="Code">
+                </th>
+                <th data-translate="Employee">
+                </th>
+                <th data-translate="CheckInOut">
+                </th>
+                <th data-translate="WorkingTime">
+                </th>
+                <th data-translate="LateIn">
+                </th>
+                <th data-translate="EarlyOut">
+                </th>
+                <th data-translate="Absent">
+                </th>
+                <th data-translate="UnpaidLeave">
+                </th>
+                <th data-translate="ChangeShift">
+                </th>
+                <th data-translate="SystemSubtractScore">
+                </th>
+                <th data-translate="ApproverSubtractScore">
+                </th>
+                <th data-translate="Action">
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr dir-paginate="employee in attendanceCtrl.filteredItems | itemsPerPage: attendanceCtrl.pageSize" current-page="attendanceCtrl.currentPage">
+                <td class="text-center" ng-bind="attendanceCtrl.getIndex($index, attendanceCtrl.currentPage, attendanceCtrl.pageSize)"></td>
+                <td class="text-center" ng-bind="employee.Group.GroupName"></td>
+                <td class="text-center" ng-bind="employee.Code"></td>
+                <td class="text-center" ng-bind="employee.NickName"></td>
+                <td ng-bind="employee.FullName"></td>
+                <td ng-bind="employee.CheckInOut"></td>
+                <td ng-bind="employee.WorkingTime"></td>
+                <td ng-bind="employee.LateIn"></td>
+                <td ng-bind="employee.EarlyOut"></td>
+                <td ng-bind="employee.Absent"></td>
+                <td ng-bind="employee.UnpaidLeave"></td>
+                <td ng-bind="employee.ChangeShift"></td>
+                <td ng-bind="employee.SystemSubtractScore"></td>
+                <td ng-bind="employee.ApproverSubtractScore"></td>
+                <td class="text-center">
+                    <a class="glyphicon glyphicon-edit icon-edit" title="Edit" ng-click="attendanceCtrl.adjust(employee)"></a>
+                </td>
+            </tr>
+            <tr ng-show="attendanceCtrl.filteredItems.length == 0">
+                <td class="empty-result" colspan="14" data-translate="EmptyResult"></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="14" class="paging">
+                    <span data-translate="Show"></span>
+                    <select class="dropdown-entry form-control" ng-model="attendanceCtrl.pageSize"
+                            ng-options="entry for entry in attendanceCtrl.entries"></select>
+                    <span data-translate="entries"></span>
+                    <div class="pull-right custom-paging">
+                        <dir-pagination-controls boundary-links="true"></dir-pagination-controls>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

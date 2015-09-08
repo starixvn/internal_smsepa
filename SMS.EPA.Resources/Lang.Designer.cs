@@ -61,6 +61,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Absent.
+        /// </summary>
+        public static string Absent {
+            get {
+                return ResourceManager.GetString("Absent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Action.
         /// </summary>
         public static string Action {
@@ -142,6 +151,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Approver Subtract Score.
+        /// </summary>
+        public static string ApproverSubtractScore {
+            get {
+                return ResourceManager.GetString("ApproverSubtractScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Assign.
         /// </summary>
         public static string Assign {
@@ -192,6 +210,15 @@ namespace SMS.EPA.Resources {
         public static string AttendanceStartDate {
             get {
                 return ResourceManager.GetString("AttendanceStartDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attendance Summary.
+        /// </summary>
+        public static string AttendanceSummary {
+            get {
+                return ResourceManager.GetString("AttendanceSummary", resourceCulture);
             }
         }
         
@@ -250,6 +277,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change Shift.
+        /// </summary>
+        public static string ChangeShift {
+            get {
+                return ResourceManager.GetString("ChangeShift", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All KPIs of this target template will be removed after changing Target Type. You have to go to Target KPI list and add KPIs again. Are you sure you want to proceed?.
         /// </summary>
         public static string ChangeTargetTypeWarning {
@@ -264,6 +300,15 @@ namespace SMS.EPA.Resources {
         public static string CheckAssignment {
             get {
                 return ResourceManager.GetString("CheckAssignment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check In/Out.
+        /// </summary>
+        public static string CheckInOut {
+            get {
+                return ResourceManager.GetString("CheckInOut", resourceCulture);
             }
         }
         
@@ -480,6 +525,15 @@ namespace SMS.EPA.Resources {
         public static string Description {
             get {
                 return ResourceManager.GetString("Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Early Out.
+        /// </summary>
+        public static string EarlyOut {
+            get {
+                return ResourceManager.GetString("EarlyOut", resourceCulture);
             }
         }
         
@@ -1164,6 +1218,15 @@ namespace SMS.EPA.Resources {
         public static string LastModifiedDate {
             get {
                 return ResourceManager.GetString("LastModifiedDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Late In.
+        /// </summary>
+        public static string LateIn {
+            get {
+                return ResourceManager.GetString("LateIn", resourceCulture);
             }
         }
         
@@ -2068,6 +2131,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to System Subtract Score.
+        /// </summary>
+        public static string SystemSubtractScore {
+            get {
+                return ResourceManager.GetString("SystemSubtractScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Target Employee Setting.
         /// </summary>
         public static string TargetEmployeeSetting {
@@ -2230,6 +2302,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unpaid Leave.
+        /// </summary>
+        public static string UnpaidLeave {
+            get {
+                return ResourceManager.GetString("UnpaidLeave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Updated Successfully!.
         /// </summary>
         public static string UpdatedSuccessfully {
@@ -2361,6 +2442,15 @@ namespace SMS.EPA.Resources {
         public static string WeightKPIRequired {
             get {
                 return ResourceManager.GetString("WeightKPIRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Working &lt; 7h.
+        /// </summary>
+        public static string WorkingTime {
+            get {
+                return ResourceManager.GetString("WorkingTime", resourceCulture);
             }
         }
         

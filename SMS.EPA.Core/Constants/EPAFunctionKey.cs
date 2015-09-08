@@ -49,5 +49,7 @@ namespace SMS.EPA.Core.Constants
         public const string TargetEmployeeSetting = "TargetEmployeeSetting";
 
         public const string Period = "Period";
+
+        public const string AttendanceSummary = "AttendanceSummary";
     }
 }

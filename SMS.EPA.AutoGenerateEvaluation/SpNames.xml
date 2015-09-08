@@ -23,5 +23,13 @@
     </Setting>
     <Setting Key="EpaAuto_Promotion_GetEmployees" SpName="EpaAuto_Promotion_GetEmployees" DbName="SMSEPA" Plain="0">
     </Setting>
+    <Setting Key="EpaAuto_CheckEndProcess" SpName="EpaAuto_CheckEndProcess" DbName="SMSEPA" Plain="0">
+    </Setting>
+    <Setting Key="EpaAuto_UpdateIsEndProcess" SpName="EpaAuto_UpdateIsEndProcess" DbName="SMSEPA" Plain="0">
+    </Setting>
+    <Setting Key="EpaAuto_CheckEndEvaluationPeriod" SpName="EpaAuto_CheckEndEvaluationPeriod" DbName="SMSEPA" Plain="0">
+    </Setting>
+    <Setting Key="EpaAuto_UpdateStatusEndEvaluationPeriod" SpName="EpaAuto_UpdateStatusEndEvaluationPeriod" DbName="SMSEPA" Plain="0">
+    </Setting>
   </Function>
 </Functions>

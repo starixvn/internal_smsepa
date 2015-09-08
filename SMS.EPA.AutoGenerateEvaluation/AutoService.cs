@@ -98,6 +98,8 @@ namespace SMS.EPA.AutoGenerateEvaluation
             CheckProbationPeriod();
             CheckPromotionPeriod();
             CheckSendMail();
+            CheckEndProcess();
+            CheckEndEvaluationPeriod();
         }
 
         private void CheckSemiAnnualPeriod()
@@ -143,6 +145,49 @@ namespace SMS.EPA.AutoGenerateEvaluation
         {
             CheckSendNoticeAtBeginEmail();
             CheckSendReminderEmail();
+        }
+
+        private void CheckEndProcess()
+        {
+            _LOG.Info("Check process that ended yesterday: started at " + DateTime.Now.ToString());
+            var checkEndProcessCriteria = new CheckEndProcessCriteria();
+            IEnumerable<AutoEmployeePeriodModel> evaluationProcesses = _generationEvaluationService.CheckEndProcess(checkEndProcessCriteria);
+            _LOG.Info("Check process that ended yesterday: ended at " + DateTime.Now.ToString());
+
+            if (evaluationProcesses != null && evaluationProcesses.Count() > 0)
+            {
+                var updateEndProcessCriteria = new UpdateIsEndProcessCriteria
+                {
+                    EPAProcess = _generationEvaluationService.ConvertEvaluationProcessToXml(evaluationProcesses)
+                };
+
+                _LOG.Info("Update status of processes that ended yesterday: started at " + DateTime.Now.ToString());
+                CommandResult updateIsEndProcess = _generationEvaluationService.UpdateEndProcess(updateEndProcessCriteria);
+                _LOG.Info("Result of update status of processed that ended yesterday: " + (updateIsEndProcess.IsSuccessful ? "0" : updateIsEndProcess.Message));
+            }
+        }
+
+        private void CheckEndEvaluationPeriod()
+        {
+            _LOG.Info("Check EPA that ended yesterday: started at " + DateTime.Now.ToString());
+            var checkEndEvaluationCriteria = new CheckEndEvaluationPeriodCriteria();
+            IEnumerable<int> evaluations = _generationEvaluationService.CheckEndEvaluationPeriod(checkEndEvaluationCriteria);
+            _LOG.Info("Check EPA that ended yesterday: ended at " + DateTime.Now.ToString());
+
+            if (evaluations != null && evaluations.Count() > 0)
+            {
+                string evaluationIds = string.Join(",", evaluations);
+                _LOG.Info("Result of check EPA that ended yesterday: " + evaluationIds);
+
+                var updateStatusEvalutionCriteria = new UpdateStatusEndEvaluationPeriodCriteria
+                {
+                    EPAIds = evaluationIds
+                };
+
+                _LOG.Info("Update status of EPA that ended yesterday: started at " + DateTime.Now.ToString());
+                CommandResult updateIsEndProcess = _generationEvaluationService.UpdateStatusEndEvaluaitonPeriod(updateStatusEvalutionCriteria);
+                _LOG.Info("Result of update status of EPA that ended yesterday: " + (updateIsEndProcess.IsSuccessful ? "0" : updateIsEndProcess.Message));
+            }
         }
 
         private void AddEmployeeAndGenerateEPASemiAnnual(IEnumerable<int> semiAnnualPeriods)

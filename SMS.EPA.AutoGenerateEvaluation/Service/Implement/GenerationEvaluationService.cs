@@ -11,6 +11,7 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
     using Fanex.Common.Helper;
     using SMS.EPA.AutoGenerateEvaluation.Criteria;
     using SMS.EPA.AutoGenerateEvaluation.Repository;
@@ -127,6 +128,75 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
             }
 
             return employeePeriods;
+        }
+
+        public IEnumerable<AutoEmployeePeriodModel> CheckEndProcess(CheckEndProcessCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<AutoEmployeePeriodModel> evaluationProcesses = new List<AutoEmployeePeriodModel>();
+
+            if (criteria.IsValid())
+            {
+                evaluationProcesses = GetData<AutoEmployeePeriodModel>(criteria);
+            }
+
+            return evaluationProcesses;
+        }
+
+        public CommandResult UpdateEndProcess(UpdateIsEndProcessCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            var comandResult = new CommandResult();
+
+            if (criteria.IsValid())
+            {
+                comandResult = Repository.Update(criteria);
+            }
+
+            return comandResult;
+        }
+
+        public IEnumerable<int> CheckEndEvaluationPeriod(CheckEndEvaluationPeriodCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<int> evaluations = new List<int>();
+
+            if (criteria.IsValid())
+            {
+                evaluations = GetData<int>(criteria);
+            }
+
+            return evaluations;
+        }
+
+        public CommandResult UpdateStatusEndEvaluaitonPeriod(UpdateStatusEndEvaluationPeriodCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            var comandResult = new CommandResult();
+
+            if (criteria.IsValid())
+            {
+                comandResult = Repository.Update(criteria);
+            }
+
+            return comandResult;
+        }
+
+        public string ConvertEvaluationProcessToXml(IEnumerable<AutoEmployeePeriodModel> evaluationProcesses)
+        {
+            string processTemplate = "<EPAProcess EPAId='{0}' ProcessId='{1}'></EPAProcess>";
+            string beginRootTag = "<ROOT>";
+            string endRootTag = "</ROOT>";
+
+            var value = new StringBuilder(beginRootTag);
+
+            foreach (AutoEmployeePeriodModel evaluationProcess in evaluationProcesses)
+            {
+                value.AppendFormat(processTemplate, evaluationProcess.EPAId, evaluationProcess.ProcessId);
+            }
+
+            value.Append(endRootTag);
+            return value.ToString();
         }
 
         private string JoinEmployeeId(List<AutoEmployeePeriodModel> employeePeriods)

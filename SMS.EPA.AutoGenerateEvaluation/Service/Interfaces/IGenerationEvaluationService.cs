@@ -29,5 +29,15 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Interfaces
         bool CheckPeriodStartedSendMailAll(CheckPeriodStartedSendMailAllCriteria criteria);
 
         IEnumerable<AutoEmployeePeriodModel> GetEmployeePromotionEvaluation(GetEmployeePromotionEvaluationCriteria criteria);
+
+        IEnumerable<AutoEmployeePeriodModel> CheckEndProcess(CheckEndProcessCriteria criteria);
+
+        CommandResult UpdateEndProcess(UpdateIsEndProcessCriteria criteria);
+
+        IEnumerable<int> CheckEndEvaluationPeriod(CheckEndEvaluationPeriodCriteria criteria);
+
+        CommandResult UpdateStatusEndEvaluaitonPeriod(UpdateStatusEndEvaluationPeriodCriteria criteria);
+
+        string ConvertEvaluationProcessToXml(IEnumerable<AutoEmployeePeriodModel> evaluationProcesses);
     }
 }

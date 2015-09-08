@@ -112,7 +112,10 @@
                             "~/SourceApp/Components/Period/period-directive.js",
                             "~/SourceApp/Components/Dashboard/dashboard-factory.js",
                             "~/SourceApp/Components/Dashboard/dashboard-model.js",
-                            "~/SourceApp/Components/Dashboard/dashboard-controller.js"));
+                            "~/SourceApp/Components/Dashboard/dashboard-controller.js",
+                            "~/SourceApp/Components/AttendanceSummary/attendanceSummary-factory.js",
+                            "~/SourceApp/Components/AttendanceSummary/attendanceSummary-model.js",
+                            "~/SourceApp/Components/AttendanceSummary/attendanceSummary-controller.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/epa-directives.js",

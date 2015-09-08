@@ -59,7 +59,8 @@ namespace SMS.EPA.Site
                 "EPA/Detail/{id}",
                 "Period/Index",
                 "Period/Update/{id}",
-                "Home"
+                "Home",
+                "Attendance/Index"
             };
 
             homeRouteUrls.ForEach(url => routes.MapRoute(

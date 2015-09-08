@@ -117,3 +117,10 @@ var dashboardModule = angular.module("dashboardModule", ['ngRoute'])
     $routeProvider.when('/',
     { templateUrl: baseUrl + 'SourceApp/Components/Dashboard/Templates/index.html' });
 }]);
+
+var attendanceModule = angular.module("attendanceModule", ['ngRoute'])
+.config(['$routeProvider', function ($routeProvider) {
+    var baseUrl = $("base").first().attr("href");
+    $routeProvider.when('/Attendance/Index',
+    { templateUrl: baseUrl + 'SourceApp/Components/AttendanceSummary/Templates/index.html' });
+}]);

@@ -80,6 +80,8 @@
     <Compile Include="AutoService.Designer.cs">
       <DependentUpon>AutoService.cs</DependentUpon>
     </Compile>
+    <Compile Include="Criteria\CheckEndEvaluationPeriodCriteria.cs" />
+    <Compile Include="Criteria\CheckEndProcessCriteria.cs" />
     <Compile Include="Criteria\CheckPeriodStartedSendMailAllCriteria.cs" />
     <Compile Include="Criteria\GetEmployeeProbationEvaluationCriteria.cs" />
     <Compile Include="Criteria\GetEmployeePromotionEvaluationCriteria.cs" />
@@ -87,6 +89,8 @@
     <Compile Include="Criteria\InsertEmployeeToProbationPeriodCriteria.cs" />
     <Compile Include="Criteria\InsertEmployeeToSemiAnnualPeriodCriteria.cs" />
     <Compile Include="Criteria\GetSemiAnnualPeriodStartedCriteria.cs" />
+    <Compile Include="Criteria\UpdateIsEndProcessCriteria.cs" />
+    <Compile Include="Criteria\UpdateStatusEndEvaluationPeriodCriteria.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
