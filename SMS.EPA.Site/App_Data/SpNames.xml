@@ -134,9 +134,7 @@
     </Function>
     <Function Name="Department">
         <Setting Key="Department_Get" SpName="Department_Get" DbName="SMSEPA" Plain="0" >
-            <Mapping DataField="CreatedBy" ObjectProperty="EmployeeId"/>
             <Mapping DataField="ManagerId" ObjectProperty="EmployeeId"/>
-            <Mapping DataField="ModifiedBy" ObjectProperty="EmployeeId"/>
         </Setting>
     </Function>
     <Function Name="CheckAssignment">

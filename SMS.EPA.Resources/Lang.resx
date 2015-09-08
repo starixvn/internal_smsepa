@@ -921,4 +921,19 @@
   <data name="ChangeShift" xml:space="preserve">
     <value>Change Shift</value>
   </data>
+  <data name="KPIInformation" xml:space="preserve">
+    <value>KPI Information</value>
+  </data>
+  <data name="RatingPerformanceByKPI" xml:space="preserve">
+    <value>Rating Performance By KPI</value>
+  </data>
+  <data name="MaxPoints" xml:space="preserve">
+    <value>Max Points</value>
+  </data>
+  <data name="AdjustScore" xml:space="preserve">
+    <value>Adjust Score</value>
+  </data>
+  <data name="CurrentScore" xml:space="preserve">
+    <value>Current Score</value>
+  </data>
 </root>

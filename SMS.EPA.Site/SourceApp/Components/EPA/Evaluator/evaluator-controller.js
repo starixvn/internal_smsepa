@@ -233,3 +233,23 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
 
     vm.initialize();
 }]);
+
+epaModule.controller('RatingByKPIController',
+['$window', 'EmployeeEPAModel', 'CommonModel',
+function ($window, EmployeeEPAModel, CommonModel) {
+    var vm = this;
+
+    vm.filter = {
+        targetTemplateId: '',
+        kpiId: '',
+        groupId: ''
+    };
+
+    vm.initialize = function () {
+        CommonModel.getAllGroup().then(function () {
+            vm.groupOptions = CommonModel.groups;
+        });
+    };
+
+    vm.initialize();
+}]);

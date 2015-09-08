@@ -17,6 +17,9 @@ namespace SMS.EPA.Core.Enumerations
         Open = 0,
 
         [Description("Closed")]
-        Closed = 1
+        Closed = 1,
+
+        [Description("Rejected")]
+        Rejected = 2
     }
 }

@@ -329,6 +329,7 @@
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\detail.html" />
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\index.html" />
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\listKPI.html" />
+    <Content Include="SourceApp\Components\EPA\Evaluator\Templates\ratingByKPI.html" />
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\summary.html" />
     <Content Include="SourceApp\Components\EPA\Management\management-controller.js" />
     <Content Include="SourceApp\Components\EPA\Management\Templates\detail.html" />

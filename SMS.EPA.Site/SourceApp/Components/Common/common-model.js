@@ -115,6 +115,40 @@ function (commonFactory, errorFactory) {
     };
 
     /// Get department.
+    var createLabel = function (item, level) {
+        var label = '',
+            space = '',
+            levelTemp = level;
+
+        if (level > 0) {
+            while (levelTemp > 0) {
+                label = label + " " + space;
+                space = String.fromCharCode(160) + String.fromCharCode(160) + String.fromCharCode(160);
+                levelTemp--;
+            }
+
+            label = label + ' ├─○ ' + item.Name;
+        }
+        else {
+            label = item.Name;
+        }
+
+        return label;
+    };
+
+    var generateTreeDepartment = function (departments, options, level) {
+        angular.forEach(departments, function (item) {
+            options.push({ Name: createLabel(item, level), DepartmentId: item.DepartmentId });
+            generateTreeDepartment(item.Childrens, options, level + 1);
+        });
+
+        return options;
+    };
+
+    commonModel.generateTreeDepartment = function (departments) {
+        return generateTreeDepartment(departments, [], 0);
+    };
+
     commonModel.getDepartment = function (parentId, isActive) {
         return commonFactory.getDepartment(parentId, isActive)
         .success(function (data) {
@@ -136,4 +170,4 @@ function (commonFactory, errorFactory) {
     };
 
     return commonModel;
-} ]);
+}]);

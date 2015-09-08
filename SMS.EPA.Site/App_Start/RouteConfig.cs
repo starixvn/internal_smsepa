@@ -60,7 +60,8 @@ namespace SMS.EPA.Site
                 "Period/Index",
                 "Period/Update/{id}",
                 "Home",
-                "Attendance/Index"
+                "Attendance/Index",
+                "RatingByKPI/Index"
             };
 
             homeRouteUrls.ForEach(url => routes.MapRoute(

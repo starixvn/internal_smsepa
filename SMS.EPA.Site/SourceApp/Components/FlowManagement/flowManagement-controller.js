@@ -122,40 +122,10 @@ function ($window, FlowMngModel, CommonModel, cacheService) {
         cacheService.setProperty(2);
     };
 
-    var createLabel = function (item, level) {
-        var label = '',
-            space = '',
-            levelTemp = level;
-
-        if (level > 0) {
-            while (levelTemp > 0) {
-                label = label + " " + space;
-                space = String.fromCharCode(160) + String.fromCharCode(160) + String.fromCharCode(160);
-                levelTemp--;
-            }
-
-            label = label + ' ├─○ ' + item.Name;
-        }
-        else {
-            label = item.Name;
-        }
-
-        return label;
-    };
-
-    var generateTreeDepartment = function (departments, options, level) {
-        angular.forEach(departments, function (item) {
-            options.push({ Name: createLabel(item, level), DepartmentId: item.DepartmentId });
-            generateTreeDepartment(item.Childrens, options, level + 1);
-        });
-
-        return options;
-    };
-
     vm.initialize = function () {
         CommonModel.getDepartment().then(function () {
             vm.departments = CommonModel.departments;
-            vm.treeDepartment = generateTreeDepartment(CommonModel.treeDepartment.Childrens, [], 0);
+            vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
         });
     };
 

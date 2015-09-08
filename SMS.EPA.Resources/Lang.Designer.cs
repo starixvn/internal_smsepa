@@ -124,6 +124,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Adjust Score.
+        /// </summary>
+        public static string AdjustScore {
+            get {
+                return ResourceManager.GetString("AdjustScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Admin.
         /// </summary>
         public static string Admin {
@@ -462,6 +471,15 @@ namespace SMS.EPA.Resources {
         public static string CreateUser {
             get {
                 return ResourceManager.GetString("CreateUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current Score.
+        /// </summary>
+        public static string CurrentScore {
+            get {
+                return ResourceManager.GetString("CurrentScore", resourceCulture);
             }
         }
         
@@ -1177,6 +1195,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to KPI Information.
+        /// </summary>
+        public static string KPIInformation {
+            get {
+                return ResourceManager.GetString("KPIInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to KPI List.
         /// </summary>
         public static string KPIList {
@@ -1299,6 +1326,15 @@ namespace SMS.EPA.Resources {
         public static string ManagerRequired {
             get {
                 return ResourceManager.GetString("ManagerRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Max Points.
+        /// </summary>
+        public static string MaxPoints {
+            get {
+                return ResourceManager.GetString("MaxPoints", resourceCulture);
             }
         }
         
@@ -1596,6 +1632,15 @@ namespace SMS.EPA.Resources {
         public static string RatingInstruction {
             get {
                 return ResourceManager.GetString("RatingInstruction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rating Performance By KPI.
+        /// </summary>
+        public static string RatingPerformanceByKPI {
+            get {
+                return ResourceManager.GetString("RatingPerformanceByKPI", resourceCulture);
             }
         }
         

@@ -1,0 +1,86 @@
+﻿<div class="row rating-by-kpi" ng-controller="RatingByKPIController as ratingByKPICtrl">
+    <div class="row">
+        <div class="boxtitle text-uppercase" data-translate="RatingPerformanceByKPI"></div>
+        <div class="boxcontent">
+            <form novalidate class="row filter form-horizontal" role="form">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" data-translate="TargetTemplate"></label>
+                    <div class="col-sm-3">
+                        <select class="form-control" ng-model="ratingByKPICtrl.filter.targetTemplateId"
+                                ng-options="opt.TargetTemplateId as opt.Name for opt in ratingByKPICtrl.targetTemplates"
+                                ng-change="ratingByKPICtrl.getKPI(ratingByKPICtrl.filter.targetTemplateId)">
+                            <option value="">-- {{"All" | translate}} --</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" data-translate="KPI"></label>
+                    <div class="col-sm-3">
+                        <select class="form-control" ng-model="ratingByKPICtrl.filter.kpiId"
+                                ng-options="opt.KPIId as opt.Name for opt in ratingByKPICtrl.kpis">
+                            <option value="">-- {{"All" | translate}} --</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" data-translate="Section"></label>
+                    <div class="col-sm-3">
+                        <select class="form-control" ng-model="ratingByKPICtrl.filter.groupId"
+                                ng-options="opt.GroupId as opt.GroupName for opt in ratingByKPICtrl.groupOptions">
+                            <option value="">-- {{"All" | translate}} --</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-1">
+                        <button class="button" ng-click="ratingByKPICtrl.query(ratingByKPICtrl.filter)" data-translate="Search"></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="boxtitle text-uppercase" data-translate="KPIInformation"></div>
+        <div class="boxcontent kpi-info">
+            <div class="row filter form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" data-translate="KPIGroup"></label>
+                    <div class="col-sm-9">
+                        <label class="control-label"></label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" data-translate="KPI"></label>
+                    <div class="col-sm-9">
+                        <label class="control-label"></label>
+                    </div>
+                </div>
+                <div class="form-group last">
+                    <label class="col-sm-2 control-label" data-translate="MaxPoints"></label>
+                    <div class="col-sm-9">
+                        <label class="control-label"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="boxcontent">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th data-translate="SymbolCount"></th>
+                        <th data-translate="Section"></th>
+                        <th data-translate="NickName"></th>
+                        <th data-translate="FullName"></th>
+                        <th data-translate="JobTitle"></th>
+                        <th data-translate="CurrentScore"></th>
+                        <th data-translate="AdjustScore"></th>
+                        <th data-translate="Comment"></th>
+                        <th data-translate="TotalScore"></th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
