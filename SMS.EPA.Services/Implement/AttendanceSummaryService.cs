@@ -15,15 +15,42 @@ namespace SMS.EPA.Services.Implement
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.AttendanceSummary;
     using SMS.EPA.Model.AttendanceSummary;
+    using SMS.EPA.Repositories.Implement;
+    using SMS.EPA.Repositories.Interfaces;
     using SMS.EPA.Services.Interfaces;
 
     public class AttendanceSummaryService : BaseService, IAttendanceSummaryService
     {
+        private IAttendanceSummaryRepository _attendanceSummaryRepository;
+
+        public AttendanceSummaryService()
+            : this(null)
+        {
+        }
+
+        public AttendanceSummaryService(IAttendanceSummaryRepository attendanceSummaryRepository)
+        {
+            _attendanceSummaryRepository = attendanceSummaryRepository ?? new AttendanceSummaryRepository();
+        }
+
         public IEnumerable<AttendanceSummaryModel> GetAttendanceSummary(GetAttendanceSummaryCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<AttendanceSummaryModel> attendanceEmployees = new List<AttendanceSummaryModel>();
+            var rawAttendanceSummary = new RawAttendanceSummaryModel();
+
+            if (criteria.IsValid())
+            {
+                rawAttendanceSummary = _attendanceSummaryRepository.GetAttendanceSummary(criteria);
+                attendanceEmployees = GroupEmployeeAndCalcualteScore(rawAttendanceSummary);
+            }
+
             return attendanceEmployees;
+        }
+
+        private IEnumerable<AttendanceSummaryModel> GroupEmployeeAndCalcualteScore(RawAttendanceSummaryModel rawAttendanceSummary)
+        {
+            throw new NotImplementedException();
         }
     }
 }

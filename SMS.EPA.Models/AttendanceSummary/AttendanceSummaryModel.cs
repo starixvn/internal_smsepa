@@ -13,7 +13,7 @@ namespace SMS.EPA.Model.AttendanceSummary
 
     public class AttendanceSummaryModel : EmployeeModel
     {
-        public int CheckInOut { get; set; }
+        public int MissingCheckInOut { get; set; }
 
         public int WorkingTime { get; set; }
 

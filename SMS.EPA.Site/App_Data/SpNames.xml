@@ -214,4 +214,8 @@
     <Setting Key="EpaAuto_GetPeriodHasStartedProcess" SpName="EpaAuto_GetPeriodHasStartedProcess" DbName="SMSEPA" Plain="0">
     </Setting>
   </Function>
+  <Function Name="Attendance Summary">
+    <Setting Key="EpaAttendanceSummary_Get" SpName="EpaAttendanceSummary_Get" DbName="SMSEPA" Plain="0">
+    </Setting>
+  </Function>
 </Functions>
