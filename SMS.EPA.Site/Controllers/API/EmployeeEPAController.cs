@@ -16,8 +16,11 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.EmployeeEPA;
+    using SMS.EPA.Criteria.EmployeeEPA.RatingByKPI;
     using SMS.EPA.Model.EmployeeEPA;
+    using SMS.EPA.Model.EmployeeEPA.RatingByKPI;
     using SMS.EPA.Model.Enitites;
+    using SMS.EPA.Model.TargetTemplate;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
 
@@ -188,6 +191,49 @@ namespace SMS.EPA.Site.Controllers.API
 
         #endregion Management
 
+        #region Rating By KPI
+
+        [HttpGet]
+        public IEnumerable<TargetTemplateModel> GetTargetTemplateByEvaluator()
+        {
+            var criteria = new GetTargetTemplateByEvaluatorCriteria()
+            {
+                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId
+            };
+
+            return _employeeEPAService.GetTargetTemplateByEvaluator(criteria);
+        }
+
+        [HttpGet]
+        public IEnumerable<TemporaryKPIModel> GetKPIByTargetTemplate(int targetTemplateId)
+        {
+            var criteria = new GetKPIByTargetTemplateCriteria()
+            {
+                TargetTemplateId = targetTemplateId
+            };
+
+            return _employeeEPAService.GetKPIByTargetTemplate(criteria);
+        }
+
+        [HttpGet]
+        public IEnumerable<RatingByKPIModel> GetEmployeeEPAByKPI(
+            int targetTemplateId,
+            int kpiId,
+            int? groupId = null)
+        {
+            var criteria = new GetEmployeeEPAByKPICriteria()
+            {
+                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
+                TargetTemplateId = targetTemplateId,
+                KPIId = kpiId,
+                GroupId = groupId
+            };
+
+            return _employeeEPAService.GetEmployeeEPAByKPI(criteria);
+        }
+
+        #endregion Rating By KPI
+
         [HttpGet]
         public EPAModel GetEPAInfoById(int epaId)
         {
@@ -228,18 +274,6 @@ namespace SMS.EPA.Site.Controllers.API
             }
 
             return _employeeEPAService.UpdateScoreByReviewerOrManagement(criteria);
-        }
-
-        [HttpPut]
-        public CommandResult UpdateStatusEPA(UpdateStatusEPACriteria criteria)
-        {
-            if (criteria != null)
-            {
-                criteria.EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId;
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
-            }
-
-            return _employeeEPAService.UpdateStatusEPA(criteria);
         }
 
         private string EncodeTotalScore(EPAModel model, int processId)

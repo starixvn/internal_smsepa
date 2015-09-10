@@ -162,8 +162,6 @@
         </Setting>
         <Setting Key="EPA_GetByEvaluator" SpName="EPA_GetByEvaluator" DbName="SMSEPA" Plain="0">
         </Setting>
-        <Setting Key="EPA_UpdateStatus" SpName="EPA_UpdateStatus" DbName="SMSEPA" Plain="0">
-        </Setting>
         <Setting Key="EPA_GetInfoByEvaluator" SpName="EPA_GetInfoByEvaluator" DbName="SMSEPA" Plain="0">
         </Setting>
         <Setting Key="EPA_GetByReviewer" SpName="EPA_GetByReviewer" DbName="SMSEPA" Plain="0">
@@ -206,16 +204,24 @@
         <Setting Key="Epa_Dashboard" SpName="Epa_Dashboard" DbName="SMSEPA" Plain="0" >
         </Setting>
     </Function>
-  <Function Name="Generation Evaluation">
-    <Setting Key="EpaAuto_GenerateEPA" SpName="EpaAuto_GenerateEPA" DbName="SMSEPA" Plain="0">
-    </Setting>
-    <Setting Key="EpaAuto_GetEmployeeSettingToSendMail" SpName="EpaAuto_GetEmployeeSettingToSendMail" DbName="SMSEPA" Plain="0">
-    </Setting>
-    <Setting Key="EpaAuto_GetPeriodHasStartedProcess" SpName="EpaAuto_GetPeriodHasStartedProcess" DbName="SMSEPA" Plain="0">
-    </Setting>
-  </Function>
-  <Function Name="Attendance Summary">
-    <Setting Key="EpaAttendanceSummary_Get" SpName="EpaAttendanceSummary_Get" DbName="SMSEPA" Plain="0">
-    </Setting>
-  </Function>
+    <Function Name="Generation Evaluation">
+        <Setting Key="EpaAuto_GenerateEPA" SpName="EpaAuto_GenerateEPA" DbName="SMSEPA" Plain="0">
+        </Setting>
+        <Setting Key="EpaAuto_GetEmployeeSettingToSendMail" SpName="EpaAuto_GetEmployeeSettingToSendMail" DbName="SMSEPA" Plain="0">
+        </Setting>
+        <Setting Key="EpaAuto_GetPeriodHasStartedProcess" SpName="EpaAuto_GetPeriodHasStartedProcess" DbName="SMSEPA" Plain="0">
+        </Setting>
+    </Function>
+    <Function Name="Attendance Summary">
+        <Setting Key="EpaAttendanceSummary_Get" SpName="EpaAttendanceSummary_Get" DbName="SMSEPA" Plain="0">
+        </Setting>
+    </Function>
+    <Function Name="Rating By KPI">
+        <Setting Key="EPA_RatingByKPI_GetTargetTemplateByEvaluator" SpName="EPA_RatingByKPI_GetTargetTemplateByEvaluator" DbName="SMSEPA" Plain="0">
+        </Setting>
+        <Setting Key="EPA_RatingByKPI_GetKPIByTargetTemplate" SpName="EPA_RatingByKPI_GetKPIByTargetTemplate" DbName="SMSEPA" Plain="0">
+        </Setting>
+        <Setting Key="EPA_RatingByKPI_Get" SpName="EPA_RatingByKPI_Get" DbName="SMSEPA" Plain="0">
+        </Setting>
+    </Function>
 </Functions>

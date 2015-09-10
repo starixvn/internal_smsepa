@@ -17,8 +17,11 @@ namespace SMS.EPA.Services.Implement
     using SMS.EPA.Core.Services.Interfaces;
     using SMS.EPA.Core.Utilities;
     using SMS.EPA.Criteria.EmployeeEPA;
+    using SMS.EPA.Criteria.EmployeeEPA.RatingByKPI;
     using SMS.EPA.Model.EmployeeEPA;
+    using SMS.EPA.Model.EmployeeEPA.RatingByKPI;
     using SMS.EPA.Model.Enitites;
+    using SMS.EPA.Model.TargetTemplate;
     using SMS.EPA.Repositories.Implement;
     using SMS.EPA.Repositories.Interfaces;
     using SMS.EPA.Services.Interfaces;
@@ -267,6 +270,49 @@ namespace SMS.EPA.Services.Implement
 
         #endregion Management
 
+        #region Rating By KPI
+
+        public IEnumerable<TargetTemplateModel> GetTargetTemplateByEvaluator(GetTargetTemplateByEvaluatorCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<TargetTemplateModel> targetTemplates = new List<TargetTemplateModel>();
+
+            if (criteria.IsValid())
+            {
+                targetTemplates = this.GetData<TargetTemplateModel>(criteria);
+            }
+
+            return targetTemplates;
+        }
+
+        public IEnumerable<TemporaryKPIModel> GetKPIByTargetTemplate(GetKPIByTargetTemplateCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<TemporaryKPIModel> kpis = new List<TemporaryKPIModel>();
+
+            if (criteria.IsValid())
+            {
+                kpis = _employeeEPARepository.GetKPIByTargetTemplate(criteria);
+            }
+
+            return kpis;
+        }
+
+        public IEnumerable<RatingByKPIModel> GetEmployeeEPAByKPI(GetEmployeeEPAByKPICriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<RatingByKPIModel> epas = new List<RatingByKPIModel>();
+
+            if (criteria.IsValid())
+            {
+                epas = _employeeEPARepository.GetEmployeeEPAByKPI(criteria);
+            }
+
+            return epas;
+        }
+
+        #endregion Rating By KPI
+
         public EPAModel GetEPAInfoById(GetEPAInfoByIdCriteria criteria)
         {
             EPAModel result = new EPAModel();
@@ -334,19 +380,6 @@ namespace SMS.EPA.Services.Implement
             }
 
             return employees;
-        }
-
-        public CommandResult UpdateStatusEPA(UpdateStatusEPACriteria criteria)
-        {
-            CommandResult commandResult = new CommandResult();
-            Check.Argument.IsNotNull(criteria, "criteria");
-
-            if (criteria.IsValid())
-            {
-                commandResult = Repository.Update(criteria);
-            }
-
-            return commandResult;
         }
 
         public string Encode(string plainText)
@@ -537,6 +570,19 @@ namespace SMS.EPA.Services.Implement
             {
                 epaProcess.Status.Name = Enumerations.GetDescription((Status)epaProcess.Status.StatusId);
                 epaProcess.TotalScore = !string.IsNullOrEmpty(epaProcess.TotalScore) ? Decode(epaProcess.TotalScore) : string.Empty;
+            }
+        }
+
+        private void DecodeTotalScoreAndScoreOnEachKPI(IEnumerable<RatingByKPIModel> eaps)
+        {
+            foreach (var epa in eaps)
+            {
+                epa.TotalScore = !string.IsNullOrEmpty(epa.TotalScore) ? Decode(epa.TotalScore) : string.Empty;
+
+                foreach (var kpi in epa.KPIGroup.KPIs)
+                {
+                    kpi.Score = !string.IsNullOrEmpty(kpi.Score) ? Decode(kpi.Score).Replace("_" + kpi.KPIId, string.Empty) : string.Empty;
+                }
             }
         }
 

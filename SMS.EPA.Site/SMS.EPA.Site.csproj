@@ -326,6 +326,9 @@
     <Content Include="SourceApp\Components\EPA\employeeEPA-factory.js" />
     <Content Include="SourceApp\Components\EPA\employeeEPA-model.js" />
     <Content Include="SourceApp\Components\EPA\Evaluator\evaluator-controller.js" />
+    <Content Include="SourceApp\Components\EPA\Evaluator\ratingByKPI-controller.js" />
+    <Content Include="SourceApp\Components\EPA\Evaluator\ratingByKPI-factory.js" />
+    <Content Include="SourceApp\Components\EPA\Evaluator\ratingByKPI-model.js" />
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\detail.html" />
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\index.html" />
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\listKPI.html" />

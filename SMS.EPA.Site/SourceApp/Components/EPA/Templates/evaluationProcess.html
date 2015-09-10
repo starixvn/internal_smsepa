@@ -57,7 +57,7 @@
                         {{memberEPAInfoCtrl.epaInfo.Managements[0].FullName}} ({{memberEPAInfoCtrl.epaInfo.Managements[0].NickName}})
                     </span>
                     <ul ng-show="memberEPAInfoCtrl.epaInfo.Managements.length > 1">
-                        <li ng-repeat="evaluator in memberEPAInfoCtrl.epaInfo.Managements">
+                        <li ng-repeat="management in memberEPAInfoCtrl.epaInfo.Managements">
                             {{management.FullName}} ({{management.NickName}})
                         </li>
                     </ul>

@@ -9,11 +9,13 @@
 
 namespace SMS.EPA.Repositories.Implement
 {
+    using System.Collections.Generic;
     using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using SMS.EPA.Model.Department;
     using SMS.EPA.Model.EmployeeEPA;
+    using SMS.EPA.Model.EmployeeEPA.RatingByKPI;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.Period;
     using SMS.EPA.Repositories.Interfaces;
@@ -101,5 +103,75 @@ namespace SMS.EPA.Repositories.Implement
 
             return epaInfo;
         }
+
+        #region Rating By KPI
+
+        public IEnumerable<TemporaryKPIModel> GetKPIByTargetTemplate(ICriteria criteria)
+        {
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                return db.Query<TemporaryKPIModel, TemporaryKPIGroupModel, TemporaryKPIModel>(
+                    (kpi, gr) =>
+                    {
+                        kpi.KPIGroup = gr;
+
+                        return kpi;
+                    },
+                    "KPIGroupId",
+                    criteria.GetSpParams());
+            }
+        }
+
+        public IEnumerable<RatingByKPIModel> GetEmployeeEPAByKPI(ICriteria criteria)
+        {
+            IEnumerable<RatingByKPIModel> epas = new List<RatingByKPIModel>();
+
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                using (var multi = db.QueryMultiple(criteria.GetSpParams()))
+                {
+                    epas = multi.Read<RatingByKPIModel, Employee, Group, JobTitle, TemporaryKPIGroupModel, RatingByKPIModel>(
+                        (epa, emp, gr, job, kgr) =>
+                        {
+                            epa.Employee = emp;
+                            epa.Group = gr;
+                            epa.JobTitle = job;
+                            epa.KPIGroup = kgr;
+
+                            return epa;
+                        },
+                        "EmployeeId, GroupId, JobTitleId, KPIGroupId");
+
+                    IEnumerable<TemporaryKPIModel> kpis = multi.Read<TemporaryKPIModel, TemporaryKPIGroupModel, TemporaryKPIModel>(
+                        (kpi, kgr) =>
+                        {
+                            kpi.KPIGroup = kgr;
+
+                            return kpi;
+                        },
+                        "KPIGroupId");
+
+                    GroupKPIByEPA(epas, kpis);
+                }
+            }
+
+            return epas;
+        }
+
+        private void GroupKPIByEPA(IEnumerable<RatingByKPIModel> epas, IEnumerable<TemporaryKPIModel> kpis)
+        {
+            foreach (var epa in epas)
+            {
+                foreach (var kpi in kpis)
+                {
+                    if (kpi.EPAId == epa.EPAId && kpi.KPIGroup.KPIGroupId == epa.KPIGroup.KPIGroupId)
+                    {
+                        epa.KPIGroup.KPIs.Add(kpi);
+                    }
+                }
+            }
+        }
+
+        #endregion Rating By KPI
     }
 }

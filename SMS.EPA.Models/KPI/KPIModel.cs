@@ -39,25 +39,6 @@ namespace SMS.EPA.Model.KPI
 
         public double? Weight { get; set; }
 
-        public string Score { get; set; }
-
-        public int Rate { get; set; }
-
-        public string Comment { get; set; }
-
-        public int Percent
-        {
-            get
-            {
-                if (Rate > 0)
-                {
-                    return Rate * 20;
-                }
-
-                return 0;
-            }
-        }
-
         public IList<KPIGroupModel> KPIGroups { get; set; }
 
         public TargetTypeModel TargetType { get; set; }

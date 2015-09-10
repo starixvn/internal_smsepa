@@ -12,8 +12,11 @@ namespace SMS.EPA.Services.Interfaces
     using System.Collections.Generic;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.EmployeeEPA;
+    using SMS.EPA.Criteria.EmployeeEPA.RatingByKPI;
     using SMS.EPA.Model.EmployeeEPA;
+    using SMS.EPA.Model.EmployeeEPA.RatingByKPI;
     using SMS.EPA.Model.Enitites;
+    using SMS.EPA.Model.TargetTemplate;
 
     public interface IEmployeeEPAService
     {
@@ -49,6 +52,16 @@ namespace SMS.EPA.Services.Interfaces
 
         #endregion Management
 
+        #region Rating By KPI
+
+        IEnumerable<TargetTemplateModel> GetTargetTemplateByEvaluator(GetTargetTemplateByEvaluatorCriteria criteria);
+
+        IEnumerable<TemporaryKPIModel> GetKPIByTargetTemplate(GetKPIByTargetTemplateCriteria criteria);
+
+        IEnumerable<RatingByKPIModel> GetEmployeeEPAByKPI(GetEmployeeEPAByKPICriteria criteria);
+
+        #endregion Rating By KPI
+
         EPAModel GetEPAInfoById(GetEPAInfoByIdCriteria criteria);
 
         CommandResult UpdateEPAScore(UpdateEPAScoreCriteria criteria);
@@ -56,8 +69,6 @@ namespace SMS.EPA.Services.Interfaces
         CommandResult UpdateScoreByReviewerOrManagement(UpdateScoreByReviewerOrManagementCriteria criteria);
 
         IEnumerable<Employee> GetMember(GetMemberCriteria criteria);
-
-        CommandResult UpdateStatusEPA(UpdateStatusEPACriteria criteria);
 
         string Encode(string plainText);
 

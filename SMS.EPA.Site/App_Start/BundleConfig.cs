@@ -115,7 +115,10 @@
                             "~/SourceApp/Components/Dashboard/dashboard-controller.js",
                             "~/SourceApp/Components/AttendanceSummary/attendanceSummary-factory.js",
                             "~/SourceApp/Components/AttendanceSummary/attendanceSummary-model.js",
-                            "~/SourceApp/Components/AttendanceSummary/attendanceSummary-controller.js"));
+                            "~/SourceApp/Components/AttendanceSummary/attendanceSummary-controller.js",
+                            "~/SourceApp/Components/EPA/Evaluator/ratingByKPI-factory.js",
+                            "~/SourceApp/Components/EPA/Evaluator/ratingByKPI-model.js",
+                            "~/SourceApp/Components/EPA/Evaluator/ratingByKPI-controller.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/epa-directives.js",

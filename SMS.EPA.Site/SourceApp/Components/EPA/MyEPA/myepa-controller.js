@@ -184,9 +184,15 @@ function ($window, $translate, $routeParams, EmployeeEPAModel) {
 
         EmployeeEPAModel.getEPAInfoByEmployee(vm.epaId, vm.employeeId).then(function () {
             var data = EmployeeEPAModel.epaInfo;
+            var totalScoreOfSelf = data.ProcessBySelf.TotalScore;
 
+            if (data.Department && data.Department.DepartmentId === 2) {
+                vm.finalScore = totalScoreOfSelf ? (parseFloat(totalScoreOfSelf) + data.AttendanceScore) : data.AttendanceScore;
+            }
+            else {
+                vm.finalScore = data.ProcessBySelf.TotalScore;
+            }
             vm.evaluatedDate = data.ProcessBySelf.EvaluateDate ? data.ProcessBySelf.EvaluateDate : null;
-            vm.finalScore = data.ProcessBySelf.TotalScore ? (parseFloat(data.ProcessBySelf.TotalScore) + data.AttendanceScore) : data.AttendanceScore;
             vm.epaInfo = data;
             checkStatus(vm.epaInfo);
 

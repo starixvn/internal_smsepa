@@ -68,6 +68,9 @@
     <Compile Include="CheckFlowAssignment\GetDepartmentFlowSettingCriteria.cs" />
     <Compile Include="CheckFlowAssignment\GetEmployeeFlowSettingCriteria.cs" />
     <Compile Include="CheckFlowAssignment\UpdateEmployeeFlowSettingCriteria.cs" />
+    <Compile Include="EmployeeEPA\RatingByKPI\GetEmployeeEPAByKPICriteria.cs" />
+    <Compile Include="EmployeeEPA\RatingByKPI\GetKPIByTargetTemplateCriteria.cs" />
+    <Compile Include="EmployeeEPA\RatingByKPI\GetTargetTemplateByEvaluatorCriteria.cs" />
     <Compile Include="Report\GetDashboardCriteria.cs" />
     <Compile Include="Department\CreateDepartmentCriteria.cs" />
     <Compile Include="Department\DeleteDepartmentCriteria.cs" />
@@ -84,7 +87,6 @@
     <Compile Include="EmployeeEPA\GetMemberCriteria.cs" />
     <Compile Include="EmployeeEPA\UpdateEPAScoreCriteria.cs" />
     <Compile Include="EmployeeEPA\UpdateScoreByReviewerOrManagementCriteria.cs" />
-    <Compile Include="EmployeeEPA\UpdateStatusEPACriteria.cs" />
     <Compile Include="Employee\AssignRoleToEmployeeCriteria.cs" />
     <Compile Include="Employee\ChangePasswordCriteria.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>

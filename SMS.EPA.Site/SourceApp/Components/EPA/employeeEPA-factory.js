@@ -62,8 +62,20 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
         updateEPAScoreByEvaluator: function (model) {
             return $http.put(baseUrl + 'api/EmployeeEPA/UpdateEPAScoreByEvaluator', model);
         },
-        updateStatusEPA: function (epa) {
-            return $http.put(baseUrl + 'api/EmployeeEPA/UpdateStatusEPA', epa);
+        getTargetTemplateByEvaluator: function () {
+            return $http.get(baseUrl + 'api/EmployeeEPA/GetTargetTemplateByEvaluator');
+        },
+        getKPIByTargetTemplate: function (targetTemplateId) {
+            return $http.get(baseUrl + 'api/EmployeeEPA/GetKPIByTargetTemplate', { params: { targetTemplateId: targetTemplateId } });
+        },
+        getEmployeeEPAByKPI: function (targetTemplateId, kpiId, groupId) {
+            return $http.get(baseUrl + 'api/EmployeeEPA/GetEmployeeEPAByKPI', {
+                params: {
+                    targetTemplateId: targetTemplateId,
+                    kpiId: kpiId,
+                    groupId: groupId
+                }
+            });
         }
     };
 }]);
