@@ -37,8 +37,6 @@ namespace SMS.EPA.Model.EmployeeEPA.RatingByKPI
 
         public int AdjustRate { get; set; }
 
-        public string AdjustComment { get; set; }
-
         public TemporaryKPIGroupModel KPIGroup { get; set; }
     }
 }

@@ -60,6 +60,8 @@ namespace SMS.EPA.Services.Interfaces
 
         IEnumerable<RatingByKPIModel> GetEmployeeEPAByKPI(GetEmployeeEPAByKPICriteria criteria);
 
+        CommandResult UpdateKPIScore(UpdateKPIScoreCriteria criteria);
+
         #endregion Rating By KPI
 
         EPAModel GetEPAInfoById(GetEPAInfoByIdCriteria criteria);

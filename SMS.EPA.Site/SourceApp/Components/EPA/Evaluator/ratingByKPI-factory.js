@@ -17,6 +17,9 @@ epaModule.factory('ratingByKPIFactory', ['$http', 'baseUrl', function ($http, ba
                     groupId: groupId
                 }
             });
+        },
+        updateKPIScore: function (models) {
+            return $http.put(baseUrl + 'api/EmployeeEPA/UpdateKPIScore', models);
         }
     };
 }]);

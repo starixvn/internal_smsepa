@@ -690,8 +690,8 @@
   <data name="SatisfactoryDescription" xml:space="preserve">
     <value>Meets expectations: refers to solid performance with a full skills base; most people fall into this category.</value>
   </data>
-  <data name="WeightInputValid" xml:space="preserve">
-    <value>Weight must be equal or less than {0}</value>
+  <data name="ScoreInputValid" xml:space="preserve">
+    <value>Score must be equal or less than {0}</value>
   </data>
   <data name="FlowTemplate" xml:space="preserve">
     <value>Flow Template</value>
@@ -870,8 +870,8 @@
   <data name="CommentByEvaluator" xml:space="preserve">
     <value>Comment by evaluator</value>
   </data>
-  <data name="EmplooyeePerformanceScore" xml:space="preserve">
-    <value>Emplooyee Performance Score</value>
+  <data name="EmployeePerformanceScore" xml:space="preserve">
+    <value>Employee Performance Score</value>
   </data>
   <data name="EPAResult" xml:space="preserve">
     <value>EPA Result</value>
@@ -935,5 +935,11 @@
   </data>
   <data name="CurrentScore" xml:space="preserve">
     <value>Current Score</value>
+  </data>
+  <data name="KPIRequired" xml:space="preserve">
+    <value>The KPI field is required!</value>
+  </data>
+  <data name="TargetTemplateRequired" xml:space="preserve">
+    <value>The Target Template field is required!</value>
   </data>
 </root>

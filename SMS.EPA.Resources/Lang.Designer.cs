@@ -619,15 +619,6 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Emplooyee Performance Score.
-        /// </summary>
-        public static string EmplooyeePerformanceScore {
-            get {
-                return ResourceManager.GetString("EmplooyeePerformanceScore", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Employee Code.
         /// </summary>
         public static string EmployeeCode {
@@ -669,6 +660,15 @@ namespace SMS.EPA.Resources {
         public static string EmployeeNotSelectedWarning {
             get {
                 return ResourceManager.GetString("EmployeeNotSelectedWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Employee Performance Score.
+        /// </summary>
+        public static string EmployeePerformanceScore {
+            get {
+                return ResourceManager.GetString("EmployeePerformanceScore", resourceCulture);
             }
         }
         
@@ -1218,6 +1218,15 @@ namespace SMS.EPA.Resources {
         public static string KPIName {
             get {
                 return ResourceManager.GetString("KPIName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The KPI field is required!.
+        /// </summary>
+        public static string KPIRequired {
+            get {
+                return ResourceManager.GetString("KPIRequired", resourceCulture);
             }
         }
         
@@ -1870,6 +1879,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Score must be equal or less than {0}.
+        /// </summary>
+        public static string ScoreInputValid {
+            get {
+                return ResourceManager.GetString("ScoreInputValid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Score Rating Type.
         /// </summary>
         public static string ScoreRatingType {
@@ -2239,6 +2257,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Target Template field is required!.
+        /// </summary>
+        public static string TargetTemplateRequired {
+            get {
+                return ResourceManager.GetString("TargetTemplateRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Target Type.
         /// </summary>
         public static string TargetType {
@@ -2460,15 +2487,6 @@ namespace SMS.EPA.Resources {
         public static string Weight {
             get {
                 return ResourceManager.GetString("Weight", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Weight must be equal or less than {0}.
-        /// </summary>
-        public static string WeightInputValid {
-            get {
-                return ResourceManager.GetString("WeightInputValid", resourceCulture);
             }
         }
         

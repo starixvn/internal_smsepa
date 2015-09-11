@@ -159,7 +159,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel) {
         kpi.EvaluateBySelf.Rate = 0;
         kpi.EvaluateBySelf.Percent = null;
 
-        if (!EmployeeEPAModel.validateWeightInput(kpi.EvaluateBySelf.Score, kpi.Weight, vm.weightInputValidMessage)) {
+        if (!EmployeeEPAModel.validateScoreInput(kpi.EvaluateBySelf.Score, kpi.Weight, vm.scoreInputValidMessage)) {
             kpi.EvaluateBySelf.Score = null;
         }
         else {
@@ -178,8 +178,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel) {
     };
 
     vm.initialize = function () {
-        $translate('WeightInputValid').then(function (message) {
-            vm.weightInputValidMessage = message;
+        $translate('ScoreInputValid').then(function (message) {
+            vm.scoreInputValidMessage = message;
         });
 
         EmployeeEPAModel.getEPAInfoByEmployee(vm.epaId, vm.employeeId).then(function () {

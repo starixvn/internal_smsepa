@@ -33,7 +33,7 @@
                 </a>
                 <a class="evaluate-now button" href="" ng-click="dashboardCtrl.viewEPAResult(myEPA)"
                    ng-href="{{dashboardCtrl.viewEPAResultUrl}}"
-                   ng-show="myEPA.IsEndProcessBySelf && myEPA.Status.StatusId == 0">
+                   ng-show="myEPA.IsEndProcessBySelf || myEPA.Status.StatusId == 1">
                     <span data-translate="View"></span>
                     <span class="glyphicon glyphicon-search"></span>
                 </a>

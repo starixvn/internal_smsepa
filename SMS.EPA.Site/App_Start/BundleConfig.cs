@@ -99,6 +99,7 @@
                             "~/SourceApp/Components/CheckFlowAssignment/checkFlow-controller.js",
                             "~/SourceApp/Components/Department/department-controller.js",
                             "~/SourceApp/Components/Department/department-directive.js",
+                            "~/SourceApp/Components/EPA/employeeEPA-directive.js",
                             "~/SourceApp/Components/EPA/employeeEPA-factory.js",
                             "~/SourceApp/Components/EPA/employeeEPA-model.js",
                             "~/SourceApp/Components/EPA/employeeEPA-controller.js",

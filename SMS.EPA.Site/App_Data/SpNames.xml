@@ -223,5 +223,7 @@
         </Setting>
         <Setting Key="EPA_RatingByKPI_Get" SpName="EPA_RatingByKPI_Get" DbName="SMSEPA" Plain="0">
         </Setting>
+        <Setting Key="EPA_RatingByKPI_UpdateKPIScore" SpName="EPA_RatingByKPI_UpdateKPIScore" DbName="SMSEPA" Plain="0">
+        </Setting>
     </Function>
 </Functions>

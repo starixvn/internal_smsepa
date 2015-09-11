@@ -155,7 +155,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
         kpi.EvaluateByEvaluators[0].Rate = 0;
         kpi.EvaluateByEvaluators[0].Percent = null;
 
-        if (!EmployeeEPAModel.validateWeightInput(kpi.EvaluateByEvaluators[0].Score, kpi.Weight, vm.weightInputValidMessage)) {
+        if (!EmployeeEPAModel.validateScoreInput(kpi.EvaluateByEvaluators[0].Score, kpi.Weight, vm.scoreInputValidMessage)) {
             kpi.EvaluateByEvaluators[0].Score = null;
         }
         else {
@@ -202,8 +202,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
     };
 
     vm.initialize = function () {
-        $translate('WeightInputValid').then(function (message) {
-            vm.weightInputValidMessage = message;
+        $translate('ScoreInputValid').then(function (message) {
+            vm.scoreInputValidMessage = message;
         });
 
         EmployeeEPAModel.getEPAInfoByEvaluator(vm.epaId, vm.employeeId, vm.evaluatorId).then(function () {

@@ -323,6 +323,7 @@
     <Content Include="SourceApp\Components\Employee\Templates\index.html" />
     <Content Include="SourceApp\Components\Employee\Templates\resetPassword.html" />
     <Content Include="SourceApp\Components\EPA\employeeEPA-controller.js" />
+    <Content Include="SourceApp\Components\EPA\employeeEPA-directive.js" />
     <Content Include="SourceApp\Components\EPA\employeeEPA-factory.js" />
     <Content Include="SourceApp\Components\EPA\employeeEPA-model.js" />
     <Content Include="SourceApp\Components\EPA\Evaluator\evaluator-controller.js" />
@@ -332,6 +333,7 @@
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\detail.html" />
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\index.html" />
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\listKPI.html" />
+    <Content Include="SourceApp\Components\EPA\Evaluator\Templates\modalConfirmSaveChanges.html" />
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\ratingByKPI.html" />
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\summary.html" />
     <Content Include="SourceApp\Components\EPA\Management\management-controller.js" />

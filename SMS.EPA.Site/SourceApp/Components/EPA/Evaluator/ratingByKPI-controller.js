@@ -2,14 +2,17 @@
 /*global epaModule*/
 
 epaModule.controller('RatingByKPIController',
-['$window', 'RatingByKPIModel', 'CommonModel',
-function ($window, RatingByKPIModel, CommonModel) {
+['$window', '$translate', 'RatingByKPIModel', 'CommonModel',
+function ($window, $translate, RatingByKPIModel, CommonModel) {
     var vm = this;
 
-    vm.kpis = RatingByKPIModel.kpis;
-    vm.memberEPAs = RatingByKPIModel.memberEPAs;
+    vm.kpis = [];
+    vm.memberEPAs = [];
     vm.kpiSelected = null;
     vm.maxStar = 5;
+    vm.targetTemplateIdOriginal = null;
+    vm.kpiIdOriginal = null;
+    vm.dataSaved = false;
 
     vm.filter = {
         targetTemplateId: '',
@@ -17,15 +20,14 @@ function ($window, RatingByKPIModel, CommonModel) {
         groupId: ''
     };
 
-    vm.getKPIByTargetTemplate = function (targetTemplateId) {
-        RatingByKPIModel.getKPIByTargetTemplate(targetTemplateId).then(function () {
+    vm.getKPIByTargetTemplate = function () {
+        RatingByKPIModel.getKPIByTargetTemplate(vm.filter.targetTemplateId).then(function () {
             vm.kpis = RatingByKPIModel.kpis;
         });
     };
 
-    vm.viewKPIInfo = function (kpiId) {
-        var index = vm.kpis.map(function (e) { return e.KPIId; }).indexOf(kpiId);
-
+    vm.viewKPIInfo = function () {
+        var index = vm.kpis.map(function (e) { return e.KPIId; }).indexOf(vm.filter.kpiId);
         if (index !== -1) {
             vm.kpiSelected = vm.kpis[index];
         }
@@ -58,7 +60,7 @@ function ($window, RatingByKPIModel, CommonModel) {
                 });
             }
 
-            RatingByKPIModel.calculatePerformanceScore(memberEPA);
+            RatingByKPIModel.calculatePerformanceScore(memberEPA, kpi);
         }
     };
 
@@ -86,30 +88,59 @@ function ($window, RatingByKPIModel, CommonModel) {
             });
         }
 
-        RatingByKPIModel.calculatePerformanceScore(memberEPA);
+        RatingByKPIModel.calculatePerformanceScore(memberEPA, kpi);
+    };
+
+    vm.inputScore = function (memberEPA, kpi) {
+        kpi.AdjustRate = 0;
+
+        if (!RatingByKPIModel.validateScoreInput(kpi.AdjustScore, kpi.Weight, vm.scoreInputValidMessage)) {
+            kpi.AdjustScore = null;
+        }
+
+        RatingByKPIModel.calculatePerformanceScore(memberEPA, kpi);
     };
 
     vm.search = function (filter) {
-        RatingByKPIModel.getEmployeeEPAByKPI(filter.targetTemplateId, filter.kpiId, filter.groupId).then(function () {
-            vm.memberEPAs = RatingByKPIModel.memberEPAs;
+        vm.targetTemplateIdOriginal = angular.copy(filter.targetTemplateId);
+        vm.kpiIdOriginal = angular.copy(filter.kpiId);
 
-            angular.forEach(vm.memberEPAs, function (memberEPA) {
-                if (!RatingByKPIModel.checkKPIOptional(memberEPA.KPIGroup) && memberEPA.KPIGroup.IsSpreadKPI) {
-                    var weight = memberEPA.KPIGroup.Weight / memberEPA.KPIGroup.KPIs.length;
-                    angular.forEach(memberEPA.KPIGroup.KPIs, function (kpi) {
-                        if ((weight % 1) === 0) {
-                            kpi.Weight = weight;
-                        }
-                        else {
-                            kpi.Weight = weight.toFixed(2);
-                        }
-                    });
-                }
+        if (RatingByKPIModel.validateFieldFilter(filter)) {
+            RatingByKPIModel.getEmployeeEPAByKPI(filter.targetTemplateId, filter.kpiId, filter.groupId).then(function () {
+                vm.memberEPAs = RatingByKPIModel.memberEPAs;
+
+                angular.forEach(vm.memberEPAs, function (memberEPA) {
+                    memberEPA.TotalScoreOriginal = memberEPA.TotalScore;
+
+                    if (!RatingByKPIModel.checkKPIOptional(memberEPA.KPIGroup) && memberEPA.KPIGroup.IsSpreadKPI) {
+                        var weight = memberEPA.KPIGroup.Weight / memberEPA.KPIGroup.KPIs.length;
+                        angular.forEach(memberEPA.KPIGroup.KPIs, function (kpi) {
+                            if ((weight % 1) === 0) {
+                                kpi.Weight = weight;
+                            }
+                            else {
+                                kpi.Weight = weight.toFixed(2);
+                            }
+                        });
+                    }
+                });
             });
-        });
+        }
+    };
+
+    vm.save = function (memberEPAs) {
+        RatingByKPIModel.updateKPIScore(memberEPAs, vm);
+    };
+
+    vm.back = function () {
+        $window.history.back();
     };
 
     vm.initialize = function () {
+        $translate('ScoreInputValid').then(function (message) {
+            vm.scoreInputValidMessage = message;
+        });
+
         RatingByKPIModel.getTargetTemplateByEvaluator().then(function () {
             vm.targetTemplates = RatingByKPIModel.targetTemplates;
         });
@@ -120,4 +151,26 @@ function ($window, RatingByKPIModel, CommonModel) {
     };
 
     vm.initialize();
+}]);
+
+epaModule.controller('ModalConfirmSaveChangesController',
+['$modalInstance',
+function ($modalInstance) {
+    var vm = this;
+
+    vm.confirmResult = 0;
+
+    vm.save = function () {
+        vm.confirmResult = 1;
+        $modalInstance.close(vm);
+    };
+
+    vm.ignore = function () {
+        vm.confirmResult = 2;
+        $modalInstance.close(vm);
+    };
+
+    vm.cancel = function () {
+        $modalInstance.close(vm);
+    };
 }]);

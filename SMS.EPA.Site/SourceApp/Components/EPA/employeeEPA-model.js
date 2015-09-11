@@ -101,13 +101,13 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         });
     };
 
-    employeeEPAModel.validateWeightInput = function (weight, maxWeight, weightInputValidMessage) {
+    employeeEPAModel.validateScoreInput = function (weight, maxWeight, scoreInputValidMessage) {
         var isValid = true;
 
         if (parseFloat(weight) > parseFloat(maxWeight)) {
             isValid = false;
 
-            var message = utilitiesFactory.formatString(weightInputValidMessage, maxWeight);
+            var message = utilitiesFactory.formatString(scoreInputValidMessage, maxWeight);
             notificationFactory.error('', message);
         }
 

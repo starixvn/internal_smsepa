@@ -232,6 +232,18 @@ namespace SMS.EPA.Site.Controllers.API
             return _employeeEPAService.GetEmployeeEPAByKPI(criteria);
         }
 
+        [HttpPut]
+        public CommandResult UpdateKPIScore(IEnumerable<RatingByKPIModel> models)
+        {
+            var criteria = new UpdateKPIScoreCriteria()
+            {
+                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
+                KPIDetails = ConvertKPIScoreToXml(models)
+            };
+
+            return _employeeEPAService.UpdateKPIScore(criteria);
+        }
+
         #endregion Rating By KPI
 
         [HttpGet]
@@ -294,11 +306,9 @@ namespace SMS.EPA.Site.Controllers.API
 
         private string ConvertKPIInfoToXml(IList<EPAKPIGroupModel> kpiGroups, int processId)
         {
-            string beginRootTag = "<ROOT>";
-            string endRootTag = "</ROOT>";
             string cipherScore = string.Empty;
             string employeeEPAScore = "<KPI KPIId='{0}' KPIGroupId='{1}' Score='{2}' Rate='{3}' Comment='{4}'></KPI>";
-            var epaXML = new StringBuilder(beginRootTag);
+            var epaXML = new StringBuilder("<ROOT>");
 
             foreach (var kpiGroup in kpiGroups)
             {
@@ -306,20 +316,55 @@ namespace SMS.EPA.Site.Controllers.API
                 {
                     if (processId == (int)ProcessType.Self)
                     {
-                        cipherScore = !string.IsNullOrEmpty(kpi.EvaluateBySelf.Score) ? _employeeEPAService.Encode(kpi.EvaluateBySelf.Score + "_" + kpi.KPIId) : null;
+                        cipherScore = !string.IsNullOrEmpty(kpi.EvaluateBySelf.Score) ? _employeeEPAService.Encode(kpi.EvaluateBySelf.Score + "_" + kpi.KPIId) : string.Empty;
                         epaXML.AppendFormat(employeeEPAScore, kpi.KPIId, kpiGroup.KPIGroupId, cipherScore, kpi.EvaluateBySelf.Rate, HttpUtility.HtmlEncode(kpi.EvaluateBySelf.Comment));
                     }
                     else if (processId == (int)ProcessType.Evaluator)
                     {
-                        cipherScore = !string.IsNullOrEmpty(kpi.EvaluateByEvaluators[0].Score) ? _employeeEPAService.Encode(kpi.EvaluateByEvaluators[0].Score + "_" + kpi.KPIId) : null;
+                        cipherScore = !string.IsNullOrEmpty(kpi.EvaluateByEvaluators[0].Score) ? _employeeEPAService.Encode(kpi.EvaluateByEvaluators[0].Score + "_" + kpi.KPIId) : string.Empty;
                         epaXML.AppendFormat(employeeEPAScore, kpi.KPIId, kpiGroup.KPIGroupId, cipherScore, kpi.EvaluateByEvaluators[0].Rate, HttpUtility.HtmlEncode(kpi.EvaluateByEvaluators[0].Comment));
                     }
                 }
             }
 
-            epaXML = epaXML.Append(endRootTag);
+            epaXML = epaXML.Append("</ROOT>");
 
             return epaXML.ToString();
+        }
+
+        private string ConvertKPIScoreToXml(IEnumerable<RatingByKPIModel> models)
+        {
+            string cipherScore = string.Empty;
+            string epa = "<EPA EPAId='{0}' EmployeeId='{1}' KPIGroupId='{2}' TotalScore='{3}'>{4}</EPA>";
+            string epaDetail = "<EPADetail KPIId ='{0}' Rate='{1}' Score='{2}' Comment='{3}' />";
+
+            var result = new StringBuilder("<ROOT>");
+
+            foreach (var model in models)
+            {
+                var detail = new StringBuilder();
+
+                foreach (var kpi in model.KPIGroup.KPIs)
+                {
+                    if (kpi.Score != kpi.AdjustScore && kpi.AdjustRate > 0)
+                    {
+                        cipherScore = !string.IsNullOrEmpty(kpi.AdjustScore) ? _employeeEPAService.Encode(kpi.AdjustScore + "_" + kpi.KPIId) : string.Empty;
+                        detail.AppendFormat(epaDetail, kpi.KPIId, kpi.AdjustRate, cipherScore, HttpUtility.HtmlEncode(kpi.Comment));
+                    }
+                    else
+                    {
+                        cipherScore = !string.IsNullOrEmpty(kpi.Score) ? _employeeEPAService.Encode(kpi.Score + "_" + kpi.KPIId) : string.Empty;
+                        detail.AppendFormat(epaDetail, kpi.KPIId, kpi.Rate, cipherScore, HttpUtility.HtmlEncode(kpi.Comment));
+                    }
+                }
+
+                cipherScore = !string.IsNullOrEmpty(model.TotalScore) ? _employeeEPAService.Encode(model.TotalScore) : string.Empty;
+                result.AppendFormat(epa, model.EPAId, model.Employee.EmployeeId, model.KPIGroup.KPIGroupId, cipherScore, detail);
+            }
+
+            result.Append("</ROOT>");
+
+            return result.ToString();
         }
     }
 }

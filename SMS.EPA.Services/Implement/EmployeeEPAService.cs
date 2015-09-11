@@ -306,9 +306,32 @@ namespace SMS.EPA.Services.Implement
             if (criteria.IsValid())
             {
                 epas = _employeeEPARepository.GetEmployeeEPAByKPI(criteria);
+
+                foreach (var epa in epas)
+                {
+                    epa.TotalScore = !string.IsNullOrEmpty(epa.TotalScore) ? Decode(epa.TotalScore) : string.Empty;
+
+                    foreach (var kpi in epa.KPIGroup.KPIs)
+                    {
+                        kpi.Score = !string.IsNullOrEmpty(kpi.Score) ? Decode(kpi.Score).Replace("_" + kpi.KPIId, string.Empty) : string.Empty;
+                    }
+                }
             }
 
             return epas;
+        }
+
+        public CommandResult UpdateKPIScore(UpdateKPIScoreCriteria criteria)
+        {
+            CommandResult commandResult = new CommandResult();
+            Check.Argument.IsNotNull(criteria, "criteria");
+
+            if (criteria.IsValid())
+            {
+                commandResult = Repository.Update(criteria);
+            }
+
+            return commandResult;
         }
 
         #endregion Rating By KPI

@@ -2,8 +2,8 @@
 /*global epaModule*/
 
 epaModule.factory('RatingByKPIModel',
-['$modal', 'ratingByKPIFactory', 'notificationFactory', 'errorFactory',
-function ($modal, ratingByKPIFactory, notificationFactory, errorFactory) {
+['$modal', 'ratingByKPIFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory',
+function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, errorFactory) {
     var ratingByKPIModel = this;
 
     ratingByKPIModel.targetTemplates = [];
@@ -28,6 +28,21 @@ function ($modal, ratingByKPIFactory, notificationFactory, errorFactory) {
         });
     };
 
+    ratingByKPIModel.validateFieldFilter = function (filter) {
+        if (!filter.targetTemplateId) {
+            notificationFactory.error("TargetTemplateRequire");
+
+            return false;
+        }
+        else if (!filter.kpiId) {
+            notificationFactory.error("KPIRequire");
+
+            return false;
+        }
+
+        return true;
+    };
+
     ratingByKPIModel.getEmployeeEPAByKPI = function (targetTemplateId, kpiId, groupId) {
         return ratingByKPIFactory.getEmployeeEPAByKPI(targetTemplateId, kpiId, groupId)
         .success(function (memberEPAs) {
@@ -35,6 +50,17 @@ function ($modal, ratingByKPIFactory, notificationFactory, errorFactory) {
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
+    };
+
+    ratingByKPIModel.openPopupConfirmSaveChanges = function (vm) {
+        vm.modalInstance = $modal.open({
+            templateUrl: 'SourceApp/Components/EPA/Evaluator/Templates/modalConfirmSaveChanges.html',
+            controller: "ModalConfirmSaveChangesController as modalConfirmCtrl",
+            backdrop: 'static',
+            windowClass: "modal-confirm-center"
+        });
+
+        return vm.modalInstance.result;
     };
 
     ratingByKPIModel.checkKPIOptional = function (kpiGroup) {
@@ -52,17 +78,39 @@ function ($modal, ratingByKPIFactory, notificationFactory, errorFactory) {
         return hasKPIOptional;
     };
 
-    ratingByKPIModel.calculatePerformanceScore = function (memberEPA) {
-        var totalScore = 0;
+    ratingByKPIModel.validateScoreInput = function (score, maxScore, scoreInputValidMessage) {
+        var isValid = true;
 
-        angular.forEach(memberEPA.KPIGroup.KPIs, function (kpi) {
-            var curentScore = kpi.Score ? parseFloat(kpi.Score) : 0,
-                adjustScore = kpi.AdjustScore ? parseFloat(kpi.AdjustScore) : 0;
+        if (parseFloat(score) > parseFloat(maxScore)) {
+            isValid = false;
 
-            totalScore = totalScore - curentScore + adjustScore;
+            var message = utilitiesFactory.formatString(scoreInputValidMessage, maxScore);
+            notificationFactory.error('', message);
+        }
+
+        return isValid;
+    };
+
+    ratingByKPIModel.calculatePerformanceScore = function (memberEPA, kpiAdjusted) {
+        var curentScore = kpiAdjusted.Score ? parseFloat(kpiAdjusted.Score) : 0,
+            adjustScore = kpiAdjusted.AdjustScore ? parseFloat(kpiAdjusted.AdjustScore) : 0;
+
+        memberEPA.TotalScore = (memberEPA.TotalScoreOriginal - curentScore + adjustScore).toFixed(2);
+    };
+
+    ratingByKPIModel.updateKPIScore = function (memberEPAs, vm) {
+        return ratingByKPIFactory.updateKPIScore(memberEPAs)
+        .success(function (response) {
+            if (response.IsSuccessful) {
+                notificationFactory.success("UpdatedSuccessfully");
+                vm.dataSaved = true;
+            }
+            else {
+                notificationFactory.error("", response.Message);
+            }
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
         });
-
-        memberEPA.TotalScore = totalScore.toFixed(2);
     };
 
     return ratingByKPIModel;

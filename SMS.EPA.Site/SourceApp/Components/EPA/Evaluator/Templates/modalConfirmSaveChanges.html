@@ -1,0 +1,16 @@
+﻿<div id="confirmPopup">
+    <div class="modal-header">
+        <div class="popup-header">
+            {{"Confirm" | translate}}
+            <span class="close-popup" ng-click="modalConfirmCtrl.cancel()"></span>
+        </div>
+    </div>
+    <div class="modal-body">
+        Do you want to save changes?
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary customize" ng-click="modalConfirmCtrl.save()" data-translate="Yes"></button>
+        <button class="btn btn-warning customize" ng-click="modalConfirmCtrl.ignore()" data-translate="No"></button>
+        <button class="btn btn-default customize" ng-click="modalConfirmCtrl.cancel()" data-translate="Cancel"></button>
+    </div>
+</div>

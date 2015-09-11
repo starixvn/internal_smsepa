@@ -71,11 +71,9 @@
     <Compile Include="EmployeeEPA\RatingByKPI\GetEmployeeEPAByKPICriteria.cs" />
     <Compile Include="EmployeeEPA\RatingByKPI\GetKPIByTargetTemplateCriteria.cs" />
     <Compile Include="EmployeeEPA\RatingByKPI\GetTargetTemplateByEvaluatorCriteria.cs" />
+    <Compile Include="EmployeeEPA\RatingByKPI\UpdateKPIScoreCriteria.cs" />
     <Compile Include="Report\GetDashboardCriteria.cs" />
-    <Compile Include="Department\CreateDepartmentCriteria.cs" />
-    <Compile Include="Department\DeleteDepartmentCriteria.cs" />
     <Compile Include="Department\GetDepartmentCriteria.cs" />
-    <Compile Include="Department\UpdateDepartmentCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEPAByManagementCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEPAByReviewerCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEPAInfoByEvaluatorCriteria.cs" />
