@@ -293,6 +293,7 @@
     <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary-factory.js" />
     <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary-model.js" />
     <Content Include="SourceApp\Components\AttendanceSummary\Templates\index.html" />
+    <Content Include="SourceApp\Components\AttendanceSummary\Templates\otherViolation.html" />
     <Content Include="SourceApp\Components\CheckFlowAssignment\checkFlow-controller.js" />
     <Content Include="SourceApp\Components\CheckFlowAssignment\checkFlow-directive.js" />
     <Content Include="SourceApp\Components\CheckFlowAssignment\checkFlow-factory.js" />
@@ -596,6 +597,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="SourceApp\Components\Dashboard\dashboard.less" />
+    <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary.less" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">

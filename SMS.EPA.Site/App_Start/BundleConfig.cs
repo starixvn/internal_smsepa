@@ -58,7 +58,8 @@
                             "~/SourceApp/Components/CheckFlowAssignment/checkFlow.less",
                             "~/SourceApp/Components/Period/period.less",
                             "~/SourceApp/Components/EPA/epa.less",
-                            "~/SourceApp/Components/Dashboard/dashboard.less");
+                            "~/SourceApp/Components/Dashboard/dashboard.less",
+                            "~/SourceApp/Components/AttendanceSummary/attendanceSummary.less");
 
             bundles.Add(new ScriptBundle("~/bundles/app").Include(
                             "~/SourceApp/app.js",

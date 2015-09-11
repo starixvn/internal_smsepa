@@ -10,11 +10,18 @@
 namespace SMS.EPA.Services.Interfaces
 {
     using System.Collections.Generic;
+    using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.AttendanceSummary;
     using SMS.EPA.Model.AttendanceSummary;
 
     public interface IAttendanceSummaryService
     {
         IEnumerable<AttendanceSummaryModel> GetAttendanceSummary(GetAttendanceSummaryCriteria criteria);
+
+        IEnumerable<OtherViolationModel> GetOtherViolations(GetOtherViolationsOfEmployeeCriteria criteria);
+
+        CommandResult InsertOtherViolation(InsertOtherViolationsCriteria criteria);
+
+        CommandResult DeleteOtherViolation(DeleteOtherViolationCriteria criteria);
     }
 }

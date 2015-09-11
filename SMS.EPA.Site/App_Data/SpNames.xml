@@ -215,6 +215,12 @@
     <Function Name="Attendance Summary">
         <Setting Key="EpaAttendanceSummary_Get" SpName="EpaAttendanceSummary_Get" DbName="SMSEPA" Plain="0">
         </Setting>
+    <Setting Key="EpaAttendanceSummary_GetOtherViolations" SpName="EpaAttendanceSummary_GetOtherViolations" DbName="SMSEPA" Plain="0">
+    </Setting>
+    <Setting Key="EpaAttendanceSummary_AddOtherViolations" SpName="EpaAttendanceSummary_AddOtherViolations" DbName="SMSEPA" Plain="0">
+    </Setting>
+    <Setting Key="EpaAttendanceSummary_Delete" SpName="EpaAttendanceSummary_Delete" DbName="SMSEPA" Plain="0">
+    </Setting>
     </Function>
     <Function Name="Rating By KPI">
         <Setting Key="EPA_RatingByKPI_GetTargetTemplateByEvaluator" SpName="EPA_RatingByKPI_GetTargetTemplateByEvaluator" DbName="SMSEPA" Plain="0">

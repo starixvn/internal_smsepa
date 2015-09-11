@@ -961,6 +961,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to From.
+        /// </summary>
+        public static string From {
+            get {
+                return ResourceManager.GetString("From", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The From Date is required!.
         /// </summary>
         public static string FromDateRequire {
@@ -1515,6 +1524,15 @@ namespace SMS.EPA.Resources {
         public static string OrganizationChart {
             get {
                 return ResourceManager.GetString("OrganizationChart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Other Violations.
+        /// </summary>
+        public static string OtherViolations {
+            get {
+                return ResourceManager.GetString("OtherViolations", resourceCulture);
             }
         }
         
@@ -2311,6 +2329,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to To.
+        /// </summary>
+        public static string To {
+            get {
+                return ResourceManager.GetString("To", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The To Date is required!.
         /// </summary>
         public static string ToDateRequire {
@@ -2379,6 +2406,15 @@ namespace SMS.EPA.Resources {
         public static string UnpaidLeave {
             get {
                 return ResourceManager.GetString("UnpaidLeave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unpaid Leave Absent.
+        /// </summary>
+        public static string UnpaidLeaveAbsent {
+            get {
+                return ResourceManager.GetString("UnpaidLeaveAbsent", resourceCulture);
             }
         }
         
@@ -2505,6 +2541,15 @@ namespace SMS.EPA.Resources {
         public static string WeightKPIRequired {
             get {
                 return ResourceManager.GetString("WeightKPIRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Work Date.
+        /// </summary>
+        public static string WorkDate {
+            get {
+                return ResourceManager.GetString("WorkDate", resourceCulture);
             }
         }
         

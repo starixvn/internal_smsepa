@@ -9,9 +9,9 @@
 
 namespace SMS.EPA.Services.Implement
 {
-    using System;
     using System.Collections.Generic;
     using Fanex.Common.Helper;
+    using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.AttendanceSummary;
     using SMS.EPA.Model.AttendanceSummary;
@@ -37,20 +37,52 @@ namespace SMS.EPA.Services.Implement
         {
             Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<AttendanceSummaryModel> attendanceEmployees = new List<AttendanceSummaryModel>();
-            var rawAttendanceSummary = new RawAttendanceSummaryModel();
 
             if (criteria.IsValid())
             {
-                rawAttendanceSummary = _attendanceSummaryRepository.GetAttendanceSummary(criteria);
-                attendanceEmployees = GroupEmployeeAndCalcualteScore(rawAttendanceSummary);
+                attendanceEmployees = _attendanceSummaryRepository.GetAttendanceSummary(criteria);
             }
 
             return attendanceEmployees;
         }
 
-        private IEnumerable<AttendanceSummaryModel> GroupEmployeeAndCalcualteScore(RawAttendanceSummaryModel rawAttendanceSummary)
+        public IEnumerable<OtherViolationModel> GetOtherViolations(GetOtherViolationsOfEmployeeCriteria criteria)
         {
-            throw new NotImplementedException();
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<OtherViolationModel> violations = new List<OtherViolationModel>();
+
+            if (criteria.IsValid())
+            {
+                violations = GetData<OtherViolationModel>(criteria);
+            }
+
+            return violations;
+        }
+
+        public CommandResult InsertOtherViolation(InsertOtherViolationsCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            CommandResult commandResult = new CommandResult();
+
+            if (criteria.IsValid())
+            {
+                commandResult = Repository.Insert(criteria);
+            }
+
+            return commandResult;
+        }
+
+        public CommandResult DeleteOtherViolation(DeleteOtherViolationCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            CommandResult commandResult = new CommandResult();
+
+            if (criteria.IsValid())
+            {
+                commandResult = Repository.Delete(criteria);
+            }
+
+            return commandResult;
         }
     }
 }

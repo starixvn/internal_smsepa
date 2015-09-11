@@ -15,7 +15,7 @@ namespace SMS.EPA.Model.AttendanceSummary
     {
         public int MissingCheckInOut { get; set; }
 
-        public int WorkingTime { get; set; }
+        public int WorkingBelowTime { get; set; }
 
         public int LateIn { get; set; }
 
@@ -25,10 +25,25 @@ namespace SMS.EPA.Model.AttendanceSummary
 
         public int UnpaidLeave { get; set; }
 
+        public int UnpaidLeaveAbsent { get; set; }
+
         public int ChangeShift { get; set; }
 
-        public int SystemSubtractScore { get; set; }
+        public float SystemSubtractScore { get; set; }
 
-        public int ApproverSubtractScore { get; set; }
+        public float ApproverSubtractScore 
+        {
+            get
+            {
+                return SystemSubtractScore;
+            }
+
+            set
+            {
+                ApproverSubtractScore = value;
+            }
+        }
+
+        public float OtherViolationsScore { get; set; }
     }
 }

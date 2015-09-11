@@ -13,35 +13,23 @@ namespace SMS.EPA.Repositories.Implement
     using Fanex.Data;
     using Fanex.Data.Repository;
     using SMS.EPA.Model.AttendanceSummary;
-    using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Repositories.Interfaces;
 
     public class AttendanceSummaryRepository : IAttendanceSummaryRepository
     {
-        public RawAttendanceSummaryModel GetAttendanceSummary(ICriteria criteria)
+        public IEnumerable<AttendanceSummaryModel> GetAttendanceSummary(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (var multi = db.QueryMultiple(criteria.GetSpParams()))
-                {
-                    IEnumerable<EmployeeModel> employees = multi.Read<EmployeeModel, Group, EmployeeModel>(
-                        (emp, gr) =>
-                        {
-                            emp.Group = gr;
-                            return emp;
-                        },
-                        "GroupId");
-
-                    IEnumerable<AttendanceSummaryModel> employeeViolations = multi.Read<AttendanceSummaryModel>();
-
-                    var attendanceSummary = new RawAttendanceSummaryModel
-                    {
-                        Employees = employees,
-                        EmployeeViolations = employeeViolations
-                    };
-                    return attendanceSummary;
-                }
+                return db.Query<AttendanceSummaryModel, Group, AttendanceSummaryModel>(
+                                        (att, gr) =>
+                                        {
+                                            att.Group = gr;
+                                            return att;
+                                        },
+                                        "GroupId",
+                                        criteria.GetSpParams());
             }
         }
     }

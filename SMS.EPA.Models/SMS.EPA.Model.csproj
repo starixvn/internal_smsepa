@@ -43,7 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AttendanceSummary\AttendanceSummaryModel.cs" />
-    <Compile Include="AttendanceSummary\RawAttendanceSummaryModel.cs" />
+    <Compile Include="AttendanceSummary\OtherViolationModel.cs" />
     <Compile Include="Authentication\LoginModel.cs" />
     <Compile Include="Authentication\UserSession.cs" />
     <Compile Include="CheckFlowAssignment\DepartmentFlowSetingModel.cs" />

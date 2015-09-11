@@ -44,7 +44,10 @@
     <table class="row table table-bordered table-striped">
         <thead>
             <tr class="header-table">
-                <th colspan="14">
+                <th colspan="17">
+                    <span class="txt-attendance-header">{{"AttendanceSummary" | translate}} 
+                    {{"From" | translate}} {{attendanceCtrl.filter.startDate | date: attendanceCtrl.dateFormat}} 
+                    {{"To" | translate}} {{attendanceCtrl.filter.endDate | date: attendanceCtrl.dateFormat}}</span>
                     <input type="text" ng-model="attendanceCtrl.searchKey" ng-change="attendanceCtrl.search()" class="search-inline-textbox search pull-right">
                 </th>
             </tr>
@@ -54,6 +57,8 @@
                 <th data-translate="Section">
                 </th>
                 <th data-translate="Code">
+                </th>
+                <th data-translate="Nick">
                 </th>
                 <th data-translate="Employee">
                 </th>
@@ -69,7 +74,11 @@
                 </th>
                 <th data-translate="UnpaidLeave">
                 </th>
+                <th data-translate="UnpaidLeaveAbsent">
+                </th>
                 <th data-translate="ChangeShift">
+                </th>
+                <th data-translate="OtherViolations">
                 </th>
                 <th data-translate="SystemSubtractScore">
                 </th>
@@ -86,26 +95,30 @@
                 <td class="text-center" ng-bind="employee.Code"></td>
                 <td class="text-center" ng-bind="employee.NickName"></td>
                 <td ng-bind="employee.FullName"></td>
-                <td ng-bind="employee.CheckInOut"></td>
-                <td ng-bind="employee.WorkingTime"></td>
+                <td ng-bind="employee.MissingCheckInOut"></td>
+                <td ng-bind="employee.WorkingBelowTime"></td>
                 <td ng-bind="employee.LateIn"></td>
                 <td ng-bind="employee.EarlyOut"></td>
                 <td ng-bind="employee.Absent"></td>
                 <td ng-bind="employee.UnpaidLeave"></td>
+                <td ng-bind="employee.UnpaidLeaveAbsent"></td>
                 <td ng-bind="employee.ChangeShift"></td>
-                <td ng-bind="employee.SystemSubtractScore"></td>
-                <td ng-bind="employee.ApproverSubtractScore"></td>
+                <td>
+                    <a href="" ng-click="attendanceCtrl.addOtherViolations(employee)">{{employee.OtherViolationsScore | number: 1}}</a>
+                </td>
+                <td class="red">-{{employee.SystemSubtractScore | number: 1}}</td>
+                <td class="red">-{{employee.ApproverSubtractScore | number: 1}}</td>
                 <td class="text-center">
                     <a class="glyphicon glyphicon-edit icon-edit" title="Edit" ng-click="attendanceCtrl.adjust(employee)"></a>
                 </td>
             </tr>
             <tr ng-show="attendanceCtrl.filteredItems.length == 0">
-                <td class="empty-result" colspan="14" data-translate="EmptyResult"></td>
+                <td class="empty-result" colspan="17" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="14" class="paging">
+                <td colspan="17" class="paging">
                     <span data-translate="Show"></span>
                     <select class="dropdown-entry form-control" ng-model="attendanceCtrl.pageSize"
                             ng-options="entry for entry in attendanceCtrl.entries"></select>

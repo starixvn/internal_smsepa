@@ -9,11 +9,12 @@
 
 namespace SMS.EPA.Repositories.Interfaces
 {
+    using System.Collections.Generic;
     using Fanex.Data.Repository;
     using SMS.EPA.Model.AttendanceSummary;
 
     public interface IAttendanceSummaryRepository
     {
-        RawAttendanceSummaryModel GetAttendanceSummary(ICriteria criteria);
+        IEnumerable<AttendanceSummaryModel> GetAttendanceSummary(ICriteria criteria);
     }
 }

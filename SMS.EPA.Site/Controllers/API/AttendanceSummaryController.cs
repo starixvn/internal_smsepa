@@ -11,6 +11,7 @@ namespace SMS.EPA.Site.Controllers.API
 {
     using System;
     using System.Collections.Generic;
+    using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.AttendanceSummary;
     using SMS.EPA.Model.AttendanceSummary;
     using SMS.EPA.Services.Implement;
@@ -45,6 +46,50 @@ namespace SMS.EPA.Site.Controllers.API
             };
             IEnumerable<AttendanceSummaryModel> attendanceEmployees = _attendanceSummaryService.GetAttendanceSummary(criteria);
             return attendanceEmployees;
+        }
+
+        public IEnumerable<OtherViolationModel> GetOtherViolations(
+            int employeeId,
+            DateTime startDate,
+            DateTime endDate,
+            DateTime? workDate = null)
+        {
+            var criteria = new GetOtherViolationsOfEmployeeCriteria
+            {
+                EmployeeId = employeeId,
+                WorkDate = startDate,
+                StartDate = startDate,
+                EndDate = endDate
+            };
+            IEnumerable<OtherViolationModel> violations = _attendanceSummaryService.GetOtherViolations(criteria);
+            return violations;
+        }
+
+        public CommandResult InsertOtherViolation(InsertOtherViolationsCriteria criteria)
+        {
+            if (criteria != null)
+            {
+                criteria.CreatedBy = CurrentUser.EmployeeInfo.EmployeeId;
+            }
+
+            CommandResult commandResult = _attendanceSummaryService.InsertOtherViolation(criteria);
+            return commandResult;
+        }
+
+        public CommandResult DeleteOtherViolation(
+            int employeeId,
+            DateTime workDate,
+            string name)
+        {
+            var criteria = new DeleteOtherViolationCriteria
+            {
+                EmployeeId = employeeId,
+                WorkDate = workDate,
+                Name = name
+            };
+
+            CommandResult commandResult = _attendanceSummaryService.DeleteOtherViolation(criteria);
+            return commandResult;
         }
     }
 }

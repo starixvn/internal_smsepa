@@ -5,14 +5,15 @@ attendanceModule.controller('AttendanceSummaryController',
 ['AttendanceModel', 'utilitiesFactory', 'EmployeeModel', 'CommonModel',
 function (AttendanceModel, utilitiesFactory, EmployeeModel, CommonModel) {
     var vm = this,
-        date = new Date();
+        date = new Date(),
+        firstDate = new Date(date.getFullYear(), date.getMonth(), 1);
 
     vm.attendanceEmployees = AttendanceModel.attendanceEmployees;
     vm.currentPage = 1;
     vm.pageSize = 20;
 
     vm.filter = {
-        startDate: date,
+        startDate: firstDate,
         endDate: date,
         employee: null,
         departmentId: null,
@@ -73,5 +74,50 @@ function (AttendanceModel, utilitiesFactory, EmployeeModel, CommonModel) {
 
     vm.getIndex = function (index, currentPage, pageSize) {
         return CommonModel.getIndex(index, currentPage, pageSize);
+    };
+
+    vm.addOtherViolations = function (employee) {
+        AttendanceModel.openPopupOtherViolation(employee, vm.filter.startDate, vm.filter.endDate);
+    };
+}]);
+
+attendanceModule.controller("OtherViolationsController",
+['$modalInstance', 'AttendanceModel', 'employee', 'startDate', 'endDate', 'utilitiesFactory',
+function ($modalInstance, AttendanceModel, employee, startDate, endDate, utilitiesFactory) {
+    var vm = this,
+        date = new Date();
+
+    vm.employee = employee;
+    vm.startDate = startDate;
+    vm.endDate = endDate;
+
+    vm.otherViolations = AttendanceModel.otherViolations;
+
+    vm.violation = {
+        Name: null,
+        Score: 0,
+        WorkDate: date,
+        Comment: null
+    };
+
+    vm.calendar = {
+        startDateOpened: false,
+        endDateOpened: false
+    };
+
+    vm.openPopupStartDate = function (event) {
+        utilitiesFactory.openPopupStartDate(event, vm);
+    };
+    vm.currentPage = 1;
+    vm.pageSize = 5;
+    utilitiesFactory.numberEntryList(vm);
+
+    AttendanceModel.getOtherViolations(vm.employee.employeeId, vm.startDate, vm.endDate).then(function () {
+        vm.otherViolations = AttendanceModel.otherViolations;
+        utilitiesFactory.searchOnPage(vm, vm.otherViolations);
+    });
+
+    vm.cancel = function () {
+        $modalInstance.dismiss("cancel");
     };
 }]);
