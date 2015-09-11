@@ -2,8 +2,8 @@
 /*global attendanceModule*/
 
 attendanceModule.factory('AttendanceModel',
-['attendanceFactory', 'errorFactory', 'notificationFactory', '$modal',
-function (attendanceFactory, errorFactory, notificationFactory, $modal) {
+['$modal', 'attendanceFactory', 'errorFactory', 'notificationFactory', 'utilitiesFactory',
+function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitiesFactory) {
     var attendanceModel = {};
 
     attendanceModel.attendanceEmployees = [];
@@ -77,6 +77,60 @@ function (attendanceFactory, errorFactory, notificationFactory, $modal) {
             errorFactory.errorHandle(status);
         });
     }
+
+    attendanceModel.validateOtherViolation = function (violation) {
+        if (!violation) {
+            return false;
+        }
+        else {
+            if (!violation.Name) {
+                notificationFactory.error("NameRequried");
+                return false;
+            }
+            else if (!violation.WorkDate) {
+                notificationFactory.error("WorkDateRequried");
+                return false;
+            }
+        }
+
+        return true;
+    };
+
+    attendanceModel.openPopupDeletePeriod = function (vm, violation) {
+        var modalInstance = $modal.open({
+            templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
+            controller: "ModalConfirmController as modalConfirmCtrl",
+            backdrop: 'static',
+            resolve: {
+                name: function () {
+                    return violation.Name;
+                },
+                action: function () {
+                    return 'delete';
+                }
+            },
+            windowClass: "modal-confirm-center"
+        });
+
+        modalInstance.result.then(function () {
+            return attendanceFactory.deleteOtherViolation(vm.employee.EmployeeId, violation.WorkDate, violation.Name).success(function (response) {
+                if (response.IsSuccessful) {
+                    var index = vm.otherViolations.indexOf(violation);
+                    vm.otherViolations.splice(index, 1);
+                    utilitiesFactory.searchOnPage(vm, vm.otherViolations);
+                    notificationFactory.success("DeletedSuccessfully");
+                }
+                else {
+                    notificationFactory.error("", response.Message);
+                }
+            })
+            .error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        })['finally'](function () {
+            modalInstance = '';
+        });
+    };
 
     return attendanceModel;
 }]);

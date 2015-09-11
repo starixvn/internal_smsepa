@@ -82,8 +82,8 @@ function (AttendanceModel, utilitiesFactory, EmployeeModel, CommonModel) {
 }]);
 
 attendanceModule.controller("OtherViolationsController",
-['$modalInstance', 'AttendanceModel', 'employee', 'startDate', 'endDate', 'utilitiesFactory',
-function ($modalInstance, AttendanceModel, employee, startDate, endDate, utilitiesFactory) {
+['$modalInstance', 'AttendanceModel', 'employee', 'startDate', 'endDate', 'utilitiesFactory', 'CommonModel',
+function ($modalInstance, AttendanceModel, employee, startDate, endDate, utilitiesFactory, CommonModel) {
     var vm = this,
         date = new Date();
 
@@ -94,6 +94,7 @@ function ($modalInstance, AttendanceModel, employee, startDate, endDate, utiliti
     vm.otherViolations = AttendanceModel.otherViolations;
 
     vm.violation = {
+        EmployeeId: vm.employee.EmployeeId,
         Name: null,
         Score: 0,
         WorkDate: date,
@@ -108,14 +109,36 @@ function ($modalInstance, AttendanceModel, employee, startDate, endDate, utiliti
     vm.openPopupStartDate = function (event) {
         utilitiesFactory.openPopupStartDate(event, vm);
     };
+
     vm.currentPage = 1;
     vm.pageSize = 5;
     utilitiesFactory.numberEntryList(vm);
+    utilitiesFactory.getDateFormat(vm);
 
-    AttendanceModel.getOtherViolations(vm.employee.employeeId, vm.startDate, vm.endDate).then(function () {
-        vm.otherViolations = AttendanceModel.otherViolations;
-        utilitiesFactory.searchOnPage(vm, vm.otherViolations);
-    });
+    var getOtherViolations = function (employeeId, startDate, endDate) {
+        AttendanceModel.getOtherViolations(employeeId, startDate, endDate).then(function () {
+            vm.otherViolations = AttendanceModel.otherViolations;
+            utilitiesFactory.searchOnPage(vm, vm.otherViolations);
+        });
+    };
+
+    getOtherViolations(vm.employee.EmployeeId, vm.startDate, vm.endDate);
+
+    vm.getIndex = function (index, currentPage, pageSize) {
+        return CommonModel.getIndex(index, currentPage, pageSize);
+    };
+
+    vm.addViolation = function (violation) {
+        if (AttendanceModel.validateOtherViolation(violation)) {
+            AttendanceModel.insertOtherViolation(violation).then(function () {
+                getOtherViolations(vm.employee.EmployeeId, vm.startDate, vm.endDate);
+            });
+        }
+    };
+
+    vm.delete = function (violation) {
+        AttendanceModel.openPopupDeletePeriod(vm, violation);
+    };
 
     vm.cancel = function () {
         $modalInstance.dismiss("cancel");

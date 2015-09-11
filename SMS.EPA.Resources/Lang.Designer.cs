@@ -2554,6 +2554,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Work Date filed is required!.
+        /// </summary>
+        public static string WorkDateRequried {
+            get {
+                return ResourceManager.GetString("WorkDateRequried", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Working &lt; 7h.
         /// </summary>
         public static string WorkingTime {

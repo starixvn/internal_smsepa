@@ -57,7 +57,7 @@ namespace SMS.EPA.Site.Controllers.API
             var criteria = new GetOtherViolationsOfEmployeeCriteria
             {
                 EmployeeId = employeeId,
-                WorkDate = startDate,
+                WorkDate = workDate,
                 StartDate = startDate,
                 EndDate = endDate
             };
