@@ -43,8 +43,8 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
         return true;
     };
 
-    ratingByKPIModel.getEmployeeEPAByKPI = function (targetTemplateId, kpiId, groupId) {
-        return ratingByKPIFactory.getEmployeeEPAByKPI(targetTemplateId, kpiId, groupId)
+    ratingByKPIModel.getEmployeeEPAByKPI = function (targetTemplateId, kpiId, groupId, employeeIds) {
+        return ratingByKPIFactory.getEmployeeEPAByKPI(targetTemplateId, kpiId, groupId, employeeIds)
         .success(function (memberEPAs) {
             ratingByKPIModel.memberEPAs = memberEPAs;
         }).error(function (response, status) {

@@ -253,6 +253,7 @@
     <Content Include="Content\Site\images\logo-login.png" />
     <Content Include="Content\Site\images\save_submit.png" />
     <Content Include="Content\Site\images\sms_epa_logo.png" />
+    <Content Include="Content\Site\images\sort-icon.png" />
     <Content Include="Content\Site\images\sprites.png" />
     <Content Include="Content\Site\images\sprite_ico_2012-05-15.png" />
     <Content Include="Content\Site\images\success.png" />

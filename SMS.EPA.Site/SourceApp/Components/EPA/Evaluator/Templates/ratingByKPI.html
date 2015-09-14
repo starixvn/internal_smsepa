@@ -3,8 +3,8 @@
         <div class="boxtitle text-uppercase" data-translate="RatingPerformanceByKPI"></div>
         <div class="boxcontent">
             <form novalidate class="row filter form-horizontal" role="form">
-                <div class="form-group required">
-                    <label class="col-sm-2 control-label" data-translate="TargetTemplate"></label>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label required" data-translate="TargetTemplate"></label>
                     <div class="col-sm-3">
                         <select class="form-control" ng-model="ratingByKPICtrl.filter.targetTemplateId"
                                 ng-options="opt.TargetTemplateId as opt.Name for opt in ratingByKPICtrl.targetTemplates"
@@ -12,9 +12,7 @@
                             <option style="display: none" value="">-- {{"All" | translate}} --</option>
                         </select>
                     </div>
-                </div>
-                <div class="form-group required">
-                    <label class="col-sm-2 control-label" data-translate="KPI"></label>
+                    <label class="col-sm-1 control-label required" data-translate="KPI"></label>
                     <div class="col-sm-3">
                         <select class="form-control" ng-model="ratingByKPICtrl.filter.kpiId"
                                 ng-options="opt.KPIId as opt.Name group by opt.KPIGroup.Name for opt in ratingByKPICtrl.kpis"
@@ -27,11 +25,18 @@
                     <label class="col-sm-2 control-label" data-translate="Section"></label>
                     <div class="col-sm-3">
                         <select class="form-control" ng-model="ratingByKPICtrl.filter.groupId"
-                                ng-options="opt.GroupId as opt.GroupName for opt in ratingByKPICtrl.groupOptions">
+                                ng-options="opt.GroupId as opt.GroupName for opt in ratingByKPICtrl.groupOptions"
+                                ng-change="ratingByKPICtrl.getMember(ratingByKPICtrl.filter.groupId)">
                             <option value="">-- {{"All" | translate}} --</option>
                         </select>
                     </div>
-                    <div class="col-sm-1">
+                    <label class="col-sm-1 control-label" data-translate="Employee"></label>
+                    <div class="col-sm-3">
+                        <add-class-to-role-filter class="multi-select" multi-select input-model="ratingByKPICtrl.members" button-label="EmployeeId"
+                                                  helper-elements="all reset filter" item-label="FullName" tick-property="ticked" max-labels="0">
+                        </add-class-to-role-filter>
+                    </div>
+                    <div class="col-sm-offset-1 col-sm-1">
                         <button class="button" ng-click="ratingByKPICtrl.search(ratingByKPICtrl.filter)" data-translate="Search"></button>
                     </div>
                 </div>
@@ -73,8 +78,18 @@
                         <th data-translate="NickName"></th>
                         <th data-translate="FullName"></th>
                         <th data-translate="JobTitle"></th>
-                        <th data-translate="CurrentScore" class="col-score"></th>
-                        <th data-translate="AdjustScore" class="col-adjust-score"></th>
+                        <th class="col-score">
+                            <div class="col-sm-10" data-translate="CurrentScore"></div>
+                            <div class="col-sm-2" ng-show="ratingByKPICtrl.memberEPAs.length > 1">
+                                <a class="icon-sorting-bg" ng-class="ratingByKPICtrl.selectedCls('CurrentScore')" ng-click="ratingByKPICtrl.changeSorting('CurrentScore')"></a>
+                            </div>
+                        </th>
+                        <th class="col-adjust-score">
+                            <div class="col-sm-10" data-translate="AdjustScore"></div>
+                            <div class="col-sm-2" ng-show="ratingByKPICtrl.memberEPAs.length > 1">
+                                <a class="icon-sorting-bg" ng-class="ratingByKPICtrl.selectedCls('AdjustScore')" ng-click="ratingByKPICtrl.changeSorting('AdjustScore')"></a>
+                            </div>
+                        </th>
                         <th data-translate="Comment"></th>
                         <th data-translate="PerformanceScore" class="col-score"></th>
                     </tr>

@@ -393,6 +393,23 @@ a:focus {
         width: 16px;
         height: 16px;
     }
+    .icon-sorting-bg {
+        background-image: url("images/sort-icon.png") !important;
+        background-position: 0 -5px;
+        background-repeat: no-repeat !important;
+        cursor: pointer;
+        display: inline-block;
+        height: 16px;
+        width: 10px;
+
+        &.sorting-asc {
+            background-position: 0 -32px !important;
+        }
+
+        &.sorting-desc {
+            background-position: 0 -53px !important;
+        }
+    }
     /********************************************************/
 	/*					     Filter                         */
 	/********************************************************/

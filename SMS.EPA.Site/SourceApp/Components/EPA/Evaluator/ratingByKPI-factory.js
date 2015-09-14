@@ -9,12 +9,13 @@ epaModule.factory('ratingByKPIFactory', ['$http', 'baseUrl', function ($http, ba
         getKPIByTargetTemplate: function (targetTemplateId) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetKPIByTargetTemplate', { params: { targetTemplateId: targetTemplateId } });
         },
-        getEmployeeEPAByKPI: function (targetTemplateId, kpiId, groupId) {
+        getEmployeeEPAByKPI: function (targetTemplateId, kpiId, groupId, employeeIds) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetEmployeeEPAByKPI', {
                 params: {
                     targetTemplateId: targetTemplateId,
                     kpiId: kpiId,
-                    groupId: groupId
+                    groupId: groupId,
+                    employeeIds: employeeIds
                 }
             });
         },

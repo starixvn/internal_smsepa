@@ -21,6 +21,8 @@ namespace SMS.EPA.Criteria.EmployeeEPA.RatingByKPI
 
         public int? GroupId { get; set; }
 
+        public string EmployeeIds { get; set; }
+
         public override string GetSettingKey()
         {
             return "EPA_RatingByKPI_Get";

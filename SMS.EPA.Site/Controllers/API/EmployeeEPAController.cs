@@ -219,14 +219,16 @@ namespace SMS.EPA.Site.Controllers.API
         public IEnumerable<RatingByKPIModel> GetEmployeeEPAByKPI(
             int targetTemplateId,
             int kpiId,
-            int? groupId = null)
+            int? groupId = null,
+            string employeeIds = null)
         {
             var criteria = new GetEmployeeEPAByKPICriteria()
             {
                 EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
                 TargetTemplateId = targetTemplateId,
                 KPIId = kpiId,
-                GroupId = groupId
+                GroupId = groupId,
+                EmployeeIds = employeeIds
             };
 
             return _employeeEPAService.GetEmployeeEPAByKPI(criteria);

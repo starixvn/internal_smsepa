@@ -26,6 +26,8 @@ namespace SMS.EPA.Model.EmployeeEPA.RatingByKPI
 
         public bool IsSpreadKPI { get; set; }
 
+        public int NumberKPI { get; set; }
+
         public IList<TemporaryKPIModel> KPIs { get; set; }
     }
 }
