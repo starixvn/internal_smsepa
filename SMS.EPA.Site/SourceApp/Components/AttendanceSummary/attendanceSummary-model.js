@@ -8,6 +8,8 @@ function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitie
 
     attendanceModel.attendanceEmployees = [];
     attendanceModel.otherViolations = [];
+    attendanceModel.violations = [];
+    attendanceModel.attendanceDetails = [];
 
     attendanceModel.getAttendanceSummary = function (startDate, endDate, departmentId, employeeId) {
         return attendanceFactory.getAttendanceSummary(startDate, endDate, departmentId, employeeId).success(function (attendanceEmployees) {
@@ -82,11 +84,11 @@ function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitie
         }
         else {
             if (!violation.Name) {
-                notificationFactory.error("NameRequried");
+                notificationFactory.error("NameRequired");
                 return false;
             }
             else if (!violation.WorkDate) {
-                notificationFactory.error("WorkDateRequried");
+                notificationFactory.error("WorkDateRequired");
                 return false;
             }
         }
@@ -127,6 +129,23 @@ function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitie
             });
         })['finally'](function () {
             modalInstance = '';
+        });
+    };
+
+    attendanceModel.getViolationType = function () {
+        return attendanceFactory.getViolationType().success(function (violations) {
+            attendanceModel.violations = violations;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    attendanceModel.getAttendanceDetail = function (startDate, endDate, employeeId, departmentId, reasonId) {
+        return attendanceFactory.getAttendanceDetail(startDate, endDate, employeeId, departmentId, reasonId).success(function (attendanceDetails) {
+            attendanceModel.attendanceDetails = attendanceDetails;
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
         });
     };
 

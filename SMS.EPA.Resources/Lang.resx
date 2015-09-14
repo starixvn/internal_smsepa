@@ -960,4 +960,25 @@
   <data name="WorkDateRequried" xml:space="preserve">
     <value>The Work Date filed is required!</value>
   </data>
+  <data name="AttendanceSummaryDetail" xml:space="preserve">
+    <value>Attendance Detail Adjustment</value>
+  </data>
+  <data name="ApproverComment" xml:space="preserve">
+    <value>Approver Comment</value>
+  </data>
+  <data name="CheckIn" xml:space="preserve">
+    <value>Check In</value>
+  </data>
+  <data name="CheckOut" xml:space="preserve">
+    <value>Check Out</value>
+  </data>
+  <data name="HRMComment" xml:space="preserve">
+    <value>HRM Comment</value>
+  </data>
+  <data name="Shift" xml:space="preserve">
+    <value>Shift</value>
+  </data>
+  <data name="TotalHours" xml:space="preserve">
+    <value>Total Hours</value>
+  </data>
 </root>

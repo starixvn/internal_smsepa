@@ -91,5 +91,31 @@ namespace SMS.EPA.Site.Controllers.API
             CommandResult commandResult = _attendanceSummaryService.DeleteOtherViolation(criteria);
             return commandResult;
         }
+
+        public IEnumerable<ViolationModel> GetViolationType()
+        {
+            var criteria = new GetViolationTypeCriteria();
+            IEnumerable<ViolationModel> violations = _attendanceSummaryService.GetViolationType(criteria);
+            return violations;
+        }
+
+        public IEnumerable<AttendanceDetailModel> GetAttendanceDetail(
+            DateTime startDate,
+            DateTime endDate,
+            int? employeeId = null,
+            int? departmentId = null,
+            int? reasonId = null)
+        {
+            var criteria = new GetDetailAttendanceCriteria
+            {
+                StartDate = startDate,
+                EndDate = endDate,
+                EmployeeId = employeeId,
+                DepartmentId = departmentId,
+                ReasonId = reasonId
+            };
+            IEnumerable<AttendanceDetailModel> attendanceViolations = _attendanceSummaryService.GetAttendanceDetail(criteria);
+            return attendanceViolations;
+        }
     }
 }

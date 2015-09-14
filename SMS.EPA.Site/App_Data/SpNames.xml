@@ -222,6 +222,8 @@
       </Setting>
       <Setting Key="EpaAttendanceSummary_Delete" SpName="EpaAttendanceSummary_Delete" DbName="SMSEPA" Plain="0">
       </Setting>
+      <Setting Key="EpaAttendanceSummary_GetViolations" SpName="EpaAttendanceSummary_GetViolations" DbName="SMSEPA" Plain="0">
+      </Setting>
     </Function>
     <Function Name="Rating By KPI">
         <Setting Key="EPA_RatingByKPI_GetTargetTemplateByEvaluator" SpName="EPA_RatingByKPI_GetTargetTemplateByEvaluator" DbName="SMSEPA" Plain="0">

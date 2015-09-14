@@ -42,8 +42,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AttendanceSummary\AttendanceDetailModel.cs" />
     <Compile Include="AttendanceSummary\AttendanceSummaryModel.cs" />
     <Compile Include="AttendanceSummary\OtherViolationModel.cs" />
+    <Compile Include="AttendanceSummary\ViolationModel.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Authentication\LoginModel.cs" />
     <Compile Include="Authentication\UserSession.cs" />
     <Compile Include="CheckFlowAssignment\DepartmentFlowSetingModel.cs" />

@@ -38,6 +38,22 @@ attendanceModule.factory('attendanceFactory', ['$http', 'baseUrl', function ($ht
                         name: name
                     }
                 });
+        },
+        getViolationType: function () {
+            return $http.get(baseUrl + 'api/AttendanceSummary/GetViolationType');
+        },
+        getAttendanceDetail: function (startDate, endDate, employeeId, departmentId, reasonId) {
+            return $http.get(baseUrl + 'api/AttendanceSummary/GetAttendanceDetail',
+                {
+                    params: { 
+                        startDate: startDate,
+                        endDate: endDate,
+                        employeeId: employeeId,
+                        departmentId: departmentId,
+                        reasonId: reasonId
+                    }
+                }
+            );
         }
     }
 }]);

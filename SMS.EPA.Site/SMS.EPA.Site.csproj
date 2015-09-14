@@ -293,6 +293,7 @@
     <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary-controller.js" />
     <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary-factory.js" />
     <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary-model.js" />
+    <Content Include="SourceApp\Components\AttendanceSummary\Templates\detail.html" />
     <Content Include="SourceApp\Components\AttendanceSummary\Templates\index.html" />
     <Content Include="SourceApp\Components\AttendanceSummary\Templates\otherViolation.html" />
     <Content Include="SourceApp\Components\CheckFlowAssignment\checkFlow-controller.js" />

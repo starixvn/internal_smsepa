@@ -1,0 +1,173 @@
+﻿<div class="col-sm-12" ng-controller="DetailAttendanceSummaryController as detailAttendanceCtrl">
+    <div class="sub-header">
+        <ul class="row breadcrumb">
+            <li class="current" data-translate="AttendanceSummaryDetail"></li>
+        </ul>
+    </div>
+
+    <form novalidate class="row form-horizontal filter">
+        <div class="form-group">
+            <label class="col-sm-1 text-right" data-translate="Department"></label>
+            <div class="col-sm-3 field">
+                <select class="department-select form-control" ng-model="detailAttendanceCtrl.filter.departmentId"
+                        ng-options="opt.DepartmentId as opt.Name for opt in detailAttendanceCtrl.treeDepartment">
+                    <option value="">-- Select a Department / Section --</option>
+                </select>
+            </div>
+            <label class="col-sm-1 text-right" data-translate="Employee"></label>
+            <div class="col-sm-3 field">
+                <input class="form-control employee-search" ng-model="detailAttendanceCtrl.searchEmployee"
+                       placeholder="Enter full name or nick name" search-auto-complete search-employees="detailAttendanceCtrl.getEmployee()"
+                       ng-change="detailAttendanceCtrl.unSelectEmployee()" employee="detailAttendanceCtrl.filter.employee" />
+            </div>
+            <label class="col-sm-1 text-right" data-translate="Reason"></label>
+            <div class="col-sm-2 field">
+                <select class="form-control" ng-model="detailAttendanceCtrl.filter.reasonId"
+                        ng-options="opt.Id as opt.Name for opt in detailAttendanceCtrl.violationOptions">
+                    <option value="">-- Select a Reason --</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 text-right" data-translate="StartDate">
+            </label>
+            <div class="col-sm-3 field">
+                <input readonly class="calendar-form-control" type="text"
+                       ng-model="detailAttendanceCtrl.filter.startDate" datepicker-popup
+                       ng-click="detailAttendanceCtrl.openPopupStartDate($event)"
+                       is-open="detailAttendanceCtrl.calendar.startDateOpened" />
+                <calendar-image class="calendar-image" ng-click="detailAttendanceCtrl.openPopupStartDate($event)"></calendar-image>
+            </div>
+            <label class="col-sm-1 text-right" data-translate="EndDate">
+            </label>
+            <div class="col-sm-3 field">
+                <input readonly class="calendar-form-control" type="text"
+                       ng-model="detailAttendanceCtrl.filter.endDate" datepicker-popup
+                       ng-click="detailAttendanceCtrl.openPopupEndDate($event)"
+                       is-open="detailAttendanceCtrl.calendar.endDateOpened" />
+                <calendar-image class="calendar-image" ng-click="detailAttendanceCtrl.openPopupEndDate($event)"></calendar-image>
+            </div>
+            <label class="col-sm-1">
+            </label>
+            <div class="col-sm-1 btn-box daily-btn-box">
+                <input type="button" value="Search" class="button" ng-click="query(filter)" />
+            </div>
+        </div>
+    </form>
+
+    <table class="row table table-bordered table-striped">
+        <thead>
+            <tr class="header-table">
+                <th colspan="19">
+                    <input type="text" ng-model="detailAttendanceCtrl.searchKey" ng-change="detailAttendanceCtrl.search()" class="search-inline-textbox search pull-right">
+                </th>
+            </tr>
+            <tr class="headerName">
+                <th data-translate="Code">
+                </th>
+                <th data-translate="Nick">
+                </th>
+                <th data-translate="Section">
+                </th>
+                <th data-translate="Date">
+                </th>
+                <th data-translate="Shift">
+                </th>
+                <th data-translate="CheckIn">
+                </th>
+                <th data-translate="CheckOut">
+                </th>
+                <th data-translate="TotalHours">
+                </th>
+                <th data-translate="LateIn">
+                </th>
+                <th data-translate="EarlyOut">
+                </th>
+                <th data-translate="Absent">
+                </th>
+                <th data-translate="UnpaidLeave">
+                </th>
+                <th data-translate="UnpaidLeaveAbsent">
+                </th>
+                <th data-translate="ChangeShift">
+                </th>
+                <th data-translate="OtherViolations">
+                </th>
+                <th data-translate="SystemSubtractScore">
+                </th>
+                <th data-translate="ApproverSubtractScore">
+                </th>
+                <th data-translate="ApproverComment">
+                </th>
+                <th data-translate="HRMComment">
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr dir-paginate="employee in detailAttendanceCtrl.filteredItems | itemsPerPage: detailAttendanceCtrl.pageSize" current-page="detailAttendanceCtrl.currentPage">
+                <td class="text-center" ng-bind="employee.Code"></td>
+                <td class="text-center" ng-bind="employee.NickName"></td>
+                <td class="text-center" ng-bind="employee.Group.GroupName"></td>
+                <td ng-bind="employee.WorkDate | date: detailAttendanceCtrl.dateFormat"></td>
+                <td class="text-center" ng-bind="employee.Shift"></td>
+                <td ng-bind="employee.CheckIn.Value">
+                    <span ng-show="employee.CheckIn.Value" ng-bind="employee.CheckIn.Value"></span>
+                    <span ng-show="!employee.CheckIn.Value">-</span>
+                </td>
+                <td>
+                    <span ng-show="employee.CheckOut.Value" ng-bind="employee.CheckOut.Value"></span>
+                    <span ng-show="!employee.CheckOut.Value">-</span>
+                </td>
+                <td>
+                    <span ng-show="employee.TotalHours.Value" ng-bind="employee.TotalHours.Value"></span>
+                    <span ng-show="!employee.TotalHours.Value">-</span>
+                </td>
+                <td>
+                    <span ng-show="employee.LateIn.Value" ng-bind="employee.LateIn.Value"></span>
+                    <span ng-show="!employee.LateIn.Value" >-</span>
+                </td>
+                <td>
+                    <span ng-show="employee.EarlyOut.Value" ng-bind="employee.EarlyOut.Value"></span>
+                    <span ng-show="!employee.EarlyOut.Value">-</span>
+                </td>
+                <td>
+                    <span ng-show="employee.Absent.Value">x</span>
+                    <span ng-show="!employee.Absent.Value">-</span>
+                </td>
+                <td>
+                    <span ng-show="employee.UnpaidLeave.Value">x</span>
+                    <span ng-show="!employee.UnpaidLeave.Value">-</span>
+                </td>
+                <td>
+                    <span ng-show="employee.UnpaidLeaveAbsent.Value">x</span>
+                    <span ng-show="!employee.UnpaidLeaveAbsent.Value">-</span>
+                </td>
+                <td>
+                    <span ng-show="employee.ChangeShift.Value">x</span>
+                    <span ng-show="!employee.ChangeShift.Value">-</span>
+                </td>
+                <td ng-bind="employee.OtherViolationsScore | number: 1"></td>
+                <td class="red">-{{employee.SystemSubtractScore | number: 1}}</td>
+                <td class="red">-{{employee.ApproverSubtractScore | number: 1}}</td>
+                <td ng-bind="employee.ApproverComment"></td>
+                <td ng-bind="employee.EmployeeComment"></td>
+            </tr>
+            <tr ng-show="detailAttendanceCtrl.filteredItems.length == 0">
+                <td class="empty-result" colspan="19" data-translate="EmptyResult"></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="19" class="paging">
+                    <span data-translate="Show"></span>
+                    <select class="dropdown-entry form-control" ng-model="detailAttendanceCtrl.pageSize"
+                            ng-options="entry for entry in detailAttendanceCtrl.entries"></select>
+                    <span data-translate="entries"></span>
+                    <div class="pull-right custom-paging">
+                        <dir-pagination-controls boundary-links="true"></dir-pagination-controls>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

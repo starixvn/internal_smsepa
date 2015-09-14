@@ -84,5 +84,25 @@ namespace SMS.EPA.Services.Implement
 
             return commandResult;
         }
+
+        public IEnumerable<ViolationModel> GetViolationType(GetViolationTypeCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<ViolationModel> violations = new List<ViolationModel>();
+
+            if (criteria.IsValid())
+            {
+                violations = GetData<ViolationModel>(criteria);
+            }
+
+            return violations;
+        }
+
+        public IEnumerable<AttendanceDetailModel> GetAttendanceDetail(GetDetailAttendanceCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<AttendanceDetailModel> attendanceViolations = new List<AttendanceDetailModel>();
+            return attendanceViolations;
+        }
     }
 }

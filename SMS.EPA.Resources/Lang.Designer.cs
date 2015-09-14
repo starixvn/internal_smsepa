@@ -160,6 +160,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Approver Comment.
+        /// </summary>
+        public static string ApproverComment {
+            get {
+                return ResourceManager.GetString("ApproverComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Approver Subtract Score.
         /// </summary>
         public static string ApproverSubtractScore {
@@ -228,6 +237,15 @@ namespace SMS.EPA.Resources {
         public static string AttendanceSummary {
             get {
                 return ResourceManager.GetString("AttendanceSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attendance Detail Adjustment.
+        /// </summary>
+        public static string AttendanceSummaryDetail {
+            get {
+                return ResourceManager.GetString("AttendanceSummaryDetail", resourceCulture);
             }
         }
         
@@ -313,11 +331,29 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Check In.
+        /// </summary>
+        public static string CheckIn {
+            get {
+                return ResourceManager.GetString("CheckIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Check In/Out.
         /// </summary>
         public static string CheckInOut {
             get {
                 return ResourceManager.GetString("CheckInOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check Out.
+        /// </summary>
+        public static string CheckOut {
+            get {
+                return ResourceManager.GetString("CheckOut", resourceCulture);
             }
         }
         
@@ -1065,6 +1101,15 @@ namespace SMS.EPA.Resources {
         public static string Home {
             get {
                 return ResourceManager.GetString("Home", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to HRM Comment.
+        /// </summary>
+        public static string HRMComment {
+            get {
+                return ResourceManager.GetString("HRMComment", resourceCulture);
             }
         }
         
@@ -2050,6 +2095,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Shift.
+        /// </summary>
+        public static string Shift {
+            get {
+                return ResourceManager.GetString("Shift", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SPCL User.
         /// </summary>
         public static string ShortSpecialUser {
@@ -2343,6 +2397,15 @@ namespace SMS.EPA.Resources {
         public static string ToDateRequire {
             get {
                 return ResourceManager.GetString("ToDateRequire", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total Hours.
+        /// </summary>
+        public static string TotalHours {
+            get {
+                return ResourceManager.GetString("TotalHours", resourceCulture);
             }
         }
         

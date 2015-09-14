@@ -23,5 +23,9 @@ namespace SMS.EPA.Services.Interfaces
         CommandResult InsertOtherViolation(InsertOtherViolationsCriteria criteria);
 
         CommandResult DeleteOtherViolation(DeleteOtherViolationCriteria criteria);
+
+        IEnumerable<ViolationModel> GetViolationType(GetViolationTypeCriteria criteria);
+
+        IEnumerable<AttendanceDetailModel> GetAttendanceDetail(GetDetailAttendanceCriteria criteria);
     }
 }
