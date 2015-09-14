@@ -17,8 +17,8 @@ function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitie
         });
     };
 
-    attendanceModel.openPopupOtherViolation = function (employee, startDate, endDate) {
-        var modalInstance = $modal.open({
+    attendanceModel.openPopupOtherViolation = function (vm, employee, startDate, endDate) {
+        vm.modalInstance = $modal.open({
             templateUrl: 'SourceApp/Components/AttendanceSummary/Templates/otherViolation.html',
             controller: "OtherViolationsController as violationCtrl",
             resolve: {
@@ -36,9 +36,7 @@ function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitie
             windowClass: "modal-confirm-center period-create-popup"
         });
 
-        modalInstance.result.then(function () {
-            modalInstance = null;
-        });
+        return vm.modalInstance.result;
     };
 
     attendanceModel.getOtherViolations = function (employeeId, startDate, endDate, workDate) {

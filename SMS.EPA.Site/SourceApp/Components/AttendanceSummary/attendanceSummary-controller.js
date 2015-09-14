@@ -77,7 +77,11 @@ function (AttendanceModel, utilitiesFactory, EmployeeModel, CommonModel) {
     };
 
     vm.addOtherViolations = function (employee) {
-        AttendanceModel.openPopupOtherViolation(employee, vm.filter.startDate, vm.filter.endDate);
+        AttendanceModel.openPopupOtherViolation(vm, employee, vm.filter.startDate, vm.filter.endDate).then(function () { }, function () {
+            getAttendanceSummary(vm.filter.startDate, vm.filter.endDate, vm.filter.departmentId, vm.filter.employeeId);
+        })['finally'](function () {
+            vm.modalInstance = '';
+        });
     };
 }]);
 
