@@ -262,6 +262,12 @@
     <Content Include="Content\Site\images\toggle_collapsed.png" />
     <Content Include="Content\Site\images\toggle_expanded.png" />
     <Content Include="Content\Site\images\user.png" />
+    <Content Include="Content\Site\layout.css">
+      <DependentUpon>layout.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Site\layout.min.css">
+      <DependentUpon>layout.css</DependentUpon>
+    </Content>
     <Content Include="favicon.ico" />
     <CodeAnalysisDictionary Include="FxCopDictionary.xml" />
     <Content Include="Global.asax" />
@@ -536,6 +542,9 @@
     <Content Include="Content\Site\mixins.less" />
     <Content Include="Content\Site\variables.less" />
     <Content Include="Content\Site\auth\style.less" />
+    <Content Include="Content\Site\layout.css.map">
+      <DependentUpon>layout.css</DependentUpon>
+    </Content>
     <None Include="Libs\angular-resource.min.js.map" />
     <None Include="Libs\angular-route.min.js.map" />
     <None Include="Libs\angular.min.js.map" />
