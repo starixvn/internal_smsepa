@@ -52,7 +52,13 @@ function ($window, $translate, $routeParams, EmployeeEPAModel) {
         });
 
         epaInfo.ProcessBySelf.TotalScore = totalScore.toFixed(2);
-        vm.finalScore = totalScore + epaInfo.AttendanceScore;
+
+        if (epaInfo.HasAttendanceScore) {
+            vm.finalScore = totalScore + epaInfo.AttendanceScore;
+        }
+        else {
+            vm.finalScore = totalScore;
+        }
     };
 
     var checkStatus = function (epaInfo) {
@@ -184,13 +190,13 @@ function ($window, $translate, $routeParams, EmployeeEPAModel) {
 
         EmployeeEPAModel.getEPAInfoByEmployee(vm.epaId, vm.employeeId).then(function () {
             var data = EmployeeEPAModel.epaInfo;
-            var totalScoreOfSelf = data.ProcessBySelf.TotalScore;
+            var totalScoreOfSelf = data.ProcessBySelf.TotalScore ? parseFloat(data.ProcessBySelf.TotalScore) : 0;
 
-            if (data.Department && data.Department.DepartmentId === 2) {
-                vm.finalScore = totalScoreOfSelf ? (parseFloat(totalScoreOfSelf) + data.AttendanceScore) : data.AttendanceScore;
+            if (data.HasAttendanceScore) {
+                vm.finalScore = totalScoreOfSelf !== 0 ? (totalScoreOfSelf + data.AttendanceScore) : data.AttendanceScore;
             }
             else {
-                vm.finalScore = data.ProcessBySelf.TotalScore;
+                vm.finalScore = totalScoreOfSelf;
             }
             vm.evaluatedDate = data.ProcessBySelf.EvaluateDate ? data.ProcessBySelf.EvaluateDate : null;
             vm.epaInfo = data;

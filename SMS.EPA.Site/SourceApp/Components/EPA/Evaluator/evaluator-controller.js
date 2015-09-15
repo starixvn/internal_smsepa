@@ -73,7 +73,13 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
         });
 
         epaInfo.ProcessByEvaluators[0].TotalScore = totalScore.toFixed(2);
-        vm.finalScore = totalScore + epaInfo.AttendanceScore;
+
+        if (epaInfo.HasAttendanceScore) {
+            vm.finalScore = totalScore + epaInfo.AttendanceScore;
+        }
+        else {
+            vm.finalScore = totalScore;
+        }
     };
 
     var checkStatus = function (epaInfo) {
@@ -208,10 +214,16 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
 
         EmployeeEPAModel.getEPAInfoByEvaluator(vm.epaId, vm.employeeId, vm.evaluatorId).then(function () {
             var data = EmployeeEPAModel.epaInfo;
-            var totalScoreOfEvaluator = data.ProcessByEvaluators[0].TotalScore;
+            var totalScoreOfEvaluator = data.ProcessByEvaluators[0].TotalScore ? parseFloat(data.ProcessByEvaluators[0].TotalScore) : 0;
 
             vm.evaluatedDate = data.ProcessByEvaluators[0].EvaluateDate ? data.ProcessByEvaluators[0].EvaluateDate : null;
-            vm.finalScore = totalScoreOfEvaluator ? (parseFloat(totalScoreOfEvaluator) + data.AttendanceScore) : data.AttendanceScore;
+
+            if (data.HasAttendanceScore) {
+                vm.finalScore = totalScoreOfEvaluator !== 0 ? (totalScoreOfEvaluator + data.AttendanceScore) : data.AttendanceScore;
+            }
+            else {
+                vm.finalScore = totalScoreOfEvaluator;
+            }
             vm.epaInfo = data;
             checkStatus(vm.epaInfo);
 

@@ -3,14 +3,14 @@
         <tr>
             <th data-translate="SymbolCount"></th>
             <th data-translate="PeriodName"></th>
-            <th data-translate="StartDate"></th>
-            <th data-translate="EndDate"></th>
+            <th data-translate="StartDate" class="col-date"></th>
+            <th data-translate="EndDate" class="col-date"></th>
             <th class="show-hide-score">
-                <span data-translate="Score"></span>
-                <a data-translate="Show" ng-show="!dashboardCtrl.enableViewScore && dashboardCtrl.myEPAs.length > 0"
-                   ng-click="dashboardCtrl.enableViewScore = !dashboardCtrl.enableViewScore"></a>
-                <a data-translate="Hide" ng-show="dashboardCtrl.enableViewScore && dashboardCtrl.myEPAs.length > 0"
-                   ng-click="dashboardCtrl.enableViewScore = !dashboardCtrl.enableViewScore"></a>
+                <span data-translate="FinalScore" ng-show="dashboardCtrl.myEPAs.length == 0"></span>
+                <a data-translate="ShowFinalScore" ng-show="!dashboardCtrl.showScore && dashboardCtrl.myEPAs.length > 0"
+                   ng-click="dashboardCtrl.showScore = !dashboardCtrl.showScore"></a>
+                <a data-translate="HideFinalScore" ng-show="dashboardCtrl.showScore && dashboardCtrl.myEPAs.length > 0"
+                   ng-click="dashboardCtrl.showScore = !dashboardCtrl.showScore"></a>
             </th>
             <th data-translate="Action" class="col-action"></th>
         </tr>
@@ -19,10 +19,13 @@
         <tr ng-repeat="myEPA in dashboardCtrl.myEPAs">
             <td class="text-center" ng-bind="$index + 1"></td>
             <td ng-bind="myEPA.Period.Name"></td>
-            <td class="text-center" ng-bind="myEPA.Period.StartDate | customDate"></td>
-            <td class="text-center" ng-bind="myEPA.Period.EndDate | customDate"></td>
-            <td class="text-center">
-                <span ng-show="dashboardCtrl.enableViewScore" ng-bind="myEPA.FinalScore | customNumber"></span>
+            <td class="text-center col-date" ng-bind="myEPA.Period.StartDate | customDate"></td>
+            <td class="text-center col-date" ng-bind="myEPA.Period.EndDate | customDate"></td>
+            <td class="text-center col-final-score">
+                <div ng-show="dashboardCtrl.showScore">
+                    <span ng-show="myEPA.Status.StatusId == 0" ng-bind="'N/A'"></span>
+                    <span ng-show="myEPA.Status.StatusId == 1" ng-bind="myEPA.FinalScore | customNumber"></span>
+                </div>
             </td>
             <td class="text-center col-action">
                 <a class="evaluate-now button" href="" ng-click="dashboardCtrl.viewEPADetail(myEPA)"

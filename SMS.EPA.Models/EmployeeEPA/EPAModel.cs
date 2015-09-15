@@ -44,20 +44,13 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public string FinalScore { get; set; }
 
+        public bool HasAttendanceScore { get; set; }
+
         public int AttendanceScore
         {
             get
             {
                 return 20;
-            }
-        }
-
-        public int NumberEvaluators
-        {
-            get
-            {
-                int numberEvaluators = Evaluators.Count;
-                return numberEvaluators != 0 ? numberEvaluators : 1;
             }
         }
 

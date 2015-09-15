@@ -22,7 +22,7 @@
                     </span>
                 </th>
                 <th rowspan="2" data-translate="AttendanceScore" class="col-attendance-score"
-                    ng-show="memberEPAInfoCtrl.epaInfo.Department.DepartmentId == 2"></th>
+                    ng-show="memberEPAInfoCtrl.epaInfo.HasAttendanceScore"></th>
                 <th rowspan="2" data-translate="FinalScore" class="col-score"></th>
             </tr>
             <tr>
@@ -40,7 +40,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr data-ng-repeat="i in memberEPAInfoCtrl.range(memberEPAInfoCtrl.epaInfo.Rowspan) track by $index">
+            <tr ng-repeat="opt in memberEPAInfoCtrl.range(memberEPAInfoCtrl.epaInfo.Rowspan) track by $index">
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center col-score"
                     ng-bind="memberEPAInfoCtrl.epaInfo.ProcessBySelf.TotalScore | customNumber" ng-show="$first"></td>
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center" ng-show="$first">
@@ -48,32 +48,32 @@
                           ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.Comment.length > 0"
                           tooltip="{{memberEPAInfoCtrl.epaInfo.ProcessBySelf.Comment}}"></span>
                 </td>
-                <td ng-bind="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].NickName"></td>
+                <td class="text-center" ng-bind="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].NickName"></td>
                 <td ng-bind="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].TotalScore | customNumber" class="text-center col-score"></td>
                 <td class="text-center">
                     <span class="glyphicon icon-description"
                           ng-show="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].Comment.length > 0"
                           tooltip="{{memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].Comment}}"></span>
                 </td>
-                <td ng-bind="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].NickName"></td>
+                <td class="text-center" ng-bind="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].NickName"></td>
                 <td ng-bind="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].TotalScore | customNumber" class="text-center col-score"></td>
                 <td class="text-center">
                     <span class="glyphicon icon-description"
                           ng-show="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].Comment.length > 0"
                           tooltip="{{memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].Comment}}"></span>
                 </td>
-                <td ng-bind="memberEPAInfoCtrl.epaInfo.ProcessByManagements[$index].NickName"></td>
+                <td class="text-center" ng-bind="memberEPAInfoCtrl.epaInfo.ProcessByManagements[$index].NickName"></td>
                 <td ng-bind="memberEPAInfoCtrl.epaInfo.ProcessByManagements[$index].TotalScore | customNumber" class="text-center col-score"></td>
                 <td class="text-center">
                     <span class="glyphicon icon-description"
                           ng-show="memberEPAInfoCtrl.epaInfo.ProcessByManagements[$index].Comment.length > 0"
                           tooltip="{{memberEPAInfoCtrl.epaInfo.ProcessByManagements[$index].Comment}}"></span>
                 </td>
-                <td rowspan="{{memberEPAInfoCtrl.epaInfo.NumberEvaluators}}" class="text-center td-total-score"
-                    ng-bind="memberEPAInfoCtrl.epaInfo.AttendanceScore | customNumber" ng-show="$first"></td>
-                <td rowspan="{{memberEPAInfoCtrl.epaInfo.NumberEvaluators}}" class="text-center td-total-score"
-                    ng-show="memberEPAInfoCtrl.epaInfo.Department.DepartmentId == 2 && $first"
-                    ng-bind="memberEPAInfoCtrl.finalScore | customNumber"></td>
+                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="t class=" text-center td-total-score"
+                    ng-bind="memberEPAInfoCtrl.epaInfo.AttendanceScore | customNumber"
+                    ng-show="memberEPAInfoCtrl.epaInfo.HasAttendanceScore && $first"></td>
+                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="t class=" text-center td-total-score"
+                    ng-bind="memberEPAInfoCtrl.finalScore | customNumber" ng-show=" $first"></td>
             </tr>
         </tbody>
     </table>

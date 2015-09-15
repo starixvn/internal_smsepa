@@ -66,6 +66,29 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory)
         }
     };
 
+    var calculateScore = function (epaInfo) {
+        var totalScore = epaInfo.ProcessByManagements[0].TotalScore ? parseFloat(epaInfo.ProcessByManagements[0].TotalScore) : 0;
+
+        if (epaInfo.HasAttendanceScore) {
+            vm.finalScore = totalScore !== 0 ? (totalScore + epaInfo.AttendanceScore) : epaInfo.AttendanceScore;
+        }
+        else {
+            vm.finalScore = totalScore;
+        }
+    };
+
+    vm.range = function (n) {
+        return new Array(n);
+    };
+
+    vm.inputScore = function (processByManagement) {
+        if (!EmployeeEPAModel.validateScoreInput(processByManagement.TotalScore, processByManagement.MaxScore, vm.scoreInputValidMessage)) {
+            processByManagement.TotalScore = null;
+        }
+
+        calculateScore(vm.epaInfo);
+    };
+
     // Event read more / less text.
     utilitiesFactory.maxLengthDescription(vm);
 
@@ -98,23 +121,25 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory)
     };
 
     vm.initialize = function () {
+        $translate('ScoreInputValid').then(function (message) {
+            vm.scoreInputValidMessage = message;
+        });
+
         EmployeeEPAModel.getEPAInfoByManagement(vm.epaId).then(function () {
             var data = EmployeeEPAModel.epaInfo;
             var totalScoreOfManagement = null;
 
-            if (!data.ProcessByManagements[0].EvaluateDate
-                && data.AverageScoreByEvaluators
-                && parseFloat(data.AverageScoreByEvaluators) > 0) {
+            if (data.AverageScoreByEvaluators && parseFloat(data.AverageScoreByEvaluators) > 0) {
                 data.ProcessByManagements[0].TotalScore = data.AverageScoreByReviewers;
             }
 
-            totalScoreOfManagement = data.ProcessByManagements[0].TotalScore;
+            totalScoreOfManagement = data.ProcessByManagements[0].TotalScore ? parseFloat(data.ProcessByManagements[0].TotalScore) : 0;
 
-            if (data.Department.DepartmentId === 2) {
-                vm.finalScore = totalScoreOfManagement ? (parseFloat(totalScoreOfManagement) + data.AttendanceScore) : data.AttendanceScore;
+            if (data.HasAttendanceScore) {
+                vm.finalScore = totalScoreOfManagement !== 0 ? (totalScoreOfManagement + data.AttendanceScore) : data.AttendanceScore;
             }
             else {
-                vm.finalScore = data.ProcessByManagements[0].TotalScore;
+                vm.finalScore = totalScoreOfManagement;
             }
 
             vm.evaluatedDate = data.ProcessByManagements[0].EvaluateDate ? data.ProcessByManagements[0].EvaluateDate : null;

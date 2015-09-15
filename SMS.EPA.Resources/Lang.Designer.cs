@@ -1096,6 +1096,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hide Final Score.
+        /// </summary>
+        public static string HideFinalScore {
+            get {
+                return ResourceManager.GetString("HideFinalScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Home.
         /// </summary>
         public static string Home {
@@ -2127,6 +2136,15 @@ namespace SMS.EPA.Resources {
         public static string ShowExcludedEmployee {
             get {
                 return ResourceManager.GetString("ShowExcludedEmployee", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Final Score.
+        /// </summary>
+        public static string ShowFinalScore {
+            get {
+                return ResourceManager.GetString("ShowFinalScore", resourceCulture);
             }
         }
         

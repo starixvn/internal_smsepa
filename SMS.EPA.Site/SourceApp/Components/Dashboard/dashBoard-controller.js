@@ -6,7 +6,7 @@ dashboardModule.controller('DashboardController',
 function (DashboardModel) {
     var vm = this;
 
-    vm.enableViewScore = false;
+    vm.showScore = false;
 
     vm.viewEPADetail = function (epa) {
         vm.viewEPADetailUrl = '/SelfEvaluation/Detail?epaId=' + epa.EPAId;
