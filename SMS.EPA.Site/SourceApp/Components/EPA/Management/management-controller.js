@@ -81,6 +81,10 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory)
         return new Array(n);
     };
 
+    vm.getClassProgress = function (isEndProcess) {
+        return EmployeeEPAModel.getClassProgress(isEndProcess);
+    };
+
     vm.inputScore = function (processByManagement) {
         if (!EmployeeEPAModel.validateScoreInput(processByManagement.TotalScore, processByManagement.MaxScore, vm.scoreInputValidMessage)) {
             processByManagement.TotalScore = null;

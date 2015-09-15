@@ -754,6 +754,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to End Process.
+        /// </summary>
+        public static string EndProcess {
+            get {
+                return ResourceManager.GetString("EndProcess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to EPA.
         /// </summary>
         public static string EPA {
@@ -1173,6 +1182,15 @@ namespace SMS.EPA.Resources {
         public static string IncludeSelfEvaluation {
             get {
                 return ResourceManager.GetString("IncludeSelfEvaluation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In Progress.
+        /// </summary>
+        public static string InProgress {
+            get {
+                return ResourceManager.GetString("InProgress", resourceCulture);
             }
         }
         

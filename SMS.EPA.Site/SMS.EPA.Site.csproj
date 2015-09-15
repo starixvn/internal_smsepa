@@ -251,6 +251,7 @@
     <Content Include="Content\Site\images\icon_sprite.png" />
     <Content Include="Content\Site\images\line-menu.png" />
     <Content Include="Content\Site\images\logo-login.png" />
+    <Content Include="Content\Site\images\right_arrow.gif" />
     <Content Include="Content\Site\images\save_submit.png" />
     <Content Include="Content\Site\images\sms_epa_logo.png" />
     <Content Include="Content\Site\images\sort-icon.png" />
@@ -329,6 +330,12 @@
     <Content Include="SourceApp\Components\EPA\employeeEPA-directive.js" />
     <Content Include="SourceApp\Components\EPA\employeeEPA-factory.js" />
     <Content Include="SourceApp\Components\EPA\employeeEPA-model.js" />
+    <Content Include="SourceApp\Components\EPA\epa.css">
+      <DependentUpon>epa.less</DependentUpon>
+    </Content>
+    <Content Include="SourceApp\Components\EPA\epa.min.css">
+      <DependentUpon>epa.css</DependentUpon>
+    </Content>
     <Content Include="SourceApp\Components\EPA\Evaluator\evaluator-controller.js" />
     <Content Include="SourceApp\Components\EPA\Evaluator\ratingByKPI-controller.js" />
     <Content Include="SourceApp\Components\EPA\Evaluator\ratingByKPI-factory.js" />
@@ -600,6 +607,9 @@
     </Content>
     <Content Include="SourceApp\Components\Dashboard\dashboard.less" />
     <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary.less" />
+    <Content Include="SourceApp\Components\EPA\epa.css.map">
+      <DependentUpon>epa.css</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">

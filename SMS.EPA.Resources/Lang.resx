@@ -981,10 +981,16 @@
   <data name="TotalHours" xml:space="preserve">
     <value>Total Hours</value>
   </data>
-   <data name="HideFinalScore" xml:space="preserve">
+  <data name="HideFinalScore" xml:space="preserve">
     <value>Hide Final Score</value>
   </data>
   <data name="ShowFinalScore" xml:space="preserve">
     <value>Show Final Score</value>
+  </data>
+  <data name="EndProcess" xml:space="preserve">
+    <value>End Process</value>
+  </data>
+  <data name="InProgress" xml:space="preserve">
+    <value>In Progress</value>
   </data>
 </root>

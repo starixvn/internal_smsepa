@@ -133,6 +133,10 @@ function ($window, $translate, $routeParams, EmployeeEPAModel) {
         return isValid;
     };
 
+    vm.getClassProgress = function (isEndProcess) {
+        return EmployeeEPAModel.getClassProgress(isEndProcess);
+    };
+
     vm.cancelRating = function (kpiGroup, kpi) {
         kpi.EvaluateBySelf.Rate = 0;
         kpi.EvaluateBySelf.Percent = 0;

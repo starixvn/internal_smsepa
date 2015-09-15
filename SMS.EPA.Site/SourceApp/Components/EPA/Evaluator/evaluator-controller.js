@@ -157,6 +157,10 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
         return isValid;
     };
 
+    vm.getClassProgress = function (isEndProcess) {
+        return EmployeeEPAModel.getClassProgress(isEndProcess);
+    };
+
     vm.inputScore = function (kpi) {
         kpi.EvaluateByEvaluators[0].Rate = 0;
         kpi.EvaluateByEvaluators[0].Percent = null;
