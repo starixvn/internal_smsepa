@@ -355,12 +355,6 @@
     <Content Include="SourceApp\Components\EPA\employeeEPA-directive.js" />
     <Content Include="SourceApp\Components\EPA\employeeEPA-factory.js" />
     <Content Include="SourceApp\Components\EPA\employeeEPA-model.js" />
-    <Content Include="SourceApp\Components\EPA\epa.css">
-      <DependentUpon>epa.less</DependentUpon>
-    </Content>
-    <Content Include="SourceApp\Components\EPA\epa.min.css">
-      <DependentUpon>epa.css</DependentUpon>
-    </Content>
     <Content Include="SourceApp\Components\EPA\Evaluator\evaluator-controller.js" />
     <Content Include="SourceApp\Components\EPA\Evaluator\ratingByKPI-controller.js" />
     <Content Include="SourceApp\Components\EPA\Evaluator\ratingByKPI-factory.js" />
