@@ -1,0 +1,100 @@
+﻿<div class="row row-item">
+    <table class="table table-bordered table-striped table-performance-result">
+        <thead>
+            <tr>
+                <th colspan="2" data-translate="Employee"></th>
+                <th colspan="3">
+                    <span data-translate="Evaluator"></span>
+                    <span ng-show="memberEPAInfoCtrl.epaInfo.AverageScoreByEvaluators">
+                        ({{memberEPAInfoCtrl.epaInfo.AverageScoreByEvaluators | customNumber}})
+                    </span>
+                </th>
+                <th colspan="3">
+                    <span data-translate="Reviewer"></span>
+                    <span ng-show="memberEPAInfoCtrl.epaInfo.AverageScoreByReviewers">
+                        ({{memberEPAInfoCtrl.epaInfo.AverageScoreByReviewers | customNumber}})
+                    </span>
+                </th>
+                <th colspan="2" data-translate="Management"></th>
+                <th rowspan="2" data-translate="AttendanceScore" class="col-attendance-score"
+                    ng-show="memberEPAInfoCtrl.epaInfo.HasAttendanceScore"></th>
+                <th rowspan="2" data-translate="TotalScore" class="col-score"></th>
+            </tr>
+            <tr>
+                <th data-translate="TotalScore" class="col-score"></th>
+                <th data-translate="Comment"></th>
+                <th data-translate="NickName"></th>
+                <th data-translate="TotalScore" class="col-score"></th>
+                <th data-translate="Comment"></th>
+                <th data-translate="NickName"></th>
+                <th data-translate="TotalScore" class="col-score"></th>
+                <th data-translate="Comment"></th>
+                <th data-translate="TotalScore" class="col-score"></th>
+                <th data-translate="Comment"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="opt in memberEPAInfoCtrl.range(memberEPAInfoCtrl.epaInfo.Rowspan) track by $index">
+                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center col-score"
+                    ng-bind="memberEPAInfoCtrl.epaInfo.ProcessBySelf.TotalScore | customNumber" ng-show="$first"></td>
+<<<<<<< HEAD
+                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center col-comment" ng-show="$first">
+                    <a class="glyphicon icon-view" href="" ng-attr-title='{{"ViewComment" | translate}}'
+                       ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.Comment.length > 0"
+                       ng-click="memberEPAInfoCtrl.openPopupViewComment(memberEPAInfoCtrl.epaInfo.ProcessBySelf.Comment)"></a>
+                </td>
+                <td class="text-center" ng-bind="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].NickName"></td>
+                <td ng-bind="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].TotalScore | customNumber" class="text-center col-score"></td>
+                <td class="text-center col-comment">
+                    <a class="glyphicon icon-view" href="" ng-attr-title='{{"ViewComment" | translate}}'
+                       ng-show="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].Comment.length > 0"
+                       ng-click="memberEPAInfoCtrl.openPopupViewComment(memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].Comment)"></a>
+=======
+                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center" ng-show="$first">
+                    <span class="glyphicon icon-description"
+                          ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.Comment.length > 0"
+                          tooltip="{{memberEPAInfoCtrl.epaInfo.ProcessBySelf.Comment}}"></span>
+                </td>
+                <td class="text-center" ng-bind="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].NickName"></td>
+                <td ng-bind="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].TotalScore | customNumber" class="text-center col-score"></td>
+                <td class="text-center">
+                    <span class="glyphicon icon-description"
+                          ng-show="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].Comment.length > 0"
+                          tooltip="{{memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].Comment}}"></span>
+>>>>>>> #43348 - Fix bug in EPA pages
+                </td>
+                <td class="text-center" ng-bind="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].NickName"></td>
+                <td ng-bind="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].TotalScore | customNumber" class="text-center col-score"></td>
+                <td class="text-center col-comment">
+                    <a class="glyphicon icon-view" href="" ng-attr-title='{{"ViewComment" | translate}}'
+                       ng-show="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].Comment.length > 0"
+                       ng-click="memberEPAInfoCtrl.openPopupViewComment(memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].Comment)"></a>
+                </td>
+                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="total-score" ng-show="$first">
+                    <input type="text" class="form-control text-center" maxlength="5" ng-readonly="memberEPAInfoCtrl.isReadonly"
+                           ng-model="memberEPAInfoCtrl.epaInfo.ProcessByManagements[0].TotalScore" ng-decimal fraction="2"
+<<<<<<< HEAD
+                           ng-change="memberEPAInfoCtrl.inputScore(memberEPAInfoCtrl.epaInfo.ProcessByManagements[0])"
+                           tooltip="{{memberEPAInfoCtrl.getNotificationInputScore(memberEPAInfoCtrl.epaInfo.ProcessByManagements[0])}}" tooltip-trigger="focus" />
+=======
+                           ng-change="memberEPAInfoCtrl.inputScore(memberEPAInfoCtrl.epaInfo.ProcessByManagements[0])" />
+>>>>>>> #43348 - Fix bug in EPA pages
+                </td>
+                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="summary-comment" ng-show="$first">
+                    <textarea class="form-control" ng-readonly="memberEPAInfoCtrl.isReadonly"
+                              ng-model="memberEPAInfoCtrl.epaInfo.ProcessByManagements[0].Comment"></textarea>
+                </td>
+                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center td-total-score"
+                    ng-bind="memberEPAInfoCtrl.epaInfo.AttendanceScore | customNumber"
+                    ng-show="memberEPAInfoCtrl.epaInfo.HasAttendanceScore && $first"></td>
+                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center td-total-score"
+                    ng-bind="memberEPAInfoCtrl.finalScore | customNumber" ng-show="$first"></td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="col-sm-12 epa-action-button text-center">
+        <button class="button" ng-click="memberEPAInfoCtrl.save(memberEPAInfoCtrl.epaInfo)"
+                ng-show="memberEPAInfoCtrl.epaInfo && !memberEPAInfoCtrl.isReadonly" data-translate="Save"></button>
+        <button class="btn btn-default customize" ng-click="memberEPAInfoCtrl.cancel()" data-translate="Cancel"></button>
+    </div>
+</div>

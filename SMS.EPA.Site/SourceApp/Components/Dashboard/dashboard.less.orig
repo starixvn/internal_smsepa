@@ -1,0 +1,76 @@
+﻿.dashboard {
+    background-color: #f4f4f4;
+    margin: 10px 1%;
+    border: 1px solid #c8c8c8;
+
+    .row {
+        margin: 0;
+    }
+
+    .boxtitle {
+        background-color: #e9e9e9;
+        background-image: linear-gradient(to bottom, #ebebeb, #e5e5e5);
+        background-repeat: repeat-x;
+        border-top: 1px solid #d2d2d2;
+        border-bottom: 1px solid #fafafa;
+        padding: 8px 12px;
+        font-family: "Myriad Pro",Tahoma,REZ,Arial;
+        font-size: 14px;
+        text-shadow: 0.05em 0.05em #FFF;
+        color: #0f0f13;
+        cursor: pointer;
+        position: relative;
+
+        &.first {
+            border-top: 1px solid #fafafa;
+        }
+    }
+
+    .boxcontent {
+        padding: 3px 10px;
+
+        .img-user {
+            border: 1px solid #d9d9d9;
+            background-color: #FFF;
+            height: 105px;
+            width: 105px;
+            margin: 10px auto;
+            border-radius: 3px;
+
+            img.img-default {
+                width: auto;
+                height: auto;
+                margin-top: 12px;
+            }
+        }
+
+        .row-item {
+            padding: 5px 0;
+
+            &.line {
+                border-bottom: 1px solid #e5e3e3;
+            }
+        }
+    }
+}
+
+.table.table-bordered {
+    .show-hide-score a {
+<<<<<<< HEAD
+        color: #eda109;
+        cursor: pointer;
+=======
+>>>>>>> #43348 - Fix bug in EPA pages
+        color: #eda109;
+        cursor: pointer;
+
+        &:hover, &:focus {
+            text-decoration: none;
+            color: #efac25;
+        }
+    }
+
+    .col-final-score, .col-action {
+        width: 15%;
+    }
+}

@@ -1,0 +1,1020 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Action" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="Admin" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="Code" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="CreateUser" xml:space="preserve">
+    <value>Create New User</value>
+  </data>
+  <data name="EmptyResult" xml:space="preserve">
+    <value>No information available!</value>
+  </data>
+  <data name="EPAWelcome" xml:space="preserve">
+    <value>Welcome to SMS EPA</value>
+  </data>
+  <data name="Evaluator" xml:space="preserve">
+    <value>Evaluator</value>
+  </data>
+  <data name="FullName" xml:space="preserve">
+    <value>Full Name</value>
+  </data>
+  <data name="CreateKPI" xml:space="preserve">
+    <value>Create KPI</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="HumanResource" xml:space="preserve">
+    <value>Human Resource</value>
+  </data>
+  <data name="InActive" xml:space="preserve">
+    <value>Inactive</value>
+  </data>
+  <data name="InvalidInputData" xml:space="preserve">
+    <value>Invalid input.</value>
+  </data>
+  <data name="InvalidUsernameOrPassword" xml:space="preserve">
+    <value>Invalid user name or password. Please try again.</value>
+  </data>
+  <data name="JobTitle" xml:space="preserve">
+    <value>Job Title</value>
+  </data>
+  <data name="Keyword" xml:space="preserve">
+    <value>Keyword</value>
+  </data>
+  <data name="KPI" xml:space="preserve">
+    <value>KPI</value>
+  </data>
+  <data name="KPIGroup" xml:space="preserve">
+    <value>KPI Group</value>
+  </data>
+  <data name="ManageKPI" xml:space="preserve">
+    <value>KPI Management</value>
+  </data>
+  <data name="Management" xml:space="preserve">
+    <value>Management</value>
+  </data>
+  <data name="NickName" xml:space="preserve">
+    <value>Nick Name</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="Report" xml:space="preserve">
+    <value>Report</value>
+  </data>
+  <data name="Reviewer" xml:space="preserve">
+    <value>Reviewer</value>
+  </data>
+  <data name="Roles" xml:space="preserve">
+    <value>Roles</value>
+  </data>
+  <data name="SelfEvaluation" xml:space="preserve">
+    <value>Self-Evaluation</value>
+  </data>
+  <data name="ShortSpecialUser" xml:space="preserve">
+    <value>SPCL User</value>
+  </data>
+  <data name="Support" xml:space="preserve">
+    <value>Support</value>
+  </data>
+  <data name="SymbolCount" xml:space="preserve">
+    <value>#</value>
+  </data>
+  <data name="TargetTemplate" xml:space="preserve">
+    <value>Target Template</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="TitlePage" xml:space="preserve">
+    <value>SMS-EPA</value>
+  </data>
+  <data name="UserManagement" xml:space="preserve">
+    <value>User Management</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="GroupRequire" xml:space="preserve">
+    <value>The Group field is required!</value>
+  </data>
+  <data name="TitleRequire" xml:space="preserve">
+    <value>The Title field is required!</value>
+  </data>
+  <data name="CreatedSuccessfully" xml:space="preserve">
+    <value>Created successfully!</value>
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value>Required</value>
+  </data>
+  <data name="HasComment" xml:space="preserve">
+    <value>Has comment</value>
+  </data>
+  <data name="RequireComment" xml:space="preserve">
+    <value>Require evaluate's comment</value>
+  </data>
+  <data name="RequireEvaluate" xml:space="preserve">
+    <value>Require evaluate</value>
+  </data>
+  <data name="SubmitAndContinue" xml:space="preserve">
+    <value>Submit and continue</value>
+  </data>
+  <data name="EditKPI" xml:space="preserve">
+    <value>Edit KPI</value>
+  </data>
+  <data name="CreateUnsuccessfully" xml:space="preserve">
+    <value>Created Unsuccessfully!</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>UserName</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="CodeRequried" xml:space="preserve">
+    <value>The Code field is required!</value>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>Enabled</value>
+  </data>
+  <data name="FullNameRequried" xml:space="preserve">
+    <value>The Full Name field is required!</value>
+  </data>
+  <data name="NickNameRequried" xml:space="preserve">
+    <value>The Nick Name filed is required!</value>
+  </data>
+  <data name="PasswordRequried" xml:space="preserve">
+    <value>The Password field is required!</value>
+  </data>
+  <data name="UsernameRequried" xml:space="preserve">
+    <value>The UserName field is required!</value>
+  </data>
+  <data name="EditUser" xml:space="preserve">
+    <value>Edit User</value>
+  </data>
+  <data name="ChangePassword" xml:space="preserve">
+    <value>Change Password</value>
+  </data>
+  <data name="IsSpecialUser" xml:space="preserve">
+    <value>Is Special User</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="UpdatedSuccessfully" xml:space="preserve">
+    <value>Updated Successfully!</value>
+  </data>
+  <data name="UpdatedUnsuccessfully" xml:space="preserve">
+    <value>Updated Unsuccessfully!</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Confirm Password</value>
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>New Password</value>
+  </data>
+  <data name="OldPassword" xml:space="preserve">
+    <value>Old Password</value>
+  </data>
+  <data name="ConfirmPasswordRequired" xml:space="preserve">
+    <value>The Confirm Password field is required!</value>
+  </data>
+  <data name="NewPasswordRequired" xml:space="preserve">
+    <value>The New Password field is required!</value>
+  </data>
+  <data name="WrongConfirmPassword" xml:space="preserve">
+    <value>New password does not match the confirm password.</value>
+  </data>
+  <data name="ActivationFail" xml:space="preserve">
+    <value>Activated unsuccessfully!</value>
+  </data>
+  <data name="ActivationSuccess" xml:space="preserve">
+    <value>Activated successfully!</value>
+  </data>
+  <data name="DeactivationFail" xml:space="preserve">
+    <value>Deactivated unsuccessfully!</value>
+  </data>
+  <data name="DeactivationSuccess" xml:space="preserve">
+    <value>Deactivated successfully!</value>
+  </data>
+  <data name="DeletedSuccessfully" xml:space="preserve">
+    <value>Deleted successfully!</value>
+  </data>
+  <data name="Form" xml:space="preserve">
+    <value>Form</value>
+  </data>
+  <data name="ManageKPIGroup" xml:space="preserve">
+    <value>KPI Group Management</value>
+  </data>
+  <data name="CreateKPIGroup" xml:space="preserve">
+    <value>Create KPI Group</value>
+  </data>
+  <data name="KPIs" xml:space="preserve">
+    <value>KPIs</value>
+  </data>
+  <data name="AddKPI" xml:space="preserve">
+    <value>Add KPI</value>
+  </data>
+  <data name="FormRequire" xml:space="preserve">
+    <value>The Form field is required!</value>
+  </data>
+  <data name="NameRequired" xml:space="preserve">
+    <value>The Name field is required!</value>
+  </data>
+  <data name="RoleManagement" xml:space="preserve">
+    <value>Role Management</value>
+  </data>
+  <data name="AssignRoleToUser" xml:space="preserve">
+    <value>Assign Role To User</value>
+  </data>
+  <data name="RolePermission" xml:space="preserve">
+    <value>Role Permission</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="EditKPIGroup" xml:space="preserve">
+    <value>Edit KPI Group</value>
+  </data>
+  <data name="BackToList" xml:space="preserve">
+    <value>Back to list</value>
+  </data>
+  <data name="CreateTargetTemplate" xml:space="preserve">
+    <value>Create Target Template</value>
+  </data>
+  <data name="TargetTemplateManagement" xml:space="preserve">
+    <value>Target Template Management</value>
+  </data>
+  <data name="TargetType" xml:space="preserve">
+    <value>Target Type</value>
+  </data>
+  <data name="TargetTypeRequired" xml:space="preserve">
+    <value>The Target Type field is required!</value>
+  </data>
+  <data name="EditTargetTemplate" xml:space="preserve">
+    <value>Edit Target Template</value>
+  </data>
+  <data name="ReadLess" xml:space="preserve">
+    <value>less</value>
+  </data>
+  <data name="ReadMore" xml:space="preserve">
+    <value>...more</value>
+  </data>
+  <data name="Weight" xml:space="preserve">
+    <value>Weight</value>
+  </data>
+  <data name="ManageKPIGroupTargetTemplate" xml:space="preserve">
+    <value>Manage KPI Group</value>
+  </data>
+  <data name="SpreadWeight" xml:space="preserve">
+    <value>Spread KPIs Weight</value>
+  </data>
+  <data name="Priority" xml:space="preserve">
+    <value>Priority</value>
+  </data>
+  <data name="UncheckKPIGroupWarning" xml:space="preserve">
+    <value>* Note: All KPIs in KPI Group setting will be removed. Please check carefully before unchecking KPI Group !</value>
+  </data>
+  <data name="TotalWeightWarning" xml:space="preserve">
+    <value>Total Groups weight must be equal or less than {0}</value>
+  </data>
+  <data name="WeightKPIGroupRequired" xml:space="preserve">
+    <value>All weights of selected KPI Groups is required!</value>
+  </data>
+  <data name="KPIName" xml:space="preserve">
+    <value>KPI Name</value>
+  </data>
+  <data name="ValidateWrongPassword" xml:space="preserve">
+    <value>The old password is incorrect.</value>
+  </data>
+  <data name="OldPasswordRequired" xml:space="preserve">
+    <value>The Old Password field is required!</value>
+  </data>
+  <data name="KPIList" xml:space="preserve">
+    <value>KPI List</value>
+  </data>
+  <data name="TargetTemplateDetail" xml:space="preserve">
+    <value>Target Template Detail</value>
+  </data>
+  <data name="TargetTemplateInformation" xml:space="preserve">
+    <value>Target Template Information</value>
+  </data>
+  <data name="LastModifiedBy" xml:space="preserve">
+    <value>Last Modified By</value>
+  </data>
+  <data name="LastModifiedDate" xml:space="preserve">
+    <value>Last Modified Date</value>
+  </data>
+  <data name="EPA" xml:space="preserve">
+    <value>EPA</value>
+  </data>
+  <data name="AdjustAttendance" xml:space="preserve">
+    <value>Adjust Attendance</value>
+  </data>
+  <data name="AttendanceReport" xml:space="preserve">
+    <value>Attendance Report</value>
+  </data>
+  <data name="CheckAssignment" xml:space="preserve">
+    <value>Check Assignment</value>
+  </data>
+  <data name="EPAReport" xml:space="preserve">
+    <value>EPA Report</value>
+  </data>
+  <data name="FlowManagement" xml:space="preserve">
+    <value>Flow Management</value>
+  </data>
+  <data name="TargetEmployeeSetting" xml:space="preserve">
+    <value>Target Employee Setting</value>
+  </data>
+  <data name="NotRequired" xml:space="preserve">
+    <value>Not Required</value>
+  </data>
+  <data name="SelfEvaluator" xml:space="preserve">
+    <value>Self-Evaluator</value>
+  </data>
+  <data name="EndDate" xml:space="preserve">
+    <value>End Date</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Start Date</value>
+  </data>
+  <data name="RequiredEvaluation" xml:space="preserve">
+    <value>Required Evaluation</value>
+  </data>
+  <data name="IgnoreSelfEvaluation" xml:space="preserve">
+    <value>Ignore Self-Evaluation</value>
+  </data>
+  <data name="IncludeSelfEvaluation" xml:space="preserve">
+    <value>Include Self-Evaluation</value>
+  </data>
+  <data name="TotalKPIWeightWarning" xml:space="preserve">
+    <value>The total score of all KPI of the group must be equal to the score of the group!</value>
+  </data>
+  <data name="Assign" xml:space="preserve">
+    <value>Assign</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="SelectEmployeeBeforeAssignWarning" xml:space="preserve">
+    <value>Please select employee to assign target template!</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="WeightKPIRequired" xml:space="preserve">
+    <value>All weights of selected KPIs is required!</value>
+  </data>
+  <data name="ChangeTargetTypeWarning" xml:space="preserve">
+    <value>All KPIs of this target template will be removed after changing Target Type. You have to go to Target KPI list and add KPIs again. Are you sure you want to proceed?</value>
+  </data>
+  <data name="IsDisabledUser" xml:space="preserve">
+    <value>Is Disabled User</value>
+  </data>
+  <data name="PasswordLengthWarning" xml:space="preserve">
+    <value>Password must be between 6-32 characters!</value>
+  </data>
+  <data name="UsernameNotSpaceWarning" xml:space="preserve">
+    <value>The UserName must not contain white space!</value>
+  </data>
+  <data name="EPAProcessing" xml:space="preserve">
+    <value>EPA Processing</value>
+  </data>
+  <data name="PersonalFlow" xml:space="preserve">
+    <value>Personal Flow</value>
+  </data>
+  <data name="Department" xml:space="preserve">
+    <value>Department</value>
+  </data>
+  <data name="CreatedDate" xml:space="preserve">
+    <value>Created Date</value>
+  </data>
+  <data name="IsDisabled" xml:space="preserve">
+    <value>Is Disabled</value>
+  </data>
+  <data name="ModifiedDate" xml:space="preserve">
+    <value>Modified Date</value>
+  </data>
+  <data name="ManagerRequired" xml:space="preserve">
+    <value>The Manager field is required!</value>
+  </data>
+  <data name="ParentNodeRequired" xml:space="preserve">
+    <value>The Parent Node field is required!</value>
+  </data>
+  <data name="SelectEmployeeBeforeAssingFlowSettingWarning" xml:space="preserve">
+    <value>Please select employee before assign!</value>
+  </data>
+  <data name="EditFlowSetting" xml:space="preserve">
+    <value>Edit Flow Setting</value>
+  </data>
+  <data name="DepartmentNotSelectedWarning" xml:space="preserve">
+    <value>Please select a department!</value>
+  </data>
+  <data name="EmployeeNotSelectedWarning" xml:space="preserve">
+    <value>Please select an employee!</value>
+  </data>
+  <data name="SendEmail" xml:space="preserve">
+    <value>Send Email</value>
+  </data>
+  <data name="ManageFlowSetting" xml:space="preserve">
+    <value>Manage Flow Setting</value>
+  </data>
+  <data name="EvaluatorRangeDateGreaterThanReviewerRangeDateWarning" xml:space="preserve">
+    <value>The End Date of Evaluator must be less than or equal the Start Date of Reviewer!</value>
+  </data>
+  <data name="ReviewerRangeDateGreaterThanManagementRangeDateWarning" xml:space="preserve">
+    <value>The End Date of Reviewer must be less than or equal the Start Date of Management!</value>
+  </data>
+  <data name="StartDateGreaterThanEndDateWarning" xml:space="preserve">
+    <value>The Start Date must be less than or equal the End Date!</value>
+  </data>
+  <data name="EmployeeFlowSettingReportName" xml:space="preserve">
+    <value>EPA_Evaluator_Reviewer_List_of_Section</value>
+  </data>
+  <data name="EmployeeFlowSettingReportSheet" xml:space="preserve">
+    <value>EPA_Evaluator_Reviewer_List_of_Section</value>
+  </data>
+  <data name="EmployeeFlowSettingReportTitle" xml:space="preserve">
+    <value>EPA Evaluator/Reviewer List of Section</value>
+  </data>
+  <data name="UserIsDisabled" xml:space="preserve">
+    <value>This user is disabled!</value>
+  </data>
+  <data name="ResetPassword" xml:space="preserve">
+    <value>Reset Password</value>
+  </data>
+  <data name="OrganizationChart" xml:space="preserve">
+    <value>Organization Chart</value>
+  </data>
+  <data name="ManageMyEPA" xml:space="preserve">
+    <value>Manage My EPA</value>
+  </data>
+  <data name="EvaluateDate" xml:space="preserve">
+    <value>Evaluate Date</value>
+  </data>
+  <data name="CreateFlowTemplate" xml:space="preserve">
+    <value>Create Flow Template</value>
+  </data>
+  <data name="EditFlowTemplate" xml:space="preserve">
+    <value>Edit Flow Template</value>
+  </data>
+  <data name="ScoreRatingType" xml:space="preserve">
+    <value>Score Rating Type</value>
+  </data>
+  <data name="ScoreRatingTypeRequired" xml:space="preserve">
+    <value>The Score Rating Type filed is required!</value>
+  </data>
+  <data name="ShowAll" xml:space="preserve">
+    <value>Show All</value>
+  </data>
+  <data name="TargetEmployeeSettingTemplate" xml:space="preserve">
+    <value>Target Employee Setting Template</value>
+  </data>
+  <data name="ApplyToDepartment" xml:space="preserve">
+    <value>Apply to Department / Section</value>
+  </data>
+  <data name="SelectDepartmentBeforeAssignWarning" xml:space="preserve">
+    <value>Please select department to assign target template!</value>
+  </data>
+  <data name="CreateEvaluationPeriod" xml:space="preserve">
+    <value>Create Evaluation Period</value>
+  </data>
+  <data name="EvaluationPeriod" xml:space="preserve">
+    <value>Evaluation Period</value>
+  </data>
+  <data name="UpdatePeriod" xml:space="preserve">
+    <value>Update Period</value>
+  </data>
+  <data name="BelowAverage" xml:space="preserve">
+    <value>Below Average</value>
+  </data>
+  <data name="BelowAverageDescription" xml:space="preserve">
+    <value>Partially meets expectations: refers to performance and skills which are adequate in some respects but not fully up to standard; some corrective action is needed.</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>COMMENTS</value>
+  </data>
+  <data name="EPATilte" xml:space="preserve">
+    <value>EMPLOYEE PERFORMANCE APPRAISAL (EPA)</value>
+  </data>
+  <data name="Evaluated" xml:space="preserve">
+    <value>Evaluated</value>
+  </data>
+  <data name="Excellent" xml:space="preserve">
+    <value>Excellent</value>
+  </data>
+  <data name="ExcellentDescription" xml:space="preserve">
+    <value>Substantially exceeds expectations: refers to truly outstanding performance; should be someone you regard as a role model in the area rated.</value>
+  </data>
+  <data name="FieldRequire" xml:space="preserve">
+    <value>This field is required!</value>
+  </data>
+  <data name="GeneralInfo" xml:space="preserve">
+    <value>GENERAL INFORMATION</value>
+  </data>
+  <data name="Good" xml:space="preserve">
+    <value>Good</value>
+  </data>
+  <data name="GoodDescription" xml:space="preserve">
+    <value>Exceeds expectations: refers to significant performance ability; only very strong performers should receive this rating.</value>
+  </data>
+  <data name="MessageRatingInstructions" xml:space="preserve">
+    <value>please evaluate by point as this scale</value>
+  </data>
+  <data name="MyEPA" xml:space="preserve">
+    <value>My EPA</value>
+  </data>
+  <data name="NotAvailable" xml:space="preserve">
+    <value>N/A</value>
+  </data>
+  <data name="NotAvailableDescription" xml:space="preserve">
+    <value>Unable to judge, if the nature or extent of your interaction does not enable you to provide feedback on a particular category for a particular individual, select the “NA” rating.</value>
+  </data>
+  <data name="Poor" xml:space="preserve">
+    <value>Poor</value>
+  </data>
+  <data name="PoorDescription" xml:space="preserve">
+    <value>Needs much Improvement: refers to performance which fails to measure up to standard and must be improved through corrective action steps.</value>
+  </data>
+  <data name="RatingCriteria" xml:space="preserve">
+    <value>Rating criteria</value>
+  </data>
+  <data name="RatingInstruction" xml:space="preserve">
+    <value>RATING INSTRUCTIONS</value>
+  </data>
+  <data name="RequiredField" xml:space="preserve">
+    <value>Required field</value>
+  </data>
+  <data name="Satisfactory" xml:space="preserve">
+    <value>Satisfactory</value>
+  </data>
+  <data name="SatisfactoryDescription" xml:space="preserve">
+    <value>Meets expectations: refers to solid performance with a full skills base; most people fall into this category.</value>
+  </data>
+  <data name="ScoreInputValid" xml:space="preserve">
+    <value>Score must be equal or less than {0}</value>
+  </data>
+  <data name="FlowTemplate" xml:space="preserve">
+    <value>Flow Template</value>
+  </data>
+  <data name="Evaluation" xml:space="preserve">
+    <value>Evaluation</value>
+  </data>
+  <data name="RemindDay" xml:space="preserve">
+    <value>Remind Day</value>
+  </data>
+  <data name="ParameterInvalid" xml:space="preserve">
+    <value>Parameter invalid.</value>
+  </data>
+  <data name="EvaluateNow" xml:space="preserve">
+    <value>Evaluate Now</value>
+  </data>
+  <data name="EvaluationDate" xml:space="preserve">
+    <value>Evaluation Date</value>
+  </data>
+  <data name="EvaluationScore" xml:space="preserve">
+    <value>Evaluation Score</value>
+  </data>
+  <data name="EvaluationStatus" xml:space="preserve">
+    <value>Evaluation Status</value>
+  </data>
+  <data name="SelfEvaluationScore" xml:space="preserve">
+    <value>Self-Evaluation Score</value>
+  </data>
+  <data name="EditEmployeeSetting" xml:space="preserve">
+    <value>Edit Employee Setting</value>
+  </data>
+  <data name="ShowExcludedEmployee" xml:space="preserve">
+    <value>Show Excluded Employee</value>
+  </data>
+  <data name="NumberEmployees" xml:space="preserve">
+    <value>Number Of Employees</value>
+  </data>
+  <data name="AttendanceEndDate" xml:space="preserve">
+    <value>Attendance End Date</value>
+  </data>
+  <data name="AttendanceStartDate" xml:space="preserve">
+    <value>Attendance Start Date</value>
+  </data>
+  <data name="Include" xml:space="preserve">
+    <value> Include</value>
+  </data>
+  <data name="MemberEPA" xml:space="preserve">
+    <value>Member EPA</value>
+  </data>
+  <data name="DepartmentSection" xml:space="preserve">
+    <value>Department / Section</value>
+  </data>
+  <data name="AttendanceScore" xml:space="preserve">
+    <value>Attendance Score</value>
+  </data>
+  <data name="FinalScore" xml:space="preserve">
+    <value>Final Score</value>
+  </data>
+  <data name="TotalRatingScore" xml:space="preserve">
+    <value>Total Rating Score</value>
+  </data>
+  <data name="Section" xml:space="preserve">
+    <value>Section</value>
+  </data>
+  <data name="ReviewAndUpdateScore" xml:space="preserve">
+    <value>Review And Update Score</value>
+  </data>
+  <data name="ReviewDate" xml:space="preserve">
+    <value>Review Date</value>
+  </data>
+  <data name="ReviewerScore" xml:space="preserve">
+    <value>Reviewer Score</value>
+  </data>
+  <data name="FromDateRequire" xml:space="preserve">
+    <value>The From Date is required!</value>
+  </data>
+  <data name="ToDateRequire" xml:space="preserve">
+    <value>The To Date is required!</value>
+  </data>
+  <data name="ValidateFromToDate" xml:space="preserve">
+    <value>To date must not be before than From date</value>
+  </data>
+  <data name="ValidateMaximumOneYear" xml:space="preserve">
+    <value>Report period must not exceed 365 days</value>
+  </data>
+  <data name="AverageScoreByEvaluators" xml:space="preserve">
+    <value>Average Score By Evaluators</value>
+  </data>
+  <data name="SelectEmployeeBeforeEditSettingWarning" xml:space="preserve">
+    <value>Please select employee before edit setting!</value>
+  </data>
+  <data name="HRRangeDateGreaterThanSelfRangeDateWarning" xml:space="preserve">
+    <value>The End Date of Human Resources must be less than or equal the Start Date of Self Evaluator!</value>
+  </data>
+  <data name="SelfRangeDateGreaterThanEvaluatorRangeDateWarning" xml:space="preserve">
+    <value>The End Date of Self Evaluator must be less than or equal the Start Date of Evaluator!</value>
+  </data>
+  <data name="TotalScore" xml:space="preserve">
+    <value>Total Score</value>
+  </data>
+  <data name="CommentRequire" xml:space="preserve">
+    <value>The Comment field is required!</value>
+  </data>
+  <data name="ScoreRequire" xml:space="preserve">
+    <value>The Score field is required!</value>
+  </data>
+  <data name="RemindDateEmailToEvaluatorSubject" xml:space="preserve">
+    <value>Reminder - {0} for evaluation from {1} to {2}</value>
+  </data>
+  <data name="RemindDateEmailToManagementSubject" xml:space="preserve">
+    <value>Reminder - {0} for final review from {1} to {2}</value>
+  </data>
+  <data name="RemindDateEmailToReviewerSubject" xml:space="preserve">
+    <value>Reminder - {0} for review from {1} to {2}</value>
+  </data>
+  <data name="RemindDateEmailToSelfSubject" xml:space="preserve">
+    <value>Reminder - {0} for self-evaluation from {1} to {2}</value>
+  </data>
+  <data name="StartDateEmailToEvaluatorSubject" xml:space="preserve">
+    <value>{0} for evaluation from {1} to {2}</value>
+  </data>
+  <data name="StartDateEmailToHRSubject" xml:space="preserve">
+    <value>{0} for confirmation from {1} to {2}</value>
+  </data>
+  <data name="StartDateEmailToManagementSubject" xml:space="preserve">
+    <value>{0} for final review from {1} to {2}</value>
+  </data>
+  <data name="StartDateEmailToReviewerSubject" xml:space="preserve">
+    <value>{0} for review from {1} to {2}</value>
+  </data>
+  <data name="StartDateEmailToSelfSubject" xml:space="preserve">
+    <value>{0} for self-evaluation from {1} to {2}</value>
+  </data>
+  <data name="AverageScoreByReviewers" xml:space="preserve">
+    <value>Average Score By Reviewers</value>
+  </data>
+  <data name="Summary" xml:space="preserve">
+    <value>SUMMARY</value>
+  </data>
+  <data name="PeriodName" xml:space="preserve">
+    <value>Period Name</value>
+  </data>
+  <data name="PerformanceResult" xml:space="preserve">
+    <value>Performance Result</value>
+  </data>
+  <data name="EvaluationProcess" xml:space="preserve">
+    <value>Evaluation Process</value>
+  </data>
+  <data name="SignBy" xml:space="preserve">
+    <value>SignBy</value>
+  </data>
+  <data name="Step" xml:space="preserve">
+    <value>Step</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="EmployeeRating" xml:space="preserve">
+    <value>Employee Rating</value>
+  </data>
+  <data name="EmployeeScore" xml:space="preserve">
+    <value>Employee Score</value>
+  </data>
+  <data name="PerformanceScore" xml:space="preserve">
+    <value>Performance Score</value>
+  </data>
+  <data name="EvaluatorRating" xml:space="preserve">
+    <value>Evaluator Rating</value>
+  </data>
+  <data name="EvaluatorScore" xml:space="preserve">
+    <value>Evaluator Score</value>
+  </data>
+  <data name="CommentByEmployee" xml:space="preserve">
+    <value>Comment by employee</value>
+  </data>
+  <data name="CommentByEvaluator" xml:space="preserve">
+    <value>Comment by evaluator</value>
+  </data>
+  <data name="EmployeePerformanceScore" xml:space="preserve">
+    <value>Employee Performance Score</value>
+  </data>
+  <data name="EPAResult" xml:space="preserve">
+    <value>EPA Result</value>
+  </data>
+  <data name="GenerateEvaluation" xml:space="preserve">
+    <value>Generate EPA</value>
+  </data>
+  <data name="SelectEmployeeBeforeGenerateEvaluation" xml:space="preserve">
+    <value>Please select employee before generate EPA!</value>
+  </data>
+  <data name="PersonalProfile" xml:space="preserve">
+    <value>Personal Profile</value>
+  </data>
+  <data name="EmployeeCode" xml:space="preserve">
+    <value>Employee Code</value>
+  </data>
+  <data name="MyEPAs" xml:space="preserve">
+    <value>My EPAs</value>
+  </data>
+  <data name="AttendanceSummary" xml:space="preserve">
+    <value>Attendance Summary</value>
+  </data>
+  <data name="Absent" xml:space="preserve">
+    <value>Absent</value>
+  </data>
+  <data name="ApproverSubtractScore" xml:space="preserve">
+    <value>Approver Subtract Score</value>
+  </data>
+  <data name="CheckInOut" xml:space="preserve">
+    <value>Check In/Out</value>
+  </data>
+  <data name="EarlyOut" xml:space="preserve">
+    <value>Early Out</value>
+  </data>
+  <data name="LateIn" xml:space="preserve">
+    <value>Late In</value>
+  </data>
+  <data name="SystemSubtractScore" xml:space="preserve">
+    <value>System Subtract Score</value>
+  </data>
+  <data name="UnpaidLeave" xml:space="preserve">
+    <value>Unpaid Leave</value>
+  </data>
+  <data name="WorkingTime" xml:space="preserve">
+    <value>Working &lt; 7h</value>
+  </data>
+  <data name="ChangeShift" xml:space="preserve">
+    <value>Change Shift</value>
+  </data>
+  <data name="KPIInformation" xml:space="preserve">
+    <value>KPI Information</value>
+  </data>
+  <data name="RatingPerformanceByKPI" xml:space="preserve">
+    <value>Rating Performance By KPI</value>
+  </data>
+  <data name="MaxPoints" xml:space="preserve">
+    <value>Max Points</value>
+  </data>
+  <data name="AdjustScore" xml:space="preserve">
+    <value>Adjust Score</value>
+  </data>
+  <data name="CurrentScore" xml:space="preserve">
+    <value>Current Score</value>
+  </data>
+  <data name="KPIRequired" xml:space="preserve">
+    <value>The KPI field is required!</value>
+  </data>
+  <data name="TargetTemplateRequired" xml:space="preserve">
+    <value>The Target Template field is required!</value>
+  </data>
+  <data name="UnpaidLeaveAbsent" xml:space="preserve">
+    <value>Unpaid Leave Absent</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="OtherViolations" xml:space="preserve">
+    <value>Other Violations</value>
+  </data>
+  <data name="WorkDate" xml:space="preserve">
+    <value>Work Date</value>
+  </data>
+  <data name="WorkDateRequried" xml:space="preserve">
+    <value>The Work Date filed is required!</value>
+  </data>
+  <data name="AttendanceSummaryDetail" xml:space="preserve">
+    <value>Attendance Detail Adjustment</value>
+  </data>
+  <data name="ApproverComment" xml:space="preserve">
+    <value>Approver Comment</value>
+  </data>
+  <data name="CheckIn" xml:space="preserve">
+    <value>Check In</value>
+  </data>
+  <data name="CheckOut" xml:space="preserve">
+    <value>Check Out</value>
+  </data>
+  <data name="HRMComment" xml:space="preserve">
+    <value>HRM Comment</value>
+  </data>
+  <data name="Shift" xml:space="preserve">
+    <value>Shift</value>
+  </data>
+  <data name="TotalHours" xml:space="preserve">
+    <value>Total Hours</value>
+  </data>
+  <data name="HideFinalScore" xml:space="preserve">
+    <value>Hide Final Score</value>
+  </data>
+  <data name="ShowFinalScore" xml:space="preserve">
+    <value>Show Final Score</value>
+  </data>
+  <data name="EndProcess" xml:space="preserve">
+    <value>End Process</value>
+  </data>
+  <data name="InProgress" xml:space="preserve">
+    <value>In Progress</value>
+  </data>
+<<<<<<< HEAD
+  <data name="EvaluateEPAInvalid" xml:space="preserve">
+    <value>There are some empty rates or comments. Please fill them before submitting.</value>
+  </data>
+  <data name="ViewComment" xml:space="preserve">
+    <value>View Comment</value>
+  </data>
+   <data name="SubtractScore" xml:space="preserve">
+    <value>Subtract Score</value>
+  </data>
+  <data name="ViolationDate" xml:space="preserve">
+    <value>Violation Date</value>
+  </data>
+  <data name="ViolationDateRequired" xml:space="preserve">
+    <value>The Violation Date field is required!</value>
+  </data>
+  <data name="ViolationType" xml:space="preserve">
+    <value>Violation Type</value>
+  </data>
+  <data name="ViolationTypeRequired" xml:space="preserve">
+    <value>The Violation Type field is required!</value>
+  </data>
+=======
+>>>>>>> #43348 -continue fix bug in EPA pages
+</root>

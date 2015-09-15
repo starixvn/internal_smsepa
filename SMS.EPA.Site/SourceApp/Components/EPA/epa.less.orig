@@ -442,13 +442,10 @@
                         color: #F67F46;
                         &:focus {
                         outline: none;
-<<<<<<< HEAD
                     }
                     }
-=======
+                    
                     }
-                    }
->>>>>>> #43592 - Support Review CSS & Layout
                     
                 }
 
@@ -478,7 +475,6 @@
     }
 }
 
-<<<<<<< HEAD
 .table.table-evaluation-process {
     td {
         border: none;
@@ -493,21 +489,24 @@
     .col-evaluator {
         ul {
             padding-left: 12px;
+<<<<<<< HEAD
             margin-bottom: 0; 
+=======
+            margin-bottom: 0;
+>>>>>>> #43348 -continue fix bug in EPA pages
         }
     }
 }
 
+<<<<<<< HEAD
 .modal-view-comment {
     min-height: 200px;
 }
 
+=======
+>>>>>>> #43348 -continue fix bug in EPA pages
 @media (min-width:800px) and (max-width: 1000px) {
     .list-kpi-rating {
-=======
-@media (min-width:800px) and (max-width: 1000px) {
-    .list-kpi-rating {   
->>>>>>> #43592 - Support Review CSS & Layout
         .list-star {
            .rating {
                width: 68.3%;
@@ -516,17 +515,10 @@
                 width: 15%;
             }
             .glyphicon {
-<<<<<<< HEAD
                 font-size: 13px;
             } 
             .badge.percent {
                 width: 40px;
-=======
-                font-size: 13px;                
-            } 
-            .badge.percent {
-                width: 40px;               
->>>>>>> #43592 - Support Review CSS & Layout
                 margin-left: 6px;
             }  
         }

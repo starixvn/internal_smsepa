@@ -217,5 +217,14 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         return vm.modalInstance.result;
     };
 
+    employeeEPAModel.getClassProgress = function (isEndProcess) {
+        if (!isEndProcess) {
+            return 'progress-striped active';
+        }
+        else {
+            return '';
+        }
+    };
+
     return employeeEPAModel;
 }]);
