@@ -49,8 +49,8 @@ namespace SMS.EPA.Repositories.Implement
                             attD.LateIn = laI;
                             attD.EarlyOut = earO;
                             return attD;
-                        }
-                        , "GroupId, CheckInId, CheckOutId, TotalHoursId, LateInId, EarlyOutId");
+                        },
+                        "GroupId, CheckInId, CheckOutId, TotalHoursId, LateInId, EarlyOutId");
 
                     IEnumerable<AttendanceDetailModel> lastViolations = multi.Read<AttendanceDetailModel, Group, ViolationModel, ViolationModel, ViolationModel, ViolationModel, AttendanceDetailModel>(
                         (attD, gr, ab, up, ch, upa) =>
@@ -61,8 +61,8 @@ namespace SMS.EPA.Repositories.Implement
                             attD.UnpaidLeaveAbsent = upa;
                             attD.ChangeShift = ch;
                             return attD;
-                        }
-                        , "GroupId, AbsentId, UnpaidLeaveId, ChangeShiftId, UnpaidLeaveAbsent");
+                        },
+                        "GroupId, AbsentId, UnpaidLeaveId, ChangeShiftId, UnpaidLeaveAbsent");
 
                     var rawAttendanceDetail = new RawAttendanceDetailModel
                     {

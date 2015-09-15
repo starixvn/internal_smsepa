@@ -109,7 +109,7 @@ namespace SMS.EPA.Services.Implement
             {
                 WorkDate = DateTime.Now,
                 NickName = "Evan",
-                Code="02358",
+                Code = "02358",
                 Group = new Group
                 {
                     GroupName = "UNIT 12 local"
@@ -129,14 +129,12 @@ namespace SMS.EPA.Services.Implement
                 {
                     HasViolated = false,
                     Value = "5:55"
-                }
-                ,
+                },
                 LateIn = new ViolationModel
                 {
                     HasViolated = false,
                     Value = string.Empty
-                }
-                ,
+                },
                 EarlyOut = new ViolationModel
                 {
                     HasViolated = true,
@@ -147,7 +145,8 @@ namespace SMS.EPA.Services.Implement
                     HasViolated = false,
                     Value = string.Empty
                 },
-                UnpaidLeave = new ViolationModel {
+                UnpaidLeave = new ViolationModel
+                {
                     HasViolated = true,
                     Value = "1"
                 },
@@ -159,7 +158,7 @@ namespace SMS.EPA.Services.Implement
                 ChangeShift = new ViolationModel
                 {
                     HasViolated = false,
-                    Value =  string.Empty
+                    Value = string.Empty
                 },
                 ApproverComment = "approved",
                 EmployeeComment = "Early out",
