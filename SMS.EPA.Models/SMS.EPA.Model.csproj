@@ -45,6 +45,7 @@
     <Compile Include="AttendanceSummary\AttendanceDetailModel.cs" />
     <Compile Include="AttendanceSummary\AttendanceSummaryModel.cs" />
     <Compile Include="AttendanceSummary\OtherViolationModel.cs" />
+    <Compile Include="AttendanceSummary\RawAttendanceDetailModel.cs" />
     <Compile Include="AttendanceSummary\ViolationModel.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>

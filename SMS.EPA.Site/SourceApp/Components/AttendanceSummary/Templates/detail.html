@@ -115,38 +115,47 @@
                 <td ng-bind="employee.CheckIn.Value">
                     <span ng-show="employee.CheckIn.Value" ng-bind="employee.CheckIn.Value"></span>
                     <span ng-show="!employee.CheckIn.Value">-</span>
+                    <input class="ignore-right" ng-show="employee.CheckIn.HasViolated" type="checkbox" ></input>
                 </td>
                 <td>
                     <span ng-show="employee.CheckOut.Value" ng-bind="employee.CheckOut.Value"></span>
                     <span ng-show="!employee.CheckOut.Value">-</span>
+                    <input class="ignore-right" ng-show="employee.CheckOut.HasViolated" type="checkbox" ></input>
                 </td>
                 <td>
                     <span ng-show="employee.TotalHours.Value" ng-bind="employee.TotalHours.Value"></span>
                     <span ng-show="!employee.TotalHours.Value">-</span>
+                    <input class="ignore-right" ng-show="employee.TotalHours.HasViolated" type="checkbox" "></input>
                 </td>
                 <td>
                     <span ng-show="employee.LateIn.Value" ng-bind="employee.LateIn.Value"></span>
                     <span ng-show="!employee.LateIn.Value" >-</span>
+                    <input class="ignore-right" ng-show="employee.LateIn.HasViolated" type="checkbox" ></input>
                 </td>
                 <td>
                     <span ng-show="employee.EarlyOut.Value" ng-bind="employee.EarlyOut.Value"></span>
                     <span ng-show="!employee.EarlyOut.Value">-</span>
+                    <input class="ignore-right" ng-show="employee.EarlyOut.HasViolated" type="checkbox" ></input>
                 </td>
                 <td>
                     <span ng-show="employee.Absent.Value">x</span>
                     <span ng-show="!employee.Absent.Value">-</span>
+                    <input class="ignore-right" ng-show="employee.Absent.HasViolated" type="checkbox" ></input>
                 </td>
                 <td>
                     <span ng-show="employee.UnpaidLeave.Value">x</span>
                     <span ng-show="!employee.UnpaidLeave.Value">-</span>
+                    <input class="ignore-right" ng-show="employee.UnpaidLeave.HasViolated" type="checkbox" ></input>
                 </td>
                 <td>
                     <span ng-show="employee.UnpaidLeaveAbsent.Value">x</span>
                     <span ng-show="!employee.UnpaidLeaveAbsent.Value">-</span>
+                    <input class="ignore-right" ng-show="employee.UnpaidLeaveAbsent.HasViolated" type="checkbox" ></input>
                 </td>
                 <td>
                     <span ng-show="employee.ChangeShift.Value">x</span>
                     <span ng-show="!employee.ChangeShift.Value">-</span>
+                    <input class="ignore-right" ng-show="employee.ChangeShift.HasViolated" type="checkbox"></input>
                 </td>
                 <td class="red">-{{employee.SystemSubtractScore | number: 1}}</td>
                 <td class="red">-{{employee.ApproverSubtractScore | number: 1}}</td>

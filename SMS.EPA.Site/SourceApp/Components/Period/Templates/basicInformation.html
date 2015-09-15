@@ -21,7 +21,7 @@
             </label>
             <div class="col-sm-3">
                 <input readonly class="calendar-form-control" type="text"
-                       ng-model="basicInfoPeriodCtrl.period.StartDate" datepicker-popup
+                       ng-model="basicInfoPeriodCtrl.period.RawStartDate" datepicker-popup
                        ng-click="basicInfoPeriodCtrl.openPopupStartDate($event)" min-date="{{basicInfoPeriodCtrl.calendar.minDate}}"
                        is-open="basicInfoPeriodCtrl.calendar.startDateOpened" />
                 <calendar-image class="calendar-image" ng-click="basicInfoPeriodCtrl.openPopupStartDate($event)"></calendar-image>
@@ -30,7 +30,7 @@
             </label>
             <div class="col-sm-3">
                 <input readonly class="calendar-form-control" type="text"
-                       ng-model="basicInfoPeriodCtrl.period.EndDate" datepicker-popup
+                       ng-model="basicInfoPeriodCtrl.period.RawEndDate" datepicker-popup
                        ng-click="basicInfoPeriodCtrl.openPopupEndDate($event)" min-date="{{basicInfoPeriodCtrl.calendar.minDate}}"
                        is-open="basicInfoPeriodCtrl.calendar.endDateOpened" />
                 <calendar-image class="calendar-image" ng-click="basicInfoPeriodCtrl.openPopupEndDate($event)"></calendar-image>

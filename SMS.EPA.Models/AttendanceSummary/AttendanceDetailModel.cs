@@ -40,8 +40,6 @@ namespace SMS.EPA.Model.AttendanceSummary
 
         public float ApproverSubtractScore { get; set; }
 
-        public float OtherViolationsScore { get; set; }
-
         public string ApproverComment { get; set; }
 
         public string EmployeeComment { get; set; }

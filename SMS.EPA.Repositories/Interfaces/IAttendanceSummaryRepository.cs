@@ -16,5 +16,7 @@ namespace SMS.EPA.Repositories.Interfaces
     public interface IAttendanceSummaryRepository
     {
         IEnumerable<AttendanceSummaryModel> GetAttendanceSummary(ICriteria criteria);
+
+        RawAttendanceDetailModel GetAttendanceDetail(ICriteria criteria);
     }
 }

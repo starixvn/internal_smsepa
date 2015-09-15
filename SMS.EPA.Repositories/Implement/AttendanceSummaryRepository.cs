@@ -32,5 +32,47 @@ namespace SMS.EPA.Repositories.Implement
                                         criteria.GetSpParams());
             }
         }
+
+        public RawAttendanceDetailModel GetAttendanceDetail(ICriteria criteria)
+        {
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                using (var multi = db.QueryMultiple(criteria.GetSpParams()))
+                {
+                    IEnumerable<AttendanceDetailModel> firstViolations = multi.Read<AttendanceDetailModel, Group, ViolationModel, ViolationModel, ViolationModel, ViolationModel, ViolationModel, AttendanceDetailModel>(
+                        (attD, gr, chIn, chO, tot, laI, earO) =>
+                        {
+                            attD.Group = gr;
+                            attD.CheckIn = chIn;
+                            attD.CheckOut = chO;
+                            attD.TotalHours = tot;
+                            attD.LateIn = laI;
+                            attD.EarlyOut = earO;
+                            return attD;
+                        }
+                        , "GroupId, CheckInId, CheckOutId, TotalHoursId, LateInId, EarlyOutId");
+
+                    IEnumerable<AttendanceDetailModel> lastViolations = multi.Read<AttendanceDetailModel, Group, ViolationModel, ViolationModel, ViolationModel, ViolationModel, AttendanceDetailModel>(
+                        (attD, gr, ab, up, ch, upa) =>
+                        {
+                            attD.Group = gr;
+                            attD.Absent = ab;
+                            attD.UnpaidLeave = up;
+                            attD.UnpaidLeaveAbsent = upa;
+                            attD.ChangeShift = ch;
+                            return attD;
+                        }
+                        , "GroupId, AbsentId, UnpaidLeaveId, ChangeShiftId, UnpaidLeaveAbsent");
+
+                    var rawAttendanceDetail = new RawAttendanceDetailModel
+                    {
+                        FirstViolations = firstViolations,
+                        LastViolations = lastViolations
+                    };
+
+                    return rawAttendanceDetail;
+                  }
+             }
+       }
     }
 }

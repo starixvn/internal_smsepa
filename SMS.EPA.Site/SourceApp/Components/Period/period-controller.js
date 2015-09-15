@@ -107,6 +107,8 @@ function ($modalInstance, PeriodModel, CommonModel) {
 
     vm.save = function (period) {
         if (PeriodModel.validatePeriod(period)) {
+            period.StartDate = period.StartDate.toDateString();
+            period.EndDate = period.EndDate.toDateString();
             PeriodModel.createPeriod(period, $modalInstance);
         }
     };
@@ -618,43 +620,6 @@ function ($scope, $modalInstance, period, employeeSetting, selectedEmployee, per
     vm.openFlowPopupEndDate = function (event, evaluatorType) {
         PeriodModel.openFlowPopupEndDate(vm, event, evaluatorType);
     };
-
-    ////vm.updateDate = function (evaluator) {
-    ////    if (evaluator && evaluator.ids && evaluator.ids.length > 0) {
-    ////        var duration = evaluator.Duration,
-    ////            originalDuration = evaluator.originalDuration,
-    ////            changeDuration = duration - originalDuration,
-    ////            processId = evaluator.ProcessId;
-
-    ////        evaluator.EndDate = new Date(evaluator.EndDate.setDate(evaluator.EndDate.getDate() + changeDuration));
-
-    ////        if (vm.employeeOptions.evaluator.ids.length > 0 && vm.employeeOptions.evaluator.ProcessId > processId) {
-    ////            var evaluatorStartDate = vm.employeeOptions.evaluator.StartDate,
-    ////                evaluatorEndDate = vm.employeeOptions.evaluator.EndDate;
-
-    ////            vm.employeeOptions.evaluator.StartDate = new Date(evaluatorStartDate.setDate(evaluatorStartDate.getDate() + changeDuration));
-    ////            vm.employeeOptions.evaluator.EndDate = new Date(evaluatorEndDate.setDate(evaluatorEndDate.getDate() + changeDuration));
-    ////        }
-
-    ////        if (vm.employeeOptions.reviewer.ids.length > 0 && vm.employeeOptions.reviewer.ProcessId > processId) {
-    ////            var reviewerStartDate = vm.employeeOptions.reviewer.StartDate,
-    ////                reviewerEndDate = vm.employeeOptions.reviewer.EndDate;
-
-    ////            vm.employeeOptions.reviewer.StartDate = new Date(reviewerStartDate.setDate(reviewerStartDate.getDate() + changeDuration));
-    ////            vm.employeeOptions.reviewer.EndDate = new Date(reviewerEndDate.setDate(reviewerEndDate.getDate() + changeDuration));
-    ////        }
-
-    ////        if (vm.employeeOptions.management.ids.length > 0 && vm.employeeOptions.management.ProcessId > processId) {
-    ////            var managementStartDate = vm.employeeOptions.management.StartDate,
-    ////                managementEndDate = vm.employeeOptions.management.EndDate;
-
-    ////            vm.employeeOptions.management.StartDate = new Date(managementStartDate.setDate(managementStartDate.getDate() + changeDuration));
-    ////            vm.employeeOptions.management.EndDate = new Date(managementEndDate.setDate(managementEndDate.getDate() + changeDuration));
-    ////        }
-
-    ////        evaluator.originalDuration = duration;
-    ////    }
-    ////};
 
     var getUpdatedEmployeeSetting = function (employeeSetting, employeeOptions) {
         employeeSetting.TargetTemplate = PeriodModel.getUpdateTargetTemplate(employeeOptions.targetTemplateId, vm.targetTemplates);
