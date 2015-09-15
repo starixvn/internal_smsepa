@@ -160,8 +160,8 @@ function ($modalInstance, AttendanceModel, employee, startDate, endDate, utiliti
 }]);
 
 attendanceModule.controller('DetailAttendanceSummaryController',
-['AttendanceModel', 'utilitiesFactory', 'EmployeeModel', 'CommonModel',
-function (AttendanceModel, utilitiesFactory, EmployeeModel, CommonModel) {
+['$window', 'AttendanceModel', 'utilitiesFactory', 'EmployeeModel', 'CommonModel',
+function ($window, AttendanceModel, utilitiesFactory, EmployeeModel, CommonModel) {
     var vm = this,
         date = new Date(),
         firstDate = new Date(date.getFullYear(), date.getMonth(), 1);
@@ -235,5 +235,9 @@ function (AttendanceModel, utilitiesFactory, EmployeeModel, CommonModel) {
         }
 
         getAttendanceDetail(vm.filter.startDate, vm.filter.endDate, employeeId, vm.filter.departmentId, vm.filter.reasonId);
+    };
+
+    vm.backToList = function () {
+        $window.history.back();
     };
 }]);

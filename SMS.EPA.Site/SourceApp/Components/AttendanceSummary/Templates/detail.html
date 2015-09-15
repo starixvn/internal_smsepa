@@ -55,10 +55,14 @@
         </div>
     </form>
 
-    <table class="row table table-bordered table-striped">
+    <table class="row table table-bordered table-striped attendance-detail">
         <thead>
             <tr class="header-table">
                 <th colspan="19">
+                    <a class="pull-left button-icon back-button" ng-click="detailAttendanceCtrl.backToList()">
+                        <span class="icon back"></span>
+                        <span class="button-text" data-translate="BackToList"></span>
+                    </a>
                     <input type="text" ng-model="detailAttendanceCtrl.searchKey" ng-change="detailAttendanceCtrl.search()" class="search-inline-textbox search pull-right">
                 </th>
             </tr>
@@ -90,8 +94,6 @@
                 <th data-translate="UnpaidLeaveAbsent">
                 </th>
                 <th data-translate="ChangeShift">
-                </th>
-                <th data-translate="OtherViolations">
                 </th>
                 <th data-translate="SystemSubtractScore">
                 </th>
@@ -146,7 +148,6 @@
                     <span ng-show="employee.ChangeShift.Value">x</span>
                     <span ng-show="!employee.ChangeShift.Value">-</span>
                 </td>
-                <td ng-bind="employee.OtherViolationsScore | number: 1"></td>
                 <td class="red">-{{employee.SystemSubtractScore | number: 1}}</td>
                 <td class="red">-{{employee.ApproverSubtractScore | number: 1}}</td>
                 <td ng-bind="employee.ApproverComment"></td>
