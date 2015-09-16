@@ -1,0 +1,57 @@
+﻿.dashboard {
+  background-color: #f4f4f4;
+  margin: 10px 1%;
+  border: 1px solid #c8c8c8;
+}
+.dashboard .row {
+  margin: 0;
+}
+.dashboard .boxtitle {
+  background-color: #e9e9e9;
+  background-image: linear-gradient(to bottom, #ebebeb, #e5e5e5);
+  background-repeat: repeat-x;
+  border-top: 1px solid #d2d2d2;
+  border-bottom: 1px solid #fafafa;
+  padding: 8px 12px;
+  font-family: "Myriad Pro", Tahoma, REZ, Arial;
+  font-size: 14px;
+  text-shadow: 0.05em 0.05em #FFF;
+  color: #0f0f13;
+  cursor: pointer;
+  position: relative;
+}
+.dashboard .boxtitle.first {
+  border-top: 1px solid #fafafa;
+}
+.dashboard .boxcontent {
+  padding: 3px 10px;
+}
+.dashboard .boxcontent .img-user {
+  border: 1px solid #d9d9d9;
+  background-color: #FFF;
+  height: 105px;
+  width: 105px;
+  margin: 10px auto;
+  border-radius: 3px;
+}
+.dashboard .boxcontent .img-user img.img-default {
+  width: auto;
+  height: auto;
+  margin-top: 12px;
+}
+.dashboard .boxcontent .row-item {
+  padding: 5px 0;
+}
+.dashboard .boxcontent .row-item.line {
+  border-bottom: 1px solid #e5e3e3;
+}
+.table.table-bordered .show-hide-score a {
+  cursor: pointer;
+  color: #eda109;
+}
+.table.table-bordered .show-hide-score a:hover,
+.table.table-bordered .show-hide-score a:focus {
+  text-decoration: none;
+  color: #efac25;
+}
+/*# sourceMappingURL=dashboard.css.map */

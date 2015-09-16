@@ -274,6 +274,12 @@
     <Content Include="Content\Site\variables.min.css">
       <DependentUpon>variables.css</DependentUpon>
     </Content>
+    <Content Include="Content\Site\variables.css">
+      <DependentUpon>variables.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Site\variables.min.css">
+      <DependentUpon>variables.css</DependentUpon>
+    </Content>
     <Content Include="favicon.ico" />
     <CodeAnalysisDictionary Include="FxCopDictionary.xml" />
     <Content Include="Global.asax" />
@@ -567,6 +573,12 @@
     <Content Include="Content\Site\variables.css.map">
       <DependentUpon>variables.css</DependentUpon>
     </Content>
+    <Content Include="Content\Site\auth\style.css.map">
+      <DependentUpon>style.css</DependentUpon>
+    </Content>
+    <Content Include="Content\Site\variables.css.map">
+      <DependentUpon>variables.css</DependentUpon>
+    </Content>
     <None Include="Libs\angular-resource.min.js.map" />
     <None Include="Libs\angular-route.min.js.map" />
     <None Include="Libs\angular.min.js.map" />
@@ -632,6 +644,9 @@
     </Content>
     <Content Include="SourceApp\Components\Dashboard\dashboard.less" />
     <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary.less" />
+    <Content Include="SourceApp\Components\Employee\employee.css.map">
+      <DependentUpon>employee.css</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">
