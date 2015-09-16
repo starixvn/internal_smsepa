@@ -9,17 +9,11 @@
 
 namespace SMS.EPA.Model.EmployeeEPA.RatingByKPI
 {
-    using SMS.EPA.Model.Enitites;
-
     public class RatingByKPIModel
     {
         public int EPAId { get; set; }
 
-        public Employee Employee { get; set; }
-
-        public Group Group { get; set; }
-
-        public JobTitle JobTitle { get; set; }
+        public EPAEmployeeModel Employee { get; set; }
 
         public string TotalScore { get; set; }
 

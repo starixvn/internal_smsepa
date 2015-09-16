@@ -45,13 +45,13 @@
                 <tr ng-repeat="memberEPA in reviewerCtrl.memberEPAs">
                     <td class="text-center" ng-bind="$index + 1"></td>
                     <td ng-bind="memberEPA.Period.Name"></td>
-                    <td ng-bind="memberEPA.Department.Name"></td>
+                    <td ng-bind="memberEPA.Employee.Department.Name"></td>
                     <td class="text-center">
-                        <span tooltip="{{memberEPA.Group.GroupName}}" ng-bind="memberEPA.Group.GroupCode"></span>
+                        <span tooltip="{{memberEPA.Employee.Group.GroupName}}" ng-bind="memberEPA.Employee.Group.GroupCode"></span>
                     </td>
                     <td class="text-center" ng-bind="memberEPA.Employee.NickName"></td>
                     <td ng-bind="memberEPA.Employee.FullName"></td>
-                    <td ng-bind="memberEPA.JobTitle.JobTitleName"></td>
+                    <td ng-bind="memberEPA.Employee.JobTitle.JobTitleName"></td>
                     <td class="text-center">{{ memberEPA.ProcessByReviewers[0].StartDate | customDate }}</td>
                     <td class="text-center">{{ memberEPA.ProcessByReviewers[0].EndDate | customDate }}</td>
                     <td class="text-center text-uppercase col-action">

@@ -30,19 +30,26 @@ namespace SMS.EPA.Repositories.Implement
             {
                 using (var multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    result.Epas = multi.Read<EPAModel, StatusModel, PeriodModel, Employee, DepartmentModel, Group, JobTitle, EPAModel>(
-                    (epa, status, period, emp, dept, gr, job) =>
+                    result.Epas = multi.Read<EPAModel, StatusModel, PeriodModel, EPAModel>(
+                    (epa, status, period) =>
                     {
                         epa.Status = status;
                         epa.Period = period;
-                        epa.Employee = emp;
-                        epa.Department = dept;
-                        epa.Group = gr;
-                        epa.JobTitle = job;
 
                         return epa;
                     },
-                    "StatusId, PeriodId, EmployeeId, DepartmentId, GroupId, JobTitleId");
+                    "StatusId, PeriodId, ");
+
+                    result.Employees = multi.Read<EPAEmployeeModel, DepartmentModel, Group, JobTitle, EPAEmployeeModel>(
+                        (epa, dept, gr, job) =>
+                        {
+                            epa.Department = dept;
+                            epa.Group = gr;
+                            epa.JobTitle = job;
+
+                            return epa;
+                        },
+                        "DepartmentId, GroupId, JobTitleId");
 
                     result.Processes = multi.Read<EPAProcessModel, StatusModel, EPAProcessModel>(
                         (process, status) =>
@@ -68,19 +75,26 @@ namespace SMS.EPA.Repositories.Implement
             {
                 using (var multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    epaInfo.EPA = multi.Read<EPAModel, StatusModel, PeriodModel, Employee, DepartmentModel, Group, JobTitle, EPAModel>(
-                    (info, status, period, emp, dept, gr, job) =>
+                    epaInfo.EPA = multi.Read<EPAModel, StatusModel, PeriodModel, EPAModel>(
+                    (info, status, period) =>
                     {
                         info.Status = status;
                         info.Period = period;
-                        info.Employee = emp;
-                        info.Department = dept;
-                        info.Group = gr;
-                        info.JobTitle = job;
 
                         return info;
                     },
                     "StatusId, PeriodId, EmployeeId, DepartmentId, GroupId, JobTitleId").FirstOrDefault();
+
+                    epaInfo.EPA.Employee = multi.Read<EPAEmployeeModel, DepartmentModel, Group, JobTitle, EPAEmployeeModel>(
+                        (epa, dept, gr, job) =>
+                        {
+                            epa.Department = dept;
+                            epa.Group = gr;
+                            epa.JobTitle = job;
+
+                            return epa;
+                        },
+                        "DepartmentId, GroupId, JobTitleId").FirstOrDefault();
 
                     epaInfo.Processes = multi.Read<EPAProcessModel, StatusModel, EPAProcessModel>(
                         (result, status) =>
@@ -130,17 +144,25 @@ namespace SMS.EPA.Repositories.Implement
             {
                 using (var multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    epas = multi.Read<RatingByKPIModel, Employee, Group, JobTitle, TemporaryKPIGroupModel, RatingByKPIModel>(
-                        (epa, emp, gr, job, kgr) =>
+                    epas = multi.Read<RatingByKPIModel, TemporaryKPIGroupModel, RatingByKPIModel>(
+                        (epa, kgr) =>
                         {
-                            epa.Employee = emp;
-                            epa.Group = gr;
-                            epa.JobTitle = job;
                             epa.KPIGroup = kgr;
 
                             return epa;
                         },
-                        "EmployeeId, GroupId, JobTitleId, KPIGroupId");
+                        "KPIGroupId");
+
+                    IEnumerable<EPAEmployeeModel> employees = multi.Read<EPAEmployeeModel, DepartmentModel, Group, JobTitle, EPAEmployeeModel>(
+                        (epa, dept, gr, job) =>
+                        {
+                            epa.Department = dept;
+                            epa.Group = gr;
+                            epa.JobTitle = job;
+
+                            return epa;
+                        },
+                        "DepartmentId, GroupId, JobTitleId");
 
                     IEnumerable<TemporaryKPIModel> kpis = multi.Read<TemporaryKPIModel, TemporaryKPIGroupModel, TemporaryKPIModel>(
                         (kpi, kgr) =>
@@ -151,11 +173,26 @@ namespace SMS.EPA.Repositories.Implement
                         },
                         "KPIGroupId");
 
+                    GroupEmployeeByEPA(epas, employees);
                     GroupKPIByEPA(epas, kpis);
                 }
             }
 
             return epas;
+        }
+
+        private void GroupEmployeeByEPA(IEnumerable<RatingByKPIModel> epas, IEnumerable<EPAEmployeeModel> employees)
+        {
+            foreach (var epa in epas)
+            {
+                foreach (var employee in employees)
+                {
+                    if (employee.EPAId == epa.EPAId)
+                    {
+                        epa.Employee = employee;
+                    }
+                }
+            }
         }
 
         private void GroupKPIByEPA(IEnumerable<RatingByKPIModel> epas, IEnumerable<TemporaryKPIModel> kpis)

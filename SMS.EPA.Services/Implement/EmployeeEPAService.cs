@@ -56,6 +56,7 @@ namespace SMS.EPA.Services.Implement
                 RawEPAModel rawEPAModel = _employeeEPARepository.GetEPA(criteria);
 
                 epas = rawEPAModel.Epas;
+                GroupEmployeeByEPA(epas, rawEPAModel.Employees);
                 GroupEPAProcessByEPA(epas, rawEPAModel.Processes);
                 GroupEvaluatorByEPA(epas, rawEPAModel.Evaluators);
 
@@ -111,6 +112,7 @@ namespace SMS.EPA.Services.Implement
                 RawEPAModel rawEPAModel = _employeeEPARepository.GetEPA(criteria);
 
                 memberEPAs = rawEPAModel.Epas;
+                GroupEmployeeByEPA(memberEPAs, rawEPAModel.Employees);
                 GroupEPAProcessByEPA(memberEPAs, rawEPAModel.Processes);
                 GroupEvaluatorByEPA(memberEPAs, rawEPAModel.Evaluators);
 
@@ -166,6 +168,7 @@ namespace SMS.EPA.Services.Implement
                 RawEPAModel rawEPAModel = _employeeEPARepository.GetEPA(criteria);
 
                 memberEPAs = rawEPAModel.Epas;
+                GroupEmployeeByEPA(memberEPAs, rawEPAModel.Employees);
                 GroupEPAProcessByEPA(memberEPAs, rawEPAModel.Processes);
                 GroupEvaluatorByEPA(memberEPAs, rawEPAModel.Evaluators);
 
@@ -223,6 +226,7 @@ namespace SMS.EPA.Services.Implement
                 RawEPAModel rawEPAModel = _employeeEPARepository.GetEPA(criteria);
 
                 memberEPAs = rawEPAModel.Epas;
+                GroupEmployeeByEPA(memberEPAs, rawEPAModel.Employees);
                 GroupEPAProcessByEPA(memberEPAs, rawEPAModel.Processes);
                 GroupEvaluatorByEPA(memberEPAs, rawEPAModel.Evaluators);
 
@@ -413,6 +417,20 @@ namespace SMS.EPA.Services.Implement
         public string Decode(string cipherText)
         {
             return _encodeService.Decode(cipherText);
+        }
+
+        public void GroupEmployeeByEPA(IEnumerable<EPAModel> epas, IEnumerable<EPAEmployeeModel> employees)
+        {
+            foreach (var epa in epas)
+            {
+                foreach (var employee in employees)
+                {
+                    if (employee.EPAId == epa.EPAId)
+                    {
+                        epa.Employee = employee;
+                    }
+                }
+            }
         }
 
         private void GroupEPAProcessByEPA(IEnumerable<EPAModel> epas, IEnumerable<EPAProcessModel> processes)

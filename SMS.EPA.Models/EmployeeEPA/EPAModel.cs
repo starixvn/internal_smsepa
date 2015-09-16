@@ -30,13 +30,7 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public int EPAId { get; set; }
 
-        public Employee Employee { get; set; }
-
-        public Group Group { get; set; }
-
-        public DepartmentModel Department { get; set; }
-
-        public JobTitle JobTitle { get; set; }
+        public EPAEmployeeModel Employee { get; set; }
 
         public PeriodModel Period { get; set; }
 
