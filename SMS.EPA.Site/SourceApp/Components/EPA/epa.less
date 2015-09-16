@@ -1,4 +1,4 @@
-﻿﻿.table.table-bordered {
+﻿.table.table-bordered {
     .col-action {
         width: 12%;
         padding-left: 0;
@@ -203,6 +203,9 @@
     .kpi-score {
         padding: 5px !important;
         height: 24px !important;
+        &:focus {
+            outline: 1px solid #39f;
+        }
     }
 
     .textarea-comment {
@@ -423,7 +426,11 @@
                     &.glyphicon-star {
                         cursor: pointer;
                         color: #F67F46;
+                        &:focus {
+                        outline: none;
                     }
+                    }
+                    
                 }
 
                 .remove-star {
@@ -466,7 +473,27 @@
     .col-evaluator {
         ul {
             padding-left: 12px;
-            margin-bottom: 0;
+            margin-bottom: 0; 
+        }
+    }
+}
+
+@media (min-width:800px) and (max-width: 1000px) {
+    .list-kpi-rating {   
+        .list-star {
+           .rating {
+               width: 68.3%;
+           }
+           .percent-rating {
+                width: 15%;
+            }
+            .glyphicon {
+                font-size: 13px;                
+            } 
+            .badge.percent {
+                width: 40px;               
+                margin-left: 6px;
+            }  
         }
     }
 }

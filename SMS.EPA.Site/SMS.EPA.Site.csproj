@@ -235,6 +235,12 @@
     <Content Include="Content\Site\auth\images\icon-error.png" />
     <Content Include="Content\Site\auth\images\icon-pass.png" />
     <Content Include="Content\Site\auth\images\icon-user.png" />
+    <Content Include="Content\Site\auth\style.css">
+      <DependentUpon>style.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Site\auth\style.min.css">
+      <DependentUpon>style.css</DependentUpon>
+    </Content>
     <Content Include="Content\Site\images\accept.png" />
     <Content Include="Content\Site\images\arrow-down.png" />
     <Content Include="Content\Site\images\arrow-left.png" />
@@ -253,6 +259,7 @@
     <Content Include="Content\Site\images\logo-login.png" />
     <Content Include="Content\Site\images\right_arrow.gif" />
     <Content Include="Content\Site\images\save_submit.png" />
+    <Content Include="Content\Site\images\sms_epa_login.png" />
     <Content Include="Content\Site\images\sms_epa_logo.png" />
     <Content Include="Content\Site\images\sort-icon.png" />
     <Content Include="Content\Site\images\sprites.png" />
@@ -267,6 +274,12 @@
     </Content>
     <Content Include="Content\Site\layout.min.css">
       <DependentUpon>layout.css</DependentUpon>
+    </Content>
+    <Content Include="Content\Site\variables.css">
+      <DependentUpon>variables.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Site\variables.min.css">
+      <DependentUpon>variables.css</DependentUpon>
     </Content>
     <Content Include="favicon.ico" />
     <CodeAnalysisDictionary Include="FxCopDictionary.xml" />
@@ -321,6 +334,12 @@
     <Content Include="SourceApp\Components\Department\Templates\index.html" />
     <Content Include="SourceApp\Components\Department\Templates\tree.html" />
     <Content Include="SourceApp\Components\Employee\employee-directive.js" />
+    <Content Include="SourceApp\Components\Employee\employee.css">
+      <DependentUpon>employee.less</DependentUpon>
+    </Content>
+    <Content Include="SourceApp\Components\Employee\employee.min.css">
+      <DependentUpon>employee.css</DependentUpon>
+    </Content>
     <Content Include="SourceApp\Components\Employee\Templates\assignRole.html" />
     <Content Include="SourceApp\Components\Employee\Templates\changePassword.html" />
     <Content Include="SourceApp\Components\Common\common-factory.js" />
@@ -545,6 +564,12 @@
     <Content Include="Content\Site\layout.css.map">
       <DependentUpon>layout.css</DependentUpon>
     </Content>
+    <Content Include="Content\Site\auth\style.css.map">
+      <DependentUpon>style.css</DependentUpon>
+    </Content>
+    <Content Include="Content\Site\variables.css.map">
+      <DependentUpon>variables.css</DependentUpon>
+    </Content>
     <None Include="Libs\angular-resource.min.js.map" />
     <None Include="Libs\angular-route.min.js.map" />
     <None Include="Libs\angular.min.js.map" />
@@ -610,6 +635,9 @@
     </Content>
     <Content Include="SourceApp\Components\Dashboard\dashboard.less" />
     <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary.less" />
+    <Content Include="SourceApp\Components\Employee\employee.css.map">
+      <DependentUpon>employee.css</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">

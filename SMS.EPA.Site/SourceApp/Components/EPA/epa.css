@@ -161,6 +161,9 @@
   padding: 5px !important;
   height: 24px !important;
 }
+.list-kpi-rating .kpi-score:focus {
+  outline: 1px solid #39f;
+}
 .list-kpi-rating .textarea-comment.comment-by-evaluator {
   margin-top: 10px;
 }
@@ -330,6 +333,9 @@
   cursor: pointer;
   color: #F67F46;
 }
+.rating-by-kpi .table.table-bordered .col-adjust-score .list-star .glyphicon.glyphicon-star:focus {
+  outline: none;
+}
 .rating-by-kpi .table.table-bordered .col-adjust-score .list-star .remove-star {
   color: #DE5245;
   margin-right: 3px;
@@ -342,5 +348,20 @@
 }
 .rating-by-kpi .table.table-bordered .col-comment .textarea-comment textarea {
   color: #39F;
+}
+@media (min-width: 800px) and (max-width: 1000px) {
+  .list-kpi-rating .list-star .rating {
+    width: 68.3%;
+  }
+  .list-kpi-rating .list-star .percent-rating {
+    width: 15%;
+  }
+  .list-kpi-rating .list-star .glyphicon {
+    font-size: 13px;
+  }
+  .list-kpi-rating .list-star .badge.percent {
+    width: 40px;
+    margin-left: 6px;
+  }
 }
 /*# sourceMappingURL=epa.css.map */

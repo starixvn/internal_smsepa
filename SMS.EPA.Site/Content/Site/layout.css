@@ -22,8 +22,7 @@ body {
 .modal-confirm-center .modal-dialog {
   margin-top: 13% !important;
 }
-*:focus,
-*:active {
+*:focus {
   outline: none;
 }
 a:focus {

@@ -1,0 +1,20 @@
+﻿.modal-body .employee-active-div {
+  padding-top: 8px;
+}
+.bold {
+  font-weight: bold;
+}
+.width-150 {
+  width: 150px;
+}
+input[type="checkbox"]:focus {
+  outline: none!important;
+}
+.table.table-bordered .col-reset-password {
+  width: 100px;
+}
+.table.table-bordered .col-reset-password .disabled {
+  color: red;
+  cursor: not-allowed;
+}
+/*# sourceMappingURL=employee.css.map */
