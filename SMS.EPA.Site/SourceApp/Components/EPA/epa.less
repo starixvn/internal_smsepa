@@ -50,6 +50,9 @@
             color: #0F0F13;
             cursor: pointer;
             position: relative;
+            .title-score {
+                padding-left: 35px;
+            }
         }
 
         .boxcontent {
@@ -160,7 +163,7 @@
 
 .list-kpi-rating {
     .kpiGroup-name {
-        padding: 0;
+        padding: 0;        
     }
 
     .kpi-description {
@@ -202,10 +205,9 @@
 
     .kpi-score {
         padding: 5px !important;
-        height: 24px !important;
-        &:focus {
-            outline: 1px solid #39f;
-        }
+        height: 24px !important;        
+        width: 85px;
+        margin: 0 auto;
     }
 
     .textarea-comment {
@@ -514,6 +516,37 @@
                 width: 40px;
                 margin-left: 6px;
             }  
+        }
+    }
+}
+@media (min-width:1200px) {
+    .list-kpi-rating {
+        .list-star {
+           padding: 0 30px;  
+        }
+    }
+}
+@media (min-width:1500px) {
+    .list-kpi-rating {
+        .list-star {
+           padding: 0 50px;  
+        }
+    }
+}
+@media (min-width:1700px) {
+    .list-kpi-rating {
+        .list-star {
+           padding: 0 60px;  
+        }
+        .kpi-score {
+            width: 80px;
+        }
+    }
+}
+@media (min-width:1800px) {
+    .list-kpi-rating {
+        .list-star {
+           padding: 0 80px;  
         }
     }
 }

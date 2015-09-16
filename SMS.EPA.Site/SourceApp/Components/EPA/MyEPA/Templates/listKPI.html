@@ -5,7 +5,7 @@
          ng-click="memberEPAInfoCtrl.collapses[kpiGroup.Name] = !memberEPAInfoCtrl.collapses[kpiGroup.Name]">
         <div class="col-sm-8 kpiGroup-name">{{kpiGroup.Name}} <strong>({{kpiGroup.Weight}} pts)</strong></div>
         <div class="col-sm-2 text-center" data-translate="EmployeeRating"></div>
-        <div class="col-sm-2 text-center" ng-show="kpiGroup.TotalKPIOptional == 0" data-translate="EmployeeScore"></div>
+        <div class="col-sm-2 text-center title-score" ng-show="kpiGroup.TotalKPIOptional == 0" data-translate="EmployeeScore"></div>
     </div>
     <div class="boxcontent col-sm-12" collapse="memberEPAInfoCtrl.collapses[kpiGroup.Name]">
         <div class="row row-item" ng-repeat="kpi in kpiGroup.KPIs">
@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 <div class="col-sm-2 text-center">
-                    <div class="col-sm-offset-2 col-sm-8">
+                    <div class="col-sm-12">
                         <input type="text" class="form-control text-center kpi-score" maxlength="5" ng-readonly="memberEPAInfoCtrl.isReadonly"
                                ng-show="kpiGroup.TotalKPIOptional == 0" ng-model="kpi.EvaluateBySelf.Score" ng-decimal fraction="2"
                                ng-change="memberEPAInfoCtrl.inputScore(kpi)" tooltip="{{memberEPAInfoCtrl.getNotificationInputScore(kpi)}}" tooltip-trigger="focus" />
