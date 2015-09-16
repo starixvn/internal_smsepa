@@ -23,7 +23,7 @@
             <label class="col-sm-1 text-right" data-translate="Reason"></label>
             <div class="col-sm-2 field">
                 <select class="form-control" ng-model="attendanceCtrl.filter.reasonId"
-                        ng-options="opt.Id as opt.Name for opt in attendanceCtrl.violationOptions">
+                        ng-options="opt.ViolationId as opt.Name for opt in attendanceCtrl.violationOptions">
                     <option value="">-- Select a Reason --</option>
                 </select>
             </div>

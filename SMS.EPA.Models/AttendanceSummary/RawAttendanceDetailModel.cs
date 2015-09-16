@@ -10,11 +10,18 @@
 namespace SMS.EPA.Model.AttendanceSummary
 {
     using System.Collections.Generic;
+    using SMS.EPA.Model.Employee;
 
     public class RawAttendanceDetailModel
     {
-        public IEnumerable<AttendanceDetailModel> FirstViolations { get; set; }
+        public RawAttendanceDetailModel()
+        {
+            Employees = new List<EmployeeModel>();
+            Violations = new List<AttendanceDetailModel>();
+        }
 
-        public IEnumerable<AttendanceDetailModel> LastViolations { get; set; }
+        public IEnumerable<EmployeeModel> Employees { get; set; }
+
+        public IEnumerable<AttendanceDetailModel> Violations { get; set; }
     }
 }

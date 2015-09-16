@@ -27,5 +27,7 @@ namespace SMS.EPA.Services.Interfaces
         IEnumerable<ViolationModel> GetViolationType(GetViolationTypeCriteria criteria);
 
         IEnumerable<AttendanceDetailModel> GetAttendanceDetail(GetDetailAttendanceCriteria criteria);
+
+        CommandResult UpdateIgnoredViolation(UpdateIgnoredViolationCriteria criteria);
     }
 }

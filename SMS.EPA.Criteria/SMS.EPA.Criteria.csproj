@@ -68,6 +68,7 @@
     <Compile Include="AttendanceSummary\GetOtherViolationsOfEmployeeCriteria.cs" />
     <Compile Include="AttendanceSummary\GetViolationTypeCriteria.cs" />
     <Compile Include="AttendanceSummary\InsertOtherViolationsCriteria.cs" />
+    <Compile Include="AttendanceSummary\UpdateIgnoredViolationCriteria.cs" />
     <Compile Include="Authentication\GetEmployeeByCodeCriteria.cs" />
     <Compile Include="Authentication\GetEmployeeByDomainUsernameCriteria.cs" />
     <Compile Include="CheckFlowAssignment\GetDepartmentFlowSettingCriteria.cs" />
@@ -175,6 +176,10 @@
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">
       <Project>{76ee2da4-7127-4c21-b218-adff51b2b74e}</Project>
       <Name>SMS.EPA.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SMS.EPA.Models\SMS.EPA.Model.csproj">
+      <Project>{235c8d9e-97ec-4183-baf2-3783f2f816cc}</Project>
+      <Name>SMS.EPA.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

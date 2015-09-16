@@ -9,14 +9,14 @@
 <div class="modal-body">
     <form class="form-horizontal" role="form" novalidate>
         <div class="form-group required">
-            <label class="col-sm-3 control-label" data-translate="Name">
+            <label class="col-sm-3 control-label" data-translate="ViolationType">
             </label>
             <div class="col-sm-8 field">
                 <input type="text" class="form-control" maxlength="200" ng-model="violationCtrl.violation.Name" required />
             </div>
         </div>
         <div class="form-group required">
-            <label class="col-sm-3 control-label" data-translate="WorkDate">
+            <label class="col-sm-3 control-label" data-translate="ViolationDate">
             </label>
             <div class="col-sm-3">
                 <input readonly class="calendar-form-control" type="text"
@@ -27,7 +27,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label" data-translate="Score"></label>
+            <label class="col-sm-3 control-label" data-translate="SubtractScore"></label>
             <div class="col-sm-8 field">
                 <input type="text" class="form-control" number-dot ng-model="violationCtrl.violation.Score" required />
             </div>
@@ -53,11 +53,11 @@
             <tr class="headerName">
                 <th data-translate="SymbolCount">
                 </th>
-                <th data-translate="WorkDate">
+                <th data-translate="ViolationDate">
                 </th>
-                <th data-translate="Name">
+                <th data-translate="ViolationType">
                 </th>
-                <th data-translate="Score">
+                <th data-translate="SubtractScore">
                 </th>
                 <th data-translate="Comment">
                 </th>

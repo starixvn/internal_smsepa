@@ -10,9 +10,11 @@
 namespace SMS.EPA.Repositories.Implement
 {
     using System.Collections.Generic;
+    using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using SMS.EPA.Model.AttendanceSummary;
+    using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Repositories.Interfaces;
 
@@ -39,10 +41,18 @@ namespace SMS.EPA.Repositories.Implement
             {
                 using (var multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    IEnumerable<AttendanceDetailModel> firstViolations = multi.Read<AttendanceDetailModel, Group, ViolationModel, ViolationModel, ViolationModel, ViolationModel, ViolationModel, AttendanceDetailModel>(
-                        (attD, gr, chIn, chO, tot, laI, earO) =>
+                    IEnumerable<EmployeeModel> employees = multi.Read<EmployeeModel, Group, EmployeeModel>(
+                        (emp, gr) =>
                         {
-                            attD.Group = gr;
+                            emp.Group = gr;
+                            return emp;
+                        },
+                        "GroupId");
+
+                    IEnumerable<AttendanceDetailModel> firstViolations = 
+                        multi.Read<AttendanceDetailModel, ViolationModel, ViolationModel, ViolationModel, ViolationModel, ViolationModel, AttendanceDetailModel>(
+                        (attD, chIn, chO, tot, laI, earO) =>
+                        {
                             attD.CheckIn = chIn;
                             attD.CheckOut = chO;
                             attD.TotalHours = tot;
@@ -50,25 +60,45 @@ namespace SMS.EPA.Repositories.Implement
                             attD.EarlyOut = earO;
                             return attD;
                         },
-                        "GroupId, CheckInId, CheckOutId, TotalHoursId, LateInId, EarlyOutId");
+                        "CheckInId, CheckOutId, TotalHoursId, LateInId, EarlyOutId");
 
-                    IEnumerable<AttendanceDetailModel> lastViolations = multi.Read<AttendanceDetailModel, Group, ViolationModel, ViolationModel, ViolationModel, ViolationModel, AttendanceDetailModel>(
-                        (attD, gr, ab, up, ch, upa) =>
+                    IEnumerable<AttendanceDetailModel> lastViolations = 
+                        multi.Read<AttendanceDetailModel, ViolationModel, ViolationModel, ViolationModel, ViolationModel, AttendanceDetailModel>(
+                        (attD, ab, up, ch, upa) =>
                         {
-                            attD.Group = gr;
                             attD.Absent = ab;
                             attD.UnpaidLeave = up;
                             attD.UnpaidLeaveAbsent = upa;
                             attD.ChangeShift = ch;
                             return attD;
                         },
-                        "GroupId, AbsentId, UnpaidLeaveId, ChangeShiftId, UnpaidLeaveAbsent");
+                        "AbsentId, UnpaidLeaveId, ChangeShiftId, UnpaidLeaveAbsentId");
 
-                    var rawAttendanceDetail = new RawAttendanceDetailModel
+                    IEnumerable<AttendanceDetailModel> violations = new List<AttendanceDetailModel>();
+
+                    if (firstViolations != null && firstViolations.Count() > 0)
                     {
-                        FirstViolations = firstViolations,
-                        LastViolations = lastViolations
-                    };
+                        if (lastViolations != null && lastViolations.Count() > 0)
+                        {
+                            violations = firstViolations.Concat(lastViolations);
+                        }
+                        else
+                        {
+                            violations = firstViolations;
+                        }
+                    }
+                    else if (lastViolations != null && lastViolations.Count() > 0)
+                    {
+                        violations = lastViolations;
+                    }
+
+                    var rawAttendanceDetail = new RawAttendanceDetailModel();
+
+                    if (employees != null && employees.Count() > 0)
+                    {
+                        rawAttendanceDetail.Employees = employees;
+                        rawAttendanceDetail.Violations = violations.ToList();
+                    }
 
                     return rawAttendanceDetail;
                   }

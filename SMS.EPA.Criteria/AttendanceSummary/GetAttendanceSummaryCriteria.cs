@@ -22,6 +22,8 @@ namespace SMS.EPA.Criteria.AttendanceSummary
 
         public int? EmployeeId { get; set; }
 
+        public int? ReasonId { get; set; }
+
         public override bool IsValid()
         {
             return EndDate >= StartDate;

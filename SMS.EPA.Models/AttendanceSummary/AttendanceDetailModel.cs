@@ -12,11 +12,15 @@ namespace SMS.EPA.Model.AttendanceSummary
     using System;
     using SMS.EPA.Model.Employee;
 
-    public class AttendanceDetailModel : EmployeeModel
+    public class AttendanceDetailModel
     {
+        public int EmployeeId { get; set; }
+
         public DateTime WorkDate { get; set; }
 
-        public string Shift { get; set; }
+        public string ShiftName { get; set; }
+
+        public EmployeeModel Employee { get; set; }
 
         public ViolationModel CheckIn { get; set; }
 

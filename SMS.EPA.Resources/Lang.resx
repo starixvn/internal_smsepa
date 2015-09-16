@@ -993,4 +993,19 @@
   <data name="InProgress" xml:space="preserve">
     <value>In Progress</value>
   </data>
+  <data name="SubtractScore" xml:space="preserve">
+    <value>Subtract Score</value>
+  </data>
+  <data name="ViolationDate" xml:space="preserve">
+    <value>Violation Date</value>
+  </data>
+  <data name="ViolationDateRequired" xml:space="preserve">
+    <value>The Violation Date field is required!</value>
+  </data>
+  <data name="ViolationType" xml:space="preserve">
+    <value>Violation Type</value>
+  </data>
+  <data name="ViolationTypeRequired" xml:space="preserve">
+    <value>The Violation Type field is required!</value>
+  </data>
 </root>

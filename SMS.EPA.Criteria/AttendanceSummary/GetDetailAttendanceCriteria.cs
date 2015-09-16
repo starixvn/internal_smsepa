@@ -31,7 +31,7 @@ namespace SMS.EPA.Criteria.AttendanceSummary
 
         public override string GetSettingKey()
         {
-            return string.Empty;
+            return "EpaAttendanceSummary_GetDetail";
         }
     }
 }

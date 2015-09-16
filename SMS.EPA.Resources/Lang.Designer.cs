@@ -2275,6 +2275,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Subtract Score.
+        /// </summary>
+        public static string SubtractScore {
+            get {
+                return ResourceManager.GetString("SubtractScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SUMMARY.
         /// </summary>
         public static string Summary {
@@ -2613,6 +2622,42 @@ namespace SMS.EPA.Resources {
         public static string ValidateWrongPassword {
             get {
                 return ResourceManager.GetString("ValidateWrongPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Violation Date.
+        /// </summary>
+        public static string ViolationDate {
+            get {
+                return ResourceManager.GetString("ViolationDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Violation Date field is required!.
+        /// </summary>
+        public static string ViolationDateRequired {
+            get {
+                return ResourceManager.GetString("ViolationDateRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Violation Type.
+        /// </summary>
+        public static string ViolationType {
+            get {
+                return ResourceManager.GetString("ViolationType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Violation Type field is required!.
+        /// </summary>
+        public static string ViolationTypeRequired {
+            get {
+                return ResourceManager.GetString("ViolationTypeRequired", resourceCulture);
             }
         }
         

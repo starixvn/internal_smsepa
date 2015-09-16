@@ -224,6 +224,19 @@
       </Setting>
       <Setting Key="EpaAttendanceSummary_GetViolations" SpName="EpaAttendanceSummary_GetViolations" DbName="SMSEPA" Plain="0">
       </Setting>
+      <Setting Key="EpaAttendanceSummary_GetDetail" SpName="EpaAttendanceSummary_GetDetail" DbName="SMSEPA" Plain="0">
+        <Mapping DataField="CheckInId" ObjectProperty="ViolationId"/>
+        <Mapping DataField="CheckOutId" ObjectProperty="ViolationId"/>
+        <Mapping DataField="TotalHoursId" ObjectProperty="ViolationId"/>
+        <Mapping DataField="LateInId" ObjectProperty="ViolationId"/>
+        <Mapping DataField="EarlyOutId" ObjectProperty="ViolationId"/>
+        <Mapping DataField="AbsentId" ObjectProperty="ViolationId"/>
+        <Mapping DataField="UnpaidLeaveId" ObjectProperty="ViolationId"/>
+        <Mapping DataField="ChangeShiftId" ObjectProperty="ViolationId"/>
+        <Mapping DataField="UnpaidLeaveAbsentId" ObjectProperty="ViolationId"/>
+      </Setting>
+      <Setting Key="EpaAttendanceSummary_IgnoredViolation" SpName="EpaAttendanceSummary_IgnoredViolation" DbName="SMSEPA" Plain="0">
+      </Setting>
     </Function>
     <Function Name="Rating By KPI">
         <Setting Key="EPA_RatingByKPI_GetTargetTemplateByEvaluator" SpName="EPA_RatingByKPI_GetTargetTemplateByEvaluator" DbName="SMSEPA" Plain="0">

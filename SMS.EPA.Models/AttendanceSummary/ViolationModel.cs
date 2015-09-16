@@ -11,7 +11,7 @@ namespace SMS.EPA.Model.AttendanceSummary
 {
     public class ViolationModel
     {
-        public int Id { get; set; }
+        public int ViolationId { get; set; }
 
         public string Name { get; set; }
 
@@ -20,5 +20,7 @@ namespace SMS.EPA.Model.AttendanceSummary
         public string Value { get; set; }
 
         public bool HasViolated { get; set; }
+
+        public bool HasIgnored { get; set; }
     }
 }

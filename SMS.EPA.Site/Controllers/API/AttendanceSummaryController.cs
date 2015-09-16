@@ -11,6 +11,7 @@ namespace SMS.EPA.Site.Controllers.API
 {
     using System;
     using System.Collections.Generic;
+    using System.Web.Http;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.AttendanceSummary;
     using SMS.EPA.Model.AttendanceSummary;
@@ -35,14 +36,16 @@ namespace SMS.EPA.Site.Controllers.API
             DateTime startDate,
             DateTime endDate,
             int? departmentId = null,
-            int? employeeId = null)
+            int? employeeId = null,
+            int? reasonId = null)
         {
             var criteria = new GetAttendanceSummaryCriteria
             {
                 StartDate = startDate,
                 EndDate = endDate,
                 DepartmentId = departmentId,
-                EmployeeId = employeeId
+                EmployeeId = employeeId,
+                ReasonId = reasonId
             };
             IEnumerable<AttendanceSummaryModel> attendanceEmployees = _attendanceSummaryService.GetAttendanceSummary(criteria);
             return attendanceEmployees;
@@ -65,6 +68,7 @@ namespace SMS.EPA.Site.Controllers.API
             return violations;
         }
 
+        [HttpPost]
         public CommandResult InsertOtherViolation(InsertOtherViolationsCriteria criteria)
         {
             if (criteria != null)
@@ -76,6 +80,7 @@ namespace SMS.EPA.Site.Controllers.API
             return commandResult;
         }
 
+        [HttpDelete]
         public CommandResult DeleteOtherViolation(
             int employeeId,
             DateTime workDate,
@@ -116,6 +121,19 @@ namespace SMS.EPA.Site.Controllers.API
             };
             IEnumerable<AttendanceDetailModel> attendanceViolations = _attendanceSummaryService.GetAttendanceDetail(criteria);
             return attendanceViolations;
+        }
+
+        [HttpPut]
+        public CommandResult UpdateIgnoredViolation(IEnumerable<IgnoredViolationModel> violations)
+        {
+            var criteria = new UpdateIgnoredViolationCriteria
+            {
+                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+            };
+
+            criteria.IgnoredViolations = criteria.ConvertViolationItemToXml(violations);
+            CommandResult commandResult = _attendanceSummaryService.UpdateIgnoredViolation(criteria);
+            return commandResult;
         }
     }
 }

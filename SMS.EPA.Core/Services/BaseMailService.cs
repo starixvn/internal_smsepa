@@ -12,6 +12,7 @@ namespace SMS.EPA.Core.Services.Implement
     using System.Configuration;
     using System.IO;
     using System.Text.RegularExpressions;
+    using Fanex.MailDeliver.MailClient.API;
     using Fanex.MailDeliver.Model;
     using SMS.EPA.Core.Services.Interfaces;
 
@@ -32,7 +33,7 @@ namespace SMS.EPA.Core.Services.Implement
                 Title = ConfigurationManager.AppSettings["Email.SenderName"],
                 Body = email.Body
             };
-            using (var client = new Fanex.MailDeliver.MailClient.API.MailDeliver())
+            using (var client = new MailDeliver())
             {
                 client.SendMail(mailItem);
             }

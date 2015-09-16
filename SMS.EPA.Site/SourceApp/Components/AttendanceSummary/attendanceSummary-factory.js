@@ -3,7 +3,7 @@
 
 attendanceModule.factory('attendanceFactory', ['$http', 'baseUrl', function ($http, baseUrl) {
     return {
-        getAttendanceSummary: function (startDate, endDate, departmentId, employeeId) {
+        getAttendanceSummary: function (startDate, endDate, departmentId, employeeId, reasonId) {
             return $http.get(baseUrl + 'api/AttendanceSummary/GetAttendanceSummary',
                 {
                     params:
@@ -11,7 +11,8 @@ attendanceModule.factory('attendanceFactory', ['$http', 'baseUrl', function ($ht
                           startDate: startDate,
                           endDate: endDate,
                           departmentId: departmentId,
-                          employeeId: employeeId
+                          employeeId: employeeId,
+                          reasonId: reasonId
                       }
                 });
         },
@@ -54,6 +55,9 @@ attendanceModule.factory('attendanceFactory', ['$http', 'baseUrl', function ($ht
                     }
                 }
             );
+        },
+        ignoredViolation: function (violations) {
+            return $http.put(baseUrl + 'api/AttendanceSummary/UpdateIgnoredViolation', violations);
         }
     }
 }]);

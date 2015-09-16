@@ -23,7 +23,7 @@
             <label class="col-sm-1 text-right" data-translate="Reason"></label>
             <div class="col-sm-2 field">
                 <select class="form-control" ng-model="detailAttendanceCtrl.filter.reasonId"
-                        ng-options="opt.Id as opt.Name for opt in detailAttendanceCtrl.violationOptions">
+                        ng-options="opt.ViolationId as opt.Name for opt in detailAttendanceCtrl.violationOptions">
                     <option value="">-- Select a Reason --</option>
                 </select>
             </div>
@@ -50,7 +50,7 @@
             <label class="col-sm-1">
             </label>
             <div class="col-sm-1 btn-box daily-btn-box">
-                <input type="button" value="Search" class="button" ng-click="query(filter)" />
+                <input type="button" value="Search" class="button" ng-click="detailAttendanceCtrl.query(detailAttendanceCtrl.filter)" />
             </div>
         </div>
     </form>
@@ -107,55 +107,64 @@
         </thead>
         <tbody>
             <tr dir-paginate="employee in detailAttendanceCtrl.filteredItems | itemsPerPage: detailAttendanceCtrl.pageSize" current-page="detailAttendanceCtrl.currentPage">
-                <td class="text-center" ng-bind="employee.Code"></td>
-                <td class="text-center" ng-bind="employee.NickName"></td>
-                <td class="text-center" ng-bind="employee.Group.GroupName"></td>
-                <td ng-bind="employee.WorkDate | date: detailAttendanceCtrl.dateFormat"></td>
-                <td class="text-center" ng-bind="employee.Shift"></td>
+                <td class="text-center" ng-bind="employee.Employee.Code"></td>
+                <td class="text-center" ng-bind="employee.Employee.NickName"></td>
+                <td class="text-center" ng-bind="employee.Employee.Group.GroupName"></td>
+                <td class="text-center width200" ng-bind="employee.WorkDate | date: detailAttendanceCtrl.dateFormat"></td>
+                <td class="text-center" ng-bind="employee.ShiftName"></td>
                 <td ng-bind="employee.CheckIn.Value">
                     <span ng-show="employee.CheckIn.Value" ng-bind="employee.CheckIn.Value"></span>
                     <span ng-show="!employee.CheckIn.Value">-</span>
-                    <input class="ignore-right" ng-show="employee.CheckIn.HasViolated" type="checkbox" ></input>
+                    <input class="ignore-right" ng-show="employee.CheckIn.HasViolated" ng-model="employee.CheckIn.HasIgnored"
+                           ng-click="detailAttendanceCtrl.calculateApproverScore(employee, employee.CheckIn)" type="checkbox"></input>
                 </td>
                 <td>
                     <span ng-show="employee.CheckOut.Value" ng-bind="employee.CheckOut.Value"></span>
                     <span ng-show="!employee.CheckOut.Value">-</span>
-                    <input class="ignore-right" ng-show="employee.CheckOut.HasViolated" type="checkbox" ></input>
+                    <input class="ignore-right" ng-show="employee.CheckOut.HasViolated" ng-model="employee.CheckOut.HasIgnored"
+                           ng-click="detailAttendanceCtrl.calculateApproverScore(employee, employee.CheckOut)" type="checkbox"></input>
                 </td>
                 <td>
                     <span ng-show="employee.TotalHours.Value" ng-bind="employee.TotalHours.Value"></span>
                     <span ng-show="!employee.TotalHours.Value">-</span>
-                    <input class="ignore-right" ng-show="employee.TotalHours.HasViolated" type="checkbox" "></input>
+                    <input class="ignore-right" ng-show="employee.TotalHours.HasViolated" ng-model="employee.TotalHours.HasIgnored"
+                           ng-click="detailAttendanceCtrl.calculateApproverScore(employee, employee.TotalHours)" type="checkbox" "></input>
                 </td>
                 <td>
                     <span ng-show="employee.LateIn.Value" ng-bind="employee.LateIn.Value"></span>
                     <span ng-show="!employee.LateIn.Value" >-</span>
-                    <input class="ignore-right" ng-show="employee.LateIn.HasViolated" type="checkbox" ></input>
+                    <input class="ignore-right" ng-show="employee.LateIn.HasViolated" ng-model="employee.LateIn.HasIgnored"
+                           ng-click="detailAttendanceCtrl.calculateApproverScore(employee, employee.LateIn)" type="checkbox"></input>
                 </td>
                 <td>
                     <span ng-show="employee.EarlyOut.Value" ng-bind="employee.EarlyOut.Value"></span>
                     <span ng-show="!employee.EarlyOut.Value">-</span>
-                    <input class="ignore-right" ng-show="employee.EarlyOut.HasViolated" type="checkbox" ></input>
+                    <input class="ignore-right" ng-show="employee.EarlyOut.HasViolated" ng-model="employee.EarlyOut.HasIgnored"
+                           ng-click="detailAttendanceCtrl.calculateApproverScore(employee, employee.EarlyOut)" type="checkbox"></input>
                 </td>
                 <td>
-                    <span ng-show="employee.Absent.Value">x</span>
+                    <span ng-show="employee.Absent.Value" ng-bind="employee.Absent.Value"></span>
                     <span ng-show="!employee.Absent.Value">-</span>
-                    <input class="ignore-right" ng-show="employee.Absent.HasViolated" type="checkbox" ></input>
+                    <input class="ignore-right" ng-show="employee.Absent.HasViolated" ng-model="employee.Absent.HasIgnored"
+                           ng-click="detailAttendanceCtrl.calculateApproverScore(employee, employee.Absent)" type="checkbox"></input>
                 </td>
                 <td>
-                    <span ng-show="employee.UnpaidLeave.Value">x</span>
+                    <span ng-show="employee.UnpaidLeave.Value" ng-bind="employee.UnpaidLeave.Value"></span>
                     <span ng-show="!employee.UnpaidLeave.Value">-</span>
-                    <input class="ignore-right" ng-show="employee.UnpaidLeave.HasViolated" type="checkbox" ></input>
+                    <input class="ignore-right" ng-show="employee.UnpaidLeave.HasViolated" ng-model="employee.UnpaidLeave.HasIgnored"
+                           ng-click="detailAttendanceCtrl.calculateApproverScore(employee, employee.UnpaidLeave)" type="checkbox"></input>
                 </td>
                 <td>
-                    <span ng-show="employee.UnpaidLeaveAbsent.Value">x</span>
+                    <span ng-show="employee.UnpaidLeaveAbsent.Value" ng-bind="employee.UnpaidLeaveAbsent.Value"></span>
                     <span ng-show="!employee.UnpaidLeaveAbsent.Value">-</span>
-                    <input class="ignore-right" ng-show="employee.UnpaidLeaveAbsent.HasViolated" type="checkbox" ></input>
+                    <input class="ignore-right" ng-show="employee.UnpaidLeaveAbsent.HasViolated" ng-model="employee.UnpaidLeaveAbsent.HasIgnored"
+                           ng-click="detailAttendanceCtrl.calculateApproverScore(employee, employee.UnpaidLeaveAbsent)" type="checkbox"></input>
                 </td>
                 <td>
-                    <span ng-show="employee.ChangeShift.Value">x</span>
+                    <span ng-show="employee.ChangeShift.Value" ng-bind="employee.ChangeShift.Value"></span>
                     <span ng-show="!employee.ChangeShift.Value">-</span>
-                    <input class="ignore-right" ng-show="employee.ChangeShift.HasViolated" type="checkbox"></input>
+                    <input class="ignore-right" ng-show="employee.ChangeShift.HasViolated" ng-model="employee.ChangeShift.HasIgnored"
+                           ng-click="detailAttendanceCtrl.calculateApproverScore(employee, employee.ChangeShift)" type="checkbox"></input>
                 </td>
                 <td class="red">-{{employee.SystemSubtractScore | number: 1}}</td>
                 <td class="red">-{{employee.ApproverSubtractScore | number: 1}}</td>
@@ -182,6 +191,6 @@
     </table>
 
     <div class="col-sm-1 btn-box daily-btn-box">
-        <input type="button" value="Save" class="button" />
+        <input type="button" value="Save" class="button" ng-click="detailAttendanceCtrl.save()" />
     </div>
 </div>
