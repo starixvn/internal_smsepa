@@ -39,7 +39,7 @@
                     <div class="col-sm-offset-2 col-sm-8">
                         <input type="text" class="form-control text-center kpi-score" maxlength="5" ng-readonly="memberEPAInfoCtrl.isReadonly"
                                ng-show="kpiGroup.TotalKPIOptional == 0" ng-model="kpi.EvaluateByEvaluators[0].Score" ng-decimal fraction="2"
-                               ng-change="memberEPAInfoCtrl.inputScore(kpi)" />
+                               ng-change="memberEPAInfoCtrl.inputScore(kpi)" tooltip="{{memberEPAInfoCtrl.getNotificationInputScore(kpi)}}" tooltip-trigger="focus" />
                     </div>
                 </div>
             </div>

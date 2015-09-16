@@ -21,6 +21,6 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public IEnumerable<EvaluationModel> Evaluations { get; set; }
 
-        public IEnumerable<EvaluatorModel> Evaluators { get; set; }
+        public IEnumerable<EPAProcessModel> Evaluators { get; set; }
     }
 }

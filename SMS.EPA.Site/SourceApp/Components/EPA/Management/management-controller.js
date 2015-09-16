@@ -77,12 +77,24 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory)
         }
     };
 
+    vm.openPopupViewComment = function (comment) {
+        EmployeeEPAModel.openPopupViewComment(vm, comment);
+    };
+
     vm.range = function (n) {
         return new Array(n);
     };
 
     vm.getClassProgress = function (isEndProcess) {
         return EmployeeEPAModel.getClassProgress(isEndProcess);
+    };
+
+    vm.getNotificationInputScore = function (processByManagement) {
+        if (processByManagement) {
+            return EmployeeEPAModel.getNotificationInputScore(processByManagement.MaxScore, vm.scoreInputValidMessage);
+        }
+
+        return '';
     };
 
     vm.inputScore = function (processByManagement) {
@@ -116,7 +128,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory)
                 comment: comment
             };
 
-            EmployeeEPAModel.updateScoreByReviewerOrManagement(vm.dataSaved, criteria);
+            EmployeeEPAModel.updateScoreByReviewerOrManagement(vm, criteria);
         }
     };
 

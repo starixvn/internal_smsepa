@@ -37,29 +37,30 @@
             <tr ng-repeat="opt in memberEPAInfoCtrl.range(memberEPAInfoCtrl.epaInfo.Rowspan) track by $index">
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center col-score"
                     ng-bind="memberEPAInfoCtrl.epaInfo.ProcessBySelf.TotalScore | customNumber" ng-show="$first"></td>
-                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center" ng-show="$first">
-                    <span class="glyphicon icon-description"
-                          ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.Comment.length > 0"
-                          tooltip="{{memberEPAInfoCtrl.epaInfo.ProcessBySelf.Comment}}"></span>
+                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center col-comment" ng-show="$first">
+                    <a class="glyphicon icon-view" href="" ng-attr-title='{{"ViewComment" | translate}}'
+                       ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.Comment.length > 0"
+                       ng-click="memberEPAInfoCtrl.openPopupViewComment(memberEPAInfoCtrl.epaInfo.ProcessBySelf.Comment)"></a>
                 </td>
                 <td class="text-center" ng-bind="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].NickName"></td>
                 <td ng-bind="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].TotalScore | customNumber" class="text-center col-score"></td>
-                <td class="text-center">
-                    <span class="glyphicon icon-description"
-                          ng-show="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].Comment.length > 0"
-                          tooltip="{{memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].Comment}}"></span>
+                <td class="text-center col-comment">
+                    <a class="glyphicon icon-view" href="" ng-attr-title='{{"ViewComment" | translate}}'
+                       ng-show="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].Comment.length > 0"
+                       ng-click="memberEPAInfoCtrl.openPopupViewComment(memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].Comment)"></a>
                 </td>
                 <td class="text-center" ng-bind="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].NickName"></td>
                 <td ng-bind="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].TotalScore | customNumber" class="text-center col-score"></td>
-                <td class="text-center">
-                    <span class="glyphicon icon-description"
-                          ng-show="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].Comment.length > 0"
-                          tooltip="{{memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].Comment}}"></span>
+                <td class="text-center col-comment">
+                    <a class="glyphicon icon-view" href="" ng-attr-title='{{"ViewComment" | translate}}'
+                       ng-show="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].Comment.length > 0"
+                       ng-click="memberEPAInfoCtrl.openPopupViewComment(memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].Comment)"></a>
                 </td>
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="total-score" ng-show="$first">
                     <input type="text" class="form-control text-center" maxlength="5" ng-readonly="memberEPAInfoCtrl.isReadonly"
                            ng-model="memberEPAInfoCtrl.epaInfo.ProcessByManagements[0].TotalScore" ng-decimal fraction="2"
-                           ng-change="memberEPAInfoCtrl.inputScore(memberEPAInfoCtrl.epaInfo.ProcessByManagements[0])" />
+                           ng-change="memberEPAInfoCtrl.inputScore(memberEPAInfoCtrl.epaInfo.ProcessByManagements[0])"
+                           tooltip="{{memberEPAInfoCtrl.getNotificationInputScore(memberEPAInfoCtrl.epaInfo.ProcessByManagements[0])}}" tooltip-trigger="focus" />
                 </td>
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="summary-comment" ng-show="$first">
                     <textarea class="form-control" ng-readonly="memberEPAInfoCtrl.isReadonly"

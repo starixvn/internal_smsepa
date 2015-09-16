@@ -9,10 +9,19 @@
 
 namespace SMS.EPA.Model.Enitites
 {
+    using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Core.Utilities;
+
     public class StatusModel
     {
         public int StatusId { get; set; }
 
-        public string Name { get; set; }
+        public string Name
+        {
+            get
+            {
+                return Enumerations.GetDescription((Status)StatusId);
+            }
+        }
     }
 }

@@ -29,16 +29,14 @@
             </td>
             <td class="text-center col-action">
                 <a class="evaluate-now button" href="" ng-click="dashboardCtrl.viewEPADetail(myEPA)"
-                   ng-href="{{dashboardCtrl.viewEPADetailUrl}}"
-                   ng-show="!myEPA.IsEndProcessBySelf && myEPA.Status.StatusId == 0">
+                   ng-href="{{dashboardCtrl.viewEPADetailUrl}}" ng-show="!myEPA.IsEndProcessBySelf && myEPA.Status.StatusId == 0">
                     <span data-translate="EvaluateNow"></span>
                     <span class="glyphicon icon-breadcrumb"></span>
                 </a>
                 <a class="evaluate-now button" href="" ng-click="dashboardCtrl.viewEPAResult(myEPA)"
-                   ng-href="{{dashboardCtrl.viewEPAResultUrl}}"
-                   ng-show="myEPA.IsEndProcessBySelf || myEPA.Status.StatusId == 1">
+                   ng-href="{{dashboardCtrl.viewEPAResultUrl}}" ng-show="myEPA.IsEndProcessBySelf || myEPA.Status.StatusId == 1">
                     <span data-translate="View"></span>
-                    <span class="glyphicon glyphicon-search"></span>
+                    <span class="glyphicon icon-view"></span>
                 </a>
             </td>
         </tr>

@@ -257,7 +257,6 @@
     <Content Include="Content\Site\images\icon_sprite.png" />
     <Content Include="Content\Site\images\line-menu.png" />
     <Content Include="Content\Site\images\logo-login.png" />
-    <Content Include="Content\Site\images\right_arrow.gif" />
     <Content Include="Content\Site\images\save_submit.png" />
     <Content Include="Content\Site\images\sms_epa_login.png" />
     <Content Include="Content\Site\images\sms_epa_logo.png" />
@@ -269,12 +268,6 @@
     <Content Include="Content\Site\images\toggle_collapsed.png" />
     <Content Include="Content\Site\images\toggle_expanded.png" />
     <Content Include="Content\Site\images\user.png" />
-    <Content Include="Content\Site\layout.css">
-      <DependentUpon>layout.less</DependentUpon>
-    </Content>
-    <Content Include="Content\Site\layout.min.css">
-      <DependentUpon>layout.css</DependentUpon>
-    </Content>
     <Content Include="Content\Site\variables.css">
       <DependentUpon>variables.less</DependentUpon>
     </Content>
@@ -385,6 +378,7 @@
     <Content Include="SourceApp\Components\EPA\Templates\generalInformation.html" />
     <Content Include="SourceApp\Components\EPA\MyEPA\Templates\index.html" />
     <Content Include="SourceApp\Components\EPA\MyEPA\Templates\listKPI.html" />
+    <Content Include="SourceApp\Components\EPA\Templates\modalViewComment.html" />
     <Content Include="SourceApp\Components\EPA\Templates\performanceDetails.html" />
     <Content Include="SourceApp\Components\EPA\Templates\performanceResult.html" />
     <Content Include="SourceApp\Components\EPA\Templates\ratingInstruction.html" />
@@ -567,9 +561,6 @@
     <Content Include="Content\Site\mixins.less" />
     <Content Include="Content\Site\variables.less" />
     <Content Include="Content\Site\auth\style.less" />
-    <Content Include="Content\Site\layout.css.map">
-      <DependentUpon>layout.css</DependentUpon>
-    </Content>
     <Content Include="Content\Site\auth\style.css.map">
       <DependentUpon>style.css</DependentUpon>
     </Content>

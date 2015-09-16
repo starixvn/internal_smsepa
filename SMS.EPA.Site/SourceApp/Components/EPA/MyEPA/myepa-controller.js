@@ -112,7 +112,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel) {
 
         angular.forEach(epaInfo.KPIGroups, function (kpiGroup) {
             angular.forEach(kpiGroup.KPIs, function (kpi) {
-                if (kpi.IsRequiredEvaluate && (!kpi.EvaluateBySelf.Score || kpi.EvaluateBySelf.Score === 0)) {
+                if (kpi.IsRequiredEvaluate
+                    && (!kpi.EvaluateBySelf.Score || parseFloat(kpi.EvaluateBySelf.Score) === 0)) {
                     isValid = false;
                     kpi.EvaluateBySelf.EvaluateValid = true;
                 }
@@ -129,6 +130,10 @@ function ($window, $translate, $routeParams, EmployeeEPAModel) {
                 }
             });
         });
+
+        if (!isValid) {
+            EmployeeEPAModel.notificationEvaluateEPAInValid();
+        }
 
         return isValid;
     };
@@ -165,6 +170,10 @@ function ($window, $translate, $routeParams, EmployeeEPAModel) {
         calculateScore(vm.epaInfo);
     };
 
+    vm.getNotificationInputScore = function (kpi) {
+        return EmployeeEPAModel.getNotificationInputScore(kpi.Weight, vm.scoreInputValidMessage);
+    };
+
     vm.inputScore = function (kpi) {
         kpi.EvaluateBySelf.Rate = 0;
         kpi.EvaluateBySelf.Percent = null;
@@ -179,7 +188,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel) {
 
     vm.save = function (epaInfo) {
         if (validateEPA(epaInfo)) {
-            EmployeeEPAModel.updateEPAScore(vm.dataSaved, epaInfo);
+            EmployeeEPAModel.updateEPAScore(vm);
         }
     };
 

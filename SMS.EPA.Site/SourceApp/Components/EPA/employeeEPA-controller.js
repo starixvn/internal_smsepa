@@ -39,11 +39,15 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory)
         utilitiesFactory.readLess(item);
     };
 
+    vm.openPopupViewComment = function (comment) {
+        EmployeeEPAModel.openPopupViewComment(vm, comment);
+    };
+
     vm.range = function (n) {
         return new Array(n);
     };
 
-    vm.cancel = function () {
+    vm.back = function () {
         $window.history.back();
     };
 
@@ -51,7 +55,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory)
         EmployeeEPAModel.getEPAInfoById(vm.epaId).then(function () {
             vm.epaInfo = EmployeeEPAModel.epaInfo;
 
-            if (vm.epaInfo.Department.DepartmentId == 2) {
+            if (vm.epaInfo.HasAttendanceScore) {
                 vm.finalScore = calculateFinalScore(vm.epaInfo) + vm.epaInfo.AttendanceScore;
             }
             else {
@@ -75,4 +79,16 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory)
     };
 
     vm.initialize();
+}]);
+
+epaModule.controller('ViewCommentController',
+['$modalInstance', 'comment',
+function ($modalInstance, comment) {
+    var vm = this;
+
+    vm.comment = comment;
+
+    vm.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
 }]);

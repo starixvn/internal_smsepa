@@ -60,7 +60,7 @@ namespace SMS.EPA.Repositories.Implement
                         },
                         "StatusId");
 
-                    result.Evaluators = multi.Read<EvaluatorModel>();
+                    result.Evaluators = multi.Read<EPAProcessModel>();
 
                     return result;
                 }
@@ -111,7 +111,7 @@ namespace SMS.EPA.Repositories.Implement
 
                     epaInfo.Evaluations = multi.Read<EvaluationModel>();
 
-                    epaInfo.Evaluators = multi.Read<EvaluatorModel>().ToList();
+                    epaInfo.Evaluators = multi.Read<EPAProcessModel>().ToList();
                 }
             }
 

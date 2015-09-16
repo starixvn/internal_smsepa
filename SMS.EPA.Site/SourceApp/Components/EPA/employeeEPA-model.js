@@ -101,6 +101,10 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         });
     };
 
+    employeeEPAModel.getNotificationInputScore = function (maxWeight, message) {
+        return utilitiesFactory.formatString(message, maxWeight);
+    };
+
     employeeEPAModel.validateScoreInput = function (weight, maxWeight, scoreInputValidMessage) {
         var isValid = true;
 
@@ -114,12 +118,16 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         return isValid;
     };
 
-    employeeEPAModel.updateEPAScore = function (dataSaved, epaInfo) {
-        return employeeEPAFactory.updateEPAScore(epaInfo)
+    employeeEPAModel.notificationEvaluateEPAInValid = function () {
+        notificationFactory.error("EvaluateEPAInvalid");
+    }
+
+    employeeEPAModel.updateEPAScore = function (vm) {
+        return employeeEPAFactory.updateEPAScore(vm.epaInfo)
         .success(function (response) {
             if (response.IsSuccessful) {
                 notificationFactory.success("UpdatedSuccessfully");
-                dataSaved = true;
+                vm.dataSaved = true;
             }
             else {
                 notificationFactory.error("", response.Message);
@@ -129,12 +137,12 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         });
     };
 
-    employeeEPAModel.updateScoreByReviewerOrManagement = function (dataSaved, criteria) {
+    employeeEPAModel.updateScoreByReviewerOrManagement = function (vm, criteria) {
         return employeeEPAFactory.updateScoreByReviewerOrManagement(criteria)
         .success(function (response) {
             if (response.IsSuccessful) {
                 notificationFactory.success("UpdatedSuccessfully");
-                dataSaved = true;
+                vm.dataSaved = true;
             }
             else {
                 notificationFactory.error("", response.Message);
@@ -153,12 +161,12 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         return true;
     };
 
-    employeeEPAModel.updateEPAScoreByEvaluator = function (dataSaved, epaInfo) {
-        return employeeEPAFactory.updateEPAScoreByEvaluator(epaInfo)
+    employeeEPAModel.updateEPAScoreByEvaluator = function (vm) {
+        return employeeEPAFactory.updateEPAScoreByEvaluator(vm.epaInfo)
         .success(function (response) {
             if (response.IsSuccessful) {
                 notificationFactory.success("UpdatedSuccessfully");
-                dataSaved = true;
+                vm.dataSaved = true;
             }
             else {
                 notificationFactory.error("", response.Message);
@@ -190,6 +198,23 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         else {
             return '';
         }
+    };
+
+    employeeEPAModel.openPopupViewComment = function (vm, comment) {
+        vm.modalInstance = $modal.open({
+            templateUrl: 'SourceApp/Components/EPA/Templates/modalViewComment.html',
+            controller: "ViewCommentController as modalViewCommentCtrl",
+            backdrop: 'static',
+            size: 'sm',
+            resolve: {
+                comment: function () {
+                    return comment;
+                }
+            },
+            windowClass: "modal-confirm-center"
+        });
+
+        return vm.modalInstance.result;
     };
 
     return employeeEPAModel;

@@ -29,21 +29,22 @@
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center col-score"
                     ng-bind="memberEPAInfoCtrl.epaInfo.ProcessBySelf.TotalScore | customNumber" ng-show="$first"></td>
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center col-comment" ng-show="$first">
-                    <span class="glyphicon icon-description"
-                          ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.Comment.length > 0"
-                          tooltip="{{memberEPAInfoCtrl.epaInfo.ProcessBySelf.Comment}}"></span>
+                    <a class="glyphicon icon-view" href="" ng-attr-title='{{"ViewComment" | translate}}'
+                       ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.Comment.length > 0"
+                       ng-click="memberEPAInfoCtrl.openPopupViewComment(memberEPAInfoCtrl.epaInfo.ProcessBySelf.Comment)"></a>
                 </td>
                 <td ng-bind="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].NickName" class="text-center"></td>
                 <td ng-bind="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].TotalScore | customNumber" class="text-center col-score"></td>
                 <td class="text-center col-comment">
-                    <span class="glyphicon icon-description"
-                          ng-show="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].Comment.length > 0"
-                          tooltip="{{memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].Comment}}"></span>
+                    <a class="glyphicon icon-view" href="" ng-attr-title='{{"ViewComment" | translate}}'
+                       ng-show="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].Comment.length > 0"
+                       ng-click="memberEPAInfoCtrl.openPopupViewComment(memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].Comment)"></a>
                 </td>
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="total-score" ng-show="$first">
                     <input type="text" class="form-control text-center" maxlength="5" ng-readonly="memberEPAInfoCtrl.isReadonly"
                            ng-model="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[0].TotalScore" ng-decimal fraction="2"
-                           ng-change="memberEPAInfoCtrl.inputScore(memberEPAInfoCtrl.epaInfo.ProcessByReviewers[0])" />
+                           ng-change="memberEPAInfoCtrl.inputScore(memberEPAInfoCtrl.epaInfo.ProcessByReviewers[0])"
+                           tooltip="{{memberEPAInfoCtrl.getNotificationInputScore(memberEPAInfoCtrl.epaInfo.ProcessByReviewers[0])}}" tooltip-trigger="focus" />
                 </td>
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="summary-comment" ng-show="$first">
                     <textarea class="form-control" ng-readonly="memberEPAInfoCtrl.isReadonly"

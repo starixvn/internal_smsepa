@@ -993,7 +993,13 @@
   <data name="InProgress" xml:space="preserve">
     <value>In Progress</value>
   </data>
-  <data name="SubtractScore" xml:space="preserve">
+  <data name="EvaluateEPAInvalid" xml:space="preserve">
+    <value>There are some empty rates or comments. Please fill them before submitting.</value>
+  </data>
+  <data name="ViewComment" xml:space="preserve">
+    <value>View Comment</value>
+  </data>
+   <data name="SubtractScore" xml:space="preserve">
     <value>Subtract Score</value>
   </data>
   <data name="ViolationDate" xml:space="preserve">

@@ -1,0 +1,14 @@
+﻿<div id="viewPopup">
+    <div class="modal-header">
+        <div class="popup-header">
+            {{"Comment" | translate}}
+            <span class="close-popup" ng-click="modalViewCommentCtrl.cancel()"></span>
+        </div>
+    </div>
+    <div class="modal-body modal-view-comment">
+        <div ng-bind="modalViewCommentCtrl.comment"></div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-default customize" ng-click="modalViewCommentCtrl.cancel()" data-translate="Cancel"></button>
+    </div>
+</div>

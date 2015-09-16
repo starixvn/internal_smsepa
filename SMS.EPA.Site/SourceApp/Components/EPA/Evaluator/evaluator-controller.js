@@ -134,7 +134,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
         angular.forEach(epaInfo.KPIGroups, function (kpiGroup) {
             angular.forEach(kpiGroup.KPIs, function (kpi) {
                 if (kpi.IsRequiredEvaluate
-                    && (!kpi.EvaluateByEvaluators[0].Score || kpi.EvaluateByEvaluators[0].Score === 0)) {
+                    && (!kpi.EvaluateByEvaluators[0].Score || parseFloat(kpi.EvaluateByEvaluators[0].Score) === 0)) {
                     isValid = false;
                     kpi.EvaluateByEvaluators[0].EvaluateValid = true;
                 }
@@ -154,11 +154,19 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
             });
         });
 
+        if (!isValid) {
+            EmployeeEPAModel.notificationEvaluateEPAInValid();
+        }
+
         return isValid;
     };
 
     vm.getClassProgress = function (isEndProcess) {
         return EmployeeEPAModel.getClassProgress(isEndProcess);
+    };
+
+    vm.getNotificationInputScore = function (kpi) {
+        return EmployeeEPAModel.getNotificationInputScore(kpi.Weight, vm.scoreInputValidMessage);
     };
 
     vm.inputScore = function (kpi) {
@@ -207,7 +215,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
 
     vm.save = function (epaInfo) {
         if (validateEPA(epaInfo)) {
-            EmployeeEPAModel.updateEPAScoreByEvaluator(vm.dataSaved, epaInfo);
+            EmployeeEPAModel.updateEPAScoreByEvaluator(vm);
         }
     };
 

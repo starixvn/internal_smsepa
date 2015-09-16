@@ -835,6 +835,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There are some empty rates or comments. Please fill them before submitting..
+        /// </summary>
+        public static string EvaluateEPAInvalid {
+            get {
+                return ResourceManager.GetString("EvaluateEPAInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Evaluate Now.
         /// </summary>
         public static string EvaluateNow {

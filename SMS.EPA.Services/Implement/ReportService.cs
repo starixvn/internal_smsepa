@@ -49,7 +49,6 @@ namespace SMS.EPA.Services.Implement
 
                 foreach (var epa in result.MyEPAs)
                 {
-                    epa.Status.Name = Enumerations.GetDescription((Status)epa.Status.StatusId);
                     epa.FinalScore = !string.IsNullOrEmpty(epa.FinalScore) ? _encodeService.Decode(epa.FinalScore) : string.Empty;
                 }
             }

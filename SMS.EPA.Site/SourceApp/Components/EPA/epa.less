@@ -287,7 +287,17 @@
     }
 
     .col-comment, .col-score, .col-attendance-score {
-        width: 8% !important;
+        width: 7% !important;
+    }
+
+    .col-comment {
+        a {
+            cursor: pointer;
+
+            &:hover, &:focus {
+                text-decoration: none;
+            }
+        }
     }
 
     .total-score {
@@ -312,6 +322,8 @@
 }
 
 .table-performance-detail {
+    margin: 0;
+
     .oddRow > tr {
         background-color: #ececec;
 
@@ -329,7 +341,7 @@
     }
 
     .col-kpi-name {
-        width: 40%;
+        width: 35%;
     }
 
     .col-score {
@@ -337,6 +349,8 @@
     }
 
     .col-comment {
+        width: 20%;
+
         a {
             cursor: pointer;
 
@@ -476,6 +490,10 @@
             margin-bottom: 0; 
         }
     }
+}
+
+.modal-view-comment {
+    min-height: 200px;
 }
 
 @media (min-width:800px) and (max-width: 1000px) {
