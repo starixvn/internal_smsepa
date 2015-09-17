@@ -85,8 +85,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory)
         return new Array(n);
     };
 
-    vm.getClassProgress = function (isEndProcess) {
-        return EmployeeEPAModel.getClassProgress(isEndProcess);
+    vm.getClassProgress = function (statusEndProcess) {
+        return EmployeeEPAModel.getClassProgress(statusEndProcess);
     };
 
     vm.getNotificationInputScore = function (processByManagement) {

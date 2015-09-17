@@ -231,6 +231,7 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
     vm.periodId = null;
     vm.employeeSettings = PeriodModel.employeeSettings;
     vm.departments = CommonModel.departments;
+    vm.treeDepartment = CommonModel.treeDepartment;
     vm.isFirstLoad = true;
     vm.departmentOptions = [];
 
@@ -262,7 +263,8 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
     var getDepartmentAndEmployeeSetting = function () {
         CommonModel.getDepartment(null, true).then(function () {
             vm.departments = CommonModel.departments;
-            vm.departmentOptions = angular.copy(CommonModel.departments);
+            vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
+            vm.departmentOptions = angular.copy(vm.treeDepartment);
         });
 
         getPeriodEmployeeSetting(vm.filter.periodId, vm.filter.departmentId, vm.filter.isExcludedEmployee);

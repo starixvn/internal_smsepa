@@ -22,6 +22,8 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public DateTime EndDate { get; set; }
 
+        public int StatusEndProcess { get; set; }
+
         public bool IsEndProcess { get; set; }
 
         public int EvaluatorId { get; set; }

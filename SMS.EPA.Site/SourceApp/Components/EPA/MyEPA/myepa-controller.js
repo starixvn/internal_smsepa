@@ -138,8 +138,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel) {
         return isValid;
     };
 
-    vm.getClassProgress = function (isEndProcess) {
-        return EmployeeEPAModel.getClassProgress(isEndProcess);
+    vm.getClassProgress = function (statusEndProcess) {
+        return EmployeeEPAModel.getClassProgress(statusEndProcess);
     };
 
     vm.cancelRating = function (kpiGroup, kpi) {

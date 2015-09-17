@@ -4,18 +4,18 @@
             <td class="text-center"><strong data-translate="Self"></strong></td>
             <td class="text-center">
                 <div ng-bind="memberEPAInfoCtrl.epaInfo.ProcessBySelf.StartDate | customDate"></div>
-                <progressbar ng-class="memberEPAInfoCtrl.getClassProgress(memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess)">
-                    <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" data-translate="EndProcess"></div>
-                    <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" data-translate="InProgress"></div>
+                <progressbar ng-class="memberEPAInfoCtrl.getClassProgress(memberEPAInfoCtrl.epaInfo.ProcessBySelf.StatusEndProcess)">
+                    <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.StatusEndProcess == 1" data-translate="EndProcess"></div>
+                    <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.StatusEndProcess == 0" data-translate="InProgress"></div>
                 </progressbar>
                 <div ng-bind="memberEPAInfoCtrl.epaInfo.ProcessBySelf.EndDate | customDate"></div>
             </td>
             <td class="text-center col-evaluator"><strong data-translate="Evaluator"></strong></td>
             <td class="text-center">
                 <div ng-bind="memberEPAInfoCtrl.epaInfo.Evaluators[0].StartDate | customDate"></div>
-                <progressbar ng-class="memberEPAInfoCtrl.getClassProgress(memberEPAInfoCtrl.epaInfo.Evaluators[0].IsEndProcess)">
-                    <div ng-show="memberEPAInfoCtrl.epaInfo.Evaluators[0].IsEndProcess" data-translate="EndProcess"></div>
-                    <div ng-show="!memberEPAInfoCtrl.epaInfo.Evaluators[0].IsEndProcess" data-translate="InProgress"></div>
+                <progressbar ng-class="memberEPAInfoCtrl.getClassProgress(memberEPAInfoCtrl.epaInfo.Evaluators[0].StatusEndProcess)">
+                    <div ng-show="memberEPAInfoCtrl.epaInfo.Evaluators[0].StatusEndProcess == 1" data-translate="EndProcess"></div>
+                    <div ng-show="memberEPAInfoCtrl.epaInfo.Evaluators[0].StatusEndProcess == 0" data-translate="InProgress"></div>
                 </progressbar>
                 <div ng-bind="memberEPAInfoCtrl.epaInfo.Evaluators[0].EndDate | customDate"></div>
             </td>
@@ -24,9 +24,9 @@
             </td>
             <td class="text-center" ng-show="memberEPAInfoCtrl.epaInfo.Reviewers.length > 0">
                 <div ng-bind="memberEPAInfoCtrl.epaInfo.Reviewers[0].StartDate | customDate"></div>
-                <progressbar ng-class="memberEPAInfoCtrl.getClassProgress(memberEPAInfoCtrl.epaInfo.Reviewers[0].IsEndProcess)">
-                    <div ng-show="memberEPAInfoCtrl.epaInfo.Reviewers[0].IsEndProcess" data-translate="EndProcess"></div>
-                    <div ng-show="!memberEPAInfoCtrl.epaInfo.Reviewers[0].IsEndProcess" data-translate="InProgress"></div>
+                <progressbar ng-class="memberEPAInfoCtrl.getClassProgress(memberEPAInfoCtrl.epaInfo.Reviewers[0].StatusEndProcess)">
+                    <div ng-show="memberEPAInfoCtrl.epaInfo.Reviewers[0].StatusEndProcess == 1" data-translate="EndProcess"></div>
+                    <div ng-show="memberEPAInfoCtrl.epaInfo.Reviewers[0].StatusEndProcess == 0" data-translate="InProgress"></div>
                 </progressbar>
                 <div ng-bind="memberEPAInfoCtrl.epaInfo.Reviewers[0].EndDate | customDate"></div>
             </td>
@@ -35,9 +35,9 @@
             </td>
             <td class="text-center" ng-show="memberEPAInfoCtrl.epaInfo.Managements.length > 0">
                 <div ng-bind="memberEPAInfoCtrl.epaInfo.Managements[0].StartDate | customDate"></div>
-                <progressbar ng-class="memberEPAInfoCtrl.getClassProgress(memberEPAInfoCtrl.epaInfo.Managements[0].IsEndProcess)">
-                    <div ng-show="memberEPAInfoCtrl.epaInfo.Managements[0].IsEndProcess" data-translate="EndProcess"></div>
-                    <div ng-show="!memberEPAInfoCtrl.epaInfo.Managements[0].IsEndProcess" data-translate="InProgress"></div>
+                <progressbar ng-class="memberEPAInfoCtrl.getClassProgress(memberEPAInfoCtrl.epaInfo.Managements[0].StatusEndProcess)">
+                    <div ng-show="memberEPAInfoCtrl.epaInfo.Managements[0].StatusEndProcess == 1" data-translate="EndProcess"></div>
+                    <div ng-show="memberEPAInfoCtrl.epaInfo.Managements[0].StatusEndProcess == 0" data-translate="InProgress"></div>
                 </progressbar>
                 <div ng-bind="memberEPAInfoCtrl.epaInfo.Managements[0].EndDate | customDate"></div>
             </td>

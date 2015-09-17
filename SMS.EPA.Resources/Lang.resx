@@ -999,7 +999,7 @@
   <data name="ViewComment" xml:space="preserve">
     <value>View Comment</value>
   </data>
-   <data name="SubtractScore" xml:space="preserve">
+  <data name="SubtractScore" xml:space="preserve">
     <value>Subtract Score</value>
   </data>
   <data name="ViolationDate" xml:space="preserve">
@@ -1013,5 +1013,8 @@
   </data>
   <data name="ViolationTypeRequired" xml:space="preserve">
     <value>The Violation Type field is required!</value>
+  </data>
+  <data name="FlowTemplateManagement" xml:space="preserve">
+    <value>Flow Template Management</value>
   </data>
 </root>

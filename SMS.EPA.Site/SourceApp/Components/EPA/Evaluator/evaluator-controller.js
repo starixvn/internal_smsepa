@@ -161,8 +161,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
         return isValid;
     };
 
-    vm.getClassProgress = function (isEndProcess) {
-        return EmployeeEPAModel.getClassProgress(isEndProcess);
+    vm.getClassProgress = function (statusEndProcess) {
+        return EmployeeEPAModel.getClassProgress(statusEndProcess);
     };
 
     vm.getNotificationInputScore = function (kpi) {

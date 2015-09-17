@@ -1,7 +1,7 @@
 ﻿<div ng-controller="EmployeeSettingPeriodController as employeeSettingPeriodCtrl">
     <form class="row form-inline filter">
         <div class="form-group">
-            <label class="control-label" data-translate="Department">
+            <label class="control-label" data-translate="DepartmentSection">
             </label>
             <select ng-model="employeeSettingPeriodCtrl.filter.departmentId"
                     ng-options="opt.DepartmentId as opt.Name for opt in employeeSettingPeriodCtrl.departmentOptions"
@@ -24,9 +24,9 @@
             <tr class="header-table">
                 <th colspan="12">
                     <div class="pull-left div-period-department-setting" name="multiSelectOption" ng-show="updateCtrl.permission == 2">
-                        <label class="control-label" data-translate="Department"></label>
-                        <add-class-to-role-filter multi-select input-model="employeeSettingPeriodCtrl.departments" button-label="Name" helper-elements="all reset"
-                                                  item-label="Name" tick-property="ticked" max-labels="3" class="multi-select period-department-select">
+                        <label class="control-label" data-translate="DepartmentSection"></label>
+                        <add-class-to-role-filter multi-select input-model="employeeSettingPeriodCtrl.treeDepartment" button-label="Name" helper-elements="all reset"
+                                                  item-label="Name" tick-property="ticked" max-labels="0" class="multi-select period-department-select">
                         </add-class-to-role-filter>
                     </div>
                     <div class="pull-left div-period-employee-setting" ng-show="updateCtrl.permission == 2">
@@ -62,7 +62,7 @@
                 </th>
                 <th data-translate="SymbolCount">
                 </th>
-                <th data-translate="Group">
+                <th data-translate="DepartmentSection">
                 </th>
                 <th data-translate="Employee">
                 </th>

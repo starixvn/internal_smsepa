@@ -25,7 +25,7 @@ namespace SMS.EPA.Criteria.EmployeeEPA
 
         public override bool IsValid()
         {
-            return true;
+            return ManagementId > 0;
         }
     }
 }

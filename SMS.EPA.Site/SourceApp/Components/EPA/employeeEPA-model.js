@@ -191,8 +191,8 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         return hasKPIOptional;
     };
 
-    employeeEPAModel.getClassProgress = function (isEndProcess) {
-        if (!isEndProcess) {
+    employeeEPAModel.getClassProgress = function (statusEndProcess) {
+        if (statusEndProcess === 0) {
             return 'progress-striped active';
         }
         else {

@@ -21,7 +21,7 @@ namespace SMS.EPA.Criteria.EmployeeEPA
 
         public override bool IsValid()
         {
-            return true;
+            return ActorUserId > 0 && ProcessId > 0;
         }
 
         public override string GetSettingKey()

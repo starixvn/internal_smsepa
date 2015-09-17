@@ -3,7 +3,7 @@
         <div class="form-group">
             <label class="control-label" data-translate="DepartmentSection">
             </label>
-            <select ng-model="departmentCtrl.filter.departmentId" ng-options="opt.DepartmentId as opt.Name for opt in departmentCtrl.departments"
+            <select ng-model="departmentCtrl.filter.departmentId" ng-options="opt.DepartmentId as opt.Name for opt in departmentCtrl.treeDepartment"
                     class="form-control lstBox-limit" ng-change="departmentCtrl.updateIsGroup(departmentCtrl.filter.departmentId)">
                 <option value="">-- {{"All" | translate}} --</option>
             </select>

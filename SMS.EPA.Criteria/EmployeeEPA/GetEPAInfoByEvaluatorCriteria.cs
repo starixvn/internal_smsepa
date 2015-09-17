@@ -19,7 +19,7 @@ namespace SMS.EPA.Criteria.EmployeeEPA
 
         public override bool IsValid()
         {
-            return EvaluatorId > 0;
+            return EPAId > 0 && EvaluatorId > 0;
         }
 
         public override string GetSettingKey()

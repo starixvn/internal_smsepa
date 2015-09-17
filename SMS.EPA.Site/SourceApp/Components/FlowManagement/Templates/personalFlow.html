@@ -59,7 +59,7 @@
                             </select>
                         </div>
                         <div class="row">
-                            <input type="text" ng-model="personalFlowCtrl.employeeName" class="txt-search" />
+                            <input type="text" ng-model="personalFlowCtrl.employeeName" class="txt-search search-inline-textbox" />
                         </div>
                         <ul class="row custom-ul employee-ul list-unstyled">
                             <li class="ui-state-highlight" list-draggable=".sortable"
@@ -73,7 +73,6 @@
                         <table class="row table table-bordered table-striped">
                             <thead>
                                 <tr class="headerName">
-                                    <th></th>
                                     <th class="col-sm-2 text-center" data-translate="HumanResource"></th>
                                     <th class="col-sm-2 text-center" data-translate="SelfEvaluator"></th>
                                     <th class="col-sm-2 text-center" data-translate="Evaluator"></th>
@@ -83,66 +82,6 @@
                             </thead>
                             <tbody class="table-body">
                                 <tr>
-                                    <td class="col-sm-2" data-translate="Duration"></td>
-                                    <td class="col-sm-2 text-center col-human-resource">
-                                        <input class="text-center duration" type="text" ng-model="personalFlowCtrl.humanResources.duration" number-only="number" />
-                                    </td>
-                                    <td class="col-sm-2 text-center col-self">
-                                        <input class="text-center duration" type="text" ng-model="personalFlowCtrl.selfs.duration" number-only="number" />
-                                    </td>
-                                    <td class="col-sm-2 text-center col-evaluator">
-                                        <input class="text-center duration" type="text" ng-model="personalFlowCtrl.evaluators.duration" number-only="number" />
-                                    </td>
-                                    <td class="col-sm-2 text-center col-reviewer">
-                                        <input class="text-center duration" type="text" ng-model="personalFlowCtrl.reviewers.duration" number-only="number" />
-                                    </td>
-                                    <td class="col-sm-2 text-center col-management">
-                                        <input class="text-center duration" type="text" ng-model="personalFlowCtrl.managements.duration" number-only="number" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-sm-2" data-translate="SendEmail"></td>
-                                    <td class="col-sm-2 text-center col-human-resource">
-                                        <input type="checkbox" ng-model="personalFlowCtrl.humanResources.hasSendMail" ng-checked="personalFlowCtrl.humanResources.hasSendMail" />
-                                    </td>
-                                    <td class="col-sm-2 text-center col-self">
-                                        <input type="checkbox" ng-model="personalFlowCtrl.selfs.hasSendMail" ng-checked="personalFlowCtrl.selfs.hasSendMail" />
-                                    </td>
-                                    <td class="col-sm-2 text-center col-evaluator">
-                                        <input type="checkbox" ng-model="personalFlowCtrl.evaluators.hasSendMail" ng-checked="personalFlowCtrl.evaluators.hasSendMail" />
-                                    </td>
-                                    <td class="col-sm-2 text-center col-reviewer">
-                                        <input type="checkbox" ng-model="personalFlowCtrl.reviewers.hasSendMail" ng-checked="personalFlowCtrl.reviewers.hasSendMail" />
-                                    </td>
-                                    <td class="col-sm-2 text-center col-management">
-                                        <input type="checkbox" ng-model="personalFlowCtrl.managements.hasSendMail" ng-checked="personalFlowCtrl.managements.hasSendMail" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-sm-2" data-translate="RemindDay"></td>
-                                    <td class="col-sm-2 text-center col-human-resource">
-                                        <select ng-model="personalFlowCtrl.humanResources.remindDay"
-                                                ng-options="opt for opt in updateCtrl.remindDay"></select>
-                                    </td>
-                                    <td class="col-sm-2 text-center col-self">
-                                        <select ng-model="personalFlowCtrl.selfs.remindDay"
-                                                ng-options="opt for opt in updateCtrl.remindDay"></select>
-                                    </td>
-                                    <td class="col-sm-2 text-center col-evaluator">
-                                        <select ng-model="personalFlowCtrl.evaluators.remindDay"
-                                                ng-options="opt for opt in updateCtrl.remindDay"></select>
-                                    </td>
-                                    <td class="col-sm-2 text-center col-reviewer">
-                                        <select ng-model="personalFlowCtrl.reviewers.remindDay"
-                                                ng-options="opt for opt in updateCtrl.remindDay"></select>
-                                    </td>
-                                    <td class="col-sm-2 text-center col-management">
-                                        <select ng-model="personalFlowCtrl.managements.remindDay"
-                                                ng-options="opt for opt in updateCtrl.remindDay"></select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-sm-2"></td>
                                     <td class="col-sm-2 col-human-resource">
                                         <ul list-sortable class="sortable custom-ul list-unstyled" id="humanResourceList">
                                             <li class="alert alert-info nomargin" ng-repeat="humanResource in personalFlowCtrl.humanResources.employees">

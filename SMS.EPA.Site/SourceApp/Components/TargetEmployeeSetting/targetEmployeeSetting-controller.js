@@ -170,6 +170,7 @@ function ($scope, TargetEmployeeSettingModel, CommonModel, TargetTemplateModel, 
     vm.targetDepartmentSettings = TargetEmployeeSettingModel.targetDepartmentSettings;
     vm.targetTemplates = TargetTemplateModel.targetTemplates;
     vm.departments = CommonModel.departments;
+    vm.treeDepartment = CommonModel.treeDepartment;
     vm.targetTypes = CommonModel.targetTypes;
     vm.isFirstLoad = true;
 
@@ -203,6 +204,7 @@ function ($scope, TargetEmployeeSettingModel, CommonModel, TargetTemplateModel, 
             if (newVal && vm.isFirstLoad) {
                 CommonModel.getDepartment(null, true).then(function () {
                     vm.departments = CommonModel.departments;
+                    vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
                 });
 
                 CommonModel.getTargetType().then(function () {
@@ -231,11 +233,12 @@ function ($scope, TargetEmployeeSettingModel, CommonModel, TargetTemplateModel, 
     };
 
     vm.query = function (filter) {
+        var departmentId = null;
         if (filter.departmentId) {
-            filter.departmentId = filter.departmentId < 0 ? -filter.departmentId : filter.departmentId;
+            departmentId = filter.departmentId < 0 ? -filter.departmentId : filter.departmentId;
         }
 
-        getTargetDepartmentSetting(filter.departmentId, filter.isGroup, filter.targetTypeId, filter.showAll);
+        getTargetDepartmentSetting(departmentId, filter.isGroup, filter.targetTypeId, filter.showAll);
     };
 
     var getSelectedDepartments = function (targetDepartmentSettings) {
