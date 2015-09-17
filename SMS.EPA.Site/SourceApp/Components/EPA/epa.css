@@ -233,7 +233,14 @@
 .table-performance-result .col-comment,
 .table-performance-result .col-score,
 .table-performance-result .col-attendance-score {
-  width: 8% !important;
+  width: 7% !important;
+}
+.table-performance-result .col-comment a {
+  cursor: pointer;
+}
+.table-performance-result .col-comment a:hover,
+.table-performance-result .col-comment a:focus {
+  text-decoration: none;
 }
 .table-performance-result .total-score input[type='text'] {
   height: 28px;
@@ -248,6 +255,9 @@
   resize: none;
   color: #39F;
 }
+.table-performance-detail {
+  margin: 0;
+}
 .table-performance-detail .oddRow > tr {
   background-color: #ececec;
 }
@@ -261,10 +271,13 @@
   background-color: #fff !important;
 }
 .table-performance-detail .col-kpi-name {
-  width: 40%;
+  width: 35%;
 }
 .table-performance-detail .col-score {
   width: 5%;
+}
+.table-performance-detail .col-comment {
+  width: 20%;
 }
 .table-performance-detail .col-comment a {
   cursor: pointer;
@@ -341,17 +354,17 @@
 .rating-by-kpi .table.table-bordered .col-adjust-score .list-star .glyphicon.glyphicon-star:focus {
   outline: none;
 }
-.rating-by-kpi .table.table-bordered .col-adjust-score .list-star .remove-star {
+.rating-by-kpi .table.table-bordered .col-adjust-score .remove-star {
   color: #DE5245;
   margin-right: 3px;
   cursor: pointer;
   font-size: 16px;
   top: 2px;
 }
-.rating-by-kpi .table.table-bordered .col-adjust-score .list-star .input-score input[type='text'] {
+.rating-by-kpi .table.table-bordered .col-adjust-score .input-score input[type='text'] {
   padding: 0;
 }
-.rating-by-kpi .table.table-bordered .col-comment .textarea-comment textarea {
+.rating-by-kpi .col-comment .textarea-comment textarea {
   color: #39F;
 }
 .table.table-evaluation-process td {
@@ -365,6 +378,9 @@
 .table.table-evaluation-process .col-evaluator ul {
   padding-left: 12px;
   margin-bottom: 0;
+}
+.modal-view-comment {
+  min-height: 200px;
 }
 @media (min-width: 800px) and (max-width: 1000px) {
   .list-kpi-rating .list-star .rating {
