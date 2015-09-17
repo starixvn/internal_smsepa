@@ -6,7 +6,7 @@
         <div class="col-sm-7 kpiGroup-name">{{kpiGroup.Name}} <strong>({{kpiGroup.Weight}} pts)</strong></div>
         <div class="col-sm-1 text-center employee-score" data-translate="EmployeeScore"></div>
         <div class="col-sm-2 text-center" data-translate="EvaluatorRating"></div>
-        <div class="col-sm-2 text-center" ng-show="kpiGroup.TotalKPIOptional == 0" data-translate="EvaluatorScore"></div>
+        <div class="col-sm-2 text-center title-score" ng-show="kpiGroup.TotalKPIOptional == 0" data-translate="EvaluatorScore"></div>
     </div>
     <div class="boxcontent col-sm-12" collapse="memberEPAInfoCtrl.collapses[kpiGroup.Name]">
         <div class="row row-item" ng-repeat="kpi in kpiGroup.KPIs">
