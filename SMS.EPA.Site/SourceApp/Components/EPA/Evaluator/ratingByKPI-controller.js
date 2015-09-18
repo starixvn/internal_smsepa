@@ -199,8 +199,6 @@ function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, CommonModel, 
                 vm.memberEPAs = RatingByKPIModel.memberEPAs;
 
                 angular.forEach(vm.memberEPAs, function (memberEPA) {
-                    memberEPA.TotalScoreOriginal = memberEPA.TotalScore;
-
                     if (!RatingByKPIModel.checkKPIOptional(memberEPA.KPIGroup) && memberEPA.KPIGroup.IsSpreadKPI) {
                         var weight = memberEPA.KPIGroup.Weight / memberEPA.KPIGroup.KPIs.length;
                         angular.forEach(memberEPA.KPIGroup.KPIs, function (kpi) {

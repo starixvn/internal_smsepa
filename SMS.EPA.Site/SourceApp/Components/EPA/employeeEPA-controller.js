@@ -43,6 +43,10 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory)
         EmployeeEPAModel.openPopupViewComment(vm, comment);
     };
 
+    vm.getClassProgress = function (statusEndProcess) {
+        return EmployeeEPAModel.getClassProgress(statusEndProcess);
+    };
+
     vm.range = function (n) {
         return new Array(n);
     };

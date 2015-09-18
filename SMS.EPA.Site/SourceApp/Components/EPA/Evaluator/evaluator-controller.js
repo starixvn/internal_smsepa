@@ -36,6 +36,10 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
         vm.viewEPADetailUrl = '/Evaluator/Detail?epaId=' + memberEPA.EPAId;
     };
 
+    vm.viewEPAResult = function (memberEPA) {
+        vm.viewEPAResultUrl = '/EPA/Detail/' + memberEPA.EPAId;
+    };
+
     vm.initialize = function () {
         CommonModel.getAllGroup().then(function () {
             vm.groupOptions = CommonModel.groups;
@@ -149,7 +153,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
                     kpi.EvaluateByEvaluators[0].CommentValid = true;
                 }
                 else {
-                    kpi.EvaluateByEvaluators[0].CommentValid = true;
+                    kpi.EvaluateByEvaluators[0].CommentValid = false;
                 }
             });
         });

@@ -24,6 +24,10 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
         vm.viewEPADetailUrl = '/Management/Detail?epaId=' + memberEPA.EPAId;
     };
 
+    vm.viewEPAResult = function (memberEPA) {
+        vm.viewEPAResultUrl = '/EPA/Detail/' + memberEPA.EPAId;
+    };
+
     var getEPAByManagement = function (groupId, employeeIds) {
         EmployeeEPAModel.getEPAByManagement(groupId, employeeIds).then(function () {
             vm.memberEPAs = EmployeeEPAModel.memberEPAs;

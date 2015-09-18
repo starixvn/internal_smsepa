@@ -21,6 +21,8 @@ namespace SMS.EPA.Model.KPIGroup
 
         public int NumberKPI { get; set; }
 
+        public bool HasKPIOptional { get; set; }
+
         public bool IsActive { get; set; }
 
         public double? Weight { get; set; }

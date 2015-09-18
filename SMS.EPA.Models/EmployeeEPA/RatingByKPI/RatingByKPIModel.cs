@@ -17,6 +17,14 @@ namespace SMS.EPA.Model.EmployeeEPA.RatingByKPI
 
         public string TotalScore { get; set; }
 
+        public string TotalScoreOriginal
+        {
+            get
+            {
+                return TotalScore;
+            }
+        }
+
         public TemporaryKPIGroupModel KPIGroup { get; set; }
     }
 }

@@ -92,10 +92,11 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
     };
 
     ratingByKPIModel.calculatePerformanceScore = function (memberEPA, kpiAdjusted) {
+        var totalScore = memberEPA.TotalScoreOriginal ? parseFloat(memberEPA.TotalScoreOriginal) : 0;
         var curentScore = kpiAdjusted.Score ? parseFloat(kpiAdjusted.Score) : 0,
             adjustScore = kpiAdjusted.AdjustScore ? parseFloat(kpiAdjusted.AdjustScore) : 0;
 
-        memberEPA.TotalScore = (memberEPA.TotalScoreOriginal - curentScore + adjustScore).toFixed(2);
+        memberEPA.TotalScore = (totalScore - curentScore + adjustScore).toFixed(2);
     };
 
     ratingByKPIModel.updateKPIScore = function (memberEPAs, vm) {

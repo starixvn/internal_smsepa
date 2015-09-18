@@ -74,7 +74,7 @@ function (TargetTemplateModel, utilitiesFactory, CommonModel) {
     vm.detail = function (targetTemplate) {
         vm.detailTargetTemplateUrl = '/TargetTemplate/Detail/' + targetTemplate.TargetTemplateId;
     };
-} ]);
+}]);
 
 targetTemplateModule.controller('CreateTargetTemplateController',
 ['$window', 'TargetTemplateModel', 'CommonModel',
@@ -110,7 +110,7 @@ function ($window, TargetTemplateModel, CommonModel) {
     vm.cancel = function () {
         $window.history.back();
     };
-} ]);
+}]);
 
 targetTemplateModule.controller('UpdateTargetTemplateController',
 ['$window', '$routeParams', 'TargetTemplateModel',
@@ -158,7 +158,7 @@ function ($window, $routeParams, TargetTemplateModel) {
     vm.cancel = function () {
         $window.history.back();
     };
-} ]);
+}]);
 
 targetTemplateModule.controller('TargetTemplateGeneralInformationController',
 ['TargetTemplateModel', 'CommonModel',
@@ -175,7 +175,7 @@ function (TargetTemplateModel, CommonModel) {
     TargetTemplateModel.getScoreRatingType(null, true).then(function () {
         vm.scoreRatingTypeOptions = TargetTemplateModel.scoreRatingTypes;
     });
-} ]);
+}]);
 
 targetTemplateModule.controller('KPIListController',
 ['$scope', 'TargetTemplateModel',
@@ -222,6 +222,10 @@ function ($scope, TargetTemplateModel) {
         angular.forEach(group.KPIs, function (kpi) {
             kpi.Selected = groupSelected;
 
+            if (!kpi.IsRequiredEvaluate && !group.IsSpreadKPI) {
+                group.IsSpreadKPI = true;
+            }
+
             if (!groupSelected) {
                 kpi.Weight = '';
             }
@@ -254,6 +258,9 @@ function ($scope, TargetTemplateModel) {
         if (!selected) {
             item.Weight = '';
         }
+        else if (!item.IsRequiredEvaluate) {
+            group.IsSpreadKPI = true;
+        }
 
         angular.forEach(group.KPIs, function (kpi) {
             if (kpi.Selected) {
@@ -266,6 +273,7 @@ function ($scope, TargetTemplateModel) {
 
         if (allGroupUnchecked) {
             group.Selected = false;
+            group.IsSpreadKPI = group.IsSpreadKPIOriginal;
         }
         if (allGroupChecked) {
             group.Selected = true;
@@ -284,6 +292,7 @@ function ($scope, TargetTemplateModel) {
 
         if (allUnchecked) {
             vm.SelectedAll = false;
+            group.IsSpreadKPI = group.IsSpreadKPIOriginal;
         }
         if (allChecked) {
             vm.SelectedAll = true;
@@ -323,7 +332,7 @@ function ($scope, TargetTemplateModel) {
             event.stopPropagation();
         }
     };
-} ]);
+}]);
 
 targetTemplateModule.controller('AddedKPIGroupController',
 ['$modalInstance', '$translate', 'TargetTemplateModel', 'targetTemplateId', 'maxWeight',
@@ -402,7 +411,7 @@ function ($modalInstance, $translate, TargetTemplateModel, targetTemplateId, max
     vm.cancel = function () {
         $modalInstance.dismiss("cancel");
     };
-} ]);
+}]);
 
 targetTemplateModule.controller('DetailTargetTemplateController',
 ['$window', '$routeParams', 'TargetTemplateModel', 'utilitiesFactory',
@@ -428,7 +437,7 @@ function ($window, $routeParams, TargetTemplateModel, utilitiesFactory) {
     };
 }]);
 
-targetTemplateModule.controller("ModalConfirmChangeTargetTypeController", ['$modalInstance', 
+targetTemplateModule.controller("ModalConfirmChangeTargetTypeController", ['$modalInstance',
  function ($modalInstance) {
      var vm = this;
 

@@ -329,4 +329,4 @@ function ($modal, targetTemplateFactory, errorFactory, notificationFactory, util
     };
 
     return targetTemplateModel;
-} ]);
+}]);

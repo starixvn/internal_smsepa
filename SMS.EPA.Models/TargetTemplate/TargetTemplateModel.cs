@@ -16,7 +16,7 @@ namespace SMS.EPA.Model.TargetTemplate
 
     public class TargetTemplateModel
     {
-        private const string _KPIItem = "<KPI KPIId='{0}' KPIGroupId='{1}' Weight='{2}' DisplayOrder='{3}'></KPI>";
+        private const string _KPIItem = "<KPI KPIId='{0}' KPIGroupId='{1}' IsSpreadKPI='{2}' Weight='{3}' DisplayOrder='{4}'></KPI>";
         private const string _BeginRootTag = "<ROOT>";
         private const string _EndRootTag = "</ROOT>";
 
@@ -67,7 +67,7 @@ namespace SMS.EPA.Model.TargetTemplate
                     var value = new StringBuilder(_BeginRootTag);
                     foreach (var item in KPIIds)
                     {
-                        value.AppendFormat(_KPIItem, item.KPIId, item.KPIGroupId, item.Weight, item.DisplayOrder);
+                        value.AppendFormat(_KPIItem, item.KPIId, item.KPIGroupId, item.IsSpreadKPI, item.Weight, item.DisplayOrder);
                     }
 
                     return value.Append(_EndRootTag).ToString();

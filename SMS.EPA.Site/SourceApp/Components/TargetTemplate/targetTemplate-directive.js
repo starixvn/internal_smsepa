@@ -119,7 +119,6 @@ targetTemplateModule.directive('getGroupWeight', function () {
 });
 
 targetTemplateModule.directive('getWeight', ['notificationFactory', function (notificationFactory) {
-
     var validateKPIList = function (groups) {
         var isValid = true,
             hasSelected = false;
@@ -153,7 +152,6 @@ targetTemplateModule.directive('getWeight', ['notificationFactory', function (no
                     }
                 }
             }
-            
         });
 
         return isValid;
@@ -170,10 +168,14 @@ targetTemplateModule.directive('getWeight', ['notificationFactory', function (no
 
                     angular.forEach(selectedRows, function (selectedRow, index) {
                         var selectedRowElement = $(selectedRow),
+                            kpiGroupId = parseInt(selectedRowElement.find('td').attr('group-id')),
+                            indexKPIGroup = scope.kpiListCtrl.kpiList.map(function (e) { return e.KPIGroupId; }).indexOf(kpiGroupId),
+                            isSpreadKPI = scope.kpiListCtrl.kpiList[indexKPIGroup].IsSpreadKPI,
                             weight = selectedRowElement.find("[name='weight']").val(),
                             kpi = {
                                 KPIId: parseInt(selectedRowElement.find('td').attr('item-id')),
-                                KPIGroupId: parseInt(selectedRowElement.find('td').attr('group-id')),
+                                KPIGroupId: kpiGroupId,
+                                IsSpreadKPI: isSpreadKPI,
                                 Weight: weight ? parseFloat(weight) : 0,
                                 DisplayOrder: index + 1
                             };

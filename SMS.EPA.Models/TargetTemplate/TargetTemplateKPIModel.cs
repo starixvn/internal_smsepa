@@ -19,6 +19,16 @@ namespace SMS.EPA.Model.TargetTemplate
 
         public int KPIGroupId { get; set; }
 
+        public bool IsSpreadKPI { get; set; }
+
+        public bool IsSpreadKPIOriginal
+        {
+            get
+            {
+                return IsSpreadKPI;
+            }
+        }
+
         public double? Weight { get; set; }
 
         public int? DisplayOrder { get; set; }

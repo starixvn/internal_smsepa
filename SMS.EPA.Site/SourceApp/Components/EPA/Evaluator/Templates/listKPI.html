@@ -49,18 +49,14 @@
             <div class="row textarea-comment comment-by-employee" ng-show="kpi.HasComment">
                 <div class="col-sm-6">
                     <label class="control-label" data-translate="CommentByEmployee"></label>
-                    <textarea class="form-control" ng-model="kpi.EvaluateBySelf.Comment" ng-readonly="true">
-                        {{kpi.EvaluateBySelf.Comment}}
-                    </textarea>
+                    <textarea class="form-control" ng-model="kpi.EvaluateBySelf.Comment" ng-readonly="true"></textarea>
                 </div>
             </div>
             <div class="row textarea-comment comment-by-evaluator" ng-show="kpi.HasComment">
                 <label class="col-sm-12 control-label" data-translate="CommentByEvaluator"></label>
-                <div class="col-sm-12 error-message" ng-show="kpi.CommentValid" data-translate="RequireComment"></div>
+                <div class="col-sm-12 error-message" ng-show="kpi.EvaluateByEvaluators[0].CommentValid" data-translate="RequireComment"></div>
                 <div class="col-sm-6">
-                    <textarea class="form-control" ng-model="kpi.EvaluateByEvaluators[0].Comment" ng-readonly="memberEPAInfoCtrl.isReadonly">
-                        {{kpi.EvaluateByEvaluators[0].Comment}}
-                    </textarea>
+                    <textarea class="form-control" ng-model="kpi.EvaluateByEvaluators[0].Comment" ng-readonly="memberEPAInfoCtrl.isReadonly"></textarea>
                 </div>
                 <div class="col-sm-1 note" ng-show="kpi.HasComment && kpi.IsRequiredComment">
                     <label class="note" data-translate="(*)"></label>
