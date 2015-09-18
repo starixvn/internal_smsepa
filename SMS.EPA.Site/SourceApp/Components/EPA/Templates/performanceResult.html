@@ -69,10 +69,10 @@
                        ng-show="memberEPAInfoCtrl.epaInfo.ProcessByManagements[$index].Comment.length > 0"
                        ng-click="memberEPAInfoCtrl.openPopupViewComment(memberEPAInfoCtrl.epaInfo.ProcessByManagements[$index].Comment)"></a>
                 </td>
-                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="t class=" text-center td-total-score"
+                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center td-total-score"
                     ng-bind="memberEPAInfoCtrl.epaInfo.AttendanceScore | customNumber"
                     ng-show="memberEPAInfoCtrl.epaInfo.HasAttendanceScore && $first"></td>
-                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="t class=" text-center td-total-score"
+                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center td-total-score"
                     ng-bind="memberEPAInfoCtrl.finalScore | customNumber" ng-show=" $first"></td>
             </tr>
         </tbody>

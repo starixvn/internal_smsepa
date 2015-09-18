@@ -242,6 +242,7 @@ function ($scope, TargetTemplateModel) {
 
         if (allUnchecked) {
             vm.SelectedAll = false;
+            group.IsSpreadKPI = group.IsSpreadKPIOriginal;
         }
         if (allChecked) {
             vm.SelectedAll = true;
