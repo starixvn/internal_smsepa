@@ -6,7 +6,8 @@ appModule.factory('utilitiesFactory',
     var utilities = {};
     var limitNumber = 100,
         dateTimeFormatString = "MM/DD/YYYY HH:mm",
-        dateFormat = "dd MMM, yyyy";
+        dateFormat = "dd MMM, yyyy",
+        timeFormat = 'HH:mm';
 
     utilities.numberEntryList = function (vm) {
         vm.entries = [10, 15, 20, 50, 100, 200];
@@ -14,6 +15,10 @@ appModule.factory('utilitiesFactory',
 
     utilities.getDateFormat = function (vm) {
         vm.dateFormat = dateFormat;
+    };
+
+    utilities.getTimeFormat = function (vm) {
+        vm.timeFormat = timeFormat;
     };
 
     /*

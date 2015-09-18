@@ -41,8 +41,8 @@ function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitie
         return vm.modalInstance.result;
     };
 
-    attendanceModel.getOtherViolations = function (employeeId, startDate, endDate, workDate) {
-        return attendanceFactory.getOtherViolations(employeeId, startDate, endDate, workDate).success(function (violations) {
+    attendanceModel.getOtherViolations = function (employeeIds, startDate, endDate, workDate) {
+        return attendanceFactory.getOtherViolations(employeeIds, startDate, endDate, workDate).success(function (violations) {
             attendanceModel.otherViolations = violations;
         })
         .error(function (response, status) {
@@ -83,7 +83,11 @@ function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitie
             return false;
         }
         else {
-            if (!violation.Name) {
+            if (!violation.EmployeeId) {
+                notificationFactory.error("EmployeeRequired");
+                return false;
+            }
+            else if (!violation.Name) {
                 notificationFactory.error("ViolationTypeRequired");
                 return false;
             }
@@ -113,7 +117,7 @@ function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitie
         });
 
         modalInstance.result.then(function () {
-            return attendanceFactory.deleteOtherViolation(vm.employee.EmployeeId, violation.WorkDate, violation.Name).success(function (response) {
+            return attendanceFactory.deleteOtherViolation(violation.EmployeeId, violation.WorkDate, violation.Name).success(function (response) {
                 if (response.IsSuccessful) {
                     var index = vm.otherViolations.indexOf(violation);
                     vm.otherViolations.splice(index, 1);
@@ -287,6 +291,20 @@ function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitie
         })['finally'](function () {
             modalInstance = '';
         });
+    };
+
+    attendanceModel.convertCheckInOutToDate = function (attendanceDetails) {
+        angular.forEach(attendanceDetails, function (attendanceDetail) {
+            if (attendanceDetail.CheckIn != null && attendanceDetail.CheckIn.Value) {
+                attendanceDetail.CheckIn.Value = new Date(attendanceDetail.CheckIn.Value);
+            }
+
+            if (attendanceDetail.CheckOut != null && attendanceDetail.CheckOut.Value) {
+                attendanceDetail.CheckOut.Value = new Date(attendanceDetail.CheckOut.Value);
+            }
+        });
+
+        return attendanceDetails;
     };
 
     return attendanceModel;

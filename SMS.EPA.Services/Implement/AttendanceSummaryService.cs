@@ -132,6 +132,7 @@ namespace SMS.EPA.Services.Implement
             IEnumerable<AttendanceDetailModel> attendanceViolations)
         {
             attendanceViolations = GroupAttendanceViolations(rawAttendanceDetail.Violations);
+            attendanceViolations = GetCommentViolations(attendanceViolations, rawAttendanceDetail.CommentViolations);
             attendanceViolations = CalculateScore(attendanceViolations);
             attendanceViolations = GroupEmployeeInformation(attendanceViolations, rawAttendanceDetail.Employees);
             return attendanceViolations;
@@ -139,10 +140,11 @@ namespace SMS.EPA.Services.Implement
 
         private static IEnumerable<AttendanceDetailModel> GroupAttendanceViolations(IEnumerable<AttendanceDetailModel> violations)
         {
-            IEnumerable<AttendanceDetailModel> attendanceViolations = violations.GroupBy(x => new { x.EmployeeId, x.WorkDate }).Select(y => new AttendanceDetailModel
+            IEnumerable<AttendanceDetailModel> attendanceViolations = violations.GroupBy(x => new { x.EmployeeId, x.WorkDate, x.ShiftName }).Select(y => new AttendanceDetailModel
             {
                 EmployeeId = y.Key.EmployeeId,
                 WorkDate = y.Key.WorkDate,
+                ShiftName = y.Key.ShiftName,
                 CheckIn = GetCheckIn(y.ToList()),
                 CheckOut = GetCheckOut(y.ToList()),
                 TotalHours = GetTotalHours(y.ToList()),
@@ -151,8 +153,30 @@ namespace SMS.EPA.Services.Implement
                 Absent = GetAbsent(y.ToList()),
                 UnpaidLeaveAbsent = GetUnpaidLeaveAbsent(y.ToList()),
                 UnpaidLeave = GetUnpaidLeave(y.ToList()),
-                ChangeShift = GetChangeShift(y.ToList()),
+                ChangeShift = GetChangeShift(y.ToList())
             }).ToList();
+
+            return attendanceViolations;
+        }
+
+        private static IEnumerable<AttendanceDetailModel> GetCommentViolations(
+            IEnumerable<AttendanceDetailModel> attendanceViolations,
+            IEnumerable<AttendanceDetailModel> comments)
+        {
+            foreach (AttendanceDetailModel attendanceViolation in attendanceViolations)
+            {
+                IEnumerable<AttendanceDetailModel> commentItems =
+                    comments.Where(x => x.WorkDate == attendanceViolation.WorkDate && x.EmployeeId == attendanceViolation.EmployeeId);
+
+                if (commentItems != null && commentItems.Count() > 0)
+                {
+                    string approverComment = commentItems.First().ApproverComment;
+                    string employeeComment = commentItems.First().EmployeeComment;
+
+                    attendanceViolation.ApproverComment = GetRequestComment(approverComment);
+                    attendanceViolation.EmployeeComment = GetRequestComment(employeeComment);
+                }
+            }
 
             return attendanceViolations;
         }
@@ -351,6 +375,28 @@ namespace SMS.EPA.Services.Implement
             }
 
             return changeShift;
+        }
+
+        private static string GetRequestComment(string comment)
+        {
+            string approverComment = string.Empty;
+
+            if (!string.IsNullOrWhiteSpace(comment))
+            {
+                string[] comments = comment.Split(';');
+
+                foreach (string commentItem in comments)
+                {
+                    string[] commentItems = commentItem.Split(':');
+
+                    if (!string.IsNullOrWhiteSpace(commentItems[0]) && !string.IsNullOrWhiteSpace(commentItems[1]))
+                    {
+                        approverComment += commentItem;
+                    }
+                }
+            }
+
+            return approverComment;
         }
     }
 }

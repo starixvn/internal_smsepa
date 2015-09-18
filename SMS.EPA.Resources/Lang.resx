@@ -901,7 +901,7 @@
     <value>Approver Subtract Score</value>
   </data>
   <data name="CheckInOut" xml:space="preserve">
-    <value>Check In/Out</value>
+    <value>Missing Check In/Out</value>
   </data>
   <data name="EarlyOut" xml:space="preserve">
     <value>Early Out</value>
@@ -1016,5 +1016,17 @@
   </data>
   <data name="FlowTemplateManagement" xml:space="preserve">
     <value>Flow Template Management</value>
+  </data>
+  <data name="UnpaidLeaveAbsentShort" xml:space="preserve">
+    <value>UPL Absent</value>
+  </data>
+  <data name="UnpaidLeaveShort" xml:space="preserve">
+    <value>UPL</value>
+  </data>
+  <data name="AddOtherViolations" xml:space="preserve">
+    <value>Add Other Violations</value>
+  </data>
+  <data name="EmployeeRequired" xml:space="preserve">
+    <value>The Employee field is required!</value>
   </data>
 </root>

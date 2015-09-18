@@ -16,11 +16,11 @@ attendanceModule.factory('attendanceFactory', ['$http', 'baseUrl', function ($ht
                       }
                 });
         },
-        getOtherViolations: function (employeeId, startDate, endDate, workDate) {
+        getOtherViolations: function (employeeIds, startDate, endDate, workDate) {
             return $http.get(baseUrl + 'api/AttendanceSummary/GetOtherViolations',
                 {
                     params: {
-                        employeeId: employeeId,
+                        employeeIds: employeeIds,
                         startDate: startDate,
                         endDate: endDate,
                         workDate: workDate

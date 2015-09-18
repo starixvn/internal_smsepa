@@ -62,7 +62,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Implement\AttendanceSummaryRepository.cs" />
+    <Compile Include="Implement\AttendanceSummaryRepository.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Implement\CheckFlowAssignmentRepository.cs" />
     <Compile Include="Implement\DepartmentRepository.cs" />
     <Compile Include="Implement\EmployeeRepository.cs" />

@@ -17,6 +17,8 @@ namespace SMS.EPA.Model.AttendanceSummary
 
         public int EmployeeId { get; set; }
 
+        public string NickName { get; set; }
+
         public float Score { get; set; }
 
         public string Name { get; set; }

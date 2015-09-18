@@ -74,22 +74,18 @@ namespace SMS.EPA.Repositories.Implement
                         },
                         "AbsentId, UnpaidLeaveId, ChangeShiftId, UnpaidLeaveAbsentId");
 
+                    IEnumerable<AttendanceDetailModel> commentViolations = multi.Read<AttendanceDetailModel>();
+
                     IEnumerable<AttendanceDetailModel> violations = new List<AttendanceDetailModel>();
 
                     if (firstViolations != null && firstViolations.Count() > 0)
                     {
-                        if (lastViolations != null && lastViolations.Count() > 0)
-                        {
-                            violations = firstViolations.Concat(lastViolations);
-                        }
-                        else
-                        {
-                            violations = firstViolations;
-                        }
+                        violations = violations.Concat(firstViolations);
                     }
-                    else if (lastViolations != null && lastViolations.Count() > 0)
+
+                    if (lastViolations != null && lastViolations.Count() > 0)
                     {
-                        violations = lastViolations;
+                        violations = violations.Concat(lastViolations);
                     }
 
                     var rawAttendanceDetail = new RawAttendanceDetailModel();
@@ -98,6 +94,7 @@ namespace SMS.EPA.Repositories.Implement
                     {
                         rawAttendanceDetail.Employees = employees;
                         rawAttendanceDetail.Violations = violations.ToList();
+                        rawAttendanceDetail.CommentViolations = commentViolations;
                     }
 
                     return rawAttendanceDetail;

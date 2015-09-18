@@ -89,9 +89,9 @@
                 </th>
                 <th data-translate="Absent">
                 </th>
-                <th data-translate="UnpaidLeave">
+                <th data-translate="UnpaidLeaveShort">
                 </th>
-                <th data-translate="UnpaidLeaveAbsent">
+                <th data-translate="UnpaidLeaveAbsentShort">
                 </th>
                 <th data-translate="ChangeShift">
                 </th>
@@ -108,18 +108,20 @@
         <tbody>
             <tr dir-paginate="employee in detailAttendanceCtrl.filteredItems | itemsPerPage: detailAttendanceCtrl.pageSize" current-page="detailAttendanceCtrl.currentPage">
                 <td class="text-center" ng-bind="employee.Employee.Code"></td>
-                <td class="text-center" ng-bind="employee.Employee.NickName"></td>
+                <td class="text-center">
+                    <span ng-bind="employee.Employee.NickName" tooltip="{{employee.Employee.FullName}}"></span>
+                </td>
                 <td class="text-center" ng-bind="employee.Employee.Group.GroupName"></td>
-                <td class="text-center width200" ng-bind="employee.WorkDate | date: detailAttendanceCtrl.dateFormat"></td>
-                <td class="text-center" ng-bind="employee.ShiftName"></td>
-                <td ng-bind="employee.CheckIn.Value">
-                    <span ng-show="employee.CheckIn.Value" ng-bind="employee.CheckIn.Value"></span>
+                <td class="text-center width250" ng-bind="employee.WorkDate | date: detailAttendanceCtrl.dateFormat"></td>
+                <td class="text-center width150" ng-bind="employee.ShiftName"></td>
+                <td>
+                    <span ng-show="employee.CheckIn.Value" ng-bind="employee.CheckIn.Value | date:detailAttendanceCtrl.timeFormat"></span>
                     <span ng-show="!employee.CheckIn.Value">-</span>
                     <input class="ignore-right" ng-show="employee.CheckIn.HasViolated" ng-model="employee.CheckIn.HasIgnored"
                            ng-click="detailAttendanceCtrl.calculateApproverScore(employee, employee.CheckIn)" type="checkbox"></input>
                 </td>
                 <td>
-                    <span ng-show="employee.CheckOut.Value" ng-bind="employee.CheckOut.Value"></span>
+                    <span ng-show="employee.CheckOut.Value" ng-bind="employee.CheckOut.Value | date:detailAttendanceCtrl.timeFormat"></span>
                     <span ng-show="!employee.CheckOut.Value">-</span>
                     <input class="ignore-right" ng-show="employee.CheckOut.HasViolated" ng-model="employee.CheckOut.HasIgnored"
                            ng-click="detailAttendanceCtrl.calculateApproverScore(employee, employee.CheckOut)" type="checkbox"></input>
@@ -168,8 +170,14 @@
                 </td>
                 <td class="red">-{{employee.SystemSubtractScore | number: 1}}</td>
                 <td class="red">-{{employee.ApproverSubtractScore | number: 1}}</td>
-                <td ng-bind="employee.ApproverComment"></td>
-                <td ng-bind="employee.EmployeeComment"></td>
+                <td class="text-center">
+                    <span class="glyphicon icon-description"
+                          ng-show="employee.ApproverComment.length > 0" tooltip="{{employee.ApproverComment}}"></span>
+                </td>
+                <td class="text-center">
+                    <span class="glyphicon icon-description"
+                          ng-show="employee.EmployeeComment.length > 0" tooltip="{{employee.EmployeeComment}}"></span>
+                </td>
             </tr>
             <tr ng-show="detailAttendanceCtrl.filteredItems.length == 0">
                 <td class="empty-result" colspan="19" data-translate="EmptyResult"></td>

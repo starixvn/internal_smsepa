@@ -14,7 +14,7 @@ namespace SMS.EPA.Criteria.AttendanceSummary
 
     public class GetOtherViolationsOfEmployeeCriteria : CriteriaBase
     {
-        public int EmployeeId { get; set; }
+        public string EmployeeIds { get; set; }
 
         public DateTime StartDate { get; set; }
 
@@ -24,7 +24,7 @@ namespace SMS.EPA.Criteria.AttendanceSummary
 
         public override bool IsValid()
         {
-            return EmployeeId > 0 && StartDate <= EndDate;
+            return !string.IsNullOrWhiteSpace(EmployeeIds) && StartDate <= EndDate;
         }
 
         public override string GetSettingKey()

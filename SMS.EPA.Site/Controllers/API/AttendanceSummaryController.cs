@@ -52,14 +52,14 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         public IEnumerable<OtherViolationModel> GetOtherViolations(
-            int employeeId,
+            string employeeIds,
             DateTime startDate,
             DateTime endDate,
             DateTime? workDate = null)
         {
             var criteria = new GetOtherViolationsOfEmployeeCriteria
             {
-                EmployeeId = employeeId,
+                EmployeeIds = employeeIds,
                 WorkDate = workDate,
                 StartDate = startDate,
                 EndDate = endDate
