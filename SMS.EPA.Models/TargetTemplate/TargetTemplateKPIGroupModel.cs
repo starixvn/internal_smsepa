@@ -15,6 +15,14 @@ namespace SMS.EPA.Model.TargetTemplate
 
     public class TargetTemplateKPIGroupModel : KPIGroupModel
     {
+        public bool IsSpreadKPIOriginal
+        {
+            get
+            {
+                return IsSpreadKPI;
+            }
+        }
+
         public IEnumerable<KPIModel> KPIs { get; set; }
     }
 }
