@@ -2,8 +2,8 @@
 /*global epaModule*/
 
 epaModule.controller('ManagementController',
-['EmployeeEPAModel', 'CommonModel', 'utilitiesFactory',
-function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
+['$translate', 'EmployeeEPAModel', 'CommonModel', 'utilitiesFactory', 'notificationFactory',
+function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificationFactory) {
     var vm = this;
 
     vm.memberEPAs = EmployeeEPAModel.memberEPAs;
@@ -32,7 +32,88 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
     var getEPAByManagement = function (groupId, employeeIds) {
         EmployeeEPAModel.getEPAByManagement(groupId, employeeIds).then(function () {
             vm.memberEPAs = EmployeeEPAModel.memberEPAs;
+
+            angular.forEach(vm.memberEPAs, function (memberEPA) {
+                var performanceScore = memberEPA.ProcessByManagements[0].TotalScore ? parseFloat(memberEPA.ProcessByManagements[0].TotalScore) : 0;
+
+                if (memberEPA.HasAttendanceScore) {
+                    memberEPA.FinalScore = performanceScore + memberEPA.AttendanceScore;
+                }
+                else {
+                    memberEPA.FinalScore = memberEPA.AttendanceScore;
+                }
+            });
         });
+    };
+
+    var calculateAdjustScore = function (memberEPAs, adjustScore) {
+        var score = parseFloat(adjustScore.adjust.Score);
+
+        angular.forEach(memberEPAs, function (memberEPA) {
+            if (memberEPA.Selected) {
+                var totalScore = memberEPA.ProcessByManagements[0].TotalScore ? parseFloat(memberEPA.ProcessByManagements[0].TotalScore) : 0,
+                    totalScoreAdjust = totalScore + score;
+
+                if (totalScoreAdjust > memberEPA.ProcessByManagements[0].MaxScore) {
+                    memberEPA.ProcessByManagements[0].TotalScore = memberEPA.ProcessByManagements[0].MaxScore;
+                }
+                else {
+                    memberEPA.ProcessByManagements[0].TotalScore = totalScoreAdjust;
+                }
+
+                memberEPA.ProcessByManagements[0].Comment = adjustScore.adjust.Comment;
+            }
+        });
+    };
+
+    var calculateFinalScore = function (memberEPA, processManagement) {
+        var totalScore = processManagement.TotalScore ? parseFloat(processManagement.TotalScore) : 0;
+
+        if (memberEPA.HasAttendanceScore) {
+            memberEPA.FinalScore = totalScore + memberEPA.AttendanceScore;
+        }
+        else {
+            memberEPA.FinalScore = totalScore;
+        }
+    };
+
+    var validateAdjustScore = function (memberEPAs) {
+        var isValid = true;
+
+        angular.forEach(memberEPAs, function (memberEPA) {
+            var totalScore = memberEPA.ProcessByManagements[0].TotalScore ? parseFloat(memberEPA.ProcessByManagements[0].TotalScore) : 0;
+            if (totalScore === 0) {
+                isValid = false;
+            }
+        });
+
+        if (!isValid) {
+            notificationFactory.error("AdjustScoreInvalid");
+        }
+
+        return isValid;
+    };
+
+    vm.checkAll = function (selectedAll) {
+        angular.forEach(vm.memberEPAs, function (memberEPA) {
+            memberEPA.Selected = selectedAll;
+        });
+    };
+
+    vm.getNotificationInputScore = function (processByReviewer) {
+        if (processByReviewer) {
+            return EmployeeEPAModel.getNotificationInputScore(processByReviewer.MaxScore, vm.scoreInputValidMessage);
+        }
+
+        return '';
+    };
+
+    vm.inputScore = function (memberEPA, processManagement) {
+        if (!EmployeeEPAModel.validateScoreInput(processManagement.TotalScore, processManagement.MaxScore, vm.scoreInputValidMessage)) {
+            processManagement.TotalScore = null;
+        }
+
+        calculateFinalScore(memberEPA, processManagement);
     };
 
     vm.adjustScore = function () {
@@ -42,7 +123,11 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
             notificationFactory.error("SelectEmployeeBeforeAdjustScoreWarning");
         }
         else {
-            EmployeeEPAModel.openPopupAdjustScore(vm, selectedEmployees);
+            EmployeeEPAModel.openPopupAdjustScore(vm, selectedEmployees).then(function (adjust) {
+                calculateAdjustScore(vm.memberEPAs, adjust);
+            })['finally'](function () {
+                modalInstance = null;
+            });
         }
     };
 
@@ -52,8 +137,8 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
         if (selectedEmployees.length === 0) {
             notificationFactory.error("SelectEmployeeBeforeAdjustScoreWarning");
         }
-        else {
-            EmployeeEPAModel.saveAdjustScore(selectedEmployees);
+        else if (validateAdjustScore(selectedEmployees)){
+            EmployeeEPAModel.adjustScoreByManagement(selectedEmployees);
         }
     };
 
@@ -63,6 +148,10 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
     };
 
     vm.initialize = function () {
+        $translate('ScoreInputValid').then(function (message) {
+            vm.scoreInputValidMessage = message;
+        });
+
         CommonModel.getAllGroup().then(function () {
             vm.groupOptions = CommonModel.groups;
         });

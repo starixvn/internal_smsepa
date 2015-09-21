@@ -1032,4 +1032,10 @@
   <data name="SelectEmployeeBeforeAdjustScoreWarning" xml:space="preserve">
     <value>Please select employee before adjust score!</value>
   </data>
+  <data name="SelectEmployeeBeforeSaveWarning" xml:space="preserve">
+    <value>Please select employee before save!</value>
+  </data>
+  <data name="AdjustScoreInvalid" xml:space="preserve">
+    <value>There are some empty score. Please fill them before submitting.</value>
+  </data>
 </root>

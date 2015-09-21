@@ -2,8 +2,8 @@
 /*global epaModule*/
 
 epaModule.controller('ReviewerController',
-['EmployeeEPAModel', 'CommonModel', 'utilitiesFactory', 'notificationFactory',
-function (EmployeeEPAModel, CommonModel, utilitiesFactory, notificationFactory) {
+['$translate', 'EmployeeEPAModel', 'CommonModel', 'utilitiesFactory', 'notificationFactory',
+function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificationFactory) {
     var vm = this;
 
     vm.memberEPAs = EmployeeEPAModel.memberEPAs;
@@ -32,18 +32,88 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory, notificationFactory) 
     var getEPAByReviewer = function (groupId, employeeIds) {
         EmployeeEPAModel.getEPAByReviewer(groupId, employeeIds).then(function () {
             vm.memberEPAs = EmployeeEPAModel.memberEPAs;
+
+            angular.forEach(vm.memberEPAs, function (memberEPA) {
+                var performanceScore = memberEPA.ProcessByReviewers[0].TotalScore ? parseFloat(memberEPA.ProcessByReviewers[0].TotalScore) : 0;
+
+                if (memberEPA.HasAttendanceScore) {
+                    memberEPA.FinalScore = performanceScore + memberEPA.AttendanceScore;
+                }
+                else {
+                    memberEPA.FinalScore = memberEPA.AttendanceScore;
+                }
+            });
         });
     };
 
-    vm.query = function (filter) {
-        filter.employeeIds = utilitiesFactory.getSelectedData(vm.members, 'EmployeeId');
-        getEPAByReviewer(filter.groupId, filter.employeeIds);
+    var calculateAdjustScore = function (memberEPAs, adjustScore) {
+        var score = parseFloat(adjustScore.adjust.Score);
+
+        angular.forEach(memberEPAs, function (memberEPA) {
+            if (memberEPA.Selected) {
+                var totalScore = memberEPA.ProcessByReviewers[0].TotalScore ? parseFloat(memberEPA.ProcessByReviewers[0].TotalScore) : 0,
+                    totalScoreAdjust = totalScore + score;
+
+                if (totalScoreAdjust > memberEPA.ProcessByReviewers[0].MaxScore) {
+                    memberEPA.ProcessByReviewers[0].TotalScore = memberEPA.ProcessByReviewers[0].MaxScore;
+                }
+                else {
+                    memberEPA.ProcessByReviewers[0].TotalScore = totalScoreAdjust;
+                }
+
+                memberEPA.ProcessByReviewers[0].Comment = adjustScore.adjust.Comment;
+            }
+        });
+    };
+
+    var calculateFinalScore = function (memberEPA, processByReviewer) {
+        var totalScoreOfReviewer = processByReviewer.TotalScore ? parseFloat(processByReviewer.TotalScore) : 0;
+
+        if (memberEPA.HasAttendanceScore) {
+            memberEPA.FinalScore = totalScoreOfReviewer + memberEPA.AttendanceScore;
+        }
+        else {
+            memberEPA.FinalScore = totalScoreOfReviewer;
+        }
+    };
+
+    var validateAdjustScore = function (memberEPAs) {
+        var isValid = true;
+
+        angular.forEach(memberEPAs, function (memberEPA) {
+            var totalScore = memberEPA.ProcessByReviewers[0].TotalScore ? parseFloat(memberEPA.ProcessByReviewers[0].TotalScore) : 0;
+            if (totalScore === 0) {
+                isValid = false;
+            }
+        });
+
+        if (!isValid) {
+            notificationFactory.error("AdjustScoreInvalid");
+        }
+
+        return isValid;
     };
 
     vm.checkAll = function (selectedAll) {
         angular.forEach(vm.memberEPAs, function (memberEPA) {
             memberEPA.Selected = selectedAll;
         });
+    };
+
+    vm.getNotificationInputScore = function (processByReviewer) {
+        if (processByReviewer) {
+            return EmployeeEPAModel.getNotificationInputScore(processByReviewer.MaxScore, vm.scoreInputValidMessage);
+        }
+
+        return '';
+    };
+
+    vm.inputScore = function (memberEPA, processByReviewer) {
+        if (!EmployeeEPAModel.validateScoreInput(processByReviewer.TotalScore, processByReviewer.MaxScore, vm.scoreInputValidMessage)) {
+            processByReviewer.TotalScore = null;
+        }
+
+        calculateFinalScore(memberEPA, processByReviewer);
     };
 
     vm.adjustScore = function () {
@@ -53,7 +123,11 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory, notificationFactory) 
             notificationFactory.error("SelectEmployeeBeforeAdjustScoreWarning");
         }
         else {
-            EmployeeEPAModel.openPopupAdjustScore(vm, selectedEmployees);
+            EmployeeEPAModel.openPopupAdjustScore(vm, selectedEmployees).then(function (adjust) {
+                calculateAdjustScore(vm.memberEPAs, adjust);
+            })['finally'](function () {
+                modalInstance = null;
+            });
         }
     };
 
@@ -61,14 +135,23 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory, notificationFactory) 
         var selectedEmployees = EmployeeEPAModel.getSelectedEmployee(vm.memberEPAs);
 
         if (selectedEmployees.length === 0) {
-            notificationFactory.error("SelectEmployeeBeforeAdjustScoreWarning");
+            notificationFactory.error("SelectEmployeeBeforeSaveWarning");
         }
-        else {
-            EmployeeEPAModel.saveAdjustScore(selectedEmployees);
+        else if (validateAdjustScore(selectedEmployees)) {
+            EmployeeEPAModel.adjustScoreByReviewer(selectedEmployees);
         }
     };
 
+    vm.query = function (filter) {
+        filter.employeeIds = utilitiesFactory.getSelectedData(vm.members, 'EmployeeId');
+        getEPAByReviewer(filter.groupId, filter.employeeIds);
+    };
+
     vm.initialize = function () {
+        $translate('ScoreInputValid').then(function (message) {
+            vm.scoreInputValidMessage = message;
+        });
+
         CommonModel.getAllGroup().then(function () {
             vm.groupOptions = CommonModel.groups;
         });
@@ -178,7 +261,9 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory)
             var data = EmployeeEPAModel.epaInfo;
             var totalScoreOfReviewer = null;
 
-            if (data.AverageScoreByEvaluators && parseFloat(data.AverageScoreByEvaluators) > 0) {
+            if (data.AverageScoreByEvaluators
+                && parseFloat(data.AverageScoreByEvaluators) > 0
+                && !data.ProcessByReviewers[0].TotalScore) {
                 data.ProcessByReviewers[0].TotalScore = data.AverageScoreByEvaluators;
             }
 

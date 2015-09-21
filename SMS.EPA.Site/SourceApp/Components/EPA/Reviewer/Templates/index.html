@@ -26,10 +26,10 @@
                 </div>
             </div>
         </form>
-        <table class="row table table-bordered table-striped">
+        <table class="row table table-bordered table-striped" manage-column-menu ignore-columns="[0,1]" hide-columns="[3,4,6]">
             <thead>
                 <tr class="header-table" ng-show="reviewerCtrl.memberEPAs.length > 0">
-                    <th colspan="12">
+                    <th colspan="14">
                         <a class="pull-left button-icon" ng-click="reviewerCtrl.adjustScore()">
                             <span class="icon-edit glyphicon glyphicon-edit"></span>
                             <span class="button-text" data-translate="AdjustScore"></span>
@@ -38,6 +38,10 @@
                             <span class="icon-save-submit"></span>
                             <span class="button-text" data-translate="Save"></span>
                         </a>
+                        <div class="manage-column pull-right" hidden>
+                            <span class="text-related">Manage Columns</span>
+                            <a class="glyphicon glyphicon-list" href=""></a>
+                        </div>
                     </th>
                 </tr>
                 <tr class="headerName">
@@ -52,8 +56,10 @@
                     <th data-translate="JobTitle"></th>
                     <th data-translate="StartDate"></th>
                     <th data-translate="EndDate"></th>
-                    <th data-translate="TotalScore"></th>
+                    <th data-translate="PerformanceScore"></th>
                     <th data-translate="Comment"></th>
+                    <th data-translate="AttendanceScore"></th>
+                    <th data-translate="TotalScore"></th>
                     <th data-translate="Action" class="col-action"></th>
                 </tr>
             </thead>
@@ -74,10 +80,22 @@
                     <td ng-bind="memberEPA.Employee.JobTitle.JobTitleName"></td>
                     <td class="text-center">{{ memberEPA.ProcessByReviewers[0].StartDate | customDate }}</td>
                     <td class="text-center">{{ memberEPA.ProcessByReviewers[0].EndDate | customDate }}</td>
-                    <td>
-
+                    <td class="text-center">
+                        <input type="text" class="form-control text-center epa-input-score" ng-readonly="memberEPA.ProcessByReviewers[0].IsEndProcess"
+                               ng-model="memberEPA.ProcessByReviewers[0].TotalScore" ng-decimal fraction="2"
+                               ng-change="reviewerCtrl.inputScore(memberEPA, memberEPA.ProcessByReviewers[0])"
+                               tooltip="{{reviewerCtrl.getNotificationInputScore(memberEPA.ProcessByReviewers[0])}}" tooltip-trigger="focus" />
                     </td>
-                    <td></td>
+                    <td>
+                        <textarea class="form-control epa-summary-comment" ng-readonly="memberEPA.ProcessByReviewers[0].IsEndProcess"
+                                  ng-model="memberEPA.ProcessByReviewers[0].Comment"></textarea>
+                    </td>
+                    <td class="text-center">
+                        <strong ng-show="memberEPA.HasAttendanceScore" ng-bind="memberEPA.AttendanceScore | customNumber"></strong>
+                    </td>
+                    <td class="text-center">
+                        <strong ng-bind="memberEPA.FinalScore | customNumber"></strong>
+                    </td>
                     <td class="text-center text-uppercase col-action">
                         <a class="evaluate-now button" href="" ng-click="reviewerCtrl.viewEPADetail(memberEPA)"
                            ng-href="{{reviewerCtrl.viewEPADetailUrl}}"
@@ -96,7 +114,7 @@
             </tbody>
             <tbody ng-show="reviewerCtrl.memberEPAs.length == 0">
                 <tr>
-                    <td class="empty-result" colspan="12" data-translate="EmptyResult"></td>
+                    <td class="empty-result" colspan="14" data-translate="EmptyResult"></td>
                 </tr>
             </tbody>
         </table>

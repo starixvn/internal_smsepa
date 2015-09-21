@@ -76,6 +76,12 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
                     groupId: groupId
                 }
             });
+        },
+        adjustScoreByReviewer: function (models) {
+            return $http.put(baseUrl + 'api/EmployeeEPA/AdjustScoreByReviewer', models);
+        },
+        adjustScoreByManagement: function (models) {
+            return $http.put(baseUrl + 'api/EmployeeEPA/AdjustScoreByManagement', models);
         }
     };
 }]);

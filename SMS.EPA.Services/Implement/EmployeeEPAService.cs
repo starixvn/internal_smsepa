@@ -14,7 +14,6 @@ namespace SMS.EPA.Services.Implement
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
-    using SMS.EPA.Core.Services.Interfaces;
     using SMS.EPA.Criteria.EmployeeEPA;
     using SMS.EPA.Criteria.EmployeeEPA.RatingByKPI;
     using SMS.EPA.Model.EmployeeEPA;
@@ -28,19 +27,15 @@ namespace SMS.EPA.Services.Implement
     public class EmployeeEPAService : BaseService, IEmployeeEPAService
     {
         private readonly IEmployeeEPARepository _employeeEPARepository;
-        private readonly IEncodeService _encodeService;
 
         public EmployeeEPAService()
-            : this(null, null)
+            : this(null)
         {
         }
 
-        public EmployeeEPAService(
-            IEmployeeEPARepository employeeEPARepository,
-            IEncodeService encodeService)
+        public EmployeeEPAService(IEmployeeEPARepository employeeEPARepository)
         {
             _employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
-            _encodeService = encodeService ?? new EncodeService();
         }
 
         #region Self
@@ -386,6 +381,19 @@ namespace SMS.EPA.Services.Implement
             return commandResult;
         }
 
+        public CommandResult AdjustScoreByReviewerOrManagement(AdjustScoreByReviewerOrManagementCriteria criteria)
+        {
+            CommandResult commandResult = new CommandResult();
+            Check.Argument.IsNotNull(criteria, "criteria");
+
+            if (criteria.IsValid())
+            {
+                commandResult = Repository.Update(criteria);
+            }
+
+            return commandResult;
+        }
+
         public IEnumerable<Employee> GetMember(GetMemberCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");
@@ -401,12 +409,12 @@ namespace SMS.EPA.Services.Implement
 
         public string Encode(string plainText)
         {
-            return _encodeService.Encode(plainText);
+            return EncodeService.Encode(plainText);
         }
 
         public string Decode(string cipherText)
         {
-            return _encodeService.Decode(cipherText);
+            return EncodeService.Decode(cipherText);
         }
 
         public void GroupEmployeeByEPA(IEnumerable<EPAModel> epas, IEnumerable<EPAEmployeeModel> employees)

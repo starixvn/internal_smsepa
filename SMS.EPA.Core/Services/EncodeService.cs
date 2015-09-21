@@ -11,18 +11,17 @@ namespace SMS.EPA.Core.Services
 {
     using Constants;
     using IBCCrypt;
-    using SMS.EPA.Core.Services.Interfaces;
 
-    public class EncodeService : IEncodeService
+    public class EncodeService
     {
-        public string Encode(string plainText)
+        public static string Encode(string plainText)
         {
             string cipherText = IBCCrypt.Encrypt(plainText, Constants.KeyCryptography);
 
             return cipherText;
         }
 
-        public string Decode(string cipherText)
+        public static string Decode(string cipherText)
         {
             string plainText = IBCCrypt.Decrypt(cipherText, Constants.KeyCryptography);
 

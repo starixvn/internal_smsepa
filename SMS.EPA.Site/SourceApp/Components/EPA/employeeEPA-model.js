@@ -239,7 +239,7 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
     };
 
     employeeEPAModel.openPopupAdjustScore = function (vm, selectedEmployees) {
-        var modalInstance = $modal.open({
+        vm.modalInstance = $modal.open({
             templateUrl: 'SourceApp/Components/EPA/Templates/modalAdjustScore.html',
             controller: "ModalAdjustScoreController as modalAdjustScoreCtrl",
             backdrop: 'static',
@@ -251,27 +251,34 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
             windowClass: "modal-confirm-center"
         });
 
-        modalInstance.result.then(function (adjust) {
-            employeeEPAModel.calculateAdjustScore(vm.memberEPAs, adjust);
-        })['finally'](function () {
-            modalInstance = null;
+        return vm.modalInstance.result;
+    };
+
+    employeeEPAModel.adjustScoreByReviewer = function (memberEPAs) {
+        return employeeEPAFactory.adjustScoreByReviewer(memberEPAs)
+        .success(function (response) {
+            if (response.IsSuccessful) {
+                notificationFactory.success("UpdatedSuccessfully");
+            }
+            else {
+                notificationFactory.error("", response.Message);
+            }
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
         });
     };
 
-    employeeEPAModel.calculateAdjustScore = function (memberEPAs, adjustScore) {
-        var score = parseFloat(adjustScore.Score);
-
-        angular.forEach(memberEPAs, function (memberEPA) {
-            if (memberEPA.Selected) {
-                var totalScore = memberEPA.ProcessByReviewers[0].TotalScore ? parseFloat(memberEPA.ProcessByReviewers[0].TotalScore) : 0,
-                    totalScoreAdjust = totalScore + score;
-
-                if (totalScoreAdjust > memberEPA.ProcessByReviewers[0].MaxScore) {
-                    memberEPA.ProcessByReviewers[0].TotalScore = memberEPA.ProcessByReviewers[0].MaxScore;
-                }
-
-                memberEPA.ProcessByReviewers[0].Comment = adjustScore.Comment;
+    employeeEPAModel.adjustScoreByManagement = function (memberEPAs) {
+        return employeeEPAFactory.adjustScoreByManagement(memberEPAs)
+        .success(function (response) {
+            if (response.IsSuccessful) {
+                notificationFactory.success("UpdatedSuccessfully");
             }
+            else {
+                notificationFactory.error("", response.Message);
+            }
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
         });
     };
 

@@ -55,6 +55,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -74,6 +75,7 @@
     <Compile Include="CheckFlowAssignment\GetDepartmentFlowSettingCriteria.cs" />
     <Compile Include="CheckFlowAssignment\GetEmployeeFlowSettingCriteria.cs" />
     <Compile Include="CheckFlowAssignment\UpdateEmployeeFlowSettingCriteria.cs" />
+    <Compile Include="EmployeeEPA\AdjustScoreByReviewerOrManagementCriteria.cs" />
     <Compile Include="EmployeeEPA\RatingByKPI\GetEmployeeEPAByKPICriteria.cs" />
     <Compile Include="EmployeeEPA\RatingByKPI\GetKPIByTargetTemplateCriteria.cs" />
     <Compile Include="EmployeeEPA\RatingByKPI\GetTargetTemplateByEvaluatorCriteria.cs" />

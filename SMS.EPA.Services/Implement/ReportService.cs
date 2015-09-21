@@ -10,10 +10,7 @@
 namespace SMS.EPA.Services.Implement
 {
     using Fanex.Common.Helper;
-    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Services;
-    using SMS.EPA.Core.Services.Interfaces;
-    using SMS.EPA.Core.Utilities;
     using SMS.EPA.Criteria.Report;
     using SMS.EPA.Model.Report.Dashboard;
     using SMS.EPA.Repositories.Implement;
@@ -23,19 +20,15 @@ namespace SMS.EPA.Services.Implement
     public class ReportService : IReportService
     {
         private readonly IReportRepository _reportRepository;
-        private readonly IEncodeService _encodeService;
 
         public ReportService()
-            : this(null, null)
+            : this(null)
         {
         }
 
-        public ReportService(
-            IReportRepository reportRepository,
-            IEncodeService encodeService)
+        public ReportService(IReportRepository reportRepository)
         {
             _reportRepository = reportRepository ?? new ReportRepository();
-            _encodeService = encodeService ?? new EncodeService();
         }
 
         public DashboardModel GetDashboard(GetDashboardCriteria criteria)
@@ -49,7 +42,7 @@ namespace SMS.EPA.Services.Implement
 
                 foreach (var epa in result.MyEPAs)
                 {
-                    epa.FinalScore = !string.IsNullOrEmpty(epa.FinalScore) ? _encodeService.Decode(epa.FinalScore) : string.Empty;
+                    epa.FinalScore = !string.IsNullOrEmpty(epa.FinalScore) ? EncodeService.Decode(epa.FinalScore) : string.Empty;
                 }
             }
 
