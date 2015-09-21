@@ -26,7 +26,7 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
 
-    public class UtilitiesController
+    public class UtilitiesController : BaseController
     {
         private readonly ITargetTypeService _targetTypeService;
         private readonly IKPIService _kpiService;
@@ -96,14 +96,16 @@ namespace SMS.EPA.Site.Controllers.API
             string query = "",
             int? groupId = null,
             bool? isSpecialUser = null,
-            bool? isDisabledUser = null)
+            bool? isDisabledUser = null,
+            bool? getByApprover = null)
         {
             var criteria = new GetAllEmployeeCriteria
             {
                 Query = query,
                 GroupId = groupId,
                 IsSpecialUser = isSpecialUser,
-                IsDisabledUser = isDisabledUser
+                IsDisabledUser = isDisabledUser,
+                ApproverId = getByApprover == true ? (int?)CurrentUser.EmployeeInfo.EmployeeId : null
             };
 
             IEnumerable<EmployeeModel> employees = _employeeService.GetAllEmployee(criteria);

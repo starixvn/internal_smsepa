@@ -12,26 +12,35 @@ namespace SMS.EPA.Site.Controllers.API
     using System;
     using System.Collections.Generic;
     using System.Web.Http;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.AttendanceSummary;
     using SMS.EPA.Model.AttendanceSummary;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
+    using SMS.EPA.Web.ApiAuthorizeAttribute;
+    using SMS.EPA.Web.Services;
 
     public class AttendanceSummaryController : BaseController
     {
         private readonly IAttendanceSummaryService _attendanceSummaryService;
+        private readonly IWebCommonService _webCommonService;
 
         public AttendanceSummaryController()
-            : this(null)
+            : this(null, null)
         {
         }
 
-        public AttendanceSummaryController(IAttendanceSummaryService attendanceSummaryService)
+        public AttendanceSummaryController(
+            IAttendanceSummaryService attendanceSummaryService,
+            IWebCommonService webCommonService)
         {
             _attendanceSummaryService = attendanceSummaryService ?? new AttendanceSummaryService();
+            _webCommonService = webCommonService ?? new WebCommonService();
         }
 
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.AttendanceSummary, Policy = Policy.Read)]
         public IEnumerable<AttendanceSummaryModel> GetAttendanceSummary(
             DateTime startDate,
             DateTime endDate,
@@ -45,12 +54,14 @@ namespace SMS.EPA.Site.Controllers.API
                 EndDate = endDate,
                 DepartmentId = departmentId,
                 EmployeeId = employeeId,
-                ReasonId = reasonId
+                ReasonId = reasonId,
+                ApproverId = CurrentUser.EmployeeInfo.EmployeeId
             };
             IEnumerable<AttendanceSummaryModel> attendanceEmployees = _attendanceSummaryService.GetAttendanceSummary(criteria);
             return attendanceEmployees;
         }
 
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.AttendanceSummary, Policy = Policy.Read)]
         public IEnumerable<OtherViolationModel> GetOtherViolations(
             string employeeIds,
             DateTime startDate,
@@ -69,6 +80,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpPost]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.AttendanceSummary, Policy = Policy.Host)]
         public CommandResult InsertOtherViolation(InsertOtherViolationsCriteria criteria)
         {
             if (criteria != null)
@@ -81,6 +93,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpDelete]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.AttendanceSummary, Policy = Policy.Host)]
         public CommandResult DeleteOtherViolation(
             int employeeId,
             DateTime workDate,
@@ -104,6 +117,7 @@ namespace SMS.EPA.Site.Controllers.API
             return violations;
         }
 
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.AttendanceSummary, Policy = Policy.Read)]
         public IEnumerable<AttendanceDetailModel> GetAttendanceDetail(
             DateTime startDate,
             DateTime endDate,
@@ -117,13 +131,15 @@ namespace SMS.EPA.Site.Controllers.API
                 EndDate = endDate,
                 EmployeeId = employeeId,
                 DepartmentId = departmentId,
-                ReasonId = reasonId
+                ReasonId = reasonId,
+                ApproverId = CurrentUser.EmployeeInfo.EmployeeId
             };
             IEnumerable<AttendanceDetailModel> attendanceViolations = _attendanceSummaryService.GetAttendanceDetail(criteria);
             return attendanceViolations;
         }
 
         [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.AttendanceSummary, Policy = Policy.Host)]
         public CommandResult UpdateIgnoredViolation(IEnumerable<IgnoredViolationModel> violations)
         {
             var criteria = new UpdateIgnoredViolationCriteria
@@ -134,6 +150,12 @@ namespace SMS.EPA.Site.Controllers.API
             criteria.IgnoredViolations = criteria.ConvertViolationItemToXml(violations);
             CommandResult commandResult = _attendanceSummaryService.UpdateIgnoredViolation(criteria);
             return commandResult;
+        }
+
+        public int GetUserPermissionOnAttendanceSummary()
+        {
+            int permission = _webCommonService.GetPermission(EPAFunctionKey.AttendanceSummary);
+            return permission;
         }
     }
 }

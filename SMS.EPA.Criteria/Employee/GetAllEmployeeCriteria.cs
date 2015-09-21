@@ -26,6 +26,8 @@ namespace SMS.EPA.Criteria.Employee
 
         public int? RoleId { get; set; }
 
+        public int? ApproverId { get; set; }
+
         public override bool IsValid()
         {
             return true;

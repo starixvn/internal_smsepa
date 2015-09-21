@@ -72,8 +72,8 @@ function (commonFactory, errorFactory) {
     };
 
     /// Get all employee.
-    commonModel.getAllEmployee = function (query, groupId, isSpecialUser, isDisabledUser) {
-        return commonFactory.getAllEmployee(query, groupId, isSpecialUser, isDisabledUser)
+    commonModel.getAllEmployee = function (query, groupId, isSpecialUser, isDisabledUser, getByApprover) {
+        return commonFactory.getAllEmployee(query, groupId, isSpecialUser, isDisabledUser, getByApprover)
         .success(function (employees) {
             commonModel.employees = employees;
         })

@@ -18,6 +18,8 @@ namespace SMS.EPA.Criteria.AttendanceSummary
 
         public DateTime EndDate { get; set; }
 
+        public int ApproverId { get; set; }
+
         public int? DepartmentId { get; set; }
 
         public int? EmployeeId { get; set; }
@@ -26,12 +28,12 @@ namespace SMS.EPA.Criteria.AttendanceSummary
 
         public override bool IsValid()
         {
-            return EndDate >= StartDate;
+            return EndDate >= StartDate && ApproverId > 0;
         }
 
         public override string GetSettingKey()
         {
-            return "EpaAttendanceSummary_Get";
+            return "EpaAttendanceSummary_Get_xtest";
         }
     }
 }

@@ -58,6 +58,9 @@ attendanceModule.factory('attendanceFactory', ['$http', 'baseUrl', function ($ht
         },
         ignoredViolation: function (violations) {
             return $http.put(baseUrl + 'api/AttendanceSummary/UpdateIgnoredViolation', violations);
+        },
+        getUserPermissionOnAttendanceSummary: function () {
+            return $http.get(baseUrl + 'api/AttendanceSummary/GetUserPermissionOnAttendanceSummary');
         }
     }
 }]);

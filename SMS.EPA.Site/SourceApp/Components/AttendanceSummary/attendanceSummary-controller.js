@@ -2,26 +2,25 @@
 /*global attendanceModule*/
 
 attendanceModule.controller('AttendanceSummaryController',
-['AttendanceModel', 'utilitiesFactory', 'EmployeeModel', 'CommonModel', 'baseUrl',
-function (AttendanceModel, utilitiesFactory, EmployeeModel, CommonModel, baseUrl) {
-    var vm = this,
-        date = new Date(),
-        firstDate = new Date(date.getFullYear(), date.getMonth(), 1);
+['AttendanceModel', 'utilitiesFactory', 'CommonModel', 'baseUrl',
+function (AttendanceModel, utilitiesFactory, CommonModel, baseUrl) {
+    var vm = this;
 
     vm.attendanceEmployees = AttendanceModel.attendanceEmployees;
     vm.violationOptions = AttendanceModel.violations;
+    vm.permission = AttendanceModel.permission;
 
     vm.currentPage = 1;
     vm.pageSize = 20;
 
-    vm.filter = {
-        startDate: firstDate,
-        endDate: date,
-        employee: null,
-        departmentId: null,
-        employeeId: null,
-        reasonId: null
-    };
+    vm.filter = AttendanceModel.filter;
+
+    if (vm.filter.employeeId) {
+        CommonModel.getEmployeeById(vm.filter.employeeId).then(function () {
+            vm.filter.employee = CommonModel.employee;
+            vm.searchEmployee = vm.filter.employee.NickName + ' (' + vm.filter.employee.FullName + ')';
+        });
+    }
 
     vm.calendar = {
         startDateOpened: false,
@@ -48,6 +47,10 @@ function (AttendanceModel, utilitiesFactory, EmployeeModel, CommonModel, baseUrl
         vm.violationOptions = AttendanceModel.violations;
     });
 
+    AttendanceModel.getUserPermissionOnAttendanceSummary().then(function () {
+        vm.permission = AttendanceModel.permission;
+    });
+
     var getAttendanceSummary = function (startDate, endDate, departmentId, employeeId, reasonId) {
         AttendanceModel.getAttendanceSummary(startDate, endDate, departmentId, employeeId, reasonId).then(function () {
             vm.attendanceEmployees = AttendanceModel.attendanceEmployees;
@@ -56,7 +59,7 @@ function (AttendanceModel, utilitiesFactory, EmployeeModel, CommonModel, baseUrl
     };
 
     vm.getEmployee = function () {
-        return EmployeeModel.getAllEmployee(vm.searchEmployee);
+        return CommonModel.getAllEmployee(vm.searchEmployee, null, null, null, true);
     };
 
     vm.unSelectEmployee = function () {
@@ -78,6 +81,7 @@ function (AttendanceModel, utilitiesFactory, EmployeeModel, CommonModel, baseUrl
             vm.filter.employeeId = employeeId;
         }
 
+        AttendanceModel.cacheFilter(vm.filter);
         getAttendanceSummary(filter.startDate, filter.endDate, filter.departmentId, employeeId, vm.filter.reasonId);
     };
 
@@ -101,8 +105,8 @@ function (AttendanceModel, utilitiesFactory, EmployeeModel, CommonModel, baseUrl
 }]);
 
 attendanceModule.controller("OtherViolationsController",
-['$scope', '$modalInstance', 'AttendanceModel', 'employee', 'startDate', 'endDate', 'utilitiesFactory', 'CommonModel', 'EmployeeModel',
-function ($scope, $modalInstance, AttendanceModel, employee, startDate, endDate, utilitiesFactory, CommonModel, EmployeeModel) {
+['$scope', '$modalInstance', 'AttendanceModel', 'employee', 'startDate', 'endDate', 'utilitiesFactory', 'CommonModel',
+function ($scope, $modalInstance, AttendanceModel, employee, startDate, endDate, utilitiesFactory, CommonModel) {
     var vm = this,
         date = new Date();
 
@@ -138,7 +142,7 @@ function ($scope, $modalInstance, AttendanceModel, employee, startDate, endDate,
     utilitiesFactory.getDateFormat(vm);
 
     vm.getEmployee = function () {
-        return EmployeeModel.getAllEmployee(vm.searchEmployee);
+        return CommonModel.getAllEmployee(vm.searchEmployee, null, null, null, true);
     };
 
     vm.unSelectEmployee = function () {
@@ -207,8 +211,8 @@ function ($scope, $modalInstance, AttendanceModel, employee, startDate, endDate,
 }]);
 
 attendanceModule.controller('DetailAttendanceSummaryController',
-['$window', '$routeParams', 'AttendanceModel', 'utilitiesFactory', 'EmployeeModel', 'CommonModel',
-function ($window, $routeParams, AttendanceModel, utilitiesFactory, EmployeeModel, CommonModel) {
+['$window', '$routeParams', 'AttendanceModel', 'utilitiesFactory', 'CommonModel',
+function ($window, $routeParams, AttendanceModel, utilitiesFactory, CommonModel) {
     var vm = this,
         date = new Date(),
         firstDate = new Date(date.getFullYear(), date.getMonth(), 1);
@@ -218,6 +222,7 @@ function ($window, $routeParams, AttendanceModel, utilitiesFactory, EmployeeMode
 
     vm.violationOptions = AttendanceModel.violations;
     vm.attendanceDetails = AttendanceModel.attendanceDetails;
+    vm.permission = AttendanceModel.permission;
 
     vm.filter = {
         startDate: new Date($routeParams.startDate),
@@ -259,6 +264,10 @@ function ($window, $routeParams, AttendanceModel, utilitiesFactory, EmployeeMode
         vm.violationOptions = AttendanceModel.violations;
     });
 
+    AttendanceModel.getUserPermissionOnAttendanceSummary().then(function () {
+        vm.permission = AttendanceModel.permission;
+    });
+
     var getAttendanceDetail = function (startDate, endDate, employeeId, departmentId, reasonId) {
         AttendanceModel.getAttendanceDetail(startDate, endDate, employeeId, departmentId, reasonId).then(function () {
             vm.attendanceDetails = AttendanceModel.attendanceDetails;
@@ -268,7 +277,7 @@ function ($window, $routeParams, AttendanceModel, utilitiesFactory, EmployeeMode
     };
 
     vm.getEmployee = function () {
-        return EmployeeModel.getAllEmployee(vm.searchEmployee);
+        return CommonModel.getAllEmployee(vm.searchEmployee, null, null, null, true);
     };
 
     vm.unSelectEmployee = function () {

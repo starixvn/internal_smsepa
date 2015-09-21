@@ -59,7 +59,7 @@
         <thead>
             <tr class="header-table">
                 <th colspan="17">
-                    <a class="pull-left button-icon create-button" href="" ng-click="attendanceCtrl.addOtherViolations()">
+                    <a class="pull-left button-icon create-button" href="" ng-click="attendanceCtrl.addOtherViolations()" ng-if="attendanceCtrl.permission == 2">
                         <span class="icon plus"></span>
                         <span class="button-text" data-translate="AddOtherViolations"></span>
                     </a>
@@ -97,7 +97,7 @@
                 </th>
                 <th data-translate="ApproverSubtractScore">
                 </th>
-                <th data-translate="Action">
+                <th data-translate="Action" ng-if="attendanceCtrl.permission == 2">
                 </th>
             </tr>
         </thead>
@@ -118,11 +118,12 @@
                 <td ng-bind="employee.UnpaidLeaveAbsent"></td>
                 <td ng-bind="employee.ChangeShift"></td>
                 <td>
-                    <a href="" ng-click="attendanceCtrl.addOtherViolations(employee)">-{{employee.OtherViolationsScore | number: 1}}</a>
+                    <a href="" ng-click="attendanceCtrl.addOtherViolations(employee)" ng-if="attendanceCtrl.permission == 2">-{{employee.OtherViolationsScore | number: 1}}</a>
+                    <span ng-if="attendanceCtrl.permission == 1">-{{employee.OtherViolationsScore | number: 1}}</span>
                 </td>
                 <td class="red">-{{employee.SystemSubtractScore | number: 1}}</td>
                 <td class="red">-{{employee.ApproverSubtractScore | number: 1}}</td>
-                <td class="text-center">
+                <td class="text-center" ng-if="attendanceCtrl.permission == 2">
                     <a class="glyphicon glyphicon-edit icon-edit" title="Edit" href="{{attendanceCtrl.attendanceDetailUrl}}" ng-click="attendanceCtrl.adjust(employee)"></a>
                 </td>
             </tr>

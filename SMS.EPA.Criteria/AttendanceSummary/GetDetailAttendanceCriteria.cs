@@ -24,14 +24,16 @@ namespace SMS.EPA.Criteria.AttendanceSummary
 
         public int? ReasonId { get; set; }
 
+        public int ApproverId { get; set; }
+
         public override bool IsValid()
         {
-            return StartDate <= EndDate;
+            return StartDate <= EndDate && ApproverId > 0;
         }
 
         public override string GetSettingKey()
         {
-            return "EpaAttendanceSummary_GetDetail";
+            return "EpaAttendanceSummary_GetDetail_xtest";
         }
     }
 }

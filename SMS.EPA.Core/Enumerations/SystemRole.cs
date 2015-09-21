@@ -55,6 +55,12 @@ namespace SMS.EPA.Core.Enumerations
         /// Employee item.
         /// </summary>
         [Description("Employee")]
-        Employee = 6
+        Employee = 6,
+
+        /// <summary>
+        /// Approver item.
+        /// </summary>
+        [Description("Approver Attendance")]
+        Approver = 7
     }
 }

@@ -4,12 +4,32 @@
 attendanceModule.factory('AttendanceModel',
 ['$modal', 'attendanceFactory', 'errorFactory', 'notificationFactory', 'utilitiesFactory',
 function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitiesFactory) {
-    var attendanceModel = {};
+    var attendanceModel = {},
+        date = new Date(),
+        firstDate = new Date(date.getFullYear(), date.getMonth(), 1);
 
     attendanceModel.attendanceEmployees = [];
     attendanceModel.otherViolations = [];
     attendanceModel.violations = [];
     attendanceModel.attendanceDetails = [];
+    attendanceModel.permission = null;
+
+    attendanceModel.filter = {
+        startDate: firstDate,
+        endDate: date,
+        employee: null,
+        departmentId: null,
+        employeeId: null,
+        reasonId: null
+    };
+
+    attendanceModel.cacheFilter = function (filter) {
+        attendanceModel.filter.startDate = filter.startDate;
+        attendanceModel.filter.endDate = filter.endDate;
+        attendanceModel.filter.departmentId = filter.departmentId;
+        attendanceModel.filter.employeeId = filter.employeeId;
+        attendanceModel.filter.reasonId = filter.reasonId;
+    };
 
     attendanceModel.getAttendanceSummary = function (startDate, endDate, departmentId, employeeId, reasonId) {
         return attendanceFactory.getAttendanceSummary(startDate, endDate, departmentId, employeeId, reasonId).success(function (attendanceEmployees) {
@@ -293,6 +313,28 @@ function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitie
         });
     };
 
+    var convertNumberToTime = function (number) {
+        var sec_num = parseInt(number, 10), // don't forget the second param
+            time = '';
+
+        if (sec_num > 0) {
+            var hours = Math.floor(sec_num / 60),
+            minutes = Math.floor(sec_num - (hours * 60));
+
+            if (hours < 10) {
+                hours = "0" + hours;
+            }
+
+            if (minutes < 10) {
+                minutes = "0" + minutes;
+            }
+
+            time = hours + ':' + minutes;
+        }
+
+        return time;
+    };
+
     attendanceModel.convertCheckInOutToDate = function (attendanceDetails) {
         angular.forEach(attendanceDetails, function (attendanceDetail) {
             if (attendanceDetail.CheckIn != null && attendanceDetail.CheckIn.Value) {
@@ -302,9 +344,29 @@ function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitie
             if (attendanceDetail.CheckOut != null && attendanceDetail.CheckOut.Value) {
                 attendanceDetail.CheckOut.Value = new Date(attendanceDetail.CheckOut.Value);
             }
+
+            if (attendanceDetail.TotalHours != null && attendanceDetail.TotalHours.Value) {
+                attendanceDetail.TotalHours.Value = attendanceDetail.TotalHours.Value.replace(".", ":");
+            }
+
+            if (attendanceDetail.LateIn != null && attendanceDetail.LateIn.Value) {
+                attendanceDetail.LateIn.Value = convertNumberToTime(attendanceDetail.LateIn.Value);
+            }
+
+            if (attendanceDetail.EarlyOut != null && attendanceDetail.EarlyOut.Value) {
+                attendanceDetail.EarlyOut.Value = convertNumberToTime(attendanceDetail.EarlyOut.Value);
+            }
         });
 
         return attendanceDetails;
+    };
+
+    attendanceModel.getUserPermissionOnAttendanceSummary = function () {
+        return attendanceFactory.getUserPermissionOnAttendanceSummary().success(function (permission) {
+            attendanceModel.permission = permission;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
     };
 
     return attendanceModel;

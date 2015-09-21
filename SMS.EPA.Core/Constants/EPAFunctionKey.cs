@@ -51,5 +51,7 @@ namespace SMS.EPA.Core.Constants
         public const string Period = "Period";
 
         public const string AttendanceSummary = "AttendanceSummary";
+
+        public const string Attendance = "Attendance";
     }
 }
