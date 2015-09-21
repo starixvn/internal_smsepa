@@ -367,6 +367,7 @@
     <Content Include="SourceApp\Components\EPA\Templates\generalInformation.html" />
     <Content Include="SourceApp\Components\EPA\MyEPA\Templates\index.html" />
     <Content Include="SourceApp\Components\EPA\MyEPA\Templates\listKPI.html" />
+    <Content Include="SourceApp\Components\EPA\Templates\modalAdjustScore.html" />
     <Content Include="SourceApp\Components\EPA\Templates\modalViewComment.html" />
     <Content Include="SourceApp\Components\EPA\Templates\performanceDetails.html" />
     <Content Include="SourceApp\Components\EPA\Templates\performanceResult.html" />

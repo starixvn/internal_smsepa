@@ -901,7 +901,7 @@
     <value>Approver Subtract Score</value>
   </data>
   <data name="CheckInOut" xml:space="preserve">
-    <value>Check In/Out</value>
+    <value>Missing Check In/Out</value>
   </data>
   <data name="EarlyOut" xml:space="preserve">
     <value>Early Out</value>
@@ -993,14 +993,13 @@
   <data name="InProgress" xml:space="preserve">
     <value>In Progress</value>
   </data>
-<<<<<<< HEAD
   <data name="EvaluateEPAInvalid" xml:space="preserve">
     <value>There are some empty rates or comments. Please fill them before submitting.</value>
   </data>
   <data name="ViewComment" xml:space="preserve">
     <value>View Comment</value>
   </data>
-   <data name="SubtractScore" xml:space="preserve">
+  <data name="SubtractScore" xml:space="preserve">
     <value>Subtract Score</value>
   </data>
   <data name="ViolationDate" xml:space="preserve">
@@ -1015,6 +1014,22 @@
   <data name="ViolationTypeRequired" xml:space="preserve">
     <value>The Violation Type field is required!</value>
   </data>
-=======
->>>>>>> #43348 -continue fix bug in EPA pages
+  <data name="FlowTemplateManagement" xml:space="preserve">
+    <value>Flow Template Management</value>
+  </data>
+  <data name="UnpaidLeaveAbsentShort" xml:space="preserve">
+    <value>UPL Absent</value>
+  </data>
+  <data name="UnpaidLeaveShort" xml:space="preserve">
+    <value>UPL</value>
+  </data>
+  <data name="AddOtherViolations" xml:space="preserve">
+    <value>Add Other Violations</value>
+  </data>
+  <data name="EmployeeRequired" xml:space="preserve">
+    <value>The Employee field is required!</value>
+  </data>
+  <data name="SelectEmployeeBeforeAdjustScoreWarning" xml:space="preserve">
+    <value>Please select employee before adjust score!</value>
+  </data>
 </root>

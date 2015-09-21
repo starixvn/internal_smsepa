@@ -96,3 +96,27 @@ function ($modalInstance, comment) {
         $modalInstance.dismiss('cancel');
     };
 }]);
+
+epaModule.controller('ModalAdjustScoreController',
+['$modalInstance', 'EmployeeEPAModel', 'selectedEmployees',
+function ($modalInstance, EmployeeEPAModel, selectedEmployees) {
+    var vm = this;
+
+    vm.adjust = {
+        Score: '',
+        Comment: ''
+    };
+
+    vm.selectedEmployees = selectedEmployees;
+
+    vm.ok = function () {
+        if (EmployeeEPAModel.validateEvaluationOfReviewerOrManagement(vm.adjust.Score))
+        {
+            $modalInstance.close(vm);
+        }
+    };
+
+    vm.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+}]);

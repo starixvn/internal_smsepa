@@ -8,6 +8,7 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
 
     vm.memberEPAs = EmployeeEPAModel.memberEPAs;
     vm.members = EmployeeEPAModel.members;
+    vm.selectedAll = false;
 
     vm.filter = {
         groupId: '',
@@ -32,6 +33,28 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
         EmployeeEPAModel.getEPAByManagement(groupId, employeeIds).then(function () {
             vm.memberEPAs = EmployeeEPAModel.memberEPAs;
         });
+    };
+
+    vm.adjustScore = function () {
+        var selectedEmployees = EmployeeEPAModel.getSelectedEmployee(vm.memberEPAs);
+
+        if (selectedEmployees.length === 0) {
+            notificationFactory.error("SelectEmployeeBeforeAdjustScoreWarning");
+        }
+        else {
+            EmployeeEPAModel.openPopupAdjustScore(vm, selectedEmployees);
+        }
+    };
+
+    vm.saveAdjustScore = function () {
+        var selectedEmployees = EmployeeEPAModel.getSelectedEmployee(vm.memberEPAs);
+
+        if (selectedEmployees.length === 0) {
+            notificationFactory.error("SelectEmployeeBeforeAdjustScoreWarning");
+        }
+        else {
+            EmployeeEPAModel.saveAdjustScore(selectedEmployees);
+        }
     };
 
     vm.query = function (filter) {

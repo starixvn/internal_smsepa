@@ -153,7 +153,7 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
     };
 
     employeeEPAModel.validateEvaluationOfReviewerOrManagement = function (score) {
-        if (!score) {
+        if (!score || parseFloat(score) <= 0) {
             notificationFactory.error("ScoreRequire");
             return false;
         }
@@ -224,6 +224,55 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         else {
             return '';
         }
+    };
+
+    employeeEPAModel.getSelectedEmployee = function (memberEPAs) {
+        var selectedEmployees = [];
+
+        angular.forEach(memberEPAs, function (memberEPA) {
+            if (memberEPA.Selected) {
+                selectedEmployees.push(memberEPA);
+            }
+        });
+
+        return selectedEmployees;
+    };
+
+    employeeEPAModel.openPopupAdjustScore = function (vm, selectedEmployees) {
+        var modalInstance = $modal.open({
+            templateUrl: 'SourceApp/Components/EPA/Templates/modalAdjustScore.html',
+            controller: "ModalAdjustScoreController as modalAdjustScoreCtrl",
+            backdrop: 'static',
+            resolve: {
+                selectedEmployees: function () {
+                    return selectedEmployees;
+                }
+            },
+            windowClass: "modal-confirm-center"
+        });
+
+        modalInstance.result.then(function (adjust) {
+            employeeEPAModel.calculateAdjustScore(vm.memberEPAs, adjust);
+        })['finally'](function () {
+            modalInstance = null;
+        });
+    };
+
+    employeeEPAModel.calculateAdjustScore = function (memberEPAs, adjustScore) {
+        var score = parseFloat(adjustScore.Score);
+
+        angular.forEach(memberEPAs, function (memberEPA) {
+            if (memberEPA.Selected) {
+                var totalScore = memberEPA.ProcessByReviewers[0].TotalScore ? parseFloat(memberEPA.ProcessByReviewers[0].TotalScore) : 0,
+                    totalScoreAdjust = totalScore + score;
+
+                if (totalScoreAdjust > memberEPA.ProcessByReviewers[0].MaxScore) {
+                    memberEPA.ProcessByReviewers[0].TotalScore = memberEPA.ProcessByReviewers[0].MaxScore;
+                }
+
+                memberEPA.ProcessByReviewers[0].Comment = adjustScore.Comment;
+            }
+        });
     };
 
     return employeeEPAModel;

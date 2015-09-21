@@ -2,12 +2,13 @@
 /*global epaModule*/
 
 epaModule.controller('ReviewerController',
-['EmployeeEPAModel', 'CommonModel', 'utilitiesFactory',
-function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
+['EmployeeEPAModel', 'CommonModel', 'utilitiesFactory', 'notificationFactory',
+function (EmployeeEPAModel, CommonModel, utilitiesFactory, notificationFactory) {
     var vm = this;
 
     vm.memberEPAs = EmployeeEPAModel.memberEPAs;
     vm.members = EmployeeEPAModel.members;
+    vm.selectedAll = false;
 
     vm.filter = {
         groupId: '',
@@ -37,6 +38,34 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
     vm.query = function (filter) {
         filter.employeeIds = utilitiesFactory.getSelectedData(vm.members, 'EmployeeId');
         getEPAByReviewer(filter.groupId, filter.employeeIds);
+    };
+
+    vm.checkAll = function (selectedAll) {
+        angular.forEach(vm.memberEPAs, function (memberEPA) {
+            memberEPA.Selected = selectedAll;
+        });
+    };
+
+    vm.adjustScore = function () {
+        var selectedEmployees = EmployeeEPAModel.getSelectedEmployee(vm.memberEPAs);
+
+        if (selectedEmployees.length === 0) {
+            notificationFactory.error("SelectEmployeeBeforeAdjustScoreWarning");
+        }
+        else {
+            EmployeeEPAModel.openPopupAdjustScore(vm, selectedEmployees);
+        }
+    };
+
+    vm.saveAdjustScore = function () {
+        var selectedEmployees = EmployeeEPAModel.getSelectedEmployee(vm.memberEPAs);
+
+        if (selectedEmployees.length === 0) {
+            notificationFactory.error("SelectEmployeeBeforeAdjustScoreWarning");
+        }
+        else {
+            EmployeeEPAModel.saveAdjustScore(selectedEmployees);
+        }
     };
 
     vm.initialize = function () {

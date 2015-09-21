@@ -1029,4 +1029,7 @@
   <data name="EmployeeRequired" xml:space="preserve">
     <value>The Employee field is required!</value>
   </data>
+  <data name="SelectEmployeeBeforeAdjustScoreWarning" xml:space="preserve">
+    <value>Please select employee before adjust score!</value>
+  </data>
 </root>

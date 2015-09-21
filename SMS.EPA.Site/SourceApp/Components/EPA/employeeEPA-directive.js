@@ -14,7 +14,7 @@ epaModule.directive('ngDecimal', [function () {
                 if (inputValue) {
                     var digits = inputValue.replace(/[^\d+\.?\d+$]/, '');
 
-                    if ((parseFloat(digits) * Math.pow(10, fraction)) % 1 !== 0) {
+                    if (digits && ((parseFloat(digits) * Math.pow(10, fraction)) % 1 !== 0)) {
                         digits = parseFloat(digits).toFixed(fraction).toString();
                     }
 
