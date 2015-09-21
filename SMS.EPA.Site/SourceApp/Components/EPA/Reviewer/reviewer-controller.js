@@ -16,7 +16,7 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
     };
 
     vm.getMember = function (groupId) {
-        EmployeeEPAModel.getMember(4, groupId).then(function () {
+        EmployeeEPAModel.getMemberByReviewer(groupId).then(function () {
             vm.members = EmployeeEPAModel.members;
         });
     };

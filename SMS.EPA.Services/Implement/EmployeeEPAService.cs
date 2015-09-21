@@ -53,12 +53,6 @@ namespace SMS.EPA.Services.Implement
                 GroupEmployeeByEPA(epas, rawEPAModel.Employees);
                 GroupEPAProcessByEPA(epas, rawEPAModel.Processes);
                 GroupEvaluatorByEPA(epas, rawEPAModel.Evaluators);
-
-                foreach (var epa in epas)
-                {
-                    epa.FinalScore = !string.IsNullOrEmpty(epa.FinalScore) ? Decode(epa.FinalScore) : string.Empty;
-                    DecodeTotalScoreAndGetStatusOnEachProcess(epa);
-                }
             }
 
             return epas;
@@ -74,16 +68,14 @@ namespace SMS.EPA.Services.Implement
                 RawEPAInfoModel rawEPAInfoModel = _employeeEPARepository.GetEPAInfo(criteria);
 
                 result = rawEPAInfoModel.EPA;
-                result.FinalScore = !string.IsNullOrEmpty(result.FinalScore) ? Decode(result.FinalScore) : string.Empty;
 
                 GroupEvaluatorByProcess(result, rawEPAInfoModel.Evaluators);
                 GroupEPAProcessByEPA(result, rawEPAInfoModel.Processes);
                 GroupKPIByKPIGroup(result.KPIGroups, rawEPAInfoModel.KPIs);
-                DecodeTotalScoreAndGetStatusOnEachProcess(result);
 
                 foreach (var kpiGroup in result.KPIGroups)
                 {
-                    GroupEvaluationAndDecodeScoreOnEachKPI(kpiGroup.KPIs, rawEPAInfoModel.Evaluations);
+                    GroupEvaluationOnEachKPI(kpiGroup.KPIs, rawEPAInfoModel.Evaluations);
                 }
             }
 
@@ -107,12 +99,6 @@ namespace SMS.EPA.Services.Implement
                 GroupEmployeeByEPA(memberEPAs, rawEPAModel.Employees);
                 GroupEPAProcessByEPA(memberEPAs, rawEPAModel.Processes);
                 GroupEvaluatorByEPA(memberEPAs, rawEPAModel.Evaluators);
-
-                foreach (var memberEPA in memberEPAs)
-                {
-                    memberEPA.FinalScore = !string.IsNullOrEmpty(memberEPA.FinalScore) ? Decode(memberEPA.FinalScore) : string.Empty;
-                    DecodeTotalScoreAndGetStatusOnEachProcess(memberEPA);
-                }
             }
 
             return memberEPAs;
@@ -128,16 +114,14 @@ namespace SMS.EPA.Services.Implement
                 RawEPAInfoModel rawEPAInfoModel = _employeeEPARepository.GetEPAInfo(criteria);
 
                 result = rawEPAInfoModel.EPA;
-                result.FinalScore = !string.IsNullOrEmpty(result.FinalScore) ? Decode(result.FinalScore) : string.Empty;
 
                 GroupEvaluatorByProcess(result, rawEPAInfoModel.Evaluators);
                 GroupEPAProcessByEPA(result, rawEPAInfoModel.Processes);
                 GroupKPIByKPIGroup(result.KPIGroups, rawEPAInfoModel.KPIs);
-                DecodeTotalScoreAndGetStatusOnEachProcess(result);
 
                 foreach (var kpiGroup in result.KPIGroups)
                 {
-                    GroupEvaluationAndDecodeScoreOnEachKPI(kpiGroup.KPIs, rawEPAInfoModel.Evaluations);
+                    GroupEvaluationOnEachKPI(kpiGroup.KPIs, rawEPAInfoModel.Evaluations);
                 }
             }
 
@@ -161,13 +145,6 @@ namespace SMS.EPA.Services.Implement
                 GroupEmployeeByEPA(memberEPAs, rawEPAModel.Employees);
                 GroupEPAProcessByEPA(memberEPAs, rawEPAModel.Processes);
                 GroupEvaluatorByEPA(memberEPAs, rawEPAModel.Evaluators);
-
-                foreach (var memberEPA in memberEPAs)
-                {
-                    memberEPA.FinalScore = !string.IsNullOrEmpty(memberEPA.FinalScore) ? Decode(memberEPA.FinalScore) : string.Empty;
-                    DecodeTotalScoreAndGetStatusOnEachProcess(memberEPA);
-                    memberEPA.AverageScoreByEvaluators = AverageTotalScore(memberEPA.ProcessByEvaluators);
-                }
             }
 
             return memberEPAs;
@@ -183,17 +160,14 @@ namespace SMS.EPA.Services.Implement
                 RawEPAInfoModel rawEPAInfoModel = _employeeEPARepository.GetEPAInfo(criteria);
 
                 result = rawEPAInfoModel.EPA;
-                result.FinalScore = !string.IsNullOrEmpty(result.FinalScore) ? Decode(result.FinalScore) : string.Empty;
 
                 GroupEvaluatorByProcess(result, rawEPAInfoModel.Evaluators);
                 GroupEPAProcessByEPA(result, rawEPAInfoModel.Processes);
                 GroupKPIByKPIGroup(result.KPIGroups, rawEPAInfoModel.KPIs);
-                DecodeTotalScoreAndGetStatusOnEachProcess(result);
-                result.AverageScoreByEvaluators = AverageTotalScore(result.ProcessByEvaluators);
 
                 foreach (var kpiGroup in result.KPIGroups)
                 {
-                    GroupEvaluationAndDecodeScoreOnEachKPI(kpiGroup.KPIs, rawEPAInfoModel.Evaluations);
+                    GroupEvaluationOnEachKPI(kpiGroup.KPIs, rawEPAInfoModel.Evaluations);
                 }
             }
 
@@ -217,14 +191,6 @@ namespace SMS.EPA.Services.Implement
                 GroupEmployeeByEPA(memberEPAs, rawEPAModel.Employees);
                 GroupEPAProcessByEPA(memberEPAs, rawEPAModel.Processes);
                 GroupEvaluatorByEPA(memberEPAs, rawEPAModel.Evaluators);
-
-                foreach (var memberEPA in memberEPAs)
-                {
-                    memberEPA.FinalScore = !string.IsNullOrEmpty(memberEPA.FinalScore) ? Decode(memberEPA.FinalScore) : string.Empty;
-                    DecodeTotalScoreAndGetStatusOnEachProcess(memberEPA);
-                    memberEPA.AverageScoreByEvaluators = AverageTotalScore(memberEPA.ProcessByEvaluators);
-                    memberEPA.AverageScoreByReviewers = AverageTotalScore(memberEPA.ProcessByReviewers);
-                }
             }
 
             return memberEPAs;
@@ -240,18 +206,14 @@ namespace SMS.EPA.Services.Implement
                 RawEPAInfoModel rawEPAInfoModel = _employeeEPARepository.GetEPAInfo(criteria);
 
                 result = rawEPAInfoModel.EPA;
-                result.FinalScore = !string.IsNullOrEmpty(result.FinalScore) ? Decode(result.FinalScore) : string.Empty;
 
                 GroupEvaluatorByProcess(result, rawEPAInfoModel.Evaluators);
                 GroupEPAProcessByEPA(result, rawEPAInfoModel.Processes);
                 GroupKPIByKPIGroup(result.KPIGroups, rawEPAInfoModel.KPIs);
-                DecodeTotalScoreAndGetStatusOnEachProcess(result);
-                result.AverageScoreByEvaluators = AverageTotalScore(result.ProcessByEvaluators);
-                result.AverageScoreByReviewers = AverageTotalScore(result.ProcessByReviewers);
 
                 foreach (var kpiGroup in result.KPIGroups)
                 {
-                    GroupEvaluationAndDecodeScoreOnEachKPI(kpiGroup.KPIs, rawEPAInfoModel.Evaluations);
+                    GroupEvaluationOnEachKPI(kpiGroup.KPIs, rawEPAInfoModel.Evaluations);
                 }
             }
 
@@ -296,16 +258,6 @@ namespace SMS.EPA.Services.Implement
             if (criteria.IsValid())
             {
                 epas = _employeeEPARepository.GetEmployeeEPAByKPI(criteria);
-
-                foreach (var epa in epas)
-                {
-                    epa.TotalScore = !string.IsNullOrEmpty(epa.TotalScore) ? Decode(epa.TotalScore) : string.Empty;
-
-                    foreach (var kpi in epa.KPIGroup.KPIs)
-                    {
-                        kpi.Score = !string.IsNullOrEmpty(kpi.Score) ? Decode(kpi.Score).Replace("_" + kpi.KPIId, string.Empty) : string.Empty;
-                    }
-                }
             }
 
             return epas;
@@ -336,19 +288,14 @@ namespace SMS.EPA.Services.Implement
                 RawEPAInfoModel rawEPAInfoModel = _employeeEPARepository.GetEPAInfo(criteria);
 
                 result = rawEPAInfoModel.EPA;
-                result.FinalScore = !string.IsNullOrEmpty(result.FinalScore) ? Decode(result.FinalScore) : string.Empty;
 
                 GroupEvaluatorByProcess(result, rawEPAInfoModel.Evaluators);
                 GroupEPAProcessByEPA(result, rawEPAInfoModel.Processes);
                 GroupKPIByKPIGroup(result.KPIGroups, rawEPAInfoModel.KPIs);
-                DecodeTotalScoreAndGetStatusOnEachProcess(result);
-                result.AverageScoreByEvaluators = AverageTotalScore(result.ProcessByEvaluators);
-                result.AverageScoreByReviewers = AverageTotalScore(result.ProcessByReviewers);
-                result.AverageScoreByManagements = AverageTotalScore(result.ProcessByManagements);
 
                 foreach (var kpiGroup in result.KPIGroups)
                 {
-                    GroupEvaluationAndDecodeScoreOnEachKPI(kpiGroup.KPIs, rawEPAInfoModel.Evaluations);
+                    GroupEvaluationOnEachKPI(kpiGroup.KPIs, rawEPAInfoModel.Evaluations);
                 }
             }
 
@@ -405,16 +352,6 @@ namespace SMS.EPA.Services.Implement
             }
 
             return employees;
-        }
-
-        public string Encode(string plainText)
-        {
-            return EncodeService.Encode(plainText);
-        }
-
-        public string Decode(string cipherText)
-        {
-            return EncodeService.Decode(cipherText);
         }
 
         public void GroupEmployeeByEPA(IEnumerable<EPAModel> epas, IEnumerable<EPAEmployeeModel> employees)
@@ -544,103 +481,26 @@ namespace SMS.EPA.Services.Implement
             }
         }
 
-        private void GroupEvaluationAndDecodeScoreOnEachKPI(IEnumerable<EPAKPIModel> kpis, IEnumerable<EvaluationModel> evaluations)
+        private void GroupEvaluationOnEachKPI(IEnumerable<EPAKPIModel> kpis, IEnumerable<EvaluationModel> evaluations)
         {
             foreach (var kpi in kpis)
             {
                 foreach (var evaluation in evaluations)
                 {
-                    EvaluationModel temp = CreateEvaluationModel(evaluation);
-                    temp.Score = !string.IsNullOrEmpty(temp.Score) ? Decode(temp.Score).Replace("_" + kpi.KPIId, string.Empty) : string.Empty;
-
-                    if (temp.ProcessId == (int)ProcessType.Self
-                        && temp.EPAId == kpi.EPAId
-                        && temp.KPIId == kpi.KPIId)
+                    if (evaluation.ProcessId == (int)ProcessType.Self
+                        && evaluation.EPAId == kpi.EPAId
+                        && evaluation.KPIId == kpi.KPIId)
                     {
-                        kpi.EvaluateBySelf = temp;
+                        kpi.EvaluateBySelf = evaluation;
                     }
-                    else if (temp.ProcessId == (int)ProcessType.Evaluator
-                        && temp.EPAId == kpi.EPAId
-                        && temp.KPIId == kpi.KPIId)
+                    else if (evaluation.ProcessId == (int)ProcessType.Evaluator
+                        && evaluation.EPAId == kpi.EPAId
+                        && evaluation.KPIId == kpi.KPIId)
                     {
-                        kpi.EvaluateByEvaluators.Add(temp);
+                        kpi.EvaluateByEvaluators.Add(evaluation);
                     }
                 }
             }
-        }
-
-        private EvaluationModel CreateEvaluationModel(EvaluationModel evaluation)
-        {
-            EvaluationModel result = new EvaluationModel()
-            {
-                EPAId = evaluation.EPAId,
-                ProcessId = evaluation.ProcessId,
-                KPIId = evaluation.KPIId,
-                EvaluatorId = evaluation.EvaluatorId,
-                Code = evaluation.Code,
-                NickName = evaluation.NickName,
-                FullName = evaluation.FullName,
-                Score = evaluation.Score,
-                Rate = evaluation.Rate,
-                Comment = evaluation.Comment
-            };
-
-            return result;
-        }
-
-        private void DecodeTotalScoreAndGetStatusOnEachProcess(EPAModel epa)
-        {
-            epa.ProcessBySelf.TotalScore = !string.IsNullOrEmpty(epa.ProcessBySelf.TotalScore) ? Decode(epa.ProcessBySelf.TotalScore) : string.Empty;
-
-            foreach (var epaProcess in epa.ProcessByEvaluators)
-            {
-                epaProcess.TotalScore = !string.IsNullOrEmpty(epaProcess.TotalScore) ? Decode(epaProcess.TotalScore) : string.Empty;
-            }
-
-            foreach (var epaProcess in epa.ProcessByReviewers)
-            {
-                epaProcess.TotalScore = !string.IsNullOrEmpty(epaProcess.TotalScore) ? Decode(epaProcess.TotalScore) : string.Empty;
-            }
-
-            foreach (var epaProcess in epa.ProcessByManagements)
-            {
-                epaProcess.TotalScore = !string.IsNullOrEmpty(epaProcess.TotalScore) ? Decode(epaProcess.TotalScore) : string.Empty;
-            }
-        }
-
-        private void DecodeTotalScoreAndScoreOnEachKPI(IEnumerable<RatingByKPIModel> eaps)
-        {
-            foreach (var epa in eaps)
-            {
-                epa.TotalScore = !string.IsNullOrEmpty(epa.TotalScore) ? Decode(epa.TotalScore) : string.Empty;
-
-                foreach (var kpi in epa.KPIGroup.KPIs)
-                {
-                    kpi.Score = !string.IsNullOrEmpty(kpi.Score) ? Decode(kpi.Score).Replace("_" + kpi.KPIId, string.Empty) : string.Empty;
-                }
-            }
-        }
-
-        private string AverageTotalScore(IList<EPAProcessModel> epaProcesses)
-        {
-            float score = 0;
-            int count = 0;
-
-            foreach (var epaProcess in epaProcesses)
-            {
-                if (!string.IsNullOrEmpty(epaProcess.TotalScore))
-                {
-                    count++;
-                    score += float.Parse(epaProcess.TotalScore);
-                }
-            }
-
-            if (count > 0)
-            {
-                return (score / count).ToString();
-            }
-
-            return string.Empty;
         }
     }
 }

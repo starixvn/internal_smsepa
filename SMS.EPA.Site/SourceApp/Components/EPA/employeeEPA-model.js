@@ -11,8 +11,8 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
     employeeEPAModel.members = [];
     employeeEPAModel.memberEPAs = [];
 
-    employeeEPAModel.getEPAOfCurrentMember = function () {
-        return employeeEPAFactory.getEPAOfCurrentMember()
+    employeeEPAModel.getEPAByEmployee = function () {
+        return employeeEPAFactory.getEPAByEmployee()
         .success(function (myEPAs) {
             employeeEPAModel.myEPAs = myEPAs;
         }).error(function (response, status) {
@@ -29,8 +29,26 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         });
     };
 
-    employeeEPAModel.getMember = function (processId, groupId) {
-        return employeeEPAFactory.getMember(processId, groupId)
+    employeeEPAModel.getMemberByEvaluator = function (groupId) {
+        return employeeEPAFactory.getMemberByEvaluator(groupId)
+        .success(function (members) {
+            employeeEPAModel.members = members;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    employeeEPAModel.getMemberByReviewer = function (groupId) {
+        return employeeEPAFactory.getMemberByReviewer(groupId)
+        .success(function (members) {
+            employeeEPAModel.members = members;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    employeeEPAModel.getMemberByManagement = function (groupId) {
+        return employeeEPAFactory.getMemberByManagement(groupId)
         .success(function (members) {
             employeeEPAModel.members = members;
         }).error(function (response, status) {
@@ -118,12 +136,8 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         return isValid;
     };
 
-    employeeEPAModel.notificationEvaluateEPAInValid = function () {
-        notificationFactory.error("EvaluateEPAInvalid");
-    }
-
-    employeeEPAModel.updateEPAScore = function (vm) {
-        return employeeEPAFactory.updateEPAScore(vm.epaInfo)
+    employeeEPAModel.updateEPAScoreByEmployee = function (vm) {
+        return employeeEPAFactory.updateEPAScoreByEmployee(vm.epaInfo)
         .success(function (response) {
             if (response.IsSuccessful) {
                 notificationFactory.success("UpdatedSuccessfully");

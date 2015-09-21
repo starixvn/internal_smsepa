@@ -15,7 +15,6 @@ namespace SMS.EPA.Criteria.EmployeeEPA
     using System.Web;
     using Fanex.Data.Repository;
     using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Core.Services;
     using SMS.EPA.Model.EmployeeEPA;
 
     public class UpdateEPAScoreCriteria : CriteriaBase
@@ -44,7 +43,7 @@ namespace SMS.EPA.Criteria.EmployeeEPA
         {
             get
             {
-                return EncodeService.Encode(EPAProcess.TotalScore);
+                return EPAProcess.TotalScoreEncode;
             }
         }
 
@@ -61,12 +60,12 @@ namespace SMS.EPA.Criteria.EmployeeEPA
                     {
                         if (ProcessId == (int)ProcessType.Self)
                         {
-                            cipherScore = !string.IsNullOrEmpty(kpi.EvaluateBySelf.Score) ? EncodeService.Encode(kpi.EvaluateBySelf.Score + "_" + kpi.KPIId) : string.Empty;
+                            cipherScore = !string.IsNullOrEmpty(kpi.EvaluateBySelf.Score) ? kpi.EvaluateBySelf.ScoreEncode : string.Empty;
                             result.AppendFormat(_KPIScore, kpi.KPIId, kpiGroup.KPIGroupId, cipherScore, kpi.EvaluateBySelf.Rate, HttpUtility.HtmlEncode(kpi.EvaluateBySelf.Comment));
                         }
                         else if (ProcessId == (int)ProcessType.Evaluator)
                         {
-                            cipherScore = !string.IsNullOrEmpty(kpi.EvaluateByEvaluators.FirstOrDefault().Score) ? EncodeService.Encode(kpi.EvaluateByEvaluators.FirstOrDefault().Score + "_" + kpi.KPIId) : string.Empty;
+                            cipherScore = !string.IsNullOrEmpty(kpi.EvaluateByEvaluators.FirstOrDefault().Score) ? kpi.EvaluateByEvaluators.FirstOrDefault().ScoreEncode : string.Empty;
                             result.AppendFormat(_KPIScore, kpi.KPIId, kpiGroup.KPIGroupId, cipherScore, kpi.EvaluateByEvaluators.FirstOrDefault().Rate, HttpUtility.HtmlEncode(kpi.EvaluateByEvaluators.FirstOrDefault().Comment));
                         }
                     }

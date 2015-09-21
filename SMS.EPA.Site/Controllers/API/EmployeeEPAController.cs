@@ -11,9 +11,11 @@ namespace SMS.EPA.Site.Controllers.API
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Web;
     using System.Web.Http;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
+    using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.EmployeeEPA;
     using SMS.EPA.Criteria.EmployeeEPA.RatingByKPI;
     using SMS.EPA.Model.EmployeeEPA;
@@ -37,25 +39,10 @@ namespace SMS.EPA.Site.Controllers.API
             _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
         }
 
-        [HttpGet]
-        public IEnumerable<Employee> GetMember(
-            int processId,
-            int? groupId = null)
-        {
-            var criteria = new GetMemberCriteria()
-            {
-                ActorUserId = CurrentUser.EmployeeInfo.EmployeeId,
-                ProcessId = processId,
-                GroupId = groupId
-            };
-
-            return _employeeEPAService.GetMember(criteria);
-        }
-
         #region Self
 
         [HttpGet]
-        public IEnumerable<EPAModel> GetEPAOfCurrentMember()
+        public IEnumerable<EPAModel> GetEPAByEmployee()
         {
             var criteria = new GetEPAByEmployeeCriteria
             {
@@ -77,9 +64,39 @@ namespace SMS.EPA.Site.Controllers.API
             return _employeeEPAService.GetEPAInfoByEmployee(criteria);
         }
 
+        [HttpPut]
+        public CommandResult UpdateEPAScoreByEmployee(EPAModel model)
+        {
+            var criteria = new UpdateEPAScoreCriteria()
+            {
+                EPAId = model.EPAId,
+                ProcessId = (int)ProcessType.Self,
+                EmployeeId = model.Employee.EmployeeId,
+                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
+                EPAProcess = model.ProcessBySelf,
+                KPIGroups = model.KPIGroups,
+                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
+            };
+
+            return UpdateEPAScoreByEmployeeOrEvaluator(criteria);
+        }
+
         #endregion Self
 
         #region Evaluator
+
+        [HttpGet]
+        public IEnumerable<Employee> GetMemberByEvaluator(int? groupId = null)
+        {
+            var criteria = new GetMemberCriteria()
+            {
+                ActorUserId = CurrentUser.EmployeeInfo.EmployeeId,
+                ProcessId = (int)ProcessType.Evaluator,
+                GroupId = groupId
+            };
+
+            return GetMemberEvaluatorOrReivewerOrManagement(criteria);
+        }
 
         [HttpGet]
         public IEnumerable<EPAModel> GetEPAByEvaluator(
@@ -114,7 +131,7 @@ namespace SMS.EPA.Site.Controllers.API
             var criteria = new UpdateEPAScoreCriteria()
             {
                 EPAId = model.EPAId,
-                ProcessId = model.ProcessByEvaluators.FirstOrDefault().ProcessId,
+                ProcessId = (int)ProcessType.Evaluator,
                 EmployeeId = model.Employee.EmployeeId,
                 EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
                 EPAProcess = model.ProcessByEvaluators.FirstOrDefault(),
@@ -122,12 +139,25 @@ namespace SMS.EPA.Site.Controllers.API
                 ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
             };
 
-            return _employeeEPAService.UpdateEPAScore(criteria);
+            return UpdateEPAScoreByEmployeeOrEvaluator(criteria);
         }
 
         #endregion Evaluator
 
         #region Reviewer
+
+        [HttpGet]
+        public IEnumerable<Employee> GetMemberByReviewer(int? groupId = null)
+        {
+            var criteria = new GetMemberCriteria()
+            {
+                ActorUserId = CurrentUser.EmployeeInfo.EmployeeId,
+                ProcessId = (int)ProcessType.Reviewer,
+                GroupId = groupId
+            };
+
+            return GetMemberEvaluatorOrReivewerOrManagement(criteria);
+        }
 
         [HttpGet]
         public IEnumerable<EPAModel> GetEPAByReviewer(
@@ -172,6 +202,19 @@ namespace SMS.EPA.Site.Controllers.API
         #endregion Reviewer
 
         #region Management
+
+        [HttpGet]
+        public IEnumerable<Employee> GetMemberByManagement(int? groupId = null)
+        {
+            var criteria = new GetMemberCriteria()
+            {
+                ActorUserId = CurrentUser.EmployeeInfo.EmployeeId,
+                ProcessId = (int)ProcessType.Management,
+                GroupId = groupId
+            };
+
+            return GetMemberEvaluatorOrReivewerOrManagement(criteria);
+        }
 
         [HttpGet]
         public IEnumerable<EPAModel> GetEPAByManagement(
@@ -284,33 +327,27 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpPut]
-        public CommandResult UpdateEPAScore(EPAModel model)
-        {
-            var criteria = new UpdateEPAScoreCriteria()
-            {
-                EPAId = model.EPAId,
-                ProcessId = model.ProcessBySelf.ProcessId,
-                EmployeeId = model.Employee.EmployeeId,
-                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
-                EPAProcess = model.ProcessBySelf,
-                KPIGroups = model.KPIGroups,
-                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
-            };
-
-            return _employeeEPAService.UpdateEPAScore(criteria);
-        }
-
-        [HttpPut]
         public CommandResult UpdateScoreByReviewerOrManagement(UpdateScoreByReviewerOrManagementCriteria criteria)
         {
             if (criteria != null)
             {
                 criteria.EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId;
                 criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
-                criteria.Score = _employeeEPAService.Encode(criteria.Score);
+                criteria.Comment = HttpUtility.HtmlEncode(criteria.Comment);
+                criteria.Score = EncodeService.Encode(criteria.Score);
             }
 
             return _employeeEPAService.UpdateScoreByReviewerOrManagement(criteria);
+        }
+
+        private CommandResult UpdateEPAScoreByEmployeeOrEvaluator(UpdateEPAScoreCriteria criteria)
+        {
+            return _employeeEPAService.UpdateEPAScore(criteria);
+        }
+
+        private IEnumerable<Employee> GetMemberEvaluatorOrReivewerOrManagement(GetMemberCriteria criteria)
+        {
+            return _employeeEPAService.GetMember(criteria);
         }
 
         private CommandResult AdjustScoreByReviewerOrManagement(AdjustScoreByReviewerOrManagementCriteria criteria)

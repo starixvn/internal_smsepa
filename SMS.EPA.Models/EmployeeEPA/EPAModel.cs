@@ -11,6 +11,7 @@ namespace SMS.EPA.Model.EmployeeEPA
 {
     using System.Collections.Generic;
     using System.Linq;
+    using SMS.EPA.Core.Services;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.Period;
 
@@ -35,7 +36,20 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public StatusModel Status { get; set; }
 
-        public string FinalScore { get; set; }
+        public string FinalScoreEncode { get; set; }
+
+        public string FinalScore
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(FinalScoreEncode) ? EncodeService.Decode(FinalScoreEncode) : string.Empty;
+            }
+
+            set
+            {
+                FinalScoreEncode = EncodeService.Encode(value);
+            }
+        }
 
         public bool HasAttendanceScore { get; set; }
 
@@ -57,11 +71,80 @@ namespace SMS.EPA.Model.EmployeeEPA
             }
         }
 
-        public string AverageScoreByEvaluators { get; set; }
+        public string AverageScoreByEvaluators
+        {
+            get
+            {
+                float score = 0;
+                int count = 0;
 
-        public string AverageScoreByReviewers { get; set; }
+                foreach (var processByEvaluator in ProcessByEvaluators)
+                {
+                    if (!string.IsNullOrEmpty(processByEvaluator.TotalScore))
+                    {
+                        count++;
+                        score += float.Parse(processByEvaluator.TotalScore);
+                    }
+                }
 
-        public string AverageScoreByManagements { get; set; }
+                if (count > 0)
+                {
+                    return (score / count).ToString();
+                }
+
+                return string.Empty;
+            }
+        }
+
+        public string AverageScoreByReviewers
+        {
+            get
+            {
+                float score = 0;
+                int count = 0;
+
+                foreach (var processByReviewer in ProcessByReviewers)
+                {
+                    if (!string.IsNullOrEmpty(processByReviewer.TotalScore))
+                    {
+                        count++;
+                        score += float.Parse(processByReviewer.TotalScore);
+                    }
+                }
+
+                if (count > 0)
+                {
+                    return (score / count).ToString();
+                }
+
+                return string.Empty;
+            }
+        }
+
+        public string AverageScoreByManagements
+        {
+            get
+            {
+                float score = 0;
+                int count = 0;
+
+                foreach (var processByManagement in ProcessByManagements)
+                {
+                    if (!string.IsNullOrEmpty(processByManagement.TotalScore))
+                    {
+                        count++;
+                        score += float.Parse(processByManagement.TotalScore);
+                    }
+                }
+
+                if (count > 0)
+                {
+                    return (score / count).ToString();
+                }
+
+                return string.Empty;
+            }
+        }
 
         public EPAProcessModel ProcessBySelf { get; set; }
 

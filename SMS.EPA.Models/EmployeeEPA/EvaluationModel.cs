@@ -9,6 +9,8 @@
 
 namespace SMS.EPA.Model.EmployeeEPA
 {
+    using SMS.EPA.Core.Services;
+
     public class EvaluationModel
     {
         public int EPAId { get; set; }
@@ -25,7 +27,20 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public string FullName { get; set; }
 
-        public string Score { get; set; }
+        public string ScoreEncode { get; set; }
+
+        public string Score
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(ScoreEncode) ? EncodeService.Decode(ScoreEncode).Replace("_" + KPIId, string.Empty) : string.Empty;
+            }
+
+            set
+            {
+                ScoreEncode = !string.IsNullOrEmpty(value) ? EncodeService.Encode(value + "_" + KPIId) : string.Empty;
+            }
+        }
 
         public int Rate { get; set; }
 
@@ -33,12 +48,7 @@ namespace SMS.EPA.Model.EmployeeEPA
         {
             get
             {
-                if (Rate > 0)
-                {
-                    return Rate * 20;
-                }
-
-                return 0;
+                return Rate * 20;
             }
         }
 

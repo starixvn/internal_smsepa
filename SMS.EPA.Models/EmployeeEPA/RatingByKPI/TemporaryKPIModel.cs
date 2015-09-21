@@ -9,6 +9,8 @@
 
 namespace SMS.EPA.Model.EmployeeEPA.RatingByKPI
 {
+    using SMS.EPA.Core.Services;
+
     public class TemporaryKPIModel
     {
         public int EPAId { get; set; }
@@ -27,7 +29,20 @@ namespace SMS.EPA.Model.EmployeeEPA.RatingByKPI
 
         public double Weight { get; set; }
 
-        public string Score { get; set; }
+        public string ScoreEncode { get; set; }
+
+        public string Score
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(ScoreEncode) ? EncodeService.Decode(ScoreEncode).Replace("_" + KPIId, string.Empty) : string.Empty;
+            }
+
+            set
+            {
+                ScoreEncode = !string.IsNullOrEmpty(value) ? EncodeService.Encode(value + "_" + KPIId) : string.Empty;
+            }
+        }
 
         public int Rate { get; set; }
 

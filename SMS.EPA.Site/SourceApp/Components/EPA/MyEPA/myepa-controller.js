@@ -17,7 +17,7 @@ function (EmployeeEPAModel) {
     };
 
     vm.initialize = function () {
-        EmployeeEPAModel.getEPAOfCurrentMember().then(function () {
+        EmployeeEPAModel.getEPAByEmployee().then(function () {
             vm.myEPAs = EmployeeEPAModel.myEPAs;
         });
     };
@@ -26,8 +26,8 @@ function (EmployeeEPAModel) {
 }]);
 
 epaModule.controller('EmployeeEPAInfoController',
-['$window', '$translate', '$routeParams', 'EmployeeEPAModel',
-function ($window, $translate, $routeParams, EmployeeEPAModel) {
+['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'notificationFactory',
+function ($window, $translate, $routeParams, EmployeeEPAModel, notificationFactory) {
     var vm = this;
 
     vm.epaId = parseInt($routeParams.epaId);
@@ -132,7 +132,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel) {
         });
 
         if (!isValid) {
-            EmployeeEPAModel.notificationEvaluateEPAInValid();
+            notificationFactory.error("EvaluateEPAInvalid");
         }
 
         return isValid;
@@ -188,7 +188,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel) {
 
     vm.save = function (epaInfo) {
         if (validateEPA(epaInfo)) {
-            EmployeeEPAModel.updateEPAScore(vm);
+            EmployeeEPAModel.updateEPAScoreByEmployee(vm);
         }
     };
 

@@ -11,25 +11,24 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
 
     vm.filter = {
         groupId: '',
-        employeeIds: '',
-        status: ''
+        employeeIds: ''
     };
 
     vm.getMember = function (groupId) {
-        EmployeeEPAModel.getMember(3, groupId).then(function () {
+        EmployeeEPAModel.getMemberByEvaluator(groupId).then(function () {
             vm.members = EmployeeEPAModel.members;
         });
     };
 
-    var getEPAByEvaluator = function (groupId, employeeIds, status) {
-        EmployeeEPAModel.getEPAByEvaluator(groupId, employeeIds, status).then(function () {
+    var getEPAByEvaluator = function (groupId, employeeIds) {
+        EmployeeEPAModel.getEPAByEvaluator(groupId, employeeIds).then(function () {
             vm.memberEPAs = EmployeeEPAModel.memberEPAs;
         });
     };
 
     vm.query = function (filter) {
         filter.employeeIds = utilitiesFactory.getSelectedData(vm.members, 'EmployeeId');
-        getEPAByEvaluator(filter.groupId, filter.employeeIds, filter.status);
+        getEPAByEvaluator(filter.groupId, filter.employeeIds);
     };
 
     vm.viewEPADetail = function (memberEPA) {
@@ -54,8 +53,8 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
 }]);
 
 epaModule.controller('MemberEPAInfoOfEvaluatorController',
-['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'CommonModel', 'utilitiesFactory',
-function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, utilitiesFactory) {
+['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'CommonModel', 'notificationFactory',
+function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, notificationFactory) {
     var vm = this;
 
     vm.epaId = parseInt($routeParams.epaId);
@@ -159,7 +158,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
         });
 
         if (!isValid) {
-            EmployeeEPAModel.notificationEvaluateEPAInValid();
+            notificationFactory.error("EvaluateEPAInvalid");
         }
 
         return isValid;

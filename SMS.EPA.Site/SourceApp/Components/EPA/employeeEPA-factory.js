@@ -3,16 +3,17 @@
 
 epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, baseUrl) {
     return {
-        getMember: function (processId, groupId) {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetMember', {
-                params: {
-                    processId: processId,
-                    groupId: groupId
-                }
-            });
+        getMemberByEvaluator: function (groupId) {
+            return $http.get(baseUrl + 'api/EmployeeEPA/GetMemberByEvaluator', { params: { groupId: groupId } });
         },
-        getEPAOfCurrentMember: function () {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAOfCurrentMember');
+        getMemberByReviewer: function (groupId) {
+            return $http.get(baseUrl + 'api/EmployeeEPA/GetMemberByReviewer', { params: { groupId: groupId } });
+        },
+        getMemberByManagement: function (groupId) {
+            return $http.get(baseUrl + 'api/EmployeeEPA/GetMemberByManagement', { params: { groupId: groupId } });
+        },
+        getEPAByEmployee: function () {
+            return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAByEmployee');
         },
         getEPAInfoByEmployee: function (epaId) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAInfoByEmployee', { params: { epaId: epaId } });
@@ -53,8 +54,8 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
         getEPAInfoById: function (epaId) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAInfoById', { params: { epaId: epaId } });
         },
-        updateEPAScore: function (model) {
-            return $http.put(baseUrl + 'api/EmployeeEPA/UpdateEPAScore', model);
+        updateEPAScoreByEmployee: function (model) {
+            return $http.put(baseUrl + 'api/EmployeeEPA/UpdateEPAScoreByEmployee', model);
         },
         updateScoreByReviewerOrManagement: function (model) {
             return $http.put(baseUrl + 'api/EmployeeEPA/UpdateScoreByReviewerOrManagement', model);

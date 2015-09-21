@@ -73,9 +73,5 @@ namespace SMS.EPA.Services.Interfaces
         CommandResult AdjustScoreByReviewerOrManagement(AdjustScoreByReviewerOrManagementCriteria criteria);
 
         IEnumerable<Employee> GetMember(GetMemberCriteria criteria);
-
-        string Encode(string plainText);
-
-        string Decode(string cipherText);
     }
 }
