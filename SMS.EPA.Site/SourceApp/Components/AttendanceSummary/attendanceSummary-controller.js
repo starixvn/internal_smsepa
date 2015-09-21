@@ -63,6 +63,7 @@ function (AttendanceModel, utilitiesFactory, EmployeeModel, CommonModel, baseUrl
         if (vm.searchEmployee.trim() === '') {
             if (vm.filter.employee) {
                 vm.filter.employee = null;
+                vm.filter.employeeId = null;
             }
         }
     };
@@ -74,6 +75,7 @@ function (AttendanceModel, utilitiesFactory, EmployeeModel, CommonModel, baseUrl
 
         if (filter.employee) {
             employeeId = filter.employee.EmployeeId;
+            vm.filter.employeeId = employeeId;
         }
 
         getAttendanceSummary(filter.startDate, filter.endDate, filter.departmentId, employeeId, vm.filter.reasonId);

@@ -31,11 +31,13 @@ namespace SMS.EPA.Model.AttendanceSummary
 
         public float SystemSubtractScore { get; set; }
 
+        public float ApproverIgnoredScore { get; set; }
+
         public float ApproverSubtractScore 
         {
             get
             {
-                return SystemSubtractScore;
+                return SystemSubtractScore - ApproverIgnoredScore;
             }
 
             set

@@ -59,14 +59,11 @@
         <thead>
             <tr class="header-table">
                 <th colspan="17">
-                    <!--<span class="txt-attendance-header">{{"AttendanceSummary" | translate}} 
-                    {{"From" | translate}} {{attendanceCtrl.filter.startDate | date: attendanceCtrl.dateFormat}} 
-                    {{"To" | translate}} {{attendanceCtrl.filter.endDate | date: attendanceCtrl.dateFormat}}</span>
-                    <input type="text" ng-model="attendanceCtrl.searchKey" ng-change="attendanceCtrl.search()" class="search-inline-textbox search pull-right">-->
                     <a class="pull-left button-icon create-button" href="" ng-click="attendanceCtrl.addOtherViolations()">
                         <span class="icon plus"></span>
                         <span class="button-text" data-translate="AddOtherViolations"></span>
                     </a>
+                    <input type="text" ng-model="attendanceCtrl.searchKey" ng-change="attendanceCtrl.search()" class="search-inline-textbox search pull-right">
                 </th>
             </tr>
             <tr class="headerName">
