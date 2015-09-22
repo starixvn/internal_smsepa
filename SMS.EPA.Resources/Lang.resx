@@ -1038,4 +1038,7 @@
   <data name="AdjustScoreInvalid" xml:space="preserve">
     <value>There are some empty score. Please fill them before submitting.</value>
   </data>
+  <data name="NoticeAtBegin" xml:space="preserve">
+    <value>Notice At Begin</value>
+  </data>
 </root>

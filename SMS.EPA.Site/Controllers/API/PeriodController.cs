@@ -16,6 +16,7 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.Period;
     using SMS.EPA.Criteria.Period.GenerationEvaluation;
+    using SMS.EPA.Model.FlowManagement;
     using SMS.EPA.Model.Period;
     using SMS.EPA.Resources;
     using SMS.EPA.Services.Implement;
@@ -238,6 +239,39 @@ namespace SMS.EPA.Site.Controllers.API
             if (commandResult.IsSuccessful)
             {
                 _periodService.SendEmailNoticeAtBegin(criteria.PeriodId);
+            }
+
+            return commandResult;
+        }
+
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Read)]
+        public IEnumerable<FlowModel> GetProcessSettingByPeriodId(int periodId)
+        {
+            var criteria = new GetPeriodProcessSettingCriteria
+            {
+                PeriodId = periodId
+            };
+
+            IEnumerable<FlowModel> processSettings = _periodService.GetProcessSettingByPeriodId(criteria);
+            return processSettings;
+        }
+
+        [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Host)]
+        public CommandResult UpdatePeriodProcessSetting(UpdatePeriodProcessSettingCriteria criteria)
+        {
+            var commandResult = new CommandResult();
+
+            if (criteria != null)
+            {
+                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.ProcessSettings = criteria.ConvertViolationItemToXml();
+                commandResult = _periodService.UpdatePeriodProcessSetting(criteria);
+            }
+            else
+            {
+                commandResult.Code = 1;
+                commandResult.Message = Lang.ParameterInvalid;
             }
 
             return commandResult;

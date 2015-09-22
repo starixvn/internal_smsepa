@@ -103,6 +103,25 @@
                 </td>
                 <td class="text-center" ng-bind="employee.TargetTemplate.TargetTypeName" rowspan="{{employee.NumberEvaluators}}"></td>
                 <td ng-bind="employee.TargetTemplate.Name" rowspan="{{employee.NumberEvaluators}}"></td>
+                <td data-translate="SelfEvaluator"></td>
+                <td>
+                    <div>
+                        <span ng-bind="employee.FullName +' ('+ employee.NickName + ')'"></span>
+                    </div>
+                </td>
+                <td ng-bind="employee.SelfEvaluators[0].StartDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
+                <td ng-bind="employee.SelfEvaluators[0].EndDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
+                <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
+                    <input type="checkbox" ng-checked="employee.IsIncluded" ng-click="employeeSettingPeriodCtrl.includeExcludeEmployee(employee)"
+                           ng-disabled="updateCtrl.permission != 2" />
+                </td>
+                <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
+                    <div class="btn-group">
+                        <a class="glyphicon glyphicon-edit icon-edit" title="Edit" href="" ng-click="employeeSettingPeriodCtrl.updateEmployeeSetting(employee)"></a>
+                    </div>
+                </td>
+            </tr>
+            <tr ng-class="{oddRow: $index % 2 == 0, evenRow: $index % 2 != 0}">
                 <td data-translate="Evaluator"></td>
                 <td>
                     <div ng-show="employee.Evaluators && employee.Evaluators.length == 1
@@ -118,15 +137,6 @@
                 </td>
                 <td ng-bind="employee.Evaluators[0].StartDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
                 <td ng-bind="employee.Evaluators[0].EndDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
-                <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
-                    <input type="checkbox" ng-checked="employee.IsIncluded" ng-click="employeeSettingPeriodCtrl.includeExcludeEmployee(employee)"
-                           ng-disabled="updateCtrl.permission != 2" />
-                </td>
-                <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
-                    <div class="btn-group">
-                        <a class="glyphicon glyphicon-edit icon-edit" title="Edit" href="" ng-click="employeeSettingPeriodCtrl.updateEmployeeSetting(employee)"></a>
-                    </div>
-                </td>
             </tr>
             <tr ng-class="{oddRow: $index % 2 == 0, evenRow: $index % 2 != 0}">
                 <td data-translate="Reviewer"></td>

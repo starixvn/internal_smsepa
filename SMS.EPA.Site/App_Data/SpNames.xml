@@ -228,6 +228,11 @@
         </Setting>
         <Setting Key="EpaPeriod_UpdateIncludeStatusEmployeeToPeriod" SpName="EpaPeriod_UpdateIncludeStatusEmployeeToPeriod" DbName="SMSEPA" Plain="0">
         </Setting>
+        <Setting Key="EpaPeriod_GetProcessSetting" SpName="EpaPeriod_GetProcessSetting" DbName="SMSEPA" Plain="0">
+          <Mapping DataField="NoticeAtBegin" ObjectProperty="HasSendMail" />
+        </Setting>
+        <Setting Key="EpaPeriod_UpdateProcessSetting" SpName="EpaPeriod_UpdateProcessSetting" DbName="SMSEPA" Plain="0">
+        </Setting>
     </Function>
     <Function Name="Dashboard">
         <Setting Key="Epa_Dashboard" SpName="Epa_Dashboard" DbName="SMSEPA" Plain="0" >

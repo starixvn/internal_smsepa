@@ -53,7 +53,7 @@ namespace SMS.EPA.Model.Period
         {
             get
             {
-                return 3;
+                return 4;
             }
 
             set

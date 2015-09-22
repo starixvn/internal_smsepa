@@ -404,6 +404,7 @@
     <Content Include="SourceApp\Components\Period\Templates\editEmployeeSetting.html" />
     <Content Include="SourceApp\Components\Period\Templates\employeeSetting.html" />
     <Content Include="SourceApp\Components\Period\Templates\index.html" />
+    <Content Include="SourceApp\Components\Period\Templates\processSetting.html" />
     <Content Include="SourceApp\Components\Resources\resources-controller.js" />
     <Content Include="SourceApp\Components\Resources\resources-factory.js" />
     <Content Include="SourceApp\Components\KPI\kpi-controller.js" />

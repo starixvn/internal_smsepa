@@ -39,6 +39,12 @@ periodModule.factory('periodFactory', ['$http', 'baseUrl', function ($http, base
         },
         generateEvaluation: function (period) {
             return $http.post(baseUrl + 'api/Period/GenerateEvaluation', period);
+        },
+        getProcessSettingByPeriodId: function (periodId) {
+            return $http.get(baseUrl + 'api/Period/GetProcessSettingByPeriodId', { params: { periodId: periodId }});
+        },
+        updatePeriodProcessSetting: function (periodProcessSetting) {
+            return $http.put(baseUrl + 'api/Period/UpdatePeriodProcessSetting', periodProcessSetting);
         }
     };
 }]);

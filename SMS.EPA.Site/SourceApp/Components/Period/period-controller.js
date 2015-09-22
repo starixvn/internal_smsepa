@@ -81,6 +81,8 @@ function ($modalInstance, PeriodModel, CommonModel) {
         TargetTypeId: null,
         StartDate: null,
         EndDate: null,
+        RawStartDate: null,
+        RawEndDate: null,
         AttendanceStartDate: null,
         AttendanceEndDate: null,
         IsActive: true,
@@ -107,8 +109,11 @@ function ($modalInstance, PeriodModel, CommonModel) {
 
     vm.save = function (period) {
         if (PeriodModel.validatePeriod(period)) {
-            period.StartDate = period.StartDate.toDateString();
-            period.EndDate = period.EndDate.toDateString();
+            period.StartDate = period.RawStartDate ? period.RawStartDate.toDateString() : null;
+            period.EndDate = period.RawEndDate ? period.RawEndDate.toDateString() : null;
+            period.AttendanceStartDate = period.RawAttendanceStartDate ? period.RawAttendanceStartDate.toDateString() : null;
+            period.AttendanceEndDate = period.RawAttendanceEndDate ? period.RawAttendanceEndDate.toDateString() : null;
+
             PeriodModel.createPeriod(period, $modalInstance);
         }
     };
@@ -132,17 +137,26 @@ function ($window, $routeParams, PeriodModel) {
 
     vm.dataTab = {
         basicInformation: !vm.viewMode,
-        employeeSetting: vm.viewMode
+        employeeSetting: vm.viewMode,
+        processSetting: false
     };
 
     vm.tabBasicSelect = function () {
         vm.dataTab.basicInformation = true;
         vm.dataTab.employeeSetting = false;
+        vm.dataTab.processSetting = false;
     };
 
-    vm.employeeSetting = function () {
+    vm.tabEmployeeSettingSelect = function () {
         vm.dataTab.basicInformation = false;
         vm.dataTab.employeeSetting = true;
+        vm.dataTab.processSetting = false;
+    };
+
+    vm.tabProcessSettingSelect = function () {
+        vm.dataTab.basicInformation = false;
+        vm.dataTab.employeeSetting = false;
+        vm.dataTab.processSetting = true;
     };
 
     PeriodModel.getPeriodById(vm.periodId).then(function () {
@@ -198,6 +212,11 @@ function ($scope, $window, PeriodModel, CommonModel) {
             if (newVal) {
                 vm.period = $scope.updateCtrl.period;
 
+                vm.period.RawStartDate = vm.period.StartDate ? new Date(vm.period.StartDate) : null;
+                vm.period.RawEndDate = vm.period.EndDate ? new Date(vm.period.EndDate) : null;
+                vm.period.RawAttendanceStartDate = vm.period.AttendanceStartDate ? new Date(vm.period.AttendanceStartDate) : null;
+                vm.period.RawAttendanceEndDate = vm.period.AttendanceEndDate ? new Date(vm.period.AttendanceEndDate) : null;
+
                 if ($scope.updateCtrl.dataTab.basicInformation && vm.isFirstLoad && vm.period.PeriodId) {
                     getTargetType();
                 }
@@ -213,8 +232,62 @@ function ($scope, $window, PeriodModel, CommonModel) {
 
     vm.save = function (period) {
         if (PeriodModel.validatePeriod(period)) {
+            period.StartDate = period.RawStartDate ? period.RawStartDate.toDateString() : null;
+            period.EndDate = period.RawEndDate ? period.RawEndDate.toDateString() : null;
+            period.AttendanceStartDate = period.RawAttendanceStartDate ? period.RawAttendanceStartDate.toDateString() : null;
+            period.AttendanceEndDate = period.RawAttendanceEndDate ? period.RawAttendanceEndDate.toDateString() : null;
+
             PeriodModel.updateBasicInformationPeriod(period);
         }
+    };
+
+    vm.cancel = function () {
+        $window.history.back();
+    };
+}]);
+
+periodModule.controller('ProcessSettingPeriodController',
+['$scope', '$window', 'PeriodModel', 'FlowMngModel',
+function ($scope, $window, PeriodModel, FlowMngModel) {
+    var vm = this;
+
+    vm.period = {};
+    vm.isFirstLoad = true;
+    vm.processSettings = PeriodModel.processSettings;
+    vm.remindDay = FlowMngModel.remindDay;
+
+    var getProcessSetting = function (periodId) {
+        PeriodModel.getProcessSettingByPeriodId(periodId).then(function () {
+            vm.processSettings = PeriodModel.processSettings;
+            vm.isFirstLoad = false;
+        });
+    };
+
+    $scope.$watch(function () { return $scope.updateCtrl.period; },
+        function (newVal) {
+            if (newVal) {
+                vm.period = $scope.updateCtrl.period;
+
+                if ($scope.updateCtrl.dataTab.processSetting && vm.isFirstLoad && vm.period.PeriodId) {
+                    getProcessSetting(vm.period.PeriodId);
+                }
+            }
+        });
+
+    $scope.$watch(function () { return $scope.updateCtrl.dataTab.processSetting; },
+    function (newVal) {
+        if (newVal && vm.isFirstLoad && vm.period) {
+            getProcessSetting(vm.period.PeriodId);
+        }
+    });
+
+    vm.save = function (period) {
+        var periodProcessSetting = {
+            PeriodId: vm.period.PeriodId,
+            Processes: vm.processSettings
+        };
+
+        PeriodModel.updatePeriodProcessSetting(periodProcessSetting);
     };
 
     vm.cancel = function () {
@@ -468,7 +541,6 @@ permission, PeriodModel, EmployeeModel, TargetTemplateModel, FlowMngModel) {
     vm.employeeSetting = employeeSetting;
     vm.permission = permission;
     vm.periodDateFormat = PeriodModel.periodDateFormat;
-    vm.remindDay = FlowMngModel.remindDay;
     vm.evaluatorType = PeriodModel.evaluatorType;
     vm.selectedEmployee = selectedEmployee;
     vm.flowCalendar = PeriodModel.flowCalendar;
@@ -477,47 +549,27 @@ permission, PeriodModel, EmployeeModel, TargetTemplateModel, FlowMngModel) {
         humanResource: {
             ids: null,
             StartDate: null,
-            EndDate: null,
-            HasSendMail: true,
-            RemindDay: 0,
-            Duration: 1,
-            originalDuration: 1
+            EndDate: null
         },
         selfEvaluator: {
             ids: null,
             StartDate: null,
-            EndDate: null,
-            HasSendMail: true,
-            RemindDay: 0,
-            Duration: 1,
-            originalDuration: 1
+            EndDate: null
         },
         evaluator: {
             ids: null,
             StartDate: null,
-            EndDate: null,
-            HasSendMail: true,
-            RemindDay: 0,
-            Duration: 1,
-            originalDuration: 1
+            EndDate: null
         },
         reviewer: {
             ids: null,
             StartDate: null,
-            EndDate: null,
-            HasSendMail: true,
-            RemindDay: 0,
-            Duration: 1,
-            originalDuration: 1
+            EndDate: null
         },
         management: {
             ids: null,
             StartDate: null,
-            EndDate: null,
-            HasSendMail: true,
-            RemindDay: 0,
-            Duration: 1,
-            originalDuration: 1
+            EndDate: null
         },
         targetTemplateId: null,
         humanResourceEmployees: [],
@@ -547,10 +599,6 @@ permission, PeriodModel, EmployeeModel, TargetTemplateModel, FlowMngModel) {
         var evaluator = {
             StartDate: null,
             EndDate: null,
-            HasSendMail: true,
-            RemindDay: 0,
-            Duration: 1,
-            originalDuration: 1,
             ids: [],
             ProcessId: 0
         };
@@ -558,10 +606,6 @@ permission, PeriodModel, EmployeeModel, TargetTemplateModel, FlowMngModel) {
         if (evaluators && evaluators.length > 0) {
             evaluator.StartDate = evaluators[0].StartDate ? new Date(evaluators[0].StartDate) : null;
             evaluator.EndDate = evaluators[0].EndDate ? new Date(evaluators[0].EndDate) : null;
-            evaluator.HasSendMail = evaluators[0].HasSendMail;
-            evaluator.RemindDay = evaluators[0].RemindDay;
-            evaluator.Duration = evaluators[0].Duration;
-            evaluator.originalDuration = evaluator.Duration;
             evaluator.ids = createEmployeeIds(evaluators);
             evaluator.ProcessId = evaluators[0].ProcessId;
         }

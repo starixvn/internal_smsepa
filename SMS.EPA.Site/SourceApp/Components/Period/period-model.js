@@ -11,6 +11,8 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
     periodModel.periodDateFormat = 'dd MMM';
     periodModel.shortNameMonth = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     periodModel.employeeSettings = [];
+    periodModel.processSettings = [];
+
     periodModel.evaluatorType = {
         HumanResources: 1,
         SelfEvaluator: 2,
@@ -451,9 +453,6 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             angular.forEach(employeeOptions.humanResource.ids, function (humanResourceId) {
                 var humanResourceAssignment = {
                     processId: periodModel.evaluatorType.HumanResources,
-                    duration: employeeOptions.humanResource.Duration,
-                    remindDay: employeeOptions.humanResource.RemindDay,
-                    hasSendMail: employeeOptions.humanResource.HasSendMail,
                     startDate: employeeOptions.humanResource.StartDate,
                     endDate: employeeOptions.humanResource.EndDate,
                     evaluatorInfo: {
@@ -467,9 +466,6 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
 
         var selfEvaluatorAssignments = {
             processId: periodModel.evaluatorType.SelfEvaluator,
-            duration: employeeOptions.selfEvaluator.Duration,
-            remindDay: employeeOptions.selfEvaluator.RemindDay,
-            hasSendMail: employeeOptions.selfEvaluator.HasSendMail,
             startDate: employeeOptions.selfEvaluator.StartDate,
             endDate: employeeOptions.selfEvaluator.EndDate,
             evaluatorInfo: {
@@ -482,9 +478,6 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             angular.forEach(employeeOptions.evaluator.ids, function (evaluatorId) {
                 var evaluatorAssignment = {
                     processId: periodModel.evaluatorType.Evaluator,
-                    duration: employeeOptions.evaluator.Duration,
-                    remindDay: employeeOptions.evaluator.RemindDay,
-                    hasSendMail: employeeOptions.evaluator.HasSendMail,
                     startDate: employeeOptions.evaluator.StartDate,
                     endDate: employeeOptions.evaluator.EndDate,
                     evaluatorInfo: {
@@ -500,9 +493,6 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             angular.forEach(employeeOptions.reviewer.ids, function (reviewerId) {
                 var reviewerAssignment = {
                     processId: periodModel.evaluatorType.Reviewer,
-                    duration: employeeOptions.reviewer.Duration,
-                    remindDay: employeeOptions.reviewer.RemindDay,
-                    hasSendMail: employeeOptions.reviewer.HasSendMail,
                     startDate: employeeOptions.reviewer.StartDate,
                     endDate: employeeOptions.reviewer.EndDate,
                     evaluatorInfo: {
@@ -518,9 +508,6 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             angular.forEach(employeeOptions.management.ids, function (managementId) {
                 var managementAssignment = {
                     processId: periodModel.evaluatorType.Management,
-                    duration: employeeOptions.management.Duration,
-                    remindDay: employeeOptions.management.RemindDay,
-                    hasSendMail: employeeOptions.management.HasSendMail,
                     startDate: employeeOptions.management.StartDate,
                     endDate: employeeOptions.management.EndDate,
                     evaluatorInfo: {
@@ -579,11 +566,8 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                 var employee = getEmployeeById(employees, id),
                     evaluatorItem = {
                         ProcessId: evaluatorType,
-                        Duration: evaluator.Duration,
-                        RemindDay: evaluator.RemindDay,
                         StartDate: evaluator.StartDate,
                         EndDate: evaluator.EndDate,
-                        HasSendMail: evaluator.HasSendMail,
                         EvaluatorInfo: employee ? employee : {
                             EmployeeId: -1
                         }
@@ -690,6 +674,30 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             });
         })['finally'](function () {
             modalInstance = '';
+        });
+    };
+
+    periodModel.getProcessSettingByPeriodId = function (periodId) {
+        return periodFactory.getProcessSettingByPeriodId(periodId).success(function (processSettings) {
+            periodModel.processSettings = processSettings;
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    periodModel.updatePeriodProcessSetting = function (periodProcessSetting) {
+        return periodFactory.updatePeriodProcessSetting(periodProcessSetting).success(function (response) {
+            if (response.IsSuccessful) {
+                notificationFactory.success("UpdatedSuccessfully");
+            }
+            else {
+                employee.IsIncluded = !newEmployeeStatus.IsIncluded;
+                notificationFactory.error("UpdatedUnsuccessfully");
+            }
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
         });
     };
 

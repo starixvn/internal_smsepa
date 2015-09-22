@@ -80,6 +80,8 @@
     <Compile Include="EmployeeEPA\RatingByKPI\GetKPIByTargetTemplateCriteria.cs" />
     <Compile Include="EmployeeEPA\RatingByKPI\GetTargetTemplateByEvaluatorCriteria.cs" />
     <Compile Include="EmployeeEPA\RatingByKPI\UpdateKPIScoreCriteria.cs" />
+    <Compile Include="Period\GetPeriodProcessSettingCriteria.cs" />
+    <Compile Include="Period\UpdatePeriodProcessSettingCriteria.cs" />
     <Compile Include="Report\GetDashboardCriteria.cs" />
     <Compile Include="Department\GetDepartmentCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEPAByManagementCriteria.cs" />

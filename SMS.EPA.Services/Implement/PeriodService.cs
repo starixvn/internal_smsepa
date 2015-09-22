@@ -18,6 +18,7 @@ namespace SMS.EPA.Services.Implement
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.Period;
     using SMS.EPA.Criteria.Period.GenerationEvaluation;
+    using SMS.EPA.Model.FlowManagement;
     using SMS.EPA.Model.Period;
     using SMS.EPA.Repositories.Implement;
     using SMS.EPA.Repositories.Interfaces;
@@ -226,6 +227,32 @@ namespace SMS.EPA.Services.Implement
             }
 
             return startedPeriods;
+        }
+
+        public IEnumerable<FlowModel> GetProcessSettingByPeriodId(GetPeriodProcessSettingCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<FlowModel> processSettings = new List<FlowModel>();
+
+            if (criteria.IsValid())
+            {
+                processSettings = GetData<FlowModel>(criteria);
+            }
+
+            return processSettings;
+        }
+
+        public CommandResult UpdatePeriodProcessSetting(UpdatePeriodProcessSettingCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            CommandResult commandResult = new CommandResult();
+
+            if (criteria.IsValid())
+            {
+                commandResult = Repository.Update(criteria);
+            }
+
+            return commandResult;
         }
 
         public void ExportEmployeeSettingReport(

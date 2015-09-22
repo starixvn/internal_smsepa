@@ -10,10 +10,11 @@
 namespace SMS.EPA.Services.Interfaces
 {
     using System.Collections.Generic;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Criteria.Period;
-    using SMS.EPA.Criteria.Period.GenerationEvaluation;
-    using SMS.EPA.Model.Period;
+using SMS.EPA.Core.Model;
+using SMS.EPA.Criteria.Period;
+using SMS.EPA.Criteria.Period.GenerationEvaluation;
+using SMS.EPA.Model.FlowManagement;
+using SMS.EPA.Model.Period;
 
     public interface IPeriodService
     {
@@ -46,5 +47,9 @@ namespace SMS.EPA.Services.Interfaces
         IEnumerable<AutoEmployeePeriodModel> GetPeriodHasStartedProcess(GetPeriodHasStartedProcessCriteria criteria);
 
         IEnumerable<PeriodFlowModel> GetEmployeeSettingByPeriodId(GetEmployeeSettingByPeriodIdCriteria criteria);
+
+        IEnumerable<FlowModel> GetProcessSettingByPeriodId(GetPeriodProcessSettingCriteria criteria);
+
+        CommandResult UpdatePeriodProcessSetting(UpdatePeriodProcessSettingCriteria criteria);
     }
 }

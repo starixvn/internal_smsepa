@@ -13,7 +13,10 @@
             <tab heading="BASIC INFORMATION" class="tab-cursor" active="updateCtrl.dataTab.basicInformation" select="updateCtrl.tabBasicSelect()">
                 <div ng-include src="'/SourceApp/Components/Period/Templates/basicInformation.html'"></div>
             </tab>
-            <tab heading="EMPLOYEE SETTING" class="tab-cursor" active="updateCtrl.dataTab.employeeSetting" select="updateCtrl.tabSettingSelect()">
+            <tab heading="PROCESS SETTING" class="tab-cursor" active="updateCtrl.dataTab.processSetting" select="updateCtrl.tabProcessSettingSelect()">
+                <div ng-include src="'/SourceApp/Components/Period/Templates/processSetting.html'"></div>
+            </tab>
+            <tab heading="EMPLOYEE SETTING" class="tab-cursor" active="updateCtrl.dataTab.employeeSetting" select="updateCtrl.tabEmployeeSettingSelect()">
                 <div ng-include src="'/SourceApp/Components/Period/Templates/employeeSetting.html'"></div>
             </tab>
         </tabset>

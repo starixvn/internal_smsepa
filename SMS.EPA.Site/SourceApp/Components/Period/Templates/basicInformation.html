@@ -41,7 +41,7 @@
             </label>
             <div class="col-sm-3">
                 <input readonly class="calendar-form-control" type="text"
-                       ng-model="basicInfoPeriodCtrl.period.AttendanceStartDate" datepicker-popup
+                       ng-model="basicInfoPeriodCtrl.period.RawAttendanceStartDate" datepicker-popup
                        ng-click="basicInfoPeriodCtrl.openPopupAttendanceStartDate($event)" min-date="{{basicInfoPeriodCtrl.calendar.minDate}}"
                        is-open="basicInfoPeriodCtrl.calendar.attendanceStartDateOpened" />
                 <calendar-image class="calendar-image" ng-click="basicInfoPeriodCtrl.openPopupAttendanceStartDate($event)"></calendar-image>
@@ -50,7 +50,7 @@
             </label>
             <div class="col-sm-3">
                 <input readonly class="calendar-form-control" type="text"
-                       ng-model="basicInfoPeriodCtrl.period.AttendanceEndDate" datepicker-popup
+                       ng-model="basicInfoPeriodCtrl.period.RawAttendanceEndDate" datepicker-popup
                        ng-click="basicInfoPeriodCtrl.openPopupAttendanceEndDate($event)" min-date="{{basicInfoPeriodCtrl.calendar.minDate}}"
                        is-open="basicInfoPeriodCtrl.calendar.attendanceEndDateOpened" />
                 <calendar-image class="calendar-image" ng-click="basicInfoPeriodCtrl.openPopupAttendanceEndDate($event)"></calendar-image>
@@ -69,7 +69,7 @@
             </div>
         </div>
         <div class="col-sm-offset-5 top-buffer">
-            <button class="button" data-translate="Submit" ng-click="basicInfoPeriodCtrl.save(basicInfoPeriodCtrl.period)"
+            <button class="button" data-translate="Save" ng-click="basicInfoPeriodCtrl.save(basicInfoPeriodCtrl.period)"
                     ng-show="updateCtrl.permission == 2"></button>
             <button class="btn btn-default customize" ng-click="basicInfoPeriodCtrl.cancel()" data-translate="Cancel"></button>
         </div>
