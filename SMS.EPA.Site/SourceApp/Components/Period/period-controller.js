@@ -458,8 +458,10 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
 }]);
 
 periodModule.controller('UpdateEmployeeSettingPeriodController',
-['$scope', '$modalInstance', 'period', 'employeeSetting', 'selectedEmployee', 'permission', 'PeriodModel', 'EmployeeModel', 'TargetTemplateModel', 'FlowMngModel',
-function ($scope, $modalInstance, period, employeeSetting, selectedEmployee, permission, PeriodModel, EmployeeModel, TargetTemplateModel, FlowMngModel) {
+['$scope', '$modalInstance', 'period', 'employeeSetting', 'selectedEmployee',
+'permission', 'PeriodModel', 'EmployeeModel', 'TargetTemplateModel', 'FlowMngModel',
+function ($scope, $modalInstance, period, employeeSetting, selectedEmployee,
+permission, PeriodModel, EmployeeModel, TargetTemplateModel, FlowMngModel) {
     var vm = this;
 
     vm.period = period;

@@ -9,7 +9,7 @@ function (EmployeeEPAModel) {
     vm.myEPAs = EmployeeEPAModel.myEPAs;
 
     vm.viewEPADetail = function (epa) {
-        vm.viewEPADetailUrl = '/SelfEvaluation/Detail?epaId=' + epa.EPAId;
+        vm.viewEPADetailUrl = '/SelfEvaluation/Detail/' + epa.EPAId;
     };
 
     vm.viewEPAResult = function (epa) {
@@ -30,8 +30,7 @@ epaModule.controller('EmployeeEPAInfoController',
 function ($window, $translate, $routeParams, EmployeeEPAModel, notificationFactory) {
     var vm = this;
 
-    vm.epaId = parseInt($routeParams.epaId);
-    vm.employeeId = parseInt($routeParams.employeeId);
+    vm.epaId = parseInt($routeParams.id);
 
     vm.maxStar = 5;
     vm.dataSaved = false;
@@ -112,8 +111,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, notificationFacto
 
         angular.forEach(epaInfo.KPIGroups, function (kpiGroup) {
             angular.forEach(kpiGroup.KPIs, function (kpi) {
-                if (kpi.IsRequiredEvaluate
-                    && (!kpi.EvaluateBySelf.Score || parseFloat(kpi.EvaluateBySelf.Score) <= 0)) {
+                if (kpi.IsRequiredEvaluate && (!kpi.EvaluateBySelf.Score || parseFloat(kpi.EvaluateBySelf.Score) <= 0)) {
                     isValid = false;
                     kpi.EvaluateBySelf.EvaluateValid = true;
                 }
@@ -201,7 +199,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, notificationFacto
             vm.scoreInputValidMessage = message;
         });
 
-        EmployeeEPAModel.getEPAInfoByEmployee(vm.epaId, vm.employeeId).then(function () {
+        EmployeeEPAModel.getEPAInfoByEmployee(vm.epaId).then(function () {
             var data = EmployeeEPAModel.epaInfo;
             var totalScoreOfSelf = data.ProcessBySelf.TotalScore ? parseFloat(data.ProcessBySelf.TotalScore) : 0;
 

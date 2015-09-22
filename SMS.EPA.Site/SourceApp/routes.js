@@ -1,7 +1,7 @@
 ﻿'use strict';
 /*exported employeeModule, commonModule, kpiModule, kpiGroupModule, roleModule, targetTemplateModule*/
 /*exported flowMngModule, targetEmployeeSettingModule, checkFlowAssignmentModule, departmentModule*/
-/*exported epaModule, periodModule*/
+/*exported epaModule, periodModule, dashboardModule, attendanceModule*/
 
 var employeeModule = angular.module("employeeModule", ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
@@ -84,19 +84,19 @@ var epaModule = angular.module("epaModule", ['ngRoute'])
     var baseUrl = $("base").first().attr("href");
     $routeProvider.when('/SelfEvaluation/Index',
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/MyEPA/Templates/index.html' });
-    $routeProvider.when('/SelfEvaluation/Detail',
+    $routeProvider.when('/SelfEvaluation/Detail/:id',
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/MyEPA/Templates/detail.html' });
     $routeProvider.when('/Evaluator/Index',
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/Evaluator/Templates/index.html' });
-    $routeProvider.when('/Evaluator/Detail',
+    $routeProvider.when('/Evaluator/Detail/:id',
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/Evaluator/Templates/detail.html' });
     $routeProvider.when('/Reviewer/Index',
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/Reviewer/Templates/index.html' });
-    $routeProvider.when('/Reviewer/Detail',
+    $routeProvider.when('/Reviewer/Detail/:id',
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/Reviewer/Templates/detail.html' });
     $routeProvider.when('/Management/Index',
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/Management/Templates/index.html' });
-    $routeProvider.when('/Management/Detail',
+    $routeProvider.when('/Management/Detail/:id',
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/Management/Templates/detail.html' });
     $routeProvider.when('/EPA/Detail/:id',
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/Templates/viewDetail.html' });

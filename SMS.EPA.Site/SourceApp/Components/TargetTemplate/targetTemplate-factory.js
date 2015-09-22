@@ -28,7 +28,8 @@ targetTemplateModule.factory('targetTemplateFactory', ['$http', 'baseUrl', funct
             return $http.post(baseUrl + 'api/TargetTemplate/AddKPIGroupWeight', kpiGroupWeightModel);
         },
         getKPIOfTargetTemplate: function (targetTemplateId, onlySelected) {
-            return $http.get(baseUrl + 'api/TargetTemplate/GetKPIOfTargetTemplate', { params: { targetTemplateId: targetTemplateId, onlySelected: onlySelected } });
+            return $http.get(baseUrl + 'api/TargetTemplate/GetKPIOfTargetTemplate',
+                { params: { targetTemplateId: targetTemplateId, onlySelected: onlySelected } });
         },
         deleteKPIGroupOfTargetTemplate: function (targetTemplateId, kpiGroupId) {
             return $http['delete'](baseUrl + 'api/TargetTemplate/DeleteKPIGroupOfTargetTemplate',

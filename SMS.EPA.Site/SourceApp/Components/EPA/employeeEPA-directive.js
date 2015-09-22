@@ -64,7 +64,7 @@ epaModule.directive('manageColumnMenu',
 [function () {
     var generateFormForMenu = function (showColumns) {
         var hideColumnsForm = $('<form class="form-horizontal "></form>');
-        var definedColumns = generateColumnHeaders();
+        var definedColumns = [];
 
         $(definedColumns).each(function (idx, column) {
             if (idx > 0) {

@@ -273,7 +273,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         .error(function (response, status) {
             errorFactory.errorHandle(status);
         });
-    }
+    };
 
     periodModel.openPopupUpdateStatusPeriod = function (period) {
         period.IsActive = !period.IsActive;
@@ -481,15 +481,15 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         if (employeeOptions.evaluator.ids && employeeOptions.evaluator.ids.length > 0) {
             angular.forEach(employeeOptions.evaluator.ids, function (evaluatorId) {
                 var evaluatorAssignment = {
-                        processId: periodModel.evaluatorType.Evaluator,
-                        duration: employeeOptions.evaluator.Duration,
-                        remindDay: employeeOptions.evaluator.RemindDay,
-                        hasSendMail: employeeOptions.evaluator.HasSendMail,
-                        startDate: employeeOptions.evaluator.StartDate,
-                        endDate: employeeOptions.evaluator.EndDate,
-                        evaluatorInfo: {
-                            employeeId: evaluatorId
-                        }
+                    processId: periodModel.evaluatorType.Evaluator,
+                    duration: employeeOptions.evaluator.Duration,
+                    remindDay: employeeOptions.evaluator.RemindDay,
+                    hasSendMail: employeeOptions.evaluator.HasSendMail,
+                    startDate: employeeOptions.evaluator.StartDate,
+                    endDate: employeeOptions.evaluator.EndDate,
+                    evaluatorInfo: {
+                        employeeId: evaluatorId
+                    }
                 };
 
                 employeeAssignments.push(evaluatorAssignment);
@@ -499,15 +499,15 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         if (employeeOptions.reviewer.ids && employeeOptions.reviewer.ids.length > 0) {
             angular.forEach(employeeOptions.reviewer.ids, function (reviewerId) {
                 var reviewerAssignment = {
-                        processId: periodModel.evaluatorType.Reviewer,
-                        duration: employeeOptions.reviewer.Duration,
-                        remindDay: employeeOptions.reviewer.RemindDay,
-                        hasSendMail: employeeOptions.reviewer.HasSendMail,
-                        startDate: employeeOptions.reviewer.StartDate,
-                        endDate: employeeOptions.reviewer.EndDate,
-                        evaluatorInfo: {
-                            employeeId: reviewerId
-                        }
+                    processId: periodModel.evaluatorType.Reviewer,
+                    duration: employeeOptions.reviewer.Duration,
+                    remindDay: employeeOptions.reviewer.RemindDay,
+                    hasSendMail: employeeOptions.reviewer.HasSendMail,
+                    startDate: employeeOptions.reviewer.StartDate,
+                    endDate: employeeOptions.reviewer.EndDate,
+                    evaluatorInfo: {
+                        employeeId: reviewerId
+                    }
                 };
 
                 employeeAssignments.push(reviewerAssignment);
@@ -565,8 +565,8 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
 
             if (employeeItem.EmployeeId === employeeId) {
                 employee = employeeItem;
-            };
-        };
+            }
+        }
 
         return employee;
     };
@@ -682,7 +682,6 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                     notificationFactory.success("CreatedSuccessfully");
                 }
                 else {
-                    employee.IsIncluded = !newEmployeeStatus.IsIncluded;
                     notificationFactory.error("CreatedUnsuccessfully");
                 }
             })

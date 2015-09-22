@@ -32,7 +32,7 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
     };
 
     vm.viewEPADetail = function (memberEPA) {
-        vm.viewEPADetailUrl = '/Evaluator/Detail?epaId=' + memberEPA.EPAId;
+        vm.viewEPADetailUrl = '/Evaluator/Detail/' + memberEPA.EPAId;
     };
 
     vm.viewEPAResult = function (memberEPA) {
@@ -57,7 +57,7 @@ epaModule.controller('MemberEPAInfoOfEvaluatorController',
 function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, notificationFactory) {
     var vm = this;
 
-    vm.epaId = parseInt($routeParams.epaId);
+    vm.epaId = parseInt($routeParams.id);
 
     vm.maxStar = 5;
     vm.dataSaved = false;

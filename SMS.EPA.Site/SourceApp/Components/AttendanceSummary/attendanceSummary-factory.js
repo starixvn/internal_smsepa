@@ -46,7 +46,7 @@ attendanceModule.factory('attendanceFactory', ['$http', 'baseUrl', function ($ht
         getAttendanceDetail: function (startDate, endDate, employeeId, departmentId, reasonId) {
             return $http.get(baseUrl + 'api/AttendanceSummary/GetAttendanceDetail',
                 {
-                    params: { 
+                    params: {
                         startDate: startDate,
                         endDate: endDate,
                         employeeId: employeeId,
@@ -62,5 +62,5 @@ attendanceModule.factory('attendanceFactory', ['$http', 'baseUrl', function ($ht
         getUserPermissionOnAttendanceSummary: function () {
             return $http.get(baseUrl + 'api/AttendanceSummary/GetUserPermissionOnAttendanceSummary');
         }
-    }
+    };
 }]);

@@ -82,7 +82,7 @@ function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitie
         .error(function (response, status) {
             errorFactory.errorHandle(status);
         });
-    }
+    };
 
     attendanceModel.deleteOtherViolation = function (violation) {
         return attendanceFactory.deleteOtherViolation(violation).success(function (response) {
@@ -96,7 +96,7 @@ function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitie
         .error(function (response, status) {
             errorFactory.errorHandle(status);
         });
-    }
+    };
 
     attendanceModel.validateOtherViolation = function (violation) {
         if (!violation) {

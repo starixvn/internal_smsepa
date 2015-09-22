@@ -9,7 +9,7 @@ function (DashboardModel) {
     vm.showScore = false;
 
     vm.viewEPADetail = function (epa) {
-        vm.viewEPADetailUrl = '/SelfEvaluation/Detail?epaId=' + epa.EPAId;
+        vm.viewEPADetailUrl = '/SelfEvaluation/Detail/' + epa.EPAId;
     };
 
     vm.viewEPAResult = function (epa) {

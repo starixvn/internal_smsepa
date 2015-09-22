@@ -22,7 +22,7 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
     };
 
     vm.viewEPADetail = function (memberEPA) {
-        vm.viewEPADetailUrl = '/Reviewer/Detail?epaId=' + memberEPA.EPAId;
+        vm.viewEPADetailUrl = '/Reviewer/Detail/' + memberEPA.EPAId;
     };
 
     vm.viewEPAResult = function (memberEPA) {
@@ -130,7 +130,7 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
             EmployeeEPAModel.openPopupAdjustScore(vm, selectedEmployees).then(function (adjust) {
                 calculateAdjustScore(vm.memberEPAs, adjust);
             })['finally'](function () {
-                modalInstance = null;
+                vm.modalInstance = null;
             });
         }
     };
@@ -173,7 +173,7 @@ epaModule.controller('MemberEPAInfoOfReviewerController',
 function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory) {
     var vm = this;
 
-    vm.epaId = parseInt($routeParams.epaId);
+    vm.epaId = parseInt($routeParams.id);
 
     vm.dataSaved = false;
     vm.isReadonly = false;
