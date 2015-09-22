@@ -116,7 +116,7 @@ function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, CommonModel, 
     };
 
     vm.getMember = function (groupId) {
-        EmployeeEPAModel.getMember(3, groupId).then(function () {
+        EmployeeEPAModel.getMemberByEvaluator(groupId).then(function () {
             vm.members = EmployeeEPAModel.members;
         });
     };

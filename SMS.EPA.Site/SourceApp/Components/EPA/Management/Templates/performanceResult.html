@@ -1,5 +1,5 @@
 ﻿<div class="row row-item">
-    <table class="table table-bordered table-striped table-performance-result">
+    <table class="table table-bordered table-striped table-performance-result table-custom">
         <thead>
             <tr>
                 <th colspan="2" data-translate="Employee"></th>
@@ -29,7 +29,7 @@
                 <th data-translate="NickName"></th>
                 <th data-translate="TotalScore" class="col-score"></th>
                 <th data-translate="Comment"></th>
-                <th data-translate="TotalScore" class="col-score"></th>
+                <th data-translate="PerformanceScore" class="col-score"></th>
                 <th data-translate="Comment"></th>
             </tr>
         </thead>
@@ -77,6 +77,6 @@
     <div class="col-sm-12 epa-action-button text-center">
         <button class="button" ng-click="memberEPAInfoCtrl.save(memberEPAInfoCtrl.epaInfo)"
                 ng-show="memberEPAInfoCtrl.epaInfo && !memberEPAInfoCtrl.isReadonly" data-translate="Save"></button>
-        <button class="btn btn-default customize" ng-click="memberEPAInfoCtrl.cancel()" data-translate="Cancel"></button>
+        <button class="btn btn-default customize" ng-click="memberEPAInfoCtrl.cancel()" data-translate="Back"></button>
     </div>
 </div>

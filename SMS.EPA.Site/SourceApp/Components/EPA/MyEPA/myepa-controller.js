@@ -113,7 +113,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, notificationFacto
         angular.forEach(epaInfo.KPIGroups, function (kpiGroup) {
             angular.forEach(kpiGroup.KPIs, function (kpi) {
                 if (kpi.IsRequiredEvaluate
-                    && (!kpi.EvaluateBySelf.Score || parseFloat(kpi.EvaluateBySelf.Score) === 0)) {
+                    && (!kpi.EvaluateBySelf.Score || parseFloat(kpi.EvaluateBySelf.Score) <= 0)) {
                     isValid = false;
                     kpi.EvaluateBySelf.EvaluateValid = true;
                 }

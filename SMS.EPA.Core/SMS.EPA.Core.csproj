@@ -104,7 +104,6 @@
     <Compile Include="Security\Random.cs" />
     <Compile Include="Services\BaseService.cs" />
     <Compile Include="Services\EncodeService.cs" />
-    <Compile Include="Services\Interfaces\IEncodeService.cs" />
     <Compile Include="Services\Interfaces\IBaseMailService.cs" />
     <Compile Include="Services\BaseMailService.cs" />
     <Compile Include="Utilities\Enumerations.cs" />

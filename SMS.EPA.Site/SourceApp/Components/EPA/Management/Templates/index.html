@@ -78,7 +78,7 @@
                     <td class="text-center" ng-bind="memberEPA.ProcessByManagements[0].EndDate | customDate"></td>
                     <td class="text-center">
                         <input type="text" class="form-control text-center epa-input-score" ng-readonly="memberEPA.ProcessByManagements[0].IsEndProcess"
-                               ng-model="memberEPA.ProcessByManagements[0].TotalScore" ng-decimal fraction="2"
+                               ng-model="memberEPA.ProcessByManagements[0].TotalScore" numeric decimals="2"
                                ng-change="managementCtrl.inputScore(memberEPA, memberEPA.ProcessByManagements[0])"
                                tooltip="{{managementCtrl.getNotificationInputScore(memberEPA.ProcessByManagements[0])}}" tooltip-trigger="focus" />
                     </td>

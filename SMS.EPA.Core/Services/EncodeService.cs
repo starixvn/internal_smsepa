@@ -12,7 +12,7 @@ namespace SMS.EPA.Core.Services
     using Constants;
     using IBCCrypt;
 
-    public class EncodeService
+    public static class EncodeService
     {
         public static string Encode(string plainText)
         {

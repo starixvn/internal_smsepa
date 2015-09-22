@@ -43,7 +43,8 @@
                             "~/Libs/chosen.jquery.min.js",
                             "~/Libs/angular-chosen.js",
                             "~/Libs/moment.min.js",
-                            "~/Libs/ui-bootstrap-contextMenu.js"));
+                            "~/Libs/ui-bootstrap-contextMenu.js",
+                            "~/Libs/numeric-directive.js"));
 
             bundles.AddAndInclude(
                             "~/bundles/less",

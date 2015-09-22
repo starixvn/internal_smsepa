@@ -33,6 +33,7 @@
     .list-group-item {
         padding: 0;
         border-top: none;
+        color: #61463b;
 
         &.bottom-buffer {
             margin-bottom: 10px;
@@ -129,7 +130,6 @@
                     min-height: 80px;
                     padding: 10px;
                     font-size: 15px;
-                    color: #222;
 
                     .totalscore {
                         line-height: 30px;
@@ -385,21 +385,21 @@
         margin: 0;
     }
 
+    label.control-label {
+        color: #61463b !important;
+    }
+
     .boxtitle {
-        background-color: #e9e9e9;
-        background-image: linear-gradient(to bottom, #ebebeb, #e5e5e5);
-        background-repeat: repeat-x;
         border: 1px solid #d2d2d2;
         border-bottom: none;
-        padding: 8px 12px;
+        padding: 5px 12px;
         font-family: "Myriad Pro",Tahoma,REZ,Arial;
-        font-size: 14px;
-        text-shadow: 0.05em 0.05em #FFF;
-        color: #0f0f13;
         position: relative;
     }
 
     .boxcontent {
+        color: #61463b;
+
         &.kpi-info {
             .filter {
                 padding-top: 0;
@@ -457,16 +457,13 @@
                         cursor: pointer;
                         color: #F67F46;
                         &:focus {
-                        outline: none;
+                            outline: none;
+                        }
                     }
-                    }
-                    
-                    }
-                    
                 }
 
                 .remove-star {
-                    color: #DE5245;
+                    color: #DE5245 !important;
                     margin-right: 3px;
                     cursor: pointer;
                     font-size: 16px;
@@ -474,9 +471,7 @@
                 }
 
                 .input-score {
-                    input[type='text'] {
-                        padding: 0;
-                    }
+                    padding: 0;
                 }
             }
         }
@@ -485,10 +480,13 @@
             .textarea-comment {
                 textarea {
                     color: #39F;
+                    height: 70px;
+                    resize: none;
                 }
             }
         }
     }
+}
 
 .table.table-evaluation-process {
     td {
@@ -511,6 +509,13 @@
 
 .modal-view-comment {
     min-height: 200px;
+}
+
+.modal-adjust-score {
+    textarea.comment {
+        height: 120px;
+        resize: none;
+    }
 }
 
 .epa-input-score {

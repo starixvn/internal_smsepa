@@ -70,13 +70,12 @@
     </div>
     <div class="row">
         <div class="boxcontent">
-            <table class="table table-bordered table-striped">
+            <table class="table table-bordered table-striped table-custom">
                 <thead>
                     <tr>
                         <th data-translate="SymbolCount"></th>
                         <th data-translate="Section"></th>
                         <th data-translate="NickName"></th>
-                        <th data-translate="FullName"></th>
                         <th data-translate="JobTitle"></th>
                         <th class="col-score">
                             <div class="col-sm-10" data-translate="CurrentScore"></div>
@@ -100,9 +99,10 @@
                         <td class="text-center">
                             <span tooltip="{{memberEPA.Employee.Group.GroupName}}" ng-bind="memberEPA.Employee.Group.GroupCode"></span>
                         </td>
-                        <td class="text-center" ng-bind="memberEPA.Employee.NickName"></td>
-                        <td ng-bind="memberEPA.Employee.FullName"></td>
-                        <td ng-bind="memberEPA.JobTitle.JobTitleName"></td>
+                        <td class="text-center">
+                            <span tooltip="{{memberEPA.Employee.FullName}}" ng-bind="memberEPA.Employee.NickName"></span>
+                        </td>
+                        <td ng-bind="memberEPA.Employee.JobTitle.JobTitleName"></td>
                         <td class="text-center col-score">
                             <span ng-repeat="kpi in memberEPA.KPIGroup.KPIs" ng-show="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
                                 <span ng-show="kpi.Score" ng-bind="kpi.Score | customNumber"></span>
@@ -120,8 +120,8 @@
                                             on-leave="ratingByKPICtrl.hoveringLeave(memberEPA, memberEPA.KPIGroup, kpi)"></rating>
                                 </div>
                                 <div class="col-sm-4 input-score">
-                                    <input type="text" class="form-control text-center" maxlength="5"
-                                           ng-show="memberEPA.KPIGroup.TotalKPIOptional == 0" ng-model="kpi.AdjustScore" ng-decimal fraction="2"
+                                    <input type="text" class="form-control text-center epa-input-score"
+                                           ng-show="memberEPA.KPIGroup.TotalKPIOptional == 0" ng-model="kpi.AdjustScore" numeric decimals="2"
                                            ng-change="ratingByKPICtrl.inputScore(memberEPA, kpi)" />
                                 </div>
                             </div>
@@ -132,14 +132,14 @@
                             </div>
                         </td>
                         <td class="text-center col-score">
-                            <span ng-show="memberEPA.TotalScore" ng-bind="memberEPA.TotalScore | customNumber"></span>
-                            <span ng-show="!memberEPA.TotalScore" ng-bind="0"></span>
+                            <strong ng-show="memberEPA.TotalScore" ng-bind="memberEPA.TotalScore | customNumber"></strong>
+                            <strong ng-show="!memberEPA.TotalScore" ng-bind="0"></strong>
                         </td>
                     </tr>
                 </tbody>
                 <tbody ng-show="ratingByKPICtrl.memberEPAs.length == 0">
                     <tr>
-                        <td class="empty-result" colspan="9" data-translate="EmptyResult"></td>
+                        <td class="empty-result" colspan="8" data-translate="EmptyResult"></td>
                     </tr>
                 </tbody>
             </table>

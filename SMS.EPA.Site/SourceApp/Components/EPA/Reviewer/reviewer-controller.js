@@ -47,7 +47,7 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
     };
 
     var calculateAdjustScore = function (memberEPAs, adjustScore) {
-        var score = parseFloat(adjustScore.adjust.Score);
+        var score = adjustScore.adjust.Score ? parseFloat(adjustScore.adjust.Score) : 0;
 
         angular.forEach(memberEPAs, function (memberEPA) {
             if (memberEPA.Selected) {
@@ -59,6 +59,10 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
                 }
                 else {
                     memberEPA.ProcessByReviewers[0].TotalScore = totalScoreAdjust;
+                }
+
+                if (memberEPA.HasAttendanceScore) {
+                    memberEPA.FinalScore = memberEPA.ProcessByReviewers[0].TotalScore + memberEPA.AttendanceScore;
                 }
 
                 memberEPA.ProcessByReviewers[0].Comment = adjustScore.adjust.Comment;
@@ -82,7 +86,7 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
 
         angular.forEach(memberEPAs, function (memberEPA) {
             var totalScore = memberEPA.ProcessByReviewers[0].TotalScore ? parseFloat(memberEPA.ProcessByReviewers[0].TotalScore) : 0;
-            if (totalScore === 0) {
+            if (totalScore <= 0) {
                 isValid = false;
             }
         });

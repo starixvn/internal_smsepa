@@ -292,6 +292,7 @@
     <Content Include="Libs\jquery-ui.min.js" />
     <Content Include="Libs\moment.min.js" />
     <Content Include="Libs\numeral.min.js" />
+    <Content Include="Libs\numeric-directive.js" />
     <Content Include="Libs\tai-placeholder.js" />
     <Content Include="Libs\toastr.js" />
     <Content Include="Libs\ui-bootstrap-contextMenu.js" />

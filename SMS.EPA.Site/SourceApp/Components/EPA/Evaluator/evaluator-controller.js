@@ -137,7 +137,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, noti
         angular.forEach(epaInfo.KPIGroups, function (kpiGroup) {
             angular.forEach(kpiGroup.KPIs, function (kpi) {
                 if (kpi.IsRequiredEvaluate
-                    && (!kpi.EvaluateByEvaluators[0].Score || parseFloat(kpi.EvaluateByEvaluators[0].Score) === 0)) {
+                    && (!kpi.EvaluateByEvaluators[0].Score || parseFloat(kpi.EvaluateByEvaluators[0].Score) <= 0)) {
                     isValid = false;
                     kpi.EvaluateByEvaluators[0].EvaluateValid = true;
                 }

@@ -98,8 +98,8 @@ function ($modalInstance, comment) {
 }]);
 
 epaModule.controller('ModalAdjustScoreController',
-['$modalInstance', 'EmployeeEPAModel', 'selectedEmployees',
-function ($modalInstance, EmployeeEPAModel, selectedEmployees) {
+['$modalInstance', 'EmployeeEPAModel', 'selectedEmployees', 'notificationFactory',
+function ($modalInstance, EmployeeEPAModel, selectedEmployees, notificationFactory) {
     var vm = this;
 
     vm.adjust = {
@@ -110,8 +110,11 @@ function ($modalInstance, EmployeeEPAModel, selectedEmployees) {
     vm.selectedEmployees = selectedEmployees;
 
     vm.ok = function () {
-        if (EmployeeEPAModel.validateEvaluationOfReviewerOrManagement(vm.adjust.Score))
+        if (!vm.adjust.Score)
         {
+            notificationFactory.error("ScoreRequire");
+        }
+        else {
             $modalInstance.close(vm);
         }
     };
