@@ -1,10 +1,16 @@
 ﻿.table.table-bordered {
     .col-action {
         width: 6%;
-
+     .evaluate-now {
+            background: #0d9cb6;
+            color: #fff;
+            white-space: nowrap;
+        }
+        
         .icon-view, .icon-edit {
             cursor: pointer;
             margin-right: 0;
+            white-space: nowrap;
         }
     }
 
@@ -492,7 +498,7 @@
         }
 
         .col-adjust-score {
-            width: 17%;
+            width: 19%;
 
             .list-star {
                 .cancel-rating, .rating, .input-score {
@@ -522,6 +528,7 @@
 
                 .input-score {
                     padding: 0;
+                    margin-top: -3px;
                 }
             }
         }
@@ -647,6 +654,51 @@
     .list-kpi-rating {
         .list-star {
            padding: 0 80px;
+        }
+    }
+}
+
+/*@media (min-width:1024px) and (max-width:1230px) {
+    .rating-by-kpi {
+        .table.table-bordered {   
+            .col-adjust-score {
+                width: inherit;
+            }
+        }
+    }
+}*/
+@media (max-width: 1023px) {
+    .rating-by-kpi {
+        .table.table-bordered {   
+            .col-adjust-score {
+                width: inherit;
+                .list-star {
+                    .cancel-rating, .rating, .input-score {
+                        padding: 0;
+                    }
+                    .cancel-rating {
+                        width: 30%;
+                        text-align: right;
+                        z-index: 1;
+                    }
+                    .rating {
+                        width: 65%;
+                        text-align: left;   
+                        margin-left: -10px;  
+                        span.ng-valid-parse {
+                            margin-left: 14px;
+                        } 
+                    }
+                    .input-score {
+                        width: 100%;
+                        margin-top: 3px;
+                        .epa-input-score {
+                            width: 85px;
+                            margin: 0 auto;                            
+                        }
+                    }                    
+                }                
+            }            
         }
     }
 }
