@@ -299,17 +299,23 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         });
     };
 
-    employeeEPAModel.openPopupUpdateComment = function (vm, comment, isEdit) {
+    employeeEPAModel.openPopupUpdateComment = function (vm, memberEPA, comment, isEdit, isReviewer) {
         vm.modalInstance = $modal.open({
             templateUrl: 'SourceApp/Components/EPA/Templates/modalUpdateComment.html',
             controller: "ModalUpdateCommentController as modalUpdateCommentCtrl",
             backdrop: 'static',
             resolve: {
+                memberEPA: function(){
+                    return angular.copy(memberEPA);
+                },
                 comment: function () {
                     return comment;
                 },
                 isEdit: function () {
                     return isEdit;
+                },
+                isReviewer: function() {
+                    return isReviewer;
                 }
             },
             windowClass: "modal-confirm-center"

@@ -18,7 +18,7 @@
                 <label class="col-sm-1 control-label" data-translate="Employee"></label>
                 <div class="col-sm-2">
                     <add-class-to-role-filter class="multi-select" multi-select input-model="evaluatorCtrl.members" button-label="EmployeeId"
-                                              helper-elements="all reset filter" item-label="FullName" tick-property="ticked" max-labels="0">
+                                              helper-elements="all reset filter" item-label="NickName" tick-property="ticked" max-labels="0">
                     </add-class-to-role-filter>
                 </div>
                 <div class="col-sm-1">
@@ -31,26 +31,24 @@
                 <tr>
                     <th data-translate="SymbolCount"></th>
                     <th data-translate="PeriodName"></th>
-                    <th data-translate="Department"></th>
                     <th data-translate="Section"></th>
                     <th data-translate="NickName"></th>
-                    <th data-translate="FullName"></th>
                     <th data-translate="JobTitle"></th>
                     <th data-translate="StartDate"></th>
                     <th data-translate="EndDate"></th>
-                    <th data-translate="Action" class="col-action"></th>
+                    <th data-translate="Detail" class="col-action"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="memberEPA in evaluatorCtrl.memberEPAs">
                     <td class="text-center" ng-bind="$index + 1"></td>
                     <td ng-bind="memberEPA.Period.Name"></td>
-                    <td ng-bind="memberEPA.Employee.Department.Name"></td>
                     <td class="text-center">
                         <span tooltip="{{memberEPA.Employee.Group.GroupName}}" ng-bind="memberEPA.Employee.Group.GroupCode"></span>
                     </td>
-                    <td class="text-center" ng-bind="memberEPA.Employee.NickName"></td>
-                    <td ng-bind="memberEPA.Employee.FullName"></td>
+                    <td class="text-center">
+                        <span ng-bind="memberEPA.Employee.NickName" tooltip="{{memberEPA.Employee.FullName}}"></span>
+                    </td>
                     <td ng-bind="memberEPA.Employee.JobTitle.JobTitleName"></td>
                     <td class="text-center">{{ memberEPA.ProcessByEvaluators[0].StartDate | customDate }}</td>
                     <td class="text-center">{{ memberEPA.ProcessByEvaluators[0].EndDate | customDate }}</td>
@@ -64,7 +62,7 @@
                     </td>
                 </tr>
                 <tr ng-show="evaluatorCtrl.memberEPAs.length == 0">
-                    <td class="empty-result" colspan="11" data-translate="EmptyResult"></td>
+                    <td class="empty-result" colspan="8" data-translate="EmptyResult"></td>
                 </tr>
             </tbody>
         </table>

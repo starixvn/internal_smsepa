@@ -157,7 +157,14 @@ function ($modalInstance, EmployeeEPAModel, selectedEmployees, isReviewer, notif
         }
         else {
             calculateAdjustScore(vm.selectedEmployees);
-            EmployeeEPAModel.adjustScoreByReviewer(selectedEmployees);
+
+            if (vm.isReviewer) {
+                EmployeeEPAModel.adjustScoreByReviewer(vm.selectedEmployees);
+            }
+            else {
+                EmployeeEPAModel.adjustScoreByManagement(vm.selectedEmployees);
+            }
+
             $modalInstance.close(vm);
         }
     };
@@ -168,14 +175,29 @@ function ($modalInstance, EmployeeEPAModel, selectedEmployees, isReviewer, notif
 }]);
 
 epaModule.controller('ModalUpdateCommentController',
-['$modalInstance', 'comment', 'isEdit',
-function ($modalInstance, comment, isEdit) {
+['$modalInstance', 'EmployeeEPAModel', 'memberEPA', 'comment', 'isEdit', 'isReviewer',
+function ($modalInstance, EmployeeEPAModel, memberEPA, comment, isEdit, isReviewer) {
     var vm = this;
 
     vm.comment = comment;
     vm.isEdit = isEdit;
+    vm.isReviewer = isReviewer;
+    vm.memberEPA = memberEPA;
 
     vm.ok = function () {
+        var model = [];
+
+        if (vm.isReviewer) {
+            vm.memberEPA.ProcessByReviewers[0].Comment = comment;
+            model.push(vm.memberEPA);
+            EmployeeEPAModel.adjustScoreByReviewer(model);
+        }
+        else {
+            vm.memberEPA.ProcessByManagements[0].Comment = comment;
+            model.push(vm.memberEPA);
+            EmployeeEPAModel.adjustScoreByManagement(model);
+        }
+
         $modalInstance.close(vm.comment);
     };
 

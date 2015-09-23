@@ -156,9 +156,9 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
         }
     };
 
-    vm.updateComment = function (epaId, comment, isEdit) {
-        EmployeeEPAModel.openPopupUpdateComment(vm, comment, isEdit).then(function (commentUpdate) {
-            var index = vm.memberEPAs.map(function (e) { return e.EPAId; }).indexOf(epaId);
+    vm.updateComment = function (memberEPA, comment, isEdit) {
+        EmployeeEPAModel.openPopupUpdateComment(vm, memberEPA, comment, isEdit, true).then(function (commentUpdate) {
+            var index = vm.memberEPAs.map(function (e) { return e.EPAId; }).indexOf(memberEPA.EPAId);
 
             if (index !== -1) {
                 vm.memberEPAs[index].ProcessByReviewers[0].Comment = commentUpdate;

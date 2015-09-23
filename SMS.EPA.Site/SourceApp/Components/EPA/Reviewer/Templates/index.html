@@ -18,7 +18,7 @@
                 <label class="col-sm-1 control-label" data-translate="Employee"></label>
                 <div class="col-sm-2">
                     <add-class-to-role-filter class="multi-select" multi-select input-model="reviewerCtrl.members" button-label="EmployeeId"
-                                              helper-elements="all reset filter" item-label="FullName" tick-property="ticked" max-labels="0">
+                                              helper-elements="all reset filter" item-label="NickName" tick-property="ticked" max-labels="0">
                     </add-class-to-role-filter>
                 </div>
                 <div class="col-sm-1">
@@ -59,7 +59,7 @@
                     <th data-translate="Comment"></th>
                     <th data-translate="AttendanceScore"></th>
                     <th data-translate="TotalScore"></th>
-                    <th data-translate="Action" class="col-action"></th>
+                    <th data-translate="Detail" class="col-action"></th>
                 </tr>
             </thead>
             <tbody>
@@ -92,10 +92,10 @@
                     </td>
                     <td class="text-center">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-attr-title='{{"Edit" | translate}}'
-                           ng-click="reviewerCtrl.updateComment(memberEPA.EPAId, memberEPA.ProcessByReviewers[0].Comment, true)"
+                           ng-click="reviewerCtrl.updateComment(memberEPA, memberEPA.ProcessByReviewers[0].Comment, true)"
                            ng-show="!memberEPA.ProcessByReviewers[0].IsEndProcess && memberEPA.Status.StatusId == 0"></a>
                         <a class="glyphicon icon-view" href="" ng-attr-title='{{"View" | translate}}'
-                           ng-click="reviewerCtrl.updateComment(memberEPA.EPAId, memberEPA.ProcessByReviewers[0].Comment, false)"
+                           ng-click="reviewerCtrl.updateComment(memberEPA, memberEPA.ProcessByReviewers[0].Comment, false)"
                            ng-show="memberEPA.ProcessByReviewers[0].IsEndProcess && memberEPA.Status.StatusId != 0"></a>
                     </td>
                     <td class="text-center">
