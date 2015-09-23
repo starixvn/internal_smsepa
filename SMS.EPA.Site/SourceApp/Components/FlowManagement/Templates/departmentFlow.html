@@ -1,10 +1,10 @@
 ﻿<div class="department-flow" ng-controller="DepartmentFlowController as deptFlowCtrl">
-    <div class="expand-user" title="Show Employee List" ng-if="!deptFlowCtrl.showListEmployee"
+    <div class="expand-user" title="Show Employee List" ng-show="!deptFlowCtrl.showListEmployee"
          ng-click="deptFlowCtrl.toggleDepartmentDraggableList()">
         <span class="glyphicon glyphicon-user icon-user"></span>
     </div>
     <div class="row">
-        <div class="col-sm-3 employee-list" id="employeeList" ng-if="deptFlowCtrl.showListEmployee">
+        <div class="col-sm-3 employee-list" id="employeeList" ng-show="deptFlowCtrl.showListEmployee">
             <div class="row flow-header">
                 <span data-translate="Employee"></span>
                 <a ng-click="deptFlowCtrl.toggleDepartmentDraggableList()" href="javascript:;"
@@ -107,8 +107,8 @@
                 </tbody>
             </table>
             <form class="row form-inline department-form" role="form">
-                <button class="button" ng-click="deptFlowCtrl.saveDepartmentFlow()" data-translate="Save"></button>
-                <button class="button" ng-click="deptFlowCtrl.deleteDepartmentFlow()" data-translate="Delete" ng-if="deptFlowCtrl.showDeleteButton"></button>
+                <button class="button" ng-click="deptFlowCtrl.saveDepartmentFlow()" ng-show="updateCtrl.permission == 2" data-translate="Save"></button>
+                <button class="button" ng-click="deptFlowCtrl.deleteDepartmentFlow()" data-translate="Delete" ng-show="deptFlowCtrl.showDeleteButton && updateCtrl.permission == 2"></button>
                 <button class="btn btn-default customize" ng-click="deptFlowCtrl.cancel()" data-translate="Cancel"></button>
             </form>
         </div>

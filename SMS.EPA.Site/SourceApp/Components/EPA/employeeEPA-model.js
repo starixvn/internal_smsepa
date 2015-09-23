@@ -252,14 +252,17 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         return selectedEmployees;
     };
 
-    employeeEPAModel.openPopupAdjustScore = function (vm, selectedEmployees) {
+    employeeEPAModel.openPopupAdjustScore = function (vm, selectedEmployees, isReviewer) {
         vm.modalInstance = $modal.open({
             templateUrl: 'SourceApp/Components/EPA/Templates/modalAdjustScore.html',
             controller: "ModalAdjustScoreController as modalAdjustScoreCtrl",
             backdrop: 'static',
             resolve: {
                 selectedEmployees: function () {
-                    return selectedEmployees;
+                    return angular.copy(selectedEmployees);
+                },
+                isReviewer: function () {
+                    return isReviewer;
                 }
             },
             windowClass: "modal-confirm-center"
@@ -294,6 +297,25 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
+    };
+
+    employeeEPAModel.openPopupUpdateComment = function (vm, comment, isEdit) {
+        vm.modalInstance = $modal.open({
+            templateUrl: 'SourceApp/Components/EPA/Templates/modalUpdateComment.html',
+            controller: "ModalUpdateCommentController as modalUpdateCommentCtrl",
+            backdrop: 'static',
+            resolve: {
+                comment: function () {
+                    return comment;
+                },
+                isEdit: function () {
+                    return isEdit;
+                }
+            },
+            windowClass: "modal-confirm-center"
+        });
+
+        return vm.modalInstance.result;
     };
 
     return employeeEPAModel;

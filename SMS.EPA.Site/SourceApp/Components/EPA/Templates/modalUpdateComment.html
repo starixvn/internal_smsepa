@@ -1,0 +1,26 @@
+﻿<div id="updateCommentPopup">
+    <div class="modal-header">
+        <div class="popup-header">
+            <span ng-show="modalUpdateCommentCtrl.isEdit">{{"EditComment" | translate}}</span>
+            <span ng-show="!modalUpdateCommentCtrl.isEdit">{{"ViewComment" | translate}}</span>
+            <span class="close-popup" ng-click="modalUpdateCommentCtrl.cancel()"></span>
+        </div>
+    </div>
+    <div class="modal-body modal-update-comment">
+        <div class="row">
+            <form class="row form-horizontal col-sm-11" role="form">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" data-translate="Comment"></label>
+                    <div class="col-sm-8 field">
+                        <textarea type="text" class="form-control comment" ng-readonly="!modalUpdateCommentCtrl.isEdit"
+                                  ng-model="modalUpdateCommentCtrl.comment"></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="button" ng-click="modalUpdateCommentCtrl.ok()" data-translate="OK"></button>
+        <button class="btn btn-default customize" ng-click="modalUpdateCommentCtrl.cancel()" data-translate="Cancel"></button>
+    </div>
+</div>

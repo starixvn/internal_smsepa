@@ -1,12 +1,10 @@
 ﻿.table.table-bordered {
     .col-action {
-        width: 12%;
-        padding-left: 0;
-        padding-right: 0;
+        width: 6%;
 
-        .evaluate-now {
-            background: #0d9cb6;
-            color: #fff;
+        .icon-view, .icon-edit {
+            cursor: pointer;
+            margin-right: 0;
         }
     }
 
@@ -272,6 +270,12 @@
             top: 0 !important;
         }
     }
+
+    .table.table-bordered {
+        .epa-input-score {
+            margin: 0 auto;
+        }
+    }
 }
 
 .form-reviewer {
@@ -511,7 +515,7 @@
     min-height: 200px;
 }
 
-.modal-adjust-score {
+.modal-adjust-score, .modal-update-comment {
     textarea.comment {
         height: 120px;
         resize: none;

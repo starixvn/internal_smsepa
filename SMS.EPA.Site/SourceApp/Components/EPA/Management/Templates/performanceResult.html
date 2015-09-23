@@ -57,8 +57,8 @@
                        ng-click="memberEPAInfoCtrl.openPopupViewComment(memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].Comment)"></a>
                 </td>
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="total-score" ng-show="$first">
-                    <input type="text" class="form-control text-center" maxlength="5" ng-readonly="memberEPAInfoCtrl.isReadonly"
-                           ng-model="memberEPAInfoCtrl.epaInfo.ProcessByManagements[0].TotalScore" ng-decimal fraction="2"
+                    <input type="text" class="form-control text-center" ng-readonly="memberEPAInfoCtrl.isReadonly"
+                           ng-model="memberEPAInfoCtrl.epaInfo.ProcessByManagements[0].TotalScore" numeric decimals="2"
                            ng-change="memberEPAInfoCtrl.inputScore(memberEPAInfoCtrl.epaInfo.ProcessByManagements[0])"
                            tooltip="{{memberEPAInfoCtrl.getNotificationInputScore(memberEPAInfoCtrl.epaInfo.ProcessByManagements[0])}}" tooltip-trigger="focus" />
                 </td>

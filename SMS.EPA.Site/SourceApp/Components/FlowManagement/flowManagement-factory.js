@@ -72,6 +72,9 @@ flowMngModule.factory('flowMngFactory', ['$http', 'baseUrl', function ($http, ba
                     groupId: groupId
                 }
             });
+        },
+        getUserPermissionOnFlowManagement: function () {
+            return $http.get(baseUrl + 'api/FlowManagement/GetUserPermissionOnFlowManagement');
         }
     };
 }]);

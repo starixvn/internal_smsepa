@@ -717,8 +717,8 @@
   <data name="EvaluationStatus" xml:space="preserve">
     <value>Evaluation Status</value>
   </data>
-  <data name="SelfEvaluationScore" xml:space="preserve">
-    <value>Self-Evaluation Score</value>
+  <data name="SelfScore" xml:space="preserve">
+    <value>Self Score</value>
   </data>
   <data name="EditEmployeeSetting" xml:space="preserve">
     <value>Edit Employee Setting</value>
@@ -1037,6 +1037,12 @@
   </data>
   <data name="AdjustScoreInvalid" xml:space="preserve">
     <value>There are some empty score. Please fill them before submitting.</value>
+  </data>
+  <data name="ViewEPAResult" xml:space="preserve">
+    <value>View EPA Result</value>
+  </data>
+  <data name="EditComment" xml:space="preserve">
+    <value>Edit Comment</value>
   </data>
   <data name="NoticeAtBegin" xml:space="preserve">
     <value>Notice At Begin</value>

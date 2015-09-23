@@ -8,6 +8,7 @@ function (FlowMngModel, CommonModel, utilitiesFactory) {
 
     vm.targetTypes = CommonModel.targetTypes;
     vm.flowTemplates = FlowMngModel.flowTemplates;
+    vm.permission = FlowMngModel.permission;
 
     vm.filter = {
         targetTypeId: '',
@@ -46,6 +47,10 @@ function (FlowMngModel, CommonModel, utilitiesFactory) {
     };
 
     vm.initialize = function () {
+        FlowMngModel.getUserPermissionOnFlowManagement().then(function () {
+            vm.permission = FlowMngModel.permission;
+        });
+
         CommonModel.getTargetType().then(function () {
             vm.targetTypes = CommonModel.targetTypes;
         });
@@ -78,6 +83,7 @@ function ($window, FlowMngModel, CommonModel) {
     var vm = this;
 
     vm.targetTypes = CommonModel.targetTypes;
+    vm.permission = FlowMngModel.permission;
 
     vm.flowTemplate = {
         Name: '',
@@ -87,6 +93,10 @@ function ($window, FlowMngModel, CommonModel) {
     };
 
     vm.initialize = function () {
+        FlowMngModel.getUserPermissionOnFlowManagement().then(function () {
+            vm.permission = FlowMngModel.permission;
+        });
+
         CommonModel.getTargetType(true).then(function () {
             vm.targetTypes = CommonModel.targetTypes;
         });
@@ -113,6 +123,7 @@ function ($window, FlowMngModel, CommonModel, cacheService) {
     vm.departments = CommonModel.departments;
     vm.treeDepartment = CommonModel.treeDepartment;
     vm.remindDay = FlowMngModel.remindDay;
+    vm.permission = FlowMngModel.permission;
 
     vm.tabDepartmentSelected = function () {
         cacheService.setProperty(1);
@@ -123,6 +134,10 @@ function ($window, FlowMngModel, CommonModel, cacheService) {
     };
 
     vm.initialize = function () {
+        FlowMngModel.getUserPermissionOnFlowManagement().then(function () {
+            vm.permission = FlowMngModel.permission;
+        });
+
         CommonModel.getDepartment().then(function () {
             vm.departments = CommonModel.departments;
             vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);

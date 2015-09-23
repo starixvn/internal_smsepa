@@ -34,13 +34,20 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
             vm.memberEPAs = EmployeeEPAModel.memberEPAs;
 
             angular.forEach(vm.memberEPAs, function (memberEPA) {
-                var performanceScore = memberEPA.ProcessByReviewers[0].TotalScore ? parseFloat(memberEPA.ProcessByReviewers[0].TotalScore) : 0;
+                var performanceScore = null;
+
+                if (memberEPA.AverageScoreByEvaluators && parseFloat(memberEPA.AverageScoreByEvaluators) > 0
+                    && !memberEPA.ProcessByReviewers[0].TotalScore) {
+                    memberEPA.ProcessByReviewers[0].TotalScore = memberEPA.AverageScoreByEvaluators;
+                }
+
+                performanceScore = memberEPA.ProcessByReviewers[0].TotalScore ? parseFloat(memberEPA.ProcessByReviewers[0].TotalScore) : 0;
 
                 if (memberEPA.HasAttendanceScore) {
                     memberEPA.FinalScore = performanceScore + memberEPA.AttendanceScore;
                 }
                 else {
-                    memberEPA.FinalScore = memberEPA.AttendanceScore;
+                    memberEPA.FinalScore = performanceScore;
                 }
             });
         });
@@ -63,6 +70,9 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
 
                 if (memberEPA.HasAttendanceScore) {
                     memberEPA.FinalScore = memberEPA.ProcessByReviewers[0].TotalScore + memberEPA.AttendanceScore;
+                }
+                else {
+                    memberEPA.FinalScore = memberEPA.ProcessByReviewers[0].TotalScore;
                 }
 
                 memberEPA.ProcessByReviewers[0].Comment = adjustScore.adjust.Comment;
@@ -127,7 +137,7 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
             notificationFactory.error("SelectEmployeeBeforeAdjustScoreWarning");
         }
         else {
-            EmployeeEPAModel.openPopupAdjustScore(vm, selectedEmployees).then(function (adjust) {
+            EmployeeEPAModel.openPopupAdjustScore(vm, selectedEmployees, true).then(function (adjust) {
                 calculateAdjustScore(vm.memberEPAs, adjust);
             })['finally'](function () {
                 vm.modalInstance = null;
@@ -144,6 +154,18 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
         else if (validateAdjustScore(selectedEmployees)) {
             EmployeeEPAModel.adjustScoreByReviewer(selectedEmployees);
         }
+    };
+
+    vm.updateComment = function (epaId, comment, isEdit) {
+        EmployeeEPAModel.openPopupUpdateComment(vm, comment, isEdit).then(function (commentUpdate) {
+            var index = vm.memberEPAs.map(function (e) { return e.EPAId; }).indexOf(epaId);
+
+            if (index !== -1) {
+                vm.memberEPAs[index].ProcessByReviewers[0].Comment = commentUpdate;
+            }
+        })['finally'](function () {
+            vm.modalInstance = null;
+        });
     };
 
     vm.query = function (filter) {

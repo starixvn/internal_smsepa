@@ -13,31 +13,39 @@ namespace SMS.EPA.Site.Controllers.API
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Http;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.FlowManagement;
     using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.FlowManagement;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
+    using SMS.EPA.Web.ApiAuthorizeAttribute;
+    using SMS.EPA.Web.Services;
 
     public class FlowManagementController : BaseController
     {
         private readonly IFlowManagementService _flowManagementService;
+        private readonly IWebCommonService _webCommonService;
 
         public FlowManagementController()
-            : this(null)
+            : this(null, null)
         {
         }
 
         public FlowManagementController(
-            IFlowManagementService flowManagementService)
+            IFlowManagementService flowManagementService,
+            IWebCommonService webCommonService)
         {
             _flowManagementService = flowManagementService ?? new FlowManagementService();
+            _webCommonService = webCommonService ?? new WebCommonService();
         }
 
         #region Flow Template
 
         [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPI, Policy = Policy.Read)]
         public IEnumerable<FlowTemplateModel> GetFlowTemplate(
             int? targetTypeId = null,
             bool? isActive = null)
@@ -52,6 +60,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPI, Policy = Policy.Read)]
         public FlowTemplateModel GetFlowTemplateById(int flowTemplateId)
         {
             var criteria = new GetFlowTemplateByIdCriteria()
@@ -63,6 +72,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpPost]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPI, Policy = Policy.Host)]
         public CommandResult CreateFlowTemplate(CreateFlowTemplateCriteria criteria)
         {
             if (criteria != null)
@@ -74,6 +84,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPI, Policy = Policy.Host)]
         public CommandResult UpdateFlowTemplate(UpdateFlowTemplateCriteria criteria)
         {
             if (criteria != null)
@@ -85,6 +96,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPI, Policy = Policy.Host)]
         public CommandResult UpdateStatusFlowTemplate(UpdateStatusFlowTemplateCriteria criteria)
         {
             if (criteria != null)
@@ -96,6 +108,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpDelete]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPI, Policy = Policy.Host)]
         public CommandResult DeleteFlowTemplate(int flowTemplateId)
         {
             var criteria = new DeleteFlowTemplateCriteria()
@@ -112,6 +125,7 @@ namespace SMS.EPA.Site.Controllers.API
         #region Department Flow Setting
 
         [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPI, Policy = Policy.Read)]
         public IEnumerable<FlowModel> GetDepartmentFlow(
             int departmentId,
             int flowTemplateId)
@@ -127,6 +141,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpPost]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPI, Policy = Policy.Host)]
         public CommandResult CreateDepartmentFlow(InsertFlowModel model)
         {
             var criteria = new CreateDepartmentFlowCriteria()
@@ -142,6 +157,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpDelete]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPI, Policy = Policy.Host)]
         public CommandResult DeleteDepartmentFlow(
             int departmentId,
             int flowTemplateId)
@@ -162,6 +178,7 @@ namespace SMS.EPA.Site.Controllers.API
         #region Personal Flow Setting
 
         [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPI, Policy = Policy.Read)]
         public IEnumerable<FlowModel> GetPersonalFlow(
             int employeeId,
             int flowTemplateId)
@@ -176,6 +193,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpPost]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPI, Policy = Policy.Host)]
         public CommandResult CreatePersonalFlow(InsertFlowModel model)
         {
             var criteria = new CreatePersonalFlowCriteria()
@@ -190,6 +208,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpDelete]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPI, Policy = Policy.Host)]
         public CommandResult DeletePersonalFlow(
             int employeeId,
             int flowTemplateId)
@@ -205,6 +224,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPI, Policy = Policy.Read)]
         public EmployeeFlowSettingModel GetEmployeeFlowSetting(
             int flowTemplateId,
             int? departmentId = null,
@@ -232,5 +252,11 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         #endregion Personal Flow Setting
+
+        public int GetUserPermissionOnFlowManagement()
+        {
+            int permission = _webCommonService.GetPermission(EPAFunctionKey.FlowManagement);
+            return permission;
+        }
     }
 }

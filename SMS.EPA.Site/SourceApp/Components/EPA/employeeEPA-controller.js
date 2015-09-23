@@ -98,9 +98,50 @@ function ($modalInstance, comment) {
 }]);
 
 epaModule.controller('ModalAdjustScoreController',
-['$modalInstance', 'EmployeeEPAModel', 'selectedEmployees', 'notificationFactory',
-function ($modalInstance, EmployeeEPAModel, selectedEmployees, notificationFactory) {
+['$modalInstance', 'EmployeeEPAModel', 'selectedEmployees', 'isReviewer', 'notificationFactory',
+function ($modalInstance, EmployeeEPAModel, selectedEmployees, isReviewer, notificationFactory) {
     var vm = this;
+
+    var calculateAdjustScore = function (memberEPAs) {
+        var score = vm.adjust.Score ? parseFloat(vm.adjust.Score) : 0;
+
+        angular.forEach(memberEPAs, function (memberEPA) {
+            if (vm.isReviewer) {
+                var totalScore = memberEPA.ProcessByReviewers[0].TotalScore ? parseFloat(memberEPA.ProcessByReviewers[0].TotalScore) : 0,
+                    totalScoreAdjust = totalScore + score;
+
+                if (totalScoreAdjust > memberEPA.ProcessByReviewers[0].MaxScore) {
+                    memberEPA.ProcessByReviewers[0].TotalScore = memberEPA.ProcessByReviewers[0].MaxScore;
+                }
+                else {
+                    memberEPA.ProcessByReviewers[0].TotalScore = totalScoreAdjust;
+                }
+
+                if (memberEPA.HasAttendanceScore) {
+                    memberEPA.FinalScore = memberEPA.ProcessByReviewers[0].TotalScore + memberEPA.AttendanceScore;
+                }
+
+                memberEPA.ProcessByReviewers[0].Comment = vm.adjust.Comment;
+            }
+            else {
+                var totalScore = memberEPA.ProcessByManagements[0].TotalScore ? parseFloat(memberEPA.ProcessByManagements[0].TotalScore) : 0,
+                    totalScoreAdjust = totalScore + score;
+
+                if (totalScoreAdjust > memberEPA.ProcessByManagements[0].MaxScore) {
+                    memberEPA.ProcessByManagements[0].TotalScore = memberEPA.ProcessByManagements[0].MaxScore;
+                }
+                else {
+                    memberEPA.ProcessByManagements[0].TotalScore = totalScoreAdjust;
+                }
+
+                if (memberEPA.HasAttendanceScore) {
+                    memberEPA.FinalScore = memberEPA.ProcessByManagements[0].TotalScore + memberEPA.AttendanceScore;
+                }
+
+                memberEPA.ProcessByManagements[0].Comment = vm.adjust.Comment;
+            }
+        });
+    };
 
     vm.adjust = {
         Score: '',
@@ -108,15 +149,34 @@ function ($modalInstance, EmployeeEPAModel, selectedEmployees, notificationFacto
     };
 
     vm.selectedEmployees = selectedEmployees;
+    vm.isReviewer = isReviewer;
 
     vm.ok = function () {
-        if (!vm.adjust.Score)
-        {
+        if (!vm.adjust.Score) {
             notificationFactory.error("ScoreRequire");
         }
         else {
+            calculateAdjustScore(vm.selectedEmployees);
+            EmployeeEPAModel.adjustScoreByReviewer(selectedEmployees);
             $modalInstance.close(vm);
         }
+    };
+
+    vm.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+}]);
+
+epaModule.controller('ModalUpdateCommentController',
+['$modalInstance', 'comment', 'isEdit',
+function ($modalInstance, comment, isEdit) {
+    var vm = this;
+
+    vm.comment = comment;
+    vm.isEdit = isEdit;
+
+    vm.ok = function () {
+        $modalInstance.close(vm.comment);
     };
 
     vm.cancel = function () {

@@ -128,3 +128,10 @@ var attendanceModule = angular.module("attendanceModule", ['ngRoute'])
     $routeProvider.when('/Attendance/Detail/:id',
     { templateUrl: baseUrl + 'SourceApp/Components/AttendanceSummary/Templates/detail.html' });
 }]);
+
+var reportModule = angular.module("reportModule", ['ngRoute'])
+.config(['$routeProvider', function ($routeProvider) {
+    var baseUrl = $("base").first().attr("href");
+    $routeProvider.when('/Report/EPAReport',
+    { templateUrl: baseUrl + 'SourceApp/Components/Report/Templates/EPAReport.html' });
+}]);

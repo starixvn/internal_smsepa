@@ -369,6 +369,7 @@
     <Content Include="SourceApp\Components\EPA\MyEPA\Templates\index.html" />
     <Content Include="SourceApp\Components\EPA\MyEPA\Templates\listKPI.html" />
     <Content Include="SourceApp\Components\EPA\Templates\modalAdjustScore.html" />
+    <Content Include="SourceApp\Components\EPA\Templates\modalUpdateComment.html" />
     <Content Include="SourceApp\Components\EPA\Templates\modalViewComment.html" />
     <Content Include="SourceApp\Components\EPA\Templates\performanceDetails.html" />
     <Content Include="SourceApp\Components\EPA\Templates\performanceResult.html" />
@@ -405,6 +406,10 @@
     <Content Include="SourceApp\Components\Period\Templates\employeeSetting.html" />
     <Content Include="SourceApp\Components\Period\Templates\index.html" />
     <Content Include="SourceApp\Components\Period\Templates\processSetting.html" />
+    <Content Include="SourceApp\Components\Report\epaReport-controller.js" />
+    <Content Include="SourceApp\Components\Report\report-directive.js" />
+    <Content Include="SourceApp\Components\Report\report-model.js" />
+    <Content Include="SourceApp\Components\Report\Templates\EPAReport.html" />
     <Content Include="SourceApp\Components\Resources\resources-controller.js" />
     <Content Include="SourceApp\Components\Resources\resources-factory.js" />
     <Content Include="SourceApp\Components\KPI\kpi-controller.js" />
@@ -463,7 +468,9 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="SourceApp\Components\Report\ExcelTemplates\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>

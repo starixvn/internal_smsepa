@@ -55,18 +55,12 @@
                     <td class="text-center">{{ memberEPA.ProcessByEvaluators[0].StartDate | customDate }}</td>
                     <td class="text-center">{{ memberEPA.ProcessByEvaluators[0].EndDate | customDate }}</td>
                     <td class="text-center text-uppercase col-action">
-                        <a class="evaluate-now button" href="" ng-click="evaluatorCtrl.viewEPADetail(memberEPA)"
-                           ng-href="{{evaluatorCtrl.viewEPADetailUrl}}"
-                           ng-show="!memberEPA.ProcessByEvaluators[0].IsEndProcess && memberEPA.Status.StatusId == 0">
-                            <span data-translate="EvaluateNow"></span>
-                            <span class="glyphicon icon-breadcrumb"></span>
-                        </a>
-                        <a class="evaluate-now button" href="" ng-click="evaluatorCtrl.viewEPAResult(memberEPA)"
-                           ng-href="{{evaluatorCtrl.viewEPAResultUrl}}"
-                           ng-show="memberEPA.ProcessByEvaluators[0].IsEndProcess && memberEPA.Status.StatusId == 0">
-                            <span data-translate="View"></span>
-                            <span class="glyphicon icon-view"></span>
-                        </a>
+                        <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="evaluatorCtrl.viewEPADetail(memberEPA)"
+                           ng-show="!memberEPA.ProcessByEvaluators[0].IsEndProcess && memberEPA.Status.StatusId == 0"
+                           ng-href="{{evaluatorCtrl.viewEPADetailUrl}}" ng-attr-title='{{"EvaluateNow" | translate}}'></a>
+                        <a class="glyphicon icon-view" href="" ng-click="evaluatorCtrl.viewEPAResult(memberEPA)"
+                           ng-show="memberEPA.ProcessByEvaluators[0].IsEndProcess && memberEPA.Status.StatusId == 0"
+                           ng-href="{{evaluatorCtrl.viewEPAResultUrl}}" ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
                     </td>
                 </tr>
                 <tr ng-show="evaluatorCtrl.memberEPAs.length == 0">

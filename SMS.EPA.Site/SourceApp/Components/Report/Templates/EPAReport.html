@@ -1,0 +1,41 @@
+﻿<div class="epa-report" ng-controller="EPAReportController as epaReportCtrl">
+    <div class="col-sm-12 sub-header">
+        <ul class="row breadcrumb">
+            <li class="current" data-translate="EPAReport"></li>
+        </ul>
+    </div>
+    <div class="col-sm-12">
+        <form novalidate class="row filter form-inline" role="form">
+            <div class="form-group">
+                <label data-translate="DepartmentSection"></label>
+                <select class="form-control lstBox-limit" ng-model="epaReportCtrl.filter.departmentId"
+                        ng-options="opt.DepartmentId as opt.Name for opt in epaReportCtrl.treeDepartment">
+                    <option value="">-- {{"All" | translate}} --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="control-label" data-translate="Period"></label>
+                <select class="form-control lstBox-limit" ng-model="epaReportCtrl.filter.periodId"
+                        ng-options="opt.PeriodId as opt.Name for opt in epaReportCtrl.periods">
+                    <option value="">-- {{"All" | translate}} --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="control-label" data-translate="Status"></label>
+                <select class="form-control" ng-model="epaReportCtrl.filter.status"
+                        ng-options="opt.StatusId as opt.Name for opt in epaReportCtrl.statusList">
+                    <option value="">-- {{"All" | translate}} --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button class="button" ng-click="epaReportCtrl.query(epaReportCtrl.filter)" data-translate="Search"></button>
+            </div>
+            <div class="form-group">
+                <button class="button" ng-click="epaReportCtrl.exportToExcel(epaReportCtrl.filter)">
+                    <span data-translate="Excel"></span>
+                    <span class="glyphicon icon-excel"></span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

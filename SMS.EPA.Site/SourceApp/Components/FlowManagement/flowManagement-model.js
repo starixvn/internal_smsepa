@@ -44,6 +44,8 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
     flowMngModel.defaultFlowSettings = [];
     flowMngModel.personalFlowSettings = [];
 
+    flowMngModel.permission = 0;
+
     // #region Common
 
     flowMngModel.resetCurrentFlow = function (vm) {
@@ -527,6 +529,16 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
     };
 
     // #endregion Personal Flow Seting
+
+    flowMngModel.getUserPermissionOnFlowManagement = function () {
+        return flowMngFactory.getUserPermissionOnFlowManagement()
+        .success(function (permission) {
+            flowMngModel.permission = parseInt(permission);
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
 
     return flowMngModel;
 } ]);

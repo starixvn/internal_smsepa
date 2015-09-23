@@ -50,12 +50,12 @@
             <div class="row boxtitle" data-translate="EPAProcessing">
             </div>
             <div class="row">
-                <div class="expand-user" title="Show Employee List" ng-if="!personalFlowCtrl.showListEmployee"
+                <div class="expand-user" title="Show Employee List" ng-show="!personalFlowCtrl.showListEmployee"
                      ng-click="personalFlowCtrl.toggleDepartmentDraggableList()">
                     <span class="glyphicon glyphicon-user icon-user"></span>
                 </div>
                 <div class="row">
-                    <div class="col-sm-3 employee-list" id="employeeList" ng-if="personalFlowCtrl.showListEmployee">
+                    <div class="col-sm-3 employee-list" id="employeeList" ng-show="personalFlowCtrl.showListEmployee">
                         <div class="row flow-header">
                             <span data-translate="Employee"></span>
                             <a ng-click="personalFlowCtrl.toggleDepartmentDraggableList()" href="javascript:;"
@@ -150,8 +150,8 @@
                             </tbody>
                         </table>
                         <form class="row form-inline department-form" role="form">
-                            <button class="button" ng-click="personalFlowCtrl.savePersonalFlow()" data-translate="Save"></button>
-                            <button class="button" ng-click="personalFlowCtrl.deletePersonalFlow()" data-translate="Delete" ng-if="personalFlowCtrl.showDeleteButton"></button>
+                            <button class="button" ng-click="personalFlowCtrl.savePersonalFlow()" ng-show="updateCtrl.permission == 2" data-translate="Save"></button>
+                            <button class="button" ng-click="personalFlowCtrl.deletePersonalFlow()" data-translate="Delete" ng-show="personalFlowCtrl.showDeleteButton && updateCtrl.permission == 2"></button>
                             <button class="btn btn-default customize" ng-click="personalFlowCtrl.cancel()" data-translate="Cancel"></button>
                         </form>
                     </div>

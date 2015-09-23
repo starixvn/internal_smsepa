@@ -10,10 +10,13 @@
 namespace SMS.EPA.Site.Controllers.API
 {
     using System.Web.Http;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Criteria.Report;
     using SMS.EPA.Model.Report.Dashboard;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
+    using SMS.EPA.Web.ApiAuthorizeAttribute;
 
     public class DashboardController : BaseController
     {
@@ -34,6 +37,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Home, Policy = Policy.Read)]
         public DashboardModel GetDashboard()
         {
             DashboardModel result = new DashboardModel();

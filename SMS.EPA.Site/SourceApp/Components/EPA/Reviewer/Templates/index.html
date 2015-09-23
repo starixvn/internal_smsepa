@@ -26,10 +26,10 @@
                 </div>
             </div>
         </form>
-        <table class="row table table-bordered table-striped" manage-column-menu ignore-columns="[0,1]" hide-columns="[3,4,6]">
+        <table class="row table table-bordered table-striped">
             <thead>
                 <tr class="header-table" ng-show="reviewerCtrl.memberEPAs.length > 0">
-                    <th colspan="14">
+                    <th colspan="13">
                         <a class="pull-left button-icon" ng-click="reviewerCtrl.adjustScore()">
                             <span class="icon-edit glyphicon glyphicon-edit"></span>
                             <span class="button-text" data-translate="AdjustScore"></span>
@@ -50,12 +50,11 @@
                     </th>
                     <th data-translate="SymbolCount"></th>
                     <th data-translate="PeriodName"></th>
-                    <th data-translate="Department"></th>
                     <th data-translate="Section"></th>
                     <th data-translate="NickName"></th>
                     <th data-translate="JobTitle"></th>
-                    <th data-translate="StartDate"></th>
-                    <th data-translate="EndDate"></th>
+                    <th data-translate="SelfScore"></th>
+                    <th data-translate="EvaluatorScore"></th>
                     <th data-translate="PerformanceScore"></th>
                     <th data-translate="Comment"></th>
                     <th data-translate="AttendanceScore"></th>
@@ -70,7 +69,6 @@
                     </td>
                     <td class="text-center" ng-bind="$index + 1"></td>
                     <td ng-bind="memberEPA.Period.Name"></td>
-                    <td ng-bind="memberEPA.Employee.Department.Name"></td>
                     <td class="text-center">
                         <span tooltip="{{memberEPA.Employee.Group.GroupName}}" ng-bind="memberEPA.Employee.Group.GroupCode"></span>
                     </td>
@@ -78,43 +76,48 @@
                         <span ng-bind="memberEPA.Employee.NickName" tooltip="{{memberEPA.Employee.FullName}}"></spanng-bind>
                     </td>
                     <td ng-bind="memberEPA.Employee.JobTitle.JobTitleName"></td>
-                    <td class="text-center">{{ memberEPA.ProcessByReviewers[0].StartDate | customDate }}</td>
-                    <td class="text-center">{{ memberEPA.ProcessByReviewers[0].EndDate | customDate }}</td>
+                    <td class="text-center">
+                        <strong ng-show="memberEPA.ProcessBySelf.TotalScore" ng-bind="memberEPA.ProcessBySelf.TotalScore | customNumber"></strong>
+                        <strong ng-show="!memberEPA.ProcessBySelf.TotalScore" ng-bind="0"></strong>
+                    </td>
+                    <td class="text-center">
+                        <strong ng-show="memberEPA.AverageScoreByEvaluators" ng-bind="memberEPA.AverageScoreByEvaluators | customNumber"></strong>
+                        <strong ng-show="!memberEPA.AverageScoreByEvaluators" ng-bind="0"></strong>
+                    </td>
                     <td class="text-center">
                         <input type="text" class="form-control text-center epa-input-score" ng-readonly="memberEPA.ProcessByReviewers[0].IsEndProcess"
                                ng-model="memberEPA.ProcessByReviewers[0].TotalScore" numeric decimals="2"
                                ng-change="reviewerCtrl.inputScore(memberEPA, memberEPA.ProcessByReviewers[0])"
                                tooltip="{{reviewerCtrl.getNotificationInputScore(memberEPA.ProcessByReviewers[0])}}" tooltip-trigger="focus" />
                     </td>
-                    <td>
-                        <textarea class="form-control epa-summary-comment" ng-readonly="memberEPA.ProcessByReviewers[0].IsEndProcess"
-                                  ng-model="memberEPA.ProcessByReviewers[0].Comment"></textarea>
+                    <td class="text-center">
+                        <a class="glyphicon glyphicon-edit icon-edit" href="" ng-attr-title='{{"Edit" | translate}}'
+                           ng-click="reviewerCtrl.updateComment(memberEPA.EPAId, memberEPA.ProcessByReviewers[0].Comment, true)"
+                           ng-show="!memberEPA.ProcessByReviewers[0].IsEndProcess && memberEPA.Status.StatusId == 0"></a>
+                        <a class="glyphicon icon-view" href="" ng-attr-title='{{"View" | translate}}'
+                           ng-click="reviewerCtrl.updateComment(memberEPA.EPAId, memberEPA.ProcessByReviewers[0].Comment, false)"
+                           ng-show="memberEPA.ProcessByReviewers[0].IsEndProcess && memberEPA.Status.StatusId != 0"></a>
                     </td>
                     <td class="text-center">
                         <strong ng-show="memberEPA.HasAttendanceScore" ng-bind="memberEPA.AttendanceScore | customNumber"></strong>
                     </td>
                     <td class="text-center">
-                        <strong ng-bind="memberEPA.FinalScore | customNumber"></strong>
+                        <strong ng-show="memberEPA.FinalScore" ng-bind="memberEPA.FinalScore | customNumber"></strong>
+                        <strong ng-show="!memberEPA.FinalScore" ng-bind="0"></strong>
                     </td>
-                    <td class="text-center text-uppercase col-action">
-                        <a class="evaluate-now button" href="" ng-click="reviewerCtrl.viewEPADetail(memberEPA)"
-                           ng-href="{{reviewerCtrl.viewEPADetailUrl}}"
-                           ng-show="!memberEPA.ProcessByReviewers[0].IsEndProcess && memberEPA.Status.StatusId == 0">
-                            <span data-translate="EvaluateNow"></span>
-                            <span class="glyphicon icon-breadcrumb"></span>
-                        </a>
-                        <a class="evaluate-now button" href="" ng-click="reviewerCtrl.viewEPAResult(memberEPA)"
-                           ng-href="{{reviewerCtrl.viewEPAResultUrl}}"
-                           ng-show="memberEPA.ProcessByReviewers[0].IsEndProcess && memberEPA.Status.StatusId != 0">
-                            <span data-translate="View"></span>
-                            <span class="glyphicon icon-view"></span>
-                        </a>
+                    <td class="text-center col-action">
+                        <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="reviewerCtrl.viewEPADetail(memberEPA)"
+                           ng-show="!memberEPA.ProcessByReviewers[0].IsEndProcess && memberEPA.Status.StatusId == 0"
+                           ng-href="{{reviewerCtrl.viewEPADetailUrl}}" ng-attr-title='{{"EvaluateNow" | translate}}'></a>
+                        <a class="glyphicon icon-view" href="" ng-click="reviewerCtrl.viewEPAResult(memberEPA)"
+                           ng-show="memberEPA.ProcessByReviewers[0].IsEndProcess && memberEPA.Status.StatusId != 0"
+                           ng-href="{{reviewerCtrl.viewEPAResultUrl}}" ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
                     </td>
                 </tr>
             </tbody>
             <tbody ng-show="reviewerCtrl.memberEPAs.length == 0">
                 <tr>
-                    <td class="empty-result" colspan="14" data-translate="EmptyResult"></td>
+                    <td class="empty-result" colspan="13" data-translate="EmptyResult"></td>
                 </tr>
             </tbody>
         </table>
