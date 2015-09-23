@@ -166,34 +166,80 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
     };
 
     periodModel.validateEmployeeSetting = function (employeeOptions) {
-        if (employeeOptions.humanResource.StartDate <= employeeOptions.humanResource.EndDate
-            && employeeOptions.selfEvaluator.StartDate <= employeeOptions.selfEvaluator.EndDate
-            && employeeOptions.evaluator.StartDate <= employeeOptions.evaluator.EndDate
-            && employeeOptions.reviewer.StartDate <= employeeOptions.reviewer.EndDate
-            && employeeOptions.management.StartDate <= employeeOptions.management.EndDate) {
+        var hasReviewer = false;
+
+        if (employeeOptions.humanResource.ids && employeeOptions.humanResource.ids.length > 0) {
+            if (employeeOptions.humanResource.StartDate > employeeOptions.humanResource.EndDate) {
+                notificationFactory.error("StartDateGreaterThanEndDateWarning");
+                return false;
+            }
         }
         else {
-            notificationFactory.error("StartDateGreaterThanEndDateWarning");
+            notificationFactory.error("HumanResourcePhaseRequired");
             return false;
         }
 
-        if (employeeOptions.humanResource.EndDate > employeeOptions.selfEvaluator.StartDate) {
-            notificationFactory.error("HRRangeDateGreaterThanSelfRangeDateWarning");
-            return false;
+        if (employeeOptions.selfEvaluator.ids && employeeOptions.selfEvaluator.ids.length > 0) {
+            if (employeeOptions.selfEvaluator.StartDate > employeeOptions.selfEvaluator.EndDate) {
+                notificationFactory.error("StartDateGreaterThanEndDateWarning");
+                return false;
+            }
+
+            if (employeeOptions.humanResource.EndDate > employeeOptions.selfEvaluator.StartDate) {
+                notificationFactory.error("HRRangeDateGreaterThanSelfRangeDateWarning");
+                return false;
+            }
         }
-        else if (employeeOptions.selfEvaluator.EndDate > employeeOptions.evaluator.StartDate) {
-            notificationFactory.error("SelfRangeDateGreaterThanEvaluatorRangeDateWarning");
-            return false;
+
+        if (employeeOptions.evaluator.ids && employeeOptions.evaluator.ids.length > 0) {
+            if (employeeOptions.evaluator.StartDate > employeeOptions.evaluator.EndDate) {
+                notificationFactory.error("StartDateGreaterThanEndDateWarning");
+                return false;
+            }
+
+            if (employeeOptions.selfEvaluator.EndDate > employeeOptions.evaluator.StartDate) {
+                notificationFactory.error("SelfRangeDateGreaterThanEvaluatorRangeDateWarning");
+                return false;
+            }
         }
-        else if (employeeOptions.evaluator.EndDate > employeeOptions.reviewer.StartDate) {
-            notificationFactory.error("EvaluatorRangeDateGreaterThanReviewerRangeDateWarning");
-            return false;
-        }
-        else if (employeeOptions.reviewer.EndDate > employeeOptions.management.StartDate) {
-            notificationFactory.error("ReviewerRangeDateGreaterThanManagementRangeDateWarning");
+        else {
+            notificationFactory.error("EvaluatorPhaseRequired");
             return false;
         }
 
+        if (employeeOptions.reviewer.ids && employeeOptions.reviewer.ids.length > 0) {
+            hasReviewer = true;
+
+            if (employeeOptions.reviewer.StartDate > employeeOptions.reviewer.EndDate) {
+                notificationFactory.error("StartDateGreaterThanEndDateWarning");
+                return false;
+            }
+
+            if (employeeOptions.evaluator.EndDate > employeeOptions.reviewer.StartDate) {
+                notificationFactory.error("EvaluatorRangeDateGreaterThanReviewerRangeDateWarning");
+                return false;
+            }
+        }
+
+        if (employeeOptions.management.ids && employeeOptions.management.ids.length > 0) {
+            if (employeeOptions.management.StartDate > employeeOptions.management.EndDate) {
+                notificationFactory.error("StartDateGreaterThanEndDateWarning");
+                return false;
+            }
+
+            if (hasReviewer) {
+                if (employeeOptions.reviewer.EndDate > employeeOptions.management.StartDate) {
+                    notificationFactory.error("ReviewerRangeDateGreaterThanManagementRangeDateWarning");
+                    return false;
+                }
+            }
+            else {
+                if (employeeOptions.evaluator.EndDate > employeeOptions.management.StartDate) {
+                    notificationFactory.error("EvaluatorRangeDateGreaterThanManagementRangeDateWarning");
+                    return false;
+                }
+            }
+        }
         return true;
     };
 
@@ -450,11 +496,12 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             targetTemplateId = employeeOptions.targetTemplateId;
 
         if (employeeOptions.humanResource.ids && employeeOptions.humanResource.ids.length > 0) {
-            angular.forEach(employeeOptions.humanResource.ids, function (humanResourceId) {
+            angular.forEach(employeeOptions.humanResource.ids, function (humanResourceId, index) {
                 var humanResourceAssignment = {
                     processId: periodModel.evaluatorType.HumanResources,
-                    startDate: employeeOptions.humanResource.StartDate,
-                    endDate: employeeOptions.humanResource.EndDate,
+                    startDate: employeeOptions.humanResource.StartDate.toDateString(),
+                    endDate: employeeOptions.humanResource.EndDate.toDateString(),
+                    priority: index + 1,
                     evaluatorInfo: {
                         employeeId: humanResourceId
                     }
@@ -466,20 +513,22 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
 
         var selfEvaluatorAssignments = {
             processId: periodModel.evaluatorType.SelfEvaluator,
-            startDate: employeeOptions.selfEvaluator.StartDate,
-            endDate: employeeOptions.selfEvaluator.EndDate,
+            startDate: employeeOptions.selfEvaluator.StartDate.toDateString(),
+            endDate: employeeOptions.selfEvaluator.EndDate.toDateString(),
+            priority: 1,
             evaluatorInfo: {
-                employeeId: -1
+                employeeId: employeeOptions.selfEvaluator.ids[0]
             }
         };
         employeeAssignments.push(selfEvaluatorAssignments);
 
         if (employeeOptions.evaluator.ids && employeeOptions.evaluator.ids.length > 0) {
-            angular.forEach(employeeOptions.evaluator.ids, function (evaluatorId) {
+            angular.forEach(employeeOptions.evaluator.ids, function (evaluatorId, index) {
                 var evaluatorAssignment = {
                     processId: periodModel.evaluatorType.Evaluator,
-                    startDate: employeeOptions.evaluator.StartDate,
-                    endDate: employeeOptions.evaluator.EndDate,
+                    startDate: employeeOptions.evaluator.StartDate.toDateString(),
+                    endDate: employeeOptions.evaluator.EndDate.toDateString(),
+                    priority: index + 1,
                     evaluatorInfo: {
                         employeeId: evaluatorId
                     }
@@ -490,11 +539,12 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         }
 
         if (employeeOptions.reviewer.ids && employeeOptions.reviewer.ids.length > 0) {
-            angular.forEach(employeeOptions.reviewer.ids, function (reviewerId) {
+            angular.forEach(employeeOptions.reviewer.ids, function (reviewerId, index) {
                 var reviewerAssignment = {
                     processId: periodModel.evaluatorType.Reviewer,
-                    startDate: employeeOptions.reviewer.StartDate,
-                    endDate: employeeOptions.reviewer.EndDate,
+                    startDate: employeeOptions.reviewer.StartDate.toDateString(),
+                    endDate: employeeOptions.reviewer.EndDate.toDateString(),
+                    priority: index + 1,
                     evaluatorInfo: {
                         employeeId: reviewerId
                     }
@@ -505,11 +555,12 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         }
 
         if (employeeOptions.management.ids && employeeOptions.management.ids.length > 0) {
-            angular.forEach(employeeOptions.management.ids, function (managementId) {
+            angular.forEach(employeeOptions.management.ids, function (managementId, index) {
                 var managementAssignment = {
                     processId: periodModel.evaluatorType.Management,
-                    startDate: employeeOptions.management.StartDate,
-                    endDate: employeeOptions.management.EndDate,
+                    startDate: employeeOptions.management.StartDate.toDateString(),
+                    endDate: employeeOptions.management.EndDate.toDateString(),
+                    priority: index + 1,
                     evaluatorInfo: {
                         employeeId: managementId
                     }

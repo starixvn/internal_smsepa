@@ -586,9 +586,6 @@ permission, PeriodModel, EmployeeModel, TargetTemplateModel, FlowMngModel) {
                 if (evaluator.EvaluatorInfo) {
                     ids.push(evaluator.EvaluatorInfo.EmployeeId);
                 }
-                else {
-                    ids.push(-1);
-                }
             });
         }
 
@@ -630,6 +627,8 @@ permission, PeriodModel, EmployeeModel, TargetTemplateModel, FlowMngModel) {
     var setEmployeeSetting = function () {
         vm.employeeOptions.humanResource = getEvaluators(vm.employeeSetting.HumanResources);
         vm.employeeOptions.selfEvaluator = getEvaluators(vm.employeeSetting.SelfEvaluators);
+        vm.employeeOptions.selfEvaluator.ids.push(vm.employeeSetting.EmployeeId);
+
         vm.employeeOptions.evaluator = getEvaluators(vm.employeeSetting.Evaluators);
         vm.employeeOptions.reviewer = getEvaluators(vm.employeeSetting.Reviewers);
         vm.employeeOptions.management = getEvaluators(vm.employeeSetting.Managements);

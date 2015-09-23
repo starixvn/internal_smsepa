@@ -15,7 +15,7 @@ namespace SMS.EPA.Model.Period
 
     public class RawUpdatedEmployeeSettingPeriodModel
     {
-        private const string _AssignmentItem = "<Assignment ProcessId='{0}' EvaluatorId='{1}' StartDate='{2}' EndDate='{3}'></Assignment>";
+        private const string _AssignmentItem = "<Assignment ProcessId='{0}' EvaluatorId='{1}' StartDate='{2}' EndDate='{3}' Priority='{4}'></Assignment>";
         private const string _BeginRootTag = "<ROOT>";
         private const string _EndRootTag = "</ROOT>";
 
@@ -35,7 +35,7 @@ namespace SMS.EPA.Model.Period
             {
                 foreach (PeriodFlowModel assignment in EmployeeAssignments)
                 {
-                    value.AppendFormat(_AssignmentItem, assignment.ProcessId, assignment.EvaluatorInfo.EmployeeId, assignment.StartDate, assignment.EndDate);
+                    value.AppendFormat(_AssignmentItem, assignment.ProcessId, assignment.EvaluatorInfo.EmployeeId, assignment.StartDate, assignment.EndDate, assignment.Priority);
                 }
             }
 
