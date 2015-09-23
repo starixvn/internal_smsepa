@@ -30,7 +30,7 @@ namespace SMS.EPA.Criteria.Period
 
         public override string GetSettingKey()
         {
-            return "EpaPeriod_EditEmployeeSetting_xtest";
+            return "EpaPeriod_EditEmployeeSetting";
         }
     }
 }
