@@ -10,7 +10,7 @@ appModule.factory('utilitiesFactory',
         timeFormat = 'HH:mm';
 
     utilities.numberEntryList = function (vm) {
-        vm.entries = [10, 15, 20, 50, 100, 200];
+        vm.entries = [5, 10, 15, 20, 50, 100, 200];
     };
 
     utilities.getDateFormat = function (vm) {

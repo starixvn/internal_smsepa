@@ -91,7 +91,7 @@ function (AttendanceModel, utilitiesFactory, CommonModel, baseUrl) {
 
     vm.addOtherViolations = function (employee) {
         AttendanceModel.openPopupOtherViolation(vm, employee, vm.filter.startDate, vm.filter.endDate).then(function () { }, function () {
-            getAttendanceSummary(vm.filter.startDate, vm.filter.endDate, vm.filter.departmentId, vm.filter.employeeId);
+            getAttendanceSummary(vm.filter.startDate, vm.filter.endDate, vm.filter.departmentId, vm.filter.employeeId, vm.filter.reasonId);
         })['finally'](function () {
             vm.modalInstance = '';
         });
@@ -150,6 +150,7 @@ function ($scope, $modalInstance, AttendanceModel, employee, startDate, endDate,
         if (vm.searchEmployee.trim() === '') {
             if (vm.violation.employee) {
                 vm.violation.employee = null;
+                vm.violation.EmployeeId = null;
 
                 if (vm.employeeIds) {
                     getOtherViolations(vm.employeeIds, vm.startDate, vm.endDate);

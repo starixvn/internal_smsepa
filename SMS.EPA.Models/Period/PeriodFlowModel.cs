@@ -17,5 +17,9 @@ namespace SMS.EPA.Model.Period
         public DateTime? StartDate { get; set; }
 
         public DateTime? EndDate { get; set; }
+
+        public bool HasEvaluationGenerated { get; set; }
+
+        public bool ProcessStatus { get; set; }
     }
 }

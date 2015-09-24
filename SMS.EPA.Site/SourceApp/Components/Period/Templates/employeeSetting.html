@@ -78,6 +78,8 @@
                 </th>
                 <th data-translate="EndDate">
                 </th>
+                <!--<th data-translate="EPAGenerated">
+                </th>-->
                 <th data-translate="Include">
                 </th>
                 <th data-translate="Edit">
@@ -111,6 +113,7 @@
                 </td>
                 <td class="width-100" ng-bind="employee.SelfEvaluators[0].StartDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
                 <td class="width-100" ng-bind="employee.SelfEvaluators[0].EndDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
+                <!--<td ng-show="employee.SelfEvaluators[0].HasEvaluationGenerated">x</td>-->
                 <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
                     <input type="checkbox" ng-checked="employee.IsIncluded" ng-click="employeeSettingPeriodCtrl.includeExcludeEmployee(employee)"
                            ng-disabled="updateCtrl.permission != 2" />
@@ -137,6 +140,11 @@
                 </td>
                 <td class="width-100" ng-bind="employee.Evaluators[0].StartDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
                 <td class="width-100" ng-bind="employee.Evaluators[0].EndDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
+                <!--<td ng-show="employee.SelfEvaluators[0].HasEvaluationGenerated">x</td>-->
+                <!--<td>
+                    <span ng-show="employee.Evaluators[0].ProcessStatus == 0" data-translate="Open"></span>
+                    <span ng-show="employee.Evaluators[0].ProcessStatus == 1" data-translate="Closed"></span>
+                </td>-->
             </tr>
             <tr ng-class="{oddRow: $index % 2 == 0, evenRow: $index % 2 != 0}">
                 <td data-translate="Reviewer"></td>
@@ -154,6 +162,7 @@
                 </td>
                 <td class="width-100" ng-bind="employee.Reviewers[0].StartDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
                 <td class="width-100" ng-bind="employee.Reviewers[0].EndDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
+                <!--<td ng-show="employee.Evaluators[0].HasEvaluationGenerated">x</td>-->
             </tr>
             <tr ng-class="{oddRow: $index % 2 == 0, evenRow: $index % 2 != 0}">
                 <td data-translate="Management"></td>
@@ -171,6 +180,11 @@
                 </td>
                 <td class="width-100" ng-bind="employee.Managements[0].StartDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
                 <td class="width-100" ng-bind="employee.Managements[0].EndDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
+                <!--<td ng-show="employee.SelfEvaluators[0].HasEvaluationGenerated">x</td>
+                <td>
+                    <span ng-show="employee.SelfEvaluators[0].ProcessStatus == 0" data-translate="Open"></span>
+                    <span ng-show="employee.SelfEvaluators[0].ProcessStatus == 1" data-translate="Closed"></span>
+                </td>-->
             </tr>
         </tbody>
         <tbody ng-show="employeeSettingPeriodCtrl.filteredItems.length == 0">

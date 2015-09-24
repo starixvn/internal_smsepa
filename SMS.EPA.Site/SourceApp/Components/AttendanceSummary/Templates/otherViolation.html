@@ -91,6 +91,19 @@
                 <td class="empty-result" colspan="7" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="7" class="paging">
+                    <span data-translate="Show"></span>
+                    <select class="dropdown-entry form-control" ng-model="violationCtrl.pageSize"
+                            ng-options="entry for entry in violationCtrl.entries"></select>
+                    <span data-translate="entries"></span>
+                    <div class="pull-right custom-paging">
+                        <dir-pagination-controls boundary-links="true"></dir-pagination-controls>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
     </table>
 </div>
 
