@@ -58,6 +58,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, notificationFacto
         else {
             vm.finalScore = totalScore;
         }
+
+        vm.finalScore = vm.finalScore !== 0 ? vm.finalScore : '';
     };
 
     var checkStatus = function (epaInfo) {
@@ -130,7 +132,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, notificationFacto
         });
 
         if (!isValid) {
-            notificationFactory.error("EvaluateEPAInvalid");
+            EmployeeEPAModel.openPopupNotificationComment(vm, vm.evaluateEPAInvalidMessage);
         }
 
         return isValid;
@@ -199,16 +201,22 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, notificationFacto
             vm.scoreInputValidMessage = message;
         });
 
+        $translate('EvaluateEPAInvalid').then(function (message) {
+            vm.evaluateEPAInvalidMessage = message;
+        });
+
         EmployeeEPAModel.getEPAInfoByEmployee(vm.epaId).then(function () {
             var data = EmployeeEPAModel.epaInfo;
             var totalScoreOfSelf = data.ProcessBySelf.TotalScore ? parseFloat(data.ProcessBySelf.TotalScore) : 0;
 
             if (data.HasAttendanceScore) {
-                vm.finalScore = totalScoreOfSelf !== 0 ? (totalScoreOfSelf + data.AttendanceScore) : data.AttendanceScore;
+                vm.finalScore = totalScoreOfSelf ? (totalScoreOfSelf + data.AttendanceScore) : data.AttendanceScore;
             }
             else {
                 vm.finalScore = totalScoreOfSelf;
             }
+
+            vm.finalScore = vm.finalScore !== 0 ? vm.finalScore : '';
             vm.evaluatedDate = data.ProcessBySelf.EvaluateDate ? data.ProcessBySelf.EvaluateDate : null;
             vm.epaInfo = data;
             checkStatus(vm.epaInfo);

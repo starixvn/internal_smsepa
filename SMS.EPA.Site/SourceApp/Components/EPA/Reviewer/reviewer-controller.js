@@ -34,14 +34,15 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
             vm.memberEPAs = EmployeeEPAModel.memberEPAs;
 
             angular.forEach(vm.memberEPAs, function (memberEPA) {
-                var performanceScore = null;
+                var performanceScore = 0;
 
                 if (memberEPA.AverageScoreByEvaluators && parseFloat(memberEPA.AverageScoreByEvaluators) > 0
-                    && !memberEPA.ProcessByReviewers[0].TotalScore) {
+                    && !memberEPA.ProcessByReviewers[0].TotalScore && memberEPA.ProcessByEvaluators[0].IsEndProcess) {
                     memberEPA.ProcessByReviewers[0].TotalScore = memberEPA.AverageScoreByEvaluators;
                 }
 
-                performanceScore = memberEPA.ProcessByReviewers[0].TotalScore ? parseFloat(memberEPA.ProcessByReviewers[0].TotalScore) : 0;
+                memberEPA.ProcessByReviewers[0].TotalScore = memberEPA.ProcessByReviewers[0].TotalScore ? parseFloat(memberEPA.ProcessByReviewers[0].TotalScore) : 0;
+                performanceScore = memberEPA.ProcessByReviewers[0].TotalScore;
 
                 if (memberEPA.HasAttendanceScore) {
                     memberEPA.FinalScore = performanceScore + memberEPA.AttendanceScore;
@@ -49,6 +50,8 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
                 else {
                     memberEPA.FinalScore = performanceScore;
                 }
+
+                memberEPA.FinalScore = memberEPA.FinalScore !== 0 ? memberEPA.FinalScore : '';
             });
         });
     };
@@ -75,6 +78,7 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
                     memberEPA.FinalScore = memberEPA.ProcessByReviewers[0].TotalScore;
                 }
 
+                memberEPA.FinalScore = memberEPA.FinalScore !== 0 ? memberEPA.FinalScore : '';
                 memberEPA.ProcessByReviewers[0].Comment = adjustScore.adjust.Comment;
             }
         });
@@ -89,6 +93,8 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
         else {
             memberEPA.FinalScore = totalScoreOfReviewer;
         }
+
+        memberEPA.FinalScore = memberEPA.FinalScore !== 0 ? memberEPA.FinalScore : '';
     };
 
     var validateAdjustScore = function (memberEPAs) {
@@ -102,7 +108,7 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
         });
 
         if (!isValid) {
-            notificationFactory.error("AdjustScoreInvalid");
+            EmployeeEPAModel.openPopupNotificationComment(vm, vm.adjustScoreInvalidMessage);
         }
 
         return isValid;
@@ -178,6 +184,10 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
             vm.scoreInputValidMessage = message;
         });
 
+        $translate('AdjustScoreInvalid').then(function (message) {
+            vm.adjustScoreInvalidMessage = message;
+        });
+
         CommonModel.getAllGroup().then(function () {
             vm.groupOptions = CommonModel.groups;
         });
@@ -217,6 +227,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory)
         else {
             vm.finalScore = totalScoreOfReviewer;
         }
+
+        vm.finalScore = vm.finalScore !== 0 ? vm.finalScore : '';
     };
 
     vm.openPopupViewComment = function (comment) {
@@ -285,23 +297,24 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory)
 
         EmployeeEPAModel.getEPAInfoByReviewer(vm.epaId, vm.employeeId, vm.evaluatorId).then(function () {
             var data = EmployeeEPAModel.epaInfo;
-            var totalScoreOfReviewer = null;
+            var totalScore = 0;
 
-            if (data.AverageScoreByEvaluators
-                && parseFloat(data.AverageScoreByEvaluators) > 0
-                && !data.ProcessByReviewers[0].TotalScore) {
+            if (data.AverageScoreByEvaluators && parseFloat(data.AverageScoreByEvaluators) > 0
+                && !data.ProcessByReviewers[0].TotalScore && data.ProcessByEvaluators[0].IsEndProcess) {
                 data.ProcessByReviewers[0].TotalScore = data.AverageScoreByEvaluators;
             }
 
-            totalScoreOfReviewer = data.ProcessByReviewers[0].TotalScore ? parseFloat(data.ProcessByReviewers[0].TotalScore) : 0;
+            data.ProcessByReviewers[0].TotalScore = data.ProcessByReviewers[0].TotalScore ? parseFloat(data.ProcessByReviewers[0].TotalScore) : 0;
+            totalScore = data.ProcessByReviewers[0].TotalScore;
 
             if (data.HasAttendanceScore) {
-                vm.finalScore = totalScoreOfReviewer !== 0 ? (totalScoreOfReviewer + data.AttendanceScore) : data.AttendanceScore;
+                vm.finalScore = totalScore + data.AttendanceScore;
             }
             else {
-                vm.finalScore = totalScoreOfReviewer;
+                vm.finalScore = totalScore;
             }
 
+            vm.finalScore = vm.finalScore !== 0 ? vm.finalScore : '';
             vm.evaluatedDate = data.ProcessByReviewers[0].EvaluateDate ? data.ProcessByReviewers[0].EvaluateDate : null;
             vm.epaInfo = data;
             checkStatus(vm.epaInfo);

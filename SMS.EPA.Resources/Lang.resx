@@ -1030,10 +1030,10 @@
     <value>The Employee field is required!</value>
   </data>
   <data name="SelectEmployeeBeforeAdjustScoreWarning" xml:space="preserve">
-    <value>Please select employee before adjust score!</value>
+    <value>Please select employee before adjusting score!</value>
   </data>
   <data name="SelectEmployeeBeforeSaveWarning" xml:space="preserve">
-    <value>Please select employee before save!</value>
+    <value>Please select employee before saving!</value>
   </data>
   <data name="AdjustScoreInvalid" xml:space="preserve">
     <value>There are some empty score. Please fill them before submitting.</value>

@@ -1,7 +1,9 @@
 ﻿<div class="row row-item">
     <div class="col-sm-6 textarea-comment">
         <label class="control-label" data-translate="CommentByEmployee"></label>
-        <textarea class="form-control" ng-model="memberEPAInfoCtrl.epaInfo.ProcessBySelf.Comment" ng-readonly="true"></textarea>
+        <textarea class="form-control" ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess"
+                  ng-model="memberEPAInfoCtrl.epaInfo.ProcessBySelf.Comment" ng-readonly="true"></textarea>
+        <textarea class="form-control" ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" ng-readonly="true">NaN</textarea>
         <label class="control-label" data-translate="CommentByEvaluator"></label>
         <textarea class="form-control" ng-model="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].Comment"
                   ng-readonly="memberEPAInfoCtrl.isReadonly"></textarea>
@@ -10,7 +12,9 @@
         <div class="col-sm-5">
             <div class="total text-center pull-right">
                 <p data-translate="EmployeePerformanceScore"></p>
-                <p class="totalscore" ng-bind="memberEPAInfoCtrl.epaInfo.ProcessBySelf.TotalScore | customNumber"></p>
+                <p class="totalscore" ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess"
+                   ng-bind="memberEPAInfoCtrl.epaInfo.ProcessBySelf.TotalScore | customNumber"></p>
+                <p class="totalscore" ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" data-translate="NaN"></p>
             </div>
         </div>
         <div class="col-sm-offset-2 col-sm-4">

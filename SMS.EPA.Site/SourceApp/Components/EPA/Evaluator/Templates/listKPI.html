@@ -18,7 +18,8 @@
                     <label class="note" ng-show="kpi.IsRequiredEvaluate" data-translate="(*)"></label>
                 </div>
                 <div class="col-sm-1 text-center employee-score">
-                    <strong ng-bind="kpi.EvaluateBySelf.Score | customNumber"></strong>
+                    <strong ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" ng-bind="kpi.EvaluateBySelf.Score | customNumber"></strong>
+                    <strong ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" data-translate="NaN"></strong>
                 </div>
                 <div class="col-sm-2 text-center list-star">
                     <div class="col-sm-2 cancel-rating">
@@ -49,7 +50,9 @@
             <div class="row textarea-comment comment-by-employee" ng-show="kpi.HasComment">
                 <div class="col-sm-6">
                     <label class="control-label" data-translate="CommentByEmployee"></label>
-                    <textarea class="form-control" ng-model="kpi.EvaluateBySelf.Comment" ng-readonly="true"></textarea>
+                    <textarea class="form-control" ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess"
+                              ng-model="kpi.EvaluateBySelf.Comment" ng-readonly="true"></textarea>
+                    <textarea class="form-control" ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" ng-readonly="true">NaN</textarea>
                 </div>
             </div>
             <div class="row textarea-comment comment-by-evaluator" ng-show="kpi.HasComment">

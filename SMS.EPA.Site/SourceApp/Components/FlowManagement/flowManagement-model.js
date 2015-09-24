@@ -346,7 +346,7 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
             return false;
         }
         else if (vm.humanResources.employees.length === 0 || vm.evaluators.employees.length === 0) {
-            notificationFactory.error('', 'Please setting flow for Human Resource or Evaluator.');
+            notificationFactory.error('', 'Please setting flow for Human Resource and Evaluator.');
             return false;
         }
 
@@ -439,7 +439,7 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
             return false;
         }
         else if (vm.humanResources.employees.length === 0 || vm.evaluators.employees.length === 0) {
-            notificationFactory.error('', 'Please setting flow for Human Resource or Evaluator.');
+            notificationFactory.error('', 'Please setting flow for Human Resource and Evaluator.');
             return false;
         }
 

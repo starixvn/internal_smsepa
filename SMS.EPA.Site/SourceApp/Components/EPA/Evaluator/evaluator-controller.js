@@ -83,6 +83,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, noti
         else {
             vm.finalScore = totalScore;
         }
+
+        vm.finalScore = vm.finalScore !== 0 ? vm.finalScore : '';
     };
 
     var checkStatus = function (epaInfo) {
@@ -158,7 +160,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, noti
         });
 
         if (!isValid) {
-            notificationFactory.error("EvaluateEPAInvalid");
+            EmployeeEPAModel.openPopupNotificationComment(vm, vm.evaluateEPAInvalidMessage);
         }
 
         return isValid;
@@ -227,11 +229,13 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, noti
             vm.scoreInputValidMessage = message;
         });
 
+        $translate('EvaluateEPAInvalid').then(function (message) {
+            vm.evaluateEPAInvalidMessage = message;
+        });
+
         EmployeeEPAModel.getEPAInfoByEvaluator(vm.epaId, vm.employeeId, vm.evaluatorId).then(function () {
             var data = EmployeeEPAModel.epaInfo;
             var totalScoreOfEvaluator = data.ProcessByEvaluators[0].TotalScore ? parseFloat(data.ProcessByEvaluators[0].TotalScore) : 0;
-
-            vm.evaluatedDate = data.ProcessByEvaluators[0].EvaluateDate ? data.ProcessByEvaluators[0].EvaluateDate : null;
 
             if (data.HasAttendanceScore) {
                 vm.finalScore = totalScoreOfEvaluator !== 0 ? (totalScoreOfEvaluator + data.AttendanceScore) : data.AttendanceScore;
@@ -239,6 +243,9 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, noti
             else {
                 vm.finalScore = totalScoreOfEvaluator;
             }
+
+            vm.finalScore = vm.finalScore !== 0 ? vm.finalScore : '';
+            vm.evaluatedDate = data.ProcessByEvaluators[0].EvaluateDate ? data.ProcessByEvaluators[0].EvaluateDate : null;
             vm.epaInfo = data;
             checkStatus(vm.epaInfo);
 

@@ -77,12 +77,18 @@
                     </td>
                     <td ng-bind="memberEPA.Employee.JobTitle.JobTitleName"></td>
                     <td class="text-center">
-                        <strong ng-show="memberEPA.ProcessBySelf.TotalScore" ng-bind="memberEPA.ProcessBySelf.TotalScore | customNumber"></strong>
-                        <strong ng-show="!memberEPA.ProcessBySelf.TotalScore" ng-bind="0"></strong>
+                        <div ng-show="memberEPA.ProcessBySelf.IsEndProcess">
+                            <span ng-show="memberEPA.ProcessBySelf.TotalScore" ng-bind="memberEPA.ProcessBySelf.TotalScore | customNumber"></span>
+                            <span ng-show="!memberEPA.ProcessBySelf.TotalScore" ng-bind="0"></span>
+                        </div>
+                        <div ng-show="!memberEPA.ProcessBySelf.IsEndProcess" data-translate="NaN"></div>
                     </td>
                     <td class="text-center">
-                        <strong ng-show="memberEPA.AverageScoreByEvaluators" ng-bind="memberEPA.AverageScoreByEvaluators | customNumber"></strong>
-                        <strong ng-show="!memberEPA.AverageScoreByEvaluators" ng-bind="0"></strong>
+                        <div ng-show="memberEPA.ProcessByEvaluators[0].IsEndProcess">
+                            <span ng-show="memberEPA.AverageScoreByEvaluators" ng-bind="memberEPA.AverageScoreByEvaluators | customNumber"></span>
+                            <span ng-show="!memberEPA.AverageScoreByEvaluators" ng-bind="0"></span>
+                        </div>
+                        <div ng-show="!memberEPA.ProcessByEvaluators[0].IsEndProcess" data-translate="NaN"></div>
                     </td>
                     <td class="text-center">
                         <input type="text" class="form-control text-center epa-input-score" ng-readonly="memberEPA.ProcessByReviewers[0].IsEndProcess"
@@ -99,11 +105,10 @@
                            ng-show="memberEPA.ProcessByReviewers[0].IsEndProcess && memberEPA.Status.StatusId != 0"></a>
                     </td>
                     <td class="text-center">
-                        <strong ng-show="memberEPA.HasAttendanceScore" ng-bind="memberEPA.AttendanceScore | customNumber"></strong>
+                        <span ng-show="memberEPA.HasAttendanceScore" ng-bind="memberEPA.AttendanceScore | customNumber"></span>
                     </td>
                     <td class="text-center">
-                        <strong ng-show="memberEPA.FinalScore" ng-bind="memberEPA.FinalScore | customNumber"></strong>
-                        <strong ng-show="!memberEPA.FinalScore" ng-bind="0"></strong>
+                        <span ng-bind="memberEPA.FinalScore | customNumber"></span>
                     </td>
                     <td class="text-center col-action">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="reviewerCtrl.viewEPADetail(memberEPA)"

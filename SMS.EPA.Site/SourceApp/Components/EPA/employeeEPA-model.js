@@ -217,9 +217,8 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
     employeeEPAModel.openPopupViewComment = function (vm, comment) {
         vm.modalInstance = $modal.open({
             templateUrl: 'SourceApp/Components/EPA/Templates/modalViewComment.html',
-            controller: "ViewCommentController as modalViewCommentCtrl",
+            controller: "ModalViewCommentController as modalViewCommentCtrl",
             backdrop: 'static',
-            size: 'sm',
             resolve: {
                 comment: function () {
                     return comment;
@@ -316,6 +315,22 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
                 },
                 isReviewer: function() {
                     return isReviewer;
+                }
+            },
+            windowClass: "modal-confirm-center"
+        });
+
+        return vm.modalInstance.result;
+    };
+
+    employeeEPAModel.openPopupNotificationComment = function (vm, message) {
+        vm.modalInstance = $modal.open({
+            templateUrl: 'SourceApp/Components/EPA/Templates/modalNotification.html',
+            controller: "ModalNotificationController as modalNotificationCtrl",
+            backdrop: 'static',
+            resolve: {
+                message: function () {
+                    return message;
                 }
             },
             windowClass: "modal-confirm-center"

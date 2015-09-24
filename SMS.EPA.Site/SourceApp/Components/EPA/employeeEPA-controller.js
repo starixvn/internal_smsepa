@@ -85,7 +85,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory)
     vm.initialize();
 }]);
 
-epaModule.controller('ViewCommentController',
+epaModule.controller('ModalViewCommentController',
 ['$modalInstance', 'comment',
 function ($modalInstance, comment) {
     var vm = this;
@@ -188,18 +188,30 @@ function ($modalInstance, EmployeeEPAModel, memberEPA, comment, isEdit, isReview
         var model = [];
 
         if (vm.isReviewer) {
-            vm.memberEPA.ProcessByReviewers[0].Comment = comment;
+            vm.memberEPA.ProcessByReviewers[0].Comment = vm.comment;
             model.push(vm.memberEPA);
             EmployeeEPAModel.adjustScoreByReviewer(model);
         }
         else {
-            vm.memberEPA.ProcessByManagements[0].Comment = comment;
+            vm.memberEPA.ProcessByManagements[0].Comment = vm.comment;
             model.push(vm.memberEPA);
             EmployeeEPAModel.adjustScoreByManagement(model);
         }
 
         $modalInstance.close(vm.comment);
     };
+
+    vm.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+}]);
+
+epaModule.controller('ModalNotificationController',
+['$modalInstance', 'message',
+function ($modalInstance, message) {
+    var vm = this;
+
+    vm.message = message;
 
     vm.cancel = function () {
         $modalInstance.dismiss('cancel');

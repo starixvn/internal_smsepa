@@ -301,23 +301,26 @@ function ($scope, TargetTemplateModel) {
     };
 
     vm.scoreSpread = function (group) {
-        var kpiList = group.KPIs,
+        var kpiSelected = [],
             totalKPISelected = 0;
 
-        angular.forEach(kpiList, function (kpi) {
+        angular.forEach(group.KPIs, function (kpi) {
             if (kpi.Selected) {
                 totalKPISelected += 1;
+                kpiSelected.push(kpi);
             }
         });
 
         if (totalKPISelected > 0) {
-            var averageWeight = group.Weight / totalKPISelected;
+            var averageWeight = (group.Weight / totalKPISelected).toFixed(2);
 
-            angular.forEach(kpiList, function (kpi) {
-                if (kpi.Selected) {
-                    kpi.Weight = averageWeight;
-                }
+            angular.forEach(kpiSelected, function (kpi) {
+                kpi.Weight = averageWeight;
             });
+
+            if ((averageWeight * totalKPISelected) > group.Weight) {
+                kpiSelected[totalKPISelected - 1].Weight = group.Weight - (averageWeight * (totalKPISelected - 1));
+            }
         }
     };
 

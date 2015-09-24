@@ -38,11 +38,11 @@
                                 <td class="text-center" item-id="{{item.KPIId}}" group-id="{{group.KPIGroupId}}">
                                     <input class="check-group" type="checkbox" value="{{item.Name}}" ng-model="item.Selected" ng-click="kpiListCtrl.check(group, item)" />
                                 </td>
-                                <td ng-bind="$parent.$index + $index + 1"></td>
+                                <td class="text-center" ng-bind="$index + 1"></td>
                                 <td ng-bind="item.Name"></td>
                                 <td class="width-100 text-center">
                                     <input type="text" class="weight-form-control text-center" ng-show="!group.IsSpreadKPI && item.Selected"
-                                           ng-model="item.Weight" name="weight" number-dot />
+                                           ng-model="item.Weight" name="weight" numeric decimals="2" />
                                     <span ng-show="group.IsSpreadKPI && !item.Selected">-</span>
                                     <span ng-show="group.IsSpreadKPI && item.Selected" class="glyphicon glyphicon-ok item-list-icon"></span>
                                 </td>
