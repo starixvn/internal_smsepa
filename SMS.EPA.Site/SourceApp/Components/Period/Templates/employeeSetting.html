@@ -105,12 +105,12 @@
                 <td ng-bind="employee.TargetTemplate.Name" rowspan="{{employee.NumberEvaluators}}"></td>
                 <td data-translate="SelfEvaluator"></td>
                 <td>
-                    <div>
+                    <div class="period-process-single">
                         <span ng-bind="employee.FullName +' ('+ employee.NickName + ')'"></span>
                     </div>
                 </td>
-                <td ng-bind="employee.SelfEvaluators[0].StartDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
-                <td ng-bind="employee.SelfEvaluators[0].EndDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
+                <td class="width-100" ng-bind="employee.SelfEvaluators[0].StartDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
+                <td class="width-100" ng-bind="employee.SelfEvaluators[0].EndDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
                 <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
                     <input type="checkbox" ng-checked="employee.IsIncluded" ng-click="employeeSettingPeriodCtrl.includeExcludeEmployee(employee)"
                            ng-disabled="updateCtrl.permission != 2" />
@@ -124,7 +124,7 @@
             <tr ng-class="{oddRow: $index % 2 == 0, evenRow: $index % 2 != 0}">
                 <td data-translate="Evaluator"></td>
                 <td>
-                    <div ng-show="employee.Evaluators && employee.Evaluators.length == 1
+                    <div class="period-process-single" ng-show="employee.Evaluators && employee.Evaluators.length == 1
                          && employee.Evaluators[0].EvaluatorInfo && employee.Evaluators[0].EvaluatorInfo.EmployeeId != -1">
                         <span ng-bind="employee.Evaluators[0].EvaluatorInfo.FullName +' ('+ employee.Evaluators[0].EvaluatorInfo.NickName + ')'"></span>
                     </div>
@@ -135,13 +135,13 @@
                         </ul>
                     </div>
                 </td>
-                <td ng-bind="employee.Evaluators[0].StartDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
-                <td ng-bind="employee.Evaluators[0].EndDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
+                <td class="width-100" ng-bind="employee.Evaluators[0].StartDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
+                <td class="width-100" ng-bind="employee.Evaluators[0].EndDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
             </tr>
             <tr ng-class="{oddRow: $index % 2 == 0, evenRow: $index % 2 != 0}">
                 <td data-translate="Reviewer"></td>
                 <td>
-                    <div ng-show="employee.Reviewers && employee.Reviewers.length == 1
+                    <div class="period-process-single" ng-show="employee.Reviewers && employee.Reviewers.length == 1
                          && employee.Reviewers[0].EvaluatorInfo && employee.Reviewers[0].EvaluatorInfo.EmployeeId != -1">
                         <span ng-bind="employee.Reviewers[0].EvaluatorInfo.FullName +' ('+ employee.Reviewers[0].EvaluatorInfo.NickName + ')'"></span>
                     </div>
@@ -152,13 +152,13 @@
                         </ul>
                     </div>
                 </td>
-                <td ng-bind="employee.Reviewers[0].StartDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
-                <td ng-bind="employee.Reviewers[0].EndDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
+                <td class="width-100" ng-bind="employee.Reviewers[0].StartDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
+                <td class="width-100" ng-bind="employee.Reviewers[0].EndDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
             </tr>
             <tr ng-class="{oddRow: $index % 2 == 0, evenRow: $index % 2 != 0}">
                 <td data-translate="Management"></td>
                 <td>
-                    <div ng-show="employee.Managements.length == 1
+                    <div class="period-process-single" ng-show="employee.Managements.length == 1
                          && employee.Managements[0].EvaluatorInfo && employee.Managements[0].EvaluatorInfo.EmployeeId != -1">
                         <span ng-bind="employee.Managements[0].EvaluatorInfo.FullName +' ('+ employee.Managements[0].EvaluatorInfo.NickName + ')'"></span>
                     </div>
@@ -169,8 +169,8 @@
                         </ul>
                     </div>
                 </td>
-                <td ng-bind="employee.Managements[0].StartDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
-                <td ng-bind="employee.Managements[0].EndDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
+                <td class="width-100" ng-bind="employee.Managements[0].StartDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
+                <td class="width-100" ng-bind="employee.Managements[0].EndDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
             </tr>
         </tbody>
         <tbody ng-show="employeeSettingPeriodCtrl.filteredItems.length == 0">
