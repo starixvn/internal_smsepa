@@ -57,19 +57,31 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
     };
 
     var calculateAdjustScore = function (memberEPAs, adjustScore) {
-        var score = adjustScore.adjust.Score ? parseFloat(adjustScore.adjust.Score) : 0;
+        var score = adjustScore.adjust.Score ? parseFloat(adjustScore.adjust.Score) : 0,
+            totalScore, totalScoreOriginal, totalScoreAdjust;
 
         angular.forEach(memberEPAs, function (memberEPA) {
             if (memberEPA.Selected) {
-                var totalScore = memberEPA.ProcessByReviewers[0].TotalScore ? parseFloat(memberEPA.ProcessByReviewers[0].TotalScore) : 0,
-                    totalScoreAdjust = totalScore + score;
+                totalScoreOriginal = memberEPA.ProcessByReviewers[0].TotalScoreOriginal ? parseFloat(memberEPA.ProcessByReviewers[0].TotalScoreOriginal) : 0;
+                totalScore = memberEPA.ProcessByReviewers[0].TotalScore ? parseFloat(memberEPA.ProcessByReviewers[0].TotalScore) : 0;
+
+                if (totalScore !== totalScoreOriginal) {
+                    memberEPA.ProcessByReviewers[0].TotalScore = totalScoreOriginal;
+                }
+
+                totalScoreAdjust = totalScoreOriginal + score;
 
                 if (totalScoreAdjust > memberEPA.ProcessByReviewers[0].MaxScore) {
                     memberEPA.ProcessByReviewers[0].TotalScore = memberEPA.ProcessByReviewers[0].MaxScore;
                 }
+                else if (totalScoreAdjust < 0) {
+                    memberEPA.ProcessByReviewers[0].TotalScore = 0;
+                }
                 else {
                     memberEPA.ProcessByReviewers[0].TotalScore = totalScoreAdjust;
                 }
+
+                memberEPA.ProcessByReviewers[0].TotalScoreOriginal = memberEPA.ProcessByReviewers[0].TotalScore;
 
                 if (memberEPA.HasAttendanceScore) {
                     memberEPA.FinalScore = memberEPA.ProcessByReviewers[0].TotalScore + memberEPA.AttendanceScore;
@@ -79,7 +91,7 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
                 }
 
                 memberEPA.FinalScore = memberEPA.FinalScore !== 0 ? memberEPA.FinalScore : '';
-                memberEPA.ProcessByReviewers[0].Comment = adjustScore.adjust.Comment;
+                memberEPA.ProcessByReviewers[0].Comment = memberEPA.ProcessByReviewers[0].Comment + '\n' + adjustScore.adjust.Comment;
             }
         });
     };
@@ -164,9 +176,18 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
 
     vm.updateComment = function (memberEPA, comment, isEdit) {
         EmployeeEPAModel.openPopupUpdateComment(vm, memberEPA, comment, isEdit, true).then(function (commentUpdate) {
-            var index = vm.memberEPAs.map(function (e) { return e.EPAId; }).indexOf(memberEPA.EPAId);
+            var index = vm.memberEPAs.map(function (e) { return e.EPAId; }).indexOf(memberEPA.EPAId),
+                totalScoreOriginal, totalScore;
 
             if (index !== -1) {
+                totalScoreOriginal = vm.memberEPAs[index].ProcessByReviewers[0].TotalScoreOriginal ? parseFloat(vm.memberEPAs[index].ProcessByReviewers[0].TotalScoreOriginal) : 0;
+                totalScore = vm.memberEPAs[index].ProcessByReviewers[0].TotalScore ? parseFloat(vm.memberEPAs[index].ProcessByReviewers[0].TotalScore) : 0;
+
+                if (totalScore !== totalScoreOriginal) {
+                    vm.memberEPAs[index].ProcessByReviewers[0].TotalScore = totalScoreOriginal;
+                    vm.memberEPAs[index].FinalScore = totalScoreOriginal;
+                }
+
                 vm.memberEPAs[index].ProcessByReviewers[0].Comment = commentUpdate;
             }
         })['finally'](function () {

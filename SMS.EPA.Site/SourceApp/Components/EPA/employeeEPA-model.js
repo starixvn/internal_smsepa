@@ -126,7 +126,7 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
     employeeEPAModel.validateScoreInput = function (weight, maxWeight, scoreInputValidMessage) {
         var isValid = true;
 
-        if (parseFloat(weight) > parseFloat(maxWeight)) {
+        if (parseFloat(weight) > parseFloat(maxWeight) || parseFloat(weight) < 0) {
             isValid = false;
 
             var message = utilitiesFactory.formatString(scoreInputValidMessage, maxWeight);
@@ -274,6 +274,10 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         return employeeEPAFactory.adjustScoreByReviewer(memberEPAs)
         .success(function (response) {
             if (response.IsSuccessful) {
+                angular.forEach(memberEPAs, function (memberEPA) {
+                    memberEPA.ProcessByReviewers[0].TotalScoreOriginal = memberEPA.ProcessByReviewers[0].TotalScore;
+                });
+
                 notificationFactory.success("UpdatedSuccessfully");
             }
             else {
@@ -288,6 +292,10 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         return employeeEPAFactory.adjustScoreByManagement(memberEPAs)
         .success(function (response) {
             if (response.IsSuccessful) {
+                angular.forEach(memberEPAs, function (memberEPA) {
+                    memberEPA.ProcessByManagements[0].TotalScoreOriginal = memberEPA.ProcessByManagements[0].TotalScore;
+                });
+
                 notificationFactory.success("UpdatedSuccessfully");
             }
             else {

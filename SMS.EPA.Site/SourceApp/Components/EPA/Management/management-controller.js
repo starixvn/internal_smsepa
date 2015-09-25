@@ -61,19 +61,31 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
     };
 
     var calculateAdjustScore = function (memberEPAs, adjustScore) {
-        var score = adjustScore.adjust.Score ? parseFloat(adjustScore.adjust.Score) : 0;
+        var score = adjustScore.adjust.Score ? parseFloat(adjustScore.adjust.Score) : 0,
+            totalScore, totalScoreOriginal, totalScoreAdjust;
 
         angular.forEach(memberEPAs, function (memberEPA) {
             if (memberEPA.Selected) {
-                var totalScore = memberEPA.ProcessByManagements[0].TotalScore ? parseFloat(memberEPA.ProcessByManagements[0].TotalScore) : 0,
-                    totalScoreAdjust = totalScore + score;
+                totalScoreOriginal = memberEPA.ProcessByManagements[0].TotalScoreOriginal ? parseFloat(memberEPA.ProcessByManagements[0].TotalScoreOriginal) : 0;
+                totalScore = memberEPA.ProcessByManagements[0].TotalScore ? parseFloat(memberEPA.ProcessByManagements[0].TotalScore) : 0;
+
+                if (totalScore !== totalScoreOriginal) {
+                    memberEPA.ProcessByManagements[0].TotalScore = totalScoreOriginal;
+                }
+
+                totalScoreAdjust = totalScoreOriginal + score;
 
                 if (totalScoreAdjust > memberEPA.ProcessByManagements[0].MaxScore) {
                     memberEPA.ProcessByManagements[0].TotalScore = memberEPA.ProcessByManagements[0].MaxScore;
                 }
+                else if (totalScoreAdjust < 0) {
+                    memberEPA.ProcessByManagements[0].TotalScore = 0;
+                }
                 else {
                     memberEPA.ProcessByManagements[0].TotalScore = totalScoreAdjust;
                 }
+
+                memberEPA.ProcessByManagements[0].TotalScoreOriginal = memberEPA.ProcessByManagements[0].TotalScore;
 
                 if (memberEPA.HasAttendanceScore) {
                     memberEPA.FinalScore = memberEPA.ProcessByManagements[0].TotalScore + memberEPA.AttendanceScore;
@@ -83,7 +95,7 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
                 }
 
                 memberEPA.FinalScore = memberEPA.FinalScore !== 0 ? memberEPA.FinalScore : '';
-                memberEPA.ProcessByManagements[0].Comment = adjustScore.adjust.Comment;
+                memberEPA.ProcessByManagements[0].Comment = memberEPA.ProcessByManagements[0].Comment + '\n' + adjustScore.adjust.Comment;
             }
         });
     };
@@ -173,9 +185,17 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
 
     vm.updateComment = function (memberEPA, comment, isEdit) {
         EmployeeEPAModel.openPopupUpdateComment(vm, memberEPA, comment, isEdit, false).then(function (commentUpdate) {
-            var index = vm.memberEPAs.map(function (e) { return e.EPAId; }).indexOf(memberEPA.EPAId);
+            var index = vm.memberEPAs.map(function (e) { return e.EPAId; }).indexOf(memberEPA.EPAId),
+                totalScoreOriginal, totalScore;
 
             if (index !== -1) {
+                totalScoreOriginal = vm.memberEPAs[index].ProcessByManagements[0].TotalScoreOriginal ? parseFloat(vm.memberEPAs[index].ProcessByManagements[0].TotalScoreOriginal) : 0;
+                totalScore = vm.memberEPAs[index].ProcessByManagements[0].TotalScore ? parseFloat(vm.memberEPAs[index].ProcessByManagements[0].TotalScore) : 0;
+
+                if (totalScore !== totalScoreOriginal) {
+                    vm.memberEPAs[index].ProcessByManagements[0].TotalScore = totalScoreOriginal;
+                    vm.memberEPAs[index].FinalScore = totalScoreOriginal;
+                }
                 vm.memberEPAs[index].ProcessByManagements[0].Comment = commentUpdate;
             }
         })['finally'](function () {

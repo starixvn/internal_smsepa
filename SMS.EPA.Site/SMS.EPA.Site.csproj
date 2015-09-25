@@ -411,12 +411,6 @@
     <Content Include="SourceApp\Components\Report\epaSummaryReport-controller.js" />
     <Content Include="SourceApp\Components\Report\report-factory.js" />
     <Content Include="SourceApp\Components\Report\report-model.js" />
-    <Content Include="SourceApp\Components\Report\report.css">
-      <DependentUpon>report.less</DependentUpon>
-    </Content>
-    <Content Include="SourceApp\Components\Report\report.min.css">
-      <DependentUpon>report.css</DependentUpon>
-    </Content>
     <Content Include="SourceApp\Components\Report\Templates\EPASummaryReport.html" />
     <Content Include="SourceApp\Components\Resources\resources-controller.js" />
     <Content Include="SourceApp\Components\Resources\resources-factory.js" />
@@ -640,9 +634,6 @@
     <Content Include="SourceApp\Components\Dashboard\dashboard.less" />
     <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary.less" />
     <Content Include="SourceApp\Components\Report\report.less" />
-    <Content Include="SourceApp\Components\Report\report.css.map">
-      <DependentUpon>report.css</DependentUpon>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">

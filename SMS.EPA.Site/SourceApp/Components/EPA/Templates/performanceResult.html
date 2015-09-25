@@ -5,19 +5,19 @@
                 <th colspan="2" data-translate="Employee"></th>
                 <th colspan="3">
                     <span data-translate="Evaluator"></span>
-                    <span ng-show="memberEPAInfoCtrl.epaInfo.AverageScoreByEvaluators">
+                    <span ng-show="memberEPAInfoCtrl.epaInfo.AverageScoreByEvaluators  && memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].IsEndProcess">
                         ({{memberEPAInfoCtrl.epaInfo.AverageScoreByEvaluators | customNumber}})
                     </span>
                 </th>
                 <th colspan="3">
                     <span data-translate="Reviewer"></span>
-                    <span ng-show="memberEPAInfoCtrl.epaInfo.AverageScoreByReviewers">
+                    <span ng-show="memberEPAInfoCtrl.epaInfo.AverageScoreByReviewers  && memberEPAInfoCtrl.epaInfo.ProcessByByReviewers[0].IsEndProcess">
                         ({{memberEPAInfoCtrl.epaInfo.AverageScoreByReviewers | customNumber}})
                     </span>
                 </th>
                 <th colspan="3">
                     <span data-translate="Management"></span>
-                    <span ng-show="memberEPAInfoCtrl.epaInfo.AverageScoreByManagements">
+                    <span ng-show="memberEPAInfoCtrl.epaInfo.AverageScoreByManagements  && memberEPAInfoCtrl.epaInfo.ProcessByByManagements[0].IsEndProcess">
                         ({{memberEPAInfoCtrl.epaInfo.AverageScoreByManagements | customNumber}})
                     </span>
                 </th>

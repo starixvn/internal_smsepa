@@ -56,6 +56,14 @@ namespace SMS.EPA.Model.EmployeeEPA
             }
         }
 
+        public string TotalScoreOriginal
+        {
+            get
+            {
+                return TotalScore;
+            }
+        }
+
         public StatusModel Status { get; set; }
 
         public DateTime? EvaluateDate { get; set; }
