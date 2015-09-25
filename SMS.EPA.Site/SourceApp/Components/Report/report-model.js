@@ -6,12 +6,12 @@ reportModule.factory('ReportModel',
 function (reportFactory, notificationFactory, errorFactory) {
     var reportModel = {};
 
-    reportModel.epaSummaries = {};
+    reportModel.epaSummary = {};
 
     reportModel.getEPASummaryReport = function () {
         return reportFactory.getEPASummaryReport()
-        .success(function (epaSummaries) {
-            reportModel.epaSummaries = epaSummaries;
+        .success(function (epaSummary) {
+            reportModel.epaSummary = epaSummary;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });

@@ -25,7 +25,10 @@
                             "~/Content/Common/toastr.css",
                             "~/Content/Common/angular-multi-select.css",
                             "~/Content/Common/jquery-ui.min.css",
-                            "~/Content/Common/chosen.min.css"));
+                            "~/Content/Common/chosen.min.css",
+                            "~/Content/Common/chosen.min.css",
+                            "~/Content/Common/Fanex.Grid.css",
+                            "~/Content/Common/Fanex.Pagination.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/vendor").Include(
                             "~/Libs/jquery-2.1.0.min.js",
@@ -44,7 +47,11 @@
                             "~/Libs/angular-chosen.js",
                             "~/Libs/moment.min.js",
                             "~/Libs/ui-bootstrap-contextMenu.js",
-                            "~/Libs/numeric-directive.js"));
+                            "~/Libs/numeric-directive.js",
+                            "~/Libs/Fanex.Grid.js",
+                            "~/Libs/moment.min.js",
+                            "~/Libs/numeral.min.js",
+                            "~/Libs/Fanex.Pagination.js"));
 
             bundles.AddAndInclude(
                             "~/bundles/less",
@@ -125,6 +132,7 @@
                             "~/SourceApp/Components/EPA/Evaluator/ratingByKPI-controller.js",
                             "~/SourceApp/Components/Report/report-factory.js",
                             "~/SourceApp/Components/Report/report-model.js",
+                            "~/SourceApp/Components/Report/report-directive.js",
                             "~/SourceApp/Components/Report/epaSummaryReport-controller.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(

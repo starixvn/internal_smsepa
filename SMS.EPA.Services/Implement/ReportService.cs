@@ -9,7 +9,6 @@
 
 namespace SMS.EPA.Services.Implement
 {
-    using System.Collections.Generic;
     using Fanex.Common.Helper;
     using SMS.EPA.Criteria.Report;
     using SMS.EPA.Model.Report.Dashboard;
@@ -45,9 +44,9 @@ namespace SMS.EPA.Services.Implement
             return result;
         }
 
-        public IEnumerable<EPASummaryModel> GetEPASummary(GetEPASummaryCriteria criteria)
+        public EPASummaryModel GetEPASummary(GetEPASummaryCriteria criteria)
         {
-            IEnumerable<EPASummaryModel> result = new List<EPASummaryModel>();
+            EPASummaryModel result = new EPASummaryModel();
             Check.Argument.IsNotNull(criteria, "criteria");
 
             if (criteria.IsValid())

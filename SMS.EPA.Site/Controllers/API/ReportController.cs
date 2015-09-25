@@ -9,15 +9,11 @@
 
 namespace SMS.EPA.Site.Controllers.API
 {
-    using System.Collections.Generic;
     using System.Web.Http;
-    using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Criteria.Report;
     using SMS.EPA.Model.Report.EPASummary;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
-    using SMS.EPA.Web.ApiAuthorizeAttribute;
 
     public class ReportController : BaseController
     {
@@ -34,7 +30,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpGet]
-        public IEnumerable<EPASummaryModel> GetEPASummary(
+        public EPASummaryModel GetEPASummary(
             string periodIds = null,
             int? departmentId = null)
         {

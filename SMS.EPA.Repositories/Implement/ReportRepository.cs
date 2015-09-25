@@ -41,15 +41,17 @@ namespace SMS.EPA.Repositories.Implement
             return result;
         }
 
-        public IEnumerable<EPASummaryModel> GetEPASummary(ICriteria criteria)
+        public EPASummaryModel GetEPASummary(ICriteria criteria)
         {
-            IEnumerable<EPASummaryModel> epaSummaries = new List<EPASummaryModel>();
+            EPASummaryModel epaSummary = new EPASummaryModel();
 
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
                 using (var multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    epaSummaries = multi.Read<EPASummaryModel, Group, JobTitle, EPASummaryModel>(
+                    epaSummary.PeriodSelecteds = multi.Read<PeriodModel>();
+
+                    epaSummary.EPAEmployees = multi.Read<EPASummaryEmployeeModel, Group, JobTitle, EPASummaryEmployeeModel>(
                         (res, gr, job) =>
                         {
                             res.Group = gr;
@@ -61,14 +63,14 @@ namespace SMS.EPA.Repositories.Implement
 
                     IEnumerable<EPASummaryPeriodModel> periods = multi.Read<EPASummaryPeriodModel>();
 
-                    GroupPeriodByEmployee(epaSummaries, periods);
+                    GroupPeriodByEmployee(epaSummary.EPAEmployees, periods);
                 }
             }
 
-            return epaSummaries;
+            return epaSummary;
         }
 
-        private void GroupPeriodByEmployee(IEnumerable<EPASummaryModel> epaSummaries, IEnumerable<EPASummaryPeriodModel> periods)
+        private void GroupPeriodByEmployee(IEnumerable<EPASummaryEmployeeModel> epaSummaries, IEnumerable<EPASummaryPeriodModel> periods)
         {
             foreach (var epaSummary in epaSummaries)
             {

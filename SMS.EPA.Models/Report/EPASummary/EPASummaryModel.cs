@@ -10,27 +10,12 @@
 namespace SMS.EPA.Model.Report.EPASummary
 {
     using System.Collections.Generic;
-    using SMS.EPA.Model.Enitites;
+    using SMS.EPA.Model.Period;
 
     public class EPASummaryModel
     {
-        public EPASummaryModel()
-        {
-            Periods = new List<EPASummaryPeriodModel>();
-        }
+        public IEnumerable<PeriodModel> PeriodSelecteds { get; set; }
 
-        public int EmployeeId { get; set; }
-
-        public string Code { get; set; }
-
-        public string NickName { get; set; }
-
-        public string FullName { get; set; }
-
-        public Group Group { get; set; }
-
-        public JobTitle JobTitle { get; set; }
-
-        public IList<EPASummaryPeriodModel> Periods { get; set; }
+        public IEnumerable<EPASummaryEmployeeModel> EPAEmployees { get; set; }
     }
 }

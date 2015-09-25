@@ -9,6 +9,7 @@
 
 namespace SMS.EPA.Model.Report.EPASummary
 {
+    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Services;
 
     public class EPASummaryPeriodModel
@@ -16,8 +17,6 @@ namespace SMS.EPA.Model.Report.EPASummary
         public int PeriodId { get; set; }
 
         public int EmployeeId { get; set; }
-
-        public string Name { get; set; }
 
         public string FinalScoreEncode { get; set; }
 
@@ -35,5 +34,7 @@ namespace SMS.EPA.Model.Report.EPASummary
         }
 
         public int DisciplineScore { get; set; }
+
+        public Status Status { get; set; }
     }
 }

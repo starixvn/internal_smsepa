@@ -9,7 +9,6 @@
 
 namespace SMS.EPA.Services.Interfaces
 {
-    using System.Collections.Generic;
     using SMS.EPA.Criteria.Report;
     using SMS.EPA.Model.Report.Dashboard;
     using SMS.EPA.Model.Report.EPASummary;
@@ -18,6 +17,6 @@ namespace SMS.EPA.Services.Interfaces
     {
         DashboardModel GetDashboard(GetDashboardCriteria criteria);
 
-        IEnumerable<EPASummaryModel> GetEPASummary(GetEPASummaryCriteria criteria);
+        EPASummaryModel GetEPASummary(GetEPASummaryCriteria criteria);
     }
 }

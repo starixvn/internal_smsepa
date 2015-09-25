@@ -9,7 +9,6 @@
 
 namespace SMS.EPA.Repositories.Interfaces
 {
-    using System.Collections.Generic;
     using Fanex.Data.Repository;
     using SMS.EPA.Model.Report.Dashboard;
     using SMS.EPA.Model.Report.EPASummary;
@@ -18,6 +17,6 @@ namespace SMS.EPA.Repositories.Interfaces
     {
         DashboardModel GetDashboard(ICriteria criteria);
 
-        IEnumerable<EPASummaryModel> GetEPASummary(ICriteria criteria);
+        EPASummaryModel GetEPASummary(ICriteria criteria);
     }
 }

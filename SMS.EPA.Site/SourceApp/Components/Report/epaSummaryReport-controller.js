@@ -2,23 +2,38 @@
 /*global reportModule*/
 
 reportModule.controller('EPASummaryReportController',
-['ReportModel', 'CommonModel',
-function (ReportModel, CommonModel) {
+['ReportModel', 'CommonModel', 'utilitiesFactory',
+function (ReportModel, CommonModel, utilitiesFactory) {
     var vm = this;
 
     vm.treeDepartment = CommonModel.treeDepartment;
     vm.periods = CommonModel.periods;
-    vm.epaSummaries = ReportModel.epaSummaries;
+    vm.epaSummary = ReportModel.epaSummary;
+
+    vm.pageOption = utilitiesFactory.pageOption;
 
     vm.filter = {
         periodIds: '',
-        departmentId: ''
+        departmentId: '',
+        pageIndex: utilitiesFactory.pageOption.pageIndex,
+        itemsPerPage: utilitiesFactory.pageOption.itemsPerPage
     };
 
     var getEPASummaryReport = function (filter) {
         ReportModel.getEPASummaryReport(filter.periodIds, filter.departmentId).then(function () {
-            vm.epaSummaries = ReportModel.epaSummaries;
+            vm.epaSummary = ReportModel.epaSummary;
         });
+    };
+
+    vm.pageChanging = function (pageIndex, itemsPerPage) {
+        vm.filter.pageIndex = pageIndex;
+        vm.filter.itemsPerPage = itemsPerPage;
+
+        vm.getEPASummaryReport(vm.filter);
+    };
+
+    vm.search = function (filter) {
+        getEPASummaryReport(filter);
     };
 
     vm.initialize = function () {
