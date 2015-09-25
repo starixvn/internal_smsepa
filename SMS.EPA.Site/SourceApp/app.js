@@ -13,7 +13,7 @@ function ($translateProvider, $locationProvider, paginationTemplateProvider, $ro
     $translateProvider.preferredLanguage('en');
     $locationProvider.html5Mode(true);
     datepickerConfig.showWeeks = false;
-    //datepickerPopupConfig.showButtonBar = false;
+    datepickerPopupConfig.showButtonBar = false;
     datepickerPopupConfig.datepickerPopup = 'dd MMM, yyyy';
     paginationTemplateProvider.setPath('SourceApp/Shared/Templates/dirPagination.tpl.html');
     var baseUrl = $("base").first().attr("href");

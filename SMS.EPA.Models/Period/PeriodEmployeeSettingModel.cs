@@ -49,17 +49,6 @@ namespace SMS.EPA.Model.Period
 
         public TargetTemplateModel TargetTemplate { get; set; }
 
-        public int NumberEvaluators
-        {
-            get
-            {
-                return 4;
-            }
-
-            set
-            {
-                NumberEvaluators = value;
-            }
-        }
+        public int NumberEvaluators { get; set; }
     }
 }

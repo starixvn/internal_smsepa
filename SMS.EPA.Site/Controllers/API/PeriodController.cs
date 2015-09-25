@@ -277,6 +277,19 @@ namespace SMS.EPA.Site.Controllers.API
             return commandResult;
         }
 
+        [HttpGet]
+        public bool CheckSelfProcessStarted(int periodId, string employeeIds)
+        {
+            var criteria = new CheckSelfProcessStartedCriteria
+            {
+                PeriodId = periodId,
+                EmployeeIds = employeeIds
+            };
+
+            bool hasStarted = _periodService.CheckSelfProcessStarted(criteria);
+            return hasStarted;
+        }
+
         public int GetUserPermissionOnPeriod()
         {
             int permission = _webCommonService.GetPermission(EPAFunctionKey.Period);

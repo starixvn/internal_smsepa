@@ -51,5 +51,7 @@ using SMS.EPA.Model.Period;
         IEnumerable<FlowModel> GetProcessSettingByPeriodId(GetPeriodProcessSettingCriteria criteria);
 
         CommandResult UpdatePeriodProcessSetting(UpdatePeriodProcessSettingCriteria criteria);
+
+        bool CheckSelfProcessStarted(CheckSelfProcessStartedCriteria criteria);
     }
 }

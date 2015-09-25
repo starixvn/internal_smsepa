@@ -427,14 +427,23 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
             departments: getSelectedDepartment(vm.departments)
         };
 
-        PeriodModel.addEmployeeToPeriod(employeeInfo).then(function () {
-            resetFilterAssign();
-            getPeriodEmployeeSetting(vm.filter.periodId, vm.filter.departmentId, vm.filter.isExcludedEmployee);
-        });
+        if (employeeInfo.employeeId || (employeeInfo.departments && employeeInfo.departments.length > 0)) {
+            PeriodModel.addEmployeeToPeriod(employeeInfo).then(function () {
+                resetFilterAssign();
+                getPeriodEmployeeSetting(vm.filter.periodId, vm.filter.departmentId, vm.filter.isExcludedEmployee);
+            });
+        }
+        else {
+            notificationFactory.error("SelectDepartmentSectionEmployeeBeforeAddToPeriodWarning");
+        }
     };
 
     vm.updateEmployeeSetting = function (employeeSetting) {
-        PeriodModel.openPopupUpdateEmployeeSetting(vm, employeeSetting.EmployeeId, employeeSetting);
+        var selectedEmployees = {
+            selectedEmployeeIds: employeeSetting.EmployeeId,
+            selectedEmployeeNames: employeeSetting.NickName
+        };
+        PeriodModel.openPopupUpdateEmployeeSetting(vm, selectedEmployees, employeeSetting);
     };
 
     vm.includeExcludeEmployee = function (employee) {
@@ -463,7 +472,7 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
             notificationFactory.error("SelectEmployeeBeforeGenerateEvaluation");
         }
         else {
-            PeriodModel.openPopupGenerateEvaluation(period);
+            PeriodModel.openPopupGenerateEvaluation(vm, period);
         }
     };
 
@@ -531,9 +540,9 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
 }]);
 
 periodModule.controller('UpdateEmployeeSettingPeriodController',
-['$scope', '$modalInstance', 'period', 'employeeSetting', 'selectedEmployee',
+['$scope', '$modalInstance', 'period', 'employeeSetting', 'selectedEmployees',
 'permission', 'PeriodModel', 'EmployeeModel', 'TargetTemplateModel', 'FlowMngModel',
-function ($scope, $modalInstance, period, employeeSetting, selectedEmployee,
+function ($scope, $modalInstance, period, employeeSetting, selectedEmployees,
 permission, PeriodModel, EmployeeModel, TargetTemplateModel, FlowMngModel) {
     var vm = this;
 
@@ -542,14 +551,18 @@ permission, PeriodModel, EmployeeModel, TargetTemplateModel, FlowMngModel) {
     vm.permission = permission;
     vm.periodDateFormat = PeriodModel.periodDateFormat;
     vm.evaluatorType = PeriodModel.evaluatorType;
-    vm.selectedEmployee = selectedEmployee;
+    vm.selectedEmployeeIds = selectedEmployees.selectedEmployeeIds;
+    vm.selectedEmployeeNames = selectedEmployees.selectedEmployeeNames;
     vm.flowCalendar = PeriodModel.flowCalendar;
-    
+    vm.hasSelfStarted = PeriodModel.hasSelfStarted;
+
     vm.employeeOptions = {
         humanResource: {
             ids: null,
             StartDate: null,
-            EndDate: null
+            EndDate: null,
+            ProcessStatus: null,
+            HasEvaluationGenerated: null
         },
         selfEvaluator: {
             ids: null,
@@ -597,7 +610,9 @@ permission, PeriodModel, EmployeeModel, TargetTemplateModel, FlowMngModel) {
             StartDate: null,
             EndDate: null,
             ids: [],
-            ProcessId: 0
+            ProcessId: 0,
+            ProcessStatus: null,
+            HasEvaluationGenerated: null
         };
 
         if (evaluators && evaluators.length > 0) {
@@ -605,6 +620,8 @@ permission, PeriodModel, EmployeeModel, TargetTemplateModel, FlowMngModel) {
             evaluator.EndDate = evaluators[0].EndDate ? new Date(evaluators[0].EndDate) : null;
             evaluator.ids = createEmployeeIds(evaluators);
             evaluator.ProcessId = evaluators[0].ProcessId;
+            evaluator.ProcessStatus = evaluators[0].ProcessStatus;
+            evaluator.HasEvaluationGenerated = evaluators[0].HasEvaluationGenerated;
         }
 
         return evaluator;
@@ -627,11 +644,10 @@ permission, PeriodModel, EmployeeModel, TargetTemplateModel, FlowMngModel) {
     var setEmployeeSetting = function () {
         vm.employeeOptions.humanResource = getEvaluators(vm.employeeSetting.HumanResources);
         vm.employeeOptions.selfEvaluator = getEvaluators(vm.employeeSetting.SelfEvaluators);
-        vm.employeeOptions.selfEvaluator.ids.push(vm.employeeSetting.EmployeeId);
-
         vm.employeeOptions.evaluator = getEvaluators(vm.employeeSetting.Evaluators);
         vm.employeeOptions.reviewer = getEvaluators(vm.employeeSetting.Reviewers);
         vm.employeeOptions.management = getEvaluators(vm.employeeSetting.Managements);
+
         vm.employeeOptions.targetTemplateId = vm.employeeSetting.TargetTemplate.TargetTemplateId;
 
         updateTargetTemplates(vm.employeeSetting.TargetTemplate);
@@ -668,6 +684,14 @@ permission, PeriodModel, EmployeeModel, TargetTemplateModel, FlowMngModel) {
         PeriodModel.openFlowPopupEndDate(vm, event, evaluatorType);
     };
 
+    PeriodModel.checkSelfProcessStarted(vm.period.PeriodId, vm.selectedEmployeeIds).then(function () {
+        vm.hasSelfStarted = PeriodModel.hasSelfStarted;
+    });
+
+    var calculateNumberEvaluators = function (employeeSetting) {
+        return employeeSetting.SelfEvaluators.length + employeeSetting.Evaluators.length + employeeSetting.Reviewers.length + employeeSetting.Managements.length;
+    };
+
     var getUpdatedEmployeeSetting = function (employeeSetting, employeeOptions) {
         employeeSetting.TargetTemplate = PeriodModel.getUpdateTargetTemplate(employeeOptions.targetTemplateId, vm.targetTemplates);
         employeeSetting.HumanResources = PeriodModel.getUpdateEvaluators(employeeOptions.humanResource, vm.evaluatorType.HumanResources, vm.employees);
@@ -675,13 +699,14 @@ permission, PeriodModel, EmployeeModel, TargetTemplateModel, FlowMngModel) {
         employeeSetting.Evaluators = PeriodModel.getUpdateEvaluators(employeeOptions.evaluator, vm.evaluatorType.Evaluator, vm.employees);
         employeeSetting.Reviewers = PeriodModel.getUpdateEvaluators(employeeOptions.reviewer, vm.evaluatorType.Reviewer, vm.employees);
         employeeSetting.Managements = PeriodModel.getUpdateEvaluators(employeeOptions.management, vm.evaluatorType.Management, vm.employees);
+        employeeSetting.NumberEvaluators = calculateNumberEvaluators(employeeSetting);
 
         return employeeSetting;
     };
 
     vm.save = function () {
         if (PeriodModel.validateEmployeeSetting(vm.employeeOptions)) {
-            var employeeAssignmentSetting = PeriodModel.createAssignmentSettings(vm.employeeOptions, vm.period.PeriodId, vm.selectedEmployee);
+            var employeeAssignmentSetting = PeriodModel.createAssignmentSettings(vm.employeeOptions, vm.period.PeriodId, vm.selectedEmployeeIds);
 
             PeriodModel.updateEmployeeSettingOfPeriod(employeeAssignmentSetting).then(function () {
                 if (!vm.employeeSetting) {

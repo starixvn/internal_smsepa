@@ -1056,4 +1056,10 @@
   <data name="EvaluatorRangeDateGreaterThanManagementRangeDateWarning" xml:space="preserve">
     <value>The End Date of Evaluator must be less than or equal the Start Date of Management!</value>
   </data>
+  <data name="EPAGenerated" xml:space="preserve">
+    <value>Is EPA Generated</value>
+  </data>
+  <data name="SelectDepartmentSectionEmployeeBeforeAddToPeriodWarning" xml:space="preserve">
+    <value>Please select at least a department/section or employee to add in this evaluation period!</value>
+  </data>
 </root>

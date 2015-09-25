@@ -45,6 +45,16 @@ periodModule.factory('periodFactory', ['$http', 'baseUrl', function ($http, base
         },
         updatePeriodProcessSetting: function (periodProcessSetting) {
             return $http.put(baseUrl + 'api/Period/UpdatePeriodProcessSetting', periodProcessSetting);
+        },
+        checkSelfProcessStarted: function (periodId, employeeIds) {
+            return $http.get(baseUrl + 'api/Period/CheckSelfProcessStarted',
+                {
+                    params:
+                      {
+                          periodId: periodId,
+                          employeeIds: employeeIds
+                      }
+                });
         }
     };
 }]);

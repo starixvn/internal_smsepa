@@ -255,6 +255,19 @@ namespace SMS.EPA.Services.Implement
             return commandResult;
         }
 
+        public bool CheckSelfProcessStarted(CheckSelfProcessStartedCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            bool hasStarted = false;
+
+            if (criteria.IsValid())
+            {
+                hasStarted = GetData<bool>(criteria).First();
+            }
+
+            return hasStarted;
+        }
+
         public void ExportEmployeeSettingReport(
             IEnumerable<PeriodEmployeeSettingModel> employeeFlowSettings,
             string templatePath)
@@ -300,6 +313,11 @@ namespace SMS.EPA.Services.Implement
                 foreach (RawPeriodFlowSettingModel rawFlowSetting in rawEmployeeFlowSettings)
                 {
                     employeeSetting = GetEvaluators(rawFlowSetting, employeeSetting);
+
+                    if (rawFlowSetting.ProcessId != (int)ProcessType.HumanResource)
+                    {
+                        employeeSetting.NumberEvaluators++;
+                    }
                 }
             }
         }
@@ -350,6 +368,8 @@ namespace SMS.EPA.Services.Implement
                 StartDate = rawFlowSetting.StartDate,
                 EndDate = rawFlowSetting.EndDate,
                 HasSendMail = rawFlowSetting.HasSendMail,
+                HasEvaluationGenerated = rawFlowSetting.HasEvaluationGenerated,
+                ProcessStatus = rawFlowSetting.ProcessStatus,
                 EvaluatorInfo = rawFlowSetting.EvaluatorInfo
             };
 

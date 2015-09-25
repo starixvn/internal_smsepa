@@ -22,7 +22,7 @@
     <table class="row table table-bordered table-striped" id="data">
         <thead>
             <tr class="header-table">
-                <th colspan="12">
+                <th colspan="14">
                     <div class="pull-left div-period-department-setting" name="multiSelectOption" ng-show="updateCtrl.permission == 2">
                         <label class="control-label" data-translate="DepartmentSection"></label>
                         <add-class-to-role-filter multi-select input-model="employeeSettingPeriodCtrl.departments" button-label="Name" helper-elements="all reset"
@@ -44,7 +44,7 @@
                 </th>
             </tr>
             <tr class="header-table" ng-show="updateCtrl.permission == 2">
-                <th colspan="12">
+                <th colspan="14">
                     <a class="pull-left button-icon period-create-button" ng-click="employeeSettingPeriodCtrl.manageSetting()">
                         <span class="icon-edit glyphicon glyphicon-edit"></span>
                         <span class="button-text btn-edit-employee-setting" data-translate="EditEmployeeSetting"></span>
@@ -74,12 +74,14 @@
                 </th>
                 <th data-translate="Name">
                 </th>
+                <th data-translate="Status">
+                </th>
                 <th data-translate="StartDate">
                 </th>
                 <th data-translate="EndDate">
                 </th>
-                <!--<th data-translate="EPAGenerated">
-                </th>-->
+                <th data-translate="EPAGenerated">
+                </th>
                 <th data-translate="Include">
                 </th>
                 <th data-translate="Edit">
@@ -106,14 +108,18 @@
                 <td class="text-center" ng-bind="employee.TargetTemplate.TargetTypeName" rowspan="{{employee.NumberEvaluators}}"></td>
                 <td ng-bind="employee.TargetTemplate.Name" rowspan="{{employee.NumberEvaluators}}"></td>
                 <td data-translate="SelfEvaluator"></td>
-                <td>
-                    <div class="period-process-single">
-                        <span ng-bind="employee.FullName +' ('+ employee.NickName + ')'"></span>
-                    </div>
+                <td ng-bind="employee.NickName"></td>
+                <td class="width-100">
+                    <span ng-show="employee.SelfEvaluators[0].ProcessStatus == 0" data-translate="NotAvailable"></span>
+                    <span ng-show="employee.SelfEvaluators[0].ProcessStatus == 1" data-translate="Open"></span>
+                    <span ng-show="employee.SelfEvaluators[0].ProcessStatus == 2" data-translate="InProgress"></span>
+                    <span ng-show="employee.SelfEvaluators[0].ProcessStatus == 3" data-translate="Closed"></span>
                 </td>
-                <td class="width-100" ng-bind="employee.SelfEvaluators[0].StartDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
-                <td class="width-100" ng-bind="employee.SelfEvaluators[0].EndDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
-                <!--<td ng-show="employee.SelfEvaluators[0].HasEvaluationGenerated">x</td>-->
+                <td class="width-120" ng-bind="employee.SelfEvaluators[0].StartDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
+                <td class="width-120" ng-bind="employee.SelfEvaluators[0].EndDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
+                <td class="text-center width-80" rowspan="{{employee.NumberEvaluators}}">
+                    <img class="ico-tick" ng-show="employee.SelfEvaluators[0].HasEvaluationGenerated" />
+                </td>
                 <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
                     <input type="checkbox" ng-checked="employee.IsIncluded" ng-click="employeeSettingPeriodCtrl.includeExcludeEmployee(employee)"
                            ng-disabled="updateCtrl.permission != 2" />
@@ -124,77 +130,57 @@
                     </div>
                 </td>
             </tr>
-            <tr ng-class="{oddRow: $index % 2 == 0, evenRow: $index % 2 != 0}">
-                <td data-translate="Evaluator"></td>
-                <td>
-                    <div class="period-process-single" ng-show="employee.Evaluators && employee.Evaluators.length == 1
-                         && employee.Evaluators[0].EvaluatorInfo && employee.Evaluators[0].EvaluatorInfo.EmployeeId != -1">
-                        <span ng-bind="employee.Evaluators[0].EvaluatorInfo.FullName +' ('+ employee.Evaluators[0].EvaluatorInfo.NickName + ')'"></span>
-                    </div>
-                    <div ng-show="employee.Evaluators && employee.Evaluators.length > 1">
-                        <ul>
-                            <li ng-repeat="evaluator in employee.Evaluators"
-                                ng-bind="evaluator.EvaluatorInfo.FullName +' ('+ evaluator.EvaluatorInfo.NickName + ')'"></li>
-                        </ul>
-                    </div>
+            <tr ng-class="{oddRow: $parent.$index % 2 == 0, evenRow: $parent.$index % 2 != 0}" ng-repeat="evaluator in employee.Evaluators">
+                <td data-translate="Evaluator" rowspan="{{employee.Evaluators.length}}" ng-show="$first"></td>
+                <td ng-bind="evaluator.EvaluatorInfo.NickName"></td>
+                <td class="width-100">
+                    <span ng-show="evaluator.ProcessStatus == 0" data-translate="NotAvailable"></span>
+                    <span ng-show="evaluator.ProcessStatus == 1" data-translate="Open"></span>
+                    <span ng-show="evaluator.ProcessStatus == 2" data-translate="InProgress"></span>
+                    <span ng-show="evaluator.ProcessStatus == 3" data-translate="Closed"></span>
                 </td>
-                <td class="width-100" ng-bind="employee.Evaluators[0].StartDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
-                <td class="width-100" ng-bind="employee.Evaluators[0].EndDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
-                <!--<td ng-show="employee.SelfEvaluators[0].HasEvaluationGenerated">x</td>-->
-                <!--<td>
-                    <span ng-show="employee.Evaluators[0].ProcessStatus == 0" data-translate="Open"></span>
-                    <span ng-show="employee.Evaluators[0].ProcessStatus == 1" data-translate="Closed"></span>
-                </td>-->
+                <td class="width-120" ng-bind="evaluator.StartDate | date: employeeSettingPeriodCtrl.dateFormat"
+                    ng-show="$first" rowspan="{{employee.Evaluators.length}}"></td>
+                <td class="width-120" ng-bind="evaluator.EndDate | date: employeeSettingPeriodCtrl.dateFormat"
+                    ng-show="$first" rowspan="{{employee.Evaluators.length}}"></td>
             </tr>
-            <tr ng-class="{oddRow: $index % 2 == 0, evenRow: $index % 2 != 0}">
-                <td data-translate="Reviewer"></td>
-                <td>
-                    <div class="period-process-single" ng-show="employee.Reviewers && employee.Reviewers.length == 1
-                         && employee.Reviewers[0].EvaluatorInfo && employee.Reviewers[0].EvaluatorInfo.EmployeeId != -1">
-                        <span ng-bind="employee.Reviewers[0].EvaluatorInfo.FullName +' ('+ employee.Reviewers[0].EvaluatorInfo.NickName + ')'"></span>
-                    </div>
-                    <div ng-show="employee.Reviewers && employee.Reviewers.length > 1">
-                        <ul>
-                            <li ng-repeat="reviewer in employee.Reviewers"
-                                ng-bind="reviewer.EvaluatorInfo.FullName +' ('+ reviewer.EvaluatorInfo.NickName + ')'"></li>
-                        </ul>
-                    </div>
+            <tr ng-class="{oddRow: $parent.$index % 2 == 0, evenRow: $parent.$index % 2 != 0}" ng-repeat="reviewer in employee.Reviewers">
+                <td data-translate="Reviewer" rowspan="{{employee.Reviewers.length}}" ng-show="$first"></td>
+                <td ng-bind="reviewer.EvaluatorInfo.NickName"></td>
+                <td class="width-100">
+                    <span ng-show="reviewer.ProcessStatus == 0" data-translate="NotAvailable"></span>
+                    <span ng-show="reviewer.ProcessStatus == 1" data-translate="Open"></span>
+                    <span ng-show="reviewer.ProcessStatus == 2" data-translate="InProgress"></span>
+                    <span ng-show="reviewer.ProcessStatus == 3" data-translate="Closed"></span>
                 </td>
-                <td class="width-100" ng-bind="employee.Reviewers[0].StartDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
-                <td class="width-100" ng-bind="employee.Reviewers[0].EndDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
-                <!--<td ng-show="employee.Evaluators[0].HasEvaluationGenerated">x</td>-->
+                <td class="width-120" ng-bind="reviewer.StartDate | date: employeeSettingPeriodCtrl.dateFormat"
+                    ng-show="$first" rowspan="{{employee.Reviewers.length}}"></td>
+                <td class="width-120" ng-bind="reviewer.EndDate | date: employeeSettingPeriodCtrl.dateFormat"
+                    ng-show="$first" rowspan="{{employee.Reviewers.length}}"></td>
             </tr>
-            <tr ng-class="{oddRow: $index % 2 == 0, evenRow: $index % 2 != 0}">
-                <td data-translate="Management"></td>
-                <td>
-                    <div class="period-process-single" ng-show="employee.Managements.length == 1
-                         && employee.Managements[0].EvaluatorInfo && employee.Managements[0].EvaluatorInfo.EmployeeId != -1">
-                        <span ng-bind="employee.Managements[0].EvaluatorInfo.FullName +' ('+ employee.Managements[0].EvaluatorInfo.NickName + ')'"></span>
-                    </div>
-                    <div ng-show="employee.Managements.length > 1">
-                        <ul>
-                            <li ng-repeat="management in employee.Managements"
-                                ng-bind="management.EvaluatorInfo.FullName +' ('+ management.EvaluatorInfo.NickName + ')'"></li>
-                        </ul>
-                    </div>
+            <tr ng-class="{oddRow: $parent.$index % 2 == 0, evenRow: $parent.$index % 2 != 0}" ng-repeat="management in employee.Managements">
+                <td data-translate="Management" rowspan="{{employee.Managements.length}}" ng-show="$first"></td>
+                <td ng-bind="management.EvaluatorInfo.NickName"></td>
+                <td class="width-100">
+                    <span ng-show="management.ProcessStatus == 0" data-translate="NotAvailable"></span>
+                    <span ng-show="management.ProcessStatus == 1" data-translate="Open"></span>
+                    <span ng-show="management.ProcessStatus == 2" data-translate="InProgress"></span>
+                    <span ng-show="management.ProcessStatus == 3" data-translate="Closed"></span>
                 </td>
-                <td class="width-100" ng-bind="employee.Managements[0].StartDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
-                <td class="width-100" ng-bind="employee.Managements[0].EndDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
-                <!--<td ng-show="employee.SelfEvaluators[0].HasEvaluationGenerated">x</td>
-                <td>
-                    <span ng-show="employee.SelfEvaluators[0].ProcessStatus == 0" data-translate="Open"></span>
-                    <span ng-show="employee.SelfEvaluators[0].ProcessStatus == 1" data-translate="Closed"></span>
-                </td>-->
+                <td class="width-120" ng-bind="management.StartDate | date: employeeSettingPeriodCtrl.dateFormat"
+                    ng-show="$first" rowspan="{{employee.Managements.length}}"></td>
+                <td class="width-120" ng-bind="management.EndDate | date: employeeSettingPeriodCtrl.dateFormat"
+                    ng-show="$first" rowspan="{{employee.Managements.length}}"></td>
             </tr>
         </tbody>
         <tbody ng-show="employeeSettingPeriodCtrl.filteredItems.length == 0">
             <tr>
-                <td class="empty-result" colspan="12" data-translate="EmptyResult"></td>
+                <td class="empty-result" colspan="14" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="12" class="paging">
+                <td colspan="14" class="paging">
                     <span data-translate="Show"></span>
                     <select class="dropdown-entry form-control" ng-model="employeeSettingPeriodCtrl.pageSize"
                             ng-options="entry for entry in employeeSettingPeriodCtrl.entries"></select>

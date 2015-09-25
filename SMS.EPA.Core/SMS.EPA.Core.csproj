@@ -92,6 +92,7 @@
     <Compile Include="Enumerations\HashProvider.cs" />
     <Compile Include="Enumerations\MailMode.cs" />
     <Compile Include="Enumerations\Policy.cs" />
+    <Compile Include="Enumerations\ProcessStatusType.cs" />
     <Compile Include="Enumerations\ProcessType.cs" />
     <Compile Include="Enumerations\Status.cs" />
     <Compile Include="Enumerations\SystemRole.cs" />

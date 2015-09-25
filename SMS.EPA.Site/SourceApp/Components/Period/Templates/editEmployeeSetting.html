@@ -7,12 +7,20 @@
         </div>
     </div>
     <div class="modal-body">
-        <form novalidate class="row form-horizontal form-multiLine filter check-assignment-filter" evaluator-chosen>
+        <form novalidate class="row form-horizontal form-multiLine filter" evaluator-chosen>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" data-translate="Employee"></label>
+                <div class="col-sm-8 employee-name-period">
+                    <span ng-bind="updatePeriodSettingCtrl.selectedEmployeeNames"></span>
+                </div>
+            </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label" data-translate="TargetTemplate">
                 </label>
                 <div class="col-sm-3">
-                    <select ng-model="updatePeriodSettingCtrl.employeeOptions.targetTemplateId" ng-options="opt.TargetTemplateId as opt.Name for opt in updatePeriodSettingCtrl.targetTemplates"
+                    <select ng-model="updatePeriodSettingCtrl.employeeOptions.targetTemplateId"
+                            ng-options="opt.TargetTemplateId as opt.Name for opt in updatePeriodSettingCtrl.targetTemplates"
+                            ng-disabled="updatePeriodSettingCtrl.hasSelfStarted"
                             class="form-control lstBox-limit">
                         <option value="">-- {{"None" | translate}} --</option>
                     </select>

@@ -12,6 +12,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
     periodModel.shortNameMonth = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     periodModel.employeeSettings = [];
     periodModel.processSettings = [];
+    periodModel.hasSelfStarted = false;
 
     periodModel.evaluatorType = {
         HumanResources: 1,
@@ -20,6 +21,14 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         Reviewer: 4,
         Management: 5
     };
+
+    periodModel.processStatus = {
+        NotAvailable: 0,
+        Open: 1,
+        InProgress: 2,
+        Closed: 3
+    };
+
     periodModel.permission = 0;
 
     periodModel.calendar = {
@@ -449,7 +458,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                 employeeSetting: function () {
                     return angular.copy(employeeSetting);
                 },
-                selectedEmployee: function () {
+                selectedEmployees: function () {
                     return selectedEmployees;
                 },
                 permission: function () {
@@ -467,11 +476,14 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                 employeeSetting.Evaluators = editEmployeeSetting.Evaluators;
                 employeeSetting.Reviewers = editEmployeeSetting.Reviewers;
                 employeeSetting.Managements = editEmployeeSetting.Managements;
+                employeeSetting.NumberEvaluators = editEmployeeSetting.NumberEvaluators;
+
             }
             else {
                 vm.query(vm.filter);
                 vm.selectedAll = false;
             }
+
         })['finally'](function () {
             modalInstance = null;
         });
@@ -609,6 +621,26 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         return employee;
     };
 
+    var getProcessStatus = function (startDate, endDate) {
+        var processStatus = 0,
+            date = new Date(),
+            today = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0),
+            startDateNoTime = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), 0, 0, 0, 0),
+            endDateNoTime = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate(), 0, 0, 0, 0);
+
+        if (startDateNoTime > today) {
+            processStatus = 1;
+        }
+        else if (startDateNoTime <= today && today <= endDateNoTime) {
+            processStatus = 2;
+        }
+        else {
+            processStatus = 3;
+        }
+
+        return processStatus;
+    };
+
     periodModel.getUpdateEvaluators = function (evaluator, evaluatorType, employees) {
         var evaluators = [];
 
@@ -617,11 +649,13 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                 var employee = getEmployeeById(employees, id),
                     evaluatorItem = {
                         ProcessId: evaluatorType,
+                        ProcessStatus: getProcessStatus(evaluator.StartDate, evaluator.EndDate),
                         StartDate: evaluator.StartDate,
                         EndDate: evaluator.EndDate,
                         EvaluatorInfo: employee ? employee : {
                             EmployeeId: -1
-                        }
+                        },
+                        HasEvaluationGenerated: evaluator.HasEvaluationGenerated
                     };
 
                 evaluators.push(evaluatorItem);
@@ -684,18 +718,23 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
     };
 
     periodModel.getSelectedEmployee = function (employeeSettings) {
-        var selectedEmployees = '';
+        var selectedEmployeeIds = '',
+            selectedEmployeeNames = '';
 
         angular.forEach(employeeSettings, function (employeeSetting) {
             if (employeeSetting.Selected) {
-                selectedEmployees += selectedEmployees ? ', ' + employeeSetting.EmployeeId : employeeSetting.EmployeeId;
+                selectedEmployeeIds += selectedEmployeeIds ? ', ' + employeeSetting.EmployeeId : employeeSetting.EmployeeId;
+                selectedEmployeeNames += selectedEmployeeNames ? ', ' + employeeSetting.NickName : employeeSetting.NickName;
             }
         });
 
-        return selectedEmployees;
+        return {
+            selectedEmployeeIds: selectedEmployeeIds,
+            selectedEmployeeNames: selectedEmployeeNames
+        };
     };
 
-    periodModel.openPopupGenerateEvaluation = function (period) {
+    periodModel.openPopupGenerateEvaluation = function (vm, period) {
         var modalInstance = $modal.open({
             templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
             controller: "ModalConfirmController as modalConfirmCtrl",
@@ -712,9 +751,10 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         });
 
         modalInstance.result.then(function () {
-            periodFactory.generateEvaluation(period).success(function (response) {
+            return periodFactory.generateEvaluation(period).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("CreatedSuccessfully");
+                    vm.query(vm.filter);
                 }
                 else {
                     notificationFactory.error("CreatedUnsuccessfully");
@@ -746,6 +786,15 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                 employee.IsIncluded = !newEmployeeStatus.IsIncluded;
                 notificationFactory.error("UpdatedUnsuccessfully");
             }
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    periodModel.checkSelfProcessStarted = function (periodId, employeeIds) {
+        return periodFactory.checkSelfProcessStarted(periodId, employeeIds).success(function (hasSelfStarted) {
+            periodModel.hasSelfStarted = hasSelfStarted;
         })
         .error(function (response, status) {
             errorFactory.errorHandle(status);
