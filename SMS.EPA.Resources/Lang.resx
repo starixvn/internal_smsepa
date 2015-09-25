@@ -456,8 +456,8 @@
   <data name="CheckAssignment" xml:space="preserve">
     <value>Check Assignment</value>
   </data>
-  <data name="EPAReport" xml:space="preserve">
-    <value>EPA Report</value>
+  <data name="EPASummaryReport" xml:space="preserve">
+    <value>EPA Summary Report</value>
   </data>
   <data name="FlowManagement" xml:space="preserve">
     <value>Flow Management</value>

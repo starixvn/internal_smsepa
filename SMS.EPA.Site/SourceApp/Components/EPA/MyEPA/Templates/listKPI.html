@@ -28,7 +28,7 @@
                     </div>
                     <div class="col-sm-3 percent-rating">
                         <span class="badge percent" ng-show="kpi.EvaluateBySelf.Percent > 0">{{kpi.EvaluateBySelf.Percent}}%</span>
-                        <span class="badge percent" ng-show="kpi.EvaluateBySelf.Percent == 0" data-translate="NaN"></span>
+                        <span class="badge percent" ng-show="kpi.EvaluateBySelf.Percent == 0" ng-bind="'N/A'"></span>
                     </div>
                 </div>
                 <div class="col-sm-2 text-center">

@@ -38,7 +38,7 @@ namespace SMS.EPA.Repositories.Implement
 
                         return epa;
                     },
-                    "StatusId, PeriodId, ");
+                    "StatusId, PeriodId");
 
                     result.Employees = multi.Read<EPAEmployeeModel, DepartmentModel, Group, JobTitle, EPAEmployeeModel>(
                         (epa, dept, gr, job) =>
@@ -83,7 +83,7 @@ namespace SMS.EPA.Repositories.Implement
 
                         return info;
                     },
-                    "StatusId, PeriodId, EmployeeId, DepartmentId, GroupId, JobTitleId").FirstOrDefault();
+                    "StatusId, PeriodId").FirstOrDefault();
 
                     epaInfo.EPA.Employee = multi.Read<EPAEmployeeModel, DepartmentModel, Group, JobTitle, EPAEmployeeModel>(
                         (epa, dept, gr, job) =>

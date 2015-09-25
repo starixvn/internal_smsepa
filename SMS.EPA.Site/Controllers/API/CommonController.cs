@@ -18,6 +18,7 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.KPI;
     using SMS.EPA.Model.KPIGroup;
+    using SMS.EPA.Model.Period;
     using SMS.EPA.Model.TargetType;
 
     public class CommonController : BaseController
@@ -141,6 +142,14 @@ namespace SMS.EPA.Site.Controllers.API
             }
 
             return statusList;
+        }
+
+        [HttpGet]
+        public IEnumerable<PeriodModel> GetPeriod(
+            int? targetTypeId = null,
+            bool? isActive = true)
+        {
+            return _utilitiesController.GetPeriod(targetTypeId, isActive);
         }
     }
 }

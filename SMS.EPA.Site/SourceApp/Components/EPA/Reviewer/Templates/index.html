@@ -81,14 +81,14 @@
                             <span ng-show="memberEPA.ProcessBySelf.TotalScore" ng-bind="memberEPA.ProcessBySelf.TotalScore | customNumber"></span>
                             <span ng-show="!memberEPA.ProcessBySelf.TotalScore" ng-bind="0"></span>
                         </div>
-                        <div ng-show="!memberEPA.ProcessBySelf.IsEndProcess" data-translate="NaN"></div>
+                        <div ng-show="!memberEPA.ProcessBySelf.IsEndProcess" ng-bind="'N/A'"></div>
                     </td>
                     <td class="text-center">
                         <div ng-show="memberEPA.ProcessByEvaluators[0].IsEndProcess">
                             <span ng-show="memberEPA.AverageScoreByEvaluators" ng-bind="memberEPA.AverageScoreByEvaluators | customNumber"></span>
                             <span ng-show="!memberEPA.AverageScoreByEvaluators" ng-bind="0"></span>
                         </div>
-                        <div ng-show="!memberEPA.ProcessByEvaluators[0].IsEndProcess" data-translate="NaN"></div>
+                        <div ng-show="!memberEPA.ProcessByEvaluators[0].IsEndProcess" ng-bind="'N/A'"></div>
                     </td>
                     <td class="text-center">
                         <input type="text" class="form-control text-center epa-input-score" ng-readonly="memberEPA.ProcessByReviewers[0].IsEndProcess"

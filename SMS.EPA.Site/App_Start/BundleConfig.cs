@@ -60,7 +60,8 @@
                             "~/SourceApp/Components/Period/period.less",
                             "~/SourceApp/Components/EPA/epa.less",
                             "~/SourceApp/Components/Dashboard/dashboard.less",
-                            "~/SourceApp/Components/AttendanceSummary/attendanceSummary.less");
+                            "~/SourceApp/Components/AttendanceSummary/attendanceSummary.less",
+                            "~/SourceApp/Components/Report/report.less");
 
             bundles.Add(new ScriptBundle("~/bundles/app").Include(
                             "~/SourceApp/app.js",
@@ -124,7 +125,7 @@
                             "~/SourceApp/Components/EPA/Evaluator/ratingByKPI-controller.js",
                             "~/SourceApp/Components/Report/report-factory.js",
                             "~/SourceApp/Components/Report/report-model.js",
-                            "~/SourceApp/Components/Report/epaReport-controller.js"));
+                            "~/SourceApp/Components/Report/epaSummaryReport-controller.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/epa-directives.js",

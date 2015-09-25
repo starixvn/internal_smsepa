@@ -30,7 +30,7 @@ namespace SMS.EPA.Core.Constants
 
         public const string AttendanceReport = "Attendance Report";
 
-        public const string EPAReport = "EPA Report";
+        public const string EPASummaryReport = "EPA Summary Report";
 
         public const string Admin = "Admin";
 

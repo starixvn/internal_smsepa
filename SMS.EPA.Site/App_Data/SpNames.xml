@@ -235,7 +235,8 @@
         </Setting>
     </Function>
     <Function Name="Dashboard">
-        <Setting Key="Epa_Dashboard" SpName="Epa_Dashboard" DbName="SMSEPA" Plain="0" >
+        <Setting Key="Epa_Dashboard" SpName="Epa_Dashboard" DbName="SMSEPA" Plain="0">
+            <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode"/>
         </Setting>
     </Function>
     <Function Name="Generation Evaluation">
@@ -282,6 +283,11 @@
             <Mapping DataField="Score" ObjectProperty="ScoreEncode"/>
         </Setting>
         <Setting Key="EPA_RatingByKPI_UpdateKPIScore" SpName="EPA_RatingByKPI_UpdateKPIScore" DbName="SMSEPA" Plain="0">
+        </Setting>
+    </Function>
+    <Function>
+        <Setting Key="Report_EPASummary" SpName="Report_EPASummary" DbName="SMSEPA" Plain="0">
+            <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode"/>
         </Setting>
     </Function>
 </Functions>

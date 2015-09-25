@@ -132,6 +132,6 @@ var attendanceModule = angular.module("attendanceModule", ['ngRoute'])
 var reportModule = angular.module("reportModule", ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
     var baseUrl = $("base").first().attr("href");
-    $routeProvider.when('/Report/EPAReport',
-    { templateUrl: baseUrl + 'SourceApp/Components/Report/Templates/EPAReport.html' });
+    $routeProvider.when('/Report/EPASummaryReport',
+    { templateUrl: baseUrl + 'SourceApp/Components/Report/Templates/EPASummaryReport.html' });
 }]);

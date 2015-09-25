@@ -9,6 +9,7 @@
 
 namespace SMS.EPA.Model.Report.Dashboard
 {
+    using SMS.EPA.Core.Services;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.Period;
 
@@ -18,7 +19,20 @@ namespace SMS.EPA.Model.Report.Dashboard
 
         public StatusModel Status { get; set; }
 
-        public string FinalScore { get; set; }
+        public string FinalScoreEncode { get; set; }
+
+        public string FinalScore
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(FinalScoreEncode) ? EncodeService.Decode(FinalScoreEncode) : string.Empty;
+            }
+
+            set
+            {
+                FinalScoreEncode = EncodeService.Encode(value);
+            }
+        }
 
         public bool IsEndProcessBySelf { get; set; }
 

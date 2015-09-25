@@ -16,12 +16,14 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Criteria.Employee;
     using SMS.EPA.Criteria.KPI;
     using SMS.EPA.Criteria.KPIGroup;
+    using SMS.EPA.Criteria.Period;
     using SMS.EPA.Criteria.TargetType;
     using SMS.EPA.Model.Department;
     using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.KPI;
     using SMS.EPA.Model.KPIGroup;
+    using SMS.EPA.Model.Period;
     using SMS.EPA.Model.TargetType;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
@@ -33,9 +35,10 @@ namespace SMS.EPA.Site.Controllers.API
         private readonly IKPIGroupService _kpiGroupService;
         private readonly IEmployeeService _employeeService;
         private readonly IDepartmentService _departmentService;
+        private readonly IPeriodService _periodService;
 
         public UtilitiesController()
-            : this(null, null, null, null, null)
+            : this(null, null, null, null, null, null)
         {
         }
 
@@ -44,13 +47,15 @@ namespace SMS.EPA.Site.Controllers.API
             IKPIService kpiService,
             IKPIGroupService kpiGroupService,
             IEmployeeService employeeService,
-            IDepartmentService departmentService)
+            IDepartmentService departmentService,
+            IPeriodService periodService)
         {
             _targetTypeService = targetTypeService ?? new TargetTypeService();
             _kpiService = kpiService ?? new KPIService();
             _kpiGroupService = kpiGroupService ?? new KPIGroupService();
             _employeeService = employeeService ?? new EmployeeService();
             _departmentService = departmentService ?? new DepartmentService();
+            _periodService = periodService ?? new PeriodService();
         }
 
         [NonAction]
@@ -179,6 +184,20 @@ namespace SMS.EPA.Site.Controllers.API
             };
 
             return departmentInfo;
+        }
+
+        [NonAction]
+        public IEnumerable<PeriodModel> GetPeriod(
+            int? targetTypeId = null,
+            bool? isActive = true)
+        {
+            var criteria = new GetPeriodCriteria
+            {
+                TargetTypeId = targetTypeId,
+                IsActive = isActive
+            };
+
+            return _periodService.GetPeriod(criteria);
         }
     }
 }

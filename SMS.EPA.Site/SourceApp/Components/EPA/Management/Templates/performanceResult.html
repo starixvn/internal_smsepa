@@ -38,7 +38,7 @@
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center col-score" ng-show="$first">
                     <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess"
                          ng-bind="memberEPAInfoCtrl.epaInfo.ProcessBySelf.TotalScore | customNumber"></div>
-                    <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" data-translate="NaN"></div>
+                    <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" ng-bind="'N/A'"></div>
                 </td>
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center col-comment" ng-show="$first">
                     <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess">
@@ -46,13 +46,13 @@
                            ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.Comment.length > 0"
                            ng-click="memberEPAInfoCtrl.openPopupViewComment(memberEPAInfoCtrl.epaInfo.ProcessBySelf.Comment)"></a>
                     </div>
-                    <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" data-translate="NaN"></div>
+                    <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" ng-bind="'N/A'"></div>
                 </td>
                 <td class="text-center" ng-bind="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].NickName"></td>
                 <td class="text-center col-score">
                     <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].IsEndProcess"
                          ng-bind="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].TotalScore | customNumber"></div>
-                    <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].IsEndProcess" data-translate="NaN"></div>
+                    <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].IsEndProcess" ng-bind="'N/A'"></div>
                 </td>
                 <td class="text-center col-comment">
                     <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].IsEndProcess">
@@ -60,13 +60,13 @@
                            ng-show="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].Comment.length > 0"
                            ng-click="memberEPAInfoCtrl.openPopupViewComment(memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].Comment)"></a>
                     </div>
-                    <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].IsEndProcess" data-translate="NaN"></div>
+                    <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].IsEndProcess" ng-bind="'N/A'"></div>
                 </td>
                 <td class="text-center" ng-bind="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].NickName"></td>
                 <td class="text-center col-score">
                     <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].IsEndProcess"
                          ng-bind="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].TotalScore | customNumber"></div>
-                    <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].IsEndProcess" data-translate="NaN"></div>
+                    <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].IsEndProcess" ng-bind="'N/A'"></div>
                 </td>
                 <td class="text-center col-comment">
                     <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].IsEndProcess">
@@ -74,7 +74,7 @@
                            ng-show="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].Comment.length > 0"
                            ng-click="memberEPAInfoCtrl.openPopupViewComment(memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].Comment)"></a>
                     </div>
-                    <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].IsEndProcess" data-translate="NaN"></div>
+                    <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].IsEndProcess" ng-bind="'N/A'"></div>
                 </td>
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="total-score" ng-show="$first">
                     <input type="text" class="form-control text-center" ng-readonly="memberEPAInfoCtrl.isReadonly"
