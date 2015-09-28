@@ -49,7 +49,6 @@
                             "~/Libs/ui-bootstrap-contextMenu.js",
                             "~/Libs/numeric-directive.js",
                             "~/Libs/Fanex.Grid.js",
-                            "~/Libs/moment.min.js",
                             "~/Libs/numeral.min.js",
                             "~/Libs/Fanex.Pagination.js"));
 

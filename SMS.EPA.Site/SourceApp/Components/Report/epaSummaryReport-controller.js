@@ -2,8 +2,8 @@
 /*global reportModule*/
 
 reportModule.controller('EPASummaryReportController',
-['ReportModel', 'CommonModel', 'utilitiesFactory',
-function (ReportModel, CommonModel, utilitiesFactory) {
+['$scope', 'ReportModel', 'CommonModel', 'utilitiesFactory',
+function ($scope, ReportModel, CommonModel, utilitiesFactory) {
     var vm = this;
 
     vm.treeDepartment = CommonModel.treeDepartment;
@@ -20,7 +20,7 @@ function (ReportModel, CommonModel, utilitiesFactory) {
     };
 
     var getEPASummaryReport = function (filter) {
-        ReportModel.getEPASummaryReport(filter.periodIds, filter.departmentId).then(function () {
+        ReportModel.getEPASummaryReport(filter.periodIds, filter.departmentId, filter.pageIndex, filter.itemsPerPage).then(function () {
             vm.epaSummary = ReportModel.epaSummary;
         });
     };
@@ -29,11 +29,22 @@ function (ReportModel, CommonModel, utilitiesFactory) {
         vm.filter.pageIndex = pageIndex;
         vm.filter.itemsPerPage = itemsPerPage;
 
-        vm.getEPASummaryReport(vm.filter);
+        getEPASummaryReport(vm.filter);
     };
 
-    vm.search = function (filter) {
+    vm.query = function (filter) {
+        filter.periodIds = utilitiesFactory.getSelectedData(vm.periods, 'PeriodId');
+
         getEPASummaryReport(filter);
+    };
+
+    vm.exportReport = function () {
+        vm.exportCriteria = {
+            periodIds: utilitiesFactory.getSelectedData(vm.periods, 'PeriodId'),
+            departmentId: vm.filter.departmentId
+        };
+
+        $scope.$broadcast('exportEpaSummaryReport');
     };
 
     vm.initialize = function () {

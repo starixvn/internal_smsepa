@@ -450,14 +450,14 @@
   <data name="AdjustAttendance" xml:space="preserve">
     <value>Adjust Attendance</value>
   </data>
-  <data name="AttendanceReport" xml:space="preserve">
+  <data name="DisciplineReport" xml:space="preserve">
     <value>Attendance Report</value>
   </data>
   <data name="CheckAssignment" xml:space="preserve">
     <value>Check Assignment</value>
   </data>
-  <data name="EPAReport" xml:space="preserve">
-    <value>EPA Report</value>
+  <data name="EPASummaryReport" xml:space="preserve">
+    <value>EPA Summary Report</value>
   </data>
   <data name="FlowManagement" xml:space="preserve">
     <value>Flow Management</value>
@@ -691,7 +691,7 @@
     <value>Meets expectations: refers to solid performance with a full skills base; most people fall into this category.</value>
   </data>
   <data name="ScoreInputValid" xml:space="preserve">
-    <value>Score must be equal or less than {0}</value>
+    <value>Score must be larger 0 and less or equal than {0}</value>
   </data>
   <data name="FlowTemplate" xml:space="preserve">
     <value>Flow Template</value>
@@ -745,7 +745,7 @@
     <value>Department / Section</value>
   </data>
   <data name="AttendanceScore" xml:space="preserve">
-    <value>Attendance Score</value>
+    <value>Discipline Score</value>
   </data>
   <data name="FinalScore" xml:space="preserve">
     <value>Final Score</value>
@@ -1030,23 +1030,44 @@
     <value>The Employee field is required!</value>
   </data>
   <data name="SelectEmployeeBeforeAdjustScoreWarning" xml:space="preserve">
-    <value>Please select employee before adjust score!</value>
+    <value>Please select employee before adjusting score!</value>
   </data>
   <data name="SelectEmployeeBeforeSaveWarning" xml:space="preserve">
-    <value>Please select employee before save!</value>
+    <value>Please select employee before saving!</value>
   </data>
   <data name="AdjustScoreInvalid" xml:space="preserve">
     <value>There are some empty score. Please fill them before submitting.</value>
   </data>
-<<<<<<< HEAD
-  <data name="NoticeAtBegin" xml:space="preserve">
-    <value>Notice At Begin</value>
-=======
   <data name="ViewEPAResult" xml:space="preserve">
     <value>View EPA Result</value>
   </data>
   <data name="EditComment" xml:space="preserve">
     <value>Edit Comment</value>
->>>>>>> #44227 - CR - EPA Listing for Reviewer & Management
+  </data>
+  <data name="NoticeAtBegin" xml:space="preserve">
+    <value>Notice At Begin</value>
+  </data>
+  <data name="EvaluatorPhaseRequired" xml:space="preserve">
+    <value>Please setting flow for Evaluator!</value>
+  </data>
+  <data name="HumanResourcePhaseRequired" xml:space="preserve">
+    <value>Please setting flow for Human Resource!</value>
+  </data>
+  <data name="EvaluatorRangeDateGreaterThanManagementRangeDateWarning" xml:space="preserve">
+    <value>The End Date of Evaluator must be less than or equal the Start Date of Management!</value>
+  </data>
+<<<<<<< HEAD
+  <data name="EPAGenerated" xml:space="preserve">
+    <value>Is EPA Generated</value>
+  </data>
+  <data name="SelectDepartmentSectionEmployeeBeforeAddToPeriodWarning" xml:space="preserve">
+    <value>Please select at least a department/section or employee to add in this evaluation period!</value>
+=======
+  <data name="EPASummaryReportName" xml:space="preserve">
+    <value>EPA_Summary</value>
+  </data>
+  <data name="EPASummaryReportSheet" xml:space="preserve">
+    <value>EPA Summary</value>
+>>>>>>> #44146 - handle export to excel, change text 'Attendance' to 'Discipline'
   </data>
 </root>

@@ -3,12 +3,14 @@
 
 reportModule.factory('reportFactory', ['$http', 'baseUrl', function ($http, baseUrl) {
     return {
-        getEPASummaryReport: function (periodIds, departmentId) {
+        getEPASummaryReport: function (periodIds, departmentId, pageIndex, itemsPerPage) {
             return $http.get(baseUrl + 'api/Report/GetEPASummary',
                 {
                     params: {
                         periodIds: periodIds,
-                        departmentId: departmentId
+                        departmentId: departmentId,
+                        pageIndex: pageIndex,
+                        itemsPerPage: itemsPerPage
                     }
                 });
         }

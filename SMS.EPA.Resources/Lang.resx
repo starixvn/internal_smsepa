@@ -450,7 +450,7 @@
   <data name="AdjustAttendance" xml:space="preserve">
     <value>Adjust Attendance</value>
   </data>
-  <data name="AttendanceReport" xml:space="preserve">
+  <data name="DisciplineReport" xml:space="preserve">
     <value>Attendance Report</value>
   </data>
   <data name="CheckAssignment" xml:space="preserve">
@@ -745,7 +745,7 @@
     <value>Department / Section</value>
   </data>
   <data name="AttendanceScore" xml:space="preserve">
-    <value>Attendance Score</value>
+    <value>Discipline Score</value>
   </data>
   <data name="FinalScore" xml:space="preserve">
     <value>Final Score</value>
@@ -1055,6 +1055,12 @@
   </data>
   <data name="EvaluatorRangeDateGreaterThanManagementRangeDateWarning" xml:space="preserve">
     <value>The End Date of Evaluator must be less than or equal the Start Date of Management!</value>
+  </data>
+  <data name="EPASummaryReportName" xml:space="preserve">
+    <value>EPA_Summary</value>
+  </data>
+  <data name="EPASummaryReportSheet" xml:space="preserve">
+    <value>EPA Summary</value>
   </data>
   <data name="EPAGenerated" xml:space="preserve">
     <value>Is EPA Generated</value>

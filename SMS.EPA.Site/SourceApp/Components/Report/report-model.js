@@ -8,8 +8,8 @@ function (reportFactory, notificationFactory, errorFactory) {
 
     reportModel.epaSummary = {};
 
-    reportModel.getEPASummaryReport = function () {
-        return reportFactory.getEPASummaryReport()
+    reportModel.getEPASummaryReport = function (periodIds, departmentId, pageIndex, itemsPerPage) {
+        return reportFactory.getEPASummaryReport(periodIds, departmentId, pageIndex, itemsPerPage)
         .success(function (epaSummary) {
             reportModel.epaSummary = epaSummary;
         }).error(function (response, status) {

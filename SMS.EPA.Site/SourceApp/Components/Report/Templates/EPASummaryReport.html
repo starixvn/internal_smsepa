@@ -7,7 +7,7 @@
     <div class="col-sm-12">
         <form novalidate class="row filter form-horizontal" role="form">
             <div class="form-group">
-                <label class="col-sm-1 control-label" data-translate="EvaluationPeriod"></label>
+                <label class="col-sm-2 control-label" data-translate="EvaluationPeriod"></label>
                 <div class="col-sm-2">
                     <add-class-to-role-filter class="multi-select" multi-select input-model="epaSummaryReportCtrl.periods" button-label="EmployeeId"
                                               helper-elements="all reset filter" item-label="Name" tick-property="ticked" max-labels="0">
@@ -24,7 +24,7 @@
                     <button class="button btn-search" ng-click="epaSummaryReportCtrl.query(epaSummaryReportCtrl.filter)" data-translate="Search"></button>
                 </div>
                 <div class="col-sm-2">
-                    <a class="button btn-export-excel" ng-click="epaSummaryReportCtrl.exportToExcel(epaSummaryReportCtrl.filter)">
+                    <a class="button btn-export-excel" data-export-epa-summary-report ng-click="epaSummaryReportCtrl.exportReport()">
                         <div class="button-label" data-translate="Excel"></div>
                         <div class="glyphicon icon-excel"></div>
                     </a>
@@ -33,7 +33,7 @@
         </form>
     </div>
     <div class="col-sm-12">
-        <div class="freegrid" data-grid-epa-summary-report data-grid-data="epaSummaryReportCtrl.epaSummary" data-grid-expand-height="500"
+        <div class="freegrid" data-grid-epa-summary-report data-grid-data="epaSummaryReportCtrl.epaSummary" data-grid-expand-height="300"
              data-on-page-changing="epaSummaryReportCtrl.pageChanging" page-option="epaSummaryReportCtrl.pageOption"></div>
     </div>
 </div>

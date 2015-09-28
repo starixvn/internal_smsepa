@@ -41,7 +41,7 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
                     memberEPA.ProcessByManagements[0].TotalScore = memberEPA.AverageScoreByReviewers;
                 }
                 else if (memberEPA.AverageScoreByEvaluators && parseFloat(memberEPA.AverageScoreByEvaluators) > 0
-                    && !memberEPA.ProcessByReviewers[0].TotalScore && memberEPA.ProcessByEvaluators[0].IsEndProcess) {
+                    && !memberEPA.ProcessByManagements[0].TotalScore && memberEPA.ProcessByEvaluators[0].IsEndProcess) {
                     memberEPA.ProcessByManagements[0].TotalScore = memberEPA.AverageScoreByEvaluators;
                 }
 
@@ -328,7 +328,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory)
                 data.ProcessByManagements[0].TotalScore = data.AverageScoreByReviewers;
             }
             else if (data.AverageScoreByEvaluators && parseFloat(data.AverageScoreByEvaluators) > 0
-                && !data.ProcessByReviewers[0].TotalScore && data.ProcessByEvaluators[0].IsEndProcess) {
+                && !data.ProcessByManagements[0].TotalScore && data.ProcessByEvaluators[0].IsEndProcess) {
                 data.ProcessByManagements[0].TotalScore = data.AverageScoreByEvaluators;
             }
 

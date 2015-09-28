@@ -14,8 +14,16 @@ namespace SMS.EPA.Model.Report.EPASummary
 
     public class EPASummaryModel
     {
-        public IEnumerable<PeriodModel> PeriodSelecteds { get; set; }
+        public EPASummaryModel()
+        {
+            PeriodSelecteds = new List<PeriodModel>();
+            EPAEmployees = new List<EPASummaryEmployeeModel>();
+        }
 
-        public IEnumerable<EPASummaryEmployeeModel> EPAEmployees { get; set; }
+        public IList<PeriodModel> PeriodSelecteds { get; set; }
+
+        public IList<EPASummaryEmployeeModel> EPAEmployees { get; set; }
+
+        public int TotalItem { get; set; }
     }
 }

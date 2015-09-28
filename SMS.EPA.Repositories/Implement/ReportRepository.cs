@@ -10,6 +10,7 @@
 namespace SMS.EPA.Repositories.Implement
 {
     using System.Collections.Generic;
+    using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using SMS.EPA.Model.Enitites;
@@ -49,7 +50,7 @@ namespace SMS.EPA.Repositories.Implement
             {
                 using (var multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    epaSummary.PeriodSelecteds = multi.Read<PeriodModel>();
+                    epaSummary.PeriodSelecteds = multi.Read<PeriodModel>().ToList();
 
                     epaSummary.EPAEmployees = multi.Read<EPASummaryEmployeeModel, Group, JobTitle, EPASummaryEmployeeModel>(
                         (res, gr, job) =>
@@ -59,9 +60,14 @@ namespace SMS.EPA.Repositories.Implement
 
                             return res;
                         },
-                        "GroupId, JobTitleId");
+                        "GroupId, JobTitleId").ToList();
 
                     IEnumerable<EPASummaryPeriodModel> periods = multi.Read<EPASummaryPeriodModel>();
+
+                    var hashParam = db.GetOuputParams();
+                    var totalItem = (int)hashParam["totalitem"];
+
+                    epaSummary.TotalItem = totalItem;
 
                     GroupPeriodByEmployee(epaSummary.EPAEmployees, periods);
                 }

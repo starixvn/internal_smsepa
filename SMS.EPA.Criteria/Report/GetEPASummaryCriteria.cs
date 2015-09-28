@@ -10,12 +10,24 @@
 namespace SMS.EPA.Criteria.Report
 {
     using Fanex.Data.Repository;
+    using SMS.EPA.Core.Attribute;
 
     public class GetEPASummaryCriteria : CriteriaBase
     {
         public string PeriodIds { get; set; }
 
         public int? DepartmentId { get; set; }
+
+        public int EmployeeId { get; set; }
+
+        public int? PageIndex { get; set; }
+
+        public int? ItemsPerPage { get; set; }
+
+        public bool IsViewAll { get; set; }
+
+        [Output]
+        public int? TotalItem { get; set; }
 
         public override string GetSettingKey()
         {

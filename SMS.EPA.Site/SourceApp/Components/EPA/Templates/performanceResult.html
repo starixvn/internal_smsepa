@@ -11,7 +11,7 @@
                 </th>
                 <th colspan="3">
                     <span data-translate="Reviewer"></span>
-                    <span ng-show="memberEPAInfoCtrl.epaInfo.AverageScoreByReviewers  && memberEPAInfoCtrl.epaInfo.ProcessByByReviewers[0].IsEndProcess">
+                    <span ng-show="memberEPAInfoCtrl.epaInfo.AverageScoreByReviewers  && memberEPAInfoCtrl.epaInfo.ProcessByReviewers[0].IsEndProcess">
                         ({{memberEPAInfoCtrl.epaInfo.AverageScoreByReviewers | customNumber}})
                     </span>
                 </th>
@@ -21,7 +21,7 @@
                         ({{memberEPAInfoCtrl.epaInfo.AverageScoreByManagements | customNumber}})
                     </span>
                 </th>
-                <th rowspan="2" data-translate="AttendanceScore" class="col-attendance-score"
+                <th rowspan="2" data-translate="DisciplineReport" class="col-attendance-score"
                     ng-show="memberEPAInfoCtrl.epaInfo.HasAttendanceScore"></th>
                 <th rowspan="2" data-translate="FinalScore" class="col-score"></th>
             </tr>

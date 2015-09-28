@@ -9,7 +9,10 @@
 
 namespace SMS.EPA.Site.Controllers.API
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Web.Http;
+    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Criteria.Report;
     using SMS.EPA.Model.Report.EPASummary;
     using SMS.EPA.Services.Implement;
@@ -32,12 +35,27 @@ namespace SMS.EPA.Site.Controllers.API
         [HttpGet]
         public EPASummaryModel GetEPASummary(
             string periodIds = null,
-            int? departmentId = null)
+            int? departmentId = null,
+            int? pageIndex = null,
+            int? itemsPerPage = null)
         {
+            List<int> roleIds = CurrentUser.Roles.Select(x => x.RoleId).ToList();
+            var isViewAll = false;
+            if (roleIds.Contains((int)SystemRole.SystemAdmin)
+                || roleIds.Contains((int)SystemRole.HumanResource)
+                || roleIds.Contains((int)SystemRole.Management))
+            {
+                isViewAll = true;
+            }
+
             var criteria = new GetEPASummaryCriteria()
             {
+                EmployeeId = CurrentUser.EmployeeInfo.EmployeeId,
+                IsViewAll = isViewAll,
                 PeriodIds = periodIds,
-                DepartmentId = departmentId
+                DepartmentId = departmentId,
+                PageIndex = pageIndex,
+                ItemsPerPage = itemsPerPage
             };
 
             return _reportService.GetEPASummary(criteria);
