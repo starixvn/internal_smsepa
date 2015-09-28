@@ -15,14 +15,17 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label" data-translate="TargetTemplate">
+                <div class="col-sm-2">
+                    <input class="period-target-chk" ng-show="!updatePeriodSettingCtrl.hasSelfStarted && !updatePeriodSettingCtrl.singleMode" type="checkbox"
+                           ng-model="updatePeriodSettingCtrl.fieldEdit.targetTemplate" />
+                    <label class="control-label period-target-label" data-translate="TargetTemplate">
+                </div>
                 </label>
                 <div class="col-sm-3">
                     <select ng-model="updatePeriodSettingCtrl.employeeOptions.targetTemplateId"
                             ng-options="opt.TargetTemplateId as opt.Name for opt in updatePeriodSettingCtrl.targetTemplates"
                             ng-disabled="updatePeriodSettingCtrl.hasSelfStarted"
                             class="form-control lstBox-limit">
-                        <option value="">-- {{"None" | translate}} --</option>
                     </select>
                 </div>
             </div>
@@ -31,6 +34,8 @@
         <table class="row table table-bordered table-striped table-period-setting">
             <thead>
                 <tr class="headerName">
+                    <th ng-show="!updatePeriodSettingCtrl.singleMode">
+                    </th>
                     <th class="width200" data-translate="SymbolCount">
                     </th>
                     <th class="width200 text-center" data-translate="HumanResource">
@@ -47,6 +52,9 @@
             </thead>
             <tbody>
                 <tr>
+                    <td ng-show="!updatePeriodSettingCtrl.singleMode">
+                        <input type="checkbox" ng-model="updatePeriodSettingCtrl.fieldEdit.evaluator" />
+                    </td>
                     <td data-translate="Evaluator"></td>
                     <td>
                         <select class="form-control" multiple chosen
@@ -83,6 +91,9 @@
                     </td>
                 </tr>
                 <tr>
+                    <td ng-show="!updatePeriodSettingCtrl.singleMode">
+                        <input type="checkbox" ng-model="updatePeriodSettingCtrl.fieldEdit.startDate" />
+                    </td>
                     <td data-translate="StartDate"></td>
                     <td class="text-center">
                         <input readonly class="calendar-form-control" type="text"
@@ -130,6 +141,9 @@
                     </td>
                 </tr>
                 <tr>
+                    <td ng-show="!updatePeriodSettingCtrl.singleMode">
+                        <input type="checkbox" ng-model="updatePeriodSettingCtrl.fieldEdit.endDate" />
+                    </td>
                     <td data-translate="EndDate"></td>
                     <td class="text-center">
                         <input readonly class="calendar-form-control" type="text"

@@ -249,6 +249,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                 }
             }
         }
+
         return true;
     };
 
@@ -446,7 +447,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         });
     };
 
-    periodModel.openPopupUpdateEmployeeSetting = function (vm, selectedEmployees, employeeSetting) {
+    periodModel.openPopupUpdateEmployeeSetting = function (vm, selectedEmployees) {
         var modalInstance = $modal.open({
             templateUrl: 'SourceApp/Components/Period/Templates/editEmployeeSetting.html',
             controller: "UpdateEmployeeSettingPeriodController as updatePeriodSettingCtrl",
@@ -454,9 +455,6 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             resolve: {
                 period: function () {
                     return vm.period;
-                },
-                employeeSetting: function () {
-                    return angular.copy(employeeSetting);
                 },
                 selectedEmployees: function () {
                     return selectedEmployees;
@@ -470,13 +468,13 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
 
         modalInstance.result.then(function (editEmployeeSetting) {
             if (editEmployeeSetting) {
-                employeeSetting.TargetTemplate = editEmployeeSetting.TargetTemplate;
-                employeeSetting.HumanResources = editEmployeeSetting.HumanResources;
-                employeeSetting.SelfEvaluators = editEmployeeSetting.SelfEvaluators;
-                employeeSetting.Evaluators = editEmployeeSetting.Evaluators;
-                employeeSetting.Reviewers = editEmployeeSetting.Reviewers;
-                employeeSetting.Managements = editEmployeeSetting.Managements;
-                employeeSetting.NumberEvaluators = editEmployeeSetting.NumberEvaluators;
+                selectedEmployees[0].TargetTemplate = editEmployeeSetting.TargetTemplate;
+                selectedEmployees[0].HumanResources = editEmployeeSetting.HumanResources;
+                selectedEmployees[0].SelfEvaluators = editEmployeeSetting.SelfEvaluators;
+                selectedEmployees[0].Evaluators = editEmployeeSetting.Evaluators;
+                selectedEmployees[0].Reviewers = editEmployeeSetting.Reviewers;
+                selectedEmployees[0].Managements = editEmployeeSetting.Managements;
+                selectedEmployees[0].NumberEvaluators = editEmployeeSetting.NumberEvaluators;
 
             }
             else {
@@ -503,88 +501,94 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         });
     };
 
-    periodModel.createAssignmentSettings = function (employeeOptions, periodId, selectedEmployee) {
+    periodModel.createAssignmentSettings = function (employeeOptions, periodId, selectedEmployees) {
         var employeeAssignments = [],
             targetTemplateId = employeeOptions.targetTemplateId;
 
-        if (employeeOptions.humanResource.ids && employeeOptions.humanResource.ids.length > 0) {
-            angular.forEach(employeeOptions.humanResource.ids, function (humanResourceId, index) {
-                var humanResourceAssignment = {
-                    processId: periodModel.evaluatorType.HumanResources,
-                    startDate: employeeOptions.humanResource.StartDate.toDateString(),
-                    endDate: employeeOptions.humanResource.EndDate.toDateString(),
-                    priority: index + 1,
-                    evaluatorInfo: {
-                        employeeId: humanResourceId
-                    }
-                };
+        angular.forEach(selectedEmployees, function (employee) {
+            if (employeeOptions.humanResource.ids && employeeOptions.humanResource.ids.length > 0) {
+                angular.forEach(employeeOptions.humanResource.ids, function (humanResourceId, index) {
+                    var humanResourceAssignment = {
+                        employeeId: employee.EmployeeId,
+                        processId: periodModel.evaluatorType.HumanResources,
+                        startDate: employeeOptions.humanResource.StartDate.toDateString(),
+                        endDate: employeeOptions.humanResource.EndDate.toDateString(),
+                        priority: index + 1,
+                        evaluatorInfo: {
+                            employeeId: humanResourceId
+                        }
+                    };
 
-                employeeAssignments.push(humanResourceAssignment);
-            });
-        }
-
-        var selfEvaluatorAssignments = {
-            processId: periodModel.evaluatorType.SelfEvaluator,
-            startDate: employeeOptions.selfEvaluator.StartDate.toDateString(),
-            endDate: employeeOptions.selfEvaluator.EndDate.toDateString(),
-            priority: 1,
-            evaluatorInfo: {
-                employeeId: employeeOptions.selfEvaluator.ids[0]
+                    employeeAssignments.push(humanResourceAssignment);
+                });
             }
-        };
-        employeeAssignments.push(selfEvaluatorAssignments);
 
-        if (employeeOptions.evaluator.ids && employeeOptions.evaluator.ids.length > 0) {
-            angular.forEach(employeeOptions.evaluator.ids, function (evaluatorId, index) {
-                var evaluatorAssignment = {
-                    processId: periodModel.evaluatorType.Evaluator,
-                    startDate: employeeOptions.evaluator.StartDate.toDateString(),
-                    endDate: employeeOptions.evaluator.EndDate.toDateString(),
-                    priority: index + 1,
-                    evaluatorInfo: {
-                        employeeId: evaluatorId
-                    }
-                };
+            var selfEvaluatorAssignments = {
+                employeeId: employee.EmployeeId,
+                processId: periodModel.evaluatorType.SelfEvaluator,
+                startDate: employeeOptions.selfEvaluator.StartDate.toDateString(),
+                endDate: employeeOptions.selfEvaluator.EndDate.toDateString(),
+                priority: 1,
+                evaluatorInfo: {
+                    employeeId: employeeOptions.selfEvaluator.ids[0]
+                }
+            };
+            employeeAssignments.push(selfEvaluatorAssignments);
 
-                employeeAssignments.push(evaluatorAssignment);
-            });
-        }
+            if (employeeOptions.evaluator.ids && employeeOptions.evaluator.ids.length > 0) {
+                angular.forEach(employeeOptions.evaluator.ids, function (evaluatorId, index) {
+                    var evaluatorAssignment = {
+                        employeeId: employee.EmployeeId,
+                        processId: periodModel.evaluatorType.Evaluator,
+                        startDate: employeeOptions.evaluator.StartDate.toDateString(),
+                        endDate: employeeOptions.evaluator.EndDate.toDateString(),
+                        priority: index + 1,
+                        evaluatorInfo: {
+                            employeeId: evaluatorId
+                        }
+                    };
 
-        if (employeeOptions.reviewer.ids && employeeOptions.reviewer.ids.length > 0) {
-            angular.forEach(employeeOptions.reviewer.ids, function (reviewerId, index) {
-                var reviewerAssignment = {
-                    processId: periodModel.evaluatorType.Reviewer,
-                    startDate: employeeOptions.reviewer.StartDate.toDateString(),
-                    endDate: employeeOptions.reviewer.EndDate.toDateString(),
-                    priority: index + 1,
-                    evaluatorInfo: {
-                        employeeId: reviewerId
-                    }
-                };
+                    employeeAssignments.push(evaluatorAssignment);
+                });
+            }
 
-                employeeAssignments.push(reviewerAssignment);
-            });
-        }
+            if (employeeOptions.reviewer.ids && employeeOptions.reviewer.ids.length > 0) {
+                angular.forEach(employeeOptions.reviewer.ids, function (reviewerId, index) {
+                    var reviewerAssignment = {
+                        employeeId: employee.EmployeeId,
+                        processId: periodModel.evaluatorType.Reviewer,
+                        startDate: employeeOptions.reviewer.StartDate.toDateString(),
+                        endDate: employeeOptions.reviewer.EndDate.toDateString(),
+                        priority: index + 1,
+                        evaluatorInfo: {
+                            employeeId: reviewerId
+                        }
+                    };
 
-        if (employeeOptions.management.ids && employeeOptions.management.ids.length > 0) {
-            angular.forEach(employeeOptions.management.ids, function (managementId, index) {
-                var managementAssignment = {
-                    processId: periodModel.evaluatorType.Management,
-                    startDate: employeeOptions.management.StartDate.toDateString(),
-                    endDate: employeeOptions.management.EndDate.toDateString(),
-                    priority: index + 1,
-                    evaluatorInfo: {
-                        employeeId: managementId
-                    }
-                };
+                    employeeAssignments.push(reviewerAssignment);
+                });
+            }
 
-                employeeAssignments.push(managementAssignment);
-            });
-        }
+            if (employeeOptions.management.ids && employeeOptions.management.ids.length > 0) {
+                angular.forEach(employeeOptions.management.ids, function (managementId, index) {
+                    var managementAssignment = {
+                        employeeId: employee.EmployeeId,
+                        processId: periodModel.evaluatorType.Management,
+                        startDate: employeeOptions.management.StartDate.toDateString(),
+                        endDate: employeeOptions.management.EndDate.toDateString(),
+                        priority: index + 1,
+                        evaluatorInfo: {
+                            employeeId: managementId
+                        }
+                    };
+
+                    employeeAssignments.push(managementAssignment);
+                });
+            }
+        });
 
         var employeeSetting = {
             periodId: periodId,
-            employeeIds: selectedEmployee,
             targetTemplateId: targetTemplateId,
             employeeAssignments: employeeAssignments
         };
@@ -718,14 +722,24 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
     };
 
     periodModel.getSelectedEmployee = function (employeeSettings) {
+        var selectedEmployees = [];
+
+        angular.forEach(employeeSettings, function (employeeSetting) {
+            if (employeeSetting.Selected) {
+                selectedEmployees.push(employeeSetting);
+            }
+        });
+
+        return selectedEmployees;
+    };
+
+    periodModel.getSelectedEmployeeInfo = function (employeeSettings) {
         var selectedEmployeeIds = '',
             selectedEmployeeNames = '';
 
         angular.forEach(employeeSettings, function (employeeSetting) {
-            if (employeeSetting.Selected) {
-                selectedEmployeeIds += selectedEmployeeIds ? ', ' + employeeSetting.EmployeeId : employeeSetting.EmployeeId;
-                selectedEmployeeNames += selectedEmployeeNames ? ', ' + employeeSetting.NickName : employeeSetting.NickName;
-            }
+            selectedEmployeeIds += selectedEmployeeIds ? ', ' + employeeSetting.EmployeeId : employeeSetting.EmployeeId;
+            selectedEmployeeNames += selectedEmployeeNames ? ', ' + employeeSetting.NickName : employeeSetting.NickName;
         });
 
         return {
@@ -799,6 +813,380 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         .error(function (response, status) {
             errorFactory.errorHandle(status);
         });
+    };
+
+    var updateEvaluatorToEmployee = function (employee, employeeOptions) {
+        if (employeeOptions.humanResource.ids && employeeOptions.humanResource.ids.length > 0) {
+            if (employee.HumanResources && employee.HumanResources.length > 0) {
+                var originalHumanResource = employee.HumanResources[0];
+                employee.HumanResources = [];
+
+                angular.forEach(employeeOptions.humanResource.ids, function (id) {
+                    var humanResource = {
+                        ProcessId: originalHumanResource.ProcessId,
+                        StartDate: originalHumanResource.StartDate,
+                        EndDate: originalHumanResource.EndDate,
+                        EvaluatorInfo: {
+                            EmployeeId: id
+                        }
+                    };
+
+                    employee.HumanResources.push(humanResource);
+                });
+            }
+            else {
+                angular.forEach(employeeOptions.humanResource.ids, function (id) {
+                    var humanResource = {
+                        ProcessId: periodModel.evaluatorType.HumanResources,
+                        EvaluatorInfo: {
+                            EmployeeId: id
+                        }
+                    };
+
+                    employee.HumanResources.push(humanResource);
+                });
+            }
+        }
+
+        if (employeeOptions.evaluator.ids && employeeOptions.evaluator.ids.length > 0) {
+            if (employee.Evaluators && employee.Evaluators.length > 0) {
+                var originalEvaluator = employee.Evaluators[0];
+                employee.Evaluators = [];
+
+                angular.forEach(employeeOptions.evaluator.ids, function (id) {
+                    var evaluator = {
+                        ProcessId: originalEvaluator.ProcessId,
+                        StartDate: originalEvaluator.StartDate,
+                        EndDate: originalEvaluator.EndDate,
+                        EvaluatorInfo: {
+                            EmployeeId: id
+                        }
+                    };
+
+                    employee.Evaluators.push(evaluator);
+                });
+            }
+            else {
+                angular.forEach(employeeOptions.evaluator.ids, function (id) {
+                    var evaluator = {
+                        ProcessId: periodModel.evaluatorType.Evaluator,
+                        EvaluatorInfo: {
+                            EmployeeId: id
+                        }
+                    };
+
+                    employee.Evaluators.push(evaluator);
+                });
+            }
+        }
+
+        if (employeeOptions.reviewer.ids && employeeOptions.reviewer.ids.length > 0) {
+            if (employee.Reviewers && employee.Reviewers.length > 0) {
+                var originalReviewer = employee.Reviewers[0];
+                employee.Reviewers = [];
+
+                angular.forEach(employeeOptions.reviewer.ids, function (id) {
+                    var reviewer = {
+                        ProcessId: originalReviewer.ProcessId,
+                        StartDate: originalReviewer.StartDate,
+                        EndDate: originalReviewer.EndDate,
+                        EvaluatorInfo: {
+                            EmployeeId: id
+                        }
+                    };
+
+                    employee.Reviewers.push(reviewer);
+                });
+            }
+            else {
+                angular.forEach(employeeOptions.reviewer.ids, function (id) {
+                    var reviewer = {
+                        ProcessId: periodModel.evaluatorType.Reviewer,
+                        EvaluatorInfo: {
+                            EmployeeId: id
+                        }
+                    };
+
+                    employee.Reviewers.push(reviewer);
+                });
+            }
+        }
+
+        if (employeeOptions.management.ids && employeeOptions.management.ids.length > 0) {
+            if (employee.Managements && employee.Managements.length > 0) {
+                var originalManagement = employee.Managements[0];
+                employee.Managements = [];
+
+                angular.forEach(employeeOptions.management.ids, function (id) {
+                    var management = {
+                        ProcessId: originalManagement.ProcessId,
+                        StartDate: originalManagement.StartDate,
+                        EndDate: originalManagement.EndDate,
+                        EvaluatorInfo: {
+                            EmployeeId: id
+                        }
+                    };
+
+                    employee.Managements.push(management);
+                });
+            }
+            else {
+                angular.forEach(employeeOptions.management.ids, function (id) {
+                    var management = {
+                        ProcessId: periodModel.evaluatorType.Management,
+                        EvaluatorInfo: {
+                            EmployeeId: id
+                        }
+                    };
+
+                    employee.Managements.push(management);
+                });
+            }
+        }
+
+        return employee;
+    };
+
+    var updateStartDateToEmployee = function (employee, employeeOptions) {
+        angular.forEach(employee.HumanResources, function (humanResource) {
+            humanResource.StartDate = employeeOptions.humanResource.StartDate;
+        });
+
+        angular.forEach(employee.SelfEvaluators, function (self) {
+            self.StartDate = employeeOptions.selfEvaluator.StartDate;
+        });
+
+        angular.forEach(employee.Evaluators, function (evaluator) {
+            evaluator.StartDate = employeeOptions.evaluator.StartDate;
+        });
+
+        angular.forEach(employee.Reviewers, function (reviewer) {
+            reviewer.StartDate = employeeOptions.reviewer.StartDate;
+        });
+
+        angular.forEach(employee.Managements, function (management) {
+            management.StartDate = employeeOptions.management.StartDate;
+        });
+
+        return employee;
+    };
+
+    var updateEndDateToEmployee = function (employee, employeeOptions) {
+        angular.forEach(employee.HumanResources, function (humanResource) {
+            humanResource.EndDate = employeeOptions.humanResource.EndDate;
+        });
+
+        angular.forEach(employee.SelfEvaluators, function (self) {
+            self.EndDate = employeeOptions.selfEvaluator.EndDate;
+        });
+
+        angular.forEach(employee.Evaluators, function (evaluator) {
+            evaluator.EndDate = employeeOptions.evaluator.EndDate;
+        });
+
+        angular.forEach(employee.Reviewers, function (reviewer) {
+            reviewer.EndDate = employeeOptions.reviewer.EndDate;
+        });
+
+        angular.forEach(employee.Managements, function (management) {
+            management.EndDate = employeeOptions.management.EndDate;
+        });
+
+        return employee;
+    };
+
+    periodModel.updateEmployeeSettings = function (employeeOptions, fieldEdit, selectedEmployees) {
+        angular.forEach(selectedEmployees, function (employee) {
+            if (fieldEdit.evaluator) {
+                employee = updateEvaluatorToEmployee(employee, employeeOptions);
+            }
+
+            if (fieldEdit.startDate) {
+                employee = updateStartDateToEmployee(employee, employeeOptions);
+            }
+
+            if (fieldEdit.endDate) {
+                employee = updateEndDateToEmployee(employee, employeeOptions);
+            }
+        });
+
+        return selectedEmployees;
+    };
+
+    periodModel.validateEmployeeSettingMultipleMode = function (updatedEmployees) {
+        for (var i = 0; i < updatedEmployees.length; i++) {
+            var employee = updatedEmployees[i],
+                hasReviewer = false;
+
+            if (employee.HumanResources && employee.HumanResources.length > 0) {
+                if (new Date(employee.HumanResources[0].StartDate) > new Date(employee.HumanResources[0].EndDate)) {
+                    notificationFactory.error("StartDateGreaterThanEndDateWarning");
+                    return false;
+                }
+            }
+            else {
+                notificationFactory.error("HumanResourcePhaseRequired");
+                return false;
+            }
+
+            if (employee.SelfEvaluators && employee.SelfEvaluators.length > 0) {
+                if (new Date(employee.SelfEvaluators[0].StartDate) > new Date(employee.SelfEvaluators[0].EndDate)) {
+                    notificationFactory.error("StartDateGreaterThanEndDateWarning");
+                    return false;
+                }
+
+                if (employee.HumanResources[0].EndDate > employee.SelfEvaluators[0].StartDate) {
+                    notificationFactory.error("HRRangeDateGreaterThanSelfRangeDateWarning");
+                    return false;
+                }
+            }
+
+            if (employee.Evaluators && employee.Evaluators.length > 0) {
+                if (new Date(employee.Evaluators[0].StartDate) > new Date(employee.Evaluators[0].EndDate)) {
+                    notificationFactory.error("StartDateGreaterThanEndDateWarning");
+                    return false;
+                }
+
+                if (new Date(employee.SelfEvaluators[0].EndDate) > new Date(employee.Evaluators[0].StartDate)) {
+                    notificationFactory.error("SelfRangeDateGreaterThanEvaluatorRangeDateWarning");
+                    return false;
+                }
+            }
+            else {
+                notificationFactory.error("EvaluatorPhaseRequired");
+                return false;
+            }
+
+            if (employee.Reviewers && employee.Reviewers.length > 0) {
+                hasReviewer = true;
+
+                if (new Date(employee.Reviewers[0].StartDate) > new Date(employee.Reviewers[0].EndDate)) {
+                    notificationFactory.error("StartDateGreaterThanEndDateWarning");
+                    return false;
+                }
+
+                if (new Date(employee.Evaluators[0].EndDate) > new Date(employee.Reviewers[0].StartDate)) {
+                    notificationFactory.error("EvaluatorRangeDateGreaterThanReviewerRangeDateWarning");
+                    return false;
+                }
+            }
+
+            if (employee.Managements && employee.Managements.length > 0) {
+                if (new Date(employee.Managements[0].StartDate) > new Date(employee.Managements[0].EndDate)) {
+                    notificationFactory.error("StartDateGreaterThanEndDateWarning");
+                    return false;
+                }
+
+                if (hasReviewer) {
+                    if (new Date(employee.Reviewers[0].EndDate) > new Date(employee.Managements[0].StartDate)) {
+                        notificationFactory.error("ReviewerRangeDateGreaterThanManagementRangeDateWarning");
+                        return false;
+                    }
+                }
+                else {
+                    if (new Date(employee.Evaluators[0].EndDate) > (employee.Managements[0].StartDate)) {
+                        notificationFactory.error("EvaluatorRangeDateGreaterThanManagementRangeDateWarning");
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+    };
+
+    periodModel.createAssignmentSettingsMultipleMode = function (updatedEmployees, vm) {
+        var employeeAssignments = [];
+
+        angular.forEach(updatedEmployees, function (employee) {
+            if (employee.HumanResources && employee.HumanResources.length > 0) {
+                angular.forEach(employee.HumanResources, function (humanResource, index) {
+                    var humanResourceAssignment = {
+                        employeeId: employee.EmployeeId,
+                        processId: periodModel.evaluatorType.HumanResources,
+                        startDate: new Date(humanResource.StartDate).toDateString(),
+                        endDate: new Date(humanResource.EndDate).toDateString(),
+                        priority: index + 1,
+                        evaluatorInfo: {
+                            employeeId: humanResource.EvaluatorInfo.EmployeeId
+                        }
+                    };
+
+                    employeeAssignments.push(humanResourceAssignment);
+                });
+            }
+
+            var selfEvaluatorAssignments = {
+                employeeId: employee.EmployeeId,
+                processId: periodModel.evaluatorType.SelfEvaluator,
+                startDate: new Date(employee.SelfEvaluators[0].StartDate).toDateString(),
+                endDate: new Date(employee.SelfEvaluators[0].EndDate).toDateString(),
+                priority: 1,
+                evaluatorInfo: {
+                    employeeId: employee.EmployeeId
+                }
+            };
+            employeeAssignments.push(selfEvaluatorAssignments);
+
+            if (employee.Evaluators && employee.Evaluators.length > 0) {
+                angular.forEach(employee.Evaluators, function (evaluator, index) {
+                    var evaluatorAssignment = {
+                        employeeId: employee.EmployeeId,
+                        processId: periodModel.evaluatorType.Evaluator,
+                        startDate: new Date(evaluator.StartDate).toDateString(),
+                        endDate: new Date(evaluator.EndDate).toDateString(),
+                        priority: index + 1,
+                        evaluatorInfo: {
+                            employeeId: evaluator.EvaluatorInfo.EmployeeId
+                        }
+                    };
+
+                    employeeAssignments.push(evaluatorAssignment);
+                });
+            }
+
+            if (employee.Reviewers && employee.Reviewers.length > 0) {
+                angular.forEach(employee.Reviewers, function (reviewer, index) {
+                    var reviewerAssignment = {
+                        employeeId: employee.EmployeeId,
+                        processId: periodModel.evaluatorType.Reviewer,
+                        startDate: new Date(reviewer.StartDate).toDateString(),
+                        endDate: new Date(reviewer.EndDate).toDateString(),
+                        priority: index + 1,
+                        evaluatorInfo: {
+                            employeeId: reviewer.EvaluatorInfo.EmployeeId
+                        }
+                    };
+
+                    employeeAssignments.push(reviewerAssignment);
+                });
+            }
+
+            if (employee.Managements && employee.Managements.length > 0) {
+                angular.forEach(employee.Managements, function (management, index) {
+                    var managementAssignment = {
+                        employeeId: employee.EmployeeId,
+                        processId: periodModel.evaluatorType.Management,
+                        startDate: new Date(management.StartDate).toDateString(),
+                        endDate: new Date(management.EndDate).toDateString(),
+                        priority: index + 1,
+                        evaluatorInfo: {
+                            employeeId: management.EvaluatorInfo.EmployeeId
+                        }
+                    };
+
+                    employeeAssignments.push(managementAssignment);
+                });
+            }
+        });
+
+        var employeeSetting = {
+            periodId: vm.period.PeriodId,
+            targetTemplateId: vm.fieldEdit.targetTemplate ? vm.employeeOptions.targetTemplateId : null,
+            employeeAssignments: employeeAssignments
+        };
+
+        return employeeSetting;
     };
 
     return periodModel;
