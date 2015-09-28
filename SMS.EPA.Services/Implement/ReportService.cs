@@ -131,7 +131,11 @@ namespace SMS.EPA.Services.Implement
             var cellFinalScore = row.CreateCell(titleHeaders.Count);
             cellFinalScore.CellStyle = cellStyle;
             cellFinalScore.SetCellValue(Lang.FinalScore);
-            sheet.AddMergedRegion(new CellRangeAddress(2, 2, titleHeaders.Count, titleHeaders.Count + periodSelecteds.Count - 1));
+
+            if (periodSelecteds.Count > 0)
+            {
+                sheet.AddMergedRegion(new CellRangeAddress(2, 2, titleHeaders.Count, titleHeaders.Count + periodSelecteds.Count - 1));
+            }
 
             IRow rowPeriod = sheet.CreateRow(3);
             for (int i = 0; i < periodSelecteds.Count; i++)

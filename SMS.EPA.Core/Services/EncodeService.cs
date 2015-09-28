@@ -10,20 +10,20 @@
 namespace SMS.EPA.Core.Services
 {
     using Constants;
-    using IBCCrypt;
+    using Fanex.Common;
 
     public static class EncodeService
     {
         public static string Encode(string plainText)
         {
-            string cipherText = IBCCrypt.Encrypt(plainText, Constants.KeyCryptography);
+            string cipherText = Cryptography.CfsEnCrypt(plainText);
 
             return cipherText;
         }
 
         public static string Decode(string cipherText)
         {
-            string plainText = IBCCrypt.Decrypt(cipherText, Constants.KeyCryptography);
+            string plainText = Cryptography.CfsDeCrypt(cipherText);
 
             return plainText;
         }

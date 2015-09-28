@@ -36,7 +36,7 @@ namespace SMS.EPA.Criteria.Report
 
         public override bool IsValid()
         {
-            return true;
+            return EmployeeId > 0;
         }
     }
 }
