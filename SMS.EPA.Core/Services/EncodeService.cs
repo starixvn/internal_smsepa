@@ -10,7 +10,7 @@
 namespace SMS.EPA.Core.Services
 {
     using Constants;
-    using Fanex.Common;
+    using Fanex.Security;
 
     public static class EncodeService
     {
