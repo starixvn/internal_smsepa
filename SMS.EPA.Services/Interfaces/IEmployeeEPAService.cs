@@ -68,8 +68,6 @@ namespace SMS.EPA.Services.Interfaces
 
         CommandResult UpdateEPAScore(UpdateEPAScoreCriteria criteria);
 
-        CommandResult UpdateScoreByReviewerOrManagement(UpdateScoreByReviewerOrManagementCriteria criteria);
-
         CommandResult AdjustScoreByReviewerOrManagement(AdjustScoreByReviewerOrManagementCriteria criteria);
 
         IEnumerable<Employee> GetMember(GetMemberCriteria criteria);

@@ -57,9 +57,6 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
         updateEPAScoreByEmployee: function (model) {
             return $http.put(baseUrl + 'api/EmployeeEPA/UpdateEPAScoreByEmployee', model);
         },
-        updateScoreByReviewerOrManagement: function (model) {
-            return $http.put(baseUrl + 'api/EmployeeEPA/UpdateScoreByReviewerOrManagement', model);
-        },
         updateEPAScoreByEvaluator: function (model) {
             return $http.put(baseUrl + 'api/EmployeeEPA/UpdateEPAScoreByEvaluator', model);
         },

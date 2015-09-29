@@ -91,7 +91,12 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
                 }
 
                 memberEPA.FinalScore = memberEPA.FinalScore !== 0 ? memberEPA.FinalScore : '';
-                memberEPA.ProcessByReviewers[0].Comment = memberEPA.ProcessByReviewers[0].Comment + '\n' + adjustScore.adjust.Comment;
+                if (memberEPA.ProcessByReviewers[0].Comment.length > 0) {
+                    memberEPA.ProcessByReviewers[0].Comment = memberEPA.ProcessByReviewers[0].Comment + '\n' + adjustScore.adjust.Comment;
+                }
+                else {
+                    memberEPA.ProcessByReviewers[0].Comment = adjustScore.adjust.Comment;
+                }
             }
         });
     };
@@ -295,15 +300,9 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory)
         var totalcore = epaInfo.ProcessByReviewers[0].TotalScore,
             comment = epaInfo.ProcessByReviewers[0].Comment;
         if (EmployeeEPAModel.validateEvaluationOfReviewerOrManagement(totalcore)) {
-            var criteria = {
-                epaId: epaInfo.EPAId,
-                processId: 4,
-                employeeId: epaInfo.Employee.EmployeeId,
-                score: totalcore,
-                comment: comment
-            };
+            var model = new Array(epaInfo);
 
-            EmployeeEPAModel.updateScoreByReviewerOrManagement(vm, criteria);
+            EmployeeEPAModel.adjustScoreByReviewer(vm, model);
         }
     };
 

@@ -95,7 +95,13 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
                 }
 
                 memberEPA.FinalScore = memberEPA.FinalScore !== 0 ? memberEPA.FinalScore : '';
-                memberEPA.ProcessByManagements[0].Comment = memberEPA.ProcessByManagements[0].Comment + '\n' + adjustScore.adjust.Comment;
+
+                if (memberEPA.ProcessByManagements[0].Comment.length > 0) {
+                    memberEPA.ProcessByManagements[0].Comment = memberEPA.ProcessByManagements[0].Comment + '\n' + adjustScore.adjust.Comment;
+                }
+                else {
+                    memberEPA.ProcessByManagements[0].Comment = adjustScore.adjust.Comment;
+                }
             }
         });
     };
@@ -173,8 +179,8 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
         if (selectedEmployees.length === 0) {
             notificationFactory.error("SelectEmployeeBeforeAdjustScoreWarning");
         }
-        else if (validateAdjustScore(selectedEmployees)){
-            EmployeeEPAModel.adjustScoreByManagement(selectedEmployees);
+        else if (validateAdjustScore(selectedEmployees)) {
+            EmployeeEPAModel.adjustScoreByManagement(vm, selectedEmployees);
         }
     };
 
@@ -298,15 +304,9 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory)
         var totalcore = epaInfo.ProcessByManagements[0].TotalScore,
             comment = epaInfo.ProcessByManagements[0].Comment;
         if (EmployeeEPAModel.validateEvaluationOfReviewerOrManagement(totalcore)) {
-            var criteria = {
-                epaId: epaInfo.EPAId,
-                processId: 5,
-                employeeId: epaInfo.Employee.EmployeeId,
-                score: totalcore,
-                comment: comment
-            };
+            var model = new Array(epaInfo);
 
-            EmployeeEPAModel.updateScoreByReviewerOrManagement(vm, criteria);
+            EmployeeEPAModel.adjustScoreByManagement(vm, model);
         }
     };
 

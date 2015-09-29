@@ -201,8 +201,6 @@
             <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode"/>
             <Mapping DataField="Score" ObjectProperty="ScoreEncode"/>
         </Setting>
-        <Setting Key="EPA_UpdateScoreByReviewerOrManagement" SpName="EPA_UpdateScoreByReviewerOrManagement" DbName="SMSEPA" Plain="0">
-        </Setting>
         <Setting Key="EPA_AdjustScoreByReviewerOrManagement" SpName="EPA_AdjustScoreByReviewerOrManagement" DbName="SMSEPA" Plain="0">
         </Setting>
     </Function>

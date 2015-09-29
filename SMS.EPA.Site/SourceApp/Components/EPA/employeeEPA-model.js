@@ -151,21 +151,6 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         });
     };
 
-    employeeEPAModel.updateScoreByReviewerOrManagement = function (vm, criteria) {
-        return employeeEPAFactory.updateScoreByReviewerOrManagement(criteria)
-        .success(function (response) {
-            if (response.IsSuccessful) {
-                notificationFactory.success("UpdatedSuccessfully");
-                vm.dataSaved = true;
-            }
-            else {
-                notificationFactory.error("", response.Message);
-            }
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
-
     employeeEPAModel.validateEvaluationOfReviewerOrManagement = function (score) {
         if (!score || parseFloat(score) <= 0) {
             notificationFactory.error("ScoreRequire");
@@ -255,13 +240,15 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         return vm.modalInstance.result;
     };
 
-    employeeEPAModel.adjustScoreByReviewer = function (memberEPAs) {
+    employeeEPAModel.adjustScoreByReviewer = function (vm, memberEPAs) {
         return employeeEPAFactory.adjustScoreByReviewer(memberEPAs)
         .success(function (response) {
             if (response.IsSuccessful) {
                 angular.forEach(memberEPAs, function (memberEPA) {
                     memberEPA.ProcessByReviewers[0].TotalScoreOriginal = memberEPA.ProcessByReviewers[0].TotalScore;
                 });
+
+                vm.dataSaved = true;
 
                 notificationFactory.success("UpdatedSuccessfully");
             }
@@ -273,13 +260,15 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         });
     };
 
-    employeeEPAModel.adjustScoreByManagement = function (memberEPAs) {
+    employeeEPAModel.adjustScoreByManagement = function (vm, memberEPAs) {
         return employeeEPAFactory.adjustScoreByManagement(memberEPAs)
         .success(function (response) {
             if (response.IsSuccessful) {
                 angular.forEach(memberEPAs, function (memberEPA) {
                     memberEPA.ProcessByManagements[0].TotalScoreOriginal = memberEPA.ProcessByManagements[0].TotalScore;
                 });
+
+                vm.dataSaved = true;
 
                 notificationFactory.success("UpdatedSuccessfully");
             }

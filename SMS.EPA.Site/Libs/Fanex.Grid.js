@@ -4,22 +4,25 @@
 // Revision:
 //          + 01/10/2014: Auto re-size column.
 //          + 01/21/2014: Supported Sort with SortType for each column.
-//          + 01/22/2014: Fixed bug Auto reset scroller when resize grid.
+//          + 01/22/2014: Fixed Auto reset scroller when resize grid.
 //          + 02/06/2014: Customize Render footer when auto paging + Update initialize footer.
 //          + 02/06/2014: Customize Render footer when auto paging + Update initialize footer.
 //          + 02/27/2014: Update show "..." when auto truncate.
 //          + 03/19/2014: Support Time Zone Config
 //          + 04/08/2014: Support auto resize to full-screen width
 //          + 04/11/2014: Remove class "Container"
-//          + 04/16/2014: Auto fix header height, fix bug collapse/expand
-//          + 06/20/2014: Fix bug auto fix row height.
+//          + 04/16/2014: Auto fix header height, fix collapse/expand
+//          + 06/20/2014: Fix auto fix row height.
 //          + 09/25/2014: Update auto parseInt for paging option.
 //          + 10/08/2014: Fix dont resize grid hidden.
 //          + 10/09/2014: Update default page index for pager
 //          + 10/14/2014: Remove use strict
+//          + 01/23/2015: Check pager undefined before add in show/hide columns
+//          + 03/03/2015: Update fix height for both table when auto fix height
+//          + 03/03/2015: Update fix show format number for number column, add defaultCollapseAllGroups option for collapsing all group by default
 // </copyright>
 // --------------------------------------------------------------------------
-/*jshint maxdepth:false, maxstatements:false*/
+/*jshint maxdepth:false, maxstatements:false, strict:false*/
 /*global fanexGridLanguage, moment,numeral*/
 
 var fanexGridCurrentLanguage = fanexGridCurrentLanguage || {};
@@ -75,7 +78,9 @@ var fanexGridCurrentLanguage = fanexGridCurrentLanguage || {};
             opts = $.extend({}, $.fn.fanexGrid.defaults, opts);
             return this.each(function () {
                 var fanexGrid = new Fanex.Grid(this, opts);
-                opts.pagerOption = Fanex.Grid.List[fanexGrid.tableContentId].pagerOption;
+                if (Fanex.Grid.List[fanexGrid.tableContentId].pagerOption) {
+                    opts.pagerOption = Fanex.Grid.List[fanexGrid.tableContentId].pagerOption;
+                }
                 Fanex.Grid.Helper.UpdateSortInforAfterShowHideColumns(opts, Fanex.Grid.List[fanexGrid.tableContentId].sortOption);
                 fanexGrid.RenderGrid();
                 return fanexGrid.GetjQueryInstance();
@@ -88,7 +93,9 @@ var fanexGridCurrentLanguage = fanexGridCurrentLanguage || {};
             opts = $.extend({}, $.fn.fanexGrid.defaults, opts);
             return this.each(function () {
                 var fanexGrid = new Fanex.Grid(this, opts);
-                opts.pagerOption = Fanex.Grid.List[fanexGrid.tableContentId].pagerOption;
+                if (Fanex.Grid.List[fanexGrid.tableContentId].pagerOption) {
+                    opts.pagerOption = Fanex.Grid.List[fanexGrid.tableContentId].pagerOption;
+                }
                 Fanex.Grid.Helper.UpdateSortInforAfterShowHideColumns(opts, Fanex.Grid.List[fanexGrid.tableContentId].sortOption);
                 //fanexGrid.RenderGrid();
                 fanexGrid.RenderShowHideColumns(false);
@@ -219,7 +226,8 @@ var fanexGridCurrentLanguage = fanexGridCurrentLanguage || {};
         pixelsPerCharacter: 0,
         calTextWidthWithFontSize: true,
         timeZone: '',
-        scrollWidth: 24
+        scrollWidth: 24,
+        defaultCollapseAllGroups: false
     };
 
     var Fanex = Fanex || {};
@@ -327,7 +335,7 @@ var fanexGridCurrentLanguage = fanexGridCurrentLanguage || {};
             var footer = (options.showFooter && options.bodyRows.length > 0 ? me.RenderFooter() : "");
             var bodyHtmlTemp = '',
                 currentCol;
-            // Fixbug for replace $' string
+            // Fix for replace $' string
             if (options.numberOfFrozenColumn > 0) {
                 bodyHtmlTemp = bodyHtml.split('{$}frozenBody');
                 if (bodyHtmlTemp.length === 2) {
@@ -1072,6 +1080,10 @@ var fanexGridCurrentLanguage = fanexGridCurrentLanguage || {};
                 else {
                     currentRowIndexForCustomPager = (cell.RowIndex + 1);
                 }
+
+                if (me.columnsHastable[currentCol.Name].FormatNumber) {
+                    currentRowIndexForCustomPager = numeral(currentRowIndexForCustomPager).format(me.columnsHastable[currentCol.Name].FormatNumber);
+                }
             }
 
             cellHtml.push(showRowIndexNumber ? currentRowIndexForCustomPager : cellContent);
@@ -1281,7 +1293,7 @@ var fanexGridCurrentLanguage = fanexGridCurrentLanguage || {};
                 //                }
             }
             else {
-                // Fixbug for replace $' string
+                // Fix for replace $' string
                 var bodyHtmlTemp = bodyHtml.split('{$}frozenBody');
                 if (bodyHtmlTemp.length === 2) {
                     bodyHtml = bodyHtmlTemp[0] + bodyFrozenHtml.join('') + bodyHtmlTemp[1];
@@ -1474,6 +1486,10 @@ var fanexGridCurrentLanguage = fanexGridCurrentLanguage || {};
                         }
                         $(me.$grid).gridScroller(me.gridOptions);
                     });
+
+                    if (options.defaultCollapseAllGroups) {
+                        me.$grid.parent().find('#btnCollapseExpand' + me.gridId).trigger('click');
+                    }
                 }
             }
 
@@ -1631,20 +1647,28 @@ var fanexGridCurrentLanguage = fanexGridCurrentLanguage || {};
                 });
             }
         },
-
         AutoResizeRowHeight: function () {
             var me = this,
                 options = me.Options;
             if (options.autoFixFrozenRowHeight) {
+                var extraHeight = 3;
                 me.$grid.find('.content-container .auto-fix-row').each(function () {
                     var $this = $(this),
-                        currentHeight = $this.height(),
+                        currentHeight = $this.height() + extraHeight,
                         atfattr = $this.attr('autofixatt');
 
                     if (isValid(atfattr)) {
-                        me.$grid.find('.row_header tr[autofixatt="' + atfattr.replace('main', 'frozen') + '"]').css('height', currentHeight + 'px');
+                        me.$grid.find('.row_header tr[autofixatt="' + atfattr.replace('main', 'frozen') + '"]')
+                            .attr('frozen-row-computed-height', currentHeight + 'px');
+                        $this.attr('frozen-row-computed-height', currentHeight + 'px');
                     }
                 });
+
+                me.$grid.hide().find('tr.auto-fix-row').each(function () {
+                    var $this = $(this);
+                    $this.css('height', $this.attr('frozen-row-computed-height'));
+                });
+                me.$grid.show();
                 // Header
                 var currentFrozenHeader = me.$grid.find('.grid-fixed-table.free-cell-top-left thead tr'),
                     currentFrozenBody = me.$grid.find('.grid-fixed-table.row_header_content thead tr');
@@ -1655,6 +1679,7 @@ var fanexGridCurrentLanguage = fanexGridCurrentLanguage || {};
 
                         $(currentFrozenHeader[index]).css('height', currentHeight + 'px');
                         $(currentFrozenBody[index]).css('height', currentHeight + 'px');
+                        //$trTable.css('height', currentHeight + 'px');
                     });
                 }
                 // Footer
@@ -1663,10 +1688,12 @@ var fanexGridCurrentLanguage = fanexGridCurrentLanguage || {};
                     me.$grid.find('.col_footer_content.grid-fixed-table thead tr').each(function (index) {
                         var $trTable = $(this),
                             currentHeight = $trTable.height();
-
                         $(currentFrozenFooter[index]).css('height', currentHeight + 'px');
+                        //$trTable.css('height', currentHeight + 'px');
                     });
                 }
+
+                $(me.$grid).gridScroller(me.gridOptions);
             }
         }
     };
@@ -2438,7 +2465,7 @@ var fanexGridCurrentLanguage = fanexGridCurrentLanguage || {};
             freeCellBottom.css("top", (gridHeight - pagerHeight - freezeFooterHeight - bar) + "px");
             o.find(".scrollbar-y-content").css("height", (tblHeight - freezeHeight) + "px");
 
-            //// Fixed bug for IE10, wrong body Height
+            //// Fixed for IE10, wrong body Height
             var newTblHeight = tblContent.height();
             if (ub.msie && tblHeight !== newTblHeight) {
                 tblHeight = newTblHeight;
@@ -2492,12 +2519,12 @@ var fanexGridCurrentLanguage = fanexGridCurrentLanguage || {};
             if (gridTitle.length > 0) {
                 gridTitle.width(o.width());
             }
-            //// Fixbug show scroller on row header on chrome
+            //// Fix show scroller on row header on chrome
             if (isOnChromeBrowser) {
                 rowHeaderContainer.css("overflow", "hidden !important");
             }
 
-            ////fix bug scoll in IE
+            ////fix scoll in IE
             if (ub.msie) {
                 yscrollbar.addClass("y-scrollbar-fix-width");
                 xscrollbar.addClass("x-scrollbar-fix-height");
@@ -2677,7 +2704,7 @@ var fanexGridCurrentLanguage = fanexGridCurrentLanguage || {};
         else {
             return false;
         }
-    };
+    }
 
     var isOnSmartPhoneBrowser = detectSmartPhone();
     var isOnChromeBrowser = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
@@ -2693,7 +2720,7 @@ var fanexGridCurrentLanguage = fanexGridCurrentLanguage || {};
             return true;
         }
         return false;
-    };
+    }
 
     function clone(obj) {
         var target = {};
@@ -2703,7 +2730,7 @@ var fanexGridCurrentLanguage = fanexGridCurrentLanguage || {};
             }
         }
         return target;
-    };
+    }
 
 })(jQuery);
 

@@ -43,14 +43,14 @@
                             "~/Libs/datepicker.js",
                             "~/Libs/tai-placeholder.js",
                             "~/Libs/dirPagination.js",
+                            "~/Libs/Fanex.Grid.js",
+                            "~/Libs/moment.min.js",
+                            "~/Libs/numeral.min.js",
+                            "~/Libs/Fanex.Pagination.js",
                             "~/Libs/chosen.jquery.min.js",
                             "~/Libs/angular-chosen.js",
-                            "~/Libs/moment.min.js",
                             "~/Libs/ui-bootstrap-contextMenu.js",
-                            "~/Libs/numeric-directive.js",
-                            "~/Libs/Fanex.Grid.js",
-                            "~/Libs/numeral.min.js",
-                            "~/Libs/Fanex.Pagination.js"));
+                            "~/Libs/numeric-directive.js"));
 
             bundles.AddAndInclude(
                             "~/bundles/less",

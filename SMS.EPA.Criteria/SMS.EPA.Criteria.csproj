@@ -95,7 +95,6 @@
     <Compile Include="EmployeeEPA\GetEPAByEvaluatorCriteria.cs" />
     <Compile Include="EmployeeEPA\GetMemberCriteria.cs" />
     <Compile Include="EmployeeEPA\UpdateEPAScoreCriteria.cs" />
-    <Compile Include="EmployeeEPA\UpdateScoreByReviewerOrManagementCriteria.cs" />
     <Compile Include="Employee\AssignRoleToEmployeeCriteria.cs" />
     <Compile Include="Employee\ChangePasswordCriteria.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>

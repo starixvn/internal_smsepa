@@ -3,38 +3,24 @@
 
 reportModule.directive('gridEpaSummaryReport', ['$timeout', 'utilitiesFactory', function ($timeout, utilitiesFactory) {
     var generateGroupHeaders = function (periodSelecteds) {
-        var groupHeaders = [];
-        if (periodSelecteds && periodSelecteds.length > 0) {
-            groupHeaders = [
-                {
-                    Columns: [
-                        { HeaderText: "#", Name: "No", MergeRowNumber: 2 },
-                        { HeaderText: "Code", Name: "Code", MergeRowNumber: 2 },
-                        { HeaderText: "Full Name", Name: "FullName", MergeRowNumber: 2 },
-                        { HeaderText: "Nick Name", Name: "NickName", MergeRowNumber: 2 },
-                        { HeaderText: "Section", Name: "Section", MergeRowNumber: 2 },
-                        { HeaderText: "Job Title", Name: "JobTitle", MergeRowNumber: 2 },
-                        { HeaderText: "Final Score", Name: "1", MergeColNumber: periodSelecteds.length }
-                    ]
-                }
-            ];
-        }
-        else {
-            groupHeaders = [
-                {
-                    Columns: [
-                        { HeaderText: "#", Name: "No", MergeRowNumber: 2 },
-                        { HeaderText: "Code", Name: "Code", MergeRowNumber: 2 },
-                        { HeaderText: "Full Name", Name: "FullName", MergeRowNumber: 2 },
-                        { HeaderText: "Nick Name", Name: "NickName", MergeRowNumber: 2 },
-                        { HeaderText: "Section", Name: "Section", MergeRowNumber: 2 },
-                        { HeaderText: "Job Title", Name: "JobTitle", MergeRowNumber: 2 }
-                    ]
-                }
-            ];
-        }
+        var groupHeaders = [
+            {
+                Columns: [
+                    { HeaderText: "#", Name: "No", MergeRowNumber: 2 },
+                    { HeaderText: "Code", Name: "Code", MergeRowNumber: 2 },
+                    { HeaderText: "Full Name", Name: "FullName", MergeRowNumber: 2 },
+                    { HeaderText: "Nick Name", Name: "NickName", MergeRowNumber: 2 },
+                    { HeaderText: "Section", Name: "Section", MergeRowNumber: 2 },
+                    { HeaderText: "Job Title", Name: "JobTitle", MergeRowNumber: 2 }
+                ]
+            }
+        ];
 
-        groupHeaders.
+        if (periodSelecteds && periodSelecteds.length > 0) {
+            var column = { HeaderText: "Final Score", Name: "1", MergeColNumber: periodSelecteds.length };
+
+            groupHeaders[0].Columns.push(column);
+        }
 
         return groupHeaders;
     };

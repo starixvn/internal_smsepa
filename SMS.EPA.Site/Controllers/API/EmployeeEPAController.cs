@@ -11,11 +11,9 @@ namespace SMS.EPA.Site.Controllers.API
 {
     using System.Collections.Generic;
     using System.Linq;
-    using System.Web;
     using System.Web.Http;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
-    using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.EmployeeEPA;
     using SMS.EPA.Criteria.EmployeeEPA.RatingByKPI;
     using SMS.EPA.Model.EmployeeEPA;
@@ -73,6 +71,7 @@ namespace SMS.EPA.Site.Controllers.API
                 ProcessId = (int)ProcessType.Self,
                 EmployeeId = model.Employee.EmployeeId,
                 EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
+                Comment = model.ProcessBySelf.Comment,
                 EPAProcess = model.ProcessBySelf,
                 KPIGroups = model.KPIGroups,
                 ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
@@ -134,6 +133,7 @@ namespace SMS.EPA.Site.Controllers.API
                 ProcessId = (int)ProcessType.Evaluator,
                 EmployeeId = model.Employee.EmployeeId,
                 EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
+                Comment = model.ProcessByEvaluators.FirstOrDefault().Comment,
                 EPAProcess = model.ProcessByEvaluators.FirstOrDefault(),
                 KPIGroups = model.KPIGroups,
                 ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
@@ -324,20 +324,6 @@ namespace SMS.EPA.Site.Controllers.API
             };
 
             return _employeeEPAService.GetEPAInfoById(criteria);
-        }
-
-        [HttpPut]
-        public CommandResult UpdateScoreByReviewerOrManagement(UpdateScoreByReviewerOrManagementCriteria criteria)
-        {
-            if (criteria != null)
-            {
-                criteria.EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId;
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
-                criteria.Comment = HttpUtility.HtmlEncode(criteria.Comment);
-                criteria.Score = EncodeService.Encode(criteria.Score);
-            }
-
-            return _employeeEPAService.UpdateScoreByReviewerOrManagement(criteria);
         }
 
         private CommandResult UpdateEPAScoreByEmployeeOrEvaluator(UpdateEPAScoreCriteria criteria)

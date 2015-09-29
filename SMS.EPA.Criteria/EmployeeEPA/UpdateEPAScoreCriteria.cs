@@ -31,13 +31,7 @@ namespace SMS.EPA.Criteria.EmployeeEPA
 
         public int EvaluatorId { get; set; }
 
-        public string Comment
-        {
-            get
-            {
-                return HttpUtility.HtmlEncode(EPAProcess.Comment);
-            }
-        }
+        public string Comment { get; set; }
 
         public string Score
         {
