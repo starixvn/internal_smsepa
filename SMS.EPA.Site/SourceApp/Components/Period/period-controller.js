@@ -668,6 +668,7 @@ permission, PeriodModel, EmployeeModel, TargetTemplateModel, FlowMngModel) {
    */
     TargetTemplateModel.getTargetTemplate(vm.period.TargetType.TargetTypeId, true).then(function () {
         vm.targetTemplates = TargetTemplateModel.targetTemplates;
+        vm.employeeOptions.targetTemplateId = vm.targetTemplates ? vm.targetTemplates[0].TargetTemplateId : null;
 
         EmployeeModel.getAllEmployee().then(function () {
             vm.employees = EmployeeModel.employees;

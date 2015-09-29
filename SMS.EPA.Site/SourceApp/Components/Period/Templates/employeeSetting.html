@@ -115,8 +115,8 @@
                     <span ng-show="employee.SelfEvaluators[0].ProcessStatus == 2" data-translate="InProgress"></span>
                     <span ng-show="employee.SelfEvaluators[0].ProcessStatus == 3" data-translate="Closed"></span>
                 </td>
-                <td class="width-120" ng-bind="employee.SelfEvaluators[0].StartDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
-                <td class="width-120" ng-bind="employee.SelfEvaluators[0].EndDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
+                <td class="width-140" ng-bind="employee.SelfEvaluators[0].StartDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
+                <td class="width-140" ng-bind="employee.SelfEvaluators[0].EndDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
                 <td class="text-center width-80" rowspan="{{employee.NumberEvaluators}}">
                     <img class="ico-tick" ng-show="employee.SelfEvaluators[0].HasEvaluationGenerated" />
                 </td>
@@ -139,9 +139,9 @@
                     <span ng-show="evaluator.ProcessStatus == 2" data-translate="InProgress"></span>
                     <span ng-show="evaluator.ProcessStatus == 3" data-translate="Closed"></span>
                 </td>
-                <td class="width-120" ng-bind="evaluator.StartDate | date: employeeSettingPeriodCtrl.dateFormat"
+                <td class="width-140" ng-bind="evaluator.StartDate | date: employeeSettingPeriodCtrl.dateFormat"
                     ng-show="$first" rowspan="{{employee.Evaluators.length}}"></td>
-                <td class="width-120" ng-bind="evaluator.EndDate | date: employeeSettingPeriodCtrl.dateFormat"
+                <td class="width-140" ng-bind="evaluator.EndDate | date: employeeSettingPeriodCtrl.dateFormat"
                     ng-show="$first" rowspan="{{employee.Evaluators.length}}"></td>
             </tr>
             <tr ng-class="{oddRow: $parent.$index % 2 == 0, evenRow: $parent.$index % 2 != 0}" ng-repeat="reviewer in employee.Reviewers">
@@ -167,9 +167,9 @@
                     <span ng-show="management.ProcessStatus == 2" data-translate="InProgress"></span>
                     <span ng-show="management.ProcessStatus == 3" data-translate="Closed"></span>
                 </td>
-                <td class="width-120" ng-bind="management.StartDate | date: employeeSettingPeriodCtrl.dateFormat"
+                <td class="width-140" ng-bind="management.StartDate | date: employeeSettingPeriodCtrl.dateFormat"
                     ng-show="$first" rowspan="{{employee.Managements.length}}"></td>
-                <td class="width-120" ng-bind="management.EndDate | date: employeeSettingPeriodCtrl.dateFormat"
+                <td class="width-140" ng-bind="management.EndDate | date: employeeSettingPeriodCtrl.dateFormat"
                     ng-show="$first" rowspan="{{employee.Managements.length}}"></td>
             </tr>
         </tbody>
