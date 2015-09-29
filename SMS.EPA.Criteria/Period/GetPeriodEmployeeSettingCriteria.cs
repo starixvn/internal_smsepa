@@ -15,6 +15,9 @@ namespace SMS.EPA.Criteria.Period
     {
         public int PeriodId { get; set; }
 
+        [SpParam(Ignored = true)]
+        public string PeriodName { get; set; }
+
         public int? DepartmentId { get; set; }
 
         public bool? IsExcludedEmployee { get; set; }

@@ -108,7 +108,7 @@
         <tbody>
             <tr dir-paginate="employee in detailAttendanceCtrl.filteredItems | itemsPerPage: detailAttendanceCtrl.pageSize" current-page="detailAttendanceCtrl.currentPage">
                 <td class="text-center" ng-bind="employee.Employee.Code"></td>
-                <td class="text-center width200">
+                <td class="text-center width-200">
                     <span ng-bind="employee.Employee.NickName" tooltip="{{employee.Employee.FullName}}"></span>
                 </td>
                 <td class="text-center" ng-bind="employee.Employee.Group.GroupName"></td>

@@ -645,7 +645,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         return processStatus;
     };
 
-    periodModel.getUpdateEvaluators = function (evaluator, evaluatorType, employees) {
+    periodModel.getUpdateEvaluators = function (evaluator, evaluatorType, employees, hasGeneratedEvaluation) {
         var evaluators = [];
 
         if (evaluator && evaluator.ids != null && evaluator.ids.length > 0) {
@@ -653,7 +653,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                 var employee = getEmployeeById(employees, id),
                     evaluatorItem = {
                         ProcessId: evaluatorType,
-                        ProcessStatus: getProcessStatus(evaluator.StartDate, evaluator.EndDate),
+                        ProcessStatus: hasGeneratedEvaluation ? getProcessStatus(evaluator.StartDate, evaluator.EndDate) : evaluator.ProcessStatus,
                         StartDate: evaluator.StartDate,
                         EndDate: evaluator.EndDate,
                         EvaluatorInfo: employee ? employee : {

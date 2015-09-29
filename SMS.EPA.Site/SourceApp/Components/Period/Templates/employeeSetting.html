@@ -106,10 +106,10 @@
                     <div ng-bind="employee.JobTitle.JobTitleName"></div>
                 </td>
                 <td class="text-center" ng-bind="employee.TargetTemplate.TargetTypeName" rowspan="{{employee.NumberEvaluators}}"></td>
-                <td ng-bind="employee.TargetTemplate.Name" rowspan="{{employee.NumberEvaluators}}"></td>
+                <td class="width-190" ng-bind="employee.TargetTemplate.Name" rowspan="{{employee.NumberEvaluators}}"></td>
                 <td data-translate="SelfEvaluator"></td>
                 <td ng-bind="employee.NickName"></td>
-                <td class="width-100">
+                <td class="width-120">
                     <span ng-show="employee.SelfEvaluators[0].ProcessStatus == 0" data-translate="NotAvailable"></span>
                     <span ng-show="employee.SelfEvaluators[0].ProcessStatus == 1" data-translate="Open"></span>
                     <span ng-show="employee.SelfEvaluators[0].ProcessStatus == 2" data-translate="InProgress"></span>
@@ -147,7 +147,7 @@
             <tr ng-class="{oddRow: $parent.$index % 2 == 0, evenRow: $parent.$index % 2 != 0}" ng-repeat="reviewer in employee.Reviewers">
                 <td data-translate="Reviewer" rowspan="{{employee.Reviewers.length}}" ng-show="$first"></td>
                 <td ng-bind="reviewer.EvaluatorInfo.NickName"></td>
-                <td class="width-100">
+                <td class="width-120">
                     <span ng-show="reviewer.ProcessStatus == 0" data-translate="NotAvailable"></span>
                     <span ng-show="reviewer.ProcessStatus == 1" data-translate="Open"></span>
                     <span ng-show="reviewer.ProcessStatus == 2" data-translate="InProgress"></span>
@@ -161,7 +161,7 @@
             <tr ng-class="{oddRow: $parent.$index % 2 == 0, evenRow: $parent.$index % 2 != 0}" ng-repeat="management in employee.Managements">
                 <td data-translate="Management" rowspan="{{employee.Managements.length}}" ng-show="$first"></td>
                 <td ng-bind="management.EvaluatorInfo.NickName"></td>
-                <td class="width-100">
+                <td class="width-120">
                     <span ng-show="management.ProcessStatus == 0" data-translate="NotAvailable"></span>
                     <span ng-show="management.ProcessStatus == 1" data-translate="Open"></span>
                     <span ng-show="management.ProcessStatus == 2" data-translate="InProgress"></span>

@@ -24,7 +24,7 @@ namespace SMS.EPA.Site.Controllers
 
     public class ExportReportController : Controller
     {
-        private const string _EmployeeFlowSettingReportTemplatePath = @"~\SourceApp\Components\CheckFlowAssignment\ExcelTemplates\EmployeeFlowSettingReport.xls";
+        private const string _EmployeeFlowSettingReportTemplatePath = @"~\SourceApp\Components\Period\ExcelTemplates\EmployeeFlowSettingReport.xls";
 
         private readonly IPeriodService _periodService;
         private readonly IReportService _reportService;
@@ -51,7 +51,7 @@ namespace SMS.EPA.Site.Controllers
         {
             IEnumerable<PeriodEmployeeSettingModel> employeeFlowSettings = _periodService.GetPeriodEmployeeSettingById(criteria);
             string templatePath = Server.MapPath(_EmployeeFlowSettingReportTemplatePath);
-            _periodService.ExportEmployeeSettingReport(employeeFlowSettings, templatePath);
+            _periodService.ExportEmployeeSettingReport(employeeFlowSettings, templatePath, criteria.PeriodName);
 
             return new EmptyResult();
         }

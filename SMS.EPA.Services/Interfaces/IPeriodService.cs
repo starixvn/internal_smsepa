@@ -38,7 +38,7 @@ using SMS.EPA.Model.Period;
 
         CommandResult UpdateIncludeStatusEmployeePeriod(UpdateIncludeStatusEmployeePeriodCriteria criteria);
 
-        void ExportEmployeeSettingReport(IEnumerable<PeriodEmployeeSettingModel> employeeFlowSettings, string templatePath);
+        void ExportEmployeeSettingReport(IEnumerable<PeriodEmployeeSettingModel> employeeFlowSettings, string templatePath, string periodName);
 
         CommandResult GenerateEvaluation(AutoGenerateEvaluationCriteria criteria);
 

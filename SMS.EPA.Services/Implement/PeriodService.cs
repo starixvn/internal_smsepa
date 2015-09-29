@@ -270,15 +270,16 @@ namespace SMS.EPA.Services.Implement
 
         public void ExportEmployeeSettingReport(
             IEnumerable<PeriodEmployeeSettingModel> employeeFlowSettings,
-            string templatePath)
+            string templatePath,
+            string periodName)
         {
             string reportName = Lang.EmployeeFlowSettingReportName;
-            string reportTitle = Lang.EmployeeFlowSettingReportTitle;
+            string reportTitle = string.Format(Lang.EmployeeFlowSettingReportTitle, periodName);
             var writer = new ExcelTemplateWriter(templatePath, reportName, Lang.EmployeeFlowSettingReportSheet);
 
             // Fill report title.
-            writer.CopyRows(0, 2);
-            writer.WriteRow(2, new object[] { reportTitle });
+            writer.WriteRow(0, new object[] { reportTitle });
+            writer.CopyRows(1, 1);
 
             // Fill report header.
             writer.CopyRows(3, 1);
@@ -405,8 +406,8 @@ namespace SMS.EPA.Services.Implement
             {
                 Count = rowIndex,
                 Department = employeeSetting.Department != null ? employeeSetting.Department.Name : string.Empty,
-                ID = employeeSetting.EmployeeId,
                 Section = employeeSetting.Group != null ? employeeSetting.Group.GroupName : string.Empty,
+                ID = employeeSetting.EmployeeId,
                 FullName = employeeSetting.FullName,
                 NickName = employeeSetting.NickName,
                 Evaluator = GetEvaluator(employeeSetting.Evaluators),

@@ -296,8 +296,8 @@ function ($scope, $window, PeriodModel, FlowMngModel) {
 }]);
 
 periodModule.controller('EmployeeSettingPeriodController',
-['$scope', '$routeParams', '$window', 'PeriodModel', 'utilitiesFactory', 'CommonModel', 'EmployeeModel', 'notificationFactory',
-function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonModel, EmployeeModel, notificationFactory) {
+['$scope', '$routeParams', '$window', 'PeriodModel', 'utilitiesFactory', 'CommonModel', 'notificationFactory',
+function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonModel, notificationFactory) {
     var vm = this;
 
     vm.period = null;
@@ -372,11 +372,7 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
     };
 
     vm.getEmployee = function () {
-        return EmployeeModel.getAllEmployee(vm.searchEmployee);
-    };
-
-    vm.getEmployee = function () {
-        return EmployeeModel.getAllEmployee(vm.searchEmployee);
+        return CommonModel.getAllEmployee(vm.searchEmployee);
     };
 
     vm.unSelectEmployee = function () {
@@ -449,7 +445,7 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
     vm.manageSetting = function () {
         var selectedEmployees = PeriodModel.getSelectedEmployee(vm.employeeSettings);
 
-        if (!selectedEmployees) {
+        if (!selectedEmployees || selectedEmployees.length === 0) {
             notificationFactory.error("SelectEmployeeBeforeEditSettingWarning");
         }
         else {
@@ -465,7 +461,7 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
                 employeeIds: selectedEmployeeInfo.selectedEmployeeIds
             };
 
-        if (!selectedEmployees) {
+        if (!selectedEmployees || selectedEmployees.length === 0) {
             notificationFactory.error("SelectEmployeeBeforeGenerateEvaluation");
         }
         else {
@@ -528,8 +524,9 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
     vm.exportReport = function (filter) {
           vm.exportCriteria = {
               periodId: filter.periodId,
-            departmentId: filter.departmentId,
-            isExcludedEmployee: filter.isExcludedEmployee
+              periodName: vm.period.Name,
+              departmentId: filter.departmentId,
+              isExcludedEmployee: filter.isExcludedEmployee
         };
 
           $scope.$broadcast('exportEmployeeSettingReport');
@@ -538,9 +535,9 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
 
 periodModule.controller('UpdateEmployeeSettingPeriodController',
 ['$scope', '$modalInstance', 'period', 'selectedEmployees',
-'permission', 'PeriodModel', 'EmployeeModel', 'TargetTemplateModel', 'FlowMngModel',
+'permission', 'PeriodModel', 'TargetTemplateModel', 'FlowMngModel', 'CommonModel',
 function ($scope, $modalInstance, period, selectedEmployees,
-permission, PeriodModel, EmployeeModel, TargetTemplateModel, FlowMngModel) {
+permission, PeriodModel, TargetTemplateModel, FlowMngModel, CommonModel) {
     var vm = this,
         date = new Date();
 
@@ -670,8 +667,8 @@ permission, PeriodModel, EmployeeModel, TargetTemplateModel, FlowMngModel) {
         vm.targetTemplates = TargetTemplateModel.targetTemplates;
         vm.employeeOptions.targetTemplateId = vm.targetTemplates ? vm.targetTemplates[0].TargetTemplateId : null;
 
-        EmployeeModel.getAllEmployee().then(function () {
-            vm.employees = EmployeeModel.employees;
+        CommonModel.getAllEmployee().then(function () {
+            vm.employees = CommonModel.employees;
             vm.employeeOptions.humanResourceEmployees = angular.copy(vm.employees);
             vm.employeeOptions.evaluatorEmployees = angular.copy(vm.employees);
             vm.employeeOptions.reviewerEmployees = angular.copy(vm.employees);
@@ -706,11 +703,12 @@ permission, PeriodModel, EmployeeModel, TargetTemplateModel, FlowMngModel) {
     var getUpdatedEmployeeSetting = function (employeeSetting, employeeOptions) {
         employeeSetting.TargetTemplate = PeriodModel.getUpdateTargetTemplate(employeeOptions.targetTemplateId, vm.targetTemplates);
 
-        employeeSetting.HumanResources = PeriodModel.getUpdateEvaluators(employeeOptions.humanResource, vm.evaluatorType.HumanResources, vm.employees);
-        employeeSetting.SelfEvaluators = PeriodModel.getUpdateEvaluators(employeeOptions.selfEvaluator, vm.evaluatorType.SelfEvaluator, vm.employees);
-        employeeSetting.Evaluators = PeriodModel.getUpdateEvaluators(employeeOptions.evaluator, vm.evaluatorType.Evaluator, vm.employees);
-        employeeSetting.Reviewers = PeriodModel.getUpdateEvaluators(employeeOptions.reviewer, vm.evaluatorType.Reviewer, vm.employees);
-        employeeSetting.Managements = PeriodModel.getUpdateEvaluators(employeeOptions.management, vm.evaluatorType.Management, vm.employees);
+        var hasGeneratedEvaluation = employeeOptions.selfEvaluator.HasEvaluationGenerated;
+        employeeSetting.HumanResources = PeriodModel.getUpdateEvaluators(employeeOptions.humanResource, vm.evaluatorType.HumanResources, vm.employees, hasGeneratedEvaluation);
+        employeeSetting.SelfEvaluators = PeriodModel.getUpdateEvaluators(employeeOptions.selfEvaluator, vm.evaluatorType.SelfEvaluator, vm.employees, hasGeneratedEvaluation);
+        employeeSetting.Evaluators = PeriodModel.getUpdateEvaluators(employeeOptions.evaluator, vm.evaluatorType.Evaluator, vm.employees, hasGeneratedEvaluation);
+        employeeSetting.Reviewers = PeriodModel.getUpdateEvaluators(employeeOptions.reviewer, vm.evaluatorType.Reviewer, vm.employees, hasGeneratedEvaluation);
+        employeeSetting.Managements = PeriodModel.getUpdateEvaluators(employeeOptions.management, vm.evaluatorType.Management, vm.employees, hasGeneratedEvaluation);
         employeeSetting.NumberEvaluators = calculateNumberEvaluators(employeeSetting);
 
         return employeeSetting;

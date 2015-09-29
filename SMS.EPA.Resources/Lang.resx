@@ -496,7 +496,7 @@
     <value>Search</value>
   </data>
   <data name="SelectEmployeeBeforeAssignWarning" xml:space="preserve">
-    <value>Please select employee to assign target template!</value>
+    <value>Please select at least employee to assign target template!</value>
   </data>
   <data name="None" xml:space="preserve">
     <value>None</value>
@@ -541,7 +541,7 @@
     <value>The Parent Node field is required!</value>
   </data>
   <data name="SelectEmployeeBeforeAssingFlowSettingWarning" xml:space="preserve">
-    <value>Please select employee before assign!</value>
+    <value>Please select at least  employee before assign!</value>
   </data>
   <data name="EditFlowSetting" xml:space="preserve">
     <value>Edit Flow Setting</value>
@@ -574,7 +574,7 @@
     <value>EPA_Evaluator_Reviewer_List_of_Section</value>
   </data>
   <data name="EmployeeFlowSettingReportTitle" xml:space="preserve">
-    <value>EPA Evaluator/Reviewer List of Section</value>
+    <value>{0} - EPA Evaluator/Reviewer List of Section</value>
   </data>
   <data name="UserIsDisabled" xml:space="preserve">
     <value>This user is disabled!</value>
@@ -781,7 +781,7 @@
     <value>Average Score By Evaluators</value>
   </data>
   <data name="SelectEmployeeBeforeEditSettingWarning" xml:space="preserve">
-    <value>Please select employee before edit setting!</value>
+    <value>Please select at least  employee before edit setting!</value>
   </data>
   <data name="HRRangeDateGreaterThanSelfRangeDateWarning" xml:space="preserve">
     <value>The End Date of Human Resources must be less than or equal the Start Date of Self Evaluator!</value>
@@ -880,7 +880,7 @@
     <value>Generate EPA</value>
   </data>
   <data name="SelectEmployeeBeforeGenerateEvaluation" xml:space="preserve">
-    <value>Please select employee before generate EPA!</value>
+    <value>Please select at least employee before generate EPA!</value>
   </data>
   <data name="PersonalProfile" xml:space="preserve">
     <value>Personal Profile</value>
