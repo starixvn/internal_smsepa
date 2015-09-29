@@ -115,7 +115,7 @@ function ($modalInstance, EmployeeEPAModel, selectedEmployees, isReviewer, notif
                     memberEPA.ProcessByReviewers[0].TotalScore = totalScoreOriginal;
                 }
 
-                totalScoreAdjust = totalScoreOriginal + score
+                totalScoreAdjust = totalScoreOriginal + score;
 
                 if (totalScoreAdjust > memberEPA.ProcessByReviewers[0].MaxScore) {
                     memberEPA.ProcessByReviewers[0].TotalScore = memberEPA.ProcessByReviewers[0].MaxScore;

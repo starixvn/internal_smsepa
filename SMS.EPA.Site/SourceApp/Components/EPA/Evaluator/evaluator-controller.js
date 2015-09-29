@@ -53,8 +53,8 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
 }]);
 
 epaModule.controller('MemberEPAInfoOfEvaluatorController',
-['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'CommonModel', 'notificationFactory',
-function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, notificationFactory) {
+['$window', '$translate', '$routeParams', 'EmployeeEPAModel',
+function ($window, $translate, $routeParams, EmployeeEPAModel) {
     var vm = this;
 
     vm.epaId = parseInt($routeParams.id);

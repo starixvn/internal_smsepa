@@ -26,8 +26,8 @@ function (EmployeeEPAModel) {
 }]);
 
 epaModule.controller('EmployeeEPAInfoController',
-['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'notificationFactory',
-function ($window, $translate, $routeParams, EmployeeEPAModel, notificationFactory) {
+['$window', '$translate', '$routeParams', 'EmployeeEPAModel',
+function ($window, $translate, $routeParams, EmployeeEPAModel) {
     var vm = this;
 
     vm.epaId = parseInt($routeParams.id);

@@ -1,7 +1,7 @@
 ﻿'use strict';
 /*exported employeeModule, commonModule, kpiModule, kpiGroupModule, roleModule, targetTemplateModule*/
 /*exported flowMngModule, targetEmployeeSettingModule, checkFlowAssignmentModule, departmentModule*/
-/*exported epaModule, periodModule, dashboardModule, attendanceModule*/
+/*exported epaModule, periodModule, dashboardModule, attendanceModule, reportModule*/
 
 var employeeModule = angular.module("employeeModule", ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
