@@ -34,6 +34,8 @@ reportModule.directive('gridEpaSummaryReport', ['$timeout', 'utilitiesFactory', 
             ];
         }
 
+        groupHeaders.
+
         return groupHeaders;
     };
 

@@ -48,8 +48,8 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
                 memberEPA.ProcessByManagements[0].TotalScore = memberEPA.ProcessByManagements[0].TotalScore ? parseFloat(memberEPA.ProcessByManagements[0].TotalScore) : 0;
                 performanceScore = memberEPA.ProcessByManagements[0].TotalScore;
 
-                if (memberEPA.HasAttendanceScore) {
-                    memberEPA.FinalScore = performanceScore + memberEPA.AttendanceScore;
+                if (memberEPA.HasDisciplineScore) {
+                    memberEPA.FinalScore = performanceScore + memberEPA.DisciplineScore;
                 }
                 else {
                     memberEPA.FinalScore = performanceScore;
@@ -87,8 +87,8 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
 
                 memberEPA.ProcessByManagements[0].TotalScoreOriginal = memberEPA.ProcessByManagements[0].TotalScore;
 
-                if (memberEPA.HasAttendanceScore) {
-                    memberEPA.FinalScore = memberEPA.ProcessByManagements[0].TotalScore + memberEPA.AttendanceScore;
+                if (memberEPA.HasDisciplineScore) {
+                    memberEPA.FinalScore = memberEPA.ProcessByManagements[0].TotalScore + memberEPA.DisciplineScore;
                 }
                 else {
                     memberEPA.FinalScore = memberEPA.ProcessByManagements[0].TotalScore;
@@ -103,8 +103,8 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
     var calculateFinalScore = function (memberEPA, processManagement) {
         var totalScore = processManagement.TotalScore ? parseFloat(processManagement.TotalScore) : 0;
 
-        if (memberEPA.HasAttendanceScore) {
-            memberEPA.FinalScore = totalScore + memberEPA.AttendanceScore;
+        if (memberEPA.HasDisciplineScore) {
+            memberEPA.FinalScore = totalScore + memberEPA.DisciplineScore;
         }
         else {
             memberEPA.FinalScore = totalScore;
@@ -245,8 +245,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory)
     var calculateScore = function (epaInfo) {
         var totalScore = epaInfo.ProcessByManagements[0].TotalScore ? parseFloat(epaInfo.ProcessByManagements[0].TotalScore) : 0;
 
-        if (epaInfo.HasAttendanceScore) {
-            vm.finalScore = totalScore !== 0 ? (totalScore + epaInfo.AttendanceScore) : epaInfo.AttendanceScore;
+        if (epaInfo.HasDisciplineScore) {
+            vm.finalScore = totalScore !== 0 ? (totalScore + epaInfo.DisciplineScore) : epaInfo.DisciplineScore;
         }
         else {
             vm.finalScore = totalScore;
@@ -335,8 +335,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory)
             data.ProcessByManagements[0].TotalScore = data.ProcessByManagements[0].TotalScore ? parseFloat(data.ProcessByManagements[0].TotalScore) : 0;
             totalScore = data.ProcessByManagements[0].TotalScore;
 
-            if (data.HasAttendanceScore) {
-                vm.finalScore = totalScore + data.AttendanceScore;
+            if (data.HasDisciplineScore) {
+                vm.finalScore = totalScore + data.DisciplineScore;
             }
             else {
                 vm.finalScore = totalScore;
@@ -348,7 +348,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory)
             checkStatus(vm.epaInfo);
 
             angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
-                if (!EmployeeEPAModel.checkKPIOptional(kpiGroup) && kpiGroup.IsSpreadKPI) {
+                if (!kpiGroup.HasKPIOptional && kpiGroup.IsSpreadKPI) {
                     var weight = kpiGroup.Weight / kpiGroup.KPIs.length;
                     angular.forEach(kpiGroup.KPIs, function (kpi) {
                         if ((weight % 1) === 0) {

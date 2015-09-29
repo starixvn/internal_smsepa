@@ -52,8 +52,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel) {
 
         epaInfo.ProcessBySelf.TotalScore = totalScore.toFixed(2);
 
-        if (epaInfo.HasAttendanceScore) {
-            vm.finalScore = totalScore + epaInfo.AttendanceScore;
+        if (epaInfo.HasDisciplineScore) {
+            vm.finalScore = totalScore + epaInfo.DisciplineScore;
         }
         else {
             vm.finalScore = totalScore;
@@ -209,8 +209,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel) {
             var data = EmployeeEPAModel.epaInfo;
             var totalScoreOfSelf = data.ProcessBySelf.TotalScore ? parseFloat(data.ProcessBySelf.TotalScore) : 0;
 
-            if (data.HasAttendanceScore) {
-                vm.finalScore = totalScoreOfSelf ? (totalScoreOfSelf + data.AttendanceScore) : data.AttendanceScore;
+            if (data.HasDisciplineScore) {
+                vm.finalScore = totalScoreOfSelf ? (totalScoreOfSelf + data.DisciplineScore) : data.DisciplineScore;
             }
             else {
                 vm.finalScore = totalScoreOfSelf;
@@ -222,7 +222,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel) {
             checkStatus(vm.epaInfo);
 
             angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
-                if (!EmployeeEPAModel.checkKPIOptional(kpiGroup) && kpiGroup.IsSpreadKPI) {
+                if (!kpiGroup.HasKPIOptional && kpiGroup.IsSpreadKPI) {
                     var weight = kpiGroup.Weight / kpiGroup.KPIs.length;
 
                     angular.forEach(kpiGroup.KPIs, function (kpi) {

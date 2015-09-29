@@ -22,9 +22,9 @@
                 <p data-translate="PerformanceScore"></p>
                 <p class="totalscore" ng-bind="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].TotalScore | customNumber"></p>
             </div>
-            <div class="row total text-center" ng-show="memberEPAInfoCtrl.epaInfo.HasAttendanceScore">
-                <p data-translate="DisciplineReport"></p>
-                <p class="totalscore" ng-bind="memberEPAInfoCtrl.epaInfo.AttendanceScore | customNumber"></p>
+            <div class="row total text-center" ng-show="memberEPAInfoCtrl.epaInfo.HasDisciplineScore">
+                <p data-translate="DisciplineScore"></p>
+                <p class="totalscore" ng-bind="memberEPAInfoCtrl.epaInfo.DisciplineScore | customNumber"></p>
             </div>
             <div class="row total text-center">
                 <p data-translate="TotalScore"></p>

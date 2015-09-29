@@ -21,8 +21,8 @@
                         ({{memberEPAInfoCtrl.epaInfo.AverageScoreByManagements | customNumber}})
                     </span>
                 </th>
-                <th rowspan="2" data-translate="DisciplineReport" class="col-attendance-score"
-                    ng-show="memberEPAInfoCtrl.epaInfo.HasAttendanceScore"></th>
+                <th rowspan="2" data-translate="DisciplineScore" class="col-attendance-score"
+                    ng-show="memberEPAInfoCtrl.epaInfo.HasDisciplineScore"></th>
                 <th rowspan="2" data-translate="FinalScore" class="col-score"></th>
             </tr>
             <tr>
@@ -97,8 +97,8 @@
                     <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessByManagements[$index].IsEndProcess" ng-bind="'N/A'"></div>
                 </td>
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center td-total-score"
-                    ng-bind="memberEPAInfoCtrl.epaInfo.AttendanceScore | customNumber"
-                    ng-show="memberEPAInfoCtrl.epaInfo.HasAttendanceScore && $first"></td>
+                    ng-bind="memberEPAInfoCtrl.epaInfo.DisciplineScore | customNumber"
+                    ng-show="memberEPAInfoCtrl.epaInfo.HasDisciplineScore && $first"></td>
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center td-total-score" ng-show=" $first">
                     <div ng-show="memberEPAInfoCtrl.epaInfo.Status.StatusId == 1" ng-bind="memberEPAInfoCtrl.finalScore | customNumber"></div>
                     <div ng-show="memberEPAInfoCtrl.epaInfo.Status.StatusId == 0" ng-bind="'N/A'"></div>

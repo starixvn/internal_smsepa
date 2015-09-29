@@ -16,8 +16,8 @@
                     </span>
                 </th>
                 <th colspan="2" data-translate="Management"></th>
-                <th rowspan="2" data-translate="DisciplineReport" class="col-attendance-score"
-                    ng-show="memberEPAInfoCtrl.epaInfo.HasAttendanceScore"></th>
+                <th rowspan="2" data-translate="DisciplineScore" class="col-attendance-score"
+                    ng-show="memberEPAInfoCtrl.epaInfo.HasDisciplineScore"></th>
                 <th rowspan="2" data-translate="TotalScore" class="col-score"></th>
             </tr>
             <tr>
@@ -87,8 +87,8 @@
                               ng-model="memberEPAInfoCtrl.epaInfo.ProcessByManagements[0].Comment"></textarea>
                 </td>
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center td-total-score"
-                    ng-bind="memberEPAInfoCtrl.epaInfo.AttendanceScore | customNumber"
-                    ng-show="memberEPAInfoCtrl.epaInfo.HasAttendanceScore && $first"></td>
+                    ng-bind="memberEPAInfoCtrl.epaInfo.DisciplineScore | customNumber"
+                    ng-show="memberEPAInfoCtrl.epaInfo.HasDisciplineScore && $first"></td>
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center td-total-score"
                     ng-bind="memberEPAInfoCtrl.finalScore | customNumber" ng-show="$first"></td>
             </tr>

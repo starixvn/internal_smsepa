@@ -214,15 +214,6 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Attendance Score.
-        /// </summary>
-        public static string AttendanceScore {
-            get {
-                return ResourceManager.GetString("AttendanceScore", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Attendance Start Date.
         /// </summary>
         public static string AttendanceStartDate {
@@ -579,6 +570,17 @@ namespace SMS.EPA.Resources {
         public static string Description {
             get {
                 return ResourceManager.GetString("Description", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Discipline Score.
+        /// </summary>
+        public static string DisciplineScore
+        {
+            get
+            {
+                return ResourceManager.GetString("DisciplineScore", resourceCulture);
             }
         }
         

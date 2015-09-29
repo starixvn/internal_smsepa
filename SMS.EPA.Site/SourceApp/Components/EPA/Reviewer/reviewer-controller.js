@@ -44,8 +44,8 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
                 memberEPA.ProcessByReviewers[0].TotalScore = memberEPA.ProcessByReviewers[0].TotalScore ? parseFloat(memberEPA.ProcessByReviewers[0].TotalScore) : 0;
                 performanceScore = memberEPA.ProcessByReviewers[0].TotalScore;
 
-                if (memberEPA.HasAttendanceScore) {
-                    memberEPA.FinalScore = performanceScore + memberEPA.AttendanceScore;
+                if (memberEPA.HasDisciplineScore) {
+                    memberEPA.FinalScore = performanceScore + memberEPA.DisciplineScore;
                 }
                 else {
                     memberEPA.FinalScore = performanceScore;
@@ -83,8 +83,8 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
 
                 memberEPA.ProcessByReviewers[0].TotalScoreOriginal = memberEPA.ProcessByReviewers[0].TotalScore;
 
-                if (memberEPA.HasAttendanceScore) {
-                    memberEPA.FinalScore = memberEPA.ProcessByReviewers[0].TotalScore + memberEPA.AttendanceScore;
+                if (memberEPA.HasDisciplineScore) {
+                    memberEPA.FinalScore = memberEPA.ProcessByReviewers[0].TotalScore + memberEPA.DisciplineScore;
                 }
                 else {
                     memberEPA.FinalScore = memberEPA.ProcessByReviewers[0].TotalScore;
@@ -99,8 +99,8 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
     var calculateFinalScore = function (memberEPA, processByReviewer) {
         var totalScoreOfReviewer = processByReviewer.TotalScore ? parseFloat(processByReviewer.TotalScore) : 0;
 
-        if (memberEPA.HasAttendanceScore) {
-            memberEPA.FinalScore = totalScoreOfReviewer + memberEPA.AttendanceScore;
+        if (memberEPA.HasDisciplineScore) {
+            memberEPA.FinalScore = totalScoreOfReviewer + memberEPA.DisciplineScore;
         }
         else {
             memberEPA.FinalScore = totalScoreOfReviewer;
@@ -242,8 +242,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory)
     var calculateScore = function (epaInfo) {
         var totalScoreOfReviewer = epaInfo.ProcessByReviewers[0].TotalScore ? parseFloat(epaInfo.ProcessByReviewers[0].TotalScore) : 0;
 
-        if (epaInfo.HasAttendanceScore) {
-            vm.finalScore = totalScoreOfReviewer !== 0 ? (totalScoreOfReviewer + epaInfo.AttendanceScore) : epaInfo.AttendanceScore;
+        if (epaInfo.HasDisciplineScore) {
+            vm.finalScore = totalScoreOfReviewer !== 0 ? (totalScoreOfReviewer + epaInfo.DisciplineScore) : epaInfo.DisciplineScore;
         }
         else {
             vm.finalScore = totalScoreOfReviewer;
@@ -328,8 +328,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory)
             data.ProcessByReviewers[0].TotalScore = data.ProcessByReviewers[0].TotalScore ? parseFloat(data.ProcessByReviewers[0].TotalScore) : 0;
             totalScore = data.ProcessByReviewers[0].TotalScore;
 
-            if (data.HasAttendanceScore) {
-                vm.finalScore = totalScore + data.AttendanceScore;
+            if (data.HasDisciplineScore) {
+                vm.finalScore = totalScore + data.DisciplineScore;
             }
             else {
                 vm.finalScore = totalScore;
@@ -341,7 +341,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory)
             checkStatus(vm.epaInfo);
 
             angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
-                if (!EmployeeEPAModel.checkKPIOptional(kpiGroup) && kpiGroup.IsSpreadKPI) {
+                if (!kpiGroup.HasKPIOptional && kpiGroup.IsSpreadKPI) {
                     var weight = kpiGroup.Weight / kpiGroup.KPIs.length;
                     angular.forEach(kpiGroup.KPIs, function (kpi) {
                         if ((weight % 1) === 0) {

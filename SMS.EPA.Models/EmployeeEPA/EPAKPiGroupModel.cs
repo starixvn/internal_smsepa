@@ -30,6 +30,40 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public int DisplayOrder { get; set; }
 
+        public bool HasKPIOptional
+        {
+            get
+            {
+                foreach (var kpi in KPIs)
+                {
+                    if (!kpi.IsRequiredEvaluate)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
+
+        public int TotalKPIOptional
+        {
+            get
+            {
+                var totalKPIOptional = 0;
+
+                foreach (var kpi in KPIs)
+                {
+                    if (!kpi.IsRequiredEvaluate)
+                    {
+                        totalKPIOptional++;
+                    }
+                }
+
+                return totalKPIOptional;
+            }
+        }
+
         public IList<EPAKPIModel> KPIs { get; set; }
     }
 }

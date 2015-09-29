@@ -51,9 +51,9 @@ namespace SMS.EPA.Model.EmployeeEPA
             }
         }
 
-        public bool HasAttendanceScore { get; set; }
+        public bool HasDisciplineScore { get; set; }
 
-        public int AttendanceScore
+        public int DisciplineScore
         {
             get
             {

@@ -54,7 +54,7 @@
                     <th data-translate="ReviewerScore"></th>
                     <th data-translate="PerformanceScore"></th>
                     <th data-translate="Comment"></th>
-                    <th data-translate="DisciplineReport"></th>
+                    <th data-translate="DisciplineScore"></th>
                     <th data-translate="TotalScore"></th>
                     <th data-translate="Detail" class="col-action"></th>
                 </tr>
@@ -108,7 +108,7 @@
                            ng-show="memberEPA.ProcessByManagements[0].IsEndProcess && memberEPA.Status.StatusId != 0"></a>
                     </td>
                     <td class="text-center">
-                        <span ng-show="memberEPA.HasAttendanceScore" ng-bind="memberEPA.AttendanceScore | customNumber"></span>
+                        <span ng-show="memberEPA.HasDisciplineScore" ng-bind="memberEPA.DisciplineScore | customNumber"></span>
                     </td>
                     <td class="text-center">
                         <span ng-bind="memberEPA.FinalScore | customNumber"></span>

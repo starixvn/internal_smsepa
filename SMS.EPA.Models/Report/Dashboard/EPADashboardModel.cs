@@ -36,7 +36,7 @@ namespace SMS.EPA.Model.Report.Dashboard
 
         public bool IsEndProcessBySelf { get; set; }
 
-        public int AttendanceScore
+        public int DisciplineScore
         {
             get
             {

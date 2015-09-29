@@ -59,8 +59,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory)
         EmployeeEPAModel.getEPAInfoById(vm.epaId).then(function () {
             vm.epaInfo = EmployeeEPAModel.epaInfo;
 
-            if (vm.epaInfo.HasAttendanceScore) {
-                vm.finalScore = calculateFinalScore(vm.epaInfo) + vm.epaInfo.AttendanceScore;
+            if (vm.epaInfo.HasDisciplineScore) {
+                vm.finalScore = calculateFinalScore(vm.epaInfo) + vm.epaInfo.DisciplineScore;
             }
             else {
                 vm.finalScore = calculateFinalScore(vm.epaInfo);
@@ -127,8 +127,8 @@ function ($modalInstance, EmployeeEPAModel, selectedEmployees, isReviewer, notif
                     memberEPA.ProcessByReviewers[0].TotalScore = totalScoreAdjust;
                 }
 
-                if (memberEPA.HasAttendanceScore) {
-                    memberEPA.FinalScore = memberEPA.ProcessByReviewers[0].TotalScore + memberEPA.AttendanceScore;
+                if (memberEPA.HasDisciplineScore) {
+                    memberEPA.FinalScore = memberEPA.ProcessByReviewers[0].TotalScore + memberEPA.DisciplineScore;
                 }
 
                 memberEPA.ProcessByReviewers[0].Comment = memberEPA.ProcessByReviewers[0].Comment + '\n' + vm.adjust.Comment;
@@ -153,8 +153,8 @@ function ($modalInstance, EmployeeEPAModel, selectedEmployees, isReviewer, notif
                     memberEPA.ProcessByManagements[0].TotalScore = totalScoreAdjust;
                 }
 
-                if (memberEPA.HasAttendanceScore) {
-                    memberEPA.FinalScore = memberEPA.ProcessByManagements[0].TotalScore + memberEPA.AttendanceScore;
+                if (memberEPA.HasDisciplineScore) {
+                    memberEPA.FinalScore = memberEPA.ProcessByManagements[0].TotalScore + memberEPA.DisciplineScore;
                 }
 
                 memberEPA.ProcessByManagements[0].Comment = memberEPA.ProcessByManagements[0].Comment + '\n' + vm.adjust.Comment;

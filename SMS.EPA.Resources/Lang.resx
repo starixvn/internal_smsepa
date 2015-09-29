@@ -450,7 +450,7 @@
   <data name="AdjustAttendance" xml:space="preserve">
     <value>Adjust Attendance</value>
   </data>
-  <data name="DisciplineReport" xml:space="preserve">
+  <data name="AttendanceReport" xml:space="preserve">
     <value>Attendance Report</value>
   </data>
   <data name="CheckAssignment" xml:space="preserve">
@@ -744,7 +744,7 @@
   <data name="DepartmentSection" xml:space="preserve">
     <value>Department / Section</value>
   </data>
-  <data name="AttendanceScore" xml:space="preserve">
+  <data name="DisciplineScore" xml:space="preserve">
     <value>Discipline Score</value>
   </data>
   <data name="FinalScore" xml:space="preserve">
