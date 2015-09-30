@@ -12,6 +12,7 @@ namespace SMS.EPA.Site.Controllers.API
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Http;
+    using SMS.EPA.Core.Constants;
     using SMS.EPA.Criteria.Department;
     using SMS.EPA.Criteria.Employee;
     using SMS.EPA.Criteria.KPI;
@@ -174,7 +175,7 @@ namespace SMS.EPA.Site.Controllers.API
             if (departments != null)
             {
                 treeList = new DepartmentModel();
-                treeList.Childrens.Add(departments.Where(x => x.ParentId == null).SingleOrDefault());
+                treeList.Childrens.Add(departments.Where(x => x.ParentId == null && x.DepartmentId == Constants.DepartmentRoot).FirstOrDefault());
             }
 
             var departmentInfo = new DepartmentInfoModel

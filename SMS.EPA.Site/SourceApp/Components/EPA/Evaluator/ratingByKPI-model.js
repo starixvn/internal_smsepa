@@ -63,25 +63,10 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
         return vm.modalInstance.result;
     };
 
-    ratingByKPIModel.checkKPIOptional = function (kpiGroup) {
-        var hasKPIOptional = false, totalKPIOptional = 0;
-
-        angular.forEach(kpiGroup.KPIs, function (kpi) {
-            if (!kpi.IsRequiredEvaluate) {
-                hasKPIOptional = true;
-                totalKPIOptional += 1;
-            }
-        });
-
-        kpiGroup.TotalKPIOptional = totalKPIOptional;
-
-        return hasKPIOptional;
-    };
-
     ratingByKPIModel.validateScoreInput = function (score, maxScore, scoreInputValidMessage) {
         var isValid = true;
 
-        if (parseFloat(score) > parseFloat(maxScore)) {
+        if (parseFloat(score) > parseFloat(maxScore) || parseFloat(score) < 0) {
             isValid = false;
 
             var message = utilitiesFactory.formatString(scoreInputValidMessage, maxScore);

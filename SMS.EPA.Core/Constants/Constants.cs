@@ -26,6 +26,8 @@ namespace SMS.EPA.Core.Constants
 
         public const string FormatDateTimeEmail = "MMM dd, yyyy HH:mm";
 
+        public const int DepartmentRoot = 1;
+
         private Constants()
         {
         }
