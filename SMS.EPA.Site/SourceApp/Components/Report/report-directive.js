@@ -6,6 +6,7 @@ reportModule.directive('gridEpaSummaryReport', ['$timeout', 'utilitiesFactory', 
         var groupHeaders = [
             {
                 Columns: [
+                    { HeaderText: "Hiden Column", Name: "HidenColumn", MergeColNumber: 1 },
                     { HeaderText: "#", Name: "No", MergeRowNumber: 2 },
                     { HeaderText: "Code", Name: "Code", MergeRowNumber: 2 },
                     { HeaderText: "Full Name", Name: "FullName", MergeRowNumber: 2 },
@@ -27,17 +28,18 @@ reportModule.directive('gridEpaSummaryReport', ['$timeout', 'utilitiesFactory', 
 
     var generateColumnHeaders = function (periodSelecteds) {
         var columnHeaders = [
+            { HeaderText: "Hiden Column", Width: 40, Name: "HidenColumn", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "#", Width: 40, Name: "No", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "Code", Width: 70, Name: "Code", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "Full Name", Width: 180, Name: "FullName", HeaderAlign: "center", CellAlign: "left" },
             { HeaderText: "Nick Name", Width: 100, Name: "NickName", HeaderAlign: "center", CellAlign: "center" },
-            { HeaderText: "Section", Width: 100, Name: "Section", HeaderAlign: "center", CellAlign: "left" },
-            { HeaderText: "Job Title", Width: 168, Name: "JobTitle", HeaderAlign: "center", CellAlign: "left" }
+            { HeaderText: "Section", Width: 120, Name: "Section", HeaderAlign: "center", CellAlign: "left" },
+            { HeaderText: "Job Title", Width: 170, Name: "JobTitle", HeaderAlign: "center", CellAlign: "left" }
         ];
 
         if (periodSelecteds && periodSelecteds.length > 0) {
             for (var i = 0; i < periodSelecteds.length; i++) {
-                var periodHeader = { HeaderText: periodSelecteds[i].Name, Width: 120, Name: "" + (i + 1), HeaderAlign: "center", CellAlign: "center" };
+                var periodHeader = { HeaderText: periodSelecteds[i].Name, Width: 100, Name: "" + (i + 1), HeaderAlign: "center", CellAlign: "center" };
 
                 columnHeaders.push(periodHeader);
             }
@@ -53,6 +55,7 @@ reportModule.directive('gridEpaSummaryReport', ['$timeout', 'utilitiesFactory', 
             angular.forEach(gridData.EPAEmployees, function (epaEmployee, i) {
                 var currentRow = {
                     Columns: [
+                        { Name: "HidenColumn", Value: i + 1 },
                         { Name: "No", Value: i + 1 },
                         { Name: "Code", Value: epaEmployee.Code },
                         { Name: "FullName", Value: epaEmployee.FullName },
@@ -98,33 +101,36 @@ reportModule.directive('gridEpaSummaryReport', ['$timeout', 'utilitiesFactory', 
                 gridExpandHeight: $scope.gridExpandHeight,
                 showPager: true,
                 customPager: true,
-                numberOfFrozenColumn: 6,
-                autoFixFrozenRowHeight: true
+                numberOfFrozenColumn: 7,
+                autoFixFrozenRowHeight: true,
             };
 
             $scope.$watch('gridData', function (gridData) {
                 $timeout(function () {
-                    var columnHeaders = generateColumnHeaders(gridData.PeriodSelecteds),
-                        groupHeaderRows = generateGroupHeaders(gridData.PeriodSelecteds);
+                    if (gridData.PeriodSelecteds && gridData.EPAEmployees) {
+                        var columnHeaders = generateColumnHeaders(gridData.PeriodSelecteds),
+                            groupHeaderRows = generateGroupHeaders(gridData.PeriodSelecteds);
 
-                    var bodyRows = generateBodyRows(gridData);
+                        var bodyRows = generateBodyRows(gridData);
 
-                    gridOptions.groupHeaderRows = groupHeaderRows;
-                    gridOptions.columns = columnHeaders;
-                    gridOptions.bodyRows = bodyRows;
+                        gridOptions.groupHeaderRows = groupHeaderRows;
+                        gridOptions.columns = columnHeaders;
+                        gridOptions.bodyRows = bodyRows;
 
-                    gridOptions.pagerOption = {
-                        startPerPage: utilitiesFactory.pageOption.itemsPerPage,
-                        totalItem: gridData ? gridData.TotalItem : 0,
-                        itemsPerPageArray: utilitiesFactory.pageOption.itemsPerPageArray,
-                        itemsPerPage: $scope.pageOption.itemsPerPage,
-                        currentPage: $scope.pageOption.pageIndex,
-                        pagerSelectCallBack: function (pageIndex, itemsPerPage) {
-                            $scope.onPageChanging(pageIndex, itemsPerPage);
-                        }
-                    };
+                        gridOptions.pagerOption = {
+                            startPerPage: utilitiesFactory.pageOption.itemsPerPage,
+                            totalItem: gridData ? gridData.TotalItem : 0,
+                            itemsPerPageArray: utilitiesFactory.pageOption.itemsPerPageArray,
+                            itemsPerPage: $scope.pageOption.itemsPerPage,
+                            currentPage: $scope.pageOption.pageIndex,
+                            pagerSelectCallBack: function (pageIndex, itemsPerPage) {
+                                $scope.onPageChanging(pageIndex, itemsPerPage);
+                            }
+                        };
 
-                    $(iElement).fanexGrid(gridOptions);
+                        $(iElement).fanexGrid(gridOptions);
+                        $(iElement).fanexGrid("hideColumns", gridOptions, [0]);
+                    }
                 });
             });
         }

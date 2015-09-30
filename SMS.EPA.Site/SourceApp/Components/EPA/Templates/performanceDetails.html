@@ -47,18 +47,18 @@
                         </td>
                         <td ng-bind="evaluator.NickName" class="text-center"></td>
                         <td class="text-center col-score">
-                            <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$parent.$index].IsEndProcess" ng-bind="evaluator.Score | customNumber"></div>
-                            <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$parent.$index].IsEndProcess" ng-bind="'N/A'"></div>
+                            <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].IsEndProcess" ng-bind="evaluator.Score | customNumber"></div>
+                            <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].IsEndProcess" ng-bind="'N/A'"></div>
                         </td>
                         <td class="col-comment">
-                            <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$parent.$index].IsEndProcess">
+                            <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].IsEndProcess">
                                 {{evaluator.Comment | limitTo:evaluator.numLimit > 0 ? evaluator.numLimit : memberEPAInfoCtrl.maxLengthDescription}}
                                 <a ng-show="!evaluator.showReadMore && (evaluator.Comment.length > memberEPAInfoCtrl.maxLengthDescription)" href="javascript:;"
                                    ng-click="memberEPAInfoCtrl.readMore(evaluator)" data-translate="ReadMore"></a>
                                 <a ng-show="evaluator.showReadMore"
                                    href="javascript:;" ng-click="memberEPAInfoCtrl.readLess(evaluator)" data-translate="ReadLess"></a>
                             </div>
-                            <div class="text-center" ng-show="!memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$parent.$index].IsEndProcess" ng-bind="'N/A'"></div>
+                            <div class="text-center" ng-show="!memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].IsEndProcess" ng-bind="'N/A'"></div>
                         </td>
                     </tr>
                 </tbody>

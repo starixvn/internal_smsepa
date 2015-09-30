@@ -67,7 +67,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory)
             }
 
             angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
-                if (!EmployeeEPAModel.checkKPIOptional(kpiGroup) && kpiGroup.IsSpreadKPI) {
+                if (!kpiGroup.HasKPIOptional && kpiGroup.IsSpreadKPI) {
                     var weight = kpiGroup.Weight / kpiGroup.KPIs.length;
                     angular.forEach(kpiGroup.KPIs, function (kpi) {
                         if ((weight % 1) === 0) {
