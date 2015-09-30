@@ -30,12 +30,12 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
 
     ratingByKPIModel.validateFieldFilter = function (filter) {
         if (!filter.targetTemplateId) {
-            notificationFactory.error("TargetTemplateRequire");
+            notificationFactory.error("TargetTemplateRequired");
 
             return false;
         }
         else if (!filter.kpiId) {
-            notificationFactory.error("KPIRequire");
+            notificationFactory.error("KPIRequired");
 
             return false;
         }
@@ -57,6 +57,11 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
             templateUrl: 'SourceApp/Components/EPA/Evaluator/Templates/modalConfirmSaveChanges.html',
             controller: "ModalConfirmSaveChangesController as modalConfirmCtrl",
             backdrop: 'static',
+            resolve: {
+                memberEPAs: function () {
+                    return vm.memberEPAs;
+                }
+            },
             windowClass: "modal-confirm-center"
         });
 
@@ -84,12 +89,13 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
         memberEPA.TotalScore = (totalScore - curentScore + adjustScore).toFixed(2);
     };
 
-    ratingByKPIModel.updateKPIScore = function (memberEPAs, vm) {
+    ratingByKPIModel.updateKPIScore = function (memberEPAs, vm, modalInstance) {
         return ratingByKPIFactory.updateKPIScore(memberEPAs)
         .success(function (response) {
             if (response.IsSuccessful) {
                 notificationFactory.success("UpdatedSuccessfully");
                 vm.dataSaved = true;
+                modalInstance.close(vm);
             }
             else {
                 notificationFactory.error("", response.Message);

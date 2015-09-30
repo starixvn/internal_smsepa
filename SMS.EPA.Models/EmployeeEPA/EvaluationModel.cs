@@ -9,6 +9,7 @@
 
 namespace SMS.EPA.Model.EmployeeEPA
 {
+    using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Services;
 
     public class EvaluationModel
@@ -42,13 +43,32 @@ namespace SMS.EPA.Model.EmployeeEPA
             }
         }
 
-        public int Rate { get; set; }
+        public string RateEncode { get; set; }
+
+        public int Rate
+        {
+            get
+            {
+                var rate = 0;
+
+                if (!string.IsNullOrEmpty(RateEncode))
+                {
+                    rate = int.Parse(EncodeService.Decode(RateEncode));
+                }
+
+                return rate;
+            }
+            set
+            {
+                RateEncode = !string.IsNullOrEmpty(value.ToString()) ? EncodeService.Encode(value.ToString()) : string.Empty;
+            }
+        }
 
         public int Percent
         {
             get
             {
-                return Rate * 20;
+                return Rate * Constants.PercentPerStar;
             }
         }
 

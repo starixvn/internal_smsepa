@@ -26,14 +26,27 @@ function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, CommonModel, 
     vm.orderByCurrentScore = { ascending: false, descending: false };
     vm.orderByAdjustScore = { ascending: false, descending: false };
 
+    var checkDataChanged = function (memberEPAs) {
+        var hasChanged = false;
+
+        angular.forEach(memberEPAs, function (memberEPA) {
+            angular.forEach(memberEPA.KPIGroup.KPIs, function (kpi) {
+                if (kpi.AdjustScore || (kpi.Comment !== kpi.CommentOriginal)) {
+                    hasChanged = true;
+                }
+            });
+        });
+
+        return hasChanged;
+    };
+
     vm.getKPIByTargetTemplate = function () {
-        if (!vm.dataSaved && vm.memberEPAs.length > 0) {
+        if (!vm.dataSaved && checkDataChanged(vm.memberEPAs)) {
             RatingByKPIModel.openPopupConfirmSaveChanges(vm).then(function (result) {
                 if (result.confirmResult === 0) {
                     vm.filter.targetTemplateId = angular.copy(vm.targetTemplateIdOriginal);
                     vm.filter.kpiId = angular.copy(vm.kpiIdOriginal);
                 } else if (result.confirmResult === 1) {
-                    vm.save(vm.memberEPAs);
                     RatingByKPIModel.getKPIByTargetTemplate(vm.filter.targetTemplateId).then(function () {
                         vm.kpis = RatingByKPIModel.kpis;
                     });
@@ -83,12 +96,11 @@ function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, CommonModel, 
             vm.kpis[index].Weight = (vm.kpis[index].KPIGroup.Weight / vm.kpis[index].KPIGroup.NumberKPI).toFixed(2);
         }
 
-        if (!vm.dataSaved && vm.memberEPAs.length > 0) {
+        if (!vm.dataSaved && checkDataChanged(vm.memberEPAs)) {
             RatingByKPIModel.openPopupConfirmSaveChanges(vm).then(function (result) {
                 if (result.confirmResult === 0) {
                     vm.filter.kpiId = angular.copy(vm.kpiIdOriginal);
                 } else if (result.confirmResult === 1) {
-                    vm.save(vm.memberEPAs);
                     vm.memberEPAs = [];
                     vm.kpiSelected = null;
                     vm.dataSaved = false;
@@ -118,6 +130,10 @@ function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, CommonModel, 
     vm.getMember = function (groupId) {
         EmployeeEPAModel.getMemberByEvaluator(groupId).then(function () {
             vm.members = EmployeeEPAModel.members;
+
+            angular.forEach(vm.members, function (member) {
+                member.Name = member.NickName + ' (' + member.FullName + ')';
+            });
         });
     };
 
@@ -311,15 +327,15 @@ function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, CommonModel, 
 }]);
 
 epaModule.controller('ModalConfirmSaveChangesController',
-['$modalInstance',
-function ($modalInstance) {
+['$modalInstance', 'RatingByKPIModel', 'memberEPAs',
+function ($modalInstance, RatingByKPIModel, memberEPAs) {
     var vm = this;
 
     vm.confirmResult = 0;
 
     vm.save = function () {
         vm.confirmResult = 1;
-        $modalInstance.close(vm);
+        RatingByKPIModel.updateKPIScore(memberEPAs, vm, $modalInstance);
     };
 
     vm.ignore = function () {

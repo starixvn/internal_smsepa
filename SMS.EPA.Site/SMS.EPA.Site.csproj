@@ -194,6 +194,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\SpNames.xml" />
+    <Content Include="Avatars\avatar.jpg" />
     <Content Include="Content\Common\angular-multi-select.css" />
     <Content Include="Content\Common\bootstrap-spacelab.min.css" />
     <Content Include="Content\Common\bootstrap-theme.min.css" />

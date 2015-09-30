@@ -34,24 +34,20 @@ namespace SMS.EPA.Criteria.EmployeeEPA.RatingByKPI
                 foreach (var model in RatingByKPIs)
                 {
                     var detail = new StringBuilder();
-                    var cipherScore = string.Empty;
 
                     foreach (var kpi in model.KPIGroup.KPIs)
                     {
                         if (kpi.Score != kpi.AdjustScore && kpi.AdjustRate > 0)
                         {
-                            cipherScore = !string.IsNullOrEmpty(kpi.AdjustScore) ? EncodeService.Encode(kpi.AdjustScore + "_" + kpi.KPIId) : string.Empty;
-                            detail.AppendFormat(_EPADetail, kpi.KPIId, kpi.AdjustRate, cipherScore, HttpUtility.HtmlEncode(kpi.Comment));
+                            detail.AppendFormat(_EPADetail, kpi.KPIId, kpi.AdjustRateEncode, kpi.AdjustScoreEncode, HttpUtility.HtmlEncode(kpi.Comment));
                         }
                         else
                         {
-                            cipherScore = !string.IsNullOrEmpty(kpi.Score) ? EncodeService.Encode(kpi.Score + "_" + kpi.KPIId) : string.Empty;
-                            detail.AppendFormat(_EPADetail, kpi.KPIId, kpi.Rate, cipherScore, HttpUtility.HtmlEncode(kpi.Comment));
+                            detail.AppendFormat(_EPADetail, kpi.KPIId, kpi.RateEncode, kpi.ScoreEncode, HttpUtility.HtmlEncode(kpi.Comment));
                         }
                     }
 
-                    cipherScore = !string.IsNullOrEmpty(model.TotalScore) ? EncodeService.Encode(model.TotalScore) : string.Empty;
-                    result.AppendFormat(_EPA, model.EPAId, model.Employee.EmployeeId, model.KPIGroup.KPIGroupId, cipherScore, detail);
+                    result.AppendFormat(_EPA, model.EPAId, model.Employee.EmployeeId, model.KPIGroup.KPIGroupId, model.TotalScoreEncode, detail);
                 }
 
                 result.Append(_EndRootTag);

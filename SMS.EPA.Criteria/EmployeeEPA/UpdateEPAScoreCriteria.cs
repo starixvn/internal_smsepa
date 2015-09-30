@@ -47,6 +47,7 @@ namespace SMS.EPA.Criteria.EmployeeEPA
             {
                 var result = new StringBuilder(_BeginRootTag);
                 var cipherScore = string.Empty;
+                var cipherRate = string.Empty;
 
                 foreach (var kpiGroup in KPIGroups)
                 {
@@ -54,13 +55,15 @@ namespace SMS.EPA.Criteria.EmployeeEPA
                     {
                         if (ProcessId == (int)ProcessType.Self)
                         {
-                            cipherScore = !string.IsNullOrEmpty(kpi.EvaluateBySelf.Score) ? kpi.EvaluateBySelf.ScoreEncode : string.Empty;
-                            result.AppendFormat(_KPIScore, kpi.KPIId, kpiGroup.KPIGroupId, cipherScore, kpi.EvaluateBySelf.Rate, HttpUtility.HtmlEncode(kpi.EvaluateBySelf.Comment));
+                            cipherScore = kpi.EvaluateBySelf.ScoreEncode;
+                            cipherRate = kpi.EvaluateBySelf.RateEncode;
+                            result.AppendFormat(_KPIScore, kpi.KPIId, kpiGroup.KPIGroupId, cipherScore, cipherRate, HttpUtility.HtmlEncode(kpi.EvaluateBySelf.Comment));
                         }
                         else if (ProcessId == (int)ProcessType.Evaluator)
                         {
-                            cipherScore = !string.IsNullOrEmpty(kpi.EvaluateByEvaluators.FirstOrDefault().Score) ? kpi.EvaluateByEvaluators.FirstOrDefault().ScoreEncode : string.Empty;
-                            result.AppendFormat(_KPIScore, kpi.KPIId, kpiGroup.KPIGroupId, cipherScore, kpi.EvaluateByEvaluators.FirstOrDefault().Rate, HttpUtility.HtmlEncode(kpi.EvaluateByEvaluators.FirstOrDefault().Comment));
+                            cipherScore = kpi.EvaluateByEvaluators.FirstOrDefault().ScoreEncode;
+                            cipherRate = kpi.EvaluateByEvaluators.FirstOrDefault().RateEncode;
+                            result.AppendFormat(_KPIScore, kpi.KPIId, kpiGroup.KPIGroupId, cipherScore, cipherRate, HttpUtility.HtmlEncode(kpi.EvaluateByEvaluators.FirstOrDefault().Comment));
                         }
                     }
                 }

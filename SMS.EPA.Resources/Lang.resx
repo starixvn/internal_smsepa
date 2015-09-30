@@ -1068,4 +1068,7 @@
   <data name="SelectDepartmentSectionEmployeeBeforeAddToPeriodWarning" xml:space="preserve">
     <value>Please select at least a department/section or employee to add in this evaluation period!</value>
   </data>
+  <data name="SelfEvaluationScore" xml:space="preserve">
+    <value>Self-Evaluation Score</value>
+  </data>
 </root>

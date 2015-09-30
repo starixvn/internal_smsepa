@@ -28,6 +28,8 @@ namespace SMS.EPA.Core.Constants
 
         public const int DepartmentRoot = 1;
 
+        public const int PercentPerStar = 20;
+
         private Constants()
         {
         }

@@ -34,8 +34,6 @@
                     <th data-translate="Section"></th>
                     <th data-translate="NickName"></th>
                     <th data-translate="JobTitle"></th>
-                    <th data-translate="StartDate"></th>
-                    <th data-translate="EndDate"></th>
                     <th data-translate="Detail" class="col-action"></th>
                 </tr>
             </thead>
@@ -50,8 +48,6 @@
                         <span ng-bind="memberEPA.Employee.NickName" tooltip="{{memberEPA.Employee.FullName}}"></span>
                     </td>
                     <td ng-bind="memberEPA.Employee.JobTitle.JobTitleName"></td>
-                    <td class="text-center">{{ memberEPA.ProcessByEvaluators[0].StartDate | customDate }}</td>
-                    <td class="text-center">{{ memberEPA.ProcessByEvaluators[0].EndDate | customDate }}</td>
                     <td class="text-center text-uppercase col-action">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="evaluatorCtrl.viewEPADetail(memberEPA)"
                            ng-show="!memberEPA.ProcessByEvaluators[0].IsEndProcess && memberEPA.Status.StatusId == 0"
@@ -62,7 +58,7 @@
                     </td>
                 </tr>
                 <tr ng-show="evaluatorCtrl.memberEPAs.length == 0">
-                    <td class="empty-result" colspan="8" data-translate="EmptyResult"></td>
+                    <td class="empty-result" colspan="6" data-translate="EmptyResult"></td>
                 </tr>
             </tbody>
         </table>
