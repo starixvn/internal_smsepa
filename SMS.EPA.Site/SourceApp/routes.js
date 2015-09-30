@@ -123,7 +123,7 @@ var dashboardModule = angular.module("dashboardModule", ['ngRoute'])
 var attendanceModule = angular.module("attendanceModule", ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
     var baseUrl = $("base").first().attr("href");
-    $routeProvider.when('/Attendance/Index',
+    $routeProvider.when('/Discipline/Index',
     { templateUrl: baseUrl + 'SourceApp/Components/AttendanceSummary/Templates/index.html' });
     $routeProvider.when('/Attendance/Detail/:id',
     { templateUrl: baseUrl + 'SourceApp/Components/AttendanceSummary/Templates/detail.html' });

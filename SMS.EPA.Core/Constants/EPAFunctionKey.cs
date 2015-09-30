@@ -28,7 +28,7 @@ namespace SMS.EPA.Core.Constants
 
         public const string Report = "Report";
 
-        public const string AttendanceReport = "Attendance Report";
+        public const string DisciplineReport = "Discipline Report";
 
         public const string EPASummaryReport = "EPA Summary Report";
 
@@ -50,8 +50,8 @@ namespace SMS.EPA.Core.Constants
 
         public const string Period = "Period";
 
-        public const string AttendanceSummary = "AttendanceSummary";
+        public const string DisciplineSummary = "DisciplineSummary";
 
-        public const string Attendance = "Attendance";
+        public const string Discipline = "Discipline";
     }
 }

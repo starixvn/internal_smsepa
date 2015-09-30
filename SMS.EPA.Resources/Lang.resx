@@ -447,11 +447,11 @@
   <data name="EPA" xml:space="preserve">
     <value>EPA</value>
   </data>
-  <data name="AdjustAttendance" xml:space="preserve">
-    <value>Adjust Attendance</value>
+  <data name="AdjustDiscipline" xml:space="preserve">
+    <value>Adjust Discipline</value>
   </data>
-  <data name="AttendanceReport" xml:space="preserve">
-    <value>Attendance Report</value>
+  <data name="DisciplineReport" xml:space="preserve">
+    <value>Discipline Report</value>
   </data>
   <data name="CheckAssignment" xml:space="preserve">
     <value>Check Assignment</value>
@@ -729,11 +729,11 @@
   <data name="NumberEmployees" xml:space="preserve">
     <value>Number Of Employees</value>
   </data>
-  <data name="AttendanceEndDate" xml:space="preserve">
-    <value>Attendance End Date</value>
+  <data name="DisciplineEndDate" xml:space="preserve">
+    <value>Discipline End Date</value>
   </data>
-  <data name="AttendanceStartDate" xml:space="preserve">
-    <value>Attendance Start Date</value>
+  <data name="DisciplineStartDate" xml:space="preserve">
+    <value>Discipline Start Date</value>
   </data>
   <data name="Include" xml:space="preserve">
     <value> Include</value>
@@ -891,8 +891,8 @@
   <data name="MyEPAs" xml:space="preserve">
     <value>My EPAs</value>
   </data>
-  <data name="AttendanceSummary" xml:space="preserve">
-    <value>Attendance Summary</value>
+  <data name="DisciplineSummary" xml:space="preserve">
+    <value>Discipline Summary</value>
   </data>
   <data name="Absent" xml:space="preserve">
     <value>Absent</value>
@@ -960,8 +960,8 @@
   <data name="WorkDateRequried" xml:space="preserve">
     <value>The Work Date filed is required!</value>
   </data>
-  <data name="AttendanceSummaryDetail" xml:space="preserve">
-    <value>Attendance Detail Adjustment</value>
+  <data name="DisciplineSummaryDetail" xml:space="preserve">
+    <value>Discipline Detail Adjustment</value>
   </data>
   <data name="ApproverComment" xml:space="preserve">
     <value>Approver Comment</value>

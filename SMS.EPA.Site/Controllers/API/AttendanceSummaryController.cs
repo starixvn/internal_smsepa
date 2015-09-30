@@ -40,7 +40,7 @@ namespace SMS.EPA.Site.Controllers.API
             _webCommonService = webCommonService ?? new WebCommonService();
         }
 
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.AttendanceSummary, Policy = Policy.Read)]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.DisciplineSummary, Policy = Policy.Read)]
         public IEnumerable<AttendanceSummaryModel> GetAttendanceSummary(
             DateTime startDate,
             DateTime endDate,
@@ -61,7 +61,7 @@ namespace SMS.EPA.Site.Controllers.API
             return attendanceEmployees;
         }
 
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.AttendanceSummary, Policy = Policy.Read)]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.DisciplineSummary, Policy = Policy.Read)]
         public IEnumerable<OtherViolationModel> GetOtherViolations(
             string employeeIds,
             DateTime startDate,
@@ -80,7 +80,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpPost]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.AttendanceSummary, Policy = Policy.Host)]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.DisciplineSummary, Policy = Policy.Host)]
         public CommandResult InsertOtherViolation(InsertOtherViolationsCriteria criteria)
         {
             if (criteria != null)
@@ -93,7 +93,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpDelete]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.AttendanceSummary, Policy = Policy.Host)]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.DisciplineSummary, Policy = Policy.Host)]
         public CommandResult DeleteOtherViolation(
             int employeeId,
             DateTime workDate,
@@ -117,7 +117,7 @@ namespace SMS.EPA.Site.Controllers.API
             return violations;
         }
 
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.AttendanceSummary, Policy = Policy.Read)]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.DisciplineSummary, Policy = Policy.Read)]
         public IEnumerable<AttendanceDetailModel> GetAttendanceDetail(
             DateTime startDate,
             DateTime endDate,
@@ -139,7 +139,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpPut]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.AttendanceSummary, Policy = Policy.Host)]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.DisciplineSummary, Policy = Policy.Host)]
         public CommandResult UpdateIgnoredViolation(IEnumerable<IgnoredViolationModel> violations)
         {
             var criteria = new UpdateIgnoredViolationCriteria
@@ -154,7 +154,7 @@ namespace SMS.EPA.Site.Controllers.API
 
         public int GetUserPermissionOnAttendanceSummary()
         {
-            int permission = _webCommonService.GetPermission(EPAFunctionKey.AttendanceSummary);
+            int permission = _webCommonService.GetPermission(EPAFunctionKey.DisciplineSummary);
             return permission;
         }
     }

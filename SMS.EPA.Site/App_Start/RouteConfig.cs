@@ -60,7 +60,7 @@ namespace SMS.EPA.Site
                 "Period/Index",
                 "Period/Update/{id}",
                 "Home",
-                "Attendance/Index",
+                "Discipline/Index",
                 "RatingByKPI/Index",
                 "Attendance/Detail/{id}",
                 "Report/EPASummaryReport"
