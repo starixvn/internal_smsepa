@@ -158,6 +158,11 @@ namespace SMS.EPA.Services.Implement
             if (criteria.IsValid())
             {
                 commandResult = Repository.Update(criteria);
+
+                if (commandResult.IsSuccessful)
+                {
+                    GetAndSendEmailToAllRelatedEmployee(MailMode.NotifyChange, criteria.PeriodId, criteria.EmployeeIds, null);
+                }
             }
 
             return commandResult;
@@ -199,7 +204,7 @@ namespace SMS.EPA.Services.Implement
 
             foreach (AutoEmployeePeriodModel periodProcess in startedProcess)
             {
-                GetAndSendEmailToAllRelatedEmployee(periodProcess.PeriodId, string.Empty, periodProcess.ProcessId);
+                GetAndSendEmailToAllRelatedEmployee(MailMode.Start, periodProcess.PeriodId, string.Empty, periodProcess.ProcessId);
             }
         }
 
@@ -433,11 +438,20 @@ namespace SMS.EPA.Services.Implement
             return evaluatorNames;
         }
 
-        private void GetAndSendEmailToAllRelatedEmployee(int periodId, string employeeIds, int? processId)
+        private void GetAndSendEmailToAllRelatedEmployee(MailMode mailMode, int periodId, string employeeIds, int? processId)
         {
             PeriodModel period = GetPeriodInformation(periodId);
             IEnumerable<PeriodFlowModel> employeeSettings = GetEmployeeSettings(periodId, employeeIds, processId);
-            _manualMailService.SendStartMail(period, employeeSettings);
+
+            switch (mailMode)
+            {
+                case MailMode.Start:
+                    _manualMailService.SendStartMail(period, employeeSettings);
+                    break;
+                case MailMode.NotifyChange:
+                    _manualMailService.SendNotifyMail(period, employeeSettings);
+                    break;
+            }
         }
 
         private PeriodModel GetPeriodInformation(int periodId)

@@ -24,6 +24,11 @@ namespace SMS.EPA.Core.Enumerations
         /// <summary>
         /// Reminder item.
         /// </summary>
-        Reminder = 2
+        Reminder = 2,
+
+        /// <summary>
+        /// Notify change item.
+        /// </summary>
+        NotifyChange = 3
     }
 }

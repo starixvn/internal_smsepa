@@ -115,11 +115,20 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Adjust Attendance.
+        ///   Looks up a localized string similar to Add Other Violations.
         /// </summary>
-        public static string AdjustAttendance {
+        public static string AddOtherViolations {
             get {
-                return ResourceManager.GetString("AdjustAttendance", resourceCulture);
+                return ResourceManager.GetString("AddOtherViolations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Adjust Discipline.
+        /// </summary>
+        public static string AdjustDiscipline {
+            get {
+                return ResourceManager.GetString("AdjustDiscipline", resourceCulture);
             }
         }
         
@@ -129,6 +138,15 @@ namespace SMS.EPA.Resources {
         public static string AdjustScore {
             get {
                 return ResourceManager.GetString("AdjustScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There are some empty score. Please fill them before submitting..
+        /// </summary>
+        public static string AdjustScoreInvalid {
+            get {
+                return ResourceManager.GetString("AdjustScoreInvalid", resourceCulture);
             }
         }
         
@@ -192,51 +210,6 @@ namespace SMS.EPA.Resources {
         public static string AssignRoleToUser {
             get {
                 return ResourceManager.GetString("AssignRoleToUser", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Attendance End Date.
-        /// </summary>
-        public static string AttendanceEndDate {
-            get {
-                return ResourceManager.GetString("AttendanceEndDate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Attendance Report.
-        /// </summary>
-        public static string AttendanceReport {
-            get {
-                return ResourceManager.GetString("AttendanceReport", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Attendance Start Date.
-        /// </summary>
-        public static string AttendanceStartDate {
-            get {
-                return ResourceManager.GetString("AttendanceStartDate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Attendance Summary.
-        /// </summary>
-        public static string AttendanceSummary {
-            get {
-                return ResourceManager.GetString("AttendanceSummary", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Attendance Detail Adjustment.
-        /// </summary>
-        public static string AttendanceSummaryDetail {
-            get {
-                return ResourceManager.GetString("AttendanceSummaryDetail", resourceCulture);
             }
         }
         
@@ -331,7 +304,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Check In/Out.
+        ///   Looks up a localized string similar to Missing Check In/Out.
         /// </summary>
         public static string CheckInOut {
             get {
@@ -572,15 +545,58 @@ namespace SMS.EPA.Resources {
                 return ResourceManager.GetString("Description", resourceCulture);
             }
         }
-
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Discipline End Date.
+        /// </summary>
+        public static string DisciplineEndDate {
+            get {
+                return ResourceManager.GetString("DisciplineEndDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Discipline Report.
+        /// </summary>
+        public static string DisciplineReport {
+            get {
+                return ResourceManager.GetString("DisciplineReport", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Discipline Score.
         /// </summary>
-        public static string DisciplineScore
-        {
-            get
-            {
+        public static string DisciplineScore {
+            get {
                 return ResourceManager.GetString("DisciplineScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Discipline Start Date.
+        /// </summary>
+        public static string DisciplineStartDate {
+            get {
+                return ResourceManager.GetString("DisciplineStartDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Discipline Summary.
+        /// </summary>
+        public static string DisciplineSummary {
+            get {
+                return ResourceManager.GetString("DisciplineSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Discipline Detail Adjustment.
+        /// </summary>
+        public static string DisciplineSummaryDetail {
+            get {
+                return ResourceManager.GetString("DisciplineSummaryDetail", resourceCulture);
             }
         }
         
@@ -590,6 +606,15 @@ namespace SMS.EPA.Resources {
         public static string EarlyOut {
             get {
                 return ResourceManager.GetString("EarlyOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Comment.
+        /// </summary>
+        public static string EditComment {
+            get {
+                return ResourceManager.GetString("EditComment", resourceCulture);
             }
         }
         
@@ -684,7 +709,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to EPA Evaluator/Reviewer List of Section.
+        ///   Looks up a localized string similar to {0} - EPA Evaluator/Reviewer List of Section.
         /// </summary>
         public static string EmployeeFlowSettingReportTitle {
             get {
@@ -716,6 +741,15 @@ namespace SMS.EPA.Resources {
         public static string EmployeeRating {
             get {
                 return ResourceManager.GetString("EmployeeRating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Employee field is required!.
+        /// </summary>
+        public static string EmployeeRequired {
+            get {
+                return ResourceManager.GetString("EmployeeRequired", resourceCulture);
             }
         }
         
@@ -774,6 +808,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Is EPA Generated.
+        /// </summary>
+        public static string EPAGenerated {
+            get {
+                return ResourceManager.GetString("EPAGenerated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to EPA Processing.
         /// </summary>
         public static string EPAProcessing {
@@ -783,20 +826,38 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to EPA Report.
-        /// </summary>
-        public static string EPAReport {
-            get {
-                return ResourceManager.GetString("EPAReport", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to EPA Result.
         /// </summary>
         public static string EPAResult {
             get {
                 return ResourceManager.GetString("EPAResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to EPA Summary Report.
+        /// </summary>
+        public static string EPASummaryReport {
+            get {
+                return ResourceManager.GetString("EPASummaryReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to EPA_Summary_Report.
+        /// </summary>
+        public static string EPASummaryReportName {
+            get {
+                return ResourceManager.GetString("EPASummaryReportName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to EPA Summary.
+        /// </summary>
+        public static string EPASummaryReportSheet {
+            get {
+                return ResourceManager.GetString("EPASummaryReportSheet", resourceCulture);
             }
         }
         
@@ -918,6 +979,24 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please setting flow for Evaluator!.
+        /// </summary>
+        public static string EvaluatorPhaseRequired {
+            get {
+                return ResourceManager.GetString("EvaluatorPhaseRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The End Date of Evaluator must be less than or equal the Start Date of Management!.
+        /// </summary>
+        public static string EvaluatorRangeDateGreaterThanManagementRangeDateWarning {
+            get {
+                return ResourceManager.GetString("EvaluatorRangeDateGreaterThanManagementRangeDateWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The End Date of Evaluator must be less than or equal the Start Date of Reviewer!.
         /// </summary>
         public static string EvaluatorRangeDateGreaterThanReviewerRangeDateWarning {
@@ -995,6 +1074,15 @@ namespace SMS.EPA.Resources {
         public static string FlowTemplate {
             get {
                 return ResourceManager.GetString("FlowTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Flow Template Management.
+        /// </summary>
+        public static string FlowTemplateManagement {
+            get {
+                return ResourceManager.GetString("FlowTemplateManagement", resourceCulture);
             }
         }
         
@@ -1157,6 +1245,15 @@ namespace SMS.EPA.Resources {
         public static string HumanResource {
             get {
                 return ResourceManager.GetString("HumanResource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please setting flow for Human Resource!.
+        /// </summary>
+        public static string HumanResourcePhaseRequired {
+            get {
+                return ResourceManager.GetString("HumanResourcePhaseRequired", resourceCulture);
             }
         }
         
@@ -1562,6 +1659,24 @@ namespace SMS.EPA.Resources {
         public static string NotAvailableDescription {
             get {
                 return ResourceManager.GetString("NotAvailableDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notice At Begin.
+        /// </summary>
+        public static string NoticeAtBegin {
+            get {
+                return ResourceManager.GetString("NoticeAtBegin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} for notify change employee setting.
+        /// </summary>
+        public static string NotifyEmailChangeSetting {
+            get {
+                return ResourceManager.GetString("NotifyEmailChangeSetting", resourceCulture);
             }
         }
         
@@ -1980,7 +2095,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Score must be equal or less than {0}.
+        ///   Looks up a localized string similar to Score must be larger 0 and less or equal than {0}.
         /// </summary>
         public static string ScoreInputValid {
             get {
@@ -2052,7 +2167,25 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please select employee to assign target template!.
+        ///   Looks up a localized string similar to Please select at least a department/section or employee to add in this evaluation period!.
+        /// </summary>
+        public static string SelectDepartmentSectionEmployeeBeforeAddToPeriodWarning {
+            get {
+                return ResourceManager.GetString("SelectDepartmentSectionEmployeeBeforeAddToPeriodWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select employee before adjusting score!.
+        /// </summary>
+        public static string SelectEmployeeBeforeAdjustScoreWarning {
+            get {
+                return ResourceManager.GetString("SelectEmployeeBeforeAdjustScoreWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select at least employee to assign target template!.
         /// </summary>
         public static string SelectEmployeeBeforeAssignWarning {
             get {
@@ -2061,7 +2194,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please select employee before assign!.
+        ///   Looks up a localized string similar to Please select at least  employee before assign!.
         /// </summary>
         public static string SelectEmployeeBeforeAssingFlowSettingWarning {
             get {
@@ -2070,7 +2203,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please select employee before edit setting!.
+        ///   Looks up a localized string similar to Please select at least  employee before edit setting!.
         /// </summary>
         public static string SelectEmployeeBeforeEditSettingWarning {
             get {
@@ -2079,11 +2212,20 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please select employee before generate EPA!.
+        ///   Looks up a localized string similar to Please select at least employee before generate EPA!.
         /// </summary>
         public static string SelectEmployeeBeforeGenerateEvaluation {
             get {
                 return ResourceManager.GetString("SelectEmployeeBeforeGenerateEvaluation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select employee before saving!.
+        /// </summary>
+        public static string SelectEmployeeBeforeSaveWarning {
+            get {
+                return ResourceManager.GetString("SelectEmployeeBeforeSaveWarning", resourceCulture);
             }
         }
         
@@ -2093,15 +2235,6 @@ namespace SMS.EPA.Resources {
         public static string SelfEvaluation {
             get {
                 return ResourceManager.GetString("SelfEvaluation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Self-Evaluation Score.
-        /// </summary>
-        public static string SelfEvaluationScore {
-            get {
-                return ResourceManager.GetString("SelfEvaluationScore", resourceCulture);
             }
         }
         
@@ -2120,6 +2253,15 @@ namespace SMS.EPA.Resources {
         public static string SelfRangeDateGreaterThanEvaluatorRangeDateWarning {
             get {
                 return ResourceManager.GetString("SelfRangeDateGreaterThanEvaluatorRangeDateWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Self Score.
+        /// </summary>
+        public static string SelfScore {
+            get {
+                return ResourceManager.GetString("SelfScore", resourceCulture);
             }
         }
         
@@ -2255,6 +2397,15 @@ namespace SMS.EPA.Resources {
         public static string StartDateGreaterThanEndDateWarning {
             get {
                 return ResourceManager.GetString("StartDateGreaterThanEndDateWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Start Date field is required for Semi-annual or Promotion!.
+        /// </summary>
+        public static string StartDatePeriodRequired {
+            get {
+                return ResourceManager.GetString("StartDatePeriodRequired", resourceCulture);
             }
         }
         
@@ -2538,6 +2689,24 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to UPL Absent.
+        /// </summary>
+        public static string UnpaidLeaveAbsentShort {
+            get {
+                return ResourceManager.GetString("UnpaidLeaveAbsentShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UPL.
+        /// </summary>
+        public static string UnpaidLeaveShort {
+            get {
+                return ResourceManager.GetString("UnpaidLeaveShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Updated Successfully!.
         /// </summary>
         public static string UpdatedSuccessfully {
@@ -2633,6 +2802,24 @@ namespace SMS.EPA.Resources {
         public static string ValidateWrongPassword {
             get {
                 return ResourceManager.GetString("ValidateWrongPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View Comment.
+        /// </summary>
+        public static string ViewComment {
+            get {
+                return ResourceManager.GetString("ViewComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View EPA Result.
+        /// </summary>
+        public static string ViewEPAResult {
+            get {
+                return ResourceManager.GetString("ViewEPAResult", resourceCulture);
             }
         }
         

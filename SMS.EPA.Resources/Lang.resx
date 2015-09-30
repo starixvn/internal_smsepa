@@ -1071,4 +1071,10 @@
   <data name="SelfEvaluationScore" xml:space="preserve">
     <value>Self-Evaluation Score</value>
   </data>
+    <data name="NotifyEmailChangeSetting" xml:space="preserve">
+    <value>{0} for notify change employee setting</value>
+  </data>
+  <data name="StartDatePeriodRequired" xml:space="preserve">
+    <value>The Start Date field is required for Semi-annual or Promotion!</value>
+  </data>
 </root>

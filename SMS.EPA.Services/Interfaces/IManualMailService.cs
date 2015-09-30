@@ -15,5 +15,7 @@ namespace SMS.EPA.Services.Interfaces
     public interface IManualMailService
     {
         void SendStartMail(PeriodModel period, IEnumerable<PeriodFlowModel> employeeSettings);
+
+        void SendNotifyMail(PeriodModel period, IEnumerable<PeriodFlowModel> employeeSettings);
     }
 }

@@ -22,6 +22,8 @@ namespace SMS.EPA.Model.Period
 
         public int? TargetTemplateId { get; set; }
 
+        public string EmployeeIds { get; set; }
+
         public IEnumerable<PeriodFlowModel> EmployeeAssignments { get; set; }
 
         public string ConvertToXml()

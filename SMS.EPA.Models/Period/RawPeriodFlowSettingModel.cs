@@ -12,7 +12,5 @@ namespace SMS.EPA.Model.Period
     public class RawPeriodFlowSettingModel : PeriodFlowModel
     {
         public int PeriodId { get; set; }
-
-        public int EmployeeId { get; set; }
     }
 }

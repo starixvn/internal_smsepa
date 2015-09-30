@@ -172,6 +172,18 @@ namespace SMS.EPA.Services.Implement
             _baseMailService.SendEmail(email);
         }
 
+        public void SendMailToNotifyChangeSetting(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName)
+        {
+            var email = new MailModel();
+
+            email.Subject = string.Format(Lang.NotifyEmailChangeSetting, periodName);
+            email.Body = _baseMailService.ReadTextFile(templateEmailPath);
+            email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, periodName);
+            email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
+
+            _baseMailService.SendEmail(email);
+        }
+
         public string ChangeStartDate(DateTime startDate)
         {
             var result = new DateTime(startDate.Year, startDate.Month, startDate.Day, 0, 0, 0, 0, startDate.Kind);

@@ -29,6 +29,13 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         Closed: 3
     };
 
+    periodModel.targetType = {
+        Probation: 1,
+        SemiAnnual: 3,
+        Yearly: 4,
+        Promotion: 5
+    };
+
     periodModel.permission = 0;
 
     periodModel.calendar = {
@@ -286,6 +293,12 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                 notificationFactory.error("TargetTypeRequired");
                 return false;
             }
+            else if (period.TargetTypeId === periodModel.targetType.SemiAnnual || period.TargetTypeId === periodModel.targetType.Promotion) {
+                if (!period.StartDate) {
+                    notificationFactory.error("StartDatePeriodRequired");
+                    return false;
+                }
+            }
         }
 
         return true;
@@ -501,7 +514,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         });
     };
 
-    periodModel.createAssignmentSettings = function (employeeOptions, periodId, selectedEmployees) {
+    periodModel.createAssignmentSettings = function (employeeOptions, periodId, selectedEmployees, employeeIds) {
         var employeeAssignments = [],
             targetTemplateId = employeeOptions.targetTemplateId;
 
@@ -590,7 +603,8 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         var employeeSetting = {
             periodId: periodId,
             targetTemplateId: targetTemplateId,
-            employeeAssignments: employeeAssignments
+            employeeAssignments: employeeAssignments,
+            employeeIds: employeeIds
         };
 
         return employeeSetting;
@@ -764,14 +778,13 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             windowClass: "modal-confirm-center"
         });
 
-        modalInstance.result.then(function () {
+        return modalInstance.result.then(function () {
             return periodFactory.generateEvaluation(period).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("CreatedSuccessfully");
-                    vm.query(vm.filter);
                 }
                 else {
-                    notificationFactory.error("CreatedUnsuccessfully");
+                    notificationFactory.error('', response.Message);
                 }
             })
             .error(function (response, status) {
@@ -1182,6 +1195,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
 
         var employeeSetting = {
             periodId: vm.period.PeriodId,
+            employeeIds: vm.selectedEmployeeIds,
             targetTemplateId: vm.fieldEdit.targetTemplate ? vm.employeeOptions.targetTemplateId : null,
             employeeAssignments: employeeAssignments
         };

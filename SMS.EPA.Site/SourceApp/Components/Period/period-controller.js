@@ -465,7 +465,9 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
             notificationFactory.error("SelectEmployeeBeforeGenerateEvaluation");
         }
         else {
-            PeriodModel.openPopupGenerateEvaluation(vm, period);
+            PeriodModel.openPopupGenerateEvaluation(vm, period).then(function () {
+                vm.query(vm.filter);
+            });
         }
     };
 
@@ -714,26 +716,85 @@ permission, PeriodModel, TargetTemplateModel, FlowMngModel, CommonModel) {
         return employeeSetting;
     };
 
+    var checkChangeEmployeeSetting = function (employeeOptions, employeeSetting) {
+        var hasEdited = false,
+            humanResource = getEvaluators(employeeSetting.HumanResources),
+            selfEvaluator = getEvaluators(employeeSetting.SelfEvaluators),
+            evaluator = getEvaluators(employeeSetting.Evaluators),
+            reviewer = getEvaluators(employeeSetting.Reviewers),
+            management = getEvaluators(employeeSetting.Managements);
+
+        if (vm.employeeOptions.targetTemplateId !== employeeSetting.TargetTemplate.TargetTemplateId) {
+            hasEdited = true;
+        }
+        else if (JSON.stringify(humanResource) !== JSON.stringify(employeeOptions.humanResource)) {
+            hasEdited = true;
+        }
+        else if (JSON.stringify(selfEvaluator) !== JSON.stringify(employeeOptions.selfEvaluator)) {
+            hasEdited = true;
+        }
+        else if (JSON.stringify(evaluator) !== JSON.stringify(employeeOptions.evaluator)) {
+            hasEdited = true;
+        }
+        else if (JSON.stringify(reviewer) !== JSON.stringify(employeeOptions.reviewer)) {
+            hasEdited = true;
+        }
+        else if (JSON.stringify(management) !== JSON.stringify(employeeOptions.management)) {
+            hasEdited = true;
+        }
+
+        return hasEdited;
+    };
+
+    var checkHasFieldEdit = function (fieldEdit) {
+        var hasEdited = false;
+
+        if (fieldEdit.targetTemplateId) {
+            hasEdited = true;
+        }
+        else if (fieldEdit.evaluator) {
+            hasEdited = true;
+        }
+        else if (fieldEdit.startDate) {
+            hasEdited = true;
+        }
+        else if (fieldEdit.endDate) {
+            hasEdited = true;
+        }
+
+        return hasEdited;
+    };
+
     vm.save = function () {
         if (vm.singleMode) {
             if (PeriodModel.validateEmployeeSetting(vm.employeeOptions)) {
-                var employeeAssignmentSetting = PeriodModel.createAssignmentSettings(vm.employeeOptions, vm.period.PeriodId, vm.selectedEmployees);
+                if (checkChangeEmployeeSetting(vm.employeeOptions, vm.selectedEmployees[0])) {
+                    var employeeAssignmentSetting = PeriodModel.createAssignmentSettings(vm.employeeOptions, vm.period.PeriodId, vm.selectedEmployees, vm.selectedEmployeeIds);
 
-                PeriodModel.updateEmployeeSettingOfPeriod(employeeAssignmentSetting).then(function () {
-                    var updatedEmployeeSetting = getUpdatedEmployeeSetting(vm.selectedEmployees[0], vm.employeeOptions);
-                    $modalInstance.close(updatedEmployeeSetting);
-                });
+                    PeriodModel.updateEmployeeSettingOfPeriod(employeeAssignmentSetting).then(function () {
+                        var updatedEmployeeSetting = getUpdatedEmployeeSetting(vm.selectedEmployees[0], vm.employeeOptions);
+                        $modalInstance.close(updatedEmployeeSetting);
+                    });
+                }
+                else {
+                    $modalInstance.dismiss("cancel");
+                }
             }
         }
         else {
-            var updatedEmployees = PeriodModel.updateEmployeeSettings(vm.employeeOptions, vm.fieldEdit, vm.selectedEmployees);
+            if (checkHasFieldEdit(vm.fieldEdit)) {
+                var updatedEmployees = PeriodModel.updateEmployeeSettings(vm.employeeOptions, vm.fieldEdit, vm.selectedEmployees);
 
-            if (PeriodModel.validateEmployeeSettingMultipleMode(updatedEmployees)) {
-                var employeeAssignmentSetting = PeriodModel.createAssignmentSettingsMultipleMode(updatedEmployees, vm);
+                if (PeriodModel.validateEmployeeSettingMultipleMode(updatedEmployees)) {
+                    var employeeAssignmentSetting = PeriodModel.createAssignmentSettingsMultipleMode(updatedEmployees, vm);
 
-                PeriodModel.updateEmployeeSettingOfPeriod(employeeAssignmentSetting).then(function () {
-                    $modalInstance.close();
-                });
+                    PeriodModel.updateEmployeeSettingOfPeriod(employeeAssignmentSetting).then(function () {
+                        $modalInstance.close();
+                    });
+                }
+            }
+            else {
+                $modalInstance.dismiss("cancel");
             }
         }
     };

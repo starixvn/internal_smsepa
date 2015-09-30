@@ -636,6 +636,7 @@
     <Content Include="SourceApp\Components\Dashboard\dashboard.less" />
     <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary.less" />
     <Content Include="SourceApp\Components\Report\report.less" />
+    <Content Include="Views\Emails\EmailNotifyChangeSetting.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">

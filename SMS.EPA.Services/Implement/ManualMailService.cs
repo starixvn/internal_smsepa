@@ -25,6 +25,7 @@ namespace SMS.EPA.Services.Implement
         private string _startDateMailToSpecialReviewer = "~/Views/Emails/StartDateEmailToSpecialReviewer.cshtml";
         private string _startDateMailToManagement = "~/Views/Emails/StartDateEmailToManagement.cshtml";
         private string _startDateMailToSpecialManagement = "~/Views/Emails/StartDateEmailToSpecialManagement.cshtml";
+        private string _mailNotifyChangeSetting = "~/Views/Emails/EmailNotifyChangeSetting.cshtml";
 
         private IMailService _mailService;
 
@@ -95,6 +96,16 @@ namespace SMS.EPA.Services.Implement
                         _mailService.SendMailToManagementStartDate(templateEmailPath, employeeSetting, period.Name);
                         break;
                 }
+            }
+        }
+
+        public void SendNotifyMail(PeriodModel period, IEnumerable<PeriodFlowModel> employeeSettings)
+        {
+            string templateEmailPath = HttpContext.Current.Server.MapPath(_mailNotifyChangeSetting);
+
+            foreach (PeriodFlowModel employeeSetting in employeeSettings)
+            {
+                _mailService.SendMailToNotifyChangeSetting(templateEmailPath, employeeSetting, period.Name);
             }
         }
     }

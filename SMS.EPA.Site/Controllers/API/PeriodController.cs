@@ -193,6 +193,7 @@ namespace SMS.EPA.Site.Controllers.API
                 var criteria = new UpdateEmployeeSettingOfPeriodCriteria
                 {
                     PeriodId = model.PeriodId,
+                    EmployeeIds = model.EmployeeIds,
                     TargetTemplateId = model.TargetTemplateId,
                     EmployeeAssignments = model.ConvertToXml(),
                     ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId

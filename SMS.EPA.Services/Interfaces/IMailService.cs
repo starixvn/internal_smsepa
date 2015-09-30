@@ -30,5 +30,7 @@ namespace SMS.EPA.Services.Interfaces
         void SendMailToReviewerRemindDate(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName);
 
         void SendMailToManagementRemindDate(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName);
+
+        void SendMailToNotifyChangeSetting(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName);
     }
 }

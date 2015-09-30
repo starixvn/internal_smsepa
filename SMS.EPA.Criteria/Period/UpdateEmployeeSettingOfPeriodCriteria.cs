@@ -15,6 +15,9 @@ namespace SMS.EPA.Criteria.Period
     {
         public int PeriodId { get; set; }
 
+        [SpParam(Ignored = true)]
+        public string EmployeeIds { get; set; }
+
         public int? TargetTemplateId { get; set; }
 
         public string EmployeeAssignments { get; set; }
