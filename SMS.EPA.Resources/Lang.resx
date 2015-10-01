@@ -1086,4 +1086,7 @@
   <data name="ScoredBy" xml:space="preserve">
     <value>Scored By</value>
   </data>
+    <data name="EndMailEvaluationToSelf" xml:space="preserve">
+    <value>{0} completed</value>
+  </data>
 </root>

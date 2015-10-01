@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AttendanceSummary\DeleteOtherViolationCriteria.cs" />
+    <Compile Include="AttendanceSummary\GetAttendanceScoreByEPAIdCriteria.cs" />
     <Compile Include="AttendanceSummary\GetAttendanceSummaryCriteria.cs" />
     <Compile Include="AttendanceSummary\GetDetailAttendanceCriteria.cs" />
     <Compile Include="AttendanceSummary\GetOtherViolationsOfEmployeeCriteria.cs" />

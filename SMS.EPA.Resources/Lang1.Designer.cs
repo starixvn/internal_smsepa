@@ -790,6 +790,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} completed.
+        /// </summary>
+        public static string EndMailEvaluationToSelf {
+            get {
+                return ResourceManager.GetString("EndMailEvaluationToSelf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to End Process.
         /// </summary>
         public static string EndProcess {

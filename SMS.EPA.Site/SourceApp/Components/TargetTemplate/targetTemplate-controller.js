@@ -77,10 +77,15 @@ function (TargetTemplateModel, utilitiesFactory, CommonModel) {
 }]);
 
 targetTemplateModule.controller('CreateTargetTemplateController',
-['$window', 'TargetTemplateModel', 'CommonModel',
-function ($window, TargetTemplateModel, CommonModel) {
+['$window', '$location', 'TargetTemplateModel', 'CommonModel', 'baseUrl',
+function ($window, $location, TargetTemplateModel, CommonModel, baseUrl) {
     var vm = this;
     vm.scoreRatingTypeOptions = TargetTemplateModel.scoreRatingTypes;
+    vm.permission = TargetTemplateModel.permission;
+
+    if (vm.permission !== 2) {
+        $location.path(baseUrl + 'Home/AccessDenied');
+    }
 
     vm.targetTemplate = {
         Name: '',

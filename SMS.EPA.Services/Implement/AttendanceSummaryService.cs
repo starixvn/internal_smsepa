@@ -127,6 +127,19 @@ namespace SMS.EPA.Services.Implement
             return commandResult;
         }
 
+        public IEnumerable<AttendanceScoreModel> GetAttendanceScoreByEPAId(GetAttendanceScoreByEPAIdCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<AttendanceScoreModel> attendanceScores = new List<AttendanceScoreModel>();
+
+            if (criteria.IsValid())
+            {
+                attendanceScores = GetData<AttendanceScoreModel>(criteria);
+            }
+
+            return attendanceScores;
+        }
+
         private static IEnumerable<AttendanceDetailModel> GroupAttendanceDetailAndCalculateScore(
             RawAttendanceDetailModel rawAttendanceDetail,
             IEnumerable<AttendanceDetailModel> attendanceViolations)

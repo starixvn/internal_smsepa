@@ -24,13 +24,14 @@ namespace SMS.EPA.Repositories.Implement
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                return db.Query<AttendanceSummaryModel, Group, AttendanceSummaryModel>(
-                                        (att, gr) =>
+                return db.Query<AttendanceSummaryModel, Employee, Group, AttendanceSummaryModel>(
+                                        (att, emp, gr) =>
                                         {
+                                            att.Employee = emp;
                                             att.Group = gr;
                                             return att;
                                         },
-                                        "GroupId",
+                                        "EmployeeId, GroupId",
                                         criteria.GetSpParams());
             }
         }

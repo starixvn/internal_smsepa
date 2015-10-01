@@ -1,5 +1,5 @@
 ﻿// ----------------------------------------------------------------------
-// <copyright file="IGenerationEvaluationRepository.cs" company="Nexcel Solutions Viet Nam">
+// <copyright file="IEvaluationRepository.cs" company="Nexcel Solutions Viet Nam">
 // Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
 // </copyright>
 // ------------------------------------------------------------------------
@@ -12,7 +12,7 @@ namespace SMS.EPA.AutoGenerateEvaluation.Repository
     using Fanex.Data.Repository;
     using SMS.EPA.Model.Period;
 
-    public interface IGenerationEvaluationRepository
+    public interface IEvaluationRepository
     {
         AutoEmployeePeriodModel GetEmployeeProbationEvaluation(ICriteria criteria);
     }

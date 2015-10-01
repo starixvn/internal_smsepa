@@ -9,6 +9,7 @@
 
 namespace SMS.EPA.Services.Interfaces
 {
+    using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.Period;
 
     public interface IMailService
@@ -32,5 +33,7 @@ namespace SMS.EPA.Services.Interfaces
         void SendMailToManagementRemindDate(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName);
 
         void SendMailToNotifyChangeSetting(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName);
+
+        void SendMailToSelfEndEvaluation(string templateEmailPath, EPAModel evaluationInfo, float averagePerformanceScore, float disciplineScore);
     }
 }

@@ -1,5 +1,5 @@
 ﻿// ----------------------------------------------------------------------
-// <copyright file="IGenerationEvaluationService.cs" company="Nexcel Solutions Viet Nam">
+// <copyright file="IEvaluationService.cs" company="Nexcel Solutions Viet Nam">
 // Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
 // </copyright>
 // ------------------------------------------------------------------------
@@ -14,7 +14,7 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Interfaces
     using SMS.EPA.Core.Model;
     using SMS.EPA.Model.Period;
 
-    public interface IGenerationEvaluationService
+    public interface IEvaluationService
     {
         IEnumerable<int> CheckStartSemiAnnual(GetSemiAnnualPeriodStartedCriteria criteria);
 
@@ -38,6 +38,6 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Interfaces
 
         CommandResult UpdateStatusEndEvaluaitonPeriod(UpdateStatusEndEvaluationPeriodCriteria criteria);
 
-        string ConvertEvaluationProcessToXml(IEnumerable<AutoEmployeePeriodModel> evaluationProcesses);
+        CommandResult UpdateFinalScoreEndEvaluation(UpdateFinalScoreEndEvaluationCriteria criteria);
     }
 }

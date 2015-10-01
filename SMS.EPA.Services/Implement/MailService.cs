@@ -15,6 +15,7 @@ namespace SMS.EPA.Services.Implement
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Services.Implement;
     using SMS.EPA.Core.Services.Interfaces;
+    using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.Period;
     using SMS.EPA.Resources;
     using SMS.EPA.Services.Interfaces;
@@ -181,6 +182,17 @@ namespace SMS.EPA.Services.Implement
             email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, periodName);
             email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
 
+            _baseMailService.SendEmail(email);
+        }
+
+        public void SendMailToSelfEndEvaluation(
+            string templateEmailPath,
+            EPAModel evaluationInfo,
+            float averagePerformanceScore,
+            float disciplineScore)
+        {
+            var email = new MailModel();
+            ////TODO
             _baseMailService.SendEmail(email);
         }
 

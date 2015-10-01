@@ -1,5 +1,5 @@
 ﻿// ----------------------------------------------------------------------
-// <copyright file="GenerationEvaluationService.cs" company="Nexcel Solutions Viet Nam">
+// <copyright file="EvaluationService.cs" company="Nexcel Solutions Viet Nam">
 // Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
 // </copyright>
 // ------------------------------------------------------------------------
@@ -11,7 +11,6 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
 {
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using Fanex.Common.Helper;
     using SMS.EPA.AutoGenerateEvaluation.Criteria;
     using SMS.EPA.AutoGenerateEvaluation.Repository;
@@ -20,18 +19,18 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
     using SMS.EPA.Core.Services;
     using SMS.EPA.Model.Period;
 
-    public class GenerationEvaluationService : BaseService, IGenerationEvaluationService
+    public class EvaluationService : BaseService, IEvaluationService
     {
-        private readonly IGenerationEvaluationRepository _generateEvaluationRepository;
+        private readonly IEvaluationRepository _generateEvaluationRepository;
 
-        public GenerationEvaluationService()
+        public EvaluationService()
             : this(null)
         {
         }
 
-        public GenerationEvaluationService(IGenerationEvaluationRepository generationEvaluationRepository)
+        public EvaluationService(IEvaluationRepository generationEvaluationRepository)
         {
-            _generateEvaluationRepository = generationEvaluationRepository ?? new GenerationEvaluationRepository();
+            _generateEvaluationRepository = generationEvaluationRepository ?? new EvaluationRepository();
         }
 
         public IEnumerable<int> CheckStartSemiAnnual(GetSemiAnnualPeriodStartedCriteria criteria)
@@ -182,21 +181,17 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
             return comandResult;
         }
 
-        public string ConvertEvaluationProcessToXml(IEnumerable<AutoEmployeePeriodModel> evaluationProcesses)
+        public CommandResult UpdateFinalScoreEndEvaluation(UpdateFinalScoreEndEvaluationCriteria criteria)
         {
-            string processTemplate = "<EPAProcess EPAId='{0}' ProcessId='{1}'></EPAProcess>";
-            string beginRootTag = "<ROOT>";
-            string endRootTag = "</ROOT>";
+            Check.Argument.IsNotNull(criteria, "criteria");
+            var comandResult = new CommandResult();
 
-            var value = new StringBuilder(beginRootTag);
-
-            foreach (AutoEmployeePeriodModel evaluationProcess in evaluationProcesses)
+            if (criteria.IsValid())
             {
-                value.AppendFormat(processTemplate, evaluationProcess.EPAId, evaluationProcess.ProcessId);
+                comandResult = Repository.Update(criteria);
             }
 
-            value.Append(endRootTag);
-            return value.ToString();
+            return comandResult;
         }
 
         private string JoinEmployeeId(List<AutoEmployeePeriodModel> employeePeriods)

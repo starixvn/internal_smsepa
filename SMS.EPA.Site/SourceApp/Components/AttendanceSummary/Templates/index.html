@@ -105,9 +105,9 @@
             <tr dir-paginate="employee in attendanceCtrl.filteredItems | itemsPerPage: attendanceCtrl.pageSize" current-page="attendanceCtrl.currentPage">
                 <td class="text-center" ng-bind="attendanceCtrl.getIndex($index, attendanceCtrl.currentPage, attendanceCtrl.pageSize)"></td>
                 <td class="text-center" ng-bind="employee.Group.GroupName"></td>
-                <td class="text-center" ng-bind="employee.Code"></td>
+                <td class="text-center" ng-bind="employee.Employee.Code"></td>
                 <td class="text-center">
-                    <span ng-bind="employee.NickName" tooltip="{{employee.FullName}}"></span>
+                    <span ng-bind="employee.Employee.NickName" tooltip="{{employee.Employee.FullName}}"></span>
                 </td>
                 <td ng-bind="employee.MissingCheckInOut"></td>
                 <td ng-bind="employee.WorkingBelowTime"></td>

@@ -31,5 +31,9 @@
     </Setting>
     <Setting Key="EpaAuto_UpdateStatusEndEvaluationPeriod" SpName="EpaAuto_UpdateStatusEndEvaluationPeriod" DbName="SMSEPA" Plain="0">
     </Setting>
+    <Setting Key="EpaAttendanceSummary_GetByEPA" SpName="EpaAttendanceSummary_GetByEPA" DbName="SMSEPA" Plain="0">
+    </Setting>
+    <Setting Key="EpaAuto_UpdateFinalScoreEndEvaluation" SpName="EpaAuto_UpdateFinalScoreEndEvaluation" DbName="SMSEPA" Plain="0">
+    </Setting>
   </Function>
 </Functions>

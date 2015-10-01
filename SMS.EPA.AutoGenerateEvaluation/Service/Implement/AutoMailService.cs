@@ -14,6 +14,7 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
     using System.IO;
     using SMS.EPA.AutoGenerateEvaluation.Service.Interfaces;
     using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.Period;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
@@ -36,6 +37,8 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
         private string _reminderMailToSpecialReviewer = "Views\\Emails\\RemindDateEmailToSpecialReviewer.cshtml";
         private string _reminderMailToManagement = "Views\\Emails\\RemindDateEmailToManagement.cshtml";
         private string _reminderMailToSpecialManagement = "Views\\Emails\\RemindDateEmailToSpecialManagement.cshtml";
+
+        private string _endMailToSelf = "Views\\Emails\\EndEvaluationEmailToSelf.cshtml";
 
         private IMailService _mailService;
 
@@ -164,6 +167,17 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
                         break;
                 }
             }
+        }
+
+        public void SendEndEvaluationMailToSelf(
+            EPAModel evaluationInfo,
+            float averagePerformanceScore,
+            float disciplineScore)
+        {
+            string assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
+            string templateEmailPath = templateEmailPath = Path.Combine(assemblyPath, _endMailToSelf);
+
+            _mailService.SendMailToSelfEndEvaluation(templateEmailPath, evaluationInfo, averagePerformanceScore, disciplineScore);
         }
     }
 }

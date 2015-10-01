@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AttendanceSummary\AttendanceDetailModel.cs" />
+    <Compile Include="AttendanceSummary\AttendanceScoreModel.cs" />
     <Compile Include="AttendanceSummary\AttendanceSummaryModel.cs" />
     <Compile Include="AttendanceSummary\IgnoredViolationModel.cs" />
     <Compile Include="AttendanceSummary\OtherViolationModel.cs" />

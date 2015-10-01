@@ -89,6 +89,7 @@
     <Compile Include="Criteria\InsertEmployeeToProbationPeriodCriteria.cs" />
     <Compile Include="Criteria\InsertEmployeeToSemiAnnualPeriodCriteria.cs" />
     <Compile Include="Criteria\GetSemiAnnualPeriodStartedCriteria.cs" />
+    <Compile Include="Criteria\UpdateFinalScoreEndEvaluationCriteria.cs" />
     <Compile Include="Criteria\UpdateIsEndProcessCriteria.cs" />
     <Compile Include="Criteria\UpdateStatusEndEvaluationPeriodCriteria.cs" />
     <Compile Include="Program.cs" />
@@ -99,14 +100,14 @@
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repository\GenerationEvaluationRepository.cs" />
-    <Compile Include="Repository\IGenerationEvaluationRepository.cs" />
+    <Compile Include="Repository\EvaluationRepository.cs" />
+    <Compile Include="Repository\IEvaluationRepository.cs" />
     <Compile Include="Service\Implement\AutoMailService.cs" />
-    <Compile Include="Service\Implement\GenerationEvaluationService.cs">
+    <Compile Include="Service\Implement\EvaluationService.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Service\Interfaces\IAutoMailService.cs" />
-    <Compile Include="Service\Interfaces\IGenerationEvaluationService.cs" />
+    <Compile Include="Service\Interfaces\IEvaluationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

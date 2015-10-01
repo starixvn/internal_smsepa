@@ -9,10 +9,14 @@
 
 namespace SMS.EPA.Model.AttendanceSummary
 {
-    using SMS.EPA.Model.Employee;
+    using SMS.EPA.Model.Enitites;
 
-    public class AttendanceSummaryModel : EmployeeModel
+    public class AttendanceSummaryModel
     {
+        public Employee Employee { get; set; }
+
+        public Group Group { get; set; }
+
         public int MissingCheckInOut { get; set; }
 
         public int WorkingBelowTime { get; set; }
@@ -29,23 +33,12 @@ namespace SMS.EPA.Model.AttendanceSummary
 
         public int ChangeShift { get; set; }
 
+        public float OtherViolationsScore { get; set; }
+
         public float SystemSubtractScore { get; set; }
 
         public float ApproverIgnoredScore { get; set; }
 
-        public float ApproverSubtractScore 
-        {
-            get
-            {
-                return SystemSubtractScore - ApproverIgnoredScore;
-            }
-
-            set
-            {
-                ApproverSubtractScore = value;
-            }
-        }
-
-        public float OtherViolationsScore { get; set; }
+        public float ApproverSubtractScore { get; set; }
     }
 }
