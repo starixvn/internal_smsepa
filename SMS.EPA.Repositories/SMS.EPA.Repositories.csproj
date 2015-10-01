@@ -92,6 +92,10 @@
     <CodeAnalysisDictionary Include="FxCopDictionary.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">
+      <Project>{76ee2da4-7127-4c21-b218-adff51b2b74e}</Project>
+      <Name>SMS.EPA.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SMS.EPA.Models\SMS.EPA.Model.csproj">
       <Project>{235C8D9E-97EC-4183-BAF2-3783F2F816CC}</Project>
       <Name>SMS.EPA.Model</Name>

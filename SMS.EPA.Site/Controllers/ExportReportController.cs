@@ -18,6 +18,7 @@ namespace SMS.EPA.Site.Controllers
     using SMS.EPA.Criteria.Report;
     using SMS.EPA.Model.Period;
     using SMS.EPA.Model.Report.EPASummary;
+    using SMS.EPA.Resources;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
     using SMS.EPA.Web;
@@ -58,7 +59,7 @@ namespace SMS.EPA.Site.Controllers
 
         public ActionResult ExportEPASummaryReport(GetEPASummaryCriteria criteria)
         {
-            string fileName = "EPA_Summary_Report.xls";
+            string fileName = Lang.EPASummaryReportName + ".xls";
             List<int> roleIds = SessionManager.CurrentUser.Roles.Select(x => x.RoleId).ToList();
             var isViewAll = false;
 

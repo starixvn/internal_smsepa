@@ -134,4 +134,6 @@ var reportModule = angular.module("reportModule", ['ngRoute'])
     var baseUrl = $("base").first().attr("href");
     $routeProvider.when('/Report/EPASummaryReport',
     { templateUrl: baseUrl + 'SourceApp/Components/Report/Templates/EPASummaryReport.html' });
+    $routeProvider.when('/Report/EPADetailReport',
+    { templateUrl: baseUrl + 'SourceApp/Components/Report/Templates/EPADetailReport.html' });
 }]);

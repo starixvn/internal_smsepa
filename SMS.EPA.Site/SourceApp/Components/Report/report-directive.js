@@ -33,8 +33,8 @@ reportModule.directive('gridEpaSummaryReport', ['$timeout', 'utilitiesFactory', 
             { HeaderText: "Code", Width: 70, Name: "Code", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "Full Name", Width: 180, Name: "FullName", HeaderAlign: "center", CellAlign: "left" },
             { HeaderText: "Nick Name", Width: 100, Name: "NickName", HeaderAlign: "center", CellAlign: "center" },
-            { HeaderText: "Section", Width: 120, Name: "Section", HeaderAlign: "center", CellAlign: "left" },
-            { HeaderText: "Job Title", Width: 170, Name: "JobTitle", HeaderAlign: "center", CellAlign: "left" }
+            { HeaderText: "Section", Width: 160, Name: "Section", HeaderAlign: "center", CellAlign: "left" },
+            { HeaderText: "Job Title", Width: 190, Name: "JobTitle", HeaderAlign: "center", CellAlign: "left" }
         ];
 
         if (periodSelecteds && periodSelecteds.length > 0) {
@@ -48,15 +48,16 @@ reportModule.directive('gridEpaSummaryReport', ['$timeout', 'utilitiesFactory', 
         return columnHeaders;
     };
 
-    var generateBodyRows = function (gridData) {
+    var generateBodyRows = function (gridData, pageOption) {
         var rows = [];
+        var rowIndex = pageOption.itemsPerPage * pageOption.pageIndex;
 
         if (gridData && gridData.EPAEmployees) {
             angular.forEach(gridData.EPAEmployees, function (epaEmployee, i) {
                 var currentRow = {
                     Columns: [
                         { Name: "HidenColumn", Value: i + 1 },
-                        { Name: "No", Value: i + 1 },
+                        { Name: "No", Value: rowIndex + i + 1 },
                         { Name: "Code", Value: epaEmployee.Code },
                         { Name: "FullName", Value: epaEmployee.FullName },
                         { Name: "NickName", Value: epaEmployee.NickName },
@@ -102,7 +103,7 @@ reportModule.directive('gridEpaSummaryReport', ['$timeout', 'utilitiesFactory', 
                 showPager: true,
                 customPager: true,
                 numberOfFrozenColumn: 7,
-                autoFixFrozenRowHeight: true,
+                autoFixFrozenRowHeight: true
             };
 
             $scope.$watch('gridData', function (gridData) {
@@ -111,7 +112,7 @@ reportModule.directive('gridEpaSummaryReport', ['$timeout', 'utilitiesFactory', 
                         var columnHeaders = generateColumnHeaders(gridData.PeriodSelecteds),
                             groupHeaderRows = generateGroupHeaders(gridData.PeriodSelecteds);
 
-                        var bodyRows = generateBodyRows(gridData);
+                        var bodyRows = generateBodyRows(gridData, $scope.pageOption);
 
                         gridOptions.groupHeaderRows = groupHeaderRows;
                         gridOptions.columns = columnHeaders;
@@ -153,6 +154,115 @@ reportModule.directive('exportEpaSummaryReport', ['baseUrl', function (baseUrl) 
 
                 iframe.attr('src', downloadUrl);
             });
+        }
+    };
+}]);
+
+reportModule.directive('gridEpaDetailReport', ['$timeout', 'utilitiesFactory', function ($timeout, utilitiesFactory) {
+    var generateColumnHeaders = function () {
+        var columnHeaders = [
+            { HeaderText: "#", Width: 40, Name: "No", HeaderAlign: "center", CellAlign: "center" },
+            { HeaderText: "Code", Width: 60, Name: "Code", HeaderAlign: "center", CellAlign: "center" },
+            { HeaderText: "Full Name", Width: 160, Name: "FullName", HeaderAlign: "center", CellAlign: "left" },
+            { HeaderText: "Nick Name", Width: 100, Name: "NickName", HeaderAlign: "center", CellAlign: "center" },
+            { HeaderText: "Section", Width: 150, Name: "Section", HeaderAlign: "center", CellAlign: "left" },
+            { HeaderText: "Job Title", Width: 150, Name: "JobTitle", HeaderAlign: "center", CellAlign: "left" },
+            { HeaderText: "Target Type", Width: 150, Name: "TargetType", HeaderAlign: "center", CellAlign: "left" },
+            { HeaderText: "Self Score", Width: 80, Name: "SelfScore", HeaderAlign: "center", CellAlign: "center" },
+            { HeaderText: "Evaluator Score", Width: 80, Name: "EvaluatorScore", HeaderAlign: "center", CellAlign: "center" },
+            { HeaderText: "Reviewer Score", Width: 80, Name: "ReviewerScore", HeaderAlign: "center", CellAlign: "center" },
+            { HeaderText: "Management Score", Width: 80, Name: "ManagementScore", HeaderAlign: "center", CellAlign: "center" },
+            { HeaderText: "Discipline Score", Width: 80, Name: "DisciplineScore", HeaderAlign: "center", CellAlign: "center" },
+            { HeaderText: "Final Score", Width: 80, Name: "FinalScore", HeaderAlign: "center", CellAlign: "center" }
+        ];
+
+        return columnHeaders;
+    };
+
+    var generateBodyRows = function (gridData, pageOption) {
+        var rows = [];
+        var rowIndex = pageOption.itemsPerPage * pageOption.pageIndex;
+
+        if (gridData.MemberEPAs) {
+            angular.forEach(gridData.MemberEPAs, function (memberEPA, index) {
+                var disciplineScore = '';
+                if (memberEPA.HasDisciplineScore) {
+                    disciplineScore = memberEPA.DisciplineScore;
+                }
+
+                var currentRow = {
+                    Columns: [
+                        { Name: "No", Value: rowIndex + index + 1 },
+                        { Name: "Code", Value: memberEPA.Employee.Code },
+                        { Name: "FullName", Value: memberEPA.Employee.FullName },
+                        { Name: "NickName", Value: memberEPA.Employee.NickName },
+                        { Name: "Section", Value: memberEPA.Employee.Group.GroupName },
+                        { Name: "JobTitle", Value: memberEPA.Employee.JobTitle.JobTitleName },
+                        { Name: "TargetType", Value: '' },
+                        { Name: "SelfScore", Value: memberEPA.ProcessBySelf.TotalScore },
+                        { Name: "EvaluatorScore", Value: memberEPA.AverageScoreByEvaluators },
+                        { Name: "ReviewerScore", Value: memberEPA.AverageScoreByReviewers },
+                        { Name: "ManagementScore", Value: memberEPA.AverageScoreByManagements },
+                        { Name: "DisciplineScore", Value: disciplineScore },
+                        { Name: "FinalScore", Value: memberEPA.FinalScore }
+                    ]
+                };
+
+                rows.push(currentRow);
+            });
+        }
+
+        return rows;
+    };
+
+    return {
+        restrict: "A",
+        scope: {
+            gridData: "=",
+            pageOption: '=',
+            onPageChanging: '=',
+            hideColumns: '=',
+            gridExpandHeight: '@'
+        },
+        link: function ($scope, iElement) {
+            var columHeaders = generateColumnHeaders();
+
+            var gridOptions = {
+                columns: columHeaders,
+                gridExpandHeight: $scope.gridExpandHeight,
+                showPager: true,
+                customPager: true,
+                numberOfFrozenColumn: 6,
+                autoFixFrozenRowHeight: true,
+                showColumnsShowHide: false,
+                columnsNeedHide: []
+            };
+
+            $scope.$watch('gridData', function (gridData) {
+                $timeout(function () {
+                    if (gridData.MemberEPAs) {
+                        var bodyRows = generateBodyRows(gridData, $scope.pageOption);
+
+                        gridOptions.bodyRows = bodyRows;
+
+                        gridOptions.pagerOption = {
+                            startPerPage: utilitiesFactory.pageOption.itemsPerPage,
+                            totalItem: gridData ? gridData.TotalItem : 0,
+                            itemsPerPageArray: utilitiesFactory.pageOption.itemsPerPageArray,
+                            itemsPerPage: $scope.pageOption.itemsPerPage,
+                            currentPage: $scope.pageOption.pageIndex,
+                            pagerSelectCallBack: function (pageIndex, itemsPerPage) {
+                                $scope.onPageChanging(pageIndex, itemsPerPage);
+                            }
+                        };
+
+                        $(iElement).fanexGrid(gridOptions);
+                        $(iElement).fanexGrid("hideColumns", gridOptions, $scope.hideColumns);
+                    }
+                });
+            });
+
+
         }
     };
 }]);

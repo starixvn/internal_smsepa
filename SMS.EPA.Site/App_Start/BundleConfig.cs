@@ -132,7 +132,8 @@
                             "~/SourceApp/Components/Report/report-factory.js",
                             "~/SourceApp/Components/Report/report-model.js",
                             "~/SourceApp/Components/Report/report-directive.js",
-                            "~/SourceApp/Components/Report/epaSummaryReport-controller.js"));
+                            "~/SourceApp/Components/Report/epaSummaryReport-controller.js",
+                            "~/SourceApp/Components/Report/epaDetailReport-controller.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/epa-directives.js",

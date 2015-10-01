@@ -58,6 +58,7 @@ namespace SMS.EPA.Model.EmployeeEPA
 
                 return rate;
             }
+
             set
             {
                 RateEncode = !string.IsNullOrEmpty(value.ToString()) ? EncodeService.Encode(value.ToString()) : string.Empty;

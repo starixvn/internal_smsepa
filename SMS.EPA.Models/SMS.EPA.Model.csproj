@@ -98,6 +98,7 @@
     <Compile Include="Period\RawUpdatedEmployeeSettingPeriodModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Report\Dashboard\EPADashboardModel.cs" />
+    <Compile Include="Report\EPADetail\EPADetailModel.cs" />
     <Compile Include="Report\EPASummary\EPASummaryEmployeeModel.cs" />
     <Compile Include="Report\EPASummary\EPASummaryModel.cs" />
     <Compile Include="Report\EPASummary\EPASummaryPeriodModel.cs" />

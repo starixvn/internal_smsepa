@@ -1,15 +1,15 @@
 ﻿<div class="epa-summary-report" ng-controller="EPASummaryReportController as epaSummaryReportCtrl">
     <div class="col-sm-12 sub-header">
         <ul class="row breadcrumb">
-            <li class="current" data-translate="EPAReport"></li>
+            <li class="current" data-translate="EPASummaryReport"></li>
         </ul>
     </div>
     <div class="col-sm-12">
         <form novalidate class="row filter form-horizontal" role="form">
-            <div class="form-group">
+            <div class="form-group last">
                 <label class="col-sm-2 control-label" data-translate="EvaluationPeriod"></label>
                 <div class="col-sm-2">
-                    <add-class-to-role-filter class="multi-select" multi-select input-model="epaSummaryReportCtrl.periods" button-label="EmployeeId"
+                    <add-class-to-role-filter class="multi-select" multi-select input-model="epaSummaryReportCtrl.periods" button-label="Name"
                                               helper-elements="all reset filter" item-label="Name" tick-property="ticked" max-labels="0">
                     </add-class-to-role-filter>
                 </div>

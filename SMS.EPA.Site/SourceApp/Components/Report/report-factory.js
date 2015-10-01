@@ -13,6 +13,17 @@ reportModule.factory('reportFactory', ['$http', 'baseUrl', function ($http, base
                         itemsPerPage: itemsPerPage
                     }
                 });
+        },
+        getEPADetailReport: function (periodId, departmentId, pageIndex, itemsPerPage) {
+            return $http.get(baseUrl + 'api/Report/GetEPADetail',
+                {
+                    params: {
+                        periodId: periodId,
+                        departmentId: departmentId,
+                        pageIndex: pageIndex,
+                        itemsPerPage: itemsPerPage
+                    }
+                });
         }
     };
 }]);

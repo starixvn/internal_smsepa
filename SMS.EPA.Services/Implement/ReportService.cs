@@ -19,6 +19,7 @@ namespace SMS.EPA.Services.Implement
     using SMS.EPA.Criteria.Report;
     using SMS.EPA.Model.Period;
     using SMS.EPA.Model.Report.Dashboard;
+    using SMS.EPA.Model.Report.EPADetail;
     using SMS.EPA.Model.Report.EPASummary;
     using SMS.EPA.Repositories.Implement;
     using SMS.EPA.Repositories.Interfaces;
@@ -52,6 +53,8 @@ namespace SMS.EPA.Services.Implement
             return result;
         }
 
+        #region EPA Summary Report
+
         public EPASummaryModel GetEPASummary(GetEPASummaryCriteria criteria)
         {
             EPASummaryModel result = new EPASummaryModel();
@@ -68,9 +71,9 @@ namespace SMS.EPA.Services.Implement
         public MemoryStream ExportEPASummaryReport(EPASummaryModel epaSummary)
         {
             HSSFWorkbook workbook = new HSSFWorkbook();
-            ISheet sheet = workbook.CreateSheet("EPA Summary");
+            ISheet sheet = workbook.CreateSheet(Lang.EPASummaryReportSheet);
             var rowTitle = sheet.CreateRow(0);
-            var titleString = "EPA Summary";
+            var titleString = Lang.EPASummaryReportTitle;
 
             var font = workbook.CreateFont();
             font.FontHeightInPoints = 18;
@@ -102,6 +105,25 @@ namespace SMS.EPA.Services.Implement
             workbook.Write(output);
             return output;
         }
+
+        #endregion EPA Summary Report
+
+        #region EPA Detail Report
+
+        public EPADetailModel GetEPADetail(GetEPADetailCriteria criteria)
+        {
+            EPADetailModel result = new EPADetailModel();
+            Check.Argument.IsNotNull(criteria, "criteria");
+
+            if (criteria.IsValid())
+            {
+                result = _reportRepository.GetEPADetail(criteria);
+            }
+
+            return result;
+        }
+
+        #endregion EPA Detail Report
 
         private void RenderHeaderExportEPASummary(IList<PeriodModel> periodSelecteds, HSSFWorkbook workbook, ISheet sheet, List<string> titleHeaders)
         {

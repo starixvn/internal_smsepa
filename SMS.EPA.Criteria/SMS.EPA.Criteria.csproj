@@ -148,6 +148,7 @@
     <Compile Include="Period\UpdateEmployeeSettingOfPeriodCriteria.cs" />
     <Compile Include="Period\UpdateStatusPeriodCriteria.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Report\GetEPADetailCriteria.cs" />
     <Compile Include="Report\GetEPASummaryCriteria.cs" />
     <Compile Include="ScoreRatingType\GetScoreRatingTypeCriteria.cs" />
     <Compile Include="TargetEmployeeSetting\AssignTargetDepartmentSettingCriteria.cs" />

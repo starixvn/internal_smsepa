@@ -12,6 +12,7 @@ namespace SMS.EPA.Services.Interfaces
     using System.IO;
     using SMS.EPA.Criteria.Report;
     using SMS.EPA.Model.Report.Dashboard;
+    using SMS.EPA.Model.Report.EPADetail;
     using SMS.EPA.Model.Report.EPASummary;
 
     public interface IReportService
@@ -21,5 +22,7 @@ namespace SMS.EPA.Services.Interfaces
         EPASummaryModel GetEPASummary(GetEPASummaryCriteria criteria);
 
         MemoryStream ExportEPASummaryReport(EPASummaryModel epaSummary);
+
+        EPADetailModel GetEPADetail(GetEPADetailCriteria criteria);
     }
 }

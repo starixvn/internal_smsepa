@@ -341,7 +341,7 @@ namespace SMS.EPA.Services.Implement
             return employees;
         }
 
-        public void GroupEmployeeByEPA(IEnumerable<EPAModel> epas, IEnumerable<EPAEmployeeModel> employees)
+        private void GroupEmployeeByEPA(IEnumerable<EPAModel> epas, IEnumerable<EPAEmployeeModel> employees)
         {
             foreach (var epa in epas)
             {

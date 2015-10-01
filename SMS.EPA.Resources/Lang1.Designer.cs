@@ -806,6 +806,16 @@ namespace SMS.EPA.Resources {
                 return ResourceManager.GetString("EPA", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to EPA Detail Report.
+        /// </summary>
+        public static string EPADetailReport {
+            get
+            {
+                return ResourceManager.GetString("EPADetailReport", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   Looks up a localized string similar to Is EPA Generated.
@@ -824,12 +834,53 @@ namespace SMS.EPA.Resources {
                 return ResourceManager.GetString("EPAProcessing", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to EPA Summary Report.
+        /// </summary>
+        public static string EPASummaryReport {
+            get
+            {
+                return ResourceManager.GetString("EPASummaryReport", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to EPA_Summary_Report.
+        /// </summary>
+        public static string EPASummaryReportName {
+            get
+            {
+                return ResourceManager.GetString("EPASummaryReportName", resourceCulture);
+            }
+        }
         
+        /// <summary>
+        ///   Looks up a localized string similar to EPA Summary Report Sheet.
+        /// </summary>
+        public static string EPASummaryReportSheet {
+            get {
+                return ResourceManager.GetString("EPASummaryReportSheet", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to EPA Summary Report Title.
+        /// </summary>
+        public static string EPASummaryReportTitle {
+            get
+            {
+                return ResourceManager.GetString("EPASummaryReportTitle", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to EPA Result.
         /// </summary>
-        public static string EPAResult {
-            get {
+        public static string EPAResult
+        {
+            get
+            {
                 return ResourceManager.GetString("EPAResult", resourceCulture);
             }
         }

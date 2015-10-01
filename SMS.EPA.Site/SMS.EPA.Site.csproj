@@ -409,10 +409,12 @@
     <Content Include="SourceApp\Components\Period\Templates\employeeSetting.html" />
     <Content Include="SourceApp\Components\Period\Templates\index.html" />
     <Content Include="SourceApp\Components\Period\Templates\processSetting.html" />
+    <Content Include="SourceApp\Components\Report\epaDetailReport-controller.js" />
     <Content Include="SourceApp\Components\Report\epaSummaryReport-controller.js" />
     <Content Include="SourceApp\Components\Report\report-directive.js" />
     <Content Include="SourceApp\Components\Report\report-factory.js" />
     <Content Include="SourceApp\Components\Report\report-model.js" />
+    <Content Include="SourceApp\Components\Report\Templates\EPADetailReport.html" />
     <Content Include="SourceApp\Components\Report\Templates\EPASummaryReport.html" />
     <Content Include="SourceApp\Components\Resources\resources-controller.js" />
     <Content Include="SourceApp\Components\Resources\resources-factory.js" />

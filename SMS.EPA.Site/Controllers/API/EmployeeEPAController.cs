@@ -12,6 +12,7 @@ namespace SMS.EPA.Site.Controllers.API
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Http;
+    using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.EmployeeEPA;
@@ -22,6 +23,7 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Model.TargetTemplate;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
+    using SMS.EPA.Web.ApiAuthorizeAttribute;
 
     public class EmployeeEPAController : BaseController
     {
@@ -40,6 +42,7 @@ namespace SMS.EPA.Site.Controllers.API
         #region Self
 
         [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Self, Policy = Policy.Read)]
         public IEnumerable<EPAModel> GetEPAByEmployee()
         {
             var criteria = new GetEPAByEmployeeCriteria
@@ -51,6 +54,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Self, Policy = Policy.Read)]
         public EPAModel GetEPAInfoByEmployee(int epaId)
         {
             var criteria = new GetEPAInfoByEmployeeCriteria()
@@ -63,6 +67,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Self, Policy = Policy.Host)]
         public CommandResult UpdateEPAScoreByEmployee(EPAModel model)
         {
             var criteria = new UpdateEPAScoreCriteria()
@@ -85,6 +90,7 @@ namespace SMS.EPA.Site.Controllers.API
         #region Evaluator
 
         [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Evaluator, Policy = Policy.Read)]
         public IEnumerable<Employee> GetMemberByEvaluator(int? groupId = null)
         {
             var criteria = new GetMemberCriteria()
@@ -98,6 +104,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Evaluator, Policy = Policy.Read)]
         public IEnumerable<EPAModel> GetEPAByEvaluator(
             int? groupId = null,
             string employeeIds = null)
@@ -113,6 +120,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Evaluator, Policy = Policy.Read)]
         public EPAModel GetEPAInfoByEvaluator(int epaId)
         {
             var criteria = new GetEPAInfoByEvaluatorCriteria()
@@ -125,6 +133,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Evaluator, Policy = Policy.Host)]
         public CommandResult UpdateEPAScoreByEvaluator(EPAModel model)
         {
             var criteria = new UpdateEPAScoreCriteria()
@@ -147,6 +156,7 @@ namespace SMS.EPA.Site.Controllers.API
         #region Reviewer
 
         [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Reviewer, Policy = Policy.Read)]
         public IEnumerable<Employee> GetMemberByReviewer(int? groupId = null)
         {
             var criteria = new GetMemberCriteria()
@@ -160,6 +170,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Reviewer, Policy = Policy.Read)]
         public IEnumerable<EPAModel> GetEPAByReviewer(
             int? groupId = null,
             string employeeIds = null)
@@ -175,6 +186,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Reviewer, Policy = Policy.Read)]
         public EPAModel GetEPAInfoByReviewer(int epaId)
         {
             var criteria = new GetEPAInfoByReviewerCriteria()
@@ -187,6 +199,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Reviewer, Policy = Policy.Host)]
         public CommandResult AdjustScoreByReviewer(IEnumerable<EPAModel> memberEPAs)
         {
             var criteria = new AdjustScoreByReviewerOrManagementCriteria()
@@ -204,6 +217,7 @@ namespace SMS.EPA.Site.Controllers.API
         #region Management
 
         [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Management, Policy = Policy.Read)]
         public IEnumerable<Employee> GetMemberByManagement(int? groupId = null)
         {
             var criteria = new GetMemberCriteria()
@@ -217,6 +231,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Management, Policy = Policy.Read)]
         public IEnumerable<EPAModel> GetEPAByManagement(
             int? groupId = null,
             string employeeIds = null)
@@ -232,6 +247,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Management, Policy = Policy.Read)]
         public EPAModel GetEPAInfoByManagement(int epaId)
         {
             var criteria = new GetEPAInfoByManagementCriteria()
@@ -244,6 +260,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Management, Policy = Policy.Host)]
         public CommandResult AdjustScoreByManagement(IEnumerable<EPAModel> memberEPAs)
         {
             var criteria = new AdjustScoreByReviewerOrManagementCriteria()
@@ -261,6 +278,7 @@ namespace SMS.EPA.Site.Controllers.API
         #region Rating By KPI
 
         [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.RatingByKPI, Policy = Policy.Read)]
         public IEnumerable<TargetTemplateModel> GetTargetTemplateByEvaluator()
         {
             var criteria = new GetTargetTemplateByEvaluatorCriteria()
@@ -272,6 +290,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.RatingByKPI, Policy = Policy.Read)]
         public IEnumerable<TemporaryKPIModel> GetKPIByTargetTemplate(int targetTemplateId)
         {
             var criteria = new GetKPIByTargetTemplateCriteria()
@@ -283,6 +302,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.RatingByKPI, Policy = Policy.Read)]
         public IEnumerable<RatingByKPIModel> GetEmployeeEPAByKPI(
             int targetTemplateId,
             int kpiId,
@@ -302,6 +322,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.RatingByKPI, Policy = Policy.Host)]
         public CommandResult UpdateKPIScore(IEnumerable<RatingByKPIModel> models)
         {
             var criteria = new UpdateKPIScoreCriteria()

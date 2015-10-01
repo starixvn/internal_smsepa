@@ -59,9 +59,10 @@ namespace SMS.EPA.Model.EmployeeEPA.RatingByKPI
 
                 return rate;
             }
+
             set
             {
-                RateEncode = !string.IsNullOrEmpty(value.ToString()) ? EncodeService.Encode(value.ToString()) : string.Empty;
+                RateEncode = value > 0 ? EncodeService.Encode(value.ToString()) : string.Empty;
             }
         }
 

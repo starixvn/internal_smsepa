@@ -291,5 +291,9 @@
         <Setting Key="Report_EPASummary" SpName="Report_EPASummary" DbName="SMSEPA" Plain="0">
             <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode"/>
         </Setting>
+        <Setting Key="Report_EPADetail" SpName="Report_EPADetail" DbName="SMSEPA" Plain="0">
+            <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode"/>
+            <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode"/>
+        </Setting>
     </Function>
 </Functions>

@@ -63,7 +63,8 @@ namespace SMS.EPA.Site
                 "Discipline/Index",
                 "RatingByKPI/Index",
                 "Attendance/Detail/{id}",
-                "Report/EPASummaryReport"
+                "Report/EPASummaryReport",
+                "Report/EPADetailReport"
             };
 
             homeRouteUrls.ForEach(url => routes.MapRoute(

@@ -12,11 +12,14 @@ namespace SMS.EPA.Site.Controllers.API
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Http;
+    using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Criteria.Report;
+    using SMS.EPA.Model.Report.EPADetail;
     using SMS.EPA.Model.Report.EPASummary;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
+    using SMS.EPA.Web.ApiAuthorizeAttribute;
 
     public class ReportController : BaseController
     {
@@ -59,6 +62,35 @@ namespace SMS.EPA.Site.Controllers.API
             };
 
             return _reportService.GetEPASummary(criteria);
+        }
+
+        [HttpGet]
+        public EPADetailModel GetEPADetail(
+            int? periodId = null,
+            int? departmentId = null,
+            int? pageIndex = null,
+            int? itemsPerPage = null)
+        {
+            List<int> roleIds = CurrentUser.Roles.Select(x => x.RoleId).ToList();
+            var isViewAll = false;
+            if (roleIds.Contains((int)SystemRole.SystemAdmin)
+                || roleIds.Contains((int)SystemRole.HumanResource)
+                || roleIds.Contains((int)SystemRole.Management))
+            {
+                isViewAll = true;
+            }
+
+            var criteria = new GetEPADetailCriteria()
+            {
+                EmployeeId = CurrentUser.EmployeeInfo.EmployeeId,
+                IsViewAll = isViewAll,
+                PeriodId = periodId,
+                DepartmentId = departmentId,
+                PageIndex = pageIndex,
+                ItemsPerPage = itemsPerPage
+            };
+
+            return _reportService.GetEPADetail(criteria);
         }
     }
 }
