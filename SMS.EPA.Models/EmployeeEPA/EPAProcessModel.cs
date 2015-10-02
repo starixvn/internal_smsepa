@@ -35,6 +35,8 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public string FullName { get; set; }
 
+        public string Email { get; set; }
+
         public int Priority { get; set; }
 
         public string Comment { get; set; }

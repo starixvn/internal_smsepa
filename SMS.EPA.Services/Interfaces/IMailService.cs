@@ -36,6 +36,6 @@ namespace SMS.EPA.Services.Interfaces
 
         void SendMailToSelfEndEvaluation(string templateEmailPath, EPAModel evaluationInfo, float averagePerformanceScore, float disciplineScore);
 
-        void SendMailEndToHumanResourcesByEmployee(string templateEmailPath, EPAModel evaluationInfo);
+        void SendMailEndToHumanResourcesByEmployee(string templateEmailPath, EPAModel evaluationInfo, EPAProcessModel humanResource);
     }
 }

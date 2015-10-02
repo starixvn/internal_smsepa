@@ -283,7 +283,11 @@ namespace SMS.EPA.Repositories.Implement
 
         private void GroupEvaluatorByProcess(EPAModel epa, EPAProcessModel evaluator)
         {
-            if (evaluator.ProcessId == (int)ProcessType.Evaluator)
+            if (evaluator.ProcessId == (int)ProcessType.HumanResource)
+            {
+                epa.HumanResources.Add(evaluator);
+            }
+            else if (evaluator.ProcessId == (int)ProcessType.Evaluator)
             {
                 epa.Evaluators.Add(evaluator);
             }

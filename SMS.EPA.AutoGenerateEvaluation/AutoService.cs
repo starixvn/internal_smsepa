@@ -214,11 +214,10 @@ namespace SMS.EPA.AutoGenerateEvaluation
                 SendEndEvaluationMail(evaluationInfo, averagePerformanceScore, disciplineScore);
 
                 //// Send mail to HR
-                if (evaluationInfo.Period != null && evaluationInfo.Period.TargetType != null)
+                if (evaluationInfo.Period != null)
                 {
                     //// IF: Probation or promotion
-                    if (evaluationInfo.Period.TargetType.TargetTypeId == (int)TargetType.Probation ||
-                        evaluationInfo.Period.TargetType.TargetTypeId == (int)TargetType.Promotion)
+                    if (evaluationInfo.Period.TargetTypeId == (int)TargetType.Probation || evaluationInfo.Period.TargetTypeId == (int)TargetType.Promotion)
                     {
                         _autoMailService.SendEndEvaluationMailToHumanResourceByEmployee(evaluationInfo);
                     }

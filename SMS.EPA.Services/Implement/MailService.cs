@@ -218,9 +218,18 @@ namespace SMS.EPA.Services.Implement
             _baseMailService.SendEmail(email);
         }
 
-        public void SendMailEndToHumanResourcesByEmployee(string templateEmailPath, EPAModel evaluationInfo)
+        public void SendMailEndToHumanResourcesByEmployee(
+            string templateEmailPath,
+            EPAModel evaluationInfo,
+            EPAProcessModel humanResource)
         {
-            throw new NotImplementedException();
+            var email = new MailModel();
+            email.Subject = string.Format(Lang.EndMailEvaluationToSelf, evaluationInfo.Period.Name);
+            email.Body = _baseMailService.ReadTextFile(templateEmailPath);
+            email.Body = string.Format(email.Body, humanResource.NickName, evaluationInfo.Employee.NickName, evaluationInfo.Employee.EmployeeId, evaluationInfo.Period.Name);
+            email.ReceiverEmail = humanResource.Email;
+
+            _baseMailService.SendEmail(email);
         }
 
         public string ChangeStartDate(DateTime startDate)
