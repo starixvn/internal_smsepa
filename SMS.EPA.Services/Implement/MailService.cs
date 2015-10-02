@@ -192,7 +192,14 @@ namespace SMS.EPA.Services.Implement
             float disciplineScore)
         {
             var email = new MailModel();
-            ////TODO
+            email.Subject = string.Format(Lang.EndMailEvaluationToSelf, evaluationInfo.Period.Name);
+
+            float finalScore = averagePerformanceScore + disciplineScore;
+
+            email.Body = _baseMailService.ReadTextFile(templateEmailPath);
+            ////email.Body = string.Format(email.Body, evaluationInfo.Employee.NickName, disciplineScore, averagePerformanceScore, );
+            email.ReceiverEmail = evaluationInfo.Employee.Email;
+
             _baseMailService.SendEmail(email);
         }
 

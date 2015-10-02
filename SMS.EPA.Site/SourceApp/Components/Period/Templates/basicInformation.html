@@ -17,7 +17,11 @@
             </div>
         </div>
         <div class="form-group top-buffer">
-            <label class="col-sm-3 control-label" data-translate="StartDate">
+            <label class="col-sm-3 control-label required-label" data-translate="StartDate"
+                   ng-show="basicInfoPeriodCtrl.period.TargetTypeId == 3 || basicInfoPeriodCtrl.period.TargetTypeId == 5">
+            </label>
+            <label class="col-sm-3 control-label" data-translate="StartDate"
+                   ng-show="basicInfoPeriodCtrl.period.TargetTypeId != 3 && basicInfoPeriodCtrl.period.TargetTypeId != 5">
             </label>
             <div class="col-sm-3">
                 <input readonly class="calendar-form-control" type="text"
@@ -37,7 +41,11 @@
             </div>
         </div>
         <div class="form-group top-buffer">
-            <label class="col-sm-3 control-label" data-translate="DisciplineStartDate">
+            <label class="col-sm-3 control-label required-label" data-translate="DisciplineStartDate"
+                   ng-show="basicInfoPeriodCtrl.period.TargetTypeId == 3">
+            </label>
+            <label class="col-sm-3 control-label" data-translate="DisciplineStartDate"
+                   ng-show="basicInfoPeriodCtrl.period.TargetTypeId != 3">
             </label>
             <div class="col-sm-3">
                 <input readonly class="calendar-form-control" type="text"
@@ -46,7 +54,11 @@
                        is-open="basicInfoPeriodCtrl.calendar.attendanceStartDateOpened" />
                 <calendar-image class="calendar-image" ng-click="basicInfoPeriodCtrl.openPopupAttendanceStartDate($event)"></calendar-image>
             </div>
-            <label class="col-sm-3 control-label" data-translate="DisciplineEndDate">
+            <label class="col-sm-3 control-label required-label" data-translate="DisciplineEndDate"
+                   ng-show="basicInfoPeriodCtrl.period.TargetTypeId == 3">
+            </label>
+            <label class="col-sm-3 control-label" data-translate="DisciplineEndDate"
+                   ng-show="basicInfoPeriodCtrl.period.TargetTypeId != 3">
             </label>
             <div class="col-sm-3">
                 <input readonly class="calendar-form-control" type="text"

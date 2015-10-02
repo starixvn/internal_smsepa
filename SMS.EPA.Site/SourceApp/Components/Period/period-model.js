@@ -294,9 +294,20 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                 return false;
             }
             else if (period.TargetTypeId === periodModel.targetType.SemiAnnual || period.TargetTypeId === periodModel.targetType.Promotion) {
-                if (!period.StartDate) {
+                if (!period.RawStartDate) {
                     notificationFactory.error("StartDatePeriodRequired");
                     return false;
+                }
+
+                if (period.TargetTypeId === periodModel.targetType.SemiAnnual) {
+                    if (!period.RawAttendanceStartDate) {
+                        notificationFactory.error("DisciplineStartDatePeriodRequired");
+                        return false;
+                    }
+                    else if (!period.RawAttendanceEndDate) {
+                        notificationFactory.error("DisciplineEndDatePeriodRequired");
+                        return false;
+                    }
                 }
             }
         }
