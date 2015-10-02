@@ -640,10 +640,7 @@
     <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary.less" />
     <Content Include="SourceApp\Components\Report\report.less" />
     <Content Include="Views\Emails\EmailNotifyChangeSetting.cshtml" />
-    <Content Include="Views\Emails\EndEvaluationEmailToHRByEmployee.cshtml" />
-    <Content Include="Views\Emails\EndEvaluationEmailToSelf.cshtml" />
     <Content Include="SourceApp\Components\Report\ExcelTemplates\EPADetailReport.xls" />
-       <Content Include="Views\Emails\EndEvaluationEmailToHRByPeriod.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">

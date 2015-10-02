@@ -177,7 +177,7 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
             float disciplineScore)
         {
             string assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
-            string templateEmailPath = templateEmailPath = Path.Combine(assemblyPath, _endMailToSelf);
+            string templateEmailPath = Path.Combine(assemblyPath, _endMailToSelf);
 
             _mailService.SendMailToSelfEndEvaluation(templateEmailPath, evaluationInfo, averagePerformanceScore, disciplineScore);
         }

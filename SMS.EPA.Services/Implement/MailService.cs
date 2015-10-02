@@ -200,16 +200,16 @@ namespace SMS.EPA.Services.Implement
             string evaluatorNames = GetEvaluator(evaluationInfo.Evaluators);
             string reviewerNames = GetEvaluator(evaluationInfo.Reviewers);
             string managementNames = GetEvaluator(evaluationInfo.Managements);
-
             email.Body = _baseMailService.ReadTextFile(templateEmailPath);
             email.Body = string.Format(
                 email.Body,
                 evaluationInfo.Employee.NickName,
+                evaluationInfo.Period.Name,
                 disciplineScore,
                 averagePerformanceScore,
                 adjustmentScore,
                 finalScore,
-                'A', ////TODO: get grade from evaluation info
+                "A", ////TODO: get grade from evaluation info
                 evaluatorNames,
                 reviewerNames,
                 managementNames);

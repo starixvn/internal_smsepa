@@ -160,6 +160,10 @@
     <Content Include="Views\Emails\StartDateEmailToSpecialReviewer.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Views\Emails\EmailNotifyChangeSetting.cshtml" />
+    <None Include="Views\Emails\EndEvaluationEmailToHRByEmployee.cshtml" />
+    <None Include="Views\Emails\EndEvaluationEmailToHRByPeriod.cshtml" />
+    <None Include="Views\Emails\EndEvaluationEmailToSelf.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="SpNames.xml">

@@ -194,11 +194,11 @@ namespace SMS.EPA.AutoGenerateEvaluation
 
             foreach (int evaluationId in evaluations)
             {
+                _LOG.Info("Get information of EPA " + evaluationId + " : started at " + DateTime.Now.ToString());
                 var getEvaluationInfoCriteria = new GetEPAInfoByIdCriteria
                 {
                     EPAId = evaluationId
                 };
-                _LOG.Info("Get information of EPA " + evaluationId + " : started at " + DateTime.Now.ToString());
                 EPAModel evaluationInfo = _employeeEPAService.GetEPAInfoById(getEvaluationInfoCriteria);
                 _LOG.Info("Get information of EPA " + evaluationId + " : ended at " + DateTime.Now.ToString());
 
@@ -212,13 +212,14 @@ namespace SMS.EPA.AutoGenerateEvaluation
 
                 float finalScore = averagePerformanceScore + disciplineScore;
 
-                EncodeFinalScoreAndUpdate(averagePerformanceScore, disciplineScore, evaluationId);
-                SendEndEvaluationMail(evaluationInfo, averagePerformanceScore, disciplineScore);
+                EncodeAndUpdateFinalScore(averagePerformanceScore, disciplineScore, evaluationId);
+                SendEndEvaluationMailToSelf(evaluationInfo, averagePerformanceScore, disciplineScore);
 
                 if (evaluationInfo.Period != null)
                 {
                     if (evaluationInfo.Period.TargetTypeId == (int)TargetType.Probation || evaluationInfo.Period.TargetTypeId == (int)TargetType.Promotion)
                     {
+                        _LOG.Info("Send end email to human resource of probation or promotion period " + evaluationInfo.Period.PeriodId + " : started at " + DateTime.Now.ToString());
                         _autoMailService.SendEndEvaluationMailToHumanResourceByEmployee(evaluationInfo);
                     }
                     else if (evaluationInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
@@ -232,11 +233,13 @@ namespace SMS.EPA.AutoGenerateEvaluation
             {
                 foreach (int periodId in periods)
                 {
+                    _LOG.Info("Check the end of period " + periodId + " : started at " + DateTime.Now.ToString());
                     var checkLastestProcessCriteria = new CheckLastestProcessOfPeriodCriteria
                     {
                         PeriodId = periodId
                     };
                     int lastestProcessOfPeriod = _evaluationService.CheckLastestProcessOfPeriod(checkLastestProcessCriteria);
+                    _LOG.Info("Result of check the end of period " + periodId + " : " + lastestProcessOfPeriod);
 
                     if (lastestProcessOfPeriod == 1)
                     {
@@ -246,8 +249,9 @@ namespace SMS.EPA.AutoGenerateEvaluation
             }
         }
 
-        private void SendEndEvaluationMail(EPAModel evaluationInfo, float averagePerformanceScore, float disciplineScore)
+        private void SendEndEvaluationMailToSelf(EPAModel evaluationInfo, float averagePerformanceScore, float disciplineScore)
         {
+            _LOG.Info("Send email to employee " + evaluationInfo.Employee.NickName + " that ended evaluation : started at " + DateTime.Now.ToString());
             _autoMailService.SendEndEvaluationMailToSelf(evaluationInfo, averagePerformanceScore, disciplineScore);
         }
 
@@ -476,7 +480,7 @@ namespace SMS.EPA.AutoGenerateEvaluation
 
             IEnumerable<AttendanceScoreModel> attendanceScores = _attendanceService.GetAttendanceScoreByEPAId(criteria);
 
-            if (attendanceScores != null)
+            if (attendanceScores != null && attendanceScores.Count() > 0)
             {
                 disciplineScore = attendanceScores.First().ApproverSubstractScore;
             }
@@ -484,10 +488,10 @@ namespace SMS.EPA.AutoGenerateEvaluation
             return disciplineScore;
         }
 
-        private void EncodeFinalScoreAndUpdate(float finalScore, float disciplineScore, int evaluationId)
+        private void EncodeAndUpdateFinalScore(float finalScore, float disciplineScore, int evaluationId)
         {
             _LOG.Info("Encode final score of EPA " + evaluationId + ": started at: " + DateTime.Now);
-            string finalScoreEncode = EncodeService.Decode(finalScore.ToString());
+            string finalScoreEncode = EncodeService.Encode(finalScore.ToString());
             _LOG.Info("Result of encode final score of EPA " + evaluationId + ": " + finalScoreEncode);
 
             var criteria = new UpdateFinalScoreEndEvaluationCriteria();

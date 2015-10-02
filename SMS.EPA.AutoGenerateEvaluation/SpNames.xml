@@ -37,5 +37,11 @@
     </Setting>
     <Setting Key="EpaAuto_CheckLastestEndEvaluationPeriod" SpName="EpaAuto_CheckLastestEndEvaluationPeriod" DbName="SMSEPA" Plain="0">
     </Setting>
+    <Setting Key="EPA_GetInfoById" SpName="EPA_GetInfoById" DbName="SMSEPA" Plain="0">
+      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode"/>
+      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode"/>
+      <Mapping DataField="Score" ObjectProperty="ScoreEncode"/>
+      <Mapping DataField="Rate" ObjectProperty="RateEncode"/>
+    </Setting>
   </Function>
 </Functions>

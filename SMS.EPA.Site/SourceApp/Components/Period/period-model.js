@@ -481,7 +481,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                     return vm.period;
                 },
                 selectedEmployees: function () {
-                    return selectedEmployees;
+                    return angular.copy(selectedEmployees);
                 },
                 permission: function () {
                     return vm.permission;
