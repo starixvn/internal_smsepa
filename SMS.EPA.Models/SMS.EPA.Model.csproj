@@ -58,6 +58,7 @@
     <Compile Include="CheckFlowAssignment\RawEmployeeFlowModel.cs" />
     <Compile Include="CheckFlowAssignment\RawEmployeeFlowTargetSettingModel.cs" />
     <Compile Include="EmployeeEPA\EPAEmployeeModel.cs" />
+    <Compile Include="EmployeeEPA\EPAPeriodModel.cs" />
     <Compile Include="EmployeeEPA\RatingByKPI\RatingByKPIModel.cs" />
     <Compile Include="EmployeeEPA\RatingByKPI\TemporaryKPIGroupModel.cs" />
     <Compile Include="EmployeeEPA\RatingByKPI\TemporaryKPIModel.cs" />
@@ -70,8 +71,6 @@
     <Compile Include="EmployeeEPA\EvaluatorModel.cs" />
     <Compile Include="EmployeeEPA\EPAKPIGroupModel.cs" />
     <Compile Include="EmployeeEPA\EPAKPIModel.cs" />
-    <Compile Include="EmployeeEPA\RawEPAInfoModel.cs" />
-    <Compile Include="EmployeeEPA\RawEPAModel.cs" />
     <Compile Include="Employee\EmployeeModel.cs" />
     <Compile Include="Employee\MenuGroupModel.cs" />
     <Compile Include="Employee\MenuItemModel.cs" />
@@ -100,6 +99,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Report\Dashboard\EPADashboardModel.cs" />
     <Compile Include="Report\EPADetail\EPADetailModel.cs" />
+    <Compile Include="Report\EPADetail\EvaluationPhaseModel.cs" />
     <Compile Include="Report\EPASummary\EPASummaryEmployeeModel.cs" />
     <Compile Include="Report\EPASummary\EPASummaryModel.cs" />
     <Compile Include="Report\EPASummary\EPASummaryPeriodModel.cs" />

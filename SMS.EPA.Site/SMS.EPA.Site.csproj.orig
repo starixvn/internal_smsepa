@@ -172,12 +172,14 @@
     <Compile Include="Controllers\API\CheckFlowAssignmentController.cs" />
     <Compile Include="Controllers\API\CommonController.cs" />
     <Compile Include="Controllers\API\DashboardController.cs" />
+    <Compile Include="Controllers\API\DepartmentController.cs" />
     <Compile Include="Controllers\API\EmployeeEPAController.cs" />
     <Compile Include="Controllers\API\FlowManagementController.cs" />
     <Compile Include="Controllers\API\KPIController.cs" />
     <Compile Include="Controllers\API\EmployeeController.cs" />
     <Compile Include="Controllers\API\KPIGroupController.cs" />
     <Compile Include="Controllers\API\PeriodController.cs" />
+    <Compile Include="Controllers\API\ReportController.cs" />
     <Compile Include="Controllers\API\ResourcesController.cs" />
     <Compile Include="Controllers\API\TargetEmployeeSettingController.cs" />
     <Compile Include="Controllers\API\TargetTemplateController.cs" />
@@ -193,6 +195,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\SpNames.xml" />
+    <Content Include="Avatars\avatar.jpg" />
     <Content Include="Content\Common\angular-multi-select.css" />
     <Content Include="Content\Common\bootstrap-spacelab.min.css" />
     <Content Include="Content\Common\bootstrap-theme.min.css" />
@@ -319,6 +322,8 @@
     <Content Include="SourceApp\Components\Dashboard\Templates\personalProfile.html" />
     <Content Include="SourceApp\Components\Department\department-controller.js" />
     <Content Include="SourceApp\Components\Department\department-directive.js" />
+    <Content Include="SourceApp\Components\Department\department-factory.js" />
+    <Content Include="SourceApp\Components\Department\department-model.js" />
     <Content Include="SourceApp\Components\Department\Templates\view.html" />
     <Content Include="SourceApp\Components\Department\Templates\index.html" />
     <Content Include="SourceApp\Components\Department\Templates\tree.html" />
@@ -369,6 +374,7 @@
     <Content Include="SourceApp\Components\EPA\MyEPA\Templates\index.html" />
     <Content Include="SourceApp\Components\EPA\MyEPA\Templates\listKPI.html" />
     <Content Include="SourceApp\Components\EPA\Templates\modalAdjustScore.html" />
+    <Content Include="SourceApp\Components\EPA\Templates\modalNotification.html" />
     <Content Include="SourceApp\Components\EPA\Templates\modalUpdateComment.html" />
     <Content Include="SourceApp\Components\EPA\Templates\modalViewComment.html" />
     <Content Include="SourceApp\Components\EPA\Templates\performanceDetails.html" />
@@ -405,14 +411,14 @@
     <Content Include="SourceApp\Components\Period\Templates\editEmployeeSetting.html" />
     <Content Include="SourceApp\Components\Period\Templates\employeeSetting.html" />
     <Content Include="SourceApp\Components\Period\Templates\index.html" />
-<<<<<<< HEAD
     <Content Include="SourceApp\Components\Period\Templates\processSetting.html" />
-=======
-    <Content Include="SourceApp\Components\Report\epaReport-controller.js" />
+    <Content Include="SourceApp\Components\Report\epaDetailReport-controller.js" />
+    <Content Include="SourceApp\Components\Report\epaSummaryReport-controller.js" />
     <Content Include="SourceApp\Components\Report\report-directive.js" />
+    <Content Include="SourceApp\Components\Report\report-factory.js" />
     <Content Include="SourceApp\Components\Report\report-model.js" />
-    <Content Include="SourceApp\Components\Report\Templates\EPAReport.html" />
->>>>>>> #44227 - CR - EPA Listing for Reviewer & Management
+    <Content Include="SourceApp\Components\Report\Templates\EPADetailReport.html" />
+    <Content Include="SourceApp\Components\Report\Templates\EPASummaryReport.html" />
     <Content Include="SourceApp\Components\Resources\resources-controller.js" />
     <Content Include="SourceApp\Components\Resources\resources-factory.js" />
     <Content Include="SourceApp\Components\KPI\kpi-controller.js" />
@@ -471,9 +477,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="SourceApp\Components\Report\ExcelTemplates\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
@@ -634,6 +638,11 @@
     </Content>
     <Content Include="SourceApp\Components\Dashboard\dashboard.less" />
     <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary.less" />
+    <Content Include="SourceApp\Components\Report\report.less" />
+    <Content Include="Views\Emails\EmailNotifyChangeSetting.cshtml" />
+    <Content Include="Views\Emails\EndEvaluationEmailToHR.cshtml" />
+    <Content Include="Views\Emails\EndEvaluationEmailToSelf.cshtml" />
+    <Content Include="SourceApp\Components\Report\ExcelTemplates\EPADetailReport.xls" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">

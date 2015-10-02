@@ -10,10 +10,10 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory) {
     vm.periods = CommonModel.periods;
     vm.epaDetail = ReportModel.epaDetail;
     vm.scoredBy = [
-        { ColumnId: 7, ProcessId: 2, Name: 'Self' },
-        { ColumnId: 8, ProcessId: 3, Name: 'Evaluator' },
-        { ColumnId: 9, ProcessId: 4, Name: 'Reviewer' },
-        { ColumnId: 10, ProcessId: 5, Name: 'Management' }
+        { ColumnId: 7, PhaseId: 2, Name: 'Self' },
+        { ColumnId: 8, PhaseId: 3, Name: 'Evaluator' },
+        { ColumnId: 9, PhaseId: 4, Name: 'Reviewer' },
+        { ColumnId: 10, PhaseId: 5, Name: 'Management' }
     ];
 
     vm.hideColumns = [];
@@ -25,6 +25,7 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory) {
     vm.filter = {
         periodId: '',
         departmentId: '',
+        phaseIds: '',
         pageIndex: utilitiesFactory.pageOption.pageIndex,
         itemsPerPage: utilitiesFactory.pageOption.itemsPerPage
     };
@@ -48,7 +49,7 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory) {
     };
 
     var getEPADetailReport = function (filter) {
-        ReportModel.getEPADetailReport(filter.periodId, filter.departmentId, filter.pageIndex, filter.itemsPerPage).then(function () {
+        ReportModel.getEPADetailReport(filter.periodId, filter.departmentId, filter.phaseIds, filter.pageIndex, filter.itemsPerPage).then(function () {
             vm.epaDetail = ReportModel.epaDetail;
         });
     };
@@ -62,6 +63,7 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory) {
 
     vm.query = function (filter) {
         getShowHideColumns();
+        filter.phaseIds = utilitiesFactory.getSelectedData(vm.scoredBy, 'PhaseId');
 
         getEPADetailReport(filter);
     };
@@ -69,7 +71,8 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory) {
     vm.exportReport = function () {
         vm.exportCriteria = {
             periodId: vm.filter.periodId,
-            departmentId: vm.filter.departmentId
+            departmentId: vm.filter.departmentId,
+            phaseIds: vm.filter.phaseIds
         };
 
         $scope.$broadcast('exportEpaDetailReport');

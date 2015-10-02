@@ -172,6 +172,7 @@
     <Compile Include="Controllers\API\CheckFlowAssignmentController.cs" />
     <Compile Include="Controllers\API\CommonController.cs" />
     <Compile Include="Controllers\API\DashboardController.cs" />
+    <Compile Include="Controllers\API\DepartmentController.cs" />
     <Compile Include="Controllers\API\EmployeeEPAController.cs" />
     <Compile Include="Controllers\API\FlowManagementController.cs" />
     <Compile Include="Controllers\API\KPIController.cs" />
@@ -321,6 +322,8 @@
     <Content Include="SourceApp\Components\Dashboard\Templates\personalProfile.html" />
     <Content Include="SourceApp\Components\Department\department-controller.js" />
     <Content Include="SourceApp\Components\Department\department-directive.js" />
+    <Content Include="SourceApp\Components\Department\department-factory.js" />
+    <Content Include="SourceApp\Components\Department\department-model.js" />
     <Content Include="SourceApp\Components\Department\Templates\view.html" />
     <Content Include="SourceApp\Components\Department\Templates\index.html" />
     <Content Include="SourceApp\Components\Department\Templates\tree.html" />
@@ -474,9 +477,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="SourceApp\Components\Report\ExcelTemplates\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
@@ -641,6 +642,7 @@
     <Content Include="Views\Emails\EmailNotifyChangeSetting.cshtml" />
     <Content Include="Views\Emails\EndEvaluationEmailToHR.cshtml" />
     <Content Include="Views\Emails\EndEvaluationEmailToSelf.cshtml" />
+    <Content Include="SourceApp\Components\Report\ExcelTemplates\EPADetailReport.xls" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">

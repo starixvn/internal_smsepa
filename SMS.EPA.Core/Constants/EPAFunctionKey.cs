@@ -57,5 +57,7 @@ namespace SMS.EPA.Core.Constants
         public const string Discipline = "Discipline";
 
         public const string RatingByKPI = "Rating By KPI";
+
+        public const string Department = "Department";
     }
 }

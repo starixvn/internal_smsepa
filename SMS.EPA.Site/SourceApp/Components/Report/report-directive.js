@@ -173,7 +173,8 @@ reportModule.directive('gridEpaDetailReport', ['$timeout', 'utilitiesFactory', f
             { HeaderText: "Reviewer Score", Width: 80, Name: "ReviewerScore", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "Management Score", Width: 80, Name: "ManagementScore", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "Discipline Score", Width: 80, Name: "DisciplineScore", HeaderAlign: "center", CellAlign: "center" },
-            { HeaderText: "Final Score", Width: 80, Name: "FinalScore", HeaderAlign: "center", CellAlign: "center" }
+            { HeaderText: "Final Score", Width: 80, Name: "FinalScore", HeaderAlign: "center", CellAlign: "center" },
+            { HeaderText: "Grade", Width: 80, Name: "Grade", HeaderAlign: "center", CellAlign: "center" }
         ];
 
         return columnHeaders;
@@ -198,13 +199,14 @@ reportModule.directive('gridEpaDetailReport', ['$timeout', 'utilitiesFactory', f
                         { Name: "NickName", Value: memberEPA.Employee.NickName },
                         { Name: "Section", Value: memberEPA.Employee.Group.GroupName },
                         { Name: "JobTitle", Value: memberEPA.Employee.JobTitle.JobTitleName },
-                        { Name: "TargetType", Value: '' },
+                        { Name: "TargetType", Value: memberEPA.Period.TargetTypeName },
                         { Name: "SelfScore", Value: memberEPA.ProcessBySelf.TotalScore },
                         { Name: "EvaluatorScore", Value: memberEPA.AverageScoreByEvaluators },
                         { Name: "ReviewerScore", Value: memberEPA.AverageScoreByReviewers },
                         { Name: "ManagementScore", Value: memberEPA.AverageScoreByManagements },
                         { Name: "DisciplineScore", Value: disciplineScore },
-                        { Name: "FinalScore", Value: memberEPA.FinalScore }
+                        { Name: "FinalScore", Value: memberEPA.FinalScore },
+                        { Name: "Grade", Value: '' }
                     ]
                 };
 
@@ -232,7 +234,7 @@ reportModule.directive('gridEpaDetailReport', ['$timeout', 'utilitiesFactory', f
                 gridExpandHeight: $scope.gridExpandHeight,
                 showPager: true,
                 customPager: true,
-                numberOfFrozenColumn: 6,
+                numberOfFrozenColumn: 4,
                 autoFixFrozenRowHeight: true,
                 showColumnsShowHide: false,
                 columnsNeedHide: []
@@ -263,6 +265,26 @@ reportModule.directive('gridEpaDetailReport', ['$timeout', 'utilitiesFactory', f
             });
 
 
+        }
+    };
+}]);
+
+reportModule.directive('exportEpaDetailReport', ['baseUrl', function (baseUrl) {
+    return {
+        link: function (scope) {
+            scope.$on('exportEpaDetailReport', function () {
+                var data = $.param(scope.epaDetailReportCtrl.exportCriteria),
+                    url = baseUrl + 'ExportReport/ExportEPADetailReport',
+                    downloadUrl = url + "?" + data,
+                    iframe = $('body iframe');
+
+                if (iframe.length === 0) {
+                    iframe = $('<iframe width="0" height="0" class="display-none"></iframe>');
+                    iframe.appendTo('body');
+                }
+
+                iframe.attr('src', downloadUrl);
+            });
         }
     };
 }]);

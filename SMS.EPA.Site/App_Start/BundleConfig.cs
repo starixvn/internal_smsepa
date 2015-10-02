@@ -106,6 +106,8 @@
                             "~/SourceApp/Components/CheckFlowAssignment/checkFlow-model.js",
                             "~/SourceApp/Components/CheckFlowAssignment/checkFlow-directive.js",
                             "~/SourceApp/Components/CheckFlowAssignment/checkFlow-controller.js",
+                            "~/SourceApp/Components/Department/department-factory.js",
+                            "~/SourceApp/Components/Department/department-model.js",
                             "~/SourceApp/Components/Department/department-controller.js",
                             "~/SourceApp/Components/Department/department-directive.js",
                             "~/SourceApp/Components/EPA/employeeEPA-directive.js",

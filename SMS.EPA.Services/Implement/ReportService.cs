@@ -13,10 +13,13 @@ namespace SMS.EPA.Services.Implement
     using System.IO;
     using System.Linq;
     using Fanex.Common.Helper;
+    using NexFB.Core.Utilities;
     using NPOI.HSSF.UserModel;
     using NPOI.SS.UserModel;
     using NPOI.SS.Util;
+    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Criteria.Report;
+    using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.Period;
     using SMS.EPA.Model.Report.Dashboard;
     using SMS.EPA.Model.Report.EPADetail;
@@ -55,7 +58,7 @@ namespace SMS.EPA.Services.Implement
 
         #region EPA Summary Report
 
-        public EPASummaryModel GetEPASummary(GetEPASummaryCriteria criteria)
+        public EPASummaryModel GetEPASummaryReport(GetEPASummaryCriteria criteria)
         {
             EPASummaryModel result = new EPASummaryModel();
             Check.Argument.IsNotNull(criteria, "criteria");
@@ -110,7 +113,7 @@ namespace SMS.EPA.Services.Implement
 
         #region EPA Detail Report
 
-        public EPADetailModel GetEPADetail(GetEPADetailCriteria criteria)
+        public EPADetailModel GetEPADetailReport(GetEPADetailCriteria criteria)
         {
             EPADetailModel result = new EPADetailModel();
             Check.Argument.IsNotNull(criteria, "criteria");
@@ -121,6 +124,19 @@ namespace SMS.EPA.Services.Implement
             }
 
             return result;
+        }
+
+        public void ExportEPADetailReport(EPADetailModel epaDetail, string templatePath)
+        {
+            string reportName = Lang.EPADetailReportName;
+            var writer = new ExcelTemplateWriter(templatePath, reportName, Lang.EPADetailReportSheet);
+
+            writer.CopyRows(0, 3);
+
+            FillContentRow(epaDetail, ref writer);
+            writer.SyncColumnsWidth(13);
+
+            writer.Render();
         }
 
         #endregion EPA Detail Report
@@ -286,6 +302,76 @@ namespace SMS.EPA.Services.Implement
 
                 rowIndex++;
             }
+        }
+
+        private void FillContentRow(EPADetailModel epaDetail, ref ExcelTemplateWriter writer)
+        {
+            int rowIndex = 1;
+
+            foreach (var memberEPA in epaDetail.MemberEPAs)
+            {
+                FillRow(memberEPA, epaDetail.PhaseSelecteds, ref writer, ref rowIndex);
+            }
+        }
+
+        private void FillRow(
+            EPAModel memberEPA,
+            IEnumerable<EvaluationPhaseModel> phaseSelecteds,
+            ref ExcelTemplateWriter writer,
+            ref int rowIndex)
+        {
+            object record = CreateRecord(memberEPA, phaseSelecteds, ref rowIndex);
+
+            if (rowIndex % 2 == 0)
+            {
+                writer.WriteRow(4, record);
+            }
+            else
+            {
+                writer.WriteRow(3, record);
+            }
+        }
+
+        private object CreateRecord(
+            EPAModel memberEPA,
+            IEnumerable<EvaluationPhaseModel> phaseSelecteds,
+            ref int rowIndex)
+        {
+            var record = new
+            {
+                Count = rowIndex,
+                Code = memberEPA.Employee.Code,
+                FullName = memberEPA.Employee.FullName,
+                NickName = memberEPA.Employee.NickName,
+                Section = memberEPA.Employee.Group.GroupName,
+                JobTitle = memberEPA.Employee.JobTitle.JobTitleName,
+                TargetType = memberEPA.Period.TargetTypeName,
+                SelfScore = GetScoreByPhaseSelected(phaseSelecteds, memberEPA.ProcessBySelf.TotalScore, (int)ProcessType.Self),
+                EvaluatorScore = GetScoreByPhaseSelected(phaseSelecteds, memberEPA.AverageScoreByEvaluators, (int)ProcessType.Evaluator),
+                ReviewerScore = GetScoreByPhaseSelected(phaseSelecteds, memberEPA.AverageScoreByReviewers, (int)ProcessType.Reviewer),
+                ManagementScore = GetScoreByPhaseSelected(phaseSelecteds, memberEPA.AverageScoreByManagements, (int)ProcessType.Management),
+                DisciplineScore = memberEPA.HasDisciplineScore ? memberEPA.DisciplineScore.ToString() : string.Empty,
+                FinalScore = memberEPA.FinalScore,
+                Grade = memberEPA.Grade
+            };
+            rowIndex++;
+
+            return record;
+        }
+
+        private string GetScoreByPhaseSelected(
+            IEnumerable<EvaluationPhaseModel> phaseSelecteds,
+            string score,
+            int phaseId)
+        {
+            var result = "-";
+
+            if (phaseSelecteds.Where(x => x.PhaseId == phaseId).Count().Equals(1))
+            {
+                result = score;
+            }
+
+            return result;
         }
     }
 }

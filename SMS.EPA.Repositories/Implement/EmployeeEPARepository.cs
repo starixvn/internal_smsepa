@@ -13,24 +13,24 @@ namespace SMS.EPA.Repositories.Implement
     using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
+    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Model.Department;
     using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.EmployeeEPA.RatingByKPI;
     using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Model.Period;
     using SMS.EPA.Repositories.Interfaces;
 
     public class EmployeeEPARepository : IEmployeeEPARepository
     {
-        public RawEPAModel GetEPA(ICriteria criteria)
+        public IEnumerable<EPAModel> GetEPA(ICriteria criteria)
         {
-            RawEPAModel result = new RawEPAModel();
+            IEnumerable<EPAModel> epas = new List<EPAModel>();
 
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
                 using (var multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    result.Epas = multi.Read<EPAModel, StatusModel, PeriodModel, EPAModel>(
+                    epas = multi.Read<EPAModel, StatusModel, EPAPeriodModel, EPAModel>(
                     (epa, status, period) =>
                     {
                         epa.Status = status;
@@ -40,7 +40,7 @@ namespace SMS.EPA.Repositories.Implement
                     },
                     "StatusId, PeriodId");
 
-                    result.Employees = multi.Read<EPAEmployeeModel, DepartmentModel, Group, JobTitle, EPAEmployeeModel>(
+                    IEnumerable<EPAEmployeeModel> employees = multi.Read<EPAEmployeeModel, DepartmentModel, Group, JobTitle, EPAEmployeeModel>(
                         (epa, dept, gr, job) =>
                         {
                             epa.Department = dept;
@@ -51,7 +51,7 @@ namespace SMS.EPA.Repositories.Implement
                         },
                         "DepartmentId, GroupId, JobTitleId");
 
-                    result.Processes = multi.Read<EPAProcessModel, StatusModel, EPAProcessModel>(
+                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel, StatusModel, EPAProcessModel>(
                         (process, status) =>
                         {
                             process.Status = status;
@@ -60,22 +60,26 @@ namespace SMS.EPA.Repositories.Implement
                         },
                         "StatusId");
 
-                    result.Evaluators = multi.Read<EPAProcessModel>();
+                    IEnumerable<EPAProcessModel> evaluators = multi.Read<EPAProcessModel>();
 
-                    return result;
+                    GroupEmployeeByEPA(epas, employees);
+                    GroupEPAProcessByEPA(epas, processes);
+                    GroupEvaluatorByEPA(epas, evaluators);
+
+                    return epas;
                 }
             }
         }
 
-        public RawEPAInfoModel GetEPAInfo(ICriteria criteria)
+        public EPAModel GetEPAInfo(ICriteria criteria)
         {
-            RawEPAInfoModel epaInfo = new RawEPAInfoModel();
+            EPAModel epaInfo = new EPAModel();
 
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
                 using (var multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    epaInfo.EPA = multi.Read<EPAModel, StatusModel, PeriodModel, EPAModel>(
+                    epaInfo = multi.Read<EPAModel, StatusModel, EPAPeriodModel, EPAModel>(
                     (info, status, period) =>
                     {
                         info.Status = status;
@@ -85,7 +89,7 @@ namespace SMS.EPA.Repositories.Implement
                     },
                     "StatusId, PeriodId").FirstOrDefault();
 
-                    epaInfo.EPA.Employee = multi.Read<EPAEmployeeModel, DepartmentModel, Group, JobTitle, EPAEmployeeModel>(
+                    epaInfo.Employee = multi.Read<EPAEmployeeModel, DepartmentModel, Group, JobTitle, EPAEmployeeModel>(
                         (epa, dept, gr, job) =>
                         {
                             epa.Department = dept;
@@ -96,7 +100,7 @@ namespace SMS.EPA.Repositories.Implement
                         },
                         "DepartmentId, GroupId, JobTitleId").FirstOrDefault();
 
-                    epaInfo.Processes = multi.Read<EPAProcessModel, StatusModel, EPAProcessModel>(
+                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel, StatusModel, EPAProcessModel>(
                         (result, status) =>
                         {
                             result.Status = status;
@@ -105,13 +109,22 @@ namespace SMS.EPA.Repositories.Implement
                         },
                         "StatusId");
 
-                    epaInfo.EPA.KPIGroups = multi.Read<EPAKPIGroupModel>().ToList();
+                    epaInfo.KPIGroups = multi.Read<EPAKPIGroupModel>().ToList();
 
-                    epaInfo.KPIs = multi.Read<EPAKPIModel>();
+                    IEnumerable<EPAKPIModel> kpis = multi.Read<EPAKPIModel>();
 
-                    epaInfo.Evaluations = multi.Read<EvaluationModel>();
+                    IEnumerable<EvaluationModel> evaluations = multi.Read<EvaluationModel>();
 
-                    epaInfo.Evaluators = multi.Read<EPAProcessModel>().ToList();
+                    IList<EPAProcessModel> evaluators = multi.Read<EPAProcessModel>().ToList();
+
+                    GroupEvaluatorByProcess(epaInfo, evaluators);
+                    GroupEPAProcessByEPA(epaInfo, processes);
+                    GroupKPIByKPIGroup(epaInfo.KPIGroups, kpis);
+
+                    foreach (var kpiGroup in epaInfo.KPIGroups)
+                    {
+                        GroupEvaluationOnEachKPI(kpiGroup.KPIs, evaluations);
+                    }
                 }
             }
 
@@ -181,6 +194,157 @@ namespace SMS.EPA.Repositories.Implement
             return epas;
         }
 
+        #endregion Rating By KPI
+
+        private void GroupEmployeeByEPA(IEnumerable<EPAModel> epas, IEnumerable<EPAEmployeeModel> employees)
+        {
+            foreach (var epa in epas)
+            {
+                foreach (var employee in employees)
+                {
+                    if (employee.EPAId == epa.EPAId)
+                    {
+                        epa.Employee = employee;
+                    }
+                }
+            }
+        }
+
+        private void GroupEPAProcessByEPA(IEnumerable<EPAModel> epas, IEnumerable<EPAProcessModel> processes)
+        {
+            foreach (var epa in epas)
+            {
+                foreach (var process in processes)
+                {
+                    if (process.EPAId == epa.EPAId
+                        && process.ProcessId == (int)ProcessType.Self)
+                    {
+                        epa.ProcessBySelf = process;
+                    }
+                    else if (process.EPAId == epa.EPAId
+                        && process.ProcessId == (int)ProcessType.Evaluator)
+                    {
+                        epa.ProcessByEvaluators.Add(process);
+                    }
+                    else if (process.EPAId == epa.EPAId
+                        && process.ProcessId == (int)ProcessType.Reviewer)
+                    {
+                        epa.ProcessByReviewers.Add(process);
+                    }
+                    else if (process.EPAId == epa.EPAId
+                        && process.ProcessId == (int)ProcessType.Management)
+                    {
+                        epa.ProcessByManagements.Add(process);
+                    }
+                }
+            }
+        }
+
+        private void GroupEPAProcessByEPA(EPAModel epa, IEnumerable<EPAProcessModel> processes)
+        {
+            foreach (var process in processes)
+            {
+                if (process.EPAId == epa.EPAId
+                    && process.ProcessId == (int)ProcessType.Self)
+                {
+                    epa.ProcessBySelf = process;
+                }
+                else if (process.EPAId == epa.EPAId
+                    && process.ProcessId == (int)ProcessType.Evaluator)
+                {
+                    epa.ProcessByEvaluators.Add(process);
+                }
+                else if (process.EPAId == epa.EPAId
+                    && process.ProcessId == (int)ProcessType.Reviewer)
+                {
+                    epa.ProcessByReviewers.Add(process);
+                }
+                else if (process.EPAId == epa.EPAId
+                        && process.ProcessId == (int)ProcessType.Management)
+                {
+                    epa.ProcessByManagements.Add(process);
+                }
+            }
+        }
+
+        private void GroupEvaluatorByEPA(IEnumerable<EPAModel> epas, IEnumerable<EPAProcessModel> evaluators)
+        {
+            foreach (var epa in epas)
+            {
+                foreach (var evaluator in evaluators)
+                {
+                    if (evaluator.EPAId == epa.EPAId)
+                    {
+                        GroupEvaluatorByProcess(epa, evaluator);
+                    }
+                }
+            }
+        }
+
+        private void GroupEvaluatorByProcess(EPAModel epa, EPAProcessModel evaluator)
+        {
+            if (evaluator.ProcessId == (int)ProcessType.Evaluator)
+            {
+                epa.Evaluators.Add(evaluator);
+            }
+            else if (evaluator.ProcessId == (int)ProcessType.Reviewer)
+            {
+                epa.Reviewers.Add(evaluator);
+            }
+            else if (evaluator.ProcessId == (int)ProcessType.Management)
+            {
+                epa.Managements.Add(evaluator);
+            }
+        }
+
+        private void GroupEvaluatorByProcess(EPAModel epa, IEnumerable<EPAProcessModel> evaluators)
+        {
+            foreach (var evaluator in evaluators)
+            {
+                if (evaluator.EPAId == epa.EPAId)
+                {
+                    GroupEvaluatorByProcess(epa, evaluator);
+                }
+            }
+        }
+
+        private void GroupKPIByKPIGroup(IList<EPAKPIGroupModel> kpiGroups, IEnumerable<EPAKPIModel> kpis)
+        {
+            foreach (var kpiGroup in kpiGroups)
+            {
+                foreach (var kpi in kpis)
+                {
+                    if (kpi.EPAId == kpiGroup.EPAId
+                        && kpi.KPIGroupId == kpiGroup.KPIGroupId)
+                    {
+                        kpiGroup.KPIs.Add(kpi);
+                    }
+                }
+            }
+        }
+
+        private void GroupEvaluationOnEachKPI(IEnumerable<EPAKPIModel> kpis, IEnumerable<EvaluationModel> evaluations)
+        {
+            foreach (var kpi in kpis)
+            {
+                foreach (var evaluation in evaluations)
+                {
+                    if (evaluation.ProcessId == (int)ProcessType.Self
+                        && evaluation.EPAId == kpi.EPAId
+                        && evaluation.KPIId == kpi.KPIId)
+                    {
+                        kpi.EvaluateBySelf = evaluation;
+                    }
+                    else if (evaluation.ProcessId == (int)ProcessType.Evaluator
+                        && evaluation.EPAId == kpi.EPAId
+                        && evaluation.KPIId == kpi.KPIId)
+                    {
+                        kpi.EvaluateByEvaluators.Add(evaluation);
+                    }
+                }
+            }
+        }
+
         private void GroupEmployeeByEPA(IEnumerable<RatingByKPIModel> epas, IEnumerable<EPAEmployeeModel> employees)
         {
             foreach (var epa in epas)
@@ -208,7 +372,5 @@ namespace SMS.EPA.Repositories.Implement
                 }
             }
         }
-
-        #endregion Rating By KPI
     }
 }

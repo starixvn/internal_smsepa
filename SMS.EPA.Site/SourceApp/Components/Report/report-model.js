@@ -18,8 +18,8 @@ function (reportFactory, notificationFactory, errorFactory) {
         });
     };
 
-    reportModel.getEPADetailReport = function (periodId, departmentId, pageIndex, itemsPerPage) {
-        return reportFactory.getEPADetailReport(periodId, departmentId, pageIndex, itemsPerPage)
+    reportModel.getEPADetailReport = function (periodId, departmentId, phaseIds, pageIndex, itemsPerPage) {
+        return reportFactory.getEPADetailReport(periodId, departmentId, phaseIds, pageIndex, itemsPerPage)
         .success(function (epaDetail) {
             reportModel.epaDetail = epaDetail;
         }).error(function (response, status) {

@@ -1095,4 +1095,10 @@
   <data name="DisciplineStartDatePeriodRequired" xml:space="preserve">
     <value>The Discipline Start Date field is required!</value>
   </data>
+  <data name="EPADetailReportName" xml:space="preserve">
+    <value>EPA_Detail_Report</value>
+  </data>
+  <data name="EPADetailReportSheet" xml:space="preserve">
+    <value>EPA Detail Report</value>
+  </data>
 </root>

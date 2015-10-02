@@ -78,8 +78,8 @@ function (FlowMngModel, CommonModel, utilitiesFactory) {
 }]);
 
 flowMngModule.controller("CreateFlowTemplateController",
-['$window', 'FlowMngModel', 'CommonModel',
-function ($window, FlowMngModel, CommonModel) {
+['$location', '$window', 'FlowMngModel', 'CommonModel', 'baseUrl',
+function ($location, $window, FlowMngModel, CommonModel, baseUrl) {
     var vm = this;
 
     vm.targetTypes = CommonModel.targetTypes;
@@ -95,6 +95,10 @@ function ($window, FlowMngModel, CommonModel) {
     vm.initialize = function () {
         FlowMngModel.getUserPermissionOnFlowManagement().then(function () {
             vm.permission = FlowMngModel.permission;
+
+            if (vm.permission !== 2) {
+                $location.path(baseUrl + 'Home/AccessDenied');
+            }
         });
 
         CommonModel.getTargetType(true).then(function () {

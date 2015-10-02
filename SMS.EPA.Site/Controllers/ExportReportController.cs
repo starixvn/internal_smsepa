@@ -17,6 +17,7 @@ namespace SMS.EPA.Site.Controllers
     using SMS.EPA.Criteria.Period;
     using SMS.EPA.Criteria.Report;
     using SMS.EPA.Model.Period;
+    using SMS.EPA.Model.Report.EPADetail;
     using SMS.EPA.Model.Report.EPASummary;
     using SMS.EPA.Resources;
     using SMS.EPA.Services.Implement;
@@ -26,6 +27,7 @@ namespace SMS.EPA.Site.Controllers
     public class ExportReportController : Controller
     {
         private const string _EmployeeFlowSettingReportTemplatePath = @"~\SourceApp\Components\Period\ExcelTemplates\EmployeeFlowSettingReport.xls";
+        private const string _EPADetailReportTemplatePath = @"~\SourceApp\Components\Report\ExcelTemplates\EPADetailReport.xls";
 
         private readonly IPeriodService _periodService;
         private readonly IReportService _reportService;
@@ -73,10 +75,32 @@ namespace SMS.EPA.Site.Controllers
             criteria.EmployeeId = SessionManager.CurrentUser.EmployeeInfo.EmployeeId;
             criteria.IsViewAll = isViewAll;
 
-            EPASummaryModel epaSummary = _reportService.GetEPASummary(criteria);
+            EPASummaryModel epaSummary = _reportService.GetEPASummaryReport(criteria);
             MemoryStream output = _reportService.ExportEPASummaryReport(epaSummary);
 
             return File(output.ToArray(), "application/vnd.ms-excel", fileName);
+        }
+
+        public ActionResult ExportEPADetailReport(GetEPADetailCriteria criteria)
+        {
+            List<int> roleIds = SessionManager.CurrentUser.Roles.Select(x => x.RoleId).ToList();
+            var isViewAll = false;
+
+            if (roleIds.Contains((int)SystemRole.SystemAdmin)
+                || roleIds.Contains((int)SystemRole.HumanResource)
+                || roleIds.Contains((int)SystemRole.Management))
+            {
+                isViewAll = true;
+            }
+
+            criteria.EmployeeId = SessionManager.CurrentUser.EmployeeInfo.EmployeeId;
+            criteria.IsViewAll = isViewAll;
+
+            EPADetailModel epaDetail = _reportService.GetEPADetailReport(criteria);
+            string templatePath = Server.MapPath(_EPADetailReportTemplatePath);
+            _reportService.ExportEPADetailReport(epaDetail, templatePath);
+
+            return new EmptyResult();
         }
     }
 }

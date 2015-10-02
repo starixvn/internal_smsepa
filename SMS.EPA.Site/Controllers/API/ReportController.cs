@@ -36,7 +36,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpGet]
-        public EPASummaryModel GetEPASummary(
+        public EPASummaryModel GetEPASummaryReport(
             string periodIds = null,
             int? departmentId = null,
             int? pageIndex = null,
@@ -61,11 +61,11 @@ namespace SMS.EPA.Site.Controllers.API
                 ItemsPerPage = itemsPerPage
             };
 
-            return _reportService.GetEPASummary(criteria);
+            return _reportService.GetEPASummaryReport(criteria);
         }
 
         [HttpGet]
-        public EPADetailModel GetEPADetail(
+        public EPADetailModel GetEPADetailReport(
             int? periodId = null,
             int? departmentId = null,
             int? pageIndex = null,
@@ -90,7 +90,7 @@ namespace SMS.EPA.Site.Controllers.API
                 ItemsPerPage = itemsPerPage
             };
 
-            return _reportService.GetEPADetail(criteria);
+            return _reportService.GetEPADetailReport(criteria);
         }
     }
 }

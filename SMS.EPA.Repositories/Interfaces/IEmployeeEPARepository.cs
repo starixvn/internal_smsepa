@@ -16,9 +16,9 @@ namespace SMS.EPA.Repositories.Interfaces
 
     public interface IEmployeeEPARepository
     {
-        RawEPAModel GetEPA(ICriteria criteria);
+        IEnumerable<EPAModel> GetEPA(ICriteria criteria);
 
-        RawEPAInfoModel GetEPAInfo(ICriteria criteria);
+        EPAModel GetEPAInfo(ICriteria criteria);
 
         IEnumerable<TemporaryKPIModel> GetKPIByTargetTemplate(ICriteria criteria);
 

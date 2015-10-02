@@ -20,6 +20,8 @@ namespace SMS.EPA.Criteria.Report
 
         public int? DepartmentId { get; set; }
 
+        public string PhaseIds { get; set; }
+
         public int? PageIndex { get; set; }
 
         public int? ItemsPerPage { get; set; }

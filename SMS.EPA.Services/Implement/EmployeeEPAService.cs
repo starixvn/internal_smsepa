@@ -11,7 +11,6 @@ namespace SMS.EPA.Services.Implement
 {
     using System.Collections.Generic;
     using Fanex.Common.Helper;
-    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.EmployeeEPA;
@@ -47,12 +46,7 @@ namespace SMS.EPA.Services.Implement
 
             if (criteria.IsValid())
             {
-                RawEPAModel rawEPAModel = _employeeEPARepository.GetEPA(criteria);
-
-                epas = rawEPAModel.Epas;
-                GroupEmployeeByEPA(epas, rawEPAModel.Employees);
-                GroupEPAProcessByEPA(epas, rawEPAModel.Processes);
-                GroupEvaluatorByEPA(epas, rawEPAModel.Evaluators);
+                epas = _employeeEPARepository.GetEPA(criteria);
             }
 
             return epas;
@@ -60,26 +54,15 @@ namespace SMS.EPA.Services.Implement
 
         public EPAModel GetEPAInfoByEmployee(GetEPAInfoByEmployeeCriteria criteria)
         {
-            EPAModel result = new EPAModel();
+            EPAModel epaInfo = new EPAModel();
             Check.Argument.IsNotNull(criteria, "criteria");
 
             if (criteria.IsValid())
             {
-                RawEPAInfoModel rawEPAInfoModel = _employeeEPARepository.GetEPAInfo(criteria);
-
-                result = rawEPAInfoModel.EPA;
-
-                GroupEvaluatorByProcess(result, rawEPAInfoModel.Evaluators);
-                GroupEPAProcessByEPA(result, rawEPAInfoModel.Processes);
-                GroupKPIByKPIGroup(result.KPIGroups, rawEPAInfoModel.KPIs);
-
-                foreach (var kpiGroup in result.KPIGroups)
-                {
-                    GroupEvaluationOnEachKPI(kpiGroup.KPIs, rawEPAInfoModel.Evaluations);
-                }
+                epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
             }
 
-            return result;
+            return epaInfo;
         }
 
         #endregion Self
@@ -93,12 +76,7 @@ namespace SMS.EPA.Services.Implement
 
             if (criteria.IsValid())
             {
-                RawEPAModel rawEPAModel = _employeeEPARepository.GetEPA(criteria);
-
-                memberEPAs = rawEPAModel.Epas;
-                GroupEmployeeByEPA(memberEPAs, rawEPAModel.Employees);
-                GroupEPAProcessByEPA(memberEPAs, rawEPAModel.Processes);
-                GroupEvaluatorByEPA(memberEPAs, rawEPAModel.Evaluators);
+                memberEPAs = _employeeEPARepository.GetEPA(criteria);
             }
 
             return memberEPAs;
@@ -106,26 +84,15 @@ namespace SMS.EPA.Services.Implement
 
         public EPAModel GetEPAInfoByEvaluator(GetEPAInfoByEvaluatorCriteria criteria)
         {
-            EPAModel result = new EPAModel();
+            EPAModel epaInfo = new EPAModel();
             Check.Argument.IsNotNull(criteria, "criteria");
 
             if (criteria.IsValid())
             {
-                RawEPAInfoModel rawEPAInfoModel = _employeeEPARepository.GetEPAInfo(criteria);
-
-                result = rawEPAInfoModel.EPA;
-
-                GroupEvaluatorByProcess(result, rawEPAInfoModel.Evaluators);
-                GroupEPAProcessByEPA(result, rawEPAInfoModel.Processes);
-                GroupKPIByKPIGroup(result.KPIGroups, rawEPAInfoModel.KPIs);
-
-                foreach (var kpiGroup in result.KPIGroups)
-                {
-                    GroupEvaluationOnEachKPI(kpiGroup.KPIs, rawEPAInfoModel.Evaluations);
-                }
+                epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
             }
 
-            return result;
+            return epaInfo;
         }
 
         #endregion Evaluator
@@ -139,12 +106,7 @@ namespace SMS.EPA.Services.Implement
 
             if (criteria.IsValid())
             {
-                RawEPAModel rawEPAModel = _employeeEPARepository.GetEPA(criteria);
-
-                memberEPAs = rawEPAModel.Epas;
-                GroupEmployeeByEPA(memberEPAs, rawEPAModel.Employees);
-                GroupEPAProcessByEPA(memberEPAs, rawEPAModel.Processes);
-                GroupEvaluatorByEPA(memberEPAs, rawEPAModel.Evaluators);
+                memberEPAs = _employeeEPARepository.GetEPA(criteria);
             }
 
             return memberEPAs;
@@ -152,26 +114,15 @@ namespace SMS.EPA.Services.Implement
 
         public EPAModel GetEPAInfoByReviewer(GetEPAInfoByReviewerCriteria criteria)
         {
-            EPAModel result = new EPAModel();
+            EPAModel epaInfo = new EPAModel();
             Check.Argument.IsNotNull(criteria, "criteria");
 
             if (criteria.IsValid())
             {
-                RawEPAInfoModel rawEPAInfoModel = _employeeEPARepository.GetEPAInfo(criteria);
-
-                result = rawEPAInfoModel.EPA;
-
-                GroupEvaluatorByProcess(result, rawEPAInfoModel.Evaluators);
-                GroupEPAProcessByEPA(result, rawEPAInfoModel.Processes);
-                GroupKPIByKPIGroup(result.KPIGroups, rawEPAInfoModel.KPIs);
-
-                foreach (var kpiGroup in result.KPIGroups)
-                {
-                    GroupEvaluationOnEachKPI(kpiGroup.KPIs, rawEPAInfoModel.Evaluations);
-                }
+                epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
             }
 
-            return result;
+            return epaInfo;
         }
 
         #endregion Reviewer
@@ -185,12 +136,7 @@ namespace SMS.EPA.Services.Implement
 
             if (criteria.IsValid())
             {
-                RawEPAModel rawEPAModel = _employeeEPARepository.GetEPA(criteria);
-
-                memberEPAs = rawEPAModel.Epas;
-                GroupEmployeeByEPA(memberEPAs, rawEPAModel.Employees);
-                GroupEPAProcessByEPA(memberEPAs, rawEPAModel.Processes);
-                GroupEvaluatorByEPA(memberEPAs, rawEPAModel.Evaluators);
+                memberEPAs = _employeeEPARepository.GetEPA(criteria);
             }
 
             return memberEPAs;
@@ -198,26 +144,15 @@ namespace SMS.EPA.Services.Implement
 
         public EPAModel GetEPAInfoByManagement(GetEPAInfoByManagementCriteria criteria)
         {
-            EPAModel result = new EPAModel();
+            EPAModel epaInfo = new EPAModel();
             Check.Argument.IsNotNull(criteria, "criteria");
 
             if (criteria.IsValid())
             {
-                RawEPAInfoModel rawEPAInfoModel = _employeeEPARepository.GetEPAInfo(criteria);
-
-                result = rawEPAInfoModel.EPA;
-
-                GroupEvaluatorByProcess(result, rawEPAInfoModel.Evaluators);
-                GroupEPAProcessByEPA(result, rawEPAInfoModel.Processes);
-                GroupKPIByKPIGroup(result.KPIGroups, rawEPAInfoModel.KPIs);
-
-                foreach (var kpiGroup in result.KPIGroups)
-                {
-                    GroupEvaluationOnEachKPI(kpiGroup.KPIs, rawEPAInfoModel.Evaluations);
-                }
+                epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
             }
 
-            return result;
+            return epaInfo;
         }
 
         #endregion Management
@@ -280,26 +215,15 @@ namespace SMS.EPA.Services.Implement
 
         public EPAModel GetEPAInfoById(GetEPAInfoByIdCriteria criteria)
         {
-            EPAModel result = new EPAModel();
+            EPAModel epaInfo = new EPAModel();
             Check.Argument.IsNotNull(criteria, "criteria");
 
             if (criteria.IsValid())
             {
-                RawEPAInfoModel rawEPAInfoModel = _employeeEPARepository.GetEPAInfo(criteria);
-
-                result = rawEPAInfoModel.EPA;
-
-                GroupEvaluatorByProcess(result, rawEPAInfoModel.Evaluators);
-                GroupEPAProcessByEPA(result, rawEPAInfoModel.Processes);
-                GroupKPIByKPIGroup(result.KPIGroups, rawEPAInfoModel.KPIs);
-
-                foreach (var kpiGroup in result.KPIGroups)
-                {
-                    GroupEvaluationOnEachKPI(kpiGroup.KPIs, rawEPAInfoModel.Evaluations);
-                }
+                epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
             }
 
-            return result;
+            return epaInfo;
         }
 
         public CommandResult UpdateEPAScore(UpdateEPAScoreCriteria criteria)
@@ -339,155 +263,6 @@ namespace SMS.EPA.Services.Implement
             }
 
             return employees;
-        }
-
-        private void GroupEmployeeByEPA(IEnumerable<EPAModel> epas, IEnumerable<EPAEmployeeModel> employees)
-        {
-            foreach (var epa in epas)
-            {
-                foreach (var employee in employees)
-                {
-                    if (employee.EPAId == epa.EPAId)
-                    {
-                        epa.Employee = employee;
-                    }
-                }
-            }
-        }
-
-        private void GroupEPAProcessByEPA(IEnumerable<EPAModel> epas, IEnumerable<EPAProcessModel> processes)
-        {
-            foreach (var epa in epas)
-            {
-                foreach (var process in processes)
-                {
-                    if (process.EPAId == epa.EPAId
-                        && process.ProcessId == (int)ProcessType.Self)
-                    {
-                        epa.ProcessBySelf = process;
-                    }
-                    else if (process.EPAId == epa.EPAId
-                        && process.ProcessId == (int)ProcessType.Evaluator)
-                    {
-                        epa.ProcessByEvaluators.Add(process);
-                    }
-                    else if (process.EPAId == epa.EPAId
-                        && process.ProcessId == (int)ProcessType.Reviewer)
-                    {
-                        epa.ProcessByReviewers.Add(process);
-                    }
-                    else if (process.EPAId == epa.EPAId
-                        && process.ProcessId == (int)ProcessType.Management)
-                    {
-                        epa.ProcessByManagements.Add(process);
-                    }
-                }
-            }
-        }
-
-        private void GroupEPAProcessByEPA(EPAModel epa, IEnumerable<EPAProcessModel> processes)
-        {
-            foreach (var process in processes)
-            {
-                if (process.EPAId == epa.EPAId
-                    && process.ProcessId == (int)ProcessType.Self)
-                {
-                    epa.ProcessBySelf = process;
-                }
-                else if (process.EPAId == epa.EPAId
-                    && process.ProcessId == (int)ProcessType.Evaluator)
-                {
-                    epa.ProcessByEvaluators.Add(process);
-                }
-                else if (process.EPAId == epa.EPAId
-                    && process.ProcessId == (int)ProcessType.Reviewer)
-                {
-                    epa.ProcessByReviewers.Add(process);
-                }
-                else if (process.EPAId == epa.EPAId
-                        && process.ProcessId == (int)ProcessType.Management)
-                {
-                    epa.ProcessByManagements.Add(process);
-                }
-            }
-        }
-
-        private void GroupEvaluatorByEPA(IEnumerable<EPAModel> epas, IEnumerable<EPAProcessModel> evaluators)
-        {
-            foreach (var epa in epas)
-            {
-                foreach (var evaluator in evaluators)
-                {
-                    if (evaluator.EPAId == epa.EPAId)
-                    {
-                        GroupEvaluatorByProcess(epa, evaluator);
-                    }
-                }
-            }
-        }
-
-        private void GroupEvaluatorByProcess(EPAModel epa, EPAProcessModel evaluator)
-        {
-            if (evaluator.ProcessId == (int)ProcessType.Evaluator)
-            {
-                epa.Evaluators.Add(evaluator);
-            }
-            else if (evaluator.ProcessId == (int)ProcessType.Reviewer)
-            {
-                epa.Reviewers.Add(evaluator);
-            }
-            else if (evaluator.ProcessId == (int)ProcessType.Management)
-            {
-                epa.Managements.Add(evaluator);
-            }
-        }
-
-        private void GroupEvaluatorByProcess(EPAModel epa, IEnumerable<EPAProcessModel> evaluators)
-        {
-            foreach (var evaluator in evaluators)
-            {
-                if (evaluator.EPAId == epa.EPAId)
-                {
-                    GroupEvaluatorByProcess(epa, evaluator);
-                }
-            }
-        }
-
-        private void GroupKPIByKPIGroup(IList<EPAKPIGroupModel> kpiGroups, IEnumerable<EPAKPIModel> kpis)
-        {
-            foreach (var kpiGroup in kpiGroups)
-            {
-                foreach (var kpi in kpis)
-                {
-                    if (kpi.EPAId == kpiGroup.EPAId
-                        && kpi.KPIGroupId == kpiGroup.KPIGroupId)
-                    {
-                        kpiGroup.KPIs.Add(kpi);
-                    }
-                }
-            }
-        }
-
-        private void GroupEvaluationOnEachKPI(IEnumerable<EPAKPIModel> kpis, IEnumerable<EvaluationModel> evaluations)
-        {
-            foreach (var kpi in kpis)
-            {
-                foreach (var evaluation in evaluations)
-                {
-                    if (evaluation.ProcessId == (int)ProcessType.Self
-                        && evaluation.EPAId == kpi.EPAId
-                        && evaluation.KPIId == kpi.KPIId)
-                    {
-                        kpi.EvaluateBySelf = evaluation;
-                    }
-                    else if (evaluation.ProcessId == (int)ProcessType.Evaluator
-                        && evaluation.EPAId == kpi.EPAId
-                        && evaluation.KPIId == kpi.KPIId)
-                    {
-                        kpi.EvaluateByEvaluators.Add(evaluation);
-                    }
-                }
-            }
         }
     }
 }

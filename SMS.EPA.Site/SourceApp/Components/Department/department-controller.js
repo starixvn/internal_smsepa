@@ -2,12 +2,12 @@
 /*global departmentModule*/
 
 departmentModule.controller('DepartmentController',
-['CommonModel', 'utilitiesFactory',
-function (CommonModel, utilitiesFactory) {
+['DepartmentModel', 'utilitiesFactory',
+function (DepartmentModel, utilitiesFactory) {
     var vm = this;
 
-    vm.departments = CommonModel.departments;
-    vm.treeDepartment = CommonModel.treeDepartment;
+    vm.departments = DepartmentModel.departments;
+    vm.treeDepartment = DepartmentModel.treeDepartment;
 
     var resetCurrentData = function () {
         vm.viewMode = false;
@@ -54,9 +54,9 @@ function (CommonModel, utilitiesFactory) {
         utilitiesFactory.getDateFormat(vm);
         resetCurrentData();
 
-        CommonModel.getDepartment().then(function () {
-            vm.departments = CommonModel.departments;
-            vm.treeDepartment = CommonModel.treeDepartment;
+        DepartmentModel.getDepartment().then(function () {
+            vm.departments = DepartmentModel.departments;
+            vm.treeDepartment = DepartmentModel.treeDepartment;
         });
     };
 

@@ -4,7 +4,7 @@
 reportModule.factory('reportFactory', ['$http', 'baseUrl', function ($http, baseUrl) {
     return {
         getEPASummaryReport: function (periodIds, departmentId, pageIndex, itemsPerPage) {
-            return $http.get(baseUrl + 'api/Report/GetEPASummary',
+            return $http.get(baseUrl + 'api/Report/GetEPASummaryReport',
                 {
                     params: {
                         periodIds: periodIds,
@@ -14,12 +14,13 @@ reportModule.factory('reportFactory', ['$http', 'baseUrl', function ($http, base
                     }
                 });
         },
-        getEPADetailReport: function (periodId, departmentId, pageIndex, itemsPerPage) {
-            return $http.get(baseUrl + 'api/Report/GetEPADetail',
+        getEPADetailReport: function (periodId, departmentId, phaseIds, pageIndex, itemsPerPage) {
+            return $http.get(baseUrl + 'api/Report/GetEPADetailReport',
                 {
                     params: {
                         periodId: periodId,
                         departmentId: departmentId,
+                        phaseIds: phaseIds,
                         pageIndex: pageIndex,
                         itemsPerPage: itemsPerPage
                     }

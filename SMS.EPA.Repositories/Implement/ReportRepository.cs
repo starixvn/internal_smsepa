@@ -88,7 +88,9 @@ namespace SMS.EPA.Repositories.Implement
             {
                 using (var multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    epaDetail.MemberEPAs = multi.Read<EPAModel, StatusModel, PeriodModel, EPAModel>(
+                    epaDetail.PhaseSelecteds = multi.Read<EvaluationPhaseModel>();
+
+                    epaDetail.MemberEPAs = multi.Read<EPAModel, StatusModel, EPAPeriodModel, EPAModel>(
                     (info, status, period) =>
                     {
                         info.Status = status;

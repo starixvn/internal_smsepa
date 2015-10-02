@@ -19,10 +19,12 @@ namespace SMS.EPA.Services.Interfaces
     {
         DashboardModel GetDashboard(GetDashboardCriteria criteria);
 
-        EPASummaryModel GetEPASummary(GetEPASummaryCriteria criteria);
+        EPASummaryModel GetEPASummaryReport(GetEPASummaryCriteria criteria);
 
         MemoryStream ExportEPASummaryReport(EPASummaryModel epaSummary);
 
-        EPADetailModel GetEPADetail(GetEPADetailCriteria criteria);
+        EPADetailModel GetEPADetailReport(GetEPADetailCriteria criteria);
+
+        void ExportEPADetailReport(EPADetailModel epaDetail, string templatePath);
     }
 }

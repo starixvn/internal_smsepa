@@ -13,7 +13,6 @@ namespace SMS.EPA.Model.EmployeeEPA
     using System.Linq;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Model.Period;
 
     public class EPAModel
     {
@@ -32,7 +31,7 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public EPAEmployeeModel Employee { get; set; }
 
-        public PeriodModel Period { get; set; }
+        public EPAPeriodModel Period { get; set; }
 
         public StatusModel Status { get; set; }
 
@@ -50,6 +49,8 @@ namespace SMS.EPA.Model.EmployeeEPA
                 FinalScoreEncode = EncodeService.Encode(value);
             }
         }
+
+        public string Grade { get; set; }
 
         public bool HasDisciplineScore { get; set; }
 

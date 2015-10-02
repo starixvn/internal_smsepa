@@ -844,6 +844,24 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to EPA_Detail_Report.
+        /// </summary>
+        public static string EPADetailReportName {
+            get {
+                return ResourceManager.GetString("EPADetailReportName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to EPA Detail Report.
+        /// </summary>
+        public static string EPADetailReportSheet {
+            get {
+                return ResourceManager.GetString("EPADetailReportSheet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Is EPA Generated.
         /// </summary>
         public static string EPAGenerated {

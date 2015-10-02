@@ -14,8 +14,10 @@ namespace SMS.EPA.Model.Report.EPADetail
 
     public class EPADetailModel
     {
-        public int TotalItem { get; set; }
-
         public IEnumerable<EPAModel> MemberEPAs { get; set; }
+
+        public IEnumerable<EvaluationPhaseModel> PhaseSelecteds { get; set; }
+
+        public int TotalItem { get; set; }
     }
 }
