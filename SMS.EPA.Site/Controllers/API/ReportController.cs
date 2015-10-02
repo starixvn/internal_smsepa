@@ -36,6 +36,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.EPASummaryReport, Policy = Policy.Read)]
         public EPASummaryModel GetEPASummaryReport(
             string periodIds = null,
             int? departmentId = null,
@@ -65,6 +66,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.EPADetailReport, Policy = Policy.Read)]
         public EPADetailModel GetEPADetailReport(
             int? periodId = null,
             int? departmentId = null,

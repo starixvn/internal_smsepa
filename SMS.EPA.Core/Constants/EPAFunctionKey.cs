@@ -28,11 +28,11 @@ namespace SMS.EPA.Core.Constants
 
         public const string Report = "Report";
 
-        public const string DisciplineReport = "Discipline Report";
+        public const string DisciplineReport = "DisciplineReport";
 
-        public const string EPASummaryReport = "EPA Summary Report";
+        public const string EPASummaryReport = "EPASummaryReport";
 
-        public const string EPADetailReport = "EPA Detail Report";
+        public const string EPADetailReport = "EPADetailReport";
 
         public const string Admin = "Admin";
 
@@ -56,7 +56,7 @@ namespace SMS.EPA.Core.Constants
 
         public const string Discipline = "Discipline";
 
-        public const string RatingByKPI = "Rating By KPI";
+        public const string RatingByKPI = "RatingByKPI";
 
         public const string Department = "Department";
     }
