@@ -192,5 +192,16 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
                 _mailService.SendMailEndToHumanResourcesByEmployee(templateEmailPath, evaluationInfo, humanResource);
             }
         }
+
+        public void SendEndEvaluationMailToHumanResourceByPeriod(PeriodModel period, IEnumerable<PeriodFlowModel> employeeSettings)
+        {
+            string assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
+            string templateEmailPath = templateEmailPath = Path.Combine(assemblyPath, _endMailToHumanReouscesByPeriod);
+
+            foreach (PeriodFlowModel employeeSetting in employeeSettings)
+            {
+                _mailService.SendMailEndToHumanResourceByPeriod(templateEmailPath, employeeSetting, period.Name);
+            }
+        }
     }
 }

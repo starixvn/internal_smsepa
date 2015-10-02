@@ -29,6 +29,11 @@ namespace SMS.EPA.Core.Enumerations
         /// <summary>
         /// Notify change item.
         /// </summary>
-        NotifyChange = 3
+        NotifyChange = 3,
+
+        /// <summary>
+        /// End period.
+        /// </summary>
+        EndPeriod = 4
     }
 }

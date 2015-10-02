@@ -35,5 +35,7 @@
     </Setting>
     <Setting Key="EpaAuto_UpdateFinalScoreEndEvaluation" SpName="EpaAuto_UpdateFinalScoreEndEvaluation" DbName="SMSEPA" Plain="0">
     </Setting>
+    <Setting Key="EpaAuto_CheckLastestEndEvaluationPeriod" SpName="EpaAuto_CheckLastestEndEvaluationPeriod" DbName="SMSEPA" Plain="0">
+    </Setting>
   </Function>
 </Functions>

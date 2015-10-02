@@ -194,6 +194,19 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
             return comandResult;
         }
 
+        public int CheckLastestProcessOfPeriod(CheckLastestProcessOfPeriodCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            int lastestProcess = 0;
+
+            if (criteria.IsValid())
+            {
+                lastestProcess = GetDataEntity<int>(criteria);
+            }
+
+            return lastestProcess;
+        }
+
         private string JoinEmployeeId(List<AutoEmployeePeriodModel> employeePeriods)
         {
             string employeeIds = string.Empty;

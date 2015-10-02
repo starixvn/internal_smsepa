@@ -39,5 +39,7 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Interfaces
         CommandResult UpdateStatusEndEvaluaitonPeriod(UpdateStatusEndEvaluationPeriodCriteria criteria);
 
         CommandResult UpdateFinalScoreEndEvaluation(UpdateFinalScoreEndEvaluationCriteria criteria);
+
+        int CheckLastestProcessOfPeriod(CheckLastestProcessOfPeriodCriteria criteria);
     }
 }

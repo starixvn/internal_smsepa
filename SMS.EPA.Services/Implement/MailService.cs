@@ -224,10 +224,23 @@ namespace SMS.EPA.Services.Implement
             EPAProcessModel humanResource)
         {
             var email = new MailModel();
+
             email.Subject = string.Format(Lang.EndMailEvaluationToSelf, evaluationInfo.Period.Name);
             email.Body = _baseMailService.ReadTextFile(templateEmailPath);
             email.Body = string.Format(email.Body, humanResource.NickName, evaluationInfo.Employee.NickName, evaluationInfo.Employee.EmployeeId, evaluationInfo.Period.Name);
             email.ReceiverEmail = humanResource.Email;
+
+            _baseMailService.SendEmail(email);
+        }
+
+        public void SendMailEndToHumanResourceByPeriod(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName)
+        {
+            var email = new MailModel();
+
+            email.Subject = string.Format(Lang.EndMailEvaluationToSelf, periodName);
+            email.Body = _baseMailService.ReadTextFile(templateEmailPath);
+            email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, periodName);
+            email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
 
             _baseMailService.SendEmail(email);
         }

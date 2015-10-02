@@ -190,6 +190,8 @@ namespace SMS.EPA.AutoGenerateEvaluation
 
         private void UpdateFinalScoreAndSendMail(IEnumerable<int> evaluations)
         {
+            IList<int> periods = new List<int>();
+
             foreach (int evaluationId in evaluations)
             {
                 var getEvaluationInfoCriteria = new GetEPAInfoByIdCriteria
@@ -213,17 +215,34 @@ namespace SMS.EPA.AutoGenerateEvaluation
                 EncodeFinalScoreAndUpdate(averagePerformanceScore, disciplineScore, evaluationId);
                 SendEndEvaluationMail(evaluationInfo, averagePerformanceScore, disciplineScore);
 
-                //// Send mail to HR
                 if (evaluationInfo.Period != null)
                 {
-                    //// IF: Probation or promotion
                     if (evaluationInfo.Period.TargetTypeId == (int)TargetType.Probation || evaluationInfo.Period.TargetTypeId == (int)TargetType.Promotion)
                     {
                         _autoMailService.SendEndEvaluationMailToHumanResourceByEmployee(evaluationInfo);
                     }
+                    else if (evaluationInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
+                    {
+                        periods.Add(evaluationInfo.Period.PeriodId);
+                    }
                 }
-                //// IF: Semi
-                ////TODO: check yesterday is the latest process
+            }
+
+            if (periods.Count() > 0)
+            {
+                foreach (int periodId in periods)
+                {
+                    var checkLastestProcessCriteria = new CheckLastestProcessOfPeriodCriteria
+                    {
+                        PeriodId = periodId
+                    };
+                    int lastestProcessOfPeriod = _evaluationService.CheckLastestProcessOfPeriod(checkLastestProcessCriteria);
+
+                    if (lastestProcessOfPeriod == 1)
+                    {
+                        GetAndSendEmailToAllRelatedEmployee(periodId, string.Empty, (int)ProcessType.HumanResource, (int)MailMode.EndPeriod);
+                    }
+                }
             }
         }
 
@@ -391,6 +410,10 @@ namespace SMS.EPA.AutoGenerateEvaluation
                 case (int)MailMode.Reminder:
                     _LOG.Info("Send reminder email to all related employee of periodId " + periodId + ": started at " + DateTime.Now.ToString());
                     _autoMailService.SendReminderMail(period, employeeSettings);
+                    break;
+                case (int)MailMode.EndPeriod:
+                    _LOG.Info("Send end email to all related employee of periodId " + periodId + ": started at " + DateTime.Now.ToString());
+                    _autoMailService.SendEndEvaluationMailToHumanResourceByPeriod(period, employeeSettings);
                     break;
             }
         }
