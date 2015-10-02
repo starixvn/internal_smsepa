@@ -175,7 +175,7 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
             notificationFactory.error("SelectEmployeeBeforeSaveWarning");
         }
         else if (validateAdjustScore(selectedEmployees)) {
-            EmployeeEPAModel.adjustScoreByReviewer(selectedEmployees);
+            EmployeeEPAModel.adjustScoreByReviewer(vm, selectedEmployees);
         }
     };
 
