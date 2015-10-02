@@ -100,7 +100,7 @@ function (AttendanceModel, utilitiesFactory, CommonModel, baseUrl) {
     vm.adjust = function (employee) {
         var startDate = vm.filter.startDate,
             endDate = vm.filter.endDate;
-        vm.attendanceDetailUrl = baseUrl + 'Attendance/Detail/' + employee.EmployeeId
+        vm.attendanceDetailUrl = baseUrl + 'Attendance/Detail/' + employee.Employee.EmployeeId
             + '?startDate=' + startDate.toDateString() + '&endDate=' + endDate.toDateString();
     };
 }]);
@@ -118,7 +118,7 @@ function ($scope, $modalInstance, AttendanceModel, employee, startDate, endDate,
     vm.otherViolations = AttendanceModel.otherViolations;
 
     vm.violation = {
-        EmployeeId: vm.employee ? vm.employee.EmployeeId : null,
+        EmployeeId: vm.employee ? vm.employee.Employee.EmployeeId : null,
         Name: null,
         Score: 0,
         WorkDate: date,
@@ -180,7 +180,7 @@ function ($scope, $modalInstance, AttendanceModel, employee, startDate, endDate,
     };
 
     if (vm.employee) {
-        getOtherViolations(vm.employee.EmployeeId, vm.startDate, vm.endDate);
+        getOtherViolations(vm.employee.Employee.EmployeeId, vm.startDate, vm.endDate);
     }
     else {
         vm.filteredItems = [];
