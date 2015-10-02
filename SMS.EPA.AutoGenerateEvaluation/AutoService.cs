@@ -212,12 +212,25 @@ namespace SMS.EPA.AutoGenerateEvaluation
 
                 EncodeFinalScoreAndUpdate(averagePerformanceScore, disciplineScore, evaluationId);
                 SendEndEvaluationMail(evaluationInfo, averagePerformanceScore, disciplineScore);
+
+                //// Send mail to HR
+                if (evaluationInfo.Period != null && evaluationInfo.Period.TargetType != null)
+                {
+                    //// IF: Probation or promotion
+                    if (evaluationInfo.Period.TargetType.TargetTypeId == (int)TargetType.Probation ||
+                        evaluationInfo.Period.TargetType.TargetTypeId == (int)TargetType.Promotion)
+                    {
+                        _autoMailService.SendEndEvaluationMailToHumanResourceByEmployee(evaluationInfo);
+                    }
+                }
+                //// IF: Semi
+                ////TODO: check yesterday is the latest process
             }
         }
 
         private void SendEndEvaluationMail(EPAModel evaluationInfo, float averagePerformanceScore, float disciplineScore)
         {
-            throw new NotImplementedException();
+            _autoMailService.SendEndEvaluationMailToSelf(evaluationInfo, averagePerformanceScore, disciplineScore);
         }
 
         private void UpdateStatusEvaluation(IEnumerable<int> evaluations)

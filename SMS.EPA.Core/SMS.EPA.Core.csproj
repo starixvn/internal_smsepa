@@ -97,6 +97,7 @@
     <Compile Include="Enumerations\ProcessType.cs" />
     <Compile Include="Enumerations\Status.cs" />
     <Compile Include="Enumerations\SystemRole.cs" />
+    <Compile Include="Enumerations\TargetType.cs" />
     <Compile Include="Model\CommandResult.cs" />
     <Compile Include="Model\MailModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

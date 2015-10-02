@@ -18,6 +18,7 @@ namespace SMS.EPA.Model.EmployeeEPA
     {
         public EPAModel()
         {
+            HumanResources = new List<EPAProcessModel>();
             Evaluators = new List<EPAProcessModel>();
             Reviewers = new List<EPAProcessModel>();
             Managements = new List<EPAProcessModel>();
@@ -156,6 +157,8 @@ namespace SMS.EPA.Model.EmployeeEPA
         public IList<EPAProcessModel> ProcessByManagements { get; set; }
 
         public IList<EPAKPIGroupModel> KPIGroups { get; set; }
+
+        public IList<EPAProcessModel> HumanResources { get; set; }
 
         public IList<EPAProcessModel> Evaluators { get; set; }
 

@@ -39,6 +39,8 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
         private string _reminderMailToSpecialManagement = "Views\\Emails\\RemindDateEmailToSpecialManagement.cshtml";
 
         private string _endMailToSelf = "Views\\Emails\\EndEvaluationEmailToSelf.cshtml";
+        private string _endMailToHumanResourcesByEmployee = "Views\\Emails\\EndEvaluationEmailToHRByEmployee.cshtml";
+        private string _endMailToHumanReouscesByPeriod = "Views\\Emails\\EndEvaluationEmailToHRByPeriod.cshtml";
 
         private IMailService _mailService;
 
@@ -178,6 +180,14 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
             string templateEmailPath = templateEmailPath = Path.Combine(assemblyPath, _endMailToSelf);
 
             _mailService.SendMailToSelfEndEvaluation(templateEmailPath, evaluationInfo, averagePerformanceScore, disciplineScore);
+        }
+
+        public void SendEndEvaluationMailToHumanResourceByEmployee(EPAModel evaluationInfo)
+        {
+            string assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
+            string templateEmailPath = templateEmailPath = Path.Combine(assemblyPath, _endMailToHumanResourcesByEmployee);
+
+            _mailService.SendMailEndToHumanResourcesByEmployee(templateEmailPath, evaluationInfo);
         }
     }
 }

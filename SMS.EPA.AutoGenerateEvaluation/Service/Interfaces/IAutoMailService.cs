@@ -20,5 +20,7 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Interfaces
         void SendReminderMail(PeriodModel period, IEnumerable<PeriodFlowModel> employeeSettings);
 
         void SendEndEvaluationMailToSelf(EPAModel evaluationInfo, float averagePerformanceScore, float disciplineScore);
+
+        void SendEndEvaluationMailToHumanResourceByEmployee(EPAModel evaluationInfo);
     }
 }

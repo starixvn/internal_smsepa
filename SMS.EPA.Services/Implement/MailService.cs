@@ -10,6 +10,7 @@
 namespace SMS.EPA.Services.Implement
 {
     using System;
+    using System.Collections.Generic;
     using System.Configuration;
     using SMS.EPA.Core;
     using SMS.EPA.Core.Constants;
@@ -195,12 +196,31 @@ namespace SMS.EPA.Services.Implement
             email.Subject = string.Format(Lang.EndMailEvaluationToSelf, evaluationInfo.Period.Name);
 
             float finalScore = averagePerformanceScore + disciplineScore;
+            float adjustmentScore = GetAdjustmentScore(evaluationInfo, averagePerformanceScore);
+            string evaluatorNames = GetEvaluator(evaluationInfo.Evaluators);
+            string reviewerNames = GetEvaluator(evaluationInfo.Reviewers);
+            string managementNames = GetEvaluator(evaluationInfo.Managements);
 
             email.Body = _baseMailService.ReadTextFile(templateEmailPath);
-            ////email.Body = string.Format(email.Body, evaluationInfo.Employee.NickName, disciplineScore, averagePerformanceScore, );
+            email.Body = string.Format(
+                email.Body,
+                evaluationInfo.Employee.NickName,
+                disciplineScore,
+                averagePerformanceScore,
+                adjustmentScore,
+                finalScore,
+                'A', ////TODO: get grade from evaluation info
+                evaluatorNames,
+                reviewerNames,
+                managementNames);
             email.ReceiverEmail = evaluationInfo.Employee.Email;
 
             _baseMailService.SendEmail(email);
+        }
+
+        public void SendMailEndToHumanResourcesByEmployee(string templateEmailPath, EPAModel evaluationInfo)
+        {
+            throw new NotImplementedException();
         }
 
         public string ChangeStartDate(DateTime startDate)
@@ -213,6 +233,41 @@ namespace SMS.EPA.Services.Implement
         {
             var result = new DateTime(endDate.Year, endDate.Month, endDate.Day, 23, 59, 0, 0, endDate.Kind);
             return result.ToString(Constants.FormatDateTimeEmail);
+        }
+
+        private string GetEvaluator(IList<EPAProcessModel> evaluators)
+        {
+            string names = string.Empty;
+
+            foreach (EPAProcessModel evaluator in evaluators)
+            {
+                names += !string.IsNullOrWhiteSpace(names) ? " ," + evaluator.NickName : evaluator.NickName;
+            }
+
+            return names;
+        }
+
+        private float GetAdjustmentScore(EPAModel evaluationInfo, float averagePerformanceScore)
+        {
+            float adjustScore = 0;
+
+            if (!string.IsNullOrEmpty(evaluationInfo.AverageScoreByManagements))
+            {
+                if (!string.IsNullOrEmpty(evaluationInfo.AverageScoreByReviewers))
+                {
+                    adjustScore = averagePerformanceScore - float.Parse(evaluationInfo.AverageScoreByReviewers);
+                }
+                else
+                {
+                    adjustScore = averagePerformanceScore - float.Parse(evaluationInfo.AverageScoreByEvaluators);
+                }
+            }
+            else if (!string.IsNullOrEmpty(evaluationInfo.AverageScoreByReviewers))
+            {
+                adjustScore = averagePerformanceScore - float.Parse(evaluationInfo.AverageScoreByEvaluators);
+            }
+
+            return adjustScore;
         }
     }
 }
