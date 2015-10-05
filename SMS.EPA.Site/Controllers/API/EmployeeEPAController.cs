@@ -347,6 +347,20 @@ namespace SMS.EPA.Site.Controllers.API
             return _employeeEPAService.GetEPAInfoById(criteria);
         }
 
+        [HttpPut]
+        public CommandResult ConvertEPA()
+        {
+            var getEPASummaryImportCriteria = new GetEPASummaryImportCriteria();
+            IEnumerable<EPASummaryImportModel> memberEPAs = _employeeEPAService.GetMemberEPASummaryImport(getEPASummaryImportCriteria);
+            var criteria = new UpdateEPASummaryImportCriteria() 
+            {
+                MemberEPAs = memberEPAs
+            };
+
+            CommandResult result = _employeeEPAService.UpdateEPASummaryImport(criteria);
+            return result;
+        }
+
         private CommandResult UpdateEPAScoreByEmployeeOrEvaluator(UpdateEPAScoreCriteria criteria)
         {
             return _employeeEPAService.UpdateEPAScore(criteria);

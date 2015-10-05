@@ -16,14 +16,14 @@ namespace SMS.EPA.Core.Services
     {
         public static string Encode(string plainText)
         {
-            string cipherText = Cryptography.CfsEnCrypt(plainText);
+            string cipherText = Cryptography.CfsEnCrypt(Constants.KeyCryptography + Cryptography.CfsEnCrypt(plainText));
 
             return cipherText;
         }
 
         public static string Decode(string cipherText)
         {
-            string plainText = Cryptography.CfsDeCrypt(cipherText);
+            string plainText = Cryptography.CfsDeCrypt(Cryptography.CfsDeCrypt(cipherText).Replace(Constants.KeyCryptography, string.Empty));
 
             return plainText;
         }

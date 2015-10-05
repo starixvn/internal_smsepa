@@ -78,6 +78,7 @@
     <Compile Include="CheckFlowAssignment\UpdateEmployeeFlowSettingCriteria.cs" />
     <Compile Include="EmployeeEPA\AdjustScoreByReviewerOrManagementCriteria.cs" />
     <Compile Include="EmployeeEPA\GetStandardGradeCriteria.cs" />
+    <Compile Include="EmployeeEPA\GetEPASummaryImportCriteria.cs" />
     <Compile Include="EmployeeEPA\RatingByKPI\GetEmployeeEPAByKPICriteria.cs" />
     <Compile Include="EmployeeEPA\RatingByKPI\GetKPIByTargetTemplateCriteria.cs" />
     <Compile Include="EmployeeEPA\RatingByKPI\GetTargetTemplateByEvaluatorCriteria.cs" />

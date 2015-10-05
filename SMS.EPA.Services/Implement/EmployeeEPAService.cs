@@ -282,5 +282,31 @@ namespace SMS.EPA.Services.Implement
 
             return standardGrades;
         }
+
+        public IEnumerable<EPASummaryImportModel> GetMemberEPASummaryImport(GetEPASummaryImportCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<EPASummaryImportModel> memberEPAs = new List<EPASummaryImportModel>();
+
+            if (criteria.IsValid())
+            {
+                memberEPAs = this.GetData<EPASummaryImportModel>(criteria);
+            }
+
+            return memberEPAs;
+        }
+
+        public CommandResult UpdateEPASummaryImport(UpdateEPASummaryImportCriteria criteria)
+        {
+            CommandResult commandResult = new CommandResult();
+            Check.Argument.IsNotNull(criteria, "criteria");
+
+            if (criteria.IsValid())
+            {
+                commandResult = Repository.Update(criteria);
+            }
+
+            return commandResult;
+        }
     }
 }

@@ -12,6 +12,7 @@ namespace SMS.EPA.Site.Controllers.API
     using System.Collections.Generic;
     using System.Web.Http;
     using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Utilities;
     using SMS.EPA.Model.Department;
     using SMS.EPA.Model.Employee;

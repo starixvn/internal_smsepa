@@ -57,6 +57,7 @@ namespace SMS.EPA.Site
                 "Management/Index",
                 "Management/Detail/{id}",
                 "EPA/Detail/{id}",
+                "OldEPA/Convert",
                 "Period/Index",
                 "Period/Update/{id}",
                 "Home",

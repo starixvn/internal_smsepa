@@ -80,6 +80,9 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
         },
         adjustScoreByManagement: function (models) {
             return $http.put(baseUrl + 'api/EmployeeEPA/AdjustScoreByManagement', models);
-        }
+        },
+        convertEPA: function () {
+            return $http.put(baseUrl + 'api/EmployeeEPA/ConvertEPA');
+        },
     };
 }]);
