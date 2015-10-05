@@ -36,7 +36,7 @@ namespace SMS.EPA.Core.Enumerations
         /// <summary>
         /// Management item.
         /// </summary>
-        [Description("Mgt")]
+        [Description("MGT")]
         Management = 3,
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace SMS.EPA.Core.Enumerations
         /// <summary>
         /// Approver item.
         /// </summary>
-        [Description("Approver Attendance")]
+        [Description("Approver")]
         Approver = 7
     }
 }

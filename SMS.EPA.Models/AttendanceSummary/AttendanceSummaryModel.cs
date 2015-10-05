@@ -40,5 +40,7 @@ namespace SMS.EPA.Model.AttendanceSummary
         public float ApproverIgnoredScore { get; set; }
 
         public float ApproverSubtractScore { get; set; }
+
+        public int Permission { get; set; }
     }
 }

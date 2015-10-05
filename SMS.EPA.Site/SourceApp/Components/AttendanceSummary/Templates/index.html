@@ -97,7 +97,7 @@
                 </th>
                 <th data-translate="ApproverSubtractScore">
                 </th>
-                <th data-translate="Action" ng-if="attendanceCtrl.permission == 2">
+                <th data-translate="Action" ng-if="attendanceCtrl.permission >= 1">
                 </th>
             </tr>
         </thead>
@@ -118,13 +118,24 @@
                 <td ng-bind="employee.UnpaidLeaveAbsent"></td>
                 <td ng-bind="employee.ChangeShift"></td>
                 <td>
-                    <a href="" ng-click="attendanceCtrl.addOtherViolations(employee)" ng-if="attendanceCtrl.permission == 2">-{{employee.OtherViolationsScore | number: 1}}</a>
-                    <span ng-if="attendanceCtrl.permission == 1">-{{employee.OtherViolationsScore | number: 1}}</span>
+                    <div ng-show="employee.OtherViolationsScore > 0">
+                        <a class="red" href="" ng-click="attendanceCtrl.addOtherViolations(employee)"
+                           ng-if="attendanceCtrl.permission == 2 && employee.Permission == 2">
+                            -{{employee.OtherViolationsScore | number: 1}}
+                        </a>
+                        <span class="red" ng-if="employee.Permission == 1 || attendanceCtrl.permission == 1">-{{employee.OtherViolationsScore | number: 1}}</span>
+                    </div>
+                    <div ng-show="employee.OtherViolationsScore == 0">
+                        <a href="" ng-click="attendanceCtrl.addOtherViolations(employee)" ng-if="attendanceCtrl.permission == 2 && employee.Permission == 2">
+                            {{employee.OtherViolationsScore | number: 1}}
+                        </a>
+                        <span ng-if="employee.Permission == 1 || attendanceCtrl.permission == 1">{{employee.OtherViolationsScore | number: 1}}</span>
+                    </div>
                 </td>
                 <td class="red">-{{employee.SystemSubtractScore | number: 1}}</td>
                 <td class="red">-{{employee.ApproverSubtractScore | number: 1}}</td>
-                <td class="text-center" ng-if="attendanceCtrl.permission == 2">
-                    <a class="glyphicon glyphicon-edit icon-edit" title="Edit" href="{{attendanceCtrl.attendanceDetailUrl}}" ng-click="attendanceCtrl.adjust(employee)"></a>
+                <td class="text-center" ng-if="attendanceCtrl.permission >= 1">
+                    <a class="glyphicon glyphicon-edit icon-edit" title="View" href="{{attendanceCtrl.attendanceDetailUrl}}" ng-click="attendanceCtrl.adjust(employee)"></a>
                 </td>
             </tr>
             <tr ng-show="attendanceCtrl.filteredItems.length == 0">

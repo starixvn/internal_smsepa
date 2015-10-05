@@ -32,7 +32,7 @@ commonModule.factory('commonFactory', ['$http', 'baseUrl', function ($http, base
         getAllStatus: function () {
             return $http.get(baseUrl + 'api/Common/GetAllStatus');
         },
-        getAllEmployee: function (query, groupId, isSpecialUser, isDisabledUser, getByApprover) {
+        getAllEmployee: function (query, groupId, isSpecialUser, isDisabledUser, getByApprover, includeVerifier) {
             return $http.get(baseUrl + 'api/Common/GetAllEmployee',
                 {
                     params:
@@ -41,7 +41,8 @@ commonModule.factory('commonFactory', ['$http', 'baseUrl', function ($http, base
                           groupId: groupId,
                           isSpecialUser: isSpecialUser,
                           isDisabledUser: isDisabledUser,
-                          getByApprover: getByApprover
+                          getByApprover: getByApprover,
+                          includeVerifier: includeVerifier
                       }
                 });
         },

@@ -28,6 +28,8 @@ namespace SMS.EPA.Criteria.Employee
 
         public int? ApproverId { get; set; }
 
+        public bool? IncludeVerifier { get; set; }
+
         public override bool IsValid()
         {
             return true;

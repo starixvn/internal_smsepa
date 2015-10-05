@@ -88,9 +88,10 @@ namespace SMS.EPA.Site.Controllers.API
             int? groupId = null,
             bool? isSpecialUser = null,
             bool? isDisabledUser = null,
-            bool? getByApprover = null)
+            bool? getByApprover = null,
+            bool? includeVerifier = null)
         {
-            return _utilitiesController.GetAllEmployee(query, groupId, isSpecialUser, isDisabledUser, getByApprover);
+            return _utilitiesController.GetAllEmployee(query, groupId, isSpecialUser, isDisabledUser, getByApprover, includeVerifier);
         }
 
         public IEnumerable<EmployeeModel> GetEmployeeByDepartmentId(int departmentId)

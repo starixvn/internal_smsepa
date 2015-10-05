@@ -108,7 +108,8 @@ namespace SMS.EPA.Site.Controllers.API
             int? groupId = null,
             bool? isSpecialUser = null,
             bool? isDisabledUser = null,
-            bool? getByApprover = null)
+            bool? getByApprover = null,
+            bool? includeVerifier = null)
         {
             var criteria = new GetAllEmployeeCriteria
             {
@@ -116,7 +117,8 @@ namespace SMS.EPA.Site.Controllers.API
                 GroupId = groupId,
                 IsSpecialUser = isSpecialUser,
                 IsDisabledUser = isDisabledUser,
-                ApproverId = getByApprover == true ? (int?)CurrentUser.EmployeeInfo.EmployeeId : null
+                ApproverId = getByApprover == true ? (int?)CurrentUser.EmployeeInfo.EmployeeId : null,
+                IncludeVerifier = includeVerifier
             };
 
             IEnumerable<EmployeeModel> employees = _employeeService.GetAllEmployee(criteria);
