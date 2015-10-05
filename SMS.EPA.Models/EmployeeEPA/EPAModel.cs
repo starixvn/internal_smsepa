@@ -11,6 +11,7 @@ namespace SMS.EPA.Model.EmployeeEPA
 {
     using System.Collections.Generic;
     using System.Linq;
+    using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Model.Enitites;
 
@@ -51,17 +52,21 @@ namespace SMS.EPA.Model.EmployeeEPA
             }
         }
 
+        public int MaxFinalScore
+        {
+            get
+            {
+                return Constants.MaxFinalScore;
+            }
+        }
+
         public string Grade { get; set; }
 
         public bool HasDisciplineScore { get; set; }
 
-        public int DisciplineScore
-        {
-            get
-            {
-                return 20;
-            }
-        }
+        public float DisciplineScore { get; set; }
+
+        public float MaxDisciplineScore { get; set; }
 
         public int Rowspan
         {
@@ -147,6 +152,8 @@ namespace SMS.EPA.Model.EmployeeEPA
                 return string.Empty;
             }
         }
+
+        public EPAProcessModel CurrentProcess { get; set; }
 
         public EPAProcessModel ProcessBySelf { get; set; }
 

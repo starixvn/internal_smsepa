@@ -321,5 +321,21 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         return vm.modalInstance.result;
     };
 
+    employeeEPAModel.convertScoreToGrade = function (finalScore, maxFinalScore, standardGrades) {
+        var score = finalScore ? parseFloat(finalScore) : 0;
+        var grade;
+
+        angular.forEach(standardGrades, function (standardGrade) {
+            if (score === maxFinalScore && maxFinalScore === standardGrade.RightScore) {
+                grade = standardGrade.Code;
+            }
+            else if (score >= standardGrade.LeftScore && score < standardGrade.RightScore) {
+                grade = standardGrade.Code;
+            }
+        });
+
+        return grade;
+    };
+
     return employeeEPAModel;
 }]);

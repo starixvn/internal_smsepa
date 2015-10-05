@@ -15,12 +15,14 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Criteria.Department;
     using SMS.EPA.Criteria.Employee;
+    using SMS.EPA.Criteria.EmployeeEPA;
     using SMS.EPA.Criteria.KPI;
     using SMS.EPA.Criteria.KPIGroup;
     using SMS.EPA.Criteria.Period;
     using SMS.EPA.Criteria.TargetType;
     using SMS.EPA.Model.Department;
     using SMS.EPA.Model.Employee;
+    using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.KPI;
     using SMS.EPA.Model.KPIGroup;
@@ -37,9 +39,10 @@ namespace SMS.EPA.Site.Controllers.API
         private readonly IEmployeeService _employeeService;
         private readonly IDepartmentService _departmentService;
         private readonly IPeriodService _periodService;
+        private readonly IEmployeeEPAService _employeeEPAService;
 
         public UtilitiesController()
-            : this(null, null, null, null, null, null)
+            : this(null, null, null, null, null, null, null)
         {
         }
 
@@ -49,7 +52,8 @@ namespace SMS.EPA.Site.Controllers.API
             IKPIGroupService kpiGroupService,
             IEmployeeService employeeService,
             IDepartmentService departmentService,
-            IPeriodService periodService)
+            IPeriodService periodService,
+            IEmployeeEPAService employeeEPAService)
         {
             _targetTypeService = targetTypeService ?? new TargetTypeService();
             _kpiService = kpiService ?? new KPIService();
@@ -57,6 +61,7 @@ namespace SMS.EPA.Site.Controllers.API
             _employeeService = employeeService ?? new EmployeeService();
             _departmentService = departmentService ?? new DepartmentService();
             _periodService = periodService ?? new PeriodService();
+            _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
         }
 
         [NonAction]
@@ -199,6 +204,14 @@ namespace SMS.EPA.Site.Controllers.API
             };
 
             return _periodService.GetPeriod(criteria);
+        }
+
+        [NonAction]
+        public IEnumerable<StandardGradeModel> GetStandardGrade()
+        {
+            var criteria = new GetStandardGradeCriteria();
+
+            return _employeeEPAService.GetStandardGrade(criteria);
         }
     }
 }

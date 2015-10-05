@@ -44,10 +44,10 @@
             </div>
             <div class="row col-sm-12 error-message" ng-show="kpi.EvaluateBySelf.CommentValid" data-translate="RequireComment"></div>
             <div class="row textarea-comment" ng-show="kpi.HasComment">
-                <div class="col-sm-7">
+                <div class="col-sm-11">
                     <textarea class="form-control" ng-model="kpi.EvaluateBySelf.Comment" ng-readonly="memberEPAInfoCtrl.isReadonly"></textarea>
                 </div>
-                <div class="col-sm-1" ng-show="kpi.HasComment && kpi.IsRequiredComment">
+                <div class="col-sm-1 required-comment" ng-show="kpi.HasComment && kpi.IsRequiredComment">
                     <label class="error-message" data-translate="(*)"></label>
                 </div>
             </div>

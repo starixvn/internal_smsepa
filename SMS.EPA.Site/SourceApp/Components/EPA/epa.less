@@ -115,7 +115,7 @@
                     }
 
                     textarea {
-                        height: 120px;
+                        height: 100px;
                         resize: none;
                         color: #39F;
                     }
@@ -205,6 +205,8 @@
     }
 
     .textarea-comment {
+        margin-top: 10px;
+
         &.comment-by-evaluator {
             margin-top: 10px;
 
@@ -219,6 +221,10 @@
 
         textarea {
             height: 50px !important;
+        }
+
+        .required-comment {
+            padding-left: 0;
         }
     }
 }
@@ -291,6 +297,36 @@
 .member-epa-info-modal {
      overflow-y: auto;
      height: 600px;
+}
+
+.summary-section{
+    .table-summary {
+        margin: 0;
+
+        thead tr {
+            th {
+                background: #61463b;
+                border-right-color: #ddd;
+                text-shadow: unset;
+
+                &:first-child {
+                    border-left: unset;
+                }
+
+                &:last-child {
+                    border-right: unset;
+                }
+            }
+        }
+
+        .col-rating {
+            width: 20%;
+        }
+    }
+
+    .lable-comment-if-any {
+        padding-bottom: 5px;
+    }
 }
 
 .table-performance-result {

@@ -30,6 +30,8 @@ namespace SMS.EPA.Core.Constants
 
         public const int PercentPerStar = 20;
 
+        public const int MaxFinalScore = 100;
+
         private Constants()
         {
         }

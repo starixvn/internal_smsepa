@@ -18,6 +18,7 @@ function (commonFactory, errorFactory) {
     commonModel.treeDepartment = {};
     commonModel.statusList = [];
     commonModel.periods = [];
+    commonModel.standardGrades = [];
 
     /// Get target type.
     commonModel.getTargetType = function (isActive) {
@@ -174,6 +175,15 @@ function (commonFactory, errorFactory) {
         return commonFactory.getPeriod(targetTypeId, isActive)
         .success(function (periods) {
             commonModel.periods = periods;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    commonModel.getStandardGrade = function () {
+        return commonFactory.getStandardGrade()
+        .success(function (standardGrades) {
+            commonModel.standardGrades = standardGrades;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });

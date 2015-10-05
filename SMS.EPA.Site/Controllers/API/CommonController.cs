@@ -15,6 +15,7 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Core.Utilities;
     using SMS.EPA.Model.Department;
     using SMS.EPA.Model.Employee;
+    using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.KPI;
     using SMS.EPA.Model.KPIGroup;
@@ -150,6 +151,12 @@ namespace SMS.EPA.Site.Controllers.API
             bool? isActive = true)
         {
             return _utilitiesController.GetPeriod(targetTypeId, isActive);
+        }
+
+        [HttpGet]
+        public IEnumerable<StandardGradeModel> GetStandardGrade()
+        {
+            return _utilitiesController.GetStandardGrade();
         }
     }
 }

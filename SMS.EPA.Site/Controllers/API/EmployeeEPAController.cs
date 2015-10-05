@@ -76,8 +76,8 @@ namespace SMS.EPA.Site.Controllers.API
                 ProcessId = (int)ProcessType.Self,
                 EmployeeId = model.Employee.EmployeeId,
                 EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
-                Comment = model.ProcessBySelf.Comment,
-                EPAProcess = model.ProcessBySelf,
+                Comment = model.CurrentProcess.Comment,
+                EPAProcess = model.CurrentProcess,
                 KPIGroups = model.KPIGroups,
                 ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
             };

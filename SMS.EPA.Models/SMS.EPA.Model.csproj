@@ -62,6 +62,7 @@
     <Compile Include="EmployeeEPA\RatingByKPI\RatingByKPIModel.cs" />
     <Compile Include="EmployeeEPA\RatingByKPI\TemporaryKPIGroupModel.cs" />
     <Compile Include="EmployeeEPA\RatingByKPI\TemporaryKPIModel.cs" />
+    <Compile Include="EmployeeEPA\StandardGradeModel.cs" />
     <Compile Include="Report\Dashboard\DashboardModel.cs" />
     <Compile Include="Department\DepartmentInfoModel.cs" />
     <Compile Include="Department\DepartmentModel.cs" />

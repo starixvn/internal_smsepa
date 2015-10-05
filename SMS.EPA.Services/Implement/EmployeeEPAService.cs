@@ -10,6 +10,7 @@
 namespace SMS.EPA.Services.Implement
 {
     using System.Collections.Generic;
+    using System.Linq;
     using Fanex.Common.Helper;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
@@ -60,6 +61,7 @@ namespace SMS.EPA.Services.Implement
             if (criteria.IsValid())
             {
                 epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
+                epaInfo.CurrentProcess = epaInfo.ProcessBySelf;
             }
 
             return epaInfo;
@@ -90,6 +92,7 @@ namespace SMS.EPA.Services.Implement
             if (criteria.IsValid())
             {
                 epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
+                epaInfo.CurrentProcess = epaInfo.ProcessByEvaluators.FirstOrDefault();
             }
 
             return epaInfo;
@@ -120,6 +123,7 @@ namespace SMS.EPA.Services.Implement
             if (criteria.IsValid())
             {
                 epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
+                epaInfo.CurrentProcess = epaInfo.ProcessByReviewers.FirstOrDefault();
             }
 
             return epaInfo;
@@ -150,6 +154,7 @@ namespace SMS.EPA.Services.Implement
             if (criteria.IsValid())
             {
                 epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
+                epaInfo.CurrentProcess = epaInfo.ProcessByManagements.FirstOrDefault();
             }
 
             return epaInfo;
@@ -263,6 +268,19 @@ namespace SMS.EPA.Services.Implement
             }
 
             return employees;
+        }
+
+        public IEnumerable<StandardGradeModel> GetStandardGrade(GetStandardGradeCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<StandardGradeModel> standardGrades = new List<StandardGradeModel>();
+
+            if (criteria.IsValid())
+            {
+                standardGrades = this.GetData<StandardGradeModel>(criteria);
+            }
+
+            return standardGrades;
         }
     }
 }

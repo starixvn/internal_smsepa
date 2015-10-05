@@ -26,8 +26,8 @@ function (EmployeeEPAModel) {
 }]);
 
 epaModule.controller('EmployeeEPAInfoController',
-['$window', '$translate', '$routeParams', 'EmployeeEPAModel',
-function ($window, $translate, $routeParams, EmployeeEPAModel) {
+['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'CommonModel',
+function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
     var vm = this;
 
     vm.epaId = parseInt($routeParams.id);
@@ -38,6 +38,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel) {
     vm.evaluatedDate = null;
 
     vm.epaInfo = EmployeeEPAModel.epaInfo;
+    vm.standardGrades = CommonModel.standardGrades;
 
     var calculateScore = function (epaInfo) {
         var totalScore = 0;
@@ -50,7 +51,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel) {
             });
         });
 
-        epaInfo.ProcessBySelf.TotalScore = totalScore.toFixed(2);
+        epaInfo.CurrentProcess.TotalScore = totalScore.toFixed(2);
 
         if (epaInfo.HasDisciplineScore) {
             vm.finalScore = totalScore + epaInfo.DisciplineScore;
@@ -60,10 +61,11 @@ function ($window, $translate, $routeParams, EmployeeEPAModel) {
         }
 
         vm.finalScore = vm.finalScore !== 0 ? vm.finalScore : '';
+        epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, epaInfo.MaxFinalScore, vm.standardGrades);
     };
 
     var checkStatus = function (epaInfo) {
-        if (epaInfo.ProcessBySelf.IsEndProcess) {
+        if (epaInfo.CurrentProcess.IsEndProcess) {
             vm.isReadonly = true;
             vm.hoveringOver = null;
             vm.hoveringLeave = null;
@@ -205,9 +207,13 @@ function ($window, $translate, $routeParams, EmployeeEPAModel) {
             vm.evaluateEPAInvalidMessage = message;
         });
 
+        CommonModel.getStandardGrade().then(function () {
+            vm.standardGrades = CommonModel.standardGrades;
+        });
+
         EmployeeEPAModel.getEPAInfoByEmployee(vm.epaId).then(function () {
             var data = EmployeeEPAModel.epaInfo;
-            var totalScoreOfSelf = data.ProcessBySelf.TotalScore ? parseFloat(data.ProcessBySelf.TotalScore) : 0;
+            var totalScoreOfSelf = data.CurrentProcess.TotalScore ? parseFloat(data.CurrentProcess.TotalScore) : 0;
 
             if (data.HasDisciplineScore) {
                 vm.finalScore = totalScoreOfSelf ? (totalScoreOfSelf + data.DisciplineScore) : data.DisciplineScore;
@@ -217,7 +223,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel) {
             }
 
             vm.finalScore = vm.finalScore !== 0 ? vm.finalScore : '';
-            vm.evaluatedDate = data.ProcessBySelf.EvaluateDate ? data.ProcessBySelf.EvaluateDate : null;
+            data.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, data.MaxFinalScore, vm.standardGrades);
+            vm.evaluatedDate = data.CurrentProcess.EvaluateDate ? data.CurrentProcess.EvaluateDate : null;
             vm.epaInfo = data;
             checkStatus(vm.epaInfo);
 

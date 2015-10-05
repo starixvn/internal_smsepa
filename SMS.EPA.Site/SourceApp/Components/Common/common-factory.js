@@ -58,6 +58,9 @@ commonModule.factory('commonFactory', ['$http', 'baseUrl', function ($http, base
                     isActive: isActive
                 }
             });
+        },
+        getStandardGrade: function () {
+            return $http.get(baseUrl + 'api/Common/GetStandardGrade');
         }
     };
 } ]);

@@ -71,5 +71,7 @@ namespace SMS.EPA.Services.Interfaces
         CommandResult AdjustScoreByReviewerOrManagement(AdjustScoreByReviewerOrManagementCriteria criteria);
 
         IEnumerable<Employee> GetMember(GetMemberCriteria criteria);
+
+        IEnumerable<StandardGradeModel> GetStandardGrade(GetStandardGradeCriteria criteria);
     }
 }
