@@ -15,7 +15,7 @@ namespace SMS.EPA.Model.EmployeeEPA
     {
         public EPAKPIModel()
         {
-            EvaluateByEvaluators = new List<EvaluationModel>();
+            EvaluationByEvaluators = new List<EvaluationModel>();
         }
 
         public int EPAId { get; set; }
@@ -36,8 +36,10 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public double Weight { get; set; }
 
-        public EvaluationModel EvaluateBySelf { get; set; }
+        public EvaluationModel CurrentEvaluation { get; set; }
 
-        public IList<EvaluationModel> EvaluateByEvaluators { get; set; }
+        public EvaluationModel EvaluationBySelf { get; set; }
+
+        public IList<EvaluationModel> EvaluationByEvaluators { get; set; }
     }
 }

@@ -3,7 +3,7 @@
      ng-show="kpiGroup.KPIs.length > 0">
     <div class="boxtitle col-sm-12"
          ng-click="memberEPAInfoCtrl.collapses[kpiGroup.Name] = !memberEPAInfoCtrl.collapses[kpiGroup.Name]">
-        <div class="col-sm-8 kpiGroup-name">{{kpiGroup.Name}} <strong>({{kpiGroup.Weight}} pts)</strong></div>
+        <div class="col-sm-8 kpiGroup-name">{{kpiGroup.Name}} <strong>({{kpiGroup.Weight | customScore}} pts)</strong></div>
     </div>
     <div class="boxcontent col-sm-12" collapse="memberEPAInfoCtrl.collapses[kpiGroup.Name]">
         <div class="row row-item">
@@ -24,30 +24,30 @@
                     </tr>
                 </thead>
                 <tbody ng-repeat="kpi in kpiGroup.KPIs" ng-class-odd="'oddRow'" ng-class-even="'evenRow'">
-                    <tr ng-repeat="evaluator in kpi.EvaluateByEvaluators">
+                    <tr ng-repeat="evaluator in kpi.EvaluationByEvaluators">
                         <td class="text-center" rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" ng-bind="$parent.$index + 1" ng-show="$first"></td>
                         <td class="col-kpi-name" rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" ng-show="$first">
                             <span ng-bind="kpi.Name"></span>
-                            <strong ng-show="kpiGroup.TotalKPIOptional == 0"> ({{kpi.Weight}} pts)</strong>
+                            <strong ng-show="kpiGroup.TotalKPIOptional == 0"> ({{kpi.Weight | customScore}} pts)</strong>
                             <label class="note" ng-show="kpi.IsRequiredEvaluate" data-translate="(*)"></label>
                         </td>
                         <td class="text-center col-score" rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" ng-show="$first">
-                            <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" ng-bind="kpi.EvaluateBySelf.Score | customNumber"></div>
+                            <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" ng-bind="kpi.EvaluationBySelf.Score | customScore"></div>
                             <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" ng-bind="'N/A'"></div>
                         </td>
                         <td class="col-comment" rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" ng-show="$first">
                             <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess">
-                                {{kpi.EvaluateBySelf.Comment | limitTo:kpi.EvaluateBySelf.numLimit > 0 ? kpi.EvaluateBySelf.numLimit : memberEPAInfoCtrl.maxLengthDescription}}
-                                <a ng-show="!kpi.EvaluateBySelf.showReadMore && (kpi.EvaluateBySelf.Comment.length > memberEPAInfoCtrl.maxLengthDescription)" href="javascript:;"
-                                   ng-click="memberEPAInfoCtrl.readMore(kpi.EvaluateBySelf)" data-translate="ReadMore"></a>
-                                <a ng-show="kpi.EvaluateBySelf.showReadMore"
-                                   href="javascript:;" ng-click="memberEPAInfoCtrl.readLess(kpi.EvaluateBySelf)" data-translate="ReadLess"></a>
+                                {{kpi.EvaluationBySelf.Comment | limitTo:kpi.EvaluationBySelf.numLimit > 0 ? kpi.EvaluationBySelf.numLimit : memberEPAInfoCtrl.maxLengthDescription}}
+                                <a ng-show="!kpi.EvaluationBySelf.showReadMore && (kpi.EvaluationBySelf.Comment.length > memberEPAInfoCtrl.maxLengthDescription)" href="javascript:;"
+                                   ng-click="memberEPAInfoCtrl.readMore(kpi.EvaluationBySelf)" data-translate="ReadMore"></a>
+                                <a ng-show="kpi.EvaluationBySelf.showReadMore"
+                                   href="javascript:;" ng-click="memberEPAInfoCtrl.readLess(kpi.EvaluationBySelf)" data-translate="ReadLess"></a>
                             </div>
                             <div class="text-center" ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" ng-bind="'N/A'"></div>
                         </td>
                         <td ng-bind="evaluator.NickName" class="text-center"></td>
                         <td class="text-center col-score">
-                            <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].IsEndProcess" ng-bind="evaluator.Score | customNumber"></div>
+                            <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].IsEndProcess" ng-bind="evaluator.Score | customScore"></div>
                             <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].IsEndProcess" ng-bind="'N/A'"></div>
                         </td>
                         <td class="col-comment">

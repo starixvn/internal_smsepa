@@ -15,6 +15,10 @@ namespace SMS.EPA.Model.EmployeeEPA
 
     public class EPAProcessModel
     {
+        private string _totalScore { get; set; }
+
+        private string _adjusScore { get; set; }
+
         public int EPAId { get; set; }
 
         public int ProcessId { get; set; }
@@ -41,9 +45,19 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public string Comment { get; set; }
 
-        public float MaxScore { get; set; }
+        public float MaxTotalScore { get; set; }
 
         public string TotalScoreEncode { get; set; }
+
+        public string LastTotalScoreEncode { get; set; }
+
+        public string LastTotalScore
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(LastTotalScoreEncode) ? EncodeService.Decode(LastTotalScoreEncode) : string.Empty;
+            }
+        }
 
         public string TotalScore
         {
@@ -54,7 +68,7 @@ namespace SMS.EPA.Model.EmployeeEPA
 
             set
             {
-                TotalScoreEncode = !string.IsNullOrEmpty(value) ? EncodeService.Encode(value) : string.Empty;
+                _totalScore = value;
             }
         }
 
@@ -66,8 +80,19 @@ namespace SMS.EPA.Model.EmployeeEPA
             }
         }
 
+        public string AdjustScoreEncode { get; set; }
+
+        public string AdjustScore { get; set; }
+
         public StatusModel Status { get; set; }
 
+        public bool? Evaluated { get; set; }
+
         public DateTime? EvaluateDate { get; set; }
+
+        public string GetTotalScore()
+        {
+            return _totalScore;
+        }
     }
 }

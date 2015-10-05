@@ -51,39 +51,39 @@
                             <tbody>
                                 <tr>
                                     <td class="text-right"><strong data-translate="PerformanceScore"></strong></td>
-                                    <td class="text-center col-rating">
+                                    <td class="text-center col-score">
                                         <strong>
-                                            {{memberEPAInfoCtrl.epaInfo.CurrentProcess.TotalScore | customNumber}} / {{memberEPAInfoCtrl.epaInfo.CurrentProcess.MaxScore | customNumber}}
+                                            {{memberEPAInfoCtrl.epaInfo.CurrentProcess.TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.CurrentProcess.MaxTotalScore | customScore}}
                                         </strong>
                                     </td>
-                                    <td class="col-rating"></td>
+                                    <td class="text-center col-score"></td>
                                 </tr>
                                 <tr class="text-right" ng-show="memberEPAInfoCtrl.epaInfo.HasDisciplineScore">
                                     <td><strong data-translate="DisciplineScore"></strong></td>
-                                    <td class="text-center col-rating">
+                                    <td class="text-center col-score">
                                         <strong>
-                                            {{memberEPAInfoCtrl.epaInfo.CurrentProcess.DisciplineScore}} / {{memberEPAInfoCtrl.epaInfo.CurrentProcess.MaxDisciplineScore | customNumber}}
+                                            {{memberEPAInfoCtrl.epaInfo.DisciplineScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxDisciplineScore | customScore}}
                                         </strong>
                                     </td>
                                     <td></td>
                                 </tr>
                                 <tr class="text-right">
                                     <td><strong data-translate="TotalScore"></strong></td>
-                                    <td class="text-center col-rating">
+                                    <td class="text-center col-score">
                                         <strong>
-                                            {{memberEPAInfoCtrl.finalScore | customNumber}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore | customNumber}}
+                                            {{memberEPAInfoCtrl.finalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore | customScore}}
                                         </strong>
                                     </td>
-                                    <td class="col-rating"></td>
+                                    <td class="text-center col-score"></td>
                                 </tr>
                                 <tr class="text-right">
                                     <td><strong data-translate="Grade"></strong></td>
-                                    <td class="text-center col-rating">
+                                    <td class="text-center col-score">
                                         <strong>
                                             {{memberEPAInfoCtrl.epaInfo.Grade}}
                                         </strong>
                                     </td>
-                                    <td class="col-rating"></td>
+                                    <td class="text-center col-score"></td>
                                 </tr>
                             </tbody>
                         </table>

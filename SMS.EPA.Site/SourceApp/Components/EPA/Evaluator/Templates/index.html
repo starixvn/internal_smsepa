@@ -34,6 +34,11 @@
                     <th data-translate="Section"></th>
                     <th data-translate="NickName"></th>
                     <th data-translate="JobTitle"></th>
+                    <th data-translate="SelfScore"></th>
+                    <th data-translate="PerformanceScore"></th>
+                    <th data-translate="DisciplineScore"></th>
+                    <th data-translate="TotalScore"></th>
+                    <th data-translate="Status"></th>
                     <th data-translate="Detail" class="col-action"></th>
                 </tr>
             </thead>
@@ -48,17 +53,41 @@
                         <span ng-bind="memberEPA.Employee.NickName" tooltip="{{memberEPA.Employee.FullName}}"></span>
                     </td>
                     <td ng-bind="memberEPA.Employee.JobTitle.JobTitleName"></td>
+                    <td class="text-center">
+                        <div ng-show="memberEPA.ProcessBySelf.IsEndProcess">
+                            {{memberEPA.ProcessBySelf.TotalScore | customScore}} / {{memberEPA.ProcessBySelf.MaxTotalScore | customScore}}
+                        </div>
+                        <div ng-show="!memberEPA.ProcessBySelf.IsEndProcess" ng-bind="'N/A'"></div>
+                    </td>
+                    <td class="text-center">
+                        <span ng-show="memberEPA.CurrentProcess.TotalScore">
+                            {{memberEPA.CurrentProcess.TotalScore | customScore}} / {{memberEPA.CurrentProcess.MaxTotalScore | customScore}}
+                        </span>
+                    </td>
+                    <td class="text-center">
+                        <span ng-show="memberEPA.HasDisciplineScore">
+                            {{memberEPA.DisciplineScore | customScore}} / {{memberEPA.MaxDisciplineScore | customScore}}
+                        </span>
+                    </td>
+                    <td class="text-center">
+                        <span ng-show="memberEPA.FinalScore">
+                            {{memberEPA.FinalScore | customScore}} / {{memberEPA.MaxFinalScore | customScore}}
+                        </span>
+                    </td>
+                    <td class="text-center">
+                        <div ng-show="memberEPA.CurrentProcess.Evaluated" class="glyphicon glyphicon-ok"></div>
+                    </td>
                     <td class="text-center text-uppercase col-action">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="evaluatorCtrl.viewEPADetail(memberEPA)"
-                           ng-show="!memberEPA.ProcessByEvaluators[0].IsEndProcess && memberEPA.Status.StatusId == 0"
+                           ng-show="!memberEPA.CurrentProcess.IsEndProcess && memberEPA.Status.StatusId == 0"
                            ng-href="{{evaluatorCtrl.viewEPADetailUrl}}" ng-attr-title='{{"EvaluateNow" | translate}}'></a>
                         <a class="glyphicon icon-view" href="" ng-click="evaluatorCtrl.viewEPAResult(memberEPA)"
-                           ng-show="memberEPA.ProcessByEvaluators[0].IsEndProcess && memberEPA.Status.StatusId == 0"
+                           ng-show="memberEPA.CurrentProcess.IsEndProcess && memberEPA.Status.StatusId == 0"
                            ng-href="{{evaluatorCtrl.viewEPAResultUrl}}" ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
                     </td>
                 </tr>
                 <tr ng-show="evaluatorCtrl.memberEPAs.length == 0">
-                    <td class="empty-result" colspan="6" data-translate="EmptyResult"></td>
+                    <td class="empty-result" colspan="11" data-translate="EmptyResult"></td>
                 </tr>
             </tbody>
         </table>

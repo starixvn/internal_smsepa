@@ -71,8 +71,8 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
 
                 totalScoreAdjust = totalScoreOriginal + score;
 
-                if (totalScoreAdjust > memberEPA.ProcessByReviewers[0].MaxScore) {
-                    memberEPA.ProcessByReviewers[0].TotalScore = memberEPA.ProcessByReviewers[0].MaxScore;
+                if (totalScoreAdjust > memberEPA.ProcessByReviewers[0].MaxTotalScore) {
+                    memberEPA.ProcessByReviewers[0].TotalScore = memberEPA.ProcessByReviewers[0].MaxTotalScore;
                 }
                 else if (totalScoreAdjust < 0) {
                     memberEPA.ProcessByReviewers[0].TotalScore = 0;
@@ -139,14 +139,14 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
 
     vm.getNotificationInputScore = function (processByReviewer) {
         if (processByReviewer) {
-            return EmployeeEPAModel.getNotificationInputScore(processByReviewer.MaxScore, vm.scoreInputValidMessage);
+            return EmployeeEPAModel.getNotificationInputScore(processByReviewer.MaxTotalScore, vm.scoreInputValidMessage);
         }
 
         return '';
     };
 
     vm.inputScore = function (memberEPA, processByReviewer) {
-        if (!EmployeeEPAModel.validateScoreInput(processByReviewer.TotalScore, processByReviewer.MaxScore, vm.scoreInputValidMessage)) {
+        if (!EmployeeEPAModel.validateScoreInput(processByReviewer.TotalScore, processByReviewer.MaxTotalScore, vm.scoreInputValidMessage)) {
             processByReviewer.TotalScore = null;
         }
 
@@ -227,8 +227,8 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
 }]);
 
 epaModule.controller('MemberEPAInfoOfReviewerController',
-['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'utilitiesFactory',
-function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory) {
+['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'CommonModel', 'utilitiesFactory',
+function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, utilitiesFactory) {
     var vm = this;
 
     vm.epaId = parseInt($routeParams.id);
@@ -237,6 +237,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory)
     vm.isReadonly = false;
     vm.evaluatedDate = null;
     vm.finalScore = null;
+
+    vm.standardGrades = CommonModel.standardGrades;
 
     var checkStatus = function (epaInfo) {
         if (epaInfo.ProcessByReviewers[0].IsEndProcess) {
@@ -255,6 +257,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory)
         }
 
         vm.finalScore = vm.finalScore !== 0 ? vm.finalScore : '';
+        epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, epaInfo.MaxFinalScore, vm.standardGrades);
     };
 
     vm.openPopupViewComment = function (comment) {
@@ -271,14 +274,14 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory)
 
     vm.getNotificationInputScore = function (processByReviewer) {
         if (processByReviewer) {
-            return EmployeeEPAModel.getNotificationInputScore(processByReviewer.MaxScore, vm.scoreInputValidMessage);
+            return EmployeeEPAModel.getNotificationInputScore(processByReviewer.MaxTotalScore, vm.scoreInputValidMessage);
         }
 
         return '';
     };
 
     vm.inputScore = function (processByReviewer) {
-        if (!EmployeeEPAModel.validateScoreInput(processByReviewer.TotalScore, processByReviewer.MaxScore, vm.scoreInputValidMessage)) {
+        if (!EmployeeEPAModel.validateScoreInput(processByReviewer.TotalScore, processByReviewer.MaxTotalScore, vm.scoreInputValidMessage)) {
             processByReviewer.TotalScore = null;
         }
 
@@ -315,6 +318,10 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory)
             vm.scoreInputValidMessage = message;
         });
 
+        CommonModel.getStandardGrade().then(function () {
+            vm.standardGrades = CommonModel.standardGrades;
+        });
+
         EmployeeEPAModel.getEPAInfoByReviewer(vm.epaId, vm.employeeId, vm.evaluatorId).then(function () {
             var data = EmployeeEPAModel.epaInfo;
             var totalScore = 0;
@@ -335,6 +342,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory)
             }
 
             vm.finalScore = vm.finalScore !== 0 ? vm.finalScore : '';
+            data.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, data.MaxFinalScore, vm.standardGrades);
             vm.evaluatedDate = data.ProcessByReviewers[0].EvaluateDate ? data.ProcessByReviewers[0].EvaluateDate : null;
             vm.epaInfo = data;
             checkStatus(vm.epaInfo);

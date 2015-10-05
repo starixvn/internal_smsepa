@@ -10,11 +10,10 @@
 namespace SMS.EPA.Criteria.EmployeeEPA
 {
     using System.Collections.Generic;
-    using System.Linq;
     using System.Text;
     using System.Web;
     using Fanex.Data.Repository;
-    using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Core.Services;
     using SMS.EPA.Model.EmployeeEPA;
 
     public class UpdateEPAScoreCriteria : CriteriaBase
@@ -37,7 +36,9 @@ namespace SMS.EPA.Criteria.EmployeeEPA
         {
             get
             {
-                return EPAProcess.TotalScoreEncode;
+                var totalScore = EPAProcess.GetTotalScore();
+
+                return !string.IsNullOrEmpty(totalScore) ? EncodeService.Encode(totalScore) : string.Empty;
             }
         }
 
@@ -46,25 +47,17 @@ namespace SMS.EPA.Criteria.EmployeeEPA
             get
             {
                 var result = new StringBuilder(_BeginRootTag);
-                var cipherScore = string.Empty;
-                var cipherRate = string.Empty;
 
                 foreach (var kpiGroup in KPIGroups)
                 {
                     foreach (var kpi in kpiGroup.KPIs)
                     {
-                        if (ProcessId == (int)ProcessType.Self)
-                        {
-                            cipherScore = kpi.EvaluateBySelf.ScoreEncode;
-                            cipherRate = kpi.EvaluateBySelf.RateEncode;
-                            result.AppendFormat(_KPIScore, kpi.KPIId, kpiGroup.KPIGroupId, cipherScore, cipherRate, HttpUtility.HtmlEncode(kpi.EvaluateBySelf.Comment));
-                        }
-                        else if (ProcessId == (int)ProcessType.Evaluator)
-                        {
-                            cipherScore = kpi.EvaluateByEvaluators.FirstOrDefault().ScoreEncode;
-                            cipherRate = kpi.EvaluateByEvaluators.FirstOrDefault().RateEncode;
-                            result.AppendFormat(_KPIScore, kpi.KPIId, kpiGroup.KPIGroupId, cipherScore, cipherRate, HttpUtility.HtmlEncode(kpi.EvaluateByEvaluators.FirstOrDefault().Comment));
-                        }
+                        var score = kpi.CurrentEvaluation.GetScore();
+                        var rate = kpi.CurrentEvaluation.GetRate();
+                        var cipherScore = !string.IsNullOrEmpty(score) ? EncodeService.Encode(score + "_" + kpi.KPIId) : string.Empty;
+                        var cipherRate = rate > 0 ? EncodeService.Encode(rate.ToString()) : string.Empty;
+
+                        result.AppendFormat(_KPIScore, kpi.KPIId, kpiGroup.KPIGroupId, cipherScore, cipherRate, HttpUtility.HtmlEncode(kpi.CurrentEvaluation.Comment));
                     }
                 }
 

@@ -14,6 +14,10 @@ namespace SMS.EPA.Model.EmployeeEPA
 
     public class EvaluationModel
     {
+        private string _score;
+
+        private int _rate;
+
         public int EPAId { get; set; }
 
         public int ProcessId { get; set; }
@@ -39,7 +43,7 @@ namespace SMS.EPA.Model.EmployeeEPA
 
             set
             {
-                ScoreEncode = !string.IsNullOrEmpty(value) ? EncodeService.Encode(value + "_" + KPIId) : string.Empty;
+                _score = value;
             }
         }
 
@@ -61,7 +65,7 @@ namespace SMS.EPA.Model.EmployeeEPA
 
             set
             {
-                RateEncode = !string.IsNullOrEmpty(value.ToString()) ? EncodeService.Encode(value.ToString()) : string.Empty;
+                _rate = value;
             }
         }
 
@@ -74,5 +78,15 @@ namespace SMS.EPA.Model.EmployeeEPA
         }
 
         public string Comment { get; set; }
+
+        public string GetScore()
+        {
+            return _score;
+        }
+
+        public int GetRate()
+        {
+            return _rate;
+        }
     }
 }

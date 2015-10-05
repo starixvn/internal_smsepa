@@ -1,35 +1,79 @@
 ﻿<div class="row row-item">
-    <div class="col-sm-6 textarea-comment">
-        <label class="control-label" data-translate="CommentByEmployee"></label>
+    <div class="textarea-comment">
+        <div class="lable-comment-if-any control-label" data-translate="CommentByEmployee"></div>
         <textarea class="form-control" ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess"
                   ng-model="memberEPAInfoCtrl.epaInfo.ProcessBySelf.Comment" ng-readonly="true"></textarea>
         <textarea class="form-control" ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" ng-readonly="true">N/A</textarea>
-        <label class="control-label" data-translate="CommentByEvaluator"></label>
-        <textarea class="form-control" ng-model="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].Comment"
+        <div class="lable-comment-if-any control-label" data-translate="CommentByEvaluator"></div>
+        <textarea class="form-control" ng-model="memberEPAInfoCtrl.epaInfo.CurrentProcess.Comment"
                   ng-readonly="memberEPAInfoCtrl.isReadonly"></textarea>
     </div>
-    <div class="col-sm-6">
-        <div class="col-sm-5">
-            <div class="total text-center pull-right">
-                <p data-translate="SelfEvaluationScore"></p>
-                <p class="totalscore" ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess"
-                   ng-bind="memberEPAInfoCtrl.epaInfo.ProcessBySelf.TotalScore | customNumber"></p>
-                <p class="totalscore" ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" ng-bind="'N/A'"></p>
-            </div>
-        </div>
-        <div class="col-sm-offset-2 col-sm-4">
-            <div class="row total text-center">
-                <p data-translate="PerformanceScore"></p>
-                <p class="totalscore" ng-bind="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].TotalScore | customNumber"></p>
-            </div>
-            <div class="row total text-center" ng-show="memberEPAInfoCtrl.epaInfo.HasDisciplineScore">
-                <p data-translate="DisciplineScore"></p>
-                <p class="totalscore" ng-bind="memberEPAInfoCtrl.epaInfo.DisciplineScore | customNumber"></p>
-            </div>
-            <div class="row total text-center">
-                <p data-translate="TotalScore"></p>
-                <p class="totalscore" ng-bind="memberEPAInfoCtrl.finalScore | customNumber"></p>
-            </div>
-        </div>
-    </div>
+</div>
+<div class="row row-item">
+    <table class="table table-bordered table-striped table-summary">
+        <thead>
+            <tr>
+                <th></th>
+                <th data-translate="EmployeeScore"></th>
+                <th data-translate="EvaluatorScore"></th>
+                <th data-translate="LastRating"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="text-right"><strong data-translate="PerformanceScore"></strong></td>
+                <td class="text-center col-score">
+                    <strong ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess">
+                        {{memberEPAInfoCtrl.epaInfo.ProcessBySelf.TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.ProcessBySelf.MaxTotalScore | customScore}}
+                    </strong>
+                    <strong ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" ng-bind="'N/A'"></strong>
+                </td>
+                <td class="text-center col-score">
+                    <strong>
+                        {{memberEPAInfoCtrl.epaInfo.CurrentProcess.TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.CurrentProcess.MaxTotalScore | customScore}}
+                    </strong>
+                </td>
+                <td class="text-center col-score"></td>
+            </tr>
+            <tr class="text-right" ng-show="memberEPAInfoCtrl.epaInfo.HasDisciplineScore">
+                <td><strong data-translate="DisciplineScore"></strong></td>
+                <td class="text-center" colspan="2">
+                    <strong>
+                        {{memberEPAInfoCtrl.epaInfo.DisciplineScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxDisciplineScore | customScore}}
+                    </strong>
+                </td>
+                <td class="text-center col-score"></td>
+            </tr>
+            <tr class="text-right">
+                <td><strong data-translate="TotalScore"></strong></td>
+                <td class="text-center col-score">
+                    <strong ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess">
+                        {{memberEPAInfoCtrl.finalScoreOfSelf | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore | customScore}}
+                    </strong>
+                    <strong ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" ng-bind="'N/A'"></strong>
+                </td>
+                <td class="text-center col-score">
+                    <strong>
+                        {{memberEPAInfoCtrl.finalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore | customScore}}
+                    </strong>
+                </td>
+                <td class="text-center col-score"></td>
+            </tr>
+            <tr class="text-right">
+                <td><strong data-translate="Grade"></strong></td>
+                <td class="text-center col-score">
+                    <strong ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess">
+                        {{memberEPAInfoCtrl.gradeOfSelf}}
+                    </strong>
+                    <strong ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" ng-bind="'N/A'"></strong>
+                </td>
+                <td class="text-center col-score">
+                    <strong>
+                        {{memberEPAInfoCtrl.epaInfo.Grade}}
+                    </strong>
+                </td>
+                <td class="text-center col-score"></td>
+            </tr>
+        </tbody>
+    </table>
 </div>

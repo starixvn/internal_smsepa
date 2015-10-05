@@ -117,8 +117,8 @@ function ($modalInstance, EmployeeEPAModel, selectedEmployees, isReviewer, notif
 
                 totalScoreAdjust = totalScoreOriginal + score;
 
-                if (totalScoreAdjust > memberEPA.ProcessByReviewers[0].MaxScore) {
-                    memberEPA.ProcessByReviewers[0].TotalScore = memberEPA.ProcessByReviewers[0].MaxScore;
+                if (totalScoreAdjust > memberEPA.ProcessByReviewers[0].MaxTotalScore) {
+                    memberEPA.ProcessByReviewers[0].TotalScore = memberEPA.ProcessByReviewers[0].MaxTotalScore;
                 }
                 else if (totalScoreAdjust < 0) {
                     memberEPA.ProcessByReviewers[0].TotalScore = 0;
@@ -148,8 +148,8 @@ function ($modalInstance, EmployeeEPAModel, selectedEmployees, isReviewer, notif
 
                 totalScoreAdjust = totalScoreOriginal + score;
 
-                if (totalScoreAdjust > memberEPA.ProcessByManagements[0].MaxScore) {
-                    memberEPA.ProcessByManagements[0].TotalScore = memberEPA.ProcessByManagements[0].MaxScore;
+                if (totalScoreAdjust > memberEPA.ProcessByManagements[0].MaxTotalScore) {
+                    memberEPA.ProcessByManagements[0].TotalScore = memberEPA.ProcessByManagements[0].MaxTotalScore;
                 }
                 else if (totalScoreAdjust < 0) {
                     memberEPA.ProcessByManagements[0].TotalScore = 0;

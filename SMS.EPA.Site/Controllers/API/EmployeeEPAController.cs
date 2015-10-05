@@ -142,8 +142,8 @@ namespace SMS.EPA.Site.Controllers.API
                 ProcessId = (int)ProcessType.Evaluator,
                 EmployeeId = model.Employee.EmployeeId,
                 EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
-                Comment = model.ProcessByEvaluators.FirstOrDefault().Comment,
-                EPAProcess = model.ProcessByEvaluators.FirstOrDefault(),
+                Comment = model.CurrentProcess.Comment,
+                EPAProcess = model.CurrentProcess,
                 KPIGroups = model.KPIGroups,
                 ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
             };

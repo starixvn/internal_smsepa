@@ -75,8 +75,8 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
 
                 totalScoreAdjust = totalScoreOriginal + score;
 
-                if (totalScoreAdjust > memberEPA.ProcessByManagements[0].MaxScore) {
-                    memberEPA.ProcessByManagements[0].TotalScore = memberEPA.ProcessByManagements[0].MaxScore;
+                if (totalScoreAdjust > memberEPA.ProcessByManagements[0].MaxTotalScore) {
+                    memberEPA.ProcessByManagements[0].TotalScore = memberEPA.ProcessByManagements[0].MaxTotalScore;
                 }
                 else if (totalScoreAdjust < 0) {
                     memberEPA.ProcessByManagements[0].TotalScore = 0;
@@ -144,14 +144,14 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
 
     vm.getNotificationInputScore = function (processByReviewer) {
         if (processByReviewer) {
-            return EmployeeEPAModel.getNotificationInputScore(processByReviewer.MaxScore, vm.scoreInputValidMessage);
+            return EmployeeEPAModel.getNotificationInputScore(processByReviewer.MaxTotalScore, vm.scoreInputValidMessage);
         }
 
         return '';
     };
 
     vm.inputScore = function (memberEPA, processManagement) {
-        if (!EmployeeEPAModel.validateScoreInput(processManagement.TotalScore, processManagement.MaxScore, vm.scoreInputValidMessage)) {
+        if (!EmployeeEPAModel.validateScoreInput(processManagement.TotalScore, processManagement.MaxTotalScore, vm.scoreInputValidMessage)) {
             processManagement.TotalScore = null;
         }
 
@@ -231,8 +231,8 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
 }]);
 
 epaModule.controller('MemberEPAInfoOfManagentController',
-['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'utilitiesFactory',
-function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory) {
+['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'CommonModel', 'utilitiesFactory',
+function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, utilitiesFactory) {
     var vm = this;
 
     vm.epaId = parseInt($routeParams.id);
@@ -241,6 +241,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory)
     vm.isReadonly = false;
     vm.evaluatedDate = null;
     vm.finalScore = null;
+
+    vm.standardGrades = CommonModel.standardGrades;
 
     var checkStatus = function (epaInfo) {
         if (epaInfo.ProcessByManagements[0].IsEndProcess) {
@@ -259,6 +261,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory)
         }
 
         vm.finalScore = vm.finalScore !== 0 ? vm.finalScore : '';
+        epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, epaInfo.MaxFinalScore, vm.standardGrades);
     };
 
     vm.openPopupViewComment = function (comment) {
@@ -275,14 +278,14 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory)
 
     vm.getNotificationInputScore = function (processByManagement) {
         if (processByManagement) {
-            return EmployeeEPAModel.getNotificationInputScore(processByManagement.MaxScore, vm.scoreInputValidMessage);
+            return EmployeeEPAModel.getNotificationInputScore(processByManagement.MaxTotalScore, vm.scoreInputValidMessage);
         }
 
         return '';
     };
 
     vm.inputScore = function (processByManagement) {
-        if (!EmployeeEPAModel.validateScoreInput(processByManagement.TotalScore, processByManagement.MaxScore, vm.scoreInputValidMessage)) {
+        if (!EmployeeEPAModel.validateScoreInput(processByManagement.TotalScore, processByManagement.MaxTotalScore, vm.scoreInputValidMessage)) {
             processByManagement.TotalScore = null;
         }
 
@@ -319,6 +322,10 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory)
             vm.scoreInputValidMessage = message;
         });
 
+        CommonModel.getStandardGrade().then(function () {
+            vm.standardGrades = CommonModel.standardGrades;
+        });
+
         EmployeeEPAModel.getEPAInfoByManagement(vm.epaId).then(function () {
             var data = EmployeeEPAModel.epaInfo;
             var totalScore = null;
@@ -343,6 +350,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, utilitiesFactory)
             }
 
             vm.finalScore = vm.finalScore !== 0 ? vm.finalScore : '';
+            data.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, data.MaxFinalScore, vm.standardGrades);
             vm.evaluatedDate = data.ProcessByManagements[0].EvaluateDate ? data.ProcessByManagements[0].EvaluateDate : null;
             vm.epaInfo = data;
             checkStatus(vm.epaInfo);

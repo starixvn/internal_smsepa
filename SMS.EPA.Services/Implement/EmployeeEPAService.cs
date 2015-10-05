@@ -62,6 +62,14 @@ namespace SMS.EPA.Services.Implement
             {
                 epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
                 epaInfo.CurrentProcess = epaInfo.ProcessBySelf;
+
+                foreach (EPAKPIGroupModel kpiGroup in epaInfo.KPIGroups)
+                {
+                    foreach (EPAKPIModel kpi in kpiGroup.KPIs)
+                    {
+                        kpi.CurrentEvaluation = kpi.EvaluationBySelf;
+                    }
+                }
             }
 
             return epaInfo;
@@ -79,6 +87,11 @@ namespace SMS.EPA.Services.Implement
             if (criteria.IsValid())
             {
                 memberEPAs = _employeeEPARepository.GetEPA(criteria);
+
+                foreach (EPAModel memberEPA in memberEPAs)
+                {
+                    memberEPA.CurrentProcess = memberEPA.ProcessByEvaluators.FirstOrDefault();
+                }
             }
 
             return memberEPAs;
@@ -93,6 +106,14 @@ namespace SMS.EPA.Services.Implement
             {
                 epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
                 epaInfo.CurrentProcess = epaInfo.ProcessByEvaluators.FirstOrDefault();
+
+                foreach (EPAKPIGroupModel kpiGroup in epaInfo.KPIGroups)
+                {
+                    foreach (EPAKPIModel kpi in kpiGroup.KPIs)
+                    {
+                        kpi.CurrentEvaluation = kpi.EvaluationByEvaluators.FirstOrDefault();
+                    }
+                }
             }
 
             return epaInfo;
@@ -110,6 +131,11 @@ namespace SMS.EPA.Services.Implement
             if (criteria.IsValid())
             {
                 memberEPAs = _employeeEPARepository.GetEPA(criteria);
+            }
+
+            foreach (EPAModel memberEPA in memberEPAs)
+            {
+                memberEPA.CurrentProcess = memberEPA.ProcessByReviewers.FirstOrDefault();
             }
 
             return memberEPAs;
@@ -141,6 +167,11 @@ namespace SMS.EPA.Services.Implement
             if (criteria.IsValid())
             {
                 memberEPAs = _employeeEPARepository.GetEPA(criteria);
+            }
+
+            foreach (EPAModel memberEPA in memberEPAs)
+            {
+                memberEPA.CurrentProcess = memberEPA.ProcessByManagements.FirstOrDefault();
             }
 
             return memberEPAs;

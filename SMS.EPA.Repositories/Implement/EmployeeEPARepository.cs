@@ -28,7 +28,7 @@ namespace SMS.EPA.Repositories.Implement
 
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (var multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     epas = multi.Read<EPAModel, StatusModel, EPAPeriodModel, EPAModel>(
                     (epa, status, period) =>
@@ -77,7 +77,7 @@ namespace SMS.EPA.Repositories.Implement
 
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (var multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     epaInfo = multi.Read<EPAModel, StatusModel, EPAPeriodModel, EPAModel>(
                     (info, status, period) =>
@@ -121,7 +121,7 @@ namespace SMS.EPA.Repositories.Implement
                     GroupEPAProcessByEPA(epaInfo, processes);
                     GroupKPIByKPIGroup(epaInfo.KPIGroups, kpis);
 
-                    foreach (var kpiGroup in epaInfo.KPIGroups)
+                    foreach (EPAKPIGroupModel kpiGroup in epaInfo.KPIGroups)
                     {
                         GroupEvaluationOnEachKPI(kpiGroup.KPIs, evaluations);
                     }
@@ -155,7 +155,7 @@ namespace SMS.EPA.Repositories.Implement
 
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (var multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     epas = multi.Read<RatingByKPIModel, TemporaryKPIGroupModel, RatingByKPIModel>(
                         (epa, kgr) =>
@@ -198,11 +198,11 @@ namespace SMS.EPA.Repositories.Implement
 
         private void GroupEmployeeByEPA(IEnumerable<EPAModel> epas, IEnumerable<EPAEmployeeModel> employees)
         {
-            foreach (var epa in epas)
+            foreach (EPAModel epa in epas)
             {
-                foreach (var employee in employees)
+                foreach (EPAEmployeeModel employee in employees)
                 {
-                    if (employee.EPAId == epa.EPAId)
+                    if (employee.EPAId.Equals(epa.EPAId))
                     {
                         epa.Employee = employee;
                     }
@@ -212,29 +212,30 @@ namespace SMS.EPA.Repositories.Implement
 
         private void GroupEPAProcessByEPA(IEnumerable<EPAModel> epas, IEnumerable<EPAProcessModel> processes)
         {
-            foreach (var epa in epas)
+            foreach (EPAModel epa in epas)
             {
-                foreach (var process in processes)
+                foreach (EPAProcessModel process in processes)
                 {
-                    if (process.EPAId == epa.EPAId
-                        && process.ProcessId == (int)ProcessType.Self)
+                    if (process.EPAId.Equals(epa.EPAId))
                     {
-                        epa.ProcessBySelf = process;
-                    }
-                    else if (process.EPAId == epa.EPAId
-                        && process.ProcessId == (int)ProcessType.Evaluator)
-                    {
-                        epa.ProcessByEvaluators.Add(process);
-                    }
-                    else if (process.EPAId == epa.EPAId
-                        && process.ProcessId == (int)ProcessType.Reviewer)
-                    {
-                        epa.ProcessByReviewers.Add(process);
-                    }
-                    else if (process.EPAId == epa.EPAId
-                        && process.ProcessId == (int)ProcessType.Management)
-                    {
-                        epa.ProcessByManagements.Add(process);
+                        switch (process.ProcessId)
+                        {
+                            case (int)ProcessType.Self:
+                                epa.ProcessBySelf = process;
+                                break;
+
+                            case (int)ProcessType.Evaluator:
+                                epa.ProcessByEvaluators.Add(process);
+                                break;
+
+                            case (int)ProcessType.Reviewer:
+                                epa.ProcessByReviewers.Add(process);
+                                break;
+
+                            case (int)ProcessType.Management:
+                                epa.ProcessByManagements.Add(process);
+                                break;
+                        }
                     }
                 }
             }
@@ -242,38 +243,36 @@ namespace SMS.EPA.Repositories.Implement
 
         private void GroupEPAProcessByEPA(EPAModel epa, IEnumerable<EPAProcessModel> processes)
         {
-            foreach (var process in processes)
+            foreach (EPAProcessModel process in processes)
             {
-                if (process.EPAId == epa.EPAId
-                    && process.ProcessId == (int)ProcessType.Self)
+                switch (process.ProcessId)
                 {
-                    epa.ProcessBySelf = process;
-                }
-                else if (process.EPAId == epa.EPAId
-                    && process.ProcessId == (int)ProcessType.Evaluator)
-                {
-                    epa.ProcessByEvaluators.Add(process);
-                }
-                else if (process.EPAId == epa.EPAId
-                    && process.ProcessId == (int)ProcessType.Reviewer)
-                {
-                    epa.ProcessByReviewers.Add(process);
-                }
-                else if (process.EPAId == epa.EPAId
-                        && process.ProcessId == (int)ProcessType.Management)
-                {
-                    epa.ProcessByManagements.Add(process);
+                    case (int)ProcessType.Self:
+                        epa.ProcessBySelf = process;
+                        break;
+
+                    case (int)ProcessType.Evaluator:
+                        epa.ProcessByEvaluators.Add(process);
+                        break;
+
+                    case (int)ProcessType.Reviewer:
+                        epa.ProcessByReviewers.Add(process);
+                        break;
+
+                    case (int)ProcessType.Management:
+                        epa.ProcessByManagements.Add(process);
+                        break;
                 }
             }
         }
 
         private void GroupEvaluatorByEPA(IEnumerable<EPAModel> epas, IEnumerable<EPAProcessModel> evaluators)
         {
-            foreach (var epa in epas)
+            foreach (EPAModel epa in epas)
             {
-                foreach (var evaluator in evaluators)
+                foreach (EPAProcessModel evaluator in evaluators)
                 {
-                    if (evaluator.EPAId == epa.EPAId)
+                    if (evaluator.EPAId.Equals(epa.EPAId))
                     {
                         GroupEvaluatorByProcess(epa, evaluator);
                     }
@@ -283,29 +282,31 @@ namespace SMS.EPA.Repositories.Implement
 
         private void GroupEvaluatorByProcess(EPAModel epa, EPAProcessModel evaluator)
         {
-            if (evaluator.ProcessId == (int)ProcessType.HumanResource)
+            switch (evaluator.ProcessId)
             {
-                epa.HumanResources.Add(evaluator);
-            }
-            else if (evaluator.ProcessId == (int)ProcessType.Evaluator)
-            {
-                epa.Evaluators.Add(evaluator);
-            }
-            else if (evaluator.ProcessId == (int)ProcessType.Reviewer)
-            {
-                epa.Reviewers.Add(evaluator);
-            }
-            else if (evaluator.ProcessId == (int)ProcessType.Management)
-            {
-                epa.Managements.Add(evaluator);
+                case (int)ProcessType.HumanResource:
+                    epa.HumanResources.Add(evaluator);
+                    break;
+
+                case (int)ProcessType.Evaluator:
+                    epa.Evaluators.Add(evaluator);
+                    break;
+
+                case (int)ProcessType.Reviewer:
+                    epa.Reviewers.Add(evaluator);
+                    break;
+
+                case (int)ProcessType.Management:
+                    epa.Managements.Add(evaluator);
+                    break;
             }
         }
 
         private void GroupEvaluatorByProcess(EPAModel epa, IEnumerable<EPAProcessModel> evaluators)
         {
-            foreach (var evaluator in evaluators)
+            foreach (EPAProcessModel evaluator in evaluators)
             {
-                if (evaluator.EPAId == epa.EPAId)
+                if (evaluator.EPAId.Equals(epa.EPAId))
                 {
                     GroupEvaluatorByProcess(epa, evaluator);
                 }
@@ -314,12 +315,11 @@ namespace SMS.EPA.Repositories.Implement
 
         private void GroupKPIByKPIGroup(IList<EPAKPIGroupModel> kpiGroups, IEnumerable<EPAKPIModel> kpis)
         {
-            foreach (var kpiGroup in kpiGroups)
+            foreach (EPAKPIGroupModel kpiGroup in kpiGroups)
             {
-                foreach (var kpi in kpis)
+                foreach (EPAKPIModel kpi in kpis)
                 {
-                    if (kpi.EPAId == kpiGroup.EPAId
-                        && kpi.KPIGroupId == kpiGroup.KPIGroupId)
+                    if (kpi.EPAId.Equals(kpiGroup.EPAId) && kpi.KPIGroupId.Equals(kpiGroup.KPIGroupId))
                     {
                         kpiGroup.KPIs.Add(kpi);
                     }
@@ -329,21 +329,22 @@ namespace SMS.EPA.Repositories.Implement
 
         private void GroupEvaluationOnEachKPI(IEnumerable<EPAKPIModel> kpis, IEnumerable<EvaluationModel> evaluations)
         {
-            foreach (var kpi in kpis)
+            foreach (EPAKPIModel kpi in kpis)
             {
-                foreach (var evaluation in evaluations)
+                foreach (EvaluationModel evaluation in evaluations)
                 {
-                    if (evaluation.ProcessId == (int)ProcessType.Self
-                        && evaluation.EPAId == kpi.EPAId
-                        && evaluation.KPIId == kpi.KPIId)
+                    if (evaluation.EPAId.Equals(kpi.EPAId) && evaluation.KPIId.Equals(kpi.KPIId))
                     {
-                        kpi.EvaluateBySelf = evaluation;
-                    }
-                    else if (evaluation.ProcessId == (int)ProcessType.Evaluator
-                        && evaluation.EPAId == kpi.EPAId
-                        && evaluation.KPIId == kpi.KPIId)
-                    {
-                        kpi.EvaluateByEvaluators.Add(evaluation);
+                        switch (evaluation.ProcessId)
+                        {
+                            case (int)ProcessType.Self:
+                                kpi.EvaluationBySelf = evaluation;
+                                break;
+
+                            case (int)ProcessType.Evaluator:
+                                kpi.EvaluationByEvaluators.Add(evaluation);
+                                break;
+                        }
                     }
                 }
             }
@@ -351,11 +352,11 @@ namespace SMS.EPA.Repositories.Implement
 
         private void GroupEmployeeByEPA(IEnumerable<RatingByKPIModel> epas, IEnumerable<EPAEmployeeModel> employees)
         {
-            foreach (var epa in epas)
+            foreach (RatingByKPIModel epa in epas)
             {
-                foreach (var employee in employees)
+                foreach (EPAEmployeeModel employee in employees)
                 {
-                    if (employee.EPAId == epa.EPAId)
+                    if (employee.EPAId.Equals(epa.EPAId))
                     {
                         epa.Employee = employee;
                     }
@@ -365,11 +366,11 @@ namespace SMS.EPA.Repositories.Implement
 
         private void GroupKPIByEPA(IEnumerable<RatingByKPIModel> epas, IEnumerable<TemporaryKPIModel> kpis)
         {
-            foreach (var epa in epas)
+            foreach (RatingByKPIModel epa in epas)
             {
-                foreach (var kpi in kpis)
+                foreach (TemporaryKPIModel kpi in kpis)
                 {
-                    if (kpi.EPAId == epa.EPAId && kpi.KPIGroup.KPIGroupId == epa.KPIGroup.KPIGroupId)
+                    if (kpi.EPAId.Equals(epa.EPAId) && kpi.KPIGroup.KPIGroupId.Equals(epa.KPIGroup.KPIGroupId))
                     {
                         epa.KPIGroup.KPIs.Add(kpi);
                     }

@@ -13,6 +13,7 @@
                 <th rowspan="2" data-translate="DisciplineScore" class="col-attendance-score"
                     ng-show="memberEPAInfoCtrl.epaInfo.HasDisciplineScore"></th>
                 <th rowspan="2" data-translate="TotalScore" class="col-score"></th>
+                <th rowspan="2" data-translate="Grade" class="col-score"></th>
             </tr>
             <tr>
                 <th data-translate="TotalScore" class="col-score"></th>
@@ -63,11 +64,16 @@
                     <textarea class="form-control" ng-readonly="memberEPAInfoCtrl.isReadonly"
                               ng-model="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[0].Comment"></textarea>
                 </td>
-                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center td-total-score"
-                    ng-bind="memberEPAInfoCtrl.epaInfo.DisciplineScore | customNumber"
-                    ng-show="memberEPAInfoCtrl.epaInfo.HasDisciplineScore && $first"></td>
-                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center td-total-score"
-                    ng-bind="memberEPAInfoCtrl.finalScore | customNumber" ng-show="$first"></td>
+                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center"
+                    ng-show="memberEPAInfoCtrl.epaInfo.HasDisciplineScore && $first">
+                    <strong ng-bind="memberEPAInfoCtrl.epaInfo.DisciplineScore | customNumber"></strong>
+                </td>
+                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center" ng-show="$first">
+                    <strong>{{memberEPAInfoCtrl.finalScore | customNumber}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore | customNumber}}</strong>
+                </td>
+                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center" ng-show="$first">
+                    <strong ng-bind="memberEPAInfoCtrl.epaInfo.Grade"></strong>
+                </td>
             </tr>
         </tbody>
     </table>

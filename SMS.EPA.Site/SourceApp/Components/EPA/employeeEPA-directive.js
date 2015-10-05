@@ -32,30 +32,23 @@ epaModule.directive('ngDecimal', [function () {
     };
 }]);
 
-epaModule.directive('scrollIf', [function () {
-    return {
-        link: function ($scope, iElement) {
-            $scope.$watch(function () {
-                var head = $(iElement).find('thead'),
-                    body = $(iElement).find('tbody');
-                var child = body.find('tr'),
-                    len = child.length;
+epaModule.filter('customScore', ['$filter', function ($filter) {
+    return function (input) {
+        var _number;
 
-                if (len) {
-                    var maxHeight = 0;
-
-                    child.each(function (i, e) {
-                        maxHeight += $(e).height();
-                    });
-
-                    if (maxHeight > body.height()) {
-                        head.addClass('header-fixed');
-                    }
-                    else {
-                        head.removeClass('header-fixed');
-                    }
-                }
-            });
+        if (input === null) {
+            _number = "";
         }
+        else if (input === 0) {
+            _number = 0;
+        }
+        else if (parseFloat(input) % 1 === 0) {
+            _number = $filter('number')(parseFloat(input));
+        }
+        else {
+            _number = $filter('number')(input, 2);
+        }
+
+        return _number;
     };
 }]);

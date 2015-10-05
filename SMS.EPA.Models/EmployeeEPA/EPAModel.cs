@@ -29,6 +29,8 @@ namespace SMS.EPA.Model.EmployeeEPA
             KPIGroups = new List<EPAKPIGroupModel>();
         }
 
+        private string _finalScore { get; set; }
+
         public int EPAId { get; set; }
 
         public EPAEmployeeModel Employee { get; set; }
@@ -36,6 +38,16 @@ namespace SMS.EPA.Model.EmployeeEPA
         public EPAPeriodModel Period { get; set; }
 
         public StatusModel Status { get; set; }
+
+        public string LastFinalScoreEncode { get; set; }
+
+        public string LastFinalScore
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(LastFinalScoreEncode) ? EncodeService.Decode(LastFinalScoreEncode) : string.Empty;
+            }
+        }
 
         public string FinalScoreEncode { get; set; }
 
@@ -48,7 +60,7 @@ namespace SMS.EPA.Model.EmployeeEPA
 
             set
             {
-                FinalScoreEncode = EncodeService.Encode(value);
+                _finalScore = value;
             }
         }
 
@@ -62,7 +74,11 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public string Grade { get; set; }
 
+        public string LastGrade { get; set; }
+
         public bool HasDisciplineScore { get; set; }
+
+        public float LastDisciplineScore { get; set; }
 
         public float DisciplineScore { get; set; }
 
@@ -82,24 +98,7 @@ namespace SMS.EPA.Model.EmployeeEPA
         {
             get
             {
-                float score = 0;
-                int count = 0;
-
-                foreach (var processByEvaluator in ProcessByEvaluators)
-                {
-                    if (!string.IsNullOrEmpty(processByEvaluator.TotalScore))
-                    {
-                        count++;
-                        score += float.Parse(processByEvaluator.TotalScore);
-                    }
-                }
-
-                if (count > 0)
-                {
-                    return (score / count).ToString();
-                }
-
-                return string.Empty;
+                return CalculateAverageScore(ProcessByEvaluators);
             }
         }
 
@@ -107,24 +106,7 @@ namespace SMS.EPA.Model.EmployeeEPA
         {
             get
             {
-                float score = 0;
-                int count = 0;
-
-                foreach (var processByReviewer in ProcessByReviewers)
-                {
-                    if (!string.IsNullOrEmpty(processByReviewer.TotalScore))
-                    {
-                        count++;
-                        score += float.Parse(processByReviewer.TotalScore);
-                    }
-                }
-
-                if (count > 0)
-                {
-                    return (score / count).ToString();
-                }
-
-                return string.Empty;
+                return CalculateAverageScore(ProcessByReviewers);
             }
         }
 
@@ -132,24 +114,7 @@ namespace SMS.EPA.Model.EmployeeEPA
         {
             get
             {
-                float score = 0;
-                int count = 0;
-
-                foreach (var processByManagement in ProcessByManagements)
-                {
-                    if (!string.IsNullOrEmpty(processByManagement.TotalScore))
-                    {
-                        count++;
-                        score += float.Parse(processByManagement.TotalScore);
-                    }
-                }
-
-                if (count > 0)
-                {
-                    return (score / count).ToString();
-                }
-
-                return string.Empty;
+                return CalculateAverageScore(ProcessByManagements);
             }
         }
 
@@ -172,5 +137,27 @@ namespace SMS.EPA.Model.EmployeeEPA
         public IList<EPAProcessModel> Reviewers { get; set; }
 
         public IList<EPAProcessModel> Managements { get; set; }
+
+        private string CalculateAverageScore(IList<EPAProcessModel> processes)
+        {
+            float score = 0;
+            int count = 0;
+
+            foreach (EPAProcessModel process in processes)
+            {
+                if (!string.IsNullOrEmpty(process.TotalScore))
+                {
+                    count++;
+                    score += float.Parse(process.TotalScore);
+                }
+            }
+
+            if (count > 0)
+            {
+                return (score / count).ToString();
+            }
+
+            return string.Empty;
+        }
     }
 }

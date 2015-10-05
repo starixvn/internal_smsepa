@@ -68,13 +68,13 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
         return vm.modalInstance.result;
     };
 
-    ratingByKPIModel.validateScoreInput = function (score, maxScore, scoreInputValidMessage) {
+    ratingByKPIModel.validateScoreInput = function (score, MaxTotalScore, scoreInputValidMessage) {
         var isValid = true;
 
-        if (parseFloat(score) > parseFloat(maxScore) || parseFloat(score) < 0) {
+        if (parseFloat(score) > parseFloat(MaxTotalScore) || parseFloat(score) < 0) {
             isValid = false;
 
-            var message = utilitiesFactory.formatString(scoreInputValidMessage, maxScore);
+            var message = utilitiesFactory.formatString(scoreInputValidMessage, MaxTotalScore);
             notificationFactory.error('', message);
         }
 
