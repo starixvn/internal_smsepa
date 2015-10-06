@@ -1131,4 +1131,10 @@
   <data name="AttendanceSummaryReportTitleNoPrefix" xml:space="preserve">
     <value>Summary Discipline Report for EPA From {0}  to {1}</value>
   </data>
+  <data name="PerformanceGradingScale" xml:space="preserve">
+    <value>Performance Grading Scale</value>
+  </data>
+  <data name="LastFinalScore" xml:space="preserve">
+    <value>Last Final Score</value>
+  </data>
 </root>

@@ -45,8 +45,8 @@ epaModule.filter('customScore', ['$filter', function ($filter) {
         else if (parseFloat(input) % 1 === 0) {
             _number = $filter('number')(parseFloat(input));
         }
-        else {
-            _number = $filter('number')(input, 2);
+        else if (parseFloat(input) % 1 !== 0) {
+            _number = $filter('number')(parseFloat(input), 2);
         }
 
         return _number;

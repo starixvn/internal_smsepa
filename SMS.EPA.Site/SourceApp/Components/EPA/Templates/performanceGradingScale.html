@@ -1,0 +1,10 @@
+﻿<div data-translate="PerformanceGradingScale"></div>
+<table class="table table-bordered table-standard-grade">
+    <tbody>
+        <tr>
+            <td ng-repeat="standardGrade in memberEPAInfoCtrl.standardGrades">
+                {{standardGrade.Code}}. {{standardGrade.Name}}: {{standardGrade.LeftScore}} ~ {{standardGrade.RightScore}}
+            </td>
+        </tr>
+    </tbody>
+</table>

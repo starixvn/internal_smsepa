@@ -1,0 +1,63 @@
+﻿<table class="table table-bordered table-striped table-custom table-summary">
+    <thead>
+        <tr>
+            <th></th>
+            <th data-translate="EmployeeScore"></th>
+            <th data-translate="LastRating"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="text-right"><strong data-translate="PerformanceScore"></strong></td>
+            <td class="text-center col-score">
+                <strong>
+                    {{memberEPAInfoCtrl.epaInfo.CurrentProcess.TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.CurrentProcess.MaxTotalScore | customScore}}
+                </strong>
+            </td>
+            <td class="text-center col-score">
+                <strong ng-show="memberEPAInfoCtrl.epaInfo.CurrentProcess.LastTotalScore">
+                    {{memberEPAInfoCtrl.epaInfo.CurrentProcess.LastTotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.CurrentProcess.MaxTotalScore | customScore}}
+                </strong>
+                <strong ng-show="!memberEPAInfoCtrl.epaInfo.CurrentProcess.LastTotalScore" ng-bind="'-'"></strong>
+            </td>
+        </tr>
+        <tr class="text-right" ng-show="memberEPAInfoCtrl.epaInfo.HasDisciplineScore">
+            <td><strong data-translate="DisciplineScore"></strong></td>
+            <td class="text-center col-score">
+                <strong>
+                    {{memberEPAInfoCtrl.epaInfo.DisciplineScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxDisciplineScore | customScore}}
+                </strong>
+            </td>
+            <td class="text-center col-score">
+                <strong ng-show="memberEPAInfoCtrl.epaInfo.LastDisciplineScore">
+                    {{memberEPAInfoCtrl.epaInfo.LastDisciplineScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxDisciplineScore | customScore}}
+                </strong>
+                <strong ng-show="!memberEPAInfoCtrl.epaInfo.LastDisciplineScore" ng-bind="'-'"></strong>
+            </td>
+        </tr>
+        <tr class="text-right">
+            <td><strong data-translate="TotalScore"></strong></td>
+            <td class="text-center col-score">
+                <strong>
+                    {{memberEPAInfoCtrl.finalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore | customScore}}
+                </strong>
+            </td>
+            <td class="text-center col-score">
+                <strong ng-show="memberEPAInfoCtrl.epaInfo.LastFinalScore">
+                    {{memberEPAInfoCtrl.epaInfo.LastFinalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore | customScore}}
+                </strong>
+                <strong ng-show="!memberEPAInfoCtrl.epaInfo.LastFinalScore" ng-bind="'-'"></strong>
+            </td>
+        </tr>
+        <tr class="text-right">
+            <td><strong data-translate="Grade"></strong></td>
+            <td class="text-center col-score">
+                <strong ng-bind="memberEPAInfoCtrl.epaInfo.Grade"></strong>
+            </td>
+            <td class="text-center col-score">
+                <strong ng-show="memberEPAInfoCtrl.epaInfo.LastGrade" ng-bind="memberEPAInfoCtrl.epaInfo.LastGrade"></strong>
+                <strong ng-show="!memberEPAInfoCtrl.epaInfo.LastGrade" ng-bind="'-'"></strong>
+            </td>
+        </tr>
+    </tbody>
+</table>

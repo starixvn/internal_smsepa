@@ -916,7 +916,7 @@
     <value>Unpaid Leave</value>
   </data>
   <data name="WorkingTime" xml:space="preserve">
-    <value>Working &lt; 7h</value>
+    <value>Working Under Time</value>
   </data>
   <data name="ChangeShift" xml:space="preserve">
     <value>Change Shift</value>
@@ -1100,5 +1100,41 @@
   </data>
   <data name="EPADetailReportSheet" xml:space="preserve">
     <value>EPA Detail Report</value>
+  </data>
+  <data name="LastRating" xml:space="preserve">
+    <value>Last Rating</value>
+  </data>
+  <data name="CommentsIfAny" xml:space="preserve">
+    <value>Comments, if any:</value>
+  </data>
+  <data name="AttendanceDetailReportName" xml:space="preserve">
+    <value>Detail Discipline Report</value>
+  </data>
+  <data name="AttendanceDetailReportSheet" xml:space="preserve">
+    <value>Detail_Discipline_Report</value>
+  </data>
+  <data name="AttendanceDetailReportTitle" xml:space="preserve">
+    <value>{0} - Detail Discipline Report for EPA From {1}  to {2}</value>
+  </data>
+  <data name="AttendanceDetailReportTitleNoPrefix" xml:space="preserve">
+    <value>Detail Discipline Report for EPA From {0}  to {1}</value>
+  </data>
+  <data name="AttendanceSummaryReportName" xml:space="preserve">
+    <value>Summary Discipline Report</value>
+  </data>
+  <data name="AttendanceSummaryReportSheet" xml:space="preserve">
+    <value>Summary_Discipline_Report</value>
+  </data>
+  <data name="AttendanceSummaryReportTitle" xml:space="preserve">
+    <value>{0} - Summary Discipline Report for EPA From {1}  to {2}</value>
+  </data>
+  <data name="AttendanceSummaryReportTitleNoPrefix" xml:space="preserve">
+    <value>Summary Discipline Report for EPA From {0}  to {1}</value>
+  </data>
+  <data name="PerformanceGradingScale" xml:space="preserve">
+    <value>Performance Grading Scale</value>
+  </data>
+  <data name="LastFinalScore" xml:space="preserve">
+    <value>Last Final Score</value>
   </data>
 </root>

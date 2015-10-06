@@ -74,11 +74,19 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public string Grade { get; set; }
 
-        public string LastGrade { get; set; }
+        public string LastGradeEncode { get; set; }
+
+        public string LastGrade
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(LastGradeEncode) ? EncodeService.Decode(LastGradeEncode) : string.Empty;
+            }
+        }
 
         public bool HasDisciplineScore { get; set; }
 
-        public float LastDisciplineScore { get; set; }
+        public float? LastDisciplineScore { get; set; }
 
         public float DisciplineScore { get; set; }
 

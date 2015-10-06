@@ -197,20 +197,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
         $window.history.back();
     };
 
-    vm.initialize = function () {
-        $translate('ScoreInputValid').then(function (message) {
-            vm.scoreInputValidMessage = message;
-        });
-
-        $translate('EvaluateEPAInvalid').then(function (message) {
-            vm.evaluateEPAInvalidMessage = message;
-        });
-
-        CommonModel.getStandardGrade().then(function () {
-            vm.standardGrades = CommonModel.standardGrades;
-        });
-
-        EmployeeEPAModel.getEPAInfoByEmployee(vm.epaId).then(function () {
+    var getEPAInfoByEmployee = function (epaId) {
+        EmployeeEPAModel.getEPAInfoByEmployee(epaId).then(function () {
             var data = EmployeeEPAModel.epaInfo;
             var totalScoreOfSelf = data.CurrentProcess.TotalScore ? parseFloat(data.CurrentProcess.TotalScore) : 0;
 
@@ -240,6 +228,22 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
                     });
                 }
             });
+        });
+    };
+
+    vm.initialize = function () {
+        $translate('ScoreInputValid').then(function (message) {
+            vm.scoreInputValidMessage = message;
+        });
+
+        $translate('EvaluateEPAInvalid').then(function (message) {
+            vm.evaluateEPAInvalidMessage = message;
+        });
+
+        CommonModel.getStandardGrade().then(function () {
+            vm.standardGrades = CommonModel.standardGrades;
+
+            getEPAInfoByEmployee(vm.epaId);
         });
     };
 

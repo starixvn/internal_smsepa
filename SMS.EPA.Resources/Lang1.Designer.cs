@@ -1573,6 +1573,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Last Final Score.
+        /// </summary>
+        public static string LastFinalScore {
+            get {
+                return ResourceManager.GetString("LastFinalScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last Modified By.
         /// </summary>
         public static string LastModifiedBy {
@@ -1920,6 +1929,15 @@ namespace SMS.EPA.Resources {
         public static string PasswordRequried {
             get {
                 return ResourceManager.GetString("PasswordRequried", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Performance Grading Scale.
+        /// </summary>
+        public static string PerformanceGradingScale {
+            get {
+                return ResourceManager.GetString("PerformanceGradingScale", resourceCulture);
             }
         }
         
