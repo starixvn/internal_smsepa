@@ -73,7 +73,7 @@ namespace SMS.EPA.Services.Interfaces
         IEnumerable<Employee> GetMember(GetMemberCriteria criteria);
 
         IEnumerable<StandardGradeModel> GetStandardGrade(GetStandardGradeCriteria criteria);
-	
+
         IEnumerable<EPASummaryImportModel> GetMemberEPASummaryImport(GetEPASummaryImportCriteria criteria);
 
         CommandResult UpdateEPASummaryImport(UpdateEPASummaryImportCriteria criteria);
