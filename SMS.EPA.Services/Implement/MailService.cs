@@ -209,7 +209,7 @@ namespace SMS.EPA.Services.Implement
                 averagePerformanceScore,
                 adjustmentScore,
                 finalScore,
-                "A", ////TODO: get grade from evaluation info
+                evaluationInfo.Grade,
                 evaluatorNames,
                 reviewerNames,
                 managementNames);
