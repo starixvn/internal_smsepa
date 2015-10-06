@@ -82,7 +82,18 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public string AdjustScoreEncode { get; set; }
 
-        public string AdjustScore { get; set; }
+        public string AdjustScore
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(AdjustScoreEncode) ? EncodeService.Decode(AdjustScoreEncode) : string.Empty;
+            }
+
+            set
+            {
+                _adjusScore = value;
+            }
+        }
 
         public StatusModel Status { get; set; }
 
@@ -93,6 +104,11 @@ namespace SMS.EPA.Model.EmployeeEPA
         public string GetTotalScore()
         {
             return _totalScore;
+        }
+
+        public string GetAdjustScore()
+        {
+            return _adjusScore;
         }
     }
 }
