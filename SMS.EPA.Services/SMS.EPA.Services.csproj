@@ -134,7 +134,7 @@
       <Name>SMS.EPA.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\SMS.EPA.Criteria\SMS.EPA.Criteria.csproj">
-      <Project>{23BD1141-64A1-4684-8A1E-83E8CC0D46AA}</Project>
+      <Project>{23bd1141-64a1-4684-8a1e-83e8cc0d46aa}</Project>
       <Name>SMS.EPA.Criteria</Name>
     </ProjectReference>
     <ProjectReference Include="..\SMS.EPA.Models\SMS.EPA.Model.csproj">
