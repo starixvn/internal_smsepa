@@ -2,8 +2,8 @@
 /*global attendanceModule*/
 
 attendanceModule.controller('AttendanceSummaryController',
-['AttendanceModel', 'utilitiesFactory', 'CommonModel', 'baseUrl',
-function (AttendanceModel, utilitiesFactory, CommonModel, baseUrl) {
+['$scope', 'AttendanceModel', 'utilitiesFactory', 'CommonModel', 'baseUrl',
+function ($scope, AttendanceModel, utilitiesFactory, CommonModel, baseUrl) {
     var vm = this;
 
     vm.attendanceEmployees = AttendanceModel.attendanceEmployees;
@@ -102,6 +102,15 @@ function (AttendanceModel, utilitiesFactory, CommonModel, baseUrl) {
             endDate = vm.filter.endDate;
         vm.attendanceDetailUrl = baseUrl + 'Attendance/Detail/' + employee.Employee.EmployeeId
             + '?startDate=' + startDate.toDateString() + '&endDate=' + endDate.toDateString();
+    };
+
+    vm.exportReport = function (filter) {
+        vm.exportCriteria = angular.copy(filter);
+        vm.exportCriteria.employeeName = filter.employee ? filter.employee.Name : '';
+        vm.exportCriteria.departmentName = filter.departmentId ? AttendanceModel.getDepartmentName(filter.departmentId, vm.departments) : '';
+        vm.exportCriteria.startDate = filter.startDate.toDateString();
+        vm.exportCriteria.endDate = filter.endDate.toDateString();
+        $scope.$broadcast('exportAttendanceSummaryReport');
     };
 }]);
 
@@ -213,8 +222,8 @@ function ($scope, $modalInstance, AttendanceModel, employee, startDate, endDate,
 }]);
 
 attendanceModule.controller('DetailAttendanceSummaryController',
-['$window', '$routeParams', 'AttendanceModel', 'utilitiesFactory', 'CommonModel',
-function ($window, $routeParams, AttendanceModel, utilitiesFactory, CommonModel) {
+['$scope', '$window', '$routeParams', 'AttendanceModel', 'utilitiesFactory', 'CommonModel',
+function ($scope, $window, $routeParams, AttendanceModel, utilitiesFactory, CommonModel) {
     var vm = this,
         date = new Date(),
         firstDate = new Date(date.getFullYear(), date.getMonth(), 1);
@@ -259,6 +268,7 @@ function ($window, $routeParams, AttendanceModel, utilitiesFactory, CommonModel)
 
     CommonModel.getEmployeeById(vm.filter.employeeId).then(function () {
         vm.filter.employee = CommonModel.employee;
+        vm.filter.employee.Name = vm.filter.employee.NickName;
         vm.searchEmployee = vm.filter.employee.NickName + ' (' + vm.filter.employee.FullName + ')';
     });
 
@@ -286,6 +296,7 @@ function ($window, $routeParams, AttendanceModel, utilitiesFactory, CommonModel)
         if (vm.searchEmployee.trim() === '') {
             if (vm.filter.employee) {
                 vm.filter.employee = null;
+                vm.filter.employeeId = null;
             }
         }
     };
@@ -320,5 +331,14 @@ function ($window, $routeParams, AttendanceModel, utilitiesFactory, CommonModel)
 
     vm.backToList = function () {
         $window.history.back();
+    };
+
+    vm.exportReport = function (filter) {
+        vm.exportCriteria = angular.copy(filter);
+        vm.exportCriteria.employeeName = filter.employee ? filter.employee.Name : '';
+        vm.exportCriteria.departmentName = filter.departmentId ? AttendanceModel.getDepartmentName(filter.departmentId, vm.departments) : '';
+        vm.exportCriteria.startDate = filter.startDate.toDateString();
+        vm.exportCriteria.endDate = filter.endDate.toDateString();
+        $scope.$broadcast('exportAttendanceDetailReport');
     };
 }]);

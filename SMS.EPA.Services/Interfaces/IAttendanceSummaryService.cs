@@ -31,5 +31,9 @@ namespace SMS.EPA.Services.Interfaces
         CommandResult UpdateIgnoredViolation(UpdateIgnoredViolationCriteria criteria);
 
         IEnumerable<AttendanceScoreModel> GetAttendanceScoreByEPAId(GetAttendanceScoreByEPAIdCriteria criteria);
+
+        void ExportAttendanceSummaryReport(GetAttendanceSummaryCriteria criteria, string templatePath);
+
+        void ExportAttendanceDetailReport(GetDetailAttendanceCriteria criteria, string templatePath);
     }
 }

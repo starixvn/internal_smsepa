@@ -9,9 +9,12 @@
 
 namespace SMS.EPA.Services.Implement
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Fanex.Common.Helper;
+    using NexFB.Core.Utilities;
+    using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.AttendanceSummary;
@@ -19,6 +22,7 @@ namespace SMS.EPA.Services.Implement
     using SMS.EPA.Model.Employee;
     using SMS.EPA.Repositories.Implement;
     using SMS.EPA.Repositories.Interfaces;
+    using SMS.EPA.Resources;
     using SMS.EPA.Services.Interfaces;
 
     public class AttendanceSummaryService : BaseService, IAttendanceSummaryService
@@ -138,6 +142,82 @@ namespace SMS.EPA.Services.Implement
             }
 
             return attendanceScores;
+        }
+
+        public void ExportAttendanceSummaryReport(GetAttendanceSummaryCriteria criteria, string templatePath)
+        {
+            IEnumerable<AttendanceSummaryModel> attendanceEmployees = GetAttendanceSummary(criteria);
+
+            string reportName = Lang.AttendanceSummaryReportName;
+            string reportTitle = string.Empty;
+
+            string startDate = criteria.StartDate.ToString(Constants.DateFormat);
+            string endDate = criteria.EndDate.ToString(Constants.DateFormat);
+
+            if (criteria.EmployeeId != null)
+            {
+                reportTitle = string.Format(Lang.AttendanceSummaryReportTitle, criteria.EmployeeName, startDate, endDate);
+            }
+            else if (criteria.DepartmentId != null)
+            {
+                reportTitle = string.Format(Lang.AttendanceSummaryReportTitle, criteria.DepartmentName, startDate, endDate);
+            }
+            else
+            {
+                reportTitle = string.Format(Lang.AttendanceSummaryReportTitleNoPrefix, startDate, endDate);
+            }
+
+            var writer = new ExcelTemplateWriter(templatePath, reportName, Lang.AttendanceSummaryReportSheet);
+
+            // Fill report title.
+            writer.WriteRow(0, new object[] { reportTitle });
+            writer.CopyRows(1, 1);
+
+            // Fill report header.
+            writer.CopyRows(3, 1);
+
+            FillContentSummaryRow(attendanceEmployees, ref writer);
+            writer.SyncColumnsWidth(15);
+
+            writer.Render();
+        }
+
+        public void ExportAttendanceDetailReport(GetDetailAttendanceCriteria criteria, string templatePath)
+        {
+            IEnumerable<AttendanceDetailModel> attendanceViolations = GetAttendanceDetail(criteria);
+
+            string reportName = Lang.AttendanceDetailReportName;
+            string reportTitle = string.Empty;
+
+            string startDate = criteria.StartDate.ToString(Constants.DateFormat);
+            string endDate = criteria.EndDate.ToString(Constants.DateFormat);
+
+            if (criteria.EmployeeId != null)
+            {
+                reportTitle = string.Format(Lang.AttendanceDetailReportTitle, criteria.EmployeeName, startDate, endDate);
+            }
+            else if (criteria.DepartmentId != null)
+            {
+                reportTitle = string.Format(Lang.AttendanceDetailReportTitle, criteria.DepartmentName, startDate, endDate);
+            }
+            else
+            {
+                reportTitle = string.Format(Lang.AttendanceDetailReportTitleNoPrefix, startDate, endDate);
+            }
+
+            var writer = new ExcelTemplateWriter(templatePath, reportName, Lang.AttendanceDetailReportSheet);
+
+            // Fill report title.
+            writer.WriteRow(0, new object[] { reportTitle });
+            writer.CopyRows(1, 1);
+
+            // Fill report header.
+            writer.CopyRows(3, 1);
+
+            FillContentDetailRow(attendanceViolations, ref writer);
+            writer.SyncColumnsWidth(18);
+
+            writer.Render();
         }
 
         private static IEnumerable<AttendanceDetailModel> GroupAttendanceDetailAndCalculateScore(
@@ -410,6 +490,134 @@ namespace SMS.EPA.Services.Implement
             }
 
             return approverComment;
+        }
+
+        private void FillContentSummaryRow(IEnumerable<AttendanceSummaryModel> attendanceEmployees, ref ExcelTemplateWriter writer)
+        {
+            int rowIndex = 1;
+
+            foreach (AttendanceSummaryModel attendanceEmployee in attendanceEmployees)
+            {
+                FillSummaryRow(attendanceEmployee, ref writer, ref rowIndex);
+            }
+        }
+
+        private void FillSummaryRow(AttendanceSummaryModel attendanceEmployee, ref ExcelTemplateWriter writer, ref int rowIndex)
+        {
+            object record = CreateSummaryRecord(attendanceEmployee, ref rowIndex);
+            writer.WriteRow(4, record);
+        }
+
+        private object CreateSummaryRecord(AttendanceSummaryModel attendanceEmployee, ref int rowIndex)
+        {
+            float otherViolations = attendanceEmployee.OtherViolationsScore > 0 ? -attendanceEmployee.OtherViolationsScore : 0;
+            float systemSubtractScore = attendanceEmployee.SystemSubtractScore > 0 ? -attendanceEmployee.SystemSubtractScore : 0;
+            float approverSubtractScore = attendanceEmployee.ApproverSubtractScore > 0 ? -attendanceEmployee.ApproverSubtractScore : 0;
+
+            var record = new
+            {
+                Count = rowIndex,
+                Section = attendanceEmployee.Group.GroupName,
+                Code = attendanceEmployee.Employee.Code,
+                Nick = attendanceEmployee.Employee.NickName,
+                MissingInOut = attendanceEmployee.MissingCheckInOut,
+                WorkingBelowTime = attendanceEmployee.WorkingBelowTime,
+                LateIn = attendanceEmployee.LateIn,
+                EarlyOut = attendanceEmployee.EarlyOut,
+                Absent = attendanceEmployee.Absent,
+                UnpaidLeave = attendanceEmployee.UnpaidLeave,
+                UnpaidLeaveAbsent = attendanceEmployee.UnpaidLeaveAbsent,
+                ChangeShift = attendanceEmployee.ChangeShift,
+                OtherViolation = (decimal)otherViolations,
+                SystemSubtractScore = (decimal)systemSubtractScore,
+                ApproverSubtractScore = (decimal)approverSubtractScore
+            };
+            rowIndex++;
+
+            return record;
+        }
+
+        private void FillContentDetailRow(IEnumerable<AttendanceDetailModel> attendanceViolations, ref ExcelTemplateWriter writer)
+        {
+            int rowIndex = 1;
+
+            foreach (AttendanceDetailModel attendanceViolation in attendanceViolations)
+            {
+                FillDetailRow(attendanceViolation, ref writer, ref rowIndex);
+            }
+        }
+
+        private void FillDetailRow(AttendanceDetailModel attendanceViolation, ref ExcelTemplateWriter writer, ref int rowIndex)
+        {
+            object record = CreateDetailRecord(attendanceViolation, ref rowIndex);
+            writer.WriteRow(4, record);
+        }
+
+        private object CreateDetailRecord(AttendanceDetailModel attendanceViolation, ref int rowIndex)
+        {
+            float systemSubtractScore = attendanceViolation.SystemSubtractScore > 0 ? -attendanceViolation.SystemSubtractScore : 0;
+            float approverSubtractScore = attendanceViolation.ApproverSubtractScore > 0 ? -attendanceViolation.ApproverSubtractScore : 0;
+
+            var record = new
+            {
+                Shift = attendanceViolation.Employee.Code,
+                Nick = attendanceViolation.Employee.NickName,
+                Section = attendanceViolation.Employee.Group.GroupName,
+                Date = attendanceViolation.WorkDate,
+                Code = attendanceViolation.ShiftName,
+                CheckIn = attendanceViolation.CheckIn.Value != null ? DateTime.Parse(attendanceViolation.CheckIn.Value).ToString(Constants.TimeFormant) : string.Empty,
+                CheckOut = attendanceViolation.CheckOut.Value != null ? DateTime.Parse(attendanceViolation.CheckOut.Value).ToString(Constants.TimeFormant) : string.Empty,
+                TotalHours = attendanceViolation.TotalHours.Value != null ? attendanceViolation.TotalHours.Value.Replace(".", ":") : string.Empty,
+                LateIn = attendanceViolation.LateIn.Value != null ? ConvertNumberToTime(attendanceViolation.LateIn.Value) : string.Empty,
+                EarlyOut = attendanceViolation.EarlyOut.Value != null ? ConvertNumberToTime(attendanceViolation.EarlyOut.Value) : string.Empty,
+                Absent = attendanceViolation.Absent.Value != null ? attendanceViolation.Absent.Value : string.Empty,
+                UnpaidLeave = attendanceViolation.UnpaidLeave.Value != null ? attendanceViolation.UnpaidLeave.Value : string.Empty,
+                UnpaidLeaveAbsent = attendanceViolation.UnpaidLeaveAbsent.Value != null ? attendanceViolation.UnpaidLeaveAbsent.Value : string.Empty,
+                ChangeShift = attendanceViolation.ChangeShift.Value != null ? attendanceViolation.ChangeShift.Value : string.Empty,
+                SystemSubtractScore = (decimal)systemSubtractScore,
+                ApproverSubtractScore = (decimal)approverSubtractScore,
+                ApproverComment = attendanceViolation.ApproverComment,
+                EmployeeComment = attendanceViolation.EmployeeComment
+            };
+            rowIndex++;
+
+            return record;
+        }
+
+        private string ConvertNumberToTime(string number)
+        {
+            int numberMinutes = int.Parse(number);
+            string hoursResult = string.Empty;
+            string minutesResult = string.Empty;
+            string time = string.Empty;
+
+            if (numberMinutes > 0)
+            {
+                double hours = Math.Floor((double)numberMinutes / 60);
+                double minutes = Math.Floor(numberMinutes - (hours * 60));
+
+                if (hours < 10)
+                {
+                    hoursResult = "0" + hours;
+                }
+                else
+                {
+                    hoursResult = hours.ToString();
+                }
+
+                if (minutes < 10)
+                {
+                    minutesResult = "0" + minutes;
+                }
+                else
+                {
+                    minutesResult = minutes.ToString();
+                }
+
+                time = hoursResult + ':' + minutesResult;
+            }
+
+            return time;
         }
     }
 }

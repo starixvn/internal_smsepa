@@ -303,6 +303,7 @@
     <Content Include="Libs\_references.js" />
     <Content Include="SourceApp\app.js" />
     <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary-controller.js" />
+    <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary-directive.js" />
     <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary-factory.js" />
     <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary-model.js" />
     <Content Include="SourceApp\Components\AttendanceSummary\Templates\detail.html" />
@@ -643,6 +644,8 @@
     <Content Include="SourceApp\Components\Report\report.less" />
     <Content Include="Views\Emails\EmailNotifyChangeSetting.cshtml" />
     <Content Include="SourceApp\Components\Report\ExcelTemplates\EPADetailReport.xls" />
+    <Content Include="SourceApp\Components\AttendanceSummary\ExcelTemplates\DisciplineSummaryReport.xls" />
+    <Content Include="SourceApp\Components\AttendanceSummary\ExcelTemplates\DisciplineDetailReport.xls" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">

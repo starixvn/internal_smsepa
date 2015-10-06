@@ -369,5 +369,17 @@ function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitie
         });
     };
 
+    attendanceModel.getDepartmentName = function (departmentId, departments) {
+        var departmentName = '';
+
+        angular.forEach(departments, function (department) {
+            if (department.DepartmentId === departmentId) {
+                departmentName = department.Name;
+            }
+        });
+
+        return departmentName;
+    };
+
     return attendanceModel;
 }]);

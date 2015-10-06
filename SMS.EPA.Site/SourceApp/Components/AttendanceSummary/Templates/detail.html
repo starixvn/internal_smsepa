@@ -63,6 +63,9 @@
                         <span class="icon back"></span>
                         <span class="button-text" data-translate="BackToList"></span>
                     </a>
+                    <input class="btnExcel pull-right" export-attendance-detail-report
+                           ng-click="detailAttendanceCtrl.exportReport(detailAttendanceCtrl.filter)"
+                           type="button" title="Export to Excel">
                     <input type="text" ng-model="detailAttendanceCtrl.searchKey" ng-change="detailAttendanceCtrl.search()" class="search-inline-textbox search pull-right">
                 </th>
             </tr>

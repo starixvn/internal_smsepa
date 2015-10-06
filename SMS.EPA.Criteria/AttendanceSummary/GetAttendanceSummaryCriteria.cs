@@ -22,7 +22,13 @@ namespace SMS.EPA.Criteria.AttendanceSummary
 
         public int? DepartmentId { get; set; }
 
+        [SpParam(Ignored = true)]
+        public string DepartmentName { get; set; }
+
         public int? EmployeeId { get; set; }
+
+        [SpParam(Ignored = true)]
+        public string EmployeeName { get; set; }
 
         public int? ReasonId { get; set; }
 
