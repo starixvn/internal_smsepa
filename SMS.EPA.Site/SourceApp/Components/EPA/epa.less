@@ -58,6 +58,7 @@
 
         .boxcontent {
             padding: 3px 30px 8px;
+            overflow: hidden;
 
             .img-user {
                 border: 1px solid #d9d9d9;
@@ -560,6 +561,96 @@
         ul {
             padding-left: 12px;
             margin-bottom: 0; 
+        }
+    }
+
+    > ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        li {            
+            display: block;
+            float: left;
+            height: 84px;                     
+            padding: 16px 60px 0 16px;
+            position: relative;
+            margin: 0 47px 0 0;    
+
+            .progress {
+                box-shadow: none;
+                background-image: none;
+                background-color: transparent;
+            }
+
+            .progress-bar {
+                background-image: none;
+                box-shadow: none;
+                background-color: transparent;
+                text-align: left;
+                color: inherit;
+            }
+
+            &:after {
+                content: "";  
+                border-top: 44px solid transparent;
+                border-bottom: 40px solid transparent;                
+                position: absolute; 
+                right: -40px; 
+                top: 0;
+            }
+
+            &:before {
+                content: "";
+                position: absolute;
+                margin-top: -16px;   
+                border-width: 44px 0 40px 40px;
+                border-style: solid;                
+                left: -40px; 
+            }
+            &:first-child {                 
+                &:before {
+                    display: none;
+                }
+            }
+
+            &.end-process {
+                background: #ef713c;
+                color: #fff;
+
+                &:after {
+                    border-left: 40px solid #ef713c;
+                }
+
+                &:before {
+                    border-color: #ef713c #ef713c #ef713c transparent;
+                }
+            }
+
+            &.in-process {
+                background: #1797c7;
+                color: #fff;
+
+                &:after {
+                    border-left: 40px solid #1797c7;
+                }
+
+                &:before {
+                    border-color: #1797c7 #1797c7 #1797c7 transparent;
+                }
+            }
+
+            &.open {
+                background: #d6d6d6;
+                color: #61463b;
+
+                &:after {
+                    border-left: 40px solid #d6d6d6;
+                }
+
+                &:before {
+                    border-color: #d6d6d6 #d6d6d6 #d6d6d6 transparent;
+                }
+            }
         }
     }
 }
