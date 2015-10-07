@@ -180,8 +180,14 @@
                            ng-click="detailAttendanceCtrl.calculateApproverScore(employee, employee.ChangeShift)"
                            ng-disabled="detailAttendanceCtrl.permission != 2 || !employee.ChangeShift.HasApprovedBy" type="checkbox"></input>
                 </td>
-                <td class="red">-{{employee.SystemSubtractScore | number: 1}}</td>
-                <td class="red">-{{employee.ApproverSubtractScore | number: 1}}</td>
+                <td>
+                    <span class="red" ng-show="employee.SystemSubtractScore > 0">-{{employee.SystemSubtractScore | number: 1}}</span>
+                    <span class="red" ng-show="employee.SystemSubtractScore == 0">{{employee.SystemSubtractScore | number: 1}}</span>
+                </td>
+                <td class="red">
+                    <span class="red" ng-show="employee.ApproverSubtractScore > 0">-{{employee.ApproverSubtractScore | number: 1}}</span>
+                    <span class="red" ng-show="employee.ApproverSubtractScore == 0">{{employee.ApproverSubtractScore | number: 1}}</span>
+                </td>
                 <td class="text-center">
                     <span class="glyphicon icon-description"
                           ng-show="employee.ApproverComment.length > 0" tooltip="{{employee.ApproverComment}}"></span>

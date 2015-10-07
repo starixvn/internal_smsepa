@@ -289,7 +289,7 @@ function ($scope, $window, $routeParams, AttendanceModel, utilitiesFactory, Comm
     };
 
     vm.getEmployee = function () {
-        return CommonModel.getAllEmployee(vm.searchEmployee, null, null, null, true);
+        return CommonModel.getAllEmployee(vm.searchEmployee, null, null, null, true, true);
     };
 
     vm.unSelectEmployee = function () {
