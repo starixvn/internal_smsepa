@@ -111,7 +111,7 @@
         <tbody>
             <tr dir-paginate="employee in detailAttendanceCtrl.filteredItems | itemsPerPage: detailAttendanceCtrl.pageSize" current-page="detailAttendanceCtrl.currentPage">
                 <td class="text-center" ng-bind="employee.Employee.Code"></td>
-                <td class="text-center width-200">
+                <td class="width-200">
                     <span ng-bind="employee.Employee.NickName" tooltip="{{employee.Employee.FullName}}"></span>
                 </td>
                 <td class="text-center" ng-bind="employee.Employee.Group.GroupName"></td>
@@ -180,11 +180,11 @@
                            ng-click="detailAttendanceCtrl.calculateApproverScore(employee, employee.ChangeShift)"
                            ng-disabled="detailAttendanceCtrl.permission != 2 || !employee.ChangeShift.HasApprovedBy" type="checkbox"></input>
                 </td>
-                <td>
+                <td class="text-right">
                     <span class="red" ng-show="employee.SystemSubtractScore > 0">-{{employee.SystemSubtractScore | number: 1}}</span>
                     <span class="red" ng-show="employee.SystemSubtractScore == 0">{{employee.SystemSubtractScore | number: 1}}</span>
                 </td>
-                <td class="red">
+                <td class="text-right">
                     <span class="red" ng-show="employee.ApproverSubtractScore > 0">-{{employee.ApproverSubtractScore | number: 1}}</span>
                     <span class="red" ng-show="employee.ApproverSubtractScore == 0">{{employee.ApproverSubtractScore | number: 1}}</span>
                 </td>
