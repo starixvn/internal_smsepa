@@ -16,6 +16,7 @@
             <div class="col-evaluator"><strong data-translate="Evaluator"></strong></div>
             <div>
                 <span ng-bind="memberEPAInfoCtrl.epaInfo.Evaluators[0].StartDate | customDate"></span>
+                <span> - </span>
                 <span ng-bind="memberEPAInfoCtrl.epaInfo.Evaluators[0].EndDate | customDate"></span>
             </div>
             <progressbar ng-class="memberEPAInfoCtrl.getClassProgress(memberEPAInfoCtrl.epaInfo.Evaluators[0].StatusEndProcess)">
@@ -29,6 +30,7 @@
             </div>
             <div>
                 <span ng-bind="memberEPAInfoCtrl.epaInfo.Reviewers[0].StartDate | customDate"></span>
+                <span> - </span>
                 <span ng-bind="memberEPAInfoCtrl.epaInfo.Reviewers[0].EndDate | customDate"></span>
             </div>
             <progressbar ng-class="memberEPAInfoCtrl.getClassProgress(memberEPAInfoCtrl.epaInfo.Reviewers[0].StatusEndProcess)">
@@ -42,6 +44,7 @@
             </div>
             <div>
                 <span ng-bind="memberEPAInfoCtrl.epaInfo.Managements[0].StartDate | customDate"></span>
+                <span> - </span>
                 <span ng-bind="memberEPAInfoCtrl.epaInfo.Managements[0].EndDate | customDate"></span>
             </div>
             <progressbar ng-class="memberEPAInfoCtrl.getClassProgress(memberEPAInfoCtrl.epaInfo.Managements[0].StatusEndProcess)">
