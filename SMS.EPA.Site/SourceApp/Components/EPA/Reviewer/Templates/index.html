@@ -29,7 +29,7 @@
         <table class="row table table-bordered table-striped">
             <thead>
                 <tr class="header-table" ng-show="reviewerCtrl.memberEPAs.length > 0">
-                    <th colspan="13">
+                    <th colspan="14">
                         <a class="pull-left button-icon" ng-click="reviewerCtrl.adjustScore()">
                             <span class="icon-edit glyphicon glyphicon-edit"></span>
                             <span class="button-text" data-translate="AdjustScore"></span>
@@ -53,6 +53,7 @@
                     <th data-translate="Section"></th>
                     <th data-translate="NickName"></th>
                     <th data-translate="JobTitle"></th>
+                    <th data-translate="LastFinalScore"></th>
                     <th data-translate="SelfScore"></th>
                     <th data-translate="EvaluatorScore"></th>
                     <th data-translate="AdjustScore"></th>
@@ -77,45 +78,46 @@
                     </td>
                     <td ng-bind="memberEPA.Employee.JobTitle.JobTitleName"></td>
                     <td class="text-center">
+                        <div ng-show="memberEPA.LastFinalScore">
+                            {{memberEPA.LastFinalScore | customScore}} / {{memberEPA.LastFinalScore | customScore}}
+                        </div>
+                        <div ng-show="!memberEPA.LastFinalScore" ng-bind="'-'"></div>
+                    </td>
+                    <td class="text-center">
                         <div ng-show="memberEPA.ProcessBySelf.IsEndProcess">
-                            <span ng-show="memberEPA.ProcessBySelf.TotalScore">
-                                {{memberEPA.ProcessBySelf.TotalScore | customScore}} / {{memberEPA.ProcessBySelf.MaxTotalScore | customScore}}
-                            </span>
-                            <span ng-show="!memberEPA.ProcessBySelf.TotalScore" ng-bind="0"></span>
+                            {{memberEPA.ProcessBySelf.TotalScore | customScore}} / {{memberEPA.ProcessBySelf.MaxTotalScore | customScore}}
                         </div>
                         <div ng-show="!memberEPA.ProcessBySelf.IsEndProcess" ng-bind="'N/A'"></div>
                     </td>
                     <td class="text-center">
                         <div ng-show="memberEPA.ProcessByEvaluators[0].IsEndProcess">
-                            <span ng-show="memberEPA.AverageScoreByEvaluators">
-                                {{memberEPA.AverageScoreByEvaluators | customScore}} / {{memberEPA.ProcessByEvaluators[0].MaxTotalScore | customScore}}
-                            </span>
-                            <span ng-show="!memberEPA.AverageScoreByEvaluators" ng-bind="0"></span>
+                            {{memberEPA.AverageScoreByEvaluators | customScore}} / {{memberEPA.ProcessByEvaluators[0].MaxTotalScore | customScore}}
                         </div>
                         <div ng-show="!memberEPA.ProcessByEvaluators[0].IsEndProcess" ng-bind="'N/A'"></div>
                     </td>
                     <td class="text-center">
-                        <input type="text" class="form-control text-center epa-input-score" ng-readonly="memberEPA.CurrentProcess.IsEndProcess"
+                        <input type="text" class="form-control text-center epa-input-score"
+                               ng-readonly="memberEPA.CurrentProcess.IsEndProcess"
                                ng-model="memberEPA.CurrentProcess.AdjustScore" numeric decimals="2"
-                               ng-change="reviewerCtrl.inputScore(memberEPA, memberEPA.CurrentProcess)" />
+                               ng-change="reviewerCtrl.inputScore(memberEPA)" />
                     </td>
                     <td class="text-center">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-attr-title='{{"Edit" | translate}}'
                            ng-click="reviewerCtrl.updateComment(memberEPA, memberEPA.CurrentProcess.Comment, true)"
-                           ng-show="!memberEPA.CurrentProcess.IsEndProcess && memberEPA.Status.StatusId == 0"></a>
+                           ng-show="!memberEPA.CurrentProcess.IsEndProcess && memberEPA.ProcessByEvaluators[0].IsEndProcess"></a>
                         <a class="glyphicon icon-view" href="" ng-attr-title='{{"View" | translate}}'
                            ng-click="reviewerCtrl.updateComment(memberEPA, memberEPA.CurrentProcess.Comment, false)"
-                           ng-show="memberEPA.CurrentProcess.IsEndProcess && memberEPA.Status.StatusId != 0"></a>
+                           ng-show="memberEPA.CurrentProcess.IsEndProcess || !memberEPA.ProcessByEvaluators[0].IsEndProcess"></a>
                     </td>
                     <td class="text-center">
-                        <span ng-show="memberEPA.HasDisciplineScore">
+                        <div ng-show="memberEPA.HasDisciplineScore">
                             {{memberEPA.DisciplineScore | customScore}} / {{memberEPA.MaxDisciplineScore | customScore}}
-                        </span>
+                        </div>
                     </td>
                     <td class="text-center">
-                        <span ng-show="memberEPA.FinalScore">
+                        <div ng-show="memberEPA.FinalScore >= 0">
                             {{memberEPA.FinalScore | customScore}} / {{memberEPA.MaxFinalScore | customScore}}
-                        </span>
+                        </div>
                     </td>
                     <td class="text-center col-action">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="reviewerCtrl.viewEPADetail(memberEPA)"
@@ -129,7 +131,7 @@
             </tbody>
             <tbody ng-show="reviewerCtrl.memberEPAs.length == 0">
                 <tr>
-                    <td class="empty-result" colspan="13" data-translate="EmptyResult"></td>
+                    <td class="empty-result" colspan="14" data-translate="EmptyResult"></td>
                 </tr>
             </tbody>
         </table>

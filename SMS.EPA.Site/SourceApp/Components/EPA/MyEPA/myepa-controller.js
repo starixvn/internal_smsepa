@@ -200,7 +200,14 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
     var getEPAInfoByEmployee = function (epaId) {
         EmployeeEPAModel.getEPAInfoByEmployee(epaId).then(function () {
             var data = EmployeeEPAModel.epaInfo;
-            var totalScoreOfSelf = data.CurrentProcess.TotalScore ? parseFloat(data.CurrentProcess.TotalScore) : 0;
+            var totalScoreOfSelf = data.CurrentProcess.TotalScore ? parseFloat(data.CurrentProcess.TotalScore) : 0,
+                disciplineScore = data.MaxDisciplineScore - data.DisciplineScore;
+
+            if (disciplineScore < 0) {
+                disciplineScore = 0;
+            }
+
+            data.DisciplineScore = disciplineScore;
 
             if (data.HasDisciplineScore) {
                 vm.finalScore = totalScoreOfSelf ? (totalScoreOfSelf + data.DisciplineScore) : data.DisciplineScore;

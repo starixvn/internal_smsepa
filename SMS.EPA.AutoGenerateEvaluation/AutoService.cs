@@ -454,17 +454,17 @@ namespace SMS.EPA.AutoGenerateEvaluation
         {
             float finalScore = 0;
 
-            if (!string.IsNullOrEmpty(evaluationInfo.AverageScoreByManagements))
+            if (evaluationInfo.AverageScoreByManagements > 0)
             {
-                finalScore = float.Parse(evaluationInfo.AverageScoreByManagements);
+                finalScore = evaluationInfo.AverageScoreByManagements;
             }
-            else if (!string.IsNullOrEmpty(evaluationInfo.AverageScoreByReviewers))
+            else if (evaluationInfo.AverageScoreByReviewers > 0)
             {
-                finalScore = float.Parse(evaluationInfo.AverageScoreByReviewers);
+                finalScore = evaluationInfo.AverageScoreByReviewers;
             }
-            else if (!string.IsNullOrEmpty(evaluationInfo.AverageScoreByEvaluators))
+            else if (evaluationInfo.AverageScoreByEvaluators > 0)
             {
-                finalScore = float.Parse(evaluationInfo.AverageScoreByEvaluators);
+                finalScore = evaluationInfo.AverageScoreByEvaluators;
             }
 
             return finalScore;

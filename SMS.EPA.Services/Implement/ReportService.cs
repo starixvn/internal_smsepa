@@ -347,9 +347,9 @@ namespace SMS.EPA.Services.Implement
                 JobTitle = memberEPA.Employee.JobTitle.JobTitleName,
                 TargetType = memberEPA.Period.TargetTypeName,
                 SelfScore = GetScoreByPhaseSelected(phaseSelecteds, memberEPA.ProcessBySelf.TotalScore, (int)ProcessType.Self),
-                EvaluatorScore = GetScoreByPhaseSelected(phaseSelecteds, memberEPA.AverageScoreByEvaluators, (int)ProcessType.Evaluator),
-                ReviewerScore = GetScoreByPhaseSelected(phaseSelecteds, memberEPA.AverageScoreByReviewers, (int)ProcessType.Reviewer),
-                ManagementScore = GetScoreByPhaseSelected(phaseSelecteds, memberEPA.AverageScoreByManagements, (int)ProcessType.Management),
+                EvaluatorScore = GetScoreByPhaseSelected(phaseSelecteds, memberEPA.AverageScoreByEvaluators.ToString(), (int)ProcessType.Evaluator),
+                ReviewerScore = GetScoreByPhaseSelected(phaseSelecteds, memberEPA.AverageScoreByReviewers.ToString(), (int)ProcessType.Reviewer),
+                ManagementScore = GetScoreByPhaseSelected(phaseSelecteds, memberEPA.AverageScoreByManagements.ToString(), (int)ProcessType.Management),
                 DisciplineScore = memberEPA.HasDisciplineScore ? memberEPA.DisciplineScore.ToString() : string.Empty,
                 FinalScore = memberEPA.FinalScore,
                 Grade = memberEPA.Grade

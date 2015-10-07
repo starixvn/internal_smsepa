@@ -273,20 +273,20 @@ namespace SMS.EPA.Services.Implement
         {
             float adjustScore = 0;
 
-            if (!string.IsNullOrEmpty(evaluationInfo.AverageScoreByManagements))
+            if (evaluationInfo.AverageScoreByManagements > 0)
             {
-                if (!string.IsNullOrEmpty(evaluationInfo.AverageScoreByReviewers))
+                if (evaluationInfo.AverageScoreByReviewers > 0)
                 {
-                    adjustScore = averagePerformanceScore - float.Parse(evaluationInfo.AverageScoreByReviewers);
+                    adjustScore = averagePerformanceScore - evaluationInfo.AverageScoreByReviewers;
                 }
                 else
                 {
-                    adjustScore = averagePerformanceScore - float.Parse(evaluationInfo.AverageScoreByEvaluators);
+                    adjustScore = averagePerformanceScore - evaluationInfo.AverageScoreByEvaluators;
                 }
             }
-            else if (!string.IsNullOrEmpty(evaluationInfo.AverageScoreByReviewers))
+            else if (evaluationInfo.AverageScoreByReviewers > 0)
             {
-                adjustScore = averagePerformanceScore - float.Parse(evaluationInfo.AverageScoreByEvaluators);
+                adjustScore = averagePerformanceScore - evaluationInfo.AverageScoreByEvaluators;
             }
 
             return adjustScore;

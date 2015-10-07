@@ -14,6 +14,7 @@ namespace SMS.EPA.Repositories.Implement
     using Fanex.Data;
     using Fanex.Data.Repository;
     using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Core.Services;
     using SMS.EPA.Model.Department;
     using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.EmployeeEPA.RatingByKPI;
@@ -65,6 +66,11 @@ namespace SMS.EPA.Repositories.Implement
                     GroupEmployeeByEPA(epas, employees);
                     GroupEPAProcessByEPA(epas, processes);
                     GroupEvaluatorByEPA(epas, evaluators);
+
+                    foreach (EPAModel epa in epas)
+                    {
+                        DecodeAllScore(epa);
+                    }
 
                     return epas;
                 }
@@ -125,6 +131,8 @@ namespace SMS.EPA.Repositories.Implement
                     {
                         GroupEvaluationOnEachKPI(kpiGroup.KPIs, evaluations);
                     }
+
+                    DecodeAllScore(epaInfo);
                 }
             }
 
@@ -376,6 +384,66 @@ namespace SMS.EPA.Repositories.Implement
                     }
                 }
             }
+        }
+
+        private void DecodeAllScore(EPAModel epaInfo)
+        {
+            epaInfo.FinalScore = Decode(epaInfo.FinalScoreEncode);
+            epaInfo.Grade = Decode(epaInfo.GradeEncode);
+            DecodeTotalScore(epaInfo.ProcessBySelf);
+            DecodeTotalScore(epaInfo.ProcessByEvaluators);
+            DecodeTotalScore(epaInfo.ProcessByReviewers);
+            DecodeTotalScore(epaInfo.ProcessByManagements);
+
+            foreach (EPAKPIGroupModel kpiGroup in epaInfo.KPIGroups)
+            {
+                foreach (EPAKPIModel kpi in kpiGroup.KPIs)
+                {
+                    DecodeScore(kpi.EvaluationBySelf);
+                    DecodeScore(kpi.EvaluationByEvaluators);
+                }
+            }
+        }
+
+        private void DecodeTotalScore(IList<EPAProcessModel> processes)
+        {
+            foreach (EPAProcessModel process in processes)
+            {
+                process.TotalScore = Decode(process.TotalScoreEncode);
+                process.AdjustScore = Decode(process.AdjustScoreEncode);
+            }
+        }
+
+        private void DecodeTotalScore(EPAProcessModel process)
+        {
+            process.TotalScore = Decode(process.TotalScoreEncode);
+            process.AdjustScore = Decode(process.AdjustScoreEncode);
+        }
+
+        private void DecodeScore(EvaluationModel evaluation)
+        {
+            evaluation.Score = Decode(evaluation.ScoreEncode);
+        }
+
+        private void DecodeScore(IList<EvaluationModel> evaluations)
+        {
+            foreach (EvaluationModel evaluation in evaluations)
+            {
+                var rate = 0;
+
+                if (!string.IsNullOrEmpty(evaluation.RateEncode))
+                {
+                    rate = int.Parse(EncodeService.Decode(evaluation.RateEncode));
+                }
+
+                evaluation.Score = Decode(evaluation.ScoreEncode);
+                evaluation.Rate = rate;
+            }
+        }
+
+        private string Decode(string cipherText)
+        {
+            return !string.IsNullOrEmpty(cipherText) ? EncodeService.Decode(cipherText) : string.Empty;
         }
     }
 }

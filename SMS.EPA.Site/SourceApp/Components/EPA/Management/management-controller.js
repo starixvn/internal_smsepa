@@ -8,6 +8,7 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
 
     vm.memberEPAs = EmployeeEPAModel.memberEPAs;
     vm.members = EmployeeEPAModel.members;
+    vm.standardGrades = CommonModel.standardGrades;
     vm.selectedAll = false;
 
     vm.filter = {
@@ -34,80 +35,90 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
             vm.memberEPAs = EmployeeEPAModel.memberEPAs;
 
             angular.forEach(vm.memberEPAs, function (memberEPA) {
-                var performanceScore = null;
+                var totalScore,
+                    disciplineScore = memberEPA.MaxDisciplineScore - memberEPA.DisciplineScore;
 
-                if (memberEPA.AverageScoreByReviewers && parseFloat(memberEPA.AverageScoreByReviewers) > 0 && !memberEPA.ProcessByManagements[0].TotalScore
-                    && memberEPA.ProcessByReviewers.length > 0 && memberEPA.ProcessByReviewers[0].IsEndProcess) {
-                    memberEPA.ProcessByManagements[0].TotalScore = memberEPA.AverageScoreByReviewers;
-                }
-                else if (memberEPA.AverageScoreByEvaluators && parseFloat(memberEPA.AverageScoreByEvaluators) > 0
-                    && !memberEPA.ProcessByManagements[0].TotalScore && memberEPA.ProcessByEvaluators[0].IsEndProcess) {
-                    memberEPA.ProcessByManagements[0].TotalScore = memberEPA.AverageScoreByEvaluators;
+                if (disciplineScore < 0) {
+                    disciplineScore = 0;
                 }
 
-                memberEPA.ProcessByManagements[0].TotalScore = memberEPA.ProcessByManagements[0].TotalScore ? parseFloat(memberEPA.ProcessByManagements[0].TotalScore) : 0;
-                performanceScore = memberEPA.ProcessByManagements[0].TotalScore;
+                if (memberEPA.AverageScoreByReviewers > 0 && !memberEPA.CurrentProcess.TotalScore && memberEPA.ProcessByReviewers[0].IsEndProcess) {
+                    memberEPA.CurrentProcess.TotalScore = memberEPA.AverageScoreByReviewers;
+                }
+                else if (memberEPA.AverageScoreByEvaluators > 0 && !memberEPA.CurrentProcess.TotalScore && memberEPA.ProcessByEvaluators[0].IsEndProcess) {
+                    memberEPA.CurrentProcess.TotalScore = memberEPA.AverageScoreByEvaluators;
+                }
+
+                totalScore = memberEPA.CurrentProcess.TotalScore ? parseFloat(memberEPA.CurrentProcess.TotalScore) : null;
+                memberEPA.DisciplineScore = disciplineScore;
+                memberEPA.CurrentProcess.TotalScore = totalScore;
 
                 if (memberEPA.HasDisciplineScore) {
-                    memberEPA.FinalScore = performanceScore + memberEPA.DisciplineScore;
+                    memberEPA.FinalScore = totalScore + memberEPA.DisciplineScore;
                 }
                 else {
-                    memberEPA.FinalScore = performanceScore;
+                    memberEPA.FinalScore = totalScore;
                 }
 
-                memberEPA.FinalScore = memberEPA.FinalScore !== 0 ? memberEPA.FinalScore : '';
+                if (memberEPA.FinalScore > memberEPA.MaxFinalScore) {
+                    memberEPA.FinalScore = memberEPA.MaxFinalScore;
+                }
+                else if (memberEPA.FinalScore < 0) {
+                    memberEPA.FinalScore = 0;
+                }
             });
         });
     };
 
     var calculateAdjustScore = function (memberEPAs, adjustScore) {
-        var score = adjustScore.adjust.Score ? parseFloat(adjustScore.adjust.Score) : 0,
-            totalScore, totalScoreOriginal, totalScoreAdjust;
+        var scoreAdjust = adjustScore.adjust.Score ? parseFloat(adjustScore.adjust.Score) : 0,
+            totalScoreAdjust;
 
         angular.forEach(memberEPAs, function (memberEPA) {
             if (memberEPA.Selected) {
-                totalScoreOriginal = memberEPA.ProcessByManagements[0].TotalScoreOriginal ? parseFloat(memberEPA.ProcessByManagements[0].TotalScoreOriginal) : 0;
-                totalScore = memberEPA.ProcessByManagements[0].TotalScore ? parseFloat(memberEPA.ProcessByManagements[0].TotalScore) : 0;
+                totalScoreAdjust = memberEPA.AverageScoreByEvaluators + scoreAdjust;
 
-                if (totalScore !== totalScoreOriginal) {
-                    memberEPA.ProcessByManagements[0].TotalScore = totalScoreOriginal;
-                }
+                memberEPA.CurrentProcess.AdjustScore = scoreAdjust;
+                memberEPA.CurrentProcess.TotalScore = totalScoreAdjust;
 
-                totalScoreAdjust = totalScoreOriginal + score;
-
-                if (totalScoreAdjust > memberEPA.ProcessByManagements[0].MaxTotalScore) {
-                    memberEPA.ProcessByManagements[0].TotalScore = memberEPA.ProcessByManagements[0].MaxTotalScore;
+                if (totalScoreAdjust > memberEPA.CurrentProcess.MaxTotalScore) {
+                    memberEPA.CurrentProcess.TotalScore = memberEPA.CurrentProcess.MaxTotalScore;
                 }
                 else if (totalScoreAdjust < 0) {
-                    memberEPA.ProcessByManagements[0].TotalScore = 0;
-                }
-                else {
-                    memberEPA.ProcessByManagements[0].TotalScore = totalScoreAdjust;
+                    memberEPA.CurrentProcess.TotalScore = 0;
                 }
 
-                memberEPA.ProcessByManagements[0].TotalScoreOriginal = memberEPA.ProcessByManagements[0].TotalScore;
+                memberEPA.CurrentProcess.TotalScoreOriginal = memberEPA.CurrentProcess.TotalScore;
+                memberEPA.CurrentProcess.AdjustScoreOriginal = scoreAdjust;
 
                 if (memberEPA.HasDisciplineScore) {
-                    memberEPA.FinalScore = memberEPA.ProcessByManagements[0].TotalScore + memberEPA.DisciplineScore;
+                    memberEPA.FinalScore = memberEPA.CurrentProcess.TotalScore + memberEPA.DisciplineScore;
                 }
                 else {
-                    memberEPA.FinalScore = memberEPA.ProcessByManagements[0].TotalScore;
+                    memberEPA.FinalScore = memberEPA.CurrentProcess.TotalScore;
                 }
 
-                memberEPA.FinalScore = memberEPA.FinalScore !== 0 ? memberEPA.FinalScore : '';
-
-                if (memberEPA.ProcessByManagements[0].Comment.length > 0) {
-                    memberEPA.ProcessByManagements[0].Comment = memberEPA.ProcessByManagements[0].Comment + '\n' + adjustScore.adjust.Comment;
+                if (memberEPA.CurrentProcess.Comment.length > 0) {
+                    memberEPA.CurrentProcess.Comment = memberEPA.CurrentProcess.Comment + '\n' + adjustScore.adjust.Comment;
                 }
                 else {
-                    memberEPA.ProcessByManagements[0].Comment = adjustScore.adjust.Comment;
+                    memberEPA.CurrentProcess.Comment = adjustScore.adjust.Comment;
                 }
             }
         });
     };
 
     var calculateFinalScore = function (memberEPA, processManagement) {
-        var totalScore = processManagement.TotalScore ? parseFloat(processManagement.TotalScore) : 0;
+        var adjustScore, totalScore;
+
+        adjustScore = memberEPA.CurrentProcess.AdjustScore ? parseFloat(memberEPA.CurrentProcess.AdjustScore) : 0;
+        totalScore = memberEPA.AverageScoreByEvaluators + adjustScore;
+
+        if (totalScore > memberEPA.CurrentProcess.MaxTotalScore) {
+            totalScore = memberEPA.CurrentProcess.MaxTotalScore;
+        }
+
+        memberEPA.CurrentProcess.TotalScore = totalScore;
 
         if (memberEPA.HasDisciplineScore) {
             memberEPA.FinalScore = totalScore + memberEPA.DisciplineScore;
@@ -116,24 +127,12 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
             memberEPA.FinalScore = totalScore;
         }
 
-        memberEPA.FinalScore = memberEPA.FinalScore !== 0 ? memberEPA.FinalScore : '';
-    };
-
-    var validateAdjustScore = function (memberEPAs) {
-        var isValid = true;
-
-        angular.forEach(memberEPAs, function (memberEPA) {
-            var totalScore = memberEPA.ProcessByManagements[0].TotalScore ? parseFloat(memberEPA.ProcessByManagements[0].TotalScore) : 0;
-            if (totalScore <= 0) {
-                isValid = false;
-            }
-        });
-
-        if (!isValid) {
-            EmployeeEPAModel.openPopupNotificationComment(vm, vm.adjustScoreInvalidMessage);
+        if (memberEPA.FinalScore > memberEPA.MaxFinalScore) {
+            memberEPA.FinalScore = memberEPA.MaxFinalScore;
         }
-
-        return isValid;
+        else if (memberEPA.FinalScore < 0) {
+            memberEPA.FinalScore = 0;
+        }
     };
 
     vm.checkAll = function (selectedAll) {
@@ -150,12 +149,8 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
         return '';
     };
 
-    vm.inputScore = function (memberEPA, processManagement) {
-        if (!EmployeeEPAModel.validateScoreInput(processManagement.TotalScore, processManagement.MaxTotalScore, vm.scoreInputValidMessage)) {
-            processManagement.TotalScore = null;
-        }
-
-        calculateFinalScore(memberEPA, processManagement);
+    vm.inputScore = function (memberEPA) {
+        calculateFinalScore(memberEPA);
     };
 
     vm.adjustScore = function () {
@@ -179,7 +174,7 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
         if (selectedEmployees.length === 0) {
             notificationFactory.error("SelectEmployeeBeforeAdjustScoreWarning");
         }
-        else if (validateAdjustScore(selectedEmployees)) {
+        else {
             EmployeeEPAModel.adjustScoreByManagement(vm, selectedEmployees);
         }
     };
@@ -191,18 +186,14 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
 
     vm.updateComment = function (memberEPA, comment, isEdit) {
         EmployeeEPAModel.openPopupUpdateComment(vm, memberEPA, comment, isEdit, false).then(function (commentUpdate) {
-            var index = vm.memberEPAs.map(function (e) { return e.EPAId; }).indexOf(memberEPA.EPAId),
-                totalScoreOriginal, totalScore;
+            var index = vm.memberEPAs.map(function (e) { return e.EPAId; }).indexOf(memberEPA.EPAId);
 
             if (index !== -1) {
-                totalScoreOriginal = vm.memberEPAs[index].ProcessByManagements[0].TotalScoreOriginal ? parseFloat(vm.memberEPAs[index].ProcessByManagements[0].TotalScoreOriginal) : 0;
-                totalScore = vm.memberEPAs[index].ProcessByManagements[0].TotalScore ? parseFloat(vm.memberEPAs[index].ProcessByManagements[0].TotalScore) : 0;
+                vm.memberEPAs[index].CurrentProcess.TotalScore = vm.memberEPAs[index].CurrentProcess.TotalScoreOriginal;
+                vm.memberEPAs[index].CurrentProcess.AdjustScore = vm.memberEPAs[index].CurrentProcess.AdjustScoreOriginal;
+                vm.memberEPAs[index].CurrentProcess.Comment = commentUpdate;
 
-                if (totalScore !== totalScoreOriginal) {
-                    vm.memberEPAs[index].ProcessByManagements[0].TotalScore = totalScoreOriginal;
-                    vm.memberEPAs[index].FinalScore = totalScoreOriginal;
-                }
-                vm.memberEPAs[index].ProcessByManagements[0].Comment = commentUpdate;
+                calculateFinalScore(vm.memberEPAs[index]);
             }
         })['finally'](function () {
             vm.modalInstance = null;
@@ -224,7 +215,11 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
 
         vm.getMember(vm.filter.groupId);
 
-        vm.query(vm.filter);
+        CommonModel.getStandardGrade().then(function () {
+            vm.standardGrades = CommonModel.standardGrades;
+
+            vm.query(vm.filter);
+        });
     };
 
     vm.initialize();
@@ -245,22 +240,28 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
     vm.standardGrades = CommonModel.standardGrades;
 
     var checkStatus = function (epaInfo) {
-        if (epaInfo.ProcessByManagements[0].IsEndProcess) {
+        if (epaInfo.CurrentProcess.IsEndProcess) {
             vm.isReadonly = true;
         }
     };
 
     var calculateScore = function (epaInfo) {
-        var totalScore = epaInfo.ProcessByManagements[0].TotalScore ? parseFloat(epaInfo.ProcessByManagements[0].TotalScore) : 0;
+        var totalScore = epaInfo.CurrentProcess.TotalScore ? parseFloat(epaInfo.CurrentProcess.TotalScore) : 0;
 
         if (epaInfo.HasDisciplineScore) {
-            vm.finalScore = totalScore !== 0 ? (totalScore + epaInfo.DisciplineScore) : epaInfo.DisciplineScore;
+            vm.finalScore = totalScore + epaInfo.DisciplineScore;
         }
         else {
             vm.finalScore = totalScore;
         }
 
-        vm.finalScore = vm.finalScore !== 0 ? vm.finalScore : '';
+        if (epaInfo.ProcessByReviewers.length > 0) {
+            epaInfo.CurrentProcess.AdjustScore = totalScore - epaInfo.AverageScoreByReviewers;
+        }
+        else {
+            epaInfo.CurrentProcess.AdjustScore = totalScore - epaInfo.AverageScoreByEvaluators;
+        }
+        epaInfo.CurrentProcess.AdjustScoreOriginal = epaInfo.CurrentProcess.AdjustScore;
         epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, epaInfo.MaxFinalScore, vm.standardGrades);
     };
 
@@ -304,8 +305,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
     };
 
     vm.save = function (epaInfo) {
-        var totalcore = epaInfo.ProcessByManagements[0].TotalScore,
-            comment = epaInfo.ProcessByManagements[0].Comment;
+        var totalcore = epaInfo.CurrentProcess.TotalScore,
+            comment = epaInfo.CurrentProcess.Comment;
         if (EmployeeEPAModel.validateEvaluationOfReviewerOrManagement(totalcore)) {
             var model = new Array(epaInfo);
 
@@ -317,42 +318,57 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
         $window.history.back();
     };
 
-    vm.initialize = function () {
-        $translate('ScoreInputValid').then(function (message) {
-            vm.scoreInputValidMessage = message;
-        });
-
-        CommonModel.getStandardGrade().then(function () {
-            vm.standardGrades = CommonModel.standardGrades;
-        });
-
+    var getEPAInfoByManagement = function () {
         EmployeeEPAModel.getEPAInfoByManagement(vm.epaId).then(function () {
-            var data = EmployeeEPAModel.epaInfo;
-            var totalScore = null;
+            var totalScore, disciplineScore;
 
-            if (data.AverageScoreByReviewers && parseFloat(data.AverageScoreByReviewers) > 0 && !data.ProcessByManagements[0].TotalScore
-                    && data.ProcessByReviewers.length > 0 && data.ProcessByReviewers[0].IsEndProcess) {
-                data.ProcessByManagements[0].TotalScore = data.AverageScoreByReviewers;
-            }
-            else if (data.AverageScoreByEvaluators && parseFloat(data.AverageScoreByEvaluators) > 0
-                && !data.ProcessByManagements[0].TotalScore && data.ProcessByEvaluators[0].IsEndProcess) {
-                data.ProcessByManagements[0].TotalScore = data.AverageScoreByEvaluators;
+            vm.epaInfo = EmployeeEPAModel.epaInfo;
+
+            disciplineScore = vm.epaInfo.MaxDisciplineScore - vm.epaInfo.DisciplineScore;
+
+            if (disciplineScore < 0) {
+                disciplineScore = 0;
             }
 
-            data.ProcessByManagements[0].TotalScore = data.ProcessByManagements[0].TotalScore ? parseFloat(data.ProcessByManagements[0].TotalScore) : 0;
-            totalScore = data.ProcessByManagements[0].TotalScore;
+            vm.epaInfo.DisciplineScore = disciplineScore;
 
-            if (data.HasDisciplineScore) {
-                vm.finalScore = totalScore + data.DisciplineScore;
+            if (vm.epaInfo.AverageScoreByReviewers > 0 && !vm.epaInfo.CurrentProcess.TotalScore && vm.epaInfo.ProcessByReviewers[0].IsEndProcess) {
+                vm.epaInfo.CurrentProcess.TotalScore = vm.epaInfo.AverageScoreByReviewers;
+            }
+            else if (vm.epaInfo.AverageScoreByEvaluators > 0 && !vm.epaInfo.CurrentProcess.TotalScore && vm.epaInfo.ProcessByEvaluators[0].IsEndProcess) {
+                vm.epaInfo.CurrentProcess.TotalScore = vm.epaInfo.AverageScoreByEvaluators;
+            }
+
+            vm.epaInfo.CurrentProcess.TotalScore = vm.epaInfo.CurrentProcess.TotalScore ? parseFloat(vm.epaInfo.CurrentProcess.TotalScore) : 0;
+            totalScore = vm.epaInfo.CurrentProcess.TotalScore;
+
+            if (vm.epaInfo.HasDisciplineScore) {
+                vm.finalScore = totalScore + vm.epaInfo.DisciplineScore;
+
+                totalScore = vm.epaInfo.ProcessBySelf.TotalScore ? parseFloat(vm.epaInfo.ProcessBySelf.TotalScore) : 0
+                vm.epaInfo.ProcessBySelf.TotalScore = totalScore + vm.epaInfo.DisciplineScore;
+
+                angular.forEach(vm.epaInfo.ProcessByEvaluators, function (evaluator) {
+                    totalScore = evaluator.TotalScore ? parseFloat(evaluator.TotalScore) : 0
+                    evaluator.TotalScore = totalScore + vm.epaInfo.DisciplineScore;
+                });
+
+                vm.epaInfo.AverageScoreByEvaluators = vm.epaInfo.AverageScoreByEvaluators + vm.epaInfo.DisciplineScore;
+
+                angular.forEach(vm.epaInfo.ProcessByReviewers, function (reviewer) {
+                    totalScore = reviewer.TotalScore ? parseFloat(reviewer.TotalScore) : 0
+                    reviewer.TotalScore = totalScore + vm.epaInfo.DisciplineScore;
+                });
+
+                vm.epaInfo.AverageScoreByReviewers = vm.epaInfo.AverageScoreByReviewers + vm.epaInfo.DisciplineScore;
             }
             else {
                 vm.finalScore = totalScore;
             }
 
             vm.finalScore = vm.finalScore !== 0 ? vm.finalScore : '';
-            data.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, data.MaxFinalScore, vm.standardGrades);
-            vm.evaluatedDate = data.ProcessByManagements[0].EvaluateDate ? data.ProcessByManagements[0].EvaluateDate : null;
-            vm.epaInfo = data;
+            vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.epaInfo.MaxFinalScore, vm.standardGrades);
+            vm.evaluatedDate = vm.epaInfo.CurrentProcess.EvaluateDate ? vm.epaInfo.CurrentProcess.EvaluateDate : null;
             checkStatus(vm.epaInfo);
 
             angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
@@ -368,6 +384,18 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
                     });
                 }
             });
+        });
+    };
+
+    vm.initialize = function () {
+        $translate('ScoreInputValid').then(function (message) {
+            vm.scoreInputValidMessage = message;
+        });
+
+        CommonModel.getStandardGrade().then(function () {
+            vm.standardGrades = CommonModel.standardGrades;
+
+            getEPAInfoByManagement();
         });
     };
 

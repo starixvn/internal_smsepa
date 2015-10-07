@@ -10,14 +10,9 @@
 namespace SMS.EPA.Model.EmployeeEPA
 {
     using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Services;
 
     public class EvaluationModel
     {
-        private string _score;
-
-        private int _rate;
-
         public int EPAId { get; set; }
 
         public int ProcessId { get; set; }
@@ -34,40 +29,11 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public string ScoreEncode { get; set; }
 
-        public string Score
-        {
-            get
-            {
-                return !string.IsNullOrEmpty(ScoreEncode) ? EncodeService.Decode(ScoreEncode).Replace("_" + KPIId, string.Empty) : string.Empty;
-            }
-
-            set
-            {
-                _score = value;
-            }
-        }
+        public string Score { get; set; }
 
         public string RateEncode { get; set; }
 
-        public int Rate
-        {
-            get
-            {
-                var rate = 0;
-
-                if (!string.IsNullOrEmpty(RateEncode))
-                {
-                    rate = int.Parse(EncodeService.Decode(RateEncode));
-                }
-
-                return rate;
-            }
-
-            set
-            {
-                _rate = value;
-            }
-        }
+        public int Rate { get; set; }
 
         public int Percent
         {
@@ -78,15 +44,5 @@ namespace SMS.EPA.Model.EmployeeEPA
         }
 
         public string Comment { get; set; }
-
-        public string GetScore()
-        {
-            return _score;
-        }
-
-        public int GetRate()
-        {
-            return _rate;
-        }
     }
 }

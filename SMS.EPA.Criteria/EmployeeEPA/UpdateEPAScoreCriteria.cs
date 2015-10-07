@@ -36,7 +36,7 @@ namespace SMS.EPA.Criteria.EmployeeEPA
         {
             get
             {
-                var totalScore = EPAProcess.GetTotalScore();
+                var totalScore = EPAProcess.TotalScore;
 
                 return !string.IsNullOrEmpty(totalScore) ? EncodeService.Encode(totalScore) : string.Empty;
             }
@@ -52,8 +52,8 @@ namespace SMS.EPA.Criteria.EmployeeEPA
                 {
                     foreach (var kpi in kpiGroup.KPIs)
                     {
-                        var score = kpi.CurrentEvaluation.GetScore();
-                        var rate = kpi.CurrentEvaluation.GetRate();
+                        var score = kpi.CurrentEvaluation.Score;
+                        var rate = kpi.CurrentEvaluation.Rate;
                         var cipherScore = !string.IsNullOrEmpty(score) ? EncodeService.Encode(score + "_" + kpi.KPIId) : string.Empty;
                         var cipherRate = rate > 0 ? EncodeService.Encode(rate.ToString()) : string.Empty;
 

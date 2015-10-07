@@ -26,7 +26,14 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
             vm.memberEPAs = EmployeeEPAModel.memberEPAs;
 
             angular.forEach(vm.memberEPAs, function (memberEPA) {
-                var totalScore = memberEPA.CurrentProcess.TotalScore ? parseFloat(memberEPA.CurrentProcess.TotalScore) : null;
+                var totalScore = memberEPA.CurrentProcess.TotalScore ? parseFloat(memberEPA.CurrentProcess.TotalScore) : null,
+                    disciplineScore = memberEPA.MaxDisciplineScore - memberEPA.DisciplineScore;
+
+                if (disciplineScore < 0) {
+                    disciplineScore = 0;
+                }
+
+                memberEPA.DisciplineScore = disciplineScore;
 
                 if (memberEPA.HasDisciplineScore) {
                     memberEPA.FinalScore = totalScore + memberEPA.DisciplineScore;
@@ -260,7 +267,14 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
         EmployeeEPAModel.getEPAInfoByEvaluator(vm.epaId, vm.employeeId, vm.evaluatorId).then(function () {
             var data = EmployeeEPAModel.epaInfo;
             var totalScoreOfEvaluator = data.CurrentProcess.TotalScore ? parseFloat(data.CurrentProcess.TotalScore) : 0,
-                totalScoreOfSelf = data.ProcessBySelf.TotalScore ? parseFloat(data.ProcessBySelf.TotalScore) : 0;
+                totalScoreOfSelf = data.ProcessBySelf.TotalScore ? parseFloat(data.ProcessBySelf.TotalScore) : 0,
+                disciplineScore = data.MaxDisciplineScore - data.DisciplineScore;
+
+            if (disciplineScore < 0) {
+                disciplineScore = 0;
+            }
+
+            data.DisciplineScore = disciplineScore;
 
             if (data.HasDisciplineScore) {
                 vm.finalScore = totalScoreOfEvaluator !== 0 ? (totalScoreOfEvaluator + data.DisciplineScore) : data.DisciplineScore;

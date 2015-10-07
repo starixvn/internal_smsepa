@@ -10,16 +10,15 @@
 namespace SMS.EPA.Criteria.EmployeeEPA
 {
     using System.Collections.Generic;
-    using System.Linq;
     using System.Text;
     using System.Web;
     using Fanex.Data.Repository;
-    using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Core.Services;
     using SMS.EPA.Model.EmployeeEPA;
 
     public class AdjustScoreByReviewerOrManagementCriteria : CriteriaBase
     {
-        private const string _EPA = "<EPA EPAId='{0}' ProcessId='{1}' EmployeeId='{2}' EvaluatorId='{3}' Score='{4}' Comment='{5}'></EPA>";
+        private const string _EPA = "<EPA EPAId='{0}' ProcessId='{1}' EmployeeId='{2}' EvaluatorId='{3}' AdjustScore='{4}' TotalScore='{5}' Comment='{6}'></EPA>";
         private const string _BeginRootTag = "<ROOT>";
         private const string _EndRootTag = "</ROOT>";
 
@@ -28,20 +27,13 @@ namespace SMS.EPA.Criteria.EmployeeEPA
             get
             {
                 var result = new StringBuilder(_BeginRootTag);
-                var cipherScore = string.Empty;
 
                 foreach (var memberEPA in MemberEPAs)
                 {
-                    if (ProcessId == (int)ProcessType.Reviewer)
-                    {
-                        cipherScore = !string.IsNullOrEmpty(memberEPA.ProcessByReviewers.FirstOrDefault().TotalScore) ? memberEPA.ProcessByReviewers.FirstOrDefault().TotalScoreEncode : string.Empty;
-                        result.AppendFormat(_EPA, memberEPA.EPAId, ProcessId, memberEPA.Employee.EmployeeId, ModifiedBy, cipherScore, HttpUtility.HtmlEncode(memberEPA.ProcessByReviewers.FirstOrDefault().Comment));
-                    }
-                    else if (ProcessId == (int)ProcessType.Management)
-                    {
-                        cipherScore = !string.IsNullOrEmpty(memberEPA.ProcessByManagements.FirstOrDefault().TotalScore) ? memberEPA.ProcessByManagements.FirstOrDefault().TotalScoreEncode : string.Empty;
-                        result.AppendFormat(_EPA, memberEPA.EPAId, ProcessId, memberEPA.Employee.EmployeeId, ModifiedBy, cipherScore, HttpUtility.HtmlEncode(memberEPA.ProcessByManagements.FirstOrDefault().Comment));
-                    }
+                    var cipherTotalScore = Encode(memberEPA.CurrentProcess.TotalScore);
+                    var cipherAdjustScore = Encode(memberEPA.CurrentProcess.AdjustScore);
+
+                    result.AppendFormat(_EPA, memberEPA.EPAId, ProcessId, memberEPA.Employee.EmployeeId, ModifiedBy, cipherAdjustScore, cipherTotalScore, HttpUtility.HtmlEncode(memberEPA.CurrentProcess.Comment));
                 }
 
                 result.Append(_EndRootTag);
@@ -66,6 +58,11 @@ namespace SMS.EPA.Criteria.EmployeeEPA
         public override string GetSettingKey()
         {
             return "EPA_AdjustScoreByReviewerOrManagement";
+        }
+
+        private string Encode(string plainText)
+        {
+            return !string.IsNullOrEmpty(plainText) ? EncodeService.Encode(plainText) : string.Empty;
         }
     }
 }

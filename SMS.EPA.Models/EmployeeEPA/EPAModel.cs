@@ -29,8 +29,6 @@ namespace SMS.EPA.Model.EmployeeEPA
             KPIGroups = new List<EPAKPIGroupModel>();
         }
 
-        private string _finalScore { get; set; }
-
         public int EPAId { get; set; }
 
         public EPAEmployeeModel Employee { get; set; }
@@ -51,18 +49,7 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public string FinalScoreEncode { get; set; }
 
-        public string FinalScore
-        {
-            get
-            {
-                return !string.IsNullOrEmpty(FinalScoreEncode) ? EncodeService.Decode(FinalScoreEncode) : string.Empty;
-            }
-
-            set
-            {
-                _finalScore = value;
-            }
-        }
+        public string FinalScore { get; set; }
 
         public int MaxFinalScore
         {
@@ -71,6 +58,8 @@ namespace SMS.EPA.Model.EmployeeEPA
                 return Constants.MaxFinalScore;
             }
         }
+
+        public string GradeEncode { get; set; }
 
         public string Grade { get; set; }
 
@@ -102,7 +91,7 @@ namespace SMS.EPA.Model.EmployeeEPA
             }
         }
 
-        public string AverageScoreByEvaluators
+        public float AverageScoreByEvaluators
         {
             get
             {
@@ -110,7 +99,7 @@ namespace SMS.EPA.Model.EmployeeEPA
             }
         }
 
-        public string AverageScoreByReviewers
+        public float AverageScoreByReviewers
         {
             get
             {
@@ -118,7 +107,7 @@ namespace SMS.EPA.Model.EmployeeEPA
             }
         }
 
-        public string AverageScoreByManagements
+        public float AverageScoreByManagements
         {
             get
             {
@@ -146,7 +135,7 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public IList<EPAProcessModel> Managements { get; set; }
 
-        private string CalculateAverageScore(IList<EPAProcessModel> processes)
+        private float CalculateAverageScore(IList<EPAProcessModel> processes)
         {
             float score = 0;
             int count = 0;
@@ -162,10 +151,10 @@ namespace SMS.EPA.Model.EmployeeEPA
 
             if (count > 0)
             {
-                return (score / count).ToString();
+                return score / count;
             }
 
-            return string.Empty;
+            return score;
         }
     }
 }
