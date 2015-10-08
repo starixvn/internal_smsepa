@@ -326,10 +326,7 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         var grade;
 
         angular.forEach(standardGrades, function (standardGrade) {
-            if (score === maxFinalScore && maxFinalScore === standardGrade.RightScore) {
-                grade = standardGrade.Code;
-            }
-            else if (score >= standardGrade.LeftScore && score < standardGrade.RightScore) {
+            if (score >= standardGrade.LeftScore && score < standardGrade.RightScore) {
                 grade = standardGrade.Code;
             }
         });

@@ -141,12 +141,6 @@
                     label {
                         color: #39f;
                     }
-
-                    textarea {
-                        height: 95px;
-                        resize: none;
-                        color: #39F;
-                    }
                 }
 
                 .total {
@@ -247,10 +241,6 @@
             }
         }
 
-        textarea {
-            height: 50px !important;
-        }
-
         .required-comment {
             padding-left: 0;
         }
@@ -337,7 +327,30 @@
      height: 600px;
 }
 
+.rating-section, .summary-section {
+    textarea {
+        height: 2.5em;
+        resize: none;
+        transition: all 0.5s ease;
+        color: #39F;
+    }
+}
+
+.rating-section {
+    textarea {
+        &:focus {
+            height: 4em;
+        }
+    }
+}
+
 .summary-section{
+    textarea {
+        &:focus {
+            height: 8em;
+        }
+    }
+
     .table-summary {
         margin: 0;
 

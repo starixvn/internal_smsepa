@@ -137,20 +137,41 @@ function ($modalInstance, EmployeeEPAModel, selectedEmployees, isReviewer, notif
             totalScoreAdjust;
 
         angular.forEach(memberEPAs, function (memberEPA) {
-            totalScoreAdjust = memberEPA.AverageScoreByEvaluators + scoreAdjust;
-
-            memberEPA.CurrentProcess.AdjustScore = scoreAdjust;
-            memberEPA.CurrentProcess.TotalScore = totalScoreAdjust;
-
-            if (totalScoreAdjust > memberEPA.CurrentProcess.MaxTotalScore) {
-                memberEPA.CurrentProcess.TotalScore = memberEPA.CurrentProcess.MaxTotalScore;
+            if (vm.isReviewer) {
+                totalScoreAdjust = memberEPA.AverageScoreByEvaluators + scoreAdjust;
             }
-            else if (totalScoreAdjust < 0) {
-                memberEPA.CurrentProcess.TotalScore = 0;
+            else {
+                if (memberEPA.ProcessByReviewers.length > 0) {
+                    totalScoreAdjust = memberEPA.AverageScoreByReviewers + scoreAdjust;
+                }
+                else {
+                    totalScoreAdjust = memberEPA.AverageScoreByEvaluators + scoreAdjust;
+                }
             }
 
             if (memberEPA.HasDisciplineScore) {
-                memberEPA.FinalScore = memberEPA.CurrentProcess.TotalScore + memberEPA.DisciplineScore;
+                totalScoreAdjust -= memberEPA.DisciplineScore;
+            }
+
+            if (totalScoreAdjust > memberEPA.CurrentProcess.MaxTotalScore) {
+                totalScoreAdjust = memberEPA.CurrentProcess.MaxTotalScore;
+            }
+            else if (totalScoreAdjust < 0) {
+                totalScoreAdjust = 0;
+            }
+
+            memberEPA.CurrentProcess.AdjustScore = scoreAdjust;
+            memberEPA.CurrentProcess.TotalScore = totalScoreAdjust;
+            memberEPA.FinalScore = totalScoreAdjust;
+            if (memberEPA.HasDisciplineScore) {
+                memberEPA.FinalScore += memberEPA.DisciplineScore;
+            }
+
+            if (memberEPA.FinalScore > memberEPA.MaxFinalScore) {
+                memberEPA.FinalScore = memberEPA.MaxFinalScore;
+            }
+            else if (memberEPA.FinalScore < 0) {
+                memberEPA.FinalScore = 0;
             }
 
             if (memberEPA.CurrentProcess.Comment && memberEPA.CurrentProcess.Comment.length > 0) {
@@ -207,24 +228,40 @@ function ($modalInstance, EmployeeEPAModel, memberEPA, comment, isEdit, isReview
         var model = [], adjustScore, totalScore;
 
         adjustScore = vm.memberEPA.CurrentProcess.AdjustScoreOriginal ? parseFloat(memberEPA.CurrentProcess.AdjustScoreOriginal) : 0;
-        totalScore = vm.memberEPA.AverageScoreByEvaluators + adjustScore;
+
+        if (vm.isReviewer) {
+            totalScore = vm.memberEPA.AverageScoreByEvaluators + adjustScore;
+        }
+        else {
+            if (vm.memberEPA.ProcessByReviewers.length > 0) {
+                totalScore = vm.memberEPA.AverageScoreByReviewers + adjustScore;
+            }
+            else {
+                totalScore = vm.memberEPA.AverageScoreByEvaluators + adjustScore;
+            }
+        }
+
+        if (vm.memberEPA.HasDisciplineScore) {
+            totalScore -= vm.memberEPA.DisciplineScore;
+        }
 
         if (totalScore > vm.memberEPA.CurrentProcess.MaxTotalScore) {
             totalScore = vm.memberEPA.CurrentProcess.MaxTotalScore;
         }
+        else if (totalScore < 0) {
+            totalScore = 0;
+        }
 
         vm.memberEPA.CurrentProcess.TotalScore = totalScore;
         vm.memberEPA.CurrentProcess.AdjustScore = adjustScore;
+        vm.memberEPA.FinalScore = totalScore;
 
         if (vm.memberEPA.HasDisciplineScore) {
-            vm.memberEPA.FinalScore = totalScore + vm.memberEPA.DisciplineScore;
-        }
-        else {
-            vm.memberEPA.FinalScore = totalScore;
+            vm.memberEPA.FinalScore += vm.memberEPA.DisciplineScore;
         }
 
-        if (vm.memberEPA.FinalScore > memberEPA.MaxFinalScore) {
-            vm.memberEPA.FinalScore = memberEPA.MaxFinalScore;
+        if (vm.memberEPA.FinalScore > vm.memberEPA.MaxFinalScore) {
+            vm.memberEPA.FinalScore = vm.memberEPA.MaxFinalScore;
         }
         else if (vm.memberEPA.FinalScore < 0) {
             vm.memberEPA.FinalScore = 0;

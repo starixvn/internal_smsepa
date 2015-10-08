@@ -17,8 +17,8 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public string Code { get; set; }
 
-        public int LeftScore { get; set; }
+        public float LeftScore { get; set; }
 
-        public int RightScore { get; set; }
+        public float RightScore { get; set; }
     }
 }
