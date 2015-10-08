@@ -1,53 +1,53 @@
-﻿<div class="col-sm-2 text-center">
-    <div class="row">
-        <div class="img-user">
-            <img class="img-default" src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;f=y" alt="User" />
-        </div>
-    </div>
-    <div class="row text-center">
-        <label>{{"Code" | translate}}: {{memberEPAInfoCtrl.epaInfo.Employee.Code}}</label>
-    </div>
-    <div class="row text-center">
-        <label>{{memberEPAInfoCtrl.epaInfo.Employee.FullName}} ({{memberEPAInfoCtrl.epaInfo.Employee.NickName}})</label>
-    </div>
-</div>
-<div class="col-sm-10">
-    <div class="row row-item line">
-        <div class="col-sm-6">
-            <div class="col-sm-4" data-translate="Section"></div>
-            <div class="col-sm-7">
-                <strong ng-bind="memberEPAInfoCtrl.epaInfo.Employee.Group.GroupName"></strong>
+﻿<div class="row">
+    <div class="col-sm-2 text-center">
+        <div class="row pull-left">
+            <div class="img-user">
+                <img class="img-default" src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;f=y" alt="User" />
             </div>
-        </div>        
-    </div>
-    <div class="row row-item line">
-        <div class="col-sm-6">
-            <div class="col-sm-4" data-translate="JobTitle"></div>
-            <div class="col-sm-7">
-                <strong ng-bind="memberEPAInfoCtrl.epaInfo.Employee.JobTitle.JobTitleName"></strong>
+            <div class="text-left">
+                <label class="code-employee">{{"Code" | translate}}: {{memberEPAInfoCtrl.epaInfo.Employee.Code}}</label>
+            </div>
+            <div class="text-left">
+                <label class="name-employee">{{memberEPAInfoCtrl.epaInfo.Employee.FullName}} ({{memberEPAInfoCtrl.epaInfo.Employee.NickName}})</label>
             </div>
         </div>
     </div>
-    <div class="row row-item line" ng-show="!memberEPAInfoCtrl.isViewDetail">
-        <div class="col-sm-6">
-            <div class="col-sm-4" data-translate="Evaluated"></div>
-            <div class="col-sm-7">
-                <span class="glyphicon glyphicon-saved epa-saved"
-                      ng-show="memberEPAInfoCtrl.evaluatedDate || memberEPAInfoCtrl.dataSaved"></span>
-                <span class="glyphicon glyphicon-list-alt epa-unsaved"
-                      ng-show="memberEPAInfoCtrl.evaluatedDate == null && !memberEPAInfoCtrl.dataSaved"></span>
+    <div class="col-sm-10">
+        <div class="row row-item line">
+            <div class="col-sm-6">
+                <div class="col-sm-4" data-translate="Section"></div>
+                <div class="col-sm-7">
+                    <strong ng-bind="memberEPAInfoCtrl.epaInfo.Employee.Group.GroupName"></strong>
+                </div>
             </div>
         </div>
-    </div>    
-</div>
-<div class="col-sm-12">
-    <div class="row row-item">
-        <div class="col-sm-12">
-            <div class="col-sm-12" data-translate="EvaluationProcess"></div>
+        <div class="row row-item line">
+            <div class="col-sm-6">
+                <div class="col-sm-4" data-translate="JobTitle"></div>
+                <div class="col-sm-7">
+                    <strong ng-bind="memberEPAInfoCtrl.epaInfo.Employee.JobTitle.JobTitleName"></strong>
+                </div>
+            </div>
         </div>
-        <div class="col-sm-12">
+        <div class="row row-item line" ng-show="!memberEPAInfoCtrl.isViewDetail">
+            <div class="col-sm-6">
+                <div class="col-sm-4" data-translate="Evaluated"></div>
+                <div class="col-sm-7">
+                    <span class="glyphicon glyphicon-saved epa-saved"
+                          ng-show="memberEPAInfoCtrl.evaluatedDate || memberEPAInfoCtrl.dataSaved"></span>
+                    <span class="glyphicon glyphicon-list-alt epa-unsaved"
+                          ng-show="memberEPAInfoCtrl.evaluatedDate == null && !memberEPAInfoCtrl.dataSaved"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="row row-item">
             <div class="col-sm-12">
-                <div ng-include src="'/SourceApp/Components/EPA/Templates/evaluationProcess.html'"></div>
+                <div class="row">
+                    <div data-translate="EvaluationProcess" class="evaluation"></div>
+                    <div ng-include src="'/SourceApp/Components/EPA/Templates/evaluationProcess.html'"></div>
+                </div>
             </div>
         </div>
     </div>
