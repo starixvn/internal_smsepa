@@ -218,37 +218,6 @@ namespace SMS.EPA.Repositories.Implement
             }
         }
 
-        private void GroupEPAProcessByEPA(IEnumerable<EPAModel> epas, IEnumerable<EPAProcessModel> processes)
-        {
-            foreach (EPAModel epa in epas)
-            {
-                foreach (EPAProcessModel process in processes)
-                {
-                    if (process.EPAId.Equals(epa.EPAId))
-                    {
-                        switch (process.ProcessId)
-                        {
-                            case (int)ProcessType.Self:
-                                epa.ProcessBySelf = process;
-                                break;
-
-                            case (int)ProcessType.Evaluator:
-                                epa.ProcessByEvaluators.Add(process);
-                                break;
-
-                            case (int)ProcessType.Reviewer:
-                                epa.ProcessByReviewers.Add(process);
-                                break;
-
-                            case (int)ProcessType.Management:
-                                epa.ProcessByManagements.Add(process);
-                                break;
-                        }
-                    }
-                }
-            }
-        }
-
         private void GroupEPAProcessByEPA(EPAModel epa, IEnumerable<EPAProcessModel> processes)
         {
             foreach (EPAProcessModel process in processes)
@@ -271,6 +240,14 @@ namespace SMS.EPA.Repositories.Implement
                         epa.ProcessByManagements.Add(process);
                         break;
                 }
+            }
+        }
+
+        private void GroupEPAProcessByEPA(IEnumerable<EPAModel> epas, IEnumerable<EPAProcessModel> processes)
+        {
+            foreach (EPAModel epa in epas)
+            {
+                GroupEPAProcessByEPA(epa, processes);
             }
         }
 
@@ -405,39 +382,38 @@ namespace SMS.EPA.Repositories.Implement
             }
         }
 
-        private void DecodeTotalScore(IList<EPAProcessModel> processes)
-        {
-            foreach (EPAProcessModel process in processes)
-            {
-                process.TotalScore = Decode(process.TotalScoreEncode);
-                process.AdjustScore = Decode(process.AdjustScoreEncode);
-            }
-        }
-
         private void DecodeTotalScore(EPAProcessModel process)
         {
             process.TotalScore = Decode(process.TotalScoreEncode);
             process.AdjustScore = Decode(process.AdjustScoreEncode);
         }
 
+        private void DecodeTotalScore(IList<EPAProcessModel> processes)
+        {
+            foreach (EPAProcessModel process in processes)
+            {
+                DecodeTotalScore(process);
+            }
+        }
+
         private void DecodeScore(EvaluationModel evaluation)
         {
-            evaluation.Score = Decode(evaluation.ScoreEncode);
+            var rate = 0;
+
+            if (!string.IsNullOrEmpty(evaluation.RateEncode))
+            {
+                rate = int.Parse(EncodeService.Decode(evaluation.RateEncode));
+            }
+
+            evaluation.Score = Decode(evaluation.ScoreEncode).Replace("_" + evaluation.KPIId, string.Empty);
+            evaluation.Rate = rate;
         }
 
         private void DecodeScore(IList<EvaluationModel> evaluations)
         {
             foreach (EvaluationModel evaluation in evaluations)
             {
-                var rate = 0;
-
-                if (!string.IsNullOrEmpty(evaluation.RateEncode))
-                {
-                    rate = int.Parse(EncodeService.Decode(evaluation.RateEncode));
-                }
-
-                evaluation.Score = Decode(evaluation.ScoreEncode);
-                evaluation.Rate = rate;
+                DecodeScore(evaluation);
             }
         }
 
