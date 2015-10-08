@@ -138,7 +138,7 @@ namespace SMS.EPA.Services.Implement
 
             email.Subject = string.Format(Lang.RemindDateEmailToEvaluatorSubject, periodName, startDate, endDate);
             email.Body = _baseMailService.ReadTextFile(templateEmailPath);
-            email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, periodName, startDate, endDate);
+            email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, startDate, endDate);
             email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
 
             _baseMailService.SendEmail(email);
@@ -153,7 +153,7 @@ namespace SMS.EPA.Services.Implement
 
             email.Subject = string.Format(Lang.RemindDateEmailToReviewerSubject, periodName, startDate, endDate);
             email.Body = _baseMailService.ReadTextFile(templateEmailPath);
-            email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, periodName, startDate, endDate);
+            email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, startDate, endDate);
             email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
 
             _baseMailService.SendEmail(email);
@@ -168,7 +168,7 @@ namespace SMS.EPA.Services.Implement
 
             email.Subject = string.Format(Lang.RemindDateEmailToManagementSubject, periodName, startDate, endDate);
             email.Body = _baseMailService.ReadTextFile(templateEmailPath);
-            email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, periodName, startDate, endDate);
+            email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, startDate, endDate);
             email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
 
             _baseMailService.SendEmail(email);

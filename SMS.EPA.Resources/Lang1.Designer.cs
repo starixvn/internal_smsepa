@@ -790,7 +790,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to EPA_Evaluator_Reviewer_List_of_Section.
+        ///   Looks up a localized string similar to {0}_EPA_Evaluator_Reviewer_List_of_Section.
         /// </summary>
         public static string EmployeeFlowSettingReportName {
             get {
@@ -2347,7 +2347,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please select at least a department/section or employee to add in this evaluation period!.
+        ///   Looks up a localized string similar to Please select at least a department/section or employee to add to this evaluation period!.
         /// </summary>
         public static string SelectDepartmentSectionEmployeeBeforeAddToPeriodWarning {
             get {
@@ -2383,7 +2383,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please select at least  employee before edit setting!.
+        ///   Looks up a localized string similar to Please select at least  employee before editing setting!.
         /// </summary>
         public static string SelectEmployeeBeforeEditSettingWarning {
             get {
@@ -2392,7 +2392,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please select at least employee before generate EPA!.
+        ///   Looks up a localized string similar to Please select at least employee before generating EPA!.
         /// </summary>
         public static string SelectEmployeeBeforeGenerateEvaluation {
             get {

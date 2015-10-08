@@ -749,7 +749,7 @@ permission, PeriodModel, TargetTemplateModel, FlowMngModel, CommonModel) {
     var checkHasFieldEdit = function (fieldEdit) {
         var hasEdited = false;
 
-        if (fieldEdit.targetTemplateId) {
+        if (fieldEdit.targetTemplate) {
             hasEdited = true;
         }
         else if (fieldEdit.evaluator) {

@@ -82,16 +82,16 @@ namespace SMS.EPA.AutoGenerateEvaluation
         {
             try
             {
+                if (_updateCounterTimer.Interval != TimerInterval * 1000)
+                {
+                    _updateCounterTimer.Interval = TimerInterval * 1000;
+                }
+
                 if (!_isBusy)
                 {
                     _isBusy = true;
                     CheckAndExecute();
                     _isBusy = false;
-                }
-
-                if (_updateCounterTimer.Interval != TimerInterval * 1000)
-                {
-                    _updateCounterTimer.Interval = TimerInterval * 1000;
                 }
             }
             catch (Exception ex)
@@ -222,7 +222,7 @@ namespace SMS.EPA.AutoGenerateEvaluation
                         _LOG.Info("Send end email to human resource of probation or promotion period " + evaluationInfo.Period.PeriodId + " : started at " + DateTime.Now.ToString());
                         _autoMailService.SendEndEvaluationMailToHumanResourceByEmployee(evaluationInfo);
                     }
-                    else if (evaluationInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
+                    else if (evaluationInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual && !periods.Contains(evaluationInfo.Period.PeriodId))
                     {
                         periods.Add(evaluationInfo.Period.PeriodId);
                     }

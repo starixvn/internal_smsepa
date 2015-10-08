@@ -21,6 +21,8 @@ namespace SMS.EPA.Model.Authentication
         public UserSession()
         {
             Roles = new List<SystemRoleModel>();
+            Functions = new List<FunctionModel>();
+            Menus = new List<MenuGroupModel>();
         }
 
         public EmployeeModel EmployeeInfo { get; set; }

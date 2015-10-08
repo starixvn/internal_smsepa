@@ -47,21 +47,24 @@ namespace SMS.EPA.Web.Services
         /// <returns>True if has permission, false: otherwise.</returns>
         public bool HasPermissionOnFunction(string functionKey, Policy policy)
         {
-            FunctionModel currentFunction = SessionManager.CurrentUser.Functions
-                        .Where(func => func.FunctionKey.Equals(functionKey)).FirstOrDefault();
-
-            if (currentFunction != null)
+            if (SessionManager.CurrentUser != null)
             {
-                switch (policy)
+                FunctionModel currentFunction = SessionManager.CurrentUser.Functions
+                            .Where(func => func.FunctionKey.Equals(functionKey)).FirstOrDefault();
+
+                if (currentFunction != null)
                 {
-                    case Policy.None:
-                        return false;
+                    switch (policy)
+                    {
+                        case Policy.None:
+                            return false;
 
-                    case Policy.Read:
-                        return currentFunction.IsRead || currentFunction.IsHost;
+                        case Policy.Read:
+                            return currentFunction.IsRead || currentFunction.IsHost;
 
-                    case Policy.Host:
-                        return currentFunction.IsHost;
+                        case Policy.Host:
+                            return currentFunction.IsHost;
+                    }
                 }
             }
 

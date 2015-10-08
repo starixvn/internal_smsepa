@@ -278,7 +278,8 @@ namespace SMS.EPA.Services.Implement
             string templatePath,
             string periodName)
         {
-            string reportName = Lang.EmployeeFlowSettingReportName;
+            string reportName = string.Format(Lang.EmployeeFlowSettingReportName, periodName);
+            reportName = reportName.Replace(" ", "_");
             string reportTitle = string.Format(Lang.EmployeeFlowSettingReportTitle, periodName);
             var writer = new ExcelTemplateWriter(templatePath, reportName, Lang.EmployeeFlowSettingReportSheet);
 
@@ -432,7 +433,7 @@ namespace SMS.EPA.Services.Implement
             foreach (PeriodFlowModel evaluator in evaluators)
             {
                 string name = evaluator.EvaluatorInfo.NickName;
-                evaluatorNames += !string.IsNullOrEmpty(evaluatorNames) ? " ," + name : name;
+                evaluatorNames += !string.IsNullOrEmpty(evaluatorNames) ? ", " + name : name;
             }
 
             return evaluatorNames;

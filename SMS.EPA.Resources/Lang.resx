@@ -568,7 +568,7 @@
     <value>The Start Date must be less than or equal the End Date!</value>
   </data>
   <data name="EmployeeFlowSettingReportName" xml:space="preserve">
-    <value>EPA_Evaluator_Reviewer_List_of_Section</value>
+    <value>{0}_EPA_Evaluator_Reviewer_List_of_Section</value>
   </data>
   <data name="EmployeeFlowSettingReportSheet" xml:space="preserve">
     <value>EPA_Evaluator_Reviewer_List_of_Section</value>
@@ -781,7 +781,7 @@
     <value>Average Score By Evaluators</value>
   </data>
   <data name="SelectEmployeeBeforeEditSettingWarning" xml:space="preserve">
-    <value>Please select at least  employee before edit setting!</value>
+    <value>Please select at least  employee before editing setting!</value>
   </data>
   <data name="HRRangeDateGreaterThanSelfRangeDateWarning" xml:space="preserve">
     <value>The End Date of Human Resources must be less than or equal the Start Date of Self Evaluator!</value>
@@ -880,7 +880,7 @@
     <value>Generate EPA</value>
   </data>
   <data name="SelectEmployeeBeforeGenerateEvaluation" xml:space="preserve">
-    <value>Please select at least employee before generate EPA!</value>
+    <value>Please select at least employee before generating EPA!</value>
   </data>
   <data name="PersonalProfile" xml:space="preserve">
     <value>Personal Profile</value>
@@ -1066,7 +1066,7 @@
     <value>Is EPA Generated</value>
   </data>
   <data name="SelectDepartmentSectionEmployeeBeforeAddToPeriodWarning" xml:space="preserve">
-    <value>Please select at least a department/section or employee to add in this evaluation period!</value>
+    <value>Please select at least a department/section or employee to add to this evaluation period!</value>
   </data>
   <data name="SelfEvaluationScore" xml:space="preserve">
     <value>Self-Evaluation Score</value>
