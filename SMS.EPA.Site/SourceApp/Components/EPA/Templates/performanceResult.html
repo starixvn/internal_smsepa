@@ -112,7 +112,7 @@
                     </strong>
                     <strong ng-show="memberEPAInfoCtrl.epaInfo.Status.StatusId == 0" ng-bind="'N/A'"></strong>
                 </td>
-                <td class="text-center" ng-show=" $first">
+                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center" ng-show=" $first">
                     <strong ng-show="memberEPAInfoCtrl.epaInfo.Status.StatusId == 1" ng-bind="memberEPAInfoCtrl.epaInfo.Grade"></strong>
                     <strong ng-show="memberEPAInfoCtrl.epaInfo.Status.StatusId == 0" ng-bind="'N/A'"></strong>
                 </td>

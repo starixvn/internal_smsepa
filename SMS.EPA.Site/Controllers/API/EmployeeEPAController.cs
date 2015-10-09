@@ -10,7 +10,6 @@
 namespace SMS.EPA.Site.Controllers.API
 {
     using System.Collections.Generic;
-    using System.Linq;
     using System.Web.Http;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
@@ -28,15 +27,19 @@ namespace SMS.EPA.Site.Controllers.API
     public class EmployeeEPAController : BaseController
     {
         private readonly IEmployeeEPAService _employeeEPAService;
+        private readonly CommonController _commonController;
 
         public EmployeeEPAController()
-            : this(null)
+            : this(null, null)
         {
         }
 
-        public EmployeeEPAController(IEmployeeEPAService employeeEPAService)
+        public EmployeeEPAController(
+            IEmployeeEPAService employeeEPAService,
+            CommonController commonController)
         {
             _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
+            _commonController = commonController ?? new CommonController();
         }
 
         #region Self
@@ -63,7 +66,10 @@ namespace SMS.EPA.Site.Controllers.API
                 EmployeeId = CurrentUser.EmployeeInfo.EmployeeId
             };
 
-            return _employeeEPAService.GetEPAInfoByEmployee(criteria);
+            EPAModel epaInfo = _employeeEPAService.GetEPAInfoByEmployee(criteria);
+            epaInfo.Employee.Avatar = _commonController.Avatar(epaInfo.Employee.Code);
+
+            return epaInfo;
         }
 
         [HttpPut]
@@ -129,7 +135,10 @@ namespace SMS.EPA.Site.Controllers.API
                 EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId
             };
 
-            return _employeeEPAService.GetEPAInfoByEvaluator(criteria);
+            EPAModel epaInfo = _employeeEPAService.GetEPAInfoByEvaluator(criteria);
+            epaInfo.Employee.Avatar = _commonController.Avatar(epaInfo.Employee.Code);
+
+            return epaInfo;
         }
 
         [HttpPut]
@@ -195,7 +204,10 @@ namespace SMS.EPA.Site.Controllers.API
                 ReviewerId = CurrentUser.EmployeeInfo.EmployeeId
             };
 
-            return _employeeEPAService.GetEPAInfoByReviewer(criteria);
+            EPAModel epaInfo = _employeeEPAService.GetEPAInfoByReviewer(criteria);
+            epaInfo.Employee.Avatar = _commonController.Avatar(epaInfo.Employee.Code);
+
+            return epaInfo;
         }
 
         [HttpPut]
@@ -256,7 +268,10 @@ namespace SMS.EPA.Site.Controllers.API
                 ManagementId = CurrentUser.EmployeeInfo.EmployeeId
             };
 
-            return _employeeEPAService.GetEPAInfoByManagement(criteria);
+            EPAModel epaInfo = _employeeEPAService.GetEPAInfoByManagement(criteria);
+            epaInfo.Employee.Avatar = _commonController.Avatar(epaInfo.Employee.Code);
+
+            return epaInfo;
         }
 
         [HttpPut]
@@ -352,7 +367,7 @@ namespace SMS.EPA.Site.Controllers.API
         {
             var getEPASummaryImportCriteria = new GetEPASummaryImportCriteria();
             IEnumerable<EPASummaryImportModel> memberEPAs = _employeeEPAService.GetMemberEPASummaryImport(getEPASummaryImportCriteria);
-            var criteria = new UpdateEPASummaryImportCriteria() 
+            var criteria = new UpdateEPASummaryImportCriteria()
             {
                 MemberEPAs = memberEPAs
             };

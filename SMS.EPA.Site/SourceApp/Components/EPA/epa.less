@@ -580,35 +580,19 @@
     }
 }
 
-.table.table-evaluation-process {
-    td {
-        border: none;
-        padding-left: 0;
-        padding-right: 0;
-    }
-
-    .progress {
-        margin-bottom: 0;
-    }
-
-    .col-evaluator {
-        ul {
-            padding-left: 12px;
-            margin-bottom: 0; 
-        }
-    }
-
-    > ul {
+.evaluation-process-section {
+    ul.evaluation-process {
         list-style: none;
         margin: 0;
         padding: 0;
-        li {            
+
+        li {
             display: block;
             float: left;
-            height: 84px;                     
+            height: 84px;
             padding: 16px 50px 0 16px;
             position: relative;
-            margin: 0 47px 0 0;    
+            margin: 0 47px 0 0;
 
             .progress {
                 box-shadow: none;
@@ -627,7 +611,7 @@
             &:after {
                 content: "";  
                 border-top: 44px solid transparent;
-                border-bottom: 40px solid transparent;                
+                border-bottom: 40px solid transparent;
                 position: absolute; 
                 right: -40px; 
                 top: 0;
@@ -636,16 +620,18 @@
             &:before {
                 content: "";
                 position: absolute;
-                margin-top: -16px;   
+                margin-top: -16px;
                 border-width: 44px 0 40px 40px;
-                border-style: solid;                
+                border-style: solid;
                 left: -40px; 
             }
-            &:first-child {                 
+
+            &:first-child {
                 &:before {
                     display: none;
                 }
             }
+
             &.open {
                 background-color: #d6d6d6;
                 color: #61463b;
@@ -657,6 +643,7 @@
                 &:before {
                     border-color: #d6d6d6 #d6d6d6 #d6d6d6 transparent;
                 }
+
                 .icon-process {
                     background: url(../../../Content/Site/images/sprite_process.png);
                     background-position: -15px 0;
@@ -680,6 +667,7 @@
                 &:before {
                     border-color: #ef713c #ef713c #ef713c transparent;
                 }
+
                 .icon-process {
                     background: url(../../../Content/Site/images/sprite_process.png);
                     background-position: 0 0;
@@ -703,6 +691,7 @@
                 &:before {
                     border-color: #1797c7 #1797c7 #1797c7 transparent;
                 }
+
                 .icon-process {
                     background: url(../../../Content/Site/images/sprite_process.png);
                     background-position: -30px 0;
@@ -712,19 +701,6 @@
                     left: 5px;
                     top: 2px;
                     width: 15px;
-                }
-            }
-
-            &.open {
-                background: #d6d6d6;
-                color: #61463b;
-
-                &:after {
-                    border-left: 40px solid #d6d6d6;
-                }
-
-                &:before {
-                    border-color: #d6d6d6 #d6d6d6 #d6d6d6 transparent;
                 }
             }
         }

@@ -1,6 +1,6 @@
 ﻿<div class="col-sm-2 text-center">
     <div class="img-user">
-        <img class="img-default" src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;f=y" alt="User" />
+        <img class="img-default" ng-src="{{dashboardCtrl.employee.Avatar}}" alt="User" />
     </div>
 </div>
 <div class="col-sm-10">
@@ -43,6 +43,14 @@
             <div class="col-sm-4" data-translate="Section"></div>
             <div class="col-sm-7">
                 <strong ng-bind="dashboardCtrl.employee.Group.GroupName"></strong>
+            </div>
+        </div>
+    </div>
+    <div class="row row-item line">
+        <div class="col-sm-6">
+            <div class="col-sm-4" data-translate="GroupDate"></div>
+            <div class="col-sm-7">
+                <strong ng-bind="dashboardCtrl.employee.JoinedDate | customDate"></strong>
             </div>
         </div>
     </div>

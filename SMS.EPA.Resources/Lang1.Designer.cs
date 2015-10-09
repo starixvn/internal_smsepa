@@ -1339,6 +1339,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Group Date.
+        /// </summary>
+        public static string GroupDate {
+            get {
+                return ResourceManager.GetString("GroupDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Group field is required!.
         /// </summary>
         public static string GroupRequire {

@@ -28,7 +28,7 @@ namespace SMS.EPA.Model.Enitites
 
         public string Email { get; set; }
 
-        public string Gravatar { get; set; }
+        public string Avatar { get; set; }
 
         public bool Enabled { get; set; }
 

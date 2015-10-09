@@ -9,14 +9,12 @@
 
 namespace SMS.EPA.Model.Employee
 {
+    using System;
     using System.Collections.Generic;
     using SMS.EPA.Model.Department;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.RoleManagement;
 
-    /// <summary>
-    /// The employee model.
-    /// </summary>
     public class EmployeeModel : Employee
     {
         public EmployeeModel()
@@ -43,5 +41,7 @@ namespace SMS.EPA.Model.Employee
         public Group Group { get; set; }
 
         public IList<SystemRoleModel> Roles { get; set; }
+
+        public DateTime JoinedDate { get; set; }
     }
 }

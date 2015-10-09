@@ -177,10 +177,13 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
 
     employeeEPAModel.getClassProgress = function (statusEndProcess) {
         if (statusEndProcess === 0) {
-            return 'progress-striped active';
+            return 'in-process';
+        }
+        else if (statusEndProcess === 1) {
+            return 'end-process';
         }
         else {
-            return '';
+            return 'open';
         }
     };
 
@@ -198,15 +201,6 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         });
 
         return vm.modalInstance.result;
-    };
-
-    employeeEPAModel.getClassProgress = function (isEndProcess) {
-        if (!isEndProcess) {
-            return 'progress-striped active';
-        }
-        else {
-            return '';
-        }
     };
 
     employeeEPAModel.getSelectedEmployee = function (memberEPAs) {
@@ -245,7 +239,7 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         .success(function (response) {
             if (response.IsSuccessful) {
                 angular.forEach(memberEPAs, function (memberEPA) {
-                    memberEPA.ProcessByReviewers[0].TotalScoreOriginal = memberEPA.ProcessByReviewers[0].TotalScore;
+                    memberEPA.CurrentProcess.TotalScoreOriginal = memberEPA.CurrentProcess.TotalScore;
                 });
 
                 vm.dataSaved = true;
@@ -265,7 +259,7 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         .success(function (response) {
             if (response.IsSuccessful) {
                 angular.forEach(memberEPAs, function (memberEPA) {
-                    memberEPA.ProcessByManagements[0].TotalScoreOriginal = memberEPA.ProcessByManagements[0].TotalScore;
+                    memberEPA.CurrentProcess.TotalScoreOriginal = memberEPA.CurrentProcess.TotalScore;
                 });
 
                 vm.dataSaved = true;

@@ -1137,4 +1137,7 @@
   <data name="LastFinalScore" xml:space="preserve">
     <value>Last Final Score</value>
   </data>
+  <data name="GroupDate" xml:space="preserve">
+    <value>Group Date</value>
+  </data>
 </root>
