@@ -58,25 +58,19 @@ namespace SMS.EPA.Model.TargetTemplate
 
         public string ModifiedFullName { get; set; }
 
-        public string ConvertKPIItemToXml
+        public string ConvertKPIItemToXml(List<TargetTemplateKPIModel> kpiItems)
         {
-            get
-            {
-                if (KPIIds != null)
-                {
-                    var value = new StringBuilder(_BeginRootTag);
-                    foreach (var item in KPIIds)
-                    {
-                        value.AppendFormat(_KPIItem, item.KPIId, item.KPIGroupId, item.IsSpreadKPI, item.Weight, item.DisplayOrder);
-                    }
+            var value = new StringBuilder(_BeginRootTag);
 
-                    return value.Append(_EndRootTag).ToString();
-                }
-                else
+            if (kpiItems != null)
+            {
+                foreach (TargetTemplateKPIModel item in kpiItems)
                 {
-                    return string.Empty;
+                    value.AppendFormat(_KPIItem, item.KPIId, item.KPIGroupId, item.IsSpreadKPI, item.Weight, item.DisplayOrder);
                 }
             }
+
+            return value.Append(_EndRootTag).ToString();
         }
     }
 }

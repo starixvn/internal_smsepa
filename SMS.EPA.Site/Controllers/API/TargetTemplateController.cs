@@ -115,7 +115,7 @@ namespace SMS.EPA.Site.Controllers.API
                     IsActive = targetTemplate.IsActive,
                     Description = targetTemplate.Description,
                     ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
-                    KPIs = targetTemplate.ConvertKPIItemToXml
+                    KPIs = targetTemplate.ConvertKPIItemToXml(targetTemplate.KPIIds)
                 };
 
                 commandResult = _targetTemplateService.UpdateTargetTemplate(updateTargetTemplateCriteria);
