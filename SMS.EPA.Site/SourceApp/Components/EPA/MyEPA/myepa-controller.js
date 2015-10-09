@@ -9,7 +9,7 @@ function (EmployeeEPAModel) {
     vm.myEPAs = EmployeeEPAModel.myEPAs;
 
     vm.viewEPADetail = function (epa) {
-        vm.viewEPADetailUrl = '/SelfEvaluation/Detail/' + epa.EPAId;
+        vm.viewEPADetailUrl = '/SelfEvaluation/Detail/' + epa.EPAId + '?actorUserId=' + epa.Employee.EmployeeId;
     };
 
     vm.viewEPAResult = function (epa) {
@@ -31,6 +31,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
     var vm = this;
 
     vm.epaId = parseInt($routeParams.id);
+    vm.actorUserId = parseInt($routeParams.actorUserId);
 
     vm.maxStar = 5;
     vm.dataSaved = false;
@@ -45,8 +46,12 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
 
         angular.forEach(epaInfo.KPIGroups, function (kpiGroup) {
             angular.forEach(kpiGroup.KPIs, function (kpi) {
-                if (kpi.CurrentEvaluation.Score && parseFloat(kpi.CurrentEvaluation.Score) > 0) {
-                    totalScore += parseFloat(kpi.CurrentEvaluation.Score);
+                var rate = kpi.CurrentEvaluation.Rate ? kpi.CurrentEvaluation.Rate : 0;
+                var score = kpi.CurrentEvaluation.Score ? parseFloat(kpi.CurrentEvaluation.Score) : 0;
+                totalScore += score;
+
+                if (score === kpi.Weight || rate === 5) {
+                    kpi.CurrentEvaluation.IsMaxScore = true;
                 }
             });
         });
@@ -197,8 +202,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
         $window.history.back();
     };
 
-    var getEPAInfoByEmployee = function (epaId) {
-        EmployeeEPAModel.getEPAInfoByEmployee(epaId).then(function () {
+    var getEPAInfoByEmployee = function () {
+        EmployeeEPAModel.getEPAInfoByEmployee(vm.epaId, vm.actorUserId).then(function () {
             var data = EmployeeEPAModel.epaInfo;
             var totalScoreOfSelf = data.CurrentProcess.TotalScore ? parseFloat(data.CurrentProcess.TotalScore) : 0,
                 disciplineScore = data.MaxDisciplineScore - data.DisciplineScore;
@@ -250,7 +255,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
         CommonModel.getStandardGrade().then(function () {
             vm.standardGrades = CommonModel.standardGrades;
 
-            getEPAInfoByEmployee(vm.epaId);
+            getEPAInfoByEmployee();
         });
     };
 

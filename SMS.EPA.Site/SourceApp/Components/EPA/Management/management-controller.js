@@ -25,7 +25,7 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
     };
 
     vm.viewEPADetail = function (memberEPA) {
-        vm.viewEPADetailUrl = '/Management/Detail/' + memberEPA.EPAId;
+        vm.viewEPADetailUrl = '/Management/Detail/' + memberEPA.EPAId + '?actorUserId=' + memberEPA.CurrentProcess.EvaluatorId;
     };
 
     vm.viewEPAResult = function (memberEPA) {
@@ -287,6 +287,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
     var vm = this;
 
     vm.epaId = parseInt($routeParams.id);
+    vm.actorUserId = parseInt($routeParams.actorUserId);
 
     vm.dataSaved = false;
     vm.isReadonly = false;
@@ -383,7 +384,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
     };
 
     var getEPAInfoByManagement = function () {
-        EmployeeEPAModel.getEPAInfoByManagement(vm.epaId).then(function () {
+        EmployeeEPAModel.getEPAInfoByManagement(vm.epaId, vm.actorUserId).then(function () {
             var totalScore, disciplineScore;
 
             vm.epaInfo = EmployeeEPAModel.epaInfo;

@@ -64,7 +64,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="memberEPA in reviewerCtrl.memberEPAs">
+                <tr ng-class="{'row-highlight': (memberEPA.HasMaxScoreOnKPI && memberEPA.ProcessBySelf.IsEndProcess)}"
+                    ng-repeat="memberEPA in reviewerCtrl.memberEPAs">
                     <td class="text-center" ng-show="!reviewerCtrl.isEndProcessAll">
                         <input ng-show="!memberEPA.CurrentProcess.IsEndProcess" type="checkbox" ng-model="memberEPA.Selected" />
                     </td>
@@ -104,10 +105,10 @@
                     <td class="text-center">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-attr-title='{{"Edit" | translate}}'
                            ng-click="reviewerCtrl.updateComment(memberEPA, memberEPA.CurrentProcess.Comment, true)"
-                           ng-show="!memberEPA.CurrentProcess.IsEndProcess && memberEPA.ProcessByEvaluators[0].IsEndProcess"></a>
+                           ng-show="!memberEPA.CurrentProcess.IsEndProcess && memberEPA.Status.StatusId == 0"></a>
                         <a class="glyphicon icon-view" href="" ng-attr-title='{{"View" | translate}}'
                            ng-click="reviewerCtrl.updateComment(memberEPA, memberEPA.CurrentProcess.Comment, false)"
-                           ng-show="memberEPA.CurrentProcess.IsEndProcess || !memberEPA.ProcessByEvaluators[0].IsEndProcess"></a>
+                           ng-show="memberEPA.CurrentProcess.IsEndProcess && memberEPA.Status.StatusId == 0"></a>
                     </td>
                     <td class="text-center">
                         <div ng-show="memberEPA.HasDisciplineScore">

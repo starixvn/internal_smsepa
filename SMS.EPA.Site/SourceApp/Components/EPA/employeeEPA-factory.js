@@ -15,8 +15,13 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
         getEPAByEmployee: function () {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAByEmployee');
         },
-        getEPAInfoByEmployee: function (epaId) {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAInfoByEmployee', { params: { epaId: epaId } });
+        getEPAInfoByEmployee: function (epaId, actorUserId) {
+            return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAInfoByEmployee', {
+                params: {
+                    epaId: epaId,
+                    actorUserId: actorUserId
+                }
+            });
         },
         getEPAByEvaluator: function (groupId, employeeIds) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAByEvaluator', {
@@ -26,8 +31,13 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
                 }
             });
         },
-        getEPAInfoByEvaluator: function (epaId) {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAInfoByEvaluator', { params: { epaId: epaId } });
+        getEPAInfoByEvaluator: function (epaId, actorUserId) {
+            return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAInfoByEvaluator', {
+                params: {
+                    epaId: epaId,
+                    actorUserId: actorUserId
+                }
+            });
         },
         getEPAByReviewer: function (groupId, employeeIds) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAByReviewer', {
@@ -37,8 +47,13 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
                 }
             });
         },
-        getEPAInfoByReviewer: function (epaId) {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAInfoByReviewer', { params: { epaId: epaId } });
+        getEPAInfoByReviewer: function (epaId, actorUserId) {
+            return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAInfoByReviewer', {
+                params: {
+                    epaId: epaId,
+                    actorUserId: actorUserId
+                }
+            });
         },
         getEPAByManagement: function (groupId, employeeIds) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAByManagement', {
@@ -48,8 +63,13 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
                 }
             });
         },
-        getEPAInfoByManagement: function (epaId) {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAInfoByManagement', { params: { epaId: epaId } });
+        getEPAInfoByManagement: function (epaId, actorUserId) {
+            return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAInfoByManagement', {
+                params: {
+                    epaId: epaId,
+                    actorUserId: actorUserId
+                }
+            });
         },
         getEPAInfoById: function (epaId) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAInfoById', { params: { epaId: epaId } });

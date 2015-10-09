@@ -25,7 +25,7 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
     };
 
     vm.viewEPADetail = function (memberEPA) {
-        vm.viewEPADetailUrl = '/Reviewer/Detail/' + memberEPA.EPAId;
+        vm.viewEPADetailUrl = '/Reviewer/Detail/' + memberEPA.EPAId + '?actorUserId=' + memberEPA.CurrentProcess.EvaluatorId;
     };
 
     vm.viewEPAResult = function (memberEPA) {
@@ -261,6 +261,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
     var vm = this;
 
     vm.epaId = parseInt($routeParams.id);
+    vm.actorUserId = parseInt($routeParams.actorUserId);
 
     vm.dataSaved = false;
     vm.isReadonly = false;
@@ -345,7 +346,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
     };
 
     var getEPAInfoByReviewer = function () {
-        EmployeeEPAModel.getEPAInfoByReviewer(vm.epaId).then(function () {
+        EmployeeEPAModel.getEPAInfoByReviewer(vm.epaId, vm.actorUserId).then(function () {
             var totalScore, disciplineScore;
 
             vm.epaInfo = EmployeeEPAModel.epaInfo;

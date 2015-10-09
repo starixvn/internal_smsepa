@@ -44,5 +44,7 @@ namespace SMS.EPA.Model.EmployeeEPA
         }
 
         public string Comment { get; set; }
+
+        public bool IsMaxScore { get; set; }
     }
 }

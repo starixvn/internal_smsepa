@@ -91,6 +91,8 @@ namespace SMS.EPA.Model.EmployeeEPA
             }
         }
 
+        public bool HasMaxScoreOnKPI { get; set; }
+
         public float AverageScoreByEvaluators
         {
             get

@@ -53,7 +53,7 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
     };
 
     vm.viewEPADetail = function (memberEPA) {
-        vm.viewEPADetailUrl = '/Evaluator/Detail/' + memberEPA.EPAId;
+        vm.viewEPADetailUrl = '/Evaluator/Detail/' + memberEPA.EPAId + '?actorUserId=' + memberEPA.CurrentProcess.EvaluatorId;
     };
 
     vm.viewEPAResult = function (memberEPA) {
@@ -83,6 +83,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
     var vm = this;
 
     vm.epaId = parseInt($routeParams.id);
+    vm.actorUserId = parseInt($routeParams.actorUserId);
 
     vm.maxStar = 5;
     vm.dataSaved = false;
@@ -96,8 +97,12 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
 
         angular.forEach(epaInfo.KPIGroups, function (kpiGroup) {
             angular.forEach(kpiGroup.KPIs, function (kpi) {
-                if (kpi.CurrentEvaluation.Score && parseFloat(kpi.CurrentEvaluation.Score) > 0) {
-                    totalScore += parseFloat(kpi.CurrentEvaluation.Score);
+                var rate = kpi.CurrentEvaluation.Rate ? kpi.CurrentEvaluation.Rate : 0;
+                var score = kpi.CurrentEvaluation.Score ? parseFloat(kpi.CurrentEvaluation.Score) : 0;
+                totalScore += score;
+
+                if (score === kpi.Weight || rate === 5) {
+                    kpi.CurrentEvaluation.IsMaxScore = true;
                 }
             });
         });
@@ -251,20 +256,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
         }
     };
 
-    vm.initialize = function () {
-        $translate('ScoreInputValid').then(function (message) {
-            vm.scoreInputValidMessage = message;
-        });
-
-        $translate('EvaluateEPAInvalid').then(function (message) {
-            vm.evaluateEPAInvalidMessage = message;
-        });
-
-        CommonModel.getStandardGrade().then(function () {
-            vm.standardGrades = CommonModel.standardGrades;
-        });
-
-        EmployeeEPAModel.getEPAInfoByEvaluator(vm.epaId, vm.employeeId, vm.evaluatorId).then(function () {
+    var getEPAInfoByEvaluator = function () {
+        EmployeeEPAModel.getEPAInfoByEvaluator(vm.epaId, vm.actorUserId).then(function () {
             var data = EmployeeEPAModel.epaInfo;
             var totalScoreOfEvaluator = data.CurrentProcess.TotalScore ? parseFloat(data.CurrentProcess.TotalScore) : 0,
                 totalScoreOfSelf = data.ProcessBySelf.TotalScore ? parseFloat(data.ProcessBySelf.TotalScore) : 0,
@@ -305,6 +298,22 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
                     });
                 }
             });
+        });
+    };
+
+    vm.initialize = function () {
+        $translate('ScoreInputValid').then(function (message) {
+            vm.scoreInputValidMessage = message;
+        });
+
+        $translate('EvaluateEPAInvalid').then(function (message) {
+            vm.evaluateEPAInvalidMessage = message;
+        });
+
+        CommonModel.getStandardGrade().then(function () {
+            vm.standardGrades = CommonModel.standardGrades;
+
+            getEPAInfoByEvaluator();
         });
     };
 

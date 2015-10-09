@@ -18,7 +18,7 @@ namespace SMS.EPA.Criteria.EmployeeEPA
 
     public class UpdateEPAScoreCriteria : CriteriaBase
     {
-        private const string _KPIScore = "<KPI KPIId='{0}' KPIGroupId='{1}' Score='{2}' Rate='{3}' Comment='{4}'></KPI>";
+        private const string _KPIScore = "<KPI KPIId='{0}' KPIGroupId='{1}' Score='{2}' Rate='{3}' IsMaxScore='{4}' Comment='{5}'></KPI>";
         private const string _BeginRootTag = "<ROOT>";
         private const string _EndRootTag = "</ROOT>";
 
@@ -53,11 +53,12 @@ namespace SMS.EPA.Criteria.EmployeeEPA
                     foreach (var kpi in kpiGroup.KPIs)
                     {
                         var score = kpi.CurrentEvaluation.Score;
-                        var rate = kpi.CurrentEvaluation.Rate;
-                        var cipherScore = !string.IsNullOrEmpty(score) ? EncodeService.Encode(score + "_" + kpi.KPIId) : string.Empty;
-                        var cipherRate = rate > 0 ? EncodeService.Encode(rate.ToString()) : string.Empty;
+                        var rate = kpi.CurrentEvaluation.Rate > 0 ? kpi.CurrentEvaluation.Rate.ToString() : string.Empty;
+                        var isMaxScore = kpi.CurrentEvaluation.IsMaxScore;
+                        var cipherScore = Encode(score + "_" + kpi.KPIId);
+                        var cipherRate = Encode(rate);
 
-                        result.AppendFormat(_KPIScore, kpi.KPIId, kpiGroup.KPIGroupId, cipherScore, cipherRate, HttpUtility.HtmlEncode(kpi.CurrentEvaluation.Comment));
+                        result.AppendFormat(_KPIScore, kpi.KPIId, kpiGroup.KPIGroupId, cipherScore, cipherRate, isMaxScore, HttpUtility.HtmlEncode(kpi.CurrentEvaluation.Comment));
                     }
                 }
 
@@ -83,6 +84,11 @@ namespace SMS.EPA.Criteria.EmployeeEPA
         public override string GetSettingKey()
         {
             return "EPA_UpdateScore";
+        }
+
+        private string Encode(string plainText)
+        {
+            return !string.IsNullOrEmpty(plainText) ? EncodeService.Encode(plainText) : string.Empty;
         }
     }
 }

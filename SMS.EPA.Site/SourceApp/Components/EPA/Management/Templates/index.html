@@ -60,8 +60,9 @@
                     <th data-translate="Detail" class="col-action"></th>
                 </tr>
             </thead>
-            <tbody ng-repeat="memberEPA in managementCtrl.memberEPAs">
-                <tr>
+            <tbody>
+                <tr ng-class="{'row-highlight': (memberEPA.HasMaxScoreOnKPI && memberEPA.ProcessBySelf.IsEndProcess)}"
+                    ng-repeat="memberEPA in managementCtrl.memberEPAs">
                     <td class="text-center" ng-show="!reviewerCtrl.isEndProcessAll">
                         <input ng-show="!memberEPA.CurrentProcess.IsEndProcess" type="checkbox" ng-model="memberEPA.Selected" />
                     </td>
@@ -110,7 +111,7 @@
                            ng-show="!memberEPA.CurrentProcess.IsEndProcess && memberEPA.Status.StatusId == 0"></a>
                         <a class="glyphicon icon-view" href="" ng-attr-title='{{"View" | translate}}'
                            ng-click="managementCtrl.updateComment(memberEPA, memberEPA.CurrentProcess.Comment, false)"
-                           ng-show="memberEPA.CurrentProcess.IsEndProcess && memberEPA.Status.StatusId != 0"></a>
+                           ng-show="memberEPA.CurrentProcess.IsEndProcess && memberEPA.Status.StatusId == 0"></a>
                     </td>
                     <td class="text-center">
                         <div ng-show="memberEPA.HasDisciplineScore">

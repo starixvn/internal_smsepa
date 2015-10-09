@@ -10,6 +10,8 @@
 namespace SMS.EPA.Site.Controllers.API
 {
     using System.Collections.Generic;
+    using System.Net;
+    using System.Net.Http;
     using System.Web.Http;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
@@ -58,18 +60,28 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Self, Policy = Policy.Read)]
-        public EPAModel GetEPAInfoByEmployee(int epaId)
+        public HttpResponseMessage GetEPAInfoByEmployee(
+            int epaId,
+            int actorUserId)
         {
-            var criteria = new GetEPAInfoByEmployeeCriteria()
+            EPAModel epaInfo = new EPAModel();
+            if (actorUserId.Equals(CurrentUser.EmployeeInfo.EmployeeId))
             {
-                EPAId = epaId,
-                EmployeeId = CurrentUser.EmployeeInfo.EmployeeId
-            };
+                var criteria = new GetEPAInfoByEmployeeCriteria()
+                {
+                    EPAId = epaId,
+                    EmployeeId = CurrentUser.EmployeeInfo.EmployeeId
+                };
 
-            EPAModel epaInfo = _employeeEPAService.GetEPAInfoByEmployee(criteria);
-            epaInfo.Employee.Avatar = _commonController.Avatar(epaInfo.Employee.Code);
+                epaInfo = _employeeEPAService.GetEPAInfoByEmployee(criteria);
+                epaInfo.Employee.Avatar = _commonController.Avatar(epaInfo.Employee.Code);
 
-            return epaInfo;
+                return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
+            }
         }
 
         [HttpPut]
@@ -127,18 +139,28 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Evaluator, Policy = Policy.Read)]
-        public EPAModel GetEPAInfoByEvaluator(int epaId)
+        public HttpResponseMessage GetEPAInfoByEvaluator(
+            int epaId,
+            int actorUserId)
         {
-            var criteria = new GetEPAInfoByEvaluatorCriteria()
+            EPAModel epaInfo = new EPAModel();
+            if (actorUserId.Equals(CurrentUser.EmployeeInfo.EmployeeId))
             {
-                EPAId = epaId,
-                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId
-            };
+                var criteria = new GetEPAInfoByEvaluatorCriteria()
+                {
+                    EPAId = epaId,
+                    EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId
+                };
 
-            EPAModel epaInfo = _employeeEPAService.GetEPAInfoByEvaluator(criteria);
-            epaInfo.Employee.Avatar = _commonController.Avatar(epaInfo.Employee.Code);
+                epaInfo = _employeeEPAService.GetEPAInfoByEvaluator(criteria);
+                epaInfo.Employee.Avatar = _commonController.Avatar(epaInfo.Employee.Code);
 
-            return epaInfo;
+                return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
+            }
         }
 
         [HttpPut]
@@ -196,18 +218,28 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Reviewer, Policy = Policy.Read)]
-        public EPAModel GetEPAInfoByReviewer(int epaId)
+        public HttpResponseMessage GetEPAInfoByReviewer(
+            int epaId,
+            int actorUserId)
         {
-            var criteria = new GetEPAInfoByReviewerCriteria()
+            EPAModel epaInfo = new EPAModel();
+            if (actorUserId.Equals(CurrentUser.EmployeeInfo.EmployeeId))
             {
-                EPAId = epaId,
-                ReviewerId = CurrentUser.EmployeeInfo.EmployeeId
-            };
+                var criteria = new GetEPAInfoByReviewerCriteria()
+                {
+                    EPAId = epaId,
+                    ReviewerId = CurrentUser.EmployeeInfo.EmployeeId
+                };
 
-            EPAModel epaInfo = _employeeEPAService.GetEPAInfoByReviewer(criteria);
-            epaInfo.Employee.Avatar = _commonController.Avatar(epaInfo.Employee.Code);
+                epaInfo = _employeeEPAService.GetEPAInfoByReviewer(criteria);
+                epaInfo.Employee.Avatar = _commonController.Avatar(epaInfo.Employee.Code);
 
-            return epaInfo;
+                return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
+            }
         }
 
         [HttpPut]
@@ -260,18 +292,28 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Management, Policy = Policy.Read)]
-        public EPAModel GetEPAInfoByManagement(int epaId)
+        public HttpResponseMessage GetEPAInfoByManagement(
+            int epaId,
+            int actorUserId)
         {
-            var criteria = new GetEPAInfoByManagementCriteria()
+            EPAModel epaInfo = new EPAModel();
+            if (actorUserId.Equals(CurrentUser.EmployeeInfo.EmployeeId))
             {
-                EPAId = epaId,
-                ManagementId = CurrentUser.EmployeeInfo.EmployeeId
-            };
+                var criteria = new GetEPAInfoByManagementCriteria()
+                {
+                    EPAId = epaId,
+                    ManagementId = CurrentUser.EmployeeInfo.EmployeeId
+                };
 
-            EPAModel epaInfo = _employeeEPAService.GetEPAInfoByManagement(criteria);
-            epaInfo.Employee.Avatar = _commonController.Avatar(epaInfo.Employee.Code);
+                epaInfo = _employeeEPAService.GetEPAInfoByManagement(criteria);
+                epaInfo.Employee.Avatar = _commonController.Avatar(epaInfo.Employee.Code);
 
-            return epaInfo;
+                return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
+            }
         }
 
         [HttpPut]
