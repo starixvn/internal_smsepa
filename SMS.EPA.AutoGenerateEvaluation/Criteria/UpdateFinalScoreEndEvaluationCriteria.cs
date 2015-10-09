@@ -15,7 +15,7 @@ namespace SMS.EPA.AutoGenerateEvaluation.Criteria
 
     public class UpdateFinalScoreEndEvaluationCriteria : CriteriaBase
     {
-        private string template = "<EPA EPAId='{0}' FinalScore='{1}' DisciplineScore='{2}'></EPA>";
+        private string template = "<EPA EPAId='{0}' FinalScore='{1}' DisciplineScore='{2}' Grade='{3}'></EPA>";
         private string beginRootTag = "<ROOT>";
         private string endRootTag = "</ROOT>";
 
@@ -32,11 +32,11 @@ namespace SMS.EPA.AutoGenerateEvaluation.Criteria
             return "EpaAuto_UpdateFinalScoreEndEvaluation";
         }
 
-        public string ConvertToXml(int evaluationId, string finalScore, float disciplineScore)
+        public string ConvertToXml(int evaluationId, string finalScore, float disciplineScore, string grade)
         {
             var value = new StringBuilder(beginRootTag);
 
-            value.AppendFormat(template, evaluationId, finalScore, disciplineScore);
+            value.AppendFormat(template, evaluationId, finalScore, disciplineScore, grade);
             value.Append(endRootTag);
 
             return value.ToString();

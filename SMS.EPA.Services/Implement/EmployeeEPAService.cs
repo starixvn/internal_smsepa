@@ -12,8 +12,10 @@ namespace SMS.EPA.Services.Implement
     using System.Collections.Generic;
     using System.Linq;
     using Fanex.Common.Helper;
+    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
+    using SMS.EPA.Core.Utilities;
     using SMS.EPA.Criteria.EmployeeEPA;
     using SMS.EPA.Criteria.EmployeeEPA.RatingByKPI;
     using SMS.EPA.Model.EmployeeEPA;
@@ -338,6 +340,50 @@ namespace SMS.EPA.Services.Implement
             }
 
             return commandResult;
+        }
+
+        public string ConvertScoreToGrade(float score)
+        {
+            string grade = string.Empty;
+            var criteria = new GetStandardGradeCriteria();
+            IEnumerable<StandardGradeModel> standardGrades = GetStandardGrade(criteria);
+
+            foreach (StandardGradeModel standardGrade in standardGrades)
+            {
+                if (score >= standardGrade.LeftScore && score <= standardGrade.RightScore)
+                {
+                    StandardGrade gradeEnum = GetGradeEnum(standardGrade.GradeId);
+                    grade = Enumerations.GetDescription(gradeEnum);
+                }
+            }
+
+            return grade;
+        }
+
+        private StandardGrade GetGradeEnum(int gradeId)
+        {
+            StandardGrade grade = StandardGrade.None;
+
+            switch (gradeId)
+            {
+                case (int)StandardGrade.Excellent:
+                    grade = StandardGrade.Excellent;
+                    break;
+                case (int)StandardGrade.Good:
+                    grade = StandardGrade.Good;
+                    break;
+                case (int)StandardGrade.Standard:
+                    grade = StandardGrade.Standard;
+                    break;
+                case (int)StandardGrade.UnderPerformance:
+                    grade = StandardGrade.UnderPerformance;
+                    break;
+                case (int)StandardGrade.Fail:
+                    grade = StandardGrade.Fail;
+                    break;
+            }
+
+            return grade;
         }
     }
 }

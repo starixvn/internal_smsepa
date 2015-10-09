@@ -212,7 +212,11 @@ namespace SMS.EPA.AutoGenerateEvaluation
 
                 float finalScore = averagePerformanceScore + disciplineScore;
 
-                EncodeAndUpdateFinalScore(averagePerformanceScore, disciplineScore, evaluationId);
+                _LOG.Info("Get grade of final score of EPA " + evaluationId + ": started at: " + DateTime.Now);
+                evaluationInfo.Grade = _employeeEPAService.ConvertScoreToGrade(finalScore);
+                _LOG.Info("Result of get grade of final score of EPA " + evaluationId + ": " + evaluationInfo.Grade);
+
+                EncodeAndUpdateFinalScore(averagePerformanceScore, disciplineScore, evaluationId, evaluationInfo.Grade);
                 SendEndEvaluationMailToSelf(evaluationInfo, averagePerformanceScore, disciplineScore);
 
                 if (evaluationInfo.Period != null)
@@ -488,14 +492,18 @@ namespace SMS.EPA.AutoGenerateEvaluation
             return disciplineScore;
         }
 
-        private void EncodeAndUpdateFinalScore(float finalScore, float disciplineScore, int evaluationId)
+        private void EncodeAndUpdateFinalScore(float finalScore, float disciplineScore, int evaluationId, string grade)
         {
             _LOG.Info("Encode final score of EPA " + evaluationId + ": started at: " + DateTime.Now);
             string finalScoreEncode = EncodeService.Encode(finalScore.ToString());
             _LOG.Info("Result of encode final score of EPA " + evaluationId + ": " + finalScoreEncode);
 
+            _LOG.Info("Encode grade of EPA " + evaluationId + ": started at: " + DateTime.Now);
+            string gradeEncode = EncodeService.Encode(grade);
+            _LOG.Info("Result of encode grade of EPA " + evaluationId + ": " + gradeEncode);
+
             var criteria = new UpdateFinalScoreEndEvaluationCriteria();
-            criteria.EvaluationScores = criteria.ConvertToXml(evaluationId, finalScoreEncode, disciplineScore);
+            criteria.EvaluationScores = criteria.ConvertToXml(evaluationId, finalScoreEncode, disciplineScore, gradeEncode);
 
             _LOG.Info("Update final score and discipline score of EPA " + evaluationId + ": started at: " + DateTime.Now);
             CommandResult commandResult = _evaluationService.UpdateFinalScoreEndEvaluation(criteria);

@@ -77,5 +77,7 @@ namespace SMS.EPA.Services.Interfaces
         IEnumerable<EPASummaryImportModel> GetMemberEPASummaryImport(GetEPASummaryImportCriteria criteria);
 
         CommandResult UpdateEPASummaryImport(UpdateEPASummaryImportCriteria criteria);
+
+        string ConvertScoreToGrade(float score);
     }
 }

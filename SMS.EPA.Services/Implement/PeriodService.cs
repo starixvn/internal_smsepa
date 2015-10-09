@@ -158,11 +158,10 @@ namespace SMS.EPA.Services.Implement
             if (criteria.IsValid())
             {
                 commandResult = Repository.Update(criteria);
-
-                if (commandResult.IsSuccessful)
-                {
-                    GetAndSendEmailToAllRelatedEmployee(MailMode.NotifyChange, criteria.PeriodId, criteria.EmployeeIds, null);
-                }
+                ////if (commandResult.IsSuccessful)
+                ////{
+                ////    GetAndSendEmailToAllRelatedEmployee(MailMode.NotifyChange, criteria.PeriodId, criteria.EmployeeIds, null);
+                ////}
             }
 
             return commandResult;

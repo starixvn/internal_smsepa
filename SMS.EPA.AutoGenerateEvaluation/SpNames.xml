@@ -43,5 +43,7 @@
       <Mapping DataField="Score" ObjectProperty="ScoreEncode"/>
       <Mapping DataField="Rate" ObjectProperty="RateEncode"/>
     </Setting>
+    <Setting Key="EPA_GetStandardGrade" SpName="EPA_GetStandardGrade" DbName="SMSEPA" Plain="0">
+    </Setting>
   </Function>
 </Functions>
