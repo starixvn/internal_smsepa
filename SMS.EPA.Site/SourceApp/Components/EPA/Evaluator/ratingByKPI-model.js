@@ -6,9 +6,19 @@ epaModule.factory('RatingByKPIModel',
 function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, errorFactory) {
     var ratingByKPIModel = this;
 
+    ratingByKPIModel.groups = [];
     ratingByKPIModel.targetTemplates = [];
     ratingByKPIModel.kpis = [];
     ratingByKPIModel.memberEPAs = [];
+
+    ratingByKPIModel.getGroupByEvaluator = function () {
+        return ratingByKPIFactory.getGroupByEvaluator()
+        .success(function (groups) {
+            ratingByKPIModel.groups = groups;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
 
     ratingByKPIModel.getTargetTemplateByEvaluator = function () {
         return ratingByKPIFactory.getTargetTemplateByEvaluator()
@@ -89,13 +99,23 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
         memberEPA.TotalScore = (totalScore - curentScore + adjustScore).toFixed(2);
     };
 
-    ratingByKPIModel.updateKPIScore = function (memberEPAs, vm, modalInstance) {
-        return ratingByKPIFactory.updateKPIScore(memberEPAs)
+    ratingByKPIModel.updateKPIScore = function (vm, modalInstance) {
+        return ratingByKPIFactory.updateKPIScore(vm.memberEPAs)
         .success(function (response) {
             if (response.IsSuccessful) {
                 notificationFactory.success("UpdatedSuccessfully");
                 vm.dataSaved = true;
-                modalInstance.close(vm);
+
+                if (modalInstance) {
+                    modalInstance.close(vm);
+                }
+
+                angular.forEach(vm.memberEPAs, function (memberEPA) {
+                    angular.forEach(memberEPA.KPIGroup.KPIs, function (kpi) {
+                        kpi.Rate = kpi.AdjustRate;
+                        kpi.Score = kpi.AdjustScore;
+                    });
+                });
             }
             else {
                 notificationFactory.error("", response.Message);

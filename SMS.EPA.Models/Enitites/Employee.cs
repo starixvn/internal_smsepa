@@ -9,9 +9,6 @@
 
 namespace SMS.EPA.Model.Enitites
 {
-    /// <summary>
-    /// The employee model.
-    /// </summary>
     public class Employee
     {
         public int EmployeeId { get; set; }
@@ -28,7 +25,13 @@ namespace SMS.EPA.Model.Enitites
 
         public string Email { get; set; }
 
-        public string Avatar { get; set; }
+        public string Avatar
+        {
+            get
+            {
+                return SMS.EPA.Core.Utilities.Avatar.GetAvatar(Code);
+            }
+        }
 
         public bool Enabled { get; set; }
 

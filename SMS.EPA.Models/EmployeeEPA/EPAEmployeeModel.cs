@@ -26,7 +26,13 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public string Email { get; set; }
 
-        public string Avatar { get; set; }
+        public string Avatar
+        {
+            get
+            {
+                return SMS.EPA.Core.Utilities.Avatar.GetAvatar(Code);
+            }
+        }
 
         public Group Group { get; set; }
 

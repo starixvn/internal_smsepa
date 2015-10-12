@@ -13,6 +13,7 @@ namespace SMS.EPA.Criteria.EmployeeEPA.RatingByKPI
     using System.Text;
     using System.Web;
     using Fanex.Data.Repository;
+    using SMS.EPA.Core.Services;
     using SMS.EPA.Model.EmployeeEPA.RatingByKPI;
 
     public class UpdateKPIScoreCriteria : CriteriaBase
@@ -33,12 +34,17 @@ namespace SMS.EPA.Criteria.EmployeeEPA.RatingByKPI
                 foreach (var model in RatingByKPIs)
                 {
                     var detail = new StringBuilder();
+                    var rate = string.Empty;
+                    var score = string.Empty;
+                    var totalScore = string.Empty;
 
                     foreach (var kpi in model.KPIGroup.KPIs)
                     {
-                        if (kpi.Score != kpi.AdjustScore && kpi.AdjustRate > 0)
+                        if (!string.IsNullOrEmpty(kpi.AdjustScore) || kpi.AdjustRate > 0)
                         {
-                            detail.AppendFormat(_EPADetail, kpi.KPIId, kpi.AdjustRateEncode, kpi.AdjustScoreEncode, HttpUtility.HtmlEncode(kpi.Comment));
+                            rate = kpi.AdjustRate > 0 ? Encode(kpi.AdjustRate.ToString()) : string.Empty;
+                            score = Encode(kpi.AdjustScore + "_" + kpi.KPIId);
+                            detail.AppendFormat(_EPADetail, kpi.KPIId, rate, score, HttpUtility.HtmlEncode(kpi.Comment));
                         }
                         else
                         {
@@ -46,7 +52,8 @@ namespace SMS.EPA.Criteria.EmployeeEPA.RatingByKPI
                         }
                     }
 
-                    result.AppendFormat(_EPA, model.EPAId, model.Employee.EmployeeId, model.KPIGroup.KPIGroupId, model.TotalScoreEncode, detail);
+                    totalScore = Encode(model.TotalScore);
+                    result.AppendFormat(_EPA, model.EPAId, model.Employee.EmployeeId, model.KPIGroup.KPIGroupId, totalScore, detail);
                 }
 
                 result.Append(_EndRootTag);
@@ -66,6 +73,11 @@ namespace SMS.EPA.Criteria.EmployeeEPA.RatingByKPI
         public override bool IsValid()
         {
             return EvaluatorId > 0;
+        }
+
+        private string Encode(string plainText)
+        {
+            return !string.IsNullOrEmpty(plainText) ? EncodeService.Encode(plainText) : string.Empty;
         }
     }
 }

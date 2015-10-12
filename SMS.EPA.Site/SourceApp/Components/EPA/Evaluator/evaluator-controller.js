@@ -33,10 +33,12 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
                     disciplineScore = 0;
                 }
 
+                memberEPA.ProcessBySelf.TotalScore = memberEPA.ProcessBySelf.TotalScore ? parseFloat(memberEPA.ProcessBySelf.TotalScore) : 0;
                 memberEPA.DisciplineScore = disciplineScore;
 
                 if (memberEPA.HasDisciplineScore) {
                     memberEPA.FinalScore = totalScore + memberEPA.DisciplineScore;
+                    memberEPA.ProcessBySelf.TotalScore += memberEPA.DisciplineScore;
                 }
                 else {
                     memberEPA.FinalScore = totalScore;

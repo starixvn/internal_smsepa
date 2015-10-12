@@ -266,6 +266,7 @@
     <Content Include="Content\Site\images\sort-icon.png" />
     <Content Include="Content\Site\images\sprites.png" />
     <Content Include="Content\Site\images\sprite_ico_2012-05-15.png" />
+    <Content Include="Content\Site\images\sprite_process.png" />
     <Content Include="Content\Site\images\success.png" />
     <Content Include="Content\Site\images\table_header_repeat.jpg" />
     <Content Include="Content\Site\images\tb_bg.gif" />

@@ -19,18 +19,7 @@ namespace SMS.EPA.Model.EmployeeEPA.RatingByKPI
 
         public string TotalScoreEncode { get; set; }
 
-        public string TotalScore
-        {
-            get
-            {
-                return !string.IsNullOrEmpty(TotalScoreEncode) ? EncodeService.Decode(TotalScoreEncode) : string.Empty;
-            }
-
-            set
-            {
-                TotalScoreEncode = !string.IsNullOrEmpty(value) ? EncodeService.Encode(value) : string.Empty;
-            }
-        }
+        public string TotalScore { get; set; }
 
         public string TotalScoreOriginal
         {

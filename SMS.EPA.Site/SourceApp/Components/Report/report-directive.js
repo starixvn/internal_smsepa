@@ -18,7 +18,7 @@ reportModule.directive('gridEpaSummaryReport', ['$timeout', 'utilitiesFactory', 
         ];
 
         if (periodSelecteds && periodSelecteds.length > 0) {
-            var column = { HeaderText: "Final Score", Name: "1", MergeColNumber: periodSelecteds.length };
+            var column = { HeaderText: "Final Score", Name: "" + periodSelecteds[0].PeriodId, MergeColNumber: periodSelecteds.length };
 
             groupHeaders[0].Columns.push(column);
         }
@@ -39,7 +39,7 @@ reportModule.directive('gridEpaSummaryReport', ['$timeout', 'utilitiesFactory', 
 
         if (periodSelecteds && periodSelecteds.length > 0) {
             for (var i = 0; i < periodSelecteds.length; i++) {
-                var periodHeader = { HeaderText: periodSelecteds[i].Name, Width: 100, Name: "" + (i + 1), HeaderAlign: "center", CellAlign: "center" };
+                var periodHeader = { HeaderText: periodSelecteds[i].Name, Width: 100, Name: "" + periodSelecteds[i].PeriodId, HeaderAlign: "center", CellAlign: "center" };
 
                 columnHeaders.push(periodHeader);
             }
@@ -72,10 +72,10 @@ reportModule.directive('gridEpaSummaryReport', ['$timeout', 'utilitiesFactory', 
 
                     if (index !== -1) {
                         var finalScore = epaEmployee.Periods[index].FinalScore;
-                        periodRow = { Name: "" + (j + 1), Value: finalScore };
+                        periodRow = { Name: "" + periodSelected.PeriodId, Value: finalScore };
                     }
                     else {
-                        periodRow = { Name: "" + (j + 1), Value: "-" };
+                        periodRow = { Name: "" + periodSelected.PeriodId, Value: "-" };
                     }
 
                     currentRow.Columns.push(periodRow);

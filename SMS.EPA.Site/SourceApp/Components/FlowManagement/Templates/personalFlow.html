@@ -98,8 +98,7 @@
                                             <li class="alert alert-info nomargin" ng-repeat="humanResource in personalFlowCtrl.humanResources.employees">
                                                 <a href="javascript:;" class="glyphicon glyphicon-remove icon-close"
                                                    ng-click="personalFlowCtrl.removeItemFromList(humanResource, personalFlowCtrl.humanResources.employees)"></a>
-                                                <img tooltip="{{humanResource.FullName}}" class="img-flow"
-                                                     src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;f=y" />
+                                                <img tooltip="{{humanResource.FullName}}" class="img-flow" ng-src="{{humanResource.Avatar}}" />
                                                 <p>{{humanResource.NickName}}</p>
                                             </li>
                                         </ul>
@@ -107,8 +106,7 @@
                                     <td class="col-sm-2 text-center col-self">
                                         <ul class="sortable custom-ul list-unstyled" id="selfList">
                                             <li class="alert alert-info nomargin" ng-repeat="self in personalFlowCtrl.selfs.employees">
-                                                <img tooltip="{{self.FullName}}" class="img-flow"
-                                                     src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;f=y" />
+                                                <img tooltip="{{self.FullName}}" class="img-flow" ng-src="{{self.Avatar}}" />
                                                 <p>{{self.NickName}}</p>
                                             </li>
                                         </ul>
@@ -118,8 +116,7 @@
                                             <li class="alert alert-info nomargin" ng-repeat="evaluator in personalFlowCtrl.evaluators.employees">
                                                 <a href="javascript:;" class="glyphicon glyphicon-remove icon-close"
                                                    ng-click="personalFlowCtrl.removeItemFromList(evaluator, personalFlowCtrl.evaluators.employees)"></a>
-                                                <img tooltip="{{evaluator.FullName}}" class="img-flow"
-                                                     src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;f=y" />
+                                                <img tooltip="{{evaluator.FullName}}" class="img-flow" ng-src="{{evaluator.Avatar}}" />
                                                 <p>{{evaluator.NickName}}</p>
                                             </li>
                                         </ul>
@@ -129,8 +126,7 @@
                                             <li class="alert alert-info nomargin" ng-repeat="reviewer in personalFlowCtrl.reviewers.employees">
                                                 <a href="javascript:;" class="glyphicon glyphicon-remove icon-close"
                                                    ng-click="personalFlowCtrl.removeItemFromList(reviewer, personalFlowCtrl.reviewers.employees)"></a>
-                                                <img tooltip="{{reviewer.FullName}}" class="img-flow"
-                                                     src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;f=y" />
+                                                <img tooltip="{{reviewer.FullName}}" class="img-flow" ng-src="{{reviewer.Avatar}}" />
                                                 <p>{{reviewer.NickName}}</p>
                                             </li>
                                         </ul>
@@ -140,8 +136,7 @@
                                             <li class="alert alert-info nomargin" ng-repeat="management in personalFlowCtrl.managements.employees">
                                                 <a href="javascript:;" class="glyphicon glyphicon-remove icon-close"
                                                    ng-click="personalFlowCtrl.removeItemFromList(management, personalFlowCtrl.managements.employees)"></a>
-                                                <img tooltip="{{management.FullName}}" class="img-flow"
-                                                     src="http://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;f=y" />
+                                                <img tooltip="{{management.FullName}}" class="img-flow" ng-src="{{management.Avatar}}" />
                                                 <p>{{management.NickName}}</p>
                                             </li>
                                         </ul>

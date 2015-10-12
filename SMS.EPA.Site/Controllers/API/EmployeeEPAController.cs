@@ -74,7 +74,6 @@ namespace SMS.EPA.Site.Controllers.API
                 };
 
                 epaInfo = _employeeEPAService.GetEPAInfoByEmployee(criteria);
-                epaInfo.Employee.Avatar = _commonController.Avatar(epaInfo.Employee.Code);
 
                 return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
             }
@@ -153,7 +152,6 @@ namespace SMS.EPA.Site.Controllers.API
                 };
 
                 epaInfo = _employeeEPAService.GetEPAInfoByEvaluator(criteria);
-                epaInfo.Employee.Avatar = _commonController.Avatar(epaInfo.Employee.Code);
 
                 return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
             }
@@ -232,7 +230,6 @@ namespace SMS.EPA.Site.Controllers.API
                 };
 
                 epaInfo = _employeeEPAService.GetEPAInfoByReviewer(criteria);
-                epaInfo.Employee.Avatar = _commonController.Avatar(epaInfo.Employee.Code);
 
                 return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
             }
@@ -306,7 +303,6 @@ namespace SMS.EPA.Site.Controllers.API
                 };
 
                 epaInfo = _employeeEPAService.GetEPAInfoByManagement(criteria);
-                epaInfo.Employee.Avatar = _commonController.Avatar(epaInfo.Employee.Code);
 
                 return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
             }
@@ -333,6 +329,18 @@ namespace SMS.EPA.Site.Controllers.API
         #endregion Management
 
         #region Rating By KPI
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.RatingByKPI, Policy = Policy.Read)]
+        public IList<Group> GetGroupByEvaluator()
+        {
+            var criteria = new GetGroupByEvaluatorCriteria()
+            {
+                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId
+            };
+
+            return _employeeEPAService.GetGroupByEvaluator(criteria);
+        }
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.RatingByKPI, Policy = Policy.Read)]
@@ -396,12 +404,15 @@ namespace SMS.EPA.Site.Controllers.API
         [HttpGet]
         public EPAModel GetEPAInfoById(int epaId)
         {
+            EPAModel epaInfo = new EPAModel();
             var criteria = new GetEPAInfoByIdCriteria()
             {
                 EPAId = epaId
             };
 
-            return _employeeEPAService.GetEPAInfoById(criteria);
+            epaInfo = _employeeEPAService.GetEPAInfoById(criteria);
+
+            return epaInfo;
         }
 
         [HttpPut]

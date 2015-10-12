@@ -196,6 +196,7 @@ namespace SMS.EPA.Repositories.Implement
 
                     GroupEmployeeByEPA(epas, employees);
                     GroupKPIByEPA(epas, kpis);
+                    DecodeAllScore(epas);
                 }
             }
 
@@ -222,23 +223,26 @@ namespace SMS.EPA.Repositories.Implement
         {
             foreach (EPAProcessModel process in processes)
             {
-                switch (process.ProcessId)
+                if (process.EPAId.Equals(epa.EPAId))
                 {
-                    case (int)ProcessType.Self:
-                        epa.ProcessBySelf = process;
-                        break;
+                    switch (process.ProcessId)
+                    {
+                        case (int)ProcessType.Self:
+                            epa.ProcessBySelf = process;
+                            break;
 
-                    case (int)ProcessType.Evaluator:
-                        epa.ProcessByEvaluators.Add(process);
-                        break;
+                        case (int)ProcessType.Evaluator:
+                            epa.ProcessByEvaluators.Add(process);
+                            break;
 
-                    case (int)ProcessType.Reviewer:
-                        epa.ProcessByReviewers.Add(process);
-                        break;
+                        case (int)ProcessType.Reviewer:
+                            epa.ProcessByReviewers.Add(process);
+                            break;
 
-                    case (int)ProcessType.Management:
-                        epa.ProcessByManagements.Add(process);
-                        break;
+                        case (int)ProcessType.Management:
+                            epa.ProcessByManagements.Add(process);
+                            break;
+                    }
                 }
             }
         }
@@ -382,6 +386,27 @@ namespace SMS.EPA.Repositories.Implement
             }
         }
 
+        private void DecodeAllScore(IEnumerable<RatingByKPIModel> epas)
+        {
+            foreach (RatingByKPIModel epa in epas)
+            {
+                epa.TotalScore = Decode(epa.TotalScoreEncode);
+
+                foreach (TemporaryKPIModel kpi in epa.KPIGroup.KPIs)
+                {
+                    var rate = 0;
+
+                    if (!string.IsNullOrEmpty(kpi.RateEncode))
+                    {
+                        rate = int.Parse(Decode(kpi.RateEncode));
+                    }
+
+                    kpi.Score = Decode(kpi.ScoreEncode).Replace("_" + kpi.KPIId, string.Empty);
+                    kpi.Rate = rate;
+                }
+            }
+        }
+
         private void DecodeTotalScore(EPAProcessModel process)
         {
             process.TotalScore = Decode(process.TotalScoreEncode);
@@ -402,7 +427,7 @@ namespace SMS.EPA.Repositories.Implement
 
             if (!string.IsNullOrEmpty(evaluation.RateEncode))
             {
-                rate = int.Parse(EncodeService.Decode(evaluation.RateEncode));
+                rate = int.Parse(Decode(evaluation.RateEncode));
             }
 
             evaluation.Score = Decode(evaluation.ScoreEncode).Replace("_" + evaluation.KPIId, string.Empty);

@@ -54,6 +54,8 @@ namespace SMS.EPA.Services.Interfaces
 
         #region Rating By KPI
 
+        IList<Group> GetGroupByEvaluator(GetGroupByEvaluatorCriteria criteria);
+
         IEnumerable<TargetTemplateModel> GetTargetTemplateByEvaluator(GetTargetTemplateByEvaluatorCriteria criteria);
 
         IEnumerable<TemporaryKPIModel> GetKPIByTargetTemplate(GetKPIByTargetTemplateCriteria criteria);

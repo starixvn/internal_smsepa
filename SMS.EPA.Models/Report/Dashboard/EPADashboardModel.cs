@@ -9,7 +9,6 @@
 
 namespace SMS.EPA.Model.Report.Dashboard
 {
-    using SMS.EPA.Core.Services;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.Period;
 
@@ -21,28 +20,15 @@ namespace SMS.EPA.Model.Report.Dashboard
 
         public string FinalScoreEncode { get; set; }
 
-        public string FinalScore
-        {
-            get
-            {
-                return !string.IsNullOrEmpty(FinalScoreEncode) ? EncodeService.Decode(FinalScoreEncode) : string.Empty;
-            }
-
-            set
-            {
-                FinalScoreEncode = EncodeService.Encode(value);
-            }
-        }
+        public string FinalScore { get; set; }
 
         public bool IsEndProcessBySelf { get; set; }
 
-        public int DisciplineScore
-        {
-            get
-            {
-                return 20;
-            }
-        }
+        public bool HasDisciplineScore { get; set; }
+
+        public float DisciplineScore { get; set; }
+
+        public float MaxDisciplineScore { get; set; }
 
         public PeriodModel Period { get; set; }
     }

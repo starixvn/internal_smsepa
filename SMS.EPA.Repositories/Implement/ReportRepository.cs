@@ -14,6 +14,7 @@ namespace SMS.EPA.Repositories.Implement
     using Fanex.Data;
     using Fanex.Data.Repository;
     using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Core.Services;
     using SMS.EPA.Model.Department;
     using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.Enitites;
@@ -42,6 +43,8 @@ namespace SMS.EPA.Repositories.Implement
                     "StatusId, PeriodId",
                     criteria.GetSpParams());
             }
+
+            DecodeFinalScore(result.MyEPAs);
 
             return result;
         }
@@ -111,14 +114,7 @@ namespace SMS.EPA.Repositories.Implement
                         },
                         "DepartmentId, GroupId, JobTitleId");
 
-                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel, StatusModel, EPAProcessModel>(
-                        (process, status) =>
-                        {
-                            process.Status = status;
-
-                            return process;
-                        },
-                        "StatusId");
+                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
 
                     var hashParam = db.GetOuputParams();
                     var totalItem = (int)hashParam["totalitem"];
@@ -167,28 +163,42 @@ namespace SMS.EPA.Repositories.Implement
             {
                 foreach (var process in processes)
                 {
-                    if (process.EPAId == epa.EPAId
-                        && process.ProcessId == (int)ProcessType.Self)
+                    if (process.EPAId == epa.EPAId)
                     {
-                        epa.ProcessBySelf = process;
-                    }
-                    else if (process.EPAId == epa.EPAId
-                        && process.ProcessId == (int)ProcessType.Evaluator)
-                    {
-                        epa.ProcessByEvaluators.Add(process);
-                    }
-                    else if (process.EPAId == epa.EPAId
-                        && process.ProcessId == (int)ProcessType.Reviewer)
-                    {
-                        epa.ProcessByReviewers.Add(process);
-                    }
-                    else if (process.EPAId == epa.EPAId
-                        && process.ProcessId == (int)ProcessType.Management)
-                    {
-                        epa.ProcessByManagements.Add(process);
+                        switch (process.ProcessId)
+                        {
+                            case (int)ProcessType.Self:
+                                epa.ProcessBySelf = process;
+                                break;
+
+                            case (int)ProcessType.Evaluator:
+                                epa.ProcessByEvaluators.Add(process);
+                                break;
+
+                            case (int)ProcessType.Reviewer:
+                                epa.ProcessByReviewers.Add(process);
+                                break;
+
+                            case (int)ProcessType.Management:
+                                epa.ProcessByManagements.Add(process);
+                                break;
+                        }
                     }
                 }
             }
+        }
+
+        private void DecodeFinalScore(IEnumerable<EPADashboardModel> epas)
+        {
+            foreach (EPADashboardModel epa in epas)
+            {
+                epa.FinalScore = Decode(epa.FinalScoreEncode);
+            }
+        }
+
+        private string Decode(string cipherText)
+        {
+            return !string.IsNullOrEmpty(cipherText) ? EncodeService.Decode(cipherText) : string.Empty;
         }
     }
 }

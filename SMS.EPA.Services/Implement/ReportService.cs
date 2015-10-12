@@ -322,7 +322,7 @@ namespace SMS.EPA.Services.Implement
         {
             object record = CreateRecord(memberEPA, phaseSelecteds, ref rowIndex);
 
-            if (rowIndex % 2 == 0)
+            if ((rowIndex - 1) % 2 == 0)
             {
                 writer.WriteRow(4, record);
             }

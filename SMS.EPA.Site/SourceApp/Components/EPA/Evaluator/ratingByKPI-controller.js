@@ -299,8 +299,8 @@ function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, CommonModel, 
         }
     };
 
-    vm.save = function (memberEPAs) {
-        RatingByKPIModel.updateKPIScore(memberEPAs, vm);
+    vm.save = function () {
+        RatingByKPIModel.updateKPIScore(vm);
     };
 
     vm.back = function () {
@@ -316,8 +316,8 @@ function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, CommonModel, 
             vm.targetTemplates = RatingByKPIModel.targetTemplates;
         });
 
-        CommonModel.getAllGroup().then(function () {
-            vm.groupOptions = CommonModel.groups;
+        RatingByKPIModel.getGroupByEvaluator().then(function () {
+            vm.groupOptions = RatingByKPIModel.groups;
         });
 
         vm.getMember(vm.filter.groupId);
@@ -332,10 +332,11 @@ function ($modalInstance, RatingByKPIModel, memberEPAs) {
     var vm = this;
 
     vm.confirmResult = 0;
+    vm.memberEPAs = memberEPAs;
 
     vm.save = function () {
         vm.confirmResult = 1;
-        RatingByKPIModel.updateKPIScore(memberEPAs, vm, $modalInstance);
+        RatingByKPIModel.updateKPIScore(vm, $modalInstance);
     };
 
     vm.ignore = function () {

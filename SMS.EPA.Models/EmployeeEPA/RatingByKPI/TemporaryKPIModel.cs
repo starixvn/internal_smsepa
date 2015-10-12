@@ -9,8 +9,6 @@
 
 namespace SMS.EPA.Model.EmployeeEPA.RatingByKPI
 {
-    using SMS.EPA.Core.Services;
-
     public class TemporaryKPIModel
     {
         public int EPAId { get; set; }
@@ -31,40 +29,11 @@ namespace SMS.EPA.Model.EmployeeEPA.RatingByKPI
 
         public string ScoreEncode { get; set; }
 
-        public string Score
-        {
-            get
-            {
-                return !string.IsNullOrEmpty(ScoreEncode) ? EncodeService.Decode(ScoreEncode).Replace("_" + KPIId, string.Empty) : string.Empty;
-            }
-
-            set
-            {
-                ScoreEncode = !string.IsNullOrEmpty(value) ? EncodeService.Encode(value + "_" + KPIId) : string.Empty;
-            }
-        }
+        public string Score { get; set; }
 
         public string RateEncode { get; set; }
 
-        public int Rate
-        {
-            get
-            {
-                var rate = 0;
-
-                if (!string.IsNullOrEmpty(RateEncode))
-                {
-                    rate = int.Parse(EncodeService.Decode(RateEncode));
-                }
-
-                return rate;
-            }
-
-            set
-            {
-                RateEncode = value > 0 ? EncodeService.Encode(value.ToString()) : string.Empty;
-            }
-        }
+        public int Rate { get; set; }
 
         public string CommentOriginal
         {
@@ -76,33 +45,7 @@ namespace SMS.EPA.Model.EmployeeEPA.RatingByKPI
 
         public string Comment { get; set; }
 
-        public string AdjustScoreEncode
-        {
-            get
-            {
-                if (!string.IsNullOrEmpty(AdjustScore))
-                {
-                    return EncodeService.Encode(AdjustScore + "_" + KPIId);
-                }
-
-                return string.Empty;
-            }
-        }
-
         public string AdjustScore { get; set; }
-
-        public string AdjustRateEncode
-        {
-            get
-            {
-                if (AdjustRate > 0)
-                {
-                    return EncodeService.Encode(AdjustRate.ToString());
-                }
-
-                return string.Empty;
-            }
-        }
 
         public int AdjustRate { get; set; }
 

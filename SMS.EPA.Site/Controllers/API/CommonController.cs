@@ -10,8 +10,6 @@
 namespace SMS.EPA.Site.Controllers.API
 {
     using System.Collections.Generic;
-    using System.IO;
-    using System.Web;
     using System.Web.Http;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Utilities;
@@ -160,18 +158,6 @@ namespace SMS.EPA.Site.Controllers.API
         public IEnumerable<StandardGradeModel> GetStandardGrade()
         {
             return _utilitiesController.GetStandardGrade();
-        }
-
-        public string Avatar(string code)
-        {
-            code += ".jpg";
-
-            if (File.Exists(HttpContext.Current.Server.MapPath("/avatars/" + code)))
-            {
-                return "/avatars/" + code;
-            }
-
-            return "/avatars/avatar.jpg";
         }
     }
 }

@@ -197,6 +197,19 @@ namespace SMS.EPA.Services.Implement
 
         #region Rating By KPI
 
+        public IList<Group> GetGroupByEvaluator(GetGroupByEvaluatorCriteria criteria)
+        {
+            IList<Group> groups = new List<Group>();
+            Check.Argument.IsNotNull(criteria, "criteria");
+
+            if (criteria.IsValid())
+            {
+                groups = GetData<Group>(criteria).ToList();
+            }
+
+            return groups;
+        }
+
         public IEnumerable<TargetTemplateModel> GetTargetTemplateByEvaluator(GetTargetTemplateByEvaluatorCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");

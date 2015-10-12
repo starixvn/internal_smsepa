@@ -4,21 +4,25 @@
         <div class="boxcontent">
             <form novalidate class="row filter form-horizontal" role="form">
                 <div class="form-group">
-                    <label class="col-sm-2 control-label required" data-translate="TargetTemplate"></label>
-                    <div class="col-sm-3">
-                        <select class="form-control" ng-model="ratingByKPICtrl.filter.targetTemplateId"
-                                ng-options="opt.TargetTemplateId as opt.Name for opt in ratingByKPICtrl.targetTemplates"
-                                ng-change="ratingByKPICtrl.getKPIByTargetTemplate()">
-                            <option style="display: none" value="">-- {{"All" | translate}} --</option>
-                        </select>
+                    <div class="required">
+                        <label class="col-sm-2 control-label" data-translate="TargetTemplate"></label>
+                        <div class="col-sm-3">
+                            <select class="form-control" ng-model="ratingByKPICtrl.filter.targetTemplateId"
+                                    ng-options="opt.TargetTemplateId as opt.Name for opt in ratingByKPICtrl.targetTemplates"
+                                    ng-change="ratingByKPICtrl.getKPIByTargetTemplate()">
+                                <option style="display: none" value="">-- {{"All" | translate}} --</option>
+                            </select>
+                        </div>
                     </div>
-                    <label class="col-sm-1 control-label required" data-translate="KPI"></label>
-                    <div class="col-sm-3">
-                        <select class="form-control" ng-model="ratingByKPICtrl.filter.kpiId"
-                                ng-options="opt.KPIId as opt.Name group by opt.KPIGroup.Name for opt in ratingByKPICtrl.kpis"
-                                ng-change="ratingByKPICtrl.viewKPIInfo()">
-                            <option style="display: none" value="">-- {{"All" | translate}} --</option>
-                        </select>
+                    <div class="required">
+                        <label class="col-sm-1 control-label" data-translate="KPI"></label>
+                        <div class="col-sm-3">
+                            <select class="form-control" ng-model="ratingByKPICtrl.filter.kpiId"
+                                    ng-options="opt.KPIId as opt.Name group by opt.KPIGroup.Name for opt in ratingByKPICtrl.kpis"
+                                    ng-change="ratingByKPICtrl.viewKPIInfo()">
+                                <option style="display: none" value="">-- {{"All" | translate}} --</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -62,7 +66,7 @@
                 <div class="form-group last" ng-show="ratingByKPICtrl.kpiSelected.IsRequiredEvaluate">
                     <label class="col-sm-2 control-label" data-translate="MaxPoints"></label>
                     <div class="col-sm-9">
-                        <label class="control-label" ng-bind="ratingByKPICtrl.kpiSelected.Weight"></label>
+                        <label class="control-label" ng-bind="ratingByKPICtrl.kpiSelected.Weight | customScore"></label>
                     </div>
                 </div>
             </div>
@@ -104,10 +108,8 @@
                         </td>
                         <td ng-bind="memberEPA.Employee.JobTitle.JobTitleName"></td>
                         <td class="text-center col-score">
-                            <span ng-repeat="kpi in memberEPA.KPIGroup.KPIs" ng-show="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
-                                <span ng-show="kpi.Score" ng-bind="kpi.Score | customNumber"></span>
-                                <span ng-show="!kpi.Score" ng-bind="0"></span>
-                            </span>
+                            <span ng-repeat="kpi in memberEPA.KPIGroup.KPIs"
+                                  ng-show="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal" ng-bind="kpi.Score | customScore"></span>
                         </td>
                         <td class="col-adjust-score">
                             <div class="row text-center list-star" ng-repeat="kpi in memberEPA.KPIGroup.KPIs" ng-show="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
@@ -132,8 +134,7 @@
                             </div>
                         </td>
                         <td class="text-center col-score">
-                            <strong ng-show="memberEPA.TotalScore" ng-bind="memberEPA.TotalScore | customNumber"></strong>
-                            <strong ng-show="!memberEPA.TotalScore" ng-bind="0"></strong>
+                            <strong ng-bind="memberEPA.TotalScore | customScore"></strong>
                         </td>
                     </tr>
                 </tbody>
@@ -144,7 +145,7 @@
                 </tbody>
             </table>
             <div class="row text-center action-button">
-                <button class="button" ng-click="ratingByKPICtrl.save(ratingByKPICtrl.memberEPAs)"
+                <button class="button" ng-click="ratingByKPICtrl.save()"
                         ng-show="ratingByKPICtrl.memberEPAs.length > 0" data-translate="Save"></button>
                 <button class="btn btn-default customize" ng-click="ratingByKPICtrl.back()" data-translate="Back"></button>
             </div>

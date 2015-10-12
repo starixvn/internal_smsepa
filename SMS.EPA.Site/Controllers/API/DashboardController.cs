@@ -49,7 +49,6 @@ namespace SMS.EPA.Site.Controllers.API
 
             result = _reportService.GetDashboard(criteria);
             result.Employee = _commonController.GetEmployeeById(CurrentUser.EmployeeInfo.EmployeeId);
-            result.Employee.Avatar = _commonController.Avatar(result.Employee.Code);
 
             return result;
         }

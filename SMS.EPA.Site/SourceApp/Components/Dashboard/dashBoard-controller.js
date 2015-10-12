@@ -22,6 +22,23 @@ function (DashboardModel) {
 
             vm.employee = dashboardInfo.Employee;
             vm.myEPAs = dashboardInfo.MyEPAs;
+
+            angular.forEach(vm.myEPAs, function (myEPA) {
+                var finalScore, disciplineScore;
+                finalScore = myEPA.FinalScore ? parseFloat(myEPA.FinalScore) : 0;
+
+                myEPA.FinalScore = finalScore;
+
+                if (myEPA.HasDisciplineScore) {
+                    disciplineScore = myEPA.MaxDisciplineScore - myEPA.DisciplineScore;
+
+                    if (disciplineScore < 0) {
+                        disciplineScore = 0;
+                    }
+
+                    myEPA.FinalScore += disciplineScore;
+                }
+            });
         });
     };
 
