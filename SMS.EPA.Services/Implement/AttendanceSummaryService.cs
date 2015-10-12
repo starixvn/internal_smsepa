@@ -339,6 +339,11 @@ namespace SMS.EPA.Services.Implement
                 attendanceDetail.SystemSubtractScore += attendanceDetail.ChangeShift.Score;
                 attendanceDetail.ApproverSubtractScore += !attendanceDetail.ChangeShift.HasIgnored ? attendanceDetail.ChangeShift.Score : 0;
             }
+
+            if (attendanceDetail.SystemSubtractScore > Constants.MaxScoreSubtractDate)
+            {
+                attendanceDetail.SystemSubtractScore = Constants.MaxScoreSubtractDate;
+            }
         }
 
         private static IEnumerable<AttendanceDetailModel> GroupEmployeeInformation(
@@ -557,6 +562,7 @@ namespace SMS.EPA.Services.Implement
         {
             float systemSubtractScore = attendanceViolation.SystemSubtractScore > 0 ? -attendanceViolation.SystemSubtractScore : 0;
             float approverSubtractScore = attendanceViolation.ApproverSubtractScore > 0 ? -attendanceViolation.ApproverSubtractScore : 0;
+            float totalHours = int.Parse(attendanceViolation.TotalHours.Value) * 60;
 
             var record = new
             {
@@ -567,7 +573,7 @@ namespace SMS.EPA.Services.Implement
                 Code = attendanceViolation.ShiftName,
                 CheckIn = attendanceViolation.CheckIn.Value != null ? DateTime.Parse(attendanceViolation.CheckIn.Value).ToString(Constants.TimeFormant) : string.Empty,
                 CheckOut = attendanceViolation.CheckOut.Value != null ? DateTime.Parse(attendanceViolation.CheckOut.Value).ToString(Constants.TimeFormant) : string.Empty,
-                TotalHours = attendanceViolation.TotalHours.Value != null ? attendanceViolation.TotalHours.Value.Replace(".", ":") : string.Empty,
+                TotalHours = attendanceViolation.TotalHours.Value != null ? ConvertNumberToTime(totalHours.ToString()) : string.Empty,
                 LateIn = attendanceViolation.LateIn.Value != null ? ConvertNumberToTime(attendanceViolation.LateIn.Value) : string.Empty,
                 EarlyOut = attendanceViolation.EarlyOut.Value != null ? ConvertNumberToTime(attendanceViolation.EarlyOut.Value) : string.Empty,
                 Absent = attendanceViolation.Absent.Value != null ? attendanceViolation.Absent.Value : string.Empty,

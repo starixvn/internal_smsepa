@@ -100,6 +100,31 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Host)]
+        public CommandResult UpdateTargetTemplateBasicInformation(TargetTemplateModel targetTemplate)
+        {
+            CommandResult commandResult = new CommandResult();
+
+            if (ModelState.IsValid)
+            {
+                var updateTargetTemplateCriteria = new UpdateTargetTemplateBasicInformationCriteria()
+                {
+                    TargetTemplateId = targetTemplate.TargetTemplateId,
+                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
+                    Name = targetTemplate.Name,
+                    TargetTypeId = targetTemplate.TargetTypeId,
+                    ScoreRatingTypeId = targetTemplate.ScoreRatingTypeId,
+                    IsActive = targetTemplate.IsActive,
+                    Description = targetTemplate.Description
+                };
+
+                commandResult = _targetTemplateService.UpdateTargetTemplateBasicInformation(updateTargetTemplateCriteria);
+            }
+
+            return commandResult;
+        }
+
+        [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Host)]
         public CommandResult UpdateTargetTemplate(TargetTemplateModel targetTemplate)
         {
             CommandResult commandResult = new CommandResult();
@@ -109,11 +134,6 @@ namespace SMS.EPA.Site.Controllers.API
                 var updateTargetTemplateCriteria = new UpdateTargetTemplateCriteria()
                 {
                     TargetTemplateId = targetTemplate.TargetTemplateId,
-                    Name = targetTemplate.Name,
-                    TargetTypeId = targetTemplate.TargetTypeId,
-                    ScoreRatingTypeId = targetTemplate.ScoreRatingTypeId,
-                    IsActive = targetTemplate.IsActive,
-                    Description = targetTemplate.Description,
                     ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
                     KPIs = targetTemplate.ConvertKPIItemToXml(targetTemplate.KPIIds)
                 };

@@ -346,7 +346,8 @@ function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitie
             }
 
             if (attendanceDetail.TotalHours != null && attendanceDetail.TotalHours.Value) {
-                attendanceDetail.TotalHours.Value = attendanceDetail.TotalHours.Value.replace(".", ":");
+                var totalHours = parseFloat(attendanceDetail.TotalHours.Value) * 60;
+                attendanceDetail.TotalHours.Value = convertNumberToTime(totalHours);
             }
 
             if (attendanceDetail.LateIn != null && attendanceDetail.LateIn.Value) {

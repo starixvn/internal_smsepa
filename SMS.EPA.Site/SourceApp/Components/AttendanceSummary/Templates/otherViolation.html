@@ -44,7 +44,7 @@
             <label class="col-sm-3 control-label" data-translate="Comment">
             </label>
             <div class="col-sm-8">
-                <textarea type="text" class="form-control" maxlength="2000" ng-model="violationCtrl.violation.Comment"></textarea>
+                <textarea type="text" class="form-control txt-comment-violation" maxlength="2000" ng-model="violationCtrl.violation.Comment"></textarea>
             </div>
         </div>
         <div class="form-group">
@@ -76,34 +76,21 @@
             </tr>
         </thead>
         <tbody>
-            <tr dir-paginate="violation in violationCtrl.filteredItems | itemsPerPage: violationCtrl.pageSize" current-page="violationCtrl.currentPage">
-                <td class="text-center" ng-bind="violationCtrl.getIndex($index, violationCtrl.currentPage, violationCtrl.pageSize)"></td>
-                <td class="text-center" ng-bind="violation.NickName" ng-show="!violationCtrl.employee"></td>
-                <td class="text-center" ng-bind="violation.WorkDate | date: dateFormat"></td>
-                <td class="text-center" ng-bind="violation.Name"></td>
-                <td class="text-center" ng-bind="violation.Score | number: 1"></td>
-                <td class="text-center" ng-bind="violation.Comment"></td>
-                <td class="text-center">
-                    <a href="javascript:;" class="glyphicon glyphicon-remove icon-remove" title="Delete" ng-click="violationCtrl.delete(violation)"></a>
-                </td>
-            </tr>
-            <tr ng-show="violationCtrl.filteredItems.length == 0">
-                <td class="empty-result" colspan="7" data-translate="EmptyResult"></td>
-            </tr>
+        <tr ng-repeat="violation in violationCtrl.otherViolations">
+            <td class="text-center" ng-bind="$index"></td>
+            <td class="text-center" ng-bind="violation.NickName" ng-show="!violationCtrl.employee"></td>
+            <td class="text-center" ng-bind="violation.WorkDate | date: dateFormat"></td>
+            <td class="text-center" ng-bind="violation.Name"></td>
+            <td class="text-center" ng-bind="violation.Score | number: 1"></td>
+            <td class="text-center" ng-bind="violation.Comment"></td>
+            <td class="text-center">
+                <a href="javascript:;" class="glyphicon glyphicon-remove icon-remove" title="Delete" ng-click="violationCtrl.delete(violation)"></a>
+            </td>
+        </tr>
+        <tr ng-show="violationCtrl.otherViolations.length == 0">
+            <td class="empty-result" colspan="7" data-translate="EmptyResult"></td>
+        </tr>
         </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="7" class="paging">
-                    <span data-translate="Show"></span>
-                    <select class="dropdown-entry form-control" ng-model="violationCtrl.pageSize"
-                            ng-options="entry for entry in violationCtrl.entries"></select>
-                    <span data-translate="entries"></span>
-                    <div class="pull-right custom-paging">
-                        <dir-pagination-controls boundary-links="true"></dir-pagination-controls>
-                    </div>
-                </td>
-            </tr>
-        </tfoot>
     </table>
 </div>
 

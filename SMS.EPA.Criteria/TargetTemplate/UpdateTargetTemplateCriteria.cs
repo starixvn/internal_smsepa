@@ -15,19 +15,9 @@ namespace SMS.EPA.Criteria.TargetTemplate
     {
         public int TargetTemplateId { get; set; }
 
-        public string Name { get; set; }
-
-        public string Description { get; set; }
-
-        public bool IsActive { get; set; }
+        public string KPIs { get; set; }
 
         public int ModifiedBy { get; set; }
-
-        public int? TargetTypeId { get; set; }
-
-        public int ScoreRatingTypeId { get; set; }
-
-        public string KPIs { get; set; }
 
         public override bool IsValid()
         {

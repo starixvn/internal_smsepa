@@ -25,6 +25,8 @@ namespace SMS.EPA.Services.Interfaces
 
         CommandResult UpdateTargetTemplate(UpdateTargetTemplateCriteria criteria);
 
+        CommandResult UpdateTargetTemplateBasicInformation(UpdateTargetTemplateBasicInformationCriteria criteria);
+
         CommandResult DeleteTargetTemplate(DeleteTargetTemplateCriteria criteria);
 
         CommandResult AddKPIGroupWeight(SetKPIGroupOfTargetTemplateCriteria criteria);

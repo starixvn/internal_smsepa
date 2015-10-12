@@ -18,6 +18,9 @@ targetTemplateModule.factory('targetTemplateFactory', ['$http', 'baseUrl', funct
         updateTargetTemplate: function (targetTemplate) {
             return $http.put(baseUrl + 'api/TargetTemplate/UpdateTargetTemplate', targetTemplate);
         },
+        updateTargetTemplateBasicInformation: function (targetTemplate) {
+            return $http.put(baseUrl + 'api/TargetTemplate/UpdateTargetTemplateBasicInformation', targetTemplate);
+        },
         deleteTargetTemplate: function (targetTemplateId) {
             return $http['delete'](baseUrl + 'api/TargetTemplate/DeleteTargetTemplate', { params: { targetTemplateId: targetTemplateId} });
         },

@@ -118,8 +118,8 @@ function ($window, $location, TargetTemplateModel, CommonModel, baseUrl) {
 }]);
 
 targetTemplateModule.controller('UpdateTargetTemplateController',
-['$window', '$routeParams', 'TargetTemplateModel',
-function ($window, $routeParams, TargetTemplateModel) {
+['$routeParams', 'TargetTemplateModel',
+function ($routeParams, TargetTemplateModel) {
     var vm = this;
 
     vm.targetTemplateId = parseInt($routeParams.id);
@@ -131,14 +131,14 @@ function ($window, $routeParams, TargetTemplateModel) {
         kpi: $routeParams.viewKPIs ? true : false
     };
 
-    var getTargetTemplateById = function (targetTemplateId) {
+    vm.getTargetTemplateById = function (targetTemplateId) {
         TargetTemplateModel.getTargetTemplateById(targetTemplateId).then(function () {
             vm.targetTemplate = TargetTemplateModel.targetTemplate;
             vm.originalScoreTypeId = vm.targetTemplate.ScoreRatingTypeId;
         });
     };
 
-    getTargetTemplateById(vm.targetTemplateId);
+    vm.getTargetTemplateById(vm.targetTemplateId);
 
     vm.tabInfoSelect = function () {
         vm.dataTab.information = true;
@@ -149,25 +149,11 @@ function ($window, $routeParams, TargetTemplateModel) {
         vm.dataTab.information = false;
         vm.dataTab.kpi = true;
     };
-
-    vm.save = function (targetTemplate) {
-        if (TargetTemplateModel.validateTargetTemplate(targetTemplate)) {
-            TargetTemplateModel.updateTargetTemplate(targetTemplate).then(function () {
-                if (vm.targetTemplate.ScoreRatingTypeId !== vm.originalScoreTypeId) {
-                    getTargetTemplateById(vm.targetTemplateId);
-                }
-            });
-        }
-    };
-
-    vm.cancel = function () {
-        $window.history.back();
-    };
 }]);
 
 targetTemplateModule.controller('TargetTemplateGeneralInformationController',
-['TargetTemplateModel', 'CommonModel',
-function (TargetTemplateModel, CommonModel) {
+['$scope', '$window', 'TargetTemplateModel', 'CommonModel',
+function ($scope, $window, TargetTemplateModel, CommonModel) {
     var vm = this;
 
     vm.scoreRatingTypeOptions = TargetTemplateModel.scoreRatingTypes;
@@ -180,11 +166,25 @@ function (TargetTemplateModel, CommonModel) {
     TargetTemplateModel.getScoreRatingType(null, true).then(function () {
         vm.scoreRatingTypeOptions = TargetTemplateModel.scoreRatingTypes;
     });
+
+    vm.save = function (targetTemplate) {
+        if (TargetTemplateModel.validateTargetTemplate(targetTemplate)) {
+            TargetTemplateModel.updateTargetTemplateBasicInformation(targetTemplate).then(function () {
+                if (targetTemplate.ScoreRatingTypeId !== $scope.updateCtrl.originalScoreTypeId) {
+                    $scope.updateCtrl.getTargetTemplateById(targetTemplate.TargetTemplateId);
+                }
+            });
+        }
+    };
+
+    vm.cancel = function () {
+        $window.history.back();
+    };
 }]);
 
 targetTemplateModule.controller('KPIListController',
-['$scope', 'TargetTemplateModel',
-function ($scope, TargetTemplateModel) {
+['$scope', '$window', 'TargetTemplateModel',
+function ($scope, $window, TargetTemplateModel) {
     var vm = this;
 
     vm.targetTemplateId = $scope.updateCtrl.targetTemplateId;
@@ -340,6 +340,14 @@ function ($scope, TargetTemplateModel) {
             event.preventDefault();
             event.stopPropagation();
         }
+    };
+
+    vm.save = function (targetTemplate) {
+        TargetTemplateModel.updateTargetTemplate(targetTemplate);
+    };
+
+    vm.cancel = function () {
+        $window.history.back();
     };
 }]);
 

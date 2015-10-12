@@ -746,25 +746,6 @@ permission, PeriodModel, TargetTemplateModel, FlowMngModel, CommonModel) {
         return hasEdited;
     };
 
-    var checkHasFieldEdit = function (fieldEdit) {
-        var hasEdited = false;
-
-        if (fieldEdit.targetTemplate) {
-            hasEdited = true;
-        }
-        else if (fieldEdit.evaluator) {
-            hasEdited = true;
-        }
-        else if (fieldEdit.startDate) {
-            hasEdited = true;
-        }
-        else if (fieldEdit.endDate) {
-            hasEdited = true;
-        }
-
-        return hasEdited;
-    };
-
     vm.save = function () {
         if (vm.singleMode) {
             if (PeriodModel.validateEmployeeSetting(vm.employeeOptions)) {
@@ -782,7 +763,7 @@ permission, PeriodModel, TargetTemplateModel, FlowMngModel, CommonModel) {
             }
         }
         else {
-            if (checkHasFieldEdit(vm.fieldEdit)) {
+            if (PeriodModel.checkHasFieldEdit(vm.fieldEdit)) {
                 var updatedEmployees = PeriodModel.updateEmployeeSettings(vm.employeeOptions, vm.fieldEdit, vm.selectedEmployees);
 
                 if (PeriodModel.validateEmployeeSettingMultipleMode(updatedEmployees)) {
@@ -792,9 +773,6 @@ permission, PeriodModel, TargetTemplateModel, FlowMngModel, CommonModel) {
                         $modalInstance.close();
                     });
                 }
-            }
-            else {
-                $modalInstance.dismiss("cancel");
             }
         }
     };

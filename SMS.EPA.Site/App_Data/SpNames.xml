@@ -81,6 +81,8 @@
         </Setting>
         <Setting Key="TargetTemplate_Update" SpName="TargetTemplate_Update" DbName="SMSEPA" Plain="0" >
         </Setting>
+        <Setting Key="TargetTemplate_UpdateBasicInformation" SpName="TargetTemplate_UpdateBasicInformation" DbName="SMSEPA" Plain="0" >
+        </Setting>
         <Setting Key="TargetTemplate_GetKPIGroup" SpName="TargetTemplate_GetKPIGroup" DbName="SMSEPA" Plain="0" >
         </Setting>
         <Setting Key="TargetTemplate_SetKPIGroup" SpName="TargetTemplate_SetKPIGroup" DbName="SMSEPA" Plain="0" >

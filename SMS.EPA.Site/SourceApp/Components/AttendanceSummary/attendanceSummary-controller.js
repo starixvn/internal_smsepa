@@ -166,7 +166,6 @@ function ($scope, $modalInstance, AttendanceModel, employee, startDate, endDate,
                 }
                 else {
                     vm.otherViolations = [];
-                    vm.filteredItems = [];
                 }
             }
         }
@@ -184,7 +183,6 @@ function ($scope, $modalInstance, AttendanceModel, employee, startDate, endDate,
     var getOtherViolations = function (employeeIds, startDate, endDate) {
         AttendanceModel.getOtherViolations(employeeIds, startDate, endDate).then(function () {
             vm.otherViolations = AttendanceModel.otherViolations;
-            utilitiesFactory.searchOnPage(vm, vm.otherViolations);
         });
     };
 

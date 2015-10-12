@@ -261,7 +261,7 @@ function ($scope, TargetEmployeeSettingModel, CommonModel, TargetTemplateModel, 
         vm.targetDepartmentSetting.departmentSettings = getSelectedDepartments(vm.targetDepartmentSettings);
 
         TargetEmployeeSettingModel.assignTargetTemplateToDepartment(vm.targetDepartmentSetting).then(function () {
-            getTargetDepartmentSetting(vm.filter.departmentId, vm.filter.isGroup, vm.filter.targetTypeId, vm.filter.showAll);
+            vm.query(vm.filter);
             vm.selectedAll = false;
         });
     };

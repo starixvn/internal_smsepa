@@ -27,7 +27,7 @@ function ($modal, targetTemplateFactory, errorFactory, notificationFactory, util
         }
         else {
             if (!targetTemplate.Name) {
-                notificationFactory.error("NameRequire");
+                notificationFactory.error("NameRequired");
                 return false;
             }
             else if (!targetTemplate.TargetTypeId) {
@@ -115,6 +115,20 @@ function ($modal, targetTemplateFactory, errorFactory, notificationFactory, util
     targetTemplateModel.getTargetTemplateById = function (targetTemplateId) {
         return targetTemplateFactory.getTargetTemplateById(targetTemplateId).success(function (targetTemplate) {
             targetTemplateModel.targetTemplate = targetTemplate;
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    targetTemplateModel.updateTargetTemplateBasicInformation = function (targetTemplate) {
+        return targetTemplateFactory.updateTargetTemplateBasicInformation(targetTemplate).success(function (response) {
+            if (response.IsSuccessful) {
+                notificationFactory.success("UpdatedSuccessfully");
+            }
+            else {
+                notificationFactory.error("", response.Message);
+            }
         })
         .error(function (response, status) {
             errorFactory.errorHandle(status);

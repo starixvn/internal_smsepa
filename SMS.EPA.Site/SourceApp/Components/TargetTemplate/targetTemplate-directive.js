@@ -161,7 +161,7 @@ targetTemplateModule.directive('getWeight', ['notificationFactory', function (no
         restrict: 'A',
         link: function (scope, iElement) {
             iElement.on('click', function () {
-                if (!scope.kpiListCtrl || validateKPIList(scope.kpiListCtrl.kpiList)) {
+                if (scope.kpiListCtrl && validateKPIList(scope.kpiListCtrl.kpiList)) {
                     var KPIs = [],
                         groupTable = $('#tblKPI'),
                         selectedRows = groupTable.find('tr.row-data').has('.check-group:checked');
@@ -184,7 +184,7 @@ targetTemplateModule.directive('getWeight', ['notificationFactory', function (no
                     });
 
                     scope.updateCtrl.targetTemplate.KPIIds = KPIs;
-                    scope.updateCtrl.save.call(this, scope.updateCtrl.targetTemplate);
+                    scope.kpiListCtrl.save.call(this, scope.updateCtrl.targetTemplate);
                 }
             });
         }

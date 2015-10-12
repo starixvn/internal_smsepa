@@ -88,6 +88,19 @@ namespace SMS.EPA.Services.Implement
             return result;
         }
 
+        public CommandResult UpdateTargetTemplateBasicInformation(UpdateTargetTemplateBasicInformationCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            CommandResult result = null;
+
+            if (criteria.IsValid())
+            {
+                result = Repository.Update(criteria);
+            }
+
+            return result;
+        }
+
         public CommandResult DeleteTargetTemplate(DeleteTargetTemplateCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");

@@ -1214,5 +1214,27 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         return employeeSetting;
     };
 
+    periodModel.checkHasFieldEdit = function (fieldEdit) {
+        var hasEdited = false;
+
+        if (fieldEdit.targetTemplate) {
+            hasEdited = true;
+        }
+        else if (fieldEdit.evaluator) {
+            hasEdited = true;
+        }
+        else if (fieldEdit.startDate) {
+            hasEdited = true;
+        }
+        else if (fieldEdit.endDate) {
+            hasEdited = true;
+        }
+        else {
+            notificationFactory.error("PeriodEditSettingWarning");
+        }
+
+        return hasEdited;
+    };
+
     return periodModel;
 }]);
