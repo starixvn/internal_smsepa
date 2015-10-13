@@ -15,6 +15,7 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Criteria.Report;
+    using SMS.EPA.Model.Period;
     using SMS.EPA.Model.Report.EPADetail;
     using SMS.EPA.Model.Report.EPASummary;
     using SMS.EPA.Services.Implement;
@@ -24,15 +25,19 @@ namespace SMS.EPA.Site.Controllers.API
     public class ReportController : BaseController
     {
         private readonly IReportService _reportService;
+        private readonly CommonController _commonController;
 
         public ReportController()
-            : this(null)
+            : this(null, null)
         {
         }
 
-        public ReportController(IReportService reportService)
+        public ReportController(
+            IReportService reportService,
+            CommonController commonController)
         {
             _reportService = reportService ?? new ReportService();
+            _commonController = commonController ?? new CommonController();
         }
 
         [HttpGet]
@@ -93,6 +98,16 @@ namespace SMS.EPA.Site.Controllers.API
             };
 
             return _reportService.GetEPADetailReport(criteria);
+        }
+
+        public IList<PeriodModel> GetPeriod(
+            int? targetTypeId = null,
+            bool? isActive = true)
+        {
+            IList<PeriodModel> periods = _commonController.GetPeriod(targetTypeId, isActive)
+                .OrderBy(x => x.StartDate).ToList();
+
+            return periods;
         }
     }
 }

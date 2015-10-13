@@ -300,6 +300,11 @@ function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, CommonModel, 
         }
     };
 
+    vm.viewDetail = function (memberEPA) {
+        var url = '/Evaluator/Detail/' + memberEPA.EPAId;
+        $window.open(url, '_blank');
+    };
+
     vm.save = function () {
         RatingByKPIModel.updateKPIScore(vm);
     };

@@ -134,7 +134,8 @@
                             </div>
                         </td>
                         <td class="text-center col-score">
-                            <strong ng-bind="memberEPA.TotalScore | customScore"></strong>
+                            <strong><a ng-show="memberEPA.TotalScore != ''" href="" ng-bind="memberEPA.TotalScore | customScore" ng-click="ratingByKPICtrl.viewDetail(memberEPA)"></a></strong>
+                            <strong><a ng-show="memberEPA.TotalScore == ''" href="" ng-bind="'N/A'" ng-click="ratingByKPICtrl.viewDetail(memberEPA)"></a></strong>
                         </td>
                     </tr>
                 </tbody>
