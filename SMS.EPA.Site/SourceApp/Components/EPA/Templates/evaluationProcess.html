@@ -23,7 +23,7 @@
                   popover-avatar avatar-src="{{memberEPAInfoCtrl.epaInfo.Evaluators[0].Avatar}}"></span>
             <span ng-show="memberEPAInfoCtrl.epaInfo.Evaluators.length > 1" ng-repeat="evaluator in memberEPAInfoCtrl.epaInfo.Evaluators">
                 <span ng-show="!$last" popover-avatar avatar-src="{{evaluator.Avatar}}">{{evaluator.NickName}}, </span>
-                <span ng-show="$last" popover-avatar avatar-src="{{evaluator.Avatar}}">{{evluator.NickName}}</span>
+                <span ng-show="$last" popover-avatar avatar-src="{{evaluator.Avatar}}">{{evaluator.NickName}}</span>
             </span>
         </div>
         <div>

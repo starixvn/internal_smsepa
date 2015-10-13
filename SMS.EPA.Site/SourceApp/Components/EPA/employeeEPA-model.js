@@ -20,8 +20,8 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         });
     };
 
-    employeeEPAModel.getEPAInfoByEmployee = function (epaId, actorUserId) {
-        return employeeEPAFactory.getEPAInfoByEmployee(epaId, actorUserId)
+    employeeEPAModel.getEPAInfoByEmployee = function (epaId) {
+        return employeeEPAFactory.getEPAInfoByEmployee(epaId)
         .success(function (epaInfo) {
             employeeEPAModel.epaInfo = epaInfo;
         }).error(function (response, status) {
@@ -65,8 +65,8 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         });
     };
 
-    employeeEPAModel.getEPAInfoByEvaluator = function (epaId, actorUserId) {
-        return employeeEPAFactory.getEPAInfoByEvaluator(epaId, actorUserId)
+    employeeEPAModel.getEPAInfoByEvaluator = function (epaId) {
+        return employeeEPAFactory.getEPAInfoByEvaluator(epaId)
         .success(function (epaInfo) {
             employeeEPAModel.epaInfo = epaInfo;
         }).error(function (response, status) {
@@ -83,8 +83,8 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         });
     };
 
-    employeeEPAModel.getEPAInfoByReviewer = function (epaId, actorUserId) {
-        return employeeEPAFactory.getEPAInfoByReviewer(epaId, actorUserId)
+    employeeEPAModel.getEPAInfoByReviewer = function (epaId) {
+        return employeeEPAFactory.getEPAInfoByReviewer(epaId)
         .success(function (epaInfo) {
             employeeEPAModel.epaInfo = epaInfo;
         }).error(function (response, status) {
@@ -101,8 +101,8 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         });
     };
 
-    employeeEPAModel.getEPAInfoByManagement = function (epaId, actorUserId) {
-        return employeeEPAFactory.getEPAInfoByManagement(epaId, actorUserId)
+    employeeEPAModel.getEPAInfoByManagement = function (epaId) {
+        return employeeEPAFactory.getEPAInfoByManagement(epaId)
         .success(function (epaInfo) {
             employeeEPAModel.epaInfo = epaInfo;
         }).error(function (response, status) {
@@ -326,6 +326,17 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         });
 
         return grade;
+    };
+
+    employeeEPAModel.openPopupRemindSaveChange = function (vm) {
+        vm.modalInstance = $modal.open({
+            templateUrl: 'SourceApp/Components/EPA/Templates/modalRemindSaveChange.html',
+            controller: "ModalRemindController as modalRemindCtrl",
+            backdrop: 'static',
+            windowClass: "modal-confirm-center"
+        });
+
+        return vm.modalInstance.result;
     };
 
     return employeeEPAModel;

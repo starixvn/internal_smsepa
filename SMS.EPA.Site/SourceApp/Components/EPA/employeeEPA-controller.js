@@ -296,3 +296,17 @@ function ($modalInstance, message) {
         $modalInstance.dismiss('cancel');
     };
 }]);
+
+appModule.controller("ModalRemindController",
+['$modalInstance',
+ function ($modalInstance) {
+     var vm = this;
+
+     vm.ok = function () {
+         $modalInstance.close();
+     };
+
+     vm.cancel = function () {
+         $modalInstance.dismiss("cancel");
+     };
+ }]);

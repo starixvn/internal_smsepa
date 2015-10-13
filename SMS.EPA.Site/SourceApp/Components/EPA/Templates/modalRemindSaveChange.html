@@ -1,0 +1,15 @@
+﻿<div id="remindPopup">
+    <div class="modal-header">
+        <div class="popup-header">
+            {{"Confirm" | translate}}
+            <span class="close-popup" ng-click="modalRemindCtrl.cancel()"></span>
+        </div>
+    </div>
+    <div class="modal-body">
+        Do you want to go to the detail page without saving the changed score?
+    </div>
+    <div class="modal-footer">
+        <button class="button" ng-click="modalRemindCtrl.ok()" data-translate="OK"></button>
+        <button class="btn btn-default customize" ng-click="modalRemindCtrl.cancel()" data-translate="Cancel"></button>
+    </div>
+</div>

@@ -55,7 +55,7 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
     };
 
     vm.viewEPADetail = function (memberEPA) {
-        vm.viewEPADetailUrl = '/Evaluator/Detail/' + memberEPA.EPAId + '?actorUserId=' + memberEPA.CurrentProcess.EvaluatorId;
+        vm.viewEPADetailUrl = '/Evaluator/Detail/' + memberEPA.EPAId;
     };
 
     vm.viewEPAResult = function (memberEPA) {
@@ -85,7 +85,6 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
     var vm = this;
 
     vm.epaId = parseInt($routeParams.id);
-    vm.actorUserId = parseInt($routeParams.actorUserId);
 
     vm.maxStar = 5;
     vm.dataSaved = false;
@@ -264,32 +263,30 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
     };
 
     var getEPAInfoByEvaluator = function () {
-        EmployeeEPAModel.getEPAInfoByEvaluator(vm.epaId, vm.actorUserId).then(function () {
-            var data = EmployeeEPAModel.epaInfo;
-            var totalScoreOfEvaluator = data.CurrentProcess.TotalScore ? parseFloat(data.CurrentProcess.TotalScore) : 0,
-                totalScoreOfSelf = data.ProcessBySelf.TotalScore ? parseFloat(data.ProcessBySelf.TotalScore) : 0,
-                disciplineScore = data.MaxDisciplineScore - data.DisciplineScore;
+        EmployeeEPAModel.getEPAInfoByEvaluator(vm.epaId).then(function () {
+            vm.epaInfo = EmployeeEPAModel.epaInfo;
+
+            var disciplineScore = vm.epaInfo.MaxDisciplineScore - vm.epaInfo.DisciplineScore;
+            vm.epaInfo.CurrentProcess.TotalScore = vm.epaInfo.CurrentProcess.TotalScore ? parseFloat(vm.epaInfo.CurrentProcess.TotalScore) : 0;
+            vm.epaInfo.ProcessBySelf.TotalScore = vm.epaInfo.ProcessBySelf.TotalScore ? parseFloat(vm.epaInfo.ProcessBySelf.TotalScore) : 0;
 
             if (disciplineScore < 0) {
                 disciplineScore = 0;
             }
 
-            data.DisciplineScore = disciplineScore;
+            vm.epaInfo.DisciplineScore = disciplineScore;
+            vm.finalScore = vm.epaInfo.CurrentProcess.TotalScore;
+            vm.finalScoreOfSelf = vm.epaInfo.ProcessBySelf.TotalScore;
 
-            if (data.HasDisciplineScore) {
-                vm.finalScore = totalScoreOfEvaluator !== 0 ? (totalScoreOfEvaluator + data.DisciplineScore) : data.DisciplineScore;
-                vm.finalScoreOfSelf = totalScoreOfSelf + data.DisciplineScore;
-            }
-            else {
-                vm.finalScore = totalScoreOfEvaluator;
-                vm.finalScoreOfSelf = totalScoreOfSelf;
+            if (vm.epaInfo.HasDisciplineScore) {
+                vm.finalScore += vm.epaInfo.DisciplineScore;
+                vm.finalScoreOfSelf += vm.epaInfo.DisciplineScore;
             }
 
-            vm.gradeOfSelf = EmployeeEPAModel.convertScoreToGrade(vm.finalScoreOfSelf, data.MaxFinalScore, vm.standardGrades)
+            vm.gradeOfSelf = EmployeeEPAModel.convertScoreToGrade(vm.finalScoreOfSelf, vm.epaInfo.MaxFinalScore, vm.standardGrades)
 
-            data.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, data.MaxFinalScore, vm.standardGrades);
-            vm.evaluatedDate = data.CurrentProcess.EvaluateDate ? data.CurrentProcess.EvaluateDate : null;
-            vm.epaInfo = data;
+            vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.epaInfo.MaxFinalScore, vm.standardGrades);
+            vm.evaluatedDate = vm.epaInfo.CurrentProcess.EvaluateDate ? vm.epaInfo.CurrentProcess.EvaluateDate : null;
             checkStatus(vm.epaInfo);
 
             angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {

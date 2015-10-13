@@ -60,26 +60,26 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Self, Policy = Policy.Read)]
-        public HttpResponseMessage GetEPAInfoByEmployee(
-            int epaId,
-            int actorUserId)
+        public HttpResponseMessage GetEPAInfoByEmployee(int epaId)
         {
             EPAModel epaInfo = new EPAModel();
-            if (actorUserId.Equals(CurrentUser.EmployeeInfo.EmployeeId))
-            {
-                var criteria = new GetEPAInfoByEmployeeCriteria()
-                {
-                    EPAId = epaId,
-                    EmployeeId = CurrentUser.EmployeeInfo.EmployeeId
-                };
+            int permission = CheckEmployeePermission(epaId, CurrentUser.EmployeeInfo.EmployeeId, (int)ProcessType.Self);
 
-                epaInfo = _employeeEPAService.GetEPAInfoByEmployee(criteria);
-
-                return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
-            }
-            else
+            switch (permission)
             {
-                return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
+                case (int)Policy.None:
+                    return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
+
+                default:
+                    var criteria = new GetEPAInfoByEmployeeCriteria()
+                    {
+                        EPAId = epaId,
+                        EmployeeId = CurrentUser.EmployeeInfo.EmployeeId
+                    };
+
+                    epaInfo = _employeeEPAService.GetEPAInfoByEmployee(criteria);
+
+                    return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
             }
         }
 
@@ -138,26 +138,26 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Evaluator, Policy = Policy.Read)]
-        public HttpResponseMessage GetEPAInfoByEvaluator(
-            int epaId,
-            int actorUserId)
+        public HttpResponseMessage GetEPAInfoByEvaluator(int epaId)
         {
             EPAModel epaInfo = new EPAModel();
-            if (actorUserId.Equals(CurrentUser.EmployeeInfo.EmployeeId))
-            {
-                var criteria = new GetEPAInfoByEvaluatorCriteria()
-                {
-                    EPAId = epaId,
-                    EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId
-                };
+            int permission = CheckEmployeePermission(epaId, CurrentUser.EmployeeInfo.EmployeeId, (int)ProcessType.Evaluator);
 
-                epaInfo = _employeeEPAService.GetEPAInfoByEvaluator(criteria);
-
-                return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
-            }
-            else
+            switch (permission)
             {
-                return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
+                case (int)Policy.None:
+                    return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
+
+                default:
+                    var criteria = new GetEPAInfoByEvaluatorCriteria()
+                    {
+                        EPAId = epaId,
+                        EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId
+                    };
+
+                    epaInfo = _employeeEPAService.GetEPAInfoByEvaluator(criteria);
+
+                    return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
             }
         }
 
@@ -216,26 +216,26 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Reviewer, Policy = Policy.Read)]
-        public HttpResponseMessage GetEPAInfoByReviewer(
-            int epaId,
-            int actorUserId)
+        public HttpResponseMessage GetEPAInfoByReviewer(int epaId)
         {
             EPAModel epaInfo = new EPAModel();
-            if (actorUserId.Equals(CurrentUser.EmployeeInfo.EmployeeId))
-            {
-                var criteria = new GetEPAInfoByReviewerCriteria()
-                {
-                    EPAId = epaId,
-                    ReviewerId = CurrentUser.EmployeeInfo.EmployeeId
-                };
+            int permission = CheckEmployeePermission(epaId, CurrentUser.EmployeeInfo.EmployeeId, (int)ProcessType.Reviewer);
 
-                epaInfo = _employeeEPAService.GetEPAInfoByReviewer(criteria);
-
-                return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
-            }
-            else
+            switch (permission)
             {
-                return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
+                case (int)Policy.None:
+                    return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
+
+                default:
+                    var criteria = new GetEPAInfoByReviewerCriteria()
+                    {
+                        EPAId = epaId,
+                        ReviewerId = CurrentUser.EmployeeInfo.EmployeeId
+                    };
+
+                    epaInfo = _employeeEPAService.GetEPAInfoByReviewer(criteria);
+
+                    return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
             }
         }
 
@@ -289,26 +289,26 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Management, Policy = Policy.Read)]
-        public HttpResponseMessage GetEPAInfoByManagement(
-            int epaId,
-            int actorUserId)
+        public HttpResponseMessage GetEPAInfoByManagement(int epaId)
         {
             EPAModel epaInfo = new EPAModel();
-            if (actorUserId.Equals(CurrentUser.EmployeeInfo.EmployeeId))
-            {
-                var criteria = new GetEPAInfoByManagementCriteria()
-                {
-                    EPAId = epaId,
-                    ManagementId = CurrentUser.EmployeeInfo.EmployeeId
-                };
+            int permission = CheckEmployeePermission(epaId, CurrentUser.EmployeeInfo.EmployeeId, (int)ProcessType.Management);
 
-                epaInfo = _employeeEPAService.GetEPAInfoByManagement(criteria);
-
-                return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
-            }
-            else
+            switch (permission)
             {
-                return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
+                case (int)Policy.None:
+                    return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
+
+                default:
+                    var criteria = new GetEPAInfoByManagementCriteria()
+                    {
+                        EPAId = epaId,
+                        ManagementId = CurrentUser.EmployeeInfo.EmployeeId
+                    };
+
+                    epaInfo = _employeeEPAService.GetEPAInfoByManagement(criteria);
+
+                    return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
             }
         }
 
@@ -442,6 +442,18 @@ namespace SMS.EPA.Site.Controllers.API
         private CommandResult AdjustScoreByReviewerOrManagement(AdjustScoreByReviewerOrManagementCriteria criteria)
         {
             return _employeeEPAService.AdjustScoreByReviewerOrManagement(criteria);
+        }
+
+        private int CheckEmployeePermission(int epaId, int actorUserId, int processId)
+        {
+            var checkPermissionCriteria = new GetEmployeePermissionCriteria()
+            {
+                EPAId = epaId,
+                ActorUserId = actorUserId,
+                ProcessId = processId
+            };
+
+            return _employeeEPAService.CheckEmployeePermission(checkPermissionCriteria);
         }
     }
 }

@@ -81,5 +81,7 @@ namespace SMS.EPA.Services.Interfaces
         CommandResult UpdateEPASummaryImport(UpdateEPASummaryImportCriteria criteria);
 
         string ConvertScoreToGrade(float score);
+
+        int CheckEmployeePermission(GetEmployeePermissionCriteria criteria);
     }
 }

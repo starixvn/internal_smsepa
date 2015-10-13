@@ -154,6 +154,8 @@
         </Setting>
     </Function>
     <Function Name="EPA">
+        <Setting Key="EPA_CheckPermission" SpName="EPA_CheckPermission" DbName="SMSEPA" Plain="0">
+        </Setting>
         <Setting Key="EPA_GetByEmployee" SpName="EPA_GetByEmployee" DbName="SMSEPA" Plain="0">
             <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode"/>
             <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode"/>

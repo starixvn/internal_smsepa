@@ -9,7 +9,7 @@ function (DashboardModel) {
     vm.showScore = false;
 
     vm.viewEPADetail = function (epa) {
-        vm.viewEPADetailUrl = '/SelfEvaluation/Detail/' + epa.EPAId + '?actorUserId=' + vm.employee.EmployeeId;;
+        vm.viewEPADetailUrl = '/SelfEvaluation/Detail/' + epa.EPAId;
     };
 
     vm.viewEPAResult = function (epa) {

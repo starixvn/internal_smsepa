@@ -373,6 +373,19 @@ namespace SMS.EPA.Services.Implement
             return grade;
         }
 
+        public int CheckEmployeePermission(GetEmployeePermissionCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            int result = -1;
+
+            if (criteria.IsValid())
+            {
+                result = GetDataEntity<int>(criteria);
+            }
+
+            return result;
+        }
+
         private StandardGrade GetGradeEnum(int gradeId)
         {
             StandardGrade grade = StandardGrade.None;

@@ -56,7 +56,10 @@
                     </div>
                     <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" ng-bind="'N/A'"></div>
                 </td>
-                <td class="text-center" ng-bind="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].NickName"></td>
+                <td class="text-center">
+                    <div ng-bind="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].NickName"
+                         popover-avatar avatar-src="{{memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].Avatar}}"></div>
+                </td>
                 <td class="text-center col-score">
                     <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].IsEndProcess">
                         {{memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore | customScore}}
@@ -71,7 +74,10 @@
                     </div>
                     <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].IsEndProcess" ng-bind="'N/A'"></div>
                 </td>
-                <td class="text-center" ng-bind="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].NickName"></td>
+                <td class="text-center">
+                    <div ng-bind="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].NickName"
+                         popover-avatar avatar-src="{{memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].Avatar}}">></div>
+                </td>
                 <td class="text-center col-score">
                     <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].IsEndProcess">
                         {{memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore | customScore}}
@@ -86,7 +92,10 @@
                     </div>
                     <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].IsEndProcess" ng-bind="'N/A'"></div>
                 </td>
-                <td class="text-center" ng-bind="memberEPAInfoCtrl.epaInfo.ProcessByManagements[$index].NickName"></td>
+                <td class="text-center">
+                    <div ng-bind="memberEPAInfoCtrl.epaInfo.ProcessByManagements[$index].NickName"
+                         popover-avatar avatar-src="{{memberEPAInfoCtrl.epaInfo.ProcessByManagements[$index].Avatar}}">></div>
+                </td>
                 <td class="text-center col-score">
                     <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByManagements[$index].IsEndProcess">
                         {{memberEPAInfoCtrl.epaInfo.ProcessByManagements[$index].TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore | customScore}}

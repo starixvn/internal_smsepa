@@ -380,6 +380,7 @@
     <Content Include="SourceApp\Components\EPA\MyEPA\Templates\listKPI.html" />
     <Content Include="SourceApp\Components\EPA\Templates\modalAdjustScore.html" />
     <Content Include="SourceApp\Components\EPA\Templates\modalNotification.html" />
+    <Content Include="SourceApp\Components\EPA\Templates\modalRemindSaveChange.html" />
     <Content Include="SourceApp\Components\EPA\Templates\modalUpdateComment.html" />
     <Content Include="SourceApp\Components\EPA\Templates\modalViewComment.html" />
     <Content Include="SourceApp\Components\EPA\Templates\performanceDetails.html" />

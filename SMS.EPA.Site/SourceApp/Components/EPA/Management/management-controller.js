@@ -2,8 +2,8 @@
 /*global epaModule*/
 
 epaModule.controller('ManagementController',
-['$translate', 'EmployeeEPAModel', 'CommonModel', 'utilitiesFactory', 'notificationFactory',
-function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificationFactory) {
+['$translate', '$location', 'EmployeeEPAModel', 'CommonModel', 'utilitiesFactory', 'notificationFactory',
+function ($translate, $location, EmployeeEPAModel, CommonModel, utilitiesFactory, notificationFactory) {
     var vm = this;
 
     vm.memberEPAs = EmployeeEPAModel.memberEPAs;
@@ -25,7 +25,29 @@ function ($translate, EmployeeEPAModel, CommonModel, utilitiesFactory, notificat
     };
 
     vm.viewEPADetail = function (memberEPA) {
-        vm.viewEPADetailUrl = '/Management/Detail/' + memberEPA.EPAId + '?actorUserId=' + memberEPA.CurrentProcess.EvaluatorId;
+        var hasChangeScore = false;
+
+        angular.forEach(vm.memberEPAs, function (item) {
+            var adjustScoreOriginal = item.CurrentProcess.AdjustScoreOriginal ? parseFloat(item.CurrentProcess.AdjustScoreOriginal) : 0,
+                adjustScore = item.CurrentProcess.AdjustScore ? parseFloat(item.CurrentProcess.AdjustScore) : 0;
+
+            if (adjustScoreOriginal !== adjustScore) {
+                hasChangeScore = true;
+            }
+        });
+
+        if (hasChangeScore) {
+            EmployeeEPAModel.openPopupRemindSaveChange(vm).then(function () {
+                vm.viewEPADetailUrl = '/Management/Detail/' + memberEPA.EPAId;
+                $location.url(vm.viewEPADetailUrl);
+            })['finally'](function () {
+                vm.modalInstance = '';
+            });
+        }
+        else {
+            vm.viewEPADetailUrl = '/Management/Detail/' + memberEPA.EPAId;
+        }
+        
     };
 
     vm.viewEPAResult = function (memberEPA) {
@@ -287,7 +309,6 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
     var vm = this;
 
     vm.epaId = parseInt($routeParams.id);
-    vm.actorUserId = parseInt($routeParams.actorUserId);
 
     vm.dataSaved = false;
     vm.isReadonly = false;
@@ -384,7 +405,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
     };
 
     var getEPAInfoByManagement = function () {
-        EmployeeEPAModel.getEPAInfoByManagement(vm.epaId, vm.actorUserId).then(function () {
+        EmployeeEPAModel.getEPAInfoByManagement(vm.epaId).then(function () {
             var totalScore, disciplineScore;
 
             vm.epaInfo = EmployeeEPAModel.epaInfo;

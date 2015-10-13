@@ -9,7 +9,7 @@ function (EmployeeEPAModel) {
     vm.myEPAs = EmployeeEPAModel.myEPAs;
 
     vm.viewEPADetail = function (epa) {
-        vm.viewEPADetailUrl = '/SelfEvaluation/Detail/' + epa.EPAId + '?actorUserId=' + epa.Employee.EmployeeId;
+        vm.viewEPADetailUrl = '/SelfEvaluation/Detail/' + epa.EPAId;
     };
 
     vm.viewEPAResult = function (epa) {
@@ -31,7 +31,6 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
     var vm = this;
 
     vm.epaId = parseInt($routeParams.id);
-    vm.actorUserId = parseInt($routeParams.actorUserId);
 
     vm.maxStar = 5;
     vm.dataSaved = false;
@@ -66,7 +65,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
         if (vm.finalScore > epaInfo.MaxFinalScore) {
             vm.finalScore = epaInfo.MaxFinalScore;
         }
-        else if(vm.finalScore < 0){
+        else if (vm.finalScore < 0) {
             vm.finalScore = 0;
         }
 
@@ -208,27 +207,24 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
     };
 
     var getEPAInfoByEmployee = function () {
-        EmployeeEPAModel.getEPAInfoByEmployee(vm.epaId, vm.actorUserId).then(function () {
-            var data = EmployeeEPAModel.epaInfo;
-            var totalScoreOfSelf = data.CurrentProcess.TotalScore ? parseFloat(data.CurrentProcess.TotalScore) : 0,
-                disciplineScore = data.MaxDisciplineScore - data.DisciplineScore;
+        EmployeeEPAModel.getEPAInfoByEmployee(vm.epaId).then(function () {
+            vm.epaInfo = EmployeeEPAModel.epaInfo;
+            var totalScore = vm.epaInfo.CurrentProcess.TotalScore ? parseFloat(vm.epaInfo.CurrentProcess.TotalScore) : 0,
+                disciplineScore = vm.epaInfo.MaxDisciplineScore - vm.epaInfo.DisciplineScore;
 
             if (disciplineScore < 0) {
                 disciplineScore = 0;
             }
 
-            data.DisciplineScore = disciplineScore;
+            vm.epaInfo.DisciplineScore = disciplineScore;
+            vm.finalScore = totalScore;
 
-            if (data.HasDisciplineScore) {
-                vm.finalScore = totalScoreOfSelf ? (totalScoreOfSelf + data.DisciplineScore) : data.DisciplineScore;
-            }
-            else {
-                vm.finalScore = totalScoreOfSelf;
+            if (vm.epaInfo.HasDisciplineScore) {
+                vm.finalScore += vm.epaInfo.DisciplineScore;
             }
 
-            data.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, data.MaxFinalScore, vm.standardGrades);
-            vm.evaluatedDate = data.CurrentProcess.EvaluateDate ? data.CurrentProcess.EvaluateDate : null;
-            vm.epaInfo = data;
+            vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.epaInfo.MaxFinalScore, vm.standardGrades);
+            vm.evaluatedDate = vm.epaInfo.CurrentProcess.EvaluateDate ? vm.epaInfo.CurrentProcess.EvaluateDate : null;
             checkStatus(vm.epaInfo);
 
             angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
