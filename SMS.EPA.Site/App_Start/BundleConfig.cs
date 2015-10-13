@@ -32,6 +32,7 @@
 
             bundles.Add(new ScriptBundle("~/bundles/vendor").Include(
                             "~/Libs/jquery-2.1.0.min.js",
+                            "~/Libs/bootstrap.min.js",
                             "~/Libs/angular.js",
                             "~/Libs/angular-resource.min.js",
                             "~/Libs/angular-route.min.js",

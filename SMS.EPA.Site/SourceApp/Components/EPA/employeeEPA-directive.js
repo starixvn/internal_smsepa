@@ -52,3 +52,40 @@ epaModule.filter('customScore', ['$filter', function ($filter) {
         return _number;
     };
 }]);
+
+epaModule.directive('popoverAvatar', ['baseUrl', function (baseUrl) {
+    return {
+        restrict: 'A',
+        link: function (scope, el, attrs) {
+            $(el).popover({
+                trigger: 'hover',
+                html: true,
+                content: function () {
+                    return '<img class="avatar" src="' + baseUrl + attrs.avatarSrc + '" />';
+                },
+                template: '<div class="popover popover-avatar" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
+                placement: 'top'
+            });
+        }
+    };
+}]);
+
+epaModule.directive('autoCollapse', ['$timeout', function ($timeout) {
+    return {
+        restrict: 'A',
+        scope: {
+            collapse: "="
+        },
+        link: function (scope, el, attrs) {
+            var autoCollapse = attrs.autoCollapse;
+
+            if (autoCollapse === 'true') {
+                $timeout(function () {
+                    $(el).collapse('hide');
+                    scope.collapse = true;
+                    attrs.$set('autoCollapse', false);
+                }, 5000);
+            }
+        }
+    };
+}]);

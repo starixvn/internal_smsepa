@@ -104,7 +104,7 @@
                             <span tooltip="{{memberEPA.Employee.Group.GroupName}}" ng-bind="memberEPA.Employee.Group.GroupCode"></span>
                         </td>
                         <td class="text-center">
-                            <span tooltip="{{memberEPA.Employee.FullName}}" ng-bind="memberEPA.Employee.NickName"></span>
+                            <span ng-bind="memberEPA.Employee.NickName" popover-avatar avatar-src="{{memberEPA.Employee.Avatar}}"></span>
                         </td>
                         <td ng-bind="memberEPA.Employee.JobTitle.JobTitleName"></td>
                         <td class="text-center col-score">

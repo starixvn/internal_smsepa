@@ -56,13 +56,18 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
             });
         });
 
-        epaInfo.CurrentProcess.TotalScore = totalScore.toFixed(2);
+        epaInfo.CurrentProcess.TotalScore = totalScore;
+        vm.finalScore = totalScore;
 
         if (epaInfo.HasDisciplineScore) {
             vm.finalScore = totalScore + epaInfo.DisciplineScore;
         }
-        else {
-            vm.finalScore = totalScore;
+
+        if (vm.finalScore > epaInfo.MaxFinalScore) {
+            vm.finalScore = epaInfo.MaxFinalScore;
+        }
+        else if(vm.finalScore < 0){
+            vm.finalScore = 0;
         }
 
         epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, epaInfo.MaxFinalScore, vm.standardGrades);

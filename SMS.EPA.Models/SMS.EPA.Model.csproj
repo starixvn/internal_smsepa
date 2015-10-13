@@ -70,7 +70,6 @@
     <Compile Include="EmployeeEPA\EPAModel.cs" />
     <Compile Include="EmployeeEPA\EPAProcessModel.cs" />
     <Compile Include="EmployeeEPA\EvaluationModel.cs" />
-    <Compile Include="EmployeeEPA\EvaluatorModel.cs" />
     <Compile Include="EmployeeEPA\EPAKPIGroupModel.cs" />
     <Compile Include="EmployeeEPA\EPAKPIModel.cs" />
     <Compile Include="Employee\EmployeeModel.cs" />

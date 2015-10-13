@@ -69,6 +69,7 @@ function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, CommonModel, 
         else {
             vm.kpiSelected = null;
             vm.filter.kpiId = '';
+            vm.memberEPAs = [];
 
             RatingByKPIModel.getKPIByTargetTemplate(vm.filter.targetTemplateId).then(function () {
                 vm.kpis = RatingByKPIModel.kpis;

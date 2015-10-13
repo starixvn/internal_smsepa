@@ -19,11 +19,11 @@
     <li ng-class="memberEPAInfoCtrl.getClassProgress(memberEPAInfoCtrl.epaInfo.Evaluators[0].StatusEndProcess)">
         <div class="col-evaluator">
             <strong>{{"Evaluator" | translate}}: </strong>
-            <span ng-show="memberEPAInfoCtrl.epaInfo.Evaluators.length == 1"
-                  ng-bind="memberEPAInfoCtrl.epaInfo.Evaluators[0].NickName"></span>
+            <span ng-show="memberEPAInfoCtrl.epaInfo.Evaluators.length == 1" ng-bind="memberEPAInfoCtrl.epaInfo.Evaluators[0].NickName"
+                  popover-avatar avatar-src="{{memberEPAInfoCtrl.epaInfo.Evaluators[0].Avatar}}"></span>
             <span ng-show="memberEPAInfoCtrl.epaInfo.Evaluators.length > 1" ng-repeat="evaluator in memberEPAInfoCtrl.epaInfo.Evaluators">
-                <span ng-show="!$last">{{evaluator.NickName}}, </span>
-                <span ng-show="$last">{{evluator.NickName}}</span>
+                <span ng-show="!$last" popover-avatar avatar-src="{{evaluator.Avatar}}">{{evaluator.NickName}}, </span>
+                <span ng-show="$last" popover-avatar avatar-src="{{evaluator.Avatar}}">{{evluator.NickName}}</span>
             </span>
         </div>
         <div>
@@ -45,11 +45,11 @@
         ng-class="memberEPAInfoCtrl.getClassProgress(memberEPAInfoCtrl.epaInfo.Reviewers[0].StatusEndProcess)">
         <div class="col-evaluator" ng-show="memberEPAInfoCtrl.epaInfo.Reviewers.length > 0">
             <strong>{{"Reviewer" | translate}}:</strong>
-            <span ng-show="memberEPAInfoCtrl.epaInfo.Reviewers.length == 1"
-                  ng-bind="memberEPAInfoCtrl.epaInfo.Reviewers[0].NickName"></span>
+            <span ng-show="memberEPAInfoCtrl.epaInfo.Reviewers.length == 1" ng-bind="memberEPAInfoCtrl.epaInfo.Reviewers[0].NickName"
+                  popover-avatar avatar-src="{{memberEPAInfoCtrl.epaInfo.Reviewers[0].Avatar}}">></span>
             <span ng-show="memberEPAInfoCtrl.epaInfo.Reviewers.length > 1" ng-repeat="reviewer in memberEPAInfoCtrl.epaInfo.Reviewers">
-                <span ng-show="!$last">{{reviewer.NickName}}, </span>
-                <span ng-show="$last">{{reviewer.NickName}}</span>
+                <span ng-show="!$last" popover-avatar avatar-src="{{reviewer.Avatar}}">{{reviewer.NickName}}, </span>
+                <span ng-show="$last" popover-avatar avatar-src="{{reviewer.Avatar}}">{{reviewer.NickName}}</span>
             </span>
         </div>
         <div>
@@ -71,11 +71,11 @@
         ng-class="memberEPAInfoCtrl.getClassProgress(memberEPAInfoCtrl.epaInfo.Managements[0].StatusEndProcess)">
         <div class="col-evaluator" ng-show="memberEPAInfoCtrl.epaInfo.Managements.length > 0">
             <strong>{{"Management" | translate}}:</strong>
-            <span ng-show="memberEPAInfoCtrl.epaInfo.Managements.length == 1"
-                  ng-bind="memberEPAInfoCtrl.epaInfo.Managements[0].NickName"></span>
+            <span ng-show="memberEPAInfoCtrl.epaInfo.Managements.length == 1" ng-bind="memberEPAInfoCtrl.epaInfo.Managements[0].NickName"
+                  popover-avatar avatar-src="{{memberEPAInfoCtrl.epaInfo.Managements[0].Avatar}}"></span>
             <span ng-show="memberEPAInfoCtrl.epaInfo.Managements.length > 1" ng-repeat="management in memberEPAInfoCtrl.epaInfo.Reviewers">
-                <span ng-show="!$last">{{management.NickName}}, </span>
-                <span ng-show="$last">{{management.NickName}}</span>
+                <span ng-show="!$last" popover-avatar avatar-src="{{management.Avatar}}">{{management.NickName}}, </span>
+                <span ng-show="$last" popover-avatar avatar-src="{{management.Avatar}}">{{management.NickName}}</span>
             </span>
         </div>
         <div>

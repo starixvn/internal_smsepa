@@ -20,10 +20,10 @@ namespace SMS.EPA.Core.Utilities
 
             if (File.Exists(HttpContext.Current.Server.MapPath("/avatars/" + code)))
             {
-                return "/avatars/" + code;
+                return "avatars/" + code;
             }
 
-            return "/avatars/avatar.jpg";
+            return "avatars/avatar.jpg";
         }
     }
 }
