@@ -263,7 +263,7 @@ namespace SMS.EPA.Services.Implement
 
             foreach (EPAProcessModel evaluator in evaluators)
             {
-                names += !string.IsNullOrWhiteSpace(names) ? " ," + evaluator.NickName : evaluator.NickName;
+                names += !string.IsNullOrWhiteSpace(names) ? ", " + evaluator.NickName : evaluator.NickName;
             }
 
             return names;
