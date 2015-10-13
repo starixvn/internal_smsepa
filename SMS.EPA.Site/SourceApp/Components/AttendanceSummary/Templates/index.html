@@ -109,18 +109,18 @@
                 <td class="text-center" ng-bind="attendanceCtrl.getIndex($index, attendanceCtrl.currentPage, attendanceCtrl.pageSize)"></td>
                 <td class="text-center" ng-bind="employee.Group.GroupName"></td>
                 <td class="text-center" ng-bind="employee.Employee.Code"></td>
-                <td class="text-center">
+                <td>
                     <span ng-bind="employee.Employee.NickName" tooltip="{{employee.Employee.FullName}}"></span>
                 </td>
-                <td ng-bind="employee.MissingCheckInOut"></td>
-                <td ng-bind="employee.WorkingBelowTime"></td>
-                <td ng-bind="employee.LateIn"></td>
-                <td ng-bind="employee.EarlyOut"></td>
-                <td ng-bind="employee.Absent"></td>
-                <td ng-bind="employee.UnpaidLeave"></td>
-                <td ng-bind="employee.UnpaidLeaveAbsent"></td>
-                <td ng-bind="employee.ChangeShift"></td>
-                <td>
+                <td class="text-right" ng-bind="employee.MissingCheckInOut"></td>
+                <td class="text-right" ng-bind="employee.WorkingBelowTime"></td>
+                <td class="text-right" ng-bind="employee.LateIn"></td>
+                <td class="text-right" ng-bind="employee.EarlyOut"></td>
+                <td class="text-right" ng-bind="employee.Absent"></td>
+                <td class="text-right" ng-bind="employee.UnpaidLeave"></td>
+                <td class="text-right" ng-bind="employee.UnpaidLeaveAbsent"></td>
+                <td class="text-right" ng-bind="employee.ChangeShift"></td>
+                <td class="text-right">
                     <div ng-show="employee.OtherViolationsScore > 0">
                         <a class="red" href="" ng-click="attendanceCtrl.addOtherViolations(employee)"
                            ng-if="attendanceCtrl.permission == 2 && employee.Permission == 2">
@@ -135,8 +135,14 @@
                         <span ng-if="employee.Permission == 1 || attendanceCtrl.permission == 1">{{employee.OtherViolationsScore | number: 1}}</span>
                     </div>
                 </td>
-                <td class="red">-{{employee.SystemSubtractScore | number: 1}}</td>
-                <td class="red">-{{employee.ApproverSubtractScore | number: 1}}</td>
+                <td class="text-right">
+                    <span class="red" ng-show="employee.SystemSubtractScore > 0">-{{employee.SystemSubtractScore | number: 1}}</span>
+                    <span ng-show="employee.SystemSubtractScore == 0">{{employee.SystemSubtractScore | number: 1}}</span>
+                </td>
+                <td class="text-right">
+                    <span class="red" ng-show="employee.ApproverSubtractScore > 0">-{{employee.ApproverSubtractScore | number: 1}}</span>
+                    <span ng-show="employee.ApproverSubtractScore == 0">{{employee.ApproverSubtractScore | number: 1}}</span>
+                </td>
                 <td class="text-center" ng-if="attendanceCtrl.permission >= 1">
                     <a class="glyphicon glyphicon-edit icon-edit" title="Edit" href="{{attendanceCtrl.attendanceDetailUrl}}" ng-click="attendanceCtrl.adjust(employee)"
                        ng-if="attendanceCtrl.permission == 2 && employee.Permission == 2"></a>

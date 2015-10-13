@@ -286,25 +286,22 @@ namespace SMS.EPA.AutoGenerateEvaluation
                 CommandResult insertEmployeeResult = _evaluationService.InsertEmployeeToSemiAnnualPeriod(insertEmployeeCriteria);
                 _LOG.Info("Result of auto add employee to semi annual period " + periodId + ": " + (insertEmployeeResult.IsSuccessful ? "0" : insertEmployeeResult.Message));
 
-                if (insertEmployeeResult.IsSuccessful)
+                _LOG.Info("Auto generate EPA to all employees of current semi annual period " + periodId + ": started at " + DateTime.Now.ToString());
+                var generateEvaluationCriteria = new AutoGenerateEvaluationCriteria
                 {
-                    _LOG.Info("Auto generate EPA to all employees of current semi annual period " + periodId + ": started at " + DateTime.Now.ToString());
-                    var generateEvaluationCriteria = new AutoGenerateEvaluationCriteria
-                    {
-                        PeriodId = periodId
-                    };
-                    CommandResult generateEvaluationResult = _periodService.GenerateEvaluation(generateEvaluationCriteria);
-                    _LOG.Info("Result of auto generate EPA to all employees of current semi annual period " + periodId + ": " + (generateEvaluationResult.IsSuccessful ? "0" : generateEvaluationResult.Message));
+                    PeriodId = periodId
+                };
+                CommandResult generateEvaluationResult = _periodService.GenerateEvaluation(generateEvaluationCriteria);
+                _LOG.Info("Result of auto generate EPA to all employees of current semi annual period " + periodId + ": " + (generateEvaluationResult.IsSuccessful ? "0" : generateEvaluationResult.Message));
 
-                    _LOG.Info("Check period has send mail to all employees when period started: started at " + DateTime.Now.ToString());
-                    var checkSendMailAllCriteria = new CheckPeriodStartedSendMailAllCriteria();
-                    bool hasSendMailAll = _evaluationService.CheckPeriodStartedSendMailAll(checkSendMailAllCriteria);
-                    _LOG.Info("Result of check period has send mail to all employees when period started: " + hasSendMailAll);
+                _LOG.Info("Check period has send mail to all employees when period started: started at " + DateTime.Now.ToString());
+                var checkSendMailAllCriteria = new CheckPeriodStartedSendMailAllCriteria();
+                bool hasSendMailAll = _evaluationService.CheckPeriodStartedSendMailAll(checkSendMailAllCriteria);
+                _LOG.Info("Result of check period has send mail to all employees when period started: " + hasSendMailAll);
 
-                    if (generateEvaluationResult.IsSuccessful && hasSendMailAll)
-                    {
-                        GetAndSendEmailToAllRelatedEmployee(periodId, string.Empty, null, (int)MailMode.Start);
-                    }
+                if (hasSendMailAll)
+                {
+                    GetAndSendEmailToAllRelatedEmployee(periodId, string.Empty, null, (int)MailMode.Start);
                 }
             }
         }
@@ -321,26 +318,23 @@ namespace SMS.EPA.AutoGenerateEvaluation
             CommandResult insertEmployeeResult = _evaluationService.InsertEmployeeToProbationPeriod(insertEmployeeCriteria);
             _LOG.Info("Result of auto add employee to probation period " + employeePeriod.PeriodId + ": " + (insertEmployeeResult.IsSuccessful ? "0" : insertEmployeeResult.Message));
 
-            if (insertEmployeeResult.IsSuccessful)
+            _LOG.Info("Auto generate EPA to all employees of current probation period " + employeePeriod.PeriodId + ": started at " + DateTime.Now.ToString());
+            var generateEvaluationCriteria = new AutoGenerateEvaluationCriteria
             {
-                _LOG.Info("Auto generate EPA to all employees of current probation period " + employeePeriod.PeriodId + ": started at " + DateTime.Now.ToString());
-                var generateEvaluationCriteria = new AutoGenerateEvaluationCriteria
-                {
-                    PeriodId = employeePeriod.PeriodId,
-                    EmployeeIds = employeePeriod.EmployeeIds
-                };
-                CommandResult generateEvaluationResult = _periodService.GenerateEvaluation(generateEvaluationCriteria);
-                _LOG.Info("Result of auto generate EPA to all employees of current probation period " + employeePeriod.PeriodId + ": " + (generateEvaluationResult.IsSuccessful ? "0" : generateEvaluationResult.Message));
+                PeriodId = employeePeriod.PeriodId,
+                EmployeeIds = employeePeriod.EmployeeIds
+            };
+            CommandResult generateEvaluationResult = _periodService.GenerateEvaluation(generateEvaluationCriteria);
+            _LOG.Info("Result of auto generate EPA to all employees of current probation period " + employeePeriod.PeriodId + ": " + (generateEvaluationResult.IsSuccessful ? "0" : generateEvaluationResult.Message));
 
-                _LOG.Info("Check period has send mail to all employees when period started: started at " + DateTime.Now.ToString());
-                var checkSendMailAllCriteria = new CheckPeriodStartedSendMailAllCriteria();
-                bool hasSendMailAll = _evaluationService.CheckPeriodStartedSendMailAll(checkSendMailAllCriteria);
-                _LOG.Info("Result of check period has send mail to all employees when period started: " + hasSendMailAll);
+            _LOG.Info("Check period has send mail to all employees when period started: started at " + DateTime.Now.ToString());
+            var checkSendMailAllCriteria = new CheckPeriodStartedSendMailAllCriteria();
+            bool hasSendMailAll = _evaluationService.CheckPeriodStartedSendMailAll(checkSendMailAllCriteria);
+            _LOG.Info("Result of check period has send mail to all employees when period started: " + hasSendMailAll);
 
-                if (generateEvaluationResult.IsSuccessful && hasSendMailAll)
-                {
-                    GetAndSendEmailToAllRelatedEmployee(employeePeriod.PeriodId, employeePeriod.EmployeeIds, null, (int)MailMode.Start);
-                }
+            if (hasSendMailAll)
+            {
+                GetAndSendEmailToAllRelatedEmployee(employeePeriod.PeriodId, employeePeriod.EmployeeIds, null, (int)MailMode.Start);
             }
         }
 
@@ -362,7 +356,7 @@ namespace SMS.EPA.AutoGenerateEvaluation
                 CommandResult generateEvaluationResult = _periodService.GenerateEvaluation(generateEvaluationCriteria);
                 _LOG.Info("Result of auto generate EPA to all employees of current promotion period " + period.PeriodId + ": " + (generateEvaluationResult.IsSuccessful ? "0" : generateEvaluationResult.Message));
 
-                if (generateEvaluationResult.IsSuccessful && hasSendMailAll)
+                if (hasSendMailAll)
                 {
                     GetAndSendEmailToAllRelatedEmployee(period.PeriodId, period.EmployeeIds, null, (int)MailMode.Start);
                 }

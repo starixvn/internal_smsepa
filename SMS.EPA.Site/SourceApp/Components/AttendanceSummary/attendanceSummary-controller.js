@@ -101,7 +101,7 @@ function ($scope, AttendanceModel, utilitiesFactory, CommonModel, baseUrl) {
         var startDate = vm.filter.startDate,
             endDate = vm.filter.endDate;
         vm.attendanceDetailUrl = baseUrl + 'Attendance/Detail/' + employee.Employee.EmployeeId
-            + '?startDate=' + startDate.toDateString() + '&endDate=' + endDate.toDateString();
+            + '?startDate=' + startDate.toDateString() + '&endDate=' + endDate.toDateString() + '&reasonId=' + vm.filter.reasonId;
     };
 
     vm.exportReport = function (filter) {
@@ -239,7 +239,7 @@ function ($scope, $window, $routeParams, AttendanceModel, utilitiesFactory, Comm
         employee: null,
         departmentId: null,
         employeeId: parseInt($routeParams.id),
-        reasonId: null
+        reasonId: parseInt($routeParams.reasonId)
     };
 
     vm.calendar = {

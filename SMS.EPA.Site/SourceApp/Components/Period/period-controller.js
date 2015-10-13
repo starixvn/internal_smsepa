@@ -657,9 +657,10 @@ permission, PeriodModel, TargetTemplateModel, FlowMngModel, CommonModel) {
         vm.employeeOptions.reviewer = getEvaluators(employeeSetting.Reviewers);
         vm.employeeOptions.management = getEvaluators(employeeSetting.Managements);
 
-        vm.employeeOptions.targetTemplateId = employeeSetting.TargetTemplate.TargetTemplateId;
-
-        updateTargetTemplates(employeeSetting.TargetTemplate);
+        if (employeeSetting.TargetTemplate) {
+            vm.employeeOptions.targetTemplateId = employeeSetting.TargetTemplate.TargetTemplateId;
+            updateTargetTemplates(employeeSetting.TargetTemplate);
+        }
     };
 
     /*
@@ -722,9 +723,10 @@ permission, PeriodModel, TargetTemplateModel, FlowMngModel, CommonModel) {
             selfEvaluator = getEvaluators(employeeSetting.SelfEvaluators),
             evaluator = getEvaluators(employeeSetting.Evaluators),
             reviewer = getEvaluators(employeeSetting.Reviewers),
-            management = getEvaluators(employeeSetting.Managements);
+            management = getEvaluators(employeeSetting.Managements),
+            originalTargetTemplateId = employeeSetting.TargetTemplate ? employeeSetting.TargetTemplate.TargetTemplateId : null;
 
-        if (vm.employeeOptions.targetTemplateId !== employeeSetting.TargetTemplate.TargetTemplateId) {
+        if (vm.employeeOptions.targetTemplateId !== originalTargetTemplateId) {
             hasEdited = true;
         }
         else if (JSON.stringify(humanResource) !== JSON.stringify(employeeOptions.humanResource)) {

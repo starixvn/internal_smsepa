@@ -177,7 +177,7 @@ namespace SMS.EPA.Services.Implement
             writer.CopyRows(3, 1);
 
             FillContentSummaryRow(attendanceEmployees, ref writer);
-            writer.SyncColumnsWidth(15);
+            writer.SyncColumnsWidth(16);
 
             writer.Render();
         }
@@ -215,7 +215,7 @@ namespace SMS.EPA.Services.Implement
             writer.CopyRows(3, 1);
 
             FillContentDetailRow(attendanceViolations, ref writer);
-            writer.SyncColumnsWidth(18);
+            writer.SyncColumnsWidth(19);
 
             writer.Render();
         }
@@ -525,6 +525,7 @@ namespace SMS.EPA.Services.Implement
                 Section = attendanceEmployee.Group.GroupName,
                 Code = attendanceEmployee.Employee.Code,
                 Nick = attendanceEmployee.Employee.NickName,
+                FullName = attendanceEmployee.Employee.FullName,
                 MissingInOut = attendanceEmployee.MissingCheckInOut,
                 WorkingBelowTime = attendanceEmployee.WorkingBelowTime,
                 LateIn = attendanceEmployee.LateIn,
@@ -562,20 +563,21 @@ namespace SMS.EPA.Services.Implement
         {
             float systemSubtractScore = attendanceViolation.SystemSubtractScore > 0 ? -attendanceViolation.SystemSubtractScore : 0;
             float approverSubtractScore = attendanceViolation.ApproverSubtractScore > 0 ? -attendanceViolation.ApproverSubtractScore : 0;
-            float totalHours = int.Parse(attendanceViolation.TotalHours.Value) * 60;
+            float totalHours = attendanceViolation.TotalHours.Value != null ? float.Parse(attendanceViolation.TotalHours.Value) * 60 : 0;
 
             var record = new
             {
                 Shift = attendanceViolation.Employee.Code,
                 Nick = attendanceViolation.Employee.NickName,
+                FullName = attendanceViolation.Employee.FullName,
                 Section = attendanceViolation.Employee.Group.GroupName,
                 Date = attendanceViolation.WorkDate,
                 Code = attendanceViolation.ShiftName,
                 CheckIn = attendanceViolation.CheckIn.Value != null ? DateTime.Parse(attendanceViolation.CheckIn.Value).ToString(Constants.TimeFormant) : string.Empty,
                 CheckOut = attendanceViolation.CheckOut.Value != null ? DateTime.Parse(attendanceViolation.CheckOut.Value).ToString(Constants.TimeFormant) : string.Empty,
-                TotalHours = attendanceViolation.TotalHours.Value != null ? ConvertNumberToTime(totalHours.ToString()) : string.Empty,
-                LateIn = attendanceViolation.LateIn.Value != null ? ConvertNumberToTime(attendanceViolation.LateIn.Value) : string.Empty,
-                EarlyOut = attendanceViolation.EarlyOut.Value != null ? ConvertNumberToTime(attendanceViolation.EarlyOut.Value) : string.Empty,
+                TotalHours = attendanceViolation.TotalHours.Value != null ? ConvertNumberToTime(totalHours) : string.Empty,
+                LateIn = attendanceViolation.LateIn.Value != null ? ConvertNumberToTime(double.Parse(attendanceViolation.LateIn.Value)) : string.Empty,
+                EarlyOut = attendanceViolation.EarlyOut.Value != null ? ConvertNumberToTime(double.Parse(attendanceViolation.EarlyOut.Value)) : string.Empty,
                 Absent = attendanceViolation.Absent.Value != null ? attendanceViolation.Absent.Value : string.Empty,
                 UnpaidLeave = attendanceViolation.UnpaidLeave.Value != null ? attendanceViolation.UnpaidLeave.Value : string.Empty,
                 UnpaidLeaveAbsent = attendanceViolation.UnpaidLeaveAbsent.Value != null ? attendanceViolation.UnpaidLeaveAbsent.Value : string.Empty,
@@ -590,9 +592,9 @@ namespace SMS.EPA.Services.Implement
             return record;
         }
 
-        private string ConvertNumberToTime(string number)
+        private string ConvertNumberToTime(double number)
         {
-            int numberMinutes = int.Parse(number);
+            double numberMinutes = Math.Round(number);
             string hoursResult = string.Empty;
             string minutesResult = string.Empty;
             string time = string.Empty;
@@ -600,7 +602,7 @@ namespace SMS.EPA.Services.Implement
             if (numberMinutes > 0)
             {
                 double hours = Math.Floor((double)numberMinutes / 60);
-                double minutes = Math.Floor(numberMinutes - (hours * 60));
+                double minutes = Math.Round(numberMinutes - (hours * 60));
 
                 if (hours < 10)
                 {

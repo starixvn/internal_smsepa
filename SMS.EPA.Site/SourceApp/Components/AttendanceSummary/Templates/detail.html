@@ -110,42 +110,42 @@
         </thead>
         <tbody>
             <tr dir-paginate="employee in detailAttendanceCtrl.filteredItems | itemsPerPage: detailAttendanceCtrl.pageSize" current-page="detailAttendanceCtrl.currentPage">
-                <td class="text-center" ng-bind="employee.Employee.Code"></td>
+                <td class="text-center width-100" ng-bind="employee.Employee.Code"></td>
                 <td class="width-200">
                     <span ng-bind="employee.Employee.NickName" tooltip="{{employee.Employee.FullName}}"></span>
                 </td>
                 <td class="text-center" ng-bind="employee.Employee.Group.GroupName"></td>
                 <td class="text-center width250" ng-bind="employee.WorkDate | date: detailAttendanceCtrl.dateFormat"></td>
-                <td class="text-center width150" ng-bind="employee.ShiftName"></td>
-                <td>
+                <td class="text-center width180" ng-bind="employee.ShiftName"></td>
+                <td class="width-100">
                     <span ng-show="employee.CheckIn.Value" ng-bind="employee.CheckIn.Value | date:detailAttendanceCtrl.timeFormat"></span>
                     <span ng-show="!employee.CheckIn.Value">-</span>
                     <input class="ignore-right" ng-show="employee.CheckIn.HasViolated" ng-model="employee.CheckIn.HasIgnored"
                            ng-click="detailAttendanceCtrl.calculateApproverScore(employee, employee.CheckIn)"
                            ng-disabled="detailAttendanceCtrl.permission != 2 || !employee.CheckIn.HasApprovedBy" type="checkbox"></input>
                 </td>
-                <td>
+                <td class="width-100">
                     <span ng-show="employee.CheckOut.Value" ng-bind="employee.CheckOut.Value | date:detailAttendanceCtrl.timeFormat"></span>
                     <span ng-show="!employee.CheckOut.Value">-</span>
                     <input class="ignore-right" ng-show="employee.CheckOut.HasViolated" ng-model="employee.CheckOut.HasIgnored"
                            ng-click="detailAttendanceCtrl.calculateApproverScore(employee, employee.CheckOut)"
                            ng-disabled="detailAttendanceCtrl.permission != 2 || !employee.CheckOut.HasApprovedBy" type="checkbox"></input>
                 </td>
-                <td class="width-100">
+                <td class="width180">
                     <span ng-show="employee.TotalHours.Value" ng-bind="employee.TotalHours.Value"></span>
                     <span ng-show="!employee.TotalHours.Value">-</span>
                     <input class="ignore-right" ng-show="employee.TotalHours.HasViolated" ng-model="employee.TotalHours.HasIgnored"
                            ng-click="detailAttendanceCtrl.calculateApproverScore(employee, employee.TotalHours)"
                            ng-disabled="detailAttendanceCtrl.permission != 2 || !employee.TotalHours.HasApprovedBy" type="checkbox" "></input>
                 </td>
-                <td class="width150">
+                <td class="width180">
                     <span ng-show="employee.LateIn.Value" ng-bind="employee.LateIn.Value"></span>
                     <span ng-show="!employee.LateIn.Value">-</span>
                     <input class="ignore-right" ng-show="employee.LateIn.HasViolated" ng-model="employee.LateIn.HasIgnored"
                            ng-click="detailAttendanceCtrl.calculateApproverScore(employee, employee.LateIn)"
                            ng-disabled="!employee.LateIn.HasApprovedBy || detailAttendanceCtrl.permission != 2" type="checkbox"></input>
                 </td>
-                <td class="width150">
+                <td class="width180">
                     <span ng-show="employee.EarlyOut.Value" ng-bind="employee.EarlyOut.Value"></span>
                     <span ng-show="!employee.EarlyOut.Value">-</span>
                     <input class="ignore-right" ng-show="employee.EarlyOut.HasViolated" ng-model="employee.EarlyOut.HasIgnored"
@@ -180,11 +180,11 @@
                            ng-click="detailAttendanceCtrl.calculateApproverScore(employee, employee.ChangeShift)"
                            ng-disabled="detailAttendanceCtrl.permission != 2 || !employee.ChangeShift.HasApprovedBy" type="checkbox"></input>
                 </td>
-                <td class="text-right">
+                <td class="text-right width-100">
                     <span class="red" ng-show="employee.SystemSubtractScore > 0">-{{employee.SystemSubtractScore | number: 1}}</span>
-                    <span class="red" ng-show="employee.SystemSubtractScore == 0">{{employee.SystemSubtractScore | number: 1}}</span>
+                    <span ng-show="employee.SystemSubtractScore == 0">{{employee.SystemSubtractScore | number: 1}}</span>
                 </td>
-                <td class="text-right">
+                <td class="text-right width-100">
                     <span class="red" ng-show="employee.ApproverSubtractScore > 0
                           && employee.ApproverSubtractScore <= employee.SystemSubtractScore">
                         -{{employee.ApproverSubtractScore | number: 1}}
@@ -193,13 +193,13 @@
                           && employee.ApproverSubtractScore > employee.SystemSubtractScore">
                         -{{employee.SystemSubtractScore | number: 1}}
                     </span>
-                    <span class="red" ng-show="employee.ApproverSubtractScore == 0">{{employee.ApproverSubtractScore | number: 1}}</span>
+                    <span ng-show="employee.ApproverSubtractScore == 0">{{employee.ApproverSubtractScore | number: 1}}</span>
                 </td>
-                <td class="text-center">
+                <td class="text-center width-100">
                     <span class="glyphicon icon-description"
                           ng-show="employee.ApproverComment.length > 0" tooltip="{{employee.ApproverComment}}"></span>
                 </td>
-                <td class="text-center">
+                <td class="text-center width-100">
                     <span class="glyphicon icon-description"
                           ng-show="employee.EmployeeComment.length > 0" tooltip="{{employee.EmployeeComment}}"></span>
                 </td>
