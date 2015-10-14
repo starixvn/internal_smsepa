@@ -33,6 +33,16 @@
                     </select>
                 </div>
             </div>
+            <div class="form-group top-buffer required">
+                <label class="col-sm-3 control-label" data-translate="RatingType">
+                </label>
+                <div class="col-sm-9">
+                    <select class="form-control" ng-options="type.RatingTypeId as type.Name for type in createCtrl.ratingTypes"
+                            ng-model="createCtrl.targetTemplate.RatingTypeId" required>
+                        <option value="">-- {{"Select" | translate}} --</option>
+                    </select>
+                </div>
+            </div>
             <div class="form-group top-buffer">
                 <label class="col-sm-3 control-label" data-translate="Active"></label>
                 <div class="col-sm-9 field active-div">

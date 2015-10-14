@@ -21,6 +21,8 @@ namespace SMS.EPA.Criteria.TargetTemplate
 
         public int ScoreRatingTypeId { get; set; }
 
+        public int RatingTypeId { get; set; }
+
         public int CreatedBy { get; set; }
 
         public override bool IsValid()

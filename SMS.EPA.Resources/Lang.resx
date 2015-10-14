@@ -1143,4 +1143,10 @@
   <data name="PeriodEditSettingWarning" xml:space="preserve">
     <value>Please select at least a setting to edit!</value>
   </data>
+  <data name="RatingTypeRequired" xml:space="preserve">
+    <value>The Rating Type field is required!</value>
+  </data>
+  <data name="RatingType" xml:space="preserve">
+    <value>Rating Type</value>
+  </data>
 </root>

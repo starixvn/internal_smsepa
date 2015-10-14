@@ -91,6 +91,8 @@
         </Setting>
         <Setting Key="TargetTemplate_RemoveKPIGroup" SpName="TargetTemplate_RemoveKPIGroup" DbName="SMSEPA" Plain="0" >
         </Setting>
+        <Setting Key="EpaRatingType_Get" SpName="EpaRatingType_Get" DbName="SMSEPA" Plain="0" >
+        </Setting>
     </Function>
     <Function Name="Flow">
         <Setting Key="FlowTemplate_Get" SpName="FlowTemplate_Get" DbName="SMSEPA" Plain="0" >

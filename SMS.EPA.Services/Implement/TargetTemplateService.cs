@@ -15,6 +15,7 @@ namespace SMS.EPA.Services.Implement
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.TargetTemplate;
+    using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.KPI;
     using SMS.EPA.Model.KPIGroup;
     using SMS.EPA.Model.TargetTemplate;
@@ -191,6 +192,19 @@ namespace SMS.EPA.Services.Implement
             }
 
             return kpiGroups;
+        }
+
+        public IEnumerable<RatingType> GetRatingType(GetRatingTypeCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<RatingType> ratingTypes = new List<RatingType>();
+
+            if (criteria.IsValid())
+            {
+                ratingTypes = GetData<RatingType>(criteria);
+            }
+
+            return ratingTypes;
         }
 
         private IEnumerable<TargetTemplateKPIGroupModel> GroupKPI(IEnumerable<KPIModel> kpiList)

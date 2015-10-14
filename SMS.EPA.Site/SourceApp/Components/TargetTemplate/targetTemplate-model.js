@@ -12,6 +12,7 @@ function ($modal, targetTemplateFactory, errorFactory, notificationFactory, util
     targetTemplateModel.kpiList = [];
     targetTemplateModel.permission = '';
     targetTemplateModel.scoreRatingTypes = [];
+    targetTemplateModel.ratingTypes = [];
 
     targetTemplateModel.getTargetTemplate = function (targetTypeId, isActive) {
         return targetTemplateFactory.getTargetTemplate(targetTypeId, isActive).success(function (targetTemplates) {
@@ -36,6 +37,10 @@ function ($modal, targetTemplateFactory, errorFactory, notificationFactory, util
             }
             else if (!targetTemplate.ScoreRatingTypeId) {
                 notificationFactory.error("ScoreRatingTypeRequired");
+                return false;
+            }
+            else if (!targetTemplate.RatingTypeId) {
+                notificationFactory.error("RatingTypeRequired");
                 return false;
             }
         }
@@ -338,6 +343,14 @@ function ($modal, targetTemplateFactory, errorFactory, notificationFactory, util
             targetTemplateModel.scoreRatingTypes = scoreRatingTypes;
         })
         .error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    targetTemplateModel.getRatingType = function () {
+        return targetTemplateFactory.getRatingType().success(function (ratingTypes) {
+            targetTemplateModel.ratingTypes = ratingTypes;
+        }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
     };

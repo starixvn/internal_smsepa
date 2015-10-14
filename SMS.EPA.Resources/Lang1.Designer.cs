@@ -2059,6 +2059,24 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Rating Type.
+        /// </summary>
+        public static string RatingType {
+            get {
+                return ResourceManager.GetString("RatingType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Rating Type field is required!.
+        /// </summary>
+        public static string RatingTypeRequired {
+            get {
+                return ResourceManager.GetString("RatingTypeRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to less.
         /// </summary>
         public static string ReadLess {

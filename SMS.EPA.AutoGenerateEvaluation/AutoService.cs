@@ -166,7 +166,7 @@ namespace SMS.EPA.AutoGenerateEvaluation
             if (evaluationProcesses != null && evaluationProcesses.Count() > 0)
             {
                 var updateEndProcessCriteria = new UpdateIsEndProcessCriteria();
-                updateEndProcessCriteria.ConvertEvaluationProcessToXml(evaluationProcesses);
+                updateEndProcessCriteria.EPAProcess = updateEndProcessCriteria.ConvertEvaluationProcessToXml(evaluationProcesses);
 
                 _LOG.Info("Update status of processes that ended yesterday: started at " + DateTime.Now.ToString());
                 CommandResult updateIsEndProcess = _evaluationService.UpdateEndProcess(updateEndProcessCriteria);

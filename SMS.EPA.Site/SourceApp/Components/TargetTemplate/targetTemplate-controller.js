@@ -82,6 +82,7 @@ function ($window, $location, TargetTemplateModel, CommonModel, baseUrl) {
     var vm = this;
     vm.scoreRatingTypeOptions = TargetTemplateModel.scoreRatingTypes;
     vm.permission = TargetTemplateModel.permission;
+    vm.ratingTypes = TargetTemplateModel.ratingTypes;
 
     if (vm.permission !== 2) {
         $location.path(baseUrl + 'Home/AccessDenied');
@@ -91,6 +92,7 @@ function ($window, $location, TargetTemplateModel, CommonModel, baseUrl) {
         Name: '',
         TargetTypeId: '',
         ScoreRatingTypeId: '',
+        RatingTypeId: '',
         IsActive: true,
         Description: ''
     };
@@ -102,6 +104,10 @@ function ($window, $location, TargetTemplateModel, CommonModel, baseUrl) {
 
     TargetTemplateModel.getScoreRatingType(null, true).then(function () {
         vm.scoreRatingTypeOptions = TargetTemplateModel.scoreRatingTypes;
+    });
+
+    TargetTemplateModel.getRatingType().then(function () {
+        vm.ratingTypes = TargetTemplateModel.ratingTypes;
     });
 
     vm.save = function (targetTemplate) {
@@ -158,6 +164,7 @@ function ($scope, $window, TargetTemplateModel, CommonModel) {
 
     vm.scoreRatingTypeOptions = TargetTemplateModel.scoreRatingTypes;
     vm.targetTypes = CommonModel.targetTypes;
+    vm.ratingTypes = TargetTemplateModel.ratingTypes;
 
     CommonModel.getTargetType(true).then(function () {
         vm.targetTypes = CommonModel.targetTypes;
@@ -165,6 +172,10 @@ function ($scope, $window, TargetTemplateModel, CommonModel) {
 
     TargetTemplateModel.getScoreRatingType(null, true).then(function () {
         vm.scoreRatingTypeOptions = TargetTemplateModel.scoreRatingTypes;
+    });
+
+    TargetTemplateModel.getRatingType().then(function () {
+        vm.ratingTypes = TargetTemplateModel.ratingTypes;
     });
 
     vm.save = function (targetTemplate) {

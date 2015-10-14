@@ -32,6 +32,10 @@ namespace SMS.EPA.Model.TargetTemplate
 
         public int ScoreRatingTypeId { get; set; }
 
+        public int RatingTypeId { get; set; }
+
+        public string RatingTypeName { get; set; }
+
         public string ScoreRatingTypeName { get; set; }
 
         public int MaxWeightSelf { get; set; }

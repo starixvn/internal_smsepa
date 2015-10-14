@@ -16,6 +16,7 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.ScoreRatingType;
     using SMS.EPA.Criteria.TargetTemplate;
+    using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.KPIGroup;
     using SMS.EPA.Model.ScoreRatingType;
     using SMS.EPA.Model.TargetTemplate;
@@ -113,6 +114,7 @@ namespace SMS.EPA.Site.Controllers.API
                     Name = targetTemplate.Name,
                     TargetTypeId = targetTemplate.TargetTypeId,
                     ScoreRatingTypeId = targetTemplate.ScoreRatingTypeId,
+                    RatingTypeId = targetTemplate.RatingTypeId,
                     IsActive = targetTemplate.IsActive,
                     Description = targetTemplate.Description
                 };
@@ -228,6 +230,13 @@ namespace SMS.EPA.Site.Controllers.API
 
             IEnumerable<ScoreRatingTypeModel> scoreRatingTypes = _scoreRatingTypeService.GetScoreRatingType(criteria);
             return scoreRatingTypes;
+        }
+
+        public IEnumerable<RatingType> GetRatingType()
+        {
+            var criteria = new GetRatingTypeCriteria();
+            IEnumerable<RatingType> ratingTypes = _targetTemplateService.GetRatingType(criteria);
+            return ratingTypes;
         }
     }
 }

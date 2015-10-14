@@ -44,6 +44,9 @@ targetTemplateModule.factory('targetTemplateFactory', ['$http', 'baseUrl', funct
         getScoreRatingType: function (scoreRatingTypeId, isActive) {
             return $http.get(baseUrl + 'api/TargetTemplate/GetScoreRatingType',
                 { params: { scoreRatingTypeId: scoreRatingTypeId, isActive: isActive } });
+        },
+        getRatingType: function () {
+            return $http.get(baseUrl + 'api/TargetTemplate/GetRatingType');
         }
     };
 } ]);
