@@ -117,7 +117,7 @@ namespace SMS.EPA.Site.Controllers.API
                 GroupId = groupId,
                 IsSpecialUser = isSpecialUser,
                 IsDisabledUser = isDisabledUser,
-                ApproverId = getByApprover == true ? (int?)CurrentUser.EmployeeInfo.EmployeeId : null,
+                ApproverId = getByApprover == true && CurrentUser != null ? (int?)CurrentUser.EmployeeInfo.EmployeeId : null,
                 IncludeVerifier = includeVerifier
             };
 

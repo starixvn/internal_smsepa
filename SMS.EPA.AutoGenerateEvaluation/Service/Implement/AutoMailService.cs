@@ -83,8 +83,9 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
                             else
                             {
                                 templateEmailPath = Path.Combine(assemblyPath, _startDateMailToEvaluator);
-                                _mailService.SendMailToEvaluatorStartDate(templateEmailPath, employeeSetting, period.Name);
                             }
+
+                            _mailService.SendMailToEvaluatorStartDate(templateEmailPath, employeeSetting, period.Name);
 
                             break;
 
