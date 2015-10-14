@@ -266,6 +266,7 @@
     <Content Include="Content\Site\images\sort-icon.png" />
     <Content Include="Content\Site\images\sprites.png" />
     <Content Include="Content\Site\images\sprite_ico_2012-05-15.png" />
+    <Content Include="Content\Site\images\sprite_process.png" />
     <Content Include="Content\Site\images\success.png" />
     <Content Include="Content\Site\images\table_header_repeat.jpg" />
     <Content Include="Content\Site\images\tb_bg.gif" />
@@ -303,6 +304,7 @@
     <Content Include="Libs\_references.js" />
     <Content Include="SourceApp\app.js" />
     <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary-controller.js" />
+    <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary-directive.js" />
     <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary-factory.js" />
     <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary-model.js" />
     <Content Include="SourceApp\Components\AttendanceSummary\Templates\detail.html" />
@@ -345,6 +347,8 @@
     <Content Include="SourceApp\Components\Employee\Templates\edit.html" />
     <Content Include="SourceApp\Components\Employee\Templates\index.html" />
     <Content Include="SourceApp\Components\Employee\Templates\resetPassword.html" />
+    <Content Include="SourceApp\Components\EPA\Convert\convertEPA-controller.js" />
+    <Content Include="SourceApp\Components\EPA\Convert\Templates\detail.html" />
     <Content Include="SourceApp\Components\EPA\employeeEPA-controller.js" />
     <Content Include="SourceApp\Components\EPA\employeeEPA-directive.js" />
     <Content Include="SourceApp\Components\EPA\employeeEPA-factory.js" />
@@ -365,6 +369,7 @@
     <Content Include="SourceApp\Components\EPA\Management\Templates\performanceResult.html" />
     <Content Include="SourceApp\Components\EPA\MyEPA\myepa-controller.js" />
     <Content Include="SourceApp\Components\EPA\MyEPA\Templates\detail.html" />
+    <Content Include="SourceApp\Components\EPA\MyEPA\Templates\summary.html" />
     <Content Include="SourceApp\Components\EPA\Reviewer\Templates\detail.html" />
     <Content Include="SourceApp\Components\EPA\Reviewer\Templates\index.html" />
     <Content Include="SourceApp\Components\EPA\Reviewer\reviewer-controller.js" />
@@ -375,9 +380,11 @@
     <Content Include="SourceApp\Components\EPA\MyEPA\Templates\listKPI.html" />
     <Content Include="SourceApp\Components\EPA\Templates\modalAdjustScore.html" />
     <Content Include="SourceApp\Components\EPA\Templates\modalNotification.html" />
+    <Content Include="SourceApp\Components\EPA\Templates\modalRemindSaveChange.html" />
     <Content Include="SourceApp\Components\EPA\Templates\modalUpdateComment.html" />
     <Content Include="SourceApp\Components\EPA\Templates\modalViewComment.html" />
     <Content Include="SourceApp\Components\EPA\Templates\performanceDetails.html" />
+    <Content Include="SourceApp\Components\EPA\Templates\performanceGradingScale.html" />
     <Content Include="SourceApp\Components\EPA\Templates\performanceResult.html" />
     <Content Include="SourceApp\Components\EPA\Templates\ratingInstruction.html" />
     <Content Include="SourceApp\Components\EPA\Templates\viewDetail.html" />
@@ -639,14 +646,12 @@
     <Content Include="SourceApp\Components\Dashboard\dashboard.less" />
     <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary.less" />
     <Content Include="SourceApp\Components\Report\report.less" />
-    <Content Include="Views\Emails\EmailNotifyChangeSetting.cshtml" />
-    <Content Include="Views\Emails\EndEvaluationEmailToHRByEmployee.cshtml" />
-    <Content Include="Views\Emails\EndEvaluationEmailToSelf.cshtml" />
-<<<<<<< HEAD
+    <Content Include="Views\Emails\EmailNotifyChangeSetting.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="SourceApp\Components\Report\ExcelTemplates\EPADetailReport.xls" />
-=======
-    <Content Include="Views\Emails\EndEvaluationEmailToHRByPeriod.cshtml" />
->>>>>>> #44631 - Send mail to HR when end evaluation
+    <Content Include="SourceApp\Components\AttendanceSummary\ExcelTemplates\DisciplineSummaryReport.xls" />
+    <Content Include="SourceApp\Components\AttendanceSummary\ExcelTemplates\DisciplineDetailReport.xls" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">

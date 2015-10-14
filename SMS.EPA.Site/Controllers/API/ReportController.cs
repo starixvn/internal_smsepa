@@ -100,6 +100,7 @@ namespace SMS.EPA.Site.Controllers.API
             return _reportService.GetEPADetailReport(criteria);
         }
 
+        [HttpGet]
         public IList<PeriodModel> GetPeriod(
             int? targetTypeId = null,
             bool? isActive = true)

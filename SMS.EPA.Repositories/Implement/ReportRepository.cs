@@ -69,7 +69,14 @@ namespace SMS.EPA.Repositories.Implement
                         },
                         "GroupId, JobTitleId").ToList();
 
-                    IEnumerable<EPASummaryPeriodModel> periods = multi.Read<EPASummaryPeriodModel>();
+                    IList<EPASummaryPeriodModel> periods = multi.Read<EPASummaryPeriodModel, StatusModel, EPASummaryPeriodModel>(
+                        (res, status) =>
+                        {
+                            res.Status = status;
+
+                            return res;
+                        },
+                        "StatusId").ToList();
 
                     var hashParam = db.GetOuputParams();
                     var totalItem = (int)hashParam["totalitem"];
@@ -77,6 +84,7 @@ namespace SMS.EPA.Repositories.Implement
                     epaSummary.TotalItem = totalItem;
 
                     GroupPeriodByEmployee(epaSummary.EPAEmployees, periods);
+                    DecodeFinalScoreAndGrade(epaSummary.EPAEmployees);
                 }
             }
 
@@ -123,19 +131,20 @@ namespace SMS.EPA.Repositories.Implement
 
                     GroupEmployeeByEPA(epaDetail.MemberEPAs, employees);
                     GroupEPAProcessByEPA(epaDetail.MemberEPAs, processes);
+                    DecodeAllScore(epaDetail.MemberEPAs);
                 }
             }
 
             return epaDetail;
         }
 
-        private void GroupPeriodByEmployee(IEnumerable<EPASummaryEmployeeModel> epaSummaries, IEnumerable<EPASummaryPeriodModel> periods)
+        private void GroupPeriodByEmployee(IEnumerable<EPASummaryEmployeeModel> epaSummaries, IList<EPASummaryPeriodModel> periods)
         {
             foreach (var epaSummary in epaSummaries)
             {
                 foreach (var period in periods)
                 {
-                    if (epaSummary.EmployeeId == period.EmployeeId)
+                    if (epaSummary.EmployeeId.Equals(period.EmployeeId))
                     {
                         epaSummary.Periods.Add(period);
                     }
@@ -149,7 +158,7 @@ namespace SMS.EPA.Repositories.Implement
             {
                 foreach (var employee in employees)
                 {
-                    if (employee.EPAId == epa.EPAId)
+                    if (employee.EPAId.Equals(epa.EPAId))
                     {
                         epa.Employee = employee;
                     }
@@ -193,6 +202,45 @@ namespace SMS.EPA.Repositories.Implement
             foreach (EPADashboardModel epa in epas)
             {
                 epa.FinalScore = Decode(epa.FinalScoreEncode);
+            }
+        }
+
+        private void DecodeFinalScoreAndGrade(IEnumerable<EPASummaryEmployeeModel> epaSummaries)
+        {
+            foreach (EPASummaryEmployeeModel epaSummary in epaSummaries)
+            {
+                foreach (EPASummaryPeriodModel period in epaSummary.Periods)
+                {
+                    period.FinalScore = Decode(period.FinalScoreEncode);
+                    period.Grade = Decode(period.GradeEncode);
+                }
+            }
+        }
+
+        private void DecodeAllScore(IEnumerable<EPAModel> epaInfos)
+        {
+            foreach (EPAModel epaInfo in epaInfos)
+            {
+                epaInfo.FinalScore = Decode(epaInfo.FinalScoreEncode);
+                epaInfo.Grade = Decode(epaInfo.GradeEncode);
+                DecodeTotalScore(epaInfo.ProcessBySelf);
+                DecodeTotalScore(epaInfo.ProcessByEvaluators);
+                DecodeTotalScore(epaInfo.ProcessByReviewers);
+                DecodeTotalScore(epaInfo.ProcessByManagements);
+            }
+        }
+
+        private void DecodeTotalScore(EPAProcessModel process)
+        {
+            process.TotalScore = Decode(process.TotalScoreEncode);
+            process.AdjustScore = Decode(process.AdjustScoreEncode);
+        }
+
+        private void DecodeTotalScore(IList<EPAProcessModel> processes)
+        {
+            foreach (EPAProcessModel process in processes)
+            {
+                DecodeTotalScore(process);
             }
         }
 

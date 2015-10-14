@@ -23,17 +23,11 @@
                 <div class="col-sm-1">
                     <button class="button btn-search" ng-click="epaSummaryReportCtrl.query(epaSummaryReportCtrl.filter)" data-translate="Search"></button>
                 </div>
-                <div class="col-sm-2">
-                    <a class="button btn-export-excel" data-export-epa-summary-report ng-click="epaSummaryReportCtrl.exportReport()">
-                        <div class="button-label" data-translate="Excel"></div>
-                        <div class="glyphicon icon-excel"></div>
-                    </a>
-                </div>
             </div>
         </form>
     </div>
     <div class="col-sm-12">
-        <div class="freegrid" data-grid-epa-summary-report data-grid-data="epaSummaryReportCtrl.epaSummary" data-grid-expand-height="300"
-             data-on-page-changing="epaSummaryReportCtrl.pageChanging" data-page-option="epaSummaryReportCtrl.filter"></div>
+        <div class="freegrid" data-export-epa-summary-report data-grid-epa-summary-report data-grid-data="epaSummaryReportCtrl.epaSummary" data-grid-expand-height="300"
+             data-on-page-changing="epaSummaryReportCtrl.pageChanging" data-export-report="epaSummaryReportCtrl.exportReport" data-page-option="epaSummaryReportCtrl.filter"></div>
     </div>
 </div>

@@ -7,7 +7,7 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory) {
     var vm = this;
 
     vm.treeDepartment = CommonModel.treeDepartment;
-    vm.periods = CommonModel.periods;
+    vm.periods = ReportModel.periods;
     vm.epaSummary = ReportModel.epaSummary;
 
     vm.pageOption = utilitiesFactory.pageOption;
@@ -33,6 +33,7 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory) {
     };
 
     vm.query = function (filter) {
+        filter.pageIndex = utilitiesFactory.pageOption.pageIndex;
         filter.periodIds = utilitiesFactory.getSelectedData(vm.periods, 'PeriodId');
 
         getEPASummaryReport(filter);
@@ -52,11 +53,16 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory) {
             vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
         });
 
-        CommonModel.getPeriod().then(function () {
-            vm.periods = CommonModel.periods;
-        });
+        ReportModel.getPeriod().then(function () {
+            vm.periods = ReportModel.periods;
 
-        getEPASummaryReport(vm.filter);
+            if (vm.periods.length > 0) {
+                vm.periods[0].ticked = true;
+                vm.filter.periodIds = vm.periods[0].PeriodId;
+            }
+
+            getEPASummaryReport(vm.filter);
+        });
     };
 
     vm.initialize();

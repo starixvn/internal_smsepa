@@ -1146,6 +1146,9 @@
   <data name="RatingTypeRequired" xml:space="preserve">
     <value>The Rating Type field is required!</value>
   </data>
+   <data name="Grade" xml:space="preserve">
+    <value>Grade</value>
+  </data>
   <data name="RatingType" xml:space="preserve">
     <value>Rating Type</value>
   </data>

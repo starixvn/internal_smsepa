@@ -10,7 +10,7 @@
 namespace SMS.EPA.Model.Report.EPASummary
 {
     using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Core.Services;
+    using SMS.EPA.Model.Enitites;
 
     public class EPASummaryPeriodModel
     {
@@ -20,21 +20,18 @@ namespace SMS.EPA.Model.Report.EPASummary
 
         public string FinalScoreEncode { get; set; }
 
-        public string FinalScore
-        {
-            get
-            {
-                return !string.IsNullOrEmpty(FinalScoreEncode) ? EncodeService.Decode(FinalScoreEncode) : string.Empty;
-            }
+        public string FinalScore { get; set; }
 
-            set
-            {
-                FinalScoreEncode = EncodeService.Encode(value);
-            }
-        }
+        public bool HasDisciplineScore { get; set; }
 
-        public int DisciplineScore { get; set; }
+        public float DisciplineScore { get; set; }
 
-        public Status Status { get; set; }
+        public float MaxDisciplineScore { get; set; }
+
+        public string GradeEncode { get; set; }
+
+        public string Grade { get; set; }
+
+        public StatusModel Status { get; set; }
     }
 }

@@ -63,6 +63,7 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory) {
 
     vm.query = function (filter) {
         getShowHideColumns();
+        filter.pageIndex = utilitiesFactory.pageOption.pageIndex;
         filter.phaseIds = utilitiesFactory.getSelectedData(vm.scoredBy, 'PhaseId');
 
         getEPADetailReport(filter);
@@ -83,11 +84,15 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory) {
             vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
         });
 
-        CommonModel.getPeriod().then(function () {
-            vm.periods = CommonModel.periods;
-        });
+        ReportModel.getPeriod().then(function () {
+            vm.periods = ReportModel.periods;
 
-        getEPADetailReport(vm.filter);
+            if (vm.periods.length > 0) {
+                vm.filter.periodId = vm.periods[0].PeriodId;
+            }
+
+            getEPADetailReport(vm.filter);
+        });
     };
 
     vm.initialize();

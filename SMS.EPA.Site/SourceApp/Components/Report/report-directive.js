@@ -6,7 +6,6 @@ reportModule.directive('gridEpaSummaryReport', ['$timeout', 'utilitiesFactory', 
         var groupHeaders = [
             {
                 Columns: [
-                    { HeaderText: "Hiden Column", Name: "HidenColumn", MergeColNumber: 1 },
                     { HeaderText: "#", Name: "No", MergeRowNumber: 2 },
                     { HeaderText: "Code", Name: "Code", MergeRowNumber: 2 },
                     { HeaderText: "Full Name", Name: "FullName", MergeRowNumber: 2 },
@@ -18,9 +17,10 @@ reportModule.directive('gridEpaSummaryReport', ['$timeout', 'utilitiesFactory', 
         ];
 
         if (periodSelecteds && periodSelecteds.length > 0) {
-            var column = { HeaderText: "Final Score", Name: "" + periodSelecteds[0].PeriodId, MergeColNumber: periodSelecteds.length };
-
-            groupHeaders[0].Columns.push(column);
+            angular.forEach(periodSelecteds, function (period) {
+                var column = { HeaderText: period.Name, Name: "FinalScore" + period.PeriodId, MergeColNumber: 2 };
+                groupHeaders[0].Columns.push(column);
+            });
         }
 
         return groupHeaders;
@@ -28,21 +28,21 @@ reportModule.directive('gridEpaSummaryReport', ['$timeout', 'utilitiesFactory', 
 
     var generateColumnHeaders = function (periodSelecteds) {
         var columnHeaders = [
-            { HeaderText: "Hiden Column", Width: 40, Name: "HidenColumn", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "#", Width: 40, Name: "No", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "Code", Width: 70, Name: "Code", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "Full Name", Width: 180, Name: "FullName", HeaderAlign: "center", CellAlign: "left" },
             { HeaderText: "Nick Name", Width: 100, Name: "NickName", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "Section", Width: 160, Name: "Section", HeaderAlign: "center", CellAlign: "left" },
-            { HeaderText: "Job Title", Width: 190, Name: "JobTitle", HeaderAlign: "center", CellAlign: "left" }
+            { HeaderText: "Job Title", Width: 230, Name: "JobTitle", HeaderAlign: "center", CellAlign: "left" }
         ];
 
         if (periodSelecteds && periodSelecteds.length > 0) {
-            for (var i = 0; i < periodSelecteds.length; i++) {
-                var periodHeader = { HeaderText: periodSelecteds[i].Name, Width: 100, Name: "" + periodSelecteds[i].PeriodId, HeaderAlign: "center", CellAlign: "center" };
-
-                columnHeaders.push(periodHeader);
-            }
+            angular.forEach(periodSelecteds, function (period) {
+                var colFinalScore = { HeaderText: "Final Score", Width: 100, Name: "FinalScore" + period.PeriodId, HeaderAlign: "center", CellAlign: "center" },
+                    colGrade = { HeaderText: "Grade", Width: 80, Name: "Grade" + period.PeriodId, HeaderAlign: "center", CellAlign: "center" };
+                columnHeaders.push(colFinalScore);
+                columnHeaders.push(colGrade);
+            });
         }
 
         return columnHeaders;
@@ -56,7 +56,6 @@ reportModule.directive('gridEpaSummaryReport', ['$timeout', 'utilitiesFactory', 
             angular.forEach(gridData.EPAEmployees, function (epaEmployee, i) {
                 var currentRow = {
                     Columns: [
-                        { Name: "HidenColumn", Value: i + 1 },
                         { Name: "No", Value: rowIndex + i + 1 },
                         { Name: "Code", Value: epaEmployee.Code },
                         { Name: "FullName", Value: epaEmployee.FullName },
@@ -67,18 +66,37 @@ reportModule.directive('gridEpaSummaryReport', ['$timeout', 'utilitiesFactory', 
                 };
 
                 angular.forEach(gridData.PeriodSelecteds, function (periodSelected, j) {
-                    var periodRow,
+                    var colFinalScore, colGrade,
                         index = epaEmployee.Periods.map(function (e) { return e.PeriodId; }).indexOf(periodSelected.PeriodId);
 
                     if (index !== -1) {
-                        var finalScore = epaEmployee.Periods[index].FinalScore;
-                        periodRow = { Name: "" + periodSelected.PeriodId, Value: finalScore };
+                        var finalScore, grade, disciplineScore;
+
+                        if (epaEmployee.Periods[index].Status.StatusId === 1) {
+                            finalScore = epaEmployee.Periods[index].FinalScore ? parseFloat(epaEmployee.Periods[index].FinalScore) : 0;
+                            grade = epaEmployee.Periods[index].Grade;
+
+                            if (epaEmployee.Periods[index].HasDisciplineScore) {
+                                disciplineScore = epaEmployee.Periods[index].MaxDisciplineScore - epaEmployee.Periods[index].DisciplineScore;
+
+                                if (disciplineScore < 0) {
+                                    disciplineScore = 0;
+                                }
+
+                                finalScore += disciplineScore;
+                            }
+                        }
+
+                        colFinalScore = { Name: "FinalScore" + periodSelected.PeriodId, Value: finalScore };
+                        colGrade = { Name: "Grade" + periodSelected.PeriodId, Value: grade };
                     }
                     else {
-                        periodRow = { Name: "" + periodSelected.PeriodId, Value: "-" };
+                        colFinalScore = { Name: "FinalScore" + periodSelected.PeriodId, Value: "-" };
+                        colGrade = { Name: "Grade" + periodSelected.PeriodId, Value: "-" };
                     }
 
-                    currentRow.Columns.push(periodRow);
+                    currentRow.Columns.push(colFinalScore);
+                    currentRow.Columns.push(colGrade);
                 });
 
                 rows.push(currentRow);
@@ -94,6 +112,7 @@ reportModule.directive('gridEpaSummaryReport', ['$timeout', 'utilitiesFactory', 
             gridData: "=",
             pageOption: '=',
             onPageChanging: '=',
+            exportReport: '=',
             gridExpandHeight: '@'
         },
         link: function ($scope, iElement) {
@@ -102,8 +121,17 @@ reportModule.directive('gridEpaSummaryReport', ['$timeout', 'utilitiesFactory', 
                 gridExpandHeight: $scope.gridExpandHeight,
                 showPager: true,
                 customPager: true,
-                numberOfFrozenColumn: 7,
-                autoFixFrozenRowHeight: true
+                numberOfFrozenColumn: 4,
+                enableHiddenColumns: false,
+                autoFixFrozenRowHeight: true,
+                showTitle: true,
+                titleInfo: {
+                    text: "EPA Summary Report",
+                    showExcelButton: true,
+                    exportExcelFunction: function () {
+                        $scope.exportReport();
+                    }
+                }
             };
 
             $scope.$watch('gridData', function (gridData) {
@@ -130,7 +158,6 @@ reportModule.directive('gridEpaSummaryReport', ['$timeout', 'utilitiesFactory', 
                         };
 
                         $(iElement).fanexGrid(gridOptions);
-                        $(iElement).fanexGrid("hideColumns", gridOptions, [0]);
                     }
                 });
             });
@@ -166,8 +193,8 @@ reportModule.directive('gridEpaDetailReport', ['$timeout', 'utilitiesFactory', f
             { HeaderText: "Full Name", Width: 160, Name: "FullName", HeaderAlign: "center", CellAlign: "left" },
             { HeaderText: "Nick Name", Width: 100, Name: "NickName", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "Section", Width: 150, Name: "Section", HeaderAlign: "center", CellAlign: "left" },
-            { HeaderText: "Job Title", Width: 150, Name: "JobTitle", HeaderAlign: "center", CellAlign: "left" },
-            { HeaderText: "Target Type", Width: 150, Name: "TargetType", HeaderAlign: "center", CellAlign: "left" },
+            { HeaderText: "Job Title", Width: 180, Name: "JobTitle", HeaderAlign: "center", CellAlign: "left" },
+            { HeaderText: "Target Type", Width: 120, Name: "TargetType", HeaderAlign: "center", CellAlign: "left" },
             { HeaderText: "Self Score", Width: 80, Name: "SelfScore", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "Evaluator Score", Width: 80, Name: "EvaluatorScore", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "Reviewer Score", Width: 80, Name: "ReviewerScore", HeaderAlign: "center", CellAlign: "center" },
@@ -180,16 +207,61 @@ reportModule.directive('gridEpaDetailReport', ['$timeout', 'utilitiesFactory', f
         return columnHeaders;
     };
 
+    var calculateScore = function (memberEPA) {
+        var result = {
+            SelfScore: '',
+            EvaluatorScore: '',
+            ReviewerScore: '',
+            ManagementScore: '',
+            DisciplineScore: '',
+            FinalScore: '',
+            Grade: ''
+        };
+
+        if (memberEPA.HasDisciplineScore) {
+            result.DisciplineScore = memberEPA.MaxDisciplineScore - memberEPA.DisciplineScore;
+
+            if (result.DisciplineScore < 0) {
+                result.DisciplineScore = 0;
+            }
+        }
+
+        if (memberEPA.ProcessBySelf.IsEndProcess) {
+            result.SelfScore = memberEPA.ProcessBySelf.TotalScore ? parseFloat(memberEPA.ProcessBySelf.TotalScore) : 0;
+            result.SelfScore += result.DisciplineScore;
+        }
+
+        if (memberEPA.ProcessByEvaluators[0].IsEndProcess) {
+            result.EvaluatorScore = memberEPA.AverageScoreByEvaluators;
+            result.EvaluatorScore += result.DisciplineScore;
+        }
+
+        if (memberEPA.ProcessByReviewers.length > 0 && memberEPA.ProcessByReviewers[0].IsEndProcess) {
+            result.ReviewerScore = memberEPA.AverageScoreByReviewers;
+            result.ReviewerScore += result.DisciplineScore;
+        }
+
+        if (memberEPA.ProcessByManagements.length > 0 && memberEPA.ProcessByManagements[0].IsEndProcess) {
+            result.ManagementScore = memberEPA.AverageScoreByManagements;
+            result.ManagementScore += result.DisciplineScore;
+        }
+
+        if (memberEPA.Status.StatusId === 1) {
+            result.FinalScore = memberEPA.FinalScore ? parseFloat(memberEPA.FinalScore) : 0;
+            result.FinalScore += result.DisciplineScore;
+            result.Grade = memberEPA.Grade;
+        }
+
+        return result;
+    };
+
     var generateBodyRows = function (gridData, pageOption) {
         var rows = [];
         var rowIndex = pageOption.itemsPerPage * pageOption.pageIndex;
 
         if (gridData.MemberEPAs) {
             angular.forEach(gridData.MemberEPAs, function (memberEPA, index) {
-                var disciplineScore = '';
-                if (memberEPA.HasDisciplineScore) {
-                    disciplineScore = memberEPA.DisciplineScore;
-                }
+                var score = calculateScore(memberEPA);
 
                 var currentRow = {
                     Columns: [
@@ -200,13 +272,13 @@ reportModule.directive('gridEpaDetailReport', ['$timeout', 'utilitiesFactory', f
                         { Name: "Section", Value: memberEPA.Employee.Group.GroupName },
                         { Name: "JobTitle", Value: memberEPA.Employee.JobTitle.JobTitleName },
                         { Name: "TargetType", Value: memberEPA.Period.TargetTypeName },
-                        { Name: "SelfScore", Value: memberEPA.ProcessBySelf.TotalScore },
-                        { Name: "EvaluatorScore", Value: memberEPA.AverageScoreByEvaluators },
-                        { Name: "ReviewerScore", Value: memberEPA.AverageScoreByReviewers },
-                        { Name: "ManagementScore", Value: memberEPA.AverageScoreByManagements },
-                        { Name: "DisciplineScore", Value: disciplineScore },
-                        { Name: "FinalScore", Value: memberEPA.FinalScore },
-                        { Name: "Grade", Value: '' }
+                        { Name: "SelfScore", Value: score.SelfScore },
+                        { Name: "EvaluatorScore", Value: score.EvaluatorScore },
+                        { Name: "ReviewerScore", Value: score.ReviewerScore },
+                        { Name: "ManagementScore", Value: score.ManagementScore },
+                        { Name: "DisciplineScore", Value: score.DisciplineScore },
+                        { Name: "FinalScore", Value: score.FinalScore },
+                        { Name: "Grade", Value: score.Grade }
                     ]
                 };
 
@@ -224,6 +296,7 @@ reportModule.directive('gridEpaDetailReport', ['$timeout', 'utilitiesFactory', f
             pageOption: '=',
             onPageChanging: '=',
             hideColumns: '=',
+            exportReport: '=',
             gridExpandHeight: '@'
         },
         link: function ($scope, iElement) {
@@ -236,8 +309,16 @@ reportModule.directive('gridEpaDetailReport', ['$timeout', 'utilitiesFactory', f
                 customPager: true,
                 numberOfFrozenColumn: 4,
                 autoFixFrozenRowHeight: true,
-                showColumnsShowHide: false,
-                columnsNeedHide: []
+                columnsNeedHide: [],
+                enableHiddenColumns: false,
+                showTitle: true,
+                titleInfo: {
+                    text: "EPA Detail Report",
+                    showExcelButton: true,
+                    exportExcelFunction: function () {
+                        $scope.exportReport();
+                    }
+                }
             };
 
             $scope.$watch('gridData', function (gridData) {
@@ -263,8 +344,6 @@ reportModule.directive('gridEpaDetailReport', ['$timeout', 'utilitiesFactory', f
                     }
                 });
             });
-
-
         }
     };
 }]);

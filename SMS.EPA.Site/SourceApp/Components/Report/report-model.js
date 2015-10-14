@@ -6,8 +6,18 @@ reportModule.factory('ReportModel',
 function (reportFactory, notificationFactory, errorFactory) {
     var reportModel = {};
 
-    reportModel.epaSummary = {};
-    reportModel.epaDetail = {};
+    reportModel.epaSummary = [];
+    reportModel.epaDetail = [];
+    reportModel.periods = [];
+
+    reportModel.getPeriod = function (targetTypeId, isActive) {
+        return reportFactory.getPeriod(targetTypeId, isActive)
+        .success(function (periods) {
+            reportModel.periods = periods;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
 
     reportModel.getEPASummaryReport = function (periodIds, departmentId, pageIndex, itemsPerPage) {
         return reportFactory.getEPASummaryReport(periodIds, departmentId, pageIndex, itemsPerPage)
