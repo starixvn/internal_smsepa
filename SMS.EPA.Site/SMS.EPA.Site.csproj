@@ -354,7 +354,7 @@
     <Content Include="SourceApp\Components\EPA\employeeEPA-controller.js" />
     <Content Include="SourceApp\Components\EPA\employeeEPA-directive.js" />
     <Content Include="SourceApp\Components\EPA\employeeEPA-factory.js" />
-    <Content Include="SourceApp\Components\EPA\employeeEPA-model.js" />
+    <Content Include="SourceApp\Components\EPA\employeeEPA-model.js">
       <DependentUpon>epa.less</DependentUpon>
     </Content>
     <Content Include="SourceApp\Components\EPA\Evaluator\evaluator-controller.js" />
@@ -656,7 +656,6 @@
     <Content Include="SourceApp\Components\Report\ExcelTemplates\EPADetailReport.xls" />
     <Content Include="SourceApp\Components\AttendanceSummary\ExcelTemplates\DisciplineSummaryReport.xls" />
     <Content Include="SourceApp\Components\AttendanceSummary\ExcelTemplates\DisciplineDetailReport.xls" />
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">
