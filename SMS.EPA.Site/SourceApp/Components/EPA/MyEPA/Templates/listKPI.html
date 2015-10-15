@@ -9,7 +9,7 @@
     </div>
     <div class="boxcontent col-sm-12" collapse="memberEPAInfoCtrl.collapses[kpiGroup.Name]">
         <div class="row row-item" ng-repeat="kpi in kpiGroup.KPIs">
-            <div class="row col-sm-12 error-message" ng-show="kpi.CurrentEvaluation.EvaluateValid" data-translate="RequireEvaluate"></div>
+            <div class="row col-sm-12 error-message" ng-show="kpi.CurrentEvaluation.EvaluateInvalid" data-translate="RequiredEvaluation"></div>
             <div class="row kpi-name">
                 <div class="col-sm-8">
                     <span>{{$index + 1}}. {{kpi.Name}}</span>
@@ -42,14 +42,19 @@
             <div class="row kpi-description" ng-show="kpi.Description.length > 0">
                 <div class="col-sm-8" ng-bind="kpi.Description"></div>
             </div>
-            <div class="row col-sm-12 error-message" ng-show="kpi.CurrentEvaluation.CommentValid" data-translate="RequireComment"></div>
-            <div class="row textarea-comment" ng-show="kpi.HasComment">
-                <div class="col-sm-11">
+            <div class="row kpi-comment" ng-show="kpi.HasComment">
+                <div class="error-message" ng-show="kpi.CurrentEvaluation.CommentInvalid && kpi.HasComment && kpi.IsRequiredComment" data-translate="RequiredComment"></div>
+                <div class="error-message" ng-show="kpi.CurrentEvaluation.CommentInvalid && kpi.HasComment && !kpi.IsRequiredComment" data-translate="RequiredCommentForMaxScoreRating"></div>
+                <div class="collapse-expanse" ng-init="kpi.ExpandedComment = true;">
+                    <a class="icon-minus" href="" ng-show="kpi.ExpandedComment"
+                       ng-click="kpi.ExpandedComment = !kpi.ExpandedComment" ng-attr-title='{{"Collapse comment" | translate}}'></a>
+                    <a class="icon-plus" href="" ng-show="!kpi.ExpandedComment"
+                       ng-click="kpi.ExpandedComment = !kpi.ExpandedComment" ng-attr-title='{{"Expand comment" | translate}}'></a>
+                </div>
+                <div class="textarea" ng-show="kpi.ExpandedComment">
                     <textarea class="form-control" ng-model="kpi.CurrentEvaluation.Comment" ng-readonly="memberEPAInfoCtrl.isReadonly"></textarea>
                 </div>
-                <div class="col-sm-1 required-comment" ng-show="kpi.HasComment && kpi.IsRequiredComment">
-                    <label class="error-message" data-translate="(*)"></label>
-                </div>
+                <div class="note" data-translate="(*)" ng-show="kpi.HasComment && kpi.IsRequiredComment && kpi.ExpandedComment"></div>
             </div>
         </div>
     </div>

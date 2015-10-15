@@ -88,9 +88,9 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
 
                 if (kpi.CurrentEvaluation.Percent > 0) {
                     if (kpiGroup.TotalKPIOptional === 0) {
-                        var score = kpi.Weight * (kpi.CurrentEvaluation.Percent / 100);
+                        var score = (kpi.Weight * (kpi.CurrentEvaluation.Percent / 100)).toFixed(2);
 
-                        kpi.CurrentEvaluation.Score = (score % 1) === 0 ? score : score.toFixed(2);
+                        kpi.CurrentEvaluation.Score = score;
                     }
                     else {
                         var weight, totalKPIOptional = angular.copy(kpiGroup.TotalKPIOptional);
@@ -101,13 +101,13 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
                             }
                         });
 
-                        weight = kpiGroup.Weight / (kpiGroup.KPIs.length - totalKPIOptional);
+                        weight = (kpiGroup.Weight / (kpiGroup.KPIs.length - totalKPIOptional)).toFixed(2);
 
                         angular.forEach(kpiGroup.KPIs, function (item) {
                             if (item.CurrentEvaluation.Rate > 0) {
                                 var score = weight * (item.CurrentEvaluation.Percent / 100);
 
-                                item.CurrentEvaluation.Score = (score % 1) === 0 ? score : score.toFixed(2);
+                                item.CurrentEvaluation.Score = score;
                             }
                         });
                     }
@@ -125,18 +125,18 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
             angular.forEach(kpiGroup.KPIs, function (kpi) {
                 if (kpi.IsRequiredEvaluate && (!kpi.CurrentEvaluation.Score || parseFloat(kpi.CurrentEvaluation.Score) <= 0)) {
                     isValid = false;
-                    kpi.CurrentEvaluation.EvaluateValid = true;
-                }
-                else {
-                    kpi.CurrentEvaluation.EvaluateValid = false;
+                    kpi.CurrentEvaluation.EvaluateInvalid = true;
+                } else {
+                    kpi.CurrentEvaluation.EvaluateInvalid = false;
                 }
 
-                if (kpi.HasComment && kpi.IsRequiredComment && (!kpi.CurrentEvaluation.Comment || kpi.CurrentEvaluation.Comment.length === 0)) {
+                if (kpi.HasComment && (!kpi.CurrentEvaluation.Comment || kpi.CurrentEvaluation.Comment.length === 0)
+                    && (kpi.IsRequiredComment || (epaInfo.RequiredCommentOnMaxScore && !kpi.IsRequiredComment && kpi.CurrentEvaluation.IsMaxScore))) {
                     isValid = false;
-                    kpi.CurrentEvaluation.CommentValid = true;
-                }
-                else {
-                    kpi.CurrentEvaluation.CommentValid = false;
+                    kpi.CurrentEvaluation.CommentInvalid = true;
+                    kpi.ExpandedComment = true;
+                } else {
+                    kpi.CurrentEvaluation.CommentInvalid = false;
                 }
             });
         });
@@ -166,13 +166,13 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
                 }
             });
 
-            weight = kpiGroup.Weight / (kpiGroup.KPIs.length - totalKPIOptional);
+            weight = (kpiGroup.Weight / (kpiGroup.KPIs.length - totalKPIOptional)).toFixed(2);
 
             angular.forEach(kpiGroup.KPIs, function (item) {
                 if (item.CurrentEvaluation.Rate > 0) {
                     var score = weight * (item.CurrentEvaluation.Percent / 100);
 
-                    item.CurrentEvaluation.Score = (score % 1) === 0 ? score : score.toFixed(2);
+                    item.CurrentEvaluation.Score = score;
                 }
             });
         }
@@ -216,6 +216,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
                 disciplineScore = 0;
             }
 
+            vm.epaInfo.CurrentProcess.TotalScore = totalScore;
             vm.epaInfo.DisciplineScore = disciplineScore;
             vm.finalScore = totalScore;
 
@@ -228,17 +229,21 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
             checkStatus(vm.epaInfo);
 
             angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
+                var score = 0;
+
                 if (!kpiGroup.HasKPIOptional && kpiGroup.IsSpreadKPI) {
-                    var weight = kpiGroup.Weight / kpiGroup.KPIs.length;
+                    var weight = (kpiGroup.Weight / kpiGroup.KPIs.length).toFixed(2);
 
                     angular.forEach(kpiGroup.KPIs, function (kpi) {
-                        if ((weight % 1) === 0) {
-                            kpi.Weight = weight;
-                        }
-                        else {
-                            kpi.Weight = weight.toFixed(2);
-                        }
+                        kpi.Weight = weight;
+                        score += weight;
                     });
+                }
+
+                if (score > kpiGroup.Weight) {
+                    kpiGroup.KPIs[kpiGroup.KPIs.length - 1].Weight = kpiGroup.KPIs[kpiGroup.KPIs.length - 1].Weight - (score - kpiGroup.Weight);
+                } else if (score < kpiGroup.Weight) {
+                    kpiGroup.KPIs[kpiGroup.KPIs.length - 1].Weight = kpiGroup.KPIs[kpiGroup.KPIs.length - 1].Weight + (kpiGroup.Weight - score);
                 }
             });
         });

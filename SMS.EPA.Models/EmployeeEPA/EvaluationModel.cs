@@ -35,6 +35,14 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public int Rate { get; set; }
 
+        public int MaxStar
+        {
+            get
+            {
+                return Constants.MaxStar;
+            }
+        }
+
         public int Percent
         {
             get

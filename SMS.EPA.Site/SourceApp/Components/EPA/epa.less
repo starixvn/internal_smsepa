@@ -342,6 +342,86 @@
 }
 
 .rating-section {
+    .row-item {
+        padding-bottom: 0 !important;
+    }
+
+    .icon-plus, .icon-minus {
+        display: inline-block;
+        width: 13px;
+        height: 20px;
+        cursor: pointer;
+    }
+
+    .icon-plus {
+        background: url(../../../Content/Site/images/plus-icon.gif);
+        
+    }
+
+    .icon-minus {
+        background: url(../../../Content/Site/images/minus-icon.gif);
+    }
+
+    .error-message {
+        color: #f00;
+    }
+
+    .kpi-comment {
+        margin: 0;
+        padding: 0;
+
+        .collapse-expanse {
+            width: 2%;
+            float: left;
+            display: inline-block;
+        }
+
+        .textarea {
+            width: 92%;
+            margin-top: 8px;
+            display: inline-block;
+            float: left;
+        }
+
+        .note {
+            width: 5%;
+            margin-left: 5px;
+            margin-top: 8px;
+            color: #df1501;
+            display: inline-block;
+            float: left;
+        }
+
+        &.comment-by-employee, &.comment-by-evaluator {
+            .control-label {
+                color: #39f;
+                float: left;
+                display: inline-block;
+                margin-right: 5px;
+            }
+
+            .collapse-expanse {
+                display: block;
+                float: unset;
+                width: unset;
+            }
+
+            .textarea, .note {
+                margin-top: 0;
+            }
+
+            .textarea {
+                width: 94%;
+            }
+        }
+
+        &.comment-by-evaluator {
+            .control-label {
+                margin-top: 5px;
+            }
+        }
+    }
+
     textarea {
         &:focus {
             height: 4em;

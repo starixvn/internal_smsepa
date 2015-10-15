@@ -36,6 +36,8 @@ namespace SMS.EPA.Core.Constants
 
         public const int MaxFinalScore = 100;
 
+        public const int MaxStar = 5;
+
         public const float MaxScoreSubtractDate = (float)3.5;
 
         private Constants()

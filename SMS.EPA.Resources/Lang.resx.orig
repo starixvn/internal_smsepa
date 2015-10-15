@@ -478,7 +478,7 @@
     <value>Start Date</value>
   </data>
   <data name="RequiredEvaluation" xml:space="preserve">
-    <value>Required Evaluation</value>
+    <value>Evaluation is required</value>
   </data>
   <data name="IgnoreSelfEvaluation" xml:space="preserve">
     <value>Ignore Self-Evaluation</value>
@@ -1151,5 +1151,11 @@
   </data>
   <data name="RatingType" xml:space="preserve">
     <value>Rating Type</value>
+  </data>
+  <data name="RequiredCommentForMaxScoreRating" xml:space="preserve">
+    <value>Comment is required for max score rating</value>
+  </data>
+  <data name="RequiredComment" xml:space="preserve">
+    <value>Comment is required</value>
   </data>
 </root>

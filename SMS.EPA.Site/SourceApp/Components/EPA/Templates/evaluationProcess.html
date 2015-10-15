@@ -73,7 +73,7 @@
             <strong>{{"Management" | translate}}:</strong>
             <span ng-show="memberEPAInfoCtrl.epaInfo.Managements.length == 1" ng-bind="memberEPAInfoCtrl.epaInfo.Managements[0].NickName"
                   popover-avatar avatar-src="{{memberEPAInfoCtrl.epaInfo.Managements[0].Avatar}}"></span>
-            <span ng-show="memberEPAInfoCtrl.epaInfo.Managements.length > 1" ng-repeat="management in memberEPAInfoCtrl.epaInfo.Reviewers">
+            <span ng-show="memberEPAInfoCtrl.epaInfo.Managements.length > 1" ng-repeat="management in memberEPAInfoCtrl.epaInfo.Managements">
                 <span ng-show="!$last" popover-avatar avatar-src="{{management.Avatar}}">{{management.NickName}}, </span>
                 <span ng-show="$last" popover-avatar avatar-src="{{management.Avatar}}">{{management.NickName}}</span>
             </span>

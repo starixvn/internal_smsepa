@@ -37,6 +37,10 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public StatusModel Status { get; set; }
 
+        public RatingTypeModel RatingType { get; set; }
+
+        public bool RequiredCommentOnMaxScore { get; set; }
+
         public string LastFinalScoreEncode { get; set; }
 
         public string LastFinalScore

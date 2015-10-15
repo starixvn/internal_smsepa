@@ -2176,7 +2176,25 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Required Evaluation.
+        ///   Looks up a localized string similar to Comment is required.
+        /// </summary>
+        public static string RequiredComment {
+            get {
+                return ResourceManager.GetString("RequiredComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Comment is required for max score rating.
+        /// </summary>
+        public static string RequiredCommentForMaxScoreRating {
+            get {
+                return ResourceManager.GetString("RequiredCommentForMaxScoreRating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Evaluation is required.
         /// </summary>
         public static string RequiredEvaluation {
             get {
