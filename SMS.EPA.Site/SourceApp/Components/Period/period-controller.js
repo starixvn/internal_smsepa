@@ -663,6 +663,58 @@ permission, PeriodModel, TargetTemplateModel, FlowMngModel, CommonModel) {
         }
     };
 
+    var getProcessSetingById = function (processSettings, processId) {
+        var processSetting = null;
+
+        angular.forEach(processSettings, function (processItem) {
+            if (processItem.ProcessId === processId) {
+                processSetting = processItem;
+            }
+        });
+
+        return processSetting;
+    };
+
+    var setDateSetting = function (startDate, evaluator, processSettings, processId) {
+        var processSetting = getProcessSetingById(processSettings, processId);
+
+        evaluator.StartDate = angular.copy(startDate);
+        evaluator.EndDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + processSetting.Duration - 1);
+    };
+
+    var getProcessAndSetDateSetting = function () {
+        PeriodModel.getProcessSettingByPeriodId(vm.period.PeriodId).then(function () {
+            vm.processSettings = PeriodModel.processSettings;
+
+            var startDate = new Date(vm.period.StartDate),
+                year = null,
+                month = null,
+                day = null;
+
+            setDateSetting(startDate, vm.employeeOptions.humanResource, vm.processSettings, vm.evaluatorType.HumanResources);
+
+            year = vm.employeeOptions.humanResource.EndDate.getFullYear();
+            month = vm.employeeOptions.humanResource.EndDate.getMonth();
+            day = vm.employeeOptions.humanResource.EndDate.getDate();
+            setDateSetting(new Date(year, month, day + 1), vm.employeeOptions.selfEvaluator, vm.processSettings, vm.evaluatorType.SelfEvaluator);
+
+            year = vm.employeeOptions.selfEvaluator.EndDate.getFullYear();
+            month = vm.employeeOptions.selfEvaluator.EndDate.getMonth();
+            day = vm.employeeOptions.selfEvaluator.EndDate.getDate();
+            setDateSetting(new Date(year, month, day + 1), vm.employeeOptions.evaluator, vm.processSettings, vm.evaluatorType.Evaluator);
+
+            year = vm.employeeOptions.evaluator.EndDate.getFullYear();
+            month = vm.employeeOptions.evaluator.EndDate.getMonth();
+            day = vm.employeeOptions.evaluator.EndDate.getDate();
+            setDateSetting(new Date(year, month, day + 1), vm.employeeOptions.reviewer, vm.processSettings, vm.evaluatorType.Reviewer);
+
+            year = vm.employeeOptions.reviewer.EndDate.getFullYear();
+            month = vm.employeeOptions.reviewer.EndDate.getMonth();
+            day = vm.employeeOptions.reviewer.EndDate.getDate();
+            setDateSetting(new Date(year, month, day + 1), vm.employeeOptions.management, vm.processSettings, vm.evaluatorType.Management);
+        });
+    };
+
     /*
    ** Get employees flow and target setting.
    */
@@ -679,6 +731,9 @@ permission, PeriodModel, TargetTemplateModel, FlowMngModel, CommonModel) {
 
             if (vm.singleMode) {
                 setEmployeeSetting(vm.selectedEmployees[0]);
+            }
+            else {
+                getProcessAndSetDateSetting();
             }
         });
     });
