@@ -63,7 +63,8 @@ namespace SMS.EPA.Site
                 "Home",
                 "Discipline/Index",
                 "RatingByKPI/Index",
-                "Attendance/Detail/{id}",
+                "Discipline/Detail/{id}",
+                "Discipline/Detail",
                 "Report/EPASummaryReport",
                 "Report/EPADetailReport"
             };

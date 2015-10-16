@@ -127,7 +127,9 @@ var attendanceModule = angular.module("attendanceModule", ['ngRoute'])
     var baseUrl = $("base").first().attr("href");
     $routeProvider.when('/Discipline/Index',
     { templateUrl: baseUrl + 'SourceApp/Components/AttendanceSummary/Templates/index.html' });
-    $routeProvider.when('/Attendance/Detail/:id',
+    $routeProvider.when('/Discipline/Detail/:id',
+    { templateUrl: baseUrl + 'SourceApp/Components/AttendanceSummary/Templates/detail.html' });
+    $routeProvider.when('/Discipline/Detail',
     { templateUrl: baseUrl + 'SourceApp/Components/AttendanceSummary/Templates/detail.html' });
 }]);
 

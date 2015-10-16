@@ -100,7 +100,7 @@ function ($scope, AttendanceModel, utilitiesFactory, CommonModel, baseUrl) {
     vm.adjust = function (employee) {
         var startDate = vm.filter.startDate,
             endDate = vm.filter.endDate;
-        vm.attendanceDetailUrl = baseUrl + 'Attendance/Detail/' + employee.Employee.EmployeeId
+        vm.attendanceDetailUrl = baseUrl + 'Discipline/Detail/' + employee.Employee.EmployeeId
             + '?startDate=' + startDate.toDateString() + '&endDate=' + endDate.toDateString() + '&reasonId=' + vm.filter.reasonId;
     };
 
@@ -233,12 +233,14 @@ function ($scope, $window, $routeParams, AttendanceModel, utilitiesFactory, Comm
     vm.attendanceDetails = AttendanceModel.attendanceDetails;
     vm.permission = AttendanceModel.permission;
 
+    vm.fromSummaryPage = $routeParams.id ? true : false;
+
     vm.filter = {
-        startDate: new Date($routeParams.startDate),
-        endDate: new Date($routeParams.endDate),
+        startDate: $routeParams.startDate ? new Date($routeParams.startDate) : firstDate,
+        endDate: $routeParams.endDate ? new Date($routeParams.endDate) : date,
         employee: null,
         departmentId: null,
-        employeeId: parseInt($routeParams.id),
+        employeeId: $routeParams.id ? parseInt($routeParams.id) : null,
         reasonId: parseInt($routeParams.reasonId)
     };
 
