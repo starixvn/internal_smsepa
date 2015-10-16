@@ -1165,12 +1165,9 @@
     <value>System Discipline Score</value>
   </data>
   <data name="NoneTargetTemplateSettingWarning" xml:space="preserve">
-    <value>Please setting a target template before generate EPA!</value>
+    <value>Please setting target template before generating EPA!</value>
   </data>
-   <data name="NoneDateSettingWarning" xml:space="preserve">
-    <value>Please setting a start date/end date before generate EPA!</value>
-  </data>
-  <data name="NoneTargetTemplateSettingWarning" xml:space="preserve">
-    <value>Please setting a target template before generate EPA!</value>
+  <data name="NoneDateSettingWarning" xml:space="preserve">
+    <value>Please setting start date/end date before generating EPA!</value>
   </data>
 </root>
