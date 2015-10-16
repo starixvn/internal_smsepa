@@ -1146,7 +1146,7 @@
   <data name="RatingTypeRequired" xml:space="preserve">
     <value>The Rating Type field is required!</value>
   </data>
-   <data name="Grade" xml:space="preserve">
+  <data name="Grade" xml:space="preserve">
     <value>Grade</value>
   </data>
   <data name="RatingType" xml:space="preserve">
@@ -1157,5 +1157,8 @@
   </data>
   <data name="RequiredComment" xml:space="preserve">
     <value>Comment is required</value>
+  </data>
+  <data name="ChangeScoreRatingTypeWarning" xml:space="preserve">
+    <value>Successfully updated. Total group weight must be adjusted properly!</value>
   </data>
 </root>

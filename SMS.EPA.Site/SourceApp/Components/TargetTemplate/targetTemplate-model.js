@@ -126,10 +126,15 @@ function ($modal, targetTemplateFactory, errorFactory, notificationFactory, util
         });
     };
 
-    targetTemplateModel.updateTargetTemplateBasicInformation = function (targetTemplate) {
+    targetTemplateModel.updateTargetTemplateBasicInformation = function (targetTemplate, originalScoreTypeId) {
         return targetTemplateFactory.updateTargetTemplateBasicInformation(targetTemplate).success(function (response) {
             if (response.IsSuccessful) {
-                notificationFactory.success("UpdatedSuccessfully");
+                if (targetTemplate.ScoreRatingTypeId !== originalScoreTypeId) {
+                    notificationFactory.success("ChangeScoreRatingTypeWarning");
+                }
+                else {
+                    notificationFactory.success("UpdatedSuccessfully");
+                }
             }
             else {
                 notificationFactory.error("", response.Message);

@@ -180,7 +180,7 @@ function ($scope, $window, TargetTemplateModel, CommonModel) {
 
     vm.save = function (targetTemplate) {
         if (TargetTemplateModel.validateTargetTemplate(targetTemplate)) {
-            TargetTemplateModel.updateTargetTemplateBasicInformation(targetTemplate).then(function () {
+            TargetTemplateModel.updateTargetTemplateBasicInformation(targetTemplate, $scope.updateCtrl.originalScoreTypeId).then(function () {
                 if (targetTemplate.ScoreRatingTypeId !== $scope.updateCtrl.originalScoreTypeId) {
                     $scope.updateCtrl.getTargetTemplateById(targetTemplate.TargetTemplateId);
                 }
