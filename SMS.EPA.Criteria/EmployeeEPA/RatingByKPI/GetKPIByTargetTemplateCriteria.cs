@@ -13,6 +13,8 @@ namespace SMS.EPA.Criteria.EmployeeEPA.RatingByKPI
 
     public class GetKPIByTargetTemplateCriteria : CriteriaBase
     {
+        public int EvaluatorId { get; set; }
+
         public int TargetTemplateId { get; set; }
 
         public override string GetSettingKey()
@@ -22,7 +24,7 @@ namespace SMS.EPA.Criteria.EmployeeEPA.RatingByKPI
 
         public override bool IsValid()
         {
-            return TargetTemplateId > 0;
+            return EvaluatorId > 0 && TargetTemplateId > 0;
         }
     }
 }

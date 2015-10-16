@@ -104,6 +104,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
 
                 if (score === kpi.Weight || rate === 5) {
                     kpi.CurrentEvaluation.IsMaxScore = true;
+                } else {
+                    kpi.CurrentEvaluation.IsMaxScore = false;
                 }
             });
         });
@@ -117,8 +119,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
 
         if (vm.finalScore > epaInfo.MaxFinalScore) {
             vm.finalScore = epaInfo.MaxFinalScore;
-        }
-        else if (vm.finalScore < 0) {
+        } else if (vm.finalScore < 0) {
             vm.finalScore = 0;
         }
 
@@ -289,21 +290,12 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
             checkStatus(vm.epaInfo);
 
             angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
-                var score = 0;
-
                 if (!kpiGroup.HasKPIOptional && kpiGroup.IsSpreadKPI) {
                     var weight = (kpiGroup.Weight / kpiGroup.KPIs.length).toFixed(2);
 
                     angular.forEach(kpiGroup.KPIs, function (kpi) {
                         kpi.Weight = weight;
-                        score += weight;
                     });
-                }
-
-                if (score > kpiGroup.Weight) {
-                    kpiGroup.KPIs[kpiGroup.KPIs.length - 1].Weight = kpiGroup.KPIs[kpiGroup.KPIs.length - 1].Weight - (score - kpiGroup.Weight);
-                } else if (score < kpiGroup.Weight) {
-                    kpiGroup.KPIs[kpiGroup.KPIs.length - 1].Weight = kpiGroup.KPIs[kpiGroup.KPIs.length - 1].Weight + (kpiGroup.Weight - score);
                 }
             });
         });

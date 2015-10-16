@@ -19,7 +19,7 @@ namespace SMS.EPA.Criteria.EmployeeEPA.RatingByKPI
     public class UpdateKPIScoreCriteria : CriteriaBase
     {
         private const string _EPA = "<EPA EPAId='{0}' EmployeeId='{1}' KPIGroupId='{2}' TotalScore='{3}'>{4}</EPA>";
-        private const string _EPADetail = "<EPADetail KPIId ='{0}' Rate='{1}' Score='{2}' Comment='{3}' />";
+        private const string _EPADetail = "<EPADetail KPIId ='{0}' Rate='{1}' Score='{2}' IsMaxScore='{3}' Comment='{4}' />";
         private const string _BeginRootTag = "<ROOT>";
         private const string _EndRootTag = "</ROOT>";
 
@@ -34,21 +34,23 @@ namespace SMS.EPA.Criteria.EmployeeEPA.RatingByKPI
                 foreach (var model in RatingByKPIs)
                 {
                     var detail = new StringBuilder();
-                    var rate = string.Empty;
-                    var score = string.Empty;
                     var totalScore = string.Empty;
 
-                    foreach (var kpi in model.KPIGroup.KPIs)
+                    foreach (TemporaryKPIModel kpi in model.KPIGroup.KPIs)
                     {
                         if (!string.IsNullOrEmpty(kpi.AdjustScore) || kpi.AdjustRate > 0)
                         {
-                            rate = kpi.AdjustRate > 0 ? Encode(kpi.AdjustRate.ToString()) : string.Empty;
-                            score = Encode(kpi.AdjustScore + "_" + kpi.KPIId);
-                            detail.AppendFormat(_EPADetail, kpi.KPIId, rate, score, HttpUtility.HtmlEncode(kpi.Comment));
+                            var score = kpi.AdjustScore;
+                            var rate = kpi.AdjustRate > 0 ? kpi.AdjustRate.ToString() : string.Empty;
+                            var isMaxScore = kpi.IsMaxScore;
+                            var cipherScore = Encode(score + "_" + kpi.KPIId);
+                            var cipherRate = Encode(rate);
+
+                            detail.AppendFormat(_EPADetail, kpi.KPIId, cipherRate, cipherScore, isMaxScore, HttpUtility.HtmlEncode(kpi.Comment));
                         }
-                        else
+                        else if (!string.IsNullOrEmpty(kpi.ScoreEncode) || !string.IsNullOrEmpty(kpi.RateEncode))
                         {
-                            detail.AppendFormat(_EPADetail, kpi.KPIId, kpi.RateEncode, kpi.ScoreEncode, HttpUtility.HtmlEncode(kpi.Comment));
+                            detail.AppendFormat(_EPADetail, kpi.KPIId, kpi.RateEncode, kpi.ScoreEncode, kpi.IsMaxScore, HttpUtility.HtmlEncode(kpi.Comment));
                         }
                     }
 

@@ -63,7 +63,7 @@
                         <label class="control-label" ng-bind="ratingByKPICtrl.kpiSelected.Name"></label>
                     </div>
                 </div>
-                <div class="form-group last" ng-show="ratingByKPICtrl.kpiSelected.IsRequiredEvaluate">
+                <div class="form-group last" ng-show="ratingByKPICtrl.kpiSelected.IsRequiredEvaluate && !ratingByKPICtrl.kpiSelected.KPIGroup.HasKPIOptional">
                     <label class="col-sm-2 control-label" data-translate="MaxPoints"></label>
                     <div class="col-sm-9">
                         <label class="control-label" ng-bind="ratingByKPICtrl.kpiSelected.Weight | customScore"></label>
@@ -108,8 +108,10 @@
                         </td>
                         <td ng-bind="memberEPA.Employee.JobTitle.JobTitleName"></td>
                         <td class="text-center col-score">
-                            <span ng-repeat="kpi in memberEPA.KPIGroup.KPIs"
-                                  ng-show="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal" ng-bind="kpi.Score | customScore"></span>
+                            <div ng-repeat="kpi in memberEPA.KPIGroup.KPIs" ng-show="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
+                                <span ng-show="kpi.Score != ''" ng-bind="kpi.Score | customScore"></span>
+                                <span ng-show="kpi.Score == ''" ng-bind="'N/A'"></span>
+                            </div>
                         </td>
                         <td class="col-adjust-score">
                             <div class="row text-center list-star" ng-repeat="kpi in memberEPA.KPIGroup.KPIs" ng-show="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
@@ -123,15 +125,17 @@
                                 </div>
                                 <div class="col-sm-4 input-score">
                                     <input type="text" class="form-control text-center epa-input-score"
-                                           ng-show="memberEPA.KPIGroup.TotalKPIOptional == 0" ng-model="kpi.AdjustScore" numeric decimals="2"
+                                           ng-show="memberEPA.KPIGroup.NumberKPIOptional == 0" ng-model="kpi.AdjustScore" numeric decimals="2"
                                            ng-change="ratingByKPICtrl.inputScore(memberEPA, kpi)" />
                                 </div>
                             </div>
                         </td>
                         <td class="col-comment">
-                            <div class="textarea-comment" ng-repeat="kpi in memberEPA.KPIGroup.KPIs" ng-show="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
-                                <textarea class="form-control" ng-model="kpi.Comment"></textarea>
+                            <div ng-repeat="kpi in memberEPA.KPIGroup.KPIs" ng-show="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
+                                <div class="textarea"><textarea class="form-control" ng-show="kpi.HasComment" ng-model="kpi.Comment"></textarea></div>
+                                <div class="note" data-translate="(*)" ng-show="kpi.HasComment && kpi.IsRequiredComment"></div>
                             </div>
+                            
                         </td>
                         <td class="text-center col-score">
                             <strong><a ng-show="memberEPA.TotalScore != ''" href="" ng-bind="memberEPA.TotalScore | customScore" ng-click="ratingByKPICtrl.viewDetail(memberEPA)"></a></strong>

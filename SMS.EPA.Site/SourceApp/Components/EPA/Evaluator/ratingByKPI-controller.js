@@ -140,41 +140,18 @@ function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, CommonModel, 
 
     vm.hoveringLeave = function (memberEPA, kpiGroup, kpi) {
         if (kpi.AdjustRate > 0) {
-            if (kpiGroup.TotalKPIOptional === 0) {
-                var score = kpi.Weight * (kpi.AdjustRate / vm.maxStar);
-
-                kpi.AdjustScore = (score % 1) === 0 ? score : score.toFixed(2);
-            }
-            else {
-                var weight, totalKPIOptional = angular.copy(kpiGroup.TotalKPIOptional);
-
-                angular.forEach(kpiGroup.KPIs, function (item) {
-                    if (!item.IsRequiredEvaluate && item.AdjustRate > 0) {
-                        totalKPIOptional -= 1;
-                    }
-                });
-
-                weight = kpiGroup.Weight / (kpiGroup.KPIs.length - totalKPIOptional);
-
-                angular.forEach(kpiGroup.KPIs, function (item) {
-                    if (item.AdjustRate > 0) {
-                        var score = weight * (item.AdjustRate / vm.maxStar);
-
-                        item.AdjustScore = (score % 1) === 0 ? score : score.toFixed(2);
-                    }
-                });
-            }
-
-            RatingByKPIModel.calculatePerformanceScore(memberEPA, kpi);
+            if (kpi.AdjustRate === kpi.MaxStar && memberEPA.RequiredCommentOnMaxScore)
+                kpi.IsMaxScore = true;
+        } else {
+            kpi.IsMaxScore = false;
         }
-    };
 
-    vm.cancelRating = function (memberEPA, kpiGroup, kpi) {
-        kpi.AdjustRate = 0;
-        kpi.AdjustScore = null;
+        if (!kpiGroup.HasKPIOptional) {
+            var score = kpi.Weight * (kpi.AdjustRate / vm.maxStar);
 
-        if (kpiGroup.TotalKPIOptional > 0) {
-            var weight, totalKPIOptional = angular.copy(kpiGroup.TotalKPIOptional);
+            kpi.AdjustScore = score;
+        } else {
+            var weight, totalKPIOptional = angular.copy(kpiGroup.NumberKPIOptional);
 
             angular.forEach(kpiGroup.KPIs, function (item) {
                 if (!item.IsRequiredEvaluate && item.AdjustRate > 0) {
@@ -186,9 +163,7 @@ function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, CommonModel, 
 
             angular.forEach(kpiGroup.KPIs, function (item) {
                 if (item.AdjustRate > 0) {
-                    var score = weight * (item.AdjustRate / vm.maxStar);
-
-                    item.AdjustScore = (score % 1) === 0 ? score : score.toFixed(2);
+                    item.AdjustScore = (weight * (item.AdjustRate / vm.maxStar)).toFixed(2);
                 }
             });
         }
@@ -196,11 +171,24 @@ function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, CommonModel, 
         RatingByKPIModel.calculatePerformanceScore(memberEPA, kpi);
     };
 
+    vm.cancelRating = function (memberEPA, kpiGroup, kpi) {
+        kpi.AdjustRate = 0;
+        kpi.AdjustScore = null;
+        memberEPA.TotalScore = memberEPA.TotalScoreOriginal;
+    };
+
     vm.inputScore = function (memberEPA, kpi) {
         kpi.AdjustRate = 0;
 
         if (!RatingByKPIModel.validateScoreInput(kpi.AdjustScore, kpi.Weight, vm.scoreInputValidMessage)) {
             kpi.AdjustScore = null;
+        }
+        else {
+            if (kpi.AdjustScore === kpi.Weight) {
+                kpi.IsMaxScore = true;
+            } else {
+                kpi.IsMaxScore = false;
+            }
         }
 
         RatingByKPIModel.calculatePerformanceScore(memberEPA, kpi);
@@ -306,7 +294,9 @@ function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, CommonModel, 
     };
 
     vm.save = function () {
-        RatingByKPIModel.updateKPIScore(vm);
+        if (RatingByKPIModel.validateEPA(vm)) {
+            RatingByKPIModel.updateKPIScore(vm);
+        }
     };
 
     vm.back = function () {
@@ -316,6 +306,14 @@ function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, CommonModel, 
     vm.initialize = function () {
         $translate('ScoreInputValid').then(function (message) {
             vm.scoreInputValidMessage = message;
+        });
+
+        $translate('EvaluateEPAInvalid').then(function (message) {
+            vm.evaluateEPAInvalidMessage = message;
+        });
+
+        $translate('RequiredCommentForMaxScoreRating').then(function (message) {
+            vm.requiredCommentForMaxScoreRating = message;
         });
 
         RatingByKPIModel.getTargetTemplateByEvaluator().then(function () {

@@ -29,6 +29,10 @@ namespace SMS.EPA.Model.EmployeeEPA.RatingByKPI
             }
         }
 
+        public RatingTypeModel RatingType { get; set; }
+
+        public bool RequiredCommentOnMaxScore { get; set; }
+
         public TemporaryKPIGroupModel KPIGroup { get; set; }
     }
 }

@@ -360,6 +360,7 @@ namespace SMS.EPA.Site.Controllers.API
         {
             var criteria = new GetKPIByTargetTemplateCriteria()
             {
+                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
                 TargetTemplateId = targetTemplateId
             };
 

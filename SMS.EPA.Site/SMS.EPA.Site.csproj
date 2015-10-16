@@ -355,8 +355,6 @@
     <Content Include="SourceApp\Components\EPA\employeeEPA-directive.js" />
     <Content Include="SourceApp\Components\EPA\employeeEPA-factory.js" />
     <Content Include="SourceApp\Components\EPA\employeeEPA-model.js">
-      <DependentUpon>epa.less</DependentUpon>
-    </Content>
     <Content Include="SourceApp\Components\EPA\Evaluator\evaluator-controller.js" />
     <Content Include="SourceApp\Components\EPA\Evaluator\ratingByKPI-controller.js" />
     <Content Include="SourceApp\Components\EPA\Evaluator\ratingByKPI-factory.js" />

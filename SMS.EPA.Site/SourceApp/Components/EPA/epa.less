@@ -336,6 +336,9 @@
     textarea {
         height: 2.5em;
         resize: none;
+        -moz-transition: all 0.5s ease;
+        -o-transition: all 0.5s ease;
+        -webkit-transition: all 0.5s ease;
         transition: all 0.5s ease;
         color: #39F;
     }
@@ -577,7 +580,8 @@
 
         &.kpi-info {
             .filter {
-                padding-top: 0;
+                padding-top: 5px;
+                padding-bottom: 5px;
             }
 
             .form-group {
@@ -640,6 +644,7 @@
                     &.glyphicon-star {
                         cursor: pointer;
                         color: #F67F46;
+
                         &:focus {
                             outline: none;
                         }
@@ -662,12 +667,33 @@
         }
 
         .col-comment {
-            .textarea-comment {
+            .textarea, .note {
+                display: inline-block;
+                float: left;
+            }
+
+            .textarea {
+                width: 92%;
+
                 textarea {
-                    color: #39F;
-                    height: 70px;
+                    height: 2.5em;
                     resize: none;
+                    -moz-transition: all 0.5s ease;
+                    -o-transition: all 0.5s ease;
+                    -webkit-transition: all 0.5s ease;
+                    transition: all 0.5s ease;
+                    color: #39F;
+
+                    &:focus {
+                        height: 5.5em;
+                    }
                 }
+            }
+
+            .note {
+                width: 5%;
+                margin-left: 5px;
+                color: #df1501;
             }
         }
     }
@@ -826,21 +852,6 @@
     height: 80px;
     resize: none;
     color: #39f;
-}
-
-.manage-column {
-    padding-right: 10px;
-    padding-top: 6px;
-    vertical-align: middle;
-
-    a {
-        color:#fff;
-        cursor: pointer;
-
-        &:hover, &:focus {
-            text-decoration: none;
-        }
-    }
 }
 
 .popover-avatar {

@@ -161,29 +161,30 @@ namespace SMS.EPA.Repositories.Implement
 
         public IEnumerable<RatingByKPIModel> GetEmployeeEPAByKPI(ICriteria criteria)
         {
-            IEnumerable<RatingByKPIModel> epas = new List<RatingByKPIModel>();
+            IEnumerable<RatingByKPIModel> epaInfos = new List<RatingByKPIModel>();
 
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
                 using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    epas = multi.Read<RatingByKPIModel, TemporaryKPIGroupModel, RatingByKPIModel>(
-                        (epa, kgr) =>
+                    epaInfos = multi.Read<RatingByKPIModel, RatingTypeModel, TemporaryKPIGroupModel, RatingByKPIModel>(
+                        (epaInfo, type, kgr) =>
                         {
-                            epa.KPIGroup = kgr;
+                            epaInfo.RatingType = type;
+                            epaInfo.KPIGroup = kgr;
 
-                            return epa;
+                            return epaInfo;
                         },
-                        "KPIGroupId");
+                        "RatingTypeId, KPIGroupId");
 
                     IEnumerable<EPAEmployeeModel> employees = multi.Read<EPAEmployeeModel, DepartmentModel, Group, JobTitle, EPAEmployeeModel>(
-                        (epa, dept, gr, job) =>
+                        (epaInfo, dept, gr, job) =>
                         {
-                            epa.Department = dept;
-                            epa.Group = gr;
-                            epa.JobTitle = job;
+                            epaInfo.Department = dept;
+                            epaInfo.Group = gr;
+                            epaInfo.JobTitle = job;
 
-                            return epa;
+                            return epaInfo;
                         },
                         "DepartmentId, GroupId, JobTitleId");
 
@@ -196,13 +197,13 @@ namespace SMS.EPA.Repositories.Implement
                         },
                         "KPIGroupId");
 
-                    GroupEmployeeByEPA(epas, employees);
-                    GroupKPIByEPA(epas, kpis);
-                    DecodeAllScore(epas);
+                    GroupEmployeeByEPA(epaInfos, employees);
+                    GroupKPIByEPA(epaInfos, kpis);
+                    DecodeAllScore(epaInfos);
                 }
             }
 
-            return epas;
+            return epaInfos;
         }
 
         #endregion Rating By KPI

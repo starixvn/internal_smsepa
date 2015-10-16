@@ -9,6 +9,8 @@
 
 namespace SMS.EPA.Model.EmployeeEPA.RatingByKPI
 {
+    using SMS.EPA.Core.Constants;
+
     public class TemporaryKPIModel
     {
         public int EPAId { get; set; }
@@ -31,9 +33,19 @@ namespace SMS.EPA.Model.EmployeeEPA.RatingByKPI
 
         public string Score { get; set; }
 
+        public bool IsMaxScore { get; set; }
+
         public string RateEncode { get; set; }
 
         public int Rate { get; set; }
+
+        public int MaxStar
+        {
+            get
+            {
+                return Constants.MaxStar;
+            }
+        }
 
         public string CommentOriginal
         {

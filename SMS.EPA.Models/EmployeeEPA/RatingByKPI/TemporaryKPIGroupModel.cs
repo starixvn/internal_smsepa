@@ -28,39 +28,9 @@ namespace SMS.EPA.Model.EmployeeEPA.RatingByKPI
 
         public int NumberKPI { get; set; }
 
-        public bool HasKPIOptional
-        {
-            get
-            {
-                foreach (var kpi in KPIs)
-                {
-                    if (!kpi.IsRequiredEvaluate)
-                    {
-                        return true;
-                    }
-                }
+        public bool HasKPIOptional { get; set; }
 
-                return false;
-            }
-        }
-
-        public int TotalKPIOptional
-        {
-            get
-            {
-                var totalKPIOptional = 0;
-
-                foreach (var kpi in KPIs)
-                {
-                    if (!kpi.IsRequiredEvaluate)
-                    {
-                        totalKPIOptional++;
-                    }
-                }
-
-                return totalKPIOptional;
-            }
-        }
+        public int NumberKPIOptional { get; set; }
 
         public IList<TemporaryKPIModel> KPIs { get; set; }
     }

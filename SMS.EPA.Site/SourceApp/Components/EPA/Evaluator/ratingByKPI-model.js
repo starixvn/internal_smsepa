@@ -99,6 +99,57 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
         memberEPA.TotalScore = (totalScore - curentScore + adjustScore).toFixed(2);
     };
 
+    var openPopupNotificationComment = function (message) {
+        var modalInstance = $modal.open({
+            templateUrl: 'SourceApp/Components/EPA/Templates/modalNotification.html',
+            controller: "ModalNotificationController as modalNotificationCtrl",
+            backdrop: 'static',
+            resolve: {
+                message: function () {
+                    return message;
+                }
+            },
+            windowClass: "modal-confirm-center"
+        });
+
+        return modalInstance.result;
+    };
+
+    ratingByKPIModel.validateEPA = function (vm) {
+        var isValid = true;
+
+        if (!vm.kpiSelected.KPIGroup.HasKPIOptional) {
+            angular.forEach(vm.memberEPAs, function (memberEPA) {
+                angular.forEach(memberEPA.KPIGroup.KPIs, function (kpi) {
+                    if (kpi.HasComment && kpi.IsRequiredComment
+                        && (!kpi.Comment || kpi.Comment.lenght === 0)) {
+                        isValid = false;
+                    }
+                });
+            });
+
+            if (!isValid) {
+                openPopupNotificationComment(vm.evaluateEPAInvalidMessage);
+            }
+        } else {
+            angular.forEach(vm.memberEPAs, function (memberEPA) {
+                angular.forEach(memberEPA.KPIGroup.KPIs, function (kpi) {
+                    if (kpi.HasComment && memberEPA.RequiredCommentOnMaxScore && kpi.IsMaxScore
+                        && (kpi.AdjustRate > 0 || kpi.AdjustScore > 0)
+                        && (!kpi.Comment || kpi.Comment.lenght === 0)) {
+                        isValid = false;
+                    }
+                });
+            });
+
+            if (!isValid) {
+                openPopupNotificationComment(vm.requiredCommentForMaxScoreRating);
+            }
+        }
+
+        return isValid;
+    };
+
     ratingByKPIModel.updateKPIScore = function (vm, modalInstance) {
         return ratingByKPIFactory.updateKPIScore(vm.memberEPAs)
         .success(function (response) {
@@ -111,9 +162,13 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
                 }
 
                 angular.forEach(vm.memberEPAs, function (memberEPA) {
+                    memberEPA.TotalScoreOriginal = memberEPA.TotalScore;
+
                     angular.forEach(memberEPA.KPIGroup.KPIs, function (kpi) {
-                        kpi.Rate = kpi.AdjustRate;
-                        kpi.Score = kpi.AdjustScore;
+                        if (kpi.AdjustRate > 0 || kpi.AdjustScore > 0) {
+                            kpi.Rate = kpi.AdjustRate;
+                            kpi.Score = kpi.AdjustScore;
+                        }
                     });
                 });
             }

@@ -83,6 +83,8 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public float DisciplineScore { get; set; }
 
+        public float SystemDisciplineScore { get; set; }
+
         public float MaxDisciplineScore { get; set; }
 
         public int Rowspan
