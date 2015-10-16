@@ -29,7 +29,7 @@
         <table class="row table table-bordered table-striped">
             <thead>
                 <tr class="header-table" ng-show="reviewerCtrl.memberEPAs.length > 0  && !reviewerCtrl.isEndProcessAll">
-                    <th colspan="14">
+                    <th colspan="15">
                         <a class="pull-left button-icon" ng-click="reviewerCtrl.adjustScore()">
                             <span class="icon-edit glyphicon glyphicon-edit"></span>
                             <span class="button-text" data-translate="AdjustScore"></span>
@@ -54,6 +54,7 @@
                     <th data-translate="EvaluatorScore"></th>
                     <th data-translate="AdjustScore"></th>
                     <th data-translate="Comment"></th>
+                    <th data-translate="SystemDisciplineScore"></th>
                     <th data-translate="DisciplineScore"></th>
                     <th data-translate="TotalScore"></th>
                     <th data-translate="Detail" class="col-action"></th>
@@ -107,6 +108,9 @@
                            ng-show="memberEPA.CurrentProcess.IsEndProcess && memberEPA.Status.StatusId == 0"></a>
                     </td>
                     <td class="text-center">
+                        <div ng-show="memberEPA.HasDisciplineScore" ng-bind="memberEPA.SystemDisciplineScore | customScore"></div>
+                    </td>
+                    <td class="text-center">
                         <div ng-show="memberEPA.HasDisciplineScore">
                             {{memberEPA.DisciplineScore | customScore}} / {{memberEPA.MaxDisciplineScore | customScore}}
                         </div>
@@ -128,14 +132,14 @@
             </tbody>
             <tfoot ng-show="reviewerCtrl.memberEPAs.length > 0">
                 <tr>
-                    <td colspan="14">
+                    <td colspan="15">
                         {{"AverageScoreByEvaluators" | translate}}: {{reviewerCtrl.averageScore | customScore}}
                     </td>
                 </tr>
             </tfoot>
             <tbody ng-show="reviewerCtrl.memberEPAs.length == 0">
                 <tr>
-                    <td class="empty-result" colspan="14" data-translate="EmptyResult"></td>
+                    <td class="empty-result" colspan="15" data-translate="EmptyResult"></td>
                 </tr>
             </tbody>
         </table>

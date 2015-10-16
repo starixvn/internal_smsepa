@@ -194,8 +194,8 @@ function ($scope, $window, TargetTemplateModel, CommonModel) {
 }]);
 
 targetTemplateModule.controller('KPIListController',
-['$scope', '$window', 'TargetTemplateModel',
-function ($scope, $window, TargetTemplateModel) {
+['$scope', '$window', 'TargetTemplateModel', 'utilitiesFactory',
+function ($scope, $window, TargetTemplateModel, utilitiesFactory) {
     var vm = this;
 
     vm.targetTemplateId = $scope.updateCtrl.targetTemplateId;
@@ -317,25 +317,26 @@ function ($scope, $window, TargetTemplateModel) {
     };
 
     vm.scoreSpread = function (group) {
-        var kpiSelected = [],
-            totalKPISelected = 0;
+        var kpiSelected = [], weight;
 
         angular.forEach(group.KPIs, function (kpi) {
             if (kpi.Selected) {
-                totalKPISelected += 1;
                 kpiSelected.push(kpi);
             }
         });
 
-        if (totalKPISelected > 0) {
-            var averageWeight = (group.Weight / totalKPISelected).toFixed(2);
+        if (kpiSelected.length > 0) {
+            var averageWeight = utilitiesFactory.parseFloat(group.Weight / kpiSelected.length);
 
             angular.forEach(kpiSelected, function (kpi) {
                 kpi.Weight = averageWeight;
             });
 
-            if ((averageWeight * totalKPISelected) > group.Weight) {
-                kpiSelected[totalKPISelected - 1].Weight = group.Weight - (averageWeight * (totalKPISelected - 1));
+            weight = kpiSelected[kpiSelected.length - 1].Weight;
+            if ((averageWeight * kpiSelected.length) > group.Weight) {
+                kpiSelected[kpiSelected.length - 1].Weight = weight - ((averageWeight * kpiSelected.length) - group.Weight);
+            } else if ((averageWeight * kpiSelected.length) < group.Weight) {
+                kpiSelected[kpiSelected.length - 1].Weight = weight + (group.Weight - (averageWeight * kpiSelected.length));
             }
         }
     };

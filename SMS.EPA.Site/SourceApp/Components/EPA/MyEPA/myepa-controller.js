@@ -26,8 +26,8 @@ function (EmployeeEPAModel) {
 }]);
 
 epaModule.controller('EmployeeEPAInfoController',
-['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'CommonModel',
-function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
+['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'CommonModel', 'utilitiesFactory',
+function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, utilitiesFactory) {
     var vm = this;
 
     vm.epaId = parseInt($routeParams.id);
@@ -91,7 +91,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
 
                 if (kpi.CurrentEvaluation.Percent > 0) {
                     if (kpiGroup.TotalKPIOptional === 0) {
-                        var score = (kpi.Weight * (kpi.CurrentEvaluation.Percent / 100)).toFixed(2);
+                        var score = utilitiesFactory.parseFloat(kpi.Weight * (kpi.CurrentEvaluation.Percent / 100));
 
                         kpi.CurrentEvaluation.Score = score;
                     }
@@ -104,7 +104,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
                             }
                         });
 
-                        weight = (kpiGroup.Weight / (kpiGroup.KPIs.length - totalKPIOptional)).toFixed(2);
+                        weight = utilitiesFactory.parseFloat(kpiGroup.Weight / (kpiGroup.KPIs.length - totalKPIOptional));
 
                         angular.forEach(kpiGroup.KPIs, function (item) {
                             if (item.CurrentEvaluation.Rate > 0) {
@@ -169,7 +169,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
                 }
             });
 
-            weight = (kpiGroup.Weight / (kpiGroup.KPIs.length - totalKPIOptional)).toFixed(2);
+            weight = utilitiesFactory.parseFloat(kpiGroup.Weight / (kpiGroup.KPIs.length - totalKPIOptional));
 
             angular.forEach(kpiGroup.KPIs, function (item) {
                 if (item.CurrentEvaluation.Rate > 0) {
@@ -212,7 +212,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
     var getEPAInfoByEmployee = function () {
         EmployeeEPAModel.getEPAInfoByEmployee(vm.epaId).then(function () {
             vm.epaInfo = EmployeeEPAModel.epaInfo;
-            var totalScore = vm.epaInfo.CurrentProcess.TotalScore ? parseFloat(vm.epaInfo.CurrentProcess.TotalScore) : 0,
+            var totalScore = utilitiesFactory.parseFloat(vm.epaInfo.CurrentProcess.TotalScore),
                 disciplineScore = vm.epaInfo.MaxDisciplineScore - vm.epaInfo.DisciplineScore;
 
             if (disciplineScore < 0) {

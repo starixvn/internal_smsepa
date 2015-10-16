@@ -179,5 +179,11 @@ appModule.factory('utilitiesFactory',
         return result;
     };
 
+    utilities.parseFloat = function (input) {
+        var result = input ? parseFloat(input).toFixed(2) : 0;
+
+        return parseFloat(result);
+    };
+
     return utilities;
 }]);

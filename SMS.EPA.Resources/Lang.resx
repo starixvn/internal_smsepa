@@ -1161,4 +1161,7 @@
   <data name="ChangeScoreRatingTypeWarning" xml:space="preserve">
     <value>Successfully updated. Total group weight must be adjusted properly!</value>
   </data>
+  <data name="SystemDisciplineScore" xml:space="preserve">
+    <value>System Discipline Score</value>
+  </data>
 </root>
