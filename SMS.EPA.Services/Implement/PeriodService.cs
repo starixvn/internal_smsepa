@@ -10,6 +10,7 @@
 namespace SMS.EPA.Services.Implement
 {
     using System.Collections.Generic;
+    using System.Configuration;
     using System.Linq;
     using Fanex.Common.Helper;
     using NexFB.Core.Utilities;
@@ -158,10 +159,11 @@ namespace SMS.EPA.Services.Implement
             if (criteria.IsValid())
             {
                 commandResult = Repository.Update(criteria);
-                ////if (commandResult.IsSuccessful)
-                ////{
-                ////    GetAndSendEmailToAllRelatedEmployee(MailMode.NotifyChange, criteria.PeriodId, criteria.EmployeeIds, null);
-                ////}
+
+                if (commandResult.IsSuccessful && ConfigurationManager.AppSettings["SendMailWhenEditEmployeeSetting"].Equals("true"))
+                {
+                    GetAndSendEmailToAllRelatedEmployee(MailMode.NotifyChange, criteria.PeriodId, criteria.EmployeeIds, null);
+                }
             }
 
             return commandResult;
@@ -412,7 +414,7 @@ namespace SMS.EPA.Services.Implement
                 Count = rowIndex,
                 Department = employeeSetting.Department != null ? employeeSetting.Department.Name : string.Empty,
                 Section = employeeSetting.Group != null ? employeeSetting.Group.GroupName : string.Empty,
-                ID = employeeSetting.EmployeeId,
+                ID = employeeSetting.Code,
                 FullName = employeeSetting.FullName,
                 NickName = employeeSetting.NickName,
                 Evaluator = GetEvaluator(employeeSetting.Evaluators),
