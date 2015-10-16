@@ -1236,5 +1236,38 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         return hasEdited;
     };
 
+    periodModel.validateEmployeeSetting = function (employeeSettings) {
+        for (var i = 0; i < employeeSettings.length; i++) {
+            var employeeSetting = employeeSettings[0];
+
+            if (!employeeSetting.TargetTemplate) {
+                notificationFactory.error("NoneTargetTemplateSettingWarning");
+                return false;
+            }
+            else if (employeeSetting.HumanResources && (!employeeSetting.HumanResources[0].StartDate || !employeeSetting.HumanResources[0].EndDate)) {
+                notificationFactory.error("NoneDateSettingWarning");
+                return false;
+            }
+            else if (employeeSetting.SelfEvaluators && (!employeeSetting.SelfEvaluators[0].StartDate || !employeeSetting.SelfEvaluators[0].EndDate)) {
+                notificationFactory.error("NoneDateSettingWarning");
+                return false;
+            }
+            else if (employeeSetting.Evaluators && (!employeeSetting.Evaluators[0].StartDate || !employeeSetting.Evaluators[0].EndDate)) {
+                notificationFactory.error("NoneDateSettingWarning");
+                return false;
+            }
+            else if (employeeSetting.Reviewers && (!employeeSetting.Reviewers[0].StartDate || !employeeSetting.Reviewers[0].EndDate)) {
+                notificationFactory.error("NoneDateSettingWarning");
+                return false;
+            }
+            else if (employeeSetting.Managements && (!employeeSetting.Managements[0].StartDate || !employeeSetting.Managements[0].EndDate)) {
+                notificationFactory.error("NoneDateSettingWarning");
+                return false;
+            }
+        }
+
+        return true;
+    };
+
     return periodModel;
 }]);

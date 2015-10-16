@@ -1843,6 +1843,24 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please setting a start date/end date before generate EPA!.
+        /// </summary>
+        public static string NoneDateSettingWarning {
+            get {
+                return ResourceManager.GetString("NoneDateSettingWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please setting a target template before generate EPA!.
+        /// </summary>
+        public static string NoneTargetTemplateSettingWarning {
+            get {
+                return ResourceManager.GetString("NoneTargetTemplateSettingWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to N/A.
         /// </summary>
         public static string NotAvailable {

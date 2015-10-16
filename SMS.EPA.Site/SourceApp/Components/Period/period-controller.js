@@ -465,9 +465,11 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
             notificationFactory.error("SelectEmployeeBeforeGenerateEvaluation");
         }
         else {
-            PeriodModel.openPopupGenerateEvaluation(vm, period).then(function () {
-                vm.query(vm.filter);
-            });
+            if (PeriodModel.validateEmployeeSetting(selectedEmployees)) {
+                PeriodModel.openPopupGenerateEvaluation(vm, period).then(function () {
+                    vm.query(vm.filter);
+                });
+            }
         }
     };
 
@@ -686,7 +688,7 @@ permission, PeriodModel, TargetTemplateModel, FlowMngModel, CommonModel) {
         PeriodModel.getProcessSettingByPeriodId(vm.period.PeriodId).then(function () {
             vm.processSettings = PeriodModel.processSettings;
 
-            var startDate = new Date(vm.period.StartDate),
+            var startDate = vm.period.StartDate ? new Date(vm.period.StartDate) : new Date(),
                 year = null,
                 month = null,
                 day = null;
@@ -720,7 +722,7 @@ permission, PeriodModel, TargetTemplateModel, FlowMngModel, CommonModel) {
    */
     TargetTemplateModel.getTargetTemplate(vm.period.TargetType.TargetTypeId, true).then(function () {
         vm.targetTemplates = TargetTemplateModel.targetTemplates;
-        vm.employeeOptions.targetTemplateId = vm.targetTemplates ? vm.targetTemplates[0].TargetTemplateId : null;
+        vm.employeeOptions.targetTemplateId = vm.targetTemplates.length > 0 ? vm.targetTemplates[0].TargetTemplateId : null;
 
         CommonModel.getAllEmployee().then(function () {
             vm.employees = CommonModel.employees;
