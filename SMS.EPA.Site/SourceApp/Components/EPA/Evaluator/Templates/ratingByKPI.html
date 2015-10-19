@@ -115,15 +115,20 @@
                         </td>
                         <td class="col-adjust-score">
                             <div class="row text-center list-star" ng-repeat="kpi in memberEPA.KPIGroup.KPIs" ng-show="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
-                                <div class="col-sm-1 cancel-rating">
-                                    <a ng-show="kpi.AdjustRate > 0" class="glyphicon glyphicon-remove-circle remove-star"
-                                       title="Cancel" href="javascript:;" ng-click="ratingByKPICtrl.cancelRating(memberEPA, memberEPA.KPIGroup, kpi)"></a>
+                                <div ng-show="memberEPA.RatingType.RatingTypeId == 1 || (memberEPA.RatingType.RatingTypeId == 2 && memberEPA.KPIGroup.NumberKPIOptional > 0)">
+                                    <div class="col-sm-2 cancel-rating">
+                                        <a ng-show="kpi.AdjustRate > 0" class="glyphicon glyphicon-remove-circle remove-star"
+                                           title="Cancel" href="javascript:;" ng-click="ratingByKPICtrl.cancelRating(memberEPA, memberEPA.KPIGroup, kpi)"></a>
+                                    </div>
+                                    <div class="col-sm-7 rating">
+                                        <rating ng-model="kpi.AdjustRate" max="ratingByKPICtrl.maxStar"
+                                                on-leave="ratingByKPICtrl.hoveringLeave(memberEPA, memberEPA.KPIGroup, kpi)"></rating>
+                                    </div>
+                                    <div class="col-sm-3 percent-rating">
+                                        <span class="badge percent" ng-show="memberEPA.KPIGroup.NumberKPIOptional == 0 && kpi.AdjustRate > 0">{{kpi.AdjustScore | customScore}} pts</span>
+                                    </div>
                                 </div>
-                                <div class="col-sm-7 rating">
-                                    <rating ng-model="kpi.AdjustRate" max="ratingByKPICtrl.maxStar"
-                                            on-leave="ratingByKPICtrl.hoveringLeave(memberEPA, memberEPA.KPIGroup, kpi)"></rating>
-                                </div>
-                                <div class="col-sm-4 input-score">
+                                <div ng-show="memberEPA.RatingType.RatingTypeId == 2 && memberEPA.KPIGroup.NumberKPIOptional == 0" class="input-score">
                                     <input type="text" class="form-control text-center epa-input-score"
                                            ng-show="memberEPA.KPIGroup.NumberKPIOptional == 0" ng-model="kpi.AdjustScore" numeric decimals="2"
                                            ng-change="ratingByKPICtrl.inputScore(memberEPA, kpi)" />

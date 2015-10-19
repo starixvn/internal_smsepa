@@ -122,6 +122,10 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
             angular.forEach(vm.memberEPAs, function (memberEPA) {
                 angular.forEach(memberEPA.KPIGroup.KPIs, function (kpi) {
                     if (kpi.HasComment && kpi.IsRequiredComment
+                        && (utilitiesFactory.parseFloat(kpi.AdjustRate) > 0
+                        || utilitiesFactory.parseFloat(kpi.AdjustScore) > 0
+                        || utilitiesFactory.parseFloat(kpi.Rate) > 0
+                        || utilitiesFactory.parseFloat(kpi.Score) > 0)
                         && (!kpi.Comment || kpi.Comment.lenght === 0)) {
                         isValid = false;
                     }
@@ -135,7 +139,6 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
             angular.forEach(vm.memberEPAs, function (memberEPA) {
                 angular.forEach(memberEPA.KPIGroup.KPIs, function (kpi) {
                     if (kpi.HasComment && memberEPA.RequiredCommentOnMaxScore && kpi.IsMaxScore
-                        && (kpi.AdjustRate > 0 || kpi.AdjustScore > 0)
                         && (!kpi.Comment || kpi.Comment.lenght === 0)) {
                         isValid = false;
                     }

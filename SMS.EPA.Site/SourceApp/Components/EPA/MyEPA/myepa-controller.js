@@ -45,8 +45,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
 
         angular.forEach(epaInfo.KPIGroups, function (kpiGroup) {
             angular.forEach(kpiGroup.KPIs, function (kpi) {
-                var rate = kpi.CurrentEvaluation.Rate ? kpi.CurrentEvaluation.Rate : 0;
-                var score = kpi.CurrentEvaluation.Score ? parseFloat(kpi.CurrentEvaluation.Score) : 0;
+                var rate = utilitiesFactory.parseFloat(kpi.CurrentEvaluation.Rate);
+                var score = utilitiesFactory.parseFloat(kpi.CurrentEvaluation.Score);
                 totalScore += score;
 
                 if (score === kpi.Weight || rate === 5) {
@@ -90,13 +90,13 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
                 kpi.CurrentEvaluation.Percent = (100 * kpi.CurrentEvaluation.Rate) / vm.maxStar;
 
                 if (kpi.CurrentEvaluation.Percent > 0) {
-                    if (kpiGroup.TotalKPIOptional === 0) {
+                    if (kpiGroup.NumberKPIOptional === 0) {
                         var score = utilitiesFactory.parseFloat(kpi.Weight * (kpi.CurrentEvaluation.Percent / 100));
 
                         kpi.CurrentEvaluation.Score = score;
                     }
                     else {
-                        var weight, totalKPIOptional = angular.copy(kpiGroup.TotalKPIOptional);
+                        var weight, totalKPIOptional = angular.copy(kpiGroup.NumberKPIOptional);
 
                         angular.forEach(kpiGroup.KPIs, function (item) {
                             if (!item.IsRequiredEvaluate && item.CurrentEvaluation.Rate > 0) {
@@ -160,8 +160,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
         kpi.CurrentEvaluation.Percent = 0;
         kpi.CurrentEvaluation.Score = null;
 
-        if (kpiGroup.TotalKPIOptional > 0) {
-            var weight, totalKPIOptional = angular.copy(kpiGroup.TotalKPIOptional);
+        if (kpiGroup.NumberKPIOptional > 0) {
+            var weight, totalKPIOptional = angular.copy(kpiGroup.NumberKPIOptional);
 
             angular.forEach(kpiGroup.KPIs, function (item) {
                 if (!item.IsRequiredEvaluate && item.CurrentEvaluation.Rate > 0) {

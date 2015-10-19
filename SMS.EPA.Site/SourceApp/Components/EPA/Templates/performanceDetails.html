@@ -28,7 +28,7 @@
                         <td class="text-center" rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" ng-bind="$parent.$index + 1" ng-show="$first"></td>
                         <td class="col-kpi-name" rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" ng-show="$first">
                             <span ng-bind="kpi.Name"></span>
-                            <strong ng-show="kpiGroup.TotalKPIOptional == 0"> ({{kpi.Weight | customScore}} pts)</strong>
+                            <strong ng-show="kpiGroup.NumberKPIOptional == 0"> ({{kpi.Weight | customScore}} pts)</strong>
                             <label class="note" ng-show="kpi.IsRequiredEvaluate" data-translate="(*)"></label>
                         </td>
                         <td class="text-center col-score" rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" ng-show="$first">

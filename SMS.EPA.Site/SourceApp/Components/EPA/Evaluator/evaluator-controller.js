@@ -141,13 +141,13 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
                 kpi.CurrentEvaluation.Percent = (100 * kpi.CurrentEvaluation.Rate) / vm.maxStar;
 
                 if (kpi.CurrentEvaluation.Percent > 0) {
-                    if (kpiGroup.TotalKPIOptional === 0) {
+                    if (kpiGroup.NumberKPIOptional === 0) {
                         var score = (kpi.Weight * (kpi.CurrentEvaluation.Percent / 100)).toFixed(2);
 
                         kpi.CurrentEvaluation.Score = score;
                     }
                     else {
-                        var weight, totalKPIOptional = angular.copy(kpiGroup.TotalKPIOptional);
+                        var weight, totalKPIOptional = angular.copy(kpiGroup.NumberKPIOptional);
 
                         angular.forEach(kpiGroup.KPIs, function (item) {
                             if (!item.IsRequiredEvaluate && item.CurrentEvaluation.Rate > 0) {
@@ -229,8 +229,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
         kpi.CurrentEvaluation.Percent = 0;
         kpi.CurrentEvaluation.Score = null;
 
-        if (kpiGroup.TotalKPIOptional > 0) {
-            var weight, totalKPIOptional = angular.copy(kpiGroup.TotalKPIOptional);
+        if (kpiGroup.NumberKPIOptional > 0) {
+            var weight, totalKPIOptional = angular.copy(kpiGroup.NumberKPIOptional);
 
             angular.forEach(kpiGroup.KPIs, function (item) {
                 if (!item.IsRequiredEvaluate && item.CurrentEvaluation.Rate > 0) {
