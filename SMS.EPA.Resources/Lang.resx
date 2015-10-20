@@ -1173,4 +1173,7 @@
   <data name="SectionRequired" xml:space="preserve">
     <value>The Section field is required!</value>
   </data>
+  <data name="EPAHistory" xml:space="preserve">
+    <value>EPA History</value>
+  </data>
 </root>

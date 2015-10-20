@@ -2,13 +2,15 @@
 /*global epaHistoryModule*/
 
 epaHistoryModule.controller('EPAHistoryController',
-['EPAHistoryModel', 'utilitiesFactory', 'CommonModel', function (EPAHistoryModel, utilitiesFactory, CommonModel) {
+['EPAHistoryModel', 'utilitiesFactory', 'CommonModel', 'EmployeeModel',
+function (EPAHistoryModel, utilitiesFactory, CommonModel, EmployeeModel) {
     var vm = this;
     vm.epas = EPAHistoryModel.epas;
     vm.periodOptions = CommonModel.periodOptions;
 
     vm.filter = {
-        periodId: null
+        periodId: null,
+        employee: null
     };
 
     vm.currentPage = 1;
@@ -23,15 +25,33 @@ epaHistoryModule.controller('EPAHistoryController',
         getEPAHistory(vm.filter.periodId);
     });
 
-    var getEPAHistory = function (periodId) {
-        EPAHistoryModel.getEPAHistory(periodId).then(function () {
+    vm.getEmployee = function () {
+        return EmployeeModel.getAllEmployee(vm.searchEmployee);
+    };
+
+    vm.unSelectEmployee = function () {
+        if (vm.searchEmployee.trim() === '') {
+            if (vm.filter.employee) {
+                vm.filter.employee = null;
+            }
+        }
+    };
+
+    var getEPAHistory = function (periodId, employeeId) {
+        EPAHistoryModel.getEPAHistory(periodId, employeeId).then(function () {
             vm.epas = EPAHistoryModel.epas;
-            utilitiesFactory.searchOnPage(vm, vm.periods);
+            utilitiesFactory.searchOnPage(vm, vm.epas);
         });
     };
 
     vm.query = function (filter) {
-        getEPAHistory(filter.periodId);
+        var employeeId = null;
+
+        if (filter.employee) {
+            employeeId = filter.employee.EmployeeId;
+        }
+
+        getEPAHistory(filter.periodId, employeeId);
     };
 
     vm.getIndex = function (index, currentPage, pageSize) {

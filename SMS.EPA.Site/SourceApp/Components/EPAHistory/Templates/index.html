@@ -13,6 +13,12 @@
             </select>
         </div>
         <div class="form-group">
+            <label class="control-label" data-translate="Employee"></label>
+            <input class="form-control employee-search" ng-model="epaHistoryCtrl.searchEmployee"
+                   placeholder="Enter full name or nick name" search-auto-complete search-employees="epaHistoryCtrl.getEmployee()"
+                   ng-change="epaHistoryCtrl.unSelectEmployee()" employee="epaHistoryCtrl.filter.employee" />
+        </div>
+        <div class="form-group">
             <button class="button" ng-click="epaHistoryCtrl.query(epaHistoryCtrl.filter)" data-translate="Search"></button>
         </div>
     </form>
@@ -31,7 +37,7 @@
                 </th>
                 <th data-translate="Code">
                 </th>
-                <th data-translate="Period">
+                <th data-translate="PeriodName">
                 </th>
                 <th data-translate="StartDate">
                 </th>

@@ -17,9 +17,11 @@ namespace SMS.EPA.Criteria.EPAHistory
 
         public int EvaluatorId { get; set; }
 
+        public int? EmployeeId { get; set; }
+
         public override bool IsValid()
         {
-            return PeriodId > 0 && EvaluatorId > 0;
+            return PeriodId != 0 && EvaluatorId > 0;
         }
 
         public override string GetSettingKey()

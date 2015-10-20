@@ -42,9 +42,23 @@ namespace SMS.EPA.Services.Implement
             if (criteria.IsValid())
             {
                 epas = _epaHistoryRepository.GetEPAHistory(criteria);
+
+                if (epas != null && epas.Any())
+                {
+                    DecodeFinalScoreAndGrade(epas);
+                }
             }
 
             return epas;
+        }
+
+        private static void DecodeFinalScoreAndGrade(IList<EPAHistoryModel> epas)
+        {
+            foreach (EPAHistoryModel epa in epas)
+            {
+                epa.FinalScore = !string.IsNullOrWhiteSpace(epa.EncodeFinalScore) ? float.Parse(EncodeService.Decode(epa.EncodeFinalScore)) : 0;
+                epa.Grade = !string.IsNullOrWhiteSpace(epa.EncodeGrade) ? EncodeService.Decode(epa.EncodeGrade) : string.Empty;
+            }
         }
 
         public IList<PeriodModel> GetAllPeriodIncludeImport(GetAllPeriodIncludeImportCriteria criteria)

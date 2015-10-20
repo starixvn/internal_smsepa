@@ -7,8 +7,8 @@ function (epaHistoryFactory, errorFactory) {
 
     epaHistoryModel.epas = [];
 
-    epaHistoryModel.getEPAHistory = function (periodId) {
-        return epaHistoryFactory.getEPAHistory(periodId).success(function (epas) {
+    epaHistoryModel.getEPAHistory = function (periodId, employeeId) {
+        return epaHistoryFactory.getEPAHistory(periodId, employeeId).success(function (epas) {
             epaHistoryModel.epas = epas;
         })
         .error(function (response, status) {

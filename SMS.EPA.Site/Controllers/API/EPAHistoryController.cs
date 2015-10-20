@@ -32,12 +32,13 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpGet]
-        public IList<EPAHistoryModel> GetEPAHistory(int periodId)
+        public IList<EPAHistoryModel> GetEPAHistory(int periodId, int? employeeId = null)
         {
             var criteria = new GetEPAHistoryCriteria
             {
                 PeriodId = periodId,
-                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId
+                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
+                EmployeeId = employeeId
             };
 
             IList<EPAHistoryModel> epas = _epaHistoryService.GetEPAHistory(criteria);

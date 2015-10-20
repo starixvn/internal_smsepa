@@ -3,8 +3,8 @@
 
 epaHistoryModule.factory('epaHistoryFactory', ['$http', 'baseUrl', function ($http, baseUrl) {
     return {
-        getEPAHistory: function (periodId) {
-            return $http.get(baseUrl + 'api/EPAHistory/GetEPAHistory', { params: { periodId: periodId }});
+        getEPAHistory: function (periodId, employeeId) {
+            return $http.get(baseUrl + 'api/EPAHistory/GetEPAHistory', { params: { periodId: periodId, employeeId: employeeId } });
         }
     };
 }]);
