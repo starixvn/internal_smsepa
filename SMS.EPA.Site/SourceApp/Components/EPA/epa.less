@@ -158,7 +158,9 @@
                     }
                 }
             }
-
+            .user-info .row-item.line:last-child {
+                border-bottom: none;
+            }
             .error-message {
                 color: #F00 !important;
             }
@@ -877,9 +879,62 @@
         }
     }
 }
+.kpiGroup-box {
+    padding: 3px 15px 8px;
+    .kpi-name, .kpi-description, .kpi-comment {
+        [class^='col'] {
+            padding: 0;
+        }
+    }
+}
 
+.kpi-name {
+    margin-top: 5px;
+    .feature {
+        width: 80%;
+        float: left;
+    }
+    .kpi-start {
+        width: 14%;
+        float: left;
+        text-align: right;
+        .remove-rating {
+            display: inline-block;
+            .remove-star {
+                color: #de5245;
+                margin-right: 3px;
+                cursor: pointer;
+                font-size: 16px;
+                top: 2px;
+
+            }
+        }
+        .rating {
+            padding-left: 5px;
+            display: inline-block;
+            .glyphicon {
+                font-size: 15px;
+                color: #4493c4;
+                &.glyphicon-star {
+                    cursor: pointer;
+                    color: #f67f46;
+                }
+            }
+        }
+    }
+    .kpi-percent {
+        width: 5%;
+        float: left;
+        padding-left: 5px;
+        .badge.percent {
+            width: 50px;
+            font-weight: normal;
+            font-size: 11px;
+        }
+    }
+}
 @media (min-width:800px) and (max-width: 1000px) {
-    .list-kpi-rating {
+   /* .list-kpi-rating {
         .list-star {
            .rating {
                width: 68.3%;
@@ -894,6 +949,16 @@
                 width: 40px;
                 margin-left: 6px;
             }  
+        }
+    }*/
+}
+@media (max-width: 800px) {
+    .kpi-name {
+        .feature {
+            width: 74%;
+        }
+        .kpi-start {
+            width: 20%;
         }
     }
 }
@@ -919,6 +984,21 @@
         .kpi-score {
             width: 80px;
         }
+    }
+}
+@media (max-width: 1170px) {
+    .evaluation-process-section ul.evaluation-process li:last-child {
+        margin: 10px 0 0 40px;
+    }
+}
+/*@media (min-width: 871px) and (max-width: 1160px) {
+        .evaluation-process-section ul.evaluation-process li:nth-last-of-type(2){
+             margin: 0;
+        }
+}*/
+@media (max-width: 880px) {
+    .evaluation-process-section ul.evaluation-process li:nth-last-of-type(2){
+         margin: 10px 0 0 40px;
     }
 }
 @media (min-width:1800px) {

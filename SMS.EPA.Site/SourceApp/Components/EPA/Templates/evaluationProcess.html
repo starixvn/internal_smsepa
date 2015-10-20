@@ -1,5 +1,5 @@
-﻿<ul class="evaluation-process">
-    <li ng-class="memberEPAInfoCtrl.getClassProgress(memberEPAInfoCtrl.epaInfo.ProcessBySelf.StatusEndProcess)">
+﻿<ul class="evaluation-process" class="evaluation-process">
+    <li ng-class="memberEPAInfoCtrl.getClassProgress(memberEPAInfoCtrl.epaInfo.ProcessBySelf.StatusEndProcess)" class="process-item">
         <div><strong data-translate="Self"></strong></div>
         <div>
             <span ng-bind="memberEPAInfoCtrl.epaInfo.ProcessBySelf.StartDate | customDate"></span>
@@ -16,7 +16,7 @@
             <label data-translate="Open"></label><span class="icon-process"></span>
         </div>
     </li>
-    <li ng-class="memberEPAInfoCtrl.getClassProgress(memberEPAInfoCtrl.epaInfo.Evaluators[0].StatusEndProcess)">
+    <li ng-class="memberEPAInfoCtrl.getClassProgress(memberEPAInfoCtrl.epaInfo.Evaluators[0].StatusEndProcess)" class="process-item">
         <div class="col-evaluator">
             <strong>{{"Evaluator" | translate}}: </strong>
             <span ng-show="memberEPAInfoCtrl.epaInfo.Evaluators.length == 1" ng-bind="memberEPAInfoCtrl.epaInfo.Evaluators[0].NickName"
@@ -42,7 +42,7 @@
         </div>
     </li>
     <li ng-show="memberEPAInfoCtrl.epaInfo.Reviewers.length > 0"
-        ng-class="memberEPAInfoCtrl.getClassProgress(memberEPAInfoCtrl.epaInfo.Reviewers[0].StatusEndProcess)">
+        ng-class="memberEPAInfoCtrl.getClassProgress(memberEPAInfoCtrl.epaInfo.Reviewers[0].StatusEndProcess)" class="process-item">
         <div class="col-evaluator" ng-show="memberEPAInfoCtrl.epaInfo.Reviewers.length > 0">
             <strong>{{"Reviewer" | translate}}:</strong>
             <span ng-show="memberEPAInfoCtrl.epaInfo.Reviewers.length == 1" ng-bind="memberEPAInfoCtrl.epaInfo.Reviewers[0].NickName"
@@ -68,7 +68,7 @@
         </div>
     </li>
     <li ng-show="memberEPAInfoCtrl.epaInfo.Managements.length > 0"
-        ng-class="memberEPAInfoCtrl.getClassProgress(memberEPAInfoCtrl.epaInfo.Managements[0].StatusEndProcess)">
+        ng-class="memberEPAInfoCtrl.getClassProgress(memberEPAInfoCtrl.epaInfo.Managements[0].StatusEndProcess)" class="process-item">
         <div class="col-evaluator" ng-show="memberEPAInfoCtrl.epaInfo.Managements.length > 0">
             <strong>{{"Management" | translate}}:</strong>
             <span ng-show="memberEPAInfoCtrl.epaInfo.Managements.length == 1" ng-bind="memberEPAInfoCtrl.epaInfo.Managements[0].NickName"
