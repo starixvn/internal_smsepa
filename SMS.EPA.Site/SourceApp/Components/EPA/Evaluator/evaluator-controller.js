@@ -80,8 +80,8 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
 }]);
 
 epaModule.controller('MemberEPAInfoOfEvaluatorController',
-['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'CommonModel',
-function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
+['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel', 'utilitiesFactory',
+function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory) {
     var vm = this;
 
     vm.epaId = parseInt($routeParams.id);
@@ -93,115 +93,35 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
 
     vm.standardGrades = CommonModel.standardGrades;
 
-    var calculateScore = function (epaInfo) {
-        var totalScore = 0;
-
-        angular.forEach(epaInfo.KPIGroups, function (kpiGroup) {
-            angular.forEach(kpiGroup.KPIs, function (kpi) {
-                var rate = kpi.CurrentEvaluation.Rate ? kpi.CurrentEvaluation.Rate : 0;
-                var score = kpi.CurrentEvaluation.Score ? parseFloat(kpi.CurrentEvaluation.Score) : 0;
-                totalScore += score;
-
-                if (score === kpi.Weight || rate === 5) {
-                    kpi.CurrentEvaluation.IsMaxScore = true;
-                } else {
-                    kpi.CurrentEvaluation.IsMaxScore = false;
-                }
-            });
-        });
-
-        epaInfo.CurrentProcess.TotalScore = totalScore;
-        vm.finalScore = totalScore;
-
-        if (epaInfo.HasDisciplineScore) {
-            vm.finalScore = totalScore + epaInfo.DisciplineScore;
-        }
-
-        if (vm.finalScore > epaInfo.MaxFinalScore) {
-            vm.finalScore = epaInfo.MaxFinalScore;
-        } else if (vm.finalScore < 0) {
-            vm.finalScore = 0;
-        }
-
-        epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, epaInfo.MaxFinalScore, vm.standardGrades);
-    };
-
     var checkStatus = function (epaInfo) {
         if (epaInfo.CurrentProcess.IsEndProcess) {
             vm.isReadonly = true;
-            vm.hoveringOver = null;
             vm.hoveringLeave = null;
         }
         else {
-            vm.hoveringOver = function (value, kpi) {
-                kpi.CurrentEvaluation.Percent = (100 * value) / vm.maxStar;
-            };
-
             vm.hoveringLeave = function (kpiGroup, kpi) {
-                kpi.CurrentEvaluation.Percent = (100 * kpi.CurrentEvaluation.Rate) / vm.maxStar;
-
-                if (kpi.CurrentEvaluation.Percent > 0) {
+                if (kpi.CurrentEvaluation.Rate > 0) {
                     if (kpiGroup.NumberKPIOptional === 0) {
-                        var score = (kpi.Weight * (kpi.CurrentEvaluation.Percent / 100)).toFixed(2);
-
+                        var score = utilitiesFactory.parseFloat(kpi.Weight * (kpi.CurrentEvaluation.Rate / vm.maxStar));
                         kpi.CurrentEvaluation.Score = score;
                     }
                     else {
-                        var weight, totalKPIOptional = angular.copy(kpiGroup.NumberKPIOptional);
-
-                        angular.forEach(kpiGroup.KPIs, function (item) {
-                            if (!item.IsRequiredEvaluate && item.CurrentEvaluation.Rate > 0) {
-                                totalKPIOptional -= 1;
-                            }
-                        });
-
-                        weight = (kpiGroup.Weight / (kpiGroup.KPIs.length - totalKPIOptional)).toFixed(2);
-
-                        angular.forEach(kpiGroup.KPIs, function (item) {
-                            if (item.CurrentEvaluation.Rate > 0) {
-                                var score = weight * (item.CurrentEvaluation.Percent / 100);
-
-                                item.CurrentEvaluation.Score = score;
-                            }
-                        });
+                        SelfEvalutorModel.scoreSpreadForKPIGroupHasKPIOptional(kpiGroup, vm.maxStar);
                     }
 
-                    calculateScore(vm.epaInfo);
+                    SelfEvalutorModel.calculateScore(vm);
                 }
             };
         }
     };
 
-    var validateEPA = function (epaInfo) {
-        var isValid = true;
-
-        angular.forEach(epaInfo.KPIGroups, function (kpiGroup) {
-            angular.forEach(kpiGroup.KPIs, function (kpi) {
-                if (kpi.IsRequiredEvaluate
-                    && (!kpi.CurrentEvaluation.Score || parseFloat(kpi.CurrentEvaluation.Score) <= 0)) {
-                    isValid = false;
-                    kpi.CurrentEvaluation.EvaluateInvalid = true;
-                }
-                else {
-                    kpi.CurrentEvaluation.EvaluateInvalid = false;
-                }
-
-                if (kpi.HasComment && (!kpi.CurrentEvaluation.Comment || kpi.CurrentEvaluation.Comment.length === 0)
-                    && (kpi.IsRequiredComment || (epaInfo.RequiredCommentOnMaxScore && !kpi.IsRequiredComment && kpi.CurrentEvaluation.IsMaxScore))) {
-                    isValid = false;
-                    kpi.CurrentEvaluation.CommentInvalid = true;
-                    kpi.ExpandedCommentByEvaluator = true;
-                } else {
-                    kpi.CurrentEvaluation.CommentInvalid = false;
-                }
-            });
-        });
-
-        if (!isValid) {
-            EmployeeEPAModel.openPopupNotificationComment(vm, vm.evaluateEPAInvalidMessage);
+    vm.initCollapseExpandCommentByEmployee = function (epaInfo, kpi) {
+        if (epaInfo.ProcessBySelf.IsEndProcess && kpi.EvaluationBySelf.Comment.length > 0) {
+            kpi.ExpandedCommentByEmployee = true;
         }
-
-        return isValid;
+        else {
+            kpi.ExpandedCommentByEmployee = false;
+        }
     };
 
     vm.getClassProgress = function (statusEndProcess) {
@@ -214,42 +134,24 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
 
     vm.inputScore = function (kpi) {
         kpi.CurrentEvaluation.Rate = 0;
-        kpi.CurrentEvaluation.Percent = null;
 
         if (!EmployeeEPAModel.validateScoreInput(kpi.CurrentEvaluation.Score, kpi.Weight, vm.scoreInputValidMessage)) {
             kpi.CurrentEvaluation.Score = null;
         }
         else {
-            calculateScore(vm.epaInfo);
+            SelfEvalutorModel.calculateScore(vm);
         }
     };
 
     vm.cancelRating = function (kpiGroup, kpi) {
         kpi.CurrentEvaluation.Rate = 0;
-        kpi.CurrentEvaluation.Percent = 0;
         kpi.CurrentEvaluation.Score = null;
 
-        if (kpiGroup.NumberKPIOptional > 0) {
-            var weight, totalKPIOptional = angular.copy(kpiGroup.NumberKPIOptional);
-
-            angular.forEach(kpiGroup.KPIs, function (item) {
-                if (!item.IsRequiredEvaluate && item.CurrentEvaluation.Rate > 0) {
-                    totalKPIOptional -= 1;
-                }
-            });
-
-            weight = (kpiGroup.Weight / (kpiGroup.KPIs.length - totalKPIOptional)).toFixed(2);
-
-            angular.forEach(kpiGroup.KPIs, function (item) {
-                if (item.CurrentEvaluation.Rate > 0) {
-                    var score = weight * (item.CurrentEvaluation.Percent / 100);
-
-                    item.CurrentEvaluation.Score = score;
-                }
-            });
+        if (kpiGroup.HasKPIOptional) {
+            SelfEvalutorModel.scoreSpreadForKPIGroupHasKPIOptional(kpiGroup, vm.maxStar);
         }
 
-        calculateScore(vm.epaInfo);
+        SelfEvalutorModel.calculateScore(vm);
     };
 
     vm.cancel = function () {
@@ -257,8 +159,11 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
     };
 
     vm.save = function (epaInfo) {
-        if (validateEPA(epaInfo)) {
+        if (SelfEvalutorModel.validateEPA(epaInfo)) {
             EmployeeEPAModel.updateEPAScoreByEvaluator(vm);
+        }
+        else {
+            EmployeeEPAModel.openPopupNotificationComment(vm, vm.evaluateEPAInvalidMessage);
         }
     };
 
@@ -290,13 +195,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel) {
             checkStatus(vm.epaInfo);
 
             angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
-                if (!kpiGroup.HasKPIOptional && kpiGroup.IsSpreadKPI) {
-                    var weight = (kpiGroup.Weight / kpiGroup.KPIs.length).toFixed(2);
-
-                    angular.forEach(kpiGroup.KPIs, function (kpi) {
-                        kpi.Weight = weight;
-                    });
-                }
+                EmployeeEPAModel.scoreSpread(kpiGroup);
             });
         });
     };

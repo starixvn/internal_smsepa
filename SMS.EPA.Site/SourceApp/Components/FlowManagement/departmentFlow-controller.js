@@ -100,8 +100,8 @@ function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService
         return cacheService.getProperty();
     }, function (value) {
         if (value === 1) {
-            CommonModel.getAllEmployee().then(function () {
-                vm.employees = CommonModel.employees;
+            CommonModel.getEmployeeByDepartmentId().then(function () {
+                vm.employees = CommonModel.employeesInDepartment;
             });
 
             FlowMngModel.resetCurrentFlow(vm);

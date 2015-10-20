@@ -9,6 +9,7 @@
 
 namespace SMS.EPA.Model.Report.Dashboard
 {
+    using SMS.EPA.Core.Constants;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.Period;
 
@@ -21,6 +22,14 @@ namespace SMS.EPA.Model.Report.Dashboard
         public string FinalScoreEncode { get; set; }
 
         public string FinalScore { get; set; }
+
+        public int MaxFinalScore
+        {
+            get
+            {
+                return Constants.MaxFinalScore;
+            }
+        }
 
         public bool IsEndProcessBySelf { get; set; }
 

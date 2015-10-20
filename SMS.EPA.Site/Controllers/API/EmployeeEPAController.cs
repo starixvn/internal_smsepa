@@ -403,17 +403,26 @@ namespace SMS.EPA.Site.Controllers.API
         #endregion Rating By KPI
 
         [HttpGet]
-        public EPAModel GetEPAInfoById(int epaId)
+        public HttpResponseMessage GetEPAInfoById(int epaId)
         {
             EPAModel epaInfo = new EPAModel();
-            var criteria = new GetEPAInfoByIdCriteria()
+            int permission = CheckEmployeePermission(epaId, CurrentUser.EmployeeInfo.EmployeeId);
+
+            switch (permission)
             {
-                EPAId = epaId
-            };
+                case (int)Policy.None:
+                    return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
 
-            epaInfo = _employeeEPAService.GetEPAInfoById(criteria);
+                default:
+                    var criteria = new GetEPAInfoByIdCriteria()
+                    {
+                        EPAId = epaId
+                    };
 
-            return epaInfo;
+                    epaInfo = _employeeEPAService.GetEPAInfoById(criteria);
+
+                    return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
+            }
         }
 
         [HttpPut]
@@ -445,7 +454,10 @@ namespace SMS.EPA.Site.Controllers.API
             return _employeeEPAService.AdjustScoreByReviewerOrManagement(criteria);
         }
 
-        private int CheckEmployeePermission(int epaId, int actorUserId, int processId)
+        private int CheckEmployeePermission(
+            int epaId,
+            int actorUserId,
+            int? processId = null)
         {
             var checkPermissionCriteria = new GetEmployeePermissionCriteria()
             {

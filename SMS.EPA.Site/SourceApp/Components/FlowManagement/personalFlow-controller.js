@@ -144,8 +144,8 @@ function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService
         return cacheService.getProperty();
     }, function (value) {
         if (value === 2) {
-            CommonModel.getAllEmployee().then(function () {
-                vm.employees = CommonModel.employees;
+            CommonModel.getEmployeeByDepartmentId(vm.departmentId).then(function () {
+                vm.employees = CommonModel.employeesInDepartment;
             });
 
             FlowMngModel.resetCurrentFlow(vm);

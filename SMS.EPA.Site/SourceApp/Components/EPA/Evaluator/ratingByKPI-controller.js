@@ -147,7 +147,7 @@ function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, CommonModel, 
         }
 
         if (!kpiGroup.HasKPIOptional) {
-            var score = kpi.Weight * (kpi.AdjustRate / vm.maxStar);
+            var score = utilitiesFactory.parseFloat(kpi.Weight * (kpi.AdjustRate / vm.maxStar));
 
             kpi.AdjustScore = score;
         } else {
@@ -204,17 +204,7 @@ function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, CommonModel, 
                 vm.memberEPAs = RatingByKPIModel.memberEPAs;
 
                 angular.forEach(vm.memberEPAs, function (memberEPA) {
-                    if (!memberEPA.KPIGroup.HasKPIOptional && memberEPA.KPIGroup.IsSpreadKPI) {
-                        var weight = memberEPA.KPIGroup.Weight / memberEPA.KPIGroup.KPIs.length;
-                        angular.forEach(memberEPA.KPIGroup.KPIs, function (kpi) {
-                            if ((weight % 1) === 0) {
-                                kpi.Weight = weight;
-                            }
-                            else {
-                                kpi.Weight = weight.toFixed(2);
-                            }
-                        });
-                    }
+                    EmployeeEPAModel.scoreSpread(memberEPA.KPIGroup);
                 });
             });
         }

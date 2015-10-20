@@ -209,6 +209,7 @@
     <Content Include="Content\Common\Images\delete.png" />
     <Content Include="Content\Common\Images\edit.png" />
     <Content Include="Content\Common\Images\EPA.png" />
+    <Content Include="Content\Common\Images\excel-icon.png" />
     <Content Include="Content\Common\Images\expand-small.png" />
     <Content Include="Content\Common\Images\go-hover-icon.png" />
     <Content Include="Content\Common\Images\lock.png" />
@@ -382,6 +383,7 @@
     <Content Include="SourceApp\Components\EPA\Reviewer\Templates\index.html" />
     <Content Include="SourceApp\Components\EPA\Reviewer\reviewer-controller.js" />
     <Content Include="SourceApp\Components\EPA\Reviewer\Templates\performanceResult.html" />
+    <Content Include="SourceApp\Components\EPA\selfEvaluator-model.js" />
     <Content Include="SourceApp\Components\EPA\Templates\evaluationProcess.html" />
     <Content Include="SourceApp\Components\EPA\Templates\generalInformation.html" />
     <Content Include="SourceApp\Components\EPA\MyEPA\Templates\index.html" />

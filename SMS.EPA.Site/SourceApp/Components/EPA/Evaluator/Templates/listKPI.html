@@ -50,7 +50,7 @@
             <div class="row kpi-comment comment-by-employee" ng-show="kpi.HasComment">
                 <div>
                     <div class="control-label" data-translate="CommentByEmployee"></div>
-                    <div class="collapse-expanse" ng-init="kpi.ExpandedCommentByEmployee = false;">
+                    <div class="collapse-expanse" ng-init="memberEPAInfoCtrl.initCollapseExpandCommentByEmployee(memberEPAInfoCtrl.epaInfo, kpi)">
                         <a class="icon-minus" href="" ng-show="kpi.ExpandedCommentByEmployee"
                            ng-click="kpi.ExpandedCommentByEmployee = !kpi.ExpandedCommentByEmployee" ng-attr-title='{{"Collapse comment" | translate}}'></a>
                         <a class="icon-plus" href="" ng-show="!kpi.ExpandedCommentByEmployee"

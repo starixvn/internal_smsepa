@@ -94,6 +94,10 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
                 notificationFactory.error("PasswordLengthWarning");
                 return false;
             }
+            else if (!employee.GroupId) {
+                notificationFactory.error("SectionRequired");
+                return false;
+            }
         }
 
         return true;

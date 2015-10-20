@@ -126,7 +126,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [NonAction]
-        public IEnumerable<EmployeeModel> GetEmployeeByDepartmentId(int departmentId)
+        public IEnumerable<EmployeeModel> GetEmployeeByDepartmentId(int? departmentId = null)
         {
             var criteria = new GetEmployeeByDepartmentIdCriteria()
             {

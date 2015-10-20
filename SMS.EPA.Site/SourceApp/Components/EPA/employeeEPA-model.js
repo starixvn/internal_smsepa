@@ -240,6 +240,7 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
             if (response.IsSuccessful) {
                 angular.forEach(memberEPAs, function (memberEPA) {
                     memberEPA.CurrentProcess.TotalScoreOriginal = memberEPA.CurrentProcess.TotalScore;
+                    memberEPA.CurrentProcess.AdjustScoreOriginal = memberEPA.CurrentProcess.AdjustScore;
                 });
 
                 vm.dataSaved = true;
@@ -260,6 +261,7 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
             if (response.IsSuccessful) {
                 angular.forEach(memberEPAs, function (memberEPA) {
                     memberEPA.CurrentProcess.TotalScoreOriginal = memberEPA.CurrentProcess.TotalScore;
+                    memberEPA.CurrentProcess.AdjustScoreOriginal = memberEPA.CurrentProcess.AdjustScore;
                 });
 
                 vm.dataSaved = true;
@@ -337,6 +339,24 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         });
 
         return vm.modalInstance.result;
+    };
+
+    employeeEPAModel.scoreSpread = function (kpiGroup) {
+        var weight, averageWeight;
+
+        if (!kpiGroup.HasKPIOptional && kpiGroup.IsSpreadKPI) {
+            averageWeight = utilitiesFactory.parseFloat(kpiGroup.Weight / kpiGroup.KPIs.length);
+
+            angular.forEach(kpiGroup.KPIs, function (kpi) {
+                kpi.Weight = averageWeight;
+            });
+
+            if ((averageWeight * kpiGroup.KPIs.length) > kpiGroup.Weight) {
+                kpiGroup.KPIs[kpiGroup.KPIs.length - 1].Weight = averageWeight - ((averageWeight * kpiGroup.KPIs.length) - kpiGroup.Weight);
+            } else if ((averageWeight * kpiGroup.KPIs.length) < kpiGroup.Weight) {
+                kpiGroup.KPIs[kpiGroup.KPIs.length - 1].Weight = averageWeight + (kpiGroup.Weight - (averageWeight * kpiGroup.KPIs.length));
+            }
+        }
     };
 
     return employeeEPAModel;

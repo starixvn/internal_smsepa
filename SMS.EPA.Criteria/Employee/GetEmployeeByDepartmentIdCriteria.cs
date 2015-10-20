@@ -13,11 +13,11 @@ namespace SMS.EPA.Criteria.Employee
 
     public class GetEmployeeByDepartmentIdCriteria : CriteriaBase
     {
-        public int DepartmentId { get; set; }
+        public int? DepartmentId { get; set; }
 
         public override bool IsValid()
         {
-            return DepartmentId > 0;
+            return true;
         }
 
         public override string GetSettingKey()

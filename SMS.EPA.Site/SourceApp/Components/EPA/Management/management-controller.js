@@ -458,17 +458,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
             checkStatus(vm.epaInfo);
 
             angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
-                if (!kpiGroup.HasKPIOptional && kpiGroup.IsSpreadKPI) {
-                    var weight = kpiGroup.Weight / kpiGroup.KPIs.length;
-                    angular.forEach(kpiGroup.KPIs, function (kpi) {
-                        if ((weight % 1) === 0) {
-                            kpi.Weight = weight;
-                        }
-                        else {
-                            kpi.Weight = weight.toFixed(2);
-                        }
-                    });
-                }
+                EmployeeEPAModel.scoreSpread(kpiGroup);
             });
         });
     };

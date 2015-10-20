@@ -2,8 +2,8 @@
 /*exported dashboardModule*/
 
 dashboardModule.controller('DashboardController',
-['DashboardModel',
-function (DashboardModel) {
+['DashboardModel', 'utilitiesFactory',
+function (DashboardModel, utilitiesFactory) {
     var vm = this;
 
     vm.showScore = false;
@@ -24,18 +24,15 @@ function (DashboardModel) {
             vm.myEPAs = dashboardInfo.MyEPAs;
 
             angular.forEach(vm.myEPAs, function (myEPA) {
-                var finalScore, disciplineScore;
-                finalScore = myEPA.FinalScore ? parseFloat(myEPA.FinalScore) : 0;
+                var disciplineScore = myEPA.MaxDisciplineScore - myEPA.DisciplineScore;
 
-                myEPA.FinalScore = finalScore;
+                if (disciplineScore < 0) {
+                    disciplineScore = 0;
+                }
+
+                myEPA.FinalScore = utilitiesFactory.parseFloat(myEPA.FinalScore);
 
                 if (myEPA.HasDisciplineScore) {
-                    disciplineScore = myEPA.MaxDisciplineScore - myEPA.DisciplineScore;
-
-                    if (disciplineScore < 0) {
-                        disciplineScore = 0;
-                    }
-
                     myEPA.FinalScore += disciplineScore;
                 }
             });

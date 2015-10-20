@@ -1170,4 +1170,7 @@
   <data name="NoneDateSettingWarning" xml:space="preserve">
     <value>Please setting start date/end date before generating EPA!</value>
   </data>
+  <data name="SectionRequired" xml:space="preserve">
+    <value>The Section field is required!</value>
+  </data>
 </root>

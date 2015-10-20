@@ -24,7 +24,9 @@
             <td class="text-center col-final-score">
                 <div ng-show="dashboardCtrl.showScore">
                     <span ng-show="myEPA.Status.StatusId == 0" ng-bind="'N/A'"></span>
-                    <span ng-show="myEPA.Status.StatusId == 1" ng-bind="myEPA.FinalScore | customScore"></span>
+                    <span ng-show="myEPA.Status.StatusId == 1">
+                        {{myEPA.FinalScore | customScore}} / {{myEPA.MaxFinalScore | customScore}}
+                    </span>
                 </div>
             </td>
             <td class="text-center col-action">
