@@ -7,6 +7,13 @@
     <div class="col-sm-12">
         <form novalidate class="row filter form-inline" role="form">
             <div class="form-group">
+                <label data-translate="TargetType"></label>
+                <select class="form-control lstBox-limit" ng-model="targetTemplateCtrl.filter.targetTypeId"
+                        ng-options="opt.TargetTypeId as opt.Name for opt in targetTemplateCtrl.targetTypes">
+                    <option value="">-- {{"All" | translate}} --</option>
+                </select>
+            </div>
+            <div class="form-group">
                 <label class="control-label" data-translate="Status"></label>
                 <select class="form-control" ng-model="targetTemplateCtrl.filter.isActive">
                     <option value="">-- {{"All" | translate}} --</option>

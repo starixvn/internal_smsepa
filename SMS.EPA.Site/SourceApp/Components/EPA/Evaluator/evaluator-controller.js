@@ -116,7 +116,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
     };
 
     vm.initCollapseExpandCommentByEmployee = function (epaInfo, kpi) {
-        if (epaInfo.ProcessBySelf.IsEndProcess && kpi.EvaluationBySelf.Comment.length > 0) {
+        if (epaInfo.ProcessBySelf.IsEndProcess && (kpi.EvaluationBySelf.Comment && kpi.EvaluationBySelf.Comment.length > 0)) {
             kpi.ExpandedCommentByEmployee = true;
         }
         else {

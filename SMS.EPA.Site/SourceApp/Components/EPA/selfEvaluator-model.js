@@ -42,34 +42,35 @@ function ($modal, EmployeeEPAModel, utilitiesFactory) {
     };
 
     model.scoreSpreadForKPIGroupHasKPIOptional = function (kpiGroup, maxStar) {
-        var score, averageWeight, totalKPIMustEvaluate,
+        var score, averageWeight, totalKPIMustEvaluate, totalStarMustEvaluate, totalStarEvaluated = 0,
             numberKPIOptional = kpiGroup.NumberKPIOptional;
         var kpis = [];
 
         angular.forEach(kpiGroup.KPIs, function (kpi) {
-            if (kpi.IsRequiredEvaluate && kpi.CurrentEvaluation.Rate > 0) {
+            if (kpi.CurrentEvaluation.Rate > 0) {
                 kpis.push(kpi);
+                totalStarEvaluated += kpi.CurrentEvaluation.Rate;
             }
-            else if (!kpi.IsRequiredEvaluate && kpi.CurrentEvaluation.Rate > 0) {
+
+            if (!kpi.IsRequiredEvaluate && kpi.CurrentEvaluation.Rate > 0) {
                 numberKPIOptional -= 1;
-                kpis.push(kpi);
             }
         });
 
         totalKPIMustEvaluate = kpiGroup.KPIs.length - numberKPIOptional;
+        totalStarMustEvaluate = totalKPIMustEvaluate * maxStar;
         averageWeight = utilitiesFactory.parseFloat(kpiGroup.Weight / totalKPIMustEvaluate);
+
         angular.forEach(kpis, function (kpi) {
             if (kpi.CurrentEvaluation.Rate > 0) {
                 kpi.CurrentEvaluation.Score = utilitiesFactory.parseFloat(averageWeight * (kpi.CurrentEvaluation.Rate / maxStar));
             }
         });
 
-        if (((averageWeight * totalKPIMustEvaluate) > kpiGroup.Weight)
-            && (kpis[kpis.length - 1].CurrentEvaluation.Rate === maxStar)) {
+        if (((averageWeight * totalKPIMustEvaluate) > kpiGroup.Weight) && totalStarEvaluated === totalStarMustEvaluate) {
             score = utilitiesFactory.parseFloat(averageWeight - ((averageWeight * totalKPIMustEvaluate) - kpiGroup.Weight));
             kpis[kpis.length - 1].CurrentEvaluation.Score = score;
-        } else if ((averageWeight * kpiGroup.KPIs.length) < kpiGroup.Weight
-            && kpis[kpis.length - 1].CurrentEvaluation.Rate === maxStar) {
+        } else if ((averageWeight * totalKPIMustEvaluate) < kpiGroup.Weight && totalStarEvaluated === totalStarMustEvaluate) {
             score = utilitiesFactory.parseFloat(averageWeight + (kpiGroup.Weight - (averageWeight * totalKPIMustEvaluate)));
             kpis[kpis.length - 1].CurrentEvaluation.Score = score;
         }

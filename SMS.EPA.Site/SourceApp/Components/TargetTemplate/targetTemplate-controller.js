@@ -6,10 +6,11 @@ targetTemplateModule.controller('TargetTemplateController',
 function (TargetTemplateModel, utilitiesFactory, CommonModel) {
     var vm = this;
 
+    vm.targetTypes = CommonModel.targetTypes;
     vm.targetTemplates = TargetTemplateModel.targetTemplates;
     vm.permission = TargetTemplateModel.permission;
     vm.filter = {
-        targetTypeId: null,
+        targetTypeId: '',
         isActive: 'true'
     };
 
@@ -31,6 +32,10 @@ function (TargetTemplateModel, utilitiesFactory, CommonModel) {
 
     TargetTemplateModel.getPermissionOnTargetTemplate().then(function () {
         vm.permission = TargetTemplateModel.permission;
+    });
+
+    CommonModel.getTargetType().then(function () {
+        vm.targetTypes = CommonModel.targetTypes;
     });
 
     var getTargetTemplate = function (targetTypeId, isActive) {
