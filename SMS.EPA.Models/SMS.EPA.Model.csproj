@@ -66,6 +66,7 @@
     <Compile Include="EmployeeEPA\RatingTypeModel.cs" />
     <Compile Include="EmployeeEPA\StandardGradeModel.cs" />
     <Compile Include="Enitites\RatingType.cs" />
+    <Compile Include="EPAHistory\EPAHistoryModel.cs" />
     <Compile Include="Report\Dashboard\DashboardModel.cs" />
     <Compile Include="Department\DepartmentInfoModel.cs" />
     <Compile Include="Department\DepartmentModel.cs" />

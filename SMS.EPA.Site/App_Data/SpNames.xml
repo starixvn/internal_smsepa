@@ -348,4 +348,10 @@
             <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode"/>
         </Setting>
     </Function>
+    <Function Name="EPA History">
+        <Setting Key="Epa_GetEPAHistory" SpName="Epa_GetEPAHistory" DbName="SMSEPA" Plain="0">
+        </Setting>
+        <Setting Key="EpaPeriod_GetAllPeriodIncludeImport" SpName="EpaPeriod_GetAllPeriodIncludeImport" DbName="SMSEPA" Plain="0">
+        </Setting>
+    </Function>
 </Functions>

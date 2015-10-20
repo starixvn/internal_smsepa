@@ -1,7 +1,7 @@
 ﻿'use strict';
 /*exported employeeModule, commonModule, kpiModule, kpiGroupModule, roleModule, targetTemplateModule*/
 /*exported flowMngModule, targetEmployeeSettingModule, checkFlowAssignmentModule, departmentModule*/
-/*exported epaModule, periodModule, dashboardModule, attendanceModule, reportModule*/
+/*exported epaModule, periodModule, dashboardModule, attendanceModule, reportModule, epaHistoryModule*/
 
 var employeeModule = angular.module("employeeModule", ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
@@ -140,4 +140,11 @@ var reportModule = angular.module("reportModule", ['ngRoute'])
     { templateUrl: baseUrl + 'SourceApp/Components/Report/Templates/EPASummaryReport.html' });
     $routeProvider.when('/Report/EPADetailReport',
     { templateUrl: baseUrl + 'SourceApp/Components/Report/Templates/EPADetailReport.html' });
+}]);
+
+var epaHistoryModule = angular.module("epaHistoryModule", ['ngRoute'])
+.config(['$routeProvider', function ($routeProvider) {
+    var baseUrl = $("base").first().attr("href");
+    $routeProvider.when('/EPAHistory/Index',
+    { templateUrl: baseUrl + 'SourceApp/Components/EPAHistory/Templates/index.html' });
 }]);

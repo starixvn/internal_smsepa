@@ -92,6 +92,7 @@
     <Compile Include="Implement\CheckFlowAssignmentService.cs" />
     <Compile Include="Implement\DepartmentService.cs" />
     <Compile Include="Implement\EmployeeService.cs" />
+    <Compile Include="Implement\EPAHistoryService.cs" />
     <Compile Include="Implement\FlowManagementService.cs" />
     <Compile Include="Implement\KPIGroupService.cs" />
     <Compile Include="Implement\KPIService.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="Interfaces\ICheckFlowAssignmentService.cs" />
     <Compile Include="Interfaces\IDepartmentService.cs" />
     <Compile Include="Interfaces\IEmployeeService.cs" />
+    <Compile Include="Interfaces\IEPAHistoryService.cs" />
     <Compile Include="Interfaces\IFlowManagementService.cs" />
     <Compile Include="Interfaces\IKPIGroupService.cs" />
     <Compile Include="Interfaces\IKPIService.cs" />

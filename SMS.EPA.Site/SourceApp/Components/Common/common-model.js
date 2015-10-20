@@ -19,6 +19,7 @@ function (commonFactory, errorFactory) {
     commonModel.statusList = [];
     commonModel.periods = [];
     commonModel.standardGrades = [];
+    commonModel.periodOptions = [];
 
     /// Get target type.
     commonModel.getTargetType = function (isActive) {
@@ -185,6 +186,15 @@ function (commonFactory, errorFactory) {
         .success(function (standardGrades) {
             commonModel.standardGrades = standardGrades;
         }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    commonModel.getAllPeriodIncludeImport = function () {
+        return commonFactory.getAllPeriodIncludeImport().success(function (periods) {
+            commonModel.periodOptions = periods;
+        })
+        .error(function (response, status) {
             errorFactory.errorHandle(status);
         });
     };

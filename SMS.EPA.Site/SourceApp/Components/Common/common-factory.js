@@ -62,6 +62,9 @@ commonModule.factory('commonFactory', ['$http', 'baseUrl', function ($http, base
         },
         getStandardGrade: function () {
             return $http.get(baseUrl + 'api/Common/GetStandardGrade');
+        },
+        getAllPeriodIncludeImport: function () {
+            return $http.get(baseUrl + 'api/Common/GetAllPeriodIncludeImport');
         }
     };
 } ]);

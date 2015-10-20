@@ -16,6 +16,7 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Criteria.Department;
     using SMS.EPA.Criteria.Employee;
     using SMS.EPA.Criteria.EmployeeEPA;
+    using SMS.EPA.Criteria.EPAHistory;
     using SMS.EPA.Criteria.KPI;
     using SMS.EPA.Criteria.KPIGroup;
     using SMS.EPA.Criteria.Period;
@@ -40,9 +41,10 @@ namespace SMS.EPA.Site.Controllers.API
         private readonly IDepartmentService _departmentService;
         private readonly IPeriodService _periodService;
         private readonly IEmployeeEPAService _employeeEPAService;
+        private readonly IEPAHistoryService _epaHistoryService;
 
         public UtilitiesController()
-            : this(null, null, null, null, null, null, null)
+            : this(null, null, null, null, null, null, null, null)
         {
         }
 
@@ -53,7 +55,8 @@ namespace SMS.EPA.Site.Controllers.API
             IEmployeeService employeeService,
             IDepartmentService departmentService,
             IPeriodService periodService,
-            IEmployeeEPAService employeeEPAService)
+            IEmployeeEPAService employeeEPAService,
+            IEPAHistoryService epaHistoryService)
         {
             _targetTypeService = targetTypeService ?? new TargetTypeService();
             _kpiService = kpiService ?? new KPIService();
@@ -62,6 +65,7 @@ namespace SMS.EPA.Site.Controllers.API
             _departmentService = departmentService ?? new DepartmentService();
             _periodService = periodService ?? new PeriodService();
             _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
+            _epaHistoryService = epaHistoryService ?? new EPAHistoryService();
         }
 
         [NonAction]
@@ -214,6 +218,14 @@ namespace SMS.EPA.Site.Controllers.API
             var criteria = new GetStandardGradeCriteria();
 
             return _employeeEPAService.GetStandardGrade(criteria);
+        }
+
+        [NonAction]
+        public IList<PeriodModel> GetAllPeriodIncludeImport()
+        {
+            var criteria = new GetAllPeriodIncludeImportCriteria();
+            IList<PeriodModel> periods = _epaHistoryService.GetAllPeriodIncludeImport(criteria);
+            return periods;
         }
     }
 }

@@ -37,7 +37,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpGet]
-        public IEnumerable<TargetTypeModel> GetTargetType(bool? isActive = null)
+        public IEnumerable<TargetTypeModel> GetTargetType(bool? isActive = true)
         {
             return _utilitiesController.GetTargetType(isActive);
         }
@@ -158,6 +158,12 @@ namespace SMS.EPA.Site.Controllers.API
         public IEnumerable<StandardGradeModel> GetStandardGrade()
         {
             return _utilitiesController.GetStandardGrade();
+        }
+
+        [HttpGet]
+        public IList<PeriodModel> GetAllPeriodIncludeImport()
+        {
+            return _utilitiesController.GetAllPeriodIncludeImport();
         }
     }
 }

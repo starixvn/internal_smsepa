@@ -86,6 +86,10 @@
     <Compile Include="EmployeeEPA\RatingByKPI\GetTargetTemplateByEvaluatorCriteria.cs" />
     <Compile Include="EmployeeEPA\RatingByKPI\UpdateKPIScoreCriteria.cs" />
     <Compile Include="EmployeeEPA\UpdateEPASummaryImportCriteria.cs" />
+    <Compile Include="EPAHistory\GetAllPeriodIncludeImportCriteria.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
+    <Compile Include="EPAHistory\GetEPAHistoryCriteria.cs" />
     <Compile Include="Period\CheckSelfProcessStartedCriteria.cs" />
     <Compile Include="Period\GetPeriodProcessSettingCriteria.cs" />
     <Compile Include="Period\UpdatePeriodProcessSettingCriteria.cs" />
