@@ -16,23 +16,23 @@
                         <label class="note" ng-show="kpi.IsRequiredEvaluate" data-translate="(*)"></label>
                     </div>
                     <div class="kpi-start">
-                        <div class="remove-rating">
-                            <a ng-show="!memberEPAInfoCtrl.isReadonly && kpi.CurrentEvaluation.Rate > 0" class="glyphicon glyphicon-remove-circle remove-star"
-                               title="Cancel" href="javascript:;" ng-click="memberEPAInfoCtrl.cancelRating(kpiGroup, kpi)"></a>
-                        </div>
-                        <div class="rating">
-                            <rating ng-model="kpi.CurrentEvaluation.Rate" max="memberEPAInfoCtrl.maxStar" readonly="memberEPAInfoCtrl.isReadonly"
-                                    on-leave="memberEPAInfoCtrl.hoveringLeave(kpiGroup, kpi)"></rating>
-                        </div>
-                        <div ng-show="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == 2 && kpiGroup.NumberKPIOptional == 0" class="">
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control text-center kpi-score" ng-readonly="memberEPAInfoCtrl.isReadonly"
-                                       ng-show="kpiGroup.NumberKPIOptional == 0" ng-model="kpi.CurrentEvaluation.Score" numeric decimals="2"
-                                       ng-change="memberEPAInfoCtrl.inputScore(kpi)" tooltip="{{memberEPAInfoCtrl.getNotificationInputScore(kpi)}}" tooltip-trigger="focus" />
+                        <div ng-show="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == 1 || (memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId ==2 && kpiGroup.NumberKPIOptional > 0)" class="rating-by-star">
+                            <div class="remove-rating">
+                                <a ng-show="!memberEPAInfoCtrl.isReadonly && kpi.CurrentEvaluation.Rate > 0" class="glyphicon glyphicon-remove-circle remove-star"
+                                   title="Cancel" href="javascript:;" ng-click="memberEPAInfoCtrl.cancelRating(kpiGroup, kpi)"></a>
+                            </div>
+                            <div class="rating">
+                                <rating ng-model="kpi.CurrentEvaluation.Rate" max="memberEPAInfoCtrl.maxStar" readonly="memberEPAInfoCtrl.isReadonly"
+                                        on-leave="memberEPAInfoCtrl.hoveringLeave(kpiGroup, kpi)"></rating>
                             </div>
                         </div>
+                        <div ng-show="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == 2 && kpiGroup.NumberKPIOptional == 0" class="rating-by-score">
+                            <input type="text" class="form-control text-center kpi-score" ng-readonly="memberEPAInfoCtrl.isReadonly"
+                                   ng-show="kpiGroup.NumberKPIOptional == 0" ng-model="kpi.CurrentEvaluation.Score" numeric decimals="2"
+                                   ng-change="memberEPAInfoCtrl.inputScore(kpi)" tooltip="{{memberEPAInfoCtrl.getNotificationInputScore(kpi)}}" tooltip-trigger="focus" />
+                        </div>
                     </div>
-                    <div class="kpi-percent">
+                    <div class="kpi-percent" ng-show="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == 1 || (memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId ==2 && kpiGroup.NumberKPIOptional > 0)">
                         <span class="badge percent" ng-show="kpiGroup.NumberKPIOptional == 0 && kpi.CurrentEvaluation.Rate > 0">{{kpi.CurrentEvaluation.Score | customScore}} pts</span>
                     </div>
                 </div>
