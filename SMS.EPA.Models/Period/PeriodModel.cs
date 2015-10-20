@@ -33,5 +33,20 @@ namespace SMS.EPA.Model.Period
         public bool IsActive { get; set; }
 
         public TargetTypeModel TargetType { get; set; }
+
+        public int? Year
+        {
+            get
+            {
+                int? year = null;
+
+                if (StartDate != null)
+                {
+                    year = StartDate.Value.Year;
+                }
+
+                return year;
+            }
+        }
     }
 }

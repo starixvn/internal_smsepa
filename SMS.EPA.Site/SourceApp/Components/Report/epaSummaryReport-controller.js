@@ -48,18 +48,69 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory) {
         $scope.$broadcast('exportEpaSummaryReport');
     };
 
+    var groupingPeriods = function (periods) {
+        var result = [], years = [];
+        var startGrouping, endGrouping;
+
+        angular.forEach(periods, function (period) {
+            if (period.Year) {
+                period.ticked = false;
+
+                if (years.indexOf(period.Year) === -1) {
+                    startGrouping = { Name: '<strong>' + period.Year + '</strong>', msGroup: true };
+                    if (years.length === 0) {
+                        result.push(startGrouping);
+                    } else {
+                        endGrouping = { msGroup: false };
+                        result.push(endGrouping);
+                        result.push(startGrouping);
+                    }
+
+                    years.push(period.Year);
+                    result.push(period);
+                } else {
+                    result.push(period);
+                }
+            }
+        });
+
+        endGrouping = { msGroup: false };
+        result.push(endGrouping);
+
+        if (result.length > 0) {
+            result[1].ticked = true;
+            vm.filter.periodIds = result[1].PeriodId;
+
+            angular.forEach(periods, function (period) {
+                if (!period.Year) {
+                    period.ticked = false;
+                    result.unshift(period);
+                }
+            });
+        } else {
+            angular.forEach(periods, function (period) {
+                if (!period.Year) {
+                    period.ticked = false;
+                    result.unshift(period);
+                }
+            });
+
+            if (result.length > 0) {
+                result[0].ticked = true;
+                vm.filter.periodIds = result[0].PeriodId;
+            }
+        }
+
+        return result;
+    };
+
     vm.initialize = function () {
         CommonModel.getDepartment().then(function () {
             vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
         });
 
-        ReportModel.getPeriod().then(function () {
-            vm.periods = ReportModel.periods;
-
-            if (vm.periods.length > 0) {
-                vm.periods[0].ticked = true;
-                vm.filter.periodIds = vm.periods[0].PeriodId;
-            }
+        ReportModel.getAllPeriodIncludeImport().then(function () {
+            vm.periods = groupingPeriods(ReportModel.periods);
 
             getEPASummaryReport(vm.filter);
         });

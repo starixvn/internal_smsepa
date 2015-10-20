@@ -24,8 +24,6 @@ namespace SMS.EPA.Criteria.Report
 
         public int? ItemsPerPage { get; set; }
 
-        public bool IsViewAll { get; set; }
-
         [Output]
         public int? TotalItem { get; set; }
 

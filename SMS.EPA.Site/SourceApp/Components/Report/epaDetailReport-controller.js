@@ -84,7 +84,7 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory) {
             vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
         });
 
-        ReportModel.getPeriod().then(function () {
+        ReportModel.getAllPeriodIncludeImport().then(function () {
             vm.periods = ReportModel.periods;
 
             if (vm.periods.length > 0) {

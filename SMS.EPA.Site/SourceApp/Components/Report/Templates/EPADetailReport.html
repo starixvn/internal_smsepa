@@ -10,7 +10,7 @@
                 <label class="col-sm-2 control-label" data-translate="EvaluationPeriod"></label>
                 <div class="col-sm-2">
                     <select class="form-control" ng-model="epaDetailReportCtrl.filter.periodId"
-                            ng-options="opt.PeriodId as opt.Name for opt in epaDetailReportCtrl.periods">
+                            ng-options="opt.PeriodId as opt.Name group by opt.Year for opt in epaDetailReportCtrl.periods">
                         <option style="display: none" value="">-- {{"All" | translate}} --</option>
                     </select>
                 </div>
@@ -29,7 +29,7 @@
                         <option value="">-- {{"All" | translate}} --</option>
                     </select>
                 </div>
-                <div class="col-sm-offset-1 col-sm-1">
+                <div class="col-sm-offset-2 col-sm-2">
                     <button class="button btn-search" ng-click="epaDetailReportCtrl.query(epaDetailReportCtrl.filter)" data-translate="Search"></button>
                 </div>
             </div>

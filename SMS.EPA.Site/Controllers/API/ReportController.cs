@@ -48,19 +48,9 @@ namespace SMS.EPA.Site.Controllers.API
             int? pageIndex = null,
             int? itemsPerPage = null)
         {
-            List<int> roleIds = CurrentUser.Roles.Select(x => x.RoleId).ToList();
-            var isViewAll = false;
-            if (roleIds.Contains((int)SystemRole.SystemAdmin)
-                || roleIds.Contains((int)SystemRole.HumanResource)
-                || roleIds.Contains((int)SystemRole.Management))
-            {
-                isViewAll = true;
-            }
-
             var criteria = new GetEPASummaryCriteria()
             {
                 EmployeeId = CurrentUser.EmployeeInfo.EmployeeId,
-                IsViewAll = isViewAll,
                 PeriodIds = periodIds,
                 DepartmentId = departmentId,
                 PageIndex = pageIndex,
@@ -101,12 +91,10 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpGet]
-        public IList<PeriodModel> GetPeriod(
-            int? targetTypeId = null,
-            bool? isActive = true)
+        public IList<PeriodModel> GetAllPeriodIncludeImport()
         {
-            IList<PeriodModel> periods = _commonController.GetPeriod(targetTypeId, isActive)
-                .OrderBy(x => x.StartDate).ToList();
+            IList<PeriodModel> periods = _commonController.GetAllPeriodIncludeImport()
+                .OrderByDescending(x => x.Year).ToList();
 
             return periods;
         }

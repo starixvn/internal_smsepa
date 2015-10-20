@@ -68,18 +68,8 @@ namespace SMS.EPA.Site.Controllers
         public ActionResult ExportEPASummaryReport(GetEPASummaryCriteria criteria)
         {
             string fileName = Lang.EPASummaryReportName + ".xls";
-            List<int> roleIds = SessionManager.CurrentUser.Roles.Select(x => x.RoleId).ToList();
-            var isViewAll = false;
-
-            if (roleIds.Contains((int)SystemRole.SystemAdmin)
-                || roleIds.Contains((int)SystemRole.HumanResource)
-                || roleIds.Contains((int)SystemRole.Management))
-            {
-                isViewAll = true;
-            }
 
             criteria.EmployeeId = SessionManager.CurrentUser.EmployeeInfo.EmployeeId;
-            criteria.IsViewAll = isViewAll;
 
             EPASummaryModel epaSummary = _reportService.GetEPASummaryReport(criteria);
             MemoryStream output = _reportService.ExportEPASummaryReport(epaSummary);

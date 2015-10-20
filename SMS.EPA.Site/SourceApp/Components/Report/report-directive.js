@@ -33,7 +33,7 @@ reportModule.directive('gridEpaSummaryReport', ['$timeout', 'utilitiesFactory', 
             { HeaderText: "Full Name", Width: 180, Name: "FullName", HeaderAlign: "center", CellAlign: "left" },
             { HeaderText: "Nick Name", Width: 100, Name: "NickName", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "Section", Width: 160, Name: "Section", HeaderAlign: "center", CellAlign: "left" },
-            { HeaderText: "Job Title", Width: 230, Name: "JobTitle", HeaderAlign: "center", CellAlign: "left" }
+            { HeaderText: "Job Title", Width: 225, Name: "JobTitle", HeaderAlign: "center", CellAlign: "left" }
         ];
 
         if (periodSelecteds && periodSelecteds.length > 0) {
@@ -73,7 +73,7 @@ reportModule.directive('gridEpaSummaryReport', ['$timeout', 'utilitiesFactory', 
                         var finalScore, grade, disciplineScore;
 
                         if (epaEmployee.Periods[index].Status.StatusId === 1) {
-                            finalScore = epaEmployee.Periods[index].FinalScore ? parseFloat(epaEmployee.Periods[index].FinalScore) : 0;
+                            finalScore = utilitiesFactory.parseFloat(epaEmployee.Periods[index].FinalScore);
                             grade = epaEmployee.Periods[index].Grade;
 
                             if (epaEmployee.Periods[index].HasDisciplineScore) {
@@ -121,7 +121,7 @@ reportModule.directive('gridEpaSummaryReport', ['$timeout', 'utilitiesFactory', 
                 gridExpandHeight: $scope.gridExpandHeight,
                 showPager: true,
                 customPager: true,
-                numberOfFrozenColumn: 4,
+                numberOfFrozenColumn: 6,
                 enableHiddenColumns: false,
                 autoFixFrozenRowHeight: true,
                 showTitle: true,
@@ -227,7 +227,7 @@ reportModule.directive('gridEpaDetailReport', ['$timeout', 'utilitiesFactory', f
         }
 
         if (memberEPA.ProcessBySelf.IsEndProcess) {
-            result.SelfScore = memberEPA.ProcessBySelf.TotalScore ? parseFloat(memberEPA.ProcessBySelf.TotalScore) : 0;
+            result.SelfScore = utilitiesFactory.parseFloat(memberEPA.ProcessBySelf.TotalScore);
             result.SelfScore += result.DisciplineScore;
         }
 
@@ -247,7 +247,7 @@ reportModule.directive('gridEpaDetailReport', ['$timeout', 'utilitiesFactory', f
         }
 
         if (memberEPA.Status.StatusId === 1) {
-            result.FinalScore = memberEPA.FinalScore ? parseFloat(memberEPA.FinalScore) : 0;
+            result.FinalScore = utilitiesFactory.parseFloat(memberEPA.FinalScore);
             result.FinalScore += result.DisciplineScore;
             result.Grade = memberEPA.Grade;
         }

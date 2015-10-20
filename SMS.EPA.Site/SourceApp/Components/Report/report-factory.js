@@ -3,13 +3,8 @@
 
 reportModule.factory('reportFactory', ['$http', 'baseUrl', function ($http, baseUrl) {
     return {
-        getPeriod: function (targetTypeId, isActive) {
-            return $http.get(baseUrl + 'api/Report/GetPeriod', {
-                params: {
-                    targetTypeId: targetTypeId,
-                    isActive: isActive
-                }
-            });
+        getAllPeriodIncludeImport: function () {
+            return $http.get(baseUrl + 'api/Report/GetAllPeriodIncludeImport');
         },
         getEPASummaryReport: function (periodIds, departmentId, pageIndex, itemsPerPage) {
             return $http.get(baseUrl + 'api/Report/GetEPASummaryReport',

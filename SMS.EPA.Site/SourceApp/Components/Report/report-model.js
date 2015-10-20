@@ -10,8 +10,8 @@ function (reportFactory, notificationFactory, errorFactory) {
     reportModel.epaDetail = [];
     reportModel.periods = [];
 
-    reportModel.getPeriod = function (targetTypeId, isActive) {
-        return reportFactory.getPeriod(targetTypeId, isActive)
+    reportModel.getAllPeriodIncludeImport = function () {
+        return reportFactory.getAllPeriodIncludeImport()
         .success(function (periods) {
             reportModel.periods = periods;
         }).error(function (response, status) {
