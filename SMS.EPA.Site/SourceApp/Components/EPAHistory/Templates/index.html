@@ -9,7 +9,8 @@
         <div class="form-group">
             <label data-translate="Period"></label>
             <select class="form-control lstBox-limit" ng-model="epaHistoryCtrl.filter.periodId"
-                    ng-options="opt.PeriodId as opt.Name for opt in epaHistoryCtrl.periodOptions">
+                    ng-options="opt.PeriodId as opt.Name group by opt.Year for opt in epaHistoryCtrl.periodOptions">
+                <option value="">-- {{"All" | translate}} --</option>
             </select>
         </div>
         <div class="form-group">
@@ -27,6 +28,10 @@
         <thead>
             <tr class="header-table">
                 <th colspan="8">
+                    <a class="pull-left button-icon back-button" ng-click="epaHistoryCtrl.backToList()" ng-show="epaHistoryCtrl.fromEPAListing">
+                        <span class="icon back"></span>
+                        <span class="button-back-text" data-translate="BackToList"></span>
+                    </a>
                     <input type="text" ng-model="epaHistoryCtrl.searchKey" ng-change="epaHistoryCtrl.search()" class="search-inline-textbox search pull-right">
                 </th>
             </tr>
@@ -57,7 +62,10 @@
                 <td class="text-center" ng-bind="epa.Period.Name"></td>
                 <td class="text-center" ng-bind="epa.Period.StartDate | date: epaHistoryCtrl.dateFormat"></td>
                 <td class="text-center" ng-bind="epa.Period.EndDate | date: epaHistoryCtrl.dateFormat"></td>
-                <td class="text-center" ng-bind="epa.FinalScore"></td>
+                <td class="text-center">
+                    <a href="{{epaHistoryCtrl.viewEPADetailUrl}}" ng-show="epa.HasEPAForm" ng-click="epaHistoryCtrl.viewDetailEPA(epa.EPAId)" ng-bind="epa.FinalScore" />
+                    <span ng-bind="epa.FinalScore" ng-show="!epa.HasEPAForm"></span>
+                </td>
                 <td class="text-center" ng-bind="epa.Grade"></td>
             </tr>
             <tr ng-show="epaHistoryCtrl.filteredItems.length == 0">

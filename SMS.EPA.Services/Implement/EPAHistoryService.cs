@@ -22,16 +22,18 @@ namespace SMS.EPA.Services.Implement
 
     public class EPAHistoryService : BaseService, IEPAHistoryService
     {
-        private IEPAHistoryRepository _epaHistoryRepository;
+        private readonly IEPAHistoryRepository _epaHistoryRepository;
+        private readonly IEmployeeEPAService _employeeEPAService;
 
         public EPAHistoryService()
-            : this(null)
+            : this(null, null)
         {
         }
 
-        public EPAHistoryService(IEPAHistoryRepository epaHistoryRepository)
+        public EPAHistoryService(IEPAHistoryRepository epaHistoryRepository, IEmployeeEPAService employeeEPAService)
         {
             _epaHistoryRepository = epaHistoryRepository ?? new EPAHistoryRepository();
+            _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
         }
 
         public IList<EPAHistoryModel> GetEPAHistory(GetEPAHistoryCriteria criteria)
@@ -52,12 +54,17 @@ namespace SMS.EPA.Services.Implement
             return epas;
         }
 
-        private static void DecodeFinalScoreAndGrade(IList<EPAHistoryModel> epas)
+        private void DecodeFinalScoreAndGrade(IList<EPAHistoryModel> epas)
         {
             foreach (EPAHistoryModel epa in epas)
             {
                 epa.FinalScore = !string.IsNullOrWhiteSpace(epa.EncodeFinalScore) ? float.Parse(EncodeService.Decode(epa.EncodeFinalScore)) : 0;
                 epa.Grade = !string.IsNullOrWhiteSpace(epa.EncodeGrade) ? EncodeService.Decode(epa.EncodeGrade) : string.Empty;
+
+                if (string.IsNullOrWhiteSpace(epa.Grade) && epa.FinalScore >= 0)
+                {
+                    epa.Grade = _employeeEPAService.ConvertScoreToGrade(epa.FinalScore);
+                }
             }
         }
 

@@ -13,7 +13,7 @@ namespace SMS.EPA.Criteria.EPAHistory
 
     public class GetEPAHistoryCriteria : CriteriaBase
     {
-        public int PeriodId { get; set; }
+        public int? PeriodId { get; set; }
 
         public int EvaluatorId { get; set; }
 
@@ -21,7 +21,7 @@ namespace SMS.EPA.Criteria.EPAHistory
 
         public override bool IsValid()
         {
-            return PeriodId != 0 && EvaluatorId > 0;
+            return EvaluatorId > 0;
         }
 
         public override string GetSettingKey()

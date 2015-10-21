@@ -25,5 +25,9 @@ namespace SMS.EPA.Model.EPAHistory
         public string Grade { get; set; }
 
         public string EncodeGrade { get; set; }
+
+        public bool HasEPAForm { get; set; }
+
+        public int? EPAId { get; set; }
     }
 }

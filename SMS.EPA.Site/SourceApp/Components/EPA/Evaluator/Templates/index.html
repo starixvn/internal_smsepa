@@ -41,6 +41,7 @@
                     <th data-translate="DisciplineScore"></th>
                     <th data-translate="TotalScore"></th>
                     <th data-translate="Status"></th>
+                    <th data-translate="EPAHistory"></th>
                     <th data-translate="Detail" class="col-action"></th>
                 </tr>
             </thead>
@@ -89,6 +90,10 @@
                     <td class="text-center">
                         <div ng-show="memberEPA.CurrentProcess.Evaluated" class="glyphicon glyphicon-ok"></div>
                     </td>
+                    <td class="text-center">
+                        <a data-translate="View" ng-click="evaluatorCtrl.viewEPAHistory(memberEPA.Employee.EmployeeId)"
+                           href="{{evaluatorCtrl.viewEPAHistoryUrl}}" ></a>
+                    </td>
                     <td class="text-center text-uppercase col-action">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="evaluatorCtrl.viewEPADetail(memberEPA)"
                            ng-show="!memberEPA.CurrentProcess.IsEndProcess && memberEPA.Status.StatusId == 0"
@@ -99,7 +104,7 @@
                     </td>
                 </tr>
                 <tr ng-show="evaluatorCtrl.memberEPAs.length == 0">
-                    <td class="empty-result" colspan="13" data-translate="EmptyResult"></td>
+                    <td class="empty-result" colspan="14" data-translate="EmptyResult"></td>
                 </tr>
             </tbody>
         </table>

@@ -32,7 +32,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpGet]
-        public IList<EPAHistoryModel> GetEPAHistory(int periodId, int? employeeId = null)
+        public IList<EPAHistoryModel> GetEPAHistory(int? periodId = null, int? employeeId = null)
         {
             var criteria = new GetEPAHistoryCriteria
             {

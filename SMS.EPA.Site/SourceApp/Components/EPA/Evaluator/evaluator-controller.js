@@ -2,8 +2,8 @@
 /*global epaModule*/
 
 epaModule.controller('EvaluatorController',
-['EmployeeEPAModel', 'CommonModel', 'utilitiesFactory',
-function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
+['EmployeeEPAModel', 'CommonModel', 'utilitiesFactory', 'baseUrl',
+function (EmployeeEPAModel, CommonModel, utilitiesFactory, baseUrl) {
     var vm = this;
 
     vm.memberEPAs = EmployeeEPAModel.memberEPAs;
@@ -77,6 +77,10 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory) {
     };
 
     vm.initialize();
+
+    vm.viewEPAHistory = function (employeeId) {
+        vm.viewEPAHistoryUrl = baseUrl +  'EPAHistory/Index?empId=' + employeeId;
+    };
 }]);
 
 epaModule.controller('MemberEPAInfoOfEvaluatorController',
