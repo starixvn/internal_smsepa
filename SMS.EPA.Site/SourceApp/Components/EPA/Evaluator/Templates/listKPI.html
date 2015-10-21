@@ -1,42 +1,46 @@
-﻿<div class="list-kpi-rating rating-section" ng-repeat="kpiGroup in memberEPAInfoCtrl.epaInfo.KPIGroups"
+﻿<div class="list-kpi-rating rating-section evaluator-container" ng-repeat="kpiGroup in memberEPAInfoCtrl.epaInfo.KPIGroups"
      ng-init="memberEPAInfoCtrl.collapses[kpiGroup.Name] = false;"
      ng-show="kpiGroup.KPIs.length > 0">
     <div class="boxtitle col-sm-12"
          ng-click="memberEPAInfoCtrl.collapses[kpiGroup.Name] = !memberEPAInfoCtrl.collapses[kpiGroup.Name]">
-        <div class="col-sm-8 kpiGroup-name">{{kpiGroup.Name}} <strong>({{kpiGroup.Weight | customScore}} pts)</strong></div>
-        <div class="col-sm-2 text-center employee-score" data-translate="EmployeeScore"></div>
+        <div class="kpiGroup-name">{{kpiGroup.Name}} <strong>({{kpiGroup.Weight | customScore}} pts)</strong></div>
+        <div class="text-center employee-score" data-translate="EmployeeScore"></div>
     </div>
-    <div class="boxcontent col-sm-12" collapse="memberEPAInfoCtrl.collapses[kpiGroup.Name]">
-        <div class="row row-item" ng-repeat="kpi in kpiGroup.KPIs">
-            <div class="row col-sm-12 error-message" ng-show="kpi.CurrentEvaluation.EvaluateInvalid" data-translate="RequiredEvaluation"></div>
-            <div class="row kpi-name">
-                <div class="col-sm-8">
-                    <span>{{$index + 1}}. {{kpi.Name}}</span>
-                    <strong ng-show="kpiGroup.NumberKPIOptional == 0"> ({{kpi.Weight | customScore}} pts)</strong>
-                    <label class="note" ng-show="kpi.IsRequiredEvaluate" data-translate="(*)"></label>
-                </div>
-                <div class="col-sm-2 text-center employee-score">
-                    <strong ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" ng-bind="kpi.EvaluationBySelf.Score | customScore"></strong>
-                    <strong ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" ng-bind="'N/A'"></strong>
-                </div>
-                <div ng-show="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == 1 || (memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == 2 && kpiGroup.NumberKPIOptional > 0)" class="col-sm-2 text-center list-star">
-                    <div class="col-sm-2 cancel-rating">
-                        <a ng-show="!memberEPAInfoCtrl.isReadonly && kpi.CurrentEvaluation.Rate > 0" class="glyphicon glyphicon-remove-circle remove-star"
-                           title="Cancel" href="javascript:;" ng-click="memberEPAInfoCtrl.cancelRating(kpiGroup, kpi)"></a>
+    <div class="kpiGroup-box col-sm-12" collapse="memberEPAInfoCtrl.collapses[kpiGroup.Name]">
+        <div class="row-item" ng-repeat="kpi in kpiGroup.KPIs">
+            <div class="col-sm-12 error-message" ng-show="kpi.CurrentEvaluation.EvaluateInvalid" data-translate="RequiredEvaluation"></div>
+            <div class="col-sm-12 kpi-name">
+                <div class="row">
+                    <div class="feature">
+                        <span>{{$index + 1}}. {{kpi.Name}}</span>
+                        <strong ng-show="kpiGroup.NumberKPIOptional == 0"> ({{kpi.Weight | customScore}} pts)</strong>
+                        <label class="note" ng-show="kpi.IsRequiredEvaluate" data-translate="(*)"></label>
                     </div>
-                    <div class="col-sm-7 rating">
-                        <rating ng-model="kpi.CurrentEvaluation.Rate" max="memberEPAInfoCtrl.maxStar" readonly="memberEPAInfoCtrl.isReadonly"
-                                on-leave="memberEPAInfoCtrl.hoveringLeave(kpiGroup, kpi)"></rating>
+                    <div class="employee-score">
+                        <strong ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" ng-bind="kpi.EvaluationBySelf.Score | customScore"></strong>
+                        <strong ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" ng-bind="'N/A'"></strong>
                     </div>
-                    <div class="col-sm-3 percent-rating">
+                    <div class="kpi-start">
+                        <div ng-show="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == 1 || (memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == 2 && kpiGroup.NumberKPIOptional > 0)" class="rating-by-star">
+                            <div class="remove-rating">
+                                <a ng-show="!memberEPAInfoCtrl.isReadonly && kpi.CurrentEvaluation.Rate > 0" class="glyphicon glyphicon-remove-circle remove-star"
+                                   title="Cancel" href="javascript:;" ng-click="memberEPAInfoCtrl.cancelRating(kpiGroup, kpi)"></a>
+                            </div>
+                            <div class="rating">
+                                <rating ng-model="kpi.CurrentEvaluation.Rate" max="memberEPAInfoCtrl.maxStar" readonly="memberEPAInfoCtrl.isReadonly"
+                                        on-leave="memberEPAInfoCtrl.hoveringLeave(kpiGroup, kpi)"></rating>
+                            </div>
+                            <div ng-show="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == 2 && kpiGroup.NumberKPIOptional == 0" class="col-sm-2">
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control text-center kpi-score" ng-readonly="memberEPAInfoCtrl.isReadonly"
+                                           ng-show="kpiGroup.NumberKPIOptional == 0" ng-model="kpi.CurrentEvaluation.Score" numeric decimals="2"
+                                           ng-change="memberEPAInfoCtrl.inputScore(kpi)" tooltip="{{memberEPAInfoCtrl.getNotificationInputScore(kpi)}}" tooltip-trigger="focus" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kpi-percent" ng-show="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == 1 || (memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId ==2 && kpiGroup.NumberKPIOptional > 0)">
                         <span class="badge percent" ng-show="kpiGroup.NumberKPIOptional == 0 && kpi.CurrentEvaluation.Rate > 0">{{kpi.CurrentEvaluation.Score | customScore}} pts</span>
-                    </div>
-                </div>
-                <div ng-show="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == 2 && kpiGroup.NumberKPIOptional == 0" class="col-sm-2">
-                    <div class="col-sm-12">
-                        <input type="text" class="form-control text-center kpi-score" ng-readonly="memberEPAInfoCtrl.isReadonly"
-                               ng-show="kpiGroup.NumberKPIOptional == 0" ng-model="kpi.CurrentEvaluation.Score" numeric decimals="2"
-                               ng-change="memberEPAInfoCtrl.inputScore(kpi)" tooltip="{{memberEPAInfoCtrl.getNotificationInputScore(kpi)}}" tooltip-trigger="focus" />
                     </div>
                 </div>
             </div>

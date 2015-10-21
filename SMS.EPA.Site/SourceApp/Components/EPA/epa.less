@@ -932,7 +932,37 @@
             font-size: 11px;
         }
     }
+    .rating-by-score {
+        float: right;
+    }
 }
+.evaluator-container {
+    .kpi-name {
+        .feature {
+            width: 60%;
+        }
+        .kpi-start {
+            width: 14%;
+        }
+        .employee-score {
+            width: 20%;
+            float: left;
+            text-align: center;
+        }
+    }
+    .boxtitle {
+        .kpiGroup-name {
+            width: 60%;
+            float: left;
+        }
+        .employee-score {
+            width: 20%;
+            text-align: center;
+            float: left;
+        }
+    }
+}
+
 
 @media (max-width: 800px) {
     .kpi-name {
@@ -946,6 +976,20 @@
     .user-info {
         clear: left;
     }
+    .evaluator-container {
+        .boxtitle .employee-score {
+            width: 16%;
+        }
+        .kpi-name {
+            .employee-score {
+                width: 16%;
+            }
+            .kpi-start {
+                 width: 18%;
+            }
+        }
+
+    } 
 }
 @media (min-width:1200px) {
     .list-kpi-rating {
@@ -973,7 +1017,7 @@
 }
 @media (max-width: 1170px) {
     .evaluation-process-section ul.evaluation-process li:last-child {
-        margin: 10px 0 0 40px;
+        margin: 10px 0 0 47px;
     }
 }
 

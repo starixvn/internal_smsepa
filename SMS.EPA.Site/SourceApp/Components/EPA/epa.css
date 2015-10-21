@@ -756,24 +756,28 @@
   font-weight: normal;
   font-size: 11px;
 }
-@media (min-width: 800px) and (max-width: 1000px) {
-  /* .list-kpi-rating {
-        .list-star {
-           .rating {
-               width: 68.3%;
-           }
-           .percent-rating {
-                width: 15%;
-            }
-            .glyphicon {
-                font-size: 13px;
-            } 
-            .badge.percent {
-                width: 40px;
-                margin-left: 6px;
-            }  
-        }
-    }*/
+.kpi-name .rating-by-score {
+  float: right;
+}
+.evaluator-container .kpi-name .feature {
+  width: 60%;
+}
+.evaluator-container .kpi-name .kpi-start {
+  width: 14%;
+}
+.evaluator-container .kpi-name .employee-score {
+  width: 20%;
+  float: left;
+  text-align: center;
+}
+.evaluator-container .boxtitle .kpiGroup-name {
+  width: 60%;
+  float: left;
+}
+.evaluator-container .boxtitle .employee-score {
+  width: 20%;
+  text-align: center;
+  float: left;
 }
 @media (max-width: 800px) {
   .kpi-name .feature {
@@ -781,6 +785,18 @@
   }
   .kpi-name .kpi-start {
     width: 20%;
+  }
+  .user-info {
+    clear: left;
+  }
+  .evaluator-container .boxtitle .employee-score {
+    width: 16%;
+  }
+  .evaluator-container .kpi-name .employee-score {
+    width: 16%;
+  }
+  .evaluator-container .kpi-name .kpi-start {
+    width: 18%;
   }
 }
 @media (min-width: 1200px) {
@@ -803,14 +819,9 @@
 }
 @media (max-width: 1170px) {
   .evaluation-process-section ul.evaluation-process li:last-child {
-    margin: 10px 0 0 40px;
+    margin: 10px 0 0 47px;
   }
 }
-/*@media (min-width: 871px) and (max-width: 1160px) {
-        .evaluation-process-section ul.evaluation-process li:nth-last-of-type(2){
-             margin: 0;
-        }
-}*/
 @media (max-width: 880px) {
   .evaluation-process-section ul.evaluation-process li:nth-last-of-type(2) {
     margin: 10px 0 0 40px;
@@ -821,15 +832,6 @@
     padding: 0 80px;
   }
 }
-/*@media (min-width:1024px) and (max-width:1230px) {
-    .rating-by-kpi {
-        .table.table-bordered {   
-            .col-adjust-score {
-                width: inherit;
-            }
-        }
-    }
-}*/
 @media (max-width: 1023px) {
   .rating-by-kpi .table.table-bordered .col-adjust-score {
     width: inherit;
