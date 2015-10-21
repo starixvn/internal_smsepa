@@ -232,8 +232,11 @@ namespace SMS.EPA.Repositories.Implement
 
         private void DecodeTotalScore(EPAProcessModel process)
         {
-            process.TotalScore = Decode(process.TotalScoreEncode);
-            process.AdjustScore = Decode(process.AdjustScoreEncode);
+            if (process != null)
+            {
+                process.TotalScore = Decode(process.TotalScoreEncode);
+                process.AdjustScore = Decode(process.AdjustScoreEncode);
+            }
         }
 
         private void DecodeTotalScore(IList<EPAProcessModel> processes)

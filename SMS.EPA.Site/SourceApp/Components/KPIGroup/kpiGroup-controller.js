@@ -39,6 +39,8 @@ function (KPIGroupModel, KPIModel, CommonModel, utilitiesFactory) {
     vm.initialize();
 
     vm.query = function (filter) {
+        vm.searchKey = '';
+        vm.currentPage = 1;
         getKPIGroup(filter.isActive);
     };
 

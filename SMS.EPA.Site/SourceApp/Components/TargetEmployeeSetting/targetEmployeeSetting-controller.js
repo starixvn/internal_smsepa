@@ -101,6 +101,8 @@ function ($scope, TargetEmployeeSettingModel, EmployeeModel, CommonModel, Target
 
     vm.query = function (filter) {
         var employeeId = null;
+        vm.searchKey = '';
+        vm.currentPage = 1;
 
         if (filter.employee) {
             employeeId = filter.employee.EmployeeId;
@@ -234,6 +236,9 @@ function ($scope, TargetEmployeeSettingModel, CommonModel, TargetTemplateModel, 
 
     vm.query = function (filter) {
         var departmentId = null;
+        vm.searchKey = '';
+        vm.currentPage = 1;
+
         if (filter.departmentId) {
             departmentId = filter.departmentId < 0 ? -filter.departmentId : filter.departmentId;
         }

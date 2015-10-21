@@ -40,6 +40,8 @@ function ($window, EmployeeModel, utilitiesFactory, CommonModel) {
     getEmployee(vm.filter.query, vm.filter.groupId, vm.filter.isSpecialUser, vm.filter.isDisabledUser);
 
     vm.queryEmployee = function (filter) {
+        vm.searchKey = '';
+        vm.currentPage = 1;
         getEmployee(filter.query, filter.groupId, filter.isSpecialUser, filter.isDisabledUser);
     };
 

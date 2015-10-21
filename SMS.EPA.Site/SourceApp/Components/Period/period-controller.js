@@ -35,6 +35,8 @@ function (PeriodModel, CommonModel, utilitiesFactory, baseUrl) {
     getPeriod(vm.filter.targetTypeId, vm.filter.isActive);
 
     vm.query = function (filter) {
+        vm.searchKey = '';
+        vm.currentPage = 1;
         getPeriod(filter.targetTypeId, filter.isActive);
     };
 

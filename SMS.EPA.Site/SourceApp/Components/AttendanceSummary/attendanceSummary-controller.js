@@ -75,6 +75,8 @@ function ($scope, AttendanceModel, utilitiesFactory, CommonModel, baseUrl) {
 
     vm.query = function (filter) {
         var employeeId = null;
+        vm.searchKey = '';
+        vm.currentPage = 1;
 
         if (filter.employee) {
             employeeId = filter.employee.EmployeeId;

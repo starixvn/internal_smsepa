@@ -48,6 +48,8 @@ function (TargetTemplateModel, utilitiesFactory, CommonModel) {
     getTargetTemplate(vm.filter.targetTypeId, vm.filter.isActive);
 
     vm.query = function (filter) {
+        vm.searchKey = '';
+        vm.currentPage = 1;
         getTargetTemplate(filter.targetTypeId, filter.isActive);
     };
 

@@ -66,6 +66,8 @@ function ($window, $routeParams, KPIModel, KPIGroupModel, CommonModel, utilities
     vm.initialize();
 
     vm.query = function (filter) {
+        vm.searchKey = '';
+        vm.currentPage = 1;
         getKPI(filter.kpiGroupId, filter.isActive, filter.isRequiredEvaluate);
     };
 

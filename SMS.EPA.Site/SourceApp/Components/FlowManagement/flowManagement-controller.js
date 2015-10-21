@@ -43,6 +43,8 @@ function (FlowMngModel, CommonModel, utilitiesFactory) {
     };
 
     vm.query = function (filter) {
+        vm.searchKey = '';
+        vm.currentPage = 1;
         getFlowTemplate(filter.targetTypeId, filter.isActive);
     };
 
