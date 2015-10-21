@@ -226,22 +226,22 @@ reportModule.directive('gridEpaDetailReport', ['$timeout', 'utilitiesFactory', f
             }
         }
 
-        if (memberEPA.ProcessBySelf.IsEndProcess) {
+        if (memberEPA.EPAId > 0 && memberEPA.ProcessBySelf.IsEndProcess) {
             result.SelfScore = utilitiesFactory.parseFloat(memberEPA.ProcessBySelf.TotalScore);
             result.SelfScore += result.DisciplineScore;
         }
 
-        if (memberEPA.ProcessByEvaluators[0].IsEndProcess) {
+        if (memberEPA.EPAId > 0 && memberEPA.ProcessByEvaluators[0].IsEndProcess) {
             result.EvaluatorScore = memberEPA.AverageScoreByEvaluators;
             result.EvaluatorScore += result.DisciplineScore;
         }
 
-        if (memberEPA.ProcessByReviewers.length > 0 && memberEPA.ProcessByReviewers[0].IsEndProcess) {
+        if (memberEPA.EPAId > 0 && memberEPA.ProcessByReviewers.length > 0 && memberEPA.ProcessByReviewers[0].IsEndProcess) {
             result.ReviewerScore = memberEPA.AverageScoreByReviewers;
             result.ReviewerScore += result.DisciplineScore;
         }
 
-        if (memberEPA.ProcessByManagements.length > 0 && memberEPA.ProcessByManagements[0].IsEndProcess) {
+        if (memberEPA.EPAId > 0 && memberEPA.ProcessByManagements.length > 0 && memberEPA.ProcessByManagements[0].IsEndProcess) {
             result.ManagementScore = memberEPA.AverageScoreByManagements;
             result.ManagementScore += result.DisciplineScore;
         }

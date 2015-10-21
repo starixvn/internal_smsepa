@@ -68,19 +68,9 @@ namespace SMS.EPA.Site.Controllers.API
             int? pageIndex = null,
             int? itemsPerPage = null)
         {
-            List<int> roleIds = CurrentUser.Roles.Select(x => x.RoleId).ToList();
-            var isViewAll = false;
-            if (roleIds.Contains((int)SystemRole.SystemAdmin)
-                || roleIds.Contains((int)SystemRole.HumanResource)
-                || roleIds.Contains((int)SystemRole.Management))
-            {
-                isViewAll = true;
-            }
-
             var criteria = new GetEPADetailCriteria()
             {
                 EmployeeId = CurrentUser.EmployeeInfo.EmployeeId,
-                IsViewAll = isViewAll,
                 PeriodId = periodId,
                 DepartmentId = departmentId,
                 PageIndex = pageIndex,

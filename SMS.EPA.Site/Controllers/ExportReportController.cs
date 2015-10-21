@@ -11,9 +11,7 @@ namespace SMS.EPA.Site.Controllers
 {
     using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
     using System.Web.Mvc;
-    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Criteria.AttendanceSummary;
     using SMS.EPA.Criteria.Period;
     using SMS.EPA.Criteria.Report;
@@ -79,18 +77,7 @@ namespace SMS.EPA.Site.Controllers
 
         public ActionResult ExportEPADetailReport(GetEPADetailCriteria criteria)
         {
-            List<int> roleIds = SessionManager.CurrentUser.Roles.Select(x => x.RoleId).ToList();
-            var isViewAll = false;
-
-            if (roleIds.Contains((int)SystemRole.SystemAdmin)
-                || roleIds.Contains((int)SystemRole.HumanResource)
-                || roleIds.Contains((int)SystemRole.Management))
-            {
-                isViewAll = true;
-            }
-
             criteria.EmployeeId = SessionManager.CurrentUser.EmployeeInfo.EmployeeId;
-            criteria.IsViewAll = isViewAll;
 
             EPADetailModel epaDetail = _reportService.GetEPADetailReport(criteria);
             string templatePath = Server.MapPath(_EPADetailReportTemplatePath);

@@ -101,7 +101,7 @@ namespace SMS.EPA.Services.Implement
             cell.CellStyle.VerticalAlignment = VerticalAlignment.Center;
             cell.CellStyle.SetFont(font);
 
-            sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, epaSummary.PeriodSelecteds.Count + ((titleHeaders.Count - 1) * 2)));
+            sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, titleHeaders.Count + (epaSummary.PeriodSelecteds.Count * 2) - 1));
 
             RenderHeaderEPASummaryReport(epaSummary.PeriodSelecteds, ref workbook, ref sheet, titleHeaders);
             RenderContentRowEPASummaryReport(epaSummary, ref workbook, ref sheet);
@@ -454,7 +454,7 @@ namespace SMS.EPA.Services.Implement
                 disciplineScore = discipline.ToString();
             }
 
-            if (memberEPA.ProcessBySelf.IsEndProcess)
+            if (memberEPA.EPAId > 0 && memberEPA.ProcessBySelf.IsEndProcess)
             {
                 score = memberEPA.ProcessBySelf.TotalScore.Length > 0 ? float.Parse(memberEPA.ProcessBySelf.TotalScore) : 0;
                 score += discipline;
@@ -462,17 +462,17 @@ namespace SMS.EPA.Services.Implement
                 selfScore = score.ToString();
             }
 
-            if (memberEPA.ProcessByEvaluators.FirstOrDefault().IsEndProcess)
+            if (memberEPA.EPAId > 0 && memberEPA.ProcessByEvaluators.FirstOrDefault().IsEndProcess)
             {
                 evaluatorScore = (memberEPA.AverageScoreByEvaluators + discipline).ToString();
             }
 
-            if (memberEPA.ProcessByReviewers.Count > 0 && memberEPA.ProcessByReviewers.FirstOrDefault().IsEndProcess)
+            if (memberEPA.EPAId > 0 && memberEPA.ProcessByReviewers.Count > 0 && memberEPA.ProcessByReviewers.FirstOrDefault().IsEndProcess)
             {
                 reviewerScore = (memberEPA.AverageScoreByReviewers + discipline).ToString();
             }
 
-            if (memberEPA.ProcessByManagements.Count > 0 && memberEPA.ProcessByManagements.FirstOrDefault().IsEndProcess)
+            if (memberEPA.EPAId > 0 && memberEPA.ProcessByManagements.Count > 0 && memberEPA.ProcessByManagements.FirstOrDefault().IsEndProcess)
             {
                 managementScore = (memberEPA.AverageScoreByManagements + discipline).ToString();
             }
