@@ -1176,4 +1176,7 @@
   <data name="EPAHistory" xml:space="preserve">
     <value>EPA History</value>
   </data>
+  <data name="DepartmentHasSetting" xml:space="preserve">
+    <value>Department / Section have setting</value>
+  </data>
 </root>

@@ -10,10 +10,12 @@
 namespace SMS.EPA.Services.Implement
 {
     using System.Collections.Generic;
+    using System.Linq;
     using Fanex.Common.Helper;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.FlowManagement;
+    using SMS.EPA.Model.Department;
     using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.FlowManagement;
     using SMS.EPA.Repositories.Implement;
@@ -155,6 +157,19 @@ namespace SMS.EPA.Services.Implement
             }
 
             return result;
+        }
+
+        public IList<DepartmentModel> GetDepartmentHasSetting(GetDepartmentSectionHasSettingCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IList<DepartmentModel> departments = new List<DepartmentModel>();
+
+            if (criteria.IsValid())
+            {
+                departments = GetData<DepartmentModel>(criteria).ToList();
+            }
+
+            return departments;
         }
 
         #endregion Department Flow Setting

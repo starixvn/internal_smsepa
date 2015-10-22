@@ -12,6 +12,7 @@ namespace SMS.EPA.Services.Interfaces
     using System.Collections.Generic;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.FlowManagement;
+    using SMS.EPA.Model.Department;
     using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.FlowManagement;
 
@@ -40,6 +41,8 @@ namespace SMS.EPA.Services.Interfaces
         CommandResult CreateDepartmentFlow(CreateDepartmentFlowCriteria criteria);
 
         CommandResult DeleteDepartmentFlow(DeleteDepartmentFlowCriteria criteria);
+
+        IList<DepartmentModel> GetDepartmentHasSetting(GetDepartmentSectionHasSettingCriteria criteria);
 
         #endregion Department Flow Setting
 

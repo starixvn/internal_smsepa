@@ -90,6 +90,7 @@
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="EPAHistory\GetEPAHistoryCriteria.cs" />
+    <Compile Include="FlowManagement\GetDepartmentSectionHasSettingCriteria.cs" />
     <Compile Include="Period\CheckSelfProcessStartedCriteria.cs" />
     <Compile Include="Period\GetPeriodProcessSettingCriteria.cs" />
     <Compile Include="Period\UpdatePeriodProcessSettingCriteria.cs" />

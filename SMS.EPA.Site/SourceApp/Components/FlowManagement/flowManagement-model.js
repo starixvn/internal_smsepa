@@ -43,6 +43,7 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
     flowMngModel.flowTemplate = {};
     flowMngModel.defaultFlowSettings = [];
     flowMngModel.personalFlowSettings = [];
+    flowMngModel.departmentSettings = [];
 
     flowMngModel.permission = 0;
 
@@ -398,7 +399,7 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
                 windowClass: "modal-confirm-center"
             });
 
-            modalInstance.result.then(function () {
+           return modalInstance.result.then(function () {
                 flowMngFactory.deleteDepartmentFlow(vm.department.DepartmentId, vm.FlowTemplateId)
                 .success(function (response) {
                     if (response.IsSuccessful) {
@@ -534,6 +535,15 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
         return flowMngFactory.getUserPermissionOnFlowManagement()
         .success(function (permission) {
             flowMngModel.permission = parseInt(permission);
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    flowMngModel.getDepartmentHasSetting = function (flowTemplateId) {
+        return flowMngFactory.getDepartmentHasSetting(flowTemplateId).success(function (departments) {
+            flowMngModel.departmentSettings = departments;
         })
         .error(function (response, status) {
             errorFactory.errorHandle(status);

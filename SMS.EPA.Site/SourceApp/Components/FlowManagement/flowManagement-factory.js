@@ -75,6 +75,9 @@ flowMngModule.factory('flowMngFactory', ['$http', 'baseUrl', function ($http, ba
         },
         getUserPermissionOnFlowManagement: function () {
             return $http.get(baseUrl + 'api/FlowManagement/GetUserPermissionOnFlowManagement');
+        },
+        getDepartmentHasSetting: function (flowTemplateId) {
+            return $http.get(baseUrl + 'api/FlowManagement/GetDepartmentHasSetting', { params: { flowTemplateId: flowTemplateId } });
         }
     };
 }]);

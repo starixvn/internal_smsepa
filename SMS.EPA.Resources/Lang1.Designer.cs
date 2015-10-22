@@ -610,6 +610,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Department / Section have setting.
+        /// </summary>
+        public static string DepartmentHasSetting {
+            get {
+                return ResourceManager.GetString("DepartmentHasSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please select a department!.
         /// </summary>
         public static string DepartmentNotSelectedWarning {

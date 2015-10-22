@@ -121,6 +121,8 @@
         </Setting>
         <Setting Key="EpaEmployeeFlowSetting_Get" SpName="EpaEmployeeFlowSetting_Get" DbName="SMSEPA" Plain="0" >
         </Setting>
+        <Setting Key="FlowTemplate_GetDepartmentHasSetting" SpName="FlowTemplate_GetDepartmentHasSetting" DbName="SMSEPA" Plain="0" >
+        </Setting>
     </Function>
     <Function Name="Target Employee Setting Template">
         <Setting Key="EpaTargetTemplateEmployee_Assign" SpName="EpaTargetTemplateEmployee_Assign" DbName="SMSEPA" Plain="0" >

@@ -17,6 +17,7 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.FlowManagement;
+    using SMS.EPA.Model.Department;
     using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.FlowManagement;
     using SMS.EPA.Services.Implement;
@@ -171,6 +172,18 @@ namespace SMS.EPA.Site.Controllers.API
             };
 
             return _flowManagementService.DeleteDepartmentFlow(criteria);
+        }
+
+        [HttpGet]
+        public IList<DepartmentModel> GetDepartmentHasSetting(int flowTemplateId)
+        {
+            var criteria = new GetDepartmentSectionHasSettingCriteria
+            {
+                FlowTemplateId = flowTemplateId
+            };
+
+            IList<DepartmentModel> departments = _flowManagementService.GetDepartmentHasSetting(criteria);
+            return departments;
         }
 
         #endregion Department Flow Setting
