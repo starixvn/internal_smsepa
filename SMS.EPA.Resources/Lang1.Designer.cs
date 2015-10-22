@@ -970,6 +970,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to EPA Generated Status.
+        /// </summary>
+        public static string EPAGeneratedStatus {
+            get {
+                return ResourceManager.GetString("EPAGeneratedStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to EPA History.
         /// </summary>
         public static string EPAHistory {
@@ -1317,6 +1326,15 @@ namespace SMS.EPA.Resources {
         public static string GeneralInfo {
             get {
                 return ResourceManager.GetString("GeneralInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Generated.
+        /// </summary>
+        public static string GeneratedEPA {
+            get {
+                return ResourceManager.GetString("GeneratedEPA", resourceCulture);
             }
         }
         
@@ -1866,6 +1884,15 @@ namespace SMS.EPA.Resources {
         public static string NoneDateSettingWarning {
             get {
                 return ResourceManager.GetString("NoneDateSettingWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not Generated.
+        /// </summary>
+        public static string NoneGeneratedEPA {
+            get {
+                return ResourceManager.GetString("NoneGeneratedEPA", resourceCulture);
             }
         }
         

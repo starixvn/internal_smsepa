@@ -22,6 +22,8 @@ namespace SMS.EPA.Criteria.Period
 
         public bool? IsExcludedEmployee { get; set; }
 
+        public bool? IsGeneratedEPA { get; set; }
+
         public override bool IsValid()
         {
             return PeriodId > 0;

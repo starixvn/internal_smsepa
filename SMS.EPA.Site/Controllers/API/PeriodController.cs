@@ -142,13 +142,15 @@ namespace SMS.EPA.Site.Controllers.API
         public IEnumerable<PeriodEmployeeSettingModel> GetPeriodEmployeeSettingById(
             int periodId,
             int? departmentId = null,
-            bool? isExcludedEmployee = null)
+            bool? isExcludedEmployee = null,
+            bool? isGeneratedEPA = null)
         {
             var criteria = new GetPeriodEmployeeSettingCriteria
             {
                 PeriodId = periodId,
                 DepartmentId = departmentId,
-                IsExcludedEmployee = isExcludedEmployee
+                IsExcludedEmployee = isExcludedEmployee,
+                IsGeneratedEPA = isGeneratedEPA
             };
 
             IEnumerable<PeriodEmployeeSettingModel> periodEmployeeSettings = _periodService.GetPeriodEmployeeSettingById(criteria);

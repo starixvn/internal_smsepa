@@ -21,9 +21,17 @@ periodModule.factory('periodFactory', ['$http', 'baseUrl', function ($http, base
         deletePeriod: function (periodId) {
             return $http['delete'](baseUrl + 'api/Period/DeletePeriod', { params: { periodId: periodId } });
         },
-        getPeriodEmployeeSettingById: function (periodId, departmentId, isExcludedEmployee) {
+        getPeriodEmployeeSettingById: function (periodId, departmentId, isExcludedEmployee, isGeneratedEPA) {
             return $http.get(baseUrl + 'api/Period/GetPeriodEmployeeSettingById',
-                { params: { periodId: periodId, departmentId: departmentId, isExcludedEmployee: isExcludedEmployee } });
+                {
+                    params:
+                      {
+                          periodId: periodId,
+                          departmentId: departmentId,
+                          isExcludedEmployee: isExcludedEmployee,
+                          isGeneratedEPA: isGeneratedEPA
+                      }
+                });
         },
         addEmployeeToPeriod: function (employeeInfo) {
             return $http.post(baseUrl + 'api/Period/AddEmployeToPeriod', employeeInfo);

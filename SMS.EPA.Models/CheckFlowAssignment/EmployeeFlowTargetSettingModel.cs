@@ -10,6 +10,7 @@
 namespace SMS.EPA.Model.CheckFlowAssignment
 {
     using System.Collections.Generic;
+    using SMS.EPA.Core.Constants;
     using SMS.EPA.Model.FlowManagement;
     using SMS.EPA.Model.TargetEmployeeSetting;
 
@@ -35,7 +36,7 @@ namespace SMS.EPA.Model.CheckFlowAssignment
         {
             get
             {
-                return 3;
+                return Constants.NumberEvaluatorTargetSetting;
             }
 
             set

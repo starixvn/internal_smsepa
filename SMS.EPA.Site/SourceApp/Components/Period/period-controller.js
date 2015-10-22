@@ -319,15 +319,16 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
     vm.filter = {
         periodId: null,
         departmentId: null,
-        isExcludedEmployee: null
+        isExcludedEmployee: null,
+        isGeneratedEPA: ""
     };
 
     vm.filterAssign = {
         employee: ''
     };
 
-    var getPeriodEmployeeSetting = function (periodId, departmentId, isExcludedEmployee) {
-        PeriodModel.getPeriodEmployeeSettingById(periodId, departmentId, isExcludedEmployee).then(function () {
+    var getPeriodEmployeeSetting = function (periodId, departmentId, isExcludedEmployee, isGeneratedEPA) {
+        PeriodModel.getPeriodEmployeeSettingById(periodId, departmentId, isExcludedEmployee, isGeneratedEPA).then(function () {
             vm.employeeSettings = PeriodModel.employeeSettings;
             utilitiesFactory.searchOnPage(vm, vm.employeeSettings);
             vm.isFirstLoad = false;
@@ -342,7 +343,7 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
             vm.departmentOptions = angular.copy(vm.treeDepartment);
         });
 
-        getPeriodEmployeeSetting(vm.filter.periodId, vm.filter.departmentId, vm.filter.isExcludedEmployee);
+        getPeriodEmployeeSetting(vm.filter.periodId, vm.filter.departmentId, vm.filter.isExcludedEmployee, vm.filter.isGeneratedEPA);
         vm.permission = $scope.updateCtrl.permission;
     };
 
@@ -366,7 +367,7 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
         });
 
     vm.query = function (filter) {
-        getPeriodEmployeeSetting(filter.periodId, filter.departmentId, filter.isExcludedEmployee);
+        getPeriodEmployeeSetting(filter.periodId, filter.departmentId, filter.isExcludedEmployee, filter.isGeneratedEPA);
     };
 
     vm.getIndex = function (index, currentPage, pageSize) {
@@ -428,7 +429,7 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
         if (employeeInfo.employeeId || (employeeInfo.departments && employeeInfo.departments.length > 0)) {
             PeriodModel.addEmployeeToPeriod(employeeInfo).then(function () {
                 resetFilterAssign();
-                getPeriodEmployeeSetting(vm.filter.periodId, vm.filter.departmentId, vm.filter.isExcludedEmployee);
+                getPeriodEmployeeSetting(vm.filter.periodId, vm.filter.departmentId, vm.filter.isExcludedEmployee, vm.filter.isGeneratedEPA);
             });
         }
         else {

@@ -1179,4 +1179,13 @@
   <data name="DepartmentHasSetting" xml:space="preserve">
     <value>Department / Section have setting</value>
   </data>
+  <data name="EPAGeneratedStatus" xml:space="preserve">
+    <value>EPA Generated Status</value>
+  </data>
+  <data name="GeneratedEPA" xml:space="preserve">
+    <value>Generated</value>
+  </data>
+  <data name="NoneGeneratedEPA" xml:space="preserve">
+    <value>Not Generated</value>
+  </data>
 </root>

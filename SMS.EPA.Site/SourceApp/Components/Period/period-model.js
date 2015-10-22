@@ -448,8 +448,8 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         });
     };
 
-    periodModel.getPeriodEmployeeSettingById = function (periodId, departmentId, isExcludedEmployee) {
-        return periodFactory.getPeriodEmployeeSettingById(periodId, departmentId, isExcludedEmployee).success(function (employeeSettings) {
+    periodModel.getPeriodEmployeeSettingById = function (periodId, departmentId, isExcludedEmployee, isGeneratedEPA) {
+        return periodFactory.getPeriodEmployeeSettingById(periodId, departmentId, isExcludedEmployee, isGeneratedEPA).success(function (employeeSettings) {
             periodModel.employeeSettings = employeeSettings;
         })
         .error(function (response, status) {
