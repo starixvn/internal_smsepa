@@ -5,6 +5,9 @@ epaHistoryModule.factory('epaHistoryFactory', ['$http', 'baseUrl', function ($ht
     return {
         getEPAHistory: function (periodId, employeeId) {
             return $http.get(baseUrl + 'api/EPAHistory/GetEPAHistory', { params: { periodId: periodId, employeeId: employeeId } });
+        },
+        checkHasOnlyEmployeeRole: function () {
+            return $http.get(baseUrl + 'api/EPAHistory/HasOnlyEmployeeRole');
         }
     };
 }]);

@@ -10,12 +10,15 @@
 namespace SMS.EPA.Site.Controllers.API
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Web.Http;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Criteria.EPAHistory;
     using SMS.EPA.Model.EPAHistory;
-    using SMS.EPA.Model.Period;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
+    using SMS.EPA.Web.ApiAuthorizeAttribute;
 
     public class EPAHistoryController : BaseController
     {
@@ -32,6 +35,7 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.EPAHistory, Policy = Policy.Read)]
         public IList<EPAHistoryModel> GetEPAHistory(int? periodId = null, int? employeeId = null)
         {
             var criteria = new GetEPAHistoryCriteria
@@ -43,6 +47,13 @@ namespace SMS.EPA.Site.Controllers.API
 
             IList<EPAHistoryModel> epas = _epaHistoryService.GetEPAHistory(criteria);
             return epas;
+        }
+
+        [HttpGet]
+        public bool HasOnlyEmployeeRole()
+        {
+            bool onlyEmployeeRole = !CurrentUser.Roles.Any(x => x.RoleId != (int)SystemRole.Employee);
+            return onlyEmployeeRole;
         }
     }
 }

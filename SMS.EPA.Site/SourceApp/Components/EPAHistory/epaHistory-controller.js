@@ -2,11 +2,12 @@
 /*global epaHistoryModule*/
 
 epaHistoryModule.controller('EPAHistoryController',
-['$window', '$routeParams', 'EPAHistoryModel', 'utilitiesFactory', 'CommonModel', 'EmployeeModel', 'baseUrl',
-function ($window, $routeParams, EPAHistoryModel, utilitiesFactory, CommonModel, EmployeeModel, baseUrl) {
+['$window', '$routeParams', 'EPAHistoryModel', 'utilitiesFactory', 'CommonModel', 'baseUrl',
+function ($window, $routeParams, EPAHistoryModel, utilitiesFactory, CommonModel, baseUrl) {
     var vm = this;
     vm.epas = EPAHistoryModel.epas;
     vm.periodOptions = CommonModel.periodOptions;
+    vm.onlyEmployeeRole = EPAHistoryModel.onlyEmployeeRole;
 
     vm.filter = {
         periodId: $routeParams.periodId ? $routeParams.periodId : null,
@@ -34,8 +35,12 @@ function ($window, $routeParams, EPAHistoryModel, utilitiesFactory, CommonModel,
         vm.searchEmployee = vm.filter.employee.NickName + ' (' + vm.filter.employee.FullName + ')';
     });
 
+    EPAHistoryModel.checkHasOnlyEmployeeRole().then(function () {
+        vm.onlyEmployeeRole = EPAHistoryModel.onlyEmployeeRole;
+    });
+
     vm.getEmployee = function () {
-        return EmployeeModel.getAllEmployee(vm.searchEmployee);
+        return CommonModel.getAllEmployee(vm.searchEmployee);
     };
 
     vm.unSelectEmployee = function () {
