@@ -123,7 +123,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
                 vm.finalScore += vm.epaInfo.DisciplineScore;
             }
 
-            vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.epaInfo.MaxFinalScore, vm.standardGrades);
+            vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
             vm.evaluatedDate = vm.epaInfo.CurrentProcess.EvaluateDate ? vm.epaInfo.CurrentProcess.EvaluateDate : null;
             checkStatus(vm.epaInfo);
 

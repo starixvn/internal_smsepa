@@ -682,14 +682,7 @@
         }
 
         .col-comment {
-            .textarea, .note {
-                display: inline-block;
-                float: left;
-            }
-
-            .textarea {
-                width: 92%;
-
+            .optional-comment, .required-comment {
                 textarea {
                     height: 2.5em;
                     resize: none;
@@ -705,10 +698,21 @@
                 }
             }
 
-            .note {
-                width: 5%;
-                margin-left: 5px;
-                color: #df1501;
+            .required-comment {
+                .textarea, .note {
+                    display: inline-block;
+                    float: left;
+                }
+
+                .textarea {
+                    width: 92%;
+                }
+
+                .note {
+                    width: 5%;
+                    margin-left: 5px;
+                    color: #df1501;
+                }
             }
         }
     }
@@ -1033,7 +1037,6 @@
         }
     }
 }
-
 @media (max-width: 1023px) {
     .rating-by-kpi {
         .table.table-bordered {   
@@ -1061,11 +1064,11 @@
                         margin-top: 3px;
                         .epa-input-score {
                             width: 85px;
-                            margin: 0 auto;                            
+                            margin: 0 auto;
                         }
-                    }                    
-                }                
-            }            
+                    }
+                }
+            }
         }
     }
 }

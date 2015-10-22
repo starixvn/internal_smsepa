@@ -38,7 +38,7 @@ function ($modal, EmployeeEPAModel, utilitiesFactory) {
             vm.finalScore = 0;
         }
 
-        vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.epaInfo.MaxFinalScore, vm.standardGrades);
+        vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
     };
 
     model.scoreSpreadForKPIGroupHasKPIOptional = function (kpiGroup, maxStar) {
@@ -62,9 +62,7 @@ function ($modal, EmployeeEPAModel, utilitiesFactory) {
         averageWeight = utilitiesFactory.parseFloat(kpiGroup.Weight / totalKPIMustEvaluate);
 
         angular.forEach(kpis, function (kpi) {
-            if (kpi.CurrentEvaluation.Rate > 0) {
-                kpi.CurrentEvaluation.Score = utilitiesFactory.parseFloat(averageWeight * (kpi.CurrentEvaluation.Rate / maxStar));
-            }
+            kpi.CurrentEvaluation.Score = utilitiesFactory.parseFloat(averageWeight * (kpi.CurrentEvaluation.Rate / maxStar));
         });
 
         if (((averageWeight * totalKPIMustEvaluate) > kpiGroup.Weight) && totalStarEvaluated === totalStarMustEvaluate) {

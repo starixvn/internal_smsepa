@@ -29,43 +29,12 @@ namespace SMS.EPA.Criteria.EmployeeEPA.RatingByKPI
         {
             get
             {
-                var result = new StringBuilder(_BeginRootTag);
-
-                foreach (var model in RatingByKPIs)
-                {
-                    var detail = new StringBuilder();
-                    var totalScore = string.Empty;
-
-                    foreach (TemporaryKPIModel kpi in model.KPIGroup.KPIs)
-                    {
-                        if (!string.IsNullOrEmpty(kpi.AdjustScore) || kpi.AdjustRate > 0)
-                        {
-                            var score = kpi.AdjustScore;
-                            var rate = kpi.AdjustRate > 0 ? kpi.AdjustRate.ToString() : string.Empty;
-                            var isMaxScore = kpi.IsMaxScore;
-                            var cipherScore = Encode(score + "_" + kpi.KPIId);
-                            var cipherRate = Encode(rate);
-
-                            detail.AppendFormat(_EPADetail, kpi.KPIId, cipherRate, cipherScore, isMaxScore, HttpUtility.HtmlEncode(kpi.Comment));
-                        }
-                        else if (!string.IsNullOrEmpty(kpi.ScoreEncode) || !string.IsNullOrEmpty(kpi.RateEncode))
-                        {
-                            detail.AppendFormat(_EPADetail, kpi.KPIId, kpi.RateEncode, kpi.ScoreEncode, kpi.IsMaxScore, HttpUtility.HtmlEncode(kpi.Comment));
-                        }
-                    }
-
-                    totalScore = Encode(model.TotalScore);
-                    result.AppendFormat(_EPA, model.EPAId, model.Employee.EmployeeId, model.KPIGroup.KPIGroupId, totalScore, detail);
-                }
-
-                result.Append(_EndRootTag);
-
-                return result.ToString();
+                return ConvertToXml(EpaInfos);
             }
         }
 
         [SpParam(Ignored = true)]
-        public IEnumerable<RatingByKPIModel> RatingByKPIs { get; set; }
+        public IEnumerable<RatingByKPIModel> EpaInfos { get; set; }
 
         public override string GetSettingKey()
         {
@@ -80,6 +49,47 @@ namespace SMS.EPA.Criteria.EmployeeEPA.RatingByKPI
         private string Encode(string plainText)
         {
             return !string.IsNullOrEmpty(plainText) ? EncodeService.Encode(plainText) : string.Empty;
+        }
+
+        private string ConvertToXml(IEnumerable<RatingByKPIModel> epaInfos)
+        {
+            var result = new StringBuilder(_BeginRootTag);
+
+            foreach (var epaInfo in epaInfos)
+            {
+                var detail = new StringBuilder();
+                string rate = string.Empty,
+                    cipherScore = string.Empty,
+                    cipherRate = string.Empty,
+                    totalScore = string.Empty;
+
+                foreach (TemporaryKPIModel kpi in epaInfo.KPIGroup.KPIs)
+                {
+                    if (!string.IsNullOrEmpty(kpi.AdjustScore) || kpi.AdjustRate > 0)
+                    {
+                        rate = kpi.AdjustRate > 0 ? kpi.AdjustRate.ToString() : string.Empty;
+                        cipherScore = Encode(kpi.AdjustScore + "_" + kpi.KPIId);
+                        cipherRate = Encode(rate);
+
+                        detail.AppendFormat(_EPADetail, kpi.KPIId, cipherRate, cipherScore, kpi.IsMaxScore, HttpUtility.HtmlEncode(kpi.Comment));
+                    }
+                    else if (!string.IsNullOrEmpty(kpi.Score) || kpi.Rate > 0)
+                    {
+                        rate = kpi.Rate > 0 ? kpi.Rate.ToString() : string.Empty;
+                        cipherScore = Encode(kpi.Score + "_" + kpi.KPIId);
+                        cipherRate = Encode(rate);
+
+                        detail.AppendFormat(_EPADetail, kpi.KPIId, cipherRate, cipherScore, kpi.IsMaxScore, HttpUtility.HtmlEncode(kpi.Comment));
+                    }
+                }
+
+                totalScore = Encode(epaInfo.TotalScore);
+                result.AppendFormat(_EPA, epaInfo.EPAId, epaInfo.Employee.EmployeeId, epaInfo.KPIGroup.KPIGroupId, totalScore, detail);
+            }
+
+            result.Append(_EndRootTag);
+
+            return result.ToString();
         }
     }
 }

@@ -31,7 +31,7 @@ function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, CommonModel, 
 
         angular.forEach(memberEPAs, function (memberEPA) {
             angular.forEach(memberEPA.KPIGroup.KPIs, function (kpi) {
-                if (kpi.AdjustScore || (kpi.Comment !== kpi.CommentOriginal)) {
+                if (utilitiesFactory.parseFloat(kpi.AdjustScore) > 0 || (kpi.Comment !== kpi.CommentOriginal)) {
                     hasChanged = true;
                 }
             });
@@ -138,48 +138,54 @@ function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, CommonModel, 
         });
     };
 
-    vm.hoveringLeave = function (memberEPA, kpiGroup, kpi) {
+    vm.hoveringLeave = function (memberEPA, kpi) {
         if (kpi.AdjustRate > 0) {
-            if (kpi.AdjustRate === kpi.MaxStar && memberEPA.RequiredCommentOnMaxScore)
+            if (kpi.Rate !== kpi.AdjustRate) {
+                vm.dataSaved = false;
+            }
+
+            if (kpi.AdjustRate === kpi.MaxStar){
                 kpi.IsMaxScore = true;
-        } else {
-            kpi.IsMaxScore = false;
-        }
+            } else {
+                kpi.IsMaxScore = false;
+            }
 
-        if (!kpiGroup.HasKPIOptional) {
-            var score = utilitiesFactory.parseFloat(kpi.Weight * (kpi.AdjustRate / vm.maxStar));
+            var totalScoreOriginal = utilitiesFactory.parseFloat(memberEPA.TotalScoreOriginal),
+                totalScoreEvaluated, currentScore, adjustScore;
+            if (!memberEPA.KPIGroup.HasKPIOptional) {
+                currentScore = utilitiesFactory.parseFloat(kpi.Score);
+                adjustScore = utilitiesFactory.parseFloat(kpi.Weight * (kpi.AdjustRate / vm.maxStar));
+                kpi.AdjustScore = adjustScore;
 
-            kpi.AdjustScore = score;
-        } else {
-            var weight, totalKPIOptional = angular.copy(kpiGroup.NumberKPIOptional);
-
-            angular.forEach(kpiGroup.KPIs, function (item) {
-                if (!item.IsRequiredEvaluate && item.AdjustRate > 0) {
-                    totalKPIOptional -= 1;
+                if (currentScore > 0 && currentScore > adjustScore) {
+                    memberEPA.TotalScore = totalScoreOriginal - (currentScore - adjustScore);
+                } else {
+                    memberEPA.TotalScore = totalScoreOriginal + (adjustScore - currentScore);
                 }
-            });
+            } else {
+                RatingByKPIModel.scoreSpreadForKPIGroupHasKPIOptional(memberEPA.KPIGroup, vm.maxStar);
 
-            weight = kpiGroup.Weight / (kpiGroup.KPIs.length - totalKPIOptional);
-
-            angular.forEach(kpiGroup.KPIs, function (item) {
-                if (item.AdjustRate > 0) {
-                    item.AdjustScore = (weight * (item.AdjustRate / vm.maxStar)).toFixed(2);
-                }
-            });
+                totalScoreEvaluated = utilitiesFactory.parseFloat(memberEPA.KPIGroup.Weight * (memberEPA.KPIGroup.TotalStarEvaluated / memberEPA.KPIGroup.TotalStarMustEvaluate));
+                memberEPA.TotalScore = totalScoreOriginal + totalScoreEvaluated;
+            }
         }
-
-        RatingByKPIModel.calculatePerformanceScore(memberEPA, kpi);
     };
 
-    vm.cancelRating = function (memberEPA, kpiGroup, kpi) {
+    vm.cancelRating = function (memberEPA, kpi) {
         kpi.AdjustRate = 0;
         kpi.AdjustScore = null;
-        memberEPA.TotalScore = memberEPA.TotalScoreOriginal;
+
+        if (memberEPA.KPIGroup.HasKPIOptional) {
+            RatingByKPIModel.scoreSpreadForKPIGroupHasKPIOptional(memberEPA.KPIGroup, vm.maxStar);
+
+            var totalScoreEvaluated = utilitiesFactory.parseFloat(memberEPA.KPIGroup.Weight * (memberEPA.KPIGroup.TotalStarEvaluated / memberEPA.KPIGroup.TotalStarMustEvaluate));
+            memberEPA.TotalScore = utilitiesFactory.parseFloat(memberEPA.TotalScoreOriginal) + totalScoreEvaluated;
+        } else {
+            memberEPA.TotalScore = utilitiesFactory.parseFloat(memberEPA.TotalScoreOriginal);
+        }
     };
 
     vm.inputScore = function (memberEPA, kpi) {
-        kpi.AdjustRate = 0;
-
         if (!RatingByKPIModel.validateScoreInput(kpi.AdjustScore, kpi.Weight, vm.scoreInputValidMessage)) {
             kpi.AdjustScore = null;
         }
@@ -190,8 +196,21 @@ function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, CommonModel, 
                 kpi.IsMaxScore = false;
             }
         }
+        kpi.AdjustRate = 0;
+        var currentScore = utilitiesFactory.parseFloat(kpi.Score),
+            adjustScore = utilitiesFactory.parseFloat(kpi.AdjustScore);
 
-        RatingByKPIModel.calculatePerformanceScore(memberEPA, kpi);
+        if (currentScore !== adjustScore) {
+            vm.dataSaved = false;
+        }
+
+        if (currentScore > adjustScore && adjustScore > 0) {
+            memberEPA.TotalScore = utilitiesFactory.parseFloat(memberEPA.TotalScoreOriginal) - (currentScore - adjustScore);
+        } else if (currentScore < adjustScore && adjustScore > 0) {
+            memberEPA.TotalScore = utilitiesFactory.parseFloat(memberEPA.TotalScoreOriginal) + (adjustScore - currentScore);
+        } else {
+            memberEPA.TotalScore = utilitiesFactory.parseFloat(memberEPA.TotalScoreOriginal);
+        }
     };
 
     vm.search = function (filter) {
@@ -204,6 +223,28 @@ function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, CommonModel, 
                 vm.memberEPAs = RatingByKPIModel.memberEPAs;
 
                 angular.forEach(vm.memberEPAs, function (memberEPA) {
+                    if (memberEPA.KPIGroup.HasKPIOptional) {
+                        var totalScoreEvaluated = 0, totalKPIMustEvaluate, totalStarMustEvaluate, totalStarEvaluated = 0,
+                            numberKPIOptional = memberEPA.KPIGroup.NumberKPIOptional,
+                            totalScoreOriginal = utilitiesFactory.parseFloat(memberEPA.TotalScoreOriginal);
+
+                        angular.forEach(memberEPA.KPIGroup.KPIs, function (kpi) {
+                            if (kpi.Rate > 0) {
+                                totalStarEvaluated += kpi.Rate;
+                            }
+
+                            if (!kpi.IsRequiredEvaluate && kpi.Rate > 0) {
+                                numberKPIOptional -= 1;
+                            }
+                        });
+
+                        totalKPIMustEvaluate = memberEPA.KPIGroup.KPIs.length - numberKPIOptional;
+                        totalStarMustEvaluate = totalKPIMustEvaluate * vm.maxStar;
+
+                        totalScoreEvaluated = utilitiesFactory.parseFloat(memberEPA.KPIGroup.Weight * (totalStarEvaluated / totalStarMustEvaluate));
+                        memberEPA.TotalScoreOriginal = utilitiesFactory.parseFloat(totalScoreOriginal - totalScoreEvaluated);
+                    }
+
                     EmployeeEPAModel.scoreSpread(memberEPA.KPIGroup);
                 });
             });

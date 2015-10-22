@@ -69,9 +69,9 @@ function ($modal, kpiFactory, utilitiesFactory, notificationFactory, errorFactor
                     vm.kpi = {
                         Name: '',
                         KPIGroupIds: '',
-                        HasComment: false,
-                        IsRequiredComment: false,
-                        IsRequiredEvaluate: false,
+                        HasComment: true,
+                        IsRequiredComment: true,
+                        IsRequiredEvaluate: true,
                         Description: ''
                     };
                 }

@@ -389,12 +389,12 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.RatingByKPI, Policy = Policy.Host)]
-        public CommandResult UpdateKPIScore(IEnumerable<RatingByKPIModel> models)
+        public CommandResult UpdateKPIScore(IEnumerable<RatingByKPIModel> epaInfos)
         {
             var criteria = new UpdateKPIScoreCriteria()
             {
                 EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
-                RatingByKPIs = models
+                EpaInfos = epaInfos
             };
 
             return _employeeEPAService.UpdateKPIScore(criteria);

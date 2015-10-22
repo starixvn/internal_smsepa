@@ -57,11 +57,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
         $window.history.back();
     };
 
-    vm.initialize = function () {
-        CommonModel.getStandardGrade().then(function () {
-            vm.standardGrades = CommonModel.standardGrades;
-        });
-
+    var getEPAInfoById = function () {
         EmployeeEPAModel.getEPAInfoById(vm.epaId).then(function () {
             vm.epaInfo = EmployeeEPAModel.epaInfo;
             var totalScore,
@@ -71,44 +67,56 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
             }
 
             vm.epaInfo.DisciplineScore = disciplineScore;
+            totalScore = utilitiesFactory.parseFloat(vm.epaInfo.ProcessBySelf.TotalScore);
+            vm.finalScore = calculateFinalScore(vm.epaInfo);
+            vm.epaInfo.ProcessBySelf.TotalScore = totalScore;
+
+            angular.forEach(vm.epaInfo.ProcessByEvaluators, function (evaluator) {
+                evaluator.TotalScore = utilitiesFactory.parseFloat(evaluator.TotalScore);
+            });
+
+            angular.forEach(vm.epaInfo.ProcessByReviewers, function (reviewer) {
+                reviewer.TotalScore = utilitiesFactory.parseFloat(reviewer.TotalScore);
+            });
+
+            angular.forEach(vm.epaInfo.ProcessByManagements, function (management) {
+                management.TotalScore = utilitiesFactory.parseFloat(management.TotalScore);
+            });
 
             if (vm.epaInfo.HasDisciplineScore) {
-                vm.finalScore = calculateFinalScore(vm.epaInfo) + vm.epaInfo.DisciplineScore;
-
-                totalScore = vm.epaInfo.ProcessBySelf.TotalScore ? parseFloat(vm.epaInfo.ProcessBySelf.TotalScore) : 0
-                vm.epaInfo.ProcessBySelf.TotalScore = totalScore + vm.epaInfo.DisciplineScore;
+                vm.epaInfo.ProcessBySelf.TotalScore += vm.epaInfo.DisciplineScore;
 
                 angular.forEach(vm.epaInfo.ProcessByEvaluators, function (evaluator) {
-                    totalScore = evaluator.TotalScore ? parseFloat(evaluator.TotalScore) : 0
-                    evaluator.TotalScore = totalScore + vm.epaInfo.DisciplineScore;
+                    evaluator.TotalScore += vm.epaInfo.DisciplineScore;
                 });
-
-                vm.epaInfo.AverageScoreByEvaluators = vm.epaInfo.AverageScoreByEvaluators + vm.epaInfo.DisciplineScore;
+                vm.epaInfo.AverageScoreByEvaluators += vm.epaInfo.DisciplineScore;
 
                 angular.forEach(vm.epaInfo.ProcessByReviewers, function (reviewer) {
-                    totalScore = reviewer.TotalScore ? parseFloat(reviewer.TotalScore) : 0
-                    reviewer.TotalScore = totalScore + vm.epaInfo.DisciplineScore;
+                    reviewer.TotalScore += vm.epaInfo.DisciplineScore;
                 });
+                vm.epaInfo.AverageScoreByReviewers += vm.epaInfo.DisciplineScore;
 
-                vm.epaInfo.AverageScoreByReviewers = vm.epaInfo.AverageScoreByReviewers + vm.epaInfo.DisciplineScore;
+                angular.forEach(vm.epaInfo.ProcessByManagements, function (management) {
+                    management.TotalScore += vm.epaInfo.DisciplineScore;
+                });
+                vm.epaInfo.AverageScoreByManagements += vm.epaInfo.DisciplineScore;
+
+                vm.finalScore += vm.epaInfo.DisciplineScore;
             }
-            else {
-                vm.finalScore = calculateFinalScore(vm.epaInfo);
-            }
+
+            vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
 
             angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
-                if (!kpiGroup.HasKPIOptional && kpiGroup.IsSpreadKPI) {
-                    var weight = kpiGroup.Weight / kpiGroup.KPIs.length;
-                    angular.forEach(kpiGroup.KPIs, function (kpi) {
-                        if ((weight % 1) === 0) {
-                            kpi.Weight = weight;
-                        }
-                        else {
-                            kpi.Weight = weight.toFixed(2);
-                        }
-                    });
-                }
+                EmployeeEPAModel.scoreSpread(kpiGroup);
             });
+        });
+    };
+
+    vm.initialize = function () {
+        CommonModel.getStandardGrade().then(function () {
+            vm.standardGrades = CommonModel.standardGrades;
+
+            getEPAInfoById();
         });
     };
 
@@ -128,12 +136,12 @@ function ($modalInstance, comment) {
 }]);
 
 epaModule.controller('ModalAdjustScoreController',
-['$modalInstance', 'EmployeeEPAModel', 'selectedEmployees', 'isReviewer', 'notificationFactory',
-function ($modalInstance, EmployeeEPAModel, selectedEmployees, isReviewer, notificationFactory) {
+['$modalInstance', 'EmployeeEPAModel', 'utilitiesFactory', 'notificationFactory', 'selectedEmployees', 'isReviewer',
+function ($modalInstance, EmployeeEPAModel, utilitiesFactory, notificationFactory, selectedEmployees, isReviewer) {
     var vm = this;
 
     var calculateAdjustScore = function (memberEPAs) {
-        var scoreAdjust = vm.adjust.Score ? parseFloat(vm.adjust.Score) : 0,
+        var scoreAdjust = utilitiesFactory.parseFloat(vm.adjust.Score),
             totalScoreAdjust;
 
         angular.forEach(memberEPAs, function (memberEPA) {
@@ -215,8 +223,8 @@ function ($modalInstance, EmployeeEPAModel, selectedEmployees, isReviewer, notif
 }]);
 
 epaModule.controller('ModalUpdateCommentController',
-['$modalInstance', 'EmployeeEPAModel', 'memberEPA', 'comment', 'isEdit', 'isReviewer',
-function ($modalInstance, EmployeeEPAModel, memberEPA, comment, isEdit, isReviewer) {
+['$modalInstance', 'EmployeeEPAModel', 'utilitiesFactory', 'memberEPA', 'comment', 'isEdit', 'isReviewer',
+function ($modalInstance, EmployeeEPAModel, utilitiesFactory, memberEPA, comment, isEdit, isReviewer) {
     var vm = this;
 
     vm.comment = comment;
@@ -227,7 +235,7 @@ function ($modalInstance, EmployeeEPAModel, memberEPA, comment, isEdit, isReview
     vm.ok = function () {
         var model = [], adjustScore, totalScore;
 
-        adjustScore = vm.memberEPA.CurrentProcess.AdjustScoreOriginal ? parseFloat(memberEPA.CurrentProcess.AdjustScoreOriginal) : 0;
+        adjustScore = utilitiesFactory.parseFloat(memberEPA.CurrentProcess.AdjustScoreOriginal);
 
         if (vm.isReviewer) {
             totalScore = vm.memberEPA.AverageScoreByEvaluators + adjustScore;

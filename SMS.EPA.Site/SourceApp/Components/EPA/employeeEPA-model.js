@@ -317,8 +317,8 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         return vm.modalInstance.result;
     };
 
-    employeeEPAModel.convertScoreToGrade = function (finalScore, maxFinalScore, standardGrades) {
-        var score = finalScore ? parseFloat(finalScore) : 0;
+    employeeEPAModel.convertScoreToGrade = function (finalScore, standardGrades) {
+        var score = utilitiesFactory.parseFloat(finalScore);
         var grade;
 
         angular.forEach(standardGrades, function (standardGrade) {

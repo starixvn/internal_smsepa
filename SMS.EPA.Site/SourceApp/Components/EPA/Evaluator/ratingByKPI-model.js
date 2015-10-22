@@ -91,12 +91,48 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
         return isValid;
     };
 
-    ratingByKPIModel.calculatePerformanceScore = function (memberEPA, kpiAdjusted) {
-        var totalScore = memberEPA.TotalScoreOriginal ? parseFloat(memberEPA.TotalScoreOriginal) : 0;
-        var curentScore = kpiAdjusted.Score ? parseFloat(kpiAdjusted.Score) : 0,
-            adjustScore = kpiAdjusted.AdjustScore ? parseFloat(kpiAdjusted.AdjustScore) : 0;
+    ratingByKPIModel.scoreSpreadForKPIGroupHasKPIOptional = function (kpiGroup, maxStar) {
+        var score, averageWeight, totalKPIMustEvaluate, totalStarMustEvaluate, totalStarEvaluated = 0,
+            numberKPIOptional = kpiGroup.NumberKPIOptional;
+        var kpis = [];
 
-        memberEPA.TotalScore = (totalScore - curentScore + adjustScore).toFixed(2);
+        angular.forEach(kpiGroup.KPIs, function (kpi) {
+            if (kpi.Rate > 0 && !kpi.AdjustRate) {
+                kpis.push(kpi);
+                totalStarEvaluated += kpi.Rate;
+            }
+            else if (kpi.AdjustRate > 0) {
+                kpis.push(kpi);
+                totalStarEvaluated += kpi.AdjustRate;
+            }
+
+            if (!kpi.IsRequiredEvaluate && ((kpi.Rate > 0 && !kpi.AdjustRate) || (kpi.AdjustRate > 0))) {
+                numberKPIOptional -= 1;
+            }
+        });
+
+        totalKPIMustEvaluate = kpiGroup.KPIs.length - numberKPIOptional;
+        totalStarMustEvaluate = totalKPIMustEvaluate * maxStar;
+        averageWeight = utilitiesFactory.parseFloat(kpiGroup.Weight / totalKPIMustEvaluate);
+        kpiGroup.TotalStarMustEvaluate = totalStarMustEvaluate;
+        kpiGroup.TotalStarEvaluated = totalStarEvaluated;
+
+        angular.forEach(kpis, function (kpi) {
+            if (kpi.Rate > 0 && !kpi.AdjustRate) {
+                kpi.Score = utilitiesFactory.parseFloat(averageWeight * (kpi.Rate / maxStar));
+            }
+            else if (kpi.AdjustRate > 0) {
+                kpi.AdjustScore = utilitiesFactory.parseFloat(averageWeight * (kpi.AdjustRate / maxStar));
+            }
+        });
+
+        if (((averageWeight * totalKPIMustEvaluate) > kpiGroup.Weight) && totalStarEvaluated === totalStarMustEvaluate) {
+            score = utilitiesFactory.parseFloat(averageWeight - ((averageWeight * totalKPIMustEvaluate) - kpiGroup.Weight));
+            kpis[kpis.length - 1].AdjustScore = score;
+        } else if ((averageWeight * totalKPIMustEvaluate) < kpiGroup.Weight && totalStarEvaluated === totalStarMustEvaluate) {
+            score = utilitiesFactory.parseFloat(averageWeight + (kpiGroup.Weight - (averageWeight * totalKPIMustEvaluate)));
+            kpis[kpis.length - 1].AdjustScore = score;
+        }
     };
 
     var openPopupNotificationComment = function (message) {
@@ -122,10 +158,7 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
             angular.forEach(vm.memberEPAs, function (memberEPA) {
                 angular.forEach(memberEPA.KPIGroup.KPIs, function (kpi) {
                     if (kpi.HasComment && kpi.IsRequiredComment
-                        && (utilitiesFactory.parseFloat(kpi.AdjustRate) > 0
-                        || utilitiesFactory.parseFloat(kpi.AdjustScore) > 0
-                        || utilitiesFactory.parseFloat(kpi.Rate) > 0
-                        || utilitiesFactory.parseFloat(kpi.Score) > 0)
+                        && (utilitiesFactory.parseFloat(kpi.AdjustScore) > 0 || utilitiesFactory.parseFloat(kpi.Score) > 0)
                         && (!kpi.Comment || kpi.Comment.lenght === 0)) {
                         isValid = false;
                     }
@@ -139,6 +172,7 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
             angular.forEach(vm.memberEPAs, function (memberEPA) {
                 angular.forEach(memberEPA.KPIGroup.KPIs, function (kpi) {
                     if (kpi.HasComment && memberEPA.RequiredCommentOnMaxScore && kpi.IsMaxScore
+                        && (utilitiesFactory.parseFloat(kpi.AdjustScore) > 0 || utilitiesFactory.parseFloat(kpi.Score) > 0)
                         && (!kpi.Comment || kpi.Comment.lenght === 0)) {
                         isValid = false;
                     }
@@ -165,7 +199,6 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
                 }
 
                 angular.forEach(vm.memberEPAs, function (memberEPA) {
-                    memberEPA.TotalScoreOriginal = memberEPA.TotalScore;
 
                     angular.forEach(memberEPA.KPIGroup.KPIs, function (kpi) {
                         if (kpi.AdjustRate > 0 || kpi.AdjustScore > 0) {
@@ -173,6 +206,13 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
                             kpi.Score = kpi.AdjustScore;
                         }
                     });
+
+                    if (memberEPA.KPIGroup.HasKPIOptional) {
+                        memberEPA.TotalScoreOriginal = memberEPA.TotalScoreOriginal;
+                    }
+                    else {
+                        memberEPA.TotalScoreOriginal = memberEPA.TotalScore;
+                    }
                 });
             }
             else {

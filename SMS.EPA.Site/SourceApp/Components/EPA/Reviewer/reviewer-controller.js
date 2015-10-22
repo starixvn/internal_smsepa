@@ -309,7 +309,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
         }
 
         epaInfo.CurrentProcess.AdjustScoreOriginal = epaInfo.CurrentProcess.AdjustScore;
-        epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, epaInfo.MaxFinalScore, vm.standardGrades);
+        epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
     };
 
     vm.openPopupViewComment = function (comment) {
@@ -403,7 +403,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
                 vm.finalScore = totalScore;
             }
 
-            vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.epaInfo.MaxFinalScore, vm.standardGrades);
+            vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
             vm.evaluatedDate = vm.epaInfo.CurrentProcess.EvaluateDate ? vm.epaInfo.CurrentProcess.EvaluateDate : null;
             vm.epaInfo = vm.epaInfo;
             checkStatus(vm.epaInfo);
