@@ -2,11 +2,17 @@
 /*global epaModule*/
 
 epaModule.factory('SelfEvalutorModel',
-['$modal', 'EmployeeEPAModel', 'utilitiesFactory',
-function ($modal, EmployeeEPAModel, utilitiesFactory) {
-    var model = this;
+['$modal', 'EmployeeEPAModel', 'employeeEPAFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory',
+function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notificationFactory, errorFactory) {
+    var selfEvalutorModel = this;
 
-    model.calculateScore = function (vm) {
+    selfEvalutorModel.myEPAs = [];
+    selfEvalutorModel.members = [];
+    selfEvalutorModel.memberEPAs = [];
+    selfEvalutorModel.epaInfo = {};
+
+    // common
+    selfEvalutorModel.calculateScore = function (vm) {
         var totalScore = 0;
 
         angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
@@ -15,7 +21,7 @@ function ($modal, EmployeeEPAModel, utilitiesFactory) {
                 var score = utilitiesFactory.parseFloat(kpi.CurrentEvaluation.Score);
                 totalScore += score;
 
-                if (score === kpi.Weight || rate === 5) {
+                if ((score > 0 && score === kpi.Weight) || rate === 5) {
                     kpi.CurrentEvaluation.IsMaxScore = true;
                 }
                 else {
@@ -41,7 +47,7 @@ function ($modal, EmployeeEPAModel, utilitiesFactory) {
         vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
     };
 
-    model.scoreSpreadForKPIGroupHasKPIOptional = function (kpiGroup, maxStar) {
+    selfEvalutorModel.scoreSpreadForKPIGroupHasKPIOptional = function (kpiGroup, maxStar) {
         var score, averageWeight, totalKPIMustEvaluate, totalStarMustEvaluate, totalStarEvaluated = 0,
             numberKPIOptional = kpiGroup.NumberKPIOptional;
         var kpis = [];
@@ -74,12 +80,30 @@ function ($modal, EmployeeEPAModel, utilitiesFactory) {
         }
     };
 
-    model.validateEPA = function (epaInfo) {
+    selfEvalutorModel.openPopupNotificationInvalidComment = function (vm, message) {
+        vm.modalInstance = $modal.open({
+            templateUrl: 'SourceApp/Components/EPA/Templates/modalNotification.html',
+            controller: "ModalNotificationController as modalNotificationCtrl",
+            backdrop: 'static',
+            resolve: {
+                message: function () {
+                    return message;
+                }
+            },
+            windowClass: "modal-confirm-center"
+        });
+
+        return vm.modalInstance.result;
+    };
+
+    selfEvalutorModel.validateEPA = function (epaInfo) {
         var isValid = true;
 
         angular.forEach(epaInfo.KPIGroups, function (kpiGroup) {
             angular.forEach(kpiGroup.KPIs, function (kpi) {
-                if (kpi.IsRequiredEvaluate && (!kpi.CurrentEvaluation.Score || utilitiesFactory.parseFloat(kpi.CurrentEvaluation.Score) <= 0)) {
+                var score = utilitiesFactory.parseFloat(kpi.CurrentEvaluation.Score);
+
+                if (kpi.IsRequiredEvaluate && (score <= 0)) {
                     isValid = false;
                     kpi.CurrentEvaluation.EvaluateInvalid = true;
                 } else {
@@ -100,5 +124,82 @@ function ($modal, EmployeeEPAModel, utilitiesFactory) {
         return isValid;
     };
 
-    return model;
+    // self
+    selfEvalutorModel.getEPAByEmployee = function () {
+        return employeeEPAFactory.getEPAByEmployee()
+        .success(function (myEPAs) {
+            selfEvalutorModel.myEPAs = myEPAs;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    selfEvalutorModel.getEPAInfoByEmployee = function (epaId) {
+        return employeeEPAFactory.getEPAInfoByEmployee(epaId)
+        .success(function (epaInfo) {
+            selfEvalutorModel.epaInfo = epaInfo;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    selfEvalutorModel.updateEPAScoreByEmployee = function (vm) {
+        return employeeEPAFactory.updateEPAScoreByEmployee(vm.epaInfo)
+        .success(function (response) {
+            if (response.IsSuccessful) {
+                notificationFactory.success("UpdatedSuccessfully");
+                vm.dataSaved = true;
+            }
+            else {
+                notificationFactory.error("", response.Message);
+            }
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    // evaluator
+    selfEvalutorModel.getMemberByEvaluator = function (groupId) {
+        return employeeEPAFactory.getMemberByEvaluator(groupId)
+        .success(function (members) {
+            selfEvalutorModel.members = members;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    selfEvalutorModel.getEPAByEvaluator = function (groupId, employeeIds) {
+        return employeeEPAFactory.getEPAByEvaluator(groupId, employeeIds)
+        .success(function (memberEPAs) {
+            selfEvalutorModel.memberEPAs = memberEPAs;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    selfEvalutorModel.getEPAInfoByEvaluator = function (epaId) {
+        return employeeEPAFactory.getEPAInfoByEvaluator(epaId)
+        .success(function (epaInfo) {
+            selfEvalutorModel.epaInfo = epaInfo;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    selfEvalutorModel.updateEPAScoreByEvaluator = function (vm) {
+        return employeeEPAFactory.updateEPAScoreByEvaluator(vm.epaInfo)
+        .success(function (response) {
+            if (response.IsSuccessful) {
+                notificationFactory.success("UpdatedSuccessfully");
+                vm.dataSaved = true;
+            }
+            else {
+                notificationFactory.error("", response.Message);
+            }
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    return selfEvalutorModel;
 }]);

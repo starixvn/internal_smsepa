@@ -9,8 +9,6 @@
 
 namespace SMS.EPA.Model.EmployeeEPA
 {
-    using SMS.EPA.Core.Constants;
-
     public class EvaluationModel
     {
         public int EPAId { get; set; }
@@ -34,22 +32,6 @@ namespace SMS.EPA.Model.EmployeeEPA
         public string RateEncode { get; set; }
 
         public int Rate { get; set; }
-
-        public int MaxStar
-        {
-            get
-            {
-                return Constants.MaxStar;
-            }
-        }
-
-        public int Percent
-        {
-            get
-            {
-                return Rate * Constants.PercentPerStar;
-            }
-        }
 
         public string Comment { get; set; }
 

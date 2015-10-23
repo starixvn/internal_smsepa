@@ -2,8 +2,8 @@
 /*global epaModule*/
 
 epaModule.controller('RatingByKPIController',
-['$window', '$translate', 'RatingByKPIModel', 'EmployeeEPAModel', 'CommonModel', 'utilitiesFactory',
-function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, CommonModel, utilitiesFactory) {
+['$window', '$translate', 'RatingByKPIModel', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel', 'utilitiesFactory', 'baseUrl',
+function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, baseUrl) {
     var vm = this;
 
     vm.kpis = [];
@@ -129,8 +129,8 @@ function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, CommonModel, 
     };
 
     vm.getMember = function (groupId) {
-        EmployeeEPAModel.getMemberByEvaluator(groupId).then(function () {
-            vm.members = EmployeeEPAModel.members;
+        SelfEvalutorModel.getMemberByEvaluator(groupId).then(function () {
+            vm.members = SelfEvalutorModel.members;
 
             angular.forEach(vm.members, function (member) {
                 member.Name = member.NickName + ' (' + member.FullName + ')';
@@ -186,7 +186,7 @@ function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, CommonModel, 
     };
 
     vm.inputScore = function (memberEPA, kpi) {
-        if (!RatingByKPIModel.validateScoreInput(kpi.AdjustScore, kpi.Weight, vm.scoreInputValidMessage)) {
+        if (!RatingByKPIModel.validateScoreInput(kpi.AdjustScore, 0, kpi.Weight, vm.scoreInputValidMessage)) {
             kpi.AdjustScore = null;
         }
         else {
@@ -320,7 +320,7 @@ function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, CommonModel, 
     };
 
     vm.viewDetail = function (memberEPA) {
-        var url = '/Evaluator/Detail/' + memberEPA.EPAId;
+        var url = baseUrl + 'Evaluator/Detail/' + memberEPA.EPAId;
         $window.open(url, '_blank');
     };
 

@@ -118,14 +118,14 @@ targetTemplateModule.directive('getGroupWeight', function () {
     };
 });
 
-targetTemplateModule.directive('getWeight', ['notificationFactory', function (notificationFactory) {
+targetTemplateModule.directive('getWeight', ['utilitiesFactory', 'notificationFactory', function (utilitiesFactory, notificationFactory) {
     var validateKPIList = function (groups) {
         var isValid = true,
             hasSelected = false;
 
         angular.forEach(groups, function (group) {
             if (!group.IsSpreadKPI) {
-                var totalWeightOfGroup = 0,
+                var totalWeightOfGroup = 0, weight,
                     kpis = group.KPIs;
 
                 for (var i = 0; i < kpis.length; i++) {
@@ -134,19 +134,20 @@ targetTemplateModule.directive('getWeight', ['notificationFactory', function (no
                     if (kpiItem.Selected) {
                         hasSelected = true;
 
-                        if (!kpiItem.Weight) {
+                        weight = utilitiesFactory.parseFloat(kpiItem.Weight);
+                        if (!weight) {
                             notificationFactory.error("WeightKPIRequired");
                             isValid = false;
                             break;
                         }
                         else {
-                            totalWeightOfGroup += parseFloat(kpiItem.Weight);
+                            totalWeightOfGroup += weight;
                         }
                     }
                 }
 
                 if (hasSelected) {
-                    if (isValid && totalWeightOfGroup !== group.Weight) {
+                    if (isValid && utilitiesFactory.parseFloat(totalWeightOfGroup) !== group.Weight) {
                         isValid = false;
                         notificationFactory.error("TotalKPIWeightWarning");
                     }

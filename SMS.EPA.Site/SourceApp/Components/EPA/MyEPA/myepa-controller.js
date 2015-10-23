@@ -2,23 +2,23 @@
 /*global epaModule*/
 
 epaModule.controller('EmployeeEPAController',
-['EmployeeEPAModel',
-function (EmployeeEPAModel) {
+['SelfEvalutorModel', 'baseUrl',
+function (SelfEvalutorModel, baseUrl) {
     var vm = this;
 
-    vm.myEPAs = EmployeeEPAModel.myEPAs;
+    vm.myEPAs = SelfEvalutorModel.myEPAs;
 
     vm.viewEPADetail = function (epa) {
-        vm.viewEPADetailUrl = '/SelfEvaluation/Detail/' + epa.EPAId;
+        vm.viewEPADetailUrl = baseUrl + 'SelfEvaluation/Detail/' + epa.EPAId;
     };
 
     vm.viewEPAResult = function (epa) {
-        vm.viewEPAResultUrl = '/EPA/Detail/' + epa.EPAId;
+        vm.viewEPAResultUrl = baseUrl + 'EPA/Detail/' + epa.EPAId;
     };
 
     vm.initialize = function () {
-        EmployeeEPAModel.getEPAByEmployee().then(function () {
-            vm.myEPAs = EmployeeEPAModel.myEPAs;
+        SelfEvalutorModel.getEPAByEmployee().then(function () {
+            vm.myEPAs = SelfEvalutorModel.myEPAs;
         });
     };
 
@@ -37,7 +37,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
     vm.isReadonly = false;
     vm.evaluatedDate = null;
 
-    vm.epaInfo = EmployeeEPAModel.epaInfo;
+    vm.epaInfo = SelfEvalutorModel.epaInfo;
     vm.standardGrades = CommonModel.standardGrades;
 
     var checkStatus = function (epaInfo) {
@@ -78,13 +78,13 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
     };
 
     vm.getNotificationInputScore = function (kpi) {
-        return EmployeeEPAModel.getNotificationInputScore(kpi.Weight, vm.scoreInputValidMessage);
+        return EmployeeEPAModel.getNotificationInputScore(0, kpi.Weight, vm.scoreInputValidMessage);
     };
 
     vm.inputScore = function (kpi) {
         kpi.CurrentEvaluation.Rate = 0;
 
-        if (!EmployeeEPAModel.validateScoreInput(kpi.CurrentEvaluation.Score, kpi.Weight, vm.scoreInputValidMessage)) {
+        if (!EmployeeEPAModel.validateScoreInput(kpi.CurrentEvaluation.Score, 0, kpi.Weight, vm.scoreInputValidMessage)) {
             kpi.CurrentEvaluation.Score = null;
         }
         else {
@@ -94,10 +94,10 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
 
     vm.save = function (epaInfo) {
         if (SelfEvalutorModel.validateEPA(epaInfo)) {
-            EmployeeEPAModel.updateEPAScoreByEmployee(vm);
+            SelfEvalutorModel.updateEPAScoreByEmployee(vm);
         }
         else {
-            EmployeeEPAModel.openPopupNotificationComment(vm, vm.evaluateEPAInvalidMessage);
+            SelfEvalutorModel.openPopupNotificationInvalidComment(vm, vm.evaluateEPAInvalidMessage);
         }
     };
 
@@ -106,8 +106,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
     };
 
     var getEPAInfoByEmployee = function () {
-        EmployeeEPAModel.getEPAInfoByEmployee(vm.epaId).then(function () {
-            vm.epaInfo = EmployeeEPAModel.epaInfo;
+        SelfEvalutorModel.getEPAInfoByEmployee(vm.epaId).then(function () {
+            vm.epaInfo = SelfEvalutorModel.epaInfo;
             var totalScore = utilitiesFactory.parseFloat(vm.epaInfo.CurrentProcess.TotalScore),
                 disciplineScore = vm.epaInfo.MaxDisciplineScore - vm.epaInfo.DisciplineScore;
 

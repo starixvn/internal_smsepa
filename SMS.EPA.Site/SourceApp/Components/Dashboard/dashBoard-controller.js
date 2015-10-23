@@ -2,18 +2,18 @@
 /*exported dashboardModule*/
 
 dashboardModule.controller('DashboardController',
-['DashboardModel', 'utilitiesFactory',
-function (DashboardModel, utilitiesFactory) {
+['DashboardModel', 'utilitiesFactory', 'baseUrl',
+function (DashboardModel, utilitiesFactory, baseUrl) {
     var vm = this;
 
     vm.showScore = false;
 
     vm.viewEPADetail = function (epa) {
-        vm.viewEPADetailUrl = '/SelfEvaluation/Detail/' + epa.EPAId;
+        vm.viewEPADetailUrl = baseUrl + 'SelfEvaluation/Detail/' + epa.EPAId;
     };
 
     vm.viewEPAResult = function (epa) {
-        vm.viewEPAResultUrl = '/EPA/Detail/' + epa.EPAId;
+        vm.viewEPAResultUrl = baseUrl + 'EPA/Detail/' + epa.EPAId;
     };
 
     vm.initialize = function () {

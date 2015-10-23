@@ -2,12 +2,12 @@
 /*global epaModule*/
 
 epaModule.controller('EvaluatorController',
-['EmployeeEPAModel', 'CommonModel', 'utilitiesFactory', 'baseUrl',
-function (EmployeeEPAModel, CommonModel, utilitiesFactory, baseUrl) {
+['EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel', 'utilitiesFactory', 'baseUrl',
+function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, baseUrl) {
     var vm = this;
 
-    vm.memberEPAs = EmployeeEPAModel.memberEPAs;
-    vm.members = EmployeeEPAModel.members;
+    vm.memberEPAs = [];
+    vm.members = [];
     vm.standardGrades = CommonModel.standardGrades;
 
     vm.filter = {
@@ -16,14 +16,14 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory, baseUrl) {
     };
 
     vm.getMember = function (groupId) {
-        EmployeeEPAModel.getMemberByEvaluator(groupId).then(function () {
-            vm.members = EmployeeEPAModel.members;
+        SelfEvalutorModel.getMemberByEvaluator(groupId).then(function () {
+            vm.members = SelfEvalutorModel.members;
         });
     };
 
     var getEPAByEvaluator = function (groupId, employeeIds) {
-        EmployeeEPAModel.getEPAByEvaluator(groupId, employeeIds).then(function () {
-            vm.memberEPAs = EmployeeEPAModel.memberEPAs;
+        SelfEvalutorModel.getEPAByEvaluator(groupId, employeeIds).then(function () {
+            vm.memberEPAs = SelfEvalutorModel.memberEPAs;
 
             angular.forEach(vm.memberEPAs, function (memberEPA) {
                 var totalScore = memberEPA.CurrentProcess.TotalScore ? parseFloat(memberEPA.CurrentProcess.TotalScore) : null,
@@ -55,11 +55,11 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory, baseUrl) {
     };
 
     vm.viewEPADetail = function (memberEPA) {
-        vm.viewEPADetailUrl = '/Evaluator/Detail/' + memberEPA.EPAId;
+        vm.viewEPADetailUrl = baseUrl + 'Evaluator/Detail/' + memberEPA.EPAId;
     };
 
     vm.viewEPAResult = function (memberEPA) {
-        vm.viewEPAResultUrl = '/EPA/Detail/' + memberEPA.EPAId;
+        vm.viewEPAResultUrl = baseUrl + 'EPA/Detail/' + memberEPA.EPAId;
     };
 
     vm.initialize = function () {
@@ -72,7 +72,7 @@ function (EmployeeEPAModel, CommonModel, utilitiesFactory, baseUrl) {
         CommonModel.getStandardGrade().then(function () {
             vm.standardGrades = CommonModel.standardGrades;
 
-            vm.query(vm.filter);
+            getEPAByEvaluator(vm.filter.groupId, vm.filter.employeeIds);
         });
     };
 
@@ -133,13 +133,13 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
     };
 
     vm.getNotificationInputScore = function (kpi) {
-        return EmployeeEPAModel.getNotificationInputScore(kpi.Weight, vm.scoreInputValidMessage);
+        return EmployeeEPAModel.getNotificationInputScore(0, kpi.Weight, vm.scoreInputValidMessage);
     };
 
     vm.inputScore = function (kpi) {
         kpi.CurrentEvaluation.Rate = 0;
 
-        if (!EmployeeEPAModel.validateScoreInput(kpi.CurrentEvaluation.Score, kpi.Weight, vm.scoreInputValidMessage)) {
+        if (!EmployeeEPAModel.validateScoreInput(kpi.CurrentEvaluation.Score, 0, kpi.Weight, vm.scoreInputValidMessage)) {
             kpi.CurrentEvaluation.Score = null;
         }
         else {
@@ -164,16 +164,16 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
 
     vm.save = function (epaInfo) {
         if (SelfEvalutorModel.validateEPA(epaInfo)) {
-            EmployeeEPAModel.updateEPAScoreByEvaluator(vm);
+            SelfEvalutorModel.updateEPAScoreByEvaluator(vm);
         }
         else {
-            EmployeeEPAModel.openPopupNotificationComment(vm, vm.evaluateEPAInvalidMessage);
+            SelfEvalutorModel.openPopupNotificationInvalidComment(vm, vm.evaluateEPAInvalidMessage);
         }
     };
 
     var getEPAInfoByEvaluator = function () {
-        EmployeeEPAModel.getEPAInfoByEvaluator(vm.epaId).then(function () {
-            vm.epaInfo = EmployeeEPAModel.epaInfo;
+        SelfEvalutorModel.getEPAInfoByEvaluator(vm.epaId).then(function () {
+            vm.epaInfo = SelfEvalutorModel.epaInfo;
 
             var disciplineScore = vm.epaInfo.MaxDisciplineScore - vm.epaInfo.DisciplineScore;
             vm.epaInfo.CurrentProcess.TotalScore = vm.epaInfo.CurrentProcess.TotalScore ? parseFloat(vm.epaInfo.CurrentProcess.TotalScore) : 0;
