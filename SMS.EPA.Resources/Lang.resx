@@ -1188,4 +1188,7 @@
   <data name="NoneGeneratedEPA" xml:space="preserve">
     <value>Not Generated</value>
   </data>
+  <data name="SelectViolationType" xml:space="preserve">
+    <value>Select Violation Type</value>
+  </data>
 </root>

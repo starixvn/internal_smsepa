@@ -144,6 +144,19 @@ namespace SMS.EPA.Services.Implement
             return attendanceScores;
         }
 
+        public IList<OtherViolationTypeModel> GetOtherViolationType(GetOtherViolationTypeCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IList<OtherViolationTypeModel> violationTypes = new List<OtherViolationTypeModel>();
+
+            if (criteria.IsValid())
+            {
+                violationTypes = GetData<OtherViolationTypeModel>(criteria).ToList();
+            }
+
+            return violationTypes;
+        }
+
         public void ExportAttendanceSummaryReport(GetAttendanceSummaryCriteria criteria, string templatePath)
         {
             IEnumerable<AttendanceSummaryModel> attendanceEmployees = GetAttendanceSummary(criteria);

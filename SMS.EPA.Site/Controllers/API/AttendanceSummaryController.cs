@@ -152,6 +152,18 @@ namespace SMS.EPA.Site.Controllers.API
             return commandResult;
         }
 
+        [HttpGet]
+        public IList<OtherViolationTypeModel> GetOtherViolationType(bool? isActive = null)
+        {
+            var criteria = new GetOtherViolationTypeCriteria
+            {
+                IsActive = isActive
+            };
+
+            IList<OtherViolationTypeModel> violationTypes = _attendanceSummaryService.GetOtherViolationType(criteria);
+            return violationTypes;
+        }
+
         public int GetUserPermissionOnAttendanceSummary()
         {
             int permission = _webCommonService.GetPermission(EPAFunctionKey.DisciplineSummary);

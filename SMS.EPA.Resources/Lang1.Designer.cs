@@ -2554,6 +2554,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select Violation Type.
+        /// </summary>
+        public static string SelectViolationType {
+            get {
+                return ResourceManager.GetString("SelectViolationType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Self-Evaluation.
         /// </summary>
         public static string SelfEvaluation {

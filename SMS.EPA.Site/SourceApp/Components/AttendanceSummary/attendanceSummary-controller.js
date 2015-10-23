@@ -127,6 +127,7 @@ function ($scope, $modalInstance, AttendanceModel, employee, startDate, endDate,
     vm.endDate = endDate;
 
     vm.otherViolations = AttendanceModel.otherViolations;
+    vm.otherViolationTypes = AttendanceModel.otherViolationTypes;
 
     vm.violation = {
         EmployeeId: vm.employee ? vm.employee.Employee.EmployeeId : null,
@@ -152,6 +153,10 @@ function ($scope, $modalInstance, AttendanceModel, employee, startDate, endDate,
     vm.pageSize = 5;
     utilitiesFactory.numberEntryList(vm);
     utilitiesFactory.getDateFormat(vm);
+
+    AttendanceModel.getOtherViolationType(true).then(function () {
+        vm.otherViolationTypes = AttendanceModel.otherViolationTypes;
+    });
 
     vm.getEmployee = function () {
         return CommonModel.getAllEmployee(vm.searchEmployee, null, null, null, true, null);
@@ -182,6 +187,20 @@ function ($scope, $modalInstance, AttendanceModel, employee, startDate, endDate,
             }
         });
 
+    vm.setNameAndScore = function (otherViolationTypeId) {
+        if (otherViolationTypeId) {
+            var index = vm.otherViolationTypes.map(function (e) { return e.Id; }).indexOf(otherViolationTypeId),
+                violation = vm.otherViolationTypes[index];
+
+            vm.violation.Name = violation.Name;
+            vm.violation.Score = violation.Value;
+        }
+        else {
+            vm.violation.Name = null;
+            vm.violation.Score = 0;
+        }
+    };
+
     var getOtherViolations = function (employeeIds, startDate, endDate) {
         AttendanceModel.getOtherViolations(employeeIds, startDate, endDate).then(function () {
             vm.otherViolations = AttendanceModel.otherViolations;
@@ -192,6 +211,7 @@ function ($scope, $modalInstance, AttendanceModel, employee, startDate, endDate,
         getOtherViolations(vm.employee.Employee.EmployeeId, vm.startDate, vm.endDate);
     }
     else {
+        vm.otherViolations = [];
         vm.filteredItems = [];
     }
 

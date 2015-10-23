@@ -13,6 +13,7 @@ function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitie
     attendanceModel.violations = [];
     attendanceModel.attendanceDetails = [];
     attendanceModel.permission = null;
+    attendanceModel.otherViolationTypes = [];
 
     attendanceModel.filter = {
         startDate: firstDate,
@@ -380,6 +381,15 @@ function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitie
         });
 
         return departmentName;
+    };
+
+    attendanceModel.getOtherViolationType = function (isActive) {
+        return attendanceFactory.getOtherViolationType(isActive).success(function (violationTypes) {
+            attendanceModel.otherViolationTypes = violationTypes;
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
     };
 
     return attendanceModel;

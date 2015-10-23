@@ -35,5 +35,7 @@ namespace SMS.EPA.Services.Interfaces
         void ExportAttendanceSummaryReport(GetAttendanceSummaryCriteria criteria, string templatePath);
 
         void ExportAttendanceDetailReport(GetDetailAttendanceCriteria criteria, string templatePath);
+
+        IList<OtherViolationTypeModel> GetOtherViolationType(GetOtherViolationTypeCriteria criteria);
     }
 }
