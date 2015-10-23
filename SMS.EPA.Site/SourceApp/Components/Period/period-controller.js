@@ -468,7 +468,7 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
             notificationFactory.error("SelectEmployeeBeforeGenerateEvaluation");
         }
         else {
-            if (PeriodModel.validateEmployeeSetting(selectedEmployees)) {
+            if (PeriodModel.validateEmployeeSettingGenerateEPA(selectedEmployees)) {
                 PeriodModel.openPopupGenerateEvaluation(vm, period).then(function () {
                     vm.query(vm.filter);
                 });

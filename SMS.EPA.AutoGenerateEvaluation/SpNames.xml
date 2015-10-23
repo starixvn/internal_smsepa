@@ -45,5 +45,9 @@
     </Setting>
     <Setting Key="EPA_GetStandardGrade" SpName="EPA_GetStandardGrade" DbName="SMSEPA" Plain="0">
     </Setting>
+    <Setting Key="EpaAuto_CheckTotalScoreIsNull" SpName="EpaAuto_CheckTotalScoreIsNull" DbName="SMSEPA" Plain="0">
+    </Setting>
+    <Setting Key="EpaAuto_UpdateTotalScoreWhenNull" SpName="EpaAuto_UpdateTotalScoreWhenNull" DbName="SMSEPA" Plain="0">
+    </Setting>
   </Function>
 </Functions>

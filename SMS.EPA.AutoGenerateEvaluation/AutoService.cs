@@ -170,7 +170,47 @@ namespace SMS.EPA.AutoGenerateEvaluation
 
                 _LOG.Info("Update status of processes that ended yesterday: started at " + DateTime.Now.ToString());
                 CommandResult updateIsEndProcess = _evaluationService.UpdateEndProcess(updateEndProcessCriteria);
-                _LOG.Info("Result of update status of processed that ended yesterday: " + (updateIsEndProcess.IsSuccessful ? "0" : updateIsEndProcess.Message));
+                _LOG.Info("Result of update status of processes that ended yesterday: " + (updateIsEndProcess.IsSuccessful ? "0" : updateIsEndProcess.Message));
+
+                foreach (AutoEmployeePeriodModel evaluationProcess in evaluationProcesses)
+                {
+                    if (evaluationProcess.ProcessId >= (int)ProcessType.Reviewer)
+                    {
+                        var checkTotalScoreNullCriteria = new CheckTotalScoreOfProcessIsNullCriteria
+                        {
+                            EPAId = evaluationProcess.EPAId,
+                            ProcessId = evaluationProcess.ProcessId
+                        };
+                        _LOG.Info("Check if process has total score null: started at " + DateTime.Now.ToString());
+                        bool isTotalScoreNull = _evaluationService.CheckTotalScoreOfProcessIsNull(checkTotalScoreNullCriteria);
+                        _LOG.Info("Result of check process has total score null: " + isTotalScoreNull);
+
+                        if (isTotalScoreNull)
+                        {
+                            _LOG.Info("Get information of EPA " + evaluationProcess.EPAId + " : started at " + DateTime.Now.ToString());
+                            var getEvaluationInfoCriteria = new GetEPAInfoByIdCriteria
+                            {
+                                EPAId = evaluationProcess.EPAId
+                            };
+                            EPAModel evaluationInfo = _employeeEPAService.GetEPAInfoById(getEvaluationInfoCriteria);
+                            _LOG.Info("Get information of EPA " + evaluationProcess.EPAId + " : ended at " + DateTime.Now.ToString());
+
+                            _LOG.Info("Get average score of pre-process of EPA " + evaluationProcess.EPAId + " : started at " + DateTime.Now.ToString());
+                            float averageScore = GetAverageScorePreProcess(evaluationInfo, evaluationProcess.ProcessId);
+                            _LOG.Info("Result of get average score of pre-process of EPA " + evaluationProcess.EPAId + " : " + averageScore);
+
+                            var updateTotalScoreCriteria = new UpdateTotalScoreOfProcessCriteria
+                            {
+                                EPAId = evaluationProcess.EPAId,
+                                ProcessId = evaluationProcess.ProcessId,
+                                AverageScore = EncodeService.Encode(averageScore.ToString())
+                            };
+                            _LOG.Info("Update total score of process of EPA " + evaluationProcess.EPAId + " : started at " + DateTime.Now.ToString());
+                            CommandResult commandResult = _evaluationService.UpdateTotalScoreOfProcess(updateTotalScoreCriteria);
+                            _LOG.Info("Result of update total score of process of EPA " + evaluationProcess.EPAId + " : " + (commandResult.IsSuccessful ? "0" : commandResult.Message));
+                        }
+                    }
+                }
             }
         }
 
@@ -452,15 +492,15 @@ namespace SMS.EPA.AutoGenerateEvaluation
         {
             float finalScore = 0;
 
-            if (evaluationInfo.AverageScoreByManagements > 0)
+            if (evaluationInfo.ProcessByManagements.Any())
             {
                 finalScore = evaluationInfo.AverageScoreByManagements;
             }
-            else if (evaluationInfo.AverageScoreByReviewers > 0)
+            else if (evaluationInfo.ProcessByReviewers.Any())
             {
                 finalScore = evaluationInfo.AverageScoreByReviewers;
             }
-            else if (evaluationInfo.AverageScoreByEvaluators > 0)
+            else if (evaluationInfo.ProcessByEvaluators.Any())
             {
                 finalScore = evaluationInfo.AverageScoreByEvaluators;
             }
@@ -502,6 +542,29 @@ namespace SMS.EPA.AutoGenerateEvaluation
             _LOG.Info("Update final score and discipline score of EPA " + evaluationId + ": started at: " + DateTime.Now);
             CommandResult commandResult = _evaluationService.UpdateFinalScoreEndEvaluation(criteria);
             _LOG.Info("Result of update final score and discipline score of EPA " + evaluationId + ": " + (commandResult.IsSuccessful ? "0" : commandResult.Message));
+        }
+
+        private float GetAverageScorePreProcess(EPAModel evaluationInfo, int processId)
+        {
+            float averageScore = 0;
+
+            if (processId == (int)ProcessType.Reviewer)
+            {
+                averageScore = evaluationInfo.AverageScoreByEvaluators;
+            }
+            else if (processId == (int)ProcessType.Management)
+            {
+                if (evaluationInfo.ProcessByReviewers.Any())
+                {
+                    averageScore = evaluationInfo.AverageScoreByReviewers;
+                }
+                else
+                {
+                    averageScore = evaluationInfo.AverageScoreByEvaluators;
+                }
+            }
+
+            return averageScore;
         }
     }
 }

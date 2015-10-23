@@ -207,6 +207,32 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
             return lastestProcess;
         }
 
+        public bool CheckTotalScoreOfProcessIsNull(CheckTotalScoreOfProcessIsNullCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            bool isTotalScoreNull = false;
+
+            if (criteria.IsValid())
+            {
+                isTotalScoreNull = GetDataEntity<bool>(criteria);
+            }
+
+            return isTotalScoreNull;
+        }
+
+        public CommandResult UpdateTotalScoreOfProcess(UpdateTotalScoreOfProcessCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            CommandResult commandResult = new CommandResult();
+
+            if (criteria.IsValid())
+            {
+                commandResult = Repository.Update(criteria);
+            }
+
+            return commandResult;
+        }
+
         private string JoinEmployeeId(List<AutoEmployeePeriodModel> employeePeriods)
         {
             string employeeIds = string.Empty;

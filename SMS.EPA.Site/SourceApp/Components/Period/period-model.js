@@ -1236,7 +1236,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         return hasEdited;
     };
 
-    periodModel.validateEmployeeSetting = function (employeeSettings) {
+    periodModel.validateEmployeeSettingGenerateEPA = function (employeeSettings) {
         for (var i = 0; i < employeeSettings.length; i++) {
             var employeeSetting = employeeSettings[0];
 
@@ -1244,23 +1244,28 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                 notificationFactory.error("NoneTargetTemplateSettingWarning");
                 return false;
             }
-            else if (employeeSetting.HumanResources && (!employeeSetting.HumanResources[0].StartDate || !employeeSetting.HumanResources[0].EndDate)) {
+            else if (employeeSetting.HumanResources && employeeSetting.HumanResources.length > 0
+                && (!employeeSetting.HumanResources[0].StartDate || !employeeSetting.HumanResources[0].EndDate)) {
                 notificationFactory.error("NoneDateSettingWarning");
                 return false;
             }
-            else if (employeeSetting.SelfEvaluators && (!employeeSetting.SelfEvaluators[0].StartDate || !employeeSetting.SelfEvaluators[0].EndDate)) {
+            else if (employeeSetting.SelfEvaluators && employeeSetting.SelfEvaluators.length > 0
+                && (!employeeSetting.SelfEvaluators[0].StartDate || !employeeSetting.SelfEvaluators[0].EndDate)) {
                 notificationFactory.error("NoneDateSettingWarning");
                 return false;
             }
-            else if (employeeSetting.Evaluators && (!employeeSetting.Evaluators[0].StartDate || !employeeSetting.Evaluators[0].EndDate)) {
+            else if (employeeSetting.Evaluators && employeeSetting.Evaluators.length > 0
+                && (!employeeSetting.Evaluators[0].StartDate || !employeeSetting.Evaluators[0].EndDate)) {
                 notificationFactory.error("NoneDateSettingWarning");
                 return false;
             }
-            else if (employeeSetting.Reviewers && (!employeeSetting.Reviewers[0].StartDate || !employeeSetting.Reviewers[0].EndDate)) {
+            else if (employeeSetting.Reviewers && employeeSetting.Reviewers.length > 0
+                && (!employeeSetting.Reviewers[0].StartDate || !employeeSetting.Reviewers[0].EndDate)) {
                 notificationFactory.error("NoneDateSettingWarning");
                 return false;
             }
-            else if (employeeSetting.Managements && (!employeeSetting.Managements[0].StartDate || !employeeSetting.Managements[0].EndDate)) {
+            else if (employeeSetting.Managements && employeeSetting.Managements.length > 0
+                && (!employeeSetting.Managements[0].StartDate || !employeeSetting.Managements[0].EndDate)) {
                 notificationFactory.error("NoneDateSettingWarning");
                 return false;
             }

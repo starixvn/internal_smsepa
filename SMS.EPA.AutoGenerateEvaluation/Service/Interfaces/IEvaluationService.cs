@@ -41,5 +41,9 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Interfaces
         CommandResult UpdateFinalScoreEndEvaluation(UpdateFinalScoreEndEvaluationCriteria criteria);
 
         int CheckLastestProcessOfPeriod(CheckLastestProcessOfPeriodCriteria criteria);
+
+        bool CheckTotalScoreOfProcessIsNull(CheckTotalScoreOfProcessIsNullCriteria criteria);
+
+        CommandResult UpdateTotalScoreOfProcess(UpdateTotalScoreOfProcessCriteria criteria);
     }
 }

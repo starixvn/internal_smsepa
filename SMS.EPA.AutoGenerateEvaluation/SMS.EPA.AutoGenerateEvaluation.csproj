@@ -84,6 +84,7 @@
     <Compile Include="Criteria\CheckEndProcessCriteria.cs" />
     <Compile Include="Criteria\CheckLastestProcessOfPeriodCriteria.cs" />
     <Compile Include="Criteria\CheckPeriodStartedSendMailAllCriteria.cs" />
+    <Compile Include="Criteria\CheckTotalScoreOfProcessIsNullCriteria.cs" />
     <Compile Include="Criteria\GetEmployeeProbationEvaluationCriteria.cs" />
     <Compile Include="Criteria\GetEmployeePromotionEvaluationCriteria.cs" />
     <Compile Include="Criteria\GetPeriodHasReminderProcessCriteria.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="Criteria\UpdateFinalScoreEndEvaluationCriteria.cs" />
     <Compile Include="Criteria\UpdateIsEndProcessCriteria.cs" />
     <Compile Include="Criteria\UpdateStatusEndEvaluationPeriodCriteria.cs" />
+    <Compile Include="Criteria\UpdateTotalScoreOfProcessCriteria.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
