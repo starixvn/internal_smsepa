@@ -38,6 +38,12 @@ namespace SMS.EPA.Core.Constants
 
         public const int NumberEvaluatorTargetSetting = 3;
 
+        public const string PeriodEmployeeSettingReportSessionKey = "SMS.EPA.PeriodEmployeeSeting";
+
+        public const string DisciplineSummaryReportSessionKey = "SMS.EPA.DisciplineSummaryReport";
+
+        public const string DisciplineDetailReportSessionKey = "SMS.EPA.DisciplineDetailReport";
+
         private Constants()
         {
         }

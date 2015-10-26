@@ -9,8 +9,10 @@
 
 namespace SMS.EPA.Model.FlowManagement
 {
+    using System;
     using SMS.EPA.Model.Employee;
 
+    [Serializable]
     public class FlowModel
     {
         public int ProcessId { get; set; }

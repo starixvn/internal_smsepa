@@ -9,11 +9,13 @@
 
 namespace SMS.EPA.Model.Period
 {
+    using System;
     using System.Collections.Generic;
     using SMS.EPA.Model.Department;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.TargetTemplate;
 
+    [Serializable]
     public class PeriodEmployeeSettingModel : Employee
     {
         public PeriodEmployeeSettingModel()

@@ -9,6 +9,9 @@
 
 namespace SMS.EPA.Model.AttendanceSummary
 {
+    using System;
+
+    [Serializable]
     public class ViolationModel
     {
         public int ViolationId { get; set; }

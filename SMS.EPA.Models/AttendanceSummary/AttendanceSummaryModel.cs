@@ -9,8 +9,10 @@
 
 namespace SMS.EPA.Model.AttendanceSummary
 {
+    using System;
     using SMS.EPA.Model.Enitites;
 
+    [Serializable]
     public class AttendanceSummaryModel
     {
         public Employee Employee { get; set; }

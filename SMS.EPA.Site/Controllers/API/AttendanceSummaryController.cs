@@ -19,6 +19,7 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Model.AttendanceSummary;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
+    using SMS.EPA.Web;
     using SMS.EPA.Web.ApiAuthorizeAttribute;
     using SMS.EPA.Web.Services;
 
@@ -58,6 +59,7 @@ namespace SMS.EPA.Site.Controllers.API
                 ApproverId = CurrentUser.EmployeeInfo.EmployeeId
             };
             IEnumerable<AttendanceSummaryModel> attendanceEmployees = _attendanceSummaryService.GetAttendanceSummary(criteria);
+            SessionManager.Set<IEnumerable<AttendanceSummaryModel>>(Constants.DisciplineSummaryReportSessionKey + CurrentUser.EmployeeInfo.EmployeeId, attendanceEmployees);
             return attendanceEmployees;
         }
 
@@ -135,6 +137,7 @@ namespace SMS.EPA.Site.Controllers.API
                 ApproverId = CurrentUser.EmployeeInfo.EmployeeId
             };
             IEnumerable<AttendanceDetailModel> attendanceViolations = _attendanceSummaryService.GetAttendanceDetail(criteria);
+            SessionManager.Set<IEnumerable<AttendanceDetailModel>>(Constants.DisciplineDetailReportSessionKey + CurrentUser.EmployeeInfo.EmployeeId, attendanceViolations);
             return attendanceViolations;
         }
 

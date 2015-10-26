@@ -32,9 +32,9 @@ namespace SMS.EPA.Services.Interfaces
 
         IEnumerable<AttendanceScoreModel> GetAttendanceScoreByEPAId(GetAttendanceScoreByEPAIdCriteria criteria);
 
-        void ExportAttendanceSummaryReport(GetAttendanceSummaryCriteria criteria, string templatePath);
+        void ExportAttendanceSummaryReport(GetAttendanceSummaryCriteria criteria, IEnumerable<AttendanceSummaryModel> attendanceEmployees, string templatePath);
 
-        void ExportAttendanceDetailReport(GetDetailAttendanceCriteria criteria, string templatePath);
+        void ExportAttendanceDetailReport(GetDetailAttendanceCriteria criteria, IEnumerable<AttendanceDetailModel> attendanceViolations, string templatePath);
 
         IList<OtherViolationTypeModel> GetOtherViolationType(GetOtherViolationTypeCriteria criteria);
     }

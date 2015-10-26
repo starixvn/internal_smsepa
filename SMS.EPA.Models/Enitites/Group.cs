@@ -9,9 +9,9 @@
 
 namespace SMS.EPA.Model.Enitites
 {
-    /// <summary>
-    /// The group entity.
-    /// </summary>
+    using System;
+
+    [Serializable]
     public class Group
     {
         public int GroupId { get; set; }

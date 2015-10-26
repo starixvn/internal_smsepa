@@ -11,6 +11,7 @@ namespace SMS.EPA.Site
 {
     using System.Web.Http;
     using Newtonsoft.Json;
+    using Newtonsoft.Json.Serialization;
     using SMS.EPA.Web.ApiAuthorizeAttribute;
 
     /// <summary>
@@ -37,6 +38,7 @@ namespace SMS.EPA.Site
             config.Filters.Add(new ExceptionHandlingAttribute());
             var jsonFormatter = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
             jsonFormatter.SerializerSettings.Formatting = Formatting.Indented;
+            ((DefaultContractResolver)jsonFormatter.SerializerSettings.ContractResolver).IgnoreSerializableAttribute = true;
         }
     }
 }

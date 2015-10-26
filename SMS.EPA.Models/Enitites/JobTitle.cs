@@ -8,9 +8,9 @@
 
 namespace SMS.EPA.Model.Enitites
 {
-    /// <summary>
-    /// The job title.
-    /// </summary>
+    using System;
+
+    [Serializable]
     public class JobTitle
     {
         public int JobTitleId { get; set; }

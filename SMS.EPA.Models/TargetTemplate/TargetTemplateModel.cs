@@ -14,6 +14,7 @@ namespace SMS.EPA.Model.TargetTemplate
     using System.ComponentModel.DataAnnotations;
     using System.Text;
 
+    [Serializable]
     public class TargetTemplateModel
     {
         private const string _KPIItem = "<KPI KPIId='{0}' KPIGroupId='{1}' IsSpreadKPI='{2}' Weight='{3}' DisplayOrder='{4}'></KPI>";

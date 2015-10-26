@@ -15,6 +15,7 @@ namespace SMS.EPA.Model.Employee
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.RoleManagement;
 
+    [Serializable]
     public class EmployeeModel : Employee
     {
         public EmployeeModel()

@@ -9,9 +9,11 @@
 
 namespace SMS.EPA.Model.Department
 {
+    using System;
     using System.Collections.Generic;
     using SMS.EPA.Model.Enitites;
 
+    [Serializable]
     public class DepartmentModel
     {
         public DepartmentModel()

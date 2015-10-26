@@ -21,6 +21,7 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Resources;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
+    using SMS.EPA.Web;
     using SMS.EPA.Web.ApiAuthorizeAttribute;
     using SMS.EPA.Web.Services;
 
@@ -154,6 +155,7 @@ namespace SMS.EPA.Site.Controllers.API
             };
 
             IEnumerable<PeriodEmployeeSettingModel> periodEmployeeSettings = _periodService.GetPeriodEmployeeSettingById(criteria);
+            SessionManager.Set<IEnumerable<PeriodEmployeeSettingModel>>(Constants.PeriodEmployeeSettingReportSessionKey + CurrentUser.EmployeeInfo.EmployeeId, periodEmployeeSettings);
             return periodEmployeeSettings;
         }
 

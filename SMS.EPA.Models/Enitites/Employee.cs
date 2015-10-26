@@ -9,6 +9,9 @@
 
 namespace SMS.EPA.Model.Enitites
 {
+    using System;
+
+    [Serializable]
     public class Employee
     {
         public int EmployeeId { get; set; }

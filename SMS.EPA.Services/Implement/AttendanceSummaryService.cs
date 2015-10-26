@@ -157,10 +157,11 @@ namespace SMS.EPA.Services.Implement
             return violationTypes;
         }
 
-        public void ExportAttendanceSummaryReport(GetAttendanceSummaryCriteria criteria, string templatePath)
+        public void ExportAttendanceSummaryReport(
+            GetAttendanceSummaryCriteria criteria,
+            IEnumerable<AttendanceSummaryModel> attendanceEmployees,
+            string templatePath)
         {
-            IEnumerable<AttendanceSummaryModel> attendanceEmployees = GetAttendanceSummary(criteria);
-
             string reportName = Lang.AttendanceSummaryReportName;
             string reportTitle = string.Empty;
 
@@ -195,10 +196,11 @@ namespace SMS.EPA.Services.Implement
             writer.Render();
         }
 
-        public void ExportAttendanceDetailReport(GetDetailAttendanceCriteria criteria, string templatePath)
+        public void ExportAttendanceDetailReport(
+            GetDetailAttendanceCriteria criteria,
+            IEnumerable<AttendanceDetailModel> attendanceViolations,
+            string templatePath)
         {
-            IEnumerable<AttendanceDetailModel> attendanceViolations = GetAttendanceDetail(criteria);
-
             string reportName = Lang.AttendanceDetailReportName;
             string reportTitle = string.Empty;
 

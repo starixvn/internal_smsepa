@@ -12,9 +12,11 @@ namespace SMS.EPA.Site.Controllers
     using System.Collections.Generic;
     using System.IO;
     using System.Web.Mvc;
+    using SMS.EPA.Core.Constants;
     using SMS.EPA.Criteria.AttendanceSummary;
     using SMS.EPA.Criteria.Period;
     using SMS.EPA.Criteria.Report;
+    using SMS.EPA.Model.AttendanceSummary;
     using SMS.EPA.Model.Period;
     using SMS.EPA.Model.Report.EPADetail;
     using SMS.EPA.Model.Report.EPASummary;
@@ -56,9 +58,21 @@ namespace SMS.EPA.Site.Controllers
 
         public ActionResult ExportEmployeeSettingReport(GetPeriodEmployeeSettingCriteria criteria)
         {
-            IEnumerable<PeriodEmployeeSettingModel> employeeFlowSettings = _periodService.GetPeriodEmployeeSettingById(criteria);
-            string templatePath = Server.MapPath(_EmployeeFlowSettingReportTemplatePath);
-            _periodService.ExportEmployeeSettingReport(employeeFlowSettings, templatePath, criteria.PeriodName);
+            IEnumerable<PeriodEmployeeSettingModel> employeeFlowSettings = null;
+
+            employeeFlowSettings = SessionManager.Get<IEnumerable<PeriodEmployeeSettingModel>>(
+                Constants.PeriodEmployeeSettingReportSessionKey + SessionManager.CurrentUser.EmployeeInfo.EmployeeId);
+
+            if (employeeFlowSettings == null)
+            {
+                employeeFlowSettings = _periodService.GetPeriodEmployeeSettingById(criteria);
+            }
+
+            if (employeeFlowSettings != null)
+            {
+                string templatePath = Server.MapPath(_EmployeeFlowSettingReportTemplatePath);
+                _periodService.ExportEmployeeSettingReport(employeeFlowSettings, templatePath, criteria.PeriodName);
+            }
 
             return new EmptyResult();
         }
@@ -88,12 +102,20 @@ namespace SMS.EPA.Site.Controllers
 
         public ActionResult ExportAttendanceSummaryReport(GetAttendanceSummaryCriteria criteria)
         {
-            string templatePath = Server.MapPath(_DisciplineSummaryTemplatePath);
+            IEnumerable<AttendanceSummaryModel> attendanceEmployees = null;
+            attendanceEmployees = SessionManager.Get<IEnumerable<AttendanceSummaryModel>>(
+                Constants.DisciplineSummaryReportSessionKey + SessionManager.CurrentUser.EmployeeInfo.EmployeeId);
 
-            if (criteria != null)
+            if (attendanceEmployees == null && criteria != null)
             {
                 criteria.ApproverId = SessionManager.CurrentUser.EmployeeInfo.EmployeeId;
-                _attendanceService.ExportAttendanceSummaryReport(criteria, templatePath);
+                attendanceEmployees = _attendanceService.GetAttendanceSummary(criteria);
+            }
+
+            if (attendanceEmployees != null)
+            {
+                string templatePath = Server.MapPath(_DisciplineSummaryTemplatePath);
+                _attendanceService.ExportAttendanceSummaryReport(criteria, attendanceEmployees, templatePath);
             }
 
             return new EmptyResult();
@@ -101,12 +123,20 @@ namespace SMS.EPA.Site.Controllers
 
         public ActionResult ExportAttendanceDetailReport(GetDetailAttendanceCriteria criteria)
         {
-            string templatePath = Server.MapPath(_DisciplineDetailTemplatePath);
+            IEnumerable<AttendanceDetailModel> attendanceViolations = null;
+            attendanceViolations = SessionManager.Get<IEnumerable<AttendanceDetailModel>>(
+                Constants.DisciplineDetailReportSessionKey + SessionManager.CurrentUser.EmployeeInfo.EmployeeId);
 
-            if (criteria != null)
+            if (attendanceViolations == null && criteria != null)
             {
                 criteria.ApproverId = SessionManager.CurrentUser.EmployeeInfo.EmployeeId;
-                _attendanceService.ExportAttendanceDetailReport(criteria, templatePath);
+                attendanceViolations = _attendanceService.GetAttendanceDetail(criteria);
+            }
+
+            if (attendanceViolations != null)
+            {
+                string templatePath = Server.MapPath(_DisciplineDetailTemplatePath);
+                _attendanceService.ExportAttendanceDetailReport(criteria, attendanceViolations, templatePath);
             }
 
             return new EmptyResult();

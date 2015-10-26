@@ -12,6 +12,7 @@ namespace SMS.EPA.Model.AttendanceSummary
     using System;
     using SMS.EPA.Model.Employee;
 
+    [Serializable]
     public class AttendanceDetailModel
     {
         public int EmployeeId { get; set; }

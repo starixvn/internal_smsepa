@@ -9,9 +9,9 @@
 
 namespace SMS.EPA.Model.RoleManagement
 {
-    /// <summary>
-    /// The system role model.
-    /// </summary>
+    using System;
+
+    [Serializable]
     public class SystemRoleModel
     {
         public int RoleId { get; set; }
