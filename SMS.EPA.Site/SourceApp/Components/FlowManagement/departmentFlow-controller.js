@@ -56,8 +56,8 @@ function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService
         }
     };
 
-    vm.getDepartmentFlow = function () {
-        FlowMngModel.getDepartmentFlow(vm.department, vm.FlowTemplateId).then(function () {
+    vm.getPersonalFlowById = function () {
+        FlowMngModel.getDepartmentFlowById(vm.department, vm.FlowTemplateId).then(function () {
             vm.selfs = FlowMngModel.selfs;
             vm.evaluators = FlowMngModel.evaluators;
             vm.reviewers = FlowMngModel.reviewers;
@@ -116,8 +116,8 @@ function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService
 
     $scope.$watch(function () {
         return cacheService.getProperty();
-    }, function (value) {
-        if (value === 1) {
+    }, function (newVal) {
+        if (newVal === 1) {
             CommonModel.getEmployeeByDepartmentId().then(function () {
                 vm.employees = CommonModel.employeesInDepartment;
             });

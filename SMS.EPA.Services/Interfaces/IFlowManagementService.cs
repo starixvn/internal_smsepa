@@ -36,7 +36,9 @@ namespace SMS.EPA.Services.Interfaces
 
         #region Department Flow Setting
 
-        IEnumerable<FlowModel> GetDepartmentFlow(GetDepartmentFlowCriteria criteria);
+        IEnumerable<DepartmentFlowModel> GetDepartmentFlow(GetDepartmentFlowCriteria criteria);
+
+        IEnumerable<FlowModel> GetDepartmentFlowById(GetDepartmentFlowByIdCriteria criteria);
 
         CommandResult CreateDepartmentFlow(CreateDepartmentFlowCriteria criteria);
 
@@ -48,7 +50,9 @@ namespace SMS.EPA.Services.Interfaces
 
         #region Employee Flow Setting
 
-        IEnumerable<FlowModel> GetPersonalFlow(GetPersonalFlowCriteria criteria);
+        IEnumerable<PersonalFlowModel> GetPersonalFlow(GetPersonalFlowCriteria criteria);
+
+        IEnumerable<FlowModel> GetPersonalFlowById(GetPersonalFlowByIdCriteria criteria);
 
         CommandResult CreatePersonalFlow(CreatePersonalFlowCriteria criteria);
 

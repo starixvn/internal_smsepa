@@ -26,16 +26,30 @@ flowMngModule.factory('flowMngFactory', ['$http', 'baseUrl', function ($http, ba
         deleteFlowTemplate: function (flowTemplateId) {
             return $http['delete'](baseUrl + 'api/FlowManagement/DeleteFlowTemplate', { params: { flowTemplateId: flowTemplateId } });
         },
-        getDepartmentFlow: function (departmentId, flowTemplateId) {
+        getDepartmentFlow: function (flowTemplateId) {
             return $http.get(baseUrl + 'api/FlowManagement/GetDepartmentFlow', {
+                params: {
+                    flowTemplateId: flowTemplateId
+                }
+            });
+        },
+        getDepartmentFlowById: function (departmentId, flowTemplateId) {
+            return $http.get(baseUrl + 'api/FlowManagement/GetDepartmentFlowById', {
                 params: {
                     departmentId: departmentId,
                     flowTemplateId: flowTemplateId
                 }
             });
         },
-        getPersonalFlow: function (employeeId, flowTemplateId) {
+        getPersonalFlow: function (flowTemplateId) {
             return $http.get(baseUrl + 'api/FlowManagement/GetPersonalFlow', {
+                params: {
+                    flowTemplateId: flowTemplateId
+                }
+            });
+        },
+        getPersonalFlowById: function (employeeId, flowTemplateId) {
+            return $http.get(baseUrl + 'api/FlowManagement/GetPersonalFlowById', {
                 params: {
                     employeeId: employeeId,
                     flowTemplateId: flowTemplateId

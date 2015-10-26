@@ -20,5 +20,9 @@ namespace SMS.EPA.Repositories.Interfaces
         FlowTemplateModel GetFlowTemplateById(ICriteria criteria);
 
         IEnumerable<FlowModel> GetFlowManagement(ICriteria criteria);
+
+        IEnumerable<DepartmentFlowModel> GetDepartmentFlow(ICriteria criteria);
+
+        IEnumerable<PersonalFlowModel> GetPersonalFlow(ICriteria criteria);
     }
 }

@@ -100,6 +100,7 @@
                             "~/SourceApp/Components/FlowManagement/flowManagement-controller.js",
                             "~/SourceApp/Components/FlowManagement/departmentFlow-controller.js",
                             "~/SourceApp/Components/FlowManagement/personalFlow-controller.js",
+                            "~/SourceApp/Components/FlowManagement/resultSettingFlow-controller.js",
                             "~/SourceApp/Components/TargetEmployeeSetting/targetEmployeeSetting-factory.js",
                             "~/SourceApp/Components/TargetEmployeeSetting/targetEmployeeSetting-model.js",
                             "~/SourceApp/Components/TargetEmployeeSetting/targetEmployeeSetting-controller.js",

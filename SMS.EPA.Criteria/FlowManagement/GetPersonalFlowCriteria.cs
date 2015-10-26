@@ -4,7 +4,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 // <history>
-//   <change who="Tim.Trinh" date="2015.07.22">Created</change>
+//   <change who="Tim.Trinh" date="2015.10.26">Created</change>
 // </history>
 
 namespace SMS.EPA.Criteria.FlowManagement
@@ -13,13 +13,11 @@ namespace SMS.EPA.Criteria.FlowManagement
 
     public class GetPersonalFlowCriteria : CriteriaBase
     {
-        public int EmployeeId { get; set; }
-
         public int FlowTemplateId { get; set; }
 
         public override bool IsValid()
         {
-            return EmployeeId > 0 && FlowTemplateId > 0;
+            return FlowTemplateId > 0;
         }
 
         public override string GetSettingKey()

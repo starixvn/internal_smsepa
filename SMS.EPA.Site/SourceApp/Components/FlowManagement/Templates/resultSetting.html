@@ -1,0 +1,120 @@
+﻿<div class="result-setting-flow" ng-controller="ResultSettingFlowController as resultSettingFlowCtrl">
+    <tabset id="ResultSettingTab">
+        <tab heading="DEPARTMENT / SECTION" class="tab-cursor" select="resultSettingFlowCtrl.tabDepartmentSelected()">
+            <table class="row table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th class="text-center" data-translate="SymbolCount"></th>
+                        <th data-translate="DepartmentSection"></th>
+                        <th data-translate="HumanResource"></th>
+                        <th data-translate="Evaluator"></th>
+                        <th data-translate="Reviewer"></th>
+                        <th data-translate="Management"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="flow in resultSettingFlowCtrl.flowSettings">
+                        <td class="text-center" ng-bind="$index + 1"></td>
+                        <td ng-bind="flow.Name"></td>
+                        <td>
+                            <div ng-show="flow.HumanResources.length == 1">
+                                {{flow.HumanResources[0].FullName}} ({{flow.HumanResources[0].NickName}})
+                            </div>
+                            <div ng-show="flow.HumanResources.length > 1">
+                                <ul><li ng-repeat="hr in flow.HumanResources">{{hr.FullName}} ({{hr.NickName}})</li></ul>
+                            </div>
+                        </td>
+                        <td>
+                            <div ng-show="flow.Evaluators.length == 1">
+                                {{flow.Evaluators[0].FullName}} ({{flow.Evaluators[0].NickName}})
+                            </div>
+                            <div ng-show="flow.Evaluators.length > 1">
+                                <ul><li ng-repeat="evaluator in flow.Evaluators">{{evaluator.FullName}} ({{evaluator.NickName}})</li></ul>
+                            </div>
+                        </td>
+                        <td>
+                            <div ng-show="flow.Reviewers.length == 1">
+                                {{flow.Reviewers[0].FullName}} ({{flow.Reviewers[0].NickName}})
+                            </div>
+                            <div ng-show="flow.Reviewers.length > 1">
+                                <ul><li ng-repeat="reviewer in flow.Reviewers">{{reviewer.FullName}} ({{reviewer.NickName}})</li></ul>
+                            </div>
+                        </td>
+                        <td>
+                            <div ng-show="flow.Managements.length == 1">
+                                {{flow.Managements[0].FullName}} ({{flow.Managements[0].NickName}})
+                            </div>
+                            <div ng-show="flow.Managements.length > 1">
+                                <ul><li ng-repeat="management in flow.Managements">{{management.FullName}} ({{management.NickName}})</li></ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr ng-show="resultSettingFlowCtrl.flowSettings.length == 0">
+                        <td class="empty-result" colspan="6" data-translate="EmptyResult"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </tab>
+        <tab heading="PERSONAL" class="tab-cursor" select="resultSettingFlowCtrl.tabPersonalSelected()">
+            <table table class="row table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th class="text-center" data-translate="SymbolCount"></th>
+                        <th data-translate="Code"></th>
+                        <th data-translate="NickName"></th>
+                        <th data-translate="FullName"></th>
+                        <th data-translate="DepartmentSection"></th>
+                        <th data-translate="HumanResource"></th>
+                        <th data-translate="Evaluator"></th>
+                        <th data-translate="Reviewer"></th>
+                        <th data-translate="Management"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="flow in resultSettingFlowCtrl.flowSettings">
+                        <td class="text-center" ng-bind="$index + 1"></td>
+                        <td class="text-center" ng-bind="flow.Code"></td>
+                        <td class="text-center" ng-bind="flow.NickName"></td>
+                        <td ng-bind="flow.FullName"></td>
+                        <td ng-bind="flow.Group.GroupName"></td>
+                        <td>
+                            <div ng-show="flow.HumanResources.length == 1">
+                                {{flow.HumanResources[0].FullName}} ({{flow.HumanResources[0].NickName}})
+                            </div>
+                            <div ng-show="flow.HumanResources.length > 1">
+                                <ul><li ng-repeat="hr in flow.HumanResources">{{hr.FullName}} ({{hr.NickName}})</li></ul>
+                            </div>
+                        </td>
+                        <td>
+                            <div ng-show="flow.Evaluators.length == 1">
+                                {{flow.Evaluators[0].FullName}} ({{flow.Evaluators[0].NickName}})
+                            </div>
+                            <div ng-show="flow.Evaluators.length > 1">
+                                <ul><li ng-repeat="evaluator in flow.Evaluators">{{evaluator.FullName}} ({{evaluator.NickName}})</li></ul>
+                            </div>
+                        </td>
+                        <td>
+                            <div ng-show="flow.Reviewers.length == 1">
+                                {{flow.Reviewers[0].FullName}} ({{flow.Reviewers[0].NickName}})
+                            </div>
+                            <div ng-show="flow.Reviewers.length > 1">
+                                <ul><li ng-repeat="reviewer in flow.Reviewers">{{reviewer.FullName}} ({{reviewer.NickName}})</li></ul>
+                            </div>
+                        </td>
+                        <td>
+                            <div ng-show="flow.Managements.length == 1">
+                                {{flow.Managements[0].FullName}} ({{flow.Managements[0].NickName}})
+                            </div>
+                            <div ng-show="flow.Managements.length > 1">
+                                <ul><li ng-repeat="management in flow.Managements">{{management.FullName}} ({{management.NickName}})</li></ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr ng-show="resultSettingFlowCtrl.flowSettings.length == 0">
+                        <td class="empty-result" colspan="9" data-translate="EmptyResult"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </tab>
+    </tabset>
+</div>

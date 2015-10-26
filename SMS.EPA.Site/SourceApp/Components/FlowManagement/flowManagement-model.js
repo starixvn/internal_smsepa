@@ -44,6 +44,7 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
     flowMngModel.defaultFlowSettings = [];
     flowMngModel.personalFlowSettings = [];
     flowMngModel.departmentSettings = [];
+    flowMngModel.flowSettings = [];
 
     flowMngModel.permission = 0;
 
@@ -326,8 +327,17 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
 
     // #region Department Flow Seting
 
-    flowMngModel.getDepartmentFlow = function (department, flowTemplateId) {
-        return flowMngFactory.getDepartmentFlow(department.DepartmentId, flowTemplateId)
+    flowMngModel.getDepartmentFlow = function (flowTemplateId) {
+        return flowMngFactory.getDepartmentFlow(flowTemplateId)
+        .success(function (flows) {
+            flowMngModel.flowSettings = flows;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    flowMngModel.getDepartmentFlowById = function (department, flowTemplateId) {
+        return flowMngFactory.getDepartmentFlowById(department.DepartmentId, flowTemplateId)
         .success(function (flows) {
             flowMngModel.resetCurrentFlow(flowMngModel);
             if (flows.length > 0) {
@@ -424,8 +434,17 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
 
     // #region Personal Flow Seting
 
-    flowMngModel.getPersonalFlow = function (employeeId, flowTemplateId) {
-        return flowMngFactory.getPersonalFlow(employeeId, flowTemplateId)
+    flowMngModel.getPersonalFlow = function (flowTemplateId) {
+        return flowMngFactory.getPersonalFlow(flowTemplateId)
+        .success(function (flows) {
+            flowMngModel.flowSettings = flows;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    flowMngModel.getPersonalFlowById = function (employeeId, flowTemplateId) {
+        return flowMngFactory.getPersonalFlowById(employeeId, flowTemplateId)
         .success(function (flows) {
             flowMngModel.resetCurrentFlow(flowMngModel);
             successGetFlow(flows);

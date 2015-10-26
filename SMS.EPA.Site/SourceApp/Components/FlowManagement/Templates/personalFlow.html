@@ -41,7 +41,7 @@
                 </div>
                 <div class="col-sm-3 personal">
                     <select class="flow-personal form-control" ng-model="personalFlowCtrl.personalSelect" multiple
-                            ng-change="personalFlowCtrl.getPersonalFlow(personalFlowCtrl.personalSelect)"
+                            ng-change="personalFlowCtrl.getPersonalFlowById(personalFlowCtrl.personalSelect)"
                             ng-options="e.EmployeeId as e.NickName +' (' + e.FullName + ')'  for e in personalFlowCtrl.personalFlowSettings"></select>
                 </div>
             </div>

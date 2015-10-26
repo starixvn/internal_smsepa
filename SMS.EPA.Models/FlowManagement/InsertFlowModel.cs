@@ -35,80 +35,85 @@ namespace SMS.EPA.Model.FlowManagement
         {
             get
             {
-                var process = new StringBuilder("<ROOT>");
-
-                if (HumanResources != null)
-                {
-                    var evaluator = new StringBuilder();
-
-                    if (HumanResources.Employees.Count > 0)
-                    {
-                        for (int i = 0; i < HumanResources.Employees.Count; i++)
-                        {
-                            evaluator.AppendFormat(_Evaluator, HumanResources.Employees[i].EmployeeId, i + 1);
-                        }
-
-                        process.AppendFormat(_Process, (int)ProcessType.HumanResource, HumanResources.Duration, HumanResources.HasSendMail, HumanResources.RemindDay, evaluator);
-                    }
-                }
-
-                if (Selfs != null)
-                {
-                    var evaluator = new StringBuilder();
-                    evaluator.AppendFormat(_Evaluator, -1, 1);
-
-                    process.AppendFormat(_Process, (int)ProcessType.Self, Selfs.Duration, Selfs.HasSendMail, Selfs.RemindDay, evaluator);
-                }
-
-                if (Evaluators != null)
-                {
-                    var evaluator = new StringBuilder();
-
-                    if (Evaluators.Employees.Count > 0)
-                    {
-                        for (int i = 0; i < Evaluators.Employees.Count; i++)
-                        {
-                            evaluator.AppendFormat(_Evaluator, Evaluators.Employees[i].EmployeeId, i + 1);
-                        }
-
-                        process.AppendFormat(_Process, (int)ProcessType.Evaluator, Evaluators.Duration, Evaluators.HasSendMail, Evaluators.RemindDay, evaluator);
-                    }
-                }
-
-                if (Reviewers != null)
-                {
-                    var evaluator = new StringBuilder();
-
-                    if (Reviewers.Employees.Count > 0)
-                    {
-                        for (int i = 0; i < Reviewers.Employees.Count; i++)
-                        {
-                            evaluator.AppendFormat(_Evaluator, Reviewers.Employees[i].EmployeeId, i + 1);
-                        }
-
-                        process.AppendFormat(_Process, (int)ProcessType.Reviewer, Reviewers.Duration, Reviewers.HasSendMail, Reviewers.RemindDay, evaluator);
-                    }
-                }
-
-                if (Managements != null)
-                {
-                    var evaluator = new StringBuilder();
-
-                    if (Managements.Employees.Count > 0)
-                    {
-                        for (int i = 0; i < Managements.Employees.Count; i++)
-                        {
-                            evaluator.AppendFormat(_Evaluator, Managements.Employees[i].EmployeeId, i + 1);
-                        }
-
-                        process.AppendFormat(_Process, (int)ProcessType.Management, Managements.Duration, Managements.HasSendMail, Managements.RemindDay, evaluator);
-                    }
-                }
-
-                process.Append("</ROOT>");
-
-                return process.ToString();
+                return ConvertToXml();
             }
+        }
+
+        private string ConvertToXml()
+        {
+            var process = new StringBuilder("<ROOT>");
+
+            if (HumanResources != null)
+            {
+                var evaluator = new StringBuilder();
+
+                if (HumanResources.Employees.Count > 0)
+                {
+                    for (int i = 0; i < HumanResources.Employees.Count; i++)
+                    {
+                        evaluator.AppendFormat(_Evaluator, HumanResources.Employees[i].EmployeeId, i + 1);
+                    }
+
+                    process.AppendFormat(_Process, (int)ProcessType.HumanResource, HumanResources.Duration, HumanResources.HasSendMail, HumanResources.RemindDay, evaluator);
+                }
+            }
+
+            if (Selfs != null)
+            {
+                var evaluator = new StringBuilder();
+                evaluator.AppendFormat(_Evaluator, -1, 1);
+
+                process.AppendFormat(_Process, (int)ProcessType.Self, Selfs.Duration, Selfs.HasSendMail, Selfs.RemindDay, evaluator);
+            }
+
+            if (Evaluators != null)
+            {
+                var evaluator = new StringBuilder();
+
+                if (Evaluators.Employees.Count > 0)
+                {
+                    for (int i = 0; i < Evaluators.Employees.Count; i++)
+                    {
+                        evaluator.AppendFormat(_Evaluator, Evaluators.Employees[i].EmployeeId, i + 1);
+                    }
+
+                    process.AppendFormat(_Process, (int)ProcessType.Evaluator, Evaluators.Duration, Evaluators.HasSendMail, Evaluators.RemindDay, evaluator);
+                }
+            }
+
+            if (Reviewers != null)
+            {
+                var evaluator = new StringBuilder();
+
+                if (Reviewers.Employees.Count > 0)
+                {
+                    for (int i = 0; i < Reviewers.Employees.Count; i++)
+                    {
+                        evaluator.AppendFormat(_Evaluator, Reviewers.Employees[i].EmployeeId, i + 1);
+                    }
+
+                    process.AppendFormat(_Process, (int)ProcessType.Reviewer, Reviewers.Duration, Reviewers.HasSendMail, Reviewers.RemindDay, evaluator);
+                }
+            }
+
+            if (Managements != null)
+            {
+                var evaluator = new StringBuilder();
+
+                if (Managements.Employees.Count > 0)
+                {
+                    for (int i = 0; i < Managements.Employees.Count; i++)
+                    {
+                        evaluator.AppendFormat(_Evaluator, Managements.Employees[i].EmployeeId, i + 1);
+                    }
+
+                    process.AppendFormat(_Process, (int)ProcessType.Management, Managements.Duration, Managements.HasSendMail, Managements.RemindDay, evaluator);
+                }
+            }
+
+            process.Append("</ROOT>");
+
+            return process.ToString();
         }
     }
 }

@@ -127,18 +127,30 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Read)]
-        public IEnumerable<FlowModel> GetDepartmentFlow(
+        public IEnumerable<DepartmentFlowModel> GetDepartmentFlow(int flowTemplateId)
+        {
+            var criteria = new GetDepartmentFlowCriteria()
+            {
+                FlowTemplateId = flowTemplateId
+            };
+
+            return _flowManagementService.GetDepartmentFlow(criteria);
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Read)]
+        public IEnumerable<FlowModel> GetDepartmentFlowById(
             int departmentId,
             int flowTemplateId)
         {
-            var criteria = new GetDepartmentFlowCriteria()
+            var criteria = new GetDepartmentFlowByIdCriteria()
             {
                 FlowTemplateId = flowTemplateId,
                 DepartmentId = Math.Abs(departmentId),
                 IsGroup = departmentId > 0 ? false : true
             };
 
-            return _flowManagementService.GetDepartmentFlow(criteria);
+            return _flowManagementService.GetDepartmentFlowById(criteria);
         }
 
         [HttpPost]
@@ -192,17 +204,29 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Read)]
-        public IEnumerable<FlowModel> GetPersonalFlow(
+        public IEnumerable<PersonalFlowModel> GetPersonalFlow(int flowTemplateId)
+        {
+            var criteria = new GetPersonalFlowCriteria()
+            {
+                FlowTemplateId = flowTemplateId
+            };
+
+            return _flowManagementService.GetPersonalFlow(criteria);
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Read)]
+        public IEnumerable<FlowModel> GetPersonalFlowById(
             int employeeId,
             int flowTemplateId)
         {
-            var criteria = new GetPersonalFlowCriteria()
+            var criteria = new GetPersonalFlowByIdCriteria()
             {
                 EmployeeId = employeeId,
                 FlowTemplateId = flowTemplateId
             };
 
-            return _flowManagementService.GetPersonalFlow(criteria);
+            return _flowManagementService.GetPersonalFlowById(criteria);
         }
 
         [HttpPost]

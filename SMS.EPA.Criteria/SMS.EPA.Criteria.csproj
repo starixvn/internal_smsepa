@@ -91,7 +91,9 @@
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="EPAHistory\GetEPAHistoryCriteria.cs" />
+    <Compile Include="FlowManagement\GetDepartmentFlowCriteria.cs" />
     <Compile Include="FlowManagement\GetDepartmentSectionHasSettingCriteria.cs" />
+    <Compile Include="FlowManagement\GetPersonalFlowCriteria.cs" />
     <Compile Include="Period\CheckSelfProcessStartedCriteria.cs" />
     <Compile Include="Period\GetPeriodProcessSettingCriteria.cs" />
     <Compile Include="Period\UpdatePeriodProcessSettingCriteria.cs" />
@@ -126,11 +128,11 @@
     <Compile Include="FlowManagement\DeleteDepartmentFlowCriteria.cs" />
     <Compile Include="FlowManagement\DeleteFlowTemplateCriteria.cs" />
     <Compile Include="FlowManagement\DeletePersonalFlowCriteria.cs" />
-    <Compile Include="FlowManagement\GetDepartmentFlowCriteria.cs" />
+    <Compile Include="FlowManagement\GetDepartmentFlowByIdCriteria.cs" />
     <Compile Include="FlowManagement\GetEmployeeFlowSettingCriteria.cs" />
     <Compile Include="FlowManagement\GetFlowTemplateByIdCriteria.cs" />
     <Compile Include="FlowManagement\GetFlowTemplateCriteria.cs" />
-    <Compile Include="FlowManagement\GetPersonalFlowCriteria.cs" />
+    <Compile Include="FlowManagement\GetPersonalFlowByIdCriteria.cs" />
     <Compile Include="FlowManagement\UpdateFlowTemplateCriteria.cs" />
     <Compile Include="FlowManagement\UpdateStatusFlowTemplateCriteria.cs" />
     <Compile Include="Period\GenerationEvaluation\AutoGenerateEvaluationCriteria.cs" />

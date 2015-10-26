@@ -120,17 +120,30 @@ namespace SMS.EPA.Services.Implement
 
         #region Department Flow Setting
 
-        public IEnumerable<FlowModel> GetDepartmentFlow(GetDepartmentFlowCriteria criteria)
+        public IEnumerable<DepartmentFlowModel> GetDepartmentFlow(GetDepartmentFlowCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");
-            IEnumerable<FlowModel> flowDepartment = new List<FlowModel>();
+            IEnumerable<DepartmentFlowModel> flows = new List<DepartmentFlowModel>();
 
             if (criteria.IsValid())
             {
-                flowDepartment = _flowManagementRepository.GetFlowManagement(criteria);
+                flows = _flowManagementRepository.GetDepartmentFlow(criteria);
             }
 
-            return flowDepartment;
+            return flows;
+        }
+
+        public IEnumerable<FlowModel> GetDepartmentFlowById(GetDepartmentFlowByIdCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<FlowModel> flow = new List<FlowModel>();
+
+            if (criteria.IsValid())
+            {
+                flow = _flowManagementRepository.GetFlowManagement(criteria);
+            }
+
+            return flow;
         }
 
         public CommandResult CreateDepartmentFlow(CreateDepartmentFlowCriteria criteria)
@@ -176,17 +189,30 @@ namespace SMS.EPA.Services.Implement
 
         #region Employee Flow Setting
 
-        public IEnumerable<FlowModel> GetPersonalFlow(GetPersonalFlowCriteria criteria)
+        public IEnumerable<PersonalFlowModel> GetPersonalFlow(GetPersonalFlowCriteria criteria)
         {
-            IEnumerable<FlowModel> flowEmployee = new List<FlowModel>();
+            IEnumerable<PersonalFlowModel> flows = new List<PersonalFlowModel>();
             Check.Argument.IsNotNull(criteria, "criteria");
 
             if (criteria.IsValid())
             {
-                flowEmployee = _flowManagementRepository.GetFlowManagement(criteria);
+                flows = _flowManagementRepository.GetPersonalFlow(criteria);
             }
 
-            return flowEmployee;
+            return flows;
+        }
+
+        public IEnumerable<FlowModel> GetPersonalFlowById(GetPersonalFlowByIdCriteria criteria)
+        {
+            IEnumerable<FlowModel> flow = new List<FlowModel>();
+            Check.Argument.IsNotNull(criteria, "criteria");
+
+            if (criteria.IsValid())
+            {
+                flow = _flowManagementRepository.GetFlowManagement(criteria);
+            }
+
+            return flow;
         }
 
         public CommandResult CreatePersonalFlow(CreatePersonalFlowCriteria criteria)

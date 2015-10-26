@@ -2,8 +2,8 @@
 /*global flowMngModule*/
 
 flowMngModule.controller("FlowMngController",
-['FlowMngModel', 'CommonModel', 'utilitiesFactory',
-function (FlowMngModel, CommonModel, utilitiesFactory) {
+['FlowMngModel', 'CommonModel', 'utilitiesFactory', 'baseUrl',
+function (FlowMngModel, CommonModel, utilitiesFactory, baseUrl) {
     var vm = this;
 
     vm.targetTypes = CommonModel.targetTypes;
@@ -27,11 +27,11 @@ function (FlowMngModel, CommonModel, utilitiesFactory) {
     };
 
     vm.createFlowTemplate = function () {
-        vm.createFlowTemplateUrl = '/Flow/Create';
+        vm.createFlowTemplateUrl = baseUrl + 'Flow/Create';
     };
 
     vm.updateFlowTemplate = function (flowTemplate) {
-        vm.updateFlowTemplateUrl = '/Flow/Update/' + flowTemplate.FlowTemplateId;
+        vm.updateFlowTemplateUrl = baseUrl + 'Flow/Update/' + flowTemplate.FlowTemplateId;
     };
 
     vm.updateStatusFlowGroup = function (flowTemplate) {
@@ -137,6 +137,10 @@ function ($window, FlowMngModel, CommonModel, cacheService) {
 
     vm.tabPersonalSelected = function () {
         cacheService.setProperty(2);
+    };
+
+    vm.tabResultSettingSelected = function () {
+        cacheService.setProperty(3);
     };
 
     vm.initialize = function () {

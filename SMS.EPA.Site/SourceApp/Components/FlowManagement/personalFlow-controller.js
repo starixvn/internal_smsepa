@@ -89,11 +89,11 @@ function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService
         });
     };
 
-    vm.getPersonalFlow = function (item) {
+    vm.getPersonalFlowById = function (item) {
         var employeeId = parseInt(item[0]);
         vm.employeeId = employeeId;
 
-        FlowMngModel.getPersonalFlow(employeeId, vm.FlowTemplateId).then(function () {
+        FlowMngModel.getPersonalFlowById(employeeId, vm.FlowTemplateId).then(function () {
             vm.selfs = FlowMngModel.selfs;
             vm.evaluators = FlowMngModel.evaluators;
             vm.reviewers = FlowMngModel.reviewers;
@@ -144,7 +144,7 @@ function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService
         return cacheService.getProperty();
     }, function (value) {
         if (value === 2) {
-            CommonModel.getEmployeeByDepartmentId(vm.departmentId).then(function () {
+            CommonModel.getEmployeeByDepartmentId().then(function () {
                 vm.employees = CommonModel.employeesInDepartment;
             });
 

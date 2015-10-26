@@ -325,6 +325,7 @@ namespace SMS.EPA.Services.Implement
                                 }
 
                                 finalScore = (float.Parse(period.FinalScore) + disciplinScore).ToString();
+                                grade = period.Grade;
                                 break;
                         }
 
