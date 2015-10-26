@@ -13,6 +13,6 @@ namespace SMS.EPA.Model.AttendanceSummary
     {
         public int EvaluationId { get; set; }
 
-        public float ApproverSubstractScore { get; set; }
+        public float DisciplineScore { get; set; }
     }
 }

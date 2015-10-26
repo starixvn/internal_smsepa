@@ -13,6 +13,7 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
     using System.Linq;
     using Fanex.Common.Helper;
     using SMS.EPA.AutoGenerateEvaluation.Criteria;
+    using SMS.EPA.AutoGenerateEvaluation.Models;
     using SMS.EPA.AutoGenerateEvaluation.Repository;
     using SMS.EPA.AutoGenerateEvaluation.Service.Interfaces;
     using SMS.EPA.Core.Model;
@@ -155,14 +156,14 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
             return comandResult;
         }
 
-        public IEnumerable<int> CheckEndEvaluationPeriod(CheckEndEvaluationPeriodCriteria criteria)
+        public IEnumerable<EndEPAModel> CheckEndEvaluationPeriod(CheckEndEvaluationPeriodCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");
-            IEnumerable<int> evaluations = new List<int>();
+            IEnumerable<EndEPAModel> evaluations = new List<EndEPAModel>();
 
             if (criteria.IsValid())
             {
-                evaluations = GetData<int>(criteria);
+                evaluations = GetData<EndEPAModel>(criteria);
             }
 
             return evaluations;

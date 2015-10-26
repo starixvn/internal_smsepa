@@ -95,6 +95,7 @@
     <Compile Include="Criteria\UpdateIsEndProcessCriteria.cs" />
     <Compile Include="Criteria\UpdateStatusEndEvaluationPeriodCriteria.cs" />
     <Compile Include="Criteria\UpdateTotalScoreOfProcessCriteria.cs" />
+    <Compile Include="Models\EndEPAModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>

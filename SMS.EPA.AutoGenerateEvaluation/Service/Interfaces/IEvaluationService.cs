@@ -11,6 +11,7 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Interfaces
 {
     using System.Collections.Generic;
     using SMS.EPA.AutoGenerateEvaluation.Criteria;
+    using SMS.EPA.AutoGenerateEvaluation.Models;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Model.Period;
 
@@ -34,7 +35,7 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Interfaces
 
         CommandResult UpdateEndProcess(UpdateIsEndProcessCriteria criteria);
 
-        IEnumerable<int> CheckEndEvaluationPeriod(CheckEndEvaluationPeriodCriteria criteria);
+        IEnumerable<EndEPAModel> CheckEndEvaluationPeriod(CheckEndEvaluationPeriodCriteria criteria);
 
         CommandResult UpdateStatusEndEvaluaitonPeriod(UpdateStatusEndEvaluationPeriodCriteria criteria);
 

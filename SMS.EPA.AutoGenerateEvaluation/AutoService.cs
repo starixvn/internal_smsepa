@@ -15,9 +15,11 @@ namespace SMS.EPA.AutoGenerateEvaluation
     using System.Linq;
     using System.Reflection;
     using System.ServiceProcess;
+    using System.Threading.Tasks;
     using System.Timers;
     using log4net;
     using SMS.EPA.AutoGenerateEvaluation.Criteria;
+    using SMS.EPA.AutoGenerateEvaluation.Models;
     using SMS.EPA.AutoGenerateEvaluation.Service.Implement;
     using SMS.EPA.AutoGenerateEvaluation.Service.Interfaces;
     using SMS.EPA.Core.Enumerations;
@@ -152,8 +154,15 @@ namespace SMS.EPA.AutoGenerateEvaluation
 
         private void CheckSendMail()
         {
-            CheckSendNoticeAtBeginEmail();
-            CheckSendReminderEmail();
+            Task beginMailTask = Task.Factory.StartNew(() =>
+            {
+                CheckSendNoticeAtBeginEmail();
+            });
+
+            Task reminderMailTask = Task.Factory.StartNew(() =>
+            {
+                CheckSendReminderEmail();
+            });
         }
 
         private void CheckEndProcess()
@@ -218,45 +227,51 @@ namespace SMS.EPA.AutoGenerateEvaluation
         {
             _LOG.Info("Check EPA that ended yesterday: started at " + DateTime.Now.ToString());
             var checkEndEvaluationCriteria = new CheckEndEvaluationPeriodCriteria();
-            IEnumerable<int> evaluations = _evaluationService.CheckEndEvaluationPeriod(checkEndEvaluationCriteria);
+            IEnumerable<EndEPAModel> evaluations = _evaluationService.CheckEndEvaluationPeriod(checkEndEvaluationCriteria);
             _LOG.Info("Check EPA that ended yesterday: ended at " + DateTime.Now.ToString());
 
-            if (evaluations != null && evaluations.Count() > 0)
+            if (evaluations != null && evaluations.Any())
             {
-                UpdateStatusEvaluation(evaluations);
+                IEnumerable<EndEPAModel> openEvaluations = evaluations.Where(x => x.Status == 0);
+
+                if (openEvaluations != null && openEvaluations.Any())
+                {
+                    UpdateStatusEvaluation(openEvaluations);
+                }
+
                 UpdateFinalScoreAndSendMail(evaluations);
             }
         }
 
-        private void UpdateFinalScoreAndSendMail(IEnumerable<int> evaluations)
+        private void UpdateFinalScoreAndSendMail(IEnumerable<EndEPAModel> evaluations)
         {
             IList<int> periods = new List<int>();
 
-            foreach (int evaluationId in evaluations)
+            foreach (EndEPAModel evaluation in evaluations)
             {
-                _LOG.Info("Get information of EPA " + evaluationId + " : started at " + DateTime.Now.ToString());
+                _LOG.Info("Get information of EPA " + evaluation.EPAId + " : started at " + DateTime.Now.ToString());
                 var getEvaluationInfoCriteria = new GetEPAInfoByIdCriteria
                 {
-                    EPAId = evaluationId
+                    EPAId = evaluation.EPAId
                 };
                 EPAModel evaluationInfo = _employeeEPAService.GetEPAInfoById(getEvaluationInfoCriteria);
-                _LOG.Info("Get information of EPA " + evaluationId + " : ended at " + DateTime.Now.ToString());
+                _LOG.Info("Get information of EPA " + evaluation.EPAId + " : ended at " + DateTime.Now.ToString());
 
-                _LOG.Info("Get average performance score of EPA " + evaluationId + " : started at " + DateTime.Now.ToString());
+                _LOG.Info("Get average performance score of EPA " + evaluation.EPAId + " : started at " + DateTime.Now.ToString());
                 float averagePerformanceScore = GetFinalScoreOfEvalution(evaluationInfo);
-                _LOG.Info("Result of get average performance score of EPA " + evaluationId + " :  " + averagePerformanceScore);
+                _LOG.Info("Result of get average performance score of EPA " + evaluation.EPAId + " :  " + averagePerformanceScore);
 
-                _LOG.Info("Get discipline score of EPA " + evaluationId + " : started at " + DateTime.Now.ToString());
-                float disciplineScore = GetDisciplineScore(evaluationId);
-                _LOG.Info("Result of get discipline score of EPA " + evaluationId + " : " + disciplineScore);
+                _LOG.Info("Get discipline score of EPA " + evaluation.EPAId + " : started at " + DateTime.Now.ToString());
+                float disciplineScore = GetDisciplineScore(evaluation.EPAId);
+                _LOG.Info("Result of get discipline score of EPA " + evaluation.EPAId + " : " + disciplineScore);
 
                 float finalScore = averagePerformanceScore + disciplineScore;
 
-                _LOG.Info("Get grade of final score of EPA " + evaluationId + ": started at: " + DateTime.Now);
+                _LOG.Info("Get grade of final score of EPA " + evaluation.EPAId + ": started at: " + DateTime.Now);
                 evaluationInfo.Grade = _employeeEPAService.ConvertScoreToGrade(finalScore);
-                _LOG.Info("Result of get grade of final score of EPA " + evaluationId + ": " + evaluationInfo.Grade);
+                _LOG.Info("Result of get grade of final score of EPA " + evaluation.EPAId + ": " + evaluationInfo.Grade);
 
-                EncodeAndUpdateFinalScore(averagePerformanceScore, disciplineScore, evaluationId, evaluationInfo.Grade);
+                EncodeAndUpdateFinalScore(averagePerformanceScore, disciplineScore, evaluation.EPAId, evaluationInfo.Grade);
                 SendEndEvaluationMailToSelf(evaluationInfo, averagePerformanceScore, disciplineScore);
 
                 if (evaluationInfo.Period != null)
@@ -299,9 +314,15 @@ namespace SMS.EPA.AutoGenerateEvaluation
             _autoMailService.SendEndEvaluationMailToSelf(evaluationInfo, averagePerformanceScore, disciplineScore);
         }
 
-        private void UpdateStatusEvaluation(IEnumerable<int> evaluations)
+        private void UpdateStatusEvaluation(IEnumerable<EndEPAModel> evaluations)
         {
-            string evaluationIds = string.Join(",", evaluations);
+            string evaluationIds = string.Empty;
+
+            foreach (EndEPAModel evaluation in evaluations)
+            {
+                evaluationIds += !string.IsNullOrWhiteSpace(evaluationIds) ? "," + evaluation.EPAId.ToString() : evaluation.EPAId.ToString();
+            }
+
             _LOG.Info("Result of check EPA that ended yesterday: " + evaluationIds);
 
             var updateStatusEvalutionCriteria = new UpdateStatusEndEvaluationPeriodCriteria
@@ -341,7 +362,10 @@ namespace SMS.EPA.AutoGenerateEvaluation
 
                 if (hasSendMailAll)
                 {
-                    GetAndSendEmailToAllRelatedEmployee(periodId, string.Empty, null, (int)MailMode.Start);
+                    Task task = Task.Factory.StartNew(() =>
+                    {
+                        GetAndSendEmailToAllRelatedEmployee(periodId, string.Empty, null, (int)MailMode.Start);
+                    });
                 }
             }
         }
@@ -374,7 +398,10 @@ namespace SMS.EPA.AutoGenerateEvaluation
 
             if (hasSendMailAll)
             {
-                GetAndSendEmailToAllRelatedEmployee(employeePeriod.PeriodId, employeePeriod.EmployeeIds, null, (int)MailMode.Start);
+                Task task = Task.Factory.StartNew(() =>
+                {
+                    GetAndSendEmailToAllRelatedEmployee(employeePeriod.PeriodId, employeePeriod.EmployeeIds, null, (int)MailMode.Start);
+                });
             }
         }
 
@@ -398,7 +425,10 @@ namespace SMS.EPA.AutoGenerateEvaluation
 
                 if (hasSendMailAll)
                 {
-                    GetAndSendEmailToAllRelatedEmployee(period.PeriodId, period.EmployeeIds, null, (int)MailMode.Start);
+                    Task task = Task.Factory.StartNew(() =>
+                    {
+                        GetAndSendEmailToAllRelatedEmployee(period.PeriodId, period.EmployeeIds, null, (int)MailMode.Start);
+                    });
                 }
             }
         }
@@ -520,7 +550,7 @@ namespace SMS.EPA.AutoGenerateEvaluation
 
             if (attendanceScores != null && attendanceScores.Count() > 0)
             {
-                disciplineScore = attendanceScores.First().ApproverSubstractScore;
+                disciplineScore = attendanceScores.First().DisciplineScore;
             }
 
             return disciplineScore;
