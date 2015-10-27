@@ -13,7 +13,9 @@ namespace SMS.EPA.Services.Implement
     using System.Linq;
     using Fanex.Common.Helper;
     using SMS.EPA.Core.Services;
+    using SMS.EPA.Criteria.EmployeeEPA;
     using SMS.EPA.Criteria.EPAHistory;
+    using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.EPAHistory;
     using SMS.EPA.Model.Period;
     using SMS.EPA.Repositories.Implement;
@@ -56,6 +58,10 @@ namespace SMS.EPA.Services.Implement
 
         private void DecodeFinalScoreAndGrade(IList<EPAHistoryModel> epas)
         {
+            string grade = string.Empty;
+            var criteria = new GetStandardGradeCriteria();
+            IEnumerable<StandardGradeModel> standardGrades = _employeeEPAService.GetStandardGrade(criteria);
+
             foreach (EPAHistoryModel epa in epas)
             {
                 epa.FinalScore = !string.IsNullOrWhiteSpace(epa.EncodeFinalScore) ? float.Parse(EncodeService.Decode(epa.EncodeFinalScore)) : 0;
@@ -63,7 +69,7 @@ namespace SMS.EPA.Services.Implement
 
                 if (string.IsNullOrWhiteSpace(epa.Grade) && epa.FinalScore >= 0)
                 {
-                    epa.Grade = _employeeEPAService.ConvertScoreToGrade(epa.FinalScore);
+                    epa.Grade = _employeeEPAService.ConvertScoreToGrade(epa.FinalScore, standardGrades);
                 }
             }
         }

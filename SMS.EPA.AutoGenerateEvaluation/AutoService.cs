@@ -246,6 +246,8 @@ namespace SMS.EPA.AutoGenerateEvaluation
         private void UpdateFinalScoreAndSendMail(IEnumerable<EndEPAModel> evaluations)
         {
             IList<int> periods = new List<int>();
+            var criteria = new GetStandardGradeCriteria();
+            IEnumerable<StandardGradeModel> standardGrades = _employeeEPAService.GetStandardGrade(criteria);
 
             foreach (EndEPAModel evaluation in evaluations)
             {
@@ -268,7 +270,7 @@ namespace SMS.EPA.AutoGenerateEvaluation
                 float finalScore = averagePerformanceScore + disciplineScore;
 
                 _LOG.Info("Get grade of final score of EPA " + evaluation.EPAId + ": started at: " + DateTime.Now);
-                evaluationInfo.Grade = _employeeEPAService.ConvertScoreToGrade(finalScore);
+                evaluationInfo.Grade = _employeeEPAService.ConvertScoreToGrade(finalScore, standardGrades);
                 _LOG.Info("Result of get grade of final score of EPA " + evaluation.EPAId + ": " + evaluationInfo.Grade);
 
                 EncodeAndUpdateFinalScore(averagePerformanceScore, disciplineScore, evaluation.EPAId, evaluationInfo.Grade);

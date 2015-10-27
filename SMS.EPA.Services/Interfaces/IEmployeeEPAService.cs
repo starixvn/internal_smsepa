@@ -80,7 +80,7 @@ namespace SMS.EPA.Services.Interfaces
 
         CommandResult UpdateEPASummaryImport(UpdateEPASummaryImportCriteria criteria);
 
-        string ConvertScoreToGrade(float score);
+        string ConvertScoreToGrade(float score, IEnumerable<StandardGradeModel> standardGrades);
 
         int CheckEmployeePermission(GetEmployeePermissionCriteria criteria);
     }

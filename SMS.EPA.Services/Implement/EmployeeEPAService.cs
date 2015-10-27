@@ -355,11 +355,9 @@ namespace SMS.EPA.Services.Implement
             return commandResult;
         }
 
-        public string ConvertScoreToGrade(float score)
+        public string ConvertScoreToGrade(float score, IEnumerable<StandardGradeModel> standardGrades)
         {
             string grade = string.Empty;
-            var criteria = new GetStandardGradeCriteria();
-            IEnumerable<StandardGradeModel> standardGrades = GetStandardGrade(criteria);
 
             foreach (StandardGradeModel standardGrade in standardGrades)
             {
@@ -367,6 +365,7 @@ namespace SMS.EPA.Services.Implement
                 {
                     StandardGrade gradeEnum = GetGradeEnum(standardGrade.GradeId);
                     grade = Enumerations.GetDescription(gradeEnum);
+                    break;
                 }
             }
 
