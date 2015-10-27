@@ -398,6 +398,8 @@
     <Content Include="SourceApp\Components\EPA\Templates\performanceResult.html" />
     <Content Include="SourceApp\Components\EPA\Templates\ratingInstruction.html" />
     <Content Include="SourceApp\Components\EPA\Templates\viewDetail.html" />
+    <Content Include="SourceApp\Components\Error\error-controller.js" />
+    <Content Include="SourceApp\Components\Error\Templates\error.html" />
     <Content Include="SourceApp\Components\FlowManagement\departmentFlow-controller.js" />
     <Content Include="SourceApp\Components\FlowManagement\flowManagement-controller.js" />
     <Content Include="SourceApp\Components\FlowManagement\flowManagement-factory.js" />

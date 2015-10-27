@@ -144,7 +144,8 @@
                             "~/SourceApp/Components/Report/epaDetailReport-controller.js",
                             "~/SourceApp/Components/EPAHistory/epaHistory-factory.js",
                             "~/SourceApp/Components/EPAHistory/epaHistory-model.js",
-                            "~/SourceApp/Components/EPAHistory/epaHistory-controller.js"));
+                            "~/SourceApp/Components/EPAHistory/epaHistory-controller.js",
+                            "~/SourceApp/Components/Error/error-controller.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/epa-directives.js",
