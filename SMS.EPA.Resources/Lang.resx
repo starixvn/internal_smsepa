@@ -1191,4 +1191,7 @@
   <data name="SelectViolationType" xml:space="preserve">
     <value>Select Violation Type</value>
   </data>
+  <data name="TotalWeightLessThanMaxWeightWarning" xml:space="preserve">
+    <value>Updated Successfully! &lt;br/&gt;Total score of all KPIs is less than {0}!</value>
+  </data>
 </root>

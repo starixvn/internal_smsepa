@@ -201,11 +201,19 @@ function ($scope, $window, TargetTemplateModel, CommonModel) {
 }]);
 
 targetTemplateModule.controller('KPIListController',
-['$scope', '$window', 'TargetTemplateModel', 'utilitiesFactory',
-function ($scope, $window, TargetTemplateModel, utilitiesFactory) {
+['$scope', '$window', '$translate', 'TargetTemplateModel', 'utilitiesFactory',
+function ($scope, $window, $translate, TargetTemplateModel, utilitiesFactory) {
     var vm = this;
 
     vm.targetTemplateId = $scope.updateCtrl.targetTemplateId;
+
+    var getMessage = function () {
+        $translate('TotalWeightLessThanMaxWeightWarning').then(function (message) {
+            vm.totalWeightLessThanMaxWeightWarningMessage = message;
+        });
+    };
+
+    getMessage();
 
     $scope.$watch(function () { return $scope.updateCtrl.targetTemplate.MaxWeightSelf; },
         function (newVal) {
@@ -360,9 +368,20 @@ function ($scope, $window, TargetTemplateModel, utilitiesFactory) {
             event.stopPropagation();
         }
     };
+    
+    var getTotalWeight = function (kpiList) {
+        var totalWeight = 0;
+
+        angular.forEach(kpiList, function (kpiGroup) {
+            totalWeight += kpiGroup.Weight;
+        });
+
+        return totalWeight;
+    };
 
     vm.save = function (targetTemplate) {
-        TargetTemplateModel.updateTargetTemplate(targetTemplate);
+        var totalWeight = getTotalWeight(vm.kpiList);
+        TargetTemplateModel.updateTargetTemplate(targetTemplate, totalWeight, vm);
     };
 
     vm.cancel = function () {

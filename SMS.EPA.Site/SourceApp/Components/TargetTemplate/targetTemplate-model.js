@@ -145,10 +145,16 @@ function ($modal, targetTemplateFactory, errorFactory, notificationFactory, util
         });
     };
 
-    targetTemplateModel.updateTargetTemplate = function (targetTemplate) {
+    targetTemplateModel.updateTargetTemplate = function (targetTemplate, totalWeight, vm) {
         return targetTemplateFactory.updateTargetTemplate(targetTemplate).success(function (response) {
             if (response.IsSuccessful) {
-                notificationFactory.success("UpdatedSuccessfully");
+                if (totalWeight < vm.maxWeight) {
+                    var message = utilitiesFactory.formatString(vm.totalWeightLessThanMaxWeightWarningMessage, vm.maxWeight);
+                    notificationFactory.success("", message);
+                }
+                else {
+                    notificationFactory.success("UpdatedSuccessfully");
+                }
             }
             else {
                 notificationFactory.error("", response.Message);
