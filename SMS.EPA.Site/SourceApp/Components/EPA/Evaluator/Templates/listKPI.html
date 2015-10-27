@@ -17,7 +17,10 @@
                         <label class="note" ng-show="kpi.IsRequiredEvaluate" data-translate="(*)"></label>
                     </div>
                     <div class="employee-score">
-                        <strong ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" ng-bind="kpi.EvaluationBySelf.Score | customScore"></strong>
+                        <strong ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess">
+                            <span ng-show="kpi.EvaluationBySelf.Score" ng-bind="kpi.EvaluationBySelf.Score | customScore"></span>
+                            <span ng-show="!kpi.EvaluationBySelf.Score" ng-bind="'0'"></span>
+                        </strong>
                         <strong ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" ng-bind="'N/A'"></strong>
                     </div>
                     <div class="kpi-start">
@@ -30,13 +33,11 @@
                                 <rating ng-model="kpi.CurrentEvaluation.Rate" max="memberEPAInfoCtrl.maxStar" readonly="memberEPAInfoCtrl.isReadonly"
                                         on-leave="memberEPAInfoCtrl.hoveringLeave(kpiGroup, kpi)"></rating>
                             </div>
-                            <div ng-show="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == 2 && kpiGroup.NumberKPIOptional == 0" class="col-sm-2">
-                                <div class="col-sm-12">
-                                    <input type="text" class="form-control text-center kpi-score" ng-readonly="memberEPAInfoCtrl.isReadonly"
-                                           ng-show="kpiGroup.NumberKPIOptional == 0" ng-model="kpi.CurrentEvaluation.Score" numeric decimals="2"
-                                           ng-change="memberEPAInfoCtrl.inputScore(kpi)" tooltip="{{memberEPAInfoCtrl.getNotificationInputScore(kpi)}}" tooltip-trigger="focus" />
-                                </div>
-                            </div>
+                        </div>
+                        <div ng-show="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == 2 && kpiGroup.NumberKPIOptional == 0" class="rating-by-score">
+                            <input type="text" class="form-control text-center kpi-score" ng-readonly="memberEPAInfoCtrl.isReadonly"
+                                   ng-show="kpiGroup.NumberKPIOptional == 0" ng-model="kpi.CurrentEvaluation.Score" numeric decimals="2"
+                                   ng-change="memberEPAInfoCtrl.inputScore(kpi)" tooltip="{{memberEPAInfoCtrl.getNotificationInputScore(kpi)}}" tooltip-trigger="focus" />
                         </div>
                     </div>
                     <div class="kpi-percent" ng-show="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == 1 || (memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId ==2 && kpiGroup.NumberKPIOptional > 0)">

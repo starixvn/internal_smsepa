@@ -2,8 +2,8 @@
 /*global flowMngModule*/
 
 flowMngModule.controller("ResultSettingFlowController",
-['$scope', '$routeParams', 'FlowMngModel', 'cacheService',
-function ($scope, $routeParams, FlowMngModel, cacheService) {
+['$scope', '$window', '$routeParams', 'FlowMngModel', 'cacheService',
+function ($scope, $window, $routeParams, FlowMngModel, cacheService) {
     var vm = this;
 
     vm.flowSettings = [];
@@ -30,4 +30,8 @@ function ($scope, $routeParams, FlowMngModel, cacheService) {
             });
         }
     });
+
+    vm.cancel = function () {
+        $window.history.back();
+    };
 }]);

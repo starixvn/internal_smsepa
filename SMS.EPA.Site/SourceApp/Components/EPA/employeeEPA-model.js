@@ -87,9 +87,11 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
             });
 
             if ((averageWeight * kpiGroup.KPIs.length) > kpiGroup.Weight) {
-                kpiGroup.KPIs[kpiGroup.KPIs.length - 1].Weight = averageWeight - ((averageWeight * kpiGroup.KPIs.length) - kpiGroup.Weight);
+                weight = utilitiesFactory.parseFloat(averageWeight - ((averageWeight * kpiGroup.KPIs.length) - kpiGroup.Weight));
+                kpiGroup.KPIs[kpiGroup.KPIs.length - 1].Weight = weight;
             } else if ((averageWeight * kpiGroup.KPIs.length) < kpiGroup.Weight) {
-                kpiGroup.KPIs[kpiGroup.KPIs.length - 1].Weight = averageWeight + (kpiGroup.Weight - (averageWeight * kpiGroup.KPIs.length));
+                weight = utilitiesFactory.parseFloat(averageWeight + (kpiGroup.Weight - (averageWeight * kpiGroup.KPIs.length)));
+                kpiGroup.KPIs[kpiGroup.KPIs.length - 1].Weight = weight;
             }
         }
     };

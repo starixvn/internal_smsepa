@@ -95,7 +95,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         return vm.modalInstance.result;
     };
 
-    reviewerMngModel.validateEvaluationOfReviewerOrManagement = function (score) {
+    reviewerMngModel.validateEvaluation = function (score) {
         if (!score || parseFloat(score) <= 0) {
             notificationFactory.error("ScoreRequire");
             return false;

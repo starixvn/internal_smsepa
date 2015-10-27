@@ -148,10 +148,12 @@ function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService
                 vm.employees = CommonModel.employeesInDepartment;
             });
 
+            vm.department = $scope.updateCtrl.treeDepartment[0];
+            vm.onSelectedDepartment();
+
             FlowMngModel.resetCurrentFlow(vm);
             vm.showListEmployee = true;
             vm.showDeleteButton = false;
-            vm.department = null;
             vm.departmentId = null;
             vm.defaultFlowSettings = [];
             vm.personalFlowSettings = [];
