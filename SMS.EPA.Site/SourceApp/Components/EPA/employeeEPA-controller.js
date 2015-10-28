@@ -19,11 +19,9 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
 
         if (epaInfo.ProcessByManagements.length > 0) {
             finalScore = epaInfo.AverageScoreByManagements;
-        }
-        else if (epaInfo.ProcessByReviewers.length > 0) {
+        } else if (epaInfo.ProcessByReviewers.length > 0) {
             finalScore = epaInfo.AverageScoreByReviewers;
-        }
-        else {
+        } else {
             finalScore = epaInfo.AverageScoreByEvaluators;
         }
 
@@ -60,48 +58,43 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
     var getEPAInfoById = function () {
         EmployeeEPAModel.getEPAInfoById(vm.epaId).then(function () {
             vm.epaInfo = EmployeeEPAModel.epaInfo;
-            var totalScore,
-                disciplineScore = vm.epaInfo.MaxDisciplineScore - vm.epaInfo.DisciplineScore;
-            if (disciplineScore < 0) {
-                disciplineScore = 0;
+            var totalScore;
+
+            if (vm.epaInfo.HasDisciplineScore && vm.epaInfo.DisciplineScore < 0) {
+                vm.epaInfo.DisciplineScore = 0;
             }
 
-            vm.epaInfo.DisciplineScore = disciplineScore;
+            // self
             totalScore = utilitiesFactory.parseFloat(vm.epaInfo.ProcessBySelf.TotalScore);
-            vm.finalScore = calculateFinalScore(vm.epaInfo);
-            vm.epaInfo.ProcessBySelf.TotalScore = totalScore;
+            vm.epaInfo.ProcessBySelf.TotalScore = totalScore + vm.epaInfo.DisciplineScore;
 
+            // evaluator
             angular.forEach(vm.epaInfo.ProcessByEvaluators, function (evaluator) {
-                evaluator.TotalScore = utilitiesFactory.parseFloat(evaluator.TotalScore);
+                totalScore = utilitiesFactory.parseFloat(evaluator.TotalScore);
+                evaluator.TotalScore = totalScore + vm.epaInfo.DisciplineScore;
             });
+            vm.epaInfo.AverageScoreByEvaluators += vm.epaInfo.DisciplineScore;
 
+            // reviewer
             angular.forEach(vm.epaInfo.ProcessByReviewers, function (reviewer) {
-                reviewer.TotalScore = utilitiesFactory.parseFloat(reviewer.TotalScore);
+                totalScore = utilitiesFactory.parseFloat(reviewer.TotalScore);
+                reviewer.TotalScore = totalScore + vm.epaInfo.DisciplineScore;
             });
+            vm.epaInfo.AverageScoreByReviewers += vm.epaInfo.DisciplineScore;
 
+            // management
             angular.forEach(vm.epaInfo.ProcessByManagements, function (management) {
-                management.TotalScore = utilitiesFactory.parseFloat(management.TotalScore);
+                totalScore = utilitiesFactory.parseFloat(management.TotalScore);
+                management.TotalScore = totalScore + vm.epaInfo.DisciplineScore;
             });
+            vm.epaInfo.AverageScoreByManagements += vm.epaInfo.DisciplineScore;
 
-            if (vm.epaInfo.HasDisciplineScore) {
-                vm.epaInfo.ProcessBySelf.TotalScore += vm.epaInfo.DisciplineScore;
+            vm.finalScore = calculateFinalScore(vm.epaInfo) + vm.epaInfo.DisciplineScore;
 
-                angular.forEach(vm.epaInfo.ProcessByEvaluators, function (evaluator) {
-                    evaluator.TotalScore += vm.epaInfo.DisciplineScore;
-                });
-                vm.epaInfo.AverageScoreByEvaluators += vm.epaInfo.DisciplineScore;
-
-                angular.forEach(vm.epaInfo.ProcessByReviewers, function (reviewer) {
-                    reviewer.TotalScore += vm.epaInfo.DisciplineScore;
-                });
-                vm.epaInfo.AverageScoreByReviewers += vm.epaInfo.DisciplineScore;
-
-                angular.forEach(vm.epaInfo.ProcessByManagements, function (management) {
-                    management.TotalScore += vm.epaInfo.DisciplineScore;
-                });
-                vm.epaInfo.AverageScoreByManagements += vm.epaInfo.DisciplineScore;
-
-                vm.finalScore += vm.epaInfo.DisciplineScore;
+            if (vm.finalScore > vm.epaInfo.MaxFinalScore) {
+                vm.finalScore = vm.epaInfo.MaxFinalScore;
+            } else if (vm.finalScore < 0) {
+                vm.finalScore = 0;
             }
 
             vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);

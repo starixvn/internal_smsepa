@@ -17,30 +17,27 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
 
         angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
             angular.forEach(kpiGroup.KPIs, function (kpi) {
-                var rate = utilitiesFactory.parseFloat(kpi.CurrentEvaluation.Rate);
                 var score = utilitiesFactory.parseFloat(kpi.CurrentEvaluation.Score);
                 totalScore += score;
 
-                if ((score > 0 && score === kpi.Weight) || rate === 5) {
+                if (score > 0 && score === kpi.Weight) {
                     kpi.CurrentEvaluation.IsMaxScore = true;
-                }
-                else {
+                } else {
                     kpi.CurrentEvaluation.IsMaxScore = false;
                 }
             });
         });
 
-        vm.epaInfo.CurrentProcess.TotalScore = totalScore;
-        vm.finalScore = totalScore;
-
-        if (vm.epaInfo.HasDisciplineScore) {
-            vm.finalScore += vm.epaInfo.DisciplineScore;
+        if (vm.epaInfo.DisciplineScore < 0 && vm.epaInfo.HasDisciplineScore) {
+            vm.epaInfo.DisciplineScore = 0;
         }
+
+        vm.epaInfo.CurrentProcess.TotalScore = totalScore;
+        vm.finalScore = totalScore + vm.epaInfo.DisciplineScore;
 
         if (vm.finalScore > vm.epaInfo.MaxFinalScore) {
             vm.finalScore = vm.epaInfo.MaxFinalScore;
-        }
-        else if (vm.finalScore < 0) {
+        } else if (vm.finalScore < 0) {
             vm.finalScore = 0;
         }
 

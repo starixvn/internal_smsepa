@@ -37,10 +37,8 @@
                     </div>
                 </div>
             </div>
-            <div class="kpi-description" ng-show="kpi.Description.length > 0">
-                <div class="col-sm-12" ng-bind="kpi.Description"></div>
-            </div>
-            <div class="kpi-comment" ng-show="kpi.HasComment">
+            <div class="row kpi-description" ng-show="kpi.Description.length > 0" ng-bind="kpi.Description"></div>
+            <div class="row kpi-comment" ng-show="kpi.HasComment">
                 <div class="error-message" ng-show="kpi.CurrentEvaluation.CommentInvalid && kpi.HasComment && kpi.IsRequiredComment" data-translate="RequiredComment"></div>
                 <div class="error-message" ng-show="kpi.CurrentEvaluation.CommentInvalid && kpi.HasComment && !kpi.IsRequiredComment" data-translate="RequiredCommentForMaxScoreRating"></div>
                 <div class="collapse-expanse" ng-init="kpi.ExpandedComment = true;">

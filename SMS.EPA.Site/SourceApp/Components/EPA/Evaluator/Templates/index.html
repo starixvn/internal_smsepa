@@ -64,7 +64,7 @@
                     </td>
                     <td class="text-center">
                         <div ng-show="memberEPA.ProcessBySelf.IsEndProcess">
-                            {{memberEPA.ProcessBySelf.TotalScore | customScore}} / {{memberEPA.MaxFinalScore | customScore}}
+                            {{memberEPA.ProcessBySelf.TotalScore | customScore}} / {{memberEPA.ProcessBySelf.MaxTotalScore | customScore}}
                         </div>
                         <div ng-show="!memberEPA.ProcessBySelf.IsEndProcess" ng-bind="'N/A'"></div>
                     </td>
@@ -81,11 +81,10 @@
                         <div ng-show="memberEPA.HasDisciplineScore">
                             {{memberEPA.DisciplineScore | customScore}} / {{memberEPA.MaxDisciplineScore | customScore}}
                         </div>
+                        <div ng-show="!memberEPA.HasDisciplineScore" ng-bind="memberEPA.DisciplineScore | customScore"></div>
                     </td>
                     <td class="text-center">
-                        <div ng-show="memberEPA.FinalScore">
-                            {{memberEPA.FinalScore | customScore}} / {{memberEPA.MaxFinalScore | customScore}}
-                        </div>
+                        {{memberEPA.FinalScore | customScore}} / {{memberEPA.MaxFinalScore | customScore}}
                     </td>
                     <td class="text-center">
                         <div ng-show="memberEPA.CurrentProcess.Evaluated" class="glyphicon glyphicon-ok"></div>

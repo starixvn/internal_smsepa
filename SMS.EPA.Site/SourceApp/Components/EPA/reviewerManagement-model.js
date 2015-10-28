@@ -113,30 +113,24 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
             averageScore = memberEPA.AverageScoreByReviewers;
         }
 
-        if (memberEPA.HasDisciplineScore) {
-            averageScore -= memberEPA.DisciplineScore;
+        if (memberEPA.HasDisciplineScore && memberEPA.DisciplineScore < 0) {
+            memberEPA.DisciplineScore = 0;
         }
 
         totalScore = averageScore + scoreAdjusted;
 
         if (totalScore > memberEPA.CurrentProcess.MaxTotalScore) {
             scoreAdjusted = memberEPA.CurrentProcess.MaxTotalScore - averageScore;
-        }
-        else if (totalScore < 0) {
+        } else if (totalScore < 0) {
             scoreAdjusted = -averageScore;
         }
 
         memberEPA.CurrentProcess.TotalScore = averageScore + scoreAdjusted;
-        memberEPA.FinalScore = averageScore + scoreAdjusted;
-
-        if (memberEPA.HasDisciplineScore) {
-            memberEPA.FinalScore += memberEPA.DisciplineScore;
-        }
+        memberEPA.FinalScore = averageScore + scoreAdjusted + memberEPA.DisciplineScore;
 
         if (memberEPA.FinalScore > memberEPA.MaxFinalScore) {
             memberEPA.FinalScore = memberEPA.MaxFinalScore;
-        }
-        else if (memberEPA.FinalScore < 0) {
+        } else if (memberEPA.FinalScore < 0) {
             memberEPA.FinalScore = 0;
         }
     };
@@ -149,14 +143,19 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
             averageScore = vm.epaInfo.AverageScoreByReviewers;
         }
 
-        vm.finalScore = totalScore;
-        vm.epaInfo.CurrentProcess.AdjustScore = totalScore - averageScore;
-
-        if (vm.epaInfo.HasDisciplineScore) {
-            vm.finalScore += vm.epaInfo.DisciplineScore;
-            vm.epaInfo.CurrentProcess.AdjustScore -= vm.epaInfo.DisciplineScore;
+        if (vm.epaInfo.HasDisciplineScore && vm.epaInfo.DisciplineScore < 0) {
+            vm.epaInfo.DisciplineScore = 0;
         }
 
+        averageScore -= vm.epaInfo.DisciplineScore;
+        vm.finalScore = totalScore + vm.epaInfo.DisciplineScore;
+        if (vm.finalScore > vm.epaInfo.MaxFinalScore) {
+            vm.finalScore = vm.epaInfo.MaxFinalScore;
+        } else if (vm.finalScore < 0) {
+            vm.finalScore = 0;
+        }
+
+        vm.epaInfo.CurrentProcess.AdjustScore = totalScore - averageScore;
         vm.epaInfo.CurrentProcess.AdjustScoreOriginal = vm.epaInfo.CurrentProcess.AdjustScore;
         vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
     };
@@ -171,8 +170,8 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
                 averageScore = memberEPA.AverageScoreByReviewers;
             }
 
-            if (memberEPA.HasDisciplineScore) {
-                averageScore -= memberEPA.DisciplineScore;
+            if (memberEPA.HasDisciplineScore && memberEPA.DisciplineScore < 0) {
+                memberEPA.DisciplineScore = 0;
             }
 
             totalScore = scoreAdjusted + averageScore;
@@ -200,16 +199,15 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
                     averageScore = memberEPA.AverageScoreByReviewers;
                 }
 
-                if (memberEPA.HasDisciplineScore) {
-                    averageScore -= memberEPA.DisciplineScore;
+                if (memberEPA.HasDisciplineScore && memberEPA.DisciplineScore < 0) {
+                    memberEPA.DisciplineScore = 0;
                 }
 
                 totalScore = scoreAdjusted + averageScore;
 
                 if (totalScore > memberEPA.CurrentProcess.MaxTotalScore) {
                     scoreAdjusted = memberEPA.CurrentProcess.MaxTotalScore - averageScore;
-                }
-                else if (totalScore < 0) {
+                } else if (totalScore < 0) {
                     scoreAdjusted = -averageScore;
                 }
 
@@ -217,23 +215,17 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
                 memberEPA.CurrentProcess.AdjustScoreOriginal = scoreAdjusted;
                 memberEPA.CurrentProcess.TotalScore = averageScore + scoreAdjusted;
                 memberEPA.CurrentProcess.TotalScoreOriginal = averageScore + scoreAdjusted;
-                memberEPA.FinalScore = averageScore + scoreAdjusted;
-
-                if (memberEPA.HasDisciplineScore) {
-                    memberEPA.FinalScore += memberEPA.DisciplineScore;
-                }
+                memberEPA.FinalScore = averageScore + scoreAdjusted + memberEPA.DisciplineScore;
 
                 if (memberEPA.FinalScore > memberEPA.MaxFinalScore) {
                     memberEPA.FinalScore = memberEPA.MaxFinalScore;
-                }
-                else if (memberEPA.FinalScore < 0) {
+                } else if (memberEPA.FinalScore < 0) {
                     memberEPA.FinalScore = 0;
                 }
 
                 if (memberEPA.CurrentProcess.Comment.length > 0) {
                     memberEPA.CurrentProcess.Comment = memberEPA.CurrentProcess.Comment + '\n' + adjust.Comment;
-                }
-                else {
+                } else {
                     memberEPA.CurrentProcess.Comment = adjust.Comment;
                 }
             }

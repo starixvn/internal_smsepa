@@ -108,19 +108,20 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
     var getEPAInfoByEmployee = function () {
         SelfEvalutorModel.getEPAInfoByEmployee(vm.epaId).then(function () {
             vm.epaInfo = SelfEvalutorModel.epaInfo;
-            var totalScore = utilitiesFactory.parseFloat(vm.epaInfo.CurrentProcess.TotalScore),
-                disciplineScore = vm.epaInfo.MaxDisciplineScore - vm.epaInfo.DisciplineScore;
+            var totalScore = utilitiesFactory.parseFloat(vm.epaInfo.CurrentProcess.TotalScore);
 
-            if (disciplineScore < 0) {
-                disciplineScore = 0;
+            if (vm.epaInfo.DisciplineScore < 0 && vm.epaInfo.HasDisciplineScore) {
+                vm.epaInfo.DisciplineScore = 0;
             }
 
             vm.epaInfo.CurrentProcess.TotalScore = totalScore;
-            vm.epaInfo.DisciplineScore = disciplineScore;
-            vm.finalScore = totalScore;
+            vm.finalScore = totalScore + vm.epaInfo.DisciplineScore;
 
-            if (vm.epaInfo.HasDisciplineScore) {
-                vm.finalScore += vm.epaInfo.DisciplineScore;
+            if (vm.finalScore > vm.epaInfo.MaxFinalScore) {
+                vm.finalScore = vm.epaInfo.MaxFinalScore;
+            }
+            else if (vm.finalScore < 0) {
+                vm.finalScore = 0;
             }
 
             vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
