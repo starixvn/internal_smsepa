@@ -5,9 +5,9 @@
         </ul>
     </div>
     <div class="col-sm-12">
-        <form class="epa-form">
+        <div class="row epa-form">
             <div class="text-center epa-title" data-translate="EPATilte"></div>
-            <div class="col-sm-12 list-group-item bottom-buffer" ng-init="memberEPAInfoCtrl.collapses['GeneralInfo'] = false;">
+            <div class="col-sm-12 list-group-item bottom-buffer general-info-section" ng-init="memberEPAInfoCtrl.collapses['GeneralInfo'] = false;">
                 <div class="boxtitle" data-translate="GeneralInfo"
                      ng-click="memberEPAInfoCtrl.collapses['GeneralInfo'] = !memberEPAInfoCtrl.collapses['GeneralInfo']"></div>
                 <div class="boxcontent" collapse="memberEPAInfoCtrl.collapses['GeneralInfo']"
@@ -23,7 +23,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-12 list-group-item bottom-buffer"
+            <div class="col-sm-12 list-group-item bottom-buffer rating-instruction-section"
                  ng-init="memberEPAInfoCtrl.collapses['RatingInstruction'] = true;">
                 <div class="boxtitle" data-translate="RatingInstruction"
                      ng-click="memberEPAInfoCtrl.collapses['RatingInstruction'] = !memberEPAInfoCtrl.collapses['RatingInstruction']"></div>
@@ -51,11 +51,13 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-12 epa-action-button text-center">
+        </div>
+        <div class="navbar navbar-default navbar-fixed-bottom action-section">
+            <div class="container text-center">
                 <button class="button" ng-click="memberEPAInfoCtrl.save(memberEPAInfoCtrl.epaInfo)"
                         ng-show="memberEPAInfoCtrl.epaInfo && !memberEPAInfoCtrl.isReadonly" data-translate="Save"></button>
                 <button class="btn btn-default customize" ng-click="memberEPAInfoCtrl.cancel()" data-translate="Back"></button>
             </div>
-        </form>
+        </div>
     </div>
 </div>
