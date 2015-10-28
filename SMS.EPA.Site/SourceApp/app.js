@@ -2,7 +2,7 @@
 /*exported appModule*/
 
 var appModule = angular.module("appModule", ['employeeModule', 'commonModule', 'kpiModule', 'kpiGroupModule', 'roleModule',
-'targetTemplateModule', 'flowMngModule', 'targetEmployeeSettingModule', 'checkFlowAssignmentModule', 'departmentModule',
+'targetTemplateModule', 'flowMngModule', 'targetEmployeeSettingModule', 'departmentModule',
 'epaModule', 'periodModule', 'dashboardModule', 'attendanceModule', 'reportModule', 'epaHistoryModule', 'errorModule',
 'ui.bootstrap.contextMenu', 'ui.bootstrap', 'angular.chosen', 'pascalprecht.translate', 'angularUtils.directives.dirPagination',
 'ngRoute', 'multi-select', 'purplefox.numeric'])

@@ -147,16 +147,6 @@
             <Mapping DataField="ManagerId" ObjectProperty="EmployeeId"/>
         </Setting>
     </Function>
-    <Function Name="CheckAssignment">
-        <Setting Key="EpaEmployeeAssignmentSetting_Get" SpName="EpaEmployeeAssignmentSetting_Get" DbName="SMSEPA" Plain="0" >
-            <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId"/>
-        </Setting>
-        <Setting Key="EpaEmployeeAssignmentSetting_Edit" SpName="EpaEmployeeAssignmentSetting_Edit" DbName="SMSEPA" Plain="0" >
-        </Setting>
-        <Setting Key="EpaDepartmentAssignmentSetting_Get" SpName="EpaDepartmentAssignmentSetting_Get" DbName="SMSEPA" Plain="0" >
-            <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId"/>
-        </Setting>
-    </Function>
     <Function Name="Score Rating Type">
         <Setting Key="EpaScoreRatingType_Get" SpName="EpaScoreRatingType_Get" DbName="SMSEPA" Plain="0" >
         </Setting>

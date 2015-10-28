@@ -54,10 +54,6 @@
     </Compile>
     <Compile Include="Authentication\LoginModel.cs" />
     <Compile Include="Authentication\UserSession.cs" />
-    <Compile Include="CheckFlowAssignment\DepartmentFlowSetingModel.cs" />
-    <Compile Include="CheckFlowAssignment\EmployeeFlowTargetSettingModel.cs" />
-    <Compile Include="CheckFlowAssignment\RawEmployeeFlowModel.cs" />
-    <Compile Include="CheckFlowAssignment\RawEmployeeFlowTargetSettingModel.cs" />
     <Compile Include="EmployeeEPA\EPAEmployeeModel.cs" />
     <Compile Include="EmployeeEPA\EPAPeriodModel.cs" />
     <Compile Include="EmployeeEPA\EPASummaryImportModel.cs" />

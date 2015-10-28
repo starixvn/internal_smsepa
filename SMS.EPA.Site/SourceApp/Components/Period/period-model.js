@@ -533,7 +533,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             if (employeeOptions.humanResource.ids && employeeOptions.humanResource.ids.length > 0) {
                 angular.forEach(employeeOptions.humanResource.ids, function (humanResourceId, index) {
                     var humanResourceAssignment = {
-                        employeeId: employee.EmployeeId,
+                        employeeId: employee.Employee.EmployeeId,
                         processId: periodModel.evaluatorType.HumanResources,
                         startDate: employeeOptions.humanResource.StartDate.toDateString(),
                         endDate: employeeOptions.humanResource.EndDate.toDateString(),
@@ -548,7 +548,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             }
 
             var selfEvaluatorAssignments = {
-                employeeId: employee.EmployeeId,
+                employeeId: employee.Employee.EmployeeId,
                 processId: periodModel.evaluatorType.SelfEvaluator,
                 startDate: employeeOptions.selfEvaluator.StartDate.toDateString(),
                 endDate: employeeOptions.selfEvaluator.EndDate.toDateString(),
@@ -562,7 +562,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             if (employeeOptions.evaluator.ids && employeeOptions.evaluator.ids.length > 0) {
                 angular.forEach(employeeOptions.evaluator.ids, function (evaluatorId, index) {
                     var evaluatorAssignment = {
-                        employeeId: employee.EmployeeId,
+                        employeeId: employee.Employee.EmployeeId,
                         processId: periodModel.evaluatorType.Evaluator,
                         startDate: employeeOptions.evaluator.StartDate.toDateString(),
                         endDate: employeeOptions.evaluator.EndDate.toDateString(),
@@ -579,7 +579,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             if (employeeOptions.reviewer.ids && employeeOptions.reviewer.ids.length > 0) {
                 angular.forEach(employeeOptions.reviewer.ids, function (reviewerId, index) {
                     var reviewerAssignment = {
-                        employeeId: employee.EmployeeId,
+                        employeeId: employee.Employee.EmployeeId,
                         processId: periodModel.evaluatorType.Reviewer,
                         startDate: employeeOptions.reviewer.StartDate.toDateString(),
                         endDate: employeeOptions.reviewer.EndDate.toDateString(),
@@ -596,7 +596,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             if (employeeOptions.management.ids && employeeOptions.management.ids.length > 0) {
                 angular.forEach(employeeOptions.management.ids, function (managementId, index) {
                     var managementAssignment = {
-                        employeeId: employee.EmployeeId,
+                        employeeId: employee.Employee.EmployeeId,
                         processId: periodModel.evaluatorType.Management,
                         startDate: employeeOptions.management.StartDate.toDateString(),
                         endDate: employeeOptions.management.EndDate.toDateString(),
@@ -694,13 +694,13 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         return evaluators;
     };
 
-    periodModel.openPopupIncludeExcludeEmployee = function (periodId, employee) {
+    periodModel.openPopupIncludeExcludeEmployee = function (vm, periodId, employee) {
         employee.IsIncluded = !employee.IsIncluded;
 
         var action = employee.IsIncluded ? "include" : "exclude",
         newEmployeeStatus = {
             PeriodId: periodId,
-            EmployeeId: employee.EmployeeId,
+            EmployeeId: employee.Employee.EmployeeId,
             IsIncluded: employee.IsIncluded
         };
 
@@ -710,7 +710,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             backdrop: 'static',
             resolve: {
                 name: function () {
-                    return employee.NickName;
+                    return employee.Employee.NickName;
                 },
                 action: function () {
                     return action;
@@ -729,6 +729,8 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                     employee.IsIncluded = !newEmployeeStatus.IsIncluded;
                     notificationFactory.error("UpdatedUnsuccessfully");
                 }
+
+                vm.query(vm.filter);
             })
             .error(function (response, status) {
                 if (status === 405) {
@@ -763,8 +765,8 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             selectedEmployeeNames = '';
 
         angular.forEach(employeeSettings, function (employeeSetting) {
-            selectedEmployeeIds += selectedEmployeeIds ? ', ' + employeeSetting.EmployeeId : employeeSetting.EmployeeId;
-            selectedEmployeeNames += selectedEmployeeNames ? ', ' + employeeSetting.NickName : employeeSetting.NickName;
+            selectedEmployeeIds += selectedEmployeeIds ? ', ' + employeeSetting.Employee.EmployeeId : employeeSetting.Employee.EmployeeId;
+            selectedEmployeeNames += selectedEmployeeNames ? ', ' + employeeSetting.Employee.NickName : employeeSetting.Employee.NickName;
         });
 
         return {
@@ -1126,7 +1128,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             if (employee.HumanResources && employee.HumanResources.length > 0) {
                 angular.forEach(employee.HumanResources, function (humanResource, index) {
                     var humanResourceAssignment = {
-                        employeeId: employee.EmployeeId,
+                        employeeId: employee.Employee.EmployeeId,
                         processId: periodModel.evaluatorType.HumanResources,
                         startDate: new Date(humanResource.StartDate).toDateString(),
                         endDate: new Date(humanResource.EndDate).toDateString(),
@@ -1141,13 +1143,13 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             }
 
             var selfEvaluatorAssignments = {
-                employeeId: employee.EmployeeId,
+                employeeId: employee.Employee.EmployeeId,
                 processId: periodModel.evaluatorType.SelfEvaluator,
                 startDate: new Date(employee.SelfEvaluators[0].StartDate).toDateString(),
                 endDate: new Date(employee.SelfEvaluators[0].EndDate).toDateString(),
                 priority: 1,
                 evaluatorInfo: {
-                    employeeId: employee.EmployeeId
+                    employeeId: employee.Employee.EmployeeId
                 }
             };
             employeeAssignments.push(selfEvaluatorAssignments);
@@ -1155,7 +1157,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             if (employee.Evaluators && employee.Evaluators.length > 0) {
                 angular.forEach(employee.Evaluators, function (evaluator, index) {
                     var evaluatorAssignment = {
-                        employeeId: employee.EmployeeId,
+                        employeeId: employee.Employee.EmployeeId,
                         processId: periodModel.evaluatorType.Evaluator,
                         startDate: new Date(evaluator.StartDate).toDateString(),
                         endDate: new Date(evaluator.EndDate).toDateString(),
@@ -1172,7 +1174,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             if (employee.Reviewers && employee.Reviewers.length > 0) {
                 angular.forEach(employee.Reviewers, function (reviewer, index) {
                     var reviewerAssignment = {
-                        employeeId: employee.EmployeeId,
+                        employeeId: employee.Employee.EmployeeId,
                         processId: periodModel.evaluatorType.Reviewer,
                         startDate: new Date(reviewer.StartDate).toDateString(),
                         endDate: new Date(reviewer.EndDate).toDateString(),
@@ -1189,7 +1191,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             if (employee.Managements && employee.Managements.length > 0) {
                 angular.forEach(employee.Managements, function (management, index) {
                     var managementAssignment = {
-                        employeeId: employee.EmployeeId,
+                        employeeId: employee.Employee.EmployeeId,
                         processId: periodModel.evaluatorType.Management,
                         startDate: new Date(management.StartDate).toDateString(),
                         endDate: new Date(management.EndDate).toDateString(),

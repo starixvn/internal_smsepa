@@ -442,7 +442,7 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
     };
 
     vm.includeExcludeEmployee = function (employee) {
-        PeriodModel.openPopupIncludeExcludeEmployee(vm.period.PeriodId, employee);
+        PeriodModel.openPopupIncludeExcludeEmployee(vm, vm.period.PeriodId, employee);
     };
 
     vm.manageSetting = function () {
@@ -494,11 +494,11 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
             allChecked = true;
 
         angular.forEach(vm.employeeSettings, function (employeeSetting) {
-            if (employeeSetting.EmployeeId === employeeId) {
+            if (employeeSetting.Employee.EmployeeId === employeeId) {
                 angular.forEach(vm.filteredItems, function (filterItem) {
-                    if (employeeSetting.EmployeeId === filterItem.EmployeeId) {
-                        filterItem.selected = selected;
-                        employeeSetting.selected = selected;
+                    if (employeeSetting.Employee.EmployeeId === filterItem.Employee.EmployeeId) {
+                        filterItem.Selected = selected;
+                        employeeSetting.Selected = selected;
                     }
                 });
             }

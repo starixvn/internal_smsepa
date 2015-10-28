@@ -1,6 +1,6 @@
 ﻿'use strict';
 /*exported employeeModule, commonModule, kpiModule, kpiGroupModule, roleModule, targetTemplateModule*/
-/*exported flowMngModule, targetEmployeeSettingModule, checkFlowAssignmentModule, departmentModule*/
+/*exported flowMngModule, targetEmployeeSettingModule, departmentModule*/
 /*exported epaModule, periodModule, dashboardModule, attendanceModule, reportModule, epaHistoryModule, errorModule*/
 
 var employeeModule = angular.module("employeeModule", ['ngRoute'])
@@ -71,13 +71,6 @@ var targetEmployeeSettingModule = angular.module("targetEmployeeSettingModule", 
     var baseUrl = $("base").first().attr("href");
     $routeProvider.when('/TargetEmployeeSetting/Index',
     { templateUrl: baseUrl + 'SourceApp/Components/TargetEmployeeSetting/Templates/index.html' });
-}]);
-
-var checkFlowAssignmentModule = angular.module("checkFlowAssignmentModule", ['ngRoute'])
-.config(['$routeProvider', function ($routeProvider) {
-    var baseUrl = $("base").first().attr("href");
-    $routeProvider.when('/CheckAssignment/Index',
-    { templateUrl: baseUrl + 'SourceApp/Components/CheckFlowAssignment/Templates/index.html' });
 }]);
 
 var departmentModule = angular.module("departmentModule", ['ngRoute'])

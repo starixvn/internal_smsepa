@@ -101,7 +101,7 @@
                current-page="employeeSettingPeriodCtrl.currentPage">
             <tr ng-class="{oddRow: $index % 2 == 0, evenRow: $index % 2 != 0}">
                 <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
-                    <input type="checkbox" ng-model="employee.Selected" ng-click="employeeSettingPeriodCtrl.syncSelectedEmployee(employee.EmployeeId, employee.Selected)" />
+                    <input type="checkbox" ng-model="employee.Selected" ng-click="employeeSettingPeriodCtrl.syncSelectedEmployee(employee.Employee.EmployeeId, employee.Selected)" />
                 </td>
                 <td class="text-center" ng-bind="employeeSettingPeriodCtrl.getIndex($index, employeeSettingPeriodCtrl.currentPage, employeeSettingPeriodCtrl.pageSize)"
                     rowspan="{{employee.NumberEvaluators}}"></td>
@@ -109,15 +109,15 @@
                     <span tooltip="{{employee.Group.GroupName}}" ng-bind="employee.Group.GroupCode"></span>
                 </td>
                 <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
-                    <div ng-bind="employee.FullName"></div>
-                    <div ng-bind="employee.Code"></div>
-                    <div>({{employee.NickName}})</div>
+                    <div ng-bind="employee.Employee.FullName"></div>
+                    <div ng-bind="employee.Employee.Code"></div>
+                    <div>({{employee.Employee.NickName}})</div>
                     <div ng-bind="employee.JobTitle.JobTitleName"></div>
                 </td>
                 <td class="text-center" ng-bind="employee.TargetTemplate.TargetTypeName" rowspan="{{employee.NumberEvaluators}}"></td>
                 <td class="width-190" ng-bind="employee.TargetTemplate.Name" rowspan="{{employee.NumberEvaluators}}"></td>
                 <td data-translate="SelfEvaluator"></td>
-                <td ng-bind="employee.NickName"></td>
+                <td ng-bind="employee.Employee.NickName"></td>
                 <td class="width-120">
                     <span ng-show="employee.SelfEvaluators[0].ProcessStatus == 0" data-translate="NotAvailable"></span>
                     <span ng-show="employee.SelfEvaluators[0].ProcessStatus == 1" data-translate="Open"></span>

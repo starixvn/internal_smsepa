@@ -169,7 +169,6 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\API\AttendanceSummaryController.cs" />
     <Compile Include="Controllers\API\BaseController.cs" />
-    <Compile Include="Controllers\API\CheckFlowAssignmentController.cs" />
     <Compile Include="Controllers\API\CommonController.cs" />
     <Compile Include="Controllers\API\DashboardController.cs" />
     <Compile Include="Controllers\API\DepartmentController.cs" />
@@ -314,12 +313,6 @@
     <Content Include="SourceApp\Components\AttendanceSummary\Templates\detail.html" />
     <Content Include="SourceApp\Components\AttendanceSummary\Templates\index.html" />
     <Content Include="SourceApp\Components\AttendanceSummary\Templates\otherViolation.html" />
-    <Content Include="SourceApp\Components\CheckFlowAssignment\checkFlow-controller.js" />
-    <Content Include="SourceApp\Components\CheckFlowAssignment\checkFlow-directive.js" />
-    <Content Include="SourceApp\Components\CheckFlowAssignment\checkFlow-factory.js" />
-    <Content Include="SourceApp\Components\CheckFlowAssignment\checkFlow-model.js" />
-    <Content Include="SourceApp\Components\CheckFlowAssignment\Templates\editFlowSetting.html" />
-    <Content Include="SourceApp\Components\CheckFlowAssignment\Templates\index.html" />
     <Content Include="SourceApp\Components\Dashboard\dashboard-controller.js" />
     <Content Include="SourceApp\Components\Dashboard\dashboard-factory.js" />
     <Content Include="SourceApp\Components\Dashboard\dashboard-model.js" />
@@ -473,7 +466,9 @@
     <Content Include="SourceApp\Components\TargetTemplate\Templates\index.html" />
     <Content Include="SourceApp\Components\TargetTemplate\Templates\KPIList.html" />
     <Content Include="SourceApp\Components\TargetTemplate\Templates\update.html" />
-    <Content Include="SourceApp\routes.js" />
+    <Content Include="SourceApp\routes.js">
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </Content>
     <Content Include="SourceApp\Shared\epa-filter.js" />
     <Content Include="SourceApp\Shared\error-factory.js" />
     <Content Include="SourceApp\Shared\modalconfirm-controller.js" />
@@ -602,13 +597,10 @@
     <Content Include="SourceApp\Components\KPI\kpi.less" />
     <Content Include="SourceApp\Components\Employee\employee.less" />
     <Content Include="SourceApp\Components\Role\role.less" />
-    <Content Include="SourceApp\Components\CheckFlowAssignment\checkFlow.less" />
     <Content Include="SourceApp\Components\FlowManagement\flowManagement.less" />
     <Content Include="SourceApp\Components\TargetTemplate\targetTemplate.less" />
     <Content Include="Web.local.config" />
     <Content Include="SourceApp\Components\TargetEmployeeSetting\targetEmployeeSetting.less" />
-    <Content Include="SourceApp\Components\CheckFlowAssignment\ExcelTemplates\EmployeeFlowSettingReport.xls" />
-    <Content Include="SourceApp\Components\CheckFlowAssignment\ExcelTemplates\DepartmentFlowSettingReport.xls" />
     <Content Include="SourceApp\Components\Period\period.less" />
     <Content Include="SourceApp\Components\EPA\epa.less" />
     <Content Include="SourceApp\Components\Period\ExcelTemplates\EmployeeFlowSettingReport.xls" />

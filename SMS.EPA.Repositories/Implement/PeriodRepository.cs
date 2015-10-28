@@ -60,16 +60,17 @@ namespace SMS.EPA.Repositories.Implement
                 using (var multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     IEnumerable<PeriodEmployeeSettingModel> employees = 
-                        multi.Read<PeriodEmployeeSettingModel, DepartmentModel, Group, JobTitle, TargetTemplateModel, PeriodEmployeeSettingModel>(
-                            (pe, dep, gr, job, tar) =>
+                        multi.Read<PeriodEmployeeSettingModel, Employee, DepartmentModel, Group, JobTitle, TargetTemplateModel, PeriodEmployeeSettingModel>(
+                            (pe, emp, dep, gr, job, tar) =>
                             {
+                                pe.Employee = emp;
                                 pe.Department = dep;
                                 pe.Group = gr;
                                 pe.JobTitle = job;
                                 pe.TargetTemplate = tar;
                                 return pe;
                             },
-                            "DepartmentId, GroupId, JobTitleId, TargetTemplateId");
+                            "EmployeeId, DepartmentId, GroupId, JobTitleId, TargetTemplateId");
 
                     IEnumerable<RawPeriodFlowSettingModel> flowSettings = 
                         multi.Read<RawPeriodFlowSettingModel, EmployeeModel, RawPeriodFlowSettingModel>(

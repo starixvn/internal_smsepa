@@ -116,7 +116,7 @@ function ($scope, TargetEmployeeSettingModel, EmployeeModel, CommonModel, Target
 
         angular.forEach(targetEmployeeSettings, function (targetEmployee) {
             if (targetEmployee.Selected) {
-                employeeIds += employeeIds ? ',' + targetEmployee.EmployeeId : targetEmployee.EmployeeId;
+                employeeIds += employeeIds ? ',' + targetEmployee.Employee.EmployeeId : targetEmployee.Employee.EmployeeId;
             }
         });
 
@@ -148,9 +148,9 @@ function ($scope, TargetEmployeeSettingModel, EmployeeModel, CommonModel, Target
 
     vm.syncSelectedEmployee = function (employeeId, selected) {
         angular.forEach(vm.targetEmployeeSettings, function (targetEmployee) {
-            if (targetEmployee.EmployeeId === employeeId) {
+            if (targetEmployee.Employee.EmployeeId === employeeId) {
                 angular.forEach(vm.filteredItems, function (filterItem) {
-                    if (targetEmployee.EmployeeId === filterItem.EmployeeId) {
+                    if (targetEmployee.Employee.EmployeeId === filterItem.Employee.EmployeeId) {
                         filterItem.Selected = selected;
                         targetEmployee.Selected = selected;
                     }

@@ -74,9 +74,6 @@
     <Compile Include="AttendanceSummary\UpdateIgnoredViolationCriteria.cs" />
     <Compile Include="Authentication\GetEmployeeByCodeCriteria.cs" />
     <Compile Include="Authentication\GetEmployeeByDomainUsernameCriteria.cs" />
-    <Compile Include="CheckFlowAssignment\GetDepartmentFlowSettingCriteria.cs" />
-    <Compile Include="CheckFlowAssignment\GetEmployeeFlowSettingCriteria.cs" />
-    <Compile Include="CheckFlowAssignment\UpdateEmployeeFlowSettingCriteria.cs" />
     <Compile Include="EmployeeEPA\AdjustScoreByReviewerOrManagementCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEmployeePermissionCriteria.cs" />
     <Compile Include="EmployeeEPA\GetStandardGradeCriteria.cs" />

@@ -127,11 +127,7 @@ namespace SMS.EPA.Services.Implement
                 {
                     var targetEmployeeSetting = new TargetEmployeeModel
                     {
-                        EmployeeId = employee.EmployeeId,
-                        Code = employee.Code,
-                        NickName = employee.NickName,
-                        FullName = employee.FullName,
-                        Enabled = employee.Enabled,
+                        Employee = employee,
                         Group = employee.Group
                     };
 

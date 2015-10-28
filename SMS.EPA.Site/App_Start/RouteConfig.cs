@@ -46,7 +46,6 @@ namespace SMS.EPA.Site
                 "Flow/Create",
                 "Flow/Update/{id}",
                 "TargetEmployeeSetting/Index",
-                "CheckAssignment/Index",
                 "Department/Index",
                 "SelfEvaluation/Index",
                 "SelfEvaluation/Detail/{id}",

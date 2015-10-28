@@ -16,7 +16,7 @@ namespace SMS.EPA.Model.Period
     using SMS.EPA.Model.TargetTemplate;
 
     [Serializable]
-    public class PeriodEmployeeSettingModel : Employee
+    public class PeriodEmployeeSettingModel
     {
         public PeriodEmployeeSettingModel()
         {
@@ -30,6 +30,8 @@ namespace SMS.EPA.Model.Period
         public int PeriodId { get; set; }
 
         public string Name { get; set; }
+
+        public Employee Employee { get; set; }
 
         public DepartmentModel Department { get; set; }
 

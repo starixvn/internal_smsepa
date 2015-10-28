@@ -10,11 +10,10 @@
 namespace SMS.EPA.Model.TargetEmployeeSetting
 {
     using System.Collections.Generic;
-    using SMS.EPA.Model.Department;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.TargetTemplate;
 
-    public class TargetEmployeeModel : Employee
+    public class TargetEmployeeModel
     {
         public TargetEmployeeModel()
         {
@@ -23,11 +22,11 @@ namespace SMS.EPA.Model.TargetEmployeeSetting
 
         public bool Selected { get; set; }
 
+        public int EmployeeId { get; set; }
+
+        public Employee Employee { get; set; }
+
         public Group Group { get; set; }
-
-        public DepartmentModel Department { get; set; }
-
-        public JobTitle JobTitle { get; set; }
 
         public TargetTemplateModel RawTargetTemplate { get; set; }
 

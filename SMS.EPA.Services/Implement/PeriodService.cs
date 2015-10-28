@@ -316,7 +316,7 @@ namespace SMS.EPA.Services.Implement
             if (rawFlowSettings != null)
             {
                 IEnumerable<RawPeriodFlowSettingModel> rawEmployeeFlowSettings =
-                           rawFlowSettings.Where(x => x.PeriodId == employeeSetting.PeriodId && x.EmployeeId == employeeSetting.EmployeeId);
+                           rawFlowSettings.Where(x => x.PeriodId == employeeSetting.PeriodId && x.EmployeeId == employeeSetting.Employee.EmployeeId);
 
                 foreach (RawPeriodFlowSettingModel rawFlowSetting in rawEmployeeFlowSettings)
                 {
@@ -414,9 +414,9 @@ namespace SMS.EPA.Services.Implement
                 Count = rowIndex,
                 Department = employeeSetting.Department != null ? employeeSetting.Department.Name : string.Empty,
                 Section = employeeSetting.Group != null ? employeeSetting.Group.GroupName : string.Empty,
-                ID = employeeSetting.Code,
-                FullName = employeeSetting.FullName,
-                NickName = employeeSetting.NickName,
+                ID = employeeSetting.Employee.Code,
+                FullName = employeeSetting.Employee.FullName,
+                NickName = employeeSetting.Employee.NickName,
                 Evaluator = GetEvaluator(employeeSetting.Evaluators),
                 Reviewer = GetEvaluator(employeeSetting.Reviewers),
                 Management = GetEvaluator(employeeSetting.Managements),
