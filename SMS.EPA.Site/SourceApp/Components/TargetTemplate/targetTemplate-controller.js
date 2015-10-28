@@ -373,7 +373,26 @@ function ($scope, $window, $translate, TargetTemplateModel, utilitiesFactory) {
         var totalWeight = 0;
 
         angular.forEach(kpiList, function (kpiGroup) {
-            totalWeight += kpiGroup.Weight;
+            if (kpiGroup.KPIs && kpiGroup.KPIs.length > 0) {
+                var kpiLength = kpiGroup.KPIs.length,
+                    groupWeight = 0;
+
+                for (var i = 0; i < kpiLength; i++) {
+                    var item = kpiGroup.KPIs[i];
+
+                    if (item.Selected) {
+                        if (kpiGroup.IsSpreadKPI) {
+                            groupWeight = kpiGroup.Weight;
+                            i = kpiLength;
+                        }
+                        else {
+                            groupWeight += item.Weight;
+                        }
+                    }
+                }
+
+                totalWeight += groupWeight;
+            }
         });
 
         return totalWeight;
