@@ -129,7 +129,7 @@
                                     </div>
                                 </div>
                                 <div ng-show="memberEPA.RatingType.RatingTypeId == 2 && memberEPA.KPIGroup.NumberKPIOptional == 0" class="input-score">
-                                    <input type="text" class="form-control text-center epa-input-score"
+                                    <input type="text" maxlength="5" class="form-control text-center epa-input-score"
                                            ng-show="memberEPA.KPIGroup.NumberKPIOptional == 0" ng-model="kpi.AdjustScore" numeric decimals="2"
                                            ng-change="ratingByKPICtrl.inputScore(memberEPA, kpi)" />
                                 </div>

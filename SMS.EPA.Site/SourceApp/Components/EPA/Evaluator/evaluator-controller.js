@@ -77,7 +77,7 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, ba
     vm.initialize();
 
     vm.viewEPAHistory = function (employeeId) {
-        vm.viewEPAHistoryUrl = baseUrl +  'EPAHistory/Index?empId=' + employeeId;
+        vm.viewEPAHistoryUrl = baseUrl + 'EPAHistory/Index?empId=' + employeeId;
     };
 }]);
 
@@ -140,9 +140,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
         if (!EmployeeEPAModel.validateScoreInput(kpi.CurrentEvaluation.Score, 0, kpi.Weight, vm.scoreInputValidMessage)) {
             kpi.CurrentEvaluation.Score = null;
         }
-        else {
-            SelfEvalutorModel.calculateScore(vm);
-        }
+
+        SelfEvalutorModel.calculateScore(vm);
     };
 
     vm.cancelRating = function (kpiGroup, kpi) {

@@ -87,9 +87,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
         if (!EmployeeEPAModel.validateScoreInput(kpi.CurrentEvaluation.Score, 0, kpi.Weight, vm.scoreInputValidMessage)) {
             kpi.CurrentEvaluation.Score = null;
         }
-        else {
-            SelfEvalutorModel.calculateScore(vm);
-        }
+
+        SelfEvalutorModel.calculateScore(vm);
     };
 
     vm.save = function (epaInfo) {
