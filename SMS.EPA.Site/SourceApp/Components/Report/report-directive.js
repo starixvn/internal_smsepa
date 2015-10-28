@@ -18,7 +18,7 @@ reportModule.directive('gridEpaSummaryReport', ['$timeout', 'utilitiesFactory', 
 
         if (periodSelecteds && periodSelecteds.length > 0) {
             angular.forEach(periodSelecteds, function (period) {
-                var column = { HeaderText: period.Name, Name: "FinalScore" + period.PeriodId, MergeColNumber: 2 };
+                var column = { HeaderText: period.Name, Name: "FinalScore" + period.PeriodId, MergeColNumber: 2, CssClass: 'column-truncate' };
                 groupHeaders[0].Columns.push(column);
             });
         }
@@ -70,21 +70,20 @@ reportModule.directive('gridEpaSummaryReport', ['$timeout', 'utilitiesFactory', 
                         index = epaEmployee.Periods.map(function (e) { return e.PeriodId; }).indexOf(periodSelected.PeriodId);
 
                     if (index !== -1) {
-                        var finalScore, grade, disciplineScore;
+                        var finalScore = '',
+                            grade = '',
+                            disciplineScore = '';
 
                         if (epaEmployee.Periods[index].Status.StatusId === 1) {
                             finalScore = utilitiesFactory.parseFloat(epaEmployee.Periods[index].FinalScore);
                             grade = epaEmployee.Periods[index].Grade;
+                            disciplineScore = epaEmployee.Periods[index].DisciplineScore;
 
-                            if (epaEmployee.Periods[index].HasDisciplineScore) {
-                                disciplineScore = epaEmployee.Periods[index].MaxDisciplineScore - epaEmployee.Periods[index].DisciplineScore;
-
-                                if (disciplineScore < 0) {
-                                    disciplineScore = 0;
-                                }
-
-                                finalScore += disciplineScore;
+                            if (epaEmployee.Periods[index].HasDisciplineScore && disciplineScore < 0) {
+                                disciplineScore = 0;
                             }
+
+                            finalScore += disciplineScore;
                         }
 
                         colFinalScore = { Name: "FinalScore" + periodSelected.PeriodId, Value: finalScore };
@@ -158,6 +157,12 @@ reportModule.directive('gridEpaSummaryReport', ['$timeout', 'utilitiesFactory', 
                         };
 
                         $(iElement).fanexGrid(gridOptions);
+
+                        $('.column-truncate').on('mouseover', function () {
+                            var periodname = $(this).text();
+
+                            $(this).attr('title', periodname);
+                        });
                     }
                 });
             });
@@ -218,13 +223,11 @@ reportModule.directive('gridEpaDetailReport', ['$timeout', 'utilitiesFactory', f
             Grade: ''
         };
 
-        if (memberEPA.HasDisciplineScore) {
-            result.DisciplineScore = memberEPA.MaxDisciplineScore - memberEPA.DisciplineScore;
-
-            if (result.DisciplineScore < 0) {
-                result.DisciplineScore = 0;
-            }
+        if (memberEPA.HasDisciplineScore && memberEPA.DisciplineScore < 0) {
+            memberEPA.DisciplineScore = 0;
         }
+
+        result.DisciplineScore = memberEPA.DisciplineScore;
 
         if (memberEPA.EPAId > 0 && memberEPA.ProcessBySelf.IsEndProcess) {
             result.SelfScore = utilitiesFactory.parseFloat(memberEPA.ProcessBySelf.TotalScore);
@@ -307,7 +310,7 @@ reportModule.directive('gridEpaDetailReport', ['$timeout', 'utilitiesFactory', f
                 gridExpandHeight: $scope.gridExpandHeight,
                 showPager: true,
                 customPager: true,
-                numberOfFrozenColumn: 4,
+                numberOfFrozenColumn: 7,
                 autoFixFrozenRowHeight: true,
                 columnsNeedHide: [],
                 enableHiddenColumns: false,

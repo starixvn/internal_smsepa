@@ -79,7 +79,7 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public bool HasDisciplineScore { get; set; }
 
-        public float? LastDisciplineScore { get; set; }
+        public float LastDisciplineScore { get; set; }
 
         public float DisciplineScore { get; set; }
 
