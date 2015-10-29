@@ -113,6 +113,7 @@ namespace SMS.EPA.Services.Implement
             {
                 RawAttendanceDetailModel rawAttendanceDetail = _attendanceSummaryRepository.GetAttendanceDetail(criteria);
                 attendanceViolations = GroupAttendanceDetailAndCalculateScore(rawAttendanceDetail, attendanceViolations);
+                attendanceViolations = attendanceViolations.OrderBy(x => x.Employee.Group.GroupId).ThenBy(x => x.Employee.Code).ThenByDescending(x => x.WorkDate);
             }
 
             return attendanceViolations;

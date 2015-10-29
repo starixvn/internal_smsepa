@@ -558,8 +558,9 @@ namespace SMS.EPA.AutoGenerateEvaluation
             return disciplineScore;
         }
 
-        private void EncodeAndUpdateFinalScore(float finalScore, float disciplineScore, int evaluationId, string grade)
+        private void EncodeAndUpdateFinalScore(float performanceScore, float disciplineScore, int evaluationId, string grade)
         {
+            float finalScore = performanceScore + disciplineScore;
             _LOG.Info("Encode final score of EPA " + evaluationId + ": started at: " + DateTime.Now);
             string finalScoreEncode = EncodeService.Encode(finalScore.ToString());
             _LOG.Info("Result of encode final score of EPA " + evaluationId + ": " + finalScoreEncode);
