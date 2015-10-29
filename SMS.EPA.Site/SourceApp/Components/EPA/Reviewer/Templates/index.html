@@ -49,7 +49,6 @@
                     <th data-translate="Section"></th>
                     <th data-translate="NickName"></th>
                     <th data-translate="JobTitle"></th>
-                    <th data-translate="LastFinalScore"></th>
                     <th data-translate="SelfScore"></th>
                     <th data-translate="EvaluatorScore"></th>
                     <th data-translate="AdjustScore"></th>
@@ -57,6 +56,7 @@
                     <th data-translate="SystemDisciplineScore"></th>
                     <th data-translate="DisciplineScore"></th>
                     <th data-translate="TotalScore"></th>
+                    <th data-translate="LastFinalScore"></th>
                     <th data-translate="Detail" class="col-action"></th>
                 </tr>
             </thead>
@@ -76,12 +76,6 @@
                     </td>
                     <td ng-bind="memberEPA.Employee.JobTitle.JobTitleName"></td>
                     <td class="text-center">
-                        <div ng-show="memberEPA.LastFinalScore">
-                            {{memberEPA.LastFinalScore | customScore}} / {{memberEPA.MaxFinalScore | customScore}}
-                        </div>
-                        <div ng-show="!memberEPA.LastFinalScore" ng-bind="'-'"></div>
-                    </td>
-                    <td class="text-center">
                         <div ng-show="memberEPA.ProcessBySelf.IsEndProcess">
                             {{memberEPA.ProcessBySelf.TotalScore | customScore}} / {{memberEPA.ProcessBySelf.MaxTotalScore | customScore}}
                         </div>
@@ -94,7 +88,7 @@
                         <div ng-show="!memberEPA.ProcessByEvaluators[0].IsEndProcess" ng-bind="'N/A'"></div>
                     </td>
                     <td class="text-center">
-                        <input type="text" maxlength="5" class="form-control text-center epa-input-score" ng-readonly="memberEPA.CurrentProcess.IsEndProcess"
+                        <input type="text" maxlength="6" class="form-control text-center epa-input-score" ng-readonly="memberEPA.CurrentProcess.IsEndProcess"
                                ng-model="memberEPA.CurrentProcess.AdjustScore" numeric decimals="2" ng-change="reviewerCtrl.inputScore(memberEPA)"
                                tooltip="{{reviewerCtrl.getNotificationInputScore(memberEPA)}}" tooltip tooltip-trigger="focus" />
                     </td>
@@ -119,6 +113,12 @@
                         <div ng-show="memberEPA.FinalScore >= 0">
                             {{memberEPA.FinalScore | customScore}} / {{memberEPA.MaxFinalScore | customScore}}
                         </div>
+                    </td>
+                    <td class="text-center">
+                        <div ng-show="memberEPA.LastFinalScore">
+                            {{memberEPA.LastFinalScore | customScore}} / {{memberEPA.MaxFinalScore | customScore}}
+                        </div>
+                        <div ng-show="!memberEPA.LastFinalScore" ng-bind="'-'"></div>
                     </td>
                     <td class="text-center col-action">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="reviewerCtrl.viewEPADetail(memberEPA)"

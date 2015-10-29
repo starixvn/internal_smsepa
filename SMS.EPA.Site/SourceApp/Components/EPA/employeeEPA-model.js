@@ -18,7 +18,7 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
     };
 
     employeeEPAModel.getNotificationInputScore = function (minScore, maxScore, message) {
-        return utilitiesFactory.formatString(message, minScore, maxScore);
+        return utilitiesFactory.formatString(message, utilitiesFactory.parseFloat(minScore), utilitiesFactory.parseFloat(maxScore));
     };
 
     employeeEPAModel.validateScoreInput = function (weight, minScore, maxScore, message) {
@@ -87,11 +87,11 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
             });
 
             if ((averageWeight * kpiGroup.KPIs.length) > kpiGroup.Weight) {
-                weight = utilitiesFactory.parseFloat(averageWeight - ((averageWeight * kpiGroup.KPIs.length) - kpiGroup.Weight));
-                kpiGroup.KPIs[kpiGroup.KPIs.length - 1].Weight = weight;
+                weight = averageWeight - ((averageWeight * kpiGroup.KPIs.length) - kpiGroup.Weight);
+                kpiGroup.KPIs[kpiGroup.KPIs.length - 1].Weight = utilitiesFactory.parseFloat(weight);
             } else if ((averageWeight * kpiGroup.KPIs.length) < kpiGroup.Weight) {
-                weight = utilitiesFactory.parseFloat(averageWeight + (kpiGroup.Weight - (averageWeight * kpiGroup.KPIs.length)));
-                kpiGroup.KPIs[kpiGroup.KPIs.length - 1].Weight = weight;
+                weight = averageWeight + (kpiGroup.Weight - (averageWeight * kpiGroup.KPIs.length));
+                kpiGroup.KPIs[kpiGroup.KPIs.length - 1].Weight = utilitiesFactory.parseFloat(weight);
             }
         }
     };

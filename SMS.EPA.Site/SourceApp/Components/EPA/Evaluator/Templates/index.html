@@ -34,12 +34,12 @@
                     <th data-translate="Section"></th>
                     <th data-translate="NickName"></th>
                     <th data-translate="JobTitle"></th>
-                    <th data-translate="LastFinalScore"></th>
                     <th data-translate="SelfScore"></th>
                     <th data-translate="PerformanceScore"></th>
                     <th data-translate="SystemDisciplineScore"></th>
                     <th data-translate="DisciplineScore"></th>
                     <th data-translate="TotalScore"></th>
+                    <th data-translate="LastFinalScore"></th>
                     <th data-translate="Status"></th>
                     <th data-translate="EPAHistory"></th>
                     <th data-translate="Detail" class="col-action"></th>
@@ -56,12 +56,6 @@
                         <span ng-bind="memberEPA.Employee.NickName" popover-avatar avatar-src="{{memberEPA.Employee.Avatar}}"></span>
                     </td>
                     <td ng-bind="memberEPA.Employee.JobTitle.JobTitleName"></td>
-                    <td class="text-center">
-                        <div ng-show="memberEPA.LastFinalScore">
-                            {{memberEPA.LastFinalScore | customScore}} / {{memberEPA.MaxFinalScore | customScore}}
-                        </div>
-                        <div ng-show="!memberEPA.LastFinalScore" ng-bind="'-'"></div>
-                    </td>
                     <td class="text-center">
                         <div ng-show="memberEPA.ProcessBySelf.IsEndProcess">
                             {{memberEPA.ProcessBySelf.TotalScore | customScore}} / {{memberEPA.ProcessBySelf.MaxTotalScore | customScore}}
@@ -85,6 +79,12 @@
                     </td>
                     <td class="text-center">
                         {{memberEPA.FinalScore | customScore}} / {{memberEPA.MaxFinalScore | customScore}}
+                    </td>
+                    <td class="text-center">
+                        <div ng-show="memberEPA.LastFinalScore">
+                            {{memberEPA.LastFinalScore | customScore}} / {{memberEPA.MaxFinalScore | customScore}}
+                        </div>
+                        <div ng-show="!memberEPA.LastFinalScore" ng-bind="'-'"></div>
                     </td>
                     <td class="text-center">
                         <div ng-show="memberEPA.CurrentProcess.Evaluated" class="glyphicon glyphicon-ok"></div>

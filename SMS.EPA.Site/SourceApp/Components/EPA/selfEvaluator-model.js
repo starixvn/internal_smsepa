@@ -32,8 +32,8 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
             vm.epaInfo.DisciplineScore = 0;
         }
 
-        vm.epaInfo.CurrentProcess.TotalScore = totalScore;
-        vm.finalScore = totalScore + vm.epaInfo.DisciplineScore;
+        vm.epaInfo.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(totalScore);
+        vm.finalScore = utilitiesFactory.parseFloat(totalScore + vm.epaInfo.DisciplineScore);
 
         if (vm.finalScore > vm.epaInfo.MaxFinalScore) {
             vm.finalScore = vm.epaInfo.MaxFinalScore;
@@ -65,15 +65,16 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         averageWeight = utilitiesFactory.parseFloat(kpiGroup.Weight / totalKPIMustEvaluate);
 
         angular.forEach(kpis, function (kpi) {
-            kpi.CurrentEvaluation.Score = utilitiesFactory.parseFloat(averageWeight * (kpi.CurrentEvaluation.Rate / maxStar));
+            score = averageWeight * (kpi.CurrentEvaluation.Rate / maxStar);
+            kpi.CurrentEvaluation.Score = utilitiesFactory.parseFloat(score);
         });
 
         if (((averageWeight * totalKPIMustEvaluate) > kpiGroup.Weight) && totalStarEvaluated === totalStarMustEvaluate) {
-            score = utilitiesFactory.parseFloat(averageWeight - ((averageWeight * totalKPIMustEvaluate) - kpiGroup.Weight));
-            kpis[kpis.length - 1].CurrentEvaluation.Score = score;
+            score = averageWeight - ((averageWeight * totalKPIMustEvaluate) - kpiGroup.Weight);
+            kpis[kpis.length - 1].CurrentEvaluation.Score = utilitiesFactory.parseFloat(score);
         } else if ((averageWeight * totalKPIMustEvaluate) < kpiGroup.Weight && totalStarEvaluated === totalStarMustEvaluate) {
-            score = utilitiesFactory.parseFloat(averageWeight + (kpiGroup.Weight - (averageWeight * totalKPIMustEvaluate)));
-            kpis[kpis.length - 1].CurrentEvaluation.Score = score;
+            score = averageWeight + (kpiGroup.Weight - (averageWeight * totalKPIMustEvaluate));
+            kpis[kpis.length - 1].CurrentEvaluation.Score = utilitiesFactory.parseFloat(score);
         }
     };
 

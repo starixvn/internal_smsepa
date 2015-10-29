@@ -26,14 +26,13 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, ba
             vm.memberEPAs = SelfEvalutorModel.memberEPAs;
 
             angular.forEach(vm.memberEPAs, function (memberEPA) {
-                var totalScore = utilitiesFactory.parseFloat(memberEPA.CurrentProcess.TotalScore);
-
                 if (memberEPA.DisciplineScore < 0 && memberEPA.HasDisciplineScore) {
                     memberEPA.DisciplineScore = 0;
                 }
 
+                memberEPA.LastFinalScore = utilitiesFactory.parseFloat(memberEPA.LastFinalScore) + memberEPA.LastDisciplineScore;
                 memberEPA.ProcessBySelf.TotalScore = utilitiesFactory.parseFloat(memberEPA.ProcessBySelf.TotalScore);
-                memberEPA.FinalScore = totalScore + memberEPA.DisciplineScore;
+                memberEPA.FinalScore = utilitiesFactory.parseFloat(memberEPA.CurrentProcess.TotalScore) + memberEPA.DisciplineScore;
 
                 if (memberEPA.FinalScore > memberEPA.MaxFinalScore) {
                     memberEPA.FinalScore = memberEPA.MaxFinalScore;
@@ -172,6 +171,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
         SelfEvalutorModel.getEPAInfoByEvaluator(vm.epaId).then(function () {
             vm.epaInfo = SelfEvalutorModel.epaInfo;
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
+            vm.epaInfo.LastFinalScore = utilitiesFactory.parseFloat(vm.epaInfo.LastFinalScore) + vm.epaInfo.LastDisciplineScore;
             vm.epaInfo.ProcessBySelf.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.ProcessBySelf.TotalScore);
             vm.epaInfo.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.CurrentProcess.TotalScore);
 

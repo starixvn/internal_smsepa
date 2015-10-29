@@ -108,6 +108,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
         SelfEvalutorModel.getEPAInfoByEmployee(vm.epaId).then(function () {
             vm.epaInfo = SelfEvalutorModel.epaInfo;
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
+            vm.epaInfo.LastFinalScore = utilitiesFactory.parseFloat(vm.epaInfo.LastFinalScore) + vm.epaInfo.LastDisciplineScore;
 
             if (vm.epaInfo.DisciplineScore < 0 && vm.epaInfo.HasDisciplineScore) {
                 vm.epaInfo.DisciplineScore = 0;

@@ -122,8 +122,6 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 
             var averageScore = 0, countEndProcess = 0;
             angular.forEach(vm.memberEPAs, function (memberEPA) {
-                var totalScore;
-
                 if (memberEPA.ProcessByEvaluators[0].IsEndProcess && !memberEPA.CurrentProcess.TotalScore) {
                     memberEPA.CurrentProcess.TotalScore = memberEPA.AverageScoreByEvaluators;
                 }
@@ -132,13 +130,12 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
                     memberEPA.DisciplineScore = 0;
                 }
 
-                totalScore = utilitiesFactory.parseFloat(memberEPA.CurrentProcess.TotalScore);
-
                 memberEPA.MaxSubtractScore = -memberEPA.AverageScoreByEvaluators;
-                memberEPA.MaxAdditionScore = memberEPA.CurrentProcess.MaxTotalScore - memberEPA.AverageScoreByEvaluators;
+                memberEPA.MaxAdditionScore = utilitiesFactory.parseFloat(memberEPA.CurrentProcess.MaxTotalScore - memberEPA.AverageScoreByEvaluators);
+                memberEPA.LastFinalScore = utilitiesFactory.parseFloat(memberEPA.LastFinalScore) + memberEPA.LastDisciplineScore;
                 memberEPA.ProcessBySelf.TotalScore = utilitiesFactory.parseFloat(memberEPA.ProcessBySelf.TotalScore);
-                memberEPA.CurrentProcess.TotalScore = totalScore;
-                memberEPA.FinalScore = totalScore + memberEPA.DisciplineScore;
+                memberEPA.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(memberEPA.CurrentProcess.TotalScore);
+                memberEPA.FinalScore = memberEPA.CurrentProcess.TotalScore + memberEPA.DisciplineScore;
 
                 if (memberEPA.FinalScore > memberEPA.MaxFinalScore) {
                     memberEPA.FinalScore = memberEPA.MaxFinalScore;

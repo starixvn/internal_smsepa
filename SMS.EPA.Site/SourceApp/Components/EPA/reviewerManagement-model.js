@@ -223,7 +223,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
                     memberEPA.FinalScore = 0;
                 }
 
-                if (memberEPA.CurrentProcess.Comment.length > 0) {
+                if (memberEPA.CurrentProcess.Comment && memberEPA.CurrentProcess.Comment.length > 0) {
                     memberEPA.CurrentProcess.Comment = memberEPA.CurrentProcess.Comment + '\n' + adjust.Comment;
                 } else {
                     memberEPA.CurrentProcess.Comment = adjust.Comment;

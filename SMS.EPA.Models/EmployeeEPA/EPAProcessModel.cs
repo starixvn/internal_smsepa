@@ -11,7 +11,6 @@ namespace SMS.EPA.Model.EmployeeEPA
 {
     using System;
     using SMS.EPA.Core.Services;
-    using SMS.EPA.Model.Enitites;
 
     public class EPAProcessModel
     {
@@ -84,8 +83,6 @@ namespace SMS.EPA.Model.EmployeeEPA
                 return AdjustScore;
             }
         }
-
-        public StatusModel Status { get; set; }
 
         public bool? Evaluated { get; set; }
 

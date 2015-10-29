@@ -120,12 +120,8 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
         ReviewerManagementModel.getEPAByManagement(groupId, employeeIds).then(function () {
             vm.memberEPAs = ReviewerManagementModel.memberEPAs;
 
-            var averageScore = 0;
-            var countEndProcess = 0;
+            var averageScore = 0, countEndProcess = 0;
             angular.forEach(vm.memberEPAs, function (memberEPA) {
-                var totalScore,
-                    disciplineScore = memberEPA.MaxDisciplineScore - memberEPA.DisciplineScore;
-
                 if (memberEPA.HasDisciplineScore && memberEPA.DisciplineScore < 0) {
                     memberEPA.DisciplineScore = 0;
                 }
@@ -136,11 +132,9 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
                     memberEPA.CurrentProcess.TotalScore = memberEPA.AverageScoreByEvaluators;
                 }
 
-                totalScore = utilitiesFactory.parseFloat(memberEPA.CurrentProcess.TotalScore);
-
                 memberEPA.ProcessBySelf.TotalScore = utilitiesFactory.parseFloat(memberEPA.ProcessBySelf.TotalScore);
-                memberEPA.CurrentProcess.TotalScore = totalScore;
-                memberEPA.FinalScore = totalScore + memberEPA.DisciplineScore;
+                memberEPA.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(memberEPA.CurrentProcess.TotalScore);
+                memberEPA.FinalScore = memberEPA.CurrentProcess.TotalScore + memberEPA.DisciplineScore;
 
                 if (memberEPA.FinalScore > memberEPA.MaxFinalScore) {
                     memberEPA.FinalScore = memberEPA.MaxFinalScore;
@@ -155,11 +149,11 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
                 if (memberEPA.ProcessByReviewers.length > 0) {
                     averageScore += memberEPA.AverageScoreByReviewers;
                     memberEPA.MaxSubtractScore = -memberEPA.AverageScoreByReviewers;
-                    memberEPA.MaxAdditionScore = memberEPA.CurrentProcess.MaxTotalScore - memberEPA.AverageScoreByReviewers;
+                    memberEPA.MaxAdditionScore = utilitiesFactory.parseFloat(memberEPA.CurrentProcess.MaxTotalScore - memberEPA.AverageScoreByReviewers);
                 } else {
                     averageScore += memberEPA.AverageScoreByEvaluators;
                     memberEPA.MaxSubtractScore = -memberEPA.AverageScoreByEvaluators;
-                    memberEPA.MaxAdditionScore = memberEPA.CurrentProcess.MaxTotalScore - memberEPA.AverageScoreByEvaluators;
+                    memberEPA.MaxAdditionScore = utilitiesFactory.parseFloat(memberEPA.CurrentProcess.MaxTotalScore - memberEPA.AverageScoreByEvaluators);
                 }
             });
 

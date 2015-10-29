@@ -2,8 +2,8 @@
 /*global kpiGroupModule*/
 
 kpiGroupModule.controller('KPIGroupController',
-['KPIGroupModel', 'KPIModel', 'CommonModel', 'utilitiesFactory',
-function (KPIGroupModel, KPIModel, CommonModel, utilitiesFactory) {
+['KPIGroupModel', 'KPIModel', 'CommonModel', 'utilitiesFactory', 'baseUrl',
+function (KPIGroupModel, KPIModel, CommonModel, utilitiesFactory, baseUrl) {
     var vm = this;
 
     vm.kpiGroups = KPIGroupModel.kpiGroups;
@@ -81,7 +81,7 @@ function (KPIGroupModel, KPIModel, CommonModel, utilitiesFactory) {
     };
 
     vm.viewKPI = function (kpiGroupId) {
-        vm.viewKPIUrl = '/KPI/Index' + '?groupId=' + kpiGroupId;
+        vm.viewKPIUrl = baseUrl + 'KPI/Index' + '?groupId=' + kpiGroupId;
     };
 
     /// Event read more / less text.

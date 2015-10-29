@@ -9,6 +9,7 @@
 
 namespace SMS.EPA.Model.EmployeeEPA
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using SMS.EPA.Core.Constants;
@@ -41,16 +42,6 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public bool RequiredCommentOnMaxScore { get; set; }
 
-        public string LastFinalScoreEncode { get; set; }
-
-        public string LastFinalScore
-        {
-            get
-            {
-                return !string.IsNullOrEmpty(LastFinalScoreEncode) ? EncodeService.Decode(LastFinalScoreEncode) : string.Empty;
-            }
-        }
-
         public string FinalScoreEncode { get; set; }
 
         public string FinalScore { get; set; }
@@ -67,19 +58,7 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public string Grade { get; set; }
 
-        public string LastGradeEncode { get; set; }
-
-        public string LastGrade
-        {
-            get
-            {
-                return !string.IsNullOrEmpty(LastGradeEncode) ? EncodeService.Decode(LastGradeEncode) : string.Empty;
-            }
-        }
-
         public bool HasDisciplineScore { get; set; }
-
-        public float LastDisciplineScore { get; set; }
 
         public float DisciplineScore { get; set; }
 
@@ -87,17 +66,33 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public float MaxDisciplineScore { get; set; }
 
-        public int Rowspan
+        public bool HasMaxScoreOnKPI { get; set; }
+
+        #region Last score
+
+        public float LastDisciplineScore { get; set; }
+
+        public string LastFinalScoreEncode { get; set; }
+
+        public string LastFinalScore
         {
             get
             {
-                List<int> numbers = new List<int> { Evaluators.Count, Reviewers.Count, Managements.Count };
-
-                return numbers.Max();
+                return Decode(LastFinalScoreEncode);
             }
         }
 
-        public bool HasMaxScoreOnKPI { get; set; }
+        public string LastGradeEncode { get; set; }
+
+        public string LastGrade
+        {
+            get
+            {
+                return Decode(LastGradeEncode);
+            }
+        }
+
+        #endregion Last score
 
         public float AverageScoreByEvaluators
         {
@@ -143,9 +138,19 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public IList<EPAProcessModel> Managements { get; set; }
 
+        public int Rowspan
+        {
+            get
+            {
+                List<int> numbers = new List<int> { Evaluators.Count, Reviewers.Count, Managements.Count };
+
+                return numbers.Max();
+            }
+        }
+
         private float CalculateAverageScore(IList<EPAProcessModel> processes)
         {
-            float score = 0;
+            float score = 0, average = 0;
             int count = 0;
 
             foreach (EPAProcessModel process in processes)
@@ -159,10 +164,16 @@ namespace SMS.EPA.Model.EmployeeEPA
 
             if (count > 0)
             {
-                return score / count;
+                average = score / count;
+                return (float)Math.Round(average, 2);
             }
 
             return score;
+        }
+
+        private string Decode(string cipherText)
+        {
+            return !string.IsNullOrEmpty(cipherText) ? EncodeService.Decode(cipherText) : string.Empty;
         }
     }
 }

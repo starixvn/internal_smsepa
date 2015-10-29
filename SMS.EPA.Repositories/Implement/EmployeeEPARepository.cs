@@ -53,14 +53,7 @@ namespace SMS.EPA.Repositories.Implement
                         },
                         "DepartmentId, GroupId, JobTitleId");
 
-                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel, StatusModel, EPAProcessModel>(
-                        (process, status) =>
-                        {
-                            process.Status = status;
-
-                            return process;
-                        },
-                        "StatusId");
+                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
 
                     IEnumerable<EPAProcessModel> evaluators = multi.Read<EPAProcessModel>();
 
@@ -108,14 +101,7 @@ namespace SMS.EPA.Repositories.Implement
                         },
                         "DepartmentId, GroupId, JobTitleId").FirstOrDefault();
 
-                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel, StatusModel, EPAProcessModel>(
-                        (result, status) =>
-                        {
-                            result.Status = status;
-
-                            return result;
-                        },
-                        "StatusId");
+                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
 
                     epaInfo.KPIGroups = multi.Read<EPAKPIGroupModel>().ToList();
 
