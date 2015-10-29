@@ -185,7 +185,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         var hasReviewer = false;
 
         if (employeeOptions.humanResource.ids && employeeOptions.humanResource.ids.length > 0) {
-            if (employeeOptions.humanResource.StartDate > employeeOptions.humanResource.EndDate) {
+            if (new Date(employeeOptions.humanResource.StartDate).setHours(0, 0, 0, 0) > new Date(employeeOptions.humanResource.EndDate).setHours(0, 0, 0, 0)) {
                 notificationFactory.error("StartDateGreaterThanEndDateWarning");
                 return false;
             }
@@ -196,24 +196,24 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         }
 
         if (employeeOptions.selfEvaluator.ids && employeeOptions.selfEvaluator.ids.length > 0) {
-            if (employeeOptions.selfEvaluator.StartDate > employeeOptions.selfEvaluator.EndDate) {
+            if (new Date(employeeOptions.selfEvaluator.StartDate).setHours(0, 0, 0, 0) > new Date(employeeOptions.selfEvaluator.EndDate).setHours(0, 0, 0, 0)) {
                 notificationFactory.error("StartDateGreaterThanEndDateWarning");
                 return false;
             }
 
-            if (employeeOptions.humanResource.EndDate > employeeOptions.selfEvaluator.StartDate) {
+            if (new Date(employeeOptions.humanResource.EndDate).setHours(0, 0, 0, 0) > new Date(employeeOptions.selfEvaluator.StartDate).setHours(0, 0, 0, 0)) {
                 notificationFactory.error("HRRangeDateGreaterThanSelfRangeDateWarning");
                 return false;
             }
         }
 
         if (employeeOptions.evaluator.ids && employeeOptions.evaluator.ids.length > 0) {
-            if (employeeOptions.evaluator.StartDate > employeeOptions.evaluator.EndDate) {
+            if (new Date(employeeOptions.evaluator.StartDate).setHours(0, 0, 0, 0) > new Date(employeeOptions.evaluator.EndDate).setHours(0,0,0,0)) {
                 notificationFactory.error("StartDateGreaterThanEndDateWarning");
                 return false;
             }
 
-            if (employeeOptions.selfEvaluator.EndDate > employeeOptions.evaluator.StartDate) {
+            if (new Date(employeeOptions.selfEvaluator.EndDate).setHours(0, 0, 0, 0) > new Date(employeeOptions.evaluator.StartDate).setHours(0,0,0,0)) {
                 notificationFactory.error("SelfRangeDateGreaterThanEvaluatorRangeDateWarning");
                 return false;
             }
@@ -226,31 +226,31 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         if (employeeOptions.reviewer.ids && employeeOptions.reviewer.ids.length > 0) {
             hasReviewer = true;
 
-            if (employeeOptions.reviewer.StartDate > employeeOptions.reviewer.EndDate) {
+            if (new Date(employeeOptions.reviewer.StartDate).setHours(0, 0, 0, 0) > new Date(employeeOptions.reviewer.EndDate).setHours(0, 0, 0, 0)) {
                 notificationFactory.error("StartDateGreaterThanEndDateWarning");
                 return false;
             }
 
-            if (employeeOptions.evaluator.EndDate > employeeOptions.reviewer.StartDate) {
+            if (new Date(employeeOptions.evaluator.EndDate).setHours(0, 0, 0, 0) > new Date(employeeOptions.reviewer.StartDate).setHours(0,0,0,0)) {
                 notificationFactory.error("EvaluatorRangeDateGreaterThanReviewerRangeDateWarning");
                 return false;
             }
         }
 
         if (employeeOptions.management.ids && employeeOptions.management.ids.length > 0) {
-            if (employeeOptions.management.StartDate > employeeOptions.management.EndDate) {
+            if (new Date(employeeOptions.management.StartDate).setHours(0, 0, 0, 0) > new Date(employeeOptions.management.EndDate).setHours(0,0,0,0)) {
                 notificationFactory.error("StartDateGreaterThanEndDateWarning");
                 return false;
             }
 
             if (hasReviewer) {
-                if (employeeOptions.reviewer.EndDate > employeeOptions.management.StartDate) {
+                if (new Date(employeeOptions.reviewer.EndDate).setHours(0, 0, 0, 0) > new Date(employeeOptions.management.StartDate).setHours(0,0,0,0)) {
                     notificationFactory.error("ReviewerRangeDateGreaterThanManagementRangeDateWarning");
                     return false;
                 }
             }
             else {
-                if (employeeOptions.evaluator.EndDate > employeeOptions.management.StartDate) {
+                if (new Date(employeeOptions.evaluator.EndDate).setHours(0, 0, 0, 0) > new Date(employeeOptions.management.StartDate).setHours(0,0,0,0)) {
                     notificationFactory.error("EvaluatorRangeDateGreaterThanManagementRangeDateWarning");
                     return false;
                 }
@@ -1045,7 +1045,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                 hasReviewer = false;
 
             if (employee.HumanResources && employee.HumanResources.length > 0) {
-                if (new Date(employee.HumanResources[0].StartDate) > new Date(employee.HumanResources[0].EndDate)) {
+                if (new Date(employee.HumanResources[0].StartDate).setHours(0,0,0,0) > new Date(employee.HumanResources[0].EndDate).setHours(0,0,0,0)) {
                     notificationFactory.error("StartDateGreaterThanEndDateWarning");
                     return false;
                 }
@@ -1056,24 +1056,24 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             }
 
             if (employee.SelfEvaluators && employee.SelfEvaluators.length > 0) {
-                if (new Date(employee.SelfEvaluators[0].StartDate) > new Date(employee.SelfEvaluators[0].EndDate)) {
+                if (new Date(employee.SelfEvaluators[0].StartDate).setHours(0, 0, 0, 0) > new Date(employee.SelfEvaluators[0].EndDate).setHours(0, 0, 0, 0)) {
                     notificationFactory.error("StartDateGreaterThanEndDateWarning");
                     return false;
                 }
 
-                if (employee.HumanResources[0].EndDate > employee.SelfEvaluators[0].StartDate) {
+                if (new Date(employee.HumanResources[0].EndDate).setHours(0, 0, 0, 0) > new Date(employee.SelfEvaluators[0].StartDate).setHours(0, 0, 0, 0)) {
                     notificationFactory.error("HRRangeDateGreaterThanSelfRangeDateWarning");
                     return false;
                 }
             }
 
             if (employee.Evaluators && employee.Evaluators.length > 0) {
-                if (new Date(employee.Evaluators[0].StartDate) > new Date(employee.Evaluators[0].EndDate)) {
+                if (new Date(employee.Evaluators[0].StartDate).setHours(0, 0, 0, 0) > new Date(employee.Evaluators[0].EndDate).setHours(0, 0, 0, 0)) {
                     notificationFactory.error("StartDateGreaterThanEndDateWarning");
                     return false;
                 }
 
-                if (new Date(employee.SelfEvaluators[0].EndDate) > new Date(employee.Evaluators[0].StartDate)) {
+                if (new Date(employee.SelfEvaluators[0].EndDate).setHours(0, 0, 0, 0) > new Date(employee.Evaluators[0].StartDate).setHours(0, 0, 0, 0)) {
                     notificationFactory.error("SelfRangeDateGreaterThanEvaluatorRangeDateWarning");
                     return false;
                 }
@@ -1086,31 +1086,31 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             if (employee.Reviewers && employee.Reviewers.length > 0) {
                 hasReviewer = true;
 
-                if (new Date(employee.Reviewers[0].StartDate) > new Date(employee.Reviewers[0].EndDate)) {
+                if (new Date(employee.Reviewers[0].StartDate).setHours(0, 0, 0, 0) > new Date(employee.Reviewers[0].EndDate).setHours(0, 0, 0, 0)) {
                     notificationFactory.error("StartDateGreaterThanEndDateWarning");
                     return false;
                 }
 
-                if (new Date(employee.Evaluators[0].EndDate) > new Date(employee.Reviewers[0].StartDate)) {
+                if (new Date(employee.Evaluators[0].EndDate).setHours(0, 0, 0, 0) > new Date(employee.Reviewers[0].StartDate).setHours(0, 0, 0, 0)) {
                     notificationFactory.error("EvaluatorRangeDateGreaterThanReviewerRangeDateWarning");
                     return false;
                 }
             }
 
             if (employee.Managements && employee.Managements.length > 0) {
-                if (new Date(employee.Managements[0].StartDate) > new Date(employee.Managements[0].EndDate)) {
+                if (new Date(employee.Managements[0].StartDate).setHours(0, 0, 0, 0) > new Date(employee.Managements[0].EndDate).setHours(0, 0, 0, 0)) {
                     notificationFactory.error("StartDateGreaterThanEndDateWarning");
                     return false;
                 }
 
                 if (hasReviewer) {
-                    if (new Date(employee.Reviewers[0].EndDate) > new Date(employee.Managements[0].StartDate)) {
+                    if (new Date(employee.Reviewers[0].EndDate).setHours(0, 0, 0, 0) > new Date(employee.Managements[0].StartDate).setHours(0, 0, 0, 0)) {
                         notificationFactory.error("ReviewerRangeDateGreaterThanManagementRangeDateWarning");
                         return false;
                     }
                 }
                 else {
-                    if (new Date(employee.Evaluators[0].EndDate) > (employee.Managements[0].StartDate)) {
+                    if (new Date(employee.Evaluators[0].EndDate).setHours(0, 0, 0, 0) > (employee.Managements[0].StartDate).setHours(0, 0, 0, 0)) {
                         notificationFactory.error("EvaluatorRangeDateGreaterThanManagementRangeDateWarning");
                         return false;
                     }
