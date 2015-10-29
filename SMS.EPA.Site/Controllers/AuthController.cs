@@ -9,14 +9,11 @@
 
 namespace SMS.EPA.Site.Controllers
 {
-    using System.Collections.Generic;
     using System.Web.Mvc;
     using System.Web.Security;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Criteria.Authentication;
-    using SMS.EPA.Criteria.Employee;
     using SMS.EPA.Model.Authentication;
-    using SMS.EPA.Model.Employee;
     using SMS.EPA.Resources;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
@@ -68,7 +65,6 @@ namespace SMS.EPA.Site.Controllers
                 {
                     if (user.EmployeeInfo.Enabled)
                     {
-                        user.Menus = GetMenu(user.EmployeeInfo.EmployeeId);
                         SessionManager.CurrentUser = user;
                         FormsAuthentication.SetAuthCookie(model.Username, false);
 
@@ -164,16 +160,6 @@ namespace SMS.EPA.Site.Controllers
             }
 
             return employee;
-        }
-
-        private IEnumerable<MenuGroupModel> GetMenu(int employeeId)
-        {
-            var criteria = new GetMenuCriteria
-            {
-                EmployeeId = employeeId
-            };
-
-            return _employeeService.GetMenu(criteria);
         }
     }
 }

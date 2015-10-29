@@ -102,7 +102,7 @@ var epaModule = angular.module("epaModule", ['ngRoute'])
     $routeProvider.when('/EPA/Detail/:id',
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/Templates/viewDetail.html' });
     $routeProvider.when('/RatingByKPI/Index',
-    { templateUrl: baseUrl + 'SourceApp/Components/EPA/Evaluator/Templates/ratingByKPI.html' });
+    { templateUrl: baseUrl + 'SourceApp/Components/EPA/RatingByKPI/Templates/index.html' });
     $routeProvider.when('/OldEPA/Convert',
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/Convert/Templates/detail.html' });
 }]);

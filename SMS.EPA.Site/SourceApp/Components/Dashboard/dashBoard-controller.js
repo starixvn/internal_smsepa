@@ -21,6 +21,7 @@ function (DashboardModel, utilitiesFactory, baseUrl) {
             var dashboardInfo = DashboardModel.dashboardInfo;
 
             vm.employee = dashboardInfo.Employee;
+            vm.employee.Avatar = baseUrl + vm.employee.Avatar;
             vm.myEPAs = dashboardInfo.MyEPAs;
 
             angular.forEach(vm.myEPAs, function (myEPA) {

@@ -2,8 +2,8 @@
 /*global flowMngModule*/
 
 flowMngModule.factory('FlowMngModel',
-['$modal', 'flowMngFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory',
-function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFactory) {
+['$modal', 'flowMngFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory', 'baseUrl',
+function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFactory, baseUrl) {
     var flowMngModel = {};
 
     flowMngModel.remindDay = [0, 1, 2, 3, 4, 5, 6, 7];
@@ -86,6 +86,7 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
 
     flowMngModel.addEmployee = function (listIdentity, vm, employee, position) {
         var list, allowAdd = true;
+        employee.Avatar = baseUrl + employee.Avatar;
 
         switch (listIdentity) {
             case "evaluatorList":
@@ -123,8 +124,9 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
 
     var successGetFlow = function (flows) {
         angular.forEach(flows, function (flow) {
-            var processId = flow.ProcessId;
-            switch (processId) {
+            flow.EvaluatorInfo.Avatar = baseUrl + flow.EvaluatorInfo.Avatar;
+
+            switch (flow.ProcessId) {
                 case 1:
                     flowMngModel.humanResources.duration = flow.Duration;
                     flowMngModel.humanResources.hasSendMail = flow.HasSendMail;
@@ -409,7 +411,7 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
                 windowClass: "modal-confirm-center"
             });
 
-           return modalInstance.result.then(function () {
+            return modalInstance.result.then(function () {
                 flowMngFactory.deleteDepartmentFlow(vm.department.DepartmentId, vm.FlowTemplateId)
                 .success(function (response) {
                     if (response.IsSuccessful) {
@@ -570,4 +572,4 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
     };
 
     return flowMngModel;
-} ]);
+}]);

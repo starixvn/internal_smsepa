@@ -33,9 +33,11 @@ namespace SMS.EPA.Repositories.Implement
                            {
                                emp.JobTitle = jb;
                                emp.Group = gr;
+
                                return emp;
                            },
                            "JobTitleId, GroupId");
+
                     IEnumerable<RawEmployeeRoleModel> roles = multi.Read<RawEmployeeRoleModel>();
 
                     var rawEmployee = new RawEmployeeModel
@@ -56,26 +58,29 @@ namespace SMS.EPA.Repositories.Implement
                 using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     UserSession userSession = null;
-                    IEnumerable<EmployeeModel> employees = multi.Read<EmployeeModel, JobTitle, Group, EmployeeModel>(
-                           (emp, jb, gr) =>
+                    IEnumerable<EmployeeModel> employees = multi.Read<EmployeeModel, JobTitle, DepartmentModel, Group, EmployeeModel>(
+                           (emp, jb, dept, gr) =>
                            {
                                emp.JobTitle = jb;
+                               emp.Department = dept;
                                emp.Group = gr;
                                return emp;
                            },
-                           "JobTitleId, GroupId");
+                           "JobTitleId, DepartmentId, GroupId");
 
                     if (employees != null && employees.Count() > 0)
                     {
                         EmployeeModel employee = employees.First();
                         IEnumerable<SystemRoleModel> roles = multi.Read<SystemRoleModel>();
                         IEnumerable<FunctionModel> functions = multi.Read<FunctionModel>();
+                        IEnumerable<MenuItemModel> menuItems = multi.Read<MenuItemModel>();
 
                         userSession = new UserSession
                         {
                             EmployeeInfo = employee,
                             Roles = roles,
-                            Functions = functions
+                            Functions = functions,
+                            Menus = GroupMenuItem(menuItems)
                         };
                     }
 
@@ -130,6 +135,29 @@ namespace SMS.EPA.Repositories.Implement
             }
 
             return employees;
+        }
+
+        private IEnumerable<MenuGroupModel> GroupMenuItem(IEnumerable<MenuItemModel> menuItems)
+        {
+            var menuGroups = new List<MenuGroupModel>();
+            IEnumerable<MenuItemModel> parentMenu = menuItems.Where(item => item.ParentId == null).OrderBy(item => item.DisplayOrder).ToList();
+
+            foreach (MenuItemModel parent in parentMenu)
+            {
+                var menuGroupItem = new MenuGroupModel
+                {
+                    MenuId = parent.MenuId,
+                    MenuName = parent.MenuName,
+                    MenuLink = parent.MenuLink
+                };
+
+                menuGroupItem.MenuItems = menuItems.Where(menuItem => menuItem.ParentId == menuGroupItem.MenuId)
+                    .OrderBy(menuItem => menuItem.DisplayOrder);
+
+                menuGroups.Add(menuGroupItem);
+            }
+
+            return menuGroups;
         }
     }
 }

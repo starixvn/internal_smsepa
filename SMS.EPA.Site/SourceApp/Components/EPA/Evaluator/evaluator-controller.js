@@ -82,8 +82,8 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, ba
 }]);
 
 epaModule.controller('MemberEPAInfoOfEvaluatorController',
-['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel', 'utilitiesFactory',
-function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory) {
+['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel', 'utilitiesFactory', 'baseUrl',
+function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, baseUrl) {
     var vm = this;
 
     vm.epaId = parseInt($routeParams.id);
@@ -171,7 +171,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
     var getEPAInfoByEvaluator = function () {
         SelfEvalutorModel.getEPAInfoByEvaluator(vm.epaId).then(function () {
             vm.epaInfo = SelfEvalutorModel.epaInfo;
-
+            vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
             vm.epaInfo.ProcessBySelf.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.ProcessBySelf.TotalScore);
             vm.epaInfo.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.CurrentProcess.TotalScore);
 
@@ -184,8 +184,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
 
             if (vm.finalScore > vm.epaInfo.MaxFinalScore) {
                 vm.finalScore = vm.epaInfo.MaxFinalScore;
-            }
-            else if (vm.finalScore < 0) {
+            } else if (vm.finalScore < 0) {
                 vm.finalScore = 0;
             }
 

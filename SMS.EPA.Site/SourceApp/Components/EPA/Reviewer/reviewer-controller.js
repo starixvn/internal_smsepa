@@ -190,8 +190,8 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 }]);
 
 epaModule.controller('MemberEPAInfoOfReviewerController',
-['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel', 'utilitiesFactory',
-function ($window, $translate, $routeParams, EmployeeEPAModel, ReviewerManagementModel, CommonModel, utilitiesFactory) {
+['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel', 'utilitiesFactory', 'baseUrl',
+function ($window, $translate, $routeParams, EmployeeEPAModel, ReviewerManagementModel, CommonModel, utilitiesFactory, baseUrl) {
     var vm = this;
 
     vm.epaId = parseInt($routeParams.id);
@@ -265,6 +265,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, ReviewerManagemen
     var getEPAInfoByReviewer = function () {
         ReviewerManagementModel.getEPAInfoByReviewer(vm.epaId).then(function () {
             vm.epaInfo = ReviewerManagementModel.epaInfo;
+            vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
 
             if (vm.epaInfo.HasDisciplineScore && vm.epaInfo.DisciplineScore < 0) {
                 vm.epaInfo.DisciplineScore = 0;
@@ -286,8 +287,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, ReviewerManagemen
 
             if (vm.finalScore > vm.epaInfo.MaxFinalScore) {
                 vm.finalScore = vm.epaInfo.MaxFinalScore;
-            }
-            else if (vm.finalScore < 0) {
+            } else if (vm.finalScore < 0) {
                 vm.finalScore = 0;
             }
 

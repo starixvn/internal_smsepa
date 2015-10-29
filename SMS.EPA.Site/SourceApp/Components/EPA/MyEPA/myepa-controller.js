@@ -26,8 +26,8 @@ function (SelfEvalutorModel, baseUrl) {
 }]);
 
 epaModule.controller('EmployeeEPAInfoController',
-['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel', 'utilitiesFactory',
-function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory) {
+['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel', 'utilitiesFactory', 'baseUrl',
+function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, baseUrl) {
     var vm = this;
 
     vm.epaId = parseInt($routeParams.id);
@@ -107,19 +107,18 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
     var getEPAInfoByEmployee = function () {
         SelfEvalutorModel.getEPAInfoByEmployee(vm.epaId).then(function () {
             vm.epaInfo = SelfEvalutorModel.epaInfo;
-            var totalScore = utilitiesFactory.parseFloat(vm.epaInfo.CurrentProcess.TotalScore);
+            vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
 
             if (vm.epaInfo.DisciplineScore < 0 && vm.epaInfo.HasDisciplineScore) {
                 vm.epaInfo.DisciplineScore = 0;
             }
 
-            vm.epaInfo.CurrentProcess.TotalScore = totalScore;
-            vm.finalScore = totalScore + vm.epaInfo.DisciplineScore;
+            vm.epaInfo.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.CurrentProcess.TotalScore);
+            vm.finalScore = vm.epaInfo.CurrentProcess.TotalScore + vm.epaInfo.DisciplineScore;
 
             if (vm.finalScore > vm.epaInfo.MaxFinalScore) {
                 vm.finalScore = vm.epaInfo.MaxFinalScore;
-            }
-            else if (vm.finalScore < 0) {
+            } else if (vm.finalScore < 0) {
                 vm.finalScore = 0;
             }
 

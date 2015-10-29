@@ -205,42 +205,6 @@ namespace SMS.EPA.Services.Implement
             return employees;
         }
 
-        public IEnumerable<MenuGroupModel> GetMenu(GetMenuCriteria criteria)
-        {
-            Check.Argument.IsNotNull(criteria, "criteria");
-            IEnumerable<MenuGroupModel> menus = new List<MenuGroupModel>();
-
-            if (criteria.IsValid())
-            {
-                IEnumerable<MenuItemModel> rawMenus = GetData<MenuItemModel>(criteria);
-                menus = GroupMenuItem(rawMenus);
-            }
-
-            return menus;
-        }
-
-        private IEnumerable<MenuGroupModel> GroupMenuItem(IEnumerable<MenuItemModel> rawMenus)
-        {
-            var menuGroups = new List<MenuGroupModel>();
-            IEnumerable<MenuItemModel> parentMenu = rawMenus.Where(item => item.ParentId == null).OrderBy(item => item.DisplayOrder).ToList();
-
-            foreach (MenuItemModel parent in parentMenu)
-            {
-                var menuGroupItem = new MenuGroupModel
-                {
-                    MenuId = parent.MenuId,
-                    MenuName = parent.MenuName,
-                    MenuLink = parent.MenuLink
-                };
-
-                menuGroupItem.MenuItems = rawMenus.Where(menuItem => menuItem.ParentId == menuGroupItem.MenuId)
-                                                .OrderBy(menuItem => menuItem.DisplayOrder);
-                menuGroups.Add(menuGroupItem);
-            }
-
-            return menuGroups;
-        }
-
         private IEnumerable<EmployeeModel> GetRoleOfEmployee(RawEmployeeModel rawEmployee)
         {
             foreach (EmployeeModel employee in rawEmployee.Employees)

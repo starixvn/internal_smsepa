@@ -64,7 +64,7 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
 
     ratingByKPIModel.openPopupConfirmSaveChanges = function (vm) {
         vm.modalInstance = $modal.open({
-            templateUrl: 'SourceApp/Components/EPA/Evaluator/Templates/modalConfirmSaveChanges.html',
+            templateUrl: 'SourceApp/Components/EPA/RatingByKPI/Templates/modalConfirmSaveChanges.html',
             controller: "ModalConfirmSaveChangesController as modalConfirmCtrl",
             backdrop: 'static',
             resolve: {

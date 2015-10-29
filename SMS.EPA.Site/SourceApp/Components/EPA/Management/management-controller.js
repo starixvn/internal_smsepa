@@ -34,7 +34,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
             });
         }
         else {
-            vm.viewEPADetailUrl = baseUrl +'Management/Detail/' + memberEPA.EPAId;
+            vm.viewEPADetailUrl = baseUrl + 'Management/Detail/' + memberEPA.EPAId;
         }
     };
 
@@ -201,8 +201,8 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 }]);
 
 epaModule.controller('MemberEPAInfoOfManagentController',
-['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel', 'utilitiesFactory',
-function ($window, $translate, $routeParams, EmployeeEPAModel, ReviewerManagementModel, CommonModel, utilitiesFactory) {
+['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel', 'utilitiesFactory', 'baseUrl',
+function ($window, $translate, $routeParams, EmployeeEPAModel, ReviewerManagementModel, CommonModel, utilitiesFactory, baseUrl) {
     var vm = this;
 
     vm.epaId = parseInt($routeParams.id);
@@ -275,8 +275,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, ReviewerManagemen
 
     var getEPAInfoByManagement = function () {
         ReviewerManagementModel.getEPAInfoByManagement(vm.epaId).then(function () {
-            var totalScore, disciplineScore;
             vm.epaInfo = ReviewerManagementModel.epaInfo;
+            vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
 
             if (vm.epaInfo.HasDisciplineScore && vm.epaInfo.DisciplineScore < 0) {
                 vm.epaInfo.DisciplineScore = 0;
@@ -284,26 +284,22 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, ReviewerManagemen
 
             if (vm.epaInfo.AverageScoreByReviewers > 0 && !vm.epaInfo.CurrentProcess.TotalScore && vm.epaInfo.ProcessByReviewers[0].IsEndProcess) {
                 vm.epaInfo.CurrentProcess.TotalScore = vm.epaInfo.AverageScoreByReviewers;
-            }
-            else if (vm.epaInfo.AverageScoreByEvaluators > 0 && !vm.epaInfo.CurrentProcess.TotalScore && vm.epaInfo.ProcessByEvaluators[0].IsEndProcess) {
+            } else if (vm.epaInfo.AverageScoreByEvaluators > 0 && !vm.epaInfo.CurrentProcess.TotalScore && vm.epaInfo.ProcessByEvaluators[0].IsEndProcess) {
                 vm.epaInfo.CurrentProcess.TotalScore = vm.epaInfo.AverageScoreByEvaluators;
             }
 
             // self
-            totalScore = utilitiesFactory.parseFloat(vm.epaInfo.ProcessBySelf.TotalScore);
-            vm.epaInfo.ProcessBySelf.TotalScore = totalScore + vm.epaInfo.DisciplineScore;
+            vm.epaInfo.ProcessBySelf.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.ProcessBySelf.TotalScore) + vm.epaInfo.DisciplineScore;
 
             // evaluator
             angular.forEach(vm.epaInfo.ProcessByEvaluators, function (evaluator) {
-                totalScore = utilitiesFactory.parseFloat(evaluator.TotalScore);
-                evaluator.TotalScore = totalScore + vm.epaInfo.DisciplineScore;
+                evaluator.TotalScore = utilitiesFactory.parseFloat(evaluator.TotalScore) + vm.epaInfo.DisciplineScore;
             });
             vm.epaInfo.AverageScoreByEvaluators = vm.epaInfo.AverageScoreByEvaluators + vm.epaInfo.DisciplineScore;
 
             // reviewer
             angular.forEach(vm.epaInfo.ProcessByReviewers, function (reviewer) {
-                totalScore = utilitiesFactory.parseFloat(reviewer.TotalScore);
-                reviewer.TotalScore = totalScore + vm.epaInfo.DisciplineScore;
+                reviewer.TotalScore = utilitiesFactory.parseFloat(reviewer.TotalScore) + vm.epaInfo.DisciplineScore;
             });
             vm.epaInfo.AverageScoreByReviewers = vm.epaInfo.AverageScoreByReviewers + vm.epaInfo.DisciplineScore;
 
@@ -313,8 +309,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, ReviewerManagemen
 
             if (vm.finalScore > vm.epaInfo.MaxFinalScore) {
                 vm.finalScore = vm.epaInfo.MaxFinalScore;
-            }
-            else if (vm.finalScore < 0) {
+            } else if (vm.finalScore < 0) {
                 vm.finalScore = 0;
             }
 

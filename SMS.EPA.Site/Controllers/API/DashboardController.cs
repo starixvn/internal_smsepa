@@ -48,7 +48,7 @@ namespace SMS.EPA.Site.Controllers.API
             };
 
             result = _reportService.GetDashboard(criteria);
-            result.Employee = _commonController.GetEmployeeById(CurrentUser.EmployeeInfo.EmployeeId);
+            result.Employee = CurrentUser.EmployeeInfo;
 
             return result;
         }

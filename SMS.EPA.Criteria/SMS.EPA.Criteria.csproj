@@ -117,7 +117,6 @@
     <Compile Include="Employee\GetEmployeeByDepartmentIdCriteria.cs" />
     <Compile Include="Employee\GetEmployeeByGroupIdCriteria.cs" />
     <Compile Include="Employee\GetEmployeeByIdCriteria.cs" />
-    <Compile Include="Employee\GetMenuCriteria.cs" />
     <Compile Include="Employee\UpdateSpecialEmployeeCriteria.cs" />
     <Compile Include="FlowManagement\CreateDepartmentFlowCriteria.cs" />
     <Compile Include="FlowManagement\CreateFlowTemplateCriteria.cs" />
