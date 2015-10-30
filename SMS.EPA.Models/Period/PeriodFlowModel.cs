@@ -24,5 +24,7 @@ namespace SMS.EPA.Model.Period
         public bool HasEvaluationGenerated { get; set; }
 
         public int ProcessStatus { get; set; }
+
+        public int ProcessDetailStatus { get; set; }
     }
 }

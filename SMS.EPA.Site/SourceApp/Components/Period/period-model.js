@@ -448,8 +448,8 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         });
     };
 
-    periodModel.getPeriodEmployeeSettingById = function (periodId, departmentId, isExcludedEmployee, isGeneratedEPA) {
-        return periodFactory.getPeriodEmployeeSettingById(periodId, departmentId, isExcludedEmployee, isGeneratedEPA).success(function (employeeSettings) {
+    periodModel.getPeriodEmployeeSettingById = function (periodId, departmentId, isExcludedEmployee, isGeneratedEPA, isEvaluated) {
+        return periodFactory.getPeriodEmployeeSettingById(periodId, departmentId, isExcludedEmployee, isGeneratedEPA, isEvaluated).success(function (employeeSettings) {
             periodModel.employeeSettings = employeeSettings;
         })
         .error(function (response, status) {
@@ -490,21 +490,9 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             windowClass: "modal-confirm-center employee-period-setting"
         });
 
-        modalInstance.result.then(function (editEmployeeSetting) {
-            if (editEmployeeSetting) {
-                selectedEmployees[0].TargetTemplate = editEmployeeSetting.TargetTemplate;
-                selectedEmployees[0].HumanResources = editEmployeeSetting.HumanResources;
-                selectedEmployees[0].SelfEvaluators = editEmployeeSetting.SelfEvaluators;
-                selectedEmployees[0].Evaluators = editEmployeeSetting.Evaluators;
-                selectedEmployees[0].Reviewers = editEmployeeSetting.Reviewers;
-                selectedEmployees[0].Managements = editEmployeeSetting.Managements;
-                selectedEmployees[0].NumberEvaluators = editEmployeeSetting.NumberEvaluators;
-
-            }
-            else {
-                vm.query(vm.filter);
-                vm.selectedAll = false;
-            }
+        modalInstance.result.then(function () {
+            vm.query(vm.filter);
+            vm.selectedAll = false;
 
         })['finally'](function () {
             modalInstance = null;
@@ -621,21 +609,6 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         return employeeSetting;
     };
 
-    periodModel.getUpdateTargetTemplate = function (targetTemplateId, targetTemplates) {
-        var targetTemplate = '';
-
-        for (var i = 0; i < targetTemplates.length; i++) {
-            var item = targetTemplates[i];
-
-            if (item.TargetTemplateId === targetTemplateId) {
-                targetTemplate = item;
-                i = targetTemplates.length;
-            }
-        }
-
-        return targetTemplate;
-    };
-
     var getEmployeeById = function (employees, employeeId) {
         var employee = null;
 
@@ -668,30 +641,6 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         }
 
         return processStatus;
-    };
-
-    periodModel.getUpdateEvaluators = function (evaluator, evaluatorType, employees, hasGeneratedEvaluation) {
-        var evaluators = [];
-
-        if (evaluator && evaluator.ids != null && evaluator.ids.length > 0) {
-            angular.forEach(evaluator.ids, function (id) {
-                var employee = getEmployeeById(employees, id),
-                    evaluatorItem = {
-                        ProcessId: evaluatorType,
-                        ProcessStatus: hasGeneratedEvaluation ? getProcessStatus(evaluator.StartDate, evaluator.EndDate) : evaluator.ProcessStatus,
-                        StartDate: evaluator.StartDate,
-                        EndDate: evaluator.EndDate,
-                        EvaluatorInfo: employee ? employee : {
-                            EmployeeId: -1
-                        },
-                        HasEvaluationGenerated: evaluator.HasEvaluationGenerated
-                    };
-
-                evaluators.push(evaluatorItem);
-            });
-        }
-
-        return evaluators;
     };
 
     periodModel.openPopupIncludeExcludeEmployee = function (vm, periodId, employee) {

@@ -378,6 +378,7 @@ namespace SMS.EPA.Services.Implement
                 HasSendMail = rawFlowSetting.HasSendMail,
                 HasEvaluationGenerated = rawFlowSetting.HasEvaluationGenerated,
                 ProcessStatus = rawFlowSetting.ProcessStatus,
+                ProcessDetailStatus = rawFlowSetting.ProcessDetailStatus,
                 EvaluatorInfo = rawFlowSetting.EvaluatorInfo
             };
 

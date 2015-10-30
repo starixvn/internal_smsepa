@@ -24,6 +24,8 @@ namespace SMS.EPA.Criteria.Period
 
         public bool? IsGeneratedEPA { get; set; }
 
+        public int? IsEvaluated { get; set; }
+
         public override bool IsValid()
         {
             return PeriodId > 0;

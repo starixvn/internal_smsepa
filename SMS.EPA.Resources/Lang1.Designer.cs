@@ -1078,6 +1078,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Evaluated Status.
+        /// </summary>
+        public static string EvaluatedStatus {
+            get {
+                return ResourceManager.GetString("EvaluatedStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There are some empty rates or comments. Please fill them before submitting..
         /// </summary>
         public static string EvaluateEPAInvalid {
@@ -1920,6 +1929,15 @@ namespace SMS.EPA.Resources {
         public static string NotAvailableDescription {
             get {
                 return ResourceManager.GetString("NotAvailableDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not Evaluated.
+        /// </summary>
+        public static string NotEvaluated {
+            get {
+                return ResourceManager.GetString("NotEvaluated", resourceCulture);
             }
         }
         

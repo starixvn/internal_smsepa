@@ -320,15 +320,16 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
         periodId: null,
         departmentId: null,
         isExcludedEmployee: null,
-        isGeneratedEPA: ""
+        isGeneratedEPA: "",
+        isEvaluated: ""
     };
 
     vm.filterAssign = {
         employee: ''
     };
 
-    var getPeriodEmployeeSetting = function (periodId, departmentId, isExcludedEmployee, isGeneratedEPA) {
-        PeriodModel.getPeriodEmployeeSettingById(periodId, departmentId, isExcludedEmployee, isGeneratedEPA).then(function () {
+    var getPeriodEmployeeSetting = function (periodId, departmentId, isExcludedEmployee, isGeneratedEPA, isEvaluated) {
+        PeriodModel.getPeriodEmployeeSettingById(periodId, departmentId, isExcludedEmployee, isGeneratedEPA, isEvaluated).then(function () {
             vm.employeeSettings = PeriodModel.employeeSettings;
             utilitiesFactory.searchOnPage(vm, vm.employeeSettings);
             vm.isFirstLoad = false;
@@ -343,7 +344,7 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
             vm.departmentOptions = angular.copy(vm.treeDepartment);
         });
 
-        getPeriodEmployeeSetting(vm.filter.periodId, vm.filter.departmentId, vm.filter.isExcludedEmployee, vm.filter.isGeneratedEPA);
+        getPeriodEmployeeSetting(vm.filter.periodId, vm.filter.departmentId, vm.filter.isExcludedEmployee, vm.filter.isGeneratedEPA, vm.filter.isEvaluated);
         vm.permission = $scope.updateCtrl.permission;
     };
 
@@ -367,7 +368,7 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
         });
 
     vm.query = function (filter) {
-        getPeriodEmployeeSetting(filter.periodId, filter.departmentId, filter.isExcludedEmployee, filter.isGeneratedEPA);
+        getPeriodEmployeeSetting(filter.periodId, filter.departmentId, filter.isExcludedEmployee, filter.isGeneratedEPA, filter.isEvaluated);
     };
 
     vm.getIndex = function (index, currentPage, pageSize) {
@@ -429,7 +430,7 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
         if (employeeInfo.employeeId || (employeeInfo.departments && employeeInfo.departments.length > 0)) {
             PeriodModel.addEmployeeToPeriod(employeeInfo).then(function () {
                 resetFilterAssign();
-                getPeriodEmployeeSetting(vm.filter.periodId, vm.filter.departmentId, vm.filter.isExcludedEmployee, vm.filter.isGeneratedEPA);
+                getPeriodEmployeeSetting(vm.filter.periodId, vm.filter.departmentId, vm.filter.isExcludedEmployee, vm.filter.isGeneratedEPA, vm.filter.isEvaluated);
             });
         }
         else {
@@ -624,9 +625,7 @@ permission, PeriodModel, TargetTemplateModel, FlowMngModel, CommonModel) {
             StartDate: date,
             EndDate: date,
             ids: [],
-            ProcessId: 0,
-            ProcessStatus: null,
-            HasEvaluationGenerated: null
+            ProcessId: 0
         };
 
         if (evaluators && evaluators.length > 0) {
@@ -634,8 +633,6 @@ permission, PeriodModel, TargetTemplateModel, FlowMngModel, CommonModel) {
             evaluator.EndDate = evaluators[0].EndDate ? new Date(evaluators[0].EndDate) : null;
             evaluator.ids = createEmployeeIds(evaluators);
             evaluator.ProcessId = evaluators[0].ProcessId;
-            evaluator.ProcessStatus = evaluators[0].ProcessStatus;
-            evaluator.HasEvaluationGenerated = evaluators[0].HasEvaluationGenerated;
         }
 
         return evaluator;
@@ -759,24 +756,6 @@ permission, PeriodModel, TargetTemplateModel, FlowMngModel, CommonModel) {
         vm.hasSelfStarted = PeriodModel.hasSelfStarted;
     });
 
-    var calculateNumberEvaluators = function (employeeSetting) {
-        return employeeSetting.SelfEvaluators.length + employeeSetting.Evaluators.length + employeeSetting.Reviewers.length + employeeSetting.Managements.length;
-    };
-
-    var getUpdatedEmployeeSetting = function (employeeSetting, employeeOptions) {
-        employeeSetting.TargetTemplate = PeriodModel.getUpdateTargetTemplate(employeeOptions.targetTemplateId, vm.targetTemplates);
-
-        var hasGeneratedEvaluation = employeeOptions.selfEvaluator.HasEvaluationGenerated;
-        employeeSetting.HumanResources = PeriodModel.getUpdateEvaluators(employeeOptions.humanResource, vm.evaluatorType.HumanResources, vm.employees, hasGeneratedEvaluation);
-        employeeSetting.SelfEvaluators = PeriodModel.getUpdateEvaluators(employeeOptions.selfEvaluator, vm.evaluatorType.SelfEvaluator, vm.employees, hasGeneratedEvaluation);
-        employeeSetting.Evaluators = PeriodModel.getUpdateEvaluators(employeeOptions.evaluator, vm.evaluatorType.Evaluator, vm.employees, hasGeneratedEvaluation);
-        employeeSetting.Reviewers = PeriodModel.getUpdateEvaluators(employeeOptions.reviewer, vm.evaluatorType.Reviewer, vm.employees, hasGeneratedEvaluation);
-        employeeSetting.Managements = PeriodModel.getUpdateEvaluators(employeeOptions.management, vm.evaluatorType.Management, vm.employees, hasGeneratedEvaluation);
-        employeeSetting.NumberEvaluators = calculateNumberEvaluators(employeeSetting);
-
-        return employeeSetting;
-    };
-
     var checkChangeEmployeeSetting = function (employeeOptions, employeeSetting) {
         var hasEdited = false,
             humanResource = getEvaluators(employeeSetting.HumanResources),
@@ -815,8 +794,7 @@ permission, PeriodModel, TargetTemplateModel, FlowMngModel, CommonModel) {
                     var employeeAssignmentSetting = PeriodModel.createAssignmentSettings(vm.employeeOptions, vm.period.PeriodId, vm.selectedEmployees, vm.selectedEmployeeIds);
 
                     PeriodModel.updateEmployeeSettingOfPeriod(employeeAssignmentSetting).then(function () {
-                        var updatedEmployeeSetting = getUpdatedEmployeeSetting(vm.selectedEmployees[0], vm.employeeOptions);
-                        $modalInstance.close(updatedEmployeeSetting);
+                        $modalInstance.close();
                     });
                 }
                 else {
