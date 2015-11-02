@@ -77,7 +77,7 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory) {
         endGrouping = { msGroup: false };
         result.push(endGrouping);
 
-        if (result.length > 0) {
+        if (periods.length > 0 && result.length > 0) {
             result[1].ticked = true;
             vm.filter.periodIds = result[1].PeriodId;
 

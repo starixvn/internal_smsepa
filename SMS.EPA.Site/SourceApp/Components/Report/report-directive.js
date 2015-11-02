@@ -113,8 +113,6 @@ function ($timeout, EmployeeEPAModel, utilitiesFactory) {
                 gridExpandHeight: $scope.gridExpandHeight,
                 showPager: true,
                 customPager: true,
-                numberOfFrozenColumn: 6,
-                enableHiddenColumns: false,
                 autoFixFrozenRowHeight: true,
                 showTitle: true,
                 titleInfo: {
@@ -137,6 +135,10 @@ function ($timeout, EmployeeEPAModel, utilitiesFactory) {
                         gridOptions.groupHeaderRows = groupHeaderRows;
                         gridOptions.columns = columnHeaders;
                         gridOptions.bodyRows = bodyRows;
+
+                        if (gridData.PeriodSelecteds.length > 0) {
+                            gridOptions.numberOfFrozenColumn = 6;
+                        }
 
                         gridOptions.pagerOption = {
                             startPerPage: utilitiesFactory.pageOption.itemsPerPage,

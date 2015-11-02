@@ -83,8 +83,12 @@ namespace SMS.EPA.Site.Controllers.API
         [HttpGet]
         public IList<PeriodModel> GetAllPeriodIncludeImport()
         {
-            IList<PeriodModel> periods = _commonController.GetAllPeriodIncludeImport()
-                .OrderByDescending(x => x.Year).ToList();
+            IList<PeriodModel> periods = _commonController.GetAllPeriodIncludeImport();
+
+            if (periods.Count > 0)
+            {
+                periods = periods.OrderByDescending(x => x.Year).ToList();
+            }
 
             return periods;
         }
