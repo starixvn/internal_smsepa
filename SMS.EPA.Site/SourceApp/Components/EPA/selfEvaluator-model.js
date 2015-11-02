@@ -20,7 +20,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
                 var score = utilitiesFactory.parseFloat(kpi.CurrentEvaluation.Score);
                 totalScore += score;
 
-                if (score > 0 && score === kpi.Weight) {
+                if ((score > 0 && score === kpi.Weight) || (kpi.CurrentEvaluation.Rate === vm.maxStar)) {
                     kpi.CurrentEvaluation.IsMaxScore = true;
                 } else {
                     kpi.CurrentEvaluation.IsMaxScore = false;

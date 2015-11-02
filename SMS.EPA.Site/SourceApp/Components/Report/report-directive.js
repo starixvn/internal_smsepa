@@ -1,8 +1,8 @@
 ﻿'use strict';
 /*global reportModule*/
 
-reportModule.directive('gridEpaSummaryReport', ['$timeout', 'EmployeeEPAModel', 'utilitiesFactory',
-function ($timeout, EmployeeEPAModel, utilitiesFactory) {
+reportModule.directive('gridEpaSummaryReport', ['$timeout', 'utilitiesFactory',
+function ($timeout, utilitiesFactory) {
     var generateGroupHeaders = function (periodSelecteds) {
         var groupHeaders = [
             {
