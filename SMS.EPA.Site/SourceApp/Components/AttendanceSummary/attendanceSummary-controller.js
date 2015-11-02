@@ -159,7 +159,7 @@ function ($scope, $modalInstance, AttendanceModel, employee, startDate, endDate,
     });
 
     vm.getEmployee = function () {
-        return CommonModel.getAllEmployee(vm.searchEmployee, null, null, null, true, null);
+        return CommonModel.getAllEmployee(vm.searchEmployee, null, null, null, true, true);
     };
 
     vm.unSelectEmployee = function () {

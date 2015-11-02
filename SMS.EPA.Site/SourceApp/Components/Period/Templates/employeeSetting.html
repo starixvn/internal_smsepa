@@ -130,14 +130,20 @@
                 <td class="width-120">
                     <span ng-show="employee.SelfEvaluators[0].ProcessStatus == 0" data-translate="NotAvailable"></span>
                     <span ng-show="employee.SelfEvaluators[0].ProcessStatus == 1" data-translate="Open"></span>
-                    <div>
-                        <span ng-show="employee.SelfEvaluators[0].ProcessStatus == 2" data-translate="InProgress"></span>
+                    <div ng-show="employee.SelfEvaluators[0].ProcessStatus == 2">
+                        <span data-translate="InProgress"></span>
                         <span class="glyphicon glyphicon-saved epa-saved period-process-detail"
                               ng-show="employee.SelfEvaluators[0].ProcessDetailStatus == 2" ng-attr-title='{{"Evaluated" | translate}}'></span>
                         <span class="glyphicon glyphicon-list-alt epa-unsaved period-process-detail"
                               ng-show="employee.SelfEvaluators[0].ProcessDetailStatus == 1" ng-attr-title='{{"NotEvaluated" | translate}}'></span>
                     </div>
-                    <span ng-show="employee.SelfEvaluators[0].ProcessStatus == 3" data-translate="Closed"></span>
+                    <div ng-show="employee.SelfEvaluators[0].ProcessStatus == 3">
+                        <span data-translate="Closed"></span>
+                        <span class="glyphicon glyphicon-saved epa-saved period-process-detail"
+                             ng-show="employee.SelfEvaluators[0].ProcessDetailStatus == 2" ng-attr-title='{{"Evaluated" | translate}}'></span>
+                        <span class="glyphicon glyphicon-list-alt epa-unsaved period-process-detail"
+                              ng-show="employee.SelfEvaluators[0].ProcessDetailStatus == 1" ng-attr-title='{{"NotEvaluated" | translate}}'></span>
+                    </div>
                 </td>
                 <td class="width-140" ng-bind="employee.SelfEvaluators[0].StartDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
                 <td class="width-140" ng-bind="employee.SelfEvaluators[0].EndDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
@@ -160,14 +166,20 @@
                 <td class="width-100">
                     <span ng-show="evaluator.ProcessStatus == 0" data-translate="NotAvailable"></span>
                     <span ng-show="evaluator.ProcessStatus == 1" data-translate="Open"></span>
-                    <div>
-                        <span ng-show="evaluator.ProcessStatus == 2" data-translate="InProgress"></span>
+                    <div ng-show="evaluator.ProcessStatus == 2">
+                        <span data-translate="InProgress"></span>
                         <span class="glyphicon glyphicon-saved epa-saved period-process-detail"
                               ng-show="evaluator.ProcessDetailStatus == 2" ng-attr-title='{{"Evaluated" | translate}}'></span>
                         <span class="glyphicon glyphicon-list-alt epa-unsaved period-process-detail"
                               ng-show="evaluator.ProcessDetailStatus == 1" ng-attr-title='{{"NotEvaluated" | translate}}'></span>
                     </div>
-                    <span ng-show="evaluator.ProcessStatus == 3" data-translate="Closed"></span>
+                    <div ng-show="evaluator.ProcessStatus == 3">
+                        <span data-translate="Closed"></span>
+                        <span class="glyphicon glyphicon-saved epa-saved period-process-detail"
+                              ng-show="evaluator.ProcessDetailStatus == 2" ng-attr-title='{{"Evaluated" | translate}}'></span>
+                        <span class="glyphicon glyphicon-list-alt epa-unsaved period-process-detail"
+                              ng-show="evaluator.ProcessDetailStatus == 1" ng-attr-title='{{"NotEvaluated" | translate}}'></span>
+                    </div>
                 </td>
                 <td class="width-140" ng-bind="evaluator.StartDate | date: employeeSettingPeriodCtrl.dateFormat"
                     ng-show="$first" rowspan="{{employee.Evaluators.length}}"></td>
@@ -180,14 +192,20 @@
                 <td class="width-120">
                     <span ng-show="reviewer.ProcessStatus == 0" data-translate="NotAvailable"></span>
                     <span ng-show="reviewer.ProcessStatus == 1" data-translate="Open"></span>
-                    <div>
-                        <span ng-show="reviewer.ProcessStatus == 2" data-translate="InProgress"></span>
+                    <div ng-show="reviewer.ProcessStatus == 2">
+                        <span data-translate="InProgress"></span>
                         <span class="glyphicon glyphicon-saved epa-saved period-process-detail"
                               ng-show="reviewer.ProcessDetailStatus == 2" ng-attr-title='{{"Evaluated" | translate}}'></span>
                         <span class="glyphicon glyphicon-list-alt epa-unsaved period-process-detail"
                               ng-show="reviewer.ProcessDetailStatus == 1" ng-attr-title='{{"NotEvaluated" | translate}}'></span>
                     </div>
-                    <span ng-show="reviewer.ProcessStatus == 3" data-translate="Closed"></span>
+                    <div ng-show ="reviewer.ProcessStatus == 3">
+                        <span data-translate="Closed"></span>
+                        <span class="glyphicon glyphicon-saved epa-saved period-process-detail"
+                              ng-show="reviewer.ProcessDetailStatus == 2" ng-attr-title='{{"Evaluated" | translate}}'></span>
+                        <span class="glyphicon glyphicon-list-alt epa-unsaved period-process-detail"
+                              ng-show="reviewer.ProcessDetailStatus == 1" ng-attr-title='{{"NotEvaluated" | translate}}'></span>
+                    </divng-show>
                 </td>
                 <td class="width-120" ng-bind="reviewer.StartDate | date: employeeSettingPeriodCtrl.dateFormat"
                     ng-show="$first" rowspan="{{employee.Reviewers.length}}"></td>
@@ -200,14 +218,20 @@
                 <td class="width-120">
                     <span ng-show="management.ProcessStatus == 0" data-translate="NotAvailable"></span>
                     <span ng-show="management.ProcessStatus == 1" data-translate="Open"></span>
-                    <div>
-                        <span ng-show="management.ProcessStatus == 2" data-translate="InProgress"></span>
+                    <div ng-show="management.ProcessStatus == 2">
+                        <span data-translate="InProgress"></span>
                         <span class="glyphicon glyphicon-saved epa-saved period-process-detail"
                               ng-show="management.ProcessDetailStatus == 2" ng-attr-title='{{"Evaluated" | translate}}'></span>
                         <span class="glyphicon glyphicon-list-alt epa-unsaved period-process-detail"
                               ng-show="management.ProcessDetailStatus == 1" ng-attr-title='{{"NotEvaluated" | translate}}'></span>
                     </div>
-                    <span ng-show="management.ProcessStatus == 3" data-translate="Closed"></span>
+                    <div ng-show="management.ProcessStatus == 3">
+                        <span data-translate="Closed"></span>
+                        <span class="glyphicon glyphicon-saved epa-saved period-process-detail"
+                              ng-show="management.ProcessDetailStatus == 2" ng-attr-title='{{"Evaluated" | translate}}'></span>
+                        <span class="glyphicon glyphicon-list-alt epa-unsaved period-process-detail"
+                              ng-show="management.ProcessDetailStatus == 1" ng-attr-title='{{"NotEvaluated" | translate}}'></span>
+                    </div>
                 </td>
                 <td class="width-140" ng-bind="management.StartDate | date: employeeSettingPeriodCtrl.dateFormat"
                     ng-show="$first" rowspan="{{employee.Managements.length}}"></td>
