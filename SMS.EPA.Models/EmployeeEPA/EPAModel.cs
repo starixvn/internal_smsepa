@@ -13,7 +13,6 @@ namespace SMS.EPA.Model.EmployeeEPA
     using System.Collections.Generic;
     using System.Linq;
     using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Services;
     using SMS.EPA.Model.Enitites;
 
     public class EPAModel
@@ -74,23 +73,11 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public string LastFinalScoreEncode { get; set; }
 
-        public string LastFinalScore
-        {
-            get
-            {
-                return Decode(LastFinalScoreEncode);
-            }
-        }
+        public string LastFinalScore { get;  set; }
 
         public string LastGradeEncode { get; set; }
 
-        public string LastGrade
-        {
-            get
-            {
-                return Decode(LastGradeEncode);
-            }
-        }
+        public string LastGrade { get; set; }
 
         #endregion Last score
 
@@ -169,11 +156,6 @@ namespace SMS.EPA.Model.EmployeeEPA
             }
 
             return score;
-        }
-
-        private string Decode(string cipherText)
-        {
-            return !string.IsNullOrEmpty(cipherText) ? EncodeService.Decode(cipherText) : string.Empty;
         }
     }
 }

@@ -25,13 +25,11 @@ function (DashboardModel, utilitiesFactory, baseUrl) {
             vm.myEPAs = dashboardInfo.MyEPAs;
 
             angular.forEach(vm.myEPAs, function (myEPA) {
-                var disciplineScore = myEPA.DisciplineScore;
-
-                if (disciplineScore < 0 && myEPA.HasDisciplineScore) {
-                    disciplineScore = 0;
+                if (myEPA.Status.StatusId === 1) {
+                    myEPA.FinalScore = utilitiesFactory.parseFloat(myEPA.FinalScore);
+                } else {
+                    myEPA.FinalScore = null;
                 }
-
-                myEPA.FinalScore = utilitiesFactory.parseFloat(myEPA.FinalScore) + disciplineScore;
             });
         });
     };

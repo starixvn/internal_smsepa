@@ -127,12 +127,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
 
         memberEPA.CurrentProcess.TotalScore = averageScore + scoreAdjusted;
         memberEPA.FinalScore = averageScore + scoreAdjusted + memberEPA.DisciplineScore;
-
-        if (memberEPA.FinalScore > memberEPA.MaxFinalScore) {
-            memberEPA.FinalScore = memberEPA.MaxFinalScore;
-        } else if (memberEPA.FinalScore < 0) {
-            memberEPA.FinalScore = 0;
-        }
+        memberEPA.FinalScore = EmployeeEPAModel.checkScore(memberEPA.FinalScore, 0, memberEPA.MaxFinalScore);
     };
 
     reviewerMngModel.calculatePerformanceScore = function (vm, isReviewer) {
@@ -149,11 +144,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
 
         averageScore -= vm.epaInfo.DisciplineScore;
         vm.finalScore = totalScore + vm.epaInfo.DisciplineScore;
-        if (vm.finalScore > vm.epaInfo.MaxFinalScore) {
-            vm.finalScore = vm.epaInfo.MaxFinalScore;
-        } else if (vm.finalScore < 0) {
-            vm.finalScore = 0;
-        }
+        vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.epaInfo.MaxFinalScore);
 
         vm.epaInfo.CurrentProcess.AdjustScore = totalScore - averageScore;
         vm.epaInfo.CurrentProcess.AdjustScoreOriginal = vm.epaInfo.CurrentProcess.AdjustScore;
@@ -216,12 +207,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
                 memberEPA.CurrentProcess.TotalScore = averageScore + scoreAdjusted;
                 memberEPA.CurrentProcess.TotalScoreOriginal = averageScore + scoreAdjusted;
                 memberEPA.FinalScore = averageScore + scoreAdjusted + memberEPA.DisciplineScore;
-
-                if (memberEPA.FinalScore > memberEPA.MaxFinalScore) {
-                    memberEPA.FinalScore = memberEPA.MaxFinalScore;
-                } else if (memberEPA.FinalScore < 0) {
-                    memberEPA.FinalScore = 0;
-                }
+                memberEPA.FinalScore = EmployeeEPAModel.checkScore(memberEPA.FinalScore, 0, memberEPA.MaxFinalScore);
 
                 if (memberEPA.CurrentProcess.Comment && memberEPA.CurrentProcess.Comment.length > 0) {
                     memberEPA.CurrentProcess.Comment = memberEPA.CurrentProcess.Comment + '\n' + adjust.Comment;

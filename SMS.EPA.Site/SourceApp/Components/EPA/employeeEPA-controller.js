@@ -66,32 +66,34 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
 
             // self
             vm.epaInfo.ProcessBySelf.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.ProcessBySelf.TotalScore) + vm.epaInfo.DisciplineScore;
+            vm.epaInfo.ProcessBySelf.TotalScore = EmployeeEPAModel.checkScore(vm.epaInfo.ProcessBySelf.TotalScore, 0, vm.epaInfo.MaxFinalScore);
 
             // evaluator
             angular.forEach(vm.epaInfo.ProcessByEvaluators, function (evaluator) {
                 evaluator.TotalScore = utilitiesFactory.parseFloat(evaluator.TotalScore) + vm.epaInfo.DisciplineScore;
+                evaluator.TotalScore = EmployeeEPAModel.checkScore(evaluator.TotalScore, 0, vm.epaInfo.MaxFinalScore);
             });
             vm.epaInfo.AverageScoreByEvaluators += vm.epaInfo.DisciplineScore;
+            vm.epaInfo.AverageScoreByEvaluators = EmployeeEPAModel.checkScore(vm.epaInfo.AverageScoreByEvaluators, 0, vm.epaInfo.MaxFinalScore);
 
             // reviewer
             angular.forEach(vm.epaInfo.ProcessByReviewers, function (reviewer) {
                 reviewer.TotalScore = utilitiesFactory.parseFloat(reviewer.TotalScore) + vm.epaInfo.DisciplineScore;
+                reviewer.TotalScore = EmployeeEPAModel.checkScore(reviewer.TotalScore, 0, vm.epaInfo.MaxFinalScore);
             });
             vm.epaInfo.AverageScoreByReviewers += vm.epaInfo.DisciplineScore;
+            vm.epaInfo.AverageScoreByReviewers = EmployeeEPAModel.checkScore(vm.epaInfo.AverageScoreByReviewers, 0, vm.epaInfo.MaxFinalScore);
 
             // management
             angular.forEach(vm.epaInfo.ProcessByManagements, function (management) {
                 management.TotalScore = utilitiesFactory.parseFloat(management.TotalScore) + vm.epaInfo.DisciplineScore;
+                management.TotalScore = EmployeeEPAModel.checkScore(management.TotalScore, 0, vm.epaInfo.MaxFinalScore);
             });
             vm.epaInfo.AverageScoreByManagements += vm.epaInfo.DisciplineScore;
+            vm.epaInfo.AverageScoreByManagements = EmployeeEPAModel.checkScore(vm.epaInfo.AverageScoreByManagements, 0, vm.epaInfo.MaxFinalScore);
 
             vm.finalScore = calculateFinalScore(vm.epaInfo);
-
-            if (vm.finalScore > vm.epaInfo.MaxFinalScore) {
-                vm.finalScore = vm.epaInfo.MaxFinalScore;
-            } else if (vm.finalScore < 0) {
-                vm.finalScore = 0;
-            }
+            vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.epaInfo.MaxFinalScore);
 
             vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
 

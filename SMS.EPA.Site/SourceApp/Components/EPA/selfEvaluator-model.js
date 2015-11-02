@@ -33,13 +33,10 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         }
 
         vm.epaInfo.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(totalScore);
-        vm.finalScore = utilitiesFactory.parseFloat(totalScore + vm.epaInfo.DisciplineScore);
+        vm.epaInfo.CurrentProcess.TotalScore = EmployeeEPAModel.checkScore(vm.epaInfo.CurrentProcess.TotalScore, 0, vm.epaInfo.CurrentProcess.MaxTotalScore);
 
-        if (vm.finalScore > vm.epaInfo.MaxFinalScore) {
-            vm.finalScore = vm.epaInfo.MaxFinalScore;
-        } else if (vm.finalScore < 0) {
-            vm.finalScore = 0;
-        }
+        vm.finalScore = utilitiesFactory.parseFloat(totalScore + vm.epaInfo.DisciplineScore);
+        vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.epaInfo.MaxFinalScore);
 
         vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
     };

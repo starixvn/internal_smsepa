@@ -44,10 +44,10 @@
                 </strong>
             </td>
             <td class="text-center col-score">
-                <strong ng-show="memberEPAInfoCtrl.epaInfo.LastFinalScore">
+                <strong ng-show="memberEPAInfoCtrl.epaInfo.LastFinalScore != null">
                     {{memberEPAInfoCtrl.epaInfo.LastFinalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore | customScore}}
                 </strong>
-                <strong ng-show="!memberEPAInfoCtrl.epaInfo.LastFinalScore" ng-bind="'-'"></strong>
+                <strong ng-show="memberEPAInfoCtrl.epaInfo.LastFinalScore == null" ng-bind="'-'"></strong>
             </td>
         </tr>
         <tr class="text-right">

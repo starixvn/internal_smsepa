@@ -358,6 +358,8 @@ namespace SMS.EPA.Repositories.Implement
 
         private void DecodeAllScore(EPAModel epaInfo)
         {
+            epaInfo.LastFinalScore = Decode(epaInfo.LastFinalScoreEncode);
+            epaInfo.LastGrade = Decode(epaInfo.LastGradeEncode);
             epaInfo.FinalScore = Decode(epaInfo.FinalScoreEncode);
             epaInfo.Grade = Decode(epaInfo.GradeEncode);
             DecodeTotalScore(epaInfo.ProcessBySelf);

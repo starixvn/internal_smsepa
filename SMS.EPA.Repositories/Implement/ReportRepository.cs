@@ -59,7 +59,7 @@ namespace SMS.EPA.Repositories.Implement
                 {
                     epaSummary.PeriodSelecteds = multi.Read<PeriodModel>().ToList();
 
-                    epaSummary.EPAEmployees = multi.Read<EPASummaryEmployeeModel, Group, JobTitle, EPASummaryEmployeeModel>(
+                    epaSummary.EPAInfos = multi.Read<EPASummaryEmployeeModel, Group, JobTitle, EPASummaryEmployeeModel>(
                         (res, gr, job) =>
                         {
                             res.Group = gr;
@@ -83,8 +83,8 @@ namespace SMS.EPA.Repositories.Implement
 
                     epaSummary.TotalItem = totalItem;
 
-                    GroupPeriodByEmployee(epaSummary.EPAEmployees, periods);
-                    DecodeFinalScoreAndGrade(epaSummary.EPAEmployees);
+                    GroupPeriodByEmployee(epaSummary.EPAInfos, periods);
+                    DecodeFinalScoreAndGrade(epaSummary.EPAInfos);
                 }
             }
 

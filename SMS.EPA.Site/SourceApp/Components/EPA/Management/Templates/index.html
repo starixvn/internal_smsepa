@@ -122,10 +122,10 @@
                         </div>
                     </td>
                     <td class="text-center">
-                        <div ng-show="memberEPA.LastFinalScore">
+                        <div ng-show="memberEPA.LastFinalScore != null">
                             {{memberEPA.LastFinalScore | customScore}} / {{memberEPA.MaxFinalScore | customScore}}
                         </div>
-                        <div ng-show="!memberEPA.LastFinalScore" ng-bind="'-'"></div>
+                        <div ng-show="memberEPA.LastFinalScore == null" ng-bind="'-'"></div>
                     </td>
                     <td class="text-center col-action">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="managementCtrl.viewEPADetail(memberEPA)"

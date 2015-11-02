@@ -96,5 +96,17 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         }
     };
 
+    employeeEPAModel.checkScore = function (score, minScore, maxScore) {
+        var result = score;
+
+        if (score > maxScore) {
+            result = maxScore;
+        } else if(score < minScore) {
+            result = minScore;
+        }
+
+        return result;
+    };
+
     return employeeEPAModel;
 }]);

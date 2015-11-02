@@ -107,8 +107,9 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
     var getEPAInfoByEmployee = function () {
         SelfEvalutorModel.getEPAInfoByEmployee(vm.epaId).then(function () {
             vm.epaInfo = SelfEvalutorModel.epaInfo;
+            checkStatus(vm.epaInfo);
+
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
-            vm.epaInfo.LastFinalScore = utilitiesFactory.parseFloat(vm.epaInfo.LastFinalScore) + vm.epaInfo.LastDisciplineScore;
 
             if (vm.epaInfo.DisciplineScore < 0 && vm.epaInfo.HasDisciplineScore) {
                 vm.epaInfo.DisciplineScore = 0;
@@ -116,16 +117,17 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
 
             vm.epaInfo.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.CurrentProcess.TotalScore);
             vm.finalScore = vm.epaInfo.CurrentProcess.TotalScore + vm.epaInfo.DisciplineScore;
+            vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.epaInfo.MaxFinalScore);
 
-            if (vm.finalScore > vm.epaInfo.MaxFinalScore) {
-                vm.finalScore = vm.epaInfo.MaxFinalScore;
-            } else if (vm.finalScore < 0) {
-                vm.finalScore = 0;
+            if (vm.epaInfo.LastFinalScore.length > 0) {
+                vm.epaInfo.LastFinalScore = utilitiesFactory.parseFloat(vm.epaInfo.LastFinalScore) + vm.epaInfo.LastDisciplineScore;
+                vm.epaInfo.LastFinalScore = EmployeeEPAModel.checkScore(vm.epaInfo.LastFinalScore, 0, vm.epaInfo.MaxFinalScore);
+            } else {
+                vm.epaInfo.LastFinalScore = null;
             }
 
             vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
             vm.evaluatedDate = vm.epaInfo.CurrentProcess.EvaluateDate ? vm.epaInfo.CurrentProcess.EvaluateDate : null;
-            checkStatus(vm.epaInfo);
 
             angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
                 EmployeeEPAModel.scoreSpread(kpiGroup);

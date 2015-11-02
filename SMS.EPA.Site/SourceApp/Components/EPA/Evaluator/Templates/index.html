@@ -81,10 +81,10 @@
                         {{memberEPA.FinalScore | customScore}} / {{memberEPA.MaxFinalScore | customScore}}
                     </td>
                     <td class="text-center">
-                        <div ng-show="memberEPA.LastFinalScore">
+                        <div ng-show="memberEPA.LastFinalScore != null">
                             {{memberEPA.LastFinalScore | customScore}} / {{memberEPA.MaxFinalScore | customScore}}
                         </div>
-                        <div ng-show="!memberEPA.LastFinalScore" ng-bind="'-'"></div>
+                        <div ng-show="memberEPA.LastFinalScore == null" ng-bind="'-'"></div>
                     </td>
                     <td class="text-center">
                         <div ng-show="memberEPA.CurrentProcess.Evaluated" class="glyphicon glyphicon-ok"></div>

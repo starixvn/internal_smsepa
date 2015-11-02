@@ -10,6 +10,7 @@
 namespace SMS.EPA.Model.Report.EPASummary
 {
     using System.Collections.Generic;
+    using SMS.EPA.Core.Constants;
     using SMS.EPA.Model.Period;
 
     public class EPASummaryModel
@@ -17,12 +18,20 @@ namespace SMS.EPA.Model.Report.EPASummary
         public EPASummaryModel()
         {
             PeriodSelecteds = new List<PeriodModel>();
-            EPAEmployees = new List<EPASummaryEmployeeModel>();
+            EPAInfos = new List<EPASummaryEmployeeModel>();
         }
 
         public IList<PeriodModel> PeriodSelecteds { get; set; }
 
-        public IList<EPASummaryEmployeeModel> EPAEmployees { get; set; }
+        public IList<EPASummaryEmployeeModel> EPAInfos { get; set; }
+
+        public int MaxFinalScore
+        {
+            get
+            {
+                return Constants.MaxFinalScore;
+            }
+        }
 
         public int TotalItem { get; set; }
     }

@@ -224,7 +224,7 @@ namespace SMS.EPA.Services.Implement
             bodyStyle4.FillBackgroundColor = NPOI.HSSF.Util.HSSFColor.LightCornflowerBlue.Index;
             ICell cellBody;
 
-            foreach (var epaEmployee in epaSummary.EPAEmployees)
+            foreach (var epaInfo in epaSummary.EPAInfos)
             {
                 if (rowIndex % 2 == 0)
                 {
@@ -243,7 +243,7 @@ namespace SMS.EPA.Services.Implement
 
                 cellBody = row.CreateCell(1);
                 cellBody.CellStyle = bodyStyle;
-                cellBody.SetCellValue(epaEmployee.Code);
+                cellBody.SetCellValue(epaInfo.Code);
                 SetColumnWidth(ref sheet, 1, 10);
 
                 if (rowIndex % 2 == 0)
@@ -257,7 +257,7 @@ namespace SMS.EPA.Services.Implement
 
                 cellBody = row.CreateCell(2);
                 cellBody.CellStyle = bodyStyle;
-                cellBody.SetCellValue(epaEmployee.FullName);
+                cellBody.SetCellValue(epaInfo.FullName);
                 SetColumnWidth(ref sheet, 2, 20);
 
                 if (rowIndex % 2 == 0)
@@ -271,7 +271,7 @@ namespace SMS.EPA.Services.Implement
 
                 cellBody = row.CreateCell(3);
                 cellBody.CellStyle = bodyStyle;
-                cellBody.SetCellValue(epaEmployee.NickName);
+                cellBody.SetCellValue(epaInfo.NickName);
                 SetColumnWidth(ref sheet, 3, 12);
 
                 if (rowIndex % 2 == 0)
@@ -285,12 +285,12 @@ namespace SMS.EPA.Services.Implement
 
                 cellBody = row.CreateCell(4);
                 cellBody.CellStyle = bodyStyle;
-                cellBody.SetCellValue(epaEmployee.Group.GroupName);
+                cellBody.SetCellValue(epaInfo.Group.GroupName);
                 SetColumnWidth(ref sheet, 4, 16);
 
                 cellBody = row.CreateCell(5);
                 cellBody.CellStyle = bodyStyle;
-                cellBody.SetCellValue(epaEmployee.JobTitle.JobTitleName);
+                cellBody.SetCellValue(epaInfo.JobTitle.JobTitleName);
                 SetColumnWidth(ref sheet, 5, 25);
 
                 if (rowIndex % 2 == 0)
@@ -302,14 +302,14 @@ namespace SMS.EPA.Services.Implement
                     bodyStyle = bodyStyle1;
                 }
 
-                List<int> periodIds = epaEmployee.Periods.Select(x => x.PeriodId).ToList();
+                List<int> periodIds = epaInfo.Periods.Select(x => x.PeriodId).ToList();
                 for (int i = 0; i < epaSummary.PeriodSelecteds.Count; i++)
                 {
                     if (periodIds.Contains(epaSummary.PeriodSelecteds[i].PeriodId))
                     {
                         string finalScore = string.Empty,
                             grade = string.Empty;
-                        EPASummaryPeriodModel period = epaEmployee.Periods.Where(x => x.PeriodId == epaSummary.PeriodSelecteds[i].PeriodId).FirstOrDefault();
+                        EPASummaryPeriodModel period = epaInfo.Periods.Where(x => x.PeriodId == epaSummary.PeriodSelecteds[i].PeriodId).FirstOrDefault();
 
                         switch (period.Status.StatusId)
                         {

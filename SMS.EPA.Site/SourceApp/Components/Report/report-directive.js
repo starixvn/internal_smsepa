@@ -1,7 +1,8 @@
 ﻿'use strict';
 /*global reportModule*/
 
-reportModule.directive('gridEpaSummaryReport', ['$timeout', 'utilitiesFactory', function ($timeout, utilitiesFactory) {
+reportModule.directive('gridEpaSummaryReport', ['$timeout', 'EmployeeEPAModel', 'utilitiesFactory',
+function ($timeout, EmployeeEPAModel, utilitiesFactory) {
     var generateGroupHeaders = function (periodSelecteds) {
         var groupHeaders = [
             {
@@ -52,38 +53,30 @@ reportModule.directive('gridEpaSummaryReport', ['$timeout', 'utilitiesFactory', 
         var rows = [];
         var rowIndex = pageOption.itemsPerPage * pageOption.pageIndex;
 
-        if (gridData && gridData.EPAEmployees) {
-            angular.forEach(gridData.EPAEmployees, function (epaEmployee, i) {
+        if (gridData && gridData.EPAInfos) {
+            angular.forEach(gridData.EPAInfos, function (epaInfo, i) {
                 var currentRow = {
                     Columns: [
                         { Name: "No", Value: rowIndex + i + 1 },
-                        { Name: "Code", Value: epaEmployee.Code },
-                        { Name: "FullName", Value: epaEmployee.FullName },
-                        { Name: "NickName", Value: epaEmployee.NickName },
-                        { Name: "Section", Value: epaEmployee.Group.GroupName },
-                        { Name: "JobTitle", Value: epaEmployee.JobTitle.JobTitleName }
+                        { Name: "Code", Value: epaInfo.Code },
+                        { Name: "FullName", Value: epaInfo.FullName },
+                        { Name: "NickName", Value: epaInfo.NickName },
+                        { Name: "Section", Value: epaInfo.Group.GroupName },
+                        { Name: "JobTitle", Value: epaInfo.JobTitle.JobTitleName }
                     ]
                 };
 
                 angular.forEach(gridData.PeriodSelecteds, function (periodSelected, j) {
                     var colFinalScore, colGrade,
-                        index = epaEmployee.Periods.map(function (e) { return e.PeriodId; }).indexOf(periodSelected.PeriodId);
+                        index = epaInfo.Periods.map(function (e) { return e.PeriodId; }).indexOf(periodSelected.PeriodId);
 
                     if (index !== -1) {
                         var finalScore = '',
-                            grade = '',
-                            disciplineScore = '';
+                            grade = '';
 
-                        if (epaEmployee.Periods[index].Status.StatusId === 1) {
-                            finalScore = utilitiesFactory.parseFloat(epaEmployee.Periods[index].FinalScore);
-                            grade = epaEmployee.Periods[index].Grade;
-                            disciplineScore = epaEmployee.Periods[index].DisciplineScore;
-
-                            if (epaEmployee.Periods[index].HasDisciplineScore && disciplineScore < 0) {
-                                disciplineScore = 0;
-                            }
-
-                            finalScore += disciplineScore;
+                        if (epaInfo.Periods[index].Status.StatusId === 1) {
+                            finalScore = utilitiesFactory.parseFloat(epaInfo.Periods[index].FinalScore);
+                            grade = epaInfo.Periods[index].Grade;
                         }
 
                         colFinalScore = { Name: "FinalScore" + periodSelected.PeriodId, Value: finalScore };
@@ -135,7 +128,7 @@ reportModule.directive('gridEpaSummaryReport', ['$timeout', 'utilitiesFactory', 
 
             $scope.$watch('gridData', function (gridData) {
                 $timeout(function () {
-                    if (gridData.PeriodSelecteds && gridData.EPAEmployees) {
+                    if (gridData.PeriodSelecteds && gridData.EPAInfos) {
                         var columnHeaders = generateColumnHeaders(gridData.PeriodSelecteds),
                             groupHeaderRows = generateGroupHeaders(gridData.PeriodSelecteds);
 
@@ -190,7 +183,8 @@ reportModule.directive('exportEpaSummaryReport', ['baseUrl', function (baseUrl) 
     };
 }]);
 
-reportModule.directive('gridEpaDetailReport', ['$timeout', 'utilitiesFactory', function ($timeout, utilitiesFactory) {
+reportModule.directive('gridEpaDetailReport', ['$timeout', 'EmployeeEPAModel', 'utilitiesFactory',
+function ($timeout, EmployeeEPAModel, utilitiesFactory) {
     var generateColumnHeaders = function () {
         var columnHeaders = [
             { HeaderText: "#", Width: 40, Name: "No", HeaderAlign: "center", CellAlign: "center" },
@@ -212,7 +206,7 @@ reportModule.directive('gridEpaDetailReport', ['$timeout', 'utilitiesFactory', f
         return columnHeaders;
     };
 
-    var calculateScore = function (memberEPA) {
+    var calculateScore = function (epaInfo) {
         var result = {
             SelfScore: '',
             EvaluatorScore: '',
@@ -223,36 +217,36 @@ reportModule.directive('gridEpaDetailReport', ['$timeout', 'utilitiesFactory', f
             Grade: ''
         };
 
-        if (memberEPA.HasDisciplineScore && memberEPA.DisciplineScore < 0) {
-            memberEPA.DisciplineScore = 0;
+        if (epaInfo.HasDisciplineScore && epaInfo.DisciplineScore < 0) {
+            epaInfo.DisciplineScore = 0;
         }
 
-        result.DisciplineScore = memberEPA.DisciplineScore;
+        result.DisciplineScore = epaInfo.DisciplineScore;
 
-        if (memberEPA.EPAId > 0 && memberEPA.ProcessBySelf.IsEndProcess) {
-            result.SelfScore = utilitiesFactory.parseFloat(memberEPA.ProcessBySelf.TotalScore);
+        if (epaInfo.EPAId > 0 && epaInfo.ProcessBySelf.IsEndProcess) {
+            result.SelfScore = utilitiesFactory.parseFloat(epaInfo.ProcessBySelf.TotalScore);
             result.SelfScore += result.DisciplineScore;
+            result.SelfScore = EmployeeEPAModel.checkScore(result.SelfScore, 0, epaInfo.MaxFinalScore);
         }
 
-        if (memberEPA.EPAId > 0 && memberEPA.ProcessByEvaluators[0].IsEndProcess) {
-            result.EvaluatorScore = memberEPA.AverageScoreByEvaluators;
-            result.EvaluatorScore += result.DisciplineScore;
+        if (epaInfo.EPAId > 0 && epaInfo.ProcessByEvaluators[0].IsEndProcess) {
+            result.EvaluatorScore = epaInfo.AverageScoreByEvaluators + result.DisciplineScore;
+            result.EvaluatorScore = EmployeeEPAModel.checkScore(result.EvaluatorScore, 0, epaInfo.MaxFinalScore);
         }
 
-        if (memberEPA.EPAId > 0 && memberEPA.ProcessByReviewers.length > 0 && memberEPA.ProcessByReviewers[0].IsEndProcess) {
-            result.ReviewerScore = memberEPA.AverageScoreByReviewers;
-            result.ReviewerScore += result.DisciplineScore;
+        if (epaInfo.EPAId > 0 && epaInfo.ProcessByReviewers.length > 0 && epaInfo.ProcessByReviewers[0].IsEndProcess) {
+            result.ReviewerScore = epaInfo.AverageScoreByReviewers + result.DisciplineScore;
+            result.ReviewerScore = EmployeeEPAModel.checkScore(result.ReviewerScore, 0, epaInfo.MaxFinalScore);
         }
 
-        if (memberEPA.EPAId > 0 && memberEPA.ProcessByManagements.length > 0 && memberEPA.ProcessByManagements[0].IsEndProcess) {
-            result.ManagementScore = memberEPA.AverageScoreByManagements;
-            result.ManagementScore += result.DisciplineScore;
+        if (epaInfo.EPAId > 0 && epaInfo.ProcessByManagements.length > 0 && epaInfo.ProcessByManagements[0].IsEndProcess) {
+            result.ManagementScore = epaInfo.AverageScoreByManagements + result.DisciplineScore;
+            result.ManagementScore = EmployeeEPAModel.checkScore(result.ManagementScore, 0, epaInfo.MaxFinalScore);
         }
 
-        if (memberEPA.Status.StatusId === 1) {
-            result.FinalScore = utilitiesFactory.parseFloat(memberEPA.FinalScore);
-            result.FinalScore += result.DisciplineScore;
-            result.Grade = memberEPA.Grade;
+        if (epaInfo.Status.StatusId === 1) {
+            result.FinalScore = utilitiesFactory.parseFloat(epaInfo.FinalScore);
+            result.Grade = epaInfo.Grade;
         }
 
         return result;
