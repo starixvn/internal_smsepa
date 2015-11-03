@@ -81,7 +81,7 @@
         </thead>
         <tbody>
         <tr ng-repeat="violation in violationCtrl.otherViolations">
-            <td class="text-center" ng-bind="$index"></td>
+            <td class="text-center" ng-bind="$index + 1"></td>
             <td class="text-center" ng-bind="violation.NickName" ng-show="!violationCtrl.employee"></td>
             <td class="text-center" ng-bind="violation.WorkDate | date: dateFormat"></td>
             <td class="text-center" ng-bind="violation.Name"></td>
