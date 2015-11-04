@@ -9,6 +9,7 @@
 
 namespace SMS.EPA.Services.Implement
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -317,14 +318,9 @@ namespace SMS.EPA.Services.Implement
                                 break;
 
                             case (int)Status.Closed:
-                                float disciplinScore = period.DisciplineScore;
+                                float score = period.FinalScore.Length > 0 ? float.Parse(period.FinalScore) : 0;
 
-                                if (period.HasDisciplineScore && disciplinScore < 0)
-                                {
-                                    disciplinScore = 0;
-                                }
-
-                                finalScore = (float.Parse(period.FinalScore) + disciplinScore).ToString();
+                                finalScore = Math.Round(score, 2).ToString();
                                 grade = period.Grade;
                                 break;
                         }
@@ -446,38 +442,37 @@ namespace SMS.EPA.Services.Implement
             if (memberEPA.HasDisciplineScore && memberEPA.DisciplineScore < 0)
             {
                 memberEPA.DisciplineScore = 0;
-                disciplineScore = memberEPA.DisciplineScore.ToString();
             }
+
+            disciplineScore = memberEPA.DisciplineScore.ToString();
 
             if (memberEPA.EPAId > 0 && memberEPA.ProcessBySelf.IsEndProcess)
             {
                 score = memberEPA.ProcessBySelf.TotalScore.Length > 0 ? float.Parse(memberEPA.ProcessBySelf.TotalScore) : 0;
-                score += memberEPA.DisciplineScore;
 
-                selfScore = score.ToString();
+                selfScore = Math.Round(score, 2).ToString();
             }
 
             if (memberEPA.EPAId > 0 && memberEPA.ProcessByEvaluators.FirstOrDefault().IsEndProcess)
             {
-                evaluatorScore = (memberEPA.AverageScoreByEvaluators + memberEPA.DisciplineScore).ToString();
+                evaluatorScore = Math.Round(memberEPA.AverageScoreByEvaluators, 2).ToString();
             }
 
             if (memberEPA.EPAId > 0 && memberEPA.ProcessByReviewers.Count > 0 && memberEPA.ProcessByReviewers.FirstOrDefault().IsEndProcess)
             {
-                reviewerScore = (memberEPA.AverageScoreByReviewers + memberEPA.DisciplineScore).ToString();
+                reviewerScore = Math.Round(memberEPA.AverageScoreByReviewers, 2).ToString();
             }
 
             if (memberEPA.EPAId > 0 && memberEPA.ProcessByManagements.Count > 0 && memberEPA.ProcessByManagements.FirstOrDefault().IsEndProcess)
             {
-                managementScore = memberEPA.AverageScoreByManagements + memberEPA.DisciplineScore.ToString();
+                managementScore = Math.Round(memberEPA.AverageScoreByManagements, 2).ToString();
             }
 
             if (memberEPA.Status.StatusId.Equals((int)Status.Closed))
             {
                 score = memberEPA.FinalScore.Length > 0 ? float.Parse(memberEPA.FinalScore) : 0;
-                score += memberEPA.DisciplineScore;
 
-                finalScore = score.ToString();
+                finalScore = Math.Round(score, 2).ToString();
                 grade = memberEPA.Grade;
             }
 
