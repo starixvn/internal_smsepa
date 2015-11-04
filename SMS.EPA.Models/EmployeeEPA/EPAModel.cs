@@ -73,7 +73,7 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public string LastFinalScoreEncode { get; set; }
 
-        public string LastFinalScore { get;  set; }
+        public string LastFinalScore { get; set; }
 
         public string LastGradeEncode { get; set; }
 

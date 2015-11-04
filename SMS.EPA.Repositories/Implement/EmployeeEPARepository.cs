@@ -55,11 +55,8 @@ namespace SMS.EPA.Repositories.Implement
 
                     IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
 
-                    IEnumerable<EPAProcessModel> evaluators = multi.Read<EPAProcessModel>();
-
                     GroupEmployeeByEPA(epaInfos, employees);
                     GroupEPAProcessByEPA(epaInfos, processes);
-                    GroupEvaluatorByEPA(epaInfos, evaluators);
 
                     foreach (EPAModel epaInfo in epaInfos)
                     {

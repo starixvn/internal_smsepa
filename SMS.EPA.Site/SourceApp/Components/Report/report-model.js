@@ -1,5 +1,5 @@
 ﻿'use strict';
-/*exported reportModule*/
+/*global reportModule*/
 
 reportModule.factory('ReportModel',
 ['reportFactory', 'notificationFactory', 'errorFactory',

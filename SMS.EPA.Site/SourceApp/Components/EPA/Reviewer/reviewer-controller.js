@@ -247,8 +247,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, ReviewerManagemen
     };
 
     vm.save = function (epaInfo) {
-        var totalcore = epaInfo.CurrentProcess.TotalScore,
-            comment = epaInfo.CurrentProcess.Comment;
+        var totalcore = epaInfo.CurrentProcess.TotalScore;
+
         if (ReviewerManagementModel.validateEvaluation(totalcore)) {
             var model = new Array(epaInfo);
 

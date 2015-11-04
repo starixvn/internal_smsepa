@@ -66,7 +66,7 @@ function ($timeout, utilitiesFactory) {
                     ]
                 };
 
-                angular.forEach(gridData.PeriodSelecteds, function (periodSelected, j) {
+                angular.forEach(gridData.PeriodSelecteds, function (periodSelected) {
                     var colFinalScore, colGrade,
                         index = epaInfo.Periods.map(function (e) { return e.PeriodId; }).indexOf(periodSelected.PeriodId);
 

@@ -63,7 +63,11 @@ epaModule.directive('popoverAvatar', ['baseUrl', function (baseUrl) {
                 content: function () {
                     return '<img class="avatar" src="' + baseUrl + attrs.avatarSrc + '" />';
                 },
-                template: '<div class="popover popover-avatar" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
+                template: '<div class="popover popover-avatar" role="tooltip">' +
+                                '<div class="arrow"></div>' +
+                                '<h3 class="popover-title"></h3>' +
+                                '<div class="popover-content"></div>' +
+                            '</div>',
                 placement: 'top'
             });
         }

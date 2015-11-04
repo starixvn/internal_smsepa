@@ -165,8 +165,8 @@ function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, SelfEvalutorM
             } else {
                 RatingByKPIModel.scoreSpreadForKPIGroupHasKPIOptional(memberEPA.KPIGroup, vm.maxStar);
 
-                totalScoreEvaluated = utilitiesFactory.parseFloat(memberEPA.KPIGroup.Weight * (memberEPA.KPIGroup.TotalStarEvaluated / memberEPA.KPIGroup.TotalStarMustEvaluate));
-                memberEPA.TotalScore = totalScoreOriginal + totalScoreEvaluated;
+                totalScoreEvaluated = memberEPA.KPIGroup.Weight * (memberEPA.KPIGroup.TotalStarEvaluated / memberEPA.KPIGroup.TotalStarMustEvaluate);
+                memberEPA.TotalScore = utilitiesFactory.parseFloat(totalScoreOriginal + totalScoreEvaluated);
             }
         }
     };
@@ -178,8 +178,10 @@ function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, SelfEvalutorM
         if (memberEPA.KPIGroup.HasKPIOptional) {
             RatingByKPIModel.scoreSpreadForKPIGroupHasKPIOptional(memberEPA.KPIGroup, vm.maxStar);
 
-            var totalScoreEvaluated = utilitiesFactory.parseFloat(memberEPA.KPIGroup.Weight * (memberEPA.KPIGroup.TotalStarEvaluated / memberEPA.KPIGroup.TotalStarMustEvaluate));
-            memberEPA.TotalScore = utilitiesFactory.parseFloat(memberEPA.TotalScoreOriginal) + totalScoreEvaluated;
+            var totalScoreEvaluated = memberEPA.KPIGroup.Weight * (memberEPA.KPIGroup.TotalStarEvaluated / memberEPA.KPIGroup.TotalStarMustEvaluate),
+                totalScoreOriginal = utilitiesFactory.parseFloat(memberEPA.TotalScoreOriginal);
+
+            memberEPA.TotalScore = utilitiesFactory.parseFloat(totalScoreOriginal + totalScoreEvaluated);
         } else {
             memberEPA.TotalScore = utilitiesFactory.parseFloat(memberEPA.TotalScoreOriginal);
         }
