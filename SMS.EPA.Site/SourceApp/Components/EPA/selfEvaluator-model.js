@@ -70,11 +70,11 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         if (((averageWeight * totalKPIMustEvaluate) > kpiGroup.Weight) && totalStarEvaluated === totalStarMustEvaluate) {
             score = averageWeight - ((averageWeight * totalKPIMustEvaluate) - kpiGroup.Weight);
             kpis[kpis.length - 1].Weight = utilitiesFactory.parseFloat(score);
-            kpis[kpis.length - 1].CurrentEvaluation.Score = utilitiesFactory.parseFloat(score);
+            kpis[kpis.length - 1].CurrentEvaluation.Score = kpis[kpis.length - 1].Weight;
         } else if ((averageWeight * totalKPIMustEvaluate) < kpiGroup.Weight && totalStarEvaluated === totalStarMustEvaluate) {
             score = averageWeight + (kpiGroup.Weight - (averageWeight * totalKPIMustEvaluate));
             kpis[kpis.length - 1].Weight = utilitiesFactory.parseFloat(score);
-            kpis[kpis.length - 1].CurrentEvaluation.Score = utilitiesFactory.parseFloat(score);
+            kpis[kpis.length - 1].CurrentEvaluation.Score = kpis[kpis.length - 1].Weight;
         }
     };
 
