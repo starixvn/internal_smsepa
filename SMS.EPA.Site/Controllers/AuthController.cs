@@ -9,6 +9,7 @@
 
 namespace SMS.EPA.Site.Controllers
 {
+    using System.Web;
     using System.Web.Mvc;
     using System.Web.Security;
     using SMS.EPA.Core.Constants;
@@ -67,6 +68,7 @@ namespace SMS.EPA.Site.Controllers
                     {
                         SessionManager.CurrentUser = user;
                         FormsAuthentication.SetAuthCookie(model.Username, false);
+                        GetAndInsertIPAddress(user);
 
                         string returnUrl = "/";
                         if (!string.IsNullOrEmpty(Request.QueryString["ReturnUrl"]))
@@ -88,6 +90,17 @@ namespace SMS.EPA.Site.Controllers
             }
 
             return View(model);
+        }
+
+        private void GetAndInsertIPAddress(UserSession user)
+        {
+            string address = GetClientIP();
+            var criteria = new InsertEmployeeIPAddressCriteria
+            {
+                EmployeeId = user.EmployeeInfo.EmployeeId,
+                IPAddress = address
+            };
+            _employeeService.InsertEmployeeIPAddress(criteria);
         }
 
         /// <summary>
@@ -160,6 +173,25 @@ namespace SMS.EPA.Site.Controllers
             }
 
             return employee;
+        }
+
+        private string GetClientIP()
+        {
+            string result = string.Empty;
+            string ip = HttpContext.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+
+            if (!string.IsNullOrEmpty(ip))
+            {
+                string[] ipRange = ip.Split(',');
+                int le = ipRange.Length - 1;
+                result = ipRange[0];
+            }
+            else
+            {
+                result = HttpContext.Request.ServerVariables["REMOTE_ADDR"];
+            }
+
+            return result;
         }
     }
 }

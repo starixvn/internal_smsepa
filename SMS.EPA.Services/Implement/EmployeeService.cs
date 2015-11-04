@@ -205,6 +205,19 @@ namespace SMS.EPA.Services.Implement
             return employees;
         }
 
+        public CommandResult InsertEmployeeIPAddress(InsertEmployeeIPAddressCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            CommandResult commandResult = new CommandResult();
+
+            if (criteria.IsValid())
+            {
+                commandResult = Repository.Insert(criteria);
+            }
+
+            return commandResult;
+        }
+
         private IEnumerable<EmployeeModel> GetRoleOfEmployee(RawEmployeeModel rawEmployee)
         {
             foreach (EmployeeModel employee in rawEmployee.Employees)
