@@ -183,7 +183,6 @@ namespace SMS.EPA.Site.Controllers
             if (!string.IsNullOrEmpty(ip))
             {
                 string[] ipRange = ip.Split(',');
-                int le = ipRange.Length - 1;
                 result = ipRange[0];
             }
             else
