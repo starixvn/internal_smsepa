@@ -126,7 +126,7 @@ function ($modalInstance, PeriodModel, CommonModel) {
 }]);
 
 periodModule.controller('UpdatePeriodController',
-['$window', '$routeParams', 'PeriodModel', 
+['$window', '$routeParams', 'PeriodModel',
 function ($window, $routeParams, PeriodModel) {
     var vm = this;
 
@@ -283,7 +283,7 @@ function ($scope, $window, PeriodModel, FlowMngModel) {
         }
     });
 
-    vm.save = function (period) {
+    vm.save = function () {
         var periodProcessSetting = {
             PeriodId: vm.period.PeriodId,
             Processes: vm.processSettings
@@ -530,14 +530,14 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
     ** Export report.
     */
     vm.exportReport = function (filter) {
-          vm.exportCriteria = {
-              periodId: filter.periodId,
-              periodName: vm.period.Name,
-              departmentId: filter.departmentId,
-              isExcludedEmployee: filter.isExcludedEmployee
+        vm.exportCriteria = {
+            periodId: filter.periodId,
+            periodName: vm.period.Name,
+            departmentId: filter.departmentId,
+            isExcludedEmployee: filter.isExcludedEmployee
         };
 
-          $scope.$broadcast('exportEmployeeSettingReport');
+        $scope.$broadcast('exportEmployeeSettingReport');
     };
 }]);
 
@@ -788,10 +788,11 @@ permission, PeriodModel, TargetTemplateModel, FlowMngModel, CommonModel) {
     };
 
     vm.save = function () {
+        var employeeAssignmentSetting;
         if (vm.singleMode) {
             if (PeriodModel.validateEmployeeSetting(vm.employeeOptions)) {
                 if (checkChangeEmployeeSetting(vm.employeeOptions, vm.selectedEmployees[0])) {
-                    var employeeAssignmentSetting = PeriodModel.createAssignmentSettings(vm.employeeOptions, vm.period.PeriodId, vm.selectedEmployees, vm.selectedEmployeeIds);
+                    employeeAssignmentSetting = PeriodModel.createAssignmentSettings(vm.employeeOptions, vm.period.PeriodId, vm.selectedEmployees, vm.selectedEmployeeIds);
 
                     PeriodModel.updateEmployeeSettingOfPeriod(employeeAssignmentSetting).then(function () {
                         $modalInstance.close();
@@ -807,7 +808,7 @@ permission, PeriodModel, TargetTemplateModel, FlowMngModel, CommonModel) {
                 var updatedEmployees = PeriodModel.updateEmployeeSettings(vm.employeeOptions, vm.fieldEdit, vm.selectedEmployees);
 
                 if (PeriodModel.validateEmployeeSettingMultipleMode(updatedEmployees)) {
-                    var employeeAssignmentSetting = PeriodModel.createAssignmentSettingsMultipleMode(updatedEmployees, vm);
+                    employeeAssignmentSetting = PeriodModel.createAssignmentSettingsMultipleMode(updatedEmployees, vm);
 
                     PeriodModel.updateEmployeeSettingOfPeriod(employeeAssignmentSetting).then(function () {
                         $modalInstance.close();

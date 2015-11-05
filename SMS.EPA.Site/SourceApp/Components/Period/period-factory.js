@@ -4,7 +4,7 @@
 periodModule.factory('periodFactory', ['$http', 'baseUrl', function ($http, baseUrl) {
     return {
         getPeriod: function (targetTypeId, isActive) {
-            return $http.get(baseUrl + 'api/Period/GetPeriod', { params: { targetTypeId: targetTypeId, isActive: isActive }});
+            return $http.get(baseUrl + 'api/Period/GetPeriod', { params: { targetTypeId: targetTypeId, isActive: isActive } });
         },
         createPeriod: function (period) {
             return $http.post(baseUrl + 'api/Period/CreatePeriod', period);
@@ -50,7 +50,7 @@ periodModule.factory('periodFactory', ['$http', 'baseUrl', function ($http, base
             return $http.post(baseUrl + 'api/Period/GenerateEvaluation', period);
         },
         getProcessSettingByPeriodId: function (periodId) {
-            return $http.get(baseUrl + 'api/Period/GetProcessSettingByPeriodId', { params: { periodId: periodId }});
+            return $http.get(baseUrl + 'api/Period/GetProcessSettingByPeriodId', { params: { periodId: periodId } });
         },
         updatePeriodProcessSetting: function (periodProcessSetting) {
             return $http.put(baseUrl + 'api/Period/UpdatePeriodProcessSetting', periodProcessSetting);

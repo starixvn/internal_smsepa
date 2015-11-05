@@ -208,12 +208,12 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         }
 
         if (employeeOptions.evaluator.ids && employeeOptions.evaluator.ids.length > 0) {
-            if (new Date(employeeOptions.evaluator.StartDate).setHours(0, 0, 0, 0) > new Date(employeeOptions.evaluator.EndDate).setHours(0,0,0,0)) {
+            if (new Date(employeeOptions.evaluator.StartDate).setHours(0, 0, 0, 0) > new Date(employeeOptions.evaluator.EndDate).setHours(0, 0, 0, 0)) {
                 notificationFactory.error("StartDateGreaterThanEndDateWarning");
                 return false;
             }
 
-            if (new Date(employeeOptions.selfEvaluator.EndDate).setHours(0, 0, 0, 0) > new Date(employeeOptions.evaluator.StartDate).setHours(0,0,0,0)) {
+            if (new Date(employeeOptions.selfEvaluator.EndDate).setHours(0, 0, 0, 0) > new Date(employeeOptions.evaluator.StartDate).setHours(0, 0, 0, 0)) {
                 notificationFactory.error("SelfRangeDateGreaterThanEvaluatorRangeDateWarning");
                 return false;
             }
@@ -231,26 +231,26 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                 return false;
             }
 
-            if (new Date(employeeOptions.evaluator.EndDate).setHours(0, 0, 0, 0) > new Date(employeeOptions.reviewer.StartDate).setHours(0,0,0,0)) {
+            if (new Date(employeeOptions.evaluator.EndDate).setHours(0, 0, 0, 0) > new Date(employeeOptions.reviewer.StartDate).setHours(0, 0, 0, 0)) {
                 notificationFactory.error("EvaluatorRangeDateGreaterThanReviewerRangeDateWarning");
                 return false;
             }
         }
 
         if (employeeOptions.management.ids && employeeOptions.management.ids.length > 0) {
-            if (new Date(employeeOptions.management.StartDate).setHours(0, 0, 0, 0) > new Date(employeeOptions.management.EndDate).setHours(0,0,0,0)) {
+            if (new Date(employeeOptions.management.StartDate).setHours(0, 0, 0, 0) > new Date(employeeOptions.management.EndDate).setHours(0, 0, 0, 0)) {
                 notificationFactory.error("StartDateGreaterThanEndDateWarning");
                 return false;
             }
 
             if (hasReviewer) {
-                if (new Date(employeeOptions.reviewer.EndDate).setHours(0, 0, 0, 0) > new Date(employeeOptions.management.StartDate).setHours(0,0,0,0)) {
+                if (new Date(employeeOptions.reviewer.EndDate).setHours(0, 0, 0, 0) > new Date(employeeOptions.management.StartDate).setHours(0, 0, 0, 0)) {
                     notificationFactory.error("ReviewerRangeDateGreaterThanManagementRangeDateWarning");
                     return false;
                 }
             }
             else {
-                if (new Date(employeeOptions.evaluator.EndDate).setHours(0, 0, 0, 0) > new Date(employeeOptions.management.StartDate).setHours(0,0,0,0)) {
+                if (new Date(employeeOptions.evaluator.EndDate).setHours(0, 0, 0, 0) > new Date(employeeOptions.management.StartDate).setHours(0, 0, 0, 0)) {
                     notificationFactory.error("EvaluatorRangeDateGreaterThanManagementRangeDateWarning");
                     return false;
                 }
@@ -449,7 +449,8 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
     };
 
     periodModel.getPeriodEmployeeSettingById = function (periodId, departmentId, isExcludedEmployee, isGeneratedEPA, isEvaluated) {
-        return periodFactory.getPeriodEmployeeSettingById(periodId, departmentId, isExcludedEmployee, isGeneratedEPA, isEvaluated).success(function (employeeSettings) {
+        return periodFactory.getPeriodEmployeeSettingById(periodId, departmentId, isExcludedEmployee, isGeneratedEPA, isEvaluated)
+        .success(function (employeeSettings) {
             periodModel.employeeSettings = employeeSettings;
         })
         .error(function (response, status) {
@@ -493,7 +494,6 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         modalInstance.result.then(function () {
             vm.query(vm.filter);
             vm.selectedAll = false;
-
         })['finally'](function () {
             modalInstance = null;
         });
@@ -607,40 +607,6 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         };
 
         return employeeSetting;
-    };
-
-    var getEmployeeById = function (employees, employeeId) {
-        var employee = null;
-
-        for (var i = 0; i < employees.length; i++) {
-            var employeeItem = employees[i];
-
-            if (employeeItem.EmployeeId === employeeId) {
-                employee = employeeItem;
-            }
-        }
-
-        return employee;
-    };
-
-    var getProcessStatus = function (startDate, endDate) {
-        var processStatus = 0,
-            date = new Date(),
-            today = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0),
-            startDateNoTime = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), 0, 0, 0, 0),
-            endDateNoTime = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate(), 0, 0, 0, 0);
-
-        if (startDateNoTime > today) {
-            processStatus = 1;
-        }
-        else if (startDateNoTime <= today && today <= endDateNoTime) {
-            processStatus = 2;
-        }
-        else {
-            processStatus = 3;
-        }
-
-        return processStatus;
     };
 
     periodModel.openPopupIncludeExcludeEmployee = function (vm, periodId, employee) {
@@ -772,7 +738,6 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                 notificationFactory.success("UpdatedSuccessfully");
             }
             else {
-                employee.IsIncluded = !newEmployeeStatus.IsIncluded;
                 notificationFactory.error("UpdatedUnsuccessfully");
             }
         })
@@ -994,7 +959,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                 hasReviewer = false;
 
             if (employee.HumanResources && employee.HumanResources.length > 0) {
-                if (new Date(employee.HumanResources[0].StartDate).setHours(0,0,0,0) > new Date(employee.HumanResources[0].EndDate).setHours(0,0,0,0)) {
+                if (new Date(employee.HumanResources[0].StartDate).setHours(0, 0, 0, 0) > new Date(employee.HumanResources[0].EndDate).setHours(0, 0, 0, 0)) {
                     notificationFactory.error("StartDateGreaterThanEndDateWarning");
                     return false;
                 }

@@ -218,7 +218,7 @@ function ($modalInstance, message) {
     };
 }]);
 
-appModule.controller("ModalRemindController",
+epaModule.controller("ModalRemindController",
 ['$modalInstance',
  function ($modalInstance) {
      var vm = this;

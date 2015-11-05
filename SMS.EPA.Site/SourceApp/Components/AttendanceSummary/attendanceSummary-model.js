@@ -315,12 +315,12 @@ function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitie
     };
 
     var convertNumberToTime = function (number) {
-        var min_num = Math.round(number),
+        var minNumber = Math.round(number),
             time = '';
 
-        if (min_num > 0) {
-            var hours = Math.floor(min_num / 60),
-            minutes = Math.round(min_num - (hours * 60));
+        if (minNumber > 0) {
+            var hours = Math.floor(minNumber / 60),
+            minutes = Math.round(minNumber - (hours * 60));
 
             if (hours < 10) {
                 hours = "0" + hours;

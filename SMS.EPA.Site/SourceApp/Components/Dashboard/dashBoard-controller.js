@@ -1,5 +1,5 @@
 ﻿'use strict';
-/*exported dashboardModule*/
+/*global dashboardModule*/
 
 dashboardModule.controller('DashboardController',
 ['DashboardModel', 'utilitiesFactory', 'baseUrl',

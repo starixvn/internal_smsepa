@@ -1,5 +1,5 @@
 ﻿'use strict';
-/*exported dashboardModule*/
+/*global dashboardModule*/
 
 dashboardModule.factory('DashboardModel',
 ['dashboardFactory', 'notificationFactory', 'errorFactory',

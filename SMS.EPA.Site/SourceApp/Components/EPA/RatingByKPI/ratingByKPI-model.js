@@ -68,7 +68,7 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
             controller: "ModalConfirmSaveChangesController as modalConfirmCtrl",
             backdrop: 'static',
             resolve: {
-                kpiSelected: function(){
+                kpiSelected: function () {
                     return vm.kpiSelected;
                 },
                 memberEPAs: function () {
@@ -203,7 +203,6 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
                 }
 
                 angular.forEach(vm.memberEPAs, function (memberEPA) {
-
                     angular.forEach(memberEPA.KPIGroup.KPIs, function (kpi) {
                         if (kpi.AdjustRate > 0 || kpi.AdjustScore > 0) {
                             kpi.Rate = kpi.AdjustRate;

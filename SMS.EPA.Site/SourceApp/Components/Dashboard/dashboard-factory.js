@@ -1,5 +1,5 @@
 ﻿'use strict';
-/*exported dashboardModule*/
+/*global dashboardModule*/
 
 dashboardModule.factory('dashboardFactory', ['$http', 'baseUrl', function ($http, baseUrl) {
     return {
