@@ -336,7 +336,7 @@ function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitie
         return time;
     };
 
-    attendanceModel.convertCheckInOutToDate = function (attendanceDetails) {
+    attendanceModel.convertCheckInOutToDate = function (vm, attendanceDetails) {
         angular.forEach(attendanceDetails, function (attendanceDetail) {
             if (attendanceDetail.CheckIn != null && attendanceDetail.CheckIn.Value) {
                 attendanceDetail.CheckIn.Value = new Date(attendanceDetail.CheckIn.Value);
@@ -357,6 +357,12 @@ function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitie
 
             if (attendanceDetail.EarlyOut != null && attendanceDetail.EarlyOut.Value) {
                 attendanceDetail.EarlyOut.Value = convertNumberToTime(attendanceDetail.EarlyOut.Value);
+
+                if (attendanceDetail.LateIn != null && attendanceDetail.LateIn.Value && attendanceDetail.LateIn.HasViolated
+                    && attendanceDetail.EarlyOut.HasViolated && !attendanceDetail.EarlyOut.HasIgnored) {
+                    attendanceDetail.EarlyOut.HasIgnored = true;
+                    vm.calculateApproverScore(attendanceDetail, attendanceDetail.EarlyOut);
+                }
             }
         });
 

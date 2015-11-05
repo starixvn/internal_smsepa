@@ -305,7 +305,7 @@ function ($scope, $window, $routeParams, AttendanceModel, utilitiesFactory, Comm
     var getAttendanceDetail = function (startDate, endDate, employeeId, departmentId, reasonId) {
         AttendanceModel.getAttendanceDetail(startDate, endDate, employeeId, departmentId, reasonId).then(function () {
             vm.attendanceDetails = AttendanceModel.attendanceDetails;
-            vm.attendanceDetails = AttendanceModel.convertCheckInOutToDate(vm.attendanceDetails);
+            vm.attendanceDetails = AttendanceModel.convertCheckInOutToDate(vm, vm.attendanceDetails);
             utilitiesFactory.searchOnPage(vm, vm.attendanceDetails);
         });
     };
