@@ -591,9 +591,17 @@
 
     .summary-comment {
         textarea {
-            height: 80px;
+            height: 2.5em;
             resize: none;
+            -moz-transition: all 0.5s ease;
+            -o-transition: all 0.5s ease;
+            -webkit-transition: all 0.5s ease;
+            transition: all 0.5s ease;
             color: #39F;
+
+            &:focus {
+                height: 5.5em;
+            }
         }
     }
 }
