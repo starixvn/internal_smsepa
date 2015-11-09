@@ -222,7 +222,7 @@ namespace SMS.EPA.Services.Implement
 
             if (criteria.IsValid())
             {
-                result = this.Repository.Insert(criteria);
+                result = Repository.Insert(criteria);
             }
 
             return result;
@@ -248,7 +248,7 @@ namespace SMS.EPA.Services.Implement
 
             if (criteria.IsValid())
             {
-                data = this.GetData<EmployeeModel>(criteria);
+                data = GetData<EmployeeModel>(criteria);
             }
 
             return data;

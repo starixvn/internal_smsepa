@@ -3,25 +3,28 @@
 
 epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, baseUrl) {
     return {
-        getMemberByEvaluator: function (groupId) {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetMemberByEvaluator', { params: { groupId: groupId } });
-        },
-        getMemberByReviewer: function (groupId) {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetMemberByReviewer', { params: { groupId: groupId } });
-        },
-        getMemberByManagement: function (groupId) {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetMemberByManagement', { params: { groupId: groupId } });
-        },
         getEPAByEmployee: function () {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAByEmployee');
         },
         getEPAInfoByEmployee: function (epaId) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAInfoByEmployee', { params: { epaId: epaId } });
         },
-        getEPAByEvaluator: function (groupId, employeeIds) {
+        getGroupByEvaluator: function () {
+            return $http.get(baseUrl + 'api/EmployeeEPA/GetGroupByEvaluator');
+        },
+        getMemberByEvaluator: function (groupId, isLocal) {
+            return $http.get(baseUrl + 'api/EmployeeEPA/GetMemberByEvaluator', {
+                params: {
+                    groupId: groupId,
+                    isLocal: isLocal
+                }
+            });
+        },
+        getEPAByEvaluator: function (groupId, isLocal, employeeIds) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAByEvaluator', {
                 params: {
                     groupId: groupId,
+                    isLocal: isLocal,
                     employeeIds: employeeIds
                 }
             });
@@ -29,10 +32,22 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
         getEPAInfoByEvaluator: function (epaId) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAInfoByEvaluator', { params: { epaId: epaId } });
         },
-        getEPAByReviewer: function (groupId, employeeIds) {
+        getGroupByReviewer: function () {
+            return $http.get(baseUrl + 'api/EmployeeEPA/GetGroupByReviewer');
+        },
+        getMemberByReviewer: function (groupId, isLocal) {
+            return $http.get(baseUrl + 'api/EmployeeEPA/GetMemberByReviewer', {
+                params: {
+                    groupId: groupId,
+                    isLocal: isLocal
+                }
+            });
+        },
+        getEPAByReviewer: function (groupId, isLocal, employeeIds) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAByReviewer', {
                 params: {
                     groupId: groupId,
+                    isLocal: isLocal,
                     employeeIds: employeeIds
                 }
             });
@@ -40,10 +55,22 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
         getEPAInfoByReviewer: function (epaId) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAInfoByReviewer', { params: { epaId: epaId } });
         },
-        getEPAByManagement: function (groupId, employeeIds) {
+        getGroupByManagement: function () {
+            return $http.get(baseUrl + 'api/EmployeeEPA/GetGroupByManagement');
+        },
+        getMemberByManagement: function (groupId, isLocal) {
+            return $http.get(baseUrl + 'api/EmployeeEPA/GetMemberByManagement', {
+                params: {
+                    groupId: groupId,
+                    isLocal: isLocal
+                }
+            });
+        },
+        getEPAByManagement: function (groupId, isLocal, employeeIds) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAByManagement', {
                 params: {
                     groupId: groupId,
+                    isLocal: isLocal,
                     employeeIds: employeeIds
                 }
             });

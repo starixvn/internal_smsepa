@@ -25,7 +25,7 @@ namespace SMS.EPA.Services.Implement
 
             if (criteria.IsValid())
             {
-                kpis = this.GetData<TargetTypeModel>(criteria);
+                kpis = GetData<TargetTypeModel>(criteria);
             }
 
             return kpis;

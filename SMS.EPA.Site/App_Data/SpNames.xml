@@ -176,6 +176,8 @@
         </Setting>
         <Setting Key="EPA_GetMember" SpName="EPA_GetMember" DbName="SMSEPA" Plain="0">
         </Setting>
+        <Setting Key="EPA_GetGroup" SpName="EPA_GetGroup" DbName="SMSEPA" Plain="0">
+        </Setting>
         <Setting Key="EPA_GetByEvaluator" SpName="EPA_GetByEvaluator" DbName="SMSEPA" Plain="0">
             <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode"/>
             <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode"/>
@@ -330,8 +332,6 @@
             <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode"/>
             <Mapping DataField="Score" ObjectProperty="ScoreEncode"/>
             <Mapping DataField="Rate" ObjectProperty="RateEncode"/>
-        </Setting>
-        <Setting Key="EPA_RatingByKPI_GetGroup" SpName="EPA_RatingByKPI_GetGroup" DbName="SMSEPA" Plain="0">
         </Setting>
         <Setting Key="EPA_RatingByKPI_UpdateKPIScore" SpName="EPA_RatingByKPI_UpdateKPIScore" DbName="SMSEPA" Plain="0">
         </Setting>

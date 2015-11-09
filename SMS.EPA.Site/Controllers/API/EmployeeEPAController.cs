@@ -108,28 +108,32 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Evaluator, Policy = Policy.Read)]
-        public IEnumerable<Employee> GetMemberByEvaluator(int? groupId = null)
+        public IEnumerable<Group> GetGroupByEvaluator()
         {
-            var criteria = new GetMemberCriteria()
-            {
-                ActorUserId = CurrentUser.EmployeeInfo.EmployeeId,
-                ProcessId = (int)ProcessType.Evaluator,
-                GroupId = groupId
-            };
+            return GetGroupByEvaluatorOrReviewerOrManagement((int)ProcessType.Evaluator);
+        }
 
-            return GetMemberEvaluatorOrReivewerOrManagement(criteria);
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Evaluator, Policy = Policy.Read)]
+        public IEnumerable<Employee> GetMemberByEvaluator(
+            int? groupId = null,
+            bool? isLocal = null)
+        {
+            return GetMemberByEvaluatorOrReviewerOrManagement((int)ProcessType.Evaluator, groupId, isLocal);
         }
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Evaluator, Policy = Policy.Read)]
         public IEnumerable<EPAModel> GetEPAByEvaluator(
             int? groupId = null,
+            bool? isLocal = null,
             string employeeIds = null)
         {
             var criteria = new GetEPAByEvaluatorCriteria()
             {
                 EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
                 GroupId = groupId,
+                IsLocal = isLocal,
                 EmployeeIds = employeeIds
             };
 
@@ -186,28 +190,32 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Reviewer, Policy = Policy.Read)]
-        public IEnumerable<Employee> GetMemberByReviewer(int? groupId = null)
+        public IEnumerable<Group> GetGroupByReviewer()
         {
-            var criteria = new GetMemberCriteria()
-            {
-                ActorUserId = CurrentUser.EmployeeInfo.EmployeeId,
-                ProcessId = (int)ProcessType.Reviewer,
-                GroupId = groupId
-            };
+            return GetGroupByEvaluatorOrReviewerOrManagement((int)ProcessType.Reviewer);
+        }
 
-            return GetMemberEvaluatorOrReivewerOrManagement(criteria);
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Reviewer, Policy = Policy.Read)]
+        public IEnumerable<Employee> GetMemberByReviewer(
+            int? groupId = null,
+            bool? isLocal = null)
+        {
+            return GetMemberByEvaluatorOrReviewerOrManagement((int)ProcessType.Reviewer, groupId, isLocal);
         }
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Reviewer, Policy = Policy.Read)]
         public IEnumerable<EPAModel> GetEPAByReviewer(
             int? groupId = null,
+            bool? isLocal = null,
             string employeeIds = null)
         {
             var criteria = new GetEPAByReviewerCriteria()
             {
                 ReviewerId = CurrentUser.EmployeeInfo.EmployeeId,
                 GroupId = groupId,
+                IsLocal = isLocal,
                 EmployeeIds = employeeIds
             };
 
@@ -259,28 +267,32 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Management, Policy = Policy.Read)]
-        public IEnumerable<Employee> GetMemberByManagement(int? groupId = null)
+        public IEnumerable<Group> GetGroupByManagement()
         {
-            var criteria = new GetMemberCriteria()
-            {
-                ActorUserId = CurrentUser.EmployeeInfo.EmployeeId,
-                ProcessId = (int)ProcessType.Management,
-                GroupId = groupId
-            };
+            return GetGroupByEvaluatorOrReviewerOrManagement((int)ProcessType.Management);
+        }
 
-            return GetMemberEvaluatorOrReivewerOrManagement(criteria);
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Management, Policy = Policy.Read)]
+        public IEnumerable<Employee> GetMemberByManagement(
+            int? groupId = null,
+            bool? isLocal = null)
+        {
+            return GetMemberByEvaluatorOrReviewerOrManagement((int)ProcessType.Management, groupId, isLocal);
         }
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Management, Policy = Policy.Read)]
         public IEnumerable<EPAModel> GetEPAByManagement(
             int? groupId = null,
+            bool? isLocal = null,
             string employeeIds = null)
         {
             var criteria = new GetEPAByManagementCriteria()
             {
                 ManagementId = CurrentUser.EmployeeInfo.EmployeeId,
                 GroupId = groupId,
+                IsLocal = isLocal,
                 EmployeeIds = employeeIds
             };
 
@@ -329,18 +341,6 @@ namespace SMS.EPA.Site.Controllers.API
         #endregion Management
 
         #region Rating By KPI
-
-        [HttpGet]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.RatingByKPI, Policy = Policy.Read)]
-        public IList<Group> GetGroupByEvaluator()
-        {
-            var criteria = new GetGroupByEvaluatorCriteria()
-            {
-                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId
-            };
-
-            return _employeeEPAService.GetGroupByEvaluator(criteria);
-        }
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.RatingByKPI, Policy = Policy.Read)]
@@ -444,9 +444,31 @@ namespace SMS.EPA.Site.Controllers.API
             return _employeeEPAService.UpdateEPAScore(criteria);
         }
 
-        private IEnumerable<Employee> GetMemberEvaluatorOrReivewerOrManagement(GetMemberCriteria criteria)
+        private IEnumerable<Employee> GetMemberByEvaluatorOrReviewerOrManagement(
+            int processId,
+            int? groupId = null,
+            bool? isLocal = null)
         {
-            return _employeeEPAService.GetMember(criteria);
+            var criteria = new GetMemberByEvaluatorOrReviewerOrManagementCriteria()
+            {
+                ActorUserId = CurrentUser.EmployeeInfo.EmployeeId,
+                ProcessId = processId,
+                GroupId = groupId,
+                IsLocal = isLocal
+            };
+
+            return _employeeEPAService.GetMemberByEvaluatorOrReviewerOrManagement(criteria);
+        }
+
+        private IEnumerable<Group> GetGroupByEvaluatorOrReviewerOrManagement(int processId)
+        {
+            var criteria = new GetGroupByEvaluatorOrReviewerOrManagementCriteria()
+            {
+                ActorUserId = CurrentUser.EmployeeInfo.EmployeeId,
+                ProcessId = processId
+            };
+
+            return _employeeEPAService.GetGroupByEvaluatorOrReviewerOrManagement(criteria);
         }
 
         private CommandResult AdjustScoreByReviewerOrManagement(AdjustScoreByReviewerOrManagementCriteria criteria)

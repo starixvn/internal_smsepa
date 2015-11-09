@@ -54,8 +54,6 @@ namespace SMS.EPA.Services.Interfaces
 
         #region Rating By KPI
 
-        IList<Group> GetGroupByEvaluator(GetGroupByEvaluatorCriteria criteria);
-
         IEnumerable<TargetTemplateModel> GetTargetTemplateByEvaluator(GetTargetTemplateByEvaluatorCriteria criteria);
 
         IEnumerable<TemporaryKPIModel> GetKPIByTargetTemplate(GetKPIByTargetTemplateCriteria criteria);
@@ -72,7 +70,9 @@ namespace SMS.EPA.Services.Interfaces
 
         CommandResult AdjustScoreByReviewerOrManagement(AdjustScoreByReviewerOrManagementCriteria criteria);
 
-        IEnumerable<Employee> GetMember(GetMemberCriteria criteria);
+        IEnumerable<Employee> GetMemberByEvaluatorOrReviewerOrManagement(GetMemberByEvaluatorOrReviewerOrManagementCriteria criteria);
+
+        IEnumerable<Group> GetGroupByEvaluatorOrReviewerOrManagement(GetGroupByEvaluatorOrReviewerOrManagementCriteria criteria);
 
         IEnumerable<StandardGradeModel> GetStandardGrade(GetStandardGradeCriteria criteria);
 

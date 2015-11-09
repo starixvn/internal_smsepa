@@ -7,6 +7,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     var reviewerMngModel = this;
 
     reviewerMngModel.epaInfo = {};
+    reviewerMngModel.groups = [];
     reviewerMngModel.members = [];
     reviewerMngModel.memberEPAs = [];
 
@@ -219,8 +220,17 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     };
 
     // reviewer
-    reviewerMngModel.getMemberByReviewer = function (groupId) {
-        return employeeEPAFactory.getMemberByReviewer(groupId)
+    reviewerMngModel.getGroupByReviewer = function () {
+        return employeeEPAFactory.getGroupByReviewer()
+        .success(function (groups) {
+            reviewerMngModel.groups = groups;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    reviewerMngModel.getMemberByReviewer = function (groupId, isLocal) {
+        return employeeEPAFactory.getMemberByReviewer(groupId, isLocal)
         .success(function (members) {
             reviewerMngModel.members = members;
         }).error(function (response, status) {
@@ -228,8 +238,8 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         });
     };
 
-    reviewerMngModel.getEPAByReviewer = function (groupId, employeeIds) {
-        return employeeEPAFactory.getEPAByReviewer(groupId, employeeIds)
+    reviewerMngModel.getEPAByReviewer = function (groupId, isLocal, employeeIds) {
+        return employeeEPAFactory.getEPAByReviewer(groupId, isLocal, employeeIds)
         .success(function (memberEPAs) {
             reviewerMngModel.memberEPAs = memberEPAs;
         }).error(function (response, status) {
@@ -268,8 +278,17 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     };
 
     // management
-    reviewerMngModel.getMemberByManagement = function (groupId) {
-        return employeeEPAFactory.getMemberByManagement(groupId)
+    reviewerMngModel.getGroupByManagement = function () {
+        return employeeEPAFactory.getGroupByManagement()
+        .success(function (groups) {
+            reviewerMngModel.groups = groups;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    reviewerMngModel.getMemberByManagement = function (groupId, isLocal) {
+        return employeeEPAFactory.getMemberByManagement(groupId, isLocal)
         .success(function (members) {
             reviewerMngModel.members = members;
         }).error(function (response, status) {
@@ -277,8 +296,8 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         });
     };
 
-    reviewerMngModel.getEPAByManagement = function (groupId, employeeIds) {
-        return employeeEPAFactory.getEPAByManagement(groupId, employeeIds)
+    reviewerMngModel.getEPAByManagement = function (groupId, isLocal, employeeIds) {
+        return employeeEPAFactory.getEPAByManagement(groupId, isLocal, employeeIds)
         .success(function (memberEPAs) {
             reviewerMngModel.memberEPAs = memberEPAs;
         }).error(function (response, status) {

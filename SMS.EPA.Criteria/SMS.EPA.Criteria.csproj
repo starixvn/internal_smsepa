@@ -77,11 +77,11 @@
     <Compile Include="Authentication\InsertEmployeeIPAddressCriteria.cs" />
     <Compile Include="EmployeeEPA\AdjustScoreByReviewerOrManagementCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEmployeePermissionCriteria.cs" />
+    <Compile Include="EmployeeEPA\GetGroupByEvaluatorOrReviewerOrManagementCriteria.cs" />
     <Compile Include="EmployeeEPA\GetStandardGradeCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEPASummaryImportCriteria.cs" />
     <Compile Include="EmployeeEPA\RatingByKPI\GetEmployeeEPAByKPICriteria.cs" />
     <Compile Include="EmployeeEPA\RatingByKPI\GetKPIByTargetTemplateCriteria.cs" />
-    <Compile Include="EmployeeEPA\RatingByKPI\GetGroupByEvaluatorCriteria.cs" />
     <Compile Include="EmployeeEPA\RatingByKPI\GetTargetTemplateByEvaluatorCriteria.cs" />
     <Compile Include="EmployeeEPA\RatingByKPI\UpdateKPIScoreCriteria.cs" />
     <Compile Include="EmployeeEPA\UpdateEPASummaryImportCriteria.cs" />
@@ -105,7 +105,7 @@
     <Compile Include="EmployeeEPA\GetEPAInfoByReviewerCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEPAInfoByEmployeeCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEPAByEvaluatorCriteria.cs" />
-    <Compile Include="EmployeeEPA\GetMemberCriteria.cs" />
+    <Compile Include="EmployeeEPA\GetMemberByEvaluatorOrReviewerOrManagementCriteria.cs" />
     <Compile Include="EmployeeEPA\UpdateEPAScoreCriteria.cs" />
     <Compile Include="Employee\AssignRoleToEmployeeCriteria.cs" />
     <Compile Include="Employee\ChangePasswordCriteria.cs">

@@ -6,19 +6,9 @@ epaModule.factory('RatingByKPIModel',
 function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, errorFactory) {
     var ratingByKPIModel = this;
 
-    ratingByKPIModel.groups = [];
     ratingByKPIModel.targetTemplates = [];
     ratingByKPIModel.kpis = [];
     ratingByKPIModel.memberEPAs = [];
-
-    ratingByKPIModel.getGroupByEvaluator = function () {
-        return ratingByKPIFactory.getGroupByEvaluator()
-        .success(function (groups) {
-            ratingByKPIModel.groups = groups;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
 
     ratingByKPIModel.getTargetTemplateByEvaluator = function () {
         return ratingByKPIFactory.getTargetTemplateByEvaluator()

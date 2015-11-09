@@ -11,8 +11,17 @@
                 <div class="col-sm-2">
                     <select class="form-control" ng-model="reviewerCtrl.filter.groupId"
                             ng-options="opt.GroupId as opt.GroupName for opt in reviewerCtrl.groupOptions"
-                            ng-change="reviewerCtrl.getMember(reviewerCtrl.filter.groupId)">
+                            ng-change="reviewerCtrl.getMember(reviewerCtrl.filter.groupId, reviewerCtrl.filter.isLocal)">
                         <option value="">-- {{"All" | translate}} --</option>
+                    </select>
+                </div>
+                <label class="col-sm-1 control-label" data-translate="EmployeeType"></label>
+                <div class="col-sm-2">
+                    <select class="form-control" ng-model="reviewerCtrl.filter.isLocal"
+                            ng-change="reviewerCtrl.getMember(reviewerCtrl.filter.groupId, reviewerCtrl.filter.isLocal)">
+                        <option value="">-- {{"All" | translate}} --</option>
+                        <option value="false">{{"Expat" | translate}}</option>
+                        <option value="true">{{"Local" | translate}}</option>
                     </select>
                 </div>
                 <label class="col-sm-1 control-label" data-translate="Employee"></label>

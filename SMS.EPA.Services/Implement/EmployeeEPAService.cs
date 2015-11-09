@@ -197,19 +197,6 @@ namespace SMS.EPA.Services.Implement
 
         #region Rating By KPI
 
-        public IList<Group> GetGroupByEvaluator(GetGroupByEvaluatorCriteria criteria)
-        {
-            IList<Group> groups = new List<Group>();
-            Check.Argument.IsNotNull(criteria, "criteria");
-
-            if (criteria.IsValid())
-            {
-                groups = GetData<Group>(criteria).ToList();
-            }
-
-            return groups;
-        }
-
         public IEnumerable<TargetTemplateModel> GetTargetTemplateByEvaluator(GetTargetTemplateByEvaluatorCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");
@@ -217,7 +204,7 @@ namespace SMS.EPA.Services.Implement
 
             if (criteria.IsValid())
             {
-                targetTemplates = this.GetData<TargetTemplateModel>(criteria);
+                targetTemplates = GetData<TargetTemplateModel>(criteria);
             }
 
             return targetTemplates;
@@ -303,17 +290,30 @@ namespace SMS.EPA.Services.Implement
             return commandResult;
         }
 
-        public IEnumerable<Employee> GetMember(GetMemberCriteria criteria)
+        public IEnumerable<Employee> GetMemberByEvaluatorOrReviewerOrManagement(GetMemberByEvaluatorOrReviewerOrManagementCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<Employee> employees = new List<Employee>();
 
             if (criteria.IsValid())
             {
-                employees = this.GetData<Employee>(criteria);
+                employees = GetData<Employee>(criteria);
             }
 
             return employees;
+        }
+
+        public IEnumerable<Group> GetGroupByEvaluatorOrReviewerOrManagement(GetGroupByEvaluatorOrReviewerOrManagementCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<Group> groups = new List<Group>();
+
+            if (criteria.IsValid())
+            {
+                groups = GetData<Group>(criteria);
+            }
+
+            return groups;
         }
 
         public IEnumerable<StandardGradeModel> GetStandardGrade(GetStandardGradeCriteria criteria)
@@ -323,7 +323,7 @@ namespace SMS.EPA.Services.Implement
 
             if (criteria.IsValid())
             {
-                standardGrades = this.GetData<StandardGradeModel>(criteria);
+                standardGrades = GetData<StandardGradeModel>(criteria);
             }
 
             return standardGrades;
@@ -336,7 +336,7 @@ namespace SMS.EPA.Services.Implement
 
             if (criteria.IsValid())
             {
-                memberEPAs = this.GetData<EPASummaryImportModel>(criteria);
+                memberEPAs = GetData<EPASummaryImportModel>(criteria);
             }
 
             return memberEPAs;
@@ -394,15 +394,19 @@ namespace SMS.EPA.Services.Implement
                 case (int)StandardGrade.Excellent:
                     grade = StandardGrade.Excellent;
                     break;
+
                 case (int)StandardGrade.Good:
                     grade = StandardGrade.Good;
                     break;
+
                 case (int)StandardGrade.Standard:
                     grade = StandardGrade.Standard;
                     break;
+
                 case (int)StandardGrade.UnderPerformance:
                     grade = StandardGrade.UnderPerformance;
                     break;
+
                 case (int)StandardGrade.Fail:
                     grade = StandardGrade.Fail;
                     break;

@@ -19,6 +19,8 @@ namespace SMS.EPA.Criteria.EmployeeEPA
 
         public int? GroupId { get; set; }
 
+        public bool? IsLocal { get; set; }
+
         public override string GetSettingKey()
         {
             return "EPA_GetByReviewer";

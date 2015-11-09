@@ -1,23 +1,21 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="GetMemberCriteria.cs" company="Nexcel Solutions Viet Nam">
+// <copyright file="GetGroupByEvaluatorOrReviewerOrManagementCriteria.cs" company="Nexcel Solutions Viet Nam">
 // Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 // <history>
-//   <change who="Tim.Trinh" date="2015.08.18">Created</change>
+//   <change who="Tim.Trinh" date="2015.11.09">Created</change>
 // </history>
 
 namespace SMS.EPA.Criteria.EmployeeEPA
 {
     using Fanex.Data.Repository;
 
-    public class GetMemberCriteria : CriteriaBase
+    public class GetGroupByEvaluatorOrReviewerOrManagementCriteria : CriteriaBase
     {
-        public int ProcessId { get; set; }
-
         public int ActorUserId { get; set; }
 
-        public int? GroupId { get; set; }
+        public int ProcessId { get; set; }
 
         public override bool IsValid()
         {
@@ -26,7 +24,7 @@ namespace SMS.EPA.Criteria.EmployeeEPA
 
         public override string GetSettingKey()
         {
-            return "EPA_GetMember";
+            return "EPA_GetGroup";
         }
     }
 }

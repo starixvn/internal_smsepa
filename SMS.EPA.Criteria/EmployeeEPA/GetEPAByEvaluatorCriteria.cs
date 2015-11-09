@@ -17,6 +17,8 @@ namespace SMS.EPA.Criteria.EmployeeEPA
 
         public string EmployeeIds { get; set; }
 
+        public bool? IsLocal { get; set; }
+
         public int? GroupId { get; set; }
 
         public override string GetSettingKey()

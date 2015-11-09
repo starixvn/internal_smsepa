@@ -7,6 +7,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     var selfEvalutorModel = this;
 
     selfEvalutorModel.myEPAs = [];
+    selfEvalutorModel.groups = [];
     selfEvalutorModel.members = [];
     selfEvalutorModel.memberEPAs = [];
     selfEvalutorModel.epaInfo = {};
@@ -157,8 +158,17 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     };
 
     // evaluator
-    selfEvalutorModel.getMemberByEvaluator = function (groupId) {
-        return employeeEPAFactory.getMemberByEvaluator(groupId)
+    selfEvalutorModel.getGroupByEvaluator = function () {
+        return employeeEPAFactory.getGroupByEvaluator()
+        .success(function (groups) {
+            selfEvalutorModel.groups = groups;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    selfEvalutorModel.getMemberByEvaluator = function (groupId, isLocal) {
+        return employeeEPAFactory.getMemberByEvaluator(groupId, isLocal)
         .success(function (members) {
             selfEvalutorModel.members = members;
         }).error(function (response, status) {
@@ -166,8 +176,8 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         });
     };
 
-    selfEvalutorModel.getEPAByEvaluator = function (groupId, employeeIds) {
-        return employeeEPAFactory.getEPAByEvaluator(groupId, employeeIds)
+    selfEvalutorModel.getEPAByEvaluator = function (groupId, isLocal, employeeIds) {
+        return employeeEPAFactory.getEPAByEvaluator(groupId, isLocal, employeeIds)
         .success(function (memberEPAs) {
             selfEvalutorModel.memberEPAs = memberEPAs;
         }).error(function (response, status) {

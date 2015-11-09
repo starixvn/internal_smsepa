@@ -12,17 +12,18 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, ba
 
     vm.filter = {
         groupId: '',
+        isLocal: '',
         employeeIds: ''
     };
 
-    vm.getMember = function (groupId) {
-        SelfEvalutorModel.getMemberByEvaluator(groupId).then(function () {
+    vm.getMember = function (groupId, isLocal) {
+        SelfEvalutorModel.getMemberByEvaluator(groupId, isLocal).then(function () {
             vm.members = SelfEvalutorModel.members;
         });
     };
 
-    var getEPAByEvaluator = function (groupId, employeeIds) {
-        SelfEvalutorModel.getEPAByEvaluator(groupId, employeeIds).then(function () {
+    var getEPAByEvaluator = function (groupId, isLocal, employeeIds) {
+        SelfEvalutorModel.getEPAByEvaluator(groupId, isLocal, employeeIds).then(function () {
             vm.memberEPAs = SelfEvalutorModel.memberEPAs;
 
             angular.forEach(vm.memberEPAs, function (memberEPA) {
@@ -48,7 +49,7 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, ba
 
     vm.query = function (filter) {
         filter.employeeIds = utilitiesFactory.getSelectedData(vm.members, 'EmployeeId');
-        getEPAByEvaluator(filter.groupId, filter.employeeIds);
+        getEPAByEvaluator(filter.groupId, filter.isLocal, filter.employeeIds);
     };
 
     vm.viewEPADetail = function (memberEPA) {
@@ -60,16 +61,16 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, ba
     };
 
     vm.initialize = function () {
-        CommonModel.getAllGroup().then(function () {
-            vm.groupOptions = CommonModel.groups;
+        SelfEvalutorModel.getGroupByEvaluator().then(function () {
+            vm.groupOptions = SelfEvalutorModel.groups;
         });
 
-        vm.getMember(vm.filter.groupId);
+        vm.getMember(vm.filter.groupId, vm.filter.isLocal);
 
         CommonModel.getStandardGrade().then(function () {
             vm.standardGrades = CommonModel.standardGrades;
 
-            getEPAByEvaluator(vm.filter.groupId, vm.filter.employeeIds);
+            getEPAByEvaluator(vm.filter.groupId, vm.filter.isLocal, vm.filter.employeeIds);
         });
     };
 

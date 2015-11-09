@@ -359,8 +359,8 @@ function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, SelfEvalutorM
             vm.targetTemplates = RatingByKPIModel.targetTemplates;
         });
 
-        RatingByKPIModel.getGroupByEvaluator().then(function () {
-            vm.groupOptions = RatingByKPIModel.groups;
+        SelfEvalutorModel.getGroupByEvaluator().then(function () {
+            vm.groupOptions = SelfEvalutorModel.groups;
         });
 
         vm.getMember(vm.filter.groupId);

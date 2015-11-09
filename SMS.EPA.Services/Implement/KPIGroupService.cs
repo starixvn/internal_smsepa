@@ -26,7 +26,7 @@ namespace SMS.EPA.Services.Implement
 
             if (criteria.IsValid())
             {
-                kpiGroups = this.GetData<KPIGroupModel>(criteria);
+                kpiGroups = GetData<KPIGroupModel>(criteria);
             }
 
             return kpiGroups;
@@ -39,7 +39,7 @@ namespace SMS.EPA.Services.Implement
 
             if (criteria.IsValid())
             {
-                kpiGroup = this.GetDataEntity<KPIGroupModel>(criteria);
+                kpiGroup = GetDataEntity<KPIGroupModel>(criteria);
             }
 
             return kpiGroup;
