@@ -30,7 +30,11 @@
                        is-open="basicInfoPeriodCtrl.calendar.startDateOpened" />
                 <calendar-image class="calendar-image" ng-click="basicInfoPeriodCtrl.openPopupStartDate($event)"></calendar-image>
             </div>
-            <label class="col-sm-3 control-label" data-translate="EndDate">
+            <label class="col-sm-3 control-label required-label" data-translate="EndDate"
+                   ng-show="basicInfoPeriodCtrl.period.TargetTypeId == 3 || basicInfoPeriodCtrl.period.TargetTypeId == 5">
+            </label>
+            <label class="col-sm-3 control-label" data-translate="EndDate"
+                   ng-show="basicInfoPeriodCtrl.period.TargetTypeId != 3 && basicInfoPeriodCtrl.period.TargetTypeId != 5">
             </label>
             <div class="col-sm-3">
                 <input readonly class="calendar-form-control" type="text"

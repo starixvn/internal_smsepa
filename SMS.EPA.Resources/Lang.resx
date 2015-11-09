@@ -1200,4 +1200,7 @@
   <data name="NotEvaluated" xml:space="preserve">
     <value>Not Evaluated</value>
   </data>
+  <data name="EndDatePeriodRequired" xml:space="preserve">
+    <value>The End Date field is required for Semi-annual or Promotion!</value>
+  </data>
 </root>

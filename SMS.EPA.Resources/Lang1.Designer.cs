@@ -907,6 +907,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The End Date field is required for Semi-annual or Promotion!.
+        /// </summary>
+        public static string EndDatePeriodRequired {
+            get {
+                return ResourceManager.GetString("EndDatePeriodRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} completed.
         /// </summary>
         public static string EndMailEvaluationToSelf {

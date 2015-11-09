@@ -234,6 +234,19 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
             return commandResult;
         }
 
+        public IEnumerable<EndEPAModel> GetEvaluationEndedYesterday(GetEvaluationEndedYesterdayCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<EndEPAModel> evaluations = new List<EndEPAModel>();
+
+            if (criteria.IsValid())
+            {
+                evaluations = GetData<EndEPAModel>(criteria);
+            }
+
+            return evaluations;
+        }
+
         private string JoinEmployeeId(List<AutoEmployeePeriodModel> employeePeriods)
         {
             string employeeIds = string.Empty;

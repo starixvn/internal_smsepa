@@ -298,7 +298,10 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                     notificationFactory.error("StartDatePeriodRequired");
                     return false;
                 }
-
+                else if (!period.RawEndDate) {
+                    notificationFactory.error("EndDatePeriodRequired");
+                    return false;
+                }
                 if (period.TargetTypeId === periodModel.targetType.SemiAnnual) {
                     if (!period.RawAttendanceStartDate) {
                         notificationFactory.error("DisciplineStartDatePeriodRequired");

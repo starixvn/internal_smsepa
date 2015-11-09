@@ -46,5 +46,7 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Interfaces
         bool CheckTotalScoreOfProcessIsNull(CheckTotalScoreOfProcessIsNullCriteria criteria);
 
         CommandResult UpdateTotalScoreOfProcess(UpdateTotalScoreOfProcessCriteria criteria);
+
+        IEnumerable<EndEPAModel> GetEvaluationEndedYesterday(GetEvaluationEndedYesterdayCriteria criteria);
     }
 }

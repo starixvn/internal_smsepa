@@ -49,5 +49,7 @@
     </Setting>
     <Setting Key="EpaAuto_UpdateTotalScoreWhenNull" SpName="EpaAuto_UpdateTotalScoreWhenNull" DbName="SMSEPA" Plain="0">
     </Setting>
+    <Setting Key="EpaAuto_CheckEndEmployeeEvaluationPeriod" SpName="EpaAuto_CheckEndEmployeeEvaluationPeriod" DbName="SMSEPA" Plain="0">
+    </Setting>
   </Function>
 </Functions>

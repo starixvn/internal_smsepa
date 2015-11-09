@@ -225,21 +225,24 @@ namespace SMS.EPA.AutoGenerateEvaluation
 
         private void CheckEndEvaluationPeriod()
         {
-            _LOG.Info("Check EPA that ended yesterday: started at " + DateTime.Now.ToString());
-            var checkEndEvaluationCriteria = new CheckEndEvaluationPeriodCriteria();
-            IEnumerable<EndEPAModel> evaluations = _evaluationService.CheckEndEvaluationPeriod(checkEndEvaluationCriteria);
-            _LOG.Info("Check EPA that ended yesterday: ended at " + DateTime.Now.ToString());
+            _LOG.Info("Get EPA that ended yesterday: started at " + DateTime.Now.ToString());
+            var getEndedEvaluationYesterdayCriteria = new GetEvaluationEndedYesterdayCriteria();
+            IEnumerable<EndEPAModel> evaluations = _evaluationService.GetEvaluationEndedYesterday(getEndedEvaluationYesterdayCriteria);
+            _LOG.Info("Get EPA that ended yesterday: ended at " + DateTime.Now.ToString());
 
             if (evaluations != null && evaluations.Any())
             {
-                IEnumerable<EndEPAModel> openEvaluations = evaluations.Where(x => x.Status == 0);
+                UpdateStatusEvaluation(evaluations);
+            }
 
-                if (openEvaluations != null && openEvaluations.Any())
-                {
-                    UpdateStatusEvaluation(openEvaluations);
-                }
+            _LOG.Info("Get all EPA that period end date is today or ended yesterday or close but not have final score: started at " + DateTime.Now.ToString());
+            var getAllEndedEvaluationCriteria = new CheckEndEvaluationPeriodCriteria();
+            IEnumerable<EndEPAModel> allEvaluations = _evaluationService.CheckEndEvaluationPeriod(getAllEndedEvaluationCriteria);
+            _LOG.Info("Get all EPA that period end date is today or ended yesterday or close but not have final score: ended at " + DateTime.Now.ToString());
 
-                UpdateFinalScoreAndSendMail(evaluations);
+            if (allEvaluations != null && allEvaluations.Any())
+            {
+                UpdateFinalScoreAndSendMail(allEvaluations);
             }
         }
 
