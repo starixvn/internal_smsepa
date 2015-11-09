@@ -319,6 +319,7 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
     vm.filter = {
         periodId: null,
         departmentId: null,
+        isLocal: '',
         isExcludedEmployee: null,
         isGeneratedEPA: "",
         isEvaluated: ""
@@ -328,8 +329,8 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
         employee: ''
     };
 
-    var getPeriodEmployeeSetting = function (periodId, departmentId, isExcludedEmployee, isGeneratedEPA, isEvaluated) {
-        PeriodModel.getPeriodEmployeeSettingById(periodId, departmentId, isExcludedEmployee, isGeneratedEPA, isEvaluated).then(function () {
+    var getPeriodEmployeeSetting = function (periodId, departmentId, isLocal, isExcludedEmployee, isGeneratedEPA, isEvaluated) {
+        PeriodModel.getPeriodEmployeeSettingById(periodId, departmentId, isLocal, isExcludedEmployee, isGeneratedEPA, isEvaluated).then(function () {
             vm.employeeSettings = PeriodModel.employeeSettings;
             utilitiesFactory.searchOnPage(vm, vm.employeeSettings);
             vm.isFirstLoad = false;
@@ -344,7 +345,7 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
             vm.departmentOptions = angular.copy(vm.treeDepartment);
         });
 
-        getPeriodEmployeeSetting(vm.filter.periodId, vm.filter.departmentId, vm.filter.isExcludedEmployee, vm.filter.isGeneratedEPA, vm.filter.isEvaluated);
+        getPeriodEmployeeSetting(vm.filter.periodId, vm.filter.departmentId, vm.filter.isLocal, vm.filter.isExcludedEmployee, vm.filter.isGeneratedEPA, vm.filter.isEvaluated);
         vm.permission = $scope.updateCtrl.permission;
     };
 
@@ -368,7 +369,7 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
         });
 
     vm.query = function (filter) {
-        getPeriodEmployeeSetting(filter.periodId, filter.departmentId, filter.isExcludedEmployee, filter.isGeneratedEPA, filter.isEvaluated);
+        getPeriodEmployeeSetting(filter.periodId, filter.departmentId, filter.isLocal, filter.isExcludedEmployee, filter.isGeneratedEPA, filter.isEvaluated);
     };
 
     vm.getIndex = function (index, currentPage, pageSize) {
@@ -534,6 +535,7 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
             periodId: filter.periodId,
             periodName: vm.period.Name,
             departmentId: filter.departmentId,
+            isLocal: filter.isLocal,
             isExcludedEmployee: filter.isExcludedEmployee
         };
 

@@ -1,40 +1,48 @@
 ﻿<div ng-controller="EmployeeSettingPeriodController as employeeSettingPeriodCtrl">
-    <form class="row form-inline filter">
+    <form class="row form-horizontal filter">
         <div class="form-group">
-            <label class="control-label" data-translate="DepartmentSection">
-            </label>
-            <select ng-model="employeeSettingPeriodCtrl.filter.departmentId"
-                    ng-options="opt.DepartmentId as opt.Name for opt in employeeSettingPeriodCtrl.departmentOptions"
-                    class="form-control lstBox-limit">
-                <option value="">-- {{"All" | translate}} --</option>
-            </select>
+            <label class="control-label col-sm-2" data-translate="DepartmentSection"></label>
+            <div class="col-sm-2">
+                <select class="form-control" ng-model="employeeSettingPeriodCtrl.filter.departmentId"
+                        ng-options="opt.DepartmentId as opt.Name for opt in employeeSettingPeriodCtrl.departmentOptions">
+                    <option value="">-- {{"All" | translate}} --</option>
+                </select>
+            </div>
+            <label class="control-label col-sm-2" data-translate="EmployeeType"></label>
+            <div class="col-sm-2">
+                <select class="form-control" ng-model="employeeSettingPeriodCtrl.filter.isLocal">
+                    <option value="">-- {{"All" | translate}} --</option>
+                    <option value="false">{{"Expat" | translate}}</option>
+                    <option value="true">{{"Local" | translate}}</option>
+                </select>
+            </div>
+            <label class="control-label col-sm-2" data-translate="ShowExcludedEmployee"></label>
+            <div class="col-sm-1">
+                <input type="checkbox" ng-model="employeeSettingPeriodCtrl.filter.isExcludedEmployee" />
+            </div>
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="EPAGeneratedStatus">
-            </label>
-            <select class="form-control" ng-model="employeeSettingPeriodCtrl.filter.isGeneratedEPA">
-                <option selected value="">-- {{"All" | translate}} --</option>
-                <option value="true" data-translate="GeneratedEPA"></option>
-                <option value="false" data-translate="NoneGeneratedEPA"></option>
-            </select>
+            <label class="control-label col-sm-2" data-translate="EPAGeneratedStatus"></label>
+            <div class="col-sm-2">
+                <select class="form-control" ng-model="employeeSettingPeriodCtrl.filter.isGeneratedEPA">
+                    <option selected value="">-- {{"All" | translate}} --</option>
+                    <option value="true" data-translate="GeneratedEPA"></option>
+                    <option value="false" data-translate="NoneGeneratedEPA"></option>
+                </select>
+            </div>
+            <label class="control-label col-sm-2" data-translate="EvaluatedStatus"></label>
+            <div class="col-sm-2">
+                <select class="form-control" ng-model="employeeSettingPeriodCtrl.filter.isEvaluated">
+                    <option selected value="">-- {{"All" | translate}} --</option>
+                    <option value="1" data-translate="NotEvaluated"></option>
+                    <option value="2" data-translate="Evaluated"></option>
+                </select>
+            </div>
+            <div class="col-sm-offset-1 col-sm-1 search-button">
+                <button class="button" ng-click="employeeSettingPeriodCtrl.query(employeeSettingPeriodCtrl.filter)" data-translate="Search"></button>
+            </div>
         </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="EvaluatedStatus">
-            </label>
-            <select class="form-control" ng-model="employeeSettingPeriodCtrl.filter.isEvaluated">
-                <option selected value="">-- {{"All" | translate}} --</option>
-                <option value="1" data-translate="NotEvaluated"></option>
-                <option value="2" data-translate="Evaluated"></option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="ShowExcludedEmployee">
-            </label>
-            <input class="form-control" type="checkbox" ng-model="employeeSettingPeriodCtrl.filter.isExcludedEmployee" />
-        </div>
-        <div class="form-group">
-            <button class="button" ng-click="employeeSettingPeriodCtrl.query(employeeSettingPeriodCtrl.filter)" data-translate="Search"></button>
-        </div>
+        
     </form>
 
     <table class="row table table-bordered table-striped" id="data">
@@ -55,8 +63,8 @@
                     </div>
                     <button class="button pull-left period-add" ng-click="employeeSettingPeriodCtrl.addEmployee(employeeSettingPeriodCtrl.filterAssign)"
                             ng-show="updateCtrl.permission == 2" data-translate="Add"></button>
-                    <input class="btnExcel pull-right" export-employee-setting-report 
-                           ng-click="employeeSettingPeriodCtrl.exportReport(employeeSettingPeriodCtrl.filter)" 
+                    <input class="btnExcel pull-right" export-employee-setting-report
+                           ng-click="employeeSettingPeriodCtrl.exportReport(employeeSettingPeriodCtrl.filter)"
                            type="button" title="Export to Excel">
                     <input type="text" ng-model="employeeSettingPeriodCtrl.searchKey" ng-change="employeeSettingPeriodCtrl.search()" class="search-inline-textbox search pull-right">
                 </th>
@@ -140,7 +148,7 @@
                     <div ng-show="employee.SelfEvaluators[0].ProcessStatus == 3">
                         <span data-translate="Closed"></span>
                         <span class="glyphicon glyphicon-saved epa-saved period-process-detail"
-                             ng-show="employee.SelfEvaluators[0].ProcessDetailStatus == 2" ng-attr-title='{{"Evaluated" | translate}}'></span>
+                              ng-show="employee.SelfEvaluators[0].ProcessDetailStatus == 2" ng-attr-title='{{"Evaluated" | translate}}'></span>
                         <span class="glyphicon glyphicon-list-alt epa-unsaved period-process-detail"
                               ng-show="employee.SelfEvaluators[0].ProcessDetailStatus == 1" ng-attr-title='{{"NotEvaluated" | translate}}'></span>
                     </div>
@@ -199,13 +207,13 @@
                         <span class="glyphicon glyphicon-list-alt epa-unsaved period-process-detail"
                               ng-show="reviewer.ProcessDetailStatus == 1" ng-attr-title='{{"NotEvaluated" | translate}}'></span>
                     </div>
-                    <div ng-show ="reviewer.ProcessStatus == 3">
+                    <div ng-show="reviewer.ProcessStatus == 3">
                         <span data-translate="Closed"></span>
                         <span class="glyphicon glyphicon-saved epa-saved period-process-detail"
                               ng-show="reviewer.ProcessDetailStatus == 2" ng-attr-title='{{"Evaluated" | translate}}'></span>
                         <span class="glyphicon glyphicon-list-alt epa-unsaved period-process-detail"
                               ng-show="reviewer.ProcessDetailStatus == 1" ng-attr-title='{{"NotEvaluated" | translate}}'></span>
-                    </divng-show>
+                        </divng-show>
                 </td>
                 <td class="width-120" ng-bind="reviewer.StartDate | date: employeeSettingPeriodCtrl.dateFormat"
                     ng-show="$first" rowspan="{{employee.Reviewers.length}}"></td>

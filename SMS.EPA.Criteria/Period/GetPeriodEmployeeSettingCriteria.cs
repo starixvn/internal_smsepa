@@ -20,6 +20,8 @@ namespace SMS.EPA.Criteria.Period
 
         public int? DepartmentId { get; set; }
 
+        public bool? IsLocal { get; set; }
+
         public bool? IsExcludedEmployee { get; set; }
 
         public bool? IsGeneratedEPA { get; set; }
