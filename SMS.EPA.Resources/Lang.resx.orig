@@ -691,7 +691,7 @@
     <value>Meets expectations: refers to solid performance with a full skills base; most people fall into this category.</value>
   </data>
   <data name="ScoreInputValid" xml:space="preserve">
-    <value>Score must be larger 0 and less or equal than {0}</value>
+    <value>Score must be larger {0} and less or equal than {1}</value>
   </data>
   <data name="FlowTemplate" xml:space="preserve">
     <value>Flow Template</value>
@@ -1161,15 +1161,49 @@
   <data name="ChangeScoreRatingTypeWarning" xml:space="preserve">
     <value>Successfully updated. Total group weight must be adjusted properly!</value>
   </data>
-<<<<<<< HEAD
   <data name="SystemDisciplineScore" xml:space="preserve">
     <value>System Discipline Score</value>
-=======
-  <data name="NoneDateSettingWarning" xml:space="preserve">
-    <value>Please setting a start date/end date before generate EPA!</value>
   </data>
   <data name="NoneTargetTemplateSettingWarning" xml:space="preserve">
-    <value>Please setting a target template before generate EPA!</value>
->>>>>>> 45328 - Validate employee setting before generate EPA
+    <value>Please setting target template before generating EPA!</value>
+  </data>
+  <data name="NoneDateSettingWarning" xml:space="preserve">
+    <value>Please setting start date/end date before generating EPA!</value>
+  </data>
+  <data name="SectionRequired" xml:space="preserve">
+    <value>The Section field is required!</value>
+  </data>
+  <data name="EPAHistory" xml:space="preserve">
+    <value>EPA History</value>
+  </data>
+  <data name="DepartmentHasSetting" xml:space="preserve">
+    <value>Department / Section have setting</value>
+  </data>
+  <data name="EPAGeneratedStatus" xml:space="preserve">
+    <value>EPA Generated Status</value>
+  </data>
+  <data name="GeneratedEPA" xml:space="preserve">
+    <value>Generated</value>
+  </data>
+  <data name="NoneGeneratedEPA" xml:space="preserve">
+    <value>Not Generated</value>
+  </data>
+  <data name="SelectViolationType" xml:space="preserve">
+    <value>Select Violation Type</value>
+  </data>
+  <data name="TotalWeightLessThanMaxWeightWarning" xml:space="preserve">
+    <value>Updated Successfully! &lt;br/&gt;Total score of all KPIs is less than {0}!</value>
+  </data>
+  <data name="EvaluatedStatus" xml:space="preserve">
+    <value>Evaluated Status</value>
+  </data>
+  <data name="NotEvaluated" xml:space="preserve">
+    <value>Not Evaluated</value>
+  </data>
+  <data name="EndDatePeriodRequired" xml:space="preserve">
+    <value>The End Date field is required for Semi-annual or Promotion!</value>
+  </data>
+  <data name="EmployeeType" xml:space="preserve">
+    <value>Employee Type</value>
   </data>
 </root>

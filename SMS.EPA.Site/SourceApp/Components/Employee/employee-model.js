@@ -11,8 +11,8 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
     employeeModel.jobTitles = [];
     employeeModel.defaultPassword = null;
 
-    employeeModel.getAllEmployee = function (query, groupId, isSpecialUser, isDisabledUser) {
-        return employeeFactory.getAllEmployee(query, groupId, isSpecialUser, isDisabledUser).success(function (employees) {
+    employeeModel.getAllEmployee = function (query, groupId, isLocal, isSpecialUser, isDisabledUser) {
+        return employeeFactory.getAllEmployee(query, groupId, isLocal, isSpecialUser, isDisabledUser).success(function (employees) {
             employeeModel.employees = employees;
         })
         .error(function (response, status) {

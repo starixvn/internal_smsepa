@@ -20,6 +20,8 @@ namespace SMS.EPA.Criteria.Employee
 
         public int? GroupId { get; set; }
 
+        public bool? IsLocal { get; set; }
+
         public bool? IsSpecialUser { get; set; }
 
         public bool? IsDisabledUser { get; set; }

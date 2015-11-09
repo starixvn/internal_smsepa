@@ -12,6 +12,7 @@ function ($window, EmployeeModel, utilitiesFactory, CommonModel) {
     vm.filter = {
         query: '',
         groupId: '',
+        isLocal: '',
         isSpecialUser: '',
         isDisabledUser: ''
     };
@@ -30,19 +31,19 @@ function ($window, EmployeeModel, utilitiesFactory, CommonModel) {
         vm.defaultPassword = EmployeeModel.defaultPassword;
     });
 
-    var getEmployee = function (query, groupId, isSpecialUser, isDisabledUser) {
-        EmployeeModel.getAllEmployee(query, groupId, isSpecialUser, isDisabledUser).then(function () {
+    var getEmployee = function (query, groupId, isLocal, isSpecialUser, isDisabledUser) {
+        EmployeeModel.getAllEmployee(query, groupId, isLocal, isSpecialUser, isDisabledUser).then(function () {
             vm.employees = EmployeeModel.employees;
             utilitiesFactory.searchOnPage(vm, vm.employees);
         });
     };
 
-    getEmployee(vm.filter.query, vm.filter.groupId, vm.filter.isSpecialUser, vm.filter.isDisabledUser);
+    getEmployee(vm.filter.query, vm.filter.groupId, vm.filter.isLocal, vm.filter.isSpecialUser, vm.filter.isDisabledUser);
 
     vm.queryEmployee = function (filter) {
         vm.searchKey = '';
         vm.currentPage = 1;
-        getEmployee(filter.query, filter.groupId, filter.isSpecialUser, filter.isDisabledUser);
+        getEmployee(filter.query, filter.groupId, filter.isLocal, filter.isSpecialUser, filter.isDisabledUser);
     };
 
     /*
@@ -55,7 +56,7 @@ function ($window, EmployeeModel, utilitiesFactory, CommonModel) {
     vm.createEmployee = function () {
         EmployeeModel.openPopupCreateNewEmployee(vm).then()['finally'](function () {
             vm.modalInstance = '';
-            getEmployee(vm.filter.query, vm.filter.groupId, vm.filter.isSpecialUser);
+            getEmployee(vm.filter.query, vm.filter.groupId, vm.filter.isLocal, vm.filter.isSpecialUser);
         });
     };
 

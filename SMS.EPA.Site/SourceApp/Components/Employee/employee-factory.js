@@ -3,9 +3,9 @@
 
 employeeModule.factory('employeeFactory', ['$http', 'baseUrl', function ($http, baseUrl) {
     return {
-        getAllEmployee: function (query, groupId, isSpecialUser, isDisabledUser) {
+        getAllEmployee: function (query, groupId, isLocal, isSpecialUser, isDisabledUser) {
             return $http.get(baseUrl + 'api/Employee/GetAllEmployee',
-                { params: { query: query, groupId: groupId, isSpecialUser: isSpecialUser, isDisabledUser: isDisabledUser } });
+                { params: { query: query, groupId: groupId, isLocal: isLocal, isSpecialUser: isSpecialUser, isDisabledUser: isDisabledUser } });
         },
         getAllGroup: function () {
             return $http.get(baseUrl + 'api/Employee/GetAllGroup');

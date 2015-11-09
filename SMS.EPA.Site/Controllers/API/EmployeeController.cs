@@ -41,6 +41,7 @@ namespace SMS.EPA.Site.Controllers.API
         public IEnumerable<EmployeeModel> GetAllEmployee(
             string query = "",
             int? groupId = null,
+            bool? isLocal = null,
             bool? isSpecialUser = null,
             bool? isDisabledUser = null)
         {
@@ -48,6 +49,7 @@ namespace SMS.EPA.Site.Controllers.API
             {
                 Query = query,
                 GroupId = groupId,
+                IsLocal = isLocal,
                 IsSpecialUser = isSpecialUser,
                 IsDisabledUser = isDisabledUser
             };
