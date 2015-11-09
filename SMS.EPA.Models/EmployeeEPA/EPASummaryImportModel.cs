@@ -15,53 +15,13 @@ namespace SMS.EPA.Model.EmployeeEPA
     {
         public int Id { get; set; }
 
-        public float OriginSelfScore { get; set; }
-
-        public float OriginEvaluatorScore { get; set; }
-
-        public float OriginReviewerScore { get; set; }
-
         public float OriginFinalScore { get; set; }
-
-        public string OriginFinalGrade { get; set; }
-
-        public string SelfScore
-        {
-            get
-            {
-                return EncodeService.Encode(OriginSelfScore.ToString());
-            }
-        }
-
-        public string EvaluatorScore
-        {
-            get
-            {
-                return EncodeService.Encode(OriginEvaluatorScore.ToString());
-            }
-        }
-
-        public string ReviewerScore
-        {
-            get
-            {
-                return EncodeService.Encode(OriginReviewerScore.ToString());
-            }
-        }
 
         public string FinalScore
         {
             get
             {
                 return EncodeService.Encode(OriginFinalScore.ToString());
-            }
-        }
-
-        public string FinalGrade
-        {
-            get
-            {
-                return EncodeService.Encode(OriginFinalGrade);
             }
         }
     }

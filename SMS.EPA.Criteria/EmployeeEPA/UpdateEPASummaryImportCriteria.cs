@@ -16,7 +16,7 @@ namespace SMS.EPA.Criteria.EmployeeEPA
 
     public class UpdateEPASummaryImportCriteria : CriteriaBase
     {
-        private const string _EPA = "<EPA Id='{0}' SelfScore='{1}' EvaluatorScore='{2}' ReviewerScore='{3}' FinalScore='{4}' FinalGrade='{5}'></EPA>";
+        private const string _EPA = "<EPA Id='{0}' FinalScore='{1}'></EPA>";
 
         [SpParam(Ignored = true)]
         public IEnumerable<EPASummaryImportModel> MemberEPAs { get; set; }
@@ -34,11 +34,7 @@ namespace SMS.EPA.Criteria.EmployeeEPA
                         value.AppendFormat(
                             _EPA,
                             epa.Id,
-                            epa.SelfScore,
-                            epa.EvaluatorScore,
-                            epa.ReviewerScore,
-                            epa.FinalScore,
-                            epa.FinalGrade);
+                            epa.FinalScore);
                     }
                 }
 
