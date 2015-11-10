@@ -192,7 +192,7 @@ namespace SMS.EPA.Services.Implement
             writer.CopyRows(3, 1);
 
             FillContentSummaryRow(attendanceEmployees, ref writer);
-            writer.SyncColumnsWidth(16);
+            writer.SyncColumnsWidth(17);
 
             writer.Render();
         }
@@ -231,7 +231,7 @@ namespace SMS.EPA.Services.Implement
             writer.CopyRows(3, 1);
 
             FillContentDetailRow(attendanceViolations, ref writer);
-            writer.SyncColumnsWidth(19);
+            writer.SyncColumnsWidth(20);
 
             writer.Render();
         }
@@ -542,6 +542,7 @@ namespace SMS.EPA.Services.Implement
                 Code = attendanceEmployee.Employee.Code,
                 Nick = attendanceEmployee.Employee.NickName,
                 FullName = attendanceEmployee.Employee.FullName,
+                Category = attendanceEmployee.Employee.Category,
                 MissingInOut = attendanceEmployee.MissingCheckInOut,
                 WorkingBelowTime = attendanceEmployee.WorkingBelowTime,
                 LateIn = attendanceEmployee.LateIn,
@@ -586,6 +587,7 @@ namespace SMS.EPA.Services.Implement
                 Shift = attendanceViolation.Employee.Code,
                 Nick = attendanceViolation.Employee.NickName,
                 FullName = attendanceViolation.Employee.FullName,
+                Category = attendanceViolation.Employee.Category,
                 Section = attendanceViolation.Employee.Group.GroupName,
                 Date = attendanceViolation.WorkDate,
                 Code = attendanceViolation.ShiftName,

@@ -20,6 +20,7 @@ function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitie
         endDate: date,
         employee: null,
         departmentId: null,
+        isLocal: '',
         employeeId: null,
         reasonId: null
     };
@@ -28,12 +29,14 @@ function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitie
         attendanceModel.filter.startDate = filter.startDate;
         attendanceModel.filter.endDate = filter.endDate;
         attendanceModel.filter.departmentId = filter.departmentId;
+        attendanceModel.filter.isLocal = filter.isLocal;
         attendanceModel.filter.employeeId = filter.employeeId;
         attendanceModel.filter.reasonId = filter.reasonId;
     };
 
-    attendanceModel.getAttendanceSummary = function (startDate, endDate, departmentId, employeeId, reasonId) {
-        return attendanceFactory.getAttendanceSummary(startDate, endDate, departmentId, employeeId, reasonId).success(function (attendanceEmployees) {
+    attendanceModel.getAttendanceSummary = function (startDate, endDate, departmentId, isLocal, employeeId, reasonId) {
+        return attendanceFactory.getAttendanceSummary(startDate, endDate, departmentId, isLocal, employeeId, reasonId)
+        .success(function (attendanceEmployees) {
             attendanceModel.attendanceEmployees = attendanceEmployees;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
@@ -165,8 +168,8 @@ function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitie
         });
     };
 
-    attendanceModel.getAttendanceDetail = function (startDate, endDate, employeeId, departmentId, reasonId) {
-        return attendanceFactory.getAttendanceDetail(startDate, endDate, employeeId, departmentId, reasonId).success(function (attendanceDetails) {
+    attendanceModel.getAttendanceDetail = function (startDate, endDate, employeeId, departmentId, isLocal, reasonId) {
+        return attendanceFactory.getAttendanceDetail(startDate, endDate, employeeId, departmentId, isLocal, reasonId).success(function (attendanceDetails) {
             attendanceModel.attendanceDetails = attendanceDetails;
         })
         .error(function (response, status) {

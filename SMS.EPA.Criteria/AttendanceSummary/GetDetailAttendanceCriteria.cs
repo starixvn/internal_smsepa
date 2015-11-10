@@ -25,6 +25,8 @@ namespace SMS.EPA.Criteria.AttendanceSummary
 
         public int? DepartmentId { get; set; }
 
+        public bool? IsLocal { get; set; }
+
         [SpParam(Ignored = true)]
         public string DepartmentName { get; set; }
 

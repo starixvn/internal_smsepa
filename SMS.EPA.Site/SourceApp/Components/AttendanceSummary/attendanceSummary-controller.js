@@ -51,8 +51,8 @@ function ($scope, AttendanceModel, utilitiesFactory, CommonModel, baseUrl) {
         vm.permission = AttendanceModel.permission;
     });
 
-    var getAttendanceSummary = function (startDate, endDate, departmentId, employeeId, reasonId) {
-        AttendanceModel.getAttendanceSummary(startDate, endDate, departmentId, employeeId, reasonId).then(function () {
+    var getAttendanceSummary = function (startDate, endDate, departmentId, isLocal, employeeId, reasonId) {
+        AttendanceModel.getAttendanceSummary(startDate, endDate, departmentId, isLocal, employeeId, reasonId).then(function () {
             vm.attendanceEmployees = AttendanceModel.attendanceEmployees;
             utilitiesFactory.searchOnPage(vm, vm.attendanceEmployees);
         });
@@ -71,7 +71,7 @@ function ($scope, AttendanceModel, utilitiesFactory, CommonModel, baseUrl) {
         }
     };
 
-    getAttendanceSummary(vm.filter.startDate, vm.filter.endDate, vm.filter.departmentId, vm.filter.employeeId, vm.filter.reasonId);
+    getAttendanceSummary(vm.filter.startDate, vm.filter.endDate, vm.filter.departmentId, vm.filter.isLocal, vm.filter.employeeId, vm.filter.reasonId);
 
     vm.query = function (filter) {
         var employeeId = null;
@@ -84,7 +84,7 @@ function ($scope, AttendanceModel, utilitiesFactory, CommonModel, baseUrl) {
         }
 
         AttendanceModel.cacheFilter(vm.filter);
-        getAttendanceSummary(filter.startDate, filter.endDate, filter.departmentId, employeeId, vm.filter.reasonId);
+        getAttendanceSummary(filter.startDate, filter.endDate, filter.departmentId, filter.isLocal, employeeId, vm.filter.reasonId);
     };
 
     vm.getIndex = function (index, currentPage, pageSize) {
@@ -93,7 +93,7 @@ function ($scope, AttendanceModel, utilitiesFactory, CommonModel, baseUrl) {
 
     vm.addOtherViolations = function (employee) {
         AttendanceModel.openPopupOtherViolation(vm, employee, vm.filter.startDate, vm.filter.endDate).then(function () { }, function () {
-            getAttendanceSummary(vm.filter.startDate, vm.filter.endDate, vm.filter.departmentId, vm.filter.employeeId, vm.filter.reasonId);
+            getAttendanceSummary(vm.filter.startDate, vm.filter.endDate, vm.filter.departmentId, vm.filter.isLocal, vm.filter.employeeId, vm.filter.reasonId);
         })['finally'](function () {
             vm.modalInstance = '';
         });
@@ -103,13 +103,14 @@ function ($scope, AttendanceModel, utilitiesFactory, CommonModel, baseUrl) {
         var startDate = vm.filter.startDate,
             endDate = vm.filter.endDate;
         vm.attendanceDetailUrl = baseUrl + 'Discipline/Detail/' + employee.Employee.EmployeeId
-            + '?startDate=' + startDate.toDateString() + '&endDate=' + endDate.toDateString() + '&reasonId=' + vm.filter.reasonId;
+            + '?startDate=' + startDate.toDateString() + '&endDate=' + endDate.toDateString() + '&reasonId=' + vm.filter.reasonId + '&isLocal=' + vm.filter.isLocal;
     };
 
     vm.exportReport = function (filter) {
         vm.exportCriteria = angular.copy(filter);
         vm.exportCriteria.employeeName = filter.employee ? filter.employee.Name : '';
         vm.exportCriteria.departmentName = filter.departmentId ? AttendanceModel.getDepartmentName(filter.departmentId, vm.departments) : '';
+        vm.exportCriteria.isLocal = filter.isLocal;
         vm.exportCriteria.startDate = filter.startDate.toDateString();
         vm.exportCriteria.endDate = filter.endDate.toDateString();
         $scope.$broadcast('exportAttendanceSummaryReport');
@@ -262,6 +263,7 @@ function ($scope, $window, $routeParams, AttendanceModel, utilitiesFactory, Comm
         endDate: $routeParams.endDate ? new Date($routeParams.endDate) : date,
         employee: null,
         departmentId: null,
+        isLocal: $routeParams.isLocal ? $routeParams.isLocal : '',
         employeeId: $routeParams.id ? parseInt($routeParams.id) : null,
         reasonId: parseInt($routeParams.reasonId)
     };
@@ -302,8 +304,8 @@ function ($scope, $window, $routeParams, AttendanceModel, utilitiesFactory, Comm
         vm.permission = AttendanceModel.permission;
     });
 
-    var getAttendanceDetail = function (startDate, endDate, employeeId, departmentId, reasonId) {
-        AttendanceModel.getAttendanceDetail(startDate, endDate, employeeId, departmentId, reasonId).then(function () {
+    var getAttendanceDetail = function (startDate, endDate, employeeId, departmentId, isLocal, reasonId) {
+        AttendanceModel.getAttendanceDetail(startDate, endDate, employeeId, departmentId, isLocal, reasonId).then(function () {
             vm.attendanceDetails = AttendanceModel.attendanceDetails;
             vm.attendanceDetails = AttendanceModel.convertCheckInOutToDate(vm, vm.attendanceDetails);
             utilitiesFactory.searchOnPage(vm, vm.attendanceDetails);
@@ -323,7 +325,7 @@ function ($scope, $window, $routeParams, AttendanceModel, utilitiesFactory, Comm
         }
     };
 
-    getAttendanceDetail(vm.filter.startDate, vm.filter.endDate, vm.filter.employeeId, vm.filter.departmentId, vm.filter.reasonId);
+    getAttendanceDetail(vm.filter.startDate, vm.filter.endDate, vm.filter.employeeId, vm.filter.departmentId, vm.filter.isLocal, vm.filter.reasonId);
 
     vm.query = function (filter) {
         var employeeId = null;
@@ -332,7 +334,7 @@ function ($scope, $window, $routeParams, AttendanceModel, utilitiesFactory, Comm
             employeeId = filter.employee.EmployeeId;
         }
 
-        getAttendanceDetail(vm.filter.startDate, vm.filter.endDate, employeeId, vm.filter.departmentId, vm.filter.reasonId);
+        getAttendanceDetail(vm.filter.startDate, vm.filter.endDate, employeeId, vm.filter.departmentId, vm.filter.isLocal, vm.filter.reasonId);
     };
 
     vm.calculateApproverScore = function (attendance, violation) {
@@ -359,6 +361,7 @@ function ($scope, $window, $routeParams, AttendanceModel, utilitiesFactory, Comm
         vm.exportCriteria = angular.copy(filter);
         vm.exportCriteria.employeeName = filter.employee ? filter.employee.Name : '';
         vm.exportCriteria.departmentName = filter.departmentId ? AttendanceModel.getDepartmentName(filter.departmentId, vm.departments) : '';
+        vm.exportCriteria.isLocal = filter.isLocal;
         vm.exportCriteria.startDate = filter.startDate.toDateString();
         vm.exportCriteria.endDate = filter.endDate.toDateString();
         $scope.$broadcast('exportAttendanceDetailReport');

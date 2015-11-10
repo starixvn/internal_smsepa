@@ -46,6 +46,7 @@ namespace SMS.EPA.Site.Controllers.API
             DateTime startDate,
             DateTime endDate,
             int? departmentId = null,
+            bool? isLocal = null,
             int? employeeId = null,
             int? reasonId = null)
         {
@@ -54,10 +55,12 @@ namespace SMS.EPA.Site.Controllers.API
                 StartDate = startDate,
                 EndDate = endDate,
                 DepartmentId = departmentId,
+                IsLocal = isLocal,
                 EmployeeId = employeeId,
                 ReasonId = reasonId,
                 ApproverId = CurrentUser.EmployeeInfo.EmployeeId
             };
+
             IEnumerable<AttendanceSummaryModel> attendanceEmployees = _attendanceSummaryService.GetAttendanceSummary(criteria);
             SessionManager.Set<IEnumerable<AttendanceSummaryModel>>(Constants.DisciplineSummaryReportSessionKey + CurrentUser.EmployeeInfo.EmployeeId, attendanceEmployees);
             return attendanceEmployees;
@@ -77,6 +80,7 @@ namespace SMS.EPA.Site.Controllers.API
                 StartDate = startDate,
                 EndDate = endDate
             };
+
             IEnumerable<OtherViolationModel> violations = _attendanceSummaryService.GetOtherViolations(criteria);
             return violations;
         }
@@ -125,6 +129,7 @@ namespace SMS.EPA.Site.Controllers.API
             DateTime endDate,
             int? employeeId = null,
             int? departmentId = null,
+            bool? isLocal = null,
             int? reasonId = null)
         {
             var criteria = new GetDetailAttendanceCriteria
@@ -133,9 +138,11 @@ namespace SMS.EPA.Site.Controllers.API
                 EndDate = endDate,
                 EmployeeId = employeeId,
                 DepartmentId = departmentId,
+                IsLocal = isLocal,
                 ReasonId = reasonId,
                 ApproverId = CurrentUser.EmployeeInfo.EmployeeId
             };
+
             IEnumerable<AttendanceDetailModel> attendanceViolations = _attendanceSummaryService.GetAttendanceDetail(criteria);
             SessionManager.Set<IEnumerable<AttendanceDetailModel>>(Constants.DisciplineDetailReportSessionKey + CurrentUser.EmployeeInfo.EmployeeId, attendanceViolations);
             return attendanceViolations;

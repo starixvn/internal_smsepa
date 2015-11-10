@@ -4,52 +4,55 @@
             <li class="current" data-translate="DisciplineSummaryDetail"></li>
         </ul>
     </div>
-
     <form novalidate class="row form-horizontal filter">
         <div class="form-group">
-            <label class="col-sm-1 text-right" data-translate="Department"></label>
+            <label class="col-sm-1 control-label" data-translate="Department"></label>
             <div class="col-sm-3 field">
                 <select class="department-select form-control" ng-model="detailAttendanceCtrl.filter.departmentId"
                         ng-options="opt.DepartmentId as opt.Name for opt in detailAttendanceCtrl.treeDepartment">
                     <option value="">-- Select a Department / Section --</option>
                 </select>
             </div>
-            <label class="col-sm-1 text-right" data-translate="Employee"></label>
-            <div class="col-sm-3 field">
+            <label class="col-sm-1 control-label" data-translate="Category"></label>
+            <div class="col-sm-2">
+                <select class="form-control" ng-model="detailAttendanceCtrl.filter.isLocal">
+                    <option value="">-- {{"All" | translate}} --</option>
+                    <option value="false">{{"Expat" | translate}}</option>
+                    <option value="true">{{"Local" | translate}}</option>
+                </select>
+            </div>
+            <label class="col-sm-1 control-label" data-translate="Employee"></label>
+            <div class="col-sm-2 field">
                 <input class="form-control employee-search" ng-model="detailAttendanceCtrl.searchEmployee"
                        placeholder="Enter full name or nick name" search-auto-complete search-employees="detailAttendanceCtrl.getEmployee()"
                        ng-change="detailAttendanceCtrl.unSelectEmployee()" employee="detailAttendanceCtrl.filter.employee" />
             </div>
-            <label class="col-sm-1 text-right" data-translate="Reason"></label>
-            <div class="col-sm-2 field">
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label" data-translate="Reason"></label>
+            <div class="col-sm-3 field">
                 <select class="form-control" ng-model="detailAttendanceCtrl.filter.reasonId"
                         ng-options="opt.ViolationId as opt.Name for opt in detailAttendanceCtrl.violationOptions">
                     <option value="">-- Select a Reason --</option>
                 </select>
             </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-1 text-right" data-translate="StartDate">
-            </label>
-            <div class="col-sm-3 field">
+            <label class="col-sm-1 control-label" data-translate="StartDate"></label>
+            <div class="col-sm-2 field">
                 <input readonly class="calendar-form-control" type="text"
                        ng-model="detailAttendanceCtrl.filter.startDate" datepicker-popup
                        ng-click="detailAttendanceCtrl.openPopupStartDate($event)"
                        is-open="detailAttendanceCtrl.calendar.startDateOpened" />
                 <calendar-image class="calendar-image" ng-click="detailAttendanceCtrl.openPopupStartDate($event)"></calendar-image>
             </div>
-            <label class="col-sm-1 text-right" data-translate="EndDate">
-            </label>
-            <div class="col-sm-3 field">
+            <label class="col-sm-1 control-label" data-translate="EndDate"></label>
+            <div class="col-sm-2 field">
                 <input readonly class="calendar-form-control" type="text"
                        ng-model="detailAttendanceCtrl.filter.endDate" datepicker-popup
                        ng-click="detailAttendanceCtrl.openPopupEndDate($event)"
                        is-open="detailAttendanceCtrl.calendar.endDateOpened" />
                 <calendar-image class="calendar-image" ng-click="detailAttendanceCtrl.openPopupEndDate($event)"></calendar-image>
             </div>
-            <label class="col-sm-1">
-            </label>
-            <div class="col-sm-1 btn-box daily-btn-box">
+            <div class="col-sm-1">
                 <input type="button" value="Search" class="button" ng-click="detailAttendanceCtrl.query(detailAttendanceCtrl.filter)" />
             </div>
         </div>
@@ -70,42 +73,24 @@
                 </th>
             </tr>
             <tr class="headerName">
-                <th data-translate="Code">
-                </th>
-                <th data-translate="Nick">
-                </th>
-                <th data-translate="Section">
-                </th>
-                <th data-translate="Date">
-                </th>
-                <th data-translate="Shift">
-                </th>
-                <th data-translate="CheckIn">
-                </th>
-                <th data-translate="CheckOut">
-                </th>
-                <th data-translate="TotalHours">
-                </th>
-                <th data-translate="LateIn">
-                </th>
-                <th data-translate="EarlyOut">
-                </th>
-                <th data-translate="Absent">
-                </th>
-                <th data-translate="UnpaidLeaveShort">
-                </th>
-                <th data-translate="UnpaidLeaveAbsentShort">
-                </th>
-                <th data-translate="ChangeShift">
-                </th>
-                <th data-translate="SystemSubtractScore">
-                </th>
-                <th data-translate="ApproverSubtractScore">
-                </th>
-                <th data-translate="ApproverComment">
-                </th>
-                <th data-translate="HRMComment">
-                </th>
+                <th data-translate="Code"></th>
+                <th data-translate="Nick"></th>
+                <th data-translate="Section"></th>
+                <th data-translate="Date"></th>
+                <th data-translate="Shift"></th>
+                <th data-translate="CheckIn"></th>
+                <th data-translate="CheckOut"></th>
+                <th data-translate="TotalHours"></th>
+                <th data-translate="LateIn"></th>
+                <th data-translate="EarlyOut"></th>
+                <th data-translate="Absent"></th>
+                <th data-translate="UnpaidLeaveShort"></th>
+                <th data-translate="UnpaidLeaveAbsentShort"></th>
+                <th data-translate="ChangeShift"></th>
+                <th data-translate="SystemSubtractScore"></th>
+                <th data-translate="ApproverSubtractScore"></th>
+                <th data-translate="ApproverComment"></th>
+                <th data-translate="HRMComment"></th>
             </tr>
         </thead>
         <tbody>
@@ -222,8 +207,7 @@
             </tr>
         </tfoot>
     </table>
-
-    <div class="col-sm-1 btn-box daily-btn-box" ng-if="detailAttendanceCtrl.permission == 2">
+    <div class="col-sm-1" ng-if="detailAttendanceCtrl.permission == 2">
         <input type="button" value="Save" class="button" ng-click="detailAttendanceCtrl.save()" />
     </div>
 </div>

@@ -3,7 +3,7 @@
 
 attendanceModule.factory('attendanceFactory', ['$http', 'baseUrl', function ($http, baseUrl) {
     return {
-        getAttendanceSummary: function (startDate, endDate, departmentId, employeeId, reasonId) {
+        getAttendanceSummary: function (startDate, endDate, departmentId, isLocal, employeeId, reasonId) {
             return $http.get(baseUrl + 'api/AttendanceSummary/GetAttendanceSummary',
                 {
                     params:
@@ -11,6 +11,7 @@ attendanceModule.factory('attendanceFactory', ['$http', 'baseUrl', function ($ht
                           startDate: startDate,
                           endDate: endDate,
                           departmentId: departmentId,
+                          isLocal: isLocal,
                           employeeId: employeeId,
                           reasonId: reasonId
                       }
