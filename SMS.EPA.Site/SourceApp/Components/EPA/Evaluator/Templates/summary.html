@@ -69,10 +69,10 @@
                     </strong>
                 </td>
                 <td class="text-center col-score">
-                    <strong ng-show="memberEPAInfoCtrl.epaInfo.LastFinalScore">
+                    <strong ng-show="memberEPAInfoCtrl.epaInfo.HasDisciplineScore">
                         {{memberEPAInfoCtrl.epaInfo.LastFinalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore | customScore}}
                     </strong>
-                    <strong ng-show="!memberEPAInfoCtrl.epaInfo.LastFinalScore" ng-bind="'-'"></strong>
+                    <strong ng-show="!memberEPAInfoCtrl.epaInfo.HasDisciplineScore" ng-bind="memberEPAInfoCtrl.epaInfo.LastFinalScore | customScore"></strong>
                 </td>
             </tr>
             <tr class="text-right">
