@@ -1203,7 +1203,7 @@
   <data name="EndDatePeriodRequired" xml:space="preserve">
     <value>The End Date field is required for Semi-annual or Promotion!</value>
   </data>
-  <data name="EmployeeType" xml:space="preserve">
-    <value>Employee Type</value>
+  <data name="Category" xml:space="preserve">
+    <value>Category</value>
   </data>
 </root>

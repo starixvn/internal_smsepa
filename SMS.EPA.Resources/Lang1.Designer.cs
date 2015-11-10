@@ -331,6 +331,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Category.
+        /// </summary>
+        public static string Category {
+            get {
+                return ResourceManager.GetString("Category", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change Password.
         /// </summary>
         public static string ChangePassword {
@@ -876,15 +885,6 @@ namespace SMS.EPA.Resources {
         public static string EmployeeScore {
             get {
                 return ResourceManager.GetString("EmployeeScore", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Employee Type.
-        /// </summary>
-        public static string EmployeeType {
-            get {
-                return ResourceManager.GetString("EmployeeType", resourceCulture);
             }
         }
         

@@ -292,7 +292,7 @@ namespace SMS.EPA.Services.Implement
             writer.CopyRows(3, 1);
 
             FillContentRow(employeeFlowSettings, ref writer);
-            writer.SyncColumnsWidth(10);
+            writer.SyncColumnsWidth(11);
 
             writer.Render();
         }
@@ -418,6 +418,7 @@ namespace SMS.EPA.Services.Implement
                 ID = employeeSetting.Employee.Code,
                 FullName = employeeSetting.Employee.FullName,
                 NickName = employeeSetting.Employee.NickName,
+                Category = employeeSetting.Employee.Category,
                 Evaluator = GetEvaluator(employeeSetting.Evaluators),
                 Reviewer = GetEvaluator(employeeSetting.Reviewers),
                 Management = GetEvaluator(employeeSetting.Managements),
@@ -451,6 +452,7 @@ namespace SMS.EPA.Services.Implement
                 case MailMode.Start:
                     _manualMailService.SendStartMail(period, employeeSettings);
                     break;
+
                 case MailMode.NotifyChange:
                     _manualMailService.SendNotifyMail(period, employeeSettings);
                     break;
