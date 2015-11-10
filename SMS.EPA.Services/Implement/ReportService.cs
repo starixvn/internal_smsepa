@@ -82,6 +82,7 @@ namespace SMS.EPA.Services.Implement
                 Lang.FullName,
                 Lang.NickName,
                 Lang.Section,
+                Lang.Category,
                 Lang.JobTitle
             };
             var titleString = Lang.EPASummaryReportTitle;
@@ -137,7 +138,7 @@ namespace SMS.EPA.Services.Implement
             writer.CopyRows(0, 3);
 
             FillContentRowEPADetailReport(epaDetail, ref writer);
-            writer.SyncColumnsWidth(13);
+            writer.SyncColumnsWidth(14);
 
             writer.Render();
         }
@@ -286,13 +287,18 @@ namespace SMS.EPA.Services.Implement
 
                 cellBody = row.CreateCell(4);
                 cellBody.CellStyle = bodyStyle;
-                cellBody.SetCellValue(epaInfo.Group.GroupName);
-                SetColumnWidth(ref sheet, 4, 16);
+                cellBody.SetCellValue(epaInfo.Category);
+                SetColumnWidth(ref sheet, 4, 12);
 
                 cellBody = row.CreateCell(5);
                 cellBody.CellStyle = bodyStyle;
+                cellBody.SetCellValue(epaInfo.Group.GroupName);
+                SetColumnWidth(ref sheet, 5, 16);
+
+                cellBody = row.CreateCell(6);
+                cellBody.CellStyle = bodyStyle;
                 cellBody.SetCellValue(epaInfo.JobTitle.JobTitleName);
-                SetColumnWidth(ref sheet, 5, 25);
+                SetColumnWidth(ref sheet, 6, 25);
 
                 if (rowIndex % 2 == 0)
                 {
@@ -325,27 +331,27 @@ namespace SMS.EPA.Services.Implement
                                 break;
                         }
 
-                        cellBody = row.CreateCell(6 + (2 * i));
+                        cellBody = row.CreateCell(7 + (2 * i));
                         cellBody.CellStyle = bodyStyle;
                         cellBody.SetCellValue(finalScore);
-                        SetColumnWidth(ref sheet, 6 + (2 * i), 14);
+                        SetColumnWidth(ref sheet, 7 + (2 * i), 14);
 
-                        cellBody = row.CreateCell(6 + ((2 * i) + 1));
+                        cellBody = row.CreateCell(7 + ((2 * i) + 1));
                         cellBody.CellStyle = bodyStyle;
                         cellBody.SetCellValue(grade);
-                        SetColumnWidth(ref sheet, 6 + ((2 * i) + 1), 10);
+                        SetColumnWidth(ref sheet, 7 + ((2 * i) + 1), 10);
                     }
                     else
                     {
-                        cellBody = row.CreateCell(6 + (2 * i));
+                        cellBody = row.CreateCell(7 + (2 * i));
                         cellBody.CellStyle = bodyStyle;
                         cellBody.SetCellValue("-");
-                        SetColumnWidth(ref sheet, 6 + (2 * i), 14);
+                        SetColumnWidth(ref sheet, 7 + (2 * i), 14);
 
-                        cellBody = row.CreateCell(6 + ((2 * i) + 1));
+                        cellBody = row.CreateCell(7 + ((2 * i) + 1));
                         cellBody.CellStyle = bodyStyle;
                         cellBody.SetCellValue("-");
-                        SetColumnWidth(ref sheet, 6 + ((2 * i) + 1), 10);
+                        SetColumnWidth(ref sheet, 7 + ((2 * i) + 1), 10);
                     }
                 }
 
@@ -396,6 +402,7 @@ namespace SMS.EPA.Services.Implement
                 Code = memberEPA.Employee.Code,
                 FullName = memberEPA.Employee.FullName,
                 NickName = memberEPA.Employee.NickName,
+                Category = memberEPA.Employee.Category,
                 Section = memberEPA.Employee.Group.GroupName,
                 JobTitle = memberEPA.Employee.JobTitle.JobTitleName,
                 TargetType = memberEPA.Period.TargetTypeName,

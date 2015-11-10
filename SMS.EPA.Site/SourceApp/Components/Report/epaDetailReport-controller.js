@@ -25,6 +25,7 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory) {
     vm.filter = {
         periodId: '',
         departmentId: '',
+        isLocal: '',
         phaseIds: '',
         pageIndex: utilitiesFactory.pageOption.pageIndex,
         itemsPerPage: utilitiesFactory.pageOption.itemsPerPage
@@ -49,7 +50,7 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory) {
     };
 
     var getEPADetailReport = function (filter) {
-        ReportModel.getEPADetailReport(filter.periodId, filter.departmentId, filter.phaseIds, filter.pageIndex, filter.itemsPerPage).then(function () {
+        ReportModel.getEPADetailReport(filter.periodId, filter.departmentId, filter.isLocal, filter.phaseIds, filter.pageIndex, filter.itemsPerPage).then(function () {
             vm.epaDetail = ReportModel.epaDetail;
         });
     };
@@ -73,6 +74,7 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory) {
         vm.exportCriteria = {
             periodId: vm.filter.periodId,
             departmentId: vm.filter.departmentId,
+            isLocal: vm.filter.isLocal,
             phaseIds: vm.filter.phaseIds
         };
 

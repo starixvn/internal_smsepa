@@ -34,6 +34,8 @@ namespace SMS.EPA.Model.EmployeeEPA
             }
         }
 
+        public string Category { get; set; }
+
         public Group Group { get; set; }
 
         public DepartmentModel Department { get; set; }

@@ -19,8 +19,8 @@ function (reportFactory, notificationFactory, errorFactory) {
         });
     };
 
-    reportModel.getEPASummaryReport = function (periodIds, departmentId, pageIndex, itemsPerPage) {
-        return reportFactory.getEPASummaryReport(periodIds, departmentId, pageIndex, itemsPerPage)
+    reportModel.getEPASummaryReport = function (periodIds, departmentId, isLocal, pageIndex, itemsPerPage) {
+        return reportFactory.getEPASummaryReport(periodIds, departmentId, isLocal, pageIndex, itemsPerPage)
         .success(function (epaSummary) {
             reportModel.epaSummary = epaSummary;
         }).error(function (response, status) {
@@ -28,8 +28,8 @@ function (reportFactory, notificationFactory, errorFactory) {
         });
     };
 
-    reportModel.getEPADetailReport = function (periodId, departmentId, phaseIds, pageIndex, itemsPerPage) {
-        return reportFactory.getEPADetailReport(periodId, departmentId, phaseIds, pageIndex, itemsPerPage)
+    reportModel.getEPADetailReport = function (periodId, departmentId, isLocal, phaseIds, pageIndex, itemsPerPage) {
+        return reportFactory.getEPADetailReport(periodId, departmentId, isLocal, phaseIds, pageIndex, itemsPerPage)
         .success(function (epaDetail) {
             reportModel.epaDetail = epaDetail;
         }).error(function (response, status) {

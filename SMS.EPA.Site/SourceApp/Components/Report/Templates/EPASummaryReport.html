@@ -7,21 +7,29 @@
     <div class="col-sm-12">
         <form novalidate class="row filter form-horizontal" role="form">
             <div class="form-group last">
-                <label class="col-sm-2 control-label" data-translate="EvaluationPeriod"></label>
+                <label class="col-sm-2 col-percent-14 control-label" data-translate="EvaluationPeriod"></label>
                 <div class="col-sm-2">
                     <add-class-to-role-filter class="multi-select" multi-select input-model="epaSummaryReportCtrl.periods" button-label="Name"
                                               helper-elements="all reset filter" item-label="Name" tick-property="ticked" group-property="msGroup" max-labels="0">
                     </add-class-to-role-filter>
                 </div>
-                <label class="col-sm-2 control-label" data-translate="DepartmentSection"></label>
+                <label class="col-sm-2 col-percent-14 control-label" data-translate="DepartmentSection"></label>
                 <div class="col-sm-2">
                     <select class="form-control" ng-model="epaSummaryReportCtrl.filter.departmentId"
                             ng-options="opt.DepartmentId as opt.Name for opt in epaSummaryReportCtrl.treeDepartment">
                         <option value="">-- {{"All" | translate}} --</option>
                     </select>
                 </div>
+                <label class="col-sm-1 control-label" data-translate="Category"></label>
+                <div class="col-sm-2">
+                    <select class="form-control" ng-model="epaSummaryReportCtrl.filter.isLocal">
+                        <option value="">-- {{"All" | translate}} --</option>
+                        <option value="false">{{"Expat" | translate}}</option>
+                        <option value="true">{{"Local" | translate}}</option>
+                    </select>
+                </div>
                 <div class="col-sm-1">
-                    <button class="button btn-search" ng-click="epaSummaryReportCtrl.query(epaSummaryReportCtrl.filter)" data-translate="Search"></button>
+                    <button class="button" ng-click="epaSummaryReportCtrl.query(epaSummaryReportCtrl.filter)" data-translate="Search"></button>
                 </div>
             </div>
         </form>

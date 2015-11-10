@@ -45,6 +45,7 @@ namespace SMS.EPA.Site.Controllers.API
         public EPASummaryModel GetEPASummaryReport(
             string periodIds = null,
             int? departmentId = null,
+            bool? isLocal = null,
             int? pageIndex = null,
             int? itemsPerPage = null)
         {
@@ -53,6 +54,7 @@ namespace SMS.EPA.Site.Controllers.API
                 EmployeeId = CurrentUser.EmployeeInfo.EmployeeId,
                 PeriodIds = periodIds,
                 DepartmentId = departmentId,
+                IsLocal = isLocal,
                 PageIndex = pageIndex,
                 ItemsPerPage = itemsPerPage
             };
@@ -65,6 +67,7 @@ namespace SMS.EPA.Site.Controllers.API
         public EPADetailModel GetEPADetailReport(
             int? periodId = null,
             int? departmentId = null,
+            bool? isLocal = null,
             int? pageIndex = null,
             int? itemsPerPage = null)
         {
@@ -73,6 +76,7 @@ namespace SMS.EPA.Site.Controllers.API
                 EmployeeId = CurrentUser.EmployeeInfo.EmployeeId,
                 PeriodId = periodId,
                 DepartmentId = departmentId,
+                IsLocal = isLocal,
                 PageIndex = pageIndex,
                 ItemsPerPage = itemsPerPage
             };

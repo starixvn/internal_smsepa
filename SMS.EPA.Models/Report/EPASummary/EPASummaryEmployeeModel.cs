@@ -31,6 +31,8 @@ namespace SMS.EPA.Model.Report.EPASummary
 
         public JobTitle JobTitle { get; set; }
 
+        public string Category { get; set; }
+
         public IList<EPASummaryPeriodModel> Periods { get; set; }
     }
 }

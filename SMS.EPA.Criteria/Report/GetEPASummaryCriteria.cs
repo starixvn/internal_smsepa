@@ -16,9 +16,11 @@ namespace SMS.EPA.Criteria.Report
     {
         public string PeriodIds { get; set; }
 
+        public int EmployeeId { get; set; }
+
         public int? DepartmentId { get; set; }
 
-        public int EmployeeId { get; set; }
+        public bool? IsLocal { get; set; }
 
         public int? PageIndex { get; set; }
 
