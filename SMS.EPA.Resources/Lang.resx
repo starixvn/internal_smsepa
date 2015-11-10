@@ -1206,4 +1206,7 @@
   <data name="Category" xml:space="preserve">
     <value>Category</value>
   </data>
+  <data name="WorkingUnderTime" xml:space="preserve">
+    <value>Working Under Time</value>
+  </data>
 </root>

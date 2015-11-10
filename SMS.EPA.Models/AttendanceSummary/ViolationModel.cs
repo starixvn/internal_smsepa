@@ -27,7 +27,5 @@ namespace SMS.EPA.Model.AttendanceSummary
         public bool HasIgnored { get; set; }
 
         public bool HasApprovedBy { get; set; }
-
-        public bool HasAutoIgnored { get; set; }
     }
 }

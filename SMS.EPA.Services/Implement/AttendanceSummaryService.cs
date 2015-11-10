@@ -249,11 +249,12 @@ namespace SMS.EPA.Services.Implement
 
         private static IEnumerable<AttendanceDetailModel> GroupAttendanceViolations(IEnumerable<AttendanceDetailModel> violations)
         {
-            IEnumerable<AttendanceDetailModel> attendanceViolations = violations.GroupBy(x => new { x.EmployeeId, x.WorkDate, x.ShiftName }).Select(y => new AttendanceDetailModel
+            IEnumerable<AttendanceDetailModel> attendanceViolations = violations.GroupBy(x => new { x.EmployeeId, x.WorkDate, x.ShiftName, x.OutOfDate }).Select(y => new AttendanceDetailModel
             {
                 EmployeeId = y.Key.EmployeeId,
                 WorkDate = y.Key.WorkDate,
                 ShiftName = y.Key.ShiftName,
+                OutOfDate = y.Key.OutOfDate,
                 CheckIn = GetCheckIn(y.ToList()),
                 CheckOut = GetCheckOut(y.ToList()),
                 TotalHours = GetTotalHours(y.ToList()),
@@ -594,6 +595,7 @@ namespace SMS.EPA.Services.Implement
                 CheckIn = attendanceViolation.CheckIn.Value != null ? DateTime.Parse(attendanceViolation.CheckIn.Value).ToString(Constants.TimeFormant) : string.Empty,
                 CheckOut = attendanceViolation.CheckOut.Value != null ? DateTime.Parse(attendanceViolation.CheckOut.Value).ToString(Constants.TimeFormant) : string.Empty,
                 TotalHours = attendanceViolation.TotalHours.Value != null ? ConvertNumberToTime(totalHours) : string.Empty,
+                WorkingUnderTime = attendanceViolation.TotalHours.Value != null && attendanceViolation.TotalHours.HasViolated ? "1" : string.Empty,
                 LateIn = attendanceViolation.LateIn.Value != null ? ConvertNumberToTime(double.Parse(attendanceViolation.LateIn.Value)) : string.Empty,
                 EarlyOut = attendanceViolation.EarlyOut.Value != null ? ConvertNumberToTime(double.Parse(attendanceViolation.EarlyOut.Value)) : string.Empty,
                 Absent = attendanceViolation.Absent.Value != null ? attendanceViolation.Absent.Value : string.Empty,

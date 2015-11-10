@@ -21,6 +21,8 @@ namespace SMS.EPA.Model.AttendanceSummary
 
         public string ShiftName { get; set; }
 
+        public bool OutOfDate { get; set; }
+
         public EmployeeModel Employee { get; set; }
 
         public ViolationModel CheckIn { get; set; }
