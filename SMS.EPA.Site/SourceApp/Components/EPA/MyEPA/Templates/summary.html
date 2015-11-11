@@ -15,8 +15,7 @@
                 </strong>
             </td>
             <td class="text-center col-score">
-                <strong ng-show="memberEPAInfoCtrl.epaInfo.LastPerformanceScore != null"
-                        ng-bind="memberEPAInfoCtrl.epaInfo.LastPerformanceScore | customScore"></strong>
+                <strong ng-show="memberEPAInfoCtrl.epaInfo.LastPerformanceScore != null" ng-bind="memberEPAInfoCtrl.epaInfo.LastPerformanceScore | customScore"></strong>
                 <strong ng-show="memberEPAInfoCtrl.epaInfo.LastPerformanceScore == null" ng-bind="'-'"></strong>
             </td>
         </tr>
@@ -29,23 +28,17 @@
                 <strong ng-show="!memberEPAInfoCtrl.epaInfo.HasDisciplineScore" ng-bind="memberEPAInfoCtrl.epaInfo.DisciplineScore | customScore"></strong>
             </td>
             <td class="text-center col-score">
-                <strong ng-show="memberEPAInfoCtrl.epaInfo.HasDisciplineScore">
-                    {{memberEPAInfoCtrl.epaInfo.LastDisciplineScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxDisciplineScore | customScore}}
-                </strong>
-                <strong ng-show="!memberEPAInfoCtrl.epaInfo.HasDisciplineScore" ng-bind="memberEPAInfoCtrl.epaInfo.LastDisciplineScore | customScore"></strong>
+                <strong ng-show="memberEPAInfoCtrl.epaInfo.LastPerformanceScore != null" ng-bind="memberEPAInfoCtrl.epaInfo.LastDisciplineScore | customScore"></strong>
+                <strong ng-show="memberEPAInfoCtrl.epaInfo.LastPerformanceScore == null" ng-bind="'-'"></strong>
             </td>
         </tr>
         <tr class="text-right">
             <td><strong data-translate="TotalScore"></strong></td>
             <td class="text-center col-score">
-                <strong>
-                    {{memberEPAInfoCtrl.finalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore | customScore}}
-                </strong>
+                <strong>{{memberEPAInfoCtrl.finalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxPerformanceScoreOfSelf | customScore}}</strong>
             </td>
             <td class="text-center col-score">
-                <strong ng-show="memberEPAInfoCtrl.epaInfo.LastFinalScore != null">
-                    {{memberEPAInfoCtrl.epaInfo.LastFinalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore | customScore}}
-                </strong>
+                <strong ng-show="memberEPAInfoCtrl.epaInfo.LastFinalScore != null" ng-bind="memberEPAInfoCtrl.epaInfo.LastFinalScore | customScore"></strong>
                 <strong ng-show="memberEPAInfoCtrl.epaInfo.LastFinalScore == null" ng-bind="'-'"></strong>
             </td>
         </tr>

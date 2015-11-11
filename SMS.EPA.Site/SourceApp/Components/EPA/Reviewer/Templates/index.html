@@ -119,14 +119,10 @@
                         <div ng-show="!memberEPA.HasDisciplineScore" ng-bind="memberEPA.DisciplineScore | customScore"></div>
                     </td>
                     <td class="text-center">
-                        <div ng-show="memberEPA.FinalScore >= 0">
-                            {{memberEPA.FinalScore | customScore}} / {{memberEPA.MaxFinalScore | customScore}}
-                        </div>
+                        {{memberEPA.FinalScore | customScore}} / {{memberEPA.MaxPerformanceScoreOfReviewer | customScore}}
                     </td>
                     <td class="text-center">
-                        <div ng-show="memberEPA.LastFinalScore != null">
-                            {{memberEPA.LastFinalScore | customScore}} / {{memberEPA.MaxFinalScore | customScore}}
-                        </div>
+                        <div ng-show="memberEPA.LastFinalScore != null" ng-bind="memberEPA.LastFinalScore | customScore"></div>
                         <div ng-show="memberEPA.LastFinalScore == null" ng-bind="'-'"></div>
                     </td>
                     <td class="text-center col-action">

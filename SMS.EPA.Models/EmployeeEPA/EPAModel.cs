@@ -68,20 +68,6 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public bool HasMaxScoreOnKPI { get; set; }
 
-        #region Last score
-
-        public float LastDisciplineScore { get; set; }
-
-        public string LastFinalScoreEncode { get; set; }
-
-        public string LastFinalScore { get; set; }
-
-        public string LastGradeEncode { get; set; }
-
-        public string LastGrade { get; set; }
-
-        #endregion Last score
-
         public float AverageScoreByEvaluators
         {
             get
@@ -106,16 +92,35 @@ namespace SMS.EPA.Model.EmployeeEPA
             }
         }
 
-        public float? LastPerformanceScore
+        public float MaxPerformanceScoreOfSelf
         {
             get
             {
-                if (LastProcesses.Count > 0)
-                {
-                    return CalculateAverageScore(LastProcesses);
-                }
+                return GetPerformanceScore(ProcessBySelf);
+            }
+        }
 
-                return null;
+        public float MaxPerformanceScoreOfEvaluator
+        {
+            get
+            {
+                return GetPerformanceScore(ProcessByEvaluators.FirstOrDefault());
+            }
+        }
+
+        public float MaxPerformanceScoreOfReviewer
+        {
+            get
+            {
+                return GetPerformanceScore(ProcessByReviewers.FirstOrDefault());
+            }
+        }
+
+        public float MaxPerformanceScoreOfManagement
+        {
+            get
+            {
+                return GetPerformanceScore(ProcessByManagements.FirstOrDefault());
             }
         }
 
@@ -129,8 +134,6 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public IList<EPAProcessModel> ProcessByManagements { get; set; }
 
-        public IList<EPAProcessModel> LastProcesses { get; set; }
-
         public IList<EPAKPIGroupModel> KPIGroups { get; set; }
 
         public IList<EPAProcessModel> HumanResources { get; set; }
@@ -141,11 +144,40 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public IList<EPAProcessModel> Managements { get; set; }
 
+        #region Last score
+
+        public float LastDisciplineScore { get; set; }
+
+        public string LastFinalScoreEncode { get; set; }
+
+        public string LastFinalScore { get; set; }
+
+        public string LastGradeEncode { get; set; }
+
+        public string LastGrade { get; set; }
+
+        public IList<EPAProcessModel> LastProcesses { get; set; }
+
+        public float? LastPerformanceScore
+        {
+            get
+            {
+                if (LastProcesses.Count > 0)
+                {
+                    return CalculateAverageScore(LastProcesses);
+                }
+
+                return null;
+            }
+        }
+
+        #endregion Last score
+
         public int Rowspan
         {
             get
             {
-                List<int> numbers = new List<int> { Evaluators.Count, Reviewers.Count, Managements.Count };
+                List<int> numbers = new List<int> { ProcessByEvaluators.Count, ProcessByReviewers.Count, ProcessByManagements.Count };
 
                 return numbers.Max();
             }
@@ -172,6 +204,25 @@ namespace SMS.EPA.Model.EmployeeEPA
             }
 
             return score;
+        }
+
+        private float GetPerformanceScore(EPAProcessModel process)
+        {
+            float performanceScore = 0;
+
+            if (process != null)
+            {
+                if (HasDisciplineScore)
+                {
+                    performanceScore = process.MaxTotalScore + MaxDisciplineScore;
+                }
+                else
+                {
+                    performanceScore = process.MaxTotalScore;
+                }
+            }
+
+            return performanceScore;
         }
     }
 }

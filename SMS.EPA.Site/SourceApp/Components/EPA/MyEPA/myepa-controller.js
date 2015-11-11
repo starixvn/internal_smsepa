@@ -56,7 +56,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
                         SelfEvalutorModel.scoreSpreadForKPIGroupHasKPIOptional(kpiGroup, vm.maxStar);
                     }
 
-                    SelfEvalutorModel.calculateScore(vm);
+                    SelfEvalutorModel.calculateScore(vm, true);
                 }
             };
         }
@@ -74,7 +74,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
             SelfEvalutorModel.scoreSpreadForKPIGroupHasKPIOptional(kpiGroup, vm.maxStar);
         }
 
-        SelfEvalutorModel.calculateScore(vm);
+        SelfEvalutorModel.calculateScore(vm, true);
     };
 
     vm.getNotificationInputScore = function (kpi) {
@@ -88,7 +88,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
             kpi.CurrentEvaluation.Score = null;
         }
 
-        SelfEvalutorModel.calculateScore(vm);
+        SelfEvalutorModel.calculateScore(vm, true);
     };
 
     vm.save = function (epaInfo) {
@@ -117,7 +117,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
 
             vm.epaInfo.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.CurrentProcess.TotalScore);
             vm.finalScore = vm.epaInfo.CurrentProcess.TotalScore + vm.epaInfo.DisciplineScore;
-            vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.epaInfo.MaxFinalScore);
+            vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.epaInfo.MaxPerformanceScoreOfSelf);
 
             if (vm.epaInfo.LastFinalScore.length > 0) {
                 vm.epaInfo.LastFinalScore = utilitiesFactory.parseFloat(vm.epaInfo.LastFinalScore);

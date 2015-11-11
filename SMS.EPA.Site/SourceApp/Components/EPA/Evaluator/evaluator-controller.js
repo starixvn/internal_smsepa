@@ -33,11 +33,10 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, ba
 
                 memberEPA.ProcessBySelf.TotalScore = utilitiesFactory.parseFloat(memberEPA.ProcessBySelf.TotalScore);
                 memberEPA.FinalScore = utilitiesFactory.parseFloat(memberEPA.CurrentProcess.TotalScore) + memberEPA.DisciplineScore;
-                memberEPA.FinalScore = EmployeeEPAModel.checkScore(memberEPA.FinalScore, 0, memberEPA.MaxFinalScore);
+                memberEPA.FinalScore = EmployeeEPAModel.checkScore(memberEPA.FinalScore, 0, memberEPA.MaxPerformanceScoreOfEvaluator);
 
                 if (memberEPA.LastFinalScore.length > 0) {
-                    memberEPA.LastFinalScore = utilitiesFactory.parseFloat(memberEPA.LastFinalScore) + memberEPA.LastDisciplineScore;
-                    memberEPA.LastFinalScore = EmployeeEPAModel.checkScore(memberEPA.LastFinalScore, 0, memberEPA.MaxFinalScore);
+                    memberEPA.LastFinalScore = utilitiesFactory.parseFloat(memberEPA.LastFinalScore);
                 } else {
                     memberEPA.LastFinalScore = null;
                 }
@@ -111,7 +110,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
                         SelfEvalutorModel.scoreSpreadForKPIGroupHasKPIOptional(kpiGroup, vm.maxStar);
                     }
 
-                    SelfEvalutorModel.calculateScore(vm);
+                    SelfEvalutorModel.calculateScore(vm, false);
                 }
             };
         }
@@ -141,7 +140,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
             kpi.CurrentEvaluation.Score = null;
         }
 
-        SelfEvalutorModel.calculateScore(vm);
+        SelfEvalutorModel.calculateScore(vm, false);
     };
 
     vm.cancelRating = function (kpiGroup, kpi) {
@@ -152,7 +151,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
             SelfEvalutorModel.scoreSpreadForKPIGroupHasKPIOptional(kpiGroup, vm.maxStar);
         }
 
-        SelfEvalutorModel.calculateScore(vm);
+        SelfEvalutorModel.calculateScore(vm, false);
     };
 
     vm.cancel = function () {
@@ -182,9 +181,9 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
             }
 
             vm.finalScoreOfSelf = vm.epaInfo.ProcessBySelf.TotalScore + vm.epaInfo.DisciplineScore;
-            vm.finalScoreOfSelf = EmployeeEPAModel.checkScore(vm.finalScoreOfSelf, 0, vm.epaInfo.MaxFinalScore);
+            vm.finalScoreOfSelf = EmployeeEPAModel.checkScore(vm.finalScoreOfSelf, 0, vm.epaInfo.MaxPerformanceScoreOfSelf);
             vm.finalScore = vm.epaInfo.CurrentProcess.TotalScore + vm.epaInfo.DisciplineScore;
-            vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.epaInfo.MaxFinalScore);
+            vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.epaInfo.MaxPerformanceScoreOfEvaluator);
 
             if (vm.epaInfo.LastFinalScore.length > 0) {
                 vm.epaInfo.LastFinalScore = utilitiesFactory.parseFloat(vm.epaInfo.LastFinalScore);

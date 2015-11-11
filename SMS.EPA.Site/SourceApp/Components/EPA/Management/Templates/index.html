@@ -127,13 +127,11 @@
                     </td>
                     <td class="text-center">
                         <div ng-show="memberEPA.FinalScore >= 0">
-                            {{memberEPA.FinalScore | customScore}} / {{memberEPA.MaxFinalScore | customScore}}
+                            {{memberEPA.FinalScore | customScore}} / {{memberEPA.MaxPerformanceScoreOfManagement | customScore}}
                         </div>
                     </td>
                     <td class="text-center">
-                        <div ng-show="memberEPA.LastFinalScore != null">
-                            {{memberEPA.LastFinalScore | customScore}} / {{memberEPA.MaxFinalScore | customScore}}
-                        </div>
+                        <div ng-show="memberEPA.LastFinalScore != null" ng-bind="memberEPA.LastFinalScore | customScore"></div>
                         <div ng-show="memberEPA.LastFinalScore == null" ng-bind="'-'"></div>
                     </td>
                     <td class="text-center col-action">

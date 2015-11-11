@@ -128,7 +128,12 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
 
         memberEPA.CurrentProcess.TotalScore = averageScore + scoreAdjusted;
         memberEPA.FinalScore = averageScore + scoreAdjusted + memberEPA.DisciplineScore;
-        memberEPA.FinalScore = EmployeeEPAModel.checkScore(memberEPA.FinalScore, 0, memberEPA.MaxFinalScore);
+
+        if (isReviewer) {
+            memberEPA.FinalScore = EmployeeEPAModel.checkScore(memberEPA.FinalScore, 0, memberEPA.MaxPerformanceScoreOfReviewer);
+        } else {
+            memberEPA.FinalScore = EmployeeEPAModel.checkScore(memberEPA.FinalScore, 0, memberEPA.MaxPerformanceScoreOfManagement);
+        }
     };
 
     reviewerMngModel.calculatePerformanceScore = function (vm, isReviewer) {
@@ -145,7 +150,12 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
 
         averageScore -= vm.epaInfo.DisciplineScore;
         vm.finalScore = totalScore + vm.epaInfo.DisciplineScore;
-        vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.epaInfo.MaxFinalScore);
+
+        if (isReviewer) {
+            vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.epaInfo.MaxPerformanceScoreOfReviewer);
+        } else {
+            vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.epaInfo.MaxPerformanceScoreOfManagement);
+        }
 
         vm.epaInfo.CurrentProcess.AdjustScore = totalScore - averageScore;
         vm.epaInfo.CurrentProcess.AdjustScoreOriginal = vm.epaInfo.CurrentProcess.AdjustScore;
@@ -170,8 +180,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
 
             if (totalScore > memberEPA.CurrentProcess.MaxTotalScore) {
                 scoreAdjusted = memberEPA.CurrentProcess.MaxTotalScore - averageScore;
-            }
-            else if (totalScore < 0) {
+            } else if (totalScore < 0) {
                 scoreAdjusted = -averageScore;
             }
 
@@ -208,7 +217,12 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
                 memberEPA.CurrentProcess.TotalScore = averageScore + scoreAdjusted;
                 memberEPA.CurrentProcess.TotalScoreOriginal = averageScore + scoreAdjusted;
                 memberEPA.FinalScore = averageScore + scoreAdjusted + memberEPA.DisciplineScore;
-                memberEPA.FinalScore = EmployeeEPAModel.checkScore(memberEPA.FinalScore, 0, memberEPA.MaxFinalScore);
+
+                if (isReviewer) {
+                    memberEPA.FinalScore = EmployeeEPAModel.checkScore(memberEPA.FinalScore, 0, memberEPA.MaxPerformanceScoreOfReviewer);
+                } else {
+                    memberEPA.FinalScore = EmployeeEPAModel.checkScore(memberEPA.FinalScore, 0, memberEPA.MaxPerformanceScoreOfManagement);
+                }
 
                 if (memberEPA.CurrentProcess.Comment && memberEPA.CurrentProcess.Comment.length > 0) {
                     memberEPA.CurrentProcess.Comment = memberEPA.CurrentProcess.Comment + '\n' + adjust.Comment;
