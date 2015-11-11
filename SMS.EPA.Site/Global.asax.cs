@@ -17,6 +17,7 @@ namespace SMS.EPA.Site
     using System.Web.Routing;
     using System.Web.SessionState;
     using Fanex.Data.Configuration;
+    using Fanex.Logging;
 
     /// <summary>
     /// Web API Application.
@@ -46,6 +47,18 @@ namespace SMS.EPA.Site
             {
                 HttpContext.Current.SetSessionStateBehavior(SessionStateBehavior.Required);
             }
+        }
+
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            Exception ex = Server.GetLastError().GetBaseException();
+            string message = ex.Message +
+                    "\r\nSource: " + ex.Source +
+                    "\r\nDomain: " + HttpContext.Current.Request.Headers["Host"] +
+                    "\r\nTargetSite: " + ex.TargetSite +
+                    "\r\nStackTrace: " + ex.StackTrace;
+
+            LogService.Error(message);
         }
 
         private static bool IsWebApiRequest()

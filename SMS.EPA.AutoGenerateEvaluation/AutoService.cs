@@ -249,6 +249,8 @@ namespace SMS.EPA.AutoGenerateEvaluation
         private void UpdateFinalScoreAndSendMail(IEnumerable<EndEPAModel> evaluations)
         {
             IList<int> periods = new List<int>();
+            bool hasSendMailEndEvaluation = ConfigurationManager.AppSettings["SendMailEndPeriod"] != null ? ConfigurationManager.AppSettings["SendMailEndPeriod"].Equals("true") : false;
+
             var criteria = new GetStandardGradeCriteria();
             IEnumerable<StandardGradeModel> standardGrades = _employeeEPAService.GetStandardGrade(criteria);
 
@@ -277,23 +279,27 @@ namespace SMS.EPA.AutoGenerateEvaluation
                 _LOG.Info("Result of get grade of final score of EPA " + evaluation.EPAId + ": " + evaluationInfo.Grade);
 
                 EncodeAndUpdateFinalScore(averagePerformanceScore, disciplineScore, evaluation.EPAId, evaluationInfo.Grade);
-                SendEndEvaluationMailToSelf(evaluationInfo, averagePerformanceScore, disciplineScore);
 
-                if (evaluationInfo.Period != null)
+                if (hasSendMailEndEvaluation)
                 {
-                    if (evaluationInfo.Period.TargetTypeId == (int)TargetType.Probation || evaluationInfo.Period.TargetTypeId == (int)TargetType.Promotion)
+                    SendEndEvaluationMailToSelf(evaluationInfo, averagePerformanceScore, disciplineScore);
+
+                    if (evaluationInfo.Period != null)
                     {
-                        _LOG.Info("Send end email to human resource of probation or promotion period " + evaluationInfo.Period.PeriodId + " : started at " + DateTime.Now.ToString());
-                        _autoMailService.SendEndEvaluationMailToHumanResourceByEmployee(evaluationInfo);
-                    }
-                    else if (evaluationInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual && !periods.Contains(evaluationInfo.Period.PeriodId))
-                    {
-                        periods.Add(evaluationInfo.Period.PeriodId);
+                        if (evaluationInfo.Period.TargetTypeId == (int)TargetType.Probation || evaluationInfo.Period.TargetTypeId == (int)TargetType.Promotion)
+                        {
+                            _LOG.Info("Send end email to human resource of probation or promotion period " + evaluationInfo.Period.PeriodId + " : started at " + DateTime.Now.ToString());
+                            _autoMailService.SendEndEvaluationMailToHumanResourceByEmployee(evaluationInfo);
+                        }
+                        else if (evaluationInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual && !periods.Contains(evaluationInfo.Period.PeriodId))
+                        {
+                            periods.Add(evaluationInfo.Period.PeriodId);
+                        }
                     }
                 }
             }
 
-            if (periods.Count() > 0)
+            if (hasSendMailEndEvaluation && periods.Count() > 0)
             {
                 foreach (int periodId in periods)
                 {
