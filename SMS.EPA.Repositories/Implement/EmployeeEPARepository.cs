@@ -108,6 +108,8 @@ namespace SMS.EPA.Repositories.Implement
 
                     IList<EPAProcessModel> evaluators = multi.Read<EPAProcessModel>().ToList();
 
+                    epaInfo.LastProcesses = multi.Read<EPAProcessModel>().ToList();
+
                     GroupEvaluatorByProcess(epaInfo, evaluators);
                     GroupEPAProcessByEPA(epaInfo, processes);
                     GroupKPIByKPIGroup(epaInfo.KPIGroups, kpis);
@@ -363,6 +365,7 @@ namespace SMS.EPA.Repositories.Implement
             DecodeTotalScore(epaInfo.ProcessByEvaluators);
             DecodeTotalScore(epaInfo.ProcessByReviewers);
             DecodeTotalScore(epaInfo.ProcessByManagements);
+            DecodeTotalScore(epaInfo.LastProcesses);
 
             foreach (EPAKPIGroupModel kpiGroup in epaInfo.KPIGroups)
             {

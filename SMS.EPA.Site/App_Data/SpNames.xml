@@ -159,7 +159,6 @@
             <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode"/>
             <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncode"/>
             <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncode"/>
-            <Mapping DataField="LastTotalScore" ObjectProperty="LastTotalScoreEncode"/>
             <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode"/>
         </Setting>
         <Setting Key="EPA_GetInfoByEmployee" SpName="EPA_GetInfoByEmployee" DbName="SMSEPA" Plain="0">
@@ -169,7 +168,6 @@
             <Mapping DataField="Rate" ObjectProperty="RateEncode"/>
             <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncode"/>
             <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncode"/>
-            <Mapping DataField="LastTotalScore" ObjectProperty="LastTotalScoreEncode"/>
             <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode"/>
         </Setting>
         <Setting Key="EPA_UpdateScore" SpName="EPA_UpdateScore" DbName="SMSEPA" Plain="0">
@@ -183,7 +181,6 @@
             <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode"/>
             <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncode"/>
             <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncode"/>
-            <Mapping DataField="LastTotalScore" ObjectProperty="LastTotalScoreEncode"/>
             <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode"/>
         </Setting>
         <Setting Key="EPA_GetInfoByEvaluator" SpName="EPA_GetInfoByEvaluator" DbName="SMSEPA" Plain="0">
@@ -193,7 +190,6 @@
             <Mapping DataField="Rate" ObjectProperty="RateEncode"/>
             <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncode"/>
             <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncode"/>
-            <Mapping DataField="LastTotalScore" ObjectProperty="LastTotalScoreEncode"/>
             <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode"/>
         </Setting>
         <Setting Key="EPA_GetByReviewer" SpName="EPA_GetByReviewer" DbName="SMSEPA" Plain="0">
@@ -201,7 +197,6 @@
             <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode"/>
             <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncode"/>
             <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncode"/>
-            <Mapping DataField="LastTotalScore" ObjectProperty="LastTotalScoreEncode"/>
             <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode"/>
         </Setting>
         <Setting Key="EPA_GetInfoByReviewer" SpName="EPA_GetInfoByReviewer" DbName="SMSEPA" Plain="0">
@@ -211,7 +206,6 @@
             <Mapping DataField="Rate" ObjectProperty="RateEncode"/>
             <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncode"/>
             <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncode"/>
-            <Mapping DataField="LastTotalScore" ObjectProperty="LastTotalScoreEncode"/>
             <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode"/>
         </Setting>
         <Setting Key="EPA_GetByManagement" SpName="EPA_GetByManagement" DbName="SMSEPA" Plain="0">
@@ -219,7 +213,6 @@
             <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode"/>
             <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncode"/>
             <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncode"/>
-            <Mapping DataField="LastTotalScore" ObjectProperty="LastTotalScoreEncode"/>
             <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode"/>
         </Setting>
         <Setting Key="EPA_GetInfoByManagement" SpName="EPA_GetInfoByManagement" DbName="SMSEPA" Plain="0">
@@ -229,7 +222,6 @@
             <Mapping DataField="Rate" ObjectProperty="RateEncode"/>
             <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncode"/>
             <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncode"/>
-            <Mapping DataField="LastTotalScore" ObjectProperty="LastTotalScoreEncode"/>
             <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode"/>
         </Setting>
         <Setting Key="EPA_GetInfoById" SpName="EPA_GetInfoById" DbName="SMSEPA" Plain="0">
@@ -239,7 +231,6 @@
             <Mapping DataField="Rate" ObjectProperty="RateEncode"/>
             <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncode"/>
             <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncode"/>
-            <Mapping DataField="LastTotalScore" ObjectProperty="LastTotalScoreEncode"/>
             <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode"/>
         </Setting>
         <Setting Key="EPA_AdjustScoreByReviewerOrManagement" SpName="EPA_AdjustScoreByReviewerOrManagement" DbName="SMSEPA" Plain="0">

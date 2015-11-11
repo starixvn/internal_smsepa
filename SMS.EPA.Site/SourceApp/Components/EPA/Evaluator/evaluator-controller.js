@@ -182,12 +182,12 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
             }
 
             vm.finalScoreOfSelf = vm.epaInfo.ProcessBySelf.TotalScore + vm.epaInfo.DisciplineScore;
+            vm.finalScoreOfSelf = EmployeeEPAModel.checkScore(vm.finalScoreOfSelf, 0, vm.epaInfo.MaxFinalScore);
             vm.finalScore = vm.epaInfo.CurrentProcess.TotalScore + vm.epaInfo.DisciplineScore;
             vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.epaInfo.MaxFinalScore);
 
             if (vm.epaInfo.LastFinalScore.length > 0) {
-                vm.epaInfo.LastFinalScore = utilitiesFactory.parseFloat(vm.epaInfo.LastFinalScore) + vm.epaInfo.LastDisciplineScore;
-                vm.epaInfo.LastFinalScore = EmployeeEPAModel.checkScore(vm.epaInfo.LastFinalScore, 0, vm.epaInfo.MaxFinalScore);
+                vm.epaInfo.LastFinalScore = utilitiesFactory.parseFloat(vm.epaInfo.LastFinalScore);
             } else {
                 vm.epaInfo.LastFinalScore = null;
             }

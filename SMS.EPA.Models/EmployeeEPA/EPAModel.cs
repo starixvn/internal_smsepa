@@ -27,6 +27,7 @@ namespace SMS.EPA.Model.EmployeeEPA
             ProcessByReviewers = new List<EPAProcessModel>();
             ProcessByManagements = new List<EPAProcessModel>();
             KPIGroups = new List<EPAKPIGroupModel>();
+            LastProcesses = new List<EPAProcessModel>();
         }
 
         public int EPAId { get; set; }
@@ -105,6 +106,19 @@ namespace SMS.EPA.Model.EmployeeEPA
             }
         }
 
+        public float? LastPerformanceScore
+        {
+            get
+            {
+                if (LastProcesses.Count > 0)
+                {
+                    return CalculateAverageScore(LastProcesses);
+                }
+
+                return null;
+            }
+        }
+
         public EPAProcessModel CurrentProcess { get; set; }
 
         public EPAProcessModel ProcessBySelf { get; set; }
@@ -114,6 +128,8 @@ namespace SMS.EPA.Model.EmployeeEPA
         public IList<EPAProcessModel> ProcessByReviewers { get; set; }
 
         public IList<EPAProcessModel> ProcessByManagements { get; set; }
+
+        public IList<EPAProcessModel> LastProcesses { get; set; }
 
         public IList<EPAKPIGroupModel> KPIGroups { get; set; }
 

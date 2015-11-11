@@ -10,7 +10,6 @@
 namespace SMS.EPA.Model.EmployeeEPA
 {
     using System;
-    using SMS.EPA.Core.Services;
 
     public class EPAProcessModel
     {
@@ -51,16 +50,6 @@ namespace SMS.EPA.Model.EmployeeEPA
         public float MaxTotalScore { get; set; }
 
         public string TotalScoreEncode { get; set; }
-
-        public string LastTotalScoreEncode { get; set; }
-
-        public string LastTotalScore
-        {
-            get
-            {
-                return !string.IsNullOrEmpty(LastTotalScoreEncode) ? EncodeService.Decode(LastTotalScoreEncode) : string.Empty;
-            }
-        }
 
         public string TotalScore { get; set; }
 

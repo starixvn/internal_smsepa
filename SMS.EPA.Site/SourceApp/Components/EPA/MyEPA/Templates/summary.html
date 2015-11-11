@@ -15,10 +15,9 @@
                 </strong>
             </td>
             <td class="text-center col-score">
-                <strong ng-show="memberEPAInfoCtrl.epaInfo.CurrentProcess.LastTotalScore">
-                    {{memberEPAInfoCtrl.epaInfo.CurrentProcess.LastTotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.CurrentProcess.MaxTotalScore | customScore}}
-                </strong>
-                <strong ng-show="!memberEPAInfoCtrl.epaInfo.CurrentProcess.LastTotalScore" ng-bind="'-'"></strong>
+                <strong ng-show="memberEPAInfoCtrl.epaInfo.LastPerformanceScore != null"
+                        ng-bind="memberEPAInfoCtrl.epaInfo.LastPerformanceScore | customScore"></strong>
+                <strong ng-show="memberEPAInfoCtrl.epaInfo.LastPerformanceScore == null" ng-bind="'-'"></strong>
             </td>
         </tr>
         <tr class="text-right">

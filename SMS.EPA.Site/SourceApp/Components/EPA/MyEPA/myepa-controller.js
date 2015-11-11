@@ -120,8 +120,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
             vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.epaInfo.MaxFinalScore);
 
             if (vm.epaInfo.LastFinalScore.length > 0) {
-                vm.epaInfo.LastFinalScore = utilitiesFactory.parseFloat(vm.epaInfo.LastFinalScore) + vm.epaInfo.LastDisciplineScore;
-                vm.epaInfo.LastFinalScore = EmployeeEPAModel.checkScore(vm.epaInfo.LastFinalScore, 0, vm.epaInfo.MaxFinalScore);
+                vm.epaInfo.LastFinalScore = utilitiesFactory.parseFloat(vm.epaInfo.LastFinalScore);
             } else {
                 vm.epaInfo.LastFinalScore = null;
             }
