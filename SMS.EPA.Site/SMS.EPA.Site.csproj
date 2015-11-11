@@ -506,7 +506,9 @@
     <Content Include="Content\Fonts\big_noodle_titling.ttf" />
     <Content Include="Content\Fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\Fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="Content\Fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\Fonts\glyphicons-halflings-regular.woff">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Less\.csscomb.json" />
     <Content Include="Content\Less\.csslintrc" />
     <Content Include="Content\Less\alerts.less" />
