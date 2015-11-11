@@ -290,11 +290,13 @@ function ($scope, $window, $routeParams, AttendanceModel, utilitiesFactory, Comm
         vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
     });
 
-    CommonModel.getEmployeeById(vm.filter.employeeId).then(function () {
-        vm.filter.employee = CommonModel.employee;
-        vm.filter.employee.Name = vm.filter.employee.NickName;
-        vm.searchEmployee = vm.filter.employee.NickName + ' (' + vm.filter.employee.FullName + ')';
-    });
+    if (vm.filter.employeeId) {
+        CommonModel.getEmployeeById(vm.filter.employeeId).then(function () {
+            vm.filter.employee = CommonModel.employee;
+            vm.filter.employee.Name = vm.filter.employee.NickName;
+            vm.searchEmployee = vm.filter.employee.NickName + ' (' + vm.filter.employee.FullName + ')';
+        });
+    }
 
     AttendanceModel.getViolationType().then(function () {
         vm.violationOptions = AttendanceModel.violations;
