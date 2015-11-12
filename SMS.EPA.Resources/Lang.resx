@@ -1209,4 +1209,7 @@
   <data name="WorkingUnderTime" xml:space="preserve">
     <value>Working Under Time</value>
   </data>
+  <data name="EndPeriod" xml:space="preserve">
+    <value>End Period</value>
+  </data>
 </root>

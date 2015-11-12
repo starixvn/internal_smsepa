@@ -9,15 +9,27 @@
 
 namespace SMS.EPA.Model.Report.Dashboard
 {
+    using System;
+    using System.Collections.Generic;
     using SMS.EPA.Core.Constants;
+    using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Model.Period;
 
     public class EPADashboardModel
     {
+        public EPADashboardModel()
+        {
+            EvaluationProcess = new EvaluationProcessModel();
+            ProcessByEvaluators = new List<EPAProcessModel>();
+            ProcessByReviewers = new List<EPAProcessModel>();
+            ProcessByManagements = new List<EPAProcessModel>();
+        }
+
         public int EPAId { get; set; }
 
         public StatusModel Status { get; set; }
+
+        public EPAPeriodModel Period { get; set; }
 
         public string FinalScoreEncode { get; set; }
 
@@ -39,6 +51,61 @@ namespace SMS.EPA.Model.Report.Dashboard
 
         public float MaxDisciplineScore { get; set; }
 
-        public PeriodModel Period { get; set; }
+        public EvaluationProcessModel EvaluationProcess { get; set; }
+
+        public EPAProcessModel ProcessBySelf { get; set; }
+
+        public IList<EPAProcessModel> ProcessByEvaluators { get; set; }
+
+        public IList<EPAProcessModel> ProcessByReviewers { get; set; }
+
+        public IList<EPAProcessModel> ProcessByManagements { get; set; }
+
+        public float AverageScoreByEvaluators
+        {
+            get
+            {
+                return CalculateAverageScore(ProcessByEvaluators);
+            }
+        }
+
+        public float AverageScoreByReviewers
+        {
+            get
+            {
+                return CalculateAverageScore(ProcessByReviewers);
+            }
+        }
+
+        public float AverageScoreByManagements
+        {
+            get
+            {
+                return CalculateAverageScore(ProcessByManagements);
+            }
+        }
+
+        private float CalculateAverageScore(IList<EPAProcessModel> processes)
+        {
+            float score = 0, average = 0;
+            int count = 0;
+
+            foreach (EPAProcessModel process in processes)
+            {
+                if (!string.IsNullOrEmpty(process.TotalScore))
+                {
+                    count++;
+                    score += float.Parse(process.TotalScore);
+                }
+            }
+
+            if (count > 0)
+            {
+                average = score / count;
+                return (float)Math.Round(average, 2);
+            }
+
+            return score;
+        }
     }
 }

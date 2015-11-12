@@ -78,13 +78,10 @@
                         <div ng-show="memberEPA.CurrentProcess.TotalScore.length == 0" ng-bind="'N/A'"></div>
                     </td>
                     <td class="text-center">
-                        <div ng-show="memberEPA.HasDisciplineScore" ng-bind="memberEPA.SystemDisciplineScore | customScore"></div>
+                        {{memberEPA.SystemDisciplineScore | customScore}} / {{memberEPA.MaxDisciplineScore | customScore}}
                     </td>
                     <td class="text-center">
-                        <div ng-show="memberEPA.HasDisciplineScore">
-                            {{memberEPA.DisciplineScore | customScore}} / {{memberEPA.MaxDisciplineScore | customScore}}
-                        </div>
-                        <div ng-show="!memberEPA.HasDisciplineScore" ng-bind="memberEPA.DisciplineScore | customScore"></div>
+                        {{memberEPA.DisciplineScore | customScore}} / {{memberEPA.MaxDisciplineScore | customScore}}
                     </td>
                     <td class="text-center">
                         {{memberEPA.FinalScore | customScore}} / {{memberEPA.MaxPerformanceScoreOfEvaluator | customScore}}

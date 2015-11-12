@@ -9,11 +9,17 @@
 
 namespace SMS.EPA.Model.EmployeeEPA
 {
+    using System;
+
     public class EPAPeriodModel
     {
         public int PeriodId { get; set; }
 
         public string Name { get; set; }
+
+        public DateTime? StartDate { get; set; }
+
+        public DateTime? EndDate { get; set; }
 
         public int TargetTypeId { get; set; }
 

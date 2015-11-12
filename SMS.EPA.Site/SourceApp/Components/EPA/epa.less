@@ -297,6 +297,19 @@
                     width: 15px;
                 }
             }
+
+            &.final {
+                background-color: #ebe4d4;
+                color: #61463b;
+
+                &:after {
+                    border-left: 40px solid #ebe4d4;
+                }
+
+                &:before {
+                    border-color: #ebe4d4 #ebe4d4 #ebe4d4 transparent;
+                }
+            }
         }
     }
 }
@@ -807,6 +820,7 @@
 
 .modal-view-comment {
     min-height: 200px;
+    max-height: 400px;
     overflow-y: auto;
 
     .comment {
@@ -1000,9 +1014,15 @@
         }
     }
 }
-@media (max-width: 1170px) {
-    .evaluation-process-section ul.evaluation-process li:last-child {
-        margin: 10px 0 0 47px;
+@media (max-width: 1200px) {
+    .evaluation-process-section ul.evaluation-process {
+        li:nth-last-child(2) {
+            margin: 10px 0 0 40px;
+        }
+         
+        li:last-child {
+            margin: 10px 0 0 47px;
+        }
     }
 }
 @media (min-width:1200px) {
@@ -1033,6 +1053,13 @@
     .list-kpi-rating {
         .list-star {
            padding: 0 80px;
+        }
+    }
+}
+@media (min-width: 1212px) and (max-width: 1460px) {
+    .evaluation-process-section ul.evaluation-process {
+        li:last-child {
+            margin: 10px 0 0 40px;
         }
     }
 }

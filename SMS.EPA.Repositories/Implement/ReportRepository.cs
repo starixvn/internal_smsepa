@@ -32,19 +32,27 @@ namespace SMS.EPA.Repositories.Implement
 
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                result.MyEPAs = db.Query<EPADashboardModel, StatusModel, PeriodModel, EPADashboardModel>(
-                    (epa, status, period) =>
-                    {
-                        epa.Status = status;
-                        epa.Period = period;
+                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                {
+                    result.MyEPAs = multi.Read<EPADashboardModel, StatusModel, EPAPeriodModel, EPADashboardModel>(
+                        (epa, status, period) =>
+                        {
+                            epa.Status = status;
+                            epa.Period = period;
 
-                        return epa;
-                    },
-                    "StatusId, PeriodId",
-                    criteria.GetSpParams());
+                            return epa;
+                        },
+                        "StatusId, PeriodId");
+
+                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
+
+                    IEnumerable<EPAProcessModel> evaluators = multi.Read<EPAProcessModel>();
+
+                    GroupEPAProcessByEPA(result.MyEPAs, processes);
+                    GroupEvaluatorByProcess(result.MyEPAs, evaluators);
+                    DecodeAllScore(result.MyEPAs);
+                }
             }
-
-            DecodeFinalScore(result.MyEPAs);
 
             return result;
         }
@@ -55,7 +63,7 @@ namespace SMS.EPA.Repositories.Implement
 
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (var multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     epaSummary.PeriodSelecteds = multi.Read<PeriodModel>().ToList();
 
@@ -97,7 +105,7 @@ namespace SMS.EPA.Repositories.Implement
 
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (var multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     epaDetail.PhaseSelecteds = multi.Read<EvaluationPhaseModel>();
 
@@ -140,9 +148,9 @@ namespace SMS.EPA.Repositories.Implement
 
         private void GroupPeriodByEmployee(IEnumerable<EPASummaryEmployeeModel> epaSummaries, IList<EPASummaryPeriodModel> periods)
         {
-            foreach (var epaSummary in epaSummaries)
+            foreach (EPASummaryEmployeeModel epaSummary in epaSummaries)
             {
-                foreach (var period in periods)
+                foreach (EPASummaryPeriodModel period in periods)
                 {
                     if (epaSummary.EmployeeId.Equals(period.EmployeeId))
                     {
@@ -152,44 +160,44 @@ namespace SMS.EPA.Repositories.Implement
             }
         }
 
-        private void GroupEmployeeByEPA(IEnumerable<EPAModel> epas, IEnumerable<EPAEmployeeModel> employees)
+        private void GroupEmployeeByEPA(IEnumerable<EPAModel> epaInfos, IEnumerable<EPAEmployeeModel> employees)
         {
-            foreach (var epa in epas)
+            foreach (EPAModel epaInfo in epaInfos)
             {
-                foreach (var employee in employees)
+                foreach (EPAEmployeeModel employee in employees)
                 {
-                    if (employee.EPAId.Equals(epa.EPAId))
+                    if (employee.EPAId.Equals(epaInfo.EPAId))
                     {
-                        epa.Employee = employee;
+                        epaInfo.Employee = employee;
                     }
                 }
             }
         }
 
-        private void GroupEPAProcessByEPA(IEnumerable<EPAModel> epas, IEnumerable<EPAProcessModel> processes)
+        private void GroupEPAProcessByEPA(IEnumerable<EPAModel> epaInfos, IEnumerable<EPAProcessModel> processes)
         {
-            foreach (var epa in epas)
+            foreach (EPAModel epaInfo in epaInfos)
             {
-                foreach (var process in processes)
+                foreach (EPAProcessModel process in processes)
                 {
-                    if (process.EPAId == epa.EPAId)
+                    if (process.EPAId == epaInfo.EPAId)
                     {
                         switch (process.ProcessId)
                         {
                             case (int)ProcessType.Self:
-                                epa.ProcessBySelf = process;
+                                epaInfo.ProcessBySelf = process;
                                 break;
 
                             case (int)ProcessType.Evaluator:
-                                epa.ProcessByEvaluators.Add(process);
+                                epaInfo.ProcessByEvaluators.Add(process);
                                 break;
 
                             case (int)ProcessType.Reviewer:
-                                epa.ProcessByReviewers.Add(process);
+                                epaInfo.ProcessByReviewers.Add(process);
                                 break;
 
                             case (int)ProcessType.Management:
-                                epa.ProcessByManagements.Add(process);
+                                epaInfo.ProcessByManagements.Add(process);
                                 break;
                         }
                     }
@@ -197,11 +205,70 @@ namespace SMS.EPA.Repositories.Implement
             }
         }
 
-        private void DecodeFinalScore(IEnumerable<EPADashboardModel> epas)
+        private void GroupEPAProcessByEPA(IEnumerable<EPADashboardModel> epaInfos, IEnumerable<EPAProcessModel> processes)
         {
-            foreach (EPADashboardModel epa in epas)
+            foreach (EPADashboardModel epaInfo in epaInfos)
             {
-                epa.FinalScore = Decode(epa.FinalScoreEncode);
+                foreach (EPAProcessModel process in processes)
+                {
+                    if (process.EPAId.Equals(epaInfo.EPAId))
+                    {
+                        switch (process.ProcessId)
+                        {
+                            case (int)ProcessType.Self:
+                                epaInfo.ProcessBySelf = process;
+                                break;
+
+                            case (int)ProcessType.Evaluator:
+                                epaInfo.ProcessByEvaluators.Add(process);
+                                break;
+
+                            case (int)ProcessType.Reviewer:
+                                epaInfo.ProcessByReviewers.Add(process);
+                                break;
+
+                            case (int)ProcessType.Management:
+                                epaInfo.ProcessByManagements.Add(process);
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void GroupEvaluatorByProcess(EPADashboardModel epaInfo, EPAProcessModel evaluator)
+        {
+            switch (evaluator.ProcessId)
+            {
+                case (int)ProcessType.Self:
+                    epaInfo.EvaluationProcess.Self = evaluator;
+                    break;
+
+                case (int)ProcessType.Evaluator:
+                    epaInfo.EvaluationProcess.Evaluators.Add(evaluator);
+                    break;
+
+                case (int)ProcessType.Reviewer:
+                    epaInfo.EvaluationProcess.Reviewers.Add(evaluator);
+                    break;
+
+                case (int)ProcessType.Management:
+                    epaInfo.EvaluationProcess.Managements.Add(evaluator);
+                    break;
+            }
+        }
+
+        private void GroupEvaluatorByProcess(IEnumerable<EPADashboardModel> epaInfos, IEnumerable<EPAProcessModel> evaluators)
+        {
+            foreach (EPADashboardModel epaInfo in epaInfos)
+            {
+                foreach (EPAProcessModel evaluator in evaluators)
+                {
+                    if (evaluator.EPAId.Equals(epaInfo.EPAId))
+                    {
+                        GroupEvaluatorByProcess(epaInfo, evaluator);
+                    }
+                }
             }
         }
 
@@ -223,6 +290,18 @@ namespace SMS.EPA.Repositories.Implement
             {
                 epaInfo.FinalScore = Decode(epaInfo.FinalScoreEncode);
                 epaInfo.Grade = Decode(epaInfo.GradeEncode);
+                DecodeTotalScore(epaInfo.ProcessBySelf);
+                DecodeTotalScore(epaInfo.ProcessByEvaluators);
+                DecodeTotalScore(epaInfo.ProcessByReviewers);
+                DecodeTotalScore(epaInfo.ProcessByManagements);
+            }
+        }
+
+        private void DecodeAllScore(IEnumerable<EPADashboardModel> epaInfos)
+        {
+            foreach (EPADashboardModel epaInfo in epaInfos)
+            {
+                epaInfo.FinalScore = Decode(epaInfo.FinalScoreEncode);
                 DecodeTotalScore(epaInfo.ProcessBySelf);
                 DecodeTotalScore(epaInfo.ProcessByEvaluators);
                 DecodeTotalScore(epaInfo.ProcessByReviewers);

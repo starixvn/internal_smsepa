@@ -8,6 +8,18 @@ function (DashboardModel, utilitiesFactory, baseUrl) {
 
     vm.showScore = false;
 
+    vm.getClassProgress = function (statusEndProcess) {
+        if (statusEndProcess === 0) {
+            return 'in-process';
+        }
+        else if (statusEndProcess === 1) {
+            return 'end-process';
+        }
+        else {
+            return 'open';
+        }
+    };
+
     vm.viewEPADetail = function (epa) {
         vm.viewEPADetailUrl = baseUrl + 'SelfEvaluation/Detail/' + epa.EPAId;
     };

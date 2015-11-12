@@ -117,13 +117,10 @@
                            ng-show="memberEPA.CurrentProcess.IsEndProcess && memberEPA.Status.StatusId == 0"></a>
                     </td>
                     <td class="text-center">
-                        <div ng-show="memberEPA.HasDisciplineScore" ng-bind="memberEPA.SystemDisciplineScore | customScore"></div>
+                        {{memberEPA.SystemDisciplineScore | customScore}} / {{memberEPA.MaxDisciplineScore | customScore}}
                     </td>
                     <td class="text-center">
-                        <div ng-show="memberEPA.HasDisciplineScore">
-                            {{memberEPA.DisciplineScore | customScore}} / {{memberEPA.MaxDisciplineScore | customScore}}
-                        </div>
-                        <div ng-show="!memberEPA.HasDisciplineScore" ng-bind="memberEPA.DisciplineScore | customScore"></div>
+                        {{memberEPA.DisciplineScore | customScore}} / {{memberEPA.MaxDisciplineScore | customScore}}
                     </td>
                     <td class="text-center">
                         <div ng-show="memberEPA.FinalScore >= 0">

@@ -17,7 +17,7 @@
         </div>
     </li>
     <li ng-class="memberEPAInfoCtrl.getClassProgress(memberEPAInfoCtrl.epaInfo.Evaluators[0].StatusEndProcess)" class="process-item">
-        <div class="col-evaluator">
+        <div>
             <strong>{{"Evaluator" | translate}}: </strong>
             <span ng-show="memberEPAInfoCtrl.epaInfo.Evaluators.length == 1" ng-bind="memberEPAInfoCtrl.epaInfo.Evaluators[0].NickName"
                   popover-avatar avatar-src="{{memberEPAInfoCtrl.epaInfo.Evaluators[0].Avatar}}"></span>
@@ -43,7 +43,7 @@
     </li>
     <li ng-show="memberEPAInfoCtrl.epaInfo.Reviewers.length > 0"
         ng-class="memberEPAInfoCtrl.getClassProgress(memberEPAInfoCtrl.epaInfo.Reviewers[0].StatusEndProcess)" class="process-item">
-        <div class="col-evaluator" ng-show="memberEPAInfoCtrl.epaInfo.Reviewers.length > 0">
+        <div>
             <strong>{{"Reviewer" | translate}}:</strong>
             <span ng-show="memberEPAInfoCtrl.epaInfo.Reviewers.length == 1" ng-bind="memberEPAInfoCtrl.epaInfo.Reviewers[0].NickName"
                   popover-avatar avatar-src="{{memberEPAInfoCtrl.epaInfo.Reviewers[0].Avatar}}">></span>
@@ -69,7 +69,7 @@
     </li>
     <li ng-show="memberEPAInfoCtrl.epaInfo.Managements.length > 0"
         ng-class="memberEPAInfoCtrl.getClassProgress(memberEPAInfoCtrl.epaInfo.Managements[0].StatusEndProcess)" class="process-item">
-        <div class="col-evaluator" ng-show="memberEPAInfoCtrl.epaInfo.Managements.length > 0">
+        <div>
             <strong>{{"Management" | translate}}:</strong>
             <span ng-show="memberEPAInfoCtrl.epaInfo.Managements.length == 1" ng-bind="memberEPAInfoCtrl.epaInfo.Managements[0].NickName"
                   popover-avatar avatar-src="{{memberEPAInfoCtrl.epaInfo.Managements[0].Avatar}}"></span>
@@ -91,6 +91,12 @@
         </div>
         <div ng-show="memberEPAInfoCtrl.epaInfo.Managements[0].StatusEndProcess == 2">
             <label data-translate="Open"></label><span class="icon-process"></span>
+        </div>
+    </li>
+    <li ng-show="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId == 3" class="process-item final">
+        <div><strong data-translate="FinalScore"></strong></div>
+        <div>
+            <span data-translate="EndPeriod"></span>: <span ng-bind="memberEPAInfoCtrl.epaInfo.Period.EndDate | customDate"></span>
         </div>
     </li>
 </ul>
