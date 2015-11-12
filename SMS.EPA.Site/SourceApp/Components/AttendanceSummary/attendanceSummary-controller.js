@@ -9,6 +9,7 @@ function ($scope, AttendanceModel, utilitiesFactory, CommonModel, baseUrl) {
     vm.attendanceEmployees = AttendanceModel.attendanceEmployees;
     vm.violationOptions = AttendanceModel.violations;
     vm.permission = AttendanceModel.permission;
+    vm.isSystemAdmin = AttendanceModel.isSystemAdmin;
 
     vm.currentPage = 1;
     vm.pageSize = 20;
@@ -49,6 +50,10 @@ function ($scope, AttendanceModel, utilitiesFactory, CommonModel, baseUrl) {
 
     AttendanceModel.getUserPermissionOnAttendanceSummary().then(function () {
         vm.permission = AttendanceModel.permission;
+    });
+
+    AttendanceModel.checkUserPermissionIsAdmin().then(function () {
+        vm.isSystemAdmin = AttendanceModel.isSystemAdmin;
     });
 
     var getAttendanceSummary = function (startDate, endDate, departmentId, isLocal, employeeId, reasonId) {
@@ -247,7 +252,9 @@ attendanceModule.controller('DetailAttendanceSummaryController',
 function ($scope, $window, $routeParams, AttendanceModel, utilitiesFactory, CommonModel) {
     var vm = this,
         date = new Date(),
-        firstDate = new Date(date.getFullYear(), date.getMonth(), 1);
+        firstDate = new Date(date.getFullYear(), date.getMonth(), 1),
+        hasCalculated = false,
+        hasSaved = false;
 
     vm.currentPage = 1;
     vm.pageSize = 15;
@@ -341,6 +348,8 @@ function ($scope, $window, $routeParams, AttendanceModel, utilitiesFactory, Comm
 
     vm.calculateApproverScore = function (attendance, violation) {
         if (violation.HasViolated) {
+            hasCalculated = true;
+
             if (violation.HasIgnored) {
                 attendance.ApproverSubtractScore -= violation.Score;
             }
@@ -351,6 +360,7 @@ function ($scope, $window, $routeParams, AttendanceModel, utilitiesFactory, Comm
     };
 
     vm.save = function () {
+        hasSaved = true;
         var violations = AttendanceModel.getIgnoredViolation(vm.attendanceDetails);
         AttendanceModel.openPopupUpdateIgnoredViolation(violations);
     };
@@ -366,6 +376,7 @@ function ($scope, $window, $routeParams, AttendanceModel, utilitiesFactory, Comm
         vm.exportCriteria.isLocal = filter.isLocal;
         vm.exportCriteria.startDate = filter.startDate.toDateString();
         vm.exportCriteria.endDate = filter.endDate.toDateString();
+        vm.exportCriteria.hasChanged = hasCalculated && hasSaved;
         $scope.$broadcast('exportAttendanceDetailReport');
     };
 }]);

@@ -11,6 +11,7 @@ namespace SMS.EPA.Site.Controllers.API
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Web.Http;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
@@ -178,6 +179,12 @@ namespace SMS.EPA.Site.Controllers.API
         {
             int permission = _webCommonService.GetPermission(EPAFunctionKey.DisciplineSummary);
             return permission;
+        }
+
+        [HttpGet]
+        public bool CheckUserPermissionIsAdmin()
+        {
+            return CurrentUser.Roles.Any(x => x.RoleId == (int)SystemRole.SystemAdmin);
         }
     }
 }

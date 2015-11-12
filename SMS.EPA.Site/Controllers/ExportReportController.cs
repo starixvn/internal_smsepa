@@ -127,16 +127,19 @@ namespace SMS.EPA.Site.Controllers
             attendanceViolations = SessionManager.Get<IEnumerable<AttendanceDetailModel>>(
                 Constants.DisciplineDetailReportSessionKey + SessionManager.CurrentUser.EmployeeInfo.EmployeeId);
 
-            if (attendanceViolations == null && criteria != null)
+            if (criteria != null)
             {
-                criteria.ApproverId = SessionManager.CurrentUser.EmployeeInfo.EmployeeId;
-                attendanceViolations = _attendanceService.GetAttendanceDetail(criteria);
-            }
+                if (criteria.HasChanged || attendanceViolations == null)
+                {
+                    criteria.ApproverId = SessionManager.CurrentUser.EmployeeInfo.EmployeeId;
+                    attendanceViolations = _attendanceService.GetAttendanceDetail(criteria);
+                }
 
-            if (attendanceViolations != null)
-            {
-                string templatePath = Server.MapPath(_DisciplineDetailTemplatePath);
-                _attendanceService.ExportAttendanceDetailReport(criteria, attendanceViolations, templatePath);
+                if (attendanceViolations != null)
+                {
+                    string templatePath = Server.MapPath(_DisciplineDetailTemplatePath);
+                    _attendanceService.ExportAttendanceDetailReport(criteria, attendanceViolations, templatePath);
+                }
             }
 
             return new EmptyResult();

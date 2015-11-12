@@ -66,11 +66,6 @@ namespace SMS.EPA.Services.Implement
             {
                 epa.FinalScore = !string.IsNullOrWhiteSpace(epa.EncodeFinalScore) ? float.Parse(EncodeService.Decode(epa.EncodeFinalScore)) : 0;
                 epa.Grade = !string.IsNullOrWhiteSpace(epa.EncodeGrade) ? EncodeService.Decode(epa.EncodeGrade) : string.Empty;
-
-                if (string.IsNullOrWhiteSpace(epa.Grade) && epa.FinalScore >= 0)
-                {
-                    epa.Grade = _employeeEPAService.ConvertScoreToGrade(epa.FinalScore, standardGrades);
-                }
             }
         }
 

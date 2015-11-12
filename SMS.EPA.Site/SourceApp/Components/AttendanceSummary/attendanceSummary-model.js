@@ -14,6 +14,7 @@ function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitie
     attendanceModel.attendanceDetails = [];
     attendanceModel.permission = null;
     attendanceModel.otherViolationTypes = [];
+    attendanceModel.isSystemAdmin = false;
 
     attendanceModel.filter = {
         startDate: firstDate,
@@ -397,6 +398,15 @@ function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitie
             attendanceModel.otherViolationTypes = violationTypes;
         })
         .error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    attendanceModel.checkUserPermissionIsAdmin = function () {
+        return attendanceFactory.checkUserPermissionIsAdmin().success(function (isSystemAdmin) {
+            attendanceModel.isSystemAdmin = isSystemAdmin;
+        })
+        .error(function () {
             errorFactory.errorHandle(status);
         });
     };

@@ -62,7 +62,8 @@
         <thead>
             <tr class="header-table">
                 <th colspan="17">
-                    <a class="pull-left button-icon create-button" href="" ng-click="attendanceCtrl.addOtherViolations()" ng-if="attendanceCtrl.permission == 2">
+                    <a class="pull-left button-icon create-button" href="" ng-click="attendanceCtrl.addOtherViolations()" 
+                       ng-if="attendanceCtrl.permission == 2 && attendanceCtrl.isSystemAdmin">
                         <span class="icon plus"></span>
                         <span class="button-text" data-translate="AddOtherViolations"></span>
                     </a>
@@ -110,16 +111,16 @@
                 <td class="text-right">
                     <div ng-show="employee.OtherViolationsScore > 0">
                         <a class="red" href="" ng-click="attendanceCtrl.addOtherViolations(employee)"
-                           ng-if="attendanceCtrl.permission == 2 && employee.Permission == 2">
+                           ng-if="attendanceCtrl.permission == 2 && attendanceCtrl.isSystemAdmin">
                             -{{employee.OtherViolationsScore | number: 1}}
                         </a>
-                        <span class="red" ng-if="employee.Permission == 1 || attendanceCtrl.permission == 1">-{{employee.OtherViolationsScore | number: 1}}</span>
+                        <span class="red" ng-if="!attendanceCtrl.isSystemAdmin || attendanceCtrl.permission == 1">-{{employee.OtherViolationsScore | number: 1}}</span>
                     </div>
                     <div ng-show="employee.OtherViolationsScore == 0">
-                        <a href="" ng-click="attendanceCtrl.addOtherViolations(employee)" ng-if="attendanceCtrl.permission == 2 && employee.Permission == 2">
+                        <a href="" ng-click="attendanceCtrl.addOtherViolations(employee)" ng-if="attendanceCtrl.permission == 2 && attendanceCtrl.isSystemAdmin">
                             {{employee.OtherViolationsScore | number: 1}}
                         </a>
-                        <span ng-if="employee.Permission == 1 || attendanceCtrl.permission == 1">{{employee.OtherViolationsScore | number: 1}}</span>
+                        <span ng-if="!attendanceCtrl.isSystemAdmin || attendanceCtrl.permission == 1">{{employee.OtherViolationsScore | number: 1}}</span>
                     </div>
                 </td>
                 <td class="text-right">

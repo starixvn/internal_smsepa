@@ -66,6 +66,9 @@ attendanceModule.factory('attendanceFactory', ['$http', 'baseUrl', function ($ht
         },
         getOtherViolationType: function (isActive) {
             return $http.get(baseUrl + 'api/AttendanceSummary/GetOtherViolationType', { params: { isActive: isActive }});
+        },
+        checkUserPermissionIsAdmin: function () {
+            return $http.get(baseUrl + 'api/AttendanceSummary/CheckUserPermissionIsAdmin');
         }
     };
  }]);

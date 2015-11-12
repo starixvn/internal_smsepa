@@ -34,6 +34,9 @@ namespace SMS.EPA.Criteria.AttendanceSummary
 
         public int ApproverId { get; set; }
 
+        [SpParam(Ignored = true)]
+        public bool HasChanged { get; set; }
+
         public override bool IsValid()
         {
             return StartDate <= EndDate && ApproverId > 0;
