@@ -196,6 +196,7 @@ namespace SMS.EPA.Services.Implement
             email.Subject = string.Format(Lang.EndMailEvaluationToSelf, evaluationInfo.Period.Name);
 
             float finalScore = averagePerformanceScore + disciplineScore;
+            finalScore = finalScore >= 0 ? finalScore : 0;
             float adjustmentScore = GetAdjustmentScore(evaluationInfo, averagePerformanceScore);
             string evaluatorNames = GetEvaluator(evaluationInfo.Evaluators);
             string reviewerNames = GetEvaluator(evaluationInfo.Reviewers);

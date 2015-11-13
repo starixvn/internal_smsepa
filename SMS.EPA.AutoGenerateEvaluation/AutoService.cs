@@ -273,6 +273,7 @@ namespace SMS.EPA.AutoGenerateEvaluation
                 _LOG.Info("Result of get discipline score of EPA " + evaluation.EPAId + " : " + disciplineScore);
 
                 float finalScore = averagePerformanceScore + disciplineScore;
+                finalScore = finalScore >= 0 ? finalScore : 0;
 
                 _LOG.Info("Get grade of final score of EPA " + evaluation.EPAId + ": started at: " + DateTime.Now);
                 evaluationInfo.Grade = _employeeEPAService.ConvertScoreToGrade(finalScore, standardGrades);
