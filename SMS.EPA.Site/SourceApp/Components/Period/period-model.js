@@ -298,17 +298,26 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                     notificationFactory.error("StartDatePeriodRequired");
                     return false;
                 }
-                else if (!period.RawEndDate) {
-                    notificationFactory.error("EndDatePeriodRequired");
-                    return false;
-                }
+
                 if (period.TargetTypeId === periodModel.targetType.SemiAnnual) {
-                    if (!period.RawAttendanceStartDate) {
+                    if (!period.RawEndDate) {
+                        notificationFactory.error("EndDatePeriodRequired");
+                        return false;
+                    }
+                    else if (!period.RawAttendanceStartDate) {
                         notificationFactory.error("DisciplineStartDatePeriodRequired");
                         return false;
                     }
                     else if (!period.RawAttendanceEndDate) {
                         notificationFactory.error("DisciplineEndDatePeriodRequired");
+                        return false;
+                    }
+                    else if (new Date(period.RawStartDate).setHours(0, 0, 0, 0) > new Date(period.RawEndDate).setHours(0, 0, 0, 0)) {
+                        notificationFactory.error("StartDateGreaterThanEndDateWarning");
+                        return false;
+                    }
+                    else if (new Date(period.RawAttendanceStartDate).setHours(0, 0, 0, 0) > new Date(period.RawAttendanceEndDate).setHours(0, 0, 0, 0)) {
+                        notificationFactory.error("DisciplineStartDateGreaterThanEndDateWarning");
                         return false;
                     }
                 }

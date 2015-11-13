@@ -1201,7 +1201,7 @@
     <value>Not Evaluated</value>
   </data>
   <data name="EndDatePeriodRequired" xml:space="preserve">
-    <value>The End Date field is required for Semi-annual or Promotion!</value>
+    <value>The End Date field is required for Semi-annual!</value>
   </data>
   <data name="Category" xml:space="preserve">
     <value>Category</value>
@@ -1211,5 +1211,8 @@
   </data>
   <data name="EndPeriod" xml:space="preserve">
     <value>End Period</value>
+  </data>
+  <data name="DisciplineStartDateGreaterThanEndDateWarning" xml:space="preserve">
+    <value>The Discipline Start Date must be less than or equal the Discipline End Date!</value>
   </data>
 </root>

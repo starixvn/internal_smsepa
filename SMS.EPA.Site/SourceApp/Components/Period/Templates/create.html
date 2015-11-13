@@ -38,10 +38,10 @@
                 <calendar-image class="calendar-image" ng-click="createPeriodCtrl.openPopupStartDate($event)"></calendar-image>
             </div>
             <label class="col-sm-3 control-label required-label" data-translate="EndDate"
-                   ng-show="createPeriodCtrl.period.TargetTypeId == 3 || createPeriodCtrl.period.TargetTypeId == 5">
+                   ng-show="createPeriodCtrl.period.TargetTypeId == 3">
             </label>
             <label class="col-sm-3 control-label" data-translate="EndDate"
-                   ng-show="createPeriodCtrl.period.TargetTypeId != 3 && createPeriodCtrl.period.TargetTypeId != 5">
+                   ng-show="createPeriodCtrl.period.TargetTypeId != 3">
             </label>
             <div class="col-sm-3">
                 <input readonly class="calendar-form-control" type="text"
