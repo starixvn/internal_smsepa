@@ -61,7 +61,6 @@ namespace SMS.EPA.Site.Controllers.API
                 ReasonId = reasonId,
                 ApproverId = CurrentUser.EmployeeInfo.EmployeeId
             };
-
             IEnumerable<AttendanceSummaryModel> attendanceEmployees = _attendanceSummaryService.GetAttendanceSummary(criteria);
             SessionManager.Set<IEnumerable<AttendanceSummaryModel>>(Constants.DisciplineSummaryReportSessionKey + CurrentUser.EmployeeInfo.EmployeeId, attendanceEmployees);
             return attendanceEmployees;

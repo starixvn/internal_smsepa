@@ -59,7 +59,9 @@
         <tbody>
             <tr dir-paginate="epa in epaHistoryCtrl.filteredItems | itemsPerPage: epaHistoryCtrl.pageSize" current-page="epaHistoryCtrl.currentPage">
                 <td class="text-center" ng-bind="epaHistoryCtrl.getIndex($index, epaHistoryCtrl.currentPage, epaHistoryCtrl.pageSize)"></td>
-                <td class="text-center" ng-bind="epa.Employee.NickName"></td>
+                <td class="text-center">
+                    <span ng-bind="epa.Employee.NickName" popover-avatar avatar-src="{{epa.Employee.Avatar}}"></span>
+                </td>
                 <td class="text-center" ng-bind="epa.Employee.Code"></td>
                 <td class="text-center" ng-bind="epa.Period.Name"></td>
                 <td class="text-center" ng-bind="epa.Period.StartDate | date: epaHistoryCtrl.dateFormat"></td>

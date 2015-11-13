@@ -100,7 +100,7 @@
                 <td class="text-center" ng-bind="employee.Group.GroupName"></td>
                 <td class="text-center" ng-bind="employee.Employee.Code"></td>
                 <td>
-                    <span ng-bind="employee.Employee.NickName" tooltip="{{employee.Employee.FullName}}"></span>
+                    <span ng-bind="employee.Employee.NickName" popover-avatar avatar-src="{{employee.Employee.Avatar}}"></span>
                 </td>
                 <td class="text-right" ng-bind="employee.MissingCheckInOut"></td>
                 <td class="text-right" ng-bind="employee.WorkingBelowTime"></td>

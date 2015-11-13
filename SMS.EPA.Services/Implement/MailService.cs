@@ -209,7 +209,7 @@ namespace SMS.EPA.Services.Implement
                 disciplineScore,
                 averagePerformanceScore,
                 adjustmentScore,
-                finalScore,
+                Math.Round(finalScore, 2),
                 evaluationInfo.Grade,
                 evaluatorNames,
                 reviewerNames,
