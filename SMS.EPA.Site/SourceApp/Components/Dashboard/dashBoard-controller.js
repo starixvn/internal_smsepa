@@ -37,7 +37,7 @@ function (DashboardModel, utilitiesFactory, baseUrl) {
             vm.myEPAs = dashboardInfo.MyEPAs;
 
             angular.forEach(vm.myEPAs, function (myEPA) {
-                if (myEPA.Status.StatusId === 1) {
+                if (myEPA.Period.IsEndPeriod) {
                     myEPA.FinalScore = utilitiesFactory.parseFloat(myEPA.FinalScore);
                 } else {
                     myEPA.FinalScore = null;

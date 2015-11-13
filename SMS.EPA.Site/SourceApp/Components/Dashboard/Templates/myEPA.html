@@ -3,15 +3,9 @@
         <tr>
             <th data-translate="SymbolCount"></th>
             <th data-translate="PeriodName"></th>
-            <th data-translate="StartDate" class="col-date"></th>
-            <th data-translate="EndDate" class="col-date"></th>
-            <th class="show-hide-score">
-                <span data-translate="FinalScore" ng-show="dashboardCtrl.myEPAs.length == 0"></span>
-                <a data-translate="ShowFinalScore" ng-show="!dashboardCtrl.showScore && dashboardCtrl.myEPAs.length > 0"
-                   ng-click="dashboardCtrl.showScore = !dashboardCtrl.showScore"></a>
-                <a data-translate="HideFinalScore" ng-show="dashboardCtrl.showScore && dashboardCtrl.myEPAs.length > 0"
-                   ng-click="dashboardCtrl.showScore = !dashboardCtrl.showScore"></a>
-            </th>
+            <th data-translate="PerformanceScore"></th>
+            <th data-translate="DisciplineScore"></th>
+            <th data-translate="FinalScore"></th>
             <th data-translate="Detail" class="col-action"></th>
         </tr>
     </thead>
@@ -19,22 +13,31 @@
         <tr ng-repeat="myEPA in dashboardCtrl.myEPAs">
             <td class="text-center" ng-bind="$index + 1"></td>
             <td ng-bind="myEPA.Period.Name"></td>
-            <td class="text-center col-date" ng-bind="myEPA.Period.StartDate | customDate"></td>
-            <td class="text-center col-date" ng-bind="myEPA.Period.EndDate | customDate"></td>
-            <td class="text-center col-final-score">
-                <div ng-show="dashboardCtrl.showScore">
-                    <span ng-show="myEPA.Status.StatusId == 0" ng-bind="'N/A'"></span>
-                    <span ng-show="myEPA.Status.StatusId == 1">
-                        {{myEPA.FinalScore | customScore}} / {{myEPA.MaxFinalScore | customScore}}
-                    </span>
+            <td class="text-center">
+                <div ng-show="myEPA.Period.IsEndPeriod">
+                    {{myEPA.PerformanceScore | customScore}} / {{myEPA.MaxPerformanceScore | customScore}}
                 </div>
+                <div ng-show="!myEPA.Period.IsEndPeriod" ng-bind="'N/A'"></div>
+            </td>
+            <td class="text-center">
+                <div ng-show="myEPA.Period.IsEndPeriod">
+                    <div ng-show="myEPA.HasDisciplineScore">{{myEPA.DisciplineScore | customScore}} / {{myEPA.MaxDisciplineScore | customScore}}</div>
+                    <div ng-show="!myEPA.HasDisciplineScore" ng-bind="myEPA.DisciplineScore | customScore"></div>
+                </div>
+                <div ng-show="!myEPA.Period.IsEndPeriod" ng-bind="'N/A'"></div>
+            </td>
+            <td class="text-center">
+                <div ng-show="myEPA.Period.IsEndPeriod">
+                    {{myEPA.FinalScore | customScore}} / {{myEPA.MaxFinalScore | customScore}}
+                </div>
+                <div ng-show="!myEPA.Period.IsEndPeriod" ng-bind="'N/A'"></div>
             </td>
             <td class="text-center col-action">
                 <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="dashboardCtrl.viewEPADetail(myEPA)"
-                   ng-show="myEPA.EPAId > 0 && !myEPA.IsEndProcessBySelf && myEPA.Status.StatusId == 0"
+                   ng-show="myEPA.EPAId > 0 && !myEPA.IsEndProcessBySelf && myEPA.Status.StatusId == 0 && !myEPA.Period.IsEndPeriod"
                    ng-href="{{dashboardCtrl.viewEPADetailUrl}}" ng-attr-title='{{"EvaluateNow" | translate}}'></a>
                 <a class="glyphicon icon-view" href="" ng-click="dashboardCtrl.viewEPAResult(myEPA)"
-                   ng-show="myEPA.EPAId > 0 && (myEPA.IsEndProcessBySelf || myEPA.Status.StatusId == 1)"
+                   ng-show="myEPA.EPAId > 0 && (myEPA.IsEndProcessBySelf || myEPA.Status.StatusId == 1 || myEPA.Period.IsEndPeriod)"
                    ng-href="{{dashboardCtrl.viewEPAResultUrl}}" ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
             </td>
         </tr>

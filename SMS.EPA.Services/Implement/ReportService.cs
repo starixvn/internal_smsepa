@@ -81,8 +81,8 @@ namespace SMS.EPA.Services.Implement
                 Lang.Code,
                 Lang.FullName,
                 Lang.NickName,
-                Lang.Section,
                 Lang.Category,
+                Lang.Section,
                 Lang.JobTitle
             };
             var titleString = Lang.EPASummaryReportTitle;

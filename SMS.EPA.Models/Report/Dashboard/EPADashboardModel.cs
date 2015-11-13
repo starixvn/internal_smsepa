@@ -11,6 +11,7 @@ namespace SMS.EPA.Model.Report.Dashboard
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.Enitites;
@@ -82,6 +83,44 @@ namespace SMS.EPA.Model.Report.Dashboard
             get
             {
                 return CalculateAverageScore(ProcessByManagements);
+            }
+        }
+
+        public float MaxPerformanceScore
+        {
+            get
+            {
+                float maxPerformanceScore = ProcessByEvaluators.First().MaxTotalScore;
+
+                if (ProcessByManagements.Count > 0)
+                {
+                    maxPerformanceScore = ProcessByManagements.First().MaxTotalScore;
+                }
+                else if (ProcessByReviewers.Count > 0)
+                {
+                    maxPerformanceScore = ProcessByReviewers.First().MaxTotalScore;
+                }
+
+                return maxPerformanceScore;
+            }
+        }
+
+        public float PerformanceScore
+        {
+            get
+            {
+                float performanceScore = AverageScoreByEvaluators;
+
+                if (ProcessByManagements.Count > 0)
+                {
+                    performanceScore = AverageScoreByManagements;
+                }
+                else if (ProcessByReviewers.Count > 0)
+                {
+                    performanceScore = AverageScoreByReviewers;
+                }
+
+                return performanceScore;
             }
         }
 

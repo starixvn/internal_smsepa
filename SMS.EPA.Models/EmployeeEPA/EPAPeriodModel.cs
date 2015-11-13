@@ -21,6 +21,8 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public DateTime? EndDate { get; set; }
 
+        public bool IsEndPeriod { get; set; }
+
         public int TargetTypeId { get; set; }
 
         public string TargetTypeName { get; set; }

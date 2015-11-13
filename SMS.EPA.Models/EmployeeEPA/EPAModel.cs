@@ -92,38 +92,6 @@ namespace SMS.EPA.Model.EmployeeEPA
             }
         }
 
-        public float MaxPerformanceScoreOfSelf
-        {
-            get
-            {
-                return GetPerformanceScore(ProcessBySelf);
-            }
-        }
-
-        public float MaxPerformanceScoreOfEvaluator
-        {
-            get
-            {
-                return GetPerformanceScore(ProcessByEvaluators.FirstOrDefault());
-            }
-        }
-
-        public float MaxPerformanceScoreOfReviewer
-        {
-            get
-            {
-                return GetPerformanceScore(ProcessByReviewers.FirstOrDefault());
-            }
-        }
-
-        public float MaxPerformanceScoreOfManagement
-        {
-            get
-            {
-                return GetPerformanceScore(ProcessByManagements.FirstOrDefault());
-            }
-        }
-
         public EPAProcessModel CurrentProcess { get; set; }
 
         public EPAProcessModel ProcessBySelf { get; set; }
@@ -204,25 +172,6 @@ namespace SMS.EPA.Model.EmployeeEPA
             }
 
             return score;
-        }
-
-        private float GetPerformanceScore(EPAProcessModel process)
-        {
-            float performanceScore = 0;
-
-            if (process != null)
-            {
-                if (HasDisciplineScore)
-                {
-                    performanceScore = process.MaxTotalScore + MaxDisciplineScore;
-                }
-                else
-                {
-                    performanceScore = process.MaxTotalScore;
-                }
-            }
-
-            return performanceScore;
         }
     }
 }

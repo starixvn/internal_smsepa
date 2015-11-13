@@ -104,19 +104,31 @@
                     <td class="text-center">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-attr-title='{{"Edit" | translate}}'
                            ng-click="reviewerCtrl.updateComment(memberEPA, memberEPA.CurrentProcess.Comment, true)"
-                           ng-show="!memberEPA.CurrentProcess.IsEndProcess && memberEPA.Status.StatusId == 0"></a>
+                           ng-show="!memberEPA.CurrentProcess.IsEndProcess && !memberEPA.Period.IsEndPeriod"></a>
                         <a class="glyphicon icon-view" href="" ng-attr-title='{{"View" | translate}}'
                            ng-click="reviewerCtrl.updateComment(memberEPA, memberEPA.CurrentProcess.Comment, false)"
-                           ng-show="memberEPA.CurrentProcess.IsEndProcess && memberEPA.Status.StatusId == 0"></a>
+                           ng-show="memberEPA.CurrentProcess.IsEndProcess || memberEPA.Period.IsEndPeriod"></a>
                     </td>
                     <td class="text-center">
-                        {{memberEPA.SystemDisciplineScore | customScore}} / {{memberEPA.MaxDisciplineScore | customScore}}
+                        <div ng-show="memberEPA.HasDisciplineScore">
+                            {{memberEPA.SystemDisciplineScore | customScore}} / {{memberEPA.MaxDisciplineScore | customScore}}
+                        </div>
+                        <div ng-show="!memberEPA.HasDisciplineScore">
+                            <span ng-show="memberEPA.SystemDisciplineScore" ng-bind="memberEPA.SystemDisciplineScore | customScore"></span>
+                            <span ng-show="!memberEPA.SystemDisciplineScore" ng-bind="'-'"></span>
+                        </div>
                     </td>
                     <td class="text-center">
-                        {{memberEPA.DisciplineScore | customScore}} / {{memberEPA.MaxDisciplineScore | customScore}}
+                        <div ng-show="memberEPA.HasDisciplineScore">
+                            {{memberEPA.DisciplineScore | customScore}} / {{memberEPA.MaxDisciplineScore | customScore}}
+                        </div>
+                        <div ng-show="!memberEPA.HasDisciplineScore">
+                            <span ng-show="memberEPA.DisciplineScore" ng-bind="memberEPA.DisciplineScore | customScore"></span>
+                            <span ng-show="!memberEPA.DisciplineScore" ng-bind="'-'"></span>
+                        </div>
                     </td>
                     <td class="text-center">
-                        {{memberEPA.FinalScore | customScore}} / {{memberEPA.MaxPerformanceScoreOfReviewer | customScore}}
+                        {{memberEPA.FinalScore | customScore}} / {{memberEPA.MaxPerformanceScore | customScore}}
                     </td>
                     <td class="text-center">
                         <div ng-show="memberEPA.LastFinalScore != null" ng-bind="memberEPA.LastFinalScore | customScore"></div>
@@ -124,10 +136,10 @@
                     </td>
                     <td class="text-center col-action">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="reviewerCtrl.viewEPADetail(memberEPA)"
-                           ng-show="!memberEPA.CurrentProcess.IsEndProcess && memberEPA.Status.StatusId == 0"
+                           ng-show="!memberEPA.CurrentProcess.IsEndProcess && !memberEPA.Period.IsEndPeriod"
                            ng-href="{{reviewerCtrl.viewEPADetailUrl}}" ng-attr-title='{{"EvaluateNow" | translate}}'></a>
                         <a class="glyphicon icon-view" href="" ng-click="reviewerCtrl.viewEPAResult(memberEPA)"
-                           ng-show="memberEPA.CurrentProcess.IsEndProcess && memberEPA.Status.StatusId == 0"
+                           ng-show="memberEPA.CurrentProcess.IsEndProcess || memberEPA.Period.IsEndPeriod"
                            ng-href="{{reviewerCtrl.viewEPAResultUrl}}" ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
                     </td>
                 </tr>

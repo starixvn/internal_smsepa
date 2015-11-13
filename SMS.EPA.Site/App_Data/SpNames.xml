@@ -275,6 +275,7 @@
     <Function Name="Dashboard">
         <Setting Key="Epa_Dashboard" SpName="Epa_Dashboard" DbName="SMSEPA" Plain="0">
             <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode"/>
+            <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode"/>
         </Setting>
     </Function>
     <Function Name="Generation Evaluation">
