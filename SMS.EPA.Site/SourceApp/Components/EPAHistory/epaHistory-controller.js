@@ -2,8 +2,8 @@
 /*global epaHistoryModule*/
 
 epaHistoryModule.controller('EPAHistoryController',
-['$window', '$routeParams', 'EPAHistoryModel', 'utilitiesFactory', 'CommonModel', 'baseUrl',
-function ($window, $routeParams, EPAHistoryModel, utilitiesFactory, CommonModel, baseUrl) {
+['$window', '$routeParams', 'EPAHistoryModel', 'utilitiesFactory', 'CommonModel', 'baseUrl', 'usSpinnerService',
+function ($window, $routeParams, EPAHistoryModel, utilitiesFactory, CommonModel, baseUrl, usSpinnerService) {
     var vm = this;
     vm.epas = EPAHistoryModel.epas;
     vm.periodOptions = CommonModel.periodOptions;
@@ -52,9 +52,12 @@ function ($window, $routeParams, EPAHistoryModel, utilitiesFactory, CommonModel,
     };
 
     var getEPAHistory = function (periodId, employeeId) {
+        usSpinnerService.spin('spinner-1');
+
         EPAHistoryModel.getEPAHistory(periodId, employeeId).then(function () {
             vm.epas = EPAHistoryModel.epas;
             utilitiesFactory.searchOnPage(vm, vm.epas);
+            usSpinnerService.stop('spinner-1');
         });
     };
 

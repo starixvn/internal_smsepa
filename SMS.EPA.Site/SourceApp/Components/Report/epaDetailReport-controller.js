@@ -2,8 +2,8 @@
 /*global reportModule*/
 
 reportModule.controller('EPADetailReportController',
-['$scope', 'ReportModel', 'CommonModel', 'utilitiesFactory',
-function ($scope, ReportModel, CommonModel, utilitiesFactory) {
+['$scope', 'ReportModel', 'CommonModel', 'utilitiesFactory', 'usSpinnerService',
+function ($scope, ReportModel, CommonModel, utilitiesFactory, usSpinnerService) {
     var vm = this;
 
     vm.treeDepartment = CommonModel.treeDepartment;
@@ -50,8 +50,11 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory) {
     };
 
     var getEPADetailReport = function (filter) {
+        usSpinnerService.spin('spinner-1');
+
         ReportModel.getEPADetailReport(filter.periodId, filter.departmentId, filter.isLocal, filter.phaseIds, filter.pageIndex, filter.itemsPerPage).then(function () {
             vm.epaDetail = ReportModel.epaDetail;
+            usSpinnerService.stop('spinner-1');
         });
     };
 

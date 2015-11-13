@@ -283,6 +283,7 @@
     <Content Include="Libs\angular-multi-select.js" />
     <Content Include="Libs\angular-resource.min.js" />
     <Content Include="Libs\angular-route.min.js" />
+    <Content Include="Libs\angular-spinner.min.js" />
     <Content Include="Libs\angular-translate.js" />
     <Content Include="Libs\angular.js" />
     <Content Include="Libs\angular.min.js" />
@@ -300,6 +301,7 @@
     <Content Include="Libs\moment.min.js" />
     <Content Include="Libs\numeral.min.js" />
     <Content Include="Libs\numeric-directive.js" />
+    <Content Include="Libs\spin.min.js" />
     <Content Include="Libs\tai-placeholder.js" />
     <Content Include="Libs\toastr.js" />
     <Content Include="Libs\ui-bootstrap-contextMenu.js" />

@@ -51,7 +51,9 @@
                             "~/Libs/chosen.jquery.min.js",
                             "~/Libs/angular-chosen.js",
                             "~/Libs/ui-bootstrap-contextMenu.js",
-                            "~/Libs/numeric-directive.js"));
+                            "~/Libs/numeric-directive.js",
+                            "~/Libs/spin.min.js",
+                            "~/Libs/angular-spinner.min.js"));
 
             bundles.AddAndInclude(
                             "~/bundles/less",

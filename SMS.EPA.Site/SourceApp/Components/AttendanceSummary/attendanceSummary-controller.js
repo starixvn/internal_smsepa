@@ -2,8 +2,8 @@
 /*global attendanceModule*/
 
 attendanceModule.controller('AttendanceSummaryController',
-['$scope', 'AttendanceModel', 'utilitiesFactory', 'CommonModel', 'baseUrl',
-function ($scope, AttendanceModel, utilitiesFactory, CommonModel, baseUrl) {
+['$scope', 'AttendanceModel', 'utilitiesFactory', 'CommonModel', 'baseUrl', 'usSpinnerService',
+function ($scope, AttendanceModel, utilitiesFactory, CommonModel, baseUrl, usSpinnerService) {
     var vm = this;
 
     vm.attendanceEmployees = AttendanceModel.attendanceEmployees;
@@ -57,9 +57,12 @@ function ($scope, AttendanceModel, utilitiesFactory, CommonModel, baseUrl) {
     });
 
     var getAttendanceSummary = function (startDate, endDate, departmentId, isLocal, employeeId, reasonId) {
+        usSpinnerService.spin('spinner-1');
+
         AttendanceModel.getAttendanceSummary(startDate, endDate, departmentId, isLocal, employeeId, reasonId).then(function () {
             vm.attendanceEmployees = AttendanceModel.attendanceEmployees;
             utilitiesFactory.searchOnPage(vm, vm.attendanceEmployees);
+            usSpinnerService.stop('spinner-1');
         });
     };
 
@@ -248,8 +251,8 @@ function ($scope, $modalInstance, AttendanceModel, employee, startDate, endDate,
 }]);
 
 attendanceModule.controller('DetailAttendanceSummaryController',
-['$scope', '$window', '$routeParams', 'AttendanceModel', 'utilitiesFactory', 'CommonModel',
-function ($scope, $window, $routeParams, AttendanceModel, utilitiesFactory, CommonModel) {
+['$scope', '$window', '$routeParams', 'AttendanceModel', 'utilitiesFactory', 'CommonModel', 'usSpinnerService',
+function ($scope, $window, $routeParams, AttendanceModel, utilitiesFactory, CommonModel, usSpinnerService) {
     var vm = this,
         date = new Date(),
         firstDate = new Date(date.getFullYear(), date.getMonth(), 1),
@@ -314,10 +317,13 @@ function ($scope, $window, $routeParams, AttendanceModel, utilitiesFactory, Comm
     });
 
     var getAttendanceDetail = function (startDate, endDate, employeeId, departmentId, isLocal, reasonId) {
+        usSpinnerService.spin('spinner-1');
+
         AttendanceModel.getAttendanceDetail(startDate, endDate, employeeId, departmentId, isLocal, reasonId).then(function () {
             vm.attendanceDetails = AttendanceModel.attendanceDetails;
             vm.attendanceDetails = AttendanceModel.convertCheckInOutToDate(vm, vm.attendanceDetails);
             utilitiesFactory.searchOnPage(vm, vm.attendanceDetails);
+            usSpinnerService.stop('spinner-1');
         });
     };
 
