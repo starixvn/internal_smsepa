@@ -78,6 +78,7 @@
                             "~/SourceApp/Components/Resources/resources-controller.js",
                             "~/SourceApp/Components/Common/common-factory.js",
                             "~/SourceApp/Components/Common/common-model.js",
+                            "~/SourceApp/Components/Common/common-controller.js",
                             "~/SourceApp/Components/Employee/employee-factory.js",
                             "~/SourceApp/Components/Employee/employee-model.js",
                             "~/SourceApp/Components/Employee/employee-controller.js",

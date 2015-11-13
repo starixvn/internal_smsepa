@@ -10,11 +10,12 @@ commonModule.factory('commonFactory', ['$http', 'baseUrl', function ($http, base
             return $http.get(baseUrl + 'api/Common/GetSystemRoles', { params: { exceptNone: exceptNone } });
         },
         getKPI: function (kpiGroupId, isActive, isRequiredEvaluate) {
-            return $http.get(baseUrl + 'api/Common/GetKPI', { params: {
-                kpiGroupId: kpiGroupId,
-                isActive: isActive,
-                isRequiredEvaluate: isRequiredEvaluate
-            }
+            return $http.get(baseUrl + 'api/Common/GetKPI', {
+                params: {
+                    kpiGroupId: kpiGroupId,
+                    isActive: isActive,
+                    isRequiredEvaluate: isRequiredEvaluate
+                }
             });
         },
         getKPIGroup: function (isActive) {
@@ -65,6 +66,9 @@ commonModule.factory('commonFactory', ['$http', 'baseUrl', function ($http, base
         },
         getAllPeriodIncludeImport: function () {
             return $http.get(baseUrl + 'api/Common/GetAllPeriodIncludeImport');
+        },
+        getOtherViolationDetailByEPAId: function (epaId) {
+            return $http.get(baseUrl + 'api/Common/GetOtherViolationDetailByEPAId', { params: { epaId: epaId } });
         }
     };
-} ]);
+}]);

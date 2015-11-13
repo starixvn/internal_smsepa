@@ -272,7 +272,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, ReviewerManagemen
             checkStatus(vm.epaInfo);
 
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
-            vm.maxPerformanceScore = vm.epaInfo.CurrentProcess.TotalScore;
+            vm.maxPerformanceScore = vm.epaInfo.CurrentProcess.MaxTotalScore;
 
             if (vm.epaInfo.HasDisciplineScore) {
                 if (vm.epaInfo.DisciplineScore < 0) {

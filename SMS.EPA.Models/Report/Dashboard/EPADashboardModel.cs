@@ -52,6 +52,8 @@ namespace SMS.EPA.Model.Report.Dashboard
 
         public float MaxDisciplineScore { get; set; }
 
+        public bool HasOtherViolation { get; set; }
+
         public EvaluationProcessModel EvaluationProcess { get; set; }
 
         public EPAProcessModel ProcessBySelf { get; set; }

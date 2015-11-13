@@ -165,5 +165,11 @@ namespace SMS.EPA.Site.Controllers.API
         {
             return _utilitiesController.GetAllPeriodIncludeImport();
         }
+
+        [HttpGet]
+        public IEnumerable<EmployeeOtherViolationDetailModel> GetOtherViolationDetailByEPAId(int epaId)
+        {
+            return _utilitiesController.GetOtherViolationDetailByEPAId(epaId);
+        }
     }
 }

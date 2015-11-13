@@ -227,5 +227,16 @@ namespace SMS.EPA.Site.Controllers.API
             IList<PeriodModel> periods = _epaHistoryService.GetAllPeriodIncludeImport(criteria);
             return periods;
         }
+
+        [NonAction]
+        public IEnumerable<EmployeeOtherViolationDetailModel> GetOtherViolationDetailByEPAId(int epaId)
+        {
+            var criteria = new GetOtherViolationDetailByEPAIdCriteria()
+            {
+                EPAId = epaId
+            };
+
+            return _employeeEPAService.GetOtherViolationDetailByEPAId(criteria);
+        }
     }
 }

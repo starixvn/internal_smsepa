@@ -50,13 +50,11 @@
         .table.table-bordered {
             margin: 0;
 
-            .show-hide-score a {
-                color: #eda109;
+            a {
                 cursor: pointer;
 
                 &:hover, &:focus {
                     text-decoration: none;
-                    color: #efac25;
                 }
             }
 
@@ -65,4 +63,9 @@
             }
         }
     }
+}
+
+.modal-view-other-violation-detail {
+    max-height: 400px;
+    overflow-y: auto;
 }

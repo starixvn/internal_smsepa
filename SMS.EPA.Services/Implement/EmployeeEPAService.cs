@@ -385,6 +385,19 @@ namespace SMS.EPA.Services.Implement
             return result;
         }
 
+        public IEnumerable<EmployeeOtherViolationDetailModel> GetOtherViolationDetailByEPAId(GetOtherViolationDetailByEPAIdCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<EmployeeOtherViolationDetailModel> otherViolationDetails = new List<EmployeeOtherViolationDetailModel>();
+
+            if (criteria.IsValid())
+            {
+                otherViolationDetails = GetData<EmployeeOtherViolationDetailModel>(criteria);
+            }
+
+            return otherViolationDetails;
+        }
+
         private StandardGrade GetGradeEnum(int gradeId)
         {
             StandardGrade grade = StandardGrade.None;

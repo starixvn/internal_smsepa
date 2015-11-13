@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="EmployeeOtherViolationModel.cs" company="Nexcel Solutions Viet Nam">
+// <copyright file="EmployeeOtherViolationDetailModel.cs" company="Nexcel Solutions Viet Nam">
 // Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -11,7 +11,7 @@ namespace SMS.EPA.Model.EmployeeEPA
 {
     using System;
 
-    public class EmployeeOtherViolationModel
+    public class EmployeeOtherViolationDetailModel
     {
         public int EPAId { get; set; }
 

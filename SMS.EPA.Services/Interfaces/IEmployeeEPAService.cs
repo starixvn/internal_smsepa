@@ -83,5 +83,7 @@ namespace SMS.EPA.Services.Interfaces
         string ConvertScoreToGrade(float score, IEnumerable<StandardGradeModel> standardGrades);
 
         int CheckEmployeePermission(GetEmployeePermissionCriteria criteria);
+
+        IEnumerable<EmployeeOtherViolationDetailModel> GetOtherViolationDetailByEPAId(GetOtherViolationDetailByEPAIdCriteria criteria);
     }
 }

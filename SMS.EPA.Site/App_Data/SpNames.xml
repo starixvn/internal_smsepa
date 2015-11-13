@@ -237,9 +237,11 @@
         </Setting>
         <Setting Key="EPA_GetStandardGrade" SpName="EPA_GetStandardGrade" DbName="SMSEPA" Plain="0">
         </Setting>
-         <Setting Key="EPASummaryImport_Get" SpName="EPASummaryImport_Get" DbName="SMSEPA" Plain="0" >
+        <Setting Key="EPASummaryImport_Get" SpName="EPASummaryImport_Get" DbName="SMSEPA" Plain="0" >
         </Setting>
         <Setting Key="EPASummaryImport_Update" SpName="EPASummaryImport_Update" DbName="SMSEPA" Plain="0" >
+        </Setting>
+        <Setting Key="EPA_GetOtherViolations" SpName="EPA_GetOtherViolations" DbName="SMSEPA" Plain="0" >
         </Setting>
     </Function>
     <Function Name="Period">

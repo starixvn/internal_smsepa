@@ -256,6 +256,7 @@
     <Content Include="Content\Site\images\department-collapse.png" />
     <Content Include="Content\Site\images\department-expand.png" />
     <Content Include="Content\Site\images\excel-icon.png" />
+    <Content Include="Content\Site\images\icon-alert.png" />
     <Content Include="Content\Site\images\icon-breadcrumb.png" />
     <Content Include="Content\Site\images\icon-search.png" />
     <Content Include="Content\Site\images\icon_sprite.png" />
@@ -315,6 +316,8 @@
     <Content Include="SourceApp\Components\AttendanceSummary\Templates\detail.html" />
     <Content Include="SourceApp\Components\AttendanceSummary\Templates\index.html" />
     <Content Include="SourceApp\Components\AttendanceSummary\Templates\otherViolation.html" />
+    <Content Include="SourceApp\Components\Common\common-controller.js" />
+    <Content Include="SourceApp\Components\Common\Templates\modalViewOtherViolationDetail.html" />
     <Content Include="SourceApp\Components\Dashboard\dashboard-controller.js" />
     <Content Include="SourceApp\Components\Dashboard\dashboard-factory.js" />
     <Content Include="SourceApp\Components\Dashboard\dashboard-model.js" />

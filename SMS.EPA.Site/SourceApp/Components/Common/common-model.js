@@ -1,8 +1,9 @@
 ﻿'use strict';
 /*global commonModule*/
 
-commonModule.factory('CommonModel', ['commonFactory', 'errorFactory',
-function (commonFactory, errorFactory) {
+commonModule.factory('CommonModel',
+['$modal', 'commonFactory', 'errorFactory',
+function ($modal, commonFactory, errorFactory) {
     var commonModel = {};
 
     commonModel.targetTypes = [];
@@ -20,6 +21,7 @@ function (commonFactory, errorFactory) {
     commonModel.periods = [];
     commonModel.standardGrades = [];
     commonModel.periodOptions = [];
+    commonModel.otherViolationDetails = [];
 
     /// Get target type.
     commonModel.getTargetType = function (isActive) {
@@ -197,6 +199,31 @@ function (commonFactory, errorFactory) {
         .error(function (response, status) {
             errorFactory.errorHandle(status);
         });
+    };
+
+    commonModel.getOtherViolationDetailByEPAId = function (epaId) {
+        return commonFactory.getOtherViolationDetailByEPAId(epaId)
+        .success(function (otherViolationDetails) {
+            commonModel.otherViolationDetails = otherViolationDetails;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    commonModel.openPopupViewOtherViolationDetail = function (epaId) {
+        var modalInstance = $modal.open({
+            templateUrl: 'SourceApp/Components/Common/Templates/modalViewOtherViolationDetail.html',
+            controller: "OtherViolationDetailController as otherViolationCtrl",
+            backdrop: 'static',
+            resolve: {
+                epaId: function () {
+                    return epaId;
+                }
+            },
+            windowClass: "modal-confirm-center"
+        });
+
+        return modalInstance.result;
     };
 
     return commonModel;

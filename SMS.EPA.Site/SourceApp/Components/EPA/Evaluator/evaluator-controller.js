@@ -182,7 +182,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
             vm.epaInfo.ProcessBySelf.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.ProcessBySelf.TotalScore);
             vm.epaInfo.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.CurrentProcess.TotalScore);
 
-            vm.maxPerformanceScoreOfSelf = vm.epaInfo.ProcessBySelf.TotalScore;
+            vm.maxPerformanceScoreOfSelf = vm.epaInfo.ProcessBySelf.MaxTotalScore;
             vm.maxPerformanceScore = vm.epaInfo.CurrentProcess.MaxTotalScore;
 
             if (vm.epaInfo.HasDisciplineScore) {

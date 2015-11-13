@@ -1,0 +1,36 @@
+﻿<div id="viewOtherViolationDetail">
+    <div class="modal-header">
+        <div class="popup-header">
+            {{"OtherViolations" | translate}}
+            <span class="close-popup" ng-click="otherViolationCtrl.cancel()"></span>
+        </div>
+    </div>
+    <div class="modal-body modal-view-other-violation-detail">
+        <table class="row table table-bordered table-striped">
+            <thead>
+                <tr class="headerName">
+                    <th data-translate="SymbolCount"></th>
+                    <th data-translate="ViolationDate"></th>
+                    <th data-translate="ViolationType"></th>
+                    <th data-translate="SubtractScore"></th>
+                    <th data-translate="Comment"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="otherViolation in otherViolationCtrl.otherViolationDetails">
+                    <td class="text-center" ng-bind="$index + 1"></td>
+                    <td class="text-center" ng-bind="otherViolation.WorkDate | date: dateFormat"></td>
+                    <td class="text-center" ng-bind="otherViolation.Name"></td>
+                    <td class="text-center" ng-bind="otherViolation.Score | number: 1"></td>
+                    <td class="text-center" ng-bind="otherViolation.Comment"></td>
+                </tr>
+                <tr ng-show="otherViolationCtrl.otherViolations.length == 0">
+                    <td class="empty-result" colspan="5" data-translate="EmptyResult"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-default customize" ng-click="otherViolationCtrl.cancel()" data-translate="Cancel"></button>
+    </div>
+</div>

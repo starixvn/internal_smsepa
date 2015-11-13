@@ -2,8 +2,8 @@
 /*global dashboardModule*/
 
 dashboardModule.factory('DashboardModel',
-['dashboardFactory', 'notificationFactory', 'errorFactory',
-function (dashboardFactory, notificationFactory, errorFactory) {
+['$modal', 'dashboardFactory', 'notificationFactory', 'errorFactory',
+function ($modal, dashboardFactory, notificationFactory, errorFactory) {
     var dashboardModel = {};
 
     dashboardModel.dashboardInfo = {};

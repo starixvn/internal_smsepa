@@ -2,8 +2,8 @@
 /*global dashboardModule*/
 
 dashboardModule.controller('DashboardController',
-['DashboardModel', 'utilitiesFactory', 'baseUrl',
-function (DashboardModel, utilitiesFactory, baseUrl) {
+['DashboardModel', 'CommonModel', 'utilitiesFactory', 'baseUrl',
+function (DashboardModel, CommonModel, utilitiesFactory, baseUrl) {
     var vm = this;
 
     vm.showScore = false;
@@ -26,6 +26,10 @@ function (DashboardModel, utilitiesFactory, baseUrl) {
 
     vm.viewEPAResult = function (epa) {
         vm.viewEPAResultUrl = baseUrl + 'EPA/Detail/' + epa.EPAId;
+    };
+
+    vm.viewOtherViolationDetail = function (epa) {
+        CommonModel.openPopupViewOtherViolationDetail(epa.EPAId);
     };
 
     vm.initialize = function () {
