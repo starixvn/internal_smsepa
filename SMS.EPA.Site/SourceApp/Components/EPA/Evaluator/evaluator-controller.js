@@ -34,7 +34,7 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, ba
                         memberEPA.DisciplineScore = 0;
                     }
 
-                    memberEPA.MaxPerformanceScore += memberEPA.DisciplineScore;
+                    memberEPA.MaxPerformanceScore += memberEPA.MaxDisciplineScore;
                 }
 
                 memberEPA.ProcessBySelf.TotalScore = utilitiesFactory.parseFloat(memberEPA.ProcessBySelf.TotalScore);
@@ -190,8 +190,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
                     vm.epaInfo.DisciplineScore = 0;
                 }
 
-                vm.maxPerformanceScoreOfSelf += vm.epaInfo.DisciplineScore;
-                vm.maxPerformanceScore += vm.epaInfo.DisciplineScore;
+                vm.maxPerformanceScoreOfSelf += vm.epaInfo.MaxDisciplineScore;
+                vm.maxPerformanceScore += vm.epaInfo.MaxDisciplineScore;
             }
 
             vm.finalScoreOfSelf = vm.epaInfo.ProcessBySelf.TotalScore + vm.epaInfo.DisciplineScore;

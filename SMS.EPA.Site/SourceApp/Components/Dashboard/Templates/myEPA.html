@@ -14,17 +14,19 @@
             <td class="text-center" ng-bind="$index + 1"></td>
             <td ng-bind="myEPA.Period.Name"></td>
             <td class="text-center">
-                <div ng-show="myEPA.Period.IsEndPeriod">
+                <div ng-show="myEPA.EPAId > 0 && myEPA.Period.IsEndPeriod">
                     {{myEPA.PerformanceScore | customScore}} / {{myEPA.MaxPerformanceScore | customScore}}
                 </div>
-                <div ng-show="!myEPA.Period.IsEndPeriod" ng-bind="'N/A'"></div>
+                <div ng-show="myEPA.EPAId > 0 && !myEPA.Period.IsEndPeriod" ng-bind="'N/A'"></div>
+                <div ng-show="myEPA.EPAId < 0" ng-bind="'-'"></div>
             </td>
             <td class="text-center">
-                <div ng-show="myEPA.Period.IsEndPeriod">
+                <div ng-show="myEPA.EPAId > 0 && myEPA.Period.IsEndPeriod">
                     <div ng-show="myEPA.HasDisciplineScore">{{myEPA.DisciplineScore | customScore}} / {{myEPA.MaxDisciplineScore | customScore}}</div>
                     <div ng-show="!myEPA.HasDisciplineScore" ng-bind="myEPA.DisciplineScore | customScore"></div>
                 </div>
-                <div ng-show="!myEPA.Period.IsEndPeriod" ng-bind="'N/A'"></div>
+                <div ng-show="myEPA.EPAId > 0 && !myEPA.Period.IsEndPeriod" ng-bind="'N/A'"></div>
+                <div ng-show="myEPA.EPAId < 0" ng-bind="'-'"></div>
             </td>
             <td class="text-center">
                 <div ng-show="myEPA.Period.IsEndPeriod">

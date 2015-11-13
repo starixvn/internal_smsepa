@@ -118,7 +118,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
                     vm.epaInfo.DisciplineScore = 0;
                 }
 
-                vm.maxPerformanceScore += vm.epaInfo.DisciplineScore;
+                vm.maxPerformanceScore += vm.epaInfo.MaxDisciplineScore;
             }
 
             vm.epaInfo.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.CurrentProcess.TotalScore);

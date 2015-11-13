@@ -130,7 +130,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
                         memberEPA.DisciplineScore = 0;
                     }
 
-                    memberEPA.MaxPerformanceScore += memberEPA.DisciplineScore;
+                    memberEPA.MaxPerformanceScore += memberEPA.MaxDisciplineScore;
                 }
 
                 if (memberEPA.ProcessByReviewers.length > 0 && !memberEPA.CurrentProcess.TotalScore && memberEPA.ProcessByReviewers[0].IsEndProcess) {
@@ -288,7 +288,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, ReviewerManagemen
                     vm.epaInfo.DisciplineScore = 0;
                 }
 
-                vm.maxPerformanceScore += vm.epaInfo.DisciplineScore;
+                vm.maxPerformanceScore += vm.epaInfo.MaxDisciplineScore;
             }
 
             if (vm.epaInfo.ProcessByReviewers.length > 0 && vm.epaInfo.ProcessByReviewers[0].IsEndProcess && !vm.epaInfo.CurrentProcess.TotalScore) {
