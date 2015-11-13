@@ -90,7 +90,7 @@ namespace SMS.EPA.Model.Report.Dashboard
         {
             get
             {
-                float maxPerformanceScore = ProcessByEvaluators.First().MaxTotalScore;
+                float maxPerformanceScore = 0;
 
                 if (ProcessByManagements.Count > 0)
                 {
@@ -99,6 +99,10 @@ namespace SMS.EPA.Model.Report.Dashboard
                 else if (ProcessByReviewers.Count > 0)
                 {
                     maxPerformanceScore = ProcessByReviewers.First().MaxTotalScore;
+                }
+                else if (ProcessByEvaluators.Count > 0)
+                {
+                    maxPerformanceScore = ProcessByEvaluators.First().MaxTotalScore;
                 }
 
                 return maxPerformanceScore;
