@@ -52,6 +52,15 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="control-label col-sm-3" data-translate="Category"></label>
+            <div class="col-sm-8 field">
+                <select class="form-control" ng-model="employeeCtrl.employee.IsLocal">
+                    <option value="true">{{"Local" | translate}}</option>
+                    <option value="false">{{"Expat" | translate}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
             <label class="col-sm-3 control-label" data-translate="JobTitle">
             </label>
             <div class="col-sm-8 field">

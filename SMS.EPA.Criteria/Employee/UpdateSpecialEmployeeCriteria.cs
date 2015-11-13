@@ -41,6 +41,8 @@ namespace SMS.EPA.Criteria.Employee
 
         public bool Enabled { get; set; }
 
+        public bool IsLocal { get; set; }
+
         public int ModifiedBy { get; set; }
 
         public override bool IsValid()

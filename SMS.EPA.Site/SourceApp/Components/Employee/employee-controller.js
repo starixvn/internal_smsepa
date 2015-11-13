@@ -65,6 +65,7 @@ function ($window, EmployeeModel, utilitiesFactory, CommonModel) {
             EmployeeModel.updateChangedEmployee(employee, updatedEmployee);
         })['finally'](function () {
             vm.modalInstance = '';
+            getEmployee(vm.filter.query, vm.filter.groupId, vm.filter.isLocal, vm.filter.isSpecialUser, vm.filter.isDisabledUser);
         });
     };
 
@@ -93,7 +94,8 @@ function ($modalInstance, EmployeeModel) {
         JobTitleId: '',
         Username: '',
         Password: '',
-        Enabled: true
+        Enabled: true,
+        IsLocal: 'true'
     };
 
     EmployeeModel.getAllGroup().then(function () {
@@ -132,7 +134,8 @@ function ($modalInstance, EmployeeModel, employee) {
         GroupId: employee.Group ? employee.Group.GroupId : '',
         JobTitleId: employee.JobTitle ? employee.JobTitle.JobTitleId : '',
         Username: employee.Username,
-        Enabled: employee.Enabled
+        Enabled: employee.Enabled,
+        IsLocal: employee.IsLocal ? 'true' : 'false'
     };
 
     EmployeeModel.getAllGroup().then(function () {

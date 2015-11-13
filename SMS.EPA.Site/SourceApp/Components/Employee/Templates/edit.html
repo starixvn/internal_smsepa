@@ -34,20 +34,22 @@
                 <input type="text" class="form-control" ng-model="employeeCtrl.employee.Username" required />
             </div>
         </div>
-        <!--<div class="form-group required">
-            <label class="col-sm-3 control-label" data-translate="Password">
-            </label>
-            <div class="col-sm-8 field">
-                <input type="password" class="form-control" ng-model="employeeCtrl.employee.Password" required disabled/>
-            </div>
-        </div>-->
         <div class="form-group">
-            <label class="col-sm-3 control-label" data-translate="Team">
+            <label class="col-sm-3 control-label" data-translate="Section">
             </label>
             <div class="col-sm-8 field">
                 <select ng-model="employeeCtrl.employee.GroupId" ng-options="group.GroupId as group.GroupName for group in employeeCtrl.groupOptions"
                     required class="form-control">
                     <option value="">-- {{"Select" | translate}} --</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3" data-translate="Category"></label>
+            <div class="col-sm-8 field">
+                <select class="form-control" ng-model="employeeCtrl.employee.IsLocal">
+                    <option value="true">{{"Local" | translate}}</option>
+                    <option value="false">{{"Expat" | translate}}</option>
                 </select>
             </div>
         </div>

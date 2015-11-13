@@ -41,5 +41,7 @@ namespace SMS.EPA.Model.Enitites
         public bool Enabled { get; set; }
 
         public bool IsDeleted { get; set; }
+
+        public bool IsLocal { get; set; }
     }
 }
