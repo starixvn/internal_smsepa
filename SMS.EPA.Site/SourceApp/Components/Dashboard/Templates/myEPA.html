@@ -25,7 +25,10 @@
                     <div class="col-sm-6 text-right" ng-show="myEPA.HasDisciplineScore">
                         {{myEPA.DisciplineScore | customScore}} / {{myEPA.MaxDisciplineScore | customScore}}
                     </div>
-                    <div class="col-sm-6 text-right" ng-show="!myEPA.HasDisciplineScore" ng-bind="myEPA.DisciplineScore | customScore"></div>
+                    <div class="col-sm-6 text-right" ng-show="!myEPA.HasDisciplineScore">
+                        <span ng-show="myEPA.DisciplineScore" ng-bind="myEPA.DisciplineScore | customScore"></span>
+                        <span ng-show="!myEPA.DisciplineScore" ng-bind="'-'"></span>
+                    </div>
                     <div class="col-sm-6 text-left" ng-show="myEPA.HasOtherViolation">
                         <a class="glyphicon icon-alert" href="" ng-click="dashboardCtrl.viewOtherViolationDetail(myEPA)"
                            ng-attr-title='{{"ViewOtherViolation" | translate}}'></a>

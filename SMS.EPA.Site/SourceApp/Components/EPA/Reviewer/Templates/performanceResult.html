@@ -56,7 +56,7 @@
                     <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].IsEndProcess" ng-bind="'N/A'"></div>
                 </td>
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="total-score" ng-show="$first">
-                    <input type="text" maxlength="5" class="form-control text-center" ng-readonly="memberEPAInfoCtrl.isReadonly"
+                    <input type="text" maxlength="6" class="form-control text-center" ng-readonly="memberEPAInfoCtrl.isReadonly"
                            ng-model="memberEPAInfoCtrl.epaInfo.CurrentProcess.TotalScore" numeric decimals="2"
                            ng-change="memberEPAInfoCtrl.inputScore(memberEPAInfoCtrl.epaInfo.CurrentProcess)"
                            tooltip="{{memberEPAInfoCtrl.getNotificationInputScore(memberEPAInfoCtrl.epaInfo.CurrentProcess)}}" tooltip-trigger="focus" />
