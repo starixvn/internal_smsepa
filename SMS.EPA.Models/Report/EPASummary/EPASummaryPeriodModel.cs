@@ -32,6 +32,8 @@ namespace SMS.EPA.Model.Report.EPASummary
 
         public string Grade { get; set; }
 
+        public bool IsEndPeriod { get; set; }
+
         public StatusModel Status { get; set; }
     }
 }

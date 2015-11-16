@@ -318,17 +318,12 @@ namespace SMS.EPA.Services.Implement
                             grade = string.Empty;
                         EPASummaryPeriodModel period = epaInfo.Periods.Where(x => x.PeriodId == epaSummary.PeriodSelecteds[i].PeriodId).FirstOrDefault();
 
-                        switch (period.Status.StatusId)
+                        if (period.IsEndPeriod.Equals(true))
                         {
-                            case (int)Status.Open:
-                                break;
+                            float score = period.FinalScore.Length > 0 ? float.Parse(period.FinalScore) : 0;
 
-                            case (int)Status.Closed:
-                                float score = period.FinalScore.Length > 0 ? float.Parse(period.FinalScore) : 0;
-
-                                finalScore = Math.Round(score, 2).ToString();
-                                grade = period.Grade;
-                                break;
+                            finalScore = Math.Round(score, 2).ToString();
+                            grade = period.Grade;
                         }
 
                         cellBody = row.CreateCell(7 + (2 * i));
@@ -489,7 +484,7 @@ namespace SMS.EPA.Services.Implement
                 managementScore = Math.Round(memberEPA.AverageScoreByManagements, 2).ToString();
             }
 
-            if (memberEPA.Status.StatusId.Equals((int)Status.Closed))
+            if (memberEPA.Period.IsEndPeriod.Equals(true))
             {
                 score = memberEPA.FinalScore.Length > 0 ? float.Parse(memberEPA.FinalScore) : 0;
 

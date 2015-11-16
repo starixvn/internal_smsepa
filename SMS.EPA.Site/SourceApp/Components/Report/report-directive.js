@@ -74,7 +74,7 @@ function ($timeout, utilitiesFactory) {
                         var finalScore = '',
                             grade = '';
 
-                        if (epaInfo.Periods[index].Status.StatusId === 1) {
+                        if (epaInfo.Periods[index].IsEndPeriod) {
                             finalScore = utilitiesFactory.parseFloat(epaInfo.Periods[index].FinalScore);
                             grade = epaInfo.Periods[index].Grade;
                         }
@@ -249,7 +249,7 @@ function ($timeout, utilitiesFactory) {
             result.ManagementScore = epaInfo.AverageScoreByManagements;
         }
 
-        if (epaInfo.Status.StatusId === 1) {
+        if (epaInfo.Period.IsEndPeriod) {
             result.FinalScore = utilitiesFactory.parseFloat(epaInfo.FinalScore);
             result.Grade = epaInfo.Grade;
         }

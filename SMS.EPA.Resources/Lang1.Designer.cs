@@ -1789,6 +1789,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Management Review.
+        /// </summary>
+        public static string ManagementReview {
+            get {
+                return ResourceManager.GetString("ManagementReview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Manage My EPA.
         /// </summary>
         public static string ManageMyEPA {

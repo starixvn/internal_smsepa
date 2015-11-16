@@ -1218,4 +1218,7 @@
   <data name="ViewOtherViolation" xml:space="preserve">
     <value>View other violation</value>
   </data>
+  <data name="ManagementReview" xml:space="preserve">
+    <value>Management Review</value>
+  </data>
 </root>
