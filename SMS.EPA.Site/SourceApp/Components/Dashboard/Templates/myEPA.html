@@ -34,7 +34,7 @@
                     <div ng-show="myEPA.EPAId > 0 && !myEPA.Period.IsEndPeriod" ng-bind="'N/A'"></div>
                     <div ng-show="myEPA.EPAId < 0" ng-bind="'-'"></div>
                 </div>
-                <div class="col-percent-40" ng-show="myEPA.HasOtherViolation">
+                <div class="col-percent-40" ng-show="myEPA.EPAId > 0 && myEPA.Period.IsEndPeriod && myEPA.HasOtherViolation">
                     <a class="glyphicon icon-alert" href="" ng-click="dashboardCtrl.viewOtherViolationDetail(myEPA)"
                        ng-attr-title='{{"ViewOtherViolation" | translate}}'></a>
                 </div>
