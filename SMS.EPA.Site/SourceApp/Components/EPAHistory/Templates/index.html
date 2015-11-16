@@ -67,7 +67,7 @@
                 <td class="text-center" ng-bind="epa.Period.StartDate | date: epaHistoryCtrl.dateFormat"></td>
                 <td class="text-center" ng-bind="epa.Period.EndDate | date: epaHistoryCtrl.dateFormat"></td>
                 <td class="text-center">
-                    <a href="{{epaHistoryCtrl.viewEPADetailUrl}}" ng-show="epa.HasEPAForm && epa.Grade && epa.FinalScore" 
+                    <a href="{{epaHistoryCtrl.viewEPADetailUrl}}" ng-show="epa.HasEPAForm && epa.Grade && epa.FinalScore >= 0" 
                        ng-click="epaHistoryCtrl.viewDetailEPA(epa.EPAId)" ng-bind="epa.FinalScore" />
                     <span ng-bind="epa.FinalScore" ng-show="!epa.HasEPAForm"></span>
                     <span data-translate="NotAvailable" ng-show="!epa.Grade && epa.HasEPAForm"></span>
