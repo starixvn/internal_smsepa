@@ -28,7 +28,7 @@
                     <div class="col-sm-6 text-right" ng-show="!myEPA.HasDisciplineScore" ng-bind="myEPA.DisciplineScore | customScore"></div>
                     <div class="col-sm-6 text-left" ng-show="myEPA.HasOtherViolation">
                         <a class="glyphicon icon-alert" href="" ng-click="dashboardCtrl.viewOtherViolationDetail(myEPA)"
-                           ng-attr-title="{{"ViewOtherViolation" | translate}}'></a>
+                           ng-attr-title='{{"ViewOtherViolation" | translate}}'></a>
                     </div>
                 </div>
                 <div class="col-sm-6 text-right" ng-show="myEPA.EPAId > 0 && !myEPA.Period.IsEndPeriod" ng-bind="'N/A'"></div>
