@@ -446,12 +446,26 @@ namespace SMS.EPA.Services.Implement
 
             float score = 0;
 
-            if (memberEPA.HasDisciplineScore && memberEPA.DisciplineScore < 0)
+            if (memberEPA.HasDisciplineScore)
             {
-                memberEPA.DisciplineScore = 0;
-            }
+                if (memberEPA.DisciplineScore < 0)
+                {
+                    memberEPA.DisciplineScore = 0;
+                }
 
-            disciplineScore = memberEPA.DisciplineScore.ToString();
+                disciplineScore = memberEPA.DisciplineScore.ToString();
+            }
+            else
+            {
+                if (memberEPA.DisciplineScore != 0)
+                {
+                    disciplineScore = memberEPA.DisciplineScore.ToString();
+                }
+                else
+                {
+                    disciplineScore = "-";
+                }
+            }
 
             if (memberEPA.EPAId > 0 && memberEPA.ProcessBySelf.IsEndProcess)
             {

@@ -72,6 +72,19 @@
         .glyphicon.glyphicon-ok {
             color: #11d123;
         }
+
+        .col-percent-60 {
+            width: 60%;
+            float: left;
+            text-align: right;
+        }
+
+        .col-percent-40 {
+            width: 35%;
+            float: left;
+            text-align: left;
+            margin-left: 5%;
+        }
     }
 }
 
@@ -1025,6 +1038,43 @@
         }
     }
 }
+@media (max-width: 1600px) {
+    .evaluator, .reviewer {
+        .table.table-bordered {
+            .col-percent-60 {
+                width: 100%;
+                float: none;
+                text-align: center;
+            }
+
+            .col-percent-40 {
+                width: 100%;
+                float: none;
+                text-align: center;
+                margin-left: 0;
+            }
+        }
+    }
+}
+@media (max-width: 1700px) {
+    .management {
+        .table.table-bordered {
+            .col-percent-60 {
+                width: 100%;
+                float: none;
+                text-align: center;
+            }
+
+            .col-percent-40 {
+                width: 100%;
+                float: none;
+                text-align: center;
+                margin-left: 0;
+            }
+        }
+    }
+}
+
 @media (min-width:1200px) {
     .list-kpi-rating {
         .list-star {

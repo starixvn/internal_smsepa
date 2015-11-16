@@ -219,11 +219,19 @@ function ($timeout, utilitiesFactory) {
             Grade: ''
         };
 
-        if (epaInfo.HasDisciplineScore && epaInfo.DisciplineScore < 0) {
-            epaInfo.DisciplineScore = 0;
-        }
+        if (epaInfo.HasDisciplineScore) {
+            if (epaInfo.DisciplineScore < 0) {
+                epaInfo.DisciplineScore = 0;
+            }
 
-        result.DisciplineScore = epaInfo.DisciplineScore;
+            result.DisciplineScore = epaInfo.DisciplineScore;
+        } else {
+            if (epaInfo.DisciplineScore !== 0) {
+                result.DisciplineScore = epaInfo.DisciplineScore;
+            } else {
+                result.DisciplineScore = '-';
+            }
+        }
 
         if (epaInfo.EPAId > 0 && epaInfo.ProcessBySelf.IsEndProcess) {
             result.SelfScore = utilitiesFactory.parseFloat(epaInfo.ProcessBySelf.TotalScore);

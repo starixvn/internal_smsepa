@@ -65,6 +65,10 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, ba
         vm.viewEPAResultUrl = baseUrl + 'EPA/Detail/' + memberEPA.EPAId;
     };
 
+    vm.viewOtherViolationDetail = function (memberEPA) {
+        CommonModel.openPopupViewOtherViolationDetail(memberEPA.EPAId);
+    };
+
     vm.initialize = function () {
         SelfEvalutorModel.getGroupByEvaluator().then(function () {
             vm.groupOptions = SelfEvalutorModel.groups;

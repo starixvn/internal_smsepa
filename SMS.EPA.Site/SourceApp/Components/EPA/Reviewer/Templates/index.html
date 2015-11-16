@@ -119,12 +119,18 @@
                         </div>
                     </td>
                     <td class="text-center">
-                        <div ng-show="memberEPA.HasDisciplineScore">
-                            {{memberEPA.DisciplineScore | customScore}} / {{memberEPA.MaxDisciplineScore | customScore}}
+                        <div class="col-percent-60">
+                            <div ng-show="memberEPA.HasDisciplineScore">
+                                {{memberEPA.DisciplineScore | customScore}} / {{memberEPA.MaxDisciplineScore | customScore}}
+                            </div>
+                            <div ng-show="!memberEPA.HasDisciplineScore">
+                                <span ng-show="memberEPA.DisciplineScore" ng-bind="memberEPA.DisciplineScore | customScore"></span>
+                                <span ng-show="!memberEPA.DisciplineScore" ng-bind="'-'"></span>
+                            </div>
                         </div>
-                        <div ng-show="!memberEPA.HasDisciplineScore">
-                            <span ng-show="memberEPA.DisciplineScore" ng-bind="memberEPA.DisciplineScore | customScore"></span>
-                            <span ng-show="!memberEPA.DisciplineScore" ng-bind="'-'"></span>
+                        <div class="col-percent-40" ng-show="memberEPA.HasOtherViolation">
+                            <a class="glyphicon icon-alert" href="" ng-click="reviewerCtrl.viewOtherViolationDetail(memberEPA)"
+                               ng-attr-title='{{"ViewOtherViolation" | translate}}'></a>
                         </div>
                     </td>
                     <td class="text-center">

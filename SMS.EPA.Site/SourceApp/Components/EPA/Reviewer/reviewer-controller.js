@@ -43,6 +43,10 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
         vm.viewEPAResultUrl = baseUrl + 'EPA/Detail/' + memberEPA.EPAId;
     };
 
+    vm.viewOtherViolationDetail = function (memberEPA) {
+        CommonModel.openPopupViewOtherViolationDetail(memberEPA.EPAId);
+    };
+
     vm.checkAll = function (selectedAll) {
         angular.forEach(vm.memberEPAs, function (memberEPA) {
             if (!memberEPA.CurrentProcess.IsEndProcess) {
