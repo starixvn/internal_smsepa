@@ -29,11 +29,13 @@ function ($window, $routeParams, EPAHistoryModel, utilitiesFactory, CommonModel,
         vm.periodOptions = CommonModel.periodOptions;
     });
 
-    CommonModel.getEmployeeById(vm.filter.employeeId).then(function () {
-        vm.filter.employee = CommonModel.employee;
-        vm.filter.employee.Name = vm.filter.employee.NickName;
-        vm.searchEmployee = vm.filter.employee.NickName + ' (' + vm.filter.employee.FullName + ')';
-    });
+    if (vm.filter.employeeId) {
+        CommonModel.getEmployeeById(vm.filter.employeeId).then(function () {
+            vm.filter.employee = CommonModel.employee;
+            vm.filter.employee.Name = vm.filter.employee.NickName;
+            vm.searchEmployee = vm.filter.employee.NickName + ' (' + vm.filter.employee.FullName + ')';
+        });
+    }
 
     EPAHistoryModel.checkHasOnlyEmployeeRole().then(function () {
         vm.onlyEmployeeRole = EPAHistoryModel.onlyEmployeeRole;
