@@ -1215,4 +1215,7 @@
   <data name="DisciplineStartDateGreaterThanEndDateWarning" xml:space="preserve">
     <value>The Discipline Start Date must be less than or equal the Discipline End Date!</value>
   </data>
+  <data name="ViewOtherViolation" xml:space="preserve">
+    <value>View other violation</value>
+  </data>
 </root>

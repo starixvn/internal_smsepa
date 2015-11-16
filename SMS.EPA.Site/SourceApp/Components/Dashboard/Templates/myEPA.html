@@ -22,22 +22,17 @@
             </td>
             <td class="text-center">
                 <div ng-show="myEPA.EPAId > 0 && myEPA.Period.IsEndPeriod">
-                    <div ng-show="myEPA.HasOtherViolation">
-                        <div class="col-sm-6 text-right" ng-show="myEPA.HasDisciplineScore">
-                            {{myEPA.DisciplineScore | customScore}} / {{myEPA.MaxDisciplineScore | customScore}}
-                        </div>
-                        <div class="col-sm-6 text-right" ng-show="!myEPA.HasDisciplineScore" ng-bind="myEPA.DisciplineScore | customScore"></div>
-                        <div class="col-sm-6 text-left">
-                            <a class="glyphicon icon-alert" href="" ng-click="dashboardCtrl.viewOtherViolationDetail(myEPA)"></a>
-                        </div>
+                    <div class="col-sm-6 text-right" ng-show="myEPA.HasDisciplineScore">
+                        {{myEPA.DisciplineScore | customScore}} / {{myEPA.MaxDisciplineScore | customScore}}
                     </div>
-                    <div ng-show="!myEPA.HasOtherViolation">
-                        <div ng-show="myEPA.HasDisciplineScore">{{myEPA.DisciplineScore | customScore}} / {{myEPA.MaxDisciplineScore | customScore}}</div>
-                        <div ng-show="!myEPA.HasDisciplineScore" ng-bind="myEPA.DisciplineScore | customScore"></div>
+                    <div class="col-sm-6 text-right" ng-show="!myEPA.HasDisciplineScore" ng-bind="myEPA.DisciplineScore | customScore"></div>
+                    <div class="col-sm-6 text-left" ng-show="myEPA.HasOtherViolation">
+                        <a class="glyphicon icon-alert" href="" ng-click="dashboardCtrl.viewOtherViolationDetail(myEPA)"
+                           ng-attr-title="{{"ViewOtherViolation" | translate}}'></a>
                     </div>
                 </div>
-                <div ng-show="myEPA.EPAId > 0 && !myEPA.Period.IsEndPeriod" ng-bind="'N/A'"></div>
-                <div ng-show="myEPA.EPAId < 0" ng-bind="'-'"></div>
+                <div class="col-sm-6 text-right" ng-show="myEPA.EPAId > 0 && !myEPA.Period.IsEndPeriod" ng-bind="'N/A'"></div>
+                <div class="col-sm-6 text-right" ng-show="myEPA.EPAId < 0" ng-bind="'-'"></div>
             </td>
             <td class="text-center">
                 <div ng-show="myEPA.Period.IsEndPeriod">

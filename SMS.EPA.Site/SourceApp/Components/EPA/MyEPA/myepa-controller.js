@@ -110,7 +110,6 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
             checkStatus(vm.epaInfo);
 
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
-
             vm.maxPerformanceScore = vm.epaInfo.CurrentProcess.MaxTotalScore;
 
             if (vm.epaInfo.HasDisciplineScore) {
