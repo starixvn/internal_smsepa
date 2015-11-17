@@ -3,6 +3,9 @@
 
 epaModule.factory('ratingByKPIFactory', ['$http', 'baseUrl', function ($http, baseUrl) {
     return {
+        getUserPermissionOnRatingByKPI: function(){
+            return $http.get(baseUrl + 'api/EmployeeEPA/GetUserPermissionOnRatingByKPI');
+        },
         getTargetTemplateByEvaluator: function () {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetTargetTemplateByEvaluator');
         },

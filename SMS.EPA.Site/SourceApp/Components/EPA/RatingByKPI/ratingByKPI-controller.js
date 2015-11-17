@@ -15,6 +15,7 @@ function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, SelfEvalutorM
     vm.targetTemplateIdOriginal = null;
     vm.kpiIdOriginal = null;
     vm.dataSaved = false;
+    vm.permission = 0;
 
     vm.filter = {
         targetTemplateId: '',
@@ -136,40 +137,6 @@ function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, SelfEvalutorM
                 member.Name = member.NickName + ' (' + member.FullName + ')';
             });
         });
-    };
-
-    vm.hoveringLeave = function (memberEPA, kpi) {
-        if (kpi.AdjustRate > 0) {
-            if (kpi.Rate !== kpi.AdjustRate) {
-                vm.dataSaved = false;
-            }
-
-            var totalScoreOriginal = utilitiesFactory.parseFloat(memberEPA.TotalScoreOriginal),
-                totalScoreEvaluated, currentScore, adjustScore;
-
-            if (!memberEPA.KPIGroup.HasKPIOptional) {
-                currentScore = utilitiesFactory.parseFloat(kpi.Score);
-                adjustScore = utilitiesFactory.parseFloat(kpi.Weight * (kpi.AdjustRate / vm.maxStar));
-                kpi.AdjustScore = adjustScore;
-
-                if (kpi.AdjustRate === vm.maxStar) {
-                    kpi.IsMaxScore = true;
-                } else {
-                    kpi.IsMaxScore = false;
-                }
-
-                if (currentScore > 0 && currentScore > adjustScore) {
-                    memberEPA.TotalScore = totalScoreOriginal - (currentScore - adjustScore);
-                } else {
-                    memberEPA.TotalScore = totalScoreOriginal + (adjustScore - currentScore);
-                }
-            } else {
-                RatingByKPIModel.scoreSpreadForKPIGroupHasKPIOptional(memberEPA.KPIGroup, vm.maxStar);
-
-                totalScoreEvaluated = memberEPA.KPIGroup.Weight * (memberEPA.KPIGroup.TotalStarEvaluated / memberEPA.KPIGroup.TotalStarMustEvaluate);
-                memberEPA.TotalScore = utilitiesFactory.parseFloat(totalScoreOriginal + totalScoreEvaluated);
-            }
-        }
     };
 
     vm.cancelRating = function (memberEPA, kpi) {
@@ -341,6 +308,48 @@ function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, SelfEvalutorM
     vm.back = function () {
         $window.history.back();
     };
+
+    RatingByKPIModel.getUserPermissionOnRatingByKPI().then(function () {
+        vm.permission = RatingByKPIModel.permission;
+
+        if (vm.permission === 2) {
+            vm.hoveringLeave = function (memberEPA, kpi) {
+                if (kpi.AdjustRate > 0) {
+                    if (kpi.Rate !== kpi.AdjustRate) {
+                        vm.dataSaved = false;
+                    }
+
+                    var totalScoreOriginal = utilitiesFactory.parseFloat(memberEPA.TotalScoreOriginal),
+                        totalScoreEvaluated, currentScore, adjustScore;
+
+                    if (!memberEPA.KPIGroup.HasKPIOptional) {
+                        currentScore = utilitiesFactory.parseFloat(kpi.Score);
+                        adjustScore = utilitiesFactory.parseFloat(kpi.Weight * (kpi.AdjustRate / vm.maxStar));
+                        kpi.AdjustScore = adjustScore;
+
+                        if (kpi.AdjustRate === vm.maxStar) {
+                            kpi.IsMaxScore = true;
+                        } else {
+                            kpi.IsMaxScore = false;
+                        }
+
+                        if (currentScore > 0 && currentScore > adjustScore) {
+                            memberEPA.TotalScore = totalScoreOriginal - (currentScore - adjustScore);
+                        } else {
+                            memberEPA.TotalScore = totalScoreOriginal + (adjustScore - currentScore);
+                        }
+                    } else {
+                        RatingByKPIModel.scoreSpreadForKPIGroupHasKPIOptional(memberEPA.KPIGroup, vm.maxStar);
+
+                        totalScoreEvaluated = memberEPA.KPIGroup.Weight * (memberEPA.KPIGroup.TotalStarEvaluated / memberEPA.KPIGroup.TotalStarMustEvaluate);
+                        memberEPA.TotalScore = utilitiesFactory.parseFloat(totalScoreOriginal + totalScoreEvaluated);
+                    }
+                }
+            };
+        } else {
+            vm.hoveringLeave = null;
+        }
+    });
 
     vm.initialize = function () {
         $translate('ScoreInputValid').then(function (message) {

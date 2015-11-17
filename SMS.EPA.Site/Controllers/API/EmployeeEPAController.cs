@@ -428,6 +428,12 @@ namespace SMS.EPA.Site.Controllers.API
             return _employeeEPAService.UpdateKPIScore(criteria);
         }
 
+        public int GetUserPermissionOnRatingByKPI()
+        {
+            int permission = _webCommonService.GetPermission(EPAFunctionKey.RatingByKPI);
+            return permission;
+        }
+
         #endregion Rating By KPI
 
         [HttpGet]

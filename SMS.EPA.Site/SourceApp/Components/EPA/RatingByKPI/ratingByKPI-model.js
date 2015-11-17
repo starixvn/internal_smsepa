@@ -9,6 +9,17 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
     ratingByKPIModel.targetTemplates = [];
     ratingByKPIModel.kpis = [];
     ratingByKPIModel.memberEPAs = [];
+    ratingByKPIModel.permission = 0;
+
+    ratingByKPIModel.getUserPermissionOnRatingByKPI = function () {
+        return ratingByKPIFactory.getUserPermissionOnRatingByKPI()
+        .success(function (permission) {
+            ratingByKPIModel.permission = parseInt(permission);
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
 
     ratingByKPIModel.getTargetTemplateByEvaluator = function () {
         return ratingByKPIFactory.getTargetTemplateByEvaluator()
