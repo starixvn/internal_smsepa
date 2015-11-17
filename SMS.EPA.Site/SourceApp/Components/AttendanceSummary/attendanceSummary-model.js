@@ -6,7 +6,24 @@ attendanceModule.factory('AttendanceModel',
 function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitiesFactory) {
     var attendanceModel = {},
         date = new Date(),
-        firstDate = new Date(date.getFullYear(), date.getMonth(), 1);
+        firstDate = new Date(date.getFullYear(), date.getMonth(), 1),
+        startDateFilter = attendanceModel.getStartDate(date),
+        endDateFilter = attendanceModel.getEndDate(date);
+
+    attendanceModel.rangeDateFilter = {
+        firstRangeStartDate: new Date(date.getFullYear(), 1, 1), // 1-2
+        firstRangeEndDate: new Date(date.getFullYear(), 6, 31), // 31-07
+        firstStartDate: new Date(date.getFullYear(), 0, 1), // 1-1
+        firstEndDate: new Date(date.getFullYear(), 5, 30), // 30-06
+        secondRangeStartDate: new Date(date.getFullYear(), 7, 1), // 1-8
+        secondRangeEndDate: new Date(date.getFullYear() + 1, 0, 31), // 31-01-next year
+        secondStartDate: new Date(date.getFullYear(), 6, 1), // 1-7
+        secondEndDate: new Date(date.getFullYear(), 11, 31), // 31-12
+        thirdRangeStartDate: new Date(date.getFullYear() - 1, 7, 1), // 1-8-last year
+        thirdRangeEndDate: new Date(date.getFullYear(), 0, 31), // 31-1
+        thirdStartDate: new Date(date.getFullYear() - 1, 6, 1), // 1-7-last year
+        thirdEndDate: new Date(date.getFullYear() - 1, 11, 31) // 31-12-last year
+    };
 
     attendanceModel.attendanceEmployees = [];
     attendanceModel.otherViolations = [];
@@ -33,6 +50,38 @@ function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitie
         attendanceModel.filter.isLocal = filter.isLocal;
         attendanceModel.filter.employeeId = filter.employeeId;
         attendanceModel.filter.reasonId = filter.reasonId;
+    };
+
+    var getStartDate = function (date) {
+        var startDate = new Date();
+
+        //if (date >= attendanceModel.rangeDateFilter.firstRangeStartDate && date <= attendanceModel.rangeDateFilter.firstRangeEndDate) {
+        //    startDate = attendanceModel.rangeDateFilter.firstStartDate;
+        //}
+        //else if (date >= attendanceModel.rangeDateFilter.secondRangeStartDate && date <= attendanceModel.rangeDateFilter.secondRangeEndDate) {
+        //    startDate = attendanceModel.rangeDateFilter.secondStartDate;
+        //}
+        //else if (date >= attendanceModel.rangeDateFilter.thirdRangeStartDate && date <= attendanceModel.rangeDateFilter.thirdRangeEndDate) {
+        //    startDate = attendanceModel.rangeDateFilter.thirdStartDate;
+        //}
+
+        return startDate;
+    };
+
+    var getEndDate = function (date) {
+        var endDate = new Date();
+
+        //if (date >= attendanceModel.rangeDateFilter.firstRangeStartDate && date <= attendanceModel.rangeDateFilter.firstRangeEndDate) {
+        //    endDate = attendanceModel.rangeDateFilter.firstEndDate;
+        //}
+        //else if (date >= attendanceModel.rangeDateFilter.secondRangeStartDate && date <= attendanceModel.rangeDateFilter.secondRangeEndDate) {
+        //    endDate = attendanceModel.rangeDateFilter.secondEndDate;
+        //}
+        //else if (date >= attendanceModel.rangeDateFilter.thirdRangeStartDate && date <= attendanceModel.rangeDateFilter.thirdRangeEndDate) {
+        //    endDate = attendanceModel.rangeDateFilter.thirdEndDate;
+        //}
+
+        return endDate;
     };
 
     attendanceModel.getAttendanceSummary = function (startDate, endDate, departmentId, isLocal, employeeId, reasonId) {
