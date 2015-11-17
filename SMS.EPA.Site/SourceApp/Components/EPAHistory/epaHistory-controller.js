@@ -54,8 +54,6 @@ function ($window, $routeParams, EPAHistoryModel, utilitiesFactory, CommonModel,
     };
 
     var getEPAHistory = function (periodId, employeeId) {
-        usSpinnerService.spin('spinner-1');
-
         EPAHistoryModel.getEPAHistory(periodId, employeeId).then(function () {
             vm.epas = EPAHistoryModel.epas;
             utilitiesFactory.searchOnPage(vm, vm.epas);

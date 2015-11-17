@@ -50,8 +50,6 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory, usSpinnerService) 
     };
 
     var getEPADetailReport = function (filter) {
-        usSpinnerService.spin('spinner-1');
-
         ReportModel.getEPADetailReport(filter.periodId, filter.departmentId, filter.isLocal, filter.phaseIds, filter.pageIndex, filter.itemsPerPage).then(function () {
             vm.epaDetail = ReportModel.epaDetail;
             usSpinnerService.stop('spinner-1');

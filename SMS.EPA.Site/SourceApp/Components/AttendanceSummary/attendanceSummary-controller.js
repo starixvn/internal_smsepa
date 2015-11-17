@@ -15,6 +15,8 @@ function ($scope, AttendanceModel, utilitiesFactory, CommonModel, baseUrl, usSpi
     vm.pageSize = 20;
 
     vm.filter = AttendanceModel.filter;
+    vm.filter.startDate = AttendanceModel.getStartDate();
+    vm.filter.endDate = AttendanceModel.getEndDate();
 
     if (vm.filter.employeeId) {
         CommonModel.getEmployeeById(vm.filter.employeeId).then(function () {
@@ -57,8 +59,6 @@ function ($scope, AttendanceModel, utilitiesFactory, CommonModel, baseUrl, usSpi
     });
 
     var getAttendanceSummary = function (startDate, endDate, departmentId, isLocal, employeeId, reasonId) {
-        usSpinnerService.spin('spinner-1');
-
         AttendanceModel.getAttendanceSummary(startDate, endDate, departmentId, isLocal, employeeId, reasonId).then(function () {
             vm.attendanceEmployees = AttendanceModel.attendanceEmployees;
             utilitiesFactory.searchOnPage(vm, vm.attendanceEmployees);
@@ -269,8 +269,8 @@ function ($scope, $window, $routeParams, AttendanceModel, utilitiesFactory, Comm
     vm.fromSummaryPage = $routeParams.id ? true : false;
 
     vm.filter = {
-        startDate: $routeParams.startDate ? new Date($routeParams.startDate) : firstDate,
-        endDate: $routeParams.endDate ? new Date($routeParams.endDate) : date,
+        startDate: $routeParams.startDate ? new Date($routeParams.startDate) : AttendanceModel.getStartDate(),
+        endDate: $routeParams.endDate ? new Date($routeParams.endDate) : AttendanceModel.getEndDate(),
         employee: null,
         departmentId: null,
         isLocal: $routeParams.isLocal ? $routeParams.isLocal : '',
@@ -317,13 +317,11 @@ function ($scope, $window, $routeParams, AttendanceModel, utilitiesFactory, Comm
     });
 
     var getAttendanceDetail = function (startDate, endDate, employeeId, departmentId, isLocal, reasonId) {
-        usSpinnerService.spin('spinner-1');
-
         AttendanceModel.getAttendanceDetail(startDate, endDate, employeeId, departmentId, isLocal, reasonId).then(function () {
             vm.attendanceDetails = AttendanceModel.attendanceDetails;
             vm.attendanceDetails = AttendanceModel.convertCheckInOutToDate(vm, vm.attendanceDetails);
             utilitiesFactory.searchOnPage(vm, vm.attendanceDetails);
-            usSpinnerService.stop('spinner-1');
+            usSpinnerService.stop("spinner-1");
         });
     };
 
