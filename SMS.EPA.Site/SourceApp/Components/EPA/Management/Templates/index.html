@@ -37,7 +37,7 @@
         </form>
         <table class="row table table-bordered table-striped">
             <thead>
-                <tr class="header-table" ng-show="managementCtrl.memberEPAs.length > 0 && !reviewerCtrl.isEndProcessAll">
+                <tr class="header-table" ng-show="managementCtrl.memberEPAs.length > 0 && !managementCtrl.isEndProcessAll && managementCtrl.permission == 2">
                     <th colspan="16">
                         <a class="pull-left button-icon" ng-click="managementCtrl.adjustScore()">
                             <span class="icon-edit glyphicon glyphicon-edit"></span>
@@ -50,7 +50,7 @@
                     </th>
                 </tr>
                 <tr class="headerName">
-                    <th ng-show="managementCtrl.memberEPAs.length > 0 && !reviewerCtrl.isEndProcessAll">
+                    <th ng-show="managementCtrl.memberEPAs.length > 0 && !managementCtrl.isEndProcessAll && managementCtrl.permission == 2">
                         <input type="checkbox" ng-model="managementCtrl.selectedAll" ng-click="managementCtrl.checkAll(managementCtrl.selectedAll)" />
                     </th>
                     <th data-translate="SymbolCount"></th>
@@ -73,7 +73,7 @@
             <tbody>
                 <tr ng-class="{'row-highlight': (memberEPA.HasMaxScoreOnKPI && memberEPA.ProcessBySelf.IsEndProcess)}"
                     ng-repeat="memberEPA in managementCtrl.memberEPAs">
-                    <td class="text-center" ng-show="!reviewerCtrl.isEndProcessAll">
+                    <td class="text-center" ng-show="!managementCtrl.isEndProcessAll && managementCtrl.permission == 2">
                         <input ng-show="!memberEPA.CurrentProcess.IsEndProcess" type="checkbox" ng-model="memberEPA.Selected" />
                     </td>
                     <td class="text-center" ng-bind="$index + 1"></td>
@@ -104,17 +104,19 @@
                         <div ng-show="!memberEPA.ProcessByReviewers[0].IsEndProcess" ng-bind="'N/A'"></div>
                     </td>
                     <td class="text-center">
-                        <input type="text" maxlength="6" class="form-control text-center epa-input-score" ng-readonly="memberEPA.CurrentProcess.IsEndProcess"
+                        <input type="text" maxlength="6" class="form-control text-center epa-input-score"
+                               ng-readonly="memberEPA.CurrentProcess.IsEndProcess || managementCtrl.permission != 2"
                                ng-model="memberEPA.CurrentProcess.AdjustScore" numeric decimals="2" ng-change="managementCtrl.inputScore(memberEPA)"
                                tooltip="{{managementCtrl.getNotificationInputScore(memberEPA)}}" tooltip-trigger="focus" />
                     </td>
                     <td class="text-center">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-attr-title='{{"Edit" | translate}}'
                            ng-click="managementCtrl.updateComment(memberEPA, memberEPA.CurrentProcess.Comment, true)"
-                           ng-show="!memberEPA.CurrentProcess.IsEndProcess && !memberEPA.Period.IsEndPeriod"></a>
+                           ng-if="!memberEPA.CurrentProcess.IsEndProcess && !memberEPA.Period.IsEndPeriod && managementCtrl.permission == 2"></a>
                         <a class="glyphicon icon-view" href="" ng-attr-title='{{"View" | translate}}'
                            ng-click="managementCtrl.updateComment(memberEPA, memberEPA.CurrentProcess.Comment, false)"
-                           ng-show="memberEPA.CurrentProcess.IsEndProcess || memberEPA.Period.IsEndPeriod"></a>
+                           ng-if="memberEPA.CurrentProcess.Comment && memberEPA.CurrentProcess.Comment.length > 0
+                                && (memberEPA.CurrentProcess.IsEndProcess || memberEPA.Period.IsEndPeriod || managementCtrl.permission != 2)"></a>
                     </td>
                     <td class="text-center">
                         <div ng-show="memberEPA.HasDisciplineScore">
@@ -135,7 +137,7 @@
                                 <span ng-show="!memberEPA.DisciplineScore" ng-bind="'-'"></span>
                             </div>
                         </div>
-                        <div class="col-percent-40" ng-show="memberEPA.HasOtherViolation">
+                        <div class="col-percent-40" ng-if="memberEPA.HasOtherViolation">
                             <a class="glyphicon icon-alert" href="" ng-click="managementCtrl.viewOtherViolationDetail(memberEPA)"
                                ng-attr-title='{{"ViewOtherViolation" | translate}}'></a>
                         </div>
@@ -151,10 +153,10 @@
                     </td>
                     <td class="text-center col-action">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="managementCtrl.viewEPADetail(memberEPA)"
-                           ng-show="!memberEPA.CurrentProcess.IsEndProcess && !memberEPA.Period.IsEndPeriod"
+                           ng-if="!memberEPA.CurrentProcess.IsEndProcess && !memberEPA.Period.IsEndPeriod"
                            ng-href="{{managementCtrl.viewEPADetailUrl}}" ng-attr-title='{{"EvaluateNow" | translate}}'></a>
                         <a class="glyphicon icon-view" href="" ng-click="managementCtrl.viewEPAResult(memberEPA)"
-                           ng-show="memberEPA.CurrentProcess.IsEndProcess || memberEPA.Period.IsEndPeriod"
+                           ng-if="memberEPA.CurrentProcess.IsEndProcess || memberEPA.Period.IsEndPeriod"
                            ng-href="{{managementCtrl.viewEPAResultUrl}}" ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
                     </td>
                 </tr>

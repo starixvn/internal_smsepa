@@ -10,6 +10,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     reviewerMngModel.groups = [];
     reviewerMngModel.members = [];
     reviewerMngModel.memberEPAs = [];
+    reviewerMngModel.permission = 0;
 
     // common
     reviewerMngModel.getSelectedEmployee = function (memberEPAs) {
@@ -133,8 +134,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
 
     reviewerMngModel.calculatePerformanceScore = function (vm, isReviewer) {
         var totalScore = utilitiesFactory.parseFloat(vm.epaInfo.CurrentProcess.TotalScore),
-            averageScore = vm.epaInfo.AverageScoreByEvaluators,
-            maxTotalScore = vm.epaInfo.CurrentProcess.MaxTotalScore;
+            averageScore = vm.epaInfo.AverageScoreByEvaluators;
 
         if (!isReviewer && vm.epaInfo.ProcessByReviewers.length > 0) {
             averageScore = vm.epaInfo.AverageScoreByReviewers;
@@ -219,6 +219,16 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     };
 
     // reviewer
+    reviewerMngModel.getUserPermissionOnReviewer = function () {
+        return employeeEPAFactory.getUserPermissionOnReviewer()
+        .success(function (permission) {
+            reviewerMngModel.permission = parseInt(permission);
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
     reviewerMngModel.getGroupByReviewer = function () {
         return employeeEPAFactory.getGroupByReviewer()
         .success(function (groups) {
@@ -277,6 +287,16 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     };
 
     // management
+    reviewerMngModel.getUserPermissionOnManagement = function () {
+        return employeeEPAFactory.getUserPermissionOnManagement()
+        .success(function (permission) {
+            reviewerMngModel.permission = parseInt(permission);
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
     reviewerMngModel.getGroupByManagement = function () {
         return employeeEPAFactory.getGroupByManagement()
         .success(function (groups) {

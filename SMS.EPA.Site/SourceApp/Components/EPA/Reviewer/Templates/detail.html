@@ -36,7 +36,7 @@
         <div class="navbar navbar-default navbar-fixed-bottom action-section">
             <div class="container text-center">
                 <button class="button" ng-click="memberEPAInfoCtrl.save(memberEPAInfoCtrl.epaInfo)"
-                        ng-show="memberEPAInfoCtrl.epaInfo && !memberEPAInfoCtrl.isReadonly" data-translate="Save"></button>
+                        ng-if="memberEPAInfoCtrl.epaInfo && !memberEPAInfoCtrl.isReadonly" data-translate="Save"></button>
                 <button class="btn btn-warning customize" ng-click="memberEPAInfoCtrl.cancel()" data-translate="Back"></button>
             </div>
         </div>

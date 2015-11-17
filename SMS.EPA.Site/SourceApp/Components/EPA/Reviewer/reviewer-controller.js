@@ -6,6 +6,7 @@ epaModule.controller('ReviewerController',
 function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, CommonModel, utilitiesFactory, notificationFactory, baseUrl) {
     var vm = this;
 
+    vm.permission = 0;
     vm.memberEPAs = [];
     vm.members = [];
     vm.standardGrades = CommonModel.standardGrades;
@@ -181,6 +182,10 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
             vm.adjustScoreInvalidMessage = message;
         });
 
+        ReviewerManagementModel.getUserPermissionOnReviewer().then(function () {
+            vm.permission = ReviewerManagementModel.permission;
+        });
+
         ReviewerManagementModel.getGroupByReviewer().then(function () {
             vm.groupOptions = ReviewerManagementModel.groups;
         });
@@ -202,6 +207,7 @@ epaModule.controller('MemberEPAInfoOfReviewerController',
 function ($window, $translate, $routeParams, EmployeeEPAModel, ReviewerManagementModel, CommonModel, utilitiesFactory, baseUrl) {
     var vm = this;
 
+    vm.permission = 0;
     vm.epaId = parseInt($routeParams.id);
 
     vm.dataSaved = false;
@@ -309,6 +315,14 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, ReviewerManagemen
 
             angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
                 EmployeeEPAModel.scoreSpread(kpiGroup);
+            });
+
+            ReviewerManagementModel.getUserPermissionOnReviewer().then(function () {
+                vm.permission = ReviewerManagementModel.permission;
+
+                if (vm.permission !== 2) {
+                    vm.isReadonly = true;
+                }
             });
         });
     };

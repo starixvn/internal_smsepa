@@ -17,8 +17,16 @@ body {
     margin-top: 12%;
 
     .header-login {
-        background: url(../images/sms_epa_login.png) @login-header-bg  center no-repeat;
-		height: 55px;
+        background: url(images/titlebg.png) repeat-x scroll 0 0 transparent;
+        height: 55px;
+        padding-left: 20px;
+        padding-right: 20px;
+
+        .header-contain {
+            background: url(../images/sms_epa_logo.png) center left no-repeat,
+                url(images/signin_icon.png) center right no-repeat;
+            height: 100%;
+        }
     }
 
     .auth {
@@ -43,17 +51,17 @@ body {
     }
 
     .btn-submit {
-        background-color: @login-header-bg;
+        background-color: #72767e;
         height: 45px;
         border: none;
         color: @login-button-color;
         font-size: @font-size + 3;
 		margin: 20px 0;
-		.box-shadow(0px 2px 0 #898989);
+		.box-shadow(0px 2px 0 #5f636a);
 		.border-radius(4px);
 
 		&:hover {
-			background-color: #484d66;
+			background-color: #5f636a;
 		}
     }
 

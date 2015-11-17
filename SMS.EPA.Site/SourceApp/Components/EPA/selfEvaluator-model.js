@@ -11,6 +11,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     selfEvalutorModel.members = [];
     selfEvalutorModel.memberEPAs = [];
     selfEvalutorModel.epaInfo = {};
+    selfEvalutorModel.permission = 0;
 
     // common
     selfEvalutorModel.calculateScore = function (vm, isSelf) {
@@ -124,6 +125,16 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     };
 
     // self
+    selfEvalutorModel.getUserPermissionOnEmployee = function () {
+        return employeeEPAFactory.getUserPermissionOnEmployee()
+        .success(function (permission) {
+            selfEvalutorModel.permission = parseInt(permission);
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
     selfEvalutorModel.getEPAByEmployee = function () {
         return employeeEPAFactory.getEPAByEmployee()
         .success(function (myEPAs) {
@@ -158,6 +169,16 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     };
 
     // evaluator
+    selfEvalutorModel.getUserPermissionOnEvaluator = function () {
+        return employeeEPAFactory.getUserPermissionOnEvaluator()
+        .success(function (permission) {
+            selfEvalutorModel.permission = parseInt(permission);
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
     selfEvalutorModel.getGroupByEvaluator = function () {
         return employeeEPAFactory.getGroupByEvaluator()
         .success(function (groups) {

@@ -25,23 +25,27 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
     using SMS.EPA.Web.ApiAuthorizeAttribute;
+    using SMS.EPA.Web.Services;
 
     public class EmployeeEPAController : BaseController
     {
         private readonly IEmployeeEPAService _employeeEPAService;
         private readonly CommonController _commonController;
+        private readonly IWebCommonService _webCommonService;
 
         public EmployeeEPAController()
-            : this(null, null)
+            : this(null, null, null)
         {
         }
 
         public EmployeeEPAController(
             IEmployeeEPAService employeeEPAService,
-            CommonController commonController)
+            CommonController commonController,
+            IWebCommonService webCommonService)
         {
             _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
             _commonController = commonController ?? new CommonController();
+            _webCommonService = webCommonService ?? new WebCommonService();
         }
 
         #region Self
@@ -100,6 +104,12 @@ namespace SMS.EPA.Site.Controllers.API
             };
 
             return UpdateEPAScoreByEmployeeOrEvaluator(criteria);
+        }
+
+        public int GetUserPermissionOnEmployee()
+        {
+            int permission = _webCommonService.GetPermission(EPAFunctionKey.Self);
+            return permission;
         }
 
         #endregion Self
@@ -184,6 +194,12 @@ namespace SMS.EPA.Site.Controllers.API
             return UpdateEPAScoreByEmployeeOrEvaluator(criteria);
         }
 
+        public int GetUserPermissionOnEvaluator()
+        {
+            int permission = _webCommonService.GetPermission(EPAFunctionKey.Evaluator);
+            return permission;
+        }
+
         #endregion Evaluator
 
         #region Reviewer
@@ -261,6 +277,12 @@ namespace SMS.EPA.Site.Controllers.API
             return AdjustScoreByReviewerOrManagement(criteria);
         }
 
+        public int GetUserPermissionOnReviewer()
+        {
+            int permission = _webCommonService.GetPermission(EPAFunctionKey.Reviewer);
+            return permission;
+        }
+
         #endregion Reviewer
 
         #region Management
@@ -336,6 +358,12 @@ namespace SMS.EPA.Site.Controllers.API
             };
 
             return AdjustScoreByReviewerOrManagement(criteria);
+        }
+
+        public int GetUserPermissionOnManagement()
+        {
+            int permission = _webCommonService.GetPermission(EPAFunctionKey.Management);
+            return permission;
         }
 
         #endregion Management

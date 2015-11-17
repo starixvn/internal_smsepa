@@ -23,10 +23,10 @@
                     <td class="text-center">{{ myEPA.ProcessBySelf.EndDate | customDate }}</td>
                     <td class="text-center col-action">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="empEPACtrl.viewEPADetail(myEPA)"
-                           ng-show="!myEPA.ProcessBySelf.IsEndProcess && !myEPA.Period.IsEndPeriod"
+                           ng-if="!myEPA.ProcessBySelf.IsEndProcess && !myEPA.Period.IsEndPeriod"
                            ng-href="{{empEPACtrl.viewEPADetailUrl}}" ng-attr-title='{{"EvaluateNow" | translate}}'></a>
                         <a class="glyphicon icon-view" href="" ng-click="empEPACtrl.viewEPAResult(myEPA)"
-                           ng-show="myEPA.ProcessBySelf.IsEndProcess || myEPA.Period.IsEndPeriod"
+                           ng-if="myEPA.ProcessBySelf.IsEndProcess || myEPA.Period.IsEndPeriod"
                            ng-href="{{empEPACtrl.viewEPAResultUrl}}" ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
                     </td>
                 </tr>

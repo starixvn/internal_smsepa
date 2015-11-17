@@ -239,12 +239,8 @@
     <Content Include="Content\Site\auth\images\icon-error.png" />
     <Content Include="Content\Site\auth\images\icon-pass.png" />
     <Content Include="Content\Site\auth\images\icon-user.png" />
-    <Content Include="Content\Site\auth\style.css">
-      <DependentUpon>style.less</DependentUpon>
-    </Content>
-    <Content Include="Content\Site\auth\style.min.css">
-      <DependentUpon>style.css</DependentUpon>
-    </Content>
+    <Content Include="Content\Site\auth\images\signin_icon.png" />
+    <Content Include="Content\Site\auth\images\titlebg.png" />
     <Content Include="Content\Site\images\accept.png" />
     <Content Include="Content\Site\images\arrow-down.png" />
     <Content Include="Content\Site\images\arrow-left.png" />
@@ -261,12 +257,10 @@
     <Content Include="Content\Site\images\icon-search.png" />
     <Content Include="Content\Site\images\icon_sprite.png" />
     <Content Include="Content\Site\images\line-menu.png" />
-    <Content Include="Content\Site\images\logo-login.png" />
+    <Content Include="Content\Site\images\sms_epa_logo.png" />
     <Content Include="Content\Site\images\minus-icon.gif" />
     <Content Include="Content\Site\images\plus-icon.gif" />
     <Content Include="Content\Site\images\save_submit.png" />
-    <Content Include="Content\Site\images\sms_epa_login.png" />
-    <Content Include="Content\Site\images\sms_epa_logo.png" />
     <Content Include="Content\Site\images\sort-icon.png" />
     <Content Include="Content\Site\images\sprites.png" />
     <Content Include="Content\Site\images\sprite_ico_2012-05-15.png" />
@@ -591,12 +585,6 @@
     <Content Include="Content\Site\mixins.less" />
     <Content Include="Content\Site\variables.less" />
     <Content Include="Content\Site\auth\style.less" />
-    <Content Include="Content\Site\auth\style.css.map">
-      <DependentUpon>style.css</DependentUpon>
-    </Content>
-    <Content Include="Content\Site\auth\style.css.map">
-      <DependentUpon>style.css</DependentUpon>
-    </Content>
     <None Include="Libs\angular-resource.min.js.map" />
     <None Include="Libs\angular-route.min.js.map" />
     <None Include="Libs\angular.min.js.map" />

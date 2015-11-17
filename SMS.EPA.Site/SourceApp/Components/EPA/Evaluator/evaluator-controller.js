@@ -95,6 +95,7 @@ epaModule.controller('MemberEPAInfoOfEvaluatorController',
 function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, baseUrl) {
     var vm = this;
 
+    vm.permission = 0;
     vm.epaId = parseInt($routeParams.id);
 
     vm.maxStar = 5;
@@ -214,6 +215,15 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
 
             angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
                 EmployeeEPAModel.scoreSpread(kpiGroup);
+            });
+
+            SelfEvalutorModel.getUserPermissionOnEvaluator().then(function () {
+                vm.permission = SelfEvalutorModel.permission;
+
+                if (vm.permission !== 2) {
+                    vm.isReadonly = true;
+                    vm.hoveringLeave = null;
+                }
             });
         });
     };

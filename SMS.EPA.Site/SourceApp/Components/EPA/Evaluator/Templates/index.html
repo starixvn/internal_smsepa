@@ -96,7 +96,7 @@
                                 <span ng-show="!memberEPA.DisciplineScore" ng-bind="'-'"></span>
                             </div>
                         </div>
-                        <div class="col-percent-40" ng-show="memberEPA.HasOtherViolation">
+                        <div class="col-percent-40" ng-if="memberEPA.HasOtherViolation">
                             <a class="glyphicon icon-alert" href="" ng-click="evaluatorCtrl.viewOtherViolationDetail(memberEPA)"
                                ng-attr-title='{{"ViewOtherViolation" | translate}}'></a>
                         </div>
@@ -117,10 +117,10 @@
                     </td>
                     <td class="text-center text-uppercase col-action">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="evaluatorCtrl.viewEPADetail(memberEPA)"
-                           ng-show="!memberEPA.CurrentProcess.IsEndProcess && !memberEPA.Period.IsEndPeriod"
+                           ng-if="!memberEPA.CurrentProcess.IsEndProcess && !memberEPA.Period.IsEndPeriod"
                            ng-href="{{evaluatorCtrl.viewEPADetailUrl}}" ng-attr-title='{{"EvaluateNow" | translate}}'></a>
                         <a class="glyphicon icon-view" href="" ng-click="evaluatorCtrl.viewEPAResult(memberEPA)"
-                           ng-show="memberEPA.CurrentProcess.IsEndProcess || memberEPA.Period.IsEndPeriod"
+                           ng-if="memberEPA.CurrentProcess.IsEndProcess || memberEPA.Period.IsEndPeriod"
                            ng-href="{{evaluatorCtrl.viewEPAResultUrl}}" ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
                     </td>
                 </tr>

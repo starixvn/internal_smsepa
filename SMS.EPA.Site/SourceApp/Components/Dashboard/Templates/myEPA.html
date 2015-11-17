@@ -34,7 +34,7 @@
                     <div ng-show="myEPA.EPAId > 0 && !myEPA.Period.IsEndPeriod" ng-bind="'N/A'"></div>
                     <div ng-show="myEPA.EPAId < 0" ng-bind="'-'"></div>
                 </div>
-                <div class="col-percent-40" ng-show="myEPA.EPAId > 0 && myEPA.Period.IsEndPeriod && myEPA.HasOtherViolation">
+                <div class="col-percent-40" ng-if="myEPA.EPAId > 0 && myEPA.Period.IsEndPeriod && myEPA.HasOtherViolation">
                     <a class="glyphicon icon-alert" href="" ng-click="dashboardCtrl.viewOtherViolationDetail(myEPA)"
                        ng-attr-title='{{"ViewOtherViolation" | translate}}'></a>
                 </div>
@@ -47,10 +47,10 @@
             </td>
             <td class="text-center col-action">
                 <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="dashboardCtrl.viewEPADetail(myEPA)"
-                   ng-show="myEPA.EPAId > 0 && !myEPA.IsEndProcessBySelf && myEPA.Status.StatusId == 0 && !myEPA.Period.IsEndPeriod"
+                   ng-if="myEPA.EPAId > 0 && !myEPA.IsEndProcessBySelf && myEPA.Status.StatusId == 0 && !myEPA.Period.IsEndPeriod"
                    ng-href="{{dashboardCtrl.viewEPADetailUrl}}" ng-attr-title='{{"EvaluateNow" | translate}}'></a>
                 <a class="glyphicon icon-view" href="" ng-click="dashboardCtrl.viewEPAResult(myEPA)"
-                   ng-show="myEPA.EPAId > 0 && (myEPA.IsEndProcessBySelf || myEPA.Status.StatusId == 1 || myEPA.Period.IsEndPeriod)"
+                   ng-if="myEPA.EPAId > 0 && (myEPA.IsEndProcessBySelf || myEPA.Status.StatusId == 1 || myEPA.Period.IsEndPeriod)"
                    ng-href="{{dashboardCtrl.viewEPAResultUrl}}" ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
             </td>
         </tr>
