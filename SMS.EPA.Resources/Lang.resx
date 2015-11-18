@@ -972,8 +972,8 @@
   <data name="CheckOut" xml:space="preserve">
     <value>Check Out</value>
   </data>
-  <data name="HRMComment" xml:space="preserve">
-    <value>HRM Comment</value>
+  <data name="EmployeeComment" xml:space="preserve">
+    <value>Employee Comment</value>
   </data>
   <data name="Shift" xml:space="preserve">
     <value>Shift</value>
@@ -1220,5 +1220,11 @@
   </data>
   <data name="ManagementReview" xml:space="preserve">
     <value>Management Review</value>
+  </data>
+  <data name="Ignored" xml:space="preserve">
+    <value>Ignored</value>
+  </data>
+  <data name="NotIgnored" xml:space="preserve">
+    <value>Not Ignored</value>
   </data>
 </root>

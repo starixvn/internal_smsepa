@@ -220,8 +220,8 @@ function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitie
         });
     };
 
-    attendanceModel.getAttendanceDetail = function (startDate, endDate, employeeId, departmentId, isLocal, reasonId) {
-        return attendanceFactory.getAttendanceDetail(startDate, endDate, employeeId, departmentId, isLocal, reasonId).success(function (attendanceDetails) {
+    attendanceModel.getAttendanceDetail = function (startDate, endDate, employeeId, departmentId, isLocal, reasonId, hasIgnored) {
+        return attendanceFactory.getAttendanceDetail(startDate, endDate, employeeId, departmentId, isLocal, reasonId, hasIgnored).success(function (attendanceDetails) {
             attendanceModel.attendanceDetails = attendanceDetails;
         })
         .error(function (response, status) {

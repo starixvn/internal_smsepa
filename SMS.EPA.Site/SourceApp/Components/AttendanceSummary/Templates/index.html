@@ -63,7 +63,7 @@
     <table class="row table table-bordered table-striped">
         <thead>
             <tr class="header-table">
-                <th colspan="17">
+                <th colspan="16">
                     <a class="pull-left button-icon create-button" href="" ng-click="attendanceCtrl.addOtherViolations()" 
                        ng-if="attendanceCtrl.permission == 2 && attendanceCtrl.isSystemAdmin">
                         <span class="icon plus"></span>
@@ -80,7 +80,7 @@
                 <th data-translate="Section"></th>
                 <th data-translate="Code"></th>
                 <th data-translate="Nick"></th>
-                <th data-translate="CheckInOut"></th>
+                <!--<th data-translate="CheckInOut"></th>-->
                 <th data-translate="WorkingTime"></th>
                 <th data-translate="LateIn"></th>
                 <th data-translate="EarlyOut"></th>
@@ -102,7 +102,7 @@
                 <td>
                     <span ng-bind="employee.Employee.NickName" popover-avatar avatar-src="{{employee.Employee.Avatar}}"></span>
                 </td>
-                <td class="text-right" ng-bind="employee.MissingCheckInOut"></td>
+                <!--<td class="text-right" ng-bind="employee.MissingCheckInOut"></td>-->
                 <td class="text-right" ng-bind="employee.WorkingBelowTime"></td>
                 <td class="text-right" ng-bind="employee.LateIn"></td>
                 <td class="text-right" ng-bind="employee.EarlyOut"></td>
@@ -141,12 +141,12 @@
                 </td>
             </tr>
             <tr ng-show="attendanceCtrl.filteredItems.length == 0">
-                <td class="empty-result" colspan="17" data-translate="EmptyResult"></td>
+                <td class="empty-result" colspan="16" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="17" class="paging">
+                <td colspan="16" class="paging">
                     <span data-translate="Show"></span>
                     <select class="dropdown-entry form-control" ng-model="attendanceCtrl.pageSize"
                             ng-options="entry for entry in attendanceCtrl.entries"></select>

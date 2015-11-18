@@ -20,19 +20,21 @@ namespace SMS.EPA.Criteria.AttendanceSummary
 
         public int? EmployeeId { get; set; }
 
-        [SpParam(Ignored = true)]
-        public string EmployeeName { get; set; }
-
         public int? DepartmentId { get; set; }
 
         public bool? IsLocal { get; set; }
 
-        [SpParam(Ignored = true)]
-        public string DepartmentName { get; set; }
-
         public int? ReasonId { get; set; }
 
         public int ApproverId { get; set; }
+
+        public bool? HasIgnored { get; set; }
+
+        [SpParam(Ignored = true)]
+        public string EmployeeName { get; set; }
+
+        [SpParam(Ignored = true)]
+        public string DepartmentName { get; set; }
 
         [SpParam(Ignored = true)]
         public bool HasChanged { get; set; }

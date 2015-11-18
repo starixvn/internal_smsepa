@@ -8,14 +8,14 @@
     <form novalidate class="row form-horizontal filter">
         <div class="form-group">
             <label class="col-sm-1 control-label" data-translate="Department"></label>
-            <div class="col-sm-3 field">
+            <div class="col-sm-2 field">
                 <select class="department-select form-control" ng-model="detailAttendanceCtrl.filter.departmentId"
                         ng-options="opt.DepartmentId as opt.Name for opt in detailAttendanceCtrl.treeDepartment">
                     <option value="">-- Select a Department / Section --</option>
                 </select>
             </div>
             <label class="col-sm-1 control-label" data-translate="Category"></label>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 <select class="form-control" ng-model="detailAttendanceCtrl.filter.isLocal">
                     <option value="">-- {{"All" | translate}} --</option>
                     <option value="false">{{"Expat" | translate}}</option>
@@ -28,18 +28,26 @@
                        placeholder="Enter full name or nick name" search-auto-complete search-employees="detailAttendanceCtrl.getEmployee()"
                        ng-change="detailAttendanceCtrl.unSelectEmployee()" employee="detailAttendanceCtrl.filter.employee" />
             </div>
+            <label class="col-sm-1 control-label ignore-status-discipline" data-translate="Ignored Status"></label>
+            <div class="col-sm-1">
+                <select class="form-control" ng-model="detailAttendanceCtrl.filter.hasIgnored">
+                    <option value="">-- {{"All" | translate}} --</option>
+                    <option value="true">{{"Ignored" | translate}}</option>
+                    <option value="false">{{"NotIgnored" | translate}}</option>
+                </select>
+            </div>
         </div>
         <div class="form-group">
             <label class="col-sm-1 control-label" data-translate="Reason"></label>
-            <div class="col-sm-3 field">
+            <div class="col-sm-2 field">
                 <select class="form-control" ng-model="detailAttendanceCtrl.filter.reasonId"
                         ng-options="opt.ViolationId as opt.Name for opt in detailAttendanceCtrl.violationOptions">
                     <option value="">-- Select a Reason --</option>
                 </select>
             </div>
             <label class="col-sm-1 control-label" data-translate="StartDate"></label>
-            <div class="col-sm-2 field">
-                <input readonly class="calendar-form-control" type="text"
+            <div class="col-sm-1 field">
+                <input readonly class="calendar-form-control date-detail-discipline" type="text"
                        ng-model="detailAttendanceCtrl.filter.startDate" datepicker-popup
                        ng-click="detailAttendanceCtrl.openPopupStartDate($event)"
                        is-open="detailAttendanceCtrl.calendar.startDateOpened" />
@@ -47,13 +55,13 @@
             </div>
             <label class="col-sm-1 control-label" data-translate="EndDate"></label>
             <div class="col-sm-2 field">
-                <input readonly class="calendar-form-control" type="text"
+                <input readonly class="calendar-form-control date-detail-discipline" type="text"
                        ng-model="detailAttendanceCtrl.filter.endDate" datepicker-popup
                        ng-click="detailAttendanceCtrl.openPopupEndDate($event)"
                        is-open="detailAttendanceCtrl.calendar.endDateOpened" />
                 <calendar-image class="calendar-image" ng-click="detailAttendanceCtrl.openPopupEndDate($event)"></calendar-image>
             </div>
-            <div class="col-sm-1">
+            <div class="col-sm-1 search-detail-discipline">
                 <input type="button" value="Search" class="button" ng-click="detailAttendanceCtrl.query(detailAttendanceCtrl.filter)" />
             </div>
         </div>
@@ -93,7 +101,7 @@
                 <th data-translate="SystemSubtractScore"></th>
                 <th data-translate="ApproverSubtractScore"></th>
                 <th data-translate="ApproverComment"></th>
-                <th data-translate="HRMComment"></th>
+                <th data-translate="EmployeeComment"></th>
             </tr>
         </thead>
         <tbody>

@@ -59,6 +59,8 @@ function ($scope, AttendanceModel, utilitiesFactory, CommonModel, baseUrl, usSpi
     });
 
     var getAttendanceSummary = function (startDate, endDate, departmentId, isLocal, employeeId, reasonId) {
+        usSpinnerService.spin("spinner-1");
+
         AttendanceModel.getAttendanceSummary(startDate, endDate, departmentId, isLocal, employeeId, reasonId).then(function () {
             vm.attendanceEmployees = AttendanceModel.attendanceEmployees;
             utilitiesFactory.searchOnPage(vm, vm.attendanceEmployees);
@@ -275,7 +277,8 @@ function ($scope, $window, $routeParams, AttendanceModel, utilitiesFactory, Comm
         departmentId: null,
         isLocal: $routeParams.isLocal ? $routeParams.isLocal : '',
         employeeId: $routeParams.id ? parseInt($routeParams.id) : null,
-        reasonId: parseInt($routeParams.reasonId)
+        reasonId: parseInt($routeParams.reasonId),
+        hasIgnored: ''
     };
 
     vm.calendar = {
@@ -316,8 +319,10 @@ function ($scope, $window, $routeParams, AttendanceModel, utilitiesFactory, Comm
         vm.permission = AttendanceModel.permission;
     });
 
-    var getAttendanceDetail = function (startDate, endDate, employeeId, departmentId, isLocal, reasonId) {
-        AttendanceModel.getAttendanceDetail(startDate, endDate, employeeId, departmentId, isLocal, reasonId).then(function () {
+    var getAttendanceDetail = function (startDate, endDate, employeeId, departmentId, isLocal, reasonId, hasIgnored) {
+        usSpinnerService.spin("spinner-1");
+
+        AttendanceModel.getAttendanceDetail(startDate, endDate, employeeId, departmentId, isLocal, reasonId, hasIgnored).then(function () {
             vm.attendanceDetails = AttendanceModel.attendanceDetails;
             vm.attendanceDetails = AttendanceModel.convertCheckInOutToDate(vm, vm.attendanceDetails);
             utilitiesFactory.searchOnPage(vm, vm.attendanceDetails);
@@ -338,7 +343,7 @@ function ($scope, $window, $routeParams, AttendanceModel, utilitiesFactory, Comm
         }
     };
 
-    getAttendanceDetail(vm.filter.startDate, vm.filter.endDate, vm.filter.employeeId, vm.filter.departmentId, vm.filter.isLocal, vm.filter.reasonId);
+    getAttendanceDetail(vm.filter.startDate, vm.filter.endDate, vm.filter.employeeId, vm.filter.departmentId, vm.filter.isLocal, vm.filter.reasonId, vm.filter.hasIgnored);
 
     vm.query = function (filter) {
         var employeeId = null;
@@ -347,7 +352,7 @@ function ($scope, $window, $routeParams, AttendanceModel, utilitiesFactory, Comm
             employeeId = filter.employee.EmployeeId;
         }
 
-        getAttendanceDetail(vm.filter.startDate, vm.filter.endDate, employeeId, vm.filter.departmentId, vm.filter.isLocal, vm.filter.reasonId);
+        getAttendanceDetail(vm.filter.startDate, vm.filter.endDate, employeeId, vm.filter.departmentId, vm.filter.isLocal, vm.filter.reasonId, vm.filter.hasIgnored);
     };
 
     vm.calculateApproverScore = function (attendance, violation) {

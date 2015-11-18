@@ -44,7 +44,7 @@ attendanceModule.factory('attendanceFactory', ['$http', 'baseUrl', function ($ht
         getViolationType: function () {
             return $http.get(baseUrl + 'api/AttendanceSummary/GetViolationType');
         },
-        getAttendanceDetail: function (startDate, endDate, employeeId, departmentId, isLocal, reasonId) {
+        getAttendanceDetail: function (startDate, endDate, employeeId, departmentId, isLocal, reasonId, hasIgnored) {
             return $http.get(baseUrl + 'api/AttendanceSummary/GetAttendanceDetail',
                 {
                     params: {
@@ -53,7 +53,8 @@ attendanceModule.factory('attendanceFactory', ['$http', 'baseUrl', function ($ht
                         employeeId: employeeId,
                         departmentId: departmentId,
                         reasonId: reasonId,
-                        isLocal: isLocal
+                        isLocal: isLocal,
+                        hasIgnored: hasIgnored
                     }
                 }
             );

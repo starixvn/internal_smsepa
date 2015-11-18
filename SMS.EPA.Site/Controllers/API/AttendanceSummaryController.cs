@@ -130,7 +130,8 @@ namespace SMS.EPA.Site.Controllers.API
             int? employeeId = null,
             int? departmentId = null,
             bool? isLocal = null,
-            int? reasonId = null)
+            int? reasonId = null,
+            bool? hasIgnored = null)
         {
             var criteria = new GetDetailAttendanceCriteria
             {
@@ -140,7 +141,8 @@ namespace SMS.EPA.Site.Controllers.API
                 DepartmentId = departmentId,
                 IsLocal = isLocal,
                 ReasonId = reasonId,
-                ApproverId = CurrentUser.EmployeeInfo.EmployeeId
+                ApproverId = CurrentUser.EmployeeInfo.EmployeeId,
+                HasIgnored = hasIgnored
             };
 
             IEnumerable<AttendanceDetailModel> attendanceViolations = _attendanceSummaryService.GetAttendanceDetail(criteria);

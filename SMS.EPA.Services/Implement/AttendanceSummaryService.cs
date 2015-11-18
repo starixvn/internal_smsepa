@@ -47,6 +47,7 @@ namespace SMS.EPA.Services.Implement
             if (criteria.IsValid())
             {
                 attendanceEmployees = _attendanceSummaryRepository.GetAttendanceSummary(criteria);
+                attendanceEmployees = attendanceEmployees.OrderByDescending(x => x.Permission);
             }
 
             return attendanceEmployees;
@@ -192,7 +193,7 @@ namespace SMS.EPA.Services.Implement
             writer.CopyRows(3, 1);
 
             FillContentSummaryRow(attendanceEmployees, ref writer);
-            writer.SyncColumnsWidth(17);
+            writer.SyncColumnsWidth(16);
 
             writer.Render();
         }
@@ -544,7 +545,6 @@ namespace SMS.EPA.Services.Implement
                 Nick = attendanceEmployee.Employee.NickName,
                 FullName = attendanceEmployee.Employee.FullName,
                 Category = attendanceEmployee.Employee.Category,
-                MissingInOut = attendanceEmployee.MissingCheckInOut,
                 WorkingBelowTime = attendanceEmployee.WorkingBelowTime,
                 LateIn = attendanceEmployee.LateIn,
                 EarlyOut = attendanceEmployee.EarlyOut,
