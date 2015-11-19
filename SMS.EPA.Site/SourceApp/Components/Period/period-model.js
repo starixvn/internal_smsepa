@@ -1166,7 +1166,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
 
     periodModel.validateEmployeeSettingGenerateEPA = function (employeeSettings) {
         for (var i = 0; i < employeeSettings.length; i++) {
-            var employeeSetting = employeeSettings[0];
+            var employeeSetting = employeeSettings[i];
 
             if (!employeeSetting.TargetTemplate) {
                 notificationFactory.error("NoneTargetTemplateSettingWarning");
