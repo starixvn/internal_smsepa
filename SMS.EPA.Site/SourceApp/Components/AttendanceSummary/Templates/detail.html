@@ -54,14 +54,19 @@
                 <calendar-image class="calendar-image" ng-click="detailAttendanceCtrl.openPopupStartDate($event)"></calendar-image>
             </div>
             <label class="col-sm-1 control-label" data-translate="EndDate"></label>
-            <div class="col-sm-2 field">
+            <div class="col-sm-1 field">
                 <input readonly class="calendar-form-control date-detail-discipline" type="text"
                        ng-model="detailAttendanceCtrl.filter.endDate" datepicker-popup
                        ng-click="detailAttendanceCtrl.openPopupEndDate($event)"
                        is-open="detailAttendanceCtrl.calendar.endDateOpened" />
                 <calendar-image class="calendar-image" ng-click="detailAttendanceCtrl.openPopupEndDate($event)"></calendar-image>
             </div>
-            <div class="col-sm-1 search-detail-discipline">
+            <label class="col-sm-1 control-label lb-show-all-discipline" data-translate="ShowAll">
+            </label>
+            <div class="col-sm-1 field ckc-show-all-discipline">
+                <input type="checkbox" ng-model="detailAttendanceCtrl.filter.showAll" />
+            </div>
+            <div class="col-sm-1">
                 <input type="button" value="Search" class="button" ng-click="detailAttendanceCtrl.query(detailAttendanceCtrl.filter)" />
             </div>
         </div>

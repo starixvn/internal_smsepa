@@ -24,15 +24,17 @@ namespace SMS.EPA.Criteria.AttendanceSummary
 
         public bool? IsLocal { get; set; }
 
-        [SpParam(Ignored = true)]
-        public string DepartmentName { get; set; }
-
         public int? EmployeeId { get; set; }
+
+        public int? ReasonId { get; set; }
+
+        public bool ShowAll { get; set; }
 
         [SpParam(Ignored = true)]
         public string EmployeeName { get; set; }
 
-        public int? ReasonId { get; set; }
+        [SpParam(Ignored = true)]
+        public string DepartmentName { get; set; }
 
         public override bool IsValid()
         {

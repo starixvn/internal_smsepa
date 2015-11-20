@@ -540,7 +540,7 @@ namespace SMS.EPA.Services.Implement
             var record = new
             {
                 Count = rowIndex,
-                Section = attendanceEmployee.Group.GroupName,
+                Section = attendanceEmployee.Group != null ? attendanceEmployee.Group.GroupName : string.Empty,
                 Code = attendanceEmployee.Employee.Code,
                 Nick = attendanceEmployee.Employee.NickName,
                 FullName = attendanceEmployee.Employee.FullName,

@@ -38,7 +38,8 @@ function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitie
         departmentId: null,
         isLocal: '',
         employeeId: null,
-        reasonId: null
+        reasonId: null,
+        showAll: false
     };
 
     attendanceModel.cacheFilter = function (filter) {
@@ -86,8 +87,8 @@ function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitie
         return endDate;
     };
 
-    attendanceModel.getAttendanceSummary = function (startDate, endDate, departmentId, isLocal, employeeId, reasonId) {
-        return attendanceFactory.getAttendanceSummary(startDate, endDate, departmentId, isLocal, employeeId, reasonId)
+    attendanceModel.getAttendanceSummary = function (startDate, endDate, departmentId, isLocal, employeeId, reasonId, showAll) {
+        return attendanceFactory.getAttendanceSummary(startDate, endDate, departmentId, isLocal, employeeId, reasonId, showAll)
         .success(function (attendanceEmployees) {
             attendanceModel.attendanceEmployees = attendanceEmployees;
         }).error(function (response, status) {
@@ -220,8 +221,8 @@ function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitie
         });
     };
 
-    attendanceModel.getAttendanceDetail = function (startDate, endDate, employeeId, departmentId, isLocal, reasonId, hasIgnored) {
-        return attendanceFactory.getAttendanceDetail(startDate, endDate, employeeId, departmentId, isLocal, reasonId, hasIgnored).success(function (attendanceDetails) {
+    attendanceModel.getAttendanceDetail = function (startDate, endDate, employeeId, departmentId, isLocal, reasonId, hasIgnored, showAll) {
+        return attendanceFactory.getAttendanceDetail(startDate, endDate, employeeId, departmentId, isLocal, reasonId, hasIgnored, showAll).success(function (attendanceDetails) {
             attendanceModel.attendanceDetails = attendanceDetails;
         })
         .error(function (response, status) {

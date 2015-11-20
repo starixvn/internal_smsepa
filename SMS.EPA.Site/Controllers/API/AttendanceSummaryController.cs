@@ -46,6 +46,7 @@ namespace SMS.EPA.Site.Controllers.API
         public IEnumerable<AttendanceSummaryModel> GetAttendanceSummary(
             DateTime startDate,
             DateTime endDate,
+            bool showAll = false,
             int? departmentId = null,
             bool? isLocal = null,
             int? employeeId = null,
@@ -59,6 +60,7 @@ namespace SMS.EPA.Site.Controllers.API
                 IsLocal = isLocal,
                 EmployeeId = employeeId,
                 ReasonId = reasonId,
+                ShowAll = showAll,
                 ApproverId = CurrentUser.EmployeeInfo.EmployeeId
             };
             IEnumerable<AttendanceSummaryModel> attendanceEmployees = _attendanceSummaryService.GetAttendanceSummary(criteria);
@@ -127,6 +129,7 @@ namespace SMS.EPA.Site.Controllers.API
         public IEnumerable<AttendanceDetailModel> GetAttendanceDetail(
             DateTime startDate,
             DateTime endDate,
+            bool showAll,
             int? employeeId = null,
             int? departmentId = null,
             bool? isLocal = null,
@@ -142,7 +145,8 @@ namespace SMS.EPA.Site.Controllers.API
                 IsLocal = isLocal,
                 ReasonId = reasonId,
                 ApproverId = CurrentUser.EmployeeInfo.EmployeeId,
-                HasIgnored = hasIgnored
+                HasIgnored = hasIgnored,
+                ShowAll = showAll
             };
 
             IEnumerable<AttendanceDetailModel> attendanceViolations = _attendanceSummaryService.GetAttendanceDetail(criteria);

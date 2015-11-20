@@ -30,6 +30,8 @@ namespace SMS.EPA.Criteria.AttendanceSummary
 
         public bool? HasIgnored { get; set; }
 
+        public bool ShowAll { get; set; }
+
         [SpParam(Ignored = true)]
         public string EmployeeName { get; set; }
 
