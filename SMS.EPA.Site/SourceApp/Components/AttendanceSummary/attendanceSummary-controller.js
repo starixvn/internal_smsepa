@@ -141,6 +141,8 @@ function ($scope, $modalInstance, AttendanceModel, employee, startDate, endDate,
 
     vm.otherViolations = AttendanceModel.otherViolations;
     vm.otherViolationTypes = AttendanceModel.otherViolationTypes;
+    vm.permission = AttendanceModel.permission;
+    vm.isSystemAdmin = AttendanceModel.isSystemAdmin;
 
     vm.violation = {
         EmployeeId: vm.employee ? vm.employee.Employee.EmployeeId : null,
@@ -166,6 +168,14 @@ function ($scope, $modalInstance, AttendanceModel, employee, startDate, endDate,
     vm.pageSize = 5;
     utilitiesFactory.numberEntryList(vm);
     utilitiesFactory.getDateFormat(vm);
+
+    AttendanceModel.getUserPermissionOnAttendanceSummary().then(function () {
+        vm.permission = AttendanceModel.permission;
+    });
+
+    AttendanceModel.checkUserPermissionIsAdmin().then(function () {
+        vm.isSystemAdmin = AttendanceModel.isSystemAdmin;
+    });
 
     AttendanceModel.getOtherViolationType(true).then(function () {
         vm.otherViolationTypes = AttendanceModel.otherViolationTypes;

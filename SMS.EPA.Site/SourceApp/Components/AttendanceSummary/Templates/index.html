@@ -86,7 +86,6 @@
                 <th data-translate="Section"></th>
                 <th data-translate="Code"></th>
                 <th data-translate="Nick"></th>
-                <!--<th data-translate="CheckInOut"></th>-->
                 <th data-translate="WorkingTime"></th>
                 <th data-translate="LateIn"></th>
                 <th data-translate="EarlyOut"></th>
@@ -108,7 +107,6 @@
                 <td>
                     <span ng-bind="employee.Employee.NickName" popover-avatar avatar-src="{{employee.Employee.Avatar}}"></span>
                 </td>
-                <!--<td class="text-right" ng-bind="employee.MissingCheckInOut"></td>-->
                 <td class="text-right" ng-bind="employee.WorkingBelowTime"></td>
                 <td class="text-right" ng-bind="employee.LateIn"></td>
                 <td class="text-right" ng-bind="employee.EarlyOut"></td>
@@ -118,11 +116,9 @@
                 <td class="text-right" ng-bind="employee.ChangeShift"></td>
                 <td class="text-right">
                     <div ng-show="employee.OtherViolationsScore > 0">
-                        <a class="red" href="" ng-click="attendanceCtrl.addOtherViolations(employee)"
-                           ng-if="attendanceCtrl.permission == 2 && attendanceCtrl.isSystemAdmin">
+                        <a class="red" href="" ng-click="attendanceCtrl.addOtherViolations(employee)">
                             -{{employee.OtherViolationsScore | number: 1}}
                         </a>
-                        <span class="red" ng-if="!attendanceCtrl.isSystemAdmin || attendanceCtrl.permission == 1">-{{employee.OtherViolationsScore | number: 1}}</span>
                     </div>
                     <div ng-show="employee.OtherViolationsScore == 0">
                         <a href="" ng-click="attendanceCtrl.addOtherViolations(employee)" ng-if="attendanceCtrl.permission == 2 && attendanceCtrl.isSystemAdmin">

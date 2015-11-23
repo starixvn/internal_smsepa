@@ -51,7 +51,7 @@
                 <textarea type="text" class="form-control txt-comment-violation" maxlength="2000" ng-model="violationCtrl.violation.Comment"></textarea>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" ng-show="violationCtrl.permission == 2 && violationCtrl.isSystemAdmin">
             <label class="col-sm-3 control-label">
             </label>
             <div class="col-sm-8">
@@ -75,7 +75,7 @@
                 </th>
                 <th data-translate="Comment">
                 </th>
-                <th data-translate="Delete">
+                <th data-translate="Delete" ng-if="violationCtrl.permission == 2 && violationCtrl.isSystemAdmin">
                 </th>
             </tr>
         </thead>
@@ -87,7 +87,7 @@
             <td class="text-center" ng-bind="violation.Name"></td>
             <td class="text-center" ng-bind="violation.Score | number: 1"></td>
             <td class="text-center" ng-bind="violation.Comment"></td>
-            <td class="text-center">
+            <td class="text-center" ng-if="violationCtrl.permission == 2 && violationCtrl.isSystemAdmin">
                 <a href="javascript:;" class="glyphicon glyphicon-remove icon-remove" title="Delete" ng-click="violationCtrl.delete(violation)"></a>
             </td>
         </tr>
