@@ -15,9 +15,10 @@
             <td ng-bind="myEPA.Period.Name"></td>
             <td class="text-center">
                 <div ng-show="myEPA.EPAId > 0 && myEPA.Period.IsEndPeriod">
-                    {{myEPA.PerformanceScore | customScore}} / {{myEPA.MaxPerformanceScore | customScore}}
+                    <span ng-show="myEPA.PerformanceScore">{{myEPA.PerformanceScore | customScore}} / {{myEPA.MaxPerformanceScore | customScore}}</span>
+                    <span ng-show="!myEPA.PerformanceScore && myEPA.PerformanceScore != 0" data-translate="NotAvailable"></span>
                 </div>
-                <div ng-show="myEPA.EPAId > 0 && !myEPA.Period.IsEndPeriod" ng-bind="'N/A'"></div>
+                <div ng-show="myEPA.EPAId > 0 && !myEPA.Period.IsEndPeriod" data-translate="Pending"></div>
                 <div ng-show="myEPA.EPAId < 0" ng-bind="'-'"></div>
             </td>
             <td class="text-center">
@@ -31,7 +32,7 @@
                             <span ng-show="!myEPA.DisciplineScore" ng-bind="'-'"></span>
                         </div>
                     </div>
-                    <div ng-show="myEPA.EPAId > 0 && !myEPA.Period.IsEndPeriod" ng-bind="'N/A'"></div>
+                    <div ng-show="myEPA.EPAId > 0 && !myEPA.Period.IsEndPeriod" data-translate="Pending"></div>
                     <div ng-show="myEPA.EPAId < 0" ng-bind="'-'"></div>
                 </div>
                 <div class="col-percent-40" ng-if="myEPA.EPAId > 0 && myEPA.Period.IsEndPeriod && myEPA.HasOtherViolation">
@@ -41,9 +42,10 @@
             </td>
             <td class="text-center">
                 <div ng-show="myEPA.Period.IsEndPeriod">
-                    {{myEPA.FinalScore | customScore}} / {{myEPA.MaxFinalScore | customScore}}
+                    <span ng-show="myEPA.FinalScore">{{myEPA.FinalScore | customScore}} / {{myEPA.MaxFinalScore | customScore}}</span>
+                    <div ng-show="!myEPA.FinalScore && myEPA.FinalScore != 0" data-translate="NotAvailable"></div>
                 </div>
-                <div ng-show="!myEPA.Period.IsEndPeriod" ng-bind="'N/A'"></div>
+                <div ng-show="!myEPA.Period.IsEndPeriod" data-translate="Pending"></div>
             </td>
             <td class="text-center col-action">
                 <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="dashboardCtrl.viewEPADetail(myEPA)"
