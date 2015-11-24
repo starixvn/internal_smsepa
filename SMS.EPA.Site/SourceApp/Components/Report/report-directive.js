@@ -3,6 +3,11 @@
 
 reportModule.directive('gridEpaSummaryReport', ['$timeout', 'utilitiesFactory',
 function ($timeout, utilitiesFactory) {
+    var status = {
+        NotAvailable: 'N/A',
+        Pending: 'Pending'
+    };
+
     var generateGroupHeaders = function (periodSelecteds) {
         var groupHeaders = [
             {
@@ -75,8 +80,18 @@ function ($timeout, utilitiesFactory) {
                             grade = '';
 
                         if (epaInfo.Periods[index].IsEndPeriod) {
-                            finalScore = utilitiesFactory.parseFloat(epaInfo.Periods[index].FinalScore);
-                            grade = epaInfo.Periods[index].Grade;
+                            if (epaInfo.Periods[index].FinalScore) {
+                                finalScore = utilitiesFactory.parseFloat(epaInfo.Periods[index].FinalScore);
+                                grade = epaInfo.Periods[index].Grade;
+                            }
+                            else {
+                                finalScore = status.NotAvailable;
+                                grade = status.NotAvailable;
+                            }
+                        }
+                        else {
+                            finalScore = status.Pending;
+                            grade = status.Pending;
                         }
 
                         colFinalScore = { Name: "FinalScore" + periodSelected.PeriodId, Value: finalScore };
@@ -187,6 +202,11 @@ reportModule.directive('exportEpaSummaryReport', ['baseUrl', function (baseUrl) 
 
 reportModule.directive('gridEpaDetailReport', ['$timeout', 'utilitiesFactory',
 function ($timeout, utilitiesFactory) {
+    var status = {
+        NotAvailable: 'N/A',
+        Pending: 'Pending'
+    };
+
     var generateColumnHeaders = function () {
         var columnHeaders = [
             { HeaderText: "#", Width: 40, Name: "No", HeaderAlign: "center", CellAlign: "center" },
@@ -250,8 +270,18 @@ function ($timeout, utilitiesFactory) {
         }
 
         if (epaInfo.Period.IsEndPeriod) {
-            result.FinalScore = utilitiesFactory.parseFloat(epaInfo.FinalScore);
-            result.Grade = epaInfo.Grade;
+            if (epaInfo.FinalScore) {
+                result.FinalScore = utilitiesFactory.parseFloat(epaInfo.FinalScore);
+                result.Grade = epaInfo.Grade;
+            }
+            else {
+                result.FinalScore = status.NotAvailable;
+                result.Grade = status.NotAvailable;
+            }
+        }
+        else {
+            result.FinalScore = status.Pending;
+            result.Grade = status.Pending;
         }
 
         return result;
