@@ -51,6 +51,21 @@ function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitie
         attendanceModel.filter.reasonId = filter.reasonId;
     };
 
+    attendanceModel.summaryPaging = {
+        currentPage: 1,
+        pageSize: 20
+    };
+
+    attendanceModel.setSummaryPaging = function (currentPage, pageSize) {
+        attendanceModel.summaryPaging.currentPage = currentPage;
+        attendanceModel.summaryPaging.pageSize = pageSize;
+    };
+
+    attendanceModel.resetSummaryPaging = function () {
+        attendanceModel.summaryPaging.currentPage = 1;
+        attendanceModel.summaryPaging.pageSize = 20;
+    };
+
     attendanceModel.getStartDate = function () {
         var startDate = new Date(),
             date = new Date(),
@@ -465,3 +480,24 @@ function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitie
 
     return attendanceModel;
 }]);
+
+attendanceModule.factory('AttendancePagingFactory', function () {
+    var attendancePaging = {};
+
+    attendancePaging.summaryPaging = {
+        currentPage: 1,
+        pageSize: 20
+    };
+
+    attendancePaging.setSummaryPaging = function (currentPage, pageSize) {
+        attendancePaging.summaryPaging.currentPage = currentPage;
+        attendancePaging.summaryPaging.pageSize = pageSize;
+    };
+
+    attendancePaging.resetSummaryPaging = function () {
+        attendancePaging.summaryPaging.currentPage = 1;
+        attendancePaging.summaryPaging.pageSize = 20;
+    };
+
+    return attendancePaging;
+});

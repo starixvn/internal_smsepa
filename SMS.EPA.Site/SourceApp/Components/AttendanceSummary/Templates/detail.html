@@ -110,7 +110,8 @@
             </tr>
         </thead>
         <tbody>
-            <tr dir-paginate="employee in detailAttendanceCtrl.filteredItems | itemsPerPage: detailAttendanceCtrl.pageSize" current-page="detailAttendanceCtrl.currentPage">
+            <tr dir-paginate="employee in detailAttendanceCtrl.filteredItems | itemsPerPage: detailAttendanceCtrl.pageSize"
+                pagination-id="detail" current-page="detailAttendanceCtrl.currentPage">
                 <td class="width-200">
                     <span ng-bind="employee.Employee.NickName" popover-avatar avatar-src="{{employee.Employee.Avatar}}"></span>
                 </td>
@@ -220,7 +221,7 @@
                             ng-options="entry for entry in detailAttendanceCtrl.entries"></select>
                     <span data-translate="entries"></span>
                     <div class="pull-right custom-paging">
-                        <dir-pagination-controls boundary-links="true"></dir-pagination-controls>
+                        <dir-pagination-controls pagination-id="detail" boundary-links="true"></dir-pagination-controls>
                     </div>
                 </td>
             </tr>

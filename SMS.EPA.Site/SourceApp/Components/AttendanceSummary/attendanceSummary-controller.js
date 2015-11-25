@@ -11,8 +11,8 @@ function ($scope, AttendanceModel, utilitiesFactory, CommonModel, baseUrl, usSpi
     vm.permission = AttendanceModel.permission;
     vm.isSystemAdmin = AttendanceModel.isSystemAdmin;
 
-    vm.currentPage = 1;
-    vm.pageSize = 20;
+    vm.currentPage = AttendanceModel.summaryPaging.currentPage;
+    vm.pageSize = AttendanceModel.summaryPaging.pageSize;
 
     vm.filter = AttendanceModel.filter;
     vm.filter.startDate = AttendanceModel.getStartDate();
@@ -86,7 +86,10 @@ function ($scope, AttendanceModel, utilitiesFactory, CommonModel, baseUrl, usSpi
     vm.query = function (filter) {
         var employeeId = null;
         vm.searchKey = '';
-        vm.currentPage = 1;
+
+        AttendanceModel.resetSummaryPaging();
+        vm.currentPage = AttendanceModel.summaryPaging.currentPage;
+        vm.pageSize = AttendanceModel.summaryPaging.pageSize;
 
         if (filter.employee) {
             employeeId = filter.employee.EmployeeId;
@@ -112,6 +115,9 @@ function ($scope, AttendanceModel, utilitiesFactory, CommonModel, baseUrl, usSpi
     vm.adjust = function (employee) {
         var startDate = vm.filter.startDate,
             endDate = vm.filter.endDate;
+
+        AttendanceModel.setSummaryPaging(vm.currentPage, vm.pageSize);
+
         vm.attendanceDetailUrl = baseUrl + 'Discipline/Detail/' + employee.Employee.EmployeeId
             + '?startDate=' + startDate.toDateString() + '&endDate=' + endDate.toDateString() + '&reasonId='
             + vm.filter.reasonId + '&isLocal=' + vm.filter.isLocal + '&showAll=' + vm.filter.showAll;
