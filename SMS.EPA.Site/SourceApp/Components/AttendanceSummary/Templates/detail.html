@@ -96,6 +96,7 @@
                 <th data-translate="CheckIn"></th>
                 <th data-translate="CheckOut"></th>
                 <th data-translate="TotalHours"></th>
+                <th data-translate="CheckInOut"></th>
                 <th data-translate="WorkingUnderTime"></th>
                 <th data-translate="LateIn"></th>
                 <th data-translate="EarlyOut"></th>
@@ -119,22 +120,23 @@
                 <td class="text-center width250" ng-bind="employee.WorkDate | date: detailAttendanceCtrl.dateFormat"></td>
                 <td class="text-center width180" ng-bind="employee.ShiftName"></td>
                 <td class="width-100">
-                    <span ng-show="employee.CheckIn.Value" ng-bind="employee.CheckIn.Value | date:detailAttendanceCtrl.timeFormat"></span>
-                    <span ng-show="!employee.CheckIn.Value">-</span>
-                    <input class="ignore-right" ng-show="employee.CheckIn.HasViolated" ng-model="employee.CheckIn.HasIgnored"
-                           ng-click="detailAttendanceCtrl.calculateApproverScore(employee, employee.CheckIn)"
-                           ng-disabled="detailAttendanceCtrl.permission != 2 || !employee.CheckIn.HasApprovedBy || employee.OutOfDate" type="checkbox"></input>
+                    <span ng-show="employee.InFixed" ng-bind="employee.InFixed | date:detailAttendanceCtrl.timeFormat"></span>
+                    <span ng-show="!employee.InFixed">-</span>
                 </td>
                 <td class="width-100">
-                    <span ng-show="employee.CheckOut.Value" ng-bind="employee.CheckOut.Value | date:detailAttendanceCtrl.timeFormat"></span>
-                    <span ng-show="!employee.CheckOut.Value">-</span>
-                    <input class="ignore-right" ng-show="employee.CheckOut.HasViolated" ng-model="employee.CheckOut.HasIgnored"
-                           ng-click="detailAttendanceCtrl.calculateApproverScore(employee, employee.CheckOut)"
-                           ng-disabled="detailAttendanceCtrl.permission != 2 || !employee.CheckOut.HasApprovedBy || employee.OutOfDate" type="checkbox"></input>
+                    <span ng-show="employee.OutFixed" ng-bind="employee.OutFixed | date:detailAttendanceCtrl.timeFormat"></span>
+                    <span ng-show="!employee.OutFixed">-</span>
                 </td>
                 <td class="width180">
                     <span ng-show="employee.TotalHours.Value" ng-bind="employee.TotalHours.Value"></span>
                     <span ng-show="!employee.TotalHours.Value">-</span>
+                </td>
+                <td class="width-100">
+                    <span ng-show="employee.MissingCheckInOut.Value && employee.MissingCheckInOut.HasViolated" ng-bind="employee.MissingCheckInOut.Value"></span>
+                    <span ng-show="!employee.MissingCheckInOut.Value || !employee.MissingCheckInOut.HasViolated">-</span>
+                    <input class="ignore-right" ng-show="employee.MissingCheckInOut.HasViolated" ng-model="employee.MissingCheckInOut.HasIgnored"
+                           ng-click="detailAttendanceCtrl.calculateApproverScore(employee, employee.MissingCheckInOut)"
+                           ng-disabled="detailAttendanceCtrl.permission != 2 || !employee.MissingCheckInOut.HasApprovedBy || employee.OutOfDate" type="checkbox"></input>
                 </td>
                 <td class="width180">
                     <span ng-show="employee.TotalHours.Value && employee.TotalHours.HasViolated">1</span>

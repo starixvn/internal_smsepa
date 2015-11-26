@@ -300,8 +300,7 @@
       <Setting Key="EpaAttendanceSummary_GetViolations" SpName="EpaAttendanceSummary_GetViolations" DbName="SMSEPA" Plain="0">
       </Setting>
       <Setting Key="EpaAttendanceSummary_GetDetail" SpName="EpaAttendanceSummary_GetDetail" DbName="SMSEPA" Plain="0">
-        <Mapping DataField="CheckInId" ObjectProperty="ViolationId"/>
-        <Mapping DataField="CheckOutId" ObjectProperty="ViolationId"/>
+        <Mapping DataField="MissingCheckInOutId" ObjectProperty="ViolationId"/>
         <Mapping DataField="TotalHoursId" ObjectProperty="ViolationId"/>
         <Mapping DataField="LateInId" ObjectProperty="ViolationId"/>
         <Mapping DataField="EarlyOutId" ObjectProperty="ViolationId"/>

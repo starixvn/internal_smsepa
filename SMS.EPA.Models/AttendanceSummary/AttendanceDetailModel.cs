@@ -23,11 +23,13 @@ namespace SMS.EPA.Model.AttendanceSummary
 
         public bool OutOfDate { get; set; }
 
+        public string InFixed { get; set; }
+
+        public string OutFixed { get; set; }
+
         public EmployeeModel Employee { get; set; }
 
-        public ViolationModel CheckIn { get; set; }
-
-        public ViolationModel CheckOut { get; set; }
+        public ViolationModel MissingCheckInOut { get; set; }
 
         public ViolationModel TotalHours { get; set; }
 

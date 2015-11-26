@@ -248,24 +248,14 @@ function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitie
     var getIgnoredViolationItem = function (attendanceDetail) {
         var violations = [];
 
-        if (attendanceDetail.CheckIn && attendanceDetail.CheckIn.HasViolated) {
-            var violationCheckIn = {
+        if (attendanceDetail.MissingCheckInOut && attendanceDetail.MissingCheckInOut.HasViolated) {
+            var violationMissingCheckInOut = {
                 WorkDate: attendanceDetail.WorkDate,
                 EmployeeId: attendanceDetail.Employee.EmployeeId,
-                ViolationId: attendanceDetail.CheckIn.ViolationId,
-                Ignored: attendanceDetail.CheckIn.HasIgnored
+                ViolationId: attendanceDetail.MissingCheckInOut.ViolationId,
+                Ignored: attendanceDetail.MissingCheckInOut.HasIgnored
             };
-            violations.push(violationCheckIn);
-        }
-
-        if (attendanceDetail.CheckOut && attendanceDetail.CheckOut.HasViolated) {
-            var violationCheckOut = {
-                WorkDate: attendanceDetail.WorkDate,
-                EmployeeId: attendanceDetail.Employee.EmployeeId,
-                ViolationId: attendanceDetail.CheckOut.ViolationId,
-                Ignored: attendanceDetail.CheckOut.HasIgnored
-            };
-            violations.push(violationCheckOut);
+            violations.push(violationMissingCheckInOut);
         }
 
         if (attendanceDetail.LateIn && attendanceDetail.LateIn.HasViolated) {
@@ -409,12 +399,12 @@ function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitie
 
     attendanceModel.convertCheckInOutToDate = function (vm, attendanceDetails) {
         angular.forEach(attendanceDetails, function (attendanceDetail) {
-            if (attendanceDetail.CheckIn != null && attendanceDetail.CheckIn.Value) {
-                attendanceDetail.CheckIn.Value = new Date(attendanceDetail.CheckIn.Value);
+            if (attendanceDetail.InFixed != null) {
+                attendanceDetail.InFixed = new Date(attendanceDetail.InFixed);
             }
 
-            if (attendanceDetail.CheckOut != null && attendanceDetail.CheckOut.Value) {
-                attendanceDetail.CheckOut.Value = new Date(attendanceDetail.CheckOut.Value);
+            if (attendanceDetail.OutFixed != null) {
+                attendanceDetail.OutFixed = new Date(attendanceDetail.OutFixed);
             }
 
             if (attendanceDetail.TotalHours != null && attendanceDetail.TotalHours.Value) {

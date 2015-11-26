@@ -250,14 +250,15 @@ namespace SMS.EPA.Services.Implement
 
         private static IEnumerable<AttendanceDetailModel> GroupAttendanceViolations(IEnumerable<AttendanceDetailModel> violations)
         {
-            IEnumerable<AttendanceDetailModel> attendanceViolations = violations.GroupBy(x => new { x.EmployeeId, x.WorkDate, x.ShiftName, x.OutOfDate }).Select(y => new AttendanceDetailModel
+            IEnumerable<AttendanceDetailModel> attendanceViolations = violations.GroupBy(x => new { x.EmployeeId, x.WorkDate, x.ShiftName, x.OutOfDate, x.InFixed, x.OutFixed }).Select(y => new AttendanceDetailModel
             {
                 EmployeeId = y.Key.EmployeeId,
                 WorkDate = y.Key.WorkDate,
                 ShiftName = y.Key.ShiftName,
                 OutOfDate = y.Key.OutOfDate,
-                CheckIn = GetCheckIn(y.ToList()),
-                CheckOut = GetCheckOut(y.ToList()),
+                InFixed = y.Key.InFixed,
+                OutFixed = y.Key.OutFixed,
+                MissingCheckInOut = GetMissingCheckInOut(y.ToList()),
                 TotalHours = GetTotalHours(y.ToList()),
                 LateIn = GetLateIn(y.ToList()),
                 EarlyOut = GetEarlyOut(y.ToList()),
@@ -304,16 +305,10 @@ namespace SMS.EPA.Services.Implement
 
         private static void CalculateSubtractScore(AttendanceDetailModel attendanceDetail)
         {
-            if (attendanceDetail.CheckIn != null && attendanceDetail.CheckIn.HasViolated)
+            if (attendanceDetail.MissingCheckInOut != null && attendanceDetail.MissingCheckInOut.HasViolated)
             {
-                attendanceDetail.SystemSubtractScore += attendanceDetail.CheckIn.Score;
-                attendanceDetail.ApproverSubtractScore += !attendanceDetail.CheckIn.HasIgnored ? attendanceDetail.CheckIn.Score : 0;
-            }
-
-            if (attendanceDetail.CheckOut != null && attendanceDetail.CheckOut.HasViolated)
-            {
-                attendanceDetail.SystemSubtractScore += attendanceDetail.CheckOut.Score;
-                attendanceDetail.ApproverSubtractScore += !attendanceDetail.CheckOut.HasIgnored ? attendanceDetail.CheckOut.Score : 0;
+                attendanceDetail.SystemSubtractScore += attendanceDetail.MissingCheckInOut.Score;
+                attendanceDetail.ApproverSubtractScore += !attendanceDetail.MissingCheckInOut.HasIgnored ? attendanceDetail.MissingCheckInOut.Score : 0;
             }
 
             if (attendanceDetail.LateIn != null && attendanceDetail.LateIn.HasViolated)
@@ -376,30 +371,17 @@ namespace SMS.EPA.Services.Implement
             return attendanceViolations;
         }
 
-        private static ViolationModel GetCheckIn(IEnumerable<AttendanceDetailModel> groupAttendances)
+        private static ViolationModel GetMissingCheckInOut(IEnumerable<AttendanceDetailModel> groupAttendances)
         {
-            IEnumerable<AttendanceDetailModel> checkIns = groupAttendances.Where(x => x.CheckIn != null);
+            IEnumerable<AttendanceDetailModel> checkIns = groupAttendances.Where(x => x.MissingCheckInOut != null);
             var checkIn = new ViolationModel();
 
             if (checkIns != null && checkIns.Count() > 0)
             {
-                checkIn = checkIns.First().CheckIn;
+                checkIn = checkIns.First().MissingCheckInOut;
             }
 
             return checkIn;
-        }
-
-        private static ViolationModel GetCheckOut(List<AttendanceDetailModel> groupAttendances)
-        {
-            IEnumerable<AttendanceDetailModel> checkOuts = groupAttendances.Where(x => x.CheckOut != null);
-            var checkOut = new ViolationModel();
-
-            if (checkOuts != null && checkOuts.Count() > 0)
-            {
-                checkOut = checkOuts.First().CheckOut;
-            }
-
-            return checkOut;
         }
 
         private static ViolationModel GetTotalHours(List<AttendanceDetailModel> groupAttendances)
@@ -593,9 +575,10 @@ namespace SMS.EPA.Services.Implement
                 Section = attendanceViolation.Employee.Group.GroupName,
                 Date = attendanceViolation.WorkDate,
                 Code = attendanceViolation.ShiftName,
-                CheckIn = attendanceViolation.CheckIn.Value != null ? DateTime.Parse(attendanceViolation.CheckIn.Value).ToString(Constants.TimeFormant) : string.Empty,
-                CheckOut = attendanceViolation.CheckOut.Value != null ? DateTime.Parse(attendanceViolation.CheckOut.Value).ToString(Constants.TimeFormant) : string.Empty,
+                CheckIn = attendanceViolation.InFixed != null ? DateTime.Parse(attendanceViolation.InFixed).ToString(Constants.TimeFormant) : string.Empty,
+                CheckOut = attendanceViolation.OutFixed != null ? DateTime.Parse(attendanceViolation.OutFixed).ToString(Constants.TimeFormant) : string.Empty,
                 TotalHours = attendanceViolation.TotalHours.Value != null ? ConvertNumberToTime(totalHours) : string.Empty,
+                MissingCheckInOut = attendanceViolation.MissingCheckInOut.Value != null ? attendanceViolation.MissingCheckInOut.Value : string.Empty,
                 WorkingUnderTime = attendanceViolation.TotalHours.Value != null && attendanceViolation.TotalHours.HasViolated ? "1" : string.Empty,
                 LateIn = attendanceViolation.LateIn.Value != null ? ConvertNumberToTime(double.Parse(attendanceViolation.LateIn.Value)) : string.Empty,
                 EarlyOut = attendanceViolation.EarlyOut.Value != null ? ConvertNumberToTime(double.Parse(attendanceViolation.EarlyOut.Value)) : string.Empty,

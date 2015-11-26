@@ -51,17 +51,16 @@ namespace SMS.EPA.Repositories.Implement
                         "GroupId");
 
                     IEnumerable<AttendanceDetailModel> firstViolations = 
-                        multi.Read<AttendanceDetailModel, ViolationModel, ViolationModel, ViolationModel, ViolationModel, ViolationModel, AttendanceDetailModel>(
-                        (attD, chIn, chO, tot, laI, earO) =>
+                        multi.Read<AttendanceDetailModel, ViolationModel, ViolationModel, ViolationModel, ViolationModel, AttendanceDetailModel>(
+                        (attD, missInO, tot, laI, earO) =>
                         {
-                            attD.CheckIn = chIn;
-                            attD.CheckOut = chO;
+                            attD.MissingCheckInOut = missInO;
                             attD.TotalHours = tot;
                             attD.LateIn = laI;
                             attD.EarlyOut = earO;
                             return attD;
                         },
-                        "CheckInId, CheckOutId, TotalHoursId, LateInId, EarlyOutId");
+                        "MissingCheckInOutId, TotalHoursId, LateInId, EarlyOutId");
 
                     IEnumerable<AttendanceDetailModel> lastViolations = 
                         multi.Read<AttendanceDetailModel, ViolationModel, ViolationModel, ViolationModel, ViolationModel, AttendanceDetailModel>(
