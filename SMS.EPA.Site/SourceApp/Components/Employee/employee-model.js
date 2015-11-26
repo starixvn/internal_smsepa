@@ -4,7 +4,8 @@
 employeeModule.factory('EmployeeModel',
 ['$modal', 'employeeFactory', 'errorFactory', 'notificationFactory',
 function ($modal, employeeFactory, errorFactory, notificationFactory) {
-    var employeeModel = {};
+    var employeeModel = {},
+        emailPattern = /^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
 
     employeeModel.employees = [];
     employeeModel.groups = [];
@@ -96,6 +97,10 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
             }
             else if (!employee.GroupId) {
                 notificationFactory.error("SectionRequired");
+                return false;
+            }
+            else if (employee.Email && !emailPattern.test(employee.Email)) {
+                notificationFactory.error("EmailWrongPatternWarning");
                 return false;
             }
         }

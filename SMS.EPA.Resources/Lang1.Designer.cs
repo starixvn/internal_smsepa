@@ -817,6 +817,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The field Email has wrong format!.
+        /// </summary>
+        public static string EmailWrongPatternWarning {
+            get {
+                return ResourceManager.GetString("EmailWrongPatternWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Employee Code.
         /// </summary>
         public static string EmployeeCode {

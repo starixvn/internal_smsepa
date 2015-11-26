@@ -95,7 +95,8 @@ function ($modalInstance, EmployeeModel) {
         Username: '',
         Password: '',
         Enabled: true,
-        IsLocal: 'true'
+        IsLocal: 'true',
+        Email: ''
     };
 
     EmployeeModel.getAllGroup().then(function () {
@@ -135,7 +136,8 @@ function ($modalInstance, EmployeeModel, employee) {
         JobTitleId: employee.JobTitle ? employee.JobTitle.JobTitleId : '',
         Username: employee.Username,
         Enabled: employee.Enabled,
-        IsLocal: employee.IsLocal ? 'true' : 'false'
+        IsLocal: employee.IsLocal ? 'true' : 'false',
+        Email: employee.Email
     };
 
     EmployeeModel.getAllGroup().then(function () {

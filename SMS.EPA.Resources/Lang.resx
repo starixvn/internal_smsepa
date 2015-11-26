@@ -1233,4 +1233,7 @@
   <data name="IgnoredStatus" xml:space="preserve">
     <value>Ignored Status</value>
   </data>
+  <data name="EmailWrongPatternWarning" xml:space="preserve">
+    <value>The field Email has wrong format!</value>
+  </data>
 </root>
