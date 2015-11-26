@@ -1230,4 +1230,7 @@
   <data name="Pending" xml:space="preserve">
     <value>Pending</value>
   </data>
+  <data name="IgnoredStatus" xml:space="preserve">
+    <value>Ignored Status</value>
+  </data>
 </root>

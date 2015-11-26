@@ -1528,6 +1528,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ignored Status.
+        /// </summary>
+        public static string IgnoredStatus {
+            get {
+                return ResourceManager.GetString("IgnoredStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ignore Self-Evaluation.
         /// </summary>
         public static string IgnoreSelfEvaluation {
