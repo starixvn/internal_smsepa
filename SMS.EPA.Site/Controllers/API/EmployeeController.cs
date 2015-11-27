@@ -142,8 +142,8 @@ namespace SMS.EPA.Site.Controllers.API
             {
                 EmployeeId = employeeId,
                 OldPassword = CurrentUser.EmployeeInfo.Password,
-                NewPassword = Constants.DefaultPassword,
-                ConfirmPassword = Constants.DefaultPassword,
+                NewPassword = Constants.ResetDefaultPassword,
+                ConfirmPassword = Constants.ResetDefaultPassword,
                 ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
             };
 
@@ -153,7 +153,7 @@ namespace SMS.EPA.Site.Controllers.API
         [HttpGet]
         public string GetDefaultPassword()
         {
-            string defaultPassword = Constants.DefaultPassword;
+            string defaultPassword = Constants.ResetDefaultPassword;
 
             return defaultPassword;
         }
