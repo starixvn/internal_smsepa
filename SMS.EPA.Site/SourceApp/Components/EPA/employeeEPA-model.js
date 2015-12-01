@@ -18,14 +18,13 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
     };
 
     employeeEPAModel.getNotificationInputScore = function (minScore, maxScore, message) {
-        return utilitiesFactory.formatString(message, utilitiesFactory.parseFloat(minScore), utilitiesFactory.parseFloat(maxScore));
+        return utilitiesFactory.formatString(message, minScore, maxScore);
     };
 
     employeeEPAModel.validateScoreInput = function (weight, minScore, maxScore, message) {
         var isValid = true;
 
-        if (utilitiesFactory.parseFloat(weight) > utilitiesFactory.parseFloat(maxScore)
-            || utilitiesFactory.parseFloat(weight) < utilitiesFactory.parseFloat(minScore)) {
+        if (weight > maxScore || weight < minScore) {
             isValid = false;
 
             var msg = utilitiesFactory.formatString(message, minScore, maxScore);
@@ -80,19 +79,12 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         var weight, averageWeight;
 
         if (!kpiGroup.HasKPIOptional && kpiGroup.IsSpreadKPI) {
-            averageWeight = utilitiesFactory.parseFloat(kpiGroup.Weight / kpiGroup.KPIs.length);
+            averageWeight = kpiGroup.Weight / kpiGroup.KPIs.length;
+            averageWeight = utilitiesFactory.splitNumber(averageWeight, 4);
 
             angular.forEach(kpiGroup.KPIs, function (kpi) {
                 kpi.Weight = averageWeight;
             });
-
-            if ((averageWeight * kpiGroup.KPIs.length) > kpiGroup.Weight) {
-                weight = averageWeight - ((averageWeight * kpiGroup.KPIs.length) - kpiGroup.Weight);
-                kpiGroup.KPIs[kpiGroup.KPIs.length - 1].Weight = utilitiesFactory.parseFloat(weight);
-            } else if ((averageWeight * kpiGroup.KPIs.length) < kpiGroup.Weight) {
-                weight = averageWeight + (kpiGroup.Weight - (averageWeight * kpiGroup.KPIs.length));
-                kpiGroup.KPIs[kpiGroup.KPIs.length - 1].Weight = utilitiesFactory.parseFloat(weight);
-            }
         }
     };
 

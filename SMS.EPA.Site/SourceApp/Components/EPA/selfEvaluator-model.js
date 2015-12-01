@@ -19,13 +19,18 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
 
         angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
             angular.forEach(kpiGroup.KPIs, function (kpi) {
-                var score = utilitiesFactory.parseFloat(kpi.CurrentEvaluation.Score);
-                totalScore += score;
+                var score = utilitiesFactory.splitNumber(kpi.CurrentEvaluation.Score, 4),
+                    kpiWeight = utilitiesFactory.splitNumber(kpi.Weight, 2),
+                    scoreRating = utilitiesFactory.splitNumber(kpi.CurrentEvaluation.Score, 2);
 
-                if ((score > 0 && score === kpi.Weight) || (kpi.CurrentEvaluation.Rate === vm.maxStar)) {
+                score = score ? parseFloat(score) : 0;
+
+                if ((score > 0 && scoreRating === kpiWeight) || (kpi.CurrentEvaluation.Rate === vm.maxStar)) {
                     kpi.CurrentEvaluation.IsMaxScore = true;
+                    totalScore += kpi.Weight;
                 } else {
                     kpi.CurrentEvaluation.IsMaxScore = false;
+                    totalScore += score;
                 }
             });
         });
@@ -61,23 +66,14 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
 
         totalKPIMustEvaluate = kpiGroup.KPIs.length - numberKPIOptional;
         totalStarMustEvaluate = totalKPIMustEvaluate * maxStar;
-        averageWeight = utilitiesFactory.parseFloat(kpiGroup.Weight / totalKPIMustEvaluate);
+        averageWeight = kpiGroup.Weight / totalKPIMustEvaluate;
+        averageWeight = utilitiesFactory.splitNumber(averageWeight, 4);
 
         angular.forEach(kpis, function (kpi) {
             kpi.Weight = averageWeight;
             score = averageWeight * (kpi.CurrentEvaluation.Rate / maxStar);
-            kpi.CurrentEvaluation.Score = utilitiesFactory.parseFloat(score);
+            kpi.CurrentEvaluation.Score = utilitiesFactory.splitNumber(score, 4);
         });
-
-        if (((averageWeight * totalKPIMustEvaluate) > kpiGroup.Weight) && totalStarEvaluated === totalStarMustEvaluate) {
-            score = averageWeight - ((averageWeight * totalKPIMustEvaluate) - kpiGroup.Weight);
-            kpis[kpis.length - 1].Weight = utilitiesFactory.parseFloat(score);
-            kpis[kpis.length - 1].CurrentEvaluation.Score = kpis[kpis.length - 1].Weight;
-        } else if ((averageWeight * totalKPIMustEvaluate) < kpiGroup.Weight && totalStarEvaluated === totalStarMustEvaluate) {
-            score = averageWeight + (kpiGroup.Weight - (averageWeight * totalKPIMustEvaluate));
-            kpis[kpis.length - 1].Weight = utilitiesFactory.parseFloat(score);
-            kpis[kpis.length - 1].CurrentEvaluation.Score = kpis[kpis.length - 1].Weight;
-        }
     };
 
     selfEvalutorModel.openPopupNotificationInvalidComment = function (vm, message) {

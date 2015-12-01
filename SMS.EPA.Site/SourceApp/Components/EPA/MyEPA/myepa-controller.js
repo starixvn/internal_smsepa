@@ -50,7 +50,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
             vm.hoveringLeave = function (kpiGroup, kpi) {
                 if (kpi.CurrentEvaluation.Rate > 0) {
                     if (!kpiGroup.HasKPIOptional) {
-                        var score = utilitiesFactory.parseFloat(kpi.Weight * (kpi.CurrentEvaluation.Rate / vm.maxStar));
+                        var score = kpi.Weight * (kpi.CurrentEvaluation.Rate / vm.maxStar);
+                        score = utilitiesFactory.splitNumber(score, 4);
                         kpi.CurrentEvaluation.Score = score;
                     }
                     else {
@@ -79,13 +80,19 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
     };
 
     vm.getNotificationInputScore = function (kpi) {
-        return EmployeeEPAModel.getNotificationInputScore(0, kpi.Weight, vm.scoreInputValidMessage);
+        var weight = utilitiesFactory.splitNumber(kpi.Weight, 2);
+
+        return EmployeeEPAModel.getNotificationInputScore(0, weight, vm.scoreInputValidMessage);
     };
 
     vm.inputScore = function (kpi) {
+        var weight = utilitiesFactory.splitNumber(kpi.Weight, 2),
+            score = kpi.CurrentEvaluation.Score ? parseFloat(kpi.CurrentEvaluation.Score) : 0;
+
+        score = utilitiesFactory.splitNumber(score, 2);
         kpi.CurrentEvaluation.Rate = 0;
 
-        if (!EmployeeEPAModel.validateScoreInput(kpi.CurrentEvaluation.Score, 0, kpi.Weight, vm.scoreInputValidMessage)) {
+        if (!EmployeeEPAModel.validateScoreInput(score, 0, weight, vm.scoreInputValidMessage)) {
             kpi.CurrentEvaluation.Score = null;
         }
 

@@ -12,7 +12,7 @@
                 <div class="row">
                     <div class="feature">
                         <span>{{$index + 1}}. {{kpi.Name}}</span>
-                        <strong ng-show="kpiGroup.NumberKPIOptional == 0"> ({{kpi.Weight | customScore}} pts)</strong>
+                        <strong ng-show="kpiGroup.NumberKPIOptional == 0"> ({{kpi.Weight | splitScore}} pts)</strong>
                         <label class="note" ng-show="kpi.IsRequiredEvaluate" data-translate="(*)"></label>
                     </div>
                     <div class="kpi-start">
@@ -34,7 +34,7 @@
                         </div>
                     </div>
                     <div class="kpi-percent" ng-show="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == 1 || (memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId ==2 && kpiGroup.NumberKPIOptional > 0)">
-                        <span class="badge percent" ng-show="kpiGroup.NumberKPIOptional == 0 && kpi.CurrentEvaluation.Rate > 0">{{kpi.CurrentEvaluation.Score | customScore}} pts</span>
+                        <span class="badge percent" ng-show="kpiGroup.NumberKPIOptional == 0 && kpi.CurrentEvaluation.Rate > 0">{{kpi.CurrentEvaluation.Score | splitScore}} pts</span>
                     </div>
                 </div>
             </div>

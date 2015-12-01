@@ -186,7 +186,7 @@ appModule.factory('utilitiesFactory',
     };
 
     utilities.splitNumber = function (number, numberDecimal) {
-        var result = number;
+        var result = number ? number : 0;
 
         if (!numberDecimal) {
             numberDecimal = 2;
