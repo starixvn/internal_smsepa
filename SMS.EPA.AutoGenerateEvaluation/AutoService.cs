@@ -51,7 +51,7 @@ namespace SMS.EPA.AutoGenerateEvaluation
         {
             InitializeComponent();
 
-            _schedulerTime = DateTime.Today.AddDays(1).AddHours(0);
+            _schedulerTime = DateTime.Today.AddDays(1).AddHours(5);
             TimerInterval = int.Parse(ConfigurationManager.AppSettings["TimerInterval"]);
 
             _updateCounterTimer = new Timer();
