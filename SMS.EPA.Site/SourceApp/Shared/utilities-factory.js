@@ -185,5 +185,23 @@ appModule.factory('utilitiesFactory',
         return parseFloat(result);
     };
 
+    utilities.splitNumber = function (number, numberDecimal) {
+        var result = number;
+
+        if (!numberDecimal) {
+            numberDecimal = 2;
+        }
+
+        if ((number % 1) !== 0) {
+            var index = number.toString().indexOf('.'),
+                decimal = number.toString().slice(index + 1);
+
+            number = number.toString().slice(0, index) + '.' + decimal.substring(0, numberDecimal);
+            result = parseFloat(number);
+        }
+
+        return result;
+    };
+
     return utilities;
 }]);

@@ -341,18 +341,12 @@ function ($scope, $window, $translate, TargetTemplateModel, utilitiesFactory) {
         });
 
         if (kpiSelected.length > 0) {
-            var averageWeight = utilitiesFactory.parseFloat(group.Weight / kpiSelected.length);
+            var averageWeight = group.Weight / kpiSelected.length;
+            averageWeight = utilitiesFactory.splitNumber(averageWeight, 4);
 
             angular.forEach(kpiSelected, function (kpi) {
                 kpi.Weight = averageWeight;
             });
-
-            weight = kpiSelected[kpiSelected.length - 1].Weight;
-            if ((averageWeight * kpiSelected.length) > group.Weight) {
-                kpiSelected[kpiSelected.length - 1].Weight = weight - ((averageWeight * kpiSelected.length) - group.Weight);
-            } else if ((averageWeight * kpiSelected.length) < group.Weight) {
-                kpiSelected[kpiSelected.length - 1].Weight = weight + (group.Weight - (averageWeight * kpiSelected.length));
-            }
         }
     };
 
