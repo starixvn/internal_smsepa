@@ -389,7 +389,7 @@ function ($scope, $window, $translate, TargetTemplateModel, utilitiesFactory) {
             }
         });
 
-        return totalWeight;
+        return utilitiesFactory.parseFloat(totalWeight);
     };
 
     vm.save = function (targetTemplate) {
