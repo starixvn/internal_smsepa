@@ -95,7 +95,8 @@ function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, SelfEvalutorM
         }
 
         if (!vm.kpis[index].HasKPIOptional && vm.kpis[index].KPIGroup.IsSpreadKPI) {
-            vm.kpis[index].Weight = (vm.kpis[index].KPIGroup.Weight / vm.kpis[index].KPIGroup.NumberKPI).toFixed(2);
+            var weightKPI = (vm.kpis[index].KPIGroup.Weight / vm.kpis[index].KPIGroup.NumberKPI);
+            vm.kpis[index].Weight = utilitiesFactory.splitNumber(weightKPI, 4);
         }
 
         if (!vm.dataSaved && checkDataChanged(vm.memberEPAs)) {
@@ -161,19 +162,21 @@ function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, SelfEvalutorM
     };
 
     vm.inputScore = function (memberEPA, kpi) {
-        if (!RatingByKPIModel.validateScoreInput(kpi.AdjustScore, 0, kpi.Weight, vm.scoreInputValidMessage)) {
+        var kpiWeight = utilitiesFactory.splitNumber(kpi.Weight, 2),
+            adjustScore = utilitiesFactory.splitNumber(kpi.AdjustScore, 2);
+
+        if (!RatingByKPIModel.validateScoreInput(adjustScore, 0, kpiWeight, vm.scoreInputValidMessage)) {
             kpi.AdjustScore = null;
         }
         else {
-            if (kpi.AdjustScore === kpi.Weight) {
+            if (adjustScore === kpiWeight) {
                 kpi.IsMaxScore = true;
             } else {
                 kpi.IsMaxScore = false;
             }
         }
         kpi.AdjustRate = 0;
-        var currentScore = utilitiesFactory.parseFloat(kpi.Score),
-            adjustScore = utilitiesFactory.parseFloat(kpi.AdjustScore);
+        var currentScore = utilitiesFactory.splitNumber(kpi.Score, 2);
 
         if (currentScore !== adjustScore) {
             vm.dataSaved = false;
@@ -323,8 +326,9 @@ function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, SelfEvalutorM
                         totalScoreEvaluated, currentScore, adjustScore;
 
                     if (!memberEPA.KPIGroup.HasKPIOptional) {
-                        currentScore = utilitiesFactory.parseFloat(kpi.Score);
-                        adjustScore = utilitiesFactory.parseFloat(kpi.Weight * (kpi.AdjustRate / vm.maxStar));
+                        currentScore = utilitiesFactory.splitNumber(kpi.Score, 4);
+                        adjustScore = kpi.Weight * (kpi.AdjustRate / vm.maxStar);
+                        adjustScore = utilitiesFactory.splitNumber(adjustScore, 4);
                         kpi.AdjustScore = adjustScore;
 
                         if (kpi.AdjustRate === vm.maxStar) {

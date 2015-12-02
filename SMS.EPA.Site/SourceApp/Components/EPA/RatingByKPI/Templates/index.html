@@ -66,7 +66,7 @@
                 <div class="form-group last" ng-show="ratingByKPICtrl.kpiSelected.IsRequiredEvaluate && !ratingByKPICtrl.kpiSelected.KPIGroup.HasKPIOptional">
                     <label class="col-sm-2 control-label" data-translate="MaxPoints"></label>
                     <div class="col-sm-9">
-                        <label class="control-label" ng-bind="ratingByKPICtrl.kpiSelected.Weight | customScore"></label>
+                        <label class="control-label" ng-bind="ratingByKPICtrl.kpiSelected.Weight | splitScore"></label>
                     </div>
                 </div>
             </div>
@@ -109,7 +109,7 @@
                         <td ng-bind="memberEPA.Employee.JobTitle.JobTitleName"></td>
                         <td class="text-center col-score">
                             <div ng-repeat="kpi in memberEPA.KPIGroup.KPIs" ng-show="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
-                                <span ng-show="kpi.Score != ''" ng-bind="kpi.Score | customScore"></span>
+                                <span ng-show="kpi.Score != ''" ng-bind="kpi.Score | splitScore"></span>
                                 <span ng-show="kpi.Score == ''" ng-bind="'N/A'"></span>
                             </div>
                         </td>
@@ -125,7 +125,7 @@
                                                 on-leave="ratingByKPICtrl.hoveringLeave(memberEPA, kpi)"></rating>
                                     </div>
                                     <div class="col-sm-3 percent-rating">
-                                        <span class="badge percent" ng-show="memberEPA.KPIGroup.NumberKPIOptional == 0 && kpi.AdjustRate > 0">{{kpi.AdjustScore | customScore}} pts</span>
+                                        <span class="badge percent" ng-show="memberEPA.KPIGroup.NumberKPIOptional == 0 && kpi.AdjustRate > 0">{{kpi.AdjustScore | splitScore}} pts</span>
                                     </div>
                                 </div>
                                 <div ng-if="memberEPA.RatingType.RatingTypeId == 2 && memberEPA.KPIGroup.NumberKPIOptional == 0" class="input-score">
