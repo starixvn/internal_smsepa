@@ -18,6 +18,10 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         var totalScore = 0;
 
         angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
+            if (kpiGroup.HasKPIOptional) {
+                selfEvalutorModel.scoreSpreadForKPIGroupHasKPIOptional(kpiGroup, vm.maxStar);
+            }
+
             angular.forEach(kpiGroup.KPIs, function (kpi) {
                 var score = utilitiesFactory.splitNumber(kpi.CurrentEvaluation.Score, 4),
                     kpiWeight = utilitiesFactory.splitNumber(kpi.Weight, 2),
