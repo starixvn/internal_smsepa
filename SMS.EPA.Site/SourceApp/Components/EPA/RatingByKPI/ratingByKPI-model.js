@@ -97,7 +97,7 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
     };
 
     ratingByKPIModel.scoreSpreadForKPIGroupHasKPIOptional = function (kpiGroup, maxStar) {
-        var score, averageWeight, totalKPIMustEvaluate, totalStarMustEvaluate, totalStarEvaluated = 0,
+        var averageWeight, totalKPIMustEvaluate, totalStarMustEvaluate, totalStarEvaluated = 0,
             numberKPIOptional = kpiGroup.NumberKPIOptional;
         var kpis = [];
 
@@ -117,7 +117,7 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
 
         totalKPIMustEvaluate = kpiGroup.KPIs.length - numberKPIOptional;
         totalStarMustEvaluate = totalKPIMustEvaluate * maxStar;
-        averageWeight = utilitiesFactory.parseFloat(kpiGroup.Weight / totalKPIMustEvaluate);
+        averageWeight = utilitiesFactory.splitNumber(kpiGroup.Weight / totalKPIMustEvaluate, 4);
         kpiGroup.TotalStarMustEvaluate = totalStarMustEvaluate;
         kpiGroup.TotalStarEvaluated = totalStarEvaluated;
 
@@ -130,26 +130,18 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
                 } else {
                     kpi.IsMaxScore = false;
                 }
-                kpi.Score = utilitiesFactory.parseFloat(averageWeight * (kpi.Rate / maxStar));
+                var score = averageWeight * (kpi.Rate / maxStar);
+                kpi.Score = utilitiesFactory.splitNumber(score, 4);
             } else if (kpi.AdjustRate > 0) {
                 if (kpi.AdjustRate === maxStar) {
                     kpi.IsMaxScore = true;
                 } else {
                     kpi.IsMaxScore = false;
                 }
-                kpi.AdjustScore = utilitiesFactory.parseFloat(averageWeight * (kpi.AdjustRate / maxStar));
+                var adjustScore = averageWeight * (kpi.AdjustRate / maxStar);
+                kpi.AdjustScore = utilitiesFactory.splitNumber(adjustScore, 4);
             }
         });
-
-        if (((averageWeight * totalKPIMustEvaluate) > kpiGroup.Weight) && (totalStarEvaluated === totalStarMustEvaluate)) {
-            score = averageWeight - ((averageWeight * totalKPIMustEvaluate) - kpiGroup.Weight);
-            kpis[kpis.length - 1].Weight = utilitiesFactory.parseFloat(score);
-            kpis[kpis.length - 1].AdjustScore = kpis[kpis.length - 1].Weight;
-        } else if (((averageWeight * totalKPIMustEvaluate) < kpiGroup.Weight) && (totalStarEvaluated === totalStarMustEvaluate)) {
-            score = averageWeight + (kpiGroup.Weight - (averageWeight * totalKPIMustEvaluate));
-            kpis[kpis.length - 1].Weight = utilitiesFactory.parseFloat(score);
-            kpis[kpis.length - 1].AdjustScore = kpis[kpis.length - 1].Weight;
-        }
     };
 
     var openPopupNotificationComment = function (message) {
