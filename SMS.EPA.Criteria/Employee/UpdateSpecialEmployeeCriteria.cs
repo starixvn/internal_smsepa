@@ -18,8 +18,6 @@ namespace SMS.EPA.Criteria.Employee
     {
         public int EmployeeId { get; set; }
 
-        public string Code { get; set; }
-
         public string NickName { get; set; }
 
         public string FullName { get; set; }
@@ -49,8 +47,10 @@ namespace SMS.EPA.Criteria.Employee
 
         public override bool IsValid()
         {
-            return EmployeeId > 0 && !string.IsNullOrWhiteSpace(Code) && !string.IsNullOrWhiteSpace(NickName)
-                && !string.IsNullOrWhiteSpace(Username) && Username.IndexOf(' ') == -1;
+            return EmployeeId > 0
+                && !string.IsNullOrWhiteSpace(NickName)
+                && !string.IsNullOrWhiteSpace(Username)
+                && Username.IndexOf(' ') == -1;
         }
 
         public override string GetSettingKey()

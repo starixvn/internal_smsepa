@@ -87,7 +87,6 @@ function ($modalInstance, EmployeeModel) {
     vm.jobTitleOptions = EmployeeModel.jobTitles;
 
     vm.employee = {
-        Code: '',
         NickName: '',
         FullName: '',
         GroupId: '',
@@ -129,7 +128,6 @@ function ($modalInstance, EmployeeModel, employee) {
 
     vm.employee = {
         EmployeeId: employee.EmployeeId,
-        Code: employee.Code,
         NickName: employee.NickName,
         FullName: employee.FullName,
         GroupId: employee.Group ? employee.Group.GroupId : '',

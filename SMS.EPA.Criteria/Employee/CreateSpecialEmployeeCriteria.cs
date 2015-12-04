@@ -16,8 +16,6 @@ namespace SMS.EPA.Criteria.Employee
     /// </summary>
     public class CreateSpecialEmployeeCriteria : CriteriaBase
     {
-        public string Code { get; set; }
-
         public string NickName { get; set; }
 
         public string FullName { get; set; }
@@ -49,8 +47,9 @@ namespace SMS.EPA.Criteria.Employee
 
         public override bool IsValid()
         {
-            return !string.IsNullOrWhiteSpace(Code) && !string.IsNullOrWhiteSpace(NickName) 
-                && !string.IsNullOrWhiteSpace(Username) && !string.IsNullOrWhiteSpace(Password)
+            return !string.IsNullOrWhiteSpace(NickName)
+                && !string.IsNullOrWhiteSpace(Username)
+                && !string.IsNullOrWhiteSpace(Password)
                 && Username.IndexOf(' ') == -1;
         }
 

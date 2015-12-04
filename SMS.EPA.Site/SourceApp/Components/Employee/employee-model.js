@@ -67,11 +67,7 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
             return false;
         }
         else {
-            if (!employee.Code) {
-                notificationFactory.error("CodeRequried");
-                return false;
-            }
-            else if (!employee.NickName) {
+            if (!employee.NickName) {
                 notificationFactory.error("NickNameRequried");
                 return false;
             }
