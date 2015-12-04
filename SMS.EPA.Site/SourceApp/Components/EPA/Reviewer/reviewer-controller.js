@@ -100,7 +100,9 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
         }
         else {
             ReviewerManagementModel.calculateAdjustScore(selectedEmployees, true);
-            ReviewerManagementModel.adjustScoreByReviewer(vm, selectedEmployees);
+            ReviewerManagementModel.adjustScoreByReviewer(vm, selectedEmployees)['finally'](function () {
+                getEPAByReviewer(vm.filter.groupId, vm.filter.isLocal, vm.filter.employeeIds, selectedEmployees);
+            });
         }
     };
 
@@ -120,7 +122,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
         });
     };
 
-    var getEPAByReviewer = function (groupId, isLocal, employeeIds) {
+    var getEPAByReviewer = function (groupId, isLocal, employeeIds, selectedEmployees) {
         vm.isEndProcessAll = false;
 
         ReviewerManagementModel.getEPAByReviewer(groupId, isLocal, employeeIds).then(function () {
@@ -165,6 +167,10 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
                 vm.isEndProcessAll = true;
             }
             vm.averageScore = utilitiesFactory.parseFloat(averageScore / vm.memberEPAs.length);
+
+            if (selectedEmployees && selectedEmployees.length > 0) {
+                ReviewerManagementModel.updateSelectedEmployees(vm.memberEPAs, selectedEmployees);
+            }
         });
     };
 

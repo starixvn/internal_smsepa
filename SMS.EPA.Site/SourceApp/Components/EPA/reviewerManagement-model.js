@@ -269,13 +269,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         return employeeEPAFactory.adjustScoreByReviewer(memberEPAs)
         .success(function (response) {
             if (response.IsSuccessful) {
-                angular.forEach(memberEPAs, function (memberEPA) {
-                    memberEPA.CurrentProcess.TotalScoreOriginal = memberEPA.CurrentProcess.TotalScore;
-                    memberEPA.CurrentProcess.AdjustScoreOriginal = memberEPA.CurrentProcess.AdjustScore;
-                });
-
                 vm.dataSaved = true;
-
                 notificationFactory.success("UpdatedSuccessfully");
             }
             else {
@@ -351,6 +345,18 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
             }
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
+        });
+    };
+
+    reviewerMngModel.updateSelectedEmployees = function (memberEPAs, selectedEmployees) {
+        angular.forEach(memberEPAs, function (memberEPA) {
+            if (!memberEPA.CurrentProcess.IsEndProcess) {
+                angular.forEach(selectedEmployees, function (selectedEmployee) {
+                    if (memberEPA.EPAId === selectedEmployee.EPAId) {
+                        memberEPA.Selected = true;
+                    }
+                });
+            }
         });
     };
 
