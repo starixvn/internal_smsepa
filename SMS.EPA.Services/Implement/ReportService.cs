@@ -320,10 +320,21 @@ namespace SMS.EPA.Services.Implement
 
                         if (period.IsEndPeriod.Equals(true))
                         {
-                            float score = period.FinalScore.Length > 0 ? float.Parse(period.FinalScore) : 0;
-
-                            finalScore = Math.Round(score, 2).ToString();
-                            grade = period.Grade;
+                            if (string.IsNullOrEmpty(period.FinalScore))
+                            {
+                                finalScore = Lang.NotAvailable;
+                                grade = Lang.NotAvailable;
+                            }
+                            else
+                            {
+                                finalScore = Math.Round(float.Parse(period.FinalScore), 2).ToString();
+                                grade = period.Grade;
+                            }
+                        }
+                        else
+                        {
+                            finalScore = Lang.Pending;
+                            grade = Lang.Pending;
                         }
 
                         cellBody = row.CreateCell(7 + (2 * i));
@@ -407,7 +418,7 @@ namespace SMS.EPA.Services.Implement
                 ManagementScore = GetScoreByPhaseSelected(phaseSelecteds, score.ManagementScore.ToString(), (int)ProcessType.Management),
                 DisciplineScore = score.DisciplineScore,
                 FinalScore = score.FinalScore,
-                Grade = memberEPA.Grade
+                Grade = score.Grade
             };
             rowIndex++;
 
@@ -439,8 +450,6 @@ namespace SMS.EPA.Services.Implement
                 finalScore = string.Empty,
                 grade = string.Empty;
 
-            float score = 0;
-
             if (memberEPA.HasDisciplineScore)
             {
                 if (memberEPA.DisciplineScore < 0)
@@ -464,7 +473,7 @@ namespace SMS.EPA.Services.Implement
 
             if (memberEPA.EPAId > 0 && memberEPA.ProcessBySelf.IsEndProcess)
             {
-                score = memberEPA.ProcessBySelf.TotalScore.Length > 0 ? float.Parse(memberEPA.ProcessBySelf.TotalScore) : 0;
+                float score = memberEPA.ProcessBySelf.TotalScore.Length > 0 ? float.Parse(memberEPA.ProcessBySelf.TotalScore) : 0;
 
                 selfScore = Math.Round(score, 2).ToString();
             }
@@ -486,10 +495,21 @@ namespace SMS.EPA.Services.Implement
 
             if (memberEPA.Period.IsEndPeriod.Equals(true))
             {
-                score = memberEPA.FinalScore.Length > 0 ? float.Parse(memberEPA.FinalScore) : 0;
-
-                finalScore = Math.Round(score, 2).ToString();
-                grade = memberEPA.Grade;
+                if (string.IsNullOrEmpty(memberEPA.FinalScore))
+                {
+                    finalScore = Lang.NotAvailable;
+                    grade = Lang.NotAvailable;
+                }
+                else
+                {
+                    finalScore = Math.Round(float.Parse(memberEPA.FinalScore), 2).ToString();
+                    grade = memberEPA.Grade;
+                }
+            }
+            else
+            {
+                finalScore = Lang.Pending;
+                grade = Lang.Pending;
             }
 
             return new
