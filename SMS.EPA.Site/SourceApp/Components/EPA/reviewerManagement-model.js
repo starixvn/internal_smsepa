@@ -331,13 +331,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         return employeeEPAFactory.adjustScoreByManagement(memberEPAs)
         .success(function (response) {
             if (response.IsSuccessful) {
-                angular.forEach(memberEPAs, function (memberEPA) {
-                    memberEPA.CurrentProcess.TotalScoreOriginal = memberEPA.CurrentProcess.TotalScore;
-                    memberEPA.CurrentProcess.AdjustScoreOriginal = memberEPA.CurrentProcess.AdjustScore;
-                });
-
                 vm.dataSaved = true;
-
                 notificationFactory.success("UpdatedSuccessfully");
             }
             else {
