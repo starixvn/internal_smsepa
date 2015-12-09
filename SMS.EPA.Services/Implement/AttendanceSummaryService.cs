@@ -250,22 +250,27 @@ namespace SMS.EPA.Services.Implement
 
         private static IEnumerable<AttendanceDetailModel> GroupAttendanceViolations(IEnumerable<AttendanceDetailModel> violations)
         {
-            IEnumerable<AttendanceDetailModel> attendanceViolations = violations.GroupBy(x => new { x.EmployeeId, x.WorkDate, x.ShiftName, x.OutOfDate, x.InFixed, x.OutFixed }).Select(y => new AttendanceDetailModel
+            IEnumerable<AttendanceDetailModel> attendanceViolations = violations.GroupBy(x => new { x.EmployeeId, x.WorkDate, x.ShiftName, x.OutOfDate, x.InFixed, x.OutFixed }).Select(y => 
             {
-                EmployeeId = y.Key.EmployeeId,
-                WorkDate = y.Key.WorkDate,
-                ShiftName = y.Key.ShiftName,
-                OutOfDate = y.Key.OutOfDate,
-                InFixed = y.Key.InFixed,
-                OutFixed = y.Key.OutFixed,
-                MissingCheckInOut = GetMissingCheckInOut(y.ToList()),
-                TotalHours = GetTotalHours(y.ToList()),
-                LateIn = GetLateIn(y.ToList()),
-                EarlyOut = GetEarlyOut(y.ToList()),
-                Absent = GetAbsent(y.ToList()),
-                UnpaidLeaveAbsent = GetUnpaidLeaveAbsent(y.ToList()),
-                UnpaidLeave = GetUnpaidLeave(y.ToList()),
-                ChangeShift = GetChangeShift(y.ToList())
+                List<AttendanceDetailModel> attendances = y.ToList();
+                var attendance = new AttendanceDetailModel
+                    {
+                        EmployeeId = y.Key.EmployeeId,
+                        WorkDate = y.Key.WorkDate,
+                        ShiftName = y.Key.ShiftName,
+                        OutOfDate = y.Key.OutOfDate,
+                        InFixed = y.Key.InFixed,
+                        OutFixed = y.Key.OutFixed,
+                        MissingCheckInOut = GetMissingCheckInOut(attendances),
+                        TotalHours = GetTotalHours(attendances),
+                        LateIn = GetLateIn(attendances),
+                        EarlyOut = GetEarlyOut(attendances),
+                        Absent = GetAbsent(attendances),
+                        UnpaidLeaveAbsent = GetUnpaidLeaveAbsent(attendances),
+                        UnpaidLeave = GetUnpaidLeave(attendances),
+                        ChangeShift = GetChangeShift(attendances)
+                    };
+                return attendance;
             }).ToList();
 
             return attendanceViolations;
@@ -599,36 +604,10 @@ namespace SMS.EPA.Services.Implement
         private string ConvertNumberToTime(double number)
         {
             double numberMinutes = Math.Round(number);
-            string hoursResult = string.Empty;
-            string minutesResult = string.Empty;
-            string time = string.Empty;
-
-            if (numberMinutes > 0)
-            {
-                double hours = Math.Floor((double)numberMinutes / 60);
-                double minutes = Math.Round(numberMinutes - (hours * 60));
-
-                if (hours < 10)
-                {
-                    hoursResult = "0" + hours;
-                }
-                else
-                {
-                    hoursResult = hours.ToString();
-                }
-
-                if (minutes < 10)
-                {
-                    minutesResult = "0" + minutes;
-                }
-                else
-                {
-                    minutesResult = minutes.ToString();
-                }
-
-                time = hoursResult + ':' + minutesResult;
-            }
-
+        
+            var timeSpan = new TimeSpan(0, (int)numberMinutes, 0);
+            string time = timeSpan.ToString(@"hh\:mm");
+        
             return time;
         }
     }

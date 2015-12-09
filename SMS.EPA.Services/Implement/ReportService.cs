@@ -493,7 +493,7 @@ namespace SMS.EPA.Services.Implement
                 managementScore = Math.Round(memberEPA.AverageScoreByManagements, 2).ToString();
             }
 
-            if (memberEPA.Period.IsEndPeriod.Equals(true))
+            if (memberEPA.Period.IsEndPeriod)
             {
                 if (string.IsNullOrEmpty(memberEPA.FinalScore))
                 {

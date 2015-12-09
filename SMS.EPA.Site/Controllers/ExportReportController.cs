@@ -84,8 +84,8 @@ namespace SMS.EPA.Site.Controllers
             criteria.EmployeeId = SessionManager.CurrentUser.EmployeeInfo.EmployeeId;
 
             EPASummaryModel epaSummary = _reportService.GetEPASummaryReport(criteria);
-            MemoryStream output = _reportService.ExportEPASummaryReport(epaSummary);
 
+            MemoryStream output = _reportService.ExportEPASummaryReport(epaSummary);
             return File(output.ToArray(), "application/vnd.ms-excel", fileName);
         }
 
