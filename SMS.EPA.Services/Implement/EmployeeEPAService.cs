@@ -363,7 +363,7 @@ namespace SMS.EPA.Services.Implement
             {
                 if (score >= standardGrade.LeftScore && score <= standardGrade.RightScore)
                 {
-                    StandardGrade gradeEnum = GetGradeEnum(standardGrade.GradeId);
+                    StandardGrade gradeEnum = (StandardGrade)standardGrade.GradeId;
                     grade = Enumerations.GetDescription(gradeEnum);
                     break;
                 }
@@ -396,36 +396,6 @@ namespace SMS.EPA.Services.Implement
             }
 
             return otherViolationDetails;
-        }
-
-        private StandardGrade GetGradeEnum(int gradeId)
-        {
-            StandardGrade grade = StandardGrade.None;
-
-            switch (gradeId)
-            {
-                case (int)StandardGrade.Excellent:
-                    grade = StandardGrade.Excellent;
-                    break;
-
-                case (int)StandardGrade.Good:
-                    grade = StandardGrade.Good;
-                    break;
-
-                case (int)StandardGrade.Standard:
-                    grade = StandardGrade.Standard;
-                    break;
-
-                case (int)StandardGrade.UnderPerformance:
-                    grade = StandardGrade.UnderPerformance;
-                    break;
-
-                case (int)StandardGrade.Fail:
-                    grade = StandardGrade.Fail;
-                    break;
-            }
-
-            return grade;
         }
     }
 }

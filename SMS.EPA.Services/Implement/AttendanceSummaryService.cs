@@ -481,15 +481,15 @@ namespace SMS.EPA.Services.Implement
 
             if (!string.IsNullOrWhiteSpace(comment))
             {
-                string[] comments = comment.Split(';');
+                string[] comments = comment.Split('&');
 
                 foreach (string commentItem in comments)
                 {
-                    string[] commentItems = commentItem.Split(':');
+                    string[] commentItems = commentItem.Split('_');
 
-                    if (!string.IsNullOrWhiteSpace(commentItems[0]) && !string.IsNullOrWhiteSpace(commentItems[1]))
+                    if (commentItems != null && commentItems.Count() > 1 && !string.IsNullOrWhiteSpace(commentItems[0]) && !string.IsNullOrWhiteSpace(commentItems[1]))
                     {
-                        approverComment += commentItem;
+                        approverComment += commentItems[0] + ':' + commentItems[1];
                     }
                 }
             }
@@ -575,17 +575,17 @@ namespace SMS.EPA.Services.Implement
                 Section = attendanceViolation.Employee.Group.GroupName,
                 Date = attendanceViolation.WorkDate,
                 Code = attendanceViolation.ShiftName,
-                CheckIn = attendanceViolation.InFixed != null ? DateTime.Parse(attendanceViolation.InFixed).ToString(Constants.TimeFormant) : string.Empty,
-                CheckOut = attendanceViolation.OutFixed != null ? DateTime.Parse(attendanceViolation.OutFixed).ToString(Constants.TimeFormant) : string.Empty,
-                TotalHours = attendanceViolation.TotalHours.Value != null ? ConvertNumberToTime(totalHours) : string.Empty,
-                MissingCheckInOut = attendanceViolation.MissingCheckInOut.Value != null ? attendanceViolation.MissingCheckInOut.Value : string.Empty,
-                WorkingUnderTime = attendanceViolation.TotalHours.Value != null && attendanceViolation.TotalHours.HasViolated ? "1" : string.Empty,
-                LateIn = attendanceViolation.LateIn.Value != null ? ConvertNumberToTime(double.Parse(attendanceViolation.LateIn.Value)) : string.Empty,
-                EarlyOut = attendanceViolation.EarlyOut.Value != null ? ConvertNumberToTime(double.Parse(attendanceViolation.EarlyOut.Value)) : string.Empty,
-                Absent = attendanceViolation.Absent.Value != null ? attendanceViolation.Absent.Value : string.Empty,
-                UnpaidLeave = attendanceViolation.UnpaidLeave.Value != null ? attendanceViolation.UnpaidLeave.Value : string.Empty,
-                UnpaidLeaveAbsent = attendanceViolation.UnpaidLeaveAbsent.Value != null ? attendanceViolation.UnpaidLeaveAbsent.Value : string.Empty,
-                ChangeShift = attendanceViolation.ChangeShift.Value != null ? attendanceViolation.ChangeShift.Value : string.Empty,
+                CheckIn = !string.IsNullOrWhiteSpace(attendanceViolation.InFixed) ? DateTime.Parse(attendanceViolation.InFixed).ToString(Constants.TimeFormant) : string.Empty,
+                CheckOut = !string.IsNullOrWhiteSpace(attendanceViolation.OutFixed) ? DateTime.Parse(attendanceViolation.OutFixed).ToString(Constants.TimeFormant) : string.Empty,
+                TotalHours = !string.IsNullOrWhiteSpace(attendanceViolation.TotalHours.Value) ? ConvertNumberToTime(totalHours) : string.Empty,
+                MissingCheckInOut = !string.IsNullOrWhiteSpace(attendanceViolation.MissingCheckInOut.Value) ? attendanceViolation.MissingCheckInOut.Value : string.Empty,
+                WorkingUnderTime = !string.IsNullOrWhiteSpace(attendanceViolation.TotalHours.Value) && attendanceViolation.TotalHours.HasViolated ? "1" : string.Empty,
+                LateIn = !string.IsNullOrWhiteSpace(attendanceViolation.LateIn.Value) ? ConvertNumberToTime(double.Parse(attendanceViolation.LateIn.Value)) : string.Empty,
+                EarlyOut = !string.IsNullOrWhiteSpace(attendanceViolation.EarlyOut.Value) ? ConvertNumberToTime(double.Parse(attendanceViolation.EarlyOut.Value)) : string.Empty,
+                Absent = !string.IsNullOrWhiteSpace(attendanceViolation.Absent.Value) ? attendanceViolation.Absent.Value : string.Empty,
+                UnpaidLeave = !string.IsNullOrWhiteSpace(attendanceViolation.UnpaidLeave.Value) ? attendanceViolation.UnpaidLeave.Value : string.Empty,
+                UnpaidLeaveAbsent = !string.IsNullOrWhiteSpace(attendanceViolation.UnpaidLeaveAbsent.Value) ? attendanceViolation.UnpaidLeaveAbsent.Value : string.Empty,
+                ChangeShift = !string.IsNullOrWhiteSpace(attendanceViolation.ChangeShift.Value) ? attendanceViolation.ChangeShift.Value : string.Empty,
                 SystemSubtractScore = (decimal)systemSubtractScore,
                 ApproverSubtractScore = (decimal)approverSubtractScore,
                 ApproverComment = attendanceViolation.ApproverComment,

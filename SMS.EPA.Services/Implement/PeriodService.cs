@@ -9,6 +9,7 @@
 
 namespace SMS.EPA.Services.Implement
 {
+    using System;
     using System.Collections.Generic;
     using System.Configuration;
     using System.Linq;
@@ -160,7 +161,7 @@ namespace SMS.EPA.Services.Implement
             {
                 commandResult = Repository.Update(criteria);
 
-                if (commandResult.IsSuccessful && ConfigurationManager.AppSettings["SendMailWhenEditEmployeeSetting"].Equals("true"))
+                if (commandResult.IsSuccessful && ConfigurationManager.AppSettings["SendMailWhenEditEmployeeSetting"].Equals("true", StringComparison.OrdinalIgnoreCase))
                 {
                     GetAndSendEmailToAllRelatedEmployee(MailMode.NotifyChange, criteria.PeriodId, criteria.EmployeeIds, null);
                 }

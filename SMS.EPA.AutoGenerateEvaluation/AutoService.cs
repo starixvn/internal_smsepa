@@ -249,7 +249,8 @@ namespace SMS.EPA.AutoGenerateEvaluation
         private void UpdateFinalScoreAndSendMail(IEnumerable<EndEPAModel> evaluations)
         {
             IList<int> periods = new List<int>();
-            bool hasSendMailEndEvaluation = ConfigurationManager.AppSettings["SendMailEndPeriod"] != null ? ConfigurationManager.AppSettings["SendMailEndPeriod"].Equals("true") : false;
+            bool hasSendMailEndEvaluation = ConfigurationManager.AppSettings["SendMailEndPeriod"] != null ? 
+                ConfigurationManager.AppSettings["SendMailEndPeriod"].Equals("true", StringComparison.OrdinalIgnoreCase) : false;
 
             var criteria = new GetStandardGradeCriteria();
             IEnumerable<StandardGradeModel> standardGrades = _employeeEPAService.GetStandardGrade(criteria);

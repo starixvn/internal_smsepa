@@ -58,10 +58,6 @@ namespace SMS.EPA.Services.Implement
 
         private void DecodeFinalScoreAndGrade(IList<EPAHistoryModel> epas)
         {
-            string grade = string.Empty;
-            var criteria = new GetStandardGradeCriteria();
-            IEnumerable<StandardGradeModel> standardGrades = _employeeEPAService.GetStandardGrade(criteria);
-
             foreach (EPAHistoryModel epa in epas)
             {
                 epa.FinalScore = !string.IsNullOrWhiteSpace(epa.EncodeFinalScore) ? float.Parse(EncodeService.Decode(epa.EncodeFinalScore)) : 0;

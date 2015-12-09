@@ -9,6 +9,7 @@
 
 namespace SMS.EPA.Core.Services.Implement
 {
+    using System;
     using System.Configuration;
     using System.IO;
     using System.Text.RegularExpressions;
@@ -20,7 +21,7 @@ namespace SMS.EPA.Core.Services.Implement
     {
         public void SendEmail(MailModel email)
         {
-            if (!IsValidEmail(email.ReceiverEmail) || ConfigurationManager.AppSettings["NotSendMail"].Equals("true"))
+            if (!IsValidEmail(email.ReceiverEmail) || ConfigurationManager.AppSettings["NotSendMail"].Equals("true", StringComparison.OrdinalIgnoreCase))
             {
                 return;
             }
