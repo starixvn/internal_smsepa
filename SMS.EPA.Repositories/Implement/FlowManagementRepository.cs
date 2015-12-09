@@ -116,29 +116,32 @@ namespace SMS.EPA.Repositories.Implement
 
         private void GroupProcessFlowByDepartment(IEnumerable<DepartmentFlowModel> flows, IEnumerable<ProcessFlowModel> processes)
         {
-            foreach (DepartmentFlowModel flow in flows)
+            if (flows != null && processes != null)
             {
-                foreach (ProcessFlowModel process in processes)
+                foreach (DepartmentFlowModel flow in flows)
                 {
-                    if (process.DepartmentId.Equals(flow.DepartmentId))
+                    foreach (ProcessFlowModel process in processes)
                     {
-                        switch (process.ProcessId)
+                        if (process.DepartmentId.Equals(flow.DepartmentId))
                         {
-                            case (int)ProcessType.HumanResource:
-                                flow.HumanResources.Add(process);
-                                break;
+                            switch (process.ProcessId)
+                            {
+                                case (int)ProcessType.HumanResource:
+                                    flow.HumanResources.Add(process);
+                                    break;
 
-                            case (int)ProcessType.Evaluator:
-                                flow.Evaluators.Add(process);
-                                break;
+                                case (int)ProcessType.Evaluator:
+                                    flow.Evaluators.Add(process);
+                                    break;
 
-                            case (int)ProcessType.Reviewer:
-                                flow.Reviewers.Add(process);
-                                break;
+                                case (int)ProcessType.Reviewer:
+                                    flow.Reviewers.Add(process);
+                                    break;
 
-                            case (int)ProcessType.Management:
-                                flow.Managements.Add(process);
-                                break;
+                                case (int)ProcessType.Management:
+                                    flow.Managements.Add(process);
+                                    break;
+                            }
                         }
                     }
                 }

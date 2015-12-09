@@ -70,12 +70,12 @@ namespace SMS.EPA.Repositories.Implement
 
         public EPAModel GetEPAInfo(ICriteria criteria)
         {
-            EPAModel epaInfo = new EPAModel();
-
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
                 using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
+                    EPAModel epaInfo = new EPAModel();
+
                     epaInfo = multi.Read<EPAModel, RatingTypeModel, StatusModel, EPAPeriodModel, EPAModel>(
                     (info, type, status, period) =>
                     {
@@ -87,43 +87,46 @@ namespace SMS.EPA.Repositories.Implement
                     },
                     "RatingTypeId, StatusId, PeriodId").FirstOrDefault();
 
-                    epaInfo.Employee = multi.Read<EPAEmployeeModel, DepartmentModel, Group, JobTitle, EPAEmployeeModel>(
-                        (epa, dept, gr, job) =>
-                        {
-                            epa.Department = dept;
-                            epa.Group = gr;
-                            epa.JobTitle = job;
-
-                            return epa;
-                        },
-                        "DepartmentId, GroupId, JobTitleId").FirstOrDefault();
-
-                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
-
-                    epaInfo.KPIGroups = multi.Read<EPAKPIGroupModel>().ToList();
-
-                    IEnumerable<EPAKPIModel> kpis = multi.Read<EPAKPIModel>();
-
-                    IEnumerable<EvaluationModel> evaluations = multi.Read<EvaluationModel>();
-
-                    IList<EPAProcessModel> evaluators = multi.Read<EPAProcessModel>().ToList();
-
-                    epaInfo.LastProcesses = multi.Read<EPAProcessModel>().ToList();
-
-                    GroupEvaluatorByProcess(epaInfo, evaluators);
-                    GroupEPAProcessByEPA(epaInfo, processes);
-                    GroupKPIByKPIGroup(epaInfo.KPIGroups, kpis);
-
-                    foreach (EPAKPIGroupModel kpiGroup in epaInfo.KPIGroups)
+                    if (epaInfo != null)
                     {
-                        GroupEvaluationOnEachKPI(kpiGroup.KPIs, evaluations);
+                        epaInfo.Employee = multi.Read<EPAEmployeeModel, DepartmentModel, Group, JobTitle, EPAEmployeeModel>(
+                            (epa, dept, gr, job) =>
+                            {
+                                epa.Department = dept;
+                                epa.Group = gr;
+                                epa.JobTitle = job;
+
+                                return epa;
+                            },
+                            "DepartmentId, GroupId, JobTitleId").FirstOrDefault();
+
+                        IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
+
+                        epaInfo.KPIGroups = multi.Read<EPAKPIGroupModel>().ToList();
+
+                        IEnumerable<EPAKPIModel> kpis = multi.Read<EPAKPIModel>();
+
+                        IEnumerable<EvaluationModel> evaluations = multi.Read<EvaluationModel>();
+
+                        IList<EPAProcessModel> evaluators = multi.Read<EPAProcessModel>().ToList();
+
+                        epaInfo.LastProcesses = multi.Read<EPAProcessModel>().ToList();
+
+                        GroupEvaluatorByProcess(epaInfo, evaluators);
+                        GroupEPAProcessByEPA(epaInfo, processes);
+                        GroupKPIByKPIGroup(epaInfo.KPIGroups, kpis);
+
+                        foreach (EPAKPIGroupModel kpiGroup in epaInfo.KPIGroups)
+                        {
+                            GroupEvaluationOnEachKPI(kpiGroup.KPIs, evaluations);
+                        }
+
+                        DecodeAllScore(epaInfo);
                     }
 
-                    DecodeAllScore(epaInfo);
+                    return epaInfo;
                 }
             }
-
-            return epaInfo;
         }
 
         #region Rating By KPI

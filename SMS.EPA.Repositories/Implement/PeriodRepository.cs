@@ -42,14 +42,14 @@ namespace SMS.EPA.Repositories.Implement
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                return db.Query<PeriodModel, TargetTypeModel, PeriodModel>(
+                return db.QueryEntity<PeriodModel, TargetTypeModel, PeriodModel>(
                     (pe, tar) =>
                     {
                         pe.TargetType = tar;
                         return pe;
                     },
                     "TargetTypeId",
-                    criteria.GetSpParams()).First();
+                    criteria.GetSpParams());
             }
         }
 
