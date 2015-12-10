@@ -17,9 +17,9 @@ namespace SMS.EPA.Model.TargetTemplate
     [Serializable]
     public class TargetTemplateModel
     {
-        private const string _KPIItem = "<KPI KPIId='{0}' KPIGroupId='{1}' IsSpreadKPI='{2}' Weight='{3}' DisplayOrder='{4}'></KPI>";
-        private const string _BeginRootTag = "<ROOT>";
-        private const string _EndRootTag = "</ROOT>";
+        private const string KPIXmlTemplate = "<KPI KPIId='{0}' KPIGroupId='{1}' IsSpreadKPI='{2}' Weight='{3}' DisplayOrder='{4}'></KPI>";
+        private const string BeginRootTag = "<ROOT>";
+        private const string EndRootTag = "</ROOT>";
 
         public int TargetTemplateId { get; set; }
 
@@ -65,17 +65,17 @@ namespace SMS.EPA.Model.TargetTemplate
 
         public string ConvertKPIItemToXml(List<TargetTemplateKPIModel> kpiItems)
         {
-            var value = new StringBuilder(_BeginRootTag);
+            var kpiXml = new StringBuilder(BeginRootTag);
 
             if (kpiItems != null)
             {
                 foreach (TargetTemplateKPIModel item in kpiItems)
                 {
-                    value.AppendFormat(_KPIItem, item.KPIId, item.KPIGroupId, item.IsSpreadKPI, item.Weight, item.DisplayOrder);
+                    kpiXml.AppendFormat(KPIXmlTemplate, item.KPIId, item.KPIGroupId, item.IsSpreadKPI, item.Weight, item.DisplayOrder);
                 }
             }
 
-            return value.Append(_EndRootTag).ToString();
+            return kpiXml.Append(EndRootTag).ToString();
         }
     }
 }

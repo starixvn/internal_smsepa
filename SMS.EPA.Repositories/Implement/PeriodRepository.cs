@@ -10,7 +10,6 @@
 namespace SMS.EPA.Repositories.Implement
 {
     using System.Collections.Generic;
-    using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using SMS.EPA.Model.Department;

@@ -18,10 +18,10 @@ namespace SMS.EPA.Criteria.EmployeeEPA.RatingByKPI
 
     public class UpdateKPIScoreCriteria : CriteriaBase
     {
-        private const string _EPA = "<EPA EPAId='{0}' EmployeeId='{1}' KPIGroupId='{2}' TotalScore='{3}'>{4}</EPA>";
-        private const string _EPADetail = "<EPADetail KPIId ='{0}' Rate='{1}' Score='{2}' IsMaxScore='{3}' Comment='{4}' />";
-        private const string _BeginRootTag = "<ROOT>";
-        private const string _EndRootTag = "</ROOT>";
+        private const string EPAXmlTemplate = "<EPA EPAId='{0}' EmployeeId='{1}' KPIGroupId='{2}' TotalScore='{3}'>{4}</EPA>";
+        private const string EPADetailXmlTemplate = "<EPADetail KPIId ='{0}' Rate='{1}' Score='{2}' IsMaxScore='{3}' Comment='{4}' />";
+        private const string BeginRootTag = "<ROOT>";
+        private const string EndRootTag = "</ROOT>";
 
         public int EvaluatorId { get; set; }
 
@@ -48,48 +48,48 @@ namespace SMS.EPA.Criteria.EmployeeEPA.RatingByKPI
 
         private string Encode(string plainText)
         {
-            return !string.IsNullOrEmpty(plainText) ? EncodeService.Encode(plainText) : string.Empty;
+            return EncodeService.Encode(plainText);
         }
 
         private string ConvertToXml(IEnumerable<RatingByKPIModel> epaInfos)
         {
-            var result = new StringBuilder(_BeginRootTag);
+            var epaXml = new StringBuilder(BeginRootTag);
 
             foreach (var epaInfo in epaInfos)
             {
-                var detail = new StringBuilder();
-                string rate = string.Empty,
-                    cipherScore = string.Empty,
-                    cipherRate = string.Empty,
-                    totalScore = string.Empty;
+                var epaDetailXml = new StringBuilder();
 
                 foreach (TemporaryKPIModel kpi in epaInfo.KPIGroup.KPIs)
                 {
                     if (!string.IsNullOrEmpty(kpi.AdjustScore) || kpi.AdjustRate > 0)
                     {
-                        rate = kpi.AdjustRate > 0 ? kpi.AdjustRate.ToString() : string.Empty;
-                        cipherScore = Encode(kpi.AdjustScore + "_" + kpi.KPIId);
-                        cipherRate = Encode(rate);
-
-                        detail.AppendFormat(_EPADetail, kpi.KPIId, cipherRate, cipherScore, kpi.IsMaxScore, HttpUtility.HtmlEncode(kpi.Comment));
+                        epaDetailXml = GenerateEpaDetailXml(kpi, kpi.AdjustScore, kpi.AdjustRate);
                     }
                     else if (!string.IsNullOrEmpty(kpi.Score) || kpi.Rate > 0)
                     {
-                        rate = kpi.Rate > 0 ? kpi.Rate.ToString() : string.Empty;
-                        cipherScore = Encode(kpi.Score + "_" + kpi.KPIId);
-                        cipherRate = Encode(rate);
-
-                        detail.AppendFormat(_EPADetail, kpi.KPIId, cipherRate, cipherScore, kpi.IsMaxScore, HttpUtility.HtmlEncode(kpi.Comment));
+                        epaDetailXml = GenerateEpaDetailXml(kpi, kpi.Score, kpi.Rate);
                     }
                 }
 
-                totalScore = Encode(epaInfo.TotalScore);
-                result.AppendFormat(_EPA, epaInfo.EPAId, epaInfo.Employee.EmployeeId, epaInfo.KPIGroup.KPIGroupId, totalScore, detail);
+                string totalScore = Encode(epaInfo.TotalScore);
+                epaXml.AppendFormat(EPAXmlTemplate, epaInfo.EPAId, epaInfo.Employee.EmployeeId, epaInfo.KPIGroup.KPIGroupId, totalScore, epaDetailXml);
             }
 
-            result.Append(_EndRootTag);
+            epaXml.Append(EndRootTag);
 
-            return result.ToString();
+            return epaXml.ToString();
+        }
+
+        private StringBuilder GenerateEpaDetailXml(TemporaryKPIModel kpi, string score, int rate)
+        {
+            string kpiRate = rate > 0 ? rate.ToString() : string.Empty;
+            string cipherScore = Encode(score + "_" + kpi.KPIId);
+            string cipherRate = Encode(kpiRate);
+
+            var epaDetailXml = new StringBuilder();
+            epaDetailXml.AppendFormat(EPADetailXmlTemplate, kpi.KPIId, cipherRate, cipherScore, kpi.IsMaxScore, HttpUtility.HtmlEncode(kpi.Comment));
+
+            return epaDetailXml;
         }
     }
 }

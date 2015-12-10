@@ -14,8 +14,8 @@ namespace SMS.EPA.Model.FlowManagement
 
     public class InsertFlowModel
     {
-        private const string _Process = "<Process ProcessId='{0}' Duration='{1}' HasSendMail='{2}' RemindDay='{3}'>{4}</Process>";
-        private const string _Evaluator = "<Evaluator EvaluatorId='{0}' Priority='{1}'></Evaluator>";
+        private const string ProcessXmlTemplate = "<Process ProcessId='{0}' Duration='{1}' HasSendMail='{2}' RemindDay='{3}'>{4}</Process>";
+        private const string EvaluatorXmlTemplate = "<Evaluator EvaluatorId='{0}' Priority='{1}'></Evaluator>";
 
         public int DepartmentId { get; set; }
 
@@ -51,19 +51,19 @@ namespace SMS.EPA.Model.FlowManagement
                 {
                     for (int i = 0; i < HumanResources.Employees.Count; i++)
                     {
-                        evaluator.AppendFormat(_Evaluator, HumanResources.Employees[i].EmployeeId, i + 1);
+                        evaluator.AppendFormat(EvaluatorXmlTemplate, HumanResources.Employees[i].EmployeeId, i + 1);
                     }
 
-                    process.AppendFormat(_Process, (int)ProcessType.HumanResource, HumanResources.Duration, HumanResources.HasSendMail, HumanResources.RemindDay, evaluator);
+                    process.AppendFormat(ProcessXmlTemplate, (int)ProcessType.HumanResource, HumanResources.Duration, HumanResources.HasSendMail, HumanResources.RemindDay, evaluator);
                 }
             }
 
             if (Selfs != null)
             {
                 var evaluator = new StringBuilder();
-                evaluator.AppendFormat(_Evaluator, -1, 1);
+                evaluator.AppendFormat(EvaluatorXmlTemplate, -1, 1);
 
-                process.AppendFormat(_Process, (int)ProcessType.Self, Selfs.Duration, Selfs.HasSendMail, Selfs.RemindDay, evaluator);
+                process.AppendFormat(ProcessXmlTemplate, (int)ProcessType.Self, Selfs.Duration, Selfs.HasSendMail, Selfs.RemindDay, evaluator);
             }
 
             if (Evaluators != null)
@@ -74,10 +74,10 @@ namespace SMS.EPA.Model.FlowManagement
                 {
                     for (int i = 0; i < Evaluators.Employees.Count; i++)
                     {
-                        evaluator.AppendFormat(_Evaluator, Evaluators.Employees[i].EmployeeId, i + 1);
+                        evaluator.AppendFormat(EvaluatorXmlTemplate, Evaluators.Employees[i].EmployeeId, i + 1);
                     }
 
-                    process.AppendFormat(_Process, (int)ProcessType.Evaluator, Evaluators.Duration, Evaluators.HasSendMail, Evaluators.RemindDay, evaluator);
+                    process.AppendFormat(ProcessXmlTemplate, (int)ProcessType.Evaluator, Evaluators.Duration, Evaluators.HasSendMail, Evaluators.RemindDay, evaluator);
                 }
             }
 
@@ -89,10 +89,10 @@ namespace SMS.EPA.Model.FlowManagement
                 {
                     for (int i = 0; i < Reviewers.Employees.Count; i++)
                     {
-                        evaluator.AppendFormat(_Evaluator, Reviewers.Employees[i].EmployeeId, i + 1);
+                        evaluator.AppendFormat(EvaluatorXmlTemplate, Reviewers.Employees[i].EmployeeId, i + 1);
                     }
 
-                    process.AppendFormat(_Process, (int)ProcessType.Reviewer, Reviewers.Duration, Reviewers.HasSendMail, Reviewers.RemindDay, evaluator);
+                    process.AppendFormat(ProcessXmlTemplate, (int)ProcessType.Reviewer, Reviewers.Duration, Reviewers.HasSendMail, Reviewers.RemindDay, evaluator);
                 }
             }
 
@@ -104,10 +104,10 @@ namespace SMS.EPA.Model.FlowManagement
                 {
                     for (int i = 0; i < Managements.Employees.Count; i++)
                     {
-                        evaluator.AppendFormat(_Evaluator, Managements.Employees[i].EmployeeId, i + 1);
+                        evaluator.AppendFormat(EvaluatorXmlTemplate, Managements.Employees[i].EmployeeId, i + 1);
                     }
 
-                    process.AppendFormat(_Process, (int)ProcessType.Management, Managements.Duration, Managements.HasSendMail, Managements.RemindDay, evaluator);
+                    process.AppendFormat(ProcessXmlTemplate, (int)ProcessType.Management, Managements.Duration, Managements.HasSendMail, Managements.RemindDay, evaluator);
                 }
             }
 

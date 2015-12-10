@@ -53,10 +53,9 @@ namespace SMS.EPA.Repositories.Implement
 
         public IEnumerable<FlowModel> GetFlowManagement(ICriteria criteria)
         {
-            IEnumerable<FlowModel> epaFlow = null;
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                epaFlow = db.Query<FlowModel, FlowTemplateModel, EmployeeModel, FlowModel>(
+                IEnumerable<FlowModel> epaFlow = db.Query<FlowModel, FlowTemplateModel, EmployeeModel, FlowModel>(
                    (f, ft, e) =>
                    {
                        f.FlowTemplate = ft;
@@ -65,9 +64,9 @@ namespace SMS.EPA.Repositories.Implement
                    },
                    "FlowTemplateId, EmployeeId",
                    criteria.GetSpParams());
-            }
 
-            return epaFlow;
+                return epaFlow;
+            }
         }
 
         public IEnumerable<DepartmentFlowModel> GetDepartmentFlow(ICriteria criteria)

@@ -14,9 +14,9 @@ namespace SMS.EPA.Model.Period
 
     public class RawUpdatedEmployeeSettingPeriodModel
     {
-        private const string _AssignmentItem = "<Assignment EmployeeId='{0}' ProcessId='{1}' EvaluatorId='{2}' StartDate='{3}' EndDate='{4}' Priority='{5}'></Assignment>";
-        private const string _BeginRootTag = "<ROOT>";
-        private const string _EndRootTag = "</ROOT>";
+        private const string AssignmentXmlTemplate = "<Assignment EmployeeId='{0}' ProcessId='{1}' EvaluatorId='{2}' StartDate='{3}' EndDate='{4}' Priority='{5}'></Assignment>";
+        private const string BeginRootTag = "<ROOT>";
+        private const string EndRootTag = "</ROOT>";
 
         public int PeriodId { get; set; }
 
@@ -28,18 +28,18 @@ namespace SMS.EPA.Model.Period
 
         public string ConvertToXml()
         {
-            var value = new StringBuilder(_BeginRootTag);
+            var assignmentXml = new StringBuilder(BeginRootTag);
 
             if (EmployeeAssignments != null)
             {
                 foreach (PeriodFlowModel assignment in EmployeeAssignments)
                 {
-                    value.AppendFormat(_AssignmentItem, assignment.EmployeeId, assignment.ProcessId, assignment.EvaluatorInfo.EmployeeId, assignment.StartDate, assignment.EndDate, assignment.Priority);
+                    assignmentXml.AppendFormat(AssignmentXmlTemplate, assignment.EmployeeId, assignment.ProcessId, assignment.EvaluatorInfo.EmployeeId, assignment.StartDate, assignment.EndDate, assignment.Priority);
                 }
             }
 
-            value.Append(_EndRootTag);
-            return value.ToString();
+            assignmentXml.Append(EndRootTag);
+            return assignmentXml.ToString();
         }
     }
 }

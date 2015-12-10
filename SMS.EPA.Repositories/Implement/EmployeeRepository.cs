@@ -68,7 +68,7 @@ namespace SMS.EPA.Repositories.Implement
                            },
                            "JobTitleId, DepartmentId, GroupId");
 
-                    if (employees != null && employees.Count() > 0)
+                    if (employees != null && employees.Any())
                     {
                         EmployeeModel employee = employees.First();
                         IEnumerable<SystemRoleModel> roles = multi.Read<SystemRoleModel>();
@@ -103,7 +103,7 @@ namespace SMS.EPA.Repositories.Implement
                                emp.Group = gr;
                                return emp;
                            },
-                           "JobTitleId, DepartmentId, GroupId").First();
+                           "JobTitleId, DepartmentId, GroupId").FirstOrDefault();
 
                     if (employee != null)
                     {
@@ -113,28 +113,6 @@ namespace SMS.EPA.Repositories.Implement
                     return employee;
                 }
             }
-        }
-
-        public IEnumerable<EmployeeModel> GetEmployeeByDepartmentId(ICriteria criteria)
-        {
-            List<EmployeeModel> employees = new List<EmployeeModel>();
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
-            {
-                employees = db.Query<EmployeeModel>(criteria.GetSpParams()).ToList();
-            }
-
-            return employees;
-        }
-
-        public IEnumerable<EmployeeModel> GetEmployeeByGroupId(ICriteria criteria)
-        {
-            List<EmployeeModel> employees = new List<EmployeeModel>();
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
-            {
-                employees = db.Query<EmployeeModel>(criteria.GetSpParams()).ToList();
-            }
-
-            return employees;
         }
 
         private IEnumerable<MenuGroupModel> GroupMenuItem(IEnumerable<MenuItemModel> menuItems)

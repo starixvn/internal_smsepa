@@ -31,8 +31,11 @@ namespace SMS.EPA.Criteria.Employee
 
         public override bool IsValid()
         {
-            return EmployeeId > 0 && !string.IsNullOrWhiteSpace(NewPassword) && !string.IsNullOrWhiteSpace(OldPassword)
-                    && !string.IsNullOrWhiteSpace(ConfirmPassword) && NewPassword.Equals(ConfirmPassword, StringComparison.OrdinalIgnoreCase);
+            return EmployeeId > 0 
+                && !string.IsNullOrWhiteSpace(NewPassword) 
+                && !string.IsNullOrWhiteSpace(OldPassword)
+                && !string.IsNullOrWhiteSpace(ConfirmPassword) 
+                && NewPassword.Equals(ConfirmPassword, StringComparison.OrdinalIgnoreCase);
         }
 
         public override string GetSettingKey()

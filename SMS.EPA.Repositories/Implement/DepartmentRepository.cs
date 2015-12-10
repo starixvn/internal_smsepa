@@ -21,10 +21,9 @@ namespace SMS.EPA.Repositories.Implement
     {
         public List<DepartmentModel> GetDepartment(ICriteria criteria)
         {
-            List<DepartmentModel> departments = new List<DepartmentModel>();
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                departments = db.Query<DepartmentModel, Employee, DepartmentModel>(
+                List<DepartmentModel> departments = db.Query<DepartmentModel, Employee, DepartmentModel>(
                    (dept, manager) =>
                    {
                        dept.Manager = manager;
@@ -33,14 +32,14 @@ namespace SMS.EPA.Repositories.Implement
                    },
                    "ManagerId",
                    criteria.GetSpParams()).ToList();
-            }
 
-            if (departments.Count > 0)
-            {
-                departments.ForEach(x => x.Childrens.AddRange(departments.Where(y => y.ParentId == x.DepartmentId)));
-            }
+                if (departments.Any())
+                {
+                    departments.ForEach(x => x.Childrens.AddRange(departments.Where(y => y.ParentId == x.DepartmentId)));
+                }
 
-            return departments;
+                return departments;
+            }
         }
     }
 }

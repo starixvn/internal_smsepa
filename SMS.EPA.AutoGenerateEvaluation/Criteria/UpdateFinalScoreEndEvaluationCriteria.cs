@@ -15,9 +15,9 @@ namespace SMS.EPA.AutoGenerateEvaluation.Criteria
 
     public class UpdateFinalScoreEndEvaluationCriteria : CriteriaBase
     {
-        private string template = "<EPA EPAId='{0}' FinalScore='{1}' DisciplineScore='{2}' Grade='{3}'></EPA>";
-        private string beginRootTag = "<ROOT>";
-        private string endRootTag = "</ROOT>";
+        private const string TemplateXml = "<EPA EPAId='{0}' FinalScore='{1}' DisciplineScore='{2}' Grade='{3}'></EPA>";
+        private const string BeginRootTag = "<ROOT>";
+        private const string EndRootTag = "</ROOT>";
 
         [SpParam(SqlParamName = "EPAScores")]
         public string EvaluationScores { get; set; }
@@ -34,12 +34,12 @@ namespace SMS.EPA.AutoGenerateEvaluation.Criteria
 
         public string ConvertToXml(int evaluationId, string finalScore, float disciplineScore, string grade)
         {
-            var value = new StringBuilder(beginRootTag);
+            var epaXmlBuilder = new StringBuilder(BeginRootTag);
 
-            value.AppendFormat(template, evaluationId, finalScore, disciplineScore, grade);
-            value.Append(endRootTag);
+            epaXmlBuilder.AppendFormat(TemplateXml, evaluationId, finalScore, disciplineScore, grade);
+            epaXmlBuilder.Append(EndRootTag);
 
-            return value.ToString();
+            return epaXmlBuilder.ToString();
         }
     }
 }

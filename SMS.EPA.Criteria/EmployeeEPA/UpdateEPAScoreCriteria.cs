@@ -18,9 +18,9 @@ namespace SMS.EPA.Criteria.EmployeeEPA
 
     public class UpdateEPAScoreCriteria : CriteriaBase
     {
-        private const string _KPIScore = "<KPI KPIId='{0}' KPIGroupId='{1}' Score='{2}' Rate='{3}' IsMaxScore='{4}' Comment='{5}'></KPI>";
-        private const string _BeginRootTag = "<ROOT>";
-        private const string _EndRootTag = "</ROOT>";
+        private const string KPIScoreXmlTemplate = "<KPI KPIId='{0}' KPIGroupId='{1}' Score='{2}' Rate='{3}' IsMaxScore='{4}' Comment='{5}'></KPI>";
+        private const string BeginRootTag = "<ROOT>";
+        private const string EndRootTag = "</ROOT>";
 
         public int EPAId { get; set; }
 
@@ -36,9 +36,8 @@ namespace SMS.EPA.Criteria.EmployeeEPA
         {
             get
             {
-                var totalScore = EPAProcess.TotalScore;
-
-                return !string.IsNullOrEmpty(totalScore) ? EncodeService.Encode(totalScore) : string.Empty;
+                string totalScore = EPAProcess.TotalScore;
+                return EncodeService.Encode(totalScore);
             }
         }
 
@@ -46,25 +45,32 @@ namespace SMS.EPA.Criteria.EmployeeEPA
         {
             get
             {
-                var result = new StringBuilder(_BeginRootTag);
+                var kpiDetailXml = new StringBuilder(BeginRootTag);
 
-                foreach (var kpiGroup in KPIGroups)
+                foreach (EPAKPIGroupModel kpiGroup in KPIGroups)
                 {
-                    foreach (var kpi in kpiGroup.KPIs)
+                    foreach (EPAKPIModel kpi in kpiGroup.KPIs)
                     {
-                        var score = kpi.CurrentEvaluation.Score;
-                        var rate = kpi.CurrentEvaluation.Rate > 0 ? kpi.CurrentEvaluation.Rate.ToString() : string.Empty;
-                        var isMaxScore = kpi.CurrentEvaluation.IsMaxScore;
-                        var cipherScore = Encode(score + "_" + kpi.KPIId);
-                        var cipherRate = Encode(rate);
+                        string score = kpi.CurrentEvaluation.Score;
+                        string rate = kpi.CurrentEvaluation.Rate > 0 ? kpi.CurrentEvaluation.Rate.ToString() : string.Empty;
+                        bool isMaxScore = kpi.CurrentEvaluation.IsMaxScore;
+                        string cipherScore = Encode(score + "_" + kpi.KPIId);
+                        string cipherRate = Encode(rate);
 
-                        result.AppendFormat(_KPIScore, kpi.KPIId, kpiGroup.KPIGroupId, cipherScore, cipherRate, isMaxScore, HttpUtility.HtmlEncode(kpi.CurrentEvaluation.Comment));
+                        kpiDetailXml.AppendFormat(
+                            KPIScoreXmlTemplate,
+                            kpi.KPIId,
+                            kpiGroup.KPIGroupId,
+                            cipherScore,
+                            cipherRate,
+                            isMaxScore,
+                            HttpUtility.HtmlEncode(kpi.CurrentEvaluation.Comment));
                     }
                 }
 
-                result.Append(_EndRootTag);
+                kpiDetailXml.Append(EndRootTag);
 
-                return result.ToString();
+                return kpiDetailXml.ToString();
             }
         }
 
@@ -88,7 +94,7 @@ namespace SMS.EPA.Criteria.EmployeeEPA
 
         private string Encode(string plainText)
         {
-            return !string.IsNullOrEmpty(plainText) ? EncodeService.Encode(plainText) : string.Empty;
+            return EncodeService.Encode(plainText);
         }
     }
 }

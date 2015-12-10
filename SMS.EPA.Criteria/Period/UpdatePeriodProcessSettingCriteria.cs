@@ -16,9 +16,9 @@ namespace SMS.EPA.Criteria.Period
 
     public class UpdatePeriodProcessSettingCriteria : CriteriaBase
     {
-        private const string _ProcessItem = "<ProcessSetting ProcessId='{0}' Duration='{1}' NoticeAtBegin='{2}' RemindDay='{3}'></ProcessSetting>";
-        private const string _BeginRootTag = "<ROOT>";
-        private const string _EndRootTag = "</ROOT>";
+        private const string ProcessItemXmTemplate = "<ProcessSetting ProcessId='{0}' Duration='{1}' NoticeAtBegin='{2}' RemindDay='{3}'></ProcessSetting>";
+        private const string BeginRootTag = "<ROOT>";
+        private const string EndRootTag = "</ROOT>";
 
         public int PeriodId { get; set; }
 
@@ -41,21 +41,21 @@ namespace SMS.EPA.Criteria.Period
 
         public string ConvertViolationItemToXml()
         {
+            string processXml = string.Empty;
+
             if (Processes != null)
             {
-                var value = new StringBuilder(_BeginRootTag);
+                var processXmlBuilder = new StringBuilder(BeginRootTag);
 
                 foreach (var item in Processes)
                 {
-                    value.AppendFormat(_ProcessItem, item.ProcessId, item.Duration, item.HasSendMail, item.RemindDay);
+                    processXmlBuilder.AppendFormat(ProcessItemXmTemplate, item.ProcessId, item.Duration, item.HasSendMail, item.RemindDay);
                 }
 
-                return value.Append(_EndRootTag).ToString();
+                processXml = processXmlBuilder.Append(EndRootTag).ToString();
             }
-            else
-            {
-                return string.Empty;
-            }
+
+            return processXml;
         }
     }
 }

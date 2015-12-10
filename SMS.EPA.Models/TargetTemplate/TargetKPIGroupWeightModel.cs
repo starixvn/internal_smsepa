@@ -15,9 +15,9 @@ namespace SMS.EPA.Model.TargetTemplate
 
     public class TargetKPIGroupWeightModel
     {
-        private const string _KPIGroup = "<KPIGroup KPIGroupId='{0}' Weight='{1}' IsSpreadKPI='{2}' DisplayOrder='{3}'></KPIGroup>";
-        private const string _BeginRootTag = "<ROOT>";
-        private const string _EndRootTag = "</ROOT>";
+        private const string KPIGroupXmlTemplate = "<KPIGroup KPIGroupId='{0}' Weight='{1}' IsSpreadKPI='{2}' DisplayOrder='{3}'></KPIGroup>";
+        private const string BeginRootTag = "<ROOT>";
+        private const string EndRootTag = "</ROOT>";
 
         public int TargetTemplateId { get; set; }
 
@@ -27,21 +27,22 @@ namespace SMS.EPA.Model.TargetTemplate
         {
             get
             {
+                string kpiGroupXml = string.Empty;
+
                 if (KPIGroups != null)
                 {
-                    var value = new StringBuilder(_BeginRootTag);
+                    var kpiGroupXmlBuilder = new StringBuilder(BeginRootTag);
+
                     foreach (KPIGroupModel item in KPIGroups)
                     {
                         var spreadKPI = item.IsSpreadKPI == true ? 1 : 0;
-                        value.AppendFormat(_KPIGroup, item.KPIGroupId, item.Weight, spreadKPI, item.DisplayOrder);
+                        kpiGroupXmlBuilder.AppendFormat(KPIGroupXmlTemplate, item.KPIGroupId, item.Weight, spreadKPI, item.DisplayOrder);
                     }
 
-                    return value.Append(_EndRootTag).ToString();
+                    kpiGroupXml = kpiGroupXmlBuilder.Append(EndRootTag).ToString();
                 }
-                else
-                {
-                    return string.Empty;
-                }
+
+                return kpiGroupXml;
             }
         }
     }

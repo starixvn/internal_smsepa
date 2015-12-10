@@ -25,13 +25,11 @@ namespace SMS.EPA.Repositories.Implement
     {
         public IEnumerable<EPAModel> GetEPA(ICriteria criteria)
         {
-            IEnumerable<EPAModel> epaInfos = new List<EPAModel>();
-
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
                 using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    epaInfos = multi.Read<EPAModel, RatingTypeModel, StatusModel, EPAPeriodModel, EPAModel>(
+                    IEnumerable<EPAModel> epaInfos = multi.Read<EPAModel, RatingTypeModel, StatusModel, EPAPeriodModel, EPAModel>(
                     (epaInfo, type, status, period) =>
                     {
                         epaInfo.RatingType = type;
@@ -205,6 +203,7 @@ namespace SMS.EPA.Repositories.Implement
                     if (employee.EPAId.Equals(epaInfo.EPAId))
                     {
                         epaInfo.Employee = employee;
+                        break;
                     }
                 }
             }
@@ -339,6 +338,7 @@ namespace SMS.EPA.Repositories.Implement
                     if (employee.EPAId.Equals(epaInfo.EPAId))
                     {
                         epaInfo.Employee = employee;
+                        break;
                     }
                 }
             }

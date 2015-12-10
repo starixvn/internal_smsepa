@@ -15,9 +15,9 @@ namespace SMS.EPA.Model.TargetEmployeeSetting
 
     public class RawTargetSettingAssignModel
     {
-        private const string _DepartmentItem = "<Department DepartmentId='{0}' IsGroup='{1}'></Department>";
-        private const string _BeginRootTag = "<ROOT>";
-        private const string _EndRootTag = "</ROOT>";
+        private const string DepartmentXmlTemplate = "<Department DepartmentId='{0}' IsGroup='{1}'></Department>";
+        private const string BeginRootTag = "<ROOT>";
+        private const string EndRootTag = "</ROOT>";
 
         public int TargetTemplateId { get; set; }
 
@@ -25,18 +25,18 @@ namespace SMS.EPA.Model.TargetEmployeeSetting
 
         public string ConvertToXml() 
         {
-            var value = new StringBuilder(_BeginRootTag);
+            var departmentXml = new StringBuilder(BeginRootTag);
 
             if (DepartmentSettings != null)
             {
                 foreach (DepartmentModel department in DepartmentSettings)
                 {
-                    value.AppendFormat(_DepartmentItem, department.DepartmentId, department.IsGroup ? 1 : 0);
+                    departmentXml.AppendFormat(DepartmentXmlTemplate, department.DepartmentId, department.IsGroup ? 1 : 0);
                 }
             }
 
-            value.Append(_EndRootTag);
-            return value.ToString();
+            departmentXml.Append(EndRootTag);
+            return departmentXml.ToString();
         }
     }
 }

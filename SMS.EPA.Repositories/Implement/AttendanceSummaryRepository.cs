@@ -40,7 +40,7 @@ namespace SMS.EPA.Repositories.Implement
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (var multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     IEnumerable<EmployeeModel> employees = multi.Read<EmployeeModel, Group, EmployeeModel>(
                         (emp, gr) =>
@@ -78,19 +78,19 @@ namespace SMS.EPA.Repositories.Implement
 
                     IEnumerable<AttendanceDetailModel> violations = new List<AttendanceDetailModel>();
 
-                    if (firstViolations != null && firstViolations.Count() > 0)
+                    if (firstViolations != null && firstViolations.Any())
                     {
                         violations = violations.Concat(firstViolations);
                     }
 
-                    if (lastViolations != null && lastViolations.Count() > 0)
+                    if (lastViolations != null && lastViolations.Any())
                     {
                         violations = violations.Concat(lastViolations);
                     }
 
                     var rawAttendanceDetail = new RawAttendanceDetailModel();
 
-                    if (employees != null && employees.Count() > 0)
+                    if (employees != null && employees.Any())
                     {
                         rawAttendanceDetail.Employees = employees;
                         rawAttendanceDetail.Violations = violations.ToList();

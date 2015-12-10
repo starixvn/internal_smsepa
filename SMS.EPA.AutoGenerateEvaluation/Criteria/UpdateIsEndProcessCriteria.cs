@@ -16,9 +16,9 @@ namespace SMS.EPA.AutoGenerateEvaluation.Criteria
 
     public class UpdateIsEndProcessCriteria : CriteriaBase
     {
-        private string processTemplate = "<EPAProcess EPAId='{0}' ProcessId='{1}'></EPAProcess>";
-        private string beginRootTag = "<ROOT>";
-        private string endRootTag = "</ROOT>";
+        private const string ProcessXmlTemplate = "<EPAProcess EPAId='{0}' ProcessId='{1}'></EPAProcess>";
+        private const string BeginRootTag = "<ROOT>";
+        private const string EndRootTag = "</ROOT>";
 
         public string EPAProcess { get; set; }
 
@@ -34,15 +34,16 @@ namespace SMS.EPA.AutoGenerateEvaluation.Criteria
 
         public string ConvertEvaluationProcessToXml(IEnumerable<AutoEmployeePeriodModel> evaluationProcesses)
         {
-            var value = new StringBuilder(beginRootTag);
+            var epaProcessXmlBuilder = new StringBuilder(BeginRootTag);
 
             foreach (AutoEmployeePeriodModel evaluationProcess in evaluationProcesses)
             {
-                value.AppendFormat(processTemplate, evaluationProcess.EPAId, evaluationProcess.ProcessId);
+                epaProcessXmlBuilder.AppendFormat(ProcessXmlTemplate, evaluationProcess.EPAId, evaluationProcess.ProcessId);
             }
 
-            value.Append(endRootTag);
-            return value.ToString();
+            epaProcessXmlBuilder.Append(EndRootTag);
+
+            return epaProcessXmlBuilder.ToString();
         }
     }
 }

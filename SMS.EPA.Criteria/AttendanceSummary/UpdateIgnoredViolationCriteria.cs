@@ -16,9 +16,9 @@ namespace SMS.EPA.Criteria.AttendanceSummary
 
     public class UpdateIgnoredViolationCriteria : CriteriaBase
     {
-        private const string _ViolationItem = "<Violation WorkDate='{0}' EmployeeId='{1}' ViolationId='{2}' Ignored='{3}'></Violation>";
-        private const string _BeginRootTag = "<ROOT>";
-        private const string _EndRootTag = "</ROOT>";
+        private const string ViolationItem = "<Violation WorkDate='{0}' EmployeeId='{1}' ViolationId='{2}' Ignored='{3}'></Violation>";
+        private const string BeginRootTag = "<ROOT>";
+        private const string EndRootTag = "</ROOT>";
 
         public string IgnoredViolations { get; set; }
 
@@ -36,21 +36,21 @@ namespace SMS.EPA.Criteria.AttendanceSummary
 
         public string ConvertViolationItemToXml(IEnumerable<IgnoredViolationModel> violations)
         {
+            string violationXml = string.Empty;
+
             if (violations != null)
             {
-                var value = new StringBuilder(_BeginRootTag);
+                var violationXmlBuilder = new StringBuilder(BeginRootTag);
 
                 foreach (var item in violations)
                 {
-                    value.AppendFormat(_ViolationItem, item.WorkDate, item.EmployeeId, item.ViolationId, item.Ignored);
+                    violationXmlBuilder.AppendFormat(ViolationItem, item.WorkDate, item.EmployeeId, item.ViolationId, item.Ignored);
                 }
 
-                return value.Append(_EndRootTag).ToString();
+                violationXml = violationXmlBuilder.Append(EndRootTag).ToString();
             }
-            else
-            {
-                return string.Empty;
-            }
+
+            return violationXml;
         }
     }
 }

@@ -186,7 +186,7 @@ namespace SMS.EPA.Services.Implement
 
             if (criteria.IsValid())
             {
-                employees = _employeeRepository.GetEmployeeByDepartmentId(criteria);
+                employees = GetData<EmployeeModel>(criteria);
             }
 
             return employees;
@@ -199,7 +199,7 @@ namespace SMS.EPA.Services.Implement
 
             if (criteria.IsValid())
             {
-                employees = _employeeRepository.GetEmployeeByGroupId(criteria);
+                employees = GetData<EmployeeModel>(criteria);
             }
 
             return employees;
