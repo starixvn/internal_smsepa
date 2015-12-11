@@ -35,7 +35,7 @@ namespace SMS.EPA.Model.TargetTemplate
 
                     foreach (KPIGroupModel item in KPIGroups)
                     {
-                        var spreadKPI = item.IsSpreadKPI == true ? 1 : 0;
+                       int spreadKPI = item.IsSpreadKPI == true ? 1 : 0;
                         kpiGroupXmlBuilder.AppendFormat(KPIGroupXmlTemplate, item.KPIGroupId, item.Weight, spreadKPI, item.DisplayOrder);
                     }
 

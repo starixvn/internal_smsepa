@@ -169,6 +169,7 @@ namespace SMS.EPA.Repositories.Implement
                     if (employee.EPAId.Equals(epaInfo.EPAId))
                     {
                         epaInfo.Employee = employee;
+                        break;
                     }
                 }
             }

@@ -132,7 +132,7 @@ namespace SMS.EPA.Model.Report.Dashboard
 
         private float CalculateAverageScore(IList<EPAProcessModel> processes)
         {
-            float score = 0, average = 0;
+            float avegareScore = 0, score = 0;
             int count = 0;
 
             foreach (EPAProcessModel process in processes)
@@ -146,11 +146,11 @@ namespace SMS.EPA.Model.Report.Dashboard
 
             if (count > 0)
             {
-                average = score / count;
-                return (float)Math.Round(average, 2);
+                avegareScore = score / count;
+                avegareScore = (float)Math.Round(avegareScore, 2);
             }
 
-            return score;
+            return avegareScore;
         }
     }
 }

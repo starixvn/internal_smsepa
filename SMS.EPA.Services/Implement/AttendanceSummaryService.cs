@@ -310,52 +310,25 @@ namespace SMS.EPA.Services.Implement
 
         private static void CalculateSubtractScore(AttendanceDetailModel attendanceDetail)
         {
-            if (attendanceDetail.MissingCheckInOut != null && attendanceDetail.MissingCheckInOut.HasViolated)
+            var violations = new List<ViolationModel>
             {
-                attendanceDetail.SystemSubtractScore += attendanceDetail.MissingCheckInOut.Score;
-                attendanceDetail.ApproverSubtractScore += !attendanceDetail.MissingCheckInOut.HasIgnored ? attendanceDetail.MissingCheckInOut.Score : 0;
-            }
+                attendanceDetail.MissingCheckInOut,
+                attendanceDetail.LateIn,
+                attendanceDetail.EarlyOut,
+                attendanceDetail.TotalHours,
+                attendanceDetail.Absent,
+                attendanceDetail.UnpaidLeave,
+                attendanceDetail.UnpaidLeaveAbsent,
+                attendanceDetail.ChangeShift
+            };
 
-            if (attendanceDetail.LateIn != null && attendanceDetail.LateIn.HasViolated)
+            foreach (ViolationModel violation in violations)
             {
-                attendanceDetail.SystemSubtractScore += attendanceDetail.LateIn.Score;
-                attendanceDetail.ApproverSubtractScore += !attendanceDetail.LateIn.HasIgnored ? attendanceDetail.LateIn.Score : 0;
-            }
-
-            if (attendanceDetail.EarlyOut != null && attendanceDetail.EarlyOut.HasViolated)
-            {
-                attendanceDetail.SystemSubtractScore += attendanceDetail.EarlyOut.Score;
-                attendanceDetail.ApproverSubtractScore += !attendanceDetail.EarlyOut.HasIgnored ? attendanceDetail.EarlyOut.Score : 0;
-            }
-
-            if (attendanceDetail.TotalHours != null && attendanceDetail.TotalHours.HasViolated)
-            {
-                attendanceDetail.SystemSubtractScore += attendanceDetail.TotalHours.Score;
-                attendanceDetail.ApproverSubtractScore += !attendanceDetail.TotalHours.HasIgnored ? attendanceDetail.TotalHours.Score : 0;
-            }
-
-            if (attendanceDetail.Absent != null && attendanceDetail.Absent.HasViolated)
-            {
-                attendanceDetail.SystemSubtractScore += attendanceDetail.Absent.Score;
-                attendanceDetail.ApproverSubtractScore += !attendanceDetail.Absent.HasIgnored ? attendanceDetail.Absent.Score : 0;
-            }
-
-            if (attendanceDetail.UnpaidLeave != null && attendanceDetail.UnpaidLeave.HasViolated)
-            {
-                attendanceDetail.SystemSubtractScore += attendanceDetail.UnpaidLeave.Score;
-                attendanceDetail.ApproverSubtractScore += !attendanceDetail.UnpaidLeave.HasIgnored ? attendanceDetail.UnpaidLeave.Score : 0;
-            }
-
-            if (attendanceDetail.UnpaidLeaveAbsent != null && attendanceDetail.UnpaidLeaveAbsent.HasViolated)
-            {
-                attendanceDetail.SystemSubtractScore += attendanceDetail.UnpaidLeaveAbsent.Score;
-                attendanceDetail.ApproverSubtractScore += !attendanceDetail.UnpaidLeaveAbsent.HasIgnored ? attendanceDetail.UnpaidLeaveAbsent.Score : 0;
-            }
-
-            if (attendanceDetail.ChangeShift != null && attendanceDetail.ChangeShift.HasViolated)
-            {
-                attendanceDetail.SystemSubtractScore += attendanceDetail.ChangeShift.Score;
-                attendanceDetail.ApproverSubtractScore += !attendanceDetail.ChangeShift.HasIgnored ? attendanceDetail.ChangeShift.Score : 0;
+                if (violation != null && violation.HasViolated)
+                {
+                    attendanceDetail.SystemSubtractScore += violation.Score;
+                    attendanceDetail.ApproverSubtractScore += !violation.HasIgnored ? violation.Score : 0;
+                }
             }
 
             if (attendanceDetail.SystemSubtractScore > Constants.MaxScoreSubtractDate)
@@ -370,7 +343,7 @@ namespace SMS.EPA.Services.Implement
         {
             foreach (AttendanceDetailModel attendanceViolation in attendanceViolations)
             {
-                attendanceViolation.Employee = employees.Where(x => x.EmployeeId == attendanceViolation.EmployeeId).First();
+                attendanceViolation.Employee = employees.FirstOrDefault(x => x.EmployeeId == attendanceViolation.EmployeeId);
             }
 
             return attendanceViolations;
@@ -378,15 +351,15 @@ namespace SMS.EPA.Services.Implement
 
         private static ViolationModel GetMissingCheckInOut(IEnumerable<AttendanceDetailModel> groupAttendances)
         {
-            IEnumerable<AttendanceDetailModel> checkIns = groupAttendances.Where(x => x.MissingCheckInOut != null);
-            var checkIn = new ViolationModel();
+            var missingCheckInOut = new ViolationModel();
+            AttendanceDetailModel attendanceDetail = groupAttendances.FirstOrDefault(x => x.MissingCheckInOut != null);
 
-            if (checkIns != null && checkIns.Count() > 0)
+            if (attendanceDetail != null)
             {
-                checkIn = checkIns.First().MissingCheckInOut;
+                missingCheckInOut = attendanceDetail.MissingCheckInOut;
             }
 
-            return checkIn;
+            return missingCheckInOut;
         }
 
         private static ViolationModel GetTotalHours(List<AttendanceDetailModel> groupAttendances)
