@@ -21,13 +21,13 @@ namespace SMS.EPA.AutoGenerateEvaluation.Repository
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (var multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     IEnumerable<int> employees = multi.Read<int>();
                     IEnumerable<int> periods = multi.Read<int>();
                     var employeePeriod = new AutoEmployeePeriodModel();
 
-                    if (periods != null && periods.Count() > 0 && employees != null && employees.Count() > 0)
+                    if (periods != null && periods.Any() && employees != null && employees.Any())
                     {
                         employeePeriod.PeriodId = periods.First();
                         employeePeriod.EmployeeIds = string.Join(",", employees);

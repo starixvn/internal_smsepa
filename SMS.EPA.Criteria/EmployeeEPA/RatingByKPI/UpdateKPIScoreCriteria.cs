@@ -55,7 +55,7 @@ namespace SMS.EPA.Criteria.EmployeeEPA.RatingByKPI
         {
             var epaXml = new StringBuilder(BeginRootTag);
 
-            foreach (var epaInfo in epaInfos)
+            foreach (RatingByKPIModel epaInfo in epaInfos)
             {
                 var epaDetailXml = new StringBuilder();
 

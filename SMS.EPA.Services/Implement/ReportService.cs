@@ -478,22 +478,25 @@ namespace SMS.EPA.Services.Implement
                 selfScore = Math.Round(score, 2).ToString();
             }
 
-            if (memberEPA.EPAId > 0 && memberEPA.ProcessByEvaluators.FirstOrDefault().IsEndProcess)
+            if (memberEPA.EPAId > 0 && memberEPA.ProcessByEvaluators != null && memberEPA.ProcessByEvaluators.Any()
+                && memberEPA.ProcessByEvaluators.First().IsEndProcess)
             {
                 evaluatorScore = Math.Round(memberEPA.AverageScoreByEvaluators, 2).ToString();
             }
 
-            if (memberEPA.EPAId > 0 && memberEPA.ProcessByReviewers.Count > 0 && memberEPA.ProcessByReviewers.FirstOrDefault().IsEndProcess)
+            if (memberEPA.EPAId > 0 && memberEPA.ProcessByReviewers != null && memberEPA.ProcessByReviewers.Any()
+                && memberEPA.ProcessByReviewers.First().IsEndProcess)
             {
                 reviewerScore = Math.Round(memberEPA.AverageScoreByReviewers, 2).ToString();
             }
 
-            if (memberEPA.EPAId > 0 && memberEPA.ProcessByManagements.Count > 0 && memberEPA.ProcessByManagements.FirstOrDefault().IsEndProcess)
+            if (memberEPA.EPAId > 0 && memberEPA.ProcessByManagements != null && memberEPA.ProcessByManagements.Any()
+                && memberEPA.ProcessByManagements.First().IsEndProcess)
             {
                 managementScore = Math.Round(memberEPA.AverageScoreByManagements, 2).ToString();
             }
 
-            if (memberEPA.Period.IsEndPeriod)
+            if (memberEPA.Period != null && memberEPA.Period.IsEndPeriod)
             {
                 if (string.IsNullOrEmpty(memberEPA.FinalScore))
                 {

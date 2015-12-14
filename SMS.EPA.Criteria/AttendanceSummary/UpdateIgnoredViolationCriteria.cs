@@ -47,7 +47,8 @@ namespace SMS.EPA.Criteria.AttendanceSummary
                     violationXmlBuilder.AppendFormat(ViolationItem, item.WorkDate, item.EmployeeId, item.ViolationId, item.Ignored);
                 }
 
-                violationXml = violationXmlBuilder.Append(EndRootTag).ToString();
+                violationXmlBuilder.Append(EndRootTag);
+                violationXml = violationXmlBuilder.ToString();
             }
 
             return violationXml;

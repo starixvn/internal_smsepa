@@ -20,11 +20,8 @@ namespace SMS.EPA.Services.Implement
         private string _startDateMailToHumanResources = "~/Views/Emails/StartDateEmailToHR.cshtml";
         private string _startDateMailToSelf = "~/Views/Emails/StartDateEmailToSelf.cshtml";
         private string _startDateMailToEvaluator = "~/Views/Emails/StartDateEmailToEvaluator.cshtml";
-        private string _startDateMailToSpecialEvaluator = "~/Views/Emails/StartDateEmailToSpecialEvaluator.cshtml";
         private string _startDateMailToReviewer = "~/Views/Emails/StartDateEmailToReviewer.cshtml";
-        private string _startDateMailToSpecialReviewer = "~/Views/Emails/StartDateEmailToSpecialReviewer.cshtml";
         private string _startDateMailToManagement = "~/Views/Emails/StartDateEmailToManagement.cshtml";
-        private string _startDateMailToSpecialManagement = "~/Views/Emails/StartDateEmailToSpecialManagement.cshtml";
         private string _mailNotifyChangeSetting = "~/Views/Emails/EmailNotifyChangeSetting.cshtml";
 
         private IMailService _mailService;
@@ -58,42 +55,21 @@ namespace SMS.EPA.Services.Implement
                         break;
 
                     case (int)ProcessType.Evaluator:
-                        if (employeeSetting.EvaluatorInfo.IsSpecialUser)
-                        {
-                            templateEmailPath = HttpContext.Current.Server.MapPath(_startDateMailToSpecialEvaluator);
-                        }
-                        else
-                        {
-                            templateEmailPath = HttpContext.Current.Server.MapPath(_startDateMailToEvaluator);
-                        }
-
+                        templateEmailPath = HttpContext.Current.Server.MapPath(_startDateMailToEvaluator);
                         _mailService.SendMailToEvaluatorStartDate(templateEmailPath, employeeSetting, period.Name);
+
                         break;
 
                     case (int)ProcessType.Reviewer:
-                        if (employeeSetting.EvaluatorInfo.IsSpecialUser)
-                        {
-                            templateEmailPath = HttpContext.Current.Server.MapPath(_startDateMailToSpecialReviewer);
-                        }
-                        else
-                        {
-                            templateEmailPath = HttpContext.Current.Server.MapPath(_startDateMailToReviewer);
-                        }
-
+                        templateEmailPath = HttpContext.Current.Server.MapPath(_startDateMailToReviewer);
                         _mailService.SendMailToReviewerStartDate(templateEmailPath, employeeSetting, period.Name);
+
                         break;
 
                     case (int)ProcessType.Management:
-                        if (employeeSetting.EvaluatorInfo.IsSpecialUser)
-                        {
-                            templateEmailPath = HttpContext.Current.Server.MapPath(_startDateMailToSpecialManagement);
-                        }
-                        else
-                        {
-                            templateEmailPath = HttpContext.Current.Server.MapPath(_startDateMailToManagement);
-                        }
-
+                        templateEmailPath = HttpContext.Current.Server.MapPath(_startDateMailToManagement);
                         _mailService.SendMailToManagementStartDate(templateEmailPath, employeeSetting, period.Name);
+
                         break;
                 }
             }

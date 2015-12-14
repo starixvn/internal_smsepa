@@ -38,7 +38,8 @@ namespace SMS.EPA.Criteria.EmployeeEPA
                     }
                 }
 
-                return epaXmlBuilder.Append("</ROOT>").ToString();
+                epaXmlBuilder.Append("</ROOT>");
+                return epaXmlBuilder.ToString();
             }
         }
 

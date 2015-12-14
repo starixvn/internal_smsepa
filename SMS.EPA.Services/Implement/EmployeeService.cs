@@ -222,19 +222,14 @@ namespace SMS.EPA.Services.Implement
         {
             foreach (EmployeeModel employee in rawEmployee.Employees)
             {
-                IEnumerable<RawEmployeeRoleModel> rolesOfCurrentEmployee = rawEmployee.Roles.Where(role => role.EmployeeId == employee.EmployeeId);
-
-                foreach (RawEmployeeRoleModel rawRole in rolesOfCurrentEmployee)
+                IList<SystemRoleModel> employeeRoles = rawEmployee.Roles.Where(role => role.EmployeeId == employee.EmployeeId).Select(role => new SystemRoleModel
                 {
-                    var role = new SystemRoleModel
-                    {
-                        RoleId = rawRole.RoleId,
-                        RoleName = rawRole.RoleName,
-                        RoleCode = rawRole.RoleCode
-                    };
+                    RoleId = role.RoleId,
+                    RoleName = role.RoleName,
+                    RoleCode = role.RoleCode
+                }).ToList();
 
-                    employee.Roles.Add(role);
-                }
+                employee.Roles = employeeRoles;
             }
 
             return rawEmployee.Employees;

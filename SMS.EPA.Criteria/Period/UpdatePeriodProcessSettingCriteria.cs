@@ -47,12 +47,13 @@ namespace SMS.EPA.Criteria.Period
             {
                 var processXmlBuilder = new StringBuilder(BeginRootTag);
 
-                foreach (var item in Processes)
+                foreach (FlowModel item in Processes)
                 {
                     processXmlBuilder.AppendFormat(ProcessItemXmTemplate, item.ProcessId, item.Duration, item.HasSendMail, item.RemindDay);
                 }
 
-                processXml = processXmlBuilder.Append(EndRootTag).ToString();
+                processXmlBuilder.Append(EndRootTag);
+                processXml = processXmlBuilder.ToString();
             }
 
             return processXml;
