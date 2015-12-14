@@ -135,7 +135,7 @@ namespace SMS.EPA.Services.Implement
                     {
                         IEnumerable<TargetEmployeeModel> rawTargetEmployees = rawEmployeeSetting.TargetEmployees.Where(x => x.EmployeeId == employee.EmployeeId);
 
-                        if (rawTargetEmployees != null && rawTargetEmployees.Count() > 0)
+                        if (rawTargetEmployees != null && rawTargetEmployees.Any())
                         {
                             targetEmployeeSetting.TargetTemplates = GetTargetTemplateOfEmployee(rawTargetEmployees);
                         }
@@ -190,7 +190,7 @@ namespace SMS.EPA.Services.Implement
                         IEnumerable<TargetDepartmentModel> rawTargetDepartments = rawDepartmentSeting.TargetDepartments
                                                     .Where(x => x.DepartmentId == department.DepartmentId && x.IsGroup == department.IsGroup);
 
-                        if (rawTargetDepartments != null && rawTargetDepartments.Count() > 0)
+                        if (rawTargetDepartments != null && rawTargetDepartments.Any())
                         {
                             targetDepartmentSetting.TargetTemplates = GetTargetTemplateOfDepartment(rawTargetDepartments);
                         }

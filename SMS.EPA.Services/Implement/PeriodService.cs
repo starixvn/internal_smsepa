@@ -130,7 +130,7 @@ namespace SMS.EPA.Services.Implement
             {
                 RawPeriodEmployeeSettingModel rawPeriodEmployeeSetting = _periodRepository.GetPeriodEmployeeSettingById(criteria);
 
-                if (rawPeriodEmployeeSetting.Employees != null && rawPeriodEmployeeSetting.Employees.Count() > 0)
+                if (rawPeriodEmployeeSetting.Employees != null && rawPeriodEmployeeSetting.Employees.Any())
                 {
                     periodEmployeeSettings = ConvertToPeriodEmployeeSetting(rawPeriodEmployeeSetting);
                 }

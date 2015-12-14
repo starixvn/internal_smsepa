@@ -120,7 +120,7 @@ namespace SMS.EPA.AutoGenerateEvaluation
             IEnumerable<int> semiAnnualPeriods = _evaluationService.CheckStartSemiAnnual(criteria);
             _LOG.Info("Result of check the start of semi annual period: " + string.Join(",", semiAnnualPeriods));
 
-            if (semiAnnualPeriods != null && semiAnnualPeriods.Count() > 0)
+            if (semiAnnualPeriods != null && semiAnnualPeriods.Any())
             {
                 AddEmployeeAndGenerateEPASemiAnnual(semiAnnualPeriods);
             }
@@ -146,7 +146,7 @@ namespace SMS.EPA.AutoGenerateEvaluation
             IEnumerable<AutoEmployeePeriodModel> employeePeriods = _evaluationService.GetEmployeePromotionEvaluation(criteria);
             _LOG.Info("Result of check the start of promotion evaluation: ended at  " + DateTime.Now.ToString());
 
-            if (employeePeriods != null && employeePeriods.Count() > 0)
+            if (employeePeriods != null && employeePeriods.Any())
             {
                 GenerateEPAPromotion(employeePeriods);
             }
@@ -172,7 +172,7 @@ namespace SMS.EPA.AutoGenerateEvaluation
             IEnumerable<AutoEmployeePeriodModel> evaluationProcesses = _evaluationService.CheckEndProcess(checkEndProcessCriteria);
             _LOG.Info("Check process that ended yesterday: ended at " + DateTime.Now.ToString());
 
-            if (evaluationProcesses != null && evaluationProcesses.Count() > 0)
+            if (evaluationProcesses != null && evaluationProcesses.Any())
             {
                 var updateEndProcessCriteria = new UpdateIsEndProcessCriteria();
                 updateEndProcessCriteria.EPAProcess = updateEndProcessCriteria.ConvertEvaluationProcessToXml(evaluationProcesses);
@@ -301,7 +301,7 @@ namespace SMS.EPA.AutoGenerateEvaluation
                 }
             }
 
-            if (hasSendMailEndEvaluation && periods.Count() > 0)
+            if (hasSendMailEndEvaluation && periods.Any())
             {
                 foreach (int periodId in periods)
                 {
@@ -561,7 +561,7 @@ namespace SMS.EPA.AutoGenerateEvaluation
 
             IEnumerable<AttendanceScoreModel> attendanceScores = _attendanceService.GetAttendanceScoreByEPAId(criteria);
 
-            if (attendanceScores != null && attendanceScores.Count() > 0)
+            if (attendanceScores != null && attendanceScores.Any())
             {
                 disciplineScore = attendanceScores.First().DisciplineScore;
             }

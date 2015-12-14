@@ -285,7 +285,7 @@ namespace SMS.EPA.Services.Implement
                 IEnumerable<AttendanceDetailModel> commentItems =
                     comments.Where(x => x.WorkDate == attendanceViolation.WorkDate && x.EmployeeId == attendanceViolation.EmployeeId);
 
-                if (commentItems != null && commentItems.Count() > 0)
+                if (commentItems != null && commentItems.Any())
                 {
                     string approverComment = commentItems.First().ApproverComment;
                     string employeeComment = commentItems.First().EmployeeComment;
@@ -367,7 +367,7 @@ namespace SMS.EPA.Services.Implement
             IEnumerable<AttendanceDetailModel> totalHours = groupAttendances.Where(x => x.TotalHours != null);
             var totalHour = new ViolationModel();
 
-            if (totalHours != null && totalHours.Count() > 0)
+            if (totalHours != null && totalHours.Any())
             {
                 totalHour = totalHours.First().TotalHours;
             }
@@ -380,7 +380,7 @@ namespace SMS.EPA.Services.Implement
             IEnumerable<AttendanceDetailModel> lateIns = groupAttendances.Where(x => x.LateIn != null);
             var lateIn = new ViolationModel();
 
-            if (lateIns != null && lateIns.Count() > 0)
+            if (lateIns != null && lateIns.Any())
             {
                 lateIn = lateIns.First().LateIn;
             }
@@ -393,7 +393,7 @@ namespace SMS.EPA.Services.Implement
             IEnumerable<AttendanceDetailModel> earlyOuts = groupAttendances.Where(x => x.EarlyOut != null);
             var earlyOut = new ViolationModel();
 
-            if (earlyOuts != null && earlyOuts.Count() > 0)
+            if (earlyOuts != null && earlyOuts.Any())
             {
                 earlyOut = earlyOuts.First().EarlyOut;
             }
@@ -406,7 +406,7 @@ namespace SMS.EPA.Services.Implement
             IEnumerable<AttendanceDetailModel> absents = groupAttendances.Where(x => x.Absent != null);
             var absent = new ViolationModel();
 
-            if (absents != null && absents.Count() > 0)
+            if (absents != null && absents.Any())
             {
                 absent = absents.First().Absent;
             }
@@ -419,7 +419,7 @@ namespace SMS.EPA.Services.Implement
             IEnumerable<AttendanceDetailModel> unpaidLeaveAbsents = groupAttendances.Where(x => x.UnpaidLeaveAbsent != null);
             var unpaidLeaveAbsent = new ViolationModel();
 
-            if (unpaidLeaveAbsents != null && unpaidLeaveAbsents.Count() > 0)
+            if (unpaidLeaveAbsents != null && unpaidLeaveAbsents.Any())
             {
                 unpaidLeaveAbsent = unpaidLeaveAbsents.First().UnpaidLeaveAbsent;
             }
@@ -432,7 +432,7 @@ namespace SMS.EPA.Services.Implement
             IEnumerable<AttendanceDetailModel> unpaidLeaves = groupAttendances.Where(x => x.UnpaidLeave != null);
             var unpaidLeave = new ViolationModel();
 
-            if (unpaidLeaves != null && unpaidLeaves.Count() > 0)
+            if (unpaidLeaves != null && unpaidLeaves.Any())
             {
                 unpaidLeave = unpaidLeaves.First().UnpaidLeave;
             }
@@ -445,7 +445,7 @@ namespace SMS.EPA.Services.Implement
             IEnumerable<AttendanceDetailModel> changeShifts = groupAttendances.Where(x => x.ChangeShift != null);
             var changeShift = new ViolationModel();
 
-            if (changeShifts != null && changeShifts.Count() > 0)
+            if (changeShifts != null && changeShifts.Any())
             {
                 changeShift = changeShifts.First().ChangeShift;
             }
