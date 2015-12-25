@@ -132,7 +132,8 @@ namespace SMS.EPA.Site.Controllers.API
         {
             var criteria = new DeletePeriodCriteria
             {
-                PeriodId = periodId
+                PeriodId = periodId,
+                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
             };
 
             CommandResult commandResult = _periodService.DeletePeriod(criteria);

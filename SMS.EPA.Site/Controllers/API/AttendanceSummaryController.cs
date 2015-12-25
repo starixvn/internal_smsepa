@@ -111,7 +111,8 @@ namespace SMS.EPA.Site.Controllers.API
             {
                 EmployeeId = employeeId,
                 WorkDate = workDate,
-                Name = name
+                Name = name,
+                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
             };
 
             CommandResult commandResult = _attendanceSummaryService.DeleteOtherViolation(criteria);

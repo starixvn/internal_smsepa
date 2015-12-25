@@ -19,6 +19,8 @@ namespace SMS.EPA.Criteria.TargetEmployeeSetting
 
         public bool IsGroup { get; set; }
 
+        public int ModifiedBy { get; set; }
+
         public override bool IsValid()
         {
             return TargetTemplateId > 0 && DepartmentId > 0;

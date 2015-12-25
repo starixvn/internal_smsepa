@@ -17,6 +17,8 @@ namespace SMS.EPA.Criteria.TargetEmployeeSetting
 
         public int EmployeeId { get; set; }
 
+        public int ModifiedBy { get; set; }
+
         public override bool IsValid()
         {
             return TargetTemplateId > 0 && EmployeeId > 0;

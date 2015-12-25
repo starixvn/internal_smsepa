@@ -20,6 +20,8 @@ namespace SMS.EPA.Criteria.AttendanceSummary
 
         public string Name { get; set; }
 
+        public int ModifiedBy { get; set; }
+
         public override bool IsValid()
         {
             return EmployeeId > 0 && !string.IsNullOrWhiteSpace(Name);

@@ -15,6 +15,8 @@ namespace SMS.EPA.Criteria.Period
     {
         public int PeriodId { get; set; }
 
+        public int ModifiedBy { get; set; }
+
         public override bool IsValid()
         {
             return PeriodId > 0;

@@ -78,7 +78,8 @@ namespace SMS.EPA.Site.Controllers.API
             var criteria = new DeleteTargetEmployeeSettingCriteria
             {
                 TargetTemplateId = targetTemplateId,
-                EmployeeId = employeeId
+                EmployeeId = employeeId,
+                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
             };
 
             CommandResult commandResult = _targetEmployeeSettingService.DeleteTargetEmployeeSetting(criteria);
@@ -129,7 +130,8 @@ namespace SMS.EPA.Site.Controllers.API
             {
                 TargetTemplateId = targetTemplateId,
                 DepartmentId = departmentId,
-                IsGroup = isGroup
+                IsGroup = isGroup,
+                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
             };
 
             CommandResult commandResult = _targetEmployeeSettingService.DeleteTargetDepartmentSetting(criteria);
