@@ -11,13 +11,18 @@
                 <div>
                     <table class="table table-bordered table-striped table-hover" id="tblKPI">
                         <thead>
-                        <th>
-                            <input type="checkbox" ng-model="kpiListCtrl.SelectedAll" ng-click="kpiListCtrl.checkAll(kpiListCtrl.SelectedAll)" />
-                        </th>
-                        <th></th>
-                        <th data-translate="KPIName"></th>
-                        <th data-translate="Weight"></th>
-                        <th class="middle-align" data-translate="Priority"></th>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" ng-model="kpiListCtrl.SelectedAll" ng-click="kpiListCtrl.checkAll(kpiListCtrl.SelectedAll)" />
+                                </th>
+                                <th></th>
+                                <th data-translate="KPIName"></th>
+                                <th data-translate="Weight"></th>
+                                <th data-translate="RequireEvaluate"></th>
+                                <th data-translate="HasComment"></th>
+                                <th data-translate="RequireComment"></th>
+                                <th class="middle-align" data-translate="Priority"></th>
+                            </tr>
                         </thead>
                         <tbody ng-repeat="group in (filterKPIs = (kpiListCtrl.kpiList | filter: KPIName))" class="kpiItemBody" list-sortable>
                             <tr class="row-header unsortable">
@@ -26,12 +31,16 @@
                                 </td>
                                 <td></td>
                                 <td class="criteria-title row-highlight group-header">
-                                    <span>{{ group.Name}} ({{group.Weight}})</span> <a class="glyphicon glyphicon-remove icon-remove left-buffer" title="Remove Group"
-                                                                                       ng-click="kpiListCtrl.removeKPIGroup(group)" href="javascript:;"></a>
+                                    <span>{{ group.Name}} ({{group.Weight}})</span>
+                                    <a class="glyphicon glyphicon-remove icon-remove left-buffer" title="Remove Group"
+                                       ng-click="kpiListCtrl.removeKPIGroup(group)" href="javascript:;"></a>
                                 </td>
                                 <td class="text-center row-highlight">
                                     <a ng-show="!group.IsSpreadKPI" href="javascript:;" ng-click="kpiListCtrl.scoreSpread(group)">Spread</a>
                                 </td>
+                                <td class="text-center row-highlight"></td>
+                                <td class="text-center row-highlight"></td>
+                                <td class="text-center row-highlight"></td>
                                 <td class="text-center row-highlight"></td>
                             </tr>
                             <tr class="row-data" ng-repeat="item in group.KPIs | filter: KPIName">
@@ -46,6 +55,15 @@
                                     <span ng-show="group.IsSpreadKPI && !item.Selected">-</span>
                                     <span ng-show="group.IsSpreadKPI && item.Selected" class="glyphicon glyphicon-ok item-list-icon"></span>
                                 </td>
+                                <td class="width-100 text-center">
+                                    <input type="checkbox" ng-model="item.IsRequiredEvaluate" ng-show="item.Selected" name="IsRequiredEvaluate" />
+                                </td>
+                                <td class="width-100 text-center">
+                                    <input type="checkbox" ng-model="item.HasComment" ng-show="item.Selected" ng-click="kpiListCtrl.changeHasComment(item)" name="HasComment" />
+                                </td>
+                                <td class="width-150 text-center">
+                                    <input type="checkbox" ng-model="item.IsRequiredComment" ng-show="item.Selected" ng-disabled="!item.HasComment" name="IsRequiredComment" />
+                                </td>
                                 <td class="text-center priority-limit">
                                     <a href="javascript:;" title="Top" class="glyphicon glyphicon-open kpiTop" move-kpi-row> | </a>
                                     <a href="javascript:;" title="Move Up" class="glyphicon glyphicon-arrow-up kpiUp" move-kpi-row> | </a>
@@ -56,7 +74,7 @@
                         </tbody>
                         <tfoot>
                             <tr ng-show="filterKPIs.length == 0">
-                                <td class="empty-result" colspan="4" data-translate="EmptyResult"></td>
+                                <td class="empty-result" colspan="8" data-translate="EmptyResult"></td>
                             </tr>
                         </tfoot>
                     </table>

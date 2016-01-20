@@ -11,13 +11,14 @@ namespace SMS.EPA.Model.TargetTemplate
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     using System.Text;
 
     [Serializable]
     public class TargetTemplateModel
     {
-        private const string KPIXmlTemplate = "<KPI KPIId='{0}' KPIGroupId='{1}' IsSpreadKPI='{2}' Weight='{3}' DisplayOrder='{4}'></KPI>";
+        private const string KPIXmlTemplate = @"<KPI KPIId='{0}' KPIGroupId='{1}' IsSpreadKPI='{2}' Weight='{3}' DisplayOrder='{4}'
+                IsRequiredEvaluate='{5}' HasComment='{6}' IsRequiredComment='{7}'></KPI>";
+
         private const string BeginRootTag = "<ROOT>";
         private const string EndRootTag = "</ROOT>";
 
@@ -71,7 +72,8 @@ namespace SMS.EPA.Model.TargetTemplate
             {
                 foreach (TargetTemplateKPIModel item in kpiItems)
                 {
-                    kpiXml.AppendFormat(KPIXmlTemplate, item.KPIId, item.KPIGroupId, item.IsSpreadKPI, item.Weight, item.DisplayOrder);
+                    kpiXml.AppendFormat(KPIXmlTemplate, item.KPIId, item.KPIGroupId, item.IsSpreadKPI,
+                        item.Weight, item.DisplayOrder, item.IsRequiredEvaluate, item.HasComment, item.IsRequiredComment);
                 }
             }
 

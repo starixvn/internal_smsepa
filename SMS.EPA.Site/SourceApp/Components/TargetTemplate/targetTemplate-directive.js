@@ -173,12 +173,18 @@ targetTemplateModule.directive('getWeight', ['utilitiesFactory', 'notificationFa
                             indexKPIGroup = scope.kpiListCtrl.kpiList.map(function (e) { return e.KPIGroupId; }).indexOf(kpiGroupId),
                             isSpreadKPI = scope.kpiListCtrl.kpiList[indexKPIGroup].IsSpreadKPI,
                             weight = selectedRowElement.find("[name='weight']").val(),
+                            isRequiredEvaluate = selectedRowElement.find("[name='IsRequiredEvaluate']").prop('checked'),
+                            hasComment = selectedRowElement.find("[name='HasComment']").prop('checked'),
+                            isRequiredComment = selectedRowElement.find("[name='IsRequiredComment']").prop('checked'),
                             kpi = {
                                 KPIId: parseInt(selectedRowElement.find('td').attr('item-id')),
                                 KPIGroupId: kpiGroupId,
                                 IsSpreadKPI: isSpreadKPI,
                                 Weight: weight ? parseFloat(weight) : 0,
-                                DisplayOrder: index + 1
+                                DisplayOrder: index + 1,
+                                IsRequiredEvaluate: isRequiredEvaluate,
+                                HasComment: hasComment,
+                                IsRequiredComment: isRequiredComment
                             };
 
                         KPIs.push(kpi);

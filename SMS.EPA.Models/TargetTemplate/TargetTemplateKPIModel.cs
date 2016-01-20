@@ -32,5 +32,11 @@ namespace SMS.EPA.Model.TargetTemplate
         public double? Weight { get; set; }
 
         public int? DisplayOrder { get; set; }
+
+        public bool IsRequiredEvaluate { get; set; }
+
+        public bool HasComment { get; set; }
+
+        public bool IsRequiredComment { get; set; }
     }
 }

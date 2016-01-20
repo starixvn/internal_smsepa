@@ -362,6 +362,12 @@ function ($scope, $window, $translate, TargetTemplateModel, utilitiesFactory) {
             event.stopPropagation();
         }
     };
+
+    vm.changeHasComment = function (kpi) {
+        if (kpi.HasComment === false) {
+            kpi.IsRequiredComment = false;
+        }
+    };
     
     var getTotalWeight = function (kpiList) {
         var totalWeight = 0;
