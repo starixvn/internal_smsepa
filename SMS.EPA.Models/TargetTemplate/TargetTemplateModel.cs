@@ -72,8 +72,16 @@ namespace SMS.EPA.Model.TargetTemplate
             {
                 foreach (TargetTemplateKPIModel item in kpiItems)
                 {
-                    kpiXml.AppendFormat(KPIXmlTemplate, item.KPIId, item.KPIGroupId, item.IsSpreadKPI,
-                        item.Weight, item.DisplayOrder, item.IsRequiredEvaluate, item.HasComment, item.IsRequiredComment);
+                    kpiXml.AppendFormat(
+                        KPIXmlTemplate,
+                        item.KPIId,
+                        item.KPIGroupId,
+                        item.IsSpreadKPI,
+                        item.Weight,
+                        item.DisplayOrder,
+                        item.IsRequiredEvaluate,
+                        item.HasComment,
+                        item.IsRequiredComment);
                 }
             }
 
