@@ -49,5 +49,7 @@ namespace SMS.EPA.Services.Interfaces
         IEnumerable<EmployeeModel> GetEmployeeByGroupId(GetEmployeeByGroupIdCriteria criteria);
 
         CommandResult InsertEmployeeIPAddress(InsertEmployeeIPAddressCriteria criteria);
+
+        CommandResult UpdateHasMonthlyEPA(UpdateHasMonthlyEPACriteria criteria);
     }
 }

@@ -5,48 +5,50 @@
         </ul>
     </div>
     <div class="col-sm-12">
-        <form novalidate class="row form-inline filter">
-        <div class="form-group">
-            <label class="control-label" data-translate="Keyword">
-            </label>
-            <input class="form-control lstBox-limit" type="text" ng-model="employeeCtrl.filter.query" placeholder="full name or nick name" />
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="Section">
-            </label>
-            <select ng-model="employeeCtrl.filter.groupId" ng-options="opt.GroupId as opt.GroupName for opt in employeeCtrl.groupOptions"
-                class="form-control lstBox-limit">
-                <option value="">-- {{"All" | translate}} --</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="Category"></label>
-            <select class="form-control lstBox-limit" ng-model="employeeCtrl.filter.isLocal">
-                <option value="">-- {{"All" | translate}} --</option>
-                <option value="false">{{"Expat" | translate}}</option>
-                <option value="true">{{"Local" | translate}}</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="IsSpecialUser">
-            </label>
-            <input class="form-control" type="checkbox" ng-model="employeeCtrl.filter.isSpecialUser" />
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="IsDisabledUser">
-            </label>
-            <input class="form-control" type="checkbox" ng-model="employeeCtrl.filter.isDisabledUser" />
-        </div>
-        <div class="form-group">
-            <button class="button" ng-click="employeeCtrl.queryEmployee(employeeCtrl.filter)" data-translate="Submit">
-            </button>
-        </div>
+        <form novalidate class="row form-horizontal filter">
+            <div class="form-group">
+                <label class="col-sm-1 control-label" data-translate="Keyword"></label>
+                <div class="col-sm-2">
+                    <input class="form-control" type="text" ng-model="employeeCtrl.filter.query" placeholder="full name or nick name" />
+                </div>
+                <label class="col-sm-1 control-label" data-translate="Section"></label>
+                <div class="col-sm-2">
+                    <select class="form-control" ng-model="employeeCtrl.filter.groupId"
+                            ng-options="opt.GroupId as opt.GroupName for opt in employeeCtrl.groupOptions">
+                        <option value="">-- {{"All" | translate}} --</option>
+                    </select>
+                </div>
+                <label class="col-sm-1 control-label" data-translate="Category"></label>
+                <div class="col-sm-2">
+                    <select class="form-control" ng-model="employeeCtrl.filter.isLocal">
+                        <option value="">-- {{"All" | translate}} --</option>
+                        <option value="false">{{"Expat" | translate}}</option>
+                        <option value="true">{{"Local" | translate}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-1">
+                    <label>
+                        <input type="checkbox" ng-model="employeeCtrl.filter.isSpecialUser"> {{"IsSpecialUser" | translate}}
+                    </label>
+                    <label>
+                        <input type="checkbox" ng-model="employeeCtrl.filter.isDisabledUser"> {{"IsDisabledUser" | translate}}
+                    </label>
+                    <label>
+                        <input type="checkbox" ng-model="employeeCtrl.filter.hasMonthlyEPA"> {{"HasMonthlyEPA" | translate}}
+                    </label>
+                </div>
+                <div class="col-sm-1">
+                    <button class="button" ng-click="employeeCtrl.queryEmployee(employeeCtrl.filter)" data-translate="Submit"></button>
+                </div>
+            </div>
         </form>
         <table class="row table table-bordered table-striped" id="data">
             <thead>
                 <tr class="header-table">
-                    <th colspan="10">
-                        <a class="pull-left button-icon create-button" ng-click="employeeCtrl.createEmployee()" >
+                    <th colspan="11">
+                        <a class="pull-left button-icon create-button" ng-click="employeeCtrl.createEmployee()">
                             <span class="icon plus"></span>
                             <span class="button-text" data-translate="CreateUser"></span>
                         </a>
@@ -62,8 +64,9 @@
                     <th data-translate="Section"></th>
                     <th data-translate="ShortSpecialUser"></th>
                     <th data-translate="Roles"></th>
-                    <th data-translate="Action"></th>
-                    <th class="col-reset-password" data-translate="ResetPassword"></th>
+                    <th data-translate="MonthlyEPA"></th>
+                    <th data-translate="Action" ng-if="employeeCtrl.permission == 2"></th>
+                    <th class="col-reset-password" data-translate="ResetPassword" ng-if="employeeCtrl.permission == 2"></th>
                 </tr>
             </thead>
             <tbody class="table-body">
@@ -72,40 +75,42 @@
                     <td class="text-center" ng-bind="employee.Code"></td>
                     <td class="text-center" ng-bind="employee.NickName"></td>
                     <td ng-bind="employee.FullName"></td>
-                    <td class="text-center" ng-bind="employee.JobTitle.JobTitleName"></td>
+                    <td ng-bind="employee.JobTitle.JobTitleName"></td>
                     <td class="text-center">
                         <span tooltip="{{employee.Group.GroupName}}" ng-bind="employee.Group.GroupCode"></span>
                     </td>
                     <td class="text-center">
                         <div ng-if="employee.IsSpecialUser">
-                            <a href="" ng-click="employeeCtrl.updateEmployee(employee)">
-                                <span data-translate="Yes">
-                                </span>
-                            </a>
+                            <a href="" ng-click="employeeCtrl.updateEmployee(employee)" data-translate="Yes" ng-if="employeeCtrl.permission == 2"></a>
+                            <span data-translate="Yes" ng-if="employeeCtrl.permission != 2"></span>
                         </div>
                         <span data-translate="No" ng-if="!employee.IsSpecialUser"></span>
                     </td>
                     <td class="authority-employee-role">
-                         <span ng-repeat="role in employee.Roles">
+                        <span ng-repeat="role in employee.Roles">
                             {{role.RoleCode}}<span ng-if="!$last">,</span>
                         </span>
                     </td>
-                    <td class="text-center authority-employee-action">
+                    <td class="text-center">
+                        <input type="checkbox" ng-checked="employee.HasMonthlyEPA" ng-disabled="employeeCtrl.permission != 2"
+                               ng-click="employeeCtrl.updateHasMonthlyEPA(employee)" />
+                    </td>
+                    <td class="text-center authority-employee-action" ng-if="employeeCtrl.permission == 2">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" title="Assign role to user" ng-click="employeeCtrl.assignRole(employee)" />
                     </td>
-                    <td class="text-center col-reset-password">
+                    <td class="text-center col-reset-password" ng-if="employeeCtrl.permission == 2">
                         <a class="glyphicon glyphicon-refresh icon-refresh" href="" title="Reset Password"
                            ng-if="employee.IsSpecialUser" ng-click="employeeCtrl.resetPassword(employee)" />
                         <a class="glyphicon glyphicon-ban-circle icon-ban-circle disabled" href="" ng-if="!employee.IsSpecialUser"></a>
                     </td>
                 </tr>
                 <tr ng-show="employeeCtrl.filteredItems.length == 0">
-                    <td class="empty-result" colspan="10" data-translate="EmptyResult"></td>
+                    <td class="empty-result" colspan="11" data-translate="EmptyResult"></td>
                 </tr>
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="10" class="paging">
+                    <td colspan="11" class="paging">
                         <span data-translate="Show"></span>
                         <select class="dropdown-entry form-control" ng-model="employeeCtrl.pageSize"
                                 ng-options="entry for entry in employeeCtrl.entries"></select>

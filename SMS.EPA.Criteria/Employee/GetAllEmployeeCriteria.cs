@@ -26,6 +26,8 @@ namespace SMS.EPA.Criteria.Employee
 
         public bool? IsDisabledUser { get; set; }
 
+        public bool? HasMonthlyEPA { get; set; }
+
         public int? RoleId { get; set; }
 
         public int? ApproverId { get; set; }

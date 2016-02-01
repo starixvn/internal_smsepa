@@ -8,13 +8,15 @@ function ($window, EmployeeModel, utilitiesFactory, CommonModel) {
 
     vm.employees = EmployeeModel.employees;
     vm.defaultPassword = EmployeeModel.defaultPassword;
+    vm.permission = EmployeeModel.permission;
 
     vm.filter = {
         query: '',
         groupId: '',
         isLocal: '',
         isSpecialUser: '',
-        isDisabledUser: ''
+        isDisabledUser: '',
+        hasMonthlyEPA: ''
     };
 
     vm.groupOptions = [];
@@ -31,19 +33,27 @@ function ($window, EmployeeModel, utilitiesFactory, CommonModel) {
         vm.defaultPassword = EmployeeModel.defaultPassword;
     });
 
-    var getEmployee = function (query, groupId, isLocal, isSpecialUser, isDisabledUser) {
-        EmployeeModel.getAllEmployee(query, groupId, isLocal, isSpecialUser, isDisabledUser).then(function () {
+    EmployeeModel.getUserPermissionOnEmployee().then(function () {
+        vm.permission = EmployeeModel.permission;
+    });
+
+    var getEmployee = function (query, groupId, isLocal, isSpecialUser, isDisabledUser, hasMonthlyEPA) {
+        if (!hasMonthlyEPA) {
+            hasMonthlyEPA = '';
+        }
+
+        EmployeeModel.getAllEmployee(query, groupId, isLocal, isSpecialUser, isDisabledUser, hasMonthlyEPA).then(function () {
             vm.employees = EmployeeModel.employees;
             utilitiesFactory.searchOnPage(vm, vm.employees);
         });
     };
 
-    getEmployee(vm.filter.query, vm.filter.groupId, vm.filter.isLocal, vm.filter.isSpecialUser, vm.filter.isDisabledUser);
+    getEmployee(vm.filter.query, vm.filter.groupId, vm.filter.isLocal, vm.filter.isSpecialUser, vm.filter.isDisabledUser, vm.filter.hasMonthlyEPA);
 
     vm.queryEmployee = function (filter) {
         vm.searchKey = '';
         vm.currentPage = 1;
-        getEmployee(filter.query, filter.groupId, filter.isLocal, filter.isSpecialUser, filter.isDisabledUser);
+        getEmployee(filter.query, filter.groupId, filter.isLocal, filter.isSpecialUser, filter.isDisabledUser, filter.hasMonthlyEPA);
     };
 
     /*
@@ -65,7 +75,7 @@ function ($window, EmployeeModel, utilitiesFactory, CommonModel) {
             EmployeeModel.updateChangedEmployee(employee, updatedEmployee);
         })['finally'](function () {
             vm.modalInstance = '';
-            getEmployee(vm.filter.query, vm.filter.groupId, vm.filter.isLocal, vm.filter.isSpecialUser, vm.filter.isDisabledUser);
+            getEmployee(vm.filter.query, vm.filter.groupId, vm.filter.isLocal, vm.filter.isSpecialUser, vm.filter.isDisabledUser, vm.filter.hasMonthlyEPA);
         });
     };
 
@@ -75,6 +85,10 @@ function ($window, EmployeeModel, utilitiesFactory, CommonModel) {
 
     vm.resetPassword = function (employee) {
         EmployeeModel.openPopupResetPassword(employee, vm.defaultPassword);
+    };
+
+    vm.updateHasMonthlyEPA = function (employee) {
+        EmployeeModel.openPopupUpdateHasMonthlyEPA(vm, employee);
     };
 } ]);
 
@@ -245,6 +259,23 @@ employeeModule.controller("ResetPasswordController",
      vm.defaultPassword = defaultPassword;
 
      vm.save = function () {
+         $modalInstance.close();
+     };
+
+     vm.cancel = function () {
+         $modalInstance.dismiss("cancel");
+     };
+ }]);
+
+employeeModule.controller("ModalConfirmSetUnsetMonthlyEvaluationController",
+['$modalInstance', 'name', 'action',
+function ($modalInstance, name, action) {
+     var vm = this;
+
+     vm.name = name;
+     vm.action = action;
+
+     vm.ok = function () {
          $modalInstance.close();
      };
 

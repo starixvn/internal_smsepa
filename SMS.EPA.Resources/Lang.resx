@@ -1236,4 +1236,10 @@
   <data name="EmailWrongPatternWarning" xml:space="preserve">
     <value>The field Email has wrong format!</value>
   </data>
+  <data name="HasMonthlyEPA" xml:space="preserve">
+    <value>Has Monthly EPA</value>
+  </data>
+  <data name="MonthlyEPA" xml:space="preserve">
+    <value>Monthly EPA</value>
+  </data>
 </root>

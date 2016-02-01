@@ -53,7 +53,8 @@
                             "~/Libs/ui-bootstrap-contextMenu.js",
                             "~/Libs/numeric-directive.js",
                             "~/Libs/spin.min.js",
-                            "~/Libs/angular-spinner.min.js"));
+                            "~/Libs/angular-spinner.min.js",
+                            "~/Libs/floatThead/jquery.floatThead.min.js"));
 
             bundles.AddAndInclude(
                             "~/bundles/less",

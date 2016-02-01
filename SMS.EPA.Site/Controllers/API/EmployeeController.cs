@@ -22,19 +22,24 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
     using SMS.EPA.Web.ApiAuthorizeAttribute;
+    using SMS.EPA.Web.Services;
 
     public class EmployeeController : BaseController
     {
         private readonly IEmployeeService _employeeService;
+        private readonly IWebCommonService _webCommonService;
 
         public EmployeeController()
-            : this(null)
+            : this(null, null)
         {
         }
 
-        public EmployeeController(IEmployeeService employeeService)
+        public EmployeeController(
+            IEmployeeService employeeService,
+            IWebCommonService webCommonService)
         {
             _employeeService = employeeService ?? new EmployeeService();
+            _webCommonService = webCommonService ?? new WebCommonService();
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Read)]
@@ -43,7 +48,8 @@ namespace SMS.EPA.Site.Controllers.API
             int? groupId = null,
             bool? isLocal = null,
             bool? isSpecialUser = null,
-            bool? isDisabledUser = null)
+            bool? isDisabledUser = null,
+            bool? hasMonthlyEPA = null)
         {
             var criteria = new GetAllEmployeeCriteria
             {
@@ -51,10 +57,12 @@ namespace SMS.EPA.Site.Controllers.API
                 GroupId = groupId,
                 IsLocal = isLocal,
                 IsSpecialUser = isSpecialUser,
-                IsDisabledUser = isDisabledUser
+                IsDisabledUser = isDisabledUser,
+                HasMonthlyEPA = hasMonthlyEPA
             };
 
             IEnumerable<EmployeeModel> employees = _employeeService.GetAllEmployee(criteria);
+
             return employees;
         }
 
@@ -62,6 +70,7 @@ namespace SMS.EPA.Site.Controllers.API
         {
             var criteria = new GetAllGroupCriteria();
             IEnumerable<Group> groups = _employeeService.GetAllGroup(criteria);
+
             return groups;
         }
 
@@ -131,6 +140,7 @@ namespace SMS.EPA.Site.Controllers.API
             }
 
             CommandResult commandResult = _employeeService.AssignRoleToEmployee(criteria);
+
             return commandResult;
         }
 
@@ -150,12 +160,32 @@ namespace SMS.EPA.Site.Controllers.API
             return _employeeService.ChangePassword(criteria);
         }
 
+        [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Host)]
+        public CommandResult UpdateHasMonthlyEPA(UpdateHasMonthlyEPACriteria criteria)
+        {
+            if (criteria != null)
+            {
+                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+            }
+
+            CommandResult commandResult = _employeeService.UpdateHasMonthlyEPA(criteria);
+
+            return commandResult;
+        }
+
         [HttpGet]
         public string GetDefaultPassword()
         {
             string defaultPassword = Constants.ResetDefaultPassword;
 
             return defaultPassword;
+        }
+
+        public int GetUserPermissionOnEmployee()
+        {
+            int permission = _webCommonService.GetPermission(EPAFunctionKey.UserManagement);
+            return permission;
         }
     }
 }

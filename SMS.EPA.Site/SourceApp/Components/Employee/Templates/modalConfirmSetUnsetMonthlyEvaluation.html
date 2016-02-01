@@ -1,0 +1,15 @@
+﻿<div id="confirmPopup">
+    <div class="modal-header">
+        <div class="popup-header">
+            {{"Confirm" | translate}}
+            <span class="close-popup" ng-click="modalConfirmCtrl.cancel()"></span>
+        </div>
+    </div>
+    <div class="modal-body">
+        Are you sure that you want to <strong>{{modalConfirmCtrl.action}}</strong> monthly evaluation for <strong>{{modalConfirmCtrl.name}}</strong>?
+    </div>
+    <div class="modal-footer">
+        <button class="button" ng-click="modalConfirmCtrl.ok()" data-translate="OK"></button>
+        <button class="btn btn-default customize" ng-click="modalConfirmCtrl.cancel()" data-translate="Cancel"></button>
+    </div>
+</div>
