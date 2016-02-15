@@ -1,4 +1,4 @@
-﻿<div class="col-sm-12" ng-controller="MonthlyPeriodController as periodCtrl">
+﻿<div class="col-sm-12" ng-controller="MonthlyPeriodController as monthlyPeriodCtrl">
     <div class="sub-header">
         <ul class="row breadcrumb">
             <li class="current" data-translate="MonthlyPeriod"></li>
@@ -9,23 +9,23 @@
             <label data-translate="From" class="col-sm-1 control-label"></label>
             <div class="col-sm-2">
                 <input readonly class="calendar-form-control" type="text"
-                       ng-model="periodCtrl.filter.fromDate"
-                       datepicker-popup="MMM, yyyy" datepicker-mode="'month'" datepicker-options="periodCtrl.dateOptions"
-                       ng-click="periodCtrl.openPopupFromDate($event)"
-                       is-open="periodCtrl.calendar.fromDateOpened" />
-                <calendar-image class="calendar-image" ng-click="periodCtrl.openPopupFromDate($event)"></calendar-image>
+                       ng-model="monthlyPeriodCtrl.filter.fromDate"
+                       datepicker-popup="MMM, yyyy" datepicker-mode="'month'" datepicker-options="monthlyPeriodCtrl.dateOptions"
+                       ng-click="monthlyPeriodCtrl.openPopupFromDate($event)"
+                       is-open="monthlyPeriodCtrl.calendar.fromDateOpened" />
+                <calendar-image class="calendar-image" ng-click="monthlyPeriodCtrl.openPopupFromDate($event)"></calendar-image>
             </div>
             <label data-translate="To" class="col-sm-1 control-label"></label>
             <div class="col-sm-2">
                 <input readonly class="calendar-form-control" type="text"
-                       ng-model="periodCtrl.filter.toDate" 
-                       datepicker-popup="MMM, yyyy" datepicker-mode="'month'" datepicker-options="periodCtrl.dateOptions"
-                       ng-click="periodCtrl.openPopupToDate($event)"
-                       is-open="periodCtrl.calendar.toDateOpened" />
-                <calendar-image class="calendar-image" ng-click="periodCtrl.openPopupToDate($event)"></calendar-image>
+                       ng-model="monthlyPeriodCtrl.filter.toDate" 
+                       datepicker-popup="MMM, yyyy" datepicker-mode="'month'" datepicker-options="monthlyPeriodCtrl.dateOptions"
+                       ng-click="monthlyPeriodCtrl.openPopupToDate($event)"
+                       is-open="monthlyPeriodCtrl.calendar.toDateOpened" />
+                <calendar-image class="calendar-image" ng-click="monthlyPeriodCtrl.openPopupToDate($event)"></calendar-image>
             </div>
             <div class="col-sm-1">
-                <button class="button" ng-click="periodCtrl.query(periodCtrl.filter)" data-translate="Search"></button>
+                <button class="button" ng-click="monthlyPeriodCtrl.query(monthlyPeriodCtrl.filter)" data-translate="Search"></button>
             </div>
         </div>
     </form>
@@ -33,11 +33,11 @@
         <thead>
             <tr class="header-table">
                 <th colspan="6">
-                    <a class="pull-left button-icon create-button" href="" ng-click="periodCtrl.create()" ng-show="periodCtrl.permission == 2">
+                    <a class="pull-left button-icon create-button" href="" ng-click="monthlyPeriodCtrl.create()" ng-show="monthlyPeriodCtrl.permission == 2">
                         <span class="icon plus"></span>
                         <span class="button-text" data-translate="CreateMonthlyPeriod"></span>
                     </a>
-                    <input type="text" ng-model="periodCtrl.searchKey" ng-change="periodCtrl.search()" class="search-inline-textbox search pull-right">
+                    <input type="text" ng-model="monthlyPeriodCtrl.searchKey" ng-change="monthlyPeriodCtrl.search()" class="search-inline-textbox search pull-right">
                 </th>
             </tr>
             <tr class="headerName">
@@ -50,33 +50,33 @@
             </tr>
         </thead>
         <tbody>
-            <tr dir-paginate="period in periodCtrl.filteredItems | itemsPerPage: periodCtrl.pageSize" current-page="periodCtrl.currentPage">
-                <td class="text-center" ng-bind="periodCtrl.getIndex($index, periodCtrl.currentPage, periodCtrl.pageSize)"></td>
+            <tr dir-paginate="period in monthlyPeriodCtrl.filteredItems | itemsPerPage: monthlyPeriodCtrl.pageSize" current-page="monthlyPeriodCtrl.currentPage">
+                <td class="text-center" ng-bind="monthlyPeriodCtrl.getIndex($index, monthlyPeriodCtrl.currentPage, monthlyPeriodCtrl.pageSize)"></td>
                 <td class="text-center" ng-bind="period.Name"></td>
-                <td class="text-center" ng-bind="period.StartDate | date: periodCtrl.dateFormat"></td>
-                <td class="text-center" ng-bind="period.EndDate | date: periodCtrl.dateFormat"></td>
+                <td class="text-center" ng-bind="period.StartDate | date: monthlyPeriodCtrl.dateFormat"></td>
+                <td class="text-center" ng-bind="period.EndDate | date: monthlyPeriodCtrl.dateFormat"></td>
                 <td class="text-center">
-                    <a href="{{periodCtrl.viewEmployeeSettingUrl}}" ng-click="periodCtrl.viewEmployeeSetting(period)">{{period.NumberEmployees}}</a>
+                    <a href="{{monthlyPeriodCtrl.viewEmployeeSettingUrl}}" ng-click="monthlyPeriodCtrl.viewEmployeeSetting(period)">{{period.NumberEmployees}}</a>
                 </td>
                 <td class="text-center">
                     <div class="btn-group">
-                        <a class="glyphicon glyphicon-edit icon-edit" title="Edit" ng-click="periodCtrl.update(period.PeriodId)"
-                           href="{{periodCtrl.updatePeriodUrl}}"></a>
-                        <a href="javascript:;" class="glyphicon glyphicon-remove icon-remove" title="Delete" ng-click="periodCtrl.delete(period)"
-                           ng-show="periodCtrl.permission == 2"></a>
+                        <a class="glyphicon glyphicon-edit icon-edit" title="Edit" ng-click="monthlyPeriodCtrl.update(period.PeriodId)"
+                           href="{{monthlyPeriodCtrl.updatePeriodUrl}}"></a>
+                        <a href="javascript:;" class="glyphicon glyphicon-remove icon-remove" title="Delete" ng-click="monthlyPeriodCtrl.delete(period)"
+                           ng-show="monthlyPeriodCtrl.permission == 2"></a>
                     </div>
                 </td>
             </tr>
-            <tr ng-show="periodCtrl.filteredItems.length == 0">
+            <tr ng-show="monthlyPeriodCtrl.filteredItems.length == 0">
                 <td class="empty-result" colspan="6" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
-        <tfoot ng-show="periodCtrl.filteredItems.length > 0">
+        <tfoot ng-show="monthlyPeriodCtrl.filteredItems.length > 0">
             <tr>
                 <td colspan="6" class="paging">
                     <span data-translate="Show"></span>
-                    <select class="dropdown-entry form-control" ng-model="periodCtrl.pageSize"
-                            ng-options="entry for entry in periodCtrl.entries"></select>
+                    <select class="dropdown-entry form-control" ng-model="monthlyPeriodCtrl.pageSize"
+                            ng-options="entry for entry in monthlyPeriodCtrl.entries"></select>
                     <span data-translate="entries"></span>
                     <div class="pull-right custom-paging">
                         <dir-pagination-controls boundary-links="true"></dir-pagination-controls>

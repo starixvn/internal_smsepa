@@ -420,6 +420,7 @@
     <Content Include="SourceApp\Components\MonthlyPeriod\monthlyPeriod-controller.js" />
     <Content Include="SourceApp\Components\MonthlyPeriod\monthlyPeriod-factory.js" />
     <Content Include="SourceApp\Components\MonthlyPeriod\monthlyPeriod-model.js" />
+    <Content Include="SourceApp\Components\MonthlyPeriod\Templates\create.html" />
     <Content Include="SourceApp\Components\MonthlyPeriod\Templates\index.html" />
     <Content Include="SourceApp\Components\Period\period-controller.js" />
     <Content Include="SourceApp\Components\Period\period-directive.js" />

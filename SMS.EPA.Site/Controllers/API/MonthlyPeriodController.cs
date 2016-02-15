@@ -11,10 +11,13 @@ namespace SMS.EPA.Site.Controllers.API
 {
     using System;
     using System.Collections.Generic;
+    using System.Web.Http;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.MonthlyPeriod;
     using SMS.EPA.Model.Period;
+    using SMS.EPA.Resources;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
     using SMS.EPA.Web.ApiAuthorizeAttribute;
@@ -52,6 +55,26 @@ namespace SMS.EPA.Site.Controllers.API
             IEnumerable<PeriodModel> periods = _monthlyPeriodService.GetMonthlyPeriod(criteria);
 
             return periods;
+        }
+
+        [HttpPost]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Host)]
+        public CommandResult CreateMonthlyPeriod(CreateMonthlyPeriodCriteria criteria)
+        {
+            var commandResult = new CommandResult();
+
+            if (criteria != null)
+            {
+                criteria.CreatedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                commandResult = _monthlyPeriodService.CreateMonthlyPeriod(criteria);
+            }
+            else
+            {
+                commandResult.Code = 1;
+                commandResult.Message = Lang.ParameterInvalid;
+            }
+
+            return commandResult;
         }
 
         public int GetUserPermissionOnMonthlyPeriod()

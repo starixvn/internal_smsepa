@@ -1,0 +1,45 @@
+﻿
+<div class="modal-header">
+    <div class="popup-header">
+        {{"CreateMonthlyPeriod" | translate}}
+        <span class="close-popup" ng-click="createMonthlyPeriodCtrl.cancel()"></span>
+    </div>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal" role="form">
+        <div class="form-group required">
+            <label class="col-sm-3 control-label" data-translate="Name"></label>
+            <div class="col-sm-8 field">
+                <input type="text" class="form-control" maxlength="200" ng-model="createMonthlyPeriodCtrl.period.Name" required />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label required-label" data-translate="StartDate"></label>
+            <div class="col-sm-3">
+                <input readonly class="calendar-form-control" type="text"
+                       ng-model="createMonthlyPeriodCtrl.period.StartDate" datepicker-popup
+                       ng-click="createMonthlyPeriodCtrl.openPopupStartDate($event)"
+                       is-open="createMonthlyPeriodCtrl.calendar.startDateOpened" />
+                <calendar-image class="calendar-image" ng-click="createMonthlyPeriodCtrl.openPopupStartDate($event)"></calendar-image>
+            </div>
+            <label class="col-sm-3 control-label required-label" data-translate="EndDate"></label>
+            <div class="col-sm-3">
+                <input readonly class="calendar-form-control" type="text"
+                       ng-model="createMonthlyPeriodCtrl.period.EndDate" datepicker-popup
+                       ng-click="createMonthlyPeriodCtrl.openPopupEndDate($event)"
+                       is-open="createMonthlyPeriodCtrl.calendar.endDateOpened" />
+                <calendar-image class="calendar-image" ng-click="createMonthlyPeriodCtrl.openPopupEndDate($event)"></calendar-image>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label" data-translate="Description"></label>
+            <div class="col-sm-8 field description">
+                <textarea type="text" class="form-control" maxlength="2000" ng-model="createMonthlyPeriodCtrl.period.Description"></textarea>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="button" data-translate="Submit" ng-click="createMonthlyPeriodCtrl.save(createMonthlyPeriodCtrl.period)"></button>
+    <button class="btn btn-default customize" ng-click="createMonthlyPeriodCtrl.cancel()" data-translate="Cancel"></button>
+</div>

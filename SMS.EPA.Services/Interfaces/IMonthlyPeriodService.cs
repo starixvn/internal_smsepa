@@ -10,11 +10,14 @@
 namespace SMS.EPA.Services.Interfaces
 {
     using System.Collections.Generic;
+    using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.MonthlyPeriod;
     using SMS.EPA.Model.Period;
 
     public interface IMonthlyPeriodService
     {
         IEnumerable<PeriodModel> GetMonthlyPeriod(GetMonthlyPeriodCriteria criteria);
+
+        CommandResult CreateMonthlyPeriod(CreateMonthlyPeriodCriteria criteria);
     }
 }

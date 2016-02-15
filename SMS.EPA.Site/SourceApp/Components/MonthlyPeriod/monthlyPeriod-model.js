@@ -2,17 +2,12 @@
 /*global monthlyPeriodModule*/
 
 monthlyPeriodModule.factory('MonthlyPeriodModel',
-['monthlyPeriodFactory', 'errorFactory', 'notificationFactory',
-function (monthlyPeriodFactory, errorFactory, notificationFactory) {
+['$modal', 'monthlyPeriodFactory', 'errorFactory', 'notificationFactory',
+function ($modal, monthlyPeriodFactory, errorFactory, notificationFactory) {
     var monthlyPeriodModel = {};
 
     monthlyPeriodModel.periods = [];
     monthlyPeriodModel.permission = 0;
-
-    monthlyPeriodModel.calendar = {
-        fromDateOpened: false,
-        toDateOpened: false
-    };
 
     monthlyPeriodModel.getPermissionOnMonthlyPeriod = function () {
         return monthlyPeriodFactory.getPermissionOnMonthlyPeriod()
@@ -23,26 +18,79 @@ function (monthlyPeriodFactory, errorFactory, notificationFactory) {
         });
     };
 
-    monthlyPeriodModel.openPopupFromDate = function (event) {
+    monthlyPeriodModel.openPopupStartDate = function (event, vm) {
         event.preventDefault();
         event.stopPropagation();
 
-        monthlyPeriodModel.calendar.fromDateOpened = true;
-        monthlyPeriodModel.calendar.toDateOpened = false;
+        vm.calendar.startDateOpened = true;
+        vm.calendar.endDateOpened = false;
     };
 
-    monthlyPeriodModel.openPopupToDate = function (event) {
+    monthlyPeriodModel.openPopupEndDate = function (event, vm) {
         event.preventDefault();
         event.stopPropagation();
 
-        monthlyPeriodModel.calendar.fromDateOpened = false;
-        monthlyPeriodModel.calendar.toDateOpened = true;
+        vm.calendar.startDateOpened = false;
+        vm.calendar.endDateOpened = true;
     };
 
     monthlyPeriodModel.getMonthlyPeriod = function (fromDate, toDate) {
         return monthlyPeriodFactory.getMonthlyPeriod(fromDate, toDate)
         .success(function (periods) {
             monthlyPeriodModel.periods = periods;
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    monthlyPeriodModel.openPopupCreateMonthlyPeriod = function (vm) {
+        vm.modalInstance = $modal.open({
+            templateUrl: 'SourceApp/Components/MonthlyPeriod/Templates/create.html',
+            controller: "CreateMonthlyPeriodController as createMonthlyPeriodCtrl",
+            backdrop: 'static',
+            size: 'lg',
+            windowClass: "modal-confirm-center"
+        });
+
+        return vm.modalInstance.result;
+    };
+
+    monthlyPeriodModel.validateMonthlyPeriod = function (period) {
+        if (!period) {
+            return false;
+        }
+        else {
+            if (!period.Name) {
+                notificationFactory.error("NameRequired");
+                return false;
+            }
+            else if (!period.StartDate) {
+                notificationFactory.error("StartDatePeriodRequired");
+                return false;
+            } else if (!period.EndDate) {
+                notificationFactory.error("EndDatePeriodRequired");
+                return false;
+            }
+            else if (new Date(period.StartDate).setHours(0, 0, 0, 0) > new Date(period.EndDate).setHours(0, 0, 0, 0)) {
+                notificationFactory.error("StartDateGreaterThanEndDateWarning");
+                return false;
+            }
+        }
+
+        return true;
+    };
+
+    monthlyPeriodModel.createMonthlyPeriod = function (period, modalInstance) {
+        return monthlyPeriodFactory.createMonthlyPeriod(period)
+        .success(function (response) {
+            if (response.IsSuccessful) {
+                notificationFactory.success("CreatedSuccessfully");
+                modalInstance.close();
+            }
+            else {
+                notificationFactory.error("", response.Message);
+            }
         })
         .error(function (response, status) {
             errorFactory.errorHandle(status);

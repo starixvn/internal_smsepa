@@ -12,6 +12,9 @@ monthlyPeriodModule.factory('monthlyPeriodFactory', ['$http', 'baseUrl', functio
                     }
                 });
         },
+        createMonthlyPeriod: function (period) {
+            return $http.post(baseUrl + 'api/MonthlyPeriod/CreateMonthlyPeriod', period);
+        },
         getPermissionOnMonthlyPeriod: function () {
             return $http.get(baseUrl + 'api/MonthlyPeriod/GetUserPermissionOnMonthlyPeriod');
         }
