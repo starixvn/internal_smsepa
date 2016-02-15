@@ -76,7 +76,7 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
     };
 
     employeeEPAModel.scoreSpread = function (kpiGroup) {
-        var weight, averageWeight;
+        var averageWeight;
 
         if (!kpiGroup.HasKPIOptional && kpiGroup.IsSpreadKPI) {
             averageWeight = kpiGroup.Weight / kpiGroup.KPIs.length;

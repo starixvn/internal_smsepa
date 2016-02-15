@@ -14,7 +14,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     selfEvalutorModel.permission = 0;
 
     // common
-    selfEvalutorModel.calculateScore = function (vm, isSelf) {
+    selfEvalutorModel.calculateScore = function (vm) {
         var totalScore = 0;
 
         angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {

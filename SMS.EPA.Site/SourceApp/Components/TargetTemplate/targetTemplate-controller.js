@@ -332,7 +332,7 @@ function ($scope, $window, $translate, TargetTemplateModel, utilitiesFactory) {
     };
 
     vm.scoreSpread = function (group) {
-        var kpiSelected = [], weight;
+        var kpiSelected = [];
 
         angular.forEach(group.KPIs, function (kpi) {
             if (kpi.Selected) {

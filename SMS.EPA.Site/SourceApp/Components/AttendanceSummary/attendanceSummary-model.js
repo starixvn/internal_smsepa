@@ -4,9 +4,7 @@
 attendanceModule.factory('AttendanceModel',
 ['$modal', 'attendanceFactory', 'errorFactory', 'notificationFactory', 'utilitiesFactory',
 function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitiesFactory) {
-    var attendanceModel = {},
-        date = new Date(),
-        firstDate = new Date(date.getFullYear(), date.getMonth(), 1);
+    var attendanceModel = {};
 
     attendanceModel.rangeDateFilter = {
         firstRangeStartDate: new Date(date.getFullYear(), 1, 1), // 1-2
@@ -237,7 +235,8 @@ function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitie
     };
 
     attendanceModel.getAttendanceDetail = function (startDate, endDate, employeeId, departmentId, isLocal, reasonId, hasIgnored, showAll) {
-        return attendanceFactory.getAttendanceDetail(startDate, endDate, employeeId, departmentId, isLocal, reasonId, hasIgnored, showAll).success(function (attendanceDetails) {
+        return attendanceFactory.getAttendanceDetail(startDate, endDate, employeeId, departmentId, isLocal, reasonId, hasIgnored, showAll)
+        .success(function (attendanceDetails) {
             attendanceModel.attendanceDetails = attendanceDetails;
         })
         .error(function (response, status) {

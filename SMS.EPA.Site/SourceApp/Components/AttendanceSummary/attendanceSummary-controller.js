@@ -274,8 +274,6 @@ attendanceModule.controller('DetailAttendanceSummaryController',
 ['$scope', '$window', '$routeParams', 'AttendanceModel', 'utilitiesFactory', 'CommonModel', 'usSpinnerService',
 function ($scope, $window, $routeParams, AttendanceModel, utilitiesFactory, CommonModel, usSpinnerService) {
     var vm = this,
-        date = new Date(),
-        firstDate = new Date(date.getFullYear(), date.getMonth(), 1),
         hasCalculated = false,
         hasSaved = false;
 
