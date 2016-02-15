@@ -178,6 +178,7 @@
     <Compile Include="Controllers\API\KPIController.cs" />
     <Compile Include="Controllers\API\EmployeeController.cs" />
     <Compile Include="Controllers\API\KPIGroupController.cs" />
+    <Compile Include="Controllers\API\MonthlyPeriodController.cs" />
     <Compile Include="Controllers\API\PeriodController.cs" />
     <Compile Include="Controllers\API\ReportController.cs" />
     <Compile Include="Controllers\API\ResourcesController.cs" />
@@ -416,6 +417,10 @@
     <Content Include="SourceApp\Components\KPI\Templates\edit.html" />
     <Content Include="SourceApp\Components\KPI\Templates\create.html" />
     <Content Include="SourceApp\Components\KPI\Templates\modalConfirmRequired.html" />
+    <Content Include="SourceApp\Components\MonthlyPeriod\monthlyPeriod-controller.js" />
+    <Content Include="SourceApp\Components\MonthlyPeriod\monthlyPeriod-factory.js" />
+    <Content Include="SourceApp\Components\MonthlyPeriod\monthlyPeriod-model.js" />
+    <Content Include="SourceApp\Components\MonthlyPeriod\Templates\index.html" />
     <Content Include="SourceApp\Components\Period\period-controller.js" />
     <Content Include="SourceApp\Components\Period\period-directive.js" />
     <Content Include="SourceApp\Components\Period\period-factory.js" />

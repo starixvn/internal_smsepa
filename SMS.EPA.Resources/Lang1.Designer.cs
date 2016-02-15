@@ -547,6 +547,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create Monthly Period.
+        /// </summary>
+        public static string CreateMonthlyPeriod {
+            get {
+                return ResourceManager.GetString("CreateMonthlyPeriod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create Target Template.
         /// </summary>
         public static string CreateTargetTemplate {
@@ -1893,6 +1902,15 @@ namespace SMS.EPA.Resources {
         public static string MonthlyEPA {
             get {
                 return ResourceManager.GetString("MonthlyEPA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monthly Period.
+        /// </summary>
+        public static string MonthlyPeriod {
+            get {
+                return ResourceManager.GetString("MonthlyPeriod", resourceCulture);
             }
         }
         

@@ -97,6 +97,7 @@
     <Compile Include="Implement\KPIService.cs" />
     <Compile Include="Implement\EmployeeEPAService.cs" />
     <Compile Include="Implement\ManualMailService.cs" />
+    <Compile Include="Implement\MonthlyPeriodService.cs" />
     <Compile Include="Implement\PeriodService.cs" />
     <Compile Include="Implement\ReportService.cs" />
     <Compile Include="Implement\ScoreRatingTypeService.cs" />
@@ -114,6 +115,7 @@
     <Compile Include="Interfaces\IEmployeeEPAService.cs" />
     <Compile Include="Interfaces\IMailService.cs" />
     <Compile Include="Interfaces\IManualMailService.cs" />
+    <Compile Include="Interfaces\IMonthlyPeriodService.cs" />
     <Compile Include="Interfaces\IPeriodService.cs" />
     <Compile Include="Interfaces\IReportService.cs" />
     <Compile Include="Interfaces\IScoreRatingTypeService.cs" />

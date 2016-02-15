@@ -1242,4 +1242,10 @@
   <data name="MonthlyEPA" xml:space="preserve">
     <value>Monthly EPA</value>
   </data>
+  <data name="CreateMonthlyPeriod" xml:space="preserve">
+    <value>Create Monthly Period</value>
+  </data>
+  <data name="MonthlyPeriod" xml:space="preserve">
+    <value>Monthly Period</value>
+  </data>
 </root>

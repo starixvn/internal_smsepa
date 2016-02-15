@@ -144,7 +144,10 @@
                             "~/SourceApp/Components/EPAHistory/epaHistory-factory.js",
                             "~/SourceApp/Components/EPAHistory/epaHistory-model.js",
                             "~/SourceApp/Components/EPAHistory/epaHistory-controller.js",
-                            "~/SourceApp/Components/Error/error-controller.js"));
+                            "~/SourceApp/Components/Error/error-controller.js",
+                            "~/SourceApp/Components/MonthlyPeriod/monthlyPeriod-factory.js",
+                            "~/SourceApp/Components/MonthlyPeriod/monthlyPeriod-model.js",
+                            "~/SourceApp/Components/MonthlyPeriod/monthlyPeriod-controller.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/epa-directives.js",

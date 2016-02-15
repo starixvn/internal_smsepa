@@ -2,6 +2,7 @@
 /*exported employeeModule, commonModule, kpiModule, kpiGroupModule, roleModule, targetTemplateModule*/
 /*exported flowMngModule, targetEmployeeSettingModule, departmentModule*/
 /*exported epaModule, periodModule, dashboardModule, attendanceModule, reportModule, epaHistoryModule, errorModule*/
+/*exported monthlyPeriodModule*/
 
 var employeeModule = angular.module("employeeModule", ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
@@ -44,7 +45,6 @@ var roleModule = angular.module("roleModule", ['ngRoute'])
 var targetTemplateModule = angular.module("targetTemplateModule", ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
     var baseUrl = $("base").first().attr("href");
-
     $routeProvider.when('/TargetTemplate/Index',
     { templateUrl: baseUrl + 'SourceApp/Components/TargetTemplate/Templates/index.html' });
     $routeProvider.when('/TargetTemplate/Create',
@@ -148,4 +148,11 @@ var epaHistoryModule = angular.module("epaHistoryModule", ['ngRoute'])
     var baseUrl = $("base").first().attr("href");
     $routeProvider.when('/EPAHistory/Index',
     { templateUrl: baseUrl + 'SourceApp/Components/EPAHistory/Templates/index.html' });
+}]);
+
+var monthlyPeriodModule = angular.module("monthlyPeriodModule", ['ngRoute'])
+.config(['$routeProvider', function ($routeProvider) {
+    var baseUrl = $("base").first().attr("href");
+    $routeProvider.when('/MonthlyPeriod/Index',
+    { templateUrl: baseUrl + 'SourceApp/Components/MonthlyPeriod/Templates/index.html' });
 }]);
