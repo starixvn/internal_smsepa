@@ -114,7 +114,9 @@ namespace SMS.EPA.Services.Implement
             {
                 RawAttendanceDetailModel rawAttendanceDetail = _attendanceSummaryRepository.GetAttendanceDetail(criteria);
                 attendanceViolations = GroupAttendanceDetailAndCalculateScore(rawAttendanceDetail, attendanceViolations);
-                attendanceViolations = attendanceViolations.OrderBy(x => x.Employee.Group.GroupId).ThenBy(x => x.Employee.Code).ThenByDescending(x => x.WorkDate);
+                attendanceViolations = attendanceViolations.OrderBy(x => x.Employee.Group.GroupId)
+                    .ThenBy(x => x.Employee.Code)
+                    .ThenByDescending(x => x.WorkDate);
             }
 
             return attendanceViolations;
@@ -250,28 +252,30 @@ namespace SMS.EPA.Services.Implement
 
         private static IEnumerable<AttendanceDetailModel> GroupAttendanceViolations(IEnumerable<AttendanceDetailModel> violations)
         {
-            IEnumerable<AttendanceDetailModel> attendanceViolations = violations.GroupBy(x => new { x.EmployeeId, x.WorkDate, x.ShiftName, x.OutOfDate, x.InFixed, x.OutFixed }).Select(y => 
-            {
-                List<AttendanceDetailModel> attendances = y.ToList();
-                var attendance = new AttendanceDetailModel
-                    {
-                        EmployeeId = y.Key.EmployeeId,
-                        WorkDate = y.Key.WorkDate,
-                        ShiftName = y.Key.ShiftName,
-                        OutOfDate = y.Key.OutOfDate,
-                        InFixed = y.Key.InFixed,
-                        OutFixed = y.Key.OutFixed,
-                        MissingCheckInOut = GetMissingCheckInOut(attendances),
-                        TotalHours = GetTotalHours(attendances),
-                        LateIn = GetLateIn(attendances),
-                        EarlyOut = GetEarlyOut(attendances),
-                        Absent = GetAbsent(attendances),
-                        UnpaidLeaveAbsent = GetUnpaidLeaveAbsent(attendances),
-                        UnpaidLeave = GetUnpaidLeave(attendances),
-                        ChangeShift = GetChangeShift(attendances)
-                    };
-                return attendance;
-            }).ToList();
+            IEnumerable<AttendanceDetailModel> attendanceViolations =
+                violations.GroupBy(x => new { x.EmployeeId, x.WorkDate, x.ShiftName, x.OutOfDate, x.InFixed, x.OutFixed })
+                .Select(y =>
+                {
+                    List<AttendanceDetailModel> attendances = y.ToList();
+                    var attendance = new AttendanceDetailModel
+                        {
+                            EmployeeId = y.Key.EmployeeId,
+                            WorkDate = y.Key.WorkDate,
+                            ShiftName = y.Key.ShiftName,
+                            OutOfDate = y.Key.OutOfDate,
+                            InFixed = y.Key.InFixed,
+                            OutFixed = y.Key.OutFixed,
+                            MissingCheckInOut = GetMissingCheckInOut(attendances),
+                            TotalHours = GetTotalHours(attendances),
+                            LateIn = GetLateIn(attendances),
+                            EarlyOut = GetEarlyOut(attendances),
+                            Absent = GetAbsent(attendances),
+                            UnpaidLeaveAbsent = GetUnpaidLeaveAbsent(attendances),
+                            UnpaidLeave = GetUnpaidLeave(attendances),
+                            ChangeShift = GetChangeShift(attendances)
+                        };
+                    return attendance;
+                }).ToList();
 
             return attendanceViolations;
         }
@@ -577,10 +581,10 @@ namespace SMS.EPA.Services.Implement
         private string ConvertNumberToTime(double number)
         {
             double numberMinutes = Math.Round(number);
-        
+
             var timeSpan = new TimeSpan(0, (int)numberMinutes, 0);
             string time = timeSpan.ToString(@"hh\:mm");
-        
+
             return time;
         }
     }

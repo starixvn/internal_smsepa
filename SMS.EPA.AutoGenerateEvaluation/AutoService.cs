@@ -12,6 +12,7 @@ namespace SMS.EPA.AutoGenerateEvaluation
     using System;
     using System.Collections.Generic;
     using System.Configuration;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reflection;
     using System.ServiceProcess;
@@ -165,6 +166,7 @@ namespace SMS.EPA.AutoGenerateEvaluation
             });
         }
 
+        [SuppressMessage("StyleCop.CSharp.Nexcel.NexcelCustomRules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
         private void CheckEndProcess()
         {
             _LOG.Info("Check process that ended yesterday: started at " + DateTime.Now.ToString());
@@ -246,6 +248,7 @@ namespace SMS.EPA.AutoGenerateEvaluation
             }
         }
 
+        [SuppressMessage("StyleCop.CSharp.Nexcel.NexcelCustomRules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
         private void UpdateFinalScoreAndSendMail(IEnumerable<EndEPAModel> evaluations)
         {
             IList<int> periods = new List<int>();
@@ -348,6 +351,7 @@ namespace SMS.EPA.AutoGenerateEvaluation
             _LOG.Info("Result of update status of EPA that ended yesterday: " + (updateIsEndProcess.IsSuccessful ? "0" : updateIsEndProcess.Message));
         }
 
+        [SuppressMessage("StyleCop.CSharp.Nexcel.NexcelCustomRules", "SP2100:CodeLineMustNotBeLongerThan", Justification = "Reviewed. Suppression is OK here.")]
         private void AddEmployeeAndGenerateEPASemiAnnual(IEnumerable<int> semiAnnualPeriods)
         {
             foreach (int periodId in semiAnnualPeriods)
@@ -383,6 +387,7 @@ namespace SMS.EPA.AutoGenerateEvaluation
             }
         }
 
+        [SuppressMessage("StyleCop.CSharp.Nexcel.NexcelCustomRules", "SP2100:CodeLineMustNotBeLongerThan", Justification = "Reviewed. Suppression is OK here.")]
         private void AddEmployeeAndGenerateEPAProbation(AutoEmployeePeriodModel employeePeriod)
         {
             _LOG.Info("Auto add employee to probation period " + employeePeriod.PeriodId + ": started at " + DateTime.Now.ToString());
@@ -418,6 +423,7 @@ namespace SMS.EPA.AutoGenerateEvaluation
             }
         }
 
+        [SuppressMessage("StyleCop.CSharp.Nexcel.NexcelCustomRules", "SP2100:CodeLineMustNotBeLongerThan", Justification = "Reviewed. Suppression is OK here.")]
         private void GenerateEPAPromotion(IEnumerable<AutoEmployeePeriodModel> employeePeriods)
         {
             _LOG.Info("Check period has send mail to all employees when period started: started at " + DateTime.Now.ToString());

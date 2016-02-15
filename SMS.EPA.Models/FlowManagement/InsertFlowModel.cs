@@ -54,7 +54,13 @@ namespace SMS.EPA.Model.FlowManagement
                         evaluator.AppendFormat(EvaluatorXmlTemplate, HumanResources.Employees[i].EmployeeId, i + 1);
                     }
 
-                    process.AppendFormat(ProcessXmlTemplate, (int)ProcessType.HumanResource, HumanResources.Duration, HumanResources.HasSendMail, HumanResources.RemindDay, evaluator);
+                    process.AppendFormat(
+                        ProcessXmlTemplate,
+                        (int)ProcessType.HumanResource,
+                        HumanResources.Duration,
+                        HumanResources.HasSendMail,
+                        HumanResources.RemindDay,
+                        evaluator);
                 }
             }
 
@@ -63,7 +69,13 @@ namespace SMS.EPA.Model.FlowManagement
                 var evaluator = new StringBuilder();
                 evaluator.AppendFormat(EvaluatorXmlTemplate, -1, 1);
 
-                process.AppendFormat(ProcessXmlTemplate, (int)ProcessType.Self, Selfs.Duration, Selfs.HasSendMail, Selfs.RemindDay, evaluator);
+                process.AppendFormat(
+                    ProcessXmlTemplate,
+                    (int)ProcessType.Self,
+                    Selfs.Duration,
+                    Selfs.HasSendMail,
+                    Selfs.RemindDay,
+                    evaluator);
             }
 
             if (Evaluators != null)
@@ -77,7 +89,13 @@ namespace SMS.EPA.Model.FlowManagement
                         evaluator.AppendFormat(EvaluatorXmlTemplate, Evaluators.Employees[i].EmployeeId, i + 1);
                     }
 
-                    process.AppendFormat(ProcessXmlTemplate, (int)ProcessType.Evaluator, Evaluators.Duration, Evaluators.HasSendMail, Evaluators.RemindDay, evaluator);
+                    process.AppendFormat(
+                        ProcessXmlTemplate,
+                        (int)ProcessType.Evaluator,
+                        Evaluators.Duration,
+                        Evaluators.HasSendMail,
+                        Evaluators.RemindDay,
+                        evaluator);
                 }
             }
 
@@ -92,7 +110,13 @@ namespace SMS.EPA.Model.FlowManagement
                         evaluator.AppendFormat(EvaluatorXmlTemplate, Reviewers.Employees[i].EmployeeId, i + 1);
                     }
 
-                    process.AppendFormat(ProcessXmlTemplate, (int)ProcessType.Reviewer, Reviewers.Duration, Reviewers.HasSendMail, Reviewers.RemindDay, evaluator);
+                    process.AppendFormat(
+                        ProcessXmlTemplate,
+                        (int)ProcessType.Reviewer,
+                        Reviewers.Duration,
+                        Reviewers.HasSendMail,
+                        Reviewers.RemindDay,
+                        evaluator);
                 }
             }
 
@@ -107,7 +131,13 @@ namespace SMS.EPA.Model.FlowManagement
                         evaluator.AppendFormat(EvaluatorXmlTemplate, Managements.Employees[i].EmployeeId, i + 1);
                     }
 
-                    process.AppendFormat(ProcessXmlTemplate, (int)ProcessType.Management, Managements.Duration, Managements.HasSendMail, Managements.RemindDay, evaluator);
+                    process.AppendFormat(
+                        ProcessXmlTemplate,
+                        (int)ProcessType.Management,
+                        Managements.Duration,
+                        Managements.HasSendMail,
+                        Managements.RemindDay,
+                        evaluator);
                 }
             }
 

@@ -18,7 +18,9 @@ namespace SMS.EPA.Criteria.EmployeeEPA
 
     public class AdjustScoreByReviewerOrManagementCriteria : CriteriaBase
     {
-        private const string EPAXmlTemplate = "<EPA EPAId='{0}' ProcessId='{1}' EmployeeId='{2}' EvaluatorId='{3}' AdjustScore='{4}' TotalScore='{5}' Comment='{6}'></EPA>";
+        private const string EPAXmlTemplate = @"<EPA EPAId='{0}' ProcessId='{1}' EmployeeId='{2}'
+            EvaluatorId='{3}' AdjustScore='{4}' TotalScore='{5}' Comment='{6}'></EPA>";
+
         private const string BeginRootTag = "<ROOT>";
         private const string EndRootTag = "</ROOT>";
 

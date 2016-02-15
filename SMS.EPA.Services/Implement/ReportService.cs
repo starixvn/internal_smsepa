@@ -11,6 +11,7 @@ namespace SMS.EPA.Services.Implement
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Linq;
     using Fanex.Common.Helper;
@@ -196,6 +197,7 @@ namespace SMS.EPA.Services.Implement
             }
         }
 
+        [SuppressMessage("StyleCop.CSharp.Nexcel.NexcelCustomRules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
         private void RenderContentRowEPASummaryReport(
             EPASummaryModel epaSummary,
             ref HSSFWorkbook workbook,
@@ -440,6 +442,7 @@ namespace SMS.EPA.Services.Implement
             return result;
         }
 
+        [SuppressMessage("StyleCop.CSharp.Nexcel.NexcelCustomRules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
         private dynamic CalculateScore(EPAModel memberEPA)
         {
             string disciplineScore = string.Empty,

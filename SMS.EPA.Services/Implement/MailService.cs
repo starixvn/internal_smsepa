@@ -228,7 +228,12 @@ namespace SMS.EPA.Services.Implement
 
             email.Subject = string.Format(Lang.EndMailEvaluationToSelf, evaluationInfo.Period.Name);
             email.Body = _baseMailService.ReadTextFile(templateEmailPath);
-            email.Body = string.Format(email.Body, humanResource.NickName, evaluationInfo.Employee.NickName, evaluationInfo.Employee.EmployeeId, evaluationInfo.Period.Name);
+            email.Body = string.Format(
+                email.Body,
+                humanResource.NickName,
+                evaluationInfo.Employee.NickName,
+                evaluationInfo.Employee.EmployeeId,
+                evaluationInfo.Period.Name);
             email.ReceiverEmail = humanResource.Email;
 
             _baseMailService.SendEmail(email);

@@ -10,18 +10,13 @@
 namespace SMS.EPA.Site
 {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Web.Mvc;
     using System.Web.Routing;
 
-    /// <summary>
-    /// Route config.
-    /// </summary>
     public static class RouteConfig
     {
-        /// <summary>
-        /// Register routes.
-        /// </summary>
-        /// <param name="routes">The routes.</param>
+        [SuppressMessage("StyleCop.CSharp.Nexcel.NexcelCustomRules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");

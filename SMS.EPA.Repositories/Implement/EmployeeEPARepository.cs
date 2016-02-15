@@ -10,6 +10,7 @@
 namespace SMS.EPA.Repositories.Implement
 {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
@@ -66,6 +67,7 @@ namespace SMS.EPA.Repositories.Implement
             }
         }
 
+        [SuppressMessage("StyleCop.CSharp.Nexcel.NexcelCustomRules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Need to review here.")]
         public EPAModel GetEPAInfo(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))

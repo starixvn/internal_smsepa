@@ -160,7 +160,9 @@ namespace SMS.EPA.Site.Controllers.API
             };
 
             IEnumerable<PeriodEmployeeSettingModel> periodEmployeeSettings = _periodService.GetPeriodEmployeeSettingById(criteria);
-            SessionManager.Set<IEnumerable<PeriodEmployeeSettingModel>>(Constants.PeriodEmployeeSettingReportSessionKey + CurrentUser.EmployeeInfo.EmployeeId, periodEmployeeSettings);
+
+            var sessionKey = Constants.PeriodEmployeeSettingReportSessionKey + CurrentUser.EmployeeInfo.EmployeeId;
+            SessionManager.Set<IEnumerable<PeriodEmployeeSettingModel>>(sessionKey, periodEmployeeSettings);
             return periodEmployeeSettings;
         }
 

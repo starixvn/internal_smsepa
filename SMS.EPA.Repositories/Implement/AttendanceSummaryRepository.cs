@@ -10,6 +10,7 @@
 namespace SMS.EPA.Repositories.Implement
 {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
@@ -36,6 +37,7 @@ namespace SMS.EPA.Repositories.Implement
             }
         }
 
+        [SuppressMessage("StyleCop.CSharp.Nexcel.NexcelCustomRules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Need to review here.")]
         public RawAttendanceDetailModel GetAttendanceDetail(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
@@ -50,7 +52,7 @@ namespace SMS.EPA.Repositories.Implement
                         },
                         "GroupId");
 
-                    IEnumerable<AttendanceDetailModel> firstViolations = 
+                    IEnumerable<AttendanceDetailModel> firstViolations =
                         multi.Read<AttendanceDetailModel, ViolationModel, ViolationModel, ViolationModel, ViolationModel, AttendanceDetailModel>(
                         (attD, missInO, tot, laI, earO) =>
                         {
@@ -62,7 +64,7 @@ namespace SMS.EPA.Repositories.Implement
                         },
                         "MissingCheckInOutId, TotalHoursId, LateInId, EarlyOutId");
 
-                    IEnumerable<AttendanceDetailModel> lastViolations = 
+                    IEnumerable<AttendanceDetailModel> lastViolations =
                         multi.Read<AttendanceDetailModel, ViolationModel, ViolationModel, ViolationModel, ViolationModel, AttendanceDetailModel>(
                         (attD, ab, up, ch, upa) =>
                         {
@@ -98,8 +100,8 @@ namespace SMS.EPA.Repositories.Implement
                     }
 
                     return rawAttendanceDetail;
-                  }
-             }
-       }
+                }
+            }
+        }
     }
 }
