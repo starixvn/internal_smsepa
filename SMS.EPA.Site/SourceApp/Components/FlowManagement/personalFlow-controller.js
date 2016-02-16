@@ -102,10 +102,12 @@ function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService
 
             if (vm.selfs.employees.length > 0) {
                 vm.showDeleteButton = true;
+                vm.employeeSelected = vm.selfs.employees[0];
             }
             else {
                 CommonModel.getEmployeeById(employeeId).then(function () {
                     vm.selfs.employees.push(CommonModel.employee);
+                    vm.employeeSelected = CommonModel.employee;
                 });
 
                 vm.showDeleteButton = false;
@@ -152,6 +154,7 @@ function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService
             vm.onSelectedDepartment();
 
             FlowMngModel.resetCurrentFlow(vm);
+            vm.flowTemplate = $scope.updateCtrl.flowTemplate;
             vm.showListEmployee = true;
             vm.showDeleteButton = false;
             vm.departmentId = null;

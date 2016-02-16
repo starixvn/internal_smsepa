@@ -122,10 +122,11 @@ function ($location, $window, FlowMngModel, CommonModel, baseUrl) {
 }]);
 
 flowMngModule.controller("UpdateFlowTemplateController",
-['$window', 'FlowMngModel', 'CommonModel', 'cacheService',
-function ($window, FlowMngModel, CommonModel, cacheService) {
+['$window', '$routeParams', 'FlowMngModel', 'CommonModel', 'cacheService',
+function ($window, $routeParams, FlowMngModel, CommonModel, cacheService) {
     var vm = this;
 
+    vm.flowTemplateId = parseInt($routeParams.id);
     vm.departments = CommonModel.departments;
     vm.treeDepartment = CommonModel.treeDepartment;
     vm.remindDay = FlowMngModel.remindDay;
@@ -152,36 +153,39 @@ function ($window, FlowMngModel, CommonModel, cacheService) {
             vm.departments = CommonModel.departments;
             vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
         });
+
+        FlowMngModel.getFlowTemplateById(vm.flowTemplateId).then(function () {
+            vm.flowTemplate = FlowMngModel.flowTemplate;
+            vm.flowTemplate.TargetTypeId = FlowMngModel.flowTemplate.TargetType.TargetTypeId;
+        });
     };
 
     vm.initialize();
 }]);
 
 flowMngModule.controller("GeneralInformationController",
-['$window', '$routeParams', 'FlowMngModel', 'CommonModel',
-function ($window, $routeParams, FlowMngModel, CommonModel) {
+['$window', '$scope', '$routeParams', 'FlowMngModel', 'CommonModel',
+function ($window, $scope, $routeParams, FlowMngModel, CommonModel) {
     var vm = this;
 
     vm.flowTemplateId = parseInt($routeParams.id);
     vm.targetTypes = CommonModel.targetTypes;
 
-    vm.initialize = function () {
-        CommonModel.getTargetType(true).then(function () {
-            vm.targetTypes = CommonModel.targetTypes;
-        });
+    $scope.$watch(function () { return $scope.updateCtrl.flowTemplate; },
+        function (newVal) {
+            if (newVal) {
+                vm.flowTemplate = $scope.updateCtrl.flowTemplate;
 
-        FlowMngModel.getFlowTemplateById(vm.flowTemplateId).then(function () {
-            vm.flowTemplate = FlowMngModel.flowTemplate;
-            vm.flowTemplate.TargetTypeId = FlowMngModel.flowTemplate.TargetType.TargetTypeId;
+                CommonModel.getTargetType(true).then(function () {
+                    vm.targetTypes = CommonModel.targetTypes;
 
-            var index = vm.targetTypes.map(function (e) { return e.TargetTypeId; }).indexOf(vm.flowTemplate.TargetTypeId);
-            if (index === -1) {
-                vm.targetTypes.push(vm.flowTemplate.TargetType);
+                    var index = vm.targetTypes.map(function (e) { return e.TargetTypeId; }).indexOf(vm.flowTemplate.TargetTypeId);
+                    if (index === -1) {
+                        vm.targetTypes.push(vm.flowTemplate.TargetType);
+                    }
+                });
             }
         });
-    };
-
-    vm.initialize();
 
     vm.save = function (flowTemplate) {
         if (FlowMngModel.validateFlowTemplate(flowTemplate)) {

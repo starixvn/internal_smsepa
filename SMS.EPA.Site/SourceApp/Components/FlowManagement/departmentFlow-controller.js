@@ -56,7 +56,7 @@ function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService
         }
     };
 
-    vm.getPersonalFlowById = function () {
+    vm.getDepartmentFlowById = function () {
         FlowMngModel.getDepartmentFlowById(vm.department, vm.FlowTemplateId).then(function () {
             vm.selfs = FlowMngModel.selfs;
             vm.evaluators = FlowMngModel.evaluators;
@@ -123,6 +123,7 @@ function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService
             });
 
             FlowMngModel.resetCurrentFlow(vm);
+            vm.flowTemplate = $scope.updateCtrl.flowTemplate;
             vm.showListEmployee = true;
             vm.showDeleteButton = false;
             vm.department = null;

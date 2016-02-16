@@ -1251,4 +1251,7 @@
   <data name="UpdateMonthlyPeriod" xml:space="preserve">
     <value>Update Monthly Period</value>
   </data>
+  <data name="EmployeeNotSetMonthlyEvaluation" xml:space="preserve">
+    <value>Employee doesn't set monthly evaluation!</value>
+  </data>
 </root>

@@ -456,8 +456,12 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
     };
 
     flowMngModel.validatePersonalFlow = function (vm) {
-        if (!vm.employeeId) {
+        if (!vm.employeeSelected) {
             notificationFactory.error("EmployeeNotSelectedWarning");
+            return false;
+        }
+        else if (!vm.employeeSelected.HasMonthlyEPA) {
+            notificationFactory.error("EmployeeNotSetMonthlyEvaluation");
             return false;
         }
         else if (vm.humanResources.employees.length === 0 || vm.evaluators.employees.length === 0) {

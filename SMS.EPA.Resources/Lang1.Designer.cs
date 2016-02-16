@@ -889,6 +889,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Employee doesn&apos;t set monthly evaluation!.
+        /// </summary>
+        public static string EmployeeNotSetMonthlyEvaluation {
+            get {
+                return ResourceManager.GetString("EmployeeNotSetMonthlyEvaluation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Employee Performance Score.
         /// </summary>
         public static string EmployeePerformanceScore {
