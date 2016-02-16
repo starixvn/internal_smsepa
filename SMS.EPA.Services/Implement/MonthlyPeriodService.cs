@@ -32,6 +32,19 @@ namespace SMS.EPA.Services.Implement
             return periods;
         }
 
+        public PeriodModel GetMonthlyPeriodById(GetMonthlyPeriodByIdCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            PeriodModel period = new PeriodModel();
+
+            if (criteria.IsValid())
+            {
+                period = GetDataEntity<PeriodModel>(criteria);
+            }
+
+            return period;
+        }
+
         public CommandResult CreateMonthlyPeriod(CreateMonthlyPeriodCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");
@@ -40,6 +53,19 @@ namespace SMS.EPA.Services.Implement
             if (criteria.IsValid())
             {
                 commandResult = Repository.Insert(criteria);
+            }
+
+            return commandResult;
+        }
+
+        public CommandResult UpdateBasicInfoMonthlyPeriod(UpdateBasicInfoMonthlyPeriodCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            CommandResult commandResult = new CommandResult();
+
+            if (criteria.IsValid())
+            {
+                commandResult = Repository.Update(criteria);
             }
 
             return commandResult;

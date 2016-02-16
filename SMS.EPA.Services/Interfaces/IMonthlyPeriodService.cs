@@ -18,6 +18,10 @@ namespace SMS.EPA.Services.Interfaces
     {
         IEnumerable<PeriodModel> GetMonthlyPeriod(GetMonthlyPeriodCriteria criteria);
 
+        PeriodModel GetMonthlyPeriodById(GetMonthlyPeriodByIdCriteria criteria);
+
         CommandResult CreateMonthlyPeriod(CreateMonthlyPeriodCriteria criteria);
+
+        CommandResult UpdateBasicInfoMonthlyPeriod(UpdateBasicInfoMonthlyPeriodCriteria criteria);
     }
 }

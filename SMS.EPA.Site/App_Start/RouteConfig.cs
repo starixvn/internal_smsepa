@@ -62,7 +62,8 @@ namespace SMS.EPA.Site
                 "Report/EPASummaryReport",
                 "Report/EPADetailReport",
                 "EPAHistory/Index",
-                "MonthlyPeriod/Index"
+                "MonthlyPeriod/Index",
+                "MonthlyPeriod/Update/{id}"
             };
 
             homeRouteUrls.ForEach(url => routes.MapRoute(

@@ -57,6 +57,18 @@ namespace SMS.EPA.Site.Controllers.API
             return periods;
         }
 
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Read)]
+        public PeriodModel GetMonthlyPeriodById(int periodId)
+        {
+            var criteria = new GetMonthlyPeriodByIdCriteria
+            {
+                PeriodId = periodId
+            };
+
+            PeriodModel period = _monthlyPeriodService.GetMonthlyPeriodById(criteria);
+            return period;
+        }
+
         [HttpPost]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Host)]
         public CommandResult CreateMonthlyPeriod(CreateMonthlyPeriodCriteria criteria)
@@ -67,6 +79,26 @@ namespace SMS.EPA.Site.Controllers.API
             {
                 criteria.CreatedBy = CurrentUser.EmployeeInfo.EmployeeId;
                 commandResult = _monthlyPeriodService.CreateMonthlyPeriod(criteria);
+            }
+            else
+            {
+                commandResult.Code = 1;
+                commandResult.Message = Lang.ParameterInvalid;
+            }
+
+            return commandResult;
+        }
+
+        [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Host)]
+        public CommandResult UpdateBasicInfoMonthlyPeriod(UpdateBasicInfoMonthlyPeriodCriteria criteria)
+        {
+            var commandResult = new CommandResult();
+
+            if (criteria != null)
+            {
+                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                commandResult = _monthlyPeriodService.UpdateBasicInfoMonthlyPeriod(criteria);
             }
             else
             {

@@ -1248,4 +1248,7 @@
   <data name="MonthlyPeriod" xml:space="preserve">
     <value>Monthly Period</value>
   </data>
+  <data name="UpdateMonthlyPeriod" xml:space="preserve">
+    <value>Update Monthly Period</value>
+  </data>
 </root>

@@ -1,0 +1,24 @@
+﻿<div class="col-sm-12 monthly-period" ng-controller="UpdateMonthlyPeriodController as updateCtrl">
+    <div class="sub-header">
+        <ul class="row breadcrumb">
+            <li class="current" data-translate="UpdateMonthlyPeriod"></li>
+        </ul>
+        <div class="button-icon button-back">
+            <span class="glyphicon glyphicon-arrow-left icon-back"></span>
+            <a data-translate="BackToList" ng-click="updateCtrl.backToList()" href="" class="ng-scope"></a>
+        </div>
+    </div>
+    <div class="target-tabset">
+        <tabset id="MonthlyPeriodTab">
+            <tab heading="BASIC INFORMATION" class="tab-cursor" active="updateCtrl.dataTab.basicInformation" select="updateCtrl.tabBasicSelect()">
+                <div ng-include src="'/SourceApp/Components/MonthlyPeriod/Templates/basicInformation.html'"></div>
+            </tab>
+            <tab heading="PROCESS SETTING" class="tab-cursor" active="updateCtrl.dataTab.processSetting" select="updateCtrl.tabProcessSettingSelect()">
+                <!--<div ng-include src="'/SourceApp/Components/MonthlyPeriod/Templates/processSetting.html'"></div>-->
+            </tab>
+            <tab heading="EMPLOYEE SETTING" class="tab-cursor" active="updateCtrl.dataTab.employeeSetting" select="updateCtrl.tabEmployeeSettingSelect()">
+                <!--<div ng-include src="'/SourceApp/Components/MonthlyPeriod/Templates/employeeSetting.html'"></div>-->
+            </tab>
+        </tabset>
+    </div>
+</div>

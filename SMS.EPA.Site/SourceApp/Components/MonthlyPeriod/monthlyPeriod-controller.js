@@ -76,6 +76,10 @@ function (MonthlyPeriodModel, CommonModel, utilitiesFactory, baseUrl) {
         });
     };
 
+    vm.update = function (periodId) {
+        vm.updatePeriodUrl = baseUrl + 'MonthlyPeriod/Update/' + periodId;
+    };
+
     vm.getIndex = function (index, currentPage, pageSize) {
         return CommonModel.getIndex(index, currentPage, pageSize);
     };
@@ -118,5 +122,92 @@ function ($modalInstance, MonthlyPeriodModel) {
 
     vm.cancel = function () {
         $modalInstance.dismiss("cancel");
+    };
+}]);
+
+periodModule.controller('UpdateMonthlyPeriodController',
+['$window', '$routeParams', 'MonthlyPeriodModel', 'PeriodModel',
+function ($window, $routeParams, MonthlyPeriodModel, PeriodModel) {
+    var vm = this;
+
+    vm.period = null;
+    vm.periodId = parseInt($routeParams.id);
+    vm.viewMode = $routeParams.viewSetting ? true : false;
+
+    vm.date = new Date();
+    vm.permission = null;
+
+    vm.dataTab = {
+        basicInformation: !vm.viewMode,
+        employeeSetting: vm.viewMode,
+        processSetting: false
+    };
+
+    vm.tabBasicSelect = function () {
+        vm.dataTab.basicInformation = true;
+        vm.dataTab.employeeSetting = false;
+        vm.dataTab.processSetting = false;
+    };
+
+    vm.tabEmployeeSettingSelect = function () {
+        vm.dataTab.basicInformation = false;
+        vm.dataTab.employeeSetting = true;
+        vm.dataTab.processSetting = false;
+    };
+
+    vm.tabProcessSettingSelect = function () {
+        vm.dataTab.basicInformation = false;
+        vm.dataTab.employeeSetting = false;
+        vm.dataTab.processSetting = true;
+    };
+
+    MonthlyPeriodModel.getMonthlyPeriodById(vm.periodId).then(function () {
+        vm.period = MonthlyPeriodModel.period;
+    });
+
+    vm.backToList = function () {
+        $window.history.back();
+    };
+
+    MonthlyPeriodModel.getPermissionOnMonthlyPeriod().then(function () {
+        vm.permission = MonthlyPeriodModel.permission;
+    });
+}]);
+
+periodModule.controller('UpdateBasicInfoMonthlyPeriodController',
+['$scope', '$window', 'MonthlyPeriodModel',
+function ($scope, $window, MonthlyPeriodModel) {
+    var vm = this;
+
+    vm.period = {};
+
+    vm.calendar = {
+        startDateOpened: false,
+        endDateOpened: false
+    };
+
+    vm.openPopupStartDate = function (event) {
+        MonthlyPeriodModel.openPopupStartDate(event, vm);
+    };
+
+    vm.openPopupEndDate = function (event) {
+        MonthlyPeriodModel.openPopupEndDate(event, vm);
+    };
+
+    $scope.$watch(function () { return $scope.updateCtrl.period; },
+        function (newVal) {
+            if (newVal) {
+                vm.period = $scope.updateCtrl.period;
+            }
+        });
+
+    vm.save = function (period) {
+        if (MonthlyPeriodModel.validateMonthlyPeriod(period)) {
+            MonthlyPeriodModel.updateBasicInfoMonthlyPeriod(period);
+        }
+    };
+
+    vm.cancel = function () {
+        $window.history.back();
     };
 }]);

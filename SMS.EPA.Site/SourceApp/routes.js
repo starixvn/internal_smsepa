@@ -155,4 +155,6 @@ var monthlyPeriodModule = angular.module("monthlyPeriodModule", ['ngRoute'])
     var baseUrl = $("base").first().attr("href");
     $routeProvider.when('/MonthlyPeriod/Index',
     { templateUrl: baseUrl + 'SourceApp/Components/MonthlyPeriod/Templates/index.html' });
+    $routeProvider.when('/MonthlyPeriod/Update/:id',
+    { templateUrl: baseUrl + 'SourceApp/Components/MonthlyPeriod/Templates/edit.html' });
 }]);

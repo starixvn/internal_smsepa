@@ -7,6 +7,7 @@ function ($modal, monthlyPeriodFactory, errorFactory, notificationFactory) {
     var monthlyPeriodModel = {};
 
     monthlyPeriodModel.periods = [];
+    monthlyPeriodModel.period = {};
     monthlyPeriodModel.permission = 0;
 
     monthlyPeriodModel.getPermissionOnMonthlyPeriod = function () {
@@ -38,6 +39,16 @@ function ($modal, monthlyPeriodFactory, errorFactory, notificationFactory) {
         return monthlyPeriodFactory.getMonthlyPeriod(fromDate, toDate)
         .success(function (periods) {
             monthlyPeriodModel.periods = periods;
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    monthlyPeriodModel.getMonthlyPeriodById = function (periodId) {
+        return monthlyPeriodFactory.getMonthlyPeriodById(periodId)
+        .success(function (period) {
+            monthlyPeriodModel.period = period;
         })
         .error(function (response, status) {
             errorFactory.errorHandle(status);
@@ -87,6 +98,20 @@ function ($modal, monthlyPeriodFactory, errorFactory, notificationFactory) {
             if (response.IsSuccessful) {
                 notificationFactory.success("CreatedSuccessfully");
                 modalInstance.close();
+            }
+            else {
+                notificationFactory.error("", response.Message);
+            }
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    monthlyPeriodModel.updateBasicInfoMonthlyPeriod = function (period) {
+        return monthlyPeriodFactory.updateBasicInfoMonthlyPeriod(period).success(function (response) {
+            if (response.IsSuccessful) {
+                notificationFactory.success("UpdatedSuccessfully");
             }
             else {
                 notificationFactory.error("", response.Message);

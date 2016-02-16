@@ -3229,6 +3229,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Update Monthly Period.
+        /// </summary>
+        public static string UpdateMonthlyPeriod {
+            get {
+                return ResourceManager.GetString("UpdateMonthlyPeriod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Update Period.
         /// </summary>
         public static string UpdatePeriod {

@@ -1,0 +1,40 @@
+﻿<div ng-controller="UpdateBasicInfoMonthlyPeriodController as basicInfoCtrl">
+    <form class="col-sm-8 form-horizontal common-form info-form" novalidate>
+        <div class="form-group required">
+            <label class="col-sm-3 control-label" data-translate="Name">
+            </label>
+            <div class="col-sm-8 field">
+                <input type="text" class="form-control" maxlength="200" ng-model="basicInfoCtrl.period.Name" required />
+            </div>
+        </div>
+        <div class="form-group top-buffer">
+            <label class="col-sm-3 control-label required-label" data-translate="StartDate"></label>
+            <div class="col-sm-3">
+                <input readonly class="calendar-form-control" type="text"
+                       ng-model="basicInfoCtrl.period.StartDate" datepicker-popup
+                       ng-click="basicInfoCtrl.openPopupStartDate($event)"
+                       is-open="basicInfoCtrl.calendar.startDateOpened" />
+                <calendar-image class="calendar-image" ng-click="basicInfoCtrl.openPopupStartDate($event)"></calendar-image>
+            </div>
+            <label class="col-sm-3 control-label required-label" data-translate="EndDate"></label>
+            <div class="col-sm-3">
+                <input readonly class="calendar-form-control" type="text"
+                       ng-model="basicInfoCtrl.period.EndDate" datepicker-popup
+                       ng-click="basicInfoCtrl.openPopupEndDate($event)"
+                       is-open="basicInfoCtrl.calendar.endDateOpened" />
+                <calendar-image class="calendar-image" ng-click="basicInfoCtrl.openPopupEndDate($event)"></calendar-image>
+            </div>
+        </div>
+        <div class="form-group top-buffer">
+            <label class="col-sm-3 control-label" data-translate="Description"></label>
+            <div class="col-sm-8 field description">
+                <textarea type="text" class="form-control" maxlength="2000" ng-model="basicInfoCtrl.period.Description"></textarea>
+            </div>
+        </div>
+        <div class="col-sm-offset-5 top-buffer">
+            <button class="button" data-translate="Save" ng-click="basicInfoCtrl.save(basicInfoCtrl.period)"
+                    ng-show="updateCtrl.permission == 2"></button>
+            <button class="btn btn-default customize" ng-click="basicInfoCtrl.cancel()" data-translate="Cancel"></button>
+        </div>
+    </form>
+</div>
