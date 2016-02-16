@@ -27,6 +27,9 @@ monthlyPeriodModule.factory('monthlyPeriodFactory', ['$http', 'baseUrl', functio
         updateProcessSettingMonthlyPeriod: function (processSetting) {
             return $http.put(baseUrl + 'api/MonthlyPeriod/UpdateProcessSettingMonthlyPeriod', processSetting);
         },
+        deleteMonthlyPeriod: function (periodId) {
+            return $http['delete'](baseUrl + 'api/MonthlyPeriod/DeleteMonthlyPeriod', { params: { periodId: periodId } });
+        },
         getPermissionOnMonthlyPeriod: function () {
             return $http.get(baseUrl + 'api/MonthlyPeriod/GetUserPermissionOnMonthlyPeriod');
         }

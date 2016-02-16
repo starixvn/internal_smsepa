@@ -97,5 +97,18 @@ namespace SMS.EPA.Services.Implement
 
             return commandResult;
         }
+
+        public CommandResult DeleteMonthlyPeriod(DeleteMonthlyPeriodCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            CommandResult commandResult = new CommandResult();
+
+            if (criteria.IsValid())
+            {
+                commandResult = Repository.Delete(criteria);
+            }
+
+            return commandResult;
+        }
     }
 }

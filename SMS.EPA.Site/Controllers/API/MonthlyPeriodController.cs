@@ -144,6 +144,21 @@ namespace SMS.EPA.Site.Controllers.API
             return commandResult;
         }
 
+        [HttpDelete]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Host)]
+        public CommandResult DeleteMonthlyPeriod(int periodId)
+        {
+            var criteria = new DeleteMonthlyPeriodCriteria
+            {
+                PeriodId = periodId,
+                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+            };
+
+            CommandResult commandResult = _monthlyPeriodService.DeleteMonthlyPeriod(criteria);
+
+            return commandResult;
+        }
+
         public int GetUserPermissionOnMonthlyPeriod()
         {
             int permission = _webCommonService.GetPermission(EPAFunctionKey.MonthlyPeriod);

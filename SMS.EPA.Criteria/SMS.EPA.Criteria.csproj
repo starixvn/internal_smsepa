@@ -95,6 +95,7 @@
     <Compile Include="FlowManagement\GetDepartmentSectionHasSettingCriteria.cs" />
     <Compile Include="FlowManagement\GetPersonalFlowCriteria.cs" />
     <Compile Include="MonthlyPeriod\CreateMonthlyPeriodCriteria.cs" />
+    <Compile Include="MonthlyPeriod\DeleteMonthlyPeriodCriteria.cs" />
     <Compile Include="MonthlyPeriod\GetMonthlyPeriodByIdCriteria.cs" />
     <Compile Include="MonthlyPeriod\GetMonthlyPeriodCriteria.cs" />
     <Compile Include="MonthlyPeriod\GetProcessSettingMonthlyPeriodCriteria.cs" />

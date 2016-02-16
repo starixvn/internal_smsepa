@@ -80,6 +80,10 @@ function (MonthlyPeriodModel, CommonModel, utilitiesFactory, baseUrl) {
         vm.updatePeriodUrl = baseUrl + 'MonthlyPeriod/Update/' + periodId;
     };
 
+    vm.delete = function (period) {
+        MonthlyPeriodModel.openPopupDeleteMonthlyPeriod(vm, period);
+    };
+
     vm.getIndex = function (index, currentPage, pageSize) {
         return CommonModel.getIndex(index, currentPage, pageSize);
     };

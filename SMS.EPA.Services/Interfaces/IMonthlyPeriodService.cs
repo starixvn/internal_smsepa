@@ -28,5 +28,7 @@ namespace SMS.EPA.Services.Interfaces
         IEnumerable<FlowModel> GetProcessSettingByPeriodId(GetProcessSettingMonthlyPeriodCriteria criteria);
 
         CommandResult UpdateProcessSettingMonthlyPeriod(UpdateProcessSettingMonthlyPeriodCriteria criteria);
+
+        CommandResult DeleteMonthlyPeriod(DeleteMonthlyPeriodCriteria criteria);
     }
 }

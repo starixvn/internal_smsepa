@@ -2,8 +2,8 @@
 /*global monthlyPeriodModule*/
 
 monthlyPeriodModule.factory('MonthlyPeriodModel',
-['$modal', 'monthlyPeriodFactory', 'errorFactory', 'notificationFactory',
-function ($modal, monthlyPeriodFactory, errorFactory, notificationFactory) {
+['$modal', 'monthlyPeriodFactory', 'errorFactory', 'notificationFactory', 'utilitiesFactory',
+function ($modal, monthlyPeriodFactory, errorFactory, notificationFactory, utilitiesFactory) {
     var monthlyPeriodModel = {};
 
     monthlyPeriodModel.periods = [];
@@ -145,6 +145,41 @@ function ($modal, monthlyPeriodFactory, errorFactory, notificationFactory) {
         })
         .error(function (response, status) {
             errorFactory.errorHandle(status);
+        });
+    };
+
+    monthlyPeriodModel.openPopupDeleteMonthlyPeriod = function (vm, period) {
+        var modalInstance = $modal.open({
+            templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
+            controller: "ModalConfirmController as modalConfirmCtrl",
+            backdrop: 'static',
+            resolve: {
+                name: function () {
+                    return period.Name;
+                },
+                action: function () {
+                    return 'delete';
+                }
+            },
+            windowClass: "modal-confirm-center"
+        });
+
+        modalInstance.result.then(function () {
+            monthlyPeriodFactory.deleteMonthlyPeriod(period.PeriodId).success(function (response) {
+                if (response.IsSuccessful) {
+                    var index = vm.periods.indexOf(period);
+                    vm.periods.splice(index, 1);
+                    utilitiesFactory.searchOnPage(vm, vm.periods);
+                    notificationFactory.success("DeletedSuccessfully");
+                }
+                else {
+                    notificationFactory.error("", response.Message);
+                }
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        })['finally'](function () {
+            modalInstance = '';
         });
     };
 
