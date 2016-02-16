@@ -21,6 +21,12 @@ monthlyPeriodModule.factory('monthlyPeriodFactory', ['$http', 'baseUrl', functio
         updateBasicInfoMonthlyPeriod: function (period) {
             return $http.put(baseUrl + 'api/MonthlyPeriod/UpdateBasicInfoMonthlyPeriod', period);
         },
+        getProcessSettingByPeriodId: function (periodId) {
+            return $http.get(baseUrl + 'api/MonthlyPeriod/GetProcessSettingByPeriodId', { params: { periodId: periodId } });
+        },
+        updateProcessSettingMonthlyPeriod: function (processSetting) {
+            return $http.put(baseUrl + 'api/MonthlyPeriod/UpdateProcessSettingMonthlyPeriod', processSetting);
+        },
         getPermissionOnMonthlyPeriod: function () {
             return $http.get(baseUrl + 'api/MonthlyPeriod/GetUserPermissionOnMonthlyPeriod');
         }

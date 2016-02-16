@@ -8,6 +8,7 @@ function ($modal, monthlyPeriodFactory, errorFactory, notificationFactory) {
 
     monthlyPeriodModel.periods = [];
     monthlyPeriodModel.period = {};
+    monthlyPeriodModel.processSettings = [];
     monthlyPeriodModel.permission = 0;
 
     monthlyPeriodModel.getPermissionOnMonthlyPeriod = function () {
@@ -115,6 +116,31 @@ function ($modal, monthlyPeriodFactory, errorFactory, notificationFactory) {
             }
             else {
                 notificationFactory.error("", response.Message);
+            }
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    monthlyPeriodModel.getProcessSettingByPeriodId = function (periodId) {
+        return monthlyPeriodFactory.getProcessSettingByPeriodId(periodId)
+        .success(function (processSettings) {
+            monthlyPeriodModel.processSettings = processSettings;
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    monthlyPeriodModel.updateProcessSettingMonthlyPeriod = function (processSetting) {
+        return monthlyPeriodFactory.updateProcessSettingMonthlyPeriod(processSetting)
+        .success(function (response) {
+            if (response.IsSuccessful) {
+                notificationFactory.success("UpdatedSuccessfully");
+            }
+            else {
+                notificationFactory.error("UpdatedUnsuccessfully");
             }
         })
         .error(function (response, status) {

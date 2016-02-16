@@ -249,14 +249,14 @@ function ($scope, $window, PeriodModel, CommonModel) {
 }]);
 
 periodModule.controller('ProcessSettingPeriodController',
-['$scope', '$window', 'PeriodModel', 'FlowMngModel',
-function ($scope, $window, PeriodModel, FlowMngModel) {
+['$scope', '$window', 'PeriodModel', 'CommonModel',
+function ($scope, $window, PeriodModel, CommonModel) {
     var vm = this;
 
     vm.period = {};
     vm.isFirstLoad = true;
     vm.processSettings = PeriodModel.processSettings;
-    vm.remindDay = FlowMngModel.remindDay;
+    vm.remindDay = CommonModel.remindDay;
 
     var getProcessSetting = function (periodId) {
         PeriodModel.getProcessSettingByPeriodId(periodId).then(function () {

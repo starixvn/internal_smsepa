@@ -211,3 +211,40 @@ function ($scope, $window, MonthlyPeriodModel) {
         $window.history.back();
     };
 }]);
+
+periodModule.controller('UpdateProcessSettingMonthlyPeriodController',
+['$scope', '$window', 'MonthlyPeriodModel', 'CommonModel',
+function ($scope, $window, MonthlyPeriodModel, CommonModel) {
+    var vm = this;
+
+    vm.period = {};
+    vm.processSettings = MonthlyPeriodModel.processSettings;
+    vm.remindDay = CommonModel.remindDay;
+
+    var getProcessSetting = function (periodId) {
+        MonthlyPeriodModel.getProcessSettingByPeriodId(periodId).then(function () {
+            vm.processSettings = MonthlyPeriodModel.processSettings;
+        });
+    };
+
+    $scope.$watch(function () { return $scope.updateCtrl.dataTab.processSetting; },
+    function (newVal) {
+        if (newVal) {
+            vm.period = $scope.updateCtrl.period;
+            getProcessSetting(vm.period.PeriodId);
+        }
+    });
+
+    vm.save = function () {
+        var processSetting = {
+            PeriodId: vm.period.PeriodId,
+            Processes: vm.processSettings
+        };
+
+        MonthlyPeriodModel.updateProcessSettingMonthlyPeriod(processSetting);
+    };
+
+    vm.cancel = function () {
+        $window.history.back();
+    };
+}]);

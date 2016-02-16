@@ -97,7 +97,9 @@
     <Compile Include="MonthlyPeriod\CreateMonthlyPeriodCriteria.cs" />
     <Compile Include="MonthlyPeriod\GetMonthlyPeriodByIdCriteria.cs" />
     <Compile Include="MonthlyPeriod\GetMonthlyPeriodCriteria.cs" />
+    <Compile Include="MonthlyPeriod\GetProcessSettingMonthlyPeriodCriteria.cs" />
     <Compile Include="MonthlyPeriod\UpdateBasicInfoMonthlyPeriodCriteria.cs" />
+    <Compile Include="MonthlyPeriod\UpdateProcessSettingMonthlyPeriodCriteria.cs" />
     <Compile Include="Period\CheckSelfProcessStartedCriteria.cs" />
     <Compile Include="Period\GetPeriodProcessSettingCriteria.cs" />
     <Compile Include="Period\UpdatePeriodProcessSettingCriteria.cs" />

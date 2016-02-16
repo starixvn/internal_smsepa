@@ -129,7 +129,7 @@ function ($window, $routeParams, FlowMngModel, CommonModel, cacheService) {
     vm.flowTemplateId = parseInt($routeParams.id);
     vm.departments = CommonModel.departments;
     vm.treeDepartment = CommonModel.treeDepartment;
-    vm.remindDay = FlowMngModel.remindDay;
+    vm.remindDay = CommonModel.remindDay;
     vm.permission = FlowMngModel.permission;
 
     vm.tabDepartmentSelected = function () {

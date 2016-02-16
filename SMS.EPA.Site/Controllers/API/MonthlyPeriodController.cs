@@ -16,6 +16,7 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.MonthlyPeriod;
+    using SMS.EPA.Model.FlowManagement;
     using SMS.EPA.Model.Period;
     using SMS.EPA.Resources;
     using SMS.EPA.Services.Implement;
@@ -99,6 +100,40 @@ namespace SMS.EPA.Site.Controllers.API
             {
                 criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
                 commandResult = _monthlyPeriodService.UpdateBasicInfoMonthlyPeriod(criteria);
+            }
+            else
+            {
+                commandResult.Code = 1;
+                commandResult.Message = Lang.ParameterInvalid;
+            }
+
+            return commandResult;
+        }
+
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Read)]
+        public IEnumerable<FlowModel> GetProcessSettingByPeriodId(int periodId)
+        {
+            var criteria = new GetProcessSettingMonthlyPeriodCriteria
+            {
+                PeriodId = periodId
+            };
+
+            IEnumerable<FlowModel> processSettings = _monthlyPeriodService.GetProcessSettingByPeriodId(criteria);
+
+            return processSettings;
+        }
+
+        [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Host)]
+        public CommandResult UpdateProcessSettingMonthlyPeriod(UpdateProcessSettingMonthlyPeriodCriteria criteria)
+        {
+            var commandResult = new CommandResult();
+
+            if (criteria != null)
+            {
+                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+
+                commandResult = _monthlyPeriodService.UpdateProcessSettingMonthlyPeriod(criteria);
             }
             else
             {

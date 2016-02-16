@@ -12,6 +12,7 @@ namespace SMS.EPA.Services.Interfaces
     using System.Collections.Generic;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.MonthlyPeriod;
+    using SMS.EPA.Model.FlowManagement;
     using SMS.EPA.Model.Period;
 
     public interface IMonthlyPeriodService
@@ -23,5 +24,9 @@ namespace SMS.EPA.Services.Interfaces
         CommandResult CreateMonthlyPeriod(CreateMonthlyPeriodCriteria criteria);
 
         CommandResult UpdateBasicInfoMonthlyPeriod(UpdateBasicInfoMonthlyPeriodCriteria criteria);
+
+        IEnumerable<FlowModel> GetProcessSettingByPeriodId(GetProcessSettingMonthlyPeriodCriteria criteria);
+
+        CommandResult UpdateProcessSettingMonthlyPeriod(UpdateProcessSettingMonthlyPeriodCriteria criteria);
     }
 }

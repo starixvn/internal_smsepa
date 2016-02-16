@@ -14,6 +14,7 @@ namespace SMS.EPA.Services.Implement
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.MonthlyPeriod;
+    using SMS.EPA.Model.FlowManagement;
     using SMS.EPA.Model.Period;
     using SMS.EPA.Services.Interfaces;
 
@@ -59,6 +60,32 @@ namespace SMS.EPA.Services.Implement
         }
 
         public CommandResult UpdateBasicInfoMonthlyPeriod(UpdateBasicInfoMonthlyPeriodCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            CommandResult commandResult = new CommandResult();
+
+            if (criteria.IsValid())
+            {
+                commandResult = Repository.Update(criteria);
+            }
+
+            return commandResult;
+        }
+
+        public IEnumerable<FlowModel> GetProcessSettingByPeriodId(GetProcessSettingMonthlyPeriodCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<FlowModel> processSettings = new List<FlowModel>();
+
+            if (criteria.IsValid())
+            {
+                processSettings = GetData<FlowModel>(criteria);
+            }
+
+            return processSettings;
+        }
+
+        public CommandResult UpdateProcessSettingMonthlyPeriod(UpdateProcessSettingMonthlyPeriodCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");
             CommandResult commandResult = new CommandResult();
