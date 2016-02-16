@@ -9,6 +9,7 @@
 
 namespace SMS.EPA.Model.FlowManagement
 {
+    using System.Diagnostics.CodeAnalysis;
     using System.Text;
     using SMS.EPA.Core.Enumerations;
 
@@ -39,6 +40,7 @@ namespace SMS.EPA.Model.FlowManagement
             }
         }
 
+        [SuppressMessage("StyleCop.CSharp.Nexcel.NexcelCustomRules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
         private string ConvertToXml()
         {
             var process = new StringBuilder("<ROOT>");
