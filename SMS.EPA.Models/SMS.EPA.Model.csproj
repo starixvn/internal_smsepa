@@ -100,7 +100,7 @@
     <Compile Include="Period\PeriodModel.cs" />
     <Compile Include="Period\RawAssignEmployeePeriodModel.cs" />
     <Compile Include="Period\RawPeriodEmployeeSettingModel.cs" />
-    <Compile Include="Period\RawPeriodFlowSettingModel.cs" />
+    <Compile Include="Period\PeriodFlowSettingModel.cs" />
     <Compile Include="Period\RawUpdatedEmployeeSettingPeriodModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Report\Dashboard\EPADashboardModel.cs" />

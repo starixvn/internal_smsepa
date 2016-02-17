@@ -1,5 +1,5 @@
 ﻿// ----------------------------------------------------------------------
-// <copyright file="RawUpdatedEmployeeSettingPeriodModel.cs" company="Nexcel Solutions Viet Nam">
+// <copyright file="UpdatedEmployeeSettingPeriodModel.cs" company="Nexcel Solutions Viet Nam">
 // Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
 // </copyright>
 // ------------------------------------------------------------------------
@@ -12,10 +12,10 @@ namespace SMS.EPA.Model.Period
     using System.Collections.Generic;
     using System.Text;
 
-    public class RawUpdatedEmployeeSettingPeriodModel
+    public class UpdatedEmployeeSettingPeriodModel
     {
-        private const string AssignmentXmlTemplate = "<Assignment EmployeeId='{0}' ProcessId='{1}' EvaluatorId='{2}'" + 
-                                        " StartDate='{3}' EndDate='{4}' Priority='{5}'></Assignment>";
+        private const string AssignmentXmlTemplate = @"<Assignment EmployeeId='{0}' ProcessId='{1}' EvaluatorId='{2}'
+                StartDate='{3}' EndDate='{4}' Priority='{5}'></Assignment>";
 
         private const string BeginRootTag = "<ROOT>";
 

@@ -1,5 +1,5 @@
 ﻿// ----------------------------------------------------------------------
-// <copyright file="RawAssignEmployeePeriodModel.cs" company="Nexcel Solutions Viet Nam">
+// <copyright file="AssignEmployeePeriodModel.cs" company="Nexcel Solutions Viet Nam">
 // Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
 // </copyright>
 // ------------------------------------------------------------------------
@@ -13,7 +13,7 @@ namespace SMS.EPA.Model.Period
     using System.Text;
     using SMS.EPA.Model.Department;
 
-    public class RawAssignEmployeePeriodModel
+    public class AssignEmployeePeriodModel
     {
         private const string DepartmentXmlTemplate = "<Department DepartmentId='{0}' IsGroup='{1}'></Department>";
         private const string BeginRootTag = "<ROOT>";

@@ -170,7 +170,7 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpPost]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Host)]
-        public CommandResult AddEmployeToPeriod(RawAssignEmployeePeriodModel model)
+        public CommandResult AddEmployeToPeriod(AssignEmployeePeriodModel model)
         {
             var commandResult = new CommandResult();
 
@@ -197,7 +197,7 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Host)]
-        public CommandResult UpdateEmployeeSettingOfPeriod(RawUpdatedEmployeeSettingPeriodModel model)
+        public CommandResult UpdateEmployeeSettingOfPeriod(UpdatedEmployeeSettingPeriodModel model)
         {
             var commandResult = new CommandResult();
 

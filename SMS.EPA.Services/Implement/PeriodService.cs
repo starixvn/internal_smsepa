@@ -137,19 +137,14 @@ namespace SMS.EPA.Services.Implement
         public IEnumerable<PeriodEmployeeSettingModel> GetPeriodEmployeeSettingById(GetPeriodEmployeeSettingCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");
-            IEnumerable<PeriodEmployeeSettingModel> periodEmployeeSettings = new List<PeriodEmployeeSettingModel>();
+            IEnumerable<PeriodEmployeeSettingModel> employeeSettings = new List<PeriodEmployeeSettingModel>();
 
             if (criteria.IsValid())
             {
-                RawPeriodEmployeeSettingModel rawPeriodEmployeeSetting = _periodRepository.GetPeriodEmployeeSettingById(criteria);
-
-                if (rawPeriodEmployeeSetting.Employees != null && rawPeriodEmployeeSetting.Employees.Any())
-                {
-                    periodEmployeeSettings = ConvertToPeriodEmployeeSetting(rawPeriodEmployeeSetting);
-                }
+                employeeSettings = _periodRepository.GetPeriodEmployeeSettingById(criteria);
             }
 
-            return periodEmployeeSettings;
+            return employeeSettings;
         }
 
         public CommandResult AddEmployeeToPeriod(AddEmployeeToPeriodCriteria criteria)
@@ -309,94 +304,6 @@ namespace SMS.EPA.Services.Implement
             writer.SyncColumnsWidth(11);
 
             writer.Render();
-        }
-
-        private static IEnumerable<PeriodEmployeeSettingModel> ConvertToPeriodEmployeeSetting(RawPeriodEmployeeSettingModel rawPeriodEmployeeSetting)
-        {
-            IEnumerable<PeriodEmployeeSettingModel> employeeSettings = rawPeriodEmployeeSetting.Employees;
-
-            foreach (PeriodEmployeeSettingModel employeeSetting in employeeSettings)
-            {
-                GetFlowSetting(rawPeriodEmployeeSetting.FlowSettings, employeeSetting);
-            }
-
-            return employeeSettings;
-        }
-
-        private static void GetFlowSetting(
-            IEnumerable<RawPeriodFlowSettingModel> rawFlowSettings,
-            PeriodEmployeeSettingModel employeeSetting)
-        {
-            if (rawFlowSettings != null)
-            {
-                IEnumerable<RawPeriodFlowSettingModel> rawEmployeeFlowSettings =
-                           rawFlowSettings.Where(x => x.PeriodId == employeeSetting.PeriodId && x.EmployeeId == employeeSetting.Employee.EmployeeId);
-
-                foreach (RawPeriodFlowSettingModel rawFlowSetting in rawEmployeeFlowSettings)
-                {
-                    employeeSetting = GetEvaluators(rawFlowSetting, employeeSetting);
-
-                    if (rawFlowSetting.ProcessId != (int)ProcessType.HumanResource)
-                    {
-                        employeeSetting.NumberEvaluators++;
-                    }
-                }
-            }
-        }
-
-        private static PeriodEmployeeSettingModel GetEvaluators(
-            RawPeriodFlowSettingModel rawFlowSetting,
-            PeriodEmployeeSettingModel employeeSetting)
-        {
-            switch (rawFlowSetting.ProcessId)
-            {
-                case (int)ProcessType.HumanResource:
-                    PeriodFlowModel humanResources = CreateEvaluator(rawFlowSetting);
-                    employeeSetting.HumanResources.Add(humanResources);
-                    break;
-
-                case (int)ProcessType.Self:
-                    PeriodFlowModel selfEvaluator = CreateEvaluator(rawFlowSetting);
-                    employeeSetting.SelfEvaluators.Add(selfEvaluator);
-                    break;
-
-                case (int)ProcessType.Evaluator:
-                    PeriodFlowModel evaluator = CreateEvaluator(rawFlowSetting);
-                    employeeSetting.Evaluators.Add(evaluator);
-                    break;
-
-                case (int)ProcessType.Reviewer:
-                    PeriodFlowModel reviewer = CreateEvaluator(rawFlowSetting);
-                    employeeSetting.Reviewers.Add(reviewer);
-                    break;
-
-                case (int)ProcessType.Management:
-                    PeriodFlowModel management = CreateEvaluator(rawFlowSetting);
-                    employeeSetting.Managements.Add(management);
-                    break;
-            }
-
-            return employeeSetting;
-        }
-
-        private static PeriodFlowModel CreateEvaluator(RawPeriodFlowSettingModel rawFlowSetting)
-        {
-            var evaluator = new PeriodFlowModel
-            {
-                ProcessId = rawFlowSetting.ProcessId,
-                Priority = rawFlowSetting.Priority,
-                Duration = rawFlowSetting.Duration,
-                RemindDay = rawFlowSetting.RemindDay,
-                StartDate = rawFlowSetting.StartDate,
-                EndDate = rawFlowSetting.EndDate,
-                HasSendMail = rawFlowSetting.HasSendMail,
-                HasEvaluationGenerated = rawFlowSetting.HasEvaluationGenerated,
-                ProcessStatus = rawFlowSetting.ProcessStatus,
-                ProcessDetailStatus = rawFlowSetting.ProcessDetailStatus,
-                EvaluatorInfo = rawFlowSetting.EvaluatorInfo
-            };
-
-            return evaluator;
         }
 
         private void FillContentRow(

@@ -1,5 +1,5 @@
 ﻿// ----------------------------------------------------------------------
-// <copyright file="RawPeriodEmployeeSettingModel.cs" company="Nexcel Solutions Viet Nam">
+// <copyright file="PeriodFlowSettingModel.cs" company="Nexcel Solutions Viet Nam">
 // Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
 // </copyright>
 // ------------------------------------------------------------------------
@@ -9,12 +9,8 @@
 
 namespace SMS.EPA.Model.Period
 {
-    using System.Collections.Generic;
-
-    public class RawPeriodEmployeeSettingModel
+    public class PeriodFlowSettingModel : PeriodFlowModel
     {
-        public IEnumerable<PeriodEmployeeSettingModel> Employees { get; set; }
-
-        public IEnumerable<RawPeriodFlowSettingModel> FlowSettings { get; set; }
+        public int PeriodId { get; set; }
     }
 }
