@@ -35,7 +35,9 @@ namespace SMS.EPA.Site.Controllers.API
         {
         }
 
-        public PeriodController(IPeriodService periodService, IWebCommonService webCommonService)
+        public PeriodController(
+            IPeriodService periodService,
+            IWebCommonService webCommonService)
         {
             _periodService = periodService ?? new PeriodService();
             _webCommonService = webCommonService ?? new WebCommonService();
@@ -258,7 +260,7 @@ namespace SMS.EPA.Site.Controllers.API
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Read)]
         public IEnumerable<FlowModel> GetProcessSettingByPeriodId(int periodId)
         {
-            var criteria = new GetPeriodProcessSettingCriteria
+            var criteria = new GetProcessSettingPeriodCriteria
             {
                 PeriodId = periodId
             };
@@ -269,15 +271,14 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Host)]
-        public CommandResult UpdatePeriodProcessSetting(UpdatePeriodProcessSettingCriteria criteria)
+        public CommandResult UpdatePeriodProcessSetting(UpdateProcessSettingPeriodCriteria criteria)
         {
             var commandResult = new CommandResult();
 
             if (criteria != null)
             {
                 criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
-                criteria.ProcessSettings = criteria.ConvertViolationItemToXml();
-                commandResult = _periodService.UpdatePeriodProcessSetting(criteria);
+                commandResult = _periodService.UpdateProcessSettingPeriod(criteria);
             }
             else
             {

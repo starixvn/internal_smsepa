@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="CreateMonthlyPeriodCriteria.cs" company="Nexcel Solutions Viet Nam">
+// <copyright file="GetMonthlyPeriodCriteria.cs" company="Nexcel Solutions Viet Nam">
 // Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -7,31 +7,25 @@
 //   <change who="Tim.Trinh" date="2016.02.15">Created</change>
 // </history>
 
-namespace SMS.EPA.Criteria.MonthlyPeriod
+namespace SMS.EPA.Criteria.Period
 {
     using System;
     using Fanex.Data.Repository;
 
-    public class CreateMonthlyPeriodCriteria : CriteriaBase
+    public class GetMonthlyPeriodCriteria : CriteriaBase
     {
-        public string Name { get; set; }
+        public DateTime FromDate { get; set; }
 
-        public DateTime StartDate { get; set; }
-
-        public DateTime EndDate { get; set; }
-
-        public string Description { get; set; }
-
-        public int CreatedBy { get; set; }
+        public DateTime ToDate { get; set; }
 
         public override bool IsValid()
         {
-            return !string.IsNullOrWhiteSpace(Name);
+            return true;
         }
 
         public override string GetSettingKey()
         {
-            return "EpaMonthlyPeriod_Insert";
+            return "EpaMonthlyPeriod_Get";
         }
     }
 }

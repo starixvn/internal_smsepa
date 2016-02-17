@@ -350,11 +350,5 @@
     <Function Name="Monthly Period">
         <Setting Key="EpaMonthlyPeriod_Get" SpName="EpaMonthlyPeriod_Get" DbName="SMSEPA" Plain="0" >
         </Setting>
-        <Setting Key="EpaMonthlyPeriod_GetById" SpName="EpaMonthlyPeriod_GetById" DbName="SMSEPA" Plain="0" >
-        </Setting>
-        <Setting Key="EpaMonthlyPeriod_Insert" SpName="EpaMonthlyPeriod_Insert" DbName="SMSEPA" Plain="0" >
-        </Setting>
-        <Setting Key="EpaMonthlyPeriod_UpdateBasicInfo" SpName="EpaMonthlyPeriod_UpdateBasicInfo" DbName="SMSEPA" Plain="0" >
-        </Setting>
     </Function>
 </Functions>

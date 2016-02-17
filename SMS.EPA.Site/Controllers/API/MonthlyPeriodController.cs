@@ -15,7 +15,7 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
-    using SMS.EPA.Criteria.MonthlyPeriod;
+    using SMS.EPA.Criteria.Period;
     using SMS.EPA.Model.FlowManagement;
     using SMS.EPA.Model.Period;
     using SMS.EPA.Resources;
@@ -26,7 +26,7 @@ namespace SMS.EPA.Site.Controllers.API
 
     public class MonthlyPeriodController : BaseController
     {
-        private readonly IMonthlyPeriodService _monthlyPeriodService;
+        private readonly IPeriodService _periodService;
         private readonly IWebCommonService _webCommonService;
 
         public MonthlyPeriodController()
@@ -35,10 +35,10 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         public MonthlyPeriodController(
-            IMonthlyPeriodService monthlyPeriodService,
+            IPeriodService periodService,
             IWebCommonService webCommonService)
         {
-            _monthlyPeriodService = monthlyPeriodService ?? new MonthlyPeriodService();
+            _periodService = periodService ?? new PeriodService();
             _webCommonService = webCommonService ?? new WebCommonService();
         }
 
@@ -53,7 +53,7 @@ namespace SMS.EPA.Site.Controllers.API
                 ToDate = toDate
             };
 
-            IEnumerable<PeriodModel> periods = _monthlyPeriodService.GetMonthlyPeriod(criteria);
+            IEnumerable<PeriodModel> periods = _periodService.GetMonthlyPeriod(criteria);
 
             return periods;
         }
@@ -61,25 +61,28 @@ namespace SMS.EPA.Site.Controllers.API
         [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Read)]
         public PeriodModel GetMonthlyPeriodById(int periodId)
         {
-            var criteria = new GetMonthlyPeriodByIdCriteria
+            var criteria = new GetPeriodByIdCriteria
             {
                 PeriodId = periodId
             };
 
-            PeriodModel period = _monthlyPeriodService.GetMonthlyPeriodById(criteria);
+            PeriodModel period = _periodService.GetPeriodById(criteria);
+
             return period;
         }
 
         [HttpPost]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Host)]
-        public CommandResult CreateMonthlyPeriod(CreateMonthlyPeriodCriteria criteria)
+        public CommandResult CreateMonthlyPeriod(CreatePeriodCriteria criteria)
         {
             var commandResult = new CommandResult();
 
             if (criteria != null)
             {
+                criteria.TargetTypeId = (int)TargetType.Monthly;
+                criteria.IsActive = true;
                 criteria.CreatedBy = CurrentUser.EmployeeInfo.EmployeeId;
-                commandResult = _monthlyPeriodService.CreateMonthlyPeriod(criteria);
+                commandResult = _periodService.CreatePeriod(criteria);
             }
             else
             {
@@ -92,14 +95,16 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Host)]
-        public CommandResult UpdateBasicInfoMonthlyPeriod(UpdateBasicInfoMonthlyPeriodCriteria criteria)
+        public CommandResult UpdateBasicInfoMonthlyPeriod(UpdateBasicInformationPeriodCriteria criteria)
         {
             var commandResult = new CommandResult();
 
             if (criteria != null)
             {
+                criteria.TargetTypeId = (int)TargetType.Monthly;
+                criteria.IsActive = true;
                 criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
-                commandResult = _monthlyPeriodService.UpdateBasicInfoMonthlyPeriod(criteria);
+                commandResult = _periodService.UpdateBasicInformationPeriod(criteria);
             }
             else
             {
@@ -113,19 +118,19 @@ namespace SMS.EPA.Site.Controllers.API
         [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Read)]
         public IEnumerable<FlowModel> GetProcessSettingByPeriodId(int periodId)
         {
-            var criteria = new GetProcessSettingMonthlyPeriodCriteria
+            var criteria = new GetProcessSettingPeriodCriteria
             {
                 PeriodId = periodId
             };
 
-            IEnumerable<FlowModel> processSettings = _monthlyPeriodService.GetProcessSettingByPeriodId(criteria);
+            IEnumerable<FlowModel> processSettings = _periodService.GetProcessSettingByPeriodId(criteria);
 
             return processSettings;
         }
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Host)]
-        public CommandResult UpdateProcessSettingMonthlyPeriod(UpdateProcessSettingMonthlyPeriodCriteria criteria)
+        public CommandResult UpdateProcessSettingMonthlyPeriod(UpdateProcessSettingPeriodCriteria criteria)
         {
             var commandResult = new CommandResult();
 
@@ -133,7 +138,7 @@ namespace SMS.EPA.Site.Controllers.API
             {
                 criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
 
-                commandResult = _monthlyPeriodService.UpdateProcessSettingMonthlyPeriod(criteria);
+                commandResult = _periodService.UpdateProcessSettingPeriod(criteria);
             }
             else
             {
@@ -148,15 +153,41 @@ namespace SMS.EPA.Site.Controllers.API
         [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Host)]
         public CommandResult DeleteMonthlyPeriod(int periodId)
         {
-            var criteria = new DeleteMonthlyPeriodCriteria
+            var criteria = new DeletePeriodCriteria
             {
                 PeriodId = periodId,
                 ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
             };
 
-            CommandResult commandResult = _monthlyPeriodService.DeleteMonthlyPeriod(criteria);
+            CommandResult commandResult = _periodService.DeletePeriod(criteria);
 
             return commandResult;
+        }
+
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Read)]
+        public IEnumerable<PeriodEmployeeSettingModel> GetEmployeeSettingMonthlyPeriodById(
+            int periodId,
+            DateTime monthlyPeriod,
+            int? departmentId = null,
+            bool? isLocal = null,
+            bool? isExcludedEmployee = null,
+            bool? isGeneratedEPA = null,
+            int? isEvaluated = null)
+        {
+            var criteria = new GetPeriodEmployeeSettingCriteria
+            {
+                PeriodId = periodId,
+                DepartmentId = departmentId,
+                IsLocal = isLocal,
+                IsExcludedEmployee = isExcludedEmployee,
+                IsGeneratedEPA = isGeneratedEPA,
+                IsEvaluated = isEvaluated,
+                MonthlyPeriod = monthlyPeriod
+            };
+
+            IEnumerable<PeriodEmployeeSettingModel> employeeSettings = _periodService.GetPeriodEmployeeSettingById(criteria);
+
+            return employeeSettings;
         }
 
         public int GetUserPermissionOnMonthlyPeriod()

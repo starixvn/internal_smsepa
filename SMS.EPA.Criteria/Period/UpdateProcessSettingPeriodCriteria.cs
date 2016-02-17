@@ -1,5 +1,5 @@
 ﻿// ----------------------------------------------------------------------
-// <copyright file="UpdatePeriodProcessSettingCriteria.cs" company="Nexcel Solutions Viet Nam">
+// <copyright file="UpdateProcessSettingPeriodCriteria.cs" company="Nexcel Solutions Viet Nam">
 // Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
 // </copyright>
 // ------------------------------------------------------------------------
@@ -14,7 +14,7 @@ namespace SMS.EPA.Criteria.Period
     using Fanex.Data.Repository;
     using SMS.EPA.Model.FlowManagement;
 
-    public class UpdatePeriodProcessSettingCriteria : CriteriaBase
+    public class UpdateProcessSettingPeriodCriteria : CriteriaBase
     {
         private const string ProcessItemXmTemplate = "<ProcessSetting ProcessId='{0}' Duration='{1}' NoticeAtBegin='{2}' RemindDay='{3}'></ProcessSetting>";
         private const string BeginRootTag = "<ROOT>";
@@ -22,7 +22,13 @@ namespace SMS.EPA.Criteria.Period
 
         public int PeriodId { get; set; }
 
-        public string ProcessSettings { get; set; }
+        public string ProcessSettings
+        {
+            get
+            {
+                return ConvertProcessSettingToXml();
+            }
+        }
 
         public int ModifiedBy { get; set; }
 
@@ -39,7 +45,7 @@ namespace SMS.EPA.Criteria.Period
             return "EpaPeriod_UpdateProcessSetting";
         }
 
-        public string ConvertViolationItemToXml()
+        private string ConvertProcessSettingToXml()
         {
             string processXml = string.Empty;
 

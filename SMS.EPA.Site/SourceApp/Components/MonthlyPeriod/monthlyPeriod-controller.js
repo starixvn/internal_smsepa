@@ -200,7 +200,7 @@ function ($scope, $window, MonthlyPeriodModel) {
 
     $scope.$watch(function () { return $scope.updateCtrl.period; },
         function (newVal) {
-            if (newVal) {
+            if (newVal ) {
                 vm.period = $scope.updateCtrl.period;
             }
         });
@@ -224,16 +224,18 @@ function ($scope, $window, MonthlyPeriodModel, CommonModel) {
     vm.period = {};
     vm.processSettings = MonthlyPeriodModel.processSettings;
     vm.remindDay = CommonModel.remindDay;
+    vm.isFirstLoad = true;
 
     var getProcessSetting = function (periodId) {
         MonthlyPeriodModel.getProcessSettingByPeriodId(periodId).then(function () {
             vm.processSettings = MonthlyPeriodModel.processSettings;
+            vm.isFirstLoad = false;
         });
     };
 
     $scope.$watch(function () { return $scope.updateCtrl.dataTab.processSetting; },
     function (newVal) {
-        if (newVal) {
+        if (newVal && vm.isFirstLoad) {
             vm.period = $scope.updateCtrl.period;
             getProcessSetting(vm.period.PeriodId);
         }
@@ -251,4 +253,54 @@ function ($scope, $window, MonthlyPeriodModel, CommonModel) {
     vm.cancel = function () {
         $window.history.back();
     };
+}]);
+
+periodModule.controller('EmployeeSettingMonthlyPeriodController',
+['$scope', '$routeParams', '$window', 'PeriodModel', 'utilitiesFactory', 'CommonModel', 'notificationFactory',
+function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonModel, notificationFactory) {
+    var vm = this;
+
+    vm.period = null;
+    vm.periodId = null;
+    vm.employeeSettings = PeriodModel.employeeSettings;
+    vm.departments = CommonModel.departments;
+    vm.treeDepartment = CommonModel.treeDepartment;
+    vm.isFirstLoad = true;
+    vm.departmentOptions = [];
+
+    vm.selectedAll = false;
+
+    vm.filter = {
+        periodId: null,
+        departmentId: null,
+        isLocal: '',
+        monthlyPeriod: new Date(),
+        isExcludedEmployee: null,
+        isGeneratedEPA: "",
+        isEvaluated: ""
+    };
+
+    vm.openPopupMonthlyPeriod = function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        vm.calendar.monthlyPeriodOpened = true;
+    };
+
+    vm.initialize = function () {
+        vm.calendar = {
+            monthlyPeriodOpened: false
+        };
+
+        vm.currentPage = 1;
+        vm.pageSize = 20;
+
+        vm.dateOptions = {
+            minMode: 'month'
+        };
+
+        utilitiesFactory.numberEntryList(vm);
+    };
+
+    vm.initialize();
 }]);

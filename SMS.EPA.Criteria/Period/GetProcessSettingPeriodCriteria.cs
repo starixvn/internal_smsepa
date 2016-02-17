@@ -1,5 +1,5 @@
 ﻿// ----------------------------------------------------------------------
-// <copyright file="GetPeriodProcessSettingCriteria.cs" company="Nexcel Solutions Viet Nam">
+// <copyright file="GetProcessSettingPeriodCriteria.cs" company="Nexcel Solutions Viet Nam">
 // Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
 // </copyright>
 // ------------------------------------------------------------------------
@@ -11,7 +11,7 @@ namespace SMS.EPA.Criteria.Period
 {
     using Fanex.Data.Repository;
 
-    public class GetPeriodProcessSettingCriteria : CriteriaBase
+    public class GetProcessSettingPeriodCriteria : CriteriaBase
     {
         public int PeriodId { get; set; }
 

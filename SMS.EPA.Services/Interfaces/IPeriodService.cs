@@ -20,11 +20,13 @@ using SMS.EPA.Model.Period;
     {
         IEnumerable<PeriodModel> GetPeriod(GetPeriodCriteria criteria);
 
+        PeriodModel GetPeriodById(GetPeriodByIdCriteria criteria);
+
+        IEnumerable<PeriodModel> GetMonthlyPeriod(GetMonthlyPeriodCriteria criteria);
+
         CommandResult CreatePeriod(CreatePeriodCriteria criteria);
 
         CommandResult UpdateBasicInformationPeriod(UpdateBasicInformationPeriodCriteria criteria);
-
-        PeriodModel GetPeriodById(GetPeriodByIdCriteria criteria);
 
         CommandResult UpdateStatusPeriod(UpdateStatusPeriodCriteria criteria);
 
@@ -48,9 +50,9 @@ using SMS.EPA.Model.Period;
 
         IEnumerable<PeriodFlowModel> GetEmployeeSettingByPeriodId(GetEmployeeSettingByPeriodIdCriteria criteria);
 
-        IEnumerable<FlowModel> GetProcessSettingByPeriodId(GetPeriodProcessSettingCriteria criteria);
+        IEnumerable<FlowModel> GetProcessSettingByPeriodId(GetProcessSettingPeriodCriteria criteria);
 
-        CommandResult UpdatePeriodProcessSetting(UpdatePeriodProcessSettingCriteria criteria);
+        CommandResult UpdateProcessSettingPeriod(UpdateProcessSettingPeriodCriteria criteria);
 
         bool CheckSelfProcessStarted(CheckSelfProcessStartedCriteria criteria);
     }

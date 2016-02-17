@@ -9,6 +9,7 @@
 
 namespace SMS.EPA.Criteria.Period
 {
+    using System;
     using Fanex.Data.Repository;
 
     public class GetPeriodEmployeeSettingCriteria : CriteriaBase
@@ -27,6 +28,39 @@ namespace SMS.EPA.Criteria.Period
         public bool? IsGeneratedEPA { get; set; }
 
         public int? IsEvaluated { get; set; }
+
+        [SpParam(Ignored = true)]
+        public DateTime? MonthlyPeriod { get; set; }
+
+        public int? Month
+        {
+            get
+            {
+                int? month = null;
+
+                if (MonthlyPeriod != null)
+                {
+                    month = MonthlyPeriod.Value.Month;
+                }
+
+                return month;
+            }
+        }
+
+        public int? Year
+        {
+            get
+            {
+                int? year = null;
+
+                if (MonthlyPeriod != null)
+                {
+                    year = MonthlyPeriod.Value.Year;
+                }
+
+                return year;
+            }
+        }
 
         public override bool IsValid()
         {

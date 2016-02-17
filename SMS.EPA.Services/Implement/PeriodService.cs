@@ -56,6 +56,32 @@ namespace SMS.EPA.Services.Implement
             return periods;
         }
 
+        public PeriodModel GetPeriodById(GetPeriodByIdCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            PeriodModel period = new PeriodModel();
+
+            if (criteria.IsValid())
+            {
+                period = _periodRepository.GetPeriodById(criteria);
+            }
+
+            return period;
+        }
+
+        public IEnumerable<PeriodModel> GetMonthlyPeriod(GetMonthlyPeriodCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<PeriodModel> periods = new List<PeriodModel>();
+
+            if (criteria.IsValid())
+            {
+                periods = GetData<PeriodModel>(criteria);
+            }
+
+            return periods;
+        }
+
         public CommandResult CreatePeriod(CreatePeriodCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");
@@ -80,19 +106,6 @@ namespace SMS.EPA.Services.Implement
             }
 
             return commandResult;
-        }
-
-        public PeriodModel GetPeriodById(GetPeriodByIdCriteria criteria)
-        {
-            Check.Argument.IsNotNull(criteria, "criteria");
-            PeriodModel period = new PeriodModel();
-
-            if (criteria.IsValid())
-            {
-                period = _periodRepository.GetPeriodById(criteria);
-            }
-
-            return period;
         }
 
         public CommandResult UpdateStatusPeriod(UpdateStatusPeriodCriteria criteria)
@@ -236,7 +249,7 @@ namespace SMS.EPA.Services.Implement
             return startedPeriods;
         }
 
-        public IEnumerable<FlowModel> GetProcessSettingByPeriodId(GetPeriodProcessSettingCriteria criteria)
+        public IEnumerable<FlowModel> GetProcessSettingByPeriodId(GetProcessSettingPeriodCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<FlowModel> processSettings = new List<FlowModel>();
@@ -249,7 +262,7 @@ namespace SMS.EPA.Services.Implement
             return processSettings;
         }
 
-        public CommandResult UpdatePeriodProcessSetting(UpdatePeriodProcessSettingCriteria criteria)
+        public CommandResult UpdateProcessSettingPeriod(UpdateProcessSettingPeriodCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");
             CommandResult commandResult = new CommandResult();
