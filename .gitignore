@@ -29,3 +29,5 @@ _ReSharper*/
 *.vssscc
 $tf*/
 *.Publish.xml
+
+packages/
