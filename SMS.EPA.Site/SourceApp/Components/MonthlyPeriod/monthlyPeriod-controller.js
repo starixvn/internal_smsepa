@@ -84,6 +84,10 @@ function (MonthlyPeriodModel, CommonModel, utilitiesFactory, baseUrl) {
         MonthlyPeriodModel.openPopupDeleteMonthlyPeriod(vm, period);
     };
 
+    vm.viewEmployeeSetting = function (period) {
+        vm.viewEmployeeSettingUrl = baseUrl + 'MonthlyPeriod/Update/' + period.PeriodId + '?viewSetting';
+    };
+
     vm.getIndex = function (index, currentPage, pageSize) {
         return CommonModel.getIndex(index, currentPage, pageSize);
     };
@@ -256,19 +260,30 @@ function ($scope, $window, MonthlyPeriodModel, CommonModel) {
 }]);
 
 periodModule.controller('EmployeeSettingMonthlyPeriodController',
-['$scope', '$routeParams', '$window', 'PeriodModel', 'utilitiesFactory', 'CommonModel', 'notificationFactory',
-function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonModel, notificationFactory) {
+['$scope', '$routeParams', '$window', 'MonthlyPeriodModel', 'utilitiesFactory', 'CommonModel', 'notificationFactory',
+function ($scope, $routeParams, $window, MonthlyPeriodModel, utilitiesFactory, CommonModel, notificationFactory) {
     var vm = this;
 
     vm.period = null;
     vm.periodId = null;
-    vm.employeeSettings = PeriodModel.employeeSettings;
-    vm.departments = CommonModel.departments;
-    vm.treeDepartment = CommonModel.treeDepartment;
+    vm.employeeSettings = MonthlyPeriodModel.employeeSettings;
     vm.isFirstLoad = true;
     vm.departmentOptions = [];
-
     vm.selectedAll = false;
+
+    vm.currentPage = 1;
+    vm.pageSize = 20;
+
+    vm.calendar = {
+        monthlyPeriodOpened: false
+    };
+
+    vm.dateOptions = {
+        minMode: 'month'
+    };
+
+    utilitiesFactory.numberEntryList(vm);
+    utilitiesFactory.getDateFormat(vm);
 
     vm.filter = {
         periodId: null,
@@ -280,6 +295,10 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
         isEvaluated: ""
     };
 
+    vm.filterAssign = {
+        employee: ''
+    };
+
     vm.openPopupMonthlyPeriod = function (event) {
         event.preventDefault();
         event.stopPropagation();
@@ -287,20 +306,109 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
         vm.calendar.monthlyPeriodOpened = true;
     };
 
-    vm.initialize = function () {
-        vm.calendar = {
-            monthlyPeriodOpened: false
-        };
-
-        vm.currentPage = 1;
-        vm.pageSize = 20;
-
-        vm.dateOptions = {
-            minMode: 'month'
-        };
-
-        utilitiesFactory.numberEntryList(vm);
+    var getEmployeeSetting = function (filter) {
+        MonthlyPeriodModel.getEmployeeSettingMonthlyPeriodById(
+            filter.periodId,
+            filter.departmentId,
+            filter.isLocal,
+            filter.isExcludedEmployee,
+            filter.isGeneratedEPA,
+            filter.isEvaluated,
+            filter.monthlyPeriod)
+        .then(function () {
+            vm.employeeSettings = MonthlyPeriodModel.employeeSettings;
+            utilitiesFactory.searchOnPage(vm, vm.employeeSettings);
+            vm.isFirstLoad = false;
+            vm.selectedAll = false;
+        });
     };
 
-    vm.initialize();
+    $scope.$watch(function () {
+        return $scope.updateCtrl.dataTab.employeeSetting && $scope.updateCtrl.period && $scope.updateCtrl.permission;
+    },
+    function (newVal) {
+        if (newVal && vm.isFirstLoad) {
+            vm.period = $scope.updateCtrl.period;
+            vm.filter.periodId = vm.period.PeriodId;
+            vm.permission = $scope.updateCtrl.permission;
+
+            CommonModel.getDepartment(null, true).then(function () {
+                var treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
+                vm.departmentOptions = angular.copy(treeDepartment);
+            });
+
+            getEmployeeSetting(vm.filter);
+        }
+    });
+
+    vm.query = function (filter) {
+        getEmployeeSetting(filter);
+    };
+
+    vm.getEmployee = function () {
+        return CommonModel.getAllEmployee(vm.searchEmployee);
+    };
+
+    vm.unSelectEmployee = function () {
+        if (vm.searchEmployee.trim() === '') {
+            if (vm.filterAssign.employee) {
+                vm.filterAssign.employee = null;
+            }
+        }
+    };
+
+    var getSelectedDepartment = function (departments) {
+        var selectedDepartments = [];
+
+        angular.forEach(departments, function (department) {
+            if (department.ticked) {
+                var departmentId = department.DepartmentId,
+                    selectedDepartment = {
+                        departmentId: departmentId < 0 ? -departmentId : departmentId,
+                        isGroup: department.IsGroup
+                    };
+
+                selectedDepartments.push(selectedDepartment);
+            }
+        });
+
+        return selectedDepartments;
+    };
+
+    var resetFilterAssign = function () {
+        vm.filterAssign.employee = '';
+        vm.searchEmployee = '';
+
+        angular.forEach(vm.departments, function (department) {
+            department.ticked = false;
+        });
+    };
+
+    vm.addEmployee = function (filterAssign) {
+        var employeeId = null;
+
+        if (filterAssign.employee) {
+            employeeId = filterAssign.employee.EmployeeId;
+        }
+
+        var employeeInfo = {
+            periodId: vm.period.PeriodId,
+            employeeId: employeeId,
+            departments: getSelectedDepartment(vm.departmentOptions)
+        };
+
+        if (employeeInfo.employeeId || (employeeInfo.departments && employeeInfo.departments.length > 0)) {
+            MonthlyPeriodModel.addEmployeeToMonthlyPeriod(employeeInfo).then(function () {
+                resetFilterAssign();
+                getEmployeeSetting(vm.filter);
+            });
+        }
+        else {
+            notificationFactory.error("SelectDepartmentSectionEmployeeBeforeAddToPeriodWarning");
+        }
+    };
+
+    vm.getIndex = function (index, currentPage, pageSize) {
+        return CommonModel.getIndex(index, currentPage, pageSize);
+    };
 }]);

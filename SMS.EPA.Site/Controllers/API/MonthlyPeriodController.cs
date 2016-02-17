@@ -164,6 +164,7 @@ namespace SMS.EPA.Site.Controllers.API
             return commandResult;
         }
 
+        [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Read)]
         public IEnumerable<PeriodEmployeeSettingModel> GetEmployeeSettingMonthlyPeriodById(
             int periodId,
@@ -188,6 +189,33 @@ namespace SMS.EPA.Site.Controllers.API
             IEnumerable<PeriodEmployeeSettingModel> employeeSettings = _periodService.GetPeriodEmployeeSettingById(criteria);
 
             return employeeSettings;
+        }
+
+        [HttpPost]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Host)]
+        public CommandResult AddEmployeeToMonthlyPeriod(AssignEmployeePeriodModel model)
+        {
+            var commandResult = new CommandResult();
+
+            if (ModelState.IsValid)
+            {
+                var criteria = new AddEmployeeToPeriodCriteria
+                {
+                    PeriodId = model.PeriodId,
+                    EmployeeId = model.EmployeeId,
+                    Departments = model.ConvertToXml(),
+                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                };
+
+                commandResult = _periodService.AddEmployeeToPeriod(criteria);
+            }
+            else
+            {
+                commandResult.Code = 1;
+                commandResult.Message = Lang.ParameterInvalid;
+            }
+
+            return commandResult;
         }
 
         public int GetUserPermissionOnMonthlyPeriod()

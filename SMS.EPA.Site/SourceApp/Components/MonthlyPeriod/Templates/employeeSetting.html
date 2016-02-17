@@ -58,7 +58,7 @@
                 <th colspan="14">
                     <div class="pull-left div-period-department-setting" name="multiSelectOption" ng-show="updateCtrl.permission == 2">
                         <label class="control-label" data-translate="DepartmentSection"></label>
-                        <add-class-to-role-filter multi-select input-model="employeeSettingPeriodCtrl.departments" button-label="Name" helper-elements="all reset"
+                        <add-class-to-role-filter multi-select input-model="employeeSettingPeriodCtrl.departmentOptions" button-label="Name" helper-elements="all reset"
                                                   item-label="Name" tick-property="ticked" max-labels="0" class="multi-select period-department-select">
                         </add-class-to-role-filter>
                     </div>
@@ -70,9 +70,6 @@
                     </div>
                     <button class="button pull-left period-add" ng-click="employeeSettingPeriodCtrl.addEmployee(employeeSettingPeriodCtrl.filterAssign)"
                             ng-show="updateCtrl.permission == 2" data-translate="Add"></button>
-                    <input class="btnExcel pull-right" export-employee-setting-report
-                           ng-click="employeeSettingPeriodCtrl.exportReport(employeeSettingPeriodCtrl.filter)"
-                           type="button" title="Export to Excel">
                     <input type="text" ng-model="employeeSettingPeriodCtrl.searchKey" ng-change="employeeSettingPeriodCtrl.search()" class="search-inline-textbox search pull-right">
                 </th>
             </tr>

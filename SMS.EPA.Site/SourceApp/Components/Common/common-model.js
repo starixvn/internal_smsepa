@@ -144,7 +144,11 @@ function ($modal, commonFactory, errorFactory) {
 
     var generateTreeDepartment = function (departments, options, level) {
         angular.forEach(departments, function (item) {
-            options.push({ Name: createLabel(item, level), DepartmentId: item.DepartmentId });
+            options.push({
+                Name: createLabel(item, level),
+                DepartmentId: item.DepartmentId,
+                IsGroup: item.IsGroup
+            });
             generateTreeDepartment(item.Childrens, options, level + 1);
         });
 

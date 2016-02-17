@@ -9,6 +9,7 @@ function ($modal, monthlyPeriodFactory, errorFactory, notificationFactory, utili
     monthlyPeriodModel.periods = [];
     monthlyPeriodModel.period = {};
     monthlyPeriodModel.processSettings = [];
+    monthlyPeriodModel.employeeSettings = [];
     monthlyPeriodModel.permission = 0;
 
     monthlyPeriodModel.getPermissionOnMonthlyPeriod = function () {
@@ -180,6 +181,30 @@ function ($modal, monthlyPeriodFactory, errorFactory, notificationFactory, utili
             });
         })['finally'](function () {
             modalInstance = '';
+        });
+    };
+
+    monthlyPeriodModel.getEmployeeSettingMonthlyPeriodById = function (periodId, departmentId, isLocal, isExcludedEmployee, isGeneratedEPA, isEvaluated, monthlyPeriod) {
+        return monthlyPeriodFactory.getEmployeeSettingMonthlyPeriodById(periodId, monthlyPeriod, departmentId, isLocal, isExcludedEmployee, isGeneratedEPA, isEvaluated)
+        .success(function (employeeSettings) {
+            monthlyPeriodModel.employeeSettings = employeeSettings;
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    monthlyPeriodModel.addEmployeeToMonthlyPeriod = function (employeeInfo) {
+        return monthlyPeriodFactory.addEmployeeToMonthlyPeriod(employeeInfo).success(function (response) {
+            if (response.IsSuccessful) {
+                notificationFactory.success("CreatedSuccessfully");
+            }
+            else {
+                notificationFactory.error("", response.Message);
+            }
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
         });
     };
 
