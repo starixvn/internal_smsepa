@@ -3,15 +3,8 @@
     using System.Diagnostics.CodeAnalysis;
     using System.Web.Optimization;
 
-    /// <summary>
-    /// The bundle config.
-    /// </summary>
     public static class BundleConfig
     {
-        /// <summary>
-        /// Register Bundles.
-        /// </summary>
-        /// <param name="bundles">The bundles.</param>
         [SuppressMessage("StyleCop.CSharp.Nexcel.NexcelCustomRules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
         public static void RegisterBundles(BundleCollection bundles)
         {
@@ -147,7 +140,9 @@
                             "~/SourceApp/Components/Error/error-controller.js",
                             "~/SourceApp/Components/MonthlyPeriod/monthlyPeriod-factory.js",
                             "~/SourceApp/Components/MonthlyPeriod/monthlyPeriod-model.js",
-                            "~/SourceApp/Components/MonthlyPeriod/monthlyPeriod-controller.js"));
+                            "~/SourceApp/Components/MonthlyPeriod/monthlyPeriod-directive.js",
+                            "~/SourceApp/Components/MonthlyPeriod/monthlyPeriod-controller.js",
+                            "~/SourceApp/Components/MonthlyPeriod/monthlyPeriod-updateEmployeeSetting-controller.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/epa-directives.js",

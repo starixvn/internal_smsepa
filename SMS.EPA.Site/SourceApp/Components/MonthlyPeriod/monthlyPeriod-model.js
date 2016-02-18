@@ -208,5 +208,285 @@ function ($modal, monthlyPeriodFactory, errorFactory, notificationFactory, utili
         });
     };
 
+    monthlyPeriodModel.openPopupUpdateEmployeeSetting = function (vm, selectedEmployees) {
+        var modalInstance = $modal.open({
+            templateUrl: 'SourceApp/Components/MonthlyPeriod/Templates/editEmployeeSetting.html',
+            controller: "UpdateEmployeeSettingMonthlyPeriodController as updatePeriodSettingCtrl",
+            backdrop: 'static',
+            size: 'lg',
+            resolve: {
+                period: function () {
+                    return vm.period;
+                },
+                selectedEmployees: function () {
+                    return angular.copy(selectedEmployees);
+                },
+                permission: function () {
+                    return vm.permission;
+                }
+            },
+            windowClass: "modal-confirm-center"
+        });
+
+        modalInstance.result.then(function () {
+            vm.query(vm.filter);
+            vm.selectedAll = false;
+        })['finally'](function () {
+            modalInstance = null;
+        });
+    };
+
+    monthlyPeriodModel.validateEmployeeSettingGenerateEPA = function (employeeSettings) {
+        for (var i = 0; i < employeeSettings.length; i++) {
+            var employeeSetting = employeeSettings[i];
+
+            if (!employeeSetting.TargetTemplate) {
+                notificationFactory.error("NoneTargetTemplateSettingWarning");
+                return false;
+            }
+            else if (employeeSetting.HumanResources && employeeSetting.HumanResources.length > 0
+                && (!employeeSetting.HumanResources[0].StartDate || !employeeSetting.HumanResources[0].EndDate)) {
+                notificationFactory.error("NoneDateSettingWarning");
+                return false;
+            }
+            else if (employeeSetting.SelfEvaluators && employeeSetting.SelfEvaluators.length > 0
+                && (!employeeSetting.SelfEvaluators[0].StartDate || !employeeSetting.SelfEvaluators[0].EndDate)) {
+                notificationFactory.error("NoneDateSettingWarning");
+                return false;
+            }
+            else if (employeeSetting.Evaluators && employeeSetting.Evaluators.length > 0
+                && (!employeeSetting.Evaluators[0].StartDate || !employeeSetting.Evaluators[0].EndDate)) {
+                notificationFactory.error("NoneDateSettingWarning");
+                return false;
+            }
+            else if (employeeSetting.Reviewers && employeeSetting.Reviewers.length > 0
+                && (!employeeSetting.Reviewers[0].StartDate || !employeeSetting.Reviewers[0].EndDate)) {
+                notificationFactory.error("NoneDateSettingWarning");
+                return false;
+            }
+        }
+
+        return true;
+    };
+
+    monthlyPeriodModel.openPopupGenerateEvaluation = function (vm, period) {
+        var modalInstance = $modal.open({
+            templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
+            controller: "ModalConfirmController as modalConfirmCtrl",
+            backdrop: 'static',
+            resolve: {
+                name: function () {
+                    return "EPA";
+                },
+                action: function () {
+                    return 'generate';
+                }
+            },
+            windowClass: "modal-confirm-center"
+        });
+
+        return modalInstance.result.then(function () {
+            return monthlyPeriodFactory.generateEvaluation(period)
+            .success(function (response) {
+                if (response.IsSuccessful) {
+                    notificationFactory.success("CreatedSuccessfully");
+                }
+                else {
+                    notificationFactory.error('', response.Message);
+                }
+            })
+            .error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        })['finally'](function () {
+            modalInstance = '';
+        });
+    };
+
+    monthlyPeriodModel.getSelectedEmployee = function (employeeSettings) {
+        var selectedEmployees = [];
+
+        angular.forEach(employeeSettings, function (employeeSetting) {
+            if (employeeSetting.Selected) {
+                selectedEmployees.push(employeeSetting);
+            }
+        });
+
+        return selectedEmployees;
+    };
+
+    monthlyPeriodModel.getSelectedEmployeeInfo = function (employeeSettings) {
+        var selectedEmployeeIds = '',
+            selectedEmployeeNames = '';
+
+        angular.forEach(employeeSettings, function (employeeSetting) {
+            selectedEmployeeIds += selectedEmployeeIds ? ', ' + employeeSetting.Employee.EmployeeId : employeeSetting.Employee.EmployeeId;
+            selectedEmployeeNames += selectedEmployeeNames ? ', ' + employeeSetting.Employee.NickName : employeeSetting.Employee.NickName;
+        });
+
+        return {
+            selectedEmployeeIds: selectedEmployeeIds,
+            selectedEmployeeNames: selectedEmployeeNames
+        };
+    };
+
+    monthlyPeriodModel.validateEmployeeSetting = function (employeeOptions) {
+        var hasReviewer = false;
+
+        if (employeeOptions.humanResource.ids && employeeOptions.humanResource.ids.length > 0) {
+            if (new Date(employeeOptions.humanResource.StartDate).setHours(0, 0, 0, 0) > new Date(employeeOptions.humanResource.EndDate).setHours(0, 0, 0, 0)) {
+                notificationFactory.error("StartDateGreaterThanEndDateWarning");
+                return false;
+            }
+        }
+        else {
+            notificationFactory.error("HumanResourcePhaseRequired");
+            return false;
+        }
+
+        if (employeeOptions.selfEvaluator.ids && employeeOptions.selfEvaluator.ids.length > 0) {
+            if (new Date(employeeOptions.selfEvaluator.StartDate).setHours(0, 0, 0, 0) > new Date(employeeOptions.selfEvaluator.EndDate).setHours(0, 0, 0, 0)) {
+                notificationFactory.error("StartDateGreaterThanEndDateWarning");
+                return false;
+            }
+
+            if (new Date(employeeOptions.humanResource.EndDate).setHours(0, 0, 0, 0) > new Date(employeeOptions.selfEvaluator.StartDate).setHours(0, 0, 0, 0)) {
+                notificationFactory.error("HRRangeDateGreaterThanSelfRangeDateWarning");
+                return false;
+            }
+        }
+
+        if (employeeOptions.evaluator.ids && employeeOptions.evaluator.ids.length > 0) {
+            if (new Date(employeeOptions.evaluator.StartDate).setHours(0, 0, 0, 0) > new Date(employeeOptions.evaluator.EndDate).setHours(0, 0, 0, 0)) {
+                notificationFactory.error("StartDateGreaterThanEndDateWarning");
+                return false;
+            }
+
+            if (new Date(employeeOptions.selfEvaluator.EndDate).setHours(0, 0, 0, 0) > new Date(employeeOptions.evaluator.StartDate).setHours(0, 0, 0, 0)) {
+                notificationFactory.error("SelfRangeDateGreaterThanEvaluatorRangeDateWarning");
+                return false;
+            }
+        }
+        else {
+            notificationFactory.error("EvaluatorPhaseRequired");
+            return false;
+        }
+
+        if (employeeOptions.reviewer.ids && employeeOptions.reviewer.ids.length > 0) {
+            hasReviewer = true;
+
+            if (new Date(employeeOptions.reviewer.StartDate).setHours(0, 0, 0, 0) > new Date(employeeOptions.reviewer.EndDate).setHours(0, 0, 0, 0)) {
+                notificationFactory.error("StartDateGreaterThanEndDateWarning");
+                return false;
+            }
+
+            if (new Date(employeeOptions.evaluator.EndDate).setHours(0, 0, 0, 0) > new Date(employeeOptions.reviewer.StartDate).setHours(0, 0, 0, 0)) {
+                notificationFactory.error("EvaluatorRangeDateGreaterThanReviewerRangeDateWarning");
+                return false;
+            }
+        }
+
+        return true;
+    };
+
+    monthlyPeriodModel.validateEmployeeSettingMultipleMode = function (updatedEmployees) {
+        for (var i = 0; i < updatedEmployees.length; i++) {
+            var employee = updatedEmployees[i],
+                hasReviewer = false;
+
+            if (employee.HumanResources && employee.HumanResources.length > 0) {
+                if (new Date(employee.HumanResources[0].StartDate).setHours(0, 0, 0, 0) > new Date(employee.HumanResources[0].EndDate).setHours(0, 0, 0, 0)) {
+                    notificationFactory.error("StartDateGreaterThanEndDateWarning");
+                    return false;
+                }
+            }
+            else {
+                notificationFactory.error("HumanResourcePhaseRequired");
+                return false;
+            }
+
+            if (employee.SelfEvaluators && employee.SelfEvaluators.length > 0) {
+                if (new Date(employee.SelfEvaluators[0].StartDate).setHours(0, 0, 0, 0) > new Date(employee.SelfEvaluators[0].EndDate).setHours(0, 0, 0, 0)) {
+                    notificationFactory.error("StartDateGreaterThanEndDateWarning");
+                    return false;
+                }
+
+                if (new Date(employee.HumanResources[0].EndDate).setHours(0, 0, 0, 0) > new Date(employee.SelfEvaluators[0].StartDate).setHours(0, 0, 0, 0)) {
+                    notificationFactory.error("HRRangeDateGreaterThanSelfRangeDateWarning");
+                    return false;
+                }
+            }
+
+            if (employee.Evaluators && employee.Evaluators.length > 0) {
+                if (new Date(employee.Evaluators[0].StartDate).setHours(0, 0, 0, 0) > new Date(employee.Evaluators[0].EndDate).setHours(0, 0, 0, 0)) {
+                    notificationFactory.error("StartDateGreaterThanEndDateWarning");
+                    return false;
+                }
+
+                if (new Date(employee.SelfEvaluators[0].EndDate).setHours(0, 0, 0, 0) > new Date(employee.Evaluators[0].StartDate).setHours(0, 0, 0, 0)) {
+                    notificationFactory.error("SelfRangeDateGreaterThanEvaluatorRangeDateWarning");
+                    return false;
+                }
+            }
+            else {
+                notificationFactory.error("EvaluatorPhaseRequired");
+                return false;
+            }
+
+            if (employee.Reviewers && employee.Reviewers.length > 0) {
+                hasReviewer = true;
+
+                if (new Date(employee.Reviewers[0].StartDate).setHours(0, 0, 0, 0) > new Date(employee.Reviewers[0].EndDate).setHours(0, 0, 0, 0)) {
+                    notificationFactory.error("StartDateGreaterThanEndDateWarning");
+                    return false;
+                }
+
+                if (new Date(employee.Evaluators[0].EndDate).setHours(0, 0, 0, 0) > new Date(employee.Reviewers[0].StartDate).setHours(0, 0, 0, 0)) {
+                    notificationFactory.error("EvaluatorRangeDateGreaterThanReviewerRangeDateWarning");
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    };
+
+    monthlyPeriodModel.checkHasFieldEdit = function (fieldEdit) {
+        var hasEdited = false;
+
+        if (fieldEdit.targetTemplate) {
+            hasEdited = true;
+        }
+        else if (fieldEdit.evaluator) {
+            hasEdited = true;
+        }
+        else if (fieldEdit.startDate) {
+            hasEdited = true;
+        }
+        else if (fieldEdit.endDate) {
+            hasEdited = true;
+        }
+        else {
+            notificationFactory.error("PeriodEditSettingWarning");
+        }
+
+        return hasEdited;
+    };
+
+    monthlyPeriodModel.updateEmployeeSettingOfPeriod = function (employeeSetting) {
+        return monthlyPeriodFactory.updateEmployeeSettingOfPeriod(employeeSetting)
+        .success(function (response) {
+            if (response.IsSuccessful) {
+                notificationFactory.success("UpdatedSuccessfully");
+            }
+            else {
+                notificationFactory.error("", response.Message);
+            }
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
     return monthlyPeriodModel;
 }]);

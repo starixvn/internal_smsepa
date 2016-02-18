@@ -133,7 +133,7 @@ function ($modalInstance, MonthlyPeriodModel) {
     };
 }]);
 
-periodModule.controller('UpdateMonthlyPeriodController',
+monthlyPeriodModule.controller('UpdateMonthlyPeriodController',
 ['$window', '$routeParams', 'MonthlyPeriodModel', 'PeriodModel',
 function ($window, $routeParams, MonthlyPeriodModel, PeriodModel) {
     var vm = this;
@@ -182,7 +182,7 @@ function ($window, $routeParams, MonthlyPeriodModel, PeriodModel) {
     });
 }]);
 
-periodModule.controller('UpdateBasicInfoMonthlyPeriodController',
+monthlyPeriodModule.controller('UpdateBasicInfoMonthlyPeriodController',
 ['$scope', '$window', 'MonthlyPeriodModel',
 function ($scope, $window, MonthlyPeriodModel) {
     var vm = this;
@@ -220,7 +220,7 @@ function ($scope, $window, MonthlyPeriodModel) {
     };
 }]);
 
-periodModule.controller('UpdateProcessSettingMonthlyPeriodController',
+monthlyPeriodModule.controller('UpdateProcessSettingMonthlyPeriodController',
 ['$scope', '$window', 'MonthlyPeriodModel', 'CommonModel',
 function ($scope, $window, MonthlyPeriodModel, CommonModel) {
     var vm = this;
@@ -259,7 +259,7 @@ function ($scope, $window, MonthlyPeriodModel, CommonModel) {
     };
 }]);
 
-periodModule.controller('EmployeeSettingMonthlyPeriodController',
+monthlyPeriodModule.controller('EmployeeSettingMonthlyPeriodController',
 ['$scope', '$routeParams', '$window', 'MonthlyPeriodModel', 'utilitiesFactory', 'CommonModel', 'notificationFactory',
 function ($scope, $routeParams, $window, MonthlyPeriodModel, utilitiesFactory, CommonModel, notificationFactory) {
     var vm = this;
@@ -384,7 +384,7 @@ function ($scope, $routeParams, $window, MonthlyPeriodModel, utilitiesFactory, C
         });
     };
 
-    vm.addEmployee = function (filterAssign) {
+    vm.addEmployeeToMonthlyPeriod = function (filterAssign) {
         var employeeId = null;
 
         if (filterAssign.employee) {
@@ -405,6 +405,90 @@ function ($scope, $routeParams, $window, MonthlyPeriodModel, utilitiesFactory, C
         }
         else {
             notificationFactory.error("SelectDepartmentSectionEmployeeBeforeAddToPeriodWarning");
+        }
+    };
+
+    vm.updateEmployeeSetting = function (employeeSetting) {
+        MonthlyPeriodModel.openPopupUpdateEmployeeSetting(vm, new Array(employeeSetting));
+    };
+
+    vm.manageSetting = function () {
+        var selectedEmployees = MonthlyPeriodModel.getSelectedEmployee(vm.employeeSettings);
+
+        if (!selectedEmployees || selectedEmployees.length === 0) {
+            notificationFactory.error("SelectEmployeeBeforeEditSettingWarning");
+        }
+        else {
+            MonthlyPeriodModel.openPopupUpdateEmployeeSetting(vm, selectedEmployees);
+        }
+    };
+
+    vm.generateEvaluation = function () {
+        var selectedEmployees = MonthlyPeriodModel.getSelectedEmployee(vm.employeeSettings),
+            selectedEmployeeInfo = MonthlyPeriodModel.getSelectedEmployeeInfo(selectedEmployees),
+            period = {
+                periodId: vm.period.PeriodId,
+                employeeIds: selectedEmployeeInfo.selectedEmployeeIds
+            };
+
+        if (!selectedEmployees || selectedEmployees.length === 0) {
+            notificationFactory.error("SelectEmployeeBeforeGenerateEvaluation");
+        }
+        else {
+            if (MonthlyPeriodModel.validateEmployeeSettingGenerateEPA(selectedEmployees)) {
+                MonthlyPeriodModel.openPopupGenerateEvaluation(vm, period).then(function () {
+                    vm.query(vm.filter);
+                });
+            }
+        }
+    };
+
+    /*
+    ** Check all and sync selected employee setting between full list and filter list.
+    */
+    vm.checkAll = function (selectedAll) {
+        angular.forEach(vm.filteredItems, function (employeeSetting) {
+            employeeSetting.Selected = selectedAll;
+        });
+
+        angular.forEach(vm.employeeSettings, function (employeeSetting) {
+            employeeSetting.Selected = selectedAll;
+        });
+    };
+
+    vm.syncSelectedEmployee = function (employeeId, selected) {
+        var allUnchecked = true,
+            allChecked = true;
+
+        angular.forEach(vm.employeeSettings, function (employeeSetting) {
+            if (employeeSetting.Employee.EmployeeId === employeeId) {
+                angular.forEach(vm.filteredItems, function (filterItem) {
+                    if (employeeSetting.Employee.EmployeeId === filterItem.Employee.EmployeeId) {
+                        filterItem.Selected = selected;
+                        employeeSetting.Selected = selected;
+                    }
+                });
+            }
+        });
+
+        angular.forEach(vm.filteredItems, function (filterItem) {
+            if (filterItem.Selected) {
+                allUnchecked = false;
+            }
+            else {
+                allChecked = false;
+            }
+        });
+
+        if (allUnchecked) {
+            vm.selectedAll = false;
+        }
+
+        if (allChecked) {
+            vm.selectedAll = true;
+        }
+        else {
+            vm.selectedAll = false;
         }
     };
 

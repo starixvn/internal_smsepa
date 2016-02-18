@@ -48,6 +48,12 @@ monthlyPeriodModule.factory('monthlyPeriodFactory', ['$http', 'baseUrl', functio
         addEmployeeToMonthlyPeriod: function (employeeInfo) {
             return $http.post(baseUrl + 'api/MonthlyPeriod/AddEmployeeToMonthlyPeriod', employeeInfo);
         },
+        updateEmployeeSettingOfPeriod: function (employeeSetting) {
+            return $http.put(baseUrl + 'api/MonthlyPeriod/UpdateEmployeeSettingOfPeriod', employeeSetting);
+        },
+        generateEvaluation: function (period) {
+            return $http.post(baseUrl + 'api/MonthlyPeriod/GenerateEvaluation', period);
+        },
         getPermissionOnMonthlyPeriod: function () {
             return $http.get(baseUrl + 'api/MonthlyPeriod/GetUserPermissionOnMonthlyPeriod');
         }

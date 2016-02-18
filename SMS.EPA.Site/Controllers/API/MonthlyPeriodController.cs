@@ -16,6 +16,7 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.Period;
+    using SMS.EPA.Criteria.Period.GenerationEvaluation;
     using SMS.EPA.Model.FlowManagement;
     using SMS.EPA.Model.Period;
     using SMS.EPA.Resources;
@@ -213,6 +214,48 @@ namespace SMS.EPA.Site.Controllers.API
             {
                 commandResult.Code = 1;
                 commandResult.Message = Lang.ParameterInvalid;
+            }
+
+            return commandResult;
+        }
+
+        [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Host)]
+        public CommandResult UpdateEmployeeSettingOfPeriod(UpdatedEmployeeSettingPeriodModel model)
+        {
+            var commandResult = new CommandResult();
+
+            if (ModelState.IsValid)
+            {
+                var criteria = new UpdateEmployeeSettingOfPeriodCriteria
+                {
+                    PeriodId = model.PeriodId,
+                    EmployeeIds = model.EmployeeIds,
+                    TargetTemplateId = model.TargetTemplateId,
+                    EmployeeAssignments = model.ConvertToXml(),
+                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                };
+
+                commandResult = _periodService.UpdateEmployeeSettingOfPeriod(criteria);
+            }
+            else
+            {
+                commandResult.Code = 1;
+                commandResult.Message = Lang.ParameterInvalid;
+            }
+
+            return commandResult;
+        }
+
+        [HttpPost]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Host)]
+        public CommandResult GenerateEvaluation(AutoGenerateEvaluationCriteria criteria)
+        {
+            CommandResult commandResult = _periodService.GenerateEvaluation(criteria);
+
+            if (commandResult.IsSuccessful)
+            {
+                _periodService.SendEmailNoticeAtBegin(criteria.PeriodId);
             }
 
             return commandResult;

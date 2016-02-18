@@ -420,11 +420,14 @@
     <Content Include="SourceApp\Components\KPI\Templates\create.html" />
     <Content Include="SourceApp\Components\KPI\Templates\modalConfirmRequired.html" />
     <Content Include="SourceApp\Components\MonthlyPeriod\monthlyPeriod-controller.js" />
+    <Content Include="SourceApp\Components\MonthlyPeriod\monthlyPeriod-directive.js" />
     <Content Include="SourceApp\Components\MonthlyPeriod\monthlyPeriod-factory.js" />
     <Content Include="SourceApp\Components\MonthlyPeriod\monthlyPeriod-model.js" />
+    <Content Include="SourceApp\Components\MonthlyPeriod\monthlyPeriod-updateEmployeeSetting-controller.js" />
     <Content Include="SourceApp\Components\MonthlyPeriod\Templates\basicInformation.html" />
     <Content Include="SourceApp\Components\MonthlyPeriod\Templates\create.html" />
     <Content Include="SourceApp\Components\MonthlyPeriod\Templates\edit.html" />
+    <Content Include="SourceApp\Components\MonthlyPeriod\Templates\editEmployeeSetting.html" />
     <Content Include="SourceApp\Components\MonthlyPeriod\Templates\employeeSetting.html" />
     <Content Include="SourceApp\Components\MonthlyPeriod\Templates\index.html" />
     <Content Include="SourceApp\Components\MonthlyPeriod\Templates\processSetting.html" />

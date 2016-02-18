@@ -1,0 +1,158 @@
+﻿<div id="editEmployeeSettingPopup">
+    <div class="modal-header">
+        <div class="popup-header">
+            <span data-translate="EditEmployeeSetting"></span>
+            <span class="close-popup" ng-click="updatePeriodSettingCtrl.cancel()"></span>
+        </div>
+    </div>
+    <div class="modal-body">
+        <form novalidate class="row form-horizontal form-multiLine filter" evaluator-chosen>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" data-translate="Employee"></label>
+                <div class="col-sm-8 employee-name-period">
+                    <span ng-bind="updatePeriodSettingCtrl.selectedEmployeeNames"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" data-translate="TargetTemplate"></label>
+                <div class="col-sm-3">
+                    <select ng-model="updatePeriodSettingCtrl.employeeOptions.targetTemplateId"
+                            ng-options="opt.TargetTemplateId as opt.Name for opt in updatePeriodSettingCtrl.targetTemplates"
+                            ng-disabled="true" class="form-control"></select>
+                </div>
+            </div>
+        </form>
+
+        <table class="row table table-bordered table-striped table-period-setting">
+            <thead>
+                <tr class="headerName">
+                    <th ng-show="!updatePeriodSettingCtrl.singleMode"></th>
+                    <th class="text-center" data-translate="SymbolCount"></th>
+                    <th class="text-center" data-translate="HumanResource"></th>
+                    <th class="text-center" data-translate="SelfEvaluator"></th>
+                    <th class="text-center" data-translate="Evaluator"></th>
+                    <th class="text-center" data-translate="Reviewer"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td ng-show="!updatePeriodSettingCtrl.singleMode">
+                        <input type="checkbox" ng-model="updatePeriodSettingCtrl.fieldEdit.evaluator" />
+                    </td>
+                    <td data-translate="Evaluator"></td>
+                    <td>
+                        <select class="form-control" multiple chosen
+                                options="updatePeriodSettingCtrl.employeeOptions.humanResourceEmployees"
+                                ng-model="updatePeriodSettingCtrl.employeeOptions.humanResource.ids"
+                                data-placeholder="-- Select --" name="humanResourceSelect"
+                                ng-options="opt.EmployeeId as opt.NickName for opt in updatePeriodSettingCtrl.employeeOptions.humanResourceEmployees"
+                                on-show-dropdown="updatePeriodSettingCtrl.updateTrigger()"></select>
+                    </td>
+                    <td></td>
+                    <td>
+                        <select class="form-control" multiple chosen
+                                options="updatePeriodSettingCtrl.employeeOptions.evaluatorEmployees"
+                                ng-model="updatePeriodSettingCtrl.employeeOptions.evaluator.ids"
+                                data-placeholder="-- Select --" name="evaluatorSelect"
+                                ng-options="opt.EmployeeId as opt.NickName for opt in updatePeriodSettingCtrl.employeeOptions.evaluatorEmployees"
+                                on-show-dropdown="updatePeriodSettingCtrl.updateTrigger()"></select>
+                    </td>
+                    <td>
+                        <select class="form-control" multiple chosen
+                                options="updatePeriodSettingCtrl.employeeOptions.reviewerEmployees"
+                                ng-model="updatePeriodSettingCtrl.employeeOptions.reviewer.ids"
+                                data-placeholder="-- Select --" name="reviewerSelect"
+                                ng-options="opt.EmployeeId as opt.NickName for opt in updatePeriodSettingCtrl.employeeOptions.reviewerEmployees"
+                                on-show-dropdown="updatePeriodSettingCtrl.updateTrigger()"></select>
+                    </td>
+                </tr>
+                <tr>
+                    <td ng-show="!updatePeriodSettingCtrl.singleMode">
+                        <input type="checkbox" ng-model="updatePeriodSettingCtrl.fieldEdit.startDate" />
+                    </td>
+                    <td data-translate="StartDate"></td>
+                    <td class="text-center">
+                        <input readonly class="calendar-form-control" type="text"
+                               ng-model="updatePeriodSettingCtrl.employeeOptions.humanResource.StartDate"
+                               datepicker-popup ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.HumanResources)"
+                               is-open="updatePeriodSettingCtrl.flowCalendar.humanResource.startDateOpened" />
+                        <calendar-image class="calendar-image period-calendar"
+                                        ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.HumanResources)"></calendar-image>
+                    </td>
+                    <td class="text-center">
+                        <input readonly class="calendar-form-control" type="text"
+                               ng-model="updatePeriodSettingCtrl.employeeOptions.selfEvaluator.StartDate"
+                               ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.SelfEvaluator)"
+                               datepicker-popup
+                               is-open="updatePeriodSettingCtrl.flowCalendar.selfEvaluator.startDateOpened" />
+                        <calendar-image class="calendar-image period-calendar"
+                                        ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.SelfEvaluator)"></calendar-image>
+                    </td>
+                    <td class="text-center">
+                        <input readonly class="calendar-form-control" type="text"
+                               ng-model="updatePeriodSettingCtrl.employeeOptions.evaluator.StartDate"
+                               ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.Evaluator)"
+                               datepicker-popup
+                               is-open="updatePeriodSettingCtrl.flowCalendar.evaluator.startDateOpened" />
+                        <calendar-image class="calendar-image period-calendar"
+                                        ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.Evaluator)"></calendar-image>
+                    </td>
+                    <td class="text-center">
+                        <input readonly class="calendar-form-control" type="text"
+                               ng-model="updatePeriodSettingCtrl.employeeOptions.reviewer.StartDate"
+                               ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.Reviewer)"
+                               datepicker-popup
+                               is-open="updatePeriodSettingCtrl.flowCalendar.reviewer.startDateOpened" />
+                        <calendar-image class="calendar-image period-calendar"
+                                        ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.Reviewer)"></calendar-image>
+                    </td>
+                </tr>
+                <tr>
+                    <td ng-show="!updatePeriodSettingCtrl.singleMode">
+                        <input type="checkbox" ng-model="updatePeriodSettingCtrl.fieldEdit.endDate" />
+                    </td>
+                    <td data-translate="EndDate"></td>
+                    <td class="text-center">
+                        <input readonly class="calendar-form-control" type="text"
+                               ng-model="updatePeriodSettingCtrl.employeeOptions.humanResource.EndDate"
+                               datepicker-popup ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.HumanResources)"
+                               is-open="updatePeriodSettingCtrl.flowCalendar.humanResource.endDateOpened" />
+                        <calendar-image class="calendar-image period-calendar"
+                                        ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.HumanResources)"></calendar-image>
+                    </td>
+                    <td class="text-center">
+                        <input readonly class="calendar-form-control" type="text"
+                               ng-model="updatePeriodSettingCtrl.employeeOptions.selfEvaluator.EndDate"
+                               ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.SelfEvaluator)"
+                               datepicker-popup
+                               is-open="updatePeriodSettingCtrl.flowCalendar.selfEvaluator.endDateOpened" />
+                        <calendar-image class="calendar-image period-calendar"
+                                        ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.SelfEvaluator)"></calendar-image>
+                    </td>
+                    <td class="text-center">
+                        <input readonly class="calendar-form-control" type="text"
+                               ng-model="updatePeriodSettingCtrl.employeeOptions.evaluator.EndDate"
+                               ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.Evaluator)"
+                               datepicker-popup
+                               is-open="updatePeriodSettingCtrl.flowCalendar.evaluator.endDateOpened" />
+                        <calendar-image class="calendar-image period-calendar"
+                                        ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.Evaluator)"></calendar-image>
+                    </td>
+                    <td class="text-center">
+                        <input readonly class="calendar-form-control" type="text"
+                               ng-model="updatePeriodSettingCtrl.employeeOptions.reviewer.EndDate"
+                               ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.Reviewer)"
+                               datepicker-popup
+                               is-open="updatePeriodSettingCtrl.flowCalendar.reviewer.endDateOpened" />
+                        <calendar-image class="calendar-image period-calendar"
+                                        ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.Reviewer)"></calendar-image>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button class="button" ng-click="updatePeriodSettingCtrl.save()" data-translate="OK" ng-show="updatePeriodSettingCtrl.permission == 2"></button>
+        <button class="btn btn-default customize" ng-click="updatePeriodSettingCtrl.cancel()" data-translate="Cancel"></button>
+    </div>
+</div>

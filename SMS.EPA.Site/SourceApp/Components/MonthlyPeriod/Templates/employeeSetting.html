@@ -68,7 +68,7 @@
                                placeholder="Enter full name or nick name" search-auto-complete search-employees="employeeSettingPeriodCtrl.getEmployee()"
                                ng-change="employeeSettingPeriodCtrl.unSelectEmployee()" employee="employeeSettingPeriodCtrl.filterAssign.employee" />
                     </div>
-                    <button class="button pull-left period-add" ng-click="employeeSettingPeriodCtrl.addEmployee(employeeSettingPeriodCtrl.filterAssign)"
+                    <button class="button pull-left period-add" ng-click="employeeSettingPeriodCtrl.addEmployeeToMonthlyPeriod(employeeSettingPeriodCtrl.filterAssign)"
                             ng-show="updateCtrl.permission == 2" data-translate="Add"></button>
                     <input type="text" ng-model="employeeSettingPeriodCtrl.searchKey" ng-change="employeeSettingPeriodCtrl.search()" class="search-inline-textbox search pull-right">
                 </th>

@@ -1,0 +1,644 @@
+﻿'use strict';
+/*global monthlyPeriodModule*/
+
+monthlyPeriodModule.controller('UpdateEmployeeSettingMonthlyPeriodController',
+['$scope', '$modalInstance', 'MonthlyPeriodModel', 'TargetTemplateModel', 'FlowMngModel', 'CommonModel', 'period', 'selectedEmployees', 'permission',
+function ($scope, $modalInstance, MonthlyPeriodModel, TargetTemplateModel, FlowMngModel, CommonModel, period, selectedEmployees, permission) {
+    var vm = this,
+        date = new Date();
+
+    vm.period = period;
+    vm.selectedEmployees = selectedEmployees;
+    vm.singleMode = vm.selectedEmployees.length === 1 ? true : false;
+    vm.permission = permission;
+
+    vm.fieldEdit = {
+        evaluator: false,
+        startDate: false,
+        endDate: false
+    };
+
+    vm.evaluatorType = {
+        HumanResources: 1,
+        SelfEvaluator: 2,
+        Evaluator: 3,
+        Reviewer: 4
+    };
+
+    vm.flowCalendar = {
+        humanResource: {
+            startDateOpened: false,
+            endDateOpened: false
+        },
+        selfEvaluator: {
+            startDateOpened: false,
+            endDateOpened: false
+        },
+        evaluator: {
+            startDateOpened: false,
+            endDateOpened: false
+        },
+        reviewer: {
+            startDateOpened: false,
+            endDateOpened: false
+        }
+    };
+
+    vm.employeeOptions = {
+        humanResource: {
+            ids: null,
+            StartDate: null,
+            EndDate: null,
+            ProcessStatus: null,
+            HasEvaluationGenerated: null
+        },
+        selfEvaluator: {
+            ids: null,
+            StartDate: null,
+            EndDate: null
+        },
+        evaluator: {
+            ids: null,
+            StartDate: null,
+            EndDate: null
+        },
+        reviewer: {
+            ids: null,
+            StartDate: null,
+            EndDate: null
+        },
+        targetTemplateId: null,
+        humanResourceEmployees: [],
+        evaluatorEmployees: [],
+        reviewerEmployees: []
+    };
+
+    var employeeInfo = MonthlyPeriodModel.getSelectedEmployeeInfo(vm.selectedEmployees);
+    vm.selectedEmployeeIds = employeeInfo.selectedEmployeeIds;
+    vm.selectedEmployeeNames = employeeInfo.selectedEmployeeNames;
+
+    var resetCalendar = function () {
+        vm.flowCalendar.humanResource.startDateOpened = false;
+        vm.flowCalendar.humanResource.endDateOpened = false;
+
+        vm.flowCalendar.selfEvaluator.startDateOpened = false;
+        vm.flowCalendar.selfEvaluator.endDateOpened = false;
+
+        vm.flowCalendar.evaluator.startDateOpened = false;
+        vm.flowCalendar.evaluator.endDateOpened = false;
+
+        vm.flowCalendar.reviewer.startDateOpened = false;
+        vm.flowCalendar.reviewer.endDateOpened = false;
+    };
+
+    vm.openFlowPopupStartDate = function (event, evaluatorType) {
+        event.preventDefault();
+        event.stopPropagation();
+        resetCalendar();
+
+        switch (evaluatorType) {
+            case vm.evaluatorType.HumanResources:
+                vm.flowCalendar.humanResource.startDateOpened = true;
+                break;
+            case vm.evaluatorType.SelfEvaluator:
+                vm.flowCalendar.selfEvaluator.startDateOpened = true;
+                break;
+            case vm.evaluatorType.Evaluator:
+                vm.flowCalendar.evaluator.startDateOpened = true;
+                break;
+            case vm.evaluatorType.Reviewer:
+                vm.flowCalendar.reviewer.startDateOpened = true;
+                break;
+        }
+    };
+
+    vm.openFlowPopupEndDate = function (event, evaluatorType) {
+        event.preventDefault();
+        event.stopPropagation();
+        resetCalendar();
+
+        switch (evaluatorType) {
+            case vm.evaluatorType.HumanResources:
+                vm.flowCalendar.humanResource.endDateOpened = true;
+                break;
+            case vm.evaluatorType.SelfEvaluator:
+                vm.flowCalendar.selfEvaluator.endDateOpened = true;
+                break;
+            case vm.evaluatorType.Evaluator:
+                vm.flowCalendar.evaluator.endDateOpened = true;
+                break;
+            case vm.evaluatorType.Reviewer:
+                vm.flowCalendar.reviewer.endDateOpened = true;
+                break;
+        }
+    };
+
+    vm.updateTrigger = function () {
+        $scope.$broadcast('evaluatorChosen');
+    };
+
+    var createEmployeeIds = function (evaluators) {
+        var ids = [];
+
+        if (evaluators && evaluators.length > 0) {
+            angular.forEach(evaluators, function (evaluator) {
+                if (evaluator.EvaluatorInfo) {
+                    ids.push(evaluator.EvaluatorInfo.EmployeeId);
+                }
+            });
+        }
+
+        return ids;
+    };
+
+    var getEvaluators = function (evaluators) {
+        var evaluator = {
+            StartDate: date,
+            EndDate: date,
+            ids: [],
+            ProcessId: 0
+        };
+
+        if (evaluators && evaluators.length > 0) {
+            evaluator.StartDate = evaluators[0].StartDate ? new Date(evaluators[0].StartDate) : null;
+            evaluator.EndDate = evaluators[0].EndDate ? new Date(evaluators[0].EndDate) : null;
+            evaluator.ids = createEmployeeIds(evaluators);
+            evaluator.ProcessId = evaluators[0].ProcessId;
+        }
+
+        return evaluator;
+    };
+
+    var updateTargetTemplates = function (targetTemplate) {
+        var existed = false;
+
+        angular.forEach(vm.targetTemplates, function (item) {
+            if (item.TargetTemplateId === targetTemplate.TargetTemplateId) {
+                existed = true;
+            }
+        });
+
+        if (!existed) {
+            vm.targetTemplates.push(targetTemplate);
+        }
+    };
+
+    var setEmployeeSetting = function (employeeSetting) {
+        vm.employeeOptions.humanResource = getEvaluators(employeeSetting.HumanResources);
+        vm.employeeOptions.selfEvaluator = getEvaluators(employeeSetting.SelfEvaluators);
+        vm.employeeOptions.evaluator = getEvaluators(employeeSetting.Evaluators);
+        vm.employeeOptions.reviewer = getEvaluators(employeeSetting.Reviewers);
+
+        if (employeeSetting.TargetTemplate) {
+            vm.employeeOptions.targetTemplateId = employeeSetting.TargetTemplate.TargetTemplateId;
+            updateTargetTemplates(employeeSetting.TargetTemplate);
+        }
+    };
+
+    var getProcessSetingById = function (processSettings, processId) {
+        var processSetting = null;
+
+        angular.forEach(processSettings, function (processItem) {
+            if (processItem.ProcessId === processId) {
+                processSetting = processItem;
+            }
+        });
+
+        return processSetting;
+    };
+
+    var setDateSetting = function (startDate, evaluator, processSettings, processId) {
+        var processSetting = getProcessSetingById(processSettings, processId);
+
+        evaluator.StartDate = angular.copy(startDate);
+        evaluator.EndDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + processSetting.Duration - 1);
+    };
+
+    var getProcessAndSetDateSetting = function () {
+        MonthlyPeriodModel.getProcessSettingByPeriodId(vm.period.PeriodId).then(function () {
+            vm.processSettings = MonthlyPeriodModel.processSettings;
+
+            var startDate = vm.period.StartDate ? new Date(vm.period.StartDate) : new Date(),
+                year = null,
+                month = null,
+                day = null;
+
+            setDateSetting(startDate, vm.employeeOptions.humanResource, vm.processSettings, vm.evaluatorType.HumanResources);
+
+            year = vm.employeeOptions.humanResource.EndDate.getFullYear();
+            month = vm.employeeOptions.humanResource.EndDate.getMonth();
+            day = vm.employeeOptions.humanResource.EndDate.getDate();
+            setDateSetting(new Date(year, month, day + 1), vm.employeeOptions.selfEvaluator, vm.processSettings, vm.evaluatorType.SelfEvaluator);
+
+            year = vm.employeeOptions.selfEvaluator.EndDate.getFullYear();
+            month = vm.employeeOptions.selfEvaluator.EndDate.getMonth();
+            day = vm.employeeOptions.selfEvaluator.EndDate.getDate();
+            setDateSetting(new Date(year, month, day + 1), vm.employeeOptions.evaluator, vm.processSettings, vm.evaluatorType.Evaluator);
+
+            year = vm.employeeOptions.evaluator.EndDate.getFullYear();
+            month = vm.employeeOptions.evaluator.EndDate.getMonth();
+            day = vm.employeeOptions.evaluator.EndDate.getDate();
+            setDateSetting(new Date(year, month, day + 1), vm.employeeOptions.reviewer, vm.processSettings, vm.evaluatorType.Reviewer);
+        });
+    };
+
+    /*
+   ** Get employees flow and target setting.
+   */
+    TargetTemplateModel.getTargetTemplate(vm.period.TargetType.TargetTypeId, true).then(function () {
+        vm.targetTemplates = TargetTemplateModel.targetTemplates;
+        vm.employeeOptions.targetTemplateId = vm.targetTemplates.length > 0 ? vm.targetTemplates[0].TargetTemplateId : null;
+
+        CommonModel.getAllEmployee().then(function () {
+            vm.employees = CommonModel.employees;
+            vm.employeeOptions.humanResourceEmployees = angular.copy(vm.employees);
+            vm.employeeOptions.evaluatorEmployees = angular.copy(vm.employees);
+            vm.employeeOptions.reviewerEmployees = angular.copy(vm.employees);
+
+            if (vm.singleMode) {
+                setEmployeeSetting(vm.selectedEmployees[0]);
+            }
+            else {
+                getProcessAndSetDateSetting();
+            }
+        });
+    });
+
+    var checkChangeEmployeeSetting = function (employeeOptions, employeeSetting) {
+        var hasEdited = false,
+            humanResource = getEvaluators(employeeSetting.HumanResources),
+            selfEvaluator = getEvaluators(employeeSetting.SelfEvaluators),
+            evaluator = getEvaluators(employeeSetting.Evaluators),
+            reviewer = getEvaluators(employeeSetting.Reviewers),
+            originalTargetTemplateId = employeeSetting.TargetTemplate ? employeeSetting.TargetTemplate.TargetTemplateId : null;
+
+        if (vm.employeeOptions.targetTemplateId !== originalTargetTemplateId) {
+            hasEdited = true;
+        }
+        else if (JSON.stringify(humanResource) !== JSON.stringify(employeeOptions.humanResource)) {
+            hasEdited = true;
+        }
+        else if (JSON.stringify(selfEvaluator) !== JSON.stringify(employeeOptions.selfEvaluator)) {
+            hasEdited = true;
+        }
+        else if (JSON.stringify(evaluator) !== JSON.stringify(employeeOptions.evaluator)) {
+            hasEdited = true;
+        }
+        else if (JSON.stringify(reviewer) !== JSON.stringify(employeeOptions.reviewer)) {
+            hasEdited = true;
+        }
+
+        return hasEdited;
+    };
+
+    var createAssignmentSettings = function (employeeOptions, periodId, selectedEmployees, employeeIds) {
+        var employeeAssignments = [],
+            targetTemplateId = employeeOptions.targetTemplateId;
+
+        angular.forEach(selectedEmployees, function (employee) {
+            if (employeeOptions.humanResource.ids && employeeOptions.humanResource.ids.length > 0) {
+                angular.forEach(employeeOptions.humanResource.ids, function (humanResourceId, index) {
+                    var humanResourceAssignment = {
+                        employeeId: employee.Employee.EmployeeId,
+                        processId: vm.evaluatorType.HumanResources,
+                        startDate: employeeOptions.humanResource.StartDate.toDateString(),
+                        endDate: employeeOptions.humanResource.EndDate.toDateString(),
+                        priority: index + 1,
+                        evaluatorInfo: {
+                            employeeId: humanResourceId
+                        }
+                    };
+
+                    employeeAssignments.push(humanResourceAssignment);
+                });
+            }
+
+            var selfEvaluatorAssignments = {
+                employeeId: employee.Employee.EmployeeId,
+                processId: vm.evaluatorType.SelfEvaluator,
+                startDate: employeeOptions.selfEvaluator.StartDate.toDateString(),
+                endDate: employeeOptions.selfEvaluator.EndDate.toDateString(),
+                priority: 1,
+                evaluatorInfo: {
+                    employeeId: employeeOptions.selfEvaluator.ids[0]
+                }
+            };
+            employeeAssignments.push(selfEvaluatorAssignments);
+
+            if (employeeOptions.evaluator.ids && employeeOptions.evaluator.ids.length > 0) {
+                angular.forEach(employeeOptions.evaluator.ids, function (evaluatorId, index) {
+                    var evaluatorAssignment = {
+                        employeeId: employee.Employee.EmployeeId,
+                        processId: vm.evaluatorType.Evaluator,
+                        startDate: employeeOptions.evaluator.StartDate.toDateString(),
+                        endDate: employeeOptions.evaluator.EndDate.toDateString(),
+                        priority: index + 1,
+                        evaluatorInfo: {
+                            employeeId: evaluatorId
+                        }
+                    };
+
+                    employeeAssignments.push(evaluatorAssignment);
+                });
+            }
+
+            if (employeeOptions.reviewer.ids && employeeOptions.reviewer.ids.length > 0) {
+                angular.forEach(employeeOptions.reviewer.ids, function (reviewerId, index) {
+                    var reviewerAssignment = {
+                        employeeId: employee.Employee.EmployeeId,
+                        processId: vm.evaluatorType.Reviewer,
+                        startDate: employeeOptions.reviewer.StartDate.toDateString(),
+                        endDate: employeeOptions.reviewer.EndDate.toDateString(),
+                        priority: index + 1,
+                        evaluatorInfo: {
+                            employeeId: reviewerId
+                        }
+                    };
+
+                    employeeAssignments.push(reviewerAssignment);
+                });
+            }
+        });
+
+        var employeeSetting = {
+            periodId: periodId,
+            targetTemplateId: targetTemplateId,
+            employeeAssignments: employeeAssignments,
+            employeeIds: employeeIds
+        };
+
+        return employeeSetting;
+    };
+
+    var createAssignmentSettingsMultipleMode = function (updatedEmployees) {
+        var employeeAssignments = [];
+
+        angular.forEach(updatedEmployees, function (employee) {
+            if (employee.HumanResources && employee.HumanResources.length > 0) {
+                angular.forEach(employee.HumanResources, function (humanResource, index) {
+                    var humanResourceAssignment = {
+                        employeeId: employee.Employee.EmployeeId,
+                        processId: vm.evaluatorType.HumanResources,
+                        startDate: new Date(humanResource.StartDate).toDateString(),
+                        endDate: new Date(humanResource.EndDate).toDateString(),
+                        priority: index + 1,
+                        evaluatorInfo: {
+                            employeeId: humanResource.EvaluatorInfo.EmployeeId
+                        }
+                    };
+
+                    employeeAssignments.push(humanResourceAssignment);
+                });
+            }
+
+            var selfEvaluatorAssignments = {
+                employeeId: employee.Employee.EmployeeId,
+                processId: vm.evaluatorType.SelfEvaluator,
+                startDate: new Date(employee.SelfEvaluators[0].StartDate).toDateString(),
+                endDate: new Date(employee.SelfEvaluators[0].EndDate).toDateString(),
+                priority: 1,
+                evaluatorInfo: {
+                    employeeId: employee.Employee.EmployeeId
+                }
+            };
+            employeeAssignments.push(selfEvaluatorAssignments);
+
+            if (employee.Evaluators && employee.Evaluators.length > 0) {
+                angular.forEach(employee.Evaluators, function (evaluator, index) {
+                    var evaluatorAssignment = {
+                        employeeId: employee.Employee.EmployeeId,
+                        processId: vm.evaluatorType.Evaluator,
+                        startDate: new Date(evaluator.StartDate).toDateString(),
+                        endDate: new Date(evaluator.EndDate).toDateString(),
+                        priority: index + 1,
+                        evaluatorInfo: {
+                            employeeId: evaluator.EvaluatorInfo.EmployeeId
+                        }
+                    };
+
+                    employeeAssignments.push(evaluatorAssignment);
+                });
+            }
+
+            if (employee.Reviewers && employee.Reviewers.length > 0) {
+                angular.forEach(employee.Reviewers, function (reviewer, index) {
+                    var reviewerAssignment = {
+                        employeeId: employee.Employee.EmployeeId,
+                        processId: vm.evaluatorType.Reviewer,
+                        startDate: new Date(reviewer.StartDate).toDateString(),
+                        endDate: new Date(reviewer.EndDate).toDateString(),
+                        priority: index + 1,
+                        evaluatorInfo: {
+                            employeeId: reviewer.EvaluatorInfo.EmployeeId
+                        }
+                    };
+
+                    employeeAssignments.push(reviewerAssignment);
+                });
+            }
+        });
+
+        var employeeSetting = {
+            periodId: vm.period.PeriodId,
+            employeeIds: vm.selectedEmployeeIds,
+            targetTemplateId: vm.fieldEdit.targetTemplate ? vm.employeeOptions.targetTemplateId : null,
+            employeeAssignments: employeeAssignments
+        };
+
+        return employeeSetting;
+    };
+
+    var updateEvaluatorToEmployee = function (employee, employeeOptions) {
+        if (employeeOptions.humanResource.ids && employeeOptions.humanResource.ids.length > 0) {
+            if (employee.HumanResources && employee.HumanResources.length > 0) {
+                var originalHumanResource = employee.HumanResources[0];
+                employee.HumanResources = [];
+
+                angular.forEach(employeeOptions.humanResource.ids, function (id) {
+                    var humanResource = {
+                        ProcessId: originalHumanResource.ProcessId,
+                        StartDate: originalHumanResource.StartDate,
+                        EndDate: originalHumanResource.EndDate,
+                        EvaluatorInfo: {
+                            EmployeeId: id
+                        }
+                    };
+
+                    employee.HumanResources.push(humanResource);
+                });
+            }
+            else {
+                angular.forEach(employeeOptions.humanResource.ids, function (id) {
+                    var humanResource = {
+                        ProcessId: periodModel.evaluatorType.HumanResources,
+                        EvaluatorInfo: {
+                            EmployeeId: id
+                        }
+                    };
+
+                    employee.HumanResources.push(humanResource);
+                });
+            }
+        }
+
+        if (employeeOptions.evaluator.ids && employeeOptions.evaluator.ids.length > 0) {
+            if (employee.Evaluators && employee.Evaluators.length > 0) {
+                var originalEvaluator = employee.Evaluators[0];
+                employee.Evaluators = [];
+
+                angular.forEach(employeeOptions.evaluator.ids, function (id) {
+                    var evaluator = {
+                        ProcessId: originalEvaluator.ProcessId,
+                        StartDate: originalEvaluator.StartDate,
+                        EndDate: originalEvaluator.EndDate,
+                        EvaluatorInfo: {
+                            EmployeeId: id
+                        }
+                    };
+
+                    employee.Evaluators.push(evaluator);
+                });
+            }
+            else {
+                angular.forEach(employeeOptions.evaluator.ids, function (id) {
+                    var evaluator = {
+                        ProcessId: periodModel.evaluatorType.Evaluator,
+                        EvaluatorInfo: {
+                            EmployeeId: id
+                        }
+                    };
+
+                    employee.Evaluators.push(evaluator);
+                });
+            }
+        }
+
+        if (employeeOptions.reviewer.ids && employeeOptions.reviewer.ids.length > 0) {
+            if (employee.Reviewers && employee.Reviewers.length > 0) {
+                var originalReviewer = employee.Reviewers[0];
+                employee.Reviewers = [];
+
+                angular.forEach(employeeOptions.reviewer.ids, function (id) {
+                    var reviewer = {
+                        ProcessId: originalReviewer.ProcessId,
+                        StartDate: originalReviewer.StartDate,
+                        EndDate: originalReviewer.EndDate,
+                        EvaluatorInfo: {
+                            EmployeeId: id
+                        }
+                    };
+
+                    employee.Reviewers.push(reviewer);
+                });
+            }
+            else {
+                angular.forEach(employeeOptions.reviewer.ids, function (id) {
+                    var reviewer = {
+                        ProcessId: periodModel.evaluatorType.Reviewer,
+                        EvaluatorInfo: {
+                            EmployeeId: id
+                        }
+                    };
+
+                    employee.Reviewers.push(reviewer);
+                });
+            }
+        }
+
+        return employee;
+    };
+
+    var updateStartDateToEmployee = function (employee, employeeOptions) {
+        angular.forEach(employee.HumanResources, function (humanResource) {
+            humanResource.StartDate = employeeOptions.humanResource.StartDate;
+        });
+
+        angular.forEach(employee.SelfEvaluators, function (self) {
+            self.StartDate = employeeOptions.selfEvaluator.StartDate;
+        });
+
+        angular.forEach(employee.Evaluators, function (evaluator) {
+            evaluator.StartDate = employeeOptions.evaluator.StartDate;
+        });
+
+        angular.forEach(employee.Reviewers, function (reviewer) {
+            reviewer.StartDate = employeeOptions.reviewer.StartDate;
+        });
+
+        return employee;
+    };
+
+    var updateEndDateToEmployee = function (employee, employeeOptions) {
+        angular.forEach(employee.HumanResources, function (humanResource) {
+            humanResource.EndDate = employeeOptions.humanResource.EndDate;
+        });
+
+        angular.forEach(employee.SelfEvaluators, function (self) {
+            self.EndDate = employeeOptions.selfEvaluator.EndDate;
+        });
+
+        angular.forEach(employee.Evaluators, function (evaluator) {
+            evaluator.EndDate = employeeOptions.evaluator.EndDate;
+        });
+
+        angular.forEach(employee.Reviewers, function (reviewer) {
+            reviewer.EndDate = employeeOptions.reviewer.EndDate;
+        });
+
+        return employee;
+    };
+
+    var updateEmployeeSettings = function (employeeOptions, fieldEdit, selectedEmployees) {
+        angular.forEach(selectedEmployees, function (employee) {
+            if (fieldEdit.evaluator) {
+                employee = updateEvaluatorToEmployee(employee, employeeOptions);
+            }
+
+            if (fieldEdit.startDate) {
+                employee = updateStartDateToEmployee(employee, employeeOptions);
+            }
+
+            if (fieldEdit.endDate) {
+                employee = updateEndDateToEmployee(employee, employeeOptions);
+            }
+        });
+
+        return selectedEmployees;
+    };
+
+    vm.save = function () {
+        var employeeAssignmentSetting;
+
+        if (vm.singleMode) {
+            if (MonthlyPeriodModel.validateEmployeeSetting(vm.employeeOptions)) {
+                if (checkChangeEmployeeSetting(vm.employeeOptions, vm.selectedEmployees[0])) {
+                    employeeAssignmentSetting = createAssignmentSettings(vm.employeeOptions, vm.period.PeriodId, vm.selectedEmployees, vm.selectedEmployeeIds);
+
+                    MonthlyPeriodModel.updateEmployeeSettingOfPeriod(employeeAssignmentSetting).then(function () {
+                        $modalInstance.close();
+                    });
+                }
+                else {
+                    $modalInstance.dismiss("cancel");
+                }
+            }
+        }
+        else {
+            if (MonthlyPeriodModel.checkHasFieldEdit(vm.fieldEdit)) {
+                var updatedEmployees = updateEmployeeSettings(vm.employeeOptions, vm.fieldEdit, vm.selectedEmployees);
+
+                if (MonthlyPeriodModel.validateEmployeeSettingMultipleMode(updatedEmployees)) {
+                    employeeAssignmentSetting = createAssignmentSettingsMultipleMode(updatedEmployees);
+
+                    MonthlyPeriodModel.updateEmployeeSettingOfPeriod(employeeAssignmentSetting).then(function () {
+                        $modalInstance.close();
+                    });
+                }
+            }
+        }
+    };
+
+    vm.cancel = function () {
+        $modalInstance.dismiss("cancel");
+    };
+}]);
