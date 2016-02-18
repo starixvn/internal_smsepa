@@ -488,5 +488,59 @@ function ($modal, monthlyPeriodFactory, errorFactory, notificationFactory, utili
         });
     };
 
+    monthlyPeriodModel.openPopupIncludeExcludeEmployee = function (vm, periodId, employee) {
+        employee.IsIncluded = !employee.IsIncluded;
+
+        var action = employee.IsIncluded ? "include" : "exclude",
+        newEmployeeStatus = {
+            PeriodId: periodId,
+            EmployeeId: employee.Employee.EmployeeId,
+            IsIncluded: employee.IsIncluded
+        };
+
+        var modalInstance = $modal.open({
+            templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
+            controller: "ModalConfirmController as modalConfirmCtrl",
+            backdrop: 'static',
+            resolve: {
+                name: function () {
+                    return employee.Employee.NickName;
+                },
+                action: function () {
+                    return action;
+                }
+            },
+            windowClass: "modal-confirm-center"
+        });
+
+        modalInstance.result.then(function () {
+            monthlyPeriodFactory.updateIncludeStatusEmployeePeriod(newEmployeeStatus)
+            .success(function (response) {
+                if (response.IsSuccessful) {
+                    notificationFactory.success("UpdatedSuccessfully");
+                }
+                else {
+                    employee.IsIncluded = !newEmployeeStatus.IsIncluded;
+                    notificationFactory.error("UpdatedUnsuccessfully");
+                }
+
+                vm.query(vm.filter);
+            })
+            .error(function (response, status) {
+                if (status === 405) {
+                    errorFactory.errorHandle(status);
+                }
+                else {
+                    employee.IsIncluded = !newEmployeeStatus.IsIncluded;
+                    notificationFactory.error("UpdatedUnsuccessfully");
+                }
+            });
+        }, function () {
+            employee.IsIncluded = !newEmployeeStatus.IsIncluded;
+        })['finally'](function () {
+            modalInstance = '';
+        });
+    };
+
     return monthlyPeriodModel;
 }]);

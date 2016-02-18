@@ -261,6 +261,26 @@ namespace SMS.EPA.Site.Controllers.API
             return commandResult;
         }
 
+        [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Host)]
+        public CommandResult UpdateIncludeStatusEmployeePeriod(UpdateIncludeStatusEmployeePeriodCriteria criteria)
+        {
+            var commandResult = new CommandResult();
+
+            if (criteria != null)
+            {
+                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                commandResult = _periodService.UpdateIncludeStatusEmployeePeriod(criteria);
+            }
+            else
+            {
+                commandResult.Code = 1;
+                commandResult.Message = Lang.ParameterInvalid;
+            }
+
+            return commandResult;
+        }
+
         public int GetUserPermissionOnMonthlyPeriod()
         {
             int permission = _webCommonService.GetPermission(EPAFunctionKey.MonthlyPeriod);

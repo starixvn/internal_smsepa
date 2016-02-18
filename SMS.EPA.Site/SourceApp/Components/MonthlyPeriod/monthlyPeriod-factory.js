@@ -54,6 +54,9 @@ monthlyPeriodModule.factory('monthlyPeriodFactory', ['$http', 'baseUrl', functio
         generateEvaluation: function (period) {
             return $http.post(baseUrl + 'api/MonthlyPeriod/GenerateEvaluation', period);
         },
+        updateIncludeStatusEmployeePeriod: function (employeeStatusSetting) {
+            return $http.put(baseUrl + 'api/MonthlyPeriod/UpdateIncludeStatusEmployeePeriod', employeeStatusSetting);
+        },
         getPermissionOnMonthlyPeriod: function () {
             return $http.get(baseUrl + 'api/MonthlyPeriod/GetUserPermissionOnMonthlyPeriod');
         }

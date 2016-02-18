@@ -423,6 +423,10 @@ function ($scope, $routeParams, $window, MonthlyPeriodModel, utilitiesFactory, C
         }
     };
 
+    vm.includeExcludeEmployee = function (employee) {
+        MonthlyPeriodModel.openPopupIncludeExcludeEmployee(vm, vm.period.PeriodId, employee);
+    };
+
     vm.generateEvaluation = function () {
         var selectedEmployees = MonthlyPeriodModel.getSelectedEmployee(vm.employeeSettings),
             selectedEmployeeInfo = MonthlyPeriodModel.getSelectedEmployeeInfo(selectedEmployees),
