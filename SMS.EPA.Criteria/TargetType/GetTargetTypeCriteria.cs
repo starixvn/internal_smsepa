@@ -15,6 +15,8 @@ namespace SMS.EPA.Criteria.TargetType
     {
         public bool? IsActive { get; set; }
 
+        public string ExcludeTargetTypeIds { get; set; }
+
         public override string GetSettingKey()
         {
             return "TargetType_Get";

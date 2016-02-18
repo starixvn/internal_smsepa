@@ -37,9 +37,11 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpGet]
-        public IEnumerable<TargetTypeModel> GetTargetType(bool? isActive = true)
+        public IEnumerable<TargetTypeModel> GetTargetType(
+            bool? isActive = true,
+            string excludeTargetTypeIds = "")
         {
-            return _utilitiesController.GetTargetType(isActive);
+            return _utilitiesController.GetTargetType(isActive, excludeTargetTypeIds);
         }
 
         [HttpGet]

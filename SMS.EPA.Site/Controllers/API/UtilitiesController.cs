@@ -69,11 +69,14 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [NonAction]
-        public IEnumerable<TargetTypeModel> GetTargetType(bool? isActive = null)
+        public IEnumerable<TargetTypeModel> GetTargetType(
+            bool? isActive = null,
+            string excludeTargetTypeIds = "")
         {
             var criteria = new GetTargetTypeCriteria
             {
-                IsActive = isActive
+                IsActive = isActive,
+                ExcludeTargetTypeIds = excludeTargetTypeIds
             };
 
             return _targetTypeService.GetTargetType(criteria);

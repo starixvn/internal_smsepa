@@ -3,8 +3,13 @@
 
 commonModule.factory('commonFactory', ['$http', 'baseUrl', function ($http, baseUrl) {
     return {
-        getTargetType: function (isActive) {
-            return $http.get(baseUrl + 'api/Common/GetTargetType', { params: { isActive: isActive } });
+        getTargetType: function (isActive, excludeTargetTypeIds) {
+            return $http.get(baseUrl + 'api/Common/GetTargetType', {
+                params: {
+                    isActive: isActive,
+                    excludeTargetTypeIds: excludeTargetTypeIds
+                }
+            });
         },
         getSystemRoles: function (exceptNone) {
             return $http.get(baseUrl + 'api/Common/GetSystemRoles', { params: { exceptNone: exceptNone } });

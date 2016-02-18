@@ -25,8 +25,8 @@ function ($modal, commonFactory, errorFactory) {
     commonModel.remindDay = [0, 1, 2, 3, 4, 5, 6, 7];
 
     /// Get target type.
-    commonModel.getTargetType = function (isActive) {
-        return commonFactory.getTargetType(isActive)
+    commonModel.getTargetType = function (isActive, excludeTargetTypeIds) {
+        return commonFactory.getTargetType(isActive, excludeTargetTypeIds)
         .success(function (targetTypes) {
             commonModel.targetTypes = targetTypes;
         }).error(function (response, status) {

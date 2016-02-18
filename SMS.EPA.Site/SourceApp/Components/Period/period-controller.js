@@ -21,7 +21,7 @@ function (PeriodModel, CommonModel, utilitiesFactory, baseUrl) {
     utilitiesFactory.numberEntryList(vm);
     utilitiesFactory.getDateFormat(vm);
 
-    CommonModel.getTargetType().then(function () {
+    CommonModel.getTargetType(1, 2).then(function () {
         vm.targetTypes = CommonModel.targetTypes;
     });
 
@@ -78,6 +78,11 @@ function ($modalInstance, PeriodModel, CommonModel) {
     var vm = this;
 
     vm.targetTypes = CommonModel.targetTypes;
+
+    CommonModel.getTargetType(1, 2).then(function () {
+        vm.targetTypes = CommonModel.targetTypes;
+    });
+
     vm.period = {
         Name: null,
         TargetTypeId: null,
@@ -203,7 +208,7 @@ function ($scope, $window, PeriodModel, CommonModel) {
     };
 
     var getTargetType = function () {
-        CommonModel.getTargetType().then(function () {
+        CommonModel.getTargetType(1, 2).then(function () {
             vm.targetTypes = CommonModel.targetTypes;
             vm.isFirstLoad = false;
         });
