@@ -95,6 +95,19 @@ namespace SMS.EPA.Services.Implement
             return commandResult;
         }
 
+        public CommandResult AutoCreateMonthlyPeriod(AutoCreateMonthlyPeriodCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            CommandResult commandResult = new CommandResult();
+
+            if (criteria.IsValid())
+            {
+                commandResult = Repository.Insert(criteria);
+            }
+
+            return commandResult;
+        }
+
         public CommandResult UpdateBasicInformationPeriod(UpdateBasicInformationPeriodCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");
@@ -245,6 +258,19 @@ namespace SMS.EPA.Services.Implement
         }
 
         public IEnumerable<FlowModel> GetProcessSettingByPeriodId(GetProcessSettingPeriodCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<FlowModel> processSettings = new List<FlowModel>();
+
+            if (criteria.IsValid())
+            {
+                processSettings = GetData<FlowModel>(criteria);
+            }
+
+            return processSettings;
+        }
+
+        public IEnumerable<FlowModel> GetEvaluationGlobalSettingByTargetTypeId(GetEvaluationGlobalSettingByTargetTypeIdCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<FlowModel> processSettings = new List<FlowModel>();

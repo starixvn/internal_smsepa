@@ -94,6 +94,8 @@
     <Compile Include="Criteria\InsertEmployeeToProbationPeriodCriteria.cs" />
     <Compile Include="Criteria\InsertEmployeeToSemiAnnualPeriodCriteria.cs" />
     <Compile Include="Criteria\GetSemiAnnualPeriodStartedCriteria.cs" />
+    <Compile Include="Criteria\Monthly\GetMonthlyPeriodStartedCriteria.cs" />
+    <Compile Include="Criteria\Monthly\InsertEmployeeToMonthlyPeriodCriteria.cs" />
     <Compile Include="Criteria\UpdateFinalScoreEndEvaluationCriteria.cs" />
     <Compile Include="Criteria\UpdateIsEndProcessCriteria.cs" />
     <Compile Include="Criteria\UpdateStatusEndEvaluationPeriodCriteria.cs" />

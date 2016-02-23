@@ -11,6 +11,7 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Interfaces
 {
     using System.Collections.Generic;
     using SMS.EPA.AutoGenerateEvaluation.Criteria;
+    using SMS.EPA.AutoGenerateEvaluation.Criteria.Monthly;
     using SMS.EPA.AutoGenerateEvaluation.Models;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Model.Period;
@@ -48,5 +49,13 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Interfaces
         CommandResult UpdateTotalScoreOfProcess(UpdateTotalScoreOfProcessCriteria criteria);
 
         IEnumerable<EndEPAModel> GetEvaluationEndedYesterday(GetEvaluationEndedYesterdayCriteria criteria);
+
+        #region Monthly
+
+        IEnumerable<int> GetMonthlyPeriodStarted(GetMonthlyPeriodStartedCriteria criteria);
+
+        CommandResult InsertEmployeeToMonthlyPeriod(InsertEmployeeToMonthlyPeriodCriteria criteria);
+
+        #endregion Monthly
     }
 }

@@ -26,6 +26,8 @@ using SMS.EPA.Model.Period;
 
         CommandResult CreatePeriod(CreatePeriodCriteria criteria);
 
+        CommandResult AutoCreateMonthlyPeriod(AutoCreateMonthlyPeriodCriteria criteria);
+
         CommandResult UpdateBasicInformationPeriod(UpdateBasicInformationPeriodCriteria criteria);
 
         CommandResult UpdateStatusPeriod(UpdateStatusPeriodCriteria criteria);
@@ -51,6 +53,8 @@ using SMS.EPA.Model.Period;
         IEnumerable<PeriodFlowModel> GetEmployeeSettingByPeriodId(GetEmployeeSettingByPeriodIdCriteria criteria);
 
         IEnumerable<FlowModel> GetProcessSettingByPeriodId(GetProcessSettingPeriodCriteria criteria);
+
+        IEnumerable<FlowModel> GetEvaluationGlobalSettingByTargetTypeId(GetEvaluationGlobalSettingByTargetTypeIdCriteria criteria);
 
         CommandResult UpdateProcessSettingPeriod(UpdateProcessSettingPeriodCriteria criteria);
 

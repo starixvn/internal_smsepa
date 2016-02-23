@@ -13,6 +13,7 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
     using System.Linq;
     using Fanex.Common.Helper;
     using SMS.EPA.AutoGenerateEvaluation.Criteria;
+    using SMS.EPA.AutoGenerateEvaluation.Criteria.Monthly;
     using SMS.EPA.AutoGenerateEvaluation.Models;
     using SMS.EPA.AutoGenerateEvaluation.Repository;
     using SMS.EPA.AutoGenerateEvaluation.Service.Interfaces;
@@ -33,6 +34,8 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
         {
             _generateEvaluationRepository = generationEvaluationRepository ?? new EvaluationRepository();
         }
+
+        #region Semi Annual
 
         public IEnumerable<int> CheckStartSemiAnnual(GetSemiAnnualPeriodStartedCriteria criteria)
         {
@@ -60,6 +63,10 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
             return commandResult;
         }
 
+        #endregion Semi Annual
+
+        #region Probation
+
         public AutoEmployeePeriodModel GetEmployeeProbationEvaluation(GetEmployeeProbationEvaluationCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");
@@ -86,6 +93,60 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
             return comandResult;
         }
 
+        #endregion Probation
+
+        #region Promotion
+
+        public IEnumerable<AutoEmployeePeriodModel> GetEmployeePromotionEvaluation(GetEmployeePromotionEvaluationCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<AutoEmployeePeriodModel> employeePeriods = new List<AutoEmployeePeriodModel>();
+
+            if (criteria.IsValid())
+            {
+                employeePeriods = GetData<AutoEmployeePeriodModel>(criteria);
+                employeePeriods = employeePeriods.GroupBy(x => x.PeriodId).Select(x => new AutoEmployeePeriodModel
+                {
+                    PeriodId = x.Key,
+                    EmployeeIds = JoinEmployeeId(x.ToList())
+                });
+            }
+
+            return employeePeriods;
+        }
+
+        #endregion Promotion
+
+        #region Monthly
+
+        public IEnumerable<int> GetMonthlyPeriodStarted(GetMonthlyPeriodStartedCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<int> startedPeriods = new List<int>();
+
+            if (criteria.IsValid())
+            {
+                startedPeriods = GetData<int>(criteria);
+            }
+
+            return startedPeriods;
+        }
+
+        public CommandResult InsertEmployeeToMonthlyPeriod(InsertEmployeeToMonthlyPeriodCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            var commandResult = new CommandResult();
+
+            if (criteria.IsValid())
+            {
+                commandResult = Repository.Insert(criteria);
+            }
+
+            return commandResult;
+        }
+
+        #endregion Monthly
+
         public IEnumerable<AutoEmployeePeriodModel> GetPeriodHasReminderProcess(GetPeriodHasReminderProcessCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");
@@ -110,24 +171,6 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
             }
 
             return hasSendMailAll;
-        }
-
-        public IEnumerable<AutoEmployeePeriodModel> GetEmployeePromotionEvaluation(GetEmployeePromotionEvaluationCriteria criteria)
-        {
-            Check.Argument.IsNotNull(criteria, "criteria");
-            IEnumerable<AutoEmployeePeriodModel> employeePeriods = new List<AutoEmployeePeriodModel>();
-
-            if (criteria.IsValid())
-            {
-                employeePeriods = GetData<AutoEmployeePeriodModel>(criteria);
-                employeePeriods = employeePeriods.GroupBy(x => x.PeriodId).Select(x => new AutoEmployeePeriodModel
-                {
-                    PeriodId = x.Key,
-                    EmployeeIds = JoinEmployeeId(x.ToList())
-                });
-            }
-
-            return employeePeriods;
         }
 
         public IEnumerable<AutoEmployeePeriodModel> CheckEndProcess(CheckEndProcessCriteria criteria)

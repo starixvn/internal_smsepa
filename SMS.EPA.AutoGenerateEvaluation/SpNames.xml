@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Functions>
   <Function Name="Auto">
-    <Setting Key="EpaAuto_SemiAnnual_GetPeriodStartedToday" SpName="EpaAuto_SemiAnnual_GetPeriodStartedToday" DbName="SMSEPA" Plain="0" >
+    <Setting Key="EpaAuto_SemiAnnual_GetPeriodStartedToday" SpName="EpaAuto_SemiAnnual_GetPeriodStartedToday" DbName="SMSEPA" Plain="0">
     </Setting>
-    <Setting Key="EpaAuto_SemiAnnual_AddEmployeeToPeriod" SpName="EpaAuto_SemiAnnual_AddEmployeeToPeriod" DbName="SMSEPA" Plain="0" >
+    <Setting Key="EpaAuto_SemiAnnual_AddEmployeeToPeriod" SpName="EpaAuto_SemiAnnual_AddEmployeeToPeriod" DbName="SMSEPA" Plain="0">
     </Setting>
-    <Setting Key="EpaAuto_Probation_GetEmployees" SpName="EpaAuto_Probation_GetEmployees" DbName="SMSEPA" Plain="0" >
+    <Setting Key="EpaAuto_Probation_GetEmployees" SpName="EpaAuto_Probation_GetEmployees" DbName="SMSEPA" Plain="0">
     </Setting>
-    <Setting Key="EpaAuto_Probation_AddEmployeeToPeriod" SpName="EpaAuto_Probation_AddEmployeeToPeriod" DbName="SMSEPA" Plain="0" >
+    <Setting Key="EpaAuto_Probation_AddEmployeeToPeriod" SpName="EpaAuto_Probation_AddEmployeeToPeriod" DbName="SMSEPA" Plain="0">
     </Setting>
-    <Setting Key="EpaAuto_GetPeriodHasReminderProcess" SpName="EpaAuto_GetPeriodHasReminderProcess" DbName="SMSEPA" Plain="0" >
+    <Setting Key="EpaAuto_GetPeriodHasReminderProcess" SpName="EpaAuto_GetPeriodHasReminderProcess" DbName="SMSEPA" Plain="0">
     </Setting>
     <Setting Key="EpaPeriod_GetById" SpName="EpaPeriod_GetById" DbName="SMSEPA" Plain="0">
     </Setting>
@@ -38,10 +38,10 @@
     <Setting Key="EpaAuto_CheckLastestEndEvaluationPeriod" SpName="EpaAuto_CheckLastestEndEvaluationPeriod" DbName="SMSEPA" Plain="0">
     </Setting>
     <Setting Key="EPA_GetInfoById" SpName="EPA_GetInfoById" DbName="SMSEPA" Plain="0">
-      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode"/>
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode"/>
-      <Mapping DataField="Score" ObjectProperty="ScoreEncode"/>
-      <Mapping DataField="Rate" ObjectProperty="RateEncode"/>
+      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
+      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
+      <Mapping DataField="Score" ObjectProperty="ScoreEncode" />
+      <Mapping DataField="Rate" ObjectProperty="RateEncode" />
     </Setting>
     <Setting Key="EPA_GetStandardGrade" SpName="EPA_GetStandardGrade" DbName="SMSEPA" Plain="0">
     </Setting>
@@ -50,6 +50,12 @@
     <Setting Key="EpaAuto_UpdateTotalScoreWhenNull" SpName="EpaAuto_UpdateTotalScoreWhenNull" DbName="SMSEPA" Plain="0">
     </Setting>
     <Setting Key="EpaAuto_CheckEndEmployeeEvaluationPeriod" SpName="EpaAuto_CheckEndEmployeeEvaluationPeriod" DbName="SMSEPA" Plain="0">
+    </Setting>
+  </Function>
+  <Function Name="Auto Monthly">
+    <Setting Key="EpaAuto_Monthly_GetPeriodStartedToday" SpName="EpaAuto_Monthly_GetPeriodStartedToday" DbName="SMSEPA" Plain="0">
+    </Setting>
+    <Setting Key="EpaAuto_Monthly_AddEmployeeToPeriod" SpName="EpaAuto_Monthly_AddEmployeeToPeriod" DbName="SMSEPA" Plain="0">
     </Setting>
   </Function>
 </Functions>
