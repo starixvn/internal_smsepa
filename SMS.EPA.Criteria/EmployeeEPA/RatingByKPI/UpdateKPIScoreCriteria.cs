@@ -69,10 +69,10 @@ namespace SMS.EPA.Criteria.EmployeeEPA.RatingByKPI
                     {
                         epaDetailXml = GenerateEpaDetailXml(kpi, kpi.Score, kpi.Rate);
                     }
-                }
 
-                string totalScore = Encode(epaInfo.TotalScore);
-                epaXml.AppendFormat(EPAXmlTemplate, epaInfo.EPAId, epaInfo.Employee.EmployeeId, epaInfo.KPIGroup.KPIGroupId, totalScore, epaDetailXml);
+                    string totalScore = Encode(epaInfo.TotalScore);
+                    epaXml.AppendFormat(EPAXmlTemplate, epaInfo.EPAId, epaInfo.Employee.EmployeeId, epaInfo.KPIGroup.KPIGroupId, totalScore, epaDetailXml);
+                }
             }
 
             epaXml.Append(EndRootTag);
@@ -80,7 +80,7 @@ namespace SMS.EPA.Criteria.EmployeeEPA.RatingByKPI
             return epaXml.ToString();
         }
 
-        private StringBuilder GenerateEpaDetailXml(TemporaryKPIModel kpi, string score, int rate)
+        private StringBuilder GenerateEpaDetailXml(TemporaryKPIModel kpi, string score, float rate)
         {
             string kpiRate = rate > 0 ? rate.ToString() : string.Empty;
             string cipherScore = Encode(score + "_" + kpi.KPIId);

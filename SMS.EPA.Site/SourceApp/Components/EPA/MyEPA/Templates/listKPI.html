@@ -1,6 +1,7 @@
 ﻿<div class="list-kpi-rating rating-section" ng-repeat="kpiGroup in memberEPAInfoCtrl.epaInfo.KPIGroups"
      ng-init="memberEPAInfoCtrl.collapses[kpiGroup.Name] = false;"
-     ng-show="kpiGroup.KPIs.length > 0">
+     ng-show="kpiGroup.KPIs.length > 0"
+     repeat-end="memberEPAInfoCtrl.generateRatingStar()">
     <div class="boxtitle col-sm-12"
          ng-click="memberEPAInfoCtrl.collapses[kpiGroup.Name] = !memberEPAInfoCtrl.collapses[kpiGroup.Name]">
         <div class="kpiGroup-name">{{kpiGroup.Name}} <strong>({{kpiGroup.Weight | customScore}} pts)</strong></div>
@@ -17,13 +18,13 @@
                     </div>
                     <div class="kpi-start">
                         <div class="rating-by-star"
-                             ng-if="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == 1 || memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == 3 || (memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId ==2 && kpiGroup.NumberKPIOptional > 0)">
+                             ng-if="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == 1 || (memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId ==2 && kpiGroup.NumberKPIOptional > 0)">
                             <div class="remove-rating">
                                 <a ng-show="!memberEPAInfoCtrl.isReadonly && kpi.CurrentEvaluation.Rate > 0" class="glyphicon glyphicon-remove-circle remove-star"
                                    title="Cancel" href="javascript:;" ng-click="memberEPAInfoCtrl.cancelRating(kpiGroup, kpi)"></a>
                             </div>
                             <div class="rating-form">
-                                <input id="star_{{kpi.KPIId}}" type="number" class="rating" ng-readonly="memberEPAInfoCtrl.isReadonly" data-size="xs"
+                                <input id="star_{{kpi.KPIId}}" type="number" class="rating-loading" ng-readonly="memberEPAInfoCtrl.isReadonly" data-size="xs"
                                        data-min=0 data-max={{memberEPAInfoCtrl.maxStar}} data-step=1 ng-model="kpi.CurrentEvaluation.Rate"
                                        data-show-caption="false"
                                        data-show-clear="false"
@@ -42,7 +43,7 @@
                                    title="Cancel" href="javascript:;" ng-click="memberEPAInfoCtrl.cancelRating(kpiGroup, kpi)"></a>
                             </div>
                             <div class="rating-form">
-                                <input id="star_{{kpi.KPIId}}" type="number" class="rating" ng-readonly="memberEPAInfoCtrl.isReadonly" data-size="xs"
+                                <input id="star_{{kpi.KPIId}}" type="number" class="rating-loading" ng-readonly="memberEPAInfoCtrl.isReadonly" data-size="xs"
                                        data-min=0 data-max={{memberEPAInfoCtrl.maxStar}} data-step=0.5 ng-model="kpi.CurrentEvaluation.Rate"
                                        data-show-caption="false"
                                        data-show-clear="false"

@@ -7,7 +7,7 @@
         <div class="text-center employee-score" data-translate="EmployeeScore"></div>
     </div>
     <div class="kpiGroup-box col-sm-12" collapse="memberEPAInfoCtrl.collapses[kpiGroup.Name]">
-        <div class="row-item" ng-repeat="kpi in kpiGroup.KPIs">
+        <div class="row-item" ng-repeat="kpi in kpiGroup.KPIs" repeat-end="memberEPAInfoCtrl.generateRatingStar()">
             <div class="col-sm-12 error-message" ng-show="kpi.CurrentEvaluation.EvaluateInvalid" data-translate="RequiredEvaluation"></div>
             <div class="col-sm-12 kpi-name">
                 <div class="row">
@@ -31,7 +31,7 @@
                                    title="Cancel" href="javascript:;" ng-click="memberEPAInfoCtrl.cancelRating(kpiGroup, kpi)"></a>
                             </div>
                             <div class="rating-form">
-                                <input id="star_{{kpi.KPIId}}" type="number" class="rating" ng-readonly="memberEPAInfoCtrl.isReadonly" data-size="xs"
+                                <input id="star_{{kpi.KPIId}}" type="number" class="rating-loading" ng-readonly="memberEPAInfoCtrl.isReadonly" data-size="xs"
                                        data-min=0 data-max={{memberEPAInfoCtrl.maxStar}} data-step=1 ng-model="kpi.CurrentEvaluation.Rate"
                                        data-show-caption="false"
                                        data-show-clear="false"
@@ -50,7 +50,7 @@
                                    title="Cancel" href="javascript:;" ng-click="memberEPAInfoCtrl.cancelRating(kpiGroup, kpi)"></a>
                             </div>
                             <div class="rating-form">
-                                <input id="star_{{kpi.KPIId}}" type="number" class="rating" ng-readonly="memberEPAInfoCtrl.isReadonly" data-size="xs"
+                                <input id="star_{{kpi.KPIId}}" type="number" class="rating-loading" ng-readonly="memberEPAInfoCtrl.isReadonly" data-size="xs"
                                        data-min=0 data-max={{memberEPAInfoCtrl.maxStar}} data-step=0.5 ng-model="kpi.CurrentEvaluation.Rate"
                                        data-show-caption="false"
                                        data-show-clear="false"

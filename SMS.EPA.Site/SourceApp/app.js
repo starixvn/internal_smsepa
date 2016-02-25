@@ -23,3 +23,14 @@ function ($translateProvider, $locationProvider, paginationTemplateProvider, $ro
     usSpinnerConfigProvider.setDefaults({ color: 'blue' });
     usSpinnerConfigProvider.setTheme('bigBlue', { color: '#4CA4C9', radius: 20 });
 }]);
+
+appModule = appModule.directive("repeatEnd", function () {
+    return {
+        restrict: "A",
+        link: function (scope, element, attrs) {
+            if (scope.$last) {
+                scope.$eval(attrs.repeatEnd);
+            }
+        }
+    };
+});

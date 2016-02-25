@@ -114,14 +114,14 @@
                             </div>
                         </td>
                         <td class="col-adjust-score">
-                            <div class="row text-center list-star" ng-if="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal" ng-init="ratingByKPICtrl.generateratingstar()">
+                            <div class="row text-center list-star" ng-repeat="kpi in memberEPA.KPIGroup.KPIs" ng-if="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
                                 <div ng-if="memberEPA.RatingType.RatingTypeId == 1 || (memberEPA.RatingType.RatingTypeId == 2 && memberEPA.KPIGroup.NumberKPIOptional > 0)">
                                     <div class="col-sm-2 cancel-rating">
                                         <a ng-show="kpi.AdjustRate > 0" class="glyphicon glyphicon-remove-circle remove-star"
                                            title="Cancel" href="javascript:;" ng-click="ratingByKPICtrl.cancelRating(memberEPA, kpi)"></a>
                                     </div>
                                     <div class="col-sm-7 rating-form">
-                                        <input id="star_{{memberEPA.Employee.EmployeeId}}" type="number" class="rating" ng-readonly="ratingByKPICtrl.permission != 2" data-size="xs"
+                                        <input id="star_{{memberEPA.Employee.EmployeeId}}" type="number" class="rating-loading" ng-readonly="ratingByKPICtrl.permission != 2" data-size="xs"
                                                data-min=0 data-max={{ratingByKPICtrl.maxStar}} data-step=1 ng-model="kpi.AdjustRate"
                                                data-show-caption="false"
                                                data-show-clear="false"
@@ -142,7 +142,7 @@
                                            title="Cancel" href="javascript:;" ng-click="ratingByKPICtrl.cancelRating(memberEPA, kpi)"></a>
                                     </div>
                                     <div class="col-sm-7 rating-form">
-                                        <input id="star_{{memberEPA.Employee.EmployeeId}}" type="number" class="rating" ng-readonly="ratingByKPICtrl.permission != 2" data-size="xs"
+                                        <input id="star_{{memberEPA.Employee.EmployeeId}}" type="number" class="rating-loading" ng-readonly="ratingByKPICtrl.permission != 2" data-size="xs"
                                                data-min=0 data-max={{ratingByKPICtrl.maxStar}} data-step=0.5 ng-model="kpi.AdjustRate"
                                                data-show-caption="false"
                                                data-show-clear="false"

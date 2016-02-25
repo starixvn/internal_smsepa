@@ -35,7 +35,7 @@ namespace SMS.EPA.Model.EmployeeEPA.RatingByKPI
 
         public string RateEncode { get; set; }
 
-        public int Rate { get; set; }
+        public float Rate { get; set; }
 
         public string CommentOriginal
         {
@@ -49,7 +49,7 @@ namespace SMS.EPA.Model.EmployeeEPA.RatingByKPI
 
         public string AdjustScore { get; set; }
 
-        public int AdjustRate { get; set; }
+        public float AdjustRate { get; set; }
 
         public TemporaryKPIGroupModel KPIGroup { get; set; }
     }

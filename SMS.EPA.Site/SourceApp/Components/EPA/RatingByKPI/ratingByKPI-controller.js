@@ -2,8 +2,8 @@
 /*global epaModule*/
 
 epaModule.controller('RatingByKPIController',
-['$window', '$translate', 'RatingByKPIModel', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel', 'utilitiesFactory', 'baseUrl',
-function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, baseUrl) {
+['$window', '$timeout', '$translate', 'RatingByKPIModel', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel', 'utilitiesFactory', 'baseUrl',
+function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, baseUrl) {
     var vm = this;
 
     vm.kpis = [];
@@ -357,9 +357,11 @@ function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, SelfEvalutorM
     });
 
     vm.generateRatingStar = function () {
-            $(".rating").rating();
-        
-    }
+        $timeout(function () {
+            $(".rating-loading").rating();
+        }, 1);
+    };
+
     vm.initialize = function () {
         $translate('ScoreInputValid').then(function (message) {
             vm.scoreInputValidMessage = message;

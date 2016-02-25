@@ -390,11 +390,11 @@ namespace SMS.EPA.Repositories.Implement
 
                 foreach (TemporaryKPIModel kpi in epaInfo.KPIGroup.KPIs)
                 {
-                    var rate = 0;
+                    float rate = 0;
 
                     if (!string.IsNullOrEmpty(kpi.RateEncode))
                     {
-                        rate = int.Parse(Decode(kpi.RateEncode));
+                        rate = float.Parse(Decode(kpi.RateEncode));
                     }
 
                     kpi.Score = Decode(kpi.ScoreEncode).Replace("_" + kpi.KPIId, string.Empty);

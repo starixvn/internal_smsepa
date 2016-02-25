@@ -26,8 +26,8 @@ function (SelfEvalutorModel, baseUrl) {
 }]);
 
 epaModule.controller('EmployeeEPAInfoController',
-['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel', 'utilitiesFactory', 'baseUrl',
-function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, baseUrl) {
+['$window', '$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel', 'utilitiesFactory', 'baseUrl',
+function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, baseUrl) {
     var vm = this;
     vm.epaId = parseInt($routeParams.id);
 
@@ -151,10 +151,15 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
                     vm.isReadonly = true;
                     vm.hoveringLeave = null;
                 }
-                $('.rating').rating();
             });
 
         });
+    };
+
+    vm.generateRatingStar = function () {
+        $timeout(function () {
+            $(".rating-loading").rating();
+        }, 1);
     };
 
     vm.initialize = function () {
