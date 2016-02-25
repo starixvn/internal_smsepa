@@ -284,7 +284,7 @@
 
                 durationHRPhase = processSettings.Where(p => p.ProcessId == (int)ProcessType.HumanResource).FirstOrDefault().Duration;
 
-                if (today.AddDays(durationHRPhase).AddDays(1).Day.Equals(26))
+                if (today.AddDays(durationHRPhase).AddDays(1).Day.Equals(1))
                 {
                     var criteria = new AutoCreateMonthlyPeriodCriteria()
                     {
