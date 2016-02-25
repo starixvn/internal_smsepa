@@ -21,7 +21,6 @@ namespace SMS.EPA.Repositories.Implement
     using SMS.EPA.Model.EmployeeEPA.RatingByKPI;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Repositories.Interfaces;
-    using System;
 
     public class EmployeeEPARepository : IEmployeeEPARepository
     {
