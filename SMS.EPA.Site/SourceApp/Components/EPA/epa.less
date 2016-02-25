@@ -1,7 +1,7 @@
 ﻿.table.table-bordered {
     .col-action {
         width: 6%;
-        
+
         .icon-view, .icon-edit {
             cursor: pointer;
             margin-right: 0;
@@ -17,7 +17,7 @@
         }
     }
 
-    .multiSelect { 
+    .multiSelect {
         .multiSelectButton {
             text-align: left;
             position: relative;
@@ -32,9 +32,10 @@
 
         .checkboxLayer {
             min-width: 180px;
+
             .acol {
-                label{
-                    height:22px;
+                label {
+                    height: 22px;
                 }
             }
         }
@@ -176,6 +177,7 @@
     .row-item {
         &.line {
             border-bottom: 1px solid #e5e3e3;
+
             [class^=col-] {
                 padding: 0;
             }
@@ -216,11 +218,11 @@
             }
 
             &:after {
-                content: "";  
+                content: "";
                 border-top: 44px solid transparent;
                 border-bottom: 40px solid transparent;
-                position: absolute; 
-                right: -40px; 
+                position: absolute;
+                right: -40px;
                 top: 0;
             }
 
@@ -230,7 +232,7 @@
                 margin-top: -16px;
                 border-width: 44px 0 40px 40px;
                 border-style: solid;
-                left: -40px; 
+                left: -40px;
             }
 
             &:first-child {
@@ -255,7 +257,7 @@
                     background: url(../../../Content/Site/images/sprite_process.png);
                     background-position: -15px 0;
                     display: inline-block;
-                    height: 15px; 
+                    height: 15px;
                     position: relative;
                     left: 5px;
                     top: 2px;
@@ -279,7 +281,7 @@
                     background: url(../../../Content/Site/images/sprite_process.png);
                     background-position: 0 0;
                     display: inline-block;
-                    height: 15px; 
+                    height: 15px;
                     position: relative;
                     left: 5px;
                     top: 2px;
@@ -303,7 +305,7 @@
                     background: url(../../../Content/Site/images/sprite_process.png);
                     background-position: -30px 0;
                     display: inline-block;
-                    height: 15px; 
+                    height: 15px;
                     position: relative;
                     left: 5px;
                     top: 2px;
@@ -453,7 +455,6 @@
 
     .icon-plus {
         background: url(../../../Content/Site/images/plus-icon.gif);
-        
     }
 
     .icon-minus {
@@ -539,7 +540,7 @@
     }
 }
 
-.summary-section{
+.summary-section {
     textarea {
         &:focus {
             height: 8em;
@@ -748,8 +749,12 @@
             width: 19%;
 
             .list-star {
-                .cancel-rating, .rating, .input-score {
+                .cancel-rating, .rating-form, .input-score {
                     padding: 0;
+                }
+
+                .rating-xs {
+                    font-size: 1em;
                 }
 
                 .glyphicon {
@@ -867,6 +872,7 @@
 
 .kpiGroup-box {
     padding: 3px 15px 8px;
+
     .kpi-name, .kpi-description, .kpi-comment {
         [class^='col'] {
             padding: 0;
@@ -886,48 +892,61 @@
 
 .kpi-name {
     margin-top: 5px;
+
     .feature {
         width: 80%;
         float: left;
     }
+
     .kpi-start {
         width: 14%;
         float: left;
         text-align: right;
+
         .remove-rating {
             display: inline-block;
+
             .remove-star {
                 color: #de5245;
                 margin-right: 3px;
                 cursor: pointer;
                 font-size: 16px;
                 top: 2px;
-
             }
         }
-        .rating {
+
+        .rating-form {
             padding-left: 5px;
             display: inline-block;
+
+            .rating-xs {
+                font-size: 1em;
+            }
+
             .glyphicon {
                 font-size: 15px;
                 color: #4493c4;
+
                 &.glyphicon-star {
-                    cursor: pointer;
+                    //cursor: pointer;
                     color: #f67f46;
                 }
             }
         }
     }
+
     .kpi-percent {
         width: 5%;
         float: left;
         padding-left: 5px;
+
         .badge.percent {
             width: 55px;
             font-weight: normal;
             font-size: 11px;
         }
     }
+
     .rating-by-score {
         float: right;
     }
@@ -938,20 +957,24 @@
         .feature {
             width: 60%;
         }
+
         .kpi-start {
             width: 14%;
         }
+
         .employee-score {
             width: 20%;
             float: left;
             text-align: center;
         }
     }
+
     .boxtitle {
         .kpiGroup-name {
             width: 60%;
             float: left;
         }
+
         .employee-score {
             width: 20%;
             text-align: center;
@@ -965,58 +988,70 @@
         .feature {
             width: 74%;
         }
+
         .kpi-start {
             width: 20%;
         }
     }
+
     .user-info {
         clear: left;
     }
+
     .evaluator-container {
         .boxtitle .employee-score {
             width: 16%;
         }
+
         .kpi-name {
             .employee-score {
                 width: 16%;
             }
+
             .kpi-start {
-                 width: 18%;
+                width: 18%;
             }
         }
-
-    } 
-}
-@media (max-width: 880px) {
-    .evaluation-process-section ul.evaluation-process li:nth-last-of-type(2){
-         margin: 10px 0 0 40px;
     }
 }
+
+@media (max-width: 880px) {
+    .evaluation-process-section ul.evaluation-process li:nth-last-of-type(2) {
+        margin: 10px 0 0 40px;
+    }
+}
+
 @media (max-width: 1023px) {
     .rating-by-kpi {
         .table.table-bordered {
             .col-adjust-score {
                 width: inherit;
+
                 .list-star {
                     .cancel-rating, .rating, .input-score {
                         padding: 0;
                     }
+
                     .cancel-rating {
                         width: 30%;
                         text-align: right;
                         z-index: 1;
                     }
+
                     .rating {
                         width: 65%;
-                        text-align: left;   
-                        margin-left: -10px;  
+                        text-align: left;
+                        margin-left: -10px;
+
                         span.ng-valid-parse {
                             margin-left: 14px;
-                        } 
+                        }
                     }
+
                     .input-score {
                         width: 100%;
                         margin-top: 3px;
+
                         .epa-input-score {
                             width: 85px;
                             margin: 0 auto;
@@ -1027,17 +1062,19 @@
         }
     }
 }
+
 @media (max-width: 1200px) {
     .evaluation-process-section ul.evaluation-process {
         li:nth-last-child(2) {
             margin: 10px 0 0 40px;
         }
-         
+
         li:last-child {
             margin: 10px 0 0 47px;
         }
     }
 }
+
 @media (max-width: 1600px) {
     .evaluator, .reviewer {
         .table.table-bordered {
@@ -1056,6 +1093,7 @@
         }
     }
 }
+
 @media (max-width: 1700px) {
     .management {
         .table.table-bordered {
@@ -1078,34 +1116,39 @@
 @media (min-width:1200px) {
     .list-kpi-rating {
         .list-star {
-           padding: 0 30px;
+            padding: 0 30px;
         }
     }
 }
+
 @media (min-width:1500px) {
     .list-kpi-rating {
         .list-star {
-           padding: 0 50px;
+            padding: 0 50px;
         }
     }
 }
+
 @media (min-width:1700px) {
     .list-kpi-rating {
         .list-star {
-           padding: 0 60px;
+            padding: 0 60px;
         }
+
         .kpi-score {
             width: 80px;
         }
     }
 }
+
 @media (min-width:1800px) {
     .list-kpi-rating {
         .list-star {
-           padding: 0 80px;
+            padding: 0 80px;
         }
     }
 }
+
 @media (min-width: 1212px) and (max-width: 1460px) {
     .evaluation-process-section ul.evaluation-process {
         li:last-child {

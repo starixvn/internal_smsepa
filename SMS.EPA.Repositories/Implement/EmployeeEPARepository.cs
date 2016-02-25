@@ -21,6 +21,7 @@ namespace SMS.EPA.Repositories.Implement
     using SMS.EPA.Model.EmployeeEPA.RatingByKPI;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Repositories.Interfaces;
+    using System;
 
     public class EmployeeEPARepository : IEmployeeEPARepository
     {
@@ -419,11 +420,11 @@ namespace SMS.EPA.Repositories.Implement
 
         private void DecodeScore(EvaluationModel evaluation)
         {
-            var rate = 0;
+            float rate = 0;
 
             if (!string.IsNullOrEmpty(evaluation.RateEncode))
             {
-                rate = int.Parse(Decode(evaluation.RateEncode));
+                rate = float.Parse(Decode(evaluation.RateEncode));
             }
 
             evaluation.Score = Decode(evaluation.ScoreEncode).Replace("_" + evaluation.KPIId, string.Empty);

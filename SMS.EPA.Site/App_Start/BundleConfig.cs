@@ -21,7 +21,8 @@
                             "~/Content/Common/chosen.min.css",
                             "~/Content/Common/chosen.min.css",
                             "~/Content/Common/Fanex.Grid.css",
-                            "~/Content/Common/Fanex.Pagination.css"));
+                            "~/Content/Common/Fanex.Pagination.css",
+                            "~/Libs/bootstrap-star-rating/css/star-rating.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/vendor").Include(
                             "~/Libs/jquery-2.1.0.min.js",
@@ -47,7 +48,8 @@
                             "~/Libs/numeric-directive.js",
                             "~/Libs/spin.min.js",
                             "~/Libs/angular-spinner.min.js",
-                            "~/Libs/floatThead/jquery.floatThead.min.js"));
+                            "~/Libs/floatThead/jquery.floatThead.min.js",
+                            "~/Libs/bootstrap-star-rating/js/star-rating.js"));
 
             bundles.AddAndInclude(
                             "~/bundles/less",

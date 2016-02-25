@@ -29,8 +29,6 @@ epaModule.controller('EmployeeEPAInfoController',
 ['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel', 'utilitiesFactory', 'baseUrl',
 function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, baseUrl) {
     var vm = this;
-
-    vm.permission = 0;
     vm.epaId = parseInt($routeParams.id);
 
     vm.maxStar = 5;
@@ -70,6 +68,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
 
     vm.cancelRating = function (kpiGroup, kpi) {
         kpi.CurrentEvaluation.Rate = 0;
+        $("#star_" + kpi.KPIId).rating('update', kpi.CurrentEvaluation.Rate);
         kpi.CurrentEvaluation.Score = null;
 
         if (kpiGroup.HasKPIOptional) {
@@ -146,13 +145,15 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
             });
 
             SelfEvalutorModel.getUserPermissionOnEmployee().then(function () {
-                vm.permission = SelfEvalutorModel.permission;
+                var permission = SelfEvalutorModel.permission;
 
-                if (vm.permission !== 2) {
+                if (permission !== 2) {
                     vm.isReadonly = true;
                     vm.hoveringLeave = null;
                 }
+                $('.rating').rating();
             });
+
         });
     };
 

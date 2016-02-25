@@ -163,6 +163,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
     vm.cancelRating = function (kpiGroup, kpi) {
         kpi.CurrentEvaluation.Rate = 0;
         kpi.CurrentEvaluation.Score = null;
+        $("#star_" + kpi.KPIId).rating('update', kpi.CurrentEvaluation.Rate);
 
         if (kpiGroup.HasKPIOptional) {
             SelfEvalutorModel.scoreSpreadForKPIGroupHasKPIOptional(kpiGroup, vm.maxStar);
@@ -230,6 +231,8 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel
                     vm.isReadonly = true;
                     vm.hoveringLeave = null;
                 }
+
+                $('.rating').rating();
             });
         });
     };

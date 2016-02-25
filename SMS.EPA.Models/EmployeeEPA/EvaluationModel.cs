@@ -31,7 +31,7 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public string RateEncode { get; set; }
 
-        public int Rate { get; set; }
+        public float Rate { get; set; }
 
         public string Comment { get; set; }
 

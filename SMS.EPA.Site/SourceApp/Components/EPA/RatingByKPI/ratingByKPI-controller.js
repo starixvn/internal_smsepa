@@ -143,6 +143,7 @@ function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, SelfEvalutorM
     vm.cancelRating = function (memberEPA, kpi) {
         kpi.AdjustRate = 0;
         kpi.AdjustScore = null;
+        $("#star_" + memberEPA.Employee.EmployeeId).rating('update', kpi.AdjustRate);
 
         if (memberEPA.KPIGroup.HasKPIOptional) {
             RatingByKPIModel.scoreSpreadForKPIGroupHasKPIOptional(memberEPA.KPIGroup, vm.maxStar);
@@ -355,6 +356,10 @@ function ($window, $translate, RatingByKPIModel, EmployeeEPAModel, SelfEvalutorM
         }
     });
 
+    vm.generateRatingStar = function () {
+            $(".rating").rating();
+        
+    }
     vm.initialize = function () {
         $translate('ScoreInputValid').then(function (message) {
             vm.scoreInputValidMessage = message;
