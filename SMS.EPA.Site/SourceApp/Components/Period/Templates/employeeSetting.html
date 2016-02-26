@@ -156,7 +156,7 @@
                 <td class="width-140" ng-bind="employee.SelfEvaluators[0].StartDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
                 <td class="width-140" ng-bind="employee.SelfEvaluators[0].EndDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
                 <td class="text-center width-80" rowspan="{{employee.NumberEvaluators}}">
-                    <img class="ico-tick" ng-show="employee.SelfEvaluators[0].HasEvaluationGenerated" />
+                    <span class="glyphicon glyphicon-ok-circle epa-saved" ng-show="employee.SelfEvaluators[0].HasEvaluationGenerated"></span>
                 </td>
                 <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
                     <input type="checkbox" ng-checked="employee.IsIncluded" ng-click="employeeSettingPeriodCtrl.includeExcludeEmployee(employee)"

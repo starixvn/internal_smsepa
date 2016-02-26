@@ -53,6 +53,11 @@
     </Setting>
   </Function>
   <Function Name="Auto Monthly">
+    <Setting Key="EpaPeriod_GetEvaluationGlobalSettingByTargetTypeId" SpName="EpaPeriod_GetEvaluationGlobalSettingByTargetTypeId" DbName="SMSEPA" Plain="0">
+      <Mapping DataField="NoticeAtBegin" ObjectProperty="HasSendMail" />
+    </Setting>
+    <Setting Key="EpaAuto_Monthly_InsertPeriod" SpName="EpaAuto_Monthly_InsertPeriod" DbName="SMSEPA" Plain="0">
+    </Setting>
     <Setting Key="EpaAuto_Monthly_GetPeriodStartedToday" SpName="EpaAuto_Monthly_GetPeriodStartedToday" DbName="SMSEPA" Plain="0">
     </Setting>
     <Setting Key="EpaAuto_Monthly_AddEmployeeToPeriod" SpName="EpaAuto_Monthly_AddEmployeeToPeriod" DbName="SMSEPA" Plain="0">

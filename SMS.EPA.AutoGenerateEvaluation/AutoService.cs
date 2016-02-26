@@ -284,13 +284,13 @@
 
                 durationHRPhase = processSettings.Where(p => p.ProcessId == (int)ProcessType.HumanResource).FirstOrDefault().Duration;
 
-                if (today.AddDays(durationHRPhase).Day.Equals(1))
+                if (today.AddDays(durationHRPhase).AddDays(1).Day.Equals(26))
                 {
                     var criteria = new AutoCreateMonthlyPeriodCriteria()
                     {
                         Name = today.ToString("MMM, yyyy"),
-                        StartDate = today,
-                        EndDate = today.AddDays(processSettings.Sum(p => p.Duration))
+                        StartDate = today.AddDays(1),
+                        EndDate = today.AddDays(1).AddDays(processSettings.Sum(p => p.Duration))
                     };
 
                     _LOG.Info("Create monthly period: started at " + DateTime.Now.ToString());
