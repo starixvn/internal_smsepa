@@ -44,7 +44,5 @@ namespace SMS.EPA.Model.Employee
         public IList<SystemRoleModel> Roles { get; set; }
 
         public DateTime JoinedDate { get; set; }
-
-        public bool HasMonthlyEPA { get; set; }
     }
 }

@@ -619,6 +619,7 @@
     <Content Include="Content\Site\auth\style.less" />
     <None Include="Libs\angular-resource.min.js.map" />
     <None Include="Libs\angular-route.min.js.map" />
+    <Content Include="Libs\angular-spinner.min.js.map" />
     <None Include="Libs\angular.min.js.map" />
     <Content Include="Libs\bootstrap-star-rating\.bower.json" />
     <Content Include="Libs\bootstrap-star-rating\bower.json" />

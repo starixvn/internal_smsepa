@@ -43,5 +43,7 @@ namespace SMS.EPA.Model.Enitites
         public bool IsDeleted { get; set; }
 
         public bool IsLocal { get; set; }
+
+        public bool HasMonthlyEPA { get; set; }
     }
 }

@@ -310,8 +310,6 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
     vm.period = null;
     vm.periodId = null;
     vm.employeeSettings = PeriodModel.employeeSettings;
-    vm.departments = CommonModel.departments;
-    vm.treeDepartment = CommonModel.treeDepartment;
     vm.isFirstLoad = true;
     vm.departmentOptions = [];
 
@@ -345,9 +343,8 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
 
     var getDepartmentAndEmployeeSetting = function () {
         CommonModel.getDepartment(null, true).then(function () {
-            vm.departments = CommonModel.departments;
-            vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
-            vm.departmentOptions = angular.copy(vm.treeDepartment);
+            var treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
+            vm.departmentOptions = angular.copy(treeDepartment);
         });
 
         getPeriodEmployeeSetting(vm.filter.periodId, vm.filter.departmentId, vm.filter.isLocal, vm.filter.isExcludedEmployee, vm.filter.isGeneratedEPA, vm.filter.isEvaluated);
@@ -430,7 +427,7 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
         var employeeInfo = {
             periodId: vm.period.PeriodId,
             employeeId: employeeId,
-            departments: getSelectedDepartment(vm.departments)
+            departments: getSelectedDepartment(vm.departmentOptions)
         };
 
         if (employeeInfo.employeeId || (employeeInfo.departments && employeeInfo.departments.length > 0)) {
