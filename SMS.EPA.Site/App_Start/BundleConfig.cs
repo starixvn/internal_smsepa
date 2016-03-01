@@ -120,7 +120,7 @@
                             "~/SourceApp/Components/Period/period-model.js",
                             "~/SourceApp/Components/Period/period-directive.js",
                             "~/SourceApp/Components/Period/period-controller.js",
-                            "~/SourceApp/Components/Period/period-updateEmployeeSetting-controller.js",
+                            "~/SourceApp/Components/Period/period-employeeSetting-controller.js",
                             "~/SourceApp/Components/Dashboard/dashboard-factory.js",
                             "~/SourceApp/Components/Dashboard/dashboard-model.js",
                             "~/SourceApp/Components/Dashboard/dashboard-controller.js",
@@ -145,7 +145,7 @@
                             "~/SourceApp/Components/MonthlyPeriod/monthlyPeriod-model.js",
                             "~/SourceApp/Components/MonthlyPeriod/monthlyPeriod-directive.js",
                             "~/SourceApp/Components/MonthlyPeriod/monthlyPeriod-controller.js",
-                            "~/SourceApp/Components/MonthlyPeriod/monthlyPeriod-updateEmployeeSetting-controller.js"));
+                            "~/SourceApp/Components/MonthlyPeriod/monthlyPeriod-employeeSetting-controller.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/epa-directives.js",

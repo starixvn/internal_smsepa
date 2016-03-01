@@ -21,15 +21,24 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
         isLocal: '',
         isExcludedEmployee: null,
         isGeneratedEPA: "",
-        isEvaluated: ""
+        isEvaluated: "",
+        hasMonthlyEPA: ''
     };
 
     vm.filterAssign = {
         employee: ''
     };
 
-    var getPeriodEmployeeSetting = function (periodId, departmentId, isLocal, isExcludedEmployee, isGeneratedEPA, isEvaluated) {
-        PeriodModel.getPeriodEmployeeSettingById(periodId, departmentId, isLocal, isExcludedEmployee, isGeneratedEPA, isEvaluated).then(function () {
+    var getPeriodEmployeeSetting = function (filter) {
+        PeriodModel.getPeriodEmployeeSettingById(
+            filter.periodId,
+            filter.departmentId,
+            filter.isLocal,
+            filter.isExcludedEmployee,
+            filter.isGeneratedEPA,
+            filter.isEvaluated,
+            filter.hasMonthlyEPA)
+        .then(function () {
             vm.employeeSettings = PeriodModel.employeeSettings;
             utilitiesFactory.searchOnPage(vm, vm.employeeSettings);
             vm.isFirstLoad = false;
@@ -37,37 +46,26 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
         });
     };
 
-    var getDepartmentAndEmployeeSetting = function () {
-        CommonModel.getDepartment(null, true).then(function () {
-            var treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
-            vm.departmentOptions = angular.copy(treeDepartment);
-        });
-
-        getPeriodEmployeeSetting(vm.filter.periodId, vm.filter.departmentId, vm.filter.isLocal, vm.filter.isExcludedEmployee, vm.filter.isGeneratedEPA, vm.filter.isEvaluated);
-        vm.permission = $scope.updateCtrl.permission;
-    };
-
-    $scope.$watch(function () { return $scope.updateCtrl.period && $scope.updateCtrl.permission; },
+    $scope.$watch(function () {
+        return $scope.updateCtrl.dataTab.employeeSetting && $scope.updateCtrl.period && $scope.updateCtrl.permission;
+    },
     function (newVal) {
-        if (newVal) {
+        if (newVal && vm.isFirstLoad) {
             vm.period = $scope.updateCtrl.period;
             vm.filter.periodId = vm.period.PeriodId;
+            vm.permission = $scope.updateCtrl.permission;
 
-            if ($scope.updateCtrl.dataTab.employeeSetting && vm.isFirstLoad) {
-                getDepartmentAndEmployeeSetting();
-            }
+            CommonModel.getDepartment(null, true).then(function () {
+                var treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
+                vm.departmentOptions = angular.copy(treeDepartment);
+            });
+
+            getPeriodEmployeeSetting(vm.filter);
         }
     });
 
-    $scope.$watch(function () { return $scope.updateCtrl.dataTab.employeeSetting; },
-        function (newVal) {
-            if (newVal && vm.isFirstLoad && vm.period && $scope.updateCtrl.permission) {
-                getDepartmentAndEmployeeSetting();
-            }
-        });
-
     vm.query = function (filter) {
-        getPeriodEmployeeSetting(filter.periodId, filter.departmentId, filter.isLocal, filter.isExcludedEmployee, filter.isGeneratedEPA, filter.isEvaluated);
+        getPeriodEmployeeSetting(filter);
     };
 
     vm.getIndex = function (index, currentPage, pageSize) {
@@ -129,7 +127,7 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
         if (employeeInfo.employeeId || (employeeInfo.departments && employeeInfo.departments.length > 0)) {
             PeriodModel.addEmployeeToPeriod(employeeInfo).then(function () {
                 resetFilterAssign();
-                getPeriodEmployeeSetting(vm.filter.periodId, vm.filter.departmentId, vm.filter.isExcludedEmployee, vm.filter.isGeneratedEPA, vm.filter.isEvaluated);
+                getPeriodEmployeeSetting(vm.filter);
             });
         }
         else {

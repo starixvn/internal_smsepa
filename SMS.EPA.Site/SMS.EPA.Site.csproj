@@ -439,7 +439,7 @@
     <Content Include="SourceApp\Components\MonthlyPeriod\monthlyPeriod-directive.js" />
     <Content Include="SourceApp\Components\MonthlyPeriod\monthlyPeriod-factory.js" />
     <Content Include="SourceApp\Components\MonthlyPeriod\monthlyPeriod-model.js" />
-    <Content Include="SourceApp\Components\MonthlyPeriod\monthlyPeriod-updateEmployeeSetting-controller.js" />
+    <Content Include="SourceApp\Components\MonthlyPeriod\monthlyPeriod-employeeSetting-controller.js" />
     <Content Include="SourceApp\Components\MonthlyPeriod\Templates\basicInformation.html" />
     <Content Include="SourceApp\Components\MonthlyPeriod\Templates\create.html" />
     <Content Include="SourceApp\Components\MonthlyPeriod\Templates\edit.html" />
@@ -447,7 +447,7 @@
     <Content Include="SourceApp\Components\MonthlyPeriod\Templates\employeeSetting.html" />
     <Content Include="SourceApp\Components\MonthlyPeriod\Templates\index.html" />
     <Content Include="SourceApp\Components\MonthlyPeriod\Templates\processSetting.html" />
-    <Content Include="SourceApp\Components\Period\monthly-updateEmployeeSetting-controller.js" />
+    <Content Include="SourceApp\Components\Period\period-employeeSetting-controller.js" />
     <Content Include="SourceApp\Components\Period\period-controller.js" />
     <Content Include="SourceApp\Components\Period\period-directive.js" />
     <Content Include="SourceApp\Components\Period\period-factory.js" />

@@ -44,26 +44,28 @@
 
 }
 
-.checkboxLayer.show {
-    max-height: 300px;
-    overflow-x: hidden;
-    overflow-y: auto;
-}
+.multiSelect {
+    .multiSelectButton {
+        text-align: left;
+        position: relative;
+        width: 100%;
+    }
 
-.multiSelect .multiSelectButton {
-    position: relative;
-    text-align: left;
-    width: 100%;
-}
+    .multiSelectButton .caret {
+        position: absolute;
+        top: 10px;
+        right: 5px;
+    }
 
-.multiSelect .multiSelectButton .caret {
-    position: absolute;
-    right: 5px;
-    top: 10px;
-}
+    .buttonLabel {
+        padding: 0 !important;
+    }
 
-.multiSelect .buttonLabel {
-    padding: 0 !important;
+    .checkboxLayer.show {
+        max-height: 300px;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
 }
 
 .div-period-employee-setting {
@@ -172,6 +174,10 @@
             td {
                 background-color: #fff;
             }
+        }
+
+        .glyphicon-warning-sign {
+            color: #ef6c00;
         }
     }
 }

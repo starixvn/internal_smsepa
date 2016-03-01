@@ -460,8 +460,8 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         });
     };
 
-    periodModel.getPeriodEmployeeSettingById = function (periodId, departmentId, isLocal, isExcludedEmployee, isGeneratedEPA, isEvaluated) {
-        return periodFactory.getPeriodEmployeeSettingById(periodId, departmentId, isLocal, isExcludedEmployee, isGeneratedEPA, isEvaluated)
+    periodModel.getPeriodEmployeeSettingById = function (periodId, departmentId, isLocal, isExcludedEmployee, isGeneratedEPA, isEvaluated, hasMonthlyEPA) {
+        return periodFactory.getPeriodEmployeeSettingById(periodId, departmentId, isLocal, isExcludedEmployee, isGeneratedEPA, isEvaluated, hasMonthlyEPA)
         .success(function (employeeSettings) {
             periodModel.employeeSettings = employeeSettings;
         })

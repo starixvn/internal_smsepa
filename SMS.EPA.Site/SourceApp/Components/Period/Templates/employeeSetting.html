@@ -8,7 +8,7 @@
                     <option value="">-- {{"All" | translate}} --</option>
                 </select>
             </div>
-            <label class="control-label col-sm-2" data-translate="Category"></label>
+            <label class="control-label col-sm-1" data-translate="Category"></label>
             <div class="col-sm-2">
                 <select class="form-control" ng-model="employeeSettingPeriodCtrl.filter.isLocal">
                     <option value="">-- {{"All" | translate}} --</option>
@@ -16,12 +16,6 @@
                     <option value="true">{{"Local" | translate}}</option>
                 </select>
             </div>
-            <label class="control-label col-sm-2" data-translate="ShowExcludedEmployee"></label>
-            <div class="col-sm-1">
-                <input type="checkbox" ng-model="employeeSettingPeriodCtrl.filter.isExcludedEmployee" />
-            </div>
-        </div>
-        <div class="form-group">
             <label class="control-label col-sm-2" data-translate="EPAGeneratedStatus"></label>
             <div class="col-sm-2">
                 <select class="form-control" ng-model="employeeSettingPeriodCtrl.filter.isGeneratedEPA">
@@ -30,6 +24,8 @@
                     <option value="false" data-translate="NoneGeneratedEPA"></option>
                 </select>
             </div>
+        </div>
+        <div class="form-group">
             <label class="control-label col-sm-2" data-translate="EvaluatedStatus"></label>
             <div class="col-sm-2">
                 <select class="form-control" ng-model="employeeSettingPeriodCtrl.filter.isEvaluated">
@@ -38,13 +34,21 @@
                     <option value="2" data-translate="Evaluated"></option>
                 </select>
             </div>
-            <div class="col-sm-offset-1 col-sm-1 search-button">
+            <div class="col-sm-offset-1 checkbox col-sm-3">
+                <label>
+                    <input type="checkbox" ng-model="employeeSettingPeriodCtrl.filter.isExcludedEmployee"> {{"ShowExcludedEmployee" | translate}}
+                </label>
+            </div>
+            <div class="checkbox col-sm-2">
+                <label>
+                    <input type="checkbox" ng-model="employeeSettingPeriodCtrl.filter.hasMonthlyEPA"> {{"HasMonthlyEPA" | translate}}
+                </label>
+            </div>
+            <div class="col-sm-1 search-button">
                 <button class="button" ng-click="employeeSettingPeriodCtrl.query(employeeSettingPeriodCtrl.filter)" data-translate="Search"></button>
             </div>
         </div>
-        
     </form>
-
     <table class="row table table-bordered table-striped" id="data">
         <thead>
             <tr class="header-table">
@@ -185,7 +189,7 @@
                 <td class="text-center" rowspan="{{employee.NumberEvaluators}}" ng-show="employee.Employee.HasMonthlyEPA && $first">
                     <input type="checkbox" ng-model="employee.Selected" ng-click="employeeSettingPeriodCtrl.syncSelectedEmployee(employee.Employee.EmployeeId, employee.Selected)" />
                 </td>
-                <td class="text-center" ng-bind="employeeSettingPeriodCtrl.getIndex($index, employeeSettingPeriodCtrl.currentPage, employeeSettingPeriodCtrl.pageSize)"
+                <td class="text-center" ng-bind="employeeSettingPeriodCtrl.getIndex($parent.$index, employeeSettingPeriodCtrl.currentPage, employeeSettingPeriodCtrl.pageSize)"
                     rowspan="{{employee.NumberEvaluators}}" ng-show="employee.Employee.HasMonthlyEPA && $first"></td>
                 <td class="text-center" rowspan="{{employee.NumberEvaluators}}" ng-show="employee.Employee.HasMonthlyEPA && $first">
                     <span tooltip="{{employee.Group.GroupName}}" ng-bind="employee.Group.GroupCode"></span>
@@ -197,7 +201,9 @@
                     <div ng-bind="employee.JobTitle.JobTitleName"></div>
                 </td>
                 <td class="text-center" ng-bind="employee.TargetTemplate.TargetTypeName" rowspan="{{employee.NumberEvaluators}}" ng-show="employee.Employee.HasMonthlyEPA && $first"></td>
-                <td class="width-190" ng-bind="employee.TargetTemplate.Name" rowspan="{{employee.NumberEvaluators}}" ng-show="employee.Employee.HasMonthlyEPA && $first"></td>
+                <td class="text-center" rowspan="{{employee.NumberEvaluators}}" ng-show="employee.Employee.HasMonthlyEPA && $first">
+                    <span class="glyphicon glyphicon-warning-sign"></span>
+                </td>
                 <td data-translate="Reviewer" rowspan="{{employee.Reviewers.length}}" ng-show="$first"></td>
                 <td ng-bind="reviewer.EvaluatorInfo.NickName"></td>
                 <td class="width-120">
