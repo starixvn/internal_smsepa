@@ -1254,4 +1254,10 @@
   <data name="EmployeeNotSetMonthlyEvaluation" xml:space="preserve">
     <value>Employee doesn't set monthly evaluation!</value>
   </data>
+  <data name="CanNotEditSettingOnDifferentTypeWarning" xml:space="preserve">
+    <value>Can't edit setting on different type!</value>
+  </data>
+  <data name="SettingFlowWarning" xml:space="preserve">
+    <value>Please setting flow for Human Resource, Evaluator and Reviewer.</value>
+  </data>
 </root>

@@ -356,8 +356,10 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
             notificationFactory.error("DepartmentNotSelectedWarning");
             return false;
         }
-        else if (vm.humanResources.employees.length === 0 || vm.evaluators.employees.length === 0) {
-            notificationFactory.error('', 'Please setting flow for Human Resource and Evaluator.');
+        else if (vm.humanResources.employees.length === 0
+            || vm.evaluators.employees.length === 0
+            || vm.reviewers.employees.length === 0) {
+            notificationFactory.error('SettingFlowWarning');
             return false;
         }
 
@@ -462,8 +464,10 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
             notificationFactory.error("EmployeeNotSetMonthlyEvaluation");
             return false;
         }
-        else if (vm.humanResources.employees.length === 0 || vm.evaluators.employees.length === 0) {
-            notificationFactory.error('', 'Please setting flow for Human Resource and Evaluator.');
+        else if (vm.humanResources.employees.length === 0
+            || vm.evaluators.employees.length === 0
+            || vm.reviewers.employees.length === 0) {
+            notificationFactory.error('SettingFlowWarning');
             return false;
         }
 

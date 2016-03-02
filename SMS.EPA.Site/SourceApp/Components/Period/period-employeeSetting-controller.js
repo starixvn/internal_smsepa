@@ -143,13 +143,34 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
         PeriodModel.openPopupIncludeExcludeEmployee(vm, vm.period.PeriodId, employee);
     };
 
+    var checkEditSettingOnDifferentType = function (selectedEmployees) {
+        var isValid = true;
+
+        if (!selectedEmployees || selectedEmployees.length > 0) {
+            var hasMonthlyEPA = selectedEmployees[0].Employee.HasMonthlyEPA;
+
+            for (var i = 1; i < selectedEmployees.length; i++) {
+                var employee = selectedEmployees[i].Employee;
+
+                if (employee.HasMonthlyEPA !== hasMonthlyEPA) {
+                    isValid = false;
+
+                    break;
+                }
+            }
+        }
+
+        return isValid;
+    };
+
     vm.manageSetting = function () {
         var selectedEmployees = PeriodModel.getSelectedEmployee(vm.employeeSettings);
 
         if (!selectedEmployees || selectedEmployees.length === 0) {
             notificationFactory.error("SelectEmployeeBeforeEditSettingWarning");
-        }
-        else {
+        } else if (!checkEditSettingOnDifferentType(selectedEmployees)) {
+            notificationFactory.error("CanNotEditSettingOnDifferentTypeWarning");
+        } else {
             PeriodModel.openPopupUpdateEmployeeSetting(vm, selectedEmployees);
         }
     };
@@ -164,13 +185,10 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
 
         if (!selectedEmployees || selectedEmployees.length === 0) {
             notificationFactory.error("SelectEmployeeBeforeGenerateEvaluation");
-        }
-        else {
-            if (PeriodModel.validateEmployeeSettingGenerateEPA(selectedEmployees)) {
-                PeriodModel.openPopupGenerateEvaluation(vm, period).then(function () {
-                    vm.query(vm.filter);
-                });
-            }
+        } else if (PeriodModel.validateEmployeeSettingGenerateEPA(selectedEmployees)) {
+            PeriodModel.openPopupGenerateEvaluation(vm, period).then(function () {
+                vm.query(vm.filter);
+            });
         }
     };
 
@@ -250,6 +268,7 @@ permission, PeriodModel, TargetTemplateModel, FlowMngModel, CommonModel) {
     vm.period = period;
     vm.selectedEmployees = selectedEmployees;
     vm.singleMode = vm.selectedEmployees.length === 1 ? true : false;
+    vm.isEditOnEPAHasMonthly = vm.selectedEmployees[0].Employee.HasMonthlyEPA;
 
     vm.permission = permission;
     vm.periodDateFormat = PeriodModel.periodDateFormat;
@@ -487,6 +506,14 @@ permission, PeriodModel, TargetTemplateModel, FlowMngModel, CommonModel) {
 
     vm.save = function () {
         var employeeAssignmentSetting;
+
+        if (vm.isEditOnEPAHasMonthly) {
+            vm.employeeOptions.selfEvaluator.StartDate = vm.employeeOptions.humanResource.EndDate;
+            vm.employeeOptions.selfEvaluator.EndDate = vm.employeeOptions.humanResource.EndDate;
+            vm.employeeOptions.evaluator.StartDate = vm.employeeOptions.humanResource.EndDate;
+            vm.employeeOptions.evaluator.EndDate = vm.employeeOptions.humanResource.EndDate;
+        }
+
         if (vm.singleMode) {
             if (PeriodModel.validateEmployeeSetting(vm.employeeOptions)) {
                 if (checkChangeEmployeeSetting(vm.employeeOptions, vm.selectedEmployees[0])) {
@@ -495,23 +522,19 @@ permission, PeriodModel, TargetTemplateModel, FlowMngModel, CommonModel) {
                     PeriodModel.updateEmployeeSettingOfPeriod(employeeAssignmentSetting).then(function () {
                         $modalInstance.close();
                     });
-                }
-                else {
+                } else {
                     $modalInstance.dismiss("cancel");
                 }
             }
-        }
-        else {
-            if (PeriodModel.checkHasFieldEdit(vm.fieldEdit)) {
-                var updatedEmployees = PeriodModel.updateEmployeeSettings(vm.employeeOptions, vm.fieldEdit, vm.selectedEmployees);
+        } else if (PeriodModel.checkHasFieldEdit(vm.fieldEdit)) {
+            var updatedEmployees = PeriodModel.updateEmployeeSettings(vm.employeeOptions, vm.fieldEdit, vm.selectedEmployees);
 
-                if (PeriodModel.validateEmployeeSettingMultipleMode(updatedEmployees)) {
-                    employeeAssignmentSetting = PeriodModel.createAssignmentSettingsMultipleMode(updatedEmployees, vm);
+            if (PeriodModel.validateEmployeeSettingMultipleMode(updatedEmployees)) {
+                employeeAssignmentSetting = PeriodModel.createAssignmentSettingsMultipleMode(updatedEmployees, vm);
 
-                    PeriodModel.updateEmployeeSettingOfPeriod(employeeAssignmentSetting).then(function () {
-                        $modalInstance.close();
-                    });
-                }
+                PeriodModel.updateEmployeeSettingOfPeriod(employeeAssignmentSetting).then(function () {
+                    $modalInstance.close();
+                });
             }
         }
     };

@@ -222,7 +222,7 @@
                               ng-show="reviewer.ProcessDetailStatus == 2" ng-attr-title='{{"Evaluated" | translate}}'></span>
                         <span class="glyphicon glyphicon-list-alt epa-unsaved period-process-detail"
                               ng-show="reviewer.ProcessDetailStatus == 1" ng-attr-title='{{"NotEvaluated" | translate}}'></span>
-                        </divng-show>
+                    </div>
                 </td>
                 <td class="width-120" ng-bind="reviewer.StartDate | date: employeeSettingPeriodCtrl.dateFormat"
                     ng-show="$first" rowspan="{{employee.Reviewers.length}}"></td>

@@ -331,6 +331,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t edit setting on different type!.
+        /// </summary>
+        public static string CanNotEditSettingOnDifferentTypeWarning {
+            get {
+                return ResourceManager.GetString("CanNotEditSettingOnDifferentTypeWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Category.
         /// </summary>
         public static string Category {
@@ -2766,6 +2775,15 @@ namespace SMS.EPA.Resources {
         public static string SendEmail {
             get {
                 return ResourceManager.GetString("SendEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please setting flow for Human Resource, Evaluator and Reviewer..
+        /// </summary>
+        public static string SettingFlowWarning {
+            get {
+                return ResourceManager.GetString("SettingFlowWarning", resourceCulture);
             }
         }
         
