@@ -58,7 +58,7 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
                 params: {
                     groupId: groupId,
                     isLocal: isLocal,
-                    isMonthy: isMonthly,
+                    isMonthly: isMonthly,
                     employeeIds: employeeIds
                 }
             });
