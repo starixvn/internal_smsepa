@@ -137,6 +137,7 @@ namespace SMS.EPA.Site.Controllers.API
         public IEnumerable<EPAModel> GetEPAByEvaluator(
             int? groupId = null,
             bool? isLocal = null,
+            bool isMonthly = false,
             string employeeIds = null)
         {
             var criteria = new GetEPAByEvaluatorCriteria()
@@ -144,6 +145,7 @@ namespace SMS.EPA.Site.Controllers.API
                 EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
                 GroupId = groupId,
                 IsLocal = isLocal,
+                IsMonthly = isMonthly,
                 EmployeeIds = employeeIds
             };
 
@@ -225,6 +227,7 @@ namespace SMS.EPA.Site.Controllers.API
         public IEnumerable<EPAModel> GetEPAByReviewer(
             int? groupId = null,
             bool? isLocal = null,
+            bool isMonthly = false,
             string employeeIds = null)
         {
             var criteria = new GetEPAByReviewerCriteria()
@@ -232,6 +235,7 @@ namespace SMS.EPA.Site.Controllers.API
                 ReviewerId = CurrentUser.EmployeeInfo.EmployeeId,
                 GroupId = groupId,
                 IsLocal = isLocal,
+                IsMonthly = isMonthly,
                 EmployeeIds = employeeIds
             };
 
@@ -308,6 +312,7 @@ namespace SMS.EPA.Site.Controllers.API
         public IEnumerable<EPAModel> GetEPAByManagement(
             int? groupId = null,
             bool? isLocal = null,
+            bool isMonthly = false,
             string employeeIds = null)
         {
             var criteria = new GetEPAByManagementCriteria()
@@ -315,6 +320,7 @@ namespace SMS.EPA.Site.Controllers.API
                 ManagementId = CurrentUser.EmployeeInfo.EmployeeId,
                 GroupId = groupId,
                 IsLocal = isLocal,
+                IsMonthly = isMonthly,
                 EmployeeIds = employeeIds
             };
 

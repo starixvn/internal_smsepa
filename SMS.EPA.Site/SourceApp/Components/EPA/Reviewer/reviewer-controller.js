@@ -17,6 +17,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     vm.filter = {
         groupId: '',
         isLocal: '',
+        isMonthly: false,
         employeeIds: ''
     };
 
@@ -122,10 +123,10 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
         });
     };
 
-    var getEPAByReviewer = function (groupId, isLocal, employeeIds, selectedEmployees) {
+    var getEPAByReviewer = function (groupId, isLocal, isMonthly, employeeIds, selectedEmployees) {
         vm.isEndProcessAll = false;
 
-        ReviewerManagementModel.getEPAByReviewer(groupId, isLocal, employeeIds).then(function () {
+        ReviewerManagementModel.getEPAByReviewer(groupId, isLocal, isMonthly, employeeIds).then(function () {
             vm.memberEPAs = ReviewerManagementModel.memberEPAs;
 
             var averageScore = 0, countEndProcess = 0;
@@ -176,7 +177,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 
     vm.query = function (filter) {
         filter.employeeIds = utilitiesFactory.getSelectedData(vm.members, 'EmployeeId');
-        getEPAByReviewer(filter.groupId, filter.isLocal, filter.employeeIds);
+        getEPAByReviewer(filter.groupId, filter.isLocal, filter.isMonthly, filter.employeeIds);
     };
 
     vm.initialize = function () {
@@ -201,7 +202,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
         CommonModel.getStandardGrade().then(function () {
             vm.standardGrades = CommonModel.standardGrades;
 
-            getEPAByReviewer(vm.filter.groupId, vm.filter.isLocal, vm.filter.employeeIds);
+            getEPAByReviewer(vm.filter.groupId, vm.filter.isLocal, vm.filter.isMonthly, vm.filter.employeeIds);
         });
     };
 

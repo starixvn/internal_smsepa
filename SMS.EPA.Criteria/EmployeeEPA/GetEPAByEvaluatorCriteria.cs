@@ -19,6 +19,8 @@ namespace SMS.EPA.Criteria.EmployeeEPA
 
         public bool? IsLocal { get; set; }
 
+        public bool IsMonthly { get; set; }
+
         public int? GroupId { get; set; }
 
         public override string GetSettingKey()
