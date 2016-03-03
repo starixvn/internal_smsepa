@@ -1260,4 +1260,10 @@
   <data name="SettingFlowWarning" xml:space="preserve">
     <value>Please setting flow for Human Resource, Evaluator and Reviewer.</value>
   </data>
+  <data name="IsMonthly" xml:space="preserve">
+    <value>Is Monthly</value>
+  </data>
+  <data name="ViewSemiEPAResult" xml:space="preserve">
+    <value>View Semi EPA Result</value>
+  </data>
 </root>

@@ -46,6 +46,8 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public string FinalScore { get; set; }
 
+        public bool HasMonthlyEPA { get; set; }
+
         public int MaxFinalScore
         {
             get

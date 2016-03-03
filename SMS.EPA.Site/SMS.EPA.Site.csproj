@@ -374,6 +374,10 @@
     <Content Include="SourceApp\Components\EPA\employeeEPA-directive.js" />
     <Content Include="SourceApp\Components\EPA\employeeEPA-factory.js" />
     <Content Include="SourceApp\Components\EPA\employeeEPA-model.js" />
+    <Content Include="SourceApp\Components\EPA\SemiMonthly\semiMonthly-controller.js" />
+    <Content Include="SourceApp\Components\EPA\SemiMonthly\Templates\detail.html" />
+    <Content Include="SourceApp\Components\EPA\SemiMonthly\Templates\evaluationProcess.html" />
+    <Content Include="SourceApp\Components\EPA\SemiMonthly\Templates\summary.html" />
     <Content Include="SourceApp\Components\EPA\Evaluator\evaluator-controller.js" />
     <Content Include="SourceApp\Components\EPA\RatingByKPI\ratingByKPI-controller.js" />
     <Content Include="SourceApp\Components\EPA\RatingByKPI\ratingByKPI-factory.js" />

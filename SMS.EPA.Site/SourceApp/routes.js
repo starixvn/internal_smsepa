@@ -18,7 +18,7 @@ var kpiModule = angular.module("kpiModule", ['ngRoute'])
     var baseUrl = $("base").first().attr("href");
     $routeProvider.when('/KPI/Index',
     { templateUrl: baseUrl + 'SourceApp/Components/KPI/Templates/index.html' })
-    .otherwise({redirectTo: '/error'});
+    .otherwise({ redirectTo: '/error' });
 }]);
 
 var errorModule = angular.module('errorModule', ['ngRoute'])
@@ -105,6 +105,8 @@ var epaModule = angular.module("epaModule", ['ngRoute'])
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/RatingByKPI/Templates/index.html' });
     $routeProvider.when('/OldEPA/Convert',
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/Convert/Templates/detail.html' });
+    $routeProvider.when('/SemiMonthly/Detail/:id',
+    { templateUrl: baseUrl + 'SourceApp/Components/EPA/SemiMonthly/Templates/detail.html' });
 }]);
 
 var periodModule = angular.module("periodModule", ['ngRoute'])

@@ -1663,6 +1663,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Is Monthly.
+        /// </summary>
+        public static string IsMonthly {
+            get {
+                return ResourceManager.GetString("IsMonthly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Is Special User.
         /// </summary>
         public static string IsSpecialUser {
@@ -3369,6 +3378,15 @@ namespace SMS.EPA.Resources {
         public static string ViewOtherViolation {
             get {
                 return ResourceManager.GetString("ViewOtherViolation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View Semi EPA Result.
+        /// </summary>
+        public static string ViewSemiEPAResult {
+            get {
+                return ResourceManager.GetString("ViewSemiEPAResult", resourceCulture);
             }
         }
         
