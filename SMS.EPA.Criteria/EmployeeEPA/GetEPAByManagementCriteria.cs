@@ -20,8 +20,6 @@ namespace SMS.EPA.Criteria.EmployeeEPA
 
         public bool? IsLocal { get; set; }
 
-        public bool IsMonthly { get; set; }
-
         public override string GetSettingKey()
         {
             return "EPA_GetByManagement";

@@ -312,7 +312,6 @@ namespace SMS.EPA.Site.Controllers.API
         public IEnumerable<EPAModel> GetEPAByManagement(
             int? groupId = null,
             bool? isLocal = null,
-            bool isMonthly = false,
             string employeeIds = null)
         {
             var criteria = new GetEPAByManagementCriteria()
@@ -320,7 +319,6 @@ namespace SMS.EPA.Site.Controllers.API
                 ManagementId = CurrentUser.EmployeeInfo.EmployeeId,
                 GroupId = groupId,
                 IsLocal = isLocal,
-                IsMonthly = isMonthly,
                 EmployeeIds = employeeIds
             };
 

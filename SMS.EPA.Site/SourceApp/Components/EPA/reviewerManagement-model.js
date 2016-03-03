@@ -309,8 +309,8 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         });
     };
 
-    reviewerMngModel.getEPAByManagement = function (groupId, isLocal, isMonthly, employeeIds) {
-        return employeeEPAFactory.getEPAByManagement(groupId, isLocal, isMonthly, employeeIds)
+    reviewerMngModel.getEPAByManagement = function (groupId, isLocal, employeeIds) {
+        return employeeEPAFactory.getEPAByManagement(groupId, isLocal, employeeIds)
         .success(function (memberEPAs) {
             reviewerMngModel.memberEPAs = memberEPAs;
         }).error(function (response, status) {
