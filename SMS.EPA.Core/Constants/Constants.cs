@@ -16,7 +16,7 @@ namespace SMS.EPA.Core.Constants
     {
         public const string CurrentSessionKey = "SMS.EPA.CurrentSession";
 
-        public const string DefaultPassword = "SMSep@1320$!";
+        public const string DefaultPassword = "123456";
 
         public const string ResetDefaultPassword = "123456";
 
