@@ -10,9 +10,9 @@
                     </span>
                 </th>
                 <th colspan="2" data-translate="Reviewer"></th>
-                <th rowspan="2" data-translate="DisciplineScore" class="col-score" ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != 1"></th>
+                <th rowspan="2" data-translate="DisciplineScore" class="col-score" ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != 2"></th>
                 <th rowspan="2" data-translate="TotalScore" class="col-score"></th>
-                <th rowspan="2" data-translate="Grade" class="col-score" ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != 1"></th>
+                <th rowspan="2" data-translate="Grade" class="col-score" ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != 2"></th>
             </tr>
             <tr>
                 <th data-translate="PerformanceScore" class="col-score"></th>
@@ -65,7 +65,7 @@
                     <textarea class="form-control" ng-readonly="memberEPAInfoCtrl.isReadonly"
                               ng-model="memberEPAInfoCtrl.epaInfo.CurrentProcess.Comment"></textarea>
                 </td>
-                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center" ng-show="$first" ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != 3">
+                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center" ng-show="$first" ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != 2">
                     <strong ng-show="memberEPAInfoCtrl.epaInfo.HasDisciplineScore">
                         {{memberEPAInfoCtrl.epaInfo.DisciplineScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxDisciplineScore | customScore}}
                     </strong>
@@ -77,13 +77,13 @@
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center" ng-show="$first">
                     <strong>{{memberEPAInfoCtrl.finalScore | customScore}} / {{memberEPAInfoCtrl.maxPerformanceScore | customScore}}</strong>
                 </td>
-                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center" ng-show="$first" ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != 1">
+                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center" ng-show="$first" ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != 2">
                     <strong ng-bind="memberEPAInfoCtrl.epaInfo.Grade"></strong>
                 </td>
             </tr>
         </tbody>
     </table>
 </div>
-<div class="row row-item" ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != 1">
+<div class="row row-item" ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != 2">
     <div ng-include src="'/SourceApp/Components/EPA/Templates/performanceGradingScale.html'"></div>
 </div>
