@@ -95,10 +95,14 @@ var epaModule = angular.module("epaModule", ['ngRoute'])
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/Reviewer/Templates/index.html' });
     $routeProvider.when('/Reviewer/Detail/:id',
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/Reviewer/Templates/detail.html' });
+    $routeProvider.when('/Reviewer/SemiDetail/:id',
+    { templateUrl: baseUrl + 'SourceApp/Components/EPA/Reviewer/Templates/semiDetail.html' });
     $routeProvider.when('/Management/Index',
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/Management/Templates/index.html' });
     $routeProvider.when('/Management/Detail/:id',
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/Management/Templates/detail.html' });
+    $routeProvider.when('/Management/SemiDetail/:id',
+    { templateUrl: baseUrl + 'SourceApp/Components/EPA/Management/Templates/semiDetail.html' });
     $routeProvider.when('/EPA/Detail/:id',
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/Templates/viewDetail.html' });
     $routeProvider.when('/RatingByKPI/Index',

@@ -1,0 +1,49 @@
+﻿<div class="form-reviewer" ng-controller="MemberEPAInfoOfReviewerController as memberEPAInfoCtrl">
+    <div class="col-sm-12 sub-header">
+        <ul class="row breadcrumb">
+            <li class="current" data-translate="MemberEPA"></li>
+        </ul>
+    </div>
+    <div class="col-sm-12">
+        <div class="row epa-form">
+            <div class="text-center epa-title" data-translate="EPATilte"></div>
+            <div class="col-sm-12 list-group-item bottom-buffer general-info-section" ng-init="memberEPAInfoCtrl.collapses['GeneralInfo'] = false;">
+                <div class="boxtitle" data-translate="GeneralInfo"
+                     ng-click="memberEPAInfoCtrl.collapses['GeneralInfo'] = !memberEPAInfoCtrl.collapses['GeneralInfo']"></div>
+                <div class="boxcontent" collapse="memberEPAInfoCtrl.collapses['GeneralInfo']"
+                     ng-include src="'/SourceApp/Components/EPA/Templates/generalInformation.html'"></div>
+            </div>
+            <div class="col-sm-12 list-group-item bottom-buffer evaluation-process-section"
+                 ng-init="memberEPAInfoCtrl.collapses['EvaluationProcess'] = false;">
+                <div class="boxtitle text-uppercase" data-translate="EvaluationProcess"
+                     ng-click="memberEPAInfoCtrl.collapses['EvaluationProcess'] = !memberEPAInfoCtrl.collapses['EvaluationProcess']"></div>
+                <div class="boxcontent" auto-collapse="true" collapse="memberEPAInfoCtrl.collapses['EvaluationProcess']">
+                    <div class="row row-item">
+                        <div ng-include src="'/SourceApp/Components/EPA/SemiMonthly/Templates/evaluationProcess.html'"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 list-group-item bottom-buffer summary-section" ng-init="memberEPAInfoCtrl.collapses['PerformanceResult'] = false;">
+                <div class="boxtitle text-uppercase" data-translate="PerformanceResult"
+                     ng-click="memberEPAInfoCtrl.collapses['PerformanceResult'] = !memberEPAInfoCtrl.collapses['PerformanceResult']"></div>
+                <div class="boxcontent" collapse="memberEPAInfoCtrl.collapses['PerformanceResult']"
+                     ng-include src="'/SourceApp/Components/EPA/Reviewer/Templates/semiPerformanceResult.html'"></div>
+            </div>
+            <div class="col-sm-12 list-group-item summary-section" ng-init="memberEPAInfoCtrl.collapses['Summary'] = false;">
+                <div class="boxtitle" data-translate="Summary"
+                     ng-click="memberEPAInfoCtrl.collapses['Summary'] = !memberEPAInfoCtrl.collapses['Summary']">
+                </div>
+                <div class="boxcontent" collapse="memberEPAInfoCtrl.collapses['Summary']"
+                     ng-include src="'/SourceApp/Components/EPA/SemiMonthly/Templates/summary.html'">
+                </div>
+            </div>
+        </div>
+        <div class="navbar navbar-default navbar-fixed-bottom action-section">
+            <div class="container text-center">
+                <button class="button" ng-click="memberEPAInfoCtrl.save(memberEPAInfoCtrl.epaInfo)"
+                        ng-if="memberEPAInfoCtrl.epaInfo && !memberEPAInfoCtrl.isReadonly" data-translate="Save"></button>
+                <button class="btn btn-warning customize" ng-click="memberEPAInfoCtrl.cancel()" data-translate="Back"></button>
+            </div>
+        </div>
+    </div>
+</div>

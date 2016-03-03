@@ -1,0 +1,32 @@
+﻿<div class="row row-item">
+    <table class="table table-bordered table-striped table-performance-result table-custom">
+        <thead>
+            <tr>
+                <th rowspan="2">Self Score</th>
+                <th rowspan="2">Evaluator Score</th>
+                <th colspan="2" data-translate="Reviewer"></th>
+                <th rowspan="2" data-translate="DisciplineScore" class="col-score" ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != 2"></th>
+                <th rowspan="2" data-translate="TotalScore" class="col-score"></th>
+                <th rowspan="2" data-translate="Grade" class="col-score" ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != 2"></th>
+            </tr>
+            <tr>
+                <th data-translate="PerformanceScore" class="col-score"></th>
+                <th data-translate="Comment" class="col-comment"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="text-center">50</td>
+                <td class="text-center">50</td>
+                <td><input type="text" value="0"/></td>
+                <td><input type="text" /></td>
+                <td class="text-center">30/30</td>
+                <td class="text-center">30/30</td>
+                <td class="text-center">A</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="row row-item" ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != 2">
+    <div ng-include src="'/SourceApp/Components/EPA/Templates/performanceGradingScale.html'"></div>
+</div>
