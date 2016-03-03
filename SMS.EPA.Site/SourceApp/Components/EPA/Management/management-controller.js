@@ -45,6 +45,10 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
         vm.viewEPAResultUrl = baseUrl + 'EPA/Detail/' + memberEPA.EPAId;
     };
 
+    vm.viewSemiEPAResult = function (memberEPA) {
+        vm.viewSemiEPAResultUrl = baseUrl + 'SemiMonthly/Detail/' + memberEPA.EPAId;
+    };
+
     vm.viewOtherViolationDetail = function (memberEPA) {
         CommonModel.openPopupViewOtherViolationDetail(memberEPA.EPAId);
     };

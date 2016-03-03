@@ -159,8 +159,12 @@
                            ng-if="!memberEPA.CurrentProcess.IsEndProcess && !memberEPA.Period.IsEndPeriod"
                            ng-href="{{managementCtrl.viewEPADetailUrl}}" ng-attr-title='{{"EvaluateNow" | translate}}'></a>
                         <a class="glyphicon icon-view" href="" ng-click="managementCtrl.viewEPAResult(memberEPA)"
-                           ng-if="memberEPA.CurrentProcess.IsEndProcess || memberEPA.Period.IsEndPeriod"
+                           ng-if="!managementCtrl.HasMonthlyEPA && (memberEPA.CurrentProcess.IsEndProcess || memberEPA.Period.IsEndPeriod)"
                            ng-href="{{managementCtrl.viewEPAResultUrl}}" ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
+                        <a class="glyphicon icon-view" href="" ng-click="managementCtrl.viewSemiEPAResult(memberEPA)"
+                           ng-if="managementCtrl.HasMonthlyEPA && (memberEPA.CurrentProcess.IsEndProcess || memberEPA.Period.IsEndPeriod)"
+                           ng-href="{{managementCtrl.viewSemiEPAResultUrl}}" ng-attr-title='{{"ViewSemiEPAResult" | translate}}'></a>
+
                     </td>
                 </tr>
             </tbody>
