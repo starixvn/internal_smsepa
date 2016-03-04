@@ -16,14 +16,6 @@ function ($scope, $routeParams, $window, MonthlyPeriodModel, utilitiesFactory, C
     vm.currentPage = 1;
     vm.pageSize = 20;
 
-    vm.calendar = {
-        monthlyPeriodOpened: false
-    };
-
-    vm.dateOptions = {
-        minMode: 'month'
-    };
-
     utilitiesFactory.numberEntryList(vm);
     utilitiesFactory.getDateFormat(vm);
 
@@ -31,7 +23,6 @@ function ($scope, $routeParams, $window, MonthlyPeriodModel, utilitiesFactory, C
         periodId: null,
         departmentId: null,
         isLocal: '',
-        monthlyPeriod: new Date(),
         isExcludedEmployee: null,
         isGeneratedEPA: "",
         isEvaluated: ""
@@ -41,13 +32,6 @@ function ($scope, $routeParams, $window, MonthlyPeriodModel, utilitiesFactory, C
         employee: ''
     };
 
-    vm.openPopupMonthlyPeriod = function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-
-        vm.calendar.monthlyPeriodOpened = true;
-    };
-
     var getEmployeeSetting = function (filter) {
         MonthlyPeriodModel.getEmployeeSettingMonthlyPeriodById(
             filter.periodId,
@@ -55,8 +39,7 @@ function ($scope, $routeParams, $window, MonthlyPeriodModel, utilitiesFactory, C
             filter.isLocal,
             filter.isExcludedEmployee,
             filter.isGeneratedEPA,
-            filter.isEvaluated,
-            filter.monthlyPeriod)
+            filter.isEvaluated)
         .then(function () {
             vm.employeeSettings = MonthlyPeriodModel.employeeSettings;
             utilitiesFactory.searchOnPage(vm, vm.employeeSettings);

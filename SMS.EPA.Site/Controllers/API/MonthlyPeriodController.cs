@@ -169,7 +169,6 @@ namespace SMS.EPA.Site.Controllers.API
         [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Read)]
         public IEnumerable<PeriodEmployeeSettingModel> GetEmployeeSettingMonthlyPeriodById(
             int periodId,
-            DateTime monthlyPeriod,
             int? departmentId = null,
             bool? isLocal = null,
             bool? isExcludedEmployee = null,
@@ -183,8 +182,7 @@ namespace SMS.EPA.Site.Controllers.API
                 IsLocal = isLocal,
                 IsExcludedEmployee = isExcludedEmployee,
                 IsGeneratedEPA = isGeneratedEPA,
-                IsEvaluated = isEvaluated,
-                MonthlyPeriod = monthlyPeriod
+                IsEvaluated = isEvaluated
             };
 
             IEnumerable<PeriodEmployeeSettingModel> employeeSettings = _periodService.GetPeriodEmployeeSettingById(criteria);

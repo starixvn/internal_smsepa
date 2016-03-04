@@ -184,8 +184,8 @@ function ($modal, monthlyPeriodFactory, errorFactory, notificationFactory, utili
         });
     };
 
-    monthlyPeriodModel.getEmployeeSettingMonthlyPeriodById = function (periodId, departmentId, isLocal, isExcludedEmployee, isGeneratedEPA, isEvaluated, monthlyPeriod) {
-        return monthlyPeriodFactory.getEmployeeSettingMonthlyPeriodById(periodId, monthlyPeriod, departmentId, isLocal, isExcludedEmployee, isGeneratedEPA, isEvaluated)
+    monthlyPeriodModel.getEmployeeSettingMonthlyPeriodById = function (periodId, departmentId, isLocal, isExcludedEmployee, isGeneratedEPA, isEvaluated) {
+        return monthlyPeriodFactory.getEmployeeSettingMonthlyPeriodById(periodId, departmentId, isLocal, isExcludedEmployee, isGeneratedEPA, isEvaluated)
         .success(function (employeeSettings) {
             monthlyPeriodModel.employeeSettings = employeeSettings;
         })

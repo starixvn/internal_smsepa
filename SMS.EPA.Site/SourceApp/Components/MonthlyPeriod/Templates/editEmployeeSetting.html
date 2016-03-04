@@ -23,7 +23,7 @@
             </div>
         </form>
 
-        <table class="row table table-bordered table-striped table-period-setting">
+        <table class="row table table-bordered table-striped">
             <thead>
                 <tr class="headerName">
                     <th ng-show="!updatePeriodSettingCtrl.singleMode"></th>
@@ -40,7 +40,7 @@
                         <input type="checkbox" ng-model="updatePeriodSettingCtrl.fieldEdit.evaluator" />
                     </td>
                     <td data-translate="Evaluator"></td>
-                    <td>
+                    <td class="width-200">
                         <select class="form-control" multiple chosen
                                 options="updatePeriodSettingCtrl.employeeOptions.humanResourceEmployees"
                                 ng-model="updatePeriodSettingCtrl.employeeOptions.humanResource.ids"
@@ -48,8 +48,8 @@
                                 ng-options="opt.EmployeeId as opt.NickName for opt in updatePeriodSettingCtrl.employeeOptions.humanResourceEmployees"
                                 on-show-dropdown="updatePeriodSettingCtrl.updateTrigger()"></select>
                     </td>
-                    <td></td>
-                    <td>
+                    <td class="width-200"></td>
+                    <td class="width-200">
                         <select class="form-control" multiple chosen
                                 options="updatePeriodSettingCtrl.employeeOptions.evaluatorEmployees"
                                 ng-model="updatePeriodSettingCtrl.employeeOptions.evaluator.ids"
@@ -57,7 +57,7 @@
                                 ng-options="opt.EmployeeId as opt.NickName for opt in updatePeriodSettingCtrl.employeeOptions.evaluatorEmployees"
                                 on-show-dropdown="updatePeriodSettingCtrl.updateTrigger()"></select>
                     </td>
-                    <td>
+                    <td class="width-200">
                         <select class="form-control" multiple chosen
                                 options="updatePeriodSettingCtrl.employeeOptions.reviewerEmployees"
                                 ng-model="updatePeriodSettingCtrl.employeeOptions.reviewer.ids"

@@ -16,14 +16,10 @@
                     <option value="true">{{"Local" | translate}}</option>
                 </select>
             </div>
-            <label data-translate="MonthlyPeriod" class="col-sm-1 control-label"></label>
-            <div class="col-sm-2">
-                <input readonly class="calendar-form-control" type="text"
-                       ng-model="employeeSettingPeriodCtrl.filter.monthlyPeriod"
-                       datepicker-popup="MMM, yyyy" datepicker-mode="'month'" datepicker-options="employeeSettingPeriodCtrl.dateOptions"
-                       ng-click="employeeSettingPeriodCtrl.openPopupMonthlyPeriod($event)"
-                       is-open="employeeSettingPeriodCtrl.calendar.monthlyPeriodOpened" />
-                <calendar-image class="calendar-image" ng-click="employeeSettingPeriodCtrl.openPopupMonthlyPeriod($event)"></calendar-image>
+            <div class="col-sm-3 col-sm-offset-1">
+                <label>
+                    <input type="checkbox" ng-model="employeeSettingPeriodCtrl.filter.isExcludedEmployee" /> {{"ShowExcludedEmployee" | translate}}
+                </label>
             </div>
         </div>
         <div class="form-group">
@@ -43,11 +39,7 @@
                     <option value="2" data-translate="Evaluated"></option>
                 </select>
             </div>
-            <label class="control-label col-sm-2" data-translate="ShowExcludedEmployee"></label>
-            <div class="col-sm-1">
-                <input type="checkbox" ng-model="employeeSettingPeriodCtrl.filter.isExcludedEmployee" />
-            </div>
-            <div class="col-sm-1 search-button">
+            <div class="col-sm-1 col-sm-offset-1">
                 <button class="button" ng-click="employeeSettingPeriodCtrl.query(employeeSettingPeriodCtrl.filter)" data-translate="Search"></button>
             </div>
         </div>
@@ -142,8 +134,8 @@
                               ng-show="employee.SelfEvaluators[0].ProcessDetailStatus == 1" ng-attr-title='{{"NotEvaluated" | translate}}'></span>
                     </div>
                 </td>
-                <td class="width-140" ng-bind="employee.SelfEvaluators[0].StartDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
-                <td class="width-140" ng-bind="employee.SelfEvaluators[0].EndDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
+                <td class="width-100" ng-bind="employee.SelfEvaluators[0].StartDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
+                <td class="width-100" ng-bind="employee.SelfEvaluators[0].EndDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
                 <td class="text-center width-80" rowspan="{{employee.NumberEvaluators}}">
                     <span class="glyphicon glyphicon-ok-circle epa-saved" ng-show="employee.SelfEvaluators[0].HasEvaluationGenerated"></span>
                 </td>
@@ -178,9 +170,9 @@
                               ng-show="evaluator.ProcessDetailStatus == 1" ng-attr-title='{{"NotEvaluated" | translate}}'></span>
                     </div>
                 </td>
-                <td class="width-140" ng-bind="evaluator.StartDate | date: employeeSettingPeriodCtrl.dateFormat"
+                <td class="width-100" ng-bind="evaluator.StartDate | date: employeeSettingPeriodCtrl.dateFormat"
                     ng-show="$first" rowspan="{{employee.Evaluators.length}}"></td>
-                <td class="width-140" ng-bind="evaluator.EndDate | date: employeeSettingPeriodCtrl.dateFormat"
+                <td class="width-100" ng-bind="evaluator.EndDate | date: employeeSettingPeriodCtrl.dateFormat"
                     ng-show="$first" rowspan="{{employee.Evaluators.length}}"></td>
             </tr>
             <tr ng-class="{oddRow: $parent.$index % 2 == 0, evenRow: $parent.$index % 2 != 0}" ng-repeat="reviewer in employee.Reviewers">
@@ -204,9 +196,9 @@
                               ng-show="reviewer.ProcessDetailStatus == 1" ng-attr-title='{{"NotEvaluated" | translate}}'></span>
                         </divng-show>
                 </td>
-                <td class="width-120" ng-bind="reviewer.StartDate | date: employeeSettingPeriodCtrl.dateFormat"
+                <td class="width-100" ng-bind="reviewer.StartDate | date: employeeSettingPeriodCtrl.dateFormat"
                     ng-show="$first" rowspan="{{employee.Reviewers.length}}"></td>
-                <td class="width-120" ng-bind="reviewer.EndDate | date: employeeSettingPeriodCtrl.dateFormat"
+                <td class="width-100" ng-bind="reviewer.EndDate | date: employeeSettingPeriodCtrl.dateFormat"
                     ng-show="$first" rowspan="{{employee.Reviewers.length}}"></td>
             </tr>
         </tbody>
