@@ -269,6 +269,13 @@ function ($scope, $modalInstance, MonthlyPeriodModel, TargetTemplateModel, FlowM
         }
     };
 
+    vm.fieldEdit = {
+        targetTemplate: false,
+        evaluator: false,
+        startDate: false,
+        endDate: false
+    };
+
     vm.employeeOptions = {
         humanResource: {
             ids: null,
@@ -301,6 +308,11 @@ function ($scope, $modalInstance, MonthlyPeriodModel, TargetTemplateModel, FlowM
     var employeeInfo = MonthlyPeriodModel.getSelectedEmployeeInfo(vm.selectedEmployees);
     vm.selectedEmployeeIds = employeeInfo.selectedEmployeeIds;
     vm.selectedEmployeeNames = employeeInfo.selectedEmployeeNames;
+    vm.hasSelfStarted = MonthlyPeriodModel.hasSelfStarted;
+
+    MonthlyPeriodModel.checkSelfProcessStarted(vm.period.PeriodId, vm.selectedEmployeeIds).then(function () {
+        vm.hasSelfStarted = MonthlyPeriodModel.hasSelfStarted;
+    });
 
     var resetCalendar = function () {
         vm.flowCalendar.humanResource.startDateOpened = false;

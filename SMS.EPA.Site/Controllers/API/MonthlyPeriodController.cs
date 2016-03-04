@@ -279,6 +279,20 @@ namespace SMS.EPA.Site.Controllers.API
             return commandResult;
         }
 
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Host)]
+        public bool CheckSelfProcessStarted(int periodId, string employeeIds)
+        {
+            var criteria = new CheckSelfProcessStartedCriteria
+            {
+                PeriodId = periodId,
+                EmployeeIds = employeeIds
+            };
+
+            bool hasStarted = _periodService.CheckSelfProcessStarted(criteria);
+            return hasStarted;
+        }
+
         public int GetUserPermissionOnMonthlyPeriod()
         {
             int permission = _webCommonService.GetPermission(EPAFunctionKey.MonthlyPeriod);

@@ -11,6 +11,7 @@ function ($modal, monthlyPeriodFactory, errorFactory, notificationFactory, utili
     monthlyPeriodModel.processSettings = [];
     monthlyPeriodModel.employeeSettings = [];
     monthlyPeriodModel.permission = 0;
+    monthlyPeriodModel.hasSelfStarted = false;
 
     monthlyPeriodModel.getPermissionOnMonthlyPeriod = function () {
         return monthlyPeriodFactory.getPermissionOnMonthlyPeriod()
@@ -539,6 +540,15 @@ function ($modal, monthlyPeriodFactory, errorFactory, notificationFactory, utili
             employee.IsIncluded = !newEmployeeStatus.IsIncluded;
         })['finally'](function () {
             modalInstance = '';
+        });
+    };
+
+    monthlyPeriodModel.checkSelfProcessStarted = function (periodId, employeeIds) {
+        return monthlyPeriodFactory.checkSelfProcessStarted(periodId, employeeIds).success(function (hasSelfStarted) {
+            monthlyPeriodModel.hasSelfStarted = hasSelfStarted;
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
         });
     };
 
