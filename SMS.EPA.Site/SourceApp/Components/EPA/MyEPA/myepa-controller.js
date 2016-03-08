@@ -16,6 +16,10 @@ function (SelfEvalutorModel, baseUrl) {
         vm.viewEPAResultUrl = baseUrl + 'EPA/Detail/' + epa.EPAId;
     };
 
+    vm.viewSemiEPAResult = function (epa) {
+        vm.viewEPAResultUrl = baseUrl + 'EPA/SemiDetail/' + epa.EPAId;
+    };
+
     vm.initialize = function () {
         SelfEvalutorModel.getEPAByEmployee().then(function () {
             vm.myEPAs = SelfEvalutorModel.myEPAs;
