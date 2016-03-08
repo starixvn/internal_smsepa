@@ -448,7 +448,7 @@ namespace SMS.EPA.Services.Implement
             return otherViolationDetails;
         }
 
-        private IEnumerable<int> GetMonthlyEPAIdOfSemi(GetMonthlyEPAIdOfSemiCriteria criteria)
+        public IEnumerable<int> GetMonthlyEPAIdOfSemi(GetMonthlyEPAIdOfSemiCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<int> monthlyEPAIds = new List<int>();

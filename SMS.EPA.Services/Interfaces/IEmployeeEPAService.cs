@@ -85,5 +85,7 @@ namespace SMS.EPA.Services.Interfaces
         int CheckEmployeePermission(GetEmployeePermissionCriteria criteria);
 
         IEnumerable<EmployeeOtherViolationDetailModel> GetOtherViolationDetailByEPAId(GetOtherViolationDetailByEPAIdCriteria criteria);
+
+        IEnumerable<int> GetMonthlyEPAIdOfSemi(GetMonthlyEPAIdOfSemiCriteria criteria);
     }
 }

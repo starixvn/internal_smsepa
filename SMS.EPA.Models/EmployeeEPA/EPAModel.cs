@@ -28,6 +28,7 @@ namespace SMS.EPA.Model.EmployeeEPA
             ProcessByManagements = new List<EPAProcessModel>();
             KPIGroups = new List<EPAKPIGroupModel>();
             LastProcesses = new List<EPAProcessModel>();
+            MonthlyEPA = new MonthlyEPAModel();
         }
 
         public int EPAId { get; set; }
