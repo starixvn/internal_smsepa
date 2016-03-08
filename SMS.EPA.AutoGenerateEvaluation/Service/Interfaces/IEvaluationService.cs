@@ -50,6 +50,8 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Interfaces
 
         IEnumerable<EndEPAModel> GetEvaluationEndedYesterday(GetEvaluationEndedYesterdayCriteria criteria);
 
+        CommandResult UpdateTotalScoreOfSemiHasMonthly(UpdateTotalScoreOfSemiHasMonthlyCriteria criteria);
+
         #region Monthly
 
         IEnumerable<int> GetMonthlyPeriodStarted(GetMonthlyPeriodStartedCriteria criteria);

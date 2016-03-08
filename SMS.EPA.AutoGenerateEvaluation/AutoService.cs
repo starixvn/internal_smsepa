@@ -390,39 +390,62 @@
                 {
                     if (evaluationProcess.ProcessId >= (int)ProcessType.Reviewer)
                     {
-                        var checkTotalScoreNullCriteria = new CheckTotalScoreOfProcessIsNullCriteria
+                        if (evaluationProcess.ProcessId == (int)ProcessType.Reviewer
+                            && evaluationProcess.TargetTypeId == (int)TargetType.SemiAnnual
+                            && evaluationProcess.HasMonthlyEPA)
                         {
-                            EPAId = evaluationProcess.EPAId,
-                            ProcessId = evaluationProcess.ProcessId
-                        };
-                        _LOG.Info("Check if process has total score null: started at " + DateTime.Now.ToString());
-                        bool isTotalScoreNull = _evaluationService.CheckTotalScoreOfProcessIsNull(checkTotalScoreNullCriteria);
-                        _LOG.Info("Result of check process has total score null: " + isTotalScoreNull);
-
-                        if (isTotalScoreNull)
-                        {
-                            _LOG.Info("Get information of EPA " + evaluationProcess.EPAId + " : started at " + DateTime.Now.ToString());
-                            var getEvaluationInfoCriteria = new GetEPAInfoByIdCriteria
+                            var getEPAInfoCriteria = new GetEPAInfoByIdCriteria
                             {
                                 EPAId = evaluationProcess.EPAId
                             };
-                            EPAModel evaluationInfo = _employeeEPAService.GetEPAInfoById(getEvaluationInfoCriteria);
-                            _LOG.Info("Get information of EPA " + evaluationProcess.EPAId + " : ended at " + DateTime.Now.ToString());
+                            EPAModel epaInfo = _employeeEPAService.GetEPAInfoById(getEPAInfoCriteria);
 
-                            _LOG.Info("Get average score of pre-process of EPA " + evaluationProcess.EPAId + " : started at " + DateTime.Now.ToString());
-                            float averageScore = GetAverageScorePreProcess(evaluationInfo, evaluationProcess.ProcessId);
-                            _LOG.Info("Result of get average score of pre-process of EPA " + evaluationProcess.EPAId + " : " + averageScore);
-
-                            var updateTotalScoreCriteria = new UpdateTotalScoreOfProcessCriteria
+                            var updateTotalScoreOfSemiHasMonthlyCriteria = new UpdateTotalScoreOfSemiHasMonthlyCriteria
                             {
                                 EPAId = evaluationProcess.EPAId,
-                                ProcessId = evaluationProcess.ProcessId,
-                                AverageScore = EncodeService.Encode(averageScore.ToString())
+                                MonthlyEPA = epaInfo.MonthlyEPA
                             };
-                            _LOG.Info("Update total score of process of EPA " + evaluationProcess.EPAId + " : started at " + DateTime.Now.ToString());
-                            CommandResult commandResult = _evaluationService.UpdateTotalScoreOfProcess(updateTotalScoreCriteria);
+                            _LOG.Info("Update total score of semi has monthly " + evaluationProcess.EPAId + " : started at " + DateTime.Now.ToString());
+                            CommandResult commandResult = _evaluationService.UpdateTotalScoreOfSemiHasMonthly(updateTotalScoreOfSemiHasMonthlyCriteria);
                             messageResult = commandResult.IsSuccessful ? "0" : commandResult.Message;
-                            _LOG.Info("Result of update total score of process of EPA " + evaluationProcess.EPAId + " : " + messageResult);
+                            _LOG.Info("Result of update total score semi has monthly " + evaluationProcess.EPAId + " : " + messageResult);
+                        }
+                        else
+                        {
+                            var checkTotalScoreNullCriteria = new CheckTotalScoreOfProcessIsNullCriteria
+                            {
+                                EPAId = evaluationProcess.EPAId,
+                                ProcessId = evaluationProcess.ProcessId
+                            };
+                            _LOG.Info("Check if process has total score null: started at " + DateTime.Now.ToString());
+                            bool isTotalScoreNull = _evaluationService.CheckTotalScoreOfProcessIsNull(checkTotalScoreNullCriteria);
+                            _LOG.Info("Result of check process has total score null: " + isTotalScoreNull);
+
+                            if (isTotalScoreNull)
+                            {
+                                _LOG.Info("Get information of EPA " + evaluationProcess.EPAId + " : started at " + DateTime.Now.ToString());
+                                var getEvaluationInfoCriteria = new GetEPAInfoByIdCriteria
+                                {
+                                    EPAId = evaluationProcess.EPAId
+                                };
+                                EPAModel evaluationInfo = _employeeEPAService.GetEPAInfoById(getEvaluationInfoCriteria);
+                                _LOG.Info("Get information of EPA " + evaluationProcess.EPAId + " : ended at " + DateTime.Now.ToString());
+
+                                _LOG.Info("Get average score of pre-process of EPA " + evaluationProcess.EPAId + " : started at " + DateTime.Now.ToString());
+                                float averageScore = GetAverageScorePreProcess(evaluationInfo, evaluationProcess.ProcessId);
+                                _LOG.Info("Result of get average score of pre-process of EPA " + evaluationProcess.EPAId + " : " + averageScore);
+
+                                var updateTotalScoreCriteria = new UpdateTotalScoreOfProcessCriteria
+                                {
+                                    EPAId = evaluationProcess.EPAId,
+                                    ProcessId = evaluationProcess.ProcessId,
+                                    AverageScore = EncodeService.Encode(averageScore.ToString())
+                                };
+                                _LOG.Info("Update total score of process of EPA " + evaluationProcess.EPAId + " : started at " + DateTime.Now.ToString());
+                                CommandResult commandResult = _evaluationService.UpdateTotalScoreOfProcess(updateTotalScoreCriteria);
+                                messageResult = commandResult.IsSuccessful ? "0" : commandResult.Message;
+                                _LOG.Info("Result of update total score of process of EPA " + evaluationProcess.EPAId + " : " + messageResult);
+                            }
                         }
                     }
                 }

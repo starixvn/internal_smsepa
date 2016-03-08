@@ -81,7 +81,14 @@ function ($scope, AttendanceModel, utilitiesFactory, CommonModel, baseUrl, usSpi
         }
     };
 
-    getAttendanceSummary(vm.filter.startDate, vm.filter.endDate, vm.filter.departmentId, vm.filter.isLocal, vm.filter.employeeId, vm.filter.reasonId, vm.filter.showAll);
+    getAttendanceSummary(
+        vm.filter.startDate,
+        vm.filter.endDate,
+        vm.filter.departmentId,
+        vm.filter.isLocal,
+        vm.filter.employeeId,
+        vm.filter.reasonId,
+        vm.filter.showAll);
 
     vm.query = function (filter) {
         var employeeId = null;
@@ -106,7 +113,14 @@ function ($scope, AttendanceModel, utilitiesFactory, CommonModel, baseUrl, usSpi
 
     vm.addOtherViolations = function (employee) {
         AttendanceModel.openPopupOtherViolation(vm, employee, vm.filter.startDate, vm.filter.endDate).then(function () { }, function () {
-            getAttendanceSummary(vm.filter.startDate, vm.filter.endDate, vm.filter.departmentId, vm.filter.isLocal, vm.filter.employeeId, vm.filter.reasonId, vm.filter.showAll);
+            getAttendanceSummary(
+                vm.filter.startDate,
+                vm.filter.endDate,
+                vm.filter.departmentId,
+                vm.filter.isLocal,
+                vm.filter.employeeId,
+                vm.filter.reasonId,
+                vm.filter.showAll);
         })['finally'](function () {
             vm.modalInstance = '';
         });
@@ -360,7 +374,15 @@ function ($scope, $window, $routeParams, AttendanceModel, utilitiesFactory, Comm
         }
     };
 
-    getAttendanceDetail(vm.filter.startDate, vm.filter.endDate, vm.filter.employeeId, vm.filter.departmentId, vm.filter.isLocal, vm.filter.reasonId, vm.filter.hasIgnored, vm.filter.showAll);
+    getAttendanceDetail(
+        vm.filter.startDate,
+        vm.filter.endDate,
+        vm.filter.employeeId,
+        vm.filter.departmentId,
+        vm.filter.isLocal,
+        vm.filter.reasonId,
+        vm.filter.hasIgnored,
+        vm.filter.showAll);
 
     vm.query = function (filter) {
         var employeeId = null;
@@ -369,7 +391,15 @@ function ($scope, $window, $routeParams, AttendanceModel, utilitiesFactory, Comm
             employeeId = filter.employee.EmployeeId;
         }
 
-        getAttendanceDetail(vm.filter.startDate, vm.filter.endDate, employeeId, vm.filter.departmentId, vm.filter.isLocal, vm.filter.reasonId, vm.filter.hasIgnored, vm.filter.showAll);
+        getAttendanceDetail(
+            vm.filter.startDate,
+            vm.filter.endDate,
+            employeeId,
+            vm.filter.departmentId,
+            vm.filter.isLocal,
+            vm.filter.reasonId,
+            vm.filter.hasIgnored,
+            vm.filter.showAll);
     };
 
     vm.calculateApproverScore = function (attendance, violation) {

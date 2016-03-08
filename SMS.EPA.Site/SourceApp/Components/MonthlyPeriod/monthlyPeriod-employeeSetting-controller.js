@@ -707,7 +707,7 @@ function ($scope, $modalInstance, MonthlyPeriodModel, TargetTemplateModel, FlowM
             else {
                 angular.forEach(employeeOptions.humanResource.ids, function (id) {
                     var humanResource = {
-                        ProcessId: periodModel.evaluatorType.HumanResources,
+                        ProcessId: vm.evaluatorType.HumanResources,
                         EvaluatorInfo: {
                             EmployeeId: id
                         }
@@ -739,7 +739,7 @@ function ($scope, $modalInstance, MonthlyPeriodModel, TargetTemplateModel, FlowM
             else {
                 angular.forEach(employeeOptions.evaluator.ids, function (id) {
                     var evaluator = {
-                        ProcessId: periodModel.evaluatorType.Evaluator,
+                        ProcessId: vm.evaluatorType.Evaluator,
                         EvaluatorInfo: {
                             EmployeeId: id
                         }
@@ -771,7 +771,7 @@ function ($scope, $modalInstance, MonthlyPeriodModel, TargetTemplateModel, FlowM
             else {
                 angular.forEach(employeeOptions.reviewer.ids, function (id) {
                     var reviewer = {
-                        ProcessId: periodModel.evaluatorType.Reviewer,
+                        ProcessId: vm.evaluatorType.Reviewer,
                         EvaluatorInfo: {
                             EmployeeId: id
                         }

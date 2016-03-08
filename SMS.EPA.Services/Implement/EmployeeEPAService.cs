@@ -9,6 +9,7 @@
 
 namespace SMS.EPA.Services.Implement
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Fanex.Common.Helper;
@@ -21,6 +22,7 @@ namespace SMS.EPA.Services.Implement
     using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.EmployeeEPA.RatingByKPI;
     using SMS.EPA.Model.Enitites;
+    using SMS.EPA.Model.ScoreRatingType;
     using SMS.EPA.Model.TargetTemplate;
     using SMS.EPA.Repositories.Implement;
     using SMS.EPA.Repositories.Interfaces;
@@ -56,6 +58,7 @@ namespace SMS.EPA.Services.Implement
                     if (epa.HasMonthlyEPA && epa.Period.TargetTypeId == (int)TargetType.SemiAnnual)
                     {
                         epa.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epa.EPAId);
+                        ConvertAverageMonthlyScore(epa.MonthlyEPA, epa.ScoreRatingType);
                     }
                 }
             }
@@ -84,6 +87,7 @@ namespace SMS.EPA.Services.Implement
                 if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
                 {
                     epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId);
+                    ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
                 }
             }
 
@@ -110,6 +114,7 @@ namespace SMS.EPA.Services.Implement
                     if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId == (int)TargetType.SemiAnnual)
                     {
                         memberEPA.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(memberEPA.EPAId);
+                        ConvertAverageMonthlyScore(memberEPA.MonthlyEPA, memberEPA.ScoreRatingType);
                     }
                 }
             }
@@ -138,6 +143,7 @@ namespace SMS.EPA.Services.Implement
                 if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
                 {
                     epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId);
+                    ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
                 }
             }
 
@@ -165,6 +171,7 @@ namespace SMS.EPA.Services.Implement
                 if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId == (int)TargetType.SemiAnnual)
                 {
                     memberEPA.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(memberEPA.EPAId);
+                    ConvertAverageMonthlyScore(memberEPA.MonthlyEPA, memberEPA.ScoreRatingType);
                 }
             }
 
@@ -185,6 +192,7 @@ namespace SMS.EPA.Services.Implement
                 if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
                 {
                     epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId);
+                    ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
                 }
             }
 
@@ -211,6 +219,7 @@ namespace SMS.EPA.Services.Implement
                     if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId == (int)TargetType.SemiAnnual)
                     {
                         memberEPA.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(memberEPA.EPAId);
+                        ConvertAverageMonthlyScore(memberEPA.MonthlyEPA, memberEPA.ScoreRatingType);
                     }
                 }
             }
@@ -232,6 +241,7 @@ namespace SMS.EPA.Services.Implement
                 if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
                 {
                     epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId);
+                    ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
                 }
             }
 
@@ -308,6 +318,7 @@ namespace SMS.EPA.Services.Implement
                 if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
                 {
                     epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId);
+                    ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
                 }
             }
 
@@ -461,7 +472,7 @@ namespace SMS.EPA.Services.Implement
             return monthlyEPAIds;
         }
 
-        private IList<EPAModel> GetMonthlyEPAOfSemi(int epaId)
+        public IList<EPAModel> GetMonthlyEPAOfSemi(int epaId)
         {
             IList<EPAModel> monthlyEPAs = new List<EPAModel>();
 
@@ -485,6 +496,18 @@ namespace SMS.EPA.Services.Implement
             }
 
             return monthlyEPAs;
+        }
+
+        private void ConvertAverageMonthlyScore(MonthlyEPAModel monthlyEPA, ScoreRatingTypeModel scoreRatingType)
+        {
+            float averageScore = (monthlyEPA.AverageMonthlySelfScore * scoreRatingType.SelfEvaluated) / 100;
+            monthlyEPA.AverageMonthlySelfScoreConversion = (float)Math.Round(averageScore, 2);
+
+            averageScore = (monthlyEPA.AverageMonthlyEvaluatorScores * scoreRatingType.Evaluator) / 100;
+            monthlyEPA.AverageMonthlyEvaluatorScoreConversion = (float)Math.Round(averageScore, 2);
+
+            averageScore = (monthlyEPA.AverageMonthlyReviewerScores * scoreRatingType.SelfEvaluated) / 100;
+            monthlyEPA.AverageMonthlyReviewerScoreConversion = (float)Math.Round(averageScore, 2);
         }
     }
 }

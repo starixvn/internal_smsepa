@@ -4,7 +4,8 @@
 attendanceModule.factory('AttendanceModel',
 ['$modal', 'attendanceFactory', 'errorFactory', 'notificationFactory', 'utilitiesFactory',
 function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitiesFactory) {
-    var attendanceModel = {};
+    var attendanceModel = {},
+        date = new Date();
 
     attendanceModel.rangeDateFilter = {
         firstRangeStartDate: new Date(date.getFullYear(), 1, 1), // 1-2

@@ -1,4 +1,7 @@
-﻿periodModule.controller('EmployeeSettingPeriodController',
+﻿'use strict';
+/*global periodModule*/
+
+periodModule.controller('EmployeeSettingPeriodController',
 ['$scope', '$routeParams', '$window', 'PeriodModel', 'utilitiesFactory', 'CommonModel', 'notificationFactory',
 function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonModel, notificationFactory) {
     var vm = this;
@@ -517,7 +520,11 @@ permission, PeriodModel, TargetTemplateModel, FlowMngModel, CommonModel) {
         if (vm.singleMode) {
             if (PeriodModel.validateEmployeeSetting(vm.employeeOptions)) {
                 if (checkChangeEmployeeSetting(vm.employeeOptions, vm.selectedEmployees[0])) {
-                    employeeAssignmentSetting = PeriodModel.createAssignmentSettings(vm.employeeOptions, vm.period.PeriodId, vm.selectedEmployees, vm.selectedEmployeeIds);
+                    employeeAssignmentSetting = PeriodModel.createAssignmentSettings(
+                        vm.employeeOptions,
+                        vm.period.PeriodId,
+                        vm.selectedEmployees,
+                        vm.selectedEmployeeIds);
 
                     PeriodModel.updateEmployeeSettingOfPeriod(employeeAssignmentSetting).then(function () {
                         $modalInstance.close();

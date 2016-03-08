@@ -37,6 +37,12 @@
             }
         }
 
+        public float AverageMonthlySelfScoreConversion { get; set; }
+
+        public float AverageMonthlyEvaluatorScoreConversion { get; set; }
+
+        public float AverageMonthlyReviewerScoreConversion { get; set; }
+
         private float CalculateAverageScore(int processType)
         {
             float score = 0, average = 0;
@@ -44,31 +50,37 @@
 
             foreach (EPAModel monthlyEPA in MonthlyEPAs)
             {
-                switch (processType)
+                if (monthlyEPA.Status.StatusId == 1)
                 {
-                    case (int)ProcessType.Self:
-                        if (!string.IsNullOrEmpty(monthlyEPA.ProcessBySelf.TotalScore))
-                        {
-                            count++;
-                            score += float.Parse(monthlyEPA.ProcessBySelf.TotalScore);
-                        }
-                        break;
+                    switch (processType)
+                    {
+                        case (int)ProcessType.Self:
+                            if (!string.IsNullOrEmpty(monthlyEPA.ProcessBySelf.TotalScore))
+                            {
+                                count++;
+                                score += float.Parse(monthlyEPA.ProcessBySelf.TotalScore);
+                            }
 
-                    case (int)ProcessType.Evaluator:
-                        if (monthlyEPA.AverageScoreByEvaluators > 0)
-                        {
-                            count++;
-                            score += monthlyEPA.AverageScoreByEvaluators;
-                        }
-                        break;
+                            break;
 
-                    case (int)ProcessType.Reviewer:
-                        if (monthlyEPA.AverageScoreByReviewers > 0)
-                        {
-                            count++;
-                            score += monthlyEPA.AverageScoreByReviewers;
-                        }
-                        break;
+                        case (int)ProcessType.Evaluator:
+                            if (monthlyEPA.AverageScoreByEvaluators > 0)
+                            {
+                                count++;
+                                score += monthlyEPA.AverageScoreByEvaluators;
+                            }
+
+                            break;
+
+                        case (int)ProcessType.Reviewer:
+                            if (monthlyEPA.AverageScoreByReviewers > 0)
+                            {
+                                count++;
+                                score += monthlyEPA.AverageScoreByReviewers;
+                            }
+
+                            break;
+                    }
                 }
             }
 

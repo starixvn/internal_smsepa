@@ -14,6 +14,7 @@ namespace SMS.EPA.Model.EmployeeEPA
     using System.Linq;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Model.Enitites;
+    using SMS.EPA.Model.ScoreRatingType;
 
     public class EPAModel
     {
@@ -38,6 +39,8 @@ namespace SMS.EPA.Model.EmployeeEPA
         public EPAPeriodModel Period { get; set; }
 
         public StatusModel Status { get; set; }
+
+        public ScoreRatingTypeModel ScoreRatingType { get; set; }
 
         public RatingTypeModel RatingType { get; set; }
 

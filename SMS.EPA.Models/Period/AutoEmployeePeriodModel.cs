@@ -17,6 +17,8 @@ namespace SMS.EPA.Model.Period
 
         public int PeriodId { get; set; }
 
+        public int TargetTypeId { get; set; }
+
         public int ProcessId { get; set; }
 
         public int EmployeeId { get; set; }

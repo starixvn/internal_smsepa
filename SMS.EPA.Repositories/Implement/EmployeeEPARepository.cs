@@ -20,6 +20,7 @@ namespace SMS.EPA.Repositories.Implement
     using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.EmployeeEPA.RatingByKPI;
     using SMS.EPA.Model.Enitites;
+    using SMS.EPA.Model.ScoreRatingType;
     using SMS.EPA.Repositories.Interfaces;
 
     public class EmployeeEPARepository : IEmployeeEPARepository
@@ -30,16 +31,17 @@ namespace SMS.EPA.Repositories.Implement
             {
                 using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    IEnumerable<EPAModel> epaInfos = multi.Read<EPAModel, RatingTypeModel, StatusModel, EPAPeriodModel, EPAModel>(
-                    (epaInfo, type, status, period) =>
+                    IEnumerable<EPAModel> epaInfos = multi.Read<EPAModel, RatingTypeModel, StatusModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
+                    (epaInfo, ratingType, status, period, scoreRatingType) =>
                     {
-                        epaInfo.RatingType = type;
+                        epaInfo.RatingType = ratingType;
+                        epaInfo.ScoreRatingType = scoreRatingType;
                         epaInfo.Status = status;
                         epaInfo.Period = period;
 
                         return epaInfo;
                     },
-                    "RatingTypeId, StatusId, PeriodId");
+                    "RatingTypeId, StatusId, PeriodId, ScoreRatingTypeId");
 
                     IEnumerable<EPAEmployeeModel> employees = multi.Read<EPAEmployeeModel, DepartmentModel, Group, JobTitle, EPAEmployeeModel>(
                         (epaInfo, dept, gr, job) =>
@@ -76,16 +78,17 @@ namespace SMS.EPA.Repositories.Implement
                 {
                     EPAModel epaInfo = new EPAModel();
 
-                    epaInfo = multi.Read<EPAModel, RatingTypeModel, StatusModel, EPAPeriodModel, EPAModel>(
-                    (info, type, status, period) =>
+                    epaInfo = multi.Read<EPAModel, RatingTypeModel, StatusModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
+                    (info, ratingType, status, period, scoreRatingType) =>
                     {
-                        info.RatingType = type;
+                        info.RatingType = ratingType;
+                        info.ScoreRatingType = scoreRatingType;
                         info.Status = status;
                         info.Period = period;
 
                         return info;
                     },
-                    "RatingTypeId, StatusId, PeriodId").FirstOrDefault();
+                    "RatingTypeId, StatusId, PeriodId, ScoreRatingTypeId").FirstOrDefault();
 
                     if (epaInfo != null)
                     {

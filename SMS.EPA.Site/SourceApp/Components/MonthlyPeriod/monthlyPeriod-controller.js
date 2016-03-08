@@ -66,7 +66,7 @@ function (MonthlyPeriodModel, CommonModel, utilitiesFactory, baseUrl) {
     vm.query = function (filter) {
         vm.searchKey = '';
         vm.currentPage = 1;
-        getMonthlyPeriod(vm.filter.fromDate, vm.filter.toDate);
+        getMonthlyPeriod(filter.fromDate, filter.toDate);
     };
 
     vm.create = function () {

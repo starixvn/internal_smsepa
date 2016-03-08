@@ -290,6 +290,19 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
             return evaluations;
         }
 
+        public CommandResult UpdateTotalScoreOfSemiHasMonthly(UpdateTotalScoreOfSemiHasMonthlyCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            CommandResult commandResult = new CommandResult();
+
+            if (criteria.IsValid())
+            {
+                commandResult = Repository.Update(criteria);
+            }
+
+            return commandResult;
+        }
+
         private string JoinEmployeeId(List<AutoEmployeePeriodModel> employeePeriods)
         {
             string employeeIds = string.Empty;
