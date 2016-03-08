@@ -286,6 +286,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Average.
+        /// </summary>
+        public static string Average {
+            get {
+                return ResourceManager.GetString("Average", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Average Score By Evaluators.
         /// </summary>
         public static string AverageScoreByEvaluators {
@@ -1929,6 +1938,15 @@ namespace SMS.EPA.Resources {
         public static string MonthlyEPA {
             get {
                 return ResourceManager.GetString("MonthlyEPA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monthly EPA List.
+        /// </summary>
+        public static string monthlyEPAs {
+            get {
+                return ResourceManager.GetString("monthlyEPAs", resourceCulture);
             }
         }
         

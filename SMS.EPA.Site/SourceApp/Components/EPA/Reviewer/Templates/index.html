@@ -147,15 +147,18 @@
                     </td>
                     <td class="text-center col-action">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="reviewerCtrl.viewEPADetail(memberEPA)"
-                           ng-if="!memberEPA.CurrentProcess.IsEndProcess && !memberEPA.Period.IsEndPeriod"
+                           ng-if="!memberEPA.HasMonthlyEPA && !memberEPA.CurrentProcess.IsEndProcess && !memberEPA.Period.IsEndPeriod"
                            ng-href="{{reviewerCtrl.viewEPADetailUrl}}" ng-attr-title='{{"EvaluateNow" | translate}}'></a>
                         <a class="glyphicon icon-view" href="" ng-click="reviewerCtrl.viewEPAResult(memberEPA)"
                            ng-if="!memberEPA.HasMonthlyEPA && (memberEPA.CurrentProcess.IsEndProcess || memberEPA.Period.IsEndPeriod)"
                            ng-href="{{reviewerCtrl.viewEPAResultUrl}}" ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
+
                         <a class="glyphicon icon-view" href="" ng-click="reviewerCtrl.viewSemiEPAResult(memberEPA)"
                            ng-if="memberEPA.HasMonthlyEPA && (memberEPA.CurrentProcess.IsEndProcess || memberEPA.Period.IsEndPeriod)"
-                           ng-href="{{reviewerCtrl.viewSemiEPAResultUrl}}" ng-attr-title='{{"ViewSemiEPAResult" | translate}}'></a>
-
+                           ng-href="{{reviewerCtrl.viewEPAResultUrl}}" ng-attr-title='{{"ViewSemiEPAResult" | translate}}'></a>
+                        <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="reviewerCtrl.viewSemiEPADetail(memberEPA)"
+                           ng-if="memberEPA.HasMonthlyEPA && !memberEPA.CurrentProcess.IsEndProcess && !memberEPA.Period.IsEndPeriod"
+                           ng-href="{{reviewerCtrl.viewEPAResultUrl}}" ng-attr-title='{{"EvaluateNow" | translate}}'></a>
                     </td>
                 </tr>
             </tbody>

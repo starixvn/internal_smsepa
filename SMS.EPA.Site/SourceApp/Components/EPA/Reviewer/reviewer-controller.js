@@ -46,7 +46,11 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     };
 
     vm.viewSemiEPAResult = function (memberEPA) {
-        vm.viewSemiEPAResultUrl = baseUrl + 'Reviewer/SemiDetail/' + memberEPA.EPAId;
+        vm.viewEPAResultUrl = baseUrl + 'EPA/SemiDetail/' + memberEPA.EPAId;
+    };
+
+    vm.viewSemiEPADetail = function (memberEPA) {
+        vm.viewEPAResultUrl = baseUrl + 'Reviewer/SemiDetail/' + memberEPA.EPAId;
     };
 
     vm.viewOtherViolationDetail = function (memberEPA) {

@@ -1266,4 +1266,10 @@
   <data name="ViewSemiEPAResult" xml:space="preserve">
     <value>View Semi EPA Result</value>
   </data>
+  <data name="monthlyEPAs" xml:space="preserve">
+    <value>Monthly EPA List</value>
+  </data>
+  <data name="Average" xml:space="preserve">
+    <value>Average</value>
+  </data>
 </root>

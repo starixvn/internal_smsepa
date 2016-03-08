@@ -111,7 +111,48 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
 
     vm.epaId = parseInt($routeParams.id);
 
+    vm.isViewDetail = true;
+    vm.isReadonly = true;
+    vm.finalScore = null;
+
     vm.standardGrades = CommonModel.standardGrades;
+
+    var calculateFinalScore = function (epaInfo) {
+        var finalScore = 0;
+
+        if (epaInfo.ProcessByManagements.length > 0) {
+            finalScore = epaInfo.AverageScoreByManagements;
+        } else if (epaInfo.ProcessByReviewers.length > 0) {
+            finalScore = epaInfo.AverageScoreByReviewers;
+        } else {
+            finalScore = epaInfo.AverageScoreByEvaluators;
+        }
+
+        return finalScore;
+    };
+
+    // Event read more / less text.
+    utilitiesFactory.maxLengthDescription(vm);
+
+    vm.readMore = function (item) {
+        utilitiesFactory.readMore(item);
+    };
+
+    vm.readLess = function (item) {
+        utilitiesFactory.readLess(item);
+    };
+
+    vm.openPopupViewComment = function (comment) {
+        EmployeeEPAModel.openPopupViewComment(vm, comment);
+    };
+
+    vm.getClassProgress = function (statusEndProcess) {
+        return EmployeeEPAModel.getClassProgress(statusEndProcess);
+    };
+
+    vm.range = function (n) {
+        return new Array(n);
+    };
 
     vm.back = function () {
         $window.history.back();
@@ -121,6 +162,10 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
         EmployeeEPAModel.getEPAInfoById(vm.epaId).then(function () {
             vm.epaInfo = EmployeeEPAModel.epaInfo;
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
+
+            if (vm.epaInfo.HasDisciplineScore && vm.epaInfo.DisciplineScore < 0) {
+                vm.epaInfo.DisciplineScore = 0;
+            }
 
             // self
             vm.epaInfo.ProcessBySelf.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.ProcessBySelf.TotalScore);

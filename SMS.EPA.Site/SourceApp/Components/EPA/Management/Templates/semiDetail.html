@@ -19,7 +19,7 @@
                      ng-click="memberEPAInfoCtrl.collapses['EvaluationProcess'] = !memberEPAInfoCtrl.collapses['EvaluationProcess']"></div>
                 <div class="boxcontent" auto-collapse="true" collapse="memberEPAInfoCtrl.collapses['EvaluationProcess']">
                     <div class="row row-item">
-                        <div ng-include src="'/SourceApp/Components/EPA/SemiMonthly/Templates/evaluationProcess.html'"></div>
+                        <div ng-include src="'/SourceApp/Components/EPA/Templates/evaluationProcess.html'"></div>
                     </div>
                 </div>
             </div>
@@ -29,12 +29,12 @@
                 <div class="boxcontent" collapse="memberEPAInfoCtrl.collapses['PerformanceResult']"
                      ng-include src="'/SourceApp/Components/EPA/Management/Templates/semiPerformanceResult.html'"></div>
             </div>
-            <div class="col-sm-12 list-group-item summary-section" ng-init="memberEPAInfoCtrl.collapses['Summary'] = false;">
-                <div class="boxtitle" data-translate="Summary"
-                     ng-click="memberEPAInfoCtrl.collapses['Summary'] = !memberEPAInfoCtrl.collapses['Summary']">
+            <div class="col-sm-12 list-group-item summary-section" ng-init="memberEPAInfoCtrl.collapses['monthlyEPAs'] = false;">
+                <div class="boxtitle" data-translate="monthlyEPAs"
+                     ng-click="memberEPAInfoCtrl.collapses['monthlyEPAs'] = !memberEPAInfoCtrl.collapses['monthlyEPAs']">
                 </div>
-                <div class="boxcontent" collapse="memberEPAInfoCtrl.collapses['Summary']"
-                     ng-include src="'/SourceApp/Components/EPA/SemiMonthly/Templates/summary.html'">
+                <div class="boxcontent" collapse="memberEPAInfoCtrl.collapses['monthlyEPAs']"
+                     ng-include src="'/SourceApp/Components/EPA/Templates/monthlyEPAs.html'">
                 </div>
             </div>
 

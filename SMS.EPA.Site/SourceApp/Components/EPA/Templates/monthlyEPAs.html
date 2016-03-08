@@ -1,1 +1,37 @@
-﻿N/A
+﻿<div class="row row-item">
+    <table class="table table-bordered table-striped table-custom table-summary">
+        <thead>
+            <tr>
+                <th class="text-right">#</th>
+                <th data-translate="EmployeeScore"></th>
+                <th data-translate="EvaluatorScore"></th>
+                <th data-translate="ReviewerScore"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="monthly in memberEPAInfoCtrl.epaInfo.MonthlyEPA.MonthlyEPAs">
+                <td class="text-center">{{monthly.Period.Name}}</td>
+                <td class="text-center">{{monthly.ProcessBySelf.TotalScore | customScore}}</td>
+                <td class="text-center">{{monthly.AverageScoreByEvaluators | customScore}}</td>
+                <td class="text-center">{{monthly.AverageScoreByReviewers | customScore}}</td>
+            </tr>
+            <tr>
+                <td class="text-right"><strong data-translate="Average"></strong></td>
+                <td class="text-center">{{memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlySelfScore | customScore}}</td>
+                <td class="text-center">{{memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlyEvaluatorScores | customScore}}</td>
+                <td class="text-center">{{memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlyReviewerScores | customScore}}</td>
+            </tr>
+            <tr>
+                <td class="text-right"><strong data-translate="DisciplineScore"></strong></td>
+                <td colspan="3" class="text-center">
+                    <strong ng-show="memberEPAInfoCtrl.epaInfo.HasDisciplineScore">
+                        {{memberEPAInfoCtrl.epaInfo.DisciplineScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxDisciplineScore | customScore}}
+                    </strong>
+                    <div ng-show="!memberEPAInfoCtrl.epaInfo.HasDisciplineScore">
+                        <strong ng-show="memberEPAInfoCtrl.epaInfo.DisciplineScore" ng-bind="memberEPAInfoCtrl.epaInfo.DisciplineScore | customScore"></strong>
+                        <strong ng-show="!memberEPAInfoCtrl.epaInfo.DisciplineScore" ng-bind="'-'"></strong>
+                    </div>
+            </tr>
+        </tbody>
+    </table>
+</div>

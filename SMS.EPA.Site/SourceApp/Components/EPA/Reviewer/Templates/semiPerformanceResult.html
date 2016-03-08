@@ -2,27 +2,55 @@
     <table class="table table-bordered table-striped table-performance-result table-custom">
         <thead>
             <tr>
-                <th rowspan="2">Self Score</th>
-                <th rowspan="2">Evaluator Score</th>
-                <th colspan="2" data-translate="Reviewer"></th>
+                <th rowspan="2" data-translate="Employee" class="col-score"></th>
+                <th rowspan="2" data-translate="EvaluatorScore" class="col-score"></th>
+                <th colspan="2" data-translate="ReviewerScore"></th>
                 <th rowspan="2" data-translate="DisciplineScore" class="col-score" ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != 2"></th>
                 <th rowspan="2" data-translate="TotalScore" class="col-score"></th>
                 <th rowspan="2" data-translate="Grade" class="col-score" ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != 2"></th>
             </tr>
             <tr>
                 <th data-translate="PerformanceScore" class="col-score"></th>
-                <th data-translate="Comment" class="col-comment"></th>
+                <th data-translate="Comment"</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td class="text-center">50</td>
-                <td class="text-center">50</td>
-                <td><input type="text" value="0"/></td>
-                <td><input type="text" /></td>
-                <td class="text-center">30/30</td>
-                <td class="text-center">30/30</td>
-                <td class="text-center">A</td>
+                <td class="text-center">
+                    <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess">
+                        {{memberEPAInfoCtrl.epaInfo.ProcessBySelf.TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.ProcessBySelf.MaxTotalScore | customScore}}
+                    </div>
+                    <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" ng-bind="'N/A'"></div>
+                </td>
+                <td class="text-center">
+                    <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].IsEndProcess">
+                        {{memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].MaxTotalScore | customScore}}
+                    </div>
+                    <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].IsEndProcess" ng-bind="'N/A'"></div>
+                </td>
+                <td>
+                    <input type="text" maxlength="6" class="form-control text-center" ng-readonly="memberEPAInfoCtrl.isReadonly"
+                           ng-model="memberEPAInfoCtrl.epaInfo.CurrentProcess.TotalScore" numeric decimals="2"
+                           ng-change="memberEPAInfoCtrl.inputScore(memberEPAInfoCtrl.epaInfo.CurrentProcess)"
+                           tooltip="{{memberEPAInfoCtrl.getNotificationInputScore(memberEPAInfoCtrl.epaInfo.CurrentProcess)}}" tooltip-trigger="focus" />
+                </td>
+                <td>
+                    <textarea class="form-control" ng-readonly="memberEPAInfoCtrl.isReadonly"
+                              ng-model="memberEPAInfoCtrl.epaInfo.CurrentProcess.Comment"></textarea>
+                </td>
+                <td class="text-center">
+                    <strong ng-show="memberEPAInfoCtrl.epaInfo.HasDisciplineScore">
+                        {{memberEPAInfoCtrl.epaInfo.DisciplineScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxDisciplineScore | customScore}}
+                    </strong>
+                    <div ng-show="!memberEPAInfoCtrl.epaInfo.HasDisciplineScore">
+                        <strong ng-show="memberEPAInfoCtrl.epaInfo.DisciplineScore" ng-bind="memberEPAInfoCtrl.epaInfo.DisciplineScore | customScore"></strong>
+                        <strong ng-show="!memberEPAInfoCtrl.epaInfo.DisciplineScore" ng-bind="'-'"></strong>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <strong>{{memberEPAInfoCtrl.finalScore | customScore}} / {{memberEPAInfoCtrl.maxPerformanceScore | customScore}}</strong>
+                </td>
+                <td class="text-center"><strong ng-bind="memberEPAInfoCtrl.epaInfo.Grade"></strong></td>
             </tr>
         </tbody>
     </table>

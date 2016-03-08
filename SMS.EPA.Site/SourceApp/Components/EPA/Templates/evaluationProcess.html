@@ -1,5 +1,6 @@
 ﻿<ul class="evaluation-process" class="evaluation-process">
-    <li ng-if="!memberEPAInfoCtrl.HasMonthlyEPA" ng-class="memberEPAInfoCtrl.getClassProgress(memberEPAInfoCtrl.epaInfo.ProcessBySelf.StatusEndProcess)" class="process-item">
+    <li ng-if="!memberEPAInfoCtrl.epaInfo.HasMonthlyEPA" 
+        ng-class="memberEPAInfoCtrl.getClassProgress(memberEPAInfoCtrl.epaInfo.ProcessBySelf.StatusEndProcess)" class="process-item">
         <div><strong data-translate="Self"></strong></div>
         <div>
             <span ng-bind="memberEPAInfoCtrl.epaInfo.ProcessBySelf.StartDate | customDate"></span>
@@ -16,7 +17,8 @@
             <label data-translate="Open"></label><span class="icon-process"></span>
         </div>
     </li>
-    <li ng-if="!memberEPAInfoCtrl.HasMonthlyEPA" ng-class="memberEPAInfoCtrl.getClassProgress(memberEPAInfoCtrl.epaInfo.Evaluators[0].StatusEndProcess)" class="process-item">
+    <li ng-if="!memberEPAInfoCtrl.epaInfo.HasMonthlyEPA" 
+        ng-class="memberEPAInfoCtrl.getClassProgress(memberEPAInfoCtrl.epaInfo.Evaluators[0].StatusEndProcess)" class="process-item">
         <div>
             <strong>{{"Evaluator" | translate}}: </strong>
             <span ng-show="memberEPAInfoCtrl.epaInfo.Evaluators.length == 1" ng-bind="memberEPAInfoCtrl.epaInfo.Evaluators[0].NickName"
