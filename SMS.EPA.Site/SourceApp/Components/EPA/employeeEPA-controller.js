@@ -104,6 +104,64 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
     vm.initialize();
 }]);
 
+epaModule.controller('ViewSemiEPADetailController',
+['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'CommonModel', 'utilitiesFactory', 'baseUrl',
+function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, utilitiesFactory, baseUrl) {
+    var vm = this;
+
+    vm.epaId = parseInt($routeParams.id);
+
+    vm.standardGrades = CommonModel.standardGrades;
+
+    vm.back = function () {
+        $window.history.back();
+    };
+
+    var getEPAInfoById = function () {
+        EmployeeEPAModel.getEPAInfoById(vm.epaId).then(function () {
+            vm.epaInfo = EmployeeEPAModel.epaInfo;
+            vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
+
+            // self
+            vm.epaInfo.ProcessBySelf.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.ProcessBySelf.TotalScore);
+
+            // evaluator
+            angular.forEach(vm.epaInfo.ProcessByEvaluators, function (evaluator) {
+                evaluator.TotalScore = utilitiesFactory.parseFloat(evaluator.TotalScore);
+            });
+
+            // reviewer
+            angular.forEach(vm.epaInfo.ProcessByReviewers, function (reviewer) {
+                reviewer.TotalScore = utilitiesFactory.parseFloat(reviewer.TotalScore);
+            });
+
+            // management
+            angular.forEach(vm.epaInfo.ProcessByManagements, function (management) {
+                management.TotalScore = utilitiesFactory.parseFloat(management.TotalScore);
+            });
+
+            vm.finalScore = calculateFinalScore(vm.epaInfo) + vm.epaInfo.DisciplineScore;
+            vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.epaInfo.MaxFinalScore);
+
+            vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
+
+            angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
+                EmployeeEPAModel.scoreSpread(kpiGroup);
+            });
+        });
+    };
+
+    vm.initialize = function () {
+        CommonModel.getStandardGrade().then(function () {
+            vm.standardGrades = CommonModel.standardGrades;
+
+            getEPAInfoById();
+        });
+    };
+
+    vm.initialize();
+}]);
+
 epaModule.controller('ModalViewCommentController',
 ['$modalInstance', 'comment',
 function ($modalInstance, comment) {

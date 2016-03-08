@@ -105,12 +105,12 @@ var epaModule = angular.module("epaModule", ['ngRoute'])
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/Management/Templates/semiDetail.html' });
     $routeProvider.when('/EPA/Detail/:id',
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/Templates/viewDetail.html' });
+    $routeProvider.when('/EPA/SemiDetail/:id',
+    { templateUrl: baseUrl + 'SourceApp/Components/EPA/Templates/viewSemiDetail.html' });
     $routeProvider.when('/RatingByKPI/Index',
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/RatingByKPI/Templates/index.html' });
     $routeProvider.when('/OldEPA/Convert',
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/Convert/Templates/detail.html' });
-    $routeProvider.when('/SemiMonthly/Detail/:id',
-    { templateUrl: baseUrl + 'SourceApp/Components/EPA/SemiMonthly/Templates/detail.html' });
 }]);
 
 var periodModule = angular.module("periodModule", ['ngRoute'])

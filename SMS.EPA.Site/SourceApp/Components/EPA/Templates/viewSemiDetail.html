@@ -1,7 +1,7 @@
-﻿<div class="form-evaluator" ng-controller="SemiMonthlyController as memberEPAInfoCtrl">
+﻿<div ng-controller="ViewSemiEPADetailController as memberEPAInfoCtrl">
     <div class="col-sm-12 sub-header">
         <ul class="row breadcrumb">
-            <li class="current" data-translate="MemberEPA"></li>
+            <li class="current" data-translate="EPAResult"></li>
         </ul>
     </div>
     <div class="col-sm-12">
@@ -19,23 +19,17 @@
                      ng-click="memberEPAInfoCtrl.collapses['EvaluationProcess'] = !memberEPAInfoCtrl.collapses['EvaluationProcess']"></div>
                 <div class="boxcontent" auto-collapse="true" collapse="memberEPAInfoCtrl.collapses['EvaluationProcess']">
                     <div class="row row-item">
-                        <div ng-include src="'/SourceApp/Components/EPA/SemiMonthly/Templates/evaluationProcess.html'"></div>
+                        <div ng-include src="'/SourceApp/Components/EPA/Templates/evaluationProcess.html'"></div>
                     </div>
                 </div>
             </div>
-
-            <div class="col-sm-12 list-group-item summary-section" ng-init="memberEPAInfoCtrl.collapses['Summary'] = false;">
-                <div class="boxtitle" data-translate="Summary"
-                     ng-click="memberEPAInfoCtrl.collapses['Summary'] = !memberEPAInfoCtrl.collapses['Summary']">
-                </div>
-                <div class="boxcontent" collapse="memberEPAInfoCtrl.collapses['Summary']"
-                     ng-include src="'/SourceApp/Components/EPA/SemiMonthly/Templates/summary.html'">
-                </div>
+            <div class="col-sm-12 list-group-item">
+                <div ng-include src="'/SourceApp/Components/EPA/Templates/monthlyEPAs.html'"></div>
             </div>
         </div>
         <div class="navbar navbar-default navbar-fixed-bottom action-section">
             <div class="container text-center">
-                <button class="btn btn-warning customize" ng-click="memberEPAInfoCtrl.cancel()" data-translate="Back"></button>
+                <button class="btn btn-warning customize" ng-click="memberEPAInfoCtrl.back()" data-translate="Back"></button>
             </div>
         </div>
     </div>

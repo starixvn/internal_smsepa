@@ -378,10 +378,8 @@
     <Content Include="SourceApp\Components\EPA\Management\Templates\semiPerformanceResult.html" />
     <Content Include="SourceApp\Components\EPA\Reviewer\Templates\semiPerformanceResult.html" />
     <Content Include="SourceApp\Components\EPA\Reviewer\Templates\semiDetail.html" />
-    <Content Include="SourceApp\Components\EPA\SemiMonthly\semiMonthly-controller.js" />
-    <Content Include="SourceApp\Components\EPA\SemiMonthly\Templates\detail.html" />
-    <Content Include="SourceApp\Components\EPA\SemiMonthly\Templates\evaluationProcess.html" />
-    <Content Include="SourceApp\Components\EPA\SemiMonthly\Templates\summary.html" />
+    <Content Include="SourceApp\Components\EPA\Templates\monthlyEPAs.html" />
+    <Content Include="SourceApp\Components\EPA\Templates\viewSemiDetail.html" />
     <Content Include="SourceApp\Components\EPA\Evaluator\evaluator-controller.js" />
     <Content Include="SourceApp\Components\EPA\RatingByKPI\ratingByKPI-controller.js" />
     <Content Include="SourceApp\Components\EPA\RatingByKPI\ratingByKPI-factory.js" />

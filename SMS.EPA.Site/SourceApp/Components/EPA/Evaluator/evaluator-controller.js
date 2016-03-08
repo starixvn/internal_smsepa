@@ -67,7 +67,7 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, ba
     };
 
     vm.viewSemiEPAResult = function (memberEPA) {
-        vm.viewSemiEPAResultUrl = baseUrl + 'SemiMonthly/Detail/' + memberEPA.EPAId;
+        vm.viewSemiEPAResultUrl = baseUrl + 'EPA/SemiDetail/' + memberEPA.EPAId;
     };
 
     vm.viewOtherViolationDetail = function (memberEPA) {
