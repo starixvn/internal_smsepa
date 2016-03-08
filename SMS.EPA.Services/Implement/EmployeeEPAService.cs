@@ -50,6 +50,14 @@ namespace SMS.EPA.Services.Implement
             if (criteria.IsValid())
             {
                 epas = _employeeEPARepository.GetEPA(criteria);
+
+                foreach (EPAModel epa in epas)
+                {
+                    if (epa.HasMonthlyEPA && epa.Period.TargetTypeId == (int)TargetType.SemiAnnual)
+                    {
+                        epa.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epa.EPAId);
+                    }
+                }
             }
 
             return epas;
@@ -72,6 +80,11 @@ namespace SMS.EPA.Services.Implement
                         kpi.CurrentEvaluation = kpi.EvaluationBySelf;
                     }
                 }
+
+                if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
+                {
+                    epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId);
+                }
             }
 
             return epaInfo;
@@ -93,6 +106,11 @@ namespace SMS.EPA.Services.Implement
                 foreach (EPAModel memberEPA in memberEPAs)
                 {
                     memberEPA.CurrentProcess = memberEPA.ProcessByEvaluators.FirstOrDefault();
+
+                    if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId == (int)TargetType.SemiAnnual)
+                    {
+                        memberEPA.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(memberEPA.EPAId);
+                    }
                 }
             }
 
@@ -116,6 +134,11 @@ namespace SMS.EPA.Services.Implement
                         kpi.CurrentEvaluation = kpi.EvaluationByEvaluators.FirstOrDefault();
                     }
                 }
+
+                if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
+                {
+                    epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId);
+                }
             }
 
             return epaInfo;
@@ -138,6 +161,11 @@ namespace SMS.EPA.Services.Implement
             foreach (EPAModel memberEPA in memberEPAs)
             {
                 memberEPA.CurrentProcess = memberEPA.ProcessByReviewers.FirstOrDefault();
+
+                if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId == (int)TargetType.SemiAnnual)
+                {
+                    memberEPA.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(memberEPA.EPAId);
+                }
             }
 
             return memberEPAs;
@@ -151,7 +179,13 @@ namespace SMS.EPA.Services.Implement
             if (criteria.IsValid())
             {
                 epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
+
                 epaInfo.CurrentProcess = epaInfo.ProcessByReviewers.FirstOrDefault();
+
+                if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
+                {
+                    epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId);
+                }
             }
 
             return epaInfo;
@@ -169,11 +203,16 @@ namespace SMS.EPA.Services.Implement
             if (criteria.IsValid())
             {
                 memberEPAs = _employeeEPARepository.GetEPA(criteria);
-            }
 
-            foreach (EPAModel memberEPA in memberEPAs)
-            {
-                memberEPA.CurrentProcess = memberEPA.ProcessByManagements.FirstOrDefault();
+                foreach (EPAModel memberEPA in memberEPAs)
+                {
+                    memberEPA.CurrentProcess = memberEPA.ProcessByManagements.FirstOrDefault();
+
+                    if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId == (int)TargetType.SemiAnnual)
+                    {
+                        memberEPA.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(memberEPA.EPAId);
+                    }
+                }
             }
 
             return memberEPAs;
@@ -187,7 +226,13 @@ namespace SMS.EPA.Services.Implement
             if (criteria.IsValid())
             {
                 epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
+
                 epaInfo.CurrentProcess = epaInfo.ProcessByManagements.FirstOrDefault();
+
+                if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
+                {
+                    epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId);
+                }
             }
 
             return epaInfo;
@@ -259,6 +304,11 @@ namespace SMS.EPA.Services.Implement
             if (criteria.IsValid())
             {
                 epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
+
+                if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
+                {
+                    epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId);
+                }
             }
 
             return epaInfo;
@@ -396,6 +446,45 @@ namespace SMS.EPA.Services.Implement
             }
 
             return otherViolationDetails;
+        }
+
+        private IEnumerable<int> GetMonthlyEPAIdOfSemi(GetMonthlyEPAIdOfSemiCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<int> monthlyEPAIds = new List<int>();
+
+            if (criteria.IsValid())
+            {
+                monthlyEPAIds = GetData<int>(criteria);
+            }
+
+            return monthlyEPAIds;
+        }
+
+        private IList<EPAModel> GetMonthlyEPAOfSemi(int epaId)
+        {
+            IList<EPAModel> monthlyEPAs = new List<EPAModel>();
+
+            var getMonthlyEPAIdOfSemiCriteria = new GetMonthlyEPAIdOfSemiCriteria()
+            {
+                EPAId = epaId
+            };
+
+            IEnumerable<int> monthlyEPAIds = GetMonthlyEPAIdOfSemi(getMonthlyEPAIdOfSemiCriteria);
+
+            foreach (int monthlyEPAId in monthlyEPAIds)
+            {
+                var getEPAInfoByIdCriteria = new GetEPAInfoByIdCriteria()
+                {
+                    EPAId = monthlyEPAId
+                };
+
+                EPAModel monthlyEPA = GetEPAInfoById(getEPAInfoByIdCriteria);
+
+                monthlyEPAs.Add(monthlyEPA);
+            }
+
+            return monthlyEPAs;
         }
     }
 }

@@ -30,7 +30,7 @@ namespace SMS.EPA.Core.Constants
 
         public const string DateFormat = "dd MMM, yyyy";
 
-        public const string TimeFormant = "HH:mm";
+        public const string TimeFormat = "HH:mm";
 
         public const int DepartmentRoot = 1;
 
@@ -45,6 +45,8 @@ namespace SMS.EPA.Core.Constants
         public const string DisciplineSummaryReportSessionKey = "SMS.EPA.DisciplineSummaryReport";
 
         public const string DisciplineDetailReportSessionKey = "SMS.EPA.DisciplineDetailReport";
+
+        public const string FormatMonthlyPeriodName = "MMM, yyyy";
 
         private Constants()
         {

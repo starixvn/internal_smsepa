@@ -20,7 +20,16 @@ namespace SMS.EPA.AutoGenerateEvaluation.Criteria
         private const string BeginRootTag = "<ROOT>";
         private const string EndRootTag = "</ROOT>";
 
-        public string EPAProcess { get; set; }
+        public string EPAProcess
+        {
+            get
+            {
+                return ConvertEvaluationProcessToXml(EvaluationProcesses);
+            }
+        }
+
+        [SpParam(Ignored = true)]
+        public IEnumerable<AutoEmployeePeriodModel> EvaluationProcesses { get; set; }
 
         public override bool IsValid()
         {
@@ -32,7 +41,7 @@ namespace SMS.EPA.AutoGenerateEvaluation.Criteria
             return "EpaAuto_UpdateIsEndProcess";
         }
 
-        public string ConvertEvaluationProcessToXml(IEnumerable<AutoEmployeePeriodModel> evaluationProcesses)
+        private string ConvertEvaluationProcessToXml(IEnumerable<AutoEmployeePeriodModel> evaluationProcesses)
         {
             var epaProcessXmlBuilder = new StringBuilder(BeginRootTag);
 

@@ -15,6 +15,7 @@
     using SMS.EPA.AutoGenerateEvaluation.Models;
     using SMS.EPA.AutoGenerateEvaluation.Service.Implement;
     using SMS.EPA.AutoGenerateEvaluation.Service.Interfaces;
+    using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
@@ -288,7 +289,7 @@
                 {
                     var criteria = new AutoCreateMonthlyPeriodCriteria()
                     {
-                        Name = today.ToString("MMM, yyyy"),
+                        Name = today.ToString(Constants.FormatMonthlyPeriodName),
                         StartDate = today.AddDays(1),
                         EndDate = today.AddDays(1).AddDays(processSettings.Sum(p => p.Duration))
                     };
@@ -379,7 +380,6 @@
             if (evaluationProcesses != null && evaluationProcesses.Any())
             {
                 var updateEndProcessCriteria = new UpdateIsEndProcessCriteria();
-                updateEndProcessCriteria.EPAProcess = updateEndProcessCriteria.ConvertEvaluationProcessToXml(evaluationProcesses);
 
                 _LOG.Info("Update status of processes that ended yesterday: started at " + DateTime.Now.ToString());
                 CommandResult updateIsEndProcess = _evaluationService.UpdateEndProcess(updateEndProcessCriteria);

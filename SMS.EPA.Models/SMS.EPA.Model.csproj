@@ -59,6 +59,7 @@
     <Compile Include="EmployeeEPA\EPAPeriodModel.cs" />
     <Compile Include="EmployeeEPA\EPASummaryImportModel.cs" />
     <Compile Include="EmployeeEPA\EvaluationProcessModel.cs" />
+    <Compile Include="EmployeeEPA\MonthlyEPAModel.cs" />
     <Compile Include="EmployeeEPA\RatingByKPI\RatingByKPIModel.cs" />
     <Compile Include="EmployeeEPA\RatingByKPI\TemporaryKPIGroupModel.cs" />
     <Compile Include="EmployeeEPA\RatingByKPI\TemporaryKPIModel.cs" />

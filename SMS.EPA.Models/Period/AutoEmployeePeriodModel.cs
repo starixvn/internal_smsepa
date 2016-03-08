@@ -11,6 +11,8 @@ namespace SMS.EPA.Model.Period
 {
     public class AutoEmployeePeriodModel
     {
+        public int EPAId { get; set; }
+
         public string EmployeeIds { get; set; }
 
         public int PeriodId { get; set; }
@@ -19,6 +21,6 @@ namespace SMS.EPA.Model.Period
 
         public int EmployeeId { get; set; }
 
-        public int EPAId { get; set; }
+        public bool HasMonthlyEPA { get; set; }
     }
 }

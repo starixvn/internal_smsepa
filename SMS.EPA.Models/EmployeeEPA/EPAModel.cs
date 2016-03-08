@@ -145,6 +145,8 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         #endregion Last score
 
+        public MonthlyEPAModel MonthlyEPA { get; set; }
+
         public int Rowspan
         {
             get
