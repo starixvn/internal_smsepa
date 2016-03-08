@@ -587,7 +587,16 @@
 
             foreach (AutoEmployeePeriodModel periodProcess in startedProcess)
             {
-                GetAndSendEmailToAllRelatedEmployee(periodProcess.PeriodId, string.Empty, periodProcess.ProcessId, (int)MailMode.Start);
+                if (periodProcess.TargetTypeId == (int)TargetType.SemiAnnual
+                    && (periodProcess.ProcessId == (int)ProcessType.Self || periodProcess.ProcessId == (int)ProcessType.Evaluator)
+                    && periodProcess.HasMonthlyEPA)
+                {
+                    continue;
+                }
+                else
+                {
+                    GetAndSendEmailToAllRelatedEmployee(periodProcess.PeriodId, string.Empty, periodProcess.ProcessId, (int)MailMode.Start);
+                }
             }
         }
 
@@ -600,7 +609,16 @@
 
             foreach (AutoEmployeePeriodModel periodProcess in reminderProcess)
             {
-                GetAndSendEmailToAllRelatedEmployee(periodProcess.PeriodId, string.Empty, periodProcess.ProcessId, (int)MailMode.Reminder);
+                if (periodProcess.TargetTypeId == (int)TargetType.SemiAnnual
+                    && (periodProcess.ProcessId == (int)ProcessType.Self || periodProcess.ProcessId == (int)ProcessType.Evaluator)
+                    && periodProcess.HasMonthlyEPA)
+                {
+                    continue;
+                }
+                else
+                {
+                    GetAndSendEmailToAllRelatedEmployee(periodProcess.PeriodId, string.Empty, periodProcess.ProcessId, (int)MailMode.Reminder);
+                }
             }
         }
 
