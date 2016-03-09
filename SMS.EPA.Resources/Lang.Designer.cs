@@ -511,6 +511,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Converted Average.
+        /// </summary>
+        public static string ConvertedAverage {
+            get {
+                return ResourceManager.GetString("ConvertedAverage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Created Date.
         /// </summary>
         public static string CreatedDate {
@@ -2163,6 +2172,15 @@ namespace SMS.EPA.Resources {
         public static string OrganizationChart {
             get {
                 return ResourceManager.GetString("OrganizationChart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Original Average.
+        /// </summary>
+        public static string OriginalAverage {
+            get {
+                return ResourceManager.GetString("OriginalAverage", resourceCulture);
             }
         }
         

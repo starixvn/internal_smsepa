@@ -111,6 +111,10 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
             averageScore = memberEPA.AverageScoreByEvaluators,
             totalScore = 0;
 
+        if (memberEPA.HasMonthlyEPA) {
+            averageScore = memberEPA.MonthlyEPA.AverageMonthlyReviewerScoreConversion;
+        }
+
         if (!isReviewer && memberEPA.ProcessByReviewers.length > 0) {
             averageScore = memberEPA.AverageScoreByReviewers;
         }
@@ -135,6 +139,10 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     reviewerMngModel.calculatePerformanceScore = function (vm, isReviewer) {
         var totalScore = utilitiesFactory.parseFloat(vm.epaInfo.CurrentProcess.TotalScore),
             averageScore = vm.epaInfo.AverageScoreByEvaluators;
+
+        if (vm.epaInfo.HasMonthlyEPA) {
+            averageScore = vm.epaInfo.MonthlyEPA.AverageMonthlyReviewerScoreConversion;
+        }
 
         if (!isReviewer && vm.epaInfo.ProcessByReviewers.length > 0) {
             averageScore = vm.epaInfo.AverageScoreByReviewers;

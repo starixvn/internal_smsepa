@@ -16,11 +16,18 @@
                 <td class="text-center">{{monthly.AverageScoreByReviewers | customScore}}</td>
             </tr>
             <tr>
-                <td class="text-right"><strong data-translate="Average"></strong></td>
+                <td class="text-right"><strong data-translate="OriginalAverage"></strong></td>
                 <td class="text-center">{{memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlySelfScore | customScore}}</td>
                 <td class="text-center">{{memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlyEvaluatorScores | customScore}}</td>
                 <td class="text-center">{{memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlyReviewerScores | customScore}}</td>
             </tr>
+            <tr>
+                <td class="text-right"><strong data-translate="ConvertedAverage"></strong></td>
+                <td class="text-center">{{memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlySelfScoreConversion | customScore}}</td>
+                <td class="text-center">{{memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlyEvaluatorScoreConversion | customScore}}</td>
+                <td class="text-center">{{memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlyReviewerScoreConversion | customScore}}</td>
+            </tr>
+
             <tr>
                 <td class="text-right"><strong data-translate="DisciplineScore"></strong></td>
                 <td colspan="3" class="text-center">

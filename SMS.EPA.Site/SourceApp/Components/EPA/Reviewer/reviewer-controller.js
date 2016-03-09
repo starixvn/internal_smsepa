@@ -110,7 +110,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
         else {
             ReviewerManagementModel.calculateAdjustScore(selectedEmployees, true);
             ReviewerManagementModel.adjustScoreByReviewer(vm, selectedEmployees)['finally'](function () {
-                getEPAByReviewer(vm.filter.groupId, vm.filter.isLocal, vm.filter.employeeIds, selectedEmployees);
+                getEPAByReviewer(vm.filter.groupId, vm.filter.isLocal, vm.isMonthly, vm.filter.employeeIds, selectedEmployees);
             });
         }
     };
@@ -152,9 +152,14 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
                 if (memberEPA.ProcessByEvaluators[0].IsEndProcess && !memberEPA.CurrentProcess.TotalScore) {
                     memberEPA.CurrentProcess.TotalScore = memberEPA.AverageScoreByEvaluators;
                 }
+                if (!memberEPA.HasMonthlyEPA) {
+                    memberEPA.MaxSubtractScore = -memberEPA.AverageScoreByEvaluators;
+                    memberEPA.MaxAdditionScore = utilitiesFactory.parseFloat(memberEPA.CurrentProcess.MaxTotalScore - memberEPA.AverageScoreByEvaluators);
+                } else {
+                    memberEPA.MaxSubtractScore = -memberEPA.MonthlyEPA.AverageMonthlyReviewerScoreConversion;
+                    memberEPA.MaxAdditionScore = utilitiesFactory.parseFloat(memberEPA.CurrentProcess.MaxTotalScore - memberEPA.MonthlyEPA.AverageMonthlyReviewerScoreConversion);
+                }
 
-                memberEPA.MaxSubtractScore = -memberEPA.AverageScoreByEvaluators;
-                memberEPA.MaxAdditionScore = utilitiesFactory.parseFloat(memberEPA.CurrentProcess.MaxTotalScore - memberEPA.AverageScoreByEvaluators);
                 memberEPA.ProcessBySelf.TotalScore = utilitiesFactory.parseFloat(memberEPA.ProcessBySelf.TotalScore);
                 memberEPA.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(memberEPA.CurrentProcess.TotalScore);
                 memberEPA.FinalScore = memberEPA.CurrentProcess.TotalScore + memberEPA.DisciplineScore;
@@ -297,7 +302,12 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, ReviewerManagemen
             checkStatus(vm.epaInfo);
 
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
+            if (vm.epaInfo.HasMonthlyEPA) {
+                vm.epaInfo.CurrentProcess.MaxTotalScore = vm.epaInfo.MonthlyEPA.AverageMonthlyReviewerScoreConversion;
+            }
+
             vm.maxPerformanceScore = vm.epaInfo.CurrentProcess.MaxTotalScore;
+            
 
             if (vm.epaInfo.HasDisciplineScore) {
                 if (vm.epaInfo.DisciplineScore < 0) {

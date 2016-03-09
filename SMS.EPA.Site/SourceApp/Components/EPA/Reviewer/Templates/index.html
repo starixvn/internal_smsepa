@@ -88,22 +88,37 @@
                     </td>
                     <td ng-bind="memberEPA.Employee.JobTitle.JobTitleName"></td>
                     <td class="text-center">
-                        <div ng-show="memberEPA.ProcessBySelf.IsEndProcess">
+                        <div ng-if="!memberEPA.HasMonthlyEPA" ng-show="memberEPA.ProcessBySelf.IsEndProcess">
                             {{memberEPA.ProcessBySelf.TotalScore | customScore}} / {{memberEPA.ProcessBySelf.MaxTotalScore | customScore}}
+                        </div>
+                        <div ng-if="memberEPA.HasMonthlyEPA" ng-show="memberEPA.ProcessBySelf.IsEndProcess">
+                            {{memberEPA.MonthlyEPA.AverageMonthlySelfScoreConversion | customScore}} / {{memberEPA.ProcessBySelf.MaxTotalScore | customScore}}
                         </div>
                         <div ng-show="!memberEPA.ProcessBySelf.IsEndProcess" ng-bind="'N/A'"></div>
                     </td>
                     <td class="text-center">
-                        <div ng-show="memberEPA.ProcessByEvaluators[0].IsEndProcess">
+                        <div ng-if="!memberEPA.HasMonthlyEPA" ng-show="memberEPA.ProcessByEvaluators[0].IsEndProcess">
                             {{memberEPA.AverageScoreByEvaluators | customScore}} / {{memberEPA.ProcessByEvaluators[0].MaxTotalScore | customScore}}
+                        </div>
+                        <div ng-if="memberEPA.HasMonthlyEPA" ng-show="memberEPA.ProcessByEvaluators[0].IsEndProcess">
+                            {{memberEPA.MonthlyEPA.AverageMonthlyEvaluatorScoreConversion | customScore}} / {{memberEPA.ProcessByEvaluators[0].MaxTotalScore | customScore}}
                         </div>
                         <div ng-show="!memberEPA.ProcessByEvaluators[0].IsEndProcess" ng-bind="'N/A'"></div>
                     </td>
                     <td class="text-center">
-                        <input type="text" maxlength="6" class="form-control text-center epa-input-score"
-                               ng-readonly="memberEPA.CurrentProcess.IsEndProcess || reviewerCtrl.permission != 2"
-                               ng-model="memberEPA.CurrentProcess.AdjustScore" numeric decimals="2" ng-change="reviewerCtrl.inputScore(memberEPA)"
-                               tooltip="{{reviewerCtrl.getNotificationInputScore(memberEPA)}}" tooltip-trigger="focus" />
+                        <div ng-if="memberEPA.HasMonthlyEPA">
+                            <input type="text" maxlength="6" class="form-control text-center epa-input-score"
+                                   ng-readonly="memberEPA.CurrentProcess.IsEndProcess || reviewerCtrl.permission != 2"
+                                   ng-model="memberEPA.CurrentProcess.AdjustScore" numeric decimals="2" ng-change="reviewerCtrl.inputScore(memberEPA)"
+                                   tooltip="{{reviewerCtrl.getNotificationInputScore(memberEPA)}}" tooltip-trigger="focus" />
+                            / {{memberEPA.MonthlyEPA.AverageMonthlyReviewerScoreConversion}}
+                        </div>
+                        <div ng-if="!memberEPA.HasMonthlyEPA">
+                            <input type="text" maxlength="6" class="form-control text-center epa-input-score"
+                                   ng-readonly="memberEPA.CurrentProcess.IsEndProcess || reviewerCtrl.permission != 2"
+                                   ng-model="memberEPA.CurrentProcess.AdjustScore" numeric decimals="2" ng-change="reviewerCtrl.inputScore(memberEPA)"
+                                   tooltip="{{reviewerCtrl.getNotificationInputScore(memberEPA)}}" tooltip-trigger="focus" />
+                        </div>
                     </td>
                     <td class="text-center">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-attr-title='{{"Edit" | translate}}'
