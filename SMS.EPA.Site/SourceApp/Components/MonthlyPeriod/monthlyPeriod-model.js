@@ -226,7 +226,7 @@ function ($modal, monthlyPeriodFactory, errorFactory, notificationFactory, utili
                     return vm.permission;
                 }
             },
-            windowClass: "modal-confirm-center"
+            windowClass: "modal-confirm-center employee-period-setting"
         });
 
         modalInstance.result.then(function () {

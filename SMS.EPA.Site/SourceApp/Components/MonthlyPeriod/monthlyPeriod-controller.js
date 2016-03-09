@@ -134,8 +134,8 @@ function ($modalInstance, MonthlyPeriodModel) {
 }]);
 
 monthlyPeriodModule.controller('UpdateMonthlyPeriodController',
-['$window', '$routeParams', 'MonthlyPeriodModel', 'PeriodModel',
-function ($window, $routeParams, MonthlyPeriodModel, PeriodModel) {
+['$window', '$routeParams', 'MonthlyPeriodModel',
+function ($window, $routeParams, MonthlyPeriodModel) {
     var vm = this;
 
     vm.period = null;

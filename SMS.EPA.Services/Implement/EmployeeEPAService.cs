@@ -500,14 +500,19 @@ namespace SMS.EPA.Services.Implement
 
         private void ConvertAverageMonthlyScore(MonthlyEPAModel monthlyEPA, ScoreRatingTypeModel scoreRatingType)
         {
-            float averageScore = (monthlyEPA.AverageMonthlySelfScore * scoreRatingType.SelfEvaluated) / 100;
-            monthlyEPA.AverageMonthlySelfScoreConversion = (float)Math.Round(averageScore, 2);
+            if (monthlyEPA.MonthlyEPAs.Any())
+            {
+                ScoreRatingTypeModel monthlyScoreRatingType = monthlyEPA.MonthlyEPAs.First().ScoreRatingType;
 
-            averageScore = (monthlyEPA.AverageMonthlyEvaluatorScores * scoreRatingType.Evaluator) / 100;
-            monthlyEPA.AverageMonthlyEvaluatorScoreConversion = (float)Math.Round(averageScore, 2);
+                float averageScore = (monthlyEPA.AverageMonthlySelfScore * scoreRatingType.SelfEvaluated) / monthlyScoreRatingType.SelfEvaluated;
+                monthlyEPA.AverageMonthlySelfScoreConversion = (float)Math.Round(averageScore, 2);
 
-            averageScore = (monthlyEPA.AverageMonthlyReviewerScores * scoreRatingType.SelfEvaluated) / 100;
-            monthlyEPA.AverageMonthlyReviewerScoreConversion = (float)Math.Round(averageScore, 2);
+                averageScore = (monthlyEPA.AverageMonthlyEvaluatorScores * scoreRatingType.Evaluator) / monthlyScoreRatingType.Evaluator;
+                monthlyEPA.AverageMonthlyEvaluatorScoreConversion = (float)Math.Round(averageScore, 2);
+
+                averageScore = (monthlyEPA.AverageMonthlyReviewerScores * scoreRatingType.Reviewer) / monthlyScoreRatingType.Reviewer;
+                monthlyEPA.AverageMonthlyReviewerScoreConversion = (float)Math.Round(averageScore, 2);
+            }
         }
     }
 }

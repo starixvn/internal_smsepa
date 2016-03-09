@@ -9,16 +9,16 @@
         <form novalidate class="row form-horizontal form-multiLine filter" evaluator-chosen>
             <div class="form-group">
                 <label class="col-sm-2 control-label" data-translate="Employee"></label>
-                <div class="col-sm-8">
+                <div class="col-sm-8 employee-name-period">
                     <span ng-bind="updatePeriodSettingCtrl.selectedEmployeeNames"></span>
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-sm-1 width-percent-6">
-                    <input ng-show="!updatePeriodSettingCtrl.hasSelfStarted && !updatePeriodSettingCtrl.singleMode" type="checkbox"
+                <div class="col-sm-2">
+                    <input class="period-target-chk" ng-show="!updatePeriodSettingCtrl.hasSelfStarted && !updatePeriodSettingCtrl.singleMode" type="checkbox"
                            ng-model="updatePeriodSettingCtrl.fieldEdit.targetTemplate" />
+                    <label class="control-label period-target-label" data-translate="TargetTemplate"></label>
                 </div>
-                <label class="col-sm-2 control-label" data-translate="TargetTemplate"></label>
                 <div class="col-sm-3">
                     <select ng-model="updatePeriodSettingCtrl.employeeOptions.targetTemplateId"
                             ng-options="opt.TargetTemplateId as opt.Name for opt in updatePeriodSettingCtrl.targetTemplates"
@@ -26,7 +26,7 @@
                 </div>
             </div>
         </form>
-        <table class="row table table-bordered table-striped">
+        <table class="row table table-bordered table-striped table-period-setting">
             <thead>
                 <tr class="headerName">
                     <th ng-show="!updatePeriodSettingCtrl.singleMode"></th>
@@ -39,11 +39,11 @@
             </thead>
             <tbody>
                 <tr>
-                    <td ng-show="!updatePeriodSettingCtrl.singleMode">
+                    <td ng-show="!updatePeriodSettingCtrl.singleMode" class="text-center">
                         <input type="checkbox" ng-model="updatePeriodSettingCtrl.fieldEdit.evaluator" />
                     </td>
                     <td data-translate="Evaluator"></td>
-                    <td class="width-200">
+                    <td>
                         <select class="form-control" multiple chosen
                                 options="updatePeriodSettingCtrl.employeeOptions.humanResourceEmployees"
                                 ng-model="updatePeriodSettingCtrl.employeeOptions.humanResource.ids"
@@ -51,8 +51,8 @@
                                 ng-options="opt.EmployeeId as opt.NickName for opt in updatePeriodSettingCtrl.employeeOptions.humanResourceEmployees"
                                 on-show-dropdown="updatePeriodSettingCtrl.updateTrigger()"></select>
                     </td>
-                    <td class="width-200"></td>
-                    <td class="width-200">
+                    <td></td>
+                    <td>
                         <select class="form-control" multiple chosen
                                 options="updatePeriodSettingCtrl.employeeOptions.evaluatorEmployees"
                                 ng-model="updatePeriodSettingCtrl.employeeOptions.evaluator.ids"
@@ -60,7 +60,7 @@
                                 ng-options="opt.EmployeeId as opt.NickName for opt in updatePeriodSettingCtrl.employeeOptions.evaluatorEmployees"
                                 on-show-dropdown="updatePeriodSettingCtrl.updateTrigger()"></select>
                     </td>
-                    <td class="width-200">
+                    <td>
                         <select class="form-control" multiple chosen
                                 options="updatePeriodSettingCtrl.employeeOptions.reviewerEmployees"
                                 ng-model="updatePeriodSettingCtrl.employeeOptions.reviewer.ids"
@@ -70,7 +70,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td ng-show="!updatePeriodSettingCtrl.singleMode">
+                    <td ng-show="!updatePeriodSettingCtrl.singleMode" class="text-center">
                         <input type="checkbox" ng-model="updatePeriodSettingCtrl.fieldEdit.startDate" />
                     </td>
                     <td data-translate="StartDate"></td>
@@ -111,7 +111,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td ng-show="!updatePeriodSettingCtrl.singleMode">
+                    <td ng-show="!updatePeriodSettingCtrl.singleMode" class="text-center">
                         <input type="checkbox" ng-model="updatePeriodSettingCtrl.fieldEdit.endDate" />
                     </td>
                     <td data-translate="EndDate"></td>

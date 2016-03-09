@@ -587,16 +587,7 @@
 
             foreach (AutoEmployeePeriodModel periodProcess in startedProcess)
             {
-                if (periodProcess.TargetTypeId == (int)TargetType.SemiAnnual
-                    && (periodProcess.ProcessId == (int)ProcessType.Self || periodProcess.ProcessId == (int)ProcessType.Evaluator)
-                    && periodProcess.HasMonthlyEPA)
-                {
-                    continue;
-                }
-                else
-                {
-                    GetAndSendEmailToAllRelatedEmployee(periodProcess.PeriodId, string.Empty, periodProcess.ProcessId, (int)MailMode.Start);
-                }
+                GetAndSendEmailToAllRelatedEmployee(periodProcess.PeriodId, string.Empty, periodProcess.ProcessId, (int)MailMode.Start);
             }
         }
 

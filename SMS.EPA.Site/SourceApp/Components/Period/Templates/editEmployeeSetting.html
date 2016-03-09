@@ -17,9 +17,8 @@
                 <div class="col-sm-2">
                     <input class="period-target-chk" ng-show="!updatePeriodSettingCtrl.hasSelfStarted && !updatePeriodSettingCtrl.singleMode" type="checkbox"
                            ng-model="updatePeriodSettingCtrl.fieldEdit.targetTemplate" />
-                    <label class="control-label period-target-label" data-translate="TargetTemplate">
+                    <label class="control-label period-target-label" data-translate="TargetTemplate"></label>
                 </div>
-                </label>
                 <div class="col-sm-3">
                     <select ng-model="updatePeriodSettingCtrl.employeeOptions.targetTemplateId"
                             ng-options="opt.TargetTemplateId as opt.Name for opt in updatePeriodSettingCtrl.targetTemplates"
