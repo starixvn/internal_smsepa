@@ -93,7 +93,8 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
             notificationFactory.error("SelectEmployeeBeforeAdjustScoreWarning");
         }
         else {
-            ReviewerManagementModel.openPopupAdjustScore(vm, selectedEmployees, true).then(function (adjust) {
+            ReviewerManagementModel.openPopupAdjustScore(vm, selectedEmployees, true)
+            .then(function (adjust) {
                 ReviewerManagementModel.calculateAdjustScoreMultiple(selectedEmployees, adjust, true);
             })['finally'](function () {
                 vm.modalInstance = null;
@@ -116,13 +117,15 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     };
 
     vm.updateComment = function (memberEPA, comment, isEdit) {
-        ReviewerManagementModel.openPopupUpdateComment(vm, memberEPA, comment, isEdit, true).then(function (commentUpdate) {
+        ReviewerManagementModel.openPopupUpdateComment(vm, memberEPA, comment, isEdit, true)
+        .then(function (commentUpdate) {
             var index = vm.memberEPAs.map(function (e) { return e.EPAId; }).indexOf(memberEPA.EPAId);
 
             if (index !== -1) {
                 vm.memberEPAs[index].CurrentProcess.TotalScore = vm.memberEPAs[index].CurrentProcess.TotalScoreOriginal;
                 vm.memberEPAs[index].CurrentProcess.AdjustScore = vm.memberEPAs[index].CurrentProcess.AdjustScoreOriginal;
                 vm.memberEPAs[index].CurrentProcess.Comment = commentUpdate;
+                vm.memberEPAs[index].CurrentProcess.Evaluated = true;
 
                 ReviewerManagementModel.calculateScore(vm.memberEPAs[index], true);
             }

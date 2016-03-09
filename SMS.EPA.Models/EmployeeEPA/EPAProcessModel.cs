@@ -73,7 +73,7 @@ namespace SMS.EPA.Model.EmployeeEPA
             }
         }
 
-        public bool? Evaluated { get; set; }
+        public bool Evaluated { get; set; }
 
         public DateTime? EvaluateDate { get; set; }
     }

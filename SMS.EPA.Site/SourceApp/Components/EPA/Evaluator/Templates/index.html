@@ -31,7 +31,9 @@
                     </add-class-to-role-filter>
                 </div>
                 <div class="col-sm-1">
-                    <input type="checkbox" ng-model="evaluatorCtrl.filter.isMonthly">{{"IsMonthly" | translate}}
+                    <label>
+                        <input type="checkbox" ng-model="evaluatorCtrl.filter.isMonthly">{{"IsMonthly" | translate}}
+                    </label>
                 </div>
                 <div class="col-sm-1">
                     <button class="button" ng-click="evaluatorCtrl.query(evaluatorCtrl.filter)" data-translate="Submit"></button>
@@ -122,7 +124,7 @@
                     </td>
                     <td class="text-center">
                         <a data-translate="View" ng-click="evaluatorCtrl.viewEPAHistory(memberEPA.Employee.EmployeeId)"
-                           href="{{evaluatorCtrl.viewEPAHistoryUrl}}" ></a>
+                           href="{{evaluatorCtrl.viewEPAHistoryUrl}}"></a>
                     </td>
                     <td class="text-center text-uppercase col-action">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="evaluatorCtrl.viewEPADetail(memberEPA)"
@@ -134,7 +136,6 @@
                         <a class="glyphicon icon-view" href="" ng-click="evaluatorCtrl.viewSemiEPAResult(memberEPA)"
                            ng-if="memberEPA.HasMonthlyEPA && (memberEPA.CurrentProcess.IsEndProcess || memberEPA.Period.IsEndPeriod)"
                            ng-href="{{evaluatorCtrl.viewSemiEPAResultUrl}}" ng-attr-title='{{"ViewSemiEPAResult" | translate}}'></a>
-
                     </td>
                 </tr>
                 <tr ng-show="evaluatorCtrl.memberEPAs.length == 0">

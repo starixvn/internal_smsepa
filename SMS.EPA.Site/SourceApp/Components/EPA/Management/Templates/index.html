@@ -38,7 +38,7 @@
         <table class="row table table-bordered table-striped">
             <thead>
                 <tr class="header-table" ng-show="managementCtrl.memberEPAs.length > 0 && !managementCtrl.isEndProcessAll && managementCtrl.permission == 2">
-                    <th colspan="16">
+                    <th colspan="17">
                         <a class="pull-left button-icon" ng-click="managementCtrl.adjustScore()">
                             <span class="icon-edit glyphicon glyphicon-edit"></span>
                             <span class="button-text" data-translate="AdjustScore"></span>
@@ -67,6 +67,7 @@
                     <th data-translate="DisciplineScore"></th>
                     <th data-translate="TotalScore"></th>
                     <th data-translate="LastFinalScore"></th>
+                    <th data-translate="Status"></th>
                     <th data-translate="Detail" class="col-action"></th>
                 </tr>
             </thead>
@@ -151,6 +152,7 @@
                         <div ng-show="memberEPA.LastFinalScore != null" ng-bind="memberEPA.LastFinalScore | customScore"></div>
                         <div ng-show="memberEPA.LastFinalScore == null" ng-bind="'-'"></div>
                     </td>
+                    <td class="text-center"><div ng-show="memberEPA.CurrentProcess.Evaluated" class="glyphicon glyphicon-ok"></div></td>
                     <td class="text-center col-action">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="managementCtrl.viewEPADetail(memberEPA)"
                            ng-if="!memberEPA.HasMonthlyEPA && !memberEPA.CurrentProcess.IsEndProcess && !memberEPA.Period.IsEndPeriod"
@@ -170,14 +172,14 @@
             </tbody>
             <tfoot ng-show="managementCtrl.memberEPAs.length > 0">
                 <tr>
-                    <td colspan="16">
+                    <td colspan="17">
                         {{"AverageScoreByReviewers" | translate}}: {{managementCtrl.averageScore | customScore}}
                     </td>
                 </tr>
             </tfoot>
             <tbody ng-show="managementCtrl.memberEPAs.length == 0">
                 <tr>
-                    <td class="empty-result" colspan="16" data-translate="EmptyResult"></td>
+                    <td class="empty-result" colspan="17" data-translate="EmptyResult"></td>
                 </tr>
             </tbody>
         </table>

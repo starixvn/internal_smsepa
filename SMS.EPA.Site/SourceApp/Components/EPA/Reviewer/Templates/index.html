@@ -31,7 +31,9 @@
                     </add-class-to-role-filter>
                 </div>
                 <div class="col-sm-1">
-                    <input type="checkbox" ng-model="reviewerCtrl.filter.isMonthly">{{"IsMonthly" | translate}}
+                    <label>
+                        <input type="checkbox" ng-model="reviewerCtrl.filter.isMonthly">{{"IsMonthly" | translate}}
+                    </label>
                 </div>
                 <div class="col-sm-1">
                     <button class="button" ng-click="reviewerCtrl.query(reviewerCtrl.filter)" data-translate="Submit"></button>
@@ -41,7 +43,7 @@
         <table class="row table table-bordered table-striped">
             <thead>
                 <tr class="header-table" ng-if="reviewerCtrl.memberEPAs.length > 0  && !reviewerCtrl.isEndProcessAll && reviewerCtrl.permission == 2">
-                    <th colspan="15">
+                    <th colspan="16">
                         <a class="pull-left button-icon" ng-click="reviewerCtrl.adjustScore()">
                             <span class="icon-edit glyphicon glyphicon-edit"></span>
                             <span class="button-text" data-translate="AdjustScore"></span>
@@ -69,6 +71,7 @@
                     <th data-translate="DisciplineScore"></th>
                     <th data-translate="TotalScore"></th>
                     <th data-translate="LastFinalScore"></th>
+                    <th data-translate="Status"></th>
                     <th data-translate="Detail" class="col-action"></th>
                 </tr>
             </thead>
@@ -160,6 +163,7 @@
                         <div ng-show="memberEPA.LastFinalScore != null" ng-bind="memberEPA.LastFinalScore | customScore"></div>
                         <div ng-show="memberEPA.LastFinalScore == null" ng-bind="'-'"></div>
                     </td>
+                    <td class="text-center"><div ng-show="memberEPA.CurrentProcess.Evaluated" class="glyphicon glyphicon-ok"></div></td>
                     <td class="text-center col-action">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="reviewerCtrl.viewEPADetail(memberEPA)"
                            ng-if="!memberEPA.HasMonthlyEPA && !memberEPA.CurrentProcess.IsEndProcess && !memberEPA.Period.IsEndPeriod"
@@ -179,14 +183,14 @@
             </tbody>
             <tfoot ng-show="reviewerCtrl.memberEPAs.length > 0">
                 <tr>
-                    <td colspan="15">
+                    <td colspan="16">
                         {{"AverageScoreByEvaluators" | translate}}: {{reviewerCtrl.averageScore | customScore}}
                     </td>
                 </tr>
             </tfoot>
             <tbody ng-show="reviewerCtrl.memberEPAs.length == 0">
                 <tr>
-                    <td class="empty-result" colspan="15" data-translate="EmptyResult"></td>
+                    <td class="empty-result" colspan="16" data-translate="EmptyResult"></td>
                 </tr>
             </tbody>
         </table>

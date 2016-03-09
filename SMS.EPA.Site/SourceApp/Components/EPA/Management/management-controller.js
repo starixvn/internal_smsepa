@@ -115,13 +115,15 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     };
 
     vm.updateComment = function (memberEPA, comment, isEdit) {
-        ReviewerManagementModel.openPopupUpdateComment(vm, memberEPA, comment, isEdit, false).then(function (commentUpdate) {
+        ReviewerManagementModel.openPopupUpdateComment(vm, memberEPA, comment, isEdit, false)
+        .then(function (commentUpdate) {
             var index = vm.memberEPAs.map(function (e) { return e.EPAId; }).indexOf(memberEPA.EPAId);
 
             if (index !== -1) {
                 vm.memberEPAs[index].CurrentProcess.TotalScore = vm.memberEPAs[index].CurrentProcess.TotalScoreOriginal;
                 vm.memberEPAs[index].CurrentProcess.AdjustScore = vm.memberEPAs[index].CurrentProcess.AdjustScoreOriginal;
                 vm.memberEPAs[index].CurrentProcess.Comment = commentUpdate;
+                vm.memberEPAs[index].CurrentProcess.Evaluated = true;
 
                 ReviewerManagementModel.calculateScore(vm.memberEPAs[index], false);
             }
@@ -133,7 +135,8 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     var getEPAByManagement = function (groupId, isLocal, employeeIds, selectedEmployees) {
         vm.isEndProcessAll = false;
 
-        ReviewerManagementModel.getEPAByManagement(groupId, isLocal, employeeIds).then(function () {
+        ReviewerManagementModel.getEPAByManagement(groupId, isLocal, employeeIds)
+        .then(function () {
             vm.memberEPAs = ReviewerManagementModel.memberEPAs;
 
             var averageScore = 0, countEndProcess = 0;
