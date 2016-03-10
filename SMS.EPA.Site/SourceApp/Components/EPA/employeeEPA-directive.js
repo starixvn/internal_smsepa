@@ -109,3 +109,14 @@ epaModule.filter('splitScore', ['$filter', 'utilitiesFactory', function ($filter
         return _number;
     };
 }]);
+
+epaModule.directive("repeatEnd", function () {
+    return {
+        restrict: "A",
+        link: function (scope, element, attrs) {
+            if (scope.$last) {
+                scope.$eval(attrs.repeatEnd);
+            }
+        }
+    };
+});
