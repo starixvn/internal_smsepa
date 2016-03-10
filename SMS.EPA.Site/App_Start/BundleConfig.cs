@@ -153,7 +153,8 @@
                             "~/SourceApp/Shared/error-factory.js",
                             "~/SourceApp/Shared/modalconfirm-controller.js",
                             "~/SourceApp/Shared/notification-factory.js",
-                            "~/SourceApp/Shared/utilities-factory.js"));
+                            "~/SourceApp/Shared/utilities-factory.js",
+                            "~/SourceApp/Shared/enumerations-factory.js"));
         }
     }
 }

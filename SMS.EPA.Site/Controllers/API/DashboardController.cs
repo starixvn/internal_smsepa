@@ -9,6 +9,7 @@
 
 namespace SMS.EPA.Site.Controllers.API
 {
+    using System.Linq;
     using System.Web.Http;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
@@ -40,17 +41,19 @@ namespace SMS.EPA.Site.Controllers.API
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Home, Policy = Policy.Read)]
         public DashboardModel GetDashboard()
         {
-            DashboardModel result = new DashboardModel();
+            DashboardModel dashboard = new DashboardModel();
 
             var criteria = new GetDashboardCriteria()
             {
                 EmployeeId = CurrentUser.EmployeeInfo.EmployeeId
             };
 
-            result = _reportService.GetDashboard(criteria);
-            result.Employee = CurrentUser.EmployeeInfo;
+            dashboard = _reportService.GetDashboard(criteria);
+            dashboard.Employee = CurrentUser.EmployeeInfo;
+            dashboard.MonthlyEPAs = dashboard.MyEPAs.Where(x => x.Period.TargetTypeId == (int)TargetType.Monthly);
+            dashboard.MyEPAs = dashboard.MyEPAs.Where(x => x.Period.TargetTypeId != (int)TargetType.Monthly);
 
-            return result;
+            return dashboard;
         }
     }
 }

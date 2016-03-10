@@ -9,11 +9,27 @@
     </div>
     <div ng-include src="'/SourceApp/Components/Dashboard/Templates/evaluationProcess.html'"></div>
     <div class="row">
-        <div ng-init="dashboardCtrl.collapses['MyEPA'] = false;">
+        <div ng-init="dashboardCtrl.collapses['MyEPA'] = false;" ng-if="!dashboardCtrl.employee.HasMonthlyEPA">
             <div class="boxtitle" data-translate="MyEPAs"
                  ng-click="dashboardCtrl.collapses['MyEPA'] = !dashboardCtrl.collapses['MyEPA']"></div>
             <div class="boxcontent" collapse="dashboardCtrl.collapses['MyEPA']"
                  ng-include src="'/SourceApp/Components/Dashboard/Templates/myEPA.html'"></div>
+        </div>
+        <div ng-init="dashboardCtrl.collapses['EPAs'] = false;" ng-if="dashboardCtrl.employee.HasMonthlyEPA">
+            <div class="boxtitle" data-translate="EPAs"
+                 ng-click="dashboardCtrl.collapses['EPAs'] = !dashboardCtrl.collapses['EPAs']"></div>
+            <div class="boxcontent" collapse="dashboardCtrl.collapses['EPAs']">
+                <div class="target-tabset" ng-show="dashboardCtrl.employee.HasMonthlyEPA">
+                    <tabset id="EPATab">
+                        <tab heading="My EPAs" class="tab-cursor">
+                            <div ng-include src="'/SourceApp/Components/Dashboard/Templates/myEPA.html'"></div>
+                        </tab>
+                        <tab heading="Monthly EPAs" class="tab-cursor">
+                            <div ng-include src="'/SourceApp/Components/Dashboard/Templates/monthlyEPA.html'"></div>
+                        </tab>
+                    </tabset>
+                </div>
+            </div>
         </div>
     </div>
 </div>

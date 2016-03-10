@@ -1,0 +1,45 @@
+﻿<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th data-translate="SymbolCount"></th>
+            <th data-translate="PeriodName"></th>
+            <th data-translate="PerformanceScore"></th>
+            <th data-translate="FinalScore"></th>
+            <th data-translate="Detail" class="col-action"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="monthlyEPA in dashboardCtrl.monthlyEPAs">
+            <td class="text-center" ng-bind="$index + 1"></td>
+            <td ng-bind="monthlyEPA.Period.Name"></td>
+            <td class="text-center">
+                <div ng-show="monthlyEPA.EPAId > 0 && monthlyEPA.Period.IsEndPeriod">
+                    <span ng-show="monthlyEPA.PerformanceScore">{{monthlyEPA.PerformanceScore | customScore}} / {{monthlyEPA.MaxPerformanceScore | customScore}}</span>
+                    <span ng-show="!monthlyEPA.PerformanceScore && monthlyEPA.PerformanceScore != 0" data-translate="NotAvailable"></span>
+                </div>
+                <div ng-show="monthlyEPA.EPAId > 0 && !monthlyEPA.Period.IsEndPeriod" data-translate="Pending"></div>
+                <div ng-show="monthlyEPA.EPAId < 0" ng-bind="'-'"></div>
+            </td>
+            <td class="text-center">
+                <div ng-show="monthlyEPA.Period.IsEndPeriod">
+                    <span ng-show="monthlyEPA.FinalScore">{{monthlyEPA.FinalScore | customScore}} / {{monthlyEPA.MaxFinalScore | customScore}}</span>
+                    <div ng-show="!monthlyEPA.FinalScore && monthlyEPA.FinalScore != 0" data-translate="NotAvailable"></div>
+                </div>
+                <div ng-show="!monthlyEPA.Period.IsEndPeriod" data-translate="Pending"></div>
+            </td>
+            <td class="text-center col-action">
+                <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="dashboardCtrl.viewEPADetail(monthlyEPA)"
+                   ng-if="monthlyEPA.EPAId > 0 && !monthlyEPA.IsEndProcessBySelf && monthlyEPA.Status.StatusId == 0 && !monthlyEPA.Period.IsEndPeriod"
+                   ng-href="{{dashboardCtrl.viewEPADetailUrl}}" ng-attr-title='{{"EvaluateNow" | translate}}'></a>
+                <a class="glyphicon icon-view" href="" ng-click="dashboardCtrl.viewEPAResult(monthlyEPA)"
+                   ng-if="monthlyEPA.EPAId > 0 && (monthlyEPA.IsEndProcessBySelf || monthlyEPA.Status.StatusId == 1 || monthlyEPA.Period.IsEndPeriod)"
+                   ng-href="{{dashboardCtrl.viewEPAResultUrl}}" ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
+            </td>
+        </tr>
+    </tbody>
+    <tbody ng-show="dashboardCtrl.monthlyEPAs.length == 0">
+        <tr>
+            <td class="empty-result" colspan="6" data-translate="EmptyResult"></td>
+        </tr>
+    </tbody>
+</table>

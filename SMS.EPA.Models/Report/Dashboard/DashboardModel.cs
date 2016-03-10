@@ -17,5 +17,7 @@ namespace SMS.EPA.Model.Report.Dashboard
         public EmployeeModel Employee { get; set; }
 
         public IEnumerable<EPADashboardModel> MyEPAs { get; set; }
+
+        public IEnumerable<EPADashboardModel> MonthlyEPAs { get; set; }
     }
 }

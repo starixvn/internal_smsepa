@@ -336,6 +336,7 @@
     <Content Include="SourceApp\Components\Dashboard\dashboard-model.js" />
     <Content Include="SourceApp\Components\Dashboard\Templates\evaluationProcess.html" />
     <Content Include="SourceApp\Components\Dashboard\Templates\index.html" />
+    <Content Include="SourceApp\Components\Dashboard\Templates\monthlyEPA.html" />
     <Content Include="SourceApp\Components\Dashboard\Templates\myEPA.html" />
     <Content Include="SourceApp\Components\Dashboard\Templates\personalProfile.html" />
     <Content Include="SourceApp\Components\Department\department-controller.js" />
@@ -508,6 +509,7 @@
     <Content Include="SourceApp\routes.js">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Content>
+    <Content Include="SourceApp\Shared\enumerations-factory.js" />
     <Content Include="SourceApp\Shared\epa-filter.js" />
     <Content Include="SourceApp\Shared\error-factory.js" />
     <Content Include="SourceApp\Shared\modalconfirm-controller.js" />

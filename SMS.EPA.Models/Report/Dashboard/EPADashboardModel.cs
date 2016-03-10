@@ -54,6 +54,8 @@ namespace SMS.EPA.Model.Report.Dashboard
 
         public bool HasOtherViolation { get; set; }
 
+        public bool HasMonthlyEPA { get; set; }
+
         public EvaluationProcessModel EvaluationProcess { get; set; }
 
         public EPAProcessModel ProcessBySelf { get; set; }

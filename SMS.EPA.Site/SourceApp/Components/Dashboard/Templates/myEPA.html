@@ -42,17 +42,17 @@
             </td>
             <td class="text-center">
                 <div ng-show="myEPA.Period.IsEndPeriod">
-                    <span ng-show="myEPA.FinalScore">{{myEPA.FinalScore | customScore}} / {{myEPA.MaxFinalScore | customScore}}</span>
-                    <div ng-show="!myEPA.FinalScore && myEPA.FinalScore != 0" data-translate="NotAvailable"></div>
+                    <span ng-show="myEPA.FinalScore || myEPA.FinalScore == 0">{{myEPA.FinalScore | customScore}} / {{myEPA.MaxFinalScore | customScore}}</span>
+                    <div ng-show="!myEPA.FinalScore" data-translate="NotAvailable"></div>
                 </div>
                 <div ng-show="!myEPA.Period.IsEndPeriod" data-translate="Pending"></div>
             </td>
             <td class="text-center col-action">
                 <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="dashboardCtrl.viewEPADetail(myEPA)"
-                   ng-if="myEPA.EPAId > 0 && !myEPA.IsEndProcessBySelf && myEPA.Status.StatusId == 0 && !myEPA.Period.IsEndPeriod"
+                   ng-if="myEPA.EPAId > 0 && !myEPA.IsEndProcessBySelf && myEPA.Status.StatusId == dashboardCtrl.epaStatusEnum.Open && !myEPA.Period.IsEndPeriod"
                    ng-href="{{dashboardCtrl.viewEPADetailUrl}}" ng-attr-title='{{"EvaluateNow" | translate}}'></a>
                 <a class="glyphicon icon-view" href="" ng-click="dashboardCtrl.viewEPAResult(myEPA)"
-                   ng-if="myEPA.EPAId > 0 && (myEPA.IsEndProcessBySelf || myEPA.Status.StatusId == 1 || myEPA.Period.IsEndPeriod)"
+                   ng-if="myEPA.EPAId > 0 && (myEPA.IsEndProcessBySelf || myEPA.Status.StatusId == dashboardCtrl.epaStatusEnum.Closed || myEPA.Period.IsEndPeriod)"
                    ng-href="{{dashboardCtrl.viewEPAResultUrl}}" ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
             </td>
         </tr>

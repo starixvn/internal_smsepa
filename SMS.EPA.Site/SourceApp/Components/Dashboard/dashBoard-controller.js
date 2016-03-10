@@ -2,11 +2,14 @@
 /*global dashboardModule*/
 
 dashboardModule.controller('DashboardController',
-['DashboardModel', 'CommonModel', 'utilitiesFactory', 'baseUrl',
-function (DashboardModel, CommonModel, utilitiesFactory, baseUrl) {
+['DashboardModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'baseUrl',
+function (DashboardModel, CommonModel, utilitiesFactory, enumerationsFactory, baseUrl) {
     var vm = this;
 
     vm.showScore = false;
+    vm.epaStatusEnum = enumerationsFactory.epaStatus;
+    vm.targetTypeEnum = enumerationsFactory.targetType;
+    vm.statusEndProcessEnum = enumerationsFactory.statusEndProcess;
 
     vm.getClassProgress = function (statusEndProcess) {
         if (statusEndProcess === 0) {
@@ -25,7 +28,11 @@ function (DashboardModel, CommonModel, utilitiesFactory, baseUrl) {
     };
 
     vm.viewEPAResult = function (epa) {
-        vm.viewEPAResultUrl = baseUrl + 'EPA/Detail/' + epa.EPAId;
+        if (epa.HasMonthlyEPA && epa.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
+            vm.viewEPAResultUrl = baseUrl + 'EPA/SemiDetail/' + epa.EPAId;
+        } else {
+            vm.viewEPAResultUrl = baseUrl + 'EPA/Detail/' + epa.EPAId;
+        }
     };
 
     vm.viewOtherViolationDetail = function (epa) {
@@ -38,13 +45,23 @@ function (DashboardModel, CommonModel, utilitiesFactory, baseUrl) {
 
             vm.employee = dashboardInfo.Employee;
             vm.employee.Avatar = baseUrl + vm.employee.Avatar;
+            vm.evaluationProcesses = new Array().concat(dashboardInfo.MyEPAs, dashboardInfo.MonthlyEPAs);
             vm.myEPAs = dashboardInfo.MyEPAs;
+            vm.monthlyEPAs = dashboardInfo.MonthlyEPAs;
 
             angular.forEach(vm.myEPAs, function (myEPA) {
                 if (myEPA.Period.IsEndPeriod) {
                     myEPA.FinalScore = utilitiesFactory.parseFloat(myEPA.FinalScore);
                 } else {
                     myEPA.FinalScore = null;
+                }
+            });
+
+            angular.forEach(vm.monthlyEPAs, function (monthlyEPA) {
+                if (monthlyEPA.Period.IsEndPeriod) {
+                    monthlyEPA.FinalScore = utilitiesFactory.parseFloat(monthlyEPA.FinalScore);
+                } else {
+                    monthlyEPA.FinalScore = null;
                 }
             });
         });
