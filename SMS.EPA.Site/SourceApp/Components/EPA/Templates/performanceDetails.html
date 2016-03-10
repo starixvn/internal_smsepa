@@ -53,7 +53,6 @@
                                    ng-click="memberEPAInfoCtrl.readMore(kpi.EvaluationBySelf)" data-translate="ReadMore"></a>
                                 <a ng-show="kpi.EvaluationBySelf.Comment.length > 0 && kpi.EvaluationBySelf.showReadMore"
                                    href="javascript:;" ng-click="memberEPAInfoCtrl.readLess(kpi.EvaluationBySelf)" data-translate="ReadLess"></a>
-                                <span data-translate="NotAvailable" ng-show="!kpi.EvaluationBySelf.Comment"></span>
                             </div>
                             <div class="text-center" data-translate="Pending" ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess"></div>
                         </td>
@@ -81,7 +80,6 @@
                                    ng-click="memberEPAInfoCtrl.readMore(evaluator)" data-translate="ReadMore"></a>
                                 <a ng-show="evaluator.Comment.length > 0 && evaluator.showReadMore"
                                    href="javascript:;" ng-click="memberEPAInfoCtrl.readLess(evaluator)" data-translate="ReadLess"></a>
-                                <span data-translate="NotAvailable" ng-show="!evaluator.Comment"></span>
                             </div>
                             <div class="text-center" data-translate="Pending" ng-show="!memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].IsEndProcess"</div>
                         </td>

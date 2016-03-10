@@ -56,8 +56,6 @@
                            ng-click="memberEPAInfoCtrl.openPopupViewComment(memberEPAInfoCtrl.epaInfo.ProcessBySelf.Comment)"
                            ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.Comment.length > 0">
                         </a>
-                        <span data-translate="NotAvailable" ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.Comment">
-                        </span>
                     </div>
                     <div data-translate="Pending" ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess"></div>
                 </td>
@@ -87,8 +85,6 @@
                            ng-click="memberEPAInfoCtrl.openPopupViewComment(memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].Comment)"
                            ng-show="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].Comment.length > 0">
                         </a>
-                        <span data-translate="NotAvailable" ng-show="!memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].Comment">
-                        </span>
                     </div>
                     <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index]
                             && !memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].IsEndProcess" data-translate="Pending"></div>
@@ -119,8 +115,6 @@
                            ng-click="memberEPAInfoCtrl.openPopupViewComment(memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].Comment)"
                            ng-show="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].Comment.length > 0">
                         </a>
-                        <span data-translate="NotAvailable" ng-show="!memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].Comment">
-                        </span>
                     </div>
                     <div data-translate="Pending" ng-show="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index]
                             && !memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].IsEndProcess"></div>
@@ -151,8 +145,6 @@
                            ng-click="memberEPAInfoCtrl.openPopupViewComment(memberEPAInfoCtrl.epaInfo.ProcessByManagements[$index].Comment)"
                            ng-show="memberEPAInfoCtrl.epaInfo.ProcessByManagements[$index].Comment.length > 0">
                         </a>
-                        <span data-translate="NotAvailable" ng-show="!memberEPAInfoCtrl.epaInfo.ProcessByManagements[$index].Comment">
-                        </span>
                     </div>
                     <div data-translate="Pending" ng-show="memberEPAInfoCtrl.epaInfo.ProcessByManagements[$index]
                             && !memberEPAInfoCtrl.epaInfo.ProcessByManagements[$index].IsEndProcess"></div>
