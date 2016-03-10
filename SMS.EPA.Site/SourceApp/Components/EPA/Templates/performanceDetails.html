@@ -23,7 +23,7 @@
                         <th data-translate="Comment"></th>
                     </tr>
                 </thead>
-                <tbody ng-repeat="kpi in kpiGroup.KPIs" ng-class-odd="'oddRow'" ng-class-even="'evenRow'">
+                <tbody ng-repeat="kpi in kpiGroup.KPIs" ng-class-odd="'oddRow'" ng-class-even="'evenRow'" repeat-end="memberEPAInfoCtrl.generateRatingStar()">
                     <tr ng-repeat="evaluator in kpi.EvaluationByEvaluators">
                         <td class="text-center" rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" ng-bind="$parent.$index + 1" ng-show="$first"></td>
                         <td class="col-kpi-name" rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" ng-show="$first">
@@ -33,9 +33,17 @@
                         </td>
                         <td class="text-center col-score" rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" ng-show="$first">
                             <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess">
-                                <span ng-show="kpi.EvaluationBySelf.Score || kpi.EvaluationBySelf.Score == 0" ng-bind="kpi.EvaluationBySelf.Score | splitScore"></span>
+                                <div ng-if="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == 1 || memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == 3">
+                                    <span ng-show="kpi.EvaluationBySelf.Score || kpi.EvaluationBySelf.Score == 0" ng-bind="kpi.EvaluationBySelf.Rate | splitScore"></span>
+                                    <input type="number" class="rating-loading" ng-readonly="true" data-size="xs"
+                                           value="1" data-min="0" data-max="1" data-stars="1"
+                                           data-show-caption="false"
+                                           data-show-clear="false">
+                                </div>
+                                <div ng-if="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId != 1 && memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId != 3">
+                                    <span ng-show="kpi.EvaluationBySelf.Score || kpi.EvaluationBySelf.Score == 0" ng-bind="kpi.EvaluationBySelf.Score | splitScore"></span>
+                                </div>
                                 <span data-translate="NotAvailable" ng-show="!kpi.EvaluationBySelf.Score && kpi.EvaluationBySelf.Score != 0"></span>
-                            </div>
                             <div data-translate="Pending" ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess"></div>
                         </td>
                         <td class="col-comment" rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" ng-show="$first">
@@ -52,7 +60,16 @@
                         <td ng-bind="evaluator.NickName" class="text-center"></td>
                         <td class="text-center col-score">
                             <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].IsEndProcess">
-                                <span ng-show="evaluator.Score || evaluator.Score == 0" ng-bind="evaluator.Score | splitScore"></span>
+                                <div ng-if="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == 1 || memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == 3">
+                                    <span ng-show="evaluator.Score || evaluator.Score == 0" ng-bind="evaluator.Rate | splitScore"></span>
+                                    <input type="number" class="rating-loading" ng-readonly="true" data-size="xs"
+                                           value="1" data-min="0" data-max="1" data-stars="1"
+                                           data-show-caption="false"
+                                           data-show-clear="false">
+                                </div>
+                                <div ng-if="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId != 1 && memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId != 3">
+                                    <span ng-show="evaluator.Score || evaluator.Score == 0" ng-bind="evaluator.Score | splitScore"></span>
+                                </div>
                                 <span data-translate="NotAvailable" ng-show="!evaluator.Score && evaluator.Score != 0"></span>
                             </div>
                             <div data-translate="Pending" ng-show="!memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].IsEndProcess"></div>

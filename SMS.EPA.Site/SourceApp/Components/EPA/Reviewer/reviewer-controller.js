@@ -188,6 +188,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
             if (selectedEmployees && selectedEmployees.length > 0) {
                 ReviewerManagementModel.updateSelectedEmployees(vm.memberEPAs, selectedEmployees);
             }
+            $(".rating-loading").rating();
         });
     };
 
@@ -226,8 +227,8 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 }]);
 
 epaModule.controller('MemberEPAInfoOfReviewerController',
-['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel', 'utilitiesFactory', 'baseUrl',
-function ($window, $translate, $routeParams, EmployeeEPAModel, ReviewerManagementModel, CommonModel, utilitiesFactory, baseUrl) {
+['$window', '$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel', 'utilitiesFactory', 'baseUrl',
+function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManagementModel, CommonModel, utilitiesFactory, baseUrl) {
     var vm = this;
 
     vm.permission = 0;
@@ -353,6 +354,12 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, ReviewerManagemen
                 }
             });
         });
+    };
+
+    vm.generateRatingStar = function () {
+        $timeout(function () {
+            $(".rating-loading").rating();
+        }, 1);
     };
 
     vm.initialize = function () {
