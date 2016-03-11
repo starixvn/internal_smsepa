@@ -10,13 +10,14 @@
 namespace SMS.EPA.Services.Interfaces
 {
     using System.Collections.Generic;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Criteria.EmployeeEPA;
-    using SMS.EPA.Criteria.EmployeeEPA.RatingByKPI;
-    using SMS.EPA.Model.EmployeeEPA;
-    using SMS.EPA.Model.EmployeeEPA.RatingByKPI;
-    using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Model.TargetTemplate;
+using SMS.EPA.Core.Model;
+using SMS.EPA.Criteria.EmployeeEPA;
+using SMS.EPA.Criteria.EmployeeEPA.RatingByKPI;
+using SMS.EPA.Model.EmployeeEPA;
+using SMS.EPA.Model.EmployeeEPA.RatingByKPI;
+using SMS.EPA.Model.Enitites;
+using SMS.EPA.Model.Period;
+using SMS.EPA.Model.TargetTemplate;
 
     public interface IEmployeeEPAService
     {
@@ -89,5 +90,9 @@ namespace SMS.EPA.Services.Interfaces
         IEnumerable<int> GetMonthlyEPAIdOfSemi(GetMonthlyEPAIdOfSemiCriteria criteria);
 
         IList<EPAModel> GetMonthlyEPAOfSemi(int epaId);
+
+        AutoEmployeePeriodModel GetEPAToResetScore(GetEPAToResetScoreCriteria criteria);
+
+        CommandResult ResetScore(ResetScoreCriteria criteria);
     }
 }

@@ -67,6 +67,7 @@ namespace SMS.EPA.Site
                 "EPA/SemiDetail/{id}",
                 "Reviewer/SemiDetail/{id}",
                 "Management/SemiDetail/{id}",
+                "EPA/ResetScore/{id}"
             };
 
             homeRouteUrls.ForEach(url => routes.MapRoute(

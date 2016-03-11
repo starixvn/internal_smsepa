@@ -9,7 +9,9 @@
 
 namespace SMS.EPA.Site.Controllers.API
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
@@ -475,6 +477,50 @@ namespace SMS.EPA.Site.Controllers.API
 
             CommandResult result = _employeeEPAService.UpdateEPASummaryImport(criteria);
             return result;
+        }
+
+        [HttpPut]
+        public HttpResponseMessage ResetScore(GetEPAInfoByIdCriteria criteria)
+        {
+            HttpResponseMessage response = null;
+            CommandResult commandResult = new CommandResult();
+
+            if (CurrentUser.Roles.Select(x => x.RoleId).Contains((int)SystemRole.SystemAdmin))
+            {
+                EPAModel epaInfo = _employeeEPAService.GetEPAInfoById(criteria);
+
+                var resetScoreCriteria = new ResetScoreCriteria()
+                {
+                    EPAId = epaInfo.EPAId,
+                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                };
+
+                if (epaInfo.HasMonthlyEPA
+                    && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
+                {
+                    if (epaInfo.ProcessByReviewers.Any()
+                        && epaInfo.ProcessByReviewers.First().StartDate.Date == DateTime.Now.Date)
+                    {
+                        resetScoreCriteria.EPAInfo = epaInfo;
+
+                        commandResult = _employeeEPAService.ResetScore(resetScoreCriteria);
+                        response = Request.CreateResponse(HttpStatusCode.OK, commandResult);
+                    }
+                }
+                else
+                {
+                    resetScoreCriteria.EPAInfo = epaInfo;
+
+                    commandResult = _employeeEPAService.ResetScore(resetScoreCriteria);
+                    response = Request.CreateResponse(HttpStatusCode.OK, commandResult);
+                }
+            }
+            else
+            {
+                response = Request.CreateResponse(HttpStatusCode.MethodNotAllowed);
+            }
+
+            return response;
         }
 
         private CommandResult UpdateEPAScoreByEmployeeOrEvaluator(UpdateEPAScoreCriteria criteria)

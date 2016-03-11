@@ -111,6 +111,8 @@ var epaModule = angular.module("epaModule", ['ngRoute'])
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/RatingByKPI/Templates/index.html' });
     $routeProvider.when('/OldEPA/Convert',
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/Convert/Templates/detail.html' });
+    $routeProvider.when('/EPA/ResetScore/:id',
+    { templateUrl: baseUrl + 'SourceApp/Components/EPA/ResetScore/Templates/detail.html' });
 }]);
 
 var periodModule = angular.module("periodModule", ['ngRoute'])

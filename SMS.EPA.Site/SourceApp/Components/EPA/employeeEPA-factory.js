@@ -110,5 +110,8 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
         convertEPA: function () {
             return $http.put(baseUrl + 'api/EmployeeEPA/ConvertEPA');
         },
+        resetScore: function (model) {
+            return $http.put(baseUrl + 'api/EmployeeEPA/ResetScore', model);
+        }
     };
 }]);

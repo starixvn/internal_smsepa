@@ -132,6 +132,7 @@
                             "~/SourceApp/Components/EPA/RatingByKPI/ratingByKPI-model.js",
                             "~/SourceApp/Components/EPA/RatingByKPI/ratingByKPI-controller.js",
                             "~/SourceApp/Components/EPA/Convert/convertEPA-controller.js",
+                            "~/SourceApp/Components/EPA/ResetScore/resetScore-controller.js",
                             "~/SourceApp/Components/Report/report-factory.js",
                             "~/SourceApp/Components/Report/report-model.js",
                             "~/SourceApp/Components/Report/report-directive.js",

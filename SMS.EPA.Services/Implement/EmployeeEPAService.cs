@@ -22,6 +22,7 @@ namespace SMS.EPA.Services.Implement
     using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.EmployeeEPA.RatingByKPI;
     using SMS.EPA.Model.Enitites;
+    using SMS.EPA.Model.Period;
     using SMS.EPA.Model.ScoreRatingType;
     using SMS.EPA.Model.TargetTemplate;
     using SMS.EPA.Repositories.Implement;
@@ -496,6 +497,32 @@ namespace SMS.EPA.Services.Implement
             }
 
             return monthlyEPAs;
+        }
+
+        public AutoEmployeePeriodModel GetEPAToResetScore(GetEPAToResetScoreCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            AutoEmployeePeriodModel epa = new AutoEmployeePeriodModel();
+
+            if (criteria.IsValid())
+            {
+                epa = GetDataEntity<AutoEmployeePeriodModel>(criteria);
+            }
+
+            return epa;
+        }
+
+        public CommandResult ResetScore(ResetScoreCriteria criteria)
+        {
+            CommandResult commandResult = new CommandResult();
+            Check.Argument.IsNotNull(criteria, "criteria");
+
+            if (criteria.IsValid())
+            {
+                commandResult = Repository.Update(criteria);
+            }
+
+            return commandResult;
         }
 
         private void ConvertAverageMonthlyScore(MonthlyEPAModel monthlyEPA, ScoreRatingTypeModel scoreRatingType)
