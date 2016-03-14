@@ -128,13 +128,13 @@
                     </td>
                     <td class="text-center text-uppercase col-action">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="evaluatorCtrl.viewEPADetail(memberEPA)"
-                           ng-if="!memberEPA.CurrentProcess.IsEndProcess && !memberEPA.Period.IsEndPeriod"
+                           ng-if="!memberEPA.HasMonthlyEPA && !memberEPA.CurrentProcess.IsEndProcess && !memberEPA.Period.IsEndPeriod"
                            ng-href="{{evaluatorCtrl.viewEPADetailUrl}}" ng-attr-title='{{"EvaluateNow" | translate}}'></a>
                         <a class="glyphicon icon-view" href="" ng-click="evaluatorCtrl.viewEPAResult(memberEPA)"
                            ng-if="!memberEPA.HasMonthlyEPA && (memberEPA.CurrentProcess.IsEndProcess || memberEPA.Period.IsEndPeriod)"
                            ng-href="{{evaluatorCtrl.viewEPAResultUrl}}" ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
                         <a class="glyphicon icon-view" href="" ng-click="evaluatorCtrl.viewSemiEPAResult(memberEPA)"
-                           ng-if="memberEPA.HasMonthlyEPA && (memberEPA.CurrentProcess.IsEndProcess || memberEPA.Period.IsEndPeriod)"
+                           ng-if="memberEPA.HasMonthlyEPA"
                            ng-href="{{evaluatorCtrl.viewSemiEPAResultUrl}}" ng-attr-title='{{"ViewSemiEPAResult" | translate}}'></a>
                     </td>
                 </tr>
