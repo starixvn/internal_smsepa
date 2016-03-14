@@ -31,7 +31,7 @@
                             </a>
                             <ul>
                                 <li ng-repeat="kpi in ratingByKPICtrl.kpis" ng-if="kpi.KPIGroup.Name == key">
-                                    <span class="glyphicon glyphicon-ok" ng-if="kpi.Weight>0"></span>
+                                    <span class="glyphicon glyphicon-ok" ng-if="kpi.Evaluated"></span>
                                     <a href="javascript:;" ng-click="ratingByKPICtrl.KPIChange(kpi.KPIId)" ng-class="ratingByKPICtrl.getCSSSelected(kpi.KPIId)">
                                         {{kpi.Weight>0? '(' + kpi.Weight + ') ':''}} {{kpi.Name}}
                                     </a>
@@ -56,8 +56,6 @@
                                             <option value="">-- {{"All" | translate}} --</option>
                                         </select>
                                     </div>
-                                    <input type="text" placeholder="Employee" ng-model="ratingByKPICtrl.searchKey" ng-change="ratingByKPICtrl.search()"
-                                           class="search-inline-textbox search pull-right">
                                 </th>
                             </tr>
                             <tr>

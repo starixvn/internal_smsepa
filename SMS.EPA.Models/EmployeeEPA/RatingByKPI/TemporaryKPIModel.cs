@@ -27,6 +27,8 @@ namespace SMS.EPA.Model.EmployeeEPA.RatingByKPI
 
         public double Weight { get; set; }
 
+        public bool Evaluated { get; set; }
+
         public string ScoreEncode { get; set; }
 
         public string Score { get; set; }
