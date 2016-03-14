@@ -2,8 +2,8 @@
 /*global epaModule*/
 
 epaModule.controller('ViewEPADetailController',
-['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'CommonModel', 'utilitiesFactory', 'baseUrl',
-function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, utilitiesFactory, baseUrl) {
+['$window', '$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'CommonModel', 'utilitiesFactory', 'baseUrl',
+function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonModel, utilitiesFactory, baseUrl) {
     var vm = this;
 
     vm.epaId = parseInt($routeParams.id);
@@ -13,6 +13,12 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
     vm.finalScore = null;
 
     vm.standardGrades = CommonModel.standardGrades;
+
+    vm.generateRatingStar = function () {
+        $timeout(function () {
+            $(".rating-loading").rating();
+        }, 1);
+    };
 
     var calculateFinalScore = function (epaInfo) {
         var finalScore = 0;

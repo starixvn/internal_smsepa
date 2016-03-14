@@ -34,7 +34,7 @@
                         <td class="text-center col-score" rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" ng-show="$first">
                             <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess">
                                 <div ng-if="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == 1 || memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == 3">
-                                    <span ng-show="kpi.EvaluationBySelf.Score || kpi.EvaluationBySelf.Score == 0" ng-bind="kpi.EvaluationBySelf.Rate | splitScore"></span>
+                                    <span ng-show="kpi.EvaluationBySelf.Rate || kpi.EvaluationBySelf.Rate == 0" ng-bind="kpi.EvaluationBySelf.Rate | splitScore"></span>
                                     <input type="number" class="rating-loading" ng-readonly="true" data-size="xs"
                                            value="1" data-min="0" data-max="1" data-stars="1"
                                            data-show-caption="false"
@@ -60,7 +60,7 @@
                         <td class="text-center col-score">
                             <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].IsEndProcess">
                                 <div ng-if="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == 1 || memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == 3">
-                                    <span ng-show="evaluator.Score || evaluator.Score == 0" ng-bind="evaluator.Rate | splitScore"></span>
+                                    <span ng-show="evaluator.Rate || evaluator.Rate == 0" ng-bind="evaluator.Rate | splitScore"></span>
                                     <input type="number" class="rating-loading" ng-readonly="true" data-size="xs"
                                            value="1" data-min="0" data-max="1" data-stars="1"
                                            data-show-caption="false"
