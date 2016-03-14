@@ -40,7 +40,7 @@
             <thead>
                 <tr class="header-table">
                     <th colspan="7">
-                        <a class="pull-left button-icon create-button" ng-click="kpiCtrl.createKPI()" ng-if="kpiCtrl.permission == 2">
+                        <a class="pull-left button-icon create-button" ng-click="kpiCtrl.createKPI()" ng-if="kpiCtrl.permission == kpiCtrl.policyEnum.Host">
                             <span class="icon plus"></span>
                             <span class="button-text" data-translate="CreateKPI"></span>
                         </a>
@@ -58,7 +58,7 @@
                     <th class="text-center col-active" data-translate="Active"></th>
                     <th class="text-center col-required" data-translate="Required"></th>
                     <th class="text-center col-description" data-translate="Description"></th>
-                    <th class="text-center col-action" data-translate="Action" ng-if="kpiCtrl.permission == 2"></th>
+                    <th class="text-center col-action" data-translate="Action" ng-if="kpiCtrl.permission == kpiCtrl.policyEnum.Host"></th>
                 </tr>
             </thead>
             <tbody class="table-body">
@@ -76,14 +76,14 @@
                     </td>
                     <td ng-bind="kpi.Name"></td>
                     <td class="text-center col-active">
-                        <input type="checkbox" ng-checked="kpi.IsActive" 
-                            ng-disabled="kpiCtrl.permission != 2"
-                            ng-click="kpiCtrl.updateStatusKPI(kpi)" />
+                        <input type="checkbox" ng-checked="kpi.IsActive"
+                               ng-disabled="kpiCtrl.permission != kpiCtrl.policyEnum.Host"
+                               ng-click="kpiCtrl.updateStatusKPI(kpi)" />
                     </td>
                     <td class="text-center col-required">
-                        <input type="checkbox" ng-checked="kpi.IsRequiredEvaluate" 
-                            ng-click="kpiCtrl.updateRequiredEvaluate(kpi)"
-                            ng-disabled="kpiCtrl.permission != 2" />
+                        <input type="checkbox" ng-checked="kpi.IsRequiredEvaluate"
+                               ng-click="kpiCtrl.updateRequiredEvaluate(kpi)"
+                               ng-disabled="kpiCtrl.permission != kpiCtrl.policyEnum.Host" />
                     </td>
                     <td class="col-description">
                         {{kpi.Description | limitTo: kpi.numLimit > 0 ? kpi.numLimit: kpiCtrl.maxLengthDescription}}
@@ -92,7 +92,7 @@
                         <a ng-show="kpi.showReadMore && (kpi.Description.length >= kpiCtrl.maxLengthDescription)"
                             href="javascript:;" ng-click="kpiCtrl.readLess(kpi)" data-translate="ReadLess"></a>
                     </td>
-                    <td class="text-center col-action" ng-if="kpiCtrl.permission == 2">
+                    <td class="text-center col-action" ng-if="kpiCtrl.permission == kpiCtrl.policyEnum.Host">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="kpiCtrl.updateKPI(kpi)" ng-attr-title='{{"Edit" | translate}}'></a>
                         <a class="glyphicon glyphicon-remove icon-remove" href="" ng-click="kpiCtrl.deleteKPI(kpi)" ng-attr-title='{{"Delete" | translate}}'></a>
                     </td>

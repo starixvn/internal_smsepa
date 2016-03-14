@@ -2,13 +2,16 @@
 /*global targetTemplateModule*/
 
 targetTemplateModule.controller('TargetTemplateController',
-['TargetTemplateModel', 'utilitiesFactory', 'CommonModel',
-function (TargetTemplateModel, utilitiesFactory, CommonModel) {
+['TargetTemplateModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory',
+function (TargetTemplateModel, CommonModel, utilitiesFactory, enumerationsFactory) {
     var vm = this;
 
     vm.targetTypes = CommonModel.targetTypes;
     vm.targetTemplates = TargetTemplateModel.targetTemplates;
     vm.permission = TargetTemplateModel.permission;
+
+    vm.policyEnum = enumerationsFactory.policy;
+
     vm.filter = {
         targetTypeId: '',
         isActive: 'true'

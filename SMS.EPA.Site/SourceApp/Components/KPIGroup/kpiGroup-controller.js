@@ -2,12 +2,14 @@
 /*global kpiGroupModule*/
 
 kpiGroupModule.controller('KPIGroupController',
-['KPIGroupModel', 'KPIModel', 'CommonModel', 'utilitiesFactory', 'baseUrl',
-function (KPIGroupModel, KPIModel, CommonModel, utilitiesFactory, baseUrl) {
+['KPIGroupModel', 'KPIModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'baseUrl',
+function (KPIGroupModel, KPIModel, CommonModel, utilitiesFactory, enumerationsFactory, baseUrl) {
     var vm = this;
 
     vm.kpiGroups = KPIGroupModel.kpiGroups;
     vm.permission = KPIGroupModel.permission;
+
+    vm.policyEnum = enumerationsFactory.policy;
 
     vm.filter = {
         isActive: 'true'

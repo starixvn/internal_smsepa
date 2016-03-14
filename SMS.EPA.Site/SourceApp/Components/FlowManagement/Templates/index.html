@@ -29,7 +29,7 @@
             <thead>
                 <tr class="header-table">
                     <th colspan="6">
-                        <a class="pull-left button-icon create-button" ng-show="flowMngCtrl.permission == 2"
+                        <a class="pull-left button-icon create-button" ng-show="flowMngCtrl.permission == flowMngCtrl.policyEnum.Host"
                            href="" ng-href="{{flowMngCtrl.createFlowTemplateUrl}}"
                            ng-click="flowMngCtrl.createFlowTemplate()">
                             <span class="icon plus"></span>
@@ -45,7 +45,7 @@
                     <th data-translate="TargetType"></th>
                     <th class="text-center col-active" data-translate="Active"></th>
                     <th class="text-center col-description" data-translate="Description"></th>
-                    <th class="text-center col-action" data-translate="Action" ng-show="flowMngCtrl.permission == 2"></th>
+                    <th class="text-center col-action" data-translate="Action" ng-show="flowMngCtrl.permission == flowMngCtrl.policyEnum.Host"></th>
                 </tr>
             </thead>
             <tbody class="table-body">
@@ -54,7 +54,7 @@
                     <td ng-bind="flowTemplate.Name"></td>
                     <td ng-bind="flowTemplate.TargetType.Name"></td>
                     <td class="text-center col-active">
-                        <input type="checkbox" ng-checked="flowTemplate.IsActive" ng-disabled="flowMngCtrl.permission != 2"
+                        <input type="checkbox" ng-checked="flowTemplate.IsActive" ng-disabled="flowMngCtrl.permission != flowMngCtrl.policyEnum.Host"
                                ng-click="flowMngCtrl.updateStatusFlowGroup(flowTemplate)" />
                     </td>
                     <td class="col-description">
@@ -64,7 +64,7 @@
                         <a ng-show="kpiGroup.showReadMore && (flowTemplate.Description.length >= flowMngCtrl.maxLengthDescription)"
                            href="javascript:;" ng-click="flowMngCtrl.readLess(flowTemplate)" data-translate="ReadLess"></a>
                     </td>
-                    <td class="text-center col-action" ng-show="flowMngCtrl.permission == 2">
+                    <td class="text-center col-action" ng-show="flowMngCtrl.permission == flowMngCtrl.policyEnum.Host">
                         <a class="glyphicon glyphicon-edit icon-edit" href="{{flowMngCtrl.updateFlowTemplateUrl}}"
                            ng-click="flowMngCtrl.updateFlowTemplate(flowTemplate)" ng-attr-title='{{"Edit" | translate}}'></a>
                         <a class="glyphicon glyphicon-remove icon-remove" href=""

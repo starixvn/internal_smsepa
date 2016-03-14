@@ -2,13 +2,15 @@
 /*global flowMngModule*/
 
 flowMngModule.controller("FlowMngController",
-['FlowMngModel', 'CommonModel', 'utilitiesFactory', 'baseUrl',
-function (FlowMngModel, CommonModel, utilitiesFactory, baseUrl) {
+['FlowMngModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'baseUrl',
+function (FlowMngModel, CommonModel, utilitiesFactory, enumerationsFactory, baseUrl) {
     var vm = this;
 
     vm.targetTypes = CommonModel.targetTypes;
     vm.flowTemplates = FlowMngModel.flowTemplates;
     vm.permission = FlowMngModel.permission;
+
+    vm.policyEnum = enumerationsFactory.policy;
 
     vm.filter = {
         targetTypeId: '',
@@ -80,12 +82,14 @@ function (FlowMngModel, CommonModel, utilitiesFactory, baseUrl) {
 }]);
 
 flowMngModule.controller("CreateFlowTemplateController",
-['$location', '$window', 'FlowMngModel', 'CommonModel', 'baseUrl',
-function ($location, $window, FlowMngModel, CommonModel, baseUrl) {
+['$location', '$window', 'FlowMngModel', 'CommonModel', 'enumerationsFactory', 'baseUrl',
+function ($location, $window, FlowMngModel, CommonModel, enumerationsFactory, baseUrl) {
     var vm = this;
 
     vm.targetTypes = CommonModel.targetTypes;
     vm.permission = FlowMngModel.permission;
+
+    vm.policyEnum = enumerationsFactory.policy;
 
     vm.flowTemplate = {
         Name: '',
@@ -98,7 +102,7 @@ function ($location, $window, FlowMngModel, CommonModel, baseUrl) {
         FlowMngModel.getUserPermissionOnFlowManagement().then(function () {
             vm.permission = FlowMngModel.permission;
 
-            if (vm.permission !== 2) {
+            if (vm.permission !== vm.policyEnum.Host) {
                 $location.path(baseUrl + 'Home/AccessDenied');
             }
         });
@@ -122,8 +126,8 @@ function ($location, $window, FlowMngModel, CommonModel, baseUrl) {
 }]);
 
 flowMngModule.controller("UpdateFlowTemplateController",
-['$window', '$routeParams', 'FlowMngModel', 'CommonModel', 'cacheService',
-function ($window, $routeParams, FlowMngModel, CommonModel, cacheService) {
+['$window', '$routeParams', 'FlowMngModel', 'CommonModel', 'enumerationsFactory', 'cacheService',
+function ($window, $routeParams, FlowMngModel, CommonModel, enumerationsFactory, cacheService) {
     var vm = this;
 
     vm.flowTemplateId = parseInt($routeParams.id);
@@ -131,6 +135,9 @@ function ($window, $routeParams, FlowMngModel, CommonModel, cacheService) {
     vm.treeDepartment = CommonModel.treeDepartment;
     vm.remindDay = CommonModel.remindDay;
     vm.permission = FlowMngModel.permission;
+
+    vm.policyEnum = enumerationsFactory.policy;
+    vm.targetTypeEnum = enumerationsFactory.targetType;
 
     vm.tabDepartmentSelected = function () {
         cacheService.setProperty(1);

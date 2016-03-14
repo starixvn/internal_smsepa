@@ -29,8 +29,8 @@
             <thead>
                 <tr class="header-table">
                     <th colspan="9">
-                        <a class="pull-left button-icon create-button" href="" ng-href="{{targetTemplateCtrl.createTargetTemplateUrl}}" ng-click="targetTemplateCtrl.create()" 
-                            ng-if="targetTemplateCtrl.permission == 2">
+                        <a class="pull-left button-icon create-button" href="" ng-href="{{targetTemplateCtrl.createTargetTemplateUrl}}" ng-click="targetTemplateCtrl.create()"
+                           ng-if="targetTemplateCtrl.permission == targetTemplateCtrl.policyEnum.Host">
                             <span class="icon plus"></span>
                             <span class="button-text" data-translate="CreateTargetTemplate"></span>
                         </a>
@@ -38,24 +38,15 @@
                     </th>
                 </tr>
                 <tr class="headerName">
-                    <th data-translate="SymbolCount">
-                    </th>
-                    <th data-translate="Name">
-                    </th>
-                    <th data-translate="TargetType">
-                    </th>
-                    <th data-translate="ScoreRatingType">
-                    </th>
-                    <th data-translate="RatingType">
-                    </th>
-                    <th data-translate="Description">
-                    </th>
-                    <th data-translate="KPIs">
-                    </th>
-                    <th data-translate="Active">
-                    </th>
-                    <th data-translate="Action" ng-if="targetTemplateCtrl.permission == 2">
-                    </th>
+                    <th data-translate="SymbolCount"></th>
+                    <th data-translate="Name"></th>
+                    <th data-translate="TargetType"></th>
+                    <th data-translate="ScoreRatingType"></th>
+                    <th data-translate="RatingType"></th>
+                    <th data-translate="Description"></th>
+                    <th data-translate="KPIs"></th>
+                    <th data-translate="Active"></th>
+                    <th data-translate="Action" ng-if="targetTemplateCtrl.permission == targetTemplateCtrl.policyEnum.Host"></th>
                 </tr>
             </thead>
             <tbody>
@@ -78,18 +69,18 @@
                             href="javascript:;" ng-click="targetTemplateCtrl.readLess(targetTemplate)" data-translate="ReadLess"></a>
                     </td>
                     <td class="text-center">
-                        <a href="{{targetTemplateCtrl.updateTargetTemplateUrl}}" ng-if="targetTemplateCtrl.permission == 2"
-                            ng-click="targetTemplateCtrl.update(targetTemplate, true)" ng-bind="targetTemplate.KPIs"></a>
-                        <span ng-if="targetTemplateCtrl.permission == 1" ng-bind="targetTemplate.KPIs"></span>
+                        <a href="{{targetTemplateCtrl.updateTargetTemplateUrl}}" ng-if="targetTemplateCtrl.permission == targetTemplateCtrl.policyEnum.Host"
+                           ng-click="targetTemplateCtrl.update(targetTemplate, true)" ng-bind="targetTemplate.KPIs"></a>
+                        <span ng-if="targetTemplateCtrl.permission == targetTemplateCtrl.policyEnum.Read" ng-bind="targetTemplate.KPIs"></span>
                     </td>
                     <td class="text-center">
-                        <input type="checkbox" ng-checked="targetTemplate.IsActive" ng-click="targetTemplateCtrl.confirmActive(targetTemplate)" 
-                                ng-disabled="targetTemplateCtrl.permission != 2"/>
+                        <input type="checkbox" ng-checked="targetTemplate.IsActive" ng-click="targetTemplateCtrl.confirmActive(targetTemplate)"
+                               ng-disabled="targetTemplateCtrl.permission != targetTemplateCtrl.policyEnum.Host" />
                     </td>
-                    <td class="target-template-action text-center" ng-if="targetTemplateCtrl.permission == 2">
+                    <td class="target-template-action text-center" ng-if="targetTemplateCtrl.permission == targetTemplateCtrl.policyEnum.Host">
                         <div class="btn-group">
-                            <a class="glyphicon glyphicon-edit icon-edit" title="Edit" href="{{targetTemplateCtrl.updateTargetTemplateUrl}}" 
-                                    ng-click="targetTemplateCtrl.update(targetTemplate)"></a>
+                            <a class="glyphicon glyphicon-edit icon-edit" title="Edit" href="{{targetTemplateCtrl.updateTargetTemplateUrl}}"
+                               ng-click="targetTemplateCtrl.update(targetTemplate)"></a>
                             <a href="javascript:;" class="glyphicon glyphicon-remove icon-remove" title="Delete" ng-click="targetTemplateCtrl.deleteTargetTemplate(targetTemplate)"></a>
                         </div>
                     </td>

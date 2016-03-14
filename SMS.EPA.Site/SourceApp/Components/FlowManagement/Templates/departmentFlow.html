@@ -55,7 +55,7 @@
                         <th class="col-sm-2 text-center" data-translate="SelfEvaluator"></th>
                         <th class="col-sm-2 text-center" data-translate="Evaluator"></th>
                         <th class="col-sm-2 text-center" data-translate="Reviewer"></th>
-                        <th class="col-sm-2 text-center" data-translate="Management" ng-show="deptFlowCtrl.flowTemplate.TargetTypeId != 2"></th>
+                        <th class="col-sm-2 text-center" data-translate="Management" ng-show="deptFlowCtrl.flowTemplate.TargetTypeId != deptFlowCtrl.targetTypeEnum.Monthly"></th>
                     </tr>
                 </thead>
                 <tbody class="table-body">
@@ -98,7 +98,7 @@
                                 </li>
                             </ul>
                         </td>
-                        <td class="col-sm-2 col-management" ng-show="deptFlowCtrl.flowTemplate.TargetTypeId != 2">
+                        <td class="col-sm-2 col-management" ng-show="deptFlowCtrl.flowTemplate.TargetTypeId != deptFlowCtrl.targetTypeEnum.Monthly">
                             <ul list-sortable class="sortable custom-ul list-unstyled" id="managementList">
                                 <li class="alert alert-info nomargin" ng-repeat="management in deptFlowCtrl.managements.employees">
                                     <a href="javascript:;" class="glyphicon glyphicon-remove icon-close"
@@ -112,8 +112,10 @@
                 </tbody>
             </table>
             <form class="row form-inline department-form" role="form">
-                <button class="button" ng-click="deptFlowCtrl.saveDepartmentFlow()" ng-show="updateCtrl.permission == 2" data-translate="Save"></button>
-                <button class="button" ng-click="deptFlowCtrl.deleteDepartmentFlow()" data-translate="Delete" ng-show="deptFlowCtrl.showDeleteButton && updateCtrl.permission == 2"></button>
+                <button class="button" ng-click="deptFlowCtrl.saveDepartmentFlow()"
+                        ng-show="updateCtrl.permission == updateCtrl.policyEnum.Host" data-translate="Save"></button>
+                <button class="button" ng-click="deptFlowCtrl.deleteDepartmentFlow()" data-translate="Delete"
+                        ng-show="deptFlowCtrl.showDeleteButton && updateCtrl.permission == updateCtrl.policyEnum.Host"></button>
                 <button class="btn btn-default customize" ng-click="deptFlowCtrl.cancel()" data-translate="Cancel"></button>
             </form>
         </div>

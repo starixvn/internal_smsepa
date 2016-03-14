@@ -2,13 +2,16 @@
 /*global periodModule*/
 
 periodModule.controller('PeriodController',
-['PeriodModel', 'CommonModel', 'utilitiesFactory', 'baseUrl',
-function (PeriodModel, CommonModel, utilitiesFactory, baseUrl) {
+['PeriodModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'baseUrl',
+function (PeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, baseUrl) {
     var vm = this;
 
     vm.periods = PeriodModel.periods;
     vm.targetTypes = CommonModel.targetTypes;
     vm.permission = PeriodModel.permission;
+
+    vm.policyEnum = enumerationsFactory.policy;
+    vm.targetTypeEnum = enumerationsFactory.targetType;
 
     vm.filter = {
         targetTypeId: null,
@@ -21,7 +24,7 @@ function (PeriodModel, CommonModel, utilitiesFactory, baseUrl) {
     utilitiesFactory.numberEntryList(vm);
     utilitiesFactory.getDateFormat(vm);
 
-    CommonModel.getTargetType(1, 2).then(function () {
+    CommonModel.getTargetType(true, vm.targetTypeEnum.Monthly).then(function () {
         vm.targetTypes = CommonModel.targetTypes;
     });
 
@@ -73,13 +76,14 @@ function (PeriodModel, CommonModel, utilitiesFactory, baseUrl) {
 }]);
 
 periodModule.controller('CreatePeriodController',
-['$modalInstance', 'PeriodModel', 'CommonModel',
-function ($modalInstance, PeriodModel, CommonModel) {
+['$modalInstance', 'PeriodModel', 'CommonModel', 'enumerationsFactory',
+function ($modalInstance, PeriodModel, CommonModel, enumerationsFactory) {
     var vm = this;
 
     vm.targetTypes = CommonModel.targetTypes;
+    vm.targetTypeEnum = enumerationsFactory.targetType;
 
-    CommonModel.getTargetType(1, 2).then(function () {
+    CommonModel.getTargetType(true, vm.targetTypeEnum.Monthly).then(function () {
         vm.targetTypes = CommonModel.targetTypes;
     });
 
@@ -181,13 +185,15 @@ function ($window, $routeParams, PeriodModel) {
 }]);
 
 periodModule.controller('UpdateBasicInformationPeriodController',
-['$scope', '$window', 'PeriodModel', 'CommonModel',
-function ($scope, $window, PeriodModel, CommonModel) {
+['$scope', '$window', 'PeriodModel', 'CommonModel', 'enumerationsFactory',
+function ($scope, $window, PeriodModel, CommonModel, enumerationsFactory) {
     var vm = this;
 
     vm.targetTypes = CommonModel.targetTypes;
     vm.period = {};
     vm.isFirstLoad = true;
+
+    vm.targetTypeEnum = enumerationsFactory.targetType;
 
     vm.calendar = PeriodModel.calendar;
 
@@ -208,7 +214,7 @@ function ($scope, $window, PeriodModel, CommonModel) {
     };
 
     var getTargetType = function () {
-        CommonModel.getTargetType(1, 2).then(function () {
+        CommonModel.getTargetType(true, vm.targetTypeEnum.Monthly).then(function () {
             vm.targetTypes = CommonModel.targetTypes;
             vm.isFirstLoad = false;
         });

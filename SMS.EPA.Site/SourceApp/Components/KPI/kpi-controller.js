@@ -2,14 +2,16 @@
 /*global kpiModule*/
 
 kpiModule.controller('KPIController',
-['$window', '$routeParams', 'KPIModel', 'KPIGroupModel', 'CommonModel', 'utilitiesFactory',
-function ($window, $routeParams, KPIModel, KPIGroupModel, CommonModel, utilitiesFactory) {
+['$window', '$routeParams', 'KPIModel', 'KPIGroupModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory',
+function ($window, $routeParams, KPIModel, KPIGroupModel, CommonModel, utilitiesFactory, enumerationsFactory) {
     var vm = this;
 
     vm.kpis = KPIModel.kpis;
     vm.kpiGroups = CommonModel.kpiGroups;
     vm.kpiGroup = KPIGroupModel.kpiGroup;
     vm.permission = KPIModel.permission;
+
+    vm.policyEnum = enumerationsFactory.policy;
 
     vm.routeParam = {
         kpiGroupId: $routeParams.groupId
