@@ -31,6 +31,7 @@
                             "~/Libs/angular-resource.min.js",
                             "~/Libs/angular-route.min.js",
                             "~/Libs/angular-translate.js",
+                            "~/Libs/angular-filter/dist/angular-filter.js",
                             "~/Libs/ui-bootstrap-tpls-0.13.0.min.js",
                             "~/Libs/toastr.js",
                             "~/Libs/angular-multi-select.js",

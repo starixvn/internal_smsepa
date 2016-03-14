@@ -5,17 +5,17 @@ epaModule.controller('RatingByKPIController',
 ['$window', '$timeout', '$translate', 'RatingByKPIModel', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel', 'utilitiesFactory', 'baseUrl',
 function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, baseUrl) {
     var vm = this;
-
     vm.kpis = [];
     vm.memberEPAs = [];
-    vm.members = [];
-
     vm.kpiSelected = null;
     vm.maxStar = 5;
     vm.targetTemplateIdOriginal = null;
     vm.kpiIdOriginal = null;
     vm.dataSaved = false;
     vm.permission = 0;
+
+    vm.currentPage = 1;
+    vm.pageSize = 20;
 
     vm.filter = {
         targetTemplateId: '',
@@ -26,6 +26,30 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Sel
 
     vm.orderByCurrentScore = { ascending: false, descending: false };
     vm.orderByAdjustScore = { ascending: false, descending: false };
+
+    vm.getCSSSelected = function (kpiId) {
+        if (vm.kpiSelected != null && kpiId == vm.kpiSelected.KPIId)
+            return "alert-danger";
+    };
+
+    vm.toggleCollapseExpand = function () {
+        if (!vm.hasTreeEvent) {
+            $('.tree li.parent_li > span').on('click', function (e) {
+                var children = $(this).parent('li.parent_li').find(' > ul > li');
+                if (children.is(":visible")) {
+                    children.hide('fast');
+                    $(this).attr('title', 'Expand this branch').find(' > i').addClass('glyphicon-plus-sign').removeClass('glyphicon-minus-sign');
+                } else {
+                    children.show('fast');
+                    $(this).attr('title', 'Collapse this branch').find(' > i').addClass('glyphicon-minus-sign').removeClass('glyphicon-plus-sign');
+                }
+
+                e.stopPropagation();
+            });
+
+            vm.hasTreeEvent = true;
+        }
+    };
 
     var checkDataChanged = function (memberEPAs) {
         var hasChanged = false;
@@ -76,68 +100,6 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Sel
                 vm.kpis = RatingByKPIModel.kpis;
             });
         }
-    };
-
-    vm.viewKPIInfo = function () {
-        var index = vm.kpis.map(function (e) { return e.KPIId; }).indexOf(vm.filter.kpiId);
-
-        if (!vm.kpis[index].IsRequiredEvaluate) {
-            vm.kpis[index].HasKPIOptional = true;
-        }
-        else {
-            angular.forEach(vm.kpis, function (kpi) {
-                if (kpi.KPIId !== vm.kpis[index].KPIId
-                    && kpi.KPIGroup.KPIGroupId === vm.kpis[index].KPIGroup.KPIGroupId
-                    && !kpi.IsRequiredEvaluate) {
-                    vm.kpis[index].HasKPIOptional = true;
-                }
-            });
-        }
-
-        if (!vm.kpis[index].HasKPIOptional && vm.kpis[index].KPIGroup.IsSpreadKPI) {
-            var weightKPI = (vm.kpis[index].KPIGroup.Weight / vm.kpis[index].KPIGroup.NumberKPI);
-            vm.kpis[index].Weight = utilitiesFactory.splitNumber(weightKPI, 4);
-        }
-
-        if (!vm.dataSaved && checkDataChanged(vm.memberEPAs)) {
-            RatingByKPIModel.openPopupConfirmSaveChanges(vm).then(function (result) {
-                if (result.confirmResult === 0) {
-                    vm.filter.kpiId = angular.copy(vm.kpiIdOriginal);
-                } else if (result.confirmResult === 1) {
-                    vm.memberEPAs = [];
-                    vm.kpiSelected = null;
-                    vm.dataSaved = false;
-                }
-                else {
-                    vm.memberEPAs = [];
-                    vm.kpiSelected = null;
-                    vm.dataSaved = false;
-                }
-
-                index = vm.kpis.map(function (e) { return e.KPIId; }).indexOf(vm.filter.kpiId);
-                if (index !== -1) {
-                    vm.kpiSelected = vm.kpis[index];
-                }
-            })['finally'](function () {
-                vm.modalInstance = '';
-            });
-        }
-        else {
-            index = vm.kpis.map(function (e) { return e.KPIId; }).indexOf(vm.filter.kpiId);
-            vm.kpiSelected = vm.kpis[index];
-
-            vm.memberEPAs = [];
-        }
-    };
-
-    vm.getMember = function (groupId) {
-        SelfEvalutorModel.getMemberByEvaluator(groupId).then(function () {
-            vm.members = SelfEvalutorModel.members;
-
-            angular.forEach(vm.members, function (member) {
-                member.Name = member.NickName + ' (' + member.FullName + ')';
-            });
-        });
     };
 
     vm.cancelRating = function (memberEPA, kpi) {
@@ -192,15 +154,74 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Sel
         }
     };
 
-    vm.search = function (filter) {
-        vm.targetTemplateIdOriginal = angular.copy(filter.targetTemplateId);
-        vm.kpiIdOriginal = angular.copy(filter.kpiId);
+    vm.KPIChange = function (kpiId) {
+        vm.filter.kpiId = kpiId;
 
-        if (RatingByKPIModel.validateFieldFilter(filter)) {
-            filter.employeeIds = utilitiesFactory.getSelectedData(vm.members, 'EmployeeId');
-            RatingByKPIModel.getEmployeeEPAByKPI(filter.targetTemplateId, filter.kpiId, filter.groupId, filter.employeeIds).then(function () {
+        vm.viewKPIInfo();
+
+        vm.query();
+    }
+
+    vm.viewKPIInfo = function () {
+        var index = vm.kpis.map(function (e) { return e.KPIId; }).indexOf(vm.filter.kpiId);
+
+        if (!vm.kpis[index].IsRequiredEvaluate) {
+            vm.kpis[index].HasKPIOptional = true;
+        }
+        else {
+            angular.forEach(vm.kpis, function (kpi) {
+                if (kpi.KPIId !== vm.kpis[index].KPIId
+                    && kpi.KPIGroup.KPIGroupId === vm.kpis[index].KPIGroup.KPIGroupId
+                    && !kpi.IsRequiredEvaluate) {
+                    vm.kpis[index].HasKPIOptional = true;
+                }
+            });
+        }
+
+        if (!vm.kpis[index].HasKPIOptional && vm.kpis[index].KPIGroup.IsSpreadKPI) {
+            var weightKPI = (vm.kpis[index].KPIGroup.Weight / vm.kpis[index].KPIGroup.NumberKPI);
+            vm.kpis[index].Weight = utilitiesFactory.splitNumber(weightKPI, 4);
+        }
+
+        if (!vm.dataSaved && checkDataChanged(vm.memberEPAs)) {
+            RatingByKPIModel.openPopupConfirmSaveChanges(vm).then(function (result) {
+                if (result.confirmResult === 0) {
+                    vm.filter.kpiId = angular.copy(vm.kpiIdOriginal);
+                } else if (result.confirmResult === 1) {
+                    vm.memberEPAs = [];
+                    vm.kpiSelected = null;
+                    vm.dataSaved = false;
+                }
+                else {
+                    vm.memberEPAs = [];
+                    vm.kpiSelected = null;
+                    vm.dataSaved = false;
+                }
+
+                index = vm.kpis.map(function (e) { return e.KPIId; }).indexOf(vm.filter.kpiId);
+                if (index !== -1) {
+                    vm.kpiSelected = vm.kpis[index];
+                }
+            })['finally'](function () {
+                vm.modalInstance = '';
+            });
+        }
+        else {
+            index = vm.kpis.map(function (e) { return e.KPIId; }).indexOf(vm.filter.kpiId);
+            vm.kpiSelected = vm.kpis[index];
+
+            vm.memberEPAs = [];
+        }
+    };
+
+    vm.query = function () {
+        vm.targetTemplateIdOriginal = angular.copy(vm.filter.targetTemplateId);
+        vm.kpiIdOriginal = angular.copy(vm.filter.kpiId);
+
+        if (RatingByKPIModel.validateFieldFilter(vm.filter)) {
+            RatingByKPIModel.getEmployeeEPAByKPI(vm.filter.targetTemplateId, vm.filter.kpiId, vm.filter.groupId, null).then(function () {
                 vm.memberEPAs = RatingByKPIModel.memberEPAs;
-
+                utilitiesFactory.searchOnPage(vm, vm.memberEPAs);
                 angular.forEach(vm.memberEPAs, function (memberEPA) {
                     if (memberEPA.KPIGroup.HasKPIOptional) {
                         var totalScoreEvaluated = 0, totalKPIMustEvaluate, totalStarMustEvaluate, totalStarEvaluated = 0,
@@ -382,8 +403,6 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Sel
         SelfEvalutorModel.getGroupByEvaluator().then(function () {
             vm.groupOptions = SelfEvalutorModel.groups;
         });
-
-        vm.getMember(vm.filter.groupId);
     };
 
     vm.initialize();

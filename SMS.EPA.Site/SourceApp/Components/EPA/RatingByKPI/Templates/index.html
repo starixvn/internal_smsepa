@@ -5,7 +5,7 @@
             <form novalidate class="row filter form-horizontal" role="form">
                 <div class="form-group">
                     <div class="required">
-                        <label class="col-sm-2 control-label" data-translate="TargetTemplate"></label>
+                        <label class="col-sm-1 control-label" data-translate="TargetTemplate"></label>
                         <div class="col-sm-3">
                             <select class="form-control" ng-model="ratingByKPICtrl.filter.targetTemplateId"
                                     ng-options="opt.TargetTemplateId as opt.Name for opt in ratingByKPICtrl.targetTemplates"
@@ -14,177 +14,159 @@
                             </select>
                         </div>
                     </div>
-                    <div class="required">
-                        <label class="col-sm-1 control-label" data-translate="KPI"></label>
-                        <div class="col-sm-3">
-                            <select class="form-control" ng-model="ratingByKPICtrl.filter.kpiId"
-                                    ng-options="opt.KPIId as opt.Name group by opt.KPIGroup.Name for opt in ratingByKPICtrl.kpis"
-                                    ng-change="ratingByKPICtrl.viewKPIInfo()">
-                                <option style="display: none" value="">-- {{"All" | translate}} --</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label" data-translate="Section"></label>
-                    <div class="col-sm-3">
-                        <select class="form-control" ng-model="ratingByKPICtrl.filter.groupId"
-                                ng-options="opt.GroupId as opt.GroupName for opt in ratingByKPICtrl.groupOptions"
-                                ng-change="ratingByKPICtrl.getMember(ratingByKPICtrl.filter.groupId)">
-                            <option value="">-- {{"All" | translate}} --</option>
-                        </select>
-                    </div>
-                    <label class="col-sm-1 control-label" data-translate="Employee"></label>
-                    <div class="col-sm-3">
-                        <add-class-to-role-filter class="multi-select" multi-select input-model="ratingByKPICtrl.members" button-label="EmployeeId"
-                                                  helper-elements="all reset filter" item-label="Name" tick-property="ticked" max-labels="0">
-                        </add-class-to-role-filter>
-                    </div>
-                    <div class="col-sm-offset-1 col-sm-1">
-                        <button class="button" ng-click="ratingByKPICtrl.search(ratingByKPICtrl.filter)" data-translate="Search"></button>
-                    </div>
                 </div>
             </form>
         </div>
     </div>
-    <div class="row" ng-show="ratingByKPICtrl.kpiSelected">
-        <div class="boxtitle text-uppercase" data-translate="KPIInformation"></div>
-        <div class="boxcontent kpi-info">
-            <div class="row filter form-horizontal">
-                <div class="form-group">
-                    <label class="col-sm-2 control-label" data-translate="KPIGroup"></label>
-                    <div class="col-sm-9">
-                        <label class="control-label" ng-bind="ratingByKPICtrl.kpiSelected.KPIGroup.Name"></label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label" data-translate="KPI"></label>
-                    <div class="col-sm-9">
-                        <label class="control-label" ng-bind="ratingByKPICtrl.kpiSelected.Name"></label>
-                    </div>
-                </div>
-                <div class="form-group last" ng-show="ratingByKPICtrl.kpiSelected.IsRequiredEvaluate && !ratingByKPICtrl.kpiSelected.KPIGroup.HasKPIOptional">
-                    <label class="col-sm-2 control-label" data-translate="MaxPoints"></label>
-                    <div class="col-sm-9">
-                        <label class="control-label" ng-bind="ratingByKPICtrl.kpiSelected.Weight | splitScore"></label>
-                    </div>
+    <div class="department-management">
+        <div class="col-sm-12">
+            <div class="col-sm-3 treeview" tree-event>
+                <div class="tree">
+                    <span ng-if="ratingByKPICtrl.kpis.length == 0" class="empty-result" data-translate="EmptyResult"></span>
+                    <ul>
+                        <li ng-repeat="(key,value) in ratingByKPICtrl.kpis | groupBy: 'KPIGroup.Name'">
+                            <span><i class="glyphicon glyphicon-minus-sign" ng-click="ratingByKPICtrl.toggleCollapseExpand()"></i></span>
+                            <a href="javascript:;">
+                                {{key}}
+                            </a>
+                            <ul>
+                                <li ng-repeat="kpi in ratingByKPICtrl.kpis" ng-if="kpi.KPIGroup.Name == key">
+                                    <span class="glyphicon glyphicon-ok" ng-if="kpi.Weight>0"></span>
+                                    <a href="javascript:;" ng-click="ratingByKPICtrl.KPIChange(kpi.KPIId)" ng-class="ratingByKPICtrl.getCSSSelected(kpi.KPIId)">
+                                        {{kpi.Weight>0? '(' + kpi.Weight + ') ':''}} {{kpi.Name}}
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="boxcontent">
-            <table class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th data-translate="SymbolCount"></th>
-                        <th data-translate="Section"></th>
-                        <th data-translate="NickName"></th>
-                        <th data-translate="JobTitle"></th>
-                        <th class="col-score">
-                            <div class="col-sm-10" data-translate="CurrentScore"></div>
-                            <div class="col-sm-2" ng-show="ratingByKPICtrl.memberEPAs.length > 1">
-                                <a class="icon-sorting-bg" ng-class="ratingByKPICtrl.selectedCls('CurrentScore')" ng-click="ratingByKPICtrl.changeSorting('CurrentScore')"></a>
-                            </div>
-                        </th>
-                        <th class="col-adjust-score">
-                            <div class="col-sm-10" data-translate="AdjustScore"></div>
-                            <div class="col-sm-2" ng-show="ratingByKPICtrl.memberEPAs.length > 1">
-                                <a class="icon-sorting-bg" ng-class="ratingByKPICtrl.selectedCls('AdjustScore')" ng-click="ratingByKPICtrl.changeSorting('AdjustScore')"></a>
-                            </div>
-                        </th>
-                        <th data-translate="Comment"></th>
-                        <th data-translate="PerformanceScore" class="col-score"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="memberEPA in ratingByKPICtrl.memberEPAs" repeat-end="ratingByKPICtrl.generateRatingStar()">
-                        <td class="text-center" ng-bind="$index + 1"></td>
-                        <td class="text-center">
-                            <span tooltip="{{memberEPA.Employee.Group.GroupName}}" ng-bind="memberEPA.Employee.Group.GroupCode"></span>
-                        </td>
-                        <td class="text-center">
-                            <span ng-bind="memberEPA.Employee.NickName" popover-avatar avatar-src="{{memberEPA.Employee.Avatar}}"></span>
-                        </td>
-                        <td ng-bind="memberEPA.Employee.JobTitle.JobTitleName"></td>
-                        <td class="text-center col-score">
-                            <div ng-repeat="kpi in memberEPA.KPIGroup.KPIs" ng-show="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
-                                <span ng-show="kpi.Score != ''" ng-bind="kpi.Score | splitScore"></span>
-                                <span ng-show="kpi.Score == ''" ng-bind="'N/A'"></span>
-                            </div>
-                        </td>
-                        <td class="col-adjust-score">
-                            <div class="row text-center list-star" ng-repeat="kpi in memberEPA.KPIGroup.KPIs" ng-if="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
-                                <div ng-if="memberEPA.RatingType.RatingTypeId == 1 || (memberEPA.RatingType.RatingTypeId == 2 && memberEPA.KPIGroup.NumberKPIOptional > 0)">
-                                    <div class="col-sm-2 cancel-rating">
-                                        <a ng-show="kpi.AdjustRate > 0" class="glyphicon glyphicon-remove-circle remove-star"
-                                           title="Cancel" href="javascript:;" ng-click="ratingByKPICtrl.cancelRating(memberEPA, kpi)"></a>
+            <div class="col-sm-9">
+                <div class="boxcontent">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr class="header-table">
+                                <th colspan="6">
+                                    <div class="pull-left div-target-templatesetting">
+                                        <label class="control-label" data-translate="Section"></label>
+                                        <select ng-model="ratingByKPICtrl.searchKey"
+                                                ng-options="opt.GroupName as opt.GroupName for opt in ratingByKPICtrl.groupOptions"
+                                                ng-change="ratingByKPICtrl.search()"
+                                                class="target-template-setting-select lstBox-limit">
+                                            <option value="">-- {{"All" | translate}} --</option>
+                                        </select>
                                     </div>
-                                    <div class="col-sm-7 rating-form">
-                                        <input id="star_{{memberEPA.Employee.EmployeeId}}" type="number" class="rating-loading" ng-readonly="ratingByKPICtrl.permission != 2" data-size="xs"
-                                               data-min=0 data-max={{ratingByKPICtrl.maxStar}} data-step=1 ng-model="kpi.AdjustRate"
-                                               data-show-caption="false"
-                                               data-show-clear="false"
-                                               ng-change="ratingByKPICtrl.hoveringLeave(memberEPA, kpi)">
+                                    <input type="text" placeholder="Employee" ng-model="ratingByKPICtrl.searchKey" ng-change="ratingByKPICtrl.search()"
+                                           class="search-inline-textbox search pull-right">
+                                </th>
+                            </tr>
+                            <tr>
+                                <th data-translate="Section"></th>
+                                <th data-translate="NickName"></th>
+                                <th class="col-score">
+                                    <div class="col-sm-10" data-translate="CurrentScore"></div>
+                                    <div class="col-sm-2" ng-show="ratingByKPICtrl.memberEPAs.length > 1">
+                                        <a class="icon-sorting-bg" ng-class="ratingByKPICtrl.selectedCls('CurrentScore')" ng-click="ratingByKPICtrl.changeSorting('CurrentScore')"></a>
                                     </div>
-                                    <div class="col-sm-3 percent-rating">
-                                        <span class="badge percent" ng-show="memberEPA.KPIGroup.NumberKPIOptional == 0 && kpi.AdjustRate > 0">{{kpi.AdjustScore | splitScore}} pts</span>
+                                </th>
+                                <th class="col-adjust-score">
+                                    <div class="col-sm-10" data-translate="AdjustScore"></div>
+                                    <div class="col-sm-2" ng-show="ratingByKPICtrl.memberEPAs.length > 1">
+                                        <a class="icon-sorting-bg" ng-class="ratingByKPICtrl.selectedCls('AdjustScore')" ng-click="ratingByKPICtrl.changeSorting('AdjustScore')"></a>
                                     </div>
-                                </div>
-                                <div ng-if="memberEPA.RatingType.RatingTypeId == 2 && memberEPA.KPIGroup.NumberKPIOptional == 0" class="input-score">
-                                    <input type="text" maxlength="5" class="form-control text-center epa-input-score"
-                                           ng-readonly="ratingByKPICtrl.permission != 2" ng-model="kpi.AdjustScore" numeric decimals="2"
-                                           ng-change="ratingByKPICtrl.inputScore(memberEPA, kpi)" />
-                                </div>
-                                <div ng-if="memberEPA.RatingType.RatingTypeId == 3">
-                                    <div class="col-sm-2 cancel-rating">
-                                        <a ng-show="kpi.AdjustRate > 0" class="glyphicon glyphicon-remove-circle remove-star"
-                                           title="Cancel" href="javascript:;" ng-click="ratingByKPICtrl.cancelRating(memberEPA, kpi)"></a>
-                                    </div>
-                                    <div class="col-sm-7 rating-form">
-                                        <input id="star_{{memberEPA.Employee.EmployeeId}}" type="number" class="rating-loading" ng-readonly="ratingByKPICtrl.permission != 2" data-size="xs"
-                                               data-min=0 data-max={{ratingByKPICtrl.maxStar}} data-step=0.5 ng-model="kpi.AdjustRate"
-                                               data-show-caption="false"
-                                               data-show-clear="false"
-                                               ng-change="ratingByKPICtrl.hoveringLeave(memberEPA, kpi)">
-                                    </div>
-                                    <div class="col-sm-3 percent-rating">
-                                        <span class="badge percent" ng-show="memberEPA.KPIGroup.NumberKPIOptional == 0 && kpi.AdjustRate > 0">{{kpi.AdjustScore | splitScore}} pts</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="col-comment">
-                            <div ng-repeat="kpi in memberEPA.KPIGroup.KPIs" ng-if="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
-                                <div class="required-comment" ng-show="kpi.HasComment && kpi.IsRequiredComment">
-                                    <div class="textarea">
-                                        <textarea class="form-control" ng-show="kpi.HasComment" ng-model="kpi.Comment" ng-readonly="ratingByKPICtrl.permission != 2"></textarea>
-                                    </div>
-                                    <div class="note" data-translate="(*)"></div>
-                                </div>
-                                <div class="optional-comment" ng-show="kpi.HasComment && !kpi.IsRequiredComment">
-                                    <textarea class="form-control" ng-show="kpi.HasComment" ng-model="kpi.Comment" ng-readonly="ratingByKPICtrl.permission != 2"></textarea>
-                                </div>
-                            </div>
+                                </th>
+                                <th data-translate="Comment"></th>
+                                <th data-translate="PerformanceScore" class="col-score"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr dir-paginate="memberEPA in ratingByKPICtrl.filteredItems | itemsPerPage: ratingByKPICtrl.pageSize" current-page="ratingByKPICtrl.currentPage" repeat-end="ratingByKPICtrl.generateRatingStar()">
 
-                        </td>
-                        <td class="text-center col-score">
-                            <strong><a ng-show="memberEPA.TotalScore != ''" href="" ng-bind="memberEPA.TotalScore | customScore" ng-click="ratingByKPICtrl.viewDetail(memberEPA)"></a></strong>
-                            <strong><a ng-show="memberEPA.TotalScore == ''" href="" ng-bind="'N/A'" ng-click="ratingByKPICtrl.viewDetail(memberEPA)"></a></strong>
-                        </td>
-                    </tr>
-                </tbody>
-                <tbody ng-show="ratingByKPICtrl.memberEPAs.length == 0">
-                    <tr>
-                        <td class="empty-result" colspan="8" data-translate="EmptyResult"></td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="navbar navbar-default navbar-fixed-bottom action-section">
-                <div class="container text-center">
-                    <button class="button" ng-click="ratingByKPICtrl.save()"
-                            ng-if="ratingByKPICtrl.memberEPAs.length > 0 && ratingByKPICtrl.permission == 2" data-translate="Save"></button>
-                    <button class="btn btn-warning customize" ng-click="ratingByKPICtrl.back()" data-translate="Back"></button>
+                                <td class="text-center">
+                                    <span tooltip="{{memberEPA.Employee.Group.GroupName}}" ng-bind="memberEPA.Employee.Group.GroupCode"></span>
+                                </td>
+                                <td class="text-center">
+                                    <span ng-bind="memberEPA.Employee.NickName" popover-avatar avatar-src="{{memberEPA.Employee.Avatar}}"></span>
+                                </td>
+                                <td class="text-center col-score">
+                                    <div ng-repeat="kpi in memberEPA.KPIGroup.KPIs" ng-show="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
+                                        <span ng-show="kpi.Score != ''" ng-bind="kpi.Score | splitScore"></span>
+                                        <span ng-show="kpi.Score == ''" ng-bind="'N/A'"></span>
+                                    </div>
+                                </td>
+                                <td class="col-adjust-score">
+                                    <div class="row text-center list-star" ng-repeat="kpi in memberEPA.KPIGroup.KPIs" ng-if="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
+                                        <div ng-if="memberEPA.RatingType.RatingTypeId == 1 || (memberEPA.RatingType.RatingTypeId == 2 && memberEPA.KPIGroup.NumberKPIOptional > 0)">
+                                            <div class="col-sm-2 cancel-rating">
+                                                <a ng-show="kpi.AdjustRate > 0" class="glyphicon glyphicon-remove-circle remove-star"
+                                                   title="Cancel" href="javascript:;" ng-click="ratingByKPICtrl.cancelRating(memberEPA, kpi)"></a>
+                                            </div>
+                                            <div class="col-sm-7 rating-form">
+                                                <input id="star_{{memberEPA.Employee.EmployeeId}}" type="number" class="rating-loading" ng-readonly="ratingByKPICtrl.permission != 2" data-size="xs"
+                                                       data-min=0 data-max={{ratingByKPICtrl.maxStar}} data-step=1 ng-model="kpi.AdjustRate"
+                                                       data-show-caption="false"
+                                                       data-show-clear="false"
+                                                       ng-change="ratingByKPICtrl.hoveringLeave(memberEPA, kpi)">
+                                            </div>
+                                            <div class="col-sm-3 percent-rating">
+                                                <span class="badge percent" ng-show="memberEPA.KPIGroup.NumberKPIOptional == 0 && kpi.AdjustRate > 0">{{kpi.AdjustScore | splitScore}} pts</span>
+                                            </div>
+                                        </div>
+                                        <div ng-if="memberEPA.RatingType.RatingTypeId == 2 && memberEPA.KPIGroup.NumberKPIOptional == 0" class="input-score">
+                                            <input type="text" maxlength="5" class="form-control text-center epa-input-score"
+                                                   ng-readonly="ratingByKPICtrl.permission != 2" ng-model="kpi.AdjustScore" numeric decimals="2"
+                                                   ng-change="ratingByKPICtrl.inputScore(memberEPA, kpi)" />
+                                        </div>
+                                        <div ng-if="memberEPA.RatingType.RatingTypeId == 3">
+                                            <div class="col-sm-2 cancel-rating">
+                                                <a ng-show="kpi.AdjustRate > 0" class="glyphicon glyphicon-remove-circle remove-star"
+                                                   title="Cancel" href="javascript:;" ng-click="ratingByKPICtrl.cancelRating(memberEPA, kpi)"></a>
+                                            </div>
+                                            <div class="col-sm-7 rating-form">
+                                                <input id="star_{{memberEPA.Employee.EmployeeId}}" type="number" class="rating-loading" ng-readonly="ratingByKPICtrl.permission != 2" data-size="xs"
+                                                       data-min=0 data-max={{ratingByKPICtrl.maxStar}} data-step=0.5 ng-model="kpi.AdjustRate"
+                                                       data-show-caption="false"
+                                                       data-show-clear="false"
+                                                       ng-change="ratingByKPICtrl.hoveringLeave(memberEPA, kpi)">
+                                            </div>
+                                            <div class="col-sm-3 percent-rating">
+                                                <span class="badge percent" ng-show="memberEPA.KPIGroup.NumberKPIOptional == 0 && kpi.AdjustRate > 0">{{kpi.AdjustScore | splitScore}} pts</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="col-comment">
+                                    <div ng-repeat="kpi in memberEPA.KPIGroup.KPIs" ng-if="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
+                                        <div class="required-comment" ng-show="kpi.HasComment && kpi.IsRequiredComment">
+                                            <div class="textarea">
+                                                <textarea class="form-control" ng-show="kpi.HasComment" ng-model="kpi.Comment" ng-readonly="ratingByKPICtrl.permission != 2"></textarea>
+                                            </div>
+                                            <div class="note" data-translate="(*)"></div>
+                                        </div>
+                                        <div class="optional-comment" ng-show="kpi.HasComment && !kpi.IsRequiredComment">
+                                            <textarea class="form-control" ng-show="kpi.HasComment" ng-model="kpi.Comment" ng-readonly="ratingByKPICtrl.permission != 2"></textarea>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-center col-score">
+                                    <strong><a ng-show="memberEPA.TotalScore != ''" href="" ng-bind="memberEPA.TotalScore | customScore" ng-click="ratingByKPICtrl.viewDetail(memberEPA)"></a></strong>
+                                    <strong><a ng-show="memberEPA.TotalScore == ''" href="" ng-bind="'N/A'" ng-click="ratingByKPICtrl.viewDetail(memberEPA)"></a></strong>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody ng-show="ratingByKPICtrl.memberEPAs.length == 0">
+                            <tr>
+                                <td class="empty-result" colspan="8" data-translate="EmptyResult"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="navbar navbar-default navbar-fixed-bottom action-section">
+                        <div class="container text-center">
+                            <button class="button" ng-click="ratingByKPICtrl.save()"
+                                    ng-if="ratingByKPICtrl.memberEPAs.length > 0 && ratingByKPICtrl.permission == 2" data-translate="Save"></button>
+                            <button class="btn btn-warning customize" ng-click="ratingByKPICtrl.back()" data-translate="Back"></button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

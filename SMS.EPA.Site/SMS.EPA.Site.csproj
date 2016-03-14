@@ -278,6 +278,8 @@
     <CodeAnalysisDictionary Include="FxCopDictionary.xml" />
     <Content Include="Global.asax" />
     <Content Include="Libs\angular-chosen.js" />
+    <Content Include="Libs\angular-filter\dist\angular-filter.js" />
+    <Content Include="Libs\angular-filter\dist\angular-filter.min.js" />
     <Content Include="Libs\angular-multi-select.js" />
     <Content Include="Libs\angular-resource.min.js" />
     <Content Include="Libs\angular-route.min.js" />
@@ -628,6 +630,12 @@
     <Content Include="Content\Site\mixins.less" />
     <Content Include="Content\Site\variables.less" />
     <Content Include="Content\Site\auth\style.less" />
+    <Content Include="Libs\angular-filter\.bower.json" />
+    <Content Include="Libs\angular-filter\.bowerrc" />
+    <Content Include="Libs\angular-filter\.travis.yml" />
+    <Content Include="Libs\angular-filter\bower.json" />
+    <Content Include="Libs\angular-filter\dist\angular-filter.zip" />
+    <Content Include="Libs\angular-filter\license.md" />
     <None Include="Libs\angular-resource.min.js.map" />
     <None Include="Libs\angular-route.min.js.map" />
     <Content Include="Libs\angular-spinner.min.js.map" />
