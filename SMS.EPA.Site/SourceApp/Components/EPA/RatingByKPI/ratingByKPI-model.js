@@ -194,15 +194,17 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
                 if (modalInstance) {
                     modalInstance.close(vm);
                 }
-
+                var completedEvaluation = true;
                 angular.forEach(vm.memberEPAs, function (memberEPA) {
                     angular.forEach(memberEPA.KPIGroup.KPIs, function (kpi) {
                         if (kpi.AdjustRate > 0 || kpi.AdjustScore > 0) {
                             kpi.Rate = kpi.AdjustRate;
                             kpi.Score = kpi.AdjustScore;
                         }
+                        if ((kpi.Rate <= 0 || kpi.Score <= 0) && kpi.KPIId == vm.kpiIdOriginal) {
+                            completedEvaluation = false;
+                        }
                     });
-
                     if (memberEPA.KPIGroup.HasKPIOptional) {
                         memberEPA.TotalScoreOriginal = memberEPA.TotalScoreOriginal;
                     }
@@ -210,6 +212,8 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
                         memberEPA.TotalScoreOriginal = memberEPA.TotalScore;
                     }
                 });
+
+                vm.kpiSelected.Evaluated = completedEvaluation;
             }
             else {
                 notificationFactory.error("", response.Message);

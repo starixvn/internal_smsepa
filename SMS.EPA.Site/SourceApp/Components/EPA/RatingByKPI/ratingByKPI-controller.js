@@ -327,7 +327,6 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
     vm.save = function () {
         if (RatingByKPIModel.validateEPA(vm)) {
             RatingByKPIModel.updateKPIScore(vm);
-            vm.kpiSelected.Evaluated = true;
         }
     };
 

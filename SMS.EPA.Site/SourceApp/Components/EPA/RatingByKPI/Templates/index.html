@@ -73,7 +73,10 @@
                         <tbody>
                             <tr dir-paginate="memberEPA in ratingByKPICtrl.filteredItems | itemsPerPage: ratingByKPICtrl.pageSize" current-page="ratingByKPICtrl.currentPage" repeat-end="ratingByKPICtrl.generateRatingStar()">
                                 <td class="text-center">
-                                    <span class="glyphicon glyphicon-ok" ng-if="kpi.Score != ''"></span>
+                                    <div ng-repeat="kpi in memberEPA.KPIGroup.KPIs" ng-show="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
+                                        <span class="glyphicon glyphicon-ok" ng-if="kpi.Score != ''"></span>
+                                    </div>
+                                    
                                 </td>
                                 <td class="text-center">
                                     <span tooltip="{{memberEPA.Employee.Group.GroupName}}" ng-bind="memberEPA.Employee.Group.GroupCode"></span>
