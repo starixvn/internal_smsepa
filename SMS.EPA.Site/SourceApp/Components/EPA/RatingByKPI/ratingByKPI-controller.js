@@ -2,8 +2,8 @@
 /*global epaModule*/
 
 epaModule.controller('RatingByKPIController',
-['$window', '$timeout', '$translate', 'RatingByKPIModel', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel', 'utilitiesFactory', 'baseUrl',
-function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, baseUrl) {
+['$window', '$timeout', '$translate', 'RatingByKPIModel', 'EmployeeEPAModel', 'CommonModel', 'utilitiesFactory', 'baseUrl',
+function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, CommonModel, utilitiesFactory, baseUrl) {
     var vm = this;
     vm.kpis = [];
     vm.memberEPAs = [];
@@ -327,6 +327,7 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Sel
     vm.save = function () {
         if (RatingByKPIModel.validateEPA(vm)) {
             RatingByKPIModel.updateKPIScore(vm);
+            vm.kpiSelected.Evaluated = true;
         }
     };
 
@@ -398,10 +399,6 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Sel
 
         RatingByKPIModel.getTargetTemplateByEvaluator().then(function () {
             vm.targetTemplates = RatingByKPIModel.targetTemplates;
-        });
-
-        SelfEvalutorModel.getGroupByEvaluator().then(function () {
-            vm.groupOptions = SelfEvalutorModel.groups;
         });
     };
 

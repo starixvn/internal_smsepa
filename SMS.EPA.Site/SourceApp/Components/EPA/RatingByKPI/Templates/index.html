@@ -46,19 +46,12 @@
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr class="header-table">
-                                <th colspan="6">
-                                    <div class="pull-left div-target-templatesetting">
-                                        <label class="control-label" data-translate="Section"></label>
-                                        <select ng-model="ratingByKPICtrl.searchKey"
-                                                ng-options="opt.GroupName as opt.GroupName for opt in ratingByKPICtrl.groupOptions"
-                                                ng-change="ratingByKPICtrl.search()"
-                                                class="target-template-setting-select lstBox-limit">
-                                            <option value="">-- {{"All" | translate}} --</option>
-                                        </select>
-                                    </div>
+                                <th colspan="7">
+                                    <input type="text" ng-model="ratingByKPICtrl.searchKey" ng-change="ratingByKPICtrl.search()" class="search-inline-textbox search pull-right">
                                 </th>
                             </tr>
                             <tr>
+                                <th></th>
                                 <th data-translate="Section"></th>
                                 <th data-translate="NickName"></th>
                                 <th class="col-score">
@@ -79,7 +72,9 @@
                         </thead>
                         <tbody>
                             <tr dir-paginate="memberEPA in ratingByKPICtrl.filteredItems | itemsPerPage: ratingByKPICtrl.pageSize" current-page="ratingByKPICtrl.currentPage" repeat-end="ratingByKPICtrl.generateRatingStar()">
-
+                                <td class="text-center">
+                                    <span class="glyphicon glyphicon-ok" ng-if="kpi.Score != ''"></span>
+                                </td>
                                 <td class="text-center">
                                     <span tooltip="{{memberEPA.Employee.Group.GroupName}}" ng-bind="memberEPA.Employee.Group.GroupCode"></span>
                                 </td>
