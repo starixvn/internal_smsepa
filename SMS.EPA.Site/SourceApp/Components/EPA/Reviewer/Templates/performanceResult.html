@@ -65,7 +65,8 @@
                     <textarea class="form-control" ng-readonly="memberEPAInfoCtrl.isReadonly"
                               ng-model="memberEPAInfoCtrl.epaInfo.CurrentProcess.Comment"></textarea>
                 </td>
-                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center" ng-show="$first" ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != 2">
+                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center" ng-show="$first"
+                    ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != 2">
                     <strong ng-show="memberEPAInfoCtrl.epaInfo.HasDisciplineScore">
                         {{memberEPAInfoCtrl.epaInfo.DisciplineScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxDisciplineScore | customScore}}
                     </strong>

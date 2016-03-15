@@ -87,14 +87,14 @@ function (TargetTemplateModel, CommonModel, utilitiesFactory, enumerationsFactor
 }]);
 
 targetTemplateModule.controller('CreateTargetTemplateController',
-['$window', '$location', 'TargetTemplateModel', 'CommonModel', 'baseUrl',
-function ($window, $location, TargetTemplateModel, CommonModel, baseUrl) {
+['$window', '$location', 'TargetTemplateModel', 'CommonModel', 'enumerationsFactory', 'baseUrl',
+function ($window, $location, TargetTemplateModel, CommonModel, enumerationsFactory, baseUrl) {
     var vm = this;
     vm.scoreRatingTypeOptions = TargetTemplateModel.scoreRatingTypes;
     vm.permission = TargetTemplateModel.permission;
     vm.ratingTypes = TargetTemplateModel.ratingTypes;
 
-    if (vm.permission !== 2) {
+    if (vm.permission !== enumerationsFactory.policy) {
         $location.path(baseUrl + 'Home/AccessDenied');
     }
 

@@ -18,7 +18,7 @@
             <label data-translate="To" class="col-sm-1 control-label"></label>
             <div class="col-sm-2">
                 <input readonly class="calendar-form-control" type="text"
-                       ng-model="monthlyPeriodCtrl.filter.toDate" 
+                       ng-model="monthlyPeriodCtrl.filter.toDate"
                        datepicker-popup="MMM, yyyy" datepicker-mode="'month'" datepicker-options="monthlyPeriodCtrl.dateOptions"
                        ng-click="monthlyPeriodCtrl.openPopupToDate($event)"
                        is-open="monthlyPeriodCtrl.calendar.toDateOpened" />
@@ -33,7 +33,8 @@
         <thead>
             <tr class="header-table">
                 <th colspan="6">
-                    <a class="pull-left button-icon create-button" href="" ng-click="monthlyPeriodCtrl.create()" ng-show="monthlyPeriodCtrl.permission == 2">
+                    <a class="pull-left button-icon create-button" href="" ng-click="monthlyPeriodCtrl.create()"
+                       ng-show="monthlyPeriodCtrl.permission == monthlyPeriodCtrl.policyEnum.Host">
                         <span class="icon plus"></span>
                         <span class="button-text" data-translate="CreateMonthlyPeriod"></span>
                     </a>
@@ -63,7 +64,7 @@
                         <a class="glyphicon glyphicon-edit icon-edit" title="Edit" ng-click="monthlyPeriodCtrl.update(period.PeriodId)"
                            href="{{monthlyPeriodCtrl.updatePeriodUrl}}"></a>
                         <a href="javascript:;" class="glyphicon glyphicon-remove icon-remove" title="Delete" ng-click="monthlyPeriodCtrl.delete(period)"
-                           ng-show="monthlyPeriodCtrl.permission == 2"></a>
+                           ng-show="monthlyPeriodCtrl.permission == monthlyPeriodCtrl.policyEnum.Host"></a>
                     </div>
                 </td>
             </tr>

@@ -2,13 +2,14 @@
 /*global employeeModule*/
 
 employeeModule.controller('EmployeeController',
-['$window', 'EmployeeModel', 'utilitiesFactory', 'CommonModel',
-function ($window, EmployeeModel, utilitiesFactory, CommonModel) {
+['$window', 'EmployeeModel', 'utilitiesFactory', 'CommonModel', 'enumerationsFactory',
+function ($window, EmployeeModel, utilitiesFactory, CommonModel, enumerationsFactory) {
     var vm = this;
 
     vm.employees = EmployeeModel.employees;
     vm.defaultPassword = EmployeeModel.defaultPassword;
     vm.permission = EmployeeModel.permission;
+    vm.policyEnum = enumerationsFactory.policy;
 
     vm.filter = {
         query: '',

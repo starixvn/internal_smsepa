@@ -37,7 +37,7 @@
         </form>
         <table class="row table table-bordered table-striped">
             <thead>
-                <tr class="header-table" ng-show="managementCtrl.memberEPAs.length > 0 && !managementCtrl.isEndProcessAll && managementCtrl.permission == 2">
+                <tr class="header-table" ng-show="managementCtrl.memberEPAs.length > 0 && !managementCtrl.isEndProcessAll && managementCtrl.permission == managementCtrl.policyEnum.Host">
                     <th colspan="17">
                         <a class="pull-left button-icon" ng-click="managementCtrl.adjustScore()">
                             <span class="icon-edit glyphicon glyphicon-edit"></span>
@@ -50,7 +50,7 @@
                     </th>
                 </tr>
                 <tr class="headerName">
-                    <th ng-show="managementCtrl.memberEPAs.length > 0 && !managementCtrl.isEndProcessAll && managementCtrl.permission == 2">
+                    <th ng-show="managementCtrl.memberEPAs.length > 0 && !managementCtrl.isEndProcessAll && managementCtrl.permission == managementCtrl.policyEnum.Host">
                         <input type="checkbox" ng-model="managementCtrl.selectedAll" ng-click="managementCtrl.checkAll(managementCtrl.selectedAll)" />
                     </th>
                     <th data-translate="SymbolCount"></th>
@@ -74,7 +74,7 @@
             <tbody>
                 <tr ng-class="{'row-highlight': (memberEPA.HasMaxScoreOnKPI && memberEPA.ProcessBySelf.IsEndProcess)}"
                     ng-repeat="memberEPA in managementCtrl.memberEPAs">
-                    <td class="text-center" ng-show="!managementCtrl.isEndProcessAll && managementCtrl.permission == 2">
+                    <td class="text-center" ng-show="!managementCtrl.isEndProcessAll && managementCtrl.permission == managementCtrl.policyEnum.Host">
                         <input ng-show="!memberEPA.CurrentProcess.IsEndProcess" type="checkbox" ng-model="memberEPA.Selected" />
                     </td>
                     <td class="text-center" ng-bind="$index + 1"></td>
@@ -106,18 +106,18 @@
                     </td>
                     <td class="text-center">
                         <input type="text" maxlength="6" class="form-control text-center epa-input-score"
-                               ng-readonly="memberEPA.CurrentProcess.IsEndProcess || managementCtrl.permission != 2"
+                               ng-readonly="memberEPA.CurrentProcess.IsEndProcess || managementCtrl.permission != managementCtrl.policyEnum.Host"
                                ng-model="memberEPA.CurrentProcess.AdjustScore" numeric decimals="2" ng-change="managementCtrl.inputScore(memberEPA)"
                                tooltip="{{managementCtrl.getNotificationInputScore(memberEPA)}}" tooltip-trigger="focus" />
                     </td>
                     <td class="text-center">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-attr-title='{{"Edit" | translate}}'
                            ng-click="managementCtrl.updateComment(memberEPA, memberEPA.CurrentProcess.Comment, true)"
-                           ng-if="!memberEPA.CurrentProcess.IsEndProcess && !memberEPA.Period.IsEndPeriod && managementCtrl.permission == 2"></a>
+                           ng-if="!memberEPA.CurrentProcess.IsEndProcess && !memberEPA.Period.IsEndPeriod && managementCtrl.permission == managementCtrl.policyEnum.Host"></a>
                         <a class="glyphicon icon-view" href="" ng-attr-title='{{"View" | translate}}'
                            ng-click="managementCtrl.updateComment(memberEPA, memberEPA.CurrentProcess.Comment, false)"
                            ng-if="memberEPA.CurrentProcess.Comment && memberEPA.CurrentProcess.Comment.length > 0
-                                && (memberEPA.CurrentProcess.IsEndProcess || memberEPA.Period.IsEndPeriod || managementCtrl.permission != 2)"></a>
+                                && (memberEPA.CurrentProcess.IsEndProcess || memberEPA.Period.IsEndPeriod || managementCtrl.permission != managementCtrl.policyEnum.Host)"></a>
                     </td>
                     <td class="text-center">
                         <div ng-show="memberEPA.HasDisciplineScore">

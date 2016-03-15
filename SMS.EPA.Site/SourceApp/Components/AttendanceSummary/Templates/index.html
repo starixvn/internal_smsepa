@@ -70,8 +70,8 @@
         <thead>
             <tr class="header-table">
                 <th colspan="17">
-                    <a class="pull-left button-icon create-button" href="" ng-click="attendanceCtrl.addOtherViolations()" 
-                       ng-if="attendanceCtrl.permission == 2 && attendanceCtrl.isSystemAdmin">
+                    <a class="pull-left button-icon create-button" href="" ng-click="attendanceCtrl.addOtherViolations()"
+                       ng-if="attendanceCtrl.permission == attendanceCtrl.policyEnum.Host && attendanceCtrl.isSystemAdmin">
                         <span class="icon plus"></span>
                         <span class="button-text" data-translate="AddOtherViolations"></span>
                     </a>
@@ -97,7 +97,7 @@
                 <th data-translate="OtherViolations"></th>
                 <th data-translate="SystemSubtractScore"></th>
                 <th data-translate="ApproverSubtractScore"></th>
-                <th data-translate="Action" ng-if="attendanceCtrl.permission >= 1"></th>
+                <th data-translate="Action" ng-if="attendanceCtrl.permission >= attendanceCtrl.policyEnum.Read"></th>
             </tr>
         </thead>
         <tbody>
@@ -123,10 +123,10 @@
                         </a>
                     </div>
                     <div ng-show="employee.OtherViolationsScore == 0">
-                        <a href="" ng-click="attendanceCtrl.addOtherViolations(employee)" ng-if="attendanceCtrl.permission == 2 && attendanceCtrl.isSystemAdmin">
+                        <a href="" ng-click="attendanceCtrl.addOtherViolations(employee)" ng-if="attendanceCtrl.permission == attendanceCtrl.policyEnum.Host && attendanceCtrl.isSystemAdmin">
                             {{employee.OtherViolationsScore | number: 1}}
                         </a>
-                        <span ng-if="!attendanceCtrl.isSystemAdmin || attendanceCtrl.permission == 1">{{employee.OtherViolationsScore | number: 1}}</span>
+                        <span ng-if="!attendanceCtrl.isSystemAdmin || attendanceCtrl.permission == attendanceCtrl.policyEnum.Read">{{employee.OtherViolationsScore | number: 1}}</span>
                     </div>
                 </td>
                 <td class="text-right">
@@ -137,11 +137,11 @@
                     <span class="red" ng-show="employee.ApproverSubtractScore > 0">-{{employee.ApproverSubtractScore | number: 1}}</span>
                     <span ng-show="employee.ApproverSubtractScore == 0">{{employee.ApproverSubtractScore | number: 1}}</span>
                 </td>
-                <td class="text-center" ng-if="attendanceCtrl.permission >= 1">
+                <td class="text-center" ng-if="attendanceCtrl.permission >= attendanceCtrl.policyEnum.Read">
                     <a class="glyphicon glyphicon-edit icon-edit" title="Edit" href="{{attendanceCtrl.attendanceDetailUrl}}" ng-click="attendanceCtrl.adjust(employee)"
-                       ng-if="attendanceCtrl.permission == 2 && employee.Permission == 2"></a>
+                       ng-if="attendanceCtrl.permission == attendanceCtrl.policyEnum.Host && employee.Permission == attendanceCtrl.policyEnum.Host"></a>
                     <a class="glyphicon icon-view" title="View" href="{{attendanceCtrl.attendanceDetailUrl}}" ng-click="attendanceCtrl.adjust(employee)"
-                       ng-if="attendanceCtrl.permission != 2 || employee.Permission != 2"></a>
+                       ng-if="attendanceCtrl.permission != attendanceCtrl.policyEnum.Host || employee.Permission != attendanceCtrl.policyEnum.Host"></a>
                 </td>
             </tr>
             <tr ng-show="attendanceCtrl.filteredItems.length == 0">

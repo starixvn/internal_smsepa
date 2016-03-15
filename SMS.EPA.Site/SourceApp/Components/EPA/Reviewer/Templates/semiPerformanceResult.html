@@ -5,35 +5,37 @@
                 <th rowspan="2" data-translate="Employee" class="col-score"></th>
                 <th rowspan="2" data-translate="EvaluatorScore" class="col-score"></th>
                 <th colspan="2" data-translate="ReviewerScore"></th>
-                <th rowspan="2" data-translate="DisciplineScore" class="col-score" ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != 2"></th>
+                <th rowspan="2" data-translate="DisciplineScore" class="col-score"></th>
                 <th rowspan="2" data-translate="TotalScore" class="col-score"></th>
-                <th rowspan="2" data-translate="Grade" class="col-score" ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != 2"></th>
+                <th rowspan="2" data-translate="Grade" class="col-score"></th>
             </tr>
             <tr>
-                <th data-translate="PerformanceScore" class="col-score"></th>
-                <th data-translate="Comment"</th>
+                <th data-translate="PerformanceScore" class="width-140"></th>
+                <th data-translate="Comment"></th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td class="text-center">
                     <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess">
-                        {{memberEPAInfoCtrl.epaInfo.ProcessBySelf.TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.ProcessBySelf.MaxTotalScore | customScore}}
+                        {{memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlySelfScoreConversion | customScore}} / {{memberEPAInfoCtrl.epaInfo.ProcessBySelf.MaxTotalScore | customScore}}
                     </div>
                     <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" ng-bind="'N/A'"></div>
                 </td>
                 <td class="text-center">
-                    <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].IsEndProcess">
-                        {{memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].MaxTotalScore | customScore}}
+                    <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].IsEndProcess">
+                        {{memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlyEvaluatorScoreConversion | customScore}} / {{memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].MaxTotalScore | customScore}}
                     </div>
-                    <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].IsEndProcess" ng-bind="'N/A'"></div>
+                    <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].IsEndProcess" ng-bind="'N/A'"></div>
                 </td>
                 <td>
-                    <input type="text" maxlength="6" class="form-control text-center" ng-readonly="memberEPAInfoCtrl.isReadonly"
-                           ng-model="memberEPAInfoCtrl.epaInfo.CurrentProcess.TotalScore" numeric decimals="2"
-                           ng-change="memberEPAInfoCtrl.inputScore(memberEPAInfoCtrl.epaInfo.CurrentProcess)"
-                           tooltip="{{memberEPAInfoCtrl.getNotificationInputScore(memberEPAInfoCtrl.epaInfo.CurrentProcess)}}" tooltip-trigger="focus" />
-                    / {{memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlyReviewerScoreConversion}}
+                    <span ng-bind="memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlyReviewerScoreConversion | customScore"></span>
+                    <span style="display: inline-block;">
+                        <input type="text" maxlength="6" class="form-control text-center width-80" ng-readonly="memberEPAInfoCtrl.isReadonly"
+                               ng-model="memberEPAInfoCtrl.epaInfo.CurrentProcess.TotalScore" numeric decimals="2"
+                               ng-change="memberEPAInfoCtrl.inputScore(memberEPAInfoCtrl.epaInfo.CurrentProcess)"
+                               tooltip="{{memberEPAInfoCtrl.getNotificationInputScore(memberEPAInfoCtrl.epaInfo.CurrentProcess)}}" tooltip-trigger="focus" />
+                    </span>
                 </td>
                 <td>
                     <textarea class="form-control" ng-readonly="memberEPAInfoCtrl.isReadonly"
@@ -56,6 +58,6 @@
         </tbody>
     </table>
 </div>
-<div class="row row-item" ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != 2">
+<div class="row row-item">
     <div ng-include src="'/SourceApp/Components/EPA/Templates/performanceGradingScale.html'"></div>
 </div>

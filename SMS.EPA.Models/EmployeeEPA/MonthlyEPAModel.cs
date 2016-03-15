@@ -50,7 +50,7 @@
 
             foreach (EPAModel monthlyEPA in MonthlyEPAs)
             {
-                if (monthlyEPA.Status.StatusId == 1)
+                if (monthlyEPA.Status.StatusId == (int)Status.Closed)
                 {
                     switch (processType)
                     {

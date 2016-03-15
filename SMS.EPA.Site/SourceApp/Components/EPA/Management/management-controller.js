@@ -2,8 +2,10 @@
 /*global epaModule*/
 
 epaModule.controller('ManagementController',
-['$translate', '$location', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel', 'utilitiesFactory', 'notificationFactory', 'baseUrl',
-function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, CommonModel, utilitiesFactory, notificationFactory, baseUrl) {
+['$translate', '$location', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel',
+    'utilitiesFactory', 'notificationFactory', 'enumerationsFactory', 'baseUrl',
+function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, CommonModel,
+    utilitiesFactory, notificationFactory, enumerationsFactory, baseUrl) {
     var vm = this;
 
     vm.permission = 0;
@@ -13,6 +15,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     vm.selectedAll = false;
     vm.averageScore = 0;
     vm.isEndProcessAll = false;
+    vm.policyEnum = enumerationsFactory.policy;
 
     vm.filter = {
         groupId: '',
@@ -229,12 +232,15 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 }]);
 
 epaModule.controller('MemberEPAInfoOfManagentController',
-['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel', 'utilitiesFactory', 'baseUrl',
-function ($window, $translate, $routeParams, EmployeeEPAModel, ReviewerManagementModel, CommonModel, utilitiesFactory, baseUrl) {
+['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel',
+    'utilitiesFactory', 'enumerationsFactory', 'baseUrl',
+function ($window, $translate, $routeParams, EmployeeEPAModel, ReviewerManagementModel, CommonModel,
+    utilitiesFactory, enumerationsFactory, baseUrl) {
     var vm = this;
 
     vm.permission = 0;
     vm.epaId = parseInt($routeParams.id);
+    vm.policyEnum = enumerationsFactory.policy;
 
     vm.dataSaved = false;
     vm.isReadonly = false;
@@ -352,7 +358,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, ReviewerManagemen
             ReviewerManagementModel.getUserPermissionOnManagement().then(function () {
                 vm.permission = ReviewerManagementModel.permission;
 
-                if (vm.permission !== 2) {
+                if (vm.permission !== vm.policyEnum.Host) {
                     vm.isReadonly = true;
                 }
             });

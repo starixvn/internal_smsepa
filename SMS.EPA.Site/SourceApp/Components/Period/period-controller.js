@@ -135,9 +135,11 @@ function ($modalInstance, PeriodModel, CommonModel, enumerationsFactory) {
 }]);
 
 periodModule.controller('UpdatePeriodController',
-['$window', '$routeParams', 'PeriodModel',
-function ($window, $routeParams, PeriodModel) {
+['$window', '$routeParams', 'PeriodModel', 'enumerationsFactory',
+function ($window, $routeParams, PeriodModel, enumerationsFactory) {
     var vm = this;
+
+    vm.policyEnum = enumerationsFactory.policy;
 
     vm.period = null;
     vm.periodId = parseInt($routeParams.id);

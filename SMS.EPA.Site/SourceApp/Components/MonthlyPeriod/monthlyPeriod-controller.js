@@ -2,10 +2,12 @@
 /*global monthlyPeriodModule*/
 
 monthlyPeriodModule.controller('MonthlyPeriodController',
-['MonthlyPeriodModel', 'CommonModel', 'utilitiesFactory', 'baseUrl',
-function (MonthlyPeriodModel, CommonModel, utilitiesFactory, baseUrl) {
+['MonthlyPeriodModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'baseUrl',
+function (MonthlyPeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, baseUrl) {
     var vm = this,
         date = new Date();
+
+    vm.policyEnum = enumerationsFactory.policy;
 
     vm.filter = {
         fromDate: new Date(date.getFullYear(), 0, 1),
@@ -134,9 +136,11 @@ function ($modalInstance, MonthlyPeriodModel) {
 }]);
 
 monthlyPeriodModule.controller('UpdateMonthlyPeriodController',
-['$window', '$routeParams', 'MonthlyPeriodModel',
-function ($window, $routeParams, MonthlyPeriodModel) {
+['$window', '$routeParams', 'MonthlyPeriodModel', 'enumerationsFactory',
+function ($window, $routeParams, MonthlyPeriodModel, enumerationsFactory) {
     var vm = this;
+
+    vm.policyEnum = enumerationsFactory.policy;
 
     vm.period = null;
     vm.periodId = parseInt($routeParams.id);

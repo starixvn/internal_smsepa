@@ -6,9 +6,9 @@
                 <th rowspan="2" data-translate="EvaluatorScore" class="col-score-small"></th>
                 <th colspan="3" data-translate="ReviewerScore" class="col-score"></th>
                 <th colspan="2" data-translate="Management"></th>
-                <th rowspan="2" data-translate="DisciplineScore" class="col-score-small" ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != 2"></th>
+                <th rowspan="2" data-translate="DisciplineScore" class="col-score-small"></th>
                 <th rowspan="2" data-translate="TotalScore" class="col-score-small"></th>
-                <th rowspan="2" data-translate="Grade" class="col-score-small" ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != 2"></th>
+                <th rowspan="2" data-translate="Grade" class="col-score-small"></th>
             </tr>
             <tr>
                 <th class="col-score-small">Nick Name</th>
@@ -27,12 +27,10 @@
                     <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" ng-bind="'N/A'"></div>
                 </td>
                 <td class="text-center col-score-small">
-                    <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index]
-                            && memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].IsEndProcess">
-                        {{memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].MaxTotalScore | customScore}}
+                    <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].IsEndProcess">
+                        {{memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].MaxTotalScore | customScore}}
                     </div>
-                    <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index]
-                            && !memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].IsEndProcess" ng-bind="'N/A'"></div>
+                    <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].IsEndProcess" ng-bind="'N/A'"></div>
                 </td>
                 <td class="text-center col-score-small" ng-show="memberEPAInfoCtrl.epaInfo.ProcessByReviewers.length > 0">
                     <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index]"

@@ -96,12 +96,15 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, ba
 }]);
 
 epaModule.controller('MemberEPAInfoOfEvaluatorController',
-['$window', '$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel', 'utilitiesFactory', 'baseUrl',
-function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, baseUrl) {
+['$window', '$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel',
+    'utilitiesFactory', 'enumerationsFactory', 'baseUrl',
+function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel,
+    utilitiesFactory, enumerationsFactory, baseUrl) {
     var vm = this;
 
     vm.permission = 0;
     vm.epaId = parseInt($routeParams.id);
+    vm.policyEnum = enumerationsFactory.policy;
 
     vm.maxStar = 5;
     vm.dataSaved = false;
@@ -232,7 +235,7 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
             SelfEvalutorModel.getUserPermissionOnEvaluator().then(function () {
                 vm.permission = SelfEvalutorModel.permission;
 
-                if (vm.permission !== 2) {
+                if (vm.permission !== vm.policyEnum.Host) {
                     vm.isReadonly = true;
                     vm.hoveringLeave = null;
                 }

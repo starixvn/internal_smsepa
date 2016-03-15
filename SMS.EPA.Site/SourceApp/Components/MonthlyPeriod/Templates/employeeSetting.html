@@ -48,24 +48,24 @@
         <thead>
             <tr class="header-table">
                 <th colspan="14">
-                    <div class="pull-left div-period-department-setting" name="multiSelectOption" ng-show="updateCtrl.permission == 2">
+                    <div class="pull-left div-period-department-setting" name="multiSelectOption" ng-show="updateCtrl.permission == updateCtrl.policyEnum.Host">
                         <label class="control-label" data-translate="DepartmentSection"></label>
                         <add-class-to-role-filter multi-select input-model="employeeSettingPeriodCtrl.departmentOptions" button-label="Name" helper-elements="all reset"
                                                   item-label="Name" tick-property="ticked" max-labels="0" class="multi-select period-department-select">
                         </add-class-to-role-filter>
                     </div>
-                    <div class="pull-left div-period-employee-setting" ng-show="updateCtrl.permission == 2">
+                    <div class="pull-left div-period-employee-setting" ng-show="updateCtrl.permission == updateCtrl.policyEnum.Host">
                         <label class="control-label" data-translate="Employee"></label>
                         <input class="form-control period-employee" ng-model="employeeSettingPeriodCtrl.searchEmployee"
                                placeholder="Enter full name or nick name" search-auto-complete search-employees="employeeSettingPeriodCtrl.getEmployee()"
                                ng-change="employeeSettingPeriodCtrl.unSelectEmployee()" employee="employeeSettingPeriodCtrl.filterAssign.employee" />
                     </div>
                     <button class="button pull-left period-add" ng-click="employeeSettingPeriodCtrl.addEmployeeToMonthlyPeriod(employeeSettingPeriodCtrl.filterAssign)"
-                            ng-show="updateCtrl.permission == 2" data-translate="Add"></button>
+                            ng-show="updateCtrl.permission == updateCtrl.policyEnum.Host" data-translate="Add"></button>
                     <input type="text" ng-model="employeeSettingPeriodCtrl.searchKey" ng-change="employeeSettingPeriodCtrl.search()" class="search-inline-textbox search pull-right">
                 </th>
             </tr>
-            <tr class="header-table" ng-show="updateCtrl.permission == 2">
+            <tr class="header-table" ng-show="updateCtrl.permission == updateCtrl.policyEnum.Host">
                 <th colspan="14">
                     <a class="pull-left button-icon period-create-button" ng-click="employeeSettingPeriodCtrl.manageSetting()">
                         <span class="icon-edit glyphicon glyphicon-edit"></span>
@@ -141,7 +141,7 @@
                 </td>
                 <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
                     <input type="checkbox" ng-checked="employee.IsIncluded" ng-click="employeeSettingPeriodCtrl.includeExcludeEmployee(employee)"
-                           ng-disabled="updateCtrl.permission != 2" />
+                           ng-disabled="updateCtrl.permission != updateCtrl.policyEnum.Host" />
                 </td>
                 <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
                     <div class="btn-group">

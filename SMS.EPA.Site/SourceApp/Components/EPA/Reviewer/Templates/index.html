@@ -42,7 +42,7 @@
         </form>
         <table class="row table table-bordered table-striped">
             <thead>
-                <tr class="header-table" ng-if="reviewerCtrl.memberEPAs.length > 0  && !reviewerCtrl.isEndProcessAll && reviewerCtrl.permission == 2">
+                <tr class="header-table" ng-if="reviewerCtrl.memberEPAs.length > 0  && !reviewerCtrl.isEndProcessAll && reviewerCtrl.permission == reviewerCtrl.policyEnum.Host">
                     <th colspan="16">
                         <a class="pull-left button-icon" ng-click="reviewerCtrl.adjustScore()">
                             <span class="icon-edit glyphicon glyphicon-edit"></span>
@@ -55,7 +55,7 @@
                     </th>
                 </tr>
                 <tr class="headerName">
-                    <th ng-if="reviewerCtrl.memberEPAs.length > 0  && !reviewerCtrl.isEndProcessAll && reviewerCtrl.permission == 2">
+                    <th ng-if="reviewerCtrl.memberEPAs.length > 0  && !reviewerCtrl.isEndProcessAll && reviewerCtrl.permission == reviewerCtrl.policyEnum.Host">
                         <input type="checkbox" ng-model="reviewerCtrl.selectedAll" ng-click="reviewerCtrl.checkAll(reviewerCtrl.selectedAll)" />
                     </th>
                     <th data-translate="SymbolCount"></th>
@@ -78,7 +78,7 @@
             <tbody>
                 <tr ng-class="{'row-highlight': (memberEPA.HasMaxScoreOnKPI && memberEPA.ProcessBySelf.IsEndProcess)}"
                     ng-repeat="memberEPA in reviewerCtrl.memberEPAs">
-                    <td class="text-center" ng-if="!reviewerCtrl.isEndProcessAll && reviewerCtrl.permission == 2">
+                    <td class="text-center" ng-if="!reviewerCtrl.isEndProcessAll && reviewerCtrl.permission == reviewerCtrl.policyEnum.Host">
                         <input ng-if="!memberEPA.CurrentProcess.IsEndProcess" type="checkbox" ng-model="memberEPA.Selected" />
                     </td>
                     <td class="text-center" ng-bind="$index + 1"></td>
@@ -109,16 +109,16 @@
                         <div ng-show="!memberEPA.ProcessByEvaluators[0].IsEndProcess" ng-bind="'N/A'"></div>
                     </td>
                     <td class="text-center">
-                        <div ng-if="memberEPA.HasMonthlyEPA" class="form-inline-block">
+                        <div ng-if="memberEPA.HasMonthlyEPA && reviewerCtrl.targetTypeEnum.SemiAnnual" class="form-inline-block">
+                            {{memberEPA.MonthlyEPA.AverageMonthlyReviewerScoreConversion}}
                             <input type="text" maxlength="6" class="form-control text-center epa-input-score"
-                                   ng-readonly="memberEPA.CurrentProcess.IsEndProcess || reviewerCtrl.permission != 2"
+                                   ng-readonly="memberEPA.CurrentProcess.IsEndProcess || reviewerCtrl.permission != reviewerCtrl.policyEnum.Host"
                                    ng-model="memberEPA.CurrentProcess.AdjustScore" numeric decimals="2" ng-change="reviewerCtrl.inputScore(memberEPA)"
                                    tooltip="{{reviewerCtrl.getNotificationInputScore(memberEPA)}}" tooltip-trigger="focus" />
-                            / {{memberEPA.MonthlyEPA.AverageMonthlyReviewerScoreConversion}}
                         </div>
                         <div ng-if="!memberEPA.HasMonthlyEPA">
                             <input type="text" maxlength="6" class="form-control text-center epa-input-score"
-                                   ng-readonly="memberEPA.CurrentProcess.IsEndProcess || reviewerCtrl.permission != 2"
+                                   ng-readonly="memberEPA.CurrentProcess.IsEndProcess || reviewerCtrl.permission != reviewerCtrl.policyEnum.Host"
                                    ng-model="memberEPA.CurrentProcess.AdjustScore" numeric decimals="2" ng-change="reviewerCtrl.inputScore(memberEPA)"
                                    tooltip="{{reviewerCtrl.getNotificationInputScore(memberEPA)}}" tooltip-trigger="focus" />
                         </div>
@@ -126,11 +126,11 @@
                     <td class="text-center">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-attr-title='{{"Edit" | translate}}'
                            ng-click="reviewerCtrl.updateComment(memberEPA, memberEPA.CurrentProcess.Comment, true)"
-                           ng-if="!memberEPA.CurrentProcess.IsEndProcess && !memberEPA.Period.IsEndPeriod && reviewerCtrl.permission == 2"></a>
+                           ng-if="!memberEPA.CurrentProcess.IsEndProcess && !memberEPA.Period.IsEndPeriod && reviewerCtrl.permission == reviewerCtrl.policyEnum.Host"></a>
                         <a class="glyphicon icon-view" href="" ng-attr-title='{{"View" | translate}}'
                            ng-click="reviewerCtrl.updateComment(memberEPA, memberEPA.CurrentProcess.Comment, false)"
                            ng-if="memberEPA.CurrentProcess.Comment && memberEPA.CurrentProcess.Comment.length > 0
-                                && (memberEPA.CurrentProcess.IsEndProcess || memberEPA.Period.IsEndPeriod || reviewerCtrl.permission != 2)"></a>
+                                && (memberEPA.CurrentProcess.IsEndProcess || memberEPA.Period.IsEndPeriod || reviewerCtrl.permission != reviewerCtrl.policyEnum.Host)"></a>
                     </td>
                     <td class="text-center">
                         <div ng-show="memberEPA.HasDisciplineScore">
@@ -171,7 +171,6 @@
                         <a class="glyphicon icon-view" href="" ng-click="reviewerCtrl.viewEPAResult(memberEPA)"
                            ng-if="!memberEPA.HasMonthlyEPA && (memberEPA.CurrentProcess.IsEndProcess || memberEPA.Period.IsEndPeriod)"
                            ng-href="{{reviewerCtrl.viewEPAResultUrl}}" ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
-
                         <a class="glyphicon icon-view" href="" ng-click="reviewerCtrl.viewSemiEPAResult(memberEPA)"
                            ng-if="memberEPA.HasMonthlyEPA && (memberEPA.CurrentProcess.IsEndProcess || memberEPA.Period.IsEndPeriod)"
                            ng-href="{{reviewerCtrl.viewEPAResultUrl}}" ng-attr-title='{{"ViewSemiEPAResult" | translate}}'></a>

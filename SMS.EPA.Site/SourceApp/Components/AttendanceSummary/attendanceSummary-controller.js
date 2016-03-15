@@ -2,14 +2,15 @@
 /*global attendanceModule*/
 
 attendanceModule.controller('AttendanceSummaryController',
-['$scope', 'AttendanceModel', 'utilitiesFactory', 'CommonModel', 'baseUrl', 'usSpinnerService',
-function ($scope, AttendanceModel, utilitiesFactory, CommonModel, baseUrl, usSpinnerService) {
+['$scope', 'AttendanceModel', 'utilitiesFactory', 'CommonModel', 'enumerationsFactory', 'baseUrl', 'usSpinnerService',
+function ($scope, AttendanceModel, utilitiesFactory, CommonModel, enumerationsFactory, baseUrl, usSpinnerService) {
     var vm = this;
 
     vm.attendanceEmployees = AttendanceModel.attendanceEmployees;
     vm.violationOptions = AttendanceModel.violations;
     vm.permission = AttendanceModel.permission;
     vm.isSystemAdmin = AttendanceModel.isSystemAdmin;
+    vm.policyEnum = enumerationsFactory.policy;
 
     vm.currentPage = AttendanceModel.summaryPaging.currentPage;
     vm.pageSize = AttendanceModel.summaryPaging.pageSize;
@@ -150,8 +151,8 @@ function ($scope, AttendanceModel, utilitiesFactory, CommonModel, baseUrl, usSpi
 }]);
 
 attendanceModule.controller("OtherViolationsController",
-['$scope', '$modalInstance', 'AttendanceModel', 'employee', 'startDate', 'endDate', 'utilitiesFactory', 'CommonModel',
-function ($scope, $modalInstance, AttendanceModel, employee, startDate, endDate, utilitiesFactory, CommonModel) {
+['$scope', '$modalInstance', 'AttendanceModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'employee', 'startDate', 'endDate',
+function ($scope, $modalInstance, AttendanceModel, CommonModel, utilitiesFactory, enumerationsFactory, employee, startDate, endDate) {
     var vm = this,
         date = new Date();
 
@@ -163,6 +164,7 @@ function ($scope, $modalInstance, AttendanceModel, employee, startDate, endDate,
     vm.otherViolationTypes = AttendanceModel.otherViolationTypes;
     vm.permission = AttendanceModel.permission;
     vm.isSystemAdmin = AttendanceModel.isSystemAdmin;
+    vm.policyEnum = enumerationsFactory.policy;
 
     vm.violation = {
         EmployeeId: vm.employee ? vm.employee.Employee.EmployeeId : null,
@@ -285,8 +287,8 @@ function ($scope, $modalInstance, AttendanceModel, employee, startDate, endDate,
 }]);
 
 attendanceModule.controller('DetailAttendanceSummaryController',
-['$scope', '$window', '$routeParams', 'AttendanceModel', 'utilitiesFactory', 'CommonModel', 'usSpinnerService',
-function ($scope, $window, $routeParams, AttendanceModel, utilitiesFactory, CommonModel, usSpinnerService) {
+['$scope', '$window', '$routeParams', 'AttendanceModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'usSpinnerService',
+function ($scope, $window, $routeParams, AttendanceModel, CommonModel, utilitiesFactory, enumerationsFactory, usSpinnerService) {
     var vm = this,
         hasCalculated = false,
         hasSaved = false;
@@ -297,6 +299,7 @@ function ($scope, $window, $routeParams, AttendanceModel, utilitiesFactory, Comm
     vm.violationOptions = AttendanceModel.violations;
     vm.attendanceDetails = AttendanceModel.attendanceDetails;
     vm.permission = AttendanceModel.permission;
+    vm.policyEnum = enumerationsFactory.policy;
 
     vm.fromSummaryPage = $routeParams.id ? true : false;
 

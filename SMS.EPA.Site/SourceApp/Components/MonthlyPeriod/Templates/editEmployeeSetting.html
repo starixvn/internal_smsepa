@@ -155,7 +155,8 @@
         </table>
     </div>
     <div class="modal-footer">
-        <button class="button" ng-click="updatePeriodSettingCtrl.save()" data-translate="OK" ng-show="updatePeriodSettingCtrl.permission == 2"></button>
+        <button class="button" ng-click="updatePeriodSettingCtrl.save()" data-translate="OK"
+                ng-show="updatePeriodSettingCtrl.permission == updateCtrl.policyEnum.Host"></button>
         <button class="btn btn-default customize" ng-click="updatePeriodSettingCtrl.cancel()" data-translate="Cancel"></button>
     </div>
 </div>
