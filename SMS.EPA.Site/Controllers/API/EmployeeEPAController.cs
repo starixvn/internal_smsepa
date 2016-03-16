@@ -499,7 +499,7 @@ namespace SMS.EPA.Site.Controllers.API
                     && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
                 {
                     if (epaInfo.ProcessByReviewers.Any()
-                        && epaInfo.ProcessByReviewers.First().StartDate.Date == DateTime.Now.Date)
+                        && epaInfo.ProcessByReviewers.First().StartDate.Date <= DateTime.Now.Date)
                     {
                         resetScoreCriteria.EPAInfo = epaInfo;
 

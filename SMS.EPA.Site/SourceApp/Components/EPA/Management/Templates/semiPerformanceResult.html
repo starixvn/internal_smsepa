@@ -11,8 +11,8 @@
                 <th rowspan="2" data-translate="Grade" class="col-score-small"></th>
             </tr>
             <tr>
-                <th class="col-score-small">Nick Name</th>
-                <th class="col-score-small">Score</th>
+                <th class="col-score-small" data-translate="NickName"></th>
+                <th class="col-score-small" data-translate="Score"></th>
                 <th data-translate="Comment" class="col-score-small"></th>
                 <th data-translate="PerformanceScore" class="col-score-small"></th>
                 <th data-translate="Comment" class="col-comment"></th>
@@ -22,13 +22,13 @@
             <tr ng-repeat="opt in memberEPAInfoCtrl.range(memberEPAInfoCtrl.epaInfo.Rowspan) track by $index">
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center col-score-small" ng-show="$first">
                     <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess">
-                        {{memberEPAInfoCtrl.epaInfo.ProcessBySelf.TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.ProcessBySelf.MaxTotalScore | customScore}}
+                        {{memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlySelfScoreConversion | customScore}} / {{memberEPAInfoCtrl.epaInfo.ScoreRatingType.SelfEvaluated | customScore}}
                     </div>
                     <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" ng-bind="'N/A'"></div>
                 </td>
                 <td class="text-center col-score-small">
                     <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].IsEndProcess">
-                        {{memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].MaxTotalScore | customScore}}
+                        {{memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlyEvaluatorScoreConversion | customScore}} / {{memberEPAInfoCtrl.epaInfo.ScoreRatingType.Evaluator | customScore}}
                     </div>
                     <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].IsEndProcess" ng-bind="'N/A'"></div>
                 </td>
@@ -39,7 +39,7 @@
                 <td class="text-center col-score-small" ng-show="memberEPAInfoCtrl.epaInfo.ProcessByReviewers.length > 0">
                     <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index]
                             && memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].IsEndProcess">
-                        {{memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].MaxTotalScore | customScore}}
+                        {{memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.ScoreRatingType.Reviewer | customScore}}
                     </div>
                     <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index]
                          && !memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].IsEndProcess" ng-bind="'N/A'"></div>

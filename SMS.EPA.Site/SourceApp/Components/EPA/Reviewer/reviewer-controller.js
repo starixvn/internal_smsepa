@@ -42,20 +42,20 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
             });
         }
         else {
-            vm.viewEPADetailUrl = baseUrl + 'Reviewer/Detail/' + memberEPA.EPAId;
+            if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
+                vm.viewEPADetailUrl = baseUrl + 'Reviewer/SemiDetail/' + memberEPA.EPAId;
+            } else {
+                vm.viewEPADetailUrl = baseUrl + 'Reviewer/Detail/' + memberEPA.EPAId;
+            }
         }
     };
 
     vm.viewEPAResult = function (memberEPA) {
-        vm.viewEPAResultUrl = baseUrl + 'EPA/Detail/' + memberEPA.EPAId;
-    };
-
-    vm.viewSemiEPAResult = function (memberEPA) {
-        vm.viewEPAResultUrl = baseUrl + 'EPA/SemiDetail/' + memberEPA.EPAId;
-    };
-
-    vm.viewSemiEPADetail = function (memberEPA) {
-        vm.viewEPAResultUrl = baseUrl + 'Reviewer/SemiDetail/' + memberEPA.EPAId;
+        if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
+            vm.viewEPAResultUrl = baseUrl + 'EPA/SemiDetail/' + memberEPA.EPAId;
+        } else {
+            vm.viewEPAResultUrl = baseUrl + 'EPA/Detail/' + memberEPA.EPAId;
+        }
     };
 
     vm.viewOtherViolationDetail = function (memberEPA) {

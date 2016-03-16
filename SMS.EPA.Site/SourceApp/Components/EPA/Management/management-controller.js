@@ -16,6 +16,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     vm.averageScore = 0;
     vm.isEndProcessAll = false;
     vm.policyEnum = enumerationsFactory.policy;
+    vm.targetTypeEnum = enumerationsFactory.targetType;
 
     vm.filter = {
         groupId: '',
@@ -39,20 +40,20 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
             });
         }
         else {
-            vm.viewEPADetailUrl = baseUrl + 'Management/Detail/' + memberEPA.EPAId;
+            if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
+                vm.viewEPADetailUrl = baseUrl + 'Management/SemiDetail/' + memberEPA.EPAId;
+            } else {
+                vm.viewEPADetailUrl = baseUrl + 'Management/Detail/' + memberEPA.EPAId;
+            }
         }
     };
 
     vm.viewEPAResult = function (memberEPA) {
-        vm.viewEPAResultUrl = baseUrl + 'EPA/Detail/' + memberEPA.EPAId;
-    };
-
-    vm.viewSemiEPAResult = function (memberEPA) {
-        vm.viewEPADetailUrl = baseUrl + 'EPA/SemiDetail/' + memberEPA.EPAId;
-    };
-
-    vm.viewSemiEPADetail = function (memberEPA) {
-        vm.viewEPADetailUrl = baseUrl + 'Management/SemiDetail/' + memberEPA.EPAId;
+        if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
+            vm.viewEPADetailUrl = baseUrl + 'EPA/SemiDetail/' + memberEPA.EPAId;
+        } else {
+            vm.viewEPADetailUrl = baseUrl + 'EPA/Detail/' + memberEPA.EPAId;
+        }
     };
 
     vm.viewOtherViolationDetail = function (memberEPA) {
@@ -156,8 +157,12 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 
                 if (memberEPA.ProcessByReviewers.length > 0 && !memberEPA.CurrentProcess.TotalScore && memberEPA.ProcessByReviewers[0].IsEndProcess) {
                     memberEPA.CurrentProcess.TotalScore = memberEPA.AverageScoreByReviewers;
-                } else if (memberEPA.ProcessByEvaluators.length > 0 && !memberEPA.CurrentProcess.TotalScore && memberEPA.ProcessByEvaluators[0].IsEndProcess) {
-                    memberEPA.CurrentProcess.TotalScore = memberEPA.AverageScoreByEvaluators;
+                } else if (!memberEPA.CurrentProcess.TotalScore && memberEPA.ProcessByEvaluators[0].IsEndProcess) {
+                    if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
+                        memberEPA.CurrentProcess.TotalScore = memberEPA.MonthlyEPA.AverageMonthlyEvaluatorScoreConversion;
+                    } else {
+                        memberEPA.CurrentProcess.TotalScore = memberEPA.AverageScoreByEvaluators;
+                    }
                 }
 
                 memberEPA.ProcessBySelf.TotalScore = utilitiesFactory.parseFloat(memberEPA.ProcessBySelf.TotalScore);
@@ -181,8 +186,14 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
                     memberEPA.MaxAdditionScore = utilitiesFactory.parseFloat(memberEPA.CurrentProcess.MaxTotalScore - memberEPA.AverageScoreByReviewers);
                 } else {
                     averageScore += memberEPA.AverageScoreByEvaluators;
-                    memberEPA.MaxSubtractScore = -memberEPA.AverageScoreByEvaluators;
-                    memberEPA.MaxAdditionScore = utilitiesFactory.parseFloat(memberEPA.CurrentProcess.MaxTotalScore - memberEPA.AverageScoreByEvaluators);
+
+                    if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
+                        memberEPA.MaxSubtractScore = -memberEPA.MonthlyEPA.AverageMonthlyEvaluatorScoreConversion;
+                        memberEPA.MaxAdditionScore = utilitiesFactory.parseFloat(memberEPA.CurrentProcess.MaxTotalScore - memberEPA.MonthlyEPA.AverageMonthlyEvaluatorScoreConversion);
+                    } else {
+                        memberEPA.MaxSubtractScore = -memberEPA.AverageScoreByEvaluators;
+                        memberEPA.MaxAdditionScore = utilitiesFactory.parseFloat(memberEPA.CurrentProcess.MaxTotalScore - memberEPA.AverageScoreByEvaluators);
+                    }
                 }
             });
 
@@ -241,6 +252,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, ReviewerManagemen
     vm.permission = 0;
     vm.epaId = parseInt($routeParams.id);
     vm.policyEnum = enumerationsFactory.policy;
+    vm.targetTypeEnum = enumerationsFactory.targetType;
 
     vm.dataSaved = false;
     vm.isReadonly = false;
@@ -326,8 +338,12 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, ReviewerManagemen
 
             if (vm.epaInfo.ProcessByReviewers.length > 0 && vm.epaInfo.ProcessByReviewers[0].IsEndProcess && !vm.epaInfo.CurrentProcess.TotalScore) {
                 vm.epaInfo.CurrentProcess.TotalScore = vm.epaInfo.AverageScoreByReviewers;
-            } else if (vm.epaInfo.ProcessByEvaluators.length > 0 && vm.epaInfo.ProcessByEvaluators[0].IsEndProcess && !vm.epaInfo.CurrentProcess.TotalScore) {
-                vm.epaInfo.CurrentProcess.TotalScore = vm.epaInfo.AverageScoreByEvaluators;
+            } else if (vm.epaInfo.ProcessByEvaluators[0].IsEndProcess && !vm.epaInfo.CurrentProcess.TotalScore) {
+                if (vm.epaInfo.HasMonthlyEPA && vm.epaInfo.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
+                    vm.epaInfo.CurrentProcess.TotalScore = vm.epaInfo.MonthlyEPA.AverageMonthlyEvaluatorScoreConversion;
+                } else {
+                    vm.epaInfo.CurrentProcess.TotalScore = vm.epaInfo.AverageScoreByEvaluators;
+                }
             }
 
             // self

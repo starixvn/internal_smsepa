@@ -19,14 +19,14 @@ namespace SMS.EPA.Model.ScoreRatingType
 
         public string Description { get; set; }
 
-        public int SelfEvaluated { get; set; }
+        public float SelfEvaluated { get; set; }
 
-        public int Evaluator { get; set; }
+        public float Evaluator { get; set; }
 
-        public int Reviewer { get; set; }
+        public float Reviewer { get; set; }
 
-        public int Management { get; set; }
+        public float Management { get; set; }
 
-        public int Attendance { get; set; }
+        public float Attendance { get; set; }
     }
 }

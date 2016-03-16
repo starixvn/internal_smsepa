@@ -88,19 +88,32 @@
                     <td ng-bind="memberEPA.Employee.JobTitle.JobTitleName"></td>
                     <td class="text-center">
                         <div ng-show="memberEPA.ProcessBySelf.IsEndProcess">
-                            {{memberEPA.ProcessBySelf.TotalScore | customScore}} / {{memberEPA.ProcessBySelf.MaxTotalScore | customScore}}
+                            <div ng-show="!memberEPA.HasMonthlyEPA">
+                                {{memberEPA.ProcessBySelf.TotalScore | customScore}} / {{memberEPA.ScoreRatingType.SelfEvaluated | customScore}}
+                            </div>
+                            <div ng-show="memberEPA.HasMonthlyEPA">
+                                {{memberEPA.MonthlyEPA.AverageMonthlySelfScoreConversion | customScore}} / {{memberEPA.ScoreRatingType.SelfEvaluated | customScore}}
+                            </div>
                         </div>
                         <div ng-show="!memberEPA.ProcessBySelf.IsEndProcess" ng-bind="'N/A'"></div>
                     </td>
                     <td class="text-center">
                         <div ng-show="memberEPA.ProcessByEvaluators[0].IsEndProcess">
-                            {{memberEPA.AverageScoreByEvaluators | customScore}} / {{memberEPA.ProcessByEvaluators[0].MaxTotalScore | customScore}}
+                            
+                        </div>
+                        <div ng-show="memberEPA.ProcessByEvaluators[0].IsEndProcess">
+                            <div ng-show="!memberEPA.HasMonthlyEPA">
+                                {{memberEPA.AverageScoreByEvaluators | customScore}} / {{memberEPA.ScoreRatingType.Evaluator | customScore}}
+                            </div>
+                            <div ng-show="memberEPA.HasMonthlyEPA">
+                                {{memberEPA.MonthlyEPA.AverageMonthlyEvaluatorScoreConversion | customScore}} / {{memberEPA.ScoreRatingType.Evaluator | customScore}}
+                            </div>
                         </div>
                         <div ng-show="!memberEPA.ProcessByEvaluators[0].IsEndProcess" ng-bind="'N/A'"></div>
                     </td>
                     <td class="text-center">
                         <div ng-show="memberEPA.ProcessByReviewers[0].IsEndProcess">
-                            {{memberEPA.AverageScoreByReviewers | customScore}} / {{memberEPA.ProcessByReviewers[0].MaxTotalScore | customScore}}
+                            {{memberEPA.AverageScoreByReviewers | customScore}} / {{memberEPA.ScoreRatingType.Reviewer | customScore}}
                         </div>
                         <div ng-show="!memberEPA.ProcessByReviewers[0].IsEndProcess" ng-bind="'N/A'"></div>
                     </td>
@@ -155,18 +168,11 @@
                     <td class="text-center"><div ng-show="memberEPA.CurrentProcess.Evaluated" class="glyphicon glyphicon-ok"></div></td>
                     <td class="text-center col-action">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="managementCtrl.viewEPADetail(memberEPA)"
-                           ng-if="!memberEPA.HasMonthlyEPA && !memberEPA.CurrentProcess.IsEndProcess && !memberEPA.Period.IsEndPeriod"
+                           ng-if="!memberEPA.CurrentProcess.IsEndProcess && !memberEPA.Period.IsEndPeriod"
                            ng-href="{{managementCtrl.viewEPADetailUrl}}" ng-attr-title='{{"EvaluateNow" | translate}}'></a>
                         <a class="glyphicon icon-view" href="" ng-click="managementCtrl.viewEPAResult(memberEPA)"
-                           ng-if="!memberEPA.HasMonthlyEPA && (memberEPA.CurrentProcess.IsEndProcess || memberEPA.Period.IsEndPeriod)"
+                           ng-if="memberEPA.CurrentProcess.IsEndProcess || memberEPA.Period.IsEndPeriod"
                            ng-href="{{managementCtrl.viewEPAResultUrl}}" ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
-                        
-                        <a class="glyphicon icon-view" href="" ng-click="managementCtrl.viewSemiEPAResult(memberEPA)"
-                           ng-if="memberEPA.HasMonthlyEPA && (memberEPA.CurrentProcess.IsEndProcess || memberEPA.Period.IsEndPeriod)"
-                           ng-href="{{managementCtrl.viewEPAResultUrl}}" ng-attr-title='{{"ViewSemiEPAResult" | translate}}'></a>
-                        <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="managementCtrl.viewSemiEPADetail(memberEPA)"
-                           ng-if="memberEPA.HasMonthlyEPA && !memberEPA.CurrentProcess.IsEndProcess && !memberEPA.Period.IsEndPeriod"
-                           ng-href="{{managementCtrl.viewEPADetailUrl}}" ng-attr-title='{{"EvaluateNow" | translate}}'></a>
                     </td>
                 </tr>
             </tbody>
