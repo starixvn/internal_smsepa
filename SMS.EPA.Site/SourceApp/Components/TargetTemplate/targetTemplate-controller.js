@@ -94,7 +94,7 @@ function ($window, $location, TargetTemplateModel, CommonModel, enumerationsFact
     vm.permission = TargetTemplateModel.permission;
     vm.ratingTypes = TargetTemplateModel.ratingTypes;
 
-    if (vm.permission !== enumerationsFactory.policy) {
+    if (vm.permission !== enumerationsFactory.policy.Host) {
         $location.path(baseUrl + 'Home/AccessDenied');
     }
 

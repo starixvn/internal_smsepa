@@ -2,7 +2,7 @@
     <table class="table table-bordered table-striped table-custom table-summary">
         <thead>
             <tr>
-                <th class="text-right">#</th>
+                <th data-translate="SymbolCount"></th>
                 <th data-translate="EmployeeScore"></th>
                 <th data-translate="EvaluatorScore"></th>
                 <th data-translate="ReviewerScore"></th>
@@ -10,24 +10,27 @@
         </thead>
         <tbody>
             <tr ng-repeat="monthly in memberEPAInfoCtrl.epaInfo.MonthlyEPA.MonthlyEPAs">
-                <td class="text-center">{{monthly.Period.Name}}</td>
-                <td class="text-center">{{monthly.ProcessBySelf.TotalScore | customScore}}</td>
-                <td class="text-center">{{monthly.AverageScoreByEvaluators | customScore}}</td>
-                <td class="text-center">{{monthly.AverageScoreByReviewers | customScore}}</td>
+                <td class="text-center" ng-bind="monthly.Period.Name"></td>
+                <td class="text-center" ng-bind="monthly.ProcessBySelf.TotalScore | customScore"></td>
+                <td class="text-center" ng-bind="monthly.AverageScoreByEvaluators | customScore"></td>
+                <td class="text-center" ng-bind="monthly.AverageScoreByReviewers | customScore"></td>
             </tr>
             <tr>
                 <td class="text-right"><strong data-translate="OriginalAverage"></strong></td>
-                <td class="text-center">{{memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlySelfScore | customScore}}</td>
-                <td class="text-center">{{memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlyEvaluatorScores | customScore}}</td>
-                <td class="text-center">{{memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlyReviewerScores | customScore}}</td>
+                <td class="text-center" ng-bind="memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlySelfScore | customScore"></td>
+                <td class="text-center" ng-bind="memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlyEvaluatorScores | customScore"></td>
+                <td class="text-center" ng-bind="memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlyReviewerScores | customScore"></td>
             </tr>
             <tr>
                 <td class="text-right"><strong data-translate="ConvertedAverage"></strong></td>
-                <td class="text-center">{{memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlySelfScoreConversion | customScore}}</td>
-                <td class="text-center">{{memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlyEvaluatorScoreConversion | customScore}}</td>
-                <td class="text-center">{{memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlyReviewerScoreConversion | customScore}}</td>
+                <td class="text-center" ng-bind="memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlySelfScoreConversion | customScore"></td>
+                <td class="text-center" ng-bind="memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlyEvaluatorScoreConversion | customScore"></td>
+                <td class="text-center">
+                    <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[0] && memberEPAInfoCtrl.epaInfo.ProcessByReviewers[0].IsEndProcess"
+                         ng-bind="memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlyReviewerScoreConversion | customScore"></div>
+                    <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[0] && !memberEPAInfoCtrl.epaInfo.ProcessByReviewers[0].IsEndProcess" data-translate="Pending"></div>
+                </td>
             </tr>
-
             <tr>
                 <td class="text-right"><strong data-translate="DisciplineScore"></strong></td>
                 <td colspan="3" class="text-center">
@@ -38,6 +41,7 @@
                         <strong ng-show="memberEPAInfoCtrl.epaInfo.DisciplineScore" ng-bind="memberEPAInfoCtrl.epaInfo.DisciplineScore | customScore"></strong>
                         <strong ng-show="!memberEPAInfoCtrl.epaInfo.DisciplineScore" ng-bind="'-'"></strong>
                     </div>
+                </td>
             </tr>
         </tbody>
     </table>

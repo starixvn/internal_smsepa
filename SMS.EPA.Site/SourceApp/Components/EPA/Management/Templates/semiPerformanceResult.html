@@ -24,13 +24,13 @@
                     <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess">
                         {{memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlySelfScoreConversion | customScore}} / {{memberEPAInfoCtrl.epaInfo.ScoreRatingType.SelfEvaluated | customScore}}
                     </div>
-                    <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" ng-bind="'N/A'"></div>
+                    <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" data-translate="Pending"></div>
                 </td>
                 <td class="text-center col-score-small">
                     <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].IsEndProcess">
                         {{memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlyEvaluatorScoreConversion | customScore}} / {{memberEPAInfoCtrl.epaInfo.ScoreRatingType.Evaluator | customScore}}
                     </div>
-                    <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].IsEndProcess" ng-bind="'N/A'"></div>
+                    <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].IsEndProcess" data-translate="Pending"></div>
                 </td>
                 <td class="text-center col-score-small" ng-show="memberEPAInfoCtrl.epaInfo.ProcessByReviewers.length > 0">
                     <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index]"
@@ -42,7 +42,7 @@
                         {{memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.ScoreRatingType.Reviewer | customScore}}
                     </div>
                     <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index]
-                         && !memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].IsEndProcess" ng-bind="'N/A'"></div>
+                         && !memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].IsEndProcess" data-translate="Pending"></div>
                 </td>
                 <td class="text-center col-score-small" ng-show="memberEPAInfoCtrl.epaInfo.ProcessByReviewers.length > 0">
                     <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index]
@@ -52,7 +52,7 @@
                            ng-click="memberEPAInfoCtrl.openPopupViewComment(memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].Comment)"></a>
                     </div>
                     <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index]
-                            && !memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].IsEndProcess" ng-bind="'N/A'"></div>
+                            && !memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].IsEndProcess" data-translate="Pending"></div>
                 </td>
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="col-score-small" ng-show="$first">
                     <input type="text" maxlength="6" class="form-control text-center" ng-readonly="memberEPAInfoCtrl.isReadonly"

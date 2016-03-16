@@ -160,7 +160,10 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
                 if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
                     memberEPA.MaxSubtractScore = -memberEPA.MonthlyEPA.AverageMonthlyReviewerScoreConversion;
                     memberEPA.MaxAdditionScore = utilitiesFactory.parseFloat(memberEPA.CurrentProcess.MaxTotalScore - memberEPA.MonthlyEPA.AverageMonthlyReviewerScoreConversion);
-                    memberEPA.CurrentProcess.TotalScore = memberEPA.MonthlyEPA.AverageMonthlyReviewerScoreConversion;
+
+                    if (!memberEPA.CurrentProcess.TotalScore) {
+                        memberEPA.CurrentProcess.TotalScore = memberEPA.MonthlyEPA.AverageMonthlyReviewerScoreConversion;
+                    }
                 } else {
                     memberEPA.MaxSubtractScore = -memberEPA.AverageScoreByEvaluators;
                     memberEPA.MaxAdditionScore = utilitiesFactory.parseFloat(memberEPA.CurrentProcess.MaxTotalScore - memberEPA.AverageScoreByEvaluators);
@@ -327,9 +330,9 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, Reviewe
                 vm.maxPerformanceScore += vm.epaInfo.MaxDisciplineScore;
             }
 
-            if (vm.epaInfo.HasMonthlyEPA && vm.epaInfo.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
+            if (vm.epaInfo.HasMonthlyEPA && vm.epaInfo.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual && !vm.epaInfo.CurrentProcess.TotalScore) {
                 vm.epaInfo.CurrentProcess.TotalScore = vm.epaInfo.MonthlyEPA.AverageMonthlyReviewerScoreConversion;
-            } else if (vm.epaInfo.AverageScoreByEvaluators > 0 && !vm.epaInfo.CurrentProcess.TotalScore && vm.epaInfo.ProcessByEvaluators[0].IsEndProcess) {
+            } else if (!vm.epaInfo.CurrentProcess.TotalScore && vm.epaInfo.ProcessByEvaluators[0].IsEndProcess) {
                 vm.epaInfo.CurrentProcess.TotalScore = vm.epaInfo.AverageScoreByEvaluators;
             }
 

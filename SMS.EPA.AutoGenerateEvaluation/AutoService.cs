@@ -379,7 +379,10 @@
 
             if (evaluationProcesses != null && evaluationProcesses.Any())
             {
-                var updateEndProcessCriteria = new UpdateIsEndProcessCriteria();
+                var updateEndProcessCriteria = new UpdateIsEndProcessCriteria()
+                {
+                    EvaluationProcesses = evaluationProcesses
+                };
 
                 _LOG.Info("Update status of processes that ended yesterday: started at " + DateTime.Now.ToString());
                 CommandResult updateIsEndProcess = _evaluationService.UpdateEndProcess(updateEndProcessCriteria);
