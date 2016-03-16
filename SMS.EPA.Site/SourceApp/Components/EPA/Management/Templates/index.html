@@ -126,11 +126,11 @@
                     <td class="text-center">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-attr-title='{{"Edit" | translate}}'
                            ng-click="managementCtrl.updateComment(memberEPA, memberEPA.CurrentProcess.Comment, true)"
-                           ng-if="!memberEPA.CurrentProcess.IsEndProcess && !memberEPA.Period.IsEndPeriod && managementCtrl.permission == managementCtrl.policyEnum.Host"></a>
+                           ng-if="!memberEPA.CurrentProcess.IsEndProcess && managementCtrl.permission == managementCtrl.policyEnum.Host"></a>
                         <a class="glyphicon icon-view" href="" ng-attr-title='{{"View" | translate}}'
                            ng-click="managementCtrl.updateComment(memberEPA, memberEPA.CurrentProcess.Comment, false)"
                            ng-if="memberEPA.CurrentProcess.Comment && memberEPA.CurrentProcess.Comment.length > 0
-                                && (memberEPA.CurrentProcess.IsEndProcess || memberEPA.Period.IsEndPeriod || managementCtrl.permission != managementCtrl.policyEnum.Host)"></a>
+                                && (memberEPA.CurrentProcess.IsEndProcess || managementCtrl.permission != managementCtrl.policyEnum.Host)"></a>
                     </td>
                     <td class="text-center">
                         <div ng-show="memberEPA.HasDisciplineScore">
@@ -168,10 +168,10 @@
                     <td class="text-center"><div ng-show="memberEPA.CurrentProcess.Evaluated" class="glyphicon glyphicon-ok"></div></td>
                     <td class="text-center col-action">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="managementCtrl.viewEPADetail(memberEPA)"
-                           ng-if="!memberEPA.CurrentProcess.IsEndProcess && !memberEPA.Period.IsEndPeriod"
+                           ng-if="!memberEPA.CurrentProcess.IsEndProcess"
                            ng-href="{{managementCtrl.viewEPADetailUrl}}" ng-attr-title='{{"EvaluateNow" | translate}}'></a>
                         <a class="glyphicon icon-view" href="" ng-click="managementCtrl.viewEPAResult(memberEPA)"
-                           ng-if="memberEPA.CurrentProcess.IsEndProcess || memberEPA.Period.IsEndPeriod"
+                           ng-if="memberEPA.CurrentProcess.IsEndProcess"
                            ng-href="{{managementCtrl.viewEPAResultUrl}}" ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
                     </td>
                 </tr>
