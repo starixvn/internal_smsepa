@@ -281,7 +281,9 @@
     <Content Include="Libs\angular-filter\dist\angular-filter.js" />
     <Content Include="Libs\angular-filter\dist\angular-filter.min.js" />
     <Content Include="Libs\angular-multi-select.js" />
+    <Content Include="Libs\angular-resource.js" />
     <Content Include="Libs\angular-resource.min.js" />
+    <Content Include="Libs\angular-route.js" />
     <Content Include="Libs\angular-route.min.js" />
     <Content Include="Libs\angular-spinner.min.js" />
     <Content Include="Libs\angular-translate.js" />

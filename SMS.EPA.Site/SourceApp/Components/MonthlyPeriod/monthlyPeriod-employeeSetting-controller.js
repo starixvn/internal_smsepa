@@ -227,8 +227,10 @@ function ($scope, $routeParams, $window, MonthlyPeriodModel, utilitiesFactory, C
 }]);
 
 monthlyPeriodModule.controller('UpdateEmployeeSettingMonthlyPeriodController',
-['$scope', '$modalInstance', 'MonthlyPeriodModel', 'TargetTemplateModel', 'FlowMngModel', 'CommonModel', 'period', 'selectedEmployees', 'permission',
-function ($scope, $modalInstance, MonthlyPeriodModel, TargetTemplateModel, FlowMngModel, CommonModel, period, selectedEmployees, permission) {
+['$scope', '$modalInstance', 'MonthlyPeriodModel', 'TargetTemplateModel', 'FlowMngModel', 'CommonModel', 'enumerationsFactory',
+    'period', 'selectedEmployees', 'permission',
+function ($scope, $modalInstance, MonthlyPeriodModel, TargetTemplateModel, FlowMngModel, CommonModel, enumerationsFactory,
+    period, selectedEmployees, permission) {
     var vm = this,
         date = new Date();
 
@@ -236,6 +238,7 @@ function ($scope, $modalInstance, MonthlyPeriodModel, TargetTemplateModel, FlowM
     vm.selectedEmployees = selectedEmployees;
     vm.singleMode = vm.selectedEmployees.length === 1 ? true : false;
     vm.permission = permission;
+    vm.policyEnum = enumerationsFactory.policy;
 
     vm.fieldEdit = {
         evaluator: false,
