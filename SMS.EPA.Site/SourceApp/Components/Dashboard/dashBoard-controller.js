@@ -45,7 +45,8 @@ function (DashboardModel, CommonModel, utilitiesFactory, enumerationsFactory, ba
 
             vm.employee = dashboardInfo.Employee;
             vm.employee.Avatar = baseUrl + vm.employee.Avatar;
-            vm.evaluationProcesses = new Array().concat(dashboardInfo.MyEPAs, dashboardInfo.MonthlyEPAs);
+            vm.evaluationProcesses = [];
+            vm.evaluationProcesses.concat(dashboardInfo.MyEPAs, dashboardInfo.MonthlyEPAs);
             vm.myEPAs = dashboardInfo.MyEPAs;
             vm.monthlyEPAs = dashboardInfo.MonthlyEPAs;
 

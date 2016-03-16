@@ -28,8 +28,13 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
     vm.orderByAdjustScore = { ascending: false, descending: false };
 
     vm.getCSSSelected = function (kpiId) {
-        if (vm.kpiSelected != null && kpiId == vm.kpiSelected.KPIId)
-            return "alert-danger";
+        var cssClass = '';
+
+        if (vm.kpiSelected !== null && kpiId === vm.kpiSelected.KPIId) {
+            cssClass = 'alert-danger';
+        }
+
+        return cssClass;
     };
 
     vm.toggleCollapseExpand = function () {
@@ -167,8 +172,7 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
 
         if (!vm.kpis[index].IsRequiredEvaluate) {
             vm.kpis[index].HasKPIOptional = true;
-        }
-        else {
+        } else {
             angular.forEach(vm.kpis, function (kpi) {
                 if (kpi.KPIId !== vm.kpis[index].KPIId
                     && kpi.KPIGroup.KPIGroupId === vm.kpis[index].KPIGroup.KPIGroupId

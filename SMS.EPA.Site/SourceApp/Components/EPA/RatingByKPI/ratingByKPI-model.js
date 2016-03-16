@@ -194,6 +194,7 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
                 if (modalInstance) {
                     modalInstance.close(vm);
                 }
+
                 var completedEvaluation = true;
                 angular.forEach(vm.memberEPAs, function (memberEPA) {
                     angular.forEach(memberEPA.KPIGroup.KPIs, function (kpi) {
@@ -201,14 +202,15 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
                             kpi.Rate = kpi.AdjustRate;
                             kpi.Score = kpi.AdjustScore;
                         }
-                        if ((kpi.Rate <= 0 || kpi.Score <= 0) && kpi.KPIId == vm.kpiIdOriginal) {
+
+                        if ((kpi.Rate <= 0 || kpi.Score <= 0) && kpi.KPIId === vm.kpiIdOriginal) {
                             completedEvaluation = false;
                         }
                     });
+
                     if (memberEPA.KPIGroup.HasKPIOptional) {
                         memberEPA.TotalScoreOriginal = memberEPA.TotalScoreOriginal;
-                    }
-                    else {
+                    } else {
                         memberEPA.TotalScoreOriginal = memberEPA.TotalScore;
                     }
                 });
