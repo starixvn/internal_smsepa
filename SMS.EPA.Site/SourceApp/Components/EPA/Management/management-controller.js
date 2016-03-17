@@ -243,9 +243,9 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 }]);
 
 epaModule.controller('MemberEPAInfoOfManagentController',
-['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel',
+['$window', '$timeout','$translate', '$routeParams', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel',
     'utilitiesFactory', 'enumerationsFactory', 'baseUrl',
-function ($window, $translate, $routeParams, EmployeeEPAModel, ReviewerManagementModel, CommonModel,
+function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManagementModel, CommonModel,
     utilitiesFactory, enumerationsFactory, baseUrl) {
     var vm = this;
 
@@ -260,6 +260,12 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, ReviewerManagemen
     vm.finalScore = null;
 
     vm.standardGrades = CommonModel.standardGrades;
+
+    vm.generateRatingStar = function () {
+        $timeout(function () {
+            $(".rating-loading").rating();
+        }, 1);
+    };
 
     var checkStatus = function (epaInfo) {
         if (epaInfo.CurrentProcess.IsEndProcess) {
