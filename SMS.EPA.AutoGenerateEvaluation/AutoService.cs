@@ -562,7 +562,7 @@
 
         private void UpdateStatusEvaluation(IEnumerable<EndEPAModel> evaluations)
         {
-            string evaluationIds = String.Join(",", evaluations.Select(x => x.EPAId.ToString()));
+            string evaluationIds = string.Join(",", evaluations.Select(x => x.EPAId.ToString()));
             _LOG.Info("Result of check EPA that ended yesterday: " + evaluationIds);
 
             var updateStatusEvalutionCriteria = new UpdateStatusEndEvaluationPeriodCriteria
