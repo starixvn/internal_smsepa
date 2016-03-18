@@ -50,9 +50,9 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 
     vm.viewEPAResult = function (memberEPA) {
         if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
-            vm.viewEPADetailUrl = baseUrl + 'EPA/SemiDetail/' + memberEPA.EPAId;
+            vm.viewEPAResultUrl = baseUrl + 'EPA/SemiDetail/' + memberEPA.EPAId;
         } else {
-            vm.viewEPADetailUrl = baseUrl + 'EPA/Detail/' + memberEPA.EPAId;
+            vm.viewEPAResultUrl = baseUrl + 'EPA/Detail/' + memberEPA.EPAId;
         }
     };
 
