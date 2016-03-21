@@ -42,8 +42,10 @@
             </td>
             <td class="text-center">
                 <div ng-show="myEPA.Period.IsEndPeriod">
-                    <span ng-show="myEPA.FinalScore || myEPA.FinalScore == 0">{{myEPA.FinalScore | customScore}} / {{myEPA.MaxFinalScore | customScore}}</span>
-                    <div ng-show="!myEPA.FinalScore" data-translate="NotAvailable"></div>
+                    <span ng-show="myEPA.FinalScore || myEPA.FinalScore == 0">
+                        {{myEPA.FinalScore | customScore}} / {{myEPA.MaxFinalScore | customScore}}
+                    </span>
+                    <span ng-show="!myEPA.FinalScore" data-translate="NotAvailable"></span>
                 </div>
                 <div ng-show="!myEPA.Period.IsEndPeriod" data-translate="Pending"></div>
             </td>

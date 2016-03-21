@@ -460,7 +460,7 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
             notificationFactory.error("EmployeeNotSelectedWarning");
             return false;
         }
-        else if (!vm.employeeSelected.HasMonthlyEPA) {
+        else if (vm.flowTemplate.TargetType.TargetTypeId === vm.targetTypeEnum.Monthly && !vm.employeeSelected.HasMonthlyEPA) {
             notificationFactory.error("EmployeeNotSetMonthlyEvaluation");
             return false;
         }

@@ -2,8 +2,8 @@
 /*global flowMngModule*/
 
 flowMngModule.controller("PersonalFlowController",
-['$scope', '$window', '$routeParams', 'FlowMngModel', 'CommonModel', 'cacheService',
-function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService) {
+['$scope', '$window', '$routeParams', 'FlowMngModel', 'CommonModel', 'cacheService', 'enumerationsFactory',
+function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService, enumerationsFactory) {
     var vm = this;
 
     vm.FlowTemplateId = parseInt($routeParams.id);
@@ -20,6 +20,8 @@ function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService
     vm.showDeleteButton = false;
     vm.defaultFlowSettings = [];
     vm.personalFlowSettings = [];
+
+    vm.targetTypeEnum = enumerationsFactory.targetType;
 
     /// Show or hide list Employee.
     vm.toggleDepartmentDraggableList = function () {

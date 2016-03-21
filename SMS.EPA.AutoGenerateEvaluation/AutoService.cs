@@ -47,9 +47,11 @@
             InitializeComponent();
 
             _schedulerTime = DateTime.Today.AddDays(1).AddHours(5);
+            /// TimerInterval = int.Parse(ConfigurationManager.AppSettings["TimerInterval"]);
             TimerInterval = 3600;
 
             _updateCounterTimer = new Timer();
+            /// _updateCounterTimer.Interval = _schedulerTime.Subtract(DateTime.Now).TotalSeconds * 1000;
             _updateCounterTimer.Interval = 3600 * 1000;
             _updateCounterTimer.Elapsed += new ElapsedEventHandler(ExecuteJob);
             _updateCounterTimer.Enabled = false;

@@ -14,7 +14,9 @@
             <td ng-bind="monthlyEPA.Period.Name"></td>
             <td class="text-center">
                 <div ng-show="monthlyEPA.EPAId > 0 && monthlyEPA.Period.IsEndPeriod">
-                    <span ng-show="monthlyEPA.PerformanceScore">{{monthlyEPA.PerformanceScore | customScore}} / {{monthlyEPA.MaxPerformanceScore | customScore}}</span>
+                    <span ng-show="monthlyEPA.PerformanceScore">
+                        {{monthlyEPA.PerformanceScore | customScore}} / {{monthlyEPA.MaxPerformanceScore | customScore}}
+                    </span>
                     <span ng-show="!monthlyEPA.PerformanceScore && monthlyEPA.PerformanceScore != 0" data-translate="NotAvailable"></span>
                 </div>
                 <div ng-show="monthlyEPA.EPAId > 0 && !monthlyEPA.Period.IsEndPeriod" data-translate="Pending"></div>
@@ -22,8 +24,10 @@
             </td>
             <td class="text-center">
                 <div ng-show="monthlyEPA.Period.IsEndPeriod">
-                    <span ng-show="monthlyEPA.FinalScore">{{monthlyEPA.FinalScore | customScore}} / {{monthlyEPA.MaxFinalScore | customScore}}</span>
-                    <div ng-show="!monthlyEPA.FinalScore && monthlyEPA.FinalScore != 0" data-translate="NotAvailable"></div>
+                    <span ng-show="monthlyEPA.FinalScore || monthlyEPA.FinalScore == 0">
+                        {{monthlyEPA.FinalScore | customScore}} / {{monthlyEPA.MaxFinalScore | customScore}}
+                    </span>
+                    <span ng-show="!monthlyEPA.FinalScore" data-translate="NotAvailable"></span>
                 </div>
                 <div ng-show="!monthlyEPA.Period.IsEndPeriod" data-translate="Pending"></div>
             </td>
