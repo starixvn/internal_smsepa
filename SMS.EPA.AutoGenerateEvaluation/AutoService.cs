@@ -48,11 +48,11 @@
 
             _schedulerTime = DateTime.Today.AddDays(1).AddHours(5);
             /// TimerInterval = int.Parse(ConfigurationManager.AppSettings["TimerInterval"]);
-            TimerInterval = 3600;
+            TimerInterval = 600;
 
             _updateCounterTimer = new Timer();
             /// _updateCounterTimer.Interval = _schedulerTime.Subtract(DateTime.Now).TotalSeconds * 1000;
-            _updateCounterTimer.Interval = 3600 * 1000;
+            _updateCounterTimer.Interval = 600 * 1000;
             _updateCounterTimer.Elapsed += new ElapsedEventHandler(ExecuteJob);
             _updateCounterTimer.Enabled = false;
 
@@ -81,9 +81,9 @@
         {
             try
             {
-                if (_updateCounterTimer.Interval != TimerInterval * 1000)
+                if (_updateCounterTimer.Interval != 600 * 1000)
                 {
-                    _updateCounterTimer.Interval = TimerInterval * 1000;
+                    _updateCounterTimer.Interval = 600 * 1000;
                 }
 
                 if (!_isBusy)

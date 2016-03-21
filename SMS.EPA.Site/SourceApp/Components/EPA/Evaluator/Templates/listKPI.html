@@ -21,45 +21,48 @@
                             <span ng-show="kpi.EvaluationBySelf.Score" ng-bind="kpi.EvaluationBySelf.Score | splitScore"></span>
                             <span ng-show="!kpi.EvaluationBySelf.Score" ng-bind="'0'"></span>
                         </strong>
-                        <strong ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" ng-bind="'N/A'"></strong>
+                        <strong ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" data-translate="NotAvailable"></strong>
                     </div>
                     <div class="kpi-start">
                         <div class="rating-by-star"
                              ng-if="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == 1 || (memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == 2 && kpiGroup.NumberKPIOptional > 0)">
                             <div class="remove-rating">
-                                <a ng-show="!memberEPAInfoCtrl.isReadonly && kpi.CurrentEvaluation.Rate > 0" class="glyphicon glyphicon-remove-circle remove-star"
+                                <a ng-show="!memberEPAInfoCtrl.isReadonly && kpi.CurrentEvaluation.Rate > 0"
+                                   class="glyphicon glyphicon-remove-circle remove-star"
                                    title="Cancel" href="javascript:;" ng-click="memberEPAInfoCtrl.cancelRating(kpiGroup, kpi)"></a>
                             </div>
                             <div class="rating-form">
                                 <input id="star_{{kpi.KPIId}}" type="number" class="rating-loading" ng-readonly="memberEPAInfoCtrl.isReadonly" data-size="xs"
                                        data-min=0 data-max={{memberEPAInfoCtrl.maxStar}} data-step=1 ng-model="kpi.CurrentEvaluation.Rate"
-                                       data-show-caption="false"
-                                       data-show-clear="false"
+                                       data-show-caption="false" data-show-clear="false"
                                        ng-change="memberEPAInfoCtrl.hoveringLeave(kpiGroup, kpi)">
                             </div>
                         </div>
                         <div ng-if="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == 2 && kpiGroup.NumberKPIOptional == 0" class="rating-by-score">
                             <input type="text" maxlength="5" class="form-control text-center kpi-score" ng-readonly="memberEPAInfoCtrl.isReadonly"
                                    ng-show="kpiGroup.NumberKPIOptional == 0" ng-model="kpi.CurrentEvaluation.Score" numeric decimals="2"
-                                   ng-change="memberEPAInfoCtrl.inputScore(kpi)" tooltip="{{memberEPAInfoCtrl.getNotificationInputScore(kpi)}}" tooltip-trigger="focus" />
+                                   ng-change="memberEPAInfoCtrl.inputScore(kpi)" tooltip="{{memberEPAInfoCtrl.getNotificationInputScore(kpi)}}"
+                                   tooltip-trigger="focus" />
                         </div>
                         <div class="rating-by-star"
                              ng-if="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == 3">
                             <div class="remove-rating">
-                                <a ng-show="!memberEPAInfoCtrl.isReadonly && kpi.CurrentEvaluation.Rate > 0" class="glyphicon glyphicon-remove-circle remove-star"
+                                <a ng-show="!memberEPAInfoCtrl.isReadonly && kpi.CurrentEvaluation.Rate > 0"
+                                   class="glyphicon glyphicon-remove-circle remove-star"
                                    title="Cancel" href="javascript:;" ng-click="memberEPAInfoCtrl.cancelRating(kpiGroup, kpi)"></a>
                             </div>
                             <div class="rating-form">
                                 <input id="star_{{kpi.KPIId}}" type="number" class="rating-loading" ng-readonly="memberEPAInfoCtrl.isReadonly" data-size="xs"
                                        data-min=0 data-max={{memberEPAInfoCtrl.maxStar}} data-step=0.5 ng-model="kpi.CurrentEvaluation.Rate"
-                                       data-show-caption="false"
-                                       data-show-clear="false"
+                                       data-show-caption="false" data-show-clear="false"
                                        ng-change="memberEPAInfoCtrl.hoveringLeave(kpiGroup, kpi)">
                             </div>
                         </div>
                     </div>
                     <div class="kpi-percent" ng-show="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == 1 || memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == 3 || (memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId ==2 && kpiGroup.NumberKPIOptional > 0)">
-                        <span class="badge percent" ng-show="kpiGroup.NumberKPIOptional == 0 && kpi.CurrentEvaluation.Rate > 0">{{kpi.CurrentEvaluation.Score | splitScore}} pts</span>
+                        <span class="badge percent" ng-show="kpiGroup.NumberKPIOptional == 0 && kpi.CurrentEvaluation.Rate > 0">
+                            {{kpi.CurrentEvaluation.Score | splitScore}} pts
+                        </span>
                     </div>
                 </div>
             </div>
@@ -77,7 +80,8 @@
                     </div>
                 </div>
                 <div class="textarea" ng-show="kpi.ExpandedCommentByEmployee">
-                    <textarea class="form-control" ng-model="kpi.EvaluationBySelf.Comment" ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" ng-readonly="true"></textarea>
+                    <textarea class="form-control" ng-model="kpi.EvaluationBySelf.Comment" 
+                              ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" ng-readonly="true"></textarea>
                     <textarea class="form-control" ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" ng-readonly="true">N/A</textarea>
                 </div>
             </div>
@@ -92,8 +96,10 @@
                     </div>
                 </div>
                 <div ng-show="kpi.ExpandedCommentByEvaluator">
-                    <div class="error-message" ng-show="kpi.CurrentEvaluation.CommentInvalid && kpi.HasComment && kpi.IsRequiredComment" data-translate="RequiredComment"></div>
-                    <div class="error-message" ng-show="kpi.CurrentEvaluation.CommentInvalid && kpi.HasComment && !kpi.IsRequiredComment" data-translate="RequiredCommentForMaxScoreRating"></div>
+                    <div class="error-message" ng-show="kpi.CurrentEvaluation.CommentInvalid && kpi.HasComment && kpi.IsRequiredComment" 
+                         data-translate="RequiredComment"></div>
+                    <div class="error-message" ng-show="kpi.CurrentEvaluation.CommentInvalid && kpi.HasComment && !kpi.IsRequiredComment" 
+                         data-translate="RequiredCommentForMaxScoreRating"></div>
                     <div class="textarea">
                         <textarea class="form-control" ng-model="kpi.CurrentEvaluation.Comment" ng-readonly="memberEPAInfoCtrl.isReadonly"></textarea>
                     </div>

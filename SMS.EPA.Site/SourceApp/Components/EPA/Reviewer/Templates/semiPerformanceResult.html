@@ -20,13 +20,13 @@
                     <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess">
                         {{memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlySelfScoreConversion | customScore}} / {{memberEPAInfoCtrl.epaInfo.ScoreRatingType.SelfEvaluated | customScore}}
                     </div>
-                    <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" ng-bind="'N/A'"></div>
+                    <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" data-translate="NotAvailable"></div>
                 </td>
                 <td class="text-center">
                     <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].IsEndProcess">
                         {{memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlyEvaluatorScoreConversion | customScore}} / {{memberEPAInfoCtrl.epaInfo.ScoreRatingType.Evaluator | customScore}}
                     </div>
-                    <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].IsEndProcess" ng-bind="'N/A'"></div>
+                    <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].IsEndProcess" data-translate="NotAvailable"></div>
                 </td>
                 <td>
                     <span ng-bind="memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlyReviewerScoreConversion | customScore"></span>

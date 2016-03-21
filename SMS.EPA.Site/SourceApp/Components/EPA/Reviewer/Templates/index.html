@@ -99,7 +99,7 @@
                                 {{memberEPA.MonthlyEPA.AverageMonthlySelfScoreConversion | customScore}} / {{memberEPA.ScoreRatingType.SelfEvaluated | customScore}}
                             </div>
                         </div>
-                        <div ng-show="!memberEPA.ProcessBySelf.IsEndProcess" ng-bind="'N/A'"></div>
+                        <div ng-show="!memberEPA.ProcessBySelf.IsEndProcess" data-translate="NotAvailable"></div>
                     </td>
                     <td class="text-center">
                         <div ng-show="memberEPA.ProcessByEvaluators[0].IsEndProcess">
@@ -110,7 +110,7 @@
                                 {{memberEPA.MonthlyEPA.AverageMonthlyEvaluatorScoreConversion | customScore}} / {{memberEPA.ScoreRatingType.Evaluator | customScore}}
                             </div>
                         </div>
-                        <div ng-show="!memberEPA.ProcessByEvaluators[0].IsEndProcess" ng-bind="'N/A'"></div>
+                        <div ng-show="!memberEPA.ProcessByEvaluators[0].IsEndProcess" data-translate="NotAvailable"></div>
                     </td>
                     <td class="text-center">
                         <div ng-if="memberEPA.HasMonthlyEPA && reviewerCtrl.targetTypeEnum.SemiAnnual" class="form-inline-block">

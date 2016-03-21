@@ -77,7 +77,7 @@
                         <div ng-if="memberEPA.HasMonthlyEPA" ng-show="memberEPA.ProcessBySelf.IsEndProcess">
                             {{memberEPA.MonthlyEPA.AverageMonthlySelfScoreConversion | customScore}} / {{memberEPA.ProcessBySelf.MaxTotalScore | customScore}}
                         </div>
-                        <div ng-show="!memberEPA.ProcessBySelf.IsEndProcess" ng-bind="'N/A'"></div>
+                        <div ng-show="!memberEPA.ProcessBySelf.IsEndProcess" data-translate="NotAvailable"></div>
                     </td>
                     <td class="text-center">
                         <div ng-if="!memberEPA.HasMonthlyEPA" ng-show="memberEPA.CurrentProcess.TotalScore.length > 0">
@@ -86,7 +86,7 @@
                         <div ng-if="memberEPA.HasMonthlyEPA" ng-show="memberEPA.CurrentProcess.TotalScore.length > 0">
                             {{memberEPA.MonthlyEPA.AverageMonthlyEvaluatorScoreConversion | customScore}} / {{memberEPA.CurrentProcess.MaxTotalScore | customScore}}
                         </div>
-                        <div ng-show="memberEPA.CurrentProcess.TotalScore.length == 0" ng-bind="'N/A'"></div>
+                        <div ng-show="memberEPA.CurrentProcess.TotalScore.length == 0" data-translate="NotAvailable"></div>
                     </td>
                     <td class="text-center">
                         <div ng-show="memberEPA.HasDisciplineScore">

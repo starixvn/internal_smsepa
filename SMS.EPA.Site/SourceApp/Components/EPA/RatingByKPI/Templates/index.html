@@ -47,7 +47,8 @@
                         <thead>
                             <tr class="header-table">
                                 <th colspan="7">
-                                    <input type="text" ng-model="ratingByKPICtrl.searchKey" ng-change="ratingByKPICtrl.search()" class="search-inline-textbox search pull-right">
+                                    <input type="text" ng-model="ratingByKPICtrl.searchKey" ng-change="ratingByKPICtrl.search()"
+                                           class="search-inline-textbox search pull-right">
                                 </th>
                             </tr>
                             <tr>
@@ -57,13 +58,15 @@
                                 <th class="col-score">
                                     <div class="col-sm-10" data-translate="CurrentScore"></div>
                                     <div class="col-sm-2" ng-show="ratingByKPICtrl.memberEPAs.length > 1">
-                                        <a class="icon-sorting-bg" ng-class="ratingByKPICtrl.selectedCls('CurrentScore')" ng-click="ratingByKPICtrl.changeSorting('CurrentScore')"></a>
+                                        <a class="icon-sorting-bg" ng-class="ratingByKPICtrl.selectedCls('CurrentScore')"
+                                           ng-click="ratingByKPICtrl.changeSorting('CurrentScore')"></a>
                                     </div>
                                 </th>
                                 <th class="col-adjust-score">
                                     <div class="col-sm-10" data-translate="AdjustScore"></div>
                                     <div class="col-sm-2" ng-show="ratingByKPICtrl.memberEPAs.length > 1">
-                                        <a class="icon-sorting-bg" ng-class="ratingByKPICtrl.selectedCls('AdjustScore')" ng-click="ratingByKPICtrl.changeSorting('AdjustScore')"></a>
+                                        <a class="icon-sorting-bg" ng-class="ratingByKPICtrl.selectedCls('AdjustScore')"
+                                           ng-click="ratingByKPICtrl.changeSorting('AdjustScore')"></a>
                                     </div>
                                 </th>
                                 <th data-translate="Comment"></th>
@@ -71,12 +74,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr dir-paginate="memberEPA in ratingByKPICtrl.filteredItems | itemsPerPage: ratingByKPICtrl.pageSize" current-page="ratingByKPICtrl.currentPage" repeat-end="ratingByKPICtrl.generateRatingStar()">
+                            <tr dir-paginate="memberEPA in ratingByKPICtrl.filteredItems | itemsPerPage: ratingByKPICtrl.pageSize"
+                                current-page="ratingByKPICtrl.currentPage" repeat-end="ratingByKPICtrl.generateRatingStar()">
                                 <td class="text-center">
                                     <div ng-repeat="kpi in memberEPA.KPIGroup.KPIs" ng-show="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
                                         <span class="glyphicon glyphicon-ok" ng-if="kpi.Score != ''"></span>
                                     </div>
-                                    
                                 </td>
                                 <td class="text-center">
                                     <span tooltip="{{memberEPA.Employee.Group.GroupName}}" ng-bind="memberEPA.Employee.Group.GroupCode"></span>
@@ -87,7 +90,7 @@
                                 <td class="text-center col-score">
                                     <div ng-repeat="kpi in memberEPA.KPIGroup.KPIs" ng-show="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
                                         <span ng-show="kpi.Score != ''" ng-bind="kpi.Score | splitScore"></span>
-                                        <span ng-show="kpi.Score == ''" ng-bind="'N/A'"></span>
+                                        <span ng-show="kpi.Score == ''" data-translate="NotAvailable"></span>
                                     </div>
                                 </td>
                                 <td class="col-adjust-score">
@@ -98,14 +101,17 @@
                                                    title="Cancel" href="javascript:;" ng-click="ratingByKPICtrl.cancelRating(memberEPA, kpi)"></a>
                                             </div>
                                             <div class="col-sm-7 rating-form">
-                                                <input id="star_{{memberEPA.Employee.EmployeeId}}" type="number" class="rating-loading" ng-readonly="ratingByKPICtrl.permission != 2" data-size="xs"
+                                                <input id="star_{{memberEPA.Employee.EmployeeId}}" type="number" class="rating-loading"
+                                                       ng-readonly="ratingByKPICtrl.permission != 2" data-size="xs"
                                                        data-min=0 data-max={{ratingByKPICtrl.maxStar}} data-step=1 ng-model="kpi.AdjustRate"
                                                        data-show-caption="false"
                                                        data-show-clear="false"
                                                        ng-change="ratingByKPICtrl.hoveringLeave(memberEPA, kpi)">
                                             </div>
                                             <div class="col-sm-3 percent-rating">
-                                                <span class="badge percent" ng-show="memberEPA.KPIGroup.NumberKPIOptional == 0 && kpi.AdjustRate > 0">{{kpi.AdjustScore | splitScore}} pts</span>
+                                                <span class="badge percent" ng-show="memberEPA.KPIGroup.NumberKPIOptional == 0 && kpi.AdjustRate > 0">
+                                                    {{kpi.AdjustScore | splitScore}} pts
+                                                </span>
                                             </div>
                                         </div>
                                         <div ng-if="memberEPA.RatingType.RatingTypeId == 2 && memberEPA.KPIGroup.NumberKPIOptional == 0" class="input-score">
@@ -119,14 +125,17 @@
                                                    title="Cancel" href="javascript:;" ng-click="ratingByKPICtrl.cancelRating(memberEPA, kpi)"></a>
                                             </div>
                                             <div class="col-sm-7 rating-form">
-                                                <input id="star_{{memberEPA.Employee.EmployeeId}}" type="number" class="rating-loading" ng-readonly="ratingByKPICtrl.permission != 2" data-size="xs"
+                                                <input id="star_{{memberEPA.Employee.EmployeeId}}" type="number" class="rating-loading"
+                                                       ng-readonly="ratingByKPICtrl.permission != 2" data-size="xs"
                                                        data-min=0 data-max={{ratingByKPICtrl.maxStar}} data-step=0.5 ng-model="kpi.AdjustRate"
                                                        data-show-caption="false"
                                                        data-show-clear="false"
                                                        ng-change="ratingByKPICtrl.hoveringLeave(memberEPA, kpi)">
                                             </div>
                                             <div class="col-sm-3 percent-rating">
-                                                <span class="badge percent" ng-show="memberEPA.KPIGroup.NumberKPIOptional == 0 && kpi.AdjustRate > 0">{{kpi.AdjustScore | splitScore}} pts</span>
+                                                <span class="badge percent" ng-show="memberEPA.KPIGroup.NumberKPIOptional == 0 && kpi.AdjustRate > 0">
+                                                    {{kpi.AdjustScore | splitScore}} pts
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -135,18 +144,26 @@
                                     <div ng-repeat="kpi in memberEPA.KPIGroup.KPIs" ng-if="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
                                         <div class="required-comment" ng-show="kpi.HasComment && kpi.IsRequiredComment">
                                             <div class="textarea">
-                                                <textarea class="form-control" ng-show="kpi.HasComment" ng-model="kpi.Comment" ng-readonly="ratingByKPICtrl.permission != 2"></textarea>
+                                                <textarea class="form-control" ng-show="kpi.HasComment" ng-model="kpi.Comment"
+                                                          ng-readonly="ratingByKPICtrl.permission != 2"></textarea>
                                             </div>
                                             <div class="note" data-translate="(*)"></div>
                                         </div>
                                         <div class="optional-comment" ng-show="kpi.HasComment && !kpi.IsRequiredComment">
-                                            <textarea class="form-control" ng-show="kpi.HasComment" ng-model="kpi.Comment" ng-readonly="ratingByKPICtrl.permission != 2"></textarea>
+                                            <textarea class="form-control" ng-show="kpi.HasComment" ng-model="kpi.Comment"
+                                                      ng-readonly="ratingByKPICtrl.permission != 2"></textarea>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="text-center col-score">
-                                    <strong><a ng-show="memberEPA.TotalScore != ''" href="" ng-bind="memberEPA.TotalScore | customScore" ng-click="ratingByKPICtrl.viewDetail(memberEPA)"></a></strong>
-                                    <strong><a ng-show="memberEPA.TotalScore == ''" href="" ng-bind="'N/A'" ng-click="ratingByKPICtrl.viewDetail(memberEPA)"></a></strong>
+                                    <strong>
+                                        <a ng-show="memberEPA.TotalScore != ''" href="" ng-bind="memberEPA.TotalScore | customScore"
+                                           ng-click="ratingByKPICtrl.viewDetail(memberEPA)"></a>
+                                    </strong>
+                                    <strong>
+                                        <a ng-show="memberEPA.TotalScore == ''" href="" data-translate="NotAvailable"
+                                           ng-click="ratingByKPICtrl.viewDetail(memberEPA)"></a>
+                                    </strong>
                                 </td>
                             </tr>
                         </tbody>

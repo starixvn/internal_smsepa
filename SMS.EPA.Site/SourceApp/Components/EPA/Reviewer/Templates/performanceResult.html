@@ -32,7 +32,7 @@
                     <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess">
                         {{memberEPAInfoCtrl.epaInfo.ProcessBySelf.TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.ScoreRatingType.SelfEvaluated | customScore}}
                     </div>
-                    <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" ng-bind="'N/A'"></div>
+                    <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" data-translate="NotAvailable"></div>
                 </td>
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center col-comment" ng-show="$first">
                     <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess">
@@ -40,14 +40,14 @@
                            ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.Comment.length > 0"
                            ng-click="memberEPAInfoCtrl.openPopupViewComment(memberEPAInfoCtrl.epaInfo.ProcessBySelf.Comment)"></a>
                     </div>
-                    <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" ng-bind="'N/A'"></div>
+                    <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" data-translate="NotAvailable"></div>
                 </td>
                 <td ng-bind="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].NickName" class="text-center"></td>
                 <td class="text-center col-score">
                     <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].IsEndProcess">
                         {{memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.ScoreRatingType.Evaluator | customScore}}
                     </div>
-                    <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].IsEndProcess" ng-bind="'N/A'"></div>
+                    <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].IsEndProcess" data-translate="NotAvailable"></div>
                 </td>
                 <td class="text-center col-comment">
                     <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].IsEndProcess">
@@ -55,7 +55,7 @@
                            ng-show="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].Comment.length > 0"
                            ng-click="memberEPAInfoCtrl.openPopupViewComment(memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].Comment)"></a>
                     </div>
-                    <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].IsEndProcess" ng-bind="'N/A'"></div>
+                    <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[$index].IsEndProcess" data-translate="NotAvailable"></div>
                 </td>
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="total-score" ng-show="$first">
                     <input type="text" maxlength="6" class="form-control text-center" ng-readonly="memberEPAInfoCtrl.isReadonly"
@@ -67,8 +67,8 @@
                     <textarea class="form-control" ng-readonly="memberEPAInfoCtrl.isReadonly"
                               ng-model="memberEPAInfoCtrl.epaInfo.CurrentProcess.Comment"></textarea>
                 </td>
-                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center" ng-show="$first"
-                    ng-show="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != memberEPAInfoCtrl.targetTypeEnum.Monthly">
+                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center"
+                    ng-show="$first && memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != memberEPAInfoCtrl.targetTypeEnum.Monthly">
                     <strong ng-show="memberEPAInfoCtrl.epaInfo.HasDisciplineScore">
                         {{memberEPAInfoCtrl.epaInfo.DisciplineScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxDisciplineScore | customScore}}
                     </strong>
@@ -80,8 +80,8 @@
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center" ng-show="$first">
                     <strong>{{memberEPAInfoCtrl.finalScore | customScore}} / {{memberEPAInfoCtrl.maxPerformanceScore | customScore}}</strong>
                 </td>
-                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center" ng-show="$first"
-                    ng-show="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != memberEPAInfoCtrl.targetTypeEnum.Monthly">
+                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center"
+                    ng-show="$first && memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != memberEPAInfoCtrl.targetTypeEnum.Monthly">
                     <strong ng-bind="memberEPAInfoCtrl.epaInfo.Grade"></strong>
                 </td>
             </tr>
