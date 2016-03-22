@@ -12,10 +12,10 @@ function (DashboardModel, CommonModel, utilitiesFactory, enumerationsFactory, ba
     vm.statusEndProcessEnum = enumerationsFactory.statusEndProcess;
 
     vm.getClassProgress = function (statusEndProcess) {
-        if (statusEndProcess === 0) {
+        if (statusEndProcess === vm.statusEndProcessEnum.InProgress) {
             return 'in-process';
         }
-        else if (statusEndProcess === 1) {
+        else if (statusEndProcess === vm.statusEndProcessEnum.EndProcess) {
             return 'end-process';
         }
         else {
