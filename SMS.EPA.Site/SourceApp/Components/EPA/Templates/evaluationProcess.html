@@ -7,13 +7,13 @@
             <span> - </span>
             <span ng-bind="memberEPAInfoCtrl.epaInfo.ProcessBySelf.EndDate | customDate"></span>
         </div>
-        <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.StatusEndProcess == 1">
+        <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.EndProcess">
             <label data-translate="EndProcess"></label><span class="icon-process"></span>
         </div>
-        <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.StatusEndProcess == 0">
+        <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.InProgress">
             <label data-translate="InProgress"></label><span class="icon-process"></span>
         </div>
-        <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.StatusEndProcess == 2">
+        <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.Open">
             <label data-translate="Open"></label><span class="icon-process"></span>
         </div>
     </li>
@@ -33,13 +33,13 @@
             <span> - </span>
             <span ng-bind="memberEPAInfoCtrl.epaInfo.Evaluators[0].EndDate | customDate"></span>
         </div>
-        <div ng-show="memberEPAInfoCtrl.epaInfo.Evaluators[0].StatusEndProcess == 1">
+        <div ng-show="memberEPAInfoCtrl.epaInfo.Evaluators[0].StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.EndProcess">
             <label data-translate="EndProcess"></label><span class="icon-process"></span>
         </div>
-        <div ng-show="memberEPAInfoCtrl.epaInfo.Evaluators[0].StatusEndProcess == 0">
+        <div ng-show="memberEPAInfoCtrl.epaInfo.Evaluators[0].StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.InProgress">
             <label data-translate="InProgress"></label><span class="icon-process"></span>
         </div>
-        <div ng-show="memberEPAInfoCtrl.epaInfo.Evaluators[0].StatusEndProcess == 2">
+        <div ng-show="memberEPAInfoCtrl.epaInfo.Evaluators[0].StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.Open">
             <label data-translate="Open"></label><span class="icon-process"></span>
         </div>
     </li>
@@ -59,13 +59,13 @@
             <span> - </span>
             <span ng-bind="memberEPAInfoCtrl.epaInfo.Reviewers[0].EndDate | customDate"></span>
         </div>
-        <div ng-show="memberEPAInfoCtrl.epaInfo.Reviewers[0].StatusEndProcess == 1">
+        <div ng-show="memberEPAInfoCtrl.epaInfo.Reviewers[0].StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.EndProcess">
             <label data-translate="EndProcess"></label><span class="icon-process"></span>
         </div>
-        <div ng-show="memberEPAInfoCtrl.epaInfo.Reviewers[0].StatusEndProcess == 0">
+        <div ng-show="memberEPAInfoCtrl.epaInfo.Reviewers[0].StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.InProgress">
             <label data-translate="InProgress"></label><span class="icon-process"></span>
         </div>
-        <div ng-show="memberEPAInfoCtrl.epaInfo.Reviewers[0].StatusEndProcess == 2">
+        <div ng-show="memberEPAInfoCtrl.epaInfo.Reviewers[0].StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.Open">
             <label data-translate="Open"></label><span class="icon-process"></span>
         </div>
     </li>
@@ -85,17 +85,18 @@
             <span> - </span>
             <span ng-bind="memberEPAInfoCtrl.epaInfo.Managements[0].EndDate | customDate"></span>
         </div>
-        <div ng-show="memberEPAInfoCtrl.epaInfo.Managements[0].StatusEndProcess == 1">
+        <div ng-show="memberEPAInfoCtrl.epaInfo.Managements[0].StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.EndProcess">
             <label data-translate="EndProcess"></label><span class="icon-process"></span>
         </div>
-        <div ng-show="memberEPAInfoCtrl.epaInfo.Managements[0].StatusEndProcess == 0">
+        <div ng-show="memberEPAInfoCtrl.epaInfo.Managements[0].StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.InProgress">
             <label data-translate="InProgress"></label><span class="icon-process"></span>
         </div>
-        <div ng-show="memberEPAInfoCtrl.epaInfo.Managements[0].StatusEndProcess == 2">
+        <div ng-show="memberEPAInfoCtrl.epaInfo.Managements[0].StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.Open">
             <label data-translate="Open"></label><span class="icon-process"></span>
         </div>
     </li>
-    <li ng-show="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId == 3" class="process-item final">
+    <li class="process-item final"
+        ng-show="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId == memberEPAInfoCtrl.targetTypeEnum.Monthly || memberEPAInfoCtrl.epaInfo.Period.TargetTypeId == memberEPAInfoCtrl.targetTypeEnum.SemiAnnual">
         <div><strong data-translate="FinalScore"></strong></div>
         <div>
             <span data-translate="EndPeriod"></span>: <span ng-bind="memberEPAInfoCtrl.epaInfo.Period.EndDate | customDate"></span>

@@ -45,5 +45,11 @@ appModule.factory('enumerationsFactory',
         Open: 2
     };
 
+    enumerations.ratingType = {
+        Star: 1,
+        Score: 2,
+        HalfStar: 3
+    };
+
     return enumerations;
 }]);

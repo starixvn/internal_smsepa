@@ -30,8 +30,8 @@ function (SelfEvalutorModel, baseUrl) {
 }]);
 
 epaModule.controller('EmployeeEPAInfoController',
-['$window', '$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel', 'utilitiesFactory', 'baseUrl',
-function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, baseUrl) {
+['$window', '$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'baseUrl',
+function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, enumerationsFactory, baseUrl) {
     var vm = this;
     vm.epaId = parseInt($routeParams.id);
 
@@ -42,6 +42,9 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
 
     vm.epaInfo = SelfEvalutorModel.epaInfo;
     vm.standardGrades = CommonModel.standardGrades;
+    vm.targetTypeEnum = enumerationsFactory.targetType;
+    vm.statusEndProcessEnum = enumerationsFactory.statusEndProcess;
+    vm.ratingTypeEnum = enumerationsFactory.ratingType;
 
     var checkStatus = function (epaInfo) {
         if (epaInfo.CurrentProcess.IsEndProcess) {

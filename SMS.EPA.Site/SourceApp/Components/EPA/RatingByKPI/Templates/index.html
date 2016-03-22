@@ -94,18 +94,19 @@
                                     </div>
                                 </td>
                                 <td class="col-adjust-score">
-                                    <div class="row text-center list-star" ng-repeat="kpi in memberEPA.KPIGroup.KPIs" ng-if="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
-                                        <div ng-if="memberEPA.RatingType.RatingTypeId == 1 || (memberEPA.RatingType.RatingTypeId == 2 && memberEPA.KPIGroup.NumberKPIOptional > 0)">
+                                    <div class="row text-center list-star" ng-repeat="kpi in memberEPA.KPIGroup.KPIs" 
+                                         ng-if="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
+                                        <div ng-if="memberEPA.RatingType.RatingTypeId == ratingByKPICtrl.ratingTypeEnum.Star
+                                                || (memberEPA.RatingType.RatingTypeId == ratingByKPICtrl.ratingTypeEnum.Score && memberEPA.KPIGroup.NumberKPIOptional > 0)">
                                             <div class="col-sm-2 cancel-rating">
                                                 <a ng-show="kpi.AdjustRate > 0" class="glyphicon glyphicon-remove-circle remove-star"
                                                    title="Cancel" href="javascript:;" ng-click="ratingByKPICtrl.cancelRating(memberEPA, kpi)"></a>
                                             </div>
                                             <div class="col-sm-7 rating-form">
                                                 <input id="star_{{memberEPA.Employee.EmployeeId}}" type="number" class="rating-loading"
-                                                       ng-readonly="ratingByKPICtrl.permission != 2" data-size="xs"
+                                                       ng-readonly="ratingByKPICtrl.permission != ratingByKPICtrl.policyEnum.Host" data-size="xs"
                                                        data-min=0 data-max={{ratingByKPICtrl.maxStar}} data-step=1 ng-model="kpi.AdjustRate"
-                                                       data-show-caption="false"
-                                                       data-show-clear="false"
+                                                       data-show-caption="false" data-show-clear="false"
                                                        ng-change="ratingByKPICtrl.hoveringLeave(memberEPA, kpi)">
                                             </div>
                                             <div class="col-sm-3 percent-rating">
@@ -114,22 +115,21 @@
                                                 </span>
                                             </div>
                                         </div>
-                                        <div ng-if="memberEPA.RatingType.RatingTypeId == 2 && memberEPA.KPIGroup.NumberKPIOptional == 0" class="input-score">
+                                        <div ng-if="memberEPA.RatingType.RatingTypeId == ratingByKPICtrl.ratingTypeEnum.Score && memberEPA.KPIGroup.NumberKPIOptional == 0" class="input-score">
                                             <input type="text" maxlength="5" class="form-control text-center epa-input-score"
-                                                   ng-readonly="ratingByKPICtrl.permission != 2" ng-model="kpi.AdjustScore" numeric decimals="2"
+                                                   ng-readonly="ratingByKPICtrl.permission != ratingByKPICtrl.policyEnum.Host" ng-model="kpi.AdjustScore" numeric decimals="2"
                                                    ng-change="ratingByKPICtrl.inputScore(memberEPA, kpi)" />
                                         </div>
-                                        <div ng-if="memberEPA.RatingType.RatingTypeId == 3">
+                                        <div ng-if="memberEPA.RatingType.RatingTypeId == ratingByKPICtrl.ratingTypeEnum.HalfStar">
                                             <div class="col-sm-2 cancel-rating">
                                                 <a ng-show="kpi.AdjustRate > 0" class="glyphicon glyphicon-remove-circle remove-star"
                                                    title="Cancel" href="javascript:;" ng-click="ratingByKPICtrl.cancelRating(memberEPA, kpi)"></a>
                                             </div>
                                             <div class="col-sm-7 rating-form">
                                                 <input id="star_{{memberEPA.Employee.EmployeeId}}" type="number" class="rating-loading"
-                                                       ng-readonly="ratingByKPICtrl.permission != 2" data-size="xs"
+                                                       ng-readonly="ratingByKPICtrl.permission != ratingByKPICtrl.policyEnum.Host" data-size="xs"
                                                        data-min=0 data-max={{ratingByKPICtrl.maxStar}} data-step=0.5 ng-model="kpi.AdjustRate"
-                                                       data-show-caption="false"
-                                                       data-show-clear="false"
+                                                       data-show-caption="false" data-show-clear="false"
                                                        ng-change="ratingByKPICtrl.hoveringLeave(memberEPA, kpi)">
                                             </div>
                                             <div class="col-sm-3 percent-rating">
@@ -145,13 +145,13 @@
                                         <div class="required-comment" ng-show="kpi.HasComment && kpi.IsRequiredComment">
                                             <div class="textarea">
                                                 <textarea class="form-control" ng-show="kpi.HasComment" ng-model="kpi.Comment"
-                                                          ng-readonly="ratingByKPICtrl.permission != 2"></textarea>
+                                                          ng-readonly="ratingByKPICtrl.permission != ratingByKPICtrl.policyEnum.Host"></textarea>
                                             </div>
                                             <div class="note" data-translate="(*)"></div>
                                         </div>
                                         <div class="optional-comment" ng-show="kpi.HasComment && !kpi.IsRequiredComment">
                                             <textarea class="form-control" ng-show="kpi.HasComment" ng-model="kpi.Comment"
-                                                      ng-readonly="ratingByKPICtrl.permission != 2"></textarea>
+                                                      ng-readonly="ratingByKPICtrl.permission != ratingByKPICtrl.policyEnum.Host"></textarea>
                                         </div>
                                     </div>
                                 </td>
@@ -176,7 +176,7 @@
                     <div class="navbar navbar-default navbar-fixed-bottom action-section">
                         <div class="container text-center">
                             <button class="button" ng-click="ratingByKPICtrl.save()"
-                                    ng-if="ratingByKPICtrl.memberEPAs.length > 0 && ratingByKPICtrl.permission == 2" data-translate="Save"></button>
+                                    ng-if="ratingByKPICtrl.memberEPAs.length > 0 && ratingByKPICtrl.permission == ratingByKPICtrl.policyEnum.Host" data-translate="Save"></button>
                             <button class="btn btn-warning customize" ng-click="ratingByKPICtrl.back()" data-translate="Back"></button>
                         </div>
                     </div>

@@ -2,17 +2,17 @@
 /*global epaModule*/
 
 epaModule.controller('ViewEPADetailController',
-['$window', '$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'CommonModel', 'utilitiesFactory', 'baseUrl',
-function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonModel, utilitiesFactory, baseUrl) {
+['$window', '$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'baseUrl',
+function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonModel, utilitiesFactory, enumerationsFactory, baseUrl) {
     var vm = this;
 
     vm.epaId = parseInt($routeParams.id);
+    vm.standardGrades = CommonModel.standardGrades;
+    vm.ratingTypeEnum = enumerationsFactory.ratingType;
 
     vm.isViewDetail = true;
     vm.isReadonly = true;
     vm.finalScore = null;
-
-    vm.standardGrades = CommonModel.standardGrades;
 
     vm.generateRatingStar = function () {
         $timeout(function () {
@@ -111,17 +111,18 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonM
 }]);
 
 epaModule.controller('ViewSemiEPADetailController',
-['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'CommonModel', 'utilitiesFactory', 'baseUrl',
-function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, utilitiesFactory, baseUrl) {
+['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'baseUrl',
+function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, utilitiesFactory, enumerationsFactory, baseUrl) {
     var vm = this;
 
     vm.epaId = parseInt($routeParams.id);
+    vm.standardGrades = CommonModel.standardGrades;
+    vm.targetTypeEnum = enumerationsFactory.targetType;
+    vm.statusEndProcessEnum = enumerationsFactory.statusEndProcess;
 
     vm.isViewDetail = true;
     vm.isReadonly = true;
     vm.finalScore = null;
-
-    vm.standardGrades = CommonModel.standardGrades;
 
     var calculateFinalScore = function (epaInfo) {
         var finalScore = 0;

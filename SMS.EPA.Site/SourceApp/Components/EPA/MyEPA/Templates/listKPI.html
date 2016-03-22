@@ -26,8 +26,7 @@
                             <div class="rating-form">
                                 <input id="star_{{kpi.KPIId}}" type="number" class="rating-loading" ng-readonly="memberEPAInfoCtrl.isReadonly" data-size="xs"
                                        data-min=0 data-max={{memberEPAInfoCtrl.maxStar}} data-step=1 ng-model="kpi.CurrentEvaluation.Rate"
-                                       data-show-caption="false"
-                                       data-show-clear="false"
+                                       data-show-caption="false" data-show-clear="false"
                                        ng-change="memberEPAInfoCtrl.hoveringLeave(kpiGroup, kpi)">
                             </div>
                         </div>
@@ -45,8 +44,7 @@
                             <div class="rating-form">
                                 <input id="star_{{kpi.KPIId}}" type="number" class="rating-loading" ng-readonly="memberEPAInfoCtrl.isReadonly" data-size="xs"
                                        data-min=0 data-max={{memberEPAInfoCtrl.maxStar}} data-step=0.5 ng-model="kpi.CurrentEvaluation.Rate"
-                                       data-show-caption="false"
-                                       data-show-clear="false"
+                                       data-show-caption="false" data-show-clear="false"
                                        ng-change="memberEPAInfoCtrl.hoveringLeave(kpiGroup, kpi)">
                             </div>
                         </div>

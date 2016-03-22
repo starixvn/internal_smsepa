@@ -19,7 +19,7 @@
                 <strong ng-show="memberEPAInfoCtrl.epaInfo.LastPerformanceScore == null" ng-bind="'-'"></strong>
             </td>
         </tr>
-        <tr class="text-right" ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != 1">
+        <tr class="text-right" ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != memberEPAInfoCtrl.ratingTypeEnum.Monthly">
             <td><strong data-translate="DisciplineScore"></strong></td>
             <td class="text-center col-score">
                 <strong ng-show="memberEPAInfoCtrl.epaInfo.HasDisciplineScore">
@@ -41,7 +41,7 @@
                 </div>
             </td>
         </tr>
-        <tr class="text-right" ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != 1">
+        <tr class="text-right" ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != memberEPAInfoCtrl.ratingTypeEnum.Monthly">
             <td><strong data-translate="TotalScore"></strong></td>
             <td class="text-center col-score">
                 <strong>{{memberEPAInfoCtrl.finalScore | customScore}} / {{memberEPAInfoCtrl.maxPerformanceScore | customScore}}</strong>
@@ -51,7 +51,7 @@
                 <strong ng-show="memberEPAInfoCtrl.epaInfo.LastFinalScore == null" ng-bind="'-'"></strong>
             </td>
         </tr>
-        <tr class="text-right" ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != 1">
+        <tr class="text-right" ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != memberEPAInfoCtrl.ratingTypeEnum.Monthly">
             <td><strong data-translate="Grade"></strong></td>
             <td class="text-center col-score">
                 <strong ng-bind="memberEPAInfoCtrl.epaInfo.Grade"></strong>

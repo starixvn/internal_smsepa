@@ -104,7 +104,6 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
 
     vm.permission = 0;
     vm.epaId = parseInt($routeParams.id);
-    vm.policyEnum = enumerationsFactory.policy;
 
     vm.maxStar = 5;
     vm.dataSaved = false;
@@ -112,6 +111,10 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
     vm.evaluatedDate = null;
 
     vm.standardGrades = CommonModel.standardGrades;
+    vm.policyEnum = enumerationsFactory.policy;
+    vm.targetTypeEnum = enumerationsFactory.targetType;
+    vm.statusEndProcessEnum = enumerationsFactory.statusEndProcess;
+    vm.ratingTypeEnum = enumerationsFactory.ratingType;
 
     var checkStatus = function (epaInfo) {
         if (epaInfo.CurrentProcess.IsEndProcess) {

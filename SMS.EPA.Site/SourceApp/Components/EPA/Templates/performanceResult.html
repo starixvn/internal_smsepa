@@ -46,7 +46,8 @@
                         <span ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.TotalScore || memberEPAInfoCtrl.epaInfo.ProcessBySelf.TotalScore == 0">
                             {{memberEPAInfoCtrl.epaInfo.ProcessBySelf.TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.ProcessBySelf.MaxTotalScore | customScore}}
                         </span>
-                        <span data-translate="NotAvailable" ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.TotalScore && memberEPAInfoCtrl.epaInfo.ProcessBySelf.TotalScore != 0"></span>
+                        <span data-translate="NotAvailable" 
+                              ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.TotalScore && memberEPAInfoCtrl.epaInfo.ProcessBySelf.TotalScore != 0"></span>
                     </div>
                     <div data-translate="Pending" ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess"></div>
                 </td>

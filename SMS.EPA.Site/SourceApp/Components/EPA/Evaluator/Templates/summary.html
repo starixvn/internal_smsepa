@@ -39,7 +39,7 @@
                     <strong ng-show="memberEPAInfoCtrl.epaInfo.LastPerformanceScore == null" ng-bind="'-'"></strong>
                 </td>
             </tr>
-            <tr class="text-right" ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != 2">
+            <tr class="text-right" ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != memberEPAInfoCtrl.targetTypeEnum.Monthly">
                 <td><strong data-translate="DisciplineScore"></strong></td>
                 <td class="text-center" colspan="2">
                     <strong ng-show="memberEPAInfoCtrl.epaInfo.HasDisciplineScore">
@@ -64,7 +64,7 @@
                     </div>
                 </td>
             </tr>
-            <tr class="text-right" ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != 2">
+            <tr class="text-right" ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != memberEPAInfoCtrl.targetTypeEnum.Monthly">
                 <td><strong data-translate="TotalScore"></strong></td>
                 <td class="text-center col-score">
                     <strong ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess">
@@ -81,7 +81,7 @@
                     <strong ng-show="memberEPAInfoCtrl.epaInfo.LastFinalScore == null" ng-bind="'-'"></strong>
                 </td>
             </tr>
-            <tr class="text-right" ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != 2">
+            <tr class="text-right" ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != memberEPAInfoCtrl.targetTypeEnum.Monthly">
                 <td><strong data-translate="Grade"></strong></td>
                 <td class="text-center col-score">
                     <strong ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" ng-bind="memberEPAInfoCtrl.gradeOfSelf"></strong>
@@ -98,6 +98,6 @@
         </tbody>
     </table>
 </div>
-<div class="row row-item" ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != 2">
+<div class="row row-item" ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId != memberEPAInfoCtrl.targetTypeEnum.Monthly">
     <div ng-include src="'/SourceApp/Components/EPA/Templates/performanceGradingScale.html'"></div>
 </div>

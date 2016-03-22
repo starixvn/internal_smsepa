@@ -251,15 +251,16 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, Reviewe
 
     vm.permission = 0;
     vm.epaId = parseInt($routeParams.id);
+    vm.standardGrades = CommonModel.standardGrades;
     vm.policyEnum = enumerationsFactory.policy;
     vm.targetTypeEnum = enumerationsFactory.targetType;
+    vm.statusEndProcessEnum = enumerationsFactory.statusEndProcess;
+    vm.ratingTypeEnum = enumerationsFactory.ratingType;
 
     vm.dataSaved = false;
     vm.isReadonly = false;
     vm.evaluatedDate = null;
     vm.finalScore = null;
-
-    vm.standardGrades = CommonModel.standardGrades;
 
     vm.generateRatingStar = function () {
         $timeout(function () {

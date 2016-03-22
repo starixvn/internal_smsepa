@@ -37,7 +37,10 @@
         </form>
         <table class="row table table-bordered table-striped">
             <thead>
-                <tr class="header-table" ng-show="managementCtrl.memberEPAs.length > 0 && !managementCtrl.isEndProcessAll && managementCtrl.permission == managementCtrl.policyEnum.Host">
+                <tr class="header-table"
+                    ng-show="managementCtrl.memberEPAs.length > 0
+                        && !managementCtrl.isEndProcessAll
+                        && managementCtrl.permission == managementCtrl.policyEnum.Host">
                     <th colspan="17">
                         <a class="pull-left button-icon" ng-click="managementCtrl.adjustScore()">
                             <span class="icon-edit glyphicon glyphicon-edit"></span>
@@ -50,7 +53,9 @@
                     </th>
                 </tr>
                 <tr class="headerName">
-                    <th ng-show="managementCtrl.memberEPAs.length > 0 && !managementCtrl.isEndProcessAll && managementCtrl.permission == managementCtrl.policyEnum.Host">
+                    <th ng-show="managementCtrl.memberEPAs.length > 0
+                            && !managementCtrl.isEndProcessAll
+                            && managementCtrl.permission == managementCtrl.policyEnum.Host">
                         <input type="checkbox" ng-model="managementCtrl.selectedAll" ng-click="managementCtrl.checkAll(managementCtrl.selectedAll)" />
                     </th>
                     <th data-translate="SymbolCount"></th>
@@ -99,7 +104,6 @@
                     </td>
                     <td class="text-center">
                         <div ng-show="memberEPA.ProcessByEvaluators[0].IsEndProcess">
-                            
                         </div>
                         <div ng-show="memberEPA.ProcessByEvaluators[0].IsEndProcess">
                             <div ng-show="!memberEPA.HasMonthlyEPA">
