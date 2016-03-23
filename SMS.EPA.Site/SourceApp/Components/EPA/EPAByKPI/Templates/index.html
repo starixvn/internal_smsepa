@@ -44,7 +44,7 @@
                             </a>
                             <ul>
                                 <li ng-repeat="kpi in epaByKPICtrl.kpis" ng-if="kpi.KPIGroup.Name == key">
-                                    <a href="javascript:;" ng-click="epaByKPICtrl.KPIChange(kpi.KPIId)">
+                                    <a href="javascript:;" ng-click="epaByKPICtrl.KPIChange(kpi.KPIId)" ng-class="epaByKPICtrl.getCSSSelected(kpi.KPIId)">
                                         {{kpi.Name}}
                                     </a>
                                 </li>

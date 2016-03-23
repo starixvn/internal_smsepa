@@ -16,9 +16,30 @@ function ($window, $timeout, $translate, EPAByKPIModel, EmployeeEPAModel, Common
         evaluatorIds: ''
     };
     vm.evaluators = [];
-    vm.RatingType = enumerationsFactory.RatingType;
+    vm.RatingType = enumerationsFactory.ratingType;
+    vm.toggleCollapseExpand = toggleCollapseExpand;
+    vm.getCSSSelected = getCSSSelected;
+    vm.getEvaluatorsByTargetTemplate = getEvaluatorsByTargetTemplate;
+    vm.getKPIByTargetTemplate = getKPIByTargetTemplate;
+    vm.KPIChange = KPIChange;
+    vm.viewDetail = viewDetail;
+    vm.back = back;
+    vm.generateRatingStar = generateRatingStar;
+    vm.initialize = initialize;
 
-    vm.toggleCollapseExpand = function () {
+    vm.initialize();
+
+    function getCSSSelected(kpiId) {
+        var cssClass = '';
+
+        if (kpiId === vm.filter.kpiId) {
+            cssClass = 'alert-danger';
+        }
+
+        return cssClass;
+    };
+
+    function toggleCollapseExpand() {
         if (!vm.hasTreeEvent) {
             $('.tree li.parent_li > span').on('click', function (e) {
                 var children = $(this).parent('li.parent_li').find(' > ul > li');
@@ -37,13 +58,13 @@ function ($window, $timeout, $translate, EPAByKPIModel, EmployeeEPAModel, Common
         }
     };
 
-    vm.getEvaluatorsByTargetTemplate = function () {
+    function getEvaluatorsByTargetTemplate() {
         EPAByKPIModel.getEvaluatorsByTargetTemplate(vm.filter.targetTemplateId).then(function () {
             vm.evaluators = EPAByKPIModel.evaluators;
         });
     };
 
-    vm.getKPIByTargetTemplate = function () {
+    function getKPIByTargetTemplate() {
         vm.kpiSelected = null;
         vm.filter.kpiId = '';
         vm.memberEPAs = [];
@@ -53,12 +74,12 @@ function ($window, $timeout, $translate, EPAByKPIModel, EmployeeEPAModel, Common
         });
     };
 
-    vm.KPIChange = function (kpiId) {
+    function KPIChange(kpiId) {
         vm.filter.kpiId = kpiId;
-        vm.query();
-    }
+        query();
+    };
 
-    vm.query = function () {
+    function query() {
         EPAByKPIModel.getEmployeeEPAToView(vm.filter.targetTemplateId, vm.filter.kpiId, vm.filter.evaluatorIds).then(function () {
             vm.memberEPAs = EPAByKPIModel.memberEPAs;
             utilitiesFactory.searchOnPage(vm, vm.memberEPAs);
@@ -91,26 +112,25 @@ function ($window, $timeout, $translate, EPAByKPIModel, EmployeeEPAModel, Common
 
     };
 
-    vm.viewDetail = function (memberEPA) {
+    function viewDetail(memberEPA) {
         var url = baseUrl + 'Evaluator/Detail/' + memberEPA.EPAId;
         $window.open(url, '_blank');
     };
 
-    vm.back = function () {
+    function back() {
         $window.history.back();
     };
 
-    vm.generateRatingStar = function () {
+    function generateRatingStar() {
         $timeout(function () {
             $(".rating-loading").rating();
         }, 1);
     };
 
-    vm.initialize = function () {
+    function initialize() {
         EPAByKPIModel.getTargetTemplateToView().then(function () {
             vm.targetTemplates = EPAByKPIModel.targetTemplates;
         });
     };
 
-    vm.initialize();
 }]);
