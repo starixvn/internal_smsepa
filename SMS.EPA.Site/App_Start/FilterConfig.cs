@@ -12,14 +12,14 @@ namespace SMS.EPA.Site
     using System.Web;
     using System.Web.Mvc;
 
-    /// <summary>
-    /// The filter config.
-    /// </summary>
     public static class FilterConfig
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            filters.Add(new HandleErrorAttribute());
+            if (filters != null)
+            {
+                filters.Add(new HandleErrorAttribute());
+            }
         }
     }
 }

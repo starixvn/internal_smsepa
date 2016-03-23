@@ -10,7 +10,6 @@
 namespace SMS.EPA.Services.Implement
 {
     using System.Collections.Generic;
-    using Fanex.Common.Helper;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.Department;
     using SMS.EPA.Model.Department;
@@ -35,9 +34,8 @@ namespace SMS.EPA.Services.Implement
         public List<DepartmentModel> GetDepartment(GetDepartmentCriteria criteria)
         {
             List<DepartmentModel> departments = new List<DepartmentModel>();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 departments = _departmentRepository.GetDepartment(criteria);
             }

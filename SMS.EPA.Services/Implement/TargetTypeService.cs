@@ -10,7 +10,6 @@
 namespace SMS.EPA.Services.Implement
 {
     using System.Collections.Generic;
-    using Fanex.Common.Helper;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.TargetType;
     using SMS.EPA.Model.TargetType;
@@ -20,10 +19,9 @@ namespace SMS.EPA.Services.Implement
     {
         public IEnumerable<TargetTypeModel> GetTargetType(GetTargetTypeCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<TargetTypeModel> kpis = new List<TargetTypeModel>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 kpis = GetData<TargetTypeModel>(criteria);
             }

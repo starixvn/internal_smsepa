@@ -10,7 +10,6 @@
 namespace SMS.EPA.Services.Implement
 {
     using System.Collections.Generic;
-    using Fanex.Common.Helper;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.KPI;
@@ -35,10 +34,9 @@ namespace SMS.EPA.Services.Implement
 
         public IEnumerable<KPIModel> GetKPI(GetKPICriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<KPIModel> kpis = new List<KPIModel>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 kpis = _kpiRepository.GetKPI(criteria);
             }
@@ -49,9 +47,8 @@ namespace SMS.EPA.Services.Implement
         public CommandResult CreateKPI(CreateKPICriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 commandResult = Repository.Insert(criteria);
             }
@@ -62,9 +59,8 @@ namespace SMS.EPA.Services.Implement
         public CommandResult UpdateKPI(UpdateKPICriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 commandResult = Repository.Update(criteria);
             }
@@ -75,9 +71,8 @@ namespace SMS.EPA.Services.Implement
         public CommandResult UpdateStatusKPI(UpdateStatusKPICriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 commandResult = Repository.Update(criteria);
             }
@@ -88,9 +83,8 @@ namespace SMS.EPA.Services.Implement
         public CommandResult UpdateRequiredEvaluateKPI(UpdateRequiredEvaluateKPICriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 commandResult = Repository.Update(criteria);
             }
@@ -101,9 +95,8 @@ namespace SMS.EPA.Services.Implement
         public CommandResult DeleteKPI(DeleteKPICriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 commandResult = Repository.Delete(criteria);
             }

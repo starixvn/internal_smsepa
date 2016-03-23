@@ -13,7 +13,6 @@ namespace SMS.EPA.Services.Implement
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
-    using Fanex.Common.Helper;
     using NexFB.Core.Utilities;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Model;
@@ -42,10 +41,9 @@ namespace SMS.EPA.Services.Implement
 
         public IEnumerable<AttendanceSummaryModel> GetAttendanceSummary(GetAttendanceSummaryCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<AttendanceSummaryModel> attendanceEmployees = new List<AttendanceSummaryModel>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 attendanceEmployees = _attendanceSummaryRepository.GetAttendanceSummary(criteria);
                 attendanceEmployees = attendanceEmployees.OrderByDescending(x => x.Permission);
@@ -56,10 +54,9 @@ namespace SMS.EPA.Services.Implement
 
         public IEnumerable<OtherViolationModel> GetOtherViolations(GetOtherViolationsOfEmployeeCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<OtherViolationModel> violations = new List<OtherViolationModel>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 violations = GetData<OtherViolationModel>(criteria);
             }
@@ -69,10 +66,9 @@ namespace SMS.EPA.Services.Implement
 
         public CommandResult InsertOtherViolation(InsertOtherViolationsCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             CommandResult commandResult = new CommandResult();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 commandResult = Repository.Insert(criteria);
             }
@@ -82,10 +78,9 @@ namespace SMS.EPA.Services.Implement
 
         public CommandResult DeleteOtherViolation(DeleteOtherViolationCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             CommandResult commandResult = new CommandResult();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 commandResult = Repository.Delete(criteria);
             }
@@ -95,10 +90,9 @@ namespace SMS.EPA.Services.Implement
 
         public IEnumerable<ViolationModel> GetViolationType(GetViolationTypeCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<ViolationModel> violations = new List<ViolationModel>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 violations = GetData<ViolationModel>(criteria);
             }
@@ -108,10 +102,9 @@ namespace SMS.EPA.Services.Implement
 
         public IEnumerable<AttendanceDetailModel> GetAttendanceDetail(GetDetailAttendanceCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<AttendanceDetailModel> attendanceViolations = new List<AttendanceDetailModel>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 RawAttendanceDetailModel rawAttendanceDetail = _attendanceSummaryRepository.GetAttendanceDetail(criteria);
                 attendanceViolations = GroupAttendanceDetailAndCalculateScore(rawAttendanceDetail, attendanceViolations);
@@ -125,10 +118,9 @@ namespace SMS.EPA.Services.Implement
 
         public CommandResult UpdateIgnoredViolation(UpdateIgnoredViolationCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             CommandResult commandResult = new CommandResult();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 commandResult = Repository.Update(criteria);
             }
@@ -138,10 +130,9 @@ namespace SMS.EPA.Services.Implement
 
         public IEnumerable<AttendanceScoreModel> GetAttendanceScoreByEPAId(GetAttendanceScoreByEPAIdCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<AttendanceScoreModel> attendanceScores = new List<AttendanceScoreModel>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 attendanceScores = GetData<AttendanceScoreModel>(criteria);
             }
@@ -151,10 +142,9 @@ namespace SMS.EPA.Services.Implement
 
         public IList<OtherViolationTypeModel> GetOtherViolationType(GetOtherViolationTypeCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IList<OtherViolationTypeModel> violationTypes = new List<OtherViolationTypeModel>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 violationTypes = GetData<OtherViolationTypeModel>(criteria).ToList();
             }
@@ -167,38 +157,40 @@ namespace SMS.EPA.Services.Implement
             IEnumerable<AttendanceSummaryModel> attendanceEmployees,
             string templatePath)
         {
-            string reportName = Lang.AttendanceSummaryReportName;
-            string reportTitle = string.Empty;
-
-            string startDate = criteria.StartDate.ToString(Constants.DateFormat);
-            string endDate = criteria.EndDate.ToString(Constants.DateFormat);
-
-            if (criteria.EmployeeId != null)
+            if (criteria != null)
             {
-                reportTitle = string.Format(Lang.AttendanceSummaryReportTitle, criteria.EmployeeName, startDate, endDate);
+                string reportName = Lang.AttendanceSummaryReportName,
+                    reportTitle = string.Empty,
+                    startDate = criteria.StartDate.ToString(Constants.DateFormat),
+                    endDate = criteria.EndDate.ToString(Constants.DateFormat);
+
+                if (criteria.EmployeeId != null)
+                {
+                    reportTitle = string.Format(Lang.AttendanceSummaryReportTitle, criteria.EmployeeName, startDate, endDate);
+                }
+                else if (criteria.DepartmentId != null)
+                {
+                    reportTitle = string.Format(Lang.AttendanceSummaryReportTitle, criteria.DepartmentName, startDate, endDate);
+                }
+                else
+                {
+                    reportTitle = string.Format(Lang.AttendanceSummaryReportTitleNoPrefix, startDate, endDate);
+                }
+
+                var writer = new ExcelTemplateWriter(templatePath, reportName, Lang.AttendanceSummaryReportSheet);
+
+                // Fill report title.
+                writer.WriteRow(0, new object[] { reportTitle });
+                writer.CopyRows(1, 1);
+
+                // Fill report header.
+                writer.CopyRows(3, 1);
+
+                FillContentSummaryRow(attendanceEmployees, ref writer);
+                writer.SyncColumnsWidth(17);
+
+                writer.Render();
             }
-            else if (criteria.DepartmentId != null)
-            {
-                reportTitle = string.Format(Lang.AttendanceSummaryReportTitle, criteria.DepartmentName, startDate, endDate);
-            }
-            else
-            {
-                reportTitle = string.Format(Lang.AttendanceSummaryReportTitleNoPrefix, startDate, endDate);
-            }
-
-            var writer = new ExcelTemplateWriter(templatePath, reportName, Lang.AttendanceSummaryReportSheet);
-
-            // Fill report title.
-            writer.WriteRow(0, new object[] { reportTitle });
-            writer.CopyRows(1, 1);
-
-            // Fill report header.
-            writer.CopyRows(3, 1);
-
-            FillContentSummaryRow(attendanceEmployees, ref writer);
-            writer.SyncColumnsWidth(17);
-
-            writer.Render();
         }
 
         public void ExportAttendanceDetailReport(
@@ -206,38 +198,40 @@ namespace SMS.EPA.Services.Implement
             IEnumerable<AttendanceDetailModel> attendanceViolations,
             string templatePath)
         {
-            string reportName = Lang.AttendanceDetailReportName;
-            string reportTitle = string.Empty;
-
-            string startDate = criteria.StartDate.ToString(Constants.DateFormat);
-            string endDate = criteria.EndDate.ToString(Constants.DateFormat);
-
-            if (criteria.EmployeeId != null)
+            if (criteria != null)
             {
-                reportTitle = string.Format(Lang.AttendanceDetailReportTitle, criteria.EmployeeName, startDate, endDate);
+                string reportName = Lang.AttendanceDetailReportName,
+                    reportTitle = string.Empty,
+                    startDate = criteria.StartDate.ToString(Constants.DateFormat),
+                    endDate = criteria.EndDate.ToString(Constants.DateFormat);
+
+                if (criteria.EmployeeId != null)
+                {
+                    reportTitle = string.Format(Lang.AttendanceDetailReportTitle, criteria.EmployeeName, startDate, endDate);
+                }
+                else if (criteria.DepartmentId != null)
+                {
+                    reportTitle = string.Format(Lang.AttendanceDetailReportTitle, criteria.DepartmentName, startDate, endDate);
+                }
+                else
+                {
+                    reportTitle = string.Format(Lang.AttendanceDetailReportTitleNoPrefix, startDate, endDate);
+                }
+
+                var writer = new ExcelTemplateWriter(templatePath, reportName, Lang.AttendanceDetailReportSheet);
+
+                // Fill report title.
+                writer.WriteRow(0, new object[] { reportTitle });
+                writer.CopyRows(1, 1);
+
+                // Fill report header.
+                writer.CopyRows(3, 1);
+
+                FillContentDetailRow(attendanceViolations, ref writer);
+                writer.SyncColumnsWidth(20);
+
+                writer.Render();
             }
-            else if (criteria.DepartmentId != null)
-            {
-                reportTitle = string.Format(Lang.AttendanceDetailReportTitle, criteria.DepartmentName, startDate, endDate);
-            }
-            else
-            {
-                reportTitle = string.Format(Lang.AttendanceDetailReportTitleNoPrefix, startDate, endDate);
-            }
-
-            var writer = new ExcelTemplateWriter(templatePath, reportName, Lang.AttendanceDetailReportSheet);
-
-            // Fill report title.
-            writer.WriteRow(0, new object[] { reportTitle });
-            writer.CopyRows(1, 1);
-
-            // Fill report header.
-            writer.CopyRows(3, 1);
-
-            FillContentDetailRow(attendanceViolations, ref writer);
-            writer.SyncColumnsWidth(20);
-
-            writer.Render();
         }
 
         private static IEnumerable<AttendanceDetailModel> GroupAttendanceDetailAndCalculateScore(
@@ -292,8 +286,8 @@ namespace SMS.EPA.Services.Implement
 
                 if (commentItems != null && commentItems.Any())
                 {
-                    string approverComment = commentItems.First().ApproverComment;
-                    string employeeComment = commentItems.First().EmployeeComment;
+                    string approverComment = commentItems.First().ApproverComment,
+                        employeeComment = commentItems.First().EmployeeComment;
 
                     attendanceViolation.ApproverComment = GetRequestComment(approverComment);
                     attendanceViolation.EmployeeComment = GetRequestComment(employeeComment);

@@ -9,6 +9,12 @@
 
 namespace SMS.EPA.Site.Controllers.API
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Web.Http;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
@@ -22,31 +28,22 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Services.Interfaces;
     using SMS.EPA.Web.ApiAuthorizeAttribute;
     using SMS.EPA.Web.Services;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Net;
-    using System.Net.Http;
-    using System.Web.Http;
 
     public class EmployeeEPAController : BaseController
     {
         private readonly IEmployeeEPAService _employeeEPAService;
-        private readonly CommonController _commonController;
         private readonly IWebCommonService _webCommonService;
 
         public EmployeeEPAController()
-            : this(null, null, null)
+            : this(null, null)
         {
         }
 
         public EmployeeEPAController(
             IEmployeeEPAService employeeEPAService,
-            CommonController commonController,
             IWebCommonService webCommonService)
         {
             _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
-            _commonController = commonController ?? new CommonController();
             _webCommonService = webCommonService ?? new WebCommonService();
         }
 
@@ -93,19 +90,26 @@ namespace SMS.EPA.Site.Controllers.API
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Self, Policy = Policy.Host)]
         public CommandResult UpdateEPAScoreByEmployee(EPAModel model)
         {
-            var criteria = new UpdateEPAScoreCriteria()
-            {
-                EPAId = model.EPAId,
-                ProcessId = (int)ProcessType.Self,
-                EmployeeId = model.Employee.EmployeeId,
-                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
-                Comment = model.CurrentProcess.Comment,
-                EPAProcess = model.CurrentProcess,
-                KPIGroups = model.KPIGroups,
-                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
-            };
+            CommandResult commandResult = new CommandResult();
 
-            return UpdateEPAScoreByEmployeeOrEvaluator(criteria);
+            if (model != null)
+            {
+                var criteria = new UpdateEPAScoreCriteria()
+                {
+                    EPAId = model.EPAId,
+                    ProcessId = (int)ProcessType.Self,
+                    EmployeeId = model.Employee.EmployeeId,
+                    EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
+                    Comment = model.CurrentProcess.Comment,
+                    EPAProcess = model.CurrentProcess,
+                    KPIGroups = model.KPIGroups,
+                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
+                };
+
+                commandResult = UpdateEPAScoreByEmployeeOrEvaluator(criteria);
+            }
+
+            return commandResult;
         }
 
         public int GetUserPermissionOnEmployee()
@@ -183,19 +187,26 @@ namespace SMS.EPA.Site.Controllers.API
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Evaluator, Policy = Policy.Host)]
         public CommandResult UpdateEPAScoreByEvaluator(EPAModel model)
         {
-            var criteria = new UpdateEPAScoreCriteria()
-            {
-                EPAId = model.EPAId,
-                ProcessId = (int)ProcessType.Evaluator,
-                EmployeeId = model.Employee.EmployeeId,
-                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
-                Comment = model.CurrentProcess.Comment,
-                EPAProcess = model.CurrentProcess,
-                KPIGroups = model.KPIGroups,
-                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
-            };
+            CommandResult commandResult = new CommandResult();
 
-            return UpdateEPAScoreByEmployeeOrEvaluator(criteria);
+            if (model != null)
+            {
+                var criteria = new UpdateEPAScoreCriteria()
+                {
+                    EPAId = model.EPAId,
+                    ProcessId = (int)ProcessType.Evaluator,
+                    EmployeeId = model.Employee.EmployeeId,
+                    EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
+                    Comment = model.CurrentProcess.Comment,
+                    EPAProcess = model.CurrentProcess,
+                    KPIGroups = model.KPIGroups,
+                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
+                };
+
+                commandResult = UpdateEPAScoreByEmployeeOrEvaluator(criteria);
+            }
+
+            return commandResult;
         }
 
         public int GetUserPermissionOnEvaluator()
@@ -356,14 +367,21 @@ namespace SMS.EPA.Site.Controllers.API
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Management, Policy = Policy.Host)]
         public CommandResult AdjustScoreByManagement(IEnumerable<EPAModel> memberEPAs)
         {
-            var criteria = new AdjustScoreByReviewerOrManagementCriteria()
-            {
-                ProcessId = (int)ProcessType.Management,
-                MemberEPAs = memberEPAs,
-                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
-            };
+            CommandResult commandResult = new CommandResult();
 
-            return AdjustScoreByReviewerOrManagement(criteria);
+            if (memberEPAs != null && memberEPAs.Any())
+            {
+                var criteria = new AdjustScoreByReviewerOrManagementCriteria()
+                {
+                    ProcessId = (int)ProcessType.Management,
+                    MemberEPAs = memberEPAs,
+                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                };
+
+                commandResult = AdjustScoreByReviewerOrManagement(criteria);
+            }
+
+            return commandResult;
         }
 
         public int GetUserPermissionOnManagement()

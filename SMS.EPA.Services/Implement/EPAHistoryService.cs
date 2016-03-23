@@ -11,11 +11,8 @@ namespace SMS.EPA.Services.Implement
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Fanex.Common.Helper;
     using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria.EmployeeEPA;
     using SMS.EPA.Criteria.EPAHistory;
-    using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.EPAHistory;
     using SMS.EPA.Model.Period;
     using SMS.EPA.Repositories.Implement;
@@ -25,25 +22,22 @@ namespace SMS.EPA.Services.Implement
     public class EPAHistoryService : BaseService, IEPAHistoryService
     {
         private readonly IEPAHistoryRepository _epaHistoryRepository;
-        private readonly IEmployeeEPAService _employeeEPAService;
 
         public EPAHistoryService()
-            : this(null, null)
+            : this(null)
         {
         }
 
-        public EPAHistoryService(IEPAHistoryRepository epaHistoryRepository, IEmployeeEPAService employeeEPAService)
+        public EPAHistoryService(IEPAHistoryRepository epaHistoryRepository)
         {
             _epaHistoryRepository = epaHistoryRepository ?? new EPAHistoryRepository();
-            _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
         }
 
         public IList<EPAHistoryModel> GetEPAHistory(GetEPAHistoryCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IList<EPAHistoryModel> epas = new List<EPAHistoryModel>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 epas = _epaHistoryRepository.GetEPAHistory(criteria);
 
@@ -67,10 +61,9 @@ namespace SMS.EPA.Services.Implement
 
         public IList<PeriodModel> GetAllPeriodIncludeImport(GetAllPeriodIncludeImportCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IList<PeriodModel> periods = new List<PeriodModel>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 periods = GetData<PeriodModel>(criteria).ToList();
             }

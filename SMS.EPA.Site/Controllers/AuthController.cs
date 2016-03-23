@@ -59,7 +59,7 @@ namespace SMS.EPA.Site.Controllers
         [HttpPost]
         public ActionResult Login(LoginModel model)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && model != null)
             {
                 UserSession user = GetEmployeeLogin(model);
                 if (user != null)

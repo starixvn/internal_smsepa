@@ -111,20 +111,20 @@ namespace SMS.EPA.Site.Controllers.API
         [HttpPut]
         public CommandResult ChangePassword(ChangePasswordCriteria criteria)
         {
-            var commandResult = new CommandResult();
-            if (Encryption.CompareStringToHash(HashProvider.Sha1, criteria.OldPassword, CurrentUser.EmployeeInfo.Password))
+            CommandResult commandResult = new CommandResult();
+            if (criteria != null)
             {
-                if (criteria != null)
+                if (Encryption.CompareStringToHash(HashProvider.Sha1, criteria.OldPassword, CurrentUser.EmployeeInfo.Password))
                 {
                     criteria.EmployeeId = CurrentUser.EmployeeInfo.EmployeeId;
                     criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
-                }
 
-                commandResult = _employeeService.ChangePassword(criteria);
-            }
-            else
-            {
-                commandResult.Message = Lang.ValidateWrongPassword;
+                    commandResult = _employeeService.ChangePassword(criteria);
+                }
+                else
+                {
+                    commandResult.Message = Lang.ValidateWrongPassword;
+                }
             }
 
             return commandResult;

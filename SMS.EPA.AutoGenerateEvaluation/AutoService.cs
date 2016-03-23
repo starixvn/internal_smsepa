@@ -47,12 +47,10 @@
             InitializeComponent();
 
             _schedulerTime = DateTime.Today.AddDays(1).AddHours(5);
-            /// TimerInterval = int.Parse(ConfigurationManager.AppSettings["TimerInterval"]);
-            TimerInterval = 600;
+            TimerInterval = int.Parse(ConfigurationManager.AppSettings["TimerInterval"]);
 
             _updateCounterTimer = new Timer();
-            /// _updateCounterTimer.Interval = _schedulerTime.Subtract(DateTime.Now).TotalSeconds * 1000;
-            _updateCounterTimer.Interval = 600 * 1000;
+            _updateCounterTimer.Interval = _schedulerTime.Subtract(DateTime.Now).TotalSeconds * 1000;
             _updateCounterTimer.Elapsed += new ElapsedEventHandler(ExecuteJob);
             _updateCounterTimer.Enabled = false;
 
@@ -158,7 +156,7 @@
 
                 if (hasSendMailAll)
                 {
-                    Task task = Task.Factory.StartNew(() =>
+                    Task.Factory.StartNew(() =>
                     {
                         GetAndSendEmailToAllRelatedEmployee(periodId, string.Empty, null, (int)MailMode.Start);
                     });
@@ -214,7 +212,7 @@
 
             if (hasSendMailAll)
             {
-                Task task = Task.Factory.StartNew(() =>
+                Task.Factory.StartNew(() =>
                 {
                     GetAndSendEmailToAllRelatedEmployee(employeePeriod.PeriodId, employeePeriod.EmployeeIds, null, (int)MailMode.Start);
                 });
@@ -259,7 +257,7 @@
 
                 if (hasSendMailAll)
                 {
-                    Task task = Task.Factory.StartNew(() =>
+                    Task.Factory.StartNew(() =>
                     {
                         GetAndSendEmailToAllRelatedEmployee(period.PeriodId, period.EmployeeIds, null, (int)MailMode.Start);
                     });
@@ -347,7 +345,7 @@
 
                 if (hasSendMailAll)
                 {
-                    Task task = Task.Factory.StartNew(() =>
+                    Task.Factory.StartNew(() =>
                     {
                         GetAndSendEmailToAllRelatedEmployee(periodId, string.Empty, null, (int)MailMode.Start);
                     });
@@ -359,12 +357,12 @@
 
         private void CheckSendMail()
         {
-            Task beginMailTask = Task.Factory.StartNew(() =>
+            Task.Factory.StartNew(() =>
             {
                 CheckSendNoticeAtBeginEmail();
             });
 
-            Task reminderMailTask = Task.Factory.StartNew(() =>
+            Task.Factory.StartNew(() =>
             {
                 CheckSendReminderEmail();
             });

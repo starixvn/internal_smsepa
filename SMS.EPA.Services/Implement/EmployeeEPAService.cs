@@ -12,7 +12,6 @@ namespace SMS.EPA.Services.Implement
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Fanex.Common.Helper;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
@@ -68,9 +67,8 @@ namespace SMS.EPA.Services.Implement
         public EPAModel GetEPAInfoByEmployee(GetEPAInfoByEmployeeCriteria criteria)
         {
             EPAModel epaInfo = new EPAModel();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
                 epaInfo.CurrentProcess = epaInfo.ProcessBySelf;
@@ -99,10 +97,9 @@ namespace SMS.EPA.Services.Implement
 
         public IEnumerable<EPAModel> GetEPAByEvaluator(GetEPAByEvaluatorCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<EPAModel> memberEPAs = new List<EPAModel>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 memberEPAs = _employeeEPARepository.GetEPA(criteria);
 
@@ -124,9 +121,8 @@ namespace SMS.EPA.Services.Implement
         public EPAModel GetEPAInfoByEvaluator(GetEPAInfoByEvaluatorCriteria criteria)
         {
             EPAModel epaInfo = new EPAModel();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
                 epaInfo.CurrentProcess = epaInfo.ProcessByEvaluators.FirstOrDefault();
@@ -155,10 +151,9 @@ namespace SMS.EPA.Services.Implement
 
         public IEnumerable<EPAModel> GetEPAByReviewer(GetEPAByReviewerCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<EPAModel> memberEPAs = new List<EPAModel>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 memberEPAs = _employeeEPARepository.GetEPA(criteria);
             }
@@ -180,9 +175,8 @@ namespace SMS.EPA.Services.Implement
         public EPAModel GetEPAInfoByReviewer(GetEPAInfoByReviewerCriteria criteria)
         {
             EPAModel epaInfo = new EPAModel();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
 
@@ -204,10 +198,9 @@ namespace SMS.EPA.Services.Implement
 
         public IEnumerable<EPAModel> GetEPAByManagement(GetEPAByManagementCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<EPAModel> memberEPAs = new List<EPAModel>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 memberEPAs = _employeeEPARepository.GetEPA(criteria);
 
@@ -229,9 +222,8 @@ namespace SMS.EPA.Services.Implement
         public EPAModel GetEPAInfoByManagement(GetEPAInfoByManagementCriteria criteria)
         {
             EPAModel epaInfo = new EPAModel();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
 
@@ -253,10 +245,9 @@ namespace SMS.EPA.Services.Implement
 
         public IEnumerable<TargetTemplateModel> GetTargetTemplateByEvaluator(GetTargetTemplateByEvaluatorCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<TargetTemplateModel> targetTemplates = new List<TargetTemplateModel>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 targetTemplates = GetData<TargetTemplateModel>(criteria);
             }
@@ -266,10 +257,9 @@ namespace SMS.EPA.Services.Implement
 
         public IEnumerable<TargetTemplateModel> GetTargetTemplateToView(GetTargetTemplateToViewCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<TargetTemplateModel> targetTemplates = new List<TargetTemplateModel>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 targetTemplates = GetData<TargetTemplateModel>(criteria);
             }
@@ -279,10 +269,9 @@ namespace SMS.EPA.Services.Implement
 
         public IEnumerable<TemporaryKPIModel> GetKPIByTargetTemplate(GetKPIByTargetTemplateCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<TemporaryKPIModel> kpis = new List<TemporaryKPIModel>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 kpis = _employeeEPARepository.GetKPIByTargetTemplate(criteria);
             }
@@ -292,10 +281,9 @@ namespace SMS.EPA.Services.Implement
 
         public IEnumerable<TemporaryKPIModel> GetKPIToView(GetKPIToViewCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<TemporaryKPIModel> kpis = new List<TemporaryKPIModel>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 kpis = _employeeEPARepository.GetKPIToView(criteria);
             }
@@ -305,10 +293,9 @@ namespace SMS.EPA.Services.Implement
 
         public IEnumerable<RatingByKPIModel> GetEmployeeEPAToView(GetEmployeeEPAToViewCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<RatingByKPIModel> epas = new List<RatingByKPIModel>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 epas = _employeeEPARepository.GetEmployeeEPAToView(criteria);
             }
@@ -318,10 +305,9 @@ namespace SMS.EPA.Services.Implement
 
         public IEnumerable<RatingByKPIModel> GetEmployeeEPAByKPI(GetEmployeeEPAByKPICriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<RatingByKPIModel> epas = new List<RatingByKPIModel>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 epas = _employeeEPARepository.GetEmployeeEPAByKPI(criteria);
             }
@@ -332,9 +318,8 @@ namespace SMS.EPA.Services.Implement
         public CommandResult UpdateKPIScore(UpdateKPIScoreCriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 commandResult = Repository.Update(criteria);
             }
@@ -344,10 +329,9 @@ namespace SMS.EPA.Services.Implement
 
         public IEnumerable<Employee> GetEvaluatorsByTargetTemplate(GetEvaluatorsByTargetTemplateCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<Employee> employees = new List<Employee>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 employees = GetData<Employee>(criteria);
             }
@@ -360,9 +344,8 @@ namespace SMS.EPA.Services.Implement
         public EPAModel GetEPAInfoById(GetEPAInfoByIdCriteria criteria)
         {
             EPAModel epaInfo = new EPAModel();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
 
@@ -379,9 +362,8 @@ namespace SMS.EPA.Services.Implement
         public CommandResult UpdateEPAScore(UpdateEPAScoreCriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 commandResult = Repository.Update(criteria);
             }
@@ -392,9 +374,8 @@ namespace SMS.EPA.Services.Implement
         public CommandResult AdjustScoreByReviewerOrManagement(AdjustScoreByReviewerOrManagementCriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 commandResult = Repository.Update(criteria);
             }
@@ -404,10 +385,9 @@ namespace SMS.EPA.Services.Implement
 
         public IEnumerable<Employee> GetMemberByEvaluatorOrReviewerOrManagement(GetMemberByEvaluatorOrReviewerOrManagementCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<Employee> employees = new List<Employee>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 employees = GetData<Employee>(criteria);
             }
@@ -417,10 +397,9 @@ namespace SMS.EPA.Services.Implement
 
         public IEnumerable<Group> GetGroupByEvaluatorOrReviewerOrManagement(GetGroupByEvaluatorOrReviewerOrManagementCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<Group> groups = new List<Group>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 groups = GetData<Group>(criteria);
             }
@@ -430,10 +409,9 @@ namespace SMS.EPA.Services.Implement
 
         public IEnumerable<StandardGradeModel> GetStandardGrade(GetStandardGradeCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<StandardGradeModel> standardGrades = new List<StandardGradeModel>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 standardGrades = GetData<StandardGradeModel>(criteria);
             }
@@ -443,10 +421,9 @@ namespace SMS.EPA.Services.Implement
 
         public IEnumerable<EPASummaryImportModel> GetMemberEPASummaryImport(GetEPASummaryImportCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<EPASummaryImportModel> memberEPAs = new List<EPASummaryImportModel>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 memberEPAs = GetData<EPASummaryImportModel>(criteria);
             }
@@ -457,9 +434,8 @@ namespace SMS.EPA.Services.Implement
         public CommandResult UpdateEPASummaryImport(UpdateEPASummaryImportCriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 commandResult = Repository.Update(criteria);
             }
@@ -471,13 +447,16 @@ namespace SMS.EPA.Services.Implement
         {
             string grade = string.Empty;
 
-            foreach (StandardGradeModel standardGrade in standardGrades)
+            if (standardGrades != null && standardGrades.Any())
             {
-                if (score >= standardGrade.LeftScore && score <= standardGrade.RightScore)
+                foreach (StandardGradeModel standardGrade in standardGrades)
                 {
-                    StandardGrade gradeEnum = (StandardGrade)standardGrade.GradeId;
-                    grade = Enumerations.GetDescription(gradeEnum);
-                    break;
+                    if (score >= standardGrade.LeftScore && score <= standardGrade.RightScore)
+                    {
+                        StandardGrade gradeEnum = (StandardGrade)standardGrade.GradeId;
+                        grade = Enumerations.GetDescription(gradeEnum);
+                        break;
+                    }
                 }
             }
 
@@ -486,10 +465,9 @@ namespace SMS.EPA.Services.Implement
 
         public int CheckEmployeePermission(GetEmployeePermissionCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             int result = -1;
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 result = GetDataEntity<int>(criteria);
             }
@@ -499,10 +477,9 @@ namespace SMS.EPA.Services.Implement
 
         public IEnumerable<EmployeeOtherViolationDetailModel> GetOtherViolationDetailByEPAId(GetOtherViolationDetailByEPAIdCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<EmployeeOtherViolationDetailModel> otherViolationDetails = new List<EmployeeOtherViolationDetailModel>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 otherViolationDetails = GetData<EmployeeOtherViolationDetailModel>(criteria);
             }
@@ -512,10 +489,9 @@ namespace SMS.EPA.Services.Implement
 
         public IEnumerable<int> GetMonthlyEPAIdOfSemi(GetMonthlyEPAIdOfSemiCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<int> monthlyEPAIds = new List<int>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 monthlyEPAIds = GetData<int>(criteria);
             }
@@ -552,9 +528,8 @@ namespace SMS.EPA.Services.Implement
         public CommandResult ResetScore(ResetScoreCriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 commandResult = Repository.Update(criteria);
             }

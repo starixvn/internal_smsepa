@@ -26,14 +26,14 @@ namespace SMS.EPA.Repositories.Implement
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
                 return db.Query<AttendanceSummaryModel, Employee, Group, AttendanceSummaryModel>(
-                                        (att, emp, gr) =>
-                                        {
-                                            att.Employee = emp;
-                                            att.Group = gr;
-                                            return att;
-                                        },
-                                        "EmployeeId, GroupId",
-                                        criteria.GetSpParams());
+                    (att, emp, gr) =>
+                    {
+                        att.Employee = emp;
+                        att.Group = gr;
+                        return att;
+                    },
+                    "EmployeeId, GroupId",
+                    criteria.GetSpParams());
             }
         }
 

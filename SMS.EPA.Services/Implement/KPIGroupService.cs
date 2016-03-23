@@ -10,7 +10,6 @@
 namespace SMS.EPA.Services.Implement
 {
     using System.Collections.Generic;
-    using Fanex.Common.Helper;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.KPIGroup;
@@ -21,10 +20,9 @@ namespace SMS.EPA.Services.Implement
     {
         public IEnumerable<KPIGroupModel> GetKPIGroup(GetKPIGroupCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<KPIGroupModel> kpiGroups = new List<KPIGroupModel>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 kpiGroups = GetData<KPIGroupModel>(criteria);
             }
@@ -34,10 +32,9 @@ namespace SMS.EPA.Services.Implement
 
         public KPIGroupModel GetKPIGroupById(GetKPIGroupByIdCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             KPIGroupModel kpiGroup = new KPIGroupModel();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 kpiGroup = GetDataEntity<KPIGroupModel>(criteria);
             }
@@ -48,9 +45,8 @@ namespace SMS.EPA.Services.Implement
         public CommandResult CreateKPIGroup(CreateKPIGroupCriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 commandResult = Repository.Insert(criteria);
             }
@@ -61,9 +57,8 @@ namespace SMS.EPA.Services.Implement
         public CommandResult UpdateKPIGroup(UpdateKPIGroupCriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 commandResult = Repository.Update(criteria);
             }
@@ -74,9 +69,8 @@ namespace SMS.EPA.Services.Implement
         public CommandResult UpdateStatusKPIGroup(UpdateStatusKPIGroupCriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 commandResult = Repository.Update(criteria);
             }
@@ -87,9 +81,8 @@ namespace SMS.EPA.Services.Implement
         public CommandResult DeleteKPIGroup(DeleteKPIGroupCriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 commandResult = Repository.Delete(criteria);
             }

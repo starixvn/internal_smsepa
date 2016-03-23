@@ -125,6 +125,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+    <CodeAnalysisDictionary Include="FxCopDictionary.xml" />
     <Content Include="Views\Emails\RemindDateEmailToEvaluator.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

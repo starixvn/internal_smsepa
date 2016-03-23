@@ -11,7 +11,6 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Fanex.Common.Helper;
     using SMS.EPA.AutoGenerateEvaluation.Criteria;
     using SMS.EPA.AutoGenerateEvaluation.Criteria.Monthly;
     using SMS.EPA.AutoGenerateEvaluation.Models;
@@ -39,10 +38,9 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
 
         public IEnumerable<int> CheckStartSemiAnnual(GetSemiAnnualPeriodStartedCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<int> startedPeriods = new List<int>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 startedPeriods = GetData<int>(criteria);
             }
@@ -52,10 +50,9 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
 
         public CommandResult InsertEmployeeToSemiAnnualPeriod(InsertEmployeeToSemiAnnualPeriodCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
-            var commandResult = new CommandResult();
+            CommandResult commandResult = new CommandResult();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 commandResult = Repository.Insert(criteria);
             }
@@ -69,10 +66,9 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
 
         public AutoEmployeePeriodModel GetEmployeeProbationEvaluation(GetEmployeeProbationEvaluationCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
-            var employeePeriod = new AutoEmployeePeriodModel();
+            AutoEmployeePeriodModel employeePeriod = new AutoEmployeePeriodModel();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 employeePeriod = _generateEvaluationRepository.GetEmployeeProbationEvaluation(criteria);
             }
@@ -82,10 +78,9 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
 
         public CommandResult InsertEmployeeToProbationPeriod(InsertEmployeeToProbationPeriodCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
-            var comandResult = new CommandResult();
+            CommandResult comandResult = new CommandResult();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 comandResult = Repository.Insert(criteria);
             }
@@ -99,10 +94,9 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
 
         public IEnumerable<AutoEmployeePeriodModel> GetEmployeePromotionEvaluation(GetEmployeePromotionEvaluationCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<AutoEmployeePeriodModel> employeePeriods = new List<AutoEmployeePeriodModel>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 employeePeriods = GetData<AutoEmployeePeriodModel>(criteria);
                 employeePeriods = employeePeriods.GroupBy(x => x.PeriodId).Select(x => new AutoEmployeePeriodModel
@@ -121,10 +115,9 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
 
         public IEnumerable<int> GetMonthlyPeriodStarted(GetMonthlyPeriodStartedCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<int> startedPeriods = new List<int>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 startedPeriods = GetData<int>(criteria);
             }
@@ -134,10 +127,9 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
 
         public CommandResult InsertEmployeeToMonthlyPeriod(InsertEmployeeToMonthlyPeriodCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
-            var commandResult = new CommandResult();
+            CommandResult commandResult = new CommandResult();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 commandResult = Repository.Insert(criteria);
             }
@@ -149,10 +141,9 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
 
         public IEnumerable<AutoEmployeePeriodModel> GetPeriodHasReminderProcess(GetPeriodHasReminderProcessCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<AutoEmployeePeriodModel> reminderPeriods = new List<AutoEmployeePeriodModel>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 reminderPeriods = GetData<AutoEmployeePeriodModel>(criteria);
             }
@@ -162,10 +153,9 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
 
         public bool CheckPeriodStartedSendMailAll(CheckPeriodStartedSendMailAllCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             bool hasSendMailAll = false;
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 hasSendMailAll = GetDataEntity<bool>(criteria);
             }
@@ -175,10 +165,9 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
 
         public IEnumerable<AutoEmployeePeriodModel> CheckEndProcess(CheckEndProcessCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<AutoEmployeePeriodModel> evaluationProcesses = new List<AutoEmployeePeriodModel>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 evaluationProcesses = GetData<AutoEmployeePeriodModel>(criteria);
             }
@@ -188,10 +177,9 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
 
         public CommandResult UpdateEndProcess(UpdateIsEndProcessCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
-            var comandResult = new CommandResult();
+            CommandResult comandResult = new CommandResult();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 comandResult = Repository.Update(criteria);
             }
@@ -201,10 +189,9 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
 
         public IEnumerable<EndEPAModel> CheckEndEvaluationPeriod(CheckEndEvaluationPeriodCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<EndEPAModel> evaluations = new List<EndEPAModel>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 evaluations = GetData<EndEPAModel>(criteria);
             }
@@ -214,10 +201,9 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
 
         public CommandResult UpdateStatusEndEvaluaitonPeriod(UpdateStatusEndEvaluationPeriodCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
-            var comandResult = new CommandResult();
+            CommandResult comandResult = new CommandResult();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 comandResult = Repository.Update(criteria);
             }
@@ -227,10 +213,9 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
 
         public CommandResult UpdateFinalScoreEndEvaluation(UpdateFinalScoreEndEvaluationCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
-            var comandResult = new CommandResult();
+            CommandResult comandResult = new CommandResult();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 comandResult = Repository.Update(criteria);
             }
@@ -240,10 +225,9 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
 
         public int CheckLastestProcessOfPeriod(CheckLastestProcessOfPeriodCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             int lastestProcess = 0;
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 lastestProcess = GetDataEntity<int>(criteria);
             }
@@ -253,10 +237,9 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
 
         public bool CheckTotalScoreOfProcessIsNull(CheckTotalScoreOfProcessIsNullCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             bool isTotalScoreNull = false;
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 isTotalScoreNull = GetDataEntity<bool>(criteria);
             }
@@ -266,10 +249,9 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
 
         public CommandResult UpdateTotalScoreOfProcess(UpdateTotalScoreOfProcessCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             CommandResult commandResult = new CommandResult();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 commandResult = Repository.Update(criteria);
             }
@@ -279,10 +261,9 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
 
         public IEnumerable<EndEPAModel> GetEvaluationEndedYesterday(GetEvaluationEndedYesterdayCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<EndEPAModel> evaluations = new List<EndEPAModel>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 evaluations = GetData<EndEPAModel>(criteria);
             }
@@ -292,10 +273,9 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
 
         public CommandResult UpdateTotalScoreOfSemiHasMonthly(UpdateTotalScoreOfSemiHasMonthlyCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             CommandResult commandResult = new CommandResult();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 commandResult = Repository.Update(criteria);
             }

@@ -11,7 +11,6 @@ namespace SMS.EPA.Services.Implement
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Fanex.Common.Helper;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.RoleManagement;
@@ -22,10 +21,9 @@ namespace SMS.EPA.Services.Implement
     {
         public IEnumerable<RoleFunctionModel> GetFunctionByRoleId(GetFunctionByRoleIdCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<RoleFunctionModel> functions = new List<RoleFunctionModel>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 IEnumerable<RoleFunctionModel> rawFunctions = GetData<RoleFunctionModel>(criteria);
                 functions = GroupFunction(rawFunctions);
@@ -36,10 +34,9 @@ namespace SMS.EPA.Services.Implement
 
         public CommandResult AssignFunctionToRole(AssignFunctionToRoleCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             CommandResult commandResult = new CommandResult();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 commandResult = Repository.Update(criteria);
             }

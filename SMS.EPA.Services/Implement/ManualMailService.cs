@@ -10,6 +10,7 @@
 namespace SMS.EPA.Services.Implement
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Web;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Model.Period;
@@ -38,50 +39,56 @@ namespace SMS.EPA.Services.Implement
 
         public void SendStartMail(PeriodModel period, IEnumerable<PeriodFlowModel> employeeSettings)
         {
-            string templateEmailPath = string.Empty;
-
-            foreach (PeriodFlowModel employeeSetting in employeeSettings)
+            if (employeeSettings != null && employeeSettings.Any() && period != null)
             {
-                switch (employeeSetting.ProcessId)
+                string templateEmailPath = string.Empty;
+
+                foreach (PeriodFlowModel employeeSetting in employeeSettings)
                 {
-                    case (int)ProcessType.HumanResource:
-                        templateEmailPath = HttpContext.Current.Server.MapPath(_startDateMailToHumanResources);
-                        _mailService.SendMailToHRStartDate(templateEmailPath, employeeSetting, period.Name);
-                        break;
+                    switch (employeeSetting.ProcessId)
+                    {
+                        case (int)ProcessType.HumanResource:
+                            templateEmailPath = HttpContext.Current.Server.MapPath(_startDateMailToHumanResources);
+                            _mailService.SendMailToHRStartDate(templateEmailPath, employeeSetting, period.Name);
+                            break;
 
-                    case (int)ProcessType.Self:
-                        templateEmailPath = HttpContext.Current.Server.MapPath(_startDateMailToSelf);
-                        _mailService.SendMailToSelfStartDate(templateEmailPath, employeeSetting, period.Name);
-                        break;
+                        case (int)ProcessType.Self:
+                            templateEmailPath = HttpContext.Current.Server.MapPath(_startDateMailToSelf);
+                            _mailService.SendMailToSelfStartDate(templateEmailPath, employeeSetting, period.Name);
+                            break;
 
-                    case (int)ProcessType.Evaluator:
-                        templateEmailPath = HttpContext.Current.Server.MapPath(_startDateMailToEvaluator);
-                        _mailService.SendMailToEvaluatorStartDate(templateEmailPath, employeeSetting, period.Name);
+                        case (int)ProcessType.Evaluator:
+                            templateEmailPath = HttpContext.Current.Server.MapPath(_startDateMailToEvaluator);
+                            _mailService.SendMailToEvaluatorStartDate(templateEmailPath, employeeSetting, period.Name);
 
-                        break;
+                            break;
 
-                    case (int)ProcessType.Reviewer:
-                        templateEmailPath = HttpContext.Current.Server.MapPath(_startDateMailToReviewer);
-                        _mailService.SendMailToReviewerStartDate(templateEmailPath, employeeSetting, period.Name);
+                        case (int)ProcessType.Reviewer:
+                            templateEmailPath = HttpContext.Current.Server.MapPath(_startDateMailToReviewer);
+                            _mailService.SendMailToReviewerStartDate(templateEmailPath, employeeSetting, period.Name);
 
-                        break;
+                            break;
 
-                    case (int)ProcessType.Management:
-                        templateEmailPath = HttpContext.Current.Server.MapPath(_startDateMailToManagement);
-                        _mailService.SendMailToManagementStartDate(templateEmailPath, employeeSetting, period.Name);
+                        case (int)ProcessType.Management:
+                            templateEmailPath = HttpContext.Current.Server.MapPath(_startDateMailToManagement);
+                            _mailService.SendMailToManagementStartDate(templateEmailPath, employeeSetting, period.Name);
 
-                        break;
+                            break;
+                    }
                 }
             }
         }
 
         public void SendNotifyMail(PeriodModel period, IEnumerable<PeriodFlowModel> employeeSettings)
         {
-            string templateEmailPath = HttpContext.Current.Server.MapPath(_mailNotifyChangeSetting);
-
-            foreach (PeriodFlowModel employeeSetting in employeeSettings)
+            if (employeeSettings != null && employeeSettings.Any() && period != null)
             {
-                _mailService.SendMailToNotifyChangeSetting(templateEmailPath, employeeSetting, period.Name);
+                string templateEmailPath = HttpContext.Current.Server.MapPath(_mailNotifyChangeSetting);
+
+                foreach (PeriodFlowModel employeeSetting in employeeSettings)
+                {
+                    _mailService.SendMailToNotifyChangeSetting(templateEmailPath, employeeSetting, period.Name);
+                }
             }
         }
     }

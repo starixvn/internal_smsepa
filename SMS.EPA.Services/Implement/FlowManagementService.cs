@@ -11,7 +11,6 @@ namespace SMS.EPA.Services.Implement
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Fanex.Common.Helper;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.FlowManagement;
@@ -40,10 +39,9 @@ namespace SMS.EPA.Services.Implement
 
         public IEnumerable<FlowTemplateModel> GetFlowTemplate(GetFlowTemplateCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<FlowTemplateModel> flowTemplates = new List<FlowTemplateModel>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 flowTemplates = _flowManagementRepository.GetFlowTemplate(criteria);
             }
@@ -53,10 +51,9 @@ namespace SMS.EPA.Services.Implement
 
         public FlowTemplateModel GetFlowTemplateById(GetFlowTemplateByIdCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             FlowTemplateModel flowTemplate = new FlowTemplateModel();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 flowTemplate = _flowManagementRepository.GetFlowTemplateById(criteria);
             }
@@ -67,9 +64,8 @@ namespace SMS.EPA.Services.Implement
         public CommandResult CreateFlowTemplate(CreateFlowTemplateCriteria criteria)
         {
             CommandResult result = new CommandResult();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 result = Repository.Insert(criteria);
             }
@@ -80,9 +76,8 @@ namespace SMS.EPA.Services.Implement
         public CommandResult UpdateFlowTemplate(UpdateFlowTemplateCriteria criteria)
         {
             CommandResult result = new CommandResult();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 result = Repository.Update(criteria);
             }
@@ -93,9 +88,8 @@ namespace SMS.EPA.Services.Implement
         public CommandResult UpdateStatusFlowTemplate(UpdateStatusFlowTemplateCriteria criteria)
         {
             CommandResult result = new CommandResult();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 result = Repository.Update(criteria);
             }
@@ -106,9 +100,8 @@ namespace SMS.EPA.Services.Implement
         public CommandResult DeleteFlowTemplate(DeleteFlowTemplateCriteria criteria)
         {
             CommandResult result = new CommandResult();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 result = Repository.Delete(criteria);
             }
@@ -122,10 +115,9 @@ namespace SMS.EPA.Services.Implement
 
         public IEnumerable<DepartmentFlowModel> GetDepartmentFlow(GetDepartmentFlowCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<DepartmentFlowModel> flows = new List<DepartmentFlowModel>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 flows = _flowManagementRepository.GetDepartmentFlow(criteria);
             }
@@ -135,10 +127,9 @@ namespace SMS.EPA.Services.Implement
 
         public IEnumerable<FlowModel> GetDepartmentFlowById(GetDepartmentFlowByIdCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<FlowModel> flow = new List<FlowModel>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 flow = _flowManagementRepository.GetFlowManagement(criteria);
             }
@@ -149,9 +140,8 @@ namespace SMS.EPA.Services.Implement
         public CommandResult CreateDepartmentFlow(CreateDepartmentFlowCriteria criteria)
         {
             CommandResult result = new CommandResult();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 result = Repository.Insert(criteria);
             }
@@ -162,9 +152,8 @@ namespace SMS.EPA.Services.Implement
         public CommandResult DeleteDepartmentFlow(DeleteDepartmentFlowCriteria criteria)
         {
             CommandResult result = new CommandResult();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 result = Repository.Delete(criteria);
             }
@@ -174,10 +163,9 @@ namespace SMS.EPA.Services.Implement
 
         public IList<DepartmentModel> GetDepartmentHasSetting(GetDepartmentSectionHasSettingCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IList<DepartmentModel> departments = new List<DepartmentModel>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 departments = GetData<DepartmentModel>(criteria).ToList();
             }
@@ -192,9 +180,8 @@ namespace SMS.EPA.Services.Implement
         public IEnumerable<PersonalFlowModel> GetPersonalFlow(GetPersonalFlowCriteria criteria)
         {
             IEnumerable<PersonalFlowModel> flows = new List<PersonalFlowModel>();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 flows = _flowManagementRepository.GetPersonalFlow(criteria);
             }
@@ -205,9 +192,8 @@ namespace SMS.EPA.Services.Implement
         public IEnumerable<FlowModel> GetPersonalFlowById(GetPersonalFlowByIdCriteria criteria)
         {
             IEnumerable<FlowModel> flow = new List<FlowModel>();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 flow = _flowManagementRepository.GetFlowManagement(criteria);
             }
@@ -218,9 +204,8 @@ namespace SMS.EPA.Services.Implement
         public CommandResult CreatePersonalFlow(CreatePersonalFlowCriteria criteria)
         {
             CommandResult result = new CommandResult();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 result = Repository.Insert(criteria);
             }
@@ -231,9 +216,8 @@ namespace SMS.EPA.Services.Implement
         public CommandResult DeletePersonalFlow(DeletePersonalFlowCriteria criteria)
         {
             CommandResult result = new CommandResult();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 result = Repository.Delete(criteria);
             }
@@ -244,9 +228,8 @@ namespace SMS.EPA.Services.Implement
         public IEnumerable<EmployeeModel> GetEmployeeFlowSetting(GetEmployeeFlowSettingCriteria criteria)
         {
             IEnumerable<EmployeeModel> data = new List<EmployeeModel>();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 data = GetData<EmployeeModel>(criteria);
             }

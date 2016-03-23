@@ -10,7 +10,6 @@
 namespace SMS.EPA.Services.Implement
 {
     using System.Collections.Generic;
-    using Fanex.Common.Helper;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.ScoreRatingType;
     using SMS.EPA.Model.ScoreRatingType;
@@ -20,10 +19,9 @@ namespace SMS.EPA.Services.Implement
     {
         public IEnumerable<ScoreRatingTypeModel> GetScoreRatingType(GetScoreRatingTypeCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<ScoreRatingTypeModel> scoreRatingTypes = new List<ScoreRatingTypeModel>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 scoreRatingTypes = GetData<ScoreRatingTypeModel>(criteria);
             }

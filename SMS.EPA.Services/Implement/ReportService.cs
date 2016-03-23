@@ -14,7 +14,6 @@ namespace SMS.EPA.Services.Implement
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Linq;
-    using Fanex.Common.Helper;
     using NexFB.Core.Utilities;
     using NPOI.HSSF.UserModel;
     using NPOI.SS.UserModel;
@@ -49,9 +48,8 @@ namespace SMS.EPA.Services.Implement
         public DashboardModel GetDashboard(GetDashboardCriteria criteria)
         {
             DashboardModel result = new DashboardModel();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 result = _reportRepository.GetDashboard(criteria);
             }
@@ -64,9 +62,8 @@ namespace SMS.EPA.Services.Implement
         public EPASummaryModel GetEPASummaryReport(GetEPASummaryCriteria criteria)
         {
             EPASummaryModel result = new EPASummaryModel();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 result = _reportRepository.GetEPASummary(criteria);
             }
@@ -91,13 +88,13 @@ namespace SMS.EPA.Services.Implement
             HSSFWorkbook workbook = new HSSFWorkbook();
             ISheet sheet = workbook.CreateSheet(Lang.EPASummaryReportSheet);
 
-            var rowTitle = sheet.CreateRow(0);
+            IRow rowTitle = sheet.CreateRow(0);
 
-            var font = workbook.CreateFont();
+            IFont font = workbook.CreateFont();
             font.FontHeightInPoints = 18;
             font.Boldweight = (short)NPOI.SS.UserModel.FontBoldWeight.Bold;
 
-            var cell = rowTitle.CreateCell(0);
+            ICell cell = rowTitle.CreateCell(0);
             cell.SetCellValue(titleString);
             cell.CellStyle = workbook.CreateCellStyle();
             cell.CellStyle.Alignment = HorizontalAlignment.Center;
@@ -111,6 +108,7 @@ namespace SMS.EPA.Services.Implement
 
             var output = new MemoryStream();
             workbook.Write(output);
+
             return output;
         }
 
@@ -121,9 +119,8 @@ namespace SMS.EPA.Services.Implement
         public EPADetailModel GetEPADetailReport(GetEPADetailCriteria criteria)
         {
             EPADetailModel result = new EPADetailModel();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 result = _reportRepository.GetEPADetail(criteria);
             }
@@ -152,7 +149,7 @@ namespace SMS.EPA.Services.Implement
             ref ISheet sheet,
             IList<string> titleHeaders)
         {
-            var font = workbook.CreateFont();
+            IFont font = workbook.CreateFont();
             font.FontHeightInPoints = 11;
             font.Color = NPOI.HSSF.Util.HSSFColor.Grey80Percent.White.Index;
             font.Boldweight = (short)NPOI.SS.UserModel.FontBoldWeight.Bold;

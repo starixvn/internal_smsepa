@@ -157,16 +157,23 @@ namespace SMS.EPA.Site.Controllers.API
         [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Host)]
         public CommandResult CreateDepartmentFlow(InsertFlowModel model)
         {
-            var criteria = new CreateDepartmentFlowCriteria()
-            {
-                DepartmentId = Math.Abs(model.DepartmentId),
-                FlowTemplateId = model.FlowTemplateId,
-                IsGroup = model.DepartmentId > 0 ? false : true,
-                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
-                FlowDetails = model.FlowDetails
-            };
+            CommandResult commandResult = new CommandResult();
 
-            return _flowManagementService.CreateDepartmentFlow(criteria);
+            if (model != null)
+            {
+                var criteria = new CreateDepartmentFlowCriteria()
+                {
+                    DepartmentId = Math.Abs(model.DepartmentId),
+                    FlowTemplateId = model.FlowTemplateId,
+                    IsGroup = model.DepartmentId > 0 ? false : true,
+                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
+                    FlowDetails = model.FlowDetails
+                };
+
+                commandResult = _flowManagementService.CreateDepartmentFlow(criteria);
+            }
+
+            return commandResult;
         }
 
         [HttpDelete]
@@ -233,15 +240,22 @@ namespace SMS.EPA.Site.Controllers.API
         [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Host)]
         public CommandResult CreatePersonalFlow(InsertFlowModel model)
         {
-            var criteria = new CreatePersonalFlowCriteria()
-            {
-                EmployeeId = model.Selfs.Employees[0].EmployeeId,
-                FlowTemplateId = model.FlowTemplateId,
-                FlowDetails = model.FlowDetails,
-                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
-            };
+            CommandResult commandResult = new CommandResult();
 
-            return _flowManagementService.CreatePersonalFlow(criteria);
+            if (model != null)
+            {
+                var criteria = new CreatePersonalFlowCriteria()
+                {
+                    EmployeeId = model.Selfs.Employees[0].EmployeeId,
+                    FlowTemplateId = model.FlowTemplateId,
+                    FlowDetails = model.FlowDetails,
+                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                };
+
+                commandResult = _flowManagementService.CreatePersonalFlow(criteria);
+            }
+
+            return commandResult;
         }
 
         [HttpDelete]

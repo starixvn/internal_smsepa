@@ -12,6 +12,7 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using SMS.EPA.AutoGenerateEvaluation.Service.Interfaces;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Model.EmployeeEPA;
@@ -50,42 +51,42 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
 
         public void SendStartMail(PeriodModel period, IEnumerable<PeriodFlowModel> employeeSettings)
         {
-            string templateEmailPath = string.Empty;
-            string assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
-
-            foreach (PeriodFlowModel employeeSetting in employeeSettings)
+            if (employeeSettings != null && employeeSettings.Any() && period != null)
             {
-                if (employeeSetting.HasSendMail)
+                string templateEmailPath = string.Empty,
+                    assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
+
+                foreach (PeriodFlowModel employeeSetting in employeeSettings)
                 {
-                    switch (employeeSetting.ProcessId)
+                    if (employeeSetting.HasSendMail)
                     {
-                        case (int)ProcessType.HumanResource:
-                            templateEmailPath = Path.Combine(assemblyPath, _startDateMailToHumanResources);
-                            _mailService.SendMailToHRStartDate(templateEmailPath, employeeSetting, period.Name);
-                            break;
+                        switch (employeeSetting.ProcessId)
+                        {
+                            case (int)ProcessType.HumanResource:
+                                templateEmailPath = Path.Combine(assemblyPath, _startDateMailToHumanResources);
+                                _mailService.SendMailToHRStartDate(templateEmailPath, employeeSetting, period.Name);
+                                break;
 
-                        case (int)ProcessType.Self:
-                            templateEmailPath = Path.Combine(assemblyPath, _startDateMailToSelf);
-                            _mailService.SendMailToSelfStartDate(templateEmailPath, employeeSetting, period.Name);
-                            break;
+                            case (int)ProcessType.Self:
+                                templateEmailPath = Path.Combine(assemblyPath, _startDateMailToSelf);
+                                _mailService.SendMailToSelfStartDate(templateEmailPath, employeeSetting, period.Name);
+                                break;
 
-                        case (int)ProcessType.Evaluator:
-                            templateEmailPath = Path.Combine(assemblyPath, _startDateMailToEvaluator);
-                            _mailService.SendMailToEvaluatorStartDate(templateEmailPath, employeeSetting, period.Name);
+                            case (int)ProcessType.Evaluator:
+                                templateEmailPath = Path.Combine(assemblyPath, _startDateMailToEvaluator);
+                                _mailService.SendMailToEvaluatorStartDate(templateEmailPath, employeeSetting, period.Name);
+                                break;
 
-                            break;
+                            case (int)ProcessType.Reviewer:
+                                templateEmailPath = Path.Combine(assemblyPath, _startDateMailToReviewer);
+                                _mailService.SendMailToReviewerStartDate(templateEmailPath, employeeSetting, period.Name);
+                                break;
 
-                        case (int)ProcessType.Reviewer:
-                            templateEmailPath = Path.Combine(assemblyPath, _startDateMailToReviewer);
-                            _mailService.SendMailToReviewerStartDate(templateEmailPath, employeeSetting, period.Name);
-
-                            break;
-
-                        case (int)ProcessType.Management:
-                            templateEmailPath = Path.Combine(assemblyPath, _startDateMailToManagement);
-                            _mailService.SendMailToManagementStartDate(templateEmailPath, employeeSetting, period.Name);
-
-                            break;
+                            case (int)ProcessType.Management:
+                                templateEmailPath = Path.Combine(assemblyPath, _startDateMailToManagement);
+                                _mailService.SendMailToManagementStartDate(templateEmailPath, employeeSetting, period.Name);
+                                break;
+                        }
                     }
                 }
             }
@@ -93,35 +94,38 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
 
         public void SendReminderMail(PeriodModel period, IEnumerable<PeriodFlowModel> employeeSettings)
         {
-            string templateEmailPath = string.Empty;
-            string assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
-
-            foreach (PeriodFlowModel employeeSetting in employeeSettings)
+            if (employeeSettings != null && employeeSettings.Any() && period != null)
             {
-                switch (employeeSetting.ProcessId)
+                string templateEmailPath = string.Empty,
+                    assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
+
+                foreach (PeriodFlowModel employeeSetting in employeeSettings)
                 {
-                    case (int)ProcessType.Self:
-                        templateEmailPath = Path.Combine(assemblyPath, _reminderMailToSelf);
-                        _mailService.SendMailToSelfRemindDate(templateEmailPath, employeeSetting, period.Name);
-                        break;
+                    switch (employeeSetting.ProcessId)
+                    {
+                        case (int)ProcessType.Self:
+                            templateEmailPath = Path.Combine(assemblyPath, _reminderMailToSelf);
+                            _mailService.SendMailToSelfRemindDate(templateEmailPath, employeeSetting, period.Name);
+                            break;
 
-                    case (int)ProcessType.Evaluator:
-                        templateEmailPath = Path.Combine(assemblyPath, _reminderMailToEvaluator);
-                        _mailService.SendMailToEvaluatorRemindDate(templateEmailPath, employeeSetting, period.Name);
+                        case (int)ProcessType.Evaluator:
+                            templateEmailPath = Path.Combine(assemblyPath, _reminderMailToEvaluator);
+                            _mailService.SendMailToEvaluatorRemindDate(templateEmailPath, employeeSetting, period.Name);
 
-                        break;
+                            break;
 
-                    case (int)ProcessType.Reviewer:
-                        templateEmailPath = Path.Combine(assemblyPath, _reminderMailToReviewer);
-                        _mailService.SendMailToReviewerRemindDate(templateEmailPath, employeeSetting, period.Name);
+                        case (int)ProcessType.Reviewer:
+                            templateEmailPath = Path.Combine(assemblyPath, _reminderMailToReviewer);
+                            _mailService.SendMailToReviewerRemindDate(templateEmailPath, employeeSetting, period.Name);
 
-                        break;
+                            break;
 
-                    case (int)ProcessType.Management:
-                        templateEmailPath = Path.Combine(assemblyPath, _reminderMailToManagement);
-                        _mailService.SendMailToManagementRemindDate(templateEmailPath, employeeSetting, period.Name);
+                        case (int)ProcessType.Management:
+                            templateEmailPath = Path.Combine(assemblyPath, _reminderMailToManagement);
+                            _mailService.SendMailToManagementRemindDate(templateEmailPath, employeeSetting, period.Name);
 
-                        break;
+                            break;
+                    }
                 }
             }
         }
@@ -131,31 +135,37 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
             float averagePerformanceScore,
             float disciplineScore)
         {
-            string assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
-            string templateEmailPath = Path.Combine(assemblyPath, _endMailToSelf);
+            string assemblyPath = AppDomain.CurrentDomain.BaseDirectory,
+                templateEmailPath = Path.Combine(assemblyPath, _endMailToSelf);
 
             _mailService.SendMailToSelfEndEvaluation(templateEmailPath, evaluationInfo, averagePerformanceScore, disciplineScore);
         }
 
         public void SendEndEvaluationMailToHumanResourceByEmployee(EPAModel evaluationInfo)
         {
-            string assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
-            string templateEmailPath = templateEmailPath = Path.Combine(assemblyPath, _endMailToHumanResourcesByEmployee);
-
-            foreach (EPAProcessModel humanResource in evaluationInfo.HumanResources)
+            if (evaluationInfo != null)
             {
-                _mailService.SendMailEndToHumanResourcesByEmployee(templateEmailPath, evaluationInfo, humanResource);
+                string assemblyPath = AppDomain.CurrentDomain.BaseDirectory,
+                    templateEmailPath = templateEmailPath = Path.Combine(assemblyPath, _endMailToHumanResourcesByEmployee);
+
+                foreach (EPAProcessModel humanResource in evaluationInfo.HumanResources)
+                {
+                    _mailService.SendMailEndToHumanResourcesByEmployee(templateEmailPath, evaluationInfo, humanResource);
+                }
             }
         }
 
         public void SendEndEvaluationMailToHumanResourceByPeriod(PeriodModel period, IEnumerable<PeriodFlowModel> employeeSettings)
         {
-            string assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
-            string templateEmailPath = templateEmailPath = Path.Combine(assemblyPath, _endMailToHumanReouscesByPeriod);
-
-            foreach (PeriodFlowModel employeeSetting in employeeSettings)
+            if (employeeSettings != null && employeeSettings.Any() && period != null)
             {
-                _mailService.SendMailEndToHumanResourceByPeriod(templateEmailPath, employeeSetting, period.Name);
+                string assemblyPath = AppDomain.CurrentDomain.BaseDirectory,
+                    templateEmailPath = templateEmailPath = Path.Combine(assemblyPath, _endMailToHumanReouscesByPeriod);
+
+                foreach (PeriodFlowModel employeeSetting in employeeSettings)
+                {
+                    _mailService.SendMailEndToHumanResourceByPeriod(templateEmailPath, employeeSetting, period.Name);
+                }
             }
         }
     }

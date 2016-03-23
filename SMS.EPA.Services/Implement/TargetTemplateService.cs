@@ -11,7 +11,6 @@ namespace SMS.EPA.Services.Implement
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Fanex.Common.Helper;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.TargetTemplate;
@@ -39,10 +38,9 @@ namespace SMS.EPA.Services.Implement
 
         public TargetTemplateModel GetTargetTemplateById(GetTargetTemplateByIdCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
-            TargetTemplateModel targetTemplate = null;
+            TargetTemplateModel targetTemplate = new TargetTemplateModel();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 targetTemplate = GetDataEntity<TargetTemplateModel>(criteria);
             }
@@ -52,10 +50,9 @@ namespace SMS.EPA.Services.Implement
 
         public IEnumerable<TargetTemplateModel> GetAllTargetTemplate(GetAllTargetTemplateCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
-            IEnumerable<TargetTemplateModel> targetTemplates = null;
+            IEnumerable<TargetTemplateModel> targetTemplates = new List<TargetTemplateModel>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 targetTemplates = GetData<TargetTemplateModel>(criteria);
             }
@@ -65,10 +62,9 @@ namespace SMS.EPA.Services.Implement
 
         public CommandResult CreateTargetTemplate(CreateTargetTemplateCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
-            CommandResult result = null;
+            CommandResult result = new CommandResult();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 result = Repository.Insert(criteria);
             }
@@ -78,10 +74,9 @@ namespace SMS.EPA.Services.Implement
 
         public CommandResult UpdateTargetTemplate(UpdateTargetTemplateCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
-            CommandResult result = null;
+            CommandResult result = new CommandResult();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 result = Repository.Update(criteria);
             }
@@ -91,10 +86,9 @@ namespace SMS.EPA.Services.Implement
 
         public CommandResult UpdateTargetTemplateBasicInformation(UpdateTargetTemplateBasicInformationCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
-            CommandResult result = null;
+            CommandResult result = new CommandResult();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 result = Repository.Update(criteria);
             }
@@ -104,10 +98,9 @@ namespace SMS.EPA.Services.Implement
 
         public CommandResult DeleteTargetTemplate(DeleteTargetTemplateCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
-            CommandResult result = null;
+            CommandResult result = new CommandResult();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 result = Repository.Delete(criteria);
             }
@@ -117,10 +110,9 @@ namespace SMS.EPA.Services.Implement
 
         public CommandResult AddKPIGroupWeight(SetKPIGroupOfTargetTemplateCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
-            CommandResult result = null;
+            CommandResult result = new CommandResult();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 result = Repository.Insert(criteria);
             }
@@ -130,10 +122,9 @@ namespace SMS.EPA.Services.Implement
 
         public IEnumerable<KPIGroupModel> GetKPIGroupOfTargetTemplate(GetKPIGroupOfTargetTemplateCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
-            IEnumerable<KPIGroupModel> groups = null;
+            IEnumerable<KPIGroupModel> groups = new List<KPIGroupModel>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 groups = GetData<KPIGroupModel>(criteria);
 
@@ -151,10 +142,9 @@ namespace SMS.EPA.Services.Implement
 
         public CommandResult UpdateStatusTargetTemplate(UpdateStatusTargetTemplateCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
-            CommandResult result = null;
+            CommandResult result = new CommandResult();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 result = Repository.Update(criteria);
             }
@@ -164,10 +154,9 @@ namespace SMS.EPA.Services.Implement
 
         public CommandResult DeleteKPIGroup(DeleteKPIGroupOfTargetTemplateCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
-            CommandResult result = null;
+            CommandResult result = new CommandResult();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 result = Repository.Delete(criteria);
             }
@@ -177,10 +166,9 @@ namespace SMS.EPA.Services.Implement
 
         public IEnumerable<TargetTemplateKPIGroupModel> GetKPIOfTargetTemplate(GetKPIOfTargetTemplateCriteria criteria, bool onlyKPISelected)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<TargetTemplateKPIGroupModel> kpiGroups = new List<TargetTemplateKPIGroupModel>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 IEnumerable<KPIModel> kpiList = _targetTemplateRepository.GetKPIOfTargetTemplate(criteria);
                 kpiGroups = GroupKPI(kpiList);
@@ -196,10 +184,9 @@ namespace SMS.EPA.Services.Implement
 
         public IEnumerable<RatingType> GetRatingType(GetRatingTypeCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<RatingType> ratingTypes = new List<RatingType>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 ratingTypes = GetData<RatingType>(criteria);
             }
@@ -230,18 +217,20 @@ namespace SMS.EPA.Services.Implement
                         allSelected = false;
                     }
                 });
+
             return allSelected;
         }
 
         private IEnumerable<KPIModel> CheckKPISelected(List<KPIModel> listKPI)
         {
-            listKPI.ForEach(x => 
-            { 
-                if (x.Weight >= 0) 
+            listKPI.ForEach(x =>
+            {
+                if (x.Weight >= 0)
                 {
                     x.Selected = true;
                 }
             });
+
             return listKPI;
         }
 

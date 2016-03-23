@@ -11,6 +11,8 @@
     <CasingExceptions>
       <Acronym>SMS</Acronym>
       <Acronym>EPA</Acronym>
+      <Acronym>EPAs</Acronym>
+      <Acronym>EPAKPI</Acronym>
       <Acronym>API</Acronym>
       <Acronym>KPI</Acronym>
       <Acronym>KPIs</Acronym>

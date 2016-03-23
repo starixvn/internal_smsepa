@@ -22,19 +22,16 @@ namespace SMS.EPA.Site.Controllers.API
     public class DashboardController : BaseController
     {
         private readonly IReportService _reportService;
-        private readonly CommonController _commonController;
 
         public DashboardController() :
-            this(null, null)
+            this(null)
         {
         }
 
         public DashboardController(
-            IReportService reportService,
-            CommonController commonController)
+            IReportService reportService)
         {
             _reportService = reportService ?? new ReportService();
-            _commonController = commonController ?? new CommonController();
         }
 
         [HttpGet]

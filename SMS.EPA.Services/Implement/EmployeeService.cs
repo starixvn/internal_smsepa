@@ -11,7 +11,6 @@ namespace SMS.EPA.Services.Implement
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Fanex.Common.Helper;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Security;
@@ -42,10 +41,9 @@ namespace SMS.EPA.Services.Implement
 
         public UserSession GetEmployeeByCode(GetEmployeeByCodeCriteria criteria)
         {
-            var employee = new UserSession();
-            Check.Argument.IsNotNull(criteria, "criteria");
+            UserSession employee = new UserSession();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 employee = _employeeRepository.GetEmployee(criteria);
             }
@@ -55,10 +53,9 @@ namespace SMS.EPA.Services.Implement
 
         public UserSession GetEmployeeByUsername(GetEmployeeByDomainUsernameCriteria criteria)
         {
-            var employee = new UserSession();
-            Check.Argument.IsNotNull(criteria, "criteria");
+            UserSession employee = new UserSession();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 employee = _employeeRepository.GetEmployee(criteria);
             }
@@ -70,15 +67,15 @@ namespace SMS.EPA.Services.Implement
         {
             bool isValid = !string.IsNullOrWhiteSpace(enterPassword) &&
                                 Encryption.CompareStringToHash(HashProvider.Sha1, enterPassword, employeePassword);
+
             return isValid;
         }
 
         public IEnumerable<EmployeeModel> GetAllEmployee(GetAllEmployeeCriteria criteria)
         {
             IEnumerable<EmployeeModel> employees = new List<EmployeeModel>();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 RawEmployeeModel rawEmployee = _employeeRepository.GetAllEmployee(criteria);
                 employees = GetRoleOfEmployee(rawEmployee);
@@ -90,9 +87,8 @@ namespace SMS.EPA.Services.Implement
         public EmployeeModel GetEmployeeById(GetEmployeeByIdCriteria criteria)
         {
             var employee = new EmployeeModel();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 employee = _employeeRepository.GetEmployeeById(criteria);
             }
@@ -103,9 +99,8 @@ namespace SMS.EPA.Services.Implement
         public IEnumerable<Group> GetAllGroup(GetAllGroupCriteria criteria)
         {
             IEnumerable<Group> groups = new List<Group>();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 groups = GetData<Group>(criteria);
             }
@@ -116,9 +111,8 @@ namespace SMS.EPA.Services.Implement
         public CommandResult CreateSpecialEmployee(CreateSpecialEmployeeCriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 commandResult = Repository.Insert(criteria);
             }
@@ -129,9 +123,8 @@ namespace SMS.EPA.Services.Implement
         public CommandResult UpdateSpecialEmployee(UpdateSpecialEmployeeCriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 commandResult = Repository.Update(criteria);
             }
@@ -142,9 +135,8 @@ namespace SMS.EPA.Services.Implement
         public IEnumerable<JobTitle> GetAllJobTitle(GetAllJobTitleCriteria criteria)
         {
             IEnumerable<JobTitle> jobTitles = new List<JobTitle>();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 jobTitles = GetData<JobTitle>(criteria);
             }
@@ -155,9 +147,8 @@ namespace SMS.EPA.Services.Implement
         public CommandResult ChangePassword(ChangePasswordCriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 criteria.NewPassword = Encryption.ComputeHash(HashProvider.Sha1, criteria.NewPassword);
                 commandResult = Repository.Update(criteria);
@@ -168,10 +159,9 @@ namespace SMS.EPA.Services.Implement
 
         public CommandResult AssignRoleToEmployee(AssignRoleToEmployeeCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
-            var commandResult = new CommandResult();
+            CommandResult commandResult = new CommandResult();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 commandResult = Repository.Update(criteria);
             }
@@ -182,9 +172,8 @@ namespace SMS.EPA.Services.Implement
         public IEnumerable<EmployeeModel> GetEmployeeByDepartmentId(GetEmployeeByDepartmentIdCriteria criteria)
         {
             IEnumerable<EmployeeModel> employees = new List<EmployeeModel>();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 employees = GetData<EmployeeModel>(criteria);
             }
@@ -195,9 +184,8 @@ namespace SMS.EPA.Services.Implement
         public IEnumerable<EmployeeModel> GetEmployeeByGroupId(GetEmployeeByGroupIdCriteria criteria)
         {
             IEnumerable<EmployeeModel> employees = new List<EmployeeModel>();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 employees = GetData<EmployeeModel>(criteria);
             }
@@ -207,10 +195,9 @@ namespace SMS.EPA.Services.Implement
 
         public CommandResult InsertEmployeeIPAddress(InsertEmployeeIPAddressCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             CommandResult commandResult = new CommandResult();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 commandResult = Repository.Insert(criteria);
             }
@@ -220,10 +207,9 @@ namespace SMS.EPA.Services.Implement
 
         public CommandResult UpdateHasMonthlyEPA(UpdateHasMonthlyEPACriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             CommandResult commandResult = new CommandResult();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 commandResult = Repository.Update(criteria);
             }

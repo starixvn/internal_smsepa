@@ -11,7 +11,6 @@ namespace SMS.EPA.Services.Implement
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Fanex.Common.Helper;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.TargetEmployeeSetting;
@@ -40,9 +39,8 @@ namespace SMS.EPA.Services.Implement
         public IList<TargetEmployeeModel> GetTargetEmployeeSetting(GetAllTargetEmployeeSettingCriteria criteria)
         {
             var targetEmployeeSettings = new List<TargetEmployeeModel>();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 TargetEmployeeSettingModel rawEmployeeSetting = _targetEmployeeSettingRepository.GetTargetEmployeeSetting(criteria);
                 targetEmployeeSettings = ConvertToTargetEmployeeModel(rawEmployeeSetting);
@@ -54,9 +52,8 @@ namespace SMS.EPA.Services.Implement
         public CommandResult AssignTargetTemplateToEmployee(AssignTargetTemplateToEmployeeCriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 commandResult = Repository.Update(criteria);
             }
@@ -67,9 +64,8 @@ namespace SMS.EPA.Services.Implement
         public CommandResult DeleteTargetEmployeeSetting(DeleteTargetEmployeeSettingCriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 commandResult = Repository.Delete(criteria);
             }
@@ -80,9 +76,8 @@ namespace SMS.EPA.Services.Implement
         public IList<TargetDepartmentModel> GetTargetDepartmentSetting(GetTargetDepartmentSettingCriteria criteria)
         {
             var targetDepartmentSettings = new List<TargetDepartmentModel>();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 TargetDepartmentSettingModel rawDepartmentSeting = _targetEmployeeSettingRepository.GetTargetDepartmentSetting(criteria);
                 targetDepartmentSettings = ConvertToTargetDepartmentModel(rawDepartmentSeting);
@@ -94,9 +89,8 @@ namespace SMS.EPA.Services.Implement
         public CommandResult AssignTargetTemplateToDepartment(AssignTargetDepartmentSettingCriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 commandResult = Repository.Update(criteria);
             }
@@ -107,9 +101,8 @@ namespace SMS.EPA.Services.Implement
         public CommandResult DeleteTargetDepartmentSetting(DeleteTargetDepartmentSettingCriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
-            Check.Argument.IsNotNull(criteria, "criteria");
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 commandResult = Repository.Delete(criteria);
             }
@@ -117,13 +110,13 @@ namespace SMS.EPA.Services.Implement
             return commandResult;
         }
 
-        private List<TargetEmployeeModel> ConvertToTargetEmployeeModel(TargetEmployeeSettingModel rawEmployeeSetting)
+        private List<TargetEmployeeModel> ConvertToTargetEmployeeModel(TargetEmployeeSettingModel employeeSetting)
         {
             var targetEmployeeSettings = new List<TargetEmployeeModel>();
 
-            if (rawEmployeeSetting != null)
+            if (employeeSetting != null)
             {
-                foreach (EmployeeModel employee in rawEmployeeSetting.Employees)
+                foreach (EmployeeModel employee in employeeSetting.Employees)
                 {
                     var targetEmployeeSetting = new TargetEmployeeModel
                     {
@@ -131,13 +124,13 @@ namespace SMS.EPA.Services.Implement
                         Group = employee.Group
                     };
 
-                    if (rawEmployeeSetting.TargetEmployees != null)
+                    if (employeeSetting.TargetEmployees != null)
                     {
-                        IEnumerable<TargetEmployeeModel> rawTargetEmployees = rawEmployeeSetting.TargetEmployees.Where(x => x.EmployeeId == employee.EmployeeId);
+                        IEnumerable<TargetEmployeeModel> targetEmployees = employeeSetting.TargetEmployees.Where(x => x.EmployeeId == employee.EmployeeId);
 
-                        if (rawTargetEmployees != null && rawTargetEmployees.Any())
+                        if (targetEmployees != null && targetEmployees.Any())
                         {
-                            targetEmployeeSetting.TargetTemplates = GetTargetTemplateOfEmployee(rawTargetEmployees);
+                            targetEmployeeSetting.TargetTemplates = GetTargetTemplateOfEmployee(targetEmployees);
                         }
                     }
 
@@ -148,18 +141,18 @@ namespace SMS.EPA.Services.Implement
             return targetEmployeeSettings;
         }
 
-        private IList<TargetTemplateModel> GetTargetTemplateOfEmployee(IEnumerable<TargetEmployeeModel> rawTargetEmployees)
+        private IList<TargetTemplateModel> GetTargetTemplateOfEmployee(IEnumerable<TargetEmployeeModel> targetEmployees)
         {
             IList<TargetTemplateModel> targetTemplates = new List<TargetTemplateModel>();
 
-            foreach (TargetEmployeeModel rawTargetEmployee in rawTargetEmployees)
+            foreach (TargetEmployeeModel targetEmployee in targetEmployees)
             {
                 var targetTemplate = new TargetTemplateModel
                 {
-                    TargetTemplateId = rawTargetEmployee.RawTargetTemplate.TargetTemplateId,
-                    Name = rawTargetEmployee.RawTargetTemplate.Name,
-                    TargetTypeId = rawTargetEmployee.RawTargetTemplate.TargetTypeId,
-                    TargetTypeName = rawTargetEmployee.RawTargetTemplate.TargetTypeName
+                    TargetTemplateId = targetEmployee.RawTargetTemplate.TargetTemplateId,
+                    Name = targetEmployee.RawTargetTemplate.Name,
+                    TargetTypeId = targetEmployee.RawTargetTemplate.TargetTypeId,
+                    TargetTypeName = targetEmployee.RawTargetTemplate.TargetTypeName
                 };
 
                 targetTemplates.Add(targetTemplate);
@@ -168,13 +161,13 @@ namespace SMS.EPA.Services.Implement
             return targetTemplates;
         }
 
-        private List<TargetDepartmentModel> ConvertToTargetDepartmentModel(TargetDepartmentSettingModel rawDepartmentSeting)
+        private List<TargetDepartmentModel> ConvertToTargetDepartmentModel(TargetDepartmentSettingModel departmentSeting)
         {
             var targetDepartmentSettings = new List<TargetDepartmentModel>();
 
-            if (rawDepartmentSeting != null)
+            if (departmentSeting != null)
             {
-                foreach (DepartmentModel department in rawDepartmentSeting.Departments)
+                foreach (DepartmentModel department in departmentSeting.Departments)
                 {
                     var targetDepartmentSetting = new TargetDepartmentModel
                     {
@@ -185,9 +178,9 @@ namespace SMS.EPA.Services.Implement
                         IsGroup = department.IsGroup
                     };
 
-                    if (rawDepartmentSeting.TargetDepartments != null)
+                    if (departmentSeting.TargetDepartments != null)
                     {
-                        IEnumerable<TargetDepartmentModel> rawTargetDepartments = rawDepartmentSeting.TargetDepartments
+                        IEnumerable<TargetDepartmentModel> rawTargetDepartments = departmentSeting.TargetDepartments
                                                     .Where(x => x.DepartmentId == department.DepartmentId && x.IsGroup == department.IsGroup);
 
                         if (rawTargetDepartments != null && rawTargetDepartments.Any())
@@ -203,18 +196,18 @@ namespace SMS.EPA.Services.Implement
             return targetDepartmentSettings;
         }
 
-        private IList<TargetTemplateModel> GetTargetTemplateOfDepartment(IEnumerable<TargetDepartmentModel> rawTargetDepartments)
+        private IList<TargetTemplateModel> GetTargetTemplateOfDepartment(IEnumerable<TargetDepartmentModel> targetDepartments)
         {
             IList<TargetTemplateModel> targetTemplates = new List<TargetTemplateModel>();
 
-            foreach (TargetDepartmentModel rawTargetDepartment in rawTargetDepartments)
+            foreach (TargetDepartmentModel targetDepartment in targetDepartments)
             {
                 var targetTemplate = new TargetTemplateModel
                 {
-                    TargetTemplateId = rawTargetDepartment.RawTargetTemplate.TargetTemplateId,
-                    Name = rawTargetDepartment.RawTargetTemplate.Name,
-                    TargetTypeId = rawTargetDepartment.RawTargetTemplate.TargetTypeId,
-                    TargetTypeName = rawTargetDepartment.RawTargetTemplate.TargetTypeName
+                    TargetTemplateId = targetDepartment.RawTargetTemplate.TargetTemplateId,
+                    Name = targetDepartment.RawTargetTemplate.Name,
+                    TargetTypeId = targetDepartment.RawTargetTemplate.TargetTypeId,
+                    TargetTypeName = targetDepartment.RawTargetTemplate.TargetTypeName
                 };
 
                 targetTemplates.Add(targetTemplate);
