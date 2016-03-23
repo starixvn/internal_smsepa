@@ -56,9 +56,17 @@ namespace SMS.EPA.Services.Interfaces
 
         IEnumerable<TargetTemplateModel> GetTargetTemplateByEvaluator(GetTargetTemplateByEvaluatorCriteria criteria);
 
+        IEnumerable<TargetTemplateModel> GetTargetTemplateToView(GetTargetTemplateToViewCriteria criteria);
+
         IEnumerable<TemporaryKPIModel> GetKPIByTargetTemplate(GetKPIByTargetTemplateCriteria criteria);
 
+        IEnumerable<TemporaryKPIModel> GetKPIToView(GetKPIToViewCriteria criteria);
+
         IEnumerable<RatingByKPIModel> GetEmployeeEPAByKPI(GetEmployeeEPAByKPICriteria criteria);
+
+        IEnumerable<RatingByKPIModel> GetEmployeeEPAToView(GetEmployeeEPAToViewCriteria criteria);
+
+        IEnumerable<Employee> GetEvaluatorsByTargetTemplate(GetEvaluatorsByTargetTemplateCriteria criteria);
 
         CommandResult UpdateKPIScore(UpdateKPIScoreCriteria criteria);
 

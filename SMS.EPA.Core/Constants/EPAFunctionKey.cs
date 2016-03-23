@@ -58,6 +58,8 @@ namespace SMS.EPA.Core.Constants
 
         public const string RatingByKPI = "RatingByKPI";
 
+        public const string EPAByKPI = "EPAByKPI";
+
         public const string Department = "Department";
 
         public const string EPAHistory = "EPAHistory";

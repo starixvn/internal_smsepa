@@ -113,6 +113,8 @@ var epaModule = angular.module("epaModule", ['ngRoute'])
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/Convert/Templates/detail.html', caseInsensitiveMatch: true });
     $routeProvider.when('/EPA/ResetScore/:id',
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/ResetScore/Templates/detail.html', caseInsensitiveMatch: true });
+    $routeProvider.when('/ViewEPAByKPI/Index',
+    { templateUrl: baseUrl + 'SourceApp/Components/EPA/EPAByKPI/Templates/index.html', caseInsensitiveMatch: true });
 }]);
 
 var periodModule = angular.module("periodModule", ['ngRoute'])

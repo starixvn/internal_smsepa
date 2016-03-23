@@ -264,6 +264,19 @@ namespace SMS.EPA.Services.Implement
             return targetTemplates;
         }
 
+        public IEnumerable<TargetTemplateModel> GetTargetTemplateToView(GetTargetTemplateToViewCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<TargetTemplateModel> targetTemplates = new List<TargetTemplateModel>();
+
+            if (criteria.IsValid())
+            {
+                targetTemplates = GetData<TargetTemplateModel>(criteria);
+            }
+
+            return targetTemplates;
+        }
+
         public IEnumerable<TemporaryKPIModel> GetKPIByTargetTemplate(GetKPIByTargetTemplateCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");
@@ -275,6 +288,32 @@ namespace SMS.EPA.Services.Implement
             }
 
             return kpis;
+        }
+
+        public IEnumerable<TemporaryKPIModel> GetKPIToView(GetKPIToViewCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<TemporaryKPIModel> kpis = new List<TemporaryKPIModel>();
+
+            if (criteria.IsValid())
+            {
+                kpis = _employeeEPARepository.GetKPIToView(criteria);
+            }
+
+            return kpis;
+        }
+
+        public IEnumerable<RatingByKPIModel> GetEmployeeEPAToView(GetEmployeeEPAToViewCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<RatingByKPIModel> epas = new List<RatingByKPIModel>();
+
+            if (criteria.IsValid())
+            {
+                epas = _employeeEPARepository.GetEmployeeEPAToView(criteria);
+            }
+
+            return epas;
         }
 
         public IEnumerable<RatingByKPIModel> GetEmployeeEPAByKPI(GetEmployeeEPAByKPICriteria criteria)
@@ -301,6 +340,19 @@ namespace SMS.EPA.Services.Implement
             }
 
             return commandResult;
+        }
+
+        public IEnumerable<Employee> GetEvaluatorsByTargetTemplate(GetEvaluatorsByTargetTemplateCriteria criteria)
+        {
+            Check.Argument.IsNotNull(criteria, "criteria");
+            IEnumerable<Employee> employees = new List<Employee>();
+
+            if (criteria.IsValid())
+            {
+                employees = GetData<Employee>(criteria);
+            }
+
+            return employees;
         }
 
         #endregion Rating By KPI

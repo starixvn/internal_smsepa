@@ -418,6 +418,10 @@
     <Content Include="SourceApp\Components\EPA\employeeEPA-model.js" />
     <Content Include="SourceApp\Components\EPA\Management\Templates\semiDetail.html" />
     <Content Include="SourceApp\Components\EPA\Management\Templates\semiPerformanceResult.html" />
+    <Content Include="SourceApp\Components\EPA\EPAByKPI\EPAByKPI-controller.js" />
+    <Content Include="SourceApp\Components\EPA\EPAByKPI\EPAByKPI-factory.js" />
+    <Content Include="SourceApp\Components\EPA\EPAByKPI\EPAByKPI-model.js" />
+    <Content Include="SourceApp\Components\EPA\EPAByKPI\Templates\index.html" />
     <Content Include="SourceApp\Components\EPA\ResetScore\resetScore-controller.js" />
     <Content Include="SourceApp\Components\EPA\ResetScore\Templates\detail.html" />
     <Content Include="SourceApp\Components\EPA\Reviewer\Templates\semiPerformanceResult.html" />

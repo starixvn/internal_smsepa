@@ -327,13 +327,24 @@
     <Function Name="Rating By KPI">
         <Setting Key="EPA_RatingByKPI_GetTargetTemplateByEvaluator" SpName="EPA_RatingByKPI_GetTargetTemplateByEvaluator" DbName="SMSEPA" Plain="0">
         </Setting>
+      <Setting Key="EPA_RatingByKPI_GetTargetTemplateToView" SpName="EPA_RatingByKPI_GetTargetTemplateToView" DbName="SMSEPA" Plain="0">
+      </Setting>
         <Setting Key="EPA_RatingByKPI_GetKPIByTargetTemplate" SpName="EPA_RatingByKPI_GetKPIByTargetTemplate" DbName="SMSEPA" Plain="0">
         </Setting>
+      <Setting Key="EPA_RatingByKPI_GetKPIToView" SpName="EPA_RatingByKPI_GetKPIToView" DbName="SMSEPA" Plain="0">
+      </Setting>
+      <Setting Key="EPA_RatingByKPI_GetEvaluatorByTargetTemplate" SpName="EPA_RatingByKPI_GetEvaluatorByTargetTemplate" DbName="SMSEPA" Plain="0"></Setting>
         <Setting Key="EPA_RatingByKPI_Get" SpName="EPA_RatingByKPI_Get" DbName="SMSEPA" Plain="0">
             <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode"/>
             <Mapping DataField="Score" ObjectProperty="ScoreEncode"/>
             <Mapping DataField="Rate" ObjectProperty="RateEncode"/>
         </Setting>
+              <Setting Key="EPA_RatingByKPI_GetEmployeeToView" SpName="EPA_RatingByKPI_GetEmployeeToView" DbName="SMSEPA" Plain="0">
+            <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode"/>
+            <Mapping DataField="Score" ObjectProperty="ScoreEncode"/>
+            <Mapping DataField="Rate" ObjectProperty="RateEncode"/>
+        </Setting>
+
         <Setting Key="EPA_RatingByKPI_UpdateKPIScore" SpName="EPA_RatingByKPI_UpdateKPIScore" DbName="SMSEPA" Plain="0">
         </Setting>
     </Function>

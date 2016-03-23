@@ -150,7 +150,70 @@ namespace SMS.EPA.Repositories.Implement
             }
         }
 
+        public IEnumerable<TemporaryKPIModel> GetKPIToView(ICriteria criteria)
+        {
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                return db.Query<TemporaryKPIModel, TemporaryKPIGroupModel, TemporaryKPIModel>(
+                    (kpi, gr) =>
+                    {
+                        kpi.KPIGroup = gr;
+
+                        return kpi;
+                    },
+                    "KPIGroupId",
+                    criteria.GetSpParams());
+            }
+        }
+
         public IEnumerable<RatingByKPIModel> GetEmployeeEPAByKPI(ICriteria criteria)
+        {
+            IEnumerable<RatingByKPIModel> epaInfos = new List<RatingByKPIModel>();
+
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                {
+                    epaInfos = multi.Read<RatingByKPIModel, RatingTypeModel, TemporaryKPIGroupModel, RatingByKPIModel>(
+                        (epaInfo, type, kgr) =>
+                        {
+                            epaInfo.RatingType = type;
+                            epaInfo.KPIGroup = kgr;
+
+                            return epaInfo;
+                        },
+                        "RatingTypeId, KPIGroupId");
+
+                    IEnumerable<EPAEmployeeModel> employees = multi.Read<EPAEmployeeModel, DepartmentModel, Group, JobTitle, EPAEmployeeModel>(
+                        (epaInfo, dept, gr, job) =>
+                        {
+                            epaInfo.Department = dept;
+                            epaInfo.Group = gr;
+                            epaInfo.JobTitle = job;
+
+                            return epaInfo;
+                        },
+                        "DepartmentId, GroupId, JobTitleId");
+
+                    IEnumerable<TemporaryKPIModel> kpis = multi.Read<TemporaryKPIModel, TemporaryKPIGroupModel, TemporaryKPIModel>(
+                        (kpi, kgr) =>
+                        {
+                            kpi.KPIGroup = kgr;
+
+                            return kpi;
+                        },
+                        "KPIGroupId");
+
+                    GroupEmployeeByEPA(epaInfos, employees);
+                    GroupKPIByEPA(epaInfos, kpis);
+                    DecodeAllScore(epaInfos);
+                }
+            }
+
+            return epaInfos;
+        }
+
+        public IEnumerable<RatingByKPIModel> GetEmployeeEPAToView(ICriteria criteria)
         {
             IEnumerable<RatingByKPIModel> epaInfos = new List<RatingByKPIModel>();
 

@@ -9,12 +9,6 @@
 
 namespace SMS.EPA.Site.Controllers.API
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Net;
-    using System.Net.Http;
-    using System.Web.Http;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
@@ -28,6 +22,12 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Services.Interfaces;
     using SMS.EPA.Web.ApiAuthorizeAttribute;
     using SMS.EPA.Web.Services;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Web.Http;
 
     public class EmployeeEPAController : BaseController
     {
@@ -386,6 +386,61 @@ namespace SMS.EPA.Site.Controllers.API
             };
 
             return _employeeEPAService.GetTargetTemplateByEvaluator(criteria);
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.EPAByKPI, Policy = Policy.Read)]
+        public IEnumerable<TargetTemplateModel> GetTargetTemplateToView()
+        {
+            var criteria = new GetTargetTemplateToViewCriteria()
+            {
+                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId
+            };
+
+            return _employeeEPAService.GetTargetTemplateToView(criteria);
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.EPAByKPI, Policy = Policy.Read)]
+        public IEnumerable<TemporaryKPIModel> GetKPIToView(int targetTemplateId, string evaluatorIds)
+        {
+            var criteria = new GetKPIToViewCriteria()
+            {
+                EvaluatorIds = evaluatorIds,
+                TargetTemplateId = targetTemplateId
+            };
+
+            return _employeeEPAService.GetKPIToView(criteria);
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.EPAByKPI, Policy = Policy.Read)]
+        public IEnumerable<Employee> GetEvaluatorsByTargetTemplate(int targetTemplateId)
+        {
+            var criteria = new GetEvaluatorsByTargetTemplateCriteria()
+            {
+                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
+                TargetTemplateId = targetTemplateId
+            };
+
+            return _employeeEPAService.GetEvaluatorsByTargetTemplate(criteria);
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.EPAByKPI, Policy = Policy.Read)]
+        public IEnumerable<RatingByKPIModel> GetEmployeeEPAToView(
+            int targetTemplateId,
+            int kpiId,
+            int evaluatorId)
+        {
+            var criteria = new GetEmployeeEPAToViewCriteria()
+            {
+                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
+                TargetTemplateId = targetTemplateId,
+                KPIId = kpiId
+            };
+
+            return _employeeEPAService.GetEmployeeEPAToView(criteria);
         }
 
         [HttpGet]

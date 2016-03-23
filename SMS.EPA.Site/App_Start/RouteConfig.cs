@@ -68,6 +68,7 @@ namespace SMS.EPA.Site
                 "Reviewer/SemiDetail/{id}",
                 "Management/SemiDetail/{id}",
                 "EPA/ResetScore/{id}",
+                "ViewEPAByKPI/Index",
                 "error"
             };
 

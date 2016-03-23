@@ -84,8 +84,12 @@
     <Compile Include="EmployeeEPA\GetOtherViolationDetailByEPAIdCriteria.cs" />
     <Compile Include="EmployeeEPA\GetStandardGradeCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEPASummaryImportCriteria.cs" />
+    <Compile Include="EmployeeEPA\RatingByKPI\GetEmployeeEPAToViewCriteria.cs" />
+    <Compile Include="EmployeeEPA\RatingByKPI\GetEvaluatorsByTargetTemplateCriteria.cs" />
     <Compile Include="EmployeeEPA\RatingByKPI\GetEmployeeEPAByKPICriteria.cs" />
+    <Compile Include="EmployeeEPA\RatingByKPI\GetKPIToViewCriteria.cs" />
     <Compile Include="EmployeeEPA\RatingByKPI\GetKPIByTargetTemplateCriteria.cs" />
+    <Compile Include="EmployeeEPA\RatingByKPI\GetTargetTemplateToViewCriteria.cs" />
     <Compile Include="EmployeeEPA\RatingByKPI\GetTargetTemplateByEvaluatorCriteria.cs" />
     <Compile Include="EmployeeEPA\RatingByKPI\UpdateKPIScoreCriteria.cs" />
     <Compile Include="EmployeeEPA\ResetScoreCriteria.cs" />
