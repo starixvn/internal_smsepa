@@ -80,27 +80,20 @@
                                 <td class="text-center">
                                     <span ng-bind="memberEPA.Employee.NickName" popover-avatar avatar-src="{{memberEPA.Employee.Avatar}}"></span>
                                 </td>
-                                <td class="text-center col-score">
+                                <td class="col-comment">
                                     <div class="row text-center list-star" ng-repeat="kpi in memberEPA.KPIGroup.KPIs" ng-if="kpi.KPIId == epaByKPICtrl.filter.kpiId">
-                                        <div ng-if="memberEPA.RatingType.RatingTypeId == epaByKPICtrl.RatingType.Star || (memberEPA.RatingType.RatingTypeId == epaByKPICtrl.RatingType.Score && memberEPA.KPIGroup.NumberKPIOptional > 0)">
-                                            <div class="rating-form">
-                                                <input id="star_{{memberEPA.Employee.EmployeeId}}" type="number" class="rating-loading" ng-readonly="true" data-size="xs"
-                                                       data-min=0 data-max={{epaByKPICtrl.maxStar}} data-step=1 ng-model="kpi.Rate"
-                                                       data-show-caption="false"
-                                                       data-show-clear="false">
-                                            </div>
+                                        <span>{{kpi.Score | splitScore}} pts</span>
+                                        <div class="score-star-rating" ng-if="memberEPA.RatingType.RatingTypeId == epaByKPICtrl.RatingType.Star">
+                                            -
+                                            <input type="number" class="rating-loading" ng-readonly="true" data-size="xs"
+                                                   data-min="0" data-max="5" data-step="1" ng-model="kpi.Rate"
+                                                   data-show-caption="false" data-show-clear="false">
                                         </div>
-                                        <div ng-if="memberEPA.RatingType.RatingTypeId == epaByKPICtrl.RatingType.Score && memberEPA.KPIGroup.NumberKPIOptional == 0" class="input-score">
-                                            <input type="text" maxlength="5" class="form-control text-center epa-input-score"
-                                                   ng-readonly="true" ng-model="kpi.Score" numeric decimals="2" />
-                                        </div>
-                                        <div ng-if="memberEPA.RatingType.RatingTypeId == epaByKPICtrl.RatingType.HalfStar">
-                                            <div class="col-sm-7 rating-form">
-                                                <input type="number" class="rating-loading" ng-readonly="true" data-size="xs"
-                                                       data-min=0 data-max={{epaByKPICtrl.maxStar}} data-step=0.5 ng-model="kpi.Rate"
-                                                       data-show-caption="false"
-                                                       data-show-clear="false">
-                                            </div>
+                                        <div class="score-star-rating" ng-if=" memberEPA.RatingType.RatingTypeId == epaByKPICtrl.RatingType.HalfStar">
+                                            -
+                                            <input type="number" class="rating-loading" ng-readonly="true" data-size="xs"
+                                                   data-min="0" data-max="5" data-step="0.5" ng-model="kpi.Rate"
+                                                   data-show-caption="false" data-show-clear="false">
                                         </div>
                                     </div>
                                 </td>

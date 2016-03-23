@@ -112,7 +112,7 @@
                         </div>
                         <div ng-show="!memberEPA.ProcessByEvaluators[0].IsEndProcess" data-translate="NotAvailable"></div>
                     </td>
-                    <td class="text-center">
+                    <td class="text-right">
                         <div ng-if="memberEPA.HasMonthlyEPA && reviewerCtrl.targetTypeEnum.SemiAnnual" class="form-inline-block">
                             {{memberEPA.MonthlyEPA.AverageMonthlyReviewerScoreConversion}}
                             <input type="text" maxlength="6" class="form-control text-center epa-input-score"
@@ -120,7 +120,7 @@
                                    ng-model="memberEPA.CurrentProcess.AdjustScore" numeric decimals="2" ng-change="reviewerCtrl.inputScore(memberEPA)"
                                    tooltip="{{reviewerCtrl.getNotificationInputScore(memberEPA)}}" tooltip-trigger="focus" />
                         </div>
-                        <div ng-if="!memberEPA.HasMonthlyEPA">
+                        <div ng-if="!memberEPA.HasMonthlyEPA" class="form-inline-block">
                             <input type="text" maxlength="6" class="form-control text-center epa-input-score"
                                    ng-readonly="memberEPA.CurrentProcess.IsEndProcess || reviewerCtrl.permission != reviewerCtrl.policyEnum.Host"
                                    ng-model="memberEPA.CurrentProcess.AdjustScore" numeric decimals="2" ng-change="reviewerCtrl.inputScore(memberEPA)"

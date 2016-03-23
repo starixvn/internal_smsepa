@@ -30,7 +30,7 @@
                 </td>
                 <td>
                     <span ng-bind="memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlyReviewerScoreConversion | customScore"></span>
-                    <span style="display: inline-block;">
+                    <span style="display: inline-block; vertical-align:middle">
                         <input type="text" maxlength="6" class="form-control text-center width-80" ng-readonly="memberEPAInfoCtrl.isReadonly"
                                ng-model="memberEPAInfoCtrl.epaInfo.CurrentProcess.TotalScore" numeric decimals="2"
                                ng-change="memberEPAInfoCtrl.inputScore(memberEPAInfoCtrl.epaInfo.CurrentProcess)"

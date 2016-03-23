@@ -113,7 +113,7 @@ function ($window, $timeout, $translate, EPAByKPIModel, EmployeeEPAModel, Common
     };
 
     function viewDetail(memberEPA) {
-        var url = baseUrl + 'Evaluator/Detail/' + memberEPA.EPAId;
+        var url = baseUrl + 'EPA/Detail/' + memberEPA.EPAId;
         $window.open(url, '_blank');
     };
 
