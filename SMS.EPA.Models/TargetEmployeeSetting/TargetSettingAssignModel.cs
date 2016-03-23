@@ -1,5 +1,5 @@
 ﻿// ----------------------------------------------------------------------
-// <copyright file="RawTargetSettingAssignModel.cs" company="Nexcel Solutions Viet Nam">
+// <copyright file="TargetSettingAssignModel.cs" company="Nexcel Solutions Viet Nam">
 // Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
 // </copyright>
 // ------------------------------------------------------------------------
@@ -13,7 +13,7 @@ namespace SMS.EPA.Model.TargetEmployeeSetting
     using System.Text;
     using SMS.EPA.Model.Department;
 
-    public class RawTargetSettingAssignModel
+    public class TargetSettingAssignModel
     {
         private const string DepartmentXmlTemplate = "<Department DepartmentId='{0}' IsGroup='{1}'></Department>";
         private const string BeginRootTag = "<ROOT>";

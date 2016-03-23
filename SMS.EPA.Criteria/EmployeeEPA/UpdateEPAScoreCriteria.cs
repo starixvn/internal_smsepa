@@ -1,4 +1,4 @@
-﻿﻿// -----------------------------------------------------------------------
+﻿// -----------------------------------------------------------------------
 // <copyright file="UpdateEPAScoreCriteria.cs" company="Nexcel Solutions Viet Nam">
 // Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
 // </copyright>
@@ -51,11 +51,11 @@ namespace SMS.EPA.Criteria.EmployeeEPA
                 {
                     foreach (EPAKPIModel kpi in kpiGroup.KPIs)
                     {
-                        string score = kpi.CurrentEvaluation.Score;
-                        string rate = kpi.CurrentEvaluation.Rate > 0 ? kpi.CurrentEvaluation.Rate.ToString() : string.Empty;
+                        string score = kpi.CurrentEvaluation.Score,
+                            rate = kpi.CurrentEvaluation.Rate > 0 ? kpi.CurrentEvaluation.Rate.ToString() : string.Empty,
+                            cipherScore = EncodeService.Encode(score + "_" + kpi.KPIId),
+                            cipherRate = EncodeService.Encode(rate);
                         bool isMaxScore = kpi.CurrentEvaluation.IsMaxScore;
-                        string cipherScore = EncodeService.Encode(score + "_" + kpi.KPIId);
-                        string cipherRate = EncodeService.Encode(rate);
 
                         kpiDetailXml.AppendFormat(
                             KPIScoreXmlTemplate,

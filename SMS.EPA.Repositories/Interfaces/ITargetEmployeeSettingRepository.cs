@@ -14,8 +14,8 @@ namespace SMS.EPA.Repositories.Interfaces
 
     public interface ITargetEmployeeSettingRepository
     {
-        RawTargetEmployeeSettingModel GetTargetEmployeeSetting(ICriteria criteria);
+        TargetEmployeeSettingModel GetTargetEmployeeSetting(ICriteria criteria);
 
-        RawTargetDepartmentSettingModel GetTargetDepartmentSetting(ICriteria criteria);
+        TargetDepartmentSettingModel GetTargetDepartmentSetting(ICriteria criteria);
     }
 }

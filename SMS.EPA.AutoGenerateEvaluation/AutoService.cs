@@ -81,9 +81,9 @@
         {
             try
             {
-                if (_updateCounterTimer.Interval != 600 * 1000)
+                if (_updateCounterTimer.Interval != TimerInterval * 1000)
                 {
-                    _updateCounterTimer.Interval = 600 * 1000;
+                    _updateCounterTimer.Interval = TimerInterval * 1000;
                 }
 
                 if (!_isBusy)

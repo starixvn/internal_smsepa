@@ -1,5 +1,5 @@
 ﻿// ----------------------------------------------------------------------
-// <copyright file="RawTargetDepartmentSettingModel.cs" company="Nexcel Solutions Viet Nam">
+// <copyright file="TargetDepartmentSettingModel.cs" company="Nexcel Solutions Viet Nam">
 // Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
 // </copyright>
 // ------------------------------------------------------------------------
@@ -12,7 +12,7 @@ namespace SMS.EPA.Model.TargetEmployeeSetting
     using System.Collections.Generic;
     using SMS.EPA.Model.Department;
 
-    public class RawTargetDepartmentSettingModel
+    public class TargetDepartmentSettingModel
     {
         public IEnumerable<DepartmentModel> Departments { get; set; }
 

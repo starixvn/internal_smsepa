@@ -84,8 +84,11 @@ namespace SMS.EPA.Web.ApiAuthorizeAttribute
 
         protected override void HandleUnauthorizedRequest(HttpActionContext actionContext)
         {
-            var responseMessage = new HttpResponseMessage(HttpStatusCode.Unauthorized);
-            actionContext.Response = responseMessage;
+            if (actionContext != null)
+            {
+                var responseMessage = new HttpResponseMessage(HttpStatusCode.Unauthorized);
+                actionContext.Response = responseMessage;
+            }
         }
 
         private void HandlePermissionRequest(HttpActionContext actionContext)

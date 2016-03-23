@@ -196,7 +196,7 @@ namespace SMS.EPA.Site.Controllers.API
         {
             var commandResult = new CommandResult();
 
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && model != null)
             {
                 var criteria = new AddEmployeeToPeriodCriteria
                 {
@@ -223,7 +223,7 @@ namespace SMS.EPA.Site.Controllers.API
         {
             var commandResult = new CommandResult();
 
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && model != null)
             {
                 var criteria = new UpdateEmployeeSettingOfPeriodCriteria
                 {
@@ -249,11 +249,16 @@ namespace SMS.EPA.Site.Controllers.API
         [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Host)]
         public CommandResult GenerateEvaluation(AutoGenerateEvaluationCriteria criteria)
         {
-            CommandResult commandResult = _periodService.GenerateEvaluation(criteria);
+            CommandResult commandResult = new CommandResult();
 
-            if (commandResult.IsSuccessful)
+            if (criteria != null)
             {
-                _periodService.SendEmailNoticeAtBegin(criteria.PeriodId);
+                commandResult = _periodService.GenerateEvaluation(criteria);
+
+                if (commandResult.IsSuccessful)
+                {
+                    _periodService.SendEmailNoticeAtBegin(criteria.PeriodId);
+                }
             }
 
             return commandResult;

@@ -14,28 +14,25 @@ namespace SMS.EPA.Site
     using Newtonsoft.Json.Serialization;
     using SMS.EPA.Web.ApiAuthorizeAttribute;
 
-    /// <summary>
-    /// The Web API config.
-    /// </summary>
     public static class WebApiConfig
     {
-        /// <summary>
-        /// Register web API routes.
-        /// </summary>
-        /// <param name="config">THe http configuration.</param>
         public static void Register(HttpConfiguration config)
         {
-            config.Routes.MapHttpRoute(
-                name: "CustomApi",
-                routeTemplate: "api/{controller}/{action}/{id}",
-                defaults: new { id = RouteParameter.Optional });
+            if (config != null)
+            {
+                config.Routes.MapHttpRoute(
+                    name: "CustomApi",
+                    routeTemplate: "api/{controller}/{action}/{id}",
+                    defaults: new { id = RouteParameter.Optional });
 
-            config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional });
+                config.Routes.MapHttpRoute(
+                    name: "DefaultApi",
+                    routeTemplate: "api/{controller}/{id}",
+                    defaults: new { id = RouteParameter.Optional });
 
-            config.Filters.Add(new ExceptionHandlingAttribute());
+                config.Filters.Add(new ExceptionHandlingAttribute());
+            }
+
             var jsonFormatter = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
             jsonFormatter.SerializerSettings.Formatting = Formatting.Indented;
             ((DefaultContractResolver)jsonFormatter.SerializerSettings.ContractResolver).IgnoreSerializableAttribute = true;

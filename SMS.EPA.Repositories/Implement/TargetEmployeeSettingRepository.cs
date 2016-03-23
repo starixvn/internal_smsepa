@@ -21,7 +21,7 @@ namespace SMS.EPA.Repositories.Implement
 
     public class TargetEmployeeSettingRepository : ITargetEmployeeSettingRepository
     {
-        public RawTargetEmployeeSettingModel GetTargetEmployeeSetting(ICriteria criteria)
+        public TargetEmployeeSettingModel GetTargetEmployeeSetting(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
@@ -43,7 +43,7 @@ namespace SMS.EPA.Repositories.Implement
                         },
                         "TargetTemplateId");
 
-                    var targetEmployeeSetting = new RawTargetEmployeeSettingModel
+                    var targetEmployeeSetting = new TargetEmployeeSettingModel
                     {
                         Employees = employees,
                         TargetEmployees = targetEmployees
@@ -54,7 +54,7 @@ namespace SMS.EPA.Repositories.Implement
             }
         }
 
-        public RawTargetDepartmentSettingModel GetTargetDepartmentSetting(ICriteria criteria)
+        public TargetDepartmentSettingModel GetTargetDepartmentSetting(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
@@ -70,7 +70,7 @@ namespace SMS.EPA.Repositories.Implement
                         },
                         "TargetTemplateId");
 
-                    var targetDepartmentSetting = new RawTargetDepartmentSettingModel
+                    var targetDepartmentSetting = new TargetDepartmentSettingModel
                     {
                         Departments = deparments,
                         TargetDepartments = targetDepartments

@@ -86,7 +86,7 @@ namespace SMS.EPA.Site.Controllers.API
             return commandResult;
         }
 
-                [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetEmployeeSetting, Policy = Policy.Read)]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetEmployeeSetting, Policy = Policy.Read)]
         public IList<TargetDepartmentModel> GetTargetDepartmentSetting(
             int? departmentId = null,
             bool? isGroup = null,
@@ -106,16 +106,22 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetEmployeeSetting, Policy = Policy.Host)]
-        public CommandResult AssignTargetTemplateToDepartment(RawTargetSettingAssignModel model)
+        public CommandResult AssignTargetTemplateToDepartment(TargetSettingAssignModel model)
         {
-            var criteria = new AssignTargetDepartmentSettingCriteria
-            {
-                TargetTemplateId = model.TargetTemplateId,
-                Departments = model.ConvertToXml(),
-                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
-            };
+            CommandResult commandResult = new CommandResult();
 
-            CommandResult commandResult = _targetEmployeeSettingService.AssignTargetTemplateToDepartment(criteria);
+            if (model != null)
+            {
+                var criteria = new AssignTargetDepartmentSettingCriteria
+                {
+                    TargetTemplateId = model.TargetTemplateId,
+                    Departments = model.ConvertToXml(),
+                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                };
+
+                commandResult = _targetEmployeeSettingService.AssignTargetTemplateToDepartment(criteria);
+            }
+
             return commandResult;
         }
 

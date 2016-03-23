@@ -105,7 +105,7 @@ namespace SMS.EPA.Site.Controllers.API
         {
             CommandResult commandResult = new CommandResult();
 
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && targetTemplate != null)
             {
                 var updateTargetTemplateCriteria = new UpdateTargetTemplateBasicInformationCriteria()
                 {
@@ -131,7 +131,7 @@ namespace SMS.EPA.Site.Controllers.API
         {
             CommandResult commandResult = new CommandResult();
 
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && targetTemplate != null)
             {
                 var updateTargetTemplateCriteria = new UpdateTargetTemplateCriteria()
                 {
@@ -164,14 +164,19 @@ namespace SMS.EPA.Site.Controllers.API
         [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Host)]
         public CommandResult AddKPIGroupWeight(TargetKPIGroupWeightModel model)
         {
-            var criteria = new SetKPIGroupOfTargetTemplateCriteria
+            CommandResult commandResult = new CommandResult();
+            if (model != null)
             {
-                TargetTemplateId = model.TargetTemplateId,
-                KPIGroups = model.ConvertKPIGroupWeightToXml,
-                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
-            };
+                var criteria = new SetKPIGroupOfTargetTemplateCriteria
+                {
+                    TargetTemplateId = model.TargetTemplateId,
+                    KPIGroups = model.ConvertKPIGroupWeightToXml,
+                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                };
 
-            CommandResult commandResult = _targetTemplateService.AddKPIGroupWeight(criteria);
+                commandResult = _targetTemplateService.AddKPIGroupWeight(criteria);
+            }
+
             return commandResult;
         }
 

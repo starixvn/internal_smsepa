@@ -1,5 +1,5 @@
 ﻿// ----------------------------------------------------------------------
-// <copyright file="RawTargetEmployeeSettingModel.cs" company="Nexcel Solutions Viet Nam">
+// <copyright file="TargetEmployeeSettingModel.cs" company="Nexcel Solutions Viet Nam">
 // Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
 // </copyright>
 // ------------------------------------------------------------------------
@@ -12,7 +12,7 @@ namespace SMS.EPA.Model.TargetEmployeeSetting
     using System.Collections.Generic;
     using SMS.EPA.Model.Employee;
 
-    public class RawTargetEmployeeSettingModel
+    public class TargetEmployeeSettingModel
     {
         public IEnumerable<EmployeeModel> Employees { get; set; }
 

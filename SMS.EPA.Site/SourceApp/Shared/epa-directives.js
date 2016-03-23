@@ -33,7 +33,8 @@ appModule.directive('searchAutoComplete', ['$timeout', 'errorFactory', function 
                                 id: employee.EmployeeId,
                                 employee: {
                                     EmployeeId: employee.EmployeeId,
-                                    Name: employee.NickName
+                                    Name: employee.NickName,
+                                    HasMonthlyEPA: employee.HasMonthlyEPA
                                 }
                             });
                         });

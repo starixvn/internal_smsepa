@@ -19,17 +19,20 @@ namespace SMS.EPA.Web.ApiAuthorizeAttribute
     {
         public override void OnException(HttpActionExecutedContext actionExecutedContext)
         {
-            var localFlag = actionExecutedContext.Request.Properties["MS_IsLocal"] as Lazy<bool>;
-            if (localFlag == null || !localFlag.Value)
+            if (actionExecutedContext != null)
             {
-                var exception = actionExecutedContext.Exception;
-                string message = exception.Message +
-                        "\r\nSource: " + exception.Source +
-                        "\r\nDomain: " + HttpContext.Current.Request.Headers["Host"] +
-                        "\r\nTargetSite: " + exception.TargetSite +
-                        "\r\nStackTrace: " + exception.StackTrace;
+                var localFlag = actionExecutedContext.Request.Properties["MS_IsLocal"] as Lazy<bool>;
+                if (localFlag == null || !localFlag.Value)
+                {
+                    var exception = actionExecutedContext.Exception;
+                    string message = exception.Message +
+                            "\r\nSource: " + exception.Source +
+                            "\r\nDomain: " + HttpContext.Current.Request.Headers["Host"] +
+                            "\r\nTargetSite: " + exception.TargetSite +
+                            "\r\nStackTrace: " + exception.StackTrace;
 
-                LogService.Error(message);
+                    LogService.Error(message);
+                }
             }
         }
     }

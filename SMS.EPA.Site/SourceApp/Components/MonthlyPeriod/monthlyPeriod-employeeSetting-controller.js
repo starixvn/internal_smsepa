@@ -123,10 +123,14 @@ function ($scope, $routeParams, $window, MonthlyPeriodModel, utilitiesFactory, C
         };
 
         if (employeeInfo.employeeId || (employeeInfo.departments && employeeInfo.departments.length > 0)) {
-            MonthlyPeriodModel.addEmployeeToMonthlyPeriod(employeeInfo).then(function () {
-                resetFilterAssign();
-                getEmployeeSetting(vm.filter);
-            });
+            if (filterAssign.employee && !filterAssign.employee.HasMonthlyEPA) {
+                notificationFactory.error("EmployeeNotSetMonthlyEvaluation");
+            } else {
+                MonthlyPeriodModel.addEmployeeToMonthlyPeriod(employeeInfo).then(function () {
+                    resetFilterAssign();
+                    getEmployeeSetting(vm.filter);
+                });
+            }
         }
         else {
             notificationFactory.error("SelectDepartmentSectionEmployeeBeforeAddToPeriodWarning");

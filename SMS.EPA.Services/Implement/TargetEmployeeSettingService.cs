@@ -44,7 +44,7 @@ namespace SMS.EPA.Services.Implement
 
             if (criteria.IsValid())
             {
-                RawTargetEmployeeSettingModel rawEmployeeSetting = _targetEmployeeSettingRepository.GetTargetEmployeeSetting(criteria);
+                TargetEmployeeSettingModel rawEmployeeSetting = _targetEmployeeSettingRepository.GetTargetEmployeeSetting(criteria);
                 targetEmployeeSettings = ConvertToTargetEmployeeModel(rawEmployeeSetting);
             }
 
@@ -84,7 +84,7 @@ namespace SMS.EPA.Services.Implement
 
             if (criteria.IsValid())
             {
-                RawTargetDepartmentSettingModel rawDepartmentSeting = _targetEmployeeSettingRepository.GetTargetDepartmentSetting(criteria);
+                TargetDepartmentSettingModel rawDepartmentSeting = _targetEmployeeSettingRepository.GetTargetDepartmentSetting(criteria);
                 targetDepartmentSettings = ConvertToTargetDepartmentModel(rawDepartmentSeting);
             }
 
@@ -117,7 +117,7 @@ namespace SMS.EPA.Services.Implement
             return commandResult;
         }
 
-        private List<TargetEmployeeModel> ConvertToTargetEmployeeModel(RawTargetEmployeeSettingModel rawEmployeeSetting)
+        private List<TargetEmployeeModel> ConvertToTargetEmployeeModel(TargetEmployeeSettingModel rawEmployeeSetting)
         {
             var targetEmployeeSettings = new List<TargetEmployeeModel>();
 
@@ -168,7 +168,7 @@ namespace SMS.EPA.Services.Implement
             return targetTemplates;
         }
 
-        private List<TargetDepartmentModel> ConvertToTargetDepartmentModel(RawTargetDepartmentSettingModel rawDepartmentSeting)
+        private List<TargetDepartmentModel> ConvertToTargetDepartmentModel(TargetDepartmentSettingModel rawDepartmentSeting)
         {
             var targetDepartmentSettings = new List<TargetDepartmentModel>();
 
