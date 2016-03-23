@@ -54,8 +54,8 @@ namespace SMS.EPA.Criteria.EmployeeEPA
                         string score = kpi.CurrentEvaluation.Score;
                         string rate = kpi.CurrentEvaluation.Rate > 0 ? kpi.CurrentEvaluation.Rate.ToString() : string.Empty;
                         bool isMaxScore = kpi.CurrentEvaluation.IsMaxScore;
-                        string cipherScore = Encode(score + "_" + kpi.KPIId);
-                        string cipherRate = Encode(rate);
+                        string cipherScore = EncodeService.Encode(score + "_" + kpi.KPIId);
+                        string cipherRate = EncodeService.Encode(rate);
 
                         kpiDetailXml.AppendFormat(
                             KPIScoreXmlTemplate,
@@ -90,11 +90,6 @@ namespace SMS.EPA.Criteria.EmployeeEPA
         public override string GetSettingKey()
         {
             return "EPA_UpdateScore";
-        }
-
-        private string Encode(string plainText)
-        {
-            return EncodeService.Encode(plainText);
         }
     }
 }

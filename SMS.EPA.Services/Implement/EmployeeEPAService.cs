@@ -46,10 +46,9 @@ namespace SMS.EPA.Services.Implement
 
         public IEnumerable<EPAModel> GetEPAByEmployee(GetEPAByEmployeeCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             IEnumerable<EPAModel> epas = new List<EPAModel>();
 
-            if (criteria.IsValid())
+            if (criteria != null && criteria.IsValid())
             {
                 epas = _employeeEPARepository.GetEPA(criteria);
 
