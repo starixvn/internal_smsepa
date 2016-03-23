@@ -17,7 +17,7 @@ namespace SMS.EPA.Criteria.EmployeeEPA.RatingByKPI
 
         public override string GetSettingKey()
         {
-            return "EPA_RatingByKPI_GetTargetTemplate";
+            return "EPA_RatingByKPI_GetTargetTemplateByEvaluator";
         }
 
         public override bool IsValid()
