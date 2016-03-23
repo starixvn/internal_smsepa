@@ -40,13 +40,16 @@ namespace NexFB.Core.Utilities.NPOIExtensions
         /// <param name="fileName">The file name.</param>
         public static void ToReponseStream(this IWorkbook workbook, string fileName)
         {
-            var response = HttpContext.Current.Response;
+            if (workbook != null)
+            {
+                var response = HttpContext.Current.Response;
 
-            response.Clear();
-            response.ContentType = "application/vnd.ms-excel";
-            response.AddHeader("Content-Disposition", string.Format("attachment; filename={0}.xls", fileName));
+                response.Clear();
+                response.ContentType = "application/vnd.ms-excel";
+                response.AddHeader("Content-Disposition", string.Format("attachment; filename={0}.xls", fileName));
 
-            workbook.Write(response.OutputStream);
+                workbook.Write(response.OutputStream);
+            }
         }
     }
 }

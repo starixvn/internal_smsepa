@@ -11,9 +11,11 @@
     <CasingExceptions>
       <Acronym>SMS</Acronym>
       <Acronym>EPA</Acronym>
+      <Acronym>EPAs</Acronym>
       <Acronym>API</Acronym>
       <Acronym>KPI</Acronym>
       <Acronym>KPIs</Acronym>
+      <Acronym>XML</Acronym>
     </CasingExceptions>
   </Acronyms>
 </Dictionary>

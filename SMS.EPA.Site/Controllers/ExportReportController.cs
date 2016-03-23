@@ -63,15 +63,18 @@ namespace SMS.EPA.Site.Controllers
             employeeFlowSettings = SessionManager.Get<IEnumerable<PeriodEmployeeSettingModel>>(
                 Constants.PeriodEmployeeSettingReportSessionKey + SessionManager.CurrentUser.EmployeeInfo.EmployeeId);
 
-            if (employeeFlowSettings == null)
+            if (criteria != null)
             {
-                employeeFlowSettings = _periodService.GetPeriodEmployeeSettingById(criteria);
-            }
+                if (employeeFlowSettings == null)
+                {
+                    employeeFlowSettings = _periodService.GetPeriodEmployeeSettingById(criteria);
+                }
 
-            if (employeeFlowSettings != null)
-            {
-                string templatePath = Server.MapPath(_EmployeeFlowSettingReportTemplatePath);
-                _periodService.ExportEmployeeSettingReport(employeeFlowSettings, templatePath, criteria.PeriodName);
+                if (employeeFlowSettings != null)
+                {
+                    string templatePath = Server.MapPath(_EmployeeFlowSettingReportTemplatePath);
+                    _periodService.ExportEmployeeSettingReport(employeeFlowSettings, templatePath, criteria.PeriodName);
+                }
             }
 
             return new EmptyResult();
@@ -86,6 +89,7 @@ namespace SMS.EPA.Site.Controllers
             EPASummaryModel epaSummary = _reportService.GetEPASummaryReport(criteria);
 
             MemoryStream output = _reportService.ExportEPASummaryReport(epaSummary);
+
             return File(output.ToArray(), "application/vnd.ms-excel", fileName);
         }
 

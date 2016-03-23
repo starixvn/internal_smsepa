@@ -25,46 +25,49 @@ namespace NexFB.Core.Utilities.NPOIExtensions
         /// <param name="value">Cell value.</param>
         public static void SetCellValue(this ICell cell, object value)
         {
-            if (value == null)
+            if (cell != null)
             {
-                cell.SetCellValue(string.Empty);
-            }
-            else
-            {
-                var stringValue = value as string;
-                var richTextString = value as IRichTextString;
+                if (value == null)
+                {
+                    cell.SetCellValue(string.Empty);
+                }
+                else
+                {
+                    var stringValue = value as string;
+                    var richTextString = value as IRichTextString;
 
-                if (stringValue != null)
-                {
-                    cell.SetCellValue(stringValue);
-                }
-                else if (value is int)
-                {
-                    cell.SetCellValue((int)value);
-                }
-                else if (value is long)
-                {
-                    cell.SetCellValue((long)value);
-                }
-                else if (value is double)
-                {
-                    cell.SetCellValue((double)value);
-                }
-                else if (value is decimal)
-                {
-                    cell.SetCellValue((decimal)value);
-                }
-                else if (value is bool)
-                {
-                    cell.SetCellValue((bool)value);
-                }
-                else if (value is DateTime)
-                {
-                    cell.SetCellValue((DateTime)value);
-                }
-                else if (richTextString != null)
-                {
-                    cell.SetCellValue(richTextString);
+                    if (stringValue != null)
+                    {
+                        cell.SetCellValue(stringValue);
+                    }
+                    else if (value is int)
+                    {
+                        cell.SetCellValue((int)value);
+                    }
+                    else if (value is long)
+                    {
+                        cell.SetCellValue((long)value);
+                    }
+                    else if (value is double)
+                    {
+                        cell.SetCellValue((double)value);
+                    }
+                    else if (value is decimal)
+                    {
+                        cell.SetCellValue((decimal)value);
+                    }
+                    else if (value is bool)
+                    {
+                        cell.SetCellValue((bool)value);
+                    }
+                    else if (value is DateTime)
+                    {
+                        cell.SetCellValue((DateTime)value);
+                    }
+                    else if (richTextString != null)
+                    {
+                        cell.SetCellValue(richTextString);
+                    }
                 }
             }
         }
@@ -76,8 +79,11 @@ namespace NexFB.Core.Utilities.NPOIExtensions
         /// <param name="value">Cell value.</param>
         public static void SetCellValue(this ICell cell, double? value)
         {
-            value = value ?? 0;
-            cell.SetCellValue((double)value);
+            if (cell != null)
+            {
+                value = value ?? 0;
+                cell.SetCellValue((double)value);
+            }
         }
 
         /// <summary>
@@ -87,7 +93,10 @@ namespace NexFB.Core.Utilities.NPOIExtensions
         /// <param name="value">Cell value.</param>
         public static void SetCellValue(this ICell cell, decimal value)
         {
-            cell.SetCellValue(Convert.ToDouble(value));
+            if (cell != null)
+            {
+                cell.SetCellValue(Convert.ToDouble(value));
+            }
         }
 
         /// <summary>
@@ -108,7 +117,10 @@ namespace NexFB.Core.Utilities.NPOIExtensions
         /// <param name="value">Cell value.</param>
         public static void SetCellValue(this ICell cell, int value)
         {
-            cell.SetCellValue(Convert.ToDouble(value));
+            if (cell != null)
+            {
+                cell.SetCellValue(Convert.ToDouble(value));
+            }
         }
 
         /// <summary>
@@ -118,8 +130,11 @@ namespace NexFB.Core.Utilities.NPOIExtensions
         /// <param name="value">Cell value.</param>
         public static void SetCellValue(this ICell cell, int? value)
         {
-            value = value ?? 0;
-            cell.SetCellValue((int)value);
+            if (cell != null)
+            {
+                value = value ?? 0;
+                cell.SetCellValue((int)value);
+            }
         }
 
         /// <summary>
@@ -129,7 +144,10 @@ namespace NexFB.Core.Utilities.NPOIExtensions
         /// <param name="value">Cell value.</param>
         public static void SetCellValue(this ICell cell, long value)
         {
-            cell.SetCellValue(Convert.ToDouble(value));
+            if (cell != null)
+            {
+                cell.SetCellValue(Convert.ToDouble(value));
+            }
         }
 
         /// <summary>
@@ -139,8 +157,11 @@ namespace NexFB.Core.Utilities.NPOIExtensions
         /// <param name="value">Cell value.</param>
         public static void SetCellValue(this ICell cell, long? value)
         {
-            value = value ?? 0;
-            cell.SetCellValue((long)value);
+            if (cell != null)
+            {
+                value = value ?? 0;
+                cell.SetCellValue((long)value);
+            }
         }
 
         /// <summary>
@@ -153,27 +174,30 @@ namespace NexFB.Core.Utilities.NPOIExtensions
             // Copy merged cells.
             CellRangeAddress sourceRange = null;
 
-            for (var i = 0; i < sourceCell.Sheet.NumMergedRegions; i++)
+            if (cell != null && sourceCell != null)
             {
-                CellRangeAddress range = sourceCell.Sheet.GetMergedRegion(i);
-
-                if ((range.FirstColumn <= sourceCell.ColumnIndex)
-                    && (range.LastColumn >= sourceCell.ColumnIndex)
-                    && (range.FirstRow <= sourceCell.RowIndex)
-                    && (range.LastRow >= sourceCell.RowIndex))
+                for (var i = 0; i < sourceCell.Sheet.NumMergedRegions; i++)
                 {
-                    sourceRange = range;
-                    break;
+                    CellRangeAddress range = sourceCell.Sheet.GetMergedRegion(i);
+
+                    if ((range.FirstColumn <= sourceCell.ColumnIndex)
+                        && (range.LastColumn >= sourceCell.ColumnIndex)
+                        && (range.FirstRow <= sourceCell.RowIndex)
+                        && (range.LastRow >= sourceCell.RowIndex))
+                    {
+                        sourceRange = range;
+                        break;
+                    }
                 }
-            }
 
-            if (sourceRange != null)
-            {
-                cell.Sheet.AddMergedRegion(sourceRange.Clone());
-            }
+                if (sourceRange != null)
+                {
+                    cell.Sheet.AddMergedRegion(sourceRange.Clone());
+                }
 
-            // Copy style
-            cell.CellStyle = sourceCell.CellStyle;
+                // Copy style
+                cell.CellStyle = sourceCell.CellStyle;
+            }
         }
     }
 }

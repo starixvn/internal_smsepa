@@ -25,9 +25,13 @@ namespace NexFB.Core.Utilities.NPOIExtensions
         /// <returns>New cell instance.</returns>
         public static ICell CreateCell(this IRow row, int colIndex, ICellStyle cellStyle)
         {
-            ICell cell = row.CreateCell(colIndex);
+            ICell cell = null;
 
-            cell.CellStyle = cellStyle;
+            if (row != null)
+            {
+                cell = row.CreateCell(colIndex);
+                cell.CellStyle = cellStyle;
+            }
 
             return cell;
         }
@@ -41,10 +45,14 @@ namespace NexFB.Core.Utilities.NPOIExtensions
         public static void WriteCells(this IRow row, int colIndex, object[] values)
         {
             int id = colIndex;
-            foreach (var value in values)
+
+            if (row != null & values != null)
             {
-                row.GetCell(id).SetCellValue(value);
-                id++;
+                foreach (var value in values)
+                {
+                    row.GetCell(id).SetCellValue(value);
+                    id++;
+                }
             }
         }
     }

@@ -50,15 +50,6 @@ namespace SMS.EPA.Services.Implement
             if (criteria != null && criteria.IsValid())
             {
                 epas = _employeeEPARepository.GetEPA(criteria);
-
-                foreach (EPAModel epa in epas)
-                {
-                    if (epa.HasMonthlyEPA && epa.Period.TargetTypeId == (int)TargetType.SemiAnnual)
-                    {
-                        epa.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epa.EPAId);
-                        ConvertAverageMonthlyScore(epa.MonthlyEPA, epa.ScoreRatingType);
-                    }
-                }
             }
 
             return epas;

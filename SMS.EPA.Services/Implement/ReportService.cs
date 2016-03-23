@@ -106,10 +106,21 @@ namespace SMS.EPA.Services.Implement
             RenderHeaderEPASummaryReport(epaSummary.PeriodSelecteds, ref workbook, ref sheet, titleHeaders);
             RenderContentRowEPASummaryReport(epaSummary, ref workbook, ref sheet);
 
-            var output = new MemoryStream();
-            workbook.Write(output);
+            MemoryStream output = null;
+            try
+            {
+                output = new MemoryStream();
+                workbook.Write(output);
 
-            return output;
+                return output;
+            }
+            finally
+            {
+                if (output != null)
+                {
+                    output.Dispose();
+                }
+            }
         }
 
         #endregion EPA Summary Report

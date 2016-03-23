@@ -313,20 +313,6 @@ namespace SMS.EPA.Repositories.Implement
             }
         }
 
-        private void GroupEvaluatorByEPA(IEnumerable<EPAModel> epaInfos, IEnumerable<EPAProcessModel> evaluators)
-        {
-            foreach (EPAModel epaInfo in epaInfos)
-            {
-                foreach (EPAProcessModel evaluator in evaluators)
-                {
-                    if (evaluator.EPAId.Equals(epaInfo.EPAId))
-                    {
-                        GroupEvaluatorByProcess(epaInfo, evaluator);
-                    }
-                }
-            }
-        }
-
         private void GroupEvaluatorByProcess(EPAModel epaInfo, EPAProcessModel evaluator)
         {
             switch (evaluator.ProcessId)

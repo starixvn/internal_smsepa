@@ -10,7 +10,9 @@
 namespace NexFB.Core.Utilities
 {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.IO;
+    using System.Linq;
     using System.Reflection;
     using NexFB.Core.Utilities.NPOIExtensions;
     using NPOI.HSSF.UserModel;
@@ -34,6 +36,7 @@ namespace NexFB.Core.Utilities
 
         #region Constructors
 
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Reviewed. Suppression is OK here.")]
         public ExcelTemplateWriter(string filePath, string excelFileName = "Report.xls", string sheetName = "Result")
             : this(new FileStream(filePath, FileMode.Open, FileAccess.Read), excelFileName, sheetName)
         {
@@ -42,7 +45,10 @@ namespace NexFB.Core.Utilities
         public ExcelTemplateWriter(FileStream fs, string excelFileName = "Report.xls", string sheetName = "Result")
             : this(new HSSFWorkbook(fs), excelFileName, sheetName)
         {
-            fs.Close();
+            if (fs != null)
+            {
+                fs.Close();
+            }
         }
 
         public ExcelTemplateWriter(HSSFWorkbook template, string excelFileName, string sheetName)
@@ -53,7 +59,7 @@ namespace NexFB.Core.Utilities
             this._sheet = template.CreateSheet(this._sheetName);
         }
 
-        #endregion  Constructors
+        #endregion Constructors
 
         #region Properties
 
@@ -165,12 +171,15 @@ namespace NexFB.Core.Utilities
         /// <param name="arrayList">List of values which each of its items using to filled into a row.</param>
         public void WriteRows(int rowIndex, List<object[]> arrayList)
         {
-            int total = arrayList.Count;
-            IRow row = this.CreateRows(rowIndex, total);
-            for (int i = 0; i < total; i++)
+            if (arrayList != null && arrayList.Count > 0)
             {
-                row.WriteCells(0, arrayList[i]);
-                row = this._sheet.GetRow(row.RowNum + 1);
+                int total = arrayList.Count;
+                IRow row = this.CreateRows(rowIndex, total);
+                for (int i = 0; i < total; i++)
+                {
+                    row.WriteCells(0, arrayList[i]);
+                    row = this._sheet.GetRow(row.RowNum + 1);
+                }
             }
         }
 
@@ -181,14 +190,17 @@ namespace NexFB.Core.Utilities
         /// <param name="value">Value that will be filled into the row.</param>
         public void WriteRow(int rowIndex, object value)
         {
-            var list = new List<object>();
-
-            foreach (PropertyInfo propertyInfo in value.GetType().GetProperties())
+            if (value != null)
             {
-                list.Add(propertyInfo.GetValue(value, null));
-            }
+                var list = new List<object>();
 
-            WriteRow(rowIndex, list.ToArray());
+                foreach (PropertyInfo propertyInfo in value.GetType().GetProperties())
+                {
+                    list.Add(propertyInfo.GetValue(value, null));
+                }
+
+                WriteRow(rowIndex, list.ToArray());
+            }
         }
 
         /// <summary>
@@ -198,9 +210,12 @@ namespace NexFB.Core.Utilities
         /// <param name="recordList">List of values that will be filled into rows.</param>
         public void WriteRows(int rowId, IEnumerable<object> recordList)
         {
-            foreach (var record in recordList)
+            if (recordList != null && recordList.Any())
             {
-                this.WriteRow(rowId, record);
+                foreach (var record in recordList)
+                {
+                    this.WriteRow(rowId, record);
+                }
             }
         }
 
