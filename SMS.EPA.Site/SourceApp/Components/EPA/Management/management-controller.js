@@ -159,7 +159,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
                     memberEPA.CurrentProcess.TotalScore = memberEPA.AverageScoreByReviewers;
                 } else if (!memberEPA.CurrentProcess.TotalScore && memberEPA.ProcessByEvaluators[0].IsEndProcess) {
                     if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
-                        memberEPA.CurrentProcess.TotalScore = memberEPA.MonthlyEPA.AverageMonthlyEvaluatorScoreConversion;
+                        memberEPA.CurrentProcess.TotalScore = memberEPA.MonthlyEPA.AverageEvaluatorScoreConverted;
                     } else {
                         memberEPA.CurrentProcess.TotalScore = memberEPA.AverageScoreByEvaluators;
                     }
@@ -188,8 +188,8 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
                     averageScore += memberEPA.AverageScoreByEvaluators;
 
                     if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
-                        memberEPA.MaxSubtractScore = -memberEPA.MonthlyEPA.AverageMonthlyEvaluatorScoreConversion;
-                        memberEPA.MaxAdditionScore = utilitiesFactory.parseFloat(memberEPA.CurrentProcess.MaxTotalScore - memberEPA.MonthlyEPA.AverageMonthlyEvaluatorScoreConversion);
+                        memberEPA.MaxSubtractScore = -memberEPA.MonthlyEPA.AverageEvaluatorScoreConverted;
+                        memberEPA.MaxAdditionScore = utilitiesFactory.parseFloat(memberEPA.CurrentProcess.MaxTotalScore - memberEPA.MonthlyEPA.AverageEvaluatorScoreConverted);
                     } else {
                         memberEPA.MaxSubtractScore = -memberEPA.AverageScoreByEvaluators;
                         memberEPA.MaxAdditionScore = utilitiesFactory.parseFloat(memberEPA.CurrentProcess.MaxTotalScore - memberEPA.AverageScoreByEvaluators);
@@ -347,7 +347,7 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, Reviewe
                 vm.epaInfo.CurrentProcess.TotalScore = vm.epaInfo.AverageScoreByReviewers;
             } else if (vm.epaInfo.ProcessByEvaluators[0].IsEndProcess && !vm.epaInfo.CurrentProcess.TotalScore) {
                 if (vm.epaInfo.HasMonthlyEPA && vm.epaInfo.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
-                    vm.epaInfo.CurrentProcess.TotalScore = vm.epaInfo.MonthlyEPA.AverageMonthlyEvaluatorScoreConversion;
+                    vm.epaInfo.CurrentProcess.TotalScore = vm.epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted;
                 } else {
                     vm.epaInfo.CurrentProcess.TotalScore = vm.epaInfo.AverageScoreByEvaluators;
                 }

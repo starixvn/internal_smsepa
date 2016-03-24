@@ -94,9 +94,7 @@ namespace SMS.EPA.Services.Interfaces
 
         IEnumerable<EmployeeOtherViolationDetailModel> GetOtherViolationDetailByEPAId(GetOtherViolationDetailByEPAIdCriteria criteria);
 
-        IEnumerable<int> GetMonthlyEPAIdOfSemi(GetMonthlyEPAIdOfSemiCriteria criteria);
-
-        IList<EPAModel> GetMonthlyEPAOfSemi(int epaId);
+        IList<EPAModel> GetMonthlyEPAOfSemi(string epaIds);
 
         CommandResult ResetScore(ResetScoreCriteria criteria);
     }

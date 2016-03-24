@@ -75,7 +75,7 @@
                             {{memberEPA.ProcessBySelf.TotalScore | customScore}} / {{memberEPA.ProcessBySelf.MaxTotalScore | customScore}}
                         </div>
                         <div ng-if="memberEPA.HasMonthlyEPA" ng-show="memberEPA.ProcessBySelf.IsEndProcess">
-                            {{memberEPA.MonthlyEPA.AverageMonthlySelfScoreConversion | customScore}} / {{memberEPA.ProcessBySelf.MaxTotalScore | customScore}}
+                            {{memberEPA.MonthlyEPA.AverageSelfScoreConverted | customScore}} / {{memberEPA.ProcessBySelf.MaxTotalScore | customScore}}
                         </div>
                         <div ng-show="!memberEPA.ProcessBySelf.IsEndProcess" data-translate="NotAvailable"></div>
                     </td>
@@ -84,7 +84,7 @@
                             {{memberEPA.CurrentProcess.TotalScore | customScore}} / {{memberEPA.CurrentProcess.MaxTotalScore | customScore}}
                         </div>
                         <div ng-if="memberEPA.HasMonthlyEPA" ng-show="memberEPA.CurrentProcess.TotalScore.length > 0">
-                            {{memberEPA.MonthlyEPA.AverageMonthlyEvaluatorScoreConversion | customScore}} / {{memberEPA.CurrentProcess.MaxTotalScore | customScore}}
+                            {{memberEPA.MonthlyEPA.AverageEvaluatorScoreConverted | customScore}} / {{memberEPA.CurrentProcess.MaxTotalScore | customScore}}
                         </div>
                         <div ng-show="memberEPA.CurrentProcess.TotalScore.length == 0" data-translate="NotAvailable"></div>
                     </td>

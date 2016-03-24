@@ -80,7 +80,7 @@
     <Compile Include="EmployeeEPA\AdjustScoreByReviewerOrManagementCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEmployeePermissionCriteria.cs" />
     <Compile Include="EmployeeEPA\GetGroupByEvaluatorOrReviewerOrManagementCriteria.cs" />
-    <Compile Include="EmployeeEPA\GetMonthlyEPAIdOfSemiCriteria.cs" />
+    <Compile Include="EmployeeEPA\GetMonthlyEPAOfSemiCriteria.cs" />
     <Compile Include="EmployeeEPA\GetOtherViolationDetailByEPAIdCriteria.cs" />
     <Compile Include="EmployeeEPA\GetStandardGradeCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEPASummaryImportCriteria.cs" />

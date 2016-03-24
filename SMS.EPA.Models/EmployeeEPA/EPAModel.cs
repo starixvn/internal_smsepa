@@ -34,6 +34,8 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public int EPAId { get; set; }
 
+        public int EPAParentId { get; set; }
+
         public EPAEmployeeModel Employee { get; set; }
 
         public EPAPeriodModel Period { get; set; }

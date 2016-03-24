@@ -96,7 +96,7 @@
                                 {{memberEPA.ProcessBySelf.TotalScore | customScore}} / {{memberEPA.ScoreRatingType.SelfEvaluated | customScore}}
                             </div>
                             <div ng-show="memberEPA.HasMonthlyEPA">
-                                {{memberEPA.MonthlyEPA.AverageMonthlySelfScoreConversion | customScore}} / {{memberEPA.ScoreRatingType.SelfEvaluated | customScore}}
+                                {{memberEPA.MonthlyEPA.AverageSelfScoreConverted | customScore}} / {{memberEPA.ScoreRatingType.SelfEvaluated | customScore}}
                             </div>
                         </div>
                         <div ng-show="!memberEPA.ProcessBySelf.IsEndProcess" data-translate="NotAvailable"></div>
@@ -107,14 +107,14 @@
                                 {{memberEPA.AverageScoreByEvaluators | customScore}} / {{memberEPA.ScoreRatingType.Evaluator | customScore}}
                             </div>
                             <div ng-show="memberEPA.HasMonthlyEPA">
-                                {{memberEPA.MonthlyEPA.AverageMonthlyEvaluatorScoreConversion | customScore}} / {{memberEPA.ScoreRatingType.Evaluator | customScore}}
+                                {{memberEPA.MonthlyEPA.AverageEvaluatorScoreConverted | customScore}} / {{memberEPA.ScoreRatingType.Evaluator | customScore}}
                             </div>
                         </div>
                         <div ng-show="!memberEPA.ProcessByEvaluators[0].IsEndProcess" data-translate="NotAvailable"></div>
                     </td>
                     <td class="text-right">
                         <div ng-if="memberEPA.HasMonthlyEPA && reviewerCtrl.targetTypeEnum.SemiAnnual" class="form-inline-block">
-                            {{memberEPA.MonthlyEPA.AverageMonthlyReviewerScoreConversion}}
+                            {{memberEPA.MonthlyEPA.AverageReviewerScoreConverted}}
                             <input type="text" maxlength="6" class="form-control text-center epa-input-score"
                                    ng-readonly="memberEPA.CurrentProcess.IsEndProcess || reviewerCtrl.permission != reviewerCtrl.policyEnum.Host"
                                    ng-model="memberEPA.CurrentProcess.AdjustScore" numeric decimals="2" ng-change="reviewerCtrl.inputScore(memberEPA)"

@@ -13,7 +13,7 @@
 
         public IList<EPAModel> MonthlyEPAs { get; set; }
 
-        public float AverageMonthlySelfScore
+        public float AverageSelfScore
         {
             get
             {
@@ -21,7 +21,7 @@
             }
         }
 
-        public float AverageMonthlyEvaluatorScores
+        public float AverageEvaluatorScores
         {
             get
             {
@@ -29,7 +29,7 @@
             }
         }
 
-        public float AverageMonthlyReviewerScores
+        public float AverageReviewerScores
         {
             get
             {
@@ -37,11 +37,11 @@
             }
         }
 
-        public float AverageMonthlySelfScoreConversion { get; set; }
+        public float AverageSelfScoreConverted { get; set; }
 
-        public float AverageMonthlyEvaluatorScoreConversion { get; set; }
+        public float AverageEvaluatorScoreConverted { get; set; }
 
-        public float AverageMonthlyReviewerScoreConversion { get; set; }
+        public float AverageReviewerScoreConverted { get; set; }
 
         private float CalculateAverageScore(int processType)
         {

@@ -245,6 +245,9 @@
         <Setting Key="EPA_GetOtherViolations" SpName="EPA_GetOtherViolations" DbName="SMSEPA" Plain="0" >
         </Setting>
         <Setting Key="EPA_SemiAnnual_GetMonthly" SpName="EPA_SemiAnnual_GetMonthly" DbName="SMSEPA" Plain="0">
+            <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode"/>
+            <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode"/>
+            <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode"/>
         </Setting>
         <Setting Key="EPA_ResetScore" SpName="EPA_ResetScore" DbName="SMSEPA" Plain="0">
         </Setting>

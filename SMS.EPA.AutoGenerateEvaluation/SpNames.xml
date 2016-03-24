@@ -52,6 +52,9 @@
     <Setting Key="EpaAuto_CheckEndEmployeeEvaluationPeriod" SpName="EpaAuto_CheckEndEmployeeEvaluationPeriod" DbName="SMSEPA" Plain="0">
     </Setting>
     <Setting Key="EPA_SemiAnnual_GetMonthly" SpName="EPA_SemiAnnual_GetMonthly" DbName="SMSEPA" Plain="0">
+      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
+      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
+      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
     </Setting>
     <Setting Key="EpaAuto_SemiAnnual_UpdateTotalScore" SpName="EpaAuto_SemiAnnual_UpdateTotalScore" DbName="SMSEPA" Plain="0">
     </Setting>

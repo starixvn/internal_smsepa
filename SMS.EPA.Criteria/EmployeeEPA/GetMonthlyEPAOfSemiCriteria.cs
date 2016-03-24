@@ -2,13 +2,13 @@
 {
     using Fanex.Data.Repository;
 
-    public class GetMonthlyEPAIdOfSemiCriteria : CriteriaBase
+    public class GetMonthlyEPAOfSemiCriteria : CriteriaBase
     {
-        public int EPAId { get; set; }
+        public string EPAIds { get; set; }
 
         public override bool IsValid()
         {
-            return EPAId > 0;
+            return !string.IsNullOrEmpty(EPAIds);
         }
 
         public override string GetSettingKey()

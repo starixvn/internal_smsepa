@@ -31,19 +31,19 @@
                     epaXml.AppendFormat(
                         EPAXmlTemplate,
                         (int)ProcessType.Self,
-                        EncodeService.Encode(EPAInfo.MonthlyEPA.AverageMonthlySelfScoreConversion.ToString()),
+                        EncodeService.Encode(EPAInfo.MonthlyEPA.AverageSelfScoreConverted.ToString()),
                         string.Empty);
 
                     epaXml.AppendFormat(
                         EPAXmlTemplate,
                         (int)ProcessType.Evaluator,
-                        EncodeService.Encode(EPAInfo.MonthlyEPA.AverageMonthlyEvaluatorScoreConversion.ToString()),
+                        EncodeService.Encode(EPAInfo.MonthlyEPA.AverageEvaluatorScoreConverted.ToString()),
                         string.Empty);
 
                     epaXml.AppendFormat(
                         EPAXmlTemplate,
                         (int)ProcessType.Reviewer,
-                        EncodeService.Encode(EPAInfo.MonthlyEPA.AverageMonthlyReviewerScoreConversion.ToString()),
+                        EncodeService.Encode(EPAInfo.MonthlyEPA.AverageReviewerScoreConverted.ToString()),
                         string.Empty);
 
                     epaXml.AppendFormat(

@@ -74,7 +74,7 @@ namespace SMS.EPA.Services.Implement
 
                 if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
                 {
-                    epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId);
+                    epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId.ToString());
                     ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
                 }
             }
@@ -94,15 +94,19 @@ namespace SMS.EPA.Services.Implement
             {
                 memberEPAs = _employeeEPARepository.GetEPA(criteria);
 
+                IList<EPAModel> monthlyEPAs = new List<EPAModel>();
+                string epaIds = string.Join(",", memberEPAs.Where(x => x.HasMonthlyEPA && x.Period.TargetTypeId == (int)TargetType.SemiAnnual).Select(x => x.EPAId));
+
+                if (!string.IsNullOrEmpty(epaIds))
+                {
+                    monthlyEPAs = GetMonthlyEPAOfSemi(epaIds);
+                }
+
                 foreach (EPAModel memberEPA in memberEPAs)
                 {
                     memberEPA.CurrentProcess = memberEPA.ProcessByEvaluators.FirstOrDefault();
-
-                    if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId == (int)TargetType.SemiAnnual)
-                    {
-                        memberEPA.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(memberEPA.EPAId);
-                        ConvertAverageMonthlyScore(memberEPA.MonthlyEPA, memberEPA.ScoreRatingType);
-                    }
+                    GroupMonthlyEPABySemi(memberEPA, monthlyEPAs);
+                    ConvertAverageMonthlyScore(memberEPA.MonthlyEPA, memberEPA.ScoreRatingType);
                 }
             }
 
@@ -128,7 +132,7 @@ namespace SMS.EPA.Services.Implement
 
                 if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
                 {
-                    epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId);
+                    epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId.ToString());
                     ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
                 }
             }
@@ -147,15 +151,19 @@ namespace SMS.EPA.Services.Implement
             if (criteria != null && criteria.IsValid())
             {
                 memberEPAs = _employeeEPARepository.GetEPA(criteria);
-            }
 
-            foreach (EPAModel memberEPA in memberEPAs)
-            {
-                memberEPA.CurrentProcess = memberEPA.ProcessByReviewers.FirstOrDefault();
+                IList<EPAModel> monthlyEPAs = new List<EPAModel>();
+                string epaIds = string.Join(",", memberEPAs.Where(x => x.HasMonthlyEPA && x.Period.TargetTypeId == (int)TargetType.SemiAnnual).Select(x => x.EPAId));
 
-                if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId == (int)TargetType.SemiAnnual)
+                if (!string.IsNullOrEmpty(epaIds))
                 {
-                    memberEPA.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(memberEPA.EPAId);
+                    monthlyEPAs = GetMonthlyEPAOfSemi(epaIds);
+                }
+
+                foreach (EPAModel memberEPA in memberEPAs)
+                {
+                    memberEPA.CurrentProcess = memberEPA.ProcessByReviewers.FirstOrDefault();
+                    GroupMonthlyEPABySemi(memberEPA, monthlyEPAs);
                     ConvertAverageMonthlyScore(memberEPA.MonthlyEPA, memberEPA.ScoreRatingType);
                 }
             }
@@ -175,7 +183,7 @@ namespace SMS.EPA.Services.Implement
 
                 if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
                 {
-                    epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId);
+                    epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId.ToString());
                     ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
                 }
             }
@@ -195,15 +203,19 @@ namespace SMS.EPA.Services.Implement
             {
                 memberEPAs = _employeeEPARepository.GetEPA(criteria);
 
+                IList<EPAModel> monthlyEPAs = new List<EPAModel>();
+                string epaIds = string.Join(",", memberEPAs.Where(x => x.HasMonthlyEPA && x.Period.TargetTypeId == (int)TargetType.SemiAnnual).Select(x => x.EPAId));
+
+                if (!string.IsNullOrEmpty(epaIds))
+                {
+                    monthlyEPAs = GetMonthlyEPAOfSemi(epaIds);
+                }
+
                 foreach (EPAModel memberEPA in memberEPAs)
                 {
                     memberEPA.CurrentProcess = memberEPA.ProcessByManagements.FirstOrDefault();
-
-                    if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId == (int)TargetType.SemiAnnual)
-                    {
-                        memberEPA.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(memberEPA.EPAId);
-                        ConvertAverageMonthlyScore(memberEPA.MonthlyEPA, memberEPA.ScoreRatingType);
-                    }
+                    GroupMonthlyEPABySemi(memberEPA, monthlyEPAs);
+                    ConvertAverageMonthlyScore(memberEPA.MonthlyEPA, memberEPA.ScoreRatingType);
                 }
             }
 
@@ -222,7 +234,7 @@ namespace SMS.EPA.Services.Implement
 
                 if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
                 {
-                    epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId);
+                    epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId.ToString());
                     ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
                 }
             }
@@ -342,7 +354,7 @@ namespace SMS.EPA.Services.Implement
 
                 if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
                 {
-                    epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId);
+                    epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId.ToString());
                     ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
                 }
             }
@@ -478,40 +490,16 @@ namespace SMS.EPA.Services.Implement
             return otherViolationDetails;
         }
 
-        public IEnumerable<int> GetMonthlyEPAIdOfSemi(GetMonthlyEPAIdOfSemiCriteria criteria)
-        {
-            IEnumerable<int> monthlyEPAIds = new List<int>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                monthlyEPAIds = GetData<int>(criteria);
-            }
-
-            return monthlyEPAIds;
-        }
-
-        public IList<EPAModel> GetMonthlyEPAOfSemi(int epaId)
+        public IList<EPAModel> GetMonthlyEPAOfSemi(string epaIds)
         {
             IList<EPAModel> monthlyEPAs = new List<EPAModel>();
 
-            var getMonthlyEPAIdOfSemiCriteria = new GetMonthlyEPAIdOfSemiCriteria()
+            var criteria = new GetMonthlyEPAOfSemiCriteria()
             {
-                EPAId = epaId
+                EPAIds = epaIds
             };
 
-            IEnumerable<int> monthlyEPAIds = GetMonthlyEPAIdOfSemi(getMonthlyEPAIdOfSemiCriteria);
-
-            foreach (int monthlyEPAId in monthlyEPAIds)
-            {
-                var getEPAInfoByIdCriteria = new GetEPAInfoByIdCriteria()
-                {
-                    EPAId = monthlyEPAId
-                };
-
-                EPAModel monthlyEPA = GetEPAInfoById(getEPAInfoByIdCriteria);
-
-                monthlyEPAs.Add(monthlyEPA);
-            }
+            monthlyEPAs = _employeeEPARepository.GetEPA(criteria).ToList();
 
             return monthlyEPAs;
         }
@@ -528,20 +516,34 @@ namespace SMS.EPA.Services.Implement
             return commandResult;
         }
 
+        private void GroupMonthlyEPABySemi(EPAModel semiEPA, IList<EPAModel> monthlyEPAs)
+        {
+            if (semiEPA != null && monthlyEPAs != null && monthlyEPAs.Count > 0)
+            {
+                foreach (EPAModel monthlyEPA in monthlyEPAs)
+                {
+                    if (monthlyEPA.EPAParentId.Equals(semiEPA.EPAId))
+                    {
+                        semiEPA.MonthlyEPA.MonthlyEPAs.Add(monthlyEPA);
+                    }
+                }
+            }
+        }
+
         private void ConvertAverageMonthlyScore(MonthlyEPAModel monthlyEPA, ScoreRatingTypeModel scoreRatingType)
         {
             if (monthlyEPA.MonthlyEPAs.Any())
             {
                 ScoreRatingTypeModel monthlyScoreRatingType = monthlyEPA.MonthlyEPAs.First().ScoreRatingType;
 
-                float averageScore = (monthlyEPA.AverageMonthlySelfScore * scoreRatingType.SelfEvaluated) / monthlyScoreRatingType.SelfEvaluated;
-                monthlyEPA.AverageMonthlySelfScoreConversion = (float)Math.Round(averageScore, 2);
+                float averageScore = (monthlyEPA.AverageSelfScore * scoreRatingType.SelfEvaluated) / monthlyScoreRatingType.SelfEvaluated;
+                monthlyEPA.AverageSelfScoreConverted = (float)Math.Round(averageScore, 2);
 
-                averageScore = (monthlyEPA.AverageMonthlyEvaluatorScores * scoreRatingType.Evaluator) / monthlyScoreRatingType.Evaluator;
-                monthlyEPA.AverageMonthlyEvaluatorScoreConversion = (float)Math.Round(averageScore, 2);
+                averageScore = (monthlyEPA.AverageEvaluatorScores * scoreRatingType.Evaluator) / monthlyScoreRatingType.Evaluator;
+                monthlyEPA.AverageEvaluatorScoreConverted = (float)Math.Round(averageScore, 2);
 
-                averageScore = (monthlyEPA.AverageMonthlyReviewerScores * scoreRatingType.Reviewer) / monthlyScoreRatingType.Reviewer;
-                monthlyEPA.AverageMonthlyReviewerScoreConversion = (float)Math.Round(averageScore, 2);
+                averageScore = (monthlyEPA.AverageReviewerScores * scoreRatingType.Reviewer) / monthlyScoreRatingType.Reviewer;
+                monthlyEPA.AverageReviewerScoreConverted = (float)Math.Round(averageScore, 2);
             }
         }
     }

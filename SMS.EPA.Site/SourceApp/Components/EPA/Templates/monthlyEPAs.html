@@ -17,18 +17,20 @@
             </tr>
             <tr>
                 <td class="text-right"><strong data-translate="OriginalAverage"></strong></td>
-                <td class="text-center" ng-bind="memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlySelfScore | customScore"></td>
-                <td class="text-center" ng-bind="memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlyEvaluatorScores | customScore"></td>
-                <td class="text-center" ng-bind="memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlyReviewerScores | customScore"></td>
+                <td class="text-center" ng-bind="memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageSelfScore | customScore"></td>
+                <td class="text-center" ng-bind="memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageEvaluatorScores | customScore"></td>
+                <td class="text-center" ng-bind="memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageReviewerScores | customScore"></td>
             </tr>
             <tr>
                 <td class="text-right"><strong data-translate="ConvertedAverage"></strong></td>
-                <td class="text-center" ng-bind="memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlySelfScoreConversion | customScore"></td>
-                <td class="text-center" ng-bind="memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlyEvaluatorScoreConversion | customScore"></td>
+                <td class="text-center" ng-bind="memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageSelfScoreConverted | customScore"></td>
+                <td class="text-center" ng-bind="memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted | customScore"></td>
                 <td class="text-center">
-                    <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[0] && memberEPAInfoCtrl.epaInfo.ProcessByReviewers[0].IsEndProcess"
-                         ng-bind="memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageMonthlyReviewerScoreConversion | customScore"></div>
-                    <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[0] && !memberEPAInfoCtrl.epaInfo.ProcessByReviewers[0].IsEndProcess" data-translate="Pending"></div>
+                    <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[0].StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.EndProcess
+                            || memberEPAInfoCtrl.epaInfo.ProcessByReviewers[0].StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.InProgress"
+                         ng-bind="memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageReviewerScoreConverted | customScore"></div>
+                    <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByReviewers[0].IsEndProcess.StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.Open"
+                         data-translate="Pending"></div>
                 </td>
             </tr>
             <tr>
