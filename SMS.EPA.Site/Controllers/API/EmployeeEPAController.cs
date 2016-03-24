@@ -437,7 +437,6 @@ namespace SMS.EPA.Site.Controllers.API
         {
             var criteria = new GetEvaluatorsByTargetTemplateCriteria()
             {
-                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
                 TargetTemplateId = targetTemplateId
             };
 
