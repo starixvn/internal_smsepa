@@ -50,6 +50,11 @@ namespace SMS.EPA.Services.Implement
             if (criteria != null && criteria.IsValid())
             {
                 epas = _employeeEPARepository.GetEPA(criteria);
+
+                foreach (EPAModel epa in epas)
+                {
+                    epa.CurrentProcess = epa.ProcessBySelf;
+                }
             }
 
             return epas;

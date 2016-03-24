@@ -66,10 +66,6 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonM
             vm.epaInfo = EmployeeEPAModel.epaInfo;
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
 
-            if (vm.epaInfo.HasDisciplineScore && vm.epaInfo.DisciplineScore < 0) {
-                vm.epaInfo.DisciplineScore = 0;
-            }
-
             // self
             vm.epaInfo.ProcessBySelf.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.ProcessBySelf.TotalScore);
 
@@ -169,10 +165,6 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
         EmployeeEPAModel.getEPAInfoById(vm.epaId).then(function () {
             vm.epaInfo = EmployeeEPAModel.epaInfo;
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
-
-            if (vm.epaInfo.HasDisciplineScore && vm.epaInfo.DisciplineScore < 0) {
-                vm.epaInfo.DisciplineScore = 0;
-            }
 
             // self
             vm.epaInfo.ProcessBySelf.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.ProcessBySelf.TotalScore);

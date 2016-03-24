@@ -150,10 +150,6 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
                 memberEPA.MaxPerformanceScore = memberEPA.CurrentProcess.MaxTotalScore;
 
                 if (memberEPA.HasDisciplineScore) {
-                    if (memberEPA.DisciplineScore < 0) {
-                        memberEPA.DisciplineScore = 0;
-                    }
-
                     memberEPA.MaxPerformanceScore += memberEPA.MaxDisciplineScore;
                 }
 
@@ -324,10 +320,6 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, Reviewe
             vm.maxPerformanceScore = vm.epaInfo.CurrentProcess.MaxTotalScore;
 
             if (vm.epaInfo.HasDisciplineScore) {
-                if (vm.epaInfo.DisciplineScore < 0) {
-                    vm.epaInfo.DisciplineScore = 0;
-                }
-
                 vm.maxPerformanceScore += vm.epaInfo.MaxDisciplineScore;
             }
 

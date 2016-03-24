@@ -240,10 +240,6 @@ function ($timeout, utilitiesFactory) {
         };
 
         if (epaInfo.HasDisciplineScore) {
-            if (epaInfo.DisciplineScore < 0) {
-                epaInfo.DisciplineScore = 0;
-            }
-
             result.DisciplineScore = epaInfo.DisciplineScore;
         } else {
             if (epaInfo.DisciplineScore !== 0) {

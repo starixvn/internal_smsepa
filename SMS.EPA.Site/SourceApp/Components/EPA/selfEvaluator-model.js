@@ -39,10 +39,6 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
             });
         });
 
-        if (vm.epaInfo.DisciplineScore < 0 && vm.epaInfo.HasDisciplineScore) {
-            vm.epaInfo.DisciplineScore = 0;
-        }
-
         vm.epaInfo.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(totalScore);
         vm.epaInfo.CurrentProcess.TotalScore = EmployeeEPAModel.checkScore(vm.epaInfo.CurrentProcess.TotalScore, 0, vm.epaInfo.CurrentProcess.MaxTotalScore);
 

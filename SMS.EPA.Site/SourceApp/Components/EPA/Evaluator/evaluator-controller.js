@@ -23,7 +23,7 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, ba
         });
     };
 
-    var getEPAByEvaluator = function (groupId, isLocal,isMonthly, employeeIds) {
+    var getEPAByEvaluator = function (groupId, isLocal, isMonthly, employeeIds) {
         SelfEvalutorModel.getEPAByEvaluator(groupId, isLocal, isMonthly, employeeIds).then(function () {
             vm.memberEPAs = SelfEvalutorModel.memberEPAs;
 
@@ -31,10 +31,6 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, ba
                 memberEPA.MaxPerformanceScore = memberEPA.CurrentProcess.MaxTotalScore;
 
                 if (memberEPA.HasDisciplineScore) {
-                    if (memberEPA.DisciplineScore < 0) {
-                        memberEPA.DisciplineScore = 0;
-                    }
-
                     memberEPA.MaxPerformanceScore += memberEPA.MaxDisciplineScore;
                 }
 
@@ -208,10 +204,6 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
             vm.maxPerformanceScore = vm.epaInfo.CurrentProcess.MaxTotalScore;
 
             if (vm.epaInfo.HasDisciplineScore) {
-                if (vm.epaInfo.DisciplineScore < 0) {
-                    vm.epaInfo.DisciplineScore = 0;
-                }
-
                 vm.maxPerformanceScoreOfSelf += vm.epaInfo.MaxDisciplineScore;
                 vm.maxPerformanceScore += vm.epaInfo.MaxDisciplineScore;
             }

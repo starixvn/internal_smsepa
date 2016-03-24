@@ -13,6 +13,7 @@ namespace SMS.EPA.Model.EmployeeEPA
     using System.Collections.Generic;
     using System.Linq;
     using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.ScoreRatingType;
 
@@ -160,6 +161,41 @@ namespace SMS.EPA.Model.EmployeeEPA
                 List<int> numbers = new List<int> { ProcessByEvaluators.Count, ProcessByReviewers.Count, ProcessByManagements.Count };
 
                 return numbers.Max();
+            }
+        }
+
+        public bool IsMonthly
+        {
+            get
+            {
+                bool isMonthly = false;
+
+                if (Period.TargetTypeId == (int)TargetType.Monthly)
+                {
+                    isMonthly = true;
+                }
+
+                return isMonthly;
+            }
+        }
+
+        public bool IsAllowedToEdit
+        {
+            get
+            {
+                bool isAllowedToEdit = true;
+
+                if (CurrentProcess == null
+                    || CurrentProcess.IsEndProcess
+                    || (Period.TargetTypeId == (int)TargetType.SemiAnnual
+                        && HasMonthlyEPA
+                        && (CurrentProcess.ProcessId == (int)ProcessType.Self || CurrentProcess.ProcessId == (int)ProcessType.Evaluator))
+                    || Status.StatusId == (int)SMS.EPA.Core.Enumerations.Status.Closed)
+                {
+                    isAllowedToEdit = false;
+                }
+
+                return isAllowedToEdit;
             }
         }
 
