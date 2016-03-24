@@ -4,14 +4,21 @@
 epaModule.factory('EPAByKPIModel',
 ['epaByKPIFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory',
 function (epaByKPIFactory, utilitiesFactory, notificationFactory, errorFactory) {
-    var epaByKPIModel = this;
+    var epaByKPIModel = {
+        targetTemplates: [],
+        kpis: [],
+        evaluators: [],
+        memberEPAs: [],
+        getTargetTemplateToView: getTargetTemplateToView,
+        getKPIToView: getKPIToView,
+        getEmployeeEPAToView: getEmployeeEPAToView,
+        getEvaluatorsByTargetTemplate: getEvaluatorsByTargetTemplate,
+        scoreSpreadForKPIGroupHasKPIOptional: scoreSpreadForKPIGroupHasKPIOptional
+    };
 
-    epaByKPIModel.targetTemplates = [];
-    epaByKPIModel.kpis = [];
-    epaByKPIModel.evaluators = [];
-    epaByKPIModel.memberEPAs = [];
+    return epaByKPIModel;
 
-    epaByKPIModel.getTargetTemplateToView = function () {
+    function getTargetTemplateToView() {
         return epaByKPIFactory.getTargetTemplateToView()
         .success(function (targetTemplates) {
             epaByKPIModel.targetTemplates = targetTemplates;
@@ -20,7 +27,7 @@ function (epaByKPIFactory, utilitiesFactory, notificationFactory, errorFactory) 
         });
     };
 
-    epaByKPIModel.getKPIToView = function (targetTemplateId, evaluatorId) {
+    function getKPIToView(targetTemplateId, evaluatorId) {
         return epaByKPIFactory.getKPIToView(targetTemplateId, evaluatorId)
         .success(function (kpis) {
             epaByKPIModel.kpis = kpis;
@@ -29,7 +36,7 @@ function (epaByKPIFactory, utilitiesFactory, notificationFactory, errorFactory) 
         });
     };
 
-    epaByKPIModel.getEmployeeEPAToView = function (targetTemplateId, kpiId, evaluatorId) {
+    function getEmployeeEPAToView(targetTemplateId, kpiId, evaluatorId) {
         return epaByKPIFactory.getEmployeeEPAToView(targetTemplateId, kpiId, evaluatorId)
         .success(function (memberEPAs) {
             epaByKPIModel.memberEPAs = memberEPAs;
@@ -38,7 +45,7 @@ function (epaByKPIFactory, utilitiesFactory, notificationFactory, errorFactory) 
         });
     };
 
-    epaByKPIModel.getEvaluatorsByTargetTemplate = function (targetTemplateId) {
+    function getEvaluatorsByTargetTemplate(targetTemplateId) {
         return epaByKPIFactory.getEvaluatorsByTargetTemplate(targetTemplateId)
         .success(function (evaluators) {
             epaByKPIModel.evaluators = evaluators;
@@ -48,7 +55,7 @@ function (epaByKPIFactory, utilitiesFactory, notificationFactory, errorFactory) 
     };
 
 
-    epaByKPIModel.scoreSpreadForKPIGroupHasKPIOptional = function (kpiGroup, maxStar) {
+    function scoreSpreadForKPIGroupHasKPIOptional(kpiGroup, maxStar) {
         var averageWeight, totalKPIMustEvaluate, totalStarMustEvaluate, totalStarEvaluated = 0,
             numberKPIOptional = kpiGroup.NumberKPIOptional;
         var kpis = [];
@@ -96,5 +103,4 @@ function (epaByKPIFactory, utilitiesFactory, notificationFactory, errorFactory) 
         });
     };
 
-    return epaByKPIModel;
 }]);

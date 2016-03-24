@@ -15,7 +15,7 @@
 
         public override bool IsValid()
         {
-            return TargetTemplateId > 0;
+            return TargetTemplateId > 0 && EvaluatorId > 0;
         }
     }
 }
