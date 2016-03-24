@@ -420,11 +420,11 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.EPAByKPI, Policy = Policy.Read)]
-        public IEnumerable<TemporaryKPIModel> GetKPIToView(int targetTemplateId, string evaluatorIds)
+        public IEnumerable<TemporaryKPIModel> GetKPIToView(int targetTemplateId, int evaluatorId)
         {
             var criteria = new GetKPIToViewCriteria()
             {
-                EvaluatorIds = evaluatorIds,
+                EvaluatorId = evaluatorId,
                 TargetTemplateId = targetTemplateId
             };
 

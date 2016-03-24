@@ -4,7 +4,7 @@
 
     public class GetKPIToViewCriteria : CriteriaBase
     {
-        public string EvaluatorIds { get; set; }
+        public int EvaluatorId { get; set; }
 
         public int TargetTemplateId { get; set; }
 

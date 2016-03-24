@@ -20,8 +20,8 @@ function (epaByKPIFactory, utilitiesFactory, notificationFactory, errorFactory) 
         });
     };
 
-    epaByKPIModel.getKPIToView = function (targetTemplateId, evaluatorIds) {
-        return epaByKPIFactory.getKPIToView(targetTemplateId, evaluatorIds)
+    epaByKPIModel.getKPIToView = function (targetTemplateId, evaluatorId) {
+        return epaByKPIFactory.getKPIToView(targetTemplateId, evaluatorId)
         .success(function (kpis) {
             epaByKPIModel.kpis = kpis;
         }).error(function (response, status) {

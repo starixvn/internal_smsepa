@@ -27,11 +27,11 @@ epaModule.factory('epaByKPIFactory', ['$http', 'baseUrl', function ($http, baseU
         });
     };
 
-    function getKPIToView(targetTemplateId, evaluatorIds) {
+    function getKPIToView(targetTemplateId, evaluatorId) {
         return $http.get(baseUrl + 'api/EmployeeEPA/getKPIToView', {
             params: {
                 targetTemplateId: targetTemplateId,
-                evaluatorIds: evaluatorIds
+                evaluatorId: evaluatorId
             }
         });
     };

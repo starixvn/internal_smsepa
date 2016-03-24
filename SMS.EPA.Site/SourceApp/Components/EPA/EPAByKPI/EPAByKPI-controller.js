@@ -13,7 +13,7 @@ function ($window, $timeout, $translate, EPAByKPIModel, EmployeeEPAModel, Common
     vm.filter = {
         targetTemplateId: '',
         kpiId: '',
-        evaluatorIds: ''
+        evaluatorId: ''
     };
     vm.evaluators = [];
     vm.RatingType = enumerationsFactory.ratingType;
@@ -69,7 +69,7 @@ function ($window, $timeout, $translate, EPAByKPIModel, EmployeeEPAModel, Common
         vm.filter.kpiId = '';
         vm.memberEPAs = [];
 
-        EPAByKPIModel.getKPIToView(vm.filter.targetTemplateId, vm.filter.evaluatorIds).then(function () {
+        EPAByKPIModel.getKPIToView(vm.filter.targetTemplateId, vm.filter.evaluatorId).then(function () {
             vm.kpis = EPAByKPIModel.kpis;
         });
     };
@@ -80,7 +80,7 @@ function ($window, $timeout, $translate, EPAByKPIModel, EmployeeEPAModel, Common
     };
 
     function query() {
-        EPAByKPIModel.getEmployeeEPAToView(vm.filter.targetTemplateId, vm.filter.kpiId, vm.filter.evaluatorIds).then(function () {
+        EPAByKPIModel.getEmployeeEPAToView(vm.filter.targetTemplateId, vm.filter.kpiId, vm.filter.evaluatorId).then(function () {
             vm.memberEPAs = EPAByKPIModel.memberEPAs;
             utilitiesFactory.searchOnPage(vm, vm.memberEPAs);
             angular.forEach(vm.memberEPAs, function (memberEPA) {
