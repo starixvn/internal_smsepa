@@ -70,39 +70,43 @@
                         <span ng-bind="memberEPA.Employee.NickName" popover-avatar avatar-src="{{memberEPA.Employee.Avatar}}"></span>
                     </td>
                     <td ng-bind="memberEPA.Employee.JobTitle.JobTitleName"></td>
-                    <td class="text-center">
-                        <div ng-if="!memberEPA.HasMonthlyEPA" ng-show="memberEPA.ProcessBySelf.IsEndProcess">
-                            {{memberEPA.ProcessBySelf.TotalScore | customScore}} / {{memberEPA.ProcessBySelf.MaxTotalScore | customScore}}
+                    <td class="text-center" ng-switch="memberEPA.ProcessBySelf.IsEndProcess">
+                        <div ng-switch-when="true" ng-switch="memberEPA.HasMonthlyEPA">
+                            <span ng-switch-when="true">
+                                {{memberEPA.MonthlyEPA.AverageSelfScoreConverted | customScore}} / {{memberEPA.ProcessBySelf.MaxTotalScore | customScore}}
+                            </span>
+                            <span ng-switch-default>
+                                {{memberEPA.ProcessBySelf.TotalScore | customScore}} / {{memberEPA.ProcessBySelf.MaxTotalScore | customScore}}
+                            </span>
                         </div>
-                        <div ng-if="memberEPA.HasMonthlyEPA" ng-show="memberEPA.ProcessBySelf.IsEndProcess">
-                            {{memberEPA.MonthlyEPA.AverageSelfScoreConverted | customScore}} / {{memberEPA.ProcessBySelf.MaxTotalScore | customScore}}
-                        </div>
-                        <div ng-show="!memberEPA.ProcessBySelf.IsEndProcess" data-translate="NotAvailable"></div>
+                        <div ng-switch-default data-translate="Pending"></div>
                     </td>
-                    <td class="text-center">
-                        <div ng-if="!memberEPA.HasMonthlyEPA" ng-show="memberEPA.CurrentProcess.TotalScore.length > 0">
-                            {{memberEPA.CurrentProcess.TotalScore | customScore}} / {{memberEPA.CurrentProcess.MaxTotalScore | customScore}}
+                    <td class="text-center" ng-switch="memberEPA.CurrentProcess.TotalScore.length">
+                        <div ng-switch-when="true" ng-switch="memberEPA.HasMonthlyEPA">
+                            <span ng-switch-when="true">
+                                {{memberEPA.MonthlyEPA.AverageEvaluatorScoreConverted | customScore}} / {{memberEPA.CurrentProcess.MaxTotalScore | customScore}}
+                            </span>
+                            <span ng-switch-default>
+                                {{memberEPA.CurrentProcess.TotalScore | customScore}} / {{memberEPA.CurrentProcess.MaxTotalScore | customScore}}
+                            </span>
                         </div>
-                        <div ng-if="memberEPA.HasMonthlyEPA" ng-show="memberEPA.CurrentProcess.TotalScore.length > 0">
-                            {{memberEPA.MonthlyEPA.AverageEvaluatorScoreConverted | customScore}} / {{memberEPA.CurrentProcess.MaxTotalScore | customScore}}
-                        </div>
-                        <div ng-show="memberEPA.CurrentProcess.TotalScore.length == 0" data-translate="NotAvailable"></div>
+                        <div ng-switch-default data-translate="NotAvailable"></div>
                     </td>
-                    <td class="text-center">
-                        <div ng-show="memberEPA.HasDisciplineScore">
+                    <td class="text-center" ng-switch="memberEPA.HasDisciplineScore">
+                        <div ng-switch-when="true">
                             {{memberEPA.SystemDisciplineScore | customScore}} / {{memberEPA.MaxDisciplineScore | customScore}}
                         </div>
-                        <div ng-show="!memberEPA.HasDisciplineScore">
+                        <div ng-switch-default>
                             <span ng-show="memberEPA.SystemDisciplineScore" ng-bind="memberEPA.SystemDisciplineScore | customScore"></span>
                             <span ng-show="!memberEPA.SystemDisciplineScore" ng-bind="'-'"></span>
                         </div>
                     </td>
                     <td class="text-center">
-                        <div class="col-percent-60">
-                            <div ng-show="memberEPA.HasDisciplineScore">
+                        <div class="col-percent-60" ng-switch="memberEPA.HasDisciplineScore">
+                            <div ng-switch-when="true">
                                 {{memberEPA.DisciplineScore | customScore}} / {{memberEPA.MaxDisciplineScore | customScore}}
                             </div>
-                            <div ng-show="!memberEPA.HasDisciplineScore">
+                            <div ng-switch-default>
                                 <span ng-show="memberEPA.DisciplineScore" ng-bind="memberEPA.DisciplineScore | customScore"></span>
                                 <span ng-show="!memberEPA.DisciplineScore" ng-bind="'-'"></span>
                             </div>
@@ -126,16 +130,15 @@
                         <a data-translate="View" ng-click="evaluatorCtrl.viewEPAHistory(memberEPA.Employee.EmployeeId)"
                            href="{{evaluatorCtrl.viewEPAHistoryUrl}}"></a>
                     </td>
-                    <td class="text-center text-uppercase col-action">
-                        <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="evaluatorCtrl.viewEPADetail(memberEPA)"
-                           ng-if="!memberEPA.HasMonthlyEPA && !memberEPA.CurrentProcess.IsEndProcess"
+                    <td class="text-center text-uppercase col-action" ng-switch="myEPA.IsAllowedToEdit">
+                        <a ng-switch-when="true" class="glyphicon glyphicon-edit icon-edit" href="" ng-click="evaluatorCtrl.viewEPADetail(memberEPA)"
                            ng-href="{{evaluatorCtrl.viewEPADetailUrl}}" ng-attr-title='{{"EvaluateNow" | translate}}'></a>
-                        <a class="glyphicon icon-view" href="" ng-click="evaluatorCtrl.viewEPAResult(memberEPA)"
-                           ng-if="!memberEPA.HasMonthlyEPA && memberEPA.CurrentProcess.IsEndProcess"
-                           ng-href="{{evaluatorCtrl.viewEPAResultUrl}}" ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
-                        <a class="glyphicon icon-view" href="" ng-click="evaluatorCtrl.viewSemiEPAResult(memberEPA)"
-                           ng-if="memberEPA.HasMonthlyEPA"
-                           ng-href="{{evaluatorCtrl.viewSemiEPAResultUrl}}" ng-attr-title='{{"ViewSemiEPAResult" | translate}}'></a>
+                        <div ng-switch-default ng-switch="myEPA.HasMonthlyEPA">
+                            <a ng-switch-when="true" class="glyphicon icon-view" href="" ng-click="evaluatorCtrl.viewSemiEPAResult(memberEPA)"
+                               ng-href="{{evaluatorCtrl.viewSemiEPAResultUrl}}" ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
+                            <a ng-switch-default class="glyphicon icon-view" href="" ng-click="evaluatorCtrl.viewEPAResult(memberEPA)"
+                               ng-href="{{evaluatorCtrl.viewEPAResultUrl}}" ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
+                        </div>
                     </td>
                 </tr>
                 <tr ng-show="evaluatorCtrl.memberEPAs.length == 0">

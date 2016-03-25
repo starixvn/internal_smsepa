@@ -26,14 +26,14 @@
                            ng-href="{{empEPACtrl.viewEPADetailUrl}}" ng-attr-title='{{"EvaluateNow" | translate}}'></a>
                         <div ng-switch-default ng-switch="myEPA.HasMonthlyEPA">
                             <a ng-switch-when="true" class="glyphicon icon-view" href="" ng-click="empEPACtrl.viewSemiEPAResult(myEPA)"
-                               ng-href="{{empEPACtrl.viewEPAResultUrl}}" ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
+                               ng-href="{{empEPACtrl.viewSemiEPAResultUrl}}" ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
                             <a ng-switch-default class="glyphicon icon-view" href="" ng-click="empEPACtrl.viewEPAResult(myEPA)"
-                               ng-href=" {{empEPACtrl.viewEPAResultUrl}} " ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
+                               ng-href="{{empEPACtrl.viewEPAResultUrl}}" ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
                         </div>
                     </td>
                 </tr>
                 <tr ng-show="empEPACtrl.myEPAs.length == 0">
-                    <td class="empty-result" colspan="10" data-translate="EmptyResult"></td>
+                    <td class="empty-result" colspan="5" data-translate="EmptyResult"></td>
                 </tr>
             </tbody>
         </table>

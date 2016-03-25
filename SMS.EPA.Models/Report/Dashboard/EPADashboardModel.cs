@@ -13,6 +13,7 @@ namespace SMS.EPA.Model.Report.Dashboard
     using System.Collections.Generic;
     using System.Linq;
     using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.Enitites;
 
@@ -129,6 +130,24 @@ namespace SMS.EPA.Model.Report.Dashboard
                 }
 
                 return performanceScore;
+            }
+        }
+
+        public bool IsAllowedToEdit
+        {
+            get
+            {
+                bool isAllowedToEdit = true;
+
+                if (IsEndProcessBySelf
+                    || (Period.TargetTypeId == (int)TargetType.SemiAnnual && HasMonthlyEPA)
+                    || Status.StatusId == (int)SMS.EPA.Core.Enumerations.Status.Closed
+                    || Period.IsEndPeriod)
+                {
+                    isAllowedToEdit = false;
+                }
+
+                return isAllowedToEdit;
             }
         }
 

@@ -190,7 +190,8 @@ namespace SMS.EPA.Model.EmployeeEPA
                     || (Period.TargetTypeId == (int)TargetType.SemiAnnual
                         && HasMonthlyEPA
                         && (CurrentProcess.ProcessId == (int)ProcessType.Self || CurrentProcess.ProcessId == (int)ProcessType.Evaluator))
-                    || Status.StatusId == (int)SMS.EPA.Core.Enumerations.Status.Closed)
+                    || Status.StatusId == (int)SMS.EPA.Core.Enumerations.Status.Closed
+                    || Period.IsEndPeriod)
                 {
                     isAllowedToEdit = false;
                 }
