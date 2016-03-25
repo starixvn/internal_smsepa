@@ -46,8 +46,8 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
     vm.ratingTypeEnum = enumerationsFactory.ratingType;
     vm.policyEnum = enumerationsFactory.policy;
 
-    var checkStatus = function (epaInfo) {
-        if (epaInfo.IsAllowedToEdit) {
+    function checkStatus(epaInfo) {
+        if (!epaInfo.IsAllowedToEdit) {
             vm.hoveringLeave = null;
         }
         else {
@@ -117,7 +117,7 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
         $window.history.back();
     };
 
-    var getEPAInfoByEmployee = function () {
+    function getEPAInfoByEmployee() {
         SelfEvalutorModel.getEPAInfoByEmployee(vm.epaId).then(function () {
             vm.epaInfo = SelfEvalutorModel.epaInfo;
             checkStatus(vm.epaInfo);
@@ -163,7 +163,7 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
         }, 1);
     };
 
-    vm.initialize = function () {
+    function initialize() {
         $translate('ScoreInputValid').then(function (message) {
             vm.scoreInputValidMessage = message;
         });
@@ -179,5 +179,5 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
         });
     };
 
-    vm.initialize();
+    initialize();
 }]);
