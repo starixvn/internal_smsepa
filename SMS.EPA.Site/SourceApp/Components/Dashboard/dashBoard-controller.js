@@ -39,14 +39,14 @@ function (DashboardModel, CommonModel, utilitiesFactory, enumerationsFactory, ba
         CommonModel.openPopupViewOtherViolationDetail(epa.EPAId);
     };
 
-    vm.initialize = function () {
+    function initialize() {
         DashboardModel.getDashboard().then(function () {
             var dashboardInfo = DashboardModel.dashboardInfo;
 
             vm.employee = dashboardInfo.Employee;
             vm.employee.Avatar = baseUrl + vm.employee.Avatar;
             vm.evaluationProcesses = [];
-            vm.evaluationProcesses.concat(dashboardInfo.MyEPAs, dashboardInfo.MonthlyEPAs);
+            Array.prototype.push.apply(vm.evaluationProcesses, dashboardInfo.MyEPAs, dashboardInfo.MonthlyEPAs);
             vm.myEPAs = dashboardInfo.MyEPAs;
             vm.monthlyEPAs = dashboardInfo.MonthlyEPAs;
 
@@ -66,7 +66,7 @@ function (DashboardModel, CommonModel, utilitiesFactory, enumerationsFactory, ba
                 }
             });
         });
-    };
+    }
 
-    vm.initialize();
+    initialize();
 }]);

@@ -2,13 +2,14 @@
 /*global epaModule*/
 
 epaModule.controller('EvaluatorController',
-['EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel', 'utilitiesFactory', 'baseUrl',
-function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, baseUrl) {
+['EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'baseUrl',
+function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, enumerationsFactory, baseUrl) {
     var vm = this;
 
     vm.memberEPAs = [];
     vm.members = [];
     vm.standardGrades = CommonModel.standardGrades;
+    vm.targetTypeEnum = enumerationsFactory.targetType;
 
     vm.filter = {
         groupId: '',
@@ -23,7 +24,7 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, ba
         });
     };
 
-    var getEPAByEvaluator = function (groupId, isLocal, isMonthly, employeeIds) {
+    function getEPAByEvaluator(groupId, isLocal, isMonthly, employeeIds) {
         SelfEvalutorModel.getEPAByEvaluator(groupId, isLocal, isMonthly, employeeIds).then(function () {
             vm.memberEPAs = SelfEvalutorModel.memberEPAs;
 
@@ -59,18 +60,18 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, ba
     };
 
     vm.viewEPAResult = function (memberEPA) {
-        vm.viewEPAResultUrl = baseUrl + 'EPA/Detail/' + memberEPA.EPAId;
-    };
-
-    vm.viewSemiEPAResult = function (memberEPA) {
-        vm.viewSemiEPAResultUrl = baseUrl + 'EPA/SemiDetail/' + memberEPA.EPAId;
+        if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
+            vm.viewEPAResultUrl = baseUrl + 'EPA/SemiDetail/' + memberEPA.EPAId;
+        } else {
+            vm.viewEPAResultUrl = baseUrl + 'EPA/Detail/' + memberEPA.EPAId;
+        }
     };
 
     vm.viewOtherViolationDetail = function (memberEPA) {
         CommonModel.openPopupViewOtherViolationDetail(memberEPA.EPAId);
     };
 
-    vm.initialize = function () {
+    function initialize() {
         SelfEvalutorModel.getGroupByEvaluator().then(function () {
             vm.groupOptions = SelfEvalutorModel.groups;
         });
@@ -84,7 +85,7 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, ba
         });
     };
 
-    vm.initialize();
+    initialize();
 
     vm.viewEPAHistory = function (employeeId) {
         vm.viewEPAHistoryUrl = baseUrl + 'EPAHistory/Index?empId=' + employeeId;

@@ -55,13 +55,13 @@
                             && !memberEPAInfoCtrl.epaInfo.ProcessByReviewers[$index].IsEndProcess" data-translate="Pending"></div>
                 </td>
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="col-score-small" ng-show="$first">
-                    <input type="text" maxlength="6" class="form-control text-center" ng-readonly="memberEPAInfoCtrl.isReadonly"
+                    <input type="text" maxlength="6" class="form-control text-center" ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
                            ng-model="memberEPAInfoCtrl.epaInfo.CurrentProcess.TotalScore" numeric decimals="2"
                            ng-change="memberEPAInfoCtrl.inputScore(memberEPAInfoCtrl.epaInfo.CurrentProcess)"
                            tooltip="{{memberEPAInfoCtrl.getNotificationInputScore(memberEPAInfoCtrl.epaInfo.CurrentProcess)}}" tooltip-trigger="focus" />
                 </td>
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="summary-comment" ng-show="$first">
-                    <textarea class="form-control" ng-readonly="memberEPAInfoCtrl.isReadonly"
+                    <textarea class="form-control" ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
                               ng-model="memberEPAInfoCtrl.epaInfo.CurrentProcess.Comment"></textarea>
                 </td>
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center col-score-small" ng-show="$first">

@@ -136,7 +136,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
         });
     };
 
-    var getEPAByManagement = function (groupId, isLocal, employeeIds, selectedEmployees) {
+    function getEPAByManagement(groupId, isLocal, employeeIds, selectedEmployees) {
         vm.isEndProcessAll = false;
 
         ReviewerManagementModel.getEPAByManagement(groupId, isLocal, employeeIds)
@@ -202,14 +202,14 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
                 ReviewerManagementModel.updateSelectedEmployees(vm.memberEPAs, selectedEmployees);
             }
         });
-    };
+    }
 
     vm.query = function (filter) {
         filter.employeeIds = utilitiesFactory.getSelectedData(vm.members, 'EmployeeId');
         getEPAByManagement(filter.groupId, filter.isLocal, filter.employeeIds);
     };
 
-    vm.initialize = function () {
+    function initialize() {
         $translate('ScoreInputValid').then(function (message) {
             vm.scoreInputValidMessage = message;
         });
@@ -233,9 +233,9 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 
             getEPAByManagement(vm.filter.groupId, vm.filter.isLocal, vm.filter.isMonthly, vm.filter.employeeIds);
         });
-    };
+    }
 
-    vm.initialize();
+    initialize();
 }]);
 
 epaModule.controller('MemberEPAInfoOfManagentController',
@@ -254,7 +254,6 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, Reviewe
     vm.ratingTypeEnum = enumerationsFactory.ratingType;
 
     vm.dataSaved = false;
-    vm.isReadonly = false;
     vm.evaluatedDate = null;
     vm.finalScore = null;
 
@@ -262,12 +261,6 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, Reviewe
         $timeout(function () {
             $(".rating-loading").rating();
         }, 1);
-    };
-
-    var checkStatus = function (epaInfo) {
-        if (epaInfo.CurrentProcess.IsEndProcess) {
-            vm.isReadonly = true;
-        }
     };
 
     vm.openPopupViewComment = function (comment) {
@@ -323,10 +316,9 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, Reviewe
         $window.history.back();
     };
 
-    var getEPAInfoByManagement = function () {
+    function getEPAInfoByManagement() {
         ReviewerManagementModel.getEPAInfoByManagement(vm.epaId).then(function () {
             vm.epaInfo = ReviewerManagementModel.epaInfo;
-            checkStatus(vm.epaInfo);
 
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
             vm.maxPerformanceScore = vm.epaInfo.CurrentProcess.MaxTotalScore;
@@ -374,13 +366,13 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, Reviewe
                 vm.permission = ReviewerManagementModel.permission;
 
                 if (vm.permission !== vm.policyEnum.Host) {
-                    vm.isReadonly = true;
+                    vm.epaInfo.IsAllowedToEdit = false;
                 }
             });
         });
-    };
+    }
 
-    vm.initialize = function () {
+    function initialize() {
         $translate('ScoreInputValid').then(function (message) {
             vm.scoreInputValidMessage = message;
         });
@@ -390,7 +382,7 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, Reviewe
 
             getEPAInfoByManagement();
         });
-    };
+    }
 
-    vm.initialize();
+    initialize();
 }]);

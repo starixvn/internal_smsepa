@@ -167,7 +167,7 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
         vm.viewKPIInfo();
 
         vm.query();
-    }
+    };
 
     vm.viewKPIInfo = function () {
         var index = vm.kpis.map(function (e) { return e.KPIId; }).indexOf(vm.filter.kpiId);

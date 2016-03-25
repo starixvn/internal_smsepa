@@ -2,36 +2,39 @@
 /*global epaModule*/
 
 epaModule.controller('EmployeeEPAController',
-['SelfEvalutorModel', 'baseUrl',
-function (SelfEvalutorModel, baseUrl) {
+['SelfEvalutorModel', 'enumerationsFactory', 'baseUrl',
+function (SelfEvalutorModel, enumerationsFactory, baseUrl) {
     var vm = this;
 
     vm.myEPAs = SelfEvalutorModel.myEPAs;
+    vm.targetTypeEnum = enumerationsFactory.targetType;
 
     vm.viewEPADetail = function (epa) {
         vm.viewEPADetailUrl = baseUrl + 'SelfEvaluation/Detail/' + epa.EPAId;
     };
 
     vm.viewEPAResult = function (epa) {
-        vm.viewEPAResultUrl = baseUrl + 'EPA/Detail/' + epa.EPAId;
+        if (epa.HasMonthlyEPA && epa.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
+            vm.viewEPAResultUrl = baseUrl + 'EPA/SemiDetail/' + epa.EPAId;
+        } else {
+            vm.viewEPAResultUrl = baseUrl + 'EPA/Detail/' + epa.EPAId;
+        }
     };
 
-    vm.viewSemiEPAResult = function (epa) {
-        vm.viewEPAResultUrl = baseUrl + 'EPA/SemiDetail/' + epa.EPAId;
-    };
-
-    vm.initialize = function () {
+    function initialize() {
         SelfEvalutorModel.getEPAByEmployee().then(function () {
             vm.myEPAs = SelfEvalutorModel.myEPAs;
         });
-    };
+    }
 
-    vm.initialize();
+    initialize();
 }]);
 
 epaModule.controller('EmployeeEPAInfoController',
-['$window', '$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'baseUrl',
-function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, enumerationsFactory, baseUrl) {
+['$window', '$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel',
+    'utilitiesFactory', 'enumerationsFactory', 'baseUrl',
+function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel,
+    utilitiesFactory, enumerationsFactory, baseUrl) {
     var vm = this;
     vm.epaId = parseInt($routeParams.id);
 
@@ -66,7 +69,7 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
                 }
             };
         }
-    };
+    }
 
     vm.getClassProgress = function (statusEndProcess) {
         return EmployeeEPAModel.getClassProgress(statusEndProcess);
@@ -155,7 +158,7 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
                 }
             });
         });
-    };
+    }
 
     vm.generateRatingStar = function () {
         $timeout(function () {
@@ -177,7 +180,7 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
 
             getEPAInfoByEmployee();
         });
-    };
+    }
 
     initialize();
 }]);

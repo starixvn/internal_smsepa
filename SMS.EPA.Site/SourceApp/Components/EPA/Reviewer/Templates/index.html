@@ -116,13 +116,13 @@
                         <div ng-if="memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId == reviewerCtrl.targetTypeEnum.SemiAnnual" class="form-inline-block">
                             {{memberEPA.MonthlyEPA.AverageReviewerScoreConverted}}
                             <input type="text" maxlength="6" class="form-control text-center epa-input-score"
-                                   ng-readonly="memberEPA.CurrentProcess.IsEndProcess || reviewerCtrl.permission != reviewerCtrl.policyEnum.Host"
+                                   ng-readonly="!memberEPA.IsAllowedToEdit || reviewerCtrl.permission != reviewerCtrl.policyEnum.Host"
                                    ng-model="memberEPA.CurrentProcess.AdjustScore" numeric decimals="2" ng-change="reviewerCtrl.inputScore(memberEPA)"
                                    tooltip="{{reviewerCtrl.getNotificationInputScore(memberEPA)}}" tooltip-trigger="focus" />
                         </div>
                         <div ng-if="!memberEPA.HasMonthlyEPA" class="form-inline-block">
                             <input type="text" maxlength="6" class="form-control text-center epa-input-score"
-                                   ng-readonly="memberEPA.CurrentProcess.IsEndProcess || reviewerCtrl.permission != reviewerCtrl.policyEnum.Host"
+                                   ng-readonly="!memberEPA.IsAllowedToEdit || reviewerCtrl.permission != reviewerCtrl.policyEnum.Host"
                                    ng-model="memberEPA.CurrentProcess.AdjustScore" numeric decimals="2" ng-change="reviewerCtrl.inputScore(memberEPA)"
                                    tooltip="{{reviewerCtrl.getNotificationInputScore(memberEPA)}}" tooltip-trigger="focus" />
                         </div>
@@ -130,11 +130,11 @@
                     <td class="text-center">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-attr-title='{{"Edit" | translate}}'
                            ng-click="reviewerCtrl.updateComment(memberEPA, memberEPA.CurrentProcess.Comment, true)"
-                           ng-if="!memberEPA.CurrentProcess.IsEndProcess && reviewerCtrl.permission == reviewerCtrl.policyEnum.Host"></a>
+                           ng-if="memberEPA.IsAllowedToEdit && reviewerCtrl.permission == reviewerCtrl.policyEnum.Host"></a>
                         <a class="glyphicon icon-view" href="" ng-attr-title='{{"View" | translate}}'
                            ng-click="reviewerCtrl.updateComment(memberEPA, memberEPA.CurrentProcess.Comment, false)"
                            ng-if="memberEPA.CurrentProcess.Comment && memberEPA.CurrentProcess.Comment.length > 0
-                                && (memberEPA.CurrentProcess.IsEndProcess || reviewerCtrl.permission != reviewerCtrl.policyEnum.Host)"></a>
+                                && (!memberEPA.IsAllowedToEdit || reviewerCtrl.permission != reviewerCtrl.policyEnum.Host)"></a>
                     </td>
                     <td class="text-center">
                         <div ng-show="memberEPA.HasDisciplineScore">
