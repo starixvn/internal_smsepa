@@ -93,7 +93,7 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
 
         if (score > maxScore) {
             result = maxScore;
-        } else if(score < minScore) {
+        } else if (score < minScore) {
             result = minScore;
         }
 

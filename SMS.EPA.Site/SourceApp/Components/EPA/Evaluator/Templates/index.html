@@ -81,8 +81,8 @@
                         </div>
                         <div ng-switch-default data-translate="Pending"></div>
                     </td>
-                    <td class="text-center" ng-switch="memberEPA.CurrentProcess.TotalScore.length">
-                        <div ng-switch-when="true" ng-switch="memberEPA.HasMonthlyEPA">
+                    <td class="text-center">
+                        <div ng-show="memberEPA.CurrentProcess.TotalScore.length > 0" ng-switch="memberEPA.HasMonthlyEPA">
                             <span ng-switch-when="true">
                                 {{memberEPA.MonthlyEPA.AverageEvaluatorScoreConverted | customScore}} / {{memberEPA.CurrentProcess.MaxTotalScore | customScore}}
                             </span>
@@ -90,7 +90,7 @@
                                 {{memberEPA.CurrentProcess.TotalScore | customScore}} / {{memberEPA.CurrentProcess.MaxTotalScore | customScore}}
                             </span>
                         </div>
-                        <div ng-switch-default data-translate="NotAvailable"></div>
+                        <div ng-show="memberEPA.CurrentProcess.TotalScore.length == 0" data-translate="NotAvailable"></div>
                     </td>
                     <td class="text-center" ng-switch="memberEPA.HasDisciplineScore">
                         <div ng-switch-when="true">
@@ -130,10 +130,10 @@
                         <a data-translate="View" ng-click="evaluatorCtrl.viewEPAHistory(memberEPA.Employee.EmployeeId)"
                            href="{{evaluatorCtrl.viewEPAHistoryUrl}}"></a>
                     </td>
-                    <td class="text-center text-uppercase col-action" ng-switch="myEPA.IsAllowedToEdit">
+                    <td class="text-center text-uppercase col-action" ng-switch="memberEPA.IsAllowedToEdit">
                         <a ng-switch-when="true" class="glyphicon glyphicon-edit icon-edit" href="" ng-click="evaluatorCtrl.viewEPADetail(memberEPA)"
                            ng-href="{{evaluatorCtrl.viewEPADetailUrl}}" ng-attr-title='{{"EvaluateNow" | translate}}'></a>
-                        <div ng-switch-default ng-switch="myEPA.HasMonthlyEPA">
+                        <div ng-switch-default ng-switch="memberEPA.HasMonthlyEPA">
                             <a ng-switch-when="true" class="glyphicon icon-view" href="" ng-click="evaluatorCtrl.viewSemiEPAResult(memberEPA)"
                                ng-href="{{evaluatorCtrl.viewSemiEPAResultUrl}}" ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
                             <a ng-switch-default class="glyphicon icon-view" href="" ng-click="evaluatorCtrl.viewEPAResult(memberEPA)"

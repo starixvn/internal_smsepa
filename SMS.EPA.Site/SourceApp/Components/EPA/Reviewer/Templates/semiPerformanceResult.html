@@ -20,25 +20,25 @@
                     <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess">
                         {{memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageSelfScoreConverted | customScore}} / {{memberEPAInfoCtrl.epaInfo.ScoreRatingType.SelfEvaluated | customScore}}
                     </div>
-                    <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" data-translate="NotAvailable"></div>
+                    <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" data-translate="Pending"></div>
                 </td>
                 <td class="text-center">
                     <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].IsEndProcess">
                         {{memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted | customScore}} / {{memberEPAInfoCtrl.epaInfo.ScoreRatingType.Evaluator | customScore}}
                     </div>
-                    <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].IsEndProcess" data-translate="NotAvailable"></div>
+                    <div ng-show="!memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].IsEndProcess" data-translate="Pending"></div>
                 </td>
                 <td>
                     <span ng-bind="memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageReviewerScoreConverted | customScore"></span>
                     <span style="display: inline-block; vertical-align:middle">
-                        <input type="text" maxlength="6" class="form-control text-center width-80" ng-readonly="memberEPAInfoCtrl.isReadonly"
+                        <input type="text" maxlength="6" class="form-control text-center width-80" ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
                                ng-model="memberEPAInfoCtrl.epaInfo.CurrentProcess.TotalScore" numeric decimals="2"
                                ng-change="memberEPAInfoCtrl.inputScore(memberEPAInfoCtrl.epaInfo.CurrentProcess)"
                                tooltip="{{memberEPAInfoCtrl.getNotificationInputScore(memberEPAInfoCtrl.epaInfo.CurrentProcess)}}" tooltip-trigger="focus" />
                     </span>
                 </td>
                 <td>
-                    <textarea class="form-control" ng-readonly="memberEPAInfoCtrl.isReadonly"
+                    <textarea class="form-control" ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
                               ng-model="memberEPAInfoCtrl.epaInfo.CurrentProcess.Comment"></textarea>
                 </td>
                 <td class="text-center">

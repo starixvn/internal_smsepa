@@ -11,7 +11,6 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonM
     vm.ratingTypeEnum = enumerationsFactory.ratingType;
 
     vm.isViewDetail = true;
-    vm.isReadonly = true;
     vm.finalScore = null;
 
     vm.generateRatingStar = function () {
@@ -117,7 +116,6 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
     vm.statusEndProcessEnum = enumerationsFactory.statusEndProcess;
 
     vm.isViewDetail = true;
-    vm.isReadonly = true;
     vm.finalScore = null;
 
     var calculateFinalScore = function (epaInfo) {

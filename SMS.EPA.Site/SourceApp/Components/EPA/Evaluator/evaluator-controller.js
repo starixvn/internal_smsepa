@@ -103,7 +103,6 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
 
     vm.maxStar = 5;
     vm.dataSaved = false;
-    vm.isReadonly = false;
     vm.evaluatedDate = null;
 
     vm.standardGrades = CommonModel.standardGrades;
@@ -112,9 +111,8 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
     vm.statusEndProcessEnum = enumerationsFactory.statusEndProcess;
     vm.ratingTypeEnum = enumerationsFactory.ratingType;
 
-    var checkStatus = function (epaInfo) {
-        if (epaInfo.CurrentProcess.IsEndProcess) {
-            vm.isReadonly = true;
+    function checkStatus(epaInfo) {
+        if (!epaInfo.IsAllowedToEdit) {
             vm.hoveringLeave = null;
         }
         else {
@@ -192,7 +190,7 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
         }
     };
 
-    var getEPAInfoByEvaluator = function () {
+    function getEPAInfoByEvaluator() {
         SelfEvalutorModel.getEPAInfoByEvaluator(vm.epaId).then(function () {
             vm.epaInfo = SelfEvalutorModel.epaInfo;
             checkStatus(vm.epaInfo);
@@ -231,7 +229,7 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
                 vm.permission = SelfEvalutorModel.permission;
 
                 if (vm.permission !== vm.policyEnum.Host) {
-                    vm.isReadonly = true;
+                    vm.epaInfo.IsAllowedToEdit = false;
                     vm.hoveringLeave = null;
                 }
             });
@@ -244,7 +242,7 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
         }, 1);
     };
 
-    vm.initialize = function () {
+    function initialize() {
         $translate('ScoreInputValid').then(function (message) {
             vm.scoreInputValidMessage = message;
         });
@@ -260,5 +258,5 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
         });
     };
 
-    vm.initialize();
+    initialize();
 }]);
