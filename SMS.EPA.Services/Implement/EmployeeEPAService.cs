@@ -12,6 +12,7 @@ namespace SMS.EPA.Services.Implement
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
@@ -68,6 +69,7 @@ namespace SMS.EPA.Services.Implement
             {
                 epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
                 epaInfo.CurrentProcess = epaInfo.ProcessBySelf;
+                SpreadKPIScore(epaInfo.KPIGroups);
 
                 foreach (EPAKPIGroupModel kpiGroup in epaInfo.KPIGroups)
                 {
@@ -126,6 +128,7 @@ namespace SMS.EPA.Services.Implement
             {
                 epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
                 epaInfo.CurrentProcess = epaInfo.ProcessByEvaluators.FirstOrDefault();
+                SpreadKPIScore(epaInfo.KPIGroups);
 
                 foreach (EPAKPIGroupModel kpiGroup in epaInfo.KPIGroups)
                 {
@@ -183,8 +186,8 @@ namespace SMS.EPA.Services.Implement
             if (criteria != null && criteria.IsValid())
             {
                 epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
-
                 epaInfo.CurrentProcess = epaInfo.ProcessByReviewers.FirstOrDefault();
+                SpreadKPIScore(epaInfo.KPIGroups);
 
                 if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
                 {
@@ -234,8 +237,8 @@ namespace SMS.EPA.Services.Implement
             if (criteria != null && criteria.IsValid())
             {
                 epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
-
                 epaInfo.CurrentProcess = epaInfo.ProcessByManagements.FirstOrDefault();
+                SpreadKPIScore(epaInfo.KPIGroups);
 
                 if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
                 {
@@ -356,6 +359,7 @@ namespace SMS.EPA.Services.Implement
             if (criteria != null && criteria.IsValid())
             {
                 epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
+                SpreadKPIScore(epaInfo.KPIGroups);
 
                 if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
                 {
@@ -550,6 +554,43 @@ namespace SMS.EPA.Services.Implement
                 averageScore = (monthlyEPA.AverageReviewerScores * scoreRatingType.Reviewer) / monthlyScoreRatingType.Reviewer;
                 monthlyEPA.AverageReviewerScoreConverted = (float)Math.Round(averageScore, 2);
             }
+        }
+
+        private void SpreadKPIScore(IList<EPAKPIGroupModel> kpiGroups)
+        {
+            foreach (EPAKPIGroupModel kpiGroup in kpiGroups)
+            {
+                double averageWeight;
+
+                if (!kpiGroup.HasKPIOptional && kpiGroup.IsSpreadKPI && kpiGroup.Weight != null)
+                {
+                    averageWeight = kpiGroup.Weight.Value / kpiGroup.KPIs.Count;
+                    averageWeight = SplitNumber(averageWeight, Constants.NumberDecimal);
+
+                    foreach (EPAKPIModel kpi in kpiGroup.KPIs)
+                    {
+                        kpi.Weight = averageWeight;
+                    }
+                }
+            }
+        }
+
+        private double SplitNumber(double number, int numberDecimal)
+        {
+            double result = number;
+
+            numberDecimal = numberDecimal <= 0 ? Constants.NumberDecimalDefault : numberDecimal;
+
+            if ((number % 1) != 0)
+            {
+                int index = number.ToString().IndexOf('.');
+                string naturalFraction = number.ToString().Substring(0, index),
+                    decimalFraction = number.ToString().Substring(index + 1);
+
+                result = double.Parse(naturalFraction + "." + decimalFraction.Substring(0, numberDecimal));
+            }
+
+            return result;
         }
     }
 }

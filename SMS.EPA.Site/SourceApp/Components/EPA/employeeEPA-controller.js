@@ -19,20 +19,6 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonM
         }, 1);
     };
 
-    var calculateFinalScore = function (epaInfo) {
-        var finalScore = 0;
-
-        if (epaInfo.ProcessByManagements.length > 0) {
-            finalScore = epaInfo.AverageScoreByManagements;
-        } else if (epaInfo.ProcessByReviewers.length > 0) {
-            finalScore = epaInfo.AverageScoreByReviewers;
-        } else {
-            finalScore = epaInfo.AverageScoreByEvaluators;
-        }
-
-        return finalScore;
-    };
-
     // Event read more / less text.
     utilitiesFactory.maxLengthDescription(vm);
 
@@ -60,7 +46,21 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonM
         $window.history.back();
     };
 
-    var getEPAInfoById = function () {
+    function calculateFinalScore(epaInfo) {
+        var finalScore = 0;
+
+        if (epaInfo.ProcessByManagements.length > 0) {
+            finalScore = epaInfo.AverageScoreByManagements;
+        } else if (epaInfo.ProcessByReviewers.length > 0) {
+            finalScore = epaInfo.AverageScoreByReviewers;
+        } else {
+            finalScore = epaInfo.AverageScoreByEvaluators;
+        }
+
+        return finalScore;
+    }
+
+    function getEPAInfoById() {
         EmployeeEPAModel.getEPAInfoById(vm.epaId).then(function () {
             vm.epaInfo = EmployeeEPAModel.epaInfo;
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
@@ -87,22 +87,18 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonM
             vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.epaInfo.MaxFinalScore);
 
             vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
-
-            angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
-                EmployeeEPAModel.scoreSpread(kpiGroup);
-            });
         });
-    };
+    }
 
-    vm.initialize = function () {
+    function initialize() {
         CommonModel.getStandardGrade().then(function () {
             vm.standardGrades = CommonModel.standardGrades;
 
             getEPAInfoById();
         });
-    };
+    }
 
-    vm.initialize();
+    initialize();
 }]);
 
 epaModule.controller('ViewSemiEPADetailController',
@@ -118,20 +114,6 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
     vm.isViewDetail = true;
     vm.finalScore = null;
 
-    var calculateFinalScore = function (epaInfo) {
-        var finalScore = 0;
-
-        if (epaInfo.ProcessByManagements.length > 0) {
-            finalScore = epaInfo.AverageScoreByManagements;
-        } else if (epaInfo.ProcessByReviewers.length > 0) {
-            finalScore = epaInfo.AverageScoreByReviewers;
-        } else {
-            finalScore = epaInfo.AverageScoreByEvaluators;
-        }
-
-        return finalScore;
-    };
-
     // Event read more / less text.
     utilitiesFactory.maxLengthDescription(vm);
 
@@ -159,7 +141,21 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
         $window.history.back();
     };
 
-    var getEPAInfoById = function () {
+    function calculateFinalScore(epaInfo) {
+        var finalScore = 0;
+
+        if (epaInfo.ProcessByManagements.length > 0) {
+            finalScore = epaInfo.AverageScoreByManagements;
+        } else if (epaInfo.ProcessByReviewers.length > 0) {
+            finalScore = epaInfo.AverageScoreByReviewers;
+        } else {
+            finalScore = epaInfo.AverageScoreByEvaluators;
+        }
+
+        return finalScore;
+    }
+
+    function getEPAInfoById() {
         EmployeeEPAModel.getEPAInfoById(vm.epaId).then(function () {
             vm.epaInfo = EmployeeEPAModel.epaInfo;
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
@@ -186,22 +182,18 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
             vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.epaInfo.MaxFinalScore);
 
             vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
-
-            angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
-                EmployeeEPAModel.scoreSpread(kpiGroup);
-            });
         });
-    };
+    }
 
-    vm.initialize = function () {
+    function initialize() {
         CommonModel.getStandardGrade().then(function () {
             vm.standardGrades = CommonModel.standardGrades;
 
             getEPAInfoById();
         });
-    };
+    }
 
-    vm.initialize();
+    initialize();
 }]);
 
 epaModule.controller('ModalViewCommentController',

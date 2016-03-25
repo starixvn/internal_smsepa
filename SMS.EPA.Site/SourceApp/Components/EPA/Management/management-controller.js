@@ -38,8 +38,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
             })['finally'](function () {
                 vm.modalInstance = '';
             });
-        }
-        else {
+        } else {
             if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
                 vm.viewEPADetailUrl = baseUrl + 'Management/SemiDetail/' + memberEPA.EPAId;
             } else {
@@ -64,8 +63,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
         angular.forEach(vm.memberEPAs, function (memberEPA) {
             if (!memberEPA.CurrentProcess.IsEndProcess) {
                 memberEPA.Selected = selectedAll;
-            }
-            else {
+            } else {
                 memberEPA.Selected = false;
             }
         });
@@ -94,8 +92,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 
         if (selectedEmployees.length === 0) {
             notificationFactory.error("SelectEmployeeBeforeAdjustScoreWarning");
-        }
-        else {
+        } else {
             ReviewerManagementModel.openPopupAdjustScore(vm, selectedEmployees, false).then(function (adjust) {
                 ReviewerManagementModel.calculateAdjustScoreMultiple(selectedEmployees, adjust, false);
             })['finally'](function () {
@@ -109,8 +106,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 
         if (selectedEmployees.length === 0) {
             notificationFactory.error("SelectEmployeeBeforeAdjustScoreWarning");
-        }
-        else {
+        } else {
             ReviewerManagementModel.calculateAdjustScore(selectedEmployees, false);
             ReviewerManagementModel.adjustScoreByManagement(vm, selectedEmployees)['finally'](function () {
                 getEPAByManagement(vm.filter.groupId, vm.filter.isLocal, vm.filter.employeeIds, selectedEmployees);
@@ -357,10 +353,6 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, Reviewe
 
             vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
             vm.evaluatedDate = vm.epaInfo.CurrentProcess.EvaluateDate ? vm.epaInfo.CurrentProcess.EvaluateDate : null;
-
-            angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
-                EmployeeEPAModel.scoreSpread(kpiGroup);
-            });
 
             ReviewerManagementModel.getUserPermissionOnManagement().then(function () {
                 vm.permission = ReviewerManagementModel.permission;

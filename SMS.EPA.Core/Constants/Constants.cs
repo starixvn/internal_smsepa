@@ -48,6 +48,10 @@ namespace SMS.EPA.Core.Constants
 
         public const string FormatMonthlyPeriodName = "MMM, yyyy";
 
+        public const int NumberDecimalDefault = 2;
+
+        public const int NumberDecimal = 4;
+
         private Constants()
         {
         }

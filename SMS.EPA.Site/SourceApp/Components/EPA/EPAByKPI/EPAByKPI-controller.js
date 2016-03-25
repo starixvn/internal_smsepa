@@ -7,7 +7,7 @@ function ($window, $timeout, $translate, EPAByKPIModel, EmployeeEPAModel, Common
     var vm = this;
     vm.kpis = [];
     vm.memberEPAs = [];
-    vm.maxStar = 5;
+    vm.maxStar = utilitiesFactory.maxStar;
     vm.currentPage = 1;
     vm.pageSize = 20;
     vm.filter = {
@@ -109,7 +109,6 @@ function ($window, $timeout, $translate, EPAByKPIModel, EmployeeEPAModel, Common
                 EmployeeEPAModel.scoreSpread(memberEPA.KPIGroup);
             });
         });
-
     };
 
     function viewDetail(memberEPA) {
@@ -132,5 +131,4 @@ function ($window, $timeout, $translate, EPAByKPIModel, EmployeeEPAModel, Common
             vm.targetTemplates = EPAByKPIModel.targetTemplates;
         });
     };
-
 }]);

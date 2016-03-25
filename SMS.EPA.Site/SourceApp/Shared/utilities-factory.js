@@ -9,6 +9,8 @@ appModule.factory('utilitiesFactory',
         dateFormat = "dd MMM, yyyy",
         timeFormat = 'HH:mm';
 
+    utilities.maxStar = 5;
+
     utilities.numberEntryList = function (vm) {
         vm.entries = [5, 10, 15, 20, 50, 100, 200];
     };
@@ -89,7 +91,7 @@ appModule.factory('utilitiesFactory',
 
     utilities.searchOnPage = function (vm, originalData) {
         /*
-        * Check if item match search text. 
+        * Check if item match search text.
         */
         var searchMatch = function (haystack, needle) {
             if (!needle) {
@@ -111,7 +113,6 @@ appModule.factory('utilitiesFactory',
                         attr.toLowerCase().search('index') === -1 && attr.toLowerCase().search('hash') === -1 &&
                         attr.toLowerCase().search('time') === -1 && attr.toLowerCase().search('date') === -1 &&
                         attr.toLowerCase().search('modifiedby') === -1 && attr.toLowerCase().search('createdby') === -1) {
-
                     if (typeof (childItem) === 'object') {
                         var exist = checkAllItemRecursion(childItem, searchKey);
 
@@ -142,7 +143,6 @@ appModule.factory('utilitiesFactory',
 
         vm.search();
     };
-
 
     utilities.formatString = function () {
         var theString = arguments[0];

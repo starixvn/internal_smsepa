@@ -71,6 +71,10 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, en
         CommonModel.openPopupViewOtherViolationDetail(memberEPA.EPAId);
     };
 
+    vm.viewEPAHistory = function (employeeId) {
+        vm.viewEPAHistoryUrl = baseUrl + 'EPAHistory/Index?empId=' + employeeId;
+    };
+
     function initialize() {
         SelfEvalutorModel.getGroupByEvaluator().then(function () {
             vm.groupOptions = SelfEvalutorModel.groups;
@@ -86,10 +90,6 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, en
     };
 
     initialize();
-
-    vm.viewEPAHistory = function (employeeId) {
-        vm.viewEPAHistoryUrl = baseUrl + 'EPAHistory/Index?empId=' + employeeId;
-    };
 }]);
 
 epaModule.controller('MemberEPAInfoOfEvaluatorController',
@@ -102,7 +102,7 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
     vm.permission = 0;
     vm.epaId = parseInt($routeParams.id);
 
-    vm.maxStar = 5;
+    vm.maxStar = utilitiesFactory.maxStar;
     vm.dataSaved = false;
     vm.evaluatedDate = null;
 
@@ -111,28 +111,6 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
     vm.targetTypeEnum = enumerationsFactory.targetType;
     vm.statusEndProcessEnum = enumerationsFactory.statusEndProcess;
     vm.ratingTypeEnum = enumerationsFactory.ratingType;
-
-    function checkStatus(epaInfo) {
-        if (!epaInfo.IsAllowedToEdit) {
-            vm.hoveringLeave = null;
-        }
-        else {
-            vm.hoveringLeave = function (kpiGroup, kpi) {
-                if (kpi.CurrentEvaluation.Rate > 0) {
-                    if (kpiGroup.NumberKPIOptional === 0) {
-                        var score = kpi.Weight * (kpi.CurrentEvaluation.Rate / vm.maxStar);
-                        score = utilitiesFactory.splitNumber(score, 4);
-                        kpi.CurrentEvaluation.Score = score;
-                    }
-                    else {
-                        SelfEvalutorModel.scoreSpreadForKPIGroupHasKPIOptional(kpiGroup, vm.maxStar);
-                    }
-
-                    SelfEvalutorModel.calculateScore(vm, false);
-                }
-            };
-        }
-    };
 
     vm.initCollapseExpandCommentByEmployee = function (epaInfo, kpi) {
         if (epaInfo.ProcessBySelf.IsEndProcess && (kpi.EvaluationBySelf.Comment && kpi.EvaluationBySelf.Comment.length > 0)) {
@@ -191,6 +169,34 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
         }
     };
 
+    vm.generateRatingStar = function () {
+        $timeout(function () {
+            $(".rating-loading").rating();
+        }, 1);
+    };
+
+    function checkStatus(epaInfo) {
+        if (!epaInfo.IsAllowedToEdit) {
+            vm.hoveringLeave = null;
+        }
+        else {
+            vm.hoveringLeave = function (kpiGroup, kpi) {
+                if (kpi.CurrentEvaluation.Rate > 0) {
+                    if (kpiGroup.NumberKPIOptional === 0) {
+                        var score = kpi.Weight * (kpi.CurrentEvaluation.Rate / vm.maxStar);
+                        score = utilitiesFactory.splitNumber(score, 4);
+                        kpi.CurrentEvaluation.Score = score;
+                    }
+                    else {
+                        SelfEvalutorModel.scoreSpreadForKPIGroupHasKPIOptional(kpiGroup, vm.maxStar);
+                    }
+
+                    SelfEvalutorModel.calculateScore(vm, false);
+                }
+            };
+        }
+    }
+
     function getEPAInfoByEvaluator() {
         SelfEvalutorModel.getEPAInfoByEvaluator(vm.epaId).then(function () {
             vm.epaInfo = SelfEvalutorModel.epaInfo;
@@ -222,10 +228,6 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
             vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
             vm.evaluatedDate = vm.epaInfo.CurrentProcess.EvaluateDate ? vm.epaInfo.CurrentProcess.EvaluateDate : null;
 
-            angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
-                EmployeeEPAModel.scoreSpread(kpiGroup);
-            });
-
             SelfEvalutorModel.getUserPermissionOnEvaluator().then(function () {
                 vm.permission = SelfEvalutorModel.permission;
 
@@ -235,12 +237,6 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
                 }
             });
         });
-    };
-
-    vm.generateRatingStar = function () {
-        $timeout(function () {
-            $(".rating-loading").rating();
-        }, 1);
     };
 
     function initialize() {

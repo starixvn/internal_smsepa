@@ -5,10 +5,11 @@ epaModule.controller('RatingByKPIController',
 ['$window', '$timeout', '$translate', 'RatingByKPIModel', 'EmployeeEPAModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'baseUrl',
 function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, CommonModel, utilitiesFactory, enumerationsFactory, baseUrl) {
     var vm = this;
+
     vm.kpis = [];
     vm.memberEPAs = [];
     vm.kpiSelected = null;
-    vm.maxStar = 5;
+    vm.maxStar = utilitiesFactory.maxStar;
     vm.targetTemplateIdOriginal = null;
     vm.kpiIdOriginal = null;
     vm.dataSaved = false;
@@ -85,8 +86,7 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
                     vm.memberEPAs = [];
                     vm.kpiSelected = null;
                     vm.dataSaved = false;
-                }
-                else {
+                } else {
                     RatingByKPIModel.getKPIByTargetTemplate(vm.filter.targetTemplateId).then(function () {
                         vm.kpis = RatingByKPIModel.kpis;
                     });
@@ -97,8 +97,7 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
             })['finally'](function () {
                 vm.modalInstance = '';
             });
-        }
-        else {
+        } else {
             vm.kpiSelected = null;
             vm.filter.kpiId = '';
             vm.memberEPAs = [];
@@ -197,8 +196,7 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
                     vm.memberEPAs = [];
                     vm.kpiSelected = null;
                     vm.dataSaved = false;
-                }
-                else {
+                } else {
                     vm.memberEPAs = [];
                     vm.kpiSelected = null;
                     vm.dataSaved = false;
@@ -211,8 +209,7 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
             })['finally'](function () {
                 vm.modalInstance = '';
             });
-        }
-        else {
+        } else {
             index = vm.kpis.map(function (e) { return e.KPIId; }).indexOf(vm.filter.kpiId);
             vm.kpiSelected = vm.kpis[index];
 
@@ -274,14 +271,12 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
 
                     return tempa - tempb;
                 });
-            }
-            else {
+            } else {
                 vm.orderByCurrentScore.ascending = false;
                 vm.orderByCurrentScore.descending = true;
                 vm.memberEPAs.reverse();
             }
-        }
-        else {
+        } else {
             if (!vm.orderByAdjustScore.ascending) {
                 vm.orderByAdjustScore.ascending = true;
                 vm.orderByAdjustScore.descending = false;
@@ -297,8 +292,7 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
 
                     return tempa - tempb;
                 });
-            }
-            else {
+            } else {
                 vm.orderByAdjustScore.ascending = false;
                 vm.orderByAdjustScore.descending = true;
                 vm.memberEPAs.reverse();
@@ -310,16 +304,13 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
         if (column === 'CurrentScore') {
             if (vm.orderByCurrentScore.ascending) {
                 return 'sorting-asc';
-            }
-            else if (vm.orderByCurrentScore.descending) {
+            } else if (vm.orderByCurrentScore.descending) {
                 return 'sorting-desc';
             }
-        }
-        else {
+        } else {
             if (vm.orderByAdjustScore.ascending) {
                 return 'sorting-asc';
-            }
-            else if (vm.orderByAdjustScore.descending) {
+            } else if (vm.orderByAdjustScore.descending) {
                 return 'sorting-desc';
             }
         }

@@ -36,9 +36,9 @@ epaModule.controller('EmployeeEPAInfoController',
 function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel,
     utilitiesFactory, enumerationsFactory, baseUrl) {
     var vm = this;
-    vm.epaId = parseInt($routeParams.id);
 
-    vm.maxStar = 5;
+    vm.epaId = parseInt($routeParams.id);
+    vm.maxStar = utilitiesFactory.maxStar;
     vm.dataSaved = false;
     vm.evaluatedDate = null;
 
@@ -48,28 +48,6 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
     vm.statusEndProcessEnum = enumerationsFactory.statusEndProcess;
     vm.ratingTypeEnum = enumerationsFactory.ratingType;
     vm.policyEnum = enumerationsFactory.policy;
-
-    function checkStatus(epaInfo) {
-        if (!epaInfo.IsAllowedToEdit) {
-            vm.hoveringLeave = null;
-        }
-        else {
-            vm.hoveringLeave = function (kpiGroup, kpi) {
-                if (kpi.CurrentEvaluation.Rate > 0) {
-                    if (!kpiGroup.HasKPIOptional) {
-                        var score = kpi.Weight * (kpi.CurrentEvaluation.Rate / vm.maxStar);
-                        score = utilitiesFactory.splitNumber(score, 4);
-                        kpi.CurrentEvaluation.Score = score;
-                    }
-                    else {
-                        SelfEvalutorModel.scoreSpreadForKPIGroupHasKPIOptional(kpiGroup, vm.maxStar);
-                    }
-
-                    SelfEvalutorModel.calculateScore(vm, true);
-                }
-            };
-        }
-    }
 
     vm.getClassProgress = function (statusEndProcess) {
         return EmployeeEPAModel.getClassProgress(statusEndProcess);
@@ -110,8 +88,7 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
     vm.save = function (epaInfo) {
         if (SelfEvalutorModel.validateEPA(epaInfo)) {
             SelfEvalutorModel.updateEPAScoreByEmployee(vm);
-        }
-        else {
+        } else {
             SelfEvalutorModel.openPopupNotificationInvalidComment(vm, vm.evaluateEPAInvalidMessage);
         }
     };
@@ -119,6 +96,33 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
     vm.cancel = function () {
         $window.history.back();
     };
+
+    vm.generateRatingStar = function () {
+        $timeout(function () {
+            $(".rating-loading").rating();
+        }, 1);
+    };
+
+    function checkStatus(epaInfo) {
+        if (!epaInfo.IsAllowedToEdit) {
+            vm.hoveringLeave = null;
+        } else {
+            vm.hoveringLeave = function (kpiGroup, kpi) {
+                if (kpi.CurrentEvaluation.Rate > 0) {
+                    if (!kpiGroup.HasKPIOptional) {
+                        var score = kpi.Weight * (kpi.CurrentEvaluation.Rate / vm.maxStar);
+                        score = utilitiesFactory.splitNumber(score, 4);
+                        kpi.CurrentEvaluation.Score = score;
+                    }
+                    else {
+                        SelfEvalutorModel.scoreSpreadForKPIGroupHasKPIOptional(kpiGroup, vm.maxStar);
+                    }
+
+                    SelfEvalutorModel.calculateScore(vm, true);
+                }
+            };
+        }
+    }
 
     function getEPAInfoByEmployee() {
         SelfEvalutorModel.getEPAInfoByEmployee(vm.epaId).then(function () {
@@ -145,10 +149,6 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
             vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
             vm.evaluatedDate = vm.epaInfo.CurrentProcess.EvaluateDate ? vm.epaInfo.CurrentProcess.EvaluateDate : null;
 
-            angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
-                EmployeeEPAModel.scoreSpread(kpiGroup);
-            });
-
             SelfEvalutorModel.getUserPermissionOnEmployee().then(function () {
                 var permission = SelfEvalutorModel.permission;
 
@@ -159,12 +159,6 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
             });
         });
     }
-
-    vm.generateRatingStar = function () {
-        $timeout(function () {
-            $(".rating-loading").rating();
-        }, 1);
-    };
 
     function initialize() {
         $translate('ScoreInputValid').then(function (message) {
