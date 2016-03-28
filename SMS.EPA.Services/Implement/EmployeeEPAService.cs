@@ -175,6 +175,7 @@ namespace SMS.EPA.Services.Implement
                 {
                     memberEPA.CurrentProcess = memberEPA.ProcessByReviewers.FirstOrDefault();
                     SetMaxPerformanceScore(memberEPA);
+                    SetMaxSubtractAndMaxAdditionScore(memberEPA);
                     GroupMonthlyEPABySemi(memberEPA, monthlyEPAs);
                     ConvertAverageMonthlyScore(memberEPA.MonthlyEPA, memberEPA.ScoreRatingType);
                 }
@@ -228,6 +229,7 @@ namespace SMS.EPA.Services.Implement
                 {
                     memberEPA.CurrentProcess = memberEPA.ProcessByManagements.FirstOrDefault();
                     SetMaxPerformanceScore(memberEPA);
+                    SetMaxSubtractAndMaxAdditionScore(memberEPA);
                     GroupMonthlyEPABySemi(memberEPA, monthlyEPAs);
                     ConvertAverageMonthlyScore(memberEPA.MonthlyEPA, memberEPA.ScoreRatingType);
                 }
@@ -572,7 +574,7 @@ namespace SMS.EPA.Services.Implement
                 if (!kpiGroup.HasKPIOptional && kpiGroup.IsSpreadKPI && kpiGroup.Weight != null)
                 {
                     averageWeight = kpiGroup.Weight.Value / kpiGroup.KPIs.Count;
-                    averageWeight = SplitNumber(averageWeight, Constants.NumberDecimal);
+                    averageWeight = SplitNumber(averageWeight, Constants.NumberOfDecimals);
 
                     foreach (EPAKPIModel kpi in kpiGroup.KPIs)
                     {
@@ -582,11 +584,11 @@ namespace SMS.EPA.Services.Implement
             }
         }
 
-        private double SplitNumber(double number, int numberDecimal)
+        private double SplitNumber(double number, int numberOfDecimals)
         {
             double result = number;
 
-            numberDecimal = numberDecimal <= 0 ? Constants.NumberDecimalDefault : numberDecimal;
+            numberOfDecimals = numberOfDecimals <= 0 ? Constants.NumberOfDecimalDefault : numberOfDecimals;
 
             if ((number % 1) != 0)
             {
@@ -594,7 +596,7 @@ namespace SMS.EPA.Services.Implement
                 string naturalFraction = number.ToString().Substring(0, index),
                     decimalFraction = number.ToString().Substring(index + 1);
 
-                result = double.Parse(naturalFraction + "." + decimalFraction.Substring(0, numberDecimal));
+                result = double.Parse(naturalFraction + "." + decimalFraction.Substring(0, numberOfDecimals));
             }
 
             return result;
@@ -627,6 +629,46 @@ namespace SMS.EPA.Services.Implement
             {
                 epaInfo.ProcessBySelf.MaxPerformanceScore += epaInfo.DisciplineScore;
                 epaInfo.CurrentProcess.MaxPerformanceScore += epaInfo.DisciplineScore;
+            }
+        }
+
+        private void SetMaxSubtractAndMaxAdditionScore(EPAModel epaInfo)
+        {
+            switch (epaInfo.CurrentProcess.ProcessId)
+            {
+                case (int)ProcessType.Reviewer:
+                    if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
+                    {
+                        epaInfo.CurrentProcess.MaxSubtractScore = -epaInfo.MonthlyEPA.AverageReviewerScoreConverted;
+                        epaInfo.CurrentProcess.MaxAdditionScore = epaInfo.CurrentProcess.MaxTotalScore - epaInfo.MonthlyEPA.AverageReviewerScoreConverted;
+                    }
+                    else
+                    {
+                        epaInfo.CurrentProcess.MaxSubtractScore = -epaInfo.AverageScoreByEvaluators;
+                        epaInfo.CurrentProcess.MaxAdditionScore = epaInfo.CurrentProcess.MaxTotalScore - epaInfo.AverageScoreByEvaluators;
+                    }
+                    break;
+
+                case (int)ProcessType.Management:
+                    if (epaInfo.ProcessByReviewers.Count > 0)
+                    {
+                        epaInfo.CurrentProcess.MaxSubtractScore = -epaInfo.AverageScoreByReviewers;
+                        epaInfo.CurrentProcess.MaxAdditionScore = epaInfo.CurrentProcess.MaxTotalScore - epaInfo.AverageScoreByReviewers;
+                    }
+                    else
+                    {
+                        if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
+                        {
+                            epaInfo.CurrentProcess.MaxSubtractScore = -epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted;
+                            epaInfo.CurrentProcess.MaxAdditionScore = epaInfo.CurrentProcess.MaxTotalScore - epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted;
+                        }
+                        else
+                        {
+                            epaInfo.CurrentProcess.MaxSubtractScore = -epaInfo.AverageScoreByEvaluators;
+                            epaInfo.CurrentProcess.MaxAdditionScore = epaInfo.CurrentProcess.MaxTotalScore - epaInfo.AverageScoreByEvaluators;
+                        }
+                    }
+                    break;
             }
         }
     }

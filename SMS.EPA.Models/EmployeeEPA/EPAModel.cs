@@ -217,7 +217,7 @@ namespace SMS.EPA.Model.EmployeeEPA
             if (count > 0)
             {
                 average = score / count;
-                return (float)Math.Round(average, 2);
+                return (float)Math.Round(average, Constants.NumberOfDecimalDefault);
             }
 
             return score;

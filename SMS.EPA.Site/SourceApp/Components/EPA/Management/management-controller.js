@@ -66,15 +66,15 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     };
 
     vm.getNotificationInputScore = function (memberEPA) {
-        var maxSubtractScore = memberEPA.MaxSubtractScore,
-            maxAdditionScore = memberEPA.MaxAdditionScore;
+        var maxSubtractScore = memberEPA.CurrentProcess.MaxSubtractScore,
+            maxAdditionScore = memberEPA.CurrentProcess.MaxAdditionScore;
 
         return EmployeeEPAModel.getNotificationInputScore(maxSubtractScore, maxAdditionScore, vm.scoreInputValidMessage);
     };
 
     vm.inputScore = function (memberEPA) {
-        var maxSubtractScore = memberEPA.MaxSubtractScore,
-            maxAdditionScore = memberEPA.MaxAdditionScore;
+        var maxSubtractScore = memberEPA.CurrentProcess.MaxSubtractScore,
+            maxAdditionScore = memberEPA.CurrentProcess.MaxAdditionScore;
 
         if (!EmployeeEPAModel.validateScoreInput(memberEPA.CurrentProcess.AdjustScore, maxSubtractScore, maxAdditionScore, vm.scoreInputValidMessage)) {
             memberEPA.CurrentProcess.AdjustScore = null;
@@ -160,22 +160,6 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 
                 if (memberEPA.CurrentProcess.IsEndProcess) {
                     countEndProcess += 1;
-                }
-
-                if (memberEPA.ProcessByReviewers.length > 0) {
-                    averageScore += memberEPA.AverageScoreByReviewers;
-                    memberEPA.MaxSubtractScore = -memberEPA.AverageScoreByReviewers;
-                    memberEPA.MaxAdditionScore = utilitiesFactory.parseFloat(memberEPA.CurrentProcess.MaxTotalScore - memberEPA.AverageScoreByReviewers);
-                } else {
-                    averageScore += memberEPA.AverageScoreByEvaluators;
-
-                    if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
-                        memberEPA.MaxSubtractScore = -memberEPA.MonthlyEPA.AverageEvaluatorScoreConverted;
-                        memberEPA.MaxAdditionScore = utilitiesFactory.parseFloat(memberEPA.CurrentProcess.MaxTotalScore - memberEPA.MonthlyEPA.AverageEvaluatorScoreConverted);
-                    } else {
-                        memberEPA.MaxSubtractScore = -memberEPA.AverageScoreByEvaluators;
-                        memberEPA.MaxAdditionScore = utilitiesFactory.parseFloat(memberEPA.CurrentProcess.MaxTotalScore - memberEPA.AverageScoreByEvaluators);
-                    }
                 }
             });
 

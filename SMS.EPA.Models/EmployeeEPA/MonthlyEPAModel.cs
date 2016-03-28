@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
 
     public class MonthlyEPAModel
@@ -87,7 +88,7 @@
             if (count > 0)
             {
                 average = score / count;
-                return (float)Math.Round(average, 2);
+                return (float)Math.Round(average, Constants.NumberOfDecimalDefault);
             }
 
             return score;
