@@ -68,12 +68,12 @@
                 <td><strong data-translate="TotalScore"></strong></td>
                 <td class="text-center col-score">
                     <strong ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess">
-                        {{memberEPAInfoCtrl.finalScoreOfSelf | customScore}} / {{memberEPAInfoCtrl.maxPerformanceScoreOfSelf | customScore}}
+                        {{memberEPAInfoCtrl.finalScoreOfSelf | customScore}} / {{memberEPAInfoCtrl.epaInfo.ProcessBySelf.MaxPerformanceScore | customScore}}
                     </strong>
                     <strong ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" data-translate="NotAvailable"></strong>
                 </td>
                 <td class="text-center col-score">
-                    <strong>{{memberEPAInfoCtrl.finalScore | customScore}} / {{memberEPAInfoCtrl.maxPerformanceScore | customScore}}</strong>
+                    <strong>{{memberEPAInfoCtrl.finalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.CurrentProcess.MaxPerformanceScore | customScore}}</strong>
                 </td>
                 <td class="text-center col-score">
                     <strong ng-show="memberEPAInfoCtrl.epaInfo.LastFinalScore != null"

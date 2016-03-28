@@ -138,12 +138,6 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 
             var averageScore = 0, countEndProcess = 0;
             angular.forEach(vm.memberEPAs, function (memberEPA) {
-                memberEPA.MaxPerformanceScore = memberEPA.CurrentProcess.MaxTotalScore;
-
-                if (memberEPA.HasDisciplineScore) {
-                    memberEPA.MaxPerformanceScore += memberEPA.MaxDisciplineScore;
-                }
-
                 if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
                     memberEPA.MaxSubtractScore = -memberEPA.MonthlyEPA.AverageReviewerScoreConverted;
                     memberEPA.MaxAdditionScore = utilitiesFactory.parseFloat(memberEPA.CurrentProcess.MaxTotalScore - memberEPA.MonthlyEPA.AverageReviewerScoreConverted);
@@ -163,7 +157,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
                 memberEPA.ProcessBySelf.TotalScore = utilitiesFactory.parseFloat(memberEPA.ProcessBySelf.TotalScore);
                 memberEPA.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(memberEPA.CurrentProcess.TotalScore);
                 memberEPA.FinalScore = memberEPA.CurrentProcess.TotalScore + memberEPA.DisciplineScore;
-                memberEPA.FinalScore = EmployeeEPAModel.checkScore(memberEPA.FinalScore, 0, memberEPA.MaxPerformanceScore);
+                memberEPA.FinalScore = EmployeeEPAModel.checkScore(memberEPA.FinalScore, 0, memberEPA.CurrentProcess.MaxPerformanceScore);
 
                 if (memberEPA.LastFinalScore.length > 0) {
                     memberEPA.LastFinalScore = utilitiesFactory.parseFloat(memberEPA.LastFinalScore);
@@ -304,13 +298,7 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, Reviewe
     function getEPAInfoByReviewer() {
         ReviewerManagementModel.getEPAInfoByReviewer(vm.epaId).then(function () {
             vm.epaInfo = ReviewerManagementModel.epaInfo;
-
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
-            vm.maxPerformanceScore = vm.epaInfo.CurrentProcess.MaxTotalScore;
-
-            if (vm.epaInfo.HasDisciplineScore) {
-                vm.maxPerformanceScore += vm.epaInfo.MaxDisciplineScore;
-            }
 
             if (vm.epaInfo.HasMonthlyEPA && vm.epaInfo.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual && !vm.epaInfo.CurrentProcess.TotalScore) {
                 vm.epaInfo.CurrentProcess.TotalScore = vm.epaInfo.MonthlyEPA.AverageReviewerScoreConverted;
@@ -330,7 +318,7 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, Reviewe
             // reviewer
             vm.epaInfo.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.CurrentProcess.TotalScore);
             vm.finalScore = vm.epaInfo.CurrentProcess.TotalScore + vm.epaInfo.DisciplineScore;
-            vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.maxPerformanceScore);
+            vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.epaInfo.CurrentProcess.MaxPerformanceScore);
 
             vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
             vm.evaluatedDate = vm.epaInfo.CurrentProcess.EvaluateDate ? vm.epaInfo.CurrentProcess.EvaluateDate : null;

@@ -51,7 +51,7 @@
                     </div>
                 </td>
                 <td class="text-center">
-                    <strong>{{memberEPAInfoCtrl.finalScore | customScore}} / {{memberEPAInfoCtrl.maxPerformanceScore | customScore}}</strong>
+                    <strong>{{memberEPAInfoCtrl.finalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.CurrentProcess.MaxPerformanceScore | customScore}}</strong>
                 </td>
                 <td class="text-center"><strong ng-bind="memberEPAInfoCtrl.epaInfo.Grade"></strong></td>
             </tr>

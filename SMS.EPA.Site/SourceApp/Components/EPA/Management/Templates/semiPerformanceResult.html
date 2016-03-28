@@ -74,7 +74,7 @@
                     </div>
                 </td>
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center col-score-small" ng-show="$first">
-                    <strong>{{memberEPAInfoCtrl.finalScore | customScore}} / {{memberEPAInfoCtrl.maxPerformanceScore | customScore}}</strong>
+                    <strong>{{memberEPAInfoCtrl.finalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.CurrentProcess.MaxPerformanceScore | customScore}}</strong>
                 </td>
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center col-score-small" ng-show="$first">
                     <strong ng-bind="memberEPAInfoCtrl.epaInfo.Grade"></strong>

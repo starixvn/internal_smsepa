@@ -24,15 +24,9 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, en
             vm.memberEPAs = SelfEvalutorModel.memberEPAs;
 
             angular.forEach(vm.memberEPAs, function (memberEPA) {
-                memberEPA.MaxPerformanceScore = memberEPA.CurrentProcess.MaxTotalScore;
-
-                if (memberEPA.HasDisciplineScore) {
-                    memberEPA.MaxPerformanceScore += memberEPA.MaxDisciplineScore;
-                }
-
                 memberEPA.ProcessBySelf.TotalScore = utilitiesFactory.parseFloat(memberEPA.ProcessBySelf.TotalScore);
                 memberEPA.FinalScore = utilitiesFactory.parseFloat(memberEPA.CurrentProcess.TotalScore) + memberEPA.DisciplineScore;
-                memberEPA.FinalScore = EmployeeEPAModel.checkScore(memberEPA.FinalScore, 0, memberEPA.MaxPerformanceScore);
+                memberEPA.FinalScore = EmployeeEPAModel.checkScore(memberEPA.FinalScore, 0, memberEPA.CurrentProcess.MaxPerformanceScore);
 
                 if (memberEPA.LastFinalScore.length > 0) {
                     memberEPA.LastFinalScore = utilitiesFactory.parseFloat(memberEPA.LastFinalScore);
@@ -43,7 +37,7 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, en
                 memberEPA.Grade = EmployeeEPAModel.convertScoreToGrade(memberEPA.FinalScore, vm.standardGrades);
             });
         });
-    };
+    }
 
     vm.query = function (filter) {
         filter.employeeIds = utilitiesFactory.getSelectedData(vm.members, 'EmployeeId');
@@ -82,7 +76,7 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, en
 
             getEPAByEvaluator(vm.filter.model.groupId, vm.filter.model.isLocal, vm.filter.model.isMonthly, vm.filter.model.employeeIds);
         });
-    };
+    }
 
     initialize();
 }]);
@@ -200,18 +194,11 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
             vm.epaInfo.ProcessBySelf.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.ProcessBySelf.TotalScore);
             vm.epaInfo.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.CurrentProcess.TotalScore);
-            vm.maxPerformanceScoreOfSelf = vm.epaInfo.ProcessBySelf.MaxTotalScore;
-            vm.maxPerformanceScore = vm.epaInfo.CurrentProcess.MaxTotalScore;
-
-            if (vm.epaInfo.HasDisciplineScore) {
-                vm.maxPerformanceScoreOfSelf += vm.epaInfo.MaxDisciplineScore;
-                vm.maxPerformanceScore += vm.epaInfo.MaxDisciplineScore;
-            }
 
             vm.finalScoreOfSelf = vm.epaInfo.ProcessBySelf.TotalScore + vm.epaInfo.DisciplineScore;
-            vm.finalScoreOfSelf = EmployeeEPAModel.checkScore(vm.finalScoreOfSelf, 0, vm.maxPerformanceScoreOfSelf);
+            vm.finalScoreOfSelf = EmployeeEPAModel.checkScore(vm.finalScoreOfSelf, 0, vm.epaInfo.ProcessBySelf.MaxPerformanceScore);
             vm.finalScore = vm.epaInfo.CurrentProcess.TotalScore + vm.epaInfo.DisciplineScore;
-            vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.maxPerformanceScore);
+            vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.epaInfo.CurrentProcess.MaxPerformanceScore);
 
             if (vm.epaInfo.LastFinalScore.length > 0) {
                 vm.epaInfo.LastFinalScore = utilitiesFactory.parseFloat(vm.epaInfo.LastFinalScore);
@@ -232,7 +219,7 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
                 }
             });
         });
-    };
+    }
 
     function initialize() {
         $translate('ScoreInputValid').then(function (message) {
@@ -248,7 +235,7 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
 
             getEPAInfoByEvaluator();
         });
-    };
+    }
 
     initialize();
 }]);

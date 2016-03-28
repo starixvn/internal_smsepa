@@ -137,12 +137,6 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 
             var averageScore = 0, countEndProcess = 0;
             angular.forEach(vm.memberEPAs, function (memberEPA) {
-                memberEPA.MaxPerformanceScore = memberEPA.CurrentProcess.MaxTotalScore;
-
-                if (memberEPA.HasDisciplineScore) {
-                    memberEPA.MaxPerformanceScore += memberEPA.MaxDisciplineScore;
-                }
-
                 if (memberEPA.ProcessByReviewers.length > 0 && !memberEPA.CurrentProcess.TotalScore && memberEPA.ProcessByReviewers[0].IsEndProcess) {
                     memberEPA.CurrentProcess.TotalScore = memberEPA.AverageScoreByReviewers;
                 } else if (!memberEPA.CurrentProcess.TotalScore && memberEPA.ProcessByEvaluators[0].IsEndProcess) {
@@ -313,11 +307,6 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, Reviewe
             vm.epaInfo = ReviewerManagementModel.epaInfo;
 
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
-            vm.maxPerformanceScore = vm.epaInfo.CurrentProcess.MaxTotalScore;
-
-            if (vm.epaInfo.HasDisciplineScore) {
-                vm.maxPerformanceScore += vm.epaInfo.MaxDisciplineScore;
-            }
 
             if (vm.epaInfo.ProcessByReviewers.length > 0 && vm.epaInfo.ProcessByReviewers[0].IsEndProcess && !vm.epaInfo.CurrentProcess.TotalScore) {
                 vm.epaInfo.CurrentProcess.TotalScore = vm.epaInfo.AverageScoreByReviewers;
@@ -345,7 +334,7 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, Reviewe
             // management
             vm.epaInfo.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.CurrentProcess.TotalScore);
             vm.finalScore = vm.epaInfo.CurrentProcess.TotalScore + vm.epaInfo.DisciplineScore;
-            vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.maxPerformanceScore);
+            vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.epaInfo.CurrentProcess.MaxPerformanceScore);
 
             vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
             vm.evaluatedDate = vm.epaInfo.CurrentProcess.EvaluateDate ? vm.epaInfo.CurrentProcess.EvaluateDate : null;

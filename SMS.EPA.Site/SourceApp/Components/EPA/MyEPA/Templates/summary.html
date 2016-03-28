@@ -44,7 +44,7 @@
         <tr class="text-right" ng-if="!memberEPAInfoCtrl.epaInfo.IsMonthly">
             <td><strong data-translate="TotalScore"></strong></td>
             <td class="text-center col-score">
-                <strong>{{memberEPAInfoCtrl.finalScore | customScore}} / {{memberEPAInfoCtrl.maxPerformanceScore | customScore}}</strong>
+                <strong>{{memberEPAInfoCtrl.finalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.CurrentProcess.MaxPerformanceScore | customScore}}</strong>
             </td>
             <td class="text-center col-score">
                 <strong ng-show="memberEPAInfoCtrl.epaInfo.LastFinalScore != null" ng-bind="memberEPAInfoCtrl.epaInfo.LastFinalScore | customScore"></strong>

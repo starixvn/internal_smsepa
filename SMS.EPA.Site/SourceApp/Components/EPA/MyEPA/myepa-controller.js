@@ -130,15 +130,9 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
             checkStatus(vm.epaInfo);
 
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
-            vm.maxPerformanceScore = vm.epaInfo.CurrentProcess.MaxTotalScore;
-
-            if (vm.epaInfo.HasDisciplineScore) {
-                vm.maxPerformanceScore += vm.epaInfo.MaxDisciplineScore;
-            }
-
             vm.epaInfo.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.CurrentProcess.TotalScore);
             vm.finalScore = vm.epaInfo.CurrentProcess.TotalScore + vm.epaInfo.DisciplineScore;
-            vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.maxPerformanceScore);
+            vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.epaInfo.CurrentProcess.MaxPerformanceScore);
 
             if (vm.epaInfo.LastFinalScore.length > 0) {
                 vm.epaInfo.LastFinalScore = utilitiesFactory.parseFloat(vm.epaInfo.LastFinalScore);

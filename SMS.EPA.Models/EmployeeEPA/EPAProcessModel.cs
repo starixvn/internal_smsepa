@@ -76,5 +76,11 @@ namespace SMS.EPA.Model.EmployeeEPA
         public bool Evaluated { get; set; }
 
         public DateTime? EvaluateDate { get; set; }
+
+        public float MaxPerformanceScore { get; set; }
+
+        public float MaxSubtractScore { get; set; }
+
+        public float MaxAdditionScore { get; set; }
     }
 }
