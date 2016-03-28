@@ -2,8 +2,8 @@
 /*global kpiGroupModule*/
 
 kpiGroupModule.controller('KPIGroupController',
-['KPIGroupModel', 'KPIModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'baseUrl',
-function (KPIGroupModel, KPIModel, CommonModel, utilitiesFactory, enumerationsFactory, baseUrl) {
+['KPIGroupModel', 'KPIModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'kpiGroupViewStateService', 'baseUrl',
+function (KPIGroupModel, KPIModel, CommonModel, utilitiesFactory, enumerationsFactory, kpiGroupViewStateService, baseUrl) {
     var vm = this;
 
     vm.kpiGroups = KPIGroupModel.kpiGroups;
@@ -11,9 +11,7 @@ function (KPIGroupModel, KPIModel, CommonModel, utilitiesFactory, enumerationsFa
 
     vm.policyEnum = enumerationsFactory.policy;
 
-    vm.filter = {
-        isActive: 'true'
-    };
+    vm.filter = kpiGroupViewStateService;
 
     utilitiesFactory.numberEntryList(vm);
     vm.pageSize = 15;
@@ -35,7 +33,7 @@ function (KPIGroupModel, KPIModel, CommonModel, utilitiesFactory, enumerationsFa
             vm.permission = KPIGroupModel.permission;
         });
 
-        getKPIGroup(vm.filter.isActive);
+        getKPIGroup(vm.filter.model.isActive);
     };
 
     vm.initialize();
@@ -50,7 +48,7 @@ function (KPIGroupModel, KPIModel, CommonModel, utilitiesFactory, enumerationsFa
     vm.createKPIGroup = function () {
         KPIGroupModel.openPopupCreateKPIGroup(vm).then()['finally'](function () {
             vm.modalInstance = '';
-            getKPIGroup(vm.filter.isActive);
+            getKPIGroup(vm.filter.model.isActive);
         });
     };
 

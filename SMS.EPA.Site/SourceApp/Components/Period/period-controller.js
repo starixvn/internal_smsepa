@@ -2,8 +2,8 @@
 /*global periodModule*/
 
 periodModule.controller('PeriodController',
-['PeriodModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'baseUrl',
-function (PeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, baseUrl) {
+['PeriodModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'periodViewStateService', 'baseUrl',
+function (PeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, periodViewStateService, baseUrl) {
     var vm = this;
 
     vm.periods = PeriodModel.periods;
@@ -13,10 +13,7 @@ function (PeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, baseU
     vm.policyEnum = enumerationsFactory.policy;
     vm.targetTypeEnum = enumerationsFactory.targetType;
 
-    vm.filter = {
-        targetTypeId: null,
-        isActive: 'true'
-    };
+    vm.filter = periodViewStateService;
 
     vm.currentPage = 1;
     vm.pageSize = 20;
@@ -35,7 +32,7 @@ function (PeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, baseU
         });
     };
 
-    getPeriod(vm.filter.targetTypeId, vm.filter.isActive);
+    getPeriod(vm.filter.model.targetTypeId, vm.filter.model.isActive);
 
     vm.query = function (filter) {
         vm.searchKey = '';
@@ -50,7 +47,7 @@ function (PeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, baseU
     vm.create = function () {
         PeriodModel.openPopupCreatePeriod(vm).then(function () {
             vm.modalInstance = null;
-            getPeriod(vm.filter.targetTypeId, vm.filter.isActive);
+            getPeriod(vm.filter.model.targetTypeId, vm.filter.model.isActive);
         });
     };
 

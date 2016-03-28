@@ -3,9 +3,9 @@
 
 epaModule.controller('ReviewerController',
 ['$translate', '$location', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel', 'enumerationsFactory',
-    'utilitiesFactory', 'notificationFactory', 'baseUrl',
+    'utilitiesFactory', 'notificationFactory', 'reviewerViewStateService', 'baseUrl',
 function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, CommonModel, enumerationsFactory,
-    utilitiesFactory, notificationFactory, baseUrl) {
+    utilitiesFactory, notificationFactory, reviewerViewStateService, baseUrl) {
     var vm = this;
 
     vm.permission = 0;
@@ -19,12 +19,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     vm.policyEnum = enumerationsFactory.policy;
     vm.targetTypeEnum = enumerationsFactory.targetType;
 
-    vm.filter = {
-        groupId: '',
-        isLocal: '',
-        isMonthly: false,
-        employeeIds: ''
-    };
+    vm.filter = reviewerViewStateService;
 
     vm.getMember = function (groupId, isLocal) {
         ReviewerManagementModel.getMemberByReviewer(groupId, isLocal).then(function () {
@@ -112,7 +107,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
         } else {
             ReviewerManagementModel.calculateAdjustScore(selectedEmployees, true);
             ReviewerManagementModel.adjustScoreByReviewer(vm, selectedEmployees)['finally'](function () {
-                getEPAByReviewer(vm.filter.groupId, vm.filter.isLocal, vm.filter.isMonthly, vm.filter.employeeIds, selectedEmployees);
+                getEPAByReviewer(vm.filter.model.groupId, vm.filter.model.isLocal, vm.filter.model.isMonthly, vm.filter.model.employeeIds, selectedEmployees);
             });
         }
     };
@@ -216,12 +211,12 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
             vm.groupOptions = ReviewerManagementModel.groups;
         });
 
-        vm.getMember(vm.filter.groupId, vm.filter.isLocal);
+        vm.getMember(vm.filter.model.groupId, vm.filter.model.isLocal);
 
         CommonModel.getStandardGrade().then(function () {
             vm.standardGrades = CommonModel.standardGrades;
 
-            getEPAByReviewer(vm.filter.groupId, vm.filter.isLocal, vm.filter.isMonthly, vm.filter.employeeIds);
+            getEPAByReviewer(vm.filter.model.groupId, vm.filter.model.isLocal, vm.filter.model.isMonthly, vm.filter.model.employeeIds);
         });
     }
 

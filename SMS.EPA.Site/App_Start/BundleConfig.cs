@@ -144,7 +144,14 @@
                             "~/SourceApp/Components/MonthlyPeriod/monthlyPeriod-model.js",
                             "~/SourceApp/Components/MonthlyPeriod/monthlyPeriod-directive.js",
                             "~/SourceApp/Components/MonthlyPeriod/monthlyPeriod-controller.js",
-                            "~/SourceApp/Components/MonthlyPeriod/monthlyPeriod-employeeSetting-controller.js"));
+                            "~/SourceApp/Components/MonthlyPeriod/monthlyPeriod-employeeSetting-controller.js",
+                            "~/SourceApp/Components/EPA/Evaluator/evaluatorViewState-service.js",
+                            "~/SourceApp/Components/EPA/Reviewer/reviewerViewState-service.js",
+                            "~/SourceApp/Components/EPA/Management/managementViewState-service.js",
+                            "~/SourceApp/Components/EPAHistory/epaHistoryViewState-service.js",
+                            "~/SourceApp/Components/KPIGroup/kpiGroupViewState-service.js",
+                            "~/SourceApp/Components/MonthlyPeriod/monthlyPeriodViewState-service.js",
+                            "~/SourceApp/Components/Period/periodViewState-service.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/epa-directives.js",

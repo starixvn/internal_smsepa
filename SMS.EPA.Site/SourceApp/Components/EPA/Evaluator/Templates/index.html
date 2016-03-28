@@ -9,16 +9,16 @@
             <div class="form-group">
                 <label class="col-sm-1 control-label" data-translate="Section"></label>
                 <div class="col-sm-2">
-                    <select class="form-control" ng-model="evaluatorCtrl.filter.groupId"
+                    <select class="form-control" ng-model="evaluatorCtrl.filter.model.groupId"
                             ng-options="opt.GroupId as opt.GroupName for opt in evaluatorCtrl.groupOptions"
-                            ng-change="evaluatorCtrl.getMember(evaluatorCtrl.filter.groupId, evaluatorCtrl.filter.isLocal)">
+                            ng-change="evaluatorCtrl.getMember(evaluatorCtrl.filter.model.groupId, evaluatorCtrl.filter.model.isLocal)">
                         <option value="">-- {{"All" | translate}} --</option>
                     </select>
                 </div>
                 <label class="col-sm-1 control-label" data-translate="Category"></label>
                 <div class="col-sm-2">
-                    <select class="form-control" ng-model="evaluatorCtrl.filter.isLocal"
-                            ng-change="evaluatorCtrl.getMember(evaluatorCtrl.filter.groupId, evaluatorCtrl.filter.isLocal)">
+                    <select class="form-control" ng-model="evaluatorCtrl.filter.model.isLocal"
+                            ng-change="evaluatorCtrl.getMember(evaluatorCtrl.filter.model.groupId, evaluatorCtrl.filter.model.isLocal)">
                         <option value="">-- {{"All" | translate}} --</option>
                         <option value="false">{{"Expat" | translate}}</option>
                         <option value="true">{{"Local" | translate}}</option>
@@ -36,7 +36,7 @@
                     </label>
                 </div>
                 <div class="col-sm-1">
-                    <button class="button" ng-click="evaluatorCtrl.query(evaluatorCtrl.filter)" data-translate="Submit"></button>
+                    <button class="button" ng-click="evaluatorCtrl.query(evaluatorCtrl.filter.model)" data-translate="Submit"></button>
                 </div>
             </div>
         </form>

@@ -2,8 +2,8 @@
 /*global epaModule*/
 
 epaModule.controller('EvaluatorController',
-['EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'baseUrl',
-function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, enumerationsFactory, baseUrl) {
+['EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'evaluatorViewStateService', 'baseUrl',
+function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, enumerationsFactory, evaluatorViewStateService, baseUrl) {
     var vm = this;
 
     vm.memberEPAs = [];
@@ -11,12 +11,7 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, en
     vm.standardGrades = CommonModel.standardGrades;
     vm.targetTypeEnum = enumerationsFactory.targetType;
 
-    vm.filter = {
-        groupId: '',
-        isLocal: '',
-        isMonthly: false,
-        employeeIds: ''
-    };
+    vm.filter = evaluatorViewStateService;
 
     vm.getMember = function (groupId, isLocal) {
         SelfEvalutorModel.getMemberByEvaluator(groupId, isLocal).then(function () {
@@ -80,12 +75,12 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, en
             vm.groupOptions = SelfEvalutorModel.groups;
         });
 
-        vm.getMember(vm.filter.groupId, vm.filter.isLocal);
+        vm.getMember(vm.filter.model.groupId, vm.filter.model.isLocal);
 
         CommonModel.getStandardGrade().then(function () {
             vm.standardGrades = CommonModel.standardGrades;
 
-            getEPAByEvaluator(vm.filter.groupId, vm.filter.isLocal, vm.filter.isMonthly, vm.filter.employeeIds);
+            getEPAByEvaluator(vm.filter.model.groupId, vm.filter.model.isLocal, vm.filter.model.isMonthly, vm.filter.model.employeeIds);
         });
     };
 

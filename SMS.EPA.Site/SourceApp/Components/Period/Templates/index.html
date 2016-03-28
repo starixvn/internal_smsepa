@@ -8,21 +8,21 @@
     <form novalidate class="row form-inline filter">
         <div class="form-group">
             <label data-translate="TargetType"></label>
-            <select class="form-control lstBox-limit" ng-model="periodCtrl.filter.targetTypeId"
+            <select class="form-control lstBox-limit" ng-model="periodCtrl.filter.model.targetTypeId"
                     ng-options="opt.TargetTypeId as opt.Name for opt in periodCtrl.targetTypes">
                 <option value="">-- {{"All" | translate}} --</option>
             </select>
         </div>
         <div class="form-group">
             <label class="control-label" data-translate="Status"></label>
-            <select class="form-control" ng-model="periodCtrl.filter.isActive">
+            <select class="form-control" ng-model="periodCtrl.filter.model.isActive">
                 <option value="">-- {{"All" | translate}} --</option>
                 <option selected value="true" data-translate="Active"></option>
                 <option value="false" data-translate="InActive"></option>
             </select>
         </div>
         <div class="form-group">
-            <button class="button" ng-click="periodCtrl.query(periodCtrl.filter)" data-translate="Search"></button>
+            <button class="button" ng-click="periodCtrl.query(periodCtrl.filter.model)" data-translate="Search"></button>
         </div>
     </form>
 

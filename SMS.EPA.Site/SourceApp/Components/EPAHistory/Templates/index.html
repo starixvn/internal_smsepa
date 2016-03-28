@@ -8,7 +8,7 @@
     <form novalidate class="row form-inline filter">
         <div class="form-group">
             <label data-translate="Period"></label>
-            <select class="form-control lstBox-limit" ng-model="epaHistoryCtrl.filter.periodId"
+            <select class="form-control lstBox-limit" ng-model="epaHistoryCtrl.filter.model.periodId"
                     ng-options="opt.PeriodId as opt.Name group by opt.Year for opt in epaHistoryCtrl.periodOptions">
                 <option value="">-- {{"All" | translate}} --</option>
             </select>
@@ -17,10 +17,10 @@
             <label class="control-label" data-translate="Employee"></label>
             <input class="form-control employee-search" ng-model="epaHistoryCtrl.searchEmployee"
                    placeholder="Enter full name or nick name" search-auto-complete search-employees="epaHistoryCtrl.getEmployee()"
-                   ng-change="epaHistoryCtrl.unSelectEmployee()" employee="epaHistoryCtrl.filter.employee" />
+                   ng-change="epaHistoryCtrl.unSelectEmployee()" employee="epaHistoryCtrl.filter.model.employee" />
         </div>
         <div class="form-group">
-            <button class="button" ng-click="epaHistoryCtrl.query(epaHistoryCtrl.filter)" data-translate="Search"></button>
+            <button class="button" ng-click="epaHistoryCtrl.query(epaHistoryCtrl.filter.model)" data-translate="Search"></button>
         </div>
     </form>
 

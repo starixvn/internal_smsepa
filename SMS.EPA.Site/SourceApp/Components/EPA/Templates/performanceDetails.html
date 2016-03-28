@@ -19,7 +19,7 @@
                         <th data-translate="Score"></th>
                         <th data-translate="Comment" class="col-comment"></th>
                         <th data-translate="NickName"></th>
-                        <th data-translate="Score"></th>
+                        <th data-translate="Score" class="col-score"></th>
                         <th data-translate="Comment"></th>
                     </tr>
                 </thead>
@@ -31,13 +31,13 @@
                             <strong ng-show="kpiGroup.NumberKPIOptional == 0"> ({{kpi.Weight | splitScore}} pts)</strong>
                             <label class="note" ng-show="kpi.IsRequiredEvaluate" data-translate="(*)"></label>
                         </td>
-                        <td class="text-center" rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" ng-show="$first">
+                        <td class="text-center col-score" rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" ng-show="$first">
                             <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess">
                                 <span ng-show="kpi.EvaluationBySelf.Score || kpi.EvaluationBySelf.Score == 0"> {{ kpi.EvaluationBySelf.Score | splitScore}} pts</span>
                                 <div class="score-star-rating"
                                      ng-if="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.Star
                                         || memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.HalfStar">
-                                    / <span ng-show="kpi.EvaluationBySelf.Rate || kpi.EvaluationBySelf.Rate == 0" 
+                                    / <span ng-show="kpi.EvaluationBySelf.Rate || kpi.EvaluationBySelf.Rate == 0"
                                             ng-bind="kpi.EvaluationBySelf.Rate | splitScore"></span>
                                     <input type="number" class="rating-loading" ng-readonly="true" data-size="xs"
                                            value="1" data-min="0" data-max="1" data-stars="1"
@@ -57,7 +57,7 @@
                             <div class="text-center" data-translate="Pending" ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess"></div>
                         </td>
                         <td ng-bind="evaluator.NickName" class="text-center"></td>
-                        <td class="text-center">
+                        <td class="text-center col-score">
                             <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessByEvaluators[0].IsEndProcess">
                                 <span ng-show="evaluator.Score || evaluator.Score == 0"> {{ evaluator.Score | splitScore}} pts</span>
                                 <div class="score-star-rating"

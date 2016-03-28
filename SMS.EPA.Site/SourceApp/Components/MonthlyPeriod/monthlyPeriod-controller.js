@@ -2,17 +2,14 @@
 /*global monthlyPeriodModule*/
 
 monthlyPeriodModule.controller('MonthlyPeriodController',
-['MonthlyPeriodModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'baseUrl',
-function (MonthlyPeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, baseUrl) {
+['MonthlyPeriodModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'monthlyPeriodViewStateService', 'baseUrl',
+function (MonthlyPeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, monthlyPeriodViewStateService, baseUrl) {
     var vm = this,
         date = new Date();
 
     vm.policyEnum = enumerationsFactory.policy;
 
-    vm.filter = {
-        fromDate: new Date(date.getFullYear(), 0, 1),
-        toDate: date
-    };
+    vm.filter = monthlyPeriodViewStateService;
 
     var getMonthlyPeriod = function (fromDate, toDate) {
         toDate = new Date(toDate.getFullYear(), toDate.getMonth() + 1, 0);
@@ -44,7 +41,7 @@ function (MonthlyPeriodModel, CommonModel, utilitiesFactory, enumerationsFactory
             vm.permission = MonthlyPeriodModel.permission;
         });
 
-        getMonthlyPeriod(vm.filter.fromDate, vm.filter.toDate);
+        getMonthlyPeriod(vm.filter.model.fromDate, vm.filter.model.toDate);
     };
 
     vm.initialize();
@@ -74,7 +71,7 @@ function (MonthlyPeriodModel, CommonModel, utilitiesFactory, enumerationsFactory
     vm.create = function () {
         MonthlyPeriodModel.openPopupCreateMonthlyPeriod(vm).then(function () {
             vm.modalInstance = null;
-            getMonthlyPeriod(vm.filter.fromDate, vm.filter.toDate);
+            getMonthlyPeriod(vm.filter.model.fromDate, vm.filter.model.toDate);
         });
     };
 

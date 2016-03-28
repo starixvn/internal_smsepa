@@ -2,20 +2,16 @@
 /*global epaHistoryModule*/
 
 epaHistoryModule.controller('EPAHistoryController',
-['$window', '$routeParams', 'EPAHistoryModel', 'utilitiesFactory', 'CommonModel', 'baseUrl', 'usSpinnerService',
-function ($window, $routeParams, EPAHistoryModel, utilitiesFactory, CommonModel, baseUrl, usSpinnerService) {
+['$window', '$routeParams', 'EPAHistoryModel', 'utilitiesFactory', 'CommonModel', 'baseUrl', 'epaHistoryViewStateService', 'usSpinnerService',
+function ($window, $routeParams, EPAHistoryModel, utilitiesFactory, CommonModel, baseUrl, epaHistoryViewStateService, usSpinnerService) {
     var vm = this;
     vm.epas = EPAHistoryModel.epas;
     vm.periodOptions = CommonModel.periodOptions;
     vm.onlyEmployeeRole = EPAHistoryModel.onlyEmployeeRole;
 
-    vm.filter = {
-        periodId: $routeParams.periodId ? $routeParams.periodId : null,
-        employee: null,
-        employeeId: $routeParams.empId ? $routeParams.empId : null
-    };
+    vm.filter = epaHistoryViewStateService;
 
-    if (vm.filter.employeeId) {
+    if (vm.filter.model.employeeId) {
         vm.fromEPAListing = true;
     }
 
@@ -29,11 +25,11 @@ function ($window, $routeParams, EPAHistoryModel, utilitiesFactory, CommonModel,
         vm.periodOptions = CommonModel.periodOptions;
     });
 
-    if (vm.filter.employeeId) {
-        CommonModel.getEmployeeById(vm.filter.employeeId).then(function () {
-            vm.filter.employee = CommonModel.employee;
-            vm.filter.employee.Name = vm.filter.employee.NickName;
-            vm.searchEmployee = vm.filter.employee.NickName + ' (' + vm.filter.employee.FullName + ')';
+    if (vm.filter.model.employeeId) {
+        CommonModel.getEmployeeById(vm.filter.model.employeeId).then(function () {
+            vm.filter.model.employee = CommonModel.employee;
+            vm.filter.model.employee.Name = vm.filter.model.employee.NickName;
+            vm.searchEmployee = vm.filter.model.employee.NickName + ' (' + vm.filter.model.employee.FullName + ')';
         });
     }
 
@@ -47,8 +43,8 @@ function ($window, $routeParams, EPAHistoryModel, utilitiesFactory, CommonModel,
 
     vm.unSelectEmployee = function () {
         if (vm.searchEmployee.trim() === '') {
-            if (vm.filter.employee) {
-                vm.filter.employee = null;
+            if (vm.filter.model.employee) {
+                vm.filter.model.employee = null;
             }
         }
     };
@@ -63,7 +59,7 @@ function ($window, $routeParams, EPAHistoryModel, utilitiesFactory, CommonModel,
         });
     };
 
-    getEPAHistory(vm.filter.periodId, vm.filter.employeeId);
+    getEPAHistory(vm.filter.model.periodId, vm.filter.model.employeeId);
 
     vm.query = function (filter) {
         var employeeId = null;

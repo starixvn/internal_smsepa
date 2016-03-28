@@ -44,6 +44,7 @@
                             </a>
                             <ul>
                                 <li ng-repeat="kpi in epaByKPICtrl.kpis" ng-if="kpi.KPIGroup.Name == key">
+                                    <span class="glyphicon glyphicon-ok" ng-if="kpi.Evaluated"></span>
                                     <a href="javascript:;" ng-click="epaByKPICtrl.KPIChange(kpi.KPIId)" ng-class="epaByKPICtrl.getCSSSelected(kpi.KPIId)">
                                         {{kpi.Name}}
                                     </a>

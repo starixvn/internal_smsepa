@@ -9,7 +9,7 @@
             <label data-translate="From" class="col-sm-1 control-label"></label>
             <div class="col-sm-2">
                 <input readonly class="calendar-form-control" type="text"
-                       ng-model="monthlyPeriodCtrl.filter.fromDate"
+                       ng-model="monthlyPeriodCtrl.filter.model.fromDate"
                        datepicker-popup="MMM, yyyy" datepicker-mode="'month'" datepicker-options="monthlyPeriodCtrl.dateOptions"
                        ng-click="monthlyPeriodCtrl.openPopupFromDate($event)"
                        is-open="monthlyPeriodCtrl.calendar.fromDateOpened" />
@@ -18,14 +18,14 @@
             <label data-translate="To" class="col-sm-1 control-label"></label>
             <div class="col-sm-2">
                 <input readonly class="calendar-form-control" type="text"
-                       ng-model="monthlyPeriodCtrl.filter.toDate"
+                       ng-model="monthlyPeriodCtrl.filter.model.toDate"
                        datepicker-popup="MMM, yyyy" datepicker-mode="'month'" datepicker-options="monthlyPeriodCtrl.dateOptions"
                        ng-click="monthlyPeriodCtrl.openPopupToDate($event)"
                        is-open="monthlyPeriodCtrl.calendar.toDateOpened" />
                 <calendar-image class="calendar-image" ng-click="monthlyPeriodCtrl.openPopupToDate($event)"></calendar-image>
             </div>
             <div class="col-sm-1">
-                <button class="button" ng-click="monthlyPeriodCtrl.query(monthlyPeriodCtrl.filter)" data-translate="Search"></button>
+                <button class="button" ng-click="monthlyPeriodCtrl.query(monthlyPeriodCtrl.filter.model)" data-translate="Search"></button>
             </div>
         </div>
     </form>
