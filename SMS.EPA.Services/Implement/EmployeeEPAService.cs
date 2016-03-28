@@ -647,6 +647,7 @@ namespace SMS.EPA.Services.Implement
                         epaInfo.CurrentProcess.MaxSubtractScore = -epaInfo.AverageScoreByEvaluators;
                         epaInfo.CurrentProcess.MaxAdditionScore = epaInfo.CurrentProcess.MaxTotalScore - epaInfo.AverageScoreByEvaluators;
                     }
+
                     break;
 
                 case (int)ProcessType.Management:
@@ -668,6 +669,7 @@ namespace SMS.EPA.Services.Implement
                             epaInfo.CurrentProcess.MaxAdditionScore = epaInfo.CurrentProcess.MaxTotalScore - epaInfo.AverageScoreByEvaluators;
                         }
                     }
+
                     break;
             }
         }

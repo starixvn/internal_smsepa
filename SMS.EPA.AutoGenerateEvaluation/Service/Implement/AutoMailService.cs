@@ -148,7 +148,7 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
                 string assemblyPath = AppDomain.CurrentDomain.BaseDirectory,
                     templateEmailPath = templateEmailPath = Path.Combine(assemblyPath, _endMailToHumanResourcesByEmployee);
 
-                foreach (EPAProcessModel humanResource in evaluationInfo.HumanResources)
+                foreach (EPAProcessModel humanResource in evaluationInfo.EvaluationProcess.HumanResources)
                 {
                     _mailService.SendMailEndToHumanResourcesByEmployee(templateEmailPath, evaluationInfo, humanResource);
                 }

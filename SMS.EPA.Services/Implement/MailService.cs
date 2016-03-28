@@ -221,9 +221,9 @@ namespace SMS.EPA.Services.Implement
 
                 float finalScore = averagePerformanceScore + disciplineScore,
                     adjustmentScore = GetAdjustmentScore(evaluationInfo, averagePerformanceScore);
-                string evaluatorNames = GetEvaluator(evaluationInfo.Evaluators),
-                    reviewerNames = GetEvaluator(evaluationInfo.Reviewers),
-                    managementNames = GetEvaluator(evaluationInfo.Managements);
+                string evaluatorNames = GetEvaluator(evaluationInfo.EvaluationProcess.Evaluators),
+                    reviewerNames = GetEvaluator(evaluationInfo.EvaluationProcess.Reviewers),
+                    managementNames = GetEvaluator(evaluationInfo.EvaluationProcess.Managements);
 
                 finalScore = finalScore >= 0 ? finalScore : 0;
 

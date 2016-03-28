@@ -34,15 +34,19 @@ namespace SMS.EPA.Services.Implement
     {
         private const int _EXCEL_COLUMN_WIDTH = 256;
         private readonly IReportRepository _reportRepository;
+        private readonly IEmployeeEPARepository _employeeEPARepository;
 
         public ReportService()
-            : this(null)
+            : this(null, null)
         {
         }
 
-        public ReportService(IReportRepository reportRepository)
+        public ReportService(
+            IReportRepository reportRepository,
+            IEmployeeEPARepository employeeEPARepository)
         {
             _reportRepository = reportRepository ?? new ReportRepository();
+            _employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
         }
 
         public DashboardModel GetDashboard(GetDashboardCriteria criteria)
@@ -51,7 +55,7 @@ namespace SMS.EPA.Services.Implement
 
             if (criteria != null && criteria.IsValid())
             {
-                result = _reportRepository.GetDashboard(criteria);
+                result = _employeeEPARepository.GetDashboard(criteria);
             }
 
             return result;

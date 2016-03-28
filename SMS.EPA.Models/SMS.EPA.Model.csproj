@@ -103,7 +103,6 @@
     <Compile Include="Period\PeriodFlowSettingModel.cs" />
     <Compile Include="Period\UpdatedEmployeeSettingPeriodModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Report\Dashboard\EPADashboardModel.cs" />
     <Compile Include="Report\EPADetail\EPADetailModel.cs" />
     <Compile Include="Report\EPADetail\EvaluationPhaseModel.cs" />
     <Compile Include="Report\EPASummary\EPASummaryEmployeeModel.cs" />

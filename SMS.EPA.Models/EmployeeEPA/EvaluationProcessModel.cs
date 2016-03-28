@@ -15,10 +15,13 @@ namespace SMS.EPA.Model.EmployeeEPA
     {
         public EvaluationProcessModel()
         {
+            HumanResources = new List<EPAProcessModel>();
             Evaluators = new List<EPAProcessModel>();
             Reviewers = new List<EPAProcessModel>();
             Managements = new List<EPAProcessModel>();
         }
+
+        public IList<EPAProcessModel> HumanResources { get; set; }
 
         public EPAProcessModel Self { get; set; }
 

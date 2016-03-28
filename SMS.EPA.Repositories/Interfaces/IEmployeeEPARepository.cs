@@ -13,6 +13,7 @@ namespace SMS.EPA.Repositories.Interfaces
     using Fanex.Data.Repository;
     using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.EmployeeEPA.RatingByKPI;
+    using SMS.EPA.Model.Report.Dashboard;
 
     public interface IEmployeeEPARepository
     {
@@ -27,5 +28,7 @@ namespace SMS.EPA.Repositories.Interfaces
         IEnumerable<RatingByKPIModel> GetEmployeeEPAByKPI(ICriteria criteria);
 
         IEnumerable<RatingByKPIModel> GetEmployeeEPAToView(ICriteria criteria);
+
+        DashboardModel GetDashboard(ICriteria criteria);
     }
 }

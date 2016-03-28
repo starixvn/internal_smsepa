@@ -20,6 +20,7 @@ namespace SMS.EPA.Repositories.Implement
     using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.EmployeeEPA.RatingByKPI;
     using SMS.EPA.Model.Enitites;
+    using SMS.EPA.Model.Report.Dashboard;
     using SMS.EPA.Model.ScoreRatingType;
     using SMS.EPA.Repositories.Interfaces;
 
@@ -130,6 +131,41 @@ namespace SMS.EPA.Repositories.Implement
                     return epaInfo;
                 }
             }
+        }
+
+        public DashboardModel GetDashboard(ICriteria criteria)
+        {
+            DashboardModel result = new DashboardModel();
+
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                {
+                    result.MyEPAs = multi.Read<EPAModel, StatusModel, EPAPeriodModel, EPAModel>(
+                        (epa, status, period) =>
+                        {
+                            epa.Status = status;
+                            epa.Period = period;
+
+                            return epa;
+                        },
+                        "StatusId, PeriodId");
+
+                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
+
+                    IEnumerable<EPAProcessModel> evaluators = multi.Read<EPAProcessModel>();
+
+                    GroupEPAProcessByEPA(result.MyEPAs, processes);
+
+                    foreach (EPAModel epaInfo in result.MyEPAs)
+                    {
+                        GroupEvaluatorByProcess(epaInfo, evaluators);
+                        DecodeAllScore(epaInfo);
+                    }
+                }
+            }
+
+            return result;
         }
 
         #region Rating By KPI
@@ -318,19 +354,23 @@ namespace SMS.EPA.Repositories.Implement
             switch (evaluator.ProcessId)
             {
                 case (int)ProcessType.HumanResource:
-                    epaInfo.HumanResources.Add(evaluator);
+                    epaInfo.EvaluationProcess.HumanResources.Add(evaluator);
+                    break;
+
+                case (int)ProcessType.Self:
+                    epaInfo.EvaluationProcess.Self = evaluator;
                     break;
 
                 case (int)ProcessType.Evaluator:
-                    epaInfo.Evaluators.Add(evaluator);
+                    epaInfo.EvaluationProcess.Evaluators.Add(evaluator);
                     break;
 
                 case (int)ProcessType.Reviewer:
-                    epaInfo.Reviewers.Add(evaluator);
+                    epaInfo.EvaluationProcess.Reviewers.Add(evaluator);
                     break;
 
                 case (int)ProcessType.Management:
-                    epaInfo.Managements.Add(evaluator);
+                    epaInfo.EvaluationProcess.Managements.Add(evaluator);
                     break;
             }
         }
@@ -414,10 +454,10 @@ namespace SMS.EPA.Repositories.Implement
 
         private void DecodeAllScore(EPAModel epaInfo)
         {
-            epaInfo.LastFinalScore = Decode(epaInfo.LastFinalScoreEncode);
-            epaInfo.LastGrade = Decode(epaInfo.LastGradeEncode);
-            epaInfo.FinalScore = Decode(epaInfo.FinalScoreEncode);
-            epaInfo.Grade = Decode(epaInfo.GradeEncode);
+            epaInfo.LastFinalScore = EncodeService.Decode(epaInfo.LastFinalScoreEncode);
+            epaInfo.LastGrade = EncodeService.Decode(epaInfo.LastGradeEncode);
+            epaInfo.FinalScore = EncodeService.Decode(epaInfo.FinalScoreEncode);
+            epaInfo.Grade = EncodeService.Decode(epaInfo.GradeEncode);
             DecodeTotalScore(epaInfo.ProcessBySelf);
             DecodeTotalScore(epaInfo.ProcessByEvaluators);
             DecodeTotalScore(epaInfo.ProcessByReviewers);
@@ -438,7 +478,7 @@ namespace SMS.EPA.Repositories.Implement
         {
             foreach (RatingByKPIModel epaInfo in epaInfos)
             {
-                epaInfo.TotalScore = Decode(epaInfo.TotalScoreEncode);
+                epaInfo.TotalScore = EncodeService.Decode(epaInfo.TotalScoreEncode);
 
                 foreach (TemporaryKPIModel kpi in epaInfo.KPIGroup.KPIs)
                 {
@@ -446,10 +486,10 @@ namespace SMS.EPA.Repositories.Implement
 
                     if (!string.IsNullOrEmpty(kpi.RateEncode))
                     {
-                        rate = float.Parse(Decode(kpi.RateEncode));
+                        rate = float.Parse(EncodeService.Decode(kpi.RateEncode));
                     }
 
-                    kpi.Score = Decode(kpi.ScoreEncode).Replace("_" + kpi.KPIId, string.Empty);
+                    kpi.Score = EncodeService.Decode(kpi.ScoreEncode).Replace("_" + kpi.KPIId, string.Empty);
                     kpi.Rate = rate;
                 }
             }
@@ -457,8 +497,8 @@ namespace SMS.EPA.Repositories.Implement
 
         private void DecodeTotalScore(EPAProcessModel process)
         {
-            process.TotalScore = Decode(process.TotalScoreEncode);
-            process.AdjustScore = Decode(process.AdjustScoreEncode);
+            process.TotalScore = EncodeService.Decode(process.TotalScoreEncode);
+            process.AdjustScore = EncodeService.Decode(process.AdjustScoreEncode);
         }
 
         private void DecodeTotalScore(IList<EPAProcessModel> processes)
@@ -475,10 +515,10 @@ namespace SMS.EPA.Repositories.Implement
 
             if (!string.IsNullOrEmpty(evaluation.RateEncode))
             {
-                rate = float.Parse(Decode(evaluation.RateEncode));
+                rate = float.Parse(EncodeService.Decode(evaluation.RateEncode));
             }
 
-            evaluation.Score = Decode(evaluation.ScoreEncode).Replace("_" + evaluation.KPIId, string.Empty);
+            evaluation.Score = EncodeService.Decode(evaluation.ScoreEncode).Replace("_" + evaluation.KPIId, string.Empty);
             evaluation.Rate = rate;
         }
 
@@ -488,11 +528,6 @@ namespace SMS.EPA.Repositories.Implement
             {
                 DecodeScore(evaluation);
             }
-        }
-
-        private string Decode(string cipherText)
-        {
-            return !string.IsNullOrEmpty(cipherText) ? EncodeService.Decode(cipherText) : string.Empty;
         }
     }
 }

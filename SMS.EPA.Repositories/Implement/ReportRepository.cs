@@ -19,44 +19,12 @@ namespace SMS.EPA.Repositories.Implement
     using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.Period;
-    using SMS.EPA.Model.Report.Dashboard;
     using SMS.EPA.Model.Report.EPADetail;
     using SMS.EPA.Model.Report.EPASummary;
     using SMS.EPA.Repositories.Interfaces;
 
     public class ReportRepository : IReportRepository
     {
-        public DashboardModel GetDashboard(ICriteria criteria)
-        {
-            DashboardModel result = new DashboardModel();
-
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
-            {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
-                {
-                    result.MyEPAs = multi.Read<EPADashboardModel, StatusModel, EPAPeriodModel, EPADashboardModel>(
-                        (epa, status, period) =>
-                        {
-                            epa.Status = status;
-                            epa.Period = period;
-
-                            return epa;
-                        },
-                        "StatusId, PeriodId");
-
-                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
-
-                    IEnumerable<EPAProcessModel> evaluators = multi.Read<EPAProcessModel>();
-
-                    GroupEPAProcessByEPA(result.MyEPAs, processes);
-                    GroupEvaluatorByProcess(result.MyEPAs, evaluators);
-                    DecodeAllScore(result.MyEPAs);
-                }
-            }
-
-            return result;
-        }
-
         public EPASummaryModel GetEPASummary(ICriteria criteria)
         {
             EPASummaryModel epaSummary = new EPASummaryModel();
@@ -206,81 +174,14 @@ namespace SMS.EPA.Repositories.Implement
             }
         }
 
-        private void GroupEPAProcessByEPA(IEnumerable<EPADashboardModel> epaInfos, IEnumerable<EPAProcessModel> processes)
-        {
-            foreach (EPADashboardModel epaInfo in epaInfos)
-            {
-                foreach (EPAProcessModel process in processes)
-                {
-                    if (process.EPAId.Equals(epaInfo.EPAId))
-                    {
-                        switch (process.ProcessId)
-                        {
-                            case (int)ProcessType.Self:
-                                epaInfo.ProcessBySelf = process;
-                                break;
-
-                            case (int)ProcessType.Evaluator:
-                                epaInfo.ProcessByEvaluators.Add(process);
-                                break;
-
-                            case (int)ProcessType.Reviewer:
-                                epaInfo.ProcessByReviewers.Add(process);
-                                break;
-
-                            case (int)ProcessType.Management:
-                                epaInfo.ProcessByManagements.Add(process);
-                                break;
-                        }
-                    }
-                }
-            }
-        }
-
-        private void GroupEvaluatorByProcess(EPADashboardModel epaInfo, EPAProcessModel evaluator)
-        {
-            switch (evaluator.ProcessId)
-            {
-                case (int)ProcessType.Self:
-                    epaInfo.EvaluationProcess.Self = evaluator;
-                    break;
-
-                case (int)ProcessType.Evaluator:
-                    epaInfo.EvaluationProcess.Evaluators.Add(evaluator);
-                    break;
-
-                case (int)ProcessType.Reviewer:
-                    epaInfo.EvaluationProcess.Reviewers.Add(evaluator);
-                    break;
-
-                case (int)ProcessType.Management:
-                    epaInfo.EvaluationProcess.Managements.Add(evaluator);
-                    break;
-            }
-        }
-
-        private void GroupEvaluatorByProcess(IEnumerable<EPADashboardModel> epaInfos, IEnumerable<EPAProcessModel> evaluators)
-        {
-            foreach (EPADashboardModel epaInfo in epaInfos)
-            {
-                foreach (EPAProcessModel evaluator in evaluators)
-                {
-                    if (evaluator.EPAId.Equals(epaInfo.EPAId))
-                    {
-                        GroupEvaluatorByProcess(epaInfo, evaluator);
-                    }
-                }
-            }
-        }
-
         private void DecodeFinalScoreAndGrade(IEnumerable<EPASummaryEmployeeModel> epaSummaries)
         {
             foreach (EPASummaryEmployeeModel epaSummary in epaSummaries)
             {
                 foreach (EPASummaryPeriodModel period in epaSummary.Periods)
                 {
-                    period.FinalScore = Decode(period.FinalScoreEncode);
-                    period.Grade = Decode(period.GradeEncode);
+                    period.FinalScore = EncodeService.Decode(period.FinalScoreEncode);
+                    period.Grade = EncodeService.Decode(period.GradeEncode);
                 }
             }
         }
@@ -289,20 +190,8 @@ namespace SMS.EPA.Repositories.Implement
         {
             foreach (EPAModel epaInfo in epaInfos)
             {
-                epaInfo.FinalScore = Decode(epaInfo.FinalScoreEncode);
-                epaInfo.Grade = Decode(epaInfo.GradeEncode);
-                DecodeTotalScore(epaInfo.ProcessBySelf);
-                DecodeTotalScore(epaInfo.ProcessByEvaluators);
-                DecodeTotalScore(epaInfo.ProcessByReviewers);
-                DecodeTotalScore(epaInfo.ProcessByManagements);
-            }
-        }
-
-        private void DecodeAllScore(IEnumerable<EPADashboardModel> epaInfos)
-        {
-            foreach (EPADashboardModel epaInfo in epaInfos)
-            {
-                epaInfo.FinalScore = Decode(epaInfo.FinalScoreEncode);
+                epaInfo.FinalScore = EncodeService.Decode(epaInfo.FinalScoreEncode);
+                epaInfo.Grade = EncodeService.Decode(epaInfo.GradeEncode);
                 DecodeTotalScore(epaInfo.ProcessBySelf);
                 DecodeTotalScore(epaInfo.ProcessByEvaluators);
                 DecodeTotalScore(epaInfo.ProcessByReviewers);
@@ -314,8 +203,8 @@ namespace SMS.EPA.Repositories.Implement
         {
             if (process != null)
             {
-                process.TotalScore = Decode(process.TotalScoreEncode);
-                process.AdjustScore = Decode(process.AdjustScoreEncode);
+                process.TotalScore = EncodeService.Decode(process.TotalScoreEncode);
+                process.AdjustScore = EncodeService.Decode(process.AdjustScoreEncode);
             }
         }
 
@@ -325,11 +214,6 @@ namespace SMS.EPA.Repositories.Implement
             {
                 DecodeTotalScore(process);
             }
-        }
-
-        private string Decode(string cipherText)
-        {
-            return !string.IsNullOrEmpty(cipherText) ? EncodeService.Decode(cipherText) : string.Empty;
         }
     }
 }

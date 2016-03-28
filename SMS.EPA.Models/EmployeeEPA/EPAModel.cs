@@ -21,15 +21,12 @@ namespace SMS.EPA.Model.EmployeeEPA
     {
         public EPAModel()
         {
-            HumanResources = new List<EPAProcessModel>();
-            Evaluators = new List<EPAProcessModel>();
-            Reviewers = new List<EPAProcessModel>();
-            Managements = new List<EPAProcessModel>();
             ProcessByEvaluators = new List<EPAProcessModel>();
             ProcessByReviewers = new List<EPAProcessModel>();
             ProcessByManagements = new List<EPAProcessModel>();
             KPIGroups = new List<EPAKPIGroupModel>();
             LastProcesses = new List<EPAProcessModel>();
+            EvaluationProcess = new EvaluationProcessModel();
             MonthlyEPA = new MonthlyEPAModel();
         }
 
@@ -103,6 +100,8 @@ namespace SMS.EPA.Model.EmployeeEPA
             }
         }
 
+        public EvaluationProcessModel EvaluationProcess { get; set; }
+
         public EPAProcessModel CurrentProcess { get; set; }
 
         public EPAProcessModel ProcessBySelf { get; set; }
@@ -114,14 +113,6 @@ namespace SMS.EPA.Model.EmployeeEPA
         public IList<EPAProcessModel> ProcessByManagements { get; set; }
 
         public IList<EPAKPIGroupModel> KPIGroups { get; set; }
-
-        public IList<EPAProcessModel> HumanResources { get; set; }
-
-        public IList<EPAProcessModel> Evaluators { get; set; }
-
-        public IList<EPAProcessModel> Reviewers { get; set; }
-
-        public IList<EPAProcessModel> Managements { get; set; }
 
         #region Last score
 
@@ -161,6 +152,50 @@ namespace SMS.EPA.Model.EmployeeEPA
                 List<int> numbers = new List<int> { ProcessByEvaluators.Count, ProcessByReviewers.Count, ProcessByManagements.Count };
 
                 return numbers.Max();
+            }
+        }
+
+        public bool IsEndProcessBySelf { get; set; }
+
+        public float MaxPerformanceScore
+        {
+            get
+            {
+                float maxPerformanceScore = 0;
+
+                if (ProcessByManagements.Count > 0)
+                {
+                    maxPerformanceScore = ProcessByManagements.First().MaxTotalScore;
+                }
+                else if (ProcessByReviewers.Count > 0)
+                {
+                    maxPerformanceScore = ProcessByReviewers.First().MaxTotalScore;
+                }
+                else if (ProcessByEvaluators.Count > 0)
+                {
+                    maxPerformanceScore = ProcessByEvaluators.First().MaxTotalScore;
+                }
+
+                return maxPerformanceScore;
+            }
+        }
+
+        public float PerformanceScore
+        {
+            get
+            {
+                float performanceScore = AverageScoreByEvaluators;
+
+                if (ProcessByManagements.Count > 0)
+                {
+                    performanceScore = AverageScoreByManagements;
+                }
+                else if (ProcessByReviewers.Count > 0)
+                {
+                    performanceScore = AverageScoreByReviewers;
+                }
+
+                return performanceScore;
             }
         }
 
