@@ -1,0 +1,8 @@
+{
+    "undef": true,
+	"latedef": true,
+    "globals": {
+        "angular": false,
+        "$": false
+    }
+}
