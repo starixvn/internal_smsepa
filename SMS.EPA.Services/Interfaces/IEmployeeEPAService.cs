@@ -72,6 +72,8 @@ namespace SMS.EPA.Services.Interfaces
 
         #endregion Rating By KPI
 
+        IEnumerable<EPAModel> GetEPAEndEvaluationPeriod(GetEPAEndEvaluationPeriodCriteria criteria);
+
         EPAModel GetEPAInfoById(GetEPAInfoByIdCriteria criteria);
 
         CommandResult UpdateEPAScore(UpdateEPAScoreCriteria criteria);

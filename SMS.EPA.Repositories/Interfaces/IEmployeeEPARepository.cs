@@ -21,6 +21,8 @@ namespace SMS.EPA.Repositories.Interfaces
 
         EPAModel GetEPAInfo(ICriteria criteria);
 
+        IEnumerable<EPAModel> GetEPAEndEvaluationPeriod(ICriteria criteria);
+
         IEnumerable<TemporaryKPIModel> GetKPIByTargetTemplate(ICriteria criteria);
 
         IEnumerable<TemporaryKPIModel> GetKPIToView(ICriteria criteria);

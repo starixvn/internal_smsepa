@@ -83,7 +83,6 @@
     <Compile Include="AutoService.Designer.cs">
       <DependentUpon>AutoService.cs</DependentUpon>
     </Compile>
-    <Compile Include="Criteria\CheckEndEvaluationPeriodCriteria.cs" />
     <Compile Include="Criteria\CheckEndProcessCriteria.cs" />
     <Compile Include="Criteria\CheckLastestProcessOfPeriodCriteria.cs" />
     <Compile Include="Criteria\CheckPeriodStartedSendMailAllCriteria.cs" />

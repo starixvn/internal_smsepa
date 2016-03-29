@@ -380,6 +380,18 @@ namespace SMS.EPA.Services.Implement
             return epaInfo;
         }
 
+        public IEnumerable<EPAModel> GetEPAEndEvaluationPeriod(GetEPAEndEvaluationPeriodCriteria criteria)
+        {
+            IEnumerable<EPAModel> epaInfos = new List<EPAModel>();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                epaInfos = _employeeEPARepository.GetEPAEndEvaluationPeriod(criteria);
+            }
+
+            return epaInfos;
+        }
+
         public CommandResult UpdateEPAScore(UpdateEPAScoreCriteria criteria)
         {
             CommandResult commandResult = new CommandResult();

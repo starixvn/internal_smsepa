@@ -133,6 +133,39 @@ namespace SMS.EPA.Repositories.Implement
             }
         }
 
+        public IEnumerable<EPAModel> GetEPAEndEvaluationPeriod(ICriteria criteria)
+        {
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                {
+                    IEnumerable<EPAModel> epaInfos = multi.Read<EPAModel, StatusModel, EPAEmployeeModel, EPAPeriodModel, EPAModel>(
+                    (epaInfo, status, emp, period) =>
+                    {
+                        epaInfo.Status = status;
+                        epaInfo.Employee = emp;
+                        epaInfo.Period = period;
+
+                        return epaInfo;
+                    },
+                    "StatusId, EmployeeId, PeriodId");
+
+                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
+                    IList<EPAProcessModel> evaluators = multi.Read<EPAProcessModel>().ToList();
+
+                    GroupEPAProcessByEPA(epaInfos, processes);
+
+                    foreach (EPAModel epaInfo in epaInfos)
+                    {
+                        GroupEvaluatorByProcess(epaInfo, evaluators);
+                        DecodeAllScore(epaInfo);
+                    }
+
+                    return epaInfos;
+                }
+            }
+        }
+
         public DashboardModel GetDashboard(ICriteria criteria)
         {
             DashboardModel result = new DashboardModel();

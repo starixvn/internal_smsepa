@@ -19,11 +19,9 @@
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria.AttendanceSummary;
     using SMS.EPA.Criteria.EmployeeEPA;
     using SMS.EPA.Criteria.Period;
     using SMS.EPA.Criteria.Period.GenerationEvaluation;
-    using SMS.EPA.Model.AttendanceSummary;
     using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.FlowManagement;
     using SMS.EPA.Model.Period;
@@ -40,7 +38,6 @@
         private IPeriodService _periodService;
         private IAutoMailService _autoMailService;
         private IEmployeeEPAService _employeeEPAService;
-        private IAttendanceSummaryService _attendanceService;
 
         public AutoService()
         {
@@ -58,7 +55,6 @@
             _periodService = new PeriodService();
             _autoMailService = new AutoMailService();
             _employeeEPAService = new EmployeeEPAService();
-            _attendanceService = new AttendanceSummaryService();
         }
 
         public int TimerInterval { get; private set; }
@@ -468,8 +464,8 @@
             }
 
             _LOG.Info("Get all EPA that period end date is today or ended yesterday or close but not have final score: started at " + DateTime.Now.ToString());
-            var getAllEndedEvaluationCriteria = new CheckEndEvaluationPeriodCriteria();
-            IEnumerable<EndEPAModel> allEvaluations = _evaluationService.CheckEndEvaluationPeriod(getAllEndedEvaluationCriteria);
+            var getAllEndedEvaluationCriteria = new GetEPAEndEvaluationPeriodCriteria();
+            IEnumerable<EPAModel> allEvaluations = _employeeEPAService.GetEPAEndEvaluationPeriod(getAllEndedEvaluationCriteria);
             _LOG.Info("Get all EPA that period end date is today or ended yesterday or close but not have final score: ended at " + DateTime.Now.ToString());
 
             if (allEvaluations != null && allEvaluations.Any())
@@ -479,7 +475,7 @@
         }
 
         [SuppressMessage("StyleCop.CSharp.Nexcel.NexcelCustomRules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
-        private void UpdateFinalScoreAndSendMail(IEnumerable<EndEPAModel> evaluations)
+        private void UpdateFinalScoreAndSendMail(IEnumerable<EPAModel> evaluationInfos)
         {
             IList<int> periods = new List<int>();
             bool hasSendMailEndEvaluation = ConfigurationManager.AppSettings["SendMailEndPeriod"] != null ?
@@ -488,45 +484,35 @@
             var criteria = new GetStandardGradeCriteria();
             IEnumerable<StandardGradeModel> standardGrades = _employeeEPAService.GetStandardGrade(criteria);
 
-            foreach (EndEPAModel evaluation in evaluations)
+            foreach (EPAModel evaluationInfo in evaluationInfos)
             {
-                _LOG.Info("Get information of EPA " + evaluation.EPAId + " : started at " + DateTime.Now.ToString());
-                var getEvaluationInfoCriteria = new GetEPAInfoByIdCriteria
-                {
-                    EPAId = evaluation.EPAId
-                };
-                EPAModel evaluationInfo = _employeeEPAService.GetEPAInfoById(getEvaluationInfoCriteria);
-                _LOG.Info("Get information of EPA " + evaluation.EPAId + " : ended at " + DateTime.Now.ToString());
-
-                _LOG.Info("Get average performance score of EPA " + evaluation.EPAId + " : started at " + DateTime.Now.ToString());
+                _LOG.Info("Get average performance score of EPA " + evaluationInfo.EPAId + " : started at " + DateTime.Now.ToString());
                 float averagePerformanceScore = GetFinalScoreOfEvalution(evaluationInfo);
-                _LOG.Info("Result of get average performance score of EPA " + evaluation.EPAId + " :  " + averagePerformanceScore);
+                _LOG.Info("Result of get average performance score of EPA " + evaluationInfo.EPAId + " :  " + averagePerformanceScore);
 
-                _LOG.Info("Get discipline score of EPA " + evaluation.EPAId + " : started at " + DateTime.Now.ToString());
-                float disciplineScore = GetDisciplineScore(evaluation.EPAId);
-                _LOG.Info("Result of get discipline score of EPA " + evaluation.EPAId + " : " + disciplineScore);
-
-                float finalScore = averagePerformanceScore + disciplineScore;
+                float finalScore = averagePerformanceScore + evaluationInfo.DisciplineScore;
                 finalScore = finalScore >= 0 ? finalScore : 0;
 
-                _LOG.Info("Get grade of final score of EPA " + evaluation.EPAId + ": started at: " + DateTime.Now);
+                _LOG.Info("Get grade of final score of EPA " + evaluationInfo.EPAId + ": started at: " + DateTime.Now);
                 evaluationInfo.Grade = _employeeEPAService.ConvertScoreToGrade(finalScore, standardGrades);
-                _LOG.Info("Result of get grade of final score of EPA " + evaluation.EPAId + ": " + evaluationInfo.Grade);
+                _LOG.Info("Result of get grade of final score of EPA " + evaluationInfo.EPAId + ": " + evaluationInfo.Grade);
 
-                EncodeAndUpdateFinalScore(averagePerformanceScore, disciplineScore, evaluation.EPAId, evaluationInfo.Grade);
+                EncodeAndUpdateFinalScore(averagePerformanceScore, evaluationInfo.DisciplineScore, evaluationInfo.EPAId, evaluationInfo.Grade);
 
                 if (hasSendMailEndEvaluation)
                 {
-                    SendEndEvaluationMailToSelf(evaluationInfo, averagePerformanceScore, disciplineScore);
+                    SendEndEvaluationMailToSelf(evaluationInfo, averagePerformanceScore, evaluationInfo.DisciplineScore);
 
                     if (evaluationInfo.Period != null)
                     {
-                        if (evaluationInfo.Period.TargetTypeId == (int)TargetType.Probation || evaluationInfo.Period.TargetTypeId == (int)TargetType.Promotion)
+                        if (evaluationInfo.Period.TargetTypeId == (int)TargetType.Probation
+                            || evaluationInfo.Period.TargetTypeId == (int)TargetType.Promotion)
                         {
                             _LOG.Info("Send end email to human resource of probation or promotion period " + evaluationInfo.Period.PeriodId + " : started at " + DateTime.Now.ToString());
                             _autoMailService.SendEndEvaluationMailToHumanResourceByEmployee(evaluationInfo);
                         }
-                        else if (evaluationInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual && !periods.Contains(evaluationInfo.Period.PeriodId))
+                        else if ((evaluationInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual || evaluationInfo.Period.TargetTypeId == (int)TargetType.Monthly)
+                            && !periods.Contains(evaluationInfo.Period.PeriodId))
                         {
                             periods.Add(evaluationInfo.Period.PeriodId);
                         }
@@ -689,24 +675,6 @@
             }
 
             return finalScore;
-        }
-
-        private float GetDisciplineScore(int evaluationId)
-        {
-            float disciplineScore = 0;
-            var criteria = new GetAttendanceScoreByEPAIdCriteria
-            {
-                EvaluationIds = evaluationId.ToString()
-            };
-
-            IEnumerable<AttendanceScoreModel> attendanceScores = _attendanceService.GetAttendanceScoreByEPAId(criteria);
-
-            if (attendanceScores != null && attendanceScores.Any())
-            {
-                disciplineScore = attendanceScores.First().DisciplineScore;
-            }
-
-            return disciplineScore;
         }
 
         private void EncodeAndUpdateFinalScore(float performanceScore, float disciplineScore, int evaluationId, string grade)

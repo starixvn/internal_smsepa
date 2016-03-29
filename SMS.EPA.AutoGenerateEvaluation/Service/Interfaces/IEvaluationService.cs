@@ -36,8 +36,6 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Interfaces
 
         CommandResult UpdateEndProcess(UpdateIsEndProcessCriteria criteria);
 
-        IEnumerable<EndEPAModel> CheckEndEvaluationPeriod(CheckEndEvaluationPeriodCriteria criteria);
-
         CommandResult UpdateStatusEndEvaluaitonPeriod(UpdateStatusEndEvaluationPeriodCriteria criteria);
 
         CommandResult UpdateFinalScoreEndEvaluation(UpdateFinalScoreEndEvaluationCriteria criteria);

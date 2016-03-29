@@ -187,18 +187,6 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
             return comandResult;
         }
 
-        public IEnumerable<EndEPAModel> CheckEndEvaluationPeriod(CheckEndEvaluationPeriodCriteria criteria)
-        {
-            IEnumerable<EndEPAModel> evaluations = new List<EndEPAModel>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                evaluations = GetData<EndEPAModel>(criteria);
-            }
-
-            return evaluations;
-        }
-
         public CommandResult UpdateStatusEndEvaluaitonPeriod(UpdateStatusEndEvaluationPeriodCriteria criteria)
         {
             CommandResult comandResult = new CommandResult();
