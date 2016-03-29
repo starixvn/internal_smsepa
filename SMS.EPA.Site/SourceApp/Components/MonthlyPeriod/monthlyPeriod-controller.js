@@ -4,9 +4,7 @@
 monthlyPeriodModule.controller('MonthlyPeriodController',
 ['MonthlyPeriodModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl',
 function (MonthlyPeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, historyFactory, baseUrl) {
-    var vm = this,
-        date = new Date();
-
+    var vm = this;
     vm.policyEnum = enumerationsFactory.policy;
 
     vm.filter = initFilter();

@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-anglar
+angular
     .module('epaModule')
     .factory('epaByKPIFactory', epaByKPIFactory);
 
@@ -12,7 +12,7 @@ function epaByKPIFactory($http, baseUrl) {
         getKPIToView: getKPIToView,
         getEvaluatorsByTargetTemplate: getEvaluatorsByTargetTemplate,
         getEmployeeEPAToView: getEmployeeEPAToView
-    }
+    };
 
     function getEvaluatorsByTargetTemplate(targetTemplateId) {
         return $http.get(baseUrl + 'api/EmployeeEPA/getEvaluatorsByTargetTemplate', {

@@ -50,8 +50,7 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, en
         });
 
         historyFactory.saveState(vm.filter);
-
-    };
+    }
 
     vm.query = function (filter) {
         filter.employeeIds = utilitiesFactory.getSelectedData(vm.members, 'EmployeeId');
@@ -96,7 +95,7 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, en
 
 epaModule.controller('MemberEPAInfoOfEvaluatorController',
 ['$window', '$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel',
-    'utilitiesFactory', 'enumerationsFactory', 'baseUrl','historyFactory',
+    'utilitiesFactory', 'enumerationsFactory', 'baseUrl', 'historyFactory',
 function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel,
     utilitiesFactory, enumerationsFactory, baseUrl, historyFactory) {
     var vm = this;

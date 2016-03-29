@@ -1,6 +1,6 @@
 {
-    "undef": true,
-	"latedef": true,
+
+	"latedef": "nofunc",
     "globals": {
         "angular": false,
         "$": false

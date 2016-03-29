@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-anglar
+angular
 .module('epaModule')
 .factory('EPAByKPIModel', EPAByKPIModel);
 
@@ -105,4 +105,4 @@ function EPAByKPIModel(epaByKPIFactory, utilitiesFactory, notificationFactory, e
             }
         });
     }
-};
+}
