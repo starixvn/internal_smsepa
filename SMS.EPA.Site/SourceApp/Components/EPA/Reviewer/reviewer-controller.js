@@ -19,7 +19,9 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     vm.policyEnum = enumerationsFactory.policy;
     vm.targetTypeEnum = enumerationsFactory.targetType;
 
-    vm.filter = function initFilter() {
+    vm.filter = {};
+
+    function initFilter() {
         var filter = historyFactory.getState();
 
         return filter ? filter : {
@@ -28,7 +30,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
             isMonthly: false,
             employeeIds: ''
         };
-    };
+    }
 
     vm.getMember = function (groupId, isLocal) {
         ReviewerManagementModel.getMemberByReviewer(groupId, isLocal).then(function () {
@@ -196,6 +198,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     };
 
     function initialize() {
+        vm.filter = initFilter();
         $translate('ScoreInputValid').then(function (message) {
             vm.scoreInputValidMessage = message;
         });

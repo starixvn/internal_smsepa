@@ -7,14 +7,15 @@ function (MonthlyPeriodModel, CommonModel, utilitiesFactory, enumerationsFactory
     var vm = this;
     vm.policyEnum = enumerationsFactory.policy;
 
-    vm.filter = function initFilter() {
+    vm.filter = {};
+    function initFilter() {
         var filter = historyFactory.getState();
 
         return filter ? filter : {
             fromDate: new Date(new Date().getFullYear(), 0, 1),
             toDate: new Date()
         };
-    };
+    }
 
     var getMonthlyPeriod = function (fromDate, toDate) {
         toDate = new Date(toDate.getFullYear(), toDate.getMonth() + 1, 0);
@@ -28,6 +29,7 @@ function (MonthlyPeriodModel, CommonModel, utilitiesFactory, enumerationsFactory
     };
 
     vm.initialize = function () {
+        vm.filter = initFilter();
         vm.periods = MonthlyPeriodModel.periods;
         vm.permission = MonthlyPeriodModel.permission;
         vm.calendar = {
@@ -229,7 +231,7 @@ function ($scope, $window, MonthlyPeriodModel, historyFactory) {
 }]);
 
 monthlyPeriodModule.controller('UpdateProcessSettingMonthlyPeriodController',
-['$scope', '$window', 'MonthlyPeriodModel', 'CommonModel','historyFactory',
+['$scope', '$window', 'MonthlyPeriodModel', 'CommonModel', 'historyFactory',
 function ($scope, $window, MonthlyPeriodModel, CommonModel, historyFactory) {
     var vm = this;
 

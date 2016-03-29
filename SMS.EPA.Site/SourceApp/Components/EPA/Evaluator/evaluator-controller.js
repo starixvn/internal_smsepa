@@ -11,7 +11,9 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, en
     vm.standardGrades = CommonModel.standardGrades;
     vm.targetTypeEnum = enumerationsFactory.targetType;
 
-    vm.filter = function initFilter() {
+    vm.filter = {};
+
+    function initFilter() {
         var filter = historyFactory.getState();
 
         return filter ? filter : {
@@ -20,7 +22,7 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, en
             isMonthly: false,
             employeeIds: ''
         };
-    };
+    }
 
     vm.getMember = function (groupId, isLocal) {
         SelfEvalutorModel.getMemberByEvaluator(groupId, isLocal).then(function () {
@@ -76,6 +78,7 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, en
     };
 
     function initialize() {
+        vm.filter = initFilter();
         SelfEvalutorModel.getGroupByEvaluator().then(function () {
             vm.groupOptions = SelfEvalutorModel.groups;
         });
@@ -86,6 +89,7 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, en
             vm.standardGrades = CommonModel.standardGrades;
             getEPAByEvaluator(vm.filter.groupId, vm.filter.isLocal, vm.filter.isMonthly, vm.filter.employeeIds);
         });
+
     }
 
     initialize();

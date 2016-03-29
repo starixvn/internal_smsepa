@@ -11,11 +11,13 @@ function (KPIGroupModel, KPIModel, CommonModel, utilitiesFactory, enumerationsFa
 
     vm.policyEnum = enumerationsFactory.policy;
 
-    vm.filter = function initFilter() {
+    vm.filter = {};
+
+    function initFilter() {
         var filter = historyFactory.getState();
 
         return filter ? filter : { isActive: 'true' };
-    };
+    }
 
     utilitiesFactory.numberEntryList(vm);
     vm.pageSize = 15;
@@ -30,6 +32,7 @@ function (KPIGroupModel, KPIModel, CommonModel, utilitiesFactory, enumerationsFa
     };
 
     vm.initialize = function () {
+        vm.filter = initFilter();
         KPIModel.getUserPermissionOnKPI().then(function () {
             vm.permissionOnKPI = KPIModel.permission;
         });

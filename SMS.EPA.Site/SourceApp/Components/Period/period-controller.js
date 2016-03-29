@@ -13,14 +13,18 @@ function (PeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, histo
     vm.policyEnum = enumerationsFactory.policy;
     vm.targetTypeEnum = enumerationsFactory.targetType;
 
-    vm.filter = function initFilter() {
+    vm.filter = {};
+
+    function initFilter() {
         var filter = historyFactory.getState();
 
         return filter ? filter : {
             targetTypeId: null,
             isActive: 'true'
         };
-    };
+    }
+
+    vm.filter = initFilter();
 
     vm.currentPage = 1;
     vm.pageSize = 20;

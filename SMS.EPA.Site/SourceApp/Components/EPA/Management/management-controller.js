@@ -18,14 +18,16 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     vm.policyEnum = enumerationsFactory.policy;
     vm.targetTypeEnum = enumerationsFactory.targetType;
 
-    vm.filter = function initFilter() {
+    vm.filter = {};
+
+    function initFilter() {
         var filter = historyFactory.getState();
         return filter ? filter : {
             groupId: '',
             isLocal: '',
             employeeIds: ''
         };
-    };
+    }
 
     vm.getMember = function (groupId, isLocal) {
         ReviewerManagementModel.getMemberByManagement(groupId, isLocal).then(function () {
@@ -189,6 +191,9 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     };
 
     function initialize() {
+
+        vm.filter = initFilter();
+
         $translate('ScoreInputValid').then(function (message) {
             vm.scoreInputValidMessage = message;
         });
@@ -219,9 +224,9 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 
 epaModule.controller('MemberEPAInfoOfManagentController',
 ['$window', '$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel',
-    'utilitiesFactory', 'enumerationsFactory', 'historyFactory','baseUrl',
+    'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl',
 function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManagementModel, CommonModel,
-    utilitiesFactory, enumerationsFactory, historyFactory,baseUrl) {
+    utilitiesFactory, enumerationsFactory, historyFactory, baseUrl) {
     var vm = this;
 
     vm.permission = 0;
