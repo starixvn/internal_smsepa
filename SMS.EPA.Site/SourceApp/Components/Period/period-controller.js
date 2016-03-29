@@ -20,7 +20,7 @@ function (PeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, histo
             targetTypeId: null,
             isActive: 'true'
         };
-    }
+    };
 
     vm.currentPage = 1;
     vm.pageSize = 20;

@@ -20,7 +20,7 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, en
             isMonthly: false,
             employeeIds: ''
         };
-    }
+    };
 
     vm.getMember = function (groupId, isLocal) {
         SelfEvalutorModel.getMemberByEvaluator(groupId, isLocal).then(function () {

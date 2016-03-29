@@ -14,7 +14,7 @@ function (MonthlyPeriodModel, CommonModel, utilitiesFactory, enumerationsFactory
             fromDate: new Date(new Date().getFullYear(), 0, 1),
             toDate: new Date()
         };
-    }
+    };
 
     var getMonthlyPeriod = function (fromDate, toDate) {
         toDate = new Date(toDate.getFullYear(), toDate.getMonth() + 1, 0);

@@ -24,7 +24,7 @@ function historyFactory($window) {
             isBack = true;
             $window.history.back();
         }
-    }
+    };
 
     return service;
 }

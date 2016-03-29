@@ -25,7 +25,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
             isLocal: '',
             employeeIds: ''
         };
-    }
+    };
 
     vm.getMember = function (groupId, isLocal) {
         ReviewerManagementModel.getMemberByManagement(groupId, isLocal).then(function () {

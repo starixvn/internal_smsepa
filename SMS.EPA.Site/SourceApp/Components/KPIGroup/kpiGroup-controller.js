@@ -15,7 +15,7 @@ function (KPIGroupModel, KPIModel, CommonModel, utilitiesFactory, enumerationsFa
         var filter = historyFactory.getState();
 
         return filter ? filter : { isActive: 'true' };
-    }
+    };
 
     utilitiesFactory.numberEntryList(vm);
     vm.pageSize = 15;

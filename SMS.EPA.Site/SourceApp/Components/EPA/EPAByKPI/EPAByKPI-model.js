@@ -2,6 +2,13 @@
 
 function EPAByKPIModel(epaByKPIFactory, utilitiesFactory, notificationFactory, errorFactory) {
 
+    var epaByKPIModel = {
+        targetTemplates: [],
+        kpis: [],
+        evaluators: [],
+        memberEPAs: []
+    };
+
     function getTargetTemplateToView() {
         return epaByKPIFactory.getTargetTemplateToView()
         .success(function (targetTemplates) {
@@ -87,17 +94,13 @@ function EPAByKPIModel(epaByKPIFactory, utilitiesFactory, notificationFactory, e
         });
     }
 
-    return {
-        targetTemplates: [],
-        kpis: [],
-        evaluators: [],
-        memberEPAs: [],
-        getTargetTemplateToView: getTargetTemplateToView,
-        getKPIToView: getKPIToView,
-        getEmployeeEPAToView: getEmployeeEPAToView,
-        getEvaluatorsByTargetTemplate: getEvaluatorsByTargetTemplate,
-        scoreSpreadForKPIGroupHasKPIOptional: scoreSpreadForKPIGroupHasKPIOptional
-    };
+    epaByKPIModel.getTargetTemplateToView = getTargetTemplateToView;
+    epaByKPIModel.getKPIToView = getKPIToView;
+    epaByKPIModel.getEmployeeEPAToView = getEmployeeEPAToView;
+    epaByKPIModel.getEvaluatorsByTargetTemplate = getEvaluatorsByTargetTemplate;
+    epaByKPIModel.scoreSpreadForKPIGroupHasKPIOptional = scoreSpreadForKPIGroupHasKPIOptional;
+
+    return epaByKPIModel;
 }
 
 EPAByKPIModel.$inject = ['epaByKPIFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory'];

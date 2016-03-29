@@ -485,7 +485,6 @@
     <Content Include="SourceApp\Components\KPIGroup\kpiGroup-controller.js" />
     <Content Include="SourceApp\Components\KPIGroup\kpiGroup-factory.js" />
     <Content Include="SourceApp\Components\KPIGroup\kpiGroup-model.js" />
-    <Content Include="SourceApp\Components\KPIGroup\kpiGroupViewState-service.js" />
     <Content Include="SourceApp\Components\KPIGroup\Templates\edit.html" />
     <Content Include="SourceApp\Components\KPIGroup\Templates\create.html" />
     <Content Include="SourceApp\Components\KPIGroup\Templates\index.html" />
@@ -497,7 +496,6 @@
     <Content Include="SourceApp\Components\MonthlyPeriod\monthlyPeriod-factory.js" />
     <Content Include="SourceApp\Components\MonthlyPeriod\monthlyPeriod-model.js" />
     <Content Include="SourceApp\Components\MonthlyPeriod\monthlyPeriod-employeeSetting-controller.js" />
-    <Content Include="SourceApp\Components\MonthlyPeriod\monthlyPeriodViewState-service.js" />
     <Content Include="SourceApp\Components\MonthlyPeriod\Templates\basicInformation.html" />
     <Content Include="SourceApp\Components\MonthlyPeriod\Templates\create.html" />
     <Content Include="SourceApp\Components\MonthlyPeriod\Templates\edit.html" />
