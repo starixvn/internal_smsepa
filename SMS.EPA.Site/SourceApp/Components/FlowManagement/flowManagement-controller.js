@@ -171,7 +171,7 @@ function ($window, $routeParams, FlowMngModel, CommonModel, enumerationsFactory,
 }]);
 
 flowMngModule.controller("GeneralInformationController",
-['$window', '$scope', '$routeParams', 'FlowMngModel', 'CommonModel', 'historyFactory,'
+['$window', '$scope', '$routeParams', 'FlowMngModel', 'CommonModel', 'historyFactory',
 function ($window, $scope, $routeParams, FlowMngModel, CommonModel, historyFactory) {
     var vm = this;
 

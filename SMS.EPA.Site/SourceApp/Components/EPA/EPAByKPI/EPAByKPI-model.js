@@ -1,9 +1,12 @@
 ﻿'use strict';
-/*global epaModule*/
 
-epaModule.factory('EPAByKPIModel',
-['epaByKPIFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory',
-function (epaByKPIFactory, utilitiesFactory, notificationFactory, errorFactory) {
+anglar
+.module('epaModule')
+.factory('EPAByKPIModel', EPAByKPIModel);
+
+EPAByKPIModel.$inject = ['epaByKPIFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory'];
+
+function EPAByKPIModel(epaByKPIFactory, utilitiesFactory, notificationFactory, errorFactory) {
     var epaByKPIModel = {
         targetTemplates: [],
         kpis: [],
@@ -25,7 +28,7 @@ function (epaByKPIFactory, utilitiesFactory, notificationFactory, errorFactory) 
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
-    };
+    }
 
     function getKPIToView(targetTemplateId, evaluatorId) {
         return epaByKPIFactory.getKPIToView(targetTemplateId, evaluatorId)
@@ -34,7 +37,7 @@ function (epaByKPIFactory, utilitiesFactory, notificationFactory, errorFactory) 
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
-    };
+    }
 
     function getEmployeeEPAToView(targetTemplateId, kpiId, evaluatorId) {
         return epaByKPIFactory.getEmployeeEPAToView(targetTemplateId, kpiId, evaluatorId)
@@ -43,7 +46,7 @@ function (epaByKPIFactory, utilitiesFactory, notificationFactory, errorFactory) 
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
-    };
+    }
 
     function getEvaluatorsByTargetTemplate(targetTemplateId) {
         return epaByKPIFactory.getEvaluatorsByTargetTemplate(targetTemplateId)
@@ -52,7 +55,7 @@ function (epaByKPIFactory, utilitiesFactory, notificationFactory, errorFactory) 
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
-    };
+    }
 
 
     function scoreSpreadForKPIGroupHasKPIOptional(kpiGroup, maxStar) {
@@ -101,6 +104,5 @@ function (epaByKPIFactory, utilitiesFactory, notificationFactory, errorFactory) 
                 kpi.AdjustScore = utilitiesFactory.splitNumber(adjustScore, 4);
             }
         });
-    };
-
-}]);
+    }
+};

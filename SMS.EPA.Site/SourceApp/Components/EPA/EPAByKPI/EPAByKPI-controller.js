@@ -1,9 +1,13 @@
 ﻿'use strict';
-/*global epaModule*/
 
-epaModule.controller('EPAByKPIController',
-['$window', '$timeout', '$translate', 'EPAByKPIModel', 'EmployeeEPAModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'baseUrl', 'historyFactory,'
-function ($window, $timeout, $translate, EPAByKPIModel, EmployeeEPAModel, CommonModel, utilitiesFactory, enumerationsFactory, baseUrl, historyFactory) {
+angular.module('epaModule')
+.controller('EPAByKPIController', EPAByKPIController);
+
+EPAByKPIController.$inject = ['$window', '$timeout', '$translate', 'EPAByKPIModel', 'EmployeeEPAModel', 
+    'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'baseUrl', 'historyFactory'];
+
+function EPAByKPIController($window, $timeout, $translate, EPAByKPIModel, EmployeeEPAModel,
+    CommonModel, utilitiesFactory, enumerationsFactory, baseUrl, historyFactory) {
     var vm = this;
     vm.kpis = [];
     vm.memberEPAs = [];
@@ -37,7 +41,7 @@ function ($window, $timeout, $translate, EPAByKPIModel, EmployeeEPAModel, Common
         }
 
         return cssClass;
-    };
+    }
 
     function toggleCollapseExpand() {
         if (!vm.hasTreeEvent) {
@@ -56,13 +60,13 @@ function ($window, $timeout, $translate, EPAByKPIModel, EmployeeEPAModel, Common
 
             vm.hasTreeEvent = true;
         }
-    };
+    }
 
     function getEvaluatorsByTargetTemplate() {
         EPAByKPIModel.getEvaluatorsByTargetTemplate(vm.filter.targetTemplateId).then(function () {
             vm.evaluators = EPAByKPIModel.evaluators;
         });
-    };
+    }
 
     function getKPIByTargetTemplate() {
         vm.kpiSelected = null;
@@ -72,12 +76,12 @@ function ($window, $timeout, $translate, EPAByKPIModel, EmployeeEPAModel, Common
         EPAByKPIModel.getKPIToView(vm.filter.targetTemplateId, vm.filter.evaluatorId).then(function () {
             vm.kpis = EPAByKPIModel.kpis;
         });
-    };
+    }
 
     function KPIChange(kpiId) {
         vm.filter.kpiId = kpiId;
         query();
-    };
+    }
 
     function query() {
         EPAByKPIModel.getEmployeeEPAToView(vm.filter.targetTemplateId, vm.filter.kpiId, vm.filter.evaluatorId).then(function () {
@@ -109,26 +113,26 @@ function ($window, $timeout, $translate, EPAByKPIModel, EmployeeEPAModel, Common
                 EmployeeEPAModel.scoreSpread(memberEPA.KPIGroup);
             });
         });
-    };
+    }
 
     function viewDetail(memberEPA) {
         var url = baseUrl + 'EPA/Detail/' + memberEPA.EPAId;
         $window.open(url, '_blank');
-    };
+    }
 
     function back() {
         historyFactory.back();
-    };
+    }
 
     function generateRatingStar() {
         $timeout(function () {
             $(".rating-loading").rating();
         }, 1);
-    };
+    }
 
     function initialize() {
         EPAByKPIModel.getTargetTemplateToView().then(function () {
             vm.targetTemplates = EPAByKPIModel.targetTemplates;
         });
-    };
-}]);
+    }
+}
