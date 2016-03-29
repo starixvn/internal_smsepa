@@ -1,8 +1,0 @@
-{
-
-	"latedef": "nofunc",
-    "globals": {
-        "angular": false,
-        "$": false
-    }
-}

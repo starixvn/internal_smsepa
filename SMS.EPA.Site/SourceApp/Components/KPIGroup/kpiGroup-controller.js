@@ -11,7 +11,11 @@ function (KPIGroupModel, KPIModel, CommonModel, utilitiesFactory, enumerationsFa
 
     vm.policyEnum = enumerationsFactory.policy;
 
-    vm.filter = initFilter();
+    vm.filter = function initFilter() {
+        var filter = historyFactory.getState();
+
+        return filter ? filter : { isActive: 'true' };
+    }
 
     utilitiesFactory.numberEntryList(vm);
     vm.pageSize = 15;
@@ -24,12 +28,6 @@ function (KPIGroupModel, KPIModel, CommonModel, utilitiesFactory, enumerationsFa
         });
         historyFactory.saveState(vm.filter);
     };
-
-    function initFilter() {
-        var filter = historyFactory.getState();
-
-        return filter ? filter : { isActive: 'true' };
-    }
 
     vm.initialize = function () {
         KPIModel.getUserPermissionOnKPI().then(function () {

@@ -1,11 +1,5 @@
 ﻿'use strict';
 
-angular.module('epaModule')
-.controller('EPAByKPIController', EPAByKPIController);
-
-EPAByKPIController.$inject = ['$window', '$timeout', '$translate', 'EPAByKPIModel', 'EmployeeEPAModel', 
-    'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'baseUrl', 'historyFactory'];
-
 function EPAByKPIController($window, $timeout, $translate, EPAByKPIModel, EmployeeEPAModel,
     CommonModel, utilitiesFactory, enumerationsFactory, baseUrl, historyFactory) {
     var vm = this;
@@ -21,17 +15,6 @@ function EPAByKPIController($window, $timeout, $translate, EPAByKPIModel, Employ
     };
     vm.evaluators = [];
     vm.RatingType = enumerationsFactory.ratingType;
-    vm.toggleCollapseExpand = toggleCollapseExpand;
-    vm.getCSSSelected = getCSSSelected;
-    vm.getEvaluatorsByTargetTemplate = getEvaluatorsByTargetTemplate;
-    vm.getKPIByTargetTemplate = getKPIByTargetTemplate;
-    vm.KPIChange = KPIChange;
-    vm.viewDetail = viewDetail;
-    vm.back = back;
-    vm.generateRatingStar = generateRatingStar;
-    vm.initialize = initialize;
-
-    vm.initialize();
 
     function getCSSSelected(kpiId) {
         var cssClass = '';
@@ -135,4 +118,25 @@ function EPAByKPIController($window, $timeout, $translate, EPAByKPIModel, Employ
             vm.targetTemplates = EPAByKPIModel.targetTemplates;
         });
     }
+
+    vm.toggleCollapseExpand = toggleCollapseExpand;
+    vm.getCSSSelected = getCSSSelected;
+    vm.getEvaluatorsByTargetTemplate = getEvaluatorsByTargetTemplate;
+    vm.getKPIByTargetTemplate = getKPIByTargetTemplate;
+    vm.KPIChange = KPIChange;
+    vm.viewDetail = viewDetail;
+    vm.back = back;
+    vm.generateRatingStar = generateRatingStar;
+    vm.initialize = initialize;
+
+    vm.initialize();
+
 }
+
+EPAByKPIController.$inject = ['$window', '$timeout', '$translate', 'EPAByKPIModel', 'EmployeeEPAModel',
+    'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'baseUrl', 'historyFactory'];
+
+angular.module('epaModule')
+.controller('EPAByKPIController', EPAByKPIController);
+
+

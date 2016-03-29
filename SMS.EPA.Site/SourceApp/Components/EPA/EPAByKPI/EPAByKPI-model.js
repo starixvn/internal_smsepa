@@ -1,25 +1,6 @@
 ﻿'use strict';
 
-angular
-.module('epaModule')
-.factory('EPAByKPIModel', EPAByKPIModel);
-
-EPAByKPIModel.$inject = ['epaByKPIFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory'];
-
 function EPAByKPIModel(epaByKPIFactory, utilitiesFactory, notificationFactory, errorFactory) {
-    var epaByKPIModel = {
-        targetTemplates: [],
-        kpis: [],
-        evaluators: [],
-        memberEPAs: [],
-        getTargetTemplateToView: getTargetTemplateToView,
-        getKPIToView: getKPIToView,
-        getEmployeeEPAToView: getEmployeeEPAToView,
-        getEvaluatorsByTargetTemplate: getEvaluatorsByTargetTemplate,
-        scoreSpreadForKPIGroupHasKPIOptional: scoreSpreadForKPIGroupHasKPIOptional
-    };
-
-    return epaByKPIModel;
 
     function getTargetTemplateToView() {
         return epaByKPIFactory.getTargetTemplateToView()
@@ -105,4 +86,22 @@ function EPAByKPIModel(epaByKPIFactory, utilitiesFactory, notificationFactory, e
             }
         });
     }
+
+    return {
+        targetTemplates: [],
+        kpis: [],
+        evaluators: [],
+        memberEPAs: [],
+        getTargetTemplateToView: getTargetTemplateToView,
+        getKPIToView: getKPIToView,
+        getEmployeeEPAToView: getEmployeeEPAToView,
+        getEvaluatorsByTargetTemplate: getEvaluatorsByTargetTemplate,
+        scoreSpreadForKPIGroupHasKPIOptional: scoreSpreadForKPIGroupHasKPIOptional
+    };
 }
+
+EPAByKPIModel.$inject = ['epaByKPIFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory'];
+
+angular
+.module('epaModule')
+.factory('EPAByKPIModel', EPAByKPIModel);

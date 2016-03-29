@@ -1,19 +1,6 @@
 ﻿'use strict';
 
-angular
-    .module('epaModule')
-    .factory('epaByKPIFactory', epaByKPIFactory);
-
-epaByKPIFactory.$inject = ['$http', 'baseUrl'];
-
 function epaByKPIFactory($http, baseUrl) {
-    return {
-        getTargetTemplateToView: getTargetTemplateToView,
-        getKPIToView: getKPIToView,
-        getEvaluatorsByTargetTemplate: getEvaluatorsByTargetTemplate,
-        getEmployeeEPAToView: getEmployeeEPAToView
-    };
-
     function getEvaluatorsByTargetTemplate(targetTemplateId) {
         return $http.get(baseUrl + 'api/EmployeeEPA/getEvaluatorsByTargetTemplate', {
             params: {
@@ -44,4 +31,19 @@ function epaByKPIFactory($http, baseUrl) {
     function getTargetTemplateToView() {
         return $http.get(baseUrl + 'api/EmployeeEPA/GetTargetTemplateToView');
     }
+
+    return {
+        getTargetTemplateToView: getTargetTemplateToView,
+        getKPIToView: getKPIToView,
+        getEvaluatorsByTargetTemplate: getEvaluatorsByTargetTemplate,
+        getEmployeeEPAToView: getEmployeeEPAToView
+    };
+
+    
 }
+
+epaByKPIFactory.$inject = ['$http', 'baseUrl'];
+
+angular
+    .module('epaModule')
+    .factory('epaByKPIFactory', epaByKPIFactory);

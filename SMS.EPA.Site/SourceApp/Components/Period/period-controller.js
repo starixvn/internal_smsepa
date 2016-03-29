@@ -13,7 +13,14 @@ function (PeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, histo
     vm.policyEnum = enumerationsFactory.policy;
     vm.targetTypeEnum = enumerationsFactory.targetType;
 
-    vm.filter = initFilter();
+    vm.filter = function initFilter() {
+        var filter = historyFactory.getState();
+
+        return filter ? filter : {
+            targetTypeId: null,
+            isActive: 'true'
+        };
+    }
 
     vm.currentPage = 1;
     vm.pageSize = 20;
@@ -24,15 +31,6 @@ function (PeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, histo
     CommonModel.getTargetType(true, vm.targetTypeEnum.Monthly).then(function () {
         vm.targetTypes = CommonModel.targetTypes;
     });
-
-    function initFilter() {
-        var filter = historyFactory.getState();
-
-        return filter ? filter : {
-            targetTypeId: null,
-            isActive: 'true'
-        };
-    }
 
     var getPeriod = function (targetTypeId, isActive) {
         PeriodModel.getPeriod(targetTypeId, isActive).then(function () {

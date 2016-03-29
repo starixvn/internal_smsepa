@@ -7,7 +7,14 @@ function (MonthlyPeriodModel, CommonModel, utilitiesFactory, enumerationsFactory
     var vm = this;
     vm.policyEnum = enumerationsFactory.policy;
 
-    vm.filter = initFilter();
+    vm.filter = function initFilter() {
+        var filter = historyFactory.getState();
+
+        return filter ? filter : {
+            fromDate: new Date(new Date().getFullYear(), 0, 1),
+            toDate: new Date()
+        };
+    }
 
     var getMonthlyPeriod = function (fromDate, toDate) {
         toDate = new Date(toDate.getFullYear(), toDate.getMonth() + 1, 0);
@@ -19,15 +26,6 @@ function (MonthlyPeriodModel, CommonModel, utilitiesFactory, enumerationsFactory
 
         historyFactory.saveState(vm.filter);
     };
-
-    function initFilter() {
-        var filter = historyFactory.getState();
-
-        return filter ? filter : {
-            fromDate: new Date(new Date().getFullYear(), 0, 1),
-            toDate: new Date()
-        };
-    }
 
     vm.initialize = function () {
         vm.periods = MonthlyPeriodModel.periods;

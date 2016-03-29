@@ -19,9 +19,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     vm.policyEnum = enumerationsFactory.policy;
     vm.targetTypeEnum = enumerationsFactory.targetType;
 
-    vm.filter = initFilter();
-
-    function initFilter() {
+    vm.filter = function initFilter() {
         var filter = historyFactory.getState();
 
         return filter ? filter : {
