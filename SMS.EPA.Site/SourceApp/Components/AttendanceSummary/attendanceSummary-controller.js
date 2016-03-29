@@ -287,8 +287,8 @@ function ($scope, $modalInstance, AttendanceModel, CommonModel, utilitiesFactory
 }]);
 
 attendanceModule.controller('DetailAttendanceSummaryController',
-['$scope', '$window', '$routeParams', 'AttendanceModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'usSpinnerService',
-function ($scope, $window, $routeParams, AttendanceModel, CommonModel, utilitiesFactory, enumerationsFactory, usSpinnerService) {
+['$scope', '$window', '$routeParams', 'AttendanceModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'usSpinnerService','historyFactory',
+function ($scope, $window, $routeParams, AttendanceModel, CommonModel, utilitiesFactory, enumerationsFactory, usSpinnerService, historyFactory) {
     var vm = this,
         hasCalculated = false,
         hasSaved = false;
@@ -425,7 +425,7 @@ function ($scope, $window, $routeParams, AttendanceModel, CommonModel, utilities
     };
 
     vm.backToList = function () {
-        $window.history.back();
+        historyFactory.back();
     };
 
     vm.exportReport = function (filter) {

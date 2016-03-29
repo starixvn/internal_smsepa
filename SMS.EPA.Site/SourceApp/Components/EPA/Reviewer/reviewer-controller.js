@@ -3,9 +3,9 @@
 
 epaModule.controller('ReviewerController',
 ['$translate', '$location', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel', 'enumerationsFactory',
-    'utilitiesFactory', 'notificationFactory', 'reviewerViewStateService', 'baseUrl',
+    'utilitiesFactory', 'notificationFactory', 'historyFactory', 'baseUrl',
 function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, CommonModel, enumerationsFactory,
-    utilitiesFactory, notificationFactory, reviewerViewStateService, baseUrl) {
+    utilitiesFactory, notificationFactory, historyFactory, baseUrl) {
     var vm = this;
 
     vm.permission = 0;
@@ -19,7 +19,18 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     vm.policyEnum = enumerationsFactory.policy;
     vm.targetTypeEnum = enumerationsFactory.targetType;
 
-    vm.filter = reviewerViewStateService;
+    vm.filter = initFilter();
+
+    function initFilter() {
+        var filter = historyFactory.getState();
+
+        return filter ? filter : {
+            groupId: '',
+            isLocal: '',
+            isMonthly: false,
+            employeeIds: ''
+        };
+    }
 
     vm.getMember = function (groupId, isLocal) {
         ReviewerManagementModel.getMemberByReviewer(groupId, isLocal).then(function () {
@@ -107,7 +118,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
         } else {
             ReviewerManagementModel.calculateAdjustScore(selectedEmployees, true);
             ReviewerManagementModel.adjustScoreByReviewer(vm, selectedEmployees)['finally'](function () {
-                getEPAByReviewer(vm.filter.model.groupId, vm.filter.model.isLocal, vm.filter.model.isMonthly, vm.filter.model.employeeIds, selectedEmployees);
+                getEPAByReviewer(vm.filter.groupId, vm.filter.isLocal, vm.filter.isMonthly, vm.filter.employeeIds, selectedEmployees);
             });
         }
     };
@@ -176,6 +187,9 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 
             $(".rating-loading").rating();
         });
+
+        historyFactory.saveState(vm.filter);
+
     }
 
     vm.query = function (filter) {
@@ -200,12 +214,12 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
             vm.groupOptions = ReviewerManagementModel.groups;
         });
 
-        vm.getMember(vm.filter.model.groupId, vm.filter.model.isLocal);
+        vm.getMember(vm.filter.groupId, vm.filter.isLocal);
 
         CommonModel.getStandardGrade().then(function () {
             vm.standardGrades = CommonModel.standardGrades;
 
-            getEPAByReviewer(vm.filter.model.groupId, vm.filter.model.isLocal, vm.filter.model.isMonthly, vm.filter.model.employeeIds);
+            getEPAByReviewer(vm.filter.groupId, vm.filter.isLocal, vm.filter.isMonthly, vm.filter.employeeIds);
         });
     }
 
@@ -214,9 +228,9 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 
 epaModule.controller('MemberEPAInfoOfReviewerController',
 ['$window', '$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel',
-    'utilitiesFactory', 'enumerationsFactory', 'baseUrl',
+    'utilitiesFactory', 'enumerationsFactory', 'baseUrl', 'dataViewStateService',
 function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManagementModel, CommonModel,
-    utilitiesFactory, enumerationsFactory, baseUrl) {
+    utilitiesFactory, enumerationsFactory, baseUrl, dataViewStateService) {
     var vm = this;
 
     vm.permission = 0;
@@ -281,7 +295,7 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, Reviewe
     };
 
     vm.cancel = function () {
-        $window.history.back();
+        dataViewStateService.pressBack();
     };
 
     vm.generateRatingStar = function () {

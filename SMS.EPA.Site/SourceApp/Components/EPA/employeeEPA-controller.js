@@ -2,8 +2,8 @@
 /*global epaModule*/
 
 epaModule.controller('ViewEPADetailController',
-['$window', '$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'baseUrl',
-function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonModel, utilitiesFactory, enumerationsFactory, baseUrl) {
+['$window', '$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl',
+function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonModel, utilitiesFactory, enumerationsFactory, historyFactory, baseUrl) {
     var vm = this;
 
     vm.epaId = parseInt($routeParams.id);
@@ -43,7 +43,7 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonM
     };
 
     vm.back = function () {
-        $window.history.back();
+        historyFactory.back();
     };
 
     function calculateFinalScore(epaInfo) {
@@ -102,8 +102,8 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonM
 }]);
 
 epaModule.controller('ViewSemiEPADetailController',
-['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'baseUrl',
-function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, utilitiesFactory, enumerationsFactory, baseUrl) {
+['$window', '$translate', '$routeParams', 'EmployeeEPAModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'baseUrl','historyFactory',
+function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, utilitiesFactory, enumerationsFactory, baseUrl, historyFactory) {
     var vm = this;
 
     vm.epaId = parseInt($routeParams.id);
@@ -138,7 +138,7 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
     };
 
     vm.back = function () {
-        $window.history.back();
+        historyFactory.back();
     };
 
     function calculateFinalScore(epaInfo) {

@@ -82,8 +82,8 @@ function (FlowMngModel, CommonModel, utilitiesFactory, enumerationsFactory, base
 }]);
 
 flowMngModule.controller("CreateFlowTemplateController",
-['$location', '$window', 'FlowMngModel', 'CommonModel', 'enumerationsFactory', 'baseUrl',
-function ($location, $window, FlowMngModel, CommonModel, enumerationsFactory, baseUrl) {
+['$location', '$window', 'FlowMngModel', 'CommonModel', 'enumerationsFactory', 'baseUrl', 'historyFactory',
+function ($location, $window, FlowMngModel, CommonModel, enumerationsFactory, baseUrl, historyFactory) {
     var vm = this;
 
     vm.targetTypes = CommonModel.targetTypes;
@@ -121,7 +121,7 @@ function ($location, $window, FlowMngModel, CommonModel, enumerationsFactory, ba
     };
 
     vm.cancel = function () {
-        $window.history.back();
+        historyFactory.back();
     };
 }]);
 
@@ -171,8 +171,8 @@ function ($window, $routeParams, FlowMngModel, CommonModel, enumerationsFactory,
 }]);
 
 flowMngModule.controller("GeneralInformationController",
-['$window', '$scope', '$routeParams', 'FlowMngModel', 'CommonModel',
-function ($window, $scope, $routeParams, FlowMngModel, CommonModel) {
+['$window', '$scope', '$routeParams', 'FlowMngModel', 'CommonModel', 'historyFactory,'
+function ($window, $scope, $routeParams, FlowMngModel, CommonModel, historyFactory) {
     var vm = this;
 
     vm.flowTemplateId = parseInt($routeParams.id);
@@ -201,6 +201,6 @@ function ($window, $scope, $routeParams, FlowMngModel, CommonModel) {
     };
 
     vm.cancel = function () {
-        $window.history.back();
+        historyFactory.back();
     };
 }]);

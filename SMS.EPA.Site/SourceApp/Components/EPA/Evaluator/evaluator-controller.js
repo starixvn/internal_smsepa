@@ -2,8 +2,8 @@
 /*global epaModule*/
 
 epaModule.controller('EvaluatorController',
-['EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'evaluatorViewStateService', 'baseUrl',
-function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, enumerationsFactory, evaluatorViewStateService, baseUrl) {
+['EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl',
+function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, enumerationsFactory, historyFactory, baseUrl) {
     var vm = this;
 
     vm.memberEPAs = [];
@@ -11,13 +11,24 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, en
     vm.standardGrades = CommonModel.standardGrades;
     vm.targetTypeEnum = enumerationsFactory.targetType;
 
-    vm.filter = evaluatorViewStateService;
+    vm.filter = initFilter();
 
     vm.getMember = function (groupId, isLocal) {
         SelfEvalutorModel.getMemberByEvaluator(groupId, isLocal).then(function () {
             vm.members = SelfEvalutorModel.members;
         });
     };
+
+    function initFilter(){
+        var filter = historyFactory.getState();
+
+        return filter ? filter : {
+            groupId: '',
+            isLocal: '',
+            isMonthly: false,
+            employeeIds: ''
+        };
+    }
 
     function getEPAByEvaluator(groupId, isLocal, isMonthly, employeeIds) {
         SelfEvalutorModel.getEPAByEvaluator(groupId, isLocal, isMonthly, employeeIds).then(function () {
@@ -37,7 +48,10 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, en
                 memberEPA.Grade = EmployeeEPAModel.convertScoreToGrade(memberEPA.FinalScore, vm.standardGrades);
             });
         });
-    }
+
+        historyFactory.saveState(vm.filter);
+
+    };
 
     vm.query = function (filter) {
         filter.employeeIds = utilitiesFactory.getSelectedData(vm.members, 'EmployeeId');
@@ -69,12 +83,11 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, en
             vm.groupOptions = SelfEvalutorModel.groups;
         });
 
-        vm.getMember(vm.filter.model.groupId, vm.filter.model.isLocal);
+        vm.getMember(vm.filter.groupId, vm.filter.isLocal);
 
         CommonModel.getStandardGrade().then(function () {
             vm.standardGrades = CommonModel.standardGrades;
-
-            getEPAByEvaluator(vm.filter.model.groupId, vm.filter.model.isLocal, vm.filter.model.isMonthly, vm.filter.model.employeeIds);
+            getEPAByEvaluator(vm.filter.groupId, vm.filter.isLocal, vm.filter.isMonthly, vm.filter.employeeIds);
         });
     }
 
@@ -83,9 +96,9 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, en
 
 epaModule.controller('MemberEPAInfoOfEvaluatorController',
 ['$window', '$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel',
-    'utilitiesFactory', 'enumerationsFactory', 'baseUrl',
+    'utilitiesFactory', 'enumerationsFactory', 'baseUrl','historyFactory',
 function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel,
-    utilitiesFactory, enumerationsFactory, baseUrl) {
+    utilitiesFactory, enumerationsFactory, baseUrl, historyFactory) {
     var vm = this;
 
     vm.permission = 0;
@@ -146,7 +159,7 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
     };
 
     vm.cancel = function () {
-        $window.history.back();
+        historyFactory.back();
     };
 
     vm.save = function (epaInfo) {

@@ -31,3 +31,4 @@ $tf*/
 *.Publish.xml
 
 packages/
+*.html.orig

@@ -2,16 +2,20 @@
 /*global epaHistoryModule*/
 
 epaHistoryModule.controller('EPAHistoryController',
-['$window', '$routeParams', 'EPAHistoryModel', 'utilitiesFactory', 'CommonModel', 'baseUrl', 'epaHistoryViewStateService', 'usSpinnerService',
-function ($window, $routeParams, EPAHistoryModel, utilitiesFactory, CommonModel, baseUrl, epaHistoryViewStateService, usSpinnerService) {
+['$window', '$routeParams', 'EPAHistoryModel', 'utilitiesFactory', 'CommonModel', 'baseUrl', 'historyFactory', 'usSpinnerService',
+function ($window, $routeParams, EPAHistoryModel, utilitiesFactory, CommonModel, baseUrl, historyFactory, usSpinnerService) {
     var vm = this;
     vm.epas = EPAHistoryModel.epas;
     vm.periodOptions = CommonModel.periodOptions;
     vm.onlyEmployeeRole = EPAHistoryModel.onlyEmployeeRole;
 
-    vm.filter = epaHistoryViewStateService;
+    vm.filter = {
+        periodId: $routeParams.periodId ? $routeParams.periodId : null,
+        employee: null,
+        employeeId: $routeParams.empId ? $routeParams.empId : null
+    };
 
-    if (vm.filter.model.employeeId) {
+    if (vm.filter.employeeId) {
         vm.fromEPAListing = true;
     }
 
@@ -25,11 +29,11 @@ function ($window, $routeParams, EPAHistoryModel, utilitiesFactory, CommonModel,
         vm.periodOptions = CommonModel.periodOptions;
     });
 
-    if (vm.filter.model.employeeId) {
-        CommonModel.getEmployeeById(vm.filter.model.employeeId).then(function () {
-            vm.filter.model.employee = CommonModel.employee;
-            vm.filter.model.employee.Name = vm.filter.model.employee.NickName;
-            vm.searchEmployee = vm.filter.model.employee.NickName + ' (' + vm.filter.model.employee.FullName + ')';
+    if (vm.filter.employeeId) {
+        CommonModel.getEmployeeById(vm.filter.employeeId).then(function () {
+            vm.filter.employee = CommonModel.employee;
+            vm.filter.employee.Name = vm.filter.employee.NickName;
+            vm.searchEmployee = vm.filter.employee.NickName + ' (' + vm.filter.employee.FullName + ')';
         });
     }
 
@@ -43,8 +47,8 @@ function ($window, $routeParams, EPAHistoryModel, utilitiesFactory, CommonModel,
 
     vm.unSelectEmployee = function () {
         if (vm.searchEmployee.trim() === '') {
-            if (vm.filter.model.employee) {
-                vm.filter.model.employee = null;
+            if (vm.filter.employee) {
+                vm.filter.employee = null;
             }
         }
     };
@@ -59,7 +63,7 @@ function ($window, $routeParams, EPAHistoryModel, utilitiesFactory, CommonModel,
         });
     };
 
-    getEPAHistory(vm.filter.model.periodId, vm.filter.model.employeeId);
+    getEPAHistory(vm.filter.periodId, vm.filter.employeeId);
 
     vm.query = function (filter) {
         var employeeId = null;
@@ -76,7 +80,7 @@ function ($window, $routeParams, EPAHistoryModel, utilitiesFactory, CommonModel,
     };
 
     vm.backToList = function () {
-        $window.history.back();
+        historyFactory.back();
     };
 
     vm.viewDetailEPA = function (epaId) {

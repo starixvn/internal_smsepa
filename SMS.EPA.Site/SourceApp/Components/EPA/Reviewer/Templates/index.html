@@ -9,16 +9,16 @@
             <div class="form-group">
                 <label class="col-sm-1 control-label" data-translate="Section"></label>
                 <div class="col-sm-2">
-                    <select class="form-control" ng-model="reviewerCtrl.filter.model.groupId"
+                    <select class="form-control" ng-model="reviewerCtrl.filter.groupId"
                             ng-options="opt.GroupId as opt.GroupName for opt in reviewerCtrl.groupOptions"
-                            ng-change="reviewerCtrl.getMember(reviewerCtrl.filter.model.groupId, reviewerCtrl.filter.model.isLocal)">
+                            ng-change="reviewerCtrl.getMember(reviewerCtrl.filter.groupId, reviewerCtrl.filter.isLocal)">
                         <option value="">-- {{"All" | translate}} --</option>
                     </select>
                 </div>
                 <label class="col-sm-1 control-label" data-translate="Category"></label>
                 <div class="col-sm-2">
-                    <select class="form-control" ng-model="reviewerCtrl.filter.model.isLocal"
-                            ng-change="reviewerCtrl.getMember(reviewerCtrl.filter.model.groupId, reviewerCtrl.filter.model.isLocal)">
+                    <select class="form-control" ng-model="reviewerCtrl.filter.isLocal"
+                            ng-change="reviewerCtrl.getMember(reviewerCtrl.filter.groupId, reviewerCtrl.filter.isLocal)">
                         <option value="">-- {{"All" | translate}} --</option>
                         <option value="false">{{"Expat" | translate}}</option>
                         <option value="true">{{"Local" | translate}}</option>
@@ -32,11 +32,11 @@
                 </div>
                 <div class="col-sm-1">
                     <label>
-                        <input type="checkbox" ng-model="reviewerCtrl.filter.model.isMonthly">{{"IsMonthly" | translate}}
+                        <input type="checkbox" ng-model="reviewerCtrl.filter.isMonthly">{{"IsMonthly" | translate}}
                     </label>
                 </div>
                 <div class="col-sm-1">
-                    <button class="button" ng-click="reviewerCtrl.query(reviewerCtrl.filter.model)" data-translate="Submit"></button>
+                    <button class="button" ng-click="reviewerCtrl.query(reviewerCtrl.filter)" data-translate="Submit"></button>
                 </div>
             </div>
         </form>

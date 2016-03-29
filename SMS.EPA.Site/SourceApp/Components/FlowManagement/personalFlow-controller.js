@@ -2,8 +2,8 @@
 /*global flowMngModule*/
 
 flowMngModule.controller("PersonalFlowController",
-['$scope', '$window', '$routeParams', 'FlowMngModel', 'CommonModel', 'cacheService', 'enumerationsFactory',
-function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService, enumerationsFactory) {
+['$scope', '$window', '$routeParams', 'FlowMngModel', 'CommonModel', 'cacheService', 'enumerationsFactory', 'historyFactory',
+function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService, enumerationsFactory, historyFactory) {
     var vm = this;
 
     vm.FlowTemplateId = parseInt($routeParams.id);
@@ -176,6 +176,6 @@ function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService
     };
 
     vm.cancel = function () {
-        $window.history.back();
+        historyFactory.back();
     };
-} ]);
+}]);

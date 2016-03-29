@@ -87,8 +87,8 @@ function (TargetTemplateModel, CommonModel, utilitiesFactory, enumerationsFactor
 }]);
 
 targetTemplateModule.controller('CreateTargetTemplateController',
-['$window', '$location', 'TargetTemplateModel', 'CommonModel', 'enumerationsFactory', 'baseUrl',
-function ($window, $location, TargetTemplateModel, CommonModel, enumerationsFactory, baseUrl) {
+['$window', '$location', 'TargetTemplateModel', 'CommonModel', 'enumerationsFactory', 'baseUrl', 'historyFactory',
+function ($window, $location, TargetTemplateModel, CommonModel, enumerationsFactory, baseUrl, historyFactory) {
     var vm = this;
     vm.scoreRatingTypeOptions = TargetTemplateModel.scoreRatingTypes;
     vm.permission = TargetTemplateModel.permission;
@@ -123,13 +123,13 @@ function ($window, $location, TargetTemplateModel, CommonModel, enumerationsFact
     vm.save = function (targetTemplate) {
         if (TargetTemplateModel.validateTargetTemplate(targetTemplate)) {
             TargetTemplateModel.createTargetTemplate(targetTemplate).then(function () {
-                $window.history.back();
+                historyFactory.back();
             });
         }
     };
 
     vm.cancel = function () {
-        $window.history.back();
+        historyFactory.back();
     };
 }]);
 
@@ -168,8 +168,8 @@ function ($routeParams, TargetTemplateModel) {
 }]);
 
 targetTemplateModule.controller('TargetTemplateGeneralInformationController',
-['$scope', '$window', 'TargetTemplateModel', 'CommonModel',
-function ($scope, $window, TargetTemplateModel, CommonModel) {
+['$scope', '$window', 'TargetTemplateModel', 'CommonModel', 'historyFactory',
+function ($scope, $window, TargetTemplateModel, CommonModel, historyFactory) {
     var vm = this;
 
     vm.scoreRatingTypeOptions = TargetTemplateModel.scoreRatingTypes;
@@ -199,13 +199,13 @@ function ($scope, $window, TargetTemplateModel, CommonModel) {
     };
 
     vm.cancel = function () {
-        $window.history.back();
+        historyFactory.back();
     };
 }]);
 
 targetTemplateModule.controller('KPIListController',
-['$scope', '$window', '$translate', 'TargetTemplateModel', 'utilitiesFactory',
-function ($scope, $window, $translate, TargetTemplateModel, utilitiesFactory) {
+['$scope', '$window', '$translate', 'TargetTemplateModel', 'utilitiesFactory', 'historyFactory',
+function ($scope, $window, $translate, TargetTemplateModel, utilitiesFactory, historyFactory) {
     var vm = this;
 
     vm.targetTemplateId = $scope.updateCtrl.targetTemplateId;
@@ -371,7 +371,7 @@ function ($scope, $window, $translate, TargetTemplateModel, utilitiesFactory) {
             kpi.IsRequiredComment = false;
         }
     };
-    
+
     var getTotalWeight = function (kpiList) {
         var totalWeight = 0;
 
@@ -407,7 +407,7 @@ function ($scope, $window, $translate, TargetTemplateModel, utilitiesFactory) {
     };
 
     vm.cancel = function () {
-        $window.history.back();
+        historyFactory.back();
     };
 }]);
 
@@ -491,8 +491,8 @@ function ($modalInstance, $translate, TargetTemplateModel, targetTemplateId, max
 }]);
 
 targetTemplateModule.controller('DetailTargetTemplateController',
-['$window', '$routeParams', 'TargetTemplateModel', 'utilitiesFactory',
-function ($window, $routeParams, TargetTemplateModel, utilitiesFactory) {
+['$window', '$routeParams', 'TargetTemplateModel', 'utilitiesFactory', 'historyFactory',
+function ($window, $routeParams, TargetTemplateModel, utilitiesFactory, historyFactory) {
     var vm = this;
 
     vm.targetTemplateId = parseInt($routeParams.id);
@@ -510,7 +510,7 @@ function ($window, $routeParams, TargetTemplateModel, utilitiesFactory) {
     });
 
     vm.back = function () {
-        $window.history.back();
+        historyFactory.back();
     };
 }]);
 

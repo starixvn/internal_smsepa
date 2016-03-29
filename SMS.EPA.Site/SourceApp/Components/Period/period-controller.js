@@ -2,8 +2,8 @@
 /*global periodModule*/
 
 periodModule.controller('PeriodController',
-['PeriodModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'periodViewStateService', 'baseUrl',
-function (PeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, periodViewStateService, baseUrl) {
+['PeriodModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl',
+function (PeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, historyFactory, baseUrl) {
     var vm = this;
 
     vm.periods = PeriodModel.periods;
@@ -13,7 +13,7 @@ function (PeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, perio
     vm.policyEnum = enumerationsFactory.policy;
     vm.targetTypeEnum = enumerationsFactory.targetType;
 
-    vm.filter = periodViewStateService;
+    vm.filter = initFilter();
 
     vm.currentPage = 1;
     vm.pageSize = 20;
@@ -25,14 +25,24 @@ function (PeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, perio
         vm.targetTypes = CommonModel.targetTypes;
     });
 
+    function initFilter() {
+        var filter = historyFactory.getState();
+
+        return filter ? filter : {
+            targetTypeId: null,
+            isActive: 'true'
+        };
+    }
+
     var getPeriod = function (targetTypeId, isActive) {
         PeriodModel.getPeriod(targetTypeId, isActive).then(function () {
             vm.periods = PeriodModel.periods;
             utilitiesFactory.searchOnPage(vm, vm.periods);
         });
+        historyFactory.saveState(vm.filter);
     };
 
-    getPeriod(vm.filter.model.targetTypeId, vm.filter.model.isActive);
+    getPeriod(vm.filter.targetTypeId, vm.filter.isActive);
 
     vm.query = function (filter) {
         vm.searchKey = '';
@@ -47,7 +57,7 @@ function (PeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, perio
     vm.create = function () {
         PeriodModel.openPopupCreatePeriod(vm).then(function () {
             vm.modalInstance = null;
-            getPeriod(vm.filter.model.targetTypeId, vm.filter.model.isActive);
+            getPeriod(vm.filter.targetTypeId, vm.filter.isActive);
         });
     };
 
@@ -132,8 +142,8 @@ function ($modalInstance, PeriodModel, CommonModel, enumerationsFactory) {
 }]);
 
 periodModule.controller('UpdatePeriodController',
-['$window', '$routeParams', 'PeriodModel', 'enumerationsFactory',
-function ($window, $routeParams, PeriodModel, enumerationsFactory) {
+['$window', '$routeParams', 'PeriodModel', 'enumerationsFactory', 'historyFactory',
+function ($window, $routeParams, PeriodModel, enumerationsFactory, historyFactory) {
     var vm = this;
 
     vm.policyEnum = enumerationsFactory.policy;
@@ -175,7 +185,7 @@ function ($window, $routeParams, PeriodModel, enumerationsFactory) {
     });
 
     vm.backToList = function () {
-        $window.history.back();
+        historyFactory.back();
     };
 
     PeriodModel.getPermissionOnPeriod().then(function () {
@@ -184,8 +194,8 @@ function ($window, $routeParams, PeriodModel, enumerationsFactory) {
 }]);
 
 periodModule.controller('UpdateBasicInformationPeriodController',
-['$scope', '$window', 'PeriodModel', 'CommonModel', 'enumerationsFactory',
-function ($scope, $window, PeriodModel, CommonModel, enumerationsFactory) {
+['$scope', '$window', 'PeriodModel', 'CommonModel', 'enumerationsFactory', 'historyFactory',
+function ($scope, $window, PeriodModel, CommonModel, enumerationsFactory, historyFactory) {
     var vm = this;
 
     vm.targetTypes = CommonModel.targetTypes;
@@ -254,13 +264,13 @@ function ($scope, $window, PeriodModel, CommonModel, enumerationsFactory) {
     };
 
     vm.cancel = function () {
-        $window.history.back();
+        historyFactory.back();
     };
 }]);
 
 periodModule.controller('ProcessSettingPeriodController',
-['$scope', '$window', 'PeriodModel', 'CommonModel',
-function ($scope, $window, PeriodModel, CommonModel) {
+['$scope', '$window', 'PeriodModel', 'CommonModel', 'historyFactory',
+function ($scope, $window, PeriodModel, CommonModel, historyFactory) {
     var vm = this;
 
     vm.period = {};
@@ -303,6 +313,6 @@ function ($scope, $window, PeriodModel, CommonModel) {
     };
 
     vm.cancel = function () {
-        $window.history.back();
+        historyFactory.back();
     };
 }]);

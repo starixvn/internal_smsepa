@@ -32,9 +32,9 @@ function (SelfEvalutorModel, enumerationsFactory, baseUrl) {
 
 epaModule.controller('EmployeeEPAInfoController',
 ['$window', '$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel',
-    'utilitiesFactory', 'enumerationsFactory', 'baseUrl',
+    'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl',
 function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel,
-    utilitiesFactory, enumerationsFactory, baseUrl) {
+    utilitiesFactory, enumerationsFactory, historyFactory, baseUrl) {
     var vm = this;
 
     vm.epaId = parseInt($routeParams.id);
@@ -94,7 +94,7 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
     };
 
     vm.cancel = function () {
-        $window.history.back();
+        historyFactory.back();
     };
 
     vm.generateRatingStar = function () {

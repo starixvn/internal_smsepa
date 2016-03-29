@@ -2,8 +2,8 @@
 /*global epaModule*/
 
 epaModule.controller('EPAByKPIController',
-['$window', '$timeout', '$translate', 'EPAByKPIModel', 'EmployeeEPAModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'baseUrl',
-function ($window, $timeout, $translate, EPAByKPIModel, EmployeeEPAModel, CommonModel, utilitiesFactory, enumerationsFactory, baseUrl) {
+['$window', '$timeout', '$translate', 'EPAByKPIModel', 'EmployeeEPAModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'baseUrl', 'historyFactory,'
+function ($window, $timeout, $translate, EPAByKPIModel, EmployeeEPAModel, CommonModel, utilitiesFactory, enumerationsFactory, baseUrl, historyFactory) {
     var vm = this;
     vm.kpis = [];
     vm.memberEPAs = [];
@@ -117,7 +117,7 @@ function ($window, $timeout, $translate, EPAByKPIModel, EmployeeEPAModel, Common
     };
 
     function back() {
-        $window.history.back();
+        historyFactory.back();
     };
 
     function generateRatingStar() {

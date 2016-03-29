@@ -2,14 +2,14 @@
 /*global monthlyPeriodModule*/
 
 monthlyPeriodModule.controller('MonthlyPeriodController',
-['MonthlyPeriodModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'monthlyPeriodViewStateService', 'baseUrl',
-function (MonthlyPeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, monthlyPeriodViewStateService, baseUrl) {
+['MonthlyPeriodModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl',
+function (MonthlyPeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, historyFactory, baseUrl) {
     var vm = this,
         date = new Date();
 
     vm.policyEnum = enumerationsFactory.policy;
 
-    vm.filter = monthlyPeriodViewStateService;
+    vm.filter = initFilter();
 
     var getMonthlyPeriod = function (fromDate, toDate) {
         toDate = new Date(toDate.getFullYear(), toDate.getMonth() + 1, 0);
@@ -18,7 +18,18 @@ function (MonthlyPeriodModel, CommonModel, utilitiesFactory, enumerationsFactory
             vm.periods = MonthlyPeriodModel.periods;
             utilitiesFactory.searchOnPage(vm, vm.periods);
         });
+
+        historyFactory.saveState(vm.filter);
     };
+
+    function initFilter() {
+        var filter = historyFactory.getState();
+
+        return filter ? filter : {
+            fromDate: new Date(new Date().getFullYear(), 0, 1),
+            toDate: new Date()
+        };
+    }
 
     vm.initialize = function () {
         vm.periods = MonthlyPeriodModel.periods;
@@ -41,7 +52,7 @@ function (MonthlyPeriodModel, CommonModel, utilitiesFactory, enumerationsFactory
             vm.permission = MonthlyPeriodModel.permission;
         });
 
-        getMonthlyPeriod(vm.filter.model.fromDate, vm.filter.model.toDate);
+        getMonthlyPeriod(vm.filter.fromDate, vm.filter.toDate);
     };
 
     vm.initialize();
@@ -71,7 +82,7 @@ function (MonthlyPeriodModel, CommonModel, utilitiesFactory, enumerationsFactory
     vm.create = function () {
         MonthlyPeriodModel.openPopupCreateMonthlyPeriod(vm).then(function () {
             vm.modalInstance = null;
-            getMonthlyPeriod(vm.filter.model.fromDate, vm.filter.model.toDate);
+            getMonthlyPeriod(vm.filter.fromDate, vm.filter.toDate);
         });
     };
 
@@ -133,8 +144,8 @@ function ($modalInstance, MonthlyPeriodModel) {
 }]);
 
 monthlyPeriodModule.controller('UpdateMonthlyPeriodController',
-['$window', '$routeParams', 'MonthlyPeriodModel', 'enumerationsFactory',
-function ($window, $routeParams, MonthlyPeriodModel, enumerationsFactory) {
+['$window', '$routeParams', 'MonthlyPeriodModel', 'enumerationsFactory', 'historyFactory',
+function ($window, $routeParams, MonthlyPeriodModel, enumerationsFactory, historyFactory) {
     var vm = this;
 
     vm.policyEnum = enumerationsFactory.policy;
@@ -175,7 +186,7 @@ function ($window, $routeParams, MonthlyPeriodModel, enumerationsFactory) {
     });
 
     vm.backToList = function () {
-        $window.history.back();
+        historyFactory.back();
     };
 
     MonthlyPeriodModel.getPermissionOnMonthlyPeriod().then(function () {
@@ -184,8 +195,8 @@ function ($window, $routeParams, MonthlyPeriodModel, enumerationsFactory) {
 }]);
 
 monthlyPeriodModule.controller('UpdateBasicInfoMonthlyPeriodController',
-['$scope', '$window', 'MonthlyPeriodModel',
-function ($scope, $window, MonthlyPeriodModel) {
+['$scope', '$window', 'MonthlyPeriodModel', 'historyFactory',
+function ($scope, $window, MonthlyPeriodModel, historyFactory) {
     var vm = this;
 
     vm.period = {};
@@ -205,7 +216,7 @@ function ($scope, $window, MonthlyPeriodModel) {
 
     $scope.$watch(function () { return $scope.updateCtrl.period; },
         function (newVal) {
-            if (newVal ) {
+            if (newVal) {
                 vm.period = $scope.updateCtrl.period;
             }
         });
@@ -217,13 +228,13 @@ function ($scope, $window, MonthlyPeriodModel) {
     };
 
     vm.cancel = function () {
-        $window.history.back();
+        historyFactory.back();
     };
 }]);
 
 monthlyPeriodModule.controller('UpdateProcessSettingMonthlyPeriodController',
-['$scope', '$window', 'MonthlyPeriodModel', 'CommonModel',
-function ($scope, $window, MonthlyPeriodModel, CommonModel) {
+['$scope', '$window', 'MonthlyPeriodModel', 'CommonModel','historyFactory',
+function ($scope, $window, MonthlyPeriodModel, CommonModel, historyFactory) {
     var vm = this;
 
     vm.period = {};
@@ -256,6 +267,6 @@ function ($scope, $window, MonthlyPeriodModel, CommonModel) {
     };
 
     vm.cancel = function () {
-        $window.history.back();
+        historyFactory.back();
     };
 }]);

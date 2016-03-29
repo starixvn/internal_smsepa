@@ -2,8 +2,10 @@
 /*global epaModule*/
 
 epaModule.controller('RatingByKPIController',
-['$window', '$timeout', '$translate', 'RatingByKPIModel', 'EmployeeEPAModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'baseUrl',
-function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, CommonModel, utilitiesFactory, enumerationsFactory, baseUrl) {
+['$window', '$timeout', '$translate', 'RatingByKPIModel', 'EmployeeEPAModel', 'CommonModel',
+    'utilitiesFactory', 'enumerationsFactory', 'baseUrl','historyFactory',
+function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, CommonModel,
+    utilitiesFactory, enumerationsFactory, baseUrl, historyFactory) {
     var vm = this;
 
     vm.kpis = [];
@@ -328,7 +330,7 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
     };
 
     vm.back = function () {
-        $window.history.back();
+        historyFactory.back();
     };
 
     RatingByKPIModel.getUserPermissionOnRatingByKPI().then(function () {

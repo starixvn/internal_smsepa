@@ -409,7 +409,6 @@
     <Content Include="SourceApp\Components\EPAHistory\epaHistory-controller.js" />
     <Content Include="SourceApp\Components\EPAHistory\epaHistory-factory.js" />
     <Content Include="SourceApp\Components\EPAHistory\epaHistory-model.js" />
-    <Content Include="SourceApp\Components\EPAHistory\reviewerViewState-service.js" />
     <Content Include="SourceApp\Components\EPAHistory\Templates\index.html" />
     <Content Include="SourceApp\Components\EPA\Convert\convertEPA-controller.js" />
     <Content Include="SourceApp\Components\EPA\Convert\Templates\detail.html" />
@@ -417,8 +416,7 @@
     <Content Include="SourceApp\Components\EPA\employeeEPA-directive.js" />
     <Content Include="SourceApp\Components\EPA\employeeEPA-factory.js" />
     <Content Include="SourceApp\Components\EPA\employeeEPA-model.js" />
-    <Content Include="SourceApp\Components\EPA\Evaluator\evaluatorViewState-service.js" />
-    <Content Include="SourceApp\Components\EPA\Management\managementViewState-service.js" />
+    <Content Include="SourceApp\Shared\history-factory.js" />
     <Content Include="SourceApp\Components\EPA\Management\Templates\semiDetail.html" />
     <Content Include="SourceApp\Components\EPA\Management\Templates\semiPerformanceResult.html" />
     <Content Include="SourceApp\Components\EPA\EPAByKPI\EPAByKPI-controller.js" />
@@ -427,7 +425,6 @@
     <Content Include="SourceApp\Components\EPA\EPAByKPI\Templates\index.html" />
     <Content Include="SourceApp\Components\EPA\ResetScore\resetScore-controller.js" />
     <Content Include="SourceApp\Components\EPA\ResetScore\Templates\detail.html" />
-    <Content Include="SourceApp\Components\EPA\Reviewer\reviewerViewState-service.js" />
     <Content Include="SourceApp\Components\EPA\Reviewer\Templates\semiPerformanceResult.html" />
     <Content Include="SourceApp\Components\EPA\Reviewer\Templates\semiDetail.html" />
     <Content Include="SourceApp\Components\EPA\Templates\monthlyEPAs.html" />
@@ -513,7 +510,6 @@
     <Content Include="SourceApp\Components\Period\period-directive.js" />
     <Content Include="SourceApp\Components\Period\period-factory.js" />
     <Content Include="SourceApp\Components\Period\period-model.js" />
-    <Content Include="SourceApp\Components\Period\periodViewState-service.js" />
     <Content Include="SourceApp\Components\Period\Templates\basicInformation.html" />
     <Content Include="SourceApp\Components\Period\Templates\create.html" />
     <Content Include="SourceApp\Components\Period\Templates\edit.html" />

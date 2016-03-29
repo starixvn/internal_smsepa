@@ -2,8 +2,8 @@
 /*global kpiModule*/
 
 kpiModule.controller('KPIController',
-['$window', '$routeParams', 'KPIModel', 'KPIGroupModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory',
-function ($window, $routeParams, KPIModel, KPIGroupModel, CommonModel, utilitiesFactory, enumerationsFactory) {
+['$window', '$routeParams', 'KPIModel', 'KPIGroupModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory','historyFactory',
+function ($window, $routeParams, KPIModel, KPIGroupModel, CommonModel, utilitiesFactory, enumerationsFactory, historyFactory) {
     var vm = this;
 
     vm.kpis = KPIModel.kpis;
@@ -35,7 +35,7 @@ function ($window, $routeParams, KPIModel, KPIGroupModel, CommonModel, utilities
     };
 
     vm.backToList = function () {
-        $window.history.back();
+        historyFactory.back();
     };
 
     vm.initialize = function () {
