@@ -10,6 +10,7 @@
 namespace SMS.EPA.Site.Controllers.API
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Web.Http;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Utilities;
@@ -132,18 +133,12 @@ namespace SMS.EPA.Site.Controllers.API
 
         public List<object> GetAllStatus()
         {
-            var statusList = new List<object>();
-
-            foreach (Status statusEnum in (Status[])System.Enum.GetValues(typeof(Status)))
-            {
-                var status = new
+            List<object> statusList = ((Status[])System.Enum.GetValues(typeof(Status)))
+                .Select(x => new
                 {
-                    StatusId = (int)statusEnum,
-                    Name = Enumerations.GetDescription(statusEnum)
-                };
-
-                statusList.Add(status);
-            }
+                    StatusId = (int)x,
+                    Name = Enumerations.GetDescription(x)
+                }).Cast<object>().ToList();
 
             return statusList;
         }

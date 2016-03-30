@@ -321,13 +321,10 @@ namespace SMS.EPA.Services.Implement
                 attendanceDetail.ChangeShift
             };
 
-            foreach (ViolationModel violation in violations)
+            foreach (ViolationModel violation in violations.Where(violation => violation != null && violation.HasViolated))
             {
-                if (violation != null && violation.HasViolated)
-                {
-                    attendanceDetail.SystemSubtractScore += violation.Score;
-                    attendanceDetail.ApproverSubtractScore += !violation.HasIgnored ? violation.Score : 0;
-                }
+                attendanceDetail.SystemSubtractScore += violation.Score;
+                attendanceDetail.ApproverSubtractScore += !violation.HasIgnored ? violation.Score : 0;
             }
 
             if (attendanceDetail.SystemSubtractScore > Constants.MaxScoreSubtractDate)

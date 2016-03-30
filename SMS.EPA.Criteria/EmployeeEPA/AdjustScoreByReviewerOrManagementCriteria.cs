@@ -30,10 +30,10 @@ namespace SMS.EPA.Criteria.EmployeeEPA
             {
                 var epaXml = new StringBuilder(BeginRootTag);
 
-                foreach (var memberEPA in MemberEPAs)
+                foreach (EPAModel memberEPA in MemberEPAs)
                 {
-                    var cipherTotalScore = Encode(memberEPA.CurrentProcess.TotalScore);
-                    var cipherAdjustScore = Encode(memberEPA.CurrentProcess.AdjustScore);
+                    var cipherTotalScore = EncodeService.Encode(memberEPA.CurrentProcess.TotalScore);
+                    var cipherAdjustScore = EncodeService.Encode(memberEPA.CurrentProcess.AdjustScore);
 
                     epaXml.AppendFormat(
                         EPAXmlTemplate,
@@ -68,11 +68,6 @@ namespace SMS.EPA.Criteria.EmployeeEPA
         public override string GetSettingKey()
         {
             return "EPA_AdjustScoreByReviewerOrManagement";
-        }
-
-        private string Encode(string plainText)
-        {
-            return EncodeService.Encode(plainText);
         }
     }
 }

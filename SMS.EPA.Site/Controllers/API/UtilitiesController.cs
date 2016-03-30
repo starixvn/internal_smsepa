@@ -189,7 +189,7 @@ namespace SMS.EPA.Site.Controllers.API
             if (departments != null)
             {
                 treeList = new DepartmentModel();
-                treeList.Childrens.Add(departments.Where(x => x.ParentId == null && x.DepartmentId == Constants.DepartmentRoot).FirstOrDefault());
+                treeList.Childrens.Add(departments.FirstOrDefault(x => x.ParentId == null && x.DepartmentId == Constants.DepartmentRoot));
             }
 
             var departmentInfo = new DepartmentInfoModel

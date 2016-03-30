@@ -179,7 +179,6 @@
 
         private void AddEmployeeAndGenerateEPAProbation(AutoEmployeePeriodModel employeePeriod)
         {
-            string messageResult = string.Empty;
             _LOG.Info("Auto add employee to probation period " + employeePeriod.PeriodId + ": started at " + DateTime.Now.ToString());
             var insertEmployeeCriteria = new InsertEmployeeToProbationPeriodCriteria
             {
@@ -188,7 +187,7 @@
             };
 
             CommandResult insertEmployeeResult = _evaluationService.InsertEmployeeToProbationPeriod(insertEmployeeCriteria);
-            messageResult = insertEmployeeResult.IsSuccessful ? "0" : insertEmployeeResult.Message;
+            string messageResult = insertEmployeeResult.IsSuccessful ? "0" : insertEmployeeResult.Message;
             _LOG.Info("Result of auto add employee to probation period " + employeePeriod.PeriodId + ": " + messageResult);
 
             _LOG.Info("Auto generate EPA to all employees of current probation period " + employeePeriod.PeriodId + ": started at " + DateTime.Now.ToString());
@@ -279,7 +278,7 @@
                 DateTime today = DateTime.Today;
                 int durationHRPhase = 0;
 
-                durationHRPhase = processSettings.Where(p => p.ProcessId == (int)ProcessType.HumanResource).FirstOrDefault().Duration;
+                durationHRPhase = processSettings.FirstOrDefault(p => p.ProcessId == (int)ProcessType.HumanResource).Duration;
 
                 if (today.AddDays(durationHRPhase).AddDays(1).Day.Equals(1))
                 {
@@ -312,8 +311,6 @@
 
         private void AddEmployeeAndGenerateEPAMonthly(IEnumerable<int> monthlyPeriods)
         {
-            string messageResult = string.Empty;
-
             foreach (int periodId in monthlyPeriods)
             {
                 _LOG.Info("Auto add employee to monthly period " + periodId + ": started at " + DateTime.Now.ToString());
@@ -322,7 +319,7 @@
                     PeriodId = periodId
                 };
                 CommandResult insertEmployeeResult = _evaluationService.InsertEmployeeToMonthlyPeriod(insertEmployeeCriteria);
-                messageResult = insertEmployeeResult.IsSuccessful ? "0" : insertEmployeeResult.Message;
+                string messageResult = insertEmployeeResult.IsSuccessful ? "0" : insertEmployeeResult.Message;
                 _LOG.Info("Result of auto add employee to monthly period " + periodId + ": " + messageResult);
 
                 _LOG.Info("Auto generate EPA to all employees of current monthly period " + periodId + ": started at " + DateTime.Now.ToString());
@@ -353,15 +350,9 @@
 
         private void CheckSendMail()
         {
-            Task.Factory.StartNew(() =>
-            {
-                CheckSendNoticeAtBeginEmail();
-            });
+            Task.Factory.StartNew(CheckSendNoticeAtBeginEmail);
 
-            Task.Factory.StartNew(() =>
-            {
-                CheckSendReminderEmail();
-            });
+            Task.Factory.StartNew(CheckSendReminderEmail);
         }
 
         [SuppressMessage("StyleCop.CSharp.Nexcel.NexcelCustomRules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
@@ -478,8 +469,8 @@
         private void UpdateFinalScoreAndSendMail(IEnumerable<EPAModel> evaluationInfos)
         {
             IList<int> periods = new List<int>();
-            bool hasSendMailEndEvaluation = ConfigurationManager.AppSettings["SendMailEndPeriod"] != null ?
-                ConfigurationManager.AppSettings["SendMailEndPeriod"].Equals("true", StringComparison.OrdinalIgnoreCase) : false;
+            bool hasSendMailEndEvaluation = ConfigurationManager.AppSettings["SendMailEndPeriod"] != null
+                && ConfigurationManager.AppSettings["SendMailEndPeriod"].Equals("true", StringComparison.OrdinalIgnoreCase);
 
             var criteria = new GetStandardGradeCriteria();
             IEnumerable<StandardGradeModel> standardGrades = _employeeEPAService.GetStandardGrade(criteria);

@@ -203,12 +203,7 @@ namespace SMS.EPA.Model.EmployeeEPA
         {
             get
             {
-                bool isMonthly = false;
-
-                if (Period.TargetTypeId == (int)TargetType.Monthly)
-                {
-                    isMonthly = true;
-                }
+                bool isMonthly = Period.TargetTypeId == (int)TargetType.Monthly;
 
                 return isMonthly;
             }
@@ -218,18 +213,13 @@ namespace SMS.EPA.Model.EmployeeEPA
         {
             get
             {
-                bool isAllowedToEdit = true;
-
-                if (CurrentProcess == null
+                bool isAllowedToEdit = !(CurrentProcess == null
                     || CurrentProcess.IsEndProcess
                     || (Period.TargetTypeId == (int)TargetType.SemiAnnual
                         && HasMonthlyEPA
                         && (CurrentProcess.ProcessId == (int)ProcessType.Self || CurrentProcess.ProcessId == (int)ProcessType.Evaluator))
-                    || Status.StatusId == (int)SMS.EPA.Core.Enumerations.Status.Closed
-                    || Period.IsEndPeriod)
-                {
-                    isAllowedToEdit = false;
-                }
+                    || Status.StatusId == (int)Core.Enumerations.Status.Closed
+                    || Period.IsEndPeriod);
 
                 return isAllowedToEdit;
             }
@@ -237,25 +227,21 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         private float CalculateAverageScore(IList<EPAProcessModel> processes)
         {
-            float score = 0, average = 0;
+            float average = 0;
             int count = 0;
 
-            foreach (EPAProcessModel process in processes)
+            foreach (EPAProcessModel process in processes.Where(x => !string.IsNullOrEmpty(x.TotalScore)))
             {
-                if (!string.IsNullOrEmpty(process.TotalScore))
-                {
-                    count++;
-                    score += float.Parse(process.TotalScore);
-                }
+                count++;
+                average += float.Parse(process.TotalScore);
             }
 
             if (count > 0)
             {
-                average = score / count;
-                return (float)Math.Round(average, Constants.NumberOfDecimalDefault);
+                average = (float)Math.Round(average / count, Constants.NumberOfDecimalDefault);
             }
 
-            return score;
+            return average;
         }
     }
 }

@@ -335,41 +335,35 @@ namespace SMS.EPA.Repositories.Implement
         {
             foreach (EPAModel epaInfo in epaInfos)
             {
-                foreach (EPAEmployeeModel employee in employees)
+                foreach (EPAEmployeeModel employee in employees.Where(x => x.EPAId.Equals(epaInfo.EPAId)))
                 {
-                    if (employee.EPAId.Equals(epaInfo.EPAId))
-                    {
-                        epaInfo.Employee = employee;
-                        break;
-                    }
+                    epaInfo.Employee = employee;
+                    break;
                 }
             }
         }
 
         private void GroupEPAProcessByEPA(EPAModel epaInfo, IEnumerable<EPAProcessModel> processes)
         {
-            foreach (EPAProcessModel process in processes)
+            foreach (EPAProcessModel process in processes.Where(x => x.EPAId.Equals(epaInfo.EPAId)))
             {
-                if (process.EPAId.Equals(epaInfo.EPAId))
+                switch (process.ProcessId)
                 {
-                    switch (process.ProcessId)
-                    {
-                        case (int)ProcessType.Self:
-                            epaInfo.ProcessBySelf = process;
-                            break;
+                    case (int)ProcessType.Self:
+                        epaInfo.ProcessBySelf = process;
+                        break;
 
-                        case (int)ProcessType.Evaluator:
-                            epaInfo.ProcessByEvaluators.Add(process);
-                            break;
+                    case (int)ProcessType.Evaluator:
+                        epaInfo.ProcessByEvaluators.Add(process);
+                        break;
 
-                        case (int)ProcessType.Reviewer:
-                            epaInfo.ProcessByReviewers.Add(process);
-                            break;
+                    case (int)ProcessType.Reviewer:
+                        epaInfo.ProcessByReviewers.Add(process);
+                        break;
 
-                        case (int)ProcessType.Management:
-                            epaInfo.ProcessByManagements.Add(process);
-                            break;
-                    }
+                    case (int)ProcessType.Management:
+                        epaInfo.ProcessByManagements.Add(process);
+                        break;
                 }
             }
         }
@@ -410,12 +404,9 @@ namespace SMS.EPA.Repositories.Implement
 
         private void GroupEvaluatorByProcess(EPAModel epaInfo, IEnumerable<EPAProcessModel> evaluators)
         {
-            foreach (EPAProcessModel evaluator in evaluators)
+            foreach (EPAProcessModel evaluator in evaluators.Where(x => x.EPAId.Equals(epaInfo.EPAId)))
             {
-                if (evaluator.EPAId.Equals(epaInfo.EPAId))
-                {
-                    GroupEvaluatorByProcess(epaInfo, evaluator);
-                }
+                GroupEvaluatorByProcess(epaInfo, evaluator);
             }
         }
 
@@ -423,12 +414,9 @@ namespace SMS.EPA.Repositories.Implement
         {
             foreach (EPAKPIGroupModel kpiGroup in kpiGroups)
             {
-                foreach (EPAKPIModel kpi in kpis)
+                foreach (EPAKPIModel kpi in kpis.Where(x => x.EPAId.Equals(kpiGroup.EPAId) && x.KPIGroupId.Equals(kpiGroup.KPIGroupId)))
                 {
-                    if (kpi.EPAId.Equals(kpiGroup.EPAId) && kpi.KPIGroupId.Equals(kpiGroup.KPIGroupId))
-                    {
-                        kpiGroup.KPIs.Add(kpi);
-                    }
+                    kpiGroup.KPIs.Add(kpi);
                 }
             }
         }
@@ -437,20 +425,17 @@ namespace SMS.EPA.Repositories.Implement
         {
             foreach (EPAKPIModel kpi in kpis)
             {
-                foreach (EvaluationModel evaluation in evaluations)
+                foreach (EvaluationModel evaluation in evaluations.Where(x => x.EPAId.Equals(kpi.EPAId) && x.KPIId.Equals(kpi.KPIId)))
                 {
-                    if (evaluation.EPAId.Equals(kpi.EPAId) && evaluation.KPIId.Equals(kpi.KPIId))
+                    switch (evaluation.ProcessId)
                     {
-                        switch (evaluation.ProcessId)
-                        {
-                            case (int)ProcessType.Self:
-                                kpi.EvaluationBySelf = evaluation;
-                                break;
+                        case (int)ProcessType.Self:
+                            kpi.EvaluationBySelf = evaluation;
+                            break;
 
-                            case (int)ProcessType.Evaluator:
-                                kpi.EvaluationByEvaluators.Add(evaluation);
-                                break;
-                        }
+                        case (int)ProcessType.Evaluator:
+                            kpi.EvaluationByEvaluators.Add(evaluation);
+                            break;
                     }
                 }
             }
@@ -460,13 +445,10 @@ namespace SMS.EPA.Repositories.Implement
         {
             foreach (RatingByKPIModel epaInfo in epaInfos)
             {
-                foreach (EPAEmployeeModel employee in employees)
+                foreach (EPAEmployeeModel employee in employees.Where(x => x.EPAId.Equals(epaInfo.EPAId)))
                 {
-                    if (employee.EPAId.Equals(epaInfo.EPAId))
-                    {
-                        epaInfo.Employee = employee;
-                        break;
-                    }
+                    epaInfo.Employee = employee;
+                    break;
                 }
             }
         }
@@ -475,12 +457,9 @@ namespace SMS.EPA.Repositories.Implement
         {
             foreach (RatingByKPIModel epaInfo in epaInfos)
             {
-                foreach (TemporaryKPIModel kpi in kpis)
+                foreach (TemporaryKPIModel kpi in kpis.Where(x => x.EPAId.Equals(epaInfo.EPAId) && x.KPIGroup.KPIGroupId.Equals(epaInfo.KPIGroup.KPIGroupId)))
                 {
-                    if (kpi.EPAId.Equals(epaInfo.EPAId) && kpi.KPIGroup.KPIGroupId.Equals(epaInfo.KPIGroup.KPIGroupId))
-                    {
-                        epaInfo.KPIGroup.KPIs.Add(kpi);
-                    }
+                    epaInfo.KPIGroup.KPIs.Add(kpi);
                 }
             }
         }

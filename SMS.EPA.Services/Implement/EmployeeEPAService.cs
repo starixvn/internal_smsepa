@@ -72,12 +72,9 @@ namespace SMS.EPA.Services.Implement
                 SetMaxPerformanceScore(epaInfo);
                 SpreadKPIScore(epaInfo.KPIGroups);
 
-                foreach (EPAKPIGroupModel kpiGroup in epaInfo.KPIGroups)
+                foreach (EPAKPIModel kpi in epaInfo.KPIGroups.SelectMany(x => x.KPIs))
                 {
-                    foreach (EPAKPIModel kpi in kpiGroup.KPIs)
-                    {
-                        kpi.CurrentEvaluation = kpi.EvaluationBySelf;
-                    }
+                    kpi.CurrentEvaluation = kpi.EvaluationBySelf;
                 }
 
                 if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
@@ -133,12 +130,9 @@ namespace SMS.EPA.Services.Implement
                 SetMaxPerformanceScore(epaInfo);
                 SpreadKPIScore(epaInfo.KPIGroups);
 
-                foreach (EPAKPIGroupModel kpiGroup in epaInfo.KPIGroups)
+                foreach (EPAKPIModel kpi in epaInfo.KPIGroups.SelectMany(x => x.KPIs))
                 {
-                    foreach (EPAKPIModel kpi in kpiGroup.KPIs)
-                    {
-                        kpi.CurrentEvaluation = kpi.EvaluationByEvaluators.FirstOrDefault();
-                    }
+                    kpi.CurrentEvaluation = kpi.EvaluationByEvaluators.FirstOrDefault();
                 }
 
                 if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
@@ -550,12 +544,9 @@ namespace SMS.EPA.Services.Implement
         {
             if (semiEPA != null && monthlyEPAs != null && monthlyEPAs.Count > 0)
             {
-                foreach (EPAModel monthlyEPA in monthlyEPAs)
+                foreach (EPAModel monthlyEPA in monthlyEPAs.Where(x => x.EPAParentId.Equals(semiEPA.EPAId)))
                 {
-                    if (monthlyEPA.EPAParentId.Equals(semiEPA.EPAId))
-                    {
-                        semiEPA.MonthlyEPA.MonthlyEPAs.Add(monthlyEPA);
-                    }
+                    semiEPA.MonthlyEPA.MonthlyEPAs.Add(monthlyEPA);
                 }
             }
         }
@@ -599,7 +590,6 @@ namespace SMS.EPA.Services.Implement
         private double SplitNumber(double number, int numberOfDecimals)
         {
             double result = number;
-
             numberOfDecimals = numberOfDecimals <= 0 ? Constants.NumberOfDecimalDefault : numberOfDecimals;
 
             if ((number % 1) != 0)

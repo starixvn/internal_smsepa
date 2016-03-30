@@ -190,7 +190,7 @@ namespace SMS.EPA.Site.Controllers.API
         [HttpGet]
         public bool CheckUserPermissionIsAdmin()
         {
-            return CurrentUser != null ? CurrentUser.Roles.Any(x => x.RoleId == (int)SystemRole.SystemAdmin) : false;
+            return CurrentUser != null && CurrentUser.Roles.Any(x => x.RoleId == (int)SystemRole.SystemAdmin);
         }
     }
 }

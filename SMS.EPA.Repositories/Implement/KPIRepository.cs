@@ -10,6 +10,7 @@
 namespace SMS.EPA.Repositories.Implement
 {
     using System.Collections.Generic;
+    using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using SMS.EPA.Model.KPI;
@@ -39,21 +40,12 @@ namespace SMS.EPA.Repositories.Implement
 
         private IList<KPIGroupModel> GroupKPIGroupByKPI(int kpiId, IEnumerable<RawKPIModel> kpiKPIGroups)
         {
-            var result = new List<KPIGroupModel>();
-
-            foreach (var kpiKPIGroup in kpiKPIGroups)
-            {
-                if (kpiKPIGroup.KPIId == kpiId)
+            IList<KPIGroupModel> result = kpiKPIGroups.Where(x => x.KPIId == kpiId)
+                .Select(x => new KPIGroupModel
                 {
-                    var kpiGroup = new KPIGroupModel()
-                    {
-                        KPIGroupId = kpiKPIGroup.KPIGroupId,
-                        Name = kpiKPIGroup.Name
-                    };
-
-                    result.Add(kpiGroup);
-                }
-            }
+                    KPIGroupId = x.KPIGroupId,
+                    Name = x.Name
+                }).ToList();
 
             return result;
         }

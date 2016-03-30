@@ -44,7 +44,8 @@
                                            data-show-caption="false" data-show-clear="false">
                                 </div>
                                 <span data-translate="NotAvailable" ng-show="!kpi.EvaluationBySelf.Score && kpi.EvaluationBySelf.Score != 0"></span>
-                                <div data-translate="Pending" ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess"></div>
+                            </div>
+                            <div data-translate="Pending" ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess"></div>
                         </td>
                         <td class="col-comment" rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" ng-show="$first">
                             <div ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess">

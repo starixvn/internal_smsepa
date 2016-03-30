@@ -150,7 +150,14 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     };
 
     selfEvalutorModel.updateEPAScoreByEmployee = function (vm) {
-        return employeeEPAFactory.updateEPAScoreByEmployee(vm.epaInfo)
+        var criteria = {
+            EPAId: vm.epaInfo.EPAId,
+            EmployeeId: vm.epaInfo.Employee.EmployeeId,
+            EPAProcess: vm.epaInfo.CurrentProcess,
+            KPIGroups: vm.epaInfo.KPIGroups
+        };
+
+        return employeeEPAFactory.updateEPAScoreByEmployee(criteria)
         .success(function (response) {
             if (response.IsSuccessful) {
                 notificationFactory.success("UpdatedSuccessfully");
@@ -212,7 +219,14 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     };
 
     selfEvalutorModel.updateEPAScoreByEvaluator = function (vm) {
-        return employeeEPAFactory.updateEPAScoreByEvaluator(vm.epaInfo)
+        var criteria = {
+            EPAId: vm.epaInfo.EPAId,
+            EmployeeId: vm.epaInfo.Employee.EmployeeId,
+            EPAProcess: vm.epaInfo.CurrentProcess,
+            KPIGroups: vm.epaInfo.KPIGroups
+        };
+
+        return employeeEPAFactory.updateEPAScoreByEvaluator(criteria)
         .success(function (response) {
             if (response.IsSuccessful) {
                 notificationFactory.success("UpdatedSuccessfully");

@@ -9,7 +9,6 @@
 
 namespace SMS.EPA.AutoGenerateEvaluation.Criteria
 {
-    using System.Collections.Generic;
     using System.Text;
     using Fanex.Data.Repository;
 

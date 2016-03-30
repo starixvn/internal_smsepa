@@ -143,20 +143,13 @@ namespace SMS.EPA.Services.Implement
 
         private IList<TargetTemplateModel> GetTargetTemplateOfEmployee(IEnumerable<TargetEmployeeModel> targetEmployees)
         {
-            IList<TargetTemplateModel> targetTemplates = new List<TargetTemplateModel>();
-
-            foreach (TargetEmployeeModel targetEmployee in targetEmployees)
+            IList<TargetTemplateModel> targetTemplates = targetEmployees.Select(x => new TargetTemplateModel
             {
-                var targetTemplate = new TargetTemplateModel
-                {
-                    TargetTemplateId = targetEmployee.RawTargetTemplate.TargetTemplateId,
-                    Name = targetEmployee.RawTargetTemplate.Name,
-                    TargetTypeId = targetEmployee.RawTargetTemplate.TargetTypeId,
-                    TargetTypeName = targetEmployee.RawTargetTemplate.TargetTypeName
-                };
-
-                targetTemplates.Add(targetTemplate);
-            }
+                TargetTemplateId = x.RawTargetTemplate.TargetTemplateId,
+                Name = x.RawTargetTemplate.Name,
+                TargetTypeId = x.RawTargetTemplate.TargetTypeId,
+                TargetTypeName = x.RawTargetTemplate.TargetTypeName
+            }).ToList();
 
             return targetTemplates;
         }
@@ -198,22 +191,13 @@ namespace SMS.EPA.Services.Implement
 
         private IList<TargetTemplateModel> GetTargetTemplateOfDepartment(IEnumerable<TargetDepartmentModel> targetDepartments)
         {
-            IList<TargetTemplateModel> targetTemplates = new List<TargetTemplateModel>();
-
-            foreach (TargetDepartmentModel targetDepartment in targetDepartments)
+            return targetDepartments.Select(x => new TargetTemplateModel
             {
-                var targetTemplate = new TargetTemplateModel
-                {
-                    TargetTemplateId = targetDepartment.RawTargetTemplate.TargetTemplateId,
-                    Name = targetDepartment.RawTargetTemplate.Name,
-                    TargetTypeId = targetDepartment.RawTargetTemplate.TargetTypeId,
-                    TargetTypeName = targetDepartment.RawTargetTemplate.TargetTypeName
-                };
-
-                targetTemplates.Add(targetTemplate);
-            }
-
-            return targetTemplates;
+                TargetTemplateId = x.RawTargetTemplate.TargetTemplateId,
+                Name = x.RawTargetTemplate.Name,
+                TargetTypeId = x.RawTargetTemplate.TargetTypeId,
+                TargetTypeName = x.RawTargetTemplate.TargetTypeName
+            }).ToList();
         }
     }
 }

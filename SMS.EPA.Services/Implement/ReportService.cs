@@ -16,6 +16,7 @@ namespace SMS.EPA.Services.Implement
     using System.Linq;
     using NexFB.Core.Utilities;
     using NPOI.HSSF.UserModel;
+    using NPOI.HSSF.Util;
     using NPOI.SS.UserModel;
     using NPOI.SS.Util;
     using SMS.EPA.Core.Enumerations;
@@ -32,7 +33,7 @@ namespace SMS.EPA.Services.Implement
 
     public class ReportService : IReportService
     {
-        private const int _EXCEL_COLUMN_WIDTH = 256;
+        private const int ExcelColumnWidth = 256;
         private readonly IReportRepository _reportRepository;
         private readonly IEmployeeEPARepository _employeeEPARepository;
 
@@ -96,7 +97,7 @@ namespace SMS.EPA.Services.Implement
 
             IFont font = workbook.CreateFont();
             font.FontHeightInPoints = 18;
-            font.Boldweight = (short)NPOI.SS.UserModel.FontBoldWeight.Bold;
+            font.Boldweight = (short)FontBoldWeight.Bold;
 
             ICell cell = rowTitle.CreateCell(0);
             cell.SetCellValue(titleString);
@@ -166,13 +167,13 @@ namespace SMS.EPA.Services.Implement
         {
             IFont font = workbook.CreateFont();
             font.FontHeightInPoints = 11;
-            font.Color = NPOI.HSSF.Util.HSSFColor.Grey80Percent.White.Index;
-            font.Boldweight = (short)NPOI.SS.UserModel.FontBoldWeight.Bold;
+            font.Color = HSSFColor.White.Index;
+            font.Boldweight = (short)FontBoldWeight.Bold;
 
             ICellStyle cellStyle = workbook.CreateCellStyle();
-            cellStyle.FillForegroundColor = NPOI.HSSF.Util.HSSFColor.Grey80Percent.Index;
+            cellStyle.FillForegroundColor = HSSFColor.Grey80Percent.Index;
             cellStyle.FillPattern = FillPattern.SolidForeground;
-            cellStyle.FillBackgroundColor = NPOI.HSSF.Util.HSSFColor.Grey80Percent.Index;
+            cellStyle.FillBackgroundColor = HSSFColor.Grey80Percent.Index;
             cellStyle.Alignment = HorizontalAlignment.Center;
             cellStyle.VerticalAlignment = VerticalAlignment.Center;
             cellStyle.SetFont(font);
@@ -226,18 +227,18 @@ namespace SMS.EPA.Services.Implement
             ICellStyle bodyStyle2 = workbook.CreateCellStyle();
             bodyStyle2.Alignment = HorizontalAlignment.Center;
             bodyStyle2.VerticalAlignment = VerticalAlignment.Center;
-            bodyStyle2.FillForegroundColor = NPOI.HSSF.Util.HSSFColor.LightCornflowerBlue.Index;
+            bodyStyle2.FillForegroundColor = HSSFColor.LightCornflowerBlue.Index;
             bodyStyle2.FillPattern = FillPattern.SolidForeground;
-            bodyStyle2.FillBackgroundColor = NPOI.HSSF.Util.HSSFColor.LightCornflowerBlue.Index;
+            bodyStyle2.FillBackgroundColor = HSSFColor.LightCornflowerBlue.Index;
 
             ICellStyle bodyStyle3 = workbook.CreateCellStyle();
             bodyStyle3.Alignment = HorizontalAlignment.Left;
 
             ICellStyle bodyStyle4 = workbook.CreateCellStyle();
             bodyStyle4.Alignment = HorizontalAlignment.Left;
-            bodyStyle4.FillForegroundColor = NPOI.HSSF.Util.HSSFColor.LightCornflowerBlue.Index;
+            bodyStyle4.FillForegroundColor = HSSFColor.LightCornflowerBlue.Index;
             bodyStyle4.FillPattern = FillPattern.SolidForeground;
-            bodyStyle4.FillBackgroundColor = NPOI.HSSF.Util.HSSFColor.LightCornflowerBlue.Index;
+            bodyStyle4.FillBackgroundColor = HSSFColor.LightCornflowerBlue.Index;
             ICell cellBody;
 
             foreach (var epaInfo in epaSummary.EPAInfos)
@@ -330,9 +331,9 @@ namespace SMS.EPA.Services.Implement
                     {
                         string finalScore = string.Empty,
                             grade = string.Empty;
-                        EPASummaryPeriodModel period = epaInfo.Periods.Where(x => x.PeriodId == epaSummary.PeriodSelecteds[i].PeriodId).FirstOrDefault();
+                        EPASummaryPeriodModel period = epaInfo.Periods.FirstOrDefault(x => x.PeriodId == epaSummary.PeriodSelecteds[i].PeriodId);
 
-                        if (period.IsEndPeriod.Equals(true))
+                        if (period != null && period.IsEndPeriod.Equals(true))
                         {
                             if (string.IsNullOrEmpty(period.FinalScore))
                             {
@@ -385,7 +386,7 @@ namespace SMS.EPA.Services.Implement
         {
             int rowIndex = 1;
 
-            foreach (var memberEPA in epaDetail.MemberEPAs)
+            foreach (EPAModel memberEPA in epaDetail.MemberEPAs)
             {
                 FillRowEPADetailReport(memberEPA, epaDetail.PhaseSelecteds, ref writer, ref rowIndex);
             }
@@ -446,7 +447,7 @@ namespace SMS.EPA.Services.Implement
         {
             var result = "-";
 
-            if (phaseSelecteds.Where(x => x.PhaseId == phaseId).Count().Equals(1))
+            if (phaseSelecteds.Count(x => x.PhaseId == phaseId).Equals(1))
             {
                 result = score;
             }
@@ -544,7 +545,7 @@ namespace SMS.EPA.Services.Implement
 
         private void SetColumnWidth(ref ISheet sheet, int columnIndex, int width)
         {
-            sheet.SetColumnWidth(columnIndex, width * _EXCEL_COLUMN_WIDTH);
+            sheet.SetColumnWidth(columnIndex, width * ExcelColumnWidth);
         }
     }
 }

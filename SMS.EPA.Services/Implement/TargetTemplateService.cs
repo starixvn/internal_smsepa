@@ -128,12 +128,9 @@ namespace SMS.EPA.Services.Implement
             {
                 groups = GetData<KPIGroupModel>(criteria);
 
-                foreach (KPIGroupModel group in groups)
+                foreach (KPIGroupModel group in groups.Where(x => x.Weight > 0))
                 {
-                    if (group.Weight > 0)
-                    {
-                        group.Selected = true;
-                    }
+                    group.Selected = true;
                 }
             }
 
@@ -236,22 +233,7 @@ namespace SMS.EPA.Services.Implement
 
         private IEnumerable<TargetTemplateKPIGroupModel> GetSelectedKPI(IEnumerable<TargetTemplateKPIGroupModel> kpiGroups)
         {
-            return kpiGroups.Where(x => CheckHasSelectedKPI(x));
-        }
-
-        private bool CheckHasSelectedKPI(TargetTemplateKPIGroupModel group)
-        {
-            bool hasSelectedKPI = false;
-
-            foreach (KPIModel item in group.KPIs)
-            {
-                if (item.Selected == true)
-                {
-                    hasSelectedKPI = true;
-                }
-            }
-
-            return hasSelectedKPI;
+            return kpiGroups.Where(x => x.KPIs.Any(p => p.Selected == true));
         }
     }
 }

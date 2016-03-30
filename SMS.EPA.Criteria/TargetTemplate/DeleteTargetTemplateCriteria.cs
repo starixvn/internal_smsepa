@@ -9,7 +9,6 @@
 
 namespace SMS.EPA.Criteria.TargetTemplate
 {
-    using System;
     using Fanex.Data.Repository;
 
     public class DeleteTargetTemplateCriteria : CriteriaBase

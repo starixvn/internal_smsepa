@@ -273,12 +273,7 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
 
         private string JoinEmployeeId(List<AutoEmployeePeriodModel> employeePeriods)
         {
-            string employeeIds = string.Empty;
-
-            foreach (AutoEmployeePeriodModel employeePeriod in employeePeriods)
-            {
-                employeeIds += !string.IsNullOrWhiteSpace(employeeIds) ? "," + employeePeriod.EmployeeId.ToString() : employeePeriod.EmployeeId.ToString();
-            }
+            string employeeIds = string.Join(",", employeePeriods.Select(x => x.EmployeeId.ToString()));
 
             return employeeIds;
         }

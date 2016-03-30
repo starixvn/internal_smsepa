@@ -88,23 +88,15 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Self, Policy = Policy.Host)]
-        public CommandResult UpdateEPAScoreByEmployee(EPAModel model)
+        public CommandResult UpdateEPAScoreByEmployee(UpdateEPAScoreCriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
 
-            if (model != null)
+            if (criteria != null)
             {
-                var criteria = new UpdateEPAScoreCriteria()
-                {
-                    EPAId = model.EPAId,
-                    ProcessId = (int)ProcessType.Self,
-                    EmployeeId = model.Employee.EmployeeId,
-                    EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
-                    Comment = model.CurrentProcess.Comment,
-                    EPAProcess = model.CurrentProcess,
-                    KPIGroups = model.KPIGroups,
-                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
-                };
+                criteria.ProcessId = (int)ProcessType.Self;
+                criteria.EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
 
                 commandResult = UpdateEPAScoreByEmployeeOrEvaluator(criteria);
             }
@@ -185,23 +177,15 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Evaluator, Policy = Policy.Host)]
-        public CommandResult UpdateEPAScoreByEvaluator(EPAModel model)
+        public CommandResult UpdateEPAScoreByEvaluator(UpdateEPAScoreCriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
 
-            if (model != null)
+            if (criteria != null)
             {
-                var criteria = new UpdateEPAScoreCriteria()
-                {
-                    EPAId = model.EPAId,
-                    ProcessId = (int)ProcessType.Evaluator,
-                    EmployeeId = model.Employee.EmployeeId,
-                    EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
-                    Comment = model.CurrentProcess.Comment,
-                    EPAProcess = model.CurrentProcess,
-                    KPIGroups = model.KPIGroups,
-                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
-                };
+                criteria.ProcessId = (int)ProcessType.Evaluator;
+                criteria.EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
 
                 commandResult = UpdateEPAScoreByEmployeeOrEvaluator(criteria);
             }

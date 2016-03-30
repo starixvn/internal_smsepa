@@ -147,7 +147,7 @@ namespace SMS.EPA.Site.Controllers.API
             {
                 FlowTemplateId = flowTemplateId,
                 DepartmentId = Math.Abs(departmentId),
-                IsGroup = departmentId > 0 ? false : true
+                IsGroup = departmentId <= 0
             };
 
             return _flowManagementService.GetDepartmentFlowById(criteria);
@@ -165,7 +165,7 @@ namespace SMS.EPA.Site.Controllers.API
                 {
                     DepartmentId = Math.Abs(model.DepartmentId),
                     FlowTemplateId = model.FlowTemplateId,
-                    IsGroup = model.DepartmentId > 0 ? false : true,
+                    IsGroup = model.DepartmentId <= 0,
                     ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
                     FlowDetails = model.FlowDetails
                 };
@@ -186,7 +186,7 @@ namespace SMS.EPA.Site.Controllers.API
             {
                 FlowTemplateId = flowTemplateId,
                 DepartmentId = Math.Abs(departmentId),
-                IsGroup = departmentId > 0 ? false : true,
+                IsGroup = departmentId <= 0,
                 ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
             };
 

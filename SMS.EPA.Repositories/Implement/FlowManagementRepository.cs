@@ -10,6 +10,7 @@
 namespace SMS.EPA.Repositories.Implement
 {
     using System.Collections.Generic;
+    using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using SMS.EPA.Core.Enumerations;
@@ -119,41 +120,7 @@ namespace SMS.EPA.Repositories.Implement
             {
                 foreach (DepartmentFlowModel flow in flows)
                 {
-                    foreach (ProcessFlowModel process in processes)
-                    {
-                        if (process.DepartmentId.Equals(flow.DepartmentId))
-                        {
-                            switch (process.ProcessId)
-                            {
-                                case (int)ProcessType.HumanResource:
-                                    flow.HumanResources.Add(process);
-                                    break;
-
-                                case (int)ProcessType.Evaluator:
-                                    flow.Evaluators.Add(process);
-                                    break;
-
-                                case (int)ProcessType.Reviewer:
-                                    flow.Reviewers.Add(process);
-                                    break;
-
-                                case (int)ProcessType.Management:
-                                    flow.Managements.Add(process);
-                                    break;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        private void GroupProcessFlowByEmployee(IEnumerable<PersonalFlowModel> flows, IEnumerable<ProcessFlowModel> processes)
-        {
-            foreach (PersonalFlowModel flow in flows)
-            {
-                foreach (ProcessFlowModel process in processes)
-                {
-                    if (process.EmployeeId.Equals(flow.EmployeeId))
+                    foreach (ProcessFlowModel process in processes.Where(x => x.DepartmentId.Equals(flow.DepartmentId)))
                     {
                         switch (process.ProcessId)
                         {
@@ -173,6 +140,34 @@ namespace SMS.EPA.Repositories.Implement
                                 flow.Managements.Add(process);
                                 break;
                         }
+                    }
+                }
+            }
+        }
+
+        private void GroupProcessFlowByEmployee(IEnumerable<PersonalFlowModel> flows, IEnumerable<ProcessFlowModel> processes)
+        {
+            foreach (PersonalFlowModel flow in flows)
+            {
+                foreach (ProcessFlowModel process in processes.Where(x => x.EmployeeId.Equals(flow.EmployeeId)))
+                {
+                    switch (process.ProcessId)
+                    {
+                        case (int)ProcessType.HumanResource:
+                            flow.HumanResources.Add(process);
+                            break;
+
+                        case (int)ProcessType.Evaluator:
+                            flow.Evaluators.Add(process);
+                            break;
+
+                        case (int)ProcessType.Reviewer:
+                            flow.Reviewers.Add(process);
+                            break;
+
+                        case (int)ProcessType.Management:
+                            flow.Managements.Add(process);
+                            break;
                     }
                 }
             }

@@ -56,37 +56,34 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
                 string templateEmailPath = string.Empty,
                     assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
 
-                foreach (PeriodFlowModel employeeSetting in employeeSettings)
+                foreach (PeriodFlowModel employeeSetting in employeeSettings.Where(x => x.HasSendMail))
                 {
-                    if (employeeSetting.HasSendMail)
+                    switch (employeeSetting.ProcessId)
                     {
-                        switch (employeeSetting.ProcessId)
-                        {
-                            case (int)ProcessType.HumanResource:
-                                templateEmailPath = Path.Combine(assemblyPath, _startDateMailToHumanResources);
-                                _mailService.SendMailToHRStartDate(templateEmailPath, employeeSetting, period.Name);
-                                break;
+                        case (int)ProcessType.HumanResource:
+                            templateEmailPath = Path.Combine(assemblyPath, _startDateMailToHumanResources);
+                            _mailService.SendMailToHRStartDate(templateEmailPath, employeeSetting, period.Name);
+                            break;
 
-                            case (int)ProcessType.Self:
-                                templateEmailPath = Path.Combine(assemblyPath, _startDateMailToSelf);
-                                _mailService.SendMailToSelfStartDate(templateEmailPath, employeeSetting, period.Name);
-                                break;
+                        case (int)ProcessType.Self:
+                            templateEmailPath = Path.Combine(assemblyPath, _startDateMailToSelf);
+                            _mailService.SendMailToSelfStartDate(templateEmailPath, employeeSetting, period.Name);
+                            break;
 
-                            case (int)ProcessType.Evaluator:
-                                templateEmailPath = Path.Combine(assemblyPath, _startDateMailToEvaluator);
-                                _mailService.SendMailToEvaluatorStartDate(templateEmailPath, employeeSetting, period.Name);
-                                break;
+                        case (int)ProcessType.Evaluator:
+                            templateEmailPath = Path.Combine(assemblyPath, _startDateMailToEvaluator);
+                            _mailService.SendMailToEvaluatorStartDate(templateEmailPath, employeeSetting, period.Name);
+                            break;
 
-                            case (int)ProcessType.Reviewer:
-                                templateEmailPath = Path.Combine(assemblyPath, _startDateMailToReviewer);
-                                _mailService.SendMailToReviewerStartDate(templateEmailPath, employeeSetting, period.Name);
-                                break;
+                        case (int)ProcessType.Reviewer:
+                            templateEmailPath = Path.Combine(assemblyPath, _startDateMailToReviewer);
+                            _mailService.SendMailToReviewerStartDate(templateEmailPath, employeeSetting, period.Name);
+                            break;
 
-                            case (int)ProcessType.Management:
-                                templateEmailPath = Path.Combine(assemblyPath, _startDateMailToManagement);
-                                _mailService.SendMailToManagementStartDate(templateEmailPath, employeeSetting, period.Name);
-                                break;
-                        }
+                        case (int)ProcessType.Management:
+                            templateEmailPath = Path.Combine(assemblyPath, _startDateMailToManagement);
+                            _mailService.SendMailToManagementStartDate(templateEmailPath, employeeSetting, period.Name);
+                            break;
                     }
                 }
             }

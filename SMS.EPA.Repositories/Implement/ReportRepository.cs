@@ -118,12 +118,9 @@ namespace SMS.EPA.Repositories.Implement
         {
             foreach (EPASummaryEmployeeModel epaSummary in epaSummaries)
             {
-                foreach (EPASummaryPeriodModel period in periods)
+                foreach (EPASummaryPeriodModel period in periods.Where(x => epaSummary.EmployeeId.Equals(x.EmployeeId)))
                 {
-                    if (epaSummary.EmployeeId.Equals(period.EmployeeId))
-                    {
-                        epaSummary.Periods.Add(period);
-                    }
+                    epaSummary.Periods.Add(period);
                 }
             }
         }
@@ -132,13 +129,10 @@ namespace SMS.EPA.Repositories.Implement
         {
             foreach (EPAModel epaInfo in epaInfos)
             {
-                foreach (EPAEmployeeModel employee in employees)
+                foreach (EPAEmployeeModel employee in employees.Where(x => x.EPAId.Equals(epaInfo.EPAId)))
                 {
-                    if (employee.EPAId.Equals(epaInfo.EPAId))
-                    {
-                        epaInfo.Employee = employee;
-                        break;
-                    }
+                    epaInfo.Employee = employee;
+                    break;
                 }
             }
         }
@@ -147,28 +141,25 @@ namespace SMS.EPA.Repositories.Implement
         {
             foreach (EPAModel epaInfo in epaInfos)
             {
-                foreach (EPAProcessModel process in processes)
+                foreach (EPAProcessModel process in processes.Where(x => x.EPAId == epaInfo.EPAId))
                 {
-                    if (process.EPAId == epaInfo.EPAId)
+                    switch (process.ProcessId)
                     {
-                        switch (process.ProcessId)
-                        {
-                            case (int)ProcessType.Self:
-                                epaInfo.ProcessBySelf = process;
-                                break;
+                        case (int)ProcessType.Self:
+                            epaInfo.ProcessBySelf = process;
+                            break;
 
-                            case (int)ProcessType.Evaluator:
-                                epaInfo.ProcessByEvaluators.Add(process);
-                                break;
+                        case (int)ProcessType.Evaluator:
+                            epaInfo.ProcessByEvaluators.Add(process);
+                            break;
 
-                            case (int)ProcessType.Reviewer:
-                                epaInfo.ProcessByReviewers.Add(process);
-                                break;
+                        case (int)ProcessType.Reviewer:
+                            epaInfo.ProcessByReviewers.Add(process);
+                            break;
 
-                            case (int)ProcessType.Management:
-                                epaInfo.ProcessByManagements.Add(process);
-                                break;
-                        }
+                        case (int)ProcessType.Management:
+                            epaInfo.ProcessByManagements.Add(process);
+                            break;
                     }
                 }
             }
@@ -176,13 +167,10 @@ namespace SMS.EPA.Repositories.Implement
 
         private void DecodeFinalScoreAndGrade(IEnumerable<EPASummaryEmployeeModel> epaSummaries)
         {
-            foreach (EPASummaryEmployeeModel epaSummary in epaSummaries)
+            foreach (EPASummaryPeriodModel period in epaSummaries.SelectMany(x => x.Periods))
             {
-                foreach (EPASummaryPeriodModel period in epaSummary.Periods)
-                {
-                    period.FinalScore = EncodeService.Decode(period.FinalScoreEncode);
-                    period.Grade = EncodeService.Decode(period.GradeEncode);
-                }
+                period.FinalScore = EncodeService.Decode(period.FinalScoreEncode);
+                period.Grade = EncodeService.Decode(period.GradeEncode);
             }
         }
 
