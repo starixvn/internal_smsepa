@@ -203,9 +203,7 @@ namespace SMS.EPA.Model.EmployeeEPA
         {
             get
             {
-                bool isMonthly = Period.TargetTypeId == (int)TargetType.Monthly;
-
-                return isMonthly;
+                return Period != null && Period.TargetTypeId == (int)TargetType.Monthly;
             }
         }
 

@@ -99,7 +99,7 @@
         }
 
         function viewDetail(memberEPA) {
-            var url = baseUrl + 'EPA/Detail/' + memberEPA.EPAId;
+            var url = baseUrl + 'Evaluator/Detail/' + memberEPA.EPAId + '?evaluatorId=' + vm.filter.evaluatorId;
             $window.open(url, '_blank');
         }
 

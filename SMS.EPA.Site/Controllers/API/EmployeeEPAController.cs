@@ -152,10 +152,13 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Evaluator, Policy = Policy.Read)]
-        public HttpResponseMessage GetEPAInfoByEvaluator(int epaId)
+        public HttpResponseMessage GetEPAInfoByEvaluator(int epaId, int? evaluatorId = null)
         {
-            EPAModel epaInfo = new EPAModel();
-            int permission = CheckEmployeePermission(epaId, CurrentUser.EmployeeInfo.EmployeeId, (int)ProcessType.Evaluator);
+            var epaInfo = new EPAModel();
+            var processId = evaluatorId == null ? (int?)ProcessType.Evaluator : null;
+            evaluatorId = evaluatorId ?? CurrentUser.EmployeeInfo.EmployeeId;
+
+            int permission = CheckEmployeePermission(epaId, evaluatorId.Value, processId);
 
             switch (permission)
             {
@@ -166,7 +169,7 @@ namespace SMS.EPA.Site.Controllers.API
                     var criteria = new GetEPAInfoByEvaluatorCriteria()
                     {
                         EPAId = epaId,
-                        EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId
+                        EvaluatorId = evaluatorId.Value
                     };
 
                     epaInfo = _employeeEPAService.GetEPAInfoByEvaluator(criteria);

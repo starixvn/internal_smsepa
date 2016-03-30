@@ -104,6 +104,7 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
 
     vm.permission = 0;
     vm.epaId = parseInt($routeParams.id);
+    vm.evaluatorId = parseInt($routeParams.evaluatorId);
 
     vm.maxStar = utilitiesFactory.maxStar;
     vm.dataSaved = false;
@@ -201,7 +202,7 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
     }
 
     function getEPAInfoByEvaluator() {
-        SelfEvalutorModel.getEPAInfoByEvaluator(vm.epaId).then(function () {
+        SelfEvalutorModel.getEPAInfoByEvaluator(vm.epaId, vm.evaluatorId).then(function () {
             vm.epaInfo = SelfEvalutorModel.epaInfo;
             checkStatus(vm.epaInfo);
 
