@@ -229,9 +229,9 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 
 epaModule.controller('MemberEPAInfoOfReviewerController',
 ['$window', '$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel',
-    'utilitiesFactory', 'enumerationsFactory', 'baseUrl', 'dataViewStateService',
+    'utilitiesFactory', 'enumerationsFactory', 'baseUrl', 'historyFactory',
 function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManagementModel, CommonModel,
-    utilitiesFactory, enumerationsFactory, baseUrl, dataViewStateService) {
+    utilitiesFactory, enumerationsFactory, baseUrl, historyFactory) {
     var vm = this;
 
     vm.permission = 0;
@@ -296,7 +296,7 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, Reviewe
     };
 
     vm.cancel = function () {
-        dataViewStateService.pressBack();
+        historyFactory.back();
     };
 
     vm.generateRatingStar = function () {
