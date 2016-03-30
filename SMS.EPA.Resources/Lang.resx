@@ -1272,10 +1272,10 @@
   <data name="Average" xml:space="preserve">
     <value>Average</value>
   </data>
-  <data name="ConvertedAverage" xml:space="preserve">
-    <value>Converted Average</value>
+  <data name="SemiAverage" xml:space="preserve">
+    <value>Semi Average</value>
   </data>
-  <data name="OriginalAverage" xml:space="preserve">
-    <value>Original Average</value>
+  <data name="MonthlyAverage" xml:space="preserve">
+    <value>Monthly Average</value>
   </data>
 </root>

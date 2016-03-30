@@ -511,15 +511,6 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Converted Average.
-        /// </summary>
-        public static string ConvertedAverage {
-            get {
-                return ResourceManager.GetString("ConvertedAverage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Created Date.
         /// </summary>
         public static string CreatedDate {
@@ -1942,6 +1933,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Monthly Average.
+        /// </summary>
+        public static string MonthlyAverage {
+            get {
+                return ResourceManager.GetString("MonthlyAverage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Monthly EPA.
         /// </summary>
         public static string MonthlyEPA {
@@ -2172,15 +2172,6 @@ namespace SMS.EPA.Resources {
         public static string OrganizationChart {
             get {
                 return ResourceManager.GetString("OrganizationChart", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Original Average.
-        /// </summary>
-        public static string OriginalAverage {
-            get {
-                return ResourceManager.GetString("OriginalAverage", resourceCulture);
             }
         }
         
@@ -2811,6 +2802,15 @@ namespace SMS.EPA.Resources {
         public static string SelfScore {
             get {
                 return ResourceManager.GetString("SelfScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Semi Average.
+        /// </summary>
+        public static string SemiAverage {
+            get {
+                return ResourceManager.GetString("SemiAverage", resourceCulture);
             }
         }
         

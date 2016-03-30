@@ -36,7 +36,7 @@ namespace SMS.EPA.Core.Enumerations
         [Description("Approver")]
         Approver = 7,
 
-        [Description("IT Admin")]
-        ITAdmin = 8
+        [Description("Section Admin")]
+        SectionAdmin = 8
     }
 }
