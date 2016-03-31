@@ -33,10 +33,10 @@
             </td>
             <td class="text-center col-action">
                 <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="dashboardCtrl.viewEPADetail(monthlyEPA)"
-                   ng-if="monthlyEPA.EPAId > 0 && !monthlyEPA.IsEndProcessBySelf && monthlyEPA.Status.StatusId == dashboardCtrl.epaStatusEnum.Open"
+                   ng-if="monthlyEPA.EPAId > 0 && (monthlyEPA.IsAllowedToEdit || !monthlyEPA.IsEndProcessBySelf)"
                    ng-href="{{dashboardCtrl.viewEPADetailUrl}}" ng-attr-title='{{"EvaluateNow" | translate}}'></a>
                 <a class="glyphicon icon-view" href="" ng-click="dashboardCtrl.viewEPAResult(monthlyEPA)"
-                   ng-if="monthlyEPA.EPAId > 0 && (monthlyEPA.IsEndProcessBySelf || monthlyEPA.Status.StatusId == dashboardCtrl.epaStatusEnum.Closed)"
+                   ng-if="monthlyEPA.EPAId > 0 && !(monthlyEPA.IsAllowedToEdit || !monthlyEPA.IsEndProcessBySelf)"
                    ng-href="{{dashboardCtrl.viewEPAResultUrl}}" ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
             </td>
         </tr>
