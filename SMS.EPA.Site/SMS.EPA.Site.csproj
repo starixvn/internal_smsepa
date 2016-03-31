@@ -416,6 +416,7 @@
     <Content Include="SourceApp\Components\EPA\employeeEPA-directive.js" />
     <Content Include="SourceApp\Components\EPA\employeeEPA-factory.js" />
     <Content Include="SourceApp\Components\EPA\employeeEPA-model.js" />
+    <Content Include="SourceApp\Components\EPA\Evaluator\Templates\listKPIToView.html" />
     <Content Include="SourceApp\Shared\history-factory.js" />
     <Content Include="SourceApp\Components\EPA\Management\Templates\semiDetail.html" />
     <Content Include="SourceApp\Components\EPA\Management\Templates\semiPerformanceResult.html" />

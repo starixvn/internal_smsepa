@@ -116,6 +116,12 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
     vm.statusEndProcessEnum = enumerationsFactory.statusEndProcess;
     vm.ratingTypeEnum = enumerationsFactory.ratingType;
 
+    vm.ViewBySelf = function () {
+        var a = !vm.evaluatorId;
+        return a;
+
+    };
+
     vm.initCollapseExpandCommentByEmployee = function (epaInfo, kpi) {
         if (epaInfo.ProcessBySelf.IsEndProcess && (kpi.EvaluationBySelf.Comment && kpi.EvaluationBySelf.Comment.length > 0)) {
             kpi.ExpandedCommentByEmployee = true;
