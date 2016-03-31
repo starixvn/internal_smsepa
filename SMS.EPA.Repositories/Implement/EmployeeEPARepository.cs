@@ -509,8 +509,11 @@ namespace SMS.EPA.Repositories.Implement
 
         private void DecodeTotalScore(EPAProcessModel process)
         {
-            process.TotalScore = EncodeService.Decode(process.TotalScoreEncode);
-            process.AdjustScore = EncodeService.Decode(process.AdjustScoreEncode);
+            if (process != null)
+            {
+                process.TotalScore = EncodeService.Decode(process.TotalScoreEncode);
+                process.AdjustScore = EncodeService.Decode(process.AdjustScoreEncode);
+            }
         }
 
         private void DecodeTotalScore(IList<EPAProcessModel> processes)
@@ -523,15 +526,19 @@ namespace SMS.EPA.Repositories.Implement
 
         private void DecodeScore(EvaluationModel evaluation)
         {
-            float rate = 0;
-
-            if (!string.IsNullOrEmpty(evaluation.RateEncode))
+            if (evaluation != null)
             {
-                rate = float.Parse(EncodeService.Decode(evaluation.RateEncode));
-            }
+                float rate = 0;
 
-            evaluation.Score = EncodeService.Decode(evaluation.ScoreEncode).Replace("_" + evaluation.KPIId, string.Empty);
-            evaluation.Rate = rate;
+                if (!string.IsNullOrEmpty(evaluation.RateEncode))
+                {
+                    rate = float.Parse(EncodeService.Decode(evaluation.RateEncode));
+                }
+
+                evaluation.Score = EncodeService.Decode(evaluation.ScoreEncode)
+                    .Replace("_" + evaluation.KPIId, string.Empty);
+                evaluation.Rate = rate;
+            }
         }
 
         private void DecodeScore(IList<EvaluationModel> evaluations)

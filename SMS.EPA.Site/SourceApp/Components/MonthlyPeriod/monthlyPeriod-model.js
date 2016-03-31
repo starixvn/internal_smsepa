@@ -522,7 +522,7 @@ function ($modal, monthlyPeriodFactory, errorFactory, notificationFactory, utili
                 }
                 else {
                     employee.IsIncluded = !newEmployeeStatus.IsIncluded;
-                    notificationFactory.error("UpdatedUnsuccessfully");
+                    notificationFactory.error("", response.Message);
                 }
 
                 vm.query(vm.filter);

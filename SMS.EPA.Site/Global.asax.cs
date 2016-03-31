@@ -19,17 +19,11 @@ namespace SMS.EPA.Site
     using Fanex.Data.Configuration;
     using Fanex.Logging;
 
-    /// <summary>
-    /// Web API Application.
-    /// </summary>
     public class WebApiApplication : HttpApplication
     {
-        private const string _WebApiPrefix = "api";
-        private static string _webApiExecutionPath = string.Format("~/{0}", _WebApiPrefix);
+        private const string WebApiPrefix = "api";
+        private static readonly string WebApiExecutionPath = string.Format("~/{0}", WebApiPrefix);
 
-        /// <summary>
-        /// Application Start.
-        /// </summary>
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -63,7 +57,8 @@ namespace SMS.EPA.Site
 
         private static bool IsWebApiRequest()
         {
-            return HttpContext.Current.Request.AppRelativeCurrentExecutionFilePath.StartsWith(_webApiExecutionPath, StringComparison.OrdinalIgnoreCase);
+            return HttpContext.Current.Request.AppRelativeCurrentExecutionFilePath != null
+                && HttpContext.Current.Request.AppRelativeCurrentExecutionFilePath.StartsWith(WebApiExecutionPath, StringComparison.OrdinalIgnoreCase);
         }
     }
 }

@@ -123,8 +123,6 @@
 
         private void AddEmployeeAndGenerateEPASemiAnnual(IEnumerable<int> semiAnnualPeriods)
         {
-            string messageResult = string.Empty;
-
             foreach (int periodId in semiAnnualPeriods)
             {
                 _LOG.Info("Auto add employee to semi annual period " + periodId + ": started at " + DateTime.Now.ToString());
@@ -133,7 +131,7 @@
                     PeriodId = periodId
                 };
                 CommandResult insertEmployeeResult = _evaluationService.InsertEmployeeToSemiAnnualPeriod(insertEmployeeCriteria);
-                messageResult = insertEmployeeResult.IsSuccessful ? "0" : insertEmployeeResult.Message;
+                string messageResult = insertEmployeeResult.IsSuccessful ? "0" : insertEmployeeResult.Message;
                 _LOG.Info("Result of auto add employee to semi annual period " + periodId + ": " + messageResult);
 
                 _LOG.Info("Auto generate EPA to all employees of current semi annual period " + periodId + ": started at " + DateTime.Now.ToString());

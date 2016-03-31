@@ -350,7 +350,7 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
                 }
                 else {
                     employee.HasMonthlyEPA = !newEmployee.HasMonthlyEPA;
-                    notificationFactory.error("UpdatedUnsuccessfully");
+                    notificationFactory.error("", response.Message);
                 }
             })
             .error(function (response, status) {
