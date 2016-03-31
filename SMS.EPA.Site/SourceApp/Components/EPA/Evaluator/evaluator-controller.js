@@ -15,7 +15,6 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, en
 
     function initFilter() {
         var filter = historyFactory.getState();
-
         return filter ? filter : {
             groupId: '',
             isLocal: '',
@@ -27,6 +26,7 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, en
     vm.getMember = function (groupId, isLocal) {
         SelfEvalutorModel.getMemberByEvaluator(groupId, isLocal).then(function () {
             vm.members = SelfEvalutorModel.members;
+            utilitiesFactory.setSelectedItem(vm.members, "EmployeeId", vm.filter.employeeIds);
         });
     };
 
@@ -89,7 +89,6 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, en
             vm.standardGrades = CommonModel.standardGrades;
             getEPAByEvaluator(vm.filter.groupId, vm.filter.isLocal, vm.filter.isMonthly, vm.filter.employeeIds);
         });
-
     }
 
     initialize();
@@ -117,9 +116,7 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
     vm.ratingTypeEnum = enumerationsFactory.ratingType;
 
     vm.ViewBySelf = function () {
-        var a = !vm.evaluatorId;
-        return a;
-
+        return !vm.evaluatorId;
     };
 
     vm.initCollapseExpandCommentByEmployee = function (epaInfo, kpi) {

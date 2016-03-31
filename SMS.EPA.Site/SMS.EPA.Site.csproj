@@ -352,6 +352,9 @@
     <Content Include="Libs\FanexGrid\Language\Fanex.Gird.Lang.zh-TW.js" />
     <Content Include="Libs\FanexGrid\moment.min.js" />
     <Content Include="Libs\FanexGrid\numeral.min.js" />
+    <Content Include="Libs\isteven-angular-multiselect\isteven-multi-select.css" />
+    <Content Include="Libs\isteven-angular-multiselect\isteven-multi-select.js" />
+    <Content Include="Libs\isteven-angular-multiselect\LICENSE.txt" />
     <Content Include="Libs\jquery-2.1.0-vsdoc.js" />
     <Content Include="Libs\jquery-2.1.0.min.js" />
     <Content Include="Libs\jquery-ui.min.js" />
@@ -692,6 +695,9 @@
     <Content Include="Libs\BootstrapStarRating\LICENSE.md" />
     <Content Include="Libs\BootstrapStarRating\package.json" />
     <Content Include="Libs\BootstrapStarRating\README.md" />
+    <Content Include="Libs\isteven-angular-multiselect\.bower.json" />
+    <Content Include="Libs\isteven-angular-multiselect\.npmignore" />
+    <Content Include="Libs\isteven-angular-multiselect\bower.json" />
     <None Include="Libs\jquery-2.1.0.min.map" />
     <Content Include="Views\Auth\Login.cshtml" />
     <Content Include="SourceApp\Components\KPI\kpi.less" />

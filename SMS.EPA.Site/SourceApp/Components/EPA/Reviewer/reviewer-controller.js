@@ -35,6 +35,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     vm.getMember = function (groupId, isLocal) {
         ReviewerManagementModel.getMemberByReviewer(groupId, isLocal).then(function () {
             vm.members = ReviewerManagementModel.members;
+            utilitiesFactory.setSelectedItem(vm.members, "EmployeeId", vm.filter.employeeIds);
         });
     };
 
