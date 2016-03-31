@@ -5,7 +5,9 @@
          ng-click="memberEPAInfoCtrl.collapses[kpiGroup.Name] = !memberEPAInfoCtrl.collapses[kpiGroup.Name]">
         <div class="kpiGroup-name">{{kpiGroup.Name}} <strong>({{kpiGroup.Weight | customScore}} pts)</strong></div>
         <div class="text-center employee-score" data-translate="EmployeeScore"></div>
-        <div class="text-center employee-score">{{memberEPAInfoCtrl.epaInfo.CurrentProcess.NickName}}</div>
+        <div class="text-center employee-score">
+            <strong data-translate="EvaluatorScore"></strong> ({{memberEPAInfoCtrl.epaInfo.CurrentProcess.NickName}})
+        </div>
     </div>
     <div class="kpiGroup-box col-sm-12" collapse="memberEPAInfoCtrl.collapses[kpiGroup.Name]">
         <div class="row-item" ng-repeat="kpi in kpiGroup.KPIs" repeat-end="memberEPAInfoCtrl.generateRatingStar()">
