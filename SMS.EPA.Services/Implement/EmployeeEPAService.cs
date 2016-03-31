@@ -169,9 +169,9 @@ namespace SMS.EPA.Services.Implement
                 {
                     memberEPA.CurrentProcess = memberEPA.ProcessByReviewers.FirstOrDefault();
                     SetMaxPerformanceScore(memberEPA);
-                    SetMaxSubtractAndMaxAdditionScore(memberEPA);
                     GroupMonthlyEPABySemi(memberEPA, monthlyEPAs);
                     ConvertAverageMonthlyScore(memberEPA.MonthlyEPA, memberEPA.ScoreRatingType);
+                    SetMaxSubtractAndMaxAdditionScore(memberEPA);
                 }
             }
 
@@ -223,9 +223,9 @@ namespace SMS.EPA.Services.Implement
                 {
                     memberEPA.CurrentProcess = memberEPA.ProcessByManagements.FirstOrDefault();
                     SetMaxPerformanceScore(memberEPA);
-                    SetMaxSubtractAndMaxAdditionScore(memberEPA);
                     GroupMonthlyEPABySemi(memberEPA, monthlyEPAs);
                     ConvertAverageMonthlyScore(memberEPA.MonthlyEPA, memberEPA.ScoreRatingType);
+                    SetMaxSubtractAndMaxAdditionScore(memberEPA);
                 }
             }
 
@@ -636,42 +636,46 @@ namespace SMS.EPA.Services.Implement
 
         private void SetMaxSubtractAndMaxAdditionScore(EPAModel epaInfo)
         {
+            float maxAdditionScore = 0;
+
             switch (epaInfo.CurrentProcess.ProcessId)
             {
                 case (int)ProcessType.Reviewer:
                     if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
                     {
                         epaInfo.CurrentProcess.MaxSubtractScore = -epaInfo.MonthlyEPA.AverageReviewerScoreConverted;
-                        epaInfo.CurrentProcess.MaxAdditionScore = epaInfo.CurrentProcess.MaxTotalScore - epaInfo.MonthlyEPA.AverageReviewerScoreConverted;
+                        maxAdditionScore = epaInfo.CurrentProcess.MaxTotalScore - epaInfo.MonthlyEPA.AverageReviewerScoreConverted;
                     }
                     else
                     {
                         epaInfo.CurrentProcess.MaxSubtractScore = -epaInfo.AverageScoreByEvaluators;
-                        epaInfo.CurrentProcess.MaxAdditionScore = epaInfo.CurrentProcess.MaxTotalScore - epaInfo.AverageScoreByEvaluators;
+                        maxAdditionScore = epaInfo.CurrentProcess.MaxTotalScore - epaInfo.AverageScoreByEvaluators;
                     }
 
+                    epaInfo.CurrentProcess.MaxAdditionScore = (float)Math.Round(maxAdditionScore, Constants.NumberOfDecimalDefault);
                     break;
 
                 case (int)ProcessType.Management:
                     if (epaInfo.ProcessByReviewers.Count > 0)
                     {
                         epaInfo.CurrentProcess.MaxSubtractScore = -epaInfo.AverageScoreByReviewers;
-                        epaInfo.CurrentProcess.MaxAdditionScore = epaInfo.CurrentProcess.MaxTotalScore - epaInfo.AverageScoreByReviewers;
+                        maxAdditionScore = epaInfo.CurrentProcess.MaxTotalScore - epaInfo.AverageScoreByReviewers;
                     }
                     else
                     {
                         if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
                         {
                             epaInfo.CurrentProcess.MaxSubtractScore = -epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted;
-                            epaInfo.CurrentProcess.MaxAdditionScore = epaInfo.CurrentProcess.MaxTotalScore - epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted;
+                            maxAdditionScore = epaInfo.CurrentProcess.MaxTotalScore - epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted;
                         }
                         else
                         {
                             epaInfo.CurrentProcess.MaxSubtractScore = -epaInfo.AverageScoreByEvaluators;
-                            epaInfo.CurrentProcess.MaxAdditionScore = epaInfo.CurrentProcess.MaxTotalScore - epaInfo.AverageScoreByEvaluators;
+                            maxAdditionScore = epaInfo.CurrentProcess.MaxTotalScore - epaInfo.AverageScoreByEvaluators;
                         }
                     }
 
+                    epaInfo.CurrentProcess.MaxAdditionScore = (float)Math.Round(maxAdditionScore, Constants.NumberOfDecimalDefault);
                     break;
             }
         }
