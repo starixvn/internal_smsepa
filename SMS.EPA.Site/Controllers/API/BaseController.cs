@@ -13,16 +13,11 @@ namespace SMS.EPA.Site.Controllers.API
     using System.Web.Security;
     using SMS.EPA.Model.Authentication;
     using SMS.EPA.Web;
+    using SMS.EPA.Web.ApiAuthorizeAttribute;
 
-    /// <summary>
-    /// The base controller.
-    /// </summary>
+    [DeflateCompressionAttribute]
     public class BaseController : ApiController
     {
-        /// <summary>
-        /// Gets Current Session.
-        /// </summary>
-        /// <value>Current Session.</value>
         protected UserSession CurrentUser
         {
             get
