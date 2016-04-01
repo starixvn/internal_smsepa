@@ -246,14 +246,14 @@
   <data name="Required" xml:space="preserve">
     <value>Required</value>
   </data>
-  <data name="HasComment" xml:space="preserve">
-    <value>Has comment</value>
+  <data name="Comment" xml:space="preserve">
+    <value>Comment</value>
   </data>
   <data name="RequireComment" xml:space="preserve">
-    <value>Require evaluate's comment</value>
+    <value>Required comment</value>
   </data>
   <data name="RequireEvaluate" xml:space="preserve">
-    <value>Require evaluate</value>
+    <value>Required evaluation</value>
   </data>
   <data name="SubmitAndContinue" xml:space="preserve">
     <value>Submit and continue</value>
@@ -931,7 +931,7 @@
     <value>Max Points</value>
   </data>
   <data name="AdjustScore" xml:space="preserve">
-    <value>Adjust Score</value>
+    <value>Score Adjustment</value>
   </data>
   <data name="CurrentScore" xml:space="preserve">
     <value>Current Score</value>
@@ -964,7 +964,7 @@
     <value>Discipline Detail Adjustment</value>
   </data>
   <data name="ApproverComment" xml:space="preserve">
-    <value>Approver Comment</value>
+    <value>Approver's Comment</value>
   </data>
   <data name="CheckIn" xml:space="preserve">
     <value>Check In</value>
@@ -973,7 +973,7 @@
     <value>Check Out</value>
   </data>
   <data name="EmployeeComment" xml:space="preserve">
-    <value>Employee Comment</value>
+    <value>Employee's Comment</value>
   </data>
   <data name="Shift" xml:space="preserve">
     <value>Shift</value>
@@ -1277,5 +1277,14 @@
   </data>
   <data name="MonthlyAverage" xml:space="preserve">
     <value>Monthly Average</value>
+  </data>
+  <data name="MinusScore" xml:space="preserve">
+    <value>Minus Score</value>
+  </data>
+  <data name="MinusScoringApprover" xml:space="preserve">
+    <value>Minus Scoring Approver</value>
+  </data>
+  <data name="MinusScoringSystem" xml:space="preserve">
+    <value>Minus Scoring System</value>
   </data>
 </root>

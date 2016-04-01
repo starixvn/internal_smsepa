@@ -1,5 +1,5 @@
 ﻿<div class="row evaluation-process-section" ng-repeat="epaInfo in dashboardCtrl.evaluationProcesses"
-     ng-show="epaInfo.EvaluationProcess.Self"
+     ng-show="epaInfo.Status.StatusId == dashboardCtrl.epaStatusEnum.Open"
      ng-init="dashboardCtrl.collapses[epaInfo.Period.Name] = false;">
     <div class="boxtitle" ng-click="dashboardCtrl.collapses[epaInfo.Period.Name] = !dashboardCtrl.collapses[epaInfo.Period.Name]">
         {{"EvaluationProcess" | translate}} for Period: {{epaInfo.Period.Name}}

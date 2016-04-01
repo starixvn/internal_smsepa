@@ -133,7 +133,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Adjust Score.
+        ///   Looks up a localized string similar to Score Adjustment.
         /// </summary>
         public static string AdjustScore {
             get {
@@ -178,7 +178,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Approver Comment.
+        ///   Looks up a localized string similar to Approver&apos;s Comment.
         /// </summary>
         public static string ApproverComment {
             get {
@@ -444,6 +444,15 @@ namespace SMS.EPA.Resources {
         public static string CodeRequried {
             get {
                 return ResourceManager.GetString("CodeRequried", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Comment.
+        /// </summary>
+        public static string Comment {
+            get {
+                return ResourceManager.GetString("Comment", resourceCulture);
             }
         }
         
@@ -862,7 +871,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Employee Comment.
+        ///   Looks up a localized string similar to Employee&apos;s Comment.
         /// </summary>
         public static string EmployeeComment {
             get {
@@ -1510,15 +1519,6 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Has comment.
-        /// </summary>
-        public static string HasComment {
-            get {
-                return ResourceManager.GetString("HasComment", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Has Monthly EPA.
         /// </summary>
         public static string HasMonthlyEPA {
@@ -1920,6 +1920,33 @@ namespace SMS.EPA.Resources {
         public static string MessageRatingInstructions {
             get {
                 return ResourceManager.GetString("MessageRatingInstructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Minus Score.
+        /// </summary>
+        public static string MinusScore {
+            get {
+                return ResourceManager.GetString("MinusScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Minus Scoring Approver.
+        /// </summary>
+        public static string MinusScoringApprover {
+            get {
+                return ResourceManager.GetString("MinusScoringApprover", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Minus Scoring System.
+        /// </summary>
+        public static string MinusScoringSystem {
+            get {
+                return ResourceManager.GetString("MinusScoringSystem", resourceCulture);
             }
         }
         
@@ -2428,7 +2455,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Require evaluate&apos;s comment.
+        ///   Looks up a localized string similar to Required comment.
         /// </summary>
         public static string RequireComment {
             get {
@@ -2482,7 +2509,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Require evaluate.
+        ///   Looks up a localized string similar to Required evaluation.
         /// </summary>
         public static string RequireEvaluate {
             get {
