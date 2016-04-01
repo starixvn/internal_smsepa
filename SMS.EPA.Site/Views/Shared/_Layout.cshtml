@@ -8,8 +8,6 @@
     <meta name="viewport" content="width=device-width" />
     <title>@Lang.TitlePage</title>
     @Styles.Render("~/Content/Common/css",
-        "~/Content/fanexgridcss",
-        "~/Content/starratingcss",
         "~/bundles/less")
     @RenderSection("Head", false)
     <base href="@Url.Content("~/")" />
@@ -19,8 +17,6 @@
         @RenderBody()
     </div>
     @Scripts.Render("~/bundles/vendor",
-        "~/bundles/fanexgridjs",
-        "~/bundles/starratingjs",
         "~/bundles/app",
         "~/bundles/common/js")
 </body>

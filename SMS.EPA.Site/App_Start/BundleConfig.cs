@@ -18,7 +18,10 @@
                             "~/Content/Common/toastr.css",
                             "~/Content/Common/angular-multi-select.css",
                             "~/Content/Common/jquery-ui.min.css",
-                            "~/Content/Common/chosen.min.css"));
+                            "~/Content/Common/chosen.min.css")
+                            .Include("~/Libs/FanexGrid/Fanex.Grid.css", new CssRewriteUrlTransform())
+                            .Include("~/Libs/FanexGrid/Fanex.Pagination.css", new CssRewriteUrlTransform())
+                            .Include("~/Libs/BootstrapStarRating/css/star-rating.min.css", new CssRewriteUrlTransform()));
 
             bundles.Add(new ScriptBundle("~/bundles/vendor").Include(
                             "~/Libs/jquery-2.1.0.min.js",
@@ -41,10 +44,12 @@
                             "~/Libs/numeric-directive.js",
                             "~/Libs/spin.min.js",
                             "~/Libs/angular-spinner.min.js",
-                            "~/Libs/floatThead/jquery.floatThead.min.js"));
-
-            BuildBundleForFanexGrid(bundles);
-            BuildBundleForStarRating(bundles);
+                            "~/Libs/floatThead/jquery.floatThead.min.js",
+                            "~/Libs/FanexGrid/Fanex.Grid.js",
+                            "~/Libs/FanexGrid/moment.min.js",
+                            "~/Libs/FanexGrid/numeral.min.js",
+                            "~/Libs/FanexGrid/Fanex.Pagination.js",
+                            "~/Libs/BootstrapStarRating/js/star-rating.js"));
 
             bundles.AddAndInclude(
                             "~/bundles/less",
@@ -155,28 +160,6 @@
                             "~/SourceApp/Shared/utilities-factory.js",
                             "~/SourceApp/Shared/enumerations-factory.js",
                             "~/SourceApp/Shared/history-factory.js"));
-        }
-
-        public static void BuildBundleForFanexGrid(BundleCollection bundles)
-        {
-            bundles.Add(new StyleBundle("~/Content/fanexgridcss")
-                .Include("~/Libs/FanexGrid/Fanex.Grid.css", new CssRewriteUrlTransform())
-                .Include("~/Libs/FanexGrid/Fanex.Pagination.css", new CssRewriteUrlTransform()));
-
-            bundles.Add(new ScriptBundle("~/bundles/fanexgridjs").Include(
-                "~/Libs/FanexGrid/Fanex.Grid.js",
-                "~/Libs/FanexGrid/moment.min.js",
-                "~/Libs/FanexGrid/numeral.min.js",
-                "~/Libs/FanexGrid/Fanex.Pagination.js"));
-        }
-
-        public static void BuildBundleForStarRating(BundleCollection bundles)
-        {
-            bundles.Add(new StyleBundle("~/Content/starratingcss")
-                .Include("~/Libs/BootstrapStarRating/css/star-rating.min.css", new CssRewriteUrlTransform()));
-
-            bundles.Add(new ScriptBundle("~/bundles/starratingjs")
-                .Include("~/Libs/BootstrapStarRating/js/star-rating.js"));
         }
     }
 }

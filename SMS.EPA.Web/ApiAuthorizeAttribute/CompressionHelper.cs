@@ -2,7 +2,7 @@
 {
     using System.IO;
 
-    public class CompressionHelper
+    public static class CompressionHelper
     {
         public static byte[] DeflateByte(byte[] str)
         {
