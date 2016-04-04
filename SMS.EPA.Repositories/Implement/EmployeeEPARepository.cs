@@ -289,7 +289,6 @@ namespace SMS.EPA.Repositories.Implement
         public IEnumerable<RatingByKPIModel> GetEmployeeEPAToView(ICriteria criteria)
         {
             IEnumerable<RatingByKPIModel> epaInfos = new List<RatingByKPIModel>();
-
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
                 using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
@@ -299,7 +298,6 @@ namespace SMS.EPA.Repositories.Implement
                         {
                             epaInfo.RatingType = type;
                             epaInfo.KPIGroup = kgr;
-
                             return epaInfo;
                         },
                         "RatingTypeId, KPIGroupId");
@@ -310,7 +308,6 @@ namespace SMS.EPA.Repositories.Implement
                             epaInfo.Department = dept;
                             epaInfo.Group = gr;
                             epaInfo.JobTitle = job;
-
                             return epaInfo;
                         },
                         "DepartmentId, GroupId, JobTitleId");
@@ -319,7 +316,6 @@ namespace SMS.EPA.Repositories.Implement
                         (kpi, kgr) =>
                         {
                             kpi.KPIGroup = kgr;
-
                             return kpi;
                         },
                         "KPIGroupId");
@@ -328,11 +324,9 @@ namespace SMS.EPA.Repositories.Implement
                        (kpi, kgr) =>
                        {
                            kpi.KPIGroup = kgr;
-
                            return kpi;
                        },
                        "KPIGroupId");
-
                     GroupEmployeeByEPA(epaInfos, employees);
                     GroupKPIByEPA(epaInfos, kpis);
                     GroupKPIBySelf(epaInfos, kpisBySelf);
