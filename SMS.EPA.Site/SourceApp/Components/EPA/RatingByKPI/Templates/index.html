@@ -46,7 +46,7 @@
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr class="header-table">
-                                <th colspan="7">
+                                <th colspan="8">
                                     <input type="text" ng-model="ratingByKPICtrl.searchKey" ng-change="ratingByKPICtrl.search()"
                                            class="search-inline-textbox search pull-right">
                                 </th>
@@ -55,6 +55,7 @@
                                 <th></th>
                                 <th data-translate="Section"></th>
                                 <th data-translate="NickName"></th>
+                                <th data-translate="EmployeeScore"></th>
                                 <th class="col-score">
                                     <div class="col-sm-10" data-translate="CurrentScore"></div>
                                     <div class="col-sm-2" ng-show="ratingByKPICtrl.memberEPAs.length > 1">
@@ -87,6 +88,23 @@
                                 <td class="text-center">
                                     <span ng-bind="memberEPA.Employee.NickName" popover-avatar avatar-src="{{memberEPA.Employee.Avatar}}"></span>
                                 </td>
+                                <td class="col-comment">
+                                    <div class="row text-center list-star" ng-repeat="kpi in memberEPA.KPIGroup.KPIsBySelf" ng-if="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
+                                        <span tooltip="{{kpi.Comment}}">{{kpi.Score | splitScore}} pts</span>
+                                        <div class="score-star-rating" ng-if="memberEPA.RatingType.RatingTypeId == ratingByKPICtrl.ratingTypeEnum.Star">
+                                            -
+                                            <input type="number" class="rating-loading" ng-readonly="true" data-size="xs"
+                                                   data-min="0" data-max="5" data-step="1" ng-model="kpi.Rate"
+                                                   data-show-caption="false" data-show-clear="false">
+                                        </div>
+                                        <div class="score-star-rating" ng-if=" memberEPA.RatingType.RatingTypeId == ratingByKPICtrl.ratingTypeEnum.HalfStar">
+                                            -
+                                            <input type="number" class="rating-loading" ng-readonly="true" data-size="xs"
+                                                   data-min="0" data-max="5" data-step="0.5" ng-model="kpi.Rate"
+                                                   data-show-caption="false" data-show-clear="false">
+                                        </div>
+                                    </div>
+                                </td>
                                 <td class="text-center col-score">
                                     <div ng-repeat="kpi in memberEPA.KPIGroup.KPIs" ng-show="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
                                         <span ng-show="kpi.Score != ''" ng-bind="kpi.Score | splitScore"></span>
@@ -94,7 +112,7 @@
                                     </div>
                                 </td>
                                 <td class="col-adjust-score">
-                                    <div class="row text-center list-star" ng-repeat="kpi in memberEPA.KPIGroup.KPIs" 
+                                    <div class="row text-center list-star" ng-repeat="kpi in memberEPA.KPIGroup.KPIs"
                                          ng-if="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
                                         <div ng-if="memberEPA.RatingType.RatingTypeId == ratingByKPICtrl.ratingTypeEnum.Star
                                                 || (memberEPA.RatingType.RatingTypeId == ratingByKPICtrl.ratingTypeEnum.Score && memberEPA.KPIGroup.NumberKPIOptional > 0)">

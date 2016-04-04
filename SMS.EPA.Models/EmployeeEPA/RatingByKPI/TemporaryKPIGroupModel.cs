@@ -16,6 +16,7 @@ namespace SMS.EPA.Model.EmployeeEPA.RatingByKPI
         public TemporaryKPIGroupModel()
         {
             KPIs = new List<TemporaryKPIModel>();
+            KPIsBySelf = new List<TemporaryKPIModel>();
         }
 
         public int KPIGroupId { get; set; }
@@ -33,5 +34,7 @@ namespace SMS.EPA.Model.EmployeeEPA.RatingByKPI
         public int NumberKPIOptional { get; set; }
 
         public IList<TemporaryKPIModel> KPIs { get; set; }
+
+        public IList<TemporaryKPIModel> KPIsBySelf { get; set; }
     }
 }

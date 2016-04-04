@@ -238,7 +238,6 @@ namespace SMS.EPA.Repositories.Implement
         public IEnumerable<RatingByKPIModel> GetEmployeeEPAByKPI(ICriteria criteria)
         {
             IEnumerable<RatingByKPIModel> epaInfos = new List<RatingByKPIModel>();
-
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
                 using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
@@ -248,7 +247,6 @@ namespace SMS.EPA.Repositories.Implement
                         {
                             epaInfo.RatingType = type;
                             epaInfo.KPIGroup = kgr;
-
                             return epaInfo;
                         },
                         "RatingTypeId, KPIGroupId");
@@ -259,7 +257,6 @@ namespace SMS.EPA.Repositories.Implement
                             epaInfo.Department = dept;
                             epaInfo.Group = gr;
                             epaInfo.JobTitle = job;
-
                             return epaInfo;
                         },
                         "DepartmentId, GroupId, JobTitleId");
@@ -268,13 +265,20 @@ namespace SMS.EPA.Repositories.Implement
                         (kpi, kgr) =>
                         {
                             kpi.KPIGroup = kgr;
-
                             return kpi;
                         },
                         "KPIGroupId");
 
+                    IEnumerable<TemporaryKPIModel> kpisBySelf = multi.Read<TemporaryKPIModel, TemporaryKPIGroupModel, TemporaryKPIModel>(
+                       (kpi, kgr) =>
+                       {
+                           kpi.KPIGroup = kgr;
+                           return kpi;
+                       },
+                       "KPIGroupId");
                     GroupEmployeeByEPA(epaInfos, employees);
                     GroupKPIByEPA(epaInfos, kpis);
+                    GroupKPIBySelf(epaInfos, kpisBySelf);
                     DecodeAllScore(epaInfos);
                 }
             }
@@ -320,8 +324,18 @@ namespace SMS.EPA.Repositories.Implement
                         },
                         "KPIGroupId");
 
+                    IEnumerable<TemporaryKPIModel> kpisBySelf = multi.Read<TemporaryKPIModel, TemporaryKPIGroupModel, TemporaryKPIModel>(
+                       (kpi, kgr) =>
+                       {
+                           kpi.KPIGroup = kgr;
+
+                           return kpi;
+                       },
+                       "KPIGroupId");
+
                     GroupEmployeeByEPA(epaInfos, employees);
                     GroupKPIByEPA(epaInfos, kpis);
+                    GroupKPIBySelf(epaInfos, kpisBySelf);
                     DecodeAllScore(epaInfos);
                 }
             }
@@ -464,6 +478,17 @@ namespace SMS.EPA.Repositories.Implement
             }
         }
 
+        private void GroupKPIBySelf(IEnumerable<RatingByKPIModel> epaInfos, IEnumerable<TemporaryKPIModel> kpis)
+        {
+            foreach (RatingByKPIModel epaInfo in epaInfos)
+            {
+                foreach (TemporaryKPIModel kpi in kpis.Where(x => x.EPAId.Equals(epaInfo.EPAId) && x.KPIGroup.KPIGroupId.Equals(epaInfo.KPIGroup.KPIGroupId)))
+                {
+                    epaInfo.KPIGroup.KPIsBySelf.Add(kpi);
+                }
+            }
+        }
+
         private void DecodeAllScore(EPAModel epaInfo)
         {
             epaInfo.LastFinalScore = EncodeService.Decode(epaInfo.LastFinalScoreEncode);
@@ -493,6 +518,19 @@ namespace SMS.EPA.Repositories.Implement
                 epaInfo.TotalScore = EncodeService.Decode(epaInfo.TotalScoreEncode);
 
                 foreach (TemporaryKPIModel kpi in epaInfo.KPIGroup.KPIs)
+                {
+                    float rate = 0;
+
+                    if (!string.IsNullOrEmpty(kpi.RateEncode))
+                    {
+                        rate = float.Parse(EncodeService.Decode(kpi.RateEncode));
+                    }
+
+                    kpi.Score = EncodeService.Decode(kpi.ScoreEncode).Replace("_" + kpi.KPIId, string.Empty);
+                    kpi.Rate = rate;
+                }
+
+                foreach (TemporaryKPIModel kpi in epaInfo.KPIGroup.KPIsBySelf)
                 {
                     float rate = 0;
 

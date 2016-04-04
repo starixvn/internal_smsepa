@@ -67,7 +67,8 @@
                                 <th data-translate="SymbolCount"></th>
                                 <th data-translate="Section"></th>
                                 <th data-translate="NickName"></th>
-                                <th data-translate="CurrentScore"></th>
+                                <th data-translate="EmployeeScore"></th>
+                                <th data-translate="EvaluatorScore"></th>
                                 <th data-translate="Comment"></th>
                                 <th data-translate="PerformanceScore" class="col-score"></th>
                             </tr>
@@ -80,6 +81,23 @@
                                 </td>
                                 <td class="text-center">
                                     <span ng-bind="memberEPA.Employee.NickName" popover-avatar avatar-src="{{memberEPA.Employee.Avatar}}"></span>
+                                </td>
+                                <td class="col-comment">
+                                    <div class="row text-center list-star" ng-repeat="kpi in memberEPA.KPIGroup.KPIsBySelf" ng-if="kpi.KPIId == epaByKPICtrl.filter.kpiId">
+                                        <span tooltip="{{kpi.Comment}}">{{kpi.Score | splitScore}} pts</span>
+                                        <div class="score-star-rating" ng-if="memberEPA.RatingType.RatingTypeId == epaByKPICtrl.RatingType.Star">
+                                            -
+                                            <input type="number" class="rating-loading" ng-readonly="true" data-size="xs"
+                                                   data-min="0" data-max="5" data-step="1" ng-model="kpi.Rate"
+                                                   data-show-caption="false" data-show-clear="false">
+                                        </div>
+                                        <div class="score-star-rating" ng-if=" memberEPA.RatingType.RatingTypeId == epaByKPICtrl.RatingType.HalfStar">
+                                            -
+                                            <input type="number" class="rating-loading" ng-readonly="true" data-size="xs"
+                                                   data-min="0" data-max="5" data-step="0.5" ng-model="kpi.Rate"
+                                                   data-show-caption="false" data-show-clear="false">
+                                        </div>
+                                    </div>
                                 </td>
                                 <td class="col-comment">
                                     <div class="row text-center list-star" ng-repeat="kpi in memberEPA.KPIGroup.KPIs" ng-if="kpi.KPIId == epaByKPICtrl.filter.kpiId">
