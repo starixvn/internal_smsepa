@@ -59,7 +59,7 @@
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr class="header-table">
-                                <th colspan="6">
+                                <th colspan="7">
                                     <input type="text" ng-model="epaByKPICtrl.searchKey" ng-change="epaByKPICtrl.search()" class="search-inline-textbox search pull-right">
                                 </th>
                             </tr>
@@ -84,18 +84,20 @@
                                 </td>
                                 <td class="col-comment">
                                     <div class="row text-center list-star" ng-repeat="kpi in memberEPA.KPIGroup.KPIsBySelf" ng-if="kpi.KPIId == epaByKPICtrl.filter.kpiId">
-                                        <span tooltip="{{kpi.Comment}}">{{kpi.Score | splitScore}} pts</span>
-                                        <div class="score-star-rating" ng-if="memberEPA.RatingType.RatingTypeId == epaByKPICtrl.RatingType.Star">
-                                            -
-                                            <input type="number" class="rating-loading" ng-readonly="true" data-size="xs"
-                                                   data-min="0" data-max="5" data-step="1" ng-model="kpi.Rate"
-                                                   data-show-caption="false" data-show-clear="false">
-                                        </div>
-                                        <div class="score-star-rating" ng-if=" memberEPA.RatingType.RatingTypeId == epaByKPICtrl.RatingType.HalfStar">
-                                            -
-                                            <input type="number" class="rating-loading" ng-readonly="true" data-size="xs"
-                                                   data-min="0" data-max="5" data-step="0.5" ng-model="kpi.Rate"
-                                                   data-show-caption="false" data-show-clear="false">
+                                        <div tooltip="{{kpi.Comment}}">
+                                            <span>{{kpi.Score | splitScore}} pts</span>
+                                            <div class="score-star-rating" ng-if="memberEPA.RatingType.RatingTypeId == epaByKPICtrl.RatingType.Star">
+                                                -
+                                                <input type="number" class="rating-loading" ng-readonly="true" data-size="xs"
+                                                       data-min="0" data-max="5" data-step="1" ng-model="kpi.Rate"
+                                                       data-show-caption="false" data-show-clear="false">
+                                            </div>
+                                            <div class="score-star-rating" ng-if=" memberEPA.RatingType.RatingTypeId == epaByKPICtrl.RatingType.HalfStar">
+                                                -
+                                                <input type="number" class="rating-loading" ng-readonly="true" data-size="xs"
+                                                       data-min="0" data-max="5" data-step="0.5" ng-model="kpi.Rate"
+                                                       data-show-caption="false" data-show-clear="false">
+                                            </div>
                                         </div>
                                     </div>
                                 </td>
