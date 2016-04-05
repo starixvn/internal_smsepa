@@ -2,8 +2,8 @@
 /*global periodModule*/
 
 periodModule.controller('EmployeeSettingPeriodController',
-['$scope', '$routeParams', '$window', 'PeriodModel', 'utilitiesFactory', 'CommonModel', 'notificationFactory',
-function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonModel, notificationFactory) {
+['$scope', '$routeParams', '$window', 'PeriodModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'notificationFactory',
+function ($scope, $routeParams, $window, PeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, notificationFactory) {
     var vm = this;
 
     vm.period = null;
@@ -17,6 +17,7 @@ function ($scope, $routeParams, $window, PeriodModel, utilitiesFactory, CommonMo
     utilitiesFactory.numberEntryList(vm);
     utilitiesFactory.getDateFormat(vm);
     vm.selectedAll = false;
+    vm.targetTypeEnum = enumerationsFactory.targetType;
 
     vm.filter = {
         periodId: null,
@@ -271,7 +272,7 @@ function ($scope, $modalInstance, PeriodModel, TargetTemplateModel, FlowMngModel
     vm.period = period;
     vm.selectedEmployees = selectedEmployees;
     vm.singleMode = vm.selectedEmployees.length === 1 ? true : false;
-    vm.isEditOnEPAHasMonthly = vm.selectedEmployees[0].Employee.HasMonthlyEPA;
+    vm.isEditOnEPAHasMonthly = vm.selectedEmployees[0].Employee.HasMonthlyEPA && vm.period.TargetType.TargetTypeId === enumerationsFactory.targetType.SemiAnnual;
 
     vm.permission = permission;
     vm.periodDateFormat = PeriodModel.periodDateFormat;

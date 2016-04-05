@@ -1,16 +1,16 @@
-﻿<div ng-controller="EmployeeSettingPeriodController as employeeSettingPeriodCtrl">
+﻿<div ng-controller="EmployeeSettingPeriodController as empSettingCtrl">
     <form class="row form-horizontal filter">
         <div class="form-group">
             <label class="control-label col-sm-2" data-translate="DepartmentSection"></label>
             <div class="col-sm-2">
-                <select class="form-control" ng-model="employeeSettingPeriodCtrl.filter.departmentId"
-                        ng-options="opt.DepartmentId as opt.Name for opt in employeeSettingPeriodCtrl.departmentOptions">
+                <select class="form-control" ng-model="empSettingCtrl.filter.departmentId"
+                        ng-options="opt.DepartmentId as opt.Name for opt in empSettingCtrl.departmentOptions">
                     <option value="">-- {{"All" | translate}} --</option>
                 </select>
             </div>
             <label class="control-label col-sm-1" data-translate="Category"></label>
             <div class="col-sm-2">
-                <select class="form-control" ng-model="employeeSettingPeriodCtrl.filter.isLocal">
+                <select class="form-control" ng-model="empSettingCtrl.filter.isLocal">
                     <option value="">-- {{"All" | translate}} --</option>
                     <option value="false">{{"Expat" | translate}}</option>
                     <option value="true">{{"Local" | translate}}</option>
@@ -18,7 +18,7 @@
             </div>
             <label class="control-label col-sm-2" data-translate="EPAGeneratedStatus"></label>
             <div class="col-sm-2">
-                <select class="form-control" ng-model="employeeSettingPeriodCtrl.filter.isGeneratedEPA">
+                <select class="form-control" ng-model="empSettingCtrl.filter.isGeneratedEPA">
                     <option selected value="">-- {{"All" | translate}} --</option>
                     <option value="true" data-translate="GeneratedEPA"></option>
                     <option value="false" data-translate="NoneGeneratedEPA"></option>
@@ -28,7 +28,7 @@
         <div class="form-group">
             <label class="control-label col-sm-2" data-translate="EvaluatedStatus"></label>
             <div class="col-sm-2">
-                <select class="form-control" ng-model="employeeSettingPeriodCtrl.filter.isEvaluated">
+                <select class="form-control" ng-model="empSettingCtrl.filter.isEvaluated">
                     <option selected value="">-- {{"All" | translate}} --</option>
                     <option value="1" data-translate="NotEvaluated"></option>
                     <option value="2" data-translate="Evaluated"></option>
@@ -36,16 +36,16 @@
             </div>
             <div class="col-sm-offset-1 checkbox col-sm-3">
                 <label>
-                    <input type="checkbox" ng-model="employeeSettingPeriodCtrl.filter.isExcludedEmployee"> {{"ShowExcludedEmployee" | translate}}
+                    <input type="checkbox" ng-model="empSettingCtrl.filter.isExcludedEmployee"> {{"ShowExcludedEmployee" | translate}}
                 </label>
             </div>
             <div class="checkbox col-sm-2">
                 <label>
-                    <input type="checkbox" ng-model="employeeSettingPeriodCtrl.filter.hasMonthlyEPA"> {{"HasMonthlyEPA" | translate}}
+                    <input type="checkbox" ng-model="empSettingCtrl.filter.hasMonthlyEPA"> {{"HasMonthlyEPA" | translate}}
                 </label>
             </div>
             <div class="col-sm-1 search-button">
-                <button class="button" ng-click="employeeSettingPeriodCtrl.query(employeeSettingPeriodCtrl.filter)" data-translate="Search"></button>
+                <button class="button" ng-click="empSettingCtrl.query(empSettingCtrl.filter)" data-translate="Search"></button>
             </div>
         </div>
     </form>
@@ -55,31 +55,31 @@
                 <th colspan="14">
                     <div class="pull-left div-period-department-setting" name="multiSelectOption" ng-show="updateCtrl.permission == updateCtrl.policyEnum.Host">
                         <label class="control-label" data-translate="DepartmentSection"></label>
-                        <add-class-to-role-filter multi-select input-model="employeeSettingPeriodCtrl.departmentOptions" button-label="Name" helper-elements="all reset"
+                        <add-class-to-role-filter multi-select input-model="empSettingCtrl.departmentOptions" button-label="Name" helper-elements="all reset"
                                                   item-label="Name" tick-property="ticked" max-labels="0" class="multi-select period-department-select">
                         </add-class-to-role-filter>
                     </div>
                     <div class="pull-left div-period-employee-setting" ng-show="updateCtrl.permission == updateCtrl.policyEnum.Host">
                         <label class="control-label" data-translate="Employee"></label>
-                        <input class="form-control period-employee" ng-model="employeeSettingPeriodCtrl.searchEmployee"
-                               placeholder="Enter full name or nick name" search-auto-complete search-employees="employeeSettingPeriodCtrl.getEmployee()"
-                               ng-change="employeeSettingPeriodCtrl.unSelectEmployee()" employee="employeeSettingPeriodCtrl.filterAssign.employee" />
+                        <input class="form-control period-employee" ng-model="empSettingCtrl.searchEmployee"
+                               placeholder="Enter full name or nick name" search-auto-complete search-employees="empSettingCtrl.getEmployee()"
+                               ng-change="empSettingCtrl.unSelectEmployee()" employee="empSettingCtrl.filterAssign.employee" />
                     </div>
-                    <button class="button pull-left period-add" ng-click="employeeSettingPeriodCtrl.addEmployee(employeeSettingPeriodCtrl.filterAssign)"
+                    <button class="button pull-left period-add" ng-click="empSettingCtrl.addEmployee(empSettingCtrl.filterAssign)"
                             ng-show="updateCtrl.permission == updateCtrl.policyEnum.Host" data-translate="Add"></button>
                     <input class="btnExcel pull-right" export-employee-setting-report
-                           ng-click="employeeSettingPeriodCtrl.exportReport(employeeSettingPeriodCtrl.filter)"
+                           ng-click="empSettingCtrl.exportReport(empSettingCtrl.filter)"
                            type="button" title="Export to Excel">
-                    <input type="text" ng-model="employeeSettingPeriodCtrl.searchKey" ng-change="employeeSettingPeriodCtrl.search()" class="search-inline-textbox search pull-right">
+                    <input type="text" ng-model="empSettingCtrl.searchKey" ng-change="empSettingCtrl.search()" class="search-inline-textbox search pull-right">
                 </th>
             </tr>
             <tr class="header-table" ng-show="updateCtrl.permission == updateCtrl.policyEnum.Host">
                 <th colspan="14">
-                    <a class="pull-left button-icon period-create-button" ng-click="employeeSettingPeriodCtrl.manageSetting()">
+                    <a class="pull-left button-icon period-create-button" ng-click="empSettingCtrl.manageSetting()">
                         <span class="icon-edit glyphicon glyphicon-edit"></span>
                         <span class="button-text btn-edit-employee-setting" data-translate="EditEmployeeSetting"></span>
                     </a>
-                    <a class="pull-left button-icon period-create-button" ng-click="employeeSettingPeriodCtrl.generateEvaluation()">
+                    <a class="pull-left button-icon period-create-button" ng-click="empSettingCtrl.generateEvaluation()">
                         <span class="icon-edit glyphicon glyphicon-edit"></span>
                         <span class="button-text btn-edit-employee-setting" data-translate="GenerateEvaluation"></span>
                     </a>
@@ -87,8 +87,8 @@
             </tr>
             <tr class="headerName">
                 <th>
-                    <input type="checkbox" ng-click="employeeSettingPeriodCtrl.checkAll(employeeSettingPeriodCtrl.selectedAll)"
-                           ng-model="employeeSettingPeriodCtrl.selectedAll" />
+                    <input type="checkbox" ng-click="empSettingCtrl.checkAll(empSettingCtrl.selectedAll)"
+                           ng-model="empSettingCtrl.selectedAll" />
                 </th>
                 <th data-translate="SymbolCount"></th>
                 <th data-translate="DepartmentSection"></th>
@@ -105,13 +105,16 @@
                 <th data-translate="Edit"></th>
             </tr>
         </thead>
-        <tbody class="table-body" dir-paginate="employee in employeeSettingPeriodCtrl.filteredItems | itemsPerPage: employeeSettingPeriodCtrl.pageSize"
-               current-page="employeeSettingPeriodCtrl.currentPage">
-            <tr ng-class="{oddRow: $index % 2 == 0, evenRow: $index % 2 != 0}" ng-show="!employee.Employee.HasMonthlyEPA">
+        <tbody class="table-body" dir-paginate="employee in empSettingCtrl.filteredItems | itemsPerPage: empSettingCtrl.pageSize"
+               current-page="empSettingCtrl.currentPage">
+            <tr ng-class="{oddRow: $index % 2 == 0, evenRow: $index % 2 != 0}"
+                ng-show="empSettingCtrl.period.TargetType.TargetTypeId == empSettingCtrl.targetTypeEnum.Probation
+                    || empSettingCtrl.period.TargetType.TargetTypeId == empSettingCtrl.targetTypeEnum.Promotion
+                    || (empSettingCtrl.period.TargetType.TargetTypeId == empSettingCtrl.targetTypeEnum.SemiAnnual && !employee.Employee.HasMonthlyEPA)">
                 <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
-                    <input type="checkbox" ng-model="employee.Selected" ng-click="employeeSettingPeriodCtrl.syncSelectedEmployee(employee.Employee.EmployeeId, employee.Selected)" />
+                    <input type="checkbox" ng-model="employee.Selected" ng-click="empSettingCtrl.syncSelectedEmployee(employee.Employee.EmployeeId, employee.Selected)" />
                 </td>
-                <td class="text-center" ng-bind="employeeSettingPeriodCtrl.getIndex($index, employeeSettingPeriodCtrl.currentPage, employeeSettingPeriodCtrl.pageSize)"
+                <td class="text-center" ng-bind="empSettingCtrl.getIndex($index, empSettingCtrl.currentPage, empSettingCtrl.pageSize)"
                     rowspan="{{employee.NumberEvaluators}}"></td>
                 <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
                     <span tooltip="{{employee.Group.GroupName}}" ng-bind="employee.Group.GroupCode"></span>
@@ -144,22 +147,25 @@
                               ng-show="employee.SelfEvaluators[0].ProcessDetailStatus == 1" ng-attr-title='{{"NotEvaluated" | translate}}'></span>
                     </div>
                 </td>
-                <td class="width-140" ng-bind="employee.SelfEvaluators[0].StartDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
-                <td class="width-140" ng-bind="employee.SelfEvaluators[0].EndDate | date: employeeSettingPeriodCtrl.dateFormat"></td>
+                <td class="width-140" ng-bind="employee.SelfEvaluators[0].StartDate | date: empSettingCtrl.dateFormat"></td>
+                <td class="width-140" ng-bind="employee.SelfEvaluators[0].EndDate | date: empSettingCtrl.dateFormat"></td>
                 <td class="text-center width-80" rowspan="{{employee.NumberEvaluators}}">
                     <span class="glyphicon glyphicon-ok-circle epa-saved" ng-show="employee.SelfEvaluators[0].HasEvaluationGenerated"></span>
                 </td>
                 <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
-                    <input type="checkbox" ng-checked="employee.IsIncluded" ng-click="employeeSettingPeriodCtrl.includeExcludeEmployee(employee)"
+                    <input type="checkbox" ng-checked="employee.IsIncluded" ng-click="empSettingCtrl.includeExcludeEmployee(employee)"
                            ng-disabled="updateCtrl.permission != updateCtrl.policyEnum.Host" />
                 </td>
                 <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
                     <div class="btn-group">
-                        <a class="glyphicon glyphicon-edit icon-edit" title="Edit" href="" ng-click="employeeSettingPeriodCtrl.updateEmployeeSetting(employee)"></a>
+                        <a class="glyphicon glyphicon-edit icon-edit" title="Edit" href="" ng-click="empSettingCtrl.updateEmployeeSetting(employee)"></a>
                     </div>
                 </td>
             </tr>
-            <tr ng-class="{oddRow: $parent.$index % 2 == 0, evenRow: $parent.$index % 2 != 0}" ng-repeat="evaluator in employee.Evaluators" ng-show="!employee.Employee.HasMonthlyEPA">
+            <tr ng-class="{oddRow: $parent.$index % 2 == 0, evenRow: $parent.$index % 2 != 0}" ng-repeat="evaluator in employee.Evaluators"
+                ng-show="empSettingCtrl.period.TargetType.TargetTypeId == empSettingCtrl.targetTypeEnum.Probation
+                    || empSettingCtrl.period.TargetType.TargetTypeId == empSettingCtrl.targetTypeEnum.Promotion
+                    || (empSettingCtrl.period.TargetType.TargetTypeId == empSettingCtrl.targetTypeEnum.SemiAnnual && !employee.Employee.HasMonthlyEPA)">
                 <td data-translate="Evaluator" rowspan="{{employee.Evaluators.length}}" ng-show="$first"></td>
                 <td ng-bind="evaluator.EvaluatorInfo.NickName"></td>
                 <td class="width-100">
@@ -180,28 +186,41 @@
                               ng-show="evaluator.ProcessDetailStatus == 1" ng-attr-title='{{"NotEvaluated" | translate}}'></span>
                     </div>
                 </td>
-                <td class="width-140" ng-bind="evaluator.StartDate | date: employeeSettingPeriodCtrl.dateFormat"
+                <td class="width-140" ng-bind="evaluator.StartDate | date: empSettingCtrl.dateFormat"
                     ng-show="$first" rowspan="{{employee.Evaluators.length}}"></td>
-                <td class="width-140" ng-bind="evaluator.EndDate | date: employeeSettingPeriodCtrl.dateFormat"
+                <td class="width-140" ng-bind="evaluator.EndDate | date: empSettingCtrl.dateFormat"
                     ng-show="$first" rowspan="{{employee.Evaluators.length}}"></td>
             </tr>
             <tr ng-class="{oddRow: $parent.$index % 2 == 0, evenRow: $parent.$index % 2 != 0}" ng-repeat="reviewer in employee.Reviewers">
-                <td class="text-center" rowspan="{{employee.NumberEvaluators}}" ng-show="employee.Employee.HasMonthlyEPA && $first">
-                    <input type="checkbox" ng-model="employee.Selected" ng-click="employeeSettingPeriodCtrl.syncSelectedEmployee(employee.Employee.EmployeeId, employee.Selected)" />
+                <td class="text-center" rowspan="{{employee.NumberEvaluators}}"
+                    ng-show="empSettingCtrl.period.TargetType.TargetTypeId == empSettingCtrl.targetTypeEnum.SemiAnnual
+                        && employee.Employee.HasMonthlyEPA && $first">
+                    <input type="checkbox" ng-model="employee.Selected"
+                           ng-click="empSettingCtrl.syncSelectedEmployee(employee.Employee.EmployeeId, employee.Selected)" />
                 </td>
-                <td class="text-center" ng-bind="employeeSettingPeriodCtrl.getIndex($parent.$index, employeeSettingPeriodCtrl.currentPage, employeeSettingPeriodCtrl.pageSize)"
-                    rowspan="{{employee.NumberEvaluators}}" ng-show="employee.Employee.HasMonthlyEPA && $first"></td>
-                <td class="text-center" rowspan="{{employee.NumberEvaluators}}" ng-show="employee.Employee.HasMonthlyEPA && $first">
+                <td class="text-center" ng-bind="empSettingCtrl.getIndex($parent.$index, empSettingCtrl.currentPage, empSettingCtrl.pageSize)"
+                    rowspan="{{employee.NumberEvaluators}}"
+                    ng-show="empSettingCtrl.period.TargetType.TargetTypeId == empSettingCtrl.targetTypeEnum.SemiAnnual
+                        && employee.Employee.HasMonthlyEPA && $first"></td>
+                <td class="text-center" rowspan="{{employee.NumberEvaluators}}"
+                    ng-show="empSettingCtrl.period.TargetType.TargetTypeId == empSettingCtrl.targetTypeEnum.SemiAnnual
+                        && employee.Employee.HasMonthlyEPA && $first">
                     <span tooltip="{{employee.Group.GroupName}}" ng-bind="employee.Group.GroupCode"></span>
                 </td>
-                <td class="text-center" rowspan="{{employee.NumberEvaluators}}" ng-show="employee.Employee.HasMonthlyEPA && $first">
+                <td class="text-center" rowspan="{{employee.NumberEvaluators}}"
+                    ng-show="empSettingCtrl.period.TargetType.TargetTypeId == empSettingCtrl.targetTypeEnum.SemiAnnual
+                        && employee.Employee.HasMonthlyEPA && $first">
                     <div ng-bind="employee.Employee.FullName"></div>
                     <div ng-bind="employee.Employee.Code"></div>
                     <div>({{employee.Employee.NickName}})</div>
                     <div ng-bind="employee.JobTitle.JobTitleName"></div>
                 </td>
-                <td class="text-center" ng-bind="employee.TargetTemplate.TargetTypeName" rowspan="{{employee.NumberEvaluators}}" ng-show="employee.Employee.HasMonthlyEPA && $first"></td>
-                <td class="text-center" rowspan="{{employee.NumberEvaluators}}" ng-show="employee.Employee.HasMonthlyEPA && $first">
+                <td class="text-center" ng-bind="employee.TargetTemplate.TargetTypeName" rowspan="{{employee.NumberEvaluators}}"
+                    ng-show="empSettingCtrl.period.TargetType.TargetTypeId == empSettingCtrl.targetTypeEnum.SemiAnnual
+                        && employee.Employee.HasMonthlyEPA && $first"></td>
+                <td class="text-center" rowspan="{{employee.NumberEvaluators}}"
+                    ng-show="empSettingCtrl.period.TargetType.TargetTypeId == empSettingCtrl.targetTypeEnum.SemiAnnual
+                        && employee.Employee.HasMonthlyEPA && $first">
                     <span class="glyphicon glyphicon-warning-sign"></span>
                 </td>
                 <td data-translate="Reviewer" rowspan="{{employee.Reviewers.length}}" ng-show="$first"></td>
@@ -224,20 +243,26 @@
                               ng-show="reviewer.ProcessDetailStatus == 1" ng-attr-title='{{"NotEvaluated" | translate}}'></span>
                     </div>
                 </td>
-                <td class="width-120" ng-bind="reviewer.StartDate | date: employeeSettingPeriodCtrl.dateFormat"
+                <td class="width-120" ng-bind="reviewer.StartDate | date: empSettingCtrl.dateFormat"
                     ng-show="$first" rowspan="{{employee.Reviewers.length}}"></td>
-                <td class="width-120" ng-bind="reviewer.EndDate | date: employeeSettingPeriodCtrl.dateFormat"
+                <td class="width-120" ng-bind="reviewer.EndDate | date: empSettingCtrl.dateFormat"
                     ng-show="$first" rowspan="{{employee.Reviewers.length}}"></td>
-                <td class="text-center width-80" rowspan="{{employee.NumberEvaluators}}" ng-show="employee.Employee.HasMonthlyEPA && $first">
+                <td class="text-center width-80" rowspan="{{employee.NumberEvaluators}}"
+                    ng-show="empSettingCtrl.period.TargetType.TargetTypeId == empSettingCtrl.targetTypeEnum.SemiAnnual
+                        && employee.Employee.HasMonthlyEPA && $first">
                     <span class="glyphicon glyphicon-ok-circle epa-saved" ng-show="employee.SelfEvaluators[0].HasEvaluationGenerated"></span>
                 </td>
-                <td class="text-center" rowspan="{{employee.NumberEvaluators}}" ng-show="employee.Employee.HasMonthlyEPA && $first">
-                    <input type="checkbox" ng-checked="employee.IsIncluded" ng-click="employeeSettingPeriodCtrl.includeExcludeEmployee(employee)"
+                <td class="text-center" rowspan="{{employee.NumberEvaluators}}"
+                    ng-show="empSettingCtrl.period.TargetType.TargetTypeId == empSettingCtrl.targetTypeEnum.SemiAnnual
+                        && employee.Employee.HasMonthlyEPA && $first">
+                    <input type="checkbox" ng-checked="employee.IsIncluded" ng-click="empSettingCtrl.includeExcludeEmployee(employee)"
                            ng-disabled="updateCtrl.permission != updateCtrl.policyEnum.Host" />
                 </td>
-                <td class="text-center" rowspan="{{employee.NumberEvaluators}}" ng-show="employee.Employee.HasMonthlyEPA && $first">
+                <td class="text-center" rowspan="{{employee.NumberEvaluators}}"
+                    ng-show="empSettingCtrl.period.TargetType.TargetTypeId == empSettingCtrl.targetTypeEnum.SemiAnnual
+                        && employee.Employee.HasMonthlyEPA && $first">
                     <div class="btn-group">
-                        <a class="glyphicon glyphicon-edit icon-edit" title="Edit" href="" ng-click="employeeSettingPeriodCtrl.updateEmployeeSetting(employee)"></a>
+                        <a class="glyphicon glyphicon-edit icon-edit" title="Edit" href="" ng-click="empSettingCtrl.updateEmployeeSetting(employee)"></a>
                     </div>
                 </td>
             </tr>
@@ -262,13 +287,13 @@
                               ng-show="management.ProcessDetailStatus == 1" ng-attr-title='{{"NotEvaluated" | translate}}'></span>
                     </div>
                 </td>
-                <td class="width-140" ng-bind="management.StartDate | date: employeeSettingPeriodCtrl.dateFormat"
+                <td class="width-140" ng-bind="management.StartDate | date: empSettingCtrl.dateFormat"
                     ng-show="$first" rowspan="{{employee.Managements.length}}"></td>
-                <td class="width-140" ng-bind="management.EndDate | date: employeeSettingPeriodCtrl.dateFormat"
+                <td class="width-140" ng-bind="management.EndDate | date: empSettingCtrl.dateFormat"
                     ng-show="$first" rowspan="{{employee.Managements.length}}"></td>
             </tr>
         </tbody>
-        <tbody ng-show="employeeSettingPeriodCtrl.filteredItems.length == 0">
+        <tbody ng-show="empSettingCtrl.filteredItems.length == 0">
             <tr>
                 <td class="empty-result" colspan="14" data-translate="EmptyResult"></td>
             </tr>
@@ -277,8 +302,8 @@
             <tr>
                 <td colspan="14" class="paging">
                     <span data-translate="Show"></span>
-                    <select class="dropdown-entry form-control" ng-model="employeeSettingPeriodCtrl.pageSize"
-                            ng-options="entry for entry in employeeSettingPeriodCtrl.entries"></select>
+                    <select class="dropdown-entry form-control" ng-model="empSettingCtrl.pageSize"
+                            ng-options="entry for entry in empSettingCtrl.entries"></select>
                     <span data-translate="entries"></span>
                     <div class="pull-right custom-paging">
                         <dir-pagination-controls boundary-links="true"></dir-pagination-controls>
