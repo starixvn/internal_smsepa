@@ -203,7 +203,7 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
                             kpi.Score = kpi.AdjustScore;
                         }
 
-                        if ((kpi.Rate <= 0 || kpi.Score <= 0) && kpi.KPIId === vm.kpiIdOriginal) {
+                        if ((kpi.Rate <= 0 || kpi.Score <= 0) && kpi.KPIId === vm.kpiSelected.KPIId) {
                             completedEvaluation = false;
                         }
                     });
