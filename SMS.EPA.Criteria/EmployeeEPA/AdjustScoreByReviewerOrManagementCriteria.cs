@@ -32,8 +32,8 @@ namespace SMS.EPA.Criteria.EmployeeEPA
 
                 foreach (EPAModel memberEPA in MemberEPAs)
                 {
-                    var cipherTotalScore = EncodeService.Encode(memberEPA.CurrentProcess.TotalScore);
-                    var cipherAdjustScore = EncodeService.Encode(memberEPA.CurrentProcess.AdjustScore);
+                    var cipherTotalScore = EncodeService.Encode(memberEPA.Process.CurrentProcess.TotalScore);
+                    var cipherAdjustScore = EncodeService.Encode(memberEPA.Process.CurrentProcess.AdjustScore);
 
                     epaXml.AppendFormat(
                         EPAXmlTemplate,
@@ -43,7 +43,7 @@ namespace SMS.EPA.Criteria.EmployeeEPA
                         ModifiedBy,
                         cipherAdjustScore,
                         cipherTotalScore,
-                        HttpUtility.HtmlEncode(memberEPA.CurrentProcess.Comment));
+                        HttpUtility.HtmlEncode(memberEPA.Process.CurrentProcess.Comment));
                 }
 
                 epaXml.Append(EndRootTag);

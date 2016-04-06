@@ -11,7 +11,7 @@
             <td class="text-right"><strong data-translate="PerformanceScore"></strong></td>
             <td class="text-center col-score">
                 <strong>
-                    {{memberEPAInfoCtrl.epaInfo.CurrentProcess.TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.CurrentProcess.MaxTotalScore | customScore}}
+                    {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.MaxTotalScore | customScore}}
                 </strong>
             </td>
             <td class="text-center col-score">
@@ -44,7 +44,7 @@
         <tr class="text-right" ng-if="!memberEPAInfoCtrl.epaInfo.IsMonthly">
             <td><strong data-translate="TotalScore"></strong></td>
             <td class="text-center col-score">
-                <strong>{{memberEPAInfoCtrl.finalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.CurrentProcess.MaxPerformanceScore | customScore}}</strong>
+                <strong>{{memberEPAInfoCtrl.finalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.MaxPerformanceScore | customScore}}</strong>
             </td>
             <td class="text-center col-score">
                 <strong ng-show="memberEPAInfoCtrl.epaInfo.LastFinalScore != null" ng-bind="memberEPAInfoCtrl.epaInfo.LastFinalScore | customScore"></strong>

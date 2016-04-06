@@ -73,8 +73,8 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         var hasChange = false;
 
         for (var i = 0; i < memberEPAs.length; i++) {
-            var adjustScoreOriginal = utilitiesFactory.parseFloat(memberEPAs[i].CurrentProcess.AdjustScoreOriginal),
-                adjustScore = utilitiesFactory.parseFloat(memberEPAs[i].CurrentProcess.AdjustScore);
+            var adjustScoreOriginal = utilitiesFactory.parseFloat(memberEPAs[i].Process.CurrentProcess.AdjustScoreOriginal),
+                adjustScore = utilitiesFactory.parseFloat(memberEPAs[i].Process.CurrentProcess.AdjustScore);
 
             if (adjustScoreOriginal !== adjustScore) {
                 hasChange = true;
@@ -107,70 +107,70 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     };
 
     reviewerMngModel.calculateScore = function (memberEPA, isReviewer) {
-        var scoreAdjusted = utilitiesFactory.parseFloat(memberEPA.CurrentProcess.AdjustScore),
-            averageScore = memberEPA.AverageScoreByEvaluators,
+        var scoreAdjusted = utilitiesFactory.parseFloat(memberEPA.Process.CurrentProcess.AdjustScore),
+            averageScore = memberEPA.Process.AverageScoreByEvaluators,
             totalScore = 0;
 
         if (memberEPA.HasMonthlyEPA) {
             averageScore = memberEPA.MonthlyEPA.AverageReviewerScoreConverted;
         }
 
-        if (!isReviewer && memberEPA.ProcessByReviewers.length > 0) {
-            averageScore = memberEPA.AverageScoreByReviewers;
+        if (!isReviewer && memberEPA.Process.Reviewers.length > 0) {
+            averageScore = memberEPA.Process.AverageScoreByReviewers;
         }
 
         totalScore = utilitiesFactory.parseFloat(averageScore + scoreAdjusted);
 
-        if (totalScore > memberEPA.CurrentProcess.MaxTotalScore) {
-            scoreAdjusted = memberEPA.CurrentProcess.MaxTotalScore - averageScore;
+        if (totalScore > memberEPA.Process.CurrentProcess.MaxTotalScore) {
+            scoreAdjusted = memberEPA.Process.CurrentProcess.MaxTotalScore - averageScore;
         } else if (totalScore < 0) {
             scoreAdjusted = -averageScore;
         }
 
-        memberEPA.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(averageScore + scoreAdjusted);
+        memberEPA.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(averageScore + scoreAdjusted);
         memberEPA.FinalScore = averageScore + scoreAdjusted + memberEPA.DisciplineScore;
-        memberEPA.FinalScore = EmployeeEPAModel.checkScore(memberEPA.FinalScore, 0, memberEPA.CurrentProcess.MaxPerformanceScore);
+        memberEPA.FinalScore = EmployeeEPAModel.checkScore(memberEPA.FinalScore, 0, memberEPA.Process.CurrentProcess.MaxPerformanceScore);
     };
 
     reviewerMngModel.calculatePerformanceScore = function (vm, isReviewer) {
-        var totalScore = utilitiesFactory.parseFloat(vm.epaInfo.CurrentProcess.TotalScore),
-            averageScore = vm.epaInfo.AverageScoreByEvaluators;
+        var totalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.CurrentProcess.TotalScore),
+            averageScore = vm.epaInfo.Process.AverageScoreByEvaluators;
 
         if (vm.epaInfo.HasMonthlyEPA) {
             averageScore = vm.epaInfo.MonthlyEPA.AverageReviewerScoreConverted;
         }
 
-        if (!isReviewer && vm.epaInfo.ProcessByReviewers.length > 0) {
-            averageScore = vm.epaInfo.AverageScoreByReviewers;
+        if (!isReviewer && vm.epaInfo.Process.Reviewers.length > 0) {
+            averageScore = vm.epaInfo.Process.AverageScoreByReviewers;
         }
 
         vm.finalScore = totalScore + vm.epaInfo.DisciplineScore;
         vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.maxPerformanceScore);
 
-        vm.epaInfo.CurrentProcess.AdjustScore = utilitiesFactory.parseFloat(totalScore - averageScore);
-        vm.epaInfo.CurrentProcess.AdjustScoreOriginal = vm.epaInfo.CurrentProcess.AdjustScore;
+        vm.epaInfo.Process.CurrentProcess.AdjustScore = utilitiesFactory.parseFloat(totalScore - averageScore);
+        vm.epaInfo.Process.CurrentProcess.AdjustScoreOriginal = vm.epaInfo.Process.CurrentProcess.AdjustScore;
         vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
     };
 
     reviewerMngModel.calculateAdjustScore = function (memberEPAs, isReviewer) {
         angular.forEach(memberEPAs, function (memberEPA) {
-            var scoreAdjusted = utilitiesFactory.parseFloat(memberEPA.CurrentProcess.AdjustScore),
-                averageScore = memberEPA.AverageScoreByEvaluators,
+            var scoreAdjusted = utilitiesFactory.parseFloat(memberEPA.Process.CurrentProcess.AdjustScore),
+                averageScore = memberEPA.Process.AverageScoreByEvaluators,
                 totalScore = 0;
 
-            if (!isReviewer && memberEPA.ProcessByReviewers.length > 0) {
-                averageScore = memberEPA.AverageScoreByReviewers;
+            if (!isReviewer && memberEPA.Process.Reviewers.length > 0) {
+                averageScore = memberEPA.Process.AverageScoreByReviewers;
             }
 
             totalScore = utilitiesFactory.parseFloat(scoreAdjusted + averageScore);
 
-            if (totalScore > memberEPA.CurrentProcess.MaxTotalScore) {
-                scoreAdjusted = utilitiesFactory.parseFloat(memberEPA.CurrentProcess.MaxTotalScore - averageScore);
+            if (totalScore > memberEPA.Process.CurrentProcess.MaxTotalScore) {
+                scoreAdjusted = utilitiesFactory.parseFloat(memberEPA.Process.CurrentProcess.MaxTotalScore - averageScore);
             } else if (totalScore < 0) {
                 scoreAdjusted = -averageScore;
             }
 
-            memberEPA.CurrentProcess.AdjustScore = scoreAdjusted;
+            memberEPA.Process.CurrentProcess.AdjustScore = scoreAdjusted;
         });
     };
 
@@ -180,31 +180,31 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         angular.forEach(memberEPAs, function (memberEPA) {
             if (memberEPA.Selected) {
                 scoreAdjusted = utilitiesFactory.parseFloat(adjust.Score);
-                averageScore = memberEPA.AverageScoreByEvaluators;
+                averageScore = memberEPA.Process.AverageScoreByEvaluators;
 
-                if (!isReviewer && memberEPA.ProcessByReviewers.length > 0) {
-                    averageScore = memberEPA.AverageScoreByReviewers;
+                if (!isReviewer && memberEPA.Process.Reviewers.length > 0) {
+                    averageScore = memberEPA.Process.AverageScoreByReviewers;
                 }
 
                 totalScore = utilitiesFactory.parseFloat(scoreAdjusted + averageScore);
 
-                if (totalScore > memberEPA.CurrentProcess.MaxTotalScore) {
-                    scoreAdjusted = utilitiesFactory.parseFloat(memberEPA.CurrentProcess.MaxTotalScore - averageScore);
+                if (totalScore > memberEPA.Process.CurrentProcess.MaxTotalScore) {
+                    scoreAdjusted = utilitiesFactory.parseFloat(memberEPA.Process.CurrentProcess.MaxTotalScore - averageScore);
                 } else if (totalScore < 0) {
                     scoreAdjusted = -averageScore;
                 }
 
-                memberEPA.CurrentProcess.AdjustScore = scoreAdjusted;
-                memberEPA.CurrentProcess.AdjustScoreOriginal = memberEPA.CurrentProcess.AdjustScore;
-                memberEPA.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(averageScore + scoreAdjusted);
-                memberEPA.CurrentProcess.TotalScoreOriginal = memberEPA.CurrentProcess.TotalScore;
+                memberEPA.Process.CurrentProcess.AdjustScore = scoreAdjusted;
+                memberEPA.Process.CurrentProcess.AdjustScoreOriginal = memberEPA.Process.CurrentProcess.AdjustScore;
+                memberEPA.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(averageScore + scoreAdjusted);
+                memberEPA.Process.CurrentProcess.TotalScoreOriginal = memberEPA.Process.CurrentProcess.TotalScore;
                 memberEPA.FinalScore = averageScore + scoreAdjusted + memberEPA.DisciplineScore;
-                memberEPA.FinalScore = EmployeeEPAModel.checkScore(memberEPA.FinalScore, 0, memberEPA.CurrentProcess.MaxPerformanceScore);
+                memberEPA.FinalScore = EmployeeEPAModel.checkScore(memberEPA.FinalScore, 0, memberEPA.Process.CurrentProcess.MaxPerformanceScore);
 
-                if (memberEPA.CurrentProcess.Comment && memberEPA.CurrentProcess.Comment.length > 0) {
-                    memberEPA.CurrentProcess.Comment = memberEPA.CurrentProcess.Comment + '\n' + adjust.Comment;
+                if (memberEPA.Process.CurrentProcess.Comment && memberEPA.Process.CurrentProcess.Comment.length > 0) {
+                    memberEPA.Process.CurrentProcess.Comment = memberEPA.Process.CurrentProcess.Comment + '\n' + adjust.Comment;
                 } else {
-                    memberEPA.CurrentProcess.Comment = adjust.Comment;
+                    memberEPA.Process.CurrentProcess.Comment = adjust.Comment;
                 }
             }
         });
@@ -336,7 +336,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
 
     reviewerMngModel.updateSelectedEmployees = function (memberEPAs, selectedEmployees) {
         angular.forEach(memberEPAs, function (memberEPA) {
-            if (!memberEPA.CurrentProcess.IsEndProcess) {
+            if (!memberEPA.Process.CurrentProcess.IsEndProcess) {
                 angular.forEach(selectedEmployees, function (selectedEmployee) {
                     if (memberEPA.EPAId === selectedEmployee.EPAId) {
                         memberEPA.Selected = true;

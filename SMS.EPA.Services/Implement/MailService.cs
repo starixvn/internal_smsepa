@@ -12,6 +12,7 @@ namespace SMS.EPA.Services.Implement
     using System;
     using System.Collections.Generic;
     using System.Configuration;
+    using System.Linq;
     using SMS.EPA.Core;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Services.Implement;
@@ -221,9 +222,9 @@ namespace SMS.EPA.Services.Implement
 
                 float finalScore = averagePerformanceScore + disciplineScore,
                     adjustmentScore = GetAdjustmentScore(evaluationInfo, averagePerformanceScore);
-                string evaluatorNames = GetEvaluator(evaluationInfo.EvaluationProcess.Evaluators),
-                    reviewerNames = GetEvaluator(evaluationInfo.EvaluationProcess.Reviewers),
-                    managementNames = GetEvaluator(evaluationInfo.EvaluationProcess.Managements);
+                string evaluatorNames = GetEvaluator(evaluationInfo.Process.Evaluators),
+                    reviewerNames = GetEvaluator(evaluationInfo.Process.Reviewers),
+                    managementNames = GetEvaluator(evaluationInfo.Process.Managements);
 
                 finalScore = finalScore >= 0 ? finalScore : 0;
 
@@ -298,12 +299,7 @@ namespace SMS.EPA.Services.Implement
 
         private string GetEvaluator(IList<EPAProcessModel> evaluators)
         {
-            string names = string.Empty;
-
-            foreach (EPAProcessModel evaluator in evaluators)
-            {
-                names += !string.IsNullOrWhiteSpace(names) ? ", " + evaluator.NickName : evaluator.NickName;
-            }
+            string names = string.Join(",", evaluators.Select(x => x.NickName));
 
             return names;
         }
@@ -312,20 +308,20 @@ namespace SMS.EPA.Services.Implement
         {
             float adjustScore = 0;
 
-            if (evaluationInfo.AverageScoreByManagements > 0)
+            if (evaluationInfo.Process.AverageScoreByManagements > 0)
             {
-                if (evaluationInfo.AverageScoreByReviewers > 0)
+                if (evaluationInfo.Process.AverageScoreByReviewers > 0)
                 {
-                    adjustScore = averagePerformanceScore - evaluationInfo.AverageScoreByReviewers;
+                    adjustScore = averagePerformanceScore - evaluationInfo.Process.AverageScoreByReviewers;
                 }
                 else
                 {
-                    adjustScore = averagePerformanceScore - evaluationInfo.AverageScoreByEvaluators;
+                    adjustScore = averagePerformanceScore - evaluationInfo.Process.AverageScoreByEvaluators;
                 }
             }
-            else if (evaluationInfo.AverageScoreByReviewers > 0)
+            else if (evaluationInfo.Process.AverageScoreByReviewers > 0)
             {
-                adjustScore = averagePerformanceScore - evaluationInfo.AverageScoreByEvaluators;
+                adjustScore = averagePerformanceScore - evaluationInfo.Process.AverageScoreByEvaluators;
             }
 
             return adjustScore;

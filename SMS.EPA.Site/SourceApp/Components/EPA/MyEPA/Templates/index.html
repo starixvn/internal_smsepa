@@ -19,8 +19,8 @@
                 <tr ng-repeat="myEPA in empEPACtrl.myEPAs">
                     <td class="text-center" ng-bind="$index + 1"></td>
                     <td ng-bind="myEPA.Period.Name"></td>
-                    <td class="text-center">{{ myEPA.ProcessBySelf.StartDate | customDate }}</td>
-                    <td class="text-center">{{ myEPA.ProcessBySelf.EndDate | customDate }}</td>
+                    <td class="text-center">{{ myEPA.Process.CurrentProcess.StartDate | customDate }}</td>
+                    <td class="text-center">{{ myEPA.Process.CurrentProcess.EndDate | customDate }}</td>
                     <td class="text-center col-action" ng-switch="myEPA.IsAllowedToEdit">
                         <a ng-switch-when="true" class="glyphicon glyphicon-edit icon-edit" href="" ng-click="empEPACtrl.viewEPADetail(myEPA)"
                            ng-href="{{empEPACtrl.viewEPADetailUrl}}" ng-attr-title='{{"EvaluateNow" | translate}}'></a>

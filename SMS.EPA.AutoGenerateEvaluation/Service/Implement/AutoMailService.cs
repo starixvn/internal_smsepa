@@ -143,9 +143,9 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
             if (evaluationInfo != null)
             {
                 string assemblyPath = AppDomain.CurrentDomain.BaseDirectory,
-                    templateEmailPath = templateEmailPath = Path.Combine(assemblyPath, _endMailToHumanResourcesByEmployee);
+                    templateEmailPath = Path.Combine(assemblyPath, _endMailToHumanResourcesByEmployee);
 
-                foreach (EPAProcessModel humanResource in evaluationInfo.EvaluationProcess.HumanResources)
+                foreach (EPAProcessModel humanResource in evaluationInfo.Process.HumanResources)
                 {
                     _mailService.SendMailEndToHumanResourcesByEmployee(templateEmailPath, evaluationInfo, humanResource);
                 }
@@ -157,7 +157,7 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
             if (employeeSettings != null && employeeSettings.Any() && period != null)
             {
                 string assemblyPath = AppDomain.CurrentDomain.BaseDirectory,
-                    templateEmailPath = templateEmailPath = Path.Combine(assemblyPath, _endMailToHumanReouscesByPeriod);
+                    templateEmailPath = Path.Combine(assemblyPath, _endMailToHumanReouscesByPeriod);
 
                 foreach (PeriodFlowModel employeeSetting in employeeSettings)
                 {

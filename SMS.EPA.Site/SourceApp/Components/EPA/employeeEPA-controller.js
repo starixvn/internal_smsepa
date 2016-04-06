@@ -49,12 +49,12 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonM
     function calculateFinalScore(epaInfo) {
         var finalScore = 0;
 
-        if (epaInfo.ProcessByManagements.length > 0) {
-            finalScore = epaInfo.AverageScoreByManagements;
-        } else if (epaInfo.ProcessByReviewers.length > 0) {
-            finalScore = epaInfo.AverageScoreByReviewers;
+        if (epaInfo.Process.Managements.length > 0) {
+            finalScore = epaInfo.Process.AverageScoreByManagements;
+        } else if (epaInfo.Process.Reviewers.length > 0) {
+            finalScore = epaInfo.Process.AverageScoreByReviewers;
         } else {
-            finalScore = epaInfo.AverageScoreByEvaluators;
+            finalScore = epaInfo.Process.AverageScoreByEvaluators;
         }
 
         return finalScore;
@@ -66,20 +66,20 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonM
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
 
             // self
-            vm.epaInfo.ProcessBySelf.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.ProcessBySelf.TotalScore);
+            vm.epaInfo.Process.Self.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.Self.TotalScore);
 
             // evaluator
-            angular.forEach(vm.epaInfo.ProcessByEvaluators, function (evaluator) {
+            angular.forEach(vm.epaInfo.Process.Evaluators, function (evaluator) {
                 evaluator.TotalScore = utilitiesFactory.parseFloat(evaluator.TotalScore);
             });
 
             // reviewer
-            angular.forEach(vm.epaInfo.ProcessByReviewers, function (reviewer) {
+            angular.forEach(vm.epaInfo.Process.Reviewers, function (reviewer) {
                 reviewer.TotalScore = utilitiesFactory.parseFloat(reviewer.TotalScore);
             });
 
             // management
-            angular.forEach(vm.epaInfo.ProcessByManagements, function (management) {
+            angular.forEach(vm.epaInfo.Process.Managements, function (management) {
                 management.TotalScore = utilitiesFactory.parseFloat(management.TotalScore);
             });
 
@@ -144,12 +144,12 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
     function calculateFinalScore(epaInfo) {
         var finalScore = 0;
 
-        if (epaInfo.ProcessByManagements.length > 0) {
-            finalScore = epaInfo.AverageScoreByManagements;
-        } else if (epaInfo.ProcessByReviewers.length > 0) {
-            finalScore = epaInfo.AverageScoreByReviewers;
+        if (epaInfo.Process.Managements.length > 0) {
+            finalScore = epaInfo.Process.AverageScoreByManagements;
+        } else if (epaInfo.Process.Reviewers.length > 0) {
+            finalScore = epaInfo.Process.AverageScoreByReviewers;
         } else {
-            finalScore = epaInfo.AverageScoreByEvaluators;
+            finalScore = epaInfo.Process.AverageScoreByEvaluators;
         }
 
         return finalScore;
@@ -161,20 +161,20 @@ function ($window, $translate, $routeParams, EmployeeEPAModel, CommonModel, util
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
 
             // self
-            vm.epaInfo.ProcessBySelf.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.ProcessBySelf.TotalScore);
+            vm.epaInfo.Process.Self.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.Self.TotalScore);
 
             // evaluator
-            angular.forEach(vm.epaInfo.ProcessByEvaluators, function (evaluator) {
+            angular.forEach(vm.epaInfo.Process.Evaluators, function (evaluator) {
                 evaluator.TotalScore = utilitiesFactory.parseFloat(evaluator.TotalScore);
             });
 
             // reviewer
-            angular.forEach(vm.epaInfo.ProcessByReviewers, function (reviewer) {
+            angular.forEach(vm.epaInfo.Process.Reviewers, function (reviewer) {
                 reviewer.TotalScore = utilitiesFactory.parseFloat(reviewer.TotalScore);
             });
 
             // management
-            angular.forEach(vm.epaInfo.ProcessByManagements, function (management) {
+            angular.forEach(vm.epaInfo.Process.Managements, function (management) {
                 management.TotalScore = utilitiesFactory.parseFloat(management.TotalScore);
             });
 
@@ -255,12 +255,12 @@ function ($modalInstance, EmployeeEPAModel, ReviewerManagementModel, utilitiesFa
     vm.memberEPA = memberEPA;
 
     vm.ok = function () {
-        var model = [], scoreAdjusted = utilitiesFactory.parseFloat(vm.memberEPA.CurrentProcess.AdjustScoreOriginal),
-            averageScore = vm.memberEPA.AverageScoreByEvaluators,
+        var model = [], scoreAdjusted = utilitiesFactory.parseFloat(vm.memberEPA.Process.CurrentProcess.AdjustScoreOriginal),
+            averageScore = vm.memberEPA.Process.AverageScoreByEvaluators,
             totalScore;
 
-        if (!vm.isReviewer && vm.memberEPA.ProcessByReviewers.length > 0) {
-            averageScore = vm.memberEPA.AverageScoreByReviewers;
+        if (!vm.isReviewer && vm.memberEPA.Process.Reviewers.length > 0) {
+            averageScore = vm.memberEPA.Process.AverageScoreByReviewers;
         }
 
         if (vm.memberEPA.HasDisciplineScore) {
@@ -268,9 +268,9 @@ function ($modalInstance, EmployeeEPAModel, ReviewerManagementModel, utilitiesFa
         }
 
         totalScore = averageScore + scoreAdjusted;
-        vm.memberEPA.CurrentProcess.TotalScore = totalScore;
-        vm.memberEPA.CurrentProcess.AdjustScore = scoreAdjusted;
-        vm.memberEPA.CurrentProcess.Comment = vm.comment;
+        vm.memberEPA.Process.CurrentProcess.TotalScore = totalScore;
+        vm.memberEPA.Process.CurrentProcess.AdjustScore = scoreAdjusted;
+        vm.memberEPA.Process.CurrentProcess.Comment = vm.comment;
         model.push(vm.memberEPA);
 
         if (vm.isReviewer) {

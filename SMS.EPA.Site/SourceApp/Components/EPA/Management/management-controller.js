@@ -67,7 +67,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 
     vm.checkAll = function (selectedAll) {
         angular.forEach(vm.memberEPAs, function (memberEPA) {
-            if (!memberEPA.CurrentProcess.IsEndProcess) {
+            if (!memberEPA.Process.CurrentProcess.IsEndProcess) {
                 memberEPA.Selected = selectedAll;
             } else {
                 memberEPA.Selected = false;
@@ -76,18 +76,18 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     };
 
     vm.getNotificationInputScore = function (memberEPA) {
-        var maxSubtractScore = memberEPA.CurrentProcess.MaxSubtractScore,
-            maxAdditionScore = memberEPA.CurrentProcess.MaxAdditionScore;
+        var maxSubtractScore = memberEPA.Process.CurrentProcess.MaxSubtractScore,
+            maxAdditionScore = memberEPA.Process.CurrentProcess.MaxAdditionScore;
 
         return EmployeeEPAModel.getNotificationInputScore(maxSubtractScore, maxAdditionScore, vm.scoreInputValidMessage);
     };
 
     vm.inputScore = function (memberEPA) {
-        var maxSubtractScore = memberEPA.CurrentProcess.MaxSubtractScore,
-            maxAdditionScore = memberEPA.CurrentProcess.MaxAdditionScore;
+        var maxSubtractScore = memberEPA.Process.CurrentProcess.MaxSubtractScore,
+            maxAdditionScore = memberEPA.Process.CurrentProcess.MaxAdditionScore;
 
-        if (!EmployeeEPAModel.validateScoreInput(memberEPA.CurrentProcess.AdjustScore, maxSubtractScore, maxAdditionScore, vm.scoreInputValidMessage)) {
-            memberEPA.CurrentProcess.AdjustScore = null;
+        if (!EmployeeEPAModel.validateScoreInput(memberEPA.Process.CurrentProcess.AdjustScore, maxSubtractScore, maxAdditionScore, vm.scoreInputValidMessage)) {
+            memberEPA.Process.CurrentProcess.AdjustScore = null;
         }
 
         ReviewerManagementModel.calculateScore(memberEPA, false);
@@ -126,10 +126,10 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
             var index = vm.memberEPAs.map(function (e) { return e.EPAId; }).indexOf(memberEPA.EPAId);
 
             if (index !== -1) {
-                vm.memberEPAs[index].CurrentProcess.TotalScore = vm.memberEPAs[index].CurrentProcess.TotalScoreOriginal;
-                vm.memberEPAs[index].CurrentProcess.AdjustScore = vm.memberEPAs[index].CurrentProcess.AdjustScoreOriginal;
-                vm.memberEPAs[index].CurrentProcess.Comment = commentUpdate;
-                vm.memberEPAs[index].CurrentProcess.Evaluated = true;
+                vm.memberEPAs[index].Process.CurrentProcess.TotalScore = vm.memberEPAs[index].Process.CurrentProcess.TotalScoreOriginal;
+                vm.memberEPAs[index].Process.CurrentProcess.AdjustScore = vm.memberEPAs[index].Process.CurrentProcess.AdjustScoreOriginal;
+                vm.memberEPAs[index].Process.CurrentProcess.Comment = commentUpdate;
+                vm.memberEPAs[index].Process.CurrentProcess.Evaluated = true;
 
                 ReviewerManagementModel.calculateScore(vm.memberEPAs[index], false);
             }
@@ -147,20 +147,22 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 
             var averageScore = 0, countEndProcess = 0;
             angular.forEach(vm.memberEPAs, function (memberEPA) {
-                if (memberEPA.ProcessByReviewers.length > 0 && !memberEPA.CurrentProcess.TotalScore && memberEPA.ProcessByReviewers[0].IsEndProcess) {
-                    memberEPA.CurrentProcess.TotalScore = memberEPA.AverageScoreByReviewers;
-                } else if (!memberEPA.CurrentProcess.TotalScore && memberEPA.ProcessByEvaluators[0].IsEndProcess) {
+                if (memberEPA.Process.Reviewers.length > 0
+                    && !memberEPA.Process.CurrentProcess.TotalScore
+                    && memberEPA.Process.Reviewers[0].IsEndProcess) {
+                    memberEPA.Process.CurrentProcess.TotalScore = memberEPA.Process.AverageScoreByReviewers;
+                } else if (!memberEPA.Process.CurrentProcess.TotalScore && memberEPA.Process.Evaluators[0].IsEndProcess) {
                     if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
-                        memberEPA.CurrentProcess.TotalScore = memberEPA.MonthlyEPA.AverageEvaluatorScoreConverted;
+                        memberEPA.Process.CurrentProcess.TotalScore = memberEPA.MonthlyEPA.AverageEvaluatorScoreConverted;
                     } else {
-                        memberEPA.CurrentProcess.TotalScore = memberEPA.AverageScoreByEvaluators;
+                        memberEPA.Process.CurrentProcess.TotalScore = memberEPA.Process.AverageScoreByEvaluators;
                     }
                 }
 
-                memberEPA.ProcessBySelf.TotalScore = utilitiesFactory.parseFloat(memberEPA.ProcessBySelf.TotalScore);
-                memberEPA.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(memberEPA.CurrentProcess.TotalScore);
-                memberEPA.FinalScore = memberEPA.CurrentProcess.TotalScore + memberEPA.DisciplineScore;
-                memberEPA.FinalScore = EmployeeEPAModel.checkScore(memberEPA.FinalScore, 0, memberEPA.MaxPerformanceScore);
+                memberEPA.Process.Self.TotalScore = utilitiesFactory.parseFloat(memberEPA.Process.Self.TotalScore);
+                memberEPA.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(memberEPA.Process.CurrentProcess.TotalScore);
+                memberEPA.FinalScore = memberEPA.Process.CurrentProcess.TotalScore + memberEPA.DisciplineScore;
+                memberEPA.FinalScore = EmployeeEPAModel.checkScore(memberEPA.FinalScore, 0, memberEPA.Process.CurrentProcess.MaxPerformanceScore);
 
                 if (memberEPA.LastFinalScore.length > 0) {
                     memberEPA.LastFinalScore = utilitiesFactory.parseFloat(memberEPA.LastFinalScore);
@@ -168,7 +170,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
                     memberEPA.LastFinalScore = null;
                 }
 
-                if (memberEPA.CurrentProcess.IsEndProcess) {
+                if (memberEPA.Process.CurrentProcess.IsEndProcess) {
                     countEndProcess += 1;
                 }
             });
@@ -288,7 +290,7 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, Reviewe
     };
 
     vm.save = function (epaInfo) {
-        var totalcore = epaInfo.CurrentProcess.TotalScore;
+        var totalcore = epaInfo.Process.CurrentProcess.TotalScore;
 
         if (ReviewerManagementModel.validateEvaluation(totalcore)) {
             var model = new Array(epaInfo);
@@ -307,36 +309,38 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, Reviewe
 
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
 
-            if (vm.epaInfo.ProcessByReviewers.length > 0 && vm.epaInfo.ProcessByReviewers[0].IsEndProcess && !vm.epaInfo.CurrentProcess.TotalScore) {
-                vm.epaInfo.CurrentProcess.TotalScore = vm.epaInfo.AverageScoreByReviewers;
-            } else if (vm.epaInfo.ProcessByEvaluators[0].IsEndProcess && !vm.epaInfo.CurrentProcess.TotalScore) {
+            if (vm.epaInfo.Process.Reviewers.length > 0
+                && vm.epaInfo.Process.Reviewers[0].IsEndProcess
+                && !vm.epaInfo.Process.CurrentProcess.TotalScore) {
+                vm.epaInfo.Process.CurrentProcess.TotalScore = vm.epaInfo.Process.AverageScoreByReviewers;
+            } else if (vm.epaInfo.Process.Evaluators[0].IsEndProcess && !vm.epaInfo.Process.CurrentProcess.TotalScore) {
                 if (vm.epaInfo.HasMonthlyEPA && vm.epaInfo.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
-                    vm.epaInfo.CurrentProcess.TotalScore = vm.epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted;
+                    vm.epaInfo.Process.CurrentProcess.TotalScore = vm.epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted;
                 } else {
-                    vm.epaInfo.CurrentProcess.TotalScore = vm.epaInfo.AverageScoreByEvaluators;
+                    vm.epaInfo.Process.CurrentProcess.TotalScore = vm.epaInfo.Process.AverageScoreByEvaluators;
                 }
             }
 
             // self
-            vm.epaInfo.ProcessBySelf.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.ProcessBySelf.TotalScore);
+            vm.epaInfo.Process.Self.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.Self.TotalScore);
 
             // evaluator
-            angular.forEach(vm.epaInfo.ProcessByEvaluators, function (evaluator) {
+            angular.forEach(vm.epaInfo.Process.Evaluators, function (evaluator) {
                 evaluator.TotalScore = utilitiesFactory.parseFloat(evaluator.TotalScore);
             });
 
             // reviewer
-            angular.forEach(vm.epaInfo.ProcessByReviewers, function (reviewer) {
+            angular.forEach(vm.epaInfo.Process.Reviewers, function (reviewer) {
                 reviewer.TotalScore = utilitiesFactory.parseFloat(reviewer.TotalScore);
             });
 
             // management
-            vm.epaInfo.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.CurrentProcess.TotalScore);
-            vm.finalScore = vm.epaInfo.CurrentProcess.TotalScore + vm.epaInfo.DisciplineScore;
-            vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.epaInfo.CurrentProcess.MaxPerformanceScore);
+            vm.epaInfo.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.CurrentProcess.TotalScore);
+            vm.finalScore = vm.epaInfo.Process.CurrentProcess.TotalScore + vm.epaInfo.DisciplineScore;
+            vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.epaInfo.Process.CurrentProcess.MaxPerformanceScore);
 
             vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
-            vm.evaluatedDate = vm.epaInfo.CurrentProcess.EvaluateDate ? vm.epaInfo.CurrentProcess.EvaluateDate : null;
+            vm.evaluatedDate = vm.epaInfo.Process.CurrentProcess.EvaluateDate ? vm.epaInfo.Process.CurrentProcess.EvaluateDate : null;
 
             ReviewerManagementModel.getUserPermissionOnManagement().then(function () {
                 vm.permission = ReviewerManagementModel.permission;

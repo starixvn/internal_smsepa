@@ -39,11 +39,11 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
             });
         });
 
-        vm.epaInfo.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(totalScore);
-        vm.epaInfo.CurrentProcess.TotalScore = EmployeeEPAModel.checkScore(vm.epaInfo.CurrentProcess.TotalScore, 0, vm.epaInfo.CurrentProcess.MaxTotalScore);
+        vm.epaInfo.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(totalScore);
+        vm.epaInfo.Process.CurrentProcess.TotalScore = EmployeeEPAModel.checkScore(vm.epaInfo.Process.CurrentProcess.TotalScore, 0, vm.epaInfo.Process.CurrentProcess.MaxTotalScore);
 
         vm.finalScore = utilitiesFactory.parseFloat(totalScore + vm.epaInfo.DisciplineScore);
-        vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.epaInfo.CurrentProcess.MaxPerformanceScore);
+        vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.epaInfo.Process.CurrentProcess.MaxPerformanceScore);
 
         vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
     };
@@ -153,7 +153,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         var criteria = {
             EPAId: vm.epaInfo.EPAId,
             EmployeeId: vm.epaInfo.Employee.EmployeeId,
-            EPAProcess: vm.epaInfo.CurrentProcess,
+            EPAProcess: vm.epaInfo.Process.CurrentProcess,
             KPIGroups: vm.epaInfo.KPIGroups
         };
 
@@ -222,7 +222,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         var criteria = {
             EPAId: vm.epaInfo.EPAId,
             EmployeeId: vm.epaInfo.Employee.EmployeeId,
-            EPAProcess: vm.epaInfo.CurrentProcess,
+            EPAProcess: vm.epaInfo.Process.CurrentProcess,
             KPIGroups: vm.epaInfo.KPIGroups
         };
 

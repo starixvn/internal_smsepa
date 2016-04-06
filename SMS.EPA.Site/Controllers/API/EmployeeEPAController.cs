@@ -561,8 +561,8 @@ namespace SMS.EPA.Site.Controllers.API
                 if (epaInfo.HasMonthlyEPA
                     && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
                 {
-                    if (epaInfo.ProcessByReviewers.Any()
-                        && epaInfo.ProcessByReviewers.First().StartDate.Date <= DateTime.Now.Date)
+                    if (epaInfo.Process.Reviewers.Any()
+                        && epaInfo.Process.Reviewers.First().StartDate.Date <= DateTime.Now.Date)
                     {
                         resetScoreCriteria.EPAInfo = epaInfo;
 

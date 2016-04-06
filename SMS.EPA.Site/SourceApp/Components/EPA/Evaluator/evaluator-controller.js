@@ -35,9 +35,9 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, en
             vm.memberEPAs = SelfEvalutorModel.memberEPAs;
 
             angular.forEach(vm.memberEPAs, function (memberEPA) {
-                memberEPA.ProcessBySelf.TotalScore = utilitiesFactory.parseFloat(memberEPA.ProcessBySelf.TotalScore);
-                memberEPA.FinalScore = utilitiesFactory.parseFloat(memberEPA.CurrentProcess.TotalScore) + memberEPA.DisciplineScore;
-                memberEPA.FinalScore = EmployeeEPAModel.checkScore(memberEPA.FinalScore, 0, memberEPA.CurrentProcess.MaxPerformanceScore);
+                memberEPA.Process.Self.TotalScore = utilitiesFactory.parseFloat(memberEPA.Process.Self.TotalScore);
+                memberEPA.FinalScore = utilitiesFactory.parseFloat(memberEPA.Process.CurrentProcess.TotalScore) + memberEPA.DisciplineScore;
+                memberEPA.FinalScore = EmployeeEPAModel.checkScore(memberEPA.FinalScore, 0, memberEPA.Process.CurrentProcess.MaxPerformanceScore);
 
                 if (memberEPA.LastFinalScore.length > 0) {
                     memberEPA.LastFinalScore = utilitiesFactory.parseFloat(memberEPA.LastFinalScore);
@@ -124,7 +124,7 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
     };
 
     vm.initCollapseExpandCommentByEmployee = function (epaInfo, kpi) {
-        if (epaInfo.ProcessBySelf.IsEndProcess && (kpi.EvaluationBySelf.Comment && kpi.EvaluationBySelf.Comment.length > 0)) {
+        if (epaInfo.Process.Self.IsEndProcess && (kpi.EvaluationBySelf.Comment && kpi.EvaluationBySelf.Comment.length > 0)) {
             kpi.ExpandedCommentByEmployee = true;
         }
         else {
@@ -214,13 +214,13 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
             checkStatus(vm.epaInfo);
 
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
-            vm.epaInfo.ProcessBySelf.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.ProcessBySelf.TotalScore);
-            vm.epaInfo.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.CurrentProcess.TotalScore);
+            vm.epaInfo.Process.Self.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.Self.TotalScore);
+            vm.epaInfo.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.CurrentProcess.TotalScore);
 
-            vm.finalScoreOfSelf = vm.epaInfo.ProcessBySelf.TotalScore + vm.epaInfo.DisciplineScore;
-            vm.finalScoreOfSelf = EmployeeEPAModel.checkScore(vm.finalScoreOfSelf, 0, vm.epaInfo.ProcessBySelf.MaxPerformanceScore);
-            vm.finalScore = vm.epaInfo.CurrentProcess.TotalScore + vm.epaInfo.DisciplineScore;
-            vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.epaInfo.CurrentProcess.MaxPerformanceScore);
+            vm.finalScoreOfSelf = vm.epaInfo.Process.Self.TotalScore + vm.epaInfo.DisciplineScore;
+            vm.finalScoreOfSelf = EmployeeEPAModel.checkScore(vm.finalScoreOfSelf, 0, vm.epaInfo.Process.Self.MaxPerformanceScore);
+            vm.finalScore = vm.epaInfo.Process.CurrentProcess.TotalScore + vm.epaInfo.DisciplineScore;
+            vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.epaInfo.Process.CurrentProcess.MaxPerformanceScore);
 
             if (vm.epaInfo.LastFinalScore.length > 0) {
                 vm.epaInfo.LastFinalScore = utilitiesFactory.parseFloat(vm.epaInfo.LastFinalScore);
@@ -230,7 +230,7 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
 
             vm.gradeOfSelf = EmployeeEPAModel.convertScoreToGrade(vm.finalScoreOfSelf, vm.standardGrades);
             vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
-            vm.evaluatedDate = vm.epaInfo.CurrentProcess.EvaluateDate ? vm.epaInfo.CurrentProcess.EvaluateDate : null;
+            vm.evaluatedDate = vm.epaInfo.Process.CurrentProcess.EvaluateDate ? vm.epaInfo.Process.CurrentProcess.EvaluateDate : null;
 
             SelfEvalutorModel.getUserPermissionOnEvaluator().then(function () {
                 vm.permission = SelfEvalutorModel.permission;

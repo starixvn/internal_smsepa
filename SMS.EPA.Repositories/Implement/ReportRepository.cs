@@ -15,7 +15,6 @@ namespace SMS.EPA.Repositories.Implement
     using Fanex.Data.Repository;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Services;
-    using SMS.EPA.Model.Department;
     using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.Period;
@@ -77,26 +76,16 @@ namespace SMS.EPA.Repositories.Implement
                 {
                     epaDetail.PhaseSelecteds = multi.Read<EvaluationPhaseModel>();
 
-                    epaDetail.MemberEPAs = multi.Read<EPAModel, StatusModel, EPAPeriodModel, EPAModel>(
-                    (info, status, period) =>
+                    epaDetail.MemberEPAs = multi.Read<EPAModel, EPAEmployeeModel, StatusModel, EPAPeriodModel, EPAModel>(
+                    (info, employee, status, period) =>
                     {
+                        info.Employee = employee;
                         info.Status = status;
                         info.Period = period;
 
                         return info;
                     },
-                    "StatusId, PeriodId");
-
-                    IEnumerable<EPAEmployeeModel> employees = multi.Read<EPAEmployeeModel, DepartmentModel, Group, JobTitle, EPAEmployeeModel>(
-                        (epa, dept, gr, job) =>
-                        {
-                            epa.Department = dept;
-                            epa.Group = gr;
-                            epa.JobTitle = job;
-
-                            return epa;
-                        },
-                        "DepartmentId, GroupId, JobTitleId");
+                    "EmployeeId, StatusId, PeriodId");
 
                     IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
 
@@ -105,7 +94,6 @@ namespace SMS.EPA.Repositories.Implement
 
                     epaDetail.TotalItem = totalItem;
 
-                    GroupEmployeeByEPA(epaDetail.MemberEPAs, employees);
                     GroupEPAProcessByEPA(epaDetail.MemberEPAs, processes);
                     DecodeAllScore(epaDetail.MemberEPAs);
                 }
@@ -125,18 +113,6 @@ namespace SMS.EPA.Repositories.Implement
             }
         }
 
-        private void GroupEmployeeByEPA(IEnumerable<EPAModel> epaInfos, IEnumerable<EPAEmployeeModel> employees)
-        {
-            foreach (EPAModel epaInfo in epaInfos)
-            {
-                foreach (EPAEmployeeModel employee in employees.Where(x => x.EPAId.Equals(epaInfo.EPAId)))
-                {
-                    epaInfo.Employee = employee;
-                    break;
-                }
-            }
-        }
-
         private void GroupEPAProcessByEPA(IEnumerable<EPAModel> epaInfos, IEnumerable<EPAProcessModel> processes)
         {
             foreach (EPAModel epaInfo in epaInfos)
@@ -146,19 +122,19 @@ namespace SMS.EPA.Repositories.Implement
                     switch (process.ProcessId)
                     {
                         case (int)ProcessType.Self:
-                            epaInfo.ProcessBySelf = process;
+                            epaInfo.Process.Self = process;
                             break;
 
                         case (int)ProcessType.Evaluator:
-                            epaInfo.ProcessByEvaluators.Add(process);
+                            epaInfo.Process.Evaluators.Add(process);
                             break;
 
                         case (int)ProcessType.Reviewer:
-                            epaInfo.ProcessByReviewers.Add(process);
+                            epaInfo.Process.Reviewers.Add(process);
                             break;
 
                         case (int)ProcessType.Management:
-                            epaInfo.ProcessByManagements.Add(process);
+                            epaInfo.Process.Managements.Add(process);
                             break;
                     }
                 }
@@ -180,10 +156,10 @@ namespace SMS.EPA.Repositories.Implement
             {
                 epaInfo.FinalScore = EncodeService.Decode(epaInfo.FinalScoreEncode);
                 epaInfo.Grade = EncodeService.Decode(epaInfo.GradeEncode);
-                DecodeTotalScore(epaInfo.ProcessBySelf);
-                DecodeTotalScore(epaInfo.ProcessByEvaluators);
-                DecodeTotalScore(epaInfo.ProcessByReviewers);
-                DecodeTotalScore(epaInfo.ProcessByManagements);
+                DecodeTotalScore(epaInfo.Process.Self);
+                DecodeTotalScore(epaInfo.Process.Evaluators);
+                DecodeTotalScore(epaInfo.Process.Reviewers);
+                DecodeTotalScore(epaInfo.Process.Managements);
             }
         }
 

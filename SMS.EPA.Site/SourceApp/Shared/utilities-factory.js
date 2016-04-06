@@ -180,15 +180,17 @@ appModule.factory('utilitiesFactory',
     };
 
     utilities.setSelectedItem = function (data, selectedName, selectedItems) {
-        var array = selectedItems.split(',');
-        angular.forEach(array, function (id) {
-            id = parseInt(id);
-            angular.forEach(data, function (item) {
-                if (item[selectedName] === id) {
-                    item.ticked = true;
-                }
-            })
-        })
+        if (selectedItems && selectedItems.length > 0) {
+            var array = selectedItems.split(',');
+            angular.forEach(array, function (id) {
+                id = parseInt(id);
+                angular.forEach(data, function (item) {
+                    if (item[selectedName] === id) {
+                        item.ticked = true;
+                    }
+                });
+            });
+        }
     };
 
     utilities.parseFloat = function (input) {

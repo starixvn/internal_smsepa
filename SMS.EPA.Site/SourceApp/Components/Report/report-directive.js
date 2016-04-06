@@ -249,20 +249,20 @@ function ($timeout, utilitiesFactory) {
             }
         }
 
-        if (epaInfo.EPAId > 0 && epaInfo.ProcessBySelf.IsEndProcess) {
-            result.SelfScore = utilitiesFactory.parseFloat(epaInfo.ProcessBySelf.TotalScore);
+        if (epaInfo.EPAId > 0 && epaInfo.Process.Self.IsEndProcess) {
+            result.SelfScore = utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore);
         }
 
-        if (epaInfo.EPAId > 0 && epaInfo.ProcessByEvaluators[0].IsEndProcess) {
-            result.EvaluatorScore = epaInfo.AverageScoreByEvaluators;
+        if (epaInfo.EPAId > 0 && epaInfo.Process.Evaluators[0].IsEndProcess) {
+            result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators;
         }
 
-        if (epaInfo.EPAId > 0 && epaInfo.ProcessByReviewers.length > 0 && epaInfo.ProcessByReviewers[0].IsEndProcess) {
-            result.ReviewerScore = epaInfo.AverageScoreByReviewers;
+        if (epaInfo.EPAId > 0 && epaInfo.Process.Reviewers.length > 0 && epaInfo.Process.Reviewers[0].IsEndProcess) {
+            result.ReviewerScore = epaInfo.Process.AverageScoreByReviewers;
         }
 
-        if (epaInfo.EPAId > 0 && epaInfo.ProcessByManagements.length > 0 && epaInfo.ProcessByManagements[0].IsEndProcess) {
-            result.ManagementScore = epaInfo.AverageScoreByManagements;
+        if (epaInfo.EPAId > 0 && epaInfo.Process.Managements.length > 0 && epaInfo.Process.Managements[0].IsEndProcess) {
+            result.ManagementScore = epaInfo.Process.AverageScoreByManagements;
         }
 
         if (epaInfo.Period.IsEndPeriod) {
@@ -297,8 +297,8 @@ function ($timeout, utilitiesFactory) {
                         { Name: "Code", Value: memberEPA.Employee.Code },
                         { Name: "FullName", Value: memberEPA.Employee.FullName },
                         { Name: "NickName", Value: memberEPA.Employee.NickName },
-                        { Name: "Section", Value: memberEPA.Employee.Group.GroupName },
-                        { Name: "JobTitle", Value: memberEPA.Employee.JobTitle.JobTitleName },
+                        { Name: "Section", Value: memberEPA.Employee.GroupName },
+                        { Name: "JobTitle", Value: memberEPA.Employee.JobTitleName },
                         { Name: "TargetType", Value: memberEPA.Period.TargetTypeName },
                         { Name: "SelfScore", Value: score.SelfScore },
                         { Name: "EvaluatorScore", Value: score.EvaluatorScore },

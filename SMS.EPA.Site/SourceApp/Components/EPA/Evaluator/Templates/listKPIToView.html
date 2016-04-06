@@ -6,7 +6,7 @@
         <div class="kpiGroup-name">{{kpiGroup.Name}} <strong>({{kpiGroup.Weight | customScore}} pts)</strong></div>
         <div class="text-center employee-score" data-translate="EmployeeScore"></div>
         <div class="text-center employee-score">
-            <strong data-translate="EvaluatorScore"></strong> ({{memberEPAInfoCtrl.epaInfo.CurrentProcess.NickName}})
+            <strong data-translate="EvaluatorScore"></strong> ({{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.NickName}})
         </div>
     </div>
     <div class="kpiGroup-box col-sm-12" collapse="memberEPAInfoCtrl.collapses[kpiGroup.Name]">
@@ -20,7 +20,7 @@
                         <label class="note" ng-show="kpi.IsRequiredEvaluate" data-translate="(*)"></label>
                     </div>
                     <div class="employee-score">
-                        <div ng-show="kpi.EvaluationBySelf.Score && memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess">
+                        <div ng-show="kpi.EvaluationBySelf.Score && memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">
                             <span>{{kpi.EvaluationBySelf.Score | splitScore}} pts</span>
                             <div class="score-star-rating"
                                  ng-if="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.Star
@@ -33,11 +33,11 @@
                             </div>
                         </div>
                         <span ng-show="!kpi.EvaluationBySelf.Score" ng-bind="'0'"></span>
-                        <strong ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" data-translate="NotAvailable"></strong>
+                        <strong ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="NotAvailable"></strong>
                     </div>
 
                     <div class="employee-score">
-                        <div ng-show="kpi.EvaluationBySelf.Score && memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess">
+                        <div ng-show="kpi.EvaluationBySelf.Score && memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.IsEndProcess">
                             <span>{{kpi.CurrentEvaluation.Score | splitScore}} pts</span>
                             <div class="score-star-rating"
                                  ng-if="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.Star
@@ -50,7 +50,7 @@
                             </div>
                         </div>
                         <span ng-show="!kpi.CurrentEvaluation.Score" ng-bind="'0'"></span>
-                        <strong ng-show="!memberEPAInfoCtrl.epaInfo.CurrentProcess.IsEndProcess" data-translate="NotAvailable"></strong>
+                        <strong ng-show="!memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.IsEndProcess" data-translate="NotAvailable"></strong>
                     </div>
                 </div>
             </div>
@@ -69,8 +69,8 @@
                 </div>
                 <div class="textarea" ng-show="kpi.ExpandedCommentByEmployee">
                     <textarea class="form-control" ng-model="kpi.EvaluationBySelf.Comment"
-                              ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" ng-readonly="true"></textarea>
-                    <textarea class="form-control" ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" ng-readonly="true">N/A</textarea>
+                              ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" ng-readonly="true"></textarea>
+                    <textarea class="form-control" ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" ng-readonly="true">Pending</textarea>
                 </div>
             </div>
             <div class="row kpi-comment comment-by-evaluator" ng-show="kpi.HasComment">

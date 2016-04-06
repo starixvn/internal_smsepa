@@ -20,7 +20,7 @@
                         <label class="note" ng-show="kpi.IsRequiredEvaluate" data-translate="(*)"></label>
                     </div>
                     <div class="employee-score">
-                        <div ng-show="kpi.EvaluationBySelf.Score && memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" >
+                        <div ng-show="kpi.EvaluationBySelf.Score && memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" >
                             <span>{{kpi.EvaluationBySelf.Score | splitScore}} pts</span>
                             <div class="score-star-rating"
                                  ng-if="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.Star
@@ -33,7 +33,7 @@
                             </div>
                         </div>
                         <span ng-show="!kpi.EvaluationBySelf.Score" ng-bind="'0'"></span>
-                        <strong ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" data-translate="NotAvailable"></strong>
+                        <strong ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="Pending"></strong>
                     </div>
                     <div class="kpi-start">
                         <div class="rating-by-star"
@@ -97,8 +97,8 @@
                 </div>
                 <div class="textarea" ng-show="kpi.ExpandedCommentByEmployee">
                     <textarea class="form-control" ng-model="kpi.EvaluationBySelf.Comment"
-                              ng-show="memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" ng-readonly="true"></textarea>
-                    <textarea class="form-control" ng-show="!memberEPAInfoCtrl.epaInfo.ProcessBySelf.IsEndProcess" ng-readonly="true">N/A</textarea>
+                              ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" ng-readonly="true"></textarea>
+                    <textarea class="form-control" ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" ng-readonly="true">N/A</textarea>
                 </div>
             </div>
             <div class="row kpi-comment comment-by-evaluator" ng-show="kpi.HasComment">

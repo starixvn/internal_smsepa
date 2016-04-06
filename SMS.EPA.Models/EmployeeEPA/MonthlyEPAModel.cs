@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
 
@@ -46,52 +47,49 @@
 
         private float CalculateAverageScore(int processType)
         {
-            float score = 0, average = 0;
+            float average = 0;
             int count = 0;
 
-            foreach (EPAModel monthlyEPA in MonthlyEPAs)
+            foreach (EPAModel monthlyEPA in MonthlyEPAs.Where(x => x.Status.StatusId == (int)Status.Closed))
             {
-                if (monthlyEPA.Status.StatusId == (int)Status.Closed)
+                switch (processType)
                 {
-                    switch (processType)
-                    {
-                        case (int)ProcessType.Self:
-                            if (!string.IsNullOrEmpty(monthlyEPA.ProcessBySelf.TotalScore))
-                            {
-                                count++;
-                                score += float.Parse(monthlyEPA.ProcessBySelf.TotalScore);
-                            }
+                    case (int)ProcessType.Self:
+                        if (!string.IsNullOrEmpty(monthlyEPA.Process.Self.TotalScore))
+                        {
+                            count++;
+                            average += float.Parse(monthlyEPA.Process.Self.TotalScore);
+                        }
 
-                            break;
+                        break;
 
-                        case (int)ProcessType.Evaluator:
-                            if (monthlyEPA.AverageScoreByEvaluators > 0)
-                            {
-                                count++;
-                                score += monthlyEPA.AverageScoreByEvaluators;
-                            }
+                    case (int)ProcessType.Evaluator:
+                        if (monthlyEPA.Process.AverageScoreByEvaluators > 0)
+                        {
+                            count++;
+                            average += monthlyEPA.Process.AverageScoreByEvaluators;
+                        }
 
-                            break;
+                        break;
 
-                        case (int)ProcessType.Reviewer:
-                            if (monthlyEPA.AverageScoreByReviewers > 0)
-                            {
-                                count++;
-                                score += monthlyEPA.AverageScoreByReviewers;
-                            }
+                    case (int)ProcessType.Reviewer:
+                        if (monthlyEPA.Process.AverageScoreByReviewers > 0)
+                        {
+                            count++;
+                            average += monthlyEPA.Process.AverageScoreByReviewers;
+                        }
 
-                            break;
-                    }
+                        break;
                 }
             }
 
             if (count > 0)
             {
-                average = score / count;
+                average = average / count;
                 return (float)Math.Round(average, Constants.NumberOfDecimalDefault);
             }
 
-            return score;
+            return average;
         }
     }
 }

@@ -9,9 +9,6 @@
 
 namespace SMS.EPA.Model.EmployeeEPA
 {
-    using SMS.EPA.Model.Department;
-    using SMS.EPA.Model.Enitites;
-
     public class EPAEmployeeModel
     {
         public int EPAId { get; set; }
@@ -36,10 +33,20 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public string Category { get; set; }
 
-        public Group Group { get; set; }
+        public int GroupId { get; set; }
 
-        public DepartmentModel Department { get; set; }
+        public string GroupName { get; set; }
 
-        public JobTitle JobTitle { get; set; }
+        public string GroupCode { get; set; }
+
+        public int DepartmentId { get; set; }
+
+        public string DepartmentCode { get; set; }
+
+        public string DepartmentName { get; set; }
+
+        public int JobTitleId { get; set; }
+
+        public string JobTitleName { get; set; }
     }
 }

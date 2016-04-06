@@ -9,7 +9,6 @@
 
 namespace SMS.EPA.Model.EmployeeEPA
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using SMS.EPA.Core.Constants;
@@ -21,13 +20,10 @@ namespace SMS.EPA.Model.EmployeeEPA
     {
         public EPAModel()
         {
-            ProcessByEvaluators = new List<EPAProcessModel>();
-            ProcessByReviewers = new List<EPAProcessModel>();
-            ProcessByManagements = new List<EPAProcessModel>();
             KPIGroups = new List<EPAKPIGroupModel>();
             LastProcesses = new List<EPAProcessModel>();
-            EvaluationProcess = new EvaluationProcessModel();
             MonthlyEPA = new MonthlyEPAModel();
+            Process = new EvaluationProcessModel();
         }
 
         public int EPAId { get; set; }
@@ -76,41 +72,7 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public bool HasOtherViolation { get; set; }
 
-        public float AverageScoreByEvaluators
-        {
-            get
-            {
-                return CalculateAverageScore(ProcessByEvaluators);
-            }
-        }
-
-        public float AverageScoreByReviewers
-        {
-            get
-            {
-                return CalculateAverageScore(ProcessByReviewers);
-            }
-        }
-
-        public float AverageScoreByManagements
-        {
-            get
-            {
-                return CalculateAverageScore(ProcessByManagements);
-            }
-        }
-
-        public EvaluationProcessModel EvaluationProcess { get; set; }
-
-        public EPAProcessModel CurrentProcess { get; set; }
-
-        public EPAProcessModel ProcessBySelf { get; set; }
-
-        public IList<EPAProcessModel> ProcessByEvaluators { get; set; }
-
-        public IList<EPAProcessModel> ProcessByReviewers { get; set; }
-
-        public IList<EPAProcessModel> ProcessByManagements { get; set; }
+        public EvaluationProcessModel Process { get; set; }
 
         public IList<EPAKPIGroupModel> KPIGroups { get; set; }
 
@@ -134,7 +96,7 @@ namespace SMS.EPA.Model.EmployeeEPA
             {
                 if (LastProcesses.Count > 0)
                 {
-                    return CalculateAverageScore(LastProcesses);
+                    return Process.CalculateAverageScore(LastProcesses);
                 }
 
                 return null;
@@ -149,55 +111,18 @@ namespace SMS.EPA.Model.EmployeeEPA
         {
             get
             {
-                List<int> numbers = new List<int> { ProcessByEvaluators.Count, ProcessByReviewers.Count, ProcessByManagements.Count };
+                List<int> numbers = new List<int>
+                    {
+                        Process.Evaluators.Count,
+                        Process.Reviewers.Count,
+                        Process.Managements.Count
+                    };
 
                 return numbers.Max();
             }
         }
 
         public bool IsEndProcessBySelf { get; set; }
-
-        public float MaxPerformanceScore
-        {
-            get
-            {
-                float maxPerformanceScore = 0;
-
-                if (ProcessByManagements.Count > 0)
-                {
-                    maxPerformanceScore = ProcessByManagements.First().MaxTotalScore;
-                }
-                else if (ProcessByReviewers.Count > 0)
-                {
-                    maxPerformanceScore = ProcessByReviewers.First().MaxTotalScore;
-                }
-                else if (ProcessByEvaluators.Count > 0)
-                {
-                    maxPerformanceScore = ProcessByEvaluators.First().MaxTotalScore;
-                }
-
-                return maxPerformanceScore;
-            }
-        }
-
-        public float PerformanceScore
-        {
-            get
-            {
-                float performanceScore = AverageScoreByEvaluators;
-
-                if (ProcessByManagements.Count > 0)
-                {
-                    performanceScore = AverageScoreByManagements;
-                }
-                else if (ProcessByReviewers.Count > 0)
-                {
-                    performanceScore = AverageScoreByReviewers;
-                }
-
-                return performanceScore;
-            }
-        }
 
         public bool IsMonthly
         {
@@ -211,35 +136,16 @@ namespace SMS.EPA.Model.EmployeeEPA
         {
             get
             {
-                bool isAllowedToEdit = !(CurrentProcess == null
-                    || CurrentProcess.IsEndProcess
+                bool isAllowedToEdit = !(Process.CurrentProcess == null
+                    || Process.CurrentProcess.IsEndProcess
                     || (Period.TargetTypeId == (int)TargetType.SemiAnnual
                         && HasMonthlyEPA
-                        && (CurrentProcess.ProcessId == (int)ProcessType.Self || CurrentProcess.ProcessId == (int)ProcessType.Evaluator))
+                        && (Process.CurrentProcess.ProcessId == (int)ProcessType.Self || Process.CurrentProcess.ProcessId == (int)ProcessType.Evaluator))
                     || Status.StatusId == (int)Core.Enumerations.Status.Closed
                     || Period.IsEndPeriod);
 
                 return isAllowedToEdit;
             }
-        }
-
-        private float CalculateAverageScore(IList<EPAProcessModel> processes)
-        {
-            float average = 0;
-            int count = 0;
-
-            foreach (EPAProcessModel process in processes.Where(x => !string.IsNullOrEmpty(x.TotalScore)))
-            {
-                count++;
-                average += float.Parse(process.TotalScore);
-            }
-
-            if (count > 0)
-            {
-                average = (float)Math.Round(average / count, Constants.NumberOfDecimalDefault);
-            }
-
-            return average;
         }
     }
 }

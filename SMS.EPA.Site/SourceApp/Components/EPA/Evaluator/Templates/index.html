@@ -64,33 +64,33 @@
                     <td class="text-center" ng-bind="$index + 1"></td>
                     <td ng-bind="memberEPA.Period.Name"></td>
                     <td class="text-center">
-                        <span tooltip="{{memberEPA.Employee.Group.GroupName}}" ng-bind="memberEPA.Employee.Group.GroupCode"></span>
+                        <span tooltip="{{memberEPA.Employee.GroupName}}" ng-bind="memberEPA.Employee.GroupCode"></span>
                     </td>
                     <td class="text-center">
                         <span ng-bind="memberEPA.Employee.NickName" popover-avatar avatar-src="{{memberEPA.Employee.Avatar}}"></span>
                     </td>
-                    <td ng-bind="memberEPA.Employee.JobTitle.JobTitleName"></td>
-                    <td class="text-center" ng-switch="memberEPA.ProcessBySelf.IsEndProcess">
+                    <td ng-bind="memberEPA.Employee.JobTitleName"></td>
+                    <td class="text-center" ng-switch="memberEPA.Process.Self.IsEndProcess">
                         <div ng-switch-when="true" ng-switch="memberEPA.HasMonthlyEPA">
                             <span ng-switch-when="true">
-                                {{memberEPA.MonthlyEPA.AverageSelfScoreConverted | customScore}} / {{memberEPA.ProcessBySelf.MaxTotalScore | customScore}}
+                                {{memberEPA.MonthlyEPA.AverageSelfScoreConverted | customScore}} / {{memberEPA.Process.Self.MaxTotalScore | customScore}}
                             </span>
                             <span ng-switch-default>
-                                {{memberEPA.ProcessBySelf.TotalScore | customScore}} / {{memberEPA.ProcessBySelf.MaxTotalScore | customScore}}
+                                {{memberEPA.Process.Self.TotalScore | customScore}} / {{memberEPA.Process.Self.MaxTotalScore | customScore}}
                             </span>
                         </div>
                         <div ng-switch-default data-translate="Pending"></div>
                     </td>
                     <td class="text-center">
-                        <div ng-show="memberEPA.CurrentProcess.TotalScore.length > 0" ng-switch="memberEPA.HasMonthlyEPA">
+                        <div ng-show="memberEPA.Process.CurrentProcess.TotalScore.length > 0" ng-switch="memberEPA.HasMonthlyEPA">
                             <span ng-switch-when="true">
-                                {{memberEPA.MonthlyEPA.AverageEvaluatorScoreConverted | customScore}} / {{memberEPA.CurrentProcess.MaxTotalScore | customScore}}
+                                {{memberEPA.MonthlyEPA.AverageEvaluatorScoreConverted | customScore}} / {{memberEPA.Process.CurrentProcess.MaxTotalScore | customScore}}
                             </span>
                             <span ng-switch-default>
-                                {{memberEPA.CurrentProcess.TotalScore | customScore}} / {{memberEPA.CurrentProcess.MaxTotalScore | customScore}}
+                                {{memberEPA.Process.CurrentProcess.TotalScore | customScore}} / {{memberEPA.Process.CurrentProcess.MaxTotalScore | customScore}}
                             </span>
                         </div>
-                        <div ng-show="memberEPA.CurrentProcess.TotalScore.length == 0" data-translate="NotAvailable"></div>
+                        <div ng-show="memberEPA.Process.CurrentProcess.TotalScore.length == 0" data-translate="NotAvailable"></div>
                     </td>
                     <td class="text-center" ng-switch="memberEPA.HasDisciplineScore">
                         <div ng-switch-when="true">
@@ -117,14 +117,14 @@
                         </div>
                     </td>
                     <td class="text-center">
-                        {{memberEPA.FinalScore | customScore}} / {{memberEPA.CurrentProcess.MaxPerformanceScore | customScore}}
+                        {{memberEPA.FinalScore | customScore}} / {{memberEPA.Process.CurrentProcess.MaxPerformanceScore | customScore}}
                     </td>
                     <td class="text-center">
                         <div ng-show="memberEPA.LastFinalScore != null" ng-bind="memberEPA.LastFinalScore | customScore"></div>
                         <div ng-show="memberEPA.LastFinalScore == null" ng-bind="'-'"></div>
                     </td>
                     <td class="text-center">
-                        <div ng-show="memberEPA.CurrentProcess.Evaluated" class="glyphicon glyphicon-ok"></div>
+                        <div ng-show="memberEPA.Process.CurrentProcess.Evaluated" class="glyphicon glyphicon-ok"></div>
                     </td>
                     <td class="text-center">
                         <a data-translate="View" ng-click="evaluatorCtrl.viewEPAHistory(memberEPA.Employee.EmployeeId)"
