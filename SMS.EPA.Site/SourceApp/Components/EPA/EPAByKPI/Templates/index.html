@@ -82,38 +82,28 @@
                                 <td class="text-center">
                                     <span ng-bind="memberEPA.Employee.NickName" popover-avatar avatar-src="{{memberEPA.Employee.Avatar}}"></span>
                                 </td>
-                                <td class="col-comment">
+                                <td class="col-score">
                                     <div class="row text-center list-star" ng-repeat="kpi in memberEPA.KPIGroup.KPIsBySelf" ng-if="kpi.KPIId == epaByKPICtrl.filter.kpiId">
                                         <div tooltip="{{kpi.Comment}}">
                                             <span>{{kpi.Score | splitScore}} pts</span>
-                                            <div class="score-star-rating" ng-if="memberEPA.RatingType.RatingTypeId == epaByKPICtrl.RatingType.Star">
-                                                -
+                                            <div class="score-star-rating" ng-if="memberEPA.RatingType.RatingTypeId == epaByKPICtrl.RatingType.Star
+                                                    || memberEPA.RatingType.RatingTypeId == epaByKPICtrl.RatingType.HalfStar">
+                                                / <span ng-show="kpi.Rate || kpi.Rate == 0" ng-bind="kpi.Rate | splitScore"></span>
                                                 <input type="number" class="rating-loading" ng-readonly="true" data-size="xs"
-                                                       data-min="0" data-max="5" data-step="1" ng-model="kpi.Rate"
-                                                       data-show-caption="false" data-show-clear="false">
-                                            </div>
-                                            <div class="score-star-rating" ng-if=" memberEPA.RatingType.RatingTypeId == epaByKPICtrl.RatingType.HalfStar">
-                                                -
-                                                <input type="number" class="rating-loading" ng-readonly="true" data-size="xs"
-                                                       data-min="0" data-max="5" data-step="0.5" ng-model="kpi.Rate"
+                                                       value="1" data-min="0" data-max="1" data-stars="1"
                                                        data-show-caption="false" data-show-clear="false">
                                             </div>
                                         </div>
                                     </div>
                                 </td>
-                                <td class="col-comment">
+                                <td class="col-score">
                                     <div class="row text-center list-star" ng-repeat="kpi in memberEPA.KPIGroup.KPIs" ng-if="kpi.KPIId == epaByKPICtrl.filter.kpiId">
                                         <span>{{kpi.Score | splitScore}} pts</span>
-                                        <div class="score-star-rating" ng-if="memberEPA.RatingType.RatingTypeId == epaByKPICtrl.RatingType.Star">
-                                            -
+                                        <div class="score-star-rating" ng-if="memberEPA.RatingType.RatingTypeId == epaByKPICtrl.RatingType.Star
+                                                || memberEPA.RatingType.RatingTypeId == epaByKPICtrl.RatingType.HalfStar">
+                                            / <span ng-show="kpi.Rate || kpi.Rate == 0" ng-bind="kpi.Rate | splitScore"></span>
                                             <input type="number" class="rating-loading" ng-readonly="true" data-size="xs"
-                                                   data-min="0" data-max="5" data-step="1" ng-model="kpi.Rate"
-                                                   data-show-caption="false" data-show-clear="false">
-                                        </div>
-                                        <div class="score-star-rating" ng-if=" memberEPA.RatingType.RatingTypeId == epaByKPICtrl.RatingType.HalfStar">
-                                            -
-                                            <input type="number" class="rating-loading" ng-readonly="true" data-size="xs"
-                                                   data-min="0" data-max="5" data-step="0.5" ng-model="kpi.Rate"
+                                                   value="1" data-min="0" data-max="1" data-stars="1"
                                                    data-show-caption="false" data-show-clear="false">
                                         </div>
                                     </div>

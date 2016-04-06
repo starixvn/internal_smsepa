@@ -94,7 +94,7 @@
                                         <div tooltip="{{kpi.Comment}}">
                                             <span>{{kpi.Score | splitScore}} pts</span>
                                             <div class="score-star-rating" ng-if="memberEPA.RatingType.RatingTypeId == ratingByKPICtrl.ratingTypeEnum.Star
-                                                 || memberEPA.RatingType.RatingTypeId == ratingByKPICtrl.ratingTypeEnum.HalfStar">
+                                                    || memberEPA.RatingType.RatingTypeId == ratingByKPICtrl.ratingTypeEnum.HalfStar">
                                                 / <span ng-show="kpi.Rate || kpi.Rate == 0" ng-bind="kpi.Rate | splitScore"></span>
                                                 <input type="number" class="rating-loading" ng-readonly="true" data-size="xs"
                                                        value="1" data-min="0" data-max="1" data-stars="1"
