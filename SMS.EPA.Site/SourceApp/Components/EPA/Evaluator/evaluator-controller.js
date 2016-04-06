@@ -115,8 +115,12 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
     vm.statusEndProcessEnum = enumerationsFactory.statusEndProcess;
     vm.ratingTypeEnum = enumerationsFactory.ratingType;
 
-    vm.ViewBySelf = function () {
+    vm.viewBySelf = function () {
         return !vm.evaluatorId;
+    };
+
+    vm.viewBackButton = function () {
+        return !$routeParams.newTab;
     };
 
     vm.initCollapseExpandCommentByEmployee = function (epaInfo, kpi) {

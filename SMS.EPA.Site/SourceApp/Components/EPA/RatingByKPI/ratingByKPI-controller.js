@@ -319,7 +319,7 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
     };
 
     vm.viewDetail = function (memberEPA) {
-        var url = baseUrl + 'Evaluator/Detail/' + memberEPA.EPAId;
+        var url = baseUrl + 'Evaluator/Detail/' + memberEPA.EPAId + '?newTab=' + true;
         $window.open(url, '_blank');
     };
 
