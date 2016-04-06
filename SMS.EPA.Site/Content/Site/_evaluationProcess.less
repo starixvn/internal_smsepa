@@ -1,0 +1,172 @@
+﻿.evaluation-process-section {
+    ul.evaluation-process {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: flex-start;
+        -ms-flex-flow: row wrap;
+        -webkit-flex-flow: row wrap;
+        flex-flow: row wrap;
+
+        &:before, &:after {
+            content: '';
+            width: 100%;
+            order: 1;
+        }
+
+        li {
+            height: 84px;
+            padding: 16px 50px 0 16px;
+            position: relative;
+            margin: 5px 47px 5px 0;
+
+            .progress {
+                box-shadow: none;
+                background-image: none;
+                background-color: transparent;
+            }
+
+            .progress-bar {
+                background-image: none;
+                box-shadow: none;
+                background-color: transparent;
+                text-align: left;
+                color: inherit;
+            }
+
+            &:after {
+                content: "";
+                border-top: 44px solid transparent;
+                border-bottom: 40px solid transparent;
+                position: absolute;
+                right: -40px;
+                top: 0;
+            }
+
+            &:before {
+                content: "";
+                position: absolute;
+                margin-top: -16px;
+                border-width: 44px 0 40px 40px;
+                border-style: solid;
+                left: -40px;
+            }
+
+            &:first-child {
+                &:before {
+                    display: none;
+                }
+            }
+
+            &.open {
+                background-color: #d6d6d6;
+                color: #61463b;
+
+                &:after {
+                    border-left: 40px solid #d6d6d6;
+                }
+
+                &:before {
+                    border-color: #d6d6d6 #d6d6d6 #d6d6d6 transparent;
+                }
+
+                .icon-process {
+                    background: url(images/sprite_process.png);
+                    background-position: -15px 0;
+                    display: inline-block;
+                    height: 15px;
+                    position: relative;
+                    left: 5px;
+                    top: 2px;
+                    width: 15px;
+                }
+            }
+
+            &.end-process {
+                background: #f5a07d;
+                color: #fff;
+
+                &:after {
+                    border-left: 40px solid #f5a07d;
+                }
+
+                &:before {
+                    border-color: #f5a07d #f5a07d #f5a07d transparent;
+                }
+
+                .icon-process {
+                    background: url(images/sprite_process.png);
+                    background-position: 0 0;
+                    display: inline-block;
+                    height: 15px;
+                    position: relative;
+                    left: 5px;
+                    top: 2px;
+                    width: 15px;
+                }
+            }
+
+            &.in-process {
+                background: #70c9ea;
+                color: #fff;
+
+                &:after {
+                    border-left: 40px solid #70c9ea;
+                }
+
+                &:before {
+                    border-color: #70c9ea #70c9ea #70c9ea transparent;
+                }
+
+                .icon-process {
+                    background: url(images/sprite_process.png);
+                    background-position: -30px 0;
+                    display: inline-block;
+                    height: 15px;
+                    position: relative;
+                    left: 5px;
+                    top: 2px;
+                    width: 15px;
+                }
+            }
+
+            &.final {
+                background-color: #ebe4d4;
+                color: #61463b;
+
+                &:after {
+                    border-left: 40px solid #ebe4d4;
+                }
+
+                &:before {
+                    border-color: #ebe4d4 #ebe4d4 #ebe4d4 transparent;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 1200px) {
+    ul.evaluation-process {
+        li:nth-child(n + 4) {
+            order: 1;
+        }
+
+        li:nth-child(4) {
+            margin-left: 40px;
+        }
+    }
+}
+
+@media (min-width: 1201px) and (max-width: 1450px) {
+    ul.evaluation-process {
+        li:nth-child(n + 5) {
+            order: 1;
+        }
+
+        li:nth-child(5) {
+            margin-left: 40px;
+        }
+    }
+}
