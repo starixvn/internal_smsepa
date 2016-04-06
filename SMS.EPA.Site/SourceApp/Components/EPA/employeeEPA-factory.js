@@ -18,11 +18,12 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
         getGroupByEvaluator: function () {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetGroupByEvaluator');
         },
-        getMemberByEvaluator: function (groupId, isLocal) {
+        getMemberByEvaluator: function (groupId, isLocal, isMonthly) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetMemberByEvaluator', {
                 params: {
                     groupId: groupId,
-                    isLocal: isLocal
+                    isLocal: isLocal,
+                    isMonthly: isMonthly
                 }
             });
         },
@@ -45,11 +46,12 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
         getGroupByReviewer: function () {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetGroupByReviewer');
         },
-        getMemberByReviewer: function (groupId, isLocal) {
+        getMemberByReviewer: function (groupId, isLocal, isMonthly) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetMemberByReviewer', {
                 params: {
                     groupId: groupId,
-                    isLocal: isLocal
+                    isLocal: isLocal,
+                    isMonthly: isMonthly
                 }
             });
         },

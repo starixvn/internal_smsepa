@@ -32,8 +32,8 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
         };
     }
 
-    vm.getMember = function (groupId, isLocal) {
-        ReviewerManagementModel.getMemberByReviewer(groupId, isLocal).then(function () {
+    vm.getMember = function () {
+        ReviewerManagementModel.getMemberByReviewer(vm.filter.groupId, vm.filter.isLocal,vm.filter.isMonthly).then(function () {
             vm.members = ReviewerManagementModel.members;
             utilitiesFactory.setSelectedItem(vm.members, "EmployeeId", vm.filter.employeeIds);
         });
@@ -216,7 +216,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
             vm.groupOptions = ReviewerManagementModel.groups;
         });
 
-        vm.getMember(vm.filter.groupId, vm.filter.isLocal);
+        vm.getMember();
 
         CommonModel.getStandardGrade().then(function () {
             vm.standardGrades = CommonModel.standardGrades;

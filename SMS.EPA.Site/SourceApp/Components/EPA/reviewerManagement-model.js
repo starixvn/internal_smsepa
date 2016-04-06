@@ -230,8 +230,8 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         });
     };
 
-    reviewerMngModel.getMemberByReviewer = function (groupId, isLocal) {
-        return employeeEPAFactory.getMemberByReviewer(groupId, isLocal)
+    reviewerMngModel.getMemberByReviewer = function (groupId, isLocal, isMonthly) {
+        return employeeEPAFactory.getMemberByReviewer(groupId, isLocal, isMonthly)
         .success(function (members) {
             reviewerMngModel.members = members;
         }).error(function (response, status) {

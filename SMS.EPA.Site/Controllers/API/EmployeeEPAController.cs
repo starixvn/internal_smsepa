@@ -125,9 +125,10 @@ namespace SMS.EPA.Site.Controllers.API
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Evaluator, Policy = Policy.Read)]
         public IEnumerable<Employee> GetMemberByEvaluator(
             int? groupId = null,
-            bool? isLocal = null)
+            bool? isLocal = null,
+            bool? isMonthly = null)
         {
-            return GetMemberByEvaluatorOrReviewerOrManagement((int)ProcessType.Evaluator, groupId, isLocal);
+            return GetMemberByEvaluatorOrReviewerOrManagement((int)ProcessType.Evaluator, groupId, isLocal, isMonthly);
         }
 
         [HttpGet]
@@ -219,9 +220,10 @@ namespace SMS.EPA.Site.Controllers.API
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Reviewer, Policy = Policy.Read)]
         public IEnumerable<Employee> GetMemberByReviewer(
             int? groupId = null,
-            bool? isLocal = null)
+            bool? isLocal = null,
+            bool? isMonthly = null)
         {
-            return GetMemberByEvaluatorOrReviewerOrManagement((int)ProcessType.Reviewer, groupId, isLocal);
+            return GetMemberByEvaluatorOrReviewerOrManagement((int)ProcessType.Reviewer, groupId, isLocal, isMonthly);
         }
 
         [HttpGet]
@@ -592,14 +594,16 @@ namespace SMS.EPA.Site.Controllers.API
         private IEnumerable<Employee> GetMemberByEvaluatorOrReviewerOrManagement(
             int processId,
             int? groupId = null,
-            bool? isLocal = null)
+            bool? isLocal = null,
+            bool? isMonthly = null)
         {
             var criteria = new GetMemberByEvaluatorOrReviewerOrManagementCriteria()
             {
                 ActorUserId = CurrentUser.EmployeeInfo.EmployeeId,
                 ProcessId = processId,
                 GroupId = groupId,
-                IsLocal = isLocal
+                IsLocal = isLocal,
+                IsMonthly = isMonthly
             };
 
             return _employeeEPAService.GetMemberByEvaluatorOrReviewerOrManagement(criteria);

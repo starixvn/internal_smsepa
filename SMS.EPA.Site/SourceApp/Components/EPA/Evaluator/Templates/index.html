@@ -11,14 +11,14 @@
                 <div class="col-sm-2">
                     <select class="form-control" ng-model="evaluatorCtrl.filter.groupId"
                             ng-options="opt.GroupId as opt.GroupName for opt in evaluatorCtrl.groupOptions"
-                            ng-change="evaluatorCtrl.getMember(evaluatorCtrl.filter.groupId, evaluatorCtrl.model.isLocal)">
+                            ng-change="evaluatorCtrl.getMember()">
                         <option value="">-- {{"All" | translate}} --</option>
                     </select>
                 </div>
                 <label class="col-sm-1 control-label" data-translate="Category"></label>
                 <div class="col-sm-2">
                     <select class="form-control" ng-model="evaluatorCtrl.filter.isLocal"
-                            ng-change="evaluatorCtrl.getMember(evaluatorCtrl.filter.groupId, evaluatorCtrl.filter.isLocal)">
+                            ng-change="evaluatorCtrl.getMember()">
                         <option value="">-- {{"All" | translate}} --</option>
                         <option value="false">{{"Expat" | translate}}</option>
                         <option value="true">{{"Local" | translate}}</option>
@@ -32,7 +32,7 @@
                 </div>
                 <div class="col-sm-1">
                     <label>
-                        <input type="checkbox" ng-model="evaluatorCtrl.filter.isMonthly">{{"IsMonthly" | translate}}
+                        <input type="checkbox" ng-model="evaluatorCtrl.filter.isMonthly" ng-change="evaluatorCtrl.getMember()">{{"IsMonthly" | translate}}
                     </label>
                 </div>
                 <div class="col-sm-1">
