@@ -1,0 +1,201 @@
+﻿.rating-by-kpi {
+    background-color: #fff;
+    margin: 10px 1%;
+
+    .row {
+        margin: 0;
+
+        .score-star-rating {
+            display: inline-block;
+        }
+    }
+
+    .boxtitle {
+        border-bottom: none;
+    }
+
+    .boxcontent {
+        color: #61463b;
+
+        &.kpi-info {
+            .filter {
+                padding-top: 5px;
+                padding-bottom: 5px;
+            }
+
+            .form-group {
+                margin-bottom: 0;
+
+                &.last {
+                    margin-bottom: 5px;
+                }
+            }
+        }
+
+        .filter {
+            margin-top: 0;
+            padding-bottom: 0;
+            background: #fff;
+        }
+    }
+
+    .table.table-bordered {
+        margin-bottom: 70px;
+
+        tbody {
+            overflow-y: auto;
+        }
+
+        .header-fixed {
+            padding-right: 1.4%;
+        }
+
+        th.col-score > div, th.col-adjust-score > div {
+            padding: 0;
+        }
+
+        .col-score {
+            width: 10%;
+
+            a {
+                cursor: pointer;
+
+                &:hover, &:focus {
+                    text-decoration: none;
+                }
+            }
+
+            .rating-xs {
+                font-size: 1.5em;
+            }
+        }
+
+        .col-adjust-score {
+            width: 21%;
+
+            .list-star {
+                .cancel-rating {
+                    padding: 10px 0;
+                }
+                
+                .rating-form, .input-score {
+                    padding: 0;
+                }
+
+                .rating-xs {
+                    font-size: 2em;
+                }
+
+                .glyphicon {
+                    font-size: 25px;
+                    color: #4493C4;
+
+                    &.glyphicon-star {
+                        cursor: pointer;
+                        color: #F67F46;
+
+                        &:focus {
+                            outline: none;
+                        }
+                    }
+                }
+
+                .remove-star {
+                    color: #DE5245 !important;
+                    margin-right: 3px;
+                    cursor: pointer;
+                    font-size: 16px;
+                    top: 2px;
+                }
+
+                .percent-rating {
+                    width: 100%;
+                    clear: both;
+                    display: block;
+                    float: none;
+                    text-align: center;
+
+                    .badge.percent {
+                        width: 55px;
+                        font-weight: normal;
+                        font-size: 11px;
+                    }
+                }
+
+                .input-score {
+                    padding: 0;
+
+                    .epa-input-score {
+                        margin: 0 auto;
+                    }
+                }
+            }
+        }
+
+        .col-comment {
+            .optional-comment, .required-comment {
+                textarea {
+                    height: 2.5em;
+                    resize: none;
+                    -moz-transition: all 0.5s ease;
+                    -o-transition: all 0.5s ease;
+                    -webkit-transition: all 0.5s ease;
+                    transition: all 0.5s ease;
+                    color: #39F;
+
+                    &:focus {
+                        height: 5.5em;
+                    }
+                }
+            }
+
+            .required-comment {
+                .textarea, .note {
+                    display: inline-block;
+                    float: left;
+                }
+
+                .textarea {
+                    width: 92%;
+                }
+
+                .note {
+                    width: 5%;
+                    margin-left: 5px;
+                    color: #df1501;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 1300px) {
+    .rating-by-kpi {
+        .cancel-rating, .rating-form {
+            padding: 0 !important;
+            width: 100%;
+            display: block;
+            text-align: center;
+        }
+    }
+}
+
+@media (max-width: 1023px) {
+    .rating-by-kpi {
+        .col-adjust-score {
+            width: inherit;
+
+            .list-star {
+                .input-score {
+                    width: 100%;
+                    margin-top: 3px;
+
+                    .epa-input-score {
+                        width: 85px;
+                        margin: 0 auto;
+                    }
+                }
+            }
+        }
+    }
+}

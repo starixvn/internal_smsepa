@@ -166,8 +166,6 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
         vm.filter.kpiId = kpiId;
 
         vm.viewKPIInfo();
-
-        vm.query();
     };
 
     vm.viewKPIInfo = function () {
@@ -198,10 +196,12 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
                     vm.memberEPAs = [];
                     vm.kpiSelected = null;
                     vm.dataSaved = false;
+                    vm.query();
                 } else {
                     vm.memberEPAs = [];
                     vm.kpiSelected = null;
                     vm.dataSaved = false;
+                    vm.query();
                 }
 
                 index = vm.kpis.map(function (e) { return e.KPIId; }).indexOf(vm.filter.kpiId);
@@ -214,8 +214,8 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
         } else {
             index = vm.kpis.map(function (e) { return e.KPIId; }).indexOf(vm.filter.kpiId);
             vm.kpiSelected = vm.kpis[index];
-
             vm.memberEPAs = [];
+            vm.query();
         }
     };
 

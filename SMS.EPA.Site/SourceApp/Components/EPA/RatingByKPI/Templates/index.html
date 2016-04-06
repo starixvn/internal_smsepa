@@ -88,20 +88,16 @@
                                 <td class="text-center">
                                     <span ng-bind="memberEPA.Employee.NickName" popover-avatar avatar-src="{{memberEPA.Employee.Avatar}}"></span>
                                 </td>
-                                <td class="col-comment">
-                                    <div class="row text-center list-star" ng-repeat="kpi in memberEPA.KPIGroup.KPIsBySelf" ng-if="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
+                                <td class="col-score">
+                                    <div class="row text-center list-star" ng-repeat="kpi in memberEPA.KPIGroup.KPIsBySelf"
+                                         ng-if="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
                                         <div tooltip="{{kpi.Comment}}">
                                             <span>{{kpi.Score | splitScore}} pts</span>
-                                            <div class="score-star-rating" ng-if="memberEPA.RatingType.RatingTypeId == ratingByKPICtrl.ratingTypeEnum.Star">
-                                                -
+                                            <div class="score-star-rating" ng-if="memberEPA.RatingType.RatingTypeId == ratingByKPICtrl.ratingTypeEnum.Star
+                                                 || memberEPA.RatingType.RatingTypeId == ratingByKPICtrl.ratingTypeEnum.HalfStar">
+                                                / <span ng-show="kpi.Rate || kpi.Rate == 0" ng-bind="kpi.Rate | splitScore"></span>
                                                 <input type="number" class="rating-loading" ng-readonly="true" data-size="xs"
-                                                       data-min="0" data-max="5" data-step="1" ng-model="kpi.Rate"
-                                                       data-show-caption="false" data-show-clear="false">
-                                            </div>
-                                            <div class="score-star-rating" ng-if=" memberEPA.RatingType.RatingTypeId == ratingByKPICtrl.ratingTypeEnum.HalfStar">
-                                                -
-                                                <input type="number" class="rating-loading" ng-readonly="true" data-size="xs"
-                                                       data-min="0" data-max="5" data-step="0.5" ng-model="kpi.Rate"
+                                                       value="1" data-min="0" data-max="1" data-stars="1"
                                                        data-show-caption="false" data-show-clear="false">
                                             </div>
                                         </div>

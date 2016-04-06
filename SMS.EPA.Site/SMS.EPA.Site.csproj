@@ -760,6 +760,7 @@
     <Content Include="SourceApp\Components\AttendanceSummary\ExcelTemplates\DisciplineSummaryReport.xls" />
     <Content Include="SourceApp\Components\AttendanceSummary\ExcelTemplates\DisciplineDetailReport.xls" />
     <None Include="Properties\PublishProfiles\Profile1.pubxml" />
+    <None Include="SourceApp\Components\EPA\_ratingByStar.less" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">
