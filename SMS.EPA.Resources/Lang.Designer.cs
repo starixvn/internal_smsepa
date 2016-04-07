@@ -2482,11 +2482,11 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Comment is required for max score rating.
+        ///   Looks up a localized string similar to Comment is required for for rating max score.
         /// </summary>
-        public static string RequiredCommentForMaxScoreRating {
+        public static string RequiredCommentForRatingMaxScore {
             get {
-                return ResourceManager.GetString("RequiredCommentForMaxScoreRating", resourceCulture);
+                return ResourceManager.GetString("RequiredCommentForRatingMaxScore", resourceCulture);
             }
         }
         

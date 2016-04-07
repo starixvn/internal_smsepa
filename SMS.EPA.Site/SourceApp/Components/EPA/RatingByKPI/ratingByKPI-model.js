@@ -174,7 +174,7 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
                         openPopupNotificationComment(vm.evaluateEPAInvalidMessage);
                         return false;
                     } else if (vm.memberEPAs[i].RequiredCommentOnMaxScore && kpi.IsMaxScore) {
-                        openPopupNotificationComment(vm.requiredCommentForMaxScoreRating);
+                        openPopupNotificationComment(vm.requiredCommentForRatingMaxScore);
                         return false;
                     }
                 }

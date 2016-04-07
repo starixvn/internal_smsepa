@@ -1152,8 +1152,8 @@
   <data name="RatingType" xml:space="preserve">
     <value>Rating Type</value>
   </data>
-  <data name="RequiredCommentForMaxScoreRating" xml:space="preserve">
-    <value>Comment is required for max score rating</value>
+  <data name="RequiredCommentForRatingMaxScore" xml:space="preserve">
+    <value>Comment is required for for rating max score</value>
   </data>
   <data name="RequiredComment" xml:space="preserve">
     <value>Comment is required</value>

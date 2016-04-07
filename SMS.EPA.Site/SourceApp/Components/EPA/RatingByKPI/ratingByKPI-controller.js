@@ -391,8 +391,8 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
             vm.evaluateEPAInvalidMessage = message;
         });
 
-        $translate('RequiredCommentForMaxScoreRating').then(function (message) {
-            vm.requiredCommentForMaxScoreRating = message;
+        $translate('RequiredCommentForRatingMaxScore').then(function (message) {
+            vm.requiredCommentForRatingMaxScore = message;
         });
 
         RatingByKPIModel.getTargetTemplateByEvaluator().then(function () {
@@ -432,7 +432,7 @@ function ($translate, $modalInstance, RatingByKPIModel, kpiSelected, memberEPAs)
         vm.evaluateEPAInvalidMessage = message;
     });
 
-    $translate('RequiredCommentForMaxScoreRating').then(function (message) {
-        vm.requiredCommentForMaxScoreRating = message;
+    $translate('RequiredCommentForRatingMaxScore').then(function (message) {
+        vm.requiredCommentForRatingMaxScore = message;
     });
 }]);
