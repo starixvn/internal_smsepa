@@ -40,8 +40,6 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Interfaces
 
         int CheckLastestProcessOfPeriod(CheckLastestProcessOfPeriodCriteria criteria);
 
-        bool CheckTotalScoreOfProcessIsNull(CheckTotalScoreOfProcessIsNullCriteria criteria);
-
         CommandResult UpdateTotalScoreOfProcess(UpdateTotalScoreOfProcessCriteria criteria);
 
         IEnumerable<EndEPAModel> GetEvaluationEndedYesterday(GetEvaluationEndedYesterdayCriteria criteria);

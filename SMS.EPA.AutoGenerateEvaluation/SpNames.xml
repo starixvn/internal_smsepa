@@ -13,8 +13,6 @@
     </Setting>
     <Setting Key="EpaPeriod_GetById" SpName="EpaPeriod_GetById" DbName="SMSEPA" Plain="0">
     </Setting>
-    <Setting Key="EpaAuto_CheckSendMailAllWhenPeriodStarted" SpName="EpaAuto_CheckSendMailAllWhenPeriodStarted" DbName="SMSEPA" Plain="0">
-    </Setting>
     <Setting Key="EpaAuto_GenerateEPA" SpName="EpaAuto_GenerateEPA" DbName="SMSEPA" Plain="0">
     </Setting>
     <Setting Key="EpaAuto_GetEmployeeSettingToSendMail" SpName="EpaAuto_GetEmployeeSettingToSendMail" DbName="SMSEPA" Plain="0">
@@ -24,6 +22,7 @@
     <Setting Key="EpaAuto_Promotion_GetEmployees" SpName="EpaAuto_Promotion_GetEmployees" DbName="SMSEPA" Plain="0">
     </Setting>
     <Setting Key="EpaAuto_CheckEndProcess" SpName="EpaAuto_CheckEndProcess" DbName="SMSEPA" Plain="0">
+      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
     </Setting>
     <Setting Key="EpaAuto_UpdateIsEndProcess" SpName="EpaAuto_UpdateIsEndProcess" DbName="SMSEPA" Plain="0">
     </Setting>
@@ -46,8 +45,6 @@
       <Mapping DataField="Rate" ObjectProperty="RateEncode" />
     </Setting>
     <Setting Key="EPA_GetStandardGrade" SpName="EPA_GetStandardGrade" DbName="SMSEPA" Plain="0">
-    </Setting>
-    <Setting Key="EpaAuto_CheckTotalScoreIsNull" SpName="EpaAuto_CheckTotalScoreIsNull" DbName="SMSEPA" Plain="0">
     </Setting>
     <Setting Key="EpaAuto_UpdateTotalScoreWhenNull" SpName="EpaAuto_UpdateTotalScoreWhenNull" DbName="SMSEPA" Plain="0">
     </Setting>

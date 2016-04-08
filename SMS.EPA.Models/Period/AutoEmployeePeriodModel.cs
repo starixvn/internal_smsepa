@@ -9,6 +9,8 @@
 
 namespace SMS.EPA.Model.Period
 {
+    using SMS.EPA.Core.Services;
+
     public class AutoEmployeePeriodModel
     {
         public int EPAId { get; set; }
@@ -20,6 +22,16 @@ namespace SMS.EPA.Model.Period
         public int TargetTypeId { get; set; }
 
         public int ProcessId { get; set; }
+
+        public string TotalScoreEncode { get; set; }
+
+        public string TotalScore
+        {
+            get
+            {
+                return EncodeService.Decode(TotalScoreEncode);
+            }
+        }
 
         public int EmployeeId { get; set; }
 

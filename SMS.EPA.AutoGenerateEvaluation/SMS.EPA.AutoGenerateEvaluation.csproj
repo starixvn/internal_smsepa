@@ -85,7 +85,6 @@
     </Compile>
     <Compile Include="Criteria\CheckEndProcessCriteria.cs" />
     <Compile Include="Criteria\CheckLastestProcessOfPeriodCriteria.cs" />
-    <Compile Include="Criteria\CheckTotalScoreOfProcessIsNullCriteria.cs" />
     <Compile Include="Criteria\GetEmployeeProbationEvaluationCriteria.cs" />
     <Compile Include="Criteria\GetEmployeePromotionEvaluationCriteria.cs" />
     <Compile Include="Criteria\GetEvaluationEndedYesterdayCriteria.cs" />

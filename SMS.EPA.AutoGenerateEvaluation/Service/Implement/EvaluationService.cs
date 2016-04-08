@@ -211,18 +211,6 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
             return lastestProcess;
         }
 
-        public bool CheckTotalScoreOfProcessIsNull(CheckTotalScoreOfProcessIsNullCriteria criteria)
-        {
-            bool isTotalScoreNull = false;
-
-            if (criteria != null && criteria.IsValid())
-            {
-                isTotalScoreNull = GetDataEntity<bool>(criteria);
-            }
-
-            return isTotalScoreNull;
-        }
-
         public CommandResult UpdateTotalScoreOfProcess(UpdateTotalScoreOfProcessCriteria criteria)
         {
             CommandResult commandResult = new CommandResult();

@@ -376,16 +376,7 @@
                     }
                     else
                     {
-                        var checkTotalScoreNullCriteria = new CheckTotalScoreOfProcessIsNullCriteria
-                        {
-                            EPAId = evaluationProcess.EPAId,
-                            ProcessId = evaluationProcess.ProcessId
-                        };
-                        _LOG.Info("Check if process has total score null: started at " + DateTime.Now.ToString());
-                        bool isTotalScoreNull = _evaluationService.CheckTotalScoreOfProcessIsNull(checkTotalScoreNullCriteria);
-                        _LOG.Info("Result of check process has total score null: " + isTotalScoreNull);
-
-                        if (isTotalScoreNull)
+                        if (string.IsNullOrEmpty(evaluationProcess.TotalScore))
                         {
                             _LOG.Info("Get information of EPA " + evaluationProcess.EPAId + " : started at " + DateTime.Now.ToString());
                             var getEvaluationInfoCriteria = new GetEPAInfoByIdCriteria
@@ -669,6 +660,7 @@
                 case (int)ProcessType.Reviewer:
                     averageScore = evaluationInfo.Process.AverageScoreByEvaluators;
                     break;
+
                 case (int)ProcessType.Management:
                     averageScore = evaluationInfo.Process.Reviewers.Any() ? evaluationInfo.Process.AverageScoreByReviewers : evaluationInfo.Process.AverageScoreByEvaluators;
                     break;
