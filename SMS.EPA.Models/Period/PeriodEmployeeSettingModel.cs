@@ -11,6 +11,7 @@ namespace SMS.EPA.Model.Period
 {
     using System;
     using System.Collections.Generic;
+    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Model.Department;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.TargetTemplate;
@@ -54,5 +55,13 @@ namespace SMS.EPA.Model.Period
         public TargetTemplateModel TargetTemplate { get; set; }
 
         public int NumberEvaluators { get; set; }
+
+        public bool IsSemiHasMonthly
+        {
+            get
+            {
+                return Employee.HasMonthlyEPA && TargetTemplate.TargetTypeId == (int)TargetType.SemiAnnual;
+            }
+        }
     }
 }

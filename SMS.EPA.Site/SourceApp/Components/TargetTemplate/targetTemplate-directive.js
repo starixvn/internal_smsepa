@@ -134,7 +134,7 @@ targetTemplateModule.directive('getWeight', ['utilitiesFactory', 'notificationFa
                     if (kpiItem.Selected) {
                         hasSelected = true;
 
-                        weight = kpiItem.Weight;
+                        weight = parseFloat(kpiItem.Weight);
                         if (!weight) {
                             notificationFactory.error("WeightKPIRequired");
                             isValid = false;

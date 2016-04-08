@@ -28,8 +28,6 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Interfaces
 
         IEnumerable<AutoEmployeePeriodModel> GetPeriodHasReminderProcess(GetPeriodHasReminderProcessCriteria criteria);
 
-        bool CheckPeriodStartedSendMailAll(CheckPeriodStartedSendMailAllCriteria criteria);
-
         IEnumerable<AutoEmployeePeriodModel> GetEmployeePromotionEvaluation(GetEmployeePromotionEvaluationCriteria criteria);
 
         IEnumerable<AutoEmployeePeriodModel> CheckEndProcess(CheckEndProcessCriteria criteria);

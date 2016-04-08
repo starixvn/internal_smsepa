@@ -107,10 +107,7 @@
         </thead>
         <tbody class="table-body" dir-paginate="employee in empSettingCtrl.filteredItems | itemsPerPage: empSettingCtrl.pageSize"
                current-page="empSettingCtrl.currentPage">
-            <tr ng-class="{oddRow: $index % 2 == 0, evenRow: $index % 2 != 0}"
-                ng-show="empSettingCtrl.period.TargetType.TargetTypeId == empSettingCtrl.targetTypeEnum.Probation
-                    || empSettingCtrl.period.TargetType.TargetTypeId == empSettingCtrl.targetTypeEnum.Promotion
-                    || (empSettingCtrl.period.TargetType.TargetTypeId == empSettingCtrl.targetTypeEnum.SemiAnnual && !employee.Employee.HasMonthlyEPA)">
+            <tr ng-class="{oddRow: $index % 2 == 0, evenRow: $index % 2 != 0}" ng-show="!employee.IsSemiHasMonthly">
                 <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
                     <input type="checkbox" ng-model="employee.Selected" ng-click="empSettingCtrl.syncSelectedEmployee(employee.Employee.EmployeeId, employee.Selected)" />
                 </td>
@@ -163,9 +160,7 @@
                 </td>
             </tr>
             <tr ng-class="{oddRow: $parent.$index % 2 == 0, evenRow: $parent.$index % 2 != 0}" ng-repeat="evaluator in employee.Evaluators"
-                ng-show="empSettingCtrl.period.TargetType.TargetTypeId == empSettingCtrl.targetTypeEnum.Probation
-                    || empSettingCtrl.period.TargetType.TargetTypeId == empSettingCtrl.targetTypeEnum.Promotion
-                    || (empSettingCtrl.period.TargetType.TargetTypeId == empSettingCtrl.targetTypeEnum.SemiAnnual && !employee.Employee.HasMonthlyEPA)">
+                    ng-show="!employee.IsSemiHasMonthly">
                 <td data-translate="Evaluator" rowspan="{{employee.Evaluators.length}}" ng-show="$first"></td>
                 <td ng-bind="evaluator.EvaluatorInfo.NickName"></td>
                 <td class="width-100">
@@ -192,35 +187,24 @@
                     ng-show="$first" rowspan="{{employee.Evaluators.length}}"></td>
             </tr>
             <tr ng-class="{oddRow: $parent.$index % 2 == 0, evenRow: $parent.$index % 2 != 0}" ng-repeat="reviewer in employee.Reviewers">
-                <td class="text-center" rowspan="{{employee.NumberEvaluators}}"
-                    ng-show="empSettingCtrl.period.TargetType.TargetTypeId == empSettingCtrl.targetTypeEnum.SemiAnnual
-                        && employee.Employee.HasMonthlyEPA && $first">
+                <td class="text-center" rowspan="{{employee.NumberEvaluators}}" ng-show="employee.IsSemiHasMonthly && $first">
                     <input type="checkbox" ng-model="employee.Selected"
                            ng-click="empSettingCtrl.syncSelectedEmployee(employee.Employee.EmployeeId, employee.Selected)" />
                 </td>
                 <td class="text-center" ng-bind="empSettingCtrl.getIndex($parent.$index, empSettingCtrl.currentPage, empSettingCtrl.pageSize)"
-                    rowspan="{{employee.NumberEvaluators}}"
-                    ng-show="empSettingCtrl.period.TargetType.TargetTypeId == empSettingCtrl.targetTypeEnum.SemiAnnual
-                        && employee.Employee.HasMonthlyEPA && $first"></td>
-                <td class="text-center" rowspan="{{employee.NumberEvaluators}}"
-                    ng-show="empSettingCtrl.period.TargetType.TargetTypeId == empSettingCtrl.targetTypeEnum.SemiAnnual
-                        && employee.Employee.HasMonthlyEPA && $first">
+                    rowspan="{{employee.NumberEvaluators}}" ng-show="employee.IsSemiHasMonthly && $first"></td>
+                <td class="text-center" rowspan="{{employee.NumberEvaluators}}" ng-show="employee.IsSemiHasMonthly && $first">
                     <span tooltip="{{employee.Group.GroupName}}" ng-bind="employee.Group.GroupCode"></span>
                 </td>
-                <td class="text-center" rowspan="{{employee.NumberEvaluators}}"
-                    ng-show="empSettingCtrl.period.TargetType.TargetTypeId == empSettingCtrl.targetTypeEnum.SemiAnnual
-                        && employee.Employee.HasMonthlyEPA && $first">
+                <td class="text-center" rowspan="{{employee.NumberEvaluators}}" ng-show="employee.IsSemiHasMonthly && $first">
                     <div ng-bind="employee.Employee.FullName"></div>
                     <div ng-bind="employee.Employee.Code"></div>
                     <div>({{employee.Employee.NickName}})</div>
                     <div ng-bind="employee.JobTitle.JobTitleName"></div>
                 </td>
                 <td class="text-center" ng-bind="employee.TargetTemplate.TargetTypeName" rowspan="{{employee.NumberEvaluators}}"
-                    ng-show="empSettingCtrl.period.TargetType.TargetTypeId == empSettingCtrl.targetTypeEnum.SemiAnnual
-                        && employee.Employee.HasMonthlyEPA && $first"></td>
-                <td class="text-center" rowspan="{{employee.NumberEvaluators}}"
-                    ng-show="empSettingCtrl.period.TargetType.TargetTypeId == empSettingCtrl.targetTypeEnum.SemiAnnual
-                        && employee.Employee.HasMonthlyEPA && $first">
+                    ng-show="employee.IsSemiHasMonthly && $first"></td>
+                <td class="text-center" rowspan="{{employee.NumberEvaluators}}" ng-show="employee.IsSemiHasMonthly && $first">
                     <span class="glyphicon glyphicon-warning-sign"></span>
                 </td>
                 <td data-translate="Reviewer" rowspan="{{employee.Reviewers.length}}" ng-show="$first"></td>
@@ -247,20 +231,14 @@
                     ng-show="$first" rowspan="{{employee.Reviewers.length}}"></td>
                 <td class="width-120" ng-bind="reviewer.EndDate | date: empSettingCtrl.dateFormat"
                     ng-show="$first" rowspan="{{employee.Reviewers.length}}"></td>
-                <td class="text-center width-80" rowspan="{{employee.NumberEvaluators}}"
-                    ng-show="empSettingCtrl.period.TargetType.TargetTypeId == empSettingCtrl.targetTypeEnum.SemiAnnual
-                        && employee.Employee.HasMonthlyEPA && $first">
+                <td class="text-center width-80" rowspan="{{employee.NumberEvaluators}}" ng-show="employee.IsSemiHasMonthly && $first">
                     <span class="glyphicon glyphicon-ok-circle epa-saved" ng-show="employee.SelfEvaluators[0].HasEvaluationGenerated"></span>
                 </td>
-                <td class="text-center" rowspan="{{employee.NumberEvaluators}}"
-                    ng-show="empSettingCtrl.period.TargetType.TargetTypeId == empSettingCtrl.targetTypeEnum.SemiAnnual
-                        && employee.Employee.HasMonthlyEPA && $first">
+                <td class="text-center" rowspan="{{employee.NumberEvaluators}}" ng-show="employee.IsSemiHasMonthly && $first">
                     <input type="checkbox" ng-checked="employee.IsIncluded" ng-click="empSettingCtrl.includeExcludeEmployee(employee)"
                            ng-disabled="updateCtrl.permission != updateCtrl.policyEnum.Host" />
                 </td>
-                <td class="text-center" rowspan="{{employee.NumberEvaluators}}"
-                    ng-show="empSettingCtrl.period.TargetType.TargetTypeId == empSettingCtrl.targetTypeEnum.SemiAnnual
-                        && employee.Employee.HasMonthlyEPA && $first">
+                <td class="text-center" rowspan="{{employee.NumberEvaluators}}" ng-show="employee.IsSemiHasMonthly && $first">
                     <div class="btn-group">
                         <a class="glyphicon glyphicon-edit icon-edit" title="Edit" href="" ng-click="empSettingCtrl.updateEmployeeSetting(employee)"></a>
                     </div>

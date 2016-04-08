@@ -151,18 +151,6 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
             return reminderPeriods;
         }
 
-        public bool CheckPeriodStartedSendMailAll(CheckPeriodStartedSendMailAllCriteria criteria)
-        {
-            bool hasSendMailAll = false;
-
-            if (criteria != null && criteria.IsValid())
-            {
-                hasSendMailAll = GetDataEntity<bool>(criteria);
-            }
-
-            return hasSendMailAll;
-        }
-
         public IEnumerable<AutoEmployeePeriodModel> CheckEndProcess(CheckEndProcessCriteria criteria)
         {
             IEnumerable<AutoEmployeePeriodModel> evaluationProcesses = new List<AutoEmployeePeriodModel>();

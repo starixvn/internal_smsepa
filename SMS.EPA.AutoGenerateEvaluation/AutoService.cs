@@ -31,24 +31,22 @@
     public partial class AutoService : ServiceBase
     {
         private static readonly ILog _LOG = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private bool _isBusy = false;
-        private Timer _updateCounterTimer = null;
-        private DateTime _schedulerTime;
-        private IEvaluationService _evaluationService;
-        private IPeriodService _periodService;
-        private IAutoMailService _autoMailService;
-        private IEmployeeEPAService _employeeEPAService;
+        private readonly Timer _updateCounterTimer;
+        private readonly IEvaluationService _evaluationService;
+        private readonly IPeriodService _periodService;
+        private readonly IAutoMailService _autoMailService;
+        private readonly IEmployeeEPAService _employeeEPAService;
+        private bool _isBusy;
 
         public AutoService()
         {
             InitializeComponent();
 
-            _schedulerTime = DateTime.Today.AddDays(1).AddHours(5);
+            var schedulerTime = DateTime.Today.AddDays(1).AddHours(5);
             TimerInterval = int.Parse(ConfigurationManager.AppSettings["TimerInterval"]);
 
-            _updateCounterTimer = new Timer();
-            _updateCounterTimer.Interval = _schedulerTime.Subtract(DateTime.Now).TotalSeconds * 1000;
-            _updateCounterTimer.Elapsed += new ElapsedEventHandler(ExecuteJob);
+            _updateCounterTimer = new Timer { Interval = schedulerTime.Subtract(DateTime.Now).TotalSeconds * 1000 };
+            _updateCounterTimer.Elapsed += ExecuteJob;
             _updateCounterTimer.Enabled = false;
 
             _evaluationService = new EvaluationService();
@@ -123,6 +121,7 @@
 
         private void AddEmployeeAndGenerateEPASemiAnnual(IEnumerable<int> semiAnnualPeriods)
         {
+            bool sendMailAllWhenPeriodStarted = ConfigurationManager.AppSettings["SendMailAllWhenPeriodStarted"].Equals("true", StringComparison.OrdinalIgnoreCase);
             foreach (int periodId in semiAnnualPeriods)
             {
                 _LOG.Info("Auto add employee to semi annual period " + periodId + ": started at " + DateTime.Now.ToString());
@@ -143,12 +142,7 @@
                 messageResult = generateEvaluationResult.IsSuccessful ? "0" : generateEvaluationResult.Message;
                 _LOG.Info("Result of auto generate EPA to all employees of current semi annual period " + periodId + ": " + messageResult);
 
-                _LOG.Info("Check period has send mail to all employees when period started: started at " + DateTime.Now.ToString());
-                var checkSendMailAllCriteria = new CheckPeriodStartedSendMailAllCriteria();
-                bool hasSendMailAll = _evaluationService.CheckPeriodStartedSendMailAll(checkSendMailAllCriteria);
-                _LOG.Info("Result of check period has send mail to all employees when period started: " + hasSendMailAll);
-
-                if (hasSendMailAll)
+                if (sendMailAllWhenPeriodStarted)
                 {
                     Task.Factory.StartNew(() =>
                     {
@@ -198,12 +192,7 @@
             messageResult = generateEvaluationResult.IsSuccessful ? "0" : generateEvaluationResult.Message;
             _LOG.Info("Result of auto generate EPA to all employees of current probation period " + employeePeriod.PeriodId + ": " + messageResult);
 
-            _LOG.Info("Check period has send mail to all employees when period started: started at " + DateTime.Now.ToString());
-            var checkSendMailAllCriteria = new CheckPeriodStartedSendMailAllCriteria();
-            bool hasSendMailAll = _evaluationService.CheckPeriodStartedSendMailAll(checkSendMailAllCriteria);
-            _LOG.Info("Result of check period has send mail to all employees when period started: " + hasSendMailAll);
-
-            if (hasSendMailAll)
+            if (ConfigurationManager.AppSettings["SendMailAllWhenPeriodStarted"].Equals("true", StringComparison.OrdinalIgnoreCase))
             {
                 Task.Factory.StartNew(() =>
                 {
@@ -231,11 +220,7 @@
 
         private void GenerateEPAPromotion(IEnumerable<AutoEmployeePeriodModel> employeePeriods)
         {
-            _LOG.Info("Check period has send mail to all employees when period started: started at " + DateTime.Now.ToString());
-            var checkSendMailAllCriteria = new CheckPeriodStartedSendMailAllCriteria();
-            bool hasSendMailAll = _evaluationService.CheckPeriodStartedSendMailAll(checkSendMailAllCriteria);
-            _LOG.Info("Result of check period has send mail to all employees when period started: " + hasSendMailAll);
-
+            bool sendMailAllWhenPeriodStarted = ConfigurationManager.AppSettings["SendMailAllWhenPeriodStarted"].Equals("true", StringComparison.OrdinalIgnoreCase);
             foreach (AutoEmployeePeriodModel period in employeePeriods)
             {
                 _LOG.Info("Auto generate EPA to all employees of current promotion period " + period.PeriodId + ": started at " + DateTime.Now.ToString());
@@ -248,7 +233,7 @@
                 string messageResult = generateEvaluationResult.IsSuccessful ? "0" : generateEvaluationResult.Message;
                 _LOG.Info("Result of auto generate EPA to all employees of current promotion period " + period.PeriodId + ": " + messageResult);
 
-                if (hasSendMailAll)
+                if (sendMailAllWhenPeriodStarted)
                 {
                     Task.Factory.StartNew(() =>
                     {
@@ -274,9 +259,7 @@
             if (processSettings != null && processSettings.Any())
             {
                 DateTime today = DateTime.Today;
-                int durationHRPhase = 0;
-
-                durationHRPhase = processSettings.FirstOrDefault(p => p.ProcessId == (int)ProcessType.HumanResource).Duration;
+                int durationHRPhase = processSettings.FirstOrDefault(p => p.ProcessId == (int)ProcessType.HumanResource).Duration;
 
                 if (today.AddDays(durationHRPhase).AddDays(1).Day.Equals(1))
                 {
@@ -309,6 +292,7 @@
 
         private void AddEmployeeAndGenerateEPAMonthly(IEnumerable<int> monthlyPeriods)
         {
+            bool sendMailAllWhenPeriodStarted = ConfigurationManager.AppSettings["SendMailAllWhenPeriodStarted"].Equals("true", StringComparison.OrdinalIgnoreCase);
             foreach (int periodId in monthlyPeriods)
             {
                 _LOG.Info("Auto add employee to monthly period " + periodId + ": started at " + DateTime.Now.ToString());
@@ -329,12 +313,7 @@
                 messageResult = generateEvaluationResult.IsSuccessful ? "0" : generateEvaluationResult.Message;
                 _LOG.Info("Result of auto generate EPA to all employees of current monthly period " + periodId + ": " + messageResult);
 
-                _LOG.Info("Check period has send mail to all employees when period started: started at " + DateTime.Now.ToString());
-                var checkSendMailAllCriteria = new CheckPeriodStartedSendMailAllCriteria();
-                bool hasSendMailAll = _evaluationService.CheckPeriodStartedSendMailAll(checkSendMailAllCriteria);
-                _LOG.Info("Result of check period has send mail to all employees when period started: " + hasSendMailAll);
-
-                if (hasSendMailAll)
+                if (sendMailAllWhenPeriodStarted)
                 {
                     Task.Factory.StartNew(() =>
                     {
@@ -356,7 +335,6 @@
         [SuppressMessage("StyleCop.CSharp.Nexcel.NexcelCustomRules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
         private void CheckEndProcess()
         {
-            string messageResult = string.Empty;
             _LOG.Info("Check process that ended yesterday: started at " + DateTime.Now.ToString());
             var checkEndProcessCriteria = new CheckEndProcessCriteria();
             IEnumerable<AutoEmployeePeriodModel> evaluationProcesses = _evaluationService.CheckEndProcess(checkEndProcessCriteria);
@@ -371,7 +349,7 @@
 
                 _LOG.Info("Update status of processes that ended yesterday: started at " + DateTime.Now.ToString());
                 CommandResult updateIsEndProcess = _evaluationService.UpdateEndProcess(updateEndProcessCriteria);
-                messageResult = updateIsEndProcess.IsSuccessful ? "0" : updateIsEndProcess.Message;
+                string messageResult = updateIsEndProcess.IsSuccessful ? "0" : updateIsEndProcess.Message;
                 _LOG.Info("Result of update status of processes that ended yesterday: " + messageResult);
 
                 foreach (AutoEmployeePeriodModel evaluationProcess in evaluationProcesses.Where(evaluationProcess => evaluationProcess.ProcessId >= (int)ProcessType.Reviewer))
@@ -686,20 +664,14 @@
         {
             float averageScore = 0;
 
-            if (processId == (int)ProcessType.Reviewer)
+            switch (processId)
             {
-                averageScore = evaluationInfo.Process.AverageScoreByEvaluators;
-            }
-            else if (processId == (int)ProcessType.Management)
-            {
-                if (evaluationInfo.Process.Reviewers.Any())
-                {
-                    averageScore = evaluationInfo.Process.AverageScoreByReviewers;
-                }
-                else
-                {
+                case (int)ProcessType.Reviewer:
                     averageScore = evaluationInfo.Process.AverageScoreByEvaluators;
-                }
+                    break;
+                case (int)ProcessType.Management:
+                    averageScore = evaluationInfo.Process.Reviewers.Any() ? evaluationInfo.Process.AverageScoreByReviewers : evaluationInfo.Process.AverageScoreByEvaluators;
+                    break;
             }
 
             return averageScore;

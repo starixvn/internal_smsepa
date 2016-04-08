@@ -28,7 +28,7 @@ namespace SMS.EPA.Model.TargetTemplate
 
         public string Description { get; set; }
 
-        public byte? TargetTypeId { get; set; }
+        public int TargetTypeId { get; set; }
 
         public string TargetTypeName { get; set; }
 
