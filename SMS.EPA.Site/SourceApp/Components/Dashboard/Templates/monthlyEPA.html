@@ -14,10 +14,10 @@
             <td ng-bind="monthlyEPA.Period.Name"></td>
             <td class="text-center">
                 <div ng-show="monthlyEPA.EPAId > 0 && monthlyEPA.Period.IsEndPeriod">
-                    <span ng-show="monthlyEPA.PerformanceScore || monthlyEPA.PerformanceScore == 0">
-                        {{monthlyEPA.PerformanceScore | customScore}} / {{monthlyEPA.MaxPerformanceScore | customScore}}
+                    <span ng-show="monthlyEPA.Process.PerformanceScore || monthlyEPA.Process.PerformanceScore == 0">
+                        {{monthlyEPA.Process.PerformanceScore | customScore}} / {{monthlyEPA.Process.MaxPerformanceScore | customScore}}
                     </span>
-                    <span ng-show="!monthlyEPA.PerformanceScore && monthlyEPA.PerformanceScore != 0" data-translate="NotAvailable"></span>
+                    <span ng-show="!monthlyEPA.Process.PerformanceScore && monthlyEPA.Process.PerformanceScore != 0" data-translate="NotAvailable"></span>
                 </div>
                 <div ng-show="monthlyEPA.EPAId > 0 && !monthlyEPA.Period.IsEndPeriod" data-translate="Pending"></div>
                 <div ng-show="monthlyEPA.EPAId < 0" ng-bind="'-'"></div>

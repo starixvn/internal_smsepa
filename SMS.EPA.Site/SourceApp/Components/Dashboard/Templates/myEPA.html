@@ -15,10 +15,10 @@
             <td ng-bind="myEPA.Period.Name"></td>
             <td class="text-center">
                 <div ng-show="myEPA.EPAId > 0 && myEPA.Period.IsEndPeriod">
-                    <span ng-show="myEPA.PerformanceScore || myEPA.PerformanceScore == 0">
-                        {{myEPA.PerformanceScore | customScore}} / {{myEPA.MaxPerformanceScore | customScore}}
+                    <span ng-show="myEPA.Process.PerformanceScore || myEPA.Process.PerformanceScore == 0">
+                        {{myEPA.Process.PerformanceScore | customScore}} / {{myEPA.Process.MaxPerformanceScore | customScore}}
                     </span>
-                    <span ng-show="!myEPA.PerformanceScore && myEPA.PerformanceScore != 0" data-translate="NotAvailable"></span>
+                    <span ng-show="!myEPA.Process.PerformanceScore && myEPA.Process.PerformanceScore != 0" data-translate="NotAvailable"></span>
                 </div>
                 <div ng-show="myEPA.EPAId > 0 && !myEPA.Period.IsEndPeriod" data-translate="Pending"></div>
                 <div ng-show="myEPA.EPAId < 0" ng-bind="'-'"></div>

@@ -161,8 +161,10 @@
                 </td>
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center" ng-show="$first">
                     <strong ng-show="memberEPAInfoCtrl.epaInfo.Period.IsEndPeriod">
-                        <span ng-show="memberEPAInfoCtrl.finalScore || memberEPAInfoCtrl.finalScore == 0">{{memberEPAInfoCtrl.finalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore | customScore}}</span>
-                        <span ng-show="!memberEPAInfoCtrl.finalScore && memberEPAInfoCtrl.finalScore != 0" data-translate="NotAvailable"></span>
+                        <span ng-show="memberEPAInfoCtrl.epaInfo.FinalScore || memberEPAInfoCtrl.epaInfo.FinalScore == 0">
+                            {{memberEPAInfoCtrl.epaInfo.FinalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore | customScore}}
+                        </span>
+                        <span ng-show="!memberEPAInfoCtrl.epaInfo.FinalScore && memberEPAInfoCtrl.epaInfo.FinalScore != 0" data-translate="NotAvailable"></span>
                     </strong>
                     <strong ng-show="!memberEPAInfoCtrl.epaInfo.Period.IsEndPeriod" data-translate="Pending"></strong>
                 </td>
