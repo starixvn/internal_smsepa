@@ -592,7 +592,7 @@ namespace SMS.EPA.Services.Implement
                 string naturalFraction = number.ToString().Substring(0, index),
                     decimalFraction = number.ToString().Substring(index + 1);
 
-                result = double.Parse(naturalFraction + "." + decimalFraction.Substring(0, numberOfDecimals));
+                result = double.Parse(naturalFraction + "." + decimalFraction.Substring(0, Math.Min(decimalFraction.Length, numberOfDecimals)));
             }
 
             return result;
