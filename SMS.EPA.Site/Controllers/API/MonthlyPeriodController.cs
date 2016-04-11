@@ -11,6 +11,7 @@ namespace SMS.EPA.Site.Controllers.API
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Web.Http;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
@@ -186,6 +187,7 @@ namespace SMS.EPA.Site.Controllers.API
             };
 
             IEnumerable<PeriodEmployeeSettingModel> employeeSettings = _periodService.GetPeriodEmployeeSettingById(criteria);
+            employeeSettings = employeeSettings.OrderBy(x => x.Group.GroupCode).ThenBy(x => x.Employee.NickName);
 
             return employeeSettings;
         }

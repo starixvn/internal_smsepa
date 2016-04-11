@@ -198,7 +198,7 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
                 return false;
             }
             else if (!flowTemplate.TargetTypeId) {
-                notificationFactory.error("FormRequire");
+                notificationFactory.error("TargetTypeRequired");
                 return false;
             }
         }

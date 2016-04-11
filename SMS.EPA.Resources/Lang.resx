@@ -339,9 +339,6 @@
   <data name="DeletedSuccessfully" xml:space="preserve">
     <value>Deleted successfully!</value>
   </data>
-  <data name="Form" xml:space="preserve">
-    <value>Form</value>
-  </data>
   <data name="ManageKPIGroup" xml:space="preserve">
     <value>KPI Group Management</value>
   </data>
@@ -353,9 +350,6 @@
   </data>
   <data name="AddKPI" xml:space="preserve">
     <value>Add KPI</value>
-  </data>
-  <data name="FormRequire" xml:space="preserve">
-    <value>The Form field is required!</value>
   </data>
   <data name="NameRequired" xml:space="preserve">
     <value>The Name field is required!</value>

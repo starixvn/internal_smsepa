@@ -10,6 +10,7 @@
 namespace SMS.EPA.Site.Controllers.API
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Web.Http;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
@@ -164,9 +165,24 @@ namespace SMS.EPA.Site.Controllers.API
             };
 
             IEnumerable<PeriodEmployeeSettingModel> periodEmployeeSettings = _periodService.GetPeriodEmployeeSettingById(criteria);
+            int targetTypeId = periodEmployeeSettings.FirstOrDefault().TargetTemplate.TargetTypeId;
+
+            switch (targetTypeId)
+            {
+                case (int)TargetType.Probation:
+                case (int)TargetType.Promotion:
+                    periodEmployeeSettings = periodEmployeeSettings.OrderByDescending(x => x.SelfEvaluators.First().StartDate);
+                    break;
+
+                case (int)TargetType.Monthly:
+                case (int)TargetType.SemiAnnual:
+                    periodEmployeeSettings = periodEmployeeSettings.OrderBy(x => x.Group.GroupCode).ThenBy(x => x.Employee.NickName);
+                    break;
+            }
 
             var sessionKey = Constants.PeriodEmployeeSettingReportSessionKey + CurrentUser.EmployeeInfo.EmployeeId;
-            SessionManager.Set<IEnumerable<PeriodEmployeeSettingModel>>(sessionKey, periodEmployeeSettings);
+            SessionManager.Set(sessionKey, periodEmployeeSettings);
+
             return periodEmployeeSettings;
         }
 

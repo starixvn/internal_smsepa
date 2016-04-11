@@ -21,6 +21,7 @@ namespace SMS.EPA.Model.Period
     {
         public PeriodEmployeeSettingModel()
         {
+            Group = new Group();
             HumanResources = new List<PeriodFlowModel>();
             SelfEvaluators = new List<PeriodFlowModel>();
             Evaluators = new List<PeriodFlowModel>();

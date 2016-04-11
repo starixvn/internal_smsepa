@@ -1375,24 +1375,6 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Form.
-        /// </summary>
-        public static string Form {
-            get {
-                return ResourceManager.GetString("Form", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The Form field is required!.
-        /// </summary>
-        public static string FormRequire {
-            get {
-                return ResourceManager.GetString("FormRequire", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to From.
         /// </summary>
         public static string From {
