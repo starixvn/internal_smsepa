@@ -60,7 +60,7 @@ namespace SMS.EPA.Model.Period
         {
             get
             {
-                return Employee.HasMonthlyEPA && TargetTemplate.TargetTypeId == (int)TargetType.SemiAnnual;
+                return Employee != null && Employee.HasMonthlyEPA && TargetTemplate != null && TargetTemplate.TargetTypeId == (int)TargetType.SemiAnnual;
             }
         }
     }
