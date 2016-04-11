@@ -3,7 +3,7 @@
 
 epaModule.controller('RatingByKPIController',
 ['$window', '$timeout', '$translate', 'RatingByKPIModel', 'EmployeeEPAModel', 'CommonModel',
-    'utilitiesFactory', 'enumerationsFactory', 'baseUrl','historyFactory',
+    'utilitiesFactory', 'enumerationsFactory', 'baseUrl', 'historyFactory',
 function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, CommonModel,
     utilitiesFactory, enumerationsFactory, baseUrl, historyFactory) {
     var vm = this;
@@ -61,7 +61,7 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
         }
     };
 
-    var checkDataChanged = function (memberEPAs) {
+    function checkDataChanged(memberEPAs) {
         var hasChanged = false;
 
         angular.forEach(memberEPAs, function (memberEPA) {
@@ -382,7 +382,7 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
         }, 1);
     };
 
-    vm.initialize = function () {
+    function initialize() {
         $translate('ScoreInputValid').then(function (message) {
             vm.scoreInputValidMessage = message;
         });
@@ -400,7 +400,7 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
         });
     };
 
-    vm.initialize();
+    initialize();
 }]);
 
 epaModule.controller('ModalConfirmSaveChangesController',

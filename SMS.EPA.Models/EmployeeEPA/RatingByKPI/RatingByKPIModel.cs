@@ -9,8 +9,6 @@
 
 namespace SMS.EPA.Model.EmployeeEPA.RatingByKPI
 {
-    using SMS.EPA.Core.Services;
-
     public class RatingByKPIModel
     {
         public int EPAId { get; set; }

@@ -161,10 +161,8 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
     };
 
     ratingByKPIModel.validateEPA = function (vm) {
-        var i = 0, j = 0;
-
-        for (i = 0; i < vm.memberEPAs.length; i++) {
-            for (j = 0; j < vm.memberEPAs[i].KPIGroup.KPIs.length; j++) {
+        for (var i = 0; i < vm.memberEPAs.length; i++) {
+            for (var j = 0; j < vm.memberEPAs[i].KPIGroup.KPIs.length; j++) {
                 var kpi = vm.memberEPAs[i].KPIGroup.KPIs[j];
 
                 if (kpi.KPIId === vm.kpiSelected.KPIId
@@ -203,7 +201,7 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
                             kpi.Score = kpi.AdjustScore;
                         }
 
-                        if ((kpi.Rate <= 0 || kpi.Score <= 0) && kpi.KPIId === vm.kpiSelected.KPIId) {
+                        if (kpi.Score <= 0 && kpi.KPIId === vm.kpiSelected.KPIId) {
                             completedEvaluation = false;
                         }
                     });
