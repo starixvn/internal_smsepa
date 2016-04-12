@@ -2617,7 +2617,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Score must be larger {0} and less or equal than {1}.
+        ///   Looks up a localized string similar to Score must be larger or equal {0} and less or equal than {1}.
         /// </summary>
         public static string ScoreInputValid {
             get {

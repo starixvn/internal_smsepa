@@ -489,9 +489,9 @@ namespace SMS.EPA.Services.Implement
 
         private object CreateSummaryRecord(AttendanceSummaryModel attendanceEmployee, ref int rowIndex)
         {
-            float otherViolations = attendanceEmployee.OtherViolationsScore > 0 ? -attendanceEmployee.OtherViolationsScore : 0;
-            float systemSubtractScore = attendanceEmployee.SystemSubtractScore > 0 ? -attendanceEmployee.SystemSubtractScore : 0;
-            float approverSubtractScore = attendanceEmployee.ApproverSubtractScore > 0 ? -attendanceEmployee.ApproverSubtractScore : 0;
+            float otherViolations = attendanceEmployee.OtherViolationsScore > 0 ? -attendanceEmployee.OtherViolationsScore : 0,
+                systemSubtractScore = attendanceEmployee.SystemSubtractScore > 0 ? -attendanceEmployee.SystemSubtractScore : 0,
+                approverSubtractScore = attendanceEmployee.ApproverSubtractScore > 0 ? -attendanceEmployee.ApproverSubtractScore : 0;
 
             var record = new
             {
@@ -537,9 +537,9 @@ namespace SMS.EPA.Services.Implement
         [SuppressMessage("StyleCop.CSharp.Nexcel.NexcelCustomRules", "SP2100:CodeLineMustNotBeLongerThan", Justification = "Reviewed. Suppression is OK here.")]
         private object CreateDetailRecord(AttendanceDetailModel attendanceViolation, ref int rowIndex)
         {
-            float systemSubtractScore = attendanceViolation.SystemSubtractScore > 0 ? -attendanceViolation.SystemSubtractScore : 0;
-            float approverSubtractScore = attendanceViolation.ApproverSubtractScore > 0 ? -attendanceViolation.ApproverSubtractScore : 0;
-            float totalHours = attendanceViolation.TotalHours.Value != null ? float.Parse(attendanceViolation.TotalHours.Value) * 60 : 0;
+            float systemSubtractScore = attendanceViolation.SystemSubtractScore > 0 ? -attendanceViolation.SystemSubtractScore : 0,
+                approverSubtractScore = attendanceViolation.ApproverSubtractScore > 0 ? -attendanceViolation.ApproverSubtractScore : 0,
+                totalHours = attendanceViolation.TotalHours.Value != null ? float.Parse(attendanceViolation.TotalHours.Value) * 60 : 0;
 
             var record = new
             {

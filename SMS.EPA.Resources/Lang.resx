@@ -685,7 +685,7 @@
     <value>Meets expectations: refers to solid performance with a full skills base; most people fall into this category.</value>
   </data>
   <data name="ScoreInputValid" xml:space="preserve">
-    <value>Score must be larger {0} and less or equal than {1}</value>
+    <value>Score must be larger or equal {0} and less or equal than {1}</value>
   </data>
   <data name="FlowTemplate" xml:space="preserve">
     <value>Flow Template</value>
