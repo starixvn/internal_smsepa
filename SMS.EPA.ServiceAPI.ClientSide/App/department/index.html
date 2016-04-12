@@ -1,0 +1,13 @@
+﻿<div ng-controller="departmentController as vm">
+    <h3><strong>{{vm.title}}</strong></h3>
+    <div class="form-group">
+        <label>Name</label>
+        <input type="text" class="form-control" ng-model="vm.departmentModel.Name" placeholder="Department Name">
+    </div>
+    <button type="submit" class="btn btn-default" ng-click="vm.insert()">Request</button>
+
+    <div ng-show="vm.result.code!=0">
+        <p><strong>Status Code:</strong>{{vm.result.code}}</p>
+        <p ng-show="vm.result.code != 200"><strong>Message:</strong><span class="alert-danger">{{vm.result.message}}</span></p>
+    </div>
+</div>
