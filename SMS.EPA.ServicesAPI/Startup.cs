@@ -1,11 +1,13 @@
 ﻿using Microsoft.Owin;
-using Owin;
-using System.Web.Http;
 
 [assembly: OwinStartup(typeof(SMS.EPA.ServicesAPI.Startup))]
 
 namespace SMS.EPA.ServicesAPI
 {
+    using Microsoft.Owin.Cors;
+    using Owin;
+    using System.Web.Http;
+
     public partial class Startup
     {
         public void Configuration(IAppBuilder app)
@@ -15,7 +17,7 @@ namespace SMS.EPA.ServicesAPI
             ConfigureAuth(app);
 
             WebApiConfig.Register(config);
-            app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
+            app.UseCors(CorsOptions.AllowAll);
             app.UseWebApi(config);
         }
     }

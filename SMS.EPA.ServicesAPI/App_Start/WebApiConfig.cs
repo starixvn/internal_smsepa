@@ -11,14 +11,14 @@
             config.SuppressDefaultHostAuthentication();
             config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
             config.Filters.Add(new IPHostValidationAttribute());
-            //config.Filters.Add(new HttpsRequiredAttribute());
+            config.Filters.Add(new HttpsRequiredAttribute());
+            config.Filters.Add(new ExceptionHandler());
 
             config.MapHttpAttributeRoutes();
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-            );
+                defaults: new { id = RouteParameter.Optional });
         }
     }
 }

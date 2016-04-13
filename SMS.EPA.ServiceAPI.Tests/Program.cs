@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Configuration;
     using System.Net;
     using System.Net.Http;
     using System.Net.Http.Formatting;
@@ -9,21 +10,17 @@
 
     public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            try 
+            try
             {
                 using (var client = new HttpClient())
                 {
                     var token = new Token();
-                    var form = new Dictionary<string, string>  
-               {  
-                   {"grant_type", "password"},
-                   {"username", "app~1234~APP"},  
-                   {"password", "app~1234~APP"},
-               };
+                    var form = new Dictionary<string, string> { { "grant_type", "password" }, { "username", "app~1234~APP" }, { "password", "app~1234~APP" } };
+                    var url = ConfigurationManager.AppSettings["PartnerId"];
                     Console.WriteLine("1. Request token............");
-                    var tokenResponse = client.PostAsync("http://localhost:63238/token", new FormUrlEncodedContent(form)).Result;
+                    var tokenResponse = client.PostAsync(url + "token", new FormUrlEncodedContent(form)).Result;
 
                     Console.WriteLine("Respone code: " + tokenResponse.StatusCode);
                     if (tokenResponse.StatusCode == HttpStatusCode.OK)
@@ -36,17 +33,17 @@
                         Console.WriteLine("2. Update department............");
                         var departments = new Dictionary<string, string>();
                         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.AccessToken);
-                        var result = client.PostAsync("http://localhost:63238/Department/Insert", new FormUrlEncodedContent(departments)).Result;
+                        var result = client.PostAsync(url + "Department/Insert", new FormUrlEncodedContent(departments)).Result;
 
                         Console.WriteLine("Respone code: " + result.StatusCode);
                     }
-                    
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
             }
+
             Console.ReadLine();
         }
     }

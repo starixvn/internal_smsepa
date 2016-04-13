@@ -8,7 +8,7 @@
     using System.Text;
     using System.Web;
 
-    public class InsertAndUpdateDepartmentCriteria: CriteriaBase
+    public class InsertAndUpdateDepartmentCriteria : CriteriaBase
     {
         private const string _DepartmentTpl = "<Department DepartmentId='{0}' Code='{1}' "
             + "Name='{2}' ParentId='{3}' ManagerId='{4}' DepartmentLevel='{5}' IsActive='{6}' ModifiedDate='{7}'></Department>";

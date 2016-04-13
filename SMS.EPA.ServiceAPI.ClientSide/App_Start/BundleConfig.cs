@@ -26,7 +26,6 @@
                 "~/App/token/tokenService.js",
                 "~/App/department/departmentService.js"));
 
-
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                 "~/Scripts/bootstrap.js"));
 

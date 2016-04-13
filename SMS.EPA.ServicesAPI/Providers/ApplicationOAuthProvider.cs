@@ -22,19 +22,18 @@
             _publicClientId = publicClientId;
         }
 
-        public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
+        public override Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-            var isValidAppId = AppConfig.PartnerId.Where(i => i == context.UserName).Any();
-            if (!isValidAppId)
+            var isValidAppId = AppConfig.PartnerIds.Where(i => i == context.UserName).Any();
+            if (isValidAppId)
             {
-                return;
+                var authIdentity = new ClaimsIdentity(context.Options.AuthenticationType);
+                authIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, context.UserName));
+
+                context.Validated(authIdentity);
             }
-            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
 
-            ClaimsIdentity oAuthIdentity = new ClaimsIdentity(context.Options.AuthenticationType);
-            oAuthIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, context.UserName));
-
-            context.Validated(oAuthIdentity);
+            return Task.FromResult<object>(null);
         }
 
         public override Task TokenEndpoint(OAuthTokenEndpointContext context)

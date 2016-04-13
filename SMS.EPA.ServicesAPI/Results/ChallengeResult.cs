@@ -15,6 +15,7 @@
         }
 
         public string LoginProvider { get; set; }
+
         public HttpRequestMessage Request { get; set; }
 
         public Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)

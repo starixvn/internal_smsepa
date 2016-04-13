@@ -12,12 +12,12 @@
     {
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
-            string userIP = actionContext.Request.GetOwinContext().Request.RemoteIpAddress;
             try
             {
-                var partnerIp = AppConfig.SupportedIP;
-                var isPartner = partnerIp.Where(i => i == userIP).Any();
-                if (!isPartner)
+                string userIP = actionContext.Request.GetOwinContext().Request.RemoteIpAddress;
+                var supportedIps = AppConfig.SupportedIPs;
+                var isSupported = supportedIps.Where(i => i == userIP).Any();
+                if (!isSupported)
                 {
                     actionContext.Response = new HttpResponseMessage(HttpStatusCode.BadRequest)
                     {
@@ -32,7 +32,6 @@
                    {
                        Content = new StringContent("Unauthorized IP Address")
                    };
-                return;
             }
         }
     }

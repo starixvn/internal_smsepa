@@ -35,3 +35,4 @@ packages/
 *.orig
 SMS.EPA.Site/ExportPDFFolder/*
 *.dbmdl
+*.pubxml

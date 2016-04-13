@@ -6,23 +6,23 @@
 
     public static class AppConfig
     {
-        public static List<string> SupportedIP
+        public static List<string> SupportedIPs
         {
             get
             {
-                var ips = ConfigurationManager.AppSettings["SupportedIP"];
+                string ips = ConfigurationManager.AppSettings["SupportedIP"];
 
-                return ips == null ? new List<string>() : ips.Split(';').ToList();
+                return string.IsNullOrEmpty(ips) ? new List<string>() : ips.Split(';').ToList();
             }
         }
 
-        public static List<string> PartnerId
+        public static List<string> PartnerIds
         {
             get
             {
-                var partnerId = ConfigurationManager.AppSettings["PartnerId"];
+                string partnerId = ConfigurationManager.AppSettings["PartnerId"];
 
-                return partnerId == null? new List<string>():partnerId.Split(';').ToList();
+                return string.IsNullOrEmpty(partnerId) ? new List<string>() : partnerId.Split(';').ToList();
             }
         }
     }
