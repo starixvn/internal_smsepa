@@ -1,32 +1,43 @@
 ﻿namespace SMS.EPA.ServicesAPI.Controllers
 {
-    using SMS.EPA.Model.Department;
-    using SMS.EPA.ServicesAPI.Criteria;
+    using SMS.EPA.Core.Model;
+    using SMS.EPA.ServicesAPI.Criteria.Department;
+    using SMS.EPA.ServicesAPI.Model;
     using SMS.EPA.ServicesAPI.Services;
+    using System;
     using System.Collections.Generic;
     using System.Web.Http;
 
     [Authorize]
     public class DepartmentController : ApiController
     {
-        private readonly IDeparmentService _service;
+        private readonly IServiceAPI _service;
 
         public DepartmentController()
         {
-            _service = new DepartementService();
+            _service = new ServiceAPI();
         }
 
         [HttpPost]
-        public IHttpActionResult Insert(DepartmentModel department)
+        public IHttpActionResult Update(IList<Department> departments)
         {
-            var criteria = new InsertAndUpdateDepartmentCriteria
+            var criteria = new UpdateDepartmentCriteria
             {
-                Departments = new List<DepartmentModel>()
+                Departments = departments
             };
 
-            _service.Update(criteria);
+            CommandResult result = _service.Update(criteria);
 
-            return Ok();
+            return Ok(result);
+        }
+
+        public IHttpActionResult GetMaxModifiedDate() 
+        {
+            var criteria = new GetMaxModifiedDateForDepartmentCriteria();
+
+            DateTime modifiedDate = _service.GetMaxModifiedDate(criteria);
+
+            return Ok(modifiedDate);
         }
     }
 }

@@ -4,6 +4,7 @@
     using Microsoft.Owin.Security.OAuth;
     using Owin;
     using SMS.EPA.ServicesAPI.Providers;
+    using SMS.EPA.ServicesAPI.Utilities;
     using System;
 
     public partial class Startup
@@ -20,7 +21,7 @@
             {
                 TokenEndpointPath = new PathString("/Token"),
                 Provider = new ApplicationOAuthProvider(PublicClientId),
-                AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(10)
+                AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(AppConfig.TokenTimeOut)
             };
             app.UseOAuthBearerTokens(OAuthOptions);
         }

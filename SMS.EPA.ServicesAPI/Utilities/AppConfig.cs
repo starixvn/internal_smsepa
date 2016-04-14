@@ -6,6 +6,16 @@
 
     public static class AppConfig
     {
+        public static int TokenTimeOut
+        {
+            get
+            {
+                string timeout = ConfigurationManager.AppSettings["TokenTimeOut"];
+
+                return string.IsNullOrEmpty(timeout) ? 1 : int.Parse(timeout);
+            }
+        }
+
         public static List<string> SupportedIPs
         {
             get
