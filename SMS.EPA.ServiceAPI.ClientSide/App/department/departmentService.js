@@ -8,20 +8,19 @@
     departmentService.$inject = ['$http'];
 
     function departmentService($http) {
-        var baseUrl = 'http://localhost:63238/';
+        var baseUrl = 'https://localhost:44301/';
         return {
             insert: insert
         };
 
         function insert(department) {
-            var object = 'name=' + department.Name + '&id=1';
             var authorization = 'Bearer ' + sessionStorage.getItem('Token');
 
-            return $http.post(baseUrl + 'Department/Insert', object,
+            return $http.post(baseUrl + 'Department/Update', JSON.stringify(department),
                 {
                     headers: {
                         'Authorization': authorization,
-                        'Content-Type': 'application/x-www-form-urlencoded'
+                        'Content-Type': 'application/json'
                     }
                 });
         }

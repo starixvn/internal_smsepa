@@ -9,10 +9,16 @@
 
     function DepartmentController(departmentService) {
         var vm = this;
-        vm.departmentModel = {
-            Id: 0,
-            Name: ''
-        };
+        vm.departmentModel = [{
+            DepartmentId: 0,
+            Code: '',
+            Name: '',
+            ParentId: 0,
+            ManagerId: 0,
+            DepartmentLevel: 0,
+            IsDeleted: false,
+            ModifiedDate: Date.now()
+        }];
         vm.result = {
             code: 0,
             message: ''
@@ -24,6 +30,7 @@
             departmentService.insert(vm.departmentModel)
             .success(function (response, status) {
                 vm.result.code = status;
+                vm.result.message = response.Message;
             })
             .error(function (response, status) {
                 vm.result = {

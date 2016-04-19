@@ -1,11 +1,14 @@
 ﻿namespace SMS.EPA.ServicesAPI
 {
+    using Fanex.Data.Configuration;
     using Microsoft.Owin;
+    using Microsoft.Owin.Cors;
     using Microsoft.Owin.Security.OAuth;
     using Owin;
     using SMS.EPA.ServicesAPI.Providers;
     using SMS.EPA.ServicesAPI.Utilities;
     using System;
+    using System.Web.Http;
 
     public partial class Startup
     {
@@ -13,7 +16,18 @@
 
         public static string PublicClientId { get; private set; }
 
-        // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
+        public void Configuration(IAppBuilder app)
+        {
+            ConfigureAuth(app);
+
+            var config = new HttpConfiguration();
+            WebApiConfig.Register(config);
+            app.UseCors(CorsOptions.AllowAll);
+            app.UseWebApi(config);
+
+            DbSettingProviderManager.Current.Start();
+        }
+
         public void ConfigureAuth(IAppBuilder app)
         {
             PublicClientId = "self";
@@ -21,7 +35,8 @@
             {
                 TokenEndpointPath = new PathString("/Token"),
                 Provider = new ApplicationOAuthProvider(PublicClientId),
-                AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(AppConfig.TokenTimeOut)
+                AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(AppConfig.TokenTimeOut),
+                AllowInsecureHttp = false
             };
             app.UseOAuthBearerTokens(OAuthOptions);
         }

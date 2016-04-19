@@ -208,7 +208,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
-    <Compile Include="Model\EmployeeAttendanceViolation.cs" />
+    <Compile Include="Model\EmployeeDiscipline.cs" />
     <Compile Include="Controllers\EmployeeDisciplineController.cs" />
     <Compile Include="Controllers\PermissionController.cs" />
     <Compile Include="Controllers\JobTitleController.cs" />
@@ -219,8 +219,8 @@
     <Compile Include="Criteria\JobTitle\UpdateJobTitleCriteria.cs" />
     <Compile Include="Criteria\Permission\GetMaxModifiedDateForTeamDisciplineCriteria.cs" />
     <Compile Include="Criteria\Permission\UpdateTeamDisciplineCriteria.cs" />
-    <Compile Include="Model\TeamDiscipline.cs" />
-    <Compile Include="Model\EmployeeDiscipline.cs" />
+    <Compile Include="Model\TeamDisciplinePermission.cs" />
+    <Compile Include="Model\EmployeeDisciplinePermission.cs" />
     <Compile Include="Criteria\Permission\GetMaxModifiedDateForEmployeeDisciplineCriteria.cs" />
     <Compile Include="Criteria\Permission\UpdateEmployeeDisciplineCriteria.cs" />
     <Compile Include="Criteria\Team\GetMaxModifiedDateForTeamCriteria.cs" />
@@ -228,7 +228,7 @@
     <Compile Include="Model\Department.cs" />
     <Compile Include="Criteria\Department\GetMaxModifiedDateForDepartmentCriteria.cs" />
     <Compile Include="Criteria\Department\UpdateDepartmentCriteria.cs" />
-    <Compile Include="Filters\ExceptionHandler.cs" />
+    <Compile Include="App_Start\ExceptionHandler.cs" />
     <Compile Include="Filters\HttpsRequiredAttribute.cs" />
     <Compile Include="Filters\IPHostValidationAttribute.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
@@ -242,7 +242,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
-    <Compile Include="Startup.cs" />
     <Compile Include="Utilities\AppConfig.cs" />
   </ItemGroup>
   <ItemGroup>

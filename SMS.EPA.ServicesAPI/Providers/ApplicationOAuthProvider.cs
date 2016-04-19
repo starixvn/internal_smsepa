@@ -27,6 +27,8 @@
             var isValidAppId = AppConfig.PartnerIds.Where(i => i == context.UserName).Any();
             if (isValidAppId)
             {
+                context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
+
                 var authIdentity = new ClaimsIdentity(context.Options.AuthenticationType);
                 authIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, context.UserName));
 

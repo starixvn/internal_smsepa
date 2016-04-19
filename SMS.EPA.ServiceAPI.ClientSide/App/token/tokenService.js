@@ -8,7 +8,7 @@
     tokenService.$inject = ['$http'];
 
     function tokenService($http) {
-        var baseUrl = 'http://localhost:63238/';
+        var baseUrl = 'https://localhost:44301/';
         
         return {
             request: request

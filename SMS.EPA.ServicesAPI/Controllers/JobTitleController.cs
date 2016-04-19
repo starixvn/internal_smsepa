@@ -11,12 +11,14 @@
     {
         private readonly IServiceAPI _jobTitleService;
 
+        public JobTitleController() : this(null) { }
+
         public JobTitleController(IServiceAPI jobTitleService)
         {
             _jobTitleService = jobTitleService ?? new ServiceAPI();
         }
 
-        public IHttpActionResult Update(IList<JobTitle> titles)
+        public IHttpActionResult Update([FromBody]JobTitle[] titles)
         {
             var criteria = new UpdateJobTitleCriteria()
             {

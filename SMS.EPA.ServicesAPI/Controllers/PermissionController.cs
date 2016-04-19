@@ -12,6 +12,8 @@
     {
         private readonly IServiceAPI _permissionService;
 
+        public PermissionController() : this(null) { }
+
         public PermissionController(IServiceAPI permissionService)
         {
             _permissionService = permissionService ?? new ServiceAPI();
@@ -26,7 +28,7 @@
             return Ok(fromDate);
         }
 
-        public IHttpActionResult UpdateEmployeeDiscipline(IList<EmployeeDisciplinePermission> disciplines)
+        public IHttpActionResult UpdateEmployeeDiscipline([FromBody]EmployeeDisciplinePermission[] disciplines)
         {
             var criteria = new UpdateEmployeeDisciplineCriteria()
             {
@@ -47,7 +49,7 @@
             return Ok(fromDate);
         }
 
-        public IHttpActionResult UpdateTeamDiscipline(IList<TeamDisciplinePermission> disciplines)
+        public IHttpActionResult UpdateTeamDiscipline([FromBody]TeamDisciplinePermission[] disciplines)
         {
             var criteria = new UpdateTeamDisciplineCriteria()
             {

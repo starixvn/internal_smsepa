@@ -12,6 +12,8 @@
     {
         private readonly IServiceAPI _employeeService;
 
+        public EmployeeController() : this(null) { }
+
         public EmployeeController(IServiceAPI employeeService)
         {
             _employeeService = employeeService ?? new ServiceAPI();
@@ -26,7 +28,7 @@
             return Ok(fromDate);
         }
 
-        public IHttpActionResult Update(IList<Employee> employees)
+        public IHttpActionResult Update([FromBody]Employee[] employees)
         {
             var criteria = new UpdateEmployeeCriteria()
             {

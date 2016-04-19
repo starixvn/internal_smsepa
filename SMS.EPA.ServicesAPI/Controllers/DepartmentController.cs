@@ -13,13 +13,15 @@
     {
         private readonly IServiceAPI _service;
 
-        public DepartmentController()
+        public DepartmentController() : this(null) { }
+
+        public DepartmentController(IServiceAPI employeeService)
         {
-            _service = new ServiceAPI();
+            _service = employeeService ?? new ServiceAPI();
         }
 
         [HttpPost]
-        public IHttpActionResult Update(IList<Department> departments)
+        public IHttpActionResult Update([FromBody]Department[] departments)
         {
             var criteria = new UpdateDepartmentCriteria
             {
@@ -31,7 +33,7 @@
             return Ok(result);
         }
 
-        public IHttpActionResult GetMaxModifiedDate() 
+        public IHttpActionResult GetMaxModifiedDate()
         {
             var criteria = new GetMaxModifiedDateForDepartmentCriteria();
 

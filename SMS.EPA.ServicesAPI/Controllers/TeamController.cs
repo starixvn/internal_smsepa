@@ -12,6 +12,8 @@
     {
         private readonly IServiceAPI _teamService;
 
+        public TeamController() : this(null) { }
+
         public TeamController(IServiceAPI teamService)
         {
             _teamService = teamService ?? new ServiceAPI();
@@ -26,7 +28,7 @@
             return Ok(fromDate);
         }
 
-        public IHttpActionResult Update(IList<Team> teams)
+        public IHttpActionResult Update([FromBody]Team[] teams)
         {
             var criteria = new UpdateTeamCriteria()
             {

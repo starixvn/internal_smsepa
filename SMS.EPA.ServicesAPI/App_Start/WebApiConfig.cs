@@ -3,6 +3,7 @@
     using Microsoft.Owin.Security.OAuth;
     using SMS.EPA.ServicesAPI.Filters;
     using System.Web.Http;
+    using System.Web.Http.ExceptionHandling;
 
     public static class WebApiConfig
     {
@@ -12,13 +13,12 @@
             config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
             config.Filters.Add(new IPHostValidationAttribute());
             config.Filters.Add(new HttpsRequiredAttribute());
-            config.Filters.Add(new ExceptionHandler());
+            config.Services.Replace(typeof(IExceptionHandler), new GlobalExceptionHandler());
 
             config.MapHttpAttributeRoutes();
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional });
+                routeTemplate: "{controller}/{action}");
         }
     }
 }

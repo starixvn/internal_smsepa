@@ -12,9 +12,11 @@
     {
          private readonly IServiceAPI _service;
 
-         public EmployeeDisciplineController()
+        public EmployeeDisciplineController() : this(null) { }
+
+        public EmployeeDisciplineController(IServiceAPI service)
         {
-            _service = new ServiceAPI();
+            _service = service ?? new ServiceAPI();
         }
 
          public IHttpActionResult GetMaxModifiedDate()
@@ -35,7 +37,7 @@
              return Ok(fromDate);
          }
 
-         public IHttpActionResult Update(IList<EmployeeDiscipline> employees)
+         public IHttpActionResult Update([FromBody]EmployeeDiscipline[] employees)
          {
              var criteria = new UpdateAttendanceViolationCriteria()
              {
