@@ -72,7 +72,7 @@
                 utilitiesFactory.searchOnPage(vm, vm.memberEPAs);
                 angular.forEach(vm.memberEPAs, function (memberEPA) {
                     if (memberEPA.KPIGroup.HasKPIOptional) {
-                        var totalScoreEvaluated = 0, totalKPIMustEvaluate, totalStarMustEvaluate, totalStarEvaluated = 0,
+                        var totalStarEvaluated = 0,
                             numberKPIOptional = memberEPA.KPIGroup.NumberKPIOptional,
                             totalScoreOriginal = utilitiesFactory.parseFloat(memberEPA.TotalScoreOriginal);
 
@@ -86,10 +86,11 @@
                             }
                         });
 
-                        totalKPIMustEvaluate = memberEPA.KPIGroup.KPIs.length - numberKPIOptional;
-                        totalStarMustEvaluate = totalKPIMustEvaluate * vm.maxStar;
+                        var totalKPIMustEvaluate = memberEPA.KPIGroup.KPIs.length - numberKPIOptional,
+                            totalStarMustEvaluate = totalKPIMustEvaluate * vm.maxStar,
+                            totalScoreEvaluated = (memberEPA.KPIGroup.Weight * totalStarEvaluated) / totalStarMustEvaluate;
 
-                        totalScoreEvaluated = utilitiesFactory.parseFloat(memberEPA.KPIGroup.Weight * (totalStarEvaluated / totalStarMustEvaluate));
+                        totalScoreEvaluated = utilitiesFactory.parseFloat(totalScoreEvaluated);
                         memberEPA.TotalScoreOriginal = utilitiesFactory.parseFloat(totalScoreOriginal - totalScoreEvaluated);
                     }
 
@@ -130,7 +131,6 @@
         vm.initialize = initialize;
 
         vm.initialize();
-
     }
 
     EPAByKPIController.$inject = ['$window', '$timeout', '$translate', 'EPAByKPIModel', 'EmployeeEPAModel',

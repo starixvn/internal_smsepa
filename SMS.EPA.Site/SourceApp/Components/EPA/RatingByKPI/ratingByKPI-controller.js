@@ -229,7 +229,7 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
                 utilitiesFactory.searchOnPage(vm, vm.memberEPAs);
                 angular.forEach(vm.memberEPAs, function (memberEPA) {
                     if (memberEPA.KPIGroup.HasKPIOptional) {
-                        var totalScoreEvaluated = 0, totalKPIMustEvaluate, totalStarMustEvaluate, totalStarEvaluated = 0,
+                        var totalStarEvaluated = 0,
                             numberKPIOptional = memberEPA.KPIGroup.NumberKPIOptional,
                             totalScoreOriginal = utilitiesFactory.parseFloat(memberEPA.TotalScoreOriginal);
 
@@ -243,10 +243,11 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
                             }
                         });
 
-                        totalKPIMustEvaluate = memberEPA.KPIGroup.KPIs.length - numberKPIOptional;
-                        totalStarMustEvaluate = totalKPIMustEvaluate * vm.maxStar;
+                        var totalKPIMustEvaluate = memberEPA.KPIGroup.KPIs.length - numberKPIOptional,
+                            totalStarMustEvaluate = totalKPIMustEvaluate * vm.maxStar,
+                            totalScoreEvaluated = (memberEPA.KPIGroup.Weight * totalStarEvaluated) / totalStarMustEvaluate;
 
-                        totalScoreEvaluated = utilitiesFactory.parseFloat(memberEPA.KPIGroup.Weight * (totalStarEvaluated / totalStarMustEvaluate));
+                        totalScoreEvaluated = utilitiesFactory.parseFloat(totalScoreEvaluated);
                         memberEPA.TotalScoreOriginal = utilitiesFactory.parseFloat(totalScoreOriginal - totalScoreEvaluated);
                     }
 
@@ -348,7 +349,7 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
 
                     if (!memberEPA.KPIGroup.HasKPIOptional) {
                         currentScore = utilitiesFactory.splitNumber(kpi.Score, 4);
-                        adjustScore = kpi.Weight * (kpi.AdjustRate / vm.maxStar);
+                        adjustScore = (kpi.Weight * kpi.AdjustRate) / vm.maxStar;
                         adjustScore = utilitiesFactory.splitNumber(adjustScore, 4);
                         kpi.AdjustScore = adjustScore;
 
@@ -365,8 +366,7 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
                         }
                     } else {
                         RatingByKPIModel.scoreSpreadForKPIGroupHasKPIOptional(memberEPA.KPIGroup, vm.maxStar);
-
-                        totalScoreEvaluated = memberEPA.KPIGroup.Weight * (memberEPA.KPIGroup.TotalStarEvaluated / memberEPA.KPIGroup.TotalStarMustEvaluate);
+                        totalScoreEvaluated = (memberEPA.KPIGroup.Weight * memberEPA.KPIGroup.TotalStarEvaluated) / memberEPA.KPIGroup.TotalStarMustEvaluate;
                         memberEPA.TotalScore = utilitiesFactory.parseFloat(totalScoreOriginal + totalScoreEvaluated);
                     }
                 }

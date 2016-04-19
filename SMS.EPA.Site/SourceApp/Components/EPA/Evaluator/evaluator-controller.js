@@ -194,7 +194,7 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
             vm.hoveringLeave = function (kpiGroup, kpi) {
                 if (kpi.CurrentEvaluation.Rate > 0) {
                     if (kpiGroup.NumberKPIOptional === 0) {
-                        var score = kpi.Weight * (kpi.CurrentEvaluation.Rate / vm.maxStar);
+                        var score = (kpi.Weight * kpi.CurrentEvaluation.Rate) / vm.maxStar;
                         score = utilitiesFactory.splitNumber(score, 4);
                         kpi.CurrentEvaluation.Score = score;
                     }

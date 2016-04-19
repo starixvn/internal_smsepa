@@ -97,9 +97,9 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
     };
 
     ratingByKPIModel.scoreSpreadForKPIGroupHasKPIOptional = function (kpiGroup, maxStar) {
-        var averageWeight, totalKPIMustEvaluate, totalStarMustEvaluate, totalStarEvaluated = 0,
-            numberKPIOptional = kpiGroup.NumberKPIOptional;
-        var kpis = [];
+        var totalStarEvaluated = 0,
+            numberKPIOptional = kpiGroup.NumberKPIOptional,
+            kpis = [];
 
         angular.forEach(kpiGroup.KPIs, function (kpi) {
             if (kpi.Rate > 0 && !kpi.AdjustRate) {
@@ -115,9 +115,10 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
             }
         });
 
-        totalKPIMustEvaluate = kpiGroup.KPIs.length - numberKPIOptional;
-        totalStarMustEvaluate = totalKPIMustEvaluate * maxStar;
-        averageWeight = utilitiesFactory.splitNumber(kpiGroup.Weight / totalKPIMustEvaluate, 4);
+        var totalKPIMustEvaluate = kpiGroup.KPIs.length - numberKPIOptional,
+            totalStarMustEvaluate = totalKPIMustEvaluate * maxStar,
+            averageWeight = utilitiesFactory.splitNumber(kpiGroup.Weight / totalKPIMustEvaluate, 4);
+
         kpiGroup.TotalStarMustEvaluate = totalStarMustEvaluate;
         kpiGroup.TotalStarEvaluated = totalStarEvaluated;
 
@@ -130,7 +131,7 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
                 } else {
                     kpi.IsMaxScore = false;
                 }
-                var score = averageWeight * (kpi.Rate / maxStar);
+                var score = (averageWeight * kpi.Rate) / maxStar;
                 kpi.Score = utilitiesFactory.splitNumber(score, 4);
             } else if (kpi.AdjustRate > 0) {
                 if (kpi.AdjustRate === maxStar) {
@@ -138,7 +139,7 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
                 } else {
                     kpi.IsMaxScore = false;
                 }
-                var adjustScore = averageWeight * (kpi.AdjustRate / maxStar);
+                var adjustScore = (averageWeight * kpi.AdjustRate) / maxStar;
                 kpi.AdjustScore = utilitiesFactory.splitNumber(adjustScore, 4);
             }
         });

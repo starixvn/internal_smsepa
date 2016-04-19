@@ -49,7 +49,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     };
 
     selfEvalutorModel.scoreSpreadForKPIGroupHasKPIOptional = function (kpiGroup, maxStar) {
-        var score, averageWeight, totalKPIMustEvaluate, totalStarMustEvaluate, totalStarEvaluated = 0,
+        var score, averageWeight, totalStarEvaluated = 0,
             numberKPIOptional = kpiGroup.NumberKPIOptional;
         var kpis = [];
 
@@ -64,14 +64,13 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
             }
         });
 
-        totalKPIMustEvaluate = kpiGroup.KPIs.length - numberKPIOptional;
-        totalStarMustEvaluate = totalKPIMustEvaluate * maxStar;
+        var totalKPIMustEvaluate = kpiGroup.KPIs.length - numberKPIOptional;
         averageWeight = kpiGroup.Weight / totalKPIMustEvaluate;
         averageWeight = utilitiesFactory.splitNumber(averageWeight, 4);
 
         angular.forEach(kpis, function (kpi) {
             kpi.Weight = averageWeight;
-            score = averageWeight * (kpi.CurrentEvaluation.Rate / maxStar);
+            score = (averageWeight * kpi.CurrentEvaluation.Rate) / maxStar;
             kpi.CurrentEvaluation.Score = utilitiesFactory.splitNumber(score, 4);
         });
     };
