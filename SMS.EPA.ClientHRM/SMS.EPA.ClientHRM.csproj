@@ -122,43 +122,43 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\CommandResult.cs" />
     <Compile Include="Model\ApplicationInfo.cs" />
-    <Compile Include="ThirdPartyAPI\AttendanceAPI.cs" />
-    <Compile Include="Service\AttendanceService.cs" />
-    <Compile Include="ThirdPartyAPI\Interface\IAttendanceAPI.cs" />
-    <Compile Include="Service\Interface\IAttendanceService.cs" />
-    <Compile Include="Service\Interface\ISupervisorService.cs" />
-    <Compile Include="ThirdPartyAPI\Interface\ISupervisorAPI.cs" />
-    <Compile Include="Service\JobTitleService.cs" />
-    <Compile Include="ThirdPartyAPI\SupervisorAPI.cs" />
-    <Compile Include="Service\SupervisorService.cs" />
-    <Compile Include="Service\TeamService.cs" />
-    <Compile Include="Service\EmployeeService.cs" />
-    <Compile Include="Service\DepartmentService.cs" />
-    <Compile Include="ThirdPartyAPI\JobTitleAPI.cs" />
-    <Compile Include="ThirdPartyAPI\TeamAPI.cs" />
-    <Compile Include="ThirdPartyAPI\EmployeeAPI.cs" />
-    <Compile Include="ThirdPartyAPI\DepartmentAPI.cs" />
-    <Compile Include="ThirdPartyAPI\Interface\ITeamAPI.cs" />
-    <Compile Include="ThirdPartyAPI\Interface\IJobTitleAPI.cs" />
-    <Compile Include="ThirdPartyAPI\Interface\IEmployeeAPI.cs" />
-    <Compile Include="ThirdPartyAPI\Interface\ITokenAPI.cs" />
-    <Compile Include="Service\TokenService.cs" />
-    <Compile Include="ThirdPartyAPI\Interface\IDepartmentAPI.cs" />
-    <Compile Include="Service\Interface\ISynchronizeService.cs" />
+    <Compile Include="ThirdPartyAPIs\AttendanceAPI.cs" />
+    <Compile Include="Services\AttendanceService.cs" />
+    <Compile Include="ThirdPartyAPIs\Interfaces\IAttendanceAPI.cs" />
+    <Compile Include="Services\Interfaces\IAttendanceService.cs" />
+    <Compile Include="Services\Interfaces\ISupervisorService.cs" />
+    <Compile Include="ThirdPartyAPIs\Interfaces\ISupervisorAPI.cs" />
+    <Compile Include="Services\JobTitleService.cs" />
+    <Compile Include="ThirdPartyAPIs\SupervisorAPI.cs" />
+    <Compile Include="Services\SupervisorService.cs" />
+    <Compile Include="Services\TeamService.cs" />
+    <Compile Include="Services\EmployeeService.cs" />
+    <Compile Include="Services\DepartmentService.cs" />
+    <Compile Include="ThirdPartyAPIs\JobTitleAPI.cs" />
+    <Compile Include="ThirdPartyAPIs\TeamAPI.cs" />
+    <Compile Include="ThirdPartyAPIs\EmployeeAPI.cs" />
+    <Compile Include="ThirdPartyAPIs\DepartmentAPI.cs" />
+    <Compile Include="ThirdPartyAPIs\Interfaces\ITeamAPI.cs" />
+    <Compile Include="ThirdPartyAPIs\Interfaces\IJobTitleAPI.cs" />
+    <Compile Include="ThirdPartyAPIs\Interfaces\IEmployeeAPI.cs" />
+    <Compile Include="ThirdPartyAPIs\Interfaces\ITokenAPI.cs" />
+    <Compile Include="Services\TokenService.cs" />
+    <Compile Include="ThirdPartyAPIs\Interfaces\IDepartmentAPI.cs" />
+    <Compile Include="Services\Interfaces\ISynchronizeService.cs" />
     <Compile Include="Model\TokenAccess.cs" />
-    <Compile Include="Service\SynchronizeService.cs" />
-    <Compile Include="ThirdPartyAPI\TokenAPI.cs" />
+    <Compile Include="Services\SynchronizeService.cs" />
+    <Compile Include="ThirdPartyAPIs\TokenAPI.cs" />
     <Compile Include="WinService.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="WinService.Designer.cs">
       <DependentUpon>WinService.cs</DependentUpon>
     </Compile>
-    <Compile Include="Service\Interface\IDepartmentService.cs" />
-    <Compile Include="Service\Interface\IEmployeeService.cs" />
-    <Compile Include="Service\Interface\IJobTitleService.cs" />
-    <Compile Include="Service\Interface\ITeamService.cs" />
-    <Compile Include="Service\Interface\ITokenService.cs" />
+    <Compile Include="Services\Interfaces\IDepartmentService.cs" />
+    <Compile Include="Services\Interfaces\IEmployeeService.cs" />
+    <Compile Include="Services\Interfaces\IJobTitleService.cs" />
+    <Compile Include="Services\Interfaces\ITeamService.cs" />
+    <Compile Include="Services\Interfaces\ITokenService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
