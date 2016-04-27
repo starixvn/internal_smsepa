@@ -1,0 +1,168 @@
+﻿using SMS.EPA.ClientHRM.Model;
+using SMS.EPA.ServicesAPI.Model;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace SMS.EPA.ClientHRM.Services
+{
+    public class SynchronizeService : ISynchronizeService
+    {
+        private static TokenAccess _token;
+
+        private readonly ITokenService _tokenService;
+        private readonly IDepartmentService _departmentService;
+        private readonly IEmployeeService _employeeService;
+        private readonly ITeamService _teamService;
+        private readonly IJobTitleService _jobTitleService;
+        private readonly ISupervisorService _supervisorService;
+        private readonly IAttendanceService _attendanceService;
+
+        public SynchronizeService() : this(null, null, null, null, null, null, null) 
+        {
+        }
+
+        public SynchronizeService(
+            ITokenService tokenService,
+            IDepartmentService departmentService,
+            IEmployeeService employeeService,
+            ITeamService teamService,
+            IJobTitleService jobtitleService,
+            ISupervisorService supervisorService,
+            IAttendanceService attendanceService)
+        {
+            _token = new TokenAccess();
+            _tokenService = tokenService ?? new TokenService();
+            _departmentService = departmentService ?? new DepartmentService();
+            _employeeService = employeeService ?? new EmployeeService();
+            _teamService = teamService ?? new TeamService();
+            _jobTitleService = jobtitleService ?? new JobTitleService();
+            _supervisorService = supervisorService ?? new SupervisorService();
+            _attendanceService = attendanceService ?? new AttendanceService();
+        }
+
+        public void SynchronizeAll()
+        {
+            SynchronizeDepartment();
+            SynchronizeTeam();
+            SynchronizeEmployee();
+            SynchronizeJobTitle();
+            SynchronizeEmployeeSupervisor();
+            SynchronizeGroupSupervisor();
+            SynchronizeAttendanceViolation();
+        }
+
+        private void SynchronizeDepartment()
+        {
+            InitToken();
+
+            if (_token.IsValid())
+            {
+                DateTime fromDate = _departmentService.GetMaxModifiedDate(_token);
+                IEnumerable<Department> departments = _departmentService.GetDepartments(fromDate);
+                if (departments.Any())
+                {
+                    _departmentService.Update(departments, _token);
+                }
+            }
+        }
+
+        private void SynchronizeTeam()
+        {
+            InitToken();
+
+            if (_token.IsValid())
+            {
+                DateTime fromDate = _teamService.GetMaxModifiedDate(_token);
+                IEnumerable<Team> teams = _teamService.GetTeams(fromDate);
+                if (teams.Any())
+                {
+                    _teamService.Update(teams, _token);
+                }
+            }
+        }
+
+        private void SynchronizeEmployee()
+        {
+            InitToken();
+
+            if (_token.IsValid())
+            {
+                DateTime fromDate = _employeeService.GetMaxModifiedDate(_token);
+                IEnumerable<Employee> employees = _employeeService.GetEmployees(fromDate);
+                if (employees.Any())
+                {
+                    _employeeService.Update(employees, _token);
+                }
+            }
+        }
+
+        private void SynchronizeJobTitle()
+        {
+            InitToken();
+
+            if (_token.IsValid())
+            {
+                IEnumerable<JobTitle> jobTitles = _jobTitleService.GetJobTitles();
+                if (jobTitles.Any())
+                {
+                    _jobTitleService.Update(jobTitles, _token);
+                }
+            }
+        }
+
+        private void SynchronizeEmployeeSupervisor()
+        {
+            InitToken();
+
+            if (_token.IsValid())
+            {
+                DateTime fromDate = _supervisorService.GetMaxModifiedDateForEmployee(_token);
+                IEnumerable<EmployeeSupervisor> employees = _supervisorService.GetEmployees(fromDate);
+                if (employees.Any())
+                {
+                    _supervisorService.UpdateEmployees(employees, _token);
+                }
+            }
+        }
+
+        private void SynchronizeGroupSupervisor()
+        {
+            InitToken();
+
+            if (_token.IsValid())
+            {
+                DateTime fromDate = _supervisorService.GetMaxModifiedDateForGroup(_token);
+                IEnumerable<GroupSupervisor> groups = _supervisorService.GetGroups(fromDate);
+                if (groups.Any())
+                {
+                    _supervisorService.UpdateGroups(groups, _token);
+                }
+            }
+        }
+
+        private void SynchronizeAttendanceViolation()
+        {
+            InitToken();
+
+            if (_token.IsValid())
+            {
+                DateTime fromDate = _attendanceService.GetFromDateAttendanceViolation(_token);
+                DateTime lastModifiedDate = _attendanceService.GetMaxModifiedDate(_token);
+                IEnumerable<AttendanceViolation> violations = _attendanceService.GetViolation(fromDate, lastModifiedDate);
+                if (violations.Any())
+                {
+                    _attendanceService.Update(violations, _token);
+                }
+            }
+        }
+
+        private void InitToken()
+        {
+            if (!_token.IsValid())
+            {
+                _token = _tokenService.Request(ApplicationConfig.ApplicationInfo);
+            }
+        }
+    }
+}

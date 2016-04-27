@@ -1,5 +1,5 @@
 ﻿using Fanex.Logging;
-using SMS.EPA.ClientHRM.Service;
+using SMS.EPA.ClientHRM.Services;
 using System;
 using System.Collections;
 using System.Collections.Generic;
