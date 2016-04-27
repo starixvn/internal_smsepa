@@ -7,6 +7,8 @@
     using System.Net.Http;
     using System.Net.Http.Formatting;
     using System.Net.Http.Headers;
+    using System.Net.Security;
+    using System.Security.Cryptography.X509Certificates;
 
     public class Program
     {
@@ -16,6 +18,12 @@
             {
                 using (var client = new HttpClient())
                 {
+#if DEBUG
+                    ServicePointManager.ServerCertificateValidationCallback = delegate(Object obj, X509Certificate certificate, X509Chain chain, SslPolicyErrors errors)
+                    {
+                        return (true);
+                    };
+#endif
                     var token = new Token();
                     var form = new Dictionary<string, string> { { "grant_type", "password" }, { "username", "app~1234~APP" }, { "password", "app~1234~APP" } };
                     var url = ConfigurationManager.AppSettings["PartnerId"];

@@ -1,0 +1,12 @@
+﻿namespace SMS.EPA.ClientHRM.Criteria
+{
+    using Fanex.Data.Repository;
+
+    public class GetJobTitleCriteria : CriteriaBase
+    {
+        public override string GetSettingKey()
+        {
+            return "JobTitle_Get";
+        }
+    }
+}

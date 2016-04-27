@@ -1,0 +1,24 @@
+﻿using SMS.EPA.ClientHRM.Model;
+using SMS.EPA.ClientHRM.ThirdPartyAPI;
+
+namespace SMS.EPA.ClientHRM.Service
+{
+    public class TokenService : ITokenService
+    {
+        private readonly ITokenAPI _tokenAPI;
+
+        public TokenService() : this(null) 
+        {
+        }
+
+        public TokenService(ITokenAPI tokenAPI)
+        {
+            _tokenAPI = tokenAPI ?? new TokenAPI();
+        }
+
+        public TokenAccess Request(ApplicationInfo info)
+        {
+            return _tokenAPI.Request(info);
+        }
+    }
+}
