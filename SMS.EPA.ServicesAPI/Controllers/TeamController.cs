@@ -12,7 +12,9 @@
     {
         private readonly IServiceAPI _teamService;
 
-        public TeamController() : this(null) { }
+        public TeamController() : this(null) 
+        {
+        }
 
         public TeamController(IServiceAPI teamService)
         {

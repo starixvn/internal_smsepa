@@ -29,7 +29,6 @@ namespace SMS.EPA.ClientHRM
 
             if (Environment.UserInteractive)
             {
-                // run console
                 var type = typeof(ServiceBase);
                 const BindingFlags Flags = BindingFlags.Instance | BindingFlags.NonPublic;
                 var method = type.GetMethod("OnStart", Flags);

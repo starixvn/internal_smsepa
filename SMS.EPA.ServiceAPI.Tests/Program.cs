@@ -26,7 +26,7 @@
 #endif
                     var token = new Token();
                     var form = new Dictionary<string, string> { { "grant_type", "password" }, { "username", "app~1234~APP" }, { "password", "app~1234~APP" } };
-                    var url = ConfigurationManager.AppSettings["PartnerId"];
+                    var url = ConfigurationManager.AppSettings["ServiceAPI"];
                     Console.WriteLine("1. Request token............");
                     var tokenResponse = client.PostAsync(url + "token", new FormUrlEncodedContent(form)).Result;
 

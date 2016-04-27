@@ -11,7 +11,9 @@
     {
         private readonly IServiceAPI _jobTitleService;
 
-        public JobTitleController() : this(null) { }
+        public JobTitleController() : this(null) 
+        {
+        }
 
         public JobTitleController(IServiceAPI jobTitleService)
         {

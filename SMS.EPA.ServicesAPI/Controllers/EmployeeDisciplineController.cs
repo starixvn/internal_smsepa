@@ -12,7 +12,9 @@
     {
          private readonly IServiceAPI _service;
 
-        public EmployeeDisciplineController() : this(null) { }
+        public EmployeeDisciplineController() : this(null)
+        {
+        }
 
         public EmployeeDisciplineController(IServiceAPI service)
         {

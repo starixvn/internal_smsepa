@@ -13,7 +13,9 @@
     {
         private readonly IServiceAPI _service;
 
-        public DepartmentController() : this(null) { }
+        public DepartmentController() : this(null) 
+        {
+        }
 
         public DepartmentController(IServiceAPI employeeService)
         {

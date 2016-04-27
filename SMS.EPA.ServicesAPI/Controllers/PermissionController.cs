@@ -12,7 +12,9 @@
     {
         private readonly IServiceAPI _permissionService;
 
-        public PermissionController() : this(null) { }
+        public PermissionController() : this(null) 
+        { 
+        }
 
         public PermissionController(IServiceAPI permissionService)
         {

@@ -12,7 +12,9 @@
     {
         private readonly IServiceAPI _employeeService;
 
-        public EmployeeController() : this(null) { }
+        public EmployeeController() : this(null)
+        { 
+        }
 
         public EmployeeController(IServiceAPI employeeService)
         {
