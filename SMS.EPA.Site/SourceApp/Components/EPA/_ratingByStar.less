@@ -42,16 +42,32 @@
     .table.table-bordered {
         margin-bottom: 70px;
 
+        tr.header-table {
+            > th div.col-sm-12 {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0;
+
+                .pull-left {
+                    text-align: left;
+                    padding-left: 5px;
+                }
+            }
+        }
+
         tbody {
             overflow-y: auto;
         }
 
-        .header-fixed {
-            padding-right: 1.4%;
-        }
-
         th.col-score > div, th.col-adjust-score > div {
             padding: 0;
+        }
+
+        .employee-score {
+            .rating-xs {
+                font-size: 13px !important;
+            }
         }
 
         .col-score {

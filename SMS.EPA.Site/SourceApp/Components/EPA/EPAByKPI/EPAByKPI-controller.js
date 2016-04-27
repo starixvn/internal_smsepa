@@ -15,6 +15,9 @@
         };
         vm.evaluators = [];
         vm.RatingType = enumerationsFactory.ratingType;
+        vm.hasRatingByStar = false;
+        vm.onlyShowSelfScore = false;
+        vm.onlyShowEvaluatorScore = false;
 
         function getCSSSelected(kpiId) {
             var cssClass = '';
@@ -62,15 +65,32 @@
         }
 
         function KPIChange(kpiId) {
-            vm.filter.kpiId = kpiId;
-            query();
+            if (kpiId !== vm.filter.kpiId) {
+                vm.filter.kpiId = kpiId;
+                var index = vm.kpis.map(function(e) { return e.KPIId; }).indexOf(vm.filter.kpiId);
+                if (index !== -1) {
+                    vm.kpiSelected = vm.kpis[index];
+                }
+
+                query();
+            }
         }
 
         function query() {
-            EPAByKPIModel.getEmployeeEPAToView(vm.filter.targetTemplateId, vm.filter.kpiId, vm.filter.evaluatorId).then(function () {
+            EPAByKPIModel.getEmployeeEPAToView(vm.filter.targetTemplateId, vm.filter.kpiId, vm.filter.evaluatorId)
+            .then(function () {
                 vm.memberEPAs = EPAByKPIModel.memberEPAs;
                 utilitiesFactory.searchOnPage(vm, vm.memberEPAs);
+                vm.onlyShowSelfScore = false;
+                vm.onlyShowEvaluatorScore = false;
+
                 angular.forEach(vm.memberEPAs, function (memberEPA) {
+                    if (memberEPA.RatingType.RatingTypeId === vm.RatingType.Star
+                        || memberEPA.RatingType.RatingTypeId === vm.RatingType.HalfStar
+                        || (memberEPA.RatingType.RatingTypeId === vm.RatingType.Score && memberEPA.KPIGroup.NumberKPIOptional > 0)) {
+                        vm.hasRatingByStar = true;
+                    }
+
                     if (memberEPA.KPIGroup.HasKPIOptional) {
                         var totalStarEvaluated = 0,
                             numberKPIOptional = memberEPA.KPIGroup.NumberKPIOptional,

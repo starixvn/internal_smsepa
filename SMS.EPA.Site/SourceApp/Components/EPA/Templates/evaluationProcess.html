@@ -45,7 +45,7 @@
             <label data-translate="Open"></label><span class="icon-process"></span>
         </div>
     </li>
-    <li ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers.length > 0"
+    <li ng-if="memberEPAInfoCtrl.epaInfo.Process.Reviewers.length > 0"
         ng-class="memberEPAInfoCtrl.getClassProgress(memberEPAInfoCtrl.epaInfo.Process.Reviewers[0].StatusEndProcess)" class="process-item">
         <div>
             <strong>{{"Reviewer" | translate}}:</strong>
@@ -73,7 +73,7 @@
             <label data-translate="Open"></label><span class="icon-process"></span>
         </div>
     </li>
-    <li ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements.length > 0"
+    <li ng-if="memberEPAInfoCtrl.epaInfo.Process.Managements.length > 0"
         ng-class="memberEPAInfoCtrl.getClassProgress(memberEPAInfoCtrl.epaInfo.Process.Managements[0].StatusEndProcess)" class="process-item">
         <div>
             <strong>{{"Management" | translate}}:</strong>
@@ -102,7 +102,7 @@
         </div>
     </li>
     <li class="process-item final"
-        ng-show="memberEPAInfoCtrl.epaInfo.IsMonthly || memberEPAInfoCtrl.epaInfo.Period.TargetTypeId == memberEPAInfoCtrl.targetTypeEnum.SemiAnnual">
+        ng-if="memberEPAInfoCtrl.epaInfo.IsMonthly || memberEPAInfoCtrl.epaInfo.Period.TargetTypeId == memberEPAInfoCtrl.targetTypeEnum.SemiAnnual">
         <div><strong data-translate="FinalScore"></strong></div>
         <div>
             <span data-translate="EndPeriod"></span>: <span ng-bind="memberEPAInfoCtrl.epaInfo.Period.EndDate | customDate"></span>

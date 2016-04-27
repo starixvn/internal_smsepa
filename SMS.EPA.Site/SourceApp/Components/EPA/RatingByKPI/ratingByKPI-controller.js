@@ -18,7 +18,8 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
     vm.permission = 0;
     vm.policyEnum = enumerationsFactory.policy;
     vm.ratingTypeEnum = enumerationsFactory.ratingType;
-
+    vm.hasRatingByStar = false;
+    vm.onlyShowScore = false;
     vm.currentPage = 1;
     vm.pageSize = 20;
 
@@ -163,9 +164,10 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
     };
 
     vm.KPIChange = function (kpiId) {
-        vm.filter.kpiId = kpiId;
-
-        vm.viewKPIInfo();
+        if (kpiId !== vm.kpiIdOriginal) {
+            vm.filter.kpiId = kpiId;
+            vm.viewKPIInfo();
+        }
     };
 
     vm.viewKPIInfo = function () {
@@ -227,7 +229,15 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
             RatingByKPIModel.getEmployeeEPAByKPI(vm.filter.targetTemplateId, vm.filter.kpiId, vm.filter.groupId, null).then(function () {
                 vm.memberEPAs = RatingByKPIModel.memberEPAs;
                 utilitiesFactory.searchOnPage(vm, vm.memberEPAs);
+                vm.onlyShowScore = false;
+
                 angular.forEach(vm.memberEPAs, function (memberEPA) {
+                    if (memberEPA.RatingType.RatingTypeId === vm.ratingTypeEnum.Star
+                        || memberEPA.RatingType.RatingTypeId === vm.ratingTypeEnum.HalfStar
+                        || (memberEPA.RatingType.RatingTypeId === vm.ratingTypeEnum.Score && memberEPA.KPIGroup.NumberKPIOptional > 0)) {
+                        vm.hasRatingByStar = true;
+                    }
+
                     if (memberEPA.KPIGroup.HasKPIOptional) {
                         var totalStarEvaluated = 0,
                             numberKPIOptional = memberEPA.KPIGroup.NumberKPIOptional,
@@ -264,13 +274,13 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
                 vm.orderByCurrentScore.descending = false;
 
                 vm.memberEPAs.sort(function (a, b) {
-                    var index, tempa, tempb;
+                    var index;
 
                     index = a.KPIGroup.KPIs.map(function (e) { return e.KPIId; }).indexOf(vm.kpiIdOriginal);
-                    tempa = a.KPIGroup.KPIs[index].Score ? parseFloat(a.KPIGroup.KPIs[index].Score) : 0;
+                    var tempa = a.KPIGroup.KPIs[index].Score ? parseFloat(a.KPIGroup.KPIs[index].Score) : 0;
 
                     index = b.KPIGroup.KPIs.map(function (e) { return e.KPIId; }).indexOf(vm.kpiIdOriginal);
-                    tempb = b.KPIGroup.KPIs[index].Score ? parseFloat(b.KPIGroup.KPIs[index].Score) : 0;
+                    var tempb = b.KPIGroup.KPIs[index].Score ? parseFloat(b.KPIGroup.KPIs[index].Score) : 0;
 
                     return tempa - tempb;
                 });
@@ -285,13 +295,13 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
                 vm.orderByAdjustScore.descending = false;
 
                 vm.memberEPAs.sort(function (a, b) {
-                    var index, tempa, tempb;
+                    var index;
 
                     index = a.KPIGroup.KPIs.map(function (e) { return e.KPIId; }).indexOf(vm.kpiIdOriginal);
-                    tempa = a.KPIGroup.KPIs[index].AdjustScore ? parseFloat(a.KPIGroup.KPIs[index].AdjustScore) : 0;
+                    var tempa = a.KPIGroup.KPIs[index].AdjustScore ? parseFloat(a.KPIGroup.KPIs[index].AdjustScore) : 0;
 
                     index = b.KPIGroup.KPIs.map(function (e) { return e.KPIId; }).indexOf(vm.kpiIdOriginal);
-                    tempb = b.KPIGroup.KPIs[index].AdjustScore ? parseFloat(b.KPIGroup.KPIs[index].AdjustScore) : 0;
+                    var tempb = b.KPIGroup.KPIs[index].AdjustScore ? parseFloat(b.KPIGroup.KPIs[index].AdjustScore) : 0;
 
                     return tempa - tempb;
                 });

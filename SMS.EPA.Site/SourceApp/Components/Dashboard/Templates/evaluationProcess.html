@@ -50,7 +50,7 @@
                     <label data-translate="Open"></label><span class="icon-process"></span>
                 </div>
             </li>
-            <li ng-show="epaInfo.Process.Reviewers.length > 0"
+            <li ng-if="epaInfo.Process.Reviewers.length > 0"
                 ng-class="dashboardCtrl.getClassProgress(epaInfo.Process.Reviewers[0].StatusEndProcess)" class="process-item">
                 <div>
                     <strong>{{"Reviewer" | translate}}:</strong>
@@ -76,7 +76,7 @@
                     <label data-translate="Open"></label><span class="icon-process"></span>
                 </div>
             </li>
-            <li ng-show="epaInfo.Process.Managements.length > 0"
+            <li ng-if="epaInfo.Process.Managements.length > 0"
                 ng-class="dashboardCtrl.getClassProgress(epaInfo.Process.Managements[0].StatusEndProcess)" class="process-item">
                 <div>
                     <strong>{{"Management" | translate}}:</strong>
@@ -102,7 +102,7 @@
                     <label data-translate="Open"></label><span class="icon-process"></span>
                 </div>
             </li>
-            <li ng-show="epaInfo.IsMonthly || epaInfo.Period.TargetTypeId == dashboardCtrl.targetTypeEnum.SemiAnnual" class="process-item final">
+            <li ng-if="epaInfo.IsMonthly || epaInfo.Period.TargetTypeId == dashboardCtrl.targetTypeEnum.SemiAnnual" class="process-item final">
                 <div><strong data-translate="FinalScore"></strong></div>
                 <div>
                     <span data-translate="EndPeriod"></span>: <span ng-bind="epaInfo.Period.EndDate | customDate"></span>

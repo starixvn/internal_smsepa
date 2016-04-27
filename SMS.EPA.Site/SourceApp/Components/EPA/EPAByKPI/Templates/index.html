@@ -5,7 +5,7 @@
             <form novalidate class="row filter form-horizontal" role="form">
                 <div class="form-group">
                     <div class="required">
-                        <label class="col-sm-1 control-label" data-translate="TargetTemplate"></label>
+                        <label class="col-sm-2 control-label" data-translate="TargetTemplate"></label>
                         <div class="col-sm-3">
                             <select class="form-control" ng-model="epaByKPICtrl.filter.targetTemplateId"
                                     ng-options="opt.TargetTemplateId as opt.Name for opt in epaByKPICtrl.targetTemplates"
@@ -14,7 +14,6 @@
                             </select>
                         </div>
                     </div>
-
                     <div class="required">
                         <label class="col-sm-1 control-label" data-translate="Evaluator"></label>
                         <div class="col-sm-2">
@@ -60,15 +59,26 @@
                         <thead>
                             <tr class="header-table">
                                 <th colspan="7">
-                                    <input type="text" ng-model="epaByKPICtrl.searchKey" ng-change="epaByKPICtrl.search()" class="search-inline-textbox search pull-right">
+                                    <div class="col-sm-12">
+                                        <label class="pull-left" ng-bind="epaByKPICtrl.kpiSelected.Name"></label>
+                                        <input type="text" ng-model="epaByKPICtrl.searchKey" ng-change="epaByKPICtrl.search()" class="search-inline-textbox search pull-right">
+                                    </div>
                                 </th>
                             </tr>
                             <tr>
                                 <th data-translate="SymbolCount"></th>
                                 <th data-translate="Section"></th>
                                 <th data-translate="NickName"></th>
-                                <th data-translate="EmployeeScore"></th>
-                                <th data-translate="EvaluatorScore"></th>
+                                <th>
+                                    {{"EmployeeScore" | translate}}
+                                    <input type="checkbox" ng-if="epaByKPICtrl.hasRatingByStar"
+                                           ng-model="epaByKPICtrl.onlyShowSelfScore" ng-attr-title='{{"Only show scores" | translate}}' />
+                                </th>
+                                <th>
+                                    {{"EvaluatorScore" | translate}}
+                                    <input type="checkbox" ng-if="epaByKPICtrl.hasRatingByStar"
+                                           ng-model="epaByKPICtrl.onlyShowEvaluatorScore" ng-attr-title='{{"Only show scores" | translate}}' />
+                                </th>
                                 <th data-translate="Comment"></th>
                                 <th data-translate="PerformanceScore" class="col-score"></th>
                             </tr>
@@ -82,12 +92,14 @@
                                 <td class="text-center">
                                     <span ng-bind="memberEPA.Employee.NickName" popover-avatar avatar-src="{{memberEPA.Employee.Avatar}}"></span>
                                 </td>
-                                <td class="col-score">
+                                <td class="col-score employee-score">
                                     <div class="row text-center list-star" ng-repeat="kpi in memberEPA.KPIGroup.KPIsBySelf" ng-if="kpi.KPIId == epaByKPICtrl.filter.kpiId">
                                         <div tooltip="{{kpi.Comment}}">
                                             <span>{{kpi.Score | splitScore}} pts</span>
-                                            <div class="score-star-rating" ng-if="memberEPA.RatingType.RatingTypeId == epaByKPICtrl.RatingType.Star
-                                                    || memberEPA.RatingType.RatingTypeId == epaByKPICtrl.RatingType.HalfStar">
+                                            <div class="score-star-rating" ng-show="!epaByKPICtrl.onlyShowSelfScore &&
+                                                (memberEPA.RatingType.RatingTypeId == epaByKPICtrl.RatingType.Star
+                                                    || memberEPA.RatingType.RatingTypeId == epaByKPICtrl.RatingType.HalfStar
+                                                    || (memberEPA.RatingType.RatingTypeId == epaByKPICtrl.RatingType.Score && memberEPA.KPIGroup.NumberKPIOptional > 0))">
                                                 / <span ng-show="kpi.Rate || kpi.Rate == 0" ng-bind="kpi.Rate | splitScore"></span>
                                                 <input type="number" class="rating-loading" ng-readonly="true" data-size="xs"
                                                        value="1" data-min="0" data-max="1" data-stars="1"
@@ -96,11 +108,13 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="col-score">
+                                <td class="col-score employee-score">
                                     <div class="row text-center list-star" ng-repeat="kpi in memberEPA.KPIGroup.KPIs" ng-if="kpi.KPIId == epaByKPICtrl.filter.kpiId">
                                         <span>{{kpi.Score | splitScore}} pts</span>
-                                        <div class="score-star-rating" ng-if="memberEPA.RatingType.RatingTypeId == epaByKPICtrl.RatingType.Star
-                                                || memberEPA.RatingType.RatingTypeId == epaByKPICtrl.RatingType.HalfStar">
+                                        <div class="score-star-rating" ng-show="!epaByKPICtrl.onlyShowEvaluatorScore &&
+                                            (memberEPA.RatingType.RatingTypeId == epaByKPICtrl.RatingType.Star
+                                                || memberEPA.RatingType.RatingTypeId == epaByKPICtrl.RatingType.HalfStar
+                                                || (memberEPA.RatingType.RatingTypeId == epaByKPICtrl.RatingType.Score && memberEPA.KPIGroup.NumberKPIOptional > 0))">
                                             / <span ng-show="kpi.Rate || kpi.Rate == 0" ng-bind="kpi.Rate | splitScore"></span>
                                             <input type="number" class="rating-loading" ng-readonly="true" data-size="xs"
                                                    value="1" data-min="0" data-max="1" data-stars="1"

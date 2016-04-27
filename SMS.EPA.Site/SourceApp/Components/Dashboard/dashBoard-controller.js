@@ -46,7 +46,6 @@ function (DashboardModel, CommonModel, utilitiesFactory, enumerationsFactory, ba
             vm.employee = dashboardInfo.Employee;
             vm.employee.Avatar = baseUrl + vm.employee.Avatar;
             vm.evaluationProcesses = [];
-            Array.prototype.push.apply(vm.evaluationProcesses, dashboardInfo.MyEPAs, dashboardInfo.MonthlyEPAs);
             vm.myEPAs = dashboardInfo.MyEPAs;
             vm.monthlyEPAs = dashboardInfo.MonthlyEPAs;
 
@@ -55,6 +54,7 @@ function (DashboardModel, CommonModel, utilitiesFactory, enumerationsFactory, ba
                     myEPA.FinalScore = utilitiesFactory.parseFloat(myEPA.FinalScore);
                 } else {
                     myEPA.FinalScore = null;
+                    vm.evaluationProcesses.push(myEPA);
                 }
             });
 
@@ -63,6 +63,7 @@ function (DashboardModel, CommonModel, utilitiesFactory, enumerationsFactory, ba
                     monthlyEPA.FinalScore = utilitiesFactory.parseFloat(monthlyEPA.FinalScore);
                 } else {
                     monthlyEPA.FinalScore = null;
+                    vm.evaluationProcesses.push(monthlyEPA);
                 }
             });
         });
