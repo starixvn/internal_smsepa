@@ -18,7 +18,8 @@
         private readonly ISupervisorService _supervisorService;
         private readonly IAttendanceService _attendanceService;
 
-        public SynchronizeService() : this(null, null, null, null, null, null, null) 
+        public SynchronizeService()
+            : this(null, null, null, null, null, null, null)
         {
         }
 

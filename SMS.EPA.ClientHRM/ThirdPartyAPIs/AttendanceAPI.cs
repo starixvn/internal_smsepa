@@ -18,13 +18,13 @@
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
 
                 var result = client.GetAsync(ApplicationConfig.ServiceAPI + "EmployeeDiscipline/GetMaxModifiedDate").Result;
-                if (result.StatusCode == HttpStatusCode.OK)
+                if (result.StatusCode != HttpStatusCode.OK)
                 {
-                    return result.Content.ReadAsAsync<DateTime>().Result;
+                    throw new Exception(result.RequestMessage.ToString());
                 }
-            }
 
-            return DateTime.MinValue;
+                return result.Content.ReadAsAsync<DateTime>().Result;
+            }
         }
 
         public DateTime GetFromDateAttendanceViolation(TokenAccess token)
@@ -34,13 +34,13 @@
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
 
                 var result = client.GetAsync(ApplicationConfig.ServiceAPI + "EmployeeDiscipline/GetFromDateAttendanceViolation").Result;
-                if (result.StatusCode == HttpStatusCode.OK)
+                if (result.StatusCode != HttpStatusCode.OK)
                 {
-                    return result.Content.ReadAsAsync<DateTime>().Result;
+                    throw new Exception(result.RequestMessage.ToString());
                 }
-            }
 
-            return DateTime.MinValue;
+                return result.Content.ReadAsAsync<DateTime>().Result;
+            }
         }
 
         public CommandResult Update(IEnumerable<AttendanceViolation> employees, TokenAccess token)

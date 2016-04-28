@@ -51,7 +51,10 @@
             }
             catch (Exception ex)
             {
-                LogService.Error(ex.Message);
+                var message = ex.Message + Environment.NewLine +
+                    "StackTrace: " + ex.StackTrace;
+
+                LogService.Error(message);
             }
         }
     }

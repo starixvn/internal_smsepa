@@ -17,13 +17,14 @@
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
 
                 var result = client.GetAsync(ApplicationConfig.ServiceAPI + "Team").Result;
-                if (result.StatusCode == HttpStatusCode.OK)
-                {
-                    return result.Content.ReadAsAsync<DateTime>().Result;
-                }
-            }
 
-            return DateTime.MinValue;
+                if (result.StatusCode != HttpStatusCode.OK)
+                {
+                    throw new Exception(result.RequestMessage.ToString());
+                }
+
+                return result.Content.ReadAsAsync<DateTime>().Result;
+            }
         }
 
         public CommandResult Update(IEnumerable<Team> teams, TokenAccess token)

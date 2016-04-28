@@ -11,7 +11,7 @@
 
         public override string GetSettingKey()
         {
-            return "EmployeeAttendanceViolation_Get";
+            return "EmployeeDiscipline_Get";
         }
     }
 }

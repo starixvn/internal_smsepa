@@ -10,7 +10,7 @@
     public class UpdateAttendanceViolationCriteria : CriteriaBase
     {
         private const string _VialationTpl =
-            "<Violation EmpId='{0}' WorkDate='{1}' ShiftName='{2} 'CheckIn='{3}' 'CheckOut='{4}' TotalHours='{5}'"
+            "<Violation EmpId='{0}' WorkDate='{1}' ShiftName='{2}' CheckIn='{3}' CheckOut='{4}' TotalHours='{5}'"
             + " LateIn='{6}' EarlyOut='{7}' Type='{8}' DisciplineScore='{9}'"
             + " EmployeeComment='{10}' ApproverComment='{11}' IsIgnored='{12}' ModifiedDate='{13}' IsDeleted='{14}'></Violation>";
 

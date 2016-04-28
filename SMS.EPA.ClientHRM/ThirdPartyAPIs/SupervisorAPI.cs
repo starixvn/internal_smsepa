@@ -17,13 +17,13 @@
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
 
                 var result = client.GetAsync(ApplicationConfig.ServiceAPI + "Permission/GetMaxModifiedDateForEmployeeDiscipline").Result;
-                if (result.StatusCode == HttpStatusCode.OK)
+                if (result.StatusCode != HttpStatusCode.OK)
                 {
-                    return result.Content.ReadAsAsync<DateTime>().Result;
+                    throw new Exception(result.RequestMessage.ToString());
                 }
-            }
 
-            return DateTime.MinValue;
+                return result.Content.ReadAsAsync<DateTime>().Result;
+            }
         }
 
         public CommandResult UpdateEmployees(IEnumerable<EmployeeSupervisor> employeeSupervisors, TokenAccess token)
@@ -45,13 +45,14 @@
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
 
                 var result = client.GetAsync(ApplicationConfig.ServiceAPI + "Permission/GetMaxModifiedDateForTeamDiscipline").Result;
-                if (result.StatusCode == HttpStatusCode.OK)
-                {
-                    return result.Content.ReadAsAsync<DateTime>().Result;
-                }
-            }
 
-            return DateTime.MinValue;
+                if (result.StatusCode != HttpStatusCode.OK)
+                {
+                    throw new Exception(result.RequestMessage.ToString());
+                }
+
+                return result.Content.ReadAsAsync<DateTime>().Result;
+            }
         }
 
         public CommandResult UpdateGroups(IEnumerable<GroupSupervisor> groupSupervisors, TokenAccess token)

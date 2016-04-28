@@ -13,9 +13,9 @@ namespace SMS.EPA.ServicesAPI.Model
 
         public string ShiftName { get; set; }
 
-        public DateTime CheckIn { get; set; }
+        public DateTime? CheckIn { get; set; }
 
-        public DateTime CheckOut { get; set; }
+        public DateTime? CheckOut { get; set; }
 
         public float TotalHours { get; set; }
 

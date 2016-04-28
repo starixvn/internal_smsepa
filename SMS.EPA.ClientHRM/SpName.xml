@@ -12,16 +12,22 @@
     <Setting Key="LeaveType_Get" SpName="LeaveType_Get" DbName="nexhr" Plain="0" >
     </Setting>
     <Setting Key="JobTitle_Get" SpName="JobTitle_Get" DbName="nexhr" Plain="0" >
+      <Mapping DataField="Id" ObjectProperty="JobTitleId" />
     </Setting>
     <Setting Key="EmployeeCalendar_Get" SpName="EmployeeCalendar_Get" DbName="nexhr" Plain="0" >
     </Setting>
     <Setting Key="EmployeeAttendance_Get" SpName="EmployeeAttendance_Get" DbName="nexhr" Plain="0" >
     </Setting>
-    <Setting Key="EmployeeAttendanceViolation_Get" SpName="EmployeeAttendanceViolation_Get" DbName="nexhr" Plain="0" >
+    <Setting Key="EmployeeDiscipline_Get" SpName="EmployeeDiscipline_Get" DbName="nexhr" Plain="0" >
+      <Mapping DataField="EmpId" ObjectProperty="EmployeeId" />
+      <Mapping DataField="DisciplineType" ObjectProperty="Type" />
+      <Mapping DataField="TotalWorkHours" ObjectProperty="TotalHours" />
     </Setting>
     <Setting Key="EmployeeSupervisor_GetForSync" SpName="EmployeeSupervisor_GetForSync" DbName="nexhr" Plain="0" >
+      <Mapping DataField="EmpId" ObjectProperty="EmployeeId" />
     </Setting>
     <Setting Key="GroupSupervisor_GetForSync" SpName="GroupSupervisor_GetForSync" DbName="nexhr" Plain="0" >
+      <Mapping DataField="GroupId" ObjectProperty="TeamId" />
     </Setting>
     <Setting Key="WorkingTimeRequest_Get" SpName="WorkingTimeRequest_Get" DbName="nexhr" Plain="0" >
     </Setting>

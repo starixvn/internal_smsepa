@@ -31,9 +31,9 @@
                 LastModifiedDate = lastModifiedDate
             };
 
-            IEnumerable<AttendanceViolation> departments = _dynamicRepository.Fetch<AttendanceViolation>(criteria);
+            IEnumerable<AttendanceViolation> violations = _dynamicRepository.Fetch<AttendanceViolation>(criteria);
 
-            return departments;
+            return violations;
         }
 
         public DateTime GetMaxModifiedDate(TokenAccess token)
