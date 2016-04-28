@@ -63,9 +63,27 @@
                     <th data-translate="Section"></th>
                     <th data-translate="NickName"></th>
                     <th data-translate="JobTitle"></th>
-                    <th data-translate="SelfScore"></th>
-                    <th data-translate="EvaluatorScore"></th>
-                    <th data-translate="ReviewerScore"></th>
+                    <th class="sorting">
+                        <div class="col-sm-9 lab" data-translate="SelfScore"></div>
+                        <div class="col-sm-3 icon" ng-show="managementCtrl.memberEPAs.length > 1">
+                            <a class="icon-sorting-bg" ng-class="managementCtrl.selectedCls('SelfScore')"
+                               ng-click="managementCtrl.changeSorting('SelfScore')"></a>
+                        </div>
+                    </th>
+                    <th class="sorting">
+                        <div class="col-sm-9 lab" data-translate="EvaluatorScore"></div>
+                        <div class="col-sm-3 icon" ng-show="managementCtrl.memberEPAs.length > 1">
+                            <a class="icon-sorting-bg" ng-class="managementCtrl.selectedCls('EvaluatorScore')"
+                               ng-click="managementCtrl.changeSorting('EvaluatorScore')"></a>
+                        </div>
+                    </th>
+                    <th class="sorting">
+                        <div class="col-sm-9 lab" data-translate="ReviewerScore"></div>
+                        <div class="col-sm-3 icon" ng-show="managementCtrl.memberEPAs.length > 1">
+                            <a class="icon-sorting-bg" ng-class="managementCtrl.selectedCls('ReviewerScore')"
+                               ng-click="managementCtrl.changeSorting('ReviewerScore')"></a>
+                        </div>
+                    </th>
                     <th data-translate="AdjustScore"></th>
                     <th data-translate="Comment"></th>
                     <th data-translate="SystemDisciplineScore"></th>

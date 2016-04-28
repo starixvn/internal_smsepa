@@ -224,6 +224,8 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
     vm.query = function () {
         vm.targetTemplateIdOriginal = angular.copy(vm.filter.targetTemplateId);
         vm.kpiIdOriginal = angular.copy(vm.filter.kpiId);
+        vm.orderByCurrentScore = { ascending: false, descending: false };
+        vm.orderByAdjustScore = { ascending: false, descending: false };
 
         if (RatingByKPIModel.validateFieldFilter(vm.filter)) {
             RatingByKPIModel.getEmployeeEPAByKPI(vm.filter.targetTemplateId, vm.filter.kpiId, vm.filter.groupId, null).then(function () {
@@ -267,66 +269,78 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
         }
     };
 
-    vm.changeSorting = function (column) {
-        if (column === 'CurrentScore') {
-            if (!vm.orderByCurrentScore.ascending) {
-                vm.orderByCurrentScore.ascending = true;
-                vm.orderByCurrentScore.descending = false;
+    function sortByCurrentScore(epaInfo1, epaInfo2) {
+        var index;
 
-                vm.memberEPAs.sort(function (a, b) {
-                    var index;
+        index = epaInfo1.KPIGroup.KPIs.map(function (e) { return e.KPIId; }).indexOf(vm.kpiIdOriginal);
+        var tempa = epaInfo1.KPIGroup.KPIs[index].Score ? parseFloat(epaInfo1.KPIGroup.KPIs[index].Score) : 0;
 
-                    index = a.KPIGroup.KPIs.map(function (e) { return e.KPIId; }).indexOf(vm.kpiIdOriginal);
-                    var tempa = a.KPIGroup.KPIs[index].Score ? parseFloat(a.KPIGroup.KPIs[index].Score) : 0;
+        index = epaInfo2.KPIGroup.KPIs.map(function (e) { return e.KPIId; }).indexOf(vm.kpiIdOriginal);
+        var tempb = epaInfo2.KPIGroup.KPIs[index].Score ? parseFloat(epaInfo2.KPIGroup.KPIs[index].Score) : 0;
 
-                    index = b.KPIGroup.KPIs.map(function (e) { return e.KPIId; }).indexOf(vm.kpiIdOriginal);
-                    var tempb = b.KPIGroup.KPIs[index].Score ? parseFloat(b.KPIGroup.KPIs[index].Score) : 0;
+        return tempa - tempb;
+    }
 
-                    return tempa - tempb;
-                });
-            } else {
-                vm.orderByCurrentScore.ascending = false;
-                vm.orderByCurrentScore.descending = true;
-                vm.memberEPAs.reverse();
-            }
-        } else {
-            if (!vm.orderByAdjustScore.ascending) {
-                vm.orderByAdjustScore.ascending = true;
-                vm.orderByAdjustScore.descending = false;
+    function sortByAdjustScore(epaInfo1, epaInfo2) {
+        var index;
 
-                vm.memberEPAs.sort(function (a, b) {
-                    var index;
+        index = epaInfo1.KPIGroup.KPIs.map(function (e) { return e.KPIId; }).indexOf(vm.kpiIdOriginal);
+        var tempa = epaInfo1.KPIGroup.KPIs[index].AdjustScore ? parseFloat(epaInfo1.KPIGroup.KPIs[index].AdjustScore) : 0;
 
-                    index = a.KPIGroup.KPIs.map(function (e) { return e.KPIId; }).indexOf(vm.kpiIdOriginal);
-                    var tempa = a.KPIGroup.KPIs[index].AdjustScore ? parseFloat(a.KPIGroup.KPIs[index].AdjustScore) : 0;
+        index = epaInfo2.KPIGroup.KPIs.map(function (e) { return e.KPIId; }).indexOf(vm.kpiIdOriginal);
+        var tempb = epaInfo2.KPIGroup.KPIs[index].AdjustScore ? parseFloat(epaInfo2.KPIGroup.KPIs[index].AdjustScore) : 0;
 
-                    index = b.KPIGroup.KPIs.map(function (e) { return e.KPIId; }).indexOf(vm.kpiIdOriginal);
-                    var tempb = b.KPIGroup.KPIs[index].AdjustScore ? parseFloat(b.KPIGroup.KPIs[index].AdjustScore) : 0;
+        return tempa - tempb;
+    }
 
-                    return tempa - tempb;
-                });
-            } else {
-                vm.orderByAdjustScore.ascending = false;
-                vm.orderByAdjustScore.descending = true;
-                vm.memberEPAs.reverse();
-            }
+    vm.changeSorting = function (field) {
+        switch (field) {
+            case 'CurrentScore':
+                if (!vm.orderByCurrentScore.ascending) {
+                    vm.orderByCurrentScore.ascending = true;
+                    vm.orderByCurrentScore.descending = false;
+                    vm.memberEPAs.sort(sortByCurrentScore);
+                } else {
+                    vm.orderByCurrentScore.ascending = false;
+                    vm.orderByCurrentScore.descending = true;
+                    vm.memberEPAs.reverse();
+                }
+                break;
+            case 'AdjustScore':
+                if (!vm.orderByAdjustScore.ascending) {
+                    vm.orderByAdjustScore.ascending = true;
+                    vm.orderByAdjustScore.descending = false;
+                    vm.memberEPAs.sort(sortByAdjustScore);
+                } else {
+                    vm.orderByAdjustScore.ascending = false;
+                    vm.orderByAdjustScore.descending = true;
+                    vm.memberEPAs.reverse();
+                }
+                break;
         }
     };
 
-    vm.selectedCls = function (column) {
-        if (column === 'CurrentScore') {
-            if (vm.orderByCurrentScore.ascending) {
-                return 'sorting-asc';
-            } else if (vm.orderByCurrentScore.descending) {
-                return 'sorting-desc';
-            }
-        } else {
-            if (vm.orderByAdjustScore.ascending) {
-                return 'sorting-asc';
-            } else if (vm.orderByAdjustScore.descending) {
-                return 'sorting-desc';
-            }
+    vm.selectedCls = function (field) {
+        var cssClass = '';
+
+        switch (field) {
+            case 'CurrentScore':
+                if (vm.orderByCurrentScore.ascending) {
+                    cssClass = 'sorting-asc';
+                } else if (vm.orderByCurrentScore.descending) {
+                    cssClass = 'sorting-desc';
+                }
+                break;
+            case 'AdjustScore':
+                if (vm.orderByAdjustScore.ascending) {
+                    cssClass = 'sorting-asc';
+                } else if (vm.orderByAdjustScore.descending) {
+                    cssClass = 'sorting-desc';
+                }
+                break;
         }
+
+        return cssClass;
     };
 
     vm.viewDetail = function (memberEPA) {

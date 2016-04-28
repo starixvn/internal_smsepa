@@ -30,7 +30,10 @@
                                               helper-elements="all reset filter" item-label="NickName" tick-property="ticked" max-labels="0">
                     </add-class-to-role-filter>
                 </div>
-                <div class="col-sm-1">
+            </div>
+            <div class="form-group">
+                <div class="col-sm-1">&nbsp;</div>
+                <div class="col-sm-2">
                     <label>
                         <input type="checkbox" ng-model="reviewerCtrl.filter.isMonthly" ng-change="reviewerCtrl.getMember()">{{"IsMonthly" | translate}}
                     </label>
@@ -63,8 +66,20 @@
                     <th data-translate="Section"></th>
                     <th data-translate="NickName"></th>
                     <th data-translate="JobTitle"></th>
-                    <th data-translate="SelfScore"></th>
-                    <th data-translate="EvaluatorScore"></th>
+                    <th class="sorting">
+                        <div class="col-sm-9 lab" data-translate="SelfScore"></div>
+                        <div class="col-sm-3 icon" ng-show="reviewerCtrl.memberEPAs.length > 1">
+                            <a class="icon-sorting-bg" ng-class="reviewerCtrl.selectedCls('SelfScore')"
+                               ng-click="reviewerCtrl.changeSorting('SelfScore')"></a>
+                        </div>
+                    </th>
+                    <th class="sorting">
+                        <div class="col-sm-9 lab" data-translate="EvaluatorScore"></div>
+                        <div class="col-sm-3 icon" ng-show="reviewerCtrl.memberEPAs.length > 1">
+                            <a class="icon-sorting-bg" ng-class="reviewerCtrl.selectedCls('EvaluatorScore')"
+                               ng-click="reviewerCtrl.changeSorting('EvaluatorScore')"></a>
+                        </div>
+                    </th>
                     <th data-translate="AdjustScore"></th>
                     <th data-translate="Comment"></th>
                     <th data-translate="SystemDisciplineScore"></th>

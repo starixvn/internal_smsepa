@@ -10,7 +10,7 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, en
     vm.members = [];
     vm.standardGrades = CommonModel.standardGrades;
     vm.targetTypeEnum = enumerationsFactory.targetType;
-
+    vm.sortBySelfScore = { ascending: false, descending: false };
     vm.filter = {};
 
     function initFilter() {
@@ -23,6 +23,25 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, en
         };
     }
 
+    function sortBySelfScore(epaInfo1, epaInfo2) {
+        var tempa = epaInfo1.Process.Self.TotalScore ? parseFloat(epaInfo1.Process.Self.TotalScore) : 0,
+            tempb = epaInfo2.Process.Self.TotalScore ? parseFloat(epaInfo2.Process.Self.TotalScore) : 0;
+
+        return tempa - tempb;
+    }
+
+    vm.changeSorting = function () {
+        if (!vm.sortBySelfScore.ascending) {
+            vm.sortBySelfScore.ascending = true;
+            vm.sortBySelfScore.descending = false;
+            vm.memberEPAs.sort(sortBySelfScore);
+        } else {
+            vm.sortBySelfScore.ascending = false;
+            vm.sortBySelfScore.descending = true;
+            vm.memberEPAs.reverse();
+        }
+    };
+
     vm.getMember = function () {
         SelfEvalutorModel.getMemberByEvaluator(vm.filter.groupId, vm.filter.isLocal, vm.filter.isMonthly).then(function () {
             vm.members = SelfEvalutorModel.members;
@@ -30,7 +49,17 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, en
         });
     };
 
+    vm.selectedCls = function () {
+        if (vm.sortBySelfScore.ascending) {
+            return 'sorting-asc';
+        } else if (vm.sortBySelfScore.descending) {
+            return 'sorting-desc';
+        }
+    };
+
     function getEPAByEvaluator(groupId, isLocal, isMonthly, employeeIds) {
+        vm.sortBySelfScore = { ascending: false, descending: false };
+
         SelfEvalutorModel.getEPAByEvaluator(groupId, isLocal, isMonthly, employeeIds).then(function () {
             vm.memberEPAs = SelfEvalutorModel.memberEPAs;
 

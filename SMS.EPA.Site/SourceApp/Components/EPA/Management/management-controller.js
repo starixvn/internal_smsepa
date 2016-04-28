@@ -29,6 +29,127 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
         };
     }
 
+    function resetSorting() {
+        vm.sortBy = {
+            selfScore: {
+                ascending: false, descending: false
+            },
+            evaluatorScore: {
+                ascending: false, descending: false
+            },
+            reviewerScore: {
+                ascending: false, descending: false
+            }
+        };
+    }
+
+    function sortBySelfScore(epaInfo1, epaInfo2) {
+        var tempa = epaInfo1.Process.Self.TotalScore ? parseFloat(epaInfo1.Process.Self.TotalScore) : 0,
+            tempb = epaInfo2.Process.Self.TotalScore ? parseFloat(epaInfo2.Process.Self.TotalScore) : 0;
+
+        return tempa - tempb;
+    }
+
+    function sortByEvaluatorScore(epaInfo1, epaInfo2) {
+        return epaInfo1.Process.AverageScoreByEvaluators - epaInfo2.Process.AverageScoreByEvaluators;
+    }
+
+    function sortByReviewerScore(epaInfo1, epaInfo2) {
+        return epaInfo1.Process.AverageScoreByReviewers - epaInfo2.Process.AverageScoreByReviewers;
+    }
+
+    vm.selectedCls = function (field) {
+        var cssClass = '';
+
+        switch (field) {
+            case 'SelfScore':
+                if (vm.sortBy.selfScore.ascending) {
+                    cssClass = 'sorting-asc';
+                } else if (vm.sortBy.selfScore.descending) {
+                    cssClass = 'sorting-desc';
+                }
+                break;
+            case 'EvaluatorScore':
+                if (vm.sortBy.evaluatorScore.ascending) {
+                    cssClass = 'sorting-asc';
+                } else if (vm.sortBy.evaluatorScore.descending) {
+                    cssClass = 'sorting-desc';
+                }
+                break;
+            case 'ReviewerScore':
+                if (vm.sortBy.reviewerScore.ascending) {
+                    cssClass = 'sorting-asc';
+                } else if (vm.sortBy.reviewerScore.descending) {
+                    cssClass = 'sorting-desc';
+                }
+                break;
+        }
+
+        return cssClass;
+    };
+
+    vm.changeSorting = function (field) {
+        switch (field) {
+            case 'SelfScore':
+                vm.sortBy.evaluatorScore = {
+                    ascending: false,
+                    descending: false
+                };
+                vm.sortBy.reviewerScore = {
+                    ascending: false,
+                    descending: false
+                };
+                if (!vm.sortBy.selfScore.ascending) {
+                    vm.sortBy.selfScore.ascending = true;
+                    vm.sortBy.selfScore.descending = false;
+                    vm.memberEPAs.sort(sortBySelfScore);
+                } else {
+                    vm.sortBy.selfScore.ascending = false;
+                    vm.sortBy.selfScore.descending = true;
+                    vm.memberEPAs.reverse();
+                }
+                break;
+            case 'EvaluatorScore':
+                vm.sortBy.selfScore = {
+                    ascending: false,
+                    descending: false
+                };
+                vm.sortBy.reviewerScore = {
+                    ascending: false,
+                    descending: false
+                };
+                if (!vm.sortBy.evaluatorScore.ascending) {
+                    vm.sortBy.evaluatorScore.ascending = true;
+                    vm.sortBy.evaluatorScore.descending = false;
+                    vm.memberEPAs.sort(sortByEvaluatorScore);
+                } else {
+                    vm.sortBy.evaluatorScore.ascending = false;
+                    vm.sortBy.evaluatorScore.descending = true;
+                    vm.memberEPAs.reverse();
+                }
+                break;
+            case 'ReviewerScore':
+                vm.sortBy.selfScore = {
+                    ascending: false,
+                    descending: false
+                };
+                vm.sortBy.evaluatorScore = {
+                    ascending: false,
+                    descending: false
+                };
+                if (!vm.sortBy.reviewerScore.ascending) {
+                    vm.sortBy.reviewerScore.ascending = true;
+                    vm.sortBy.reviewerScore.descending = false;
+                    vm.memberEPAs.sort(sortByReviewerScore);
+                } else {
+                    vm.sortBy.reviewerScore.ascending = false;
+                    vm.sortBy.reviewerScore.descending = true;
+                    vm.memberEPAs.reverse();
+                }
+                break;
+        }
+    };
+
     vm.getMember = function (groupId, isLocal) {
         ReviewerManagementModel.getMemberByManagement(groupId, isLocal).then(function () {
             vm.members = ReviewerManagementModel.members;
@@ -140,6 +261,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 
     function getEPAByManagement(groupId, isLocal, employeeIds, selectedEmployees) {
         vm.isEndProcessAll = false;
+        resetSorting();
 
         ReviewerManagementModel.getEPAByManagement(groupId, isLocal, employeeIds)
         .then(function () {
@@ -194,8 +316,8 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     };
 
     function initialize() {
-
         vm.filter = initFilter();
+        resetSorting();
 
         $translate('ScoreInputValid').then(function (message) {
             vm.scoreInputValidMessage = message;

@@ -12,7 +12,6 @@ namespace SMS.EPA.Site.Controllers.API
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Http;
-    using SMS.EPA.Core.Constants;
     using SMS.EPA.Criteria.Department;
     using SMS.EPA.Criteria.Employee;
     using SMS.EPA.Criteria.EmployeeEPA;
@@ -185,11 +184,11 @@ namespace SMS.EPA.Site.Controllers.API
                 IsActive = isActive
             };
 
-            List<DepartmentModel> departments = _departmentService.GetDepartment(getDepartmentCriteria);
-            if (departments != null)
+            IList<DepartmentModel> departments = _departmentService.GetDepartment(getDepartmentCriteria);
+            if (departments != null && departments.Any())
             {
                 treeList = new DepartmentModel();
-                treeList.Childrens.Add(departments.FirstOrDefault(x => x.ParentId == null && x.DepartmentId == Constants.DepartmentRoot));
+                treeList.Childrens.Add(departments.Where(x => x.ParentId == null).SingleOrDefault());
             }
 
             var departmentInfo = new DepartmentInfoModel

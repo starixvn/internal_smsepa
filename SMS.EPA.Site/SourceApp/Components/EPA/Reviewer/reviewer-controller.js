@@ -15,7 +15,6 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     vm.selectedAll = false;
     vm.averageScore = 0;
     vm.isEndProcessAll = false;
-
     vm.policyEnum = enumerationsFactory.policy;
     vm.targetTypeEnum = enumerationsFactory.targetType;
 
@@ -33,10 +32,90 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     }
 
     vm.getMember = function () {
-        ReviewerManagementModel.getMemberByReviewer(vm.filter.groupId, vm.filter.isLocal,vm.filter.isMonthly).then(function () {
+        ReviewerManagementModel.getMemberByReviewer(vm.filter.groupId, vm.filter.isLocal, vm.filter.isMonthly).then(function () {
             vm.members = ReviewerManagementModel.members;
             utilitiesFactory.setSelectedItem(vm.members, "EmployeeId", vm.filter.employeeIds);
         });
+    };
+
+    vm.selectedCls = function (field) {
+        var cssClass = '';
+
+        switch (field) {
+            case 'SelfScore':
+                if (vm.sortBy.selfScore.ascending) {
+                    cssClass = 'sorting-asc';
+                } else if (vm.sortBy.selfScore.descending) {
+                    cssClass = 'sorting-desc';
+                }
+                break;
+            case 'EvaluatorScore':
+                if (vm.sortBy.evaluatorScore.ascending) {
+                    cssClass = 'sorting-asc';
+                } else if (vm.sortBy.evaluatorScore.descending) {
+                    cssClass = 'sorting-desc';
+                }
+                break;
+        }
+
+        return cssClass;
+    };
+
+    function resetSorting() {
+        vm.sortBy = {
+            selfScore: {
+                ascending: false, descending: false
+            },
+            evaluatorScore: {
+                ascending: false, descending: false
+            }
+        };
+    }
+
+    function sortBySelfScore(epaInfo1, epaInfo2) {
+        var tempa = epaInfo1.Process.Self.TotalScore ? parseFloat(epaInfo1.Process.Self.TotalScore) : 0,
+            tempb = epaInfo2.Process.Self.TotalScore ? parseFloat(epaInfo2.Process.Self.TotalScore) : 0;
+
+        return tempa - tempb;
+    }
+
+    function sortByEvaluatorScore(epaInfo1, epaInfo2) {
+        return epaInfo1.Process.AverageScoreByEvaluators - epaInfo2.Process.AverageScoreByEvaluators;
+    }
+
+    vm.changeSorting = function (field) {
+        switch (field) {
+            case 'SelfScore':
+                vm.sortBy.evaluatorScore = {
+                    ascending: false,
+                    descending: false
+                };
+                if (!vm.sortBy.selfScore.ascending) {
+                    vm.sortBy.selfScore.ascending = true;
+                    vm.sortBy.selfScore.descending = false;
+                    vm.memberEPAs.sort(sortBySelfScore);
+                } else {
+                    vm.sortBy.selfScore.ascending = false;
+                    vm.sortBy.selfScore.descending = true;
+                    vm.memberEPAs.reverse();
+                }
+                break;
+            case 'EvaluatorScore':
+                vm.sortBy.selfScore = {
+                    ascending: false,
+                    descending: false
+                };
+                if (!vm.sortBy.evaluatorScore.ascending) {
+                    vm.sortBy.evaluatorScore.ascending = true;
+                    vm.sortBy.evaluatorScore.descending = false;
+                    vm.memberEPAs.sort(sortByEvaluatorScore);
+                } else {
+                    vm.sortBy.evaluatorScore.ascending = false;
+                    vm.sortBy.evaluatorScore.descending = true;
+                    vm.memberEPAs.reverse();
+                }
+                break;
+        }
     };
 
     vm.viewEPADetail = function (memberEPA) {
@@ -144,6 +223,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 
     function getEPAByReviewer(groupId, isLocal, isMonthly, employeeIds, selectedEmployees) {
         vm.isEndProcessAll = false;
+        resetSorting();
 
         ReviewerManagementModel.getEPAByReviewer(groupId, isLocal, isMonthly, employeeIds).then(function () {
             vm.memberEPAs = ReviewerManagementModel.memberEPAs;
@@ -190,7 +270,6 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
         });
 
         historyFactory.saveState(vm.filter);
-
     }
 
     vm.query = function (filter) {
@@ -200,6 +279,8 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 
     function initialize() {
         vm.filter = initFilter();
+        resetSorting();
+
         $translate('ScoreInputValid').then(function (message) {
             vm.scoreInputValidMessage = message;
         });
