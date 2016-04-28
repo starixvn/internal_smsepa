@@ -1,11 +1,9 @@
-﻿using SMS.EPA.ClientHRM.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace SMS.EPA.ClientHRM.ThirdPartyAPIs
+﻿namespace SMS.EPA.ClientHRM.ThirdPartyAPIs
 {
+    using SMS.EPA.ClientHRM.Model;
+    using System;
+    using System.Collections.Generic;
+
     public interface ITeamAPI
     {
         DateTime GetMaxModifiedDate(TokenAccess token);

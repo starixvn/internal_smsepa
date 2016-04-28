@@ -1,11 +1,11 @@
-﻿using SMS.EPA.ClientHRM.Model;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Formatting;
-
-namespace SMS.EPA.ClientHRM.ThirdPartyAPIs
+﻿namespace SMS.EPA.ClientHRM.ThirdPartyAPIs
 {
+    using SMS.EPA.ClientHRM.Model;
+    using System.Collections.Generic;
+    using System.Net;
+    using System.Net.Http;
+    using System.Net.Http.Formatting;
+
     public class TokenAPI : ITokenAPI
     {
         public TokenAccess Request(ApplicationInfo info)

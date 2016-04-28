@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace SMS.EPA.ClientHRM.Model
+﻿namespace SMS.EPA.ClientHRM.Model
 {
+    using System;
+
     public class GroupSupervisor
     {
         public int TeamId { get; set; }

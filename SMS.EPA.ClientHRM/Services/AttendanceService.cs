@@ -1,13 +1,13 @@
-﻿using Fanex.Data.Repository;
-using SMS.EPA.ClientHRM.Criteria;
-using SMS.EPA.ClientHRM.Model;
-using SMS.EPA.ClientHRM.ThirdPartyAPIs;
-using SMS.EPA.ServicesAPI.Model;
-using System;
-using System.Collections.Generic;
-
-namespace SMS.EPA.ClientHRM.Services
+﻿namespace SMS.EPA.ClientHRM.Services
 {
+    using Fanex.Data.Repository;
+    using SMS.EPA.ClientHRM.Criteria;
+    using SMS.EPA.ClientHRM.Model;
+    using SMS.EPA.ClientHRM.ThirdPartyAPIs;
+    using SMS.EPA.ServicesAPI.Model;
+    using System;
+    using System.Collections.Generic;
+
     public class AttendanceService : IAttendanceService
     {
         private readonly IDynamicRepository _dynamicRepository;

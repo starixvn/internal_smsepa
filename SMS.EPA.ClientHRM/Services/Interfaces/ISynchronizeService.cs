@@ -2,6 +2,6 @@
 {
     public interface ISynchronizeService
     {
-        void SynchronizeAll();
+        void Synchronize();
     }
 }

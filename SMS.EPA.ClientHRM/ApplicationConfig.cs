@@ -1,18 +1,10 @@
-﻿using SMS.EPA.ClientHRM.Model;
-using System.Configuration;
-
-namespace SMS.EPA.ClientHRM
+﻿namespace SMS.EPA.ClientHRM
 {
+    using SMS.EPA.ClientHRM.Model;
+    using System.Configuration;
+
     public static class ApplicationConfig
     {
-        public static string WindowServiceName
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["WindowServiceName"];
-            }
-        }
-
         public static double Interval
         {
             get

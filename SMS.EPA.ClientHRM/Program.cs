@@ -1,13 +1,13 @@
-﻿using Fanex.Data.Configuration;
-using System;
-using System.Net;
-using System.Net.Security;
-using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
-using System.ServiceProcess;
-
-namespace SMS.EPA.ClientHRM
+﻿namespace SMS.EPA.ClientHRM
 {
+    using Fanex.Data.Configuration;
+    using System;
+    using System.Net;
+    using System.Net.Security;
+    using System.Reflection;
+    using System.Security.Cryptography.X509Certificates;
+    using System.ServiceProcess;
+
     public class Program
     {
         public static void Main(string[] args)

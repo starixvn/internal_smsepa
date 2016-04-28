@@ -1,11 +1,9 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace SMS.EPA.ClientHRM.Model
+﻿namespace SMS.EPA.ClientHRM.Model
 {
+    using Newtonsoft.Json;
+    using System;
+    using System.Globalization;
+
     public class TokenAccess
     {
         public TokenAccess()
@@ -24,9 +22,31 @@ namespace SMS.EPA.ClientHRM.Model
         [JsonProperty("expires_in")]
         public int ExpiresIn { get; set; }
 
+        [JsonProperty(".issued")]
+        public string Issued { get; set; }
+
+        [JsonProperty(".expires")]
+        public string Expires { get; set; }
+
+        public DateTime GeneratedDate
+        {
+            get
+            {
+                return DateTime.ParseExact(Issued, "ddd, dd MMM yyyy HH:mm:ss 'GMT'", CultureInfo.InvariantCulture);
+            }
+        }
+
+        public DateTime ExpireDate
+        {
+            get
+            {
+                return DateTime.ParseExact(Expires, "ddd, dd MMM yyyy HH:mm:ss 'GMT'", CultureInfo.InvariantCulture);
+            }
+        }
+
         public bool IsValid()
         {
-            return ExpiresIn > 0 && !string.IsNullOrEmpty(Value);
+            return !string.IsNullOrEmpty(Value) && ExpireDate > DateTime.UtcNow;
         }
     }
 }

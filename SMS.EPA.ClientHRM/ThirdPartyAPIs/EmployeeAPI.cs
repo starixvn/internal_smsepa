@@ -1,13 +1,13 @@
-﻿using SMS.EPA.ClientHRM.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-
-namespace SMS.EPA.ClientHRM.ThirdPartyAPIs
+﻿namespace SMS.EPA.ClientHRM.ThirdPartyAPIs
 {
+    using SMS.EPA.ClientHRM.Model;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Net.Http.Headers;
+
     public class EmployeeAPI : IEmployeeAPI
     {
         public DateTime GetMaxModifiedDate(TokenAccess token)

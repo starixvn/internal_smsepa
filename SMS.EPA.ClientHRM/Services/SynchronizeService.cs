@@ -1,11 +1,11 @@
-﻿using SMS.EPA.ClientHRM.Model;
-using SMS.EPA.ServicesAPI.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace SMS.EPA.ClientHRM.Services
+﻿namespace SMS.EPA.ClientHRM.Services
 {
+    using SMS.EPA.ClientHRM.Model;
+    using SMS.EPA.ServicesAPI.Model;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class SynchronizeService : ISynchronizeService
     {
         private static TokenAccess _token;
@@ -41,7 +41,7 @@ namespace SMS.EPA.ClientHRM.Services
             _attendanceService = attendanceService ?? new AttendanceService();
         }
 
-        public void SynchronizeAll()
+        public void Synchronize()
         {
             SynchronizeDepartment();
             SynchronizeTeam();

@@ -1,8 +1,8 @@
-﻿using SMS.EPA.ClientHRM.Model;
-using SMS.EPA.ClientHRM.ThirdPartyAPIs;
-
-namespace SMS.EPA.ClientHRM.Services
+﻿namespace SMS.EPA.ClientHRM.Services
 {
+    using SMS.EPA.ClientHRM.Model;
+    using SMS.EPA.ClientHRM.ThirdPartyAPIs;
+
     public class TokenService : ITokenService
     {
         private readonly ITokenAPI _tokenAPI;

@@ -1,17 +1,12 @@
-﻿using Fanex.Logging;
-using SMS.EPA.ClientHRM.Services;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Configuration.Install;
-using System.Linq;
-using System.ServiceProcess;
-using System.Threading.Tasks;
-using System.Timers;
-
-namespace SMS.EPA.ClientHRM
+﻿namespace SMS.EPA.ClientHRM
 {
+    using Fanex.Logging;
+    using SMS.EPA.ClientHRM.Services;
+    using System;
+    using System.ComponentModel;
+    using System.ServiceProcess;
+    using System.Timers;
+
     [RunInstaller(true)]
     public partial class WinService : ServiceBase
     {
@@ -49,14 +44,13 @@ namespace SMS.EPA.ClientHRM
                 {
                     _isWorking = false;
 
-                    _service.SynchronizeAll();
+                    _service.Synchronize();
 
                     _isWorking = true;
                 }
             }
             catch (Exception ex)
             {
-                _isWorking = false;
                 LogService.Error(ex.Message);
             }
         }

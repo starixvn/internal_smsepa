@@ -1,13 +1,10 @@
-﻿using SMS.EPA.ClientHRM.Model;
-using SMS.EPA.ServicesAPI.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SMS.EPA.ClientHRM.Services
+﻿namespace SMS.EPA.ClientHRM.Services
 {
+    using SMS.EPA.ClientHRM.Model;
+    using SMS.EPA.ServicesAPI.Model;
+    using System;
+    using System.Collections.Generic;
+
     public interface IAttendanceService
     {
         IEnumerable<AttendanceViolation> GetViolation(DateTime fromDate, DateTime lastModifiedDate);

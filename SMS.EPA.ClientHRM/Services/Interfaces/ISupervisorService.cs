@@ -1,9 +1,9 @@
-﻿using SMS.EPA.ClientHRM.Model;
-using System;
-using System.Collections.Generic;
-
-namespace SMS.EPA.ClientHRM.Services
+﻿namespace SMS.EPA.ClientHRM.Services
 {
+    using SMS.EPA.ClientHRM.Model;
+    using System;
+    using System.Collections.Generic;
+
     public interface ISupervisorService
     {
         IEnumerable<EmployeeSupervisor> GetEmployees(DateTime fromDate);
