@@ -6,6 +6,7 @@
     using SMS.EPA.ServicesAPI.Services;
     using System;
     using System.Collections.Generic;
+    using System.Net;
     using System.Web.Http;
 
     [Authorize]
@@ -13,7 +14,8 @@
     {
         private readonly IServiceAPI _service;
 
-        public DepartmentController() : this(null) 
+        public DepartmentController()
+            : this(null)
         {
         }
 
@@ -31,8 +33,7 @@
             };
 
             CommandResult result = _service.Update(criteria);
-
-            return Ok(result);
+            return result.IsSuccessful ? StatusCode(HttpStatusCode.OK) : StatusCode(HttpStatusCode.NotModified);
         }
 
         public IHttpActionResult GetMaxModifiedDate()

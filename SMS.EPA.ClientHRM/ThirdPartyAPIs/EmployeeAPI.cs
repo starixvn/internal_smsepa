@@ -25,8 +25,6 @@
 
                 return result.Content.ReadAsAsync<DateTime>().Result;
             }
-
-            return DateTime.MaxValue;
         }
 
         public CommandResult Update(IEnumerable<Employee> employees, TokenAccess token)

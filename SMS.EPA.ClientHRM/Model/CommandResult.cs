@@ -8,18 +8,8 @@
             Message = string.Empty;
         }
 
-        public int Id { get; set; }
-
         public int Code { get; set; }
 
         public string Message { get; set; }
-
-        public bool IsSuccessful
-        {
-            get
-            {
-                return Code == 0;
-            }
-        }
     }
 }

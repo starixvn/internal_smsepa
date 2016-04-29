@@ -5,7 +5,7 @@
     using SMS.EPA.ServicesAPI.Model;
     using SMS.EPA.ServicesAPI.Services;
     using System;
-    using System.Collections.Generic;
+    using System.Net;
     using System.Web.Http;
 
     public class TeamController : ApiController
@@ -39,7 +39,7 @@
 
             CommandResult result = _teamService.Update(criteria);
 
-            return Ok(result);
+            return result.IsSuccessful ? StatusCode(HttpStatusCode.OK) : StatusCode(HttpStatusCode.NotModified);
         }
     }
 }

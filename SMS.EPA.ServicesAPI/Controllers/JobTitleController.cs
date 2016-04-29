@@ -4,7 +4,7 @@
     using SMS.EPA.ServicesAPI.Criteria.JobTitle;
     using SMS.EPA.ServicesAPI.Model;
     using SMS.EPA.ServicesAPI.Services;
-    using System.Collections.Generic;
+    using System.Net;
     using System.Web.Http;
 
     public class JobTitleController : ApiController
@@ -29,7 +29,7 @@
 
             CommandResult result = _jobTitleService.Update(criteria);
 
-            return Ok(result);
+            return result.IsSuccessful ? StatusCode(HttpStatusCode.OK) : StatusCode(HttpStatusCode.NotModified);
         }
     }
 }
