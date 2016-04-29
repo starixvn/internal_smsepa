@@ -39,7 +39,7 @@
              return Ok(fromDate);
          }
 
-         public IHttpActionResult Update([FromBody]EmployeeDiscipline[] employees)
+         public IHttpActionResult Update(EmployeeDiscipline[] employees)
          {
              var criteria = new UpdateAttendanceViolationCriteria()
              {

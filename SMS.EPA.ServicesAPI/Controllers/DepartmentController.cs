@@ -24,8 +24,7 @@
             _service = employeeService ?? new ServiceAPI();
         }
 
-        [HttpPost]
-        public IHttpActionResult Update([FromBody]Department[] departments)
+        public IHttpActionResult Update(Department[] departments)
         {
             var criteria = new UpdateDepartmentCriteria
             {

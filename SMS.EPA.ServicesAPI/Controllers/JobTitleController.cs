@@ -20,7 +20,7 @@
             _jobTitleService = jobTitleService ?? new ServiceAPI();
         }
 
-        public IHttpActionResult Update([FromBody]JobTitle[] titles)
+        public IHttpActionResult Update(JobTitle[] titles)
         {
             var criteria = new UpdateJobTitleCriteria()
             {

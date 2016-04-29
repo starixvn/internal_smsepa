@@ -30,7 +30,7 @@
             return Ok(fromDate);
         }
 
-        public IHttpActionResult Update([FromBody]Employee[] employees)
+        public IHttpActionResult Update(Employee[] employees)
         {
             var criteria = new UpdateEmployeeCriteria()
             {

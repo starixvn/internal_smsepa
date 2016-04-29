@@ -30,7 +30,7 @@
             return Ok(fromDate);
         }
 
-        public IHttpActionResult UpdateEmployeeDiscipline([FromBody]EmployeeDisciplinePermission[] disciplines)
+        public IHttpActionResult UpdateEmployeeDiscipline(EmployeeDisciplinePermission[] disciplines)
         {
             var criteria = new UpdateEmployeeDisciplineCriteria()
             {
@@ -51,7 +51,7 @@
             return Ok(fromDate);
         }
 
-        public IHttpActionResult UpdateTeamDiscipline([FromBody]TeamDisciplinePermission[] disciplines)
+        public IHttpActionResult UpdateTeamDiscipline(TeamDisciplinePermission[] disciplines)
         {
             var criteria = new UpdateTeamDisciplineCriteria()
             {

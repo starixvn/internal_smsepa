@@ -30,7 +30,7 @@
             return Ok(fromDate);
         }
 
-        public IHttpActionResult Update([FromBody]Team[] teams)
+        public IHttpActionResult Update(Team[] teams)
         {
             var criteria = new UpdateTeamCriteria()
             {
