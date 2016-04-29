@@ -32,10 +32,10 @@
 
         public int JobTitleId { get; set; }
 
-        public DateTime JoinedDate { get; set; }
+        public DateTime? JoinedDate { get; set; }
 
-        public DateTime ResignedDate { get; set; }
+        public DateTime? ResignedDate { get; set; }
 
-        public DateTime ModifiedDate { get; set; }
+        public DateTime? ModifiedDate { get; set; }
     }
 }

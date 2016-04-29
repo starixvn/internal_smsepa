@@ -2,6 +2,8 @@
 <Functions>
   <Function Name="Employee">
     <Setting Key="Employee_Get" SpName="Employee_Get" DbName="nexhr" Plain="0" >
+      <Mapping DataField="UserId" ObjectProperty="EmployeeId" />
+      <Mapping DataField="DomainName" ObjectProperty="DomainUsername" />
     </Setting>
     <Setting Key="EmployeeGroup_Get" SpName="EmployeeGroup_Get" DbName="nexhr" Plain="0" >
     </Setting>
