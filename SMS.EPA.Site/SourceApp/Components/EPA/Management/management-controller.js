@@ -361,10 +361,11 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, Reviewe
     vm.targetTypeEnum = enumerationsFactory.targetType;
     vm.statusEndProcessEnum = enumerationsFactory.statusEndProcess;
     vm.ratingTypeEnum = enumerationsFactory.ratingType;
-
     vm.dataSaved = false;
     vm.evaluatedDate = null;
     vm.finalScore = null;
+    vm.hasRatingByStar = false;
+    vm.showRatingScoreByStar = true;
 
     vm.generateRatingStar = function () {
         $timeout(function () {
@@ -428,12 +429,16 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, Reviewe
     function getEPAInfoByManagement() {
         ReviewerManagementModel.getEPAInfoByManagement(vm.epaId).then(function () {
             vm.epaInfo = ReviewerManagementModel.epaInfo;
-
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
 
-            if (vm.epaInfo.Process.Reviewers.length > 0
-                && vm.epaInfo.Process.Reviewers[0].IsEndProcess
-                && !vm.epaInfo.Process.CurrentProcess.TotalScore) {
+            if (vm.epaInfo.RatingType.RatingTypeId === vm.ratingTypeEnum.Star
+                    || vm.epaInfo.RatingType.RatingTypeId === vm.ratingTypeEnum.HalfStar
+                    || (vm.epaInfo.RatingType.RatingTypeId === vm.ratingTypeEnum.Score
+                        && $.grep(vm.epaInfo.KPIGroups, function (e) { return e.NumberKPIOptional > 0; }).length > 0)) {
+                vm.hasRatingByStar = true;
+            }
+
+            if (vm.epaInfo.Process.Reviewers.length > 0 && vm.epaInfo.Process.Reviewers[0].IsEndProcess && !vm.epaInfo.Process.CurrentProcess.TotalScore) {
                 vm.epaInfo.Process.CurrentProcess.TotalScore = vm.epaInfo.Process.AverageScoreByReviewers;
             } else if (vm.epaInfo.Process.Evaluators[0].IsEndProcess && !vm.epaInfo.Process.CurrentProcess.TotalScore) {
                 if (vm.epaInfo.HasMonthlyEPA && vm.epaInfo.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
