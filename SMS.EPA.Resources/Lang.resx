@@ -1290,4 +1290,7 @@
   <data name="EPAStatus" xml:space="preserve">
     <value>EPA Status</value>
   </data>
+  <data name="ShowRatingScoreByStar" xml:space="preserve">
+    <value>Show Rating Score By Star</value>
+  </data>
 </root>

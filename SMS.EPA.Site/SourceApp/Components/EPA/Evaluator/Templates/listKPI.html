@@ -1,18 +1,18 @@
-﻿<div class="list-kpi-rating rating-section evaluator-container" ng-repeat="kpiGroup in memberEPAInfoCtrl.epaInfo.KPIGroups"
+﻿<div class="showRatingScoreByStar col-sm-12" ng-show="memberEPAInfoCtrl.hasRatingByStar">
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" ng-model="memberEPAInfoCtrl.showRatingScoreByStar" /> {{"ShowRatingScoreByStar" | translate}}
+        </label>
+    </div>
+</div>
+<div class="list-kpi-rating rating-section evaluator-container" ng-repeat="kpiGroup in memberEPAInfoCtrl.epaInfo.KPIGroups"
      ng-init="memberEPAInfoCtrl.collapses[kpiGroup.Name] = false;"
      ng-show="kpiGroup.KPIs.length > 0">
     <div class="boxtitle col-sm-12"
          ng-click="memberEPAInfoCtrl.collapses[kpiGroup.Name] = !memberEPAInfoCtrl.collapses[kpiGroup.Name]">
         <div class="kpiGroup-name">{{kpiGroup.Name}} <strong>({{kpiGroup.Weight | customScore}} pts)</strong></div>
-        <div class="text-center employee-score">
-            {{"EmployeeScore" | translate}}
-            <input type="checkbox" ng-if="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.Star
-                                        || memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.HalfStar"
-                   ng-model="kpiGroup.OnlyShowScore" ng-click="$event.stopPropagation();" ng-attr-title='{{"Only show scores" | translate}}' />
-        </div>
-        <div class="text-center employee-score">
-            <strong data-translate="EvaluatorScore"></strong>
-        </div>
+        <div class="text-center employee-score" data-translate="EmployeeScore"></div>
+        <div class="text-center employee-score" data-translate="EvaluatorScore"></div>
     </div>
     <div class="kpiGroup-box col-sm-12" collapse="memberEPAInfoCtrl.collapses[kpiGroup.Name]">
         <div class="row-item" ng-repeat="kpi in kpiGroup.KPIs" repeat-end="memberEPAInfoCtrl.generateRatingStar()">
@@ -27,10 +27,10 @@
                     <div class="employee-score">
                         <div ng-show="kpi.EvaluationBySelf.Score && memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">
                             <span>{{kpi.EvaluationBySelf.Score | splitScore}} pts</span>
-                            <div class="score-star-rating"
-                                 ng-show="!kpiGroup.OnlyShowScore && (memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.Star
-                                        || memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.HalfStar
-                                        || (memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.Score && kpiGroup.NumberKPIOptional > 0))">
+                            <div class="score-star-rating" ng-show="memberEPAInfoCtrl.showRatingScoreByStar &&
+                                 (memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.Star
+                                 || memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.HalfStar
+                                 || (memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.Score && kpiGroup.NumberKPIOptional > 0))">
                                 / <span ng-show="kpi.EvaluationBySelf.Rate || kpi.EvaluationBySelf.Rate == 0"
                                         ng-bind="kpi.EvaluationBySelf.Rate | splitScore"></span>
                                 <input type="number" class="rating-loading" ng-readonly="true" data-size="xs"
@@ -42,8 +42,7 @@
                         <strong ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="Pending"></strong>
                     </div>
                     <div class="kpi-start">
-                        <div class="rating-by-star"
-                             ng-if="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.Star
+                        <div class="rating-by-star" ng-if="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.Star
                                 || (memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.Score && kpiGroup.NumberKPIOptional > 0)">
                             <div class="remove-rating">
                                 <a ng-show="memberEPAInfoCtrl.epaInfo.IsAllowedToEdit && kpi.CurrentEvaluation.Rate > 0"
@@ -63,8 +62,7 @@
                                    ng-change="memberEPAInfoCtrl.inputScore(kpi)" tooltip="{{memberEPAInfoCtrl.getNotificationInputScore(kpi)}}"
                                    tooltip-trigger="focus" />
                         </div>
-                        <div class="rating-by-star"
-                             ng-if="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.HalfStar">
+                        <div class="rating-by-star" ng-if="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.HalfStar">
                             <div class="remove-rating">
                                 <a ng-show="memberEPAInfoCtrl.epaInfo.IsAllowedToEdit && kpi.CurrentEvaluation.Rate > 0"
                                    class="glyphicon glyphicon-remove-circle remove-star"
@@ -78,8 +76,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="kpi-percent"
-                         ng-show="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.Star
+                    <div class="kpi-percent" ng-show="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.Star
                             || memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.HalfStar
                             || (memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.Score && kpiGroup.NumberKPIOptional > 0)">
                         <span class="badge percent" ng-show="kpiGroup.NumberKPIOptional == 0 && kpi.CurrentEvaluation.Rate > 0">

@@ -2896,6 +2896,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show Rating Score By Star.
+        /// </summary>
+        public static string ShowRatingScoreByStar {
+            get {
+                return ResourceManager.GetString("ShowRatingScoreByStar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SignBy.
         /// </summary>
         public static string SignBy {

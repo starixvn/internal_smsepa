@@ -1,8 +1,14 @@
-﻿<div class="list-kpi-rating" ng-repeat="kpiGroup in memberEPAInfoCtrl.epaInfo.KPIGroups"
+﻿<div class="showRatingScoreByStar col-sm-12" ng-show="memberEPAInfoCtrl.hasRatingByStar">
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" ng-model="memberEPAInfoCtrl.showRatingScoreByStar" /> {{"ShowRatingScoreByStar" | translate}}
+        </label>
+    </div>
+</div>
+<div class="list-kpi-rating" ng-repeat="kpiGroup in memberEPAInfoCtrl.epaInfo.KPIGroups"
      ng-init="memberEPAInfoCtrl.collapses[kpiGroup.Name] = false;"
      ng-show="kpiGroup.KPIs.length > 0">
-    <div class="boxtitle col-sm-12"
-         ng-click="memberEPAInfoCtrl.collapses[kpiGroup.Name] = !memberEPAInfoCtrl.collapses[kpiGroup.Name]">
+    <div class="boxtitle col-sm-12" ng-click="memberEPAInfoCtrl.collapses[kpiGroup.Name] = !memberEPAInfoCtrl.collapses[kpiGroup.Name]">
         <div class="col-sm-8 kpiGroup-name">{{kpiGroup.Name}} <strong>({{kpiGroup.Weight | customScore}} pts)</strong></div>
     </div>
     <div class="boxcontent col-sm-12" collapse="memberEPAInfoCtrl.collapses[kpiGroup.Name]">
@@ -16,24 +22,10 @@
                         <th colspan="3" data-translate="Evaluator"></th>
                     </tr>
                     <tr>
-                        <th class="col-score-star">
-                            {{"Score" | translate}}
-                            <input type="checkbox" ng-if="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess &&
-                                        (memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.Star
-                                        || memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.HalfStar
-                                        || (memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.Score && kpiGroup.NumberKPIOptional > 0))"
-                                   ng-model="kpiGroup.OnlyShowSelfScore" ng-attr-title='{{"Only show scores" | translate}}' />
-                        </th>
+                        <th class="col-score-star" data-translate="Score"></th>
                         <th data-translate="Comment" class="col-comment"></th>
                         <th data-translate="NickName"></th>
-                        <th class="col-score-star">
-                            {{"Score" | translate}}
-                            <input type="checkbox" ng-if="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess &&
-                                        (memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.Star
-                                        || memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.HalfStar
-                                        || (memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.Score && kpiGroup.NumberKPIOptional > 0))"
-                                   ng-model="kpiGroup.OnlyShowEvaluatorScore" ng-attr-title='{{"Only show scores" | translate}}' />
-                        </th>
+                        <th class="col-score-star" data-translate="Score"></th>
                         <th data-translate="Comment"></th>
                     </tr>
                 </thead>
@@ -48,8 +40,7 @@
                         <td class="text-center col-score" rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" ng-show="$first">
                             <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">
                                 <span ng-show="kpi.EvaluationBySelf.Score || kpi.EvaluationBySelf.Score == 0"> {{ kpi.EvaluationBySelf.Score | splitScore}} pts</span>
-                                <div class="score-star-rating"
-                                     ng-show="!kpiGroup.OnlyShowSelfScore &&
+                                <div class="score-star-rating" ng-show="memberEPAInfoCtrl.showRatingScoreByStar &&
                                         (memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.Star
                                         || memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.HalfStar
                                         || (memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.Score && kpiGroup.NumberKPIOptional > 0))">
@@ -77,11 +68,10 @@
                         <td class="text-center col-score">
                             <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess">
                                 <span ng-show="evaluator.Score || evaluator.Score == 0"> {{ evaluator.Score | splitScore}} pts</span>
-                                <div class="score-star-rating"
-                                     ng-show="!kpiGroup.OnlyShowEvaluatorScore &&
-                                        (memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.Star
-                                        || memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.HalfStar
-                                        || (memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.Score && kpiGroup.NumberKPIOptional > 0))">
+                                <div class="score-star-rating" ng-show="memberEPAInfoCtrl.showRatingScoreByStar &&
+                                     (memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.Star
+                                     || memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.HalfStar
+                                     || (memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.Score && kpiGroup.NumberKPIOptional > 0))">
                                     / <span ng-show="evaluator.Rate || evaluator.Rate == 0" ng-bind="evaluator.Rate | splitScore"></span>
                                     <input type="number" class="rating-loading" ng-readonly="true" data-size="xs"
                                            value="1" data-min="0" data-max="1" data-stars="1"

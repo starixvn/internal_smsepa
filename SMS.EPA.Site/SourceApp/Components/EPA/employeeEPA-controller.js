@@ -10,8 +10,9 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonM
     vm.standardGrades = CommonModel.standardGrades;
     vm.ratingTypeEnum = enumerationsFactory.ratingType;
     vm.statusEndProcessEnum = enumerationsFactory.statusEndProcess;
-
     vm.isViewDetail = true;
+    vm.hasRatingByStar = false;
+    vm.showRatingScoreByStar = true;
 
     vm.generateRatingStar = function () {
         $timeout(function () {
@@ -46,6 +47,13 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonM
         EmployeeEPAModel.getEPAInfoById(vm.epaId).then(function () {
             vm.epaInfo = EmployeeEPAModel.epaInfo;
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
+
+            if (vm.epaInfo.RatingType.RatingTypeId === vm.ratingTypeEnum.Star
+                    || vm.epaInfo.RatingType.RatingTypeId === vm.ratingTypeEnum.HalfStar
+                    || (vm.epaInfo.RatingType.RatingTypeId === vm.ratingTypeEnum.Score
+                        && $.grep(vm.epaInfo.KPIGroups, function (e) { return e.NumberKPIOptional > 0; }).length > 0)) {
+                vm.hasRatingByStar = true;
+            }
 
             // self
             vm.epaInfo.Process.Self.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.Self.TotalScore);

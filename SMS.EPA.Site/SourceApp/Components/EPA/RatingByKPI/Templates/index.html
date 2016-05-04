@@ -6,7 +6,7 @@
                 <div class="form-group">
                     <div class="required">
                         <label class="col-sm-2 control-label" data-translate="TargetTemplate"></label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-2">
                             <select class="form-control" ng-model="ratingByKPICtrl.filter.targetTemplateId"
                                     ng-options="opt.TargetTemplateId as opt.Name for opt in ratingByKPICtrl.targetTemplates"
                                     ng-change="ratingByKPICtrl.getKPIByTargetTemplate()">
@@ -45,6 +45,15 @@
                 <div class="boxcontent">
                     <table class="table table-bordered table-striped">
                         <thead>
+                            <tr class="showRatingScoreByStar" ng-show="ratingByKPICtrl.hasRatingByStar">
+                                <th colspan="8">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" ng-model="ratingByKPICtrl.showRatingScoreByStar" /> {{"ShowRatingScoreByStar" | translate}}
+                                        </label>
+                                    </div>
+                                </th>
+                            </tr>
                             <tr class="header-table">
                                 <th colspan="8">
                                     <div class="col-sm-12">
@@ -58,11 +67,7 @@
                                 <th></th>
                                 <th data-translate="Section"></th>
                                 <th data-translate="NickName"></th>
-                                <th>
-                                    {{"EmployeeScore" | translate}}
-                                    <input type="checkbox" ng-if="ratingByKPICtrl.hasRatingByStar"
-                                           ng-model="ratingByKPICtrl.onlyShowScore" ng-attr-title='{{"Only show scores" | translate}}' />
-                                </th>
+                                <th data-translate="EmployeeScore"></th>
                                 <th class="col-score">
                                     <div class="col-sm-10" data-translate="CurrentScore"></div>
                                     <div class="col-sm-2" ng-show="ratingByKPICtrl.memberEPAs.length > 1">
@@ -100,10 +105,10 @@
                                          ng-if="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
                                         <div tooltip="{{kpi.Comment}}">
                                             <span>{{kpi.Score | splitScore}} pts</span>
-                                            <div class="score-star-rating" ng-show="!ratingByKPICtrl.onlyShowScore &&
+                                            <div class="score-star-rating" ng-show="ratingByKPICtrl.showRatingScoreByStar &&
                                                  (memberEPA.RatingType.RatingTypeId == ratingByKPICtrl.ratingTypeEnum.Star
-                                                    || memberEPA.RatingType.RatingTypeId == ratingByKPICtrl.ratingTypeEnum.HalfStar
-                                                    || (memberEPA.RatingType.RatingTypeId == ratingByKPICtrl.ratingTypeEnum.Score && memberEPA.KPIGroup.NumberKPIOptional > 0))">
+                                                 || memberEPA.RatingType.RatingTypeId == ratingByKPICtrl.ratingTypeEnum.HalfStar
+                                                 || (memberEPA.RatingType.RatingTypeId == ratingByKPICtrl.ratingTypeEnum.Score && memberEPA.KPIGroup.NumberKPIOptional > 0))">
                                                 / <span ng-show="kpi.Rate || kpi.Rate == 0" ng-bind="kpi.Rate | splitScore"></span>
                                                 <input type="number" class="rating-loading" ng-readonly="true" data-size="xs"
                                                        value="1" data-min="0" data-max="1" data-stars="1"

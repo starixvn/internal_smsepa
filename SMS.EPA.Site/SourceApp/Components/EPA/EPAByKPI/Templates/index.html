@@ -57,6 +57,15 @@
                 <div class="boxcontent">
                     <table class="table table-bordered table-striped">
                         <thead>
+                            <tr class="showRatingScoreByStar" ng-show="epaByKPICtrl.hasRatingByStar">
+                                <th colspan="7">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" ng-model="epaByKPICtrl.showRatingScoreByStar" /> {{"ShowRatingScoreByStar" | translate}}
+                                        </label>
+                                    </div>
+                                </th>
+                            </tr>
                             <tr class="header-table">
                                 <th colspan="7">
                                     <div class="col-sm-12">
@@ -69,16 +78,8 @@
                                 <th data-translate="SymbolCount"></th>
                                 <th data-translate="Section"></th>
                                 <th data-translate="NickName"></th>
-                                <th>
-                                    {{"EmployeeScore" | translate}}
-                                    <input type="checkbox" ng-if="epaByKPICtrl.hasRatingByStar"
-                                           ng-model="epaByKPICtrl.onlyShowSelfScore" ng-attr-title='{{"Only show scores" | translate}}' />
-                                </th>
-                                <th>
-                                    {{"EvaluatorScore" | translate}}
-                                    <input type="checkbox" ng-if="epaByKPICtrl.hasRatingByStar"
-                                           ng-model="epaByKPICtrl.onlyShowEvaluatorScore" ng-attr-title='{{"Only show scores" | translate}}' />
-                                </th>
+                                <th data-translate="EmployeeScore"></th>
+                                <th data-translate="EvaluatorScore"></th>
                                 <th data-translate="Comment"></th>
                                 <th data-translate="PerformanceScore" class="col-score"></th>
                             </tr>
@@ -96,7 +97,7 @@
                                     <div class="row text-center list-star" ng-repeat="kpi in memberEPA.KPIGroup.KPIsBySelf" ng-if="kpi.KPIId == epaByKPICtrl.filter.kpiId">
                                         <div tooltip="{{kpi.Comment}}">
                                             <span>{{kpi.Score | splitScore}} pts</span>
-                                            <div class="score-star-rating" ng-show="!epaByKPICtrl.onlyShowSelfScore &&
+                                            <div class="score-star-rating" ng-show="epaByKPICtrl.showRatingScoreByStar &&
                                                 (memberEPA.RatingType.RatingTypeId == epaByKPICtrl.RatingType.Star
                                                     || memberEPA.RatingType.RatingTypeId == epaByKPICtrl.RatingType.HalfStar
                                                     || (memberEPA.RatingType.RatingTypeId == epaByKPICtrl.RatingType.Score && memberEPA.KPIGroup.NumberKPIOptional > 0))">
@@ -111,7 +112,7 @@
                                 <td class="col-score employee-score">
                                     <div class="row text-center list-star" ng-repeat="kpi in memberEPA.KPIGroup.KPIs" ng-if="kpi.KPIId == epaByKPICtrl.filter.kpiId">
                                         <span>{{kpi.Score | splitScore}} pts</span>
-                                        <div class="score-star-rating" ng-show="!epaByKPICtrl.onlyShowEvaluatorScore &&
+                                        <div class="score-star-rating" ng-show="epaByKPICtrl.showRatingScoreByStar &&
                                             (memberEPA.RatingType.RatingTypeId == epaByKPICtrl.RatingType.Star
                                                 || memberEPA.RatingType.RatingTypeId == epaByKPICtrl.RatingType.HalfStar
                                                 || (memberEPA.RatingType.RatingTypeId == epaByKPICtrl.RatingType.Score && memberEPA.KPIGroup.NumberKPIOptional > 0))">

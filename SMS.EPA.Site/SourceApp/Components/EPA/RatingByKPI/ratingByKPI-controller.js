@@ -19,7 +19,7 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
     vm.policyEnum = enumerationsFactory.policy;
     vm.ratingTypeEnum = enumerationsFactory.ratingType;
     vm.hasRatingByStar = false;
-    vm.onlyShowScore = false;
+    vm.showRatingScoreByStar = true;
     vm.currentPage = 1;
     vm.pageSize = 20;
 
@@ -231,7 +231,6 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
             RatingByKPIModel.getEmployeeEPAByKPI(vm.filter.targetTemplateId, vm.filter.kpiId, vm.filter.groupId, null).then(function () {
                 vm.memberEPAs = RatingByKPIModel.memberEPAs;
                 utilitiesFactory.searchOnPage(vm, vm.memberEPAs);
-                vm.onlyShowScore = false;
 
                 angular.forEach(vm.memberEPAs, function (memberEPA) {
                     if (memberEPA.RatingType.RatingTypeId === vm.ratingTypeEnum.Star
