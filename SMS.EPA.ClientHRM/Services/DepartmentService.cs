@@ -12,14 +12,10 @@
         private readonly IDynamicRepository _dynamicRepository;
         private readonly IDepartmentAPI _departmentAPI;
 
-        public DepartmentService() : this(null, null)
-        { 
-        }
-
         public DepartmentService(IDynamicRepository dynamicRepository, IDepartmentAPI departmentAPI)
         {
-            _dynamicRepository = dynamicRepository ?? new DynamicRepository();
-            _departmentAPI = departmentAPI ?? new DepartmentAPI();
+            _dynamicRepository = dynamicRepository;
+            _departmentAPI = departmentAPI;
         }
 
         public IEnumerable<Department> GetDepartments(DateTime? fromDate)

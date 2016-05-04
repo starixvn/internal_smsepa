@@ -1,6 +1,7 @@
 ﻿namespace SMS.EPA.ClientHRM
 {
     using Fanex.Data.Configuration;
+    using SMS.EPA.ClientHRM.Services;
     using System;
     using System.Net;
     using System.Net.Security;
@@ -22,9 +23,11 @@
                     return true;
                 };
 
+            Bootstrap.Start();
+
             var servicesToRun = new ServiceBase[] 
             { 
-                new WinService() 
+                new WinService(Bootstrap.Container.GetInstance<ISynchronizeService>()) 
             };
 
             if (Environment.UserInteractive)

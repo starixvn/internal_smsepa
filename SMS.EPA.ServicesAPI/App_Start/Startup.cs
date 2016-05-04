@@ -10,7 +10,7 @@
     using System;
     using System.Web.Http;
 
-    public partial class Startup
+    public class Startup
     {
         public static OAuthAuthorizationServerOptions OAuthOptions { get; private set; }
 

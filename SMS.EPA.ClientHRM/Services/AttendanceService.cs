@@ -13,14 +13,10 @@
         private readonly IDynamicRepository _dynamicRepository;
         private readonly IAttendanceAPI _attendanceAPI;
 
-        public AttendanceService() : this(null, null)
-        {
-        }
-
         public AttendanceService(IDynamicRepository dynamicRepository, IAttendanceAPI attendanceAPI)
         {
-            _dynamicRepository = dynamicRepository ?? new DynamicRepository();
-            _attendanceAPI = attendanceAPI ?? new AttendanceAPI();
+            _dynamicRepository = dynamicRepository;
+            _attendanceAPI = attendanceAPI;
         }
 
         public IEnumerable<AttendanceViolation> GetViolation(DateTime fromDate, DateTime lastModifiedDate)

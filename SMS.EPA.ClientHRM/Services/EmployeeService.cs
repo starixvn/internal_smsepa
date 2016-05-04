@@ -12,14 +12,10 @@
         private readonly IDynamicRepository _dynamicRepository;
         private readonly IEmployeeAPI _employeeAPI;
 
-        public EmployeeService() : this(null, null)
-        {
-        }
-
         public EmployeeService(IDynamicRepository dynamicRepository, IEmployeeAPI employeeAPI)
         {
-            _dynamicRepository = dynamicRepository ?? new DynamicRepository();
-            _employeeAPI = employeeAPI ?? new EmployeeAPI();
+            _dynamicRepository = dynamicRepository;
+            _employeeAPI = employeeAPI;
         }
 
         public IEnumerable<Employee> GetEmployees(DateTime? fromDate)

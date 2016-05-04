@@ -12,14 +12,10 @@
         private readonly IDynamicRepository _dynamicRepository;
         private readonly ISupervisorAPI _supervisorAPI;
 
-        public SupervisorService() : this(null, null)
-        { 
-        }
-
         public SupervisorService(IDynamicRepository dynamicRepository, ISupervisorAPI supervisorAPI)
         {
-            _dynamicRepository = dynamicRepository ?? new DynamicRepository();
-            _supervisorAPI = supervisorAPI ?? new SupervisorAPI();
+            _dynamicRepository = dynamicRepository;
+            _supervisorAPI = supervisorAPI;
         }
 
         public IEnumerable<EmployeeSupervisor> GetEmployees(DateTime fromDate)

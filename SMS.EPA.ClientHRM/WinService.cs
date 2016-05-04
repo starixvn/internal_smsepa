@@ -14,11 +14,10 @@
         private bool _isWorking = false;
         private Timer _timer;
 
-        public WinService()
+        public WinService(ISynchronizeService service)
         {
             InitializeComponent();
-            _service = new SynchronizeService();
-
+            _service = service;
             _timer = new Timer(ApplicationConfig.Interval);
             _timer.Elapsed += new ElapsedEventHandler(ExecuteJob);
             _timer.Enabled = false;

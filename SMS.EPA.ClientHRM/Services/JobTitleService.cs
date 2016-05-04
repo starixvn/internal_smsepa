@@ -12,14 +12,10 @@
         private readonly IDynamicRepository _dynamicRepository;
         private readonly IJobTitleAPI _jobTitleAPI;
 
-        public JobTitleService() : this(null, null) 
-        {
-        }
-
         public JobTitleService(IDynamicRepository dynamicRepository, IJobTitleAPI jobTitleAPI)
         {
-            _dynamicRepository = dynamicRepository ?? new DynamicRepository();
-            _jobTitleAPI = jobTitleAPI ?? new JobTitleAPI();
+            _dynamicRepository = dynamicRepository;
+            _jobTitleAPI = jobTitleAPI;
         }
 
         public IEnumerable<JobTitle> GetJobTitles()

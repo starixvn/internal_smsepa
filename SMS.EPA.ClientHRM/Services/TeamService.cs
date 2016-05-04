@@ -12,14 +12,10 @@
         private readonly IDynamicRepository _dynamicRepository;
         private readonly ITeamAPI _teamAPI;
 
-        public TeamService() : this(null, null) 
-        {
-        }
-
         public TeamService(IDynamicRepository dynamicRepository, ITeamAPI teamAPI)
         {
-            _dynamicRepository = dynamicRepository ?? new DynamicRepository();
-            _teamAPI = teamAPI ?? new TeamAPI();
+            _dynamicRepository = dynamicRepository;
+            _teamAPI = teamAPI;
         }
 
         public IEnumerable<Team> GetTeams(DateTime? fromDate)

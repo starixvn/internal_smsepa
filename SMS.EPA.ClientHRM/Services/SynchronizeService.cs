@@ -18,11 +18,6 @@
         private readonly ISupervisorService _supervisorService;
         private readonly IAttendanceService _attendanceService;
 
-        public SynchronizeService()
-            : this(null, null, null, null, null, null, null)
-        {
-        }
-
         public SynchronizeService(
             ITokenService tokenService,
             IDepartmentService departmentService,
@@ -33,13 +28,13 @@
             IAttendanceService attendanceService)
         {
             _token = new TokenAccess();
-            _tokenService = tokenService ?? new TokenService();
-            _departmentService = departmentService ?? new DepartmentService();
-            _employeeService = employeeService ?? new EmployeeService();
-            _teamService = teamService ?? new TeamService();
-            _jobTitleService = jobtitleService ?? new JobTitleService();
-            _supervisorService = supervisorService ?? new SupervisorService();
-            _attendanceService = attendanceService ?? new AttendanceService();
+            _tokenService = tokenService;
+            _departmentService = departmentService;
+            _employeeService = employeeService;
+            _teamService = teamService;
+            _jobTitleService = jobtitleService;
+            _supervisorService = supervisorService;
+            _attendanceService = attendanceService;
         }
 
         public void Synchronize()

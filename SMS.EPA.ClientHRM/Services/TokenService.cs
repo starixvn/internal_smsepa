@@ -7,13 +7,9 @@
     {
         private readonly ITokenAPI _tokenAPI;
 
-        public TokenService() : this(null) 
-        {
-        }
-
         public TokenService(ITokenAPI tokenAPI)
         {
-            _tokenAPI = tokenAPI ?? new TokenAPI();
+            _tokenAPI = tokenAPI;
         }
 
         public TokenAccess Request(ApplicationInfo info)
