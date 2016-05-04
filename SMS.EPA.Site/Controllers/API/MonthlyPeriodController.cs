@@ -174,7 +174,8 @@ namespace SMS.EPA.Site.Controllers.API
             bool? isLocal = null,
             bool? isExcludedEmployee = null,
             bool? isGeneratedEPA = null,
-            int? isEvaluated = null)
+            int? isEvaluated = null,
+            int? epaStatus = null)
         {
             var criteria = new GetPeriodEmployeeSettingCriteria
             {
@@ -183,7 +184,8 @@ namespace SMS.EPA.Site.Controllers.API
                 IsLocal = isLocal,
                 IsExcludedEmployee = isExcludedEmployee,
                 IsGeneratedEPA = isGeneratedEPA,
-                IsEvaluated = isEvaluated
+                IsEvaluated = isEvaluated,
+                EPAStatus = epaStatus
             };
 
             IEnumerable<PeriodEmployeeSettingModel> employeeSettings = _periodService.GetPeriodEmployeeSettingById(criteria);

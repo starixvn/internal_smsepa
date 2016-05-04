@@ -79,8 +79,8 @@ function (PeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, histo
         vm.permission = PeriodModel.permission;
     });
 
-    vm.viewEmployeeSetting = function (period) {
-        vm.viewEmployeeSettingUrl = baseUrl + 'Period/Update/' + period.PeriodId + '?viewSetting';
+    vm.viewEmployeeSetting = function (period, inprogress) {
+        vm.viewEmployeeSettingUrl = baseUrl + 'Period/Update/' + period.PeriodId + '?viewSetting&inprogress=' + inprogress;
     };
 }]);
 

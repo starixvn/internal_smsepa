@@ -30,7 +30,7 @@ monthlyPeriodModule.factory('monthlyPeriodFactory', ['$http', 'baseUrl', functio
         deleteMonthlyPeriod: function (periodId) {
             return $http['delete'](baseUrl + 'api/MonthlyPeriod/DeleteMonthlyPeriod', { params: { periodId: periodId } });
         },
-        getEmployeeSettingMonthlyPeriodById: function (periodId, departmentId, isLocal, isExcludedEmployee, isGeneratedEPA, isEvaluated) {
+        getEmployeeSettingMonthlyPeriodById: function (periodId, departmentId, isLocal, isExcludedEmployee, isGeneratedEPA, isEvaluated, epaStatus) {
             return $http.get(baseUrl + 'api/MonthlyPeriod/GetEmployeeSettingMonthlyPeriodById',
                 {
                     params:
@@ -40,7 +40,8 @@ monthlyPeriodModule.factory('monthlyPeriodFactory', ['$http', 'baseUrl', functio
                           isLocal: isLocal,
                           isExcludedEmployee: isExcludedEmployee,
                           isGeneratedEPA: isGeneratedEPA,
-                          isEvaluated: isEvaluated
+                          isEvaluated: isEvaluated,
+                          epaStatus: epaStatus
                       }
                 });
         },

@@ -32,7 +32,7 @@
     <table class="row table table-bordered table-striped">
         <thead>
             <tr class="header-table">
-                <th colspan="6">
+                <th colspan="7">
                     <a class="pull-left button-icon create-button" href="" ng-click="monthlyPeriodCtrl.create()"
                        ng-show="monthlyPeriodCtrl.permission == monthlyPeriodCtrl.policyEnum.Host">
                         <span class="icon plus"></span>
@@ -46,7 +46,8 @@
                 <th data-translate="Name"></th>
                 <th data-translate="StartDate"></th>
                 <th data-translate="EndDate"></th>
-                <th data-translate="NumberEmployees"></th>
+                <th data-translate="TotalEmployees"></th>
+                <th data-translate="UnfinishedEPA"></th>
                 <th data-translate="Action"></th>
             </tr>
         </thead>
@@ -57,7 +58,10 @@
                 <td class="text-center" ng-bind="period.StartDate | date: monthlyPeriodCtrl.dateFormat"></td>
                 <td class="text-center" ng-bind="period.EndDate | date: monthlyPeriodCtrl.dateFormat"></td>
                 <td class="text-center">
-                    <a href="{{monthlyPeriodCtrl.viewEmployeeSettingUrl}}" ng-click="monthlyPeriodCtrl.viewEmployeeSetting(period)">{{period.NumberEmployees}}</a>
+                    <a href="{{monthlyPeriodCtrl.viewEmployeeSettingUrl}}" ng-click="monthlyPeriodCtrl.viewEmployeeSetting(period, false)">{{period.TotalEmployees}}</a>
+                </td>
+                <td class="text-center">
+                    <a href="{{monthlyPeriodCtrl.viewEmployeeSettingUrl}}" ng-click="monthlyPeriodCtrl.viewEmployeeSetting(period, true)">{{period.TotalEmployeesUnfinished}}</a>
                 </td>
                 <td class="text-center">
                     <div class="btn-group">
@@ -69,12 +73,12 @@
                 </td>
             </tr>
             <tr ng-show="monthlyPeriodCtrl.filteredItems.length == 0">
-                <td class="empty-result" colspan="6" data-translate="EmptyResult"></td>
+                <td class="empty-result" colspan="7" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
         <tfoot ng-show="monthlyPeriodCtrl.filteredItems.length > 0">
             <tr>
-                <td colspan="6" class="paging">
+                <td colspan="7" class="paging">
                     <span data-translate="Show"></span>
                     <select class="dropdown-entry form-control" ng-model="monthlyPeriodCtrl.pageSize"
                             ng-options="entry for entry in monthlyPeriodCtrl.entries"></select>

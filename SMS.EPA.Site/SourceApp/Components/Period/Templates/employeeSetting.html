@@ -34,17 +34,25 @@
                     <option value="2" data-translate="Evaluated"></option>
                 </select>
             </div>
-            <div class="col-sm-offset-1 checkbox col-sm-3">
-                <label>
-                    <input type="checkbox" ng-model="empSettingCtrl.filter.isExcludedEmployee"> {{"ShowExcludedEmployee" | translate}}
-                </label>
+            <label class="control-label col-sm-1" data-translate="EPAStatus"></label>
+            <div class="col-sm-2">
+                <select class="form-control" ng-model="empSettingCtrl.filter.epaStatus">
+                    <option selected value="">-- {{"All" | translate}} --</option>
+                    <option value="0" data-translate="InProgress"></option>
+                    <option value="1" data-translate="Closed"></option>
+                </select>
             </div>
-            <div class="checkbox col-sm-2">
-                <label>
-                    <input type="checkbox" ng-model="empSettingCtrl.filter.hasMonthlyEPA"> {{"HasMonthlyEPA" | translate}}
-                </label>
+            <label class="col-sm-2 control-label" data-translate="ShowExcludedEmployee"></label>
+            <div class="col-sm-1">
+                <input type="checkbox" ng-model="empSettingCtrl.filter.isExcludedEmployee" />
             </div>
-            <div class="col-sm-1 search-button">
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" data-translate="HasMonthlyEPA"></label>
+            <div class="col-sm-2">
+                <input type="checkbox" ng-model="empSettingCtrl.filter.hasMonthlyEPA" />
+            </div>
+            <div class="col-sm-1">
                 <button class="button" ng-click="empSettingCtrl.query(empSettingCtrl.filter)" data-translate="Search"></button>
             </div>
         </div>
@@ -87,8 +95,7 @@
             </tr>
             <tr class="headerName">
                 <th>
-                    <input type="checkbox" ng-click="empSettingCtrl.checkAll(empSettingCtrl.selectedAll)"
-                           ng-model="empSettingCtrl.selectedAll" />
+                    <input type="checkbox" ng-click="empSettingCtrl.checkAll(empSettingCtrl.selectedAll)" ng-model="empSettingCtrl.selectedAll" />
                 </th>
                 <th data-translate="SymbolCount"></th>
                 <th data-translate="DepartmentSection"></th>

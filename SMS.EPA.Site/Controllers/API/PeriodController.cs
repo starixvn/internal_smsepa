@@ -151,7 +151,8 @@ namespace SMS.EPA.Site.Controllers.API
             bool? isExcludedEmployee = null,
             bool? isGeneratedEPA = null,
             int? isEvaluated = null,
-            bool? hasMonthlyEPA = null)
+            bool? hasMonthlyEPA = null,
+            int? epaStatus = null)
         {
             var criteria = new GetPeriodEmployeeSettingCriteria
             {
@@ -161,27 +162,32 @@ namespace SMS.EPA.Site.Controllers.API
                 IsExcludedEmployee = isExcludedEmployee,
                 IsGeneratedEPA = isGeneratedEPA,
                 IsEvaluated = isEvaluated,
-                HasMonthlyEPA = hasMonthlyEPA
+                HasMonthlyEPA = hasMonthlyEPA,
+                EPAStatus = epaStatus
             };
 
             IEnumerable<PeriodEmployeeSettingModel> periodEmployeeSettings = _periodService.GetPeriodEmployeeSettingById(criteria);
-            int targetTypeId = periodEmployeeSettings.FirstOrDefault().TargetTemplate.TargetTypeId;
 
-            switch (targetTypeId)
+            if (periodEmployeeSettings.Any())
             {
-                case (int)TargetType.Probation:
-                case (int)TargetType.Promotion:
-                    periodEmployeeSettings = periodEmployeeSettings.OrderByDescending(x => x.SelfEvaluators.First().StartDate);
-                    break;
+                int targetTypeId = periodEmployeeSettings.FirstOrDefault().TargetTemplate.TargetTypeId;
 
-                case (int)TargetType.Monthly:
-                case (int)TargetType.SemiAnnual:
-                    periodEmployeeSettings = periodEmployeeSettings.OrderBy(x => x.Group.GroupCode).ThenBy(x => x.Employee.NickName);
-                    break;
+                switch (targetTypeId)
+                {
+                    case (int)TargetType.Probation:
+                    case (int)TargetType.Promotion:
+                        periodEmployeeSettings = periodEmployeeSettings.OrderByDescending(x => x.SelfEvaluators.First().StartDate);
+                        break;
+
+                    case (int)TargetType.Monthly:
+                    case (int)TargetType.SemiAnnual:
+                        periodEmployeeSettings = periodEmployeeSettings.OrderBy(x => x.Group.GroupCode).ThenBy(x => x.Employee.NickName);
+                        break;
+                }
+
+                var sessionKey = Constants.PeriodEmployeeSettingReportSessionKey + CurrentUser.EmployeeInfo.EmployeeId;
+                SessionManager.Set(sessionKey, periodEmployeeSettings);
             }
-
-            var sessionKey = Constants.PeriodEmployeeSettingReportSessionKey + CurrentUser.EmployeeInfo.EmployeeId;
-            SessionManager.Set(sessionKey, periodEmployeeSettings);
 
             return periodEmployeeSettings;
         }

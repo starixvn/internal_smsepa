@@ -26,7 +26,8 @@ function ($scope, $routeParams, $window, PeriodModel, CommonModel, utilitiesFact
         isExcludedEmployee: null,
         isGeneratedEPA: "",
         isEvaluated: "",
-        hasMonthlyEPA: ''
+        hasMonthlyEPA: '',
+        epaStatus: $routeParams.inprogress === 'true' ? '0' : ''
     };
 
     vm.filterAssign = {
@@ -41,7 +42,8 @@ function ($scope, $routeParams, $window, PeriodModel, CommonModel, utilitiesFact
             filter.isExcludedEmployee,
             filter.isGeneratedEPA,
             filter.isEvaluated,
-            filter.hasMonthlyEPA)
+            filter.hasMonthlyEPA,
+            filter.epaStatus)
         .then(function () {
             vm.employeeSettings = PeriodModel.employeeSettings;
             utilitiesFactory.searchOnPage(vm, vm.employeeSettings);

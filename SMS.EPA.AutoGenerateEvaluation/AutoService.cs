@@ -94,11 +94,15 @@
 
         private void CheckAndExecute()
         {
+            if (ConfigurationManager.AppSettings["EnableMonthlyPeriod"].Equals("true", StringComparison.OrdinalIgnoreCase))
+            {
+                CreateMonthlyPeriod();
+                CheckMonthlyPeriod();
+            }
+
             CheckSemiAnnualPeriod();
             CheckProbationPeriod();
             CheckPromotionPeriod();
-            CreateMonthlyPeriod();
-            CheckMonthlyPeriod();
             CheckSendMail();
             CheckEndProcess();
             CheckEndEvaluationPeriod();

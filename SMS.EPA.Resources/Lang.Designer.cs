@@ -1105,6 +1105,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to EPA Status.
+        /// </summary>
+        public static string EPAStatus {
+            get {
+                return ResourceManager.GetString("EPAStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to EPA Summary Report.
         /// </summary>
         public static string EPASummaryReport {
@@ -3184,6 +3193,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Total Employees.
+        /// </summary>
+        public static string TotalEmployees {
+            get {
+                return ResourceManager.GetString("TotalEmployees", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Total Hours.
         /// </summary>
         public static string TotalHours {
@@ -3252,6 +3270,15 @@ namespace SMS.EPA.Resources {
         public static string UncheckKPIGroupWarning {
             get {
                 return ResourceManager.GetString("UncheckKPIGroupWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unfinished EPA.
+        /// </summary>
+        public static string UnfinishedEPA {
+            get {
+                return ResourceManager.GetString("UnfinishedEPA", resourceCulture);
             }
         }
         

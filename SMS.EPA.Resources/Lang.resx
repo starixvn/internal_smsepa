@@ -1281,4 +1281,13 @@
   <data name="MinusScoringSystem" xml:space="preserve">
     <value>Minus Scoring System</value>
   </data>
+  <data name="TotalEmployees" xml:space="preserve">
+    <value>Total Employees</value>
+  </data>
+  <data name="UnfinishedEPA" xml:space="preserve">
+    <value>Unfinished EPA</value>
+  </data>
+  <data name="EPAStatus" xml:space="preserve">
+    <value>EPA Status</value>
+  </data>
 </root>

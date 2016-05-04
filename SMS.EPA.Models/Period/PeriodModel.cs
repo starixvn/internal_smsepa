@@ -26,7 +26,9 @@ namespace SMS.EPA.Model.Period
 
         public DateTime? AttendanceEndDate { get; set; }
 
-        public int NumberEmployees { get; set; }
+        public int TotalEmployees { get; set; }
+
+        public int TotalEmployeesUnfinished { get; set; }
 
         public string Description { get; set; }
 

@@ -6,8 +6,8 @@ monthlyPeriodModule.controller('MonthlyPeriodController',
 function (MonthlyPeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, historyFactory, baseUrl) {
     var vm = this;
     vm.policyEnum = enumerationsFactory.policy;
-
     vm.filter = {};
+
     function initFilter() {
         var filter = historyFactory.getState();
 
@@ -17,7 +17,7 @@ function (MonthlyPeriodModel, CommonModel, utilitiesFactory, enumerationsFactory
         };
     }
 
-    var getMonthlyPeriod = function (fromDate, toDate) {
+    function getMonthlyPeriod(fromDate, toDate) {
         toDate = new Date(toDate.getFullYear(), toDate.getMonth() + 1, 0);
 
         MonthlyPeriodModel.getMonthlyPeriod(fromDate, toDate).then(function () {
@@ -26,7 +26,7 @@ function (MonthlyPeriodModel, CommonModel, utilitiesFactory, enumerationsFactory
         });
 
         historyFactory.saveState(vm.filter);
-    };
+    }
 
     vm.initialize = function () {
         vm.filter = initFilter();
@@ -92,8 +92,8 @@ function (MonthlyPeriodModel, CommonModel, utilitiesFactory, enumerationsFactory
         MonthlyPeriodModel.openPopupDeleteMonthlyPeriod(vm, period);
     };
 
-    vm.viewEmployeeSetting = function (period) {
-        vm.viewEmployeeSettingUrl = baseUrl + 'MonthlyPeriod/Update/' + period.PeriodId + '?viewSetting';
+    vm.viewEmployeeSetting = function (period, inprogress) {
+        vm.viewEmployeeSettingUrl = baseUrl + 'MonthlyPeriod/Update/' + period.PeriodId + '?viewSetting&inprogress=' + inprogress;
     };
 
     vm.getIndex = function (index, currentPage, pageSize) {

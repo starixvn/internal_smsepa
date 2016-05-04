@@ -30,6 +30,8 @@ namespace SMS.EPA.Criteria.Period
 
         public bool? HasMonthlyEPA { get; set; }
 
+        public int? EPAStatus { get; set; }
+
         public override bool IsValid()
         {
             return PeriodId > 0;

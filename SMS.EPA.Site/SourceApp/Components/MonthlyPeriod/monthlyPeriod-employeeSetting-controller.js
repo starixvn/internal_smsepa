@@ -12,7 +12,6 @@ function ($scope, $routeParams, $window, MonthlyPeriodModel, utilitiesFactory, C
     vm.isFirstLoad = true;
     vm.departmentOptions = [];
     vm.selectedAll = false;
-
     vm.currentPage = 1;
     vm.pageSize = 20;
 
@@ -25,21 +24,23 @@ function ($scope, $routeParams, $window, MonthlyPeriodModel, utilitiesFactory, C
         isLocal: '',
         isExcludedEmployee: null,
         isGeneratedEPA: "",
-        isEvaluated: ""
+        isEvaluated: "",
+        epaStatus: $routeParams.inprogress === 'true' ? '0' : ''
     };
 
     vm.filterAssign = {
         employee: ''
     };
 
-    var getEmployeeSetting = function (filter) {
+    function getEmployeeSetting(filter) {
         MonthlyPeriodModel.getEmployeeSettingMonthlyPeriodById(
             filter.periodId,
             filter.departmentId,
             filter.isLocal,
             filter.isExcludedEmployee,
             filter.isGeneratedEPA,
-            filter.isEvaluated)
+            filter.isEvaluated,
+            filter.epaStatus)
         .then(function () {
             vm.employeeSettings = MonthlyPeriodModel.employeeSettings;
             utilitiesFactory.searchOnPage(vm, vm.employeeSettings);
@@ -82,7 +83,7 @@ function ($scope, $routeParams, $window, MonthlyPeriodModel, utilitiesFactory, C
         }
     };
 
-    var getSelectedDepartment = function (departments) {
+    function getSelectedDepartment(departments) {
         var selectedDepartments = [];
 
         angular.forEach(departments, function (department) {
