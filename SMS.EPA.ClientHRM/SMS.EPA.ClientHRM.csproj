@@ -86,7 +86,7 @@
     <Compile Include="Criteria\GetJobTitleCriteria.cs" />
     <Compile Include="Criteria\GetTeamCriteria.cs" />
     <Compile Include="Bootstrap.cs" />
-    <Compile Include="Model\CustomException.cs" />
+    <Compile Include="Model\WebApiException.cs" />
     <Compile Include="Model\Department.cs" />
     <Compile Include="Model\Employee.cs" />
     <Compile Include="Model\AttendanceViolation.cs" />
