@@ -34,7 +34,7 @@
                             violation.ShiftName,
                             violation.CheckIn,
                             violation.CheckOut,
-                            violation.TotalHours,
+                            violation.TotalHours == null ? 0 : violation.TotalHours,
                             violation.LateIn,
                             violation.EarlyOut,
                             violation.Type,

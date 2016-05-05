@@ -14,24 +14,24 @@
 
         public DateTime? CheckOut { get; set; }
 
-        public float TotalHours { get; set; }
+        public decimal? TotalHours { get; set; }
 
-        public int LateIn { get; set; }
+        public int? LateIn { get; set; }
 
-        public int EarlyOut { get; set; }
+        public int? EarlyOut { get; set; }
 
         public int Type { get; set; }
 
-        public float DisciplineScore { get; set; }
+        public decimal DisciplineScore { get; set; }
 
         public string EmployeeComment { get; set; }
 
         public string ApproverComment { get; set; }
 
-        public bool IsIgnored { get; set; }
+        public bool? IsIgnored { get; set; }
 
-        public DateTime ModifiedDate { get; set; }
+        public DateTime? ModifiedDate { get; set; }
 
-        public bool IsDeleted { get; set; }
+        public bool? IsDeleted { get; set; }
     }
 }

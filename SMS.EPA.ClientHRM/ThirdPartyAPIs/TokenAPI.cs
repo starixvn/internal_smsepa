@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.ClientHRM.ThirdPartyAPIs
 {
+    using Newtonsoft.Json;
     using SMS.EPA.ClientHRM.Model;
     using System;
     using System.Collections.Generic;
@@ -19,7 +20,7 @@
 
                 if (tokenResponse.StatusCode != HttpStatusCode.OK)
                 {
-                    throw new Exception(tokenResponse.RequestMessage.ToString());
+                    throw new WebApiException(tokenResponse.StatusCode, tokenResponse.RequestMessage, JsonConvert.SerializeObject(form));
                 }
 
                 return tokenResponse.Content.ReadAsAsync<TokenAccess>(new[] { new JsonMediaTypeFormatter() }).Result;

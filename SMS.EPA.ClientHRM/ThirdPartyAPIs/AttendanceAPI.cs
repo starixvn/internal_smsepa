@@ -20,7 +20,7 @@
                 var result = client.GetAsync(ApplicationConfig.ServiceAPI + "EmployeeDiscipline/GetMaxModifiedDate").Result;
                 if (result.StatusCode != HttpStatusCode.OK)
                 {
-                    throw new Exception(result.RequestMessage.ToString());
+                    throw new WebApiException(result.StatusCode, result.RequestMessage);
                 }
 
                 return result.Content.ReadAsAsync<DateTime>().Result;
@@ -36,7 +36,7 @@
                 var result = client.GetAsync(ApplicationConfig.ServiceAPI + "EmployeeDiscipline/GetFromDateAttendanceViolation").Result;
                 if (result.StatusCode != HttpStatusCode.OK)
                 {
-                    throw new Exception(result.RequestMessage.ToString());
+                    throw new WebApiException(result.StatusCode, result.RequestMessage);
                 }
 
                 return result.Content.ReadAsAsync<DateTime>().Result;

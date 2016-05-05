@@ -1,6 +1,7 @@
 ﻿namespace SMS.EPA.ClientHRM
 {
     using Fanex.Logging;
+    using SMS.EPA.ClientHRM.Model;
     using SMS.EPA.ClientHRM.Services;
     using System;
     using System.ComponentModel;
@@ -51,7 +52,14 @@
             catch (Exception ex)
             {
                 var message = ex.Message + Environment.NewLine +
-                    "StackTrace: " + ex.StackTrace;
+                   "StackTrace: " + ex.StackTrace;
+                if (ex is WebApiException)
+                {
+                    var customException = ex as WebApiException;
+                    message = "Status Code: " + customException.StatusCode + Environment.NewLine;
+                    message += "Http Request Message: " + customException.RequestMessage + Environment.NewLine;
+                    message += "Data :" + customException.AttachedData + Environment.NewLine;
+                }
 
                 LogService.Error(message);
             }
