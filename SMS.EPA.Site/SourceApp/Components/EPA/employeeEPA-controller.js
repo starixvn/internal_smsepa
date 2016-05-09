@@ -7,6 +7,7 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonM
     var vm = this;
 
     vm.epaId = parseInt($routeParams.id);
+    vm.exportPDF = $routeParams.exportpdf;
     vm.standardGrades = CommonModel.standardGrades;
     vm.ratingTypeEnum = enumerationsFactory.ratingType;
     vm.statusEndProcessEnum = enumerationsFactory.statusEndProcess;
@@ -87,6 +88,11 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonM
             vm.standardGrades = CommonModel.standardGrades;
 
             getEPAInfoById();
+
+            if (vm.exportPDF) {
+                angular.element("#headerSection").remove();
+                angular.element("#footerSection").remove();
+            }
         });
     }
 

@@ -222,7 +222,8 @@ function ($timeout, utilitiesFactory) {
             { HeaderText: "Management Score", Width: 80, Name: "ManagementScore", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "Discipline Score", Width: 80, Name: "DisciplineScore", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "Final Score", Width: 80, Name: "FinalScore", HeaderAlign: "center", CellAlign: "center" },
-            { HeaderText: "Grade", Width: 80, Name: "Grade", HeaderAlign: "center", CellAlign: "center" }
+            { HeaderText: "Grade", Width: 80, Name: "Grade", HeaderAlign: "center", CellAlign: "center" },
+            { HeaderText: "", Width: 80, Name: "ExportPdf", HeaderAlign: "center", CellAlign: "center" }
         ];
 
         return columnHeaders;
@@ -291,6 +292,7 @@ function ($timeout, utilitiesFactory) {
             angular.forEach(gridData.MemberEPAs, function (memberEPA, index) {
                 var score = calculateScore(memberEPA);
 
+                var pdfIcon = '<a class="icon-pdf" ng-click="exportPDF(1);"></input>';
                 var currentRow = {
                     Columns: [
                         { Name: "No", Value: rowIndex + index + 1 },
@@ -306,7 +308,8 @@ function ($timeout, utilitiesFactory) {
                         { Name: "ManagementScore", Value: score.ManagementScore },
                         { Name: "DisciplineScore", Value: score.DisciplineScore },
                         { Name: "FinalScore", Value: score.FinalScore },
-                        { Name: "Grade", Value: score.Grade }
+                        { Name: "Grade", Value: score.Grade },
+                        { Name: "ExportPdf", Value: memberEPA.EPAId < 0 ? pdfIcon : "" }
                     ]
                 };
 
@@ -325,6 +328,7 @@ function ($timeout, utilitiesFactory) {
             onPageChanging: '=',
             hideColumns: '=',
             exportReport: '=',
+            exportPdf: '=',
             gridExpandHeight: '@'
         },
         link: function ($scope, iElement) {
@@ -344,7 +348,7 @@ function ($timeout, utilitiesFactory) {
                     text: "EPA Detail Report",
                     showExcelButton: true,
                     exportExcelFunction: function () {
-                        $scope.exportReport();
+                        $scope.exportPdf();
                     }
                 }
             };
@@ -369,6 +373,7 @@ function ($timeout, utilitiesFactory) {
 
                         $(iElement).fanexGrid(gridOptions);
                         $(iElement).fanexGrid("hideColumns", gridOptions, $scope.hideColumns);
+                        $(iElement).fanexGrid("exportPdf", gridOptions, $scope.exportPdf);
                     }
                 });
             });
