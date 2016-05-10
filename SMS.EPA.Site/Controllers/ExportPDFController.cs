@@ -1,6 +1,7 @@
 ﻿namespace SMS.EPA.Site.Controllers
 {
     using SelectPdf;
+    using SMS.EPA.Core.Utilities;
     using System;
     using System.Collections.Specialized;
     using System.Configuration;
@@ -22,7 +23,7 @@
 
             var exportTime = DateTime.Now.ToString("yyyyMMdd-HHmmss");
             var fileId = string.Format("{0}", id);
-            Task.Run(() =>
+            new Task(() =>
             {
                 var domain = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Host, Request.Url.Port == 60755 ? ":" + Request.Url.Port : string.Empty);
 
@@ -30,7 +31,7 @@
                 string pdfFile = Server.MapPath(_TempFolder + string.Format(_PDFFileName, fileId));
                 document.Save(pdfFile);
                 document.Close();
-            });
+            }).Start();
 
             return Content(fileId);
         }
