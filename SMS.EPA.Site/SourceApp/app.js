@@ -20,6 +20,5 @@ function ($translateProvider, $locationProvider, paginationTemplateProvider, $ro
     paginationTemplateProvider.setPath('SourceApp/Shared/Templates/dirPagination.tpl.html');
     var baseUrl = $("base").first().attr("href");
     $provide.value("baseUrl", baseUrl);
-    usSpinnerConfigProvider.setDefaults({ color: 'blue' });
     usSpinnerConfigProvider.setTheme('bigBlue', { color: '#4CA4C9', radius: 20 });
 }]);

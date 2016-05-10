@@ -92,10 +92,6 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Select.HtmlToPdf, Version=2.2.0.0, Culture=neutral, PublicKeyToken=e0ae9f6e27a97018, processorArchitecture=MSIL">
-      <HintPath>..\packages\Select.HtmlToPdf.2.2.0.0\lib\net40\Select.HtmlToPdf.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -268,6 +264,7 @@
     <Content Include="Content\Site\images\icon-search.png" />
     <Content Include="Content\Site\images\icon_sprite.png" />
     <Content Include="Content\Site\images\line-menu.png" />
+    <Content Include="Content\Site\images\pdf-icon-inactive.png" />
     <Content Include="Content\Site\images\pdf-icon.png" />
     <Content Include="Content\Site\images\sms_epa_logo.png" />
     <Content Include="Content\Site\images\minus-icon.gif" />

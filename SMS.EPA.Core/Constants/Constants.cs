@@ -52,6 +52,8 @@ namespace SMS.EPA.Core.Constants
 
         public const int NumberOfDecimals = 4;
 
+        public const string ExportingFolder = @"~\ExportPDFFolder\";
+
         private Constants()
         {
         }

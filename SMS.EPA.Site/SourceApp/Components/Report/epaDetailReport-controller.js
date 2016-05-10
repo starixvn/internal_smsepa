@@ -2,8 +2,8 @@
 /*global reportModule*/
 
 reportModule.controller('EPADetailReportController',
-['$scope', 'ReportModel', 'CommonModel', 'utilitiesFactory', 'usSpinnerService', 'baseUrl',
-function ($scope, ReportModel, CommonModel, utilitiesFactory, usSpinnerService, baseUrl) {
+['$scope', '$timeout', 'ReportModel', 'CommonModel', 'utilitiesFactory', 'usSpinnerService', 'baseUrl',
+function ($scope, $timeout, ReportModel, CommonModel, utilitiesFactory, usSpinnerService, baseUrl) {
     var vm = this;
 
     vm.treeDepartment = CommonModel.treeDepartment;
@@ -50,17 +50,20 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory, usSpinnerService, 
     };
 
     vm.exportPdf = function (epaId) {
-        /*var url = baseUrl + 'ExportPDF/RequestExportingEPADetail/1',
+        var url = baseUrl + 'ExportPDF/RequestExportingEPADetail/' + epaId,
                    iframe = $('body iframe');
-
+        
         if (iframe.length === 0) {
             iframe = $('<iframe width="0" height="0" class="display-none"></iframe>');
             iframe.appendTo('body');
         }
 
-        iframe.attr('src', url);*/
+        iframe.attr('src', url);
 
-        alert(epaId);
+        $timeout(function () {
+            url = baseUrl + 'ExportPDF/DownloadEPADetail/' + epaId;
+            iframe.attr('src', url);
+        }, 1000);
     };
 
     var getEPADetailReport = function (filter) {

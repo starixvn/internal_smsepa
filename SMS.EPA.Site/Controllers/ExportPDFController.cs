@@ -1,36 +1,26 @@
 ﻿namespace SMS.EPA.Site.Controllers
 {
-    using SelectPdf;
+    using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Utilities;
-    using System;
-    using System.Collections.Specialized;
-    using System.Configuration;
+    using System.Threading;
     using System.Threading.Tasks;
     using System.Web.Mvc;
 
     public class ExportPDFController : Controller
     {
-        private const string _TempFolder = @"~\ExportPDFFolder\";
         private const string _PDFFileName = @"EPA_{0}.pdf";
 
         public ActionResult RequestExportingEPADetail(int id)
         {
-            var cookies = GetUserCookiesToAuthenticate();
-
-            var converter = new HtmlToPdf();
-            converter.Options.MinPageLoadTime = int.Parse(ConfigurationManager.AppSettings["MinPageLoadTimeForPDF"]);
-            converter.Options.HttpCookies.Add(cookies);
-
-            var exportTime = DateTime.Now.ToString("yyyyMMdd-HHmmss");
             var fileId = string.Format("{0}", id);
+            string domain = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Host, Request.Url.Port == 60755 ? ":" + Request.Url.Port : string.Empty);
+            string target = domain + "/EPA/Detail/" + id + "?exportpdf=true";
+            string pdfFile = Server.MapPath(Constants.ExportingFolder + string.Format(_PDFFileName, fileId));
             new Task(() =>
             {
-                var domain = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Host, Request.Url.Port == 60755 ? ":" + Request.Url.Port : string.Empty);
-
-                PdfDocument document = converter.ConvertUrl(domain + "/EPA/Detail/" + id + "?exportpdf=true");
-                string pdfFile = Server.MapPath(_TempFolder + string.Format(_PDFFileName, fileId));
-                document.Save(pdfFile);
-                document.Close();
+                var exportingPdf = new ExportingPdf(Request.Cookies, target);
+                byte[] bytes = exportingPdf.Run();
+                System.IO.File.WriteAllBytes(pdfFile, bytes);
             }).Start();
 
             return Content(fileId);
@@ -38,21 +28,22 @@
 
         public ActionResult DownloadEPADetail(int id)
         {
-            string pdfFile = Server.MapPath(_TempFolder + string.Format(_PDFFileName, id));
-
-            return File(pdfFile, "application/pdf");
-        }
-
-        private NameValueCollection GetUserCookiesToAuthenticate()
-        {
-            var userCookies = Request.Cookies;
-            var cookies = new NameValueCollection();
-            foreach (var item in userCookies.AllKeys)
+            string pdfFile = Server.MapPath(Constants.ExportingFolder + string.Format(_PDFFileName, id));
+            int count = 0;
+            bool genereatedFile = System.IO.File.Exists(pdfFile);
+            while (!genereatedFile)
             {
-                cookies.Add(item, userCookies[item].Value);
+                count++;
+                if (count == 11)
+                {
+                    return new EmptyResult();
+                }
+
+                Thread.Sleep(1000);
+                genereatedFile = System.IO.File.Exists(pdfFile);
             }
 
-            return cookies;
+            return File(pdfFile, "application/pdf", string.Format(_PDFFileName, id));
         }
     }
 }
