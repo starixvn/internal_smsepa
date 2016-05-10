@@ -292,7 +292,8 @@ function ($timeout, utilitiesFactory) {
             angular.forEach(gridData.MemberEPAs, function (memberEPA, index) {
                 var score = calculateScore(memberEPA);
 
-                var pdfIcon = '<a class="icon-pdf" ng-click="exportPDF(1);"></input>';
+                var pdfIcon = '<a class="icon-pdf exportPDF" data-epaid="' + memberEPA.EPAId + '"></input>';
+
                 var currentRow = {
                     Columns: [
                         { Name: "No", Value: rowIndex + index + 1 },
@@ -348,7 +349,7 @@ function ($timeout, utilitiesFactory) {
                     text: "EPA Detail Report",
                     showExcelButton: true,
                     exportExcelFunction: function () {
-                        $scope.exportPdf();
+                        $scope.exportReport();
                     }
                 }
             };
@@ -373,7 +374,13 @@ function ($timeout, utilitiesFactory) {
 
                         $(iElement).fanexGrid(gridOptions);
                         $(iElement).fanexGrid("hideColumns", gridOptions, $scope.hideColumns);
-                        $(iElement).fanexGrid("exportPdf", gridOptions, $scope.exportPdf);
+
+                        $('a.exportPDF').on('click', function (event) {
+                            event.preventDefault();
+
+                            var epaId = parseInt($(this).data('epaid'));
+                            $scope.exportPdf(epaId);
+                        });
                     }
                 });
             });

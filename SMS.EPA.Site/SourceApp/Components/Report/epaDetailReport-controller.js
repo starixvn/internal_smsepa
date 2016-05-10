@@ -49,8 +49,8 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory, usSpinnerService, 
         }
     };
 
-    vm.exportPdf = function () {
-        var url = baseUrl + 'ExportPDF/RequestExportingEPADetail/1',
+    vm.exportPdf = function (epaId) {
+        /*var url = baseUrl + 'ExportPDF/RequestExportingEPADetail/1',
                    iframe = $('body iframe');
 
         if (iframe.length === 0) {
@@ -58,7 +58,9 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory, usSpinnerService, 
             iframe.appendTo('body');
         }
 
-        iframe.attr('src', url);
+        iframe.attr('src', url);*/
+
+        alert(epaId);
     };
 
     var getEPADetailReport = function (filter) {
