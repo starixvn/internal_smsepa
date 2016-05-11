@@ -310,7 +310,7 @@ function ($timeout, utilitiesFactory) {
                         { Name: "DisciplineScore", Value: score.DisciplineScore },
                         { Name: "FinalScore", Value: score.FinalScore },
                         { Name: "Grade", Value: score.Grade },
-                        { Name: "ExportPdf", Value: memberEPA.EPAId < 0 ? pdfIcon : "" }
+                        { Name: "ExportPdf", Value: memberEPA.EPAId > 0 ? pdfIcon : "" }
                     ]
                 };
 

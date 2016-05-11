@@ -63,7 +63,7 @@ function ($scope, $timeout, ReportModel, CommonModel, utilitiesFactory, usSpinne
         $timeout(function () {
             url = baseUrl + 'ExportPDF/DownloadEPADetail/' + epaId;
             iframe.attr('src', url);
-        }, 1000);
+        }, 3000);
     };
 
     var getEPADetailReport = function (filter) {

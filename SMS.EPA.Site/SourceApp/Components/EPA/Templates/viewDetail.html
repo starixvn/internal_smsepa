@@ -6,7 +6,10 @@
     </div>
     <div class="col-sm-12">
         <div class="row epa-form">
-            <div class="text-center epa-title" data-translate="EPATilte"></div>
+            <div class="text-center epa-title">
+                <span data-translate="EPATilte"></span>
+                <span> - {{memberEPAInfoCtrl.epaInfo.Period.Name}}</span>
+            </div>
             <div class="col-sm-12 list-group-item bottom-buffer general-info-section" ng-init="memberEPAInfoCtrl.collapses['GeneralInfo'] = false;">
                 <div class="boxtitle" data-translate="GeneralInfo"
                      ng-click="memberEPAInfoCtrl.collapses['GeneralInfo'] = !memberEPAInfoCtrl.collapses['GeneralInfo']"></div>
