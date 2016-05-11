@@ -8,14 +8,13 @@
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
     using System;
-    using System.Net;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Web.Mvc;
 
     public class ExportPDFController : Controller
     {
-        private const string _PDFFileName = @"{0}_{1}.pdf";
+        private const string _PDFFileName = @"{0}.pdf";
         private readonly IEmployeeEPAService _employeeEPAService;
 
         public ExportPDFController()
@@ -41,9 +40,7 @@
                 try
                 {
                     var exportingPdf = new ExportingPdf(Request.Cookies, target);
-                    byte[] bytes = exportingPdf.Run();
-
-                    System.IO.File.WriteAllBytes(pdfFile, bytes);
+                    exportingPdf.WriteToFile(pdfFile);
                 }
                 catch (Exception ex)
                 {
@@ -58,8 +55,8 @@
         {
             string pdfFileName = FormatPdfFile(id);
             string pdfFile = Server.MapPath(Constants.ExportingFolder + pdfFileName);
-            bool isExisted = IsExistsFile(pdfFile);
 
+            bool isExisted = IsExistsFile(pdfFile);
             if (isExisted)
             {
                 byte[] bytes = ReadAndDeleteFile(pdfFile);
@@ -72,11 +69,13 @@
 
         private string FormatPdfFile(int epaId)
         {
+            var _PdfFileFormat = @"{0}.pdf";
             var criteria = new GetEPAInfoByIdCriteria() { EPAId = epaId };
 
             EPAModel epaInfo = _employeeEPAService.GetEPAInfoById(criteria);
+            string code = string.IsNullOrEmpty(epaInfo.Employee.Code) ? string.Empty : "_" + epaInfo.Employee.Code;
 
-            return string.Format(_PDFFileName, epaInfo.Employee.Code, epaInfo.Employee.NickName);
+            return string.Format(_PdfFileFormat, epaInfo.Employee.NickName + epaInfo.Employee.Code);
         }
 
         private bool IsExistsFile(string pdfFile)

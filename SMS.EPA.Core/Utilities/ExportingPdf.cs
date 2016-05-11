@@ -28,6 +28,13 @@
             return bytes;
         }
 
+        public void WriteToFile(string filePath)
+        {
+            PdfDocument document = _convert.ConvertUrl(_url);
+            document.Save(filePath);
+            document.Close();
+        }
+
         private NameValueCollection GetUserCookiesToAuthenticate(HttpCookieCollection cookie)
         {
             var cookies = new NameValueCollection();
