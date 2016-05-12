@@ -26,19 +26,19 @@ namespace SMS.EPA.Core.Utilities
 
         public static bool IsReadyWithIntervals(string pdfFile, int seconds)
         {
-            var isExisted = false;
-            var isAvailable = false;
-            int count = 0;
-            while (!isExisted && count < seconds)
+            for (int count = 0; count < seconds; count++)
             {
-                isAvailable = FileUtilities.IsAvailable(pdfFile);
-                isExisted = System.IO.File.Exists(pdfFile);
-                count++;
+                var isAvailable = FileUtilities.IsAvailable(pdfFile);
+                var isExisted = System.IO.File.Exists(pdfFile);
+                if (isAvailable && isExisted)
+                {
+                    return true;
+                }
 
                 Thread.Sleep(1000);
             }
 
-            return isExisted && isAvailable && count < seconds;
+            return false;
         }
 
         public static byte[] ReadAndDeleteFile(string path)
