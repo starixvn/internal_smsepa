@@ -292,7 +292,7 @@ function ($timeout, utilitiesFactory) {
             angular.forEach(gridData.MemberEPAs, function (memberEPA, index) {
                 var score = calculateScore(memberEPA);
 
-                var pdfIcon = '<a class="icon-pdf exportPDF" data-epaid="' + memberEPA.EPAId + '"></input>';
+                var pdfIcon = '<a class="icon-pdf exportPDF" data-epaid="' + memberEPA.EPAId + '" data-hasmonthlyepa="' + memberEPA.HasMonthlyEPA + '"></input>';
 
                 var currentRow = {
                     Columns: [
@@ -379,7 +379,8 @@ function ($timeout, utilitiesFactory) {
                             event.preventDefault();
 
                             var epaId = parseInt($(this).data('epaid'));
-                            $scope.exportPdf(epaId);
+                            var hasMonthlyEPA = $(this).data('hasmonthlyepa');
+                            $scope.exportPdf(epaId, hasMonthlyEPA);
                         });
                     }
                 });

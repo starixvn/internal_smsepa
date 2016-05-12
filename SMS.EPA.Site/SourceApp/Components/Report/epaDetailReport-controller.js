@@ -49,21 +49,35 @@ function ($scope, $timeout, ReportModel, CommonModel, utilitiesFactory, usSpinne
         }
     };
 
-    vm.exportPdf = function (epaId) {
-        var url = baseUrl + 'ExportPDF/RequestExportingEPADetail/' + epaId,
-                   iframe = $('body iframe');
-        
-        if (iframe.length === 0) {
-            iframe = $('<iframe width="0" height="0" class="display-none"></iframe>');
-            iframe.appendTo('body');
+    vm.exportPdf = function (epaId, hasMonthlyEPA) {
+        if (hasMonthlyEPA) {
+            ReportModel.requestExportSemiEPA(epaId)
+            .then(function () {
+                $timeout(function () {
+                    var url = baseUrl + 'ExportPDF/DownloadEPADetail?epaId=' + epaId + '&fileName=' + ReportModel.pdfFileName;
+                    var iframe = $('body iframe');
+                    if (iframe.length === 0) {
+                        iframe = $('<iframe width="0" height="0" class="display-none"></iframe>');
+                        iframe.appendTo('body');
+                    }
+                    iframe.attr('src', url);
+                }, 4000);
+            });
+        } else {
+            ReportModel.requestExportEPA(epaId)
+            .then(function () {
+                $timeout(function () {
+                    var url = baseUrl + 'ExportPDF/DownloadEPADetail?epaId=' + epaId + '&fileName=' + ReportModel.pdfFileName;
+                    var iframe = $('body iframe');
+                    if (iframe.length === 0) {
+                        iframe = $('<iframe width="0" height="0" class="display-none"></iframe>');
+                        iframe.appendTo('body');
+                    }
+                    iframe.attr('src', url);
+                }, 4000);
+            });
         }
 
-        iframe.attr('src', url);
-
-        $timeout(function () {
-            url = baseUrl + 'ExportPDF/DownloadEPADetail/' + epaId;
-            iframe.attr('src', url);
-        }, 3000);
     };
 
     var getEPADetailReport = function (filter) {

@@ -1,6 +1,5 @@
 ﻿namespace SMS.EPA.Site.Controllers
 {
-    using Fanex.Logging;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Utilities;
     using SMS.EPA.Criteria.EmployeeEPA;
@@ -8,13 +7,11 @@
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
     using System;
-    using System.Threading;
-    using System.Threading.Tasks;
+    using System.Configuration;
     using System.Web.Mvc;
 
     public class ExportPDFController : Controller
     {
-        private const string _PDFFileName = @"{0}.pdf";
         private readonly IEmployeeEPAService _employeeEPAService;
 
         public ExportPDFController()
@@ -28,77 +25,58 @@
             _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
         }
 
-        public ActionResult RequestExportingEPADetail(int id)
+        public string RequestExportEPA(int epaId)
         {
-            var fileId = string.Format("{0}", id);
-            string domain = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Host, Request.Url.Port != 0 ? ":" + Request.Url.Port : string.Empty);
-            string target = domain + "/EPA/Detail/" + id + "?exportpdf=true";
-            string pdfFile = Server.MapPath(Constants.ExportingFolder + FormatPdfFile(id));
+            string target = "/EPA/Detail/" + epaId + "?exportpdf=true";
+            string fileName = RequestExport(target);
 
-            Task.Factory.StartNew(() =>
-            {
-                try
-                {
-                    var exportingPdf = new ExportingPdf(Request.Cookies, target);
-                    exportingPdf.WriteToFile(pdfFile);
-                }
-                catch (Exception ex)
-                {
-                    LogService.Error(ex.Message);
-                }
-            });
-
-            return new EmptyResult();
+            return fileName;
         }
 
-        public ActionResult DownloadEPADetail(int id)
+        public string RequestExportSemiEPA(int epaId)
         {
-            string pdfFileName = FormatPdfFile(id);
-            string pdfFile = Server.MapPath(Constants.ExportingFolder + pdfFileName);
+            string target = "/EPA/SemiDetail/" + epaId + "?exportpdf=true";
+            string fileName = RequestExport(target);
 
-            bool isExisted = IsExistsFile(pdfFile);
-            if (isExisted)
+            return fileName;
+        }
+
+        public ActionResult DownloadEPADetail(int epaId, string fileName)
+        {
+            string pdfFile = Server.MapPath(Constants.ExportingFolder + fileName);
+            bool isValid = FileUtilities.IsReadyWithIntervals(pdfFile, int.Parse(ConfigurationManager.AppSettings["IntervalToDownloadFile"]));
+            if (!isValid)
             {
-                byte[] bytes = ReadAndDeleteFile(pdfFile);
-
-                return File(bytes, "application/pdf", pdfFileName);
+                return HttpNotFound();
             }
 
-            return HttpNotFound();
+            byte[] bytes = FileUtilities.ReadAndDeleteFile(pdfFile);
+            string newFileName = FormatPdfFileName(epaId);
+
+            return File(bytes, "application/pdf", newFileName);
         }
 
-        private string FormatPdfFile(int epaId)
+        private string FormatPdfFileName(int epaId)
         {
-            var _PdfFileFormat = @"{0}.pdf";
             var criteria = new GetEPAInfoByIdCriteria() { EPAId = epaId };
 
             EPAModel epaInfo = _employeeEPAService.GetEPAInfoById(criteria);
             string code = string.IsNullOrEmpty(epaInfo.Employee.Code) ? string.Empty : "_" + epaInfo.Employee.Code;
 
-            return string.Format(_PdfFileFormat, epaInfo.Employee.NickName + epaInfo.Employee.Code);
+            return string.Format("{0}.pdf", epaInfo.Employee.NickName + epaInfo.Employee.Code);
         }
 
-        private bool IsExistsFile(string pdfFile)
+        private string RequestExport(string target)
         {
-            bool genereatedFile = System.IO.File.Exists(pdfFile);
-            int count = 0;
-            while (!genereatedFile && count < 20)
-            {
-                count++;
+            string fileName = string.Format("EPA_{0}.pdf", DateTime.Now.ToString("HHmmss"));
+            string domain = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Host, Request.Url.Port != 0 ? ":" + Request.Url.Port : string.Empty);
+            string url = domain + target;
+            string pdfFile = Server.MapPath(Constants.ExportingFolder + fileName);
 
-                Thread.Sleep(1000);
-                genereatedFile = System.IO.File.Exists(pdfFile);
-            }
+            var exportingPdf = new ExportingPdf(Request.Cookies, url);
+            exportingPdf.WriteToFileAsync(pdfFile);
 
-            return genereatedFile && count < 20;
-        }
-
-        private byte[] ReadAndDeleteFile(string pdfFile)
-        {
-            var file = System.IO.File.ReadAllBytes(pdfFile);
-            System.IO.File.Delete(pdfFile);
-
-            return file;
+            return fileName;
         }
     }
 }

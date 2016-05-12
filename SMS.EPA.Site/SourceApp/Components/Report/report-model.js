@@ -9,6 +9,25 @@ function (reportFactory, notificationFactory, errorFactory) {
     reportModel.epaSummary = [];
     reportModel.epaDetail = [];
     reportModel.periods = [];
+    reportModel.pdfFileName = "";
+
+    reportModel.requestExportEPA = function (epaId) {
+        return reportFactory.requestExportEPA(epaId)
+            .success(function (fileName) {
+                reportModel.pdfFileName = fileName;
+            }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    reportModel.requestExportSemiEPA = function (epaId) {
+        return reportFactory.requestExportSemiEPA(epaId)
+            .success(function (fileName) {
+                reportModel.pdfFileName = fileName;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+    };
 
     reportModel.getAllPeriodIncludeImport = function () {
         return reportFactory.getAllPeriodIncludeImport()

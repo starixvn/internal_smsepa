@@ -3,6 +3,12 @@
 
 reportModule.factory('reportFactory', ['$http', 'baseUrl', function ($http, baseUrl) {
     return {
+        requestExportEPA: function (epaId) {
+            return $http.get(baseUrl + 'ExportPDF/RequestExportEPA/', { params: { epaId: epaId } });
+        },
+        requestExportSemiEPA: function (epaId) {
+            return $http.get(baseUrl + 'ExportPDF/RequestExportSemiEPA/', { params: { epaId: epaId } });
+        },
         getAllPeriodIncludeImport: function () {
             return $http.get(baseUrl + 'api/Report/GetAllPeriodIncludeImport');
         },
