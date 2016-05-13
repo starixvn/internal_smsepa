@@ -223,7 +223,7 @@ function ($timeout, utilitiesFactory) {
             { HeaderText: "Discipline Score", Width: 80, Name: "DisciplineScore", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "Final Score", Width: 80, Name: "FinalScore", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "Grade", Width: 80, Name: "Grade", HeaderAlign: "center", CellAlign: "center" },
-            { HeaderText: "", Width: 80, Name: "ExportPdf", HeaderAlign: "center", CellAlign: "center" }
+            { HeaderText: "Export PDF", Width: 80, Name: "ExportPdf", HeaderAlign: "center", CellAlign: "center" }
         ];
 
         return columnHeaders;
@@ -310,7 +310,7 @@ function ($timeout, utilitiesFactory) {
                         { Name: "DisciplineScore", Value: score.DisciplineScore },
                         { Name: "FinalScore", Value: score.FinalScore },
                         { Name: "Grade", Value: score.Grade },
-                        { Name: "ExportPdf", Value: memberEPA.EPAId > 0 ? pdfIcon : "" }
+                        { Name: "ExportPdf", Value: memberEPA.EPAId > 0 && memberEPA.Status.StatusId == 1 ? pdfIcon : "" }
                     ]
                 };
 
