@@ -21,6 +21,7 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Model.KPI;
     using SMS.EPA.Model.KPIGroup;
     using SMS.EPA.Model.Period;
+    using SMS.EPA.Model.TargetTemplate;
     using SMS.EPA.Model.TargetType;
 
     public class CommonController : BaseController
@@ -167,6 +168,12 @@ namespace SMS.EPA.Site.Controllers.API
         public IEnumerable<EmployeeOtherViolationDetailModel> GetOtherViolationDetailByEPAId(int epaId)
         {
             return _utilitiesController.GetOtherViolationDetailByEPAId(epaId);
+        }
+
+        [HttpGet]
+        public IEnumerable<TargetTemplateModel> GetAllTargetTemplate(int? targetTypeId = null, bool? isActive = null)
+        {
+            return _utilitiesController.GetAllTargetTemplate(targetTypeId, isActive);
         }
     }
 }

@@ -264,9 +264,9 @@ function ($scope, $routeParams, $window, PeriodModel, CommonModel, utilitiesFact
 }]);
 
 periodModule.controller('UpdateEmployeeSettingPeriodController',
-['$scope', '$modalInstance', 'PeriodModel', 'TargetTemplateModel', 'FlowMngModel', 'CommonModel', 'enumerationsFactory',
+['$scope', '$modalInstance', 'PeriodModel', 'FlowMngModel', 'CommonModel', 'enumerationsFactory',
     'period', 'selectedEmployees', 'permission',
-function ($scope, $modalInstance, PeriodModel, TargetTemplateModel, FlowMngModel, CommonModel, enumerationsFactory,
+function ($scope, $modalInstance, PeriodModel, FlowMngModel, CommonModel, enumerationsFactory,
     period, selectedEmployees, permission) {
     var vm = this,
         date = new Date();
@@ -330,7 +330,7 @@ function ($scope, $modalInstance, PeriodModel, TargetTemplateModel, FlowMngModel
         managementEmployees: []
     };
 
-    var createEmployeeIds = function (evaluators) {
+    function createEmployeeIds(evaluators) {
         var ids = [];
 
         if (evaluators && evaluators.length > 0) {
@@ -342,9 +342,9 @@ function ($scope, $modalInstance, PeriodModel, TargetTemplateModel, FlowMngModel
         }
 
         return ids;
-    };
+    }
 
-    var getEvaluators = function (evaluators) {
+    function getEvaluators(evaluators) {
         var evaluator = {
             StartDate: date,
             EndDate: date,
@@ -360,9 +360,9 @@ function ($scope, $modalInstance, PeriodModel, TargetTemplateModel, FlowMngModel
         }
 
         return evaluator;
-    };
+    }
 
-    var updateTargetTemplates = function (targetTemplate) {
+    function updateTargetTemplates(targetTemplate) {
         var existed = false;
 
         angular.forEach(vm.targetTemplates, function (item) {
@@ -374,9 +374,9 @@ function ($scope, $modalInstance, PeriodModel, TargetTemplateModel, FlowMngModel
         if (!existed) {
             vm.targetTemplates.push(targetTemplate);
         }
-    };
+    }
 
-    var setEmployeeSetting = function (employeeSetting) {
+    function setEmployeeSetting(employeeSetting) {
         vm.employeeOptions.humanResource = getEvaluators(employeeSetting.HumanResources);
         vm.employeeOptions.selfEvaluator = getEvaluators(employeeSetting.SelfEvaluators);
         vm.employeeOptions.evaluator = getEvaluators(employeeSetting.Evaluators);
@@ -387,9 +387,9 @@ function ($scope, $modalInstance, PeriodModel, TargetTemplateModel, FlowMngModel
             vm.employeeOptions.targetTemplateId = employeeSetting.TargetTemplate.TargetTemplateId;
             updateTargetTemplates(employeeSetting.TargetTemplate);
         }
-    };
+    }
 
-    var getProcessSetingById = function (processSettings, processId) {
+    function getProcessSetingById(processSettings, processId) {
         var processSetting = null;
 
         angular.forEach(processSettings, function (processItem) {
@@ -399,16 +399,16 @@ function ($scope, $modalInstance, PeriodModel, TargetTemplateModel, FlowMngModel
         });
 
         return processSetting;
-    };
+    }
 
-    var setDateSetting = function (startDate, evaluator, processSettings, processId) {
+    function setDateSetting(startDate, evaluator, processSettings, processId) {
         var processSetting = getProcessSetingById(processSettings, processId);
 
         evaluator.StartDate = angular.copy(startDate);
         evaluator.EndDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + processSetting.Duration - 1);
-    };
+    }
 
-    var getProcessAndSetDateSetting = function () {
+    function getProcessAndSetDateSetting() {
         PeriodModel.getProcessSettingByPeriodId(vm.period.PeriodId).then(function () {
             vm.processSettings = PeriodModel.processSettings;
 
@@ -439,13 +439,13 @@ function ($scope, $modalInstance, PeriodModel, TargetTemplateModel, FlowMngModel
             day = vm.employeeOptions.reviewer.EndDate.getDate();
             setDateSetting(new Date(year, month, day + 1), vm.employeeOptions.management, vm.processSettings, vm.evaluatorType.Management);
         });
-    };
+    }
 
     /*
    ** Get employees flow and target setting.
    */
-    TargetTemplateModel.getTargetTemplate(vm.period.TargetType.TargetTypeId, true).then(function () {
-        vm.targetTemplates = TargetTemplateModel.targetTemplates;
+    CommonModel.getTargetTemplate(vm.period.TargetType.TargetTypeId, true).then(function () {
+        vm.targetTemplates = CommonModel.targetTemplates;
         vm.employeeOptions.targetTemplateId = vm.targetTemplates.length > 0 ? vm.targetTemplates[0].TargetTemplateId : null;
 
         CommonModel.getAllEmployee().then(function () {
@@ -457,8 +457,7 @@ function ($scope, $modalInstance, PeriodModel, TargetTemplateModel, FlowMngModel
 
             if (vm.singleMode) {
                 setEmployeeSetting(vm.selectedEmployees[0]);
-            }
-            else {
+            } else {
                 getProcessAndSetDateSetting();
             }
         });
@@ -480,7 +479,7 @@ function ($scope, $modalInstance, PeriodModel, TargetTemplateModel, FlowMngModel
         vm.hasSelfStarted = PeriodModel.hasSelfStarted;
     });
 
-    var checkChangeEmployeeSetting = function (employeeOptions, employeeSetting) {
+    function checkChangeEmployeeSetting(employeeOptions, employeeSetting) {
         var hasEdited = false,
             humanResource = getEvaluators(employeeSetting.HumanResources),
             selfEvaluator = getEvaluators(employeeSetting.SelfEvaluators),
@@ -491,25 +490,20 @@ function ($scope, $modalInstance, PeriodModel, TargetTemplateModel, FlowMngModel
 
         if (vm.employeeOptions.targetTemplateId !== originalTargetTemplateId) {
             hasEdited = true;
-        }
-        else if (JSON.stringify(humanResource) !== JSON.stringify(employeeOptions.humanResource)) {
+        } else if (JSON.stringify(humanResource) !== JSON.stringify(employeeOptions.humanResource)) {
             hasEdited = true;
-        }
-        else if (JSON.stringify(selfEvaluator) !== JSON.stringify(employeeOptions.selfEvaluator)) {
+        } else if (JSON.stringify(selfEvaluator) !== JSON.stringify(employeeOptions.selfEvaluator)) {
             hasEdited = true;
-        }
-        else if (JSON.stringify(evaluator) !== JSON.stringify(employeeOptions.evaluator)) {
+        } else if (JSON.stringify(evaluator) !== JSON.stringify(employeeOptions.evaluator)) {
             hasEdited = true;
-        }
-        else if (JSON.stringify(reviewer) !== JSON.stringify(employeeOptions.reviewer)) {
+        } else if (JSON.stringify(reviewer) !== JSON.stringify(employeeOptions.reviewer)) {
             hasEdited = true;
-        }
-        else if (JSON.stringify(management) !== JSON.stringify(employeeOptions.management)) {
+        } else if (JSON.stringify(management) !== JSON.stringify(employeeOptions.management)) {
             hasEdited = true;
         }
 
         return hasEdited;
-    };
+    }
 
     vm.save = function () {
         var employeeAssignmentSetting;

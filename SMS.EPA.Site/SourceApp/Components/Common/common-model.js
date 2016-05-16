@@ -22,6 +22,7 @@ function ($modal, commonFactory, errorFactory) {
     commonModel.standardGrades = [];
     commonModel.periodOptions = [];
     commonModel.otherViolationDetails = [];
+    commonModel.targetTemplates = [];
     commonModel.remindDay = [0, 1, 2, 3, 4, 5, 6, 7];
 
     /// Get target type.
@@ -229,6 +230,15 @@ function ($modal, commonFactory, errorFactory) {
         });
 
         return modalInstance.result;
+    };
+
+    commonModel.getTargetTemplate = function (targetTypeId, isActive) {
+        return commonFactory.getTargetTemplate(targetTypeId, isActive)
+        .success(function (targetTemplates) {
+            commonModel.targetTemplates = targetTemplates;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
     };
 
     return commonModel;

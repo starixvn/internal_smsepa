@@ -19,6 +19,7 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Criteria.KPI;
     using SMS.EPA.Criteria.KPIGroup;
     using SMS.EPA.Criteria.Period;
+    using SMS.EPA.Criteria.TargetTemplate;
     using SMS.EPA.Criteria.TargetType;
     using SMS.EPA.Model.Department;
     using SMS.EPA.Model.Employee;
@@ -27,6 +28,7 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Model.KPI;
     using SMS.EPA.Model.KPIGroup;
     using SMS.EPA.Model.Period;
+    using SMS.EPA.Model.TargetTemplate;
     using SMS.EPA.Model.TargetType;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
@@ -41,9 +43,10 @@ namespace SMS.EPA.Site.Controllers.API
         private readonly IPeriodService _periodService;
         private readonly IEmployeeEPAService _employeeEPAService;
         private readonly IEPAHistoryService _epaHistoryService;
+        private readonly ITargetTemplateService _targetTemplateService;
 
         public UtilitiesController()
-            : this(null, null, null, null, null, null, null, null)
+            : this(null, null, null, null, null, null, null, null, null)
         {
         }
 
@@ -55,7 +58,8 @@ namespace SMS.EPA.Site.Controllers.API
             IDepartmentService departmentService,
             IPeriodService periodService,
             IEmployeeEPAService employeeEPAService,
-            IEPAHistoryService epaHistoryService)
+            IEPAHistoryService epaHistoryService,
+            ITargetTemplateService targetTemplateService)
         {
             _targetTypeService = targetTypeService ?? new TargetTypeService();
             _kpiService = kpiService ?? new KPIService();
@@ -65,6 +69,7 @@ namespace SMS.EPA.Site.Controllers.API
             _periodService = periodService ?? new PeriodService();
             _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
             _epaHistoryService = epaHistoryService ?? new EPAHistoryService();
+            _targetTemplateService = targetTemplateService ?? new TargetTemplateService();
         }
 
         [NonAction]
@@ -127,8 +132,7 @@ namespace SMS.EPA.Site.Controllers.API
                 IncludeVerifier = includeVerifier
             };
 
-            IEnumerable<EmployeeModel> employees = _employeeService.GetAllEmployee(criteria);
-            return employees;
+            return _employeeService.GetAllEmployee(criteria);
         }
 
         [NonAction]
@@ -168,8 +172,8 @@ namespace SMS.EPA.Site.Controllers.API
         public IEnumerable<Group> GetAllGroup()
         {
             var criteria = new GetAllGroupCriteria();
-            IEnumerable<Group> groups = _employeeService.GetAllGroup(criteria);
-            return groups;
+
+            return _employeeService.GetAllGroup(criteria);
         }
 
         [NonAction]
@@ -188,7 +192,7 @@ namespace SMS.EPA.Site.Controllers.API
             if (departments != null && departments.Any())
             {
                 treeList = new DepartmentModel();
-                treeList.Childrens.Add(departments.Where(x => x.ParentId == null).SingleOrDefault());
+                treeList.Childrens.Add(departments.SingleOrDefault(x => x.ParentId == null));
             }
 
             var departmentInfo = new DepartmentInfoModel
@@ -226,8 +230,8 @@ namespace SMS.EPA.Site.Controllers.API
         public IList<PeriodModel> GetAllPeriodIncludeImport()
         {
             var criteria = new GetAllPeriodIncludeImportCriteria();
-            IList<PeriodModel> periods = _epaHistoryService.GetAllPeriodIncludeImport(criteria);
-            return periods;
+
+            return _epaHistoryService.GetAllPeriodIncludeImport(criteria);
         }
 
         [NonAction]
@@ -239,6 +243,18 @@ namespace SMS.EPA.Site.Controllers.API
             };
 
             return _employeeEPAService.GetOtherViolationDetailByEPAId(criteria);
+        }
+
+        [NonAction]
+        public IEnumerable<TargetTemplateModel> GetAllTargetTemplate(int? targetTypeId = null, bool? isActive = null)
+        {
+            var getAllTargetTemplateCriteria = new GetAllTargetTemplateCriteria
+            {
+                TargetTypeId = targetTypeId,
+                IsActive = isActive
+            };
+
+            return _targetTemplateService.GetAllTargetTemplate(getAllTargetTemplateCriteria);
         }
     }
 }
