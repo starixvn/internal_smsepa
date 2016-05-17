@@ -17,7 +17,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     vm.isEndProcessAll = false;
     vm.policyEnum = enumerationsFactory.policy;
     vm.targetTypeEnum = enumerationsFactory.targetType;
-
+    vm.monthlyFilterSelected = false;
     vm.filter = {};
 
     function initFilter() {
@@ -267,6 +267,11 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
             }
 
             $(".rating-loading").rating();
+            if (isMonthly) {
+                vm.monthlyFilterSelected = true;
+            } else {
+                vm.monthlyFilterSelected = false;
+            }
         });
 
         historyFactory.saveState(vm.filter);

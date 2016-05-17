@@ -12,6 +12,7 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, en
     vm.targetTypeEnum = enumerationsFactory.targetType;
     vm.sortBySelfScore = { ascending: false, descending: false };
     vm.filter = {};
+    vm.monthlyFilterSelected = false;
 
     function initFilter() {
         var filter = historyFactory.getState();
@@ -76,6 +77,12 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, en
 
                 memberEPA.Grade = EmployeeEPAModel.convertScoreToGrade(memberEPA.FinalScore, vm.standardGrades);
             });
+
+            if (isMonthly) {
+                vm.monthlyFilterSelected = true;
+            } else {
+                vm.monthlyFilterSelected = false;
+            }
         });
 
         historyFactory.saveState(vm.filter);

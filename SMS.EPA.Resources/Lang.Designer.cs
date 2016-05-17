@@ -331,7 +331,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Partially meets expectations: refers to performance and skills which are adequate in some respects but not fully up to standard; some corrective action is needed..
+        ///   Looks up a localized string similar to Poor quality &amp; Mistake low..
         /// </summary>
         public static string BelowAverageDescription {
             get {
@@ -1330,7 +1330,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Substantially exceeds expectations: refers to truly outstanding performance; should be someone you regard as a role model in the area rated..
+        ///   Looks up a localized string similar to Task accomplished, NO mistake and have good idea..
         /// </summary>
         public static string ExcellentDescription {
             get {
@@ -1456,7 +1456,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Exceeds expectations: refers to significant performance ability; only very strong performers should receive this rating..
+        ///   Looks up a localized string similar to Task accomplished &amp; Mistake very low..
         /// </summary>
         public static string GoodDescription {
             get {
@@ -1789,6 +1789,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Last Month Score.
+        /// </summary>
+        public static string LastMonthScore {
+            get {
+                return ResourceManager.GetString("LastMonthScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last Rating.
         /// </summary>
         public static string LastRating {
@@ -2104,15 +2113,6 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to judge, if the nature or extent of your interaction does not enable you to provide feedback on a particular category for a particular individual, select the “NA” rating..
-        /// </summary>
-        public static string NotAvailableDescription {
-            get {
-                return ResourceManager.GetString("NotAvailableDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Not Evaluated.
         /// </summary>
         public static string NotEvaluated {
@@ -2311,7 +2311,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Needs much Improvement: refers to performance which fails to measure up to standard and must be improved through corrective action steps..
+        ///   Looks up a localized string similar to Poor quality &amp; Mistake high..
         /// </summary>
         public static string PoorDescription {
             get {
@@ -2599,7 +2599,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Meets expectations: refers to solid performance with a full skills base; most people fall into this category..
+        ///   Looks up a localized string similar to Task accomplished  &amp; Mistake low..
         /// </summary>
         public static string SatisfactoryDescription {
             get {

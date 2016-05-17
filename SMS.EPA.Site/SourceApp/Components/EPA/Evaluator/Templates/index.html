@@ -62,7 +62,10 @@
                     <th data-translate="SystemDisciplineScore"></th>
                     <th data-translate="DisciplineScore"></th>
                     <th data-translate="TotalScore"></th>
-                    <th data-translate="LastFinalScore"></th>
+                    <th>
+                        <span ng-show="!evaluatorCtrl.monthlyFilterSelected" data-translate="LastFinalScore"></span>
+                        <span ng-show="evaluatorCtrl.monthlyFilterSelected" data-translate="LastMonthScore"></span>
+                    </th>
                     <th data-translate="Status"></th>
                     <th data-translate="EPAHistory"></th>
                     <th data-translate="Detail" class="col-action"></th>
