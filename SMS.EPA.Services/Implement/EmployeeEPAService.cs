@@ -625,8 +625,8 @@ namespace SMS.EPA.Services.Implement
 
             if (epaInfo.HasDisciplineScore)
             {
-                epaInfo.Process.Self.MaxPerformanceScore += epaInfo.DisciplineScore;
-                epaInfo.Process.CurrentProcess.MaxPerformanceScore += epaInfo.DisciplineScore;
+                epaInfo.Process.Self.MaxPerformanceScore += epaInfo.MaxDisciplineScore;
+                epaInfo.Process.CurrentProcess.MaxPerformanceScore += epaInfo.MaxDisciplineScore;
             }
         }
 
