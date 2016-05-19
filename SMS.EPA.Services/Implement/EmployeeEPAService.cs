@@ -11,7 +11,9 @@ namespace SMS.EPA.Services.Implement
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
+    using System.Runtime.Serialization.Formatters.Binary;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
@@ -54,7 +56,7 @@ namespace SMS.EPA.Services.Implement
 
                 foreach (EPAModel epa in epas)
                 {
-                    epa.Process.CurrentProcess = epa.Process.Self;
+                    epa.Process.CurrentProcess = CopyEPAProcess(epa.Process.Self);
                 }
             }
 
@@ -68,7 +70,7 @@ namespace SMS.EPA.Services.Implement
             if (criteria != null && criteria.IsValid())
             {
                 epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
-                epaInfo.Process.CurrentProcess = epaInfo.Process.Self;
+                epaInfo.Process.CurrentProcess = CopyEPAProcess(epaInfo.Process.Self);
                 SetMaxPerformanceScore(epaInfo);
                 SpreadKPIScore(epaInfo.KPIGroups);
 
@@ -109,7 +111,7 @@ namespace SMS.EPA.Services.Implement
 
                 foreach (EPAModel memberEPA in memberEPAs)
                 {
-                    memberEPA.Process.CurrentProcess = memberEPA.Process.Evaluators.FirstOrDefault(x => x.EvaluatorId == criteria.EvaluatorId);
+                    memberEPA.Process.CurrentProcess = CopyEPAProcess(memberEPA.Process.Evaluators.FirstOrDefault(x => x.EvaluatorId == criteria.EvaluatorId));
                     SetMaxPerformanceScore(memberEPA);
                     GroupMonthlyEPABySemi(memberEPA, monthlyEPAs);
                     ConvertAverageMonthlyScore(memberEPA.MonthlyEPA, memberEPA.ScoreRatingType);
@@ -126,7 +128,7 @@ namespace SMS.EPA.Services.Implement
             if (criteria != null && criteria.IsValid())
             {
                 epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
-                epaInfo.Process.CurrentProcess = epaInfo.Process.Evaluators.FirstOrDefault(x => x.EvaluatorId == criteria.EvaluatorId);
+                epaInfo.Process.CurrentProcess = CopyEPAProcess(epaInfo.Process.Evaluators.FirstOrDefault(x => x.EvaluatorId == criteria.EvaluatorId));
                 SetMaxPerformanceScore(epaInfo);
                 SpreadKPIScore(epaInfo.KPIGroups);
 
@@ -167,7 +169,7 @@ namespace SMS.EPA.Services.Implement
 
                 foreach (EPAModel memberEPA in memberEPAs)
                 {
-                    memberEPA.Process.CurrentProcess = memberEPA.Process.Reviewers.FirstOrDefault(x => x.EvaluatorId == criteria.ReviewerId);
+                    memberEPA.Process.CurrentProcess = CopyEPAProcess(memberEPA.Process.Reviewers.FirstOrDefault(x => x.EvaluatorId == criteria.ReviewerId));
                     SetMaxPerformanceScore(memberEPA);
                     GroupMonthlyEPABySemi(memberEPA, monthlyEPAs);
                     ConvertAverageMonthlyScore(memberEPA.MonthlyEPA, memberEPA.ScoreRatingType);
@@ -185,7 +187,7 @@ namespace SMS.EPA.Services.Implement
             if (criteria != null && criteria.IsValid())
             {
                 epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
-                epaInfo.Process.CurrentProcess = epaInfo.Process.Reviewers.FirstOrDefault(x => x.EvaluatorId == criteria.ReviewerId);
+                epaInfo.Process.CurrentProcess = CopyEPAProcess(epaInfo.Process.Reviewers.FirstOrDefault(x => x.EvaluatorId == criteria.ReviewerId));
                 SetMaxPerformanceScore(epaInfo);
                 SpreadKPIScore(epaInfo.KPIGroups);
 
@@ -221,7 +223,7 @@ namespace SMS.EPA.Services.Implement
 
                 foreach (EPAModel memberEPA in memberEPAs)
                 {
-                    memberEPA.Process.CurrentProcess = memberEPA.Process.Managements.FirstOrDefault(x => x.EvaluatorId == criteria.ManagementId);
+                    memberEPA.Process.CurrentProcess = CopyEPAProcess(memberEPA.Process.Managements.FirstOrDefault(x => x.EvaluatorId == criteria.ManagementId));
                     SetMaxPerformanceScore(memberEPA);
                     GroupMonthlyEPABySemi(memberEPA, monthlyEPAs);
                     ConvertAverageMonthlyScore(memberEPA.MonthlyEPA, memberEPA.ScoreRatingType);
@@ -239,7 +241,7 @@ namespace SMS.EPA.Services.Implement
             if (criteria != null && criteria.IsValid())
             {
                 epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
-                epaInfo.Process.CurrentProcess = epaInfo.Process.Managements.FirstOrDefault(x => x.EvaluatorId == criteria.ManagementId);
+                epaInfo.Process.CurrentProcess = CopyEPAProcess(epaInfo.Process.Managements.FirstOrDefault(x => x.EvaluatorId == criteria.ManagementId));
                 SetMaxPerformanceScore(epaInfo);
                 SpreadKPIScore(epaInfo.KPIGroups);
 
@@ -671,6 +673,18 @@ namespace SMS.EPA.Services.Implement
 
                     epaInfo.Process.CurrentProcess.MaxAdditionScore = (float)Math.Round(maxAdditionScore, Constants.NumberOfDecimalDefault);
                     break;
+            }
+        }
+
+        private EPAProcessModel CopyEPAProcess(EPAProcessModel process)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                var formatter = new BinaryFormatter();
+                formatter.Serialize(ms, process);
+                ms.Position = 0;
+
+                return (EPAProcessModel)formatter.Deserialize(ms);
             }
         }
     }

@@ -11,6 +11,7 @@ namespace SMS.EPA.Model.EmployeeEPA
 {
     using System;
 
+    [Serializable]
     public class EPAProcessModel
     {
         public int EPAId { get; set; }
@@ -33,7 +34,7 @@ namespace SMS.EPA.Model.EmployeeEPA
         {
             get
             {
-                return SMS.EPA.Core.Utilities.Avatar.GetAvatar(Code);
+                return Core.Utilities.Avatar.GetAvatar(Code);
             }
         }
 
