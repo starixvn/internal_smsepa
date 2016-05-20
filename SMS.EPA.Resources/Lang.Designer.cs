@@ -1978,6 +1978,33 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Monthly EPA Detail Report.
+        /// </summary>
+        public static string MonthlyEPADetailReport {
+            get {
+                return ResourceManager.GetString("MonthlyEPADetailReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monthly_EPA_Detail_Report.
+        /// </summary>
+        public static string MonthlyEPADetailReportName {
+            get {
+                return ResourceManager.GetString("MonthlyEPADetailReportName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monthly EPA Detail Report.
+        /// </summary>
+        public static string MonthlyEPADetailReportSheet {
+            get {
+                return ResourceManager.GetString("MonthlyEPADetailReportSheet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Monthly EPA List.
         /// </summary>
         public static string monthlyEPAs {

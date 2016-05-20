@@ -24,6 +24,8 @@ using SMS.EPA.Model.Period;
 
         IEnumerable<PeriodModel> GetMonthlyPeriod(GetMonthlyPeriodCriteria criteria);
 
+        IEnumerable<PeriodModel> GetAllMonthlyPeriod(GetAllMonthlyPeriodCriteria criteria);
+
         CommandResult CreatePeriod(CreatePeriodCriteria criteria);
 
         CommandResult AutoCreateMonthlyPeriod(AutoCreateMonthlyPeriodCriteria criteria);

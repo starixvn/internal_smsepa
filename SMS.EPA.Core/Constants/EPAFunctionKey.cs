@@ -34,6 +34,8 @@ namespace SMS.EPA.Core.Constants
 
         public const string EPADetailReport = "EPADetailReport";
 
+        public const string MonthlyEPADetailReport = "MonthlyEPADetailReport";
+
         public const string Admin = "Admin";
 
         public const string KPI = "KPI";

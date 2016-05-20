@@ -18,5 +18,7 @@ namespace SMS.EPA.Repositories.Interfaces
         EPASummaryModel GetEPASummary(ICriteria criteria);
 
         EPADetailModel GetEPADetail(ICriteria criteria);
+
+        EPADetailModel GetMonthlyEPADetail(ICriteria criteria);
     }
 }

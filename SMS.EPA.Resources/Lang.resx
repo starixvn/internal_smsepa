@@ -1293,4 +1293,13 @@
   <data name="LastMonthScore" xml:space="preserve">
     <value>Last Month Score</value>
   </data>
+  <data name="MonthlyEPADetailReport" xml:space="preserve">
+    <value>Monthly EPA Detail Report</value>
+  </data>
+  <data name="MonthlyEPADetailReportName" xml:space="preserve">
+    <value>Monthly_EPA_Detail_Report</value>
+  </data>
+  <data name="MonthlyEPADetailReportSheet" xml:space="preserve">
+    <value>Monthly EPA Detail Report</value>
+  </data>
 </root>

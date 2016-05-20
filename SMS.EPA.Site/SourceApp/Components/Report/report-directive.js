@@ -388,12 +388,187 @@ function ($timeout, utilitiesFactory) {
     };
 }]);
 
+reportModule.directive('gridMonthlyEpaDetailReport', ['$timeout', 'utilitiesFactory',
+function ($timeout, utilitiesFactory) {
+    var status = {
+        NotAvailable: 'N/A',
+        Pending: 'Pending'
+    };
+
+    var generateColumnHeaders = function () {
+        var columnHeaders = [
+            { HeaderText: "#", Width: 40, Name: "No", HeaderAlign: "center", CellAlign: "center" },
+            { HeaderText: "Code", Width: 60, Name: "Code", HeaderAlign: "center", CellAlign: "center" },
+            { HeaderText: "Full Name", Width: 160, Name: "FullName", HeaderAlign: "center", CellAlign: "left" },
+            { HeaderText: "Nick Name", Width: 100, Name: "NickName", HeaderAlign: "center", CellAlign: "center" },
+            { HeaderText: "Section", Width: 150, Name: "Section", HeaderAlign: "center", CellAlign: "left" },
+            { HeaderText: "Job Title", Width: 180, Name: "JobTitle", HeaderAlign: "center", CellAlign: "left" },
+            { HeaderText: "Self Score", Width: 80, Name: "SelfScore", HeaderAlign: "center", CellAlign: "center" },
+            { HeaderText: "Evaluator Score", Width: 80, Name: "EvaluatorScore", HeaderAlign: "center", CellAlign: "center" },
+            { HeaderText: "Reviewer Score", Width: 80, Name: "ReviewerScore", HeaderAlign: "center", CellAlign: "center" },
+            { HeaderText: "Final Score", Width: 80, Name: "FinalScore", HeaderAlign: "center", CellAlign: "center" },
+            { HeaderText: "Grade", Width: 80, Name: "Grade", HeaderAlign: "center", CellAlign: "center" }
+        ];
+
+        return columnHeaders;
+    };
+
+    var calculateScore = function (epaInfo) {
+        var result = {
+            SelfScore: '',
+            EvaluatorScore: '',
+            ReviewerScore: '',
+            FinalScore: '',
+            Grade: ''
+        };
+
+        if (epaInfo.EPAId > 0 && epaInfo.Process.Self.IsEndProcess) {
+            result.SelfScore = utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore);
+        }
+
+        if (epaInfo.EPAId > 0 && epaInfo.Process.Evaluators[0].IsEndProcess) {
+            result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators;
+        }
+
+        if (epaInfo.EPAId > 0 && epaInfo.Process.Reviewers.length > 0 && epaInfo.Process.Reviewers[0].IsEndProcess) {
+            result.ReviewerScore = epaInfo.Process.AverageScoreByReviewers;
+        }
+
+        if (epaInfo.Period.IsEndPeriod) {
+            if (epaInfo.FinalScore) {
+                result.FinalScore = utilitiesFactory.parseFloat(epaInfo.FinalScore);
+                result.Grade = epaInfo.Grade;
+            }
+            else {
+                result.FinalScore = status.NotAvailable;
+                result.Grade = status.NotAvailable;
+            }
+        }
+        else {
+            result.FinalScore = status.Pending;
+            result.Grade = status.Pending;
+        }
+
+        return result;
+    };
+
+    var generateBodyRows = function (gridData, pageOption) {
+        var rows = [];
+        var rowIndex = pageOption.itemsPerPage * pageOption.pageIndex;
+
+        if (gridData.MemberEPAs) {
+            angular.forEach(gridData.MemberEPAs, function (memberEPA, index) {
+                var score = calculateScore(memberEPA);
+                var currentRow = {
+                    Columns: [
+                        { Name: "No", Value: rowIndex + index + 1 },
+                        { Name: "Code", Value: memberEPA.Employee.Code },
+                        { Name: "FullName", Value: memberEPA.Employee.FullName },
+                        { Name: "NickName", Value: memberEPA.Employee.NickName },
+                        { Name: "Section", Value: memberEPA.Employee.GroupName },
+                        { Name: "JobTitle", Value: memberEPA.Employee.JobTitleName },
+                        { Name: "SelfScore", Value: score.SelfScore },
+                        { Name: "EvaluatorScore", Value: score.EvaluatorScore },
+                        { Name: "ReviewerScore", Value: score.ReviewerScore },
+                        { Name: "FinalScore", Value: score.FinalScore },
+                        { Name: "Grade", Value: score.Grade }
+                    ]
+                };
+
+                rows.push(currentRow);
+            });
+        }
+
+        return rows;
+    };
+
+    return {
+        restrict: "A",
+        scope: {
+            gridData: "=",
+            pageOption: '=',
+            onPageChanging: '=',
+            hideColumns: '=',
+            exportReport: '=',
+            exportPdf: '=',
+            gridExpandHeight: '@'
+        },
+        link: function ($scope, iElement) {
+            var columHeaders = generateColumnHeaders();
+
+            var gridOptions = {
+                columns: columHeaders,
+                gridExpandHeight: $scope.gridExpandHeight,
+                showPager: true,
+                customPager: true,
+                numberOfFrozenColumn: 6,
+                autoFixFrozenRowHeight: true,
+                columnsNeedHide: [],
+                enableHiddenColumns: false,
+                showTitle: true,
+                titleInfo: {
+                    text: "Monthly EPA Detail Report",
+                    showExcelButton: true,
+                    exportExcelFunction: function () {
+                        $scope.exportReport();
+                    }
+                }
+            };
+
+            $scope.$watch('gridData', function (gridData) {
+                $timeout(function () {
+                    if (gridData.MemberEPAs) {
+                        var bodyRows = generateBodyRows(gridData, $scope.pageOption);
+
+                        gridOptions.bodyRows = bodyRows;
+
+                        gridOptions.pagerOption = {
+                            startPerPage: utilitiesFactory.pageOption.itemsPerPage,
+                            totalItem: gridData ? gridData.TotalItem : 0,
+                            itemsPerPageArray: utilitiesFactory.pageOption.itemsPerPageArray,
+                            itemsPerPage: $scope.pageOption.itemsPerPage,
+                            currentPage: $scope.pageOption.pageIndex,
+                            pagerSelectCallBack: function (pageIndex, itemsPerPage) {
+                                $scope.onPageChanging(pageIndex, itemsPerPage);
+                            }
+                        };
+
+                        $(iElement).fanexGrid(gridOptions);
+                        $(iElement).fanexGrid("hideColumns", gridOptions, $scope.hideColumns);
+                    }
+                });
+            });
+        }
+    };
+}]);
+
 reportModule.directive('exportEpaDetailReport', ['baseUrl', function (baseUrl) {
     return {
         link: function (scope) {
             scope.$on('exportEpaDetailReport', function () {
                 var data = $.param(scope.epaDetailReportCtrl.exportCriteria),
                     url = baseUrl + 'ExportReport/ExportEPADetailReport',
+                    downloadUrl = url + "?" + data,
+                    iframe = $('body iframe');
+
+                if (iframe.length === 0) {
+                    iframe = $('<iframe width="0" height="0" class="display-none"></iframe>');
+                    iframe.appendTo('body');
+                }
+
+                iframe.attr('src', downloadUrl);
+            });
+        }
+    };
+}]);
+
+
+reportModule.directive('exportMonthlyEpaDetailReport', ['baseUrl', function (baseUrl) {
+    return {
+        link: function (scope) {
+            scope.$on('exportMonthlyEpaDetailReport', function () {
+                var data = $.param(scope.monthlyReportCtrl.exportCriteria),
+                    url = baseUrl + 'ExportReport/ExportMonthlyEPADetailReport',
                     downloadUrl = url + "?" + data,
                     iframe = $('body iframe');
 

@@ -61,6 +61,16 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Read)]
+        public IEnumerable<PeriodModel> GetAllMonthlyPeriod()
+        {
+            var criteria = new GetAllMonthlyPeriodCriteria();
+
+            IEnumerable<PeriodModel> periods = _periodService.GetAllMonthlyPeriod(criteria);
+
+            return periods;
+        }
+
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Read)]
         public PeriodModel GetMonthlyPeriodById(int periodId)
         {
             var criteria = new GetPeriodByIdCriteria

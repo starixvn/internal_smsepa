@@ -12,6 +12,9 @@ reportModule.factory('reportFactory', ['$http', 'baseUrl', function ($http, base
         getAllPeriodIncludeImport: function () {
             return $http.get(baseUrl + 'api/Report/GetAllPeriodIncludeImport');
         },
+        getAllMonthlyPeriod: function () {
+            return $http.get(baseUrl + 'api/MonthlyPeriod/GetAllMonthlyPeriod');
+        },
         getEPASummaryReport: function (periodIds, departmentId, isLocal, pageIndex, itemsPerPage) {
             return $http.get(baseUrl + 'api/Report/GetEPASummaryReport',
                 {
@@ -26,6 +29,19 @@ reportModule.factory('reportFactory', ['$http', 'baseUrl', function ($http, base
         },
         getEPADetailReport: function (periodId, departmentId, isLocal, phaseIds, pageIndex, itemsPerPage) {
             return $http.get(baseUrl + 'api/Report/GetEPADetailReport',
+                {
+                    params: {
+                        periodId: periodId,
+                        departmentId: departmentId,
+                        isLocal: isLocal,
+                        phaseIds: phaseIds,
+                        pageIndex: pageIndex,
+                        itemsPerPage: itemsPerPage
+                    }
+                });
+        },
+        getMonthlyEPADetailReport: function (periodId, departmentId, isLocal, phaseIds, pageIndex, itemsPerPage) {
+            return $http.get(baseUrl + 'api/Report/GetMonthlyEPADetailReport',
                 {
                     params: {
                         periodId: periodId,

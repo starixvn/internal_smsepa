@@ -29,6 +29,7 @@ namespace SMS.EPA.Site.Controllers
     {
         private const string _EmployeeFlowSettingReportTemplatePath = @"~\SourceApp\Components\Period\ExcelTemplates\EmployeeFlowSettingReport.xls";
         private const string _EPADetailReportTemplatePath = @"~\SourceApp\Components\Report\ExcelTemplates\EPADetailReport.xls";
+        private const string _MonthlyEPADetailReportTemplatePath = @"~\SourceApp\Components\Report\ExcelTemplates\MonthlyEPADetailReport.xls";
         private const string _DisciplineSummaryTemplatePath = @"~\SourceApp\Components\AttendanceSummary\ExcelTemplates\DisciplineSummaryReport.xls";
         private const string _DisciplineDetailTemplatePath = @"~\SourceApp\Components\AttendanceSummary\ExcelTemplates\DisciplineDetailReport.xls";
 
@@ -100,6 +101,17 @@ namespace SMS.EPA.Site.Controllers
             EPADetailModel epaDetail = _reportService.GetEPADetailReport(criteria);
             string templatePath = Server.MapPath(_EPADetailReportTemplatePath);
             _reportService.ExportEPADetailReport(epaDetail, templatePath);
+
+            return new EmptyResult();
+        }
+
+        public ActionResult ExportMonthlyEPADetailReport(GetMonthlyEPADetailCriteria criteria)
+        {
+            criteria.EmployeeId = SessionManager.CurrentUser.EmployeeInfo.EmployeeId;
+
+            EPADetailModel epaDetail = _reportService.GetMonthlyEPADetailReport(criteria);
+            string templatePath = Server.MapPath(_MonthlyEPADetailReportTemplatePath);
+            _reportService.ExportMonthlyEPADetailReport(epaDetail, templatePath);
 
             return new EmptyResult();
         }

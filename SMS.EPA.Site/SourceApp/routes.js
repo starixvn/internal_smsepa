@@ -151,6 +151,8 @@ var reportModule = angular.module("reportModule", ['ngRoute'])
     { templateUrl: baseUrl + 'SourceApp/Components/Report/Templates/EPASummaryReport.html', caseInsensitiveMatch: true });
     $routeProvider.when('/Report/EPADetailReport',
     { templateUrl: baseUrl + 'SourceApp/Components/Report/Templates/EPADetailReport.html', caseInsensitiveMatch: true });
+    $routeProvider.when('/Report/MonthlyEPADetailReport',
+    { templateUrl: baseUrl + 'SourceApp/Components/Report/Templates/MonthlyEPADetailReport.html', caseInsensitiveMatch: true });
 }]);
 
 var epaHistoryModule = angular.module("epaHistoryModule", ['ngRoute'])

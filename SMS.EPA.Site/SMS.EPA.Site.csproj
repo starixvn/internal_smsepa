@@ -434,6 +434,8 @@
     <Content Include="SourceApp\Components\EPA\employeeEPA-factory.js" />
     <Content Include="SourceApp\Components\EPA\employeeEPA-model.js" />
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\listKPIToView.html" />
+    <Content Include="SourceApp\Components\Report\monthlyEPADetailReport-controller.js" />
+    <Content Include="SourceApp\Components\Report\Templates\MonthlyEPADetailReport.html" />
     <Content Include="SourceApp\Shared\history-factory.js" />
     <Content Include="SourceApp\Components\EPA\Management\Templates\semiDetail.html" />
     <Content Include="SourceApp\Components\EPA\Management\Templates\semiPerformanceResult.html" />
@@ -788,6 +790,7 @@
     <None Include="Properties\PublishProfiles\Profile1.pubxml" />
     <None Include="Properties\PublishProfiles\web.pubxml" />
     <Content Include="SourceApp\Components\EPA\_ratingByStar.less" />
+    <Content Include="SourceApp\Components\Report\ExcelTemplates\MonthlyEPADetailReport.xls" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">

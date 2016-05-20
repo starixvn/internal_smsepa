@@ -364,6 +364,12 @@
       <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
       <Mapping DataField="Grade" ObjectProperty="GradeEncode" />
     </Setting>
+    <Setting Key="Report_MonthlyEPADetail" SpName="Report_MonthlyEPADetail" DbName="SMSEPA" Plain="0">
+      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
+      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
+      <Mapping DataField="Grade" ObjectProperty="GradeEncode" />
+    </Setting>
+
   </Function>
   <Function Name="EPA History">
     <Setting Key="Epa_GetEPAHistory" SpName="Epa_GetEPAHistory" DbName="SMSEPA" Plain="0">
@@ -373,6 +379,8 @@
   </Function>
   <Function Name="Monthly Period">
     <Setting Key="EpaMonthlyPeriod_Get" SpName="EpaMonthlyPeriod_Get" DbName="SMSEPA" Plain="0">
+    </Setting>
+    <Setting Key="EpaMonthlyPeriod_GetAll" SpName="EpaMonthlyPeriod_GetAll" DbName="SMSEPA" Plain="0">
     </Setting>
     <Setting Key="EpaAuto_Monthly_InsertPeriod" SpName="EpaAuto_Monthly_InsertPeriod" DbName="SMSEPA" Plain="0">
     </Setting>

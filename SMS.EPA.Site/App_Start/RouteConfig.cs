@@ -69,7 +69,8 @@ namespace SMS.EPA.Site
                 "Management/SemiDetail/{id}",
                 "EPA/ResetScore/{id}",
                 "ViewEPAByKPI/Index",
-                "error"
+                "error",
+                "Report/MonthlyEPADetailReport"
             };
 
             homeRouteUrls.ForEach(url => routes.MapRoute(

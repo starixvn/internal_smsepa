@@ -78,6 +78,18 @@ namespace SMS.EPA.Services.Implement
             return periods;
         }
 
+        public IEnumerable<PeriodModel> GetAllMonthlyPeriod(GetAllMonthlyPeriodCriteria criteria)
+        {
+            IEnumerable<PeriodModel> periods = new List<PeriodModel>();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                periods = GetData<PeriodModel>(criteria);
+            }
+
+            return periods;
+        }
+
         public CommandResult CreatePeriod(CreatePeriodCriteria criteria)
         {
             CommandResult commandResult = new CommandResult();

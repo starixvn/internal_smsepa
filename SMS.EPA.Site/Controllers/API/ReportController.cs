@@ -85,6 +85,28 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyEPADetailReport, Policy = Policy.Read)]
+        public EPADetailModel GetMonthlyEPADetailReport(
+            int? periodId = null,
+            int? departmentId = null,
+            bool? isLocal = null,
+            int? pageIndex = null,
+            int? itemsPerPage = null)
+        {
+            var criteria = new GetMonthlyEPADetailCriteria()
+            {
+                EmployeeId = CurrentUser.EmployeeInfo.EmployeeId,
+                PeriodId = periodId,
+                DepartmentId = departmentId,
+                IsLocal = isLocal,
+                PageIndex = pageIndex,
+                ItemsPerPage = itemsPerPage
+            };
+
+            return _reportService.GetMonthlyEPADetailReport(criteria);
+        }
+
+        [HttpGet]
         public IList<PeriodModel> GetAllPeriodIncludeImport()
         {
             IList<PeriodModel> periods = _commonController.GetAllPeriodIncludeImport();

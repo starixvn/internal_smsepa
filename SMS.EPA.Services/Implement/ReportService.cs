@@ -159,6 +159,34 @@ namespace SMS.EPA.Services.Implement
 
         #endregion EPA Detail Report
 
+        #region Monthly EPA Detail Report
+        public EPADetailModel GetMonthlyEPADetailReport(GetMonthlyEPADetailCriteria criteria)
+        {
+            EPADetailModel result = new EPADetailModel();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                result = _reportRepository.GetMonthlyEPADetail(criteria);
+            }
+
+            return result;
+        }
+
+        public void ExportMonthlyEPADetailReport(EPADetailModel epaDetail, string templatePath)
+        {
+            string reportName = Lang.MonthlyEPADetailReportName;
+            var writer = new ExcelTemplateWriter(templatePath, reportName, Lang.MonthlyEPADetailReportSheet);
+
+            writer.CopyRows(0, 3);
+
+            FillContentRowMonthlyEPADetailReport(epaDetail, ref writer);
+            writer.SyncColumnsWidth(11);
+
+            writer.Render();
+        }
+
+        #endregion
+
         private void RenderHeaderEPASummaryReport(
             IList<PeriodModel> periodSelecteds,
             ref HSSFWorkbook workbook,
@@ -392,6 +420,18 @@ namespace SMS.EPA.Services.Implement
             }
         }
 
+        private void FillContentRowMonthlyEPADetailReport(
+            EPADetailModel epaDetail,
+            ref ExcelTemplateWriter writer)
+        {
+            int rowIndex = 1;
+
+            foreach (EPAModel memberEPA in epaDetail.MemberEPAs)
+            {
+                FillRowMonthlyEPADetailReport(memberEPA, epaDetail.PhaseSelecteds, ref writer, ref rowIndex);
+            }
+        }
+
         private void FillRowEPADetailReport(
             EPAModel memberEPA,
             IEnumerable<EvaluationPhaseModel> phaseSelecteds,
@@ -399,6 +439,24 @@ namespace SMS.EPA.Services.Implement
             ref int rowIndex)
         {
             object record = CreateRecordEPADetailReport(memberEPA, phaseSelecteds, ref rowIndex);
+
+            if ((rowIndex - 1) % 2 == 0)
+            {
+                writer.WriteRow(4, record);
+            }
+            else
+            {
+                writer.WriteRow(3, record);
+            }
+        }
+
+        private void FillRowMonthlyEPADetailReport(
+            EPAModel memberEPA,
+            IEnumerable<EvaluationPhaseModel> phaseSelecteds,
+            ref ExcelTemplateWriter writer,
+            ref int rowIndex)
+        {
+            object record = CreateRecordMonthlyEPADetailReport(memberEPA, phaseSelecteds, ref rowIndex);
 
             if ((rowIndex - 1) % 2 == 0)
             {
@@ -432,6 +490,33 @@ namespace SMS.EPA.Services.Implement
                 ReviewerScore = GetScoreByPhaseSelected(phaseSelecteds, score.ReviewerScore, (int)ProcessType.Reviewer),
                 ManagementScore = GetScoreByPhaseSelected(phaseSelecteds, score.ManagementScore.ToString(), (int)ProcessType.Management),
                 DisciplineScore = score.DisciplineScore,
+                FinalScore = score.FinalScore,
+                Grade = score.Grade
+            };
+            rowIndex++;
+
+            return record;
+        }
+
+        private object CreateRecordMonthlyEPADetailReport(
+            EPAModel memberEPA,
+            IEnumerable<EvaluationPhaseModel> phaseSelecteds,
+            ref int rowIndex)
+        {
+            dynamic score = CalculateScore(memberEPA);
+
+            var record = new
+            {
+                Count = rowIndex,
+                Code = memberEPA.Employee.Code,
+                FullName = memberEPA.Employee.FullName,
+                NickName = memberEPA.Employee.NickName,
+                Category = memberEPA.Employee.Category,
+                Section = memberEPA.Employee.GroupName,
+                JobTitle = memberEPA.Employee.JobTitleName,
+                SelfScore = GetScoreByPhaseSelected(phaseSelecteds, score.SelfScore, (int)ProcessType.Self),
+                EvaluatorScore = GetScoreByPhaseSelected(phaseSelecteds, score.EvaluatorScore, (int)ProcessType.Evaluator),
+                ReviewerScore = GetScoreByPhaseSelected(phaseSelecteds, score.ReviewerScore, (int)ProcessType.Reviewer),
                 FinalScore = score.FinalScore,
                 Grade = score.Grade
             };

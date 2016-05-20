@@ -102,6 +102,42 @@ namespace SMS.EPA.Repositories.Implement
             return epaDetail;
         }
 
+        public EPADetailModel GetMonthlyEPADetail(ICriteria criteria)
+        {
+            EPADetailModel epaDetail = new EPADetailModel();
+
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                {
+                    epaDetail.PhaseSelecteds = multi.Read<EvaluationPhaseModel>();
+
+                    epaDetail.MemberEPAs = multi.Read<EPAModel, EPAEmployeeModel, StatusModel, EPAPeriodModel, EPAModel>(
+                    (info, employee, status, period) =>
+                    {
+                        info.Employee = employee;
+                        info.Status = status;
+                        info.Period = period;
+
+                        return info;
+                    },
+                    "EmployeeId, StatusId, PeriodId");
+
+                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
+
+                    var hashParam = db.GetOuputParams();
+                    var totalItem = (int)hashParam["totalitem"];
+
+                    epaDetail.TotalItem = totalItem;
+
+                    GroupEPAProcessByEPA(epaDetail.MemberEPAs, processes);
+                    DecodeAllScore(epaDetail.MemberEPAs);
+                }
+            }
+
+            return epaDetail;
+        }
+
         private void GroupPeriodByEmployee(IEnumerable<EPASummaryEmployeeModel> epaSummaries, IList<EPASummaryPeriodModel> periods)
         {
             foreach (EPASummaryEmployeeModel epaSummary in epaSummaries)
