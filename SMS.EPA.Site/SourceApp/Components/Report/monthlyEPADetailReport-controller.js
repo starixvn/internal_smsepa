@@ -48,10 +48,10 @@ function ($scope, $timeout, ReportModel, CommonModel, utilitiesFactory, usSpinne
         }
     };
 
-    var getEPADetailReport = function (filter) {
+    var getMonthlyEPADetailReport = function (filter) {
         usSpinnerService.spin("spinner-1");
 
-        ReportModel.getEPADetailReport(
+        ReportModel.getMonthlyEPADetailReport(
             filter.periodId,
             filter.departmentId,
             filter.isLocal,
@@ -68,7 +68,7 @@ function ($scope, $timeout, ReportModel, CommonModel, utilitiesFactory, usSpinne
         vm.filter.pageIndex = pageIndex;
         vm.filter.itemsPerPage = itemsPerPage;
 
-        getEPADetailReport(vm.filter);
+        getMonthlyEPADetailReport(vm.filter);
     };
 
     vm.query = function (filter) {
@@ -76,7 +76,7 @@ function ($scope, $timeout, ReportModel, CommonModel, utilitiesFactory, usSpinne
         filter.pageIndex = utilitiesFactory.pageOption.pageIndex;
         filter.phaseIds = utilitiesFactory.getSelectedData(vm.scoredBy, 'PhaseId');
 
-        getEPADetailReport(filter);
+        getMonthlyEPADetailReport(filter);
     };
 
     vm.exportReport = function () {
@@ -102,7 +102,7 @@ function ($scope, $timeout, ReportModel, CommonModel, utilitiesFactory, usSpinne
                 vm.filter.periodId = vm.periods[0].PeriodId;
             }
 
-            getEPADetailReport(vm.filter);
+            getMonthlyEPADetailReport(vm.filter);
         });
     };
 
