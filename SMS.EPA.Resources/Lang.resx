@@ -1302,4 +1302,16 @@
   <data name="MonthlyEPADetailReportSheet" xml:space="preserve">
     <value>Monthly EPA Detail Report</value>
   </data>
+  <data name="MonthlyEPASummaryReport" xml:space="preserve">
+    <value>Monthly EPA Summary Report</value>
+  </data>
+  <data name="MonthlyEPASummaryReportName" xml:space="preserve">
+    <value>Monthly_EPA_Summary_Report</value>
+  </data>
+  <data name="MonthlyEPASummaryReportSheet" xml:space="preserve">
+    <value>Monthly EPA Summary Report</value>
+  </data>
+  <data name="MonthlyEPASummaryReportTitle" xml:space="preserve">
+    <value>Monthly EPA Summary Report</value>
+  </data>
 </root>

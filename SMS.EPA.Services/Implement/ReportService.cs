@@ -78,54 +78,7 @@ namespace SMS.EPA.Services.Implement
 
         public MemoryStream ExportEPASummaryReport(EPASummaryModel epaSummary)
         {
-            IList<string> titleHeaders = new List<string>
-            {
-                Lang.SymbolCount,
-                Lang.Code,
-                Lang.FullName,
-                Lang.NickName,
-                Lang.Category,
-                Lang.Section,
-                Lang.JobTitle
-            };
-            var titleString = Lang.EPASummaryReportTitle;
-
-            HSSFWorkbook workbook = new HSSFWorkbook();
-            ISheet sheet = workbook.CreateSheet(Lang.EPASummaryReportSheet);
-
-            IRow rowTitle = sheet.CreateRow(0);
-
-            IFont font = workbook.CreateFont();
-            font.FontHeightInPoints = 18;
-            font.Boldweight = (short)FontBoldWeight.Bold;
-
-            ICell cell = rowTitle.CreateCell(0);
-            cell.SetCellValue(titleString);
-            cell.CellStyle = workbook.CreateCellStyle();
-            cell.CellStyle.Alignment = HorizontalAlignment.Center;
-            cell.CellStyle.VerticalAlignment = VerticalAlignment.Center;
-            cell.CellStyle.SetFont(font);
-
-            sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, titleHeaders.Count + (epaSummary.PeriodSelecteds.Count * 2) - 1));
-
-            RenderHeaderEPASummaryReport(epaSummary.PeriodSelecteds, ref workbook, ref sheet, titleHeaders);
-            RenderContentRowEPASummaryReport(epaSummary, ref workbook, ref sheet);
-
-            MemoryStream output = null;
-            try
-            {
-                output = new MemoryStream();
-                workbook.Write(output);
-
-                return output;
-            }
-            finally
-            {
-                if (output != null)
-                {
-                    output.Dispose();
-                }
-            }
+            return ExportEPASummaryReport(epaSummary, Lang.EPASummaryReportTitle);
         }
 
         #endregion EPA Summary Report
@@ -160,6 +113,12 @@ namespace SMS.EPA.Services.Implement
         #endregion EPA Detail Report
 
         #region Monthly EPA Detail Report
+
+        public MemoryStream ExportMonthlyEPASummaryReport(EPASummaryModel epaSummary)
+        {
+            return ExportEPASummaryReport(epaSummary, Lang.MonthlyEPASummaryReportTitle);
+        }
+
         public EPADetailModel GetMonthlyEPADetailReport(GetMonthlyEPADetailCriteria criteria)
         {
             EPADetailModel result = new EPADetailModel();
@@ -183,6 +142,18 @@ namespace SMS.EPA.Services.Implement
             writer.SyncColumnsWidth(11);
 
             writer.Render();
+        }
+
+        public EPASummaryModel GetMonthlyEPASummaryReport(GetMonthlyEPASummaryCriteria criteria)
+        {
+            EPASummaryModel result = new EPASummaryModel();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                result = _reportRepository.GetMonthlyEPASummary(criteria);
+            }
+
+            return result;
         }
 
         #endregion
@@ -636,6 +607,57 @@ namespace SMS.EPA.Services.Implement
         private void SetColumnWidth(ref ISheet sheet, int columnIndex, int width)
         {
             sheet.SetColumnWidth(columnIndex, width * ExcelColumnWidth);
+        }
+
+        private MemoryStream ExportEPASummaryReport(EPASummaryModel epaSummary, string title)
+        {
+            IList<string> titleHeaders = new List<string>
+            {
+                Lang.SymbolCount,
+                Lang.Code,
+                Lang.FullName,
+                Lang.NickName,
+                Lang.Category,
+                Lang.Section,
+                Lang.JobTitle
+            };
+
+            HSSFWorkbook workbook = new HSSFWorkbook();
+            ISheet sheet = workbook.CreateSheet(Lang.EPASummaryReportSheet);
+
+            IRow rowTitle = sheet.CreateRow(0);
+
+            IFont font = workbook.CreateFont();
+            font.FontHeightInPoints = 18;
+            font.Boldweight = (short)FontBoldWeight.Bold;
+
+            ICell cell = rowTitle.CreateCell(0);
+            cell.SetCellValue(title);
+            cell.CellStyle = workbook.CreateCellStyle();
+            cell.CellStyle.Alignment = HorizontalAlignment.Center;
+            cell.CellStyle.VerticalAlignment = VerticalAlignment.Center;
+            cell.CellStyle.SetFont(font);
+
+            sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, titleHeaders.Count + (epaSummary.PeriodSelecteds.Count * 2) - 1));
+
+            RenderHeaderEPASummaryReport(epaSummary.PeriodSelecteds, ref workbook, ref sheet, titleHeaders);
+            RenderContentRowEPASummaryReport(epaSummary, ref workbook, ref sheet);
+
+            MemoryStream output = null;
+            try
+            {
+                output = new MemoryStream();
+                workbook.Write(output);
+
+                return output;
+            }
+            finally
+            {
+                if (output != null)
+                {
+                    output.Dispose();
+                }
+            }
         }
     }
 }

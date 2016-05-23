@@ -2014,6 +2014,42 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Monthly EPA Summary Report.
+        /// </summary>
+        public static string MonthlyEPASummaryReport {
+            get {
+                return ResourceManager.GetString("MonthlyEPASummaryReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monthly_EPA_Summary_Report.
+        /// </summary>
+        public static string MonthlyEPASummaryReportName {
+            get {
+                return ResourceManager.GetString("MonthlyEPASummaryReportName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monthly EPA Summary Report.
+        /// </summary>
+        public static string MonthlyEPASummaryReportSheet {
+            get {
+                return ResourceManager.GetString("MonthlyEPASummaryReportSheet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monthly EPA Summary Report.
+        /// </summary>
+        public static string MonthlyEPASummaryReportTitle {
+            get {
+                return ResourceManager.GetString("MonthlyEPASummaryReportTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Monthly Period.
         /// </summary>
         public static string MonthlyPeriod {

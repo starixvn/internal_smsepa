@@ -10,14 +10,14 @@ function ($scope, $timeout, ReportModel, CommonModel, utilitiesFactory, usSpinne
     vm.periods = CommonModel.periods;
     vm.epaDetail = ReportModel.epaDetail;
     vm.scoredBy = [
-        { ColumnId: 7, PhaseId: 2, Name: 'Self' },
-        { ColumnId: 8, PhaseId: 3, Name: 'Evaluator' },
-        { ColumnId: 9, PhaseId: 4, Name: 'Reviewer' },
+        { ColumnId: 6, PhaseId: 2, Name: 'Self' },
+        { ColumnId: 7, PhaseId: 3, Name: 'Evaluator' },
+        { ColumnId: 8, PhaseId: 4, Name: 'Reviewer' },
     ];
 
     vm.hideColumns = [];
-    vm.showColumns = [7, 8, 9, 10];
-    vm.showColumnsOriginal = [7, 8, 9, 10];
+    vm.showColumns = [6, 7, 8];
+    vm.showColumnsOriginal = [6, 7, 8];
 
     vm.pageOption = utilitiesFactory.pageOption;
 

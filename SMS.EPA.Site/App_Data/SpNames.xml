@@ -359,6 +359,10 @@
       <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
       <Mapping DataField="Grade" ObjectProperty="GradeEncode" />
     </Setting>
+    <Setting Key="Report_MonthlyEPASummary" SpName="Report_MonthlyEPASummary" DbName="SMSEPA" Plain="0">
+      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
+      <Mapping DataField="Grade" ObjectProperty="GradeEncode" />
+    </Setting>
     <Setting Key="Report_EPADetail" SpName="Report_EPADetail" DbName="SMSEPA" Plain="0">
       <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
       <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />

@@ -94,6 +94,19 @@ namespace SMS.EPA.Site.Controllers
             return File(output.ToArray(), "application/vnd.ms-excel", fileName);
         }
 
+        public ActionResult ExportMonthlyEPASummaryReport(GetMonthlyEPASummaryCriteria criteria)
+        {
+            string fileName = Lang.MonthlyEPASummaryReportName + ".xls";
+
+            criteria.EmployeeId = SessionManager.CurrentUser.EmployeeInfo.EmployeeId;
+
+            EPASummaryModel epaSummary = _reportService.GetMonthlyEPASummaryReport(criteria);
+
+            MemoryStream output = _reportService.ExportMonthlyEPASummaryReport(epaSummary);
+
+            return File(output.ToArray(), "application/vnd.ms-excel", fileName);
+        }
+
         public ActionResult ExportEPADetailReport(GetEPADetailCriteria criteria)
         {
             criteria.EmployeeId = SessionManager.CurrentUser.EmployeeInfo.EmployeeId;

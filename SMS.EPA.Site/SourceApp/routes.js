@@ -153,6 +153,8 @@ var reportModule = angular.module("reportModule", ['ngRoute'])
     { templateUrl: baseUrl + 'SourceApp/Components/Report/Templates/EPADetailReport.html', caseInsensitiveMatch: true });
     $routeProvider.when('/Report/MonthlyEPADetailReport',
     { templateUrl: baseUrl + 'SourceApp/Components/Report/Templates/MonthlyEPADetailReport.html', caseInsensitiveMatch: true });
+    $routeProvider.when('/Report/MonthlyEPASummaryReport',
+    { templateUrl: baseUrl + 'SourceApp/Components/Report/Templates/MonthlyEPASummaryReport.html', caseInsensitiveMatch: true });
 }]);
 
 var epaHistoryModule = angular.module("epaHistoryModule", ['ngRoute'])

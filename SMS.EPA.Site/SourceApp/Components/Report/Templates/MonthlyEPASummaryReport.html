@@ -1,0 +1,42 @@
+﻿<div class="epa-summary-report" ng-controller="MonthlyEPASummaryReportController as monthlyReportCtrl">
+    <div class="col-sm-12 sub-header">
+        <ul class="row breadcrumb">
+            <li class="current" data-translate="MonthlyEPASummaryReport"></li>
+        </ul>
+    </div>
+    <div class="col-sm-12">
+        <form novalidate class="row filter form-horizontal" role="form">
+            <div class="form-group last">
+                <label class="col-sm-2 col-percent-14 control-label" data-translate="EvaluationPeriod"></label>
+                <div class="col-sm-2">
+                    <add-class-to-role-filter class="multi-select" multi-select input-model="monthlyReportCtrl.periods" button-label="Name"
+                                              helper-elements="all reset filter" item-label="Name" tick-property="ticked" group-property="msGroup" max-labels="0">
+                    </add-class-to-role-filter>
+                </div>
+                <label class="col-sm-2 col-percent-14 control-label" data-translate="DepartmentSection"></label>
+                <div class="col-sm-2">
+                    <select class="form-control" ng-model="monthlyReportCtrl.filter.departmentId"
+                            ng-options="opt.DepartmentId as opt.Name for opt in monthlyReportCtrl.treeDepartment">
+                        <option value="">-- {{"All" | translate}} --</option>
+                    </select>
+                </div>
+                <label class="col-sm-1 control-label" data-translate="Category"></label>
+                <div class="col-sm-2">
+                    <select class="form-control" ng-model="monthlyReportCtrl.filter.isLocal">
+                        <option value="">-- {{"All" | translate}} --</option>
+                        <option value="false">{{"Expat" | translate}}</option>
+                        <option value="true">{{"Local" | translate}}</option>
+                    </select>
+                </div>
+                <div class="col-sm-1">
+                    <button class="button" ng-click="monthlyReportCtrl.query()" data-translate="Search"></button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-sm-12">
+        <div class="freegrid" data-export-monthly-epa-summary-report data-grid-epa-summary-report data-grid-data="monthlyReportCtrl.epaSummary" data-grid-expand-height="300"
+             data-on-page-changing="monthlyReportCtrl.pageChanging" data-export-report="monthlyReportCtrl.exportReport" data-page-option="monthlyReportCtrl.filter"></div>
+    </div>
+    <span us-spinner spinner-key="spinner-1" spinner-start-active="true" spinner-theme="bigBlue"></span>
+</div>

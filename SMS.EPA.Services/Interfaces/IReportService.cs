@@ -23,6 +23,8 @@ namespace SMS.EPA.Services.Interfaces
 
         MemoryStream ExportEPASummaryReport(EPASummaryModel epaSummary);
 
+        MemoryStream ExportMonthlyEPASummaryReport(EPASummaryModel epaSummary);
+
         EPADetailModel GetEPADetailReport(GetEPADetailCriteria criteria);
 
         EPADetailModel GetMonthlyEPADetailReport(GetMonthlyEPADetailCriteria criteria);
@@ -30,5 +32,7 @@ namespace SMS.EPA.Services.Interfaces
         void ExportEPADetailReport(EPADetailModel epaDetail, string templatePath);
 
         void ExportMonthlyEPADetailReport(EPADetailModel epaDetail, string templatePath);
+
+        EPASummaryModel GetMonthlyEPASummaryReport(GetMonthlyEPASummaryCriteria criteria);
     }
 }
