@@ -28,7 +28,37 @@
 
         public string ApproverComment { get; set; }
 
-        public bool? IsIgnored { get; set; }
+        public bool IsMissingCheckInOut { get; set; }
+
+        public bool IsIgnoredMissingCheckInOut { get; set; }
+
+        public bool IsLateIn { get; set; }
+
+        public bool IsIgnoredLateIn { get; set; }
+
+        public bool IsEarlyOut { get; set; }
+
+        public bool IsIgnoredEarlyOut { get; set; }
+
+        public bool IsWorkingUndertime { get; set; }
+
+        public bool IsIgnoredWorkingUndertime { get; set; }
+
+        public bool IsChangeShift { get; set; }
+
+        public bool IsIgnoredChangeShift { get; set; }
+
+        public bool IsAbsent { get; set; }
+
+        public bool IsIgnoredAbsent { get; set; }
+
+        public bool IsUnpaidLeave { get; set; }
+
+        public bool IsIgnoredUnpaidLeave { get; set; }
+
+        public bool IsUnpaidLeaveAbsent { get; set; }
+
+        public bool IsIgnoredUnpaidLeaveAbsent { get; set; }
 
         public DateTime? ModifiedDate { get; set; }
 
