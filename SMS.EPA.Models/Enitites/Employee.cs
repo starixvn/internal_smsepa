@@ -44,6 +44,8 @@ namespace SMS.EPA.Model.Enitites
 
         public bool IsLocal { get; set; }
 
+        public DateTime JoinedDate { get; set; }
+
         public bool HasMonthlyEPA { get; set; }
     }
 }

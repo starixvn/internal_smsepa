@@ -1,14 +1,7 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="EPAEmployeeModel.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// -----------------------------------------------------------------------
-// <history>
-//   <change who="Tim.Trinh" date="2015.09.15">Created</change>
-// </history>
-
-namespace SMS.EPA.Model.EmployeeEPA
+﻿namespace SMS.EPA.Model.EmployeeEPA
 {
+    using System;
+
     public class EPAEmployeeModel
     {
         public int EPAId { get; set; }
@@ -48,5 +41,7 @@ namespace SMS.EPA.Model.EmployeeEPA
         public int JobTitleId { get; set; }
 
         public string JobTitleName { get; set; }
+
+        public DateTime JoinedDate { get; set; }
     }
 }

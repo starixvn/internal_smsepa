@@ -9,11 +9,8 @@
 
 namespace SMS.EPA.Services.Implement
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Configuration;
-    using System.Linq;
     using NexFB.Core.Utilities;
+    using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
@@ -25,6 +22,10 @@ namespace SMS.EPA.Services.Implement
     using SMS.EPA.Repositories.Interfaces;
     using SMS.EPA.Resources;
     using SMS.EPA.Services.Interfaces;
+    using System;
+    using System.Collections.Generic;
+    using System.Configuration;
+    using System.Linq;
 
     public class PeriodService : BaseService, IPeriodService
     {
@@ -357,6 +358,8 @@ namespace SMS.EPA.Services.Implement
                 ID = employeeSetting.Employee.Code,
                 FullName = employeeSetting.Employee.FullName,
                 NickName = employeeSetting.Employee.NickName,
+                JobTitle = employeeSetting.JobTitle.JobTitleName,
+                JoinedDate = employeeSetting.Employee.JoinedDate.ToString(Constants.DateFormat),
                 Category = employeeSetting.Employee.Category,
                 Evaluator = GetEvaluator(employeeSetting.Evaluators),
                 Reviewer = GetEvaluator(employeeSetting.Reviewers),

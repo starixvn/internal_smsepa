@@ -9,16 +9,12 @@
 
 namespace SMS.EPA.Services.Implement
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.IO;
-    using System.Linq;
     using NexFB.Core.Utilities;
     using NPOI.HSSF.UserModel;
     using NPOI.HSSF.Util;
     using NPOI.SS.UserModel;
     using NPOI.SS.Util;
+    using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Criteria.Report;
     using SMS.EPA.Model.EmployeeEPA;
@@ -30,6 +26,11 @@ namespace SMS.EPA.Services.Implement
     using SMS.EPA.Repositories.Interfaces;
     using SMS.EPA.Resources;
     using SMS.EPA.Services.Interfaces;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.IO;
+    using System.Linq;
 
     public class ReportService : IReportService
     {
@@ -314,6 +315,11 @@ namespace SMS.EPA.Services.Implement
                 cellBody.SetCellValue(epaInfo.JobTitle.JobTitleName);
                 SetColumnWidth(ref sheet, 6, 25);
 
+                cellBody = row.CreateCell(7);
+                cellBody.CellStyle = bodyStyle;
+                cellBody.SetCellValue(epaInfo.JoinedDate.ToString(Constants.DateFormat));
+                SetColumnWidth(ref sheet, 7, 25);
+
                 if (rowIndex % 2 == 0)
                 {
                     bodyStyle = bodyStyle2;
@@ -351,27 +357,27 @@ namespace SMS.EPA.Services.Implement
                             grade = Lang.Pending;
                         }
 
-                        cellBody = row.CreateCell(7 + (2 * i));
+                        cellBody = row.CreateCell(8 + (2 * i));
                         cellBody.CellStyle = bodyStyle;
                         cellBody.SetCellValue(finalScore);
-                        SetColumnWidth(ref sheet, 7 + (2 * i), 14);
+                        SetColumnWidth(ref sheet, 8 + (2 * i), 14);
 
-                        cellBody = row.CreateCell(7 + ((2 * i) + 1));
+                        cellBody = row.CreateCell(8 + ((2 * i) + 1));
                         cellBody.CellStyle = bodyStyle;
                         cellBody.SetCellValue(grade);
-                        SetColumnWidth(ref sheet, 7 + ((2 * i) + 1), 10);
+                        SetColumnWidth(ref sheet, 8 + ((2 * i) + 1), 10);
                     }
                     else
                     {
-                        cellBody = row.CreateCell(7 + (2 * i));
+                        cellBody = row.CreateCell(8 + (2 * i));
                         cellBody.CellStyle = bodyStyle;
                         cellBody.SetCellValue("-");
-                        SetColumnWidth(ref sheet, 7 + (2 * i), 14);
+                        SetColumnWidth(ref sheet, 8 + (2 * i), 14);
 
-                        cellBody = row.CreateCell(7 + ((2 * i) + 1));
+                        cellBody = row.CreateCell(8 + ((2 * i) + 1));
                         cellBody.CellStyle = bodyStyle;
                         cellBody.SetCellValue("-");
-                        SetColumnWidth(ref sheet, 7 + ((2 * i) + 1), 10);
+                        SetColumnWidth(ref sheet, 8 + ((2 * i) + 1), 10);
                     }
                 }
 
@@ -455,6 +461,7 @@ namespace SMS.EPA.Services.Implement
                 Category = memberEPA.Employee.Category,
                 Section = memberEPA.Employee.GroupName,
                 JobTitle = memberEPA.Employee.JobTitleName,
+                JoinedDate = memberEPA.Employee.JoinedDate.ToString(Constants.DateFormat),
                 TargetType = memberEPA.Period.TargetTypeName,
                 SelfScore = GetScoreByPhaseSelected(phaseSelecteds, score.SelfScore, (int)ProcessType.Self),
                 EvaluatorScore = GetScoreByPhaseSelected(phaseSelecteds, score.EvaluatorScore, (int)ProcessType.Evaluator),
@@ -485,6 +492,7 @@ namespace SMS.EPA.Services.Implement
                 Category = memberEPA.Employee.Category,
                 Section = memberEPA.Employee.GroupName,
                 JobTitle = memberEPA.Employee.JobTitleName,
+                JoinedDate = memberEPA.Employee.JoinedDate.ToString(Constants.DateFormat),
                 SelfScore = GetScoreByPhaseSelected(phaseSelecteds, score.SelfScore, (int)ProcessType.Self),
                 EvaluatorScore = GetScoreByPhaseSelected(phaseSelecteds, score.EvaluatorScore, (int)ProcessType.Evaluator),
                 ReviewerScore = GetScoreByPhaseSelected(phaseSelecteds, score.ReviewerScore, (int)ProcessType.Reviewer),
@@ -619,7 +627,8 @@ namespace SMS.EPA.Services.Implement
                 Lang.NickName,
                 Lang.Category,
                 Lang.Section,
-                Lang.JobTitle
+                Lang.JobTitle,
+                Lang.GroupDate
             };
 
             HSSFWorkbook workbook = new HSSFWorkbook();

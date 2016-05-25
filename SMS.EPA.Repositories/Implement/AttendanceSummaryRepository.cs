@@ -25,14 +25,15 @@ namespace SMS.EPA.Repositories.Implement
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                return db.Query<AttendanceSummaryModel, Employee, Group, AttendanceSummaryModel>(
-                    (att, emp, gr) =>
+                return db.Query<AttendanceSummaryModel, Employee, Group, JobTitle, AttendanceSummaryModel>(
+                    (att, emp, gr, job) =>
                     {
                         att.Employee = emp;
                         att.Group = gr;
+                        att.JobTitle = job;
                         return att;
                     },
-                    "EmployeeId, GroupId",
+                    "EmployeeId, GroupId, JobTitleId",
                     criteria.GetSpParams());
             }
         }
@@ -44,13 +45,14 @@ namespace SMS.EPA.Repositories.Implement
             {
                 using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    IEnumerable<EmployeeModel> employees = multi.Read<EmployeeModel, Group, EmployeeModel>(
-                        (emp, gr) =>
+                    IEnumerable<EmployeeModel> employees = multi.Read<EmployeeModel, Group, JobTitle, EmployeeModel>(
+                        (emp, gr, job) =>
                         {
+                            emp.JobTitle = job;
                             emp.Group = gr;
                             return emp;
                         },
-                        "GroupId");
+                        "GroupId, JobTitleId");
 
                     IEnumerable<AttendanceDetailModel> firstViolations =
                         multi.Read<AttendanceDetailModel, ViolationModel, ViolationModel, ViolationModel, ViolationModel, AttendanceDetailModel>(

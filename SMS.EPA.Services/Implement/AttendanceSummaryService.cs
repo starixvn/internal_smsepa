@@ -340,6 +340,7 @@ namespace SMS.EPA.Services.Implement
             foreach (AttendanceDetailModel attendanceViolation in attendanceViolations)
             {
                 attendanceViolation.Employee = employees.FirstOrDefault(x => x.EmployeeId == attendanceViolation.EmployeeId);
+                attendanceViolation.JobTitle = employees.FirstOrDefault(x => x.EmployeeId == attendanceViolation.EmployeeId).JobTitle;
             }
 
             return attendanceViolations;
@@ -500,6 +501,8 @@ namespace SMS.EPA.Services.Implement
                 Code = attendanceEmployee.Employee.Code,
                 Nick = attendanceEmployee.Employee.NickName,
                 FullName = attendanceEmployee.Employee.FullName,
+                JobTitle = attendanceEmployee.JobTitle.JobTitleName,
+                JoinedDate = attendanceEmployee.Employee.JoinedDate.ToString(Constants.DateFormat),
                 Category = attendanceEmployee.Employee.Category,
                 MissingCheckInOut = attendanceEmployee.MissingCheckInOut,
                 WorkingBelowTime = attendanceEmployee.WorkingBelowTime,
@@ -546,8 +549,10 @@ namespace SMS.EPA.Services.Implement
                 Shift = attendanceViolation.Employee.Code,
                 Nick = attendanceViolation.Employee.NickName,
                 FullName = attendanceViolation.Employee.FullName,
-                Category = attendanceViolation.Employee.Category,
                 Section = attendanceViolation.Employee.Group.GroupName,
+                JobTitle = attendanceViolation.JobTitle.JobTitleName,
+                JoinedDate = attendanceViolation.Employee.JoinedDate.ToString(Constants.DateFormat),
+                Category = attendanceViolation.Employee.Category,
                 Date = attendanceViolation.WorkDate,
                 Code = attendanceViolation.ShiftName,
                 CheckIn = !string.IsNullOrWhiteSpace(attendanceViolation.InFixed) ? DateTime.Parse(attendanceViolation.InFixed).ToString(Constants.TimeFormat) : string.Empty,

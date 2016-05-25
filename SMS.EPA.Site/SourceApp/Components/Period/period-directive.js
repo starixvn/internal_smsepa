@@ -26,7 +26,7 @@ periodModule.directive('exportEmployeeSettingReport', ['baseUrl', function (base
     return {
         link: function (scope) {
             scope.$on('exportEmployeeSettingReport', function () {
-                var data = $.param(scope.employeeSettingPeriodCtrl.exportCriteria),
+                var data = $.param(scope.empSettingCtrl.exportCriteria),
                     url = baseUrl + 'ExportReport/ExportEmployeeSettingReport',
                     downloadUrl = url + "?" + data,
                     iframe = $('body iframe');

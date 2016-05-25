@@ -11,6 +11,7 @@ namespace SMS.EPA.Model.AttendanceSummary
 {
     using System;
     using SMS.EPA.Model.Employee;
+    using SMS.EPA.Model.Enitites;
 
     [Serializable]
     public class AttendanceDetailModel
@@ -28,6 +29,8 @@ namespace SMS.EPA.Model.AttendanceSummary
         public string OutFixed { get; set; }
 
         public EmployeeModel Employee { get; set; }
+
+        public JobTitle JobTitle { get; set; }
 
         public ViolationModel MissingCheckInOut { get; set; }
 

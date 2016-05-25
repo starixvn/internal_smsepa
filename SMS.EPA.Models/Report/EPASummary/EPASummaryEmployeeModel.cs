@@ -9,8 +9,9 @@
 
 namespace SMS.EPA.Model.Report.EPASummary
 {
-    using System.Collections.Generic;
     using SMS.EPA.Model.Enitites;
+    using System;
+    using System.Collections.Generic;
 
     public class EPASummaryEmployeeModel
     {
@@ -28,6 +29,8 @@ namespace SMS.EPA.Model.Report.EPASummary
         public string FullName { get; set; }
 
         public Group Group { get; set; }
+
+        public DateTime JoinedDate { get; set; }
 
         public JobTitle JobTitle { get; set; }
 

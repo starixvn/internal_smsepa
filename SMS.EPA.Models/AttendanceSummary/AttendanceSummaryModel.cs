@@ -17,6 +17,8 @@ namespace SMS.EPA.Model.AttendanceSummary
     {
         public Employee Employee { get; set; }
 
+        public JobTitle JobTitle { get; set; }
+
         public Group Group { get; set; }
 
         public int MissingCheckInOut { get; set; }
