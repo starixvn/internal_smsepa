@@ -18,9 +18,9 @@
 
     public class ExportReportController : Controller
     {
-        private const string _EmployeeFlowSettingReportTemplatePath = @"~\SourceApp\Components\Period\ExcelTemplates\EmployeeFlowSettingReport.xls";
-        private const string _DisciplineSummaryTemplatePath = @"~\SourceApp\Components\AttendanceSummary\ExcelTemplates\DisciplineSummaryReport.xls";
-        private const string _DisciplineDetailTemplatePath = @"~\SourceApp\Components\AttendanceSummary\ExcelTemplates\DisciplineDetailReport.xls";
+        private const string EmployeeFlowSettingReportTemplatePath = @"~\SourceApp\Components\Period\ExcelTemplates\EmployeeFlowSettingReport.xls";
+        private const string DisciplineSummaryTemplatePath = @"~\SourceApp\Components\AttendanceSummary\ExcelTemplates\DisciplineSummaryReport.xls";
+        private const string DisciplineDetailTemplatePath = @"~\SourceApp\Components\AttendanceSummary\ExcelTemplates\DisciplineDetailReport.xls";
 
         private readonly IPeriodService _periodService;
         private readonly IReportService _reportService;
@@ -47,11 +47,6 @@
             _monthlyEPADetailReportService = monthlyEPADetailReportService ?? new MonthlyEPADetailReportService();
         }
 
-        public ActionResult Index()
-        {
-            return View();
-        }
-
         public ActionResult ExportEmployeeSettingReport(GetPeriodEmployeeSettingCriteria criteria)
         {
             IEnumerable<PeriodEmployeeSettingModel> employeeFlowSettings = null;
@@ -68,7 +63,7 @@
 
                 if (employeeFlowSettings != null)
                 {
-                    string templatePath = Server.MapPath(_EmployeeFlowSettingReportTemplatePath);
+                    string templatePath = Server.MapPath(EmployeeFlowSettingReportTemplatePath);
                     _periodService.ExportEmployeeSettingReport(employeeFlowSettings, templatePath, criteria.PeriodName);
                 }
             }
@@ -137,7 +132,7 @@
 
             if (attendanceEmployees != null)
             {
-                string templatePath = Server.MapPath(_DisciplineSummaryTemplatePath);
+                string templatePath = Server.MapPath(DisciplineSummaryTemplatePath);
                 _attendanceService.ExportAttendanceSummaryReport(criteria, attendanceEmployees, templatePath);
             }
 
@@ -152,7 +147,7 @@
 
             if (criteria != null)
             {
-                if (criteria.HasChanged || attendanceViolations == null)
+                if (attendanceViolations == null)
                 {
                     criteria.ApproverId = SessionManager.CurrentUser.EmployeeInfo.EmployeeId;
                     attendanceViolations = _attendanceService.GetAttendanceDetail(criteria);
@@ -160,7 +155,7 @@
 
                 if (attendanceViolations != null)
                 {
-                    string templatePath = Server.MapPath(_DisciplineDetailTemplatePath);
+                    string templatePath = Server.MapPath(DisciplineDetailTemplatePath);
                     _attendanceService.ExportAttendanceDetailReport(criteria, attendanceViolations, templatePath);
                 }
             }

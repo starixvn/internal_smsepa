@@ -6,8 +6,8 @@
 
     public interface IAttendanceSummaryRepository
     {
-        IEnumerable<AttendanceSummaryModel> GetAttendanceSummary(ICriteria criteria);
+        IList<AttendanceSummaryModel> GetAttendanceSummary(ICriteria criteria);
 
-        RawAttendanceDetailModel GetAttendanceDetail(ICriteria criteria);
+        IList<AttendanceDetailModel> GetAttendanceDetail(ICriteria criteria);
     }
 }

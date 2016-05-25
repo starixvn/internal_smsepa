@@ -14,7 +14,7 @@
                 </select>
             </div>
             <label class="col-sm-1 control-label" data-translate="Category"></label>
-            <div class="col-sm-1">
+            <div class="col-sm-2">
                 <select class="form-control" ng-model="attendanceCtrl.filter.isLocal">
                     <option value="">-- {{"All" | translate}} --</option>
                     <option value="false">{{"Expat" | translate}}</option>
@@ -27,11 +27,6 @@
                        placeholder="Enter full name or nick name" search-auto-complete search-employees="attendanceCtrl.getEmployee()"
                        ng-change="attendanceCtrl.unSelectEmployee()" employee="attendanceCtrl.filter.employee" />
             </div>
-            <label class="col-sm-1 control-label lb-show-all-discipline" data-translate="ShowAll">
-            </label>
-            <div class="col-sm-1 field ckc-show-all-discipline">
-                <input type="checkbox" ng-model="attendanceCtrl.filter.showAll" />
-            </div>
         </div>
         <div class="form-group">
             <label class="col-sm-1 control-label" data-translate="Reason"></label>
@@ -42,7 +37,7 @@
                 </select>
             </div>
             <label class="col-sm-1 control-label" data-translate="StartDate"></label>
-            <div class="col-sm-1 field">
+            <div class="col-sm-2 field">
                 <input readonly class="calendar-form-control date-detail-discipline" type="text"
                        ng-model="attendanceCtrl.filter.startDate" datepicker-popup
                        ng-click="attendanceCtrl.openPopupStartDate($event)"
@@ -50,14 +45,13 @@
                 <calendar-image class="calendar-image" ng-click="attendanceCtrl.openPopupStartDate($event)"></calendar-image>
             </div>
             <label class="col-sm-1 control-label" data-translate="EndDate"></label>
-            <div class="col-sm-1 field">
+            <div class="col-sm-2 field">
                 <input readonly class="calendar-form-control date-detail-discipline" type="text"
                        ng-model="attendanceCtrl.filter.endDate" datepicker-popup
                        ng-click="attendanceCtrl.openPopupEndDate($event)"
                        is-open="attendanceCtrl.calendar.endDateOpened" />
                 <calendar-image class="calendar-image" ng-click="attendanceCtrl.openPopupEndDate($event)"></calendar-image>
             </div>
-            <label class="col-sm-1 control-label lb-show-all-discipline"></label>
             <div class="col-sm-1">
                 <input type="button" value="Search" class="button" ng-click="attendanceCtrl.query(attendanceCtrl.filter)" />
             </div>
@@ -67,11 +61,6 @@
         <thead>
             <tr class="header-table">
                 <th colspan="17">
-                    <a class="pull-left button-icon create-button" href="" ng-click="attendanceCtrl.addOtherViolations()"
-                       ng-if="attendanceCtrl.permission == attendanceCtrl.policyEnum.Host && attendanceCtrl.isSystemAdmin">
-                        <span class="icon plus"></span>
-                        <span class="button-text" data-translate="AddOtherViolations"></span>
-                    </a>
                     <input class="btnExcel pull-right" export-attendance-summary-report
                            ng-click="attendanceCtrl.exportReport(attendanceCtrl.filter)"
                            type="button" title="Export to Excel">
@@ -106,7 +95,7 @@
                     <span ng-bind="employee.Employee.NickName" popover-avatar avatar-src="{{employee.Employee.Avatar}}"></span>
                 </td>
                 <td class="text-right" ng-bind="employee.MissingCheckInOut"></td>
-                <td class="text-right" ng-bind="employee.WorkingBelowTime"></td>
+                <td class="text-right" ng-bind="employee.WorkingUnderTime"></td>
                 <td class="text-right" ng-bind="employee.LateIn"></td>
                 <td class="text-right" ng-bind="employee.EarlyOut"></td>
                 <td class="text-right" ng-bind="employee.Absent"></td>
@@ -115,16 +104,11 @@
                 <td class="text-right" ng-bind="employee.ChangeShift"></td>
                 <td class="text-right">
                     <div ng-show="employee.OtherViolationsScore > 0">
-                        <a class="red" href="" ng-click="attendanceCtrl.addOtherViolations(employee)">
+                        <a class="red" href="" ng-click="attendanceCtrl.viewOtherViolations(employee)">
                             -{{employee.OtherViolationsScore | number: 1}}
                         </a>
                     </div>
-                    <div ng-show="employee.OtherViolationsScore == 0">
-                        <a href="" ng-click="attendanceCtrl.addOtherViolations(employee)" ng-if="attendanceCtrl.permission == attendanceCtrl.policyEnum.Host && attendanceCtrl.isSystemAdmin">
-                            {{employee.OtherViolationsScore | number: 1}}
-                        </a>
-                        <span ng-if="!attendanceCtrl.isSystemAdmin || attendanceCtrl.permission == attendanceCtrl.policyEnum.Read">{{employee.OtherViolationsScore | number: 1}}</span>
-                    </div>
+                    <div ng-show="employee.OtherViolationsScore == 0">{{employee.OtherViolationsScore | number: 1}}</div>
                 </td>
                 <td class="text-right">
                     <span class="red" ng-show="employee.SystemSubtractScore > 0">-{{employee.SystemSubtractScore | number: 1}}</span>
@@ -135,10 +119,7 @@
                     <span ng-show="employee.ApproverSubtractScore == 0">{{employee.ApproverSubtractScore | number: 1}}</span>
                 </td>
                 <td class="text-center" ng-if="attendanceCtrl.permission >= attendanceCtrl.policyEnum.Read">
-                    <a class="glyphicon glyphicon-edit icon-edit" title="Edit" href="{{attendanceCtrl.attendanceDetailUrl}}" ng-click="attendanceCtrl.adjust(employee)"
-                       ng-if="attendanceCtrl.permission == attendanceCtrl.policyEnum.Host && employee.Permission == attendanceCtrl.policyEnum.Host"></a>
-                    <a class="glyphicon icon-view" title="View" href="{{attendanceCtrl.attendanceDetailUrl}}" ng-click="attendanceCtrl.adjust(employee)"
-                       ng-if="attendanceCtrl.permission != attendanceCtrl.policyEnum.Host || employee.Permission != attendanceCtrl.policyEnum.Host"></a>
+                    <a class="glyphicon icon-view" title="View" href="{{attendanceCtrl.attendanceDetailUrl}}" ng-click="attendanceCtrl.adjust(employee)"></a>
                 </td>
             </tr>
             <tr ng-show="attendanceCtrl.filteredItems.length == 0">

@@ -14,7 +14,7 @@
 
         public int MissingCheckInOut { get; set; }
 
-        public int WorkingBelowTime { get; set; }
+        public int WorkingUnderTime { get; set; }
 
         public int LateIn { get; set; }
 

@@ -15,9 +15,15 @@
 
         public bool OutOfDate { get; set; }
 
-        public string InFixed { get; set; }
+        public DateTime? CheckIn { get; set; }
 
-        public string OutFixed { get; set; }
+        public DateTime? CheckOut { get; set; }
+
+        public string TotalHours { get; set; }
+
+        public string NumberOfMinutesLateIn { get; set; }
+
+        public string NumberOfMinutesEarlyOut { get; set; }
 
         public EmployeeModel Employee { get; set; }
 
@@ -25,7 +31,7 @@
 
         public ViolationModel MissingCheckInOut { get; set; }
 
-        public ViolationModel TotalHours { get; set; }
+        public ViolationModel WorkingUnderTime { get; set; }
 
         public ViolationModel LateIn { get; set; }
 
@@ -39,9 +45,9 @@
 
         public ViolationModel ChangeShift { get; set; }
 
-        public float SystemSubtractScore { get; set; }
+        public decimal SystemSubtractScore { get; set; }
 
-        public float ApproverSubtractScore { get; set; }
+        public decimal ApproverSubtractScore { get; set; }
 
         public string ApproverComment { get; set; }
 

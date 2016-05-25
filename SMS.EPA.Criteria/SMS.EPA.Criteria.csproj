@@ -65,15 +65,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AttendanceSummary\DeleteOtherViolationCriteria.cs" />
     <Compile Include="AttendanceSummary\GetAttendanceScoreByEPAIdCriteria.cs" />
     <Compile Include="AttendanceSummary\GetAttendanceSummaryCriteria.cs" />
     <Compile Include="AttendanceSummary\GetDetailAttendanceCriteria.cs" />
     <Compile Include="AttendanceSummary\GetOtherViolationsOfEmployeeCriteria.cs" />
     <Compile Include="AttendanceSummary\GetOtherViolationTypeCriteria.cs" />
     <Compile Include="AttendanceSummary\GetViolationTypeCriteria.cs" />
-    <Compile Include="AttendanceSummary\InsertOtherViolationsCriteria.cs" />
-    <Compile Include="AttendanceSummary\UpdateIgnoredViolationCriteria.cs" />
     <Compile Include="Authentication\GetEmployeeByCodeCriteria.cs" />
     <Compile Include="Authentication\GetEmployeeByDomainUsernameCriteria.cs" />
     <Compile Include="Authentication\InsertEmployeeIPAddressCriteria.cs" />

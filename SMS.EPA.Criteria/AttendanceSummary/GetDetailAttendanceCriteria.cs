@@ -21,16 +21,11 @@
 
         public bool? HasIgnored { get; set; }
 
-        public bool ShowAll { get; set; }
-
         [SpParam(Ignored = true)]
         public string EmployeeName { get; set; }
 
         [SpParam(Ignored = true)]
         public string DepartmentName { get; set; }
-
-        [SpParam(Ignored = true)]
-        public bool HasChanged { get; set; }
 
         public override bool IsValid()
         {

@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.Repositories.Implement
 {
+    using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
@@ -12,7 +12,7 @@
 
     public class AttendanceSummaryRepository : IAttendanceSummaryRepository
     {
-        public IEnumerable<AttendanceSummaryModel> GetAttendanceSummary(ICriteria criteria)
+        public IList<AttendanceSummaryModel> GetAttendanceSummary(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
@@ -25,76 +25,200 @@
                         return att;
                     },
                     "EmployeeId, GroupId, JobTitleId",
-                    criteria.GetSpParams());
+                    criteria.GetSpParams()).ToList();
             }
         }
 
-        [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Need to review here.")]
-        public RawAttendanceDetailModel GetAttendanceDetail(ICriteria criteria)
+        public IList<AttendanceDetailModel> GetAttendanceDetail(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
-                {
-                    IEnumerable<EmployeeModel> employees = multi.Read<EmployeeModel, Group, JobTitle, EmployeeModel>(
-                        (emp, gr, job) =>
-                        {
-                            emp.JobTitle = job;
-                            emp.Group = gr;
-                            return emp;
-                        },
-                        "GroupId, JobTitleId");
+                IList<dynamic> violations = db.Query<dynamic>(criteria.GetSpParams()).ToList();
 
-                    IEnumerable<AttendanceDetailModel> firstViolations =
-                        multi.Read<AttendanceDetailModel, ViolationModel, ViolationModel, ViolationModel, ViolationModel, AttendanceDetailModel>(
-                        (attD, missInO, tot, laI, earO) =>
-                        {
-                            attD.MissingCheckInOut = missInO;
-                            attD.TotalHours = tot;
-                            attD.LateIn = laI;
-                            attD.EarlyOut = earO;
-                            return attD;
-                        },
-                        "MissingCheckInOutId, TotalHoursId, LateInId, EarlyOutId");
+                IList<AttendanceDetailModel> violationDetails = MappingObjectForAttendanceDetail(violations);
+                CalculateScore(violationDetails);
 
-                    IEnumerable<AttendanceDetailModel> lastViolations =
-                        multi.Read<AttendanceDetailModel, ViolationModel, ViolationModel, ViolationModel, ViolationModel, AttendanceDetailModel>(
-                        (attD, ab, up, ch, upa) =>
-                        {
-                            attD.Absent = ab;
-                            attD.UnpaidLeave = up;
-                            attD.UnpaidLeaveAbsent = upa;
-                            attD.ChangeShift = ch;
-                            return attD;
-                        },
-                        "AbsentId, UnpaidLeaveId, ChangeShiftId, UnpaidLeaveAbsentId");
-
-                    IEnumerable<AttendanceDetailModel> commentViolations = multi.Read<AttendanceDetailModel>();
-
-                    IEnumerable<AttendanceDetailModel> violations = new List<AttendanceDetailModel>();
-
-                    if (firstViolations != null && firstViolations.Any())
-                    {
-                        violations = violations.Concat(firstViolations);
-                    }
-
-                    if (lastViolations != null && lastViolations.Any())
-                    {
-                        violations = violations.Concat(lastViolations);
-                    }
-
-                    var rawAttendanceDetail = new RawAttendanceDetailModel();
-
-                    if (employees != null && employees.Any())
-                    {
-                        rawAttendanceDetail.Employees = employees;
-                        rawAttendanceDetail.Violations = violations.ToList();
-                        rawAttendanceDetail.CommentViolations = commentViolations;
-                    }
-
-                    return rawAttendanceDetail;
-                }
+                return violationDetails;
             }
+        }
+
+        private static IList<AttendanceDetailModel> MappingObjectForAttendanceDetail(IList<dynamic> violationDetails)
+        {
+            return violationDetails.Select(violation =>
+            {
+                double totalHours = violation.TotalHours;
+                int lateIn = violation.LateIn,
+                    earlyOut = violation.EarlyOut;
+                DateTime? checkIn = violation.CheckIn,
+                    checkOut = violation.CheckOut;
+
+                return new AttendanceDetailModel
+                {
+                    WorkDate = violation.WorkDate,
+                    ShiftName = violation.ShiftName,
+                    CheckIn = (checkIn.HasValue && checkIn.Value != default(DateTime)) ? checkIn.Value : (DateTime?) null,
+                    CheckOut = (checkOut.HasValue && checkOut.Value != default(DateTime)) ? checkOut.Value : (DateTime?)null,
+                    TotalHours = ConvertNumberToTime(totalHours * 60),
+                    NumberOfMinutesLateIn = ConvertNumberToTime(lateIn),
+                    NumberOfMinutesEarlyOut = ConvertNumberToTime(earlyOut),
+                    Employee = new EmployeeModel
+                    {
+                        EmployeeId = violation.EmployeeId,
+                        NickName = violation.NickName,
+                        FullName = violation.FullName,
+                        Code = violation.Code,
+                        Category = violation.Category,
+                        Group = new Group
+                        {
+                            GroupId = violation.GroupId,
+                            GroupName = violation.GroupName,
+                            GroupCode = violation.GroupCode
+                        }
+                    },
+                    ChangeShift = GetChangeShift(violation),
+                    MissingCheckInOut = GetMissingCheckInOut(violation),
+                    LateIn = GetLateIn(violation),
+                    EarlyOut = GetEarlyOut(violation),
+                    Absent = GetAbsent(violation),
+                    UnpaidLeave = GetUnpaidLeave(violation),
+                    WorkingUnderTime = GetWorkingUnderTime(violation),
+                    UnpaidLeaveAbsent = GetUnpaidLeaveAbsent(violation),
+                    EmployeeComment = violation.EmployeeComment,
+                    ApproverComment = violation.ApproverComment
+                };
+            }).ToList();
+        }
+
+        private static ViolationModel GetChangeShift(dynamic violation)
+        {
+            return new ViolationModel
+            {
+                ViolationId = violation.ChangeShiftId,
+                Value = violation.ChangeShiftValue,
+                Score = violation.ChangeShiftScore,
+                HasIgnored = violation.ChangeShiftHasIgnored
+            };
+        }
+
+        private static ViolationModel GetMissingCheckInOut(dynamic violation)
+        {
+            return new ViolationModel
+            {
+                ViolationId = violation.MissingCheckInOutId,
+                Value = violation.MissingCheckInOutValue,
+                Score = violation.MissingCheckInOutScore,
+                HasIgnored = violation.MissingCheckInOutHasIgnored
+            };
+        }
+
+        private static ViolationModel GetLateIn(dynamic violation)
+        {
+            return new ViolationModel
+            {
+                ViolationId = violation.LateInId,
+                Value = violation.LateInValue,
+                Score = violation.LateInScore,
+                HasIgnored = violation.LateInHasIgnored
+            };
+        }
+
+        private static ViolationModel GetEarlyOut(dynamic violation)
+        {
+            return new ViolationModel
+            {
+                ViolationId = violation.EarlyOutId,
+                Value = violation.EarlyOutValue,
+                Score = violation.EarlyOutScore,
+                HasIgnored = violation.EarlyOutHasIgnored
+            };
+        }
+
+        private static ViolationModel GetAbsent(dynamic violation)
+        {
+            return new ViolationModel
+            {
+                ViolationId = violation.AbsentId,
+                Value = violation.AbsentValue,
+                Score = violation.AbsentScore,
+                HasIgnored = violation.AbsentHasIgnored
+            };
+        }
+
+        private static ViolationModel GetUnpaidLeave(dynamic violation)
+        {
+            return new ViolationModel
+            {
+                ViolationId = violation.UnpaidLeaveId,
+                Value = violation.UnpaidLeaveValue,
+                Score = violation.UnpaidLeaveScore,
+                HasIgnored = violation.UnpaidLeaveHasIgnored
+            };
+        }
+
+        private static ViolationModel GetWorkingUnderTime(dynamic violation)
+        {
+            return new ViolationModel
+            {
+                ViolationId = violation.TotalHoursId,
+                Value = violation.TotalHoursValue,
+                Score = violation.TotalHoursScore,
+                HasIgnored = violation.TotalHoursHasIgnored
+            };
+        }
+
+        private static ViolationModel GetUnpaidLeaveAbsent(dynamic violation)
+        {
+            return new ViolationModel
+            {
+                ViolationId = violation.UnpaidLeaveAbsentId,
+                Value = violation.UnpaidLeaveAbsentValue,
+                Score = violation.UnpaidLeaveAbsentScore,
+                HasIgnored = violation.UnpaidLeaveAbsentHasIgnored
+            };
+        }
+
+        private static void CalculateScore(IList<AttendanceDetailModel> violationDetails)
+        {
+            foreach (AttendanceDetailModel violationDetail in violationDetails)
+            {
+                CalculateSubtractScore(violationDetail);
+            }
+        }
+
+        private static void CalculateSubtractScore(AttendanceDetailModel violationDetail)
+        {
+            var violations = new List<ViolationModel>
+            {
+                violationDetail.MissingCheckInOut,
+                violationDetail.LateIn,
+                violationDetail.EarlyOut,
+                violationDetail.WorkingUnderTime,
+                violationDetail.Absent,
+                violationDetail.UnpaidLeave,
+                violationDetail.UnpaidLeaveAbsent,
+                violationDetail.ChangeShift
+            };
+
+            foreach (ViolationModel violation in violations.Where(violation => violation != null))
+            {
+                violationDetail.SystemSubtractScore += violation.Value * violation.Score;
+                violationDetail.ApproverSubtractScore += violation.HasIgnored.Equals(false) ? (violation.Value * violation.Score) : 0;
+            }
+        }
+
+        private static string ConvertNumberToTime(double number)
+        {
+            string time = string.Empty;
+
+            if (number > 0)
+            {
+                double numberMinutes = Math.Round(number);
+
+                var timeSpan = new TimeSpan(0, (int)numberMinutes, 0);
+                time = timeSpan.ToString(@"hh\:mm");
+            }
+
+            return time;
         }
     }
 }

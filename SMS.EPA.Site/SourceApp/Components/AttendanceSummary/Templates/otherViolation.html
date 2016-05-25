@@ -1,97 +1,33 @@
 ﻿<div class="modal-header">
     <div class="popup-header">
         {{"OtherViolations" | translate}}
-        <span ng-show="violationCtrl.employee">- {{violationCtrl.employee.Employee.NickName}}</span>
+        <span>- {{violationCtrl.employee.Employee.NickName}}</span>
         <span class="close-popup" ng-click="violationCtrl.cancel()"></span>
     </div>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" role="form" novalidate>
-        <div class="form-group required" ng-show="!violationCtrl.employee">
-            <label class="col-sm-3 control-label" data-translate="Employee"></label>
-            <div class="col-sm-8 field">
-                <input class="form-control" ng-model="violationCtrl.searchEmployee"
-                       placeholder="Enter full name or nick name" search-auto-complete search-employees="violationCtrl.getEmployee()"
-                       ng-change="violationCtrl.unSelectEmployee()" employee="violationCtrl.violation.employee" />
-            </div>
-        </div>
-        <div class="form-group required">
-            <label class="col-sm-3 control-label" data-translate="ViolationDate">
-            </label>
-            <div class="col-sm-3">
-                <input readonly class="calendar-form-control" type="text"
-                       ng-model="violationCtrl.violation.WorkDate" datepicker-popup
-                       ng-click="violationCtrl.openPopupStartDate($event)" min-date="{{violationCtrl.calendar.minDate}}"
-                       is-open="violationCtrl.calendar.startDateOpened" />
-                <calendar-image class="calendar-image" ng-click="violationCtrl.openPopupStartDate($event)"></calendar-image>
-            </div>
-        </div>
-        <div class="form-group required">
-            <label class="col-sm-3 control-label" data-translate="ViolationType">
-            </label>
-            <div class="col-sm-8 field">
-                <select class="form-control" ng-model="violationCtrl.violation.OtherViolationTypeId"
-                        ng-change="violationCtrl.setNameAndScore(violationCtrl.violation.OtherViolationTypeId)"
-                        ng-options="opt.Id as opt.Name for opt in violationCtrl.otherViolationTypes">
-                    <option value="">-- {{"SelectViolationType" | translate}} --</option>
-                </select>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-3 control-label" data-translate="MinusScore"></label>
-            <div class="col-sm-8 field" style="margin-top: 7px;">
-                <span ng-bind="violationCtrl.violation.Score"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-3 control-label" data-translate="Comment">
-            </label>
-            <div class="col-sm-8">
-                <textarea type="text" class="form-control txt-comment-violation" maxlength="2000" ng-model="violationCtrl.violation.Comment"></textarea>
-            </div>
-        </div>
-        <div class="form-group" ng-show="violationCtrl.permission == violationCtrl.policyEnum.Host && violationCtrl.isSystemAdmin">
-            <label class="col-sm-3 control-label">
-            </label>
-            <div class="col-sm-8">
-                <button class="button" ng-click="violationCtrl.addViolation(violationCtrl.violation)" data-translate="Add"></button>
-            </div>
-        </div>
-    </form>
-
     <table class="row table table-bordered table-striped">
         <thead>
             <tr class="headerName">
-                <th data-translate="SymbolCount">
-                </th>
-                <th data-translate="NickName" ng-show="!violationCtrl.employee">
-                </th>
-                <th data-translate="ViolationDate">
-                </th>
-                <th data-translate="ViolationType">
-                </th>
-                <th data-translate="SubtractScore">
-                </th>
-                <th data-translate="Comment">
-                </th>
-                <th data-translate="Delete" ng-if="violationCtrl.permission == violationCtrl.policyEnum.Host && violationCtrl.isSystemAdmin">
-                </th>
+                <th data-translate="SymbolCount"></th>
+                <th data-translate="NickName"></th>
+                <th data-translate="ViolationDate"></th>
+                <th data-translate="ViolationType"></th>
+                <th data-translate="SubtractScore"></th>
+                <th data-translate="Comment"></th>
             </tr>
         </thead>
         <tbody>
             <tr ng-repeat="violation in violationCtrl.otherViolations">
                 <td class="text-center" ng-bind="$index + 1"></td>
-                <td class="text-center" ng-bind="violation.NickName" ng-show="!violationCtrl.employee"></td>
+                <td class="text-center" ng-bind="violation.NickName"></td>
                 <td class="text-center" ng-bind="violation.WorkDate | date: dateFormat"></td>
                 <td class="text-center" ng-bind="violation.Name"></td>
                 <td class="text-center" ng-bind="violation.Score | number: 1"></td>
                 <td class="text-center" ng-bind="violation.Comment"></td>
-                <td class="text-center" ng-if="violationCtrl.permission == violationCtrl.policyEnum.Host && violationCtrl.isSystemAdmin">
-                    <a href="javascript:;" class="glyphicon glyphicon-remove icon-remove" title="Delete" ng-click="violationCtrl.delete(violation)"></a>
-                </td>
             </tr>
             <tr ng-show="violationCtrl.otherViolations.length == 0">
-                <td class="empty-result" colspan="7" data-translate="EmptyResult"></td>
+                <td class="empty-result" colspan="6" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
     </table>

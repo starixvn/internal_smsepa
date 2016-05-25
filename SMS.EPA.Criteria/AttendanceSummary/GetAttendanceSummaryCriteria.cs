@@ -19,8 +19,6 @@
 
         public int? ReasonId { get; set; }
 
-        public bool ShowAll { get; set; }
-
         [SpParam(Ignored = true)]
         public string EmployeeName { get; set; }
 

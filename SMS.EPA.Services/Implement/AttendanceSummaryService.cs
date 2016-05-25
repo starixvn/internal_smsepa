@@ -1,16 +1,12 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
-    using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using NexFB.Core.Utilities;
     using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.AttendanceSummary;
     using SMS.EPA.Model.AttendanceSummary;
-    using SMS.EPA.Model.Employee;
     using SMS.EPA.Repositories.Implement;
     using SMS.EPA.Repositories.Interfaces;
     using SMS.EPA.Resources;
@@ -18,7 +14,7 @@
 
     public class AttendanceSummaryService : BaseService, IAttendanceSummaryService
     {
-        private IAttendanceSummaryRepository _attendanceSummaryRepository;
+        private readonly IAttendanceSummaryRepository _attendanceSummaryRepository;
 
         public AttendanceSummaryService()
             : this(null)
@@ -55,30 +51,6 @@
             return violations;
         }
 
-        public CommandResult InsertOtherViolation(InsertOtherViolationsCriteria criteria)
-        {
-            CommandResult commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.Insert(criteria);
-            }
-
-            return commandResult;
-        }
-
-        public CommandResult DeleteOtherViolation(DeleteOtherViolationCriteria criteria)
-        {
-            CommandResult commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.Delete(criteria);
-            }
-
-            return commandResult;
-        }
-
         public IEnumerable<ViolationModel> GetViolationType(GetViolationTypeCriteria criteria)
         {
             IEnumerable<ViolationModel> violations = new List<ViolationModel>();
@@ -97,26 +69,13 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                RawAttendanceDetailModel rawAttendanceDetail = _attendanceSummaryRepository.GetAttendanceDetail(criteria);
-                attendanceViolations = GroupAttendanceDetailAndCalculateScore(rawAttendanceDetail, attendanceViolations);
+                attendanceViolations = _attendanceSummaryRepository.GetAttendanceDetail(criteria);
                 attendanceViolations = attendanceViolations.OrderBy(x => x.Employee.Group.GroupId)
                     .ThenBy(x => x.Employee.Code)
                     .ThenByDescending(x => x.WorkDate);
             }
 
             return attendanceViolations;
-        }
-
-        public CommandResult UpdateIgnoredViolation(UpdateIgnoredViolationCriteria criteria)
-        {
-            CommandResult commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.Update(criteria);
-            }
-
-            return commandResult;
         }
 
         public IEnumerable<AttendanceScoreModel> GetAttendanceScoreByEPAId(GetAttendanceScoreByEPAIdCriteria criteria)
@@ -225,244 +184,7 @@
             }
         }
 
-        private static IEnumerable<AttendanceDetailModel> GroupAttendanceDetailAndCalculateScore(
-            RawAttendanceDetailModel rawAttendanceDetail,
-            IEnumerable<AttendanceDetailModel> attendanceViolations)
-        {
-            attendanceViolations = GroupAttendanceViolations(rawAttendanceDetail.Violations);
-            attendanceViolations = GetCommentViolations(attendanceViolations, rawAttendanceDetail.CommentViolations);
-            attendanceViolations = CalculateScore(attendanceViolations);
-            attendanceViolations = GroupEmployeeInformation(attendanceViolations, rawAttendanceDetail.Employees);
-            return attendanceViolations;
-        }
-
-        private static IEnumerable<AttendanceDetailModel> GroupAttendanceViolations(IEnumerable<AttendanceDetailModel> violations)
-        {
-            IEnumerable<AttendanceDetailModel> attendanceViolations =
-                violations.GroupBy(x => new { x.EmployeeId, x.WorkDate, x.ShiftName, x.OutOfDate, x.InFixed, x.OutFixed })
-                .Select(y =>
-                {
-                    List<AttendanceDetailModel> attendances = y.ToList();
-                    var attendance = new AttendanceDetailModel
-                        {
-                            EmployeeId = y.Key.EmployeeId,
-                            WorkDate = y.Key.WorkDate,
-                            ShiftName = y.Key.ShiftName,
-                            OutOfDate = y.Key.OutOfDate,
-                            InFixed = y.Key.InFixed,
-                            OutFixed = y.Key.OutFixed,
-                            MissingCheckInOut = GetMissingCheckInOut(attendances),
-                            TotalHours = GetTotalHours(attendances),
-                            LateIn = GetLateIn(attendances),
-                            EarlyOut = GetEarlyOut(attendances),
-                            Absent = GetAbsent(attendances),
-                            UnpaidLeaveAbsent = GetUnpaidLeaveAbsent(attendances),
-                            UnpaidLeave = GetUnpaidLeave(attendances),
-                            ChangeShift = GetChangeShift(attendances)
-                        };
-                    return attendance;
-                }).ToList();
-
-            return attendanceViolations;
-        }
-
-        private static IEnumerable<AttendanceDetailModel> GetCommentViolations(
-            IEnumerable<AttendanceDetailModel> attendanceViolations,
-            IEnumerable<AttendanceDetailModel> comments)
-        {
-            foreach (AttendanceDetailModel attendanceViolation in attendanceViolations)
-            {
-                IEnumerable<AttendanceDetailModel> commentItems =
-                    comments.Where(x => x.WorkDate == attendanceViolation.WorkDate && x.EmployeeId == attendanceViolation.EmployeeId);
-
-                if (commentItems != null && commentItems.Any())
-                {
-                    string approverComment = commentItems.First().ApproverComment,
-                        employeeComment = commentItems.First().EmployeeComment;
-
-                    attendanceViolation.ApproverComment = GetRequestComment(approverComment);
-                    attendanceViolation.EmployeeComment = GetRequestComment(employeeComment);
-                }
-            }
-
-            return attendanceViolations;
-        }
-
-        private static IEnumerable<AttendanceDetailModel> CalculateScore(IEnumerable<AttendanceDetailModel> attendanceViolations)
-        {
-            foreach (AttendanceDetailModel attendanceDetail in attendanceViolations)
-            {
-                CalculateSubtractScore(attendanceDetail);
-            }
-
-            return attendanceViolations;
-        }
-
-        private static void CalculateSubtractScore(AttendanceDetailModel attendanceDetail)
-        {
-            var violations = new List<ViolationModel>
-            {
-                attendanceDetail.MissingCheckInOut,
-                attendanceDetail.LateIn,
-                attendanceDetail.EarlyOut,
-                attendanceDetail.TotalHours,
-                attendanceDetail.Absent,
-                attendanceDetail.UnpaidLeave,
-                attendanceDetail.UnpaidLeaveAbsent,
-                attendanceDetail.ChangeShift
-            };
-
-            foreach (ViolationModel violation in violations.Where(violation => violation != null && violation.HasViolated))
-            {
-                attendanceDetail.SystemSubtractScore += violation.Score;
-                attendanceDetail.ApproverSubtractScore += !violation.HasIgnored ? violation.Score : 0;
-            }
-
-            if (attendanceDetail.SystemSubtractScore > Constants.MaxScoreSubtractDate)
-            {
-                attendanceDetail.SystemSubtractScore = Constants.MaxScoreSubtractDate;
-            }
-        }
-
-        private static IEnumerable<AttendanceDetailModel> GroupEmployeeInformation(
-            IEnumerable<AttendanceDetailModel> attendanceViolations,
-            IEnumerable<EmployeeModel> employees)
-        {
-            foreach (AttendanceDetailModel attendanceViolation in attendanceViolations)
-            {
-                attendanceViolation.Employee = employees.FirstOrDefault(x => x.EmployeeId == attendanceViolation.EmployeeId);
                 attendanceViolation.JobTitle = employees.FirstOrDefault(x => x.EmployeeId == attendanceViolation.EmployeeId).JobTitle;
-            }
-
-            return attendanceViolations;
-        }
-
-        private static ViolationModel GetMissingCheckInOut(IEnumerable<AttendanceDetailModel> groupAttendances)
-        {
-            var missingCheckInOut = new ViolationModel();
-            AttendanceDetailModel attendanceDetail = groupAttendances.FirstOrDefault(x => x.MissingCheckInOut != null);
-
-            if (attendanceDetail != null)
-            {
-                missingCheckInOut = attendanceDetail.MissingCheckInOut;
-            }
-
-            return missingCheckInOut;
-        }
-
-        private static ViolationModel GetTotalHours(List<AttendanceDetailModel> groupAttendances)
-        {
-            IEnumerable<AttendanceDetailModel> totalHours = groupAttendances.Where(x => x.TotalHours != null);
-            var totalHour = new ViolationModel();
-
-            if (totalHours != null && totalHours.Any())
-            {
-                totalHour = totalHours.First().TotalHours;
-            }
-
-            return totalHour;
-        }
-
-        private static ViolationModel GetLateIn(List<AttendanceDetailModel> groupAttendances)
-        {
-            IEnumerable<AttendanceDetailModel> lateIns = groupAttendances.Where(x => x.LateIn != null);
-            var lateIn = new ViolationModel();
-
-            if (lateIns != null && lateIns.Any())
-            {
-                lateIn = lateIns.First().LateIn;
-            }
-
-            return lateIn;
-        }
-
-        private static ViolationModel GetEarlyOut(List<AttendanceDetailModel> groupAttendances)
-        {
-            IEnumerable<AttendanceDetailModel> earlyOuts = groupAttendances.Where(x => x.EarlyOut != null);
-            var earlyOut = new ViolationModel();
-
-            if (earlyOuts != null && earlyOuts.Any())
-            {
-                earlyOut = earlyOuts.First().EarlyOut;
-            }
-
-            return earlyOut;
-        }
-
-        private static ViolationModel GetAbsent(List<AttendanceDetailModel> groupAttendances)
-        {
-            IEnumerable<AttendanceDetailModel> absents = groupAttendances.Where(x => x.Absent != null);
-            var absent = new ViolationModel();
-
-            if (absents != null && absents.Any())
-            {
-                absent = absents.First().Absent;
-            }
-
-            return absent;
-        }
-
-        private static ViolationModel GetUnpaidLeaveAbsent(List<AttendanceDetailModel> groupAttendances)
-        {
-            IEnumerable<AttendanceDetailModel> unpaidLeaveAbsents = groupAttendances.Where(x => x.UnpaidLeaveAbsent != null);
-            var unpaidLeaveAbsent = new ViolationModel();
-
-            if (unpaidLeaveAbsents != null && unpaidLeaveAbsents.Any())
-            {
-                unpaidLeaveAbsent = unpaidLeaveAbsents.First().UnpaidLeaveAbsent;
-            }
-
-            return unpaidLeaveAbsent;
-        }
-
-        private static ViolationModel GetUnpaidLeave(List<AttendanceDetailModel> groupAttendances)
-        {
-            IEnumerable<AttendanceDetailModel> unpaidLeaves = groupAttendances.Where(x => x.UnpaidLeave != null);
-            var unpaidLeave = new ViolationModel();
-
-            if (unpaidLeaves != null && unpaidLeaves.Any())
-            {
-                unpaidLeave = unpaidLeaves.First().UnpaidLeave;
-            }
-
-            return unpaidLeave;
-        }
-
-        private static ViolationModel GetChangeShift(List<AttendanceDetailModel> groupAttendances)
-        {
-            IEnumerable<AttendanceDetailModel> changeShifts = groupAttendances.Where(x => x.ChangeShift != null);
-            var changeShift = new ViolationModel();
-
-            if (changeShifts != null && changeShifts.Any())
-            {
-                changeShift = changeShifts.First().ChangeShift;
-            }
-
-            return changeShift;
-        }
-
-        private static string GetRequestComment(string comment)
-        {
-            string approverComment = string.Empty;
-
-            if (!string.IsNullOrWhiteSpace(comment))
-            {
-                string[] comments = comment.Split('&');
-
-                foreach (string commentItem in comments)
-                {
-                    string[] commentItems = commentItem.Split('_');
-
-                    if (commentItems != null && commentItems.Count() > 1 && !string.IsNullOrWhiteSpace(commentItems[0]) && !string.IsNullOrWhiteSpace(commentItems[1]))
-                    {
-                        approverComment += commentItems[0] + ':' + commentItems[1];
-                    }
-                }
-            }
-
-            return approverComment;
-        }
-
         private void FillContentSummaryRow(IEnumerable<AttendanceSummaryModel> attendanceEmployees, ref ExcelTemplateWriter writer)
         {
             int rowIndex = 1;
@@ -496,7 +218,7 @@
                 JoinedDate = attendanceEmployee.Employee.JoinedDate.ToString(Constants.DateFormat),
                 Category = attendanceEmployee.Employee.Category,
                 MissingCheckInOut = attendanceEmployee.MissingCheckInOut,
-                WorkingBelowTime = attendanceEmployee.WorkingBelowTime,
+                WorkingUnderTime = attendanceEmployee.WorkingUnderTime,
                 LateIn = attendanceEmployee.LateIn,
                 EarlyOut = attendanceEmployee.EarlyOut,
                 Absent = attendanceEmployee.Absent,
@@ -528,12 +250,10 @@
             writer.WriteRow(4, record);
         }
 
-        [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2100:CodeLineMustNotBeLongerThan", Justification = "Reviewed. Suppression is OK here.")]
         private object CreateDetailRecord(AttendanceDetailModel attendanceViolation, ref int rowIndex)
         {
-            float systemSubtractScore = attendanceViolation.SystemSubtractScore > 0 ? -attendanceViolation.SystemSubtractScore : 0,
-                approverSubtractScore = attendanceViolation.ApproverSubtractScore > 0 ? -attendanceViolation.ApproverSubtractScore : 0,
-                totalHours = attendanceViolation.TotalHours.Value != null ? float.Parse(attendanceViolation.TotalHours.Value) * 60 : 0;
+            decimal systemSubtractScore = attendanceViolation.SystemSubtractScore > 0 ? -attendanceViolation.SystemSubtractScore : 0,
+                approverSubtractScore = attendanceViolation.ApproverSubtractScore > 0 ? -attendanceViolation.ApproverSubtractScore : 0;
 
             var record = new
             {
@@ -546,17 +266,17 @@
                 Category = attendanceViolation.Employee.Category,
                 Date = attendanceViolation.WorkDate,
                 Code = attendanceViolation.ShiftName,
-                CheckIn = !string.IsNullOrWhiteSpace(attendanceViolation.InFixed) ? DateTime.Parse(attendanceViolation.InFixed).ToString(Constants.TimeFormat) : string.Empty,
-                CheckOut = !string.IsNullOrWhiteSpace(attendanceViolation.OutFixed) ? DateTime.Parse(attendanceViolation.OutFixed).ToString(Constants.TimeFormat) : string.Empty,
-                TotalHours = !string.IsNullOrWhiteSpace(attendanceViolation.TotalHours.Value) ? ConvertNumberToTime(totalHours) : string.Empty,
-                MissingCheckInOut = !string.IsNullOrWhiteSpace(attendanceViolation.MissingCheckInOut.Value) ? attendanceViolation.MissingCheckInOut.Value : string.Empty,
-                WorkingUnderTime = !string.IsNullOrWhiteSpace(attendanceViolation.TotalHours.Value) && attendanceViolation.TotalHours.HasViolated ? "1" : string.Empty,
-                LateIn = !string.IsNullOrWhiteSpace(attendanceViolation.LateIn.Value) ? ConvertNumberToTime(double.Parse(attendanceViolation.LateIn.Value)) : string.Empty,
-                EarlyOut = !string.IsNullOrWhiteSpace(attendanceViolation.EarlyOut.Value) ? ConvertNumberToTime(double.Parse(attendanceViolation.EarlyOut.Value)) : string.Empty,
-                Absent = !string.IsNullOrWhiteSpace(attendanceViolation.Absent.Value) ? attendanceViolation.Absent.Value : string.Empty,
-                UnpaidLeave = !string.IsNullOrWhiteSpace(attendanceViolation.UnpaidLeave.Value) ? attendanceViolation.UnpaidLeave.Value : string.Empty,
-                UnpaidLeaveAbsent = !string.IsNullOrWhiteSpace(attendanceViolation.UnpaidLeaveAbsent.Value) ? attendanceViolation.UnpaidLeaveAbsent.Value : string.Empty,
-                ChangeShift = !string.IsNullOrWhiteSpace(attendanceViolation.ChangeShift.Value) ? attendanceViolation.ChangeShift.Value : string.Empty,
+                CheckIn = attendanceViolation.CheckIn.HasValue ? attendanceViolation.CheckIn.Value.ToString(Constants.TimeFormat) : string.Empty,
+                CheckOut = attendanceViolation.CheckOut.HasValue ? attendanceViolation.CheckOut.Value.ToString(Constants.TimeFormat) : string.Empty,
+                TotalHours = !string.IsNullOrEmpty(attendanceViolation.TotalHours) ? attendanceViolation.TotalHours : string.Empty,
+                MissingCheckInOut = attendanceViolation.MissingCheckInOut.Value > 0 ? attendanceViolation.MissingCheckInOut.Value.ToString() : string.Empty,
+                WorkingUnderTime = attendanceViolation.WorkingUnderTime.Value > 0 ? "1" : string.Empty,
+                LateIn = !string.IsNullOrEmpty(attendanceViolation.NumberOfMinutesLateIn) ? attendanceViolation.NumberOfMinutesLateIn : string.Empty,
+                EarlyOut = !string.IsNullOrEmpty(attendanceViolation.NumberOfMinutesEarlyOut) ? attendanceViolation.NumberOfMinutesEarlyOut : string.Empty,
+                Absent = attendanceViolation.Absent.Value > 0 ? attendanceViolation.Absent.Value.ToString() : string.Empty,
+                UnpaidLeave = attendanceViolation.UnpaidLeave.Value > 0 ? attendanceViolation.UnpaidLeave.Value.ToString() : string.Empty,
+                UnpaidLeaveAbsent = attendanceViolation.UnpaidLeaveAbsent.Value > 0 ? attendanceViolation.UnpaidLeaveAbsent.Value.ToString() : string.Empty,
+                ChangeShift = attendanceViolation.ChangeShift.Value > 0 ? attendanceViolation.ChangeShift.Value.ToString() : string.Empty,
                 SystemSubtractScore = (decimal)systemSubtractScore,
                 ApproverSubtractScore = (decimal)approverSubtractScore,
                 ApproverComment = attendanceViolation.ApproverComment,
@@ -565,16 +285,6 @@
             rowIndex++;
 
             return record;
-        }
-
-        private string ConvertNumberToTime(double number)
-        {
-            double numberMinutes = Math.Round(number);
-
-            var timeSpan = new TimeSpan(0, (int)numberMinutes, 0);
-            string time = timeSpan.ToString(@"hh\:mm");
-
-            return time;
         }
     }
 }

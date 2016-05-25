@@ -5,7 +5,7 @@
 
     public class GetOtherViolationsOfEmployeeCriteria : CriteriaBase
     {
-        public string EmployeeIds { get; set; }
+        public int EmployeeId { get; set; }
 
         public DateTime StartDate { get; set; }
 
@@ -15,7 +15,7 @@
 
         public override bool IsValid()
         {
-            return !string.IsNullOrWhiteSpace(EmployeeIds) && StartDate <= EndDate;
+            return EmployeeId > 0 && StartDate <= EndDate;
         }
 
         public override string GetSettingKey()
