@@ -175,7 +175,7 @@ namespace SMS.EPA.Services.Implement
 
             if (criteria != null && criteria.IsValid())
             {
-                employees = GetData<EmployeeModel>(criteria);
+                employees = GetData<EmployeeModel>(criteria).OrderBy(i => i.NickName);
             }
 
             return employees;

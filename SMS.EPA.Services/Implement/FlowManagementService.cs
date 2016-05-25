@@ -120,6 +120,7 @@ namespace SMS.EPA.Services.Implement
             if (criteria != null && criteria.IsValid())
             {
                 flows = _flowManagementRepository.GetDepartmentFlow(criteria);
+                flows = flows.OrderBy(i => i.Name);
             }
 
             return flows;
@@ -231,7 +232,7 @@ namespace SMS.EPA.Services.Implement
 
             if (criteria != null && criteria.IsValid())
             {
-                data = GetData<EmployeeModel>(criteria);
+                data = GetData<EmployeeModel>(criteria).OrderBy(i => i.NickName);
             }
 
             return data;
