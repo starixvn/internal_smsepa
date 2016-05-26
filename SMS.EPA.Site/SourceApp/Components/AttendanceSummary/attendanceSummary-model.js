@@ -24,11 +24,9 @@ function ($modal, attendanceFactory, errorFactory) {
 
     attendanceModel.attendanceEmployees = [];
     attendanceModel.otherViolations = [];
-    attendanceModel.violations = [];
+    attendanceModel.violationTypes = [];
     attendanceModel.attendanceDetails = [];
     attendanceModel.permission = null;
-    attendanceModel.otherViolationTypes = [];
-
     attendanceModel.summaryPaging = {
         currentPage: 1,
         pageSize: 20
@@ -121,10 +119,10 @@ function ($modal, attendanceFactory, errorFactory) {
         });
     };
 
-    attendanceModel.getViolationType = function () {
-        return attendanceFactory.getViolationType()
-        .success(function (violations) {
-            attendanceModel.violations = violations;
+    attendanceModel.getViolationType = function (includeOtherViolate, isActive) {
+        return attendanceFactory.getViolationType(includeOtherViolate, isActive)
+        .success(function (violationTypes) {
+            attendanceModel.violationTypes = violationTypes;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
@@ -158,15 +156,6 @@ function ($modal, attendanceFactory, errorFactory) {
         });
 
         return departmentName;
-    };
-
-    attendanceModel.getOtherViolationType = function (isActive) {
-        return attendanceFactory.getOtherViolationType(isActive).success(function (violationTypes) {
-            attendanceModel.otherViolationTypes = violationTypes;
-        })
-        .error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
     };
 
     return attendanceModel;

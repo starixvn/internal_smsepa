@@ -10,7 +10,7 @@
 
         IEnumerable<OtherViolationModel> GetOtherViolations(GetOtherViolationsOfEmployeeCriteria criteria);
 
-        IEnumerable<ViolationModel> GetViolationType(GetViolationTypeCriteria criteria);
+        IEnumerable<ViolationTypeModel> GetViolationType(GetViolationTypeCriteria criteria);
 
         IEnumerable<AttendanceDetailModel> GetAttendanceDetail(GetDetailAttendanceCriteria criteria);
 
@@ -19,7 +19,5 @@
         void ExportAttendanceSummaryReport(GetAttendanceSummaryCriteria criteria, IEnumerable<AttendanceSummaryModel> attendanceEmployees, string templatePath);
 
         void ExportAttendanceDetailReport(GetDetailAttendanceCriteria criteria, IEnumerable<AttendanceDetailModel> attendanceViolations, string templatePath);
-
-        IList<OtherViolationTypeModel> GetOtherViolationType(GetOtherViolationTypeCriteria criteria);
     }
 }

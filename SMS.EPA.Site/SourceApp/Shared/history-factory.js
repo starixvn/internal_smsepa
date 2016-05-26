@@ -9,7 +9,6 @@
                 model = filter;
                 isBack = false;
             },
-
             getState: function () {
                 if (isBack && model) {
                     isBack = false;
@@ -19,7 +18,6 @@
 
                 return null;
             },
-
             back: function () {
                 isBack = true;
                 $window.history.back();

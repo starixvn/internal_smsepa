@@ -51,13 +51,13 @@
             return violations;
         }
 
-        public IEnumerable<ViolationModel> GetViolationType(GetViolationTypeCriteria criteria)
+        public IEnumerable<ViolationTypeModel> GetViolationType(GetViolationTypeCriteria criteria)
         {
-            IEnumerable<ViolationModel> violations = new List<ViolationModel>();
+            IEnumerable<ViolationTypeModel> violations = new List<ViolationTypeModel>();
 
             if (criteria != null && criteria.IsValid())
             {
-                violations = GetData<ViolationModel>(criteria);
+                violations = GetData<ViolationTypeModel>(criteria);
             }
 
             return violations;
@@ -88,18 +88,6 @@
             }
 
             return attendanceScores;
-        }
-
-        public IList<OtherViolationTypeModel> GetOtherViolationType(GetOtherViolationTypeCriteria criteria)
-        {
-            IList<OtherViolationTypeModel> violationTypes = new List<OtherViolationTypeModel>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                violationTypes = GetData<OtherViolationTypeModel>(criteria).ToList();
-            }
-
-            return violationTypes;
         }
 
         public void ExportAttendanceSummaryReport(

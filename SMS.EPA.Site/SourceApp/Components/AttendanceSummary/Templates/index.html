@@ -119,7 +119,7 @@
                     <span ng-show="employee.ApproverSubtractScore == 0">{{employee.ApproverSubtractScore | number: 1}}</span>
                 </td>
                 <td class="text-center" ng-if="attendanceCtrl.permission >= attendanceCtrl.policyEnum.Read">
-                    <a class="glyphicon icon-view" title="View" href="{{attendanceCtrl.attendanceDetailUrl}}" ng-click="attendanceCtrl.adjust(employee)"></a>
+                    <a class="glyphicon icon-view" title="View" href="{{attendanceCtrl.attendanceDetailUrl}}" ng-click="attendanceCtrl.viewDetail(employee)"></a>
                 </td>
             </tr>
             <tr ng-show="attendanceCtrl.filteredItems.length == 0">

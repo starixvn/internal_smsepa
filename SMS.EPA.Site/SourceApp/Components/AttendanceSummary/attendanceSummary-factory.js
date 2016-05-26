@@ -28,8 +28,14 @@ attendanceModule.factory('attendanceFactory', ['$http', 'baseUrl', function ($ht
                     }
                 });
         },
-        getViolationType: function () {
-            return $http.get(baseUrl + 'api/AttendanceSummary/GetViolationType');
+        getViolationType: function (includeOtherViolate, isActive) {
+            return $http.get(baseUrl + 'api/AttendanceSummary/GetViolationType',
+                {
+                    params: {
+                        includeOtherViolate: includeOtherViolate,
+                        isActive: isActive
+                    }
+                });
         },
         getAttendanceDetail: function (startDate, endDate, employeeId, departmentId, isLocal, reasonId, hasIgnored) {
             return $http.get(baseUrl + 'api/AttendanceSummary/GetAttendanceDetail',
@@ -43,14 +49,10 @@ attendanceModule.factory('attendanceFactory', ['$http', 'baseUrl', function ($ht
                         isLocal: isLocal,
                         hasIgnored: hasIgnored
                     }
-                }
-            );
+                });
         },
         getUserPermissionOnAttendanceSummary: function () {
             return $http.get(baseUrl + 'api/AttendanceSummary/GetUserPermissionOnAttendanceSummary');
-        },
-        getOtherViolationType: function (isActive) {
-            return $http.get(baseUrl + 'api/AttendanceSummary/GetOtherViolationType', { params: { isActive: isActive } });
         }
     };
 }]);

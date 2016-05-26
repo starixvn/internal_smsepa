@@ -10,9 +10,9 @@ function ($scope, AttendanceModel, utilitiesFactory, CommonModel, enumerationsFa
     vm.violationOptions = [];
     vm.permission = AttendanceModel.permission;
     vm.policyEnum = enumerationsFactory.policy;
-
     vm.currentPage = AttendanceModel.summaryPaging.currentPage;
     vm.pageSize = AttendanceModel.summaryPaging.pageSize;
+    vm.filter = {};
 
     function initFilter() {
         var filter = historyFactory.getState();
@@ -29,12 +29,6 @@ function ($scope, AttendanceModel, utilitiesFactory, CommonModel, enumerationsFa
     }
 
     vm.filter = initFilter();
-
-    if (vm.filter.employeeId) {
-        CommonModel.getEmployeeById(vm.filter.employeeId).then(function () {
-            vm.filter.employee = CommonModel.employee;
-            vm.searchEmployee = vm.filter.employee.NickName + ' (' + vm.filter.employee.FullName + ')';
-        });
     }
 
     vm.calendar = {
@@ -53,30 +47,6 @@ function ($scope, AttendanceModel, utilitiesFactory, CommonModel, enumerationsFa
     utilitiesFactory.numberEntryList(vm);
     utilitiesFactory.getDateFormat(vm);
 
-    CommonModel.getDepartment().then(function () {
-        vm.departments = CommonModel.departments;
-        vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
-    });
-
-    AttendanceModel.getViolationType().then(function () {
-        vm.violationOptions = AttendanceModel.violations;
-    });
-
-    AttendanceModel.getUserPermissionOnAttendanceSummary().then(function () {
-        vm.permission = AttendanceModel.permission;
-    });
-
-    function getAttendanceSummary(startDate, endDate, departmentId, isLocal, employeeId, reasonId) {
-        lockScreenService.start();
-
-        AttendanceModel.getAttendanceSummary(startDate, endDate, departmentId, isLocal, employeeId, reasonId)
-        .then(function () {
-            vm.attendanceEmployees = AttendanceModel.attendanceEmployees;
-            utilitiesFactory.searchOnPage(vm, vm.attendanceEmployees);
-            lockScreenService.stop();
-        });
-    }
-
     vm.getEmployee = function () {
         return CommonModel.getAllEmployee(vm.searchEmployee, null, null, null, true, true);
     };
@@ -90,13 +60,18 @@ function ($scope, AttendanceModel, utilitiesFactory, CommonModel, enumerationsFa
         }
     };
 
-    getAttendanceSummary(
-        vm.filter.startDate,
-        vm.filter.endDate,
-        vm.filter.departmentId,
-        vm.filter.isLocal,
-        vm.filter.employeeId,
-        vm.filter.reasonId);
+    function getAttendanceSummary(startDate, endDate, departmentId, isLocal, employeeId, reasonId) {
+        lockScreenService.start();
+
+        AttendanceModel.getAttendanceSummary(startDate, endDate, departmentId, isLocal, employeeId, reasonId)
+        .then(function () {
+            vm.attendanceEmployees = AttendanceModel.attendanceEmployees;
+            utilitiesFactory.searchOnPage(vm, vm.attendanceEmployees);
+            lockScreenService.stop();
+        });
+
+        historyFactory.saveState(vm.filter);
+    }
 
     vm.query = function (filter) {
         var employeeId = null;
@@ -111,7 +86,6 @@ function ($scope, AttendanceModel, utilitiesFactory, CommonModel, enumerationsFa
             vm.filter.employeeId = employeeId;
         }
 
-        historyFactory.saveState(vm.filter);
         getAttendanceSummary(filter.startDate, filter.endDate, filter.departmentId, filter.isLocal, employeeId, vm.filter.reasonId);
     };
 
@@ -126,7 +100,7 @@ function ($scope, AttendanceModel, utilitiesFactory, CommonModel, enumerationsFa
         });
     };
 
-    vm.adjust = function (employee) {
+    vm.viewDetail = function (employee) {
         var startDate = vm.filter.startDate,
             endDate = vm.filter.endDate;
 
@@ -146,6 +120,34 @@ function ($scope, AttendanceModel, utilitiesFactory, CommonModel, enumerationsFa
         vm.exportCriteria.endDate = filter.endDate.toDateString();
         $scope.$broadcast('exportAttendanceSummaryReport');
     };
+
+    function initialize() {
+        CommonModel.getDepartment().then(function () {
+            vm.departments = CommonModel.departments;
+            vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
+        });
+
+        AttendanceModel.getViolationType(false, true).then(function () {
+            vm.violationOptions = AttendanceModel.violationTypes;
+        });
+
+        AttendanceModel.getUserPermissionOnAttendanceSummary().then(function () {
+            vm.permission = AttendanceModel.permission;
+        });
+
+        vm.filter = initFilter();
+
+        if (vm.filter.employeeId) {
+            CommonModel.getEmployeeById(vm.filter.employeeId).then(function () {
+                vm.filter.employee = CommonModel.employee;
+                vm.searchEmployee = vm.filter.employee.NickName + ' (' + vm.filter.employee.FullName + ')';
+            });
+        }
+
+        getAttendanceSummary(vm.filter.startDate, vm.filter.endDate, vm.filter.departmentId, vm.filter.isLocal, vm.filter.employeeId, vm.filter.reasonId);
+    }
+
+    initialize();
 }]);
 
 attendanceModule.controller("OtherViolationsController",
@@ -156,13 +158,13 @@ function ($scope, $modalInstance, AttendanceModel, utilitiesFactory, employee, s
     vm.employee = employee;
     vm.startDate = startDate;
     vm.endDate = endDate;
-
     vm.otherViolations = [];
 
     utilitiesFactory.getDateFormat(vm);
 
     function getOtherViolations(employeeId, startDate, endDate) {
-        AttendanceModel.getOtherViolations(employeeId, startDate, endDate).then(function () {
+        AttendanceModel.getOtherViolations(employeeId, startDate, endDate)
+        .then(function () {
             vm.otherViolations = AttendanceModel.otherViolations;
         });
     }
@@ -183,7 +185,6 @@ function ($scope, $window, $routeParams, AttendanceModel, CommonModel, utilities
 
     vm.currentPage = 1;
     vm.pageSize = 15;
-
     vm.violationOptions = [];
     vm.attendanceDetails = [];
 
@@ -199,6 +200,14 @@ function ($scope, $window, $routeParams, AttendanceModel, CommonModel, utilities
         reasonId: parseInt($routeParams.reasonId),
         hasIgnored: ''
     };
+
+    if (vm.filter.employeeId) {
+        CommonModel.getEmployeeById(vm.filter.employeeId).then(function () {
+            vm.filter.employee = CommonModel.employee;
+            vm.filter.employee.Name = vm.filter.employee.NickName;
+            vm.searchEmployee = vm.filter.employee.NickName + ' (' + vm.filter.employee.FullName + ')';
+        });
+    }
 
     vm.calendar = {
         startDateOpened: false,
@@ -217,34 +226,6 @@ function ($scope, $window, $routeParams, AttendanceModel, CommonModel, utilities
     utilitiesFactory.getDateFormat(vm);
     utilitiesFactory.getTimeFormat(vm);
 
-    CommonModel.getDepartment().then(function () {
-        vm.departments = CommonModel.departments;
-        vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
-    });
-
-    if (vm.filter.employeeId) {
-        CommonModel.getEmployeeById(vm.filter.employeeId).then(function () {
-            vm.filter.employee = CommonModel.employee;
-            vm.filter.employee.Name = vm.filter.employee.NickName;
-            vm.searchEmployee = vm.filter.employee.NickName + ' (' + vm.filter.employee.FullName + ')';
-        });
-    }
-
-    AttendanceModel.getViolationType().then(function () {
-        vm.violationOptions = AttendanceModel.violations;
-    });
-
-    function getAttendanceDetail(startDate, endDate, employeeId, departmentId, isLocal, reasonId, hasIgnored) {
-        lockScreenService.start();
-
-        AttendanceModel.getAttendanceDetail(startDate, endDate, employeeId, departmentId, isLocal, reasonId, hasIgnored)
-        .then(function () {
-            vm.attendanceDetails = AttendanceModel.attendanceDetails;
-            utilitiesFactory.searchOnPage(vm, vm.attendanceDetails);
-            lockScreenService.stop();
-        });
-    }
-
     vm.getEmployee = function () {
         return CommonModel.getAllEmployee(vm.searchEmployee, null, null, null, true, true);
     };
@@ -258,14 +239,16 @@ function ($scope, $window, $routeParams, AttendanceModel, CommonModel, utilities
         }
     };
 
-    getAttendanceDetail(
-        vm.filter.startDate,
-        vm.filter.endDate,
-        vm.filter.employeeId,
-        vm.filter.departmentId,
-        vm.filter.isLocal,
-        vm.filter.reasonId,
-        vm.filter.hasIgnored);
+    function getAttendanceDetail(startDate, endDate, employeeId, departmentId, isLocal, reasonId, hasIgnored) {
+        lockScreenService.start();
+
+        AttendanceModel.getAttendanceDetail(startDate, endDate, employeeId, departmentId, isLocal, reasonId, hasIgnored)
+        .then(function () {
+            vm.attendanceDetails = AttendanceModel.attendanceDetails;
+            utilitiesFactory.searchOnPage(vm, vm.attendanceDetails);
+            lockScreenService.stop();
+        });
+    }
 
     vm.query = function (filter) {
         var employeeId = null;
@@ -297,4 +280,26 @@ function ($scope, $window, $routeParams, AttendanceModel, CommonModel, utilities
         vm.exportCriteria.endDate = filter.endDate.toDateString();
         $scope.$broadcast('exportAttendanceDetailReport');
     };
+
+    function initialize() {
+        CommonModel.getDepartment().then(function () {
+            vm.departments = CommonModel.departments;
+            vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
+        });
+
+        AttendanceModel.getViolationType(false, true).then(function () {
+            vm.violationOptions = AttendanceModel.violationTypes;
+        });
+
+        getAttendanceDetail(
+            vm.filter.startDate,
+            vm.filter.endDate,
+            vm.filter.employeeId,
+            vm.filter.departmentId,
+            vm.filter.isLocal,
+            vm.filter.reasonId,
+            vm.filter.hasIgnored);
+    }
+
+    initialize();
 }]);

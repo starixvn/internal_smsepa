@@ -56,7 +56,7 @@
                 {
                     WorkDate = violation.WorkDate,
                     ShiftName = violation.ShiftName,
-                    CheckIn = (checkIn.HasValue && checkIn.Value != default(DateTime)) ? checkIn.Value : (DateTime?) null,
+                    CheckIn = (checkIn.HasValue && checkIn.Value != default(DateTime)) ? checkIn.Value : (DateTime?)null,
                     CheckOut = (checkOut.HasValue && checkOut.Value != default(DateTime)) ? checkOut.Value : (DateTime?)null,
                     TotalHours = ConvertNumberToTime(totalHours * 60),
                     NumberOfMinutesLateIn = ConvertNumberToTime(lateIn),

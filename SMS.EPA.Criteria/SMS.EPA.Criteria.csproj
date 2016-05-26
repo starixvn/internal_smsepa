@@ -69,7 +69,6 @@
     <Compile Include="AttendanceSummary\GetAttendanceSummaryCriteria.cs" />
     <Compile Include="AttendanceSummary\GetDetailAttendanceCriteria.cs" />
     <Compile Include="AttendanceSummary\GetOtherViolationsOfEmployeeCriteria.cs" />
-    <Compile Include="AttendanceSummary\GetOtherViolationTypeCriteria.cs" />
     <Compile Include="AttendanceSummary\GetViolationTypeCriteria.cs" />
     <Compile Include="Authentication\GetEmployeeByCodeCriteria.cs" />
     <Compile Include="Authentication\GetEmployeeByDomainUsernameCriteria.cs" />

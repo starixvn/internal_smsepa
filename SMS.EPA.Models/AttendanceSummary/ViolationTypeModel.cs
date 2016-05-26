@@ -1,8 +1,8 @@
 ﻿namespace SMS.EPA.Model.AttendanceSummary
 {
-    public class OtherViolationTypeModel
+    public class ViolationTypeModel
     {
-        public int Id { get; set; }
+        public int ViolationId { get; set; }
 
         public string Name { get; set; }
 

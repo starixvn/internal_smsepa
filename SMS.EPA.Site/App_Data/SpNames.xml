@@ -321,7 +321,7 @@
     </Setting>
     <Setting Key="EpaAttendanceSummary_GetOtherViolations" SpName="EpaAttendanceSummary_GetOtherViolations" DbName="SMSEPA" Plain="0">
     </Setting>
-    <Setting Key="EpaAttendanceSummary_GetViolations" SpName="EpaAttendanceSummary_GetViolations" DbName="SMSEPA" Plain="0">
+    <Setting Key="EpaAttendanceSummary_GetViolationType" SpName="EpaAttendanceSummary_GetViolationType" DbName="SMSEPA" Plain="0">
     </Setting>
     <Setting Key="EpaAttendanceSummary_GetDetail" SpName="EpaAttendanceSummary_GetDetail_xtest" DbName="SMSEPA" Plain="0">
     </Setting>

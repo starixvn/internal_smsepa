@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Web.Http;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Criteria.AttendanceSummary;
@@ -76,10 +75,17 @@
             return violations;
         }
 
-        public IEnumerable<ViolationModel> GetViolationType()
+        public IEnumerable<ViolationTypeModel> GetViolationType(
+            bool includeOtherViolate,
+            bool? isActive = null)
         {
-            var criteria = new GetViolationTypeCriteria();
-            IEnumerable<ViolationModel> violations = _attendanceSummaryService.GetViolationType(criteria);
+            var criteria = new GetViolationTypeCriteria
+            {
+                IncludeOtherViolate = includeOtherViolate,
+                IsActive = isActive
+            };
+            IEnumerable<ViolationTypeModel> violations = _attendanceSummaryService.GetViolationType(criteria);
+
             return violations;
         }
 
@@ -109,18 +115,6 @@
             SessionManager.Set(Constants.DisciplineDetailReportSessionKey + CurrentUser.EmployeeInfo.EmployeeId, attendanceViolations);
 
             return attendanceViolations;
-        }
-
-        [HttpGet]
-        public IList<OtherViolationTypeModel> GetOtherViolationType(bool? isActive = null)
-        {
-            var criteria = new GetOtherViolationTypeCriteria
-            {
-                IsActive = isActive
-            };
-
-            IList<OtherViolationTypeModel> violationTypes = _attendanceSummaryService.GetOtherViolationType(criteria);
-            return violationTypes;
         }
 
         public int GetUserPermissionOnAttendanceSummary()
