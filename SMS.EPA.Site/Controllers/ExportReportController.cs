@@ -28,7 +28,6 @@ namespace SMS.EPA.Site.Controllers
     public class ExportReportController : Controller
     {
         private const string _EmployeeFlowSettingReportTemplatePath = @"~\SourceApp\Components\Period\ExcelTemplates\EmployeeFlowSettingReport.xls";
-        private const string _EPADetailReportTemplatePath = @"~\SourceApp\Components\Report\ExcelTemplates\EPADetailReport.xls";
         private const string _MonthlyEPADetailReportTemplatePath = @"~\SourceApp\Components\Report\ExcelTemplates\MonthlyEPADetailReport.xls";
         private const string _DisciplineSummaryTemplatePath = @"~\SourceApp\Components\AttendanceSummary\ExcelTemplates\DisciplineSummaryReport.xls";
         private const string _DisciplineDetailTemplatePath = @"~\SourceApp\Components\AttendanceSummary\ExcelTemplates\DisciplineDetailReport.xls";
@@ -36,20 +35,23 @@ namespace SMS.EPA.Site.Controllers
         private readonly IPeriodService _periodService;
         private readonly IReportService _reportService;
         private readonly IAttendanceSummaryService _attendanceService;
+        private readonly IEPADetailReportService _epaDetailReportService;
 
         public ExportReportController()
-            : this(null, null, null)
+            : this(null, null, null, null)
         {
         }
 
         public ExportReportController(
             IPeriodService checkFlowService,
             IReportService reportService,
-            IAttendanceSummaryService attendanceService)
+            IAttendanceSummaryService attendanceService,
+            IEPADetailReportService epaDetailReportService)
         {
             _periodService = checkFlowService ?? new PeriodService();
             _reportService = reportService ?? new ReportService();
             _attendanceService = attendanceService ?? new AttendanceSummaryService();
+            _epaDetailReportService = epaDetailReportService ?? new EPADetailReportService();
         }
 
         public ActionResult Index()
@@ -112,8 +114,8 @@ namespace SMS.EPA.Site.Controllers
             criteria.EmployeeId = SessionManager.CurrentUser.EmployeeInfo.EmployeeId;
 
             EPADetailModel epaDetail = _reportService.GetEPADetailReport(criteria);
-            string templatePath = Server.MapPath(_EPADetailReportTemplatePath);
-            _reportService.ExportEPADetailReport(epaDetail, templatePath);
+
+            _epaDetailReportService.Render(epaDetail);
 
             return new EmptyResult();
         }

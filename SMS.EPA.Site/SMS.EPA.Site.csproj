@@ -785,7 +785,6 @@
     <Content Include="Views\Emails\EmailNotifyChangeSetting.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="SourceApp\Components\Report\ExcelTemplates\EPADetailReport.xls" />
     <Content Include="SourceApp\Components\AttendanceSummary\ExcelTemplates\DisciplineSummaryReport.xls" />
     <Content Include="SourceApp\Components\AttendanceSummary\ExcelTemplates\DisciplineDetailReport.xls" />
     <None Include="Properties\PublishProfiles\a.pubxml" />

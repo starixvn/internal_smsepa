@@ -270,19 +270,19 @@ function ($timeout, utilitiesFactory) {
             }
         }
 
-        if (epaInfo.EPAId > 0 && epaInfo.Process.Self.IsEndProcess) {
+        if (epaInfo.EPAId > 0) {
             result.SelfScore = utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore);
         }
 
-        if (epaInfo.EPAId > 0 && epaInfo.Process.Evaluators[0].IsEndProcess) {
+        if (epaInfo.EPAId > 0) {
             result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators;
         }
 
-        if (epaInfo.EPAId > 0 && epaInfo.Process.Reviewers.length > 0 && epaInfo.Process.Reviewers[0].IsEndProcess) {
+        if (epaInfo.EPAId > 0 && epaInfo.Process.Reviewers.length > 0) {
             result.ReviewerScore = epaInfo.Process.AverageScoreByReviewers;
         }
 
-        if (epaInfo.EPAId > 0 && epaInfo.Process.Managements.length > 0 && epaInfo.Process.Managements[0].IsEndProcess) {
+        if (epaInfo.EPAId > 0 && epaInfo.Process.Managements.length > 0) {
             result.ManagementScore = epaInfo.Process.AverageScoreByManagements;
         }
 
@@ -312,6 +312,10 @@ function ($timeout, utilitiesFactory) {
             angular.forEach(gridData.MemberEPAs, function (memberEPA, index) {
                 var score = calculateScore(memberEPA);
                 /*var pdfIcon = '<a class="icon-pdf exportPDF" data-epaid="' + memberEPA.EPAId + '" data-hasmonthlyepa="' + memberEPA.HasMonthlyEPA + '"></input>';*/
+                var cssSelfScore = memberEPA.Process.Self.IsEndProcess ? "" : "red";
+                var cssEvaluatorScore = memberEPA.Process.Evaluators[0].IsEndProcess ? "" : "red";
+                var cssReviewerScore = memberEPA.Process.Reviewers[0].IsEndProcess ? "" : "red";
+                var cssManagementScore = memberEPA.Process.Managements[0].IsEndProcess ? "" : "red";
 
                 var currentRow = {
                     Columns: [
@@ -322,10 +326,10 @@ function ($timeout, utilitiesFactory) {
                         { Name: "Section", Value: memberEPA.Employee.GroupName },
                         { Name: "JobTitle", Value: memberEPA.Employee.JobTitleName },
                         { Name: "TargetType", Value: memberEPA.Period.TargetTypeName },
-                        { Name: "SelfScore", Value: score.SelfScore },
-                        { Name: "EvaluatorScore", Value: score.EvaluatorScore },
-                        { Name: "ReviewerScore", Value: score.ReviewerScore },
-                        { Name: "ManagementScore", Value: score.ManagementScore },
+                        { Name: "SelfScore", Value: "<span class='" + cssSelfScore + "'>" + score.SelfScore + "</span>" },
+                        { Name: "EvaluatorScore", Value: "<span class='" + cssEvaluatorScore + "'>" + score.EvaluatorScore + "</span>" },
+                        { Name: "ReviewerScore", Value: "<span class='" + cssReviewerScore + "'>" + score.ReviewerScore + "</span>" },
+                        { Name: "ManagementScore", Value: "<span class='" + cssManagementScore + "'>" + score.ManagementScore + "</span>" },
                         { Name: "DisciplineScore", Value: score.DisciplineScore },
                         { Name: "FinalScore", Value: score.FinalScore },
                         { Name: "Grade", Value: score.Grade }
@@ -442,15 +446,15 @@ function ($timeout, utilitiesFactory) {
             Grade: ''
         };
 
-        if (epaInfo.EPAId > 0 && epaInfo.Process.Self.IsEndProcess) {
+        if (epaInfo.EPAId > 0) {
             result.SelfScore = utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore);
         }
 
-        if (epaInfo.EPAId > 0 && epaInfo.Process.Evaluators[0].IsEndProcess) {
+        if (epaInfo.EPAId > 0) {
             result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators;
         }
 
-        if (epaInfo.EPAId > 0 && epaInfo.Process.Reviewers.length > 0 && epaInfo.Process.Reviewers[0].IsEndProcess) {
+        if (epaInfo.EPAId > 0 && epaInfo.Process.Reviewers.length > 0) {
             result.ReviewerScore = epaInfo.Process.AverageScoreByReviewers;
         }
 
@@ -479,6 +483,10 @@ function ($timeout, utilitiesFactory) {
         if (gridData.MemberEPAs) {
             angular.forEach(gridData.MemberEPAs, function (memberEPA, index) {
                 var score = calculateScore(memberEPA);
+                var cssSelfScore = memberEPA.Process.Self.IsEndProcess ? "" : "red";
+                var cssEvaluatorScore = memberEPA.Process.Evaluators[0].IsEndProcess ? "" : "red";
+                var cssReviewerScore = memberEPA.Process.Reviewers[0].IsEndProcess ? "" : "red";
+
                 var currentRow = {
                     Columns: [
                         { Name: "No", Value: rowIndex + index + 1 },
@@ -487,9 +495,9 @@ function ($timeout, utilitiesFactory) {
                         { Name: "NickName", Value: memberEPA.Employee.NickName },
                         { Name: "Section", Value: memberEPA.Employee.GroupName },
                         { Name: "JobTitle", Value: memberEPA.Employee.JobTitleName },
-                        { Name: "SelfScore", Value: score.SelfScore },
-                        { Name: "EvaluatorScore", Value: score.EvaluatorScore },
-                        { Name: "ReviewerScore", Value: score.ReviewerScore },
+                        { Name: "SelfScore", Value: "<span class='" + cssSelfScore + "'>" + score.SelfScore + "</span>" },
+                        { Name: "EvaluatorScore", Value: "<span class='" + cssEvaluatorScore + "'>" + score.EvaluatorScore + "</span>" },
+                        { Name: "ReviewerScore", Value: "<span class='" + cssReviewerScore + "'>" + score.ReviewerScore + "</span>" },
                         { Name: "FinalScore", Value: score.FinalScore },
                         { Name: "Grade", Value: score.Grade }
                     ]

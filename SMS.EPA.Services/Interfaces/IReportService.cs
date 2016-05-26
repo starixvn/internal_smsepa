@@ -29,8 +29,6 @@ namespace SMS.EPA.Services.Interfaces
 
         EPADetailModel GetMonthlyEPADetailReport(GetMonthlyEPADetailCriteria criteria);
 
-        void ExportEPADetailReport(EPADetailModel epaDetail, string templatePath);
-
         void ExportMonthlyEPADetailReport(EPADetailModel epaDetail, string templatePath);
 
         EPASummaryModel GetMonthlyEPASummaryReport(GetMonthlyEPASummaryCriteria criteria);

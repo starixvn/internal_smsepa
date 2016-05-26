@@ -98,19 +98,6 @@ namespace SMS.EPA.Services.Implement
             return result;
         }
 
-        public void ExportEPADetailReport(EPADetailModel epaDetail, string templatePath)
-        {
-            string reportName = Lang.EPADetailReportName;
-            var writer = new ExcelTemplateWriter(templatePath, reportName, Lang.EPADetailReportSheet);
-
-            writer.CopyRows(0, 3);
-
-            FillContentRowEPADetailReport(epaDetail, ref writer);
-            writer.SyncColumnsWidth(14);
-
-            writer.Render();
-        }
-
         #endregion EPA Detail Report
 
         #region Monthly EPA Detail Report
@@ -551,7 +538,7 @@ namespace SMS.EPA.Services.Implement
                 }
             }
 
-            if (memberEPA.EPAId > 0 && memberEPA.Process.Self.IsEndProcess)
+            if (memberEPA.EPAId > 0)
             {
                 float score = memberEPA.Process.Self.TotalScore.Length > 0 ? float.Parse(memberEPA.Process.Self.TotalScore) : 0;
 
@@ -559,24 +546,21 @@ namespace SMS.EPA.Services.Implement
             }
 
             if (memberEPA.EPAId > 0 && memberEPA.Process.Evaluators != null
-                && memberEPA.Process.Evaluators.Any()
-                && memberEPA.Process.Evaluators.First().IsEndProcess)
+                && memberEPA.Process.Evaluators.Any())
             {
                 evaluatorScore = Math.Round(memberEPA.Process.AverageScoreByEvaluators, 2).ToString();
             }
 
             if (memberEPA.EPAId > 0
                 && memberEPA.Process.Reviewers != null
-                && memberEPA.Process.Reviewers.Any()
-                && memberEPA.Process.Reviewers.First().IsEndProcess)
+                && memberEPA.Process.Reviewers.Any())
             {
                 reviewerScore = Math.Round(memberEPA.Process.AverageScoreByReviewers, 2).ToString();
             }
 
             if (memberEPA.EPAId > 0
                 && memberEPA.Process.Managements != null
-                && memberEPA.Process.Managements.Any()
-                && memberEPA.Process.Managements.First().IsEndProcess)
+                && memberEPA.Process.Managements.Any())
             {
                 managementScore = Math.Round(memberEPA.Process.AverageScoreByManagements, 2).ToString();
             }
