@@ -54,7 +54,32 @@ namespace SMS.EPA.Site.Controllers.API
             };
 
             IEnumerable<PeriodModel> periods = _periodService.GetPeriod(criteria);
-            return periods;
+            IEnumerable<PeriodModel> probationPeriods = periods.Where(x => x.TargetType.TargetTypeId == (int)TargetType.Probation);
+            IEnumerable<PeriodModel> promotionPeriods = periods.Where(
+                x => x.TargetType.TargetTypeId == (int)TargetType.Promotion)
+                .OrderByDescending(x => x.StartDate);
+            IEnumerable<PeriodModel> semiPeriods = periods.Where(
+                x => x.TargetType.TargetTypeId == (int)TargetType.SemiAnnual)
+                .OrderByDescending(x => x.StartDate);
+
+            IEnumerable<PeriodModel> periodList = new List<PeriodModel>();
+
+            if (probationPeriods != null && probationPeriods.Any())
+            {
+                periodList = periodList.Concat(probationPeriods);
+            }
+
+            if (promotionPeriods != null && promotionPeriods.Any())
+            {
+                periodList = periodList.Concat(promotionPeriods);
+            }
+
+            if (semiPeriods != null && semiPeriods.Any())
+            {
+                periodList = periodList.Concat(semiPeriods);
+            }
+
+            return periodList;
         }
 
         [HttpPost]
