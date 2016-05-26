@@ -94,6 +94,7 @@
     <Compile Include="Implement\DepartmentService.cs" />
     <Compile Include="Implement\EmployeeService.cs" />
     <Compile Include="Implement\EPAHistoryService.cs" />
+    <Compile Include="Implement\ExportFile\MonthlyEPADetailReportService.cs" />
     <Compile Include="Implement\ExportFile\EPADetailReportService.cs" />
     <Compile Include="Implement\FlowManagementService.cs" />
     <Compile Include="Implement\KPIGroupService.cs" />
@@ -110,7 +111,8 @@
     <Compile Include="Interfaces\IAttendanceSummaryService.cs" />
     <Compile Include="Interfaces\IDepartmentService.cs" />
     <Compile Include="Interfaces\IEmployeeService.cs" />
-    <Compile Include="Interfaces\IEPADetailReportService.cs" />
+    <Compile Include="Interfaces\ExportFile\IMonthlyEPADetailReportService.cs" />
+    <Compile Include="Interfaces\ExportFile\IEPADetailReportService.cs" />
     <Compile Include="Interfaces\IEPAHistoryService.cs" />
     <Compile Include="Interfaces\IFlowManagementService.cs" />
     <Compile Include="Interfaces\IKPIGroupService.cs" />
