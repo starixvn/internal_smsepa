@@ -238,12 +238,6 @@
     <Content Include="Content\Common\table.css" />
     <Content Include="Content\Common\toastr.css" />
     <Content Include="Content\Fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="Content\Less\bootstrap.css">
-      <DependentUpon>bootstrap.less</DependentUpon>
-    </Content>
-    <Content Include="Content\Less\bootstrap.min.css">
-      <DependentUpon>bootstrap.css</DependentUpon>
-    </Content>
     <Content Include="Content\Site\auth\images\bg-login.jpg" />
     <Content Include="Content\Site\auth\images\epa_logo.png" />
     <Content Include="Content\Site\auth\images\icon-error.png" />
@@ -283,12 +277,6 @@
     <Content Include="Content\Site\images\toggle_collapsed.png" />
     <Content Include="Content\Site\images\toggle_expanded.png" />
     <Content Include="Content\Site\images\user.png" />
-    <Content Include="Content\Site\layout.css">
-      <DependentUpon>layout.less</DependentUpon>
-    </Content>
-    <Content Include="Content\Site\layout.min.css">
-      <DependentUpon>layout.css</DependentUpon>
-    </Content>
     <Content Include="favicon.ico" />
     <CodeAnalysisDictionary Include="FxCopDictionary.xml" />
     <Content Include="Global.asax" />
@@ -706,12 +694,6 @@
     <Content Include="Libs\angular-filter\dist\angular-filter.zip" />
     <Content Include="Libs\angular-filter\license.md" />
     <Content Include="Content\Site\_evaluationProcess.less" />
-    <Content Include="Content\Site\layout.css.map">
-      <DependentUpon>layout.css</DependentUpon>
-    </Content>
-    <Content Include="Content\Less\bootstrap.css.map">
-      <DependentUpon>bootstrap.css</DependentUpon>
-    </Content>
     <None Include="Libs\angular-resource.min.js.map" />
     <None Include="Libs\angular-route.min.js.map" />
     <Content Include="Libs\angular-spinner.min.js.map" />
@@ -787,9 +769,6 @@
     </Content>
     <Content Include="SourceApp\Components\AttendanceSummary\ExcelTemplates\DisciplineSummaryReport.xls" />
     <Content Include="SourceApp\Components\AttendanceSummary\ExcelTemplates\DisciplineDetailReport.xls" />
-    <None Include="Properties\PublishProfiles\a.pubxml" />
-    <None Include="Properties\PublishProfiles\Profile1.pubxml" />
-    <None Include="Properties\PublishProfiles\web.pubxml" />
     <Content Include="SourceApp\Components\EPA\_ratingByStar.less" />
     <Content Include="SourceApp\Components\Report\ExcelTemplates\MonthlyEPADetailReport.xls" />
   </ItemGroup>
