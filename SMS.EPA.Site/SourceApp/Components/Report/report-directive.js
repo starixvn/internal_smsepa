@@ -220,8 +220,8 @@ reportModule.directive('exportMonthlyEpaSummaryReport', ['baseUrl', function (ba
     };
 }]);
 
-reportModule.directive('gridEpaDetailReport', ['$timeout', 'utilitiesFactory',
-function ($timeout, utilitiesFactory) {
+reportModule.directive('gridEpaDetailReport', ['$timeout', 'utilitiesFactory', 'enumerationsFactory',
+function ($timeout, utilitiesFactory, enumerationsFactory) {
     var status = {
         NotAvailable: 'N/A',
         Pending: 'Pending'
@@ -270,19 +270,19 @@ function ($timeout, utilitiesFactory) {
             }
         }
 
-        if (epaInfo.EPAId > 0) {
+        if (epaInfo.EPAId > 0 && epaInfo.Process.Self.StatusEndProcess != enumerationsFactory.processStatusType.Open) {
             result.SelfScore = utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore);
         }
 
-        if (epaInfo.EPAId > 0) {
+        if (epaInfo.EPAId > 0 && epaInfo.Process.Evaluators[0].StatusEndProcess != enumerationsFactory.processStatusType.Open) {
             result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators;
         }
 
-        if (epaInfo.EPAId > 0 && epaInfo.Process.Reviewers.length > 0) {
+        if (epaInfo.EPAId > 0 && epaInfo.Process.Reviewers.length > 0 && epaInfo.Process.Reviewers[0].StatusEndProcess != enumerationsFactory.processStatusType.Open) {
             result.ReviewerScore = epaInfo.Process.AverageScoreByReviewers;
         }
 
-        if (epaInfo.EPAId > 0 && epaInfo.Process.Managements.length > 0) {
+        if (epaInfo.EPAId > 0 && epaInfo.Process.Managements.length > 0 && epaInfo.Process.Managements[0].StatusEndProcess != enumerationsFactory.processStatusType.Open) {
             result.ManagementScore = epaInfo.Process.AverageScoreByManagements;
         }
 
@@ -412,8 +412,8 @@ function ($timeout, utilitiesFactory) {
     };
 }]);
 
-reportModule.directive('gridMonthlyEpaDetailReport', ['$timeout', 'utilitiesFactory',
-function ($timeout, utilitiesFactory) {
+reportModule.directive('gridMonthlyEpaDetailReport', ['$timeout', 'utilitiesFactory', 'enumerationsFactory',
+function ($timeout, utilitiesFactory, enumerationsFactory) {
     var status = {
         NotAvailable: 'N/A',
         Pending: 'Pending'
@@ -446,15 +446,15 @@ function ($timeout, utilitiesFactory) {
             Grade: ''
         };
 
-        if (epaInfo.EPAId > 0) {
+        if (epaInfo.EPAId > 0 && epaInfo.Process.Self.StatusEndProcess != enumerationsFactory.processStatusType.Open) {
             result.SelfScore = utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore);
         }
 
-        if (epaInfo.EPAId > 0) {
+        if (epaInfo.EPAId > 0 && epaInfo.Process.Evaluators[0].StatusEndProcess != enumerationsFactory.processStatusType.Open) {
             result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators;
         }
 
-        if (epaInfo.EPAId > 0 && epaInfo.Process.Reviewers.length > 0) {
+        if (epaInfo.EPAId > 0 && epaInfo.Process.Reviewers.length > 0 && epaInfo.Process.Reviewers[0].StatusEndProcess != enumerationsFactory.processStatusType.Open) {
             result.ReviewerScore = epaInfo.Process.AverageScoreByReviewers;
         }
 

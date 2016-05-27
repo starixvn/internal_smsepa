@@ -236,7 +236,7 @@
                 finalScore = string.Empty,
                 grade = string.Empty;
 
-            if (memberEPA.EPAId > 0)
+            if (memberEPA.EPAId > 0 && memberEPA.Process.Self.StatusEndProcess != (int)ProcessStatusType.Open)
             {
                 float score = memberEPA.Process.Self.TotalScore.Length > 0 ? float.Parse(memberEPA.Process.Self.TotalScore) : 0;
 
@@ -244,14 +244,16 @@
             }
 
             if (memberEPA.EPAId > 0 && memberEPA.Process.Evaluators != null
-                && memberEPA.Process.Evaluators.Any())
+                && memberEPA.Process.Evaluators.Any()
+                && memberEPA.Process.Evaluators[0].StatusEndProcess != (int)ProcessStatusType.Open)
             {
                 evaluatorScore = Math.Round(memberEPA.Process.AverageScoreByEvaluators, 2).ToString();
             }
 
             if (memberEPA.EPAId > 0
                 && memberEPA.Process.Reviewers != null
-                && memberEPA.Process.Reviewers.Any())
+                && memberEPA.Process.Reviewers.Any()
+                && memberEPA.Process.Reviewers[0].StatusEndProcess != (int)ProcessStatusType.Open)
             {
                 reviewerScore = Math.Round(memberEPA.Process.AverageScoreByReviewers, 2).ToString();
             }
