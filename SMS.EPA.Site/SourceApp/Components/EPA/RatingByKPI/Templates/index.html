@@ -33,7 +33,7 @@
                                 <li ng-repeat="kpi in ratingByKPICtrl.kpis" ng-if="kpi.KPIGroup.Name == key">
                                     <span class="glyphicon glyphicon-ok" ng-if="kpi.Evaluated"></span>
                                     <a href="javascript:;" ng-click="ratingByKPICtrl.KPIChange(kpi.KPIId)" ng-class="ratingByKPICtrl.getCSSSelected(kpi.KPIId)">
-                                        {{kpi.Weight>0? '(' + kpi.Weight + ') ':''}} {{kpi.Name}}
+                                        {{kpi.Name}}
                                     </a>
                                 </li>
                             </ul>
@@ -57,7 +57,11 @@
                             <tr class="header-table">
                                 <th colspan="8">
                                     <div class="col-sm-12">
-                                        <label class="pull-left" ng-bind="ratingByKPICtrl.kpiSelected.Name"></label>
+                                        <label class="kpi-selected">
+                                            {{ratingByKPICtrl.kpiSelected.Name}}
+                                            <label ng-show="ratingByKPICtrl.kpiSelected.KPIGroup.NumberKPIOptional == 0"> ({{ratingByKPICtrl.kpiSelected.Weight | splitScore}} pts)</label>
+                                            <label class="note" ng-show="ratingByKPICtrl.kpiSelected.IsRequiredEvaluate" data-translate="(*)"></label>
+                                        </label>
                                         <input type="text" ng-model="ratingByKPICtrl.searchKey" ng-change="ratingByKPICtrl.search()"
                                                class="search-inline-textbox search pull-right">
                                     </div>
