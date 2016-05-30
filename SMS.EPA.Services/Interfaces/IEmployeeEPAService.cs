@@ -54,11 +54,15 @@ namespace SMS.EPA.Services.Interfaces
 
         #region Rating By KPI
 
+        IEnumerable<EPAPeriodModel> GetPeriodByEvaluator(GetPeriodByEvaluatorCriteria criteria);
+
         IEnumerable<TargetTemplateModel> GetTargetTemplateByEvaluator(GetTargetTemplateByEvaluatorCriteria criteria);
 
         IEnumerable<TargetTemplateModel> GetTargetTemplateToView(GetTargetTemplateToViewCriteria criteria);
 
         IEnumerable<TemporaryKPIModel> GetKPIByTargetTemplate(GetKPIByTargetTemplateCriteria criteria);
+
+        IEnumerable<EPAPeriodModel> GetPeriodToView(GetPeriodToViewCriteria criteria);
 
         IEnumerable<TemporaryKPIModel> GetKPIToView(GetKPIToViewCriteria criteria);
 

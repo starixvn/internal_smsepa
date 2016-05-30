@@ -15,6 +15,8 @@ namespace SMS.EPA.Criteria.EmployeeEPA.RatingByKPI
     {
         public int EvaluatorId { get; set; }
 
+        public int PeriodId { get; set; }
+
         public int TargetTemplateId { get; set; }
 
         public override string GetSettingKey()

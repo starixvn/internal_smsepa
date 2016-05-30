@@ -48,7 +48,8 @@
             <thead>
                 <tr class="header-table">
                     <th colspan="11">
-                        <a class="pull-left button-icon create-button" ng-click="employeeCtrl.createEmployee()">
+                        <a class="pull-left button-icon create-button" ng-click="employeeCtrl.createEmployee()"
+                           ng-if="employeeCtrl.permission == employeeCtrl.policyEnum.Host">
                             <span class="icon plus"></span>
                             <span class="button-text" data-translate="CreateUser"></span>
                         </a>

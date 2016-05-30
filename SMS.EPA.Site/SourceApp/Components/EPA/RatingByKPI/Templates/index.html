@@ -5,6 +5,16 @@
             <form novalidate class="row filter form-horizontal" role="form">
                 <div class="form-group">
                     <div class="required">
+                        <label class="col-sm-1 control-label" data-translate="Period"></label>
+                        <div class="col-sm-2">
+                            <select class="form-control" ng-model="ratingByKPICtrl.filter.periodId"
+                                    ng-options="opt.PeriodId as opt.Name for opt in ratingByKPICtrl.periods"
+                                    ng-change="ratingByKPICtrl.getTargetTemplateByPeriod(ratingByKPICtrl.filter.periodId)">
+                                <option style="display: none" value="">-- {{"All" | translate}} --</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="required" ng-show="ratingByKPICtrl.filter.periodId > 0">
                         <label class="col-sm-2 control-label" data-translate="TargetTemplate"></label>
                         <div class="col-sm-2">
                             <select class="form-control" ng-model="ratingByKPICtrl.filter.targetTemplateId"

@@ -6,6 +6,7 @@ epaModule.factory('RatingByKPIModel',
 function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, errorFactory) {
     var ratingByKPIModel = this;
 
+    ratingByKPIModel.periods = [];
     ratingByKPIModel.targetTemplates = [];
     ratingByKPIModel.kpis = [];
     ratingByKPIModel.memberEPAs = [];
@@ -21,8 +22,17 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
         });
     };
 
-    ratingByKPIModel.getTargetTemplateByEvaluator = function () {
-        return ratingByKPIFactory.getTargetTemplateByEvaluator()
+    ratingByKPIModel.getPeriodByEvaluator = function () {
+        return ratingByKPIFactory.getPeriodByEvaluator()
+        .success(function (periods) {
+            ratingByKPIModel.periods = periods;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    ratingByKPIModel.getTargetTemplateByPeriod = function (periodId) {
+        return ratingByKPIFactory.getTargetTemplateByPeriod(periodId)
         .success(function (targetTemplates) {
             ratingByKPIModel.targetTemplates = targetTemplates;
         }).error(function (response, status) {
@@ -30,8 +40,8 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
         });
     };
 
-    ratingByKPIModel.getKPIByTargetTemplate = function (targetTemplateId) {
-        return ratingByKPIFactory.getKPIByTargetTemplate(targetTemplateId)
+    ratingByKPIModel.getKPIByTargetTemplate = function (periodId, targetTemplateId) {
+        return ratingByKPIFactory.getKPIByTargetTemplate(periodId, targetTemplateId)
         .success(function (kpis) {
             ratingByKPIModel.kpis = kpis;
         }).error(function (response, status) {
@@ -39,23 +49,8 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
         });
     };
 
-    ratingByKPIModel.validateFieldFilter = function (filter) {
-        if (!filter.targetTemplateId) {
-            notificationFactory.error("TargetTemplateRequired");
-
-            return false;
-        }
-        else if (!filter.kpiId) {
-            notificationFactory.error("KPIRequired");
-
-            return false;
-        }
-
-        return true;
-    };
-
-    ratingByKPIModel.getEmployeeEPAByKPI = function (targetTemplateId, kpiId, groupId, employeeIds) {
-        return ratingByKPIFactory.getEmployeeEPAByKPI(targetTemplateId, kpiId, groupId, employeeIds)
+    ratingByKPIModel.getEmployeeEPAByKPI = function (periodId, targetTemplateId, kpiId, groupId, employeeIds) {
+        return ratingByKPIFactory.getEmployeeEPAByKPI(periodId, targetTemplateId, kpiId, groupId, employeeIds)
         .success(function (memberEPAs) {
             ratingByKPIModel.memberEPAs = memberEPAs;
         }).error(function (response, status) {

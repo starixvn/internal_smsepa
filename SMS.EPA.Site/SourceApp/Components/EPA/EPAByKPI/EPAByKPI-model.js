@@ -2,14 +2,24 @@
 (function (angular) {
     function EPAByKPIModel(epaByKPIFactory, utilitiesFactory, notificationFactory, errorFactory) {
         var epaByKPIModel = {
+            periods: [],
             targetTemplates: [],
             kpis: [],
             evaluators: [],
             memberEPAs: []
         };
 
-        function getTargetTemplateToView() {
-            return epaByKPIFactory.getTargetTemplateToView()
+        function getPeriodToView() {
+            return epaByKPIFactory.getPeriodToView()
+            .success(function (periods) {
+                epaByKPIModel.periods = periods;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        }
+
+        function getTargetTemplateToView(periodId) {
+            return epaByKPIFactory.getTargetTemplateToView(periodId)
             .success(function (targetTemplates) {
                 epaByKPIModel.targetTemplates = targetTemplates;
             }).error(function (response, status) {
@@ -17,8 +27,8 @@
             });
         }
 
-        function getKPIToView(targetTemplateId, evaluatorId) {
-            return epaByKPIFactory.getKPIToView(targetTemplateId, evaluatorId)
+        function getKPIToView(periodId, targetTemplateId, evaluatorId) {
+            return epaByKPIFactory.getKPIToView(periodId, targetTemplateId, evaluatorId)
             .success(function (kpis) {
                 epaByKPIModel.kpis = kpis;
             }).error(function (response, status) {
@@ -26,8 +36,8 @@
             });
         }
 
-        function getEmployeeEPAToView(targetTemplateId, kpiId, evaluatorId) {
-            return epaByKPIFactory.getEmployeeEPAToView(targetTemplateId, kpiId, evaluatorId)
+        function getEmployeeEPAToView(periodId, targetTemplateId, kpiId, evaluatorId) {
+            return epaByKPIFactory.getEmployeeEPAToView(periodId, targetTemplateId, kpiId, evaluatorId)
             .success(function (memberEPAs) {
                 epaByKPIModel.memberEPAs = memberEPAs;
             }).error(function (response, status) {
@@ -35,8 +45,8 @@
             });
         }
 
-        function getEvaluatorsByTargetTemplate(targetTemplateId) {
-            return epaByKPIFactory.getEvaluatorsByTargetTemplate(targetTemplateId)
+        function getEvaluatorsByTargetTemplate(periodId, targetTemplateId) {
+            return epaByKPIFactory.getEvaluatorsByTargetTemplate(periodId, targetTemplateId)
             .success(function (evaluators) {
                 epaByKPIModel.evaluators = evaluators;
             }).error(function (response, status) {
@@ -93,6 +103,7 @@
             });
         }
 
+        epaByKPIModel.getPeriodToView = getPeriodToView;
         epaByKPIModel.getTargetTemplateToView = getTargetTemplateToView;
         epaByKPIModel.getKPIToView = getKPIToView;
         epaByKPIModel.getEmployeeEPAToView = getEmployeeEPAToView;
@@ -107,5 +118,4 @@
     angular
     .module('epaModule')
     .factory('EPAByKPIModel', EPAByKPIModel);
-
 })(angular);

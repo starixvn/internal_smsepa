@@ -387,23 +387,49 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.RatingByKPI, Policy = Policy.Read)]
-        public IEnumerable<TargetTemplateModel> GetTargetTemplateByEvaluator()
+        public IEnumerable<EPAPeriodModel> GetPeriodByEvaluator()
+        {
+            var criteria = new GetPeriodByEvaluatorCriteria()
+            {
+                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId
+            };
+
+            return _employeeEPAService.GetPeriodByEvaluator(criteria);
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.RatingByKPI, Policy = Policy.Read)]
+        public IEnumerable<TargetTemplateModel> GetTargetTemplateByEvaluator(int periodId)
         {
             var criteria = new GetTargetTemplateByEvaluatorCriteria()
             {
-                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId
+                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
+                PeriodId = periodId
             };
 
             return _employeeEPAService.GetTargetTemplateByEvaluator(criteria);
         }
 
         [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.RatingByKPI, Policy = Policy.Read)]
+        public IEnumerable<EPAPeriodModel> GetPeriodToView()
+        {
+            var criteria = new GetPeriodToViewCriteria()
+            {
+                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId
+            };
+
+            return _employeeEPAService.GetPeriodToView(criteria);
+        }
+
+        [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.EPAByKPI, Policy = Policy.Read)]
-        public IEnumerable<TargetTemplateModel> GetTargetTemplateToView()
+        public IEnumerable<TargetTemplateModel> GetTargetTemplateToView(int periodId)
         {
             var criteria = new GetTargetTemplateToViewCriteria()
             {
-                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId
+                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
+                PeriodId = periodId
             };
 
             return _employeeEPAService.GetTargetTemplateToView(criteria);
@@ -411,23 +437,13 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.EPAByKPI, Policy = Policy.Read)]
-        public IEnumerable<TemporaryKPIModel> GetKPIToView(int targetTemplateId, int evaluatorId)
-        {
-            var criteria = new GetKPIToViewCriteria()
-            {
-                EvaluatorId = evaluatorId,
-                TargetTemplateId = targetTemplateId
-            };
-
-            return _employeeEPAService.GetKPIToView(criteria);
-        }
-
-        [HttpGet]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.EPAByKPI, Policy = Policy.Read)]
-        public IEnumerable<Employee> GetEvaluatorsByTargetTemplate(int targetTemplateId)
+        public IEnumerable<Employee> GetEvaluatorsByTargetTemplate(
+            int periodId,
+            int targetTemplateId)
         {
             var criteria = new GetEvaluatorsByTargetTemplateCriteria()
             {
+                PeriodId = periodId,
                 TargetTemplateId = targetTemplateId
             };
 
@@ -436,7 +452,25 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.EPAByKPI, Policy = Policy.Read)]
+        public IEnumerable<TemporaryKPIModel> GetKPIToView(
+            int periodId,
+            int targetTemplateId,
+            int evaluatorId)
+        {
+            var criteria = new GetKPIToViewCriteria()
+            {
+                EvaluatorId = evaluatorId,
+                PeriodId = periodId,
+                TargetTemplateId = targetTemplateId
+            };
+
+            return _employeeEPAService.GetKPIToView(criteria);
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.EPAByKPI, Policy = Policy.Read)]
         public IEnumerable<RatingByKPIModel> GetEmployeeEPAToView(
+            int periodId,
             int targetTemplateId,
             int kpiId,
             int evaluatorId)
@@ -444,6 +478,7 @@ namespace SMS.EPA.Site.Controllers.API
             var criteria = new GetEmployeeEPAToViewCriteria()
             {
                 EvaluatorId = evaluatorId,
+                PeriodId = periodId,
                 TargetTemplateId = targetTemplateId,
                 KPIId = kpiId
             };
@@ -453,12 +488,15 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.RatingByKPI, Policy = Policy.Read)]
-        public IEnumerable<TemporaryKPIModel> GetKPIByTargetTemplate(int targetTemplateId)
+        public IEnumerable<TemporaryKPIModel> GetKPIByTargetTemplate(
+            int periodId,
+            int targetTemplateId)
         {
             var criteria = new GetKPIByTargetTemplateCriteria()
             {
                 EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
-                TargetTemplateId = targetTemplateId
+                TargetTemplateId = targetTemplateId,
+                PeriodId = periodId
             };
 
             return _employeeEPAService.GetKPIByTargetTemplate(criteria);
@@ -467,6 +505,7 @@ namespace SMS.EPA.Site.Controllers.API
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.RatingByKPI, Policy = Policy.Read)]
         public IEnumerable<RatingByKPIModel> GetEmployeeEPAByKPI(
+            int periodId,
             int targetTemplateId,
             int kpiId,
             int? groupId = null,
@@ -475,6 +514,7 @@ namespace SMS.EPA.Site.Controllers.API
             var criteria = new GetEmployeeEPAByKPICriteria()
             {
                 EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
+                PeriodId = periodId,
                 TargetTemplateId = targetTemplateId,
                 KPIId = kpiId,
                 GroupId = groupId,

@@ -6,6 +6,8 @@
     {
         public int EvaluatorId { get; set; }
 
+        public int PeriodId { get; set; }
+
         public int TargetTemplateId { get; set; }
 
         public int KPIId { get; set; }
@@ -17,7 +19,7 @@
 
         public override bool IsValid()
         {
-            return EvaluatorId > 0 && TargetTemplateId > 0 && KPIId > 0;
+            return PeriodId > 0 && EvaluatorId > 0 && TargetTemplateId > 0 && KPIId > 0;
         }
     }
 }

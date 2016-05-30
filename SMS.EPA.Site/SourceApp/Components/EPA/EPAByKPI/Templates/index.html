@@ -5,11 +5,21 @@
             <form novalidate class="row filter form-horizontal" role="form">
                 <div class="form-group">
                     <div class="required">
+                        <label class="col-sm-1 control-label" data-translate="Period"></label>
+                        <div class="col-sm-2">
+                            <select class="form-control" ng-model="epaByKPICtrl.filter.periodId"
+                                    ng-options="opt.PeriodId as opt.Name for opt in epaByKPICtrl.periods"
+                                    ng-change="epaByKPICtrl.getTargetTemplateByPeriod(epaByKPICtrl.filter.periodId)">
+                                <option style="display: none" value="">-- {{"All" | translate}} --</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="required">
                         <label class="col-sm-2 control-label" data-translate="TargetTemplate"></label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-2">
                             <select class="form-control" ng-model="epaByKPICtrl.filter.targetTemplateId"
                                     ng-options="opt.TargetTemplateId as opt.Name for opt in epaByKPICtrl.targetTemplates"
-                                    ng-change="epaByKPICtrl.getEvaluatorsByTargetTemplate()">
+                                    ng-change="epaByKPICtrl.getEvaluatorsByTargetTemplate(epaByKPICtrl.filter.periodId, epaByKPICtrl.filter.targetTemplateId)">
                                 <option style="display: none" value="">-- {{"All" | translate}} --</option>
                             </select>
                         </div>
@@ -24,7 +34,7 @@
                         </div>
                     </div>
                     <div class="col-sm-1">
-                        <button class="button" ng-click="epaByKPICtrl.getKPIByTargetTemplate()" data-translate="Submit"></button>
+                        <button class="button" ng-click="epaByKPICtrl.getKPIByToView(epaByKPICtrl.filter)" data-translate="Submit"></button>
                     </div>
                 </div>
             </form>
@@ -69,7 +79,7 @@
                             <tr class="header-table">
                                 <th colspan="7">
                                     <div class="col-sm-12">
-                                        <label class="pull-left" ng-bind="epaByKPICtrl.kpiSelected.Name"></label>
+                                        <label class="kpi-selected" ng-bind="epaByKPICtrl.kpiSelected.Name"></label>
                                         <input type="text" ng-model="epaByKPICtrl.searchKey" ng-change="epaByKPICtrl.search()" class="search-inline-textbox search pull-right">
                                     </div>
                                 </th>

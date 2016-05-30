@@ -259,6 +259,18 @@ namespace SMS.EPA.Services.Implement
 
         #region Rating By KPI
 
+        public IEnumerable<EPAPeriodModel> GetPeriodByEvaluator(GetPeriodByEvaluatorCriteria criteria)
+        {
+            IEnumerable<EPAPeriodModel> periods = new List<EPAPeriodModel>();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                periods = GetData<EPAPeriodModel>(criteria);
+            }
+
+            return periods;
+        }
+
         public IEnumerable<TargetTemplateModel> GetTargetTemplateByEvaluator(GetTargetTemplateByEvaluatorCriteria criteria)
         {
             IEnumerable<TargetTemplateModel> targetTemplates = new List<TargetTemplateModel>();
@@ -269,6 +281,18 @@ namespace SMS.EPA.Services.Implement
             }
 
             return targetTemplates;
+        }
+
+        public IEnumerable<EPAPeriodModel> GetPeriodToView(GetPeriodToViewCriteria criteria)
+        {
+            IEnumerable<EPAPeriodModel> periods = new List<EPAPeriodModel>();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                periods = GetData<EPAPeriodModel>(criteria);
+            }
+
+            return periods;
         }
 
         public IEnumerable<TargetTemplateModel> GetTargetTemplateToView(GetTargetTemplateToViewCriteria criteria)

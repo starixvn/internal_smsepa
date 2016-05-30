@@ -90,6 +90,8 @@
     <Compile Include="EmployeeEPA\RatingByKPI\GetEmployeeEPAByKPICriteria.cs" />
     <Compile Include="EmployeeEPA\RatingByKPI\GetKPIToViewCriteria.cs" />
     <Compile Include="EmployeeEPA\RatingByKPI\GetKPIByTargetTemplateCriteria.cs" />
+    <Compile Include="EmployeeEPA\RatingByKPI\GetPeriodToViewCriteria.cs" />
+    <Compile Include="EmployeeEPA\RatingByKPI\GetPeriodByEvaluatorCriteria.cs" />
     <Compile Include="EmployeeEPA\RatingByKPI\GetTargetTemplateToViewCriteria.cs" />
     <Compile Include="EmployeeEPA\RatingByKPI\GetTargetTemplateByEvaluatorCriteria.cs" />
     <Compile Include="EmployeeEPA\RatingByKPI\UpdateKPIScoreCriteria.cs" />

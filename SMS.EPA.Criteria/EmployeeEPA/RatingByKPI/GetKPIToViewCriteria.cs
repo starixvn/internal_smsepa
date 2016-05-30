@@ -6,6 +6,8 @@
     {
         public int EvaluatorId { get; set; }
 
+        public int PeriodId { get; set; }
+
         public int TargetTemplateId { get; set; }
 
         public override string GetSettingKey()
@@ -15,7 +17,7 @@
 
         public override bool IsValid()
         {
-            return TargetTemplateId > 0 && EvaluatorId > 0;
+            return PeriodId > 0 && TargetTemplateId > 0 && EvaluatorId > 0;
         }
     }
 }

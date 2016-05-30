@@ -15,6 +15,8 @@ namespace SMS.EPA.Criteria.EmployeeEPA.RatingByKPI
     {
         public int EvaluatorId { get; set; }
 
+        public int PeriodId { get; set; }
+
         public override string GetSettingKey()
         {
             return "EPA_RatingByKPI_GetTargetTemplateByEvaluator";
@@ -22,7 +24,7 @@ namespace SMS.EPA.Criteria.EmployeeEPA.RatingByKPI
 
         public override bool IsValid()
         {
-            return EvaluatorId > 0;
+            return PeriodId > 0 && EvaluatorId > 0;
         }
     }
 }

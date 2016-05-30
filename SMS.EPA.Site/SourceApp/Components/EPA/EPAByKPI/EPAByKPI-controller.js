@@ -3,12 +3,15 @@
     function EPAByKPIController($window, $timeout, $translate, EPAByKPIModel, EmployeeEPAModel,
         CommonModel, utilitiesFactory, enumerationsFactory, baseUrl, historyFactory) {
         var vm = this;
+        vm.periods = [];
+        vm.targetTemplates = [];
         vm.kpis = [];
         vm.memberEPAs = [];
         vm.maxStar = utilitiesFactory.maxStar;
         vm.currentPage = 1;
         vm.pageSize = 20;
         vm.filter = {
+            periodId: '',
             targetTemplateId: '',
             kpiId: '',
             evaluatorId: ''
@@ -48,18 +51,26 @@
             }
         }
 
-        function getEvaluatorsByTargetTemplate() {
-            EPAByKPIModel.getEvaluatorsByTargetTemplate(vm.filter.targetTemplateId).then(function () {
+        function getTargetTemplateByPeriod(periodId) {
+            EPAByKPIModel.getTargetTemplateToView(periodId).then(function () {
+                vm.targetTemplates = EPAByKPIModel.targetTemplates;
+            });
+        }
+
+        function getEvaluatorsByTargetTemplate(periodId, targetTemplateId) {
+            EPAByKPIModel.getEvaluatorsByTargetTemplate(periodId, targetTemplateId)
+            .then(function () {
                 vm.evaluators = EPAByKPIModel.evaluators;
             });
         }
 
-        function getKPIByTargetTemplate() {
+        function getKPIByToView(filter) {
             vm.kpiSelected = null;
             vm.filter.kpiId = '';
             vm.memberEPAs = [];
 
-            EPAByKPIModel.getKPIToView(vm.filter.targetTemplateId, vm.filter.evaluatorId).then(function () {
+            EPAByKPIModel.getKPIToView(filter.periodId, filter.targetTemplateId, filter.evaluatorId)
+            .then(function () {
                 vm.kpis = EPAByKPIModel.kpis;
             });
         }
@@ -77,7 +88,7 @@
         }
 
         function query() {
-            EPAByKPIModel.getEmployeeEPAToView(vm.filter.targetTemplateId, vm.filter.kpiId, vm.filter.evaluatorId)
+            EPAByKPIModel.getEmployeeEPAToView(vm.filter.periodId, vm.filter.targetTemplateId, vm.filter.kpiId, vm.filter.evaluatorId)
             .then(function () {
                 vm.memberEPAs = EPAByKPIModel.memberEPAs;
                 utilitiesFactory.searchOnPage(vm, vm.memberEPAs);
@@ -133,15 +144,16 @@
         }
 
         function initialize() {
-            EPAByKPIModel.getTargetTemplateToView().then(function () {
-                vm.targetTemplates = EPAByKPIModel.targetTemplates;
+            EPAByKPIModel.getPeriodToView().then(function () {
+                vm.periods = EPAByKPIModel.periods;
             });
         }
 
         vm.toggleCollapseExpand = toggleCollapseExpand;
         vm.getCSSSelected = getCSSSelected;
+        vm.getTargetTemplateByPeriod = getTargetTemplateByPeriod;
         vm.getEvaluatorsByTargetTemplate = getEvaluatorsByTargetTemplate;
-        vm.getKPIByTargetTemplate = getKPIByTargetTemplate;
+        vm.getKPIByToView = getKPIByToView;
         vm.KPIChange = KPIChange;
         vm.viewDetail = viewDetail;
         vm.back = back;

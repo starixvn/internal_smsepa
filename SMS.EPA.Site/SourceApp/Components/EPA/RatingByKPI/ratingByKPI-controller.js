@@ -8,6 +8,8 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
     utilitiesFactory, enumerationsFactory, baseUrl, historyFactory) {
     var vm = this;
 
+    vm.periods = [];
+    vm.targetTemplates = [];
     vm.kpis = [];
     vm.memberEPAs = [];
     vm.kpiSelected = null;
@@ -24,6 +26,7 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
     vm.pageSize = 20;
 
     vm.filter = {
+        periodId: '',
         targetTemplateId: '',
         kpiId: '',
         groupId: '',
@@ -83,14 +86,16 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
                     vm.filter.targetTemplateId = angular.copy(vm.targetTemplateIdOriginal);
                     vm.filter.kpiId = angular.copy(vm.kpiIdOriginal);
                 } else if (result.confirmResult === 1) {
-                    RatingByKPIModel.getKPIByTargetTemplate(vm.filter.targetTemplateId).then(function () {
+                    RatingByKPIModel.getKPIByTargetTemplate(vm.filter.periodId, vm.filter.targetTemplateId)
+                    .then(function () {
                         vm.kpis = RatingByKPIModel.kpis;
                     });
                     vm.memberEPAs = [];
                     vm.kpiSelected = null;
                     vm.dataSaved = false;
                 } else {
-                    RatingByKPIModel.getKPIByTargetTemplate(vm.filter.targetTemplateId).then(function () {
+                    RatingByKPIModel.getKPIByTargetTemplate(vm.filter.periodId, vm.filter.targetTemplateId)
+                    .then(function () {
                         vm.kpis = RatingByKPIModel.kpis;
                     });
                     vm.memberEPAs = [];
@@ -105,7 +110,8 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
             vm.filter.kpiId = '';
             vm.memberEPAs = [];
 
-            RatingByKPIModel.getKPIByTargetTemplate(vm.filter.targetTemplateId).then(function () {
+            RatingByKPIModel.getKPIByTargetTemplate(vm.filter.periodId, vm.filter.targetTemplateId)
+            .then(function () {
                 vm.kpis = RatingByKPIModel.kpis;
             });
         }
@@ -227,45 +233,44 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
         vm.orderByCurrentScore = { ascending: false, descending: false };
         vm.orderByAdjustScore = { ascending: false, descending: false };
 
-        if (RatingByKPIModel.validateFieldFilter(vm.filter)) {
-            RatingByKPIModel.getEmployeeEPAByKPI(vm.filter.targetTemplateId, vm.filter.kpiId, vm.filter.groupId, null).then(function () {
-                vm.memberEPAs = RatingByKPIModel.memberEPAs;
-                utilitiesFactory.searchOnPage(vm, vm.memberEPAs);
+        RatingByKPIModel.getEmployeeEPAByKPI(vm.filter.periodId, vm.filter.targetTemplateId, vm.filter.kpiId, vm.filter.groupId, null)
+        .then(function () {
+            vm.memberEPAs = RatingByKPIModel.memberEPAs;
+            utilitiesFactory.searchOnPage(vm, vm.memberEPAs);
 
-                angular.forEach(vm.memberEPAs, function (memberEPA) {
-                    if (memberEPA.RatingType.RatingTypeId === vm.ratingTypeEnum.Star
-                        || memberEPA.RatingType.RatingTypeId === vm.ratingTypeEnum.HalfStar
-                        || (memberEPA.RatingType.RatingTypeId === vm.ratingTypeEnum.Score && memberEPA.KPIGroup.NumberKPIOptional > 0)) {
-                        vm.hasRatingByStar = true;
-                    }
+            angular.forEach(vm.memberEPAs, function (memberEPA) {
+                if (memberEPA.RatingType.RatingTypeId === vm.ratingTypeEnum.Star
+                    || memberEPA.RatingType.RatingTypeId === vm.ratingTypeEnum.HalfStar
+                    || (memberEPA.RatingType.RatingTypeId === vm.ratingTypeEnum.Score && memberEPA.KPIGroup.NumberKPIOptional > 0)) {
+                    vm.hasRatingByStar = true;
+                }
 
-                    if (memberEPA.KPIGroup.HasKPIOptional) {
-                        var totalStarEvaluated = 0,
-                            numberKPIOptional = memberEPA.KPIGroup.NumberKPIOptional,
-                            totalScoreOriginal = utilitiesFactory.parseFloat(memberEPA.TotalScoreOriginal);
+                if (memberEPA.KPIGroup.HasKPIOptional) {
+                    var totalStarEvaluated = 0,
+                        numberKPIOptional = memberEPA.KPIGroup.NumberKPIOptional,
+                        totalScoreOriginal = utilitiesFactory.parseFloat(memberEPA.TotalScoreOriginal);
 
-                        angular.forEach(memberEPA.KPIGroup.KPIs, function (kpi) {
-                            if (kpi.Rate > 0) {
-                                totalStarEvaluated += kpi.Rate;
-                            }
+                    angular.forEach(memberEPA.KPIGroup.KPIs, function (kpi) {
+                        if (kpi.Rate > 0) {
+                            totalStarEvaluated += kpi.Rate;
+                        }
 
-                            if (!kpi.IsRequiredEvaluate && kpi.Rate > 0) {
-                                numberKPIOptional -= 1;
-                            }
-                        });
+                        if (!kpi.IsRequiredEvaluate && kpi.Rate > 0) {
+                            numberKPIOptional -= 1;
+                        }
+                    });
 
-                        var totalKPIMustEvaluate = memberEPA.KPIGroup.KPIs.length - numberKPIOptional,
-                            totalStarMustEvaluate = totalKPIMustEvaluate * vm.maxStar,
-                            totalScoreEvaluated = (memberEPA.KPIGroup.Weight * totalStarEvaluated) / totalStarMustEvaluate;
+                    var totalKPIMustEvaluate = memberEPA.KPIGroup.KPIs.length - numberKPIOptional,
+                        totalStarMustEvaluate = totalKPIMustEvaluate * vm.maxStar,
+                        totalScoreEvaluated = (memberEPA.KPIGroup.Weight * totalStarEvaluated) / totalStarMustEvaluate;
 
-                        totalScoreEvaluated = utilitiesFactory.parseFloat(totalScoreEvaluated);
-                        memberEPA.TotalScoreOriginal = utilitiesFactory.parseFloat(totalScoreOriginal - totalScoreEvaluated);
-                    }
+                    totalScoreEvaluated = utilitiesFactory.parseFloat(totalScoreEvaluated);
+                    memberEPA.TotalScoreOriginal = utilitiesFactory.parseFloat(totalScoreOriginal - totalScoreEvaluated);
+                }
 
-                    EmployeeEPAModel.scoreSpread(memberEPA.KPIGroup);
-                });
+                EmployeeEPAModel.scoreSpread(memberEPA.KPIGroup);
             });
-        }
+        });
     };
 
     function sortByCurrentScore(epaInfo1, epaInfo2) {
@@ -360,7 +365,7 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
     RatingByKPIModel.getUserPermissionOnRatingByKPI().then(function () {
         vm.permission = RatingByKPIModel.permission;
 
-        if (vm.permission === 2) {
+        if (vm.permission === vm.policyEnum.Host) {
             vm.hoveringLeave = function (memberEPA, kpi) {
                 if (kpi.AdjustRate > 0) {
                     if (kpi.Rate !== kpi.AdjustRate) {
@@ -405,6 +410,12 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
         }, 1);
     };
 
+    vm.getTargetTemplateByPeriod = function (periodId) {
+        RatingByKPIModel.getTargetTemplateByPeriod(periodId).then(function () {
+            vm.targetTemplates = RatingByKPIModel.targetTemplates;
+        });
+    };
+
     function initialize() {
         $translate('ScoreInputValid').then(function (message) {
             vm.scoreInputValidMessage = message;
@@ -418,8 +429,8 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
             vm.requiredCommentForRatingMaxScore = message;
         });
 
-        RatingByKPIModel.getTargetTemplateByEvaluator().then(function () {
-            vm.targetTemplates = RatingByKPIModel.targetTemplates;
+        RatingByKPIModel.getPeriodByEvaluator().then(function () {
+            vm.periods = RatingByKPIModel.periods;
         });
     };
 

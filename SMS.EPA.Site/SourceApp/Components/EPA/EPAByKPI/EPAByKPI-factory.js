@@ -1,17 +1,19 @@
 ﻿'use strict';
 (function (angular) {
     function epaByKPIFactory($http, baseUrl) {
-        function getEvaluatorsByTargetTemplate(targetTemplateId) {
+        function getEvaluatorsByTargetTemplate(periodId, targetTemplateId) {
             return $http.get(baseUrl + 'api/EmployeeEPA/getEvaluatorsByTargetTemplate', {
                 params: {
+                    periodId: periodId,
                     targetTemplateId: targetTemplateId
                 }
             });
         }
 
-        function getEmployeeEPAToView(targetTemplateId, kpiId, evaluatorId) {
+        function getEmployeeEPAToView(periodId, targetTemplateId, kpiId, evaluatorId) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetEmployeeEPAToView', {
                 params: {
+                    periodId: periodId,
                     targetTemplateId: targetTemplateId,
                     kpiId: kpiId,
                     evaluatorId: evaluatorId
@@ -19,20 +21,31 @@
             });
         }
 
-        function getKPIToView(targetTemplateId, evaluatorId) {
+        function getKPIToView(periodId, targetTemplateId, evaluatorId) {
             return $http.get(baseUrl + 'api/EmployeeEPA/getKPIToView', {
                 params: {
+                    periodId: periodId,
                     targetTemplateId: targetTemplateId,
                     evaluatorId: evaluatorId
                 }
             });
         }
 
-        function getTargetTemplateToView() {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetTargetTemplateToView');
+        function getPeriodToView() {
+            return $http.get(baseUrl + 'api/EmployeeEPA/GetPeriodToView');
+        }
+
+        function getTargetTemplateToView(periodId) {
+            return $http.get(baseUrl + 'api/EmployeeEPA/GetTargetTemplateToView',
+            {
+                params: {
+                    periodId: periodId
+                }
+            });
         }
 
         return {
+            getPeriodToView: getPeriodToView,
             getTargetTemplateToView: getTargetTemplateToView,
             getKPIToView: getKPIToView,
             getEvaluatorsByTargetTemplate: getEvaluatorsByTargetTemplate,
