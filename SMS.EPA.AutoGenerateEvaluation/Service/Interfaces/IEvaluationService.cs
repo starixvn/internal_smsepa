@@ -1,13 +1,4 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="IEvaluationService.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="9/01/2015">Created.</change>
-// </history>
-
-namespace SMS.EPA.AutoGenerateEvaluation.Service.Interfaces
+﻿namespace SMS.EPA.AutoGenerateEvaluation.Service.Interfaces
 {
     using System.Collections.Generic;
     using SMS.EPA.AutoGenerateEvaluation.Criteria;
@@ -34,15 +25,11 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Interfaces
 
         CommandResult UpdateEndProcess(UpdateIsEndProcessCriteria criteria);
 
-        CommandResult UpdateStatusEndEvaluaitonPeriod(UpdateStatusEndEvaluationPeriodCriteria criteria);
-
         CommandResult UpdateFinalScoreEndEvaluation(UpdateFinalScoreEndEvaluationCriteria criteria);
 
         int CheckLastestProcessOfPeriod(CheckLastestProcessOfPeriodCriteria criteria);
 
         CommandResult UpdateTotalScoreOfProcess(UpdateTotalScoreOfProcessCriteria criteria);
-
-        IEnumerable<EndEPAModel> GetEvaluationEndedYesterday(GetEvaluationEndedYesterdayCriteria criteria);
 
         CommandResult UpdateTotalScoreOfSemiHasMonthly(UpdateTotalScoreOfSemiHasMonthlyCriteria criteria);
 

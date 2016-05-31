@@ -253,6 +253,14 @@
     </Setting>
     <Setting Key="EPA_ResetScore" SpName="EPA_ResetScore" DbName="SMSEPA" Plain="0">
     </Setting>
+    <Setting Key="EPA_UpdateFinalScoreEndEvaluation" SpName="EPA_UpdateFinalScoreEndEvaluation" DbName="SMSEPA" Plain="0">
+    </Setting>
+    <Setting Key="EPA_GetEPAEndEvaluationByPeriodId" SpName="EPA_GetEPAEndEvaluationByPeriodId" DbName="SMSEPA" Plain="0">
+      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
+      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
+    </Setting>
+    <Setting Key="EPA_GetEmployeeToUpdateFinalScore" SpName="EPA_GetEmployeeToUpdateFinalScore" DbName="SMSEPA" Plain="0">
+    </Setting>
   </Function>
   <Function Name="Period">
     <Setting Key="EpaPeriod_Get" SpName="EpaPeriod_Get" DbName="SMSEPA" Plain="0">

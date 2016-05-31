@@ -3427,6 +3427,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Update Final Score.
+        /// </summary>
+        public static string UpdateFinalScore {
+            get {
+                return ResourceManager.GetString("UpdateFinalScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Update Monthly Period.
         /// </summary>
         public static string UpdateMonthlyPeriod {

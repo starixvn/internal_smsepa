@@ -26,8 +26,6 @@
     </Setting>
     <Setting Key="EpaAuto_UpdateIsEndProcess" SpName="EpaAuto_UpdateIsEndProcess" DbName="SMSEPA" Plain="0">
     </Setting>
-    <Setting Key="EpaAuto_UpdateStatusEndEvaluationPeriod" SpName="EpaAuto_UpdateStatusEndEvaluationPeriod" DbName="SMSEPA" Plain="0">
-    </Setting>
     <Setting Key="EpaAttendanceSummary_GetByEPA" SpName="EpaAttendanceSummary_GetByEPA" DbName="SMSEPA" Plain="0">
     </Setting>
     <Setting Key="EpaAuto_UpdateFinalScoreEndEvaluation" SpName="EpaAuto_UpdateFinalScoreEndEvaluation" DbName="SMSEPA" Plain="0">
@@ -47,8 +45,6 @@
     <Setting Key="EPA_GetStandardGrade" SpName="EPA_GetStandardGrade" DbName="SMSEPA" Plain="0">
     </Setting>
     <Setting Key="EpaAuto_UpdateTotalScoreWhenNull" SpName="EpaAuto_UpdateTotalScoreWhenNull" DbName="SMSEPA" Plain="0">
-    </Setting>
-    <Setting Key="EpaAuto_CheckEndEmployeeEvaluationPeriod" SpName="EpaAuto_CheckEndEmployeeEvaluationPeriod" DbName="SMSEPA" Plain="0">
     </Setting>
     <Setting Key="EPA_SemiAnnual_GetMonthly" SpName="EPA_SemiAnnual_GetMonthly" DbName="SMSEPA" Plain="0">
       <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />

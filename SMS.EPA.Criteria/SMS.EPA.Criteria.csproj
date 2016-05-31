@@ -80,6 +80,8 @@
     <Compile Include="EmployeeEPA\AdjustScoreByReviewerOrManagementCriteria.cs" />
     <Compile Include="EmployeeEPA\GetNumberOfRowCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEmployeePermissionCriteria.cs" />
+    <Compile Include="EmployeeEPA\GetEmployeeToUpdateFinalScoreCriteria.cs" />
+    <Compile Include="EmployeeEPA\GetEPAEndEvaluationByPeriodIdCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEPAEndEvaluationPeriodCriteria.cs" />
     <Compile Include="EmployeeEPA\GetGroupByEvaluatorOrReviewerOrManagementCriteria.cs" />
     <Compile Include="EmployeeEPA\GetMonthlyEPAOfSemiCriteria.cs" />
@@ -98,6 +100,7 @@
     <Compile Include="EmployeeEPA\RatingByKPI\UpdateKPIScoreCriteria.cs" />
     <Compile Include="EmployeeEPA\ResetScoreCriteria.cs" />
     <Compile Include="EmployeeEPA\UpdateEPASummaryImportCriteria.cs" />
+    <Compile Include="EmployeeEPA\UpdateFinalScoreEPAEndEvaluationCriteria.cs" />
     <Compile Include="Employee\UpdateHasMonthlyEPACriteria.cs" />
     <Compile Include="EPAHistory\GetAllPeriodIncludeImportCriteria.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>

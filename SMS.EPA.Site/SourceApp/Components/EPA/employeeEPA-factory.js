@@ -38,7 +38,13 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
             });
         },
         getEPAInfoByEvaluator: function (epaId, evaluatorId) {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAInfoByEvaluator', { params: { epaId: epaId, evaluatorId: evaluatorId } });
+            return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAInfoByEvaluator',
+            {
+                params: {
+                    epaId: epaId,
+                    evaluatorId: evaluatorId
+                }
+            });
         },
         getUserPermissionOnReviewer: function () {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetUserPermissionOnReviewer');
@@ -112,8 +118,11 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
         convertEPA: function () {
             return $http.put(baseUrl + 'api/EmployeeEPA/ConvertEPA');
         },
-        resetScore: function (model) {
-            return $http.put(baseUrl + 'api/EmployeeEPA/ResetScore', model);
+        resetScore: function (criteria) {
+            return $http.put(baseUrl + 'api/EmployeeEPA/ResetScore', criteria);
+        },
+        updateFinalScore: function (criteria) {
+            return $http.put(baseUrl + 'api/EmployeeEPA/UpdateFinalScore', criteria);
         }
     };
 }]);

@@ -1,19 +1,9 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="EvaluationService.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="8/26/2015">Created.</change>
-// </history>
-
-namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
+﻿namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
 {
     using System.Collections.Generic;
     using System.Linq;
     using SMS.EPA.AutoGenerateEvaluation.Criteria;
     using SMS.EPA.AutoGenerateEvaluation.Criteria.Monthly;
-    using SMS.EPA.AutoGenerateEvaluation.Models;
     using SMS.EPA.AutoGenerateEvaluation.Repository;
     using SMS.EPA.AutoGenerateEvaluation.Service.Interfaces;
     using SMS.EPA.Core.Model;
@@ -175,18 +165,6 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
             return comandResult;
         }
 
-        public CommandResult UpdateStatusEndEvaluaitonPeriod(UpdateStatusEndEvaluationPeriodCriteria criteria)
-        {
-            CommandResult comandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                comandResult = Repository.Update(criteria);
-            }
-
-            return comandResult;
-        }
-
         public CommandResult UpdateFinalScoreEndEvaluation(UpdateFinalScoreEndEvaluationCriteria criteria)
         {
             CommandResult comandResult = new CommandResult();
@@ -221,18 +199,6 @@ namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
             }
 
             return commandResult;
-        }
-
-        public IEnumerable<EndEPAModel> GetEvaluationEndedYesterday(GetEvaluationEndedYesterdayCriteria criteria)
-        {
-            IEnumerable<EndEPAModel> evaluations = new List<EndEPAModel>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                evaluations = GetData<EndEPAModel>(criteria);
-            }
-
-            return evaluations;
         }
 
         public CommandResult UpdateTotalScoreOfSemiHasMonthly(UpdateTotalScoreOfSemiHasMonthlyCriteria criteria)

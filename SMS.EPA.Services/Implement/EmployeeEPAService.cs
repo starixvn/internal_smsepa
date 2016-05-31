@@ -553,6 +553,42 @@
             return commandResult;
         }
 
+        public IEnumerable<EPAEmployeeModel> GetEmployeeToUpdateFinalScore(GetEmployeeToUpdateFinalScoreCriteria criteria)
+        {
+            IEnumerable<EPAEmployeeModel> employees = new List<EPAEmployeeModel>();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                employees = GetData<EPAEmployeeModel>(criteria);
+            }
+
+            return employees;
+        }
+
+        public IEnumerable<EPAModel> GetEPAEndEvaluationByPeriodId(GetEPAEndEvaluationByPeriodIdCriteria criteria)
+        {
+            IEnumerable<EPAModel> epaInfos = new List<EPAModel>();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                epaInfos = _employeeEPARepository.GetEPAEndEvaluationPeriod(criteria);
+            }
+
+            return epaInfos;
+        }
+
+        public CommandResult UpdateFinalScoreEPAEndEvaluation(UpdateFinalScoreEPAEndEvaluationCriteria criteria)
+        {
+            CommandResult commandResult = new CommandResult();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                commandResult = Repository.Update(criteria);
+            }
+
+            return commandResult;
+        }
+
         public int GetNumberOfRow(GetNumberOfRowCriteria criteria)
         {
             var result = 0;

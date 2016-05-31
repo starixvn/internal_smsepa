@@ -87,7 +87,6 @@
     <Compile Include="Criteria\CheckLastestProcessOfPeriodCriteria.cs" />
     <Compile Include="Criteria\GetEmployeeProbationEvaluationCriteria.cs" />
     <Compile Include="Criteria\GetEmployeePromotionEvaluationCriteria.cs" />
-    <Compile Include="Criteria\GetEvaluationEndedYesterdayCriteria.cs" />
     <Compile Include="Criteria\GetPeriodHasReminderProcessCriteria.cs" />
     <Compile Include="Criteria\InsertEmployeeToProbationPeriodCriteria.cs" />
     <Compile Include="Criteria\InsertEmployeeToSemiAnnualPeriodCriteria.cs" />
@@ -96,7 +95,6 @@
     <Compile Include="Criteria\Monthly\InsertEmployeeToMonthlyPeriodCriteria.cs" />
     <Compile Include="Criteria\UpdateFinalScoreEndEvaluationCriteria.cs" />
     <Compile Include="Criteria\UpdateIsEndProcessCriteria.cs" />
-    <Compile Include="Criteria\UpdateStatusEndEvaluationPeriodCriteria.cs" />
     <Compile Include="Criteria\UpdateTotalScoreOfProcessCriteria.cs" />
     <Compile Include="Criteria\UpdateTotalScoreOfSemiHasMonthlyCriteria.cs" />
     <Compile Include="Models\EndEPAModel.cs" />

@@ -1,13 +1,4 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="RouteConfig.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="7/2/2015 10:15:42 AM">Created.</change>
-// </history>
-
-namespace SMS.EPA.Site
+﻿namespace SMS.EPA.Site
 {
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
@@ -61,6 +52,8 @@ namespace SMS.EPA.Site
                 "Discipline/Detail",
                 "Report/EPASummaryReport",
                 "Report/EPADetailReport",
+                "Report/MonthlyEPADetailReport",
+                "Report/MonthlyEPASummaryReport",
                 "EPAHistory/Index",
                 "MonthlyPeriod/Index",
                 "MonthlyPeriod/Update/{id}",
@@ -69,9 +62,8 @@ namespace SMS.EPA.Site
                 "Management/SemiDetail/{id}",
                 "EPA/ResetScore/{id}",
                 "ViewEPAByKPI/Index",
-                "error",
-                "Report/MonthlyEPADetailReport",
-                "Report/MonthlyEPASummaryReport",
+                "UpdateFinalScore/Index",
+                "error"
                 "MonthlyEPAHistory/Index"
             };
 

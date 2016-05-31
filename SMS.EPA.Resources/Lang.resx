@@ -1320,4 +1320,7 @@
    <data name="ManagementScore" xml:space="preserve">
     <value>Management Score</value>
   </data>
+  <data name="UpdateFinalScore" xml:space="preserve">
+    <value>Update Final Score</value>
+  </data>
 </root>

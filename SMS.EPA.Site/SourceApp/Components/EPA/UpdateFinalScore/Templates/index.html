@@ -1,0 +1,36 @@
+﻿﻿<div ng-controller="UpdateFinalScoreController as updateCtrl">
+    <div class="col-sm-12 sub-header">
+        <ul class="row breadcrumb">
+            <li class="current" data-translate="UpdateFinalScore"></li>
+        </ul>
+    </div>
+    <div class="col-sm-12">
+        <form novalidate class="row form-horizontal filter">
+            <div class="form-group">
+                <div class="required">
+                    <label class="col-sm-1 control-label" data-translate="Period"></label>
+                    <div class="col-sm-2">
+                        <select class="form-control" ng-model="updateCtrl.filter.periodId"
+                                ng-options="opt.PeriodId as opt.Name for opt in updateCtrl.periods">
+                            <option style="display: none" value="">-- {{"All" | translate}} --</option>
+                        </select>
+                    </div>
+                </div>
+                <label class="col-sm-1 control-label" data-translate="Section"></label>
+                <div class="col-sm-2">
+                    <select class="form-control" ng-model="updateCtrl.filter.departmentId"
+                            ng-options="opt.DepartmentId as opt.Name for opt in updateCtrl.departments">
+                        <option style="display: none" value="">-- {{"All" | translate}} --</option>
+                    </select>
+                </div>
+                <label class="col-sm-1 control-label" data-translate="Keyword"></label>
+                <div class="col-sm-2">
+                    <input class="form-control" type="text" ng-model="updateCtrl.filter.query" placeholder="full name or nick name" />
+                </div>
+                <div class="col-sm-1">
+                    <button class="button" ng-click="updateCtrl.queryEmployee(updateCtrl.filter)" data-translate="Submit"></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

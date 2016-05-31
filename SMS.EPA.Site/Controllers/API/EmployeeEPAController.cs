@@ -1,13 +1,4 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="EmployeeEPAController.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// -----------------------------------------------------------------------
-// <history>
-//   <change who="Tim.Trinh" date="2015.08.10">Created</change>
-// </history>
-
-namespace SMS.EPA.Site.Controllers.API
+﻿namespace SMS.EPA.Site.Controllers.API
 {
     using System;
     using System.Collections.Generic;
@@ -586,7 +577,6 @@ namespace SMS.EPA.Site.Controllers.API
         public HttpResponseMessage ResetScore(GetEPAInfoByIdCriteria criteria)
         {
             HttpResponseMessage response = null;
-            CommandResult commandResult = new CommandResult();
 
             if (CurrentUser.Roles.Select(x => x.RoleId).Contains((int)SystemRole.SystemAdmin))
             {
@@ -598,6 +588,7 @@ namespace SMS.EPA.Site.Controllers.API
                     ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
                 };
 
+                CommandResult commandResult;
                 if (epaInfo.HasMonthlyEPA
                     && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
                 {
@@ -625,6 +616,63 @@ namespace SMS.EPA.Site.Controllers.API
 
             return response;
         }
+
+        #region Update Final Score
+
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.UpdateFinalScore, Policy = Policy.Read)]
+        public void GetEmployeeToUpdateFinalScore(
+            int periodId,
+            int? groupId = null,
+            string query = "")
+        {
+            var criteria = new GetEmployeeToUpdateFinalScoreCriteria
+            {
+                PeriodId = periodId,
+                GroupId = groupId,
+                Query = query
+            };
+        }
+
+        [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.UpdateFinalScore, Policy = Policy.Host)]
+        public HttpResponseMessage UpdateFinalScore(GetEPAEndEvaluationByPeriodIdCriteria criteria)
+        {
+            HttpResponseMessage response;
+
+            if (CurrentUser.Roles.Select(x => x.RoleId).Contains((int)SystemRole.SystemAdmin))
+            {
+                IEnumerable<EPAModel> epaInfos = _employeeEPAService.GetEPAEndEvaluationByPeriodId(criteria);
+                var getStandardGradeCriteria = new GetStandardGradeCriteria();
+                IEnumerable<StandardGradeModel> standardGrades = _employeeEPAService.GetStandardGrade(getStandardGradeCriteria);
+
+                foreach (EPAModel epaInfo in epaInfos)
+                {
+                    float averagePerformanceScore = GetFinalScoreOfEPA(epaInfo),
+                        finalScore = averagePerformanceScore + epaInfo.DisciplineScore;
+
+                    finalScore = finalScore >= 0 ? finalScore : 0;
+                    epaInfo.FinalScore = finalScore.ToString();
+                    epaInfo.Grade = _employeeEPAService.ConvertScoreToGrade(finalScore, standardGrades);
+                }
+
+                var updateFinalScoreCriteria = new UpdateFinalScoreEPAEndEvaluationCriteria
+                {
+                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
+                    EPAInfos = epaInfos
+                };
+
+                CommandResult commandResult = _employeeEPAService.UpdateFinalScoreEPAEndEvaluation(updateFinalScoreCriteria);
+                response = Request.CreateResponse(HttpStatusCode.OK, commandResult);
+            }
+            else
+            {
+                response = Request.CreateResponse(HttpStatusCode.MethodNotAllowed);
+            }
+
+            return response;
+        }
+
+        #endregion Update Final Score
 
         private CommandResult UpdateEPAScoreByEmployeeOrEvaluator(UpdateEPAScoreCriteria criteria)
         {
@@ -678,6 +726,22 @@ namespace SMS.EPA.Site.Controllers.API
             };
 
             return _employeeEPAService.CheckEmployeePermission(checkPermissionCriteria);
+        }
+
+        private float GetFinalScoreOfEPA(EPAModel epaInfo)
+        {
+            float finalScore = 0;
+
+            if (epaInfo.Process.Managements.Any())
+            {
+                finalScore = epaInfo.Process.AverageScoreByManagements;
+            }
+            else if (epaInfo.Process.Reviewers.Any())
+            {
+                finalScore = epaInfo.Process.AverageScoreByReviewers;
+            }
+
+            return finalScore;
         }
     }
 }
