@@ -185,6 +185,7 @@ namespace SMS.EPA.Services.Implement
             if (criteria != null && criteria.IsValid())
             {
                 flows = _flowManagementRepository.GetPersonalFlow(criteria);
+                flows = flows.OrderBy(i => i.Group.GroupName);
             }
 
             return flows;
