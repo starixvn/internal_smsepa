@@ -72,7 +72,7 @@
         {
             try
             {
-                if (Math.Abs(_updateCounterTimer.Interval - TimerInterval * 1000) > 0)
+                if (Math.Abs(_updateCounterTimer.Interval - (TimerInterval * 1000)) > 0)
                 {
                     _updateCounterTimer.Interval = TimerInterval * 1000;
                 }

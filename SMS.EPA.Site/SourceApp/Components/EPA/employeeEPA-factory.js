@@ -121,6 +121,29 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
         resetScore: function (criteria) {
             return $http.put(baseUrl + 'api/EmployeeEPA/ResetScore', criteria);
         },
+        getPeriodToUpdateFinalScore: function () {
+            return $http.get(baseUrl + 'api/EmployeeEPA/GetPeriodToUpdateFinalScore');
+        },
+        getEmployeeToUpdateFinalScore: function (periodId, groupId, query) {
+            return $http.get(baseUrl + 'api/EmployeeEPA/GetEmployeeToUpdateFinalScore',
+            {
+                params: {
+                    periodId: periodId,
+                    groupId: groupId,
+                    query: query
+                }
+            });
+        },
+        getEPAToUpdateFinalScore: function (periodId, groupId, employeeId) {
+            return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAToUpdateFinalScore',
+            {
+                params: {
+                    periodId: periodId,
+                    groupId: groupId,
+                    employeeId: employeeId
+                }
+            });
+        },
         updateFinalScore: function (criteria) {
             return $http.put(baseUrl + 'api/EmployeeEPA/UpdateFinalScore', criteria);
         }

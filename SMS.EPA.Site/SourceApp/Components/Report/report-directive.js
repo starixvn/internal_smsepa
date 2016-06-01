@@ -450,9 +450,7 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
             result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators;
         }
 
-        if (epaInfo.EPAId > 0
-            && epaInfo.Process.Reviewers.length > 0
-            && epaInfo.Process.Reviewers[0].StatusEndProcess !== enumerationsFactory.processStatusType.Open) {
+        if (epaInfo.EPAId > 0 && epaInfo.Process.Reviewers[0].StatusEndProcess !== enumerationsFactory.processStatusType.Open) {
             result.ReviewerScore = epaInfo.Process.AverageScoreByReviewers;
         }
 

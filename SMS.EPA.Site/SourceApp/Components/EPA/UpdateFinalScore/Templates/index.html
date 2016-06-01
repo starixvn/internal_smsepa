@@ -20,17 +20,58 @@
                 <div class="col-sm-2">
                     <select class="form-control" ng-model="updateCtrl.filter.departmentId"
                             ng-options="opt.DepartmentId as opt.Name for opt in updateCtrl.departments">
-                        <option style="display: none" value="">-- {{"All" | translate}} --</option>
+                        <option value="">-- {{"All" | translate}} --</option>
                     </select>
                 </div>
-                <label class="col-sm-1 control-label" data-translate="Keyword"></label>
+                <label class="col-sm-1 control-label" data-translate="Employee"></label>
                 <div class="col-sm-2">
-                    <input class="form-control" type="text" ng-model="updateCtrl.filter.query" placeholder="full name or nick name" />
+                    <input class="form-control" type="text" placeholder="full name or nick name"
+                           ng-model="updateCtrl.searchEmployee" search-auto-complete search-employees="updateCtrl.getEmployee()"
+                           ng-change="updateCtrl.unSelectEmployee()" employee="updateCtrl.filter.employee" />
                 </div>
                 <div class="col-sm-1">
-                    <button class="button" ng-click="updateCtrl.queryEmployee(updateCtrl.filter)" data-translate="Submit"></button>
+                    <button class="button" ng-click="updateCtrl.getEPAToUpdateFinalScore(updateCtrl.filter)" data-translate="Query"></button>
                 </div>
             </div>
         </form>
+    </div>
+    <div class="col-sm-12">
+        <table class="row table table-bordered table-striped">
+            <thead>
+                <tr ng-show="updateCtrl.epaInfos.length > 0">
+                    <th colspan="7">
+                        <button class="button pull-left" ng-click="updateCtrl.updateFinalScore()" data-translate="Update"></button>
+                    </th>
+                </tr>
+                <tr>
+                    <th data-translate="SymbolCount"></th>
+                    <th data-translate="Code"></th>
+                    <th data-translate="NickName"></th>
+                    <th data-translate="FullName"></th>
+                    <th data-translate="Section"></th>
+                    <th data-translate="OldFinalScore"></th>
+                    <th data-translate="NewFinalScore"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="epaInfo in updateCtrl.epaInfos">
+                    <td class="text-center" ng-bind="$index + 1"></td>
+                    <td ng-bind="epaInfo.Employee.Code"></td>
+                    <td ng-bind="epaInfo.Employee.NickName"></td>
+                    <td ng-bind="epaInfo.Employee.FullName"></td>
+                    <td ng-bind="epaInfo.Employee.GroupName"></td>
+                    <td class="text-center">
+                        <span ng-show="epaInfo.FinalScore.length > 0" ng-bind="epaInfo.FinalScore | customScore"></span>
+                        <span ng-show="epaInfo.FinalScore.length == 0" ng-translate="NotAvailable"></span>
+                    </td>
+                    <td class="text-center">
+                        <span ng-show="epaInfo.NewFinalScore" ng-bind="epaInfo.NewFinalScore | customScore"></span>
+                    </td>
+                </tr>
+                <tr ng-show="updateCtrl.epaInfos.length == 0">
+                    <td class="empty-result" colspan="7" data-translate="EmptyResult"></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>

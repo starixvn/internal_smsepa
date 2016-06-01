@@ -553,25 +553,37 @@
             return commandResult;
         }
 
-        public IEnumerable<EPAEmployeeModel> GetEmployeeToUpdateFinalScore(GetEmployeeToUpdateFinalScoreCriteria criteria)
+        public IList<EPAPeriodModel> GetPeriodToUpdateFinalScore(GetPeriodToUpdateFinalScoreCriteria criteria)
         {
-            IEnumerable<EPAEmployeeModel> employees = new List<EPAEmployeeModel>();
+            IList<EPAPeriodModel> periods = new List<EPAPeriodModel>();
 
             if (criteria != null && criteria.IsValid())
             {
-                employees = GetData<EPAEmployeeModel>(criteria);
+                periods = GetData<EPAPeriodModel>(criteria).ToList();
+            }
+
+            return periods;
+        }
+
+        public IList<EPAEmployeeModel> GetEmployeeToUpdateFinalScore(GetEmployeeToUpdateFinalScoreCriteria criteria)
+        {
+            IList<EPAEmployeeModel> employees = new List<EPAEmployeeModel>();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                employees = GetData<EPAEmployeeModel>(criteria).ToList();
             }
 
             return employees;
         }
 
-        public IEnumerable<EPAModel> GetEPAEndEvaluationByPeriodId(GetEPAEndEvaluationByPeriodIdCriteria criteria)
+        public IList<EPAModel> GetEPAToUpdateFinalScore(GetEPAToUpdateFinalScoreCriteria criteria)
         {
-            IEnumerable<EPAModel> epaInfos = new List<EPAModel>();
+            IList<EPAModel> epaInfos = new List<EPAModel>();
 
             if (criteria != null && criteria.IsValid())
             {
-                epaInfos = _employeeEPARepository.GetEPAEndEvaluationPeriod(criteria);
+                epaInfos = _employeeEPARepository.GetEPAToUpdateFinalScore(criteria);
             }
 
             return epaInfos;

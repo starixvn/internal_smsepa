@@ -80,8 +80,9 @@
     <Compile Include="EmployeeEPA\AdjustScoreByReviewerOrManagementCriteria.cs" />
     <Compile Include="EmployeeEPA\GetNumberOfRowCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEmployeePermissionCriteria.cs" />
+    <Compile Include="EmployeeEPA\GetPeriodToUpdateFinalScoreCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEmployeeToUpdateFinalScoreCriteria.cs" />
-    <Compile Include="EmployeeEPA\GetEPAEndEvaluationByPeriodIdCriteria.cs" />
+    <Compile Include="EmployeeEPA\GetEPAToUpdateFinalScoreCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEPAEndEvaluationPeriodCriteria.cs" />
     <Compile Include="EmployeeEPA\GetGroupByEvaluatorOrReviewerOrManagementCriteria.cs" />
     <Compile Include="EmployeeEPA\GetMonthlyEPAOfSemiCriteria.cs" />

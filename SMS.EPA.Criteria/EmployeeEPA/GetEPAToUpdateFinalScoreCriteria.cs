@@ -2,7 +2,7 @@
 {
     using Fanex.Data.Repository;
 
-    public class GetEPAEndEvaluationByPeriodIdCriteria : CriteriaBase
+    public class GetEPAToUpdateFinalScoreCriteria : CriteriaBase
     {
         public int PeriodId { get; set; }
 
@@ -12,7 +12,7 @@
 
         public override string GetSettingKey()
         {
-            return "EPA_GetEPAEndEvaluationByPeriodId";
+            return "EPA_GetEPAToUpdateFinalScore";
         }
 
         public override bool IsValid()

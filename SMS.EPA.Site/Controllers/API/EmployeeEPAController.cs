@@ -9,6 +9,7 @@
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
+    using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.EmployeeEPA;
     using SMS.EPA.Criteria.EmployeeEPA.RatingByKPI;
     using SMS.EPA.Model.EmployeeEPA;
@@ -620,7 +621,15 @@
         #region Update Final Score
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UpdateFinalScore, Policy = Policy.Read)]
-        public void GetEmployeeToUpdateFinalScore(
+        public IEnumerable<EPAPeriodModel> GetPeriodToUpdateFinalScore()
+        {
+            var criteria = new GetPeriodToUpdateFinalScoreCriteria();
+
+            return _employeeEPAService.GetPeriodToUpdateFinalScore(criteria);
+        }
+
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.UpdateFinalScore, Policy = Policy.Read)]
+        public IEnumerable<EPAEmployeeModel> GetEmployeeToUpdateFinalScore(
             int periodId,
             int? groupId = null,
             string query = "")
@@ -631,43 +640,53 @@
                 GroupId = groupId,
                 Query = query
             };
+
+            return _employeeEPAService.GetEmployeeToUpdateFinalScore(criteria);
+        }
+
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.UpdateFinalScore, Policy = Policy.Read)]
+        public IList<EPAModel> GetEPAToUpdateFinalScore(
+            int periodId,
+            int? groupId = null,
+            int? employeeId = null)
+        {
+            var criteria = new GetEPAToUpdateFinalScoreCriteria
+            {
+                PeriodId = periodId,
+                GroupId = groupId,
+                EmployeeId = employeeId
+            };
+
+            return _employeeEPAService.GetEPAToUpdateFinalScore(criteria);
         }
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UpdateFinalScore, Policy = Policy.Host)]
-        public HttpResponseMessage UpdateFinalScore(GetEPAEndEvaluationByPeriodIdCriteria criteria)
+        public HttpResponseMessage UpdateFinalScore(GetEPAToUpdateFinalScoreCriteria criteria)
         {
-            HttpResponseMessage response;
+            IList<EPAModel> epaInfos = _employeeEPAService.GetEPAToUpdateFinalScore(criteria);
+            var getStandardGradeCriteria = new GetStandardGradeCriteria();
+            IEnumerable<StandardGradeModel> standardGrades = _employeeEPAService.GetStandardGrade(getStandardGradeCriteria);
 
-            if (CurrentUser.Roles.Select(x => x.RoleId).Contains((int)SystemRole.SystemAdmin))
+            foreach (EPAModel epaInfo in epaInfos)
             {
-                IEnumerable<EPAModel> epaInfos = _employeeEPAService.GetEPAEndEvaluationByPeriodId(criteria);
-                var getStandardGradeCriteria = new GetStandardGradeCriteria();
-                IEnumerable<StandardGradeModel> standardGrades = _employeeEPAService.GetStandardGrade(getStandardGradeCriteria);
+                float averagePerformanceScore = GetFinalScoreOfEPA(epaInfo),
+                    finalScore = averagePerformanceScore + epaInfo.DisciplineScore;
 
-                foreach (EPAModel epaInfo in epaInfos)
-                {
-                    float averagePerformanceScore = GetFinalScoreOfEPA(epaInfo),
-                        finalScore = averagePerformanceScore + epaInfo.DisciplineScore;
-
-                    finalScore = finalScore >= 0 ? finalScore : 0;
-                    epaInfo.FinalScore = finalScore.ToString();
-                    epaInfo.Grade = _employeeEPAService.ConvertScoreToGrade(finalScore, standardGrades);
-                }
-
-                var updateFinalScoreCriteria = new UpdateFinalScoreEPAEndEvaluationCriteria
-                {
-                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
-                    EPAInfos = epaInfos
-                };
-
-                CommandResult commandResult = _employeeEPAService.UpdateFinalScoreEPAEndEvaluation(updateFinalScoreCriteria);
-                response = Request.CreateResponse(HttpStatusCode.OK, commandResult);
+                finalScore = finalScore >= 0 ? finalScore : 0;
+                epaInfo.FinalScore = EncodeService.Encode(finalScore.ToString());
+                string grade = _employeeEPAService.ConvertScoreToGrade(finalScore, standardGrades);
+                epaInfo.Grade = EncodeService.Encode(grade);
             }
-            else
+
+            var updateFinalScoreCriteria = new UpdateFinalScoreEPAEndEvaluationCriteria
             {
-                response = Request.CreateResponse(HttpStatusCode.MethodNotAllowed);
-            }
+                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
+                EPAInfos = epaInfos
+            };
+
+            CommandResult commandResult = _employeeEPAService.UpdateFinalScoreEPAEndEvaluation(updateFinalScoreCriteria);
+            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, commandResult);
 
             return response;
         }

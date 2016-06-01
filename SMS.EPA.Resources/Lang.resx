@@ -1323,4 +1323,10 @@
   <data name="UpdateFinalScore" xml:space="preserve">
     <value>Update Final Score</value>
   </data>
+  <data name="NewFinalScore" xml:space="preserve">
+    <value>New Final Score</value>
+  </data>
+  <data name="OldFinalScore" xml:space="preserve">
+    <value>Old Final Score</value>
+  </data>
 </root>

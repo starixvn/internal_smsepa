@@ -2104,6 +2104,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New Final Score.
+        /// </summary>
+        public static string NewFinalScore {
+            get {
+                return ResourceManager.GetString("NewFinalScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New Password.
         /// </summary>
         public static string NewPassword {
@@ -2244,6 +2253,15 @@ namespace SMS.EPA.Resources {
         public static string NumberEmployees {
             get {
                 return ResourceManager.GetString("NumberEmployees", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Old Final Score.
+        /// </summary>
+        public static string OldFinalScore {
+            get {
+                return ResourceManager.GetString("OldFinalScore", resourceCulture);
             }
         }
         

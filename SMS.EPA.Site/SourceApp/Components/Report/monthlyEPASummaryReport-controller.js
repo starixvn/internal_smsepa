@@ -76,7 +76,7 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory, usSpinnerService) 
 
     function getYearsOfPeriod(periods) {
         var years = [];
-        angular.forEach(periods, function (period) {
+        angular.forEach(periods, function(period) {
             if (years.indexOf(period.Year) === -1) {
                 years.push(period.Year);
             }
@@ -88,10 +88,10 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory, usSpinnerService) 
     function getHalfTimesOfPeriod(periods, year) {
         var halfTimes = [];
 
-        angular.forEach(periods, function (period) {
+        angular.forEach(periods, function(period) {
             if (period.Year === year) {
-                var halfTime = getHalfTime(period);
-                var index = halfTimes.indexOf(halfTime);
+                var halfTime = getHalfTime(period),
+                    index = halfTimes.indexOf(halfTime);
                 if (index === -1) {
                     halfTimes.push(halfTime);
                 }
@@ -114,7 +114,7 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory, usSpinnerService) 
 
     function getTheFirstPeriod(periods) {
         var index = -1;
-        angular.forEach(periods, function (value, key) {
+        angular.forEach(periods, function(value, key) {
             if (index === -1 && angular.isDefined(value.PeriodId)) {
                 index = key;
             }
@@ -127,12 +127,12 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory, usSpinnerService) 
         var result = [],
             years = getYearsOfPeriod(periods);
 
-        angular.forEach(years, function (year) {
+        angular.forEach(years, function(year) {
             result.push({ Name: '<strong>' + year + '</strong>', msGroup: true });
             var halfTimes = getHalfTimesOfPeriod(periods, year);
-            angular.forEach(halfTimes, function (halfTime) {
+            angular.forEach(halfTimes, function(halfTime) {
                 result.push({ Name: '<strong>' + halfTime + '</strong>', msGroup: true });
-                angular.forEach(periods, function (period) {
+                angular.forEach(periods, function(period) {
                     if (period.Year === year && getHalfTime(period) === halfTime) {
                         result.push(period);
                     }

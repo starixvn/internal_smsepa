@@ -1,13 +1,4 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="EmployeeEPARepository.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// -----------------------------------------------------------------------
-// <history>
-//   <change who="Tim.Trinh" date="2015.08.04">Created</change>
-// </history>
-
-namespace SMS.EPA.Repositories.Implement
+﻿namespace SMS.EPA.Repositories.Implement
 {
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
@@ -124,6 +115,37 @@ namespace SMS.EPA.Repositories.Implement
                         return epaInfo;
                     },
                     "StatusId, EmployeeId, PeriodId");
+
+                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
+
+                    GroupEPAProcessByEPA(epaInfos, processes);
+
+                    foreach (EPAModel epaInfo in epaInfos)
+                    {
+                        DecodeAllScore(epaInfo);
+                    }
+
+                    return epaInfos;
+                }
+            }
+        }
+
+        public IList<EPAModel> GetEPAToUpdateFinalScore(ICriteria criteria)
+        {
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                {
+                    IList<EPAModel> epaInfos = multi.Read<EPAModel, StatusModel, EPAEmployeeModel, EPAPeriodModel, EPAModel>(
+                    (epaInfo, status, emp, period) =>
+                    {
+                        epaInfo.Status = status;
+                        epaInfo.Employee = emp;
+                        epaInfo.Period = period;
+
+                        return epaInfo;
+                    },
+                    "StatusId, EmployeeId, PeriodId").ToList();
 
                     IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
 
@@ -322,7 +344,10 @@ namespace SMS.EPA.Repositories.Implement
         {
             foreach (EPAModel epaInfo in epaInfos)
             {
-                GroupEPAProcessByEPA(epaInfo, processes);
+                if (processes != null && processes.Any())
+                {
+                    GroupEPAProcessByEPA(epaInfo, processes);
+                }
             }
         }
 
