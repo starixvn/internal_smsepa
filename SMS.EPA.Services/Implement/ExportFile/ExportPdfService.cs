@@ -13,7 +13,7 @@
 
     public class ExportPdfService : IExportPdfService
     {
-        private const int NormalWidthPdfPage = 1024;
+        private const int NormalWidthPdfPage = 1322;
         private const int LargestWidthPdfPage = 1920;
 
         private readonly IEmployeeEPAService _epaService;
