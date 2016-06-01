@@ -23,10 +23,11 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory, usSpinnerService) 
     var getMonthlyEPASummaryReport = function () {
         usSpinnerService.spin("spinner-1");
 
-        ReportModel.getMonthlyEPASummaryReport(vm.filter.periodIds, vm.filter.departmentId, vm.filter.isLocal, vm.filter.pageIndex, vm.filter.itemsPerPage).then(function () {
-            vm.epaSummary = ReportModel.epaSummary;
-            usSpinnerService.stop('spinner-1');
-        });
+        ReportModel.getMonthlyEPASummaryReport(vm.filter.periodIds, vm.filter.departmentId, vm.filter.isLocal, vm.filter.pageIndex, vm.filter.itemsPerPage)
+            .then(function () {
+                vm.epaSummary = ReportModel.epaSummary;
+                usSpinnerService.stop('spinner-1');
+            });
     };
 
     vm.pageChanging = function (pageIndex, itemsPerPage) {
@@ -59,7 +60,8 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory, usSpinnerService) 
             if (years.indexOf(period.Year) === -1) {
                 years.push(period.Year);
             }
-        })
+        });
+
         return years;
     }
 
@@ -69,7 +71,7 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory, usSpinnerService) 
         angular.forEach(periods, function (period) {
             if (period.Year === year) {
                 var halfTime = getHalfTime(period);
-                var index = halfTimes.indexOf(halfTime)
+                var index = halfTimes.indexOf(halfTime);
                 if (index === -1) {
                     halfTimes.push(halfTime);
                 }
@@ -93,10 +95,10 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory, usSpinnerService) 
     function getTheFirstPeriod(periods) {
         var index = -1;
         angular.forEach(periods, function (value, key) {
-            if (index === -1 &&  angular.isDefined(value.PeriodId)) {
+            if (index === -1 && angular.isDefined(value.PeriodId)) {
                 index = key;
             }
-        })
+        });
 
         return index;
     }
@@ -106,19 +108,19 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory, usSpinnerService) 
             years = getYearsOfPeriod(periods);
 
         angular.forEach(years, function (year) {
-            result.push({ Name: '<strong>' + year + '</strong>', msGroup: true })
+            result.push({ Name: '<strong>' + year + '</strong>', msGroup: true });
             var halfTimes = getHalfTimesOfPeriod(periods, year);
             angular.forEach(halfTimes, function (halfTime) {
-                result.push({ Name: '<strong>' + halfTime + '</strong>', msGroup: true })
+                result.push({ Name: '<strong>' + halfTime + '</strong>', msGroup: true });
                 angular.forEach(periods, function (period) {
                     if (period.Year === year && getHalfTime(period) === halfTime) {
                         result.push(period);
                     }
-                })
+                });
                 result.push({ msGroup: false });
-            })
+            });
             result.push({ msGroup: false });
-        })
+        });
 
         var selectedIndex = getTheFirstPeriod(result);
         if (selectedIndex !== -1) {

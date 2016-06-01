@@ -79,7 +79,7 @@ function ($scope, $timeout, ReportModel, CommonModel, utilitiesFactory, usSpinne
         getMonthlyEPADetailReport(filter);
     };
 
-    vm.exportPdf = function (epaId, hasMonthlyEPA) {
+    vm.exportPdf = function (epaId) {
         ReportModel.requestExportEPA(epaId)
         .then(function () {
             $timeout(function () {
