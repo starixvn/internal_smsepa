@@ -91,7 +91,9 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonM
 
             if (vm.exportPDF) {
                 angular.element("#headerSection").remove();
+                angular.element("#titleSection").remove();
                 angular.element("#footerSection").remove();
+                vm.isRemovedPadding = CommonModel.displayOnNormalWidthPage(vm.epaId);
             }
         });
     }

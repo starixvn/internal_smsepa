@@ -83,6 +83,9 @@ commonModule.factory('commonFactory', ['$http', 'baseUrl', function ($http, base
                     isActive: isActive
                 }
             });
-        }
+        },
+        displayOnNormalWidthPage: function (epaId) {
+            return $http.get(baseUrl + 'api/Common/DisplayOnNormalWidthPage', { params: { epaId: epaId } });
+        },
     };
 }]);

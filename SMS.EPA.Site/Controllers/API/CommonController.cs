@@ -23,19 +23,22 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Model.Period;
     using SMS.EPA.Model.TargetTemplate;
     using SMS.EPA.Model.TargetType;
+    using SMS.EPA.Services.Interfaces;
 
     public class CommonController : BaseController
     {
         private readonly UtilitiesController _utilitiesController;
+        private readonly IExportPdfService _exportPdfService;
 
         public CommonController()
-            : this(null)
+            : this(null, null)
         {
         }
 
-        public CommonController(UtilitiesController utilitiesController)
+        public CommonController(UtilitiesController utilitiesController, IExportPdfService exportPdfService)
         {
             _utilitiesController = utilitiesController ?? new UtilitiesController();
+            _exportPdfService = exportPdfService ?? new ExportPdfService();
         }
 
         [HttpGet]
@@ -174,6 +177,12 @@ namespace SMS.EPA.Site.Controllers.API
         public IEnumerable<TargetTemplateModel> GetAllTargetTemplate(int? targetTypeId = null, bool? isActive = null)
         {
             return _utilitiesController.GetAllTargetTemplate(targetTypeId, isActive);
+        }
+
+        [HttpGet]
+        public bool DisplayOnNormalWidthPage(int epaId)
+        {
+            return _exportPdfService.DisplayOnNormalWidthPage(epaId);
         }
     }
 }

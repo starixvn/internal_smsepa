@@ -103,5 +103,7 @@ namespace SMS.EPA.Services.Interfaces
         IList<EPAModel> GetMonthlyEPAOfSemi(string epaIds);
 
         CommandResult ResetScore(ResetScoreCriteria criteria);
+
+        int GetNumberOfRow(GetNumberOfRowCriteria criteria);
     }
 }

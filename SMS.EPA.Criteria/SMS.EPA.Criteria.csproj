@@ -78,6 +78,7 @@
     <Compile Include="Authentication\GetEmployeeByDomainUsernameCriteria.cs" />
     <Compile Include="Authentication\InsertEmployeeIPAddressCriteria.cs" />
     <Compile Include="EmployeeEPA\AdjustScoreByReviewerOrManagementCriteria.cs" />
+    <Compile Include="EmployeeEPA\GetNumberOfRowCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEmployeePermissionCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEPAEndEvaluationPeriodCriteria.cs" />
     <Compile Include="EmployeeEPA\GetGroupByEvaluatorOrReviewerOrManagementCriteria.cs" />

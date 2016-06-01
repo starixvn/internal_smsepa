@@ -79,6 +79,22 @@ function ($scope, $timeout, ReportModel, CommonModel, utilitiesFactory, usSpinne
         getMonthlyEPADetailReport(filter);
     };
 
+    vm.exportPdf = function (epaId, hasMonthlyEPA) {
+        ReportModel.requestExportEPA(epaId)
+        .then(function () {
+            $timeout(function () {
+                var url = baseUrl + 'ExportPDF/DownloadEPADetail?epaId=' + epaId + '&fileName=' + ReportModel.pdfFileName;
+                var iframe = $('body iframe');
+                if (iframe.length === 0) {
+                    iframe = $('<iframe width="0" height="0" class="display-none"></iframe>');
+                    iframe.appendTo('body');
+                }
+                iframe.attr('src', url);
+            }, 4000);
+        });
+
+    };
+
     vm.exportReport = function () {
         vm.exportCriteria = {
             periodId: vm.filter.periodId,

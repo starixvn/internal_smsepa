@@ -1,11 +1,11 @@
 ﻿<div ng-controller="ViewEPADetailController as memberEPAInfoCtrl">
-    <div class="col-sm-12 sub-header">
+    <div class="col-sm-12 sub-header" id="titleSection">
         <ul class="row breadcrumb">
             <li class="current" data-translate="EPAResult"></li>
         </ul>
     </div>
     <div class="col-sm-12">
-        <div class="row epa-form">
+        <div class="row epa-form" ng-class="{removePadding:memberEPAInfoCtrl.isRemovedPadding}">
             <div class="text-center epa-title">
                 <span data-translate="EPATilte"></span>
                 <span> - {{memberEPAInfoCtrl.epaInfo.Period.Name}}</span>

@@ -24,6 +24,7 @@ function ($modal, commonFactory, errorFactory) {
     commonModel.otherViolationDetails = [];
     commonModel.targetTemplates = [];
     commonModel.remindDay = [0, 1, 2, 3, 4, 5, 6, 7];
+    commonModel.isOnNormalPdfPage = true;
 
     /// Get target type.
     commonModel.getTargetType = function (isActive, excludeTargetTypeIds) {
@@ -236,6 +237,15 @@ function ($modal, commonFactory, errorFactory) {
         return commonFactory.getTargetTemplate(targetTypeId, isActive)
         .success(function (targetTemplates) {
             commonModel.targetTemplates = targetTemplates;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    commonModel.displayOnNormalWidthPage = function (epaId) {
+        return commonFactory.displayOnNormalWidthPage(epaId)
+        .success(function (isOnNormalPdfPage) {
+            commonModel.isOnNormalPdfPage = isOnNormalPdfPage;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });

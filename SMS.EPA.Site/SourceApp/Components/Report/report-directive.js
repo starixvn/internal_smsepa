@@ -242,7 +242,8 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
             { HeaderText: "Management Score", Width: 80, Name: "ManagementScore", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "Discipline Score", Width: 80, Name: "DisciplineScore", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "Final Score", Width: 80, Name: "FinalScore", HeaderAlign: "center", CellAlign: "center" },
-            { HeaderText: "Grade", Width: 80, Name: "Grade", HeaderAlign: "center", CellAlign: "center" }
+            { HeaderText: "Grade", Width: 80, Name: "Grade", HeaderAlign: "center", CellAlign: "center" },
+            { HeaderText: "Export PDF", Width: 80, Name: "ExportPdf", HeaderAlign: "center", CellAlign: "center" }
         ];
 
         return columnHeaders;
@@ -313,6 +314,7 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
             angular.forEach(gridData.MemberEPAs, function (memberEPA, index) {
                 var score = calculateScore(memberEPA),
                     cssSelfScore = memberEPA.EPAId > 0 && memberEPA.Process.Self.IsEndProcess ? '' : 'red',
+                var pdfIcon = '<a class="icon-pdf exportPDF" data-epaid="' + memberEPA.EPAId + '" data-hasmonthlyepa="' + memberEPA.HasMonthlyEPA + '"></input>';
                     cssEvaluatorScore = memberEPA.EPAId > 0 && memberEPA.Process.Evaluators[0].IsEndProcess ? '' : 'red',
                     cssReviewerScore = memberEPA.EPAId > 0 && memberEPA.Process.Reviewers[0].IsEndProcess ? '' : 'red',
                     cssManagementScore = '';
@@ -339,7 +341,8 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
                         { Name: "ManagementScore", Value: "<span class='" + cssManagementScore + "'>" + score.ManagementScore + "</span>" },
                         { Name: "DisciplineScore", Value: score.DisciplineScore },
                         { Name: "FinalScore", Value: score.FinalScore },
-                        { Name: "Grade", Value: score.Grade }
+                        { Name: "Grade", Value: score.Grade },
+                        { Name: "ExportPdf", Value: memberEPA.EPAId > 0 && memberEPA.Status.StatusId == 1 ? pdfIcon : "" }
                     ]
                 };
 
@@ -403,6 +406,13 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
 
                         $(iElement).fanexGrid(gridOptions);
                         $(iElement).fanexGrid("hideColumns", gridOptions, $scope.hideColumns);
+                        $('a.exportPDF').on('click', function (event) {
+                            event.preventDefault();
+
+                            var epaId = parseInt($(this).data('epaid'));
+                            var hasMonthlyEPA = $(this).data('hasmonthlyepa');
+                            $scope.exportPdf(epaId, hasMonthlyEPA);
+                        });
                     }
                 });
             });
@@ -429,7 +439,8 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
             { HeaderText: "Evaluator Score", Width: 80, Name: "EvaluatorScore", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "Reviewer Score", Width: 80, Name: "ReviewerScore", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "Final Score", Width: 80, Name: "FinalScore", HeaderAlign: "center", CellAlign: "center" },
-            { HeaderText: "Grade", Width: 80, Name: "Grade", HeaderAlign: "center", CellAlign: "center" }
+            { HeaderText: "Grade", Width: 80, Name: "Grade", HeaderAlign: "center", CellAlign: "center" },
+            { HeaderText: "Export PDF", Width: 80, Name: "ExportPdf", HeaderAlign: "center", CellAlign: "center" }
         ];
 
         return columnHeaders;
@@ -481,6 +492,7 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
         if (gridData.MemberEPAs) {
             angular.forEach(gridData.MemberEPAs, function (memberEPA, index) {
                 var score = calculateScore(memberEPA),
+                var pdfIcon = '<a class="icon-pdf exportPDF" data-epaid="' + memberEPA.EPAId + '"></input>';
                     cssSelfScore = memberEPA.EPAId > 0 && memberEPA.Process.Self.IsEndProcess ? '' : 'red',
                     cssEvaluatorScore = memberEPA.EPAId > 0 && memberEPA.Process.Evaluators[0].IsEndProcess ? '' : 'red',
                     cssReviewerScore = memberEPA.EPAId > 0 && memberEPA.Process.Reviewers[0].IsEndProcess ? '' : 'red';
@@ -497,7 +509,8 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
                         { Name: "EvaluatorScore", Value: "<span class='" + cssEvaluatorScore + "'>" + score.EvaluatorScore + "</span>" },
                         { Name: "ReviewerScore", Value: "<span class='" + cssReviewerScore + "'>" + score.ReviewerScore + "</span>" },
                         { Name: "FinalScore", Value: score.FinalScore },
-                        { Name: "Grade", Value: score.Grade }
+                        { Name: "Grade", Value: score.Grade },
+                        { Name: "ExportPdf", Value: memberEPA.EPAId > 0 && memberEPA.Status.StatusId == 1 ? pdfIcon : "" }
                     ]
                 };
 
@@ -561,6 +574,13 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
 
                         $(iElement).fanexGrid(gridOptions);
                         $(iElement).fanexGrid("hideColumns", gridOptions, $scope.hideColumns);
+
+                        $('a.exportPDF').on('click', function (event) {
+                            event.preventDefault();
+
+                            var epaId = parseInt($(this).data('epaid'));
+                            $scope.exportPdf(epaId, false);
+                        });
                     }
                 });
             });

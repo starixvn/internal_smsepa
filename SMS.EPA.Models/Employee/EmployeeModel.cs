@@ -42,7 +42,5 @@ namespace SMS.EPA.Model.Employee
         public Group Group { get; set; }
 
         public IList<SystemRoleModel> Roles { get; set; }
-
-        public DateTime JoinedDate { get; set; }
     }
 }

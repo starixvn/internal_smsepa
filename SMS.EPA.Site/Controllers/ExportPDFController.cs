@@ -13,22 +13,25 @@
     public class ExportPDFController : Controller
     {
         private readonly IEmployeeEPAService _employeeEPAService;
+        private readonly IExportPdfService _exportPdfService;
 
         public ExportPDFController()
-            : this(null)
+            : this(null, null)
         {
         }
 
         public ExportPDFController(
-            IEmployeeEPAService employeeEPAService)
+            IEmployeeEPAService employeeEPAService,
+            IExportPdfService exportPdfService)
         {
             _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
+            _exportPdfService = exportPdfService ?? new ExportPdfService();
         }
 
         public string RequestExportEPA(int epaId)
         {
             string target = "/EPA/Detail/" + epaId + "?exportpdf=true";
-            string fileName = RequestExport(target);
+            string fileName = RequestExport(epaId, target);
 
             return fileName;
         }
@@ -36,7 +39,7 @@
         public string RequestExportSemiEPA(int epaId)
         {
             string target = "/EPA/SemiDetail/" + epaId + "?exportpdf=true";
-            string fileName = RequestExport(target);
+            string fileName = RequestExport(epaId, target);
 
             return fileName;
         }
@@ -66,15 +69,14 @@
             return string.Format("{0}.pdf", epaInfo.Employee.NickName + epaInfo.Employee.Code);
         }
 
-        private string RequestExport(string target)
+        private string RequestExport(int epaId, string target)
         {
             string fileName = string.Format("EPA_{0}.pdf", DateTime.Now.ToString("HHmmss"));
             string domain = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Host, Request.Url.Port != 0 ? ":" + Request.Url.Port : string.Empty);
             string url = domain + target;
             string pdfFile = Server.MapPath(Constants.ExportingFolder + fileName);
 
-            var exportingPdf = new ExportingPdf(Request.Cookies, url);
-            exportingPdf.WriteToFileAsync(pdfFile);
+            _exportPdfService.WriteEPADetailToFileAsync(epaId, pdfFile, url, Request.Cookies);
 
             return fileName;
         }
