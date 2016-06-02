@@ -243,7 +243,6 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
             { HeaderText: "Discipline Score", Width: 80, Name: "DisciplineScore", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "Final Score", Width: 80, Name: "FinalScore", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "Grade", Width: 80, Name: "Grade", HeaderAlign: "center", CellAlign: "center" }
-            /*{ HeaderText: "Export PDF", Width: 80, Name: "ExportPdf", HeaderAlign: "center", CellAlign: "center" }*/
         ];
 
         return columnHeaders;
@@ -270,19 +269,23 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
             }
         }
 
-        if (epaInfo.EPAId > 0 && epaInfo.Process.Self.StatusEndProcess != enumerationsFactory.processStatusType.Open) {
+        if (epaInfo.EPAId > 0 && epaInfo.Process.Self.StatusEndProcess !== enumerationsFactory.processStatusType.Open) {
             result.SelfScore = utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore);
         }
 
-        if (epaInfo.EPAId > 0 && epaInfo.Process.Evaluators[0].StatusEndProcess != enumerationsFactory.processStatusType.Open) {
+        if (epaInfo.EPAId > 0 && epaInfo.Process.Evaluators[0].StatusEndProcess !== enumerationsFactory.processStatusType.Open) {
             result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators;
         }
 
-        if (epaInfo.EPAId > 0 && epaInfo.Process.Reviewers.length > 0 && epaInfo.Process.Reviewers[0].StatusEndProcess != enumerationsFactory.processStatusType.Open) {
+        if (epaInfo.EPAId > 0
+            && epaInfo.Process.Reviewers.length > 0
+            && epaInfo.Process.Reviewers[0].StatusEndProcess !== enumerationsFactory.processStatusType.Open) {
             result.ReviewerScore = epaInfo.Process.AverageScoreByReviewers;
         }
 
-        if (epaInfo.EPAId > 0 && epaInfo.Process.Managements.length > 0 && epaInfo.Process.Managements[0].StatusEndProcess != enumerationsFactory.processStatusType.Open) {
+        if (epaInfo.EPAId > 0
+            && epaInfo.Process.Managements.length > 0
+            && epaInfo.Process.Managements[0].StatusEndProcess !== enumerationsFactory.processStatusType.Open) {
             result.ManagementScore = epaInfo.Process.AverageScoreByManagements;
         }
 
@@ -290,13 +293,11 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
             if (epaInfo.FinalScore) {
                 result.FinalScore = utilitiesFactory.parseFloat(epaInfo.FinalScore);
                 result.Grade = epaInfo.Grade;
-            }
-            else {
+            } else {
                 result.FinalScore = status.NotAvailable;
                 result.Grade = status.NotAvailable;
             }
-        }
-        else {
+        } else {
             result.FinalScore = status.Pending;
             result.Grade = status.Pending;
         }
@@ -310,12 +311,18 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
 
         if (gridData.MemberEPAs) {
             angular.forEach(gridData.MemberEPAs, function (memberEPA, index) {
-                var score = calculateScore(memberEPA);
-                /*var pdfIcon = '<a class="icon-pdf exportPDF" data-epaid="' + memberEPA.EPAId + '" data-hasmonthlyepa="' + memberEPA.HasMonthlyEPA + '"></input>';*/
-                var cssSelfScore = memberEPA.Process.Self.IsEndProcess ? "" : "red";
-                var cssEvaluatorScore = memberEPA.Process.Evaluators[0].IsEndProcess ? "" : "red";
-                var cssReviewerScore = memberEPA.Process.Reviewers[0].IsEndProcess ? "" : "red";
-                var cssManagementScore = memberEPA.Process.Managements[0].IsEndProcess ? "" : "red";
+                var score = calculateScore(memberEPA),
+                    cssSelfScore = memberEPA.EPAId > 0 && memberEPA.Process.Self.IsEndProcess ? '' : 'red',
+                    cssEvaluatorScore = memberEPA.EPAId > 0 && memberEPA.Process.Evaluators[0].IsEndProcess ? '' : 'red',
+                    cssReviewerScore = memberEPA.EPAId > 0 && memberEPA.Process.Reviewers[0].IsEndProcess ? '' : 'red',
+                    cssManagementScore = '';
+
+                if (memberEPA.EPAId > 0
+                    && memberEPA.Process.Managements
+                    && memberEPA.Process.Managements.length > 0
+                    && memberEPA.Process.Managements[0].IsEndProcess) {
+                    cssManagementScore = 'red';
+                }
 
                 var currentRow = {
                     Columns: [
@@ -333,7 +340,6 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
                         { Name: "DisciplineScore", Value: score.DisciplineScore },
                         { Name: "FinalScore", Value: score.FinalScore },
                         { Name: "Grade", Value: score.Grade }
-                        /*{ Name: "ExportPdf", Value: memberEPA.EPAId > 0 && memberEPA.Status.StatusId == 1 ? pdfIcon : "" }*/
                     ]
                 };
 
@@ -397,14 +403,6 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
 
                         $(iElement).fanexGrid(gridOptions);
                         $(iElement).fanexGrid("hideColumns", gridOptions, $scope.hideColumns);
-
-                        /*$('a.exportPDF').on('click', function (event) {
-                            event.preventDefault();
-
-                            var epaId = parseInt($(this).data('epaid'));
-                            var hasMonthlyEPA = $(this).data('hasmonthlyepa');
-                            $scope.exportPdf(epaId, hasMonthlyEPA);
-                        });*/
                     }
                 });
             });
@@ -446,15 +444,17 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
             Grade: ''
         };
 
-        if (epaInfo.EPAId > 0 && epaInfo.Process.Self.StatusEndProcess != enumerationsFactory.processStatusType.Open) {
+        if (epaInfo.EPAId > 0 && epaInfo.Process.Self.StatusEndProcess !== enumerationsFactory.processStatusType.Open) {
             result.SelfScore = utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore);
         }
 
-        if (epaInfo.EPAId > 0 && epaInfo.Process.Evaluators[0].StatusEndProcess != enumerationsFactory.processStatusType.Open) {
+        if (epaInfo.EPAId > 0 && epaInfo.Process.Evaluators[0].StatusEndProcess !== enumerationsFactory.processStatusType.Open) {
             result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators;
         }
 
-        if (epaInfo.EPAId > 0 && epaInfo.Process.Reviewers.length > 0 && epaInfo.Process.Reviewers[0].StatusEndProcess != enumerationsFactory.processStatusType.Open) {
+        if (epaInfo.EPAId > 0
+            && epaInfo.Process.Reviewers.length > 0
+            && epaInfo.Process.Reviewers[0].StatusEndProcess !== enumerationsFactory.processStatusType.Open) {
             result.ReviewerScore = epaInfo.Process.AverageScoreByReviewers;
         }
 
@@ -462,13 +462,11 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
             if (epaInfo.FinalScore) {
                 result.FinalScore = utilitiesFactory.parseFloat(epaInfo.FinalScore);
                 result.Grade = epaInfo.Grade;
-            }
-            else {
+            } else {
                 result.FinalScore = status.NotAvailable;
                 result.Grade = status.NotAvailable;
             }
-        }
-        else {
+        } else {
             result.FinalScore = status.Pending;
             result.Grade = status.Pending;
         }
@@ -482,10 +480,10 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
 
         if (gridData.MemberEPAs) {
             angular.forEach(gridData.MemberEPAs, function (memberEPA, index) {
-                var score = calculateScore(memberEPA);
-                var cssSelfScore = memberEPA.Process.Self.IsEndProcess ? "" : "red";
-                var cssEvaluatorScore = memberEPA.Process.Evaluators[0].IsEndProcess ? "" : "red";
-                var cssReviewerScore = memberEPA.Process.Reviewers[0].IsEndProcess ? "" : "red";
+                var score = calculateScore(memberEPA),
+                    cssSelfScore = memberEPA.EPAId > 0 && memberEPA.Process.Self.IsEndProcess ? '' : 'red',
+                    cssEvaluatorScore = memberEPA.EPAId > 0 && memberEPA.Process.Evaluators[0].IsEndProcess ? '' : 'red',
+                    cssReviewerScore = memberEPA.EPAId > 0 && memberEPA.Process.Reviewers[0].IsEndProcess ? '' : 'red';
 
                 var currentRow = {
                     Columns: [
