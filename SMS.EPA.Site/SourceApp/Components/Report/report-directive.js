@@ -314,7 +314,8 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
             angular.forEach(gridData.MemberEPAs, function (memberEPA, index) {
                 var score = calculateScore(memberEPA),
                     cssSelfScore = memberEPA.EPAId > 0 && memberEPA.Process.Self.IsEndProcess ? '' : 'red',
-                var pdfIcon = '<a class="icon-pdf exportPDF" data-epaid="' + memberEPA.EPAId + '" data-hasmonthlyepa="' + memberEPA.HasMonthlyEPA + '"></input>';
+
+                pdfIcon = '<a class="icon-pdf exportPDF" data-epaid="' + memberEPA.EPAId + '" data-hasmonthlyepa="' + memberEPA.HasMonthlyEPA + '"></input>';
                     cssEvaluatorScore = memberEPA.EPAId > 0 && memberEPA.Process.Evaluators[0].IsEndProcess ? '' : 'red',
                     cssReviewerScore = memberEPA.EPAId > 0 && memberEPA.Process.Reviewers[0].IsEndProcess ? '' : 'red',
                     cssManagementScore = '';
