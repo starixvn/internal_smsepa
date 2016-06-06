@@ -322,7 +322,7 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
                 if (memberEPA.EPAId > 0
                     && memberEPA.Process.Managements
                     && memberEPA.Process.Managements.length > 0
-                    && memberEPA.Process.Managements[0].IsEndProcess) {
+                    && !memberEPA.Process.Managements[0].IsEndProcess) {
                     cssManagementScore = 'red';
                 }
 
