@@ -314,8 +314,7 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
             angular.forEach(gridData.MemberEPAs, function (memberEPA, index) {
                 var score = calculateScore(memberEPA),
                     cssSelfScore = memberEPA.EPAId > 0 && memberEPA.Process.Self.IsEndProcess ? '' : 'red',
-
-                pdfIcon = '<a class="icon-pdf exportPDF" data-epaid="' + memberEPA.EPAId + '" data-hasmonthlyepa="' + memberEPA.HasMonthlyEPA + '"></input>';
+                    pdfIcon = '<a class="icon-pdf exportPDF" data-epaid="' + memberEPA.EPAId + '" data-hasmonthlyepa="' + memberEPA.HasMonthlyEPA + '"></input>',
                     cssEvaluatorScore = memberEPA.EPAId > 0 && memberEPA.Process.Evaluators[0].IsEndProcess ? '' : 'red',
                     cssReviewerScore = memberEPA.EPAId > 0 && memberEPA.Process.Reviewers[0].IsEndProcess ? '' : 'red',
                     cssManagementScore = '';
@@ -493,10 +492,10 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
         if (gridData.MemberEPAs) {
             angular.forEach(gridData.MemberEPAs, function (memberEPA, index) {
                 var score = calculateScore(memberEPA),
-                var pdfIcon = '<a class="icon-pdf exportPDF" data-epaid="' + memberEPA.EPAId + '"></input>';
-                    cssSelfScore = memberEPA.EPAId > 0 && memberEPA.Process.Self.IsEndProcess ? '' : 'red',
-                    cssEvaluatorScore = memberEPA.EPAId > 0 && memberEPA.Process.Evaluators[0].IsEndProcess ? '' : 'red',
-                    cssReviewerScore = memberEPA.EPAId > 0 && memberEPA.Process.Reviewers[0].IsEndProcess ? '' : 'red';
+                pdfIcon = '<a class="icon-pdf exportPDF" data-epaid="' + memberEPA.EPAId + '"></input>',
+                cssSelfScore = memberEPA.EPAId > 0 && memberEPA.Process.Self.IsEndProcess ? '' : 'red',
+                cssEvaluatorScore = memberEPA.EPAId > 0 && memberEPA.Process.Evaluators[0].IsEndProcess ? '' : 'red',
+                cssReviewerScore = memberEPA.EPAId > 0 && memberEPA.Process.Reviewers[0].IsEndProcess ? '' : 'red';
 
                 var currentRow = {
                     Columns: [
