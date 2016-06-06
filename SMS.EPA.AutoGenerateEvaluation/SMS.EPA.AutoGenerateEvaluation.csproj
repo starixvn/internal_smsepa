@@ -97,7 +97,6 @@
     <Compile Include="Criteria\UpdateIsEndProcessCriteria.cs" />
     <Compile Include="Criteria\UpdateTotalScoreOfProcessCriteria.cs" />
     <Compile Include="Criteria\UpdateTotalScoreOfSemiHasMonthlyCriteria.cs" />
-    <Compile Include="Models\EndEPAModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
@@ -207,6 +206,7 @@
       <Name>SMS.EPA.Services</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

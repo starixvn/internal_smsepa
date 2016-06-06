@@ -38,12 +38,17 @@
     <div class="col-sm-12">
         <table class="row table table-bordered table-striped">
             <thead>
-                <tr ng-show="updateCtrl.epaInfos.length > 0">
-                    <th colspan="7">
-                        <button class="button pull-left" ng-click="updateCtrl.updateFinalScore()" data-translate="Update"></button>
+                <tr class="header-table">
+                    <th colspan="8">
+                        <button class="button pull-left" style="margin: 5px;"
+                                ng-show="updateCtrl.filteredItems.length > 0" ng-click="updateCtrl.updateFinalScore()" data-translate="Update"></button>
+                        <input type="text" ng-model="updateCtrl.searchKey" ng-change="updateCtrl.search()" class="search-inline-textbox search pull-right">
                     </th>
                 </tr>
-                <tr>
+                <tr class="headerName">
+                    <th>
+                        <input type="checkbox" ng-click="updateCtrl.checkAll(updateCtrl.selectedAll)" ng-model="updateCtrl.selectedAll" />
+                    </th>
                     <th data-translate="SymbolCount"></th>
                     <th data-translate="Code"></th>
                     <th data-translate="NickName"></th>
@@ -54,8 +59,11 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="epaInfo in updateCtrl.epaInfos">
-                    <td class="text-center" ng-bind="$index + 1"></td>
+                <tr dir-paginate="epaInfo in updateCtrl.filteredItems | itemsPerPage: updateCtrl.pageSize" current-page="updateCtrl.currentPage">
+                    <td class="text-center">
+                        <input type="checkbox" ng-model="epaInfo.Selected" ng-click="updateCtrl.syncSelectedEPA(epaInfo.EPAId, epaInfo.Selected)" />
+                    </td>
+                    <td class="text-center" ng-bind="updateCtrl.getIndex($index, updateCtrl.currentPage, updateCtrl.pageSize)"></td>
                     <td ng-bind="epaInfo.Employee.Code"></td>
                     <td ng-bind="epaInfo.Employee.NickName"></td>
                     <td ng-bind="epaInfo.Employee.FullName"></td>
@@ -68,10 +76,23 @@
                         <span ng-show="epaInfo.NewFinalScore" ng-bind="epaInfo.NewFinalScore | customScore"></span>
                     </td>
                 </tr>
-                <tr ng-show="updateCtrl.epaInfos.length == 0">
-                    <td class="empty-result" colspan="7" data-translate="EmptyResult"></td>
+                <tr ng-show="!updateCtrl.filteredItems || updateCtrl.filteredItems.length == 0">
+                    <td class="empty-result" colspan="8" data-translate="EmptyResult"></td>
                 </tr>
             </tbody>
+            <tfoot ng-show="updateCtrl.filteredItems.length > 0">
+                <tr>
+                    <td colspan="8" class="paging">
+                        <span data-translate="Show"></span>
+                        <select class="dropdown-entry form-control" ng-model="updateCtrl.pageSize"
+                                ng-options="entry for entry in updateCtrl.entries"></select>
+                        <span data-translate="entries"></span>
+                        <div class="pull-right custom-paging">
+                            <dir-pagination-controls boundary-links="true"></dir-pagination-controls>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
         </table>
     </div>
 </div>

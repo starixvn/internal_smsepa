@@ -621,15 +621,16 @@
         #region Update Final Score
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UpdateFinalScore, Policy = Policy.Read)]
-        public IEnumerable<EPAPeriodModel> GetPeriodToUpdateFinalScore()
+        public HttpResponseMessage GetPeriodToUpdateFinalScore()
         {
             var criteria = new GetPeriodToUpdateFinalScoreCriteria();
+            IList<EPAPeriodModel> periods = _employeeEPAService.GetPeriodToUpdateFinalScore(criteria);
 
-            return _employeeEPAService.GetPeriodToUpdateFinalScore(criteria);
+            return Request.CreateResponse(HttpStatusCode.OK, periods);
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UpdateFinalScore, Policy = Policy.Read)]
-        public IEnumerable<EPAEmployeeModel> GetEmployeeToUpdateFinalScore(
+        public HttpResponseMessage GetEmployeeToUpdateFinalScore(
             int periodId,
             int? groupId = null,
             string query = "")
@@ -640,12 +641,13 @@
                 GroupId = groupId,
                 Query = query
             };
+            IList<EPAEmployeeModel> employees = _employeeEPAService.GetEmployeeToUpdateFinalScore(criteria);
 
-            return _employeeEPAService.GetEmployeeToUpdateFinalScore(criteria);
+            return Request.CreateResponse(HttpStatusCode.OK, employees);
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UpdateFinalScore, Policy = Policy.Read)]
-        public IList<EPAModel> GetEPAToUpdateFinalScore(
+        public HttpResponseMessage GetEPAToUpdateFinalScore(
             int periodId,
             int? groupId = null,
             int? employeeId = null)
@@ -656,19 +658,19 @@
                 GroupId = groupId,
                 EmployeeId = employeeId
             };
+            IList<EPAModel> epaInfos = _employeeEPAService.GetEPAToUpdateFinalScore(criteria);
 
-            return _employeeEPAService.GetEPAToUpdateFinalScore(criteria);
+            return Request.CreateResponse(HttpStatusCode.OK, epaInfos);
         }
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UpdateFinalScore, Policy = Policy.Host)]
-        public HttpResponseMessage UpdateFinalScore(GetEPAToUpdateFinalScoreCriteria criteria)
+        public HttpResponseMessage UpdateFinalScore(IList<EPAModel> selectedEPAs)
         {
-            IList<EPAModel> epaInfos = _employeeEPAService.GetEPAToUpdateFinalScore(criteria);
             var getStandardGradeCriteria = new GetStandardGradeCriteria();
             IEnumerable<StandardGradeModel> standardGrades = _employeeEPAService.GetStandardGrade(getStandardGradeCriteria);
 
-            foreach (EPAModel epaInfo in epaInfos)
+            foreach (EPAModel epaInfo in selectedEPAs)
             {
                 float averagePerformanceScore = GetFinalScoreOfEPA(epaInfo),
                     finalScore = averagePerformanceScore + epaInfo.DisciplineScore;
@@ -682,7 +684,7 @@
             var updateFinalScoreCriteria = new UpdateFinalScoreEPAEndEvaluationCriteria
             {
                 ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
-                EPAInfos = epaInfos
+                EPAInfos = selectedEPAs
             };
 
             CommandResult commandResult = _employeeEPAService.UpdateFinalScoreEPAEndEvaluation(updateFinalScoreCriteria);

@@ -195,7 +195,8 @@ namespace SMS.EPA.Site.Controllers.API
 
             if (periodEmployeeSettings.Any())
             {
-                int targetTypeId = periodEmployeeSettings.FirstOrDefault().TargetTemplate.TargetTypeId;
+                PeriodEmployeeSettingModel periodEmployeeSetting = periodEmployeeSettings.FirstOrDefault(x => x.TargetTemplate != null);
+                int targetTypeId = periodEmployeeSetting != null ? periodEmployeeSetting.TargetTemplate.TargetTypeId : 0;
 
                 switch (targetTypeId)
                 {

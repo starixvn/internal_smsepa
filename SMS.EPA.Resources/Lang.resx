@@ -1329,4 +1329,7 @@
   <data name="OldFinalScore" xml:space="preserve">
     <value>Old Final Score</value>
   </data>
+  <data name="SelectEPABeforeEditSettingWarning" xml:space="preserve">
+    <value>Please select at least an EPA before update final score!</value>
+  </data>
 </root>

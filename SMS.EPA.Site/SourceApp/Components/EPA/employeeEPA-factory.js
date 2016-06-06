@@ -144,8 +144,8 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
                 }
             });
         },
-        updateFinalScore: function (criteria) {
-            return $http.put(baseUrl + 'api/EmployeeEPA/UpdateFinalScore', criteria);
+        updateFinalScore: function (selectedEPAs) {
+            return $http.put(baseUrl + 'api/EmployeeEPA/UpdateFinalScore', selectedEPAs);
         }
     };
 }]);

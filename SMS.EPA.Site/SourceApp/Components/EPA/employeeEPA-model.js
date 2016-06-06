@@ -130,35 +130,51 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         });
     };
 
-    employeeEPAModel.updateFinalScore = function (vm) {
-        var criteria = {
-            PeriodId: vm.filter.periodId,
-            GroupId: vm.filter.groupId,
-            EmployeeId: vm.filter.employee ? vm.filter.employee.EmployeeId : null
-        };
+    employeeEPAModel.updateFinalScore = function (vm, selectedEPAs) {
+        var modalInstance = $modal.open({
+            templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
+            controller: "ModalConfirmController as modalConfirmCtrl",
+            backdrop: 'static',
+            resolve: {
+                name: function () {
+                    return '';
+                },
+                action: function () {
+                    return 'update final score for selected employee(s)';
+                }
+            },
+            windowClass: "modal-confirm-center"
+        });
 
-        return employeeEPAFactory.updateFinalScore(criteria)
-        .success(function (response) {
-            if (response.IsSuccessful) {
-                notificationFactory.success("UpdatedSuccessfully");
+        modalInstance.result.then(function () {
+            return employeeEPAFactory.updateFinalScore(selectedEPAs)
+            .success(function (response) {
+                if (response.IsSuccessful) {
+                    notificationFactory.success("UpdatedSuccessfully");
 
-                employeeEPAFactory.getEPAToUpdateFinalScore(criteria.PeriodId, criteria.GroupId, criteria.EmployeeId)
-                .success(function (epaInfos) {
-                        angular.forEach(vm.epaInfos, function(epaInfo) {
-                            angular.forEach(epaInfos, function (newEpaInfo) {
-                                if (newEpaInfo.EPAId === epaInfo.EPAId) {
-                                    epaInfo.NewFinalScore = newEpaInfo.FinalScore;
-                                }
-                            });
+                    var employeeId = vm.filter.employee ? vm.filter.employee.EmployeeId : null;
+                    employeeEPAFactory.getEPAToUpdateFinalScore(vm.filter.periodId, vm.filter.groupId, employeeId)
+                    .success(function (epaInfos) {
+                        angular.forEach(vm.epaInfos, function (epaInfo) {
+                            if (epaInfo.Selected) {
+                                angular.forEach(epaInfos, function (newEpaInfo) {
+                                    if (newEpaInfo.EPAId === epaInfo.EPAId) {
+                                        epaInfo.NewFinalScore = newEpaInfo.FinalScore;
+                                    }
+                                });
+                            }
                         });
                     }).error(function (response, status) {
-                    errorFactory.errorHandle(status);
-                });
-            } else {
-                notificationFactory.error("", response.Message);
-            }
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
+                        errorFactory.errorHandle(status);
+                    });
+                } else {
+                    notificationFactory.error("", response.Message);
+                }
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        })['finally'](function () {
+            modalInstance = '';
         });
     };
 

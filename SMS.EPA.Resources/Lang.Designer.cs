@@ -2869,6 +2869,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please select at least an EPA before update final score!.
+        /// </summary>
+        public static string SelectEPABeforeEditSettingWarning {
+            get {
+                return ResourceManager.GetString("SelectEPABeforeEditSettingWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select Violation Type.
         /// </summary>
         public static string SelectViolationType {
