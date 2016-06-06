@@ -2005,6 +2005,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Monthly EPA History.
+        /// </summary>
+        public static string MonthlyEPAHistory {
+            get {
+                return ResourceManager.GetString("MonthlyEPAHistory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Monthly EPA List.
         /// </summary>
         public static string monthlyEPAs {

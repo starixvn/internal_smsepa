@@ -102,6 +102,7 @@
     <Compile Include="EPAHistory\GetAllPeriodIncludeImportCriteria.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
+    <Compile Include="EPAHistory\GetMonthlyEPAHistoryCriteria.cs" />
     <Compile Include="EPAHistory\GetEPAHistoryCriteria.cs" />
     <Compile Include="FlowManagement\GetDepartmentFlowCriteria.cs" />
     <Compile Include="FlowManagement\GetDepartmentSectionHasSettingCriteria.cs" />

@@ -50,6 +50,23 @@ namespace SMS.EPA.Services.Implement
             return epas;
         }
 
+        public IList<EPAHistoryModel> GetMonthlyEPAHistory(GetMonthlyEPAHistoryCriteria criteria)
+        {
+            IList<EPAHistoryModel> epas = new List<EPAHistoryModel>();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                epas = _epaHistoryRepository.GetMonthlyEPAHistory(criteria);
+
+                if (epas != null && epas.Any())
+                {
+                    DecodeFinalScoreAndGrade(epas);
+                }
+            }
+
+            return epas;
+        }
+
         private void DecodeFinalScoreAndGrade(IList<EPAHistoryModel> epas)
         {
             foreach (EPAHistoryModel epa in epas)

@@ -38,15 +38,6 @@ function (reportFactory, notificationFactory, errorFactory) {
         });
     };
 
-    reportModel.getAllMonthlyPeriod = function () {
-        return reportFactory.getAllMonthlyPeriod()
-        .success(function (periods) {
-            reportModel.periods = periods;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
-    
     reportModel.getEPASummaryReport = function (periodIds, departmentId, isLocal, pageIndex, itemsPerPage) {
         return reportFactory.getEPASummaryReport(periodIds, departmentId, isLocal, pageIndex, itemsPerPage)
         .success(function (epaSummary) {

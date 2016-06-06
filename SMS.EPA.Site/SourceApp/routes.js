@@ -162,6 +162,8 @@ var epaHistoryModule = angular.module("epaHistoryModule", ['ngRoute'])
     var baseUrl = $("base").first().attr("href");
     $routeProvider.when('/EPAHistory/Index',
     { templateUrl: baseUrl + 'SourceApp/Components/EPAHistory/Templates/index.html', caseInsensitiveMatch: true });
+    $routeProvider.when('/monthlyEPAHistory/Index',
+    { templateUrl: baseUrl + 'SourceApp/Components/MonthlyEPAHistory/Templates/index.html', caseInsensitiveMatch: true });
 }]);
 
 var monthlyPeriodModule = angular.module("monthlyPeriodModule", ['ngRoute'])

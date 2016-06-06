@@ -69,5 +69,7 @@ namespace SMS.EPA.Core.Constants
         public const string EPAHistory = "EPAHistory";
 
         public const string MonthlyPeriod = "MonthlyPeriod";
+
+        public const string MonthlyEPAHistory = "MonthlyEPAHistory";
     }
 }

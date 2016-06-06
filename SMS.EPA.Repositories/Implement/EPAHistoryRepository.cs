@@ -36,5 +36,23 @@ namespace SMS.EPA.Repositories.Implement
                 return epas;
             }
         }
+
+        public IList<EPAHistoryModel> GetMonthlyEPAHistory(ICriteria criteria)
+        {
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                IList<EPAHistoryModel> epas = db.Query<EPAHistoryModel, PeriodModel, EmployeeModel, EPAHistoryModel>(
+                    (epa, pe, emp) =>
+                    {
+                        epa.Employee = emp;
+                        epa.Period = pe;
+                        return epa;
+                    },
+                    "PeriodId,EmployeeId",
+                    criteria.GetSpParams()).ToList();
+
+                return epas;
+            }
+        }
     }
 }

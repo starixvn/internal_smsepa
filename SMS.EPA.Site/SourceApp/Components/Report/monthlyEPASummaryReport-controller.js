@@ -7,7 +7,7 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory, usSpinnerService) 
     var vm = this;
 
     vm.treeDepartment = CommonModel.treeDepartment;
-    vm.periods = ReportModel.periods;
+    vm.periods = CommonModel.monthlyPeriods;
     vm.epaSummary = ReportModel.epaSummary;
 
     vm.pageOption = utilitiesFactory.pageOption;
@@ -135,8 +135,8 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory, usSpinnerService) 
             vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
         });
 
-        ReportModel.getAllMonthlyPeriod().then(function () {
-            vm.periods = groupPeriodByYearAndHalfTime(ReportModel.periods);
+        CommonModel.getAllMonthlyPeriod().then(function () {
+            vm.periods = groupPeriodByYearAndHalfTime(CommonModel.monthlyPeriods);
             vm.filter.periodIds = utilitiesFactory.getSelectedData(vm.periods, 'PeriodId');
             getMonthlyEPASummaryReport();
         });

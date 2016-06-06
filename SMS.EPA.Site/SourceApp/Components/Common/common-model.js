@@ -19,6 +19,7 @@ function ($modal, commonFactory, errorFactory) {
     commonModel.treeDepartment = {};
     commonModel.statusList = [];
     commonModel.periods = [];
+    commonModel.monthlyPeriods = [];
     commonModel.standardGrades = [];
     commonModel.periodOptions = [];
     commonModel.otherViolationDetails = [];
@@ -246,6 +247,15 @@ function ($modal, commonFactory, errorFactory) {
         return commonFactory.displayOnNormalWidthPage(epaId)
         .success(function (isOnNormalPdfPage) {
             commonModel.isOnNormalPdfPage = isOnNormalPdfPage;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    commonModel.getAllMonthlyPeriod = function () {
+        return commonFactory.getAllMonthlyPeriod()
+        .success(function (periods) {
+            commonModel.monthlyPeriods = periods;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });

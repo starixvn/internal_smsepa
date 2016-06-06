@@ -49,6 +49,20 @@ namespace SMS.EPA.Site.Controllers.API
             return epas;
         }
 
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyEPAHistory, Policy = Policy.Read)]
+        public IList<EPAHistoryModel> GetMonthlyEPAHistory(int? periodId = null, int? employeeId = null)
+        {
+            var criteria = new GetMonthlyEPAHistoryCriteria
+            {
+                PeriodId = periodId,
+                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
+                EmployeeId = employeeId
+            };
+
+            IList<EPAHistoryModel> epas = _epaHistoryService.GetMonthlyEPAHistory(criteria);
+            return epas;
+        }
+
         [HttpGet]
         public bool HasOnlyEmployeeRole()
         {

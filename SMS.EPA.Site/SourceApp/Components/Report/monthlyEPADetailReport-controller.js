@@ -111,8 +111,8 @@ function ($scope, $timeout, ReportModel, CommonModel, utilitiesFactory, usSpinne
             vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
         });
 
-        ReportModel.getAllMonthlyPeriod().then(function () {
-            vm.periods = ReportModel.periods;
+        CommonModel.getAllMonthlyPeriod().then(function () {
+            vm.periods = CommonModel.monthlyPeriods;
 
             if (vm.periods.length > 0) {
                 vm.filter.periodId = vm.periods[0].PeriodId;

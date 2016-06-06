@@ -1314,4 +1314,7 @@
   <data name="MonthlyEPASummaryReportTitle" xml:space="preserve">
     <value>Monthly EPA Summary Report</value>
   </data>
+  <data name="MonthlyEPAHistory" xml:space="preserve">
+    <value>Monthly EPA History</value>
+  </data>
 </root>

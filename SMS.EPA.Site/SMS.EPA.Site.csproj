@@ -411,6 +411,10 @@
     <Content Include="SourceApp\Components\Employee\Templates\index.html" />
     <Content Include="SourceApp\Components\Employee\Templates\modalConfirmSetUnsetMonthlyEvaluation.html" />
     <Content Include="SourceApp\Components\Employee\Templates\resetPassword.html" />
+    <Content Include="SourceApp\Components\MonthlyEPAHistory\monthlyEPAHistory-controller.js" />
+    <Content Include="SourceApp\Components\MonthlyEPAHistory\monthlyEPAHistory-factory.js" />
+    <Content Include="SourceApp\Components\MonthlyEPAHistory\monthlyEPAHistory-model.js" />
+    <Content Include="SourceApp\Components\MonthlyEPAHistory\Templates\index.html" />
     <Content Include="SourceApp\Components\EPAHistory\epaHistory-controller.js" />
     <Content Include="SourceApp\Components\EPAHistory\epaHistory-factory.js" />
     <Content Include="SourceApp\Components\EPAHistory\epaHistory-model.js" />

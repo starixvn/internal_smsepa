@@ -12,9 +12,6 @@ reportModule.factory('reportFactory', ['$http', 'baseUrl', function ($http, base
         getAllPeriodIncludeImport: function () {
             return $http.get(baseUrl + 'api/Report/GetAllPeriodIncludeImport');
         },
-        getAllMonthlyPeriod: function () {
-            return $http.get(baseUrl + 'api/MonthlyPeriod/GetAllMonthlyPeriod');
-        },
 
         getEPASummaryReport: function (periodIds, departmentId, isLocal, pageIndex, itemsPerPage) {
             return $http.get(baseUrl + 'api/Report/GetEPASummaryReport',

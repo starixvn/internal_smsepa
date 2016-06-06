@@ -384,6 +384,7 @@
   <Function Name="EPA History">
     <Setting Key="Epa_GetEPAHistory" SpName="Epa_GetEPAHistory" DbName="SMSEPA" Plain="0">
     </Setting>
+    <Setting Key="Epa_GetMonthlyEPAHistory" SpName="Epa_GetMonthlyEPAHistory" DbName="SMSEPA" Plain="0"></Setting>
     <Setting Key="EpaPeriod_GetAllPeriodIncludeImport" SpName="EpaPeriod_GetAllPeriodIncludeImport" DbName="SMSEPA" Plain="0">
     </Setting>
   </Function>
