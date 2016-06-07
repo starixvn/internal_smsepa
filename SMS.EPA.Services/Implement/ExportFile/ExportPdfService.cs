@@ -13,7 +13,7 @@
 
     public class ExportPdfService : IExportPdfService
     {
-        private const int NormalWidthPdfPage = 1920;
+        private const int NormalWidthPdfPage = 1322;
         private const int LargestWidthPdfPage = 1920;
 
         private readonly IEmployeeEPAService _epaService;
@@ -29,7 +29,6 @@
             _epaService = epaService ?? new EmployeeEPAService();
             _convert = new HtmlToPdf();
             _convert.Options.MinPageLoadTime = int.Parse(ConfigurationManager.AppSettings["MinPageLoadTimeForPDF"]);
-            _convert.Options.MaxPageLoadTime = int.Parse(ConfigurationManager.AppSettings["MaxNumberRowsInPdfPage"]);
         }
 
         public void WriteToFileAsync(string filePath, string convertedUrl, HttpCookieCollection cookie)

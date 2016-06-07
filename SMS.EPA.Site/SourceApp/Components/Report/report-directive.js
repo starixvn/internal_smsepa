@@ -440,7 +440,7 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
             { HeaderText: "Reviewer Score", Width: 80, Name: "ReviewerScore", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "Final Score", Width: 80, Name: "FinalScore", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "Grade", Width: 80, Name: "Grade", HeaderAlign: "center", CellAlign: "center" },
-            { HeaderText: "Export PDF", Width: 80, Name: "ExportPdf", HeaderAlign: "center", CellAlign: "center" }
+            //{ HeaderText: "Export PDF", Width: 80, Name: "ExportPdf", HeaderAlign: "center", CellAlign: "center" }
         ];
 
         return columnHeaders;
@@ -492,7 +492,7 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
         if (gridData.MemberEPAs) {
             angular.forEach(gridData.MemberEPAs, function (memberEPA, index) {
                 var score = calculateScore(memberEPA),
-                pdfIcon = '<a class="icon-pdf exportPDF" data-epaid="' + memberEPA.EPAId + '"></input>',
+                //pdfIcon = '<a class="icon-pdf exportPDF" data-epaid="' + memberEPA.EPAId + '"></input>',
                 cssSelfScore = memberEPA.EPAId > 0 && memberEPA.Process.Self.IsEndProcess ? '' : 'red',
                 cssEvaluatorScore = memberEPA.EPAId > 0 && memberEPA.Process.Evaluators[0].IsEndProcess ? '' : 'red',
                 cssReviewerScore = memberEPA.EPAId > 0 && memberEPA.Process.Reviewers[0].IsEndProcess ? '' : 'red';
@@ -510,7 +510,7 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
                         { Name: "ReviewerScore", Value: "<span class='" + cssReviewerScore + "'>" + score.ReviewerScore + "</span>" },
                         { Name: "FinalScore", Value: score.FinalScore },
                         { Name: "Grade", Value: score.Grade },
-                        { Name: "ExportPdf", Value: memberEPA.EPAId > 0 && memberEPA.Status.StatusId == 1 ? pdfIcon : "" }
+                        //{ Name: "ExportPdf", Value: memberEPA.EPAId > 0 && memberEPA.Status.StatusId == 1 ? pdfIcon : "" }
                     ]
                 };
 
@@ -575,12 +575,12 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
                         $(iElement).fanexGrid(gridOptions);
                         $(iElement).fanexGrid("hideColumns", gridOptions, $scope.hideColumns);
 
-                        $('a.exportPDF').on('click', function (event) {
-                            event.preventDefault();
+                        //$('a.exportPDF').on('click', function (event) {
+                        //    event.preventDefault();
 
-                            var epaId = parseInt($(this).data('epaid'));
-                            $scope.exportPdf(epaId, false);
-                        });
+                        //    var epaId = parseInt($(this).data('epaid'));
+                        //    $scope.exportPdf(epaId, false);
+                        //});
                     }
                 });
             });
@@ -609,22 +609,22 @@ reportModule.directive('exportEpaDetailReport', ['baseUrl', function (baseUrl) {
 }]);
 
 
-reportModule.directive('exportMonthlyEpaDetailReport', ['baseUrl', function (baseUrl) {
-    return {
-        link: function (scope) {
-            scope.$on('exportMonthlyEpaDetailReport', function () {
-                var data = $.param(scope.monthlyReportCtrl.exportCriteria),
-                    url = baseUrl + 'ExportReport/ExportMonthlyEPADetailReport',
-                    downloadUrl = url + "?" + data,
-                    iframe = $('body iframe');
+//reportModule.directive('exportMonthlyEpaDetailReport', ['baseUrl', function (baseUrl) {
+//    return {
+//        link: function (scope) {
+//            scope.$on('exportMonthlyEpaDetailReport', function () {
+//                var data = $.param(scope.monthlyReportCtrl.exportCriteria),
+//                    url = baseUrl + 'ExportReport/ExportMonthlyEPADetailReport',
+//                    downloadUrl = url + "?" + data,
+//                    iframe = $('body iframe');
 
-                if (iframe.length === 0) {
-                    iframe = $('<iframe width="0" height="0" class="display-none"></iframe>');
-                    iframe.appendTo('body');
-                }
+//                if (iframe.length === 0) {
+//                    iframe = $('<iframe width="0" height="0" class="display-none"></iframe>');
+//                    iframe.appendTo('body');
+//                }
 
-                iframe.attr('src', downloadUrl);
-            });
-        }
-    };
-}]);
+//                iframe.attr('src', downloadUrl);
+//            });
+//        }
+//    };
+//}]);
