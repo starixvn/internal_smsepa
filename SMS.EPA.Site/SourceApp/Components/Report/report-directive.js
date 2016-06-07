@@ -342,7 +342,7 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
                         { Name: "DisciplineScore", Value: score.DisciplineScore },
                         { Name: "FinalScore", Value: score.FinalScore },
                         { Name: "Grade", Value: score.Grade },
-                        { Name: "ExportPdf", Value: memberEPA.EPAId > 0 && memberEPA.Status.StatusId == 1 ? pdfIcon : "" }
+                        { Name: "ExportPdf", Value: memberEPA.EPAId > 0 && memberEPA.Status.StatusId == 1 && memberEPA.Period.IsEndPeriod ? pdfIcon : "" }
                     ]
                 };
 
