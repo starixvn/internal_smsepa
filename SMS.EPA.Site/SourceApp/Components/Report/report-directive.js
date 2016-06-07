@@ -8,7 +8,7 @@ function ($timeout, utilitiesFactory) {
         Pending: 'Pending'
     };
 
-    var generateGroupHeaders = function (periodSelecteds) {
+    function generateGroupHeaders(periodSelecteds) {
         var groupHeaders = [
             {
                 Columns: [
@@ -30,15 +30,18 @@ function ($timeout, utilitiesFactory) {
         }
 
         return groupHeaders;
-    };
+    }
 
-    var generateColumnHeaders = function (periodSelecteds) {
+    function generateColumnHeaders(scope, periodSelecteds) {
+        var sortCode = scope.sortColumnName === 'Code' ? scope.sortDirection : '',
+            sortSection = scope.sortColumnName === 'Section' ? scope.sortDirection : '';
+
         var columnHeaders = [
             { HeaderText: "#", Width: 40, Name: "No", HeaderAlign: "center", CellAlign: "center" },
-            { HeaderText: "Code", Width: 70, Name: "Code", HeaderAlign: "center", CellAlign: "center" },
+            { HeaderText: "Code", Width: 70, Name: "Code", HeaderAlign: "center", CellAlign: "center", Sort: true, SortDirection: sortCode, SortType: 'string' },
             { HeaderText: "Full Name", Width: 180, Name: "FullName", HeaderAlign: "center", CellAlign: "left" },
             { HeaderText: "Nick Name", Width: 100, Name: "NickName", HeaderAlign: "center", CellAlign: "center" },
-            { HeaderText: "Section", Width: 160, Name: "Section", HeaderAlign: "center", CellAlign: "left" },
+            { HeaderText: "Section", Width: 160, Name: "Section", HeaderAlign: "center", CellAlign: "left", Sort: true, SortDirection: sortSection, SortType: 'string' },
             { HeaderText: "Job Title", Width: 225, Name: "JobTitle", HeaderAlign: "center", CellAlign: "left" }
         ];
 
@@ -52,9 +55,9 @@ function ($timeout, utilitiesFactory) {
         }
 
         return columnHeaders;
-    };
+    }
 
-    var generateBodyRows = function (gridData, pageOption) {
+    function generateBodyRows(gridData, pageOption) {
         var rows = [];
         var rowIndex = pageOption.itemsPerPage * pageOption.pageIndex;
 
@@ -83,21 +86,18 @@ function ($timeout, utilitiesFactory) {
                             if (epaInfo.Periods[index].FinalScore) {
                                 finalScore = utilitiesFactory.parseFloat(epaInfo.Periods[index].FinalScore);
                                 grade = epaInfo.Periods[index].Grade;
-                            }
-                            else {
+                            } else {
                                 finalScore = status.NotAvailable;
                                 grade = status.NotAvailable;
                             }
-                        }
-                        else {
+                        } else {
                             finalScore = status.Pending;
                             grade = status.Pending;
                         }
 
                         colFinalScore = { Name: "FinalScore" + periodSelected.PeriodId, Value: finalScore };
                         colGrade = { Name: "Grade" + periodSelected.PeriodId, Value: grade };
-                    }
-                    else {
+                    } else {
                         colFinalScore = { Name: "FinalScore" + periodSelected.PeriodId, Value: "-" };
                         colGrade = { Name: "Grade" + periodSelected.PeriodId, Value: "-" };
                     }
@@ -111,7 +111,7 @@ function ($timeout, utilitiesFactory) {
         }
 
         return rows;
-    };
+    }
 
     return {
         restrict: "A",
@@ -119,7 +119,10 @@ function ($timeout, utilitiesFactory) {
             gridData: "=",
             pageOption: '=',
             onPageChanging: '=',
+            onSortChanging: '=',
             exportReport: '=',
+            sortColumnName: '=',
+            sortDirection: '=',
             gridExpandHeight: '@'
         },
         link: function ($scope, iElement) {
@@ -136,13 +139,18 @@ function ($timeout, utilitiesFactory) {
                     exportExcelFunction: function () {
                         $scope.exportReport();
                     }
+                },
+                sortOption: {
+                    serverSortFunction: function (sortColumnName, sortDirection) {
+                        $scope.onSortChanging(sortColumnName, sortDirection);
+                    }
                 }
             };
 
             $scope.$watch('gridData', function (gridData) {
                 $timeout(function () {
                     if (gridData.PeriodSelecteds && gridData.EPAInfos) {
-                        var columnHeaders = generateColumnHeaders(gridData.PeriodSelecteds),
+                        var columnHeaders = generateColumnHeaders($scope, gridData.PeriodSelecteds),
                             groupHeaderRows = generateGroupHeaders(gridData.PeriodSelecteds);
 
                         var bodyRows = generateBodyRows(gridData, $scope.pageOption);
@@ -607,7 +615,6 @@ reportModule.directive('exportEpaDetailReport', ['baseUrl', function (baseUrl) {
         }
     };
 }]);
-
 
 //reportModule.directive('exportMonthlyEpaDetailReport', ['baseUrl', function (baseUrl) {
 //    return {

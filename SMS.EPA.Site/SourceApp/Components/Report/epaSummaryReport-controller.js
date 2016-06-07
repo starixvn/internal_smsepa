@@ -17,17 +17,27 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory, usSpinnerService) 
         departmentId: '',
         isLocal: '',
         pageIndex: utilitiesFactory.pageOption.pageIndex,
-        itemsPerPage: utilitiesFactory.pageOption.itemsPerPage
+        itemsPerPage: utilitiesFactory.pageOption.itemsPerPage,
+        sortColumnName: '',
+        sortDirection: ''
     };
 
-    var getEPASummaryReport = function (filter) {
+    function getEPASummaryReport(filter) {
         usSpinnerService.spin("spinner-1");
 
-        ReportModel.getEPASummaryReport(filter.periodIds, filter.departmentId, filter.isLocal, filter.pageIndex, filter.itemsPerPage).then(function () {
+        ReportModel.getEPASummaryReport(
+            filter.periodIds,
+            filter.departmentId,
+            filter.isLocal,
+            filter.sortColumnName,
+            filter.sortDirection,
+            filter.pageIndex,
+            filter.itemsPerPage)
+        .then(function () {
             vm.epaSummary = ReportModel.epaSummary;
             usSpinnerService.stop('spinner-1');
         });
-    };
+    }
 
     vm.pageChanging = function (pageIndex, itemsPerPage) {
         vm.filter.pageIndex = pageIndex;
@@ -36,9 +46,18 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory, usSpinnerService) 
         getEPASummaryReport(vm.filter);
     };
 
+    vm.sortChanging = function (sortColumnName, sortDirection) {
+        vm.filter.sortColumnName = sortColumnName;
+        vm.filter.sortDirection = sortDirection;
+
+        getEPASummaryReport(vm.filter);
+    };
+
     vm.query = function (filter) {
         filter.pageIndex = utilitiesFactory.pageOption.pageIndex;
         filter.periodIds = utilitiesFactory.getSelectedData(vm.periods, 'PeriodId');
+        filter.sortColumnName = '';
+        filter.sortDirection = '';
 
         getEPASummaryReport(filter);
     };
@@ -47,13 +66,15 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory, usSpinnerService) 
         vm.exportCriteria = {
             periodIds: utilitiesFactory.getSelectedData(vm.periods, 'PeriodId'),
             departmentId: vm.filter.departmentId,
-            isLocal: vm.filter.isLocal
+            isLocal: vm.filter.isLocal,
+            sortColumnName: vm.filter.sortColumnName,
+            sortDirection: vm.filter.sortDirection
         };
 
         $scope.$broadcast('exportEpaSummaryReport');
     };
 
-    var groupingPeriods = function (periods) {
+    function groupingPeriods(periods) {
         var result = [], years = [];
         var startGrouping, endGrouping;
 
@@ -107,9 +128,9 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory, usSpinnerService) 
         }
 
         return result;
-    };
+    }
 
-    vm.initialize = function () {
+    function initialize() {
         CommonModel.getDepartment().then(function () {
             vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
         });
@@ -119,7 +140,7 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory, usSpinnerService) 
 
             getEPASummaryReport(vm.filter);
         });
-    };
+    }
 
-    vm.initialize();
+    initialize();
 }]);

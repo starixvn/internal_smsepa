@@ -11,6 +11,8 @@ namespace SMS.EPA.Site.Controllers.API
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net;
+    using System.Net.Http;
     using System.Web.Http;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
@@ -42,10 +44,12 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.EPASummaryReport, Policy = Policy.Read)]
-        public EPASummaryModel GetEPASummaryReport(
+        public HttpResponseMessage GetEPASummaryReport(
             string periodIds = null,
             int? departmentId = null,
             bool? isLocal = null,
+            string sortColumnName = null,
+            string sortDirection = null,
             int? pageIndex = null,
             int? itemsPerPage = null)
         {
@@ -55,11 +59,15 @@ namespace SMS.EPA.Site.Controllers.API
                 PeriodIds = periodIds,
                 DepartmentId = departmentId,
                 IsLocal = isLocal,
+                SortColumnName = sortColumnName,
+                SortDirection = sortDirection,
                 PageIndex = pageIndex,
                 ItemsPerPage = itemsPerPage
             };
 
-            return _reportService.GetEPASummaryReport(criteria);
+            EPASummaryModel epaInfos = _reportService.GetEPASummaryReport(criteria);
+
+            return Request.CreateResponse(HttpStatusCode.OK, epaInfos);
         }
 
         [HttpGet]

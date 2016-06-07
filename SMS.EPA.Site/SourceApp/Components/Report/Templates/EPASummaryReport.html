@@ -35,8 +35,14 @@
         </form>
     </div>
     <div class="col-sm-12">
-        <div class="freegrid" data-export-epa-summary-report data-grid-epa-summary-report data-grid-data="epaSummaryReportCtrl.epaSummary" data-grid-expand-height="300"
-             data-on-page-changing="epaSummaryReportCtrl.pageChanging" data-export-report="epaSummaryReportCtrl.exportReport" data-page-option="epaSummaryReportCtrl.filter"></div>
+        <div class="freegrid" data-export-epa-summary-report data-grid-epa-summary-report
+             data-grid-data="epaSummaryReportCtrl.epaSummary" data-grid-expand-height="300"
+             data-on-page-changing="epaSummaryReportCtrl.pageChanging"
+             data-on-sort-changing="epaSummaryReportCtrl.sortChanging"
+             data-sort-column-name="epaSummaryReportCtrl.filter.sortColumnName"
+             data-sort-direction="epaSummaryReportCtrl.filter.sortDirection"
+             data-export-report="epaSummaryReportCtrl.exportReport"
+             data-page-option="epaSummaryReportCtrl.filter"></div>
     </div>
     <span us-spinner spinner-key="spinner-1" spinner-start-active="true" spinner-theme="bigBlue"></span>
 </div>

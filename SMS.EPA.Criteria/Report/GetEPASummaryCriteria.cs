@@ -22,6 +22,10 @@ namespace SMS.EPA.Criteria.Report
 
         public bool? IsLocal { get; set; }
 
+        public string SortColumnName { get; set; }
+
+        public string SortDirection { get; set; }
+
         public int? PageIndex { get; set; }
 
         public int? ItemsPerPage { get; set; }

@@ -12,9 +12,22 @@ reportModule.factory('reportFactory', ['$http', 'baseUrl', function ($http, base
         getAllPeriodIncludeImport: function () {
             return $http.get(baseUrl + 'api/Report/GetAllPeriodIncludeImport');
         },
-
-        getEPASummaryReport: function (periodIds, departmentId, isLocal, pageIndex, itemsPerPage) {
+        getEPASummaryReport: function (periodIds, departmentId, isLocal, sortColumnName, sortDirection, pageIndex, itemsPerPage) {
             return $http.get(baseUrl + 'api/Report/GetEPASummaryReport',
+                {
+                    params: {
+                        periodIds: periodIds,
+                        departmentId: departmentId,
+                        isLocal: isLocal,
+                        sortColumnName: sortColumnName,
+                        sortDirection: sortDirection,
+                        pageIndex: pageIndex,
+                        itemsPerPage: itemsPerPage
+                    }
+                });
+        },
+        getMonthlyEPASummaryReport: function (periodIds, departmentId, isLocal, pageIndex, itemsPerPage) {
+            return $http.get(baseUrl + 'api/Report/GetMonthlyEPASummaryReport',
                 {
                     params: {
                         periodIds: periodIds,
@@ -24,19 +37,6 @@ reportModule.factory('reportFactory', ['$http', 'baseUrl', function ($http, base
                         itemsPerPage: itemsPerPage
                     }
                 });
-        },
-
-        getMonthlyEPASummaryReport: function (periodIds, departmentId, isLocal, pageIndex, itemsPerPage) {
-            return $http.get(baseUrl + 'api/Report/GetMonthlyEPASummaryReport',
-        {
-            params: {
-                periodIds: periodIds,
-                departmentId: departmentId,
-                isLocal: isLocal,
-                pageIndex: pageIndex,
-                itemsPerPage: itemsPerPage
-            }
-        });
         },
         getEPADetailReport: function (periodId, departmentId, isLocal, phaseIds, pageIndex, itemsPerPage) {
             return $http.get(baseUrl + 'api/Report/GetEPADetailReport',

@@ -38,8 +38,8 @@ function (reportFactory, notificationFactory, errorFactory) {
         });
     };
 
-    reportModel.getEPASummaryReport = function (periodIds, departmentId, isLocal, pageIndex, itemsPerPage) {
-        return reportFactory.getEPASummaryReport(periodIds, departmentId, isLocal, pageIndex, itemsPerPage)
+    reportModel.getEPASummaryReport = function (periodIds, departmentId, isLocal, sortColumnName, sortDirection, pageIndex, itemsPerPage) {
+        return reportFactory.getEPASummaryReport(periodIds, departmentId, isLocal, sortColumnName, sortDirection, pageIndex, itemsPerPage)
         .success(function (epaSummary) {
             reportModel.epaSummary = epaSummary;
         }).error(function (response, status) {
