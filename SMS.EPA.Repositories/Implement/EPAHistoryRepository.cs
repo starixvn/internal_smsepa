@@ -9,14 +9,13 @@
 
 namespace SMS.EPA.Repositories.Implement
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using SMS.EPA.Model.Employee;
+    using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.EPAHistory;
-    using SMS.EPA.Model.Period;
     using SMS.EPA.Repositories.Interfaces;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class EPAHistoryRepository : IEPAHistoryRepository
     {
@@ -24,7 +23,7 @@ namespace SMS.EPA.Repositories.Implement
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                IList<EPAHistoryModel> epas = db.Query<EPAHistoryModel, PeriodModel, EmployeeModel, EPAHistoryModel>(
+                IList<EPAHistoryModel> epas = db.Query<EPAHistoryModel, EPAPeriodModel, EPAEmployeeModel, EPAHistoryModel>(
                     (epa, pe, emp) =>
                     {
                         epa.Employee = emp;

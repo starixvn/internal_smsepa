@@ -9,14 +9,13 @@
 
 namespace SMS.EPA.Model.EPAHistory
 {
-    using SMS.EPA.Model.Employee;
-    using SMS.EPA.Model.Period;
+    using SMS.EPA.Model.EmployeeEPA;
 
     public class EPAHistoryModel
     {
-        public EmployeeModel Employee { get; set; }
+        public EPAEmployeeModel Employee { get; set; }
 
-        public PeriodModel Period { get; set; }
+        public EPAPeriodModel Period { get; set; }
 
         public float FinalScore { get; set; }
 
@@ -29,5 +28,7 @@ namespace SMS.EPA.Model.EPAHistory
         public bool HasEPAForm { get; set; }
 
         public int? EPAId { get; set; }
+
+        public bool HasMonthlyEPA { get; set; }
     }
 }
