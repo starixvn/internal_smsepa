@@ -12,18 +12,19 @@
             <tr ng-repeat="monthly in memberEPAInfoCtrl.epaInfo.MonthlyEPA.MonthlyEPAs" class="text-center">
                 <td class="text-center" ng-bind="monthly.Period.Name"></td>
                 <td>
-                    <div ng-if="monthly.Period.IsEndPeriod" ng-bind="monthly.Process.Self.TotalScore | customScore"></div>
-                    <div ng-if="!monthly.Period.IsEndPeriod" data-translate="Pending"></div>
+                    <span ng-show="monthly.Period.IsEndPeriod">
+                        <span ng-show="monthly.Process.Self.TotalScore" ng-bind="monthly.Process.Self.TotalScore | customScore"></span>
+                        <span ng-show="!monthly.Process.Self.TotalScore">0</span>
+                    </span>
+                    <span ng-show="!monthly.Period.IsEndPeriod" data-translate="Pending"></span>
                 </td>
-
                 <td>
-                    <div ng-if="monthly.Period.IsEndPeriod" ng-bind="monthly.Process.AverageScoreByEvaluators | customScore"></div>
-                    <div ng-if="!monthly.Period.IsEndPeriod" data-translate="Pending"></div>
+                    <span ng-show="monthly.Period.IsEndPeriod" ng-bind="monthly.Process.AverageScoreByEvaluators | customScore"></span>
+                    <span ng-show="!monthly.Period.IsEndPeriod" data-translate="Pending"></span>
                 </td>
-
                 <td>
-                    <div ng-if="monthly.Period.IsEndPeriod" ng-bind="monthly.Process.AverageScoreByReviewers | customScore"></div>
-                    <div ng-if="!monthly.Period.IsEndPeriod" data-translate="Pending"></div>
+                    <span ng-show="monthly.Period.IsEndPeriod" ng-bind="monthly.Process.AverageScoreByReviewers | customScore"></span>
+                    <span ng-show="!monthly.Period.IsEndPeriod" data-translate="Pending"></span>
                 </td>
             </tr>
             <tr>
