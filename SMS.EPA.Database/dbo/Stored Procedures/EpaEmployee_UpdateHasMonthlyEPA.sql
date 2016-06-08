@@ -1,0 +1,104 @@
+﻿/****** Object:  Stored Procedure dbo.EpaEmployee_UpdateHasMonthlyEPA    Script Date: 5/16/2016 2:20:07 PM ******/
+/****** Object:  Stored Procedure dbo.EpaEmployee_UpdateHasMonthlyEPA    Script Date: 5/16/2016 2:15:30 PM ******/
+/****** Object:  Stored Procedure dbo.EpaEmployee_UpdateHasMonthlyEPA    Script Date: 5/16/2016 1:59:44 PM ******/
+/****** Object:  Stored Procedure dbo.EpaEmployee_UpdateHasMonthlyEPA    Script Date: 4/6/2016 11:27:44 AM ******/
+
+CREATE PROCEDURE [dbo].[EpaEmployee_UpdateHasMonthlyEPA] @EmployeeId INT
+	,@HasMonthlyEPA BIT
+	,@ModifiedBy INT
+	,@ErrCode INT = 0 OUTPUT
+	,@ErrMsg NVARCHAR(200) = '' OUTPUT
+AS
+/*
+Created: 20160129@Tim.Trinh
+Task: Update employee.
+DB: SMS EPA
+Original: 
+
+Revisions:  
+Param's Explanation:
+*/
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @ToDay DATE
+
+	CREATE TABLE #Period (
+		PeriodId INT
+		,EndDate DATE
+		)
+
+	INSERT INTO #Period
+	SELECT pFS.PeriodId
+		,(CASE 
+			WHEN CAST(period.EndDate AS DATE) > pFS.EndDate THEN CAST(period.EndDate AS DATE)
+			ELSE pFS.EndDate END
+			) AS EndDate
+	FROM dbo.Period AS period WITH (NOLOCK)
+		INNER JOIN (
+		SELECT PeriodId
+			,EmployeeId
+			,CAST(MAX(EndDate) AS DATE) AS EndDate
+		FROM dbo.PeriodFlowSetting
+		WHERE EmployeeId = @EmployeeId
+		GROUP BY PeriodId
+			,EmployeeId
+		) AS pFS ON period.PeriodId = pFS.PeriodId
+	WHERE period.TargetTypeId IN (2, 3) -- monthly, semi
+
+	SET @ToDay = CAST(GETDATE() AS DATE)
+
+	IF @HasMonthlyEPA = 0
+	BEGIN
+		IF EXISTS (
+				SELECT 1
+				FROM #Period AS period WITH (NOLOCK)
+					LEFT JOIN dbo.EPA AS epa WITH (NOLOCK) ON period.PeriodId = epa.PeriodId
+					AND epa.EmployeeId = @EmployeeId
+				WHERE period.EndDate >= @ToDay
+					AND NOT EXISTS (
+						SELECT 1
+						FROM dbo.PeriodExcludedEmployee AS pEx WITH (NOLOCK)
+						WHERE pEx.EmployeeId = @EmployeeId
+							AND pEx.PeriodId = period.PeriodId
+						)
+					AND (
+						epa.[Status] IS NULL
+						OR epa.[Status] = 0
+						)
+				)
+		BEGIN
+			DECLARE @NickName NVARCHAR(20)
+
+			SELECT @NickName = NickName
+			FROM dbo.Employee WITH (NOLOCK)
+			WHERE EmployeeId = @EmployeeId
+
+			SELECT @ErrCode = 1
+				,@ErrMsg = 'Cannot unset monthly evaluation for <b>' + @NickName + '</b> because <b>' + @NickName + '</b> has been included in monthly/semi period.'
+
+			RETURN
+		END
+	END
+
+	BEGIN TRY
+		BEGIN TRANSACTION
+
+		UPDATE [dbo].[Employee] WITH (ROWLOCK, UPDLOCK)
+		SET HasMonthlyEPA = @HasMonthlyEPA
+			,[ModifiedBy] = @ModifiedBy
+			,[ModifiedDate] = GETDATE()
+		WHERE [EmployeeId] = @EmployeeId
+
+		COMMIT TRANSACTION
+	END TRY
+
+	BEGIN CATCH
+		ROLLBACK TRANSACTION
+
+		SELECT @ErrCode = 1
+			,@ErrMsg = N'Update employee unsuccessfully.'
+	END CATCH
+
+	DROP TABLE #Period
+END
