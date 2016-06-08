@@ -9,6 +9,11 @@
 
 namespace SMS.EPA.Services.Implement
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.IO;
+    using System.Linq;
     using NexFB.Core.Utilities;
     using NPOI.HSSF.UserModel;
     using NPOI.HSSF.Util;
@@ -26,29 +31,27 @@ namespace SMS.EPA.Services.Implement
     using SMS.EPA.Repositories.Interfaces;
     using SMS.EPA.Resources;
     using SMS.EPA.Services.Interfaces;
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.IO;
-    using System.Linq;
 
     public class ReportService : IReportService
     {
         private const int ExcelColumnWidth = 256;
         private readonly IReportRepository _reportRepository;
         private readonly IEmployeeEPARepository _employeeEPARepository;
+        private readonly IEmployeeEPAService _employeeEPAService;
 
         public ReportService()
-            : this(null, null)
+            : this(null, null, null)
         {
         }
 
         public ReportService(
             IReportRepository reportRepository,
-            IEmployeeEPARepository employeeEPARepository)
+            IEmployeeEPARepository employeeEPARepository,
+            IEmployeeEPAService employeeEPAService)
         {
             _reportRepository = reportRepository ?? new ReportRepository();
             _employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
+            _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
         }
 
         public DashboardModel GetDashboard(GetDashboardCriteria criteria)
@@ -93,6 +96,21 @@ namespace SMS.EPA.Services.Implement
             if (criteria != null && criteria.IsValid())
             {
                 result = _reportRepository.GetEPADetail(criteria);
+
+                IList<EPAModel> monthlyEPAs = new List<EPAModel>();
+                string epaIds = string.Join(",", result.MemberEPAs.Where(x => x.HasMonthlyEPA && x.Period.TargetTypeId == (int)TargetType.SemiAnnual)
+                    .Select(x => x.EPAId));
+
+                if (!string.IsNullOrEmpty(epaIds))
+                {
+                    monthlyEPAs = _employeeEPAService.GetMonthlyEPAOfSemi(epaIds);
+                }
+
+                foreach (EPAModel epaInfo in result.MemberEPAs)
+                {
+                    _employeeEPAService.GroupMonthlyEPABySemi(epaInfo, monthlyEPAs);
+                    _employeeEPAService.ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
+                }
             }
 
             return result;
@@ -144,7 +162,7 @@ namespace SMS.EPA.Services.Implement
             return result;
         }
 
-        #endregion
+        #endregion Monthly EPA Detail Report
 
         private void RenderHeaderEPASummaryReport(
             IList<PeriodModel> periodSelecteds,

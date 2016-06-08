@@ -20,6 +20,7 @@ namespace SMS.EPA.Repositories.Implement
     using SMS.EPA.Model.Period;
     using SMS.EPA.Model.Report.EPADetail;
     using SMS.EPA.Model.Report.EPASummary;
+    using SMS.EPA.Model.ScoreRatingType;
     using SMS.EPA.Repositories.Interfaces;
 
     public class ReportRepository : IReportRepository
@@ -76,16 +77,17 @@ namespace SMS.EPA.Repositories.Implement
                 {
                     epaDetail.PhaseSelecteds = multi.Read<EvaluationPhaseModel>();
 
-                    epaDetail.MemberEPAs = multi.Read<EPAModel, EPAEmployeeModel, StatusModel, EPAPeriodModel, EPAModel>(
-                    (info, employee, status, period) =>
+                    epaDetail.MemberEPAs = multi.Read<EPAModel, EPAEmployeeModel, StatusModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
+                    (info, employee, status, period, scoreRatingType) =>
                     {
                         info.Employee = employee;
                         info.Status = status;
                         info.Period = period;
+                        info.ScoreRatingType = scoreRatingType;
 
                         return info;
                     },
-                    "EmployeeId, StatusId, PeriodId");
+                    "EmployeeId, StatusId, PeriodId, ScoreRatingTypeId");
 
                     IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
 

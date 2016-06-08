@@ -1,15 +1,5 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="EPASummaryPeriodModel.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// -----------------------------------------------------------------------
-// <history>
-//   <change who="Tim.Trinh" date="2015.09.25">Created</change>
-// </history>
-
-namespace SMS.EPA.Model.Report.EPASummary
+﻿namespace SMS.EPA.Model.Report.EPASummary
 {
-    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Model.Enitites;
 
     public class EPASummaryPeriodModel

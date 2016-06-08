@@ -242,16 +242,22 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
         }
 
         if (epaInfo.EPAId > 0 && epaInfo.Process.Self.StatusEndProcess !== enumerationsFactory.processStatusType.Open) {
-            result.SelfScore = utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore);
+            if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId === enumerationsFactory.targetType.SemiAnnual) {
+                result.SelfScore = epaInfo.MonthlyEPA.AverageSelfScoreConverted;
+            } else {
+                result.SelfScore = utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore);
+            }
         }
 
         if (epaInfo.EPAId > 0 && epaInfo.Process.Evaluators[0].StatusEndProcess !== enumerationsFactory.processStatusType.Open) {
-            result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators;
+            if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId === enumerationsFactory.targetType.SemiAnnual) {
+                result.EvaluatorScore = epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted;
+            } else {
+                result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators;
+            }
         }
 
-        if (epaInfo.EPAId > 0
-            && epaInfo.Process.Reviewers.length > 0
-            && epaInfo.Process.Reviewers[0].StatusEndProcess !== enumerationsFactory.processStatusType.Open) {
+        if (epaInfo.EPAId > 0 && epaInfo.Process.Reviewers[0].StatusEndProcess !== enumerationsFactory.processStatusType.Open) {
             result.ReviewerScore = epaInfo.Process.AverageScoreByReviewers;
         }
 
@@ -284,11 +290,11 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
         if (gridData.MemberEPAs) {
             angular.forEach(gridData.MemberEPAs, function (memberEPA, index) {
                 var score = calculateScore(memberEPA),
-                    cssSelfScore = memberEPA.EPAId > 0 && memberEPA.Process.Self.IsEndProcess ? '' : 'red',
-                    pdfIcon = '<a class="icon-pdf exportPDF" data-epaid="' + memberEPA.EPAId + '" data-hasmonthlyepa="' + memberEPA.HasMonthlyEPA + '"></input>',
-                    cssEvaluatorScore = memberEPA.EPAId > 0 && memberEPA.Process.Evaluators[0].IsEndProcess ? '' : 'red',
-                    cssReviewerScore = memberEPA.EPAId > 0 && memberEPA.Process.Reviewers[0].IsEndProcess ? '' : 'red',
-                    cssManagementScore = '';
+                    cssSelfScore = memberEPA.EPAId > 0 && !memberEPA.HasMonthlyEPA && !memberEPA.Process.Self.IsEndProcess ? 'red' : '',
+                    cssEvaluatorScore = memberEPA.EPAId > 0 && !memberEPA.HasMonthlyEPA && !memberEPA.Process.Evaluators[0].IsEndProcess ? 'red' : '',
+                    cssReviewerScore = memberEPA.EPAId > 0 && !memberEPA.Process.Reviewers[0].IsEndProcess ? 'red' : '',
+                    cssManagementScore = '',
+                    pdfIcon = '<a class="icon-pdf exportPDF" data-epaid="' + memberEPA.EPAId + '" data-hasmonthlyepa="' + memberEPA.HasMonthlyEPA + '"></input>';
 
                 if (memberEPA.EPAId > 0
                     && memberEPA.Process.Managements
@@ -313,7 +319,7 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
                         { Name: "DisciplineScore", Value: score.DisciplineScore },
                         { Name: "FinalScore", Value: score.FinalScore },
                         { Name: "Grade", Value: score.Grade },
-                        { Name: "ExportPdf", Value: memberEPA.EPAId > 0 && memberEPA.Status.StatusId == 1 && memberEPA.Period.IsEndPeriod ? pdfIcon : "" }
+                        { Name: "ExportPdf", Value: memberEPA.EPAId > 0 && memberEPA.Status.StatusId === 1 && memberEPA.Period.IsEndPeriod ? pdfIcon : "" }
                     ]
                 };
 

@@ -1,13 +1,4 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="IEmployeeEPAService.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// -----------------------------------------------------------------------
-// <history>
-//   <change who="Tim.Trinh" date="2015.08.04">Created</change>
-// </history>
-
-namespace SMS.EPA.Services.Interfaces
+﻿namespace SMS.EPA.Services.Interfaces
 {
     using System.Collections.Generic;
     using SMS.EPA.Core.Model;
@@ -16,6 +7,7 @@ namespace SMS.EPA.Services.Interfaces
     using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.EmployeeEPA.RatingByKPI;
     using SMS.EPA.Model.Enitites;
+    using SMS.EPA.Model.ScoreRatingType;
     using SMS.EPA.Model.TargetTemplate;
 
     public interface IEmployeeEPAService
@@ -105,5 +97,9 @@ namespace SMS.EPA.Services.Interfaces
         CommandResult ResetScore(ResetScoreCriteria criteria);
 
         int GetNumberOfRow(GetNumberOfRowCriteria criteria);
+
+        void GroupMonthlyEPABySemi(EPAModel semiEPA, IList<EPAModel> monthlyEPAs);
+
+        void ConvertAverageMonthlyScore(MonthlyEPAModel monthlyEPA, ScoreRatingTypeModel scoreRatingType);
     }
 }

@@ -1,13 +1,4 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="MemberEPAService.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// -----------------------------------------------------------------------
-// <history>
-//   <change who="Tim.Trinh" date="2015.08.04">Created</change>
-// </history>
-
-namespace SMS.EPA.Services.Implement
+﻿namespace SMS.EPA.Services.Implement
 {
     using System;
     using System.Collections.Generic;
@@ -574,7 +565,7 @@ namespace SMS.EPA.Services.Implement
             return result;
         }
 
-        private void GroupMonthlyEPABySemi(EPAModel semiEPA, IList<EPAModel> monthlyEPAs)
+        public void GroupMonthlyEPABySemi(EPAModel semiEPA, IList<EPAModel> monthlyEPAs)
         {
             if (semiEPA != null && monthlyEPAs != null && monthlyEPAs.Count > 0)
             {
@@ -585,7 +576,7 @@ namespace SMS.EPA.Services.Implement
             }
         }
 
-        private void ConvertAverageMonthlyScore(MonthlyEPAModel monthlyEPA, ScoreRatingTypeModel scoreRatingType)
+        public void ConvertAverageMonthlyScore(MonthlyEPAModel monthlyEPA, ScoreRatingTypeModel scoreRatingType)
         {
             if (monthlyEPA.MonthlyEPAs.Any())
             {
