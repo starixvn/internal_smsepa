@@ -1,5 +1,11 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.IO;
+    using System.Linq;
+    using System.Web;
     using NPOI.HSSF.UserModel;
     using NPOI.HSSF.Util;
     using NPOI.SS.UserModel;
@@ -10,12 +16,6 @@
     using SMS.EPA.Model.Report.EPADetail;
     using SMS.EPA.Resources;
     using SMS.EPA.Services.Interfaces;
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.IO;
-    using System.Linq;
-    using System.Web;
 
     public class EPADetailReportService : IEPADetailReportService
     {
@@ -286,7 +286,7 @@
                 selfScore = Math.Round(score, 2).ToString();
             }
 
-            if (memberEPA.EPAId > 0 
+            if (memberEPA.EPAId > 0
                 && memberEPA.Process.Evaluators != null
                 && memberEPA.Process.Evaluators.Any()
                 && memberEPA.Process.Evaluators[0].StatusEndProcess != (int)ProcessStatusType.Open)
@@ -364,24 +364,24 @@
 
         private IList<string> CreateColumnsName()
         {
-            return new List<string> 
+            return new List<string>
             {
-                Lang.SymbolCount, 
-                Lang.Code, 
-                Lang.FullName, 
-                Lang.NickName, 
-                Lang.Category, 
-                Lang.Section, 
-                Lang.JobTitle, 
-                Lang.GroupDate, 
-                Lang.TargetType, 
-                Lang.SelfScore, 
-                Lang.EvaluationScore, 
-                Lang.ReviewerScore, 
-                "Management Score", 
-                Lang.DisciplineScore, 
-                Lang.FinalScore, 
-                Lang.Grade 
+                Lang.SymbolCount,
+                Lang.Code,
+                Lang.FullName,
+                Lang.NickName,
+                Lang.Category,
+                Lang.Section,
+                Lang.JobTitle,
+                Lang.GroupDate,
+                Lang.TargetType,
+                Lang.SelfScore,
+                Lang.EvaluationScore,
+                Lang.ReviewerScore,
+                Lang.ManagementScore,
+                Lang.DisciplineScore,
+                Lang.FinalScore,
+                Lang.Grade
             };
         }
     }

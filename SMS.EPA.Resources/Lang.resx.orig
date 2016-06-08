@@ -246,14 +246,14 @@
   <data name="Required" xml:space="preserve">
     <value>Required</value>
   </data>
-  <data name="HasComment" xml:space="preserve">
-    <value>Has comment</value>
+  <data name="Comment" xml:space="preserve">
+    <value>Comment</value>
   </data>
   <data name="RequireComment" xml:space="preserve">
-    <value>Require evaluate's comment</value>
+    <value>Required comment</value>
   </data>
   <data name="RequireEvaluate" xml:space="preserve">
-    <value>Require evaluate</value>
+    <value>Required evaluation</value>
   </data>
   <data name="SubmitAndContinue" xml:space="preserve">
     <value>Submit and continue</value>
@@ -339,9 +339,6 @@
   <data name="DeletedSuccessfully" xml:space="preserve">
     <value>Deleted successfully!</value>
   </data>
-  <data name="Form" xml:space="preserve">
-    <value>Form</value>
-  </data>
   <data name="ManageKPIGroup" xml:space="preserve">
     <value>KPI Group Management</value>
   </data>
@@ -353,9 +350,6 @@
   </data>
   <data name="AddKPI" xml:space="preserve">
     <value>Add KPI</value>
-  </data>
-  <data name="FormRequire" xml:space="preserve">
-    <value>The Form field is required!</value>
   </data>
   <data name="NameRequired" xml:space="preserve">
     <value>The Name field is required!</value>
@@ -628,7 +622,7 @@
     <value>Below Average</value>
   </data>
   <data name="BelowAverageDescription" xml:space="preserve">
-    <value>Partially meets expectations: refers to performance and skills which are adequate in some respects but not fully up to standard; some corrective action is needed.</value>
+    <value>Poor quality &amp; Mistake low.</value>
   </data>
   <data name="Comments" xml:space="preserve">
     <value>COMMENTS</value>
@@ -643,7 +637,7 @@
     <value>Excellent</value>
   </data>
   <data name="ExcellentDescription" xml:space="preserve">
-    <value>Substantially exceeds expectations: refers to truly outstanding performance; should be someone you regard as a role model in the area rated.</value>
+    <value>Task accomplished, NO mistake and have good idea.</value>
   </data>
   <data name="FieldRequire" xml:space="preserve">
     <value>This field is required!</value>
@@ -655,7 +649,7 @@
     <value>Good</value>
   </data>
   <data name="GoodDescription" xml:space="preserve">
-    <value>Exceeds expectations: refers to significant performance ability; only very strong performers should receive this rating.</value>
+    <value>Task accomplished &amp; Mistake very low.</value>
   </data>
   <data name="MessageRatingInstructions" xml:space="preserve">
     <value>please evaluate by point as this scale</value>
@@ -666,14 +660,11 @@
   <data name="NotAvailable" xml:space="preserve">
     <value>N/A</value>
   </data>
-  <data name="NotAvailableDescription" xml:space="preserve">
-    <value>Unable to judge, if the nature or extent of your interaction does not enable you to provide feedback on a particular category for a particular individual, select the “NA” rating.</value>
-  </data>
   <data name="Poor" xml:space="preserve">
     <value>Poor</value>
   </data>
   <data name="PoorDescription" xml:space="preserve">
-    <value>Needs much Improvement: refers to performance which fails to measure up to standard and must be improved through corrective action steps.</value>
+    <value>Poor quality &amp; Mistake high.</value>
   </data>
   <data name="RatingCriteria" xml:space="preserve">
     <value>Rating criteria</value>
@@ -688,10 +679,10 @@
     <value>Satisfactory</value>
   </data>
   <data name="SatisfactoryDescription" xml:space="preserve">
-    <value>Meets expectations: refers to solid performance with a full skills base; most people fall into this category.</value>
+    <value>Task accomplished  &amp; Mistake low.</value>
   </data>
   <data name="ScoreInputValid" xml:space="preserve">
-    <value>Score must be larger {0} and less or equal than {1}</value>
+    <value>Score must be larger or equal {0} and less or equal than {1}</value>
   </data>
   <data name="FlowTemplate" xml:space="preserve">
     <value>Flow Template</value>
@@ -931,7 +922,7 @@
     <value>Max Points</value>
   </data>
   <data name="AdjustScore" xml:space="preserve">
-    <value>Adjust Score</value>
+    <value>Score Adjustment</value>
   </data>
   <data name="CurrentScore" xml:space="preserve">
     <value>Current Score</value>
@@ -964,7 +955,7 @@
     <value>Discipline Detail Adjustment</value>
   </data>
   <data name="ApproverComment" xml:space="preserve">
-    <value>Approver Comment</value>
+    <value>Approver's Comment</value>
   </data>
   <data name="CheckIn" xml:space="preserve">
     <value>Check In</value>
@@ -972,8 +963,8 @@
   <data name="CheckOut" xml:space="preserve">
     <value>Check Out</value>
   </data>
-  <data name="HRMComment" xml:space="preserve">
-    <value>HRM Comment</value>
+  <data name="EmployeeComment" xml:space="preserve">
+    <value>Employee's Comment</value>
   </data>
   <data name="Shift" xml:space="preserve">
     <value>Shift</value>
@@ -1152,8 +1143,8 @@
   <data name="RatingType" xml:space="preserve">
     <value>Rating Type</value>
   </data>
-  <data name="RequiredCommentForMaxScoreRating" xml:space="preserve">
-    <value>Comment is required for max score rating</value>
+  <data name="RequiredCommentForRatingMaxScore" xml:space="preserve">
+    <value>Comment is required for for rating max score</value>
   </data>
   <data name="RequiredComment" xml:space="preserve">
     <value>Comment is required</value>
@@ -1201,9 +1192,132 @@
     <value>Not Evaluated</value>
   </data>
   <data name="EndDatePeriodRequired" xml:space="preserve">
-    <value>The End Date field is required for Semi-annual or Promotion!</value>
+    <value>The End Date field is required for Semi-annual!</value>
   </data>
-  <data name="EmployeeType" xml:space="preserve">
-    <value>Employee Type</value>
+  <data name="Category" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="WorkingUnderTime" xml:space="preserve">
+    <value>Working Under Time</value>
+  </data>
+  <data name="EndPeriod" xml:space="preserve">
+    <value>End Period</value>
+  </data>
+  <data name="DisciplineStartDateGreaterThanEndDateWarning" xml:space="preserve">
+    <value>The Discipline Start Date must be less than or equal the Discipline End Date!</value>
+  </data>
+  <data name="ViewOtherViolation" xml:space="preserve">
+    <value>View other violation</value>
+  </data>
+  <data name="ManagementReview" xml:space="preserve">
+    <value>Management Review</value>
+  </data>
+  <data name="Ignored" xml:space="preserve">
+    <value>Ignored</value>
+  </data>
+  <data name="NotIgnored" xml:space="preserve">
+    <value>Not Ignored</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>Pending</value>
+  </data>
+  <data name="IgnoredStatus" xml:space="preserve">
+    <value>Ignored Status</value>
+  </data>
+  <data name="EmailWrongPatternWarning" xml:space="preserve">
+    <value>The field Email has wrong format!</value>
+  </data>
+  <data name="HasMonthlyEPA" xml:space="preserve">
+    <value>Has Monthly EPA</value>
+  </data>
+  <data name="MonthlyEPA" xml:space="preserve">
+    <value>Monthly EPA</value>
+  </data>
+  <data name="CreateMonthlyPeriod" xml:space="preserve">
+    <value>Create Monthly Period</value>
+  </data>
+  <data name="MonthlyPeriod" xml:space="preserve">
+    <value>Monthly Period</value>
+  </data>
+  <data name="UpdateMonthlyPeriod" xml:space="preserve">
+    <value>Update Monthly Period</value>
+  </data>
+  <data name="EmployeeNotSetMonthlyEvaluation" xml:space="preserve">
+    <value>Employee doesn't set monthly evaluation!</value>
+  </data>
+  <data name="CanNotEditSettingOnDifferentTypeWarning" xml:space="preserve">
+    <value>Can't edit setting on different type!</value>
+  </data>
+  <data name="SettingFlowWarning" xml:space="preserve">
+    <value>Please setting flow for Human Resource, Evaluator and Reviewer.</value>
+  </data>
+  <data name="IsMonthly" xml:space="preserve">
+    <value>Is Monthly</value>
+  </data>
+  <data name="ViewSemiEPAResult" xml:space="preserve">
+    <value>View Semi EPA Result</value>
+  </data>
+  <data name="monthlyEPAs" xml:space="preserve">
+    <value>Monthly EPA List</value>
+  </data>
+  <data name="Average" xml:space="preserve">
+    <value>Average</value>
+  </data>
+  <data name="SemiAverage" xml:space="preserve">
+    <value>Semi Average</value>
+  </data>
+  <data name="MonthlyAverage" xml:space="preserve">
+    <value>Monthly Average</value>
+  </data>
+  <data name="MinusScore" xml:space="preserve">
+    <value>Minus Score</value>
+  </data>
+  <data name="MinusScoringApprover" xml:space="preserve">
+    <value>Minus Scoring Approver</value>
+  </data>
+  <data name="MinusScoringSystem" xml:space="preserve">
+    <value>Minus Scoring System</value>
+  </data>
+  <data name="TotalEmployees" xml:space="preserve">
+    <value>Total Employees</value>
+  </data>
+  <data name="UnfinishedEPA" xml:space="preserve">
+    <value>Unfinished EPA</value>
+  </data>
+  <data name="EPAStatus" xml:space="preserve">
+    <value>EPA Status</value>
+  </data>
+  <data name="ShowRatingScoreByStar" xml:space="preserve">
+    <value>Show Rating Score By Star</value>
+  </data>
+  <data name="LastMonthScore" xml:space="preserve">
+    <value>Last Month Score</value>
+  </data>
+  <data name="MonthlyEPADetailReport" xml:space="preserve">
+    <value>Monthly EPA Detail Report</value>
+  </data>
+  <data name="MonthlyEPADetailReportName" xml:space="preserve">
+    <value>Monthly_EPA_Detail_Report</value>
+  </data>
+  <data name="MonthlyEPADetailReportSheet" xml:space="preserve">
+    <value>Monthly EPA Detail Report</value>
+  </data>
+  <data name="MonthlyEPASummaryReport" xml:space="preserve">
+    <value>Monthly EPA Summary Report</value>
+  </data>
+  <data name="MonthlyEPASummaryReportName" xml:space="preserve">
+    <value>Monthly_EPA_Summary_Report</value>
+  </data>
+  <data name="MonthlyEPASummaryReportSheet" xml:space="preserve">
+    <value>Monthly EPA Summary Report</value>
+  </data>
+  <data name="MonthlyEPASummaryReportTitle" xml:space="preserve">
+    <value>Monthly EPA Summary Report</value>
+  </data>
+  <data name="MonthlyEPAHistory" xml:space="preserve">
+    <value>Monthly EPA History</value>
+  </data>
+   <data name="ManagementScore" xml:space="preserve">
+    <value>Management Score</value>
   </data>
 </root>

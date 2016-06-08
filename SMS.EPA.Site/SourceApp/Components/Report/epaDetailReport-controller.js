@@ -28,17 +28,19 @@ function ($scope, $timeout, ReportModel, CommonModel, utilitiesFactory, usSpinne
         isLocal: '',
         phaseIds: '',
         pageIndex: utilitiesFactory.pageOption.pageIndex,
-        itemsPerPage: utilitiesFactory.pageOption.itemsPerPage
+        itemsPerPage: utilitiesFactory.pageOption.itemsPerPage,
+        sortColumnName: '',
+        sortDirection: ''
     };
 
-    var getShowHideColumns = function () {
-        vm.hideColumns = [], vm.showColumns = [];
+    function getShowHideColumns() {
+        vm.hideColumns = [];
+        vm.showColumns = [];
 
         angular.forEach(vm.scoredBy, function (item) {
             if (item.ticked) {
                 vm.showColumns.push(item.ColumnId);
-            }
-            else {
+            } else {
                 vm.hideColumns.push(item.ColumnId);
             }
         });
@@ -47,7 +49,7 @@ function ($scope, $timeout, ReportModel, CommonModel, utilitiesFactory, usSpinne
             vm.hideColumns = [];
             vm.showColumns = angular.copy(vm.showColumnsOriginal);
         }
-    };
+    }
 
     vm.exportPdf = function (epaId, hasMonthlyEPA) {
         if (hasMonthlyEPA) {
@@ -77,10 +79,9 @@ function ($scope, $timeout, ReportModel, CommonModel, utilitiesFactory, usSpinne
                 }, 4000);
             });
         }
-
     };
 
-    var getEPADetailReport = function (filter) {
+    function getEPADetailReport(filter) {
         usSpinnerService.spin("spinner-1");
 
         ReportModel.getEPADetailReport(
@@ -88,13 +89,15 @@ function ($scope, $timeout, ReportModel, CommonModel, utilitiesFactory, usSpinne
             filter.departmentId,
             filter.isLocal,
             filter.phaseIds,
+            filter.sortColumnName,
+            filter.sortDirection,
             filter.pageIndex,
             filter.itemsPerPage)
         .then(function () {
             vm.epaDetail = ReportModel.epaDetail;
             usSpinnerService.stop('spinner-1');
         });
-    };
+    }
 
     vm.pageChanging = function (pageIndex, itemsPerPage) {
         vm.filter.pageIndex = pageIndex;
@@ -103,10 +106,19 @@ function ($scope, $timeout, ReportModel, CommonModel, utilitiesFactory, usSpinne
         getEPADetailReport(vm.filter);
     };
 
+    vm.sortChanging = function (sortColumnName, sortDirection) {
+        vm.filter.sortColumnName = sortColumnName;
+        vm.filter.sortDirection = sortDirection;
+
+        getEPADetailReport(vm.filter);
+    };
+
     vm.query = function (filter) {
         getShowHideColumns();
         filter.pageIndex = utilitiesFactory.pageOption.pageIndex;
         filter.phaseIds = utilitiesFactory.getSelectedData(vm.scoredBy, 'PhaseId');
+        filter.sortColumnName = '';
+        filter.sortDirection = '';
 
         getEPADetailReport(filter);
     };
@@ -116,13 +128,15 @@ function ($scope, $timeout, ReportModel, CommonModel, utilitiesFactory, usSpinne
             periodId: vm.filter.periodId,
             departmentId: vm.filter.departmentId,
             isLocal: vm.filter.isLocal,
-            phaseIds: vm.filter.phaseIds
+            phaseIds: vm.filter.phaseIds,
+            sortColumnName: vm.filter.sortColumnName,
+            sortDirection: vm.filter.sortDirection
         };
 
         $scope.$broadcast('exportEpaDetailReport');
     };
 
-    vm.initialize = function () {
+    function initialize() {
         CommonModel.getDepartment().then(function () {
             vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
         });
@@ -136,7 +150,7 @@ function ($scope, $timeout, ReportModel, CommonModel, utilitiesFactory, usSpinne
 
             getEPADetailReport(vm.filter);
         });
-    };
+    }
 
-    vm.initialize();
+    initialize();
 }]);

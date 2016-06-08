@@ -38,7 +38,7 @@ reportModule.factory('reportFactory', ['$http', 'baseUrl', function ($http, base
                     }
                 });
         },
-        getEPADetailReport: function (periodId, departmentId, isLocal, phaseIds, pageIndex, itemsPerPage) {
+        getEPADetailReport: function (periodId, departmentId, isLocal, phaseIds, sortColumnName, sortDirection, pageIndex, itemsPerPage) {
             return $http.get(baseUrl + 'api/Report/GetEPADetailReport',
                 {
                     params: {
@@ -46,6 +46,8 @@ reportModule.factory('reportFactory', ['$http', 'baseUrl', function ($http, base
                         departmentId: departmentId,
                         isLocal: isLocal,
                         phaseIds: phaseIds,
+                        sortColumnName: sortColumnName,
+                        sortDirection: sortDirection,
                         pageIndex: pageIndex,
                         itemsPerPage: itemsPerPage
                     }

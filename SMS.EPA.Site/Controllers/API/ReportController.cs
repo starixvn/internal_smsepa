@@ -76,6 +76,9 @@ namespace SMS.EPA.Site.Controllers.API
             int? periodId = null,
             int? departmentId = null,
             bool? isLocal = null,
+            string phaseIds = null,
+            string sortColumnName = null,
+            string sortDirection = null,
             int? pageIndex = null,
             int? itemsPerPage = null)
         {
@@ -85,6 +88,9 @@ namespace SMS.EPA.Site.Controllers.API
                 PeriodId = periodId,
                 DepartmentId = departmentId,
                 IsLocal = isLocal,
+                PhaseIds = phaseIds,
+                SortColumnName = sortColumnName,
+                SortDirection = sortDirection,
                 PageIndex = pageIndex,
                 ItemsPerPage = itemsPerPage
             };

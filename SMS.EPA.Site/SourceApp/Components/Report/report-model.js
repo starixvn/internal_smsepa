@@ -16,8 +16,8 @@ function (reportFactory, notificationFactory, errorFactory) {
             .success(function (fileName) {
                 reportModel.pdfFileName = fileName;
             }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
+                errorFactory.errorHandle(status);
+            });
     };
 
     reportModel.requestExportSemiEPA = function (epaId) {
@@ -38,6 +38,7 @@ function (reportFactory, notificationFactory, errorFactory) {
         });
     };
 
+
     reportModel.getEPASummaryReport = function (periodIds, departmentId, isLocal, sortColumnName, sortDirection, pageIndex, itemsPerPage) {
         return reportFactory.getEPASummaryReport(periodIds, departmentId, isLocal, sortColumnName, sortDirection, pageIndex, itemsPerPage)
         .success(function (epaSummary) {
@@ -56,8 +57,8 @@ function (reportFactory, notificationFactory, errorFactory) {
         });
     };
 
-    reportModel.getEPADetailReport = function (periodId, departmentId, isLocal, phaseIds, pageIndex, itemsPerPage) {
-        return reportFactory.getEPADetailReport(periodId, departmentId, isLocal, phaseIds, pageIndex, itemsPerPage)
+    reportModel.getEPADetailReport = function (periodId, departmentId, isLocal, phaseIds, sortColumnName, sortDirection, pageIndex, itemsPerPage) {
+        return reportFactory.getEPADetailReport(periodId, departmentId, isLocal, phaseIds, sortColumnName, sortDirection, pageIndex, itemsPerPage)
         .success(function (epaDetail) {
             reportModel.epaDetail = epaDetail;
         }).error(function (response, status) {
