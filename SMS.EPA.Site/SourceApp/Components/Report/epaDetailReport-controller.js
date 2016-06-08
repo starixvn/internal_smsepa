@@ -8,7 +8,7 @@ function ($scope, $timeout, ReportModel, CommonModel, utilitiesFactory, usSpinne
 
     vm.treeDepartment = CommonModel.treeDepartment;
     vm.periods = CommonModel.periods;
-    vm.epaDetail = ReportModel.epaDetail;
+    vm.epaDetail = [];
     vm.scoredBy = [
         { ColumnId: 7, PhaseId: 2, Name: 'Self' },
         { ColumnId: 8, PhaseId: 3, Name: 'Evaluator' },

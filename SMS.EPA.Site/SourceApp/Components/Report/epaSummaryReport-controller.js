@@ -8,7 +8,7 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory, usSpinnerService) 
 
     vm.treeDepartment = CommonModel.treeDepartment;
     vm.periods = ReportModel.periods;
-    vm.epaSummary = ReportModel.epaSummary;
+    vm.epaSummary = [];
 
     vm.pageOption = utilitiesFactory.pageOption;
 

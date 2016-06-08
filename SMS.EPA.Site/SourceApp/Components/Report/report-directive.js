@@ -405,13 +405,16 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
         Pending: 'Pending'
     };
 
-    var generateColumnHeaders = function () {
+    function generateColumnHeaders(scope) {
+        var sortCode = scope.sortColumnName === 'Code' ? scope.sortDirection : '',
+            sortSection = scope.sortColumnName === 'Section' ? scope.sortDirection : '';
+
         var columnHeaders = [
             { HeaderText: "#", Width: 40, Name: "No", HeaderAlign: "center", CellAlign: "center" },
-            { HeaderText: "Code", Width: 60, Name: "Code", HeaderAlign: "center", CellAlign: "center" },
+            { HeaderText: "Code", Width: 60, Name: "Code", HeaderAlign: "center", CellAlign: "center", Sort: true, SortDirection: sortCode, SortType: 'string' },
             { HeaderText: "Full Name", Width: 160, Name: "FullName", HeaderAlign: "center", CellAlign: "left" },
             { HeaderText: "Nick Name", Width: 100, Name: "NickName", HeaderAlign: "center", CellAlign: "center" },
-            { HeaderText: "Section", Width: 150, Name: "Section", HeaderAlign: "center", CellAlign: "left" },
+            { HeaderText: "Section", Width: 150, Name: "Section", HeaderAlign: "center", CellAlign: "left", Sort: true, SortDirection: sortSection, SortType: 'string' },
             { HeaderText: "Job Title", Width: 180, Name: "JobTitle", HeaderAlign: "center", CellAlign: "left" },
             { HeaderText: "Self Score", Width: 80, Name: "SelfScore", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "Evaluator Score", Width: 80, Name: "EvaluatorScore", HeaderAlign: "center", CellAlign: "center" },
@@ -422,9 +425,9 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
         ];
 
         return columnHeaders;
-    };
+    }
 
-    var calculateScore = function (epaInfo) {
+    function calculateScore(epaInfo) {
         var result = {
             SelfScore: '',
             EvaluatorScore: '',
@@ -461,9 +464,9 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
         }
 
         return result;
-    };
+    }
 
-    var generateBodyRows = function (gridData, pageOption) {
+    function generateBodyRows(gridData, pageOption) {
         var rows = [];
         var rowIndex = pageOption.itemsPerPage * pageOption.pageIndex;
 
@@ -497,7 +500,7 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
         }
 
         return rows;
-    };
+    }
 
     return {
         restrict: "A",
@@ -505,16 +508,16 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
             gridData: "=",
             pageOption: '=',
             onPageChanging: '=',
+            onSortChanging: '=',
             hideColumns: '=',
             exportReport: '=',
             exportPdf: '=',
+            sortColumnName: '=',
+            sortDirection: '=',
             gridExpandHeight: '@'
         },
         link: function ($scope, iElement) {
-            var columHeaders = generateColumnHeaders();
-
             var gridOptions = {
-                columns: columHeaders,
                 gridExpandHeight: $scope.gridExpandHeight,
                 showPager: true,
                 customPager: true,
@@ -529,14 +532,21 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
                     exportExcelFunction: function () {
                         $scope.exportReport();
                     }
+                },
+                sortOption: {
+                    serverSortFunction: function (sortColumnName, sortDirection) {
+                        $scope.onSortChanging(sortColumnName, sortDirection);
+                    }
                 }
             };
 
             $scope.$watch('gridData', function (gridData) {
                 $timeout(function () {
                     if (gridData.MemberEPAs) {
-                        var bodyRows = generateBodyRows(gridData, $scope.pageOption);
+                        var columHeaders = generateColumnHeaders($scope),
+                            bodyRows = generateBodyRows(gridData, $scope.pageOption);
 
+                        gridOptions.columns = columHeaders;
                         gridOptions.bodyRows = bodyRows;
 
                         gridOptions.pagerOption = {
@@ -626,22 +636,22 @@ reportModule.directive('exportEpaDetailReport', ['baseUrl', function (baseUrl) {
     };
 }]);
 
-//reportModule.directive('exportMonthlyEpaDetailReport', ['baseUrl', function (baseUrl) {
-//    return {
-//        link: function (scope) {
-//            scope.$on('exportMonthlyEpaDetailReport', function () {
-//                var data = $.param(scope.monthlyReportCtrl.exportCriteria),
-//                    url = baseUrl + 'ExportReport/ExportMonthlyEPADetailReport',
-//                    downloadUrl = url + "?" + data,
-//                    iframe = $('body iframe');
+reportModule.directive('exportMonthlyEpaDetailReport', ['baseUrl', function (baseUrl) {
+    return {
+        link: function (scope) {
+            scope.$on('exportMonthlyEpaDetailReport', function () {
+                var data = $.param(scope.monthlyDetailReportCtrl.exportCriteria),
+                    url = baseUrl + 'ExportReport/ExportMonthlyEPADetailReport',
+                    downloadUrl = url + "?" + data,
+                    iframe = $('body iframe');
 
-//                if (iframe.length === 0) {
-//                    iframe = $('<iframe width="0" height="0" class="display-none"></iframe>');
-//                    iframe.appendTo('body');
-//                }
+                if (iframe.length === 0) {
+                    iframe = $('<iframe width="0" height="0" class="display-none"></iframe>');
+                    iframe.appendTo('body');
+                }
 
-//                iframe.attr('src', downloadUrl);
-//            });
-//        }
-//    };
-//}]);
+                iframe.attr('src', downloadUrl);
+            });
+        }
+    };
+}]);

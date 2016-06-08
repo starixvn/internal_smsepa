@@ -101,10 +101,13 @@ namespace SMS.EPA.Site.Controllers.API
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyEPADetailReport, Policy = Policy.Read)]
-        public EPADetailModel GetMonthlyEPADetailReport(
+        public HttpResponseMessage GetMonthlyEPADetailReport(
             int? periodId = null,
             int? departmentId = null,
             bool? isLocal = null,
+            string phaseIds = null,
+            string sortColumnName = null,
+            string sortDirection = null,
             int? pageIndex = null,
             int? itemsPerPage = null)
         {
@@ -114,15 +117,20 @@ namespace SMS.EPA.Site.Controllers.API
                 PeriodId = periodId,
                 DepartmentId = departmentId,
                 IsLocal = isLocal,
+                PhaseIds = phaseIds,
+                SortColumnName = sortColumnName,
+                SortDirection = sortDirection,
                 PageIndex = pageIndex,
                 ItemsPerPage = itemsPerPage
             };
 
-            return _reportService.GetMonthlyEPADetailReport(criteria);
+            EPADetailModel epaInfos = _reportService.GetMonthlyEPADetailReport(criteria);
+
+            return Request.CreateResponse(HttpStatusCode.OK, epaInfos);
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyEPASummaryReport, Policy = Policy.Read)]
-        public EPASummaryModel GetMonthlyEPASummaryReport(
+        public HttpResponseMessage GetMonthlyEPASummaryReport(
             string periodIds = null,
             int? departmentId = null,
             bool? isLocal = null,
@@ -143,7 +151,9 @@ namespace SMS.EPA.Site.Controllers.API
                 ItemsPerPage = itemsPerPage
             };
 
-            return _reportService.GetMonthlyEPASummaryReport(criteria);
+            EPASummaryModel epaInfos = _reportService.GetMonthlyEPASummaryReport(criteria);
+
+            return Request.CreateResponse(HttpStatusCode.OK, epaInfos);
         }
 
         [HttpGet]

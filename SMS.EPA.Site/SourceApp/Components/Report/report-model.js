@@ -66,8 +66,8 @@ function (reportFactory, notificationFactory, errorFactory) {
         });
     };
 
-    reportModel.getMonthlyEPADetailReport = function (periodId, departmentId, isLocal, phaseIds, pageIndex, itemsPerPage) {
-        return reportFactory.getMonthlyEPADetailReport(periodId, departmentId, isLocal, phaseIds, pageIndex, itemsPerPage)
+    reportModel.getMonthlyEPADetailReport = function (periodId, departmentId, isLocal, phaseIds, sortColumnName, sortDirection, pageIndex, itemsPerPage) {
+        return reportFactory.getMonthlyEPADetailReport(periodId, departmentId, isLocal, phaseIds, sortColumnName, sortDirection, pageIndex, itemsPerPage)
         .success(function (epaDetail) {
             reportModel.epaDetail = epaDetail;
         }).error(function (response, status) {
