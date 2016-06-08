@@ -50,7 +50,8 @@
             float average = 0;
             int count = 0;
 
-            foreach (EPAModel monthlyEPA in MonthlyEPAs.Where(x => x.Status.StatusId == (int)Status.Closed))
+            var finishedMonthlyEPAs = MonthlyEPAs.Where(x => x.Period.IsEndPeriod);
+            foreach (EPAModel monthlyEPA in finishedMonthlyEPAs)
             {
                 switch (processType)
                 {
