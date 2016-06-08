@@ -72,7 +72,7 @@ namespace SMS.EPA.Site.Controllers.API
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.EPADetailReport, Policy = Policy.Read)]
-        public EPADetailModel GetEPADetailReport(
+        public HttpResponseMessage GetEPADetailReport(
             int? periodId = null,
             int? departmentId = null,
             bool? isLocal = null,
@@ -95,7 +95,9 @@ namespace SMS.EPA.Site.Controllers.API
                 ItemsPerPage = itemsPerPage
             };
 
-            return _reportService.GetEPADetailReport(criteria);
+            EPADetailModel epaInfos = _reportService.GetEPADetailReport(criteria);
+
+            return Request.CreateResponse(HttpStatusCode.OK, epaInfos);
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyEPADetailReport, Policy = Policy.Read)]
@@ -124,6 +126,8 @@ namespace SMS.EPA.Site.Controllers.API
             string periodIds = null,
             int? departmentId = null,
             bool? isLocal = null,
+            string sortColumnName = null,
+            string sortDirection = null,
             int? pageIndex = null,
             int? itemsPerPage = null)
         {
@@ -133,6 +137,8 @@ namespace SMS.EPA.Site.Controllers.API
                 PeriodIds = periodIds,
                 DepartmentId = departmentId,
                 IsLocal = isLocal,
+                SortColumnName = sortColumnName,
+                SortDirection = sortDirection,
                 PageIndex = pageIndex,
                 ItemsPerPage = itemsPerPage
             };
