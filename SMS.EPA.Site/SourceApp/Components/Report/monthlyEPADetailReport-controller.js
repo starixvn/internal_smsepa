@@ -2,8 +2,8 @@
 /*global reportModule*/
 
 reportModule.controller('MonthlyEPADetailReportController',
-['$scope', '$timeout', 'ReportModel', 'CommonModel', 'utilitiesFactory', 'usSpinnerService', 'baseUrl',
-function ($scope, $timeout, ReportModel, CommonModel, utilitiesFactory, usSpinnerService, baseUrl) {
+['$scope', '$timeout', 'ReportModel', 'CommonModel', 'utilitiesFactory', 'usSpinnerService',
+function ($scope, $timeout, ReportModel, CommonModel, utilitiesFactory, usSpinnerService) {
     var vm = this;
 
     vm.treeDepartment = CommonModel.treeDepartment;

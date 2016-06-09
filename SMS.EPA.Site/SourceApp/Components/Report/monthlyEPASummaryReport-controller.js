@@ -96,7 +96,7 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory, usSpinnerService) 
                     halfTimes.push(halfTime);
                 }
             }
-        })
+        });
 
         return halfTimes;
     }
