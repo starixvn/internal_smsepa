@@ -72,7 +72,7 @@ BEGIN
 					)
 				)
 			AND epa.[Status] = 1 -- Closed
-			--AND CAST(pe.[EndDate] AS DATE) <= CAST(GETDATE() AS DATE)
+			AND pe.TargetTypeId <> 2 -- monthly
 			AND (
 				@Is_HR_SA = 1 -- SA, HR can view all member of period
 				OR EXISTS (
