@@ -77,7 +77,7 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
         });
 
         return hasChanged;
-    };
+    }
 
     vm.getKPIByTargetTemplate = function () {
         if (!vm.dataSaved && checkDataChanged(vm.memberEPAs)) {
@@ -432,7 +432,7 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
         RatingByKPIModel.getPeriodByEvaluator().then(function () {
             vm.periods = RatingByKPIModel.periods;
         });
-    };
+    }
 
     initialize();
 }]);

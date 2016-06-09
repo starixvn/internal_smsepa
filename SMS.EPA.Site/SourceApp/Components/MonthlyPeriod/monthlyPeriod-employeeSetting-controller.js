@@ -47,7 +47,7 @@ function ($scope, $routeParams, $window, MonthlyPeriodModel, utilitiesFactory, C
             vm.isFirstLoad = false;
             vm.selectedAll = false;
         });
-    };
+    }
 
     $scope.$watch(function () {
         return $scope.updateCtrl.dataTab.employeeSetting && $scope.updateCtrl.period && $scope.updateCtrl.permission;

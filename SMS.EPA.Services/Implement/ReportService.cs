@@ -98,8 +98,7 @@ namespace SMS.EPA.Services.Implement
                 result = _reportRepository.GetEPADetail(criteria);
 
                 IList<EPAModel> monthlyEPAs = new List<EPAModel>();
-                string epaIds = string.Join(",", result.MemberEPAs.Where(x => x.HasMonthlyEPA && x.Period.TargetTypeId == (int)TargetType.SemiAnnual)
-                    .Select(x => x.EPAId));
+                string epaIds = string.Join(",", result.MemberEPAs.Where(x => x.HasMonthlyEPA && x.Period.TargetTypeId == (int)TargetType.SemiAnnual).Select(x => x.EPAId));
 
                 if (!string.IsNullOrEmpty(epaIds))
                 {
