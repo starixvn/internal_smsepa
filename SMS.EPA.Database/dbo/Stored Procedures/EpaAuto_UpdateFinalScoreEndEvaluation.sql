@@ -52,7 +52,7 @@ BEGIN
 	SET [FinalScore] = epaS.[FinalScore]
 		,[DisciplineScore] = epaS.[DisciplineScore]
 		,[Grade] = epaS.[Grade]
-		,[Status] = 1
+		,[Status] = 1 -- closed
 	FROM [dbo].[EPA] AS epa WITH (NOLOCK)
 		INNER JOIN #EPAScore AS epaS ON epa.[EPAId] = epaS.[EPAId]
 END

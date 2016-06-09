@@ -1,13 +1,11 @@
-﻿
-
-
-
-/****** Object:  Stored Procedure dbo.Report_EPASummary    Script Date: 4/6/2016 11:27:47 AM ******/
+﻿/****** Object:  Stored Procedure dbo.Report_EPASummary    Script Date: 4/6/2016 11:27:47 AM ******/
 
 CREATE PROCEDURE [dbo].[Report_MonthlyEPASummary] @EmployeeId INT
 	,@PeriodIds NVARCHAR(MAX) = NULL
 	,@DepartmentId INT = NULL
 	,@IsLocal BIT = NULL
+	,@SortColumnName NVARCHAR(100) = NULL
+	,@SortDirection NVARCHAR(10) = NULL
 	,@PageIndex INT = NULL
 	,@ItemsPerPage INT = NULL
 	,@TotalItem INT = NULL OUT
@@ -16,7 +14,7 @@ AS
 Created: 20160523@Razor.Nguyen
 Task: Monthly EPA Summary Report.
 DB: SMSEPA
-Original: 
+Original: @SortDirection = 'asc'/'desc'
 
 Revisions:  
 Param's Explanation:
@@ -25,59 +23,69 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @EPA TABLE (
+	CREATE TABLE #EPA (
 		EPAId INT
 		,EndDate DATE
 		)
-	DECLARE @Employees TABLE (
+
+	CREATE TABLE #Employee (
 		EmployeeId INT
 		,Code NVARCHAR(10)
 		,GroupName NVARCHAR(150)
 		)
-	DECLARE @TblEmployees TABLE (
+
+	CREATE TABLE #EmployeeTemp (
 		EmployeeId INT
 		,Code NVARCHAR(10)
 		,GroupName NVARCHAR(150)
 		)
-	DECLARE @Periods TABLE (
+
+	CREATE TABLE #Period (
 		PeriodId INT
 		,[Name] NVARCHAR(200)
 		,StartDate DATETIME
 		)
-	DECLARE @TblPeriods TABLE (
+
+	CREATE TABLE #PeriodTemp (
 		PeriodId INT
 		,[Name] NVARCHAR(200)
 		)
-	DECLARE @DisciplineScores TABLE (
+
+	CREATE TABLE #DisciplineScore (
 		EPAId INT
 		,SystemDisciplineScore FLOAT
 		,ApproverSubtractScore FLOAT
 		)
+
 	DECLARE @Ids NVARCHAR(MAX)
-	DECLARE @ToDay DATE
+		,@ToDay DATE
+		,@SortCode NVARCHAR(10)
+		,@SortSection NVARCHAR(10)
 
 	SET @ToDay = CAST(GETDATE() AS DATE)
+	SET @SortCode = 'code'
+	SET @SortSection = 'section'
 
-	INSERT INTO @Periods
+	INSERT INTO #Period
 	SELECT [PeriodId]
-			,[Name]
-			,[StartDate]
-		FROM [dbo].[Period] WITH (NOLOCK)
-		WHERE [IsActive] = 1 
-		  AND TargetTypeId = 2 --MOnthly
+		,[Name]
+		,[StartDate]
+	FROM [dbo].[Period] WITH (NOLOCK)
+	WHERE [IsActive] = 1
+		AND TargetTypeId = 2 --Monthly
 	ORDER BY [StartDate] DESC
 
-	INSERT INTO @TblPeriods
+	INSERT INTO #PeriodTemp
 	SELECT PeriodId
 		,[Name]
-	FROM @Periods
+	FROM #Period
 	WHERE @PeriodIds IS NULL
 		OR PeriodId IN (
 			SELECT DISTINCT val
 			FROM fnc_strSplit(@PeriodIds, ',')
 			)
 
-	INSERT INTO @Employees
+	INSERT INTO #Employee
 	SELECT DISTINCT tblData.EmployeeId
 		,tblData.Code
 		,tblData.GroupName
@@ -94,7 +102,7 @@ BEGIN
 			AND pcSelf.ProcessId = 2
 			AND CAST(pcSelf.StartDate AS DATE) <= @ToDay
 			INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
-			INNER JOIN @TblPeriods AS period ON epa.PeriodId = period.PeriodId
+			INNER JOIN #PeriodTemp AS period ON epa.PeriodId = period.PeriodId
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
 			LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 			LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
@@ -178,33 +186,61 @@ BEGIN
 	IF @PageIndex IS NOT NULL
 		AND @ItemsPerPage IS NOT NULL
 	BEGIN
-		INSERT INTO @TblEmployees
+		INSERT INTO #EmployeeTemp
 		SELECT EmployeeId
 			,Code
 			,GroupName
-		FROM @Employees
-		ORDER BY GroupName
-			,Code OFFSET(@PageIndex * @ItemsPerPage) ROWS
+		FROM #Employee
+		ORDER BY CASE 
+				WHEN ISNULL(@SortColumnName, '') <> ''
+					AND ISNULL(@SortDirection, '') <> ''
+					AND @SortDirection = 'desc' THEN CASE LOWER(@SortColumnName)
+						WHEN @SortCode THEN Code
+						WHEN @SortSection THEN GroupName
+						END
+				END DESC
+			,CASE 
+				WHEN ISNULL(@SortColumnName, '') <> ''
+					AND ISNULL(@SortDirection, '') <> ''
+					AND @SortDirection = 'asc' THEN CASE LOWER(@SortColumnName)
+						WHEN @SortCode THEN Code
+						WHEN @SortSection THEN GroupName
+						END
+				END OFFSET(@PageIndex * @ItemsPerPage) ROWS
 
 		FETCH NEXT @ItemsPerPage ROWS ONLY;
 	END
 	ELSE
 	BEGIN
-		INSERT INTO @TblEmployees
+		INSERT INTO #EmployeeTemp
 		SELECT EmployeeId
 			,Code
 			,GroupName
-		FROM @Employees
-		ORDER BY GroupName
-			,Code
+		FROM #Employee
+		ORDER BY CASE 
+				WHEN ISNULL(@SortColumnName, '') <> ''
+					AND ISNULL(@SortDirection, '') <> ''
+					AND @SortDirection = 'desc' THEN CASE LOWER(@SortColumnName)
+						WHEN @SortCode THEN Code
+						WHEN @SortSection THEN GroupName
+						END
+				END DESC
+			,CASE 
+				WHEN ISNULL(@SortColumnName, '') <> ''
+					AND ISNULL(@SortDirection, '') <> ''
+					AND @SortDirection = 'asc' THEN CASE LOWER(@SortColumnName)
+						WHEN @SortCode THEN Code
+						WHEN @SortSection THEN GroupName
+						END
+				END
 	END
 
-	INSERT INTO @EPA
+	INSERT INTO #EPA
 	SELECT DISTINCT epa.EPAId
-	   ,MAX(CAST(pc.EndDate AS DATE)) AS EndDate
+		,MAX(CAST(pc.EndDate AS DATE)) AS EndDate
 	FROM dbo.EPA AS epa WITH (NOLOCK)
-		INNER JOIN @TblEmployees AS emp ON epa.EmployeeId = emp.EmployeeId
-		INNER JOIN @TblPeriods AS period ON epa.PeriodId = period.PeriodId
+		INNER JOIN #EmployeeTemp AS emp ON epa.EmployeeId = emp.EmployeeId
+		INNER JOIN #PeriodTemp AS period ON epa.PeriodId = period.PeriodId
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 		INNER JOIN dbo.Period AS period1 WITH (NOLOCK) ON epa.PeriodId = period1.PeriodId
 		INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period1.TargetTypeId = tt.TargetTypeId
@@ -213,16 +249,16 @@ BEGIN
 		,tt.TargetTypeId
 
 	SELECT @Ids = COALESCE(@Ids + ',', '') + CAST(EPAId AS NVARCHAR)
-	FROM @EPA
+	FROM #EPA
 
-	INSERT INTO @DisciplineScores
+	INSERT INTO #DisciplineScore
 	EXECUTE dbo.EpaAttendanceSummary_GetByEPA @Ids
 
 	SELECT PeriodId
 		,[Name]
-	FROM @TblPeriods
+	FROM #PeriodTemp
 
-	SELECT DISTINCT emp.EmployeeId
+	SELECT emp.EmployeeId
 		,emp.Code
 		,emp.NickName
 		,emp.FullName
@@ -234,14 +270,28 @@ BEGIN
 		,emp.JobTitle AS JobTitleId
 		,job.[Name] AS JobTitleName
 	FROM dbo.Employee AS emp WITH (NOLOCK)
-		INNER JOIN @TblEmployees AS tblEmp ON emp.EmployeeId = tblEmp.EmployeeId
+		INNER JOIN #EmployeeTemp AS tblEmp ON emp.EmployeeId = tblEmp.EmployeeId
 		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
 		LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
 		LEFT JOIN dbo.LookupData AS lkd WITH (NOLOCK) ON emp.IsLocal = CAST(lkd.Value AS BIT)
 		AND lkd.LookupId = 11 -- employee category
-	ORDER BY gr.[Name]
-		,emp.Code
+	ORDER BY CASE 
+			WHEN ISNULL(@SortColumnName, '') <> ''
+				AND ISNULL(@SortDirection, '') <> ''
+				AND @SortDirection = 'desc' THEN CASE LOWER(@SortColumnName)
+					WHEN @SortCode THEN emp.Code
+					WHEN @SortSection THEN gr.[Name]
+					END
+			END DESC
+		,CASE 
+			WHEN ISNULL(@SortColumnName, '') <> ''
+				AND ISNULL(@SortDirection, '') <> ''
+				AND @SortDirection = 'asc' THEN CASE LOWER(@SortColumnName)
+					WHEN @SortCode THEN emp.Code
+					WHEN @SortSection THEN gr.[Name]
+					END
+			END
 
 	SELECT DISTINCT tbl.*
 	FROM (
@@ -257,26 +307,36 @@ BEGIN
 				) AS DisciplineScore
 			,srt.Attendance AS MaxDisciplineScore
 			,(CASE 
-						WHEN CAST(epa1.EndDate AS DATE) < @ToDay THEN 1
-						ELSE 0 END)  AS IsEndPeriod
+				WHEN CAST(epa1.EndDate AS DATE) < @ToDay THEN 1
+				ELSE 0 END
+				) AS IsEndPeriod
 			,epa.FinalScore
 			,epa.Grade
 			,epa.[Status] AS StatusId
 		FROM dbo.EPA AS epa WITH (NOLOCK)
-			INNER JOIN @EPA AS epa1 ON epa.EPAId = epa1.EPAId
+			INNER JOIN #EPA AS epa1 ON epa.EPAId = epa1.EPAId
 			INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 			INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
-			INNER JOIN @TblEmployees AS tblEmp ON emp.EmployeeId = tblEmp.EmployeeId
-			INNER JOIN @Periods AS period1 ON epa.PeriodId = period1.PeriodId
+			INNER JOIN #EmployeeTemp AS tblEmp ON emp.EmployeeId = tblEmp.EmployeeId
+			INNER JOIN #Period AS period1 ON epa.PeriodId = period1.PeriodId
 			INNER JOIN dbo.ScoreRatingType AS srt WITH (NOLOCK) ON epa.ScoreRatingTypeId = srt.ScoreRatingTypeId
-			LEFT JOIN @DisciplineScores AS ds ON epa.EPAId = ds.EPAId
+			LEFT JOIN #DisciplineScore AS ds ON epa.EPAId = ds.EPAId
 		WHERE epa.[Status] <> 2 -- rejected
 		) AS tbl
 
 	SELECT @TotalItem = COUNT(*)
-	FROM @Employees
+	FROM #Employee
+
+	DROP TABLE #EPA
+
+	DROP TABLE #Employee
+
+	DROP TABLE #EmployeeTemp
+
+	DROP TABLE #Period
+
+	DROP TABLE #PeriodTemp
+
+	DROP TABLE #DisciplineScore
 END
-
-
-

@@ -63,8 +63,8 @@
                 "EPA/ResetScore/{id}",
                 "ViewEPAByKPI/Index",
                 "UpdateFinalScore/Index",
+                "MonthlyEPAHistory/Index",
                 "error"
-                "MonthlyEPAHistory/Index"
             };
 
             homeRouteUrls.ForEach(url => routes.MapRoute(

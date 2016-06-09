@@ -1,15 +1,10 @@
-﻿
-
-
-
-
-
-
-CREATE PROCEDURE [dbo].[Report_MonthlyEPADetail] @EmployeeId INT
+﻿CREATE PROCEDURE [dbo].[Report_MonthlyEPADetail] @EmployeeId INT
 	,@PeriodId INT = NULL
 	,@PhaseIds NVARCHAR(10) = NULL
 	,@DepartmentId INT = NULL
 	,@IsLocal BIT = NULL
+	,@SortColumnName NVARCHAR(100) = NULL
+	,@SortDirection NVARCHAR(10) = NULL
 	,@PageIndex INT = NULL
 	,@ItemsPerPage INT = NULL
 	,@TotalItem INT = NULL OUT
@@ -18,7 +13,7 @@ AS
 Created: 20160520@Razor.Nguyen
 Task: Monthly EPA Detail Report.
 DB: SMSEPA
-Original: 
+Original: @SortDirection = 'asc'/'desc'
 
 Revisions:  
 Param's Explanation:
@@ -30,6 +25,8 @@ BEGIN
 	DECLARE @Phases IntId
 		,@ToDay DATE
 		,@Ids NVARCHAR(MAX)
+		,@SortCode NVARCHAR(10)
+		,@SortSection NVARCHAR(10)
 
 	CREATE TABLE #EPAs (
 		EPAId INT
@@ -67,6 +64,8 @@ BEGIN
 		)
 
 	SET @ToDay = CAST(GETDATE() AS DATE)
+	SET @SortCode = 'code'
+	SET @SortSection = 'section'
 
 	IF ISNULL(@PhaseIds, '') <> ''
 	BEGIN
@@ -77,11 +76,11 @@ BEGIN
 
 	INSERT INTO #Periods
 	SELECT [PeriodId]
-			,[Name]
-			,[StartDate]
-		FROM [dbo].[Period] WITH (NOLOCK)
-		WHERE [IsActive] = 1 
-		  AND TargetTypeId = 2 --MOnthly
+		,[Name]
+		,[StartDate]
+	FROM [dbo].[Period] WITH (NOLOCK)
+	WHERE [IsActive] = 1
+		AND TargetTypeId = 2 --Monthly
 	ORDER BY [StartDate] DESC
 
 	INSERT INTO #TblPeriods
@@ -191,7 +190,7 @@ BEGIN
 							AND pc1.EvaluatorId = empRole.EmployeeId
 							AND pc1.ProcessId = 3 -- evaluator
 						)
-				)			
+				)
 			OR EXISTS (
 				SELECT 1
 				FROM dbo.EmployeeRole AS empRole WITH (NOLOCK)
@@ -212,7 +211,7 @@ BEGIN
 		SELECT DISTINCT epa.EPAId
 			,emp.Code
 			,emp.GroupName
-			, MAX(CAST(pc.EndDate AS DATE)) AS EndDate
+			,MAX(CAST(pc.EndDate AS DATE)) AS EndDate
 		FROM dbo.EPA AS epa WITH (NOLOCK)
 			INNER JOIN dbo.EPAProcess AS pcSelf WITH (NOLOCK) ON epa.EPAId = pcSelf.EPAId
 			AND pcSelf.ProcessId = 2
@@ -238,8 +237,22 @@ BEGIN
 		SELECT EPAId
 			,EndDate
 		FROM #EPAs
-		ORDER BY GroupName
-			,Code OFFSET(@PageIndex * @ItemsPerPage) ROWS
+		ORDER BY CASE 
+				WHEN ISNULL(@SortColumnName, '') <> ''
+					AND ISNULL(@SortDirection, '') <> ''
+					AND @SortDirection = 'desc' THEN CASE LOWER(@SortColumnName)
+						WHEN @SortCode THEN Code
+						WHEN @SortSection THEN GroupName
+						END
+				END DESC
+			,CASE 
+				WHEN ISNULL(@SortColumnName, '') <> ''
+					AND ISNULL(@SortDirection, '') <> ''
+					AND @SortDirection = 'asc' THEN CASE LOWER(@SortColumnName)
+						WHEN @SortCode THEN Code
+						WHEN @SortSection THEN GroupName
+						END
+				END OFFSET(@PageIndex * @ItemsPerPage) ROWS
 
 		FETCH NEXT @ItemsPerPage ROWS ONLY;
 	END
@@ -249,8 +262,22 @@ BEGIN
 		SELECT EPAId
 			,EndDate
 		FROM #EPAs
-		ORDER BY GroupName
-			,Code
+		ORDER BY CASE 
+				WHEN ISNULL(@SortColumnName, '') <> ''
+					AND ISNULL(@SortDirection, '') <> ''
+					AND @SortDirection = 'desc' THEN CASE LOWER(@SortColumnName)
+						WHEN @SortCode THEN Code
+						WHEN @SortSection THEN GroupName
+						END
+				END DESC
+			,CASE 
+				WHEN ISNULL(@SortColumnName, '') <> ''
+					AND ISNULL(@SortDirection, '') <> ''
+					AND @SortDirection = 'asc' THEN CASE LOWER(@SortColumnName)
+						WHEN @SortCode THEN Code
+						WHEN @SortSection THEN GroupName
+						END
+				END
 	END
 
 	SELECT @Ids = COALESCE(@Ids + ',', '') + CAST(EPAId AS NVARCHAR)
@@ -272,7 +299,7 @@ BEGIN
 			)
 
 	-- General Info
-	SELECT DISTINCT tblData.*
+	SELECT tblData.*
 	FROM (
 		SELECT DISTINCT epa.EPAId
 			,epa.FinalScore
@@ -305,15 +332,15 @@ BEGIN
 			,period.PeriodId
 			,period.[Name]
 			,(CASE 
-						WHEN CAST(pc.EndDate AS DATE) >= CAST(period.EndDate AS DATE) THEN (CASE 
-								WHEN CAST(pc.EndDate AS DATE) < @ToDay THEN 1
-								ELSE 0 END
-								)
-						ELSE (CASE 
-								WHEN CAST(period.EndDate AS DATE) <= @ToDay THEN 1
-								ELSE 0 END
-								) END
-						) AS IsEndPeriod
+				WHEN CAST(pc.EndDate AS DATE) >= CAST(period.EndDate AS DATE) THEN (CASE 
+						WHEN CAST(pc.EndDate AS DATE) < @ToDay THEN 1
+						ELSE 0 END
+						)
+				ELSE (CASE 
+						WHEN CAST(period.EndDate AS DATE) <= @ToDay THEN 1
+						ELSE 0 END
+						) END
+				) AS IsEndPeriod
 			,ttype.TargetTypeId
 			,ttype.[Name] AS TargetTypeName
 		FROM #TblEPAs AS tbl
@@ -337,8 +364,22 @@ BEGIN
 			INNER JOIN dbo.TargetType AS ttype WITH (NOLOCK) ON period.TargetTypeId = ttype.TargetTypeId
 			LEFT JOIN #DisciplineScores AS ds ON epa.EPAId = ds.EPAId
 		) AS tblData
-	ORDER BY tblData.GroupName
-		,tblData.Code
+	ORDER BY CASE 
+			WHEN ISNULL(@SortColumnName, '') <> ''
+				AND ISNULL(@SortDirection, '') <> ''
+				AND @SortDirection = 'desc' THEN CASE LOWER(@SortColumnName)
+					WHEN @SortCode THEN tblData.Code
+					WHEN @SortSection THEN tblData.GroupName
+					END
+			END DESC
+		,CASE 
+			WHEN ISNULL(@SortColumnName, '') <> ''
+				AND ISNULL(@SortDirection, '') <> ''
+				AND @SortDirection = 'asc' THEN CASE LOWER(@SortColumnName)
+					WHEN @SortCode THEN tblData.Code
+					WHEN @SortSection THEN tblData.GroupName
+					END
+			END
 
 	-- Process
 	SELECT DISTINCT epa.EPAId
@@ -383,9 +424,3 @@ BEGIN
 
 	DROP TABLE #DisciplineScores
 END
-
-
-
-
-
-

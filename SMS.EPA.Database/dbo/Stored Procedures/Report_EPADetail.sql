@@ -1,10 +1,10 @@
-﻿
-
-CREATE PROCEDURE [dbo].[Report_EPADetail] @EmployeeId INT
+﻿CREATE PROCEDURE [dbo].[Report_EPADetail] @EmployeeId INT
 	,@PeriodId INT = NULL
 	,@PhaseIds NVARCHAR(10) = NULL
 	,@DepartmentId INT = NULL
 	,@IsLocal BIT = NULL
+	,@SortColumnName NVARCHAR(100) = NULL
+	,@SortDirection NVARCHAR(10) = NULL
 	,@PageIndex INT = NULL
 	,@ItemsPerPage INT = NULL
 	,@TotalItem INT = NULL OUT
@@ -13,7 +13,7 @@ AS
 Created: 20151001@Tim.Trinh
 Task: EPA Detail Report.
 DB: SMSEPA
-Original: 
+Original: @SortDirection = 'asc'/'desc'
 
 Revisions:  
 Param's Explanation:
@@ -25,6 +25,8 @@ BEGIN
 	DECLARE @Phases IntId
 		,@ToDay DATE
 		,@Ids NVARCHAR(MAX)
+		,@SortCode NVARCHAR(10)
+		,@SortSection NVARCHAR(10)
 
 	CREATE TABLE #EPAs (
 		EPAId INT
@@ -62,6 +64,8 @@ BEGIN
 		)
 
 	SET @ToDay = CAST(GETDATE() AS DATE)
+	SET @SortCode = 'code'
+	SET @SortSection = 'section'
 
 	IF ISNULL(@PhaseIds, '') <> ''
 	BEGIN
@@ -264,8 +268,22 @@ BEGIN
 		SELECT EPAId
 			,EndDate
 		FROM #EPAs
-		ORDER BY GroupName
-			,Code OFFSET(@PageIndex * @ItemsPerPage) ROWS
+		ORDER BY CASE 
+				WHEN ISNULL(@SortColumnName, '') <> ''
+					AND ISNULL(@SortDirection, '') <> ''
+					AND @SortDirection = 'desc' THEN CASE LOWER(@SortColumnName)
+						WHEN @SortCode THEN Code
+						WHEN @SortSection THEN GroupName
+						END
+				END DESC
+			,CASE 
+				WHEN ISNULL(@SortColumnName, '') <> ''
+					AND ISNULL(@SortDirection, '') <> ''
+					AND @SortDirection = 'asc' THEN CASE LOWER(@SortColumnName)
+						WHEN @SortCode THEN Code
+						WHEN @SortSection THEN GroupName
+						END
+				END OFFSET(@PageIndex * @ItemsPerPage) ROWS
 
 		FETCH NEXT @ItemsPerPage ROWS ONLY;
 	END
@@ -275,8 +293,22 @@ BEGIN
 		SELECT EPAId
 			,EndDate
 		FROM #EPAs
-		ORDER BY GroupName
-			,Code
+		ORDER BY CASE 
+				WHEN ISNULL(@SortColumnName, '') <> ''
+					AND ISNULL(@SortDirection, '') <> ''
+					AND @SortDirection = 'desc' THEN CASE LOWER(@SortColumnName)
+						WHEN @SortCode THEN Code
+						WHEN @SortSection THEN GroupName
+						END
+				END DESC
+			,CASE 
+				WHEN ISNULL(@SortColumnName, '') <> ''
+					AND ISNULL(@SortDirection, '') <> ''
+					AND @SortDirection = 'asc' THEN CASE LOWER(@SortColumnName)
+						WHEN @SortCode THEN Code
+						WHEN @SortSection THEN GroupName
+						END
+				END
 	END
 
 	SELECT @Ids = COALESCE(@Ids + ',', '') + CAST(EPAId AS NVARCHAR)
@@ -298,9 +330,9 @@ BEGIN
 			)
 
 	-- General Info
-	SELECT DISTINCT tblData.*
+	SELECT tblData.*
 	FROM (
-		SELECT DISTINCT epa.EPAId
+		SELECT epa.EPAId
 			,epa.FinalScore
 			,epa.Grade
 			,epa.HasMonthlyEPA
@@ -348,6 +380,12 @@ BEGIN
 				) AS IsEndPeriod
 			,ttype.TargetTypeId
 			,ttype.[Name] AS TargetTypeName
+			,srt.ScoreRatingTypeId
+			,srt.SelfEvaluated
+			,srt.Evaluator
+			,srt.Reviewer
+			,srt.Management
+			,srt.Attendance
 		FROM #TblEPAs AS tbl
 			INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON tbl.EPAId = epa.EPAId
 			INNER JOIN (
@@ -370,7 +408,7 @@ BEGIN
 			LEFT JOIN #DisciplineScores AS ds ON epa.EPAId = ds.EPAId
 		
 		UNION ALL
-		SELECT DISTINCT - epa.Id AS EPAId
+		SELECT - epa.Id AS EPAId
 			,epa.FinalScore
 			,NULL
 			,0 AS HasMonthlyEPA
@@ -397,6 +435,12 @@ BEGIN
 			,1 AS IsEndPeriod
 			,NULL AS TargetTypeId
 			,NULL AS TargetTypeName
+			,NULL AS ScoreRatingTypeId
+			,NULL AS SelfEvaluated
+			,NULL AS Evaluator
+			,NULL AS Reviewer
+			,NULL AS Management
+			,NULL AS Attendance
 		FROM #TblEPAs AS tbl
 			INNER JOIN dbo.EPASummaryImport AS epa WITH (NOLOCK) ON tbl.EPAId = - epa.Id
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.Code = emp.Code
@@ -406,8 +450,22 @@ BEGIN
 			LEFT JOIN dbo.LookupData AS lkd WITH (NOLOCK) ON emp.IsLocal = CAST(lkd.Value AS BIT)
 			AND lkd.LookupId = 11 -- employee category
 		) AS tblData
-	ORDER BY tblData.GroupName
-		,tblData.Code
+	ORDER BY CASE 
+			WHEN ISNULL(@SortColumnName, '') <> ''
+				AND ISNULL(@SortDirection, '') <> ''
+				AND @SortDirection = 'desc' THEN CASE LOWER(@SortColumnName)
+					WHEN @SortCode THEN tblData.Code
+					WHEN @SortSection THEN tblData.GroupName
+					END
+			END DESC
+		,CASE 
+			WHEN ISNULL(@SortColumnName, '') <> ''
+				AND ISNULL(@SortDirection, '') <> ''
+				AND @SortDirection = 'asc' THEN CASE LOWER(@SortColumnName)
+					WHEN @SortCode THEN tblData.Code
+					WHEN @SortSection THEN tblData.GroupName
+					END
+			END
 
 	-- Process
 	SELECT DISTINCT epa.EPAId
@@ -452,4 +510,3 @@ BEGIN
 
 	DROP TABLE #DisciplineScores
 END
-

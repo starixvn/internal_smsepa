@@ -177,7 +177,6 @@
     <Build Include="dbo\Stored Procedures\Sync_RequestHistory.sql" />
     <Build Include="dbo\Stored Procedures\Sync_Shift.sql" />
     <Build Include="dbo\Stored Procedures\Department_Get.sql" />
-    <Build Include="dbo\Stored Procedures\EPA_GetLastScore_xpre1.sql" />
     <Build Include="dbo\Stored Procedures\EPA_GetLastScore.sql" />
     <Build Include="dbo\Stored Procedures\Sync_Shift_GetMaxModifiedDate.sql" />
     <Build Include="dbo\Stored Procedures\EPA_AdjustScoreByReviewerOrManagement.sql" />
@@ -208,7 +207,6 @@
     <Build Include="dbo\Stored Procedures\EPA_GetInfoByEvaluator.sql" />
     <Build Include="dbo\Stored Procedures\TargetType_Get.sql" />
     <Build Include="dbo\Stored Procedures\EPA_GetInfoById.sql" />
-    <Build Include="dbo\Stored Procedures\EpaAttendanceSummary_Get_xtest.sql" />
     <Build Include="dbo\Stored Procedures\EPA_GetInfoByManagement.sql" />
     <Build Include="dbo\Stored Procedures\EPA_GetInfoByReviewer.sql" />
     <Build Include="dbo\Stored Procedures\EPA_GetKPI.sql" />
@@ -287,16 +285,13 @@
     <Build Include="dbo\Stored Procedures\Report_EPADetail.sql" />
     <Build Include="dbo\Stored Procedures\EpaPeriod_Get.sql" />
     <Build Include="dbo\Stored Procedures\EpaPeriod_GetById.sql" />
-    <Build Include="dbo\Stored Procedures\EpaAttendanceSummary_GetDetail_xtest.sql" />
     <Build Include="dbo\Stored Procedures\EpaPeriod_GetEmployeeSetting.sql" />
     <Build Include="dbo\Stored Procedures\EpaPeriod_GetProcessSetting.sql" />
     <Build Include="dbo\Stored Procedures\EpaPeriod_Insert.sql" />
-    <Build Include="dbo\Stored Procedures\EPA_SemiAnnual_GetMonthly_xtest.sql" />
     <Build Include="dbo\Stored Procedures\EpaPeriod_UpdateBasicInformation.sql" />
     <Build Include="dbo\Stored Procedures\EpaPeriod_UpdateIncludeStatusEmployeeToPeriod.sql" />
     <Build Include="dbo\Stored Procedures\EpaPeriod_UpdateProcessSetting.sql" />
     <Build Include="dbo\Stored Procedures\EpaPeriod_UpdateStatus.sql" />
-    <Build Include="dbo\Stored Procedures\Report_EPASummary_xtest.sql" />
     <Build Include="dbo\Stored Procedures\EpaRole_AssignFunctionToRole.sql" />
     <Build Include="dbo\Stored Procedures\EpaRole_GetFunctionByRoleId.sql" />
     <Build Include="dbo\Stored Procedures\EpaScoreRatingType_Get.sql" />
@@ -308,7 +303,6 @@
     <Build Include="dbo\Stored Procedures\EpaTargetTemplateEmployee_Delete.sql" />
     <Build Include="dbo\Stored Procedures\Epa_GetEPAHistory.sql" />
     <Build Include="dbo\Stored Procedures\EpaTargetTemplateEmployee_Get.sql" />
-    <Build Include="dbo\Stored Procedures\Report_EPADetail_xtest.sql" />
     <Build Include="dbo\Stored Procedures\FlowTemplate_Delete.sql" />
     <Build Include="dbo\Stored Procedures\Report_MonthlyEPASummary.sql" />
     <Build Include="dbo\Stored Procedures\FlowTemplate_Get.sql" />
@@ -323,7 +317,6 @@
     <Build Include="dbo\Stored Procedures\EPA_SemiAnnual_GetMonthly.sql" />
     <Build Include="dbo\Stored Procedures\KPI_Delete.sql" />
     <Build Include="dbo\Stored Procedures\KPI_Get.sql" />
-    <Build Include="dbo\Stored Procedures\Report_MonthlyEPASummary_xtest.sql" />
     <Build Include="dbo\Stored Procedures\KPI_Insert.sql" />
     <Build Include="dbo\Stored Procedures\KPI_Update.sql" />
     <Build Include="dbo\Stored Procedures\KPI_UpdateRequiredEvaluate.sql" />
@@ -355,5 +348,9 @@
     <Build Include="dbo\Stored Procedures\EpaPeriod_GetEvaluationGlobalSettingByTargetTypeId.sql" />
     <Build Include="dbo\User Defined Types\IntId.sql" />
     <Build Include="dbo\User Defined Types\ProcessTable.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_UpdateFinalScoreEndEvaluation.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetEmployeeToUpdateFinalScore.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetEPAToUpdateFinalScore.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetPeriodToUpdateFinalScore.sql" />
   </ItemGroup>
 </Project>
