@@ -1,19 +1,19 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="CommonController.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// -----------------------------------------------------------------------
-// <history>
-//   <change who="Tim.Trinh" date="2015.07.09">Created</change>
-// </history>
-
-namespace SMS.EPA.Site.Controllers.API
+﻿namespace SMS.EPA.Site.Controllers.API
 {
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Http;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Utilities;
+    using SMS.EPA.Criteria.Department;
+    using SMS.EPA.Criteria.Employee;
+    using SMS.EPA.Criteria.EmployeeEPA;
+    using SMS.EPA.Criteria.EPAHistory;
+    using SMS.EPA.Criteria.KPI;
+    using SMS.EPA.Criteria.KPIGroup;
+    using SMS.EPA.Criteria.Period;
+    using SMS.EPA.Criteria.TargetTemplate;
+    using SMS.EPA.Criteria.TargetType;
     using SMS.EPA.Model.Department;
     using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.EmployeeEPA;
@@ -23,22 +23,23 @@ namespace SMS.EPA.Site.Controllers.API
     using SMS.EPA.Model.Period;
     using SMS.EPA.Model.TargetTemplate;
     using SMS.EPA.Model.TargetType;
+    using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
 
     public class CommonController : BaseController
     {
-        private readonly UtilitiesController _utilitiesController;
-        private readonly IExportPdfService _exportPdfService;
+        private readonly ICommonService commonService;
+        private readonly IExportPdfService exportPdfService;
 
         public CommonController()
             : this(null, null)
         {
         }
 
-        public CommonController(UtilitiesController utilitiesController, IExportPdfService exportPdfService)
+        public CommonController(ICommonService commonService, IExportPdfService exportPdfService)
         {
-            _utilitiesController = utilitiesController ?? new UtilitiesController();
-            _exportPdfService = exportPdfService ?? new ExportPdfService();
+            this.commonService = commonService ?? new CommonService();
+            this.exportPdfService = exportPdfService ?? new ExportPdfService();
         }
 
         [HttpGet]
@@ -46,7 +47,13 @@ namespace SMS.EPA.Site.Controllers.API
             bool? isActive = true,
             string excludeTargetTypeIds = "")
         {
-            return _utilitiesController.GetTargetType(isActive, excludeTargetTypeIds);
+            var criteria = new GetTargetTypeCriteria()
+            {
+                IsActive = isActive,
+                ExcludeTargetTypeIds = excludeTargetTypeIds
+            };
+
+            return commonService.GetTargetType(criteria);
         }
 
         [HttpGet]
@@ -55,13 +62,25 @@ namespace SMS.EPA.Site.Controllers.API
             bool? isActive = null,
             bool? isRequiredEvaluate = null)
         {
-            return _utilitiesController.GetKPI(kpiGroupId, isActive, isRequiredEvaluate);
+            var criteria = new GetKPICriteria()
+            {
+                KPIGroupId = kpiGroupId,
+                IsActive = isActive,
+                IsRequiredEvaluate = isRequiredEvaluate
+            };
+
+            return commonService.GetKPI(criteria);
         }
 
         [HttpGet]
         public IEnumerable<KPIGroupModel> GetKPIGroup(bool? isActive = null)
         {
-            return _utilitiesController.GetKPIGroup(isActive);
+            var criteria = new GetKPIGroupCriteria()
+            {
+                IsActive = isActive
+            };
+
+            return commonService.GetKPIGroup(criteria);
         }
 
         public List<object> GetSystemRoles(bool exceptNone)
@@ -97,34 +116,57 @@ namespace SMS.EPA.Site.Controllers.API
             bool? getByApprover = null,
             bool? includeVerifier = null)
         {
-            return _utilitiesController.GetAllEmployee(query, groupId, isSpecialUser, isDisabledUser, getByApprover, includeVerifier);
+            var criteria = new GetAllEmployeeCriteria()
+            {
+                Query = query,
+                GroupId = groupId,
+                IsSpecialUser = isSpecialUser,
+                IsDisabledUser = isDisabledUser,
+                ApproverId = getByApprover == true && CurrentUser != null ? (int?)CurrentUser.EmployeeInfo.EmployeeId : null,
+                IncludeVerifier = includeVerifier
+            };
+
+            return commonService.GetAllEmployee(criteria);
         }
 
         public IEnumerable<EmployeeModel> GetEmployeeByDepartmentId(int? departmentId = null)
         {
-            return _utilitiesController.GetEmployeeByDepartmentId(departmentId);
+            var criteria = new GetEmployeeByDepartmentIdCriteria()
+            {
+                DepartmentId = departmentId
+            };
+
+            return commonService.GetEmployeeByDepartmentId(criteria);
         }
 
         [HttpGet]
         public IEnumerable<EmployeeModel> GetEmployeeByGroupId(int groupId)
         {
-            return _utilitiesController.GetEmployeeByGroupId(groupId);
+            var criteria = new GetEmployeeByGroupIdCriteria()
+            {
+                GroupId = groupId
+            };
+
+            return commonService.GetEmployeeByGroupId(criteria);
         }
 
         [HttpGet]
         public EmployeeModel GetEmployeeById(int employeeId)
         {
-            EmployeeModel employee = _utilitiesController.GetEmployeeById(employeeId);
+            var criteria = new GetEmployeeByIdCriteria
+            {
+                EmployeeId = employeeId
+            };
 
-            return employee;
+            return commonService.GetEmployeeById(criteria);
         }
 
         [HttpGet]
         public IEnumerable<Group> GetAllGroup()
         {
-            IEnumerable<Group> groups = _utilitiesController.GetAllGroup();
+            var criteria = new GetAllGroupCriteria();
 
-            return groups;
+            return commonService.GetAllGroup(criteria);
         }
 
         [HttpGet]
@@ -132,12 +174,18 @@ namespace SMS.EPA.Site.Controllers.API
             int? parentId = null,
             bool? isActive = null)
         {
-            return _utilitiesController.GetDepartment(parentId, isActive);
+            var criteria = new GetDepartmentCriteria()
+            {
+                ParentId = parentId,
+                IsActive = isActive
+            };
+
+            return commonService.GetDepartment(criteria);
         }
 
         public List<object> GetAllStatus()
         {
-            List<object> statusList = ((Status[])System.Enum.GetValues(typeof(Status)))
+            List<object> statusList = ((EPAStatus[])System.Enum.GetValues(typeof(EPAStatus)))
                 .Select(x => new
                 {
                     StatusId = (int)x,
@@ -152,37 +200,58 @@ namespace SMS.EPA.Site.Controllers.API
             int? targetTypeId = null,
             bool? isActive = true)
         {
-            return _utilitiesController.GetPeriod(targetTypeId, isActive);
+            var criteria = new GetPeriodCriteria
+            {
+                TargetTypeId = targetTypeId,
+                IsActive = isActive
+            };
+
+            return commonService.GetPeriod(criteria);
         }
 
         [HttpGet]
         public IEnumerable<StandardGradeModel> GetStandardGrade()
         {
-            return _utilitiesController.GetStandardGrade();
+            var criteria = new GetStandardGradeCriteria();
+
+            return commonService.GetStandardGrade(criteria);
         }
 
         [HttpGet]
         public IList<PeriodModel> GetAllPeriodIncludeImport()
         {
-            return _utilitiesController.GetAllPeriodIncludeImport();
+            var criteria = new GetAllPeriodIncludeImportCriteria();
+
+            return commonService.GetAllPeriodIncludeImport(criteria);
         }
 
         [HttpGet]
         public IEnumerable<EmployeeOtherViolationDetailModel> GetOtherViolationDetailByEPAId(int epaId)
         {
-            return _utilitiesController.GetOtherViolationDetailByEPAId(epaId);
+            var criteria = new GetOtherViolationDetailByEPAIdCriteria()
+            {
+                EPAId = epaId
+            };
+
+            return commonService.GetOtherViolationDetailByEPAId(criteria);
         }
 
         [HttpGet]
         public IEnumerable<TargetTemplateModel> GetAllTargetTemplate(int? targetTypeId = null, bool? isActive = null)
         {
-            return _utilitiesController.GetAllTargetTemplate(targetTypeId, isActive);
+            var criteria = new GetAllTargetTemplateCriteria
+            {
+                TargetTypeId = targetTypeId,
+                IsActive = isActive
+            };
+
+            return commonService.GetAllTargetTemplate(criteria);
         }
 
         [HttpGet]
         public bool DisplayOnNormalWidthPage(int epaId)
         {
-            return _exportPdfService.DisplayOnNormalWidthPage(epaId);
+            return exportPdfService.DisplayOnNormalWidthPage(epaId);
         }
     }
 }

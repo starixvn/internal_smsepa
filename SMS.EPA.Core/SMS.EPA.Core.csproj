@@ -107,7 +107,7 @@
     <Compile Include="Enumerations\ProcessStatusType.cs" />
     <Compile Include="Enumerations\ProcessType.cs" />
     <Compile Include="Enumerations\StandardGrade.cs" />
-    <Compile Include="Enumerations\Status.cs" />
+    <Compile Include="Enumerations\EPAStatus.cs" />
     <Compile Include="Enumerations\SystemRole.cs" />
     <Compile Include="Enumerations\TargetType.cs" />
     <Compile Include="Model\CommandResult.cs" />

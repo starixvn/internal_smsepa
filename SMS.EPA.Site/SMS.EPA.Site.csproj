@@ -192,7 +192,6 @@
     <Compile Include="Controllers\API\ResourcesController.cs" />
     <Compile Include="Controllers\API\TargetEmployeeSettingController.cs" />
     <Compile Include="Controllers\API\TargetTemplateController.cs" />
-    <Compile Include="Controllers\API\UtilitiesController.cs" />
     <Compile Include="Controllers\API\RoleController.cs" />
     <Compile Include="Controllers\ExportPDFController.cs" />
     <Compile Include="Controllers\ExportReportController.cs" />

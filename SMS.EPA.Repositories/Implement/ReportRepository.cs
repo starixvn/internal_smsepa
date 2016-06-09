@@ -1,13 +1,4 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="ReportRepository.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// -----------------------------------------------------------------------
-// <history>
-//   <change who="Tim.Trinh" date="2015.09.04">Created</change>
-// </history>
-
-namespace SMS.EPA.Repositories.Implement
+﻿namespace SMS.EPA.Repositories.Implement
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -45,7 +36,7 @@ namespace SMS.EPA.Repositories.Implement
                         },
                         "GroupId, JobTitleId").ToList();
 
-                    IList<EPASummaryPeriodModel> periods = multi.Read<EPASummaryPeriodModel, StatusModel, EPASummaryPeriodModel>(
+                    IList<EPASummaryPeriodModel> periods = multi.Read<EPASummaryPeriodModel, EPAStatusModel, EPASummaryPeriodModel>(
                         (res, status) =>
                         {
                             res.Status = status;
@@ -77,7 +68,7 @@ namespace SMS.EPA.Repositories.Implement
                 {
                     epaDetail.PhaseSelecteds = multi.Read<EvaluationPhaseModel>();
 
-                    epaDetail.MemberEPAs = multi.Read<EPAModel, EPAEmployeeModel, StatusModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
+                    epaDetail.MemberEPAs = multi.Read<EPAModel, EPAEmployeeModel, EPAStatusModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
                     (info, employee, status, period, scoreRatingType) =>
                     {
                         info.Employee = employee;
@@ -114,7 +105,7 @@ namespace SMS.EPA.Repositories.Implement
                 {
                     epaDetail.PhaseSelecteds = multi.Read<EvaluationPhaseModel>();
 
-                    epaDetail.MemberEPAs = multi.Read<EPAModel, EPAEmployeeModel, StatusModel, EPAPeriodModel, EPAModel>(
+                    epaDetail.MemberEPAs = multi.Read<EPAModel, EPAEmployeeModel, EPAStatusModel, EPAPeriodModel, EPAModel>(
                     (info, employee, status, period) =>
                     {
                         info.Employee = employee;
@@ -160,7 +151,7 @@ namespace SMS.EPA.Repositories.Implement
                         },
                         "GroupId, JobTitleId").ToList();
 
-                    IList<EPASummaryPeriodModel> periods = multi.Read<EPASummaryPeriodModel, StatusModel, EPASummaryPeriodModel>(
+                    IList<EPASummaryPeriodModel> periods = multi.Read<EPASummaryPeriodModel, EPAStatusModel, EPASummaryPeriodModel>(
                         (res, status) =>
                         {
                             res.Status = status;

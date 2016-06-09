@@ -11,7 +11,7 @@ namespace SMS.EPA.Core.Enumerations
 {
     using System.ComponentModel;
 
-    public enum Status
+    public enum EPAStatus
     {
         [Description("Open")]
         Open = 0,

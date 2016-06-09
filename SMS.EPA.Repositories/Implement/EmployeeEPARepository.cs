@@ -9,7 +9,6 @@
     using SMS.EPA.Core.Services;
     using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.EmployeeEPA.RatingByKPI;
-    using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.Report.Dashboard;
     using SMS.EPA.Model.ScoreRatingType;
     using SMS.EPA.Repositories.Interfaces;
@@ -22,7 +21,7 @@
             {
                 using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    IEnumerable<EPAModel> epaInfos = multi.Read<EPAModel, EPAEmployeeModel, RatingTypeModel, StatusModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
+                    IEnumerable<EPAModel> epaInfos = multi.Read<EPAModel, EPAEmployeeModel, RatingTypeModel, EPAStatusModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
                     (epaInfo, employee, ratingType, status, period, scoreRatingType) =>
                     {
                         epaInfo.Employee = employee;
@@ -58,7 +57,7 @@
                 {
                     EPAModel epaInfo = new EPAModel();
 
-                    epaInfo = multi.Read<EPAModel, EPAEmployeeModel, RatingTypeModel, StatusModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
+                    epaInfo = multi.Read<EPAModel, EPAEmployeeModel, RatingTypeModel, EPAStatusModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
                     (info, employee, ratingType, status, period, scoreRatingType) =>
                     {
                         info.Employee = employee;
@@ -105,7 +104,7 @@
             {
                 using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    IEnumerable<EPAModel> epaInfos = multi.Read<EPAModel, StatusModel, EPAEmployeeModel, EPAPeriodModel, EPAModel>(
+                    IEnumerable<EPAModel> epaInfos = multi.Read<EPAModel, EPAStatusModel, EPAEmployeeModel, EPAPeriodModel, EPAModel>(
                     (epaInfo, status, emp, period) =>
                     {
                         epaInfo.Status = status;
@@ -136,7 +135,7 @@
             {
                 using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    IList<EPAModel> epaInfos = multi.Read<EPAModel, StatusModel, EPAEmployeeModel, EPAPeriodModel, EPAModel>(
+                    IList<EPAModel> epaInfos = multi.Read<EPAModel, EPAStatusModel, EPAEmployeeModel, EPAPeriodModel, EPAModel>(
                     (epaInfo, status, emp, period) =>
                     {
                         epaInfo.Status = status;
@@ -169,7 +168,7 @@
             {
                 using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    result.MyEPAs = multi.Read<EPAModel, StatusModel, EPAPeriodModel, EPAModel>(
+                    result.MyEPAs = multi.Read<EPAModel, EPAStatusModel, EPAPeriodModel, EPAModel>(
                         (epa, status, period) =>
                         {
                             epa.Status = status;

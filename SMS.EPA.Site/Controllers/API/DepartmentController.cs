@@ -1,32 +1,26 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="DepartmentController.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// -----------------------------------------------------------------------
-// <history>
-//   <change who="Tim.Trinh" date="2015.10.01">Created</change>
-// </history>
-
-namespace SMS.EPA.Site.Controllers.API
+﻿namespace SMS.EPA.Site.Controllers.API
 {
     using System.Web.Http;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Criteria.Department;
     using SMS.EPA.Model.Department;
+    using SMS.EPA.Services.Implement;
+    using SMS.EPA.Services.Interfaces;
     using SMS.EPA.Web.ApiAuthorizeAttribute;
 
     public class DepartmentController : BaseController
     {
-        private readonly UtilitiesController _utilitiesController;
+        private readonly ICommonService commonService;
 
         public DepartmentController()
             : this(null)
         {
         }
 
-        public DepartmentController(UtilitiesController utilitiesController)
+        public DepartmentController(ICommonService commonService)
         {
-            _utilitiesController = utilitiesController ?? new UtilitiesController();
+            this.commonService = commonService ?? new CommonService();
         }
 
         [HttpGet]
@@ -35,7 +29,13 @@ namespace SMS.EPA.Site.Controllers.API
             int? parentId = null,
             bool? isActive = null)
         {
-            return _utilitiesController.GetDepartment(parentId, isActive);
+            var criteria = new GetDepartmentCriteria()
+            {
+                ParentId = parentId,
+                IsActive = isActive
+            };
+
+            return commonService.GetDepartment(criteria);
         }
     }
 }

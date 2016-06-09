@@ -1,6 +1,6 @@
 ﻿namespace SMS.EPA.Model.Report.EPASummary
 {
-    using SMS.EPA.Model.Enitites;
+    using SMS.EPA.Model.EmployeeEPA;
 
     public class EPASummaryPeriodModel
     {
@@ -24,6 +24,6 @@
 
         public bool IsEndPeriod { get; set; }
 
-        public StatusModel Status { get; set; }
+        public EPAStatusModel Status { get; set; }
     }
 }

@@ -34,7 +34,7 @@ namespace SMS.EPA.Model.EmployeeEPA
 
         public EPAPeriodModel Period { get; set; }
 
-        public StatusModel Status { get; set; }
+        public EPAStatusModel Status { get; set; }
 
         public ScoreRatingTypeModel ScoreRatingType { get; set; }
 
@@ -141,7 +141,7 @@ namespace SMS.EPA.Model.EmployeeEPA
                     || (Period.TargetTypeId == (int)TargetType.SemiAnnual
                         && HasMonthlyEPA
                         && (Process.CurrentProcess.ProcessId == (int)ProcessType.Self || Process.CurrentProcess.ProcessId == (int)ProcessType.Evaluator))
-                    || Status.StatusId == (int)Core.Enumerations.Status.Closed
+                    || Status.StatusId == (int)Core.Enumerations.EPAStatus.Closed
                     || Period.IsEndPeriod);
 
                 return isAllowedToEdit;
