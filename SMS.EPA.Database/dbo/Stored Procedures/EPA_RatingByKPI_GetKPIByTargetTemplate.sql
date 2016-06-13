@@ -1,6 +1,4 @@
-﻿
-
-CREATE PROCEDURE [dbo].[EPA_RatingByKPI_GetKPIByTargetTemplate] @EvaluatorId INT
+﻿CREATE PROCEDURE [dbo].[EPA_RatingByKPI_GetKPIByTargetTemplate] @EvaluatorId INT
 	,@PeriodId INT
 	,@TargetTemplateId INT
 AS
@@ -28,6 +26,13 @@ BEGIN
 		TargetTemplateId INT
 		,KPIGroupId INT
 		,NumberKPIOptional INT
+		)
+
+	CREATE TABLE #EPADetail (
+		TargetTemplateId INT
+		,KPIGroupId INT
+		,KPI INT
+		,NumberEmpNotEvaluated INT
 		)
 
 	SET @ToDay = CAST(GETDATE() AS DATE)
@@ -77,6 +82,29 @@ BEGIN
 		,dt.TargetTemplateId
 		,dt.KPIGroupId
 
+	INSERT INTO #EPADetail
+	SELECT DISTINCT dt.TargetTemplateId
+		,dt.KPIGroupId
+		,dt.KPIId
+		,COUNT(KPIId)
+	FROM dbo.EPA AS epa WITH (NOLOCK)
+		INNER JOIN dbo.EPADetail AS dt WITH (NOLOCK) ON epa.EPAId = dt.EPAId
+		AND dt.ProcessId = 3 -- evaluator phase
+		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
+		AND pc.ProcessId = 3 -- evaluator phase
+		AND CAST(pc.StartDate AS DATE) <= @ToDay
+		AND CAST(pc.EndDate AS DATE) >= @ToDay
+		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
+	WHERE pc.EvaluatorId = @EvaluatorId
+		AND dt.EvaluatorId = @EvaluatorId
+		AND period.PeriodId = @PeriodId
+		AND dt.TargetTemplateId = @TargetTemplateId
+		AND ISNULL(dt.Score, '') = ''
+		AND epa.HasMonthlyEPA = 0
+	GROUP BY dt.TargetTemplateId
+		,dt.KPIGroupId
+		,dt.KPIId
+
 	SELECT DISTINCT dt.KPIId
 		,khis.[Name]
 		,khis.LogNo
@@ -86,8 +114,8 @@ BEGIN
 		,dt.KPIWeight AS [Weight]
 		,dt.KPIDisplayOrder AS DisplayOrder
 		,(CASE 
-			WHEN ISNULL(dt.Score, '') <> '' THEN 1
-			ELSE 0 END
+			WHEN dt1.NumberEmpNotEvaluated > 0 THEN 0
+			ELSE 1 END
 			) AS Evaluated
 		,dt.KPIGroupId
 		,kghis.[Name]
@@ -117,6 +145,9 @@ BEGIN
 		AND dt.KPIGroupId = tbl.KPIGroupId
 		LEFT JOIN #TblKPIGroup AS tbl1 ON dt.TargetTemplateId = tbl1.TargetTemplateId
 		AND dt.KPIGroupId = tbl1.KPIGroupId
+		LEFT JOIN #EPADetail AS dt1 ON dt.TargetTemplateId = dt1.TargetTemplateId
+		AND dt.KPIGroupId = dt1.KPIGroupId
+		AND dt.KPIId = dt1.KPI
 	WHERE dt.EvaluatorId = @EvaluatorId
 		AND pc.EvaluatorId = @EvaluatorId
 		AND period.PeriodId = @PeriodId
@@ -128,5 +159,6 @@ BEGIN
 	DROP TABLE #KPIGroup
 
 	DROP TABLE #TblKPIGroup
-END;
 
+	DROP TABLE #EPADetail
+END;

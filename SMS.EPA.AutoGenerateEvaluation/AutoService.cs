@@ -268,7 +268,7 @@
                 {
                     var criteria = new AutoCreateMonthlyPeriodCriteria()
                     {
-                        Name = today.ToString(Constants.FormatMonthlyPeriodName),
+                        Name = today.AddMonths(1).ToString(Constants.FormatMonthlyPeriodName),
                         StartDate = today.AddDays(1),
                         EndDate = today.AddDays(1).AddDays(processSettings.Sum(p => p.Duration))
                     };

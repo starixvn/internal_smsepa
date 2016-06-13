@@ -24,6 +24,7 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
     vm.showRatingScoreByStar = true;
     vm.currentPage = 1;
     vm.pageSize = 20;
+    utilitiesFactory.numberEntryList(vm);
 
     vm.filter = {
         periodId: '',
@@ -91,7 +92,9 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
                         vm.kpis = RatingByKPIModel.kpis;
                     });
                     vm.memberEPAs = [];
+                    vm.filteredItems = [];
                     vm.kpiSelected = null;
+                    vm.kpiIdOriginal = null;
                     vm.dataSaved = false;
                 } else {
                     RatingByKPIModel.getKPIByTargetTemplate(vm.filter.periodId, vm.filter.targetTemplateId)
@@ -99,7 +102,9 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
                         vm.kpis = RatingByKPIModel.kpis;
                     });
                     vm.memberEPAs = [];
+                    vm.filteredItems = [];
                     vm.kpiSelected = null;
+                    vm.kpiIdOriginal = null;
                     vm.dataSaved = false;
                 }
             })['finally'](function () {
@@ -107,8 +112,10 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
             });
         } else {
             vm.kpiSelected = null;
+            vm.kpiIdOriginal = null;
             vm.filter.kpiId = '';
             vm.memberEPAs = [];
+            vm.filteredItems = [];
 
             RatingByKPIModel.getKPIByTargetTemplate(vm.filter.periodId, vm.filter.targetTemplateId)
             .then(function () {
