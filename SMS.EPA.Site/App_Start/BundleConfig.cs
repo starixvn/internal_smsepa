@@ -42,8 +42,6 @@
                             "~/Libs/angular-chosen.js",
                             "~/Libs/ui-bootstrap-contextMenu.js",
                             "~/Libs/numeric-directive.js",
-                            "~/Libs/spin.min.js",
-                            "~/Libs/angular-spinner.min.js",
                             "~/Libs/floatThead/jquery.floatThead.min.js",
                             "~/Libs/FanexGrid/Fanex.Grid.js",
                             "~/Libs/FanexGrid/moment.min.js",
@@ -165,7 +163,8 @@
                             "~/SourceApp/Shared/notification-factory.js",
                             "~/SourceApp/Shared/utilities-factory.js",
                             "~/SourceApp/Shared/enumerations-factory.js",
-                            "~/SourceApp/Shared/history-factory.js"));
+                            "~/SourceApp/Shared/history-factory.js",
+                            "~/SourceApp/Shared/lockScreen-factory.js"));
         }
     }
 }

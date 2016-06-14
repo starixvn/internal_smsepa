@@ -2,8 +2,8 @@
 /*global reportModule*/
 
 reportModule.controller('MonthlyEPASummaryReportController',
-['$scope', 'ReportModel', 'CommonModel', 'utilitiesFactory', 'usSpinnerService',
-function ($scope, ReportModel, CommonModel, utilitiesFactory, usSpinnerService) {
+['$scope', 'ReportModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService',
+function ($scope, ReportModel, CommonModel, utilitiesFactory, lockScreenService) {
     var vm = this;
 
     vm.treeDepartment = CommonModel.treeDepartment;
@@ -23,7 +23,7 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory, usSpinnerService) 
     };
 
     function getMonthlyEPASummaryReport() {
-        usSpinnerService.spin("spinner-1");
+        lockScreenService.start();
 
         ReportModel.getMonthlyEPASummaryReport(
             vm.filter.periodIds,
@@ -35,7 +35,7 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory, usSpinnerService) 
             vm.filter.itemsPerPage)
         .then(function () {
             vm.epaSummary = ReportModel.epaSummary;
-            usSpinnerService.stop('spinner-1');
+            lockScreenService.stop();
         });
     }
 

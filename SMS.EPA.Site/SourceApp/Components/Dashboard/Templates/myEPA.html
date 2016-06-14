@@ -27,10 +27,13 @@
                 <div class="col-percent-50">
                     <div ng-show="myEPA.EPAId > 0 && myEPA.Period.IsEndPeriod">
                         <div ng-show="myEPA.HasDisciplineScore">
-                            {{myEPA.DisciplineScore | customScore}} / {{myEPA.MaxDisciplineScore | customScore}}
+                            <span ng-class="myEPA.DisciplineScore < 0 ? 'red' : ''"
+                                  ng-bind="myEPA.DisciplineScore | customScore"></span> / <span ng-bind="myEPA.MaxDisciplineScore | customScore"></span>
                         </div>
                         <div ng-show="!myEPA.HasDisciplineScore">
-                            <span ng-show="myEPA.DisciplineScore" ng-bind="myEPA.DisciplineScore | customScore"></span>
+                            <span ng-show="myEPA.DisciplineScore"
+                                  ng-class="myEPA.DisciplineScore < 0 ? 'red' : ''"
+                                  ng-bind="myEPA.DisciplineScore | customScore"></span>
                             <span ng-show="!myEPA.DisciplineScore" ng-bind="'-'"></span>
                         </div>
                     </div>

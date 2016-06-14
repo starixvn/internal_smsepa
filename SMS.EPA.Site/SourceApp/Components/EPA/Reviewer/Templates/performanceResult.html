@@ -67,10 +67,13 @@
                 </td>
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center" ng-show="$first && !memberEPAInfoCtrl.epaInfo.IsMonthly">
                     <strong ng-show="memberEPAInfoCtrl.epaInfo.HasDisciplineScore">
-                        {{memberEPAInfoCtrl.epaInfo.DisciplineScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxDisciplineScore | customScore}}
+                        <span ng-class="memberEPAInfoCtrl.epaInfo.DisciplineScore < 0 ? 'red' : ''"
+                              ng-bind="memberEPAInfoCtrl.epaInfo.DisciplineScore | customScore"></span> / <span ng-bind="memberEPAInfoCtrl.epaInfo.MaxDisciplineScore | customScore"></span>
                     </strong>
                     <div ng-show="!memberEPAInfoCtrl.epaInfo.HasDisciplineScore">
-                        <strong ng-show="memberEPAInfoCtrl.epaInfo.DisciplineScore" ng-bind="memberEPAInfoCtrl.epaInfo.DisciplineScore | customScore"></strong>
+                        <strong ng-show="memberEPAInfoCtrl.epaInfo.DisciplineScore"
+                                ng-class="memberEPAInfoCtrl.epaInfo.DisciplineScore < 0 ? 'red' : ''"
+                                ng-bind="memberEPAInfoCtrl.epaInfo.DisciplineScore | customScore"></strong>
                         <strong ng-show="!memberEPAInfoCtrl.epaInfo.DisciplineScore" ng-bind="'-'"></strong>
                     </div>
                 </td>

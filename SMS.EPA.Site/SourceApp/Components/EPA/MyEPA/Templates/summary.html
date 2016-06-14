@@ -23,10 +23,13 @@
             <td><strong data-translate="DisciplineScore"></strong></td>
             <td class="text-center col-score">
                 <strong ng-show="memberEPAInfoCtrl.epaInfo.HasDisciplineScore">
-                    {{memberEPAInfoCtrl.epaInfo.DisciplineScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxDisciplineScore | customScore}}
+                    <span ng-class="memberEPAInfoCtrl.epaInfo.DisciplineScore < 0 ? 'red' : ''"
+                          ng-bind="memberEPAInfoCtrl.epaInfo.DisciplineScore | customScore"></span> / <span ng-bind="memberEPAInfoCtrl.epaInfo.MaxDisciplineScore | customScore"></span>
                 </strong>
                 <div ng-show="!memberEPAInfoCtrl.epaInfo.HasDisciplineScore">
-                    <strong ng-show="memberEPAInfoCtrl.epaInfo.DisciplineScore" ng-bind="memberEPAInfoCtrl.epaInfo.DisciplineScore | customScore"></strong>
+                    <strong ng-show="memberEPAInfoCtrl.epaInfo.DisciplineScore"
+                            ng-class="memberEPAInfoCtrl.epaInfo.DisciplineScore < 0 ? 'red' : ''"
+                            ng-bind="memberEPAInfoCtrl.epaInfo.DisciplineScore | customScore"></strong>
                     <strong ng-show="!memberEPAInfoCtrl.epaInfo.DisciplineScore" ng-bind="'-'"></strong>
                 </div>
             </td>

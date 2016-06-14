@@ -294,6 +294,7 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
                     cssEvaluatorScore = memberEPA.EPAId > 0 && !memberEPA.HasMonthlyEPA && !memberEPA.Process.Evaluators[0].IsEndProcess ? 'red' : '',
                     cssReviewerScore = memberEPA.EPAId > 0 && !memberEPA.Process.Reviewers[0].IsEndProcess ? 'red' : '',
                     cssManagementScore = '',
+                    cssDisciplineScore = memberEPA.EPAId > 0 && memberEPA.DisciplineScore < 0 ? 'red' : '',
                     pdfIcon = '<a class="icon-pdf exportPDF" data-epaid="' + memberEPA.EPAId + '" data-hasmonthlyepa="' + memberEPA.HasMonthlyEPA + '"></input>';
 
                 if (memberEPA.EPAId > 0
@@ -316,7 +317,7 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
                         { Name: "EvaluatorScore", Value: "<span class='" + cssEvaluatorScore + "'>" + score.EvaluatorScore + "</span>" },
                         { Name: "ReviewerScore", Value: "<span class='" + cssReviewerScore + "'>" + score.ReviewerScore + "</span>" },
                         { Name: "ManagementScore", Value: "<span class='" + cssManagementScore + "'>" + score.ManagementScore + "</span>" },
-                        { Name: "DisciplineScore", Value: score.DisciplineScore },
+                        { Name: "DisciplineScore", Value: "<span class='" + cssDisciplineScore + "'>" + score.DisciplineScore + "</span>" },
                         { Name: "FinalScore", Value: score.FinalScore },
                         { Name: "Grade", Value: score.Grade },
                         { Name: "ExportPdf", Value: memberEPA.EPAId > 0 && memberEPA.Status.StatusId === 1 && memberEPA.Period.IsEndPeriod ? pdfIcon : "" }

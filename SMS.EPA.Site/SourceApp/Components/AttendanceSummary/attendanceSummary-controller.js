@@ -2,8 +2,8 @@
 /*global attendanceModule*/
 
 attendanceModule.controller('AttendanceSummaryController',
-['$scope', 'AttendanceModel', 'utilitiesFactory', 'CommonModel', 'enumerationsFactory', 'baseUrl', 'usSpinnerService',
-function ($scope, AttendanceModel, utilitiesFactory, CommonModel, enumerationsFactory, baseUrl, usSpinnerService) {
+['$scope', 'AttendanceModel', 'utilitiesFactory', 'CommonModel', 'enumerationsFactory', 'baseUrl', 'lockScreenService',
+function ($scope, AttendanceModel, utilitiesFactory, CommonModel, enumerationsFactory, baseUrl, lockScreenService) {
     var vm = this;
 
     vm.attendanceEmployees = AttendanceModel.attendanceEmployees;
@@ -60,12 +60,12 @@ function ($scope, AttendanceModel, utilitiesFactory, CommonModel, enumerationsFa
     });
 
     var getAttendanceSummary = function (startDate, endDate, departmentId, isLocal, employeeId, reasonId, showAll) {
-        usSpinnerService.spin("spinner-1");
+        lockScreenService.start();
 
         AttendanceModel.getAttendanceSummary(startDate, endDate, departmentId, isLocal, employeeId, reasonId, showAll).then(function () {
             vm.attendanceEmployees = AttendanceModel.attendanceEmployees;
             utilitiesFactory.searchOnPage(vm, vm.attendanceEmployees);
-            usSpinnerService.stop('spinner-1');
+            lockScreenService.stop();
         });
     };
 
@@ -287,8 +287,8 @@ function ($scope, $modalInstance, AttendanceModel, CommonModel, utilitiesFactory
 }]);
 
 attendanceModule.controller('DetailAttendanceSummaryController',
-['$scope', '$window', '$routeParams', 'AttendanceModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'usSpinnerService','historyFactory',
-function ($scope, $window, $routeParams, AttendanceModel, CommonModel, utilitiesFactory, enumerationsFactory, usSpinnerService, historyFactory) {
+['$scope', '$window', '$routeParams', 'AttendanceModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'lockScreenService', 'historyFactory',
+function ($scope, $window, $routeParams, AttendanceModel, CommonModel, utilitiesFactory, enumerationsFactory, lockScreenService, historyFactory) {
     var vm = this,
         hasCalculated = false,
         hasSaved = false;
@@ -354,13 +354,13 @@ function ($scope, $window, $routeParams, AttendanceModel, CommonModel, utilities
     });
 
     var getAttendanceDetail = function (startDate, endDate, employeeId, departmentId, isLocal, reasonId, hasIgnored, showAll) {
-        usSpinnerService.spin("spinner-1");
+        lockScreenService.start();
 
         AttendanceModel.getAttendanceDetail(startDate, endDate, employeeId, departmentId, isLocal, reasonId, hasIgnored, showAll).then(function () {
             vm.attendanceDetails = AttendanceModel.attendanceDetails;
             vm.attendanceDetails = AttendanceModel.convertCheckInOutToDate(vm, vm.attendanceDetails);
             utilitiesFactory.searchOnPage(vm, vm.attendanceDetails);
-            usSpinnerService.stop("spinner-1");
+            lockScreenService.stop();
         });
     };
 

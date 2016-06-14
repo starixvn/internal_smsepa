@@ -106,20 +106,26 @@
                     </td>
                     <td class="text-center" ng-switch="memberEPA.HasDisciplineScore">
                         <div ng-switch-when="true">
-                            {{memberEPA.SystemDisciplineScore | customScore}} / {{memberEPA.MaxDisciplineScore | customScore}}
+                            <span ng-class="memberEPA.SystemDisciplineScore < 0 ? 'red' : ''"
+                                  ng-bind="memberEPA.SystemDisciplineScore | customScore"></span> / <span ng-bind="memberEPA.MaxDisciplineScore | customScore"></span>
                         </div>
                         <div ng-switch-default>
-                            <span ng-show="memberEPA.SystemDisciplineScore" ng-bind="memberEPA.SystemDisciplineScore | customScore"></span>
+                            <span ng-show="memberEPA.SystemDisciplineScore"
+                                  ng-class="memberEPA.SystemDisciplineScore < 0 ? 'red' : ''"
+                                  ng-bind="memberEPA.SystemDisciplineScore | customScore"></span>
                             <span ng-show="!memberEPA.SystemDisciplineScore" ng-bind="'-'"></span>
                         </div>
                     </td>
                     <td class="text-center">
                         <div class="col-percent-60" ng-switch="memberEPA.HasDisciplineScore">
                             <div ng-switch-when="true">
-                                {{memberEPA.DisciplineScore | customScore}} / {{memberEPA.MaxDisciplineScore | customScore}}
+                                <span ng-class="memberEPA.DisciplineScore < 0 ? 'red' : ''"
+                                      ng-bind="memberEPA.DisciplineScore | customScore"></span> / <span ng-bind="memberEPA.MaxDisciplineScore | customScore"></span>
                             </div>
                             <div ng-switch-default>
-                                <span ng-show="memberEPA.DisciplineScore" ng-bind="memberEPA.DisciplineScore | customScore"></span>
+                                <span ng-show="memberEPA.DisciplineScore"
+                                      ng-class="memberEPA.DisciplineScore < 0 ? 'red' : ''"
+                                      ng-bind="memberEPA.DisciplineScore | customScore"></span>
                                 <span ng-show="!memberEPA.DisciplineScore" ng-bind="'-'"></span>
                             </div>
                         </div>

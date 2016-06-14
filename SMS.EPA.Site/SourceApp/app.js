@@ -5,11 +5,11 @@ var appModule = angular.module("appModule", ['employeeModule', 'commonModule', '
 'targetTemplateModule', 'flowMngModule', 'targetEmployeeSettingModule', 'departmentModule', 'epaModule', 'periodModule',
 'dashboardModule', 'attendanceModule', 'reportModule', 'epaHistoryModule', 'monthlyPeriodModule', 'errorModule',
 'ui.bootstrap.contextMenu', 'ui.bootstrap', 'angular.chosen', 'pascalprecht.translate', 'angularUtils.directives.dirPagination',
-'ngRoute', 'multi-select', 'purplefox.numeric', 'angularSpinner', 'angular.filter'])
+'ngRoute', 'multi-select', 'purplefox.numeric', 'angular.filter'])
 .config(['$translateProvider', '$locationProvider', 'paginationTemplateProvider', '$routeProvider',
-    'datepickerConfig', 'datepickerPopupConfig', '$provide', 'usSpinnerConfigProvider',
+    'datepickerConfig', 'datepickerPopupConfig', '$provide',
 function ($translateProvider, $locationProvider, paginationTemplateProvider, $routeProvider,
-    datepickerConfig, datepickerPopupConfig, $provide, usSpinnerConfigProvider) {
+    datepickerConfig, datepickerPopupConfig, $provide) {
     $translateProvider.useLoader('resourceFactory', {});
     $routeProvider.when('/Home/AccessDenied', { templateUrl: '/SourceApp/Shared/Templates/AccessDenied.html' });
     $translateProvider.preferredLanguage('en');
@@ -20,5 +20,4 @@ function ($translateProvider, $locationProvider, paginationTemplateProvider, $ro
     paginationTemplateProvider.setPath('SourceApp/Shared/Templates/dirPagination.tpl.html');
     var baseUrl = $("base").first().attr("href");
     $provide.value("baseUrl", baseUrl);
-    usSpinnerConfigProvider.setTheme('bigBlue', { color: '#4CA4C9', radius: 20 });
 }]);

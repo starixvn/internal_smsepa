@@ -97,7 +97,7 @@
             } else {
                 vm.selectedAll = false;
             }
-        };
+        }
 
         function updateFinalScore() {
             var selectedEPAs = getSelectedEPA(vm.filteredItems);
