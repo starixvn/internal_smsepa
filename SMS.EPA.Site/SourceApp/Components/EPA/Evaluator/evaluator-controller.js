@@ -28,6 +28,14 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, en
         var tempa = epaInfo1.Process.Self.TotalScore ? parseFloat(epaInfo1.Process.Self.TotalScore) : 0,
             tempb = epaInfo2.Process.Self.TotalScore ? parseFloat(epaInfo2.Process.Self.TotalScore) : 0;
 
+        if (epaInfo1.HasMonthlyEPA && epaInfo1.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
+            tempa = epaInfo1.MonthlyEPA.AverageSelfScoreConverted;
+        }
+
+        if (epaInfo2.HasMonthlyEPA && epaInfo2.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
+            tempb = epaInfo2.MonthlyEPA.AverageSelfScoreConverted;
+        }
+
         return tempa - tempb;
     }
 
@@ -65,8 +73,13 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, en
             vm.memberEPAs = SelfEvalutorModel.memberEPAs;
 
             angular.forEach(vm.memberEPAs, function (memberEPA) {
-                memberEPA.Process.Self.TotalScore = utilitiesFactory.parseFloat(memberEPA.Process.Self.TotalScore);
-                memberEPA.FinalScore = utilitiesFactory.parseFloat(memberEPA.Process.CurrentProcess.TotalScore) + memberEPA.DisciplineScore;
+                if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
+                    memberEPA.Process.Self.TotalScore = memberEPA.MonthlyEPA.AverageSelfScoreConverted;
+                    memberEPA.FinalScore = utilitiesFactory.parseFloat(memberEPA.MonthlyEPA.AverageEvaluatorScoreConverted) + memberEPA.DisciplineScore;
+                } else {
+                    memberEPA.Process.Self.TotalScore = utilitiesFactory.parseFloat(memberEPA.Process.Self.TotalScore);
+                    memberEPA.FinalScore = utilitiesFactory.parseFloat(memberEPA.Process.CurrentProcess.TotalScore) + memberEPA.DisciplineScore;
+                }
                 memberEPA.FinalScore = EmployeeEPAModel.checkScore(memberEPA.FinalScore, 0, memberEPA.Process.CurrentProcess.MaxPerformanceScore);
 
                 if (memberEPA.LastFinalScore.length > 0) {

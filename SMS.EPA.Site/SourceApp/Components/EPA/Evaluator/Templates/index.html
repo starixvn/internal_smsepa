@@ -93,16 +93,16 @@
                         </div>
                         <div ng-switch-default data-translate="Pending"></div>
                     </td>
-                    <td class="text-center">
-                        <div ng-show="memberEPA.Process.CurrentProcess.TotalScore.length > 0" ng-switch="memberEPA.HasMonthlyEPA">
-                            <span ng-switch-when="true">
-                                {{memberEPA.MonthlyEPA.AverageEvaluatorScoreConverted | customScore}} / {{memberEPA.Process.CurrentProcess.MaxTotalScore | customScore}}
-                            </span>
-                            <span ng-switch-default>
+                    <td class="text-center" ng-switch="memberEPA.HasMonthlyEPA">
+                        <div ng-switch-when="true">
+                            {{memberEPA.MonthlyEPA.AverageEvaluatorScoreConverted | customScore}} / {{memberEPA.Process.CurrentProcess.MaxTotalScore | customScore}}
+                        </div>
+                        <div ng-switch-default>
+                            <span ng-show="memberEPA.Process.CurrentProcess.TotalScore.length > 0">
                                 {{memberEPA.Process.CurrentProcess.TotalScore | customScore}} / {{memberEPA.Process.CurrentProcess.MaxTotalScore | customScore}}
                             </span>
+                            <span ng-show="memberEPA.Process.CurrentProcess.TotalScore.length == 0" data-translate="NotAvailable"></span>
                         </div>
-                        <div ng-show="memberEPA.Process.CurrentProcess.TotalScore.length == 0" data-translate="NotAvailable"></div>
                     </td>
                     <td class="text-center" ng-switch="memberEPA.HasDisciplineScore">
                         <div ng-switch-when="true">
