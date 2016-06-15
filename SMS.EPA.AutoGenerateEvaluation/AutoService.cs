@@ -355,55 +355,56 @@
                 string messageResult = updateIsEndProcess.IsSuccessful ? "0" : updateIsEndProcess.Message;
                 Log.Info("Result of update status of processes that ended yesterday: " + messageResult);
 
+                IList<AutoEmployeePeriodModel> semiEvaluationProcesses = evaluationProcesses
+                    .Where(evaluationProcess => evaluationProcess.ProcessId == (int)ProcessType.Evaluator
+                        && evaluationProcess.TargetTypeId == (int)TargetType.SemiAnnual
+                        && evaluationProcess.HasMonthlyEPA).ToList();
+
+                foreach (AutoEmployeePeriodModel evaluationProcess in semiEvaluationProcesses)
+                {
+                    var getEPAInfoCriteria = new GetEPAInfoByIdCriteria
+                    {
+                        EPAId = evaluationProcess.EPAId
+                    };
+                    EPAModel epaInfo = _employeeEPAService.GetEPAInfoById(getEPAInfoCriteria);
+
+                    var updateTotalScoreOfSemiHasMonthlyCriteria = new UpdateTotalScoreOfSemiHasMonthlyCriteria
+                    {
+                        EPAId = evaluationProcess.EPAId,
+                        MonthlyEPA = epaInfo.MonthlyEPA
+                    };
+                    Log.Info("Update total score of semi has monthly " + evaluationProcess.EPAId + " : started at " + DateTime.Now);
+                    CommandResult commandResult = _evaluationService.UpdateTotalScoreOfSemiHasMonthly(updateTotalScoreOfSemiHasMonthlyCriteria);
+                    messageResult = commandResult.IsSuccessful ? "0" : commandResult.Message;
+                    Log.Info("Result of update total score semi has monthly " + evaluationProcess.EPAId + " : " + messageResult);
+                }
+
                 foreach (AutoEmployeePeriodModel evaluationProcess in evaluationProcesses.Where(evaluationProcess => evaluationProcess.ProcessId >= (int)ProcessType.Reviewer))
                 {
-                    if (evaluationProcess.ProcessId == (int)ProcessType.Reviewer
-                        && evaluationProcess.TargetTypeId == (int)TargetType.SemiAnnual
-                        && evaluationProcess.HasMonthlyEPA)
+                    if (string.IsNullOrEmpty(evaluationProcess.TotalScore))
                     {
-                        var getEPAInfoCriteria = new GetEPAInfoByIdCriteria
+                        Log.Info("Get information of EPA " + evaluationProcess.EPAId + " : started at " + DateTime.Now);
+                        var getEvaluationInfoCriteria = new GetEPAInfoByIdCriteria
                         {
                             EPAId = evaluationProcess.EPAId
                         };
-                        EPAModel epaInfo = _employeeEPAService.GetEPAInfoById(getEPAInfoCriteria);
+                        EPAModel evaluationInfo = _employeeEPAService.GetEPAInfoById(getEvaluationInfoCriteria);
+                        Log.Info("Get information of EPA " + evaluationProcess.EPAId + " : ended at " + DateTime.Now);
 
-                        var updateTotalScoreOfSemiHasMonthlyCriteria = new UpdateTotalScoreOfSemiHasMonthlyCriteria
+                        Log.Info("Get average score of pre-process of EPA " + evaluationProcess.EPAId + " : started at " + DateTime.Now);
+                        float averageScore = GetAverageScorePreProcess(evaluationInfo, evaluationProcess.ProcessId);
+                        Log.Info("Result of get average score of pre-process of EPA " + evaluationProcess.EPAId + " : " + averageScore);
+
+                        var updateTotalScoreCriteria = new UpdateTotalScoreOfProcessCriteria
                         {
                             EPAId = evaluationProcess.EPAId,
-                            MonthlyEPA = epaInfo.MonthlyEPA
+                            ProcessId = evaluationProcess.ProcessId,
+                            AverageScore = EncodeService.Encode(averageScore.ToString())
                         };
-                        Log.Info("Update total score of semi has monthly " + evaluationProcess.EPAId + " : started at " + DateTime.Now);
-                        CommandResult commandResult = _evaluationService.UpdateTotalScoreOfSemiHasMonthly(updateTotalScoreOfSemiHasMonthlyCriteria);
+                        Log.Info("Update total score of process of EPA " + evaluationProcess.EPAId + " : started at " + DateTime.Now);
+                        CommandResult commandResult = _evaluationService.UpdateTotalScoreOfProcess(updateTotalScoreCriteria);
                         messageResult = commandResult.IsSuccessful ? "0" : commandResult.Message;
-                        Log.Info("Result of update total score semi has monthly " + evaluationProcess.EPAId + " : " + messageResult);
-                    }
-                    else
-                    {
-                        if (string.IsNullOrEmpty(evaluationProcess.TotalScore))
-                        {
-                            Log.Info("Get information of EPA " + evaluationProcess.EPAId + " : started at " + DateTime.Now);
-                            var getEvaluationInfoCriteria = new GetEPAInfoByIdCriteria
-                            {
-                                EPAId = evaluationProcess.EPAId
-                            };
-                            EPAModel evaluationInfo = _employeeEPAService.GetEPAInfoById(getEvaluationInfoCriteria);
-                            Log.Info("Get information of EPA " + evaluationProcess.EPAId + " : ended at " + DateTime.Now);
-
-                            Log.Info("Get average score of pre-process of EPA " + evaluationProcess.EPAId + " : started at " + DateTime.Now);
-                            float averageScore = GetAverageScorePreProcess(evaluationInfo, evaluationProcess.ProcessId);
-                            Log.Info("Result of get average score of pre-process of EPA " + evaluationProcess.EPAId + " : " + averageScore);
-
-                            var updateTotalScoreCriteria = new UpdateTotalScoreOfProcessCriteria
-                            {
-                                EPAId = evaluationProcess.EPAId,
-                                ProcessId = evaluationProcess.ProcessId,
-                                AverageScore = EncodeService.Encode(averageScore.ToString())
-                            };
-                            Log.Info("Update total score of process of EPA " + evaluationProcess.EPAId + " : started at " + DateTime.Now);
-                            CommandResult commandResult = _evaluationService.UpdateTotalScoreOfProcess(updateTotalScoreCriteria);
-                            messageResult = commandResult.IsSuccessful ? "0" : commandResult.Message;
-                            Log.Info("Result of update total score of process of EPA " + evaluationProcess.EPAId + " : " + messageResult);
-                        }
+                        Log.Info("Result of update total score of process of EPA " + evaluationProcess.EPAId + " : " + messageResult);
                     }
                 }
             }
