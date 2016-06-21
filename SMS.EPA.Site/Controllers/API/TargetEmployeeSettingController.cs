@@ -1,13 +1,4 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="TargetEmployeeSettingController.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="7/20/2015">Created.</change>
-// </history>
-
-namespace SMS.EPA.Site.Controllers.API
+﻿namespace SMS.EPA.Site.Controllers.API
 {
     using System.Collections.Generic;
     using System.Web.Http;

@@ -1,19 +1,9 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="EPAModel.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// -----------------------------------------------------------------------
-// <history>
-//   <change who="Tim.Trinh" date="2015.08.26">Created</change>
-// </history>
-
-namespace SMS.EPA.Model.EmployeeEPA
+﻿namespace SMS.EPA.Model.EmployeeEPA
 {
     using System.Collections.Generic;
     using System.Linq;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.ScoreRatingType;
 
     public class EPAModel

@@ -1,13 +1,4 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="SystemRole.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="7/9/2015 2:28:00 PM">Created.</change>
-// </history>
-
-namespace SMS.EPA.Core.Enumerations
+﻿namespace SMS.EPA.Core.Enumerations
 {
     using System.ComponentModel;
 

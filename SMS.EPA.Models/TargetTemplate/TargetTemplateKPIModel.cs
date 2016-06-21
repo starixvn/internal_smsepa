@@ -1,13 +1,4 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="TargetTemplateKPIModel.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="7/10/2015 11:29:52 AM">Created and clone from NexEPA.</change>
-// </history>
-
-namespace SMS.EPA.Model.TargetTemplate
+﻿namespace SMS.EPA.Model.TargetTemplate
 {
     public class TargetTemplateKPIModel
     {

@@ -1,13 +1,4 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="TargetTemplateController.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="7/10/2015 12:39:44 PM">Created and clone from NexEPA.</change>
-// </history>
-
-namespace SMS.EPA.Site.Controllers.API
+﻿namespace SMS.EPA.Site.Controllers.API
 {
     using System.Collections.Generic;
     using System.Web.Http;

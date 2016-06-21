@@ -1,20 +1,8 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="ChangePasswordCriteria.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="7/8/2015 4:51:56 PM">Created.</change>
-// </history>
-
-namespace SMS.EPA.Criteria.Employee
+﻿namespace SMS.EPA.Criteria.Employee
 {
     using System;
     using Fanex.Data.Repository;
 
-    /// <summary>
-    /// Change password criteria.
-    /// </summary>
     public class ChangePasswordCriteria : CriteriaBase
     {
         public int EmployeeId { get; set; }
@@ -31,10 +19,10 @@ namespace SMS.EPA.Criteria.Employee
 
         public override bool IsValid()
         {
-            return EmployeeId > 0 
-                && !string.IsNullOrWhiteSpace(NewPassword) 
+            return EmployeeId > 0
+                && !string.IsNullOrWhiteSpace(NewPassword)
                 && !string.IsNullOrWhiteSpace(OldPassword)
-                && !string.IsNullOrWhiteSpace(ConfirmPassword) 
+                && !string.IsNullOrWhiteSpace(ConfirmPassword)
                 && NewPassword.Equals(ConfirmPassword, StringComparison.OrdinalIgnoreCase);
         }
 

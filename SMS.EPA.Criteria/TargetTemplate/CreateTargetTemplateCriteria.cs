@@ -1,13 +1,4 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="CreateTargetTemplateCriteria.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="7/10/2015 11:11:23 AM">Created.</change>
-// </history>
-
-namespace SMS.EPA.Criteria.TargetTemplate
+﻿namespace SMS.EPA.Criteria.TargetTemplate
 {
     using Fanex.Data.Repository;
 

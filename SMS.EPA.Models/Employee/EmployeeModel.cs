@@ -1,13 +1,4 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="EmployeeModel.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="7/6/2015 10:51:11 AM">Created.</change>
-// </history>
-
-namespace SMS.EPA.Model.Employee
+﻿namespace SMS.EPA.Model.Employee
 {
     using System;
     using System.Collections.Generic;

@@ -1,13 +1,4 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="EvaluationRepository.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="8/31/2015">Created.</change>
-// </history>
-
-namespace SMS.EPA.AutoGenerateEvaluation.Repository
+﻿namespace SMS.EPA.AutoGenerateEvaluation.Repository
 {
     using System.Collections.Generic;
     using System.Linq;

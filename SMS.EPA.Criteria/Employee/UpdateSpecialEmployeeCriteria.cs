@@ -1,19 +1,7 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="UpdateSpecialEmployeeCriteria.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="7/7/2015 4:42:33 PM">Created.</change>
-// </history>
-
-namespace SMS.EPA.Criteria.Employee
+﻿namespace SMS.EPA.Criteria.Employee
 {
     using Fanex.Data.Repository;
 
-    /// <summary>
-    /// Update special employee criteria.
-    /// </summary>
     public class UpdateSpecialEmployeeCriteria : CriteriaBase
     {
         public int EmployeeId { get; set; }

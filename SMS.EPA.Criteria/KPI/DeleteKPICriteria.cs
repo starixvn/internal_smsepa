@@ -1,13 +1,4 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="DeleteKPICriteria.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// -----------------------------------------------------------------------
-// <history>
-//   <change who="Tim.Trinh" date="2015.07.09">Created</change>
-// </history>
-
-namespace SMS.EPA.Criteria.KPI
+﻿namespace SMS.EPA.Criteria.KPI
 {
     using Fanex.Data.Repository;
 

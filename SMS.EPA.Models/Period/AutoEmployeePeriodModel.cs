@@ -1,13 +1,4 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="AutoEmployeePeriodModel.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="9/04/2015">Created.</change>
-// </history>
-
-namespace SMS.EPA.Model.Period
+﻿namespace SMS.EPA.Model.Period
 {
     using SMS.EPA.Core.Services;
 

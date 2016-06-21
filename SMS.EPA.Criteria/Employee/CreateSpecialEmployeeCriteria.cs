@@ -1,19 +1,7 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="CreateSpecialEmployeeCriteria.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="7/7/2015 4:34:21 PM">Created.</change>
-// </history>
-
-namespace SMS.EPA.Criteria.Employee
+﻿namespace SMS.EPA.Criteria.Employee
 {
     using Fanex.Data.Repository;
 
-    /// <summary>
-    /// Insert employee criteria.
-    /// </summary>
     public class CreateSpecialEmployeeCriteria : CriteriaBase
     {
         public string NickName { get; set; }

@@ -1,13 +1,4 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="TargetKPIGroupWeightModel.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="7/13/2015 9:58:53 AM">Created.</change>
-// </history>
-
-namespace SMS.EPA.Model.TargetTemplate
+﻿namespace SMS.EPA.Model.TargetTemplate
 {
     using System.Collections.Generic;
     using System.Text;
@@ -35,7 +26,7 @@ namespace SMS.EPA.Model.TargetTemplate
 
                     foreach (KPIGroupModel item in KPIGroups)
                     {
-                       int spreadKPI = item.IsSpreadKPI == true ? 1 : 0;
+                        int spreadKPI = item.IsSpreadKPI == true ? 1 : 0;
                         kpiGroupXmlBuilder.AppendFormat(KPIGroupXmlTemplate, item.KPIGroupId, item.Weight, spreadKPI, item.DisplayOrder);
                     }
 

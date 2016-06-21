@@ -1,19 +1,7 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="AssignRoleToEmployeeCriteria.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="7/9/2015 3:16:08 PM">Created.</change>
-// </history>
-
-namespace SMS.EPA.Criteria.Employee
+﻿namespace SMS.EPA.Criteria.Employee
 {
     using Fanex.Data.Repository;
 
-    /// <summary>
-    /// Assign role to employee criteria.
-    /// </summary>
     public class AssignRoleToEmployeeCriteria : CriteriaBase
     {
         public int EmployeeId { get; set; }

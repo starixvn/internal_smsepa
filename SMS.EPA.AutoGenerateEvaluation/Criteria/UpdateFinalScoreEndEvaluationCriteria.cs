@@ -1,13 +1,4 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="UpdateFinalScoreEndEvaluationCriteria.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="10/01/2015">Created.</change>
-// </history>
-
-namespace SMS.EPA.AutoGenerateEvaluation.Criteria
+﻿namespace SMS.EPA.AutoGenerateEvaluation.Criteria
 {
     using System.Text;
     using Fanex.Data.Repository;

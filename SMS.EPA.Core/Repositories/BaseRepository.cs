@@ -1,13 +1,4 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="BaseRepository.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="7/6/2015 2:32:41 PM">Created.</change>
-// </history>
-
-namespace SMS.EPA.Core.Repositories
+﻿namespace SMS.EPA.Core.Repositories
 {
     using System;
     using System.Collections;
@@ -20,9 +11,6 @@ namespace SMS.EPA.Core.Repositories
     using SMS.EPA.Core.Criteria;
     using SMS.EPA.Core.Model;
 
-    /// <summary>
-    /// The base repository.
-    /// </summary>
     public class BaseRepository : IBaseRepository
     {
         public CommandResult Insert(ICriteria criteria, bool hasGetOutputParams = false)
@@ -40,12 +28,6 @@ namespace SMS.EPA.Core.Repositories
             return ExecuteNonQuery(criteria, hasGetOutputParams);
         }
 
-        /// <summary>
-        /// Function to insert, update or delete.
-        /// </summary>
-        /// <param name="criteria">Criteria contains parameter throw stored procedure.</param>
-        /// <param name="hasGetOutputParams">Has get output parameters or no.</param>
-        /// <returns>Command Result.</returns>
         private CommandResult ExecuteNonQuery(ICriteria criteria, bool hasGetOutputParams = false)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
@@ -76,11 +58,6 @@ namespace SMS.EPA.Core.Repositories
             };
         }
 
-        /// <summary>
-        /// Function to set new value from Hash table to Criteria.
-        /// </summary>
-        /// <param name="criteria">The Criteria.</param>
-        /// <param name="hash">The Hash table.</param>
         private void SetValueForOutputProperty(ICriteria criteria, Hashtable hash)
         {
             IEnumerable<PropertyInfo> properties = criteria.GetType().GetProperties().Where(

@@ -1,13 +1,4 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="TargetEmployeeModel.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="7/17/2015">Created.</change>
-// </history>
-
-namespace SMS.EPA.Model.TargetEmployeeSetting
+﻿namespace SMS.EPA.Model.TargetEmployeeSetting
 {
     using System.Collections.Generic;
     using SMS.EPA.Model.Enitites;

@@ -1,28 +1,11 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="WebCommonService.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="7/9/2015 5:41:01 PM">Created.</change>
-// </history>
-
-namespace SMS.EPA.Web.Services
+﻿namespace SMS.EPA.Web.Services
 {
     using System.Linq;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Model.RoleManagement;
 
-    /// <summary>
-    /// The web common service.
-    /// </summary>
     public class WebCommonService : IWebCommonService
     {
-        /// <summary>
-        /// Get permission on function.
-        /// </summary>
-        /// <param name="functionKey">The function key.</param>
-        /// <returns>The permission.</returns>
         public int GetPermission(string functionKey)
         {
             int policy = (int)Policy.None;
@@ -39,12 +22,6 @@ namespace SMS.EPA.Web.Services
             return policy;
         }
 
-        /// <summary>
-        /// Check current user has permission on current function or not.
-        /// </summary>
-        /// <param name="functionKey">The function key.</param>
-        /// <param name="policy">THe policy.</param>
-        /// <returns>True if has permission, false: otherwise.</returns>
         public bool HasPermissionOnFunction(string functionKey, Policy policy)
         {
             if (SessionManager.CurrentUser != null)

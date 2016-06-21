@@ -1,13 +1,4 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="TargetDepartmentModel.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="8/7/2015">Created.</change>
-// </history>
-
-namespace SMS.EPA.Model.TargetEmployeeSetting
+﻿namespace SMS.EPA.Model.TargetEmployeeSetting
 {
     using System.Collections.Generic;
     using SMS.EPA.Model.Department;
@@ -24,7 +15,7 @@ namespace SMS.EPA.Model.TargetEmployeeSetting
 
         public IList<TargetTemplateModel> TargetTemplates { get; set; }
 
-        public int NumberTargetTemplates 
+        public int NumberTargetTemplates
         {
             get
             {

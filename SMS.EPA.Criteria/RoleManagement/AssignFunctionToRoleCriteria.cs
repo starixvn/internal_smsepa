@@ -1,19 +1,7 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="AssignFunctionToRoleCriteria.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="7/9/2015 1:45:44 PM">Created.</change>
-// </history>
-
-namespace SMS.EPA.Criteria.RoleManagement
+﻿namespace SMS.EPA.Criteria.RoleManagement
 {
     using Fanex.Data.Repository;
 
-    /// <summary>
-    /// Assign function to role criteria.
-    /// </summary>
     public class AssignFunctionToRoleCriteria : CriteriaBase
     {
         public int RoleId { get; set; }

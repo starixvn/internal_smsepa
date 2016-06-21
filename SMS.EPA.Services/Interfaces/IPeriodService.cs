@@ -1,20 +1,11 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="IPeriodService.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="8/13/2015">Created.</change>
-// </history>
-
-namespace SMS.EPA.Services.Interfaces
+﻿namespace SMS.EPA.Services.Interfaces
 {
     using System.Collections.Generic;
-using SMS.EPA.Core.Model;
-using SMS.EPA.Criteria.Period;
-using SMS.EPA.Criteria.Period.GenerationEvaluation;
-using SMS.EPA.Model.FlowManagement;
-using SMS.EPA.Model.Period;
+    using SMS.EPA.Core.Model;
+    using SMS.EPA.Criteria.Period;
+    using SMS.EPA.Criteria.Period.GenerationEvaluation;
+    using SMS.EPA.Model.FlowManagement;
+    using SMS.EPA.Model.Period;
 
     public interface IPeriodService
     {

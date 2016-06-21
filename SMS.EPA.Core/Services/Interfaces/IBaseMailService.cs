@@ -1,13 +1,4 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="IBaseMailService.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="8/27/2015">Created.</change>
-// </history>
-
-namespace SMS.EPA.Core.Services.Interfaces
+﻿namespace SMS.EPA.Core.Services.Interfaces
 {
     public interface IBaseMailService
     {

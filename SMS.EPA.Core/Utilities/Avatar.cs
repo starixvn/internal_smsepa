@@ -1,13 +1,4 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="Avatar.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// -----------------------------------------------------------------------
-// <history>
-//   <change who="Tim.Trinh" date="2015.10.12">Created</change>
-// </history>
-
-namespace SMS.EPA.Core.Utilities
+﻿namespace SMS.EPA.Core.Utilities
 {
     using System.IO;
     using System.Web;

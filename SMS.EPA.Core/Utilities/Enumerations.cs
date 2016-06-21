@@ -1,13 +1,4 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="Enumerations.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="7/9/2015 2:35:35 PM">Created.</change>
-// </history>
-
-namespace SMS.EPA.Core.Utilities
+﻿namespace SMS.EPA.Core.Utilities
 {
     using System;
     using System.ComponentModel;

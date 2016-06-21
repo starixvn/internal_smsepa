@@ -1,22 +1,10 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="SessionManager.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="7/6/2015 10:32:44 AM">Created.</change>
-// </history>
-
-namespace SMS.EPA.Web
+﻿namespace SMS.EPA.Web
 {
     using System;
     using System.Web;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Model.Authentication;
 
-    /// <summary>
-    /// The session manager.
-    /// </summary>
     public static class SessionManager
     {
         public static UserSession CurrentUser
@@ -39,9 +27,6 @@ namespace SMS.EPA.Web
             }
         }
 
-        /// <summary>
-        /// Function to clear session manager.
-        /// </summary>
         public static void ClearAll()
         {
             if (HttpContext.Current != null && HttpContext.Current.Session != null)

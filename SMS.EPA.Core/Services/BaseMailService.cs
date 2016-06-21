@@ -1,13 +1,4 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="BaseMailService.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="8/27/2015">Created.</change>
-// </history>
-
-namespace SMS.EPA.Core.Services.Implement
+﻿namespace SMS.EPA.Core.Services.Implement
 {
     using System;
     using System.Configuration;

@@ -1,13 +1,4 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="AttendanceSummaryModel.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="9/08/2015">Created.</change>
-// </history>
-
-namespace SMS.EPA.Model.AttendanceSummary
+﻿namespace SMS.EPA.Model.AttendanceSummary
 {
     using System;
     using SMS.EPA.Model.Enitites;

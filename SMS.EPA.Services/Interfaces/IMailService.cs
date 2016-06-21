@@ -1,13 +1,4 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="IMailService.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="8/28/2015">Created.</change>
-// </history>
-
-namespace SMS.EPA.Services.Interfaces
+﻿namespace SMS.EPA.Services.Interfaces
 {
     using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.Period;

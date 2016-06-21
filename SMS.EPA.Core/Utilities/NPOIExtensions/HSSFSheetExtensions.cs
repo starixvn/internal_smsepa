@@ -1,13 +1,4 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="HSSFSheetExtensions.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="11/27/2014 3:05:33 PM">Created.</change>
-// </history>
-
-namespace NexFB.Core.Utilities.NPOIExtensions
+﻿namespace NexFB.Core.Utilities.NPOIExtensions
 {
     using System;
     using System.Collections.Generic;
@@ -15,19 +6,8 @@ namespace NexFB.Core.Utilities.NPOIExtensions
     using NPOI.SS.UserModel;
     using NPOI.SS.Util;
 
-    /// <summary>
-    /// Sheet Extensions.
-    /// </summary>
     public static class HSSFSheetExtensions
     {
-        /// <summary>
-        /// Copies a number of rows from another sheet.
-        /// </summary>
-        /// <param name="sheet">Current sheet.</param>
-        /// <param name="sourceSheet">Source sheet.</param>
-        /// <param name="sourceRowIndex">Start row index of the source sheet.</param>
-        /// <param name="rowIndex">Start row index of the current sheet.</param>
-        /// <param name="total">Number of rows that will be copied.</param>
         public static void CopyRows(this ISheet sheet, ISheet sourceSheet, int sourceRowIndex, int rowIndex, int total)
         {
             for (var i = 0; i < total; i++)
@@ -36,15 +16,6 @@ namespace NexFB.Core.Utilities.NPOIExtensions
             }
         }
 
-        /// <summary>
-        /// Copies a row from the source to the current sheet.
-        /// </summary>
-        /// <param name="sheet">Current sheet.</param>
-        /// <param name="sourceSheet">Source sheet.</param>
-        /// <param name="sourceRowIndex">The index of source row.</param>
-        /// <param name="rowIndex">The index of the row where data will be copied to.</param>
-        /// <param name="firstColumnIndex">First column index of copying area.</param>
-        /// <param name="lastColumnIndex">Last column index of copying area.</param>
         [SuppressMessage("StyleCop.CSharp.Nexcel.NexcelCustomRules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Need to review here.")]
         public static void CopyRow(this ISheet sheet, ISheet sourceSheet, int sourceRowIndex, int rowIndex, int firstColumnIndex, int lastColumnIndex)
         {
@@ -111,23 +82,11 @@ namespace NexFB.Core.Utilities.NPOIExtensions
             }
         }
 
-        /// <summary>
-        /// Copies a row from the source to the current sheet.
-        /// </summary>
-        /// <param name="sheet">Current sheet.</param>
-        /// <param name="sourceSheet">Source sheet.</param>
-        /// <param name="sourceRowIndex">The index of source row.</param>
-        /// <param name="rowIndex">The index of the row where data will be copied to.</param>
         public static void CopyRow(this ISheet sheet, ISheet sourceSheet, int sourceRowIndex, int rowIndex)
         {
             sheet.CopyRow(sourceSheet, sourceRowIndex, rowIndex, 0, int.MaxValue - 1);
         }
 
-        /// <summary>
-        /// Removes a row at a specific index.
-        /// </summary>
-        /// <param name="sheet">Current sheet.</param>
-        /// <param name="rowIndex">Index of row that needs to be removed.</param>
         public static void RemoveRow(this ISheet sheet, int rowIndex)
         {
             if (sheet != null)
@@ -136,11 +95,6 @@ namespace NexFB.Core.Utilities.NPOIExtensions
             }
         }
 
-        /// <summary>
-        /// Removes a list of columns from the sheet.
-        /// </summary>
-        /// <param name="sheet">Current sheet.</param>
-        /// <param name="columns">List of column indexes.</param>
         public static void RemoveColumns(this ISheet sheet, List<int> columns)
         {
             if (columns != null && columns.Count > 0)
@@ -153,11 +107,6 @@ namespace NexFB.Core.Utilities.NPOIExtensions
             }
         }
 
-        /// <summary>
-        /// Removes a column from the sheet at a specific index.
-        /// </summary>
-        /// <param name="sheet">Current sheet.</param>
-        /// <param name="columnIndex">Index of column that needs to be removed.</param>
         [SuppressMessage("StyleCop.CSharp.Nexcel.NexcelCustomRules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Need to review here.")]
         public static void RemoveColumn(this ISheet sheet, int columnIndex)
         {
@@ -237,24 +186,11 @@ namespace NexFB.Core.Utilities.NPOIExtensions
             }
         }
 
-        /// <summary>
-        /// Clones a cell.
-        /// </summary>
-        /// <param name="sheet">Current sheet.</param>
-        /// <param name="newCell">New cell instance.</param>
-        /// <param name="sourceCell">Source cell instance.</param>
         public static void CloneCell(this ISheet sheet, ICell newCell, ICell sourceCell)
         {
             sheet.CloneCell(newCell, sourceCell);
         }
 
-        /// <summary>
-        /// Gets a cell at specific row and column.
-        /// </summary>
-        /// <param name="sheet">Current sheet.</param>
-        /// <param name="rowIndex">Row index.</param>
-        /// <param name="colIndex">Column index.</param>
-        /// <returns>Cell instance at the passed position.</returns>
         public static ICell GetCell(this ISheet sheet, int rowIndex, int colIndex)
         {
             ICell cell = null;
@@ -267,29 +203,12 @@ namespace NexFB.Core.Utilities.NPOIExtensions
             return cell;
         }
 
-        /// <summary>
-        /// Merges cells into a cell range.
-        /// </summary>
-        /// <param name="sheet">Current sheet.</param>
-        /// <param name="firstRow">First row index of region needs to be merged.</param>
-        /// <param name="firstCol">First column index of region needs to be merged.</param>
-        /// <param name="lastRow">Last row index of region needs to be merged.</param>
-        /// <param name="lastCol">Last column index of region needs to be merged.</param>
-        /// <returns>Index of merged cells.</returns>
         public static int MergeCells(this ISheet sheet, int firstRow, int firstCol, int lastRow, int lastCol)
         {
             var rangeAddress = new CellRangeAddress(firstRow, lastRow, firstCol, lastCol);
             return sheet.AddMergedRegion(rangeAddress);
         }
 
-        /// <summary>
-        /// Removes merged regions from the sheet.
-        /// </summary>
-        /// <param name="sheet">Current sheet.</param>
-        /// <param name="firstRow">First row index of region needs to be removed.</param>
-        /// <param name="firstCol">First column index of region needs to be removed.</param>
-        /// <param name="lastRow">Last row index of region needs to be removed.</param>
-        /// <param name="lastCol">Last column index of region needs to be removed.</param>
         public static void RemoveMergedRegions(this ISheet sheet, int firstRow, int firstCol, int lastRow, int lastCol)
         {
             if (sheet != null)
@@ -308,15 +227,6 @@ namespace NexFB.Core.Utilities.NPOIExtensions
             }
         }
 
-        /// <summary>
-        /// Creates a merged cell.
-        /// </summary>
-        /// <param name="sheet">Current sheet.</param>
-        /// <param name="rowIndex">Row index.</param>
-        /// <param name="colIndex">Column index.</param>
-        /// <param name="rowSpan">Number of row span.</param>
-        /// <param name="colSpan">Number of column span.</param>
-        /// <returns>New cell instance.</returns>
         public static ICell CreateCell(this ISheet sheet, int rowIndex, int colIndex, int rowSpan, int colSpan)
         {
             ICell cell = sheet.CreateCell(rowIndex, colIndex);
@@ -329,16 +239,6 @@ namespace NexFB.Core.Utilities.NPOIExtensions
             return cell;
         }
 
-        /// <summary>
-        /// Creates a merged cell.
-        /// </summary>
-        /// <param name="sheet">Current sheet.</param>
-        /// <param name="rowIndex">Row index.</param>
-        /// <param name="colIndex">Column index.</param>
-        /// <param name="rowSpan">Number of row span.</param>
-        /// <param name="colSpan">Number of column span.</param>
-        /// <param name="cellStyle">Cell style.</param>
-        /// <returns>New cell instance.</returns>
         public static ICell CreateCell(this ISheet sheet, int rowIndex, int colIndex, int rowSpan, int colSpan, ICellStyle cellStyle)
         {
             ICell cell = sheet.CreateCell(rowIndex, colIndex, rowSpan, colSpan);
@@ -346,13 +246,6 @@ namespace NexFB.Core.Utilities.NPOIExtensions
             return cell;
         }
 
-        /// <summary>
-        /// Creates new cell at specific row and column index.
-        /// </summary>
-        /// <param name="sheet">Current sheet.</param>
-        /// <param name="rowIndex">Row index.</param>
-        /// <param name="colIndex">Column index.</param>
-        /// <returns>New cell instance.</returns>
         public static ICell CreateCell(this ISheet sheet, int rowIndex, int colIndex)
         {
             ICell cell = null;
@@ -369,11 +262,6 @@ namespace NexFB.Core.Utilities.NPOIExtensions
             return cell;
         }
 
-        /// <summary>
-        /// Clones value and style of a cell.
-        /// </summary>
-        /// <param name="newCell">New cell instance.</param>
-        /// <param name="sourceCell">Source cell instance.</param>
         [SuppressMessage("StyleCop.CSharp.Nexcel.NexcelCustomRules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Need to review here.")]
         private static void CloneCell(ICell newCell, ICell sourceCell)
         {

@@ -1,13 +1,4 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="WebApiConfig.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="7/2/2015 10:18:16 AM">Created.</change>
-// </history>
-
-namespace SMS.EPA.Site
+﻿namespace SMS.EPA.Site
 {
     using System.Web.Http;
     using Newtonsoft.Json;

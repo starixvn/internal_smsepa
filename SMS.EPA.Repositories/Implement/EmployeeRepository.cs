@@ -1,13 +1,4 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="EmployeeRepository.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="7/7/2015 10:53:33 AM">Created.</change>
-// </history>
-
-namespace SMS.EPA.Repositories.Implement
+﻿namespace SMS.EPA.Repositories.Implement
 {
     using System.Collections.Generic;
     using System.Linq;

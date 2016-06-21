@@ -1,12 +1,4 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="JobTitle.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="7/7/2015 4:01:41 PM">Created.</change>
-
-namespace SMS.EPA.Model.Enitites
+﻿namespace SMS.EPA.Model.Enitites
 {
     using System;
 

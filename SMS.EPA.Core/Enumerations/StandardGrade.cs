@@ -1,13 +1,4 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="StandardGrade.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="8/28/2015">Created.</change>
-// </history>
-
-namespace SMS.EPA.Core.Enumerations
+﻿namespace SMS.EPA.Core.Enumerations
 {
     using System.ComponentModel;
 

@@ -1,13 +1,4 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="AuthController.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="7/6/2015 10:25:37 AM">Created.</change>
-// </history>
-
-namespace SMS.EPA.Site.Controllers
+﻿namespace SMS.EPA.Site.Controllers
 {
     using System.Web;
     using System.Web.Mvc;
@@ -20,9 +11,6 @@ namespace SMS.EPA.Site.Controllers
     using SMS.EPA.Services.Interfaces;
     using SMS.EPA.Web;
 
-    /// <summary>
-    /// The login controller.
-    /// </summary>
     public class AuthController : Controller
     {
         private readonly IEmployeeService _employeeService;

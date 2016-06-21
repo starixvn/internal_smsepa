@@ -1,19 +1,7 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="Random.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="7/6/2015 3:34:48 PM">Created.</change>
-// </history>
-
-namespace SMS.EPA.Core.Security
+﻿namespace SMS.EPA.Core.Security
 {
     using System.Security.Cryptography;
 
-    /// <summary>
-    /// The random encrypt password algorithm class.
-    /// </summary>
     public static class Random
     {
         #region Numeric
@@ -24,7 +12,7 @@ namespace SMS.EPA.Core.Security
             return RandomString(numeric, size);
         }
 
-        #endregion
+        #endregion Numeric
 
         #region Alphabet
 
@@ -40,7 +28,7 @@ namespace SMS.EPA.Core.Security
             return RandomString(alphabet, size);
         }
 
-        #endregion
+        #endregion Alphabet
 
         #region RNGCrypRandom
 
@@ -52,14 +40,8 @@ namespace SMS.EPA.Core.Security
             return valueArray;
         }
 
-        #endregion
+        #endregion RNGCrypRandom
 
-        /// <summary>
-        /// Function to random string.
-        /// </summary>
-        /// <param name="allowChars">Allow Chars.</param>
-        /// <param name="size">Size of object.</param>
-        /// <returns>String value.</returns>
         private static string RandomString(string allowChars, int size)
         {
             int length = allowChars.Length;

@@ -1,14 +1,9 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="PeriodService.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="8/13/2015">Created.</change>
-// </history>
-
-namespace SMS.EPA.Services.Implement
+﻿namespace SMS.EPA.Services.Implement
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Configuration;
+    using System.Linq;
     using NexFB.Core.Utilities;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
@@ -22,10 +17,6 @@ namespace SMS.EPA.Services.Implement
     using SMS.EPA.Repositories.Interfaces;
     using SMS.EPA.Resources;
     using SMS.EPA.Services.Interfaces;
-    using System;
-    using System.Collections.Generic;
-    using System.Configuration;
-    using System.Linq;
 
     public class PeriodService : BaseService, IPeriodService
     {

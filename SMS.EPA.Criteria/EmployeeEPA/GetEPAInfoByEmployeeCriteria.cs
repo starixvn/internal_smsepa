@@ -1,13 +1,4 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="GetEPAInfoByEmployeeCriteria.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// -----------------------------------------------------------------------
-// <history>
-//   <change who="Tim.Trinh" date="2015.08.11">Created</change>
-// </history>
-
-namespace SMS.EPA.Criteria.EmployeeEPA
+﻿namespace SMS.EPA.Criteria.EmployeeEPA
 {
     using Fanex.Data.Repository;
 

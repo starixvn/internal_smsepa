@@ -1,14 +1,7 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="EPAHistoryService.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="10/19/2015">Created.</change>
-// </history>
-
-namespace SMS.EPA.Services.Implement
+﻿namespace SMS.EPA.Services.Implement
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.EPAHistory;
     using SMS.EPA.Model.EPAHistory;
@@ -16,8 +9,6 @@ namespace SMS.EPA.Services.Implement
     using SMS.EPA.Repositories.Implement;
     using SMS.EPA.Repositories.Interfaces;
     using SMS.EPA.Services.Interfaces;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class EPAHistoryService : BaseService, IEPAHistoryService
     {

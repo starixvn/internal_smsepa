@@ -1,13 +1,4 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="ApiAuthorizeAttribute.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="7/9/2015 5:34:00 PM">Created.</change>
-// </history>
-
-namespace SMS.EPA.Web.ApiAuthorizeAttribute
+﻿namespace SMS.EPA.Web.ApiAuthorizeAttribute
 {
     using System;
     using System.Collections.ObjectModel;
@@ -21,9 +12,6 @@ namespace SMS.EPA.Web.ApiAuthorizeAttribute
     using SMS.EPA.Model.Authentication;
     using SMS.EPA.Web.Services;
 
-    /// <summary>
-    /// The authorize of API request.
-    /// </summary>
     [AttributeUsage(AttributeTargets.All, AllowMultiple = true)]
     [SuppressMessage("Microsoft.Design", "CA1019:DefineAccessorsForAttributeArguments", Justification = "Reviewed. Suppression is OK here.")]
     public sealed class ApiAuthorizeAttribute : AuthorizeAttribute
@@ -56,10 +44,6 @@ namespace SMS.EPA.Web.ApiAuthorizeAttribute
 
         public Policy Policy { get; set; }
 
-        /// <summary>
-        /// Authorization event handler.
-        /// </summary>
-        /// <param name="actionContext">HttpAction Context.</param>
         public override void OnAuthorization(HttpActionContext actionContext)
         {
             if (HttpContext.Current.User.Identity.IsAuthenticated)
@@ -97,10 +81,6 @@ namespace SMS.EPA.Web.ApiAuthorizeAttribute
             actionContext.Response = responseMessage;
         }
 
-        /// <summary>
-        /// Check user permission.
-        /// </summary>
-        /// <param name="actionContext">The action context.</param>
         private void CheckUserPermission(HttpActionContext actionContext)
         {
             Collection<ApiAuthorizeAttribute> attributes = actionContext.ActionDescriptor.GetCustomAttributes<ApiAuthorizeAttribute>();

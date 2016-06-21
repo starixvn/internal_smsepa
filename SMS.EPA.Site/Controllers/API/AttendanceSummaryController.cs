@@ -1,13 +1,4 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="AttendanceSummaryController.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="9/08/2015">Created.</change>
-// </history>
-
-namespace SMS.EPA.Site.Controllers.API
+﻿namespace SMS.EPA.Site.Controllers.API
 {
     using System;
     using System.Collections.Generic;

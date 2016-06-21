@@ -1,15 +1,5 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="CreateKPICriteria.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// -----------------------------------------------------------------------
-// <history>
-//   <change who="Tim.Trinh" date="2015.07.08">Created</change>
-// </history>
-
-namespace SMS.EPA.Criteria.KPI
+﻿namespace SMS.EPA.Criteria.KPI
 {
-    using System;
     using Fanex.Data.Repository;
     using SMS.EPA.Core.Attribute;
 

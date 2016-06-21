@@ -1,13 +1,4 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="ProcessFlowModel.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// -----------------------------------------------------------------------
-// <history>
-//   <change who="Tim.Trinh" date="2015.10.26">Created</change>
-// </history>
-
-namespace SMS.EPA.Model.FlowManagement
+﻿namespace SMS.EPA.Model.FlowManagement
 {
     public class ProcessFlowModel
     {

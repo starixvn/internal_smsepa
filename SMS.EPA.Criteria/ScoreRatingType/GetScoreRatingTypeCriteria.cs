@@ -1,13 +1,4 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="GetScoreRatingTypeCriteria.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="8/6/2015">Created.</change>
-// </history>
-
-namespace SMS.EPA.Criteria.ScoreRatingType
+﻿namespace SMS.EPA.Criteria.ScoreRatingType
 {
     using Fanex.Data.Repository;
 

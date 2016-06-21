@@ -1,13 +1,4 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="MonthlyPeriodController.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// -----------------------------------------------------------------------
-// <history>
-//   <change who="Tim.Trinh" date="2016.02.15">Created</change>
-// </history>
-
-namespace SMS.EPA.Site.Controllers.API
+﻿namespace SMS.EPA.Site.Controllers.API
 {
     using System;
     using System.Collections.Generic;

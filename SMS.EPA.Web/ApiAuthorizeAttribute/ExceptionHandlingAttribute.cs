@@ -1,13 +1,4 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="ExceptionHandlingAttribute.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="9/03/2015">Created.</change>
-// </history>
-
-namespace SMS.EPA.Web.ApiAuthorizeAttribute
+﻿namespace SMS.EPA.Web.ApiAuthorizeAttribute
 {
     using System;
     using System.Web;

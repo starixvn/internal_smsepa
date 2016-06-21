@@ -1,13 +1,4 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="ResourcesController.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="7/2/2015 2:50:44 PM">Created.</change>
-// </history>
-
-namespace SMS.EPA.Site.Controllers.API
+﻿namespace SMS.EPA.Site.Controllers.API
 {
     using System.Collections;
     using System.Globalization;
@@ -16,16 +7,8 @@ namespace SMS.EPA.Site.Controllers.API
     using System.Web.Http;
     using SMS.EPA.Resources;
 
-    /// <summary>
-    /// The resources controller.
-    /// </summary>
     public class ResourcesController : ApiController
     {
-        /// <summary>
-        /// Function to get resource by language.
-        /// </summary>
-        /// <param name="lang">Language input.</param>
-        /// <returns>String resource JSON format.</returns>
         public string Get(string lang)
         {
             ResourceManager resourceManager = null;
@@ -34,6 +17,7 @@ namespace SMS.EPA.Site.Controllers.API
                 case "en":
                     resourceManager = new ResourceManager(typeof(Lang)) { IgnoreCase = true };
                     break;
+
                 default:
                     resourceManager = new ResourceManager(typeof(Lang)) { IgnoreCase = true };
                     break;

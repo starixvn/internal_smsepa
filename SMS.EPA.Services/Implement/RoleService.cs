@@ -1,13 +1,4 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="RoleService.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="7/9/2015 1:57:31 PM">Created.</change>
-// </history>
-
-namespace SMS.EPA.Services.Implement
+﻿namespace SMS.EPA.Services.Implement
 {
     using System.Collections.Generic;
     using System.Linq;

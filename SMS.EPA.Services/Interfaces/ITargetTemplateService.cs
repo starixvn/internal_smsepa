@@ -1,13 +1,4 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="ITargetTemplateService.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="7/10/2015 11:26:44 AM">Created and clone from NexEPA.</change>
-// </history>
-
-namespace SMS.EPA.Services.Interfaces
+﻿namespace SMS.EPA.Services.Interfaces
 {
     using System.Collections.Generic;
     using SMS.EPA.Core.Model;

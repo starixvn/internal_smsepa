@@ -1,13 +1,4 @@
-﻿// ----------------------------------------------------------------------
-// <copyright file="TargetTemplateService.cs" company="Nexcel Solutions Viet Nam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// ------------------------------------------------------------------------
-// <history>
-//   <change who="Josh.Phan" date="7/10/2015 12:34:40 PM">Created.</change>
-// </history>
-
-namespace SMS.EPA.Services.Implement
+﻿namespace SMS.EPA.Services.Implement
 {
     using System.Collections.Generic;
     using System.Linq;
