@@ -26,9 +26,9 @@
     public class ReportService : IReportService
     {
         private const int ExcelColumnWidth = 256;
-        private readonly IReportRepository _reportRepository;
-        private readonly IEmployeeEPARepository _employeeEPARepository;
-        private readonly IEmployeeEPAService _employeeEPAService;
+        private readonly IReportRepository reportRepository;
+        private readonly IEmployeeEPARepository employeeEPARepository;
+        private readonly IEmployeeEPAService employeeEPAService;
 
         public ReportService()
             : this(null, null, null)
@@ -40,9 +40,9 @@
             IEmployeeEPARepository employeeEPARepository,
             IEmployeeEPAService employeeEPAService)
         {
-            _reportRepository = reportRepository ?? new ReportRepository();
-            _employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
-            _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
+            this.reportRepository = reportRepository ?? new ReportRepository();
+            this.employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
+            this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
         }
 
         public DashboardModel GetDashboard(GetDashboardCriteria criteria)
@@ -51,7 +51,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                result = _employeeEPARepository.GetDashboard(criteria);
+                result = employeeEPARepository.GetDashboard(criteria);
             }
 
             return result;
@@ -65,7 +65,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                result = _reportRepository.GetEPASummary(criteria);
+                result = reportRepository.GetEPASummary(criteria);
             }
 
             return result;
@@ -86,20 +86,20 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                result = _reportRepository.GetEPADetail(criteria);
+                result = reportRepository.GetEPADetail(criteria);
 
                 IList<EPAModel> monthlyEPAs = new List<EPAModel>();
                 string epaIds = string.Join(",", result.MemberEPAs.Where(x => x.HasMonthlyEPA && x.Period.TargetTypeId == (int)TargetType.SemiAnnual).Select(x => x.EPAId));
 
                 if (!string.IsNullOrEmpty(epaIds))
                 {
-                    monthlyEPAs = _employeeEPAService.GetMonthlyEPAOfSemi(epaIds);
+                    monthlyEPAs = employeeEPAService.GetMonthlyEPAOfSemi(epaIds);
                 }
 
                 foreach (EPAModel epaInfo in result.MemberEPAs)
                 {
-                    _employeeEPAService.GroupMonthlyEPABySemi(epaInfo, monthlyEPAs);
-                    _employeeEPAService.ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
+                    employeeEPAService.GroupMonthlyEPABySemi(epaInfo, monthlyEPAs);
+                    employeeEPAService.ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
                 }
             }
 
@@ -121,7 +121,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                result = _reportRepository.GetMonthlyEPADetail(criteria);
+                result = reportRepository.GetMonthlyEPADetail(criteria);
             }
 
             return result;
@@ -146,7 +146,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                result = _reportRepository.GetMonthlyEPASummary(criteria);
+                result = reportRepository.GetMonthlyEPASummary(criteria);
             }
 
             return result;
@@ -550,25 +550,30 @@
             {
                 float score = memberEPA.Process.Self.TotalScore.Length > 0 ? float.Parse(memberEPA.Process.Self.TotalScore) : 0;
 
+                if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId == (int)TargetType.SemiAnnual)
+                {
+                    score = memberEPA.MonthlyEPA.AverageSelfScoreConverted;
+                }
+
                 selfScore = Math.Round(score, 2).ToString();
             }
 
-            if (memberEPA.EPAId > 0 && memberEPA.Process.Evaluators != null
-                && memberEPA.Process.Evaluators.Any())
+            if (memberEPA.EPAId > 0 && memberEPA.Process.Evaluators != null && memberEPA.Process.Evaluators.Any())
             {
                 evaluatorScore = Math.Round(memberEPA.Process.AverageScoreByEvaluators, 2).ToString();
+
+                if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId == (int)TargetType.SemiAnnual)
+                {
+                    evaluatorScore = Math.Round(memberEPA.MonthlyEPA.AverageEvaluatorScoreConverted, 2).ToString();
+                }
             }
 
-            if (memberEPA.EPAId > 0
-                && memberEPA.Process.Reviewers != null
-                && memberEPA.Process.Reviewers.Any())
+            if (memberEPA.EPAId > 0 && memberEPA.Process.Reviewers != null && memberEPA.Process.Reviewers.Any())
             {
                 reviewerScore = Math.Round(memberEPA.Process.AverageScoreByReviewers, 2).ToString();
             }
 
-            if (memberEPA.EPAId > 0
-                && memberEPA.Process.Managements != null
-                && memberEPA.Process.Managements.Any())
+            if (memberEPA.EPAId > 0 && memberEPA.Process.Managements != null && memberEPA.Process.Managements.Any())
             {
                 managementScore = Math.Round(memberEPA.Process.AverageScoreByManagements, 2).ToString();
             }

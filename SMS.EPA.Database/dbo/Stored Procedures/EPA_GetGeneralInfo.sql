@@ -1,8 +1,4 @@
-﻿
-/****** Object:  Stored Procedure dbo.EPA_GetGeneralInfo    Script Date: 5/16/2016 2:20:13 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_GetGeneralInfo    Script Date: 5/16/2016 2:15:34 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_GetGeneralInfo    Script Date: 5/16/2016 1:59:44 PM ******/
-CREATE PROCEDURE [dbo].[EPA_GetGeneralInfo] @TblEPAIds IntId READONLY
+﻿CREATE PROCEDURE [dbo].[EPA_GetGeneralInfo] @TblEPAIds IntId READONLY
 AS
 /*
 Created: 20150827@Tim.Trinh
@@ -95,8 +91,9 @@ BEGIN
 		,emp.NickName
 		,emp.FullName
 		,emp.Email
+		,emp.JoinedDate
 		,dept.DepartmentId
-		,dept.[Name]
+		,dept.[Name] AS DepartmentName
 		,gr.GroupId
 		,gr.Code AS GroupCode
 		,gr.[Name] AS GroupName

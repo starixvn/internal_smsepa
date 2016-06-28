@@ -49,8 +49,14 @@
                 </div>
             </div>
         </div>
-        <div class="row row-item line" ng-show="!memberEPAInfoCtrl.isViewDetail">
+        <div class="row row-item line">
             <div class="col-sm-6">
+                <div class="col-sm-4" data-translate="GroupDate"></div>
+                <div class="col-sm-7">
+                    <strong ng-bind="memberEPAInfoCtrl.epaInfo.Employee.JoinedDate | customDate"></strong>
+                </div>
+            </div>
+            <div class="col-sm-6" ng-show="!memberEPAInfoCtrl.isViewDetail">
                 <div class="col-sm-4" data-translate="Evaluated"></div>
                 <div class="col-sm-7">
                     <span class="glyphicon glyphicon-saved epa-saved"

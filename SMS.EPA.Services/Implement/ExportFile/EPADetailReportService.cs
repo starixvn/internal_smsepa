@@ -57,7 +57,7 @@
                 Export(epaDetail);
             }
 
-            var response = HttpContext.Current.Response;
+            HttpResponse response = HttpContext.Current.Response;
 
             response.Clear();
             response.ContentType = "application/vnd.ms-excel";
@@ -282,6 +282,10 @@
             if (memberEPA.EPAId > 0 && memberEPA.Process.Self.StatusEndProcess != (int)ProcessStatusType.Open)
             {
                 float score = memberEPA.Process.Self.TotalScore.Length > 0 ? float.Parse(memberEPA.Process.Self.TotalScore) : 0;
+                if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId == (int)TargetType.SemiAnnual)
+                {
+                    score = memberEPA.MonthlyEPA.AverageSelfScoreConverted;
+                }
 
                 selfScore = Math.Round(score, 2).ToString();
             }
@@ -292,6 +296,11 @@
                 && memberEPA.Process.Evaluators[0].StatusEndProcess != (int)ProcessStatusType.Open)
             {
                 evaluatorScore = Math.Round(memberEPA.Process.AverageScoreByEvaluators, 2).ToString();
+
+                if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId == (int)TargetType.SemiAnnual)
+                {
+                    evaluatorScore = Math.Round(memberEPA.MonthlyEPA.AverageEvaluatorScoreConverted, 2).ToString();
+                }
             }
 
             if (memberEPA.EPAId > 0
