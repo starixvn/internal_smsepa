@@ -34,3 +34,4 @@ packages/
 *.html.orig
 *.orig
 SMS.EPA.Site/ExportPDFFolder/*
+*.dbmdl
