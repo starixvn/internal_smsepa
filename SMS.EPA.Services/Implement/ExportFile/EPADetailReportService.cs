@@ -143,11 +143,11 @@
 
                 cell = row.CreateCell(currentColumn++);
                 cell.CellStyle = bodyStyle;
-                cell.SetCellValue(memberEPA.Employee.NickName);
+                cell.SetCellValue(memberEPA.Employee.FullName);
 
                 cell = row.CreateCell(currentColumn++);
                 cell.CellStyle = bodyStyle;
-                cell.SetCellValue(memberEPA.Employee.FullName);
+                cell.SetCellValue(memberEPA.Employee.NickName);
 
                 cell = row.CreateCell(currentColumn++);
                 cell.CellStyle = bodyStyle;
