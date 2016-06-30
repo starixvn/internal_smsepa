@@ -2,8 +2,8 @@
 /*global attendanceModule*/
 
 attendanceModule.controller('AttendanceSummaryController',
-['$scope', 'AttendanceModel', 'utilitiesFactory', 'CommonModel', 'enumerationsFactory', 'baseUrl', 'lockScreenService',
-function ($scope, AttendanceModel, utilitiesFactory, CommonModel, enumerationsFactory, baseUrl, lockScreenService) {
+['$scope', 'AttendanceModel', 'utilitiesFactory', 'CommonModel', 'enumerationsFactory', 'baseUrl', 'lockScreenService', 'historyFactory',
+function ($scope, AttendanceModel, utilitiesFactory, CommonModel, enumerationsFactory, baseUrl, lockScreenService, historyFactory) {
     var vm = this;
 
     vm.attendanceEmployees = AttendanceModel.attendanceEmployees;
@@ -15,10 +15,24 @@ function ($scope, AttendanceModel, utilitiesFactory, CommonModel, enumerationsFa
     vm.currentPage = AttendanceModel.summaryPaging.currentPage;
     vm.pageSize = AttendanceModel.summaryPaging.pageSize;
 
-    vm.filter = AttendanceModel.filter;
-    vm.filter.startDate = AttendanceModel.getStartDate();
-    vm.filter.endDate = AttendanceModel.getEndDate();
+    //vm.filter = AttendanceModel.filter;
+    //vm.filter.startDate = AttendanceModel.getStartDate();
+    //vm.filter.endDate = AttendanceModel.getEndDate();
 
+    function initFilter() {
+        var filter = historyFactory.getState();
+        return filter ? filter : {
+            startDate: AttendanceModel.getStartDate(),
+            endDate: AttendanceModel.getEndDate(),
+            employee: null,
+            departmentId: null,
+            isLocal: '',
+            employeeId: null,
+            reasonId: null,
+            showAll: false
+        };
+    }
+    vm.filter = initFilter();
     if (vm.filter.employeeId) {
         CommonModel.getEmployeeById(vm.filter.employeeId).then(function () {
             vm.filter.employee = CommonModel.employee;
@@ -105,6 +119,7 @@ function ($scope, AttendanceModel, utilitiesFactory, CommonModel, enumerationsFa
         }
 
         AttendanceModel.cacheFilter(vm.filter);
+        historyFactory.saveState(vm.filter);
         getAttendanceSummary(filter.startDate, filter.endDate, filter.departmentId, filter.isLocal, employeeId, vm.filter.reasonId, filter.showAll);
     };
 

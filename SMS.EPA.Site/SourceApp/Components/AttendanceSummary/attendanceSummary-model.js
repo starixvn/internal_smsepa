@@ -30,26 +30,6 @@ function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitie
     attendanceModel.otherViolationTypes = [];
     attendanceModel.isSystemAdmin = false;
 
-    attendanceModel.filter = {
-        startDate: date,
-        endDate: date,
-        employee: null,
-        departmentId: null,
-        isLocal: '',
-        employeeId: null,
-        reasonId: null,
-        showAll: false
-    };
-
-    attendanceModel.cacheFilter = function (filter) {
-        attendanceModel.filter.startDate = filter.startDate;
-        attendanceModel.filter.endDate = filter.endDate;
-        attendanceModel.filter.departmentId = filter.departmentId;
-        attendanceModel.filter.isLocal = filter.isLocal;
-        attendanceModel.filter.employeeId = filter.employeeId;
-        attendanceModel.filter.reasonId = filter.reasonId;
-    };
-
     attendanceModel.summaryPaging = {
         currentPage: 1,
         pageSize: 20
