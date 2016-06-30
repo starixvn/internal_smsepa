@@ -15,10 +15,6 @@ function ($scope, AttendanceModel, utilitiesFactory, CommonModel, enumerationsFa
     vm.currentPage = AttendanceModel.summaryPaging.currentPage;
     vm.pageSize = AttendanceModel.summaryPaging.pageSize;
 
-    //vm.filter = AttendanceModel.filter;
-    //vm.filter.startDate = AttendanceModel.getStartDate();
-    //vm.filter.endDate = AttendanceModel.getEndDate();
-
     function initFilter() {
         var filter = historyFactory.getState();
         return filter ? filter : {
