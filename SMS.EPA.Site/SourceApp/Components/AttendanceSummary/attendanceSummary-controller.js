@@ -28,7 +28,9 @@ function ($scope, AttendanceModel, utilitiesFactory, CommonModel, enumerationsFa
             showAll: false
         };
     }
+
     vm.filter = initFilter();
+
     if (vm.filter.employeeId) {
         CommonModel.getEmployeeById(vm.filter.employeeId).then(function () {
             vm.filter.employee = CommonModel.employee;
@@ -114,7 +116,6 @@ function ($scope, AttendanceModel, utilitiesFactory, CommonModel, enumerationsFa
             vm.filter.employeeId = employeeId;
         }
 
-        AttendanceModel.cacheFilter(vm.filter);
         historyFactory.saveState(vm.filter);
         getAttendanceSummary(filter.startDate, filter.endDate, filter.departmentId, filter.isLocal, employeeId, vm.filter.reasonId, filter.showAll);
     };
