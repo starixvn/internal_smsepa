@@ -288,16 +288,8 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 
             var averageScore = 0, countEndProcess = 0;
             angular.forEach(vm.memberEPAs, function (memberEPA) {
-                if (memberEPA.Process.Reviewers.length > 0
-                    && !memberEPA.Process.CurrentProcess.TotalScore
-                    && memberEPA.Process.Reviewers[0].IsEndProcess) {
+                if (!memberEPA.Process.CurrentProcess.TotalScore && memberEPA.Process.Reviewers[0].IsEndProcess) {
                     memberEPA.Process.CurrentProcess.TotalScore = memberEPA.Process.AverageScoreByReviewers;
-                } else if (!memberEPA.Process.CurrentProcess.TotalScore && memberEPA.Process.Evaluators[0].IsEndProcess) {
-                    if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
-                        memberEPA.Process.CurrentProcess.TotalScore = memberEPA.MonthlyEPA.AverageEvaluatorScoreConverted;
-                    } else {
-                        memberEPA.Process.CurrentProcess.TotalScore = memberEPA.Process.AverageScoreByEvaluators;
-                    }
                 }
 
                 memberEPA.Process.Self.TotalScore = utilitiesFactory.parseFloat(memberEPA.Process.Self.TotalScore);
@@ -314,6 +306,8 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
                 if (memberEPA.Process.CurrentProcess.IsEndProcess) {
                     countEndProcess += 1;
                 }
+
+                averageScore += memberEPA.Process.AverageScoreByReviewers;
             });
 
             if (countEndProcess === vm.memberEPAs.length) {
