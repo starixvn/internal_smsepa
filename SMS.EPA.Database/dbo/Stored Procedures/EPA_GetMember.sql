@@ -1,8 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EPA_GetMember    Script Date: 5/16/2016 2:20:11 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_GetMember    Script Date: 5/16/2016 2:15:33 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_GetMember    Script Date: 5/16/2016 1:59:44 PM ******/
-
-CREATE PROCEDURE [dbo].[EPA_GetMember] @ActorUserId INT
+﻿CREATE PROCEDURE [dbo].[EPA_GetMember] @ActorUserId INT
 	,@ProcessId INT
 	,@GroupId INT = NULL
 	,@IsLocal BIT = NULL
@@ -43,7 +39,8 @@ BEGIN
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 		AND period.IsActive = 1
 		INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
-	WHERE (
+	WHERE epa.[Status] = 0 -- open
+		AND (
 			@GroupId IS NULL
 			OR g.GroupId = @GroupId
 			)
@@ -51,9 +48,10 @@ BEGIN
 			@IsLocal IS NULL
 			OR emp.IsLocal = @IsLocal
 			)
-		AND (
+		AND @ToDay >= CAST(pc.StartDate AS DATE)
+		/*AND (
 			(
-				tt.TargetTypeId IN (2,3) -- semi
+				tt.TargetTypeId IN (2, 3) -- semi
 				AND @ToDay >= CAST(pc.StartDate AS DATE)
 				AND (
 					@ToDay < CAST(period.EndDate AS DATE)
@@ -64,14 +62,15 @@ BEGIN
 					)
 				)
 			OR (
-				tt.TargetTypeId NOT IN (2,3)
+				tt.TargetTypeId NOT IN (2, 3)
 				AND @ToDay BETWEEN CAST(pc.StartDate AS DATE)
 					AND CAST(pc.EndDate AS DATE)
 				AND pc.ProcessId >= @ProcessId
 				)
-			)
+			)*/
 		AND (
-			(
+		     @IsMonthly IS NULL
+			OR (
 				@IsMonthly = 1
 				AND tt.TargetTypeId = 2
 				)
