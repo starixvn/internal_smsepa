@@ -35,7 +35,8 @@
             _container.Register<IAttendanceAPI, AttendanceAPI>(Lifestyle.Singleton);
             _container.Register<IEmployeeAPI, EmployeeAPI>(Lifestyle.Singleton);
             _container.Register<IJobTitleAPI, JobTitleAPI>(Lifestyle.Singleton);
-            _container.Register<ISupervisorAPI, SupervisorAPI>(Lifestyle.Singleton);
+            _container.Register<IEmployeeSupervisorAPI, EmployeeSupervisorAPI>(Lifestyle.Singleton);
+            _container.Register<ITeamSupervisorAPI, TeamSupervisorAPI>(Lifestyle.Singleton);
             _container.Register<ITeamAPI, TeamAPI>(Lifestyle.Singleton);
             _container.Register<ITokenAPI, TokenAPI>(Lifestyle.Singleton);
 

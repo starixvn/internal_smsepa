@@ -10,12 +10,17 @@
     public class SupervisorService : ISupervisorService
     {
         private readonly IDynamicRepository _dynamicRepository;
-        private readonly ISupervisorAPI _supervisorAPI;
+        private readonly IEmployeeSupervisorAPI _employeeSupervisorAPI;
+        private readonly ITeamSupervisorAPI _teamSupervisorAPI;
 
-        public SupervisorService(IDynamicRepository dynamicRepository, ISupervisorAPI supervisorAPI)
+        public SupervisorService(
+            IDynamicRepository dynamicRepository, 
+            IEmployeeSupervisorAPI employeeSupervisorAPI,
+            ITeamSupervisorAPI teamSupervisorAPI)
         {
             _dynamicRepository = dynamicRepository;
-            _supervisorAPI = supervisorAPI;
+            _employeeSupervisorAPI = employeeSupervisorAPI;
+            _teamSupervisorAPI = teamSupervisorAPI;
         }
 
         public IEnumerable<EmployeeSupervisor> GetEmployees(DateTime fromDate)
@@ -36,22 +41,22 @@
 
         public CommandResult UpdateEmployees(IEnumerable<EmployeeSupervisor> employees, TokenAccess token)
         {
-            return _supervisorAPI.UpdateEmployees(employees, token);
+            return _employeeSupervisorAPI.Update(employees, token);
         }
 
         public CommandResult UpdateGroups(IEnumerable<GroupSupervisor> groups, TokenAccess token)
         {
-            return _supervisorAPI.UpdateGroups(groups, token);
+            return _teamSupervisorAPI.Update(groups, token);
         }
 
         public DateTime GetMaxModifiedDateForEmployee(TokenAccess token)
         {
-            return _supervisorAPI.GetMaxModifiedDateForEmployee(token);
+            return _employeeSupervisorAPI.GetMaxModifiedDate(token);
         }
 
         public DateTime GetMaxModifiedDateForGroup(TokenAccess token)
         {
-            return _supervisorAPI.GetMaxModifiedDateForGroup(token);
+            return _teamSupervisorAPI.GetMaxModifiedDate(token);
         }
     }
 }

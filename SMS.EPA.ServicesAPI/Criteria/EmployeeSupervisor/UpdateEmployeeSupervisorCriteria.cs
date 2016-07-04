@@ -7,13 +7,13 @@
     using System.Text;
     using System.Web;
 
-    public class UpdateTeamDisciplineCriteria : CriteriaBase
+    public class UpdateEmployeeSupervisorCriteria : CriteriaBase
     {
         private const string _SupervisorTpl =
-             "<Supervisor OwnerId='{0}' GroupId='{1}' ModifiedDate='{2}' IsDeleted='{3}'></Supervisor>";
+             "<Supervisor OwnerId='{0}' EmployeeId='{1}' ModifiedDate='{2}' IsDeleted='{3}'></Supervisor>";
 
         [SpParam(Ignored = true)]
-        public IList<TeamDisciplinePermission> EmployeeDisciplines { get; set; }
+        public IList<EmployeeDisciplinePermission> EmployeeDisciplines { get; set; }
 
         public string SupervisorXml
         {
@@ -23,12 +23,12 @@
 
                 if (EmployeeDisciplines != null)
                 {
-                    foreach (TeamDisciplinePermission supervisor in EmployeeDisciplines)
+                    foreach (EmployeeDisciplinePermission supervisor in EmployeeDisciplines)
                     {
                         value.AppendFormat(
                             _SupervisorTpl,
                             supervisor.OwnerId,
-                            supervisor.TeamId,
+                            supervisor.EmployeeId,
                             supervisor.ModifiedDate,
                             supervisor.IsDeleted);
                     }
@@ -40,7 +40,7 @@
 
         public override string GetSettingKey()
         {
-            return "Sync_TeamDisciplinePermission";
+            return "Sync_EmployeeSupervisor";
         }
 
         public override bool IsValid()
