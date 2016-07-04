@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.ServicesAPI.Criteria.Permission
+﻿namespace SMS.EPA.ServicesAPI.Criteria.TeamDisciplinePermission
 {
     using Fanex.Data.Repository;
     using SMS.EPA.ServicesAPI.Model;
@@ -7,13 +7,13 @@
     using System.Text;
     using System.Web;
 
-    public class UpdateEmployeeSupervisorCriteria : CriteriaBase
+    public class UpdateTeamDisciplinePermissionCriteria : CriteriaBase
     {
         private const string _SupervisorTpl =
-             "<Supervisor OwnerId='{0}' EmployeeId='{1}' ModifiedDate='{2}' IsDeleted='{3}'></Supervisor>";
+             "<Supervisor OwnerId='{0}' GroupId='{1}' ModifiedDate='{2}' IsDeleted='{3}'></Supervisor>";
 
         [SpParam(Ignored = true)]
-        public IList<EmployeeDisciplinePermission> EmployeeDisciplines { get; set; }
+        public IList<TeamDisciplinePermission> EmployeeDisciplines { get; set; }
 
         public string SupervisorXml
         {
@@ -23,12 +23,12 @@
 
                 if (EmployeeDisciplines != null)
                 {
-                    foreach (EmployeeDisciplinePermission supervisor in EmployeeDisciplines)
+                    foreach (TeamDisciplinePermission supervisor in EmployeeDisciplines)
                     {
                         value.AppendFormat(
                             _SupervisorTpl,
                             supervisor.OwnerId,
-                            supervisor.EmployeeId,
+                            supervisor.TeamId,
                             supervisor.ModifiedDate,
                             supervisor.IsDeleted);
                     }
@@ -40,7 +40,7 @@
 
         public override string GetSettingKey()
         {
-            return "Sync_EmployeeSupervisor";
+            return "Sync_TeamDisciplinePermission";
         }
 
         public override bool IsValid()

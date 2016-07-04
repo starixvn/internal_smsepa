@@ -112,8 +112,8 @@
     <Compile Include="ThirdPartyAPIs\Interfaces\ITeamSupervisorAPI.cs" />
     <Compile Include="ThirdPartyAPIs\Interfaces\IEmployeeSupervisorAPI.cs" />
     <Compile Include="Services\JobTitleService.cs" />
-    <Compile Include="ThirdPartyAPIs\TeamSupervisorAPI.cs" />
-    <Compile Include="ThirdPartyAPIs\EmployeeSupervisorAPI.cs" />
+    <Compile Include="ThirdPartyAPIs\TeamDisciplinePermissionAPI.cs" />
+    <Compile Include="ThirdPartyAPIs\EmployeeDisciplinePermissionAPI.cs" />
     <Compile Include="Services\SupervisorService.cs" />
     <Compile Include="Services\TeamService.cs" />
     <Compile Include="Services\EmployeeService.cs" />

@@ -1,38 +1,38 @@
 ﻿namespace SMS.EPA.ServicesAPI.Controllers
 {
     using SMS.EPA.Core.Model;
-    using SMS.EPA.ServicesAPI.Criteria.Permission;
+    using SMS.EPA.ServicesAPI.Criteria.TeamDisciplinePermission;
     using SMS.EPA.ServicesAPI.Model;
     using SMS.EPA.ServicesAPI.Services;
     using System;
     using System.Net;
     using System.Web.Http;
 
-    public class EmployeeSupervisorController : ApiController
+    public class TeamDisciplinePermissionController : ApiController
     {
         private readonly IServiceAPI _permissionService;
 
-        public EmployeeSupervisorController() : this(null) 
+        public TeamDisciplinePermissionController() : this(null) 
         { 
         }
 
-        public EmployeeSupervisorController(IServiceAPI permissionService)
+        public TeamDisciplinePermissionController(IServiceAPI permissionService)
         {
             _permissionService = permissionService ?? new ServiceAPI();
         }
 
         public IHttpActionResult GetMaxModifiedDate()
         {
-            var criteria = new GetMaxModifiedDateForEmployeeSupervisorCriteria();
+            var criteria = new GetMaxModifiedDateForTeamDisciplinePermissionCriteria();
 
             DateTime fromDate = _permissionService.GetMaxModifiedDate(criteria);
 
             return Ok(fromDate);
         }
 
-        public IHttpActionResult Update(EmployeeDisciplinePermission[] disciplines)
+        public IHttpActionResult Update(TeamDisciplinePermission[] disciplines)
         {
-            var criteria = new UpdateEmployeeSupervisorCriteria()
+            var criteria = new UpdateTeamDisciplinePermissionCriteria()
             {
                 EmployeeDisciplines = disciplines
             };

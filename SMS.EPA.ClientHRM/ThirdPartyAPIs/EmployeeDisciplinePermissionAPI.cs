@@ -8,7 +8,7 @@
     using System.Net.Http;
     using System.Net.Http.Headers;
 
-    public class EmployeeSupervisorAPI : IEmployeeSupervisorAPI
+    public class EmployeeDisciplinePermissionAPI : IEmployeeSupervisorAPI
     {
         public DateTime GetMaxModifiedDate(TokenAccess token)
         {
@@ -16,7 +16,7 @@
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
 
-                var result = client.GetAsync(ApplicationConfig.ServiceAPI + "EmployeeSupervisor").Result;
+                var result = client.GetAsync(ApplicationConfig.ServiceAPI + "EmployeeDisciplinePermission").Result;
                 if (result.StatusCode != HttpStatusCode.OK)
                 {
                     throw new WebApiException(result.StatusCode, result.RequestMessage);
@@ -31,7 +31,7 @@
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
-                var targetURL = ApplicationConfig.ServiceAPI + "EmployeeSupervisor";
+                var targetURL = ApplicationConfig.ServiceAPI + "EmployeeDisciplinePermission";
                 var result = client.PostAsJsonAsync<EmployeeSupervisor[]>(targetURL, employeeSupervisors.ToArray()).Result;
 
                 return new CommandResult { Code = (int)result.StatusCode };

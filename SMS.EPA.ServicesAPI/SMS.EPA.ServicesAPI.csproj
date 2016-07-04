@@ -208,12 +208,12 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
-    <Compile Include="Controllers\TeamSupervisorController.cs" />
-    <Compile Include="Criteria\TeamSupervisor\GetMaxModifiedDateForTeamSupervisorCriteria.cs" />
-    <Compile Include="Criteria\TeamSupervisor\UpdateTeamSupervisorCriteria.cs" />
+    <Compile Include="Controllers\TeamDisciplinePermissionController.cs" />
+    <Compile Include="Criteria\TeamDisciplinePermission\GetMaxModifiedDateForTeamSupervisorCriteria.cs" />
+    <Compile Include="Criteria\TeamDisciplinePermission\UpdateTeamSupervisorCriteria.cs" />
     <Compile Include="Model\EmployeeDiscipline.cs" />
     <Compile Include="Controllers\EmployeeDisciplineController.cs" />
-    <Compile Include="Controllers\EmployeeSupervisorController.cs" />
+    <Compile Include="Controllers\EmployeeDisciplinePermissionController.cs" />
     <Compile Include="Controllers\JobTitleController.cs" />
     <Compile Include="Controllers\TeamController.cs" />
     <Compile Include="Criteria\EmployeeDiscipline\GetFromDateForAttendanceViolationCriteria.cs" />
@@ -222,8 +222,8 @@
     <Compile Include="Criteria\JobTitle\UpdateJobTitleCriteria.cs" />
     <Compile Include="Model\TeamDisciplinePermission.cs" />
     <Compile Include="Model\EmployeeDisciplinePermission.cs" />
-    <Compile Include="Criteria\EmployeeSupervisor\GetMaxModifiedDateForEmployeeSupervisorCriteria.cs" />
-    <Compile Include="Criteria\EmployeeSupervisor\UpdateEmployeeSupervisorCriteria.cs" />
+    <Compile Include="Criteria\EmployeeDisciplinePermission\GetMaxModifiedDateForEmployeeSupervisorCriteria.cs" />
+    <Compile Include="Criteria\EmployeeDisciplinePermission\UpdateEmployeeSupervisorCriteria.cs" />
     <Compile Include="Criteria\Team\GetMaxModifiedDateForTeamCriteria.cs" />
     <Compile Include="Criteria\Team\UpdateTeamCriteria.cs" />
     <Compile Include="Model\Department.cs" />

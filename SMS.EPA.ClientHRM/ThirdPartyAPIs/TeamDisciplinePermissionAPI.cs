@@ -8,7 +8,7 @@
     using System.Net.Http;
     using System.Net.Http.Headers;
 
-    public class TeamSupervisorAPI : ITeamSupervisorAPI
+    public class TeamDisciplinePermissionAPI : ITeamSupervisorAPI
     {
         public DateTime GetMaxModifiedDate(TokenAccess token)
         {
@@ -16,7 +16,7 @@
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
 
-                var result = client.GetAsync(ApplicationConfig.ServiceAPI + "TeamSupervisor").Result;
+                var result = client.GetAsync(ApplicationConfig.ServiceAPI + "TeamDisciplinePermission").Result;
 
                 if (result.StatusCode != HttpStatusCode.OK)
                 {
@@ -33,7 +33,7 @@
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
 
-                var result = client.PostAsJsonAsync<GroupSupervisor[]>(ApplicationConfig.ServiceAPI + "TeamSupervisor", groupSupervisors.ToArray()).Result;
+                var result = client.PostAsJsonAsync<GroupSupervisor[]>(ApplicationConfig.ServiceAPI + "TeamDisciplinePermission", groupSupervisors.ToArray()).Result;
 
                 return new CommandResult { Code = (int)result.StatusCode };
             }
