@@ -5,7 +5,7 @@
         var vm = this;
 
         vm.currentPage = 1;
-        vm.departments = [];
+        vm.groups = [];
         vm.employees = [];
         vm.epaInfos = [];
         vm.filter = {
@@ -65,8 +65,8 @@
                 vm.periods = EmployeeEPAModel.periods;
             });
 
-            CommonModel.getDepartment().then(function () {
-                vm.departments = CommonModel.departments;
+            CommonModel.getAllGroup().then(function () {
+                vm.groups = CommonModel.groups;
             });
         }
 
