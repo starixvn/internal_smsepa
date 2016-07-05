@@ -81,8 +81,8 @@
     <Compile Include="Criteria\GetDepartmentCriteria.cs" />
     <Compile Include="Criteria\GetEmployeeAttendanceViolationCriteria.cs" />
     <Compile Include="Criteria\GetEmployeeCriteria.cs" />
-    <Compile Include="Criteria\GetEmployeeSupervisorCriteria.cs" />
-    <Compile Include="Criteria\GetGroupSupervisorCriteria.cs" />
+    <Compile Include="Criteria\GetEmployeeDisciplinePermissionCriteria.cs" />
+    <Compile Include="Criteria\GetGroupDisciplinePermissionCriteria.cs" />
     <Compile Include="Criteria\GetJobTitleCriteria.cs" />
     <Compile Include="Criteria\GetTeamCriteria.cs" />
     <Compile Include="Bootstrap.cs" />
@@ -90,10 +90,10 @@
     <Compile Include="Model\Department.cs" />
     <Compile Include="Model\Employee.cs" />
     <Compile Include="Model\AttendanceViolation.cs" />
-    <Compile Include="Model\EmployeeSupervisor.cs" />
+    <Compile Include="Model\EmployeeDisciplinePermission.cs" />
     <Compile Include="Model\JobTitle.cs" />
     <Compile Include="Model\Team.cs" />
-    <Compile Include="Model\GroupSupervisor.cs" />
+    <Compile Include="Model\GroupDisciplinePermission.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>

@@ -6,13 +6,13 @@
 
     public interface ISupervisorService
     {
-        IEnumerable<EmployeeSupervisor> GetEmployees(DateTime fromDate);
+        IEnumerable<EmployeeDisciplinePermission> GetEmployees(DateTime fromDate);
 
-        IEnumerable<GroupSupervisor> GetGroups(DateTime fromDate);
+        IEnumerable<GroupDisciplinePermission> GetGroups(DateTime fromDate);
 
-        CommandResult UpdateEmployees(IEnumerable<EmployeeSupervisor> employees, TokenAccess token);
+        CommandResult UpdateEmployees(IEnumerable<EmployeeDisciplinePermission> employees, TokenAccess token);
 
-        CommandResult UpdateGroups(IEnumerable<GroupSupervisor> groups, TokenAccess token);
+        CommandResult UpdateGroups(IEnumerable<GroupDisciplinePermission> groups, TokenAccess token);
 
         DateTime GetMaxModifiedDateForEmployee(TokenAccess token);
 

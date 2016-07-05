@@ -34,6 +34,8 @@
 
         public DateTime? JoinedDate { get; set; }
 
+        public DateTime? ConfirmedDate { get; set; }
+
         public DateTime? ResignedDate { get; set; }
 
         public DateTime? ModifiedDate { get; set; }

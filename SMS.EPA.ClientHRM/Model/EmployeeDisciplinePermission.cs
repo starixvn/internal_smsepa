@@ -2,9 +2,9 @@
 {
     using System;
 
-    public class GroupSupervisor
+    public class EmployeeDisciplinePermission
     {
-        public int TeamId { get; set; }
+        public int EmployeeId { get; set; }
 
         public int OwnerId { get; set; }
 

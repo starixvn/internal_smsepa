@@ -26,13 +26,13 @@
             }
         }
 
-        public CommandResult Update(IEnumerable<EmployeeSupervisor> employeeSupervisors, TokenAccess token)
+        public CommandResult Update(IEnumerable<EmployeeDisciplinePermission> employeeSupervisors, TokenAccess token)
         {
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
                 var targetURL = ApplicationConfig.ServiceAPI + "EmployeeDisciplinePermission";
-                var result = client.PostAsJsonAsync<EmployeeSupervisor[]>(targetURL, employeeSupervisors.ToArray()).Result;
+                var result = client.PostAsJsonAsync<EmployeeDisciplinePermission[]>(targetURL, employeeSupervisors.ToArray()).Result;
 
                 return new CommandResult { Code = (int)result.StatusCode };
             }

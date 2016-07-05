@@ -6,7 +6,7 @@
 
     public interface IEmployeeSupervisorAPI
     {
-        CommandResult Update(IEnumerable<EmployeeSupervisor> employees, TokenAccess token);
+        CommandResult Update(IEnumerable<EmployeeDisciplinePermission> employees, TokenAccess token);
 
         DateTime GetMaxModifiedDate(TokenAccess token);
     }

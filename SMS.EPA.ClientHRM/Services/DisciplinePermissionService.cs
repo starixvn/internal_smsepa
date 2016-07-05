@@ -23,28 +23,28 @@
             _teamSupervisorAPI = teamSupervisorAPI;
         }
 
-        public IEnumerable<EmployeeSupervisor> GetEmployees(DateTime fromDate)
+        public IEnumerable<EmployeeDisciplinePermission> GetEmployees(DateTime fromDate)
         {
-            var criteria = new GetEmployeeSupervisorCriteria { FromDate = fromDate };
-            IEnumerable<EmployeeSupervisor> employeeSupervisors = _dynamicRepository.Fetch<EmployeeSupervisor>(criteria);
+            var criteria = new GetEmployeeDisciplinePermissionCriteria { FromDate = fromDate };
+            IEnumerable<EmployeeDisciplinePermission> employeeSupervisors = _dynamicRepository.Fetch<EmployeeDisciplinePermission>(criteria);
 
             return employeeSupervisors;
         }
 
-        public IEnumerable<GroupSupervisor> GetGroups(DateTime fromDate)
+        public IEnumerable<GroupDisciplinePermission> GetGroups(DateTime fromDate)
         {
-            var criteria = new GetGroupSupervisorCriteria { FromDate = fromDate };
-            IEnumerable<GroupSupervisor> groupSupervisors = _dynamicRepository.Fetch<GroupSupervisor>(criteria);
+            var criteria = new GetGroupDisciplinePermissionCriteria { FromDate = fromDate };
+            IEnumerable<GroupDisciplinePermission> groupSupervisors = _dynamicRepository.Fetch<GroupDisciplinePermission>(criteria);
 
             return groupSupervisors;
         }
 
-        public CommandResult UpdateEmployees(IEnumerable<EmployeeSupervisor> employees, TokenAccess token)
+        public CommandResult UpdateEmployees(IEnumerable<EmployeeDisciplinePermission> employees, TokenAccess token)
         {
             return _employeeSupervisorAPI.Update(employees, token);
         }
 
-        public CommandResult UpdateGroups(IEnumerable<GroupSupervisor> groups, TokenAccess token)
+        public CommandResult UpdateGroups(IEnumerable<GroupDisciplinePermission> groups, TokenAccess token)
         {
             return _teamSupervisorAPI.Update(groups, token);
         }

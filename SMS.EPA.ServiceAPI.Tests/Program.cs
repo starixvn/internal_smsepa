@@ -19,9 +19,9 @@
                 using (var client = new HttpClient())
                 {
 #if DEBUG
-                    ServicePointManager.ServerCertificateValidationCallback = delegate(Object obj, X509Certificate certificate, X509Chain chain, SslPolicyErrors errors)
+                    ServicePointManager.ServerCertificateValidationCallback = delegate(object obj, X509Certificate certificate, X509Chain chain, SslPolicyErrors errors)
                     {
-                        return (true);
+                        return true;
                     };
 #endif
                     var token = new Token();

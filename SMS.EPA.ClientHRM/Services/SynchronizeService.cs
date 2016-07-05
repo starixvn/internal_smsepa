@@ -114,7 +114,7 @@
             if (_token.IsValid())
             {
                 DateTime fromDate = _supervisorService.GetMaxModifiedDateForEmployee(_token);
-                IEnumerable<EmployeeSupervisor> employees = _supervisorService.GetEmployees(fromDate);
+                IEnumerable<EmployeeDisciplinePermission> employees = _supervisorService.GetEmployees(fromDate);
                 if (employees.Any())
                 {
                     _supervisorService.UpdateEmployees(employees, _token);
@@ -129,7 +129,7 @@
             if (_token.IsValid())
             {
                 DateTime fromDate = _supervisorService.GetMaxModifiedDateForGroup(_token);
-                IEnumerable<GroupSupervisor> groups = _supervisorService.GetGroups(fromDate);
+                IEnumerable<GroupDisciplinePermission> groups = _supervisorService.GetGroups(fromDate);
                 if (groups.Any())
                 {
                     _supervisorService.UpdateGroups(groups, _token);

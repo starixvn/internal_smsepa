@@ -27,13 +27,13 @@
             }
         }
 
-        public CommandResult Update(IEnumerable<GroupSupervisor> groupSupervisors, TokenAccess token)
+        public CommandResult Update(IEnumerable<GroupDisciplinePermission> groupSupervisors, TokenAccess token)
         {
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
 
-                var result = client.PostAsJsonAsync<GroupSupervisor[]>(ApplicationConfig.ServiceAPI + "TeamDisciplinePermission", groupSupervisors.ToArray()).Result;
+                var result = client.PostAsJsonAsync<GroupDisciplinePermission[]>(ApplicationConfig.ServiceAPI + "TeamDisciplinePermission", groupSupervisors.ToArray()).Result;
 
                 return new CommandResult { Code = (int)result.StatusCode };
             }

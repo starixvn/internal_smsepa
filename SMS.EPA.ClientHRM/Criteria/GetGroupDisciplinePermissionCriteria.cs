@@ -3,7 +3,7 @@
     using System;
     using Fanex.Data.Repository;
 
-    public class GetGroupSupervisorCriteria : CriteriaBase
+    public class GetGroupDisciplinePermissionCriteria : CriteriaBase
     {
         public DateTime? FromDate { get; set; }
 
