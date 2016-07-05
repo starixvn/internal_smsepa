@@ -2,7 +2,7 @@
 {
     using System.Diagnostics.CodeAnalysis;
 
-    [SuppressMessage("StyleCop.CSharp.Nexcel.NexcelCustomRules", "EX1001:PrivateFieldUnderscorePrefix", Justification = "Reviewed. Suppression is OK here.")]
+    [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "EX1001:PrivateFieldUnderscorePrefix", Justification = "Reviewed. Suppression is OK here.")]
     public partial class AutoService
     {
         /// <summary> 

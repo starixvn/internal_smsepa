@@ -335,7 +335,7 @@
             Task.Factory.StartNew(CheckSendReminderEmail);
         }
 
-        [SuppressMessage("StyleCop.CSharp.Nexcel.NexcelCustomRules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
+        [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
         private void CheckEndProcess()
         {
             Log.Info("Check process that ended yesterday: started at " + DateTime.Now);
@@ -423,7 +423,7 @@
             }
         }
 
-        [SuppressMessage("StyleCop.CSharp.Nexcel.NexcelCustomRules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
+        [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
         private void UpdateFinalScoreAndSendMail(IEnumerable<EPAModel> evaluationInfos)
         {
             IList<int> periods = new List<int>();
