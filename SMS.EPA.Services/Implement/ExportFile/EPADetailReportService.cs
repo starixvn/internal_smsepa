@@ -208,13 +208,16 @@
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(GetScoreByPhaseSelected(_epaDetail.PhaseSelecteds, score.ReviewerScore, (int)ProcessType.Reviewer));
 
-                if (_currentRow % 2 == 0 && !memberEPA.Process.Managements[0].IsEndProcess)
+                if (memberEPA.Process.Managements != null && memberEPA.Process.Managements.Any() && !memberEPA.Process.Managements[0].IsEndProcess)
                 {
-                    bodyStyle = evenRedStyle;
-                }
-                else if (_currentRow % 2 != 0 && !memberEPA.Process.Managements[0].IsEndProcess)
-                {
-                    bodyStyle = oddRedStyle;
+                    if (_currentRow % 2 == 0)
+                    {
+                        bodyStyle = evenRedStyle;
+                    }
+                    else
+                    {
+                        bodyStyle = oddRedStyle;
+                    }
                 }
 
                 cell = row.CreateCell(currentColumn++);
