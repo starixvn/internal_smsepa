@@ -24,7 +24,7 @@
             _container.Register<IAttendanceService, AttendanceService>(Lifestyle.Singleton);
             _container.Register<IEmployeeService, EmployeeService>(Lifestyle.Singleton);
             _container.Register<IJobTitleService, JobTitleService>(Lifestyle.Singleton);
-            _container.Register<ISupervisorService, SupervisorService>(Lifestyle.Singleton);
+            _container.Register<ISupervisorService, DisciplinePermissionService>(Lifestyle.Singleton);
             _container.Register<ITokenService, TokenService>(Lifestyle.Singleton);
             _container.Register<ISynchronizeService, SynchronizeService>(Lifestyle.Singleton);
             _container.Register<ITeamService, TeamService>(Lifestyle.Singleton);

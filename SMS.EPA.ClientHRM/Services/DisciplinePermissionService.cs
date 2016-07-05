@@ -7,13 +7,13 @@
     using System;
     using System.Collections.Generic;
 
-    public class SupervisorService : ISupervisorService
+    public class DisciplinePermissionService : ISupervisorService
     {
         private readonly IDynamicRepository _dynamicRepository;
         private readonly IEmployeeSupervisorAPI _employeeSupervisorAPI;
         private readonly ITeamSupervisorAPI _teamSupervisorAPI;
 
-        public SupervisorService(
+        public DisciplinePermissionService(
             IDynamicRepository dynamicRepository, 
             IEmployeeSupervisorAPI employeeSupervisorAPI,
             ITeamSupervisorAPI teamSupervisorAPI)

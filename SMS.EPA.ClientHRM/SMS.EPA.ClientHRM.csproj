@@ -108,13 +108,13 @@
     <Compile Include="Services\AttendanceService.cs" />
     <Compile Include="ThirdPartyAPIs\Interfaces\IAttendanceAPI.cs" />
     <Compile Include="Services\Interfaces\IAttendanceService.cs" />
-    <Compile Include="Services\Interfaces\ISupervisorService.cs" />
-    <Compile Include="ThirdPartyAPIs\Interfaces\ITeamSupervisorAPI.cs" />
-    <Compile Include="ThirdPartyAPIs\Interfaces\IEmployeeSupervisorAPI.cs" />
+    <Compile Include="Services\Interfaces\IDisciplinePermissionService.cs" />
+    <Compile Include="ThirdPartyAPIs\Interfaces\ITeamDisciplinePermissionAPI.cs" />
+    <Compile Include="ThirdPartyAPIs\Interfaces\IEmployeeDisciplinePermissionAPI.cs" />
     <Compile Include="Services\JobTitleService.cs" />
     <Compile Include="ThirdPartyAPIs\TeamDisciplinePermissionAPI.cs" />
     <Compile Include="ThirdPartyAPIs\EmployeeDisciplinePermissionAPI.cs" />
-    <Compile Include="Services\SupervisorService.cs" />
+    <Compile Include="Services\DisciplinePermissionService.cs" />
     <Compile Include="Services\TeamService.cs" />
     <Compile Include="Services\EmployeeService.cs" />
     <Compile Include="Services\DepartmentService.cs" />

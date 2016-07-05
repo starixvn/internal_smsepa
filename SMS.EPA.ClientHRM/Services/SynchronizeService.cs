@@ -43,8 +43,8 @@
             SynchronizeTeam();
             SynchronizeEmployee();
             SynchronizeJobTitle();
-            SynchronizeEmployeeSupervisor();
-            SynchronizeGroupSupervisor();
+            SynchronizeEmployeeDisciplinePermission();
+            SynchronizeGroupDisciplinePermission();
             SynchronizeAttendanceViolation();
         }
 
@@ -107,7 +107,7 @@
             }
         }
 
-        private void SynchronizeEmployeeSupervisor()
+        private void SynchronizeEmployeeDisciplinePermission()
         {
             InitToken();
 
@@ -122,7 +122,7 @@
             }
         }
 
-        private void SynchronizeGroupSupervisor()
+        private void SynchronizeGroupDisciplinePermission()
         {
             InitToken();
 
