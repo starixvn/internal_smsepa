@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[EpaAttendanceSummary_Get] @StartDate DATETIME
+﻿CREATE PROCEDURE [dbo].[EpaAttendanceSummary_Get] @StartDate DATETIME
 	,@EndDate DATETIME
 	,@DepartmentId INT = NULL
 	,@EmployeeId INT = NULL
@@ -164,8 +163,10 @@ BEGIN
 							)
 					)
 				WHEN 1 THEN CASE 
-						WHEN [UnpaidLeaveAutoIgnore] <> 1 
-						THEN CASE WHEN [UnpaidLeave] = 0.5 THEN 1 ELSE [UnpaidLeave] END
+						WHEN [UnpaidLeaveAutoIgnore] <> 1 THEN CASE 
+								WHEN [UnpaidLeave] = 0.5 THEN 1
+								ELSE [UnpaidLeave]
+								END
 						ELSE 0
 						END
 				ELSE 0 END
@@ -201,8 +202,10 @@ BEGIN
 							)
 					)
 				WHEN 1 THEN CASE 
-						WHEN [UnpaidLeaveAbsentAutoIgnore] <> 1 
-						THEN CASE WHEN [UnpaidLeaveAbsent] = 0.5 THEN 1 ELSE [UnpaidLeaveAbsent] END
+						WHEN [UnpaidLeaveAbsentAutoIgnore] <> 1 THEN CASE 
+								WHEN [UnpaidLeaveAbsent] = 0.5 THEN 1
+								ELSE [UnpaidLeaveAbsent]
+								END
 						ELSE 0
 						END
 				ELSE 0 END
@@ -354,8 +357,14 @@ BEGIN
 			WHEN [SystemSubtractScore] - (CASE 
 					WHEN ISNULL([ApproverIgnoredScore], '') <> '' THEN [ApproverIgnoredScore]
 					ELSE 0 END
-					) < 3.5 THEN [SystemSubtractScore] - (CASE 
-					WHEN ISNULL([ApproverIgnoredScore], '') <> '' THEN [ApproverIgnoredScore]
+					) < 3.5 THEN (CASE 
+					WHEN [SystemSubtractScore] - (CASE 
+							WHEN ISNULL([ApproverIgnoredScore], '') <> '' THEN [ApproverIgnoredScore]
+							ELSE 0 END
+							) > 0 THEN [SystemSubtractScore] - (CASE 
+							WHEN ISNULL([ApproverIgnoredScore], '') <> '' THEN [ApproverIgnoredScore]
+							ELSE 0 END
+							)
 					ELSE 0 END
 					)
 			ELSE 3.5 END
@@ -403,19 +412,20 @@ BEGIN
 							AND @ApproverId = grS.[OwnerId]
 							AND grS.[ActionType] = 3
 							AND emp.[EmployeeId] <> @ApproverId
-							--AND NOT EXISTS (
-							--	SELECT TOP 1 1
-							--	FROM [dbo].[HRMEmployeeSupervisor] WITH (NOLOCK)
-							--	WHERE [OwnerId] <> @ApproverId
-							--		AND [EmpId] = emp.[EmployeeId]
-							--		AND [ActionType] = 3
-								--)
+							AND NOT EXISTS (
+								SELECT TOP 1 1
+								FROM [dbo].[HRMEmployeeSupervisor] WITH (NOLOCK)
+								WHERE [OwnerId] <> @ApproverId
+									AND [EmpId] = emp.[EmployeeId]
+									AND [ActionType] = 3
+								)
 						) THEN 2 -- Host				
 				ELSE 1
 				END
 			,empV.[EmpId] AS EmployeeId
 			,emp.[NickName]
 			,emp.[FullName]
+			,emp.JoinedDate
 			,lk.[Name] AS Category
 			,emp.[Code]
 			,gr.[GroupId]
@@ -434,8 +444,7 @@ BEGIN
 			AND emp.[IsDeleted] = 0
 			AND (
 				@Is_HR_MGT_SA = 1 -- SA, HR and Management can view all member of company
-				--OR 
-				--EXISTS (
+				--OR EXISTS (
 				--	SELECT TOP 1 1
 				--	FROM [dbo].[EmployeeRole] AS empR
 				--		INNER JOIN [dbo].[Employee] AS empT ON empR.[EmployeeId] = empT.[EmployeeId]
@@ -536,6 +545,7 @@ BEGIN
 			,emp.[EmployeeId]
 			,emp.[NickName]
 			,emp.[FullName]
+			,emp.JoinedDate
 			,emp.[JobTitle]
 			,job.[Name]
 			,lk.[Name]
@@ -587,6 +597,7 @@ BEGIN
 			,emp.[EmployeeId]
 			,emp.[NickName]
 			,emp.[FullName]
+			,emp.JoinedDate
 			,lk.[Name] AS Category
 			,emp.[Code]
 			,gr.[GroupId]
@@ -604,16 +615,15 @@ BEGIN
 		WHERE emp.[Enabled] = 1
 			AND emp.[IsDeleted] = 0
 			AND (
-				--@Is_HR_MGT_SA = 1 -- SA, HR and Management can view all member of company
-				--OR 
-				EXISTS (
-					SELECT TOP 1 1
-					FROM [dbo].[EmployeeRole] AS empR
-						INNER JOIN [dbo].[Employee] AS empT ON empR.[EmployeeId] = empT.[EmployeeId]
-					WHERE [empR].[EmployeeId] = @ApproverId
-						AND RoleId IN (4, 5)
-						AND empT.[GroupId] = gr.[GroupId]
-					)
+				@Is_HR_MGT_SA = 1 -- SA, HR and Management can view all member of company
+				--OR EXISTS (
+				--	SELECT TOP 1 1
+				--	FROM [dbo].[EmployeeRole] AS empR
+				--		INNER JOIN [dbo].[Employee] AS empT ON empR.[EmployeeId] = empT.[EmployeeId]
+				--	WHERE [empR].[EmployeeId] = @ApproverId
+				--		AND RoleId IN (4, 5)
+				--		AND empT.[GroupId] = gr.[GroupId]
+				--	)
 				OR EXISTS (
 					SELECT TOP 1 1
 					FROM [dbo].[HRMEmployeeSupervisor] AS empS WITH (NOLOCK)
@@ -706,6 +716,7 @@ BEGIN
 		GROUP BY emp.[EmployeeId]
 			,emp.[NickName]
 			,emp.[FullName]
+			,emp.JoinedDate
 			,emp.[JobTitle]
 			,job.[Name]
 			,lk.[Name]

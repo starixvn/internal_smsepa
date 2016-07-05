@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[EpaAttendanceSummary_GetDetail] @StartDate DATETIME
+﻿CREATE PROCEDURE [dbo].[EpaAttendanceSummary_GetDetail] @StartDate DATETIME
 	,@EndDate DATETIME
 	,@DepartmentId INT = NULL
 	,@EmployeeId INT = NULL
@@ -25,6 +24,7 @@ BEGIN
 		,emp.[Code]
 		,emp.[NickName]
 		,emp.[FullName]
+		,emp.JoinedDate
 		,lk.[Name] AS Category
 		,gr.[GroupId]
 		,gr.[Name] AS GroupName
