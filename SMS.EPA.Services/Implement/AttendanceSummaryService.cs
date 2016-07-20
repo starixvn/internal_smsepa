@@ -172,7 +172,6 @@
             }
         }
 
-                attendanceViolation.JobTitle = employees.FirstOrDefault(x => x.EmployeeId == attendanceViolation.EmployeeId).JobTitle;
         private void FillContentSummaryRow(IEnumerable<AttendanceSummaryModel> attendanceEmployees, ref ExcelTemplateWriter writer)
         {
             int rowIndex = 1;
@@ -198,11 +197,11 @@
             var record = new
             {
                 Count = rowIndex,
-                Section = attendanceEmployee.Group != null ? attendanceEmployee.Group.GroupName : string.Empty,
+                Section = attendanceEmployee.Employee.Group != null ? attendanceEmployee.Employee.Group.GroupName : string.Empty,
                 Code = attendanceEmployee.Employee.Code,
                 Nick = attendanceEmployee.Employee.NickName,
                 FullName = attendanceEmployee.Employee.FullName,
-                JobTitle = attendanceEmployee.JobTitle.JobTitleName,
+                JobTitle = attendanceEmployee.Employee.JobTitle != null ? attendanceEmployee.Employee.JobTitle.JobTitleName : string.Empty,
                 JoinedDate = attendanceEmployee.Employee.JoinedDate.ToString(Constants.DateFormat),
                 Category = attendanceEmployee.Employee.Category,
                 MissingCheckInOut = attendanceEmployee.MissingCheckInOut,
@@ -248,8 +247,8 @@
                 Shift = attendanceViolation.Employee.Code,
                 Nick = attendanceViolation.Employee.NickName,
                 FullName = attendanceViolation.Employee.FullName,
-                Section = attendanceViolation.Employee.Group.GroupName,
-                JobTitle = attendanceViolation.JobTitle.JobTitleName,
+                Section = attendanceViolation.Employee.Group != null ? attendanceViolation.Employee.Group.GroupName : string.Empty,
+                JobTitle = attendanceViolation.Employee.JobTitle != null ? attendanceViolation.Employee.JobTitle.JobTitleName : string.Empty,
                 JoinedDate = attendanceViolation.Employee.JoinedDate.ToString(Constants.DateFormat),
                 Category = attendanceViolation.Employee.Category,
                 Date = attendanceViolation.WorkDate,

@@ -180,10 +180,6 @@
     <Build Include="dbo\Stored Procedures\EPA_GetLastScore.sql" />
     <Build Include="dbo\Stored Procedures\Sync_Shift_GetMaxModifiedDate.sql" />
     <Build Include="dbo\Stored Procedures\EPA_AdjustScoreByReviewerOrManagement.sql" />
-    <Build Include="dbo\Stored Procedures\DBA_GrantPermissions.sql">
-      <AnsiNulls>Off</AnsiNulls>
-      <QuotedIdentifier>Off</QuotedIdentifier>
-    </Build>
     <Build Include="dbo\Stored Procedures\TargetTemplate_Delete.sql" />
     <Build Include="dbo\Stored Procedures\Epa_Dashboard.sql" />
     <Build Include="dbo\Stored Procedures\EPA_GetLastScoreProcess.sql" />

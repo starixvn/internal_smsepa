@@ -89,7 +89,7 @@
         <tbody>
             <tr dir-paginate="employee in attendanceCtrl.filteredItems | itemsPerPage: attendanceCtrl.pageSize" pagination-id="summary" current-page="attendanceCtrl.currentPage">
                 <td class="text-center" ng-bind="attendanceCtrl.getIndex($index, attendanceCtrl.currentPage, attendanceCtrl.pageSize)"></td>
-                <td class="text-center" ng-bind="employee.Group.GroupName"></td>
+                <td class="text-center" ng-bind="employee.Employee.Group.GroupName"></td>
                 <td class="text-center" ng-bind="employee.Employee.Code"></td>
                 <td>
                     <span ng-bind="employee.Employee.NickName" popover-avatar avatar-src="{{employee.Employee.Avatar}}"></span>

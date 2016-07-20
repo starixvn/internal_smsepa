@@ -1,14 +1,9 @@
-﻿/****** Object:  Stored Procedure dbo.EpaAttendanceSummary_GetByEPA    Script Date: 5/16/2016 2:20:10 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAttendanceSummary_GetByEPA    Script Date: 5/16/2016 2:15:32 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAttendanceSummary_GetByEPA    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAttendanceSummary_GetByEPA    Script Date: 4/6/2016 11:27:42 AM ******/
-
-CREATE PROCEDURE [dbo].[EpaAttendanceSummary_GetByEPA] @EPAIds NVARCHAR(MAX)
+﻿CREATE PROCEDURE [dbo].[EpaAttendanceSummary_GetByEPA] @EPAIds NVARCHAR(MAX)
 AS
 /*
 Created: 2015-08-26@Josh.Phan
 Task: Get attendance summary of employees.
-DB: Redmine
+DB: SMSEPA
 Original: 
 
 Revisions:  
@@ -17,478 +12,243 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	CREATE TABLE #EPATemp (
-		[EPAId] INT
-		,[EmpId] INT
-		,[AttendanceStartDate] DATETIME
-		,[AttendanceEndDate] DATETIME
-		,[AttendanceSettingScore] FLOAT
+	CREATE TABLE #EPAId (EPAId INT)
+
+	CREATE TABLE #EPA (
+		EPAId INT
+		,EmpId INT
+		,AttendanceStartDate DATE
+		,AttendanceEndDate DATE
 		)
 
-	INSERT INTO #EPATemp (
-		[EPAId]
-		,[EmpId]
-		,[AttendanceStartDate]
-		,[AttendanceEndDate]
-		,[AttendanceSettingScore]
-		)
-	SELECT val
-		,(
-			SELECT [EmployeeId]
-			FROM [dbo].[EPA] AS epa WITH (NOLOCK)
-			WHERE epa.[EPAId] = val
-			)
-		,(
-			SELECT pe.[AttendanceStartDate]
-			FROM [dbo].[EPA] AS epa WITH (NOLOCK)
-				INNER JOIN [dbo].[Period] AS pe WITH (NOLOCK) ON epa.[PeriodId] = pe.[PeriodId]
-			WHERE epa.[EPAId] = val
-			)
-		,(
-			SELECT pe.[AttendanceEndDate]
-			FROM [dbo].[EPA] AS epa WITH (NOLOCK)
-				INNER JOIN [dbo].[Period] AS pe WITH (NOLOCK) ON epa.[PeriodId] = pe.[PeriodId]
-			WHERE epa.[EPAId] = val
-			)
-		,(
-			SELECT [Attendance]
-			FROM [dbo].[ScoreRatingType] AS srt WITH (NOLOCK)
-			WHERE EXISTS (
-					SELECT TOP 1 1
-					FROM [dbo].[EPA] WITH (NOLOCK)
-					WHERE [EPAId] = val
-						AND [ScoreRatingTypeId] = srt.[ScoreRatingTypeId]
-					)
-			)
-	FROM fnc_strSplit(@EPAIds, ',')
-
-	CREATE TABLE #EmployeeViolation (
-		[EPAId] INT
-		,[WorkDate] DATETIME
-		,[EmpId] INT
-		,[MissingCheckInOut] INT
-		,[LateIn] INT
-		,[EarlyOut] INT
+	CREATE TABLE #EmployeeDiscipline (
+		EPAId INT
+		,WorkDate DATE
+		,EmpId INT
+		,ChangeShift INT
+		,MissingCheckInOut INT
+		,LateIn INT
+		,EarlyOut INT
 		,[Absent] INT
-		,[WorkingBelowTime] INT
-		,[UnpaidLeave] INT
-		,[ChangeShift] INT
-		,[UnpaidLeaveAbsent] INT
-		,[OtherViolationsScore] FLOAT
-		,[AttendanceStartDate] DATETIME
-		,[AttendanceEndDate] DATETIME
+		,UnpaidLeave INT
+		,WorkingUnderTime INT
+		,UnpaidLeaveAbsent INT
+		,OtherViolationsScore FLOAT
 		)
 
-	INSERT INTO #EmployeeViolation (
-		[EPAId]
-		,[WorkDate]
-		,[EmpId]
-		,[MissingCheckInOut]
-		,[LateIn]
-		,[EarlyOut]
-		,[Absent]
-		,[WorkingBelowTime]
-		,[UnpaidLeave]
-		,[ChangeShift]
-		,[UnpaidLeaveAbsent]
-		,[OtherViolationsScore]
-		,[AttendanceStartDate]
-		,[AttendanceEndDate]
+	CREATE TABLE #EmployeeDisciplineScore (
+		EPAId INT
+		,WorkDate DATE
+		,EmpId INT
+		,SystemSubtractScore FLOAT
+		,ApproverSubtractScore FLOAT
 		)
-	SELECT [EPAId]
-		,[WorkDate]
-		,[EmpId]
-		,SUM([MissingCheckInOut])
-		,SUM([LateIn])
-		,SUM([EarlyOut])
+
+	CREATE TABLE #EmployeeDisciplineFinalScore (
+		EPAId INT
+		,SystemSubtractScore FLOAT
+		,ApproverSubtractScore FLOAT
+		,OtherViolationsScore FLOAT
+		)
+
+	INSERT INTO #EPAId
+	SELECT DISTINCT val
+	FROM dbo.fnc_strSplit(@EPAIds, ',')
+
+	INSERT INTO #EPA
+	SELECT DISTINCT epa.EPAId
+		,epa.EmployeeId
+		,period.AttendanceStartDate
+		,period.AttendanceEndDate
+	FROM #EPAId AS epat
+		INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON epat.EPAId = epa.EPAId
+		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
+		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
+		AND emp.IsDeleted = 0
+		AND emp.[Enabled] = 1
+
+	INSERT INTO #EmployeeDiscipline
+	SELECT EPAId
+		,WorkDate
+		,EmpId
+		,SUM(ChangeShift)
+		,SUM(MissingCheckInOut)
+		,SUM(LateIn)
+		,SUM(EarlyOut)
 		,SUM([Absent])
-		,SUM([WorkingBelowTime])
-		,SUM([UnpaidLeave])
-		,SUM([ChangeShift])
-		,SUM([UnpaidLeaveAbsent])
-		,SUM([OtherViolationsScore])
-		,[AttendanceStartDate]
-		,[AttendanceEndDate]
+		,SUM(UnpaidLeave)
+		,SUM(WorkingUnderTime)
+		,SUM(UnpaidLeaveAbsent)
+		,SUM(OtherViolationsScore)
 	FROM (
-		SELECT epaT.[EPAId]
-			,[WorkDate]
-			,empA.[EmpId]
-			,(CASE (
-					SELECT [Value]
-					FROM [dbo].[AttendanceSectionRule] AS attS WITH (NOLOCK)
-					WHERE [ViolationId] = 2 -- Missing Check In/Out
-						AND EXISTS (
-							SELECT TOP 1 1
-							FROM [dbo].[Employee] WITH (NOLOCK)
-							WHERE [GroupId] = attS.[GroupId]
-								AND [EmployeeId] = empA.[EmpId]
-								AND [IsLocal] = attS.[IsLocal]
-							)
-					)
-				WHEN 1 THEN CASE 
-						WHEN [MissingCheckInOutAutoIgnore] <> 1 THEN [MissingCheckInOut]
-						ELSE 0
-						END
-				ELSE 0 END
-				) AS [MissingCheckInOut]
-			,(CASE (
-					SELECT [Value]
-					FROM [dbo].[AttendanceSectionRule] AS attS WITH (NOLOCK)
-					WHERE [ViolationId] = 3 -- Late In
-						AND EXISTS (
-							SELECT TOP 1 1
-							FROM [dbo].[Employee] WITH (NOLOCK)
-							WHERE attS.[GroupId] = [GroupId]
-								AND empA.[EmpId] = [EmployeeId]
-								AND [IsLocal] = attS.[IsLocal]
-							)
-					)
-				WHEN 1 THEN CASE 
-						WHEN [LateInAutoIgnore] <> 1 THEN [LateIn]
-						ELSE 0
-						END
-				ELSE 0 END
-				) AS [LateIn]
-			,(CASE (
-					SELECT [Value]
-					FROM [dbo].[AttendanceSectionRule] AS attS WITH (NOLOCK)
-					WHERE [ViolationId] = 4 -- Early Out
-						AND EXISTS (
-							SELECT TOP 1 1
-							FROM [dbo].[Employee] WITH (NOLOCK)
-							WHERE attS.[GroupId] = [GroupId]
-								AND empA.[EmpId] = [EmployeeId]
-								AND [IsLocal] = attS.[IsLocal]
-							)
-					)
-				WHEN 1 THEN CASE 
-						WHEN [EarlyOutAutoIgnore] <> 1 THEN [EarlyOut]
-						ELSE 0
-						END
-				ELSE 0 END
-				) AS [EarlyOut]
-			,(CASE (
-					SELECT [Value]
-					FROM [dbo].[AttendanceSectionRule] AS attS WITH (NOLOCK)
-					WHERE [ViolationId] = 5 -- Absent
-						AND EXISTS (
-							SELECT TOP 1 1
-							FROM [dbo].[Employee] WITH (NOLOCK)
-							WHERE attS.[GroupId] = [GroupId]
-								AND empA.[EmpId] = [EmployeeId]
-								AND [IsLocal] = attS.[IsLocal]
-							)
-					)
-				WHEN 1 THEN CASE 
-						WHEN [AbsentAutoIgnore] <> 1 THEN [Absent]
-						ELSE 0
-						END
-				ELSE 0 END
-				) AS [Absent]
-			,(CASE (
-					SELECT [Value]
-					FROM [dbo].[AttendanceSectionRule] AS attS WITH (NOLOCK)
-					WHERE [ViolationId] = 7 -- Working under time
-						AND EXISTS (
-							SELECT TOP 1 1
-							FROM [dbo].[Employee] WITH (NOLOCK)
-							WHERE attS.[GroupId] = [GroupId]
-								AND empA.[EmpId] = [EmployeeId]
-								AND [IsLocal] = attS.[IsLocal]
-							)
-					)
-				WHEN 1 THEN CASE 
-						WHEN [WorkingBelowTimeAutoIgnore] <> 1 THEN [WorkingBelowTime]
-						ELSE 0
-						END
-				ELSE 0 END
-				) AS [WorkingBelowTime]
-			,(CASE (
-					SELECT [Value]
-					FROM [dbo].[AttendanceSectionRule] AS attS WITH (NOLOCK)
-					WHERE [ViolationId] = 6 -- Unpaid Leave
-						AND EXISTS (
-							SELECT TOP 1 1
-							FROM [dbo].[Employee] WITH (NOLOCK)
-							WHERE attS.[GroupId] = [GroupId]
-								AND empA.[EmpId] = [EmployeeId]
-								AND [IsLocal] = attS.[IsLocal]
-							)
-					)
-				WHEN 1 THEN CASE 
-						WHEN [UnpaidLeaveAutoIgnore] <> 1 
-						THEN CASE WHEN [UnpaidLeave] = 0.5 THEN 1 ELSE [UnpaidLeave] END
-						ELSE 0
-						END
-				ELSE 0 END
-				) AS [UnpaidLeave]
-			,(CASE (
-					SELECT [Value]
-					FROM [dbo].[AttendanceSectionRule] AS attS WITH (NOLOCK)
-					WHERE [ViolationId] = 1 -- Change Shift
-						AND EXISTS (
-							SELECT TOP 1 1
-							FROM [dbo].[Employee] WITH (NOLOCK)
-							WHERE attS.[GroupId] = [GroupId]
-								AND empA.[EmpId] = [EmployeeId]
-								AND [IsLocal] = attS.[IsLocal]
-							)
-					)
-				WHEN 1 THEN CASE 
-						WHEN [ChangeShiftAutoIgnore] <> 1 THEN [ChangeShift]
-						ELSE 0
-						END
-				ELSE 0 END
-				) AS [ChangeShift]
-			,(CASE (
-					SELECT [Value]
-					FROM [dbo].[AttendanceSectionRule] AS attS WITH (NOLOCK)
-					WHERE [ViolationId] = 8 -- Unpaid Leave Absent
-						AND EXISTS (
-							SELECT TOP 1 1
-							FROM [dbo].[Employee] WITH (NOLOCK)
-							WHERE attS.[GroupId] = [GroupId]
-								AND empA.[EmpId] = [EmployeeId]
-								AND [IsLocal] = attS.[IsLocal]
-							)
-					)
-				WHEN 1 THEN CASE 
-						WHEN [UnpaidLeaveAbsentAutoIgnore] <> 1 
-						THEN CASE WHEN [UnpaidLeaveAbsent] = 0.5 THEN 1 ELSE [UnpaidLeaveAbsent] END
-						ELSE 0
-						END
-				ELSE 0 END
-				) AS [UnpaidLeaveAbsent]
+		SELECT epa.EPAId
+			,dis.WorkDate
+			,dis.EmpId
+			,dis.IsChangeShift AS ChangeShift
+			,dis.IsMissingCheckInOut AS MissingCheckInOut
+			,dis.IsLateIn AS LateIn
+			,dis.IsEarlyOut AS EarlyOut
+			,dis.IsAbsent AS [Absent]
+			,dis.IsUnpaidLeave AS UnpaidLeave
+			,dis.IsWorkingUnderTime AS WorkingUnderTime
+			,dis.IsUnpaidLeaveAbsent AS UnpaidLeaveAbsent
 			,0 AS OtherViolationsScore
-			,'' AS OtherViolationsName
-			,epaT.[AttendanceStartDate]
-			,epaT.[AttendanceEndDate]
-		FROM [dbo].[HRMEmployeeAttendanceViolation] AS empA WITH (NOLOCK)
-			INNER JOIN #EPATemp AS epaT ON empA.[EmpId] = epaT.[EmpId]
-			AND CAST(empA.[WorkDate] AS DATE) >= CAST(epaT.[AttendanceStartDate] AS DATE)
-			AND CAST(empA.[WorkDate] AS DATE) <= CAST(epaT.[AttendanceEndDate] AS DATE)
+		FROM dbo.EmployeeDiscipline AS dis WITH (NOLOCK)
+			INNER JOIN #EPA AS epa ON dis.EmpId = epa.EmpId
+			AND dis.WorkDate BETWEEN epa.AttendanceStartDate
+				AND epa.AttendanceEndDate
+		WHERE dis.DisciplineTypeId NOT IN (- 1, - 2) -- verbal/written warning
+		     AND ISNULL(dis.IsDeleted, 0) = 0
 		
 		UNION
-		SELECT epaT.[EPAId]
-			,[WorkDate]
-			,epaT.[EmpId]
+		SELECT epa.EPAId
+			,dis.WorkDate
+			,epa.EmpId
+			,0 AS ChangeShift
 			,0 AS MissingCheckInOut
 			,0 AS LateIn
 			,0 AS EarlyOut
 			,0 AS [Absent]
-			,0 AS WorkingBelowTime
 			,0 AS UnpaidLeave
-			,0 AS ChangeShift
+			,0 AS WorkingUnderTimeTime
 			,0 AS UnpaidLeaveAbsent
-			,[Score] AS OtherViolationsScore
-			,[Name] AS OtherViolationsName
-			,epaT.[AttendanceStartDate]
-			,epaT.[AttendanceEndDate]
-		FROM [dbo].[EmployeeOtherViolation] AS empO WITH (NOLOCK)
-			INNER JOIN #EPATemp AS epaT ON empO.[EmpId] = epaT.[EmpId]
-			AND CAST(empO.[WorkDate] AS DATE) >= CAST(epaT.[AttendanceStartDate] AS DATE)
-			AND CAST(empO.[WorkDate] AS DATE) <= CAST(epaT.[AttendanceEndDate] AS DATE)
+			,dtype.Score AS OtherViolationsScore
+		FROM dbo.EmployeeDiscipline AS dis WITH (NOLOCK)
+			INNER JOIN #EPA AS epa ON dis.EmpId = epa.EmpId
+			AND dis.WorkDate BETWEEN epa.AttendanceStartDate
+				AND epa.AttendanceEndDate
+			INNER JOIN dbo.DisciplineType AS dtype WITH (NOLOCK) ON dis.DisciplineTypeId = dtype.DisciplineTypeId
+		WHERE dis.DisciplineTypeId IN (- 1, - 2) -- verbal/written warning
+		     AND ISNULL(dis.IsDeleted, 0) = 0
 		) AS empV
-	GROUP BY [EPAId]
-		,[EmpId]
-		,[WorkDate]
-		,[AttendanceStartDate]
-		,[AttendanceEndDate]
+	GROUP BY EPAId
+		,EmpId
+		,WorkDate
 
-	CREATE TABLE #EmployeeViolationSystemScore (
-		[EPAId] INT
-		,[WorkDate] DATETIME
-		,[EmpId] INT
-		,[SystemSubtractScore] FLOAT
-		,[ApproverIgnoredScore] FLOAT
-		,[OtherViolationsScore] FLOAT
-		)
-
-	INSERT INTO #EmployeeViolationSystemScore (
-		[EPAId]
-		,[WorkDate]
-		,[EmpId]
-		,[SystemSubtractScore]
-		,[ApproverIgnoredScore]
-		,[OtherViolationsScore]
-		)
-	SELECT [EPAId]
-		,[WorkDate]
-		,[EmpId]
-		,(
-			[MissingCheckInOut] * (
-				SELECT [Score]
-				FROM [dbo].[AttendanceViolation] WITH (NOLOCK)
-				WHERE [Id] = 2 -- Missing Check In/Out
-				) + empV.[LateIn] * (
-				SELECT [Score]
-				FROM [dbo].[AttendanceViolation] WITH (NOLOCK)
-				WHERE [Id] = 3 -- Late In
-				) + empV.[EarlyOut] * (
-				SELECT [Score]
-				FROM [dbo].[AttendanceViolation] WITH (NOLOCK)
-				WHERE [Id] = 4 -- Early Out
-				) + empV.[Absent] * (
-				SELECT [Score]
-				FROM [dbo].[AttendanceViolation] WITH (NOLOCK)
-				WHERE [Id] = 5 -- Absent
-				) + empV.[WorkingBelowTime] * (
-				SELECT [Score]
-				FROM [dbo].[AttendanceViolation] WITH (NOLOCK)
-				WHERE [Id] = 7 -- Working below 7H
-				) + empV.[UnpaidLeave] * (
-				SELECT [Score]
-				FROM [dbo].[AttendanceViolation] WITH (NOLOCK)
-				WHERE [Id] = 6 -- Unpaid Leave
-				) + empV.[ChangeShift] * (
-				SELECT [Score]
-				FROM [dbo].[AttendanceViolation] WITH (NOLOCK)
-				WHERE [Id] = 1 -- Change Shift
-				) + empV.[UnpaidLeaveAbsent] * (
-				SELECT [Score]
-				FROM [dbo].[AttendanceViolation] WITH (NOLOCK)
-				WHERE [Id] = 8 -- Unpaid Leave Absent
-				)
-			) AS SystemSubtractScore
-		,(
-			SELECT SUM(attV.[Score])
-			FROM [dbo].[AttendanceDetailIgnored] AS attI WITH (NOLOCK)
-				INNER JOIN [dbo].[AttendanceViolation] AS attV WITH (NOLOCK) ON attI.[ViolationId] = attV.[Id]
-			WHERE attI.[EmployeeId] = empV.[EmpId]
-				AND CAST(attI.[WorkDate] AS DATE) >= CAST(empV.[AttendanceStartDate] AS DATE)
-				AND CAST(attI.[WorkDate] AS DATE) <= CAST(empV.[AttendanceEndDate] AS DATE)
-				AND CAST(attI.[WorkDate] AS DATE) = CAST(empV.[WorkDate] AS DATE)
-				AND (
-					(empV.ChangeShift > 0 AND attI.ViolationId = 1)
-					OR (empV.MissingCheckInOut > 0 AND attI.ViolationId = 2)
-					OR (empV.LateIn > 0 AND attI.ViolationId = 3)
-					OR (empV.EarlyOut > 0 AND attI.ViolationId = 4)
-					OR (empV.[Absent] > 0 AND attI.ViolationId = 5)
-					OR (empV.UnpaidLeave > 0 AND attI.ViolationId = 6)
-					OR (empV.WorkingBelowTime > 0 AND attI.ViolationId = 7)
-					OR (empV.UnpaidLeaveAbsent > 0 AND attI.ViolationId = 8)
-				)
-			GROUP BY attI.[EmployeeId]
-			) AS ApproverIgnoredScore
-		,empV.[OtherViolationsScore]
-	FROM #EmployeeViolation AS empV
-
-	CREATE TABLE #EmployeeViolationFinalScore (
-		[EPAId] INT
-		,[WorkDate] DATETIME
-		,[EmpId] INT
-		,[SystemSubtractScore] FLOAT
-		,[ApproverSubtractScore] FLOAT
-		,[OtherViolationsScore] FLOAT
-		)
-
-	INSERT INTO #EmployeeViolationFinalScore (
-		[EPAId]
-		,[WorkDate]
-		,[EmpId]
-		,[SystemSubtractScore]
-		,[ApproverSubtractScore]
-		,[OtherViolationsScore]
-		)
-	SELECT [EPAId]
-		,[WorkDate]
-		,[EmpId]
+	INSERT INTO #EmployeeDisciplineScore
+	SELECT empD.EPAId
+		,empD.WorkDate
+		,empD.EmpId
+		,(empD.ChangeShift * dbo.fncGetDisciplineScoreById(1)
+		  + empD.MissingCheckInOut * dbo.fncGetDisciplineScoreById(2)
+		  + empD.LateIn * dbo.fncGetDisciplineScoreById(3)
+		  + empD.EarlyOut * dbo.fncGetDisciplineScoreById(4)
+		  + empD.[Absent] * dbo.fncGetDisciplineScoreById(5)
+		  + empD.UnpaidLeave * dbo.fncGetDisciplineScoreById(6)
+		  + empD.WorkingUnderTime * dbo.fncGetDisciplineScoreById(7)
+		  + empD.UnpaidLeaveAbsent * dbo.fncGetDisciplineScoreById(8)) AS SystemSubtractScore
 		,(CASE 
-			WHEN [SystemSubtractScore] < 3.5 THEN [SystemSubtractScore]
-			ELSE 3.5 END
-			) AS SystemSubtractScore
-		,(CASE 
-			WHEN [SystemSubtractScore] - (CASE 
-					WHEN ISNULL([ApproverIgnoredScore], '') <> '' THEN [ApproverIgnoredScore]
-					ELSE 0 END
-					) < 3.5 THEN [SystemSubtractScore] - (CASE 
-					WHEN ISNULL([ApproverIgnoredScore], '') <> '' THEN [ApproverIgnoredScore]
-					ELSE 0 END
-					)
-			ELSE 3.5 END
+			WHEN ignored.ApproverIgnoredScore IS NOT NULL THEN ignored.ApproverIgnoredScore
+			ELSE 0 END
 			) AS ApproverSubtractScore
-		,[OtherViolationsScore]
-	FROM #EmployeeViolationSystemScore
-
-	SELECT empV.[EPAId]
-		,CASE (
-				SELECT [ScoreRatingTypeId]
-				FROM [dbo].[EPA] WITH (NOLOCK)
-				WHERE [EPAId] = empV.[EPAId]
-				)
-			WHEN 1 THEN (
-					SELECT [AttendanceSettingScore]
-					FROM #EPATemp
-					WHERE [EPAId] = empV.[EPAId]
-					) - SUM(empV.[SystemSubtractScore] + empV.[OtherViolationsScore])
-			WHEN 2 THEN (
-					SELECT [AttendanceSettingScore]
-					FROM #EPATemp
-					WHERE [EPAId] = empV.[EPAId]
-					) - SUM(empV.OtherViolationsScore)
-			ELSE 0
-			END AS SystemDisciplineScore
-		,CASE (
-				SELECT [ScoreRatingTypeId]
-				FROM [dbo].[EPA] WITH (NOLOCK)
-				WHERE [EPAId] = empV.[EPAId]
-				)
-			WHEN 1 THEN CASE 
-					WHEN (
-							SELECT [AttendanceSettingScore]
-							FROM #EPATemp
-							WHERE [EPAId] = empV.[EPAId]
-							) - SUM(empV.[ApproverSubtractScore] + empV.OtherViolationsScore) > 0 THEN (
-							SELECT [AttendanceSettingScore]
-							FROM #EPATemp
-							WHERE [EPAId] = empV.[EPAId]
-							) - SUM(empV.[ApproverSubtractScore] + empV.OtherViolationsScore)
-					ELSE 0
-					END
-			WHEN 2 THEN (
-					SELECT [AttendanceSettingScore]
-					FROM #EPATemp
-					WHERE [EPAId] = empV.[EPAId]
-					) - SUM(empV.OtherViolationsScore)
-			ELSE 0
-			END AS DisciplineScore
-	FROM #EmployeeViolationFinalScore AS empV WITH (NOLOCK)
-	GROUP BY empV.[EPAId]
-	
-	UNION
-	SELECT epaT.[EPAId]
-		,(
-			SELECT [Attendance]
-			FROM [dbo].[ScoreRatingType] AS srt WITH (NOLOCK)
-			WHERE EXISTS (
-					SELECT TOP 1 1
-					FROM [dbo].[EPA] WITH (NOLOCK)
-					WHERE [EPAId] = epaT.[EPAId]
-						AND [ScoreRatingTypeId] = srt.[ScoreRatingTypeId]
+	FROM #EmployeeDiscipline AS empD
+		LEFT JOIN (
+		SELECT dis.EmpId
+			,dis.WorkDate
+			,(
+				(CASE 
+					WHEN dis.IsChangeShift = 1
+						AND dis.IsIgnoredChangeShift = 0 THEN dbo.fncGetDisciplineScoreById(1)
+					ELSE 0 END
+					) + (CASE 
+					WHEN dis.IsMissingCheckInOut = 1
+						AND dis.IsIgnoredMissingCheckInOut = 0 THEN dbo.fncGetDisciplineScoreById(2)
+					ELSE 0 END
+					) + (CASE 
+					WHEN dis.IsLateIn = 1
+						AND dis.IsIgnoredLateIn = 0 THEN dbo.fncGetDisciplineScoreById(3)
+					ELSE 0 END
+					) + (CASE 
+					WHEN dis.IsEarlyOut = 1
+						AND dis.IsIgnoredEarlyOut = 0 THEN dbo.fncGetDisciplineScoreById(4)
+					ELSE 0 END
+					) + (CASE 
+					WHEN dis.IsAbsent = 1
+						AND dis.IsIgnoredAbsent = 0 THEN dbo.fncGetDisciplineScoreById(5)
+					ELSE 0 END
+					) + (CASE 
+					WHEN dis.IsUnpaidLeave = 1
+						AND dis.IsIgnoredUnpaidLeave = 0 THEN dbo.fncGetDisciplineScoreById(6)
+					ELSE 0 END
+					) + (CASE 
+					WHEN dis.IsWorkingUndertime = 1
+						AND dis.IsIgnoredWorkingUndertime = 0 THEN dbo.fncGetDisciplineScoreById(7)
+					ELSE 0 END
+					) + (CASE 
+					WHEN dis.IsUnpaidLeaveAbsent = 1
+						AND dis.IsIgnoredUnpaidLeaveAbsent = 0 THEN dbo.fncGetDisciplineScoreById(8)
+					ELSE 0 END
 					)
-			) AS SystemDisciplineScore
-		,(
-			SELECT [Attendance]
-			FROM [dbo].[ScoreRatingType] AS srt WITH (NOLOCK)
-			WHERE EXISTS (
-					SELECT TOP 1 1
-					FROM [dbo].[EPA] WITH (NOLOCK)
-					WHERE [EPAId] = epaT.[EPAId]
-						AND [ScoreRatingTypeId] = srt.[ScoreRatingTypeId]
-					)
-			) AS DisciplineScore
-	FROM #EPATemp AS epaT
-	WHERE NOT EXISTS (
-			SELECT TOP 1 1
-			FROM #EmployeeViolation
-			WHERE [EPAId] = epaT.[EPAId]
+				) AS ApproverIgnoredScore
+		FROM dbo.EmployeeDiscipline AS dis WITH (NOLOCK)
+			INNER JOIN dbo.DisciplineType AS dtype WITH (NOLOCK) ON dis.DisciplineTypeId = dtype.DisciplineTypeId
+			INNER JOIN #EPA AS epat ON dis.EmpId = epat.EmpId
+			AND dis.WorkDate BETWEEN epat.AttendanceStartDate
+				AND epat.AttendanceEndDate
+		WHERE dis.DisciplineTypeId = 1
+		     AND ISNULL(dis.IsDeleted, 0) = 0
+		) AS ignored ON empD.EmpId = ignored.EmpId
+		AND empD.WorkDate = ignored.WorkDate
+	WHERE (
+			[Absent] > 0
+			OR ChangeShift > 0
+			OR EarlyOut > 0
+			OR LateIn > 0
+			OR UnpaidLeave > 0
+			OR empD.WorkingUnderTime > 0
+			OR UnpaidLeaveAbsent > 0
+			OR OtherViolationsScore > 0
+			OR MissingCheckInOut > 0
 			)
 
-	DROP TABLE #EmployeeViolationSystemScore
+	INSERT INTO #EmployeeDisciplineFinalScore
+	SELECT DISTINCT empD.EPAId
+		,SUM(empS.SystemSubtractScore) AS SystemSubtractScore
+		,SUM(empS.ApproverSubtractScore) AS ApproverSubtractScore
+		,SUM(empD.OtherViolationsScore) AS OtherViolationsScore
+	FROM #EmployeeDiscipline AS empD
+		LEFT JOIN #EmployeeDisciplineScore AS empS ON empD.EPAId = empS.EPAId
+	GROUP BY empD.EPAId
 
-	DROP TABLE #EmployeeViolationFinalScore
+	SELECT DISTINCT empF.EPAId
+		,(CASE srt.ScoreRatingTypeId
+			WHEN 1 THEN srt.Attendance - (empF.SystemSubtractScore + empF.OtherViolationsScore)
+			WHEN 2 THEN srt.Attendance - (empF.OtherViolationsScore)
+			ELSE 0 END
+			) AS SystemDisciplineScore
+		,(CASE srt.ScoreRatingTypeId
+			WHEN 1 THEN (CASE 
+					WHEN srt.Attendance - (empF.SystemSubtractScore + empF.OtherViolationsScore) > 0
+					   THEN srt.Attendance - (empF.SystemSubtractScore + empF.OtherViolationsScore)
+					ELSE 0 END
+					)
+			WHEN 2 THEN srt.Attendance - (empF.OtherViolationsScore)
+			ELSE 0 END
+			) AS DisciplineScore
+	FROM dbo.#EmployeeDisciplineFinalScore AS empF
+		INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON empF.EPAId = epa.EPAId
+		INNER JOIN dbo.ScoreRatingType AS srt WITH (NOLOCK) ON epa.ScoreRatingTypeId = srt.ScoreRatingTypeId
+	
+	UNION
+	SELECT epaT.EPAId
+		,srt.Attendance AS SystemDisciplineScore
+		,srt.Attendance AS DisciplineScore
+	FROM #EPA AS epat
+		INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON epat.EPAId = epa.EPAId
+		INNER JOIN dbo.ScoreRatingType AS srt ON epa.ScoreRatingTypeId = srt.ScoreRatingTypeId
+	WHERE NOT EXISTS (
+			SELECT 1
+			FROM #EmployeeDisciplineFinalScore AS empF
+			WHERE epat.EPAId = empF.EPAId
+			)
 
-	DROP TABLE #EPATemp
+	DROP TABLE #EPAId
 
-	DROP TABLE #EmployeeViolation
+	DROP TABLE #EPA
+
+	DROP TABLE #EmployeeDiscipline
+
+	DROP TABLE #EmployeeDisciplineScore
+
+	DROP TABLE #EmployeeDisciplineFinalScore
 END

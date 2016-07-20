@@ -12,7 +12,6 @@ function ($scope, AttendanceModel, utilitiesFactory, CommonModel, enumerationsFa
     vm.policyEnum = enumerationsFactory.policy;
     vm.currentPage = AttendanceModel.summaryPaging.currentPage;
     vm.pageSize = AttendanceModel.summaryPaging.pageSize;
-    vm.filter = {};
 
     function initFilter() {
         var filter = historyFactory.getState();
@@ -23,12 +22,8 @@ function ($scope, AttendanceModel, utilitiesFactory, CommonModel, enumerationsFa
             departmentId: null,
             isLocal: '',
             employeeId: null,
-            reasonId: null,
-            showAll: false
+            reasonId: null
         };
-    }
-
-    vm.filter = initFilter();
     }
 
     vm.calendar = {

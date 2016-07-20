@@ -2,7 +2,6 @@
 {
     using System;
     using SMS.EPA.Model.Employee;
-    using SMS.EPA.Model.Enitites;
 
     [Serializable]
     public class AttendanceDetailModel
@@ -26,8 +25,6 @@
         public string NumberOfMinutesEarlyOut { get; set; }
 
         public EmployeeModel Employee { get; set; }
-
-        public JobTitle JobTitle { get; set; }
 
         public ViolationModel MissingCheckInOut { get; set; }
 

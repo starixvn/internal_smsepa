@@ -1,7 +1,4 @@
-﻿
-
-
-CREATE PROCEDURE [dbo].[EPA_GetNumberOfRow] @EpaId INT
+﻿CREATE PROCEDURE [dbo].[EPA_GetNumberOfRow] @EpaId INT
 AS
 /*
 Created: 20160531@Razor.Nguyen
@@ -17,7 +14,7 @@ BEGIN
 	SET NOCOUNT ON;
 
 	SELECT COUNT(*)
-	FROM [SMSEPA].[dbo].[EPADetail]
+	FROM [dbo].[EPADetail]
 	WHERE ProcessId = 3
 		AND EPAId = @EpaId
 END

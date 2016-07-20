@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
@@ -16,12 +17,12 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                return db.Query<AttendanceSummaryModel, Employee, Group, JobTitle, AttendanceSummaryModel>(
+                return db.Query<AttendanceSummaryModel, EmployeeModel, Group, JobTitle, AttendanceSummaryModel>(
                     (att, emp, gr, job) =>
                     {
+                        emp.JobTitle = job;
+                        emp.Group = gr;
                         att.Employee = emp;
-                        att.Group = gr;
-                        att.JobTitle = job;
                         return att;
                     },
                     "EmployeeId, GroupId, JobTitleId",
@@ -42,6 +43,7 @@
             }
         }
 
+        [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
         private static IList<AttendanceDetailModel> MappingObjectForAttendanceDetail(IList<dynamic> violationDetails)
         {
             return violationDetails.Select(violation =>
@@ -68,11 +70,17 @@
                         FullName = violation.FullName,
                         Code = violation.Code,
                         Category = violation.Category,
+                        JoinedDate = violation.JoinedDate,
                         Group = new Group
                         {
                             GroupId = violation.GroupId,
                             GroupName = violation.GroupName,
                             GroupCode = violation.GroupCode
+                        },
+                        JobTitle = new JobTitle
+                        {
+                            JobTitleId = violation.JobTitleId,
+                            JobTitleName = violation.JobTitleName
                         }
                     },
                     ChangeShift = GetChangeShift(violation),
