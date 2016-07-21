@@ -97,7 +97,7 @@ BEGIN
 			INNER JOIN #EPA AS epa ON dis.EmpId = epa.EmpId
 			AND dis.WorkDate BETWEEN epa.AttendanceStartDate
 				AND epa.AttendanceEndDate
-		WHERE dis.DisciplineTypeId NOT IN (- 1, - 2) -- verbal/written warning
+		WHERE dis.DisciplineTypeId > 0
 		     AND ISNULL(dis.IsDeleted, 0) = 0
 		
 		UNION
@@ -118,7 +118,7 @@ BEGIN
 			AND dis.WorkDate BETWEEN epa.AttendanceStartDate
 				AND epa.AttendanceEndDate
 			INNER JOIN dbo.DisciplineType AS dtype WITH (NOLOCK) ON dis.DisciplineTypeId = dtype.DisciplineTypeId
-		WHERE dis.DisciplineTypeId IN (- 1, - 2) -- verbal/written warning
+		WHERE dis.DisciplineTypeId < 0
 		     AND ISNULL(dis.IsDeleted, 0) = 0
 		) AS empV
 	GROUP BY EPAId

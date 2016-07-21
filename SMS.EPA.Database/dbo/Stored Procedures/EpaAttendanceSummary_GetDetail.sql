@@ -135,7 +135,7 @@ BEGIN
 		INNER JOIN [dbo].[LookupData] AS lk WITH (NOLOCK) ON emp.IsLocal = CAST(lk.[Value] AS BIT)
 		AND lk.LookupId = 11
 		LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
-	WHERE empV.DisciplineTypeId NOT IN (- 1, - 2) -- verbal, written warning
+	WHERE empV.DisciplineTypeId > 0
 		AND ISNULL(empV.IsDeleted, 0) = 0
 		AND empV.WorkDate BETWEEN @StartDate
 			AND @EndDate

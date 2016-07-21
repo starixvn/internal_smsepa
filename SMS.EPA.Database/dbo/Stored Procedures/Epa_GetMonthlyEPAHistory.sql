@@ -8,7 +8,7 @@ AS
 /*
 Created: 20160606@Razor.Nguyen
 Task: Get Monthly EPA history.
-DB: Redmine
+DB: SMSEPA
 Original: 
 
 Revisions:  

@@ -26,7 +26,7 @@ BEGIN
 		,DisciplineScore FLOAT
 		)
 
-     SET @ToDay = CAST(GETDATE() AS DATE)
+	SET @ToDay = CAST(GETDATE() AS DATE)
 	SET @Yesterday = DATEADD(DAY, - 1, GETDATE())
 
 	SELECT @TargetTypeId = TargetTypeId
@@ -141,8 +141,7 @@ BEGIN
 		,(CASE 
 			WHEN epa.[Status] = 1 THEN epa.DisciplineScore
 			ELSE (CASE 
-					WHEN ds.DisciplineScore IS NULL
-						OR ds.DisciplineScore < 0 THEN 0
+					WHEN ds.DisciplineScore IS NULL THEN 0
 					ELSE ds.DisciplineScore END
 					) END
 			) AS DisciplineScore

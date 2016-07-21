@@ -57,7 +57,7 @@ BEGIN
 			,IsUnpaidLeaveAbsent AS UnpaidLeaveAbsent
 			,0 AS OtherViolationsScore
 		FROM dbo.EmployeeDiscipline AS dis WITH (NOLOCK)
-		WHERE dis.DisciplineTypeId NOT IN (- 1, - 2) -- verbal/written warning
+		WHERE dis.DisciplineTypeId > 0
 			AND ISNULL(dis.IsDeleted, 0) = 0
 		
 		UNION ALL
@@ -74,7 +74,7 @@ BEGIN
 			,dtype.Score AS OtherViolationsScore
 		FROM dbo.EmployeeDiscipline AS dis WITH (NOLOCK)
 			INNER JOIN dbo.DisciplineType AS dtype WITH (NOLOCK) ON dis.DisciplineTypeId = dtype.DisciplineTypeId
-		WHERE dis.DisciplineTypeId IN (- 1, - 2) -- verbal/written warning
+		WHERE dis.DisciplineTypeId < 0
 			AND ISNULL(dis.IsDeleted, 0) = 0
 		) AS empV
 	WHERE WorkDate BETWEEN @StartDate
@@ -202,7 +202,7 @@ BEGIN
 						AND @ApproverId = grS.OwnerId
 						AND grS.ActionType = 3
 						AND emp.EmployeeId <> @ApproverId
-					) THEN 2 -- Host				
+					) THEN 2 -- Host
 			ELSE 1
 			END
 		,emp.EmployeeId

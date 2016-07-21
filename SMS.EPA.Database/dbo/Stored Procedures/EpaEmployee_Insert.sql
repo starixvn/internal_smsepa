@@ -1,9 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EpaEmployee_Insert    Script Date: 5/16/2016 2:20:07 PM ******/
-/****** Object:  Stored Procedure dbo.EpaEmployee_Insert    Script Date: 5/16/2016 2:15:30 PM ******/
-/****** Object:  Stored Procedure dbo.EpaEmployee_Insert    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EpaEmployee_Insert    Script Date: 4/6/2016 11:27:44 AM ******/
-
-CREATE PROCEDURE [dbo].[EpaEmployee_Insert] @NickName NVARCHAR(20)
+﻿CREATE PROCEDURE [dbo].[EpaEmployee_Insert] @NickName NVARCHAR(20)
 	,@FullName NVARCHAR(50) = ''
 	,@GroupId INT = ''
 	,@JobTitleId INT = ''
@@ -19,7 +14,7 @@ AS
 /*
 Created: 2015-06-12@Josh.Phan
 Task: Insert new user.
-DB: Redmine
+DB: SMSEPA
 Original: 
 
 Revisions:  
@@ -29,7 +24,7 @@ BEGIN
 	SET NOCOUNT ON;
 
 	IF EXISTS (
-			SELECT TOP 1 1
+			SELECT 1
 			FROM [dbo].[Employee] WITH (NOLOCK)
 			WHERE [DomainUsername] = @DomainUsername
 			)
@@ -41,7 +36,7 @@ BEGIN
 	END
 
 	IF EXISTS (
-			SELECT TOP 1 1
+			SELECT 1
 			FROM [dbo].[Employee] WITH (NOLOCK)
 			WHERE [NickName] = @NickName
 			)
@@ -116,9 +111,17 @@ BEGIN
 		COMMIT TRANSACTION
 
 		DECLARE @Data NVARCHAR(MAX)
-		EXEC @Data = [dbo].[fncGetDataForWriteLog] @ObjectId = @EmpId, @ObjectType = 4
 
-		EXEC [dbo].[LogDetail_Insert] @ActorId = @CreatedBy, @SpName = 'EpaEmployee_Insert', @ObjectId = @EmpId, @ObjectTypeId = 4, @Data = @Data, @OldData = NULL, @ObjectIds = NULL
+		EXEC @Data = [dbo].[fncGetDataForWriteLog] @ObjectId = @EmpId
+			,@ObjectType = 4
+
+		EXEC [dbo].[LogDetail_Insert] @ActorId = @CreatedBy
+			,@SpName = 'EpaEmployee_Insert'
+			,@ObjectId = @EmpId
+			,@ObjectTypeId = 4
+			,@Data = @Data
+			,@OldData = NULL
+			,@ObjectIds = NULL
 
 		SELECT @ErrCode = 0
 			,@ErrMsg = ''

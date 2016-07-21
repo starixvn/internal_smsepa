@@ -1,16 +1,11 @@
-﻿/****** Object:  Stored Procedure dbo.EpaAuto_UpdateFinalScoreEndEvaluation    Script Date: 5/16/2016 2:20:10 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_UpdateFinalScoreEndEvaluation    Script Date: 5/16/2016 2:15:32 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_UpdateFinalScoreEndEvaluation    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_UpdateFinalScoreEndEvaluation    Script Date: 4/6/2016 11:27:44 AM ******/
-
-CREATE PROCEDURE [dbo].[EpaAuto_UpdateFinalScoreEndEvaluation] @EPAScores VARCHAR(MAX)
+﻿CREATE PROCEDURE [dbo].[EpaAuto_UpdateFinalScoreEndEvaluation] @EPAScores VARCHAR(MAX)
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg VARCHAR(200) = '' OUTPUT
 AS
 /*
 Created: 2015-08-26@Josh.Phan
 Task: Check end process.
-DB: Redmine
+DB: SMSEPA
 Original: 
 
 Revisions:  

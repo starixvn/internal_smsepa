@@ -10,7 +10,7 @@ AS
 /*
 Created: 2015-10-19@Josh.Phan
 Task: Get EPA history.
-DB: Redmine
+DB: SMSEPA
 Original: 
 
 Revisions:  
