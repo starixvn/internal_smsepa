@@ -1,6 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.Report_EPASummary    Script Date: 4/6/2016 11:27:47 AM ******/
-
-CREATE PROCEDURE [dbo].[Report_EPASummary] @EmployeeId INT
+﻿CREATE PROCEDURE [dbo].[Report_EPASummary] @EmployeeId INT
 	,@PeriodIds NVARCHAR(MAX) = NULL
 	,@DepartmentId INT = NULL
 	,@IsLocal BIT = NULL
@@ -339,8 +337,11 @@ BEGIN
 				ELSE 0 END
 				) AS HasDisciplineScore
 			,(CASE 
-				WHEN ds.ApproverSubtractScore IS NULL THEN 0
-				ELSE ds.ApproverSubtractScore END
+				WHEN epa.[Status] = 1 THEN epa.DisciplineScore
+				ELSE (CASE 
+						WHEN ds.ApproverSubtractScore IS NULL THEN 0
+						ELSE ds.ApproverSubtractScore END
+						) END
 				) AS DisciplineScore
 			,srt.Attendance AS MaxDisciplineScore
 			,(CASE 

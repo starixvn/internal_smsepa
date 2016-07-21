@@ -310,8 +310,11 @@ BEGIN
 				ELSE 0 END
 				) AS HasDisciplineScore
 			,(CASE 
-				WHEN ds.ApproverSubtractScore IS NULL THEN 0
-				ELSE ds.ApproverSubtractScore END
+				WHEN epa.[Status] = 1 THEN epa.DisciplineScore
+				ELSE (CASE 
+						WHEN ds.ApproverSubtractScore IS NULL THEN 0
+						ELSE ds.ApproverSubtractScore END
+						) END
 				) AS DisciplineScore
 			,srt.Attendance AS MaxDisciplineScore
 			,emp.EmployeeId

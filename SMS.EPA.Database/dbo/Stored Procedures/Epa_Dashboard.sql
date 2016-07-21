@@ -1,8 +1,4 @@
-﻿
-/****** Object:  Stored Procedure dbo.Epa_Dashboard    Script Date: 5/16/2016 2:20:13 PM ******/
-/****** Object:  Stored Procedure dbo.Epa_Dashboard    Script Date: 5/16/2016 2:15:34 PM ******/
-/****** Object:  Stored Procedure dbo.Epa_Dashboard    Script Date: 5/16/2016 1:59:44 PM ******/
-CREATE PROCEDURE [dbo].[Epa_Dashboard] @EmployeeId INT
+﻿CREATE PROCEDURE [dbo].[Epa_Dashboard] @EmployeeId INT
 AS
 /*
 Created: 20150904@Tim.Trinh
@@ -62,9 +58,11 @@ BEGIN
 				ELSE 0 END
 				) AS HasDisciplineScore
 			,(CASE 
-				WHEN ds.ApproverSubtractScore IS NULL
-					OR ds.ApproverSubtractScore < 0 THEN 0
-				ELSE ds.ApproverSubtractScore END
+				WHEN epa.[Status] = 1 THEN epa.DisciplineScore
+				ELSE (CASE 
+						WHEN ds.ApproverSubtractScore IS NULL THEN 0
+						ELSE ds.ApproverSubtractScore END
+						) END
 				) AS DisciplineScore
 			,srt.Attendance AS MaxDisciplineScore
 			,(CASE 

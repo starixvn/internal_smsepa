@@ -1,6 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.Report_EPASummary    Script Date: 4/6/2016 11:27:47 AM ******/
-
-CREATE PROCEDURE [dbo].[Report_MonthlyEPASummary] @EmployeeId INT
+﻿CREATE PROCEDURE [dbo].[Report_MonthlyEPASummary] @EmployeeId INT
 	,@PeriodIds NVARCHAR(MAX) = NULL
 	,@DepartmentId INT = NULL
 	,@IsLocal BIT = NULL
@@ -254,9 +252,11 @@ BEGIN
 	INSERT INTO #DisciplineScore
 	EXECUTE dbo.EpaAttendanceSummary_GetByEPA @Ids
 
-	SELECT PeriodId
-		,[Name]
-	FROM #PeriodTemp
+	SELECT period.PeriodId
+		,period.[Name]
+	FROM #PeriodTemp AS TEMP
+		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON TEMP.PeriodId = period.PeriodId
+	ORDER BY period.StartDate DESC
 
 	SELECT emp.EmployeeId
 		,emp.Code
@@ -302,8 +302,11 @@ BEGIN
 				ELSE 0 END
 				) AS HasDisciplineScore
 			,(CASE 
-				WHEN ds.ApproverSubtractScore IS NULL THEN 0
-				ELSE ds.ApproverSubtractScore END
+				WHEN epa.[Status] = 1 THEN epa.DisciplineScore
+				ELSE (CASE 
+						WHEN ds.ApproverSubtractScore IS NULL THEN 0
+						ELSE ds.ApproverSubtractScore END
+						) END
 				) AS DisciplineScore
 			,srt.Attendance AS MaxDisciplineScore
 			,(CASE 
