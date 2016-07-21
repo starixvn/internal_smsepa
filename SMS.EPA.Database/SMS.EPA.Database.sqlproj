@@ -145,7 +145,6 @@
     <Build Include="dbo\Functions\fnc_strSplit.sql" />
     <Build Include="dbo\Functions\RelatedDepartment.sql" />
     <Build Include="dbo\Stored Procedures\Sync_Employee.sql" />
-    <Build Include="dbo\Stored Procedures\EPA_GetSemiById.sql" />
     <Build Include="dbo\Stored Procedures\EpaAuto_CheckLastestEndEvaluationPeriod.sql" />
     <Build Include="dbo\Stored Procedures\Sync_Employee_GetMaxModifiedDate.sql" />
     <Build Include="dbo\Stored Procedures\Sync_EmployeeAttendance_GetMaxModifiedDate.sql" />
