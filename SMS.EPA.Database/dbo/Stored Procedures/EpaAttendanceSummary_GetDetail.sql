@@ -240,29 +240,77 @@ BEGIN
 		AND (
 			@HasIgnored IS NULL
 			OR (
-				@HasIgnored = 0
+				@HasIgnored = 1
 				AND (
-					empV.IsIgnoredChangeShift = 1
-					OR empV.IsIgnoredMissingCheckInOut = 1
-					OR empV.IsIgnoredLateIn = 1
-					OR empV.IsIgnoredEarlyOut = 1
-					OR empV.IsIgnoredAbsent = 1
-					OR empV.IsIgnoredUnpaidLeave = 1
-					OR empV.IsIgnoredWorkingUndertime = 1
-					OR empV.IsIgnoredUnpaidLeaveAbsent = 1
+					(
+						empV.IsChangeShift = 1
+						AND empV.IsIgnoredChangeShift = 1
+						)
+					OR (
+						empV.IsMissingCheckInOut = 1
+						AND empV.IsIgnoredMissingCheckInOut = 1
+						)
+					OR (
+						empV.IsLateIn = 1
+						AND empV.IsIgnoredLateIn = 1
+						)
+					OR (
+						empV.IsEarlyOut = 1
+						AND empV.IsIgnoredEarlyOut = 1
+						)
+					OR (
+						empV.IsAbsent = 1
+						AND empV.IsIgnoredAbsent = 1
+						)
+					OR (
+						empV.IsUnpaidLeave = 1
+						AND empV.IsIgnoredUnpaidLeave = 1
+						)
+					OR (
+						empV.IsWorkingUnderTime = 1
+						AND empV.IsIgnoredWorkingUndertime = 1
+						)
+					OR (
+						empV.IsUnpaidLeaveAbsent = 1
+						AND empV.IsIgnoredUnpaidLeaveAbsent = 1
+						)
 					)
 				)
 			OR (
-				@HasIgnored = 1
+				@HasIgnored = 0
 				AND (
-					empV.IsIgnoredChangeShift = 0
-					OR empV.IsIgnoredMissingCheckInOut = 0
-					OR empV.IsIgnoredLateIn = 0
-					OR empV.IsIgnoredEarlyOut = 0
-					OR empV.IsIgnoredAbsent = 0
-					OR empV.IsIgnoredUnpaidLeave = 0
-					OR empV.IsIgnoredWorkingUndertime = 0
-					OR empV.IsIgnoredUnpaidLeaveAbsent = 0
+					(
+						empV.IsChangeShift = 1
+						AND empV.IsIgnoredChangeShift = 0
+						)
+					OR (
+						empV.IsMissingCheckInOut = 1
+						AND empV.IsIgnoredMissingCheckInOut = 0
+						)
+					OR (
+						empV.IsLateIn = 1
+						AND empV.IsIgnoredLateIn = 0
+						)
+					OR (
+						empV.IsEarlyOut = 1
+						AND empV.IsIgnoredEarlyOut = 0
+						)
+					OR (
+						empV.IsAbsent = 1
+						AND empV.IsIgnoredAbsent = 0
+						)
+					OR (
+						empV.IsUnpaidLeave = 1
+						AND empV.IsIgnoredUnpaidLeave = 0
+						)
+					OR (
+						empV.IsWorkingUnderTime = 1
+						AND empV.IsIgnoredWorkingUndertime = 0
+						)
+					OR (
+						empV.IsUnpaidLeaveAbsent = 1
+						AND empV.IsIgnoredUnpaidLeaveAbsent = 0
+						)
 					)
 				)
 			)
@@ -270,6 +318,7 @@ BEGIN
 
 	SELECT d.*
 	FROM #DisciplineDetail AS d
+	ORDER BY d.WorkDate DESC
 
 	DROP TABLE #DisciplineDetail
 END

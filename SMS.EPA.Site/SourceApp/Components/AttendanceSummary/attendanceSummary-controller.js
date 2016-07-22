@@ -14,10 +14,12 @@ function ($scope, AttendanceModel, utilitiesFactory, CommonModel, enumerationsFa
     vm.pageSize = AttendanceModel.summaryPaging.pageSize;
 
     function initFilter() {
-        var filter = historyFactory.getState();
+        var filter = historyFactory.getState(),
+            dateRangeFilter = AttendanceModel.getRangeDateFilter();
+
         return filter ? filter : {
-            startDate: AttendanceModel.getStartDate(),
-            endDate: AttendanceModel.getEndDate(),
+            startDate: dateRangeFilter.startDate,
+            endDate: dateRangeFilter.endDate,
             employee: null,
             departmentId: null,
             isLocal: '',

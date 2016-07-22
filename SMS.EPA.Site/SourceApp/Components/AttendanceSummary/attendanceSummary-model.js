@@ -42,40 +42,29 @@ function ($modal, attendanceFactory, errorFactory) {
         attendanceModel.summaryPaging.pageSize = 20;
     };
 
-    attendanceModel.getStartDate = function () {
+    attendanceModel.getRangeDateFilter = function () {
         var startDate = new Date(),
+            endDate = new Date(),
             date = new Date(),
             dateNoTime = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0);
 
         if (dateNoTime >= attendanceModel.rangeDateFilter.firstRangeStartDate && dateNoTime <= attendanceModel.rangeDateFilter.firstRangeEndDate) {
             startDate = attendanceModel.rangeDateFilter.firstStartDate;
-        }
-        else if (dateNoTime >= attendanceModel.rangeDateFilter.secondRangeStartDate && dateNoTime <= attendanceModel.rangeDateFilter.secondRangeEndDate) {
-            startDate = attendanceModel.rangeDateFilter.secondStartDate;
-        }
-        else if (dateNoTime >= attendanceModel.rangeDateFilter.thirdRangeStartDate && dateNoTime <= attendanceModel.rangeDateFilter.thirdRangeEndDate) {
-            startDate = attendanceModel.rangeDateFilter.thirdStartDate;
-        }
-
-        return startDate;
-    };
-
-    attendanceModel.getEndDate = function () {
-        var endDate = new Date(),
-            date = new Date(),
-            dateNoTime = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0);
-
-        if (dateNoTime >= attendanceModel.rangeDateFilter.firstRangeStartDate && dateNoTime <= attendanceModel.rangeDateFilter.firstRangeEndDate) {
             endDate = attendanceModel.rangeDateFilter.firstEndDate;
         }
         else if (dateNoTime >= attendanceModel.rangeDateFilter.secondRangeStartDate && dateNoTime <= attendanceModel.rangeDateFilter.secondRangeEndDate) {
+            startDate = attendanceModel.rangeDateFilter.secondStartDate;
             endDate = attendanceModel.rangeDateFilter.secondEndDate;
         }
         else if (dateNoTime >= attendanceModel.rangeDateFilter.thirdRangeStartDate && dateNoTime <= attendanceModel.rangeDateFilter.thirdRangeEndDate) {
+            startDate = attendanceModel.rangeDateFilter.thirdStartDate;
             endDate = attendanceModel.rangeDateFilter.thirdEndDate;
         }
 
-        return endDate;
+        return {
+            startDate: startDate,
+            endDate: endDate
+        };
     };
 
     attendanceModel.getAttendanceSummary = function (startDate, endDate, departmentId, isLocal, employeeId, reasonId) {

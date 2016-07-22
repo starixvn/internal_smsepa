@@ -98,7 +98,7 @@ BEGIN
 			AND dis.WorkDate BETWEEN epa.AttendanceStartDate
 				AND epa.AttendanceEndDate
 		WHERE dis.DisciplineTypeId > 0
-		     AND ISNULL(dis.IsDeleted, 0) = 0
+			AND ISNULL(dis.IsDeleted, 0) = 0
 		
 		UNION
 		SELECT epa.EPAId
@@ -119,7 +119,7 @@ BEGIN
 				AND epa.AttendanceEndDate
 			INNER JOIN dbo.DisciplineType AS dtype WITH (NOLOCK) ON dis.DisciplineTypeId = dtype.DisciplineTypeId
 		WHERE dis.DisciplineTypeId < 0
-		     AND ISNULL(dis.IsDeleted, 0) = 0
+			AND ISNULL(dis.IsDeleted, 0) = 0
 		) AS empV
 	GROUP BY EPAId
 		,EmpId
@@ -130,13 +130,13 @@ BEGIN
 		,empD.WorkDate
 		,empD.EmpId
 		,(empD.ChangeShift * dbo.fncGetDisciplineScoreById(1)
-		  + empD.MissingCheckInOut * dbo.fncGetDisciplineScoreById(2)
-		  + empD.LateIn * dbo.fncGetDisciplineScoreById(3)
-		  + empD.EarlyOut * dbo.fncGetDisciplineScoreById(4)
-		  + empD.[Absent] * dbo.fncGetDisciplineScoreById(5)
-		  + empD.UnpaidLeave * dbo.fncGetDisciplineScoreById(6)
-		  + empD.WorkingUnderTime * dbo.fncGetDisciplineScoreById(7)
-		  + empD.UnpaidLeaveAbsent * dbo.fncGetDisciplineScoreById(8)) AS SystemSubtractScore
+			+ empD.MissingCheckInOut * dbo.fncGetDisciplineScoreById(2)
+			+ empD.LateIn * dbo.fncGetDisciplineScoreById(3)
+			+ empD.EarlyOut * dbo.fncGetDisciplineScoreById(4)
+			+ empD.[Absent] * dbo.fncGetDisciplineScoreById(5)
+			+ empD.UnpaidLeave * dbo.fncGetDisciplineScoreById(6)
+			+ empD.WorkingUnderTime * dbo.fncGetDisciplineScoreById(7)
+			+ empD.UnpaidLeaveAbsent * dbo.fncGetDisciplineScoreById(8)) AS SystemSubtractScore
 		,(CASE 
 			WHEN ignored.ApproverIgnoredScore IS NOT NULL THEN ignored.ApproverIgnoredScore
 			ELSE 0 END
@@ -186,7 +186,7 @@ BEGIN
 			AND dis.WorkDate BETWEEN epat.AttendanceStartDate
 				AND epat.AttendanceEndDate
 		WHERE dis.DisciplineTypeId = 1
-		     AND ISNULL(dis.IsDeleted, 0) = 0
+			AND ISNULL(dis.IsDeleted, 0) = 0
 		) AS ignored ON empD.EmpId = ignored.EmpId
 		AND empD.WorkDate = ignored.WorkDate
 	WHERE (
@@ -208,6 +208,8 @@ BEGIN
 		,SUM(empD.OtherViolationsScore) AS OtherViolationsScore
 	FROM #EmployeeDiscipline AS empD
 		LEFT JOIN #EmployeeDisciplineScore AS empS ON empD.EPAId = empS.EPAId
+		AND empD.WorkDate = empS.WorkDate
+		AND empD.EmpId = empS.EmpId
 	GROUP BY empD.EPAId
 
 	SELECT DISTINCT empF.EPAId
@@ -218,8 +220,7 @@ BEGIN
 			) AS SystemDisciplineScore
 		,(CASE srt.ScoreRatingTypeId
 			WHEN 1 THEN (CASE 
-					WHEN srt.Attendance - (empF.SystemSubtractScore + empF.OtherViolationsScore) > 0
-					   THEN srt.Attendance - (empF.SystemSubtractScore + empF.OtherViolationsScore)
+					WHEN (srt.Attendance - (empF.ApproverSubtractScore + empF.OtherViolationsScore)) > 0 THEN (srt.Attendance - (empF.ApproverSubtractScore + empF.OtherViolationsScore))
 					ELSE 0 END
 					)
 			WHEN 2 THEN srt.Attendance - (empF.OtherViolationsScore)

@@ -326,7 +326,7 @@ BEGIN
 		,emp.Code
 		,gr.GroupId
 		,gr.[Name]
-	ORDER BY gr.GroupId
+	ORDER BY gr.[Name]
 		,emp.Code
 
 	DROP TABLE #EmployeeDiscipline
