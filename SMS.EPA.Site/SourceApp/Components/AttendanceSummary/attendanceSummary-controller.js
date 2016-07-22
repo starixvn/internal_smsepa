@@ -186,10 +186,11 @@ function ($scope, $window, $routeParams, AttendanceModel, CommonModel, utilities
     vm.attendanceDetails = [];
 
     vm.fromSummaryPage = $routeParams.id ? true : false;
+    var dateRangeFilter = AttendanceModel.getRangeDateFilter();
 
     vm.filter = {
-        startDate: $routeParams.startDate ? new Date($routeParams.startDate) : AttendanceModel.getStartDate(),
-        endDate: $routeParams.endDate ? new Date($routeParams.endDate) : AttendanceModel.getEndDate(),
+        startDate: $routeParams.startDate ? new Date($routeParams.startDate) : dateRangeFilter.startDate,
+        endDate: $routeParams.endDate ? new Date($routeParams.endDate) : dateRangeFilter.endDate,
         employee: null,
         departmentId: null,
         isLocal: $routeParams.isLocal ? $routeParams.isLocal : '',
