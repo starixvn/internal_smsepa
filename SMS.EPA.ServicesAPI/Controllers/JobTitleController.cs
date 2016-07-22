@@ -7,6 +7,7 @@
     using System.Net;
     using System.Web.Http;
 
+    [Authorize]
     public class JobTitleController : ApiController
     {
         private readonly IServiceAPI _jobTitleService;

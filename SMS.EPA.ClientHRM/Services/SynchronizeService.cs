@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.ClientHRM.Services
 {
+    using Fanex.Logging;
     using SMS.EPA.ClientHRM.Model;
     using SMS.EPA.ServicesAPI.Model;
     using System;
@@ -39,13 +40,29 @@
 
         public void Synchronize()
         {
+            WriteLog("Department");
             SynchronizeDepartment();
+            WriteLog("Team");
             SynchronizeTeam();
+            WriteLog("Employee");
             SynchronizeEmployee();
+            WriteLog("Jobtitle");
             SynchronizeJobTitle();
+            WriteLog("Employee Discipline Permission");
             SynchronizeEmployeeDisciplinePermission();
+            WriteLog("Section Discipline Permission");
             SynchronizeGroupDisciplinePermission();
+            WriteLog("Discipline");
             SynchronizeAttendanceViolation();
+            WriteLog("Done!");
+        }
+
+        private void WriteLog(string text)
+        {
+            if (ApplicationConfig.IsWriteLog)
+            {
+                LogService.Info(text);
+            }
         }
 
         private void SynchronizeDepartment()

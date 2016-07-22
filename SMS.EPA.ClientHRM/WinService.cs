@@ -26,42 +26,43 @@
 
         protected override void OnStart(string[] args)
         {
+            LogService.Info("start");
             _isWorking = true;
             _timer.Enabled = true;
         }
 
         protected override void OnStop()
         {
+            LogService.Info("stop");
             _isWorking = false;
             _timer.Enabled = false;
         }
 
         private void ExecuteJob(object sender, ElapsedEventArgs e)
         {
-            try
+            if (_isWorking)
             {
-                if (_isWorking)
+                _isWorking = false;
+                try
                 {
-                    _isWorking = false;
-
                     _service.Synchronize();
-
-                    _isWorking = true;
                 }
-            }
-            catch (Exception ex)
-            {
-                var message = ex.Message + Environment.NewLine +
-                   "StackTrace: " + ex.StackTrace;
-                if (ex is WebApiException)
+                catch (Exception ex)
                 {
-                    var customException = ex as WebApiException;
-                    message = "Status Code: " + customException.StatusCode + Environment.NewLine;
-                    message += "Http Request Message: " + customException.RequestMessage + Environment.NewLine;
-                    message += "Data :" + customException.AttachedData + Environment.NewLine;
+                    var message = ex.Message + Environment.NewLine +
+                        "StackTrace: " + ex.StackTrace;
+                    if (ex is WebApiException)
+                    {
+                        var customException = ex as WebApiException;
+                        message = "Status Code: " + customException.StatusCode + Environment.NewLine;
+                        message += "Http Request Message: " + customException.RequestMessage + Environment.NewLine;
+                        message += "Data :" + customException.AttachedData + Environment.NewLine;
+                    }
+
+                    LogService.Error(message);
                 }
 
-                LogService.Error(message);
+                _isWorking = true;
             }
         }
     }

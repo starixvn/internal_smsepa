@@ -8,6 +8,7 @@
     using System.Net;
     using System.Web.Http;
 
+    [Authorize]
     public class TeamController : ApiController
     {
         private readonly IServiceAPI _teamService;

@@ -31,5 +31,15 @@
                 return new ApplicationInfo { UserName = applicationId, Password = applicationId };
             }
         }
+
+        public static bool IsWriteLog
+        {
+            get
+            {
+                string isWriteLog = ConfigurationManager.AppSettings["IsWriteLog"];
+
+                return bool.Parse(isWriteLog);
+            }
+        }
     }
 }

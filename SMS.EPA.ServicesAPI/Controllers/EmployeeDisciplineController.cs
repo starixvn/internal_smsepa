@@ -8,6 +8,7 @@
     using System.Net;
     using System.Web.Http;
 
+    [Authorize]
     public class EmployeeDisciplineController : ApiController
     {
          private readonly IServiceAPI _service;
