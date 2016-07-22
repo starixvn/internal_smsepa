@@ -124,7 +124,7 @@ function ($scope, AttendanceModel, utilitiesFactory, CommonModel, enumerationsFa
             vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
         });
 
-        AttendanceModel.getViolationType(false, true).then(function () {
+        AttendanceModel.getViolationType(true, true).then(function () {
             vm.violationOptions = AttendanceModel.violationTypes;
         });
 
