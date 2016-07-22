@@ -123,6 +123,7 @@
     <Compile Include="Criteria\GetJobTitleCriteria.cs" />
     <Compile Include="Criteria\GetTeamCriteria.cs" />
     <Compile Include="Bootstrap.cs" />
+    <Compile Include="Model\Photo.cs" />
     <Compile Include="Model\WebApiException.cs" />
     <Compile Include="Model\Department.cs" />
     <Compile Include="Model\Employee.cs" />
@@ -141,8 +142,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\CommandResult.cs" />
     <Compile Include="Model\ApplicationInfo.cs" />
+    <Compile Include="Services\PhotoService.cs" />
+    <Compile Include="Services\Interfaces\IPhotoService.cs" />
     <Compile Include="ThirdPartyAPIs\AttendanceAPI.cs" />
     <Compile Include="Services\AttendanceService.cs" />
+    <Compile Include="ThirdPartyAPIs\Interfaces\IPhotoAPI.cs" />
+    <Compile Include="ThirdPartyAPIs\PhotoAPI.cs" />
     <Compile Include="ThirdPartyAPIs\Interfaces\IAttendanceAPI.cs" />
     <Compile Include="Services\Interfaces\IAttendanceService.cs" />
     <Compile Include="Services\Interfaces\IDisciplinePermissionService.cs" />

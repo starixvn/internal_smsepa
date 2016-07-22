@@ -18,6 +18,7 @@
         private readonly IJobTitleService _jobTitleService;
         private readonly ISupervisorService _supervisorService;
         private readonly IAttendanceService _attendanceService;
+        private readonly IPhotoService _photoService;
 
         public SynchronizeService(
             ITokenService tokenService,
@@ -26,7 +27,8 @@
             ITeamService teamService,
             IJobTitleService jobtitleService,
             ISupervisorService supervisorService,
-            IAttendanceService attendanceService)
+            IAttendanceService attendanceService,
+            IPhotoService photoService)
         {
             _token = new TokenAccess();
             _tokenService = tokenService;
@@ -36,6 +38,7 @@
             _jobTitleService = jobtitleService;
             _supervisorService = supervisorService;
             _attendanceService = attendanceService;
+            _photoService = photoService;
         }
 
         public void Synchronize()
@@ -54,6 +57,8 @@
             SynchronizeGroupDisciplinePermission();
             WriteLog("Discipline");
             SynchronizeAttendanceViolation();
+            WriteLog("Photo");
+            SynchronizePhoto();
             WriteLog("Done!");
         }
 
@@ -166,6 +171,21 @@
                 if (violations.Any())
                 {
                     _attendanceService.Update(violations, _token);
+                }
+            }
+        }
+
+        private void SynchronizePhoto()
+        {
+            InitToken();
+
+            if (_token.IsValid())
+            {
+                DateTime lastModifiedDate = _photoService.GetMaxModifiedDate(_token);
+                IEnumerable<Photo> photos = _photoService.GetPhotos(lastModifiedDate);
+                if (photos.Any())
+                {
+                    _photoService.Update(photos, _token);
                 }
             }
         }

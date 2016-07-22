@@ -1,16 +1,16 @@
 ﻿namespace SMS.EPA.ServicesAPI.Services
 {
     using Fanex.Data.Repository;
+    using Fanex.Logging;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
-    using SMS.EPA.ServicesAPI.Criteria;
-    using SMS.EPA.ServicesAPI.Criteria.Department;
     using System;
 
     public class ServiceAPI : BaseService, IServiceAPI
     {
         public CommandResult Update(ICriteria criteria)
         {
+            LogService.Info(criteria.GetSettingKey());
             var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())

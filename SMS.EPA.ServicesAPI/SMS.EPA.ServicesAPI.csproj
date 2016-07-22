@@ -208,6 +208,7 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
+    <Compile Include="Controllers\PhotoController.cs" />
     <Compile Include="Controllers\TeamDisciplinePermissionController.cs" />
     <Compile Include="Criteria\TeamDisciplinePermission\GetMaxModifiedDateForTeamSupervisorCriteria.cs" />
     <Compile Include="Criteria\TeamDisciplinePermission\UpdateTeamSupervisorCriteria.cs" />
@@ -220,6 +221,7 @@
     <Compile Include="Criteria\EmployeeDiscipline\GetMaxModifiedDateForAttendanceViolationCriteria.cs" />
     <Compile Include="Criteria\EmployeeDiscipline\UpdateAttendanceViolationCriteria.cs" />
     <Compile Include="Criteria\JobTitle\UpdateJobTitleCriteria.cs" />
+    <Compile Include="Model\Photo.cs" />
     <Compile Include="Model\TeamDisciplinePermission.cs" />
     <Compile Include="Model\EmployeeDisciplinePermission.cs" />
     <Compile Include="Criteria\EmployeeDisciplinePermission\GetMaxModifiedDateForEmployeeSupervisorCriteria.cs" />

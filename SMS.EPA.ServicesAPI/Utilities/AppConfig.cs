@@ -35,5 +35,15 @@
                 return string.IsNullOrEmpty(partnerId) ? new List<string>() : partnerId.Split(';').ToList();
             }
         }
+
+        public static string PhotoPath
+        {
+            get
+            {
+                string photoPath = ConfigurationManager.AppSettings["PhotoPath"];
+
+                return photoPath;
+            }
+        }
     }
 }

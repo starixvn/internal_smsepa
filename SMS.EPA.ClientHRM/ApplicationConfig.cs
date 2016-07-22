@@ -41,5 +41,15 @@
                 return bool.Parse(isWriteLog);
             }
         }
+
+        public static string PhotoPath
+        {
+            get
+            {
+                string photoPath = ConfigurationManager.AppSettings["PhotoPath"];
+
+                return photoPath;
+            }
+        }
     }
 }
