@@ -53,7 +53,6 @@
                     earlyOut = violation.EarlyOut;
                 DateTime? checkIn = violation.CheckIn,
                     checkOut = violation.CheckOut;
-
                 return new AttendanceDetailModel
                 {
                     WorkDate = violation.WorkDate,
