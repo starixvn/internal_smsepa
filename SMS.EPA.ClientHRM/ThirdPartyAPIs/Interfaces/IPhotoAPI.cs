@@ -8,6 +8,6 @@
     {
         DateTime GetMaxModifiedDate(TokenAccess token);
 
-        CommandResult Update(IEnumerable<Photo> departments, TokenAccess token);
+        CommandResult Update(IEnumerable<Photo> photos, TokenAccess token);
     }
 }

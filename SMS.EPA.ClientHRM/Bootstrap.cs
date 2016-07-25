@@ -28,6 +28,7 @@
             _container.Register<ITokenService, TokenService>(Lifestyle.Singleton);
             _container.Register<ISynchronizeService, SynchronizeService>(Lifestyle.Singleton);
             _container.Register<ITeamService, TeamService>(Lifestyle.Singleton);
+            _container.Register<IPhotoService, PhotoService>(Lifestyle.Singleton);
 
             _container.Register<IDynamicRepository, DynamicRepository>(Lifestyle.Singleton);
 
@@ -38,6 +39,7 @@
             _container.Register<IEmployeeSupervisorAPI, EmployeeDisciplinePermissionAPI>(Lifestyle.Singleton);
             _container.Register<ITeamSupervisorAPI, TeamDisciplinePermissionAPI>(Lifestyle.Singleton);
             _container.Register<ITeamAPI, TeamAPI>(Lifestyle.Singleton);
+            _container.Register<IPhotoAPI, PhotoAPI>(Lifestyle.Singleton);
             _container.Register<ITokenAPI, TokenAPI>(Lifestyle.Singleton);
 
             _container.Verify();

@@ -1,7 +1,6 @@
 ﻿namespace SMS.EPA.ClientHRM.Services
 {
     using Fanex.Data.Repository;
-    using SMS.EPA.ClientHRM.Criteria;
     using SMS.EPA.ClientHRM.Model;
     using SMS.EPA.ClientHRM.ThirdPartyAPIs;
     using System;
@@ -27,6 +26,7 @@
             DateTime modifiedDate = fromDate.HasValue ? fromDate.Value : new DateTime(2010, 1, 1);
             IEnumerable<FileInfo> files = directory.GetFiles().Where(file => file.LastWriteTime >= modifiedDate
                 && file.Extension.Equals(".jpg", StringComparison.OrdinalIgnoreCase));
+
             foreach (FileInfo file in files)
             {
                 photos.Add(

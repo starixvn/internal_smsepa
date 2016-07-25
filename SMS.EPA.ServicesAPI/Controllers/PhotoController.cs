@@ -14,7 +14,7 @@
     {
         public IHttpActionResult GetMaxModifiedDate()
         {
-            var lastModifiedDate = new DateTime(1990, 01, 01);
+            var lastModifiedDate = new DateTime(2016, 01, 01);
 
             DirectoryInfo directory = new DirectoryInfo(AppConfig.PhotoPath);
             FileInfo lastModifiedFile = directory.GetFiles().OrderByDescending(f => f.LastWriteTime).FirstOrDefault();
@@ -30,7 +30,7 @@
 
         public IHttpActionResult Update(Photo[] photos)
         {
-            LogService.Info("Photo");
+            LogService.Info(photos.Count().ToString());
             string fullPath = string.Empty;
             foreach (Photo photo in photos)
             {
