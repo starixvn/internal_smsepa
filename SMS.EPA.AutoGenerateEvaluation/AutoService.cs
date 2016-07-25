@@ -262,15 +262,15 @@
             if (processSettings != null && processSettings.Any())
             {
                 DateTime today = DateTime.Today;
-                int durationHRPhase = processSettings.FirstOrDefault(p => p.ProcessId == (int)ProcessType.HumanResource).Duration;
+                int startDayCreateMonthlyPeriod = int.Parse(ConfigurationManager.AppSettings["StartDayCreateMonthlyPeriod"]);
 
-                if (today.AddDays(durationHRPhase).AddDays(1).Day.Equals(1))
+                if (today.Day.Equals(startDayCreateMonthlyPeriod))
                 {
                     var criteria = new AutoCreateMonthlyPeriodCriteria()
                     {
                         Name = today.AddMonths(1).ToString(Constants.FormatMonthlyPeriodName),
-                        StartDate = today.AddDays(1),
-                        EndDate = today.AddDays(1).AddDays(processSettings.Sum(p => p.Duration))
+                        StartDate = today,
+                        EndDate = today.AddDays(processSettings.Sum(p => p.Duration))
                     };
 
                     Log.Info("Create monthly period: started at " + DateTime.Now);
