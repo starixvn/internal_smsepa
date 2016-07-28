@@ -139,11 +139,8 @@ BEGIN
 			ELSE 0 END
 			) AS HasDisciplineScore
 		,(CASE 
-			WHEN epa.[Status] = 1 THEN epa.DisciplineScore
-			ELSE (CASE 
-					WHEN ds.DisciplineScore IS NULL THEN 0
-					ELSE ds.DisciplineScore END
-					) END
+			WHEN ds.DisciplineScore IS NULL THEN 0
+			ELSE ds.DisciplineScore END
 			) AS DisciplineScore
 		,epa.[Status] AS StatusId
 		,emp.EmployeeId
