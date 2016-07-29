@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Criteria.KPI
+﻿namespace SMS.EPA.Criteria
 {
     using Fanex.Data.Repository;
 
@@ -10,7 +10,7 @@
 
         public override bool IsValid()
         {
-            return KPIId > 0;
+            return KPIId > 0 && ModifiedBy > 0;
         }
 
         public override string GetSettingKey()

@@ -1,9 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.KPI_UpdateRequiredEvaluate    Script Date: 5/16/2016 2:20:09 PM ******/
-/****** Object:  Stored Procedure dbo.KPI_UpdateRequiredEvaluate    Script Date: 5/16/2016 2:15:32 PM ******/
-/****** Object:  Stored Procedure dbo.KPI_UpdateRequiredEvaluate    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.KPI_UpdateRequiredEvaluate    Script Date: 4/6/2016 11:27:47 AM ******/
-
-CREATE PROCEDURE [dbo].[KPI_UpdateRequiredEvaluate] @KPIId INT
+﻿CREATE PROCEDURE [dbo].[KPI_UpdateRequiredEvaluate] @KPIId INT
 	,@IsRequiredEvaluate BIT = 0
 	,@ModifiedBy INT
 	,@ErrCode INT = 0 OUTPUT
@@ -84,13 +79,20 @@ BEGIN
 		FROM dbo.KPI WITH (NOLOCK)
 		WHERE KPIId = @KPIId
 
-		COMMIT TRANSACTION;
-
 		EXEC @Data = [dbo].[fncGetDataForWriteLog_UpdateKPIRequiredEvaluate] @ObjectId = @KPIId
-		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy, @SpName = 'KPI_UpdateRequiredEvaluate', @ObjectId = @KPIId, @ObjectTypeId = 1, @Data = @Data, @OldData = @OldData, @ObjectIds = NULL
+
+		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy
+			,@SpName = 'KPI_UpdateRequiredEvaluate'
+			,@ObjectId = @KPIId
+			,@ObjectTypeId = 1
+			,@Data = @Data
+			,@OldData = @OldData
+			,@ObjectIds = NULL
 
 		SELECT @ErrCode = 0
 			,@ErrMsg = ''
+
+		COMMIT TRANSACTION;
 	END TRY
 
 	BEGIN CATCH

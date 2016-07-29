@@ -4,7 +4,7 @@
     using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using SMS.EPA.Model.KPI;
+    using SMS.EPA.Model;
     using SMS.EPA.Model.KPIGroup;
     using SMS.EPA.Repositories.Interfaces;
 
@@ -17,7 +17,7 @@
                 using (var multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     IEnumerable<KPIModel> kpis = multi.Read<KPIModel>();
-                    IEnumerable<RawKPIModel> kpiKPIGroups = multi.Read<RawKPIModel>();
+                    IEnumerable<dynamic> kpiKPIGroups = multi.Read<dynamic>();
 
                     foreach (var kpi in kpis)
                     {
@@ -29,7 +29,7 @@
             }
         }
 
-        private IList<KPIGroupModel> GroupKPIGroupByKPI(int kpiId, IEnumerable<RawKPIModel> kpiKPIGroups)
+        private IList<KPIGroupModel> GroupKPIGroupByKPI(int kpiId, IEnumerable<dynamic> kpiKPIGroups)
         {
             IList<KPIGroupModel> result = kpiKPIGroups.Where(x => x.KPIId == kpiId)
                 .Select(x => new KPIGroupModel

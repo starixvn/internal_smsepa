@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using SMS.EPA.Model.KPI;
+    using SMS.EPA.Model;
     using SMS.EPA.Model.KPIGroup;
     using SMS.EPA.Repositories.Interfaces;
 

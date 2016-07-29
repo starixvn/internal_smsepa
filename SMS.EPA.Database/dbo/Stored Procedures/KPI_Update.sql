@@ -1,8 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.KPI_Update    Script Date: 5/16/2016 2:20:09 PM ******/
-/****** Object:  Stored Procedure dbo.KPI_Update    Script Date: 5/16/2016 2:15:32 PM ******/
-/****** Object:  Stored Procedure dbo.KPI_Update    Script Date: 5/16/2016 1:59:44 PM ******/
-
-CREATE PROCEDURE [dbo].[KPI_Update] @KPIId INT
+﻿CREATE PROCEDURE [dbo].[KPI_Update] @KPIId INT
 	,@Name NVARCHAR(500)
 	,@Description NVARCHAR(MAX) = NULL
 	,@KPIGroupIds VARCHAR(500) = ''
@@ -62,7 +58,8 @@ BEGIN
 		FROM fnc_strSplit(@KPIGroupIds, ',')
 	END
 
-	EXEC @OldData = [dbo].[fncGetDataForWriteLog] @ObjectId = @KPIId, @ObjectType = 1
+	EXEC @OldData = [dbo].[fncGetDataForWriteLog] @ObjectId = @KPIId
+		,@ObjectType = 1
 
 	BEGIN TRY
 		BEGIN TRANSACTION;
@@ -134,13 +131,21 @@ BEGIN
 			,@ModifiedDate
 			)
 
-		COMMIT TRANSACTION;
+		EXEC @Data = [dbo].[fncGetDataForWriteLog] @ObjectId = @KPIId
+			,@ObjectType = 1
 
-		EXEC @Data = [dbo].[fncGetDataForWriteLog] @ObjectId = @KPIId, @ObjectType = 1
-		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy, @SpName = 'KPI_Update', @ObjectId = @KPIId, @ObjectTypeId = 1, @Data = @Data, @OldData = @OldData, @ObjectIds = NULL
+		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy
+			,@SpName = 'KPI_Update'
+			,@ObjectId = @KPIId
+			,@ObjectTypeId = 1
+			,@Data = @Data
+			,@OldData = @OldData
+			,@ObjectIds = NULL
 
 		SELECT @ErrCode = 0
 			,@ErrMsg = ''
+
+		COMMIT TRANSACTION;
 	END TRY
 
 	BEGIN CATCH

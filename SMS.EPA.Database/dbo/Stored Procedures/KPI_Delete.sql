@@ -1,9 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.KPI_Delete    Script Date: 5/16/2016 2:20:09 PM ******/
-/****** Object:  Stored Procedure dbo.KPI_Delete    Script Date: 5/16/2016 2:15:32 PM ******/
-/****** Object:  Stored Procedure dbo.KPI_Delete    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.KPI_Delete    Script Date: 4/6/2016 11:27:46 AM ******/
-
-CREATE PROCEDURE [dbo].[KPI_Delete] @KPIId INT
+﻿CREATE PROCEDURE [dbo].[KPI_Delete] @KPIId INT
 	,@ModifiedBy INT
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg VARCHAR(200) = '' OUTPUT
@@ -51,7 +46,8 @@ BEGIN
 
 	DECLARE @OldData NVARCHAR(MAX)
 
-	EXEC @OldData = [dbo].[fncGetDataForWriteLog] @ObjectId = @KPIId, @ObjectType = 1
+	EXEC @OldData = [dbo].[fncGetDataForWriteLog] @ObjectId = @KPIId
+		,@ObjectType = 1
 
 	BEGIN TRY
 		BEGIN TRANSACTION;
@@ -59,8 +55,8 @@ BEGIN
 		DECLARE @LogNo VARCHAR(20)
 
 		SET @LogNo = CONVERT(VARCHAR(8), GETDATE(), 112) + REPLACE(CONVERT(VARCHAR(12), GETDATE(), 114), ':', '')
-          
-          INSERT INTO dbo.KPIHistory (
+
+		INSERT INTO dbo.KPIHistory (
 			[KPIId]
 			,[LogNo]
 			,[Name]
@@ -84,7 +80,7 @@ BEGIN
 			,GETDATE()
 		FROM dbo.KPI WITH (NOLOCK)
 		WHERE KPIId = @KPIId
-          
+
 		DELETE
 		FROM dbo.KPI
 		WHERE KPIId = @KPIId
@@ -93,12 +89,18 @@ BEGIN
 		FROM dbo.KPIDetail
 		WHERE KPIId = @KPIId
 
-		COMMIT TRANSACTION;
-
-		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy, @SpName = 'KPI_Delete', @ObjectId = @KPIId, @ObjectTypeId = 1, @Data = NULL, @OldData = @OldData, @ObjectIds = NULL
+		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy
+			,@SpName = 'KPI_Delete'
+			,@ObjectId = @KPIId
+			,@ObjectTypeId = 1
+			,@Data = NULL
+			,@OldData = @OldData
+			,@ObjectIds = NULL
 
 		SELECT @ErrCode = 0
 			,@ErrMsg = ''
+
+		COMMIT TRANSACTION;
 	END TRY
 
 	BEGIN CATCH

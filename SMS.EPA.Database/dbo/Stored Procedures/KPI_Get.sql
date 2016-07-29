@@ -1,10 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.KPI_Get    Script Date: 5/16/2016 2:20:09 PM ******/
-/****** Object:  Stored Procedure dbo.KPI_Get    Script Date: 5/16/2016 2:15:32 PM ******/
-/****** Object:  Stored Procedure dbo.KPI_Get    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.KPI_Get    Script Date: 4/6/2016 11:27:46 AM ******/
-
-CREATE PROCEDURE [dbo].[KPI_Get]
-     @KPIGroupId INT = NULL
+﻿CREATE PROCEDURE [dbo].[KPI_Get] @KPIGroupId INT = NULL
 	,@IsActive BIT = NULL
 	,@IsRequiredEvaluate BIT = NULL
 AS
@@ -37,11 +31,10 @@ BEGIN
 			@IsActive IS NULL
 			OR k.IsActive = @IsActive
 			)
-	     AND
-		  (
-		     @IsRequiredEvaluate IS NULL
-		     OR k.IsRequiredEvaluate = @IsRequiredEvaluate
-		     )
+		AND (
+			@IsRequiredEvaluate IS NULL
+			OR k.IsRequiredEvaluate = @IsRequiredEvaluate
+			)
 		AND (
 			@KPIGroupId IS NULL
 			OR g.KPIGroupId = @KPIGroupId
@@ -53,7 +46,7 @@ BEGIN
 
 	SELECT k.KPIId
 		,g.KPIGroupId
-		,g.NAME
+		,g.[Name]
 	FROM #KPI AS k WITH (NOLOCK)
 		INNER JOIN dbo.KPIDetail AS kg WITH (NOLOCK) ON k.KPIId = kg.KPIId
 		INNER JOIN dbo.KPIGroup AS g WITH (NOLOCK) ON kg.KPIGroupId = g.KPIGroupId;

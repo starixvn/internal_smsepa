@@ -35,7 +35,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{258FA7
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
 		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "SMS.EPA.Database", "SMS.EPA.Database\SMS.EPA.Database.sqlproj", "{C955A995-C0A5-4C6F-A5B7-46F75852CD43}"
@@ -49,6 +48,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS.EPA.ServiceAPI.ClientSide", "SMS.EPA.ServiceAPI.ClientSide\SMS.EPA.ServiceAPI.ClientSide.csproj", "{CCBCB549-5C05-4E7B-968C-A8D70E6F5662}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS.EPA.ClientHRM", "SMS.EPA.ClientHRM\SMS.EPA.ClientHRM.csproj", "{5091DCEC-26D9-4EA1-86CD-C776D53861FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS.EPA.Criteria.UnitTests", "SMS.EPA.Criteria.UnitTests\SMS.EPA.Criteria.UnitTests.csproj", "{1330E9CD-9665-47F0-87DC-12B0D50D715D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -114,6 +115,10 @@ Global
 		{5091DCEC-26D9-4EA1-86CD-C776D53861FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5091DCEC-26D9-4EA1-86CD-C776D53861FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5091DCEC-26D9-4EA1-86CD-C776D53861FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1330E9CD-9665-47F0-87DC-12B0D50D715D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1330E9CD-9665-47F0-87DC-12B0D50D715D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1330E9CD-9665-47F0-87DC-12B0D50D715D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1330E9CD-9665-47F0-87DC-12B0D50D715D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -133,5 +138,6 @@ Global
 		{CF4CF54D-A8FC-43B3-BE91-7506313D06B2} = {68E72F95-7BA1-41E3-B46A-DE275D2A340A}
 		{CCBCB549-5C05-4E7B-968C-A8D70E6F5662} = {68E72F95-7BA1-41E3-B46A-DE275D2A340A}
 		{5091DCEC-26D9-4EA1-86CD-C776D53861FF} = {C21A15A7-9F35-4ED3-AD64-8C2EE5A5DD16}
+		{1330E9CD-9665-47F0-87DC-12B0D50D715D} = {829FE15F-60A7-40AF-B3C8-03D0760BC522}
 	EndGlobalSection
 EndGlobal

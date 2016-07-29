@@ -3,8 +3,8 @@
     using System.Collections.Generic;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria.KPI;
-    using SMS.EPA.Model.KPI;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Model;
     using SMS.EPA.Repositories.Implement;
     using SMS.EPA.Repositories.Interfaces;
     using SMS.EPA.Services.Interfaces;

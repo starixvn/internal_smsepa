@@ -2,20 +2,20 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.Department;
     using SMS.EPA.Criteria.Employee;
     using SMS.EPA.Criteria.EmployeeEPA;
     using SMS.EPA.Criteria.EPAHistory;
-    using SMS.EPA.Criteria.KPI;
     using SMS.EPA.Criteria.KPIGroup;
     using SMS.EPA.Criteria.Period;
     using SMS.EPA.Criteria.TargetTemplate;
     using SMS.EPA.Criteria.TargetType;
+    using SMS.EPA.Model;
     using SMS.EPA.Model.Department;
     using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Model.KPI;
     using SMS.EPA.Model.KPIGroup;
     using SMS.EPA.Model.Period;
     using SMS.EPA.Model.TargetTemplate;

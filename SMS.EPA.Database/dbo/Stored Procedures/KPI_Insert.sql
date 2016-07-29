@@ -1,8 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.KPI_Insert    Script Date: 5/16/2016 2:20:09 PM ******/
-/****** Object:  Stored Procedure dbo.KPI_Insert    Script Date: 5/16/2016 2:15:32 PM ******/
-/****** Object:  Stored Procedure dbo.KPI_Insert    Script Date: 5/16/2016 1:59:44 PM ******/
-
-CREATE PROCEDURE [dbo].[KPI_Insert] @KPIId INT OUTPUT
+﻿CREATE PROCEDURE [dbo].[KPI_Insert] @KPIId INT OUTPUT
 	,@Name NVARCHAR(500)
 	,@Description NVARCHAR(MAX) = NULL
 	,@KPIGroupIds VARCHAR(500) = ''
@@ -54,7 +50,7 @@ BEGIN
 	BEGIN
 		INSERT INTO #KPIGroup (KPIGroupId)
 		SELECT DISTINCT val
-		FROM fnc_strSplit(@KPIGroupIds, ',')
+		FROM dbo.fnc_strSplit(@KPIGroupIds, ',')
 	END
 
 	BEGIN TRY
@@ -124,15 +120,23 @@ BEGIN
 			,@CreatedDate
 			)
 
-		COMMIT TRANSACTION;
-
 		DECLARE @Data NVARCHAR(MAX)
 
-		EXEC @Data = [dbo].[fncGetDataForWriteLog] @ObjectId = @KPIId, @ObjectType = 1
-		EXEC [dbo].[LogDetail_Insert] @ActorId = @CreatedBy, @SpName = 'KPI_Insert', @ObjectId = @KPIId, @ObjectTypeId = 1, @Data = @Data, @OldData = NULL, @ObjectIds = NULL
+		EXEC @Data = [dbo].[fncGetDataForWriteLog] @ObjectId = @KPIId
+			,@ObjectType = 1
+
+		EXEC [dbo].[LogDetail_Insert] @ActorId = @CreatedBy
+			,@SpName = 'KPI_Insert'
+			,@ObjectId = @KPIId
+			,@ObjectTypeId = 1
+			,@Data = @Data
+			,@OldData = NULL
+			,@ObjectIds = NULL
 
 		SELECT @ErrCode = 0
 			,@ErrMsg = ''
+
+		COMMIT TRANSACTION;
 	END TRY
 
 	BEGIN CATCH

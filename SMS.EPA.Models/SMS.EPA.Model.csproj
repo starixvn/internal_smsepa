@@ -93,7 +93,6 @@
     <Compile Include="FlowManagement\InsertFlowModel.cs" />
     <Compile Include="KPIGroup\KPIGroupModel.cs" />
     <Compile Include="KPI\KPIModel.cs" />
-    <Compile Include="KPI\RawKPIModel.cs" />
     <Compile Include="Period\AutoEmployeePeriodModel.cs" />
     <Compile Include="Period\PeriodEmployeeSettingModel.cs" />
     <Compile Include="Period\PeriodFlowModel.cs" />
