@@ -153,7 +153,7 @@ BEGIN
 		AND period.PeriodId = @PeriodId
 		AND tt.TargetTemplateId = @TargetTemplateId
 		AND epa.HasMonthlyEPA = 0
-	ORDER BY KPIGroupId
+	ORDER BY dt.KPIGroupId
 		,dt.KPIDisplayOrder
 
 	DROP TABLE #KPIGroup
