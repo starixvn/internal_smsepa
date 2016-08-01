@@ -24,7 +24,7 @@
         // and name, kpiGroupIds are not empty and not null and not consists only of white-space characters
         // and modifiedBy > 0.
         [TestCase(1, "test", "1", 1, true)]
-        // else return false
+        //// else return false
         [TestCase(1, "test", "1", 0, false)]
         [TestCase(1, "test", "1", -1, false)]
         [TestCase(1, "", "", 0, false)]

@@ -23,7 +23,7 @@
         // kpiId > 0
         // and modifiedBy > 0.
         [TestCase(1, 1, true)]
-        // else return false
+        //// else return false
         [TestCase(0, 0, false)]
         [TestCase(1, 0, false)]
         [TestCase(0, 1, false)]

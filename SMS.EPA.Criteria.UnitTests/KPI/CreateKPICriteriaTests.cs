@@ -23,7 +23,7 @@
         // name and kpiGroupIds are not empty and not null and not consists only of white-space characters
         // and createdBy > 0.
         [TestCase("test", "1", 1, true)]
-        // else return false
+        //// else return false
         [TestCase("test", "1", 0, false)]
         [TestCase("test", "1", -1, false)]
         [TestCase("", "", 0, false)]
