@@ -27,10 +27,12 @@ BEGIN
 		AND emp.IsDeleted = 0
 		AND emp.[Enabled] = 1
 	WHERE dtype.DisciplineTypeId < 0
+		AND dis.EmpId = @EmployeeId
 		AND dis.WorkDate BETWEEN @StartDate
 			AND @EndDate
 		AND (
 			ISNULL(@WorkDate, '') = ''
 			OR dis.WorkDate = @WorkDate
 			)
+	ORDER BY dis.WorkDate
 END

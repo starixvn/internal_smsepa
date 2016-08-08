@@ -22,9 +22,9 @@
                 <td class="text-center" ng-bind="$index + 1"></td>
                 <td class="text-center" ng-bind="violation.NickName"></td>
                 <td class="text-center" ng-bind="violation.WorkDate | date: dateFormat"></td>
-                <td class="text-center" ng-bind="violation.Name"></td>
+                <td ng-bind="violation.Name"></td>
                 <td class="text-center" ng-bind="violation.Score | number: 1"></td>
-                <td class="text-center" ng-bind="violation.Comment"></td>
+                <td ng-bind="violation.Comment"></td>
             </tr>
             <tr ng-show="violationCtrl.otherViolations.length == 0">
                 <td class="empty-result" colspan="6" data-translate="EmptyResult"></td>
