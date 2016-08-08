@@ -1,8 +1,6 @@
 ﻿namespace SMS.EPA.Model.TargetTemplate
 {
     using System.Collections.Generic;
-    using SMS.EPA.Model;
-    using SMS.EPA.Model.KPIGroup;
 
     public class TargetTemplateKPIGroupModel : KPIGroupModel
     {

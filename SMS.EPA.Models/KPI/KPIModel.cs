@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using SMS.EPA.Model.KPIGroup;
     using SMS.EPA.Model.TargetType;
 
     public class KPIModel

@@ -4,7 +4,7 @@
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.KPIGroup;
-    using SMS.EPA.Model.KPIGroup;
+    using SMS.EPA.Model;
     using SMS.EPA.Services.Interfaces;
 
     public class KPIGroupService : BaseService, IKPIGroupService

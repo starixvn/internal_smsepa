@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.Text;
-    using SMS.EPA.Model.KPIGroup;
 
     public class TargetKPIGroupWeightModel
     {

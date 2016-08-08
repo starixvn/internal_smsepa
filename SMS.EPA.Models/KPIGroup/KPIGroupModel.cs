@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Model.KPIGroup
+﻿namespace SMS.EPA.Model
 {
     using System;
 
