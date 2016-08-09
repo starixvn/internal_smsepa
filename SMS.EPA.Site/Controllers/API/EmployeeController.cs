@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Web.Http;
+    using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
@@ -12,25 +13,19 @@
     using SMS.EPA.Resources;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
-    using SMS.EPA.Web.ApiAuthorizeAttribute;
-    using SMS.EPA.Web.Services;
 
     public class EmployeeController : BaseController
     {
-        private readonly IEmployeeService _employeeService;
-        private readonly IWebCommonService _webCommonService;
+        private readonly IEmployeeService employeeService;
 
         public EmployeeController()
-            : this(null, null)
+            : this(null)
         {
         }
 
-        public EmployeeController(
-            IEmployeeService employeeService,
-            IWebCommonService webCommonService)
+        public EmployeeController(IEmployeeService employeeService)
         {
-            _employeeService = employeeService ?? new EmployeeService();
-            _webCommonService = webCommonService ?? new WebCommonService();
+            this.employeeService = employeeService ?? new EmployeeService();
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Read)]
@@ -52,7 +47,7 @@
                 HasMonthlyEPA = hasMonthlyEPA
             };
 
-            IEnumerable<EmployeeModel> employees = _employeeService.GetAllEmployee(criteria);
+            IEnumerable<EmployeeModel> employees = employeeService.GetAllEmployee(criteria);
 
             return employees;
         }
@@ -60,7 +55,7 @@
         public IEnumerable<Group> GetAllGroup()
         {
             var criteria = new GetAllGroupCriteria();
-            IEnumerable<Group> groups = _employeeService.GetAllGroup(criteria);
+            IEnumerable<Group> groups = employeeService.GetAllGroup(criteria);
 
             return groups;
         }
@@ -71,11 +66,11 @@
         {
             if (criteria != null)
             {
-                criteria.CreatedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.CreatedBy = CurrentUser.EmployeeId;
                 criteria.Password = Encryption.ComputeHash(HashProvider.Sha1, criteria.Password);
             }
 
-            CommandResult commandResult = _employeeService.CreateSpecialEmployee(criteria);
+            CommandResult commandResult = employeeService.CreateSpecialEmployee(criteria);
             return commandResult;
         }
 
@@ -85,17 +80,17 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.ModifiedBy = CurrentUser.EmployeeId;
             }
 
-            CommandResult commandResult = _employeeService.UpdateSpecialEmployee(criteria);
+            CommandResult commandResult = employeeService.UpdateSpecialEmployee(criteria);
             return commandResult;
         }
 
         public IEnumerable<JobTitle> GetAllJobTitle()
         {
             var criteria = new GetAllJobTitleCriteria();
-            IEnumerable<JobTitle> jobTitles = _employeeService.GetAllJobTitle(criteria);
+            IEnumerable<JobTitle> jobTitles = employeeService.GetAllJobTitle(criteria);
             return jobTitles;
         }
 
@@ -105,12 +100,12 @@
             CommandResult commandResult = new CommandResult();
             if (criteria != null)
             {
-                if (Encryption.CompareStringToHash(HashProvider.Sha1, criteria.OldPassword, CurrentUser.EmployeeInfo.Password))
+                if (Encryption.CompareStringToHash(HashProvider.Sha1, criteria.OldPassword, CurrentUser.Password))
                 {
-                    criteria.EmployeeId = CurrentUser.EmployeeInfo.EmployeeId;
-                    criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                    criteria.EmployeeId = CurrentUser.EmployeeId;
+                    criteria.ModifiedBy = CurrentUser.EmployeeId;
 
-                    commandResult = _employeeService.ChangePassword(criteria);
+                    commandResult = employeeService.ChangePassword(criteria);
                 }
                 else
                 {
@@ -127,10 +122,10 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.ModifiedBy = CurrentUser.EmployeeId;
             }
 
-            CommandResult commandResult = _employeeService.AssignRoleToEmployee(criteria);
+            CommandResult commandResult = employeeService.AssignRoleToEmployee(criteria);
 
             return commandResult;
         }
@@ -142,13 +137,13 @@
             var criteria = new ChangePasswordCriteria()
             {
                 EmployeeId = employeeId,
-                OldPassword = CurrentUser.EmployeeInfo.Password,
+                OldPassword = CurrentUser.Password,
                 NewPassword = Constants.ResetDefaultPassword,
                 ConfirmPassword = Constants.ResetDefaultPassword,
-                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                ModifiedBy = CurrentUser.EmployeeId
             };
 
-            return _employeeService.ChangePassword(criteria);
+            return employeeService.ChangePassword(criteria);
         }
 
         [HttpPut]
@@ -157,10 +152,10 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.ModifiedBy = CurrentUser.EmployeeId;
             }
 
-            CommandResult commandResult = _employeeService.UpdateHasMonthlyEPA(criteria);
+            CommandResult commandResult = employeeService.UpdateHasMonthlyEPA(criteria);
 
             return commandResult;
         }
@@ -175,7 +170,7 @@
 
         public int GetUserPermissionOnEmployee()
         {
-            int permission = _webCommonService.GetPermission(EPAFunctionKey.UserManagement);
+            int permission = this.sessionService.GetPermission(EPAFunctionKey.UserManagement);
             return permission;
         }
     }

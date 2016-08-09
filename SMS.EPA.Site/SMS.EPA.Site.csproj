@@ -800,10 +800,6 @@
       <Project>{8EB3D578-B2A0-4B11-9386-50F394DE396C}</Project>
       <Name>SMS.EPA.Services</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SMS.EPA.Web\SMS.EPA.Web.csproj">
-      <Project>{A3B07D4D-1AC3-42E7-A698-658C5C2D4CD7}</Project>
-      <Name>SMS.EPA.Web</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

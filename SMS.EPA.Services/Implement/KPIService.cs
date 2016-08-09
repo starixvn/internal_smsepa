@@ -11,7 +11,7 @@
 
     public class KPIService : BaseService, IKPIService
     {
-        private readonly IKPIRepository _kpiRepository;
+        private readonly IKPIRepository kpiRepository;
 
         public KPIService()
             : this(null)
@@ -20,7 +20,7 @@
 
         public KPIService(IKPIRepository kpiRepository)
         {
-            _kpiRepository = kpiRepository ?? new KPIRepository();
+            this.kpiRepository = kpiRepository ?? new KPIRepository();
         }
 
         public IEnumerable<KPIModel> GetKPI(GetKPICriteria criteria)
@@ -29,7 +29,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                kpis = _kpiRepository.GetKPI(criteria);
+                kpis = kpiRepository.GetKPI(criteria);
             }
 
             return kpis;

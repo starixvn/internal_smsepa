@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Web.Http;
+    using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
@@ -9,25 +10,19 @@
     using SMS.EPA.Model.TargetEmployeeSetting;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
-    using SMS.EPA.Web.ApiAuthorizeAttribute;
-    using SMS.EPA.Web.Services;
 
     public class TargetEmployeeSettingController : BaseController
     {
-        private readonly ITargetEmployeeSettingService _targetEmployeeSettingService;
-        private readonly IWebCommonService _webCommonService;
+        private readonly ITargetEmployeeSettingService targetEmployeeSettingService;
 
         public TargetEmployeeSettingController()
-            : this(null, null)
+            : this(null)
         {
         }
 
-        public TargetEmployeeSettingController(
-            ITargetEmployeeSettingService targetEmployeeSettingService,
-            IWebCommonService webCommonService)
+        public TargetEmployeeSettingController(ITargetEmployeeSettingService targetEmployeeSettingService)
         {
-            _targetEmployeeSettingService = targetEmployeeSettingService ?? new TargetEmployeeSettingService();
-            _webCommonService = webCommonService ?? new WebCommonService();
+            this.targetEmployeeSettingService = targetEmployeeSettingService ?? new TargetEmployeeSettingService();
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetEmployeeSetting, Policy = Policy.Read)]
@@ -45,7 +40,7 @@
                 ShowAll = showAll
             };
 
-            IList<TargetEmployeeModel> targetEmployeeSettings = _targetEmployeeSettingService.GetTargetEmployeeSetting(criteria);
+            IList<TargetEmployeeModel> targetEmployeeSettings = targetEmployeeSettingService.GetTargetEmployeeSetting(criteria);
             return targetEmployeeSettings;
         }
 
@@ -55,10 +50,10 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.ModifiedBy = CurrentUser.EmployeeId;
             }
 
-            CommandResult commandResult = _targetEmployeeSettingService.AssignTargetTemplateToEmployee(criteria);
+            CommandResult commandResult = targetEmployeeSettingService.AssignTargetTemplateToEmployee(criteria);
             return commandResult;
         }
 
@@ -70,10 +65,10 @@
             {
                 TargetTemplateId = targetTemplateId,
                 EmployeeId = employeeId,
-                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                ModifiedBy = CurrentUser.EmployeeId
             };
 
-            CommandResult commandResult = _targetEmployeeSettingService.DeleteTargetEmployeeSetting(criteria);
+            CommandResult commandResult = targetEmployeeSettingService.DeleteTargetEmployeeSetting(criteria);
             return commandResult;
         }
 
@@ -91,7 +86,7 @@
                 TargetTypeId = targetTypeId,
                 ShowAll = showAll
             };
-            IList<TargetDepartmentModel> targetDepartments = _targetEmployeeSettingService.GetTargetDepartmentSetting(criteria);
+            IList<TargetDepartmentModel> targetDepartments = targetEmployeeSettingService.GetTargetDepartmentSetting(criteria);
             return targetDepartments;
         }
 
@@ -107,10 +102,10 @@
                 {
                     TargetTemplateId = model.TargetTemplateId,
                     Departments = model.ConvertToXml(),
-                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                    ModifiedBy = CurrentUser.EmployeeId
                 };
 
-                commandResult = _targetEmployeeSettingService.AssignTargetTemplateToDepartment(criteria);
+                commandResult = targetEmployeeSettingService.AssignTargetTemplateToDepartment(criteria);
             }
 
             return commandResult;
@@ -128,16 +123,16 @@
                 TargetTemplateId = targetTemplateId,
                 DepartmentId = departmentId,
                 IsGroup = isGroup,
-                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                ModifiedBy = CurrentUser.EmployeeId
             };
 
-            CommandResult commandResult = _targetEmployeeSettingService.DeleteTargetDepartmentSetting(criteria);
+            CommandResult commandResult = targetEmployeeSettingService.DeleteTargetDepartmentSetting(criteria);
             return commandResult;
         }
 
         public int GetUserPermissionOnTargetEmployeeSetting()
         {
-            int permission = _webCommonService.GetPermission(EPAFunctionKey.TargetEmployeeSetting);
+            int permission = this.sessionService.GetPermission(EPAFunctionKey.TargetEmployeeSetting);
             return permission;
         }
     }

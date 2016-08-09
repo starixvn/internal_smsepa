@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Model.RoleManagement
+﻿namespace SMS.EPA.Core.Model
 {
     public class FunctionModel
     {

@@ -3,17 +3,17 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Http;
+    using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Criteria.EPAHistory;
     using SMS.EPA.Model.EPAHistory;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
-    using SMS.EPA.Web.ApiAuthorizeAttribute;
 
     public class EPAHistoryController : BaseController
     {
-        private readonly IEPAHistoryService _epaHistoryService;
+        private readonly IEPAHistoryService epaHistoryService;
 
         public EPAHistoryController()
             : this(null)
@@ -22,7 +22,7 @@
 
         public EPAHistoryController(IEPAHistoryService epaHistoryService)
         {
-            _epaHistoryService = epaHistoryService ?? new EPAHistoryService();
+            this.epaHistoryService = epaHistoryService ?? new EPAHistoryService();
         }
 
         [HttpGet]
@@ -32,11 +32,11 @@
             var criteria = new GetEPAHistoryCriteria
             {
                 PeriodId = periodId,
-                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
+                EvaluatorId = CurrentUser.EmployeeId,
                 EmployeeId = employeeId
             };
 
-            IList<EPAHistoryModel> epas = _epaHistoryService.GetEPAHistory(criteria);
+            IList<EPAHistoryModel> epas = epaHistoryService.GetEPAHistory(criteria);
             return epas;
         }
 
@@ -46,11 +46,11 @@
             var criteria = new GetMonthlyEPAHistoryCriteria
             {
                 PeriodId = periodId,
-                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
+                EvaluatorId = CurrentUser.EmployeeId,
                 EmployeeId = employeeId
             };
 
-            IList<EPAHistoryModel> epas = _epaHistoryService.GetMonthlyEPAHistory(criteria);
+            IList<EPAHistoryModel> epas = epaHistoryService.GetMonthlyEPAHistory(criteria);
             return epas;
         }
 

@@ -2,17 +2,15 @@
 {
     using System.Collections.Generic;
     using SMS.EPA.Core.Model;
+    using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.Authentication;
     using SMS.EPA.Criteria.Employee;
-    using SMS.EPA.Model.Authentication;
     using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.Enitites;
 
     public interface IEmployeeService
     {
-        UserSession GetEmployeeByCode(GetEmployeeByCodeCriteria criteria);
-
-        UserSession GetEmployeeByUsername(GetEmployeeByDomainUsernameCriteria criteria);
+        UserSession GetEmployeeLogin(GetEmployeeLoginCriteria criteria);
 
         bool CheckValidateEmployee(string employeePassword, string enterPassword);
 

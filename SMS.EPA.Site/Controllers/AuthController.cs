@@ -4,25 +4,30 @@
     using System.Web.Mvc;
     using System.Web.Security;
     using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Model;
+    using SMS.EPA.Core.Services;
+    using SMS.EPA.Core.Services.Interfaces;
+    using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.Authentication;
     using SMS.EPA.Model.Authentication;
     using SMS.EPA.Resources;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
-    using SMS.EPA.Web;
 
     public class AuthController : Controller
     {
-        private readonly IEmployeeService _employeeService;
+        private readonly ISessionService sessionService;
+        private readonly IEmployeeService employeeService;
 
         public AuthController()
-            : this(null)
+            : this(null, null)
         {
         }
 
-        public AuthController(IEmployeeService employeeService)
+        public AuthController(ISessionService sessionService, IEmployeeService employeeService)
         {
-            _employeeService = employeeService ?? new EmployeeService();
+            this.sessionService = sessionService ?? new SessionService();
+            this.employeeService = employeeService ?? new EmployeeService();
         }
 
         [HttpGet]
@@ -34,16 +39,13 @@
         [HttpGet]
         public ActionResult Logout()
         {
-            SessionManager.ClearAll();
+            HttpContext.Session.Clear();
+            HttpContext.Session.Abandon();
+            HttpContext.Response.Cookies.Clear();
             FormsAuthentication.SignOut();
             return RedirectToAction("Login");
         }
 
-        /// <summary>
-        /// The login action.
-        /// </summary>
-        /// <param name="model">The login model.</param>
-        /// <returns>The action result.</returns>
         [HttpPost]
         public ActionResult Login(LoginModel model)
         {
@@ -52,9 +54,9 @@
                 UserSession user = GetEmployeeLogin(model);
                 if (user != null)
                 {
-                    if (user.EmployeeInfo.Enabled)
+                    if (user.EmployeeId > 0)
                     {
-                        SessionManager.CurrentUser = user;
+                        this.sessionService.CurrentUser = user;
                         FormsAuthentication.SetAuthCookie(model.Username, false);
                         GetAndInsertIPAddress(user);
 
@@ -85,74 +87,25 @@
             string address = GetClientIP();
             var criteria = new InsertEmployeeIPAddressCriteria
             {
-                EmployeeId = user.EmployeeInfo.EmployeeId,
+                EmployeeId = user.EmployeeId,
                 IPAddress = address
             };
-            _employeeService.InsertEmployeeIPAddress(criteria);
+            employeeService.InsertEmployeeIPAddress(criteria);
         }
 
-        /// <summary>
-        /// Get employee login.
-        /// </summary>
-        /// <param name="model">The login model.</param>
-        /// <returns>The user session.</returns>
         private UserSession GetEmployeeLogin(LoginModel model)
         {
-            UserSession employee = null;
-            employee = GetEmployeeLoginByCode(model);
-
-            if (employee == null)
+            var criteria = new GetEmployeeLoginCriteria
             {
-                employee = GetEmployeeLoginByDomain(model);
-            }
-
-            return employee;
-        }
-
-        /// <summary>
-        /// Get employee by code.
-        /// </summary>
-        /// <param name="model">The login model.</param>
-        /// <returns>The user session.</returns>
-        private UserSession GetEmployeeLoginByCode(LoginModel model)
-        {
-            UserSession employee = null;
-            var criteria = new GetEmployeeByCodeCriteria
-            {
-                Code = model.Username
-            };
-            employee = _employeeService.GetEmployeeByCode(criteria);
-
-            if (employee != null && string.Compare(model.Password, Constants.DefaultPassword, System.StringComparison.OrdinalIgnoreCase) != 0)
-            {
-                bool isValid = _employeeService.CheckValidateEmployee(employee.EmployeeInfo.Password, model.Password);
-
-                if (!isValid)
-                {
-                    employee = null;
-                }
-            }
-
-            return employee;
-        }
-
-        /// <summary>
-        /// Get employee login by username.
-        /// </summary>
-        /// <param name="model">The login model.</param>
-        /// <returns>The user session.</returns>
-        private UserSession GetEmployeeLoginByDomain(LoginModel model)
-        {
-            UserSession employee = null;
-            var criteria = new GetEmployeeByDomainUsernameCriteria
-            {
+                Code = model.Username,
                 Username = model.Username
             };
-            employee = _employeeService.GetEmployeeByUsername(criteria);
+
+            UserSession employee = employeeService.GetEmployeeLogin(criteria);
 
             if (employee != null && string.Compare(model.Password, Constants.DefaultPassword, System.StringComparison.OrdinalIgnoreCase) != 0)
             {
-                bool isValid = _employeeService.CheckValidateEmployee(employee.EmployeeInfo.Password, model.Password);
+                bool isValid = employeeService.CheckValidateEmployee(employee.Password, model.Password);
 
                 if (!isValid)
                 {

@@ -2,18 +2,31 @@
 {
     using System.Web.Http;
     using System.Web.Security;
-    using SMS.EPA.Model.Authentication;
-    using SMS.EPA.Web;
-    using SMS.EPA.Web.ApiAuthorizeAttribute;
+    using SMS.EPA.Core.Attribute;
+    using SMS.EPA.Core.Model;
+    using SMS.EPA.Core.Services;
+    using SMS.EPA.Core.Services.Interfaces;
 
     [DeflateCompressionAttribute]
     public class BaseController : ApiController
     {
+        protected ISessionService sessionService;
+
+        public BaseController()
+            : this(null)
+        {
+        }
+
+        public BaseController(ISessionService sessionService)
+        {
+            this.sessionService = sessionService ?? new SessionService();
+        }
+
         protected UserSession CurrentUser
         {
             get
             {
-                var currentUser = SessionManager.CurrentUser;
+                var currentUser = sessionService.CurrentUser;
                 if (currentUser == null)
                 {
                     FormsAuthentication.RedirectToLoginPage();

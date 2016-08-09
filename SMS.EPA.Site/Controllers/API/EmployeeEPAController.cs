@@ -6,10 +6,12 @@
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
+    using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
+    using SMS.EPA.Core.Services.Interfaces;
     using SMS.EPA.Criteria.EmployeeEPA;
     using SMS.EPA.Criteria.EmployeeEPA.RatingByKPI;
     using SMS.EPA.Model.EmployeeEPA;
@@ -18,25 +20,19 @@
     using SMS.EPA.Model.TargetTemplate;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
-    using SMS.EPA.Web.ApiAuthorizeAttribute;
-    using SMS.EPA.Web.Services;
 
     public class EmployeeEPAController : BaseController
     {
-        private readonly IEmployeeEPAService _employeeEPAService;
-        private readonly IWebCommonService _webCommonService;
+        private readonly IEmployeeEPAService employeeEPAService;
 
         public EmployeeEPAController()
-            : this(null, null)
+            : this(null)
         {
         }
 
-        public EmployeeEPAController(
-            IEmployeeEPAService employeeEPAService,
-            IWebCommonService webCommonService)
+        public EmployeeEPAController(IEmployeeEPAService employeeEPAService)
         {
-            _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
-            _webCommonService = webCommonService ?? new WebCommonService();
+            this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
         }
 
         #region Self
@@ -47,10 +43,10 @@
         {
             var criteria = new GetEPAByEmployeeCriteria
             {
-                EmployeeId = CurrentUser.EmployeeInfo.EmployeeId
+                EmployeeId = CurrentUser.EmployeeId
             };
 
-            return _employeeEPAService.GetEPAByEmployee(criteria);
+            return employeeEPAService.GetEPAByEmployee(criteria);
         }
 
         [HttpGet]
@@ -58,7 +54,7 @@
         public HttpResponseMessage GetEPAInfoByEmployee(int epaId)
         {
             EPAModel epaInfo = new EPAModel();
-            int permission = CheckEmployeePermission(epaId, CurrentUser.EmployeeInfo.EmployeeId, (int)ProcessType.Self);
+            int permission = CheckEmployeePermission(epaId, CurrentUser.EmployeeId, (int)ProcessType.Self);
 
             switch (permission)
             {
@@ -69,10 +65,10 @@
                     var criteria = new GetEPAInfoByEmployeeCriteria()
                     {
                         EPAId = epaId,
-                        EmployeeId = CurrentUser.EmployeeInfo.EmployeeId
+                        EmployeeId = CurrentUser.EmployeeId
                     };
 
-                    epaInfo = _employeeEPAService.GetEPAInfoByEmployee(criteria);
+                    epaInfo = employeeEPAService.GetEPAInfoByEmployee(criteria);
 
                     return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
             }
@@ -87,8 +83,8 @@
             if (criteria != null)
             {
                 criteria.ProcessId = (int)ProcessType.Self;
-                criteria.EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId;
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.EvaluatorId = CurrentUser.EmployeeId;
+                criteria.ModifiedBy = CurrentUser.EmployeeId;
 
                 commandResult = UpdateEPAScoreByEmployeeOrEvaluator(criteria);
             }
@@ -98,7 +94,7 @@
 
         public int GetUserPermissionOnEmployee()
         {
-            int permission = _webCommonService.GetPermission(EPAFunctionKey.Self);
+            int permission = this.sessionService.GetPermission(EPAFunctionKey.Self);
             return permission;
         }
 
@@ -133,14 +129,14 @@
         {
             var criteria = new GetEPAByEvaluatorCriteria()
             {
-                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
+                EvaluatorId = CurrentUser.EmployeeId,
                 GroupId = groupId,
                 IsLocal = isLocal,
                 IsMonthly = isMonthly,
                 EmployeeIds = employeeIds
             };
 
-            return _employeeEPAService.GetEPAByEvaluator(criteria);
+            return employeeEPAService.GetEPAByEvaluator(criteria);
         }
 
         [HttpGet]
@@ -151,7 +147,7 @@
         {
             var epaInfo = new EPAModel();
             var processId = evaluatorId == null ? (int?)ProcessType.Evaluator : null;
-            evaluatorId = evaluatorId ?? CurrentUser.EmployeeInfo.EmployeeId;
+            evaluatorId = evaluatorId ?? CurrentUser.EmployeeId;
 
             int permission = CheckEmployeePermission(epaId, evaluatorId.Value, processId);
 
@@ -167,7 +163,7 @@
                         EvaluatorId = evaluatorId.Value
                     };
 
-                    epaInfo = _employeeEPAService.GetEPAInfoByEvaluator(criteria);
+                    epaInfo = employeeEPAService.GetEPAInfoByEvaluator(criteria);
 
                     return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
             }
@@ -182,8 +178,8 @@
             if (criteria != null)
             {
                 criteria.ProcessId = (int)ProcessType.Evaluator;
-                criteria.EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId;
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.EvaluatorId = CurrentUser.EmployeeId;
+                criteria.ModifiedBy = CurrentUser.EmployeeId;
 
                 commandResult = UpdateEPAScoreByEmployeeOrEvaluator(criteria);
             }
@@ -193,7 +189,7 @@
 
         public int GetUserPermissionOnEvaluator()
         {
-            int permission = _webCommonService.GetPermission(EPAFunctionKey.Evaluator);
+            int permission = this.sessionService.GetPermission(EPAFunctionKey.Evaluator);
             return permission;
         }
 
@@ -228,14 +224,14 @@
         {
             var criteria = new GetEPAByReviewerCriteria()
             {
-                ReviewerId = CurrentUser.EmployeeInfo.EmployeeId,
+                ReviewerId = CurrentUser.EmployeeId,
                 GroupId = groupId,
                 IsLocal = isLocal,
                 IsMonthly = isMonthly,
                 EmployeeIds = employeeIds
             };
 
-            return _employeeEPAService.GetEPAByReviewer(criteria);
+            return employeeEPAService.GetEPAByReviewer(criteria);
         }
 
         [HttpGet]
@@ -243,7 +239,7 @@
         public HttpResponseMessage GetEPAInfoByReviewer(int epaId)
         {
             EPAModel epaInfo = new EPAModel();
-            int permission = CheckEmployeePermission(epaId, CurrentUser.EmployeeInfo.EmployeeId, (int)ProcessType.Reviewer);
+            int permission = CheckEmployeePermission(epaId, CurrentUser.EmployeeId, (int)ProcessType.Reviewer);
 
             switch (permission)
             {
@@ -254,10 +250,10 @@
                     var criteria = new GetEPAInfoByReviewerCriteria()
                     {
                         EPAId = epaId,
-                        ReviewerId = CurrentUser.EmployeeInfo.EmployeeId
+                        ReviewerId = CurrentUser.EmployeeId
                     };
 
-                    epaInfo = _employeeEPAService.GetEPAInfoByReviewer(criteria);
+                    epaInfo = employeeEPAService.GetEPAInfoByReviewer(criteria);
 
                     return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
             }
@@ -271,7 +267,7 @@
             {
                 ProcessId = (int)ProcessType.Reviewer,
                 MemberEPAs = memberEPAs,
-                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                ModifiedBy = CurrentUser.EmployeeId
             };
 
             return AdjustScoreByReviewerOrManagement(criteria);
@@ -279,7 +275,7 @@
 
         public int GetUserPermissionOnReviewer()
         {
-            int permission = _webCommonService.GetPermission(EPAFunctionKey.Reviewer);
+            int permission = this.sessionService.GetPermission(EPAFunctionKey.Reviewer);
             return permission;
         }
 
@@ -312,13 +308,13 @@
         {
             var criteria = new GetEPAByManagementCriteria()
             {
-                ManagementId = CurrentUser.EmployeeInfo.EmployeeId,
+                ManagementId = CurrentUser.EmployeeId,
                 GroupId = groupId,
                 IsLocal = isLocal,
                 EmployeeIds = employeeIds
             };
 
-            return _employeeEPAService.GetEPAByManagement(criteria);
+            return employeeEPAService.GetEPAByManagement(criteria);
         }
 
         [HttpGet]
@@ -326,7 +322,7 @@
         public HttpResponseMessage GetEPAInfoByManagement(int epaId)
         {
             EPAModel epaInfo = new EPAModel();
-            int permission = CheckEmployeePermission(epaId, CurrentUser.EmployeeInfo.EmployeeId, (int)ProcessType.Management);
+            int permission = CheckEmployeePermission(epaId, CurrentUser.EmployeeId, (int)ProcessType.Management);
 
             switch (permission)
             {
@@ -337,10 +333,10 @@
                     var criteria = new GetEPAInfoByManagementCriteria()
                     {
                         EPAId = epaId,
-                        ManagementId = CurrentUser.EmployeeInfo.EmployeeId
+                        ManagementId = CurrentUser.EmployeeId
                     };
 
-                    epaInfo = _employeeEPAService.GetEPAInfoByManagement(criteria);
+                    epaInfo = employeeEPAService.GetEPAInfoByManagement(criteria);
 
                     return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
             }
@@ -358,7 +354,7 @@
                 {
                     ProcessId = (int)ProcessType.Management,
                     MemberEPAs = memberEPAs,
-                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                    ModifiedBy = CurrentUser.EmployeeId
                 };
 
                 commandResult = AdjustScoreByReviewerOrManagement(criteria);
@@ -369,7 +365,7 @@
 
         public int GetUserPermissionOnManagement()
         {
-            int permission = _webCommonService.GetPermission(EPAFunctionKey.Management);
+            int permission = this.sessionService.GetPermission(EPAFunctionKey.Management);
             return permission;
         }
 
@@ -383,10 +379,10 @@
         {
             var criteria = new GetPeriodByEvaluatorCriteria()
             {
-                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId
+                EvaluatorId = CurrentUser.EmployeeId
             };
 
-            return _employeeEPAService.GetPeriodByEvaluator(criteria);
+            return employeeEPAService.GetPeriodByEvaluator(criteria);
         }
 
         [HttpGet]
@@ -395,11 +391,11 @@
         {
             var criteria = new GetTargetTemplateByEvaluatorCriteria()
             {
-                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
+                EvaluatorId = CurrentUser.EmployeeId,
                 PeriodId = periodId
             };
 
-            return _employeeEPAService.GetTargetTemplateByEvaluator(criteria);
+            return employeeEPAService.GetTargetTemplateByEvaluator(criteria);
         }
 
         [HttpGet]
@@ -408,10 +404,10 @@
         {
             var criteria = new GetPeriodToViewCriteria()
             {
-                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId
+                EvaluatorId = CurrentUser.EmployeeId
             };
 
-            return _employeeEPAService.GetPeriodToView(criteria);
+            return employeeEPAService.GetPeriodToView(criteria);
         }
 
         [HttpGet]
@@ -420,11 +416,11 @@
         {
             var criteria = new GetTargetTemplateToViewCriteria()
             {
-                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
+                EvaluatorId = CurrentUser.EmployeeId,
                 PeriodId = periodId
             };
 
-            return _employeeEPAService.GetTargetTemplateToView(criteria);
+            return employeeEPAService.GetTargetTemplateToView(criteria);
         }
 
         [HttpGet]
@@ -439,7 +435,7 @@
                 TargetTemplateId = targetTemplateId
             };
 
-            return _employeeEPAService.GetEvaluatorsByTargetTemplate(criteria);
+            return employeeEPAService.GetEvaluatorsByTargetTemplate(criteria);
         }
 
         [HttpGet]
@@ -456,7 +452,7 @@
                 TargetTemplateId = targetTemplateId
             };
 
-            return _employeeEPAService.GetKPIToView(criteria);
+            return employeeEPAService.GetKPIToView(criteria);
         }
 
         [HttpGet]
@@ -475,7 +471,7 @@
                 KPIId = kpiId
             };
 
-            return _employeeEPAService.GetEmployeeEPAToView(criteria);
+            return employeeEPAService.GetEmployeeEPAToView(criteria);
         }
 
         [HttpGet]
@@ -486,12 +482,12 @@
         {
             var criteria = new GetKPIByTargetTemplateCriteria()
             {
-                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
+                EvaluatorId = CurrentUser.EmployeeId,
                 TargetTemplateId = targetTemplateId,
                 PeriodId = periodId
             };
 
-            return _employeeEPAService.GetKPIByTargetTemplate(criteria);
+            return employeeEPAService.GetKPIByTargetTemplate(criteria);
         }
 
         [HttpGet]
@@ -505,7 +501,7 @@
         {
             var criteria = new GetEmployeeEPAByKPICriteria()
             {
-                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
+                EvaluatorId = CurrentUser.EmployeeId,
                 PeriodId = periodId,
                 TargetTemplateId = targetTemplateId,
                 KPIId = kpiId,
@@ -513,7 +509,7 @@
                 EmployeeIds = employeeIds
             };
 
-            return _employeeEPAService.GetEmployeeEPAByKPI(criteria);
+            return employeeEPAService.GetEmployeeEPAByKPI(criteria);
         }
 
         [HttpPut]
@@ -522,16 +518,16 @@
         {
             var criteria = new UpdateKPIScoreCriteria()
             {
-                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
+                EvaluatorId = CurrentUser.EmployeeId,
                 EpaInfos = epaInfos
             };
 
-            return _employeeEPAService.UpdateKPIScore(criteria);
+            return employeeEPAService.UpdateKPIScore(criteria);
         }
 
         public int GetUserPermissionOnRatingByKPI()
         {
-            int permission = _webCommonService.GetPermission(EPAFunctionKey.RatingByKPI);
+            int permission = this.sessionService.GetPermission(EPAFunctionKey.RatingByKPI);
             return permission;
         }
 
@@ -541,7 +537,7 @@
         public HttpResponseMessage GetEPAInfoById(int epaId)
         {
             EPAModel epaInfo = new EPAModel();
-            int permission = CheckEmployeePermission(epaId, CurrentUser.EmployeeInfo.EmployeeId);
+            int permission = CheckEmployeePermission(epaId, CurrentUser.EmployeeId);
 
             switch (permission)
             {
@@ -554,7 +550,7 @@
                         EPAId = epaId
                     };
 
-                    epaInfo = _employeeEPAService.GetEPAInfoById(criteria);
+                    epaInfo = employeeEPAService.GetEPAInfoById(criteria);
 
                     return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
             }
@@ -564,13 +560,13 @@
         public CommandResult ConvertEPA()
         {
             var getEPASummaryImportCriteria = new GetEPASummaryImportCriteria();
-            IEnumerable<EPASummaryImportModel> memberEPAs = _employeeEPAService.GetMemberEPASummaryImport(getEPASummaryImportCriteria);
+            IEnumerable<EPASummaryImportModel> memberEPAs = employeeEPAService.GetMemberEPASummaryImport(getEPASummaryImportCriteria);
             var criteria = new UpdateEPASummaryImportCriteria()
             {
                 MemberEPAs = memberEPAs
             };
 
-            CommandResult result = _employeeEPAService.UpdateEPASummaryImport(criteria);
+            CommandResult result = employeeEPAService.UpdateEPASummaryImport(criteria);
             return result;
         }
 
@@ -581,12 +577,12 @@
 
             if (CurrentUser.Roles.Select(x => x.RoleId).Contains((int)SystemRole.SystemAdmin))
             {
-                EPAModel epaInfo = _employeeEPAService.GetEPAInfoById(criteria);
+                EPAModel epaInfo = employeeEPAService.GetEPAInfoById(criteria);
 
                 var resetScoreCriteria = new ResetScoreCriteria()
                 {
                     EPAId = epaInfo.EPAId,
-                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                    ModifiedBy = CurrentUser.EmployeeId
                 };
 
                 CommandResult commandResult;
@@ -598,7 +594,7 @@
                     {
                         resetScoreCriteria.EPAInfo = epaInfo;
 
-                        commandResult = _employeeEPAService.ResetScore(resetScoreCriteria);
+                        commandResult = employeeEPAService.ResetScore(resetScoreCriteria);
                         response = Request.CreateResponse(HttpStatusCode.OK, commandResult);
                     }
                 }
@@ -606,7 +602,7 @@
                 {
                     resetScoreCriteria.EPAInfo = epaInfo;
 
-                    commandResult = _employeeEPAService.ResetScore(resetScoreCriteria);
+                    commandResult = employeeEPAService.ResetScore(resetScoreCriteria);
                     response = Request.CreateResponse(HttpStatusCode.OK, commandResult);
                 }
             }
@@ -624,7 +620,7 @@
         public HttpResponseMessage GetPeriodToUpdateFinalScore()
         {
             var criteria = new GetPeriodToUpdateFinalScoreCriteria();
-            IList<EPAPeriodModel> periods = _employeeEPAService.GetPeriodToUpdateFinalScore(criteria);
+            IList<EPAPeriodModel> periods = employeeEPAService.GetPeriodToUpdateFinalScore(criteria);
 
             return Request.CreateResponse(HttpStatusCode.OK, periods);
         }
@@ -641,7 +637,7 @@
                 GroupId = groupId,
                 Query = query
             };
-            IList<EPAEmployeeModel> employees = _employeeEPAService.GetEmployeeToUpdateFinalScore(criteria);
+            IList<EPAEmployeeModel> employees = employeeEPAService.GetEmployeeToUpdateFinalScore(criteria);
 
             return Request.CreateResponse(HttpStatusCode.OK, employees);
         }
@@ -658,7 +654,7 @@
                 GroupId = groupId,
                 EmployeeId = employeeId
             };
-            IList<EPAModel> epaInfos = _employeeEPAService.GetEPAToUpdateFinalScore(criteria);
+            IList<EPAModel> epaInfos = employeeEPAService.GetEPAToUpdateFinalScore(criteria);
 
             return Request.CreateResponse(HttpStatusCode.OK, epaInfos);
         }
@@ -668,7 +664,7 @@
         public HttpResponseMessage UpdateFinalScore(IList<EPAModel> selectedEPAs)
         {
             var getStandardGradeCriteria = new GetStandardGradeCriteria();
-            IEnumerable<StandardGradeModel> standardGrades = _employeeEPAService.GetStandardGrade(getStandardGradeCriteria);
+            IEnumerable<StandardGradeModel> standardGrades = employeeEPAService.GetStandardGrade(getStandardGradeCriteria);
 
             foreach (EPAModel epaInfo in selectedEPAs)
             {
@@ -677,17 +673,17 @@
 
                 finalScore = finalScore >= 0 ? finalScore : 0;
                 epaInfo.FinalScore = EncodeService.Encode(finalScore.ToString());
-                string grade = _employeeEPAService.ConvertScoreToGrade(finalScore, standardGrades);
+                string grade = employeeEPAService.ConvertScoreToGrade(finalScore, standardGrades);
                 epaInfo.Grade = EncodeService.Encode(grade);
             }
 
             var updateFinalScoreCriteria = new UpdateFinalScoreEPAEndEvaluationCriteria
             {
-                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
+                ModifiedBy = CurrentUser.EmployeeId,
                 EPAInfos = selectedEPAs
             };
 
-            CommandResult commandResult = _employeeEPAService.UpdateFinalScoreEPAEndEvaluation(updateFinalScoreCriteria);
+            CommandResult commandResult = employeeEPAService.UpdateFinalScoreEPAEndEvaluation(updateFinalScoreCriteria);
             HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, commandResult);
 
             return response;
@@ -697,7 +693,7 @@
 
         private CommandResult UpdateEPAScoreByEmployeeOrEvaluator(UpdateEPAScoreCriteria criteria)
         {
-            return _employeeEPAService.UpdateEPAScore(criteria);
+            return employeeEPAService.UpdateEPAScore(criteria);
         }
 
         private IEnumerable<Employee> GetMemberByEvaluatorOrReviewerOrManagement(
@@ -708,30 +704,30 @@
         {
             var criteria = new GetMemberByEvaluatorOrReviewerOrManagementCriteria()
             {
-                ActorUserId = CurrentUser.EmployeeInfo.EmployeeId,
+                ActorUserId = CurrentUser.EmployeeId,
                 ProcessId = processId,
                 GroupId = groupId,
                 IsLocal = isLocal,
                 IsMonthly = isMonthly
             };
 
-            return _employeeEPAService.GetMemberByEvaluatorOrReviewerOrManagement(criteria);
+            return employeeEPAService.GetMemberByEvaluatorOrReviewerOrManagement(criteria);
         }
 
         private IEnumerable<Group> GetGroupByEvaluatorOrReviewerOrManagement(int processId)
         {
             var criteria = new GetGroupByEvaluatorOrReviewerOrManagementCriteria()
             {
-                ActorUserId = CurrentUser.EmployeeInfo.EmployeeId,
+                ActorUserId = CurrentUser.EmployeeId,
                 ProcessId = processId
             };
 
-            return _employeeEPAService.GetGroupByEvaluatorOrReviewerOrManagement(criteria);
+            return employeeEPAService.GetGroupByEvaluatorOrReviewerOrManagement(criteria);
         }
 
         private CommandResult AdjustScoreByReviewerOrManagement(AdjustScoreByReviewerOrManagementCriteria criteria)
         {
-            return _employeeEPAService.AdjustScoreByReviewerOrManagement(criteria);
+            return employeeEPAService.AdjustScoreByReviewerOrManagement(criteria);
         }
 
         private int CheckEmployeePermission(
@@ -746,7 +742,7 @@
                 ProcessId = processId
             };
 
-            return _employeeEPAService.CheckEmployeePermission(checkPermissionCriteria);
+            return employeeEPAService.CheckEmployeePermission(checkPermissionCriteria);
         }
 
         private float GetFinalScoreOfEPA(EPAModel epaInfo)

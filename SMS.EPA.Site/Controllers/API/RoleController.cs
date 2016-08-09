@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Web.Http;
+    using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
@@ -9,11 +10,10 @@
     using SMS.EPA.Model.RoleManagement;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
-    using SMS.EPA.Web.ApiAuthorizeAttribute;
 
     public class RoleController : BaseController
     {
-        private IRoleService _roleService;
+        private IRoleService roleService;
 
         public RoleController()
             : this(null)
@@ -22,7 +22,7 @@
 
         public RoleController(IRoleService roleService)
         {
-            _roleService = roleService ?? new RoleService();
+            this.roleService = roleService ?? new RoleService();
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.RoleManagement, Policy = Policy.Read)]
@@ -33,7 +33,7 @@
                 RoleId = roleId
             };
 
-            IEnumerable<RoleFunctionModel> functions = _roleService.GetFunctionByRoleId(criteria);
+            IEnumerable<RoleFunctionModel> functions = roleService.GetFunctionByRoleId(criteria);
             return functions;
         }
 
@@ -43,10 +43,10 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.ModifiedBy = CurrentUser.EmployeeId;
             }
 
-            CommandResult commandResult = _roleService.AssignFunctionToRole(criteria);
+            CommandResult commandResult = roleService.AssignFunctionToRole(criteria);
             return commandResult;
         }
     }

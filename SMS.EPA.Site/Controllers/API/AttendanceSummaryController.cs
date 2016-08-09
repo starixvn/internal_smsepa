@@ -2,32 +2,26 @@
 {
     using System;
     using System.Collections.Generic;
+    using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Criteria.AttendanceSummary;
     using SMS.EPA.Model.AttendanceSummary;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
-    using SMS.EPA.Web;
-    using SMS.EPA.Web.ApiAuthorizeAttribute;
-    using SMS.EPA.Web.Services;
 
     public class AttendanceSummaryController : BaseController
     {
-        private readonly IAttendanceSummaryService _attendanceSummaryService;
-        private readonly IWebCommonService _webCommonService;
+        private readonly IAttendanceSummaryService attendanceSummaryService;
 
         public AttendanceSummaryController()
-            : this(null, null)
+            : this(null)
         {
         }
 
-        public AttendanceSummaryController(
-            IAttendanceSummaryService attendanceSummaryService,
-            IWebCommonService webCommonService)
+        public AttendanceSummaryController(IAttendanceSummaryService attendanceSummaryService)
         {
-            _attendanceSummaryService = attendanceSummaryService ?? new AttendanceSummaryService();
-            _webCommonService = webCommonService ?? new WebCommonService();
+            this.attendanceSummaryService = attendanceSummaryService ?? new AttendanceSummaryService();
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.DisciplineSummary, Policy = Policy.Read)]
@@ -47,10 +41,9 @@
                 IsLocal = isLocal,
                 EmployeeId = employeeId,
                 ReasonId = reasonId,
-                ApproverId = CurrentUser.EmployeeInfo.EmployeeId
+                ApproverId = CurrentUser.EmployeeId
             };
-            IEnumerable<AttendanceSummaryModel> attendanceEmployees = _attendanceSummaryService.GetAttendanceSummary(criteria);
-            SessionManager.Set(Constants.DisciplineSummaryReportSessionKey + CurrentUser.EmployeeInfo.EmployeeId, attendanceEmployees);
+            IEnumerable<AttendanceSummaryModel> attendanceEmployees = attendanceSummaryService.GetAttendanceSummary(criteria);
 
             return attendanceEmployees;
         }
@@ -70,7 +63,7 @@
                 EndDate = endDate
             };
 
-            IEnumerable<OtherViolationModel> violations = _attendanceSummaryService.GetOtherViolations(criteria);
+            IEnumerable<OtherViolationModel> violations = attendanceSummaryService.GetOtherViolations(criteria);
 
             return violations;
         }
@@ -84,7 +77,7 @@
                 IncludeOtherViolate = includeOtherViolate,
                 IsActive = isActive
             };
-            IEnumerable<ViolationTypeModel> violations = _attendanceSummaryService.GetViolationType(criteria);
+            IEnumerable<ViolationTypeModel> violations = attendanceSummaryService.GetViolationType(criteria);
 
             return violations;
         }
@@ -107,19 +100,18 @@
                 DepartmentId = departmentId,
                 IsLocal = isLocal,
                 ReasonId = reasonId,
-                ApproverId = CurrentUser.EmployeeInfo.EmployeeId,
+                ApproverId = CurrentUser.EmployeeId,
                 HasIgnored = hasIgnored
             };
 
-            IEnumerable<AttendanceDetailModel> attendanceViolations = _attendanceSummaryService.GetAttendanceDetail(criteria);
-            SessionManager.Set(Constants.DisciplineDetailReportSessionKey + CurrentUser.EmployeeInfo.EmployeeId, attendanceViolations);
+            IEnumerable<AttendanceDetailModel> attendanceViolations = attendanceSummaryService.GetAttendanceDetail(criteria);
 
             return attendanceViolations;
         }
 
         public int GetUserPermissionOnAttendanceSummary()
         {
-            int permission = _webCommonService.GetPermission(EPAFunctionKey.DisciplineSummary);
+            int permission = this.sessionService.GetPermission(EPAFunctionKey.DisciplineSummary);
             return permission;
         }
     }

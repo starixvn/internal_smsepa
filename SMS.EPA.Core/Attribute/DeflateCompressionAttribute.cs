@@ -1,7 +1,8 @@
-﻿namespace SMS.EPA.Web.ApiAuthorizeAttribute
+﻿namespace SMS.EPA.Core.Attribute
 {
     using System.Net.Http;
     using System.Web.Http.Filters;
+    using SMS.EPA.Core.Helpers;
 
     public class DeflateCompressionAttribute : ActionFilterAttribute
     {

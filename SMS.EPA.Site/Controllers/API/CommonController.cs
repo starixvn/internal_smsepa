@@ -121,7 +121,7 @@
                 GroupId = groupId,
                 IsSpecialUser = isSpecialUser,
                 IsDisabledUser = isDisabledUser,
-                ApproverId = getByApprover == true && CurrentUser != null ? (int?)CurrentUser.EmployeeInfo.EmployeeId : null,
+                ApproverId = getByApprover == true && CurrentUser != null ? (int?)CurrentUser.EmployeeId : null,
                 IncludeVerifier = includeVerifier
             };
 

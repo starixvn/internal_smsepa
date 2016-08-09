@@ -2,9 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
+    using SMS.EPA.Core.Model;
     using SMS.EPA.Model.Department;
     using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Model.RoleManagement;
 
     [Serializable]
     public class EmployeeModel : Employee

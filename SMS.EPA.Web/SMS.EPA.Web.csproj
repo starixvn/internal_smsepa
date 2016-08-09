@@ -80,14 +80,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiAuthorizeAttribute\ApiAuthorizeAttribute.cs" />
-    <Compile Include="ApiAuthorizeAttribute\CompressionHelper.cs" />
-    <Compile Include="ApiAuthorizeAttribute\DeflateCompressionAttribute.cs" />
-    <Compile Include="ApiAuthorizeAttribute\ExceptionHandlingAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\IWebCommonService.cs" />
-    <Compile Include="Services\WebCommonService.cs" />
-    <Compile Include="SessionManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">
@@ -105,6 +98,10 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ApiAuthorizeAttribute\" />
+    <Folder Include="Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

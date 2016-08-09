@@ -5,6 +5,7 @@
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
+    using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Criteria.Report;
@@ -13,12 +14,11 @@
     using SMS.EPA.Model.Report.EPASummary;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
-    using SMS.EPA.Web.ApiAuthorizeAttribute;
 
     public class ReportController : BaseController
     {
-        private readonly IReportService _reportService;
-        private readonly CommonController _commonController;
+        private readonly IReportService reportService;
+        private readonly CommonController commonController;
 
         public ReportController()
             : this(null, null)
@@ -29,8 +29,8 @@
             IReportService reportService,
             CommonController commonController)
         {
-            _reportService = reportService ?? new ReportService();
-            _commonController = commonController ?? new CommonController();
+            this.reportService = reportService ?? new ReportService();
+            this.commonController = commonController ?? new CommonController();
         }
 
         [HttpGet]
@@ -46,7 +46,7 @@
         {
             var criteria = new GetEPASummaryCriteria()
             {
-                EmployeeId = CurrentUser.EmployeeInfo.EmployeeId,
+                EmployeeId = CurrentUser.EmployeeId,
                 PeriodIds = periodIds,
                 DepartmentId = departmentId,
                 IsLocal = isLocal,
@@ -56,7 +56,7 @@
                 ItemsPerPage = itemsPerPage
             };
 
-            EPASummaryModel epaInfos = _reportService.GetEPASummaryReport(criteria);
+            EPASummaryModel epaInfos = reportService.GetEPASummaryReport(criteria);
 
             return Request.CreateResponse(HttpStatusCode.OK, epaInfos);
         }
@@ -75,7 +75,7 @@
         {
             var criteria = new GetEPADetailCriteria()
             {
-                EmployeeId = CurrentUser.EmployeeInfo.EmployeeId,
+                EmployeeId = CurrentUser.EmployeeId,
                 PeriodId = periodId,
                 DepartmentId = departmentId,
                 IsLocal = isLocal,
@@ -86,7 +86,7 @@
                 ItemsPerPage = itemsPerPage
             };
 
-            EPADetailModel epaInfos = _reportService.GetEPADetailReport(criteria);
+            EPADetailModel epaInfos = reportService.GetEPADetailReport(criteria);
 
             return Request.CreateResponse(HttpStatusCode.OK, epaInfos);
         }
@@ -104,7 +104,7 @@
         {
             var criteria = new GetMonthlyEPADetailCriteria()
             {
-                EmployeeId = CurrentUser.EmployeeInfo.EmployeeId,
+                EmployeeId = CurrentUser.EmployeeId,
                 PeriodId = periodId,
                 DepartmentId = departmentId,
                 IsLocal = isLocal,
@@ -115,7 +115,7 @@
                 ItemsPerPage = itemsPerPage
             };
 
-            EPADetailModel epaInfos = _reportService.GetMonthlyEPADetailReport(criteria);
+            EPADetailModel epaInfos = reportService.GetMonthlyEPADetailReport(criteria);
 
             return Request.CreateResponse(HttpStatusCode.OK, epaInfos);
         }
@@ -132,7 +132,7 @@
         {
             var criteria = new GetMonthlyEPASummaryCriteria()
             {
-                EmployeeId = CurrentUser.EmployeeInfo.EmployeeId,
+                EmployeeId = CurrentUser.EmployeeId,
                 PeriodIds = periodIds,
                 DepartmentId = departmentId,
                 IsLocal = isLocal,
@@ -142,7 +142,7 @@
                 ItemsPerPage = itemsPerPage
             };
 
-            EPASummaryModel epaInfos = _reportService.GetMonthlyEPASummaryReport(criteria);
+            EPASummaryModel epaInfos = reportService.GetMonthlyEPASummaryReport(criteria);
 
             return Request.CreateResponse(HttpStatusCode.OK, epaInfos);
         }
@@ -150,7 +150,7 @@
         [HttpGet]
         public IList<PeriodModel> GetAllPeriodIncludeImport()
         {
-            IList<PeriodModel> periods = _commonController.GetAllPeriodIncludeImport();
+            IList<PeriodModel> periods = commonController.GetAllPeriodIncludeImport();
 
             if (periods.Count > 0)
             {

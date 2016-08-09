@@ -52,7 +52,6 @@
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Authentication\LoginModel.cs" />
-    <Compile Include="Authentication\UserSession.cs" />
     <Compile Include="EmployeeEPA\EmployeeOtherViolationDetailModel.cs" />
     <Compile Include="EmployeeEPA\EPAEmployeeModel.cs" />
     <Compile Include="EmployeeEPA\EPAPeriodModel.cs" />
@@ -78,8 +77,6 @@
     <Compile Include="EmployeeEPA\EPAKPIGroupModel.cs" />
     <Compile Include="EmployeeEPA\EPAKPIModel.cs" />
     <Compile Include="Employee\EmployeeModel.cs" />
-    <Compile Include="Employee\MenuGroupModel.cs" />
-    <Compile Include="Employee\MenuItemModel.cs" />
     <Compile Include="Employee\RawEmployeeModel.cs" />
     <Compile Include="Employee\RawEmployeeRoleModel.cs" />
     <Compile Include="Enitites\Employee.cs" />
@@ -106,9 +103,7 @@
     <Compile Include="Report\EPASummary\EPASummaryEmployeeModel.cs" />
     <Compile Include="Report\EPASummary\EPASummaryModel.cs" />
     <Compile Include="Report\EPASummary\EPASummaryPeriodModel.cs" />
-    <Compile Include="RoleManagement\FunctionModel.cs" />
     <Compile Include="RoleManagement\RoleFunctionModel.cs" />
-    <Compile Include="RoleManagement\SystemRoleModel.cs" />
     <Compile Include="ScoreRatingType\ScoreRatingTypeModel.cs" />
     <Compile Include="TargetEmployeeSetting\TargetDepartmentSettingModel.cs" />
     <Compile Include="TargetEmployeeSetting\TargetEmployeeSettingModel.cs" />

@@ -6,19 +6,18 @@
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Security;
     using SMS.EPA.Core.Services;
+    using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.Authentication;
     using SMS.EPA.Criteria.Employee;
-    using SMS.EPA.Model.Authentication;
     using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Model.RoleManagement;
     using SMS.EPA.Repositories.Implement;
     using SMS.EPA.Repositories.Interfaces;
     using SMS.EPA.Services.Interfaces;
 
     public class EmployeeService : BaseService, IEmployeeService
     {
-        private readonly IEmployeeRepository _employeeRepository;
+        private readonly IEmployeeRepository employeeRepository;
 
         public EmployeeService()
             : this(null)
@@ -27,28 +26,16 @@
 
         public EmployeeService(IEmployeeRepository employeeRepository)
         {
-            _employeeRepository = employeeRepository ?? new EmployeeRepository();
+            this.employeeRepository = employeeRepository ?? new EmployeeRepository();
         }
 
-        public UserSession GetEmployeeByCode(GetEmployeeByCodeCriteria criteria)
+        public UserSession GetEmployeeLogin(GetEmployeeLoginCriteria criteria)
         {
             UserSession employee = new UserSession();
 
             if (criteria != null && criteria.IsValid())
             {
-                employee = _employeeRepository.GetEmployee(criteria);
-            }
-
-            return employee;
-        }
-
-        public UserSession GetEmployeeByUsername(GetEmployeeByDomainUsernameCriteria criteria)
-        {
-            UserSession employee = new UserSession();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                employee = _employeeRepository.GetEmployee(criteria);
+                employee = employeeRepository.GetEmployeeLogin(criteria);
             }
 
             return employee;
@@ -68,7 +55,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                RawEmployeeModel rawEmployee = _employeeRepository.GetAllEmployee(criteria);
+                RawEmployeeModel rawEmployee = employeeRepository.GetAllEmployee(criteria);
                 employees = GetRoleOfEmployee(rawEmployee);
             }
 
@@ -81,7 +68,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                employee = _employeeRepository.GetEmployeeById(criteria);
+                employee = employeeRepository.GetEmployeeById(criteria);
             }
 
             return employee;

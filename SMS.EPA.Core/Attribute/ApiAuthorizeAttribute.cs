@@ -1,46 +1,33 @@
-﻿namespace SMS.EPA.Web.ApiAuthorizeAttribute
+﻿namespace SMS.EPA.Core.Attribute
 {
     using System;
     using System.Collections.ObjectModel;
-    using System.Diagnostics.CodeAnalysis;
     using System.Net;
     using System.Net.Http;
     using System.Web;
     using System.Web.Http;
     using System.Web.Http.Controllers;
     using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Model.Authentication;
-    using SMS.EPA.Web.Services;
+    using SMS.EPA.Core.Model;
+    using SMS.EPA.Core.Services;
+    using SMS.EPA.Core.Services.Interfaces;
 
     [AttributeUsage(AttributeTargets.All, AllowMultiple = true)]
-    [SuppressMessage("Microsoft.Design", "CA1019:DefineAccessorsForAttributeArguments", Justification = "Reviewed. Suppression is OK here.")]
-    public sealed class ApiAuthorizeAttribute : AuthorizeAttribute
+    public class ApiAuthorizeAttribute : AuthorizeAttribute
     {
-        private string _functionKey;
-        private IWebCommonService _webCommonService;
+        private ISessionService sessionService;
 
         public ApiAuthorizeAttribute()
             : this(null)
         {
         }
 
-        public ApiAuthorizeAttribute(IWebCommonService webCommonService)
+        public ApiAuthorizeAttribute(ISessionService sessionService)
         {
-            _webCommonService = webCommonService ?? new WebCommonService();
+            this.sessionService = sessionService ?? new SessionService();
         }
 
-        public string FunctionKey
-        {
-            get
-            {
-                return _functionKey != null ? _functionKey : string.Empty;
-            }
-
-            set
-            {
-                _functionKey = value;
-            }
-        }
+        public string FunctionKey { get; set; }
 
         public Policy Policy { get; set; }
 
@@ -48,7 +35,7 @@
         {
             if (HttpContext.Current.User.Identity.IsAuthenticated)
             {
-                UserSession currentUser = SessionManager.CurrentUser;
+                UserSession currentUser = sessionService.CurrentUser;
 
                 if (currentUser != null)
                 {
@@ -88,7 +75,7 @@
 
             foreach (ApiAuthorizeAttribute item in attributes)
             {
-                if (_webCommonService.HasPermissionOnFunction(item.FunctionKey, item.Policy))
+                if (sessionService.HasPermissionOnFunction(item.FunctionKey, item.Policy))
                 {
                     hasPermission = true;
                 }

@@ -1,8 +1,5 @@
-﻿namespace SMS.EPA.Model.RoleManagement
+﻿namespace SMS.EPA.Core.Model
 {
-    using System;
-
-    [Serializable]
     public class SystemRoleModel
     {
         public int RoleId { get; set; }

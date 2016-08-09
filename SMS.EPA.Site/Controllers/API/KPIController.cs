@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Web.Http;
+    using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
@@ -9,25 +10,19 @@
     using SMS.EPA.Model;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
-    using SMS.EPA.Web.ApiAuthorizeAttribute;
-    using SMS.EPA.Web.Services;
 
     public class KPIController : BaseController
     {
-        private readonly IKPIService _kpiService;
-        private readonly IWebCommonService _webCommonService;
+        private readonly IKPIService kpiService;
 
         public KPIController()
-            : this(null, null)
+            : this(null)
         {
         }
 
-        public KPIController(
-            IKPIService kpiService,
-            IWebCommonService webCommonService)
+        public KPIController(IKPIService kpiService)
         {
-            _kpiService = kpiService ?? new KPIService();
-            _webCommonService = webCommonService ?? new WebCommonService();
+            this.kpiService = kpiService ?? new KPIService();
         }
 
         [HttpGet]
@@ -44,7 +39,7 @@
                 IsRequiredEvaluate = isRequiredEvaluate
             };
 
-            return _kpiService.GetKPI(criteria);
+            return kpiService.GetKPI(criteria);
         }
 
         [HttpPost]
@@ -53,10 +48,10 @@
         {
             if (criteria != null)
             {
-                criteria.CreatedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.CreatedBy = CurrentUser.EmployeeId;
             }
 
-            CommandResult commandResult = _kpiService.CreateKPI(criteria);
+            CommandResult commandResult = kpiService.CreateKPI(criteria);
 
             return commandResult;
         }
@@ -67,10 +62,10 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.ModifiedBy = CurrentUser.EmployeeId;
             }
 
-            CommandResult commandResult = _kpiService.UpdateKPI(criteria);
+            CommandResult commandResult = kpiService.UpdateKPI(criteria);
 
             return commandResult;
         }
@@ -81,10 +76,10 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.ModifiedBy = CurrentUser.EmployeeId;
             }
 
-            CommandResult commandResult = _kpiService.UpdateStatusKPI(criteria);
+            CommandResult commandResult = kpiService.UpdateStatusKPI(criteria);
 
             return commandResult;
         }
@@ -95,10 +90,10 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.ModifiedBy = CurrentUser.EmployeeId;
             }
 
-            CommandResult commandResult = _kpiService.UpdateRequiredEvaluateKPI(criteria);
+            CommandResult commandResult = kpiService.UpdateRequiredEvaluateKPI(criteria);
 
             return commandResult;
         }
@@ -110,17 +105,17 @@
             var criteria = new DeleteKPICriteria
             {
                 KPIId = kpiId,
-                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                ModifiedBy = CurrentUser.EmployeeId
             };
 
-            CommandResult commandResult = _kpiService.DeleteKPI(criteria);
+            CommandResult commandResult = kpiService.DeleteKPI(criteria);
 
             return commandResult;
         }
 
         public int GetUserPermissionOnKPI()
         {
-            int permission = _webCommonService.GetPermission(EPAFunctionKey.KPI);
+            int permission = this.sessionService.GetPermission(EPAFunctionKey.KPI);
             return permission;
         }
     }

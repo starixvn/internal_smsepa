@@ -1,16 +1,29 @@
 ﻿namespace SMS.EPA.Site.Controllers
 {
     using System.Web.Mvc;
-    using SMS.EPA.Model.Authentication;
-    using SMS.EPA.Web;
+    using SMS.EPA.Core.Model;
+    using SMS.EPA.Core.Services;
+    using SMS.EPA.Core.Services.Interfaces;
 
     public class HomeController : Controller
     {
+        private ISessionService sessionService;
+
+        public HomeController()
+            : this(null)
+        {
+        }
+
+        public HomeController(ISessionService sessionService)
+        {
+            this.sessionService = sessionService ?? new SessionService();
+        }
+
         public ActionResult Index()
         {
-            if (SessionManager.CurrentUser != null)
+            if (sessionService.CurrentUser != null)
             {
-                UserSession user = SessionManager.CurrentUser;
+                UserSession user = sessionService.CurrentUser;
                 return View(user);
             }
 

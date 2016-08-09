@@ -3,7 +3,7 @@
     using System.Web.Http;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
-    using SMS.EPA.Web.ApiAuthorizeAttribute;
+    using SMS.EPA.Core.Attribute;
 
     public static class WebApiConfig
     {

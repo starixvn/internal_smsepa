@@ -2,27 +2,31 @@
 {
     using System.Linq;
     using System.Web.Http;
+    using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Criteria.Employee;
     using SMS.EPA.Criteria.Report;
     using SMS.EPA.Model.Report.Dashboard;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
-    using SMS.EPA.Web.ApiAuthorizeAttribute;
 
     public class DashboardController : BaseController
     {
-        private readonly IReportService _reportService;
+        private readonly IEmployeeService employeeService;
+        private readonly IReportService reportService;
 
         public DashboardController() :
-            this(null)
+            this(null, null)
         {
         }
 
         public DashboardController(
+            IEmployeeService employeeService,
             IReportService reportService)
         {
-            _reportService = reportService ?? new ReportService();
+            this.employeeService = employeeService ?? new EmployeeService();
+            this.reportService = reportService ?? new ReportService();
         }
 
         [HttpGet]
@@ -31,13 +35,18 @@
         {
             DashboardModel dashboard = new DashboardModel();
 
-            var criteria = new GetDashboardCriteria()
+            var criteria = new GetDashboardCriteria
             {
-                EmployeeId = CurrentUser.EmployeeInfo.EmployeeId
+                EmployeeId = CurrentUser.EmployeeId
             };
 
-            dashboard = _reportService.GetDashboard(criteria);
-            dashboard.Employee = CurrentUser.EmployeeInfo;
+            var getEmployeeByIdCriteria = new GetEmployeeByIdCriteria
+            {
+                EmployeeId = CurrentUser.EmployeeId
+            };
+
+            dashboard = reportService.GetDashboard(criteria);
+            dashboard.Employee = employeeService.GetEmployeeById(getEmployeeByIdCriteria);
             dashboard.MonthlyEPAs = dashboard.MyEPAs.Where(x => x.Period.TargetTypeId == (int)TargetType.Monthly);
             dashboard.MyEPAs = dashboard.MyEPAs.Where(x => x.Period.TargetTypeId != (int)TargetType.Monthly);
 

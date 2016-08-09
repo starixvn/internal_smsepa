@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Web.ApiAuthorizeAttribute
+﻿namespace SMS.EPA.Core.Helpers
 {
     using System.IO;
 

@@ -1,11 +1,47 @@
-﻿namespace SMS.EPA.Web.Services
+﻿namespace SMS.EPA.Core.Services
 {
     using System.Linq;
+    using System.Web;
+    using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Model.RoleManagement;
+    using SMS.EPA.Core.Model;
+    using SMS.EPA.Core.Services.Interfaces;
 
-    public class WebCommonService : IWebCommonService
+    public class SessionService : ISessionService
     {
+        public UserSession CurrentUser
+        {
+            get
+            {
+                if (HttpContext.Current != null && HttpContext.Current.Session != null)
+                {
+                    return (UserSession)HttpContext.Current.Session[Constants.CurrentSessionKey];
+                }
+                else
+                {
+                    return null;
+                }
+            }
+
+            set
+            {
+                HttpContext.Current.Session[Constants.CurrentSessionKey] = value;
+            }
+        }
+
+        public int EmployeeId
+        {
+            get
+            {
+                return CurrentUser.EmployeeId;
+            }
+
+            set
+            {
+                CurrentUser.EmployeeId = value;
+            }
+        }
+
         public int GetPermission(string functionKey)
         {
             int policy = (int)Policy.None;
@@ -24,9 +60,9 @@
 
         public bool HasPermissionOnFunction(string functionKey, Policy policy)
         {
-            if (SessionManager.CurrentUser != null)
+            if (CurrentUser != null)
             {
-                FunctionModel currentFunction = SessionManager.CurrentUser.Functions
+                FunctionModel currentFunction = CurrentUser.Functions
                             .Where(func => func.FunctionKey.Equals(functionKey)).FirstOrDefault();
 
                 if (currentFunction != null)

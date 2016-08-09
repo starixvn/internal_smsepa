@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Model.Employee
+﻿namespace SMS.EPA.Core.Model
 {
     public class MenuItemModel
     {

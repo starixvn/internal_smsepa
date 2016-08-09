@@ -3,7 +3,8 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Web.Mvc;
-    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Services;
+    using SMS.EPA.Core.Services.Interfaces;
     using SMS.EPA.Criteria.AttendanceSummary;
     using SMS.EPA.Criteria.Period;
     using SMS.EPA.Criteria.Report;
@@ -14,7 +15,6 @@
     using SMS.EPA.Resources;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
-    using SMS.EPA.Web;
 
     public class ExportReportController : Controller
     {
@@ -22,49 +22,46 @@
         private const string DisciplineSummaryTemplatePath = @"~\SourceApp\Components\AttendanceSummary\ExcelTemplates\DisciplineSummaryReport.xls";
         private const string DisciplineDetailTemplatePath = @"~\SourceApp\Components\AttendanceSummary\ExcelTemplates\DisciplineDetailReport.xls";
 
-        private readonly IPeriodService _periodService;
-        private readonly IReportService _reportService;
-        private readonly IAttendanceSummaryService _attendanceService;
-        private readonly IEPADetailReportService _epaDetailReportService;
-        private readonly IMonthlyEPADetailReportService _monthlyEPADetailReportService;
+        private readonly IPeriodService periodService;
+        private readonly IReportService reportService;
+        private readonly IAttendanceSummaryService attendanceService;
+        private readonly IEPADetailReportService epaDetailReportService;
+        private readonly IMonthlyEPADetailReportService monthlyEPADetailReportService;
+        private ISessionService sessionService;
 
         public ExportReportController()
-            : this(null, null, null, null, null)
+            : this(null, null, null, null, null, null)
         {
         }
 
         public ExportReportController(
-            IPeriodService checkFlowService,
+            IPeriodService periodService,
             IReportService reportService,
             IAttendanceSummaryService attendanceService,
             IEPADetailReportService epaDetailReportService,
-            IMonthlyEPADetailReportService monthlyEPADetailReportService)
+            IMonthlyEPADetailReportService monthlyEPADetailReportService,
+            ISessionService sessionService)
         {
-            _periodService = checkFlowService ?? new PeriodService();
-            _reportService = reportService ?? new ReportService();
-            _attendanceService = attendanceService ?? new AttendanceSummaryService();
-            _epaDetailReportService = epaDetailReportService ?? new EPADetailReportService();
-            _monthlyEPADetailReportService = monthlyEPADetailReportService ?? new MonthlyEPADetailReportService();
+            this.periodService = periodService ?? new PeriodService();
+            this.reportService = reportService ?? new ReportService();
+            this.attendanceService = attendanceService ?? new AttendanceSummaryService();
+            this.epaDetailReportService = epaDetailReportService ?? new EPADetailReportService();
+            this.monthlyEPADetailReportService = monthlyEPADetailReportService ?? new MonthlyEPADetailReportService();
+            this.sessionService = sessionService ?? new SessionService();
         }
 
         public ActionResult ExportEmployeeSettingReport(GetPeriodEmployeeSettingCriteria criteria)
         {
             IEnumerable<PeriodEmployeeSettingModel> employeeFlowSettings = null;
 
-            employeeFlowSettings = SessionManager.Get<IEnumerable<PeriodEmployeeSettingModel>>(
-                Constants.PeriodEmployeeSettingReportSessionKey + SessionManager.CurrentUser.EmployeeInfo.EmployeeId);
-
             if (criteria != null)
             {
-                if (employeeFlowSettings == null)
-                {
-                    employeeFlowSettings = _periodService.GetPeriodEmployeeSettingById(criteria);
-                }
+                employeeFlowSettings = periodService.GetPeriodEmployeeSettingById(criteria);
 
                 if (employeeFlowSettings != null)
                 {
                     string templatePath = Server.MapPath(EmployeeFlowSettingReportTemplatePath);
-                    _periodService.ExportEmployeeSettingReport(employeeFlowSettings, templatePath, criteria.PeriodName);
+                    periodService.ExportEmployeeSettingReport(employeeFlowSettings, templatePath, criteria.PeriodName);
                 }
             }
 
@@ -75,11 +72,11 @@
         {
             string fileName = Lang.EPASummaryReportName + ".xls";
 
-            criteria.EmployeeId = SessionManager.CurrentUser.EmployeeInfo.EmployeeId;
+            criteria.EmployeeId = sessionService.CurrentUser.EmployeeId;
 
-            EPASummaryModel epaSummary = _reportService.GetEPASummaryReport(criteria);
+            EPASummaryModel epaSummary = reportService.GetEPASummaryReport(criteria);
 
-            MemoryStream output = _reportService.ExportEPASummaryReport(epaSummary);
+            MemoryStream output = reportService.ExportEPASummaryReport(epaSummary);
 
             return File(output.ToArray(), "application/vnd.ms-excel", fileName);
         }
@@ -88,32 +85,32 @@
         {
             string fileName = Lang.MonthlyEPASummaryReportName + ".xls";
 
-            criteria.EmployeeId = SessionManager.CurrentUser.EmployeeInfo.EmployeeId;
+            criteria.EmployeeId = sessionService.CurrentUser.EmployeeId;
 
-            EPASummaryModel epaSummary = _reportService.GetMonthlyEPASummaryReport(criteria);
+            EPASummaryModel epaSummary = reportService.GetMonthlyEPASummaryReport(criteria);
 
-            MemoryStream output = _reportService.ExportMonthlyEPASummaryReport(epaSummary);
+            MemoryStream output = reportService.ExportMonthlyEPASummaryReport(epaSummary);
 
             return File(output.ToArray(), "application/vnd.ms-excel", fileName);
         }
 
         public ActionResult ExportEPADetailReport(GetEPADetailCriteria criteria)
         {
-            criteria.EmployeeId = SessionManager.CurrentUser.EmployeeInfo.EmployeeId;
+            criteria.EmployeeId = sessionService.CurrentUser.EmployeeId;
 
-            EPADetailModel epaDetail = _reportService.GetEPADetailReport(criteria);
+            EPADetailModel epaDetail = reportService.GetEPADetailReport(criteria);
 
-            _epaDetailReportService.Render(epaDetail);
+            epaDetailReportService.Render(epaDetail);
 
             return new EmptyResult();
         }
 
         public ActionResult ExportMonthlyEPADetailReport(GetMonthlyEPADetailCriteria criteria)
         {
-            criteria.EmployeeId = SessionManager.CurrentUser.EmployeeInfo.EmployeeId;
+            criteria.EmployeeId = sessionService.CurrentUser.EmployeeId;
 
-            EPADetailModel epaDetail = _reportService.GetMonthlyEPADetailReport(criteria);
-            _monthlyEPADetailReportService.Render(epaDetail);
+            EPADetailModel epaDetail = reportService.GetMonthlyEPADetailReport(criteria);
+            monthlyEPADetailReportService.Render(epaDetail);
 
             return new EmptyResult();
         }
@@ -121,19 +118,17 @@
         public ActionResult ExportAttendanceSummaryReport(GetAttendanceSummaryCriteria criteria)
         {
             IEnumerable<AttendanceSummaryModel> attendanceEmployees = null;
-            attendanceEmployees = SessionManager.Get<IEnumerable<AttendanceSummaryModel>>(
-                Constants.DisciplineSummaryReportSessionKey + SessionManager.CurrentUser.EmployeeInfo.EmployeeId);
 
-            if (attendanceEmployees == null && criteria != null)
+            if (criteria != null)
             {
-                criteria.ApproverId = SessionManager.CurrentUser.EmployeeInfo.EmployeeId;
-                attendanceEmployees = _attendanceService.GetAttendanceSummary(criteria);
-            }
+                criteria.ApproverId = sessionService.CurrentUser.EmployeeId;
+                attendanceEmployees = attendanceService.GetAttendanceSummary(criteria);
 
-            if (attendanceEmployees != null)
-            {
-                string templatePath = Server.MapPath(DisciplineSummaryTemplatePath);
-                _attendanceService.ExportAttendanceSummaryReport(criteria, attendanceEmployees, templatePath);
+                if (attendanceEmployees != null)
+                {
+                    string templatePath = Server.MapPath(DisciplineSummaryTemplatePath);
+                    attendanceService.ExportAttendanceSummaryReport(criteria, attendanceEmployees, templatePath);
+                }
             }
 
             return new EmptyResult();
@@ -142,21 +137,16 @@
         public ActionResult ExportAttendanceDetailReport(GetDetailAttendanceCriteria criteria)
         {
             IEnumerable<AttendanceDetailModel> attendanceViolations = null;
-            attendanceViolations = SessionManager.Get<IEnumerable<AttendanceDetailModel>>(
-                Constants.DisciplineDetailReportSessionKey + SessionManager.CurrentUser.EmployeeInfo.EmployeeId);
 
             if (criteria != null)
             {
-                if (attendanceViolations == null)
-                {
-                    criteria.ApproverId = SessionManager.CurrentUser.EmployeeInfo.EmployeeId;
-                    attendanceViolations = _attendanceService.GetAttendanceDetail(criteria);
-                }
+                criteria.ApproverId = sessionService.CurrentUser.EmployeeId;
+                attendanceViolations = attendanceService.GetAttendanceDetail(criteria);
 
                 if (attendanceViolations != null)
                 {
                     string templatePath = Server.MapPath(DisciplineDetailTemplatePath);
-                    _attendanceService.ExportAttendanceDetailReport(criteria, attendanceViolations, templatePath);
+                    attendanceService.ExportAttendanceDetailReport(criteria, attendanceViolations, templatePath);
                 }
             }
 

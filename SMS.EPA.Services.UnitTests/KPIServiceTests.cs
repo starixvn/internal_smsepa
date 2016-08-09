@@ -1,7 +1,6 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
     using System.Collections.Generic;
-    using System.Linq;
     using NSubstitute;
     using NUnit.Framework;
     using SMS.EPA.Criteria;
@@ -17,8 +16,9 @@
         private IKPIRepository kpiRepository;
 
         [Test]
-        public void GetKPI_AnyArg_ReturnInstanceOfListKPIModel()
+        public void GetKPI_WhenCalled_ReturnListOfKPIModel()
         {
+            // Arrange
             var criteria = new GetKPICriteria();
             kpiRepository = FakeKPIRepository();
             kpiService = GetKPIService(kpiRepository);
@@ -26,22 +26,11 @@
             var expected = new List<KPIModel>();
             kpiRepository.GetKPI(Arg.Any<GetKPICriteria>()).Returns(expected);
 
+            // Act
             var actual = kpiService.GetKPI(criteria);
-            Assert.IsInstanceOf(typeof(List<KPIModel>), actual);
-        }
 
-        [Test]
-        public void GetKPI_AnyArg_ReturnListOfKPIModel()
-        {
-            var criteria = new GetKPICriteria();
-            kpiRepository = FakeKPIRepository();
-            kpiService = GetKPIService(kpiRepository);
-
-            var kpis = GetKPIForTest();
-            kpiRepository.GetKPI(Arg.Any<GetKPICriteria>()).Returns(kpis);
-
-            var actual = kpiService.GetKPI(criteria).Count();
-            Assert.AreEqual(2, actual);
+            // Assert
+            Assert.IsInstanceOf(typeof(IEnumerable<KPIModel>), actual);
         }
 
         private IKPIRepository FakeKPIRepository()
@@ -56,43 +45,6 @@
             var service = new KPIService(kpiRepository);
 
             return service;
-        }
-
-        private IEnumerable<KPIModel> GetKPIForTest()
-        {
-            return new List<KPIModel>
-            {
-                new KPIModel
-                {
-                    KPIId = 1,
-                    Name = "kpi 1",
-                    IsRequiredEvaluate = true,
-                    IsActive = true,
-                    KPIGroups = new List<KPIGroupModel>
-                    {
-                        new KPIGroupModel
-                        {
-                            KPIGroupId = 1,
-                            Name = "kpi group 1"
-                        }
-                    }
-                },
-                new KPIModel
-                {
-                    KPIId = 2,
-                    Name = "kpi 2",
-                    IsRequiredEvaluate = false,
-                    IsActive = false,
-                    KPIGroups = new List<KPIGroupModel>
-                    {
-                        new KPIGroupModel
-                        {
-                            KPIGroupId = 1,
-                            Name = "kpi group 1"
-                        }
-                    }
-                }
-            };
         }
     }
 }

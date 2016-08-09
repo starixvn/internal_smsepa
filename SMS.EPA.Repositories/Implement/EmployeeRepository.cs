@@ -4,11 +4,10 @@
     using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using SMS.EPA.Model.Authentication;
+    using SMS.EPA.Core.Model;
     using SMS.EPA.Model.Department;
     using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Model.RoleManagement;
     using SMS.EPA.Repositories.Interfaces;
 
     public class EmployeeRepository : IEmployeeRepository
@@ -42,40 +41,24 @@
             }
         }
 
-        public UserSession GetEmployee(ICriteria criteria)
+        public UserSession GetEmployeeLogin(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
                 using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    UserSession userSession = null;
-                    IEnumerable<EmployeeModel> employees = multi.Read<EmployeeModel, JobTitle, DepartmentModel, Group, EmployeeModel>(
-                           (emp, jb, dept, gr) =>
-                           {
-                               emp.JobTitle = jb;
-                               emp.Department = dept;
-                               emp.Group = gr;
-                               return emp;
-                           },
-                           "JobTitleId, DepartmentId, GroupId");
+                    UserSession user = multi.Read<UserSession>().FirstOrDefault();
 
-                    if (employees != null && employees.Any())
+                    if (user != null && user.EmployeeId > 0)
                     {
-                        EmployeeModel employee = employees.First();
-                        IEnumerable<SystemRoleModel> roles = multi.Read<SystemRoleModel>();
-                        IEnumerable<FunctionModel> functions = multi.Read<FunctionModel>();
+                        user.Roles = multi.Read<SystemRoleModel>();
+                        user.Functions = multi.Read<FunctionModel>();
                         IEnumerable<MenuItemModel> menuItems = multi.Read<MenuItemModel>();
 
-                        userSession = new UserSession
-                        {
-                            EmployeeInfo = employee,
-                            Roles = roles,
-                            Functions = functions,
-                            Menus = GroupMenuItem(menuItems)
-                        };
+                        user.Menus = GroupMenuItem(menuItems);
                     }
 
-                    return userSession;
+                    return user;
                 }
             }
         }

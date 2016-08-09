@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Http;
+    using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
@@ -14,25 +15,19 @@
     using SMS.EPA.Resources;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
-    using SMS.EPA.Web.ApiAuthorizeAttribute;
-    using SMS.EPA.Web.Services;
 
     public class MonthlyPeriodController : BaseController
     {
-        private readonly IPeriodService _periodService;
-        private readonly IWebCommonService _webCommonService;
+        private readonly IPeriodService periodService;
 
         public MonthlyPeriodController()
-            : this(null, null)
+            : this(null)
         {
         }
 
-        public MonthlyPeriodController(
-            IPeriodService periodService,
-            IWebCommonService webCommonService)
+        public MonthlyPeriodController(IPeriodService periodService)
         {
-            _periodService = periodService ?? new PeriodService();
-            _webCommonService = webCommonService ?? new WebCommonService();
+            this.periodService = periodService ?? new PeriodService();
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Read)]
@@ -46,7 +41,7 @@
                 ToDate = toDate
             };
 
-            IEnumerable<PeriodModel> periods = _periodService.GetMonthlyPeriod(criteria);
+            IEnumerable<PeriodModel> periods = periodService.GetMonthlyPeriod(criteria);
 
             return periods;
         }
@@ -55,7 +50,7 @@
         {
             var criteria = new GetAllMonthlyPeriodCriteria();
 
-            IEnumerable<PeriodModel> periods = _periodService.GetAllMonthlyPeriod(criteria);
+            IEnumerable<PeriodModel> periods = periodService.GetAllMonthlyPeriod(criteria);
 
             return periods;
         }
@@ -68,7 +63,7 @@
                 PeriodId = periodId
             };
 
-            PeriodModel period = _periodService.GetPeriodById(criteria);
+            PeriodModel period = periodService.GetPeriodById(criteria);
 
             return period;
         }
@@ -83,8 +78,8 @@
             {
                 criteria.TargetTypeId = (int)TargetType.Monthly;
                 criteria.IsActive = true;
-                criteria.CreatedBy = CurrentUser.EmployeeInfo.EmployeeId;
-                commandResult = _periodService.CreatePeriod(criteria);
+                criteria.CreatedBy = CurrentUser.EmployeeId;
+                commandResult = periodService.CreatePeriod(criteria);
             }
             else
             {
@@ -105,8 +100,8 @@
             {
                 criteria.TargetTypeId = (int)TargetType.Monthly;
                 criteria.IsActive = true;
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
-                commandResult = _periodService.UpdateBasicInformationPeriod(criteria);
+                criteria.ModifiedBy = CurrentUser.EmployeeId;
+                commandResult = periodService.UpdateBasicInformationPeriod(criteria);
             }
             else
             {
@@ -125,7 +120,7 @@
                 PeriodId = periodId
             };
 
-            IEnumerable<FlowModel> processSettings = _periodService.GetProcessSettingByPeriodId(criteria);
+            IEnumerable<FlowModel> processSettings = periodService.GetProcessSettingByPeriodId(criteria);
 
             return processSettings;
         }
@@ -138,9 +133,9 @@
 
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.ModifiedBy = CurrentUser.EmployeeId;
 
-                commandResult = _periodService.UpdateProcessSettingPeriod(criteria);
+                commandResult = periodService.UpdateProcessSettingPeriod(criteria);
             }
             else
             {
@@ -158,10 +153,10 @@
             var criteria = new DeletePeriodCriteria
             {
                 PeriodId = periodId,
-                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                ModifiedBy = CurrentUser.EmployeeId
             };
 
-            CommandResult commandResult = _periodService.DeletePeriod(criteria);
+            CommandResult commandResult = periodService.DeletePeriod(criteria);
 
             return commandResult;
         }
@@ -188,7 +183,7 @@
                 EPAStatus = epaStatus
             };
 
-            IEnumerable<PeriodEmployeeSettingModel> employeeSettings = _periodService.GetPeriodEmployeeSettingById(criteria);
+            IEnumerable<PeriodEmployeeSettingModel> employeeSettings = periodService.GetPeriodEmployeeSettingById(criteria);
             employeeSettings = employeeSettings.OrderBy(x => x.Group.GroupCode).ThenBy(x => x.Employee.NickName);
 
             return employeeSettings;
@@ -207,10 +202,10 @@
                     PeriodId = model.PeriodId,
                     EmployeeId = model.EmployeeId,
                     Departments = model.ConvertToXml(),
-                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                    ModifiedBy = CurrentUser.EmployeeId
                 };
 
-                commandResult = _periodService.AddEmployeeToPeriod(criteria);
+                commandResult = periodService.AddEmployeeToPeriod(criteria);
             }
             else
             {
@@ -235,10 +230,10 @@
                     EmployeeIds = model.EmployeeIds,
                     TargetTemplateId = model.TargetTemplateId,
                     EmployeeAssignments = model.ConvertToXml(),
-                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                    ModifiedBy = CurrentUser.EmployeeId
                 };
 
-                commandResult = _periodService.UpdateEmployeeSettingOfPeriod(criteria);
+                commandResult = periodService.UpdateEmployeeSettingOfPeriod(criteria);
             }
             else
             {
@@ -257,11 +252,11 @@
 
             if (criteria != null)
             {
-                commandResult = _periodService.GenerateEvaluation(criteria);
+                commandResult = periodService.GenerateEvaluation(criteria);
 
                 if (commandResult.IsSuccessful)
                 {
-                    _periodService.SendEmailNoticeAtBegin(criteria.PeriodId);
+                    periodService.SendEmailNoticeAtBegin(criteria.PeriodId);
                 }
             }
 
@@ -276,8 +271,8 @@
 
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
-                commandResult = _periodService.UpdateIncludeStatusEmployeePeriod(criteria);
+                criteria.ModifiedBy = CurrentUser.EmployeeId;
+                commandResult = periodService.UpdateIncludeStatusEmployeePeriod(criteria);
             }
             else
             {
@@ -298,13 +293,13 @@
                 EmployeeIds = employeeIds
             };
 
-            bool hasStarted = _periodService.CheckSelfProcessStarted(criteria);
+            bool hasStarted = periodService.CheckSelfProcessStarted(criteria);
             return hasStarted;
         }
 
         public int GetUserPermissionOnMonthlyPeriod()
         {
-            int permission = _webCommonService.GetPermission(EPAFunctionKey.MonthlyPeriod);
+            int permission = this.sessionService.GetPermission(EPAFunctionKey.MonthlyPeriod);
 
             return permission;
         }
