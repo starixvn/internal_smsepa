@@ -1,7 +1,7 @@
 ﻿'use strict';
 /*exported employeeModule, commonModule, kpiModule, kpiGroupModule, roleModule, targetTemplateModule*/
 /*exported flowMngModule, targetEmployeeSettingModule, departmentModule*/
-/*exported epaModule, periodModule, dashboardModule, attendanceModule, reportModule, epaHistoryModule, errorModule*/
+/*exported epaModule, periodModule, dashboardModule, attendanceModule, reportModule, epaHistoryModule*/
 /*exported monthlyPeriodModule*/
 
 var employeeModule = angular.module("employeeModule", ['ngRoute'])
@@ -17,15 +17,7 @@ var kpiModule = angular.module("kpiModule", ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
     var baseUrl = $("base").first().attr("href");
     $routeProvider.when('/KPI/Index',
-    { templateUrl: baseUrl + 'SourceApp/Components/KPI/Templates/index.html', caseInsensitiveMatch: true })
-    .otherwise({ redirectTo: '/error' });
-}]);
-
-var errorModule = angular.module('errorModule', ['ngRoute'])
-.config(['$routeProvider', function ($routeProvider) {
-    var baseUrl = $("base").first().attr("href");
-    $routeProvider.when('/error',
-    { templateUrl: baseUrl + 'SourceApp/Components/Error/Templates/error.html' });
+    { templateUrl: baseUrl + 'SourceApp/Components/KPI/Templates/index.html', caseInsensitiveMatch: true });
 }]);
 
 var kpiGroupModule = angular.module("kpiGroupModule", ['ngRoute'])

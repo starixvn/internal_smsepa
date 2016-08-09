@@ -13,7 +13,7 @@ function ($location, $window, notificationFactory, baseUrl) {
                 $window.location.href = baseUrl + "Auth/Login";
             }
             else {
-                notificationFactory.error("ErrorMessage");
+                $location.path(baseUrl + 'Home/InternalError');
             }
         }
     };
