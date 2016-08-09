@@ -53,9 +53,6 @@
                     {
                         user.Roles = multi.Read<SystemRoleModel>();
                         user.Functions = multi.Read<FunctionModel>();
-                        IEnumerable<MenuItemModel> menuItems = multi.Read<MenuItemModel>();
-
-                        user.Menus = GroupMenuItem(menuItems);
                     }
 
                     return user;
@@ -87,29 +84,6 @@
                     return employee;
                 }
             }
-        }
-
-        private IEnumerable<MenuGroupModel> GroupMenuItem(IEnumerable<MenuItemModel> menuItems)
-        {
-            var menuGroups = new List<MenuGroupModel>();
-            IEnumerable<MenuItemModel> parentMenu = menuItems.Where(item => item.ParentId == null).OrderBy(item => item.DisplayOrder).ToList();
-
-            foreach (MenuItemModel parent in parentMenu)
-            {
-                var menuGroupItem = new MenuGroupModel
-                {
-                    MenuId = parent.MenuId,
-                    MenuName = parent.MenuName,
-                    MenuLink = parent.MenuLink
-                };
-
-                menuGroupItem.MenuItems = menuItems.Where(menuItem => menuItem.ParentId == menuGroupItem.MenuId)
-                    .OrderBy(menuItem => menuItem.DisplayOrder);
-
-                menuGroups.Add(menuGroupItem);
-            }
-
-            return menuGroups;
         }
     }
 }

@@ -37,12 +37,12 @@
 
             var criteria = new GetDashboardCriteria
             {
-                EmployeeId = CurrentUser.EmployeeId
+                EmployeeId = this.SessionService.EmployeeId
             };
 
             var getEmployeeByIdCriteria = new GetEmployeeByIdCriteria
             {
-                EmployeeId = CurrentUser.EmployeeId
+                EmployeeId = this.SessionService.EmployeeId
             };
 
             dashboard = reportService.GetDashboard(criteria);

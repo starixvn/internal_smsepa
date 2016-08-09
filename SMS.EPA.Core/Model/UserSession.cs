@@ -8,7 +8,6 @@
         {
             Roles = new List<SystemRoleModel>();
             Functions = new List<FunctionModel>();
-            Menus = new List<MenuGroupModel>();
         }
 
         public int EmployeeId { get; set; }
@@ -24,7 +23,5 @@
         public IEnumerable<SystemRoleModel> Roles { get; set; }
 
         public IEnumerable<FunctionModel> Functions { get; set; }
-
-        public IEnumerable<MenuGroupModel> Menus { get; set; }
     }
 }

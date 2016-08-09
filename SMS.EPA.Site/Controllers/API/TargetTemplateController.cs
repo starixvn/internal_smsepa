@@ -68,7 +68,7 @@
         {
             if (criteria != null)
             {
-                criteria.CreatedBy = CurrentUser.EmployeeId;
+                criteria.CreatedBy = this.SessionService.EmployeeId;
             }
 
             CommandResult commandResult = targetTemplateService.CreateTargetTemplate(criteria);
@@ -81,7 +81,7 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeId;
+                criteria.ModifiedBy = this.SessionService.EmployeeId;
             }
 
             CommandResult commandResult = targetTemplateService.UpdateStatusTargetTemplate(criteria);
@@ -99,7 +99,7 @@
                 var updateTargetTemplateCriteria = new UpdateTargetTemplateBasicInformationCriteria()
                 {
                     TargetTemplateId = targetTemplate.TargetTemplateId,
-                    ModifiedBy = CurrentUser.EmployeeId,
+                    ModifiedBy = this.SessionService.EmployeeId,
                     Name = targetTemplate.Name,
                     TargetTypeId = targetTemplate.TargetTypeId,
                     ScoreRatingTypeId = targetTemplate.ScoreRatingTypeId,
@@ -125,7 +125,7 @@
                 var updateTargetTemplateCriteria = new UpdateTargetTemplateCriteria()
                 {
                     TargetTemplateId = targetTemplate.TargetTemplateId,
-                    ModifiedBy = CurrentUser.EmployeeId,
+                    ModifiedBy = this.SessionService.EmployeeId,
                     KPIs = targetTemplate.ConvertKPIItemToXml(targetTemplate.KPIIds)
                 };
 
@@ -142,7 +142,7 @@
             var criteria = new DeleteTargetTemplateCriteria
             {
                 TargetTemplateId = targetTemplateId,
-                ModifiedBy = CurrentUser.EmployeeId
+                ModifiedBy = this.SessionService.EmployeeId
             };
 
             CommandResult commandResult = targetTemplateService.DeleteTargetTemplate(criteria);
@@ -160,7 +160,7 @@
                 {
                     TargetTemplateId = model.TargetTemplateId,
                     KPIGroups = model.ConvertKPIGroupWeightToXml,
-                    ModifiedBy = CurrentUser.EmployeeId
+                    ModifiedBy = this.SessionService.EmployeeId
                 };
 
                 commandResult = targetTemplateService.AddKPIGroupWeight(criteria);
@@ -201,7 +201,7 @@
             {
                 TargetTemplateId = targetTemplateId,
                 KPIGroupId = kpiGroupId,
-                ModifiedBy = CurrentUser.EmployeeId
+                ModifiedBy = this.SessionService.EmployeeId
             };
 
             CommandResult commandResult = targetTemplateService.DeleteKPIGroup(criteria);
@@ -210,7 +210,7 @@
 
         public int GetUserPermissionOnTargetTemplate()
         {
-            int permission = this.sessionService.GetPermission(EPAFunctionKey.TargetTemplate);
+            int permission = this.SessionService.GetPermission(EPAFunctionKey.TargetTemplate);
             return permission;
         }
 

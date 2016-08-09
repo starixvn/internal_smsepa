@@ -32,9 +32,10 @@
         private readonly IEmployeeEPAService employeeEPAService;
         private readonly IEPAHistoryService epaHistoryService;
         private readonly ITargetTemplateService targetTemplateService;
+        private readonly IMenuService menuService;
 
         public CommonService()
-            : this(null, null, null, null, null, null, null, null, null)
+            : this(null, null, null, null, null, null, null, null, null, null)
         {
         }
 
@@ -47,7 +48,8 @@
             IPeriodService periodService,
             IEmployeeEPAService employeeEPAService,
             IEPAHistoryService epaHistoryService,
-            ITargetTemplateService targetTemplateService)
+            ITargetTemplateService targetTemplateService,
+            IMenuService menuService)
         {
             this.targetTypeService = targetTypeService ?? new TargetTypeService();
             this.kpiService = kpiService ?? new KPIService();
@@ -58,6 +60,7 @@
             this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
             this.epaHistoryService = epaHistoryService ?? new EPAHistoryService();
             this.targetTemplateService = targetTemplateService ?? new TargetTemplateService();
+            this.menuService = menuService ?? new MenuService();
         }
 
         public IEnumerable<TargetTypeModel> GetTargetType(GetTargetTypeCriteria criteria)
@@ -143,6 +146,13 @@
         public IEnumerable<TargetTemplateModel> GetAllTargetTemplate(GetAllTargetTemplateCriteria criteria)
         {
             return targetTemplateService.GetAllTargetTemplate(criteria);
+        }
+
+        public IEnumerable<MenuGroupModel> GetMenusByEmployeeId(int employeeId)
+        {
+            var menus = menuService.GetMenusByEmployeeId(employeeId);
+
+            return menus;
         }
     }
 }

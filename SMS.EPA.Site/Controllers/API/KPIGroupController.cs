@@ -55,7 +55,7 @@
         {
             if (criteria != null)
             {
-                criteria.CreatedBy = CurrentUser.EmployeeId;
+                criteria.CreatedBy = this.SessionService.EmployeeId;
             }
 
             CommandResult commandResult = kpiGroupService.CreateKPIGroup(criteria);
@@ -69,7 +69,7 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeId;
+                criteria.ModifiedBy = this.SessionService.EmployeeId;
             }
 
             CommandResult commandResult = kpiGroupService.UpdateKPIGroup(criteria);
@@ -83,7 +83,7 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeId;
+                criteria.ModifiedBy = this.SessionService.EmployeeId;
             }
 
             CommandResult commandResult = kpiGroupService.UpdateStatusKPIGroup(criteria);
@@ -98,7 +98,7 @@
             var criteria = new DeleteKPIGroupCriteria
             {
                 KPIGroupId = kpiGroupId,
-                ModifiedBy = CurrentUser.EmployeeId
+                ModifiedBy = this.SessionService.EmployeeId
             };
 
             CommandResult commandResult = kpiGroupService.DeleteKPIGroup(criteria);
@@ -108,7 +108,7 @@
 
         public int GetUserPermissionOnKPIGroup()
         {
-            int permission = this.sessionService.GetPermission(EPAFunctionKey.KPIGroup);
+            int permission = this.SessionService.GetPermission(EPAFunctionKey.KPIGroup);
             return permission;
         }
     }

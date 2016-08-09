@@ -3,14 +3,13 @@
     using System.Web.Http;
     using System.Web.Security;
     using SMS.EPA.Core.Attribute;
-    using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Core.Services.Interfaces;
 
     [DeflateCompressionAttribute]
     public class BaseController : ApiController
     {
-        protected ISessionService sessionService;
+        private ISessionService sessionService;
 
         public BaseController()
             : this(null)
@@ -22,17 +21,21 @@
             this.sessionService = sessionService ?? new SessionService();
         }
 
-        protected UserSession CurrentUser
+        protected ISessionService SessionService
         {
             get
             {
-                var currentUser = sessionService.CurrentUser;
-                if (currentUser == null)
+                if (sessionService == null || sessionService.EmployeeId <= 0)
                 {
                     FormsAuthentication.RedirectToLoginPage();
                 }
 
-                return currentUser;
+                return sessionService;
+            }
+
+            set
+            {
+                sessionService = value;
             }
         }
     }

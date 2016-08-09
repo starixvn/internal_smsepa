@@ -64,7 +64,7 @@
         {
             if (criteria != null)
             {
-                criteria.CreatedBy = CurrentUser.EmployeeId;
+                criteria.CreatedBy = this.SessionService.EmployeeId;
             }
 
             return flowManagementService.CreateFlowTemplate(criteria);
@@ -76,7 +76,7 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeId;
+                criteria.ModifiedBy = this.SessionService.EmployeeId;
             }
 
             return flowManagementService.UpdateFlowTemplate(criteria);
@@ -88,7 +88,7 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeId;
+                criteria.ModifiedBy = this.SessionService.EmployeeId;
             }
 
             return flowManagementService.UpdateStatusFlowTemplate(criteria);
@@ -101,7 +101,7 @@
             var criteria = new DeleteFlowTemplateCriteria()
             {
                 FlowTemplateId = flowTemplateId,
-                ModifiedBy = CurrentUser.EmployeeId
+                ModifiedBy = this.SessionService.EmployeeId
             };
 
             return flowManagementService.DeleteFlowTemplate(criteria);
@@ -152,7 +152,7 @@
                     DepartmentId = Math.Abs(model.DepartmentId),
                     FlowTemplateId = model.FlowTemplateId,
                     IsGroup = model.DepartmentId <= 0,
-                    ModifiedBy = CurrentUser.EmployeeId,
+                    ModifiedBy = this.SessionService.EmployeeId,
                     FlowDetails = model.FlowDetails
                 };
 
@@ -173,7 +173,7 @@
                 FlowTemplateId = flowTemplateId,
                 DepartmentId = Math.Abs(departmentId),
                 IsGroup = departmentId <= 0,
-                ModifiedBy = CurrentUser.EmployeeId
+                ModifiedBy = this.SessionService.EmployeeId
             };
 
             return flowManagementService.DeleteDepartmentFlow(criteria);
@@ -235,7 +235,7 @@
                     EmployeeId = model.Selfs.Employees[0].EmployeeId,
                     FlowTemplateId = model.FlowTemplateId,
                     FlowDetails = model.FlowDetails,
-                    ModifiedBy = CurrentUser.EmployeeId
+                    ModifiedBy = this.SessionService.EmployeeId
                 };
 
                 commandResult = flowManagementService.CreatePersonalFlow(criteria);
@@ -254,7 +254,7 @@
             {
                 EmployeeId = employeeId,
                 FlowTemplateId = flowTemplateId,
-                ModifiedBy = CurrentUser.EmployeeId
+                ModifiedBy = this.SessionService.EmployeeId
             };
 
             return flowManagementService.DeletePersonalFlow(criteria);
@@ -292,7 +292,7 @@
 
         public int GetUserPermissionOnFlowManagement()
         {
-            int permission = this.sessionService.GetPermission(EPAFunctionKey.FlowManagement);
+            int permission = this.SessionService.GetPermission(EPAFunctionKey.FlowManagement);
             return permission;
         }
     }

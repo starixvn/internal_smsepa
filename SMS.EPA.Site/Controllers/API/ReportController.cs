@@ -46,7 +46,7 @@
         {
             var criteria = new GetEPASummaryCriteria()
             {
-                EmployeeId = CurrentUser.EmployeeId,
+                EmployeeId = this.SessionService.EmployeeId,
                 PeriodIds = periodIds,
                 DepartmentId = departmentId,
                 IsLocal = isLocal,
@@ -75,7 +75,7 @@
         {
             var criteria = new GetEPADetailCriteria()
             {
-                EmployeeId = CurrentUser.EmployeeId,
+                EmployeeId = this.SessionService.EmployeeId,
                 PeriodId = periodId,
                 DepartmentId = departmentId,
                 IsLocal = isLocal,
@@ -104,7 +104,7 @@
         {
             var criteria = new GetMonthlyEPADetailCriteria()
             {
-                EmployeeId = CurrentUser.EmployeeId,
+                EmployeeId = this.SessionService.EmployeeId,
                 PeriodId = periodId,
                 DepartmentId = departmentId,
                 IsLocal = isLocal,
@@ -132,7 +132,7 @@
         {
             var criteria = new GetMonthlyEPASummaryCriteria()
             {
-                EmployeeId = CurrentUser.EmployeeId,
+                EmployeeId = this.SessionService.EmployeeId,
                 PeriodIds = periodIds,
                 DepartmentId = departmentId,
                 IsLocal = isLocal,

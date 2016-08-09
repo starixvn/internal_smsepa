@@ -10,44 +10,7 @@
         <img src="~/Content/Site/Images/sms_epa_logo.png" alt="SMS-EPA" title="SMS-EPA" />
     </a>
     <div class="col-xs-12 col-sm-10">
-        <nav id="navbar-example" class="navbar navbar-static top-menu" role="navigation">
-            <div class="bs-example-js-navbar-collapse">
-                <ul class="nav navbar-nav">
-                    @if (@Model.Menus != null)
-                    {
-                        foreach (var menuParentItem in @Model.Menus)
-                        {
-                            var childMenuItems = menuParentItem.MenuItems;
-                            if (childMenuItems != null && childMenuItems.Count() > 0)
-                            {
-                                var id = "drop" + index;
-
-                                <li class="dropdown" dropdown>
-                                    <a id="@id" href="#" data-role="button" class="dropdown-toggle" dropdown-toggle>
-                                        @menuParentItem.MenuName<b class="caret"></b>
-                                    </a>
-                                    <ul class="dropdown-menu" data-role="button" aria-labelledby="@id">
-                                        @foreach (var childMenu in childMenuItems)
-                                        {
-                                            <li data-role="presentation">
-                                                <a data-role="menuitem" tabindex="-1" href="@childMenu.MenuLink">@childMenu.MenuName</a>
-                                            </li>
-                                        }
-                                    </ul>
-                                </li>
-                                index++;
-                            }
-                            else
-                            {
-                                <li>
-                                    <a href="@menuParentItem.MenuLink">@menuParentItem.MenuName</a>
-                                </li>
-                            }
-                        }
-                    }
-                </ul>
-            </div>
-        </nav>
+        <div ng-include src="'/SourceApp/Components/Common/Templates/topMenu.html'"></div>
         <div id="user_utilities" class="user-info info" data-ng-controller="EmployeeProfileController as employeeProfileCtrl">
             <h2>@Model.FullName - @Model.NickName
             </h2>

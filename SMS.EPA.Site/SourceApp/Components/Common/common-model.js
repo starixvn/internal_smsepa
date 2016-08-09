@@ -24,6 +24,7 @@ function ($modal, commonFactory, errorFactory) {
     commonModel.periodOptions = [];
     commonModel.otherViolationDetails = [];
     commonModel.targetTemplates = [];
+    commonModel.menus = [];
     commonModel.remindDay = [0, 1, 2, 3, 4, 5, 6, 7];
     commonModel.isOnNormalPdfPage = true;
 
@@ -256,6 +257,15 @@ function ($modal, commonFactory, errorFactory) {
         return commonFactory.getAllMonthlyPeriod()
         .success(function (periods) {
             commonModel.monthlyPeriods = periods;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    commonModel.getMenusByEmployeeId = function () {
+        return commonFactory.getMenusByEmployeeId()
+        .success(function (menus) {
+            commonModel.menus = menus;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });

@@ -379,6 +379,7 @@
     <Content Include="SourceApp\Components\AttendanceSummary\Templates\otherViolation.html" />
     <Content Include="SourceApp\Components\Common\common-controller.js" />
     <Content Include="SourceApp\Components\Common\Templates\modalViewOtherViolationDetail.html" />
+    <Content Include="SourceApp\Components\Common\Templates\topMenu.html" />
     <Content Include="SourceApp\Components\Dashboard\dashboard-controller.js" />
     <Content Include="SourceApp\Components\Dashboard\dashboard-factory.js" />
     <Content Include="SourceApp\Components\Dashboard\dashboard-model.js" />

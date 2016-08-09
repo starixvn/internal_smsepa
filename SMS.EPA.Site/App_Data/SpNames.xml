@@ -394,4 +394,8 @@
     <Setting Key="EpaAuto_Monthly_InsertPeriod" SpName="EpaAuto_Monthly_InsertPeriod" DbName="SMSEPA" Plain="0">
     </Setting>
   </Function>
+  <Function Name="Menu">
+    <Setting Key="Menu_GetByEmployeeId" SpName="Menu_GetByEmployeeId" DbName="SMSEPA" Plain="0">
+    </Setting>
+  </Function>
 </Functions>

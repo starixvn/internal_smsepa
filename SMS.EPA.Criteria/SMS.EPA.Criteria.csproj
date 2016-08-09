@@ -70,8 +70,6 @@
     <Compile Include="AttendanceSummary\GetDetailAttendanceCriteria.cs" />
     <Compile Include="AttendanceSummary\GetOtherViolationsOfEmployeeCriteria.cs" />
     <Compile Include="AttendanceSummary\GetViolationTypeCriteria.cs" />
-    <Compile Include="Authentication\GetEmployeeByCodeCriteria.cs" />
-    <Compile Include="Authentication\GetEmployeeByDomainUsernameCriteria.cs" />
     <Compile Include="Authentication\GetEmployeeLoginCriteria.cs" />
     <Compile Include="Authentication\InsertEmployeeIPAddressCriteria.cs" />
     <Compile Include="EmployeeEPA\AdjustScoreByReviewerOrManagementCriteria.cs" />
@@ -108,6 +106,7 @@
     <Compile Include="FlowManagement\GetDepartmentFlowCriteria.cs" />
     <Compile Include="FlowManagement\GetDepartmentSectionHasSettingCriteria.cs" />
     <Compile Include="FlowManagement\GetPersonalFlowCriteria.cs" />
+    <Compile Include="Menu\GetMenusByEmployeeIdCriteria.cs" />
     <Compile Include="Period\AutoCreateMonthlyPeriodCriteria.cs" />
     <Compile Include="Period\GetEvaluationGlobalSettingByTargetTypeIdCriteria.cs" />
     <Compile Include="Period\GetAllMonthlyPeriodCriteria.cs" />

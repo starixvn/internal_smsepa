@@ -48,7 +48,7 @@
         {
             if (criteria != null)
             {
-                criteria.CreatedBy = CurrentUser.EmployeeId;
+                criteria.CreatedBy = this.SessionService.EmployeeId;
             }
 
             CommandResult commandResult = kpiService.CreateKPI(criteria);
@@ -62,7 +62,7 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeId;
+                criteria.ModifiedBy = this.SessionService.EmployeeId;
             }
 
             CommandResult commandResult = kpiService.UpdateKPI(criteria);
@@ -76,7 +76,7 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeId;
+                criteria.ModifiedBy = this.SessionService.EmployeeId;
             }
 
             CommandResult commandResult = kpiService.UpdateStatusKPI(criteria);
@@ -90,7 +90,7 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeId;
+                criteria.ModifiedBy = this.SessionService.EmployeeId;
             }
 
             CommandResult commandResult = kpiService.UpdateRequiredEvaluateKPI(criteria);
@@ -105,7 +105,7 @@
             var criteria = new DeleteKPICriteria
             {
                 KPIId = kpiId,
-                ModifiedBy = CurrentUser.EmployeeId
+                ModifiedBy = this.SessionService.EmployeeId
             };
 
             CommandResult commandResult = kpiService.DeleteKPI(criteria);
@@ -115,7 +115,7 @@
 
         public int GetUserPermissionOnKPI()
         {
-            int permission = this.sessionService.GetPermission(EPAFunctionKey.KPI);
+            int permission = this.SessionService.GetPermission(EPAFunctionKey.KPI);
             return permission;
         }
     }

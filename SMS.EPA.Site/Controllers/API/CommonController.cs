@@ -121,7 +121,7 @@
                 GroupId = groupId,
                 IsSpecialUser = isSpecialUser,
                 IsDisabledUser = isDisabledUser,
-                ApproverId = getByApprover == true && CurrentUser != null ? (int?)CurrentUser.EmployeeId : null,
+                ApproverId = getByApprover == true && this.SessionService != null ? (int?)this.SessionService.EmployeeId : null,
                 IncludeVerifier = includeVerifier
             };
 
@@ -251,6 +251,12 @@
         public bool DisplayOnNormalWidthPage(int epaId)
         {
             return exportPdfService.DisplayOnNormalWidthPage(epaId);
+        }
+
+        [HttpGet]
+        public IEnumerable<MenuGroupModel> GetMenusByEmployeeId()
+        {
+            return commonService.GetMenusByEmployeeId(this.SessionService.EmployeeId);
         }
     }
 }

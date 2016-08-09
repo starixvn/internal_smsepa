@@ -48,5 +48,7 @@
         IEnumerable<EmployeeOtherViolationDetailModel> GetOtherViolationDetailByEPAId(GetOtherViolationDetailByEPAIdCriteria criteria);
 
         IEnumerable<TargetTemplateModel> GetAllTargetTemplate(GetAllTargetTemplateCriteria criteria);
+
+        IEnumerable<MenuGroupModel> GetMenusByEmployeeId(int employeeId);
     }
 }

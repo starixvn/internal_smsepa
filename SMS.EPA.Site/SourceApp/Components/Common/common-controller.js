@@ -16,3 +16,15 @@ function ($modalInstance, CommonModel, epaId) {
         $modalInstance.dismiss('cancel');
     };
 }]);
+
+commonModule.controller('MenuController',
+['CommonModel',
+function (CommonModel) {
+    var vm = this;
+
+    vm.menus = [];
+
+    CommonModel.getMenusByEmployeeId().then(function () {
+        vm.menus = CommonModel.menus;
+    });
+}]);

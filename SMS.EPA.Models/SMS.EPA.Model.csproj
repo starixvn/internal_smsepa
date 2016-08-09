@@ -68,6 +68,8 @@
     <Compile Include="FlowManagement\DepartmentFlowModel.cs" />
     <Compile Include="FlowManagement\PersonalFlowModel.cs" />
     <Compile Include="FlowManagement\ProcessFlowModel.cs" />
+    <Compile Include="Menu\MenuGroupModel.cs" />
+    <Compile Include="Menu\MenuItemModel.cs" />
     <Compile Include="Report\Dashboard\DashboardModel.cs" />
     <Compile Include="Department\DepartmentInfoModel.cs" />
     <Compile Include="Department\DepartmentModel.cs" />

@@ -141,8 +141,6 @@
     <Compile Include="Model\CommandResult.cs" />
     <Compile Include="Model\FunctionModel.cs" />
     <Compile Include="Model\MailModel.cs" />
-    <Compile Include="Model\MenuGroupModel.cs" />
-    <Compile Include="Model\MenuItemModel.cs" />
     <Compile Include="Model\SystemRoleModel.cs" />
     <Compile Include="Model\UserSession.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

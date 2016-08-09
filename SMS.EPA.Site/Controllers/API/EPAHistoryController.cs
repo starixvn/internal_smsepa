@@ -32,7 +32,7 @@
             var criteria = new GetEPAHistoryCriteria
             {
                 PeriodId = periodId,
-                EvaluatorId = CurrentUser.EmployeeId,
+                EvaluatorId = this.SessionService.EmployeeId,
                 EmployeeId = employeeId
             };
 
@@ -46,7 +46,7 @@
             var criteria = new GetMonthlyEPAHistoryCriteria
             {
                 PeriodId = periodId,
-                EvaluatorId = CurrentUser.EmployeeId,
+                EvaluatorId = this.SessionService.EmployeeId,
                 EmployeeId = employeeId
             };
 
@@ -57,7 +57,7 @@
         [HttpGet]
         public bool HasOnlyEmployeeRole()
         {
-            bool onlyEmployeeRole = CurrentUser.Roles.All(x => x.RoleId == (int)SystemRole.Employee);
+            bool onlyEmployeeRole = this.SessionService.CurrentUser.Roles.All(x => x.RoleId == (int)SystemRole.Employee);
             return onlyEmployeeRole;
         }
     }

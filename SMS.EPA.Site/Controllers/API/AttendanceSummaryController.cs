@@ -41,7 +41,7 @@
                 IsLocal = isLocal,
                 EmployeeId = employeeId,
                 ReasonId = reasonId,
-                ApproverId = CurrentUser.EmployeeId
+                ApproverId = this.SessionService.EmployeeId
             };
             IEnumerable<AttendanceSummaryModel> attendanceEmployees = attendanceSummaryService.GetAttendanceSummary(criteria);
 
@@ -100,7 +100,7 @@
                 DepartmentId = departmentId,
                 IsLocal = isLocal,
                 ReasonId = reasonId,
-                ApproverId = CurrentUser.EmployeeId,
+                ApproverId = this.SessionService.EmployeeId,
                 HasIgnored = hasIgnored
             };
 
@@ -111,7 +111,7 @@
 
         public int GetUserPermissionOnAttendanceSummary()
         {
-            int permission = this.sessionService.GetPermission(EPAFunctionKey.DisciplineSummary);
+            int permission = this.SessionService.GetPermission(EPAFunctionKey.DisciplineSummary);
             return permission;
         }
     }
