@@ -34,7 +34,7 @@ BEGIN
 	END
 
 	DECLARE @OldData NVARCHAR(MAX)
-	DECLARE @Data NVARCHAR(MAX)
+		,@Data NVARCHAR(MAX)
 
 	EXEC @OldData = [dbo].[fncGetDataForWriteLog_UpdateStatus] @ObjectId = @KPIId
 		,@ObjectType = 1
@@ -90,9 +90,6 @@ BEGIN
 			,@Data = @Data
 			,@OldData = @OldData
 			,@ObjectIds = NULL
-
-		SELECT @ErrCode = 0
-			,@ErrMsg = ''
 
 		COMMIT TRANSACTION;
 	END TRY

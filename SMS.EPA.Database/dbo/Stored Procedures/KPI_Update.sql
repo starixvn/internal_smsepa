@@ -42,7 +42,7 @@ BEGIN
 	END
 
 	DECLARE @Data NVARCHAR(MAX)
-	DECLARE @OldData NVARCHAR(MAX)
+		,@OldData NVARCHAR(MAX)
 
 	IF OBJECT_ID('tempdb..#KPIGroup') IS NOT NULL
 	BEGIN
@@ -141,9 +141,6 @@ BEGIN
 			,@Data = @Data
 			,@OldData = @OldData
 			,@ObjectIds = NULL
-
-		SELECT @ErrCode = 0
-			,@ErrMsg = ''
 
 		COMMIT TRANSACTION;
 	END TRY

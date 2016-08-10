@@ -97,9 +97,6 @@ BEGIN
 			,@OldData = @OldData
 			,@ObjectIds = NULL
 
-		SELECT @ErrCode = 0
-			,@ErrMsg = ''
-
 		COMMIT TRANSACTION;
 	END TRY
 

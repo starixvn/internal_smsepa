@@ -21,7 +21,7 @@
             this.sessionService = sessionService ?? new SessionService();
         }
 
-        protected ISessionService SessionService
+        public ISessionService SessionService
         {
             get
             {
