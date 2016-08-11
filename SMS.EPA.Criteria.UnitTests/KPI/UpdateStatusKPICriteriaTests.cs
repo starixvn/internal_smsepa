@@ -19,11 +19,9 @@
             Assert.AreEqual(expected, actual);
         }
 
-        // returns true if
-        // kpiId > 0
-        // and modifiedBy > 0.
+        // return true if kpiId > 0 and modifiedBy > 0.
+        // else return false
         [TestCase(1, 1, true)]
-        //// else return false
         [TestCase(0, 0, false)]
         [TestCase(1, 0, false)]
         [TestCase(0, 1, false)]

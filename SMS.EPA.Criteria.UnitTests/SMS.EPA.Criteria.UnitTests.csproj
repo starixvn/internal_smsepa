@@ -70,6 +70,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="KPIGroup\CreateKPIGroupCriteriaTests.cs" />
+    <Compile Include="KPIGroup\DeleteKPIGroupCriteriaTests.cs" />
+    <Compile Include="KPIGroup\GetKPIGroupByIdCriteriaTests.cs" />
+    <Compile Include="KPIGroup\GetKPIGroupCriteriaTests.cs" />
+    <Compile Include="KPIGroup\UpdateKPIGroupCriteriaTests.cs" />
+    <Compile Include="KPIGroup\UpdateStatusKPIGroupCriteriaTests.cs" />
     <Compile Include="KPI\CreateKPICriteriaTests.cs" />
     <Compile Include="KPI\DeleteKPICriteriaTests.cs" />
     <Compile Include="KPI\GetKPICriteriaTests.cs" />

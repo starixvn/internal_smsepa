@@ -1,9 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.KPIGroup_Update    Script Date: 5/16/2016 2:20:10 PM ******/
-/****** Object:  Stored Procedure dbo.KPIGroup_Update    Script Date: 5/16/2016 2:15:32 PM ******/
-/****** Object:  Stored Procedure dbo.KPIGroup_Update    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.KPIGroup_Update    Script Date: 4/6/2016 11:27:47 AM ******/
-
-CREATE PROCEDURE [dbo].[KPIGroup_Update] @KPIGroupId INT
+﻿CREATE PROCEDURE [dbo].[KPIGroup_Update] @KPIGroupId INT
 	,@Name NVARCHAR(500)
 	,@Description NVARCHAR(MAX) = ''
 	,@IsActive BIT = 1
@@ -54,9 +49,10 @@ BEGIN
 	END
 
 	DECLARE @Data NVARCHAR(MAX)
-	DECLARE @OldData NVARCHAR(MAX)
+		,@OldData NVARCHAR(MAX)
 
-	EXEC @OldData = [dbo].[fncGetDataForWriteLog] @ObjectId = @KPIGroupId, @ObjectType = 2
+	EXEC @OldData = [dbo].[fncGetDataForWriteLog] @ObjectId = @KPIGroupId
+		,@ObjectType = 2
 
 	BEGIN TRY
 		BEGIN TRANSACTION;
@@ -95,13 +91,18 @@ BEGIN
 			,@ModifiedDate
 			)
 
+		EXEC @Data = [dbo].[fncGetDataForWriteLog] @ObjectId = @KPIGroupId
+			,@ObjectType = 2
+
+		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy
+			,@SpName = 'KPIGroup_Update'
+			,@ObjectId = @KPIGroupId
+			,@ObjectTypeId = 2
+			,@Data = @Data
+			,@OldData = @OldData
+			,@ObjectIds = NULL
+
 		COMMIT TRANSACTION;
-
-		EXEC @Data = [dbo].[fncGetDataForWriteLog] @ObjectId = @KPIGroupId, @ObjectType = 2
-		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy, @SpName = 'KPIGroup_Update', @ObjectId = @KPIGroupId, @ObjectTypeId = 2, @Data = @Data, @OldData = @OldData, @ObjectIds = NULL
-
-		SELECT @ErrCode = 0
-			,@ErrMsg = ''
 	END TRY
 
 	BEGIN CATCH

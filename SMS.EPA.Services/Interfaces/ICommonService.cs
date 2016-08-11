@@ -6,7 +6,6 @@
     using SMS.EPA.Criteria.Employee;
     using SMS.EPA.Criteria.EmployeeEPA;
     using SMS.EPA.Criteria.EPAHistory;
-    using SMS.EPA.Criteria.KPIGroup;
     using SMS.EPA.Criteria.Period;
     using SMS.EPA.Criteria.TargetTemplate;
     using SMS.EPA.Criteria.TargetType;

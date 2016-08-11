@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Criteria.KPIGroup
+﻿namespace SMS.EPA.Criteria
 {
     using Fanex.Data.Repository;
 
@@ -21,7 +21,7 @@
 
         public override bool IsValid()
         {
-            return KPIGroupId > 0 && !string.IsNullOrWhiteSpace(Name);
+            return KPIGroupId > 0 && !string.IsNullOrWhiteSpace(Name) && ModifiedBy > 0;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Criteria.KPIGroup
+﻿namespace SMS.EPA.Criteria
 {
     using Fanex.Data.Repository;
     using SMS.EPA.Core.Attribute;
@@ -23,7 +23,7 @@
 
         public override bool IsValid()
         {
-            return !string.IsNullOrWhiteSpace(Name);
+            return !string.IsNullOrWhiteSpace(Name) && CreatedBy > 0;
         }
     }
 }

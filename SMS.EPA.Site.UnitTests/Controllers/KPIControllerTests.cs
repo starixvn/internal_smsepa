@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Site.UnitTests.Controllers
+﻿namespace SMS.EPA.Site.UnitTests
 {
     using System.Collections.Generic;
     using NSubstitute;
@@ -40,13 +40,12 @@
             // Arrange
             kpiService = FakeKPIService();
             sessionService = FakeSessionService();
+            var expected = new List<KPIModel>();
+            kpiService.GetKPI(Arg.Is<GetKPICriteria>(criteria => criteria != null)).Returns(expected);
             kpiController = GetKPIController(kpiService, sessionService);
 
-            var expected = new List<KPIModel>();
-            kpiController.GetKPI(Arg.Any<int?>(), Arg.Any<bool?>(), Arg.Any<bool?>()).Returns(expected);
-
             // Act
-            var actual = kpiController.GetKPI();
+            var actual = kpiController.GetKPI(Arg.Any<int?>(), Arg.Any<bool?>(), Arg.Any<bool?>());
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<KPIModel>), actual);
@@ -77,10 +76,9 @@
             // Arrange
             kpiService = FakeKPIService();
             sessionService = FakeSessionService();
-            kpiController = GetKPIController(kpiService, sessionService);
-
             var expected = new CommandResult();
             kpiService.CreateKPI(Arg.Is<CreateKPICriteria>(criteria => criteria != null)).Returns(expected);
+            kpiController = GetKPIController(kpiService, sessionService);
 
             // Act
             var actual = kpiController.CreateKPI(new CreateKPICriteria());
@@ -114,10 +112,9 @@
             // Arrange
             kpiService = FakeKPIService();
             sessionService = FakeSessionService();
-            kpiController = GetKPIController(kpiService, sessionService);
-
             var expected = new CommandResult();
             kpiService.UpdateKPI(Arg.Is<UpdateKPICriteria>(criteria => criteria != null)).Returns(expected);
+            kpiController = GetKPIController(kpiService, sessionService);
 
             // Act
             var actual = kpiController.UpdateKPI(new UpdateKPICriteria());
@@ -151,10 +148,9 @@
             // Arrange
             kpiService = FakeKPIService();
             sessionService = FakeSessionService();
-            kpiController = GetKPIController(kpiService, sessionService);
-
             var expected = new CommandResult();
             kpiService.UpdateStatusKPI(Arg.Is<UpdateStatusKPICriteria>(criteria => criteria != null)).Returns(expected);
+            kpiController = GetKPIController(kpiService, sessionService);
 
             // Act
             var actual = kpiController.UpdateStatusKPI(new UpdateStatusKPICriteria());
@@ -225,14 +221,12 @@
             // Arrange
             kpiService = FakeKPIService();
             sessionService = FakeSessionService();
-            kpiController = GetKPIController(kpiService, sessionService);
-
             var expected = new CommandResult();
             kpiService.DeleteKPI(Arg.Is<DeleteKPICriteria>(criteria => criteria != null)).Returns(expected);
+            kpiController = GetKPIController(kpiService, sessionService);
 
             // Act
-            int kpiId = 1;
-            var actual = kpiController.DeleteKPI(kpiId);
+            var actual = kpiController.DeleteKPI(Arg.Is<int>(x => x > 0));
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);

@@ -1,9 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.KPIGroup_Insert    Script Date: 5/16/2016 2:20:10 PM ******/
-/****** Object:  Stored Procedure dbo.KPIGroup_Insert    Script Date: 5/16/2016 2:15:32 PM ******/
-/****** Object:  Stored Procedure dbo.KPIGroup_Insert    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.KPIGroup_Insert    Script Date: 4/6/2016 11:27:47 AM ******/
-
-CREATE PROCEDURE [dbo].[KPIGroup_Insert] @KPIGroupId INT OUTPUT
+﻿CREATE PROCEDURE [dbo].[KPIGroup_Insert] @KPIGroupId INT OUTPUT
 	,@Name NVARCHAR(500)
 	,@Description NVARCHAR(MAX) = ''
 	,@IsActive BIT = 1
@@ -87,15 +82,20 @@ BEGIN
 			,@CreatedDate
 			)
 
-		COMMIT TRANSACTION;
-
 		DECLARE @Data NVARCHAR(MAX)
 
-		EXEC @Data = [dbo].[fncGetDataForWriteLog] @ObjectId = @KPIGroupId, @ObjectType = 2
-		EXEC [dbo].[LogDetail_Insert] @ActorId = @CreatedBy, @SpName = 'KPIGroup_Insert', @ObjectId = @KPIGroupId, @ObjectTypeId = 2, @Data = @Data, @OldData = NULL, @ObjectIds = NULL
+		EXEC @Data = [dbo].[fncGetDataForWriteLog] @ObjectId = @KPIGroupId
+			,@ObjectType = 2
 
-		SELECT @ErrCode = 0
-			,@ErrMsg = ''
+		EXEC [dbo].[LogDetail_Insert] @ActorId = @CreatedBy
+			,@SpName = 'KPIGroup_Insert'
+			,@ObjectId = @KPIGroupId
+			,@ObjectTypeId = 2
+			,@Data = @Data
+			,@OldData = NULL
+			,@ObjectIds = NULL
+
+		COMMIT TRANSACTION;
 	END TRY
 
 	BEGIN CATCH
