@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Model.TargetTemplate
+﻿namespace SMS.EPA.Model
 {
     using System.Collections.Generic;
 

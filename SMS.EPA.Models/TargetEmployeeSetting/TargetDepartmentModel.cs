@@ -1,8 +1,8 @@
 ﻿namespace SMS.EPA.Model.TargetEmployeeSetting
 {
     using System.Collections.Generic;
+    using SMS.EPA.Model;
     using SMS.EPA.Model.Department;
-    using SMS.EPA.Model.TargetTemplate;
 
     public class TargetDepartmentModel : DepartmentModel
     {

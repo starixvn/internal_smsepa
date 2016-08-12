@@ -5,7 +5,6 @@
     using SMS.EPA.Criteria.TargetTemplate;
     using SMS.EPA.Model;
     using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Model.TargetTemplate;
 
     public interface ITargetTemplateService
     {

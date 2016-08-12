@@ -11,13 +11,12 @@
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
-    using SMS.EPA.Core.Services.Interfaces;
     using SMS.EPA.Criteria.EmployeeEPA;
     using SMS.EPA.Criteria.EmployeeEPA.RatingByKPI;
+    using SMS.EPA.Model;
     using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.EmployeeEPA.RatingByKPI;
     using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Model.TargetTemplate;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
 

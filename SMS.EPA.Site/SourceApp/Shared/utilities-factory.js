@@ -46,6 +46,52 @@ appModule.factory('utilitiesFactory',
         itemsPerPageArray: [50, 100, 200, 500]
     };
 
+    utilities.policy = {
+        None: 0,
+        Read: 1,
+        Host: 2
+    };
+
+    utilities.epaStatus = {
+        Open: 0,
+        Closed: 1,
+        Rejected: 2
+    };
+
+    utilities.processType = {
+        HumanResource: 1,
+        Self: 2,
+        Evaluator: 3,
+        Reviewer: 4,
+        Management: 5
+    };
+
+    utilities.targetType = {
+        Probation: 1,
+        Monthly: 2,
+        SemiAnnual: 3,
+        Yearly: 4,
+        Promotion: 5
+    };
+
+    utilities.processStatusType = {
+        Open: 1,
+        InProgress: 2,
+        Closed: 3
+    };
+
+    utilities.statusEndProcess = {
+        InProgress: 0,
+        EndProcess: 1,
+        Open: 2
+    };
+
+    utilities.ratingType = {
+        Star: 1,
+        Score: 2,
+        HalfStar: 3
+    };
+
     utilities.dateTimeFormatString = function () {
         return dateTimeFormatString;
     };

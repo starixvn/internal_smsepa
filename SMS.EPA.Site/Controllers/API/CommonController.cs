@@ -19,7 +19,6 @@
     using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.Period;
-    using SMS.EPA.Model.TargetTemplate;
     using SMS.EPA.Model.TargetType;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;

@@ -33,8 +33,7 @@
             if (vm.filter.periodId > 0) {
                 var employeeId = filter.employee ? filter.employee.EmployeeId : null;
 
-                EmployeeEPAModel.getEPAToUpdateFinalScore(filter.periodId, filter.groupId, employeeId)
-                .then(function () {
+                EmployeeEPAModel.getEPAToUpdateFinalScore(filter.periodId, filter.groupId, employeeId).then(function () {
                     vm.searchKey = '';
                     vm.currentPage = 1;
                     vm.epaInfos = EmployeeEPAModel.epaInfos;

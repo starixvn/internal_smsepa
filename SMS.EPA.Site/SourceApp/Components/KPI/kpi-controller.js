@@ -1,254 +1,268 @@
 ﻿'use strict';
-/*global kpiModule*/
 
-kpiModule.controller('KPIController',
-['$window', '$routeParams', 'KPIModel', 'KPIGroupModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory','historyFactory',
-function ($window, $routeParams, KPIModel, KPIGroupModel, CommonModel, utilitiesFactory, enumerationsFactory, historyFactory) {
-    var vm = this;
+(function (angular) {
+    angular.module('kpiModule').controller('KPIController', KPIController);
+    KPIController.$inject = ['$routeParams', 'KPIModel', 'KPIGroupModel', 'CommonModel', 'utilitiesFactory', 'historyFactory'];
 
-    vm.kpis = KPIModel.kpis;
-    vm.kpiGroups = CommonModel.kpiGroups;
-    vm.kpiGroup = KPIGroupModel.kpiGroup;
-    vm.permission = KPIModel.permission;
+    angular.module('kpiModule').controller('CreateKPIController', CreateKPIController);
+    CreateKPIController.$inject = ['$modalInstance', 'KPIModel', 'CommonModel', 'kpiGroup'];
 
-    vm.policyEnum = enumerationsFactory.policy;
+    angular.module('kpiModule').controller('UpdateKPIController', UpdateKPIController);
+    UpdateKPIController.$inject = ['$modalInstance', 'KPIModel', 'CommonModel', 'kpi'];
 
-    vm.routeParam = {
-        kpiGroupId: $routeParams.groupId
-    };
+    function KPIController($routeParams, KPIModel, KPIGroupModel, CommonModel, utilitiesFactory, historyFactory) {
+        var vm = this;
 
-    vm.filter = {
-        kpiGroupId: vm.routeParam.kpiGroupId ? parseInt(vm.routeParam.kpiGroupId) : '',
-        isActive: 'true',
-        isRequiredEvaluate : ''
-    };
+        vm.kpis = [];
+        vm.kpiGroups = [];
+        vm.kpiGroup = {};
+        vm.permission = 0;
+        vm.policyEnum = utilitiesFactory.policy;
 
-    utilitiesFactory.numberEntryList(vm);
-    vm.pageSize = 15;
-    vm.currentPage = 1;
+        vm.routeParam = {
+            kpiGroupId: $routeParams.groupId
+        };
 
-    var getKPI = function (kpiGroupId, isActive, isRequiredEvaluate) {
-        KPIModel.getKPI(kpiGroupId, isActive, isRequiredEvaluate).then(function () {
-            vm.kpis = KPIModel.kpis;
-            utilitiesFactory.searchOnPage(vm, vm.kpis);
-        });
-    };
+        vm.filter = {
+            kpiGroupId: vm.routeParam.kpiGroupId ? parseInt(vm.routeParam.kpiGroupId) : '',
+            isActive: 'true',
+            isRequiredEvaluate: ''
+        };
 
-    vm.backToList = function () {
-        historyFactory.back();
-    };
+        utilitiesFactory.numberEntryList(vm);
+        vm.pageSize = 15;
+        vm.currentPage = 1;
 
-    vm.initialize = function () {
-        KPIModel.getUserPermissionOnKPI().then(function () {
-            vm.permission = KPIModel.permission;
-        });
+        utilitiesFactory.maxLengthDescription(vm);
 
-        CommonModel.getKPIGroup().then(function () {
-            vm.kpiGroups = CommonModel.kpiGroups;
-        });
+        function backToList() {
+            historyFactory.back();
+        }
 
-        if (vm.routeParam.kpiGroupId) {
-            vm.isViewAll = false;
-            vm.filter.isActive = '';
+        function getKPI(kpiGroupId, isActive, isRequiredEvaluate) {
+            KPIModel.getKPI(kpiGroupId, isActive, isRequiredEvaluate).then(function () {
+                vm.kpis = KPIModel.kpis;
+                utilitiesFactory.searchOnPage(vm, vm.kpis);
+            });
+        }
 
-            KPIGroupModel.getKPIGroupById(vm.routeParam.kpiGroupId).then(function () {
-                vm.kpiGroup = KPIGroupModel.kpiGroup;
-
+        function createKPI() {
+            KPIModel.openPopupCreateKPI(vm, vm.kpiGroup).then()['finally'](function () {
+                vm.modalInstance = '';
                 getKPI(vm.filter.kpiGroupId, vm.filter.isActive, vm.filter.isRequiredEvaluate);
             });
         }
-        else {
-            vm.kpiGroup = {};
-            vm.isViewAll = true;
 
-            getKPI(vm.filter.kpiGroupId, vm.filter.isActive, vm.filter.isRequiredEvaluate);
-        }
-    };
-
-    vm.initialize();
-
-    vm.query = function (filter) {
-        vm.searchKey = '';
-        vm.currentPage = 1;
-        getKPI(filter.kpiGroupId, filter.isActive, filter.isRequiredEvaluate);
-    };
-
-    /// Create KPI.
-    vm.createKPI = function () {
-        KPIModel.openPopupCreateKPI(vm, vm.kpiGroup).then()['finally'](function () {
-            vm.modalInstance = '';
-            getKPI(vm.filter.kpiGroupId, vm.filter.isActive, vm.filter.isRequiredEvaluate);
-        });
-    };
-
-    /// Update KPI.
-    vm.updateKPI = function (kpi) {
-        KPIModel.openPopupUpdateKPI(vm, kpi).then(function (updatedKPI) {
-            kpi.Name = updatedKPI.Name;
-            kpi.HasComment = updatedKPI.HasComment;
-            kpi.IsRequiredComment = updatedKPI.IsRequiredComment;
-            kpi.IsRequiredEvaluate = updatedKPI.IsRequiredEvaluate;
-            kpi.Description = updatedKPI.Description;
-            kpi.KPIGroups = updatedKPI.KPIGroups;
-        })['finally'](function () {
-            vm.modalInstance = '';
-        });
-    };
-
-    /// Update required evaluate KPI.
-    vm.updateRequiredEvaluate = function (kpi) {
-        KPIModel.openPopupUpdateRequiredEvaluateKPI(kpi);
-    };
-
-    /// Update status KPI.
-    vm.updateStatusKPI = function (kpi) {
-        KPIModel.openPopupUpdateStatusKPI(kpi);
-    };
-
-    /// Delete KPI.
-    vm.deleteKPI = function (kpi) {
-        KPIModel.openPopupDeleteKPI(vm, kpi);
-    };
-
-    // Event read more / less text.
-    utilitiesFactory.maxLengthDescription(vm);
-
-    vm.readMore = function (item) {
-        utilitiesFactory.readMore(item);
-    };
-
-    vm.readLess = function (item) {
-        utilitiesFactory.readLess(item);
-    };
-
-    /// Get index of row in table.
-    vm.getIndex = function (index, currentPage, pageSize) {
-        return CommonModel.getIndex(index, currentPage, pageSize);
-    };
-} ]);
-
-kpiModule.controller('CreateKPIController',
-['$modalInstance', 'KPIModel', 'CommonModel', 'kpiGroup',
-function ($modalInstance, KPIModel, CommonModel, kpiGroup) {
-    var vm = this;
-
-    vm.currentChosenKPIGroups = [];
-    vm.kpiGroups = CommonModel.kpiGroups;
-    vm.isDisable = false;
-
-    vm.kpi = {
-        Name: '',
-        KPIGroupIds: '',
-        HasComment: true,
-        IsRequiredComment: true,
-        IsRequiredEvaluate: true,
-        Description: ''
-    };
-
-    vm.initialize = function () {
-        if (kpiGroup.KPIGroupId) {
-            vm.currentChosenKPIGroups.push(kpiGroup.KPIGroupId);
-            vm.isDisable = true;
+        function deleteKPI(kpi) {
+            KPIModel.openPopupDeleteKPI(vm, kpi);
         }
 
-        CommonModel.getKPIGroup(true).then(function () {
-            vm.kpiGroups = CommonModel.kpiGroups;
+        function getIndex(index, currentPage, pageSize) {
+            return CommonModel.getIndex(index, currentPage, pageSize);
+        }
 
-            if (kpiGroup.KPIGroupId) {
-                var index = vm.kpiGroups.map(function (e) { return e.KPIGroupId; }).indexOf(kpiGroup.KPIGroupId);
-                if (index === -1) {
-                    vm.kpiGroups.push(kpiGroup);
-                }
+        function initialize() {
+            KPIModel.getUserPermissionOnKPI().then(function () {
+                vm.permission = KPIModel.permission;
+            });
+
+            CommonModel.getKPIGroup().then(function () {
+                vm.kpiGroups = CommonModel.kpiGroups;
+            });
+
+            if (vm.routeParam.kpiGroupId) {
+                vm.isViewAll = false;
+                vm.filter.isActive = '';
+
+                KPIGroupModel.getKPIGroupById(vm.routeParam.kpiGroupId).then(function () {
+                    vm.kpiGroup = KPIGroupModel.kpiGroup;
+
+                    getKPI(vm.filter.kpiGroupId, vm.filter.isActive, vm.filter.isRequiredEvaluate);
+                });
+            } else {
+                vm.kpiGroup = {};
+                vm.isViewAll = true;
+
+                getKPI(vm.filter.kpiGroupId, vm.filter.isActive, vm.filter.isRequiredEvaluate);
             }
-        });
-    };
-
-    vm.initialize();
-
-    vm.changeHasComment = function () {
-        if (vm.kpi.HasComment === false) {
-            vm.kpi.IsRequiredComment = false;
         }
-    };
 
-    vm.save = function (isCreateAndContinued) {
-        if (KPIModel.validateKPI(vm.kpi, vm.currentChosenKPIGroups)) {
-            vm.kpi.KPIGroupIds = vm.currentChosenKPIGroups.join(',');
-            KPIModel.createKPI(vm, isCreateAndContinued, kpiGroup, $modalInstance);
+        function query(filter) {
+            vm.searchKey = '';
+            vm.currentPage = 1;
+            getKPI(filter.kpiGroupId, filter.isActive, filter.isRequiredEvaluate);
         }
-    };
 
-    vm.cancel = function () {
-        $modalInstance.dismiss("cancel");
-    };
-} ]);
+        function readMore(item) {
+            utilitiesFactory.readMore(item);
+        }
 
-kpiModule.controller('UpdateKPIController',
-['$modalInstance', 'KPIModel', 'CommonModel', 'kpi',
-function ($modalInstance, KPIModel, CommonModel, kpi) {
-    var vm = this;
+        function readLess(item) {
+            utilitiesFactory.readLess(item);
+        }
 
-    vm.currentChosenKPIGroups = [];
-    vm.kpiGroups = CommonModel.kpiGroups;
+        function updateKPI(kpi) {
+            KPIModel.openPopupUpdateKPI(vm, kpi).then(function (updatedKPI) {
+                kpi.Name = updatedKPI.Name;
+                kpi.HasComment = updatedKPI.HasComment;
+                kpi.IsRequiredComment = updatedKPI.IsRequiredComment;
+                kpi.IsRequiredEvaluate = updatedKPI.IsRequiredEvaluate;
+                kpi.Description = updatedKPI.Description;
+                kpi.KPIGroups = updatedKPI.KPIGroups;
+            })['finally'](function () {
+                vm.modalInstance = '';
+            });
+        }
 
-    vm.kpi = {
-        KPIId: kpi.KPIId,
-        Name: kpi.Name,
-        KPIGroupIds: '',
-        HasComment: kpi.HasComment,
-        IsRequiredComment: kpi.IsRequiredComment,
-        IsRequiredEvaluate: kpi.IsRequiredEvaluate,
-        IsActive: kpi.IsActive,
-        Description: kpi.Description,
-        KPIGroups: []
-    };
+        function updateRequiredEvaluate(kpi) {
+            KPIModel.openPopupUpdateRequiredEvaluateKPI(kpi);
+        }
 
-    vm.initialize = function () {
-        CommonModel.getKPIGroup(true).then(function () {
-            vm.kpiGroups = CommonModel.kpiGroups;
+        function updateStatusKPI(kpi) {
+            KPIModel.openPopupUpdateStatusKPI(kpi);
+        }
 
-            angular.forEach(kpi.KPIGroups, function (kpiGroup) {
+        vm.backToList = backToList;
+        vm.createKPI = createKPI;
+        vm.deleteKPI = deleteKPI;
+        vm.getIndex = getIndex;
+        vm.query = query;
+        vm.readLess = readLess;
+        vm.readMore = readMore;
+        vm.updateKPI = updateKPI;
+        vm.updateRequiredEvaluate = updateRequiredEvaluate;
+        vm.updateStatusKPI = updateStatusKPI;
+
+        initialize();
+    }
+
+    function CreateKPIController($modalInstance, KPIModel, CommonModel, kpiGroup) {
+        var vm = this;
+
+        vm.currentChosenKPIGroups = [];
+        vm.kpiGroups = [];
+        vm.isDisable = false;
+
+        vm.kpi = {
+            Name: '',
+            KPIGroupIds: '',
+            HasComment: true,
+            IsRequiredComment: true,
+            IsRequiredEvaluate: true,
+            Description: ''
+        };
+
+        function initialize() {
+            if (kpiGroup.KPIGroupId) {
                 vm.currentChosenKPIGroups.push(kpiGroup.KPIGroupId);
+                vm.isDisable = true;
+            }
 
-                var index = vm.kpiGroups.map(function (e) { return e.KPIGroupId; }).indexOf(kpiGroup.KPIGroupId);
-                if (index === -1) {
-                    vm.kpiGroups.push(kpiGroup);
+            CommonModel.getKPIGroup(true).then(function () {
+                vm.kpiGroups = CommonModel.kpiGroups;
+
+                if (kpiGroup.KPIGroupId) {
+                    var index = vm.kpiGroups.map(function (e) { return e.KPIGroupId; }).indexOf(kpiGroup.KPIGroupId);
+                    if (index === -1) {
+                        vm.kpiGroups.push(kpiGroup);
+                    }
                 }
             });
-        });
-    };
+        }
 
-    vm.initialize();
+        function cancel() {
+            $modalInstance.dismiss("cancel");
+        }
 
-    var getChosenKPIGroups = function () {
-        var kpiGroups = [];
+        function changeHasComment() {
+            if (vm.kpi.HasComment === false) {
+                vm.kpi.IsRequiredComment = false;
+            }
+        }
 
-        angular.forEach(vm.currentChosenKPIGroups, function (kpiGroupId) {
-            angular.forEach(vm.kpiGroups, function (kpiGroup) {
-                if (kpiGroup.KPIGroupId === kpiGroupId) {
-                    kpiGroups.push(kpiGroup);
-                }
+        function save(isCreateAndContinued) {
+            if (KPIModel.validateKPI(vm.kpi, vm.currentChosenKPIGroups)) {
+                vm.kpi.KPIGroupIds = vm.currentChosenKPIGroups.join(',');
+                KPIModel.createKPI(vm, isCreateAndContinued, kpiGroup, $modalInstance);
+            }
+        }
+
+        vm.cancel = cancel;
+        vm.changeHasComment = changeHasComment;
+        vm.save = save;
+
+        initialize();
+    }
+
+    function UpdateKPIController($modalInstance, KPIModel, CommonModel, kpi) {
+        var vm = this;
+
+        vm.currentChosenKPIGroups = [];
+        vm.kpiGroups = [];
+
+        vm.kpi = {
+            KPIId: kpi.KPIId,
+            Name: kpi.Name,
+            KPIGroupIds: '',
+            HasComment: kpi.HasComment,
+            IsRequiredComment: kpi.IsRequiredComment,
+            IsRequiredEvaluate: kpi.IsRequiredEvaluate,
+            IsActive: kpi.IsActive,
+            Description: kpi.Description,
+            KPIGroups: []
+        };
+
+        function cancel() {
+            $modalInstance.dismiss("cancel");
+        }
+
+        function changeHasComment() {
+            if (vm.kpi.HasComment === false) {
+                vm.kpi.IsRequiredComment = false;
+            }
+        }
+
+        function getChosenKPIGroups() {
+            var kpiGroups = [];
+
+            angular.forEach(vm.currentChosenKPIGroups, function (kpiGroupId) {
+                angular.forEach(vm.kpiGroups, function (kpiGroup) {
+                    if (kpiGroup.KPIGroupId === kpiGroupId) {
+                        kpiGroups.push(kpiGroup);
+                    }
+                });
             });
-        });
 
-        return kpiGroups;
-    };
-
-    vm.changeHasComment = function () {
-        if (vm.kpi.HasComment === false) {
-            vm.kpi.IsRequiredComment = false;
+            return kpiGroups;
         }
-    };
 
-    vm.save = function () {
-        if (KPIModel.validateKPI(vm.kpi, vm.currentChosenKPIGroups)) {
-            vm.kpi.KPIGroupIds = vm.currentChosenKPIGroups.join(',');
-            vm.kpi.KPIGroups = getChosenKPIGroups();
-            KPIModel.updateKPI(vm.kpi, $modalInstance);
+        function initialize() {
+            CommonModel.getKPIGroup(true).then(function () {
+                vm.kpiGroups = CommonModel.kpiGroups;
+
+                angular.forEach(kpi.KPIGroups, function (kpiGroup) {
+                    vm.currentChosenKPIGroups.push(kpiGroup.KPIGroupId);
+
+                    var index = vm.kpiGroups.map(function (e) { return e.KPIGroupId; }).indexOf(kpiGroup.KPIGroupId);
+                    if (index === -1) {
+                        vm.kpiGroups.push(kpiGroup);
+                    }
+                });
+            });
         }
-    };
 
-    vm.cancel = function () {
-        $modalInstance.dismiss("cancel");
-    };
-} ]);
+        function save() {
+            if (KPIModel.validateKPI(vm.kpi, vm.currentChosenKPIGroups)) {
+                vm.kpi.KPIGroupIds = vm.currentChosenKPIGroups.join(',');
+                vm.kpi.KPIGroups = getChosenKPIGroups();
+                KPIModel.updateKPI(vm.kpi, $modalInstance);
+            }
+        }
+
+        vm.cancel = cancel;
+        vm.changeHasComment = changeHasComment;
+        vm.save = save;
+
+        initialize();
+    }
+})(angular);

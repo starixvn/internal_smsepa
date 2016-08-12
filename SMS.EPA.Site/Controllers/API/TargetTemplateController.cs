@@ -6,14 +6,11 @@
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
-    using SMS.EPA.Core.Services;
-    using SMS.EPA.Core.Services.Interfaces;
     using SMS.EPA.Criteria.ScoreRatingType;
     using SMS.EPA.Criteria.TargetTemplate;
     using SMS.EPA.Model;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.ScoreRatingType;
-    using SMS.EPA.Model.TargetTemplate;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
 
