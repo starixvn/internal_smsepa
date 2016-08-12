@@ -10,11 +10,12 @@
         {
             bundles.AddAndInclude(
                             "~/Content/login/css",
-                            "~/Content/Less/bootstrap.less",
+                            "~/Libs/bootstrap-3.3.7/css/bootstrap.min.css",
                             "~/Content/Site/auth/style.less");
 
             bundles.Add(new StyleBundle("~/Content/Common/css").Include(
-                            "~/Content/Common/bootstrap-theme.min.css",
+                            "~/Libs/bootstrap-3.3.7/css/bootstrap.min.css",
+                            "~/Libs/bootstrap-3.3.7/css/bootstrap-theme.min.css",
                             "~/Content/Common/toastr.css",
                             "~/Content/Common/angular-multi-select.css",
                             "~/Content/Common/jquery-ui.min.css",
@@ -25,7 +26,7 @@
 
             bundles.Add(new ScriptBundle("~/bundles/vendor").Include(
                             "~/Libs/jquery-2.1.0.min.js",
-                            "~/Libs/bootstrap.min.js",
+                            "~/Libs/bootstrap-3.3.7/js/bootstrap.min.js",
                             "~/Libs/angular.js",
                             "~/Libs/angular-resource.js",
                             "~/Libs/angular-route.js",

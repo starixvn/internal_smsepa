@@ -3,16 +3,16 @@
 
 /* Login page */
 body {
-	font-size: @font-size;
-	font-family: @font-family;
-	color:  @login-color;
-	background: url(images/bg-login.jpg);
+    font-size: @font-size;
+    font-family: @font-family;
+    color: @login-color;
+    background: url(images/bg-login.jpg);
 }
 
 .container.login {
     width: 400px;
     height: 320px;
-    box-shadow: 0px 0px 3px 1px #cfcdcb;
+    box-shadow: 0 0 3px 1px #cfcdcb;
     background-color: @login-bg;
     margin-top: 12%;
 
@@ -23,8 +23,7 @@ body {
         padding-right: 20px;
 
         .header-contain {
-            background: url(../images/sms_epa_logo.png) center left no-repeat,
-                url(images/signin_icon.png) center right no-repeat;
+            background: url(../images/sms_epa_logo.png) center left no-repeat, url(images/signin_icon.png) center right no-repeat;
             height: 100%;
         }
     }
@@ -36,18 +35,18 @@ body {
     .username, .password {
         height: 48px;
         padding: 10px 40px 10px 20px;
-		border: 1px solid @login-border;
+        border: 1px solid @login-border;
     }
 
     .username {
         background: url(images/icon-user.png) 298px center no-repeat;
-		.border-radius(4px 4px 0 0);
+        .border-radius(4px 4px 0 0);
     }
 
     .password {
-		border-width: 0 1px 1px;
+        border-width: 0 1px 1px;
         background: url(images/icon-pass.png) 298px center no-repeat;
-		.border-radius(0 0  4px 4px);
+        .border-radius(0 0 4px 4px);
     }
 
     .btn-submit {
@@ -56,35 +55,35 @@ body {
         border: none;
         color: @login-button-color;
         font-size: @font-size + 3;
-		margin: 20px 0;
-		.box-shadow(0px 2px 0 #5f636a);
-		.border-radius(4px);
+        margin: 20px 0;
+        .box-shadow(0px 2px 0 #5f636a);
+        .border-radius(4px);
 
-		&:hover {
-			background-color: #5f636a;
-		}
+        &:hover {
+            background-color: #5f636a;
+        }
     }
 
-	.message-error {
-		margin: 30px 0;
-		color: #e84c3d;
+    .message-error {
+        margin: 30px 0;
+        color: #e84c3d;
 
-		.icon-error {
-			 background: url(images/icon-error.png) no-repeat;
-			 height: 14px;
-			 width: 16px;
-			 display: inline-block;
-			 margin-right: 5px;
-		}
-	}
+        .icon-error {
+            background: url(images/icon-error.png) no-repeat;
+            height: 14px;
+            width: 16px;
+            display: inline-block;
+            margin-right: 5px;
+        }
+    }
 }
 
 .copyright {
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	color: #35394B;
-	padding: 20px 0;
-	text-align: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    color: #35394B;
+    padding: 20px 0;
+    text-align: center;
 }

@@ -38,7 +38,7 @@
                                        data-show-caption="false" data-show-clear="false">
                             </div>
                         </div>
-                        <span ng-show="!kpi.EvaluationBySelf.Score" ng-bind="'0'"></span>
+                        <span ng-show="!kpi.EvaluationBySelf.Score && memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" ng-bind="'0'"></span>
                         <strong ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="Pending"></strong>
                     </div>
                     <div class="kpi-start">
