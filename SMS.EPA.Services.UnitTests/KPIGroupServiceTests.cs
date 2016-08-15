@@ -8,12 +8,10 @@
     using SMS.EPA.Criteria;
     using SMS.EPA.Model;
     using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
 
     [TestFixture]
     public class KPIGroupServiceTests
     {
-        private IKPIGroupService kpiGroupService;
         private IBaseRepository baseRepository;
 
         [Test]
@@ -24,10 +22,9 @@
             var expected = new List<KPIGroupModel>();
             service.When(x => x.GetData<KPIGroupModel>(Arg.Any<GetKPIGroupCriteria>())).DoNotCallBase();
             service.GetData<KPIGroupModel>(Arg.Any<GetKPIGroupCriteria>()).Returns(expected);
-            kpiGroupService = FakeKPIGroupService();
 
             // Act
-            var actual = kpiGroupService.GetKPIGroup(new GetKPIGroupCriteria());
+            var actual = service.GetKPIGroup(new GetKPIGroupCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<KPIGroupModel>), actual);
@@ -41,10 +38,9 @@
             var expected = new KPIGroupModel();
             service.When(x => x.GetDataEntity<KPIGroupModel>(Arg.Any<GetKPIGroupByIdCriteria>())).DoNotCallBase();
             service.GetDataEntity<KPIGroupModel>(Arg.Any<GetKPIGroupByIdCriteria>()).Returns(expected);
-            kpiGroupService = FakeKPIGroupService();
 
             // Act
-            var actual = kpiGroupService.GetKPIGroupById(new GetKPIGroupByIdCriteria());
+            var actual = service.GetKPIGroupById(new GetKPIGroupByIdCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(KPIGroupModel), actual);
@@ -58,10 +54,9 @@
             var service = GetKPIGroupService(baseRepository);
             var expected = new CommandResult();
             service.Repository.Insert(Arg.Is<CreateKPIGroupCriteria>(criteria => criteria != null)).Returns(expected);
-            kpiGroupService = FakeKPIGroupService();
 
             // Act
-            var actual = kpiGroupService.CreateKPIGroup(new CreateKPIGroupCriteria());
+            var actual = service.CreateKPIGroup(new CreateKPIGroupCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -75,10 +70,9 @@
             var service = GetKPIGroupService(baseRepository);
             var expected = new CommandResult();
             service.Repository.Update(Arg.Is<UpdateKPIGroupCriteria>(criteria => criteria != null)).Returns(expected);
-            kpiGroupService = FakeKPIGroupService();
 
             // Act
-            var actual = kpiGroupService.UpdateKPIGroup(new UpdateKPIGroupCriteria());
+            var actual = service.UpdateKPIGroup(new UpdateKPIGroupCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -92,10 +86,9 @@
             var service = GetKPIGroupService(baseRepository);
             var expected = new CommandResult();
             service.Repository.Update(Arg.Is<UpdateStatusKPIGroupCriteria>(criteria => criteria != null)).Returns(expected);
-            kpiGroupService = FakeKPIGroupService();
 
             // Act
-            var actual = kpiGroupService.UpdateStatusKPIGroup(new UpdateStatusKPIGroupCriteria());
+            var actual = service.UpdateStatusKPIGroup(new UpdateStatusKPIGroupCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -109,20 +102,12 @@
             var service = GetKPIGroupService(baseRepository);
             var expected = new CommandResult();
             service.Repository.Delete(Arg.Is<DeleteKPIGroupCriteria>(criteria => criteria != null)).Returns(expected);
-            kpiGroupService = FakeKPIGroupService();
 
             // Act
-            var actual = kpiGroupService.DeleteKPIGroup(new DeleteKPIGroupCriteria());
+            var actual = service.DeleteKPIGroup(new DeleteKPIGroupCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
-        }
-
-        private IKPIGroupService FakeKPIGroupService()
-        {
-            var service = Substitute.For<KPIGroupService>();
-
-            return service;
         }
 
         private KPIGroupService GetKPIGroupService(IBaseRepository baseRepository = null)

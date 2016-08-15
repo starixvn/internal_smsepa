@@ -23,9 +23,7 @@
         public void GetKPIGroup_ValidActionName_ReturnAsExpected()
         {
             // Arrange
-            kpiGroupService = FakeKPIGroupService();
-            sessionService = FakeSessionService();
-            kpiGroupController = GetKPIGroupController(kpiGroupService, sessionService);
+            kpiGroupController = GetKPIGroupController();
 
             // Act
             var actual = kpiGroupController.GetType().GetMethod("GetKPIGroup");
@@ -59,9 +57,7 @@
         public void GetKPIGroupById_ValidActionName_ReturnAsExpected()
         {
             // Arrange
-            kpiGroupService = FakeKPIGroupService();
-            sessionService = FakeSessionService();
-            kpiGroupController = GetKPIGroupController(kpiGroupService, sessionService);
+            kpiGroupController = GetKPIGroupController();
 
             // Act
             var actual = kpiGroupController.GetType().GetMethod("GetKPIGroupById");
@@ -95,9 +91,7 @@
         public void CreateKPIGroup_ValidActionName_ReturnAsExpected()
         {
             // Arrange
-            kpiGroupService = FakeKPIGroupService();
-            sessionService = FakeSessionService();
-            kpiGroupController = GetKPIGroupController(kpiGroupService, sessionService);
+            kpiGroupController = GetKPIGroupController();
 
             // Act
             var actual = kpiGroupController.GetType().GetMethod("CreateKPIGroup");
@@ -131,9 +125,7 @@
         public void UpdateKPIGroup_ValidActionName_ReturnAsExpected()
         {
             // Arrange
-            kpiGroupService = FakeKPIGroupService();
-            sessionService = FakeSessionService();
-            kpiGroupController = GetKPIGroupController(kpiGroupService, sessionService);
+            kpiGroupController = GetKPIGroupController();
 
             // Act
             var actual = kpiGroupController.GetType().GetMethod("UpdateKPIGroup");
@@ -167,9 +159,7 @@
         public void UpdateStatusKPIGroup_ValidActionName_ReturnAsExpected()
         {
             // Arrange
-            kpiGroupService = FakeKPIGroupService();
-            sessionService = FakeSessionService();
-            kpiGroupController = GetKPIGroupController(kpiGroupService, sessionService);
+            kpiGroupController = GetKPIGroupController();
 
             // Act
             var actual = kpiGroupController.GetType().GetMethod("UpdateStatusKPIGroup");
@@ -203,9 +193,7 @@
         public void DeleteKPIGroup_ValidActionName_ReturnAsExpected()
         {
             // Arrange
-            kpiGroupService = FakeKPIGroupService();
-            sessionService = FakeSessionService();
-            kpiGroupController = GetKPIGroupController(kpiGroupService, sessionService);
+            kpiGroupController = GetKPIGroupController();
 
             // Act
             var actual = kpiGroupController.GetType().GetMethod("DeleteKPIGroup");
@@ -248,7 +236,9 @@
             return service;
         }
 
-        private KPIGroupController GetKPIGroupController(IKPIGroupService kpiGroupService, ISessionService sessionService)
+        private KPIGroupController GetKPIGroupController(
+            IKPIGroupService kpiGroupService = null,
+            ISessionService sessionService = null)
         {
             var controller = new KPIGroupController(kpiGroupService);
             controller.SessionService = sessionService;

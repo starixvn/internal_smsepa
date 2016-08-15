@@ -13,37 +13,38 @@
     function KPIController($routeParams, KPIModel, KPIGroupModel, CommonModel, utilitiesFactory, historyFactory) {
         var vm = this;
 
-        vm.kpis = [];
-        vm.kpiGroups = [];
-        vm.kpiGroup = {};
-        vm.permission = 0;
-        vm.policyEnum = utilitiesFactory.policy;
-
-        vm.routeParam = {
-            kpiGroupId: $routeParams.groupId
-        };
-
+        vm.backToList = backToList;
+        vm.createKPI = createKPI;
+        vm.currentPage = 1;
+        vm.deleteKPI = deleteKPI;
         vm.filter = {
-            kpiGroupId: vm.routeParam.kpiGroupId ? parseInt(vm.routeParam.kpiGroupId) : '',
+            kpiGroupId: $routeParams.groupId ? parseInt($routeParams.groupId) : '',
             isActive: 'true',
             isRequiredEvaluate: ''
         };
+        vm.getIndex = getIndex;
+        vm.kpiGroup = {};
+        vm.kpiGroups = [];
+        vm.kpis = [];
+        vm.pageSize = 15;
+        vm.permission = 0;
+        vm.policyEnum = utilitiesFactory.policy;
+        vm.query = query;
+        vm.readLess = readLess;
+        vm.readMore = readMore;
+        vm.routeParam = {
+            kpiGroupId: $routeParams.groupId
+        };
+        vm.updateKPI = updateKPI;
+        vm.updateRequiredEvaluate = updateRequiredEvaluate;
+        vm.updateStatusKPI = updateStatusKPI;
 
         utilitiesFactory.numberEntryList(vm);
-        vm.pageSize = 15;
-        vm.currentPage = 1;
-
         utilitiesFactory.maxLengthDescription(vm);
+        initialize();
 
         function backToList() {
             historyFactory.back();
-        }
-
-        function getKPI(kpiGroupId, isActive, isRequiredEvaluate) {
-            KPIModel.getKPI(kpiGroupId, isActive, isRequiredEvaluate).then(function () {
-                vm.kpis = KPIModel.kpis;
-                utilitiesFactory.searchOnPage(vm, vm.kpis);
-            });
         }
 
         function createKPI() {
@@ -59,6 +60,13 @@
 
         function getIndex(index, currentPage, pageSize) {
             return CommonModel.getIndex(index, currentPage, pageSize);
+        }
+
+        function getKPI(kpiGroupId, isActive, isRequiredEvaluate) {
+            KPIModel.getKPI(kpiGroupId, isActive, isRequiredEvaluate).then(function () {
+                vm.kpis = KPIModel.kpis;
+                utilitiesFactory.searchOnPage(vm, vm.kpis);
+            });
         }
 
         function initialize() {
@@ -121,28 +129,15 @@
         function updateStatusKPI(kpi) {
             KPIModel.openPopupUpdateStatusKPI(kpi);
         }
-
-        vm.backToList = backToList;
-        vm.createKPI = createKPI;
-        vm.deleteKPI = deleteKPI;
-        vm.getIndex = getIndex;
-        vm.query = query;
-        vm.readLess = readLess;
-        vm.readMore = readMore;
-        vm.updateKPI = updateKPI;
-        vm.updateRequiredEvaluate = updateRequiredEvaluate;
-        vm.updateStatusKPI = updateStatusKPI;
-
-        initialize();
     }
 
     function CreateKPIController($modalInstance, KPIModel, CommonModel, kpiGroup) {
         var vm = this;
 
+        vm.cancel = cancel;
+        vm.changeHasComment = changeHasComment;
         vm.currentChosenKPIGroups = [];
         vm.kpiGroups = [];
-        vm.isDisable = false;
-
         vm.kpi = {
             Name: '',
             KPIGroupIds: '',
@@ -151,6 +146,10 @@
             IsRequiredEvaluate: true,
             Description: ''
         };
+        vm.isDisable = false;
+        vm.save = save;
+
+        initialize();
 
         function initialize() {
             if (kpiGroup.KPIGroupId) {
@@ -186,20 +185,14 @@
                 KPIModel.createKPI(vm, isCreateAndContinued, kpiGroup, $modalInstance);
             }
         }
-
-        vm.cancel = cancel;
-        vm.changeHasComment = changeHasComment;
-        vm.save = save;
-
-        initialize();
     }
 
     function UpdateKPIController($modalInstance, KPIModel, CommonModel, kpi) {
         var vm = this;
 
+        vm.cancel = cancel;
+        vm.changeHasComment = changeHasComment;
         vm.currentChosenKPIGroups = [];
-        vm.kpiGroups = [];
-
         vm.kpi = {
             KPIId: kpi.KPIId,
             Name: kpi.Name,
@@ -211,6 +204,10 @@
             Description: kpi.Description,
             KPIGroups: []
         };
+        vm.kpiGroups = [];
+        vm.save = save;
+
+        initialize();
 
         function cancel() {
             $modalInstance.dismiss("cancel");
@@ -258,11 +255,5 @@
                 KPIModel.updateKPI(vm.kpi, $modalInstance);
             }
         }
-
-        vm.cancel = cancel;
-        vm.changeHasComment = changeHasComment;
-        vm.save = save;
-
-        initialize();
     }
 })(angular);

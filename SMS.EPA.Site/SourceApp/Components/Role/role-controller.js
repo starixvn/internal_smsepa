@@ -1,56 +1,51 @@
 ﻿'use strict';
-/*global roleModule*/
 
-roleModule.controller('RoleController',
-['RoleModel', 'CommonModel',
-function (RoleModel, CommonModel) {
-    var vm = this;
+(function (angular) {
+    angular.module('roleModule').controller('RoleController', RoleController);
+    RoleController.$inject = ['RoleModel', 'CommonModel'];
 
-    vm.systemRoleOptions = CommonModel.systemRoles;
-    vm.roleFunctions = RoleModel.roleFunctions;
+    function RoleController(RoleModel, CommonModel) {
+        var vm = this;
 
-    vm.filter = {
-        roleId: ''
-    };
+        vm.filter = {
+            roleId: ''
+        };
+        vm.query = query;
+        vm.roleFunctions = [];
+        vm.save = save;
+        vm.systemRoleOptions = [];
 
-    /*
-    ** Get system roles.
-    */
-    CommonModel.getSystemRoles(true, false).then(function () {
-        vm.systemRoleOptions = CommonModel.systemRoles;
+        initialize();
 
-        if (vm.systemRoleOptions && vm.systemRoleOptions.length > 0) {
-            vm.filter.roleId = vm.systemRoleOptions[0].RoleId;
-            getFunctionsOfRole(vm.filter.roleId);
+        function getFunctionsOfRole(roleId) {
+            RoleModel.getRoleFunctionByRoleId(roleId).then(function () {
+                vm.roleFunctions = RoleModel.roleFunctions;
+                if (roleId === 1) {
+                    vm.isSystemAdmin = true;
+                }
+                else {
+                    vm.isSystemAdmin = false;
+                }
+            });
         }
-    });
 
-    /*
-    ** Get functions of role.
-    */
-    var getFunctionsOfRole = function (roleId) {
-        RoleModel.getRoleFunctionByRoleId(roleId).then(function () {
-            vm.roleFunctions = RoleModel.roleFunctions;
-            if (roleId === 1) {
-                vm.isSystemAdmin = true;
-            }
-            else {
-                vm.isSystemAdmin = false;
-            }
-        });
-    };
+        function initialize() {
+            CommonModel.getSystemRoles(true, false).then(function () {
+                vm.systemRoleOptions = CommonModel.systemRoles;
 
-    /*
-    ** Query.
-    */
-    vm.query = function (filter) {
-        getFunctionsOfRole(filter.roleId);
-    };
+                if (vm.systemRoleOptions && vm.systemRoleOptions.length > 0) {
+                    vm.filter.roleId = vm.systemRoleOptions[0].RoleId;
+                    getFunctionsOfRole(vm.filter.roleId);
+                }
+            });
+        }
 
-    /*
-    ** Assign function to role.
-    */
-    vm.save = function (roleFunction) {
-        RoleModel.assignFunctionToRole(roleFunction);
-    };
-} ]);
+        function query(filter) {
+            getFunctionsOfRole(filter.roleId);
+        }
+
+        function save(roleFunction) {
+            RoleModel.assignFunctionToRole(roleFunction);
+        }
+    }
+})(angular);

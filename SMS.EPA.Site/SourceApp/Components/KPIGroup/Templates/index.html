@@ -26,8 +26,8 @@
                             <span class="icon plus"></span>
                             <span class="button-text" data-translate="CreateKPIGroup"></span>
                         </a>
-                        <input type="text" ng-model="kpiGroupCtrl.searchKey" ng-change="kpiGroupCtrl.search()" 
-                            class="search-inline-textbox search pull-right">
+                        <input type="text" ng-model="kpiGroupCtrl.searchKey" ng-change="kpiGroupCtrl.search()"
+                               class="search-inline-textbox search pull-right">
                     </th>
                 </tr>
                 <tr class="headerName">
@@ -53,12 +53,12 @@
                                ng-click="kpiGroupCtrl.updateStatusKPIGroup(kpiGroup)"
                                ng-disabled="kpiGroupCtrl.permission != kpiGroupCtrl.policyEnum.Host" />
                     </td>
-                    <td class="col-description">
+                    <td class="col-description" ng-cloak>
                         {{kpiGroup.Description | limitTo: kpiGroup.numLimit > 0 ? kpiGroup.numLimit: kpiGroupCtrl.maxLengthDescription}}
                         <a ng-if="!kpiGroup.showReadMore && (kpiGroup.Description.length >= kpiGroupCtrl.maxLengthDescription)"
-                            href="javascript:;" ng-click="kpiGroupCtrl.readMore(kpiGroup)" data-translate="ReadMore"></a>
+                           href="javascript:;" ng-click="kpiGroupCtrl.readMore(kpiGroup)" data-translate="ReadMore"></a>
                         <a ng-if="kpiGroup.showReadMore && (kpiGroup.Description.length >= kpiGroupCtrl.maxLengthDescription)"
-                             href="javascript:;" ng-click="kpiGroupCtrl.readLess(kpiGroup)" data-translate="ReadLess"></a>
+                           href="javascript:;" ng-click="kpiGroupCtrl.readLess(kpiGroup)" data-translate="ReadLess"></a>
                     </td>
                     <td class="text-center col-action" ng-if="kpiGroupCtrl.permission == kpiGroupCtrl.policyEnum.Host">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="kpiGroupCtrl.updateKPIGroup(kpiGroup)" ng-attr-title='{{"Edit" | translate}}'></a>

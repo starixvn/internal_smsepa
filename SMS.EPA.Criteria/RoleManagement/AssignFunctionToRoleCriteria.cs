@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Criteria.RoleManagement
+﻿namespace SMS.EPA.Criteria
 {
     using Fanex.Data.Repository;
 
@@ -12,7 +12,7 @@
 
         public override bool IsValid()
         {
-            return RoleId > 0;
+            return RoleId > 0 && ModifiedBy > 0 && !string.IsNullOrEmpty(Functions);
         }
 
         public override string GetSettingKey()

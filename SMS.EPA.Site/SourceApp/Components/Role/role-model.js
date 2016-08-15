@@ -1,40 +1,38 @@
 ﻿'use strict';
-/*global roleModule*/
 
-roleModule.factory("RoleModel",
-['roleFactory', 'errorFactory', 'notificationFactory',
-function (roleFactory, errorFactory, notificationFactory) {
-    var roleModel = {};
+(function (angular) {
+    angular.module('roleModule').factory('RoleModel', RoleModel);
+    RoleModel.$inject = ['roleFactory', 'errorFactory', 'notificationFactory'];
 
-    roleModel.roleFunctions = [];
+    function RoleModel(roleFactory, errorFactory, notificationFactory) {
+        var roleFunctions = [];
+        var roleModel = {
+            assignFunctionToRole: assignFunctionToRole,
+            getRoleFunctionByRoleId: getRoleFunctionByRoleId,
+            roleFunctions: roleFunctions
+        };
 
-    /*
-    ** Get functions of role by role ID.
-    */
-    roleModel.getRoleFunctionByRoleId = function (roleId) {
-        return roleFactory.getRoleFunctionByRoleId(roleId).success(function (functions) {
-            roleModel.roleFunctions = functions;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
+        return roleModel;
 
-    /*
-    ** Assign function to role.
-    */
-    roleModel.assignFunctionToRole = function (roleFunction) {
-        return roleFactory.assignFunctionToRole(roleFunction).success(function (response) {
-            if (response.IsSuccessful) {
-                notificationFactory.success("UpdatedSuccessfully");
-            }
-            else {
-                notificationFactory.error("", response.Message);
-            }
-        })
-        .error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
+        function getRoleFunctionByRoleId(roleId) {
+            return roleFactory.getRoleFunctionByRoleId(roleId).success(function (functions) {
+                roleModel.roleFunctions = functions;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        }
 
-    return roleModel;
-} ]);
+        function assignFunctionToRole(roleFunction) {
+            return roleFactory.assignFunctionToRole(roleFunction).success(function (response) {
+                if (response.IsSuccessful) {
+                    notificationFactory.success("UpdatedSuccessfully");
+                } else {
+                    notificationFactory.error("", response.Message);
+                }
+            })
+            .error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        }
+    }
+})(angular);

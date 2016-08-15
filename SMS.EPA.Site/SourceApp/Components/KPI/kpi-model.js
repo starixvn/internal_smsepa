@@ -5,10 +5,23 @@
     KPIModel.$inject = ['$modal', 'kpiFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory'];
 
     function KPIModel($modal, kpiFactory, utilitiesFactory, notificationFactory, errorFactory) {
-        var kpiModel = {};
+        var kpis = [],
+            permission = 0;
 
-        kpiModel.kpis = [];
-        kpiModel.permission = 0;
+        var kpiModel = {
+            createKPI: createKPI,
+            getKPI: getKPI,
+            getUserPermissionOnKPI: getUserPermissionOnKPI,
+            openPopupCreateKPI: openPopupCreateKPI,
+            openPopupDeleteKP: openPopupDeleteKPI,
+            openPopupUpdateKPI: openPopupUpdateKPI,
+            openPopupUpdateRequiredEvaluateKPI: openPopupUpdateRequiredEvaluateKPI,
+            openPopupUpdateStatusKPI: openPopupUpdateStatusKPI,
+            updateKPI: updateKPI,
+            validateKPI: validateKPI
+        };
+
+        return kpiModel;
 
         function createKPI(vm, isCreateAndContinued, kpiGroup, modalInstance) {
             return kpiFactory.createKPI(vm.kpi)
@@ -253,30 +266,15 @@
 
             if (!kpi) {
                 isValid = false;
-            } else {
-                if (!kpi.Name) {
-                    notificationFactory.error("TitleRequire");
-                    isValid = false;
-                } else if (currentChoseKPIGroups.length === 0) {
-                    notificationFactory.error("GroupRequire");
-                    isValid = false;
-                }
+            } else if (!kpi.Name) {
+                notificationFactory.error("TitleRequire");
+                isValid = false;
+            } else if (currentChoseKPIGroups.length === 0) {
+                notificationFactory.error("GroupRequire");
+                isValid = false;
             }
 
             return isValid;
         }
-
-        kpiModel.createKPI = createKPI;
-        kpiModel.getKPI = getKPI;
-        kpiModel.getUserPermissionOnKPI = getUserPermissionOnKPI;
-        kpiModel.openPopupCreateKPI = openPopupCreateKPI;
-        kpiModel.openPopupDeleteKPI = openPopupDeleteKPI;
-        kpiModel.openPopupUpdateKPI = openPopupUpdateKPI;
-        kpiModel.openPopupUpdateRequiredEvaluateKPI = openPopupUpdateRequiredEvaluateKPI;
-        kpiModel.openPopupUpdateStatusKPI = openPopupUpdateStatusKPI;
-        kpiModel.updateKPI = updateKPI;
-        kpiModel.validateKPI = validateKPI;
-
-        return kpiModel;
     }
 })(angular);

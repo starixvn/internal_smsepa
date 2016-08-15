@@ -42,10 +42,9 @@
             var service = GetKPIService(null, baseRepository);
             var expected = new CommandResult();
             service.Repository.Insert(Arg.Is<CreateKPICriteria>(criteria => criteria != null)).Returns(expected);
-            kpiService = FakeKPIService();
 
             // Act
-            var actual = kpiService.CreateKPI(new CreateKPICriteria());
+            var actual = service.CreateKPI(new CreateKPICriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -59,10 +58,9 @@
             var service = GetKPIService(null, baseRepository);
             var expected = new CommandResult();
             service.Repository.Update(Arg.Is<UpdateKPICriteria>(criteria => criteria != null)).Returns(expected);
-            kpiService = FakeKPIService();
 
             // Act
-            var actual = kpiService.UpdateKPI(new UpdateKPICriteria());
+            var actual = service.UpdateKPI(new UpdateKPICriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -76,10 +74,9 @@
             var service = GetKPIService(null, baseRepository);
             var expected = new CommandResult();
             service.Repository.Update(Arg.Is<UpdateStatusKPICriteria>(criteria => criteria != null)).Returns(expected);
-            kpiService = FakeKPIService();
 
             // Act
-            var actual = kpiService.UpdateStatusKPI(new UpdateStatusKPICriteria());
+            var actual = service.UpdateStatusKPI(new UpdateStatusKPICriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -93,10 +90,9 @@
             var service = GetKPIService(null, baseRepository);
             var expected = new CommandResult();
             service.Repository.Update(Arg.Is<UpdateRequiredEvaluateKPICriteria>(criteria => criteria != null)).Returns(expected);
-            kpiService = FakeKPIService();
 
             // Act
-            var actual = kpiService.UpdateRequiredEvaluateKPI(new UpdateRequiredEvaluateKPICriteria());
+            var actual = service.UpdateRequiredEvaluateKPI(new UpdateRequiredEvaluateKPICriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -110,10 +106,9 @@
             var service = GetKPIService(null, baseRepository);
             var expected = new CommandResult();
             service.Repository.Delete(Arg.Is<DeleteKPICriteria>(criteria => criteria != null)).Returns(expected);
-            kpiService = FakeKPIService();
 
             // Act
-            var actual = kpiService.DeleteKPI(new DeleteKPICriteria());
+            var actual = service.DeleteKPI(new DeleteKPICriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -124,13 +119,6 @@
             var repository = Substitute.For<IKPIRepository>();
 
             return repository;
-        }
-
-        private IKPIService FakeKPIService()
-        {
-            var service = Substitute.For<KPIService>();
-
-            return service;
         }
 
         private KPIService GetKPIService(IKPIRepository kpiRepository = null, IBaseRepository baseRepository = null)

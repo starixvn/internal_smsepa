@@ -2,8 +2,8 @@
 {
     using System.Collections.Generic;
     using SMS.EPA.Core.Model;
-    using SMS.EPA.Criteria.RoleManagement;
-    using SMS.EPA.Model.RoleManagement;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Model;
 
     public interface IRoleService
     {

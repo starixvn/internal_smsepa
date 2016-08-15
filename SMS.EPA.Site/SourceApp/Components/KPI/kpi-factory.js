@@ -1,11 +1,20 @@
 ﻿'use strict';
-/*global kpiModule*/
 
 (function (angular) {
     angular.module('kpiModule').factory('kpiFactory', kpiFactory);
     kpiFactory.$inject = ['$http', 'baseUrl'];
 
     function kpiFactory($http, baseUrl) {
+        return {
+            createKPI: createKPI,
+            deleteKPI: deleteKPI,
+            getKPI: getKPI,
+            getUserPermissionOnKPI: getUserPermissionOnKPI,
+            updateKPI: updateKPI,
+            updateRequiredEvaluateKPI: updateRequiredEvaluateKPI,
+            updateStatusKPI: updateStatusKPI
+        };
+
         function createKPI(kpi) {
             return $http.post(baseUrl + 'api/KPI/CreateKPI', kpi);
         }
@@ -39,20 +48,10 @@
         function updateStatusKPI(kpi) {
             return $http.put(baseUrl + 'api/KPI/UpdateStatusKPI', kpi);
         }
-
-        return {
-            createKPI: createKPI,
-            deleteKPI: deleteKPI,
-            getKPI: getKPI,
-            getUserPermissionOnKPI: getUserPermissionOnKPI,
-            updateKPI: updateKPI,
-            updateRequiredEvaluateKPI: updateRequiredEvaluateKPI,
-            updateStatusKPI: updateStatusKPI
-        };
     }
 })(angular);
 
-kpiModule.directive('updateTrigger', function () {
+angular.module('kpiModule').directive('updateTrigger', function () {
     return {
         link: function (scope, iElement, attrs) {
             scope.$watch(attrs.ngModel, function () {

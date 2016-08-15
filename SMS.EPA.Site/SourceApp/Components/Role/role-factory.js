@@ -1,13 +1,21 @@
 ﻿'use strict';
-/*global roleModule*/
 
-roleModule.factory('roleFactory', ['$http', 'baseUrl', function ($http, baseUrl) {
-    return {
-        getRoleFunctionByRoleId: function (roleId) {
-            return $http.get(baseUrl + 'api/Role/GetRoleFunctionByRoleId', { params: { roleId: roleId} });
-        },
-        assignFunctionToRole: function (roleFunction) {
+(function (angular) {
+    angular.module('roleModule').factory('roleFactory', roleFactory);
+    roleFactory.$inject = ['$http', 'baseUrl'];
+
+    function roleFactory($http, baseUrl) {
+        return {
+            assignFunctionToRole: assignFunctionToRole,
+            getRoleFunctionByRoleId: getRoleFunctionByRoleId
+        };
+
+        function getRoleFunctionByRoleId(roleId) {
+            return $http.get(baseUrl + 'api/Role/GetRoleFunctionByRoleId', { params: { roleId: roleId } });
+        }
+
+        function assignFunctionToRole(roleFunction) {
             return $http.put(baseUrl + 'api/Role/AssignFunctionToRole', roleFunction);
         }
-    };
-} ]);
+    }
+})(angular);

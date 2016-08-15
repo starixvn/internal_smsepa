@@ -23,9 +23,7 @@
         public void GetKPI_ValidActionName_ReturnAsExpected()
         {
             // Arrange
-            kpiService = FakeKPIService();
-            sessionService = FakeSessionService();
-            kpiController = GetKPIController(kpiService, sessionService);
+            kpiController = GetKPIController();
 
             // Act
             var actual = kpiController.GetType().GetMethod("GetKPI");
@@ -59,9 +57,7 @@
         public void CreateKPI_ValidActionName_ReturnAsExpected()
         {
             // Arrange
-            kpiService = FakeKPIService();
-            sessionService = FakeSessionService();
-            kpiController = GetKPIController(kpiService, sessionService);
+            kpiController = GetKPIController();
 
             // Act
             var actual = kpiController.GetType().GetMethod("CreateKPI");
@@ -95,9 +91,7 @@
         public void UpdateKPI_ValidActionName_ReturnAsExpected()
         {
             // Arrange
-            kpiService = FakeKPIService();
-            sessionService = FakeSessionService();
-            kpiController = GetKPIController(kpiService, sessionService);
+            kpiController = GetKPIController();
 
             // Act
             var actual = kpiController.GetType().GetMethod("UpdateKPI");
@@ -131,9 +125,7 @@
         public void UpdateStatusKPI_ValidActionName_ReturnAsExpected()
         {
             // Arrange
-            kpiService = FakeKPIService();
-            sessionService = FakeSessionService();
-            kpiController = GetKPIController(kpiService, sessionService);
+            kpiController = GetKPIController();
 
             // Act
             var actual = kpiController.GetType().GetMethod("UpdateStatusKPI");
@@ -167,9 +159,7 @@
         public void UpdateRequiredEvaluateKPI_ValidActionName_ReturnAsExpected()
         {
             // Arrange
-            kpiService = FakeKPIService();
-            sessionService = FakeSessionService();
-            kpiController = GetKPIController(kpiService, sessionService);
+            kpiController = GetKPIController();
 
             // Act
             var actual = kpiController.GetType().GetMethod("UpdateRequiredEvaluateKPI");
@@ -204,9 +194,7 @@
         public void DeleteKPI_ValidActionName_ReturnAsExpected()
         {
             // Arrange
-            kpiService = FakeKPIService();
-            sessionService = FakeSessionService();
-            kpiController = GetKPIController(kpiService, sessionService);
+            kpiController = GetKPIController();
 
             // Act
             var actual = kpiController.GetType().GetMethod("DeleteKPI");
@@ -249,7 +237,7 @@
             return service;
         }
 
-        private KPIController GetKPIController(IKPIService kpiService, ISessionService sessionService)
+        private KPIController GetKPIController(IKPIService kpiService = null, ISessionService sessionService = null)
         {
             var controller = new KPIController(kpiService);
             controller.SessionService = sessionService;

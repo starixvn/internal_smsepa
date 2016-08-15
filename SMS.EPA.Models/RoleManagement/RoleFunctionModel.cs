@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Model.RoleManagement
+﻿namespace SMS.EPA.Model
 {
     using System.Collections.Generic;
     using SMS.EPA.Core.Model;
