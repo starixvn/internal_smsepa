@@ -1,13 +1,7 @@
-﻿/****** Object:  Stored Procedure dbo.TargetTemplate_Insert    Script Date: 5/16/2016 2:20:13 PM ******/
-/****** Object:  Stored Procedure dbo.TargetTemplate_Insert    Script Date: 5/16/2016 2:15:34 PM ******/
-/****** Object:  Stored Procedure dbo.TargetTemplate_Insert    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.TargetTemplate_Insert    Script Date: 4/6/2016 11:27:49 AM ******/
-
-CREATE PROCEDURE [dbo].[TargetTemplate_Insert] 
-	@Name NVARCHAR(200)
+﻿CREATE PROCEDURE [dbo].[TargetTemplate_Insert] @Name NVARCHAR(200)
 	,@Description NVARCHAR(MAX) = ''
-	,@TargetTypeId TINYINT = NULL
-	,@ScoreRatingTypeId TINYINT = NULL
+	,@TargetTypeId TINYINT
+	,@ScoreRatingTypeId TINYINT
 	,@RatingTypeId TINYINT
 	,@CreatedBy INT
 	,@ErrCode INT = 0 OUTPUT
@@ -16,7 +10,7 @@ AS
 /*
 Created: 20140404@Quinn.Vo
 Task: Insert Target template.
-DB: NexEPA
+DB: SMSEPA
 Original: 
 
 Revisions:  
@@ -30,12 +24,10 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	IF (
-			EXISTS (
-				SELECT 1
-				FROM dbo.TargetTemplate WITH (NOLOCK)
-				WHERE [Name] = @Name
-				)
+	IF EXISTS (
+			SELECT 1
+			FROM dbo.TargetTemplate WITH (NOLOCK)
+			WHERE [Name] = @Name
 			)
 	BEGIN
 		SELECT @ErrCode = 1
@@ -47,14 +39,14 @@ BEGIN
 	DECLARE @TargetTemplateId INT
 
 	INSERT INTO dbo.TargetTemplate (
-		 [Name]
-		  ,[Description]
-		  ,[TargetTypeId]
-		  ,[ScoreRatingTypeId]
-		  ,[RatingTypeId]
-		  ,IsActive
-		  ,[CreatedBy]
-		  ,[CreatedDate]
+		[Name]
+		,[Description]
+		,[TargetTypeId]
+		,[ScoreRatingTypeId]
+		,[RatingTypeId]
+		,IsActive
+		,[CreatedBy]
+		,[CreatedDate]
 		)
 	VALUES (
 		@Name
@@ -78,8 +70,16 @@ BEGIN
 	BEGIN
 		DECLARE @Data NVARCHAR(MAX)
 
-		EXEC @Data = [dbo].[fncGetDataForWriteLog] @ObjectId = @TargetTemplateId , @ObjectType = 3
-		EXEC [dbo].[LogDetail_Insert] @ActorId = @CreatedBy, @SpName = 'TargetTemplate_Insert', @ObjectId = @TargetTemplateId, @ObjectTypeId = 3, @Data = @Data, @OldData = NULL, @ObjectIds = NULL
+		EXEC @Data = [dbo].[fncGetDataForWriteLog] @ObjectId = @TargetTemplateId
+			,@ObjectType = 3
+
+		EXEC [dbo].[LogDetail_Insert] @ActorId = @CreatedBy
+			,@SpName = 'TargetTemplate_Insert'
+			,@ObjectId = @TargetTemplateId
+			,@ObjectTypeId = 3
+			,@Data = @Data
+			,@OldData = NULL
+			,@ObjectIds = NULL
 
 		SELECT @ErrCode = 0
 			,@ErrMsg = ''

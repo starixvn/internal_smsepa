@@ -1,8 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.TargetTemplate_RemoveKPIGroup    Script Date: 5/16/2016 2:20:13 PM ******/
-/****** Object:  Stored Procedure dbo.TargetTemplate_RemoveKPIGroup    Script Date: 5/16/2016 2:15:34 PM ******/
-/****** Object:  Stored Procedure dbo.TargetTemplate_RemoveKPIGroup    Script Date: 5/16/2016 1:59:44 PM ******/
-
-CREATE PROCEDURE [dbo].[TargetTemplate_RemoveKPIGroup] @TargetTemplateId INT
+﻿CREATE PROCEDURE [dbo].[TargetTemplate_RemoveKPIGroup] @TargetTemplateId INT
 	,@KPIGroupId INT
 	,@ModifiedBy INT
 	,@ErrCode INT = 0 OUTPUT

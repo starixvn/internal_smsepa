@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using SMS.EPA.Core.Model;
-    using SMS.EPA.Criteria.TargetTemplate;
+    using SMS.EPA.Criteria;
     using SMS.EPA.Model;
     using SMS.EPA.Model.Enitites;
 

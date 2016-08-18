@@ -14,14 +14,6 @@
 
         return roleModel;
 
-        function getRoleFunctionByRoleId(roleId) {
-            return roleFactory.getRoleFunctionByRoleId(roleId).success(function (functions) {
-                roleModel.roleFunctions = functions;
-            }).error(function (response, status) {
-                errorFactory.errorHandle(status);
-            });
-        }
-
         function assignFunctionToRole(roleFunction) {
             return roleFactory.assignFunctionToRole(roleFunction).success(function (response) {
                 if (response.IsSuccessful) {
@@ -31,6 +23,14 @@
                 }
             })
             .error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        }
+
+        function getRoleFunctionByRoleId(roleId) {
+            return roleFactory.getRoleFunctionByRoleId(roleId).success(function (functions) {
+                roleModel.roleFunctions = functions;
+            }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         }

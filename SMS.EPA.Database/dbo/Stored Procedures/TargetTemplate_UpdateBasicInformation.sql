@@ -1,9 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.TargetTemplate_UpdateBasicInformation    Script Date: 5/16/2016 2:20:11 PM ******/
-/****** Object:  Stored Procedure dbo.TargetTemplate_UpdateBasicInformation    Script Date: 5/16/2016 2:15:33 PM ******/
-/****** Object:  Stored Procedure dbo.TargetTemplate_UpdateBasicInformation    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.TargetTemplate_UpdateBasicInformation    Script Date: 4/6/2016 11:27:49 AM ******/
-
-CREATE PROCEDURE [dbo].[TargetTemplate_UpdateBasicInformation] @TargetTemplateId INT
+﻿CREATE PROCEDURE [dbo].[TargetTemplate_UpdateBasicInformation] @TargetTemplateId INT
 	,@Name VARCHAR(200)
 	,@Description NVARCHAR(MAX) = ''
 	,@TargetTypeId TINYINT
@@ -17,7 +12,7 @@ AS
 /*
 Created: 2010404@Quinn.Vo
 Task: Update Target Template.
-DB: NexEPA
+DB: SMSEPA
 Original: 
 
 Revisions:  
@@ -31,12 +26,10 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	IF (
-			NOT EXISTS (
-				SELECT 1
-				FROM dbo.TargetTemplate WITH (NOLOCK)
-				WHERE TargetTemplateId = @TargetTemplateId
-				)
+	IF NOT EXISTS (
+			SELECT 1
+			FROM dbo.TargetTemplate WITH (NOLOCK)
+			WHERE TargetTemplateId = @TargetTemplateId
 			)
 	BEGIN
 		SELECT @ErrCode = 1
@@ -45,13 +38,11 @@ BEGIN
 		RETURN
 	END
 
-	IF (
-			EXISTS (
-				SELECT 1
-				FROM dbo.TargetTemplate WITH (NOLOCK)
-				WHERE [Name] = @Name
-					AND TargetTemplateId <> @TargetTemplateId
-				)
+	IF EXISTS (
+			SELECT 1
+			FROM dbo.TargetTemplate WITH (NOLOCK)
+			WHERE [Name] = @Name
+				AND TargetTemplateId <> @TargetTemplateId
 			)
 	BEGIN
 		SELECT @ErrCode = 1
@@ -61,9 +52,10 @@ BEGIN
 	END
 
 	DECLARE @Data NVARCHAR(MAX)
-	DECLARE @OldData NVARCHAR(MAX)
+		,@OldData NVARCHAR(MAX)
 
-	EXEC @OldData = [dbo].[fncGetDataForWriteLog] @ObjectId = @TargetTemplateId, @ObjectType = 3
+	EXEC @OldData = [dbo].[fncGetDataForWriteLog] @ObjectId = @TargetTemplateId
+		,@ObjectType = 3
 
 	BEGIN TRY
 		BEGIN TRANSACTION;
@@ -79,13 +71,18 @@ BEGIN
 			,ModifiedDate = GETDATE()
 		WHERE TargetTemplateId = @TargetTemplateId
 
+		EXEC @Data = [dbo].[fncGetDataForWriteLog] @ObjectId = @TargetTemplateId
+			,@ObjectType = 3
+
+		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy
+			,@SpName = 'TargetTemplate_UpdateBasicInformation'
+			,@ObjectId = @TargetTemplateId
+			,@ObjectTypeId = 3
+			,@Data = @Data
+			,@OldData = @OldData
+			,@ObjectIds = NULL
+
 		COMMIT TRANSACTION;
-
-		EXEC @Data = [dbo].[fncGetDataForWriteLog] @ObjectId = @TargetTemplateId, @ObjectType = 3
-		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy, @SpName = 'TargetTemplate_UpdateBasicInformation', @ObjectId = @TargetTemplateId, @ObjectTypeId = 3, @Data = @Data, @OldData = @OldData, @ObjectIds = NULL
-
-		SELECT @ErrCode = 0
-			,@ErrMsg = ''
 	END TRY
 
 	BEGIN CATCH

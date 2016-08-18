@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Criteria.TargetTemplate
+﻿namespace SMS.EPA.Criteria
 {
     using Fanex.Data.Repository;
 
@@ -8,7 +8,7 @@
 
         public string Description { get; set; }
 
-        public int? TargetTypeId { get; set; }
+        public int TargetTypeId { get; set; }
 
         public int ScoreRatingTypeId { get; set; }
 
@@ -18,7 +18,11 @@
 
         public override bool IsValid()
         {
-            return !string.IsNullOrEmpty(Name);
+            return !string.IsNullOrEmpty(Name)
+                && CreatedBy > 0
+                && TargetTypeId > 0
+                && ScoreRatingTypeId > 0
+                && RatingTypeId > 0;
         }
 
         public override string GetSettingKey()

@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Criteria.TargetTemplate
+﻿namespace SMS.EPA.Criteria
 {
     using Fanex.Data.Repository;
 
@@ -10,7 +10,7 @@
 
         public override bool IsValid()
         {
-            return TargetTemplateId > 0;
+            return TargetTemplateId > 0 && ModifiedBy > 0;
         }
 
         public override string GetSettingKey()

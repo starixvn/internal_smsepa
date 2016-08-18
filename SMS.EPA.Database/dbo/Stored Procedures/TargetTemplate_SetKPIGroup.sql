@@ -1,10 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.TargetTemplate_SetKPIGroup    Script Date: 5/16/2016 2:20:13 PM ******/
-/****** Object:  Stored Procedure dbo.TargetTemplate_SetKPIGroup    Script Date: 5/16/2016 2:15:34 PM ******/
-/****** Object:  Stored Procedure dbo.TargetTemplate_SetKPIGroup    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.TargetTemplate_SetKPIGroup    Script Date: 4/6/2016 11:27:49 AM ******/
-
-CREATE PROCEDURE [dbo].[TargetTemplate_SetKPIGroup] 
-	@TargetTemplateId INT
+﻿CREATE PROCEDURE [dbo].[TargetTemplate_SetKPIGroup] @TargetTemplateId INT
 	,@KPIGroups VARCHAR(5000) = ''
 	,@ModifiedBy INT
 	,@ErrCode INT = 0 OUTPUT
@@ -13,7 +7,7 @@ AS
 /*
 Created: 20140426@Quinn.Vo
 Task: Add KPI group into Target template.
-DB: NexEPA
+DB: SMSEPA
 Original: 
 
 Revisions:  
@@ -40,7 +34,7 @@ BEGIN
 		,[Weight] FLOAT
 		,IsSpreadKPI BIT
 		,DisplayOrder INT
-	)
+		)
 
 	-- Read data from KPIGroups
 	BEGIN TRY
@@ -63,14 +57,15 @@ BEGIN
 
 		EXEC sp_xml_removedocument @DocHandler
 	END TRY
+
 	BEGIN CATCH
 		SELECT @ErrCode = 1
 			,@ErrMsg = N'Add KPI Group failed. Paramter invalid.'
 
 		RETURN
 	END CATCH
-	-- End read xml
 
+	-- End read xml
 	DECLARE @Data NVARCHAR(MAX)
 	DECLARE @OldData NVARCHAR(MAX)
 
@@ -86,6 +81,7 @@ BEGIN
 				SELECT KPIGroupId
 				FROM #KPIGroups
 				)
+
 		DELETE
 		FROM dbo.TargetTemplateKPI
 		WHERE TargetTemplateId = @TargetTemplateId
@@ -93,14 +89,16 @@ BEGIN
 				SELECT KPIGroupId
 				FROM #KPIGroups
 				)
-		
-		UPDATE t SET t.[Weight] = k.[Weight],
-			t.IsSpreadKPI = k.IsSpreadKPI,
-			t.DisplayOrder = k.DisplayOrder,
-			t.ModifiedBy = @ModifiedBy, 
-			t.ModifiedDate = GETDATE()
-		FROM dbo.TargetTemplateKPIGroup AS t WITH (ROWLOCK, UPDLOCK) 
-		INNER JOIN #KPIGroups AS k ON t.TargetTemplateId = @TargetTemplateId AND t.KPIGroupId = k.KPIGroupId
+
+		UPDATE t
+		SET t.[Weight] = k.[Weight]
+			,t.IsSpreadKPI = k.IsSpreadKPI
+			,t.DisplayOrder = k.DisplayOrder
+			,t.ModifiedBy = @ModifiedBy
+			,t.ModifiedDate = GETDATE()
+		FROM dbo.TargetTemplateKPIGroup AS t WITH (ROWLOCK, UPDLOCK)
+			INNER JOIN #KPIGroups AS k ON t.TargetTemplateId = @TargetTemplateId
+			AND t.KPIGroupId = k.KPIGroupId
 
 		DELETE
 		FROM #KPIGroups
@@ -128,16 +126,21 @@ BEGIN
 			,GETDATE()
 		FROM #KPIGroups
 
-		UPDATE dbo.TargetTemplate WITH (ROWLOCK, UPDLOCK) 
-		SET ModifiedBy = @ModifiedBy, ModifiedDate = GETDATE()
-
-		COMMIT TRANSACTION;
+		UPDATE dbo.TargetTemplate WITH (ROWLOCK, UPDLOCK)
+		SET ModifiedBy = @ModifiedBy
+			,ModifiedDate = GETDATE()
 
 		EXEC @Data = [dbo].[fncGetDataForWriteLog_TargetTemplate_SetKPIGroup] @ObjectId = @TargetTemplateId
-		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy, @SpName = 'TargetTemplate_SetKPIGroup', @ObjectId = @TargetTemplateId, @ObjectTypeId = 3, @Data = @Data, @OldData = @OldData, @ObjectIds = NULL
 
-		SELECT @ErrCode = 0
-			,@ErrMsg = ''
+		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy
+			,@SpName = 'TargetTemplate_SetKPIGroup'
+			,@ObjectId = @TargetTemplateId
+			,@ObjectTypeId = 3
+			,@Data = @Data
+			,@OldData = @OldData
+			,@ObjectIds = NULL
+
+		COMMIT TRANSACTION;
 	END TRY
 
 	BEGIN CATCH

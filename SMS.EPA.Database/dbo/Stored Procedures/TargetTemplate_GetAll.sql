@@ -1,15 +1,10 @@
-﻿/****** Object:  Stored Procedure dbo.TargetTemplate_GetAll    Script Date: 5/16/2016 2:20:13 PM ******/
-/****** Object:  Stored Procedure dbo.TargetTemplate_GetAll    Script Date: 5/16/2016 2:15:34 PM ******/
-/****** Object:  Stored Procedure dbo.TargetTemplate_GetAll    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.TargetTemplate_GetAll    Script Date: 4/6/2016 11:27:49 AM ******/
-
-CREATE PROCEDURE [dbo].[TargetTemplate_GetAll] @TargetTypeId INT = NULL
+﻿CREATE PROCEDURE [dbo].[TargetTemplate_GetAll] @TargetTypeId INT = NULL
 	,@IsActive TINYINT = NULL
 AS
 /*
 Created: 2014004@Quinn.Vo
 Task: Get all targets template.
-DB: NexEPA
+DB: SMSEPA
 Original: 
 
 Revisions:  

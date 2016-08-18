@@ -78,6 +78,7 @@
     <Compile Include="KPIServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoleServiceTests.cs" />
+    <Compile Include="TargetTemplateServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">

@@ -4,7 +4,7 @@
     using System.Linq;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria.TargetTemplate;
+    using SMS.EPA.Criteria;
     using SMS.EPA.Model;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Repositories.Implement;
@@ -13,7 +13,7 @@
 
     public class TargetTemplateService : BaseService, ITargetTemplateService
     {
-        private readonly ITargetTemplateRepository _targetTemplateRepository;
+        private readonly ITargetTemplateRepository targetTemplateRepository;
 
         public TargetTemplateService()
             : this(null)
@@ -22,7 +22,7 @@
 
         public TargetTemplateService(ITargetTemplateRepository targetTemplateRepository)
         {
-            _targetTemplateRepository = targetTemplateRepository ?? new TargetTemplateRepository();
+            this.targetTemplateRepository = targetTemplateRepository ?? new TargetTemplateRepository();
         }
 
         public TargetTemplateModel GetTargetTemplateById(GetTargetTemplateByIdCriteria criteria)
@@ -117,7 +117,7 @@
             {
                 groups = GetData<KPIGroupModel>(criteria);
 
-                foreach (KPIGroupModel group in groups.Where(x => x.Weight > 0))
+                foreach (KPIGroupModel group in groups.Where(x => x.Weight.HasValue && x.Weight.Value > 0))
                 {
                     group.Selected = true;
                 }
@@ -156,7 +156,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                IEnumerable<KPIModel> kpiList = _targetTemplateRepository.GetKPIOfTargetTemplate(criteria);
+                IEnumerable<KPIModel> kpiList = targetTemplateRepository.GetKPIOfTargetTemplate(criteria);
                 kpiGroups = GroupKPI(kpiList);
 
                 if (onlyKPISelected)

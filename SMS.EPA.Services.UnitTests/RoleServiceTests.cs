@@ -32,7 +32,7 @@
         }
 
         [Test]
-        public void GetFunctionByRoleId_WhenCalled_FunctionsIncludeChildFunctions()
+        public void GetFunctionByRoleId_WhenCalled_AssignChildFunctionsToParentFunctions()
         {
             // Arrange
             var service = Substitute.For<RoleService>();

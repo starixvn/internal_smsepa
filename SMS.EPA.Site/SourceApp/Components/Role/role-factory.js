@@ -10,12 +10,12 @@
             getRoleFunctionByRoleId: getRoleFunctionByRoleId
         };
 
-        function getRoleFunctionByRoleId(roleId) {
-            return $http.get(baseUrl + 'api/Role/GetRoleFunctionByRoleId', { params: { roleId: roleId } });
-        }
-
         function assignFunctionToRole(roleFunction) {
             return $http.put(baseUrl + 'api/Role/AssignFunctionToRole', roleFunction);
+        }
+
+        function getRoleFunctionByRoleId(roleId) {
+            return $http.get(baseUrl + 'api/Role/GetRoleFunctionByRoleId', { params: { roleId: roleId } });
         }
     }
 })(angular);
