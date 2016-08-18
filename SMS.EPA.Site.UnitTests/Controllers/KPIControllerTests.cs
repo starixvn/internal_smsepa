@@ -33,13 +33,12 @@
         }
 
         [Test]
-        public void GetKPI_WhenCalled_ReturnsListOfKPIModel()
+        public void GetKPI_WhenCalled_ReturnInstanceOfListOfKPIModel()
         {
             // Arrange
             kpiService = FakeKPIService();
             sessionService = FakeSessionService();
-            var expected = new List<KPIModel>();
-            kpiService.GetKPI(Arg.Is<GetKPICriteria>(criteria => criteria != null)).Returns(expected);
+            kpiService.GetKPI(Arg.Any<GetKPICriteria>()).Returns(new List<KPIModel>());
             kpiController = GetKPIController(kpiService, sessionService);
 
             // Act
@@ -67,13 +66,12 @@
         }
 
         [Test]
-        public void CreateKPI_WhenCalled_ReturnsCommandResult()
+        public void CreateKPI_WhenCalled_ReturnInstanceOfCommandResult()
         {
             // Arrange
             kpiService = FakeKPIService();
             sessionService = FakeSessionService();
-            var expected = new CommandResult();
-            kpiService.CreateKPI(Arg.Is<CreateKPICriteria>(criteria => criteria != null)).Returns(expected);
+            kpiService.CreateKPI(Arg.Any<CreateKPICriteria>()).Returns(new CommandResult());
             kpiController = GetKPIController(kpiService, sessionService);
 
             // Act
@@ -101,13 +99,12 @@
         }
 
         [Test]
-        public void UpdateKPI_WhenCalled_ReturnsCommandResult()
+        public void UpdateKPI_WhenCalled_ReturnInstanceOfCommandResult()
         {
             // Arrange
             kpiService = FakeKPIService();
             sessionService = FakeSessionService();
-            var expected = new CommandResult();
-            kpiService.UpdateKPI(Arg.Is<UpdateKPICriteria>(criteria => criteria != null)).Returns(expected);
+            kpiService.UpdateKPI(Arg.Any<UpdateKPICriteria>()).Returns(new CommandResult());
             kpiController = GetKPIController(kpiService, sessionService);
 
             // Act
@@ -135,13 +132,12 @@
         }
 
         [Test]
-        public void UpdateStatusKPI_WhenCalled_ReturnsCommandResult()
+        public void UpdateStatusKPI_WhenCalled_ReturnInstanceOfCommandResult()
         {
             // Arrange
             kpiService = FakeKPIService();
             sessionService = FakeSessionService();
-            var expected = new CommandResult();
-            kpiService.UpdateStatusKPI(Arg.Is<UpdateStatusKPICriteria>(criteria => criteria != null)).Returns(expected);
+            kpiService.UpdateStatusKPI(Arg.Any<UpdateStatusKPICriteria>()).Returns(new CommandResult());
             kpiController = GetKPIController(kpiService, sessionService);
 
             // Act
@@ -169,15 +165,13 @@
         }
 
         [Test]
-        public void UpdateRequiredEvaluateKPI_WhenCalled_ReturnsCommandResult()
+        public void UpdateRequiredEvaluateKPI_WhenCalled_ReturnInstanceOfCommandResult()
         {
             // Arrange
             kpiService = FakeKPIService();
             sessionService = FakeSessionService();
             kpiController = GetKPIController(kpiService, sessionService);
-
-            var expected = new CommandResult();
-            kpiService.UpdateRequiredEvaluateKPI(Arg.Is<UpdateRequiredEvaluateKPICriteria>(criteria => criteria != null)).Returns(expected);
+            kpiService.UpdateRequiredEvaluateKPI(Arg.Any<UpdateRequiredEvaluateKPICriteria>()).Returns(new CommandResult());
 
             // Act
             var actual = kpiController.UpdateRequiredEvaluateKPI(new UpdateRequiredEvaluateKPICriteria());
@@ -204,13 +198,12 @@
         }
 
         [Test]
-        public void DeleteKPI_WhenCalled_ReturnsCommandResult()
+        public void DeleteKPI_WhenCalled_ReturnInstanceOfCommandResult()
         {
             // Arrange
             kpiService = FakeKPIService();
             sessionService = FakeSessionService();
-            var expected = new CommandResult();
-            kpiService.DeleteKPI(Arg.Is<DeleteKPICriteria>(criteria => criteria != null)).Returns(expected);
+            kpiService.DeleteKPI(Arg.Any<DeleteKPICriteria>()).Returns(new CommandResult());
             kpiController = GetKPIController(kpiService, sessionService);
 
             // Act

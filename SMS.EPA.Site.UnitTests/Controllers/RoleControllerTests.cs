@@ -33,13 +33,12 @@
         }
 
         [Test]
-        public void GetRoleFunctionByRoleId_WhenCalles_ReturnListOfRoleFunctionModel()
+        public void GetRoleFunctionByRoleId_WhenCalled_ReturnInstanceOfListOfRoleFunctionModel()
         {
             // Arrange
             roleService = FakeRoleService();
             sessionService = FakeSessionService();
-            var expected = new List<RoleFunctionModel>();
-            roleService.GetFunctionByRoleId(Arg.Is<GetFunctionByRoleIdCriteria>(criteria => criteria != null)).Returns(expected);
+            roleService.GetFunctionByRoleId(Arg.Any<GetFunctionByRoleIdCriteria>()).Returns(new List<RoleFunctionModel>());
             roleController = GetRoleController(roleService, sessionService);
 
             // Act
@@ -67,13 +66,12 @@
         }
 
         [Test]
-        public void AssignFunctionToRole_WhenCalled_ReturnsCommandResult()
+        public void AssignFunctionToRole_WhenCalled_ReturnInstanceOfCommandResult()
         {
             // Arrange
             roleService = FakeRoleService();
             sessionService = FakeSessionService();
-            var expected = new CommandResult();
-            roleService.AssignFunctionToRole(Arg.Is<AssignFunctionToRoleCriteria>(criteria => criteria != null)).Returns(expected);
+            roleService.AssignFunctionToRole(Arg.Any<AssignFunctionToRoleCriteria>()).Returns(new CommandResult());
             roleController = GetRoleController(roleService, sessionService);
 
             // Act

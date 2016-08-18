@@ -13,39 +13,58 @@
     [TestFixture]
     public class RoleServiceTests
     {
+        private RoleService roleService;
         private IBaseRepository baseRepository;
 
         [Test]
-        public void GetFunctionByRoleId_WhenCalled_ReturnsListOfRoleFunctionModel()
+        public void GetFunctionByRoleId_AnyArg_ReturnInstanceOfListOfRoleFunctionModel()
         {
             // Arrange
-            var service = Substitute.For<RoleService>();
-            var expected = new List<RoleFunctionModel>();
-            service.When(x => x.GetData<RoleFunctionModel>(Arg.Any<GetFunctionByRoleIdCriteria>())).DoNotCallBase();
-            service.GetData<RoleFunctionModel>(Arg.Any<GetFunctionByRoleIdCriteria>()).Returns(expected);
+            roleService = Substitute.For<RoleService>();
+            roleService.When(x => x.GetData<RoleFunctionModel>(Arg.Any<GetFunctionByRoleIdCriteria>())).DoNotCallBase();
+            roleService.GetData<RoleFunctionModel>(Arg.Any<GetFunctionByRoleIdCriteria>()).Returns(new List<RoleFunctionModel>());
 
             // Act
-            var actual = service.GetFunctionByRoleId(new GetFunctionByRoleIdCriteria());
+            var actual = roleService.GetFunctionByRoleId(new GetFunctionByRoleIdCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<RoleFunctionModel>), actual);
         }
 
         [Test]
-        public void GetFunctionByRoleId_WhenCalled_AssignChildFunctionsToParentFunctions()
+        public void GetFunctionByRoleId_ValidArg_ExpectedToExecuteGetData()
         {
             // Arrange
-            var service = Substitute.For<RoleService>();
-            IEnumerable<RoleFunctionModel> result = GetListOfRoleFonctionModelForTest();
-            service.When(x => x.GetData<RoleFunctionModel>(Arg.Any<GetFunctionByRoleIdCriteria>())).DoNotCallBase();
-            service.GetData<RoleFunctionModel>(Arg.Any<GetFunctionByRoleIdCriteria>()).Returns(result);
-
-            // Act
             var criteria = new GetFunctionByRoleIdCriteria
             {
                 RoleId = 1
             };
-            IEnumerable<RoleFunctionModel> functions = service.GetFunctionByRoleId(criteria);
+            roleService = Substitute.For<RoleService>();
+            roleService.When(x => x.GetData<RoleFunctionModel>(Arg.Any<GetFunctionByRoleIdCriteria>())).DoNotCallBase();
+            roleService.GetData<RoleFunctionModel>(Arg.Any<GetFunctionByRoleIdCriteria>()).Returns(new List<RoleFunctionModel>());
+
+            // Act
+            roleService.GetFunctionByRoleId(criteria);
+
+            // Assert
+            roleService.Received().GetData<RoleFunctionModel>(Arg.Is<GetFunctionByRoleIdCriteria>(x => x.IsValid()));
+        }
+
+        [Test]
+        public void GetFunctionByRoleId_ValidArg_AssignChildFunctionsToParentFunctions()
+        {
+            // Arrange
+            var criteria = new GetFunctionByRoleIdCriteria
+            {
+                RoleId = 1
+            };
+            roleService = Substitute.For<RoleService>();
+            IEnumerable<RoleFunctionModel> result = GetListOfRoleFonctionModelForTest();
+            roleService.When(x => x.GetData<RoleFunctionModel>(Arg.Any<GetFunctionByRoleIdCriteria>())).DoNotCallBase();
+            roleService.GetData<RoleFunctionModel>(Arg.Any<GetFunctionByRoleIdCriteria>()).Returns(result);
+
+            // Act
+            IEnumerable<RoleFunctionModel> functions = roleService.GetFunctionByRoleId(criteria);
 
             // Assert
             Assert.AreEqual(1, functions.Count());
@@ -53,19 +72,39 @@
         }
 
         [Test]
-        public void AssignFunctionToRole_WhenCalled_ReturnsCommandResult()
+        public void AssignFunctionToRole_AnyArg_ReturnInstanceOfCommandResult()
         {
             // Arrange
             baseRepository = Substitute.For<IBaseRepository>();
-            var service = GetRoleService(baseRepository);
-            var expected = new CommandResult();
-            service.Repository.Update(Arg.Is<AssignFunctionToRoleCriteria>(criteria => criteria != null)).Returns(expected);
+            roleService = GetRoleService(baseRepository);
+            roleService.Repository.Update(Arg.Any<AssignFunctionToRoleCriteria>()).Returns(new CommandResult());
 
             // Act
-            var actual = service.AssignFunctionToRole(new AssignFunctionToRoleCriteria());
+            var actual = roleService.AssignFunctionToRole(new AssignFunctionToRoleCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
+        }
+
+        [Test]
+        public void AssignFunctionToRole_ValidArg_ExpectedToExecuteUpdate()
+        {
+            // Arrange
+            var criteria = new AssignFunctionToRoleCriteria
+            {
+                RoleId = 1,
+                Functions = "<ROOT><Function FunctionId=\"1\" IsRead=\"1\" IsHost=\"0\"></Function></ROOT>",
+                ModifiedBy = 1
+            };
+            baseRepository = Substitute.For<IBaseRepository>();
+            roleService = GetRoleService(baseRepository);
+            roleService.Repository.Update(Arg.Any<AssignFunctionToRoleCriteria>()).Returns(new CommandResult());
+
+            // Act
+            roleService.AssignFunctionToRole(criteria);
+
+            // Assert
+            roleService.Repository.Received().Update(Arg.Is<AssignFunctionToRoleCriteria>(x => x.IsValid()));
         }
 
         private RoleService GetRoleService(IBaseRepository baseRepository = null)

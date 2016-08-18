@@ -29,7 +29,10 @@
 
         public override bool IsValid()
         {
-            return KPIId > 0 && ModifiedBy > 0 && !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(KPIGroupIds);
+            return KPIId > 0
+                && ModifiedBy > 0
+                && !string.IsNullOrWhiteSpace(Name)
+                && !string.IsNullOrWhiteSpace(KPIGroupIds);
         }
     }
 }

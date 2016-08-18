@@ -33,13 +33,12 @@
         }
 
         [Test]
-        public void GetKPIGroup_WhenCalled_ReturnsListOfKPIGroupModel()
+        public void GetKPIGroup_WhenCalled_ReturnInstanceOfListOfKPIGroupModel()
         {
             // Arrange
             kpiGroupService = FakeKPIGroupService();
             sessionService = FakeSessionService();
-            var expected = new List<KPIGroupModel>();
-            kpiGroupService.GetKPIGroup(Arg.Is<GetKPIGroupCriteria>(criteria => criteria != null)).Returns(expected);
+            kpiGroupService.GetKPIGroup(Arg.Any<GetKPIGroupCriteria>()).Returns(new List<KPIGroupModel>());
             kpiGroupController = GetKPIGroupController(kpiGroupService, sessionService);
 
             // Act
@@ -67,13 +66,12 @@
         }
 
         [Test]
-        public void GetKPIGroupById_WhenCalled_ReturnsKPIGroupModel()
+        public void GetKPIGroupById_WhenCalled_ReturnInstanceOfKPIGroupModel()
         {
             // Arrange
             kpiGroupService = FakeKPIGroupService();
             sessionService = FakeSessionService();
-            var expected = new KPIGroupModel();
-            kpiGroupService.GetKPIGroupById(Arg.Is<GetKPIGroupByIdCriteria>(criteria => criteria != null)).Returns(expected);
+            kpiGroupService.GetKPIGroupById(Arg.Any<GetKPIGroupByIdCriteria>()).Returns(new KPIGroupModel());
             kpiGroupController = GetKPIGroupController(kpiGroupService, sessionService);
 
             // Act
@@ -101,13 +99,12 @@
         }
 
         [Test]
-        public void CreateKPIGroup_WhenCalled_ReturnsCommandResult()
+        public void CreateKPIGroup_WhenCalled_ReturnInstanceOfCommandResult()
         {
             // Arrange
             kpiGroupService = FakeKPIGroupService();
             sessionService = FakeSessionService();
-            var expected = new CommandResult();
-            kpiGroupService.CreateKPIGroup(Arg.Is<CreateKPIGroupCriteria>(criteria => criteria != null)).Returns(expected);
+            kpiGroupService.CreateKPIGroup(Arg.Any<CreateKPIGroupCriteria>()).Returns(new CommandResult());
             kpiGroupController = GetKPIGroupController(kpiGroupService, sessionService);
 
             // Act
@@ -135,13 +132,12 @@
         }
 
         [Test]
-        public void UpdateKPIGroup_WhenCalled_ReturnsCommandResult()
+        public void UpdateKPIGroup_WhenCalled_ReturnInstanceOfCommandResult()
         {
             // Arrange
             kpiGroupService = FakeKPIGroupService();
             sessionService = FakeSessionService();
-            var expected = new CommandResult();
-            kpiGroupService.UpdateKPIGroup(Arg.Is<UpdateKPIGroupCriteria>(criteria => criteria != null)).Returns(expected);
+            kpiGroupService.UpdateKPIGroup(Arg.Any<UpdateKPIGroupCriteria>()).Returns(new CommandResult());
             kpiGroupController = GetKPIGroupController(kpiGroupService, sessionService);
 
             // Act
@@ -169,13 +165,12 @@
         }
 
         [Test]
-        public void UpdateStatusKPIGroup_WhenCalled_ReturnsCommandResult()
+        public void UpdateStatusKPIGroup_WhenCalled_ReturnInstanceOfCommandResult()
         {
             // Arrange
             kpiGroupService = FakeKPIGroupService();
             sessionService = FakeSessionService();
-            var expected = new CommandResult();
-            kpiGroupService.UpdateStatusKPIGroup(Arg.Is<UpdateStatusKPIGroupCriteria>(criteria => criteria != null)).Returns(expected);
+            kpiGroupService.UpdateStatusKPIGroup(Arg.Any<UpdateStatusKPIGroupCriteria>()).Returns(new CommandResult());
             kpiGroupController = GetKPIGroupController(kpiGroupService, sessionService);
 
             // Act
@@ -203,13 +198,12 @@
         }
 
         [Test]
-        public void DeleteKPIGroup_WhenCalled_ReturnsCommandResult()
+        public void DeleteKPIGroup_WhenCalled_ReturnInstanceOfCommandResult()
         {
             // Arrange
             kpiGroupService = FakeKPIGroupService();
             sessionService = FakeSessionService();
-            var expected = new CommandResult();
-            kpiGroupService.DeleteKPIGroup(Arg.Is<DeleteKPIGroupCriteria>(criteria => criteria != null)).Returns(expected);
+            kpiGroupService.DeleteKPIGroup(Arg.Any<DeleteKPIGroupCriteria>()).Returns(new CommandResult());
             kpiGroupController = GetKPIGroupController(kpiGroupService, sessionService);
 
             // Act

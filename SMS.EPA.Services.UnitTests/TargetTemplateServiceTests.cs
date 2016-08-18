@@ -14,6 +14,7 @@
     [TestFixture]
     public class TargetTemplateServiceTests
     {
+        private TargetTemplateService targetTemplateService;
         private IBaseRepository baseRepository;
 
         #region GetTargetTemplateById
@@ -22,12 +23,12 @@
         public void GetTargetTemplateById_AnyArg_ReturnInstanceOfTargetTemplateModel()
         {
             // Arrange
-            var service = Substitute.For<TargetTemplateService>();
-            service.When(x => x.GetDataEntity<TargetTemplateModel>(Arg.Any<GetTargetTemplateByIdCriteria>())).DoNotCallBase();
-            service.GetDataEntity<TargetTemplateModel>(Arg.Any<GetTargetTemplateByIdCriteria>()).Returns(new TargetTemplateModel());
+            targetTemplateService = Substitute.For<TargetTemplateService>();
+            targetTemplateService.When(x => x.GetDataEntity<TargetTemplateModel>(Arg.Any<GetTargetTemplateByIdCriteria>())).DoNotCallBase();
+            targetTemplateService.GetDataEntity<TargetTemplateModel>(Arg.Any<GetTargetTemplateByIdCriteria>()).Returns(new TargetTemplateModel());
 
             // Act
-            var actual = service.GetTargetTemplateById(new GetTargetTemplateByIdCriteria());
+            var actual = targetTemplateService.GetTargetTemplateById(new GetTargetTemplateByIdCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(TargetTemplateModel), actual);
@@ -37,19 +38,19 @@
         public void GetTargetTemplateById_ValidArg_ExpectedToExecuteGetDataEntity()
         {
             // Arrange
-            var service = Substitute.For<TargetTemplateService>();
+            targetTemplateService = Substitute.For<TargetTemplateService>();
             var criteria = new GetTargetTemplateByIdCriteria
             {
                 TargetTemplateId = 1
             };
-            service.When(x => x.GetDataEntity<TargetTemplateModel>(Arg.Any<GetTargetTemplateByIdCriteria>())).DoNotCallBase();
-            service.GetDataEntity<TargetTemplateModel>(Arg.Any<GetTargetTemplateByIdCriteria>()).Returns(new TargetTemplateModel());
+            targetTemplateService.When(x => x.GetDataEntity<TargetTemplateModel>(Arg.Any<GetTargetTemplateByIdCriteria>())).DoNotCallBase();
+            targetTemplateService.GetDataEntity<TargetTemplateModel>(Arg.Any<GetTargetTemplateByIdCriteria>()).Returns(new TargetTemplateModel());
 
             // Act
-            service.GetTargetTemplateById(criteria);
+            targetTemplateService.GetTargetTemplateById(criteria);
 
             // Assert
-            service.Received(1).GetDataEntity<TargetTemplateModel>(Arg.Is<GetTargetTemplateByIdCriteria>(x => x.IsValid()));
+            targetTemplateService.Received().GetDataEntity<TargetTemplateModel>(Arg.Is<GetTargetTemplateByIdCriteria>(x => x.IsValid()));
         }
 
         #endregion GetTargetTemplateById
@@ -60,12 +61,12 @@
         public void GetAllTargetTemplate_AnyArg_ReturnInstanceOfListOfTargetTemplateModel()
         {
             // Arrange
-            var service = Substitute.For<TargetTemplateService>();
-            service.When(x => x.GetData<TargetTemplateModel>(Arg.Any<GetAllTargetTemplateCriteria>())).DoNotCallBase();
-            service.GetData<TargetTemplateModel>(Arg.Any<GetAllTargetTemplateCriteria>()).Returns(new List<TargetTemplateModel>());
+            targetTemplateService = Substitute.For<TargetTemplateService>();
+            targetTemplateService.When(x => x.GetData<TargetTemplateModel>(Arg.Any<GetAllTargetTemplateCriteria>())).DoNotCallBase();
+            targetTemplateService.GetData<TargetTemplateModel>(Arg.Any<GetAllTargetTemplateCriteria>()).Returns(new List<TargetTemplateModel>());
 
             // Act
-            var actual = service.GetAllTargetTemplate(new GetAllTargetTemplateCriteria());
+            var actual = targetTemplateService.GetAllTargetTemplate(new GetAllTargetTemplateCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<TargetTemplateModel>), actual);
@@ -75,16 +76,16 @@
         public void GetAllTargetTemplate_ValidArg_ExpectedToExecuteGetData()
         {
             // Arrange
-            var service = Substitute.For<TargetTemplateService>();
+            targetTemplateService = Substitute.For<TargetTemplateService>();
             var criteria = new GetAllTargetTemplateCriteria();
-            service.When(x => x.GetData<TargetTemplateModel>(Arg.Any<GetAllTargetTemplateCriteria>())).DoNotCallBase();
-            service.GetData<TargetTemplateModel>(Arg.Any<GetAllTargetTemplateCriteria>()).Returns(new List<TargetTemplateModel>());
+            targetTemplateService.When(x => x.GetData<TargetTemplateModel>(Arg.Any<GetAllTargetTemplateCriteria>())).DoNotCallBase();
+            targetTemplateService.GetData<TargetTemplateModel>(Arg.Any<GetAllTargetTemplateCriteria>()).Returns(new List<TargetTemplateModel>());
 
             // Act
-            service.GetAllTargetTemplate(criteria);
+            targetTemplateService.GetAllTargetTemplate(criteria);
 
             // Assert
-            service.Received(1).GetData<TargetTemplateModel>(Arg.Is<GetAllTargetTemplateCriteria>(x => x.IsValid()));
+            targetTemplateService.Received().GetData<TargetTemplateModel>(Arg.Is<GetAllTargetTemplateCriteria>(x => x.IsValid()));
         }
 
         #endregion GetAllTargetTemplate
@@ -95,12 +96,12 @@
         public void GetRatingType_AnyArg_ReturnInstanceOfListOfRatingType()
         {
             // Arrange
-            var service = Substitute.For<TargetTemplateService>();
-            service.When(x => x.GetData<RatingType>(Arg.Any<GetRatingTypeCriteria>())).DoNotCallBase();
-            service.GetData<RatingType>(Arg.Any<GetRatingTypeCriteria>()).Returns(new List<RatingType>());
+            targetTemplateService = Substitute.For<TargetTemplateService>();
+            targetTemplateService.When(x => x.GetData<RatingType>(Arg.Any<GetRatingTypeCriteria>())).DoNotCallBase();
+            targetTemplateService.GetData<RatingType>(Arg.Any<GetRatingTypeCriteria>()).Returns(new List<RatingType>());
 
             // Act
-            var actual = service.GetRatingType(new GetRatingTypeCriteria());
+            var actual = targetTemplateService.GetRatingType(new GetRatingTypeCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<RatingType>), actual);
@@ -110,16 +111,16 @@
         public void GetRatingType_ValidArg_ExpectedToExecuteGetData()
         {
             // Arrange
-            var service = Substitute.For<TargetTemplateService>();
+            targetTemplateService = Substitute.For<TargetTemplateService>();
             var criteria = new GetRatingTypeCriteria();
-            service.When(x => x.GetData<RatingType>(Arg.Any<GetRatingTypeCriteria>())).DoNotCallBase();
-            service.GetData<RatingType>(Arg.Any<GetRatingTypeCriteria>()).Returns(new List<RatingType>());
+            targetTemplateService.When(x => x.GetData<RatingType>(Arg.Any<GetRatingTypeCriteria>())).DoNotCallBase();
+            targetTemplateService.GetData<RatingType>(Arg.Any<GetRatingTypeCriteria>()).Returns(new List<RatingType>());
 
             // Act
-            service.GetRatingType(criteria);
+            targetTemplateService.GetRatingType(criteria);
 
             // Assert
-            service.Received(1).GetData<RatingType>(Arg.Is<GetRatingTypeCriteria>(x => x.IsValid()));
+            targetTemplateService.Received().GetData<RatingType>(Arg.Is<GetRatingTypeCriteria>(x => x.IsValid()));
         }
 
         #endregion GetRatingType
@@ -131,11 +132,11 @@
         {
             // Arrange
             baseRepository = FakeBaseRepository();
-            var service = GetTargetTemplateService(baseRepository);
-            service.Repository.Insert(Arg.Any<CreateTargetTemplateCriteria>()).Returns(new CommandResult());
+            targetTemplateService = GetTargetTemplateService(baseRepository);
+            targetTemplateService.Repository.Insert(Arg.Any<CreateTargetTemplateCriteria>()).Returns(new CommandResult());
 
             // Act
-            var actual = service.CreateTargetTemplate(new CreateTargetTemplateCriteria());
+            var actual = targetTemplateService.CreateTargetTemplate(new CreateTargetTemplateCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -154,14 +155,14 @@
                 CreatedBy = 1
             };
             baseRepository = FakeBaseRepository();
-            var service = GetTargetTemplateService(baseRepository);
-            service.Repository.Insert(Arg.Any<CreateTargetTemplateCriteria>()).Returns(new CommandResult());
+            targetTemplateService = GetTargetTemplateService(baseRepository);
+            targetTemplateService.Repository.Insert(Arg.Any<CreateTargetTemplateCriteria>()).Returns(new CommandResult());
 
             // Act
-            service.CreateTargetTemplate(criteria);
+            targetTemplateService.CreateTargetTemplate(criteria);
 
             // Assert
-            service.Repository.Received(1).Insert(Arg.Is<CreateTargetTemplateCriteria>(x => x.IsValid()));
+            targetTemplateService.Repository.Received().Insert(Arg.Is<CreateTargetTemplateCriteria>(x => x.IsValid()));
         }
 
         #endregion CreateTargetTemplate
@@ -173,11 +174,11 @@
         {
             // Arrange
             baseRepository = FakeBaseRepository();
-            var service = GetTargetTemplateService(baseRepository);
-            service.Repository.Update(Arg.Any<UpdateStatusTargetTemplateCriteria>()).Returns(new CommandResult());
+            targetTemplateService = GetTargetTemplateService(baseRepository);
+            targetTemplateService.Repository.Update(Arg.Any<UpdateStatusTargetTemplateCriteria>()).Returns(new CommandResult());
 
             // Act
-            var actual = service.UpdateStatusTargetTemplate(new UpdateStatusTargetTemplateCriteria());
+            var actual = targetTemplateService.UpdateStatusTargetTemplate(new UpdateStatusTargetTemplateCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -193,14 +194,14 @@
                 ModifiedBy = 1
             };
             baseRepository = FakeBaseRepository();
-            var service = GetTargetTemplateService(baseRepository);
-            service.Repository.Update(Arg.Any<UpdateStatusTargetTemplateCriteria>()).Returns(new CommandResult());
+            targetTemplateService = GetTargetTemplateService(baseRepository);
+            targetTemplateService.Repository.Update(Arg.Any<UpdateStatusTargetTemplateCriteria>()).Returns(new CommandResult());
 
             // Act
-            service.UpdateStatusTargetTemplate(criteria);
+            targetTemplateService.UpdateStatusTargetTemplate(criteria);
 
             // Assert
-            service.Repository.Received(1).Update(Arg.Is<UpdateStatusTargetTemplateCriteria>(x => x.IsValid()));
+            targetTemplateService.Repository.Received().Update(Arg.Is<UpdateStatusTargetTemplateCriteria>(x => x.IsValid()));
         }
 
         #endregion UpdateStatusTargetTemplate
@@ -212,11 +213,11 @@
         {
             // Arrange
             baseRepository = FakeBaseRepository();
-            var service = GetTargetTemplateService(baseRepository);
-            service.Repository.Update(Arg.Any<UpdateTargetTemplateCriteria>()).Returns(new CommandResult());
+            targetTemplateService = GetTargetTemplateService(baseRepository);
+            targetTemplateService.Repository.Update(Arg.Any<UpdateTargetTemplateCriteria>()).Returns(new CommandResult());
 
             // Act
-            var actual = service.UpdateTargetTemplate(new UpdateTargetTemplateCriteria());
+            var actual = targetTemplateService.UpdateTargetTemplate(new UpdateTargetTemplateCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -232,14 +233,14 @@
                 ModifiedBy = 1
             };
             baseRepository = FakeBaseRepository();
-            var service = GetTargetTemplateService(baseRepository);
-            service.Repository.Update(Arg.Any<UpdateTargetTemplateCriteria>()).Returns(new CommandResult());
+            targetTemplateService = GetTargetTemplateService(baseRepository);
+            targetTemplateService.Repository.Update(Arg.Any<UpdateTargetTemplateCriteria>()).Returns(new CommandResult());
 
             // Act
-            service.UpdateTargetTemplate(criteria);
+            targetTemplateService.UpdateTargetTemplate(criteria);
 
             // Assert
-            service.Repository.Received(1).Update(Arg.Is<UpdateTargetTemplateCriteria>(x => x.IsValid()));
+            targetTemplateService.Repository.Received().Update(Arg.Is<UpdateTargetTemplateCriteria>(x => x.IsValid()));
         }
 
         #endregion UpdateTargetTemplate
@@ -251,11 +252,11 @@
         {
             // Arrange
             baseRepository = FakeBaseRepository();
-            var service = GetTargetTemplateService(baseRepository);
-            service.Repository.Update(Arg.Any<UpdateTargetTemplateBasicInformationCriteria>()).Returns(new CommandResult());
+            targetTemplateService = GetTargetTemplateService(baseRepository);
+            targetTemplateService.Repository.Update(Arg.Any<UpdateTargetTemplateBasicInformationCriteria>()).Returns(new CommandResult());
 
             // Act
-            var actual = service.UpdateTargetTemplateBasicInformation(new UpdateTargetTemplateBasicInformationCriteria());
+            var actual = targetTemplateService.UpdateTargetTemplateBasicInformation(new UpdateTargetTemplateBasicInformationCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -275,14 +276,14 @@
                 ModifiedBy = 1
             };
             baseRepository = FakeBaseRepository();
-            var service = GetTargetTemplateService(baseRepository);
-            service.Repository.Update(Arg.Any<UpdateTargetTemplateBasicInformationCriteria>()).Returns(new CommandResult());
+            targetTemplateService = GetTargetTemplateService(baseRepository);
+            targetTemplateService.Repository.Update(Arg.Any<UpdateTargetTemplateBasicInformationCriteria>()).Returns(new CommandResult());
 
             // Act
-            service.UpdateTargetTemplateBasicInformation(criteria);
+            targetTemplateService.UpdateTargetTemplateBasicInformation(criteria);
 
             // Assert
-            service.Repository.Received(1).Update(Arg.Is<UpdateTargetTemplateBasicInformationCriteria>(x => x.IsValid()));
+            targetTemplateService.Repository.Received().Update(Arg.Is<UpdateTargetTemplateBasicInformationCriteria>(x => x.IsValid()));
         }
 
         #endregion UpdateTargetTemplateBasicInformation
@@ -294,11 +295,11 @@
         {
             // Arrange
             baseRepository = FakeBaseRepository();
-            var service = GetTargetTemplateService(baseRepository);
-            service.Repository.Delete(Arg.Any<DeleteTargetTemplateCriteria>()).Returns(new CommandResult());
+            targetTemplateService = GetTargetTemplateService(baseRepository);
+            targetTemplateService.Repository.Delete(Arg.Any<DeleteTargetTemplateCriteria>()).Returns(new CommandResult());
 
             // Act
-            var actual = service.DeleteTargetTemplate(new DeleteTargetTemplateCriteria());
+            var actual = targetTemplateService.DeleteTargetTemplate(new DeleteTargetTemplateCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -314,14 +315,14 @@
                 ModifiedBy = 1
             };
             baseRepository = FakeBaseRepository();
-            var service = GetTargetTemplateService(baseRepository);
-            service.Repository.Delete(Arg.Any<DeleteTargetTemplateCriteria>()).Returns(new CommandResult());
+            targetTemplateService = GetTargetTemplateService(baseRepository);
+            targetTemplateService.Repository.Delete(Arg.Any<DeleteTargetTemplateCriteria>()).Returns(new CommandResult());
 
             // Act
-            service.DeleteTargetTemplate(criteria);
+            targetTemplateService.DeleteTargetTemplate(criteria);
 
             // Assert
-            service.Repository.Received(1).Delete(Arg.Is<DeleteTargetTemplateCriteria>(x => x.IsValid()));
+            targetTemplateService.Repository.Received().Delete(Arg.Is<DeleteTargetTemplateCriteria>(x => x.IsValid()));
         }
 
         #endregion DeleteTargetTemplate
@@ -333,11 +334,11 @@
         {
             // Arrange
             baseRepository = FakeBaseRepository();
-            var service = GetTargetTemplateService(baseRepository);
-            service.Repository.Delete(Arg.Any<DeleteKPIGroupOfTargetTemplateCriteria>()).Returns(new CommandResult());
+            targetTemplateService = GetTargetTemplateService(baseRepository);
+            targetTemplateService.Repository.Delete(Arg.Any<DeleteKPIGroupOfTargetTemplateCriteria>()).Returns(new CommandResult());
 
             // Act
-            var actual = service.DeleteKPIGroup(new DeleteKPIGroupOfTargetTemplateCriteria());
+            var actual = targetTemplateService.DeleteKPIGroup(new DeleteKPIGroupOfTargetTemplateCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -354,14 +355,14 @@
                 ModifiedBy = 1
             };
             baseRepository = FakeBaseRepository();
-            var service = GetTargetTemplateService(baseRepository);
-            service.Repository.Delete(Arg.Any<DeleteKPIGroupOfTargetTemplateCriteria>()).Returns(new CommandResult());
+            targetTemplateService = GetTargetTemplateService(baseRepository);
+            targetTemplateService.Repository.Delete(Arg.Any<DeleteKPIGroupOfTargetTemplateCriteria>()).Returns(new CommandResult());
 
             // Act
-            service.DeleteKPIGroup(criteria);
+            targetTemplateService.DeleteKPIGroup(criteria);
 
             // Assert
-            service.Repository.Received(1).Delete(Arg.Is<DeleteKPIGroupOfTargetTemplateCriteria>(x => x.IsValid()));
+            targetTemplateService.Repository.Received().Delete(Arg.Is<DeleteKPIGroupOfTargetTemplateCriteria>(x => x.IsValid()));
         }
 
         #endregion DeleteKPIGroup
@@ -373,11 +374,11 @@
         {
             // Arrange
             baseRepository = FakeBaseRepository();
-            var service = GetTargetTemplateService(baseRepository);
-            service.Repository.Insert(Arg.Any<SetKPIGroupOfTargetTemplateCriteria>()).Returns(new CommandResult());
+            targetTemplateService = GetTargetTemplateService(baseRepository);
+            targetTemplateService.Repository.Insert(Arg.Any<SetKPIGroupOfTargetTemplateCriteria>()).Returns(new CommandResult());
 
             // Act
-            var actual = service.AddKPIGroupWeight(new SetKPIGroupOfTargetTemplateCriteria());
+            var actual = targetTemplateService.AddKPIGroupWeight(new SetKPIGroupOfTargetTemplateCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -393,14 +394,14 @@
                 ModifiedBy = 1
             };
             baseRepository = FakeBaseRepository();
-            var service = GetTargetTemplateService(baseRepository);
-            service.Repository.Insert(Arg.Any<SetKPIGroupOfTargetTemplateCriteria>()).Returns(new CommandResult());
+            targetTemplateService = GetTargetTemplateService(baseRepository);
+            targetTemplateService.Repository.Insert(Arg.Any<SetKPIGroupOfTargetTemplateCriteria>()).Returns(new CommandResult());
 
             // Act
-            service.AddKPIGroupWeight(criteria);
+            targetTemplateService.AddKPIGroupWeight(criteria);
 
             // Assert
-            service.Repository.Received(1).Insert(Arg.Is<SetKPIGroupOfTargetTemplateCriteria>(x => x.IsValid()));
+            targetTemplateService.Repository.Received().Insert(Arg.Is<SetKPIGroupOfTargetTemplateCriteria>(x => x.IsValid()));
         }
 
         #endregion AddKPIGroupWeight
@@ -411,12 +412,12 @@
         public void GetKPIGroupOfTargetTemplate_AnyArg_ReturnInstanceOfListOfKPIGroupModel()
         {
             // Arrange
-            var service = Substitute.For<TargetTemplateService>();
-            service.When(x => x.GetData<KPIGroupModel>(Arg.Any<GetKPIGroupOfTargetTemplateCriteria>())).DoNotCallBase();
-            service.GetData<KPIGroupModel>(Arg.Any<GetKPIGroupOfTargetTemplateCriteria>()).Returns(new List<KPIGroupModel>());
+            targetTemplateService = Substitute.For<TargetTemplateService>();
+            targetTemplateService.When(x => x.GetData<KPIGroupModel>(Arg.Any<GetKPIGroupOfTargetTemplateCriteria>())).DoNotCallBase();
+            targetTemplateService.GetData<KPIGroupModel>(Arg.Any<GetKPIGroupOfTargetTemplateCriteria>()).Returns(new List<KPIGroupModel>());
 
             // Act
-            var actual = service.GetKPIGroupOfTargetTemplate(new GetKPIGroupOfTargetTemplateCriteria());
+            var actual = targetTemplateService.GetKPIGroupOfTargetTemplate(new GetKPIGroupOfTargetTemplateCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<KPIGroupModel>), actual);
@@ -430,32 +431,32 @@
             {
                 TargetTemplateId = 1
             };
-            var service = Substitute.For<TargetTemplateService>();
-            service.When(x => x.GetData<KPIGroupModel>(Arg.Any<GetKPIGroupOfTargetTemplateCriteria>())).DoNotCallBase();
-            service.GetData<KPIGroupModel>(Arg.Any<GetKPIGroupOfTargetTemplateCriteria>()).Returns(new List<KPIGroupModel>());
+            targetTemplateService = Substitute.For<TargetTemplateService>();
+            targetTemplateService.When(x => x.GetData<KPIGroupModel>(Arg.Any<GetKPIGroupOfTargetTemplateCriteria>())).DoNotCallBase();
+            targetTemplateService.GetData<KPIGroupModel>(Arg.Any<GetKPIGroupOfTargetTemplateCriteria>()).Returns(new List<KPIGroupModel>());
 
             // Act
-            service.GetKPIGroupOfTargetTemplate(criteria);
+            targetTemplateService.GetKPIGroupOfTargetTemplate(criteria);
 
             // Assert
-            service.Received(1).GetData<KPIGroupModel>(Arg.Is<GetKPIGroupOfTargetTemplateCriteria>(x => x.IsValid()));
+            targetTemplateService.Received().GetData<KPIGroupModel>(Arg.Is<GetKPIGroupOfTargetTemplateCriteria>(x => x.IsValid()));
         }
 
         [Test]
         public void GetKPIGroupOfTargetTemplate_CheckSelectedStatusKPIGroup_ReturnAsExpected()
         {
             // Arrange
-            var service = Substitute.For<TargetTemplateService>();
+            targetTemplateService = Substitute.For<TargetTemplateService>();
             IEnumerable<KPIGroupModel> result = GetListOfKPIGroupModelForTest();
-            service.When(x => x.GetData<KPIGroupModel>(Arg.Any<GetKPIGroupOfTargetTemplateCriteria>())).DoNotCallBase();
-            service.GetData<KPIGroupModel>(Arg.Any<GetKPIGroupOfTargetTemplateCriteria>()).Returns(result);
+            targetTemplateService.When(x => x.GetData<KPIGroupModel>(Arg.Any<GetKPIGroupOfTargetTemplateCriteria>())).DoNotCallBase();
+            targetTemplateService.GetData<KPIGroupModel>(Arg.Any<GetKPIGroupOfTargetTemplateCriteria>()).Returns(result);
 
             // Act
             var criteria = new GetKPIGroupOfTargetTemplateCriteria
             {
                 TargetTemplateId = 1
             };
-            var kpiGroups = service.GetKPIGroupOfTargetTemplate(criteria);
+            var kpiGroups = targetTemplateService.GetKPIGroupOfTargetTemplate(criteria);
 
             // Assert
             Assert.AreEqual(1, kpiGroups.Count(x => x.Selected.HasValue && x.Selected.Value));

@@ -9,22 +9,22 @@
     using SMS.EPA.Model;
     using SMS.EPA.Repositories.Interfaces;
     using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
 
     [TestFixture]
     public class KPIServiceTests
     {
-        private IKPIService kpiService;
+        private KPIService kpiService;
         private IKPIRepository kpiRepository;
         private IBaseRepository baseRepository;
 
+        #region GetKPI
+
         [Test]
-        public void GetKPI_WhenCalled_ReturnListOfKPIModel()
+        public void GetKPI_AnyArg_ReturnInstanceOfListOfKPIModel()
         {
             // Arrange
             kpiRepository = FakeKPIRepository();
-            var expected = new List<KPIModel>();
-            kpiRepository.GetKPI(Arg.Any<GetKPICriteria>()).Returns(expected);
+            kpiRepository.GetKPI(Arg.Any<GetKPICriteria>()).Returns(new List<KPIModel>());
             kpiService = GetKPIService(kpiRepository);
 
             // Act
@@ -35,84 +35,220 @@
         }
 
         [Test]
-        public void CreateKPI_WhenCalled_ReturnsCommandResult()
+        public void GetKPI_ValidArg_ExpectedToExecuteGetKPI()
+        {
+            // Arrange
+            var criteria = new GetKPICriteria();
+            kpiRepository = FakeKPIRepository();
+            kpiRepository.GetKPI(Arg.Any<GetKPICriteria>()).Returns(new List<KPIModel>());
+            kpiService = GetKPIService(kpiRepository);
+
+            // Act
+            kpiService.GetKPI(criteria);
+
+            // Assert
+            kpiRepository.Received().GetKPI(Arg.Is<GetKPICriteria>(x => x.IsValid()));
+        }
+
+        #endregion GetKPI
+
+        #region CreateKPI
+
+        [Test]
+        public void CreateKPI_AnyArg_ReturnInstanceOfCommandResult()
         {
             // Arrange
             baseRepository = Substitute.For<IBaseRepository>();
-            var service = GetKPIService(null, baseRepository);
-            var expected = new CommandResult();
-            service.Repository.Insert(Arg.Is<CreateKPICriteria>(criteria => criteria != null)).Returns(expected);
+            kpiService = GetKPIService(null, baseRepository);
+            kpiService.Repository.Insert(Arg.Any<CreateKPICriteria>()).Returns(new CommandResult());
 
             // Act
-            var actual = service.CreateKPI(new CreateKPICriteria());
+            var actual = kpiService.CreateKPI(new CreateKPICriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
         }
 
         [Test]
-        public void UpdateKPI_WhenCalled_ReturnsCommandResult()
+        public void CreateKPI_ValidArg_ExpectedToExecuteInsert()
+        {
+            // Arrange
+            var criteria = new CreateKPICriteria
+            {
+                Name = "test",
+                KPIGroupIds = "1,2",
+                CreatedBy = 1
+            };
+            baseRepository = Substitute.For<IBaseRepository>();
+            kpiService = GetKPIService(null, baseRepository);
+            kpiService.Repository.Insert(Arg.Any<CreateKPICriteria>()).Returns(new CommandResult());
+
+            // Act
+            kpiService.CreateKPI(criteria);
+
+            // Assert
+            kpiService.Repository.Received().Insert(Arg.Is<CreateKPICriteria>(x => x.IsValid()));
+        }
+
+        #endregion CreateKPI
+
+        #region UpdateKPI
+
+        [Test]
+        public void UpdateKPI_AnyArg_ReturnInstanceOfCommandResult()
         {
             // Arrange
             baseRepository = Substitute.For<IBaseRepository>();
-            var service = GetKPIService(null, baseRepository);
-            var expected = new CommandResult();
-            service.Repository.Update(Arg.Is<UpdateKPICriteria>(criteria => criteria != null)).Returns(expected);
+            kpiService = GetKPIService(null, baseRepository);
+            kpiService.Repository.Update(Arg.Any<UpdateKPICriteria>()).Returns(new CommandResult());
 
             // Act
-            var actual = service.UpdateKPI(new UpdateKPICriteria());
+            var actual = kpiService.UpdateKPI(new UpdateKPICriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
         }
 
         [Test]
-        public void UpdateStatusKPI_WhenCalled_ReturnsCommandResult()
+        public void UpdateKPI_ValidArg_ExpectedToExecuteUpdate()
+        {
+            // Arrange
+            var criteria = new UpdateKPICriteria
+            {
+                KPIId = 1,
+                Name = "test",
+                KPIGroupIds = "1,2",
+                ModifiedBy = 1
+            };
+            baseRepository = Substitute.For<IBaseRepository>();
+            kpiService = GetKPIService(null, baseRepository);
+            kpiService.Repository.Update(Arg.Any<UpdateKPICriteria>()).Returns(new CommandResult());
+
+            // Act
+            kpiService.UpdateKPI(criteria);
+
+            // Assert
+            kpiService.Repository.Received().Update(Arg.Is<UpdateKPICriteria>(x => x.IsValid()));
+        }
+
+        #endregion UpdateKPI
+
+        #region UpdateStatusKPI
+
+        [Test]
+        public void UpdateStatusKPI_AnyArg_ReturnInstanceOfCommandResult()
         {
             // Arrange
             baseRepository = Substitute.For<IBaseRepository>();
-            var service = GetKPIService(null, baseRepository);
-            var expected = new CommandResult();
-            service.Repository.Update(Arg.Is<UpdateStatusKPICriteria>(criteria => criteria != null)).Returns(expected);
+            kpiService = GetKPIService(null, baseRepository);
+            kpiService.Repository.Update(Arg.Any<UpdateStatusKPICriteria>()).Returns(new CommandResult());
 
             // Act
-            var actual = service.UpdateStatusKPI(new UpdateStatusKPICriteria());
+            var actual = kpiService.UpdateStatusKPI(new UpdateStatusKPICriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
         }
 
         [Test]
-        public void UpdateRequiredEvaluateKPI_WhenCalled_ReturnsCommandResult()
+        public void UpdateStatusKPI_ValidArg_ExpectedToExecuteUpdate()
+        {
+            // Arrange
+            var criteria = new UpdateStatusKPICriteria
+            {
+                KPIId = 1,
+                ModifiedBy = 1
+            };
+            baseRepository = Substitute.For<IBaseRepository>();
+            kpiService = GetKPIService(null, baseRepository);
+            kpiService.Repository.Update(Arg.Any<UpdateStatusKPICriteria>()).Returns(new CommandResult());
+
+            // Act
+            kpiService.UpdateStatusKPI(criteria);
+
+            // Assert
+            kpiService.Repository.Received().Update(Arg.Is<UpdateStatusKPICriteria>(x => x.IsValid()));
+        }
+
+        #endregion UpdateStatusKPI
+
+        #region UpdateRequiredEvaluateKPI
+
+        [Test]
+        public void UpdateRequiredEvaluateKPI_AnyArg_ReturnInstanceOfCommandResult()
         {
             // Arrange
             baseRepository = Substitute.For<IBaseRepository>();
-            var service = GetKPIService(null, baseRepository);
-            var expected = new CommandResult();
-            service.Repository.Update(Arg.Is<UpdateRequiredEvaluateKPICriteria>(criteria => criteria != null)).Returns(expected);
+            kpiService = GetKPIService(null, baseRepository);
+            kpiService.Repository.Update(Arg.Any<UpdateRequiredEvaluateKPICriteria>()).Returns(new CommandResult());
 
             // Act
-            var actual = service.UpdateRequiredEvaluateKPI(new UpdateRequiredEvaluateKPICriteria());
+            var actual = kpiService.UpdateRequiredEvaluateKPI(new UpdateRequiredEvaluateKPICriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
         }
 
         [Test]
-        public void DeleteKPI_WhenCalled_ReturnsCommandResult()
+        public void UpdateRequiredEvaluateKPI_ValidArg_ExpectedToExecuteUpdate()
+        {
+            // Arrange
+            var criteria = new UpdateRequiredEvaluateKPICriteria
+            {
+                KPIId = 1,
+                ModifiedBy = 1
+            };
+            baseRepository = Substitute.For<IBaseRepository>();
+            kpiService = GetKPIService(null, baseRepository);
+            kpiService.Repository.Update(Arg.Any<UpdateRequiredEvaluateKPICriteria>()).Returns(new CommandResult());
+
+            // Act
+            kpiService.UpdateRequiredEvaluateKPI(criteria);
+
+            // Assert
+            kpiService.Repository.Received().Update(Arg.Is<UpdateRequiredEvaluateKPICriteria>(x => x.IsValid()));
+        }
+
+        #endregion UpdateRequiredEvaluateKPI
+
+        #region DeleteKPI
+
+        [Test]
+        public void DeleteKPI_AnyArg_ReturnInstanceOfCommandResult()
         {
             // Arrange
             baseRepository = Substitute.For<IBaseRepository>();
-            var service = GetKPIService(null, baseRepository);
-            var expected = new CommandResult();
-            service.Repository.Delete(Arg.Is<DeleteKPICriteria>(criteria => criteria != null)).Returns(expected);
+            kpiService = GetKPIService(null, baseRepository);
+            kpiService.Repository.Delete(Arg.Any<DeleteKPICriteria>()).Returns(new CommandResult());
 
             // Act
-            var actual = service.DeleteKPI(new DeleteKPICriteria());
+            var actual = kpiService.DeleteKPI(new DeleteKPICriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
         }
+
+        [Test]
+        public void DeleteKPI_ValidArg_ExpectedToExecuteDelete()
+        {
+            // Arrange
+            var criteria = new DeleteKPICriteria
+            {
+                KPIId = 1,
+                ModifiedBy = 1
+            };
+            baseRepository = Substitute.For<IBaseRepository>();
+            kpiService = GetKPIService(null, baseRepository);
+            kpiService.Repository.Delete(Arg.Any<DeleteKPICriteria>()).Returns(new CommandResult());
+
+            // Act
+            kpiService.DeleteKPI(criteria);
+
+            // Assert
+            kpiService.Repository.Received().Delete(Arg.Is<DeleteKPICriteria>(x => x.IsValid()));
+        }
+
+        #endregion DeleteKPI
 
         private IKPIRepository FakeKPIRepository()
         {
