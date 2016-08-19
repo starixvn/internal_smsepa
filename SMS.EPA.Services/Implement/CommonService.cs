@@ -4,7 +4,6 @@
     using System.Linq;
     using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.Department;
-    using SMS.EPA.Criteria.Employee;
     using SMS.EPA.Criteria.EmployeeEPA;
     using SMS.EPA.Criteria.EPAHistory;
     using SMS.EPA.Criteria.Period;

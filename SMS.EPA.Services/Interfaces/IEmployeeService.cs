@@ -4,7 +4,6 @@
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.Authentication;
-    using SMS.EPA.Criteria.Employee;
     using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.Enitites;
 

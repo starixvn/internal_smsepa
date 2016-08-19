@@ -5,7 +5,7 @@
     using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Criteria.Employee;
+    using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.Report;
     using SMS.EPA.Model.Report.Dashboard;
     using SMS.EPA.Services.Implement;

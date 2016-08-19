@@ -7,7 +7,7 @@
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Security;
-    using SMS.EPA.Criteria.Employee;
+    using SMS.EPA.Criteria;
     using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Resources;
@@ -50,14 +50,6 @@
             IEnumerable<EmployeeModel> employees = employeeService.GetAllEmployee(criteria);
 
             return employees;
-        }
-
-        public IEnumerable<Group> GetAllGroup()
-        {
-            var criteria = new GetAllGroupCriteria();
-            IEnumerable<Group> groups = employeeService.GetAllGroup(criteria);
-
-            return groups;
         }
 
         [HttpPost]

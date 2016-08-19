@@ -69,8 +69,8 @@ function ($scope, TargetEmployeeSettingModel, EmployeeModel, CommonModel, Target
     $scope.$watch(function () { return $scope.targetCtrl.dataTab.personnel; },
         function (newVal) {
             if (newVal && vm.isFirstLoad) {
-                EmployeeModel.getAllGroup().then(function () {
-                    vm.groupOptions = EmployeeModel.groups;
+                CommonModel.getAllGroup().then(function () {
+                    vm.groupOptions = CommonModel.groups;
                 });
 
                 CommonModel.getTargetType().then(function () {

@@ -26,8 +26,8 @@ function ($window, EmployeeModel, utilitiesFactory, CommonModel, enumerationsFac
 
     utilitiesFactory.numberEntryList(vm);
 
-    EmployeeModel.getAllGroup().then(function () {
-        vm.groupOptions = EmployeeModel.groups;
+    CommonModel.getAllGroup().then(function () {
+        vm.groupOptions = CommonModel.groups;
     });
 
     EmployeeModel.getDefaultPassword().then(function () {
@@ -91,15 +91,15 @@ function ($window, EmployeeModel, utilitiesFactory, CommonModel, enumerationsFac
     vm.updateHasMonthlyEPA = function (employee) {
         EmployeeModel.openPopupUpdateHasMonthlyEPA(vm, employee);
     };
-} ]);
+}]);
 
 employeeModule.controller('CreateEmployeeController',
 ['$modalInstance', 'EmployeeModel',
 function ($modalInstance, EmployeeModel) {
     var vm = this;
 
-    vm.groupOptions = EmployeeModel.groups;
-    vm.jobTitleOptions = EmployeeModel.jobTitles;
+    vm.groupOptions = [];
+    vm.jobTitleOptions = [];
 
     vm.employee = {
         NickName: '',
@@ -113,8 +113,8 @@ function ($modalInstance, EmployeeModel) {
         Email: ''
     };
 
-    EmployeeModel.getAllGroup().then(function () {
-        vm.groupOptions = EmployeeModel.groups;
+    CommonModel.getAllGroup().then(function () {
+        vm.groupOptions = CommonModel.groups;
     });
 
     EmployeeModel.getAllJobTitle().then(function () {
@@ -130,15 +130,15 @@ function ($modalInstance, EmployeeModel) {
     vm.cancel = function () {
         $modalInstance.dismiss("cancel");
     };
-} ]);
+}]);
 
 employeeModule.controller('UpdateEmployeeController',
-['$modalInstance', 'EmployeeModel', 'employee',
-function ($modalInstance, EmployeeModel, employee) {
+['$modalInstance', 'EmployeeModel', 'CommonModel', 'employee',
+function ($modalInstance, EmployeeModel, CommonModel, employee) {
     var vm = this;
 
-    vm.groupOptions = EmployeeModel.groups;
-    vm.jobTitleOptions = EmployeeModel.jobTitles;
+    vm.groupOptions = [];
+    vm.jobTitleOptions = [];
     vm.originalEmployee = employee;
 
     vm.employee = {
@@ -153,8 +153,8 @@ function ($modalInstance, EmployeeModel, employee) {
         Email: employee.Email
     };
 
-    EmployeeModel.getAllGroup().then(function () {
-        vm.groupOptions = EmployeeModel.groups;
+    CommonModel.getAllGroup().then(function () {
+        vm.groupOptions = CommonModel.groups;
     });
 
     EmployeeModel.getAllJobTitle().then(function () {
@@ -170,7 +170,7 @@ function ($modalInstance, EmployeeModel, employee) {
     vm.cancel = function () {
         $modalInstance.dismiss("cancel");
     };
-} ]);
+}]);
 
 employeeModule.controller('EmployeeProfileController',
 ['$window', 'EmployeeModel', function ($window, EmployeeModel) {
@@ -185,7 +185,7 @@ employeeModule.controller('EmployeeProfileController',
             vm.modalInstance = '';
         });
     };
-} ]);
+}]);
 
 employeeModule.controller('ChangePasswordEmployeeController',
 ['$modalInstance', 'EmployeeModel',
@@ -207,7 +207,7 @@ function ($modalInstance, EmployeeModel) {
     vm.cancel = function () {
         $modalInstance.dismiss("cancel");
     };
-} ]);
+}]);
 
 employeeModule.controller('AssignRoleToUserController',
 ['$modalInstance', 'EmployeeModel', 'employee', 'CommonModel',
@@ -271,16 +271,16 @@ employeeModule.controller("ResetPasswordController",
 employeeModule.controller("ModalConfirmSetUnsetMonthlyEvaluationController",
 ['$modalInstance', 'name', 'action',
 function ($modalInstance, name, action) {
-     var vm = this;
+    var vm = this;
 
-     vm.name = name;
-     vm.action = action;
+    vm.name = name;
+    vm.action = action;
 
-     vm.ok = function () {
-         $modalInstance.close();
-     };
+    vm.ok = function () {
+        $modalInstance.close();
+    };
 
-     vm.cancel = function () {
-         $modalInstance.dismiss("cancel");
-     };
- }]);
+    vm.cancel = function () {
+        $modalInstance.dismiss("cancel");
+    };
+}]);

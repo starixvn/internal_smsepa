@@ -8,7 +8,6 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
         emailPattern = /^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
 
     employeeModel.employees = [];
-    employeeModel.groups = [];
     employeeModel.jobTitles = [];
     employeeModel.defaultPassword = null;
     employeeModel.permission = 0;
@@ -19,15 +18,6 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
             employeeModel.employees = employees;
         })
         .error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
-
-    employeeModel.getAllGroup = function () {
-        return employeeFactory.getAllGroup()
-        .success(function (groups) {
-            employeeModel.groups = groups;
-        }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
     };
@@ -380,4 +370,4 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
     };
 
     return employeeModel;
-} ]);
+}]);

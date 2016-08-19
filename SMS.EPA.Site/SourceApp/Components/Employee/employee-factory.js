@@ -16,9 +16,6 @@ employeeModule.factory('employeeFactory', ['$http', 'baseUrl', function ($http, 
                     }
                 });
         },
-        getAllGroup: function () {
-            return $http.get(baseUrl + 'api/Employee/GetAllGroup');
-        },
         createSpecialEmployee: function (employee) {
             return $http.post(baseUrl + 'api/Employee/CreateSpecialEmployee', employee);
         },
@@ -47,4 +44,4 @@ employeeModule.factory('employeeFactory', ['$http', 'baseUrl', function ($http, 
             return $http.get(baseUrl + 'api/Employee/GetUserPermissionOnEmployee');
         }
     };
-} ]);
+}]);
