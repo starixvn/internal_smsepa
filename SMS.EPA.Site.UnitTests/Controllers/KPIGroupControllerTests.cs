@@ -20,7 +20,7 @@
         #region GetKPIGroup
 
         [Test]
-        public void GetKPIGroup_ValidActionName_ReturnAsExpected()
+        public void GetKPIGroup_CheckActionName_ReturnAsExpected()
         {
             // Arrange
             kpiGroupController = GetKPIGroupController();
@@ -53,7 +53,7 @@
         #region GetKPIGroupById
 
         [Test]
-        public void GetKPIGroupById_ValidActionName_ReturnAsExpected()
+        public void GetKPIGroupById_CheckActionName_ReturnAsExpected()
         {
             // Arrange
             kpiGroupController = GetKPIGroupController();
@@ -75,7 +75,7 @@
             kpiGroupController = GetKPIGroupController(kpiGroupService, sessionService);
 
             // Act
-            var actual = kpiGroupController.GetKPIGroupById(Arg.Is<int>(x => x > 0));
+            var actual = kpiGroupController.GetKPIGroupById(Arg.Any<int>());
 
             // Assert
             Assert.IsInstanceOf(typeof(KPIGroupModel), actual);
@@ -86,7 +86,7 @@
         #region CreateKPIGroup
 
         [Test]
-        public void CreateKPIGroup_ValidActionName_ReturnAsExpected()
+        public void CreateKPIGroup_CheckActionName_ReturnAsExpected()
         {
             // Arrange
             kpiGroupController = GetKPIGroupController();
@@ -108,7 +108,7 @@
             kpiGroupController = GetKPIGroupController(kpiGroupService, sessionService);
 
             // Act
-            var actual = kpiGroupController.CreateKPIGroup(new CreateKPIGroupCriteria());
+            var actual = kpiGroupController.CreateKPIGroup(Arg.Any<CreateKPIGroupCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -119,7 +119,7 @@
         #region UpdateKPIGroup
 
         [Test]
-        public void UpdateKPIGroup_ValidActionName_ReturnAsExpected()
+        public void UpdateKPIGroup_CheckActionName_ReturnAsExpected()
         {
             // Arrange
             kpiGroupController = GetKPIGroupController();
@@ -141,7 +141,7 @@
             kpiGroupController = GetKPIGroupController(kpiGroupService, sessionService);
 
             // Act
-            var actual = kpiGroupController.UpdateKPIGroup(new UpdateKPIGroupCriteria());
+            var actual = kpiGroupController.UpdateKPIGroup(Arg.Any<UpdateKPIGroupCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -152,7 +152,7 @@
         #region UpdateStatusKPIGroup
 
         [Test]
-        public void UpdateStatusKPIGroup_ValidActionName_ReturnAsExpected()
+        public void UpdateStatusKPIGroup_CheckActionName_ReturnAsExpected()
         {
             // Arrange
             kpiGroupController = GetKPIGroupController();
@@ -174,7 +174,7 @@
             kpiGroupController = GetKPIGroupController(kpiGroupService, sessionService);
 
             // Act
-            var actual = kpiGroupController.UpdateStatusKPIGroup(new UpdateStatusKPIGroupCriteria());
+            var actual = kpiGroupController.UpdateStatusKPIGroup(Arg.Any<UpdateStatusKPIGroupCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -185,7 +185,7 @@
         #region DeleteKPIGroup
 
         [Test]
-        public void DeleteKPIGroup_ValidActionName_ReturnAsExpected()
+        public void DeleteKPIGroup_CheckActionName_ReturnAsExpected()
         {
             // Arrange
             kpiGroupController = GetKPIGroupController();
@@ -207,13 +207,15 @@
             kpiGroupController = GetKPIGroupController(kpiGroupService, sessionService);
 
             // Act
-            var actual = kpiGroupController.DeleteKPIGroup(Arg.Is<int>(x => x > 0));
+            var actual = kpiGroupController.DeleteKPIGroup(Arg.Any<int>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
         }
 
         #endregion DeleteKPIGroup
+
+        #region Helpers
 
         private ISessionService FakeSessionService()
         {
@@ -239,5 +241,7 @@
 
             return controller;
         }
+
+        #endregion Helpers
     }
 }

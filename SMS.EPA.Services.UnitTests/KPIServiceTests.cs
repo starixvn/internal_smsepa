@@ -23,9 +23,7 @@
         public void GetKPI_AnyArg_ReturnInstanceOfListOfKPIModel()
         {
             // Arrange
-            kpiRepository = FakeKPIRepository();
-            kpiRepository.GetKPI(Arg.Any<GetKPICriteria>()).Returns(new List<KPIModel>());
-            kpiService = GetKPIService(kpiRepository);
+            ArrangeGetKPI();
 
             // Act
             var actual = kpiService.GetKPI(new GetKPICriteria());
@@ -39,9 +37,7 @@
         {
             // Arrange
             var criteria = new GetKPICriteria();
-            kpiRepository = FakeKPIRepository();
-            kpiRepository.GetKPI(Arg.Any<GetKPICriteria>()).Returns(new List<KPIModel>());
-            kpiService = GetKPIService(kpiRepository);
+            ArrangeGetKPI();
 
             // Act
             kpiService.GetKPI(criteria);
@@ -58,9 +54,7 @@
         public void CreateKPI_AnyArg_ReturnInstanceOfCommandResult()
         {
             // Arrange
-            baseRepository = Substitute.For<IBaseRepository>();
-            kpiService = GetKPIService(null, baseRepository);
-            kpiService.Repository.Insert(Arg.Any<CreateKPICriteria>()).Returns(new CommandResult());
+            ArrangeCreateKPI();
 
             // Act
             var actual = kpiService.CreateKPI(new CreateKPICriteria());
@@ -79,9 +73,7 @@
                 KPIGroupIds = "1,2",
                 CreatedBy = 1
             };
-            baseRepository = Substitute.For<IBaseRepository>();
-            kpiService = GetKPIService(null, baseRepository);
-            kpiService.Repository.Insert(Arg.Any<CreateKPICriteria>()).Returns(new CommandResult());
+            ArrangeCreateKPI();
 
             // Act
             kpiService.CreateKPI(criteria);
@@ -98,9 +90,7 @@
         public void UpdateKPI_AnyArg_ReturnInstanceOfCommandResult()
         {
             // Arrange
-            baseRepository = Substitute.For<IBaseRepository>();
-            kpiService = GetKPIService(null, baseRepository);
-            kpiService.Repository.Update(Arg.Any<UpdateKPICriteria>()).Returns(new CommandResult());
+            ArrangeUpdateKPI();
 
             // Act
             var actual = kpiService.UpdateKPI(new UpdateKPICriteria());
@@ -120,9 +110,7 @@
                 KPIGroupIds = "1,2",
                 ModifiedBy = 1
             };
-            baseRepository = Substitute.For<IBaseRepository>();
-            kpiService = GetKPIService(null, baseRepository);
-            kpiService.Repository.Update(Arg.Any<UpdateKPICriteria>()).Returns(new CommandResult());
+            ArrangeUpdateKPI();
 
             // Act
             kpiService.UpdateKPI(criteria);
@@ -139,9 +127,7 @@
         public void UpdateStatusKPI_AnyArg_ReturnInstanceOfCommandResult()
         {
             // Arrange
-            baseRepository = Substitute.For<IBaseRepository>();
-            kpiService = GetKPIService(null, baseRepository);
-            kpiService.Repository.Update(Arg.Any<UpdateStatusKPICriteria>()).Returns(new CommandResult());
+            ArrangeUpdateStatusKPI();
 
             // Act
             var actual = kpiService.UpdateStatusKPI(new UpdateStatusKPICriteria());
@@ -159,9 +145,7 @@
                 KPIId = 1,
                 ModifiedBy = 1
             };
-            baseRepository = Substitute.For<IBaseRepository>();
-            kpiService = GetKPIService(null, baseRepository);
-            kpiService.Repository.Update(Arg.Any<UpdateStatusKPICriteria>()).Returns(new CommandResult());
+            ArrangeUpdateStatusKPI();
 
             // Act
             kpiService.UpdateStatusKPI(criteria);
@@ -178,9 +162,7 @@
         public void UpdateRequiredEvaluateKPI_AnyArg_ReturnInstanceOfCommandResult()
         {
             // Arrange
-            baseRepository = Substitute.For<IBaseRepository>();
-            kpiService = GetKPIService(null, baseRepository);
-            kpiService.Repository.Update(Arg.Any<UpdateRequiredEvaluateKPICriteria>()).Returns(new CommandResult());
+            ArrangeUpdateRequiredEvaluateKPI();
 
             // Act
             var actual = kpiService.UpdateRequiredEvaluateKPI(new UpdateRequiredEvaluateKPICriteria());
@@ -198,9 +180,7 @@
                 KPIId = 1,
                 ModifiedBy = 1
             };
-            baseRepository = Substitute.For<IBaseRepository>();
-            kpiService = GetKPIService(null, baseRepository);
-            kpiService.Repository.Update(Arg.Any<UpdateRequiredEvaluateKPICriteria>()).Returns(new CommandResult());
+            ArrangeUpdateRequiredEvaluateKPI();
 
             // Act
             kpiService.UpdateRequiredEvaluateKPI(criteria);
@@ -217,9 +197,7 @@
         public void DeleteKPI_AnyArg_ReturnInstanceOfCommandResult()
         {
             // Arrange
-            baseRepository = Substitute.For<IBaseRepository>();
-            kpiService = GetKPIService(null, baseRepository);
-            kpiService.Repository.Delete(Arg.Any<DeleteKPICriteria>()).Returns(new CommandResult());
+            ArrangeDeleteKPI();
 
             // Act
             var actual = kpiService.DeleteKPI(new DeleteKPICriteria());
@@ -237,9 +215,7 @@
                 KPIId = 1,
                 ModifiedBy = 1
             };
-            baseRepository = Substitute.For<IBaseRepository>();
-            kpiService = GetKPIService(null, baseRepository);
-            kpiService.Repository.Delete(Arg.Any<DeleteKPICriteria>()).Returns(new CommandResult());
+            ArrangeDeleteKPI();
 
             // Act
             kpiService.DeleteKPI(criteria);
@@ -249,6 +225,15 @@
         }
 
         #endregion DeleteKPI
+
+        #region Helpers
+
+        private IBaseRepository FakeBaseRepository()
+        {
+            var repository = Substitute.For<IBaseRepository>();
+
+            return repository;
+        }
 
         private IKPIRepository FakeKPIRepository()
         {
@@ -264,5 +249,49 @@
 
             return service;
         }
+
+        private void ArrangeGetKPI(IEnumerable<KPIModel> result = null)
+        {
+            kpiRepository = FakeKPIRepository();
+            kpiRepository.GetKPI(Arg.Any<GetKPICriteria>()).Returns(result ?? new List<KPIModel>());
+            kpiService = GetKPIService(kpiRepository);
+        }
+
+        private void ArrangeCreateKPI(CommandResult result = null)
+        {
+            baseRepository = FakeBaseRepository();
+            kpiService = GetKPIService(null, baseRepository);
+            kpiService.Repository.Insert(Arg.Any<CreateKPICriteria>()).Returns(result ?? new CommandResult());
+        }
+
+        private void ArrangeUpdateKPI(CommandResult result = null)
+        {
+            baseRepository = FakeBaseRepository();
+            kpiService = GetKPIService(null, baseRepository);
+            kpiService.Repository.Update(Arg.Any<UpdateKPICriteria>()).Returns(result ?? new CommandResult());
+        }
+
+        private void ArrangeUpdateStatusKPI(CommandResult result = null)
+        {
+            baseRepository = FakeBaseRepository();
+            kpiService = GetKPIService(null, baseRepository);
+            kpiService.Repository.Update(Arg.Any<UpdateStatusKPICriteria>()).Returns(result ?? new CommandResult());
+        }
+
+        private void ArrangeUpdateRequiredEvaluateKPI(CommandResult result = null)
+        {
+            baseRepository = FakeBaseRepository();
+            kpiService = GetKPIService(null, baseRepository);
+            kpiService.Repository.Update(Arg.Any<UpdateRequiredEvaluateKPICriteria>()).Returns(result ?? new CommandResult());
+        }
+
+        private void ArrangeDeleteKPI(CommandResult result = null)
+        {
+            baseRepository = FakeBaseRepository();
+            kpiService = GetKPIService(null, baseRepository);
+            kpiService.Repository.Delete(Arg.Any<DeleteKPICriteria>()).Returns(result ?? new CommandResult());
+        }
+
+        #endregion Helpers
     }
 }

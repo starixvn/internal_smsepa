@@ -112,7 +112,6 @@
     <Compile Include="TargetEmployeeSetting\TargetSettingAssignModel.cs" />
     <Compile Include="TargetEmployeeSetting\TargetDepartmentModel.cs" />
     <Compile Include="TargetEmployeeSetting\TargetEmployeeModel.cs" />
-    <Compile Include="TargetTemplate\TargetKPIGroupWeightModel.cs" />
     <Compile Include="TargetTemplate\TargetTemplateKPIGroupModel.cs" />
     <Compile Include="TargetTemplate\TargetTemplateKPIModel.cs" />
     <Compile Include="TargetTemplate\TargetTemplateModel.cs" />

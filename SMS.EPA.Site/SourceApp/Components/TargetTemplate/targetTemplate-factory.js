@@ -18,7 +18,7 @@
             getTargetTemplate: getTargetTemplate,
             getTargetTemplateById: getTargetTemplateById,
             updateTargetTemplate: updateTargetTemplate,
-            updateTargetTemplateBasicInformation: updateTargetTemplateBasicInformation,
+            updateTargetTemplateBasicInfo: updateTargetTemplateBasicInfo,
             updateStatusTargetTemplate: updateStatusTargetTemplate
         };
 
@@ -83,8 +83,8 @@
             return $http.put(baseUrl + 'api/TargetTemplate/UpdateTargetTemplate', targetTemplate);
         }
 
-        function updateTargetTemplateBasicInformation(targetTemplate) {
-            return $http.put(baseUrl + 'api/TargetTemplate/UpdateTargetTemplateBasicInformation', targetTemplate);
+        function updateTargetTemplateBasicInfo(targetTemplate) {
+            return $http.put(baseUrl + 'api/TargetTemplate/UpdateTargetTemplateBasicInfo', targetTemplate);
         }
 
         function updateStatusTargetTemplate(targetTemplate) {

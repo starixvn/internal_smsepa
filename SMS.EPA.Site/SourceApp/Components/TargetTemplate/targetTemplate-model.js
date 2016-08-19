@@ -37,7 +37,7 @@
             targetTemplate: targetTemplate,
             targetTemplates: targetTemplates,
             updateTargetTemplate: updateTargetTemplate,
-            updateTargetTemplateBasicInformation: updateTargetTemplateBasicInformation,
+            updateTargetTemplateBasicInfo: updateTargetTemplateBasicInfo,
             validateKPIGroupWeight: validateKPIGroupWeight,
             validateTargetTemplate: validateTargetTemplate
         };
@@ -314,8 +314,8 @@
             });
         }
 
-        function updateTargetTemplateBasicInformation(targetTemplate, originalScoreTypeId) {
-            return targetTemplateFactory.updateTargetTemplateBasicInformation(targetTemplate).success(function (response) {
+        function updateTargetTemplateBasicInfo(targetTemplate, originalScoreTypeId) {
+            return targetTemplateFactory.updateTargetTemplateBasicInfo(targetTemplate).success(function (response) {
                 if (response.IsSuccessful) {
                     if (targetTemplate.ScoreRatingTypeId !== originalScoreTypeId) {
                         notificationFactory.success("ChangeScoreRatingTypeWarning");

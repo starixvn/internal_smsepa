@@ -2,17 +2,10 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Text;
 
     [Serializable]
     public class TargetTemplateModel
     {
-        private const string KPIXmlTemplate = @"<KPI KPIId='{0}' KPIGroupId='{1}' IsSpreadKPI='{2}' Weight='{3}' DisplayOrder='{4}'
-                IsRequiredEvaluate='{5}' HasComment='{6}' IsRequiredComment='{7}'></KPI>";
-
-        private const string BeginRootTag = "<ROOT>";
-        private const string EndRootTag = "</ROOT>";
-
         public int TargetTemplateId { get; set; }
 
         public string Name { get; set; }
@@ -54,29 +47,5 @@
         public string ModifiedNickName { get; set; }
 
         public string ModifiedFullName { get; set; }
-
-        public string ConvertKPIItemToXml(List<TargetTemplateKPIModel> kpiItems)
-        {
-            var kpiXml = new StringBuilder(BeginRootTag);
-
-            if (kpiItems != null)
-            {
-                foreach (TargetTemplateKPIModel item in kpiItems)
-                {
-                    kpiXml.AppendFormat(
-                        KPIXmlTemplate,
-                        item.KPIId,
-                        item.KPIGroupId,
-                        item.IsSpreadKPI,
-                        item.Weight,
-                        item.DisplayOrder,
-                        item.IsRequiredEvaluate,
-                        item.HasComment,
-                        item.IsRequiredComment);
-                }
-            }
-
-            return kpiXml.Append(EndRootTag).ToString();
-        }
     }
 }

@@ -20,7 +20,7 @@
         #region GetRoleFunctionByRoleId
 
         [Test]
-        public void GetRoleFunctionByRoleId_ValidActionName_ReturnAsExpected()
+        public void GetRoleFunctionByRoleId_CheckActionName_ReturnAsExpected()
         {
             // Arrange
             roleController = GetRoleController();
@@ -42,7 +42,7 @@
             roleController = GetRoleController(roleService, sessionService);
 
             // Act
-            var actual = roleController.GetRoleFunctionByRoleId(Arg.Is<int>(x => x > 0));
+            var actual = roleController.GetRoleFunctionByRoleId(Arg.Any<int>());
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<RoleFunctionModel>), actual);
@@ -53,7 +53,7 @@
         #region AssignFunctionToRole
 
         [Test]
-        public void AssignFunctionToRole_ValidActionName_ReturnAsExpected()
+        public void AssignFunctionToRole_CheckActionName_ReturnAsExpected()
         {
             // Arrange
             roleController = GetRoleController();
@@ -75,13 +75,15 @@
             roleController = GetRoleController(roleService, sessionService);
 
             // Act
-            var actual = roleController.AssignFunctionToRole(new AssignFunctionToRoleCriteria());
+            var actual = roleController.AssignFunctionToRole(Arg.Any<AssignFunctionToRoleCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
         }
 
         #endregion AssignFunctionToRole
+
+        #region Helpers
 
         private ISessionService FakeSessionService()
         {
@@ -105,5 +107,7 @@
 
             return controller;
         }
+
+        #endregion Helpers
     }
 }

@@ -23,9 +23,7 @@
         public void GetTargetTemplateById_AnyArg_ReturnInstanceOfTargetTemplateModel()
         {
             // Arrange
-            targetTemplateService = Substitute.For<TargetTemplateService>();
-            targetTemplateService.When(x => x.GetDataEntity<TargetTemplateModel>(Arg.Any<GetTargetTemplateByIdCriteria>())).DoNotCallBase();
-            targetTemplateService.GetDataEntity<TargetTemplateModel>(Arg.Any<GetTargetTemplateByIdCriteria>()).Returns(new TargetTemplateModel());
+            ArrangeGetTargetTemplateById();
 
             // Act
             var actual = targetTemplateService.GetTargetTemplateById(new GetTargetTemplateByIdCriteria());
@@ -38,13 +36,11 @@
         public void GetTargetTemplateById_ValidArg_ExpectedToExecuteGetDataEntity()
         {
             // Arrange
-            targetTemplateService = Substitute.For<TargetTemplateService>();
             var criteria = new GetTargetTemplateByIdCriteria
             {
                 TargetTemplateId = 1
             };
-            targetTemplateService.When(x => x.GetDataEntity<TargetTemplateModel>(Arg.Any<GetTargetTemplateByIdCriteria>())).DoNotCallBase();
-            targetTemplateService.GetDataEntity<TargetTemplateModel>(Arg.Any<GetTargetTemplateByIdCriteria>()).Returns(new TargetTemplateModel());
+            ArrangeGetTargetTemplateById();
 
             // Act
             targetTemplateService.GetTargetTemplateById(criteria);
@@ -61,9 +57,7 @@
         public void GetAllTargetTemplate_AnyArg_ReturnInstanceOfListOfTargetTemplateModel()
         {
             // Arrange
-            targetTemplateService = Substitute.For<TargetTemplateService>();
-            targetTemplateService.When(x => x.GetData<TargetTemplateModel>(Arg.Any<GetAllTargetTemplateCriteria>())).DoNotCallBase();
-            targetTemplateService.GetData<TargetTemplateModel>(Arg.Any<GetAllTargetTemplateCriteria>()).Returns(new List<TargetTemplateModel>());
+            ArrangeGetAllTargetTemplate();
 
             // Act
             var actual = targetTemplateService.GetAllTargetTemplate(new GetAllTargetTemplateCriteria());
@@ -76,10 +70,8 @@
         public void GetAllTargetTemplate_ValidArg_ExpectedToExecuteGetData()
         {
             // Arrange
-            targetTemplateService = Substitute.For<TargetTemplateService>();
             var criteria = new GetAllTargetTemplateCriteria();
-            targetTemplateService.When(x => x.GetData<TargetTemplateModel>(Arg.Any<GetAllTargetTemplateCriteria>())).DoNotCallBase();
-            targetTemplateService.GetData<TargetTemplateModel>(Arg.Any<GetAllTargetTemplateCriteria>()).Returns(new List<TargetTemplateModel>());
+            ArrangeGetAllTargetTemplate();
 
             // Act
             targetTemplateService.GetAllTargetTemplate(criteria);
@@ -96,9 +88,7 @@
         public void GetRatingType_AnyArg_ReturnInstanceOfListOfRatingType()
         {
             // Arrange
-            targetTemplateService = Substitute.For<TargetTemplateService>();
-            targetTemplateService.When(x => x.GetData<RatingType>(Arg.Any<GetRatingTypeCriteria>())).DoNotCallBase();
-            targetTemplateService.GetData<RatingType>(Arg.Any<GetRatingTypeCriteria>()).Returns(new List<RatingType>());
+            ArrangeGetRatingType();
 
             // Act
             var actual = targetTemplateService.GetRatingType(new GetRatingTypeCriteria());
@@ -111,10 +101,8 @@
         public void GetRatingType_ValidArg_ExpectedToExecuteGetData()
         {
             // Arrange
-            targetTemplateService = Substitute.For<TargetTemplateService>();
             var criteria = new GetRatingTypeCriteria();
-            targetTemplateService.When(x => x.GetData<RatingType>(Arg.Any<GetRatingTypeCriteria>())).DoNotCallBase();
-            targetTemplateService.GetData<RatingType>(Arg.Any<GetRatingTypeCriteria>()).Returns(new List<RatingType>());
+            ArrangeGetRatingType();
 
             // Act
             targetTemplateService.GetRatingType(criteria);
@@ -131,9 +119,7 @@
         public void CreateTargetTemplate_AnyArg_ReturnInstanceOfCommandResult()
         {
             // Arrange
-            baseRepository = FakeBaseRepository();
-            targetTemplateService = GetTargetTemplateService(baseRepository);
-            targetTemplateService.Repository.Insert(Arg.Any<CreateTargetTemplateCriteria>()).Returns(new CommandResult());
+            ArrangeCreateTargetTemplate();
 
             // Act
             var actual = targetTemplateService.CreateTargetTemplate(new CreateTargetTemplateCriteria());
@@ -154,9 +140,7 @@
                 RatingTypeId = 1,
                 CreatedBy = 1
             };
-            baseRepository = FakeBaseRepository();
-            targetTemplateService = GetTargetTemplateService(baseRepository);
-            targetTemplateService.Repository.Insert(Arg.Any<CreateTargetTemplateCriteria>()).Returns(new CommandResult());
+            ArrangeCreateTargetTemplate();
 
             // Act
             targetTemplateService.CreateTargetTemplate(criteria);
@@ -173,9 +157,7 @@
         public void UpdateStatusTargetTemplate_AnyArg_ReturnInstanceOfCommandResult()
         {
             // Arrange
-            baseRepository = FakeBaseRepository();
-            targetTemplateService = GetTargetTemplateService(baseRepository);
-            targetTemplateService.Repository.Update(Arg.Any<UpdateStatusTargetTemplateCriteria>()).Returns(new CommandResult());
+            ArrangeUpdateStatusTargetTemplate();
 
             // Act
             var actual = targetTemplateService.UpdateStatusTargetTemplate(new UpdateStatusTargetTemplateCriteria());
@@ -193,9 +175,7 @@
                 TargetTemplateId = 1,
                 ModifiedBy = 1
             };
-            baseRepository = FakeBaseRepository();
-            targetTemplateService = GetTargetTemplateService(baseRepository);
-            targetTemplateService.Repository.Update(Arg.Any<UpdateStatusTargetTemplateCriteria>()).Returns(new CommandResult());
+            ArrangeUpdateStatusTargetTemplate();
 
             // Act
             targetTemplateService.UpdateStatusTargetTemplate(criteria);
@@ -212,9 +192,7 @@
         public void UpdateTargetTemplate_AnyArg_ReturnInstanceOfCommandResult()
         {
             // Arrange
-            baseRepository = FakeBaseRepository();
-            targetTemplateService = GetTargetTemplateService(baseRepository);
-            targetTemplateService.Repository.Update(Arg.Any<UpdateTargetTemplateCriteria>()).Returns(new CommandResult());
+            ArrangeUpdateTargetTemplate();
 
             // Act
             var actual = targetTemplateService.UpdateTargetTemplate(new UpdateTargetTemplateCriteria());
@@ -232,9 +210,7 @@
                 TargetTemplateId = 1,
                 ModifiedBy = 1
             };
-            baseRepository = FakeBaseRepository();
-            targetTemplateService = GetTargetTemplateService(baseRepository);
-            targetTemplateService.Repository.Update(Arg.Any<UpdateTargetTemplateCriteria>()).Returns(new CommandResult());
+            ArrangeUpdateTargetTemplate();
 
             // Act
             targetTemplateService.UpdateTargetTemplate(criteria);
@@ -245,28 +221,26 @@
 
         #endregion UpdateTargetTemplate
 
-        #region UpdateTargetTemplateBasicInformation
+        #region UpdateTargetTemplateBasicInfo
 
         [Test]
-        public void UpdateTargetTemplateBasicInformation_AnyArg_ReturnInstanceOfCommandResult()
+        public void UpdateTargetTemplateBasicInfo_AnyArg_ReturnInstanceOfCommandResult()
         {
             // Arrange
-            baseRepository = FakeBaseRepository();
-            targetTemplateService = GetTargetTemplateService(baseRepository);
-            targetTemplateService.Repository.Update(Arg.Any<UpdateTargetTemplateBasicInformationCriteria>()).Returns(new CommandResult());
+            ArrangeUpdateTargetTemplateBasicInfo();
 
             // Act
-            var actual = targetTemplateService.UpdateTargetTemplateBasicInformation(new UpdateTargetTemplateBasicInformationCriteria());
+            var actual = targetTemplateService.UpdateTargetTemplateBasicInfo(new UpdateTargetTemplateBasicInfoCriteria());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
         }
 
         [Test]
-        public void UpdateTargetTemplateBasicInformation_ValidArg_ExpectedToExecuteUpdate()
+        public void UpdateTargetTemplateBasicInfo_ValidArg_ExpectedToExecuteUpdate()
         {
             // Arrange
-            var criteria = new UpdateTargetTemplateBasicInformationCriteria
+            var criteria = new UpdateTargetTemplateBasicInfoCriteria
             {
                 TargetTemplateId = 1,
                 Name = "test",
@@ -275,18 +249,16 @@
                 RatingTypeId = 1,
                 ModifiedBy = 1
             };
-            baseRepository = FakeBaseRepository();
-            targetTemplateService = GetTargetTemplateService(baseRepository);
-            targetTemplateService.Repository.Update(Arg.Any<UpdateTargetTemplateBasicInformationCriteria>()).Returns(new CommandResult());
+            ArrangeUpdateTargetTemplateBasicInfo();
 
             // Act
-            targetTemplateService.UpdateTargetTemplateBasicInformation(criteria);
+            targetTemplateService.UpdateTargetTemplateBasicInfo(criteria);
 
             // Assert
-            targetTemplateService.Repository.Received().Update(Arg.Is<UpdateTargetTemplateBasicInformationCriteria>(x => x.IsValid()));
+            targetTemplateService.Repository.Received().Update(Arg.Is<UpdateTargetTemplateBasicInfoCriteria>(x => x.IsValid()));
         }
 
-        #endregion UpdateTargetTemplateBasicInformation
+        #endregion UpdateTargetTemplateBasicInfo
 
         #region DeleteTargetTemplate
 
@@ -294,9 +266,7 @@
         public void DeleteTargetTemplate_AnyArg_ReturnInstanceOfCommandResult()
         {
             // Arrange
-            baseRepository = FakeBaseRepository();
-            targetTemplateService = GetTargetTemplateService(baseRepository);
-            targetTemplateService.Repository.Delete(Arg.Any<DeleteTargetTemplateCriteria>()).Returns(new CommandResult());
+            ArrangeDeleteTargetTemplate();
 
             // Act
             var actual = targetTemplateService.DeleteTargetTemplate(new DeleteTargetTemplateCriteria());
@@ -314,9 +284,7 @@
                 TargetTemplateId = 1,
                 ModifiedBy = 1
             };
-            baseRepository = FakeBaseRepository();
-            targetTemplateService = GetTargetTemplateService(baseRepository);
-            targetTemplateService.Repository.Delete(Arg.Any<DeleteTargetTemplateCriteria>()).Returns(new CommandResult());
+            ArrangeDeleteTargetTemplate();
 
             // Act
             targetTemplateService.DeleteTargetTemplate(criteria);
@@ -333,9 +301,7 @@
         public void DeleteKPIGroup_AnyArg_ReturnInstanceOfCommandResult()
         {
             // Arrange
-            baseRepository = FakeBaseRepository();
-            targetTemplateService = GetTargetTemplateService(baseRepository);
-            targetTemplateService.Repository.Delete(Arg.Any<DeleteKPIGroupOfTargetTemplateCriteria>()).Returns(new CommandResult());
+            ArrangeDeleteKPIGroup();
 
             // Act
             var actual = targetTemplateService.DeleteKPIGroup(new DeleteKPIGroupOfTargetTemplateCriteria());
@@ -354,9 +320,7 @@
                 KPIGroupId = 1,
                 ModifiedBy = 1
             };
-            baseRepository = FakeBaseRepository();
-            targetTemplateService = GetTargetTemplateService(baseRepository);
-            targetTemplateService.Repository.Delete(Arg.Any<DeleteKPIGroupOfTargetTemplateCriteria>()).Returns(new CommandResult());
+            ArrangeDeleteKPIGroup();
 
             // Act
             targetTemplateService.DeleteKPIGroup(criteria);
@@ -373,9 +337,7 @@
         public void AddKPIGroupWeight_AnyArg_ReturnInstanceOfCommandResult()
         {
             // Arrange
-            baseRepository = FakeBaseRepository();
-            targetTemplateService = GetTargetTemplateService(baseRepository);
-            targetTemplateService.Repository.Insert(Arg.Any<SetKPIGroupOfTargetTemplateCriteria>()).Returns(new CommandResult());
+            ArrangeAddKPIGroupWeight();
 
             // Act
             var actual = targetTemplateService.AddKPIGroupWeight(new SetKPIGroupOfTargetTemplateCriteria());
@@ -393,9 +355,7 @@
                 TargetTemplateId = 1,
                 ModifiedBy = 1
             };
-            baseRepository = FakeBaseRepository();
-            targetTemplateService = GetTargetTemplateService(baseRepository);
-            targetTemplateService.Repository.Insert(Arg.Any<SetKPIGroupOfTargetTemplateCriteria>()).Returns(new CommandResult());
+            ArrangeAddKPIGroupWeight();
 
             // Act
             targetTemplateService.AddKPIGroupWeight(criteria);
@@ -412,9 +372,7 @@
         public void GetKPIGroupOfTargetTemplate_AnyArg_ReturnInstanceOfListOfKPIGroupModel()
         {
             // Arrange
-            targetTemplateService = Substitute.For<TargetTemplateService>();
-            targetTemplateService.When(x => x.GetData<KPIGroupModel>(Arg.Any<GetKPIGroupOfTargetTemplateCriteria>())).DoNotCallBase();
-            targetTemplateService.GetData<KPIGroupModel>(Arg.Any<GetKPIGroupOfTargetTemplateCriteria>()).Returns(new List<KPIGroupModel>());
+            ArrangeGetKPIGroupOfTargetTemplate();
 
             // Act
             var actual = targetTemplateService.GetKPIGroupOfTargetTemplate(new GetKPIGroupOfTargetTemplateCriteria());
@@ -431,9 +389,7 @@
             {
                 TargetTemplateId = 1
             };
-            targetTemplateService = Substitute.For<TargetTemplateService>();
-            targetTemplateService.When(x => x.GetData<KPIGroupModel>(Arg.Any<GetKPIGroupOfTargetTemplateCriteria>())).DoNotCallBase();
-            targetTemplateService.GetData<KPIGroupModel>(Arg.Any<GetKPIGroupOfTargetTemplateCriteria>()).Returns(new List<KPIGroupModel>());
+            ArrangeGetKPIGroupOfTargetTemplate();
 
             // Act
             targetTemplateService.GetKPIGroupOfTargetTemplate(criteria);
@@ -446,10 +402,8 @@
         public void GetKPIGroupOfTargetTemplate_CheckSelectedStatusKPIGroup_ReturnAsExpected()
         {
             // Arrange
-            targetTemplateService = Substitute.For<TargetTemplateService>();
             IEnumerable<KPIGroupModel> result = GetListOfKPIGroupModelForTest();
-            targetTemplateService.When(x => x.GetData<KPIGroupModel>(Arg.Any<GetKPIGroupOfTargetTemplateCriteria>())).DoNotCallBase();
-            targetTemplateService.GetData<KPIGroupModel>(Arg.Any<GetKPIGroupOfTargetTemplateCriteria>()).Returns(result);
+            ArrangeGetKPIGroupOfTargetTemplate(result);
 
             // Act
             var criteria = new GetKPIGroupOfTargetTemplateCriteria
@@ -464,6 +418,8 @@
 
         #endregion GetKPIGroupOfTargetTemplate
 
+        #region Helpers
+
         private IBaseRepository FakeBaseRepository()
         {
             var repository = Substitute.For<IBaseRepository>();
@@ -477,6 +433,83 @@
             service.Repository = baseRepository;
 
             return service;
+        }
+
+        private void ArrangeGetTargetTemplateById(TargetTemplateModel result = null)
+        {
+            targetTemplateService = Substitute.For<TargetTemplateService>();
+            targetTemplateService.When(x => x.GetDataEntity<TargetTemplateModel>(Arg.Any<GetTargetTemplateByIdCriteria>())).DoNotCallBase();
+            targetTemplateService.GetDataEntity<TargetTemplateModel>(Arg.Any<GetTargetTemplateByIdCriteria>()).Returns(result ?? new TargetTemplateModel());
+        }
+
+        private void ArrangeGetAllTargetTemplate(IEnumerable<TargetTemplateModel> result = null)
+        {
+            targetTemplateService = Substitute.For<TargetTemplateService>();
+            targetTemplateService.When(x => x.GetData<TargetTemplateModel>(Arg.Any<GetAllTargetTemplateCriteria>())).DoNotCallBase();
+            targetTemplateService.GetData<TargetTemplateModel>(Arg.Any<GetAllTargetTemplateCriteria>()).Returns(result ?? new List<TargetTemplateModel>());
+        }
+
+        private void ArrangeGetRatingType(IEnumerable<RatingType> result = null)
+        {
+            targetTemplateService = Substitute.For<TargetTemplateService>();
+            targetTemplateService.When(x => x.GetData<RatingType>(Arg.Any<GetRatingTypeCriteria>())).DoNotCallBase();
+            targetTemplateService.GetData<RatingType>(Arg.Any<GetRatingTypeCriteria>()).Returns(result ?? new List<RatingType>());
+        }
+
+        private void ArrangeCreateTargetTemplate(CommandResult result = null)
+        {
+            baseRepository = FakeBaseRepository();
+            targetTemplateService = GetTargetTemplateService(baseRepository);
+            targetTemplateService.Repository.Insert(Arg.Any<CreateTargetTemplateCriteria>()).Returns(result ?? new CommandResult());
+        }
+
+        private void ArrangeUpdateStatusTargetTemplate(CommandResult result = null)
+        {
+            baseRepository = FakeBaseRepository();
+            targetTemplateService = GetTargetTemplateService(baseRepository);
+            targetTemplateService.Repository.Update(Arg.Any<UpdateStatusTargetTemplateCriteria>()).Returns(result ?? new CommandResult());
+        }
+
+        private void ArrangeUpdateTargetTemplate(CommandResult result = null)
+        {
+            baseRepository = FakeBaseRepository();
+            targetTemplateService = GetTargetTemplateService(baseRepository);
+            targetTemplateService.Repository.Update(Arg.Any<UpdateTargetTemplateCriteria>()).Returns(result ?? new CommandResult());
+        }
+
+        private void ArrangeUpdateTargetTemplateBasicInfo(CommandResult result = null)
+        {
+            baseRepository = FakeBaseRepository();
+            targetTemplateService = GetTargetTemplateService(baseRepository);
+            targetTemplateService.Repository.Update(Arg.Any<UpdateTargetTemplateBasicInfoCriteria>()).Returns(result ?? new CommandResult());
+        }
+
+        private void ArrangeDeleteTargetTemplate(CommandResult result = null)
+        {
+            baseRepository = FakeBaseRepository();
+            targetTemplateService = GetTargetTemplateService(baseRepository);
+            targetTemplateService.Repository.Delete(Arg.Any<DeleteTargetTemplateCriteria>()).Returns(result ?? new CommandResult());
+        }
+
+        private void ArrangeDeleteKPIGroup(CommandResult result = null)
+        {
+            baseRepository = FakeBaseRepository();
+            targetTemplateService = GetTargetTemplateService(baseRepository);
+            targetTemplateService.Repository.Delete(Arg.Any<DeleteKPIGroupOfTargetTemplateCriteria>()).Returns(result ?? new CommandResult());
+        }
+
+        private void ArrangeAddKPIGroupWeight(CommandResult result = null)
+        {
+            baseRepository = FakeBaseRepository();
+            targetTemplateService = GetTargetTemplateService(baseRepository);
+            targetTemplateService.Repository.Insert(Arg.Any<SetKPIGroupOfTargetTemplateCriteria>()).Returns(result ?? new CommandResult());
+        }
+
+        private void ArrangeGetKPIGroupOfTargetTemplate(IEnumerable<KPIGroupModel> result = null)
+        {
+            targetTemplateService = Substitute.For<TargetTemplateService>();
+            targetTemplateService.When(x => x.GetData<KPIGroupModel>(Arg.Any<GetKPIGroupOfTargetTemplateCriteria>())).DoNotCallBase();
+            targetTemplateService.GetData<KPIGroupModel>(Arg.Any<GetKPIGroupOfTargetTemplateCriteria>()).Returns(result ?? new List<KPIGroupModel>());
         }
 
         private IEnumerable<KPIGroupModel> GetListOfKPIGroupModelForTest()
@@ -498,5 +531,7 @@
 
             return groups;
         }
+
+        #endregion Helpers
     }
 }

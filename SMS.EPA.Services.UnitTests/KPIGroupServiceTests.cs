@@ -21,9 +21,7 @@
         public void GetKPIGroup_AnyArg_ReturnInstanceOfListOfKPIModel()
         {
             // Arrange
-            kpiGroupService = Substitute.For<KPIGroupService>();
-            kpiGroupService.When(x => x.GetData<KPIGroupModel>(Arg.Any<GetKPIGroupCriteria>())).DoNotCallBase();
-            kpiGroupService.GetData<KPIGroupModel>(Arg.Any<GetKPIGroupCriteria>()).Returns(new List<KPIGroupModel>());
+            ArrangeGetKPIGroup();
 
             // Act
             var actual = kpiGroupService.GetKPIGroup(new GetKPIGroupCriteria());
@@ -37,9 +35,7 @@
         {
             // Arrange
             var criteria = new GetKPIGroupCriteria();
-            kpiGroupService = Substitute.For<KPIGroupService>();
-            kpiGroupService.When(x => x.GetData<KPIGroupModel>(Arg.Any<GetKPIGroupCriteria>())).DoNotCallBase();
-            kpiGroupService.GetData<KPIGroupModel>(Arg.Any<GetKPIGroupCriteria>()).Returns(new List<KPIGroupModel>());
+            ArrangeGetKPIGroup();
 
             // Act
             kpiGroupService.GetKPIGroup(criteria);
@@ -56,9 +52,7 @@
         public void GetKPIGroupById_AnyArg_ReturnInstanceOfKPIModel()
         {
             // Arrange
-            kpiGroupService = Substitute.For<KPIGroupService>();
-            kpiGroupService.When(x => x.GetDataEntity<KPIGroupModel>(Arg.Any<GetKPIGroupByIdCriteria>())).DoNotCallBase();
-            kpiGroupService.GetDataEntity<KPIGroupModel>(Arg.Any<GetKPIGroupByIdCriteria>()).Returns(new KPIGroupModel());
+            ArrangeGetKPIGroupById();
 
             // Act
             var actual = kpiGroupService.GetKPIGroupById(new GetKPIGroupByIdCriteria());
@@ -75,9 +69,7 @@
             {
                 KPIGroupId = 1
             };
-            kpiGroupService = Substitute.For<KPIGroupService>();
-            kpiGroupService.When(x => x.GetDataEntity<KPIGroupModel>(Arg.Any<GetKPIGroupByIdCriteria>())).DoNotCallBase();
-            kpiGroupService.GetDataEntity<KPIGroupModel>(Arg.Any<GetKPIGroupByIdCriteria>()).Returns(new KPIGroupModel());
+            ArrangeGetKPIGroupById();
 
             // Act
             kpiGroupService.GetKPIGroupById(criteria);
@@ -94,9 +86,7 @@
         public void CreateKPIGroup_AnyArg_ReturnInstanceOfCommandResult()
         {
             // Arrange
-            baseRepository = Substitute.For<IBaseRepository>();
-            kpiGroupService = GetKPIGroupService(baseRepository);
-            kpiGroupService.Repository.Insert(Arg.Any<CreateKPIGroupCriteria>()).Returns(new CommandResult());
+            ArrangeCreateKPIGroup();
 
             // Act
             var actual = kpiGroupService.CreateKPIGroup(new CreateKPIGroupCriteria());
@@ -114,9 +104,7 @@
                 Name = "test",
                 CreatedBy = 1
             };
-            baseRepository = Substitute.For<IBaseRepository>();
-            kpiGroupService = GetKPIGroupService(baseRepository);
-            kpiGroupService.Repository.Insert(Arg.Any<CreateKPIGroupCriteria>()).Returns(new CommandResult());
+            ArrangeCreateKPIGroup();
 
             // Act
             kpiGroupService.CreateKPIGroup(criteria);
@@ -133,9 +121,7 @@
         public void UpdateKPIGroup_AnyArg_ReturnInstanceOfCommandResult()
         {
             // Arrange
-            baseRepository = Substitute.For<IBaseRepository>();
-            kpiGroupService = GetKPIGroupService(baseRepository);
-            kpiGroupService.Repository.Update(Arg.Any<UpdateKPIGroupCriteria>()).Returns(new CommandResult());
+            ArrangeUpdateKPIGroup();
 
             // Act
             var actual = kpiGroupService.UpdateKPIGroup(new UpdateKPIGroupCriteria());
@@ -154,9 +140,7 @@
                 Name = "test",
                 ModifiedBy = 1
             };
-            baseRepository = Substitute.For<IBaseRepository>();
-            kpiGroupService = GetKPIGroupService(baseRepository);
-            kpiGroupService.Repository.Update(Arg.Any<UpdateKPIGroupCriteria>()).Returns(new CommandResult());
+            ArrangeUpdateKPIGroup();
 
             // Act
             kpiGroupService.UpdateKPIGroup(criteria);
@@ -173,9 +157,7 @@
         public void UpdateStatusKPIGroup_AnyArg_ReturnInstanceOfCommandResult()
         {
             // Arrange
-            baseRepository = Substitute.For<IBaseRepository>();
-            kpiGroupService = GetKPIGroupService(baseRepository);
-            kpiGroupService.Repository.Update(Arg.Any<UpdateStatusKPIGroupCriteria>()).Returns(new CommandResult());
+            ArrangeUpdateStatusKPIGroup();
 
             // Act
             var actual = kpiGroupService.UpdateStatusKPIGroup(new UpdateStatusKPIGroupCriteria());
@@ -193,9 +175,7 @@
                 KPIGroupId = 1,
                 ModifiedBy = 1
             };
-            baseRepository = Substitute.For<IBaseRepository>();
-            kpiGroupService = GetKPIGroupService(baseRepository);
-            kpiGroupService.Repository.Update(Arg.Any<UpdateStatusKPIGroupCriteria>()).Returns(new CommandResult());
+            ArrangeUpdateStatusKPIGroup();
 
             // Act
             kpiGroupService.UpdateStatusKPIGroup(criteria);
@@ -212,9 +192,7 @@
         public void DeleteKPIGroup_AnyArg_ReturnInstanceOfCommandResult()
         {
             // Arrange
-            baseRepository = Substitute.For<IBaseRepository>();
-            kpiGroupService = GetKPIGroupService(baseRepository);
-            kpiGroupService.Repository.Delete(Arg.Any<DeleteKPIGroupCriteria>()).Returns(new CommandResult());
+            ArrangeDeleteKPIGroup();
 
             // Act
             var actual = kpiGroupService.DeleteKPIGroup(new DeleteKPIGroupCriteria());
@@ -232,9 +210,7 @@
                 KPIGroupId = 1,
                 ModifiedBy = 1
             };
-            baseRepository = Substitute.For<IBaseRepository>();
-            kpiGroupService = GetKPIGroupService(baseRepository);
-            kpiGroupService.Repository.Delete(Arg.Any<DeleteKPIGroupCriteria>()).Returns(new CommandResult());
+            ArrangeDeleteKPIGroup();
 
             // Act
             kpiGroupService.DeleteKPIGroup(criteria);
@@ -245,6 +221,15 @@
 
         #endregion DeleteKPIGroup
 
+        #region Helpers
+
+        private IBaseRepository FakeBaseRepository()
+        {
+            var repository = Substitute.For<IBaseRepository>();
+
+            return repository;
+        }
+
         private KPIGroupService GetKPIGroupService(IBaseRepository baseRepository = null)
         {
             var service = new KPIGroupService();
@@ -252,5 +237,49 @@
 
             return service;
         }
+
+        private void ArrangeGetKPIGroup(IEnumerable<KPIGroupModel> result = null)
+        {
+            kpiGroupService = Substitute.For<KPIGroupService>();
+            kpiGroupService.When(x => x.GetData<KPIGroupModel>(Arg.Any<GetKPIGroupCriteria>())).DoNotCallBase();
+            kpiGroupService.GetData<KPIGroupModel>(Arg.Any<GetKPIGroupCriteria>()).Returns(result ?? new List<KPIGroupModel>());
+        }
+
+        private void ArrangeGetKPIGroupById(KPIGroupModel result = null)
+        {
+            kpiGroupService = Substitute.For<KPIGroupService>();
+            kpiGroupService.When(x => x.GetDataEntity<KPIGroupModel>(Arg.Any<GetKPIGroupByIdCriteria>())).DoNotCallBase();
+            kpiGroupService.GetDataEntity<KPIGroupModel>(Arg.Any<GetKPIGroupByIdCriteria>()).Returns(result ?? new KPIGroupModel());
+        }
+
+        private void ArrangeCreateKPIGroup(CommandResult result = null)
+        {
+            baseRepository = FakeBaseRepository();
+            kpiGroupService = GetKPIGroupService(baseRepository);
+            kpiGroupService.Repository.Insert(Arg.Any<CreateKPIGroupCriteria>()).Returns(result ?? new CommandResult());
+        }
+
+        private void ArrangeUpdateKPIGroup(CommandResult result = null)
+        {
+            baseRepository = FakeBaseRepository();
+            kpiGroupService = GetKPIGroupService(baseRepository);
+            kpiGroupService.Repository.Update(Arg.Any<UpdateKPIGroupCriteria>()).Returns(result ?? new CommandResult());
+        }
+
+        private void ArrangeUpdateStatusKPIGroup(CommandResult result = null)
+        {
+            baseRepository = FakeBaseRepository();
+            kpiGroupService = GetKPIGroupService(baseRepository);
+            kpiGroupService.Repository.Update(Arg.Any<UpdateStatusKPIGroupCriteria>()).Returns(result ?? new CommandResult());
+        }
+
+        private void ArrangeDeleteKPIGroup(CommandResult result = null)
+        {
+            baseRepository = FakeBaseRepository();
+            kpiGroupService = GetKPIGroupService(baseRepository);
+            kpiGroupService.Repository.Delete(Arg.Any<DeleteKPIGroupCriteria>()).Returns(result ?? new CommandResult());
+        }
+
+        #endregion Helpers
     }
 }

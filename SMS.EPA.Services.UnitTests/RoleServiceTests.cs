@@ -16,13 +16,13 @@
         private RoleService roleService;
         private IBaseRepository baseRepository;
 
+        #region GetFunctionByRoleId
+
         [Test]
         public void GetFunctionByRoleId_AnyArg_ReturnInstanceOfListOfRoleFunctionModel()
         {
             // Arrange
-            roleService = Substitute.For<RoleService>();
-            roleService.When(x => x.GetData<RoleFunctionModel>(Arg.Any<GetFunctionByRoleIdCriteria>())).DoNotCallBase();
-            roleService.GetData<RoleFunctionModel>(Arg.Any<GetFunctionByRoleIdCriteria>()).Returns(new List<RoleFunctionModel>());
+            ArrangeGetFunctionByRoleId();
 
             // Act
             var actual = roleService.GetFunctionByRoleId(new GetFunctionByRoleIdCriteria());
@@ -39,9 +39,7 @@
             {
                 RoleId = 1
             };
-            roleService = Substitute.For<RoleService>();
-            roleService.When(x => x.GetData<RoleFunctionModel>(Arg.Any<GetFunctionByRoleIdCriteria>())).DoNotCallBase();
-            roleService.GetData<RoleFunctionModel>(Arg.Any<GetFunctionByRoleIdCriteria>()).Returns(new List<RoleFunctionModel>());
+            ArrangeGetFunctionByRoleId();
 
             // Act
             roleService.GetFunctionByRoleId(criteria);
@@ -58,10 +56,8 @@
             {
                 RoleId = 1
             };
-            roleService = Substitute.For<RoleService>();
             IEnumerable<RoleFunctionModel> result = GetListOfRoleFonctionModelForTest();
-            roleService.When(x => x.GetData<RoleFunctionModel>(Arg.Any<GetFunctionByRoleIdCriteria>())).DoNotCallBase();
-            roleService.GetData<RoleFunctionModel>(Arg.Any<GetFunctionByRoleIdCriteria>()).Returns(result);
+            ArrangeGetFunctionByRoleId(result);
 
             // Act
             IEnumerable<RoleFunctionModel> functions = roleService.GetFunctionByRoleId(criteria);
@@ -71,13 +67,15 @@
             Assert.AreEqual(result.ElementAt(1), functions.First().ChildFunctions.First());
         }
 
+        #endregion GetFunctionByRoleId
+
+        #region AssignFunctionToRole
+
         [Test]
         public void AssignFunctionToRole_AnyArg_ReturnInstanceOfCommandResult()
         {
             // Arrange
-            baseRepository = Substitute.For<IBaseRepository>();
-            roleService = GetRoleService(baseRepository);
-            roleService.Repository.Update(Arg.Any<AssignFunctionToRoleCriteria>()).Returns(new CommandResult());
+            ArrangeAssignFunctionToRole();
 
             // Act
             var actual = roleService.AssignFunctionToRole(new AssignFunctionToRoleCriteria());
@@ -96,9 +94,7 @@
                 Functions = "<ROOT><Function FunctionId=\"1\" IsRead=\"1\" IsHost=\"0\"></Function></ROOT>",
                 ModifiedBy = 1
             };
-            baseRepository = Substitute.For<IBaseRepository>();
-            roleService = GetRoleService(baseRepository);
-            roleService.Repository.Update(Arg.Any<AssignFunctionToRoleCriteria>()).Returns(new CommandResult());
+            ArrangeAssignFunctionToRole();
 
             // Act
             roleService.AssignFunctionToRole(criteria);
@@ -107,12 +103,37 @@
             roleService.Repository.Received().Update(Arg.Is<AssignFunctionToRoleCriteria>(x => x.IsValid()));
         }
 
+        #endregion AssignFunctionToRole
+
+        #region Helpers
+
+        private IBaseRepository FakeBaseRepository()
+        {
+            var repository = Substitute.For<IBaseRepository>();
+
+            return repository;
+        }
+
         private RoleService GetRoleService(IBaseRepository baseRepository = null)
         {
             var service = new RoleService();
             service.Repository = baseRepository;
 
             return service;
+        }
+
+        private void ArrangeGetFunctionByRoleId(IEnumerable<RoleFunctionModel> result = null)
+        {
+            roleService = Substitute.For<RoleService>();
+            roleService.When(x => x.GetData<RoleFunctionModel>(Arg.Any<GetFunctionByRoleIdCriteria>())).DoNotCallBase();
+            roleService.GetData<RoleFunctionModel>(Arg.Any<GetFunctionByRoleIdCriteria>()).Returns(result ?? new List<RoleFunctionModel>());
+        }
+
+        private void ArrangeAssignFunctionToRole(CommandResult result = null)
+        {
+            baseRepository = FakeBaseRepository();
+            roleService = GetRoleService(baseRepository);
+            roleService.Repository.Update(Arg.Any<AssignFunctionToRoleCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private IEnumerable<RoleFunctionModel> GetListOfRoleFonctionModelForTest()
@@ -136,5 +157,7 @@
 
             return functions;
         }
+
+        #endregion Helpers
     }
 }

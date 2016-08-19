@@ -190,7 +190,7 @@ function ($scope, $window, TargetTemplateModel, CommonModel, historyFactory) {
 
     vm.save = function (targetTemplate) {
         if (TargetTemplateModel.validateTargetTemplate(targetTemplate)) {
-            TargetTemplateModel.updateTargetTemplateBasicInformation(targetTemplate, $scope.updateCtrl.originalScoreTypeId).then(function () {
+            TargetTemplateModel.updateTargetTemplateBasicInfo(targetTemplate, $scope.updateCtrl.originalScoreTypeId).then(function () {
                 if (targetTemplate.ScoreRatingTypeId !== $scope.updateCtrl.originalScoreTypeId) {
                     $scope.updateCtrl.getTargetTemplateById(targetTemplate.TargetTemplateId);
                 }

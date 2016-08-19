@@ -35,27 +35,25 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Read)]
         public IEnumerable<TargetTemplateModel> GetAllTargetTemplate(int? targetTypeId = null, bool? isActive = null)
         {
-            IEnumerable<TargetTemplateModel> targetTemplates = null;
-            var getAllTargetTemplateCriteria = new GetAllTargetTemplateCriteria
+            var criteria = new GetAllTargetTemplateCriteria
             {
                 TargetTypeId = targetTypeId,
                 IsActive = isActive
             };
+            IEnumerable<TargetTemplateModel> targetTemplates = targetTemplateService.GetAllTargetTemplate(criteria);
 
-            targetTemplates = targetTemplateService.GetAllTargetTemplate(getAllTargetTemplateCriteria);
             return targetTemplates;
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Read)]
         public TargetTemplateModel GetTargetTemplateById(int targetTemplateId)
         {
-            TargetTemplateModel targetTemplate = null;
-            var getTargetTemplateByIdCriteria = new GetTargetTemplateByIdCriteria
+            var criteria = new GetTargetTemplateByIdCriteria
             {
                 TargetTemplateId = targetTemplateId
             };
+            TargetTemplateModel targetTemplate = targetTemplateService.GetTargetTemplateById(criteria);
 
-            targetTemplate = targetTemplateService.GetTargetTemplateById(getTargetTemplateByIdCriteria);
             return targetTemplate;
         }
 
@@ -87,48 +85,27 @@
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Host)]
-        public CommandResult UpdateTargetTemplateBasicInformation(TargetTemplateModel targetTemplate)
+        public CommandResult UpdateTargetTemplateBasicInfo(UpdateTargetTemplateBasicInfoCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
-
-            if (ModelState.IsValid && targetTemplate != null)
+            if (criteria != null)
             {
-                var updateTargetTemplateCriteria = new UpdateTargetTemplateBasicInformationCriteria()
-                {
-                    TargetTemplateId = targetTemplate.TargetTemplateId,
-                    ModifiedBy = this.SessionService.EmployeeId,
-                    Name = targetTemplate.Name,
-                    TargetTypeId = targetTemplate.TargetTypeId,
-                    ScoreRatingTypeId = targetTemplate.ScoreRatingTypeId,
-                    RatingTypeId = targetTemplate.RatingTypeId,
-                    IsActive = targetTemplate.IsActive,
-                    Description = targetTemplate.Description
-                };
-
-                commandResult = targetTemplateService.UpdateTargetTemplateBasicInformation(updateTargetTemplateCriteria);
+                criteria.ModifiedBy = this.SessionService.EmployeeId;
             }
 
+            CommandResult commandResult = targetTemplateService.UpdateTargetTemplateBasicInfo(criteria);
             return commandResult;
         }
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Host)]
-        public CommandResult UpdateTargetTemplate(TargetTemplateModel targetTemplate)
+        public CommandResult UpdateTargetTemplate(UpdateTargetTemplateCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
-
-            if (ModelState.IsValid && targetTemplate != null)
+            if (criteria != null)
             {
-                var updateTargetTemplateCriteria = new UpdateTargetTemplateCriteria()
-                {
-                    TargetTemplateId = targetTemplate.TargetTemplateId,
-                    ModifiedBy = this.SessionService.EmployeeId,
-                    KPIs = targetTemplate.ConvertKPIItemToXml(targetTemplate.KPIIds)
-                };
-
-                commandResult = targetTemplateService.UpdateTargetTemplate(updateTargetTemplateCriteria);
+                criteria.ModifiedBy = this.SessionService.EmployeeId;
             }
 
+            CommandResult commandResult = targetTemplateService.UpdateTargetTemplate(criteria);
             return commandResult;
         }
 
@@ -148,21 +125,14 @@
 
         [HttpPost]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Host)]
-        public CommandResult AddKPIGroupWeight(TargetKPIGroupWeightModel model)
+        public CommandResult AddKPIGroupWeight(SetKPIGroupOfTargetTemplateCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
-            if (model != null)
+            if (criteria != null)
             {
-                var criteria = new SetKPIGroupOfTargetTemplateCriteria
-                {
-                    TargetTemplateId = model.TargetTemplateId,
-                    KPIGroups = model.ConvertKPIGroupWeightToXml,
-                    ModifiedBy = this.SessionService.EmployeeId
-                };
-
-                commandResult = targetTemplateService.AddKPIGroupWeight(criteria);
+                criteria.ModifiedBy = this.SessionService.EmployeeId;
             }
 
+            CommandResult commandResult = targetTemplateService.AddKPIGroupWeight(criteria);
             return commandResult;
         }
 
@@ -173,8 +143,8 @@
             {
                 TargetTemplateId = targetTemplateId
             };
-
             IEnumerable<KPIGroupModel> groups = targetTemplateService.GetKPIGroupOfTargetTemplate(criteria);
+
             return groups;
         }
 
@@ -185,9 +155,9 @@
             {
                 TargetTemplateId = targetTemplateId
             };
+            IEnumerable<TargetTemplateKPIGroupModel> kpis = targetTemplateService.GetKPIOfTargetTemplate(criteria, onlySelected);
 
-            IEnumerable<TargetTemplateKPIGroupModel> kpiList = targetTemplateService.GetKPIOfTargetTemplate(criteria, onlySelected);
-            return kpiList;
+            return kpis;
         }
 
         [HttpDelete]
@@ -200,8 +170,8 @@
                 KPIGroupId = kpiGroupId,
                 ModifiedBy = this.SessionService.EmployeeId
             };
-
             CommandResult commandResult = targetTemplateService.DeleteKPIGroup(criteria);
+
             return commandResult;
         }
 
@@ -218,8 +188,8 @@
                 ScoreRatingTypeId = scoreRatingTypeId,
                 IsActive = isActive
             };
-
             IEnumerable<ScoreRatingTypeModel> scoreRatingTypes = scoreRatingTypeService.GetScoreRatingType(criteria);
+
             return scoreRatingTypes;
         }
 
@@ -227,6 +197,7 @@
         {
             var criteria = new GetRatingTypeCriteria();
             IEnumerable<RatingType> ratingTypes = targetTemplateService.GetRatingType(criteria);
+
             return ratingTypes;
         }
     }

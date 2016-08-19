@@ -16,7 +16,7 @@
 
         CommandResult UpdateTargetTemplate(UpdateTargetTemplateCriteria criteria);
 
-        CommandResult UpdateTargetTemplateBasicInformation(UpdateTargetTemplateBasicInformationCriteria criteria);
+        CommandResult UpdateTargetTemplateBasicInfo(UpdateTargetTemplateBasicInfoCriteria criteria);
 
         CommandResult DeleteTargetTemplate(DeleteTargetTemplateCriteria criteria);
 

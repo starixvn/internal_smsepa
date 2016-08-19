@@ -2,7 +2,7 @@
 {
     using Fanex.Data.Repository;
 
-    public class UpdateTargetTemplateBasicInformationCriteria : CriteriaBase
+    public class UpdateTargetTemplateBasicInfoCriteria : CriteriaBase
     {
         public int TargetTemplateId { get; set; }
 

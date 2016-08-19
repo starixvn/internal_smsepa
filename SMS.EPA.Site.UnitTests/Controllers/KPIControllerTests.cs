@@ -20,7 +20,7 @@
         #region GetKPI
 
         [Test]
-        public void GetKPI_ValidActionName_ReturnAsExpected()
+        public void GetKPI_CheckActionName_ReturnAsExpected()
         {
             // Arrange
             kpiController = GetKPIController();
@@ -53,7 +53,7 @@
         #region CreateKPI
 
         [Test]
-        public void CreateKPI_ValidActionName_ReturnAsExpected()
+        public void CreateKPI_CheckActionName_ReturnAsExpected()
         {
             // Arrange
             kpiController = GetKPIController();
@@ -75,7 +75,7 @@
             kpiController = GetKPIController(kpiService, sessionService);
 
             // Act
-            var actual = kpiController.CreateKPI(new CreateKPICriteria());
+            var actual = kpiController.CreateKPI(Arg.Any<CreateKPICriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -86,7 +86,7 @@
         #region UpdateKPI
 
         [Test]
-        public void UpdateKPI_ValidActionName_ReturnAsExpected()
+        public void UpdateKPI_CheckActionName_ReturnAsExpected()
         {
             // Arrange
             kpiController = GetKPIController();
@@ -108,7 +108,7 @@
             kpiController = GetKPIController(kpiService, sessionService);
 
             // Act
-            var actual = kpiController.UpdateKPI(new UpdateKPICriteria());
+            var actual = kpiController.UpdateKPI(Arg.Any<UpdateKPICriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -119,7 +119,7 @@
         #region UpdateStatusKPI
 
         [Test]
-        public void UpdateStatusKPI_ValidActionName_ReturnAsExpected()
+        public void UpdateStatusKPI_CheckActionName_ReturnAsExpected()
         {
             // Arrange
             kpiController = GetKPIController();
@@ -141,7 +141,7 @@
             kpiController = GetKPIController(kpiService, sessionService);
 
             // Act
-            var actual = kpiController.UpdateStatusKPI(new UpdateStatusKPICriteria());
+            var actual = kpiController.UpdateStatusKPI(Arg.Any<UpdateStatusKPICriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -152,7 +152,7 @@
         #region UpdateRequiredEvaluateKPI
 
         [Test]
-        public void UpdateRequiredEvaluateKPI_ValidActionName_ReturnAsExpected()
+        public void UpdateRequiredEvaluateKPI_CheckActionName_ReturnAsExpected()
         {
             // Arrange
             kpiController = GetKPIController();
@@ -174,7 +174,7 @@
             kpiService.UpdateRequiredEvaluateKPI(Arg.Any<UpdateRequiredEvaluateKPICriteria>()).Returns(new CommandResult());
 
             // Act
-            var actual = kpiController.UpdateRequiredEvaluateKPI(new UpdateRequiredEvaluateKPICriteria());
+            var actual = kpiController.UpdateRequiredEvaluateKPI(Arg.Any<UpdateRequiredEvaluateKPICriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
@@ -185,7 +185,7 @@
         #region DeleteKPI
 
         [Test]
-        public void DeleteKPI_ValidActionName_ReturnAsExpected()
+        public void DeleteKPI_CheckActionName_ReturnAsExpected()
         {
             // Arrange
             kpiController = GetKPIController();
@@ -207,13 +207,15 @@
             kpiController = GetKPIController(kpiService, sessionService);
 
             // Act
-            var actual = kpiController.DeleteKPI(Arg.Is<int>(x => x > 0));
+            var actual = kpiController.DeleteKPI(Arg.Any<int>());
 
             // Assert
             Assert.IsInstanceOf(typeof(CommandResult), actual);
         }
 
         #endregion DeleteKPI
+
+        #region Helpers
 
         private ISessionService FakeSessionService()
         {
@@ -237,5 +239,7 @@
 
             return controller;
         }
+
+        #endregion Helpers
     }
 }

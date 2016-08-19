@@ -73,7 +73,7 @@
             return result;
         }
 
-        public CommandResult UpdateTargetTemplateBasicInformation(UpdateTargetTemplateBasicInformationCriteria criteria)
+        public CommandResult UpdateTargetTemplateBasicInfo(UpdateTargetTemplateBasicInfoCriteria criteria)
         {
             CommandResult result = new CommandResult();
 

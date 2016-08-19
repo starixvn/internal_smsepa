@@ -199,7 +199,7 @@
     <Compile Include="TargetTemplate\CreateTargetTemplateCriteria.cs" />
     <Compile Include="TargetTemplate\SetKPIGroupOfTargetTemplateCriteria.cs" />
     <Compile Include="TargetTemplate\UpdateStatusTargetTemplateCriteria.cs" />
-    <Compile Include="TargetTemplate\UpdateTargetTemplateBasicInformationCriteria.cs" />
+    <Compile Include="TargetTemplate\UpdateTargetTemplateBasicInfoCriteria.cs" />
     <Compile Include="TargetTemplate\UpdateTargetTemplateCriteria.cs" />
     <Compile Include="TargetType\GetTargetTypeCriteria.cs" />
     <Compile Include="RoleManagement\AssignFunctionToRoleCriteria.cs" />
