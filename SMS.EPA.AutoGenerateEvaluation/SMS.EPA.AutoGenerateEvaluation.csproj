@@ -77,6 +77,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppSetting.cs" />
     <Compile Include="AutoService.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -111,8 +112,16 @@
     <Compile Include="Service\Implement\EvaluationService.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
+    <Compile Include="Service\Implement\MonthlyService.cs" />
+    <Compile Include="Service\Implement\ProbationService.cs" />
+    <Compile Include="Service\Implement\PromotionService.cs" />
+    <Compile Include="Service\Implement\SemiAnnualService.cs" />
     <Compile Include="Service\Interfaces\IAutoMailService.cs" />
     <Compile Include="Service\Interfaces\IEvaluationService.cs" />
+    <Compile Include="Service\Interfaces\IMonthlyService.cs" />
+    <Compile Include="Service\Interfaces\IProbationService.cs" />
+    <Compile Include="Service\Interfaces\IPromotionService.cs" />
+    <Compile Include="Service\Interfaces\ISemiAnnualService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

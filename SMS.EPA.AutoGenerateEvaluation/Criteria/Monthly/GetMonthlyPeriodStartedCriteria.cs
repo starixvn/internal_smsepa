@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.AutoGenerateEvaluation.Criteria.Monthly
+﻿namespace SMS.EPA.AutoGenerateEvaluation.Criteria
 {
     using Fanex.Data.Repository;
 

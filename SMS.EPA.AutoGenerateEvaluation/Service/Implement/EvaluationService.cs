@@ -1,133 +1,38 @@
-﻿namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
+﻿namespace SMS.EPA.AutoGenerateEvaluation.Service
 {
     using System.Collections.Generic;
     using System.Linq;
     using SMS.EPA.AutoGenerateEvaluation.Criteria;
-    using SMS.EPA.AutoGenerateEvaluation.Criteria.Monthly;
     using SMS.EPA.AutoGenerateEvaluation.Repository;
-    using SMS.EPA.AutoGenerateEvaluation.Service.Interfaces;
+    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
+    using SMS.EPA.Criteria.Period;
+    using SMS.EPA.Criteria.Period.GenerationEvaluation;
     using SMS.EPA.Model.Period;
+    using SMS.EPA.Services.Implement;
+    using SMS.EPA.Services.Interfaces;
 
     public class EvaluationService : BaseService, IEvaluationService
     {
-        private readonly IEvaluationRepository _generateEvaluationRepository;
+        private readonly IEvaluationRepository generateEvaluationRepository;
+        private readonly IPeriodService periodService;
+        private readonly IAutoMailService autoMailService;
 
         public EvaluationService()
-            : this(null)
+            : this(null, null, null)
         {
         }
 
-        public EvaluationService(IEvaluationRepository generationEvaluationRepository)
+        public EvaluationService(
+            IEvaluationRepository generationEvaluationRepository,
+            IPeriodService periodService,
+            IAutoMailService autoMailService)
         {
-            _generateEvaluationRepository = generationEvaluationRepository ?? new EvaluationRepository();
+            this.generateEvaluationRepository = generationEvaluationRepository ?? new EvaluationRepository();
+            this.periodService = periodService ?? new PeriodService();
+            this.autoMailService = autoMailService ?? new AutoMailService();
         }
-
-        #region Semi Annual
-
-        public IEnumerable<int> CheckStartSemiAnnual(GetSemiAnnualPeriodStartedCriteria criteria)
-        {
-            IEnumerable<int> startedPeriods = new List<int>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                startedPeriods = GetData<int>(criteria);
-            }
-
-            return startedPeriods;
-        }
-
-        public CommandResult InsertEmployeeToSemiAnnualPeriod(InsertEmployeeToSemiAnnualPeriodCriteria criteria)
-        {
-            CommandResult commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.Insert(criteria);
-            }
-
-            return commandResult;
-        }
-
-        #endregion Semi Annual
-
-        #region Probation
-
-        public AutoEmployeePeriodModel GetEmployeeProbationEvaluation(GetEmployeeProbationEvaluationCriteria criteria)
-        {
-            AutoEmployeePeriodModel employeePeriod = new AutoEmployeePeriodModel();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                employeePeriod = _generateEvaluationRepository.GetEmployeeProbationEvaluation(criteria);
-            }
-
-            return employeePeriod;
-        }
-
-        public CommandResult InsertEmployeeToProbationPeriod(InsertEmployeeToProbationPeriodCriteria criteria)
-        {
-            CommandResult comandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                comandResult = Repository.Insert(criteria);
-            }
-
-            return comandResult;
-        }
-
-        #endregion Probation
-
-        #region Promotion
-
-        public IEnumerable<AutoEmployeePeriodModel> GetEmployeePromotionEvaluation(GetEmployeePromotionEvaluationCriteria criteria)
-        {
-            IEnumerable<AutoEmployeePeriodModel> employeePeriods = new List<AutoEmployeePeriodModel>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                employeePeriods = GetData<AutoEmployeePeriodModel>(criteria);
-                employeePeriods = employeePeriods.GroupBy(x => x.PeriodId).Select(x => new AutoEmployeePeriodModel
-                {
-                    PeriodId = x.Key,
-                    EmployeeIds = JoinEmployeeId(x.ToList())
-                });
-            }
-
-            return employeePeriods;
-        }
-
-        #endregion Promotion
-
-        #region Monthly
-
-        public IEnumerable<int> GetMonthlyPeriodStarted(GetMonthlyPeriodStartedCriteria criteria)
-        {
-            IEnumerable<int> startedPeriods = new List<int>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                startedPeriods = GetData<int>(criteria);
-            }
-
-            return startedPeriods;
-        }
-
-        public CommandResult InsertEmployeeToMonthlyPeriod(InsertEmployeeToMonthlyPeriodCriteria criteria)
-        {
-            CommandResult commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.Insert(criteria);
-            }
-
-            return commandResult;
-        }
-
-        #endregion Monthly
 
         public IEnumerable<AutoEmployeePeriodModel> GetPeriodHasReminderProcess(GetPeriodHasReminderProcessCriteria criteria)
         {
@@ -213,11 +118,51 @@
             return commandResult;
         }
 
-        private string JoinEmployeeId(List<AutoEmployeePeriodModel> employeePeriods)
+        public void GetAndSendEmailToAllRelatedEmployee(int periodId, string employeeIds, int? processId, int mailMode)
         {
-            string employeeIds = string.Join(",", employeePeriods.Select(x => x.EmployeeId.ToString()));
+            PeriodModel period = GetPeriodInformation(periodId);
+            IEnumerable<PeriodFlowModel> employeeSettings = GetEmployeeSettings(periodId, employeeIds, processId);
 
-            return employeeIds;
+            switch (mailMode)
+            {
+                case (int)MailMode.Start:
+                    autoMailService.SendStartMail(period, employeeSettings);
+                    break;
+
+                case (int)MailMode.Reminder:
+                    autoMailService.SendReminderMail(period, employeeSettings);
+                    break;
+
+                case (int)MailMode.EndPeriod:
+                    autoMailService.SendEndEvaluationMailToHumanResourceByPeriod(period, employeeSettings);
+                    break;
+            }
+        }
+
+        private PeriodModel GetPeriodInformation(int periodId)
+        {
+            var criteria = new GetPeriodByIdCriteria
+            {
+                PeriodId = periodId
+            };
+
+            PeriodModel period = periodService.GetPeriodById(criteria);
+
+            return period;
+        }
+
+        private IEnumerable<PeriodFlowModel> GetEmployeeSettings(int periodId, string employeeIds, int? processId)
+        {
+            var criteria = new GetEmployeeSettingByPeriodIdCriteria
+            {
+                PeriodId = periodId,
+                EmployeeIds = employeeIds,
+                ProcessId = processId
+            };
+
+            IEnumerable<PeriodFlowModel> employeeSettings = periodService.GetEmployeeSettingByPeriodId(criteria);
+
+            return employeeSettings;
         }
     }
 }

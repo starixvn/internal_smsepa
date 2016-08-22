@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.AutoGenerateEvaluation.Service.Interfaces
+﻿namespace SMS.EPA.AutoGenerateEvaluation.Service
 {
     using System.Collections.Generic;
     using SMS.EPA.Model.EmployeeEPA;

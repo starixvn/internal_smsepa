@@ -1,10 +1,9 @@
-﻿namespace SMS.EPA.AutoGenerateEvaluation.Service.Implement
+﻿namespace SMS.EPA.AutoGenerateEvaluation.Service
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using SMS.EPA.AutoGenerateEvaluation.Service.Interfaces;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.Period;
