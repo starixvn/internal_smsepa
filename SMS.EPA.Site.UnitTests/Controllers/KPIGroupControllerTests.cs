@@ -37,9 +37,8 @@
         {
             // Arrange
             kpiGroupService = FakeKPIGroupService();
-            sessionService = FakeSessionService();
             kpiGroupService.GetKPIGroup(Arg.Any<GetKPIGroupCriteria>()).Returns(new List<KPIGroupModel>());
-            kpiGroupController = GetKPIGroupController(kpiGroupService, sessionService);
+            kpiGroupController = GetKPIGroupController(kpiGroupService);
 
             // Act
             var actual = kpiGroupController.GetKPIGroup(Arg.Any<bool?>());
@@ -70,9 +69,8 @@
         {
             // Arrange
             kpiGroupService = FakeKPIGroupService();
-            sessionService = FakeSessionService();
             kpiGroupService.GetKPIGroupById(Arg.Any<int>()).Returns(new KPIGroupModel());
-            kpiGroupController = GetKPIGroupController(kpiGroupService, sessionService);
+            kpiGroupController = GetKPIGroupController(kpiGroupService);
 
             // Act
             var actual = kpiGroupController.GetKPIGroupById(Arg.Any<int>());

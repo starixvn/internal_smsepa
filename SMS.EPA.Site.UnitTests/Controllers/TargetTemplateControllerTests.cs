@@ -41,9 +41,8 @@
         {
             // Arrange
             targetTemplateService = FakeTargetTemplateService();
-            sessionService = FakeSessionService();
             targetTemplateService.GetAllTargetTemplate(Arg.Any<GetAllTargetTemplateCriteria>()).Returns(new List<TargetTemplateModel>());
-            targetTemplateController = GetTargetTemplateController(targetTemplateService, null, sessionService);
+            targetTemplateController = GetTargetTemplateController(targetTemplateService);
 
             // Act
             var actual = targetTemplateController.GetAllTargetTemplate(Arg.Any<int?>(), Arg.Any<bool?>());
@@ -74,9 +73,8 @@
         {
             // Arrange
             targetTemplateService = FakeTargetTemplateService();
-            sessionService = FakeSessionService();
             targetTemplateService.GetTargetTemplateById(Arg.Any<GetTargetTemplateByIdCriteria>()).Returns(new TargetTemplateModel());
-            targetTemplateController = GetTargetTemplateController(targetTemplateService, null, sessionService);
+            targetTemplateController = GetTargetTemplateController(targetTemplateService);
 
             // Act
             var actual = targetTemplateController.GetTargetTemplateById(Arg.Is<int>(x => x > 0));

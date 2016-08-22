@@ -37,9 +37,8 @@
         {
             // Arrange
             kpiService = FakeKPIService();
-            sessionService = FakeSessionService();
             kpiService.GetKPI(Arg.Any<GetKPICriteria>()).Returns(new List<KPIModel>());
-            kpiController = GetKPIController(kpiService, sessionService);
+            kpiController = GetKPIController(kpiService);
 
             // Act
             var actual = kpiController.GetKPI(Arg.Any<int?>(), Arg.Any<bool?>(), Arg.Any<bool?>());

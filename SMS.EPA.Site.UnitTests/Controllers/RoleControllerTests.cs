@@ -37,9 +37,8 @@
         {
             // Arrange
             roleService = FakeRoleService();
-            sessionService = FakeSessionService();
             roleService.GetFunctionByRoleId(Arg.Any<int>()).Returns(new List<RoleFunctionModel>());
-            roleController = GetRoleController(roleService, sessionService);
+            roleController = GetRoleController(roleService);
 
             // Act
             var actual = roleController.GetRoleFunctionByRoleId(Arg.Any<int>());
