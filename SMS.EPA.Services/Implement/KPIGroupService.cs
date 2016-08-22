@@ -21,8 +21,12 @@
             return kpiGroups;
         }
 
-        public KPIGroupModel GetKPIGroupById(GetKPIGroupByIdCriteria criteria)
+        public KPIGroupModel GetKPIGroupById(int kpiGroupId)
         {
+            var criteria = new GetKPIGroupByIdCriteria
+            {
+                KPIGroupId = kpiGroupId
+            };
             KPIGroupModel kpiGroup = new KPIGroupModel();
 
             if (criteria != null && criteria.IsValid())

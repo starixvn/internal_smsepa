@@ -28,12 +28,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.RoleManagement, Policy = Policy.Read)]
         public IEnumerable<RoleFunctionModel> GetRoleFunctionByRoleId(int roleId)
         {
-            var criteria = new GetFunctionByRoleIdCriteria
-            {
-                RoleId = roleId
-            };
-
-            IEnumerable<RoleFunctionModel> functions = roleService.GetFunctionByRoleId(criteria);
+            IEnumerable<RoleFunctionModel> functions = roleService.GetFunctionByRoleId(roleId);
             return functions;
         }
 

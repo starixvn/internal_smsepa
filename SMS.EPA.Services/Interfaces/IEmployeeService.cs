@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria;
-    using SMS.EPA.Criteria.Authentication;
     using SMS.EPA.Model.Employee;
 
     public interface IEmployeeService
@@ -14,7 +13,7 @@
 
         IEnumerable<EmployeeModel> GetAllEmployee(GetAllEmployeeCriteria criteria);
 
-        EmployeeModel GetEmployeeById(GetEmployeeByIdCriteria criteria);
+        EmployeeModel GetEmployeeById(int employeeId);
 
         CommandResult CreateSpecialEmployee(CreateSpecialEmployeeCriteria criteria);
 
@@ -24,9 +23,9 @@
 
         CommandResult AssignRoleToEmployee(AssignRoleToEmployeeCriteria criteria);
 
-        IEnumerable<EmployeeModel> GetEmployeeByDepartmentId(GetEmployeeByDepartmentIdCriteria criteria);
+        IEnumerable<EmployeeModel> GetEmployeeByDepartmentId(int? departmentId);
 
-        IEnumerable<EmployeeModel> GetEmployeeByGroupId(GetEmployeeByGroupIdCriteria criteria);
+        IEnumerable<EmployeeModel> GetEmployeeByGroupId(int groupId);
 
         CommandResult InsertEmployeeIPAddress(InsertEmployeeIPAddressCriteria criteria);
 

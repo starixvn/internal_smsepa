@@ -126,34 +126,19 @@
 
         public IEnumerable<EmployeeModel> GetEmployeeByDepartmentId(int? departmentId = null)
         {
-            var criteria = new GetEmployeeByDepartmentIdCriteria()
-            {
-                DepartmentId = departmentId
-            };
-
-            return commonService.GetEmployeeByDepartmentId(criteria);
+            return commonService.GetEmployeeByDepartmentId(departmentId);
         }
 
         [HttpGet]
         public IEnumerable<EmployeeModel> GetEmployeeByGroupId(int groupId)
         {
-            var criteria = new GetEmployeeByGroupIdCriteria()
-            {
-                GroupId = groupId
-            };
-
-            return commonService.GetEmployeeByGroupId(criteria);
+            return commonService.GetEmployeeByGroupId(groupId);
         }
 
         [HttpGet]
         public EmployeeModel GetEmployeeById(int employeeId)
         {
-            var criteria = new GetEmployeeByIdCriteria
-            {
-                EmployeeId = employeeId
-            };
-
-            return commonService.GetEmployeeById(criteria);
+            return commonService.GetEmployeeById(employeeId);
         }
 
         [HttpGet]

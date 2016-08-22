@@ -8,7 +8,6 @@
     using SMS.EPA.Core.Services;
     using SMS.EPA.Core.Services.Interfaces;
     using SMS.EPA.Criteria;
-    using SMS.EPA.Criteria.Authentication;
     using SMS.EPA.Model.Authentication;
     using SMS.EPA.Resources;
     using SMS.EPA.Services.Implement;

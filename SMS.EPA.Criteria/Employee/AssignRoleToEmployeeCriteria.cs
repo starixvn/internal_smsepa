@@ -12,7 +12,7 @@
 
         public override bool IsValid()
         {
-            return EmployeeId > 0;
+            return EmployeeId > 0 && ModifiedBy > 0;
         }
 
         public override string GetSettingKey()

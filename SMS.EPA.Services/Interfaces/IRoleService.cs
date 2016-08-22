@@ -7,7 +7,7 @@
 
     public interface IRoleService
     {
-        IEnumerable<RoleFunctionModel> GetFunctionByRoleId(GetFunctionByRoleIdCriteria criteria);
+        IEnumerable<RoleFunctionModel> GetFunctionByRoleId(int roleId);
 
         CommandResult AssignFunctionToRole(AssignFunctionToRoleCriteria criteria);
     }

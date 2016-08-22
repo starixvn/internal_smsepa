@@ -7,7 +7,6 @@
     using SMS.EPA.Core.Security;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria;
-    using SMS.EPA.Criteria.Authentication;
     using SMS.EPA.Model.Employee;
     using SMS.EPA.Repositories.Implement;
     using SMS.EPA.Repositories.Interfaces;
@@ -59,8 +58,12 @@
             return employees;
         }
 
-        public EmployeeModel GetEmployeeById(GetEmployeeByIdCriteria criteria)
+        public EmployeeModel GetEmployeeById(int employeeId)
         {
+            var criteria = new GetEmployeeByIdCriteria
+            {
+                EmployeeId = employeeId
+            };
             var employee = new EmployeeModel();
 
             if (criteria != null && criteria.IsValid())
@@ -77,6 +80,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
+                criteria.Password = Encryption.ComputeHash(HashProvider.Sha1, criteria.Password);
                 commandResult = Repository.Insert(criteria);
             }
 
@@ -120,8 +124,12 @@
             return commandResult;
         }
 
-        public IEnumerable<EmployeeModel> GetEmployeeByDepartmentId(GetEmployeeByDepartmentIdCriteria criteria)
+        public IEnumerable<EmployeeModel> GetEmployeeByDepartmentId(int? departmentId)
         {
+            var criteria = new GetEmployeeByDepartmentIdCriteria
+            {
+                DepartmentId = departmentId
+            };
             IEnumerable<EmployeeModel> employees = new List<EmployeeModel>();
 
             if (criteria != null && criteria.IsValid())
@@ -132,8 +140,12 @@
             return employees;
         }
 
-        public IEnumerable<EmployeeModel> GetEmployeeByGroupId(GetEmployeeByGroupIdCriteria criteria)
+        public IEnumerable<EmployeeModel> GetEmployeeByGroupId(int groupId)
         {
+            var criteria = new GetEmployeeByGroupIdCriteria
+            {
+                GroupId = groupId
+            };
             IEnumerable<EmployeeModel> employees = new List<EmployeeModel>();
 
             if (criteria != null && criteria.IsValid())

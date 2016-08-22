@@ -71,7 +71,7 @@
             // Arrange
             kpiGroupService = FakeKPIGroupService();
             sessionService = FakeSessionService();
-            kpiGroupService.GetKPIGroupById(Arg.Any<GetKPIGroupByIdCriteria>()).Returns(new KPIGroupModel());
+            kpiGroupService.GetKPIGroupById(Arg.Any<int>()).Returns(new KPIGroupModel());
             kpiGroupController = GetKPIGroupController(kpiGroupService, sessionService);
 
             // Act

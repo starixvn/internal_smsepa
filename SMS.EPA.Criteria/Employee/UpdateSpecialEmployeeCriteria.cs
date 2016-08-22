@@ -37,8 +37,10 @@
         {
             return EmployeeId > 0
                 && !string.IsNullOrWhiteSpace(NickName)
+                && !string.IsNullOrEmpty(FullName)
                 && !string.IsNullOrWhiteSpace(Username)
-                && Username.IndexOf(' ') == -1;
+                && Username.IndexOf(' ') == -1
+                && ModifiedBy > 0;
         }
 
         public override string GetSettingKey()

@@ -25,11 +25,11 @@
 
         IEnumerable<EmployeeModel> GetAllEmployee(GetAllEmployeeCriteria criteria);
 
-        IEnumerable<EmployeeModel> GetEmployeeByDepartmentId(GetEmployeeByDepartmentIdCriteria criteria);
+        IEnumerable<EmployeeModel> GetEmployeeByDepartmentId(int? departmentId);
 
-        IEnumerable<EmployeeModel> GetEmployeeByGroupId(GetEmployeeByGroupIdCriteria criteria);
+        IEnumerable<EmployeeModel> GetEmployeeByGroupId(int groupId);
 
-        EmployeeModel GetEmployeeById(GetEmployeeByIdCriteria criteria);
+        EmployeeModel GetEmployeeById(int employeeId);
 
         IEnumerable<Group> GetAllGroup(GetAllGroupCriteria criteria);
 

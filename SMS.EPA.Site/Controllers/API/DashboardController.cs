@@ -5,7 +5,6 @@
     using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.Report;
     using SMS.EPA.Model.Report.Dashboard;
     using SMS.EPA.Services.Implement;
@@ -40,13 +39,8 @@
                 EmployeeId = this.SessionService.EmployeeId
             };
 
-            var getEmployeeByIdCriteria = new GetEmployeeByIdCriteria
-            {
-                EmployeeId = this.SessionService.EmployeeId
-            };
-
             dashboard = reportService.GetDashboard(criteria);
-            dashboard.Employee = employeeService.GetEmployeeById(getEmployeeByIdCriteria);
+            dashboard.Employee = employeeService.GetEmployeeById(this.SessionService.EmployeeId);
             dashboard.MonthlyEPAs = dashboard.MyEPAs.Where(x => x.Period.TargetTypeId == (int)TargetType.Monthly);
             dashboard.MyEPAs = dashboard.MyEPAs.Where(x => x.Period.TargetTypeId != (int)TargetType.Monthly);
 

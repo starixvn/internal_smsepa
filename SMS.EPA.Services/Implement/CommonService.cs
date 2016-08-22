@@ -80,19 +80,19 @@
             return employeeService.GetAllEmployee(criteria);
         }
 
-        public IEnumerable<EmployeeModel> GetEmployeeByDepartmentId(GetEmployeeByDepartmentIdCriteria criteria)
+        public IEnumerable<EmployeeModel> GetEmployeeByDepartmentId(int? departmentId)
         {
-            return employeeService.GetEmployeeByDepartmentId(criteria);
+            return employeeService.GetEmployeeByDepartmentId(departmentId);
         }
 
-        public IEnumerable<EmployeeModel> GetEmployeeByGroupId(GetEmployeeByGroupIdCriteria criteria)
+        public IEnumerable<EmployeeModel> GetEmployeeByGroupId(int groupId)
         {
-            return employeeService.GetEmployeeByGroupId(criteria);
+            return employeeService.GetEmployeeByGroupId(groupId);
         }
 
-        public EmployeeModel GetEmployeeById(GetEmployeeByIdCriteria criteria)
+        public EmployeeModel GetEmployeeById(int employeeId)
         {
-            return employeeService.GetEmployeeById(criteria);
+            return employeeService.GetEmployeeById(employeeId);
         }
 
         public IEnumerable<Group> GetAllGroup(GetAllGroupCriteria criteria)

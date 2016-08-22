@@ -58,7 +58,6 @@
             if (criteria != null)
             {
                 criteria.CreatedBy = this.SessionService.EmployeeId;
-                criteria.Password = Encryption.ComputeHash(HashProvider.Sha1, criteria.Password);
             }
 
             CommandResult commandResult = employeeService.CreateSpecialEmployee(criteria);

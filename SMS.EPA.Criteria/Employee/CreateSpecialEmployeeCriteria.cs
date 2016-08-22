@@ -36,9 +36,11 @@
         public override bool IsValid()
         {
             return !string.IsNullOrWhiteSpace(NickName)
+                && !string.IsNullOrEmpty(FullName)
                 && !string.IsNullOrWhiteSpace(Username)
                 && !string.IsNullOrWhiteSpace(Password)
-                && Username.IndexOf(' ') == -1;
+                && Username.IndexOf(' ') == -1
+                && CreatedBy > 0;
         }
 
         public override string GetSettingKey()

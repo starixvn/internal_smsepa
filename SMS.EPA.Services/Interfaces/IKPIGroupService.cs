@@ -9,7 +9,7 @@
     {
         IEnumerable<KPIGroupModel> GetKPIGroup(GetKPIGroupCriteria criteria);
 
-        KPIGroupModel GetKPIGroupById(GetKPIGroupByIdCriteria criteria);
+        KPIGroupModel GetKPIGroupById(int kpiGroupId);
 
         CommandResult CreateKPIGroup(CreateKPIGroupCriteria criteria);
 

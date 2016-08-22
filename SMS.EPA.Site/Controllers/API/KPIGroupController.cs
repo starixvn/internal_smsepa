@@ -41,12 +41,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.KPIGroup, Policy = Policy.Read)]
         public KPIGroupModel GetKPIGroupById(int kpiGroupId)
         {
-            var criteria = new GetKPIGroupByIdCriteria
-            {
-                KPIGroupId = kpiGroupId
-            };
-
-            return kpiGroupService.GetKPIGroupById(criteria);
+            return kpiGroupService.GetKPIGroupById(kpiGroupId);
         }
 
         [HttpPost]

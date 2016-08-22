@@ -10,8 +10,12 @@
 
     public class RoleService : BaseService, IRoleService
     {
-        public IEnumerable<RoleFunctionModel> GetFunctionByRoleId(GetFunctionByRoleIdCriteria criteria)
+        public IEnumerable<RoleFunctionModel> GetFunctionByRoleId(int roleId)
         {
+            var criteria = new GetFunctionByRoleIdCriteria
+            {
+                RoleId = roleId
+            };
             IEnumerable<RoleFunctionModel> functions = new List<RoleFunctionModel>();
 
             if (criteria != null && criteria.IsValid())

@@ -273,7 +273,7 @@ function ($modal, commonFactory, errorFactory) {
     };
 
     commonModel.getAllJobTitle = function () {
-        return employeeFactory.getAllJobTitle().success(function (jobTitles) {
+        return commonFactory.getAllJobTitle().success(function (jobTitles) {
             commonModel.jobTitles = jobTitles;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);

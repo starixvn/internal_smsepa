@@ -52,10 +52,11 @@
         public void GetKPIGroupById_AnyArg_ReturnInstanceOfKPIModel()
         {
             // Arrange
+            int kpiGroupId = 1;
             ArrangeGetKPIGroupById();
 
             // Act
-            var actual = kpiGroupService.GetKPIGroupById(new GetKPIGroupByIdCriteria());
+            var actual = kpiGroupService.GetKPIGroupById(kpiGroupId);
 
             // Assert
             Assert.IsInstanceOf(typeof(KPIGroupModel), actual);
@@ -65,14 +66,11 @@
         public void GetKPIGroupById_ValidArg_ExpectedToExecuteGetDataEntity()
         {
             // Arrange
-            var criteria = new GetKPIGroupByIdCriteria
-            {
-                KPIGroupId = 1
-            };
+            int kpiGroupId = 1;
             ArrangeGetKPIGroupById();
 
             // Act
-            kpiGroupService.GetKPIGroupById(criteria);
+            kpiGroupService.GetKPIGroupById(kpiGroupId);
 
             // Assert
             kpiGroupService.Received().GetDataEntity<KPIGroupModel>(Arg.Is<GetKPIGroupByIdCriteria>(x => x.IsValid()));

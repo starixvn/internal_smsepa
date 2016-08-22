@@ -23,7 +23,8 @@
                 && !string.IsNullOrWhiteSpace(NewPassword)
                 && !string.IsNullOrWhiteSpace(OldPassword)
                 && !string.IsNullOrWhiteSpace(ConfirmPassword)
-                && NewPassword.Equals(ConfirmPassword, StringComparison.OrdinalIgnoreCase);
+                && NewPassword.Equals(ConfirmPassword, StringComparison.OrdinalIgnoreCase)
+                && ModifiedBy > 0;
         }
 
         public override string GetSettingKey()

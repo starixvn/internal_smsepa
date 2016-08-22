@@ -22,10 +22,11 @@
         public void GetFunctionByRoleId_AnyArg_ReturnInstanceOfListOfRoleFunctionModel()
         {
             // Arrange
+            int roleId = 1;
             ArrangeGetFunctionByRoleId();
 
             // Act
-            var actual = roleService.GetFunctionByRoleId(new GetFunctionByRoleIdCriteria());
+            var actual = roleService.GetFunctionByRoleId(roleId);
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<RoleFunctionModel>), actual);
@@ -35,14 +36,11 @@
         public void GetFunctionByRoleId_ValidArg_ExpectedToExecuteGetData()
         {
             // Arrange
-            var criteria = new GetFunctionByRoleIdCriteria
-            {
-                RoleId = 1
-            };
+            int roleId = 1;
             ArrangeGetFunctionByRoleId();
 
             // Act
-            roleService.GetFunctionByRoleId(criteria);
+            roleService.GetFunctionByRoleId(roleId);
 
             // Assert
             roleService.Received().GetData<RoleFunctionModel>(Arg.Is<GetFunctionByRoleIdCriteria>(x => x.IsValid()));
@@ -52,15 +50,12 @@
         public void GetFunctionByRoleId_ValidArg_AssignChildFunctionsToParentFunctions()
         {
             // Arrange
-            var criteria = new GetFunctionByRoleIdCriteria
-            {
-                RoleId = 1
-            };
+            int roleId = 1;
             IEnumerable<RoleFunctionModel> result = GetListOfRoleFonctionModelForTest();
             ArrangeGetFunctionByRoleId(result);
 
             // Act
-            IEnumerable<RoleFunctionModel> functions = roleService.GetFunctionByRoleId(criteria);
+            IEnumerable<RoleFunctionModel> functions = roleService.GetFunctionByRoleId(roleId);
 
             // Assert
             Assert.AreEqual(1, functions.Count());
