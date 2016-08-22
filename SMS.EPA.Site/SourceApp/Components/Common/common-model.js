@@ -27,6 +27,7 @@ function ($modal, commonFactory, errorFactory) {
     commonModel.menus = [];
     commonModel.remindDay = [0, 1, 2, 3, 4, 5, 6, 7];
     commonModel.isOnNormalPdfPage = true;
+    commonModel.jobTitles = [];
 
     /// Get target type.
     commonModel.getTargetType = function (isActive, excludeTargetTypeIds) {
@@ -266,6 +267,14 @@ function ($modal, commonFactory, errorFactory) {
         return commonFactory.getMenusByEmployeeId()
         .success(function (menus) {
             commonModel.menus = menus;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    commonModel.getAllJobTitle = function () {
+        return employeeFactory.getAllJobTitle().success(function (jobTitles) {
+            commonModel.jobTitles = jobTitles;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });

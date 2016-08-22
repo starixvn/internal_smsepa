@@ -1,9 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EpaEmployee_ChangePassword    Script Date: 5/16/2016 2:20:06 PM ******/
-/****** Object:  Stored Procedure dbo.EpaEmployee_ChangePassword    Script Date: 5/16/2016 2:15:29 PM ******/
-/****** Object:  Stored Procedure dbo.EpaEmployee_ChangePassword    Script Date: 5/16/2016 1:59:43 PM ******/
-/****** Object:  Stored Procedure dbo.EpaEmployee_ChangePassword    Script Date: 4/6/2016 11:27:44 AM ******/
-
-CREATE PROCEDURE [dbo].[EpaEmployee_ChangePassword] @EmployeeId INT
+﻿CREATE PROCEDURE [dbo].[EpaEmployee_ChangePassword] @EmployeeId INT
 	,@NewPassword NVARCHAR(100)
 	,@ModifiedBy INT = NULL
 	,@ErrCode INT = 0 OUTPUT
@@ -12,7 +7,7 @@ AS
 /*
 Created: 2015-06-12@Josh.Phan
 Task: Change password of employee.
-DB: Redmine
+DB: SMSEPA
 Original: 
 
 Revisions:  
@@ -22,7 +17,7 @@ BEGIN
 	SET NOCOUNT ON;
 
 	DECLARE @OldData NVARCHAR(MAX)
-	DECLARE @Data NVARCHAR(MAX)
+		,@Data NVARCHAR(MAX)
 
 	EXEC @OldData = [dbo].[fncGetDataForWriteLog_Employee_ChangePassWord] @EmployeeId = @EmployeeId
 
@@ -34,8 +29,6 @@ BEGIN
 			,[ModifiedBy] = @ModifiedBy
 		WHERE [EmployeeId] = @EmployeeId
 
-		COMMIT TRANSACTION
-
 		EXEC @Data = [dbo].[fncGetDataForWriteLog_Employee_ChangePassWord] @EmployeeId = @EmployeeId
 
 		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy
@@ -45,6 +38,8 @@ BEGIN
 			,@Data = @Data
 			,@OldData = @OldData
 			,@ObjectIds = NULL
+
+		COMMIT TRANSACTION
 	END TRY
 
 	BEGIN CATCH

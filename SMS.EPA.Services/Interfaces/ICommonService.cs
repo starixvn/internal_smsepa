@@ -46,5 +46,7 @@
         IEnumerable<TargetTemplateModel> GetAllTargetTemplate(GetAllTargetTemplateCriteria criteria);
 
         IEnumerable<MenuGroupModel> GetMenusByEmployeeId(int employeeId);
+
+        IEnumerable<JobTitle> GetAllJobTitle(GetAllJobTitleCriteria criteria);
     }
 }

@@ -108,8 +108,6 @@ BEGIN
 
 		SELECT @EmpId = @MinSpecialEmployee + @NumberSpecialEmployee + 1
 
-		COMMIT TRANSACTION
-
 		DECLARE @Data NVARCHAR(MAX)
 
 		EXEC @Data = [dbo].[fncGetDataForWriteLog] @ObjectId = @EmpId
@@ -123,8 +121,7 @@ BEGIN
 			,@OldData = NULL
 			,@ObjectIds = NULL
 
-		SELECT @ErrCode = 0
-			,@ErrMsg = ''
+		COMMIT TRANSACTION
 	END TRY
 
 	BEGIN CATCH

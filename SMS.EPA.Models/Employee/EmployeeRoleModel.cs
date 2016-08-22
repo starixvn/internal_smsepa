@@ -1,6 +1,6 @@
 ﻿namespace SMS.EPA.Model.Employee
 {
-    public class RawEmployeeRoleModel
+    public class EmployeeRoleModel
     {
         public int EmployeeId { get; set; }
 

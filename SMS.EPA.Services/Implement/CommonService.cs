@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.Department;
     using SMS.EPA.Criteria.EmployeeEPA;
@@ -17,7 +18,7 @@
     using SMS.EPA.Model.TargetType;
     using SMS.EPA.Services.Interfaces;
 
-    public class CommonService : ICommonService
+    public class CommonService : BaseService, ICommonService
     {
         private readonly ITargetTypeService targetTypeService;
         private readonly IKPIService kpiService;
@@ -96,7 +97,14 @@
 
         public IEnumerable<Group> GetAllGroup(GetAllGroupCriteria criteria)
         {
-            return employeeService.GetAllGroup(criteria);
+            IEnumerable<Group> groups = new List<Group>();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                groups = GetData<Group>(criteria);
+            }
+
+            return groups;
         }
 
         public DepartmentInfoModel GetDepartment(GetDepartmentCriteria criteria)
@@ -149,6 +157,18 @@
             var menus = menuService.GetMenusByEmployeeId(employeeId);
 
             return menus;
+        }
+
+        public IEnumerable<JobTitle> GetAllJobTitle(GetAllJobTitleCriteria criteria)
+        {
+            IEnumerable<JobTitle> jobTitles = new List<JobTitle>();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                jobTitles = GetData<JobTitle>(criteria);
+            }
+
+            return jobTitles;
         }
     }
 }

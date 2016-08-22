@@ -9,7 +9,6 @@
     using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.Authentication;
     using SMS.EPA.Model.Employee;
-    using SMS.EPA.Model.Enitites;
     using SMS.EPA.Repositories.Implement;
     using SMS.EPA.Repositories.Interfaces;
     using SMS.EPA.Services.Interfaces;
@@ -30,7 +29,7 @@
 
         public UserSession GetEmployeeLogin(GetEmployeeLoginCriteria criteria)
         {
-            UserSession employee = new UserSession();
+            var employee = new UserSession();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -54,8 +53,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                RawEmployeeModel rawEmployee = employeeRepository.GetAllEmployee(criteria);
-                employees = GetRoleOfEmployee(rawEmployee);
+                employees = employeeRepository.GetAllEmployee(criteria);
             }
 
             return employees;
@@ -73,21 +71,9 @@
             return employee;
         }
 
-        public IEnumerable<Group> GetAllGroup(GetAllGroupCriteria criteria)
-        {
-            IEnumerable<Group> groups = new List<Group>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                groups = GetData<Group>(criteria);
-            }
-
-            return groups;
-        }
-
         public CommandResult CreateSpecialEmployee(CreateSpecialEmployeeCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -99,7 +85,7 @@
 
         public CommandResult UpdateSpecialEmployee(UpdateSpecialEmployeeCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -109,21 +95,9 @@
             return commandResult;
         }
 
-        public IEnumerable<JobTitle> GetAllJobTitle(GetAllJobTitleCriteria criteria)
-        {
-            IEnumerable<JobTitle> jobTitles = new List<JobTitle>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                jobTitles = GetData<JobTitle>(criteria);
-            }
-
-            return jobTitles;
-        }
-
         public CommandResult ChangePassword(ChangePasswordCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -136,7 +110,7 @@
 
         public CommandResult AssignRoleToEmployee(AssignRoleToEmployeeCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -172,7 +146,7 @@
 
         public CommandResult InsertEmployeeIPAddress(InsertEmployeeIPAddressCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -184,7 +158,7 @@
 
         public CommandResult UpdateHasMonthlyEPA(UpdateHasMonthlyEPACriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -192,23 +166,6 @@
             }
 
             return commandResult;
-        }
-
-        private IEnumerable<EmployeeModel> GetRoleOfEmployee(RawEmployeeModel rawEmployee)
-        {
-            foreach (EmployeeModel employee in rawEmployee.Employees)
-            {
-                IList<SystemRoleModel> employeeRoles = rawEmployee.Roles.Where(role => role.EmployeeId == employee.EmployeeId).Select(role => new SystemRoleModel
-                {
-                    RoleId = role.RoleId,
-                    RoleName = role.RoleName,
-                    RoleCode = role.RoleCode
-                }).ToList();
-
-                employee.Roles = employeeRoles;
-            }
-
-            return rawEmployee.Employees;
         }
     }
 }

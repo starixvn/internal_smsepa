@@ -5,7 +5,6 @@
     using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.Authentication;
     using SMS.EPA.Model.Employee;
-    using SMS.EPA.Model.Enitites;
 
     public interface IEmployeeService
     {
@@ -17,13 +16,9 @@
 
         EmployeeModel GetEmployeeById(GetEmployeeByIdCriteria criteria);
 
-        IEnumerable<Group> GetAllGroup(GetAllGroupCriteria criteria);
-
         CommandResult CreateSpecialEmployee(CreateSpecialEmployeeCriteria criteria);
 
         CommandResult UpdateSpecialEmployee(UpdateSpecialEmployeeCriteria criteria);
-
-        IEnumerable<JobTitle> GetAllJobTitle(GetAllJobTitleCriteria criteria);
 
         CommandResult ChangePassword(ChangePasswordCriteria criteria);
 

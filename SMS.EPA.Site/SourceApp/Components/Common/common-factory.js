@@ -92,6 +92,9 @@ commonModule.factory('commonFactory', ['$http', 'baseUrl', function ($http, base
         },
         getMenusByEmployeeId: function () {
             return $http.get(baseUrl + 'api/Common/GetMenusByEmployeeId');
+        },
+        getAllJobTitle: function () {
+            return $http.get(baseUrl + 'api/Common/GetAllJobTitle');
         }
     };
 }]);

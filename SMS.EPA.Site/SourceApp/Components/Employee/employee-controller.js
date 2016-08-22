@@ -94,8 +94,8 @@ function ($window, EmployeeModel, utilitiesFactory, CommonModel, enumerationsFac
 }]);
 
 employeeModule.controller('CreateEmployeeController',
-['$modalInstance', 'EmployeeModel',
-function ($modalInstance, EmployeeModel) {
+['$modalInstance', 'EmployeeModel', 'CommonModel',
+function ($modalInstance, EmployeeModel, CommonModel) {
     var vm = this;
 
     vm.groupOptions = [];
@@ -117,8 +117,8 @@ function ($modalInstance, EmployeeModel) {
         vm.groupOptions = CommonModel.groups;
     });
 
-    EmployeeModel.getAllJobTitle().then(function () {
-        vm.jobTitleOptions = EmployeeModel.jobTitles;
+    CommonModel.getAllJobTitle().then(function () {
+        vm.jobTitleOptions = CommonModel.jobTitles;
     });
 
     vm.save = function (employee) {
@@ -157,8 +157,8 @@ function ($modalInstance, EmployeeModel, CommonModel, employee) {
         vm.groupOptions = CommonModel.groups;
     });
 
-    EmployeeModel.getAllJobTitle().then(function () {
-        vm.jobTitleOptions = EmployeeModel.jobTitles;
+    CommonModel.getAllJobTitle().then(function () {
+        vm.jobTitleOptions = CommonModel.jobTitles;
     });
 
     vm.save = function (updatedEmployee) {

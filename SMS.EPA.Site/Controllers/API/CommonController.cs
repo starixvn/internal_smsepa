@@ -254,5 +254,13 @@
         {
             return commonService.GetMenusByEmployeeId(this.SessionService.EmployeeId);
         }
+
+        public IEnumerable<JobTitle> GetAllJobTitle()
+        {
+            var criteria = new GetAllJobTitleCriteria();
+            IEnumerable<JobTitle> jobTitles = commonService.GetAllJobTitle(criteria);
+
+            return jobTitles;
+        }
     }
 }

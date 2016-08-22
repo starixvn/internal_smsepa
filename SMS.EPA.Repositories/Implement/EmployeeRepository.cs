@@ -12,7 +12,7 @@
 
     public class EmployeeRepository : IEmployeeRepository
     {
-        public RawEmployeeModel GetAllEmployee(ICriteria criteria)
+        public IEnumerable<EmployeeModel> GetAllEmployee(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
@@ -28,15 +28,22 @@
                            },
                            "JobTitleId, GroupId");
 
-                    IEnumerable<RawEmployeeRoleModel> roles = multi.Read<RawEmployeeRoleModel>();
+                    IEnumerable<EmployeeRoleModel> roles = multi.Read<EmployeeRoleModel>();
 
-                    var rawEmployee = new RawEmployeeModel
+                    foreach (EmployeeModel employee in employees)
                     {
-                        Employees = employees,
-                        Roles = roles
-                    };
+                        IList<SystemRoleModel> employeeRoles = roles.Where(role => role.EmployeeId == employee.EmployeeId)
+                            .Select(role => new SystemRoleModel
+                            {
+                                RoleId = role.RoleId,
+                                RoleName = role.RoleName,
+                                RoleCode = role.RoleCode
+                            }).ToList();
 
-                    return rawEmployee;
+                        employee.Roles = employeeRoles;
+                    }
+
+                    return employees;
                 }
             }
         }

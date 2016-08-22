@@ -22,9 +22,6 @@ employeeModule.factory('employeeFactory', ['$http', 'baseUrl', function ($http, 
         updateSpecialEmployee: function (employee) {
             return $http.put(baseUrl + 'api/Employee/UpdateSpecialEmployee', employee);
         },
-        getAllJobTitle: function () {
-            return $http.get(baseUrl + 'api/Employee/GetAllJobTitle');
-        },
         changePassword: function (employee) {
             return $http.put(baseUrl + 'api/Employee/ChangePassword', employee);
         },

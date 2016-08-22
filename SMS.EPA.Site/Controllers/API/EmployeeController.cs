@@ -9,7 +9,6 @@
     using SMS.EPA.Core.Security;
     using SMS.EPA.Criteria;
     using SMS.EPA.Model.Employee;
-    using SMS.EPA.Model.Enitites;
     using SMS.EPA.Resources;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
@@ -77,13 +76,6 @@
 
             CommandResult commandResult = employeeService.UpdateSpecialEmployee(criteria);
             return commandResult;
-        }
-
-        public IEnumerable<JobTitle> GetAllJobTitle()
-        {
-            var criteria = new GetAllJobTitleCriteria();
-            IEnumerable<JobTitle> jobTitles = employeeService.GetAllJobTitle(criteria);
-            return jobTitles;
         }
 
         [HttpPut]

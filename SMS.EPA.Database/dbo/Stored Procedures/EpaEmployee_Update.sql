@@ -71,8 +71,6 @@ BEGIN
 			,[Email] = @Email
 		WHERE [EmployeeId] = @EmployeeId
 
-		COMMIT TRANSACTION
-
 		EXEC @Data = [dbo].[fncGetDataForWriteLog] @ObjectId = @EmployeeId
 			,@ObjectType = 4
 
@@ -83,6 +81,8 @@ BEGIN
 			,@Data = @Data
 			,@OldData = @OldData
 			,@ObjectIds = NULL
+
+		COMMIT TRANSACTION
 	END TRY
 
 	BEGIN CATCH

@@ -79,8 +79,7 @@
     <Compile Include="EmployeeEPA\EPAKPIGroupModel.cs" />
     <Compile Include="EmployeeEPA\EPAKPIModel.cs" />
     <Compile Include="Employee\EmployeeModel.cs" />
-    <Compile Include="Employee\RawEmployeeModel.cs" />
-    <Compile Include="Employee\RawEmployeeRoleModel.cs" />
+    <Compile Include="Employee\EmployeeRoleModel.cs" />
     <Compile Include="Enitites\Employee.cs" />
     <Compile Include="Enitites\Group.cs" />
     <Compile Include="Enitites\JobTitle.cs" />

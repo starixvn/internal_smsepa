@@ -8,7 +8,6 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
         emailPattern = /^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
 
     employeeModel.employees = [];
-    employeeModel.jobTitles = [];
     employeeModel.defaultPassword = null;
     employeeModel.permission = 0;
 
@@ -42,14 +41,6 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
             else {
                 notificationFactory.error("", response.Message);
             }
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
-
-    employeeModel.getAllJobTitle = function () {
-        return employeeFactory.getAllJobTitle().success(function (jobTitles) {
-            employeeModel.jobTitles = jobTitles;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
