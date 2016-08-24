@@ -1,15 +1,15 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
     using System.Collections.Generic;
+    using System.Net;
+    using System.Net.Http;
     using System.Web.Http;
     using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
-    using SMS.EPA.Core.Security;
     using SMS.EPA.Criteria;
     using SMS.EPA.Model.Employee;
-    using SMS.EPA.Resources;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
 
@@ -47,7 +47,6 @@
             };
 
             IEnumerable<EmployeeModel> employees = employeeService.GetAllEmployee(criteria);
-
             return employees;
         }
 
@@ -80,21 +79,18 @@
         [HttpPut]
         public CommandResult ChangePassword(ChangePasswordCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
             if (criteria != null)
             {
-                if (Encryption.CompareStringToHash(HashProvider.Sha1, criteria.OldPassword, this.SessionService.CurrentUser.Password))
-                {
-                    criteria.EmployeeId = this.SessionService.EmployeeId;
-                    criteria.ModifiedBy = this.SessionService.EmployeeId;
-
-                    commandResult = employeeService.ChangePassword(criteria);
-                }
-                else
-                {
-                    commandResult.Message = Lang.ValidateWrongPassword;
-                }
+                criteria.EmployeeId = this.SessionService.EmployeeId;
+                criteria.ModifiedBy = this.SessionService.EmployeeId;
             }
+
+            CommandResult commandResult = employeeService.ChangePassword(criteria);
+
+            /*if (commandResult.IsSuccessful)
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized, commandResult);
+            }*/
 
             return commandResult;
         }
@@ -109,7 +105,6 @@
             }
 
             CommandResult commandResult = employeeService.AssignRoleToEmployee(criteria);
-
             return commandResult;
         }
 
@@ -117,16 +112,18 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Host)]
         public CommandResult ResetPassword(int employeeId)
         {
-            var criteria = new ChangePasswordCriteria()
+            string oldPassword = employeeService.GetPasswordByEmployeeId(employeeId);
+            var criteria = new ChangePasswordCriteria
             {
                 EmployeeId = employeeId,
-                OldPassword = this.SessionService.CurrentUser.Password,
+                OldPassword = oldPassword,
                 NewPassword = Constants.ResetDefaultPassword,
                 ConfirmPassword = Constants.ResetDefaultPassword,
                 ModifiedBy = this.SessionService.EmployeeId
             };
 
-            return employeeService.ChangePassword(criteria);
+            CommandResult commandResult = employeeService.ChangePassword(criteria);
+            return commandResult;
         }
 
         [HttpPut]
@@ -139,7 +136,6 @@
             }
 
             CommandResult commandResult = employeeService.UpdateHasMonthlyEPA(criteria);
-
             return commandResult;
         }
 
@@ -147,7 +143,6 @@
         public string GetDefaultPassword()
         {
             string defaultPassword = Constants.ResetDefaultPassword;
-
             return defaultPassword;
         }
 

@@ -327,6 +327,7 @@
     <Build Include="dbo\Stored Procedures\EpaAttendanceSummary_GetViolationType.sql" />
     <Build Include="dbo\Stored Procedures\Login_GetEmployee.sql" />
     <Build Include="dbo\Stored Procedures\Menu_GetByEmployeeId.sql" />
+    <Build Include="dbo\Stored Procedures\EpaEmployee_GetPasswordByEmpId.sql" />
     <Build Include="dbo\Functions\fncGetDisciplineScoreById.sql" />
     <Build Include="dbo\Tables\TeamDisciplinePermission.sql" />
     <Build Include="dbo\Tables\EmployeeDisciplinePermission.sql" />

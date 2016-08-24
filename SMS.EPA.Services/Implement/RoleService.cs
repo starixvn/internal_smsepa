@@ -18,7 +18,7 @@
             };
             IEnumerable<RoleFunctionModel> functions = new List<RoleFunctionModel>();
 
-            if (criteria != null && criteria.IsValid())
+            if (criteria.IsValid())
             {
                 IEnumerable<RoleFunctionModel> rawFunctions = GetData<RoleFunctionModel>(criteria);
                 functions = GroupFunction(rawFunctions);

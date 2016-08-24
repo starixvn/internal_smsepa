@@ -30,5 +30,7 @@
         CommandResult InsertEmployeeIPAddress(InsertEmployeeIPAddressCriteria criteria);
 
         CommandResult UpdateHasMonthlyEPA(UpdateHasMonthlyEPACriteria criteria);
+
+        string GetPasswordByEmployeeId(int employeeId);
     }
 }

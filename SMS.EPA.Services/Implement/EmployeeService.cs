@@ -10,6 +10,7 @@
     using SMS.EPA.Model.Employee;
     using SMS.EPA.Repositories.Implement;
     using SMS.EPA.Repositories.Interfaces;
+    using SMS.EPA.Resources;
     using SMS.EPA.Services.Interfaces;
 
     public class EmployeeService : BaseService, IEmployeeService
@@ -66,7 +67,7 @@
             };
             var employee = new EmployeeModel();
 
-            if (criteria != null && criteria.IsValid())
+            if (criteria.IsValid())
             {
                 employee = employeeRepository.GetEmployeeById(criteria);
             }
@@ -105,8 +106,16 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                criteria.NewPassword = Encryption.ComputeHash(HashProvider.Sha1, criteria.NewPassword);
-                commandResult = Repository.Update(criteria);
+                string oldPassword = this.GetPasswordByEmployeeId(criteria.EmployeeId);
+                if (Encryption.CompareStringToHash(HashProvider.Sha1, criteria.OldPassword, oldPassword))
+                {
+                    criteria.NewPassword = Encryption.ComputeHash(HashProvider.Sha1, criteria.NewPassword);
+                    commandResult = Repository.Update(criteria);
+                }
+                else
+                {
+                    commandResult.Message = Lang.ValidateWrongPassword;
+                }
             }
 
             return commandResult;
@@ -132,7 +141,7 @@
             };
             IEnumerable<EmployeeModel> employees = new List<EmployeeModel>();
 
-            if (criteria != null && criteria.IsValid())
+            if (criteria.IsValid())
             {
                 employees = GetData<EmployeeModel>(criteria).OrderBy(i => i.NickName);
             }
@@ -148,7 +157,7 @@
             };
             IEnumerable<EmployeeModel> employees = new List<EmployeeModel>();
 
-            if (criteria != null && criteria.IsValid())
+            if (criteria.IsValid())
             {
                 employees = GetData<EmployeeModel>(criteria);
             }
@@ -178,6 +187,22 @@
             }
 
             return commandResult;
+        }
+
+        public string GetPasswordByEmployeeId(int employeeId)
+        {
+            var criteria = new GetPasswordByEmpIdCriteria
+            {
+                EmployeeId = employeeId
+            };
+            var password = string.Empty;
+
+            if (criteria.IsValid())
+            {
+                password = GetDataEntity<string>(criteria);
+            }
+
+            return password;
         }
     }
 }

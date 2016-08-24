@@ -29,7 +29,7 @@
             };
             KPIGroupModel kpiGroup = new KPIGroupModel();
 
-            if (criteria != null && criteria.IsValid())
+            if (criteria.IsValid())
             {
                 kpiGroup = GetDataEntity<KPIGroupModel>(criteria);
             }

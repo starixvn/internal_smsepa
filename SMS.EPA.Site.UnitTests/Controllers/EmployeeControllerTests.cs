@@ -115,6 +115,140 @@
 
         #endregion UpdateSpecialEmployee
 
+        #region AssignRoleToEmployee
+
+        [Test]
+        public void AssignRoleToEmployee_CheckActionName_ReturnAsExpected()
+        {
+            // Arrange
+            employeeController = GetEmployeeController();
+
+            // Act
+            var actual = employeeController.GetType().GetMethod("AssignRoleToEmployee");
+
+            // Assert
+            Assert.IsNotNull(actual);
+        }
+
+        [Test]
+        public void AssignRoleToEmployee_WhenCalled_ReturnInstanceOfCommandResult()
+        {
+            // Arrange
+            employeeService = FakeEmployeeService();
+            sessionService = FakeSessionService();
+            employeeService.AssignRoleToEmployee(Arg.Any<AssignRoleToEmployeeCriteria>()).Returns(new CommandResult());
+            employeeController = GetEmployeeController(employeeService, sessionService);
+
+            // Act
+            var actual = employeeController.AssignRoleToEmployee(Arg.Any<AssignRoleToEmployeeCriteria>());
+
+            // Assert
+            Assert.IsInstanceOf(typeof(CommandResult), actual);
+        }
+
+        #endregion AssignRoleToEmployee
+
+        #region ChangePassword
+
+        [Test]
+        public void ChangePassword_CheckActionName_ReturnAsExpected()
+        {
+            // Arrange
+            employeeController = GetEmployeeController();
+
+            // Act
+            var actual = employeeController.GetType().GetMethod("ChangePassword");
+
+            // Assert
+            Assert.IsNotNull(actual);
+        }
+
+        [Test]
+        public void ChangePassword_WhenCalled_ReturnInstanceOfCommandResult()
+        {
+            // Arrange
+            employeeService = FakeEmployeeService();
+            sessionService = FakeSessionService();
+            employeeService.ChangePassword(Arg.Any<ChangePasswordCriteria>()).Returns(new CommandResult());
+            employeeController = GetEmployeeController(employeeService, sessionService);
+
+            // Act
+            var actual = employeeController.ChangePassword(Arg.Any<ChangePasswordCriteria>());
+
+            // Assert
+            Assert.IsInstanceOf(typeof(CommandResult), actual);
+        }
+
+        #endregion ChangePassword
+
+        #region ResetPassword
+
+        [Test]
+        public void ResetPassword_CheckActionName_ReturnAsExpected()
+        {
+            // Arrange
+            employeeController = GetEmployeeController();
+
+            // Act
+            var actual = employeeController.GetType().GetMethod("ResetPassword");
+
+            // Assert
+            Assert.IsNotNull(actual);
+        }
+
+        [Test]
+        public void ResetPassword_WhenCalled_ReturnInstanceOfCommandResult()
+        {
+            // Arrange
+            employeeService = FakeEmployeeService();
+            sessionService = FakeSessionService();
+            string oldPassword = "123456";
+            employeeService.GetPasswordByEmployeeId(Arg.Any<int>()).Returns(oldPassword);
+            employeeService.ChangePassword(Arg.Any<ChangePasswordCriteria>()).Returns(new CommandResult());
+            employeeController = GetEmployeeController(employeeService, sessionService);
+
+            // Act
+            var actual = employeeController.ResetPassword(Arg.Any<int>());
+
+            // Assert
+            Assert.IsInstanceOf(typeof(CommandResult), actual);
+        }
+
+        #endregion ResetPassword
+
+        #region UpdateHasMonthlyEPA
+
+        [Test]
+        public void UpdateHasMonthlyEPA_CheckActionName_ReturnAsExpected()
+        {
+            // Arrange
+            employeeController = GetEmployeeController();
+
+            // Act
+            var actual = employeeController.GetType().GetMethod("UpdateHasMonthlyEPA");
+
+            // Assert
+            Assert.IsNotNull(actual);
+        }
+
+        [Test]
+        public void UpdateHasMonthlyEPA_WhenCalled_ReturnInstanceOfCommandResult()
+        {
+            // Arrange
+            employeeService = FakeEmployeeService();
+            sessionService = FakeSessionService();
+            employeeService.UpdateHasMonthlyEPA(Arg.Any<UpdateHasMonthlyEPACriteria>()).Returns(new CommandResult());
+            employeeController = GetEmployeeController(employeeService, sessionService);
+
+            // Act
+            var actual = employeeController.UpdateHasMonthlyEPA(Arg.Any<UpdateHasMonthlyEPACriteria>());
+
+            // Assert
+            Assert.IsInstanceOf(typeof(CommandResult), actual);
+        }
+
+        #endregion UpdateHasMonthlyEPA
+
         #region Helpers
 
         private ISessionService FakeSessionService()
