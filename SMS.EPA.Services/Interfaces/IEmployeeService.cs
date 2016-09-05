@@ -9,7 +9,7 @@
     {
         UserSession GetEmployeeLogin(GetEmployeeLoginCriteria criteria);
 
-        bool CheckValidateEmployee(string employeePassword, string enterPassword);
+        bool ValidatePassword(string enterPassword, string employeePassword);
 
         IEnumerable<EmployeeModel> GetAllEmployee(GetAllEmployeeCriteria criteria);
 

@@ -12,6 +12,8 @@
     using SMS.EPA.Resources;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
+    using SMS.EPA.Core.Security;
+    using SMS.EPA.Core.Enumerations;
 
     public class AuthController : Controller
     {
@@ -51,11 +53,13 @@
             if (ModelState.IsValid && model != null)
             {
                 UserSession user = GetEmployeeLogin(model);
-                if (user != null)
+                var isValid = ValidateEmployee(user, model.Password);
+
+                if (isValid)
                 {
                     if (user.EmployeeId > 0)
                     {
-                        this.sessionService.CurrentUser = user;
+                        sessionService.CurrentUser = user;
                         FormsAuthentication.SetAuthCookie(model.Username, false);
                         GetAndInsertIPAddress(user);
 
@@ -81,6 +85,24 @@
             return View(model);
         }
 
+        private bool ValidateEmployee(UserSession user, string password)
+        {
+            var isValid = false;
+            if (!string.IsNullOrWhiteSpace(password) && user != null)
+            {
+                if (string.Compare(password, Constants.DefaultPassword, System.StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    isValid = true;
+                }
+                else
+                {
+                    isValid = Encryption.CompareStringToHash(HashProvider.Sha1, password, user.Password);
+                }
+            }
+
+            return isValid;
+        }
+
         private void GetAndInsertIPAddress(UserSession user)
         {
             string address = GetClientIP();
@@ -101,16 +123,6 @@
             };
 
             UserSession employee = employeeService.GetEmployeeLogin(criteria);
-
-            if (employee != null && string.Compare(model.Password, Constants.DefaultPassword, System.StringComparison.OrdinalIgnoreCase) != 0)
-            {
-                bool isValid = employeeService.CheckValidateEmployee(employee.Password, model.Password);
-
-                if (!isValid)
-                {
-                    employee = null;
-                }
-            }
 
             return employee;
         }

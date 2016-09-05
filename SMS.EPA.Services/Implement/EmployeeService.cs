@@ -39,11 +39,9 @@
             return employee;
         }
 
-        public bool CheckValidateEmployee(string employeePassword, string enterPassword)
+        public bool ValidatePassword(string enterPassword, string employeePassword)
         {
-            bool isValid = !string.IsNullOrWhiteSpace(enterPassword) &&
-                                Encryption.CompareStringToHash(HashProvider.Sha1, enterPassword, employeePassword);
-
+            bool isValid = Encryption.CompareStringToHash(HashProvider.Sha1, enterPassword, employeePassword);
             return isValid;
         }
 
@@ -107,7 +105,7 @@
             if (criteria != null && criteria.IsValid())
             {
                 string oldPassword = this.GetPasswordByEmployeeId(criteria.EmployeeId);
-                if (Encryption.CompareStringToHash(HashProvider.Sha1, criteria.OldPassword, oldPassword))
+                if (ValidatePassword(criteria.OldPassword, oldPassword))
                 {
                     criteria.NewPassword = Encryption.ComputeHash(HashProvider.Sha1, criteria.NewPassword);
                     commandResult = Repository.Update(criteria);

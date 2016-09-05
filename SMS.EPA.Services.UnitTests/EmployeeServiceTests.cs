@@ -1,7 +1,6 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
-    using System.Collections.Generic;
-    using System.Linq;
+    using Fanex.Data.Repository;
     using NSubstitute;
     using NUnit.Framework;
     using SMS.EPA.Core.Enumerations;
@@ -13,6 +12,8 @@
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Repositories.Interfaces;
     using SMS.EPA.Services.Implement;
+    using System.Collections.Generic;
+    using System.Linq;
 
     [TestFixture]
     public class EmployeeServiceTests
@@ -55,32 +56,68 @@
         #region GetEmployeeById
 
         [Test]
-        public void GetEmployeeById_AnyArg_ReturnInstanceOfEmployeeModel()
+        public void GetEmployeeId_ValidArg_ReturnExpectedEmployee()
         {
             // Arrange
             var employeeId = 1;
-            ArrangeGetEmployeeById();
+            var expectedEmployee = new EmployeeModel()
+            {
+                EmployeeId = employeeId
+            };
+            ArrangeGetEmployeeById(expectedEmployee);
 
             // Act
             var actual = employeeService.GetEmployeeById(employeeId);
 
             // Assert
-            Assert.IsInstanceOf(typeof(EmployeeModel), actual);
+            Assert.AreEqual(employeeId, actual.EmployeeId);
         }
 
         [Test]
-        public void GetEmployeeById_ValidArg_ExpectedToExecuteGetEmployeeById()
+        public void GetEmployeeId_InValidArg_ReturnDefaultEmployee()
         {
             // Arrange
-            int employeeId = 1;
-            ArrangeGetEmployeeById();
+            var employeeId = -1;
+            var expectedEmployee = new EmployeeModel()
+            {
+                EmployeeId = employeeId
+            };
+            ArrangeGetEmployeeById(expectedEmployee);
 
             // Act
-            employeeService.GetEmployeeById(employeeId);
+            var actual = employeeService.GetEmployeeById(employeeId);
 
             // Assert
-            employeeRepository.Received().GetEmployeeById(Arg.Is<GetEmployeeByIdCriteria>(y => y.IsValid()));
+            Assert.AreEqual(0, actual.EmployeeId);
         }
+
+        ////[Test]
+        ////public void GetEmployeeById_AnyArg_ReturnInstanceOfEmployeeModel()
+        ////{
+        ////    // Arrange
+        ////    var employeeId = 1;
+        ////    ArrangeGetEmployeeById();
+
+        ////    // Act
+        ////    var actual = employeeService.GetEmployeeById(employeeId);
+
+        ////    // Assert
+        ////    Assert.IsInstanceOf(typeof(EmployeeModel), actual);
+        ////}
+
+        ////[Test]
+        ////public void GetEmployeeById_ValidArg_ExpectedToExecuteGetEmployeeById()
+        ////{
+        ////    // Arrange
+        ////    int employeeId = 1;
+        ////    ArrangeGetEmployeeById();
+
+        ////    // Act
+        ////    employeeService.GetEmployeeById(employeeId);
+
+        ////    // Assert
+        ////    employeeRepository.Received().GetEmployeeById(Arg.Is<GetEmployeeByIdCriteria>(y => y.IsValid()));
+        ////}
 
         #endregion GetEmployeeById
 
@@ -235,45 +272,98 @@
         public void ChangePassword_ValidArg_ExpectedToEncryptPassword()
         {
             // Arrange
+            var oldPassword = "123456";
+            var newPassword = "1234567";
             var criteria = new ChangePasswordCriteria
             {
                 EmployeeId = 1,
-                NewPassword = "1234567",
-                OldPassword = "123456",
-                ConfirmPassword = "1234567",
+                NewPassword = newPassword,
+                OldPassword = oldPassword,
+                ConfirmPassword = newPassword,
                 ModifiedBy = 1
             };
-            var plainText = "1234567";
+
             ArrangeChangePassword();
 
             // Act
             employeeService.ChangePassword(criteria);
 
             // Assert
-            Assert.AreNotEqual(plainText, criteria.NewPassword);
-            Assert.IsTrue(Encryption.CompareStringToHash(HashProvider.Sha1, plainText, criteria.NewPassword));
+            Assert.AreNotEqual(newPassword, criteria.NewPassword);
+            Assert.IsTrue(Encryption.CompareStringToHash(HashProvider.Sha1, newPassword, criteria.NewPassword));
         }
 
         [Test]
-        public void ChangePassword_ValidArg_ExpectedToExecuteUpdate()
+        public void ChangePassword_WrongOldPassword_ReturnChangeFail()
         {
             // Arrange
+            var oldPassword = "asasas";
+            var newPassword = "1234567";
             var criteria = new ChangePasswordCriteria
             {
                 EmployeeId = 1,
-                NewPassword = "1234567",
-                OldPassword = "123456",
-                ConfirmPassword = "1234567",
+                NewPassword = newPassword,
+                OldPassword = oldPassword,
+                ConfirmPassword = newPassword,
                 ModifiedBy = 1
             };
+
             ArrangeChangePassword();
 
             // Act
-            employeeService.ChangePassword(criteria);
+            CommandResult result = employeeService.ChangePassword(criteria);
 
             // Assert
-            employeeService.Repository.Received().Update(Arg.Is<ChangePasswordCriteria>(x => x != null));
+            Assert.IsFalse(result.IsSuccessful);
         }
+
+        [Test]
+        public void ChangePassword_InValidArg_ReturnChangeFail()
+        {
+            // Arrange
+            var oldPassword = "123456";
+            var newPassword = "1234567";
+            var confirmPassword = "123333";
+            var criteria = new ChangePasswordCriteria
+            {
+                EmployeeId = 1,
+                NewPassword = newPassword,
+                OldPassword = oldPassword,
+                ConfirmPassword = confirmPassword,
+                ModifiedBy = 1
+            };
+
+            ArrangeChangePassword();
+
+            // Act
+            CommandResult result = employeeService.ChangePassword(criteria);
+
+            // Assert
+            Assert.IsFalse(result.IsSuccessful);
+        }
+
+        ////[Test]
+        ////public void ChangePassword_ValidArg_ExpectedToExecuteUpdate()
+        ////{
+        ////    // Arrange
+        ////    var oldPassword = "123456";
+        ////    var newPassword = "1234567";
+        ////    var criteria = new ChangePasswordCriteria
+        ////    {
+        ////        EmployeeId = 1,
+        ////        NewPassword = newPassword,
+        ////        OldPassword = oldPassword,
+        ////        ConfirmPassword = newPassword,
+        ////        ModifiedBy = 1
+        ////    };
+        ////    ArrangeChangePassword();
+
+        ////    // Act
+        ////    employeeService.ChangePassword(criteria);
+
+        ////    // Assert
+        ////    employeeService.Repository.Received().Update(Arg.Is<ChangePasswordCriteria>(x => x != null));
+        ////}
 
         #endregion ChangePassword
 
@@ -479,7 +569,6 @@
         {
             var service = new EmployeeService(employeeRepository);
             service.Repository = baseRepository;
-
             return service;
         }
 
@@ -519,15 +608,8 @@
         private void ArrangeGetEmployeeById(EmployeeModel result = null)
         {
             employeeRepository = FakeEmployeeRepository();
-            employeeRepository.GetEmployeeById(Arg.Any<GetEmployeeByIdCriteria>()).Returns(result ?? new EmployeeModel());
             employeeService = GetEmployeeService(employeeRepository);
-        }
-
-        private void ArrangeGetAllGroup(IEnumerable<Group> result = null)
-        {
-            employeeService = Substitute.For<EmployeeService>();
-            employeeService.When(x => x.GetData<Group>(Arg.Any<GetAllGroupCriteria>())).DoNotCallBase();
-            employeeService.GetData<Group>(Arg.Any<GetAllGroupCriteria>()).Returns(result ?? new List<Group>());
+            employeeRepository.GetEmployeeById(Arg.Any<GetEmployeeByIdCriteria>()).Returns(result == null ? new EmployeeModel() : result);
         }
 
         private void ArrangeCreateSpecialEmployee(CommandResult result = null)
@@ -547,7 +629,9 @@
         private void ArrangeChangePassword(CommandResult result = null)
         {
             baseRepository = FakeBaseRepository();
-            employeeService = GetEmployeeService(null, baseRepository);
+            employeeService = Substitute.For<EmployeeService>();
+            employeeService.Repository = baseRepository;
+            employeeService.GetDataEntity<string>(Arg.Any<GetPasswordByEmpIdCriteria>()).Returns(Encryption.ComputeHash(HashProvider.Sha1, "123456"));
             employeeService.Repository.Update(Arg.Any<ChangePasswordCriteria>()).Returns(result ?? new CommandResult());
         }
 
