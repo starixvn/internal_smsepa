@@ -89,6 +89,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\DepartmentControllerTests.cs" />
     <Compile Include="Controllers\EmployeeControllerTests.cs" />
     <Compile Include="Controllers\KPIControllerTests.cs" />
     <Compile Include="Controllers\KPIGroupControllerTests.cs" />

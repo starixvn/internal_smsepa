@@ -6,6 +6,6 @@
 
     public interface IDepartmentRepository
     {
-        List<DepartmentModel> GetDepartment(ICriteria criteria);
+        IEnumerable<DepartmentModel> GetDepartment(ICriteria criteria);
     }
 }

@@ -70,6 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Department\GetDepartmentCriteriaTests.cs" />
     <Compile Include="KPIGroup\CreateKPIGroupCriteriaTests.cs" />
     <Compile Include="KPIGroup\DeleteKPIGroupCriteriaTests.cs" />
     <Compile Include="KPIGroup\GetKPIGroupByIdCriteriaTests.cs" />

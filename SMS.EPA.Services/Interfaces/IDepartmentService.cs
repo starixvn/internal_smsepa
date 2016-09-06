@@ -6,6 +6,6 @@
 
     public interface IDepartmentService
     {
-        List<DepartmentModel> GetDepartment(GetDepartmentCriteria criteria);
+        IList<DepartmentModel> GetDepartment(GetDepartmentCriteria criteria);
     }
 }

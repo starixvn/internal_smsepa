@@ -17,11 +17,6 @@
     {
         private readonly IEmployeeService employeeService;
 
-        public EmployeeController()
-            : this(null)
-        {
-        }
-
         public EmployeeController(IEmployeeService employeeService)
         {
             this.employeeService = employeeService ?? new EmployeeService();

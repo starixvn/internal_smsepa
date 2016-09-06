@@ -70,7 +70,7 @@
             var actual = employeeService.GetEmployeeById(employeeId);
 
             // Assert
-            Assert.AreEqual(employeeId, actual.EmployeeId);
+            Assert.AreEqual(expectedEmployee, actual);
         }
 
         [Test]
@@ -88,7 +88,7 @@
             var actual = employeeService.GetEmployeeById(employeeId);
 
             // Assert
-            Assert.AreEqual(0, actual.EmployeeId);
+            Assert.AreNotEqual(expectedEmployee, actual.EmployeeId);
         }
 
         ////[Test]

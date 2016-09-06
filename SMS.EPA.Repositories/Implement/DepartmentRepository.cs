@@ -10,11 +10,11 @@
 
     public class DepartmentRepository : IDepartmentRepository
     {
-        public List<DepartmentModel> GetDepartment(ICriteria criteria)
+        public IEnumerable<DepartmentModel> GetDepartment(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                List<DepartmentModel> departments = db.Query<DepartmentModel, Employee, DepartmentModel>(
+                IEnumerable<DepartmentModel> departments = db.Query<DepartmentModel, Employee, DepartmentModel>(
                    (dept, manager) =>
                    {
                        dept.Manager = manager;
@@ -22,12 +22,7 @@
                        return dept;
                    },
                    "ManagerId",
-                   criteria.GetSpParams()).ToList();
-
-                if (departments.Any())
-                {
-                    departments.ForEach(x => x.Childrens.AddRange(departments.Where(y => y.ParentId == x.DepartmentId)));
-                }
+                   criteria.GetSpParams());
 
                 return departments;
             }

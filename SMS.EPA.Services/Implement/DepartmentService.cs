@@ -1,16 +1,17 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
-    using System.Collections.Generic;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.Department;
     using SMS.EPA.Model.Department;
     using SMS.EPA.Repositories.Implement;
     using SMS.EPA.Repositories.Interfaces;
     using SMS.EPA.Services.Interfaces;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class DepartmentService : BaseService, IDepartmentService
     {
-        private readonly IDepartmentRepository _departmentRepository;
+        private readonly IDepartmentRepository departmentRepository;
 
         public DepartmentService()
             : this(null)
@@ -19,19 +20,23 @@
 
         public DepartmentService(IDepartmentRepository departmentRepository)
         {
-            _departmentRepository = departmentRepository ?? new DepartmentRepository();
+            this.departmentRepository = departmentRepository ?? new DepartmentRepository();
         }
 
-        public List<DepartmentModel> GetDepartment(GetDepartmentCriteria criteria)
+        public IList<DepartmentModel> GetDepartment(GetDepartmentCriteria criteria)
         {
-            List<DepartmentModel> departments = new List<DepartmentModel>();
+            List<DepartmentModel> departments = null;
 
             if (criteria != null && criteria.IsValid())
             {
-                departments = _departmentRepository.GetDepartment(criteria);
+                departments = departmentRepository.GetDepartment(criteria).ToList();
+                if (departments.Any())
+                {
+                    departments.ForEach(x => x.Childrens.AddRange(departments.Where(y => y.ParentId == x.DepartmentId)));
+                }
             }
 
-            return departments;
+            return departments ?? new List<DepartmentModel>();
         }
     }
 }
