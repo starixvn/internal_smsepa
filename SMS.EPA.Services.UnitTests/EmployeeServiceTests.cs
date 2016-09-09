@@ -88,7 +88,7 @@
             var actual = employeeService.GetEmployeeById(employeeId);
 
             // Assert
-            Assert.AreNotEqual(expectedEmployee, actual.EmployeeId);
+            Assert.AreNotEqual(expectedEmployee, actual);
         }
 
         ////[Test]

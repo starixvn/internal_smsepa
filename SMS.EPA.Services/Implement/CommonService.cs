@@ -109,15 +109,8 @@
 
         public DepartmentInfoModel GetDepartment(GetDepartmentCriteria criteria)
         {
-            DepartmentModel treeList = null;
-
             IList<DepartmentModel> departments = departmentService.GetDepartment(criteria);
-            if (departments != null && departments.Any())
-            {
-                treeList = new DepartmentModel();
-                treeList.Childrens.Add(departments.SingleOrDefault(x => x.ParentId == null));
-            }
-
+            DepartmentModel treeList = GetRootDepartment(departments);
             var departmentInfo = new DepartmentInfoModel
             {
                 TreeDepartment = treeList,
@@ -125,6 +118,18 @@
             };
 
             return departmentInfo;
+        }
+
+        public DepartmentModel GetRootDepartment(IList<DepartmentModel> departments)
+        {
+            DepartmentModel treeList = null;
+            if (departments != null && departments.Any())
+            {
+                treeList = new DepartmentModel();
+                treeList.Childrens.Add(departments.SingleOrDefault(x => x.ParentId == null));
+            }
+
+            return treeList;
         }
 
         public IEnumerable<PeriodModel> GetPeriod(GetPeriodCriteria criteria)
