@@ -6,6 +6,6 @@
 
     public interface IMenuService
     {
-        IEnumerable<MenuGroupModel> GetMenusByEmployeeId(int employeeId);
+        IList<MenuGroupModel> GetMenusByEmployeeId(int employeeId);
     }
 }

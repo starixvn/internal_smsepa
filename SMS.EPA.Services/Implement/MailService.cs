@@ -32,8 +32,8 @@
             if (employeeSetting != null)
             {
                 MailModel email = new MailModel();
-                string startDate = ChangeStartDate(employeeSetting.StartDate.Value),
-                    endDate = ChangeEndDate(employeeSetting.EndDate.Value);
+                string startDate = employeeSetting.StartDate.HasValue ? ChangeStartDate(employeeSetting.StartDate.Value) : string.Empty,
+                    endDate = employeeSetting.EndDate.HasValue ? ChangeEndDate(employeeSetting.EndDate.Value) : string.Empty;
 
                 email.Subject = string.Format(Lang.StartDateEmailToHRSubject, periodName, startDate, endDate);
                 email.Title = ConfigurationManager.AppSettings["Email.SenderName"];
@@ -50,8 +50,8 @@
             if (employeeSetting != null)
             {
                 MailModel email = new MailModel();
-                string startDate = ChangeStartDate(employeeSetting.StartDate.Value),
-                    endDate = ChangeEndDate(employeeSetting.EndDate.Value);
+                string startDate = employeeSetting.StartDate.HasValue ? ChangeStartDate(employeeSetting.StartDate.Value) : string.Empty,
+                    endDate = employeeSetting.EndDate.HasValue ? ChangeEndDate(employeeSetting.EndDate.Value) : string.Empty;
 
                 email.Subject = string.Format(Lang.StartDateEmailToSelfSubject, periodName, startDate, endDate);
                 email.Title = ConfigurationManager.AppSettings["Email.SenderName"];
@@ -68,8 +68,8 @@
             if (employeeSetting != null)
             {
                 MailModel email = new MailModel();
-                string startDate = ChangeStartDate(employeeSetting.StartDate.Value),
-                    endDate = ChangeEndDate(employeeSetting.EndDate.Value);
+                string startDate = employeeSetting.StartDate.HasValue ? ChangeStartDate(employeeSetting.StartDate.Value) : string.Empty,
+                    endDate = employeeSetting.EndDate.HasValue ? ChangeEndDate(employeeSetting.EndDate.Value) : string.Empty;
 
                 email.Subject = string.Format(Lang.StartDateEmailToEvaluatorSubject, periodName, startDate, endDate);
                 email.Title = ConfigurationManager.AppSettings["Email.SenderName"];
@@ -86,8 +86,8 @@
             if (employeeSetting != null)
             {
                 MailModel email = new MailModel();
-                string startDate = ChangeStartDate(employeeSetting.StartDate.Value),
-                    endDate = ChangeEndDate(employeeSetting.EndDate.Value);
+                string startDate = employeeSetting.StartDate.HasValue ? ChangeStartDate(employeeSetting.StartDate.Value) : string.Empty,
+                    endDate = employeeSetting.EndDate.HasValue ? ChangeEndDate(employeeSetting.EndDate.Value) : string.Empty;
 
                 email.Subject = string.Format(Lang.StartDateEmailToReviewerSubject, periodName, startDate, endDate);
                 email.Title = ConfigurationManager.AppSettings["Email.SenderName"];
@@ -104,8 +104,8 @@
             if (employeeSetting != null)
             {
                 MailModel email = new MailModel();
-                string startDate = ChangeStartDate(employeeSetting.StartDate.Value),
-                    endDate = ChangeEndDate(employeeSetting.EndDate.Value);
+                string startDate = employeeSetting.StartDate.HasValue ? ChangeStartDate(employeeSetting.StartDate.Value) : string.Empty,
+                    endDate = employeeSetting.EndDate.HasValue ? ChangeEndDate(employeeSetting.EndDate.Value) : string.Empty;
 
                 email.Subject = string.Format(Lang.StartDateEmailToManagementSubject, periodName, startDate, endDate);
                 email.Title = ConfigurationManager.AppSettings["Email.SenderName"];
@@ -122,8 +122,8 @@
             if (employeeSetting != null)
             {
                 MailModel email = new MailModel();
-                string startDate = ChangeStartDate(employeeSetting.StartDate.Value),
-                    endDate = ChangeEndDate(employeeSetting.EndDate.Value);
+                string startDate = employeeSetting.StartDate.HasValue ? ChangeStartDate(employeeSetting.StartDate.Value) : string.Empty,
+                    endDate = employeeSetting.EndDate.HasValue ? ChangeEndDate(employeeSetting.EndDate.Value) : string.Empty;
 
                 email.Subject = string.Format(Lang.RemindDateEmailToSelfSubject, periodName, startDate, endDate);
                 email.Body = _baseMailService.ReadTextFile(templateEmailPath);
@@ -139,8 +139,8 @@
             if (employeeSetting != null)
             {
                 MailModel email = new MailModel();
-                string startDate = ChangeStartDate(employeeSetting.StartDate.Value),
-                    endDate = ChangeEndDate(employeeSetting.EndDate.Value);
+                string startDate = employeeSetting.StartDate.HasValue ? ChangeStartDate(employeeSetting.StartDate.Value) : string.Empty,
+                    endDate = employeeSetting.EndDate.HasValue ? ChangeEndDate(employeeSetting.EndDate.Value) : string.Empty;
 
                 email.Subject = string.Format(Lang.RemindDateEmailToEvaluatorSubject, periodName, startDate, endDate);
                 email.Body = _baseMailService.ReadTextFile(templateEmailPath);
@@ -156,8 +156,8 @@
             if (employeeSetting != null)
             {
                 MailModel email = new MailModel();
-                string startDate = ChangeStartDate(employeeSetting.StartDate.Value),
-                    endDate = ChangeEndDate(employeeSetting.EndDate.Value);
+                string startDate = employeeSetting.StartDate.HasValue ? ChangeStartDate(employeeSetting.StartDate.Value) : string.Empty,
+                    endDate = employeeSetting.EndDate.HasValue ? ChangeEndDate(employeeSetting.EndDate.Value) : string.Empty;
 
                 email.Subject = string.Format(Lang.RemindDateEmailToReviewerSubject, periodName, startDate, endDate);
                 email.Body = _baseMailService.ReadTextFile(templateEmailPath);
@@ -173,8 +173,8 @@
             if (employeeSetting != null)
             {
                 MailModel email = new MailModel();
-                string startDate = ChangeStartDate(employeeSetting.StartDate.Value),
-                    endDate = ChangeEndDate(employeeSetting.EndDate.Value);
+                string startDate = employeeSetting.StartDate.HasValue ? ChangeStartDate(employeeSetting.StartDate.Value) : string.Empty,
+                    endDate = employeeSetting.EndDate.HasValue ? ChangeEndDate(employeeSetting.EndDate.Value) : string.Empty;
 
                 email.Subject = string.Format(Lang.RemindDateEmailToManagementSubject, periodName, startDate, endDate);
                 email.Body = _baseMailService.ReadTextFile(templateEmailPath);
@@ -276,13 +276,13 @@
             }
         }
 
-        public string ChangeStartDate(DateTime startDate)
+        private string ChangeStartDate(DateTime startDate)
         {
             var result = new DateTime(startDate.Year, startDate.Month, startDate.Day, 0, 0, 0, 0, startDate.Kind);
             return result.ToString(Constants.FormatDateTimeEmail);
         }
 
-        public string ChangeEndDate(DateTime endDate)
+        private string ChangeEndDate(DateTime endDate)
         {
             var result = new DateTime(endDate.Year, endDate.Month, endDate.Day, 23, 59, 0, 0, endDate.Kind);
             return result.ToString(Constants.FormatDateTimeEmail);

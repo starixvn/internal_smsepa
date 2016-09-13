@@ -14,6 +14,8 @@
             LastProcesses = new List<EPAProcessModel>();
             MonthlyEPA = new MonthlyEPAModel();
             Process = new EvaluationProcessModel();
+            Period = new EPAPeriodModel();
+            Employee = new EPAEmployeeModel();
         }
 
         public int EPAId { get; set; }

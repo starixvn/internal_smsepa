@@ -12,7 +12,7 @@
 
     public class EPAHistoryService : BaseService, IEPAHistoryService
     {
-        private readonly IEPAHistoryRepository _epaHistoryRepository;
+        private readonly IEPAHistoryRepository epaHistoryRepository;
 
         public EPAHistoryService()
             : this(null)
@@ -21,7 +21,7 @@
 
         public EPAHistoryService(IEPAHistoryRepository epaHistoryRepository)
         {
-            _epaHistoryRepository = epaHistoryRepository ?? new EPAHistoryRepository();
+            this.epaHistoryRepository = epaHistoryRepository ?? new EPAHistoryRepository();
         }
 
         public IList<EPAHistoryModel> GetEPAHistory(GetEPAHistoryCriteria criteria)
@@ -30,7 +30,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                epas = _epaHistoryRepository.GetEPAHistory(criteria);
+                epas = epaHistoryRepository.GetEPAHistory(criteria);
 
                 if (epas != null && epas.Any())
                 {
@@ -47,7 +47,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                epas = _epaHistoryRepository.GetMonthlyEPAHistory(criteria);
+                epas = epaHistoryRepository.GetMonthlyEPAHistory(criteria);
 
                 if (epas != null && epas.Any())
                 {
@@ -69,13 +69,7 @@
 
         public IList<PeriodModel> GetAllPeriodIncludeImport(GetAllPeriodIncludeImportCriteria criteria)
         {
-            IList<PeriodModel> periods = new List<PeriodModel>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                periods = GetData<PeriodModel>(criteria).ToList();
-            }
-
+            var periods = GetData<PeriodModel>(criteria).ToList();
             return periods;
         }
     }

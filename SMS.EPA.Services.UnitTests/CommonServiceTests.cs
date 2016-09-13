@@ -1,6 +1,5 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
-    using Fanex.Data.Repository;
     using NSubstitute;
     using NUnit.Framework;
     using SMS.EPA.Criteria;
@@ -271,21 +270,6 @@
 
             // Assert
             Assert.AreEqual(expectedGroups, actual);
-        }
-
-        [Test]
-        public void GetAllGroup_InValidArg_ReturnDefaultGroups()
-        {
-            // Arrange
-            var expectedGroups = new List<Group>();
-            expectedGroups.Add(new Group());
-            var commonService = ArrangeGetAllGroup(expectedGroups);
-
-            // Act
-            var actual = commonService.GetAllGroup(null);
-
-            // Assert
-            Assert.AreNotEqual(expectedGroups, actual);
         }
 
         #endregion
@@ -568,21 +552,6 @@
 
             // Assert
             Assert.AreEqual(expectedJobTitles, actual);
-        }
-
-        [Test]
-        public void GetAllJobTitle_InValidArg_ReturnDefaultJobTitles()
-        {
-            // Arrange
-            var expectedJobTitles = new List<JobTitle>();
-            expectedJobTitles.Add(new JobTitle());
-            var commonService = ArrangeGetAllJobTitle(expectedJobTitles);
-
-            // Act
-            var actual = commonService.GetAllJobTitle(null);
-
-            // Assert
-            Assert.AreNotEqual(expectedJobTitles, actual);
         }
 
         #endregion

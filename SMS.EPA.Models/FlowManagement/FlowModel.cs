@@ -6,6 +6,12 @@
     [Serializable]
     public class FlowModel
     {
+        public FlowModel()
+        {
+            EvaluatorInfo = new EmployeeModel();
+            FlowTemplate = new FlowTemplateModel();
+        }
+
         public int ProcessId { get; set; }
 
         public int Duration { get; set; }

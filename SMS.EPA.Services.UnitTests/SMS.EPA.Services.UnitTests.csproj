@@ -75,6 +75,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommonServiceTests.cs" />
+    <Compile Include="MailServiceTests.cs" />
+    <Compile Include="MenuServiceTests.cs" />
+    <Compile Include="EPAHistoryServiceTests.cs" />
     <Compile Include="DepartmentServiceTests.cs" />
     <Compile Include="EmployeeServiceTests.cs" />
     <Compile Include="KPIGroupServiceTests.cs" />

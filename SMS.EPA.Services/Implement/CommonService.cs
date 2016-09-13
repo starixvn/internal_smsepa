@@ -97,13 +97,7 @@
 
         public IEnumerable<Group> GetAllGroup(GetAllGroupCriteria criteria)
         {
-            IEnumerable<Group> groups = new List<Group>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                groups = GetData<Group>(criteria);
-            }
-
+            var groups = GetData<Group>(criteria);
             return groups;
         }
 
@@ -166,13 +160,7 @@
 
         public IEnumerable<JobTitle> GetAllJobTitle(GetAllJobTitleCriteria criteria)
         {
-            IEnumerable<JobTitle> jobTitles = new List<JobTitle>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                jobTitles = GetData<JobTitle>(criteria);
-            }
-
+            var jobTitles = GetData<JobTitle>(criteria);
             return jobTitles;
         }
     }
