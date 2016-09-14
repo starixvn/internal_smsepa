@@ -8,7 +8,6 @@
     using SMS.EPA.Core.Repositories;
     using SMS.EPA.Core.Security;
     using SMS.EPA.Criteria;
-    using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Repositories.Interfaces;
     using SMS.EPA.Services.Implement;

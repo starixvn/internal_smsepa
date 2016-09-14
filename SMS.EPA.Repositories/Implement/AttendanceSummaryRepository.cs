@@ -7,7 +7,6 @@
     using Fanex.Data;
     using Fanex.Data.Repository;
     using SMS.EPA.Model.AttendanceSummary;
-    using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Repositories.Interfaces;
 

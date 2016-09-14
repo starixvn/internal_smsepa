@@ -5,7 +5,6 @@
     using Fanex.Data.Repository;
     using SMS.EPA.Model;
     using SMS.EPA.Model.Department;
-    using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.TargetEmployeeSetting;
     using SMS.EPA.Repositories.Interfaces;

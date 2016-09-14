@@ -6,8 +6,6 @@
 
     public interface ITargetEmployeeSettingRepository
     {
-        IList<TargetEmployee> GetTargetEmployee(ICriteria criteria);
-
         TargetEmployeeSettingModel GetTargetEmployeeSetting(ICriteria criteria);
 
         TargetDepartmentSettingModel GetTargetDepartmentSetting(ICriteria criteria);

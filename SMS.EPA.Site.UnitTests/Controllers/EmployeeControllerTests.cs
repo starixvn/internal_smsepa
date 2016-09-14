@@ -6,7 +6,6 @@
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services.Interfaces;
     using SMS.EPA.Criteria;
-    using SMS.EPA.Model.Employee;
     using SMS.EPA.Services.Interfaces;
     using SMS.EPA.Site.Controllers.API;
     using SMS.EPA.Model.Enitites;

@@ -4,8 +4,8 @@
     using Fanex.Data;
     using Fanex.Data.Repository;
     using SMS.EPA.Model;
-    using SMS.EPA.Model.TargetType;
     using SMS.EPA.Repositories.Interfaces;
+    using SMS.EPA.Model.Enitites;
 
     public class FlowTemplateRepository : IFlowTemplateRepository
     {
@@ -13,7 +13,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                return db.Query<FlowTemplateModel, TargetTypeModel, FlowTemplateModel>(
+                return db.Query<FlowTemplateModel, TargetType, FlowTemplateModel>(
                    (ft, tt) =>
                    {
                        ft.TargetType = tt;
@@ -28,7 +28,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                return db.QueryEntity<FlowTemplateModel, TargetTypeModel, FlowTemplateModel>(
+                return db.QueryEntity<FlowTemplateModel, TargetType, FlowTemplateModel>(
                    (ft, tt) =>
                    {
                        ft.TargetType = tt;

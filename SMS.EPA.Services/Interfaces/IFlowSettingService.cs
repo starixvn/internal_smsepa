@@ -3,6 +3,7 @@
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria;
     using SMS.EPA.Model;
+    using SMS.EPA.Model.Enitites;
     using System.Collections.Generic;
 
     public interface IFlowSettingService

@@ -6,9 +6,9 @@
     using Fanex.Data.Repository;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Model.Department;
-    using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Repositories.Interfaces;
+    using SMS.EPA.Model;
 
     public class EmployeeRepository : IEmployeeRepository
     {

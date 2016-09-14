@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Model.Employee
+﻿namespace SMS.EPA.Model
 {
     public class EmployeeRoleModel
     {
