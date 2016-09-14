@@ -33,25 +33,11 @@
         }
 
         [Test]
-        public void GetFunctionByRoleId_ValidArg_ExpectedToExecuteGetData()
-        {
-            // Arrange
-            int roleId = 1;
-            ArrangeGetFunctionByRoleId();
-
-            // Act
-            roleService.GetFunctionByRoleId(roleId);
-
-            // Assert
-            roleService.Received().GetData<RoleFunctionModel>(Arg.Is<GetFunctionByRoleIdCriteria>(x => x.IsValid()));
-        }
-
-        [Test]
         public void GetFunctionByRoleId_ValidArg_AssignChildFunctionsToParentFunctions()
         {
             // Arrange
             int roleId = 1;
-            IEnumerable<RoleFunctionModel> result = GetListOfRoleFonctionModelForTest();
+            IEnumerable<RoleFunctionModel> result = GetListOfRoleFunctionModelForTest();
             ArrangeGetFunctionByRoleId(result);
 
             // Act
@@ -131,7 +117,7 @@
             roleService.Repository.Update(Arg.Any<AssignFunctionToRoleCriteria>()).Returns(result ?? new CommandResult());
         }
 
-        private IEnumerable<RoleFunctionModel> GetListOfRoleFonctionModelForTest()
+        private IEnumerable<RoleFunctionModel> GetListOfRoleFunctionModelForTest()
         {
             var functions = new List<RoleFunctionModel>
             {

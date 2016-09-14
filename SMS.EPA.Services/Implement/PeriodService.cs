@@ -11,7 +11,7 @@
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.Period;
     using SMS.EPA.Criteria.Period.GenerationEvaluation;
-    using SMS.EPA.Model.FlowManagement;
+    using SMS.EPA.Model;
     using SMS.EPA.Model.Period;
     using SMS.EPA.Repositories.Implement;
     using SMS.EPA.Repositories.Interfaces;

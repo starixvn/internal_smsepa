@@ -13,7 +13,7 @@
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.Period;
     using SMS.EPA.Criteria.Period.GenerationEvaluation;
-    using SMS.EPA.Model.FlowManagement;
+    using SMS.EPA.Model;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
 

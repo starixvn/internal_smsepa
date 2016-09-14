@@ -1,6 +1,7 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
     using System.Collections.Generic;
+    using System.Linq;
     using NSubstitute;
     using NUnit.Framework;
     using SMS.EPA.Core.Model;
@@ -31,17 +32,18 @@
         }
 
         [Test]
-        public void GetKPIGroup_ValidArg_ExpectedToExecuteGetData()
+        public void GetKPIGroup_ValidArg_ReturnListOfKPIGroupModel()
         {
             // Arrange
             var criteria = new GetKPIGroupCriteria();
-            ArrangeGetKPIGroup();
+            IEnumerable<KPIGroupModel> result = GetListOfKPIGroupForTest();
+            ArrangeGetKPIGroup(result);
 
             // Act
-            kpiGroupService.GetKPIGroup(criteria);
+            var actual = kpiGroupService.GetKPIGroup(criteria);
 
             // Assert
-            kpiGroupService.Received().GetData<KPIGroupModel>(Arg.Is<GetKPIGroupCriteria>(x => x.IsValid()));
+            Assert.AreEqual(result, actual);
         }
 
         #endregion GetKPIGroup
@@ -63,17 +65,19 @@
         }
 
         [Test]
-        public void GetKPIGroupById_ValidArg_ExpectedToExecuteGetDataEntity()
+        public void GetKPIGroupById_ValidArg_ReturnKPIGroupModel()
         {
             // Arrange
             int kpiGroupId = 1;
-            ArrangeGetKPIGroupById();
+            var result = GetListOfKPIGroupForTest().First();
+            ArrangeGetKPIGroupById(result);
 
             // Act
-            kpiGroupService.GetKPIGroupById(kpiGroupId);
+            var actual = kpiGroupService.GetKPIGroupById(kpiGroupId);
 
             // Assert
-            kpiGroupService.Received().GetDataEntity<KPIGroupModel>(Arg.Is<GetKPIGroupByIdCriteria>(x => x.IsValid()));
+            Assert.AreEqual(result, actual);
+            Assert.AreEqual(kpiGroupId, actual.KPIGroupId);
         }
 
         #endregion GetKPIGroupById
@@ -234,6 +238,25 @@
             service.Repository = baseRepository;
 
             return service;
+        }
+
+        private IEnumerable<KPIGroupModel> GetListOfKPIGroupForTest()
+        {
+            var kpiGroups = new List<KPIGroupModel>
+            {
+                new KPIGroupModel
+                {
+                    KPIGroupId = 1,
+                    Name = "group test 1"
+                },
+                new KPIGroupModel
+                {
+                    KPIGroupId = 2,
+                    Name = "group test 2"
+                }
+            };
+
+            return kpiGroups;
         }
 
         private void ArrangeGetKPIGroup(IEnumerable<KPIGroupModel> result = null)

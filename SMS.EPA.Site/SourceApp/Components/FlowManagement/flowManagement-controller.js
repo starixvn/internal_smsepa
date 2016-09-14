@@ -1,14 +1,14 @@
 ﻿'use strict';
 /*global flowMngModule*/
 
-flowMngModule.controller("FlowMngController",
-['FlowMngModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'baseUrl',
-function (FlowMngModel, CommonModel, utilitiesFactory, enumerationsFactory, baseUrl) {
+flowMngModule.controller("FlowTemplateController",
+['FlowTemplateModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'baseUrl',
+function (FlowTemplateModel, CommonModel, utilitiesFactory, enumerationsFactory, baseUrl) {
     var vm = this;
 
     vm.targetTypes = CommonModel.targetTypes;
-    vm.flowTemplates = FlowMngModel.flowTemplates;
-    vm.permission = FlowMngModel.permission;
+    vm.flowTemplates = FlowTemplateModel.flowTemplates;
+    vm.permission = FlowTemplateModel.permission;
 
     vm.policyEnum = enumerationsFactory.policy;
 
@@ -22,8 +22,8 @@ function (FlowMngModel, CommonModel, utilitiesFactory, enumerationsFactory, base
     vm.currentPage = 1;
 
     var getFlowTemplate = function (targetTypeId, isActive) {
-        FlowMngModel.getFlowTemplate(targetTypeId, isActive).then(function () {
-            vm.flowTemplates = FlowMngModel.flowTemplates;
+        FlowTemplateModel.getFlowTemplate(targetTypeId, isActive).then(function () {
+            vm.flowTemplates = FlowTemplateModel.flowTemplates;
             utilitiesFactory.searchOnPage(vm, vm.flowTemplates);
         });
     };
@@ -37,11 +37,11 @@ function (FlowMngModel, CommonModel, utilitiesFactory, enumerationsFactory, base
     };
 
     vm.updateStatusFlowGroup = function (flowTemplate) {
-        FlowMngModel.openPopupUpdateStatusFlowTemplate(flowTemplate);
+        FlowTemplateModel.openPopupUpdateStatusFlowTemplate(flowTemplate);
     };
 
     vm.deleteFlowTemplate = function (flowTemplate) {
-        FlowMngModel.openPopupDeleteFlowTemplate(vm, flowTemplate);
+        FlowTemplateModel.openPopupDeleteFlowTemplate(vm, flowTemplate);
     };
 
     vm.query = function (filter) {
@@ -51,8 +51,8 @@ function (FlowMngModel, CommonModel, utilitiesFactory, enumerationsFactory, base
     };
 
     vm.initialize = function () {
-        FlowMngModel.getUserPermissionOnFlowManagement().then(function () {
-            vm.permission = FlowMngModel.permission;
+        FlowTemplateModel.getUserPermissionOnFlowManagement().then(function () {
+            vm.permission = FlowTemplateModel.permission;
         });
 
         CommonModel.getTargetType().then(function () {
@@ -82,12 +82,12 @@ function (FlowMngModel, CommonModel, utilitiesFactory, enumerationsFactory, base
 }]);
 
 flowMngModule.controller("CreateFlowTemplateController",
-['$location', '$window', 'FlowMngModel', 'CommonModel', 'enumerationsFactory', 'baseUrl', 'historyFactory',
-function ($location, $window, FlowMngModel, CommonModel, enumerationsFactory, baseUrl, historyFactory) {
+['$location', '$window', 'FlowTemplateModel', 'CommonModel', 'enumerationsFactory', 'baseUrl', 'historyFactory',
+function ($location, $window, FlowTemplateModel, CommonModel, enumerationsFactory, baseUrl, historyFactory) {
     var vm = this;
 
     vm.targetTypes = CommonModel.targetTypes;
-    vm.permission = FlowMngModel.permission;
+    vm.permission = FlowTemplateModel.permission;
 
     vm.policyEnum = enumerationsFactory.policy;
 
@@ -99,8 +99,8 @@ function ($location, $window, FlowMngModel, CommonModel, enumerationsFactory, ba
     };
 
     vm.initialize = function () {
-        FlowMngModel.getUserPermissionOnFlowManagement().then(function () {
-            vm.permission = FlowMngModel.permission;
+        FlowTemplateModel.getUserPermissionOnFlowManagement().then(function () {
+            vm.permission = FlowTemplateModel.permission;
 
             if (vm.permission !== vm.policyEnum.Host) {
                 $location.path(baseUrl + 'Home/AccessDenied');
@@ -115,8 +115,8 @@ function ($location, $window, FlowMngModel, CommonModel, enumerationsFactory, ba
     vm.initialize();
 
     vm.save = function (flowTemplate) {
-        if (FlowMngModel.validateFlowTemplate(flowTemplate)) {
-            FlowMngModel.createFlowTemplate(flowTemplate);
+        if (FlowTemplateModel.validateFlowTemplate(flowTemplate)) {
+            FlowTemplateModel.createFlowTemplate(flowTemplate);
         }
     };
 
@@ -126,15 +126,15 @@ function ($location, $window, FlowMngModel, CommonModel, enumerationsFactory, ba
 }]);
 
 flowMngModule.controller("UpdateFlowTemplateController",
-['$window', '$routeParams', 'FlowMngModel', 'CommonModel', 'enumerationsFactory', 'cacheService',
-function ($window, $routeParams, FlowMngModel, CommonModel, enumerationsFactory, cacheService) {
+['$window', '$routeParams', 'FlowTemplateModel', 'CommonModel', 'enumerationsFactory', 'cacheService',
+function ($window, $routeParams, FlowTemplateModel, CommonModel, enumerationsFactory, cacheService) {
     var vm = this;
 
     vm.flowTemplateId = parseInt($routeParams.id);
     vm.departments = CommonModel.departments;
     vm.treeDepartment = CommonModel.treeDepartment;
     vm.remindDay = CommonModel.remindDay;
-    vm.permission = FlowMngModel.permission;
+    vm.permission = FlowTemplateModel.permission;
 
     vm.policyEnum = enumerationsFactory.policy;
     vm.targetTypeEnum = enumerationsFactory.targetType;
@@ -152,8 +152,8 @@ function ($window, $routeParams, FlowMngModel, CommonModel, enumerationsFactory,
     };
 
     vm.initialize = function () {
-        FlowMngModel.getUserPermissionOnFlowManagement().then(function () {
-            vm.permission = FlowMngModel.permission;
+        FlowTemplateModel.getUserPermissionOnFlowManagement().then(function () {
+            vm.permission = FlowTemplateModel.permission;
         });
 
         CommonModel.getDepartment().then(function () {
@@ -161,9 +161,9 @@ function ($window, $routeParams, FlowMngModel, CommonModel, enumerationsFactory,
             vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
         });
 
-        FlowMngModel.getFlowTemplateById(vm.flowTemplateId).then(function () {
-            vm.flowTemplate = FlowMngModel.flowTemplate;
-            vm.flowTemplate.TargetTypeId = FlowMngModel.flowTemplate.TargetType.TargetTypeId;
+        FlowTemplateModel.getFlowTemplateById(vm.flowTemplateId).then(function () {
+            vm.flowTemplate = FlowTemplateModel.flowTemplate;
+            vm.flowTemplate.TargetTypeId = FlowTemplateModel.flowTemplate.TargetType.TargetTypeId;
         });
     };
 
@@ -171,8 +171,8 @@ function ($window, $routeParams, FlowMngModel, CommonModel, enumerationsFactory,
 }]);
 
 flowMngModule.controller("GeneralInformationController",
-['$window', '$scope', '$routeParams', 'FlowMngModel', 'CommonModel', 'historyFactory',
-function ($window, $scope, $routeParams, FlowMngModel, CommonModel, historyFactory) {
+['$window', '$scope', '$routeParams', 'FlowTemplateModel', 'CommonModel', 'historyFactory',
+function ($window, $scope, $routeParams, FlowTemplateModel, CommonModel, historyFactory) {
     var vm = this;
 
     vm.flowTemplateId = parseInt($routeParams.id);
@@ -195,8 +195,8 @@ function ($window, $scope, $routeParams, FlowMngModel, CommonModel, historyFacto
         });
 
     vm.save = function (flowTemplate) {
-        if (FlowMngModel.validateFlowTemplate(flowTemplate)) {
-            FlowMngModel.updateFlowTemplate(flowTemplate);
+        if (FlowTemplateModel.validateFlowTemplate(flowTemplate)) {
+            FlowTemplateModel.updateFlowTemplate(flowTemplate);
         }
     };
 

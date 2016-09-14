@@ -1,6 +1,7 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
     using System.Collections.Generic;
+    using System.Linq;
     using NSubstitute;
     using NUnit.Framework;
     using SMS.EPA.Core.Model;
@@ -33,17 +34,33 @@
         }
 
         [Test]
-        public void GetKPI_ValidArg_ExpectedToExecuteGetKPI()
+        public void GetKPI_ValidArg_ReturnExpectedListOfKPIModel()
         {
             // Arrange
             var criteria = new GetKPICriteria();
-            ArrangeGetKPI();
+            IEnumerable<KPIModel> result = GetListOfKPIForTest();
+            ArrangeGetKPI(result);
 
             // Act
-            kpiService.GetKPI(criteria);
+            IEnumerable<KPIModel> actual = kpiService.GetKPI(criteria);
 
             // Assert
-            kpiRepository.Received().GetKPI(Arg.Is<GetKPICriteria>(x => x.IsValid()));
+            Assert.AreEqual(result, actual);
+        }
+
+        [Test]
+        public void GetKPI_ValidArg_KPIIncludeKPIGroup()
+        {
+            // Arrange
+            var criteria = new GetKPICriteria();
+            IEnumerable<KPIModel> result = GetListOfKPIForTest();
+            ArrangeGetKPI(result);
+
+            // Act
+            IEnumerable<KPIModel> actual = kpiService.GetKPI(criteria);
+
+            // Assert
+            Assert.AreEqual(0, actual.Where(x => !x.KPIGroups.Any()).Count());
         }
 
         #endregion GetKPI
@@ -248,6 +265,41 @@
             service.Repository = baseRepository;
 
             return service;
+        }
+
+        private IEnumerable<KPIModel> GetListOfKPIForTest()
+        {
+            var kpis = new List<KPIModel>
+            {
+                new KPIModel
+                {
+                    KPIId = 1,
+                    Name = "test 1",
+                    KPIGroups = new List<KPIGroupModel>
+                    {
+                        new KPIGroupModel
+                        {
+                            KPIGroupId = 1,
+                            Name = "group test 1"
+                        }
+                    }
+                },
+                new KPIModel
+                {
+                    KPIId = 2,
+                    Name = "test 2",
+                    KPIGroups = new List<KPIGroupModel>
+                    {
+                        new KPIGroupModel
+                        {
+                            KPIGroupId = 1,
+                            Name = "group test 1"
+                        }
+                    }
+                }
+            };
+
+            return kpis;
         }
 
         private void ArrangeGetKPI(IEnumerable<KPIModel> result = null)

@@ -8,106 +8,26 @@
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
-    using SMS.EPA.Criteria.FlowManagement;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Model;
     using SMS.EPA.Model.Department;
     using SMS.EPA.Model.Employee;
-    using SMS.EPA.Model.FlowManagement;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
 
     public class FlowManagementController : BaseController
     {
-        private readonly IFlowManagementService flowManagementService;
+        private readonly IFlowSettingService flowSettingService;
 
         public FlowManagementController()
             : this(null)
         {
         }
 
-        public FlowManagementController(IFlowManagementService flowManagementService)
+        public FlowManagementController(IFlowSettingService flowSettingService)
         {
-            this.flowManagementService = flowManagementService ?? new FlowManagementService();
+            this.flowSettingService = flowSettingService ?? new FlowSettingService();
         }
-
-        #region Flow Template
-
-        [HttpGet]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Read)]
-        public IEnumerable<FlowTemplateModel> GetFlowTemplate(
-            int? targetTypeId = null,
-            bool? isActive = null)
-        {
-            var criteria = new GetFlowTemplateCriteria()
-            {
-                TargetTypeId = targetTypeId,
-                IsActive = isActive
-            };
-
-            return flowManagementService.GetFlowTemplate(criteria);
-        }
-
-        [HttpGet]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Read)]
-        public FlowTemplateModel GetFlowTemplateById(int flowTemplateId)
-        {
-            var criteria = new GetFlowTemplateByIdCriteria()
-            {
-                FlowTemplateId = flowTemplateId
-            };
-
-            return flowManagementService.GetFlowTemplateById(criteria);
-        }
-
-        [HttpPost]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Host)]
-        public CommandResult CreateFlowTemplate(CreateFlowTemplateCriteria criteria)
-        {
-            if (criteria != null)
-            {
-                criteria.CreatedBy = this.SessionService.EmployeeId;
-            }
-
-            return flowManagementService.CreateFlowTemplate(criteria);
-        }
-
-        [HttpPut]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Host)]
-        public CommandResult UpdateFlowTemplate(UpdateFlowTemplateCriteria criteria)
-        {
-            if (criteria != null)
-            {
-                criteria.ModifiedBy = this.SessionService.EmployeeId;
-            }
-
-            return flowManagementService.UpdateFlowTemplate(criteria);
-        }
-
-        [HttpPut]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Host)]
-        public CommandResult UpdateStatusFlowTemplate(UpdateStatusFlowTemplateCriteria criteria)
-        {
-            if (criteria != null)
-            {
-                criteria.ModifiedBy = this.SessionService.EmployeeId;
-            }
-
-            return flowManagementService.UpdateStatusFlowTemplate(criteria);
-        }
-
-        [HttpDelete]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Host)]
-        public CommandResult DeleteFlowTemplate(int flowTemplateId)
-        {
-            var criteria = new DeleteFlowTemplateCriteria()
-            {
-                FlowTemplateId = flowTemplateId,
-                ModifiedBy = this.SessionService.EmployeeId
-            };
-
-            return flowManagementService.DeleteFlowTemplate(criteria);
-        }
-
-        #endregion Flow Template
 
         #region Department Flow Setting
 
@@ -120,7 +40,7 @@
                 FlowTemplateId = flowTemplateId
             };
 
-            return flowManagementService.GetDepartmentFlow(criteria);
+            return flowSettingService.GetDepartmentFlow(criteria);
         }
 
         [HttpGet]
@@ -136,7 +56,7 @@
                 IsGroup = departmentId <= 0
             };
 
-            return flowManagementService.GetDepartmentFlowById(criteria);
+            return flowSettingService.GetDepartmentFlowById(criteria);
         }
 
         [HttpPost]
@@ -156,7 +76,7 @@
                     FlowDetails = model.FlowDetails
                 };
 
-                commandResult = flowManagementService.CreateDepartmentFlow(criteria);
+                commandResult = flowSettingService.CreateDepartmentFlow(criteria);
             }
 
             return commandResult;
@@ -176,7 +96,7 @@
                 ModifiedBy = this.SessionService.EmployeeId
             };
 
-            return flowManagementService.DeleteDepartmentFlow(criteria);
+            return flowSettingService.DeleteDepartmentFlow(criteria);
         }
 
         [HttpGet]
@@ -187,7 +107,7 @@
                 FlowTemplateId = flowTemplateId
             };
 
-            IList<DepartmentModel> departments = flowManagementService.GetDepartmentHasSetting(criteria);
+            IList<DepartmentModel> departments = flowSettingService.GetDepartmentHasSetting(criteria);
             return departments;
         }
 
@@ -204,7 +124,7 @@
                 FlowTemplateId = flowTemplateId
             };
 
-            return flowManagementService.GetPersonalFlow(criteria);
+            return flowSettingService.GetPersonalFlow(criteria);
         }
 
         [HttpGet]
@@ -219,7 +139,7 @@
                 FlowTemplateId = flowTemplateId
             };
 
-            return flowManagementService.GetPersonalFlowById(criteria);
+            return flowSettingService.GetPersonalFlowById(criteria);
         }
 
         [HttpPost]
@@ -238,7 +158,7 @@
                     ModifiedBy = this.SessionService.EmployeeId
                 };
 
-                commandResult = flowManagementService.CreatePersonalFlow(criteria);
+                commandResult = flowSettingService.CreatePersonalFlow(criteria);
             }
 
             return commandResult;
@@ -257,7 +177,7 @@
                 ModifiedBy = this.SessionService.EmployeeId
             };
 
-            return flowManagementService.DeletePersonalFlow(criteria);
+            return flowSettingService.DeletePersonalFlow(criteria);
         }
 
         [HttpGet]
@@ -277,7 +197,7 @@
                 GroupId = groupId
             };
 
-            employees = flowManagementService.GetEmployeeFlowSetting(criteria);
+            employees = flowSettingService.GetEmployeeFlowSetting(criteria);
 
             if (employees != null)
             {

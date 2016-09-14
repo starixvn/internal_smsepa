@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.Model.Period
 {
     using System;
-    using SMS.EPA.Model.FlowManagement;
+    using SMS.EPA.Model;
 
     [Serializable]
     public class PeriodFlowModel : FlowModel

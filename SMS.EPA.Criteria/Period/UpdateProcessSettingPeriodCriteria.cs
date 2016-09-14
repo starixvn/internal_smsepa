@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.Text;
     using Fanex.Data.Repository;
-    using SMS.EPA.Model.FlowManagement;
+    using SMS.EPA.Model;
 
     public class UpdateProcessSettingPeriodCriteria : CriteriaBase
     {

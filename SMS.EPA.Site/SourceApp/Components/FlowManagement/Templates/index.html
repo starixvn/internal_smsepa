@@ -1,4 +1,4 @@
-﻿<div class="flow-management" ng-controller="FlowMngController as flowMngCtrl">
+﻿<div class="flow-management" ng-controller="FlowTemplateController as flowTemplateCtrl">
     <div class="col-sm-12 sub-header">
         <ul class="row breadcrumb">
             <li class="current" data-translate="FlowTemplateManagement"></li>
@@ -8,34 +8,34 @@
         <form novalidate class="row filter form-inline" role="form">
             <div class="form-group">
                 <label data-translate="TargetType"></label>
-                <select class="form-control lstBox-limit" ng-model="flowMngCtrl.filter.targetTypeId"
-                        ng-options="opt.TargetTypeId as opt.Name for opt in flowMngCtrl.targetTypes">
+                <select class="form-control lstBox-limit" ng-model="flowTemplateCtrl.filter.targetTypeId"
+                        ng-options="opt.TargetTypeId as opt.Name for opt in flowTemplateCtrl.targetTypes">
                     <option value="">-- {{"All" | translate}} --</option>
                 </select>
             </div>
             <div class="form-group">
                 <label class="control-label" data-translate="Status"></label>
-                <select class="form-control" ng-model="flowMngCtrl.filter.isActive">
+                <select class="form-control" ng-model="flowTemplateCtrl.filter.isActive">
                     <option value="">-- {{"All" | translate}} --</option>
                     <option selected value="true" data-translate="Active"></option>
                     <option value="false" data-translate="InActive"></option>
                 </select>
             </div>
             <div class="form-group">
-                <button class="button" ng-click="flowMngCtrl.query(flowMngCtrl.filter)" data-translate="Submit"></button>
+                <button class="button" ng-click="flowTemplateCtrl.query(flowTemplateCtrl.filter)" data-translate="Submit"></button>
             </div>
         </form>
         <table class="row table table-bordered table-striped">
             <thead>
                 <tr class="header-table">
                     <th colspan="6">
-                        <a class="pull-left button-icon create-button" ng-show="flowMngCtrl.permission == flowMngCtrl.policyEnum.Host"
-                           href="" ng-href="{{flowMngCtrl.createFlowTemplateUrl}}"
-                           ng-click="flowMngCtrl.createFlowTemplate()">
+                        <a class="pull-left button-icon create-button" ng-show="flowTemplateCtrl.permission == flowTemplateCtrl.policyEnum.Host"
+                           href="" ng-href="{{flowTemplateCtrl.createFlowTemplateUrl}}"
+                           ng-click="flowTemplateCtrl.createFlowTemplate()">
                             <span class="icon plus"></span>
                             <span class="button-text" data-translate="CreateFlowTemplate"></span>
                         </a>
-                        <input type="text" ng-model="flowMngCtrl.searchKey" ng-change="flowMngCtrl.search()"
+                        <input type="text" ng-model="flowTemplateCtrl.searchKey" ng-change="flowTemplateCtrl.search()"
                                class="search-inline-textbox search pull-right">
                     </th>
                 </tr>
@@ -45,33 +45,33 @@
                     <th data-translate="TargetType"></th>
                     <th class="text-center col-active" data-translate="Active"></th>
                     <th class="text-center col-description" data-translate="Description"></th>
-                    <th class="text-center col-action" data-translate="Action" ng-show="flowMngCtrl.permission == flowMngCtrl.policyEnum.Host"></th>
+                    <th class="text-center col-action" data-translate="Action" ng-show="flowTemplateCtrl.permission == flowTemplateCtrl.policyEnum.Host"></th>
                 </tr>
             </thead>
             <tbody class="table-body">
-                <tr dir-paginate="flowTemplate in flowMngCtrl.filteredItems | itemsPerPage: flowMngCtrl.pageSize" current-page="flowMngCtrl.currentPage">
-                    <td class="text-center" ng-bind="flowMngCtrl.getIndex($index, flowMngCtrl.currentPage, flowMngCtrl.pageSize)"></td>
+                <tr dir-paginate="flowTemplate in flowTemplateCtrl.filteredItems | itemsPerPage: flowTemplateCtrl.pageSize" current-page="flowTemplateCtrl.currentPage">
+                    <td class="text-center" ng-bind="flowTemplateCtrl.getIndex($index, flowTemplateCtrl.currentPage, flowTemplateCtrl.pageSize)"></td>
                     <td ng-bind="flowTemplate.Name"></td>
                     <td ng-bind="flowTemplate.TargetType.Name"></td>
                     <td class="text-center col-active">
-                        <input type="checkbox" ng-checked="flowTemplate.IsActive" ng-disabled="flowMngCtrl.permission != flowMngCtrl.policyEnum.Host"
-                               ng-click="flowMngCtrl.updateStatusFlowGroup(flowTemplate)" />
+                        <input type="checkbox" ng-checked="flowTemplate.IsActive" ng-disabled="flowTemplateCtrl.permission != flowTemplateCtrl.policyEnum.Host"
+                               ng-click="flowTemplateCtrl.updateStatusFlowGroup(flowTemplate)" />
                     </td>
                     <td class="col-description">
-                        {{flowTemplate.Description | limitTo: flowTemplate.numLimit > 0 ? flowTemplate.numLimit: flowMngCtrl.maxLengthDescription}}
-                        <a ng-show="!flowTemplate.showReadMore && (flowTemplate.Description.length >= flowMngCtrl.maxLengthDescription)"
-                           href="javascript:;" ng-click="flowMngCtrl.readMore(flowTemplate)" data-translate="ReadMore"></a>
-                        <a ng-show="kpiGroup.showReadMore && (flowTemplate.Description.length >= flowMngCtrl.maxLengthDescription)"
-                           href="javascript:;" ng-click="flowMngCtrl.readLess(flowTemplate)" data-translate="ReadLess"></a>
+                        {{flowTemplate.Description | limitTo: flowTemplate.numLimit > 0 ? flowTemplate.numLimit: flowTemplateCtrl.maxLengthDescription}}
+                        <a ng-show="!flowTemplate.showReadMore && (flowTemplate.Description.length >= flowTemplateCtrl.maxLengthDescription)"
+                           href="javascript:;" ng-click="flowTemplateCtrl.readMore(flowTemplate)" data-translate="ReadMore"></a>
+                        <a ng-show="kpiGroup.showReadMore && (flowTemplate.Description.length >= flowTemplateCtrl.maxLengthDescription)"
+                           href="javascript:;" ng-click="flowTemplateCtrl.readLess(flowTemplate)" data-translate="ReadLess"></a>
                     </td>
-                    <td class="text-center col-action" ng-show="flowMngCtrl.permission == flowMngCtrl.policyEnum.Host">
-                        <a class="glyphicon glyphicon-edit icon-edit" href="{{flowMngCtrl.updateFlowTemplateUrl}}"
-                           ng-click="flowMngCtrl.updateFlowTemplate(flowTemplate)" ng-attr-title='{{"Edit" | translate}}'></a>
+                    <td class="text-center col-action" ng-show="flowTemplateCtrl.permission == flowTemplateCtrl.policyEnum.Host">
+                        <a class="glyphicon glyphicon-edit icon-edit" href="{{flowTemplateCtrl.updateFlowTemplateUrl}}"
+                           ng-click="flowTemplateCtrl.updateFlowTemplate(flowTemplate)" ng-attr-title='{{"Edit" | translate}}'></a>
                         <a class="glyphicon glyphicon-remove icon-remove" href=""
-                           ng-click="flowMngCtrl.deleteFlowTemplate(flowTemplate)" ng-attr-title='{{"Delete" | translate}}'></a>
+                           ng-click="flowTemplateCtrl.deleteFlowTemplate(flowTemplate)" ng-attr-title='{{"Delete" | translate}}'></a>
                     </td>
                 </tr>
-                <tr ng-show="flowMngCtrl.filteredItems.length == 0">
+                <tr ng-show="flowTemplateCtrl.filteredItems.length == 0">
                     <td class="empty-result" colspan="6" data-translate="EmptyResult"></td>
                 </tr>
             </tbody>
@@ -79,8 +79,8 @@
                 <tr>
                     <td colspan="6" class="paging">
                         <span data-translate="Show"></span>
-                        <select class="dropdown-entry form-control" ng-model="flowMngCtrl.pageSize"
-                                ng-options="entry for entry in flowMngCtrl.entries"></select>
+                        <select class="dropdown-entry form-control" ng-model="flowTemplateCtrl.pageSize"
+                                ng-options="entry for entry in flowTemplateCtrl.entries"></select>
                         <span data-translate="entries"></span>
                         <div class="pull-right custom-paging">
                             <dir-pagination-controls boundary-links="true"></dir-pagination-controls>
