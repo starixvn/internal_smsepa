@@ -15,7 +15,7 @@
 
         public override bool IsValid()
         {
-            return FlowTemplateId > 0;
+            return FlowTemplateId > 0 && ModifiedBy > 0;
         }
     }
 }

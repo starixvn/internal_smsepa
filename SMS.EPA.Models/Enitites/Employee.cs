@@ -3,6 +3,7 @@
     using SMS.EPA.Core.Model;
     using System;
     using System.Collections.Generic;
+    using SMS.EPA.Core.Services;
 
     [Serializable]
     public class Employee
@@ -30,7 +31,8 @@
         {
             get
             {
-                return SMS.EPA.Core.Utilities.Avatar.GetAvatar(Code);
+                IUtilityService utilityService = new UtilityService();
+                return utilityService.GetAvatar(Code);
             }
         }
 

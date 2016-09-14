@@ -63,7 +63,7 @@
                             "EmployeeId, DepartmentId, GroupId, JobTitleId, TargetTemplateId");
 
                     IEnumerable<PeriodFlowSettingModel> flowSettings =
-                        multi.Read<PeriodFlowSettingModel, Employee, PeriodFlowSettingModel>(
+                        multi.Read<PeriodFlowSettingModel, EvaluatorInfoViewModel, PeriodFlowSettingModel>(
                             (fl, eva) =>
                             {
                                 fl.EvaluatorInfo = eva;
@@ -85,7 +85,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                return db.Query<PeriodFlowModel, Employee, PeriodFlowModel>(
+                return db.Query<PeriodFlowModel, EvaluatorInfoViewModel, PeriodFlowModel>(
                     (empS, eva) =>
                     {
                         empS.EvaluatorInfo = eva;

@@ -66,6 +66,7 @@
     <Compile Include="Enitites\RatingType.cs" />
     <Compile Include="EPAHistory\EPAHistoryModel.cs" />
     <Compile Include="FlowSetting\DepartmentFlowModel.cs" />
+    <Compile Include="FlowSetting\EvaluatorInfoViewModel.cs" />
     <Compile Include="FlowSetting\PersonalFlowModel.cs" />
     <Compile Include="FlowSetting\ProcessFlowModel.cs" />
     <Compile Include="Menu\MenuGroupModel.cs" />

@@ -1,7 +1,6 @@
 ﻿namespace SMS.EPA.Model
 {
     using System.Collections.Generic;
-    using SMS.EPA.Model.Enitites;
 
     public class InsertFlowItemModel
     {
@@ -13,6 +12,6 @@
 
         public bool IncludeSelfEvaluation { get; set; }
 
-        public List<Employee> Employees { get; set; }
+        public List<EvaluatorInfoViewModel> Employees { get; set; }
     }
 }

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
-
-namespace SMS.EPA.Core.Utilities
+﻿namespace SMS.EPA.Core.Utilities
 {
+    using System.IO;
+    using System.Threading;
+
     public class FileUtilities
     {
         public static bool IsAvailable(string path)
@@ -29,7 +25,7 @@ namespace SMS.EPA.Core.Utilities
             for (int count = 0; count < seconds; count++)
             {
                 var isAvailable = FileUtilities.IsAvailable(pdfFile);
-                var isExisted = System.IO.File.Exists(pdfFile);
+                var isExisted = File.Exists(pdfFile);
                 if (isAvailable && isExisted)
                 {
                     return true;
@@ -43,8 +39,8 @@ namespace SMS.EPA.Core.Utilities
 
         public static byte[] ReadAndDeleteFile(string path)
         {
-            var file = System.IO.File.ReadAllBytes(path);
-            System.IO.File.Delete(path);
+            var file = File.ReadAllBytes(path);
+            File.Delete(path);
 
             return file;
         }

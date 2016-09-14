@@ -153,8 +153,9 @@
     <Compile Include="Services\Interfaces\IBaseMailService.cs" />
     <Compile Include="Services\BaseMailService.cs" />
     <Compile Include="Services\Interfaces\ISessionService.cs" />
+    <Compile Include="Services\Interfaces\IUtilityService.cs" />
     <Compile Include="Services\SessionService.cs" />
-    <Compile Include="Utilities\Avatar.cs" />
+    <Compile Include="Services\UtilityService.cs" />
     <Compile Include="Utilities\Enumerations.cs" />
     <Compile Include="Utilities\ExcelTemplateWriter.cs" />
     <Compile Include="Utilities\FileUtilities.cs" />

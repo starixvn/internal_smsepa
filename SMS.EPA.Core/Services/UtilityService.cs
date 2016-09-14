@@ -1,11 +1,11 @@
-﻿namespace SMS.EPA.Core.Utilities
+﻿namespace SMS.EPA.Core.Services
 {
     using System.IO;
     using System.Web;
 
-    public static class Avatar
+    public class UtilityService : IUtilityService
     {
-        public static string GetAvatar(string code)
+        public string GetAvatar(string code)
         {
             code += ".jpg";
 

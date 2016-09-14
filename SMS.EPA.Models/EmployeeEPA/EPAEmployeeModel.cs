@@ -1,6 +1,7 @@
 ﻿namespace SMS.EPA.Model.EmployeeEPA
 {
     using System;
+    using SMS.EPA.Core.Services;
 
     public class EPAEmployeeModel
     {
@@ -20,7 +21,8 @@
         {
             get
             {
-                return SMS.EPA.Core.Utilities.Avatar.GetAvatar(Code);
+                IUtilityService utilityService = new UtilityService();
+                return utilityService.GetAvatar(Code);
             }
         }
 

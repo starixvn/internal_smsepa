@@ -16,7 +16,7 @@
 
         public override bool IsValid()
         {
-            return DepartmentId > 0 && FlowTemplateId > 0;
+            return DepartmentId > 0 && FlowTemplateId > 0 && ModifiedBy > 0;
         }
 
         public override string GetSettingKey()

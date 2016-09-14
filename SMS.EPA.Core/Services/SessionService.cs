@@ -5,7 +5,6 @@
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
-    using SMS.EPA.Core.Services.Interfaces;
 
     public class SessionService : ISessionService
     {

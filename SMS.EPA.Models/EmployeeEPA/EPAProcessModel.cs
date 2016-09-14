@@ -1,6 +1,7 @@
 ﻿namespace SMS.EPA.Model.EmployeeEPA
 {
     using System;
+    using SMS.EPA.Core.Services;
 
     [Serializable]
     public class EPAProcessModel
@@ -25,7 +26,8 @@
         {
             get
             {
-                return Core.Utilities.Avatar.GetAvatar(Code);
+                IUtilityService utilityService = new UtilityService();
+                return utilityService.GetAvatar(Code);
             }
         }
 

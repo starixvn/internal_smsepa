@@ -15,7 +15,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                IEnumerable<FlowModel> epaFlow = db.Query<FlowModel, FlowTemplateModel, Employee, FlowModel>(
+                IEnumerable<FlowModel> epaFlow = db.Query<FlowModel, FlowTemplateModel, EvaluatorInfoViewModel, FlowModel>(
                    (f, ft, e) =>
                    {
                        f.FlowTemplate = ft;

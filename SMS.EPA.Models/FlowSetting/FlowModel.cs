@@ -8,7 +8,7 @@
     {
         public FlowModel()
         {
-            EvaluatorInfo = new Employee();
+            EvaluatorInfo = new EvaluatorInfoViewModel();
             FlowTemplate = new FlowTemplateModel();
         }
 
@@ -24,6 +24,6 @@
 
         public FlowTemplateModel FlowTemplate { get; set; }
 
-        public Employee EvaluatorInfo { get; set; }
+        public EvaluatorInfoViewModel EvaluatorInfo { get; set; }
     }
 }
