@@ -8,7 +8,7 @@
     {
         public TargetEmployeeModel()
         {
-            TargetTemplates = new List<TargetTemplateModel>();
+            TargetTemplates = new List<TargetTemplate>();
         }
 
         public bool Selected { get; set; }
@@ -19,9 +19,9 @@
 
         public Group Group { get; set; }
 
-        public TargetTemplateModel RawTargetTemplate { get; set; }
+        public TargetTemplate RawTargetTemplate { get; set; }
 
-        public IList<TargetTemplateModel> TargetTemplates { get; set; }
+        public IList<TargetTemplate> TargetTemplates { get; set; }
 
         public int NumberTargetTemplates
         {

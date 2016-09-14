@@ -34,7 +34,7 @@
             var actual = employeeService.GetAllEmployee(Arg.Any<GetAllEmployeeCriteria>());
 
             // Assert
-            Assert.IsInstanceOf(typeof(IEnumerable<EmployeeModel>), actual);
+            Assert.IsInstanceOf(typeof(IEnumerable<Employee>), actual);
         }
 
         [Test]
@@ -60,7 +60,7 @@
         {
             // Arrange
             var employeeId = 1;
-            var expectedEmployee = new EmployeeModel()
+            var expectedEmployee = new Employee()
             {
                 EmployeeId = employeeId
             };
@@ -78,7 +78,7 @@
         {
             // Arrange
             var employeeId = -1;
-            var expectedEmployee = new EmployeeModel()
+            var expectedEmployee = new Employee()
             {
                 EmployeeId = employeeId
             };
@@ -415,7 +415,7 @@
             var actual = employeeService.GetEmployeeByDepartmentId(Arg.Any<int?>());
 
             // Assert
-            Assert.IsInstanceOf(typeof(IEnumerable<EmployeeModel>), actual);
+            Assert.IsInstanceOf(typeof(IEnumerable<Employee>), actual);
         }
 
         [Test]
@@ -429,7 +429,7 @@
             employeeService.GetEmployeeByDepartmentId(departmentId);
 
             // Assert
-            employeeService.Received().GetData<EmployeeModel>(Arg.Is<GetEmployeeByDepartmentIdCriteria>(x => x.IsValid()));
+            employeeService.Received().GetData<Employee>(Arg.Is<GetEmployeeByDepartmentIdCriteria>(x => x.IsValid()));
         }
 
         [Test]
@@ -462,7 +462,7 @@
             var actual = employeeService.GetEmployeeByGroupId(groupId);
 
             // Assert
-            Assert.IsInstanceOf(typeof(IEnumerable<EmployeeModel>), actual);
+            Assert.IsInstanceOf(typeof(IEnumerable<Employee>), actual);
         }
 
         [Test]
@@ -476,7 +476,7 @@
             employeeService.GetEmployeeByGroupId(groupId);
 
             // Assert
-            employeeService.Received().GetData<EmployeeModel>(Arg.Is<GetEmployeeByGroupIdCriteria>(x => x.IsValid()));
+            employeeService.Received().GetData<Employee>(Arg.Is<GetEmployeeByGroupIdCriteria>(x => x.IsValid()));
         }
 
         #endregion GetEmployeeByGroupId
@@ -572,16 +572,16 @@
             return service;
         }
 
-        private IEnumerable<EmployeeModel> GetListOfEmployeeModelForTest()
+        private IEnumerable<Employee> GetListOfEmployeeModelForTest()
         {
-            var employees = new List<EmployeeModel>
+            var employees = new List<Employee>
             {
-                new EmployeeModel
+                new Employee
                 {
                     EmployeeId = 1,
                     NickName = "tim"
                 },
-                new EmployeeModel
+                new Employee
                 {
                     EmployeeId = 2,
                     NickName = "quinn"
@@ -598,18 +598,18 @@
             employeeService = GetEmployeeService(employeeRepository);
         }
 
-        private void ArrangeGetAllEmployee(IEnumerable<EmployeeModel> result = null)
+        private void ArrangeGetAllEmployee(IEnumerable<Employee> result = null)
         {
             employeeRepository = FakeEmployeeRepository();
-            employeeRepository.GetAllEmployee(Arg.Any<GetAllEmployeeCriteria>()).Returns(result ?? new List<EmployeeModel>());
+            employeeRepository.GetAllEmployee(Arg.Any<GetAllEmployeeCriteria>()).Returns(result ?? new List<Employee>());
             employeeService = GetEmployeeService(employeeRepository);
         }
 
-        private void ArrangeGetEmployeeById(EmployeeModel result = null)
+        private void ArrangeGetEmployeeById(Employee result = null)
         {
             employeeRepository = FakeEmployeeRepository();
             employeeService = GetEmployeeService(employeeRepository);
-            employeeRepository.GetEmployeeById(Arg.Any<GetEmployeeByIdCriteria>()).Returns(result == null ? new EmployeeModel() : result);
+            employeeRepository.GetEmployeeById(Arg.Any<GetEmployeeByIdCriteria>()).Returns(result == null ? new Employee() : result);
         }
 
         private void ArrangeCreateSpecialEmployee(CommandResult result = null)
@@ -642,18 +642,18 @@
             employeeService.Repository.Update(Arg.Any<AssignRoleToEmployeeCriteria>()).Returns(result ?? new CommandResult());
         }
 
-        private void ArrangeGetEmployeeByDepartmentId(IEnumerable<EmployeeModel> result = null)
+        private void ArrangeGetEmployeeByDepartmentId(IEnumerable<Employee> result = null)
         {
             employeeService = Substitute.For<EmployeeService>();
-            employeeService.When(x => x.GetData<EmployeeModel>(Arg.Any<GetEmployeeByDepartmentIdCriteria>())).DoNotCallBase();
-            employeeService.GetData<EmployeeModel>(Arg.Any<GetEmployeeByDepartmentIdCriteria>()).Returns(result ?? new List<EmployeeModel>());
+            employeeService.When(x => x.GetData<Employee>(Arg.Any<GetEmployeeByDepartmentIdCriteria>())).DoNotCallBase();
+            employeeService.GetData<Employee>(Arg.Any<GetEmployeeByDepartmentIdCriteria>()).Returns(result ?? new List<Employee>());
         }
 
-        private void ArrangeGetEmployeeByGroupId(IEnumerable<EmployeeModel> result = null)
+        private void ArrangeGetEmployeeByGroupId(IEnumerable<Employee> result = null)
         {
             employeeService = Substitute.For<EmployeeService>();
-            employeeService.When(x => x.GetData<EmployeeModel>(Arg.Any<GetEmployeeByGroupIdCriteria>())).DoNotCallBase();
-            employeeService.GetData<EmployeeModel>(Arg.Any<GetEmployeeByGroupIdCriteria>()).Returns(result ?? new List<EmployeeModel>());
+            employeeService.When(x => x.GetData<Employee>(Arg.Any<GetEmployeeByGroupIdCriteria>())).DoNotCallBase();
+            employeeService.GetData<Employee>(Arg.Any<GetEmployeeByGroupIdCriteria>()).Returns(result ?? new List<Employee>());
         }
 
         private void ArrangeInsertEmployeeIPAddress(CommandResult result = null)

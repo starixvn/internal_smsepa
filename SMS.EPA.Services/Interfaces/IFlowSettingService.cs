@@ -1,11 +1,9 @@
 ﻿namespace SMS.EPA.Services.Interfaces
 {
-    using System.Collections.Generic;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria;
     using SMS.EPA.Model;
-    using SMS.EPA.Model.Department;
-    using SMS.EPA.Model.Employee;
+    using System.Collections.Generic;
 
     public interface IFlowSettingService
     {
@@ -19,7 +17,7 @@
 
         CommandResult DeleteDepartmentFlow(DeleteDepartmentFlowCriteria criteria);
 
-        IList<DepartmentModel> GetDepartmentHasSetting(GetDepartmentSectionHasSettingCriteria criteria);
+        IList<Department> GetDepartmentHasSetting(GetDepartmentSectionHasSettingCriteria criteria);
 
         #endregion Department Flow Setting
 
@@ -33,7 +31,7 @@
 
         CommandResult DeletePersonalFlow(DeletePersonalFlowCriteria criteria);
 
-        IEnumerable<EmployeeModel> GetEmployeeFlowSetting(GetEmployeeFlowSettingCriteria criteria);
+        IEnumerable<Employee> GetEmployeeFlowSetting(GetEmployeeFlowSettingCriteria criteria);
 
         #endregion Employee Flow Setting
     }

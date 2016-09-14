@@ -3,14 +3,14 @@
     using System.Collections.Generic;
     using Fanex.Data.Repository;
     using SMS.EPA.Core.Model;
-    using SMS.EPA.Model.Employee;
+    using SMS.EPA.Model.Enitites;
 
     public interface IEmployeeRepository
     {
-        IEnumerable<EmployeeModel> GetAllEmployee(ICriteria criteria);
+        IEnumerable<Employee> GetAllEmployee(ICriteria criteria);
 
         UserSession GetEmployeeLogin(ICriteria criteria);
 
-        EmployeeModel GetEmployeeById(ICriteria criteria);
+        Employee GetEmployeeById(ICriteria criteria);
     }
 }

@@ -1,11 +1,11 @@
 ﻿namespace SMS.EPA.Model.TargetEmployeeSetting
 {
     using System.Collections.Generic;
-    using SMS.EPA.Model.Department;
+    using SMS.EPA.Model.Enitites;
 
     public class TargetDepartmentSettingModel
     {
-        public IEnumerable<DepartmentModel> Departments { get; set; }
+        public IEnumerable<Department> Departments { get; set; }
 
         public IEnumerable<TargetDepartmentModel> TargetDepartments { get; set; }
     }

@@ -41,8 +41,8 @@
 
             dashboard = reportService.GetDashboard(criteria);
             dashboard.Employee = employeeService.GetEmployeeById(this.SessionService.EmployeeId);
-            dashboard.MonthlyEPAs = dashboard.MyEPAs.Where(x => x.Period.TargetTypeId == (int)TargetType.Monthly);
-            dashboard.MyEPAs = dashboard.MyEPAs.Where(x => x.Period.TargetTypeId != (int)TargetType.Monthly);
+            dashboard.MonthlyEPAs = dashboard.MyEPAs.Where(x => x.Period.TargetTypeId == (int)TargetTypes.Monthly);
+            dashboard.MyEPAs = dashboard.MyEPAs.Where(x => x.Period.TargetTypeId != (int)TargetTypes.Monthly);
 
             return dashboard;
         }

@@ -1,17 +1,15 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
-    using System.Collections.Generic;
-    using System.Net;
-    using System.Net.Http;
-    using System.Web.Http;
     using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria;
-    using SMS.EPA.Model.Employee;
+    using SMS.EPA.Model.Enitites;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
+    using System.Collections.Generic;
+    using System.Web.Http;
 
     public class EmployeeController : BaseController
     {
@@ -23,7 +21,7 @@
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Read)]
-        public IEnumerable<EmployeeModel> GetAllEmployee(
+        public IEnumerable<Employee> GetAllEmployee(
             string query = "",
             int? groupId = null,
             bool? isLocal = null,
@@ -41,7 +39,7 @@
                 HasMonthlyEPA = hasMonthlyEPA
             };
 
-            IEnumerable<EmployeeModel> employees = employeeService.GetAllEmployee(criteria);
+            IEnumerable<Employee> employees = employeeService.GetAllEmployee(criteria);
             return employees;
         }
 

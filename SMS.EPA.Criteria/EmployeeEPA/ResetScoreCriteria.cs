@@ -26,7 +26,7 @@
                 var epaXml = new StringBuilder(BeginRootTag);
 
                 if (EPAInfo.HasMonthlyEPA
-                    && EPAInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
+                    && EPAInfo.Period.TargetTypeId == (int)TargetTypes.SemiAnnual)
                 {
                     epaXml.AppendFormat(
                         EPAXmlTemplate,

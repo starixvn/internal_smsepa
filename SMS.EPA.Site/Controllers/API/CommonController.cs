@@ -17,7 +17,6 @@
     using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.Period;
-    using SMS.EPA.Model.TargetType;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
 
@@ -38,7 +37,7 @@
         }
 
         [HttpGet]
-        public IEnumerable<TargetTypeModel> GetTargetType(
+        public IEnumerable<TargetType> GetTargetType(
             bool? isActive = true,
             string excludeTargetTypeIds = "")
         {
@@ -103,7 +102,7 @@
             return roles;
         }
 
-        public IEnumerable<EmployeeModel> GetAllEmployee(
+        public IEnumerable<Employee> GetAllEmployee(
             string query = "",
             int? groupId = null,
             bool? isSpecialUser = null,
@@ -124,19 +123,19 @@
             return commonService.GetAllEmployee(criteria);
         }
 
-        public IEnumerable<EmployeeModel> GetEmployeeByDepartmentId(int? departmentId = null)
+        public IEnumerable<Employee> GetEmployeeByDepartmentId(int? departmentId = null)
         {
             return commonService.GetEmployeeByDepartmentId(departmentId);
         }
 
         [HttpGet]
-        public IEnumerable<EmployeeModel> GetEmployeeByGroupId(int groupId)
+        public IEnumerable<Employee> GetEmployeeByGroupId(int groupId)
         {
             return commonService.GetEmployeeByGroupId(groupId);
         }
 
         [HttpGet]
-        public EmployeeModel GetEmployeeById(int employeeId)
+        public Employee GetEmployeeById(int employeeId)
         {
             return commonService.GetEmployeeById(employeeId);
         }
@@ -217,7 +216,7 @@
         }
 
         [HttpGet]
-        public IEnumerable<TargetTemplateModel> GetAllTargetTemplate(int? targetTypeId = null, bool? isActive = null)
+        public IEnumerable<TargetTemplate> GetAllTargetTemplate(int? targetTypeId = null, bool? isActive = null)
         {
             var criteria = new GetAllTargetTemplateCriteria
             {

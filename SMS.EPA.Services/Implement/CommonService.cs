@@ -1,7 +1,5 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.Department;
@@ -11,12 +9,12 @@
     using SMS.EPA.Criteria.TargetType;
     using SMS.EPA.Model;
     using SMS.EPA.Model.Department;
-    using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.Period;
-    using SMS.EPA.Model.TargetType;
     using SMS.EPA.Services.Interfaces;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class CommonService : BaseService, ICommonService
     {
@@ -60,7 +58,7 @@
             this.menuService = menuService ?? new MenuService();
         }
 
-        public IEnumerable<TargetTypeModel> GetTargetType(GetTargetTypeCriteria criteria)
+        public IEnumerable<TargetType> GetTargetType(GetTargetTypeCriteria criteria)
         {
             return targetTypeService.GetTargetType(criteria);
         }
@@ -75,22 +73,22 @@
             return kpiGroupService.GetKPIGroup(criteria);
         }
 
-        public IEnumerable<EmployeeModel> GetAllEmployee(GetAllEmployeeCriteria criteria)
+        public IEnumerable<Employee> GetAllEmployee(GetAllEmployeeCriteria criteria)
         {
             return employeeService.GetAllEmployee(criteria);
         }
 
-        public IEnumerable<EmployeeModel> GetEmployeeByDepartmentId(int? departmentId)
+        public IEnumerable<Employee> GetEmployeeByDepartmentId(int? departmentId)
         {
             return employeeService.GetEmployeeByDepartmentId(departmentId);
         }
 
-        public IEnumerable<EmployeeModel> GetEmployeeByGroupId(int groupId)
+        public IEnumerable<Employee> GetEmployeeByGroupId(int groupId)
         {
             return employeeService.GetEmployeeByGroupId(groupId);
         }
 
-        public EmployeeModel GetEmployeeById(int employeeId)
+        public Employee GetEmployeeById(int employeeId)
         {
             return employeeService.GetEmployeeById(employeeId);
         }
@@ -103,8 +101,8 @@
 
         public DepartmentInfoModel GetDepartment(GetDepartmentCriteria criteria)
         {
-            IList<DepartmentModel> departments = departmentService.GetDepartment(criteria);
-            DepartmentModel treeList = GetRootDepartment(departments);
+            IList<Department> departments = departmentService.GetDepartment(criteria);
+            Department treeList = GetRootDepartment(departments);
             var departmentInfo = new DepartmentInfoModel
             {
                 TreeDepartment = treeList,
@@ -114,12 +112,12 @@
             return departmentInfo;
         }
 
-        public DepartmentModel GetRootDepartment(IList<DepartmentModel> departments)
+        public Department GetRootDepartment(IList<Department> departments)
         {
-            DepartmentModel treeList = null;
+            Department treeList = null;
             if (departments != null && departments.Any())
             {
-                treeList = new DepartmentModel();
+                treeList = new Department();
                 treeList.Childrens.Add(departments.SingleOrDefault(x => x.ParentId == null));
             }
 
@@ -146,7 +144,7 @@
             return employeeEPAService.GetOtherViolationDetailByEPAId(criteria);
         }
 
-        public IEnumerable<TargetTemplateModel> GetAllTargetTemplate(GetAllTargetTemplateCriteria criteria)
+        public IEnumerable<TargetTemplate> GetAllTargetTemplate(GetAllTargetTemplateCriteria criteria)
         {
             return targetTemplateService.GetAllTargetTemplate(criteria);
         }

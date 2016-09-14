@@ -12,10 +12,11 @@
     using SMS.EPA.Repositories.Implement;
     using SMS.EPA.Repositories.Interfaces;
     using SMS.EPA.Services.Interfaces;
+    using SMS.EPA.Model.Enitites;
 
     public class TargetEmployeeSettingService : BaseService, ITargetEmployeeSettingService
     {
-        private readonly ITargetEmployeeSettingRepository _targetEmployeeSettingRepository;
+        private readonly ITargetEmployeeSettingRepository targetEmployeeSettingRepository;
 
         public TargetEmployeeSettingService()
             : this(null)
@@ -24,7 +25,7 @@
 
         public TargetEmployeeSettingService(ITargetEmployeeSettingRepository targetEmployeeSettingRepository)
         {
-            _targetEmployeeSettingRepository = targetEmployeeSettingRepository ?? new TargetEmployeeSettingRepository();
+            this.targetEmployeeSettingRepository = targetEmployeeSettingRepository ?? new TargetEmployeeSettingRepository();
         }
 
         public IList<TargetEmployeeModel> GetTargetEmployeeSetting(GetAllTargetEmployeeSettingCriteria criteria)
@@ -33,7 +34,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                TargetEmployeeSettingModel rawEmployeeSetting = _targetEmployeeSettingRepository.GetTargetEmployeeSetting(criteria);
+                TargetEmployeeSettingModel rawEmployeeSetting = targetEmployeeSettingRepository.GetTargetEmployeeSetting(criteria);
                 targetEmployeeSettings = ConvertToTargetEmployeeModel(rawEmployeeSetting);
             }
 
@@ -70,7 +71,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                TargetDepartmentSettingModel rawDepartmentSeting = _targetEmployeeSettingRepository.GetTargetDepartmentSetting(criteria);
+                TargetDepartmentSettingModel rawDepartmentSeting = targetEmployeeSettingRepository.GetTargetDepartmentSetting(criteria);
                 targetDepartmentSettings = ConvertToTargetDepartmentModel(rawDepartmentSeting);
             }
 
@@ -107,7 +108,7 @@
 
             if (employeeSetting != null)
             {
-                foreach (EmployeeModel employee in employeeSetting.Employees)
+                foreach (Employee employee in employeeSetting.Employees)
                 {
                     var targetEmployeeSetting = new TargetEmployeeModel
                     {
@@ -132,9 +133,9 @@
             return targetEmployeeSettings;
         }
 
-        private IList<TargetTemplateModel> GetTargetTemplateOfEmployee(IEnumerable<TargetEmployeeModel> targetEmployees)
+        private IList<TargetTemplate> GetTargetTemplateOfEmployee(IEnumerable<TargetEmployeeModel> targetEmployees)
         {
-            IList<TargetTemplateModel> targetTemplates = targetEmployees.Select(x => new TargetTemplateModel
+            IList<TargetTemplate> targetTemplates = targetEmployees.Select(x => new TargetTemplate
             {
                 TargetTemplateId = x.RawTargetTemplate.TargetTemplateId,
                 Name = x.RawTargetTemplate.Name,
@@ -151,7 +152,7 @@
 
             if (departmentSeting != null)
             {
-                foreach (DepartmentModel department in departmentSeting.Departments)
+                foreach (Department department in departmentSeting.Departments)
                 {
                     var targetDepartmentSetting = new TargetDepartmentModel
                     {
@@ -180,9 +181,9 @@
             return targetDepartmentSettings;
         }
 
-        private IList<TargetTemplateModel> GetTargetTemplateOfDepartment(IEnumerable<TargetDepartmentModel> targetDepartments)
+        private IList<TargetTemplate> GetTargetTemplateOfDepartment(IEnumerable<TargetDepartmentModel> targetDepartments)
         {
-            return targetDepartments.Select(x => new TargetTemplateModel
+            return targetDepartments.Select(x => new TargetTemplate
             {
                 TargetTemplateId = x.RawTargetTemplate.TargetTemplateId,
                 Name = x.RawTargetTemplate.Name,

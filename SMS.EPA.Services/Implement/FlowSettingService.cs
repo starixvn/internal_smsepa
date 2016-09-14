@@ -1,16 +1,14 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria;
     using SMS.EPA.Model;
-    using SMS.EPA.Model.Department;
-    using SMS.EPA.Model.Employee;
     using SMS.EPA.Repositories.Implement;
     using SMS.EPA.Repositories.Interfaces;
     using SMS.EPA.Services.Interfaces;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class FlowSettingService : BaseService, IFlowSettingService
     {
@@ -77,13 +75,13 @@
             return result;
         }
 
-        public IList<DepartmentModel> GetDepartmentHasSetting(GetDepartmentSectionHasSettingCriteria criteria)
+        public IList<Department> GetDepartmentHasSetting(GetDepartmentSectionHasSettingCriteria criteria)
         {
-            IList<DepartmentModel> departments = new List<DepartmentModel>();
+            IList<Department> departments = new List<Department>();
 
             if (criteria != null && criteria.IsValid())
             {
-                departments = GetData<DepartmentModel>(criteria).ToList();
+                departments = GetData<Department>(criteria).ToList();
             }
 
             return departments;
@@ -142,13 +140,13 @@
             return result;
         }
 
-        public IEnumerable<EmployeeModel> GetEmployeeFlowSetting(GetEmployeeFlowSettingCriteria criteria)
+        public IEnumerable<Employee> GetEmployeeFlowSetting(GetEmployeeFlowSettingCriteria criteria)
         {
-            IEnumerable<EmployeeModel> data = new List<EmployeeModel>();
+            IEnumerable<Employee> data = new List<Employee>();
 
             if (criteria != null && criteria.IsValid())
             {
-                data = GetData<EmployeeModel>(criteria).OrderBy(i => i.NickName);
+                data = GetData<Employee>(criteria).OrderBy(i => i.NickName);
             }
 
             return data;

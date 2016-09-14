@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Text;
-    using SMS.EPA.Model.Department;
+    using SMS.EPA.Model.Enitites;
 
     public class AssignEmployeePeriodModel
     {
@@ -12,7 +12,7 @@
 
         public int PeriodId { get; set; }
 
-        public IEnumerable<DepartmentModel> Departments { get; set; }
+        public IEnumerable<Department> Departments { get; set; }
 
         public int? EmployeeId { get; set; }
 
@@ -22,7 +22,7 @@
 
             if (Departments != null)
             {
-                foreach (DepartmentModel department in Departments)
+                foreach (Department department in Departments)
                 {
                     departmentXml.AppendFormat(DepartmentXmlTemplate, department.DepartmentId, department.IsGroup ? 1 : 0);
                 }

@@ -12,6 +12,7 @@
     using SMS.EPA.Repositories.Interfaces;
     using SMS.EPA.Resources;
     using SMS.EPA.Services.Interfaces;
+    using SMS.EPA.Model.Enitites;
 
     public class EmployeeService : BaseService, IEmployeeService
     {
@@ -45,9 +46,9 @@
             return isValid;
         }
 
-        public IEnumerable<EmployeeModel> GetAllEmployee(GetAllEmployeeCriteria criteria)
+        public IEnumerable<Employee> GetAllEmployee(GetAllEmployeeCriteria criteria)
         {
-            IEnumerable<EmployeeModel> employees = new List<EmployeeModel>();
+            IEnumerable<Employee> employees = new List<Employee>();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -57,13 +58,13 @@
             return employees;
         }
 
-        public EmployeeModel GetEmployeeById(int employeeId)
+        public Employee GetEmployeeById(int employeeId)
         {
             var criteria = new GetEmployeeByIdCriteria
             {
                 EmployeeId = employeeId
             };
-            var employee = new EmployeeModel();
+            var employee = new Employee();
 
             if (criteria.IsValid())
             {
@@ -131,33 +132,33 @@
             return commandResult;
         }
 
-        public IEnumerable<EmployeeModel> GetEmployeeByDepartmentId(int? departmentId)
+        public IEnumerable<Employee> GetEmployeeByDepartmentId(int? departmentId)
         {
             var criteria = new GetEmployeeByDepartmentIdCriteria
             {
                 DepartmentId = departmentId
             };
-            IEnumerable<EmployeeModel> employees = new List<EmployeeModel>();
+            IEnumerable<Employee> employees = new List<Employee>();
 
             if (criteria.IsValid())
             {
-                employees = GetData<EmployeeModel>(criteria).OrderBy(i => i.NickName);
+                employees = GetData<Employee>(criteria).OrderBy(i => i.NickName);
             }
 
             return employees;
         }
 
-        public IEnumerable<EmployeeModel> GetEmployeeByGroupId(int groupId)
+        public IEnumerable<Employee> GetEmployeeByGroupId(int groupId)
         {
             var criteria = new GetEmployeeByGroupIdCriteria
             {
                 GroupId = groupId
             };
-            IEnumerable<EmployeeModel> employees = new List<EmployeeModel>();
+            IEnumerable<Employee> employees = new List<Employee>();
 
             if (criteria.IsValid())
             {
-                employees = GetData<EmployeeModel>(criteria);
+                employees = GetData<Employee>(criteria);
             }
 
             return employees;

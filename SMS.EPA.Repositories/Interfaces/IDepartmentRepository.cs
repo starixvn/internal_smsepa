@@ -1,11 +1,11 @@
 ﻿namespace SMS.EPA.Repositories.Interfaces
 {
-    using System.Collections.Generic;
     using Fanex.Data.Repository;
-    using SMS.EPA.Model.Department;
+    using SMS.EPA.Model.Enitites;
+    using System.Collections.Generic;
 
     public interface IDepartmentRepository
     {
-        IEnumerable<DepartmentModel> GetDepartment(ICriteria criteria);
+        IEnumerable<Department> GetDepartment(ICriteria criteria);
     }
 }

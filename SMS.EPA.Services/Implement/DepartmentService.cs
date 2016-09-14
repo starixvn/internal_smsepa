@@ -2,7 +2,7 @@
 {
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.Department;
-    using SMS.EPA.Model.Department;
+    using SMS.EPA.Model.Enitites;
     using SMS.EPA.Repositories.Implement;
     using SMS.EPA.Repositories.Interfaces;
     using SMS.EPA.Services.Interfaces;
@@ -23,9 +23,9 @@
             this.departmentRepository = departmentRepository ?? new DepartmentRepository();
         }
 
-        public IList<DepartmentModel> GetDepartment(GetDepartmentCriteria criteria)
+        public IList<Department> GetDepartment(GetDepartmentCriteria criteria)
         {
-            List<DepartmentModel> departments = null;
+            List<Department> departments = null;
 
             if (criteria != null && criteria.IsValid())
             {
@@ -36,7 +36,7 @@
                 }
             }
 
-            return departments ?? new List<DepartmentModel>();
+            return departments ?? new List<Department>();
         }
     }
 }

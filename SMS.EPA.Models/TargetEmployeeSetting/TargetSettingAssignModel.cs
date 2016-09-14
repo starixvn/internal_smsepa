@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Text;
-    using SMS.EPA.Model.Department;
+    using SMS.EPA.Model.Enitites;
 
     public class TargetSettingAssignModel
     {
@@ -12,7 +12,7 @@
 
         public int TargetTemplateId { get; set; }
 
-        public IEnumerable<DepartmentModel> DepartmentSettings { get; set; }
+        public IEnumerable<Department> DepartmentSettings { get; set; }
 
         public string ConvertToXml()
         {
@@ -20,7 +20,7 @@
 
             if (DepartmentSettings != null)
             {
-                foreach (DepartmentModel department in DepartmentSettings)
+                foreach (Department department in DepartmentSettings)
                 {
                     departmentXml.AppendFormat(DepartmentXmlTemplate, department.DepartmentId, department.IsGroup ? 1 : 0);
                 }

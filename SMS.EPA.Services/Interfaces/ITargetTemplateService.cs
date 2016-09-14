@@ -8,9 +8,9 @@
 
     public interface ITargetTemplateService
     {
-        TargetTemplateModel GetTargetTemplateById(GetTargetTemplateByIdCriteria criteria);
+        TargetTemplate GetTargetTemplateById(GetTargetTemplateByIdCriteria criteria);
 
-        IEnumerable<TargetTemplateModel> GetAllTargetTemplate(GetAllTargetTemplateCriteria criteria);
+        IEnumerable<TargetTemplate> GetAllTargetTemplate(GetAllTargetTemplateCriteria criteria);
 
         CommandResult CreateTargetTemplate(CreateTargetTemplateCriteria criteria);
 

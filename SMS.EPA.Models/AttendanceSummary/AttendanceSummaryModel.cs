@@ -1,12 +1,12 @@
 ﻿namespace SMS.EPA.Model.AttendanceSummary
 {
     using System;
-    using SMS.EPA.Model.Employee;
+    using SMS.EPA.Model.Enitites;
 
     [Serializable]
     public class AttendanceSummaryModel
     {
-        public EmployeeModel Employee { get; set; }
+        public Employee Employee { get; set; }
 
         public int MissingCheckInOut { get; set; }
 

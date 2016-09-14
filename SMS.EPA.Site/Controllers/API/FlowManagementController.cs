@@ -1,19 +1,17 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Web.Http;
     using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria;
     using SMS.EPA.Model;
-    using SMS.EPA.Model.Department;
-    using SMS.EPA.Model.Employee;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
+    using System;
+    using System.Collections.Generic;
+    using System.Web.Http;
+    using System.Linq;
 
     public class FlowManagementController : BaseController
     {
@@ -100,14 +98,14 @@
         }
 
         [HttpGet]
-        public IList<DepartmentModel> GetDepartmentHasSetting(int flowTemplateId)
+        public IList<Department> GetDepartmentHasSetting(int flowTemplateId)
         {
             var criteria = new GetDepartmentSectionHasSettingCriteria
             {
                 FlowTemplateId = flowTemplateId
             };
 
-            IList<DepartmentModel> departments = flowSettingService.GetDepartmentHasSetting(criteria);
+            IList<Department> departments = flowSettingService.GetDepartmentHasSetting(criteria);
             return departments;
         }
 
@@ -187,7 +185,7 @@
             int? departmentId = null,
             int? groupId = null)
         {
-            IEnumerable<EmployeeModel> employees = new List<EmployeeModel>();
+            IEnumerable<Employee> employees = new List<Employee>();
             var result = new EmployeeFlowSettingModel();
 
             var criteria = new GetEmployeeFlowSettingCriteria()

@@ -10,11 +10,9 @@
     using SMS.EPA.Criteria.TargetType;
     using SMS.EPA.Model;
     using SMS.EPA.Model.Department;
-    using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.Period;
-    using SMS.EPA.Model.TargetType;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
     using System.Collections.Generic;
@@ -45,7 +43,7 @@
             var actual = commonService.GetTargetType(Arg.Any<GetTargetTypeCriteria>());
 
             // Assert
-            Assert.IsInstanceOf(typeof(IEnumerable<TargetTypeModel>), actual);
+            Assert.IsInstanceOf(typeof(IEnumerable<TargetType>), actual);
         }
 
         [Test]
@@ -53,8 +51,8 @@
         {
             // Arrange
             var criteria = new GetTargetTypeCriteria();
-            var expectedTargetTypes = new List<TargetTypeModel>();
-            expectedTargetTypes.Add(new TargetTypeModel());
+            var expectedTargetTypes = new List<TargetType>();
+            expectedTargetTypes.Add(new TargetType());
             ArrangeGetTargetType(expectedTargetTypes);
 
             // Act
@@ -141,7 +139,7 @@
             var actual = commonService.GetAllEmployee(Arg.Any<GetAllEmployeeCriteria>());
 
             // Assert
-            Assert.IsInstanceOf(typeof(IEnumerable<EmployeeModel>), actual);
+            Assert.IsInstanceOf(typeof(IEnumerable<Employee>), actual);
         }
 
         [Test]
@@ -149,8 +147,8 @@
         {
             // Arrange
             var criteria = new GetAllEmployeeCriteria();
-            var expectedEmployees = new List<EmployeeModel>();
-            expectedEmployees.Add(new EmployeeModel());
+            var expectedEmployees = new List<Employee>();
+            expectedEmployees.Add(new Employee());
             ArrangeGetAllEmployee(expectedEmployees);
 
             // Act
@@ -173,15 +171,15 @@
             var actual = commonService.GetEmployeeByDepartmentId(Arg.Any<int>());
 
             // Assert
-            Assert.IsInstanceOf(typeof(IEnumerable<EmployeeModel>), actual);
+            Assert.IsInstanceOf(typeof(IEnumerable<Employee>), actual);
         }
 
         [Test]
         public void GetEmployeeByDepartmentId_VaidArg_ReturnExpectedEmployees()
         {
             // Arrange
-            var expectedEmployees = new List<EmployeeModel>();
-            expectedEmployees.Add(new EmployeeModel());
+            var expectedEmployees = new List<Employee>();
+            expectedEmployees.Add(new Employee());
             ArrangeGetEmployeeByDepartmentId(expectedEmployees);
 
             // Act
@@ -204,15 +202,15 @@
             var actual = commonService.GetEmployeeByGroupId(Arg.Any<int>());
 
             // Assert
-            Assert.IsInstanceOf(typeof(IEnumerable<EmployeeModel>), actual);
+            Assert.IsInstanceOf(typeof(IEnumerable<Employee>), actual);
         }
 
         [Test]
         public void GetEmployeeByGroupId_VaidArg_ReturnExpectedEmployees()
         {
             // Arrange
-            var expectedEmployees = new List<EmployeeModel>();
-            expectedEmployees.Add(new EmployeeModel());
+            var expectedEmployees = new List<Employee>();
+            expectedEmployees.Add(new Employee());
             ArrangeGetEmployeeByGroupId(expectedEmployees);
 
             // Act
@@ -230,7 +228,7 @@
         public void GetEmployeeById_VaidArg_ReturnExpectedEmployee()
         {
             // Arrange
-            var expectedEmployee = new EmployeeModel();
+            var expectedEmployee = new Employee();
             ArrangeGetEmployeeById(expectedEmployee);
 
             // Act
@@ -292,9 +290,9 @@
         public void GetDepartment_NotEmptyListDepartment_ReturnExpectedDepartment()
         {
             // Arrange
-            var departments = new List<DepartmentModel>();
-            var department1 = new DepartmentModel() { ParentId = 1 };
-            var department2 = new DepartmentModel() { ParentId = null };
+            var departments = new List<Department>();
+            var department1 = new Department() { ParentId = 1 };
+            var department2 = new Department() { ParentId = null };
             departments.Add(department1);
             departments.Add(department2);
 
@@ -318,7 +316,7 @@
         public void GetDepartment_EmptyListDepartment_ReturnDefaultDepartment()
         {
             // Arrange
-            var departments = new List<DepartmentModel>();
+            var departments = new List<Department>();
 
             var expectedDepartment = new DepartmentInfoModel()
             {
@@ -473,15 +471,15 @@
             var actual = commonService.GetAllTargetTemplate(Arg.Any<GetAllTargetTemplateCriteria>());
 
             // Assert
-            Assert.IsInstanceOf(typeof(IEnumerable<TargetTemplateModel>), actual);
+            Assert.IsInstanceOf(typeof(IEnumerable<TargetTemplate>), actual);
         }
 
         [Test]
         public void GetAllTargetTemplate_VaidArg_ReturnExpectedTargetTemplates()
         {
             // Arrange
-            var targetTemplates = new List<TargetTemplateModel>();
-            targetTemplates.Add(new TargetTemplateModel());
+            var targetTemplates = new List<TargetTemplate>();
+            targetTemplates.Add(new TargetTemplate());
             ArrangeGetAllTargetTemplate(targetTemplates);
 
             // Act
@@ -571,7 +569,7 @@
             commonService = new CommonService(targetTypeService, kpiService, kpiGroupService, employeeService, departmentService, periodService, employeeEPAService, epaHistoryService, targetTemplateService, menuService);
         }
 
-        private void ArrangeGetTargetType(IEnumerable<TargetTypeModel> targetTypes = null)
+        private void ArrangeGetTargetType(IEnumerable<TargetType> targetTypes = null)
         {
             ArrangeCommon();
             targetTypeService.GetTargetType(Arg.Any<GetTargetTypeCriteria>()).Returns(targetTypes);
@@ -589,28 +587,28 @@
             kpiGroupService.GetKPIGroup(Arg.Any<GetKPIGroupCriteria>()).Returns(kpiGroups ?? new List<KPIGroupModel>());
         }
 
-        private void ArrangeGetAllEmployee(IEnumerable<EmployeeModel> employees = null)
+        private void ArrangeGetAllEmployee(IEnumerable<Employee> employees = null)
         {
             ArrangeCommon();
-            employeeService.GetAllEmployee(Arg.Any<GetAllEmployeeCriteria>()).Returns(employees ?? new List<EmployeeModel>());
+            employeeService.GetAllEmployee(Arg.Any<GetAllEmployeeCriteria>()).Returns(employees ?? new List<Employee>());
         }
 
-        private void ArrangeGetEmployeeByDepartmentId(IEnumerable<EmployeeModel> employees = null)
+        private void ArrangeGetEmployeeByDepartmentId(IEnumerable<Employee> employees = null)
         {
             ArrangeCommon();
-            employeeService.GetEmployeeByDepartmentId(Arg.Any<int>()).Returns(employees ?? new List<EmployeeModel>());
+            employeeService.GetEmployeeByDepartmentId(Arg.Any<int>()).Returns(employees ?? new List<Employee>());
         }
 
-        private void ArrangeGetEmployeeByGroupId(IEnumerable<EmployeeModel> employees = null)
+        private void ArrangeGetEmployeeByGroupId(IEnumerable<Employee> employees = null)
         {
             ArrangeCommon();
-            employeeService.GetEmployeeByGroupId(Arg.Any<int>()).Returns(employees ?? new List<EmployeeModel>());
+            employeeService.GetEmployeeByGroupId(Arg.Any<int>()).Returns(employees ?? new List<Employee>());
         }
 
-        private void ArrangeGetEmployeeById(EmployeeModel employee = null)
+        private void ArrangeGetEmployeeById(Employee employee = null)
         {
             ArrangeCommon();
-            employeeService.GetEmployeeById(Arg.Any<int>()).Returns(employee ?? new EmployeeModel());
+            employeeService.GetEmployeeById(Arg.Any<int>()).Returns(employee ?? new Employee());
         }
 
         private CommonService ArrangeGetAllGroup(IEnumerable<Group> groups = null)
@@ -620,10 +618,10 @@
             return commonService;
         }
 
-        private void ArrangeGetDepartment(IList<DepartmentModel> departments = null)
+        private void ArrangeGetDepartment(IList<Department> departments = null)
         {
             ArrangeCommon();
-            departmentService.GetDepartment(Arg.Any<GetDepartmentCriteria>()).Returns(departments ?? new List<DepartmentModel>());
+            departmentService.GetDepartment(Arg.Any<GetDepartmentCriteria>()).Returns(departments ?? new List<Department>());
         }
 
         private void ArrangeGetPeriod(IEnumerable<PeriodModel> periods = null)
@@ -650,10 +648,10 @@
             employeeEPAService.GetOtherViolationDetailByEPAId(Arg.Any<GetOtherViolationDetailByEPAIdCriteria>()).Returns(otherViolations ?? new List<EmployeeOtherViolationDetailModel>());
         }
 
-        private void ArrangeGetAllTargetTemplate(IEnumerable<TargetTemplateModel> targetTemplates = null)
+        private void ArrangeGetAllTargetTemplate(IEnumerable<TargetTemplate> targetTemplates = null)
         {
             ArrangeCommon();
-            targetTemplateService.GetAllTargetTemplate(Arg.Any<GetAllTargetTemplateCriteria>()).Returns(targetTemplates ?? new List<TargetTemplateModel>());
+            targetTemplateService.GetAllTargetTemplate(Arg.Any<GetAllTargetTemplateCriteria>()).Returns(targetTemplates ?? new List<TargetTemplate>());
         }
 
         private void ArrangeGetMenusByEmployeeId(IEnumerable<MenuGroupModel> menuGroups = null)

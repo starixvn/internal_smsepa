@@ -1,6 +1,5 @@
 ﻿namespace SMS.EPA.Services.Interfaces
 {
-    using System.Collections.Generic;
     using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.Department;
     using SMS.EPA.Criteria.EmployeeEPA;
@@ -9,27 +8,26 @@
     using SMS.EPA.Criteria.TargetType;
     using SMS.EPA.Model;
     using SMS.EPA.Model.Department;
-    using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.Period;
-    using SMS.EPA.Model.TargetType;
+    using System.Collections.Generic;
 
     public interface ICommonService
     {
-        IEnumerable<TargetTypeModel> GetTargetType(GetTargetTypeCriteria criteria);
+        IEnumerable<TargetType> GetTargetType(GetTargetTypeCriteria criteria);
 
         IEnumerable<KPIModel> GetKPI(GetKPICriteria criteria);
 
         IEnumerable<KPIGroupModel> GetKPIGroup(GetKPIGroupCriteria criteria);
 
-        IEnumerable<EmployeeModel> GetAllEmployee(GetAllEmployeeCriteria criteria);
+        IEnumerable<Employee> GetAllEmployee(GetAllEmployeeCriteria criteria);
 
-        IEnumerable<EmployeeModel> GetEmployeeByDepartmentId(int? departmentId);
+        IEnumerable<Employee> GetEmployeeByDepartmentId(int? departmentId);
 
-        IEnumerable<EmployeeModel> GetEmployeeByGroupId(int groupId);
+        IEnumerable<Employee> GetEmployeeByGroupId(int groupId);
 
-        EmployeeModel GetEmployeeById(int employeeId);
+        Employee GetEmployeeById(int employeeId);
 
         IEnumerable<Group> GetAllGroup(GetAllGroupCriteria criteria);
 
@@ -43,7 +41,7 @@
 
         IEnumerable<EmployeeOtherViolationDetailModel> GetOtherViolationDetailByEPAId(GetOtherViolationDetailByEPAIdCriteria criteria);
 
-        IEnumerable<TargetTemplateModel> GetAllTargetTemplate(GetAllTargetTemplateCriteria criteria);
+        IEnumerable<TargetTemplate> GetAllTargetTemplate(GetAllTargetTemplateCriteria criteria);
 
         IEnumerable<MenuGroupModel> GetMenusByEmployeeId(int employeeId);
 

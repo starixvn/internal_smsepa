@@ -76,7 +76,7 @@
 
             if (criteria != null)
             {
-                criteria.TargetTypeId = (int)TargetType.Monthly;
+                criteria.TargetTypeId = (int)TargetTypes.Monthly;
                 criteria.IsActive = true;
                 criteria.CreatedBy = this.SessionService.EmployeeId;
                 commandResult = periodService.CreatePeriod(criteria);
@@ -98,7 +98,7 @@
 
             if (criteria != null)
             {
-                criteria.TargetTypeId = (int)TargetType.Monthly;
+                criteria.TargetTypeId = (int)TargetTypes.Monthly;
                 criteria.IsActive = true;
                 criteria.ModifiedBy = this.SessionService.EmployeeId;
                 commandResult = periodService.UpdateBasicInformationPeriod(criteria);

@@ -1,8 +1,8 @@
 ﻿namespace SMS.EPA.Model
 {
+    using SMS.EPA.Model.Enitites;
     using System;
     using System.Collections.Generic;
-    using SMS.EPA.Model.TargetType;
 
     public class KPIModel
     {
@@ -31,7 +31,7 @@
 
         public IList<KPIGroupModel> KPIGroups { get; set; }
 
-        public TargetTypeModel TargetType { get; set; }
+        public TargetType TargetType { get; set; }
 
         public int CreatedBy { get; set; }
 

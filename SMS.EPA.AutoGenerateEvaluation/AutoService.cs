@@ -136,7 +136,7 @@
 
                 IList<AutoEmployeePeriodModel> semiEvaluationProcesses = evaluationProcesses
                     .Where(evaluationProcess => evaluationProcess.ProcessId == (int)ProcessType.Evaluator
-                        && evaluationProcess.TargetTypeId == (int)TargetType.SemiAnnual
+                        && evaluationProcess.TargetTypeId == (int)TargetTypes.SemiAnnual
                         && evaluationProcess.HasMonthlyEPA).ToList();
 
                 foreach (AutoEmployeePeriodModel evaluationProcess in semiEvaluationProcesses)
@@ -231,13 +231,13 @@
 
                     if (evaluationInfo.Period != null)
                     {
-                        if (evaluationInfo.Period.TargetTypeId == (int)TargetType.Probation
-                            || evaluationInfo.Period.TargetTypeId == (int)TargetType.Promotion)
+                        if (evaluationInfo.Period.TargetTypeId == (int)TargetTypes.Probation
+                            || evaluationInfo.Period.TargetTypeId == (int)TargetTypes.Promotion)
                         {
                             Log.Info("Send end email to human resource of probation or promotion period " + evaluationInfo.Period.PeriodId + " : started at " + DateTime.Now);
                             autoMailService.SendEndEvaluationMailToHumanResourceByEmployee(evaluationInfo);
                         }
-                        else if ((evaluationInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual || evaluationInfo.Period.TargetTypeId == (int)TargetType.Monthly)
+                        else if ((evaluationInfo.Period.TargetTypeId == (int)TargetTypes.SemiAnnual || evaluationInfo.Period.TargetTypeId == (int)TargetTypes.Monthly)
                             && !periods.Contains(evaluationInfo.Period.PeriodId))
                         {
                             periods.Add(evaluationInfo.Period.PeriodId);
@@ -294,7 +294,7 @@
 
             foreach (AutoEmployeePeriodModel periodProcess in reminderProcess)
             {
-                if (periodProcess.TargetTypeId == (int)TargetType.SemiAnnual
+                if (periodProcess.TargetTypeId == (int)TargetTypes.SemiAnnual
                     && (periodProcess.ProcessId == (int)ProcessType.Self || periodProcess.ProcessId == (int)ProcessType.Evaluator)
                     && periodProcess.HasMonthlyEPA)
                 {

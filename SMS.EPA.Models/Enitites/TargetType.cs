@@ -1,6 +1,6 @@
-﻿namespace SMS.EPA.Model.TargetType
+﻿namespace SMS.EPA.Model.Enitites
 {
-    public class TargetTypeModel
+    public class TargetType
     {
         public int TargetTypeId { get; set; }
 

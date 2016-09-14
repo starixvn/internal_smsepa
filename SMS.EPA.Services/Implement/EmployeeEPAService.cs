@@ -70,7 +70,7 @@
                     kpi.CurrentEvaluation = kpi.EvaluationBySelf;
                 }
 
-                if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
+                if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetTypes.SemiAnnual)
                 {
                     epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId.ToString());
                     ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
@@ -93,7 +93,7 @@
                 memberEPAs = _employeeEPARepository.GetEPA(criteria);
 
                 IList<EPAModel> monthlyEPAs = new List<EPAModel>();
-                string epaIds = string.Join(",", memberEPAs.Where(x => x.HasMonthlyEPA && x.Period.TargetTypeId == (int)TargetType.SemiAnnual).Select(x => x.EPAId));
+                string epaIds = string.Join(",", memberEPAs.Where(x => x.HasMonthlyEPA && x.Period.TargetTypeId == (int)TargetTypes.SemiAnnual).Select(x => x.EPAId));
 
                 if (!string.IsNullOrEmpty(epaIds))
                 {
@@ -128,7 +128,7 @@
                     kpi.CurrentEvaluation = kpi.EvaluationByEvaluators.FirstOrDefault();
                 }
 
-                if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
+                if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetTypes.SemiAnnual)
                 {
                     epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId.ToString());
                     ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
@@ -151,7 +151,7 @@
                 memberEPAs = _employeeEPARepository.GetEPA(criteria);
 
                 IList<EPAModel> monthlyEPAs = new List<EPAModel>();
-                string epaIds = string.Join(",", memberEPAs.Where(x => x.HasMonthlyEPA && x.Period.TargetTypeId == (int)TargetType.SemiAnnual).Select(x => x.EPAId));
+                string epaIds = string.Join(",", memberEPAs.Where(x => x.HasMonthlyEPA && x.Period.TargetTypeId == (int)TargetTypes.SemiAnnual).Select(x => x.EPAId));
 
                 if (!string.IsNullOrEmpty(epaIds))
                 {
@@ -182,7 +182,7 @@
                 SetMaxPerformanceScore(epaInfo);
                 SpreadKPIScore(epaInfo.KPIGroups);
 
-                if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
+                if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetTypes.SemiAnnual)
                 {
                     epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId.ToString());
                     ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
@@ -205,7 +205,7 @@
                 memberEPAs = _employeeEPARepository.GetEPA(criteria);
 
                 IList<EPAModel> monthlyEPAs = new List<EPAModel>();
-                string epaIds = string.Join(",", memberEPAs.Where(x => x.HasMonthlyEPA && x.Period.TargetTypeId == (int)TargetType.SemiAnnual).Select(x => x.EPAId));
+                string epaIds = string.Join(",", memberEPAs.Where(x => x.HasMonthlyEPA && x.Period.TargetTypeId == (int)TargetTypes.SemiAnnual).Select(x => x.EPAId));
 
                 if (!string.IsNullOrEmpty(epaIds))
                 {
@@ -236,7 +236,7 @@
                 SetMaxPerformanceScore(epaInfo);
                 SpreadKPIScore(epaInfo.KPIGroups);
 
-                if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
+                if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetTypes.SemiAnnual)
                 {
                     epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId.ToString());
                     ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
@@ -262,13 +262,13 @@
             return periods;
         }
 
-        public IEnumerable<TargetTemplateModel> GetTargetTemplateByEvaluator(GetTargetTemplateByEvaluatorCriteria criteria)
+        public IEnumerable<TargetTemplate> GetTargetTemplateByEvaluator(GetTargetTemplateByEvaluatorCriteria criteria)
         {
-            IEnumerable<TargetTemplateModel> targetTemplates = new List<TargetTemplateModel>();
+            IEnumerable<TargetTemplate> targetTemplates = new List<TargetTemplate>();
 
             if (criteria != null && criteria.IsValid())
             {
-                targetTemplates = GetData<TargetTemplateModel>(criteria);
+                targetTemplates = GetData<TargetTemplate>(criteria);
             }
 
             return targetTemplates;
@@ -286,13 +286,13 @@
             return periods;
         }
 
-        public IEnumerable<TargetTemplateModel> GetTargetTemplateToView(GetTargetTemplateToViewCriteria criteria)
+        public IEnumerable<TargetTemplate> GetTargetTemplateToView(GetTargetTemplateToViewCriteria criteria)
         {
-            IEnumerable<TargetTemplateModel> targetTemplates = new List<TargetTemplateModel>();
+            IEnumerable<TargetTemplate> targetTemplates = new List<TargetTemplate>();
 
             if (criteria != null && criteria.IsValid())
             {
-                targetTemplates = GetData<TargetTemplateModel>(criteria);
+                targetTemplates = GetData<TargetTemplate>(criteria);
             }
 
             return targetTemplates;
@@ -381,7 +381,7 @@
                 epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
                 SpreadKPIScore(epaInfo.KPIGroups);
 
-                if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
+                if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetTypes.SemiAnnual)
                 {
                     epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId.ToString());
                     ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
@@ -712,7 +712,7 @@
             switch (epaInfo.Process.CurrentProcess.ProcessId)
             {
                 case (int)ProcessType.Reviewer:
-                    if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
+                    if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetTypes.SemiAnnual)
                     {
                         epaInfo.Process.CurrentProcess.MaxSubtractScore = -epaInfo.MonthlyEPA.AverageReviewerScoreConverted;
                         maxAdditionScore = epaInfo.Process.CurrentProcess.MaxTotalScore - epaInfo.MonthlyEPA.AverageReviewerScoreConverted;
@@ -734,7 +734,7 @@
                     }
                     else
                     {
-                        if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
+                        if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetTypes.SemiAnnual)
                         {
                             epaInfo.Process.CurrentProcess.MaxSubtractScore = -epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted;
                             maxAdditionScore = epaInfo.Process.CurrentProcess.MaxTotalScore - epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted;

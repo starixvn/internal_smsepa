@@ -25,25 +25,25 @@
             this.targetTemplateRepository = targetTemplateRepository ?? new TargetTemplateRepository();
         }
 
-        public TargetTemplateModel GetTargetTemplateById(GetTargetTemplateByIdCriteria criteria)
+        public TargetTemplate GetTargetTemplateById(GetTargetTemplateByIdCriteria criteria)
         {
-            TargetTemplateModel targetTemplate = new TargetTemplateModel();
+            TargetTemplate targetTemplate = new TargetTemplate();
 
             if (criteria != null && criteria.IsValid())
             {
-                targetTemplate = GetDataEntity<TargetTemplateModel>(criteria);
+                targetTemplate = GetDataEntity<TargetTemplate>(criteria);
             }
 
             return targetTemplate;
         }
 
-        public IEnumerable<TargetTemplateModel> GetAllTargetTemplate(GetAllTargetTemplateCriteria criteria)
+        public IEnumerable<TargetTemplate> GetAllTargetTemplate(GetAllTargetTemplateCriteria criteria)
         {
-            IEnumerable<TargetTemplateModel> targetTemplates = new List<TargetTemplateModel>();
+            IEnumerable<TargetTemplate> targetTemplates = new List<TargetTemplate>();
 
             if (criteria != null && criteria.IsValid())
             {
-                targetTemplates = GetData<TargetTemplateModel>(criteria);
+                targetTemplates = GetData<TargetTemplate>(criteria);
             }
 
             return targetTemplates;

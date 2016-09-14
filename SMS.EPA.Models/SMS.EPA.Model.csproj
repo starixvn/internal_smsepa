@@ -72,13 +72,12 @@
     <Compile Include="Menu\MenuItemModel.cs" />
     <Compile Include="Report\Dashboard\DashboardModel.cs" />
     <Compile Include="Department\DepartmentInfoModel.cs" />
-    <Compile Include="Department\DepartmentModel.cs" />
+    <Compile Include="Enitites\Department.cs" />
     <Compile Include="EmployeeEPA\EPAModel.cs" />
     <Compile Include="EmployeeEPA\EPAProcessModel.cs" />
     <Compile Include="EmployeeEPA\EvaluationModel.cs" />
     <Compile Include="EmployeeEPA\EPAKPIGroupModel.cs" />
     <Compile Include="EmployeeEPA\EPAKPIModel.cs" />
-    <Compile Include="Employee\EmployeeModel.cs" />
     <Compile Include="Employee\EmployeeRoleModel.cs" />
     <Compile Include="Enitites\Employee.cs" />
     <Compile Include="Enitites\Group.cs" />
@@ -113,8 +112,8 @@
     <Compile Include="TargetEmployeeSetting\TargetEmployeeModel.cs" />
     <Compile Include="TargetTemplate\TargetTemplateKPIGroupModel.cs" />
     <Compile Include="TargetTemplate\TargetTemplateKPIModel.cs" />
-    <Compile Include="TargetTemplate\TargetTemplateModel.cs" />
-    <Compile Include="TargetType\TargetTypeModel.cs" />
+    <Compile Include="TargetTemplate\TargetTemplate.cs" />
+    <Compile Include="Enitites\TargetType.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">

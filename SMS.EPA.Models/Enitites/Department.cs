@@ -1,15 +1,15 @@
-﻿namespace SMS.EPA.Model.Department
+﻿namespace SMS.EPA.Model.Enitites
 {
     using System;
     using System.Collections.Generic;
     using SMS.EPA.Model.Enitites;
 
     [Serializable]
-    public class DepartmentModel
+    public class Department
     {
-        public DepartmentModel()
+        public Department()
         {
-            Childrens = new List<DepartmentModel>();
+            Childrens = new List<Department>();
         }
 
         public int DepartmentId { get; set; }
@@ -26,6 +26,6 @@
 
         public Employee Manager { get; set; }
 
-        public List<DepartmentModel> Childrens { get; set; }
+        public List<Department> Childrens { get; set; }
     }
 }

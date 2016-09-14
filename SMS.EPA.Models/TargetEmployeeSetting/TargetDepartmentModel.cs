@@ -2,18 +2,18 @@
 {
     using System.Collections.Generic;
     using SMS.EPA.Model;
-    using SMS.EPA.Model.Department;
+    using SMS.EPA.Model.Enitites;
 
-    public class TargetDepartmentModel : DepartmentModel
+    public class TargetDepartmentModel : Department
     {
         public TargetDepartmentModel()
         {
-            TargetTemplates = new List<TargetTemplateModel>();
+            TargetTemplates = new List<TargetTemplate>();
         }
 
-        public TargetTemplateModel RawTargetTemplate { get; set; }
+        public TargetTemplate RawTargetTemplate { get; set; }
 
-        public IList<TargetTemplateModel> TargetTemplates { get; set; }
+        public IList<TargetTemplate> TargetTemplates { get; set; }
 
         public int NumberTargetTemplates
         {

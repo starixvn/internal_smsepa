@@ -26,7 +26,7 @@
 
         public Employee Employee { get; set; }
 
-        public DepartmentModel Department { get; set; }
+        public Department Department { get; set; }
 
         public Group Group { get; set; }
 
@@ -44,7 +44,7 @@
 
         public bool IsIncluded { get; set; }
 
-        public TargetTemplateModel TargetTemplate { get; set; }
+        public TargetTemplate TargetTemplate { get; set; }
 
         public int NumberEvaluators { get; set; }
 
@@ -52,7 +52,7 @@
         {
             get
             {
-                return Employee != null && Employee.HasMonthlyEPA && TargetTemplate != null && TargetTemplate.TargetTypeId == (int)TargetType.SemiAnnual;
+                return Employee != null && Employee.HasMonthlyEPA && TargetTemplate != null && TargetTemplate.TargetTypeId == (int)TargetTypes.SemiAnnual;
             }
         }
     }

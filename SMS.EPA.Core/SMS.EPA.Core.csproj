@@ -136,7 +136,7 @@
     <Compile Include="Enumerations\StandardGrade.cs" />
     <Compile Include="Enumerations\EPAStatus.cs" />
     <Compile Include="Enumerations\SystemRole.cs" />
-    <Compile Include="Enumerations\TargetType.cs" />
+    <Compile Include="Enumerations\TargetTypes.cs" />
     <Compile Include="Helpers\CompressionHelper.cs" />
     <Compile Include="Model\CommandResult.cs" />
     <Compile Include="Model\FunctionModel.cs" />

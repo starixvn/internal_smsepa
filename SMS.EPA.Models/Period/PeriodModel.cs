@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.Model.Period
 {
+    using SMS.EPA.Model.Enitites;
     using System;
-    using SMS.EPA.Model.TargetType;
 
     public class PeriodModel
     {
@@ -25,7 +25,7 @@
 
         public bool IsActive { get; set; }
 
-        public TargetTypeModel TargetType { get; set; }
+        public TargetType TargetType { get; set; }
 
         public int? Year
         {

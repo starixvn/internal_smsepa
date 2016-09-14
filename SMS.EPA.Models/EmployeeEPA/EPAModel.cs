@@ -120,7 +120,7 @@
         {
             get
             {
-                return Period != null && Period.TargetTypeId == (int)TargetType.Monthly;
+                return Period != null && Period.TargetTypeId == (int)TargetTypes.Monthly;
             }
         }
 
@@ -130,7 +130,7 @@
             {
                 bool isAllowedToEdit = !(Process.CurrentProcess == null
                     || Process.CurrentProcess.IsEndProcess
-                    || (Period.TargetTypeId == (int)TargetType.SemiAnnual
+                    || (Period.TargetTypeId == (int)TargetTypes.SemiAnnual
                         && HasMonthlyEPA
                         && (Process.CurrentProcess.ProcessId == (int)ProcessType.Self || Process.CurrentProcess.ProcessId == (int)ProcessType.Evaluator))
                     || Status.StatusId == (int)Core.Enumerations.EPAStatus.Closed

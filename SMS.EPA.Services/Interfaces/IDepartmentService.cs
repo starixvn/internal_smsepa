@@ -1,11 +1,11 @@
 ﻿namespace SMS.EPA.Services.Interfaces
 {
-    using System.Collections.Generic;
     using SMS.EPA.Criteria.Department;
-    using SMS.EPA.Model.Department;
+    using SMS.EPA.Model.Enitites;
+    using System.Collections.Generic;
 
     public interface IDepartmentService
     {
-        IList<DepartmentModel> GetDepartment(GetDepartmentCriteria criteria);
+        IList<Department> GetDepartment(GetDepartmentCriteria criteria);
     }
 }

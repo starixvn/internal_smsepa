@@ -39,29 +39,29 @@
                     switch (employeeSetting.ProcessId)
                     {
                         case (int)ProcessType.HumanResource:
-                            templateEmailPath = HttpContext.Current.Server.MapPath(_startDateMailToHumanResources);
+                            templateEmailPath = GetFullPath(_startDateMailToHumanResources);
                             _mailService.SendMailToHRStartDate(templateEmailPath, employeeSetting, period.Name);
                             break;
 
                         case (int)ProcessType.Self:
-                            templateEmailPath = HttpContext.Current.Server.MapPath(_startDateMailToSelf);
+                            templateEmailPath = GetFullPath(_startDateMailToSelf);
                             _mailService.SendMailToSelfStartDate(templateEmailPath, employeeSetting, period.Name);
                             break;
 
                         case (int)ProcessType.Evaluator:
-                            templateEmailPath = HttpContext.Current.Server.MapPath(_startDateMailToEvaluator);
+                            templateEmailPath = GetFullPath(_startDateMailToEvaluator);
                             _mailService.SendMailToEvaluatorStartDate(templateEmailPath, employeeSetting, period.Name);
 
                             break;
 
                         case (int)ProcessType.Reviewer:
-                            templateEmailPath = HttpContext.Current.Server.MapPath(_startDateMailToReviewer);
+                            templateEmailPath = GetFullPath(_startDateMailToReviewer);
                             _mailService.SendMailToReviewerStartDate(templateEmailPath, employeeSetting, period.Name);
 
                             break;
 
                         case (int)ProcessType.Management:
-                            templateEmailPath = HttpContext.Current.Server.MapPath(_startDateMailToManagement);
+                            templateEmailPath = GetFullPath(_startDateMailToManagement);
                             _mailService.SendMailToManagementStartDate(templateEmailPath, employeeSetting, period.Name);
 
                             break;
@@ -74,13 +74,24 @@
         {
             if (employeeSettings != null && employeeSettings.Any() && period != null)
             {
-                string templateEmailPath = HttpContext.Current.Server.MapPath(_mailNotifyChangeSetting);
+                string templateEmailPath = GetFullPath(_mailNotifyChangeSetting);
 
                 foreach (PeriodFlowModel employeeSetting in employeeSettings)
                 {
                     _mailService.SendMailToNotifyChangeSetting(templateEmailPath, employeeSetting, period.Name);
                 }
             }
+        }
+
+        private string GetFullPath(string path)
+        {
+            string fullPath = string.Empty;
+            if (!string.IsNullOrWhiteSpace(path) && HttpContext.Current != null && HttpContext.Current.Server != null)
+            {
+                fullPath = HttpContext.Current.Server.MapPath(path);
+            }
+
+            return fullPath;
         }
     }
 }

@@ -386,7 +386,7 @@
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.RatingByKPI, Policy = Policy.Read)]
-        public IEnumerable<TargetTemplateModel> GetTargetTemplateByEvaluator(int periodId)
+        public IEnumerable<TargetTemplate> GetTargetTemplateByEvaluator(int periodId)
         {
             var criteria = new GetTargetTemplateByEvaluatorCriteria()
             {
@@ -411,7 +411,7 @@
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.EPAByKPI, Policy = Policy.Read)]
-        public IEnumerable<TargetTemplateModel> GetTargetTemplateToView(int periodId)
+        public IEnumerable<TargetTemplate> GetTargetTemplateToView(int periodId)
         {
             var criteria = new GetTargetTemplateToViewCriteria()
             {
@@ -586,7 +586,7 @@
 
                 CommandResult commandResult;
                 if (epaInfo.HasMonthlyEPA
-                    && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
+                    && epaInfo.Period.TargetTypeId == (int)TargetTypes.SemiAnnual)
                 {
                     if (epaInfo.Process.Reviewers.Any()
                         && epaInfo.Process.Reviewers.First().StartDate.Date <= DateTime.Now.Date)

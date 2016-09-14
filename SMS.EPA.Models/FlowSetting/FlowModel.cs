@@ -1,14 +1,14 @@
 ﻿namespace SMS.EPA.Model
 {
     using System;
-    using SMS.EPA.Model.Employee;
+    using SMS.EPA.Model.Enitites;
 
     [Serializable]
     public class FlowModel
     {
         public FlowModel()
         {
-            EvaluatorInfo = new EmployeeModel();
+            EvaluatorInfo = new Employee();
             FlowTemplate = new FlowTemplateModel();
         }
 
@@ -24,6 +24,6 @@
 
         public FlowTemplateModel FlowTemplate { get; set; }
 
-        public EmployeeModel EvaluatorInfo { get; set; }
+        public Employee EvaluatorInfo { get; set; }
     }
 }

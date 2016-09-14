@@ -1,20 +1,18 @@
 ﻿namespace SMS.EPA.Repositories.Implement
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using SMS.EPA.Model.Department;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Repositories.Interfaces;
+    using System.Collections.Generic;
 
     public class DepartmentRepository : IDepartmentRepository
     {
-        public IEnumerable<DepartmentModel> GetDepartment(ICriteria criteria)
+        public IEnumerable<Department> GetDepartment(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                IEnumerable<DepartmentModel> departments = db.Query<DepartmentModel, Employee, DepartmentModel>(
+                IEnumerable<Department> departments = db.Query<Department, Employee, Department>(
                    (dept, manager) =>
                    {
                        dept.Manager = manager;

@@ -17,7 +17,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                return db.Query<AttendanceSummaryModel, EmployeeModel, Group, JobTitle, AttendanceSummaryModel>(
+                return db.Query<AttendanceSummaryModel, Employee, Group, JobTitle, AttendanceSummaryModel>(
                     (att, emp, gr, job) =>
                     {
                         emp.JobTitle = job;
@@ -62,7 +62,7 @@
                     TotalHours = ConvertNumberToTime(totalHours * 60),
                     NumberOfMinutesLateIn = ConvertNumberToTime(lateIn),
                     NumberOfMinutesEarlyOut = ConvertNumberToTime(earlyOut),
-                    Employee = new EmployeeModel
+                    Employee = new Employee
                     {
                         EmployeeId = violation.EmployeeId,
                         NickName = violation.NickName,

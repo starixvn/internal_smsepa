@@ -29,7 +29,7 @@
             var actual = targetTemplateService.GetTargetTemplateById(new GetTargetTemplateByIdCriteria());
 
             // Assert
-            Assert.IsInstanceOf(typeof(TargetTemplateModel), actual);
+            Assert.IsInstanceOf(typeof(TargetTemplate), actual);
         }
 
         [Test]
@@ -46,7 +46,7 @@
             targetTemplateService.GetTargetTemplateById(criteria);
 
             // Assert
-            targetTemplateService.Received().GetDataEntity<TargetTemplateModel>(Arg.Is<GetTargetTemplateByIdCriteria>(x => x.IsValid()));
+            targetTemplateService.Received().GetDataEntity<TargetTemplate>(Arg.Is<GetTargetTemplateByIdCriteria>(x => x.IsValid()));
         }
 
         #endregion GetTargetTemplateById
@@ -63,7 +63,7 @@
             var actual = targetTemplateService.GetAllTargetTemplate(new GetAllTargetTemplateCriteria());
 
             // Assert
-            Assert.IsInstanceOf(typeof(IEnumerable<TargetTemplateModel>), actual);
+            Assert.IsInstanceOf(typeof(IEnumerable<TargetTemplate>), actual);
         }
 
         [Test]
@@ -77,7 +77,7 @@
             targetTemplateService.GetAllTargetTemplate(criteria);
 
             // Assert
-            targetTemplateService.Received().GetData<TargetTemplateModel>(Arg.Is<GetAllTargetTemplateCriteria>(x => x.IsValid()));
+            targetTemplateService.Received().GetData<TargetTemplate>(Arg.Is<GetAllTargetTemplateCriteria>(x => x.IsValid()));
         }
 
         #endregion GetAllTargetTemplate
@@ -435,18 +435,18 @@
             return service;
         }
 
-        private void ArrangeGetTargetTemplateById(TargetTemplateModel result = null)
+        private void ArrangeGetTargetTemplateById(TargetTemplate result = null)
         {
             targetTemplateService = Substitute.For<TargetTemplateService>();
-            targetTemplateService.When(x => x.GetDataEntity<TargetTemplateModel>(Arg.Any<GetTargetTemplateByIdCriteria>())).DoNotCallBase();
-            targetTemplateService.GetDataEntity<TargetTemplateModel>(Arg.Any<GetTargetTemplateByIdCriteria>()).Returns(result ?? new TargetTemplateModel());
+            targetTemplateService.When(x => x.GetDataEntity<TargetTemplate>(Arg.Any<GetTargetTemplateByIdCriteria>())).DoNotCallBase();
+            targetTemplateService.GetDataEntity<TargetTemplate>(Arg.Any<GetTargetTemplateByIdCriteria>()).Returns(result ?? new TargetTemplate());
         }
 
-        private void ArrangeGetAllTargetTemplate(IEnumerable<TargetTemplateModel> result = null)
+        private void ArrangeGetAllTargetTemplate(IEnumerable<TargetTemplate> result = null)
         {
             targetTemplateService = Substitute.For<TargetTemplateService>();
-            targetTemplateService.When(x => x.GetData<TargetTemplateModel>(Arg.Any<GetAllTargetTemplateCriteria>())).DoNotCallBase();
-            targetTemplateService.GetData<TargetTemplateModel>(Arg.Any<GetAllTargetTemplateCriteria>()).Returns(result ?? new List<TargetTemplateModel>());
+            targetTemplateService.When(x => x.GetData<TargetTemplate>(Arg.Any<GetAllTargetTemplateCriteria>())).DoNotCallBase();
+            targetTemplateService.GetData<TargetTemplate>(Arg.Any<GetAllTargetTemplateCriteria>()).Returns(result ?? new List<TargetTemplate>());
         }
 
         private void ArrangeGetRatingType(IEnumerable<RatingType> result = null)

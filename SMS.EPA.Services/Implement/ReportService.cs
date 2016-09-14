@@ -89,7 +89,7 @@
                 result = reportRepository.GetEPADetail(criteria);
 
                 IList<EPAModel> monthlyEPAs = new List<EPAModel>();
-                string epaIds = string.Join(",", result.MemberEPAs.Where(x => x.HasMonthlyEPA && x.Period.TargetTypeId == (int)TargetType.SemiAnnual).Select(x => x.EPAId));
+                string epaIds = string.Join(",", result.MemberEPAs.Where(x => x.HasMonthlyEPA && x.Period.TargetTypeId == (int)TargetTypes.SemiAnnual).Select(x => x.EPAId));
 
                 if (!string.IsNullOrEmpty(epaIds))
                 {
@@ -550,7 +550,7 @@
             {
                 float score = memberEPA.Process.Self.TotalScore.Length > 0 ? float.Parse(memberEPA.Process.Self.TotalScore) : 0;
 
-                if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId == (int)TargetType.SemiAnnual)
+                if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId == (int)TargetTypes.SemiAnnual)
                 {
                     score = memberEPA.MonthlyEPA.AverageSelfScoreConverted;
                 }
@@ -562,7 +562,7 @@
             {
                 evaluatorScore = Math.Round(memberEPA.Process.AverageScoreByEvaluators, 2).ToString();
 
-                if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId == (int)TargetType.SemiAnnual)
+                if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId == (int)TargetTypes.SemiAnnual)
                 {
                     evaluatorScore = Math.Round(memberEPA.MonthlyEPA.AverageEvaluatorScoreConverted, 2).ToString();
                 }

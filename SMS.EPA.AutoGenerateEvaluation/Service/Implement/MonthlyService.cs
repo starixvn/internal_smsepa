@@ -40,7 +40,7 @@
         {
             var getSettingCriteria = new GetEvaluationGlobalSettingByTargetTypeIdCriteria()
             {
-                TargetTypeId = (int)TargetType.Monthly
+                TargetTypeId = (int)TargetTypes.Monthly
             };
 
             IEnumerable<FlowModel> processSettings = periodService.GetEvaluationGlobalSettingByTargetTypeId(getSettingCriteria);

@@ -12,13 +12,13 @@
 
     public class EmployeeRepository : IEmployeeRepository
     {
-        public IEnumerable<EmployeeModel> GetAllEmployee(ICriteria criteria)
+        public IEnumerable<Employee> GetAllEmployee(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
                 using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    IEnumerable<EmployeeModel> employees = multi.Read<EmployeeModel, JobTitle, Group, EmployeeModel>(
+                    IEnumerable<Employee> employees = multi.Read<Employee, JobTitle, Group, Employee>(
                            (emp, jb, gr) =>
                            {
                                emp.JobTitle = jb;
@@ -30,7 +30,7 @@
 
                     IEnumerable<EmployeeRoleModel> roles = multi.Read<EmployeeRoleModel>();
 
-                    foreach (EmployeeModel employee in employees)
+                    foreach (Employee employee in employees)
                     {
                         IList<SystemRoleModel> employeeRoles = roles.Where(role => role.EmployeeId == employee.EmployeeId)
                             .Select(role => new SystemRoleModel
@@ -67,13 +67,13 @@
             }
         }
 
-        public EmployeeModel GetEmployeeById(ICriteria criteria)
+        public Employee GetEmployeeById(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
                 using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    EmployeeModel employee = multi.Read<EmployeeModel, JobTitle, DepartmentModel, Group, EmployeeModel>(
+                    Employee employee = multi.Read<Employee, JobTitle, Department, Group, Employee>(
                            (emp, jb, dept, gr) =>
                            {
                                emp.JobTitle = jb;

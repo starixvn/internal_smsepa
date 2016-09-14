@@ -10,7 +10,6 @@
     using SMS.EPA.Model.Employee;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.Period;
-    using SMS.EPA.Model.TargetType;
     using SMS.EPA.Repositories.Interfaces;
 
     public class PeriodRepository : IPeriodRepository
@@ -19,7 +18,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                return db.Query<PeriodModel, TargetTypeModel, PeriodModel>(
+                return db.Query<PeriodModel, TargetType, PeriodModel>(
                     (pe, tar) =>
                     {
                         pe.TargetType = tar;
@@ -34,7 +33,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                return db.QueryEntity<PeriodModel, TargetTypeModel, PeriodModel>(
+                return db.QueryEntity<PeriodModel, TargetType, PeriodModel>(
                     (pe, tar) =>
                     {
                         pe.TargetType = tar;
@@ -52,7 +51,7 @@
                 using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     IEnumerable<PeriodEmployeeSettingModel> employeeSettings =
-                        multi.Read<PeriodEmployeeSettingModel, Employee, DepartmentModel, Group, JobTitle, TargetTemplateModel, PeriodEmployeeSettingModel>(
+                        multi.Read<PeriodEmployeeSettingModel, Employee, Department, Group, JobTitle, TargetTemplate, PeriodEmployeeSettingModel>(
                             (pe, emp, dep, gr, job, tar) =>
                             {
                                 pe.Employee = emp;
@@ -65,7 +64,7 @@
                             "EmployeeId, DepartmentId, GroupId, JobTitleId, TargetTemplateId");
 
                     IEnumerable<PeriodFlowSettingModel> flowSettings =
-                        multi.Read<PeriodFlowSettingModel, EmployeeModel, PeriodFlowSettingModel>(
+                        multi.Read<PeriodFlowSettingModel, Employee, PeriodFlowSettingModel>(
                             (fl, eva) =>
                             {
                                 fl.EvaluatorInfo = eva;
@@ -87,7 +86,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                return db.Query<PeriodFlowModel, EmployeeModel, PeriodFlowModel>(
+                return db.Query<PeriodFlowModel, Employee, PeriodFlowModel>(
                     (empS, eva) =>
                     {
                         empS.EvaluatorInfo = eva;

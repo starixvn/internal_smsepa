@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.Model.AttendanceSummary
 {
     using System;
-    using SMS.EPA.Model.Employee;
+    using SMS.EPA.Model.Enitites;
 
     [Serializable]
     public class AttendanceDetailModel
@@ -24,7 +24,7 @@
 
         public string NumberOfMinutesEarlyOut { get; set; }
 
-        public EmployeeModel Employee { get; set; }
+        public Employee Employee { get; set; }
 
         public ViolationModel MissingCheckInOut { get; set; }
 

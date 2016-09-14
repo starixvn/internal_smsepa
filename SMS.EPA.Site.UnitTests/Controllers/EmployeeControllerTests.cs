@@ -9,6 +9,7 @@
     using SMS.EPA.Model.Employee;
     using SMS.EPA.Services.Interfaces;
     using SMS.EPA.Site.Controllers.API;
+    using SMS.EPA.Model.Enitites;
 
     [TestFixture]
     public class EmployeeControllerTests
@@ -37,14 +38,14 @@
         {
             // Arrange
             employeeService = FakeEmployeeService();
-            employeeService.GetAllEmployee(Arg.Any<GetAllEmployeeCriteria>()).Returns(new List<EmployeeModel>());
+            employeeService.GetAllEmployee(Arg.Any<GetAllEmployeeCriteria>()).Returns(new List<Employee>());
             employeeController = GetEmployeeController(employeeService);
 
             // Act
             var actual = employeeController.GetAllEmployee(Arg.Any<string>(), Arg.Any<int?>(), Arg.Any<bool?>(), Arg.Any<bool?>(), Arg.Any<bool?>(), Arg.Any<bool?>());
 
             // Assert
-            Assert.IsInstanceOf(typeof(IEnumerable<EmployeeModel>), actual);
+            Assert.IsInstanceOf(typeof(IEnumerable<Employee>), actual);
         }
 
         #endregion GetAllEmployee

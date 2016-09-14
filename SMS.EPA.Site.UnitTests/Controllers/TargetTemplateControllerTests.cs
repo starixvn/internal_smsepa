@@ -41,14 +41,14 @@
         {
             // Arrange
             targetTemplateService = FakeTargetTemplateService();
-            targetTemplateService.GetAllTargetTemplate(Arg.Any<GetAllTargetTemplateCriteria>()).Returns(new List<TargetTemplateModel>());
+            targetTemplateService.GetAllTargetTemplate(Arg.Any<GetAllTargetTemplateCriteria>()).Returns(new List<TargetTemplate>());
             targetTemplateController = GetTargetTemplateController(targetTemplateService);
 
             // Act
             var actual = targetTemplateController.GetAllTargetTemplate(Arg.Any<int?>(), Arg.Any<bool?>());
 
             // Assert
-            Assert.IsInstanceOf(typeof(IEnumerable<TargetTemplateModel>), actual);
+            Assert.IsInstanceOf(typeof(IEnumerable<TargetTemplate>), actual);
         }
 
         #endregion GetAllTargetTemplate
@@ -73,14 +73,14 @@
         {
             // Arrange
             targetTemplateService = FakeTargetTemplateService();
-            targetTemplateService.GetTargetTemplateById(Arg.Any<GetTargetTemplateByIdCriteria>()).Returns(new TargetTemplateModel());
+            targetTemplateService.GetTargetTemplateById(Arg.Any<GetTargetTemplateByIdCriteria>()).Returns(new TargetTemplate());
             targetTemplateController = GetTargetTemplateController(targetTemplateService);
 
             // Act
             var actual = targetTemplateController.GetTargetTemplateById(Arg.Is<int>(x => x > 0));
 
             // Assert
-            Assert.IsInstanceOf(typeof(TargetTemplateModel), actual);
+            Assert.IsInstanceOf(typeof(TargetTemplate), actual);
         }
 
         #endregion GetTargetTemplateById

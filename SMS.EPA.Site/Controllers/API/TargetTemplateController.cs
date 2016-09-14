@@ -33,26 +33,26 @@
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Read)]
-        public IEnumerable<TargetTemplateModel> GetAllTargetTemplate(int? targetTypeId = null, bool? isActive = null)
+        public IEnumerable<TargetTemplate> GetAllTargetTemplate(int? targetTypeId = null, bool? isActive = null)
         {
             var criteria = new GetAllTargetTemplateCriteria
             {
                 TargetTypeId = targetTypeId,
                 IsActive = isActive
             };
-            IEnumerable<TargetTemplateModel> targetTemplates = targetTemplateService.GetAllTargetTemplate(criteria);
+            IEnumerable<TargetTemplate> targetTemplates = targetTemplateService.GetAllTargetTemplate(criteria);
 
             return targetTemplates;
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetTemplate, Policy = Policy.Read)]
-        public TargetTemplateModel GetTargetTemplateById(int targetTemplateId)
+        public TargetTemplate GetTargetTemplateById(int targetTemplateId)
         {
             var criteria = new GetTargetTemplateByIdCriteria
             {
                 TargetTemplateId = targetTemplateId
             };
-            TargetTemplateModel targetTemplate = targetTemplateService.GetTargetTemplateById(criteria);
+            TargetTemplate targetTemplate = targetTemplateService.GetTargetTemplateById(criteria);
 
             return targetTemplate;
         }

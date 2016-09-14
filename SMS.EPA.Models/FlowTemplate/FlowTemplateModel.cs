@@ -1,6 +1,6 @@
 ﻿namespace SMS.EPA.Model
 {
-    using SMS.EPA.Model.TargetType;
+    using SMS.EPA.Model.Enitites;
 
     public class FlowTemplateModel
     {
@@ -12,6 +12,6 @@
 
         public bool IsActive { get; set; }
 
-        public TargetTypeModel TargetType { get; set; }
+        public TargetType TargetType { get; set; }
     }
 }

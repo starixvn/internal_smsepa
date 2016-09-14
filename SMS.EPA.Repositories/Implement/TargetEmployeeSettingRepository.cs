@@ -9,6 +9,7 @@
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.TargetEmployeeSetting;
     using SMS.EPA.Repositories.Interfaces;
+    using System.Linq;
 
     public class TargetEmployeeSettingRepository : ITargetEmployeeSettingRepository
     {
@@ -18,7 +19,7 @@
             {
                 using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    IEnumerable<EmployeeModel> employees = multi.Read<EmployeeModel, Group, EmployeeModel>(
+                    IEnumerable<Employee> employees = multi.Read<Employee, Group, Employee>(
                         (emp, gr) =>
                         {
                             emp.Group = gr;
@@ -26,7 +27,7 @@
                         },
                         "GroupId");
 
-                    IEnumerable<TargetEmployeeModel> targetEmployees = multi.Read<TargetEmployeeModel, TargetTemplateModel, TargetEmployeeModel>(
+                    IEnumerable<TargetEmployeeModel> targetEmployees = multi.Read<TargetEmployeeModel, TargetTemplate, TargetEmployeeModel>(
                         (tarEmp, tar) =>
                         {
                             tarEmp.RawTargetTemplate = tar;
@@ -51,9 +52,9 @@
             {
                 using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    IEnumerable<DepartmentModel> deparments = multi.Read<DepartmentModel>();
+                    IEnumerable<Department> deparments = multi.Read<Department>();
 
-                    IEnumerable<TargetDepartmentModel> targetDepartments = multi.Read<TargetDepartmentModel, TargetTemplateModel, TargetDepartmentModel>(
+                    IEnumerable<TargetDepartmentModel> targetDepartments = multi.Read<TargetDepartmentModel, TargetTemplate, TargetDepartmentModel>(
                         (tarEmp, tar) =>
                         {
                             tarEmp.RawTargetTemplate = tar;

@@ -74,7 +74,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TargetEmployeeSettingServiceTests.cs" />
     <Compile Include="CommonServiceTests.cs" />
+    <Compile Include="ICreteria.cs" />
+    <Compile Include="TargetTypeServiceTests.cs" />
+    <Compile Include="ScoreRatingTypeServiceTests.cs" />
+    <Compile Include="ManualMailServiceTests.cs" />
     <Compile Include="MailServiceTests.cs" />
     <Compile Include="MenuServiceTests.cs" />
     <Compile Include="EPAHistoryServiceTests.cs" />

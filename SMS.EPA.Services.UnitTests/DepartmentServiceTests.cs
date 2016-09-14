@@ -4,6 +4,7 @@
     using NUnit.Framework;
     using SMS.EPA.Criteria.Department;
     using SMS.EPA.Model.Department;
+    using SMS.EPA.Model.Enitites;
     using SMS.EPA.Repositories.Interfaces;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
@@ -29,7 +30,7 @@
             var actual = departmentService.GetDepartment(Arg.Any<GetDepartmentCriteria>());
 
             // Assert
-            Assert.IsInstanceOf(typeof(IList<DepartmentModel>), actual);
+            Assert.IsInstanceOf(typeof(IList<Department>), actual);
         }
 
         [Test]
@@ -37,8 +38,8 @@
         {
             // Arrange
             var criteria = new GetDepartmentCriteria();
-            var expectedDepartments = new List<DepartmentModel>();
-            expectedDepartments.Add(new DepartmentModel());
+            var expectedDepartments = new List<Department>();
+            expectedDepartments.Add(new Department());
             ArrangeGetDepartment(expectedDepartments);
 
             // Act
@@ -53,8 +54,8 @@
         {
             // Arrange
             GetDepartmentCriteria criteria = null;
-            var expectedDepartments = new List<DepartmentModel>();
-            expectedDepartments.Add(new DepartmentModel());
+            var expectedDepartments = new List<Department>();
+            expectedDepartments.Add(new Department());
             ArrangeGetDepartment(expectedDepartments);
 
             // Act
@@ -71,10 +72,10 @@
             return repository;
         }
 
-        private void ArrangeGetDepartment(IList<DepartmentModel> expectedDepartments = null)
+        private void ArrangeGetDepartment(IList<Department> expectedDepartments = null)
         {
             departmentRepository = FakeDepartmentRepository();
-            departmentRepository.GetDepartment(Arg.Any<GetDepartmentCriteria>()).Returns(expectedDepartments ?? new List<DepartmentModel>());
+            departmentRepository.GetDepartment(Arg.Any<GetDepartmentCriteria>()).Returns(expectedDepartments ?? new List<Department>());
             departmentService = new DepartmentService(departmentRepository);
         }
     }
