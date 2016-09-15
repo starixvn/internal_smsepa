@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    public class InsertFlowItemModel
+    public class FlowItemModel
     {
         public int Duration { get; set; }
 

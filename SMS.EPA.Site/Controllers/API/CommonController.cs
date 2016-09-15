@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Http;
+    using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Utilities;
     using SMS.EPA.Criteria;
@@ -148,9 +149,7 @@
         }
 
         [HttpGet]
-        public DepartmentInfoModel GetDepartment(
-            int? parentId = null,
-            bool? isActive = null)
+        public DepartmentInfoModel GetDepartment(int? parentId = null, bool? isActive = null)
         {
             var criteria = new GetDepartmentCriteria()
             {
@@ -174,9 +173,7 @@
         }
 
         [HttpGet]
-        public IEnumerable<PeriodModel> GetPeriod(
-            int? targetTypeId = null,
-            bool? isActive = true)
+        public IEnumerable<PeriodModel> GetPeriod(int? targetTypeId = null, bool? isActive = true)
         {
             var criteria = new GetPeriodCriteria
             {
@@ -244,6 +241,12 @@
             IEnumerable<JobTitle> jobTitles = commonService.GetAllJobTitle(criteria);
 
             return jobTitles;
+        }
+
+        public int GetUserPermissionOnFlowManagement()
+        {
+            int permission = this.SessionService.GetPermission(EPAFunctionKey.FlowManagement);
+            return permission;
         }
     }
 }

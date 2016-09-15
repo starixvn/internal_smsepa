@@ -4,16 +4,15 @@
     using System.Web.Mvc;
     using System.Web.Security;
     using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
+    using SMS.EPA.Core.Security;
     using SMS.EPA.Core.Services;
-    using SMS.EPA.Core.Services.Interfaces;
     using SMS.EPA.Criteria;
     using SMS.EPA.Model.Authentication;
     using SMS.EPA.Resources;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
-    using SMS.EPA.Core.Security;
-    using SMS.EPA.Core.Enumerations;
 
     public class AuthController : Controller
     {

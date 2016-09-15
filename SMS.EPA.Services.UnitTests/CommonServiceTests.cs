@@ -566,7 +566,17 @@
             epaHistoryService = Substitute.For<IEPAHistoryService>();
             targetTemplateService = Substitute.For<ITargetTemplateService>();
             menuService = Substitute.For<IMenuService>();
-            commonService = new CommonService(targetTypeService, kpiService, kpiGroupService, employeeService, departmentService, periodService, employeeEPAService, epaHistoryService, targetTemplateService, menuService);
+            commonService = new CommonService(
+                targetTypeService,
+                kpiService,
+                kpiGroupService,
+                employeeService,
+                departmentService,
+                periodService,
+                employeeEPAService,
+                epaHistoryService,
+                targetTemplateService,
+                menuService);
         }
 
         private void ArrangeGetTargetType(IEnumerable<TargetType> targetTypes = null)
@@ -645,7 +655,8 @@
         private void ArrangeGetOtherViolationDetailByEPAId(IEnumerable<EmployeeOtherViolationDetailModel> otherViolations = null)
         {
             ArrangeCommon();
-            employeeEPAService.GetOtherViolationDetailByEPAId(Arg.Any<GetOtherViolationDetailByEPAIdCriteria>()).Returns(otherViolations ?? new List<EmployeeOtherViolationDetailModel>());
+            employeeEPAService.GetOtherViolationDetailByEPAId(Arg.Any<GetOtherViolationDetailByEPAIdCriteria>())
+                .Returns(otherViolations ?? new List<EmployeeOtherViolationDetailModel>());
         }
 
         private void ArrangeGetAllTargetTemplate(IEnumerable<TargetTemplate> targetTemplates = null)

@@ -1,11 +1,11 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria;
     using SMS.EPA.Model;
     using SMS.EPA.Services.Interfaces;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class MenuService : BaseService, IMenuService
     {
@@ -22,7 +22,6 @@
             return menus;
         }
 
-       
         private IList<MenuGroupModel> GroupMenuItem(IEnumerable<MenuItemModel> menuItems)
         {
             var menuGroups = new List<MenuGroupModel>();

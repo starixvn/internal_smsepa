@@ -1,16 +1,12 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
+    using System.Collections.Generic;
     using NSubstitute;
     using NUnit.Framework;
-    using SMS.EPA.Core;
     using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Core.Services.Interfaces;
-    using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.Period;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
-    using System;
-    using System.Collections.Generic;
 
     [TestFixture]
     public class ManualMailServiceTests
@@ -126,7 +122,6 @@
             mailService.Received().SendMailToNotifyChangeSetting(Arg.Any<string>(), Arg.Any<PeriodFlowModel>(), Arg.Any<string>());
         }
 
-        
         private void ArrangeEmail()
         {
             mailService = Substitute.For<IMailService>();

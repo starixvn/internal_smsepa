@@ -22,5 +22,9 @@
                 return utilityService.GetAvatar(Code);
             }
         }
+
+        public bool IsExistsSetting { get; set; }
+
+        public bool HasMonthlyEPA { get; set; }
     }
 }

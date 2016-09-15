@@ -95,6 +95,9 @@ commonModule.factory('commonFactory', ['$http', 'baseUrl', function ($http, base
         },
         getAllJobTitle: function () {
             return $http.get(baseUrl + 'api/Common/GetAllJobTitle');
+        },
+        getUserPermissionOnFlowManagement: function () {
+            return $http.get(baseUrl + 'api/Common/GetUserPermissionOnFlowManagement');
         }
     };
 }]);

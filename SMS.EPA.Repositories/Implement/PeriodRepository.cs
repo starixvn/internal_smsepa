@@ -6,7 +6,6 @@
     using Fanex.Data.Repository;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Model;
-    using SMS.EPA.Model.Department;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.Period;
     using SMS.EPA.Repositories.Interfaces;

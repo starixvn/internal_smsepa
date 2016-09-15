@@ -1,7 +1,6 @@
 ﻿namespace SMS.EPA.Model
 {
     using System;
-    using SMS.EPA.Model.Enitites;
 
     [Serializable]
     public class FlowModel

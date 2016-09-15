@@ -51,8 +51,8 @@ function (FlowTemplateModel, CommonModel, utilitiesFactory, enumerationsFactory,
     };
 
     vm.initialize = function () {
-        FlowTemplateModel.getUserPermissionOnFlowManagement().then(function () {
-            vm.permission = FlowTemplateModel.permission;
+        CommonModel.getUserPermissionOnFlowManagement().then(function () {
+            vm.permission = CommonModel.permission;
         });
 
         CommonModel.getTargetType().then(function () {
@@ -99,8 +99,8 @@ function ($location, $window, FlowTemplateModel, CommonModel, enumerationsFactor
     };
 
     vm.initialize = function () {
-        FlowTemplateModel.getUserPermissionOnFlowManagement().then(function () {
-            vm.permission = FlowTemplateModel.permission;
+        CommonModel.getUserPermissionOnFlowManagement().then(function () {
+            vm.permission = CommonModel.permission;
 
             if (vm.permission !== vm.policyEnum.Host) {
                 $location.path(baseUrl + 'Home/AccessDenied');
@@ -152,8 +152,8 @@ function ($window, $routeParams, FlowTemplateModel, CommonModel, enumerationsFac
     };
 
     vm.initialize = function () {
-        FlowTemplateModel.getUserPermissionOnFlowManagement().then(function () {
-            vm.permission = FlowTemplateModel.permission;
+        CommonModel.getUserPermissionOnFlowManagement().then(function () {
+            vm.permission = CommonModel.permission;
         });
 
         CommonModel.getDepartment().then(function () {

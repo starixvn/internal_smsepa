@@ -100,11 +100,5 @@
 
             return flowTemplateService.DeleteFlowTemplate(criteria);
         }
-
-        public int GetUserPermissionOnFlowManagement()
-        {
-            int permission = this.SessionService.GetPermission(EPAFunctionKey.FlowManagement);
-            return permission;
-        }
     }
 }

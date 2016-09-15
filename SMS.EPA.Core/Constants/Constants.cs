@@ -42,6 +42,10 @@
 
         public const string ExportingFolder = @"~\ExportPDFFolder\";
 
+        public const string BeginRootTag = "<ROOT>";
+
+        public const string EndRootTag = "</ROOT>";
+
         private Constants()
         {
         }

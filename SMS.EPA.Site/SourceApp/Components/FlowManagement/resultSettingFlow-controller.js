@@ -2,8 +2,8 @@
 /*global flowMngModule*/
 
 flowMngModule.controller("ResultSettingFlowController",
-['$scope', '$window', '$routeParams', 'FlowMngModel', 'cacheService', 'historyFactory',
-function ($scope, $window, $routeParams, FlowMngModel, cacheService, historyFactory) {
+['$scope', '$routeParams', 'DeptFlowModel', 'PersonalFlowModel', 'cacheService', 'historyFactory',
+function ($scope, $routeParams, DeptFlowModel, PersonalFlowModel, cacheService, historyFactory) {
     var vm = this;
 
     vm.flowSettings = [];
@@ -21,12 +21,12 @@ function ($scope, $window, $routeParams, FlowMngModel, cacheService, historyFact
         return cacheService.getProperty();
     }, function (value) {
         if (value === 4) {
-            FlowMngModel.getDepartmentFlow(vm.flowTemplateId).then(function () {
-                vm.flowSettings = FlowMngModel.flowSettings;
+            DeptFlowModel.getDepartmentFlow(vm.flowTemplateId).then(function () {
+                vm.flowSettings = DeptFlowModel.flowSettings;
             });
         } else if (value === 5) {
-            FlowMngModel.getPersonalFlow(vm.flowTemplateId).then(function () {
-                vm.flowSettings = FlowMngModel.flowSettings;
+            PersonalFlowModel.getPersonalFlow(vm.flowTemplateId).then(function () {
+                vm.flowSettings = PersonalFlowModel.flowSettings;
             });
         }
     });

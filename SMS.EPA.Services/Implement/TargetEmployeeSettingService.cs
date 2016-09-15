@@ -6,12 +6,11 @@
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.TargetEmployeeSetting;
     using SMS.EPA.Model;
-    using SMS.EPA.Model.Department;
+    using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.TargetEmployeeSetting;
     using SMS.EPA.Repositories.Implement;
     using SMS.EPA.Repositories.Interfaces;
     using SMS.EPA.Services.Interfaces;
-    using SMS.EPA.Model.Enitites;
 
     public class TargetEmployeeSettingService : BaseService, ITargetEmployeeSettingService
     {

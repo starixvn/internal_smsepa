@@ -87,8 +87,7 @@
     <Compile Include="FlowSetting\EmployeeFlowSettingModel.cs" />
     <Compile Include="FlowTemplate\FlowTemplateModel.cs" />
     <Compile Include="FlowSetting\FlowModel.cs" />
-    <Compile Include="FlowSetting\InsertFlowItemModel.cs" />
-    <Compile Include="FlowSetting\InsertFlowModel.cs" />
+    <Compile Include="FlowSetting\FlowItemModel.cs" />
     <Compile Include="KPIGroup\KPIGroupModel.cs" />
     <Compile Include="KPI\KPIModel.cs" />
     <Compile Include="Period\AutoEmployeePeriodModel.cs" />

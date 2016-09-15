@@ -13,8 +13,7 @@
         flowModel.permission = 0;
 
         flowModel.getFlowTemplate = function (targetTypeId, isActive) {
-            return flowTemplateFactory.getFlowTemplate(targetTypeId, isActive)
-            .success(function (flowTemplates) {
+            return flowTemplateFactory.getFlowTemplate(targetTypeId, isActive).success(function (flowTemplates) {
                 flowModel.flowTemplates = flowTemplates;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
@@ -22,8 +21,7 @@
         };
 
         flowModel.getFlowTemplateById = function (flowTemplateId) {
-            return flowTemplateFactory.getFlowTemplateById(flowTemplateId)
-            .success(function (flowTemplate) {
+            return flowTemplateFactory.getFlowTemplateById(flowTemplateId).success(function (flowTemplate) {
                 flowModel.flowTemplate = flowTemplate;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
@@ -33,16 +31,12 @@
         flowModel.validateFlowTemplate = function (flowTemplate) {
             if (!flowTemplate) {
                 return false;
-            }
-            else {
-                if (!flowTemplate.Name) {
-                    notificationFactory.error('NameRequired');
-                    return false;
-                }
-                else if (!flowTemplate.TargetTypeId) {
-                    notificationFactory.error('TargetTypeRequired');
-                    return false;
-                }
+            } else if (!flowTemplate.Name) {
+                notificationFactory.error('NameRequired');
+                return false;
+            } else if (!flowTemplate.TargetTypeId) {
+                notificationFactory.error('TargetTypeRequired');
+                return false;
             }
 
             return true;
@@ -52,8 +46,7 @@
             return flowTemplateFactory.createFlowTemplate(flowTemplate).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success('CreatedSuccessfully');
-                }
-                else {
+                } else {
                     notificationFactory.error('', response.Message);
                 }
             }).error(function () {
@@ -65,8 +58,7 @@
             return flowTemplateFactory.updateFlowTemplate(flowTemplate).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success('UpdatedSuccessfully');
-                }
-                else {
+                } else {
                     notificationFactory.error('', response.Message);
                 }
             }).error(function () {
@@ -101,22 +93,18 @@
             var keyMessage = '';
 
             modalInstance.result.then(function () {
-                flowTemplateFactory.updateStatusFlowTemplate(newFlowTemplate)
-                .success(function (response) {
+                flowTemplateFactory.updateStatusFlowTemplate(newFlowTemplate).success(function (response) {
                     if (response.IsSuccessful) {
                         keyMessage = action === 'activate' ? 'ActivationSuccess' : 'DeactivationSuccess';
                         notificationFactory.success(keyMessage);
-                    }
-                    else {
+                    } else {
                         flowTemplate.IsActive = !newFlowTemplate.IsActive;
                         notificationFactory.error('', response.Message);
                     }
-                })
-                .error(function (response, status) {
+                }).error(function (response, status) {
                     if (status === 405) {
                         errorFactory.errorHandle(status);
-                    }
-                    else {
+                    } else {
                         keyMessage = action === 'activate' ? 'ActivationFail' : 'DeactivationFail';
                         flowTemplate.IsActive = !newFlowTemplate.IsActive;
                         notificationFactory.error(keyMessage);
@@ -153,8 +141,7 @@
                         utilitiesFactory.searchOnPage(vm, vm.flowTemplates);
 
                         notificationFactory.success('DeletedSuccessfully');
-                    }
-                    else {
+                    } else {
                         notificationFactory.error('', response.Message);
                     }
                 }).error(function (response, status) {
@@ -166,11 +153,9 @@
         };
 
         flowModel.getUserPermissionOnFlowManagement = function () {
-            return flowTemplateFactory.getUserPermissionOnFlowManagement()
-            .success(function (permission) {
+            return flowTemplateFactory.getUserPermissionOnFlowManagement().success(function (permission) {
                 flowModel.permission = parseInt(permission);
-            })
-            .error(function (response, status) {
+            }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         };

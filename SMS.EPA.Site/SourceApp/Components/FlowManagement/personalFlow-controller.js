@@ -2,17 +2,17 @@
 /*global flowMngModule*/
 
 flowMngModule.controller("PersonalFlowController",
-['$scope', '$window', '$routeParams', 'FlowMngModel', 'CommonModel', 'cacheService', 'enumerationsFactory', 'historyFactory',
-function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService, enumerationsFactory, historyFactory) {
+['$scope', '$routeParams', 'FlowSettingModel', 'PersonalFlowModel', 'CommonModel', 'cacheService', 'enumerationsFactory', 'historyFactory',
+function ($scope, $routeParams, FlowSettingModel, PersonalFlowModel, CommonModel, cacheService, enumerationsFactory, historyFactory) {
     var vm = this;
 
     vm.FlowTemplateId = parseInt($routeParams.id);
 
-    vm.selfs = FlowMngModel.selfs;
-    vm.evaluators = FlowMngModel.evaluators;
-    vm.reviewers = FlowMngModel.reviewers;
-    vm.managements = FlowMngModel.managements;
-    vm.humanResources = FlowMngModel.humanResources;
+    vm.selfs = PersonalFlowModel.selfs;
+    vm.evaluators = PersonalFlowModel.evaluators;
+    vm.reviewers = PersonalFlowModel.reviewers;
+    vm.managements = PersonalFlowModel.managements;
+    vm.humanResources = PersonalFlowModel.humanResources;
 
     vm.employees = [];
     vm.showListEmployee = true;
@@ -30,7 +30,7 @@ function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService
 
     /// Remove item from list.
     vm.removeItemFromList = function (item, list) {
-        FlowMngModel.removeItemFromList(item, list);
+        FlowSettingModel.removeItemFromList(item, list);
     };
 
     vm.getEmployee = function () {
@@ -48,19 +48,19 @@ function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService
 
     vm.onSelectedDepartment = function () {
         if (vm.department.DepartmentId > 0) {
-            FlowMngModel.getEmployeeFlowSetting(vm.FlowTemplateId, vm.department.DepartmentId, null).then(function () {
-                vm.defaultFlowSettings = FlowMngModel.defaultFlowSettings;
-                vm.personalFlowSettings = FlowMngModel.personalFlowSettings;
+            PersonalFlowModel.getEmployeeFlowSetting(vm.FlowTemplateId, vm.department.DepartmentId, null).then(function () {
+                vm.defaultFlowSettings = PersonalFlowModel.defaultFlowSettings;
+                vm.personalFlowSettings = PersonalFlowModel.personalFlowSettings;
             });
         }
         else if (vm.department.DepartmentId < 0) {
-            FlowMngModel.getEmployeeFlowSetting(vm.FlowTemplateId, null, Math.abs(vm.department.DepartmentId)).then(function () {
-                vm.defaultFlowSettings = FlowMngModel.defaultFlowSettings;
-                vm.personalFlowSettings = FlowMngModel.personalFlowSettings;
+            PersonalFlowModel.getEmployeeFlowSetting(vm.FlowTemplateId, null, Math.abs(vm.department.DepartmentId)).then(function () {
+                vm.defaultFlowSettings = PersonalFlowModel.defaultFlowSettings;
+                vm.personalFlowSettings = PersonalFlowModel.personalFlowSettings;
             });
         }
 
-        FlowMngModel.resetCurrentFlow(vm);
+        FlowSettingModel.resetCurrentFlow(vm);
         vm.defaultSelect = null;
         vm.personalSelect = null;
         vm.showDeleteButton = false;
@@ -85,28 +85,27 @@ function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService
         from.length = 0;
     };
 
-    var getEmployeeById = function (sender, employeeId, position) {
+    function getEmployeeById(sender, employeeId, position) {
         CommonModel.getEmployeeById(parseInt(employeeId)).then(function () {
-            FlowMngModel.addEmployee(sender, vm, CommonModel.employee, position);
+            FlowSettingModel.addEmployee(sender, vm, CommonModel.employee, position);
         });
-    };
+    }
 
     vm.getPersonalFlowById = function (item) {
         var employeeId = parseInt(item[0]);
         vm.employeeId = employeeId;
 
-        FlowMngModel.getPersonalFlowById(employeeId, vm.FlowTemplateId).then(function () {
-            vm.selfs = FlowMngModel.selfs;
-            vm.evaluators = FlowMngModel.evaluators;
-            vm.reviewers = FlowMngModel.reviewers;
-            vm.managements = FlowMngModel.managements;
-            vm.humanResources = FlowMngModel.humanResources;
+        PersonalFlowModel.getPersonalFlowById(employeeId, vm.FlowTemplateId).then(function () {
+            vm.selfs = PersonalFlowModel.selfs;
+            vm.evaluators = PersonalFlowModel.evaluators;
+            vm.reviewers = PersonalFlowModel.reviewers;
+            vm.managements = PersonalFlowModel.managements;
+            vm.humanResources = PersonalFlowModel.humanResources;
 
             if (vm.selfs.employees.length > 0) {
                 vm.showDeleteButton = true;
                 vm.employeeSelected = vm.selfs.employees[0];
-            }
-            else {
+            } else {
                 CommonModel.getEmployeeById(employeeId).then(function () {
                     vm.selfs.employees.push(CommonModel.employee);
                     vm.employeeSelected = CommonModel.employee;
@@ -155,7 +154,7 @@ function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService
             vm.department = $scope.updateCtrl.treeDepartment[0];
             vm.onSelectedDepartment();
 
-            FlowMngModel.resetCurrentFlow(vm);
+            FlowSettingModel.resetCurrentFlow(vm);
             vm.flowTemplate = $scope.updateCtrl.flowTemplate;
             vm.showListEmployee = true;
             vm.showDeleteButton = false;
@@ -166,13 +165,13 @@ function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService
     });
 
     vm.savePersonalFlow = function () {
-        if (FlowMngModel.validatePersonalFlow(vm)) {
-            FlowMngModel.createPersonalFlow(vm);
+        if (PersonalFlowModel.validatePersonalFlow(vm)) {
+            PersonalFlowModel.createPersonalFlow(vm);
         }
     };
 
     vm.deletePersonalFlow = function () {
-        FlowMngModel.openPopupDeletePersonalFlow(vm);
+        PersonalFlowModel.openPopupDeletePersonalFlow(vm);
     };
 
     vm.cancel = function () {

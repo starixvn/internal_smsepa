@@ -3,8 +3,8 @@
     using System.Collections.Generic;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.TargetType;
-    using SMS.EPA.Services.Interfaces;
     using SMS.EPA.Model.Enitites;
+    using SMS.EPA.Services.Interfaces;
 
     public class TargetTypeService : BaseService, ITargetTypeService
     {

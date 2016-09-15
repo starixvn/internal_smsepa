@@ -105,12 +105,13 @@
     <Compile Include="Implement\EmployeeService.cs" />
     <Compile Include="Implement\EPAHistoryService.cs" />
     <Compile Include="Implement\ExportFile\ExportPdfService.cs" />
+    <Compile Include="Implement\DepartmentFlowService.cs" />
     <Compile Include="Implement\FlowTemplateService.cs" />
     <Compile Include="Implement\MenuService.cs" />
     <Compile Include="Interfaces\ExportFile\IExportPdfService.cs" />
     <Compile Include="Implement\ExportFile\MonthlyEPADetailReportService.cs" />
     <Compile Include="Implement\ExportFile\EPADetailReportService.cs" />
-    <Compile Include="Implement\FlowSettingService.cs" />
+    <Compile Include="Implement\PersonalFlowService.cs" />
     <Compile Include="Implement\KPIGroupService.cs" />
     <Compile Include="Implement\KPIService.cs" />
     <Compile Include="Implement\EmployeeEPAService.cs" />
@@ -129,8 +130,9 @@
     <Compile Include="Interfaces\ExportFile\IMonthlyEPADetailReportService.cs" />
     <Compile Include="Interfaces\ExportFile\IEPADetailReportService.cs" />
     <Compile Include="Interfaces\IEPAHistoryService.cs" />
+    <Compile Include="Interfaces\IDepartmentFlowService.cs" />
     <Compile Include="Interfaces\IFlowTemplateService.cs" />
-    <Compile Include="Interfaces\IFlowSettingService.cs" />
+    <Compile Include="Interfaces\IPersonalFlowService.cs" />
     <Compile Include="Interfaces\IKPIGroupService.cs" />
     <Compile Include="Interfaces\IKPIService.cs" />
     <Compile Include="Interfaces\IEmployeeEPAService.cs" />

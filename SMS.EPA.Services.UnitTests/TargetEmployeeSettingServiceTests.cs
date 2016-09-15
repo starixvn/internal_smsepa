@@ -85,7 +85,7 @@
         {
             targetEmployeeSettingRepository = Substitute.For<ITargetEmployeeSettingRepository>();
 
-            //targetEmployeeSettingRepository.GetTargetEmployeeSetting(Arg.Any<GetAllTargetEmployeeSettingCriteria>()).Returns(targetEmployees);
+            //// targetEmployeeSettingRepository.GetTargetEmployeeSetting(Arg.Any<GetAllTargetEmployeeSettingCriteria>()).Returns(targetEmployees);
         }
 
         private CommonService ArrangeGetAllGroup(IEnumerable<Group> groups = null)

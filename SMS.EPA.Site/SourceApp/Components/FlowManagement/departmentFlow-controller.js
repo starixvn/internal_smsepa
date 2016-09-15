@@ -2,19 +2,19 @@
 /*global flowMngModule*/
 
 flowMngModule.controller("DepartmentFlowController",
-['$scope', '$window', '$routeParams', 'FlowMngModel', 'CommonModel', 'cacheService','historyFactory',
-function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService, historyFactory) {
+['$scope', '$routeParams', 'FlowSettingModel', 'DeptFlowModel', 'CommonModel', 'cacheService', 'historyFactory',
+function ($scope, $routeParams, FlowSettingModel, DeptFlowModel, CommonModel, cacheService, historyFactory) {
     var vm = this;
 
     vm.FlowTemplateId = parseInt($routeParams.id);
 
-    vm.selfs = FlowMngModel.selfs;
-    vm.evaluators = FlowMngModel.evaluators;
-    vm.reviewers = FlowMngModel.reviewers;
-    vm.managements = FlowMngModel.managements;
-    vm.humanResources = FlowMngModel.humanResources;
+    vm.selfs = DeptFlowModel.selfs;
+    vm.evaluators = DeptFlowModel.evaluators;
+    vm.reviewers = DeptFlowModel.reviewers;
+    vm.managements = DeptFlowModel.managements;
+    vm.humanResources = DeptFlowModel.humanResources;
 
-    vm.departmentSettings = FlowMngModel.departmentSettings;
+    vm.departmentSettings = DeptFlowModel.departmentSettings;
     vm.departmentHasSettingName = '';
 
     vm.employees = [];
@@ -23,7 +23,7 @@ function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService
     vm.department = null;
     vm.departmentId = null;
 
-    var getNameDepartment = function (departmentSettings) {
+    function getNameDepartment(departmentSettings) {
         var names = '';
 
         angular.forEach(departmentSettings, function (departmentSetting) {
@@ -31,10 +31,10 @@ function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService
         });
 
         return names;
-    };
+    }
 
-    FlowMngModel.getDepartmentHasSetting(vm.FlowTemplateId).then(function () {
-        vm.departmentSettings = FlowMngModel.departmentSettings;
+    DeptFlowModel.getDepartmentHasSetting(vm.FlowTemplateId).then(function () {
+        vm.departmentSettings = DeptFlowModel.departmentSettings;
         vm.departmentHasSettingName = getNameDepartment(vm.departmentSettings);
     });
 
@@ -57,12 +57,12 @@ function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService
     };
 
     vm.getDepartmentFlowById = function () {
-        FlowMngModel.getDepartmentFlowById(vm.department, vm.FlowTemplateId).then(function () {
-            vm.selfs = FlowMngModel.selfs;
-            vm.evaluators = FlowMngModel.evaluators;
-            vm.reviewers = FlowMngModel.reviewers;
-            vm.managements = FlowMngModel.managements;
-            vm.humanResources = FlowMngModel.humanResources;
+        DeptFlowModel.getDepartmentFlowById(vm.department, vm.FlowTemplateId).then(function () {
+            vm.selfs = DeptFlowModel.selfs;
+            vm.evaluators = DeptFlowModel.evaluators;
+            vm.reviewers = DeptFlowModel.reviewers;
+            vm.managements = DeptFlowModel.managements;
+            vm.humanResources = DeptFlowModel.humanResources;
 
             if (vm.evaluators.employees.length > 0 ||
                 vm.reviewers.employees.length > 0 ||
@@ -78,7 +78,7 @@ function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService
 
     /// Remove item from list.
     vm.removeItemFromList = function (item, list) {
-        FlowMngModel.removeItemFromList(item, list);
+        FlowSettingModel.removeItemFromList(item, list);
     };
 
     // Sort item in list.
@@ -103,11 +103,11 @@ function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService
         }
     });
 
-    var getEmployeeById = function (sender, employeeId, position) {
+    function getEmployeeById(sender, employeeId, position) {
         CommonModel.getEmployeeById(parseInt(employeeId)).then(function () {
-            FlowMngModel.addEmployee(sender, vm, CommonModel.employee, position);
+            FlowSettingModel.addEmployee(sender, vm, CommonModel.employee, position);
         });
-    };
+    }
 
     // On Created list after Drag & Drop.
     $scope.$on('list-created', function (ev, val) {
@@ -122,7 +122,7 @@ function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService
                 vm.employees = CommonModel.employeesInDepartment;
             });
 
-            FlowMngModel.resetCurrentFlow(vm);
+            FlowSettingModel.resetCurrentFlow(vm);
             vm.flowTemplate = $scope.updateCtrl.flowTemplate;
             vm.showListEmployee = true;
             vm.showDeleteButton = false;
@@ -131,7 +131,7 @@ function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService
         }
     });
 
-    var getSelectedDepartment = function (departments, departmentId) {
+    function getSelectedDepartment(departments, departmentId) {
         var department = '',
             departmentLength = departments.length;
 
@@ -145,11 +145,11 @@ function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService
         }
 
         return department;
-    };
+    }
 
     vm.saveDepartmentFlow = function () {
-        if (FlowMngModel.validateDepartmentFlow(vm)) {
-            FlowMngModel.createDepartmentFlow(vm).then(function () {
+        if (DeptFlowModel.validateDepartmentFlow(vm)) {
+            DeptFlowModel.createDepartmentFlow(vm).then(function () {
                 var department = getSelectedDepartment($scope.updateCtrl.departments, vm.department.DepartmentId);
                 vm.departmentSettings.push(department);
                 vm.departmentHasSettingName = getNameDepartment(vm.departmentSettings);
@@ -158,7 +158,7 @@ function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService
     };
 
     vm.deleteDepartmentFlow = function () {
-        FlowMngModel.openPopupDeleteDepartmentFlow(vm).then(function () {
+        DeptFlowModel.openPopupDeleteDepartmentFlow(vm).then(function () {
             var index = vm.departmentSettings.map(function (e) { return e.IsGroup ? -e.DepartmentId : e.DepartmentId; }).indexOf(vm.department.DepartmentId);
             vm.departmentSettings.splice(index, 1);
             vm.departmentHasSettingName = getNameDepartment(vm.departmentSettings);
@@ -168,4 +168,4 @@ function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService
     vm.cancel = function () {
         historyFactory.back();
     };
-} ]);
+}]);

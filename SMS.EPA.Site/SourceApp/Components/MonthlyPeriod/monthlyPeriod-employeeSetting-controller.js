@@ -232,10 +232,8 @@ function ($scope, $routeParams, $window, MonthlyPeriodModel, utilitiesFactory, C
 }]);
 
 monthlyPeriodModule.controller('UpdateEmployeeSettingMonthlyPeriodController',
-['$scope', '$modalInstance', 'MonthlyPeriodModel', 'FlowMngModel', 'CommonModel', 'enumerationsFactory',
-    'period', 'selectedEmployees', 'permission',
-function ($scope, $modalInstance, MonthlyPeriodModel, FlowMngModel, CommonModel, enumerationsFactory,
-    period, selectedEmployees, permission) {
+['$scope', '$modalInstance', 'MonthlyPeriodModel', 'CommonModel', 'enumerationsFactory', 'period', 'selectedEmployees', 'permission',
+function ($scope, $modalInstance, MonthlyPeriodModel, CommonModel, enumerationsFactory, period, selectedEmployees, permission) {
     var vm = this,
         date = new Date();
 

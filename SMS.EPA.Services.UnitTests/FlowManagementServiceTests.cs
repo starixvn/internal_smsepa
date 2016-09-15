@@ -9,9 +9,9 @@
     [TestFixture]
     public class FlowManagementServiceTests
     {
-        private FlowSettingService flowManagementService;
-        private IFlowSettingRepository flowManagementRepository;
-        private IBaseRepository baseRepository;
+        //// private FlowSettingService flowManagementService;
+        //// private IFlowSettingRepository flowManagementRepository;
+        //// private IBaseRepository baseRepository;
 
         #region Helpers
 
@@ -29,11 +29,11 @@
             return repository;
         }
 
-        private FlowSettingService GetFlowManagementService(
+        private PersonalFlowService GetFlowManagementService(
             IFlowSettingRepository flowManagementRepository = null,
             IBaseRepository baseRepository = null)
         {
-            var service = new FlowSettingService(flowManagementRepository);
+            var service = new PersonalFlowService(flowManagementRepository);
             service.Repository = baseRepository;
 
             return service;

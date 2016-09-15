@@ -191,8 +191,9 @@
     <Compile Include="Controllers\API\DepartmentController.cs" />
     <Compile Include="Controllers\API\EmployeeEPAController.cs" />
     <Compile Include="Controllers\API\EPAHistoryController.cs" />
+    <Compile Include="Controllers\API\DepartmentFlowController.cs" />
     <Compile Include="Controllers\API\FlowTemplateController.cs" />
-    <Compile Include="Controllers\API\FlowManagementController.cs" />
+    <Compile Include="Controllers\API\PersonalFlowController.cs" />
     <Compile Include="Controllers\API\KPIController.cs" />
     <Compile Include="Controllers\API\EmployeeController.cs" />
     <Compile Include="Controllers\API\KPIGroupController.cs" />
@@ -427,6 +428,11 @@
     <Content Include="SourceApp\Components\Employee\Templates\index.html" />
     <Content Include="SourceApp\Components\Employee\Templates\modalConfirmSetUnsetMonthlyEvaluation.html" />
     <Content Include="SourceApp\Components\Employee\Templates\resetPassword.html" />
+    <Content Include="SourceApp\Components\FlowManagement\personalFlow-model.js" />
+    <Content Include="SourceApp\Components\FlowManagement\personalFlow-factory.js" />
+    <Content Include="SourceApp\Components\FlowManagement\departmentFlow-factory.js" />
+    <Content Include="SourceApp\Components\FlowManagement\departmentFlow-model.js" />
+    <Content Include="SourceApp\Components\FlowManagement\flowSetting-model.js" />
     <Content Include="SourceApp\Components\FlowManagement\flowTemplate-model.js" />
     <Content Include="SourceApp\Components\FlowManagement\flowTemplate-factory.js" />
     <Content Include="SourceApp\Components\MonthlyEPAHistory\monthlyEPAHistory-controller.js" />
@@ -503,8 +509,7 @@
     <Content Include="SourceApp\Components\EPA\Templates\viewDetail.html" />
     <Content Include="SourceApp\Components\FlowManagement\departmentFlow-controller.js" />
     <Content Include="SourceApp\Components\FlowManagement\flowManagement-controller.js" />
-    <Content Include="SourceApp\Components\FlowManagement\flowManagement-factory.js" />
-    <Content Include="SourceApp\Components\FlowManagement\flowManagement-model.js" />
+    <Content Include="SourceApp\Components\FlowManagement\flowSetting-service.js" />
     <Content Include="SourceApp\Components\FlowManagement\personalFlow-controller.js" />
     <Content Include="SourceApp\Components\FlowManagement\resultSettingFlow-controller.js" />
     <Content Include="SourceApp\Components\FlowManagement\Templates\create.html" />
