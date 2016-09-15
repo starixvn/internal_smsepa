@@ -1,6 +1,6 @@
-﻿'use strict';
+﻿(function (angular) {
+    'use strict';
 
-(function (angular) {
     angular.module('kpiModule').factory('kpiFactory', kpiFactory);
     kpiFactory.$inject = ['$http', 'baseUrl'];
 
@@ -50,13 +50,3 @@
         }
     }
 })(angular);
-
-angular.module('kpiModule').directive('updateTrigger', function () {
-    return {
-        link: function (scope, iElement, attrs) {
-            scope.$watch(attrs.ngModel, function () {
-                iElement.trigger('chosen:updated');
-            });
-        }
-    };
-});

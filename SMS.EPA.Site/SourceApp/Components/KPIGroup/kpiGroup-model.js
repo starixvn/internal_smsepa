@@ -1,6 +1,6 @@
-﻿'use strict';
+﻿(function (angular) {
+    'use strict';
 
-(function (angular) {
     angular.module('kpiGroupModule').factory('KPIGroupModel', KPIGroupModel);
     KPIGroupModel.$inject = ['$modal', 'kpiGroupFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory'];
 
@@ -28,10 +28,10 @@
             return kpiGroupFactory.createKPIGroup(kpiGroup)
             .success(function (response) {
                 if (response.IsSuccessful) {
-                    notificationFactory.success("CreatedSuccessfully");
+                    notificationFactory.success('CreatedSuccessfully');
                     modalInstance.close();
                 } else {
-                    notificationFactory.error("", response.Message);
+                    notificationFactory.error('', response.Message);
                 }
             })
             .error(function (response, status) {
@@ -70,9 +70,9 @@
         function openPopupCreateKPIGroup(vm) {
             vm.modalInstance = $modal.open({
                 templateUrl: 'SourceApp/Components/KPIGroup/Templates/create.html',
-                controller: "CreateKPIGroupController as createKPIGroupCtrl",
+                controller: 'CreateKPIGroupController as createKPIGroupCtrl',
                 backdrop: 'static',
-                windowClass: "modal-confirm-center"
+                windowClass: 'modal-confirm-center'
             });
 
             return vm.modalInstance.result;
@@ -81,7 +81,7 @@
         function openPopupDeleteKPIGroup(vm, kpiGroup) {
             var modalInstance = $modal.open({
                 templateUrl: 'SourceApp/Shared/Templates/ModalConfirmContent.html',
-                controller: "ModalConfirmController as modalConfirmCtrl",
+                controller: 'ModalConfirmController as modalConfirmCtrl',
                 backdrop: 'static',
                 resolve: {
                     name: function () {
@@ -91,7 +91,7 @@
                         return 'delete';
                     }
                 },
-                windowClass: "modal-confirm-center"
+                windowClass: 'modal-confirm-center'
             });
 
             modalInstance.result.then(function () {
@@ -101,9 +101,9 @@
                         vm.kpiGroups.splice(index, 1);
                         utilitiesFactory.searchOnPage(vm, vm.kpiGroups);
 
-                        notificationFactory.success("DeletedSuccessfully");
+                        notificationFactory.success('DeletedSuccessfully');
                     } else {
-                        notificationFactory.error("", response.Message);
+                        notificationFactory.error('', response.Message);
                     }
                 }).error(function (response, status) {
                     errorFactory.errorHandle(status);
@@ -116,14 +116,14 @@
         function openPopupUpdateKPIGroup(vm, kpiGroup) {
             vm.modalInstance = $modal.open({
                 templateUrl: 'SourceApp/Components/KPIGroup/Templates/edit.html',
-                controller: "UpdateKPIGroupController as updateKPIGroupCtrl",
+                controller: 'UpdateKPIGroupController as updateKPIGroupCtrl',
                 backdrop: 'static',
                 resolve: {
                     kpiGroup: function () {
                         return angular.copy(kpiGroup);
                     }
                 },
-                windowClass: "modal-confirm-center"
+                windowClass: 'modal-confirm-center'
             });
 
             return vm.modalInstance.result;
@@ -132,7 +132,7 @@
         function openPopupUpdateStatusKPIGroup(kpiGroup) {
             kpiGroup.IsActive = !kpiGroup.IsActive;
 
-            var action = kpiGroup.IsActive ? "activate" : "deactivate",
+            var action = kpiGroup.IsActive ? 'activate' : 'deactivate',
                 newKPIGroup = {
                     KPIGroupId: kpiGroup.KPIGroupId,
                     IsActive: kpiGroup.IsActive
@@ -140,7 +140,7 @@
 
             var modalInstance = $modal.open({
                 templateUrl: 'SourceApp/Shared/Templates/ModalConfirmContent.html',
-                controller: "ModalConfirmController as modalConfirmCtrl",
+                controller: 'ModalConfirmController as modalConfirmCtrl',
                 backdrop: 'static',
                 resolve: {
                     name: function () {
@@ -150,7 +150,7 @@
                         return action;
                     }
                 },
-                windowClass: "modal-confirm-center"
+                windowClass: 'modal-confirm-center'
             });
 
             var keyMessage = '';
@@ -159,18 +159,18 @@
                 kpiGroupFactory.updateStatusKPIGroup(newKPIGroup)
                 .success(function (response) {
                     if (response.IsSuccessful) {
-                        keyMessage = action === "activate" ? "ActivationSuccess" : "DeactivationSuccess";
+                        keyMessage = action === 'activate' ? 'ActivationSuccess' : 'DeactivationSuccess';
                         notificationFactory.success(keyMessage);
                     } else {
                         kpiGroup.IsActive = !newKPIGroup.IsActive;
-                        notificationFactory.error("", response.Message);
+                        notificationFactory.error('', response.Message);
                     }
                 })
                 .error(function (response, status) {
                     if (status === 405) {
                         errorFactory.errorHandle(status);
                     } else {
-                        keyMessage = action === "activate" ? "ActivationFail" : "DeactivationFail";
+                        keyMessage = action === 'activate' ? 'ActivationFail' : 'DeactivationFail';
                         kpiGroup.IsActive = !newKPIGroup.IsActive;
                         notificationFactory.error(keyMessage);
                     }
@@ -186,10 +186,10 @@
             return kpiGroupFactory.updateKPIGroup(kpiGroup)
             .success(function (response) {
                 if (response.IsSuccessful) {
-                    notificationFactory.success("UpdatedSuccessfully");
+                    notificationFactory.success('UpdatedSuccessfully');
                     modalInstance.close(kpiGroup);
                 } else {
-                    notificationFactory.error("", response.Message);
+                    notificationFactory.error('', response.Message);
                 }
             })
             .error(function (response, status) {
@@ -203,7 +203,7 @@
             if (!kpiGroup) {
                 isValid = false;
             } else if (!kpiGroup.Name) {
-                notificationFactory.error("NameRequired");
+                notificationFactory.error('NameRequired');
                 isValid = false;
             }
 

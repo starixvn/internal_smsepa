@@ -1,6 +1,6 @@
-﻿'use strict';
+﻿(function (angular) {
+    'use strict';
 
-(function (angular) {
     angular.module('kpiGroupModule').factory('kpiGroupFactory', kpiGroupFactory);
     kpiGroupFactory.$inject = ['$http', 'baseUrl'];
 

@@ -1,17 +1,17 @@
-﻿<div ng-controller="GeneralInformationController as generalInfoCtrl">
+﻿<div ng-controller="UpdateFlowTemplateBasicInfoController as updateFlowTemplateBasicInfoCtrl">
     <form class="col-sm-6 form-horizontal common-form info-form" novalidate>
         <div class="form-group required">
             <label class="col-sm-3 control-label" data-translate="Name"></label>
             <div class="col-sm-9">
-                <input type="text" class="form-control" ng-model="generalInfoCtrl.flowTemplate.Name" required maxlength="200" />
+                <input type="text" class="form-control" ng-model="updateFlowTemplateBasicInfoCtrl.flowTemplate.Name" required maxlength="200" />
             </div>
         </div>
         <div class="form-group top-buffer required">
             <label class="col-sm-3 control-label" data-translate="TargetType">
             </label>
             <div class="col-sm-9">
-                <select class="form-control" ng-model="generalInfoCtrl.flowTemplate.TargetTypeId"
-                        ng-options="opt.TargetTypeId as opt.Name for opt in generalInfoCtrl.targetTypes">
+                <select class="form-control" ng-model="updateFlowTemplateBasicInfoCtrl.flowTemplate.TargetTypeId"
+                        ng-options="opt.TargetTypeId as opt.Name for opt in updateFlowTemplateBasicInfoCtrl.targetTypes">
                     <option style="display: none" value="">-- {{"All" | translate}} --</option>
                 </select>
             </div>
@@ -19,19 +19,19 @@
         <div class="form-group top-buffer">
             <label class="col-sm-3 control-label" data-translate="Active"></label>
             <div class="col-sm-9 field active-div">
-                <input type="checkbox" ng-model="generalInfoCtrl.flowTemplate.IsActive" />
+                <input type="checkbox" ng-model="updateFlowTemplateBasicInfoCtrl.flowTemplate.IsActive" />
             </div>
         </div>
         <div class="form-group top-buffer">
             <label class="col-sm-3 control-label" data-translate="Description"></label>
             <div class="col-sm-9">
-                <textarea class="form-control custom-texarea" ng-model="generalInfoCtrl.flowTemplate.Description" maxlength="500"></textarea>
+                <textarea class="form-control custom-texarea" ng-model="updateFlowTemplateBasicInfoCtrl.flowTemplate.Description" maxlength="500"></textarea>
             </div>
         </div>
         <div class="form-group top-buffer">
             <div class="col-sm-offset-5">
-                <button class="button" ng-click="generalInfoCtrl.save(generalInfoCtrl.flowTemplate)" data-translate="Submit"></button>
-                <button class="btn btn-default customize" ng-click="generalInfoCtrl.cancel()" data-translate="Cancel"></button>
+                <button class="button" ng-click="updateFlowTemplateBasicInfoCtrl.save(updateFlowTemplateBasicInfoCtrl.flowTemplate)" data-translate="Submit"></button>
+                <button class="btn btn-default customize" ng-click="updateFlowTemplateBasicInfoCtrl.cancel()" data-translate="Cancel"></button>
             </div>
         </div>
     </form>

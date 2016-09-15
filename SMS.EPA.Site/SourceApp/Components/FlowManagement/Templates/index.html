@@ -55,7 +55,7 @@
                     <td ng-bind="flowTemplate.TargetType.Name"></td>
                     <td class="text-center col-active">
                         <input type="checkbox" ng-checked="flowTemplate.IsActive" ng-disabled="flowTemplateCtrl.permission != flowTemplateCtrl.policyEnum.Host"
-                               ng-click="flowTemplateCtrl.updateStatusFlowGroup(flowTemplate)" />
+                               ng-click="flowTemplateCtrl.updateStatusFlowTemplate(flowTemplate)" />
                     </td>
                     <td class="col-description">
                         {{flowTemplate.Description | limitTo: flowTemplate.numLimit > 0 ? flowTemplate.numLimit: flowTemplateCtrl.maxLengthDescription}}

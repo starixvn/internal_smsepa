@@ -1,0 +1,41 @@
+﻿<div class="modal-header">
+    <div class="popup-header">
+        {{"CreateFlowTemplate" | translate}}
+        <span class="close-popup" ng-click="createFlowTemplateCtrl.cancel()"></span>
+    </div>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal" role="form" novalidate>
+        <div class="form-group required">
+            <label class="col-sm-3 control-label" data-translate="Name"></label>
+            <div class="col-sm-8 field">
+                <input type="text" class="form-control" ng-model="createFlowTemplateCtrl.flowTemplate.Name" required maxlength="200" />
+            </div>
+        </div>
+        <div class="form-group required">
+            <label class="col-sm-3 control-label" data-translate="TargetType"></label>
+            <div class="col-sm-8 field">
+                <select class="form-control" ng-model="createFlowTemplateCtrl.flowTemplate.TargetTypeId"
+                        ng-options="opt.TargetTypeId as opt.Name for opt in createFlowTemplateCtrl.targetTypes">
+                    <option style="display: none" value="">-- {{"All" | translate}} --</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label" data-translate="Active"></label>
+            <div class="col-sm-8 field">
+                <input type="checkbox" ng-model="createFlowTemplateCtrl.flowTemplate.IsActive" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label" data-translate="Description"></label>
+            <div class="col-sm-8 field description">
+                <textarea class="form-control" ng-model="createFlowTemplateCtrl.flowTemplate.Description" maxlength="500"></textarea>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="button" ng-click="createFlowTemplateCtrl.save(createFlowTemplateCtrl.flowTemplate)" data-translate="Submit"></button>
+    <button class="btn btn-default customize" ng-click="createFlowTemplateCtrl.cancel()" data-translate="Cancel"></button>
+</div>

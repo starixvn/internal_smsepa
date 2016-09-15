@@ -1,28 +1,23 @@
-﻿'use strict';
+﻿(function (angular) {
+    'use strict';
 
-(function (angular) {
     angular.module('kpiGroupModule').controller('KPIGroupController', KPIGroupController);
-    KPIGroupController.$inject = ['KPIGroupModel', 'KPIModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'baseUrl'];
+    KPIGroupController.$inject = ['KPIGroupModel', 'KPIModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl'];
 
-    angular.module('kpiGroupModule').controller('CreateKPIGroupController', CreateKPIGroupController);
-    CreateKPIGroupController.$inject = ['$modalInstance', 'KPIGroupModel'];
-
-    angular.module('kpiGroupModule').controller('UpdateKPIGroupController', UpdateKPIGroupController);
-    UpdateKPIGroupController.$inject = ['$modalInstance', 'KPIGroupModel', 'kpiGroup'];
-
-    function KPIGroupController(KPIGroupModel, KPIModel, CommonModel, utilitiesFactory, historyFactory, baseUrl) {
+    function KPIGroupController(KPIGroupModel, KPIModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
         var vm = this;
 
-        vm.addKPI = addKPI;
-        vm.createKPIGroup = createKPIGroup;
         vm.currentPage = 1;
-        vm.deleteKPIGroup = deleteKPIGroup;
         vm.filter = {};
-        vm.getIndex = getIndex;
         vm.kpiGroups = [];
         vm.pageSize = 15;
         vm.permission = 0;
         vm.policyEnum = utilitiesFactory.policy;
+
+        vm.addKPI = addKPI;
+        vm.createKPIGroup = createKPIGroup;
+        vm.deleteKPIGroup = deleteKPIGroup;
+        vm.getIndex = getIndex;
         vm.query = query;
         vm.readLess = readLess;
         vm.readMore = readMore;
@@ -75,9 +70,11 @@
         }
 
         function getKPIGroup(isActive) {
+            lockScreenService.start();
             KPIGroupModel.getKPIGroup(isActive).then(function () {
                 vm.kpiGroups = KPIGroupModel.kpiGroups;
                 utilitiesFactory.searchOnPage(vm, vm.kpiGroups);
+                lockScreenService.stop();
             });
             historyFactory.saveState(vm.filter);
         }
@@ -112,50 +109,6 @@
 
         function viewKPI(kpiGroupId) {
             vm.viewKPIUrl = baseUrl + 'KPI/Index' + '?groupId=' + kpiGroupId;
-        }
-    }
-
-    function CreateKPIGroupController($modalInstance, KPIGroupModel) {
-        var vm = this;
-        vm.cancel = cancel;
-        vm.kpiGroup = {
-            Name: '',
-            IsActive: true,
-            Description: ''
-        };
-        vm.save = save;
-
-        function cancel() {
-            $modalInstance.dismiss("cancel");
-        }
-
-        function save() {
-            if (KPIGroupModel.validateKPIGroup(vm.kpiGroup)) {
-                KPIGroupModel.createKPIGroup(vm.kpiGroup, $modalInstance);
-            }
-        }
-    }
-
-    function UpdateKPIGroupController($modalInstance, KPIGroupModel, kpiGroup) {
-        var vm = this;
-
-        vm.cancel = cancel;
-        vm.kpiGroup = {
-            KPIGroupId: kpiGroup.KPIGroupId,
-            Name: kpiGroup.Name,
-            IsActive: kpiGroup.IsActive,
-            Description: kpiGroup.Description
-        };
-        vm.save = save;
-
-        function cancel() {
-            $modalInstance.dismiss("cancel");
-        }
-
-        function save() {
-            if (KPIGroupModel.validateKPIGroup(vm.kpiGroup)) {
-                KPIGroupModel.updateKPIGroup(vm.kpiGroup, $modalInstance);
-            }
         }
     }
 })(angular);

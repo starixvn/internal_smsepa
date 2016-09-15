@@ -28,6 +28,17 @@
             });
         };
 
+        flowModel.openPopupCreateFlowTemplate = function (vm) {
+            vm.modalInstance = $modal.open({
+                templateUrl: 'SourceApp/Components/FlowManagement/Templates/modalCreateFlowTemplate.html',
+                controller: "CreateFlowTemplateController as createFlowTemplateCtrl",
+                backdrop: 'static',
+                windowClass: "modal-confirm-center"
+            });
+
+            return vm.modalInstance.result;
+        }
+
         flowModel.validateFlowTemplate = function (flowTemplate) {
             if (!flowTemplate) {
                 return false;
@@ -42,10 +53,11 @@
             return true;
         };
 
-        flowModel.createFlowTemplate = function (flowTemplate) {
+        flowModel.createFlowTemplate = function (flowTemplate, modalInstance) {
             return flowTemplateFactory.createFlowTemplate(flowTemplate).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success('CreatedSuccessfully');
+                    modalInstance.close();
                 } else {
                     notificationFactory.error('', response.Message);
                 }

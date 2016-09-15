@@ -1,6 +1,6 @@
-﻿'use strict';
+﻿(function (angular) {
+    'use strict';
 
-(function (angular) {
     angular.module('kpiModule').factory('KPIModel', KPIModel);
     KPIModel.$inject = ['$modal', 'kpiFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory'];
 
@@ -27,7 +27,7 @@
             return kpiFactory.createKPI(vm.kpi)
             .success(function (response) {
                 if (response.IsSuccessful) {
-                    notificationFactory.success("CreatedSuccessfully");
+                    notificationFactory.success('CreatedSuccessfully');
 
                     if (kpiGroup) {
                         kpiGroup.NumberKPI += 1;
@@ -46,7 +46,7 @@
                         modalInstance.close();
                     }
                 } else {
-                    notificationFactory.error("", response.Message);
+                    notificationFactory.error('', response.Message);
                 }
             })
             .error(function (response, status) {
@@ -76,14 +76,14 @@
         function openPopupCreateKPI(vm, kpiGroup) {
             vm.modalInstance = $modal.open({
                 templateUrl: 'SourceApp/Components/KPI/Templates/create.html',
-                controller: "CreateKPIController as createKPICtrl",
+                controller: 'CreateKPIController as createKPICtrl',
                 backdrop: 'static',
                 resolve: {
                     kpiGroup: function () {
                         return kpiGroup;
                     }
                 },
-                windowClass: "modal-confirm-center"
+                windowClass: 'modal-confirm-center'
             });
 
             return vm.modalInstance.result;
@@ -92,7 +92,7 @@
         function openPopupDeleteKPI(vm, kpi) {
             var modalInstance = $modal.open({
                 templateUrl: 'SourceApp/Shared/Templates/ModalConfirmContent.html',
-                controller: "ModalConfirmController as modalConfirmCtrl",
+                controller: 'ModalConfirmController as modalConfirmCtrl',
                 backdrop: 'static',
                 resolve: {
                     name: function () {
@@ -102,7 +102,7 @@
                         return 'delete';
                     }
                 },
-                windowClass: "modal-confirm-center"
+                windowClass: 'modal-confirm-center'
             });
 
             modalInstance.result.then(function () {
@@ -112,9 +112,9 @@
                         vm.kpis.splice(index, 1);
                         utilitiesFactory.searchOnPage(vm, vm.kpis);
 
-                        notificationFactory.success("DeletedSuccessfully");
+                        notificationFactory.success('DeletedSuccessfully');
                     } else {
-                        notificationFactory.error("", response.Message);
+                        notificationFactory.error('', response.Message);
                     }
                 }).error(function (response, status) {
                     errorFactory.errorHandle(status);
@@ -127,14 +127,14 @@
         function openPopupUpdateKPI(vm, kpi) {
             vm.modalInstance = $modal.open({
                 templateUrl: 'SourceApp/Components/KPI/Templates/edit.html',
-                controller: "UpdateKPIController as updateKPICtrl",
+                controller: 'UpdateKPIController as updateKPICtrl',
                 backdrop: 'static',
                 resolve: {
                     kpi: function () {
                         return angular.copy(kpi);
                     }
                 },
-                windowClass: "modal-confirm-center"
+                windowClass: 'modal-confirm-center'
             });
 
             return vm.modalInstance.result;
@@ -143,7 +143,7 @@
         function openPopupUpdateRequiredEvaluateKPI(kpi) {
             kpi.IsRequiredEvaluate = !kpi.IsRequiredEvaluate;
 
-            var action = kpi.IsRequiredEvaluate ? "required" : "not required",
+            var action = kpi.IsRequiredEvaluate ? 'required' : 'not required',
                 newKPI = {
                     KPIId: kpi.KPIId,
                     IsRequiredEvaluate: kpi.IsRequiredEvaluate
@@ -151,7 +151,7 @@
 
             var modalInstance = $modal.open({
                 templateUrl: 'SourceApp/Components/KPI/Templates/modalConfirmRequired.html',
-                controller: "ModalConfirmController as modalConfirmCtrl",
+                controller: 'ModalConfirmController as modalConfirmCtrl',
                 backdrop: 'static',
                 resolve: {
                     name: function () {
@@ -161,7 +161,7 @@
                         return action;
                     }
                 },
-                windowClass: "modal-confirm-center"
+                windowClass: 'modal-confirm-center'
             });
 
             var keyMessage = '';
@@ -170,18 +170,18 @@
                 kpiFactory.updateRequiredEvaluateKPI(newKPI)
                 .success(function (response) {
                     if (response.IsSuccessful) {
-                        keyMessage = action === "required" ? "ActivationSuccess" : "DeactivationSuccess";
+                        keyMessage = action === 'required' ? 'ActivationSuccess' : 'DeactivationSuccess';
                         notificationFactory.success(keyMessage);
                     } else {
                         kpi.IsRequiredEvaluate = !newKPI.IsRequiredEvaluate;
-                        notificationFactory.error("", response.Message);
+                        notificationFactory.error('', response.Message);
                     }
                 })
                 .error(function (response, status) {
                     if (status === 405) {
                         errorFactory.errorHandle(status);
                     } else {
-                        keyMessage = action === "required" ? "ActivationFail" : "DeactivationFail";
+                        keyMessage = action === 'required' ? 'ActivationFail' : 'DeactivationFail';
                         kpi.IsRequiredEvaluate = !newKPI.IsRequiredEvaluate;
                         notificationFactory.error(keyMessage);
                     }
@@ -196,7 +196,7 @@
         function openPopupUpdateStatusKPI(kpi) {
             kpi.IsActive = !kpi.IsActive;
 
-            var action = kpi.IsActive ? "activate" : "deactivate",
+            var action = kpi.IsActive ? 'activate' : 'deactivate',
                 newKPI = {
                     KPIId: kpi.KPIId,
                     IsActive: kpi.IsActive
@@ -204,7 +204,7 @@
 
             var modalInstance = $modal.open({
                 templateUrl: 'SourceApp/Shared/Templates/ModalConfirmContent.html',
-                controller: "ModalConfirmController as modalConfirmCtrl",
+                controller: 'ModalConfirmController as modalConfirmCtrl',
                 backdrop: 'static',
                 resolve: {
                     name: function () {
@@ -214,7 +214,7 @@
                         return action;
                     }
                 },
-                windowClass: "modal-confirm-center"
+                windowClass: 'modal-confirm-center'
             });
 
             var keyMessage = '';
@@ -223,18 +223,18 @@
                 kpiFactory.updateStatusKPI(newKPI)
                 .success(function (response) {
                     if (response.IsSuccessful) {
-                        keyMessage = action === "activate" ? "ActivationSuccess" : "DeactivationSuccess";
+                        keyMessage = action === 'activate' ? 'ActivationSuccess' : 'DeactivationSuccess';
                         notificationFactory.success(keyMessage);
                     } else {
                         kpi.IsActive = !newKPI.IsActive;
-                        notificationFactory.error("", response.Message);
+                        notificationFactory.error('', response.Message);
                     }
                 })
                 .error(function (response, status) {
                     if (status === 405) {
                         errorFactory.errorHandle(status);
                     } else {
-                        keyMessage = action === "activate" ? "ActivationFail" : "DeactivationFail";
+                        keyMessage = action === 'activate' ? 'ActivationFail' : 'DeactivationFail';
                         kpi.IsActive = !newKPI.IsActive;
                         notificationFactory.error(keyMessage);
                     }
@@ -250,10 +250,10 @@
             return kpiFactory.updateKPI(kpi)
             .success(function (response) {
                 if (response.IsSuccessful) {
-                    notificationFactory.success("UpdatedSuccessfully");
+                    notificationFactory.success('UpdatedSuccessfully');
                     modalInstance.close(kpi);
                 } else {
-                    notificationFactory.error("", response.Message);
+                    notificationFactory.error('', response.Message);
                 }
             })
             .error(function (response, status) {
@@ -267,10 +267,10 @@
             if (!kpi) {
                 isValid = false;
             } else if (!kpi.Name) {
-                notificationFactory.error("TitleRequire");
+                notificationFactory.error('TitleRequire');
                 isValid = false;
             } else if (currentChoseKPIGroups.length === 0) {
-                notificationFactory.error("GroupRequire");
+                notificationFactory.error('GroupRequire');
                 isValid = false;
             }
 
