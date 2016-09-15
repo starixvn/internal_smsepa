@@ -23,7 +23,7 @@
 
         public override bool IsValid()
         {
-            return !string.IsNullOrWhiteSpace(Name) && FlowTemplateId > 0 && TargetTypeId > 0 && ModifiedBy > 0;
+            return !string.IsNullOrEmpty(Name) && FlowTemplateId > 0 && TargetTypeId > 0 && ModifiedBy > 0;
         }
     }
 }

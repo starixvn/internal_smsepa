@@ -35,11 +35,15 @@
             return flowTemplates;
         }
 
-        public FlowTemplateModel GetFlowTemplateById(GetFlowTemplateByIdCriteria criteria)
+        public FlowTemplateModel GetFlowTemplateById(int flowTemplateById)
         {
             FlowTemplateModel flowTemplate = new FlowTemplateModel();
+            var criteria = new GetFlowTemplateByIdCriteria
+            {
+                FlowTemplateId = flowTemplateById
+            };
 
-            if (criteria != null && criteria.IsValid())
+            if (criteria.IsValid())
             {
                 flowTemplate = flowTemplateRepository.GetFlowTemplateById(criteria);
             }

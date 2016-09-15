@@ -44,12 +44,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Read)]
         public FlowTemplateModel GetFlowTemplateById(int flowTemplateId)
         {
-            var criteria = new GetFlowTemplateByIdCriteria()
-            {
-                FlowTemplateId = flowTemplateId
-            };
-
-            return flowTemplateService.GetFlowTemplateById(criteria);
+            return flowTemplateService.GetFlowTemplateById(flowTemplateId);
         }
 
         [HttpPost]

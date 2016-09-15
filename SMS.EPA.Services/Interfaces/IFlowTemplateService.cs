@@ -9,7 +9,7 @@
     {
         IEnumerable<FlowTemplateModel> GetFlowTemplate(GetFlowTemplateCriteria criteria);
 
-        FlowTemplateModel GetFlowTemplateById(GetFlowTemplateByIdCriteria criteria);
+        FlowTemplateModel GetFlowTemplateById(int flowTemplateById);
 
         CommandResult CreateFlowTemplate(CreateFlowTemplateCriteria criteria);
 

@@ -76,7 +76,6 @@
   <ItemGroup>
     <Compile Include="TargetEmployeeSettingServiceTests.cs" />
     <Compile Include="CommonServiceTests.cs" />
-    <Compile Include="ICreteria.cs" />
     <Compile Include="TargetTypeServiceTests.cs" />
     <Compile Include="ScoreRatingTypeServiceTests.cs" />
     <Compile Include="ManualMailServiceTests.cs" />
@@ -85,7 +84,7 @@
     <Compile Include="EPAHistoryServiceTests.cs" />
     <Compile Include="DepartmentServiceTests.cs" />
     <Compile Include="EmployeeServiceTests.cs" />
-    <Compile Include="FlowManagementServiceTests.cs" />
+    <Compile Include="FlowTemplateServiceTests.cs" />
     <Compile Include="KPIGroupServiceTests.cs" />
     <Compile Include="KPIServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
