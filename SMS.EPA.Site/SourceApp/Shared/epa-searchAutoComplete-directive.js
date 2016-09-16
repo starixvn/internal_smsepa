@@ -1,7 +1,7 @@
 ﻿(function (angular) {
     'use strict';
 
-    angular.module('appModule').directive('searchAutoComplete', searchAutoComplete);
+    angular.module('appModule').directive('epaSearchAutoComplete', searchAutoComplete);
     searchAutoComplete.$inject = ['$timeout', 'errorFactory'];
 
     function searchAutoComplete($timeout, errorFactory) {
