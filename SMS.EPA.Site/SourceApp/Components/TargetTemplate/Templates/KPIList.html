@@ -51,7 +51,7 @@
                                 <td ng-bind="item.Name"></td>
                                 <td class="width-100 text-center">
                                     <input type="text" class="weight-form-control text-center" ng-show="!group.IsSpreadKPI && item.Selected"
-                                           ng-model="item.Weight" name="weight" number-dot />
+                                           ng-model="item.Weight" name="weight" epa-number-dot />
                                     <span ng-show="group.IsSpreadKPI && !item.Selected">-</span>
                                     <span ng-show="group.IsSpreadKPI && item.Selected" class="glyphicon glyphicon-ok item-list-icon"></span>
                                 </td>

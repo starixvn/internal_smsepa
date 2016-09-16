@@ -14,7 +14,7 @@
                        ng-model="basicInfoCtrl.period.StartDate" datepicker-popup
                        ng-click="basicInfoCtrl.openPopupStartDate($event)"
                        is-open="basicInfoCtrl.calendar.startDateOpened" />
-                <calendar-image class="calendar-image" ng-click="basicInfoCtrl.openPopupStartDate($event)"></calendar-image>
+                <epa-calendar-image class="calendar-image" ng-click="basicInfoCtrl.openPopupStartDate($event)"></epa-calendar-image>
             </div>
             <label class="col-sm-3 control-label required-label" data-translate="EndDate"></label>
             <div class="col-sm-3">
@@ -22,7 +22,7 @@
                        ng-model="basicInfoCtrl.period.EndDate" datepicker-popup
                        ng-click="basicInfoCtrl.openPopupEndDate($event)"
                        is-open="basicInfoCtrl.calendar.endDateOpened" />
-                <calendar-image class="calendar-image" ng-click="basicInfoCtrl.openPopupEndDate($event)"></calendar-image>
+                <epa-calendar-image class="calendar-image" ng-click="basicInfoCtrl.openPopupEndDate($event)"></epa-calendar-image>
             </div>
         </div>
         <div class="form-group top-buffer">

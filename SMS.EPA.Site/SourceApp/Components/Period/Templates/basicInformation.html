@@ -28,7 +28,7 @@
                        ng-model="basicInfoPeriodCtrl.period.RawStartDate" datepicker-popup
                        ng-click="basicInfoPeriodCtrl.openPopupStartDate($event)" min-date="{{basicInfoPeriodCtrl.calendar.minDate}}"
                        is-open="basicInfoPeriodCtrl.calendar.startDateOpened" />
-                <calendar-image class="calendar-image" ng-click="basicInfoPeriodCtrl.openPopupStartDate($event)"></calendar-image>
+                <epa-calendar-image class="calendar-image" ng-click="basicInfoPeriodCtrl.openPopupStartDate($event)"></epa-calendar-image>
             </div>
             <label class="col-sm-3 control-label required-label" data-translate="EndDate"
                    ng-show="basicInfoPeriodCtrl.period.TargetTypeId == 3">
@@ -41,7 +41,7 @@
                        ng-model="basicInfoPeriodCtrl.period.RawEndDate" datepicker-popup
                        ng-click="basicInfoPeriodCtrl.openPopupEndDate($event)" min-date="{{basicInfoPeriodCtrl.calendar.minDate}}"
                        is-open="basicInfoPeriodCtrl.calendar.endDateOpened" />
-                <calendar-image class="calendar-image" ng-click="basicInfoPeriodCtrl.openPopupEndDate($event)"></calendar-image>
+                <epa-calendar-image class="calendar-image" ng-click="basicInfoPeriodCtrl.openPopupEndDate($event)"></epa-calendar-image>
             </div>
         </div>
         <div class="form-group top-buffer">
@@ -56,7 +56,7 @@
                        ng-model="basicInfoPeriodCtrl.period.RawAttendanceStartDate" datepicker-popup
                        ng-click="basicInfoPeriodCtrl.openPopupAttendanceStartDate($event)" min-date="{{basicInfoPeriodCtrl.calendar.minDate}}"
                        is-open="basicInfoPeriodCtrl.calendar.attendanceStartDateOpened" />
-                <calendar-image class="calendar-image" ng-click="basicInfoPeriodCtrl.openPopupAttendanceStartDate($event)"></calendar-image>
+                <epa-calendar-image class="calendar-image" ng-click="basicInfoPeriodCtrl.openPopupAttendanceStartDate($event)"></epa-calendar-image>
             </div>
             <label class="col-sm-3 control-label required-label" data-translate="DisciplineEndDate"
                    ng-show="basicInfoPeriodCtrl.period.TargetTypeId == 3">
@@ -69,7 +69,7 @@
                        ng-model="basicInfoPeriodCtrl.period.RawAttendanceEndDate" datepicker-popup
                        ng-click="basicInfoPeriodCtrl.openPopupAttendanceEndDate($event)" min-date="{{basicInfoPeriodCtrl.calendar.minDate}}"
                        is-open="basicInfoPeriodCtrl.calendar.attendanceEndDateOpened" />
-                <calendar-image class="calendar-image" ng-click="basicInfoPeriodCtrl.openPopupAttendanceEndDate($event)"></calendar-image>
+                <epa-calendar-image class="calendar-image" ng-click="basicInfoPeriodCtrl.openPopupAttendanceEndDate($event)"></epa-calendar-image>
             </div>
         </div>
         <div class="form-group top-buffer">

@@ -465,8 +465,10 @@
     <Content Include="SourceApp\Components\Report\monthlyEPADetailReport-controller.js" />
     <Content Include="SourceApp\Components\Report\Templates\MonthlyEPASummaryReport.html" />
     <Content Include="SourceApp\Components\Report\Templates\MonthlyEPADetailReport.html" />
-    <Content Include="SourceApp\Shared\epa-addClassToRoleFilter-directive.js" />
-    <Content Include="SourceApp\Shared\epa-searchAutoComplete-directive.js" />
+    <Content Include="SourceApp\Shared\Directives\epa-numberDot-directive.js" />
+    <Content Include="SourceApp\Shared\Directives\epa-calendarImage-directive.js" />
+    <Content Include="SourceApp\Shared\Directives\epa-addClassToRoleFilter-directive.js" />
+    <Content Include="SourceApp\Shared\Directives\epa-searchAutoComplete-directive.js" />
     <Content Include="SourceApp\Shared\history-factory.js" />
     <Content Include="SourceApp\Components\EPA\Management\Templates\semiDetail.html" />
     <Content Include="SourceApp\Components\EPA\Management\Templates\semiPerformanceResult.html" />

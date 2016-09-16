@@ -42,7 +42,7 @@
                        ng-model="attendanceCtrl.filter.startDate" datepicker-popup
                        ng-click="attendanceCtrl.openPopupStartDate($event)"
                        is-open="attendanceCtrl.calendar.startDateOpened" />
-                <calendar-image class="calendar-image" ng-click="attendanceCtrl.openPopupStartDate($event)"></calendar-image>
+                <epa-calendar-image class="calendar-image" ng-click="attendanceCtrl.openPopupStartDate($event)"></epa-calendar-image>
             </div>
             <label class="col-sm-1 control-label" data-translate="EndDate"></label>
             <div class="col-sm-2 field">
@@ -50,7 +50,7 @@
                        ng-model="attendanceCtrl.filter.endDate" datepicker-popup
                        ng-click="attendanceCtrl.openPopupEndDate($event)"
                        is-open="attendanceCtrl.calendar.endDateOpened" />
-                <calendar-image class="calendar-image" ng-click="attendanceCtrl.openPopupEndDate($event)"></calendar-image>
+                <epa-calendar-image class="calendar-image" ng-click="attendanceCtrl.openPopupEndDate($event)"></epa-calendar-image>
             </div>
             <div class="col-sm-1">
                 <input type="button" value="Search" class="button" ng-click="attendanceCtrl.query(attendanceCtrl.filter)" />

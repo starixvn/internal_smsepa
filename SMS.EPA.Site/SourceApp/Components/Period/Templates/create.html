@@ -35,7 +35,7 @@
                        ng-model="createPeriodCtrl.period.RawStartDate" datepicker-popup
                        ng-click="createPeriodCtrl.openPopupStartDate($event)" min-date="{{createPeriodCtrl.calendar.minDate}}"
                        is-open="createPeriodCtrl.calendar.startDateOpened" />
-                <calendar-image class="calendar-image" ng-click="createPeriodCtrl.openPopupStartDate($event)"></calendar-image>
+                <epa-calendar-image class="calendar-image" ng-click="createPeriodCtrl.openPopupStartDate($event)"></epa-calendar-image>
             </div>
             <label class="col-sm-3 control-label required-label" data-translate="EndDate"
                    ng-show="createPeriodCtrl.period.TargetTypeId == 3">
@@ -48,7 +48,7 @@
                        ng-model="createPeriodCtrl.period.RawEndDate" datepicker-popup
                        ng-click="createPeriodCtrl.openPopupEndDate($event)" min-date="{{createPeriodCtrl.calendar.minDate}}"
                        is-open="createPeriodCtrl.calendar.endDateOpened" />
-                <calendar-image class="calendar-image" ng-click="createPeriodCtrl.openPopupEndDate($event)"></calendar-image>
+                <epa-calendar-image class="calendar-image" ng-click="createPeriodCtrl.openPopupEndDate($event)"></epa-calendar-image>
             </div>
         </div>
         <div class="form-group">
@@ -63,7 +63,7 @@
                        ng-model="createPeriodCtrl.period.RawAttendanceStartDate" datepicker-popup
                        ng-click="createPeriodCtrl.openPopupAttendanceStartDate($event)" min-date="{{createPeriodCtrl.calendar.minDate}}"
                        is-open="createPeriodCtrl.calendar.attendanceStartDateOpened" />
-                <calendar-image class="calendar-image" ng-click="createPeriodCtrl.openPopupAttendanceStartDate($event)"></calendar-image>
+                <epa-calendar-image class="calendar-image" ng-click="createPeriodCtrl.openPopupAttendanceStartDate($event)"></epa-calendar-image>
             </div>
             <label class="col-sm-3 control-label required-label" data-translate="DisciplineEndDate"
                    ng-show="createPeriodCtrl.period.TargetTypeId == 3">
@@ -76,7 +76,7 @@
                        ng-model="createPeriodCtrl.period.RawAttendanceEndDate" datepicker-popup
                        ng-click="createPeriodCtrl.openPopupAttendanceEndDate($event)" min-date="{{createPeriodCtrl.calendar.minDate}}"
                        is-open="createPeriodCtrl.calendar.attendanceEndDateOpened" />
-                <calendar-image class="calendar-image" ng-click="createPeriodCtrl.openPopupAttendanceEndDate($event)"></calendar-image>
+                <epa-calendar-image class="calendar-image" ng-click="createPeriodCtrl.openPopupAttendanceEndDate($event)"></epa-calendar-image>
             </div>
         </div>
         <div class="form-group">

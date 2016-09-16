@@ -171,8 +171,10 @@
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/epa-directives.js",
-                            "~/SourceApp/Shared/epa-addClassToRoleFilter-directive.js",
-                            "~/SourceApp/Shared/epa-searchAutoComplete-directive.js",
+                            "~/SourceApp/Shared/Directives/epa-addClassToRoleFilter-directive.js",
+                            "~/SourceApp/Shared/Directives/epa-calendarImage-directive.js",
+                            "~/SourceApp/Shared/Directives/epa-numberDot-directive.js",
+                            "~/SourceApp/Shared/Directives/epa-searchAutoComplete-directive.js",
                             "~/SourceApp/Shared/epa-filter.js",
                             "~/SourceApp/Shared/error-factory.js",
                             "~/SourceApp/Shared/modalconfirm-controller.js",
