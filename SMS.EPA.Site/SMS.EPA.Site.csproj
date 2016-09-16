@@ -465,11 +465,13 @@
     <Content Include="SourceApp\Components\Report\monthlyEPADetailReport-controller.js" />
     <Content Include="SourceApp\Components\Report\Templates\MonthlyEPASummaryReport.html" />
     <Content Include="SourceApp\Components\Report\Templates\MonthlyEPADetailReport.html" />
+    <Content Include="SourceApp\Shared\Directives\epa-datepickerPopup-directive.js" />
     <Content Include="SourceApp\Shared\Directives\epa-numberDot-directive.js" />
     <Content Include="SourceApp\Shared\Directives\epa-calendarImage-directive.js" />
     <Content Include="SourceApp\Shared\Directives\epa-addClassToRoleFilter-directive.js" />
     <Content Include="SourceApp\Shared\Directives\epa-searchAutoComplete-directive.js" />
-    <Content Include="SourceApp\Shared\history-factory.js" />
+    <Content Include="SourceApp\Shared\Factories\enumerations-factory.js" />
+    <Content Include="SourceApp\Shared\Factories\error-factory.js" />
     <Content Include="SourceApp\Components\EPA\Management\Templates\semiDetail.html" />
     <Content Include="SourceApp\Components\EPA\Management\Templates\semiPerformanceResult.html" />
     <Content Include="SourceApp\Components\EPA\EPAByKPI\EPAByKPI-controller.js" />
@@ -607,13 +609,12 @@
     <Content Include="SourceApp\routes.js">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Content>
-    <Content Include="SourceApp\Shared\enumerations-factory.js" />
     <Content Include="SourceApp\Shared\epa-filter.js" />
-    <Content Include="SourceApp\Shared\error-factory.js" />
+    <Content Include="SourceApp\Shared\Factories\history-factory.js" />
+    <Content Include="SourceApp\Shared\Factories\lockScreen-factory.js" />
     <Content Include="SourceApp\Shared\modalconfirm-controller.js" />
-    <Content Include="SourceApp\Shared\epa-directives.js" />
-    <Content Include="SourceApp\Shared\notification-factory.js" />
-    <Content Include="SourceApp\Shared\lockScreen-factory.js" />
+    <Content Include="SourceApp\Shared\Directives\epa-numberOnly-directives.js" />
+    <Content Include="SourceApp\Shared\Factories\notification-factory.js" />
     <Content Include="SourceApp\Shared\Templates\AccessDenied.html" />
     <Content Include="SourceApp\Shared\Templates\dirPagination.tpl.html" />
     <Content Include="SourceApp\Shared\Templates\InternalError.html" />

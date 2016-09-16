@@ -170,19 +170,19 @@
                             "~/SourceApp/Components/EPA/UpdateFinalScore/updateFinalScore-controller.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
-                            "~/SourceApp/Shared/epa-directives.js",
                             "~/SourceApp/Shared/Directives/epa-addClassToRoleFilter-directive.js",
                             "~/SourceApp/Shared/Directives/epa-calendarImage-directive.js",
+                            "~/SourceApp/Shared/Directives/epa-datepickerPopup-directive.js",
                             "~/SourceApp/Shared/Directives/epa-numberDot-directive.js",
                             "~/SourceApp/Shared/Directives/epa-searchAutoComplete-directive.js",
+                            "~/SourceApp/Shared/Factories/enumerations-factory.js",
+                            "~/SourceApp/Shared/Factories/error-factory.js",
+                            "~/SourceApp/Shared/Factories/history-factory.js",
+                            "~/SourceApp/Shared/Factories/lockScreen-factory.js",
+                            "~/SourceApp/Shared/Factories/notification-factory.js",
                             "~/SourceApp/Shared/epa-filter.js",
-                            "~/SourceApp/Shared/error-factory.js",
                             "~/SourceApp/Shared/modalconfirm-controller.js",
-                            "~/SourceApp/Shared/notification-factory.js",
-                            "~/SourceApp/Shared/utilities-factory.js",
-                            "~/SourceApp/Shared/enumerations-factory.js",
-                            "~/SourceApp/Shared/history-factory.js",
-                            "~/SourceApp/Shared/lockScreen-factory.js"));
+                            "~/SourceApp/Shared/utilities-factory.js"));
         }
     }
 }
