@@ -1,5 +1,9 @@
-﻿'use strict';
-(function (angular) {
+﻿(function (angular) {
+    'use strict';
+
+    angular.module('appModule').factory('historyFactory', historyFactory);
+    historyFactory.$inject = ['$window'];
+
     function historyFactory($window) {
         var isBack = false;
         var model = {};
@@ -26,10 +30,4 @@
 
         return service;
     }
-
-    historyFactory.$inject = ['$window'];
-
-    angular
-        .module('appModule')
-        .factory('historyFactory', historyFactory);
 })(angular);

@@ -465,6 +465,8 @@
     <Content Include="SourceApp\Components\Report\monthlyEPADetailReport-controller.js" />
     <Content Include="SourceApp\Components\Report\Templates\MonthlyEPASummaryReport.html" />
     <Content Include="SourceApp\Components\Report\Templates\MonthlyEPADetailReport.html" />
+    <Content Include="SourceApp\Shared\epa-addClassToRoleFilter-directive.js" />
+    <Content Include="SourceApp\Shared\epa-searchAutoComplete-directive.js" />
     <Content Include="SourceApp\Shared\history-factory.js" />
     <Content Include="SourceApp\Components\EPA\Management\Templates\semiDetail.html" />
     <Content Include="SourceApp\Components\EPA\Management\Templates\semiPerformanceResult.html" />

@@ -171,6 +171,8 @@
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/epa-directives.js",
+                            "~/SourceApp/Shared/epa-addClassToRoleFilter-directive.js",
+                            "~/SourceApp/Shared/epa-searchAutoComplete-directive.js",
                             "~/SourceApp/Shared/epa-filter.js",
                             "~/SourceApp/Shared/error-factory.js",
                             "~/SourceApp/Shared/modalconfirm-controller.js",

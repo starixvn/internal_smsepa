@@ -1,18 +1,19 @@
-﻿'use strict';
+﻿(function (angular) {
+    'use strict';
 
-(function (angular) {
-    angular.module('roleModule').factory('RoleModel', RoleModel);
-    RoleModel.$inject = ['roleFactory', 'errorFactory', 'notificationFactory'];
+    angular.module('roleModule').factory('RoleModel', roleModel);
+    roleModel.$inject = ['roleFactory', 'errorFactory', 'notificationFactory'];
 
-    function RoleModel(roleFactory, errorFactory, notificationFactory) {
+    function roleModel(roleFactory, errorFactory, notificationFactory) {
         var roleFunctions = [];
-        var roleModel = {
+
+        var model = {
             assignFunctionToRole: assignFunctionToRole,
             getRoleFunctionByRoleId: getRoleFunctionByRoleId,
             roleFunctions: roleFunctions
         };
 
-        return roleModel;
+        return model;
 
         function assignFunctionToRole(roleFunction) {
             return roleFactory.assignFunctionToRole(roleFunction).success(function (response) {
@@ -29,7 +30,7 @@
 
         function getRoleFunctionByRoleId(roleId) {
             return roleFactory.getRoleFunctionByRoleId(roleId).success(function (functions) {
-                roleModel.roleFunctions = functions;
+                model.roleFunctions = functions;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });

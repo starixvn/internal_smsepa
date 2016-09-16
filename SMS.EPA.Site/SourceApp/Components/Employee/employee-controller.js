@@ -2,8 +2,8 @@
 /*global employeeModule*/
 
 employeeModule.controller('EmployeeController',
-['$window', 'EmployeeModel', 'utilitiesFactory', 'CommonModel', 'enumerationsFactory',
-function ($window, EmployeeModel, utilitiesFactory, CommonModel, enumerationsFactory) {
+['$window', 'EmployeeModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'lockScreenService',
+function ($window, EmployeeModel, CommonModel, utilitiesFactory, enumerationsFactory, lockScreenService) {
     var vm = this;
 
     vm.employees = EmployeeModel.employees;
@@ -39,6 +39,7 @@ function ($window, EmployeeModel, utilitiesFactory, CommonModel, enumerationsFac
     });
 
     var getEmployee = function (query, groupId, isLocal, isSpecialUser, isDisabledUser, hasMonthlyEPA) {
+        lockScreenService.start();
         if (!hasMonthlyEPA) {
             hasMonthlyEPA = '';
         }
@@ -46,6 +47,7 @@ function ($window, EmployeeModel, utilitiesFactory, CommonModel, enumerationsFac
         EmployeeModel.getAllEmployee(query, groupId, isLocal, isSpecialUser, isDisabledUser, hasMonthlyEPA).then(function () {
             vm.employees = EmployeeModel.employees;
             utilitiesFactory.searchOnPage(vm, vm.employees);
+            lockScreenService.stop();
         });
     };
 

@@ -1,5 +1,7 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using System.Collections.Generic;
+    using System.Web.Http;
     using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
@@ -8,12 +10,15 @@
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
-    using System.Collections.Generic;
-    using System.Web.Http;
 
     public class EmployeeController : BaseController
     {
         private readonly IEmployeeService employeeService;
+
+        public EmployeeController()
+            : this(null)
+        {
+        }
 
         public EmployeeController(IEmployeeService employeeService)
         {

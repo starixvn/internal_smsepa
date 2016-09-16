@@ -7,7 +7,7 @@
 
     public interface IPersonalFlowService
     {
-        IEnumerable<PersonalFlowModel> GetPersonalFlow(GetPersonalFlowCriteria criteria);
+        IEnumerable<PersonalFlowModel> GetPersonalFlowByFlowTemplateId(int flowTemplateId);
 
         IEnumerable<FlowModel> GetPersonalFlowById(GetPersonalFlowByIdCriteria criteria);
 

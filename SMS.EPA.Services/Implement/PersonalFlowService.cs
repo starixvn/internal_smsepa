@@ -24,13 +24,17 @@
             this.flowSettingRepository = flowSettingRepository ?? new FlowSettingRepository();
         }
 
-        public IEnumerable<PersonalFlowModel> GetPersonalFlow(GetPersonalFlowCriteria criteria)
+        public IEnumerable<PersonalFlowModel> GetPersonalFlowByFlowTemplateId(int flowTemplateId)
         {
+            var criteria = new GetPersonalFlowByFlowTemplateIdCriteria
+            {
+                FlowTemplateId = flowTemplateId
+            };
             IEnumerable<PersonalFlowModel> flows = new List<PersonalFlowModel>();
 
-            if (criteria != null && criteria.IsValid())
+            if (criteria.IsValid())
             {
-                flows = flowSettingRepository.GetPersonalFlow(criteria).OrderBy(i => i.Group.GroupName);
+                flows = flowSettingRepository.GetPersonalFlowByFlowTemplateId(criteria).OrderBy(i => i.Group.GroupName);
             }
 
             return flows;
@@ -42,7 +46,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                flow = flowSettingRepository.GetFlowManagement(criteria);
+                flow = flowSettingRepository.GetFlowSettingByFlowTemplateId(criteria);
             }
 
             return flow;

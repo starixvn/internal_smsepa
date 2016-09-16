@@ -1,31 +1,32 @@
 ﻿(function (angular) {
     'use strict';
 
-    angular.module('kpiModule').factory('KPIModel', KPIModel);
-    KPIModel.$inject = ['$modal', 'kpiFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory'];
+    angular.module('kpiModule').factory('KPIModel', kpiModel);
+    kpiModel.$inject = ['$modal', 'kpiFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory'];
 
-    function KPIModel($modal, kpiFactory, utilitiesFactory, notificationFactory, errorFactory) {
+    function kpiModel($modal, kpiFactory, utilitiesFactory, notificationFactory, errorFactory) {
         var kpis = [],
             permission = 0;
 
-        var kpiModel = {
+        var model = {
             createKPI: createKPI,
             getKPI: getKPI,
             getUserPermissionOnKPI: getUserPermissionOnKPI,
+            kpis: kpis,
             openPopupCreateKPI: openPopupCreateKPI,
             openPopupDeleteKP: openPopupDeleteKPI,
             openPopupUpdateKPI: openPopupUpdateKPI,
             openPopupUpdateRequiredEvaluateKPI: openPopupUpdateRequiredEvaluateKPI,
             openPopupUpdateStatusKPI: openPopupUpdateStatusKPI,
+            permission: permission,
             updateKPI: updateKPI,
             validateKPI: validateKPI
         };
 
-        return kpiModel;
+        return model;
 
         function createKPI(vm, isCreateAndContinued, kpiGroup, modalInstance) {
-            return kpiFactory.createKPI(vm.kpi)
-            .success(function (response) {
+            return kpiFactory.createKPI(vm.kpi).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success('CreatedSuccessfully');
 
@@ -48,27 +49,23 @@
                 } else {
                     notificationFactory.error('', response.Message);
                 }
-            })
-            .error(function (response, status) {
+            }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         }
 
         function getKPI(kpiGroupId, isActive, isRequiredEvaluate) {
-            return kpiFactory.getKPI(kpiGroupId, isActive, isRequiredEvaluate)
-            .success(function (kpis) {
-                kpiModel.kpis = kpis;
+            return kpiFactory.getKPI(kpiGroupId, isActive, isRequiredEvaluate).success(function (kpis) {
+                model.kpis = kpis;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         }
 
         function getUserPermissionOnKPI() {
-            return kpiFactory.getUserPermissionOnKPI()
-            .success(function (permission) {
-                kpiModel.permission = parseInt(permission);
-            })
-            .error(function (response, status) {
+            return kpiFactory.getUserPermissionOnKPI().success(function (permission) {
+                model.permission = parseInt(permission);
+            }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         }
@@ -167,8 +164,7 @@
             var keyMessage = '';
 
             modalInstance.result.then(function () {
-                kpiFactory.updateRequiredEvaluateKPI(newKPI)
-                .success(function (response) {
+                kpiFactory.updateRequiredEvaluateKPI(newKPI).success(function (response) {
                     if (response.IsSuccessful) {
                         keyMessage = action === 'required' ? 'ActivationSuccess' : 'DeactivationSuccess';
                         notificationFactory.success(keyMessage);
@@ -176,8 +172,7 @@
                         kpi.IsRequiredEvaluate = !newKPI.IsRequiredEvaluate;
                         notificationFactory.error('', response.Message);
                     }
-                })
-                .error(function (response, status) {
+                }).error(function (response, status) {
                     if (status === 405) {
                         errorFactory.errorHandle(status);
                     } else {
@@ -220,8 +215,7 @@
             var keyMessage = '';
 
             modalInstance.result.then(function () {
-                kpiFactory.updateStatusKPI(newKPI)
-                .success(function (response) {
+                kpiFactory.updateStatusKPI(newKPI).success(function (response) {
                     if (response.IsSuccessful) {
                         keyMessage = action === 'activate' ? 'ActivationSuccess' : 'DeactivationSuccess';
                         notificationFactory.success(keyMessage);
@@ -229,8 +223,7 @@
                         kpi.IsActive = !newKPI.IsActive;
                         notificationFactory.error('', response.Message);
                     }
-                })
-                .error(function (response, status) {
+                }).error(function (response, status) {
                     if (status === 405) {
                         errorFactory.errorHandle(status);
                     } else {
@@ -247,16 +240,14 @@
         }
 
         function updateKPI(kpi, modalInstance) {
-            return kpiFactory.updateKPI(kpi)
-            .success(function (response) {
+            return kpiFactory.updateKPI(kpi).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success('UpdatedSuccessfully');
                     modalInstance.close(kpi);
                 } else {
                     notificationFactory.error('', response.Message);
                 }
-            })
-            .error(function (response, status) {
+            }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         }

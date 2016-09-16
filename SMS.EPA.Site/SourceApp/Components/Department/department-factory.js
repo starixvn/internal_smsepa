@@ -1,10 +1,16 @@
-﻿'use strict';
-/*global departmentModule*/
+﻿(function (angular) {
+    'use strict';
 
-departmentModule.factory('departmentFactory', ['$http', 'baseUrl', function ($http, baseUrl) {
-    return {
-        getDepartment: function (parentId, isActive) {
+    angular.module('departmentModule').factory('departmentFactory', departmentFactory);
+    departmentFactory.$inject = ['$http', 'baseUrl'];
+
+    function departmentFactory($http, baseUrl) {
+        return {
+            getDepartment: getDepartment
+        };
+
+        function getDepartment(parentId, isActive) {
             return $http.get(baseUrl + 'api/Department/GetDepartment', { params: { parentId: parentId, isActive: isActive } });
         }
-    };
-}]);
+    }
+})(angular);

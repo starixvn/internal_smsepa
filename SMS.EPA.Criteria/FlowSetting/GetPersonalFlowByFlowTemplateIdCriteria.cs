@@ -2,7 +2,7 @@
 {
     using Fanex.Data.Repository;
 
-    public class GetPersonalFlowCriteria : CriteriaBase
+    public class GetPersonalFlowByFlowTemplateIdCriteria : CriteriaBase
     {
         public int FlowTemplateId { get; set; }
 

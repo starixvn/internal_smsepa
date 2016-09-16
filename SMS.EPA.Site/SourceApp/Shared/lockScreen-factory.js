@@ -1,7 +1,8 @@
-﻿'use strict';
-
-(function (angular) {
+﻿(function (angular) {
     'use strict';
+
+    angular.module('appModule').factory('lockScreenService', lockScreenService);
+    lockScreenService.$inject = [];
 
     function lockScreenService() {
         var service = {
@@ -15,10 +16,4 @@
 
         return service;
     }
-
-    lockScreenService.$inject = [];
-
-    angular
-        .module('appModule')
-        .factory('lockScreenService', lockScreenService);
 })(angular);

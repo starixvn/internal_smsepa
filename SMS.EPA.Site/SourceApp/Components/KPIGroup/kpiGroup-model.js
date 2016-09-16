@@ -1,32 +1,34 @@
 ﻿(function (angular) {
     'use strict';
 
-    angular.module('kpiGroupModule').factory('KPIGroupModel', KPIGroupModel);
-    KPIGroupModel.$inject = ['$modal', 'kpiGroupFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory'];
+    angular.module('kpiGroupModule').factory('KPIGroupModel', kpiGroupModel);
+    kpiGroupModel.$inject = ['$modal', 'kpiGroupFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory'];
 
-    function KPIGroupModel($modal, kpiGroupFactory, utilitiesFactory, notificationFactory, errorFactory) {
+    function kpiGroupModel($modal, kpiGroupFactory, utilitiesFactory, notificationFactory, errorFactory) {
         var kpiGroups = [],
             kpiGroup = {},
             permission = 0;
 
-        var kpiGroupModel = {
+        var model = {
             createKPIGroup: createKPIGroup,
             getKPIGroup: getKPIGroup,
             getKPIGroupById: getKPIGroupById,
             getUserPermissionOnKPIGroup: getUserPermissionOnKPIGroup,
+            kpiGroup: kpiGroup,
+            kpiGroups: kpiGroups,
             openPopupCreateKPIGroup: openPopupCreateKPIGroup,
             openPopupDeleteKPIGroup: openPopupDeleteKPIGroup,
             openPopupUpdateKPIGroup: openPopupUpdateKPIGroup,
             openPopupUpdateStatusKPIGroup: openPopupUpdateStatusKPIGroup,
+            permission: permission,
             updateKPIGroup: updateKPIGroup,
             validateKPIGroup: validateKPIGroup
         };
 
-        return kpiGroupModel;
+        return model;
 
         function createKPIGroup(kpiGroup, modalInstance) {
-            return kpiGroupFactory.createKPIGroup(kpiGroup)
-            .success(function (response) {
+            return kpiGroupFactory.createKPIGroup(kpiGroup).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success('CreatedSuccessfully');
                     modalInstance.close();
@@ -40,27 +42,24 @@
         }
 
         function getKPIGroup(isActive) {
-            return kpiGroupFactory.getKPIGroup(isActive)
-            .success(function (kpiGroups) {
-                kpiGroupModel.kpiGroups = kpiGroups;
+            return kpiGroupFactory.getKPIGroup(isActive).success(function (kpiGroups) {
+                model.kpiGroups = kpiGroups;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         }
 
         function getKPIGroupById(kpiGroupId) {
-            return kpiGroupFactory.getKPIGroupById(kpiGroupId)
-            .success(function (kpiGroup) {
-                kpiGroupModel.kpiGroup = kpiGroup;
+            return kpiGroupFactory.getKPIGroupById(kpiGroupId).success(function (kpiGroup) {
+                model.kpiGroup = kpiGroup;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         }
 
         function getUserPermissionOnKPIGroup() {
-            return kpiGroupFactory.getUserPermissionOnKPIGroup()
-            .success(function (permission) {
-                kpiGroupModel.permission = parseInt(permission);
+            return kpiGroupFactory.getUserPermissionOnKPIGroup().success(function (permission) {
+                model.permission = parseInt(permission);
             })
             .error(function (response, status) {
                 errorFactory.errorHandle(status);
@@ -156,8 +155,7 @@
             var keyMessage = '';
 
             modalInstance.result.then(function () {
-                kpiGroupFactory.updateStatusKPIGroup(newKPIGroup)
-                .success(function (response) {
+                kpiGroupFactory.updateStatusKPIGroup(newKPIGroup).success(function (response) {
                     if (response.IsSuccessful) {
                         keyMessage = action === 'activate' ? 'ActivationSuccess' : 'DeactivationSuccess';
                         notificationFactory.success(keyMessage);
@@ -165,8 +163,7 @@
                         kpiGroup.IsActive = !newKPIGroup.IsActive;
                         notificationFactory.error('', response.Message);
                     }
-                })
-                .error(function (response, status) {
+                }).error(function (response, status) {
                     if (status === 405) {
                         errorFactory.errorHandle(status);
                     } else {
@@ -183,16 +180,14 @@
         }
 
         function updateKPIGroup(kpiGroup, modalInstance) {
-            return kpiGroupFactory.updateKPIGroup(kpiGroup)
-            .success(function (response) {
+            return kpiGroupFactory.updateKPIGroup(kpiGroup).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success('UpdatedSuccessfully');
                     modalInstance.close(kpiGroup);
                 } else {
                     notificationFactory.error('', response.Message);
                 }
-            })
-            .error(function (response, status) {
+            }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         }

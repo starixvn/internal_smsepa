@@ -64,7 +64,7 @@
                 "ViewEPAByKPI/Index",
                 "UpdateFinalScore/Index",
                 "MonthlyEPAHistory/Index",
-                "error"
+                "Home/InternalError"
             };
 
             homeRouteUrls.ForEach(url => routes.MapRoute(

@@ -1,10 +1,16 @@
-﻿'use strict';
-/*global dashboardModule*/
+﻿(function (angular) {
+    'use strict';
 
-dashboardModule.factory('dashboardFactory', ['$http', 'baseUrl', function ($http, baseUrl) {
-    return {
-        getDashboard: function () {
+    angular.module('dashboardModule').factory('dashboardFactory', dashboardFactory);
+    dashboardFactory.$inject = ['$http', 'baseUrl'];
+
+    function dashboardFactory($http, baseUrl) {
+        return {
+            getDashboard: getDashboard
+        };
+
+        function getDashboard() {
             return $http.get(baseUrl + 'api/Dashboard/GetDashboard');
         }
-    };
-}]);
+    }
+})(angular);

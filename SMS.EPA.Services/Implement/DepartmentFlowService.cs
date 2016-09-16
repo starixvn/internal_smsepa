@@ -25,13 +25,17 @@
             this.flowSettingRepository = flowSettingRepository ?? new FlowSettingRepository();
         }
 
-        public IEnumerable<DepartmentFlowModel> GetDepartmentFlow(GetDepartmentFlowCriteria criteria)
+        public IEnumerable<DepartmentFlowModel> GetDepartmentFlowByFlowTemplateId(int flowTemplateId)
         {
+            var criteria = new GetDepartmentFlowByFlowTemplateIdCriteria
+            {
+                FlowTemplateId = flowTemplateId
+            };
             IEnumerable<DepartmentFlowModel> flows = new List<DepartmentFlowModel>();
 
-            if (criteria != null && criteria.IsValid())
+            if (criteria.IsValid())
             {
-                flows = flowSettingRepository.GetDepartmentFlow(criteria).OrderBy(i => i.Name);
+                flows = flowSettingRepository.GetDepartmentFlowByFlowTemplateId(criteria).OrderBy(i => i.Name);
             }
 
             return flows;
@@ -43,7 +47,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                flow = flowSettingRepository.GetFlowManagement(criteria);
+                flow = flowSettingRepository.GetFlowSettingByFlowTemplateId(criteria);
             }
 
             return flow;
@@ -73,8 +77,12 @@
             return result;
         }
 
-        public IList<Department> GetDepartmentHasSetting(GetDepartmentSectionHasSettingCriteria criteria)
+        public IList<Department> GetDepartmentHasSettingByFlowTemplateId(int flowTemplateId)
         {
+            var criteria = new GetDepartmentSectionHasSettingCriteria
+            {
+                FlowTemplateId = flowTemplateId
+            };
             IList<Department> departments = new List<Department>();
 
             if (criteria != null && criteria.IsValid())

@@ -2,8 +2,8 @@
 /*global targetTemplateModule*/
 
 targetTemplateModule.controller('TargetTemplateController',
-['TargetTemplateModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory',
-function (TargetTemplateModel, CommonModel, utilitiesFactory, enumerationsFactory) {
+['TargetTemplateModel', 'CommonModel', 'lockScreenService', 'utilitiesFactory', 'enumerationsFactory',
+function (TargetTemplateModel, CommonModel, lockScreenService, utilitiesFactory, enumerationsFactory) {
     var vm = this;
 
     vm.targetTypes = CommonModel.targetTypes;
@@ -42,9 +42,11 @@ function (TargetTemplateModel, CommonModel, utilitiesFactory, enumerationsFactor
     });
 
     var getTargetTemplate = function (targetTypeId, isActive) {
+        lockScreenService.start();
         TargetTemplateModel.getTargetTemplate(targetTypeId, isActive).then(function () {
             vm.targetTemplates = TargetTemplateModel.targetTemplates;
             utilitiesFactory.searchOnPage(vm, vm.targetTemplates);
+            lockScreenService.stop();
         });
     };
 

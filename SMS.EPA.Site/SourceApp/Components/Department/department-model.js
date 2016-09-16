@@ -1,22 +1,28 @@
-﻿'use strict';
-/*global departmentModule*/
+﻿(function (angular) {
+    'use strict';
 
-departmentModule.factory('DepartmentModel', ['departmentFactory', 'errorFactory',
-function (departmentFactory, errorFactory) {
-    var departmentModel = {};
+    angular.module('departmentModule').factory('DepartmentModel', departmentModel);
+    departmentModel.$inject = ['departmentFactory', 'errorFactory'];
 
-    departmentModel.departments = [];
-    departmentModel.treeDepartment = {};
+    function departmentModel(departmentFactory, errorFactory) {
+        var departments = [],
+            treeDepartment = {};
 
-    departmentModel.getDepartment = function (parentId, isActive) {
-        return departmentFactory.getDepartment(parentId, isActive)
-        .success(function (data) {
-            departmentModel.treeDepartment = data.TreeDepartment;
-            departmentModel.departments = data.Departments;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
+        var model = {
+            departments: departments,
+            getDepartment: getDepartment,
+            treeDepartment: treeDepartment
+        };
 
-    return departmentModel;
-}]);
+        return model;
+
+        function getDepartment(parentId, isActive) {
+            return departmentFactory.getDepartment(parentId, isActive).success(function (data) {
+                model.treeDepartment = data.TreeDepartment;
+                model.departments = data.Departments;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        }
+    }
+})(angular);

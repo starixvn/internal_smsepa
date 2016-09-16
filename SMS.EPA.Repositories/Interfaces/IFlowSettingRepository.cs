@@ -6,10 +6,10 @@
 
     public interface IFlowSettingRepository
     {
-        IEnumerable<FlowModel> GetFlowManagement(ICriteria criteria);
+        IEnumerable<FlowModel> GetFlowSettingByFlowTemplateId(ICriteria criteria);
 
-        IEnumerable<DepartmentFlowModel> GetDepartmentFlow(ICriteria criteria);
+        IEnumerable<DepartmentFlowModel> GetDepartmentFlowByFlowTemplateId(ICriteria criteria);
 
-        IEnumerable<PersonalFlowModel> GetPersonalFlow(ICriteria criteria);
+        IEnumerable<PersonalFlowModel> GetPersonalFlowByFlowTemplateId(ICriteria criteria);
     }
 }

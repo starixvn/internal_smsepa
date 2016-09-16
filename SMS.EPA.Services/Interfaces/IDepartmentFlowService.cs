@@ -8,7 +8,7 @@
 
     public interface IDepartmentFlowService
     {
-        IEnumerable<DepartmentFlowModel> GetDepartmentFlow(GetDepartmentFlowCriteria criteria);
+        IEnumerable<DepartmentFlowModel> GetDepartmentFlowByFlowTemplateId(int flowTemplateId);
 
         IEnumerable<FlowModel> GetDepartmentFlowById(GetDepartmentFlowByIdCriteria criteria);
 
@@ -16,6 +16,6 @@
 
         CommandResult DeleteDepartmentFlow(DeleteDepartmentFlowCriteria criteria);
 
-        IList<Department> GetDepartmentHasSetting(GetDepartmentSectionHasSettingCriteria criteria);
+        IList<Department> GetDepartmentHasSettingByFlowTemplateId(int flowTemplateId);
     }
 }

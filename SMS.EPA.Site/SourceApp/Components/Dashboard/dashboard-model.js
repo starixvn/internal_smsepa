@@ -1,21 +1,25 @@
-﻿'use strict';
-/*global dashboardModule*/
+﻿(function (angular) {
+    'use strict';
 
-dashboardModule.factory('DashboardModel',
-['$modal', 'dashboardFactory', 'notificationFactory', 'errorFactory',
-function ($modal, dashboardFactory, notificationFactory, errorFactory) {
-    var dashboardModel = {};
+    angular.module('dashboardModule').factory('DashboardModel', dashboardModel);
+    dashboardModel.$inject = ['dashboardFactory', 'errorFactory'];
 
-    dashboardModel.dashboardInfo = {};
+    function dashboardModel(dashboardFactory, errorFactory) {
+        var dashboardInfo = {};
 
-    dashboardModel.getDashboard = function () {
-        return dashboardFactory.getDashboard()
-        .success(function (dashboardInfo) {
-            dashboardModel.dashboardInfo = dashboardInfo;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
+        var model = {
+            dashboardInfo: dashboardInfo,
+            getDashboard: getDashboard
+        };
 
-    return dashboardModel;
-}]);
+        return model;
+
+        function getDashboard() {
+            return dashboardFactory.getDashboard().success(function (dashboardInfo) {
+                model.dashboardInfo = dashboardInfo;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        }
+    }
+})(angular);

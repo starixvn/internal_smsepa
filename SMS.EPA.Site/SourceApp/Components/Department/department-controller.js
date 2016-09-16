@@ -1,64 +1,73 @@
-﻿'use strict';
-/*global departmentModule*/
+﻿(function (angular) {
+    'use strict';
 
-departmentModule.controller('DepartmentController',
-['DepartmentModel', 'utilitiesFactory',
-function (DepartmentModel, utilitiesFactory) {
-    var vm = this;
+    angular.module('departmentModule').controller('DepartmentController', departmentController);
+    departmentController.$inject = ['DepartmentModel', 'utilitiesFactory', 'lockScreenService'];
 
-    vm.departments = DepartmentModel.departments;
-    vm.treeDepartment = DepartmentModel.treeDepartment;
+    function departmentController(DepartmentModel, utilitiesFactory, lockScreenService) {
+        var vm = this;
 
-    var resetCurrentData = function () {
-        vm.viewMode = false;
-        vm.deptSelected = {};
-    };
+        vm.departments = [];
+        vm.treeDepartment = {};
 
-    vm.viewDetails = function (dept) {
-        vm.deptSelected = dept;
+        vm.cancel = cancel;
+        vm.viewDetails = viewDetails;
+        vm.toggleCollapseExpand = toggleCollapseExpand;
 
-        if (dept.Manager && dept.Manager.EmployeeId) {
-            vm.manager = vm.deptSelected.Manager.NickName + " (" + vm.deptSelected.Manager.FullName + ")";
-        }
-        else {
-            vm.manager = null;
+        initialize();
+
+        function cancel() {
+            resetCurrentData();
         }
 
-        vm.viewMode = true;
-    };
+        function initialize() {
+            lockScreenService.start();
+            utilitiesFactory.getDateFormat(vm);
+            resetCurrentData();
 
-    vm.toggleCollapseExpand = function () {
-        if (!vm.hasTreeEvent) {
-            $('.tree li.parent_li > span').on('click', function (e) {
-                var children = $(this).parent('li.parent_li').find(' > ul > li');
-                if (children.is(":visible")) {
-                    children.hide('fast');
-                    $(this).attr('title', 'Expand this branch').find(' > i').addClass('glyphicon-plus-sign').removeClass('glyphicon-minus-sign');
-                } else {
-                    children.show('fast');
-                    $(this).attr('title', 'Collapse this branch').find(' > i').addClass('glyphicon-minus-sign').removeClass('glyphicon-plus-sign');
-                }
-
-                e.stopPropagation();
+            DepartmentModel.getDepartment().then(function () {
+                vm.departments = DepartmentModel.departments;
+                vm.treeDepartment = DepartmentModel.treeDepartment;
+                lockScreenService.stop();
             });
-
-            vm.hasTreeEvent = true;
         }
-    };
 
-    vm.cancel = function () {
-        resetCurrentData();
-    };
+        function resetCurrentData() {
+            vm.viewMode = false;
+            vm.deptSelected = {};
+        }
 
-    vm.initialize = function () {
-        utilitiesFactory.getDateFormat(vm);
-        resetCurrentData();
+        function toggleCollapseExpand() {
+            if (!vm.hasTreeEvent) {
+                $('.tree li.parent_li > span').on('click', function (e) {
+                    var children = $(this).parent('li.parent_li').find(' > ul > li');
+                    if (children.is(":visible")) {
+                        children.hide('fast');
+                        $(this).attr('title', 'Expand this branch').find(' > i').addClass('glyphicon-plus-sign').removeClass('glyphicon-minus-sign');
+                    } else {
+                        children.show('fast');
+                        $(this).attr('title', 'Collapse this branch').find(' > i').addClass('glyphicon-minus-sign').removeClass('glyphicon-plus-sign');
+                    }
 
-        DepartmentModel.getDepartment().then(function () {
-            vm.departments = DepartmentModel.departments;
-            vm.treeDepartment = DepartmentModel.treeDepartment;
-        });
-    };
+                    e.stopPropagation();
+                });
 
-    vm.initialize();
-}]);
+                vm.hasTreeEvent = true;
+            }
+        }
+
+        function viewDetails(dept) {
+            lockScreenService.start();
+            vm.deptSelected = dept;
+
+            if (dept.Manager && dept.Manager.EmployeeId) {
+                vm.manager = vm.deptSelected.Manager.NickName + " (" + vm.deptSelected.Manager.FullName + ")";
+            } else {
+                vm.manager = null;
+            }
+
+            vm.viewMode = true;
+            lockScreenService.stop();
+        }
+    }
+})(angular);

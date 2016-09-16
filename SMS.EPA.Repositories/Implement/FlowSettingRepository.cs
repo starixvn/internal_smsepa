@@ -11,7 +11,7 @@
 
     public class FlowSettingRepository : IFlowSettingRepository
     {
-        public IEnumerable<FlowModel> GetFlowManagement(ICriteria criteria)
+        public IEnumerable<FlowModel> GetFlowSettingByFlowTemplateId(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
@@ -29,7 +29,7 @@
             }
         }
 
-        public IEnumerable<DepartmentFlowModel> GetDepartmentFlow(ICriteria criteria)
+        public IEnumerable<DepartmentFlowModel> GetDepartmentFlowByFlowTemplateId(ICriteria criteria)
         {
             IEnumerable<DepartmentFlowModel> flows = new List<DepartmentFlowModel>();
 
@@ -47,7 +47,7 @@
             return flows;
         }
 
-        public IEnumerable<PersonalFlowModel> GetPersonalFlow(ICriteria criteria)
+        public IEnumerable<PersonalFlowModel> GetPersonalFlowByFlowTemplateId(ICriteria criteria)
         {
             IEnumerable<PersonalFlowModel> flows = new List<PersonalFlowModel>();
 

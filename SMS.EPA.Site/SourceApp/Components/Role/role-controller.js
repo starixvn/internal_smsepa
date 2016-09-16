@@ -1,19 +1,20 @@
-﻿'use strict';
+﻿(function (angular) {
+    'use strict';
 
-(function (angular) {
-    angular.module('roleModule').controller('RoleController', RoleController);
-    RoleController.$inject = ['RoleModel', 'CommonModel'];
+    angular.module('roleModule').controller('RoleController', roleController);
+    roleController.$inject = ['RoleModel', 'CommonModel'];
 
-    function RoleController(RoleModel, CommonModel) {
+    function roleController(RoleModel, CommonModel) {
         var vm = this;
 
         vm.filter = {
             roleId: ''
         };
-        vm.query = query;
         vm.roleFunctions = [];
-        vm.save = save;
         vm.systemRoleOptions = [];
+
+        vm.query = query;
+        vm.save = save;
 
         initialize();
 

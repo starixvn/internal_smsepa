@@ -1,7 +1,6 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
     using System.Collections.Generic;
-    using System.Linq;
     using System.Web.Http;
     using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
@@ -9,7 +8,6 @@
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria;
     using SMS.EPA.Model;
-    using SMS.EPA.Model.Enitites;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
 
@@ -31,12 +29,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Read)]
         public IEnumerable<PersonalFlowModel> GetPersonalFlow(int flowTemplateId)
         {
-            var criteria = new GetPersonalFlowCriteria()
-            {
-                FlowTemplateId = flowTemplateId
-            };
-
-            return personalFlowService.GetPersonalFlow(criteria);
+            return personalFlowService.GetPersonalFlowByFlowTemplateId(flowTemplateId);
         }
 
         [HttpGet]

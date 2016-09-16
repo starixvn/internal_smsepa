@@ -29,14 +29,9 @@
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Read)]
-        public IEnumerable<DepartmentFlowModel> GetDepartmentFlow(int flowTemplateId)
+        public IEnumerable<DepartmentFlowModel> GetDepartmentFlowByFlowTemplateId(int flowTemplateId)
         {
-            var criteria = new GetDepartmentFlowCriteria()
-            {
-                FlowTemplateId = flowTemplateId
-            };
-
-            return departmentFlowService.GetDepartmentFlow(criteria);
+            return departmentFlowService.GetDepartmentFlowByFlowTemplateId(flowTemplateId);
         }
 
         [HttpGet]
@@ -88,13 +83,7 @@
         [HttpGet]
         public IList<Department> GetDepartmentHasSetting(int flowTemplateId)
         {
-            var criteria = new GetDepartmentSectionHasSettingCriteria
-            {
-                FlowTemplateId = flowTemplateId
-            };
-
-            IList<Department> departments = departmentFlowService.GetDepartmentHasSetting(criteria);
-            return departments;
+            return departmentFlowService.GetDepartmentHasSettingByFlowTemplateId(flowTemplateId);
         }
     }
 }
