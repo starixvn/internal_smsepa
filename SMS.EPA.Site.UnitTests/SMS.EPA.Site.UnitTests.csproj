@@ -92,6 +92,7 @@
     <Compile Include="Controllers\DepartmentControllerTests.cs" />
     <Compile Include="Controllers\EmployeeControllerTests.cs" />
     <Compile Include="Controllers\KPIControllerTests.cs" />
+    <Compile Include="Controllers\FlowTemplateControllerTests.cs" />
     <Compile Include="Controllers\KPIGroupControllerTests.cs" />
     <Compile Include="Controllers\RoleControllerTests.cs" />
     <Compile Include="Controllers\TargetTemplateControllerTests.cs" />
@@ -125,9 +126,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

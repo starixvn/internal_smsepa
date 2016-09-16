@@ -94,7 +94,9 @@
             var actual = flowTemplateService.GetFlowTemplateById(flowTemplateId);
 
             // Assert
+            Assert.IsNotNull(actual);
             Assert.AreEqual(result, actual);
+            Assert.AreEqual(flowTemplateId, actual.FlowTemplateId);
         }
 
         [Test]
@@ -109,6 +111,7 @@
             var actual = flowTemplateService.GetFlowTemplateById(flowTemplateId);
 
             // Assert
+            Assert.IsNotNull(actual);
             Assert.AreEqual(false, actual.TargetType == null || actual.TargetType.TargetTypeId <= 0);
         }
 

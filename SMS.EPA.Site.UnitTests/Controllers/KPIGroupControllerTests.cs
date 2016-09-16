@@ -1,6 +1,7 @@
 ﻿namespace SMS.EPA.Site.UnitTests
 {
     using System.Collections.Generic;
+    using System.Linq;
     using NSubstitute;
     using NUnit.Framework;
     using SMS.EPA.Core.Model;
@@ -33,18 +34,20 @@
         }
 
         [Test]
-        public void GetKPIGroup_WhenCalled_ReturnInstanceOfListOfKPIGroupModel()
+        public void GetKPIGroup_WhenCalled_ReturnListOfKPIGroups()
         {
             // Arrange
+            IEnumerable<KPIGroupModel> result = GetListOfKPIGroupForTest();
             kpiGroupService = FakeKPIGroupService();
-            kpiGroupService.GetKPIGroup(Arg.Any<GetKPIGroupCriteria>()).Returns(new List<KPIGroupModel>());
+            kpiGroupService.GetKPIGroup(Arg.Any<GetKPIGroupCriteria>()).Returns(result);
             kpiGroupController = GetKPIGroupController(kpiGroupService);
 
             // Act
             var actual = kpiGroupController.GetKPIGroup(Arg.Any<bool?>());
 
             // Assert
-            Assert.IsInstanceOf(typeof(IEnumerable<KPIGroupModel>), actual);
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(result, actual);
         }
 
         #endregion GetKPIGroup
@@ -65,18 +68,22 @@
         }
 
         [Test]
-        public void GetKPIGroupById_WhenCalled_ReturnInstanceOfKPIGroupModel()
+        public void GetKPIGroupById_WhenCalled_ReturnExpectedKPIGroup()
         {
             // Arrange
+            int kpiGroupId = 1;
+            KPIGroupModel result = GetListOfKPIGroupForTest().First();
             kpiGroupService = FakeKPIGroupService();
-            kpiGroupService.GetKPIGroupById(Arg.Any<int>()).Returns(new KPIGroupModel());
+            kpiGroupService.GetKPIGroupById(kpiGroupId).Returns(result);
             kpiGroupController = GetKPIGroupController(kpiGroupService);
 
             // Act
-            var actual = kpiGroupController.GetKPIGroupById(Arg.Any<int>());
+            var actual = kpiGroupController.GetKPIGroupById(kpiGroupId);
 
             // Assert
-            Assert.IsInstanceOf(typeof(KPIGroupModel), actual);
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(result, actual);
+            Assert.AreEqual(kpiGroupId, actual.KPIGroupId);
         }
 
         #endregion GetKPIGroupById
@@ -238,6 +245,25 @@
             controller.SessionService = sessionService;
 
             return controller;
+        }
+
+        private IEnumerable<KPIGroupModel> GetListOfKPIGroupForTest()
+        {
+            var kpiGroups = new List<KPIGroupModel>
+            {
+                new KPIGroupModel
+                {
+                    KPIGroupId = 1,
+                    Name = "group test 1"
+                },
+                new KPIGroupModel
+                {
+                    KPIGroupId = 2,
+                    Name = "group test 2"
+                }
+            };
+
+            return kpiGroups;
         }
 
         #endregion Helpers

@@ -43,6 +43,7 @@
             var actual = kpiGroupService.GetKPIGroup(criteria);
 
             // Assert
+            Assert.IsNotNull(actual);
             Assert.AreEqual(result, actual);
         }
 
@@ -76,6 +77,7 @@
             var actual = kpiGroupService.GetKPIGroupById(kpiGroupId);
 
             // Assert
+            Assert.IsNotNull(actual);
             Assert.AreEqual(result, actual);
             Assert.AreEqual(kpiGroupId, actual.KPIGroupId);
         }

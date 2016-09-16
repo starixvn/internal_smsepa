@@ -45,6 +45,7 @@
             IEnumerable<KPIModel> actual = kpiService.GetKPI(criteria);
 
             // Assert
+            Assert.IsNotNull(actual);
             Assert.AreEqual(result, actual);
         }
 
@@ -60,6 +61,7 @@
             IEnumerable<KPIModel> actual = kpiService.GetKPI(criteria);
 
             // Assert
+            Assert.IsNotNull(actual);
             Assert.AreEqual(0, actual.Where(x => !x.KPIGroups.Any()).Count());
         }
 
