@@ -11,22 +11,22 @@
     [Authorize]
     public class TeamController : ApiController
     {
-        private readonly IServiceAPI _teamService;
+        private readonly IServiceAPI service;
 
         public TeamController() : this(null) 
         {
         }
 
-        public TeamController(IServiceAPI teamService)
+        public TeamController(IServiceAPI service)
         {
-            _teamService = teamService ?? new ServiceAPI();
+            this.service = service ?? new ServiceAPI();
         }
 
-        public IHttpActionResult GetMaxModifiedDate()
+        public IHttpActionResult GetLastModifiedDate()
         {
-            var criteria = new GetMaxModifiedDateForTeamCriteria();
+            var criteria = new GetLastModifiedDateForTeamCriteria();
 
-            DateTime fromDate = _teamService.GetMaxModifiedDate(criteria);
+            DateTime fromDate = service.GetLastModifiedDate(criteria);
 
             return Ok(fromDate);
         }
@@ -38,7 +38,7 @@
                 Teams = teams
             };
 
-            CommandResult result = _teamService.Update(criteria);
+            CommandResult result = service.Update(criteria);
 
             return result.IsSuccessful ? StatusCode(HttpStatusCode.OK) : StatusCode(HttpStatusCode.NotModified);
         }

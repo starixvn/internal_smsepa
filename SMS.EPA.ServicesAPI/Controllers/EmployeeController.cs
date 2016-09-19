@@ -11,22 +11,22 @@
     [Authorize]
     public class EmployeeController : ApiController
     {
-        private readonly IServiceAPI _employeeService;
+        private readonly IServiceAPI service;
 
         public EmployeeController() : this(null)
         { 
         }
 
-        public EmployeeController(IServiceAPI employeeService)
+        public EmployeeController(IServiceAPI service)
         {
-            _employeeService = employeeService ?? new ServiceAPI();
+            this.service = service ?? new ServiceAPI();
         }
 
-        public IHttpActionResult GetMaxModifiedDate()
+        public IHttpActionResult GetLastModifiedDate()
         {
-            var criteria = new GetMaxModifiedDateForEmployeeCriteria();
+            var criteria = new GetLastModifiedDateForEmployeeCriteria();
 
-            DateTime fromDate = _employeeService.GetMaxModifiedDate(criteria);
+            DateTime fromDate = service.GetLastModifiedDate(criteria);
 
             return Ok(fromDate);
         }
@@ -38,7 +38,7 @@
                 Employees = employees
             };
 
-            CommandResult result = _employeeService.Update(criteria);
+            CommandResult result = service.Update(criteria);
 
             return result.IsSuccessful ? StatusCode(HttpStatusCode.OK) : StatusCode(HttpStatusCode.NotModified);
         }

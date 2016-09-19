@@ -6,7 +6,7 @@
 
     public interface IEmployeeAPI
     {
-        DateTime GetMaxModifiedDate(TokenAccess token);
+        DateTime GetLastModifiedDate(TokenAccess token);
 
         CommandResult Update(IEnumerable<Employee> departments, TokenAccess token);
     }

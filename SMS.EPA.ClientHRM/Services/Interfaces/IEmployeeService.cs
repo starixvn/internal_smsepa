@@ -8,7 +8,7 @@
     {
         IEnumerable<Employee> GetEmployees(DateTime? fromDate);
 
-        DateTime GetMaxModifiedDate(TokenAccess token);
+        DateTime GetLastModifiedDate(TokenAccess token);
 
         CommandResult Update(IEnumerable<Employee> departments, TokenAccess token);
     }

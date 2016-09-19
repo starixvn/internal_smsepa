@@ -3,15 +3,13 @@
     using System;
     using Fanex.Data.Repository;
 
-    public class GetEmployeeAttendanceViolationCriteria : CriteriaBase
+    public class GetDisciplineSummaryCriteria : CriteriaBase
     {
-        public DateTime FromDate { get; set; }
-
         public DateTime LastModifiedDate { get; set; }
 
         public override string GetSettingKey()
         {
-            return "EmployeeDiscipline_Get";
+            return "EmployeeDiscipline_GetSummaryByPeriod";
         }
     }
 }

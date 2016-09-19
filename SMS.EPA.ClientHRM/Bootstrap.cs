@@ -21,7 +21,8 @@
         {
             _container = new Container();
             _container.Register<IDepartmentService, DepartmentService>(Lifestyle.Singleton);
-            _container.Register<IAttendanceService, AttendanceService>(Lifestyle.Singleton);
+            _container.Register<IDisciplineService, DisciplineService>(Lifestyle.Singleton);
+            _container.Register<IDisciplineSummaryService, DisciplineSummaryService>(Lifestyle.Singleton);
             _container.Register<IEmployeeService, EmployeeService>(Lifestyle.Singleton);
             _container.Register<IJobTitleService, JobTitleService>(Lifestyle.Singleton);
             _container.Register<ISupervisorService, DisciplinePermissionService>(Lifestyle.Singleton);
@@ -33,7 +34,8 @@
             _container.Register<IDynamicRepository, DynamicRepository>(Lifestyle.Singleton);
 
             _container.Register<IDepartmentAPI, DepartmentAPI>(Lifestyle.Singleton);
-            _container.Register<IAttendanceAPI, AttendanceAPI>(Lifestyle.Singleton);
+            _container.Register<IDisciplineAPI, DisciplineAPI>(Lifestyle.Singleton);
+            _container.Register<IDisciplineSummaryAPI, DisciplineSummaryAPI>(Lifestyle.Singleton);
             _container.Register<IEmployeeAPI, EmployeeAPI>(Lifestyle.Singleton);
             _container.Register<IJobTitleAPI, JobTitleAPI>(Lifestyle.Singleton);
             _container.Register<IEmployeeSupervisorAPI, EmployeeDisciplinePermissionAPI>(Lifestyle.Singleton);

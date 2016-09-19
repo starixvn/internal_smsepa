@@ -9,26 +9,26 @@
 
     public class JobTitleService : IJobTitleService
     {
-        private readonly IDynamicRepository _dynamicRepository;
-        private readonly IJobTitleAPI _jobTitleAPI;
+        private readonly IDynamicRepository dynamicRepository;
+        private readonly IJobTitleAPI jobTitleAPI;
 
         public JobTitleService(IDynamicRepository dynamicRepository, IJobTitleAPI jobTitleAPI)
         {
-            _dynamicRepository = dynamicRepository;
-            _jobTitleAPI = jobTitleAPI;
+            this.dynamicRepository = dynamicRepository;
+            this.jobTitleAPI = jobTitleAPI;
         }
 
         public IEnumerable<JobTitle> GetJobTitles()
         {
             var criteria = new GetJobTitleCriteria();
-            IEnumerable<JobTitle> jobTitles = _dynamicRepository.Fetch<JobTitle>(criteria);
+            IEnumerable<JobTitle> jobTitles = dynamicRepository.Fetch<JobTitle>(criteria);
 
             return jobTitles;
         }
 
         public CommandResult Update(IEnumerable<JobTitle> jobTitles, TokenAccess token)
         {
-            return _jobTitleAPI.Update(jobTitles, token);
+            return jobTitleAPI.Update(jobTitles, token);
         }
     }
 }

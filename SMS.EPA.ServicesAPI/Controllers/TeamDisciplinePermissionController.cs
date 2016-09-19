@@ -11,22 +11,22 @@
     [Authorize]
     public class TeamDisciplinePermissionController : ApiController
     {
-        private readonly IServiceAPI _permissionService;
+        private readonly IServiceAPI service;
 
         public TeamDisciplinePermissionController() : this(null) 
         { 
         }
 
-        public TeamDisciplinePermissionController(IServiceAPI permissionService)
+        public TeamDisciplinePermissionController(IServiceAPI service)
         {
-            _permissionService = permissionService ?? new ServiceAPI();
+            this.service = service ?? new ServiceAPI();
         }
 
-        public IHttpActionResult GetMaxModifiedDate()
+        public IHttpActionResult GetLastModifiedDate()
         {
-            var criteria = new GetMaxModifiedDateForTeamDisciplinePermissionCriteria();
+            var criteria = new GetLastModifiedDateForTeamDisciplinePermissionCriteria();
 
-            DateTime fromDate = _permissionService.GetMaxModifiedDate(criteria);
+            DateTime fromDate = service.GetLastModifiedDate(criteria);
 
             return Ok(fromDate);
         }
@@ -38,7 +38,7 @@
                 EmployeeDisciplines = disciplines
             };
 
-            CommandResult result = _permissionService.Update(criteria);
+            CommandResult result = service.Update(criteria);
 
             return result.IsSuccessful ? StatusCode(HttpStatusCode.OK) : StatusCode(HttpStatusCode.NotModified);
         }

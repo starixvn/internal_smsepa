@@ -18,6 +18,8 @@
     </Setting>
     <Setting Key="EmployeeCalendar_Get" SpName="EmployeeCalendar_Get" DbName="nexhr" Plain="0" >
     </Setting>
+    <Setting Key="EmployeeDiscipline_GetSummaryByPeriod" SpName="EmployeeDiscipline_GetSummaryByPeriod" DbName="nexhr" Plain="0" >
+    </Setting>
     <Setting Key="EmployeeAttendance_Get" SpName="EmployeeAttendance_Get" DbName="nexhr" Plain="0" >
     </Setting>
     <Setting Key="EmployeeDiscipline_Get" SpName="EmployeeDiscipline_Get" DbName="nexhr" Plain="0" >

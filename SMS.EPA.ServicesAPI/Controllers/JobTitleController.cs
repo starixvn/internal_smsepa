@@ -10,15 +10,15 @@
     [Authorize]
     public class JobTitleController : ApiController
     {
-        private readonly IServiceAPI _jobTitleService;
+        private readonly IServiceAPI service;
 
         public JobTitleController() : this(null) 
         {
         }
 
-        public JobTitleController(IServiceAPI jobTitleService)
+        public JobTitleController(IServiceAPI service)
         {
-            _jobTitleService = jobTitleService ?? new ServiceAPI();
+            this.service = service ?? new ServiceAPI();
         }
 
         public IHttpActionResult Update(JobTitle[] titles)
@@ -28,7 +28,7 @@
                 JobTitles = titles
             };
 
-            CommandResult result = _jobTitleService.Update(criteria);
+            CommandResult result = service.Update(criteria);
 
             return result.IsSuccessful ? StatusCode(HttpStatusCode.OK) : StatusCode(HttpStatusCode.NotModified);
         }

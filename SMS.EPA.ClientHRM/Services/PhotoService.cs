@@ -10,13 +10,13 @@
 
     public class PhotoService : IPhotoService
     {
-        private readonly IDynamicRepository _dynamicRepository;
-        private readonly IPhotoAPI _photoAPI;
+        private readonly IDynamicRepository dynamicRepository;
+        private readonly IPhotoAPI photoAPI;
 
         public PhotoService(IDynamicRepository dynamicRepository, IPhotoAPI photoAPI)
         {
-            _dynamicRepository = dynamicRepository;
-            _photoAPI = photoAPI;
+            this.dynamicRepository = dynamicRepository;
+            this.photoAPI = photoAPI;
         }
 
         public IEnumerable<Photo> GetPhotos(DateTime? fromDate)
@@ -40,14 +40,14 @@
             return photos;
         }
 
-        public DateTime GetMaxModifiedDate(TokenAccess token)
+        public DateTime GetLastModifiedDate(TokenAccess token)
         {
-            return _photoAPI.GetMaxModifiedDate(token);
+            return photoAPI.GetLastModifiedDate(token);
         }
 
         public CommandResult Update(IEnumerable<Photo> photos, TokenAccess token)
         {
-            return _photoAPI.Update(photos, token);
+            return photoAPI.Update(photos, token);
         }
     }
 }

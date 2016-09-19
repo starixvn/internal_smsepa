@@ -12,7 +12,7 @@
     [Authorize]
     public class PhotoController : ApiController
     {
-        public IHttpActionResult GetMaxModifiedDate()
+        public IHttpActionResult GetLastModifiedDate()
         {
             var lastModifiedDate = new DateTime(2016, 01, 01);
 

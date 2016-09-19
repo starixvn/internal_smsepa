@@ -2,8 +2,13 @@
 {
     using Fanex.Data.Repository;
 
-    public class GetMaxModifiedDateForDepartmentCriteria : CriteriaBase
+    public class GetLastModifiedDateForDepartmentCriteria : CriteriaBase
     {
+        public override bool IsValid()
+        {
+            return true;
+        }
+
         public override string GetSettingKey()
         {
             return "Sync_Department_GetMaxModifiedDate";

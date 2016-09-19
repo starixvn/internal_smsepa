@@ -10,7 +10,7 @@ namespace SMS.EPA.ServicesAPI.Services
 {
     public interface IServiceAPI
     {
-        DateTime GetMaxModifiedDate(ICriteria criteria);
+        DateTime GetLastModifiedDate(ICriteria criteria);
 
         CommandResult Update(ICriteria criteria);
     }

@@ -8,7 +8,7 @@
     {
         IEnumerable<Team> GetTeams(DateTime? fromDate);
 
-        DateTime GetMaxModifiedDate(TokenAccess token);
+        DateTime GetLastModifiedDate(TokenAccess token);
 
         CommandResult Update(IEnumerable<Team> teams, TokenAccess token);
     }

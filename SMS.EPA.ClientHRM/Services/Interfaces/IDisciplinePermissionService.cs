@@ -14,8 +14,8 @@
 
         CommandResult UpdateGroups(IEnumerable<GroupDisciplinePermission> groups, TokenAccess token);
 
-        DateTime GetMaxModifiedDateForEmployee(TokenAccess token);
+        DateTime GetLastModifiedDateForEmployee(TokenAccess token);
 
-        DateTime GetMaxModifiedDateForGroup(TokenAccess token);
+        DateTime GetLastModifiedDateForGroup(TokenAccess token);
     }
 }

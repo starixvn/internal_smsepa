@@ -6,7 +6,7 @@
 
     public interface IDepartmentAPI
     {
-        DateTime GetMaxModifiedDate(TokenAccess token);
+        DateTime GetLastModifiedDate(TokenAccess token);
 
         CommandResult Update(IEnumerable<Department> departments, TokenAccess token);
     }

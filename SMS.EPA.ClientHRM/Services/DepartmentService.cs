@@ -9,31 +9,31 @@
 
     public class DepartmentService : IDepartmentService
     {
-        private readonly IDynamicRepository _dynamicRepository;
-        private readonly IDepartmentAPI _departmentAPI;
+        private readonly IDynamicRepository dynamicRepository;
+        private readonly IDepartmentAPI departmentAPI;
 
         public DepartmentService(IDynamicRepository dynamicRepository, IDepartmentAPI departmentAPI)
         {
-            _dynamicRepository = dynamicRepository;
-            _departmentAPI = departmentAPI;
+            this.dynamicRepository = dynamicRepository;
+            this.departmentAPI = departmentAPI;
         }
 
         public IEnumerable<Department> GetDepartments(DateTime? fromDate)
         {
             var criteria = new GetDepartmentCriteria { FromDate = fromDate };
-            IEnumerable<Department> departments = _dynamicRepository.Fetch<Department>(criteria);
+            IEnumerable<Department> departments = dynamicRepository.Fetch<Department>(criteria);
 
             return departments;
         }
 
-        public DateTime GetMaxModifiedDate(TokenAccess token)
+        public DateTime GetLastModifiedDate(TokenAccess token)
         {
-            return _departmentAPI.GetMaxModifiedDate(token);
+            return departmentAPI.GetLastModifiedDate(token);
         }
 
         public CommandResult Update(IEnumerable<Department> departments, TokenAccess token)
         {
-            return _departmentAPI.Update(departments, token);
+            return departmentAPI.Update(departments, token);
         }
     }
 }

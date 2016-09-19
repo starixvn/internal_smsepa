@@ -10,7 +10,7 @@
 
     public class EmployeeDisciplinePermissionAPI : IEmployeeSupervisorAPI
     {
-        public DateTime GetMaxModifiedDate(TokenAccess token)
+        public DateTime GetLastModifiedDate(TokenAccess token)
         {
             using (var client = new HttpClient())
             {

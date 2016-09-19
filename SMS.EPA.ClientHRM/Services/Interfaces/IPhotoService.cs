@@ -8,7 +8,7 @@
     {
         IEnumerable<Photo> GetPhotos(DateTime? fromDate);
 
-        DateTime GetMaxModifiedDate(TokenAccess token);
+        DateTime GetLastModifiedDate(TokenAccess token);
 
         CommandResult Update(IEnumerable<Photo> photos, TokenAccess token);
     }

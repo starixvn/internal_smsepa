@@ -21,7 +21,7 @@
             return commandResult;
         }
 
-        public DateTime GetMaxModifiedDate(ICriteria criteria)
+        public DateTime GetLastModifiedDate(ICriteria criteria)
         {
             var modifiedDate = GetDataEntity<DateTime>(criteria);
 

@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class AttendanceViolation
+    public class Discipline
     {
         public int EmployeeId { get; set; }
 

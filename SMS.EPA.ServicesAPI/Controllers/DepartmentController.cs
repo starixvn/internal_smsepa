@@ -5,14 +5,13 @@
     using SMS.EPA.ServicesAPI.Model;
     using SMS.EPA.ServicesAPI.Services;
     using System;
-    using System.Collections.Generic;
     using System.Net;
     using System.Web.Http;
 
     [Authorize]
     public class DepartmentController : ApiController
     {
-        private readonly IServiceAPI _service;
+        private readonly IServiceAPI service;
 
         public DepartmentController()
             : this(null)
@@ -21,7 +20,7 @@
 
         public DepartmentController(IServiceAPI employeeService)
         {
-            _service = employeeService ?? new ServiceAPI();
+            this.service = employeeService ?? new ServiceAPI();
         }
 
         public IHttpActionResult Update(Department[] departments)
@@ -31,15 +30,15 @@
                 Departments = departments
             };
 
-            CommandResult result = _service.Update(criteria);
+            CommandResult result = service.Update(criteria);
             return result.IsSuccessful ? StatusCode(HttpStatusCode.OK) : StatusCode(HttpStatusCode.NotModified);
         }
 
-        public IHttpActionResult GetMaxModifiedDate()
+        public IHttpActionResult GetLastModifiedDate()
         {
-            var criteria = new GetMaxModifiedDateForDepartmentCriteria();
+            var criteria = new GetLastModifiedDateForDepartmentCriteria();
 
-            DateTime modifiedDate = _service.GetMaxModifiedDate(criteria);
+            DateTime modifiedDate = service.GetLastModifiedDate(criteria);
 
             return Ok(modifiedDate);
         }

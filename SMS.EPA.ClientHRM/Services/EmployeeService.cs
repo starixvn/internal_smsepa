@@ -9,31 +9,31 @@
 
     public class EmployeeService : IEmployeeService
     {
-        private readonly IDynamicRepository _dynamicRepository;
-        private readonly IEmployeeAPI _employeeAPI;
+        private readonly IDynamicRepository dynamicRepository;
+        private readonly IEmployeeAPI employeeAPI;
 
         public EmployeeService(IDynamicRepository dynamicRepository, IEmployeeAPI employeeAPI)
         {
-            _dynamicRepository = dynamicRepository;
-            _employeeAPI = employeeAPI;
+            this.dynamicRepository = dynamicRepository;
+            this.employeeAPI = employeeAPI;
         }
 
         public IEnumerable<Employee> GetEmployees(DateTime? fromDate)
         {
             var criteria = new GetEmployeeCriteria { FromDate = fromDate };
-            IEnumerable<Employee> employees = _dynamicRepository.Fetch<Employee>(criteria);
+            IEnumerable<Employee> employees = dynamicRepository.Fetch<Employee>(criteria);
 
             return employees;
         }
 
-        public DateTime GetMaxModifiedDate(TokenAccess token)
+        public DateTime GetLastModifiedDate(TokenAccess token)
         {
-            return _employeeAPI.GetMaxModifiedDate(token);
+            return employeeAPI.GetLastModifiedDate(token);
         }
 
         public CommandResult Update(IEnumerable<Employee> employees, TokenAccess token)
         {
-            return _employeeAPI.Update(employees, token);
+            return employeeAPI.Update(employees, token);
         }
     }
 }

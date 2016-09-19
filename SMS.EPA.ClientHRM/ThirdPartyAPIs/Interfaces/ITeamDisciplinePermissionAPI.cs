@@ -8,6 +8,6 @@
     {
         CommandResult Update(IEnumerable<GroupDisciplinePermission> groups, TokenAccess token);
 
-        DateTime GetMaxModifiedDate(TokenAccess token);
+        DateTime GetLastModifiedDate(TokenAccess token);
     }
 }

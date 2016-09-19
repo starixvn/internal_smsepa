@@ -5,16 +5,16 @@
 
     public class TokenService : ITokenService
     {
-        private readonly ITokenAPI _tokenAPI;
+        private readonly ITokenAPI tokenAPI;
 
         public TokenService(ITokenAPI tokenAPI)
         {
-            _tokenAPI = tokenAPI;
+            this.tokenAPI = tokenAPI;
         }
 
         public TokenAccess Request(ApplicationInfo info)
         {
-            return _tokenAPI.Request(info);
+            return tokenAPI.Request(info);
         }
     }
 }

@@ -2,7 +2,7 @@
 {
     using Fanex.Data.Repository;
 
-    public class GetMaxModifiedDateForAttendanceViolationCriteria : CriteriaBase
+    public class GetLastModifiedDateForDisciplineCriteria : CriteriaBase
     {
         public override string GetSettingKey()
         {

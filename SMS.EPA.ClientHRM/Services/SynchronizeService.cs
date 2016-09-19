@@ -11,14 +11,15 @@
     {
         private static TokenAccess _token;
 
-        private readonly ITokenService _tokenService;
-        private readonly IDepartmentService _departmentService;
-        private readonly IEmployeeService _employeeService;
-        private readonly ITeamService _teamService;
-        private readonly IJobTitleService _jobTitleService;
-        private readonly ISupervisorService _supervisorService;
-        private readonly IAttendanceService _attendanceService;
-        private readonly IPhotoService _photoService;
+        private readonly ITokenService tokenService;
+        private readonly IDepartmentService departmentService;
+        private readonly IEmployeeService employeeService;
+        private readonly ITeamService teamService;
+        private readonly IJobTitleService jobTitleService;
+        private readonly ISupervisorService supervisorService;
+        private readonly IDisciplineService disciplineService;
+        private readonly IDisciplineSummaryService disciplineSummaryService;
+        private readonly IPhotoService photoService;
 
         public SynchronizeService(
             ITokenService tokenService,
@@ -27,18 +28,20 @@
             ITeamService teamService,
             IJobTitleService jobtitleService,
             ISupervisorService supervisorService,
-            IAttendanceService attendanceService,
+            IDisciplineService disciplineService,
+            IDisciplineSummaryService disciplineSummaryService,
             IPhotoService photoService)
         {
             _token = new TokenAccess();
-            _tokenService = tokenService;
-            _departmentService = departmentService;
-            _employeeService = employeeService;
-            _teamService = teamService;
-            _jobTitleService = jobtitleService;
-            _supervisorService = supervisorService;
-            _attendanceService = attendanceService;
-            _photoService = photoService;
+            this.tokenService = tokenService;
+            this.departmentService = departmentService;
+            this.employeeService = employeeService;
+            this.teamService = teamService;
+            this.jobTitleService = jobtitleService;
+            this.supervisorService = supervisorService;
+            this.disciplineService = disciplineService;
+            this.disciplineSummaryService = disciplineSummaryService;
+            this.photoService = photoService;
         }
 
         public void Synchronize()
@@ -56,7 +59,9 @@
             WriteLog("Section Discipline Permission");
             SynchronizeGroupDisciplinePermission();
             WriteLog("Discipline");
-            SynchronizeAttendanceViolation();
+            SynchronizeDiscipline();
+            WriteLog("DisciplineSummary");
+            SynchronizeDisciplineSummary();
             WriteLog("Photo");
             SynchronizePhoto();
             WriteLog("Done!");
@@ -76,11 +81,11 @@
 
             if (_token.IsValid())
             {
-                DateTime fromDate = _departmentService.GetMaxModifiedDate(_token);
-                IEnumerable<Department> departments = _departmentService.GetDepartments(fromDate);
+                DateTime fromDate = departmentService.GetLastModifiedDate(_token);
+                IEnumerable<Department> departments = departmentService.GetDepartments(fromDate);
                 if (departments.Any())
                 {
-                    _departmentService.Update(departments, _token);
+                    departmentService.Update(departments, _token);
                 }
             }
         }
@@ -91,11 +96,11 @@
 
             if (_token.IsValid())
             {
-                DateTime fromDate = _teamService.GetMaxModifiedDate(_token);
-                IEnumerable<Team> teams = _teamService.GetTeams(fromDate);
+                DateTime fromDate = teamService.GetLastModifiedDate(_token);
+                IEnumerable<Team> teams = teamService.GetTeams(fromDate);
                 if (teams.Any())
                 {
-                    _teamService.Update(teams, _token);
+                    teamService.Update(teams, _token);
                 }
             }
         }
@@ -106,11 +111,11 @@
 
             if (_token.IsValid())
             {
-                DateTime fromDate = _employeeService.GetMaxModifiedDate(_token);
-                IEnumerable<Employee> employees = _employeeService.GetEmployees(fromDate);
+                DateTime fromDate = employeeService.GetLastModifiedDate(_token);
+                IEnumerable<Employee> employees = employeeService.GetEmployees(fromDate);
                 if (employees.Any())
                 {
-                    _employeeService.Update(employees, _token);
+                    employeeService.Update(employees, _token);
                 }
             }
         }
@@ -121,10 +126,10 @@
 
             if (_token.IsValid())
             {
-                IEnumerable<JobTitle> jobTitles = _jobTitleService.GetJobTitles();
+                IEnumerable<JobTitle> jobTitles = jobTitleService.GetJobTitles();
                 if (jobTitles.Any())
                 {
-                    _jobTitleService.Update(jobTitles, _token);
+                    jobTitleService.Update(jobTitles, _token);
                 }
             }
         }
@@ -135,11 +140,11 @@
 
             if (_token.IsValid())
             {
-                DateTime fromDate = _supervisorService.GetMaxModifiedDateForEmployee(_token);
-                IEnumerable<EmployeeDisciplinePermission> employees = _supervisorService.GetEmployees(fromDate);
+                DateTime fromDate = supervisorService.GetLastModifiedDateForEmployee(_token);
+                IEnumerable<EmployeeDisciplinePermission> employees = supervisorService.GetEmployees(fromDate);
                 if (employees.Any())
                 {
-                    _supervisorService.UpdateEmployees(employees, _token);
+                    supervisorService.UpdateEmployees(employees, _token);
                 }
             }
         }
@@ -150,27 +155,42 @@
 
             if (_token.IsValid())
             {
-                DateTime fromDate = _supervisorService.GetMaxModifiedDateForGroup(_token);
-                IEnumerable<GroupDisciplinePermission> groups = _supervisorService.GetGroups(fromDate);
+                DateTime fromDate = supervisorService.GetLastModifiedDateForGroup(_token);
+                IEnumerable<GroupDisciplinePermission> groups = supervisorService.GetGroups(fromDate);
                 if (groups.Any())
                 {
-                    _supervisorService.UpdateGroups(groups, _token);
+                    supervisorService.UpdateGroups(groups, _token);
                 }
             }
         }
 
-        private void SynchronizeAttendanceViolation()
+        private void SynchronizeDiscipline()
         {
             InitToken();
 
             if (_token.IsValid())
             {
-                DateTime fromDate = _attendanceService.GetFromDateAttendanceViolation(_token);
-                DateTime lastModifiedDate = _attendanceService.GetMaxModifiedDate(_token);
-                IEnumerable<AttendanceViolation> violations = _attendanceService.GetViolation(fromDate, lastModifiedDate);
+                DateTime fromDate = disciplineService.GetFromDateDiscipline(_token);
+                DateTime lastModifiedDate = disciplineService.GetLastModifiedDate(_token);
+                IEnumerable<Discipline> violations = disciplineService.GetDiscipline(fromDate, lastModifiedDate);
                 if (violations.Any())
                 {
-                    _attendanceService.Update(violations, _token);
+                    disciplineService.Update(violations, _token);
+                }
+            }
+        }
+
+        private void SynchronizeDisciplineSummary()
+        {
+            InitToken();
+
+            if (_token.IsValid())
+            {
+                DateTime lastModifiedDate = disciplineSummaryService.GetLastModifiedDate(_token);
+                IEnumerable<DisciplineSummary> violations = disciplineSummaryService.GetDisciplineSummary(lastModifiedDate);
+                if (violations.Any())
+                {
+                    disciplineSummaryService.Update(violations, _token);
                 }
             }
         }
@@ -181,11 +201,11 @@
 
             if (_token.IsValid())
             {
-                DateTime lastModifiedDate = _photoService.GetMaxModifiedDate(_token);
-                IEnumerable<Photo> photos = _photoService.GetPhotos(lastModifiedDate);
+                DateTime lastModifiedDate = photoService.GetLastModifiedDate(_token);
+                IEnumerable<Photo> photos = photoService.GetPhotos(lastModifiedDate);
                 if (photos.Any())
                 {
-                    _photoService.Update(photos, _token);
+                    photoService.Update(photos, _token);
                 }
             }
         }
@@ -194,7 +214,7 @@
         {
             if (!_token.IsValid())
             {
-                _token = _tokenService.Request(ApplicationConfig.ApplicationInfo);
+                _token = tokenService.Request(ApplicationConfig.ApplicationInfo);
             }
         }
     }

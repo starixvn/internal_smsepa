@@ -2,11 +2,16 @@
 
 namespace SMS.EPA.ServicesAPI.Criteria.TeamDisciplinePermission
 {
-    public class GetMaxModifiedDateForTeamDisciplinePermissionCriteria : CriteriaBase
+    public class GetLastModifiedDateForTeamDisciplinePermissionCriteria : CriteriaBase
     {
         public override string GetSettingKey()
         {
             return "Sync_TeamDisciplinePermission_GetMaxModifiedDate";
+        }
+
+        public override bool IsValid()
+        {
+            return true;
         }
     }
 }

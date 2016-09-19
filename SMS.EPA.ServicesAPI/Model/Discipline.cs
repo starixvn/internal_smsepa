@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace SMS.EPA.ServicesAPI.Model
+﻿namespace SMS.EPA.ServicesAPI.Model
 {
-    public class EmployeeDiscipline
+    using System;
+
+    public class Discipline
     {
         public int EmployeeId { get; set; }
 

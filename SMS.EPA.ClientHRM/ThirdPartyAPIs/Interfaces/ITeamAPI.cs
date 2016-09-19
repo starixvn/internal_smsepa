@@ -6,7 +6,7 @@
 
     public interface ITeamAPI
     {
-        DateTime GetMaxModifiedDate(TokenAccess token);
+        DateTime GetLastModifiedDate(TokenAccess token);
 
         CommandResult Update(IEnumerable<Team> departments, TokenAccess token);
     }

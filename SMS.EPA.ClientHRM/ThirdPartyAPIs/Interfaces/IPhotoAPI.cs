@@ -6,7 +6,7 @@
 
     public interface IPhotoAPI
     {
-        DateTime GetMaxModifiedDate(TokenAccess token);
+        DateTime GetLastModifiedDate(TokenAccess token);
 
         CommandResult Update(IEnumerable<Photo> photos, TokenAccess token);
     }
