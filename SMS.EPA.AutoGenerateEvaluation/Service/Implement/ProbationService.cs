@@ -1,6 +1,5 @@
 ﻿namespace SMS.EPA.AutoGenerateEvaluation.Service
 {
-    using System;
     using System.Reflection;
     using System.Threading.Tasks;
     using log4net;
@@ -38,7 +37,6 @@
 
         public void CheckProbationPeriod()
         {
-            Log.Info("Check the start of probation evaluation: started at " + DateTime.Now);
             AutoEmployeePeriodModel employeePeriod = GetEmployeeProbationEvaluation();
             Log.Info("Result of check the start of probation evaluation: employee: " + employeePeriod.EmployeeIds + "; periodId: " + employeePeriod.PeriodId);
 
@@ -50,7 +48,6 @@
 
         private void AddEmployeeAndGenerateEPAProbation(AutoEmployeePeriodModel employeePeriod)
         {
-            Log.Info("Auto add employee to probation period " + employeePeriod.PeriodId + ": started at " + DateTime.Now);
             var insertEmployeeCriteria = new InsertEmployeeToProbationPeriodCriteria
             {
                 PeriodId = employeePeriod.PeriodId,
@@ -60,7 +57,6 @@
             string messageResult = insertEmployeeResult.IsSuccessful ? "0" : insertEmployeeResult.Message;
             Log.Info("Result of auto add employee to probation period " + employeePeriod.PeriodId + ": " + messageResult);
 
-            Log.Info("Auto generate EPA to all employees of current probation period " + employeePeriod.PeriodId + ": started at " + DateTime.Now);
             var generateEvaluationCriteria = new AutoGenerateEvaluationCriteria
             {
                 PeriodId = employeePeriod.PeriodId,

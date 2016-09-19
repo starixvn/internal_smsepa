@@ -1,8 +1,8 @@
 ﻿namespace SMS.EPA.Services.Interfaces
 {
     using System.Collections.Generic;
-    using SMS.EPA.Criteria.AttendanceSummary;
-    using SMS.EPA.Model.AttendanceSummary;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Model;
 
     public interface IAttendanceSummaryService
     {
@@ -13,8 +13,6 @@
         IEnumerable<ViolationTypeModel> GetViolationType(GetViolationTypeCriteria criteria);
 
         IEnumerable<AttendanceDetailModel> GetAttendanceDetail(GetDetailAttendanceCriteria criteria);
-
-        IEnumerable<AttendanceScoreModel> GetAttendanceScoreByEPAId(GetAttendanceScoreByEPAIdCriteria criteria);
 
         void ExportAttendanceSummaryReport(GetAttendanceSummaryCriteria criteria, IEnumerable<AttendanceSummaryModel> attendanceEmployees, string templatePath);
 

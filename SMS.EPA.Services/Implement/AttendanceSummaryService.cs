@@ -5,8 +5,8 @@
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Core.Utilities;
-    using SMS.EPA.Criteria.AttendanceSummary;
-    using SMS.EPA.Model.AttendanceSummary;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Model;
     using SMS.EPA.Repositories.Implement;
     using SMS.EPA.Repositories.Interfaces;
     using SMS.EPA.Resources;
@@ -76,18 +76,6 @@
             }
 
             return attendanceViolations;
-        }
-
-        public IEnumerable<AttendanceScoreModel> GetAttendanceScoreByEPAId(GetAttendanceScoreByEPAIdCriteria criteria)
-        {
-            IEnumerable<AttendanceScoreModel> attendanceScores = new List<AttendanceScoreModel>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                attendanceScores = GetData<AttendanceScoreModel>(criteria);
-            }
-
-            return attendanceScores;
         }
 
         public void ExportAttendanceSummaryReport(

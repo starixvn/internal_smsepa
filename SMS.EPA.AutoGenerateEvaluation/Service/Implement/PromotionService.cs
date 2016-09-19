@@ -1,6 +1,5 @@
 ﻿namespace SMS.EPA.AutoGenerateEvaluation.Service
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
@@ -36,9 +35,7 @@
 
         public void CheckPromotionPeriod()
         {
-            Log.Info("Check the start of promotion evaluation: started at " + DateTime.Now);
             IEnumerable<AutoEmployeePeriodModel> employeePeriods = GetEmployeePromotionEvaluation();
-            Log.Info("Result of check the start of promotion evaluation: ended at  " + DateTime.Now);
 
             if (employeePeriods != null && employeePeriods.Any())
             {
@@ -50,7 +47,6 @@
         {
             foreach (AutoEmployeePeriodModel period in employeePeriods)
             {
-                Log.Info("Auto generate EPA to all employees of current promotion period " + period.PeriodId + ": started at " + DateTime.Now);
                 var generateEvaluationCriteria = new AutoGenerateEvaluationCriteria
                 {
                     PeriodId = period.PeriodId,

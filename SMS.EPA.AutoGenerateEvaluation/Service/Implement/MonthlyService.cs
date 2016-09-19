@@ -59,7 +59,6 @@
                         EndDate = today.AddDays(processSettings.Sum(p => p.Duration))
                     };
 
-                    Log.Info("Create monthly period: started at " + DateTime.Now);
                     CommandResult commandResult = periodService.AutoCreateMonthlyPeriod(criteria);
                     Log.Info("Result of Create monthly period: " + (commandResult.IsSuccessful ? "0" : commandResult.Message));
                 }
@@ -68,7 +67,6 @@
 
         public void CheckMonthlyPeriod()
         {
-            Log.Info("Check the start of monthly period: started at " + DateTime.Now);
             IEnumerable<int> monthlyPeriods = GetMonthlyPeriodStarted();
             Log.Info("Result of check the start of monthly period: " + string.Join(",", monthlyPeriods));
 
@@ -95,7 +93,6 @@
         {
             foreach (int periodId in monthlyPeriods)
             {
-                Log.Info("Auto add employee to monthly period " + periodId + ": started at " + DateTime.Now);
                 var insertEmployeeToMonthlyPeriodCriteria = new InsertEmployeeToMonthlyPeriodCriteria
                 {
                     PeriodId = periodId
@@ -104,7 +101,6 @@
                 string messageResult = insertEmployeeResult.IsSuccessful ? "0" : insertEmployeeResult.Message;
                 Log.Info("Result of auto add employee to monthly period " + periodId + ": " + messageResult);
 
-                Log.Info("Auto generate EPA to all employees of current monthly period " + periodId + ": started at " + DateTime.Now);
                 var generateEvaluationCriteria = new AutoGenerateEvaluationCriteria
                 {
                     PeriodId = periodId

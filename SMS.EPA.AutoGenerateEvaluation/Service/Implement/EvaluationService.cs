@@ -1,7 +1,6 @@
 ﻿namespace SMS.EPA.AutoGenerateEvaluation.Service
 {
     using System.Collections.Generic;
-    using System.Linq;
     using SMS.EPA.AutoGenerateEvaluation.Criteria;
     using SMS.EPA.AutoGenerateEvaluation.Repository;
     using SMS.EPA.Core.Enumerations;

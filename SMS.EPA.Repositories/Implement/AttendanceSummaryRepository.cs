@@ -6,7 +6,7 @@
     using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using SMS.EPA.Model.AttendanceSummary;
+    using SMS.EPA.Model;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Repositories.Interfaces;
 

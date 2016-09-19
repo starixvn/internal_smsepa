@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Model.AttendanceSummary
+﻿namespace SMS.EPA.Model
 {
     using System;
 
