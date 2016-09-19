@@ -2,14 +2,14 @@
     'use strict';
 
     angular.module('dashboardModule').controller('DashboardController', dashboardController);
-    dashboardController.$inject = ['DashboardModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'lockScreenService', 'baseUrl'];
+    dashboardController.$inject = ['DashboardModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService', 'baseUrl'];
 
-    function dashboardController(DashboardModel, CommonModel, utilitiesFactory, enumerationsFactory, lockScreenService, baseUrl) {
+    function dashboardController(DashboardModel, CommonModel, utilitiesFactory, lockScreenService, baseUrl) {
         var vm = this;
 
-        vm.epaStatusEnum = enumerationsFactory.epaStatus;
-        vm.targetTypeEnum = enumerationsFactory.targetType;
-        vm.statusEndProcessEnum = enumerationsFactory.statusEndProcess;
+        vm.epaStatusEnum = utilitiesFactory.epaStatus;
+        vm.targetTypeEnum = utilitiesFactory.targetType;
+        vm.statusEndProcessEnum = utilitiesFactory.statusEndProcess;
 
         vm.getClassProgress = getClassProgress;
         vm.viewEPADetail = viewEPADetail;

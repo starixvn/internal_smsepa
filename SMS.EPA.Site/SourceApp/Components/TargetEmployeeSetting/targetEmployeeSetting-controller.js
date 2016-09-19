@@ -2,12 +2,12 @@
 /*global targetEmployeeSettingModule*/
 
 targetEmployeeSettingModule.controller('TargetSettingTemplateController',
-['TargetEmployeeSettingModel', 'enumerationsFactory',
-function (TargetEmployeeSettingModel, enumerationsFactory) {
+['TargetEmployeeSettingModel', 'utilitiesFactory',
+function (TargetEmployeeSettingModel, utilitiesFactory) {
     var vm = this;
     vm.permission = TargetEmployeeSettingModel.permission;
 
-    vm.policyEnum = enumerationsFactory.policy;
+    vm.policyEnum = utilitiesFactory.policy;
 
     vm.dataTab = {
         department: true,

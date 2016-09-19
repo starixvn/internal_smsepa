@@ -2,9 +2,9 @@
     'use strict';
 
     angular.module('flowMngModule').controller('CreateFlowTemplateController', createFlowTemplateController);
-    createFlowTemplateController.$inject = ['$modalInstance', 'FlowTemplateModel', 'CommonModel', 'enumerationsFactory'];
+    createFlowTemplateController.$inject = ['$modalInstance', 'FlowTemplateModel', 'CommonModel', 'utilitiesFactory'];
 
-    function createFlowTemplateController($modalInstance, FlowTemplateModel, CommonModel, enumerationsFactory) {
+    function createFlowTemplateController($modalInstance, FlowTemplateModel, CommonModel, utilitiesFactory) {
         var vm = this;
 
         vm.flowTemplate = {
@@ -13,7 +13,7 @@
             IsActive: true,
             Description: ''
         };
-        vm.policyEnum = enumerationsFactory.policy;
+        vm.policyEnum = utilitiesFactory.policy;
         vm.targetTypes = CommonModel.targetTypes;
 
         vm.cancel = cancel;

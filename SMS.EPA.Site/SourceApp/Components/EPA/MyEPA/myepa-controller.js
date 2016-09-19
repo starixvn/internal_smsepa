@@ -2,12 +2,12 @@
 /*global epaModule*/
 
 epaModule.controller('EmployeeEPAController',
-['SelfEvalutorModel', 'enumerationsFactory', 'baseUrl',
-function (SelfEvalutorModel, enumerationsFactory, baseUrl) {
+['SelfEvalutorModel', 'utilitiesFactory', 'baseUrl',
+function (SelfEvalutorModel, utilitiesFactory, baseUrl) {
     var vm = this;
 
     vm.myEPAs = SelfEvalutorModel.myEPAs;
-    vm.targetTypeEnum = enumerationsFactory.targetType;
+    vm.targetTypeEnum = utilitiesFactory.targetType;
 
     vm.viewEPADetail = function (epa) {
         vm.viewEPADetailUrl = baseUrl + 'SelfEvaluation/Detail/' + epa.EPAId;
@@ -31,10 +31,10 @@ function (SelfEvalutorModel, enumerationsFactory, baseUrl) {
 }]);
 
 epaModule.controller('EmployeeEPAInfoController',
-['$window', '$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel',
-    'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl',
-function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel,
-    utilitiesFactory, enumerationsFactory, historyFactory, baseUrl) {
+['$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel',
+    'utilitiesFactory', 'historyFactory', 'baseUrl',
+function ($timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel,
+    utilitiesFactory, historyFactory, baseUrl) {
     var vm = this;
 
     vm.epaId = parseInt($routeParams.id);
@@ -44,10 +44,10 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
 
     vm.epaInfo = SelfEvalutorModel.epaInfo;
     vm.standardGrades = CommonModel.standardGrades;
-    vm.targetTypeEnum = enumerationsFactory.targetType;
-    vm.statusEndProcessEnum = enumerationsFactory.statusEndProcess;
-    vm.ratingTypeEnum = enumerationsFactory.ratingType;
-    vm.policyEnum = enumerationsFactory.policy;
+    vm.targetTypeEnum = utilitiesFactory.targetType;
+    vm.statusEndProcessEnum = utilitiesFactory.statusEndProcess;
+    vm.ratingTypeEnum = utilitiesFactory.ratingType;
+    vm.policyEnum = utilitiesFactory.policy;
 
     vm.getClassProgress = function (statusEndProcess) {
         return EmployeeEPAModel.getClassProgress(statusEndProcess);

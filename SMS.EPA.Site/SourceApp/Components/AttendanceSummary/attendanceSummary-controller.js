@@ -2,14 +2,14 @@
 /*global attendanceModule*/
 
 attendanceModule.controller('AttendanceSummaryController',
-['$scope', 'AttendanceModel', 'utilitiesFactory', 'CommonModel', 'enumerationsFactory', 'baseUrl', 'lockScreenService', 'historyFactory',
-function ($scope, AttendanceModel, utilitiesFactory, CommonModel, enumerationsFactory, baseUrl, lockScreenService, historyFactory) {
+['$scope', 'AttendanceModel', 'CommonModel', 'utilitiesFactory', 'baseUrl', 'lockScreenService', 'historyFactory',
+function ($scope, AttendanceModel, CommonModel, utilitiesFactory, baseUrl, lockScreenService, historyFactory) {
     var vm = this;
 
     vm.attendanceEmployees = [];
     vm.violationOptions = [];
     vm.permission = AttendanceModel.permission;
-    vm.policyEnum = enumerationsFactory.policy;
+    vm.policyEnum = utilitiesFactory.policy;
     vm.currentPage = AttendanceModel.summaryPaging.currentPage;
     vm.pageSize = AttendanceModel.summaryPaging.pageSize;
 
@@ -176,8 +176,8 @@ function ($scope, $modalInstance, AttendanceModel, utilitiesFactory, employee, s
 }]);
 
 attendanceModule.controller('DetailAttendanceSummaryController',
-['$scope', '$window', '$routeParams', 'AttendanceModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'lockScreenService', 'historyFactory',
-function ($scope, $window, $routeParams, AttendanceModel, CommonModel, utilitiesFactory, enumerationsFactory, lockScreenService, historyFactory) {
+['$scope', '$window', '$routeParams', 'AttendanceModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService', 'historyFactory',
+function ($scope, $window, $routeParams, AttendanceModel, CommonModel, utilitiesFactory, lockScreenService, historyFactory) {
     var vm = this;
 
     vm.currentPage = 1;

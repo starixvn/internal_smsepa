@@ -1,7 +1,12 @@
-﻿'use strict';
-(function (angular) {
-    function EPAByKPIController($window, $timeout, $translate, EPAByKPIModel, EmployeeEPAModel,
-        CommonModel, utilitiesFactory, enumerationsFactory, baseUrl, historyFactory) {
+﻿(function (angular) {
+    'use strict';
+
+    angular.module('epaModule').controller('EPAByKPIController', epaByKPIController);
+    epaByKPIController.$inject = ['$window', '$timeout', '$translate', 'EPAByKPIModel', 'EmployeeEPAModel',
+        'CommonModel', 'utilitiesFactory', 'historyFactory', 'baseUrl'];
+
+    function epaByKPIController($window, $timeout, $translate, EPAByKPIModel, EmployeeEPAModel,
+        CommonModel, utilitiesFactory, historyFactory, baseUrl) {
         var vm = this;
         vm.periods = [];
         vm.targetTemplates = [];
@@ -17,7 +22,7 @@
             evaluatorId: ''
         };
         vm.evaluators = [];
-        vm.RatingType = enumerationsFactory.ratingType;
+        vm.RatingType = utilitiesFactory.ratingType;
         vm.hasRatingByStar = false;
         vm.hasRatingByStar = false;
         vm.showRatingScoreByStar = true;
@@ -58,8 +63,7 @@
         }
 
         function getEvaluatorsByTargetTemplate(periodId, targetTemplateId) {
-            EPAByKPIModel.getEvaluatorsByTargetTemplate(periodId, targetTemplateId)
-            .then(function () {
+            EPAByKPIModel.getEvaluatorsByTargetTemplate(periodId, targetTemplateId).then(function () {
                 vm.evaluators = EPAByKPIModel.evaluators;
             });
         }
@@ -69,8 +73,7 @@
             vm.filter.kpiId = '';
             vm.memberEPAs = [];
 
-            EPAByKPIModel.getKPIToView(filter.periodId, filter.targetTemplateId, filter.evaluatorId)
-            .then(function () {
+            EPAByKPIModel.getKPIToView(filter.periodId, filter.targetTemplateId, filter.evaluatorId).then(function () {
                 vm.kpis = EPAByKPIModel.kpis;
             });
         }
@@ -88,8 +91,7 @@
         }
 
         function query() {
-            EPAByKPIModel.getEmployeeEPAToView(vm.filter.periodId, vm.filter.targetTemplateId, vm.filter.kpiId, vm.filter.evaluatorId)
-            .then(function () {
+            EPAByKPIModel.getEmployeeEPAToView(vm.filter.periodId, vm.filter.targetTemplateId, vm.filter.kpiId, vm.filter.evaluatorId).then(function () {
                 vm.memberEPAs = EPAByKPIModel.memberEPAs;
                 utilitiesFactory.searchOnPage(vm, vm.memberEPAs);
 
@@ -162,11 +164,4 @@
 
         vm.initialize();
     }
-
-    EPAByKPIController.$inject = ['$window', '$timeout', '$translate', 'EPAByKPIModel', 'EmployeeEPAModel',
-        'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'baseUrl', 'historyFactory'];
-
-    angular
-        .module('epaModule')
-        .controller('EPAByKPIController', EPAByKPIController);
 })(angular);

@@ -2,15 +2,15 @@
 /*global targetTemplateModule*/
 
 targetTemplateModule.controller('TargetTemplateController',
-['TargetTemplateModel', 'CommonModel', 'lockScreenService', 'utilitiesFactory', 'enumerationsFactory',
-function (TargetTemplateModel, CommonModel, lockScreenService, utilitiesFactory, enumerationsFactory) {
+['TargetTemplateModel', 'CommonModel', 'lockScreenService', 'utilitiesFactory',
+function (TargetTemplateModel, CommonModel, lockScreenService, utilitiesFactory) {
     var vm = this;
 
     vm.targetTypes = CommonModel.targetTypes;
     vm.targetTemplates = TargetTemplateModel.targetTemplates;
     vm.permission = TargetTemplateModel.permission;
 
-    vm.policyEnum = enumerationsFactory.policy;
+    vm.policyEnum = utilitiesFactory.policy;
 
     vm.filter = {
         targetTypeId: '',
@@ -89,14 +89,14 @@ function (TargetTemplateModel, CommonModel, lockScreenService, utilitiesFactory,
 }]);
 
 targetTemplateModule.controller('CreateTargetTemplateController',
-['$window', '$location', 'TargetTemplateModel', 'CommonModel', 'enumerationsFactory', 'baseUrl', 'historyFactory',
-function ($window, $location, TargetTemplateModel, CommonModel, enumerationsFactory, baseUrl, historyFactory) {
+['$location', 'TargetTemplateModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'baseUrl',
+function ($location, TargetTemplateModel, CommonModel, utilitiesFactory, historyFactory, baseUrl) {
     var vm = this;
     vm.scoreRatingTypeOptions = TargetTemplateModel.scoreRatingTypes;
     vm.permission = TargetTemplateModel.permission;
     vm.ratingTypes = TargetTemplateModel.ratingTypes;
 
-    if (vm.permission !== enumerationsFactory.policy.Host) {
+    if (vm.permission !== utilitiesFactory.policy.Host) {
         $location.path(baseUrl + 'Home/AccessDenied');
     }
 
@@ -170,8 +170,8 @@ function ($routeParams, TargetTemplateModel) {
 }]);
 
 targetTemplateModule.controller('TargetTemplateGeneralInformationController',
-['$scope', '$window', 'TargetTemplateModel', 'CommonModel', 'historyFactory',
-function ($scope, $window, TargetTemplateModel, CommonModel, historyFactory) {
+['$scope', 'TargetTemplateModel', 'CommonModel', 'historyFactory',
+function ($scope, TargetTemplateModel, CommonModel, historyFactory) {
     var vm = this;
 
     vm.scoreRatingTypeOptions = TargetTemplateModel.scoreRatingTypes;
@@ -206,8 +206,8 @@ function ($scope, $window, TargetTemplateModel, CommonModel, historyFactory) {
 }]);
 
 targetTemplateModule.controller('KPIListController',
-['$scope', '$window', '$translate', 'TargetTemplateModel', 'utilitiesFactory', 'historyFactory',
-function ($scope, $window, $translate, TargetTemplateModel, utilitiesFactory, historyFactory) {
+['$scope', '$translate', 'TargetTemplateModel', 'utilitiesFactory', 'historyFactory',
+function ($scope, $translate, TargetTemplateModel, utilitiesFactory, historyFactory) {
     var vm = this;
 
     vm.targetTemplateId = $scope.updateCtrl.targetTemplateId;
@@ -493,8 +493,8 @@ function ($modalInstance, $translate, TargetTemplateModel, targetTemplateId, max
 }]);
 
 targetTemplateModule.controller('DetailTargetTemplateController',
-['$window', '$routeParams', 'TargetTemplateModel', 'utilitiesFactory', 'historyFactory',
-function ($window, $routeParams, TargetTemplateModel, utilitiesFactory, historyFactory) {
+['$routeParams', 'TargetTemplateModel', 'utilitiesFactory', 'historyFactory',
+function ($routeParams, TargetTemplateModel, utilitiesFactory, historyFactory) {
     var vm = this;
 
     vm.targetTemplateId = parseInt($routeParams.id);

@@ -2,15 +2,15 @@
 /*global epaModule*/
 
 epaModule.controller('ViewEPADetailController',
-['$window', '$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl',
-function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonModel, utilitiesFactory, enumerationsFactory, historyFactory, baseUrl) {
+['$timeout', '$routeParams', 'EmployeeEPAModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'baseUrl',
+function ($timeout, $routeParams, EmployeeEPAModel, CommonModel, utilitiesFactory, historyFactory, baseUrl) {
     var vm = this;
 
     vm.epaId = parseInt($routeParams.id);
     vm.exportPDF = $routeParams.exportpdf;
     vm.standardGrades = CommonModel.standardGrades;
-    vm.ratingTypeEnum = enumerationsFactory.ratingType;
-    vm.statusEndProcessEnum = enumerationsFactory.statusEndProcess;
+    vm.ratingTypeEnum = utilitiesFactory.ratingType;
+    vm.statusEndProcessEnum = utilitiesFactory.statusEndProcess;
     vm.isViewDetail = true;
     vm.hasRatingByStar = false;
     vm.showRatingScoreByStar = true;

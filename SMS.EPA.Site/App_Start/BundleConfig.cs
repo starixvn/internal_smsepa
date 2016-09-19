@@ -179,14 +179,13 @@
                             "~/SourceApp/Shared/Directives/epa-datepickerPopup-directive.js",
                             "~/SourceApp/Shared/Directives/epa-numberDot-directive.js",
                             "~/SourceApp/Shared/Directives/epa-searchAutoComplete-directive.js",
-                            "~/SourceApp/Shared/Factories/enumerations-factory.js",
                             "~/SourceApp/Shared/Factories/error-factory.js",
                             "~/SourceApp/Shared/Factories/history-factory.js",
                             "~/SourceApp/Shared/Factories/lockScreen-factory.js",
                             "~/SourceApp/Shared/Factories/notification-factory.js",
+                            "~/SourceApp/Shared/Factories/utilities-factory.js",
                             "~/SourceApp/Shared/epa-filter.js",
-                            "~/SourceApp/Shared/modalconfirm-controller.js",
-                            "~/SourceApp/Shared/utilities-factory.js"));
+                            "~/SourceApp/Shared/modalconfirm-controller.js"));
         }
     }
 }

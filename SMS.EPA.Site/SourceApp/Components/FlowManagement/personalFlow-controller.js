@@ -2,9 +2,9 @@
     'use strict';
 
     angular.module('flowMngModule').controller('PersonalFlowController', personalFlowController);
-    personalFlowController.$inject = ['$scope', '$routeParams', 'FlowSettingModel', 'PersonalFlowModel', 'CommonModel', 'cacheService', 'enumerationsFactory', 'historyFactory'];
+    personalFlowController.$inject = ['$scope', '$routeParams', 'FlowSettingModel', 'PersonalFlowModel', 'CommonModel', 'cacheService', 'utilitiesFactory', 'historyFactory'];
 
-    function personalFlowController($scope, $routeParams, FlowSettingModel, PersonalFlowModel, CommonModel, cacheService, enumerationsFactory, historyFactory) {
+    function personalFlowController($scope, $routeParams, FlowSettingModel, PersonalFlowModel, CommonModel, cacheService, utilitiesFactory, historyFactory) {
         var vm = this;
 
         vm.FlowTemplateId = parseInt($routeParams.id);
@@ -22,7 +22,7 @@
         vm.defaultFlowSettings = [];
         vm.personalFlowSettings = [];
 
-        vm.targetTypeEnum = enumerationsFactory.targetType;
+        vm.targetTypeEnum = utilitiesFactory.targetType;
 
         /// Show or hide list Employee.
         vm.toggleDepartmentDraggableList = function () {

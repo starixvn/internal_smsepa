@@ -188,8 +188,8 @@ function ($timeout, utilitiesFactory) {
     };
 }]);
 
-reportModule.directive('gridEpaDetailReport', ['$timeout', 'utilitiesFactory', 'enumerationsFactory',
-function ($timeout, utilitiesFactory, enumerationsFactory) {
+reportModule.directive('gridEpaDetailReport', ['$timeout', 'utilitiesFactory',
+function ($timeout, utilitiesFactory) {
     var status = {
         NotAvailable: 'N/A',
         Pending: 'Pending'
@@ -241,29 +241,29 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
             }
         }
 
-        if (epaInfo.EPAId > 0 && epaInfo.Process.Self.StatusEndProcess !== enumerationsFactory.processStatusType.Open) {
-            if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId === enumerationsFactory.targetType.SemiAnnual) {
+        if (epaInfo.EPAId > 0 && epaInfo.Process.Self.StatusEndProcess !== utilitiesFactory.processStatusType.Open) {
+            if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId === utilitiesFactory.targetType.SemiAnnual) {
                 result.SelfScore = epaInfo.MonthlyEPA.AverageSelfScoreConverted;
             } else {
                 result.SelfScore = utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore);
             }
         }
 
-        if (epaInfo.EPAId > 0 && epaInfo.Process.Evaluators[0].StatusEndProcess !== enumerationsFactory.processStatusType.Open) {
-            if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId === enumerationsFactory.targetType.SemiAnnual) {
+        if (epaInfo.EPAId > 0 && epaInfo.Process.Evaluators[0].StatusEndProcess !== utilitiesFactory.processStatusType.Open) {
+            if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId === utilitiesFactory.targetType.SemiAnnual) {
                 result.EvaluatorScore = epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted;
             } else {
                 result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators;
             }
         }
 
-        if (epaInfo.EPAId > 0 && epaInfo.Process.Reviewers[0].StatusEndProcess !== enumerationsFactory.processStatusType.Open) {
+        if (epaInfo.EPAId > 0 && epaInfo.Process.Reviewers[0].StatusEndProcess !== utilitiesFactory.processStatusType.Open) {
             result.ReviewerScore = epaInfo.Process.AverageScoreByReviewers;
         }
 
         if (epaInfo.EPAId > 0
             && epaInfo.Process.Managements.length > 0
-            && epaInfo.Process.Managements[0].StatusEndProcess !== enumerationsFactory.processStatusType.Open) {
+            && epaInfo.Process.Managements[0].StatusEndProcess !== utilitiesFactory.processStatusType.Open) {
             result.ManagementScore = epaInfo.Process.AverageScoreByManagements;
         }
 
@@ -405,8 +405,8 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
     };
 }]);
 
-reportModule.directive('gridMonthlyEpaDetailReport', ['$timeout', 'utilitiesFactory', 'enumerationsFactory',
-function ($timeout, utilitiesFactory, enumerationsFactory) {
+reportModule.directive('gridMonthlyEpaDetailReport', ['$timeout', 'utilitiesFactory',
+function ($timeout, utilitiesFactory) {
     var status = {
         NotAvailable: 'N/A',
         Pending: 'Pending'
@@ -443,15 +443,15 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
             Grade: ''
         };
 
-        if (epaInfo.EPAId > 0 && epaInfo.Process.Self.StatusEndProcess !== enumerationsFactory.processStatusType.Open) {
+        if (epaInfo.EPAId > 0 && epaInfo.Process.Self.StatusEndProcess !== utilitiesFactory.processStatusType.Open) {
             result.SelfScore = utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore);
         }
 
-        if (epaInfo.EPAId > 0 && epaInfo.Process.Evaluators[0].StatusEndProcess !== enumerationsFactory.processStatusType.Open) {
+        if (epaInfo.EPAId > 0 && epaInfo.Process.Evaluators[0].StatusEndProcess !== utilitiesFactory.processStatusType.Open) {
             result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators;
         }
 
-        if (epaInfo.EPAId > 0 && epaInfo.Process.Reviewers[0].StatusEndProcess !== enumerationsFactory.processStatusType.Open) {
+        if (epaInfo.EPAId > 0 && epaInfo.Process.Reviewers[0].StatusEndProcess !== utilitiesFactory.processStatusType.Open) {
             result.ReviewerScore = epaInfo.Process.AverageScoreByReviewers;
         }
 

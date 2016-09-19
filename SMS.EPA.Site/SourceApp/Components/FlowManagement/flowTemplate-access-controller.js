@@ -2,9 +2,9 @@
     'use strict';
 
     angular.module('flowMngModule').controller('FlowTemplateController', flowTemplateController);
-    flowTemplateController.$inject = ['FlowTemplateModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'lockScreenService', 'baseUrl'];
+    flowTemplateController.$inject = ['FlowTemplateModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService', 'baseUrl'];
 
-    function flowTemplateController(FlowTemplateModel, CommonModel, utilitiesFactory, enumerationsFactory, lockScreenService, baseUrl) {
+    function flowTemplateController(FlowTemplateModel, CommonModel, utilitiesFactory, lockScreenService, baseUrl) {
         var vm = this;
 
         vm.currentPage = 1;
@@ -15,7 +15,7 @@
         };
         vm.pageSize = 15;
         vm.permission = 0;
-        vm.policyEnum = enumerationsFactory.policy;
+        vm.policyEnum = utilitiesFactory.policy;
         vm.targetTypes = [];
 
         utilitiesFactory.numberEntryList(vm);

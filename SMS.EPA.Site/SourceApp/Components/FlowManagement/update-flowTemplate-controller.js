@@ -2,9 +2,9 @@
     'use strict';
 
     angular.module('flowMngModule').controller('UpdateFlowTemplateController', updateFlowTemplateController);
-    updateFlowTemplateController.$inject = ['$routeParams', 'FlowTemplateModel', 'CommonModel', 'enumerationsFactory', 'cacheService'];
+    updateFlowTemplateController.$inject = ['$routeParams', 'FlowTemplateModel', 'CommonModel', 'utilitiesFactory', 'cacheService'];
 
-    function updateFlowTemplateController($routeParams, FlowTemplateModel, CommonModel, enumerationsFactory, cacheService) {
+    function updateFlowTemplateController($routeParams, FlowTemplateModel, CommonModel, utilitiesFactory, cacheService) {
         var vm = this;
 
         vm.flowTemplateId = parseInt($routeParams.id);
@@ -13,8 +13,8 @@
         vm.remindDay = CommonModel.remindDay;
         vm.permission = FlowTemplateModel.permission;
 
-        vm.policyEnum = enumerationsFactory.policy;
-        vm.targetTypeEnum = enumerationsFactory.targetType;
+        vm.policyEnum = utilitiesFactory.policy;
+        vm.targetTypeEnum = utilitiesFactory.targetType;
 
         vm.tabDepartmentSelected = function () {
             cacheService.setProperty(1);

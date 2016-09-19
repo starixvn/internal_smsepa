@@ -2,10 +2,10 @@
 /*global monthlyPeriodModule*/
 
 monthlyPeriodModule.controller('MonthlyPeriodController',
-['MonthlyPeriodModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl',
-function (MonthlyPeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, historyFactory, baseUrl) {
+['MonthlyPeriodModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'baseUrl',
+function (MonthlyPeriodModel, CommonModel, utilitiesFactory, historyFactory, baseUrl) {
     var vm = this;
-    vm.policyEnum = enumerationsFactory.policy;
+    vm.policyEnum = utilitiesFactory.policy;
     vm.filter = {};
 
     function initFilter() {
@@ -142,11 +142,11 @@ function ($modalInstance, MonthlyPeriodModel) {
 }]);
 
 monthlyPeriodModule.controller('UpdateMonthlyPeriodController',
-['$window', '$routeParams', 'MonthlyPeriodModel', 'enumerationsFactory', 'historyFactory',
-function ($window, $routeParams, MonthlyPeriodModel, enumerationsFactory, historyFactory) {
+['$routeParams', 'MonthlyPeriodModel', 'utilitiesFactory', 'historyFactory',
+function ($routeParams, MonthlyPeriodModel, utilitiesFactory, historyFactory) {
     var vm = this;
 
-    vm.policyEnum = enumerationsFactory.policy;
+    vm.policyEnum = utilitiesFactory.policy;
 
     vm.period = null;
     vm.periodId = parseInt($routeParams.id);
@@ -193,8 +193,8 @@ function ($window, $routeParams, MonthlyPeriodModel, enumerationsFactory, histor
 }]);
 
 monthlyPeriodModule.controller('UpdateBasicInfoMonthlyPeriodController',
-['$scope', '$window', 'MonthlyPeriodModel', 'historyFactory',
-function ($scope, $window, MonthlyPeriodModel, historyFactory) {
+['$scope', 'MonthlyPeriodModel', 'historyFactory',
+function ($scope, MonthlyPeriodModel, historyFactory) {
     var vm = this;
 
     vm.period = {};
@@ -231,8 +231,8 @@ function ($scope, $window, MonthlyPeriodModel, historyFactory) {
 }]);
 
 monthlyPeriodModule.controller('UpdateProcessSettingMonthlyPeriodController',
-['$scope', '$window', 'MonthlyPeriodModel', 'CommonModel', 'historyFactory',
-function ($scope, $window, MonthlyPeriodModel, CommonModel, historyFactory) {
+['$scope', 'MonthlyPeriodModel', 'CommonModel', 'historyFactory',
+function ($scope, MonthlyPeriodModel, CommonModel, historyFactory) {
     var vm = this;
 
     vm.period = {};

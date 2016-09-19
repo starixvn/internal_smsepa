@@ -2,8 +2,8 @@
 /*global periodModule*/
 
 periodModule.controller('EmployeeSettingPeriodController',
-['$scope', '$routeParams', '$window', 'PeriodModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'notificationFactory',
-function ($scope, $routeParams, $window, PeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, notificationFactory) {
+['$scope', '$routeParams', '$window', 'PeriodModel', 'CommonModel', 'utilitiesFactory', 'notificationFactory',
+function ($scope, $routeParams, $window, PeriodModel, CommonModel, utilitiesFactory, notificationFactory) {
     var vm = this;
 
     vm.period = null;
@@ -17,7 +17,7 @@ function ($scope, $routeParams, $window, PeriodModel, CommonModel, utilitiesFact
     utilitiesFactory.numberEntryList(vm);
     utilitiesFactory.getDateFormat(vm);
     vm.selectedAll = false;
-    vm.targetTypeEnum = enumerationsFactory.targetType;
+    vm.targetTypeEnum = utilitiesFactory.targetType;
 
     vm.filter = {
         periodId: null,
@@ -264,20 +264,20 @@ function ($scope, $routeParams, $window, PeriodModel, CommonModel, utilitiesFact
 }]);
 
 periodModule.controller('UpdateEmployeeSettingPeriodController',
-['$scope', '$modalInstance', 'PeriodModel', 'CommonModel', 'enumerationsFactory', 'period', 'selectedEmployees', 'permission',
-function ($scope, $modalInstance, PeriodModel, CommonModel, enumerationsFactory, period, selectedEmployees, permission) {
+['$scope', '$modalInstance', 'PeriodModel', 'CommonModel', 'utilitiesFactory', 'period', 'selectedEmployees', 'permission',
+function ($scope, $modalInstance, PeriodModel, CommonModel, utilitiesFactory, period, selectedEmployees, permission) {
     var vm = this,
         date = new Date();
 
     vm.period = period;
     vm.selectedEmployees = selectedEmployees;
     vm.singleMode = vm.selectedEmployees.length === 1 ? true : false;
-    vm.isEditOnEPAHasMonthly = vm.selectedEmployees[0].Employee.HasMonthlyEPA && vm.period.TargetType.TargetTypeId === enumerationsFactory.targetType.SemiAnnual;
+    vm.isEditOnEPAHasMonthly = vm.selectedEmployees[0].Employee.HasMonthlyEPA && vm.period.TargetType.TargetTypeId === utilitiesFactory.targetType.SemiAnnual;
 
     vm.permission = permission;
     vm.periodDateFormat = PeriodModel.periodDateFormat;
     vm.evaluatorType = PeriodModel.evaluatorType;
-    vm.policyEnum = enumerationsFactory.policy;
+    vm.policyEnum = utilitiesFactory.policy;
 
     var employeeInfo = PeriodModel.getSelectedEmployeeInfo(vm.selectedEmployees);
     vm.selectedEmployeeIds = employeeInfo.selectedEmployeeIds;

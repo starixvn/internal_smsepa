@@ -476,7 +476,6 @@
     <Content Include="SourceApp\Shared\Directives\epa-calendarImage-directive.js" />
     <Content Include="SourceApp\Shared\Directives\epa-addClassToRoleFilter-directive.js" />
     <Content Include="SourceApp\Shared\Directives\epa-searchAutoComplete-directive.js" />
-    <Content Include="SourceApp\Shared\Factories\enumerations-factory.js" />
     <Content Include="SourceApp\Shared\Factories\error-factory.js" />
     <Content Include="SourceApp\Components\EPA\Management\Templates\semiDetail.html" />
     <Content Include="SourceApp\Components\EPA\Management\Templates\semiPerformanceResult.html" />
@@ -626,7 +625,7 @@
     <Content Include="SourceApp\Shared\Templates\InternalError.html" />
     <Content Include="SourceApp\Shared\Templates\ModalConfirmContent.html" />
     <Content Include="SourceApp\Shared\Templates\PageNotFound.html" />
-    <Content Include="SourceApp\Shared\utilities-factory.js" />
+    <Content Include="SourceApp\Shared\Factories\utilities-factory.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

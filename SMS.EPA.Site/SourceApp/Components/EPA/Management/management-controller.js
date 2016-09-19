@@ -3,9 +3,9 @@
 
 epaModule.controller('ManagementController',
 ['$translate', '$location', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel',
-    'utilitiesFactory', 'notificationFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl',
+    'utilitiesFactory', 'notificationFactory', 'historyFactory', 'baseUrl',
 function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, CommonModel,
-    utilitiesFactory, notificationFactory, enumerationsFactory, historyFactory, baseUrl) {
+    utilitiesFactory, notificationFactory, historyFactory, baseUrl) {
     var vm = this;
 
     vm.permission = 0;
@@ -15,8 +15,8 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     vm.selectedAll = false;
     vm.averageScore = 0;
     vm.isEndProcessAll = false;
-    vm.policyEnum = enumerationsFactory.policy;
-    vm.targetTypeEnum = enumerationsFactory.targetType;
+    vm.policyEnum = utilitiesFactory.policy;
+    vm.targetTypeEnum = utilitiesFactory.targetType;
 
     vm.filter = {};
 
@@ -361,19 +361,17 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 }]);
 
 epaModule.controller('MemberEPAInfoOfManagentController',
-['$window', '$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel',
-    'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl',
-function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManagementModel, CommonModel,
-    utilitiesFactory, enumerationsFactory, historyFactory, baseUrl) {
+['$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'baseUrl',
+function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManagementModel, CommonModel, utilitiesFactory, historyFactory, baseUrl) {
     var vm = this;
 
     vm.permission = 0;
     vm.epaId = parseInt($routeParams.id);
     vm.standardGrades = CommonModel.standardGrades;
-    vm.policyEnum = enumerationsFactory.policy;
-    vm.targetTypeEnum = enumerationsFactory.targetType;
-    vm.statusEndProcessEnum = enumerationsFactory.statusEndProcess;
-    vm.ratingTypeEnum = enumerationsFactory.ratingType;
+    vm.policyEnum = utilitiesFactory.policy;
+    vm.targetTypeEnum = utilitiesFactory.targetType;
+    vm.statusEndProcessEnum = utilitiesFactory.statusEndProcess;
+    vm.ratingTypeEnum = utilitiesFactory.ratingType;
     vm.dataSaved = false;
     vm.evaluatedDate = null;
     vm.finalScore = null;

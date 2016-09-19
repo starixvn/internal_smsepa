@@ -3,10 +3,10 @@
 
     angular.module('disciplineSummaryModule').controller('DisciplineSummaryByPeriodController', disciplineSummaryByPeriodController);
     disciplineSummaryByPeriodController.$inject = ['$scope', 'DisciplineSummaryModel', 'CommonModel', 'lockScreenService',
-        'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl'];
+        'utilitiesFactory', 'historyFactory', 'baseUrl'];
 
     function disciplineSummaryByPeriodController($scope, DisciplineSummaryModel, CommonModel, lockScreenService,
-        utilitiesFactory, enumerationsFactory, historyFactory, baseUrl) {
+        utilitiesFactory, historyFactory, baseUrl) {
         var vm = this;
 
         vm.currentPage = 1;
@@ -96,7 +96,7 @@
                 vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
             });
 
-            CommonModel.getPeriod(enumerationsFactory.targetType.SemiAnnual, true).then(function () {
+            CommonModel.getPeriod(utilitiesFactory.targetType.SemiAnnual, true).then(function () {
                 vm.periods = CommonModel.periods;
             });
 

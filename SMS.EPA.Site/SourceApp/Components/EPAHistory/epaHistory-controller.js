@@ -2,13 +2,13 @@
 /*global epaHistoryModule*/
 
 epaHistoryModule.controller('EPAHistoryController',
-['$window', '$routeParams', 'EPAHistoryModel', 'utilitiesFactory', 'CommonModel', 'baseUrl', 'historyFactory', 'lockScreenService', 'enumerationsFactory',
-function ($window, $routeParams, EPAHistoryModel, utilitiesFactory, CommonModel, baseUrl, historyFactory, lockScreenService, enumerationsFactory) {
+['$routeParams', 'EPAHistoryModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl',
+function ($routeParams, EPAHistoryModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
     var vm = this;
     vm.epas = EPAHistoryModel.epas;
     vm.periodOptions = CommonModel.periodOptions;
     vm.onlyEmployeeRole = EPAHistoryModel.onlyEmployeeRole;
-    vm.targetTypeEnum = enumerationsFactory.targetType;
+    vm.targetTypeEnum = utilitiesFactory.targetType;
 
     vm.filter = {
         periodId: $routeParams.periodId ? $routeParams.periodId : null,
