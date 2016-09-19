@@ -399,4 +399,10 @@
     <Setting Key="Menu_GetByEmployeeId" SpName="Menu_GetByEmployeeId" DbName="SMSEPA" Plain="0">
     </Setting>
   </Function>
+  <Function Name="Discipline Summary">
+    <Setting Key="EmployeeDisciplineSummary_GetByPeriod" SpName="EmployeeDisciplineSummary_GetByPeriod" DbName="SMSEPA" Plain="0">
+    </Setting>
+    <Setting Key="EmployeeDisciplineSummary_GetByEPA" SpName="EmployeeDisciplineSummary_GetByEPA" DbName="SMSEPA" Plain="0">
+    </Setting>
+  </Function>
 </Functions>

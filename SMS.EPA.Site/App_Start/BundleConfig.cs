@@ -167,7 +167,11 @@
                             "~/SourceApp/Components/MonthlyEPAHistory/monthlyEPAHistory-controller.js",
                             "~/SourceApp/Components/MonthlyEPAHistory/monthlyEPAHistory-factory.js",
                             "~/SourceApp/Components/MonthlyEPAHistory/monthlyEPAHistory-model.js",
-                            "~/SourceApp/Components/EPA/UpdateFinalScore/updateFinalScore-controller.js"));
+                            "~/SourceApp/Components/EPA/UpdateFinalScore/updateFinalScore-controller.js",
+                            "~/SourceApp/Components/DisciplineSummary/disciplineSummary-factory.js",
+                            "~/SourceApp/Components/DisciplineSummary/disciplineSummary-model.js",
+                            "~/SourceApp/Components/DisciplineSummary/disciplineSummaryByPeriod-directive.js",
+                            "~/SourceApp/Components/DisciplineSummary/disciplineSummaryByPeriod-controller.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/Directives/epa-addClassToRoleFilter-directive.js",

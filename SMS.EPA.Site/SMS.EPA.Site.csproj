@@ -184,6 +184,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\API\DisciplineSummaryController.cs" />
     <Compile Include="Controllers\API\AttendanceSummaryController.cs" />
     <Compile Include="Controllers\API\BaseController.cs" />
     <Compile Include="Controllers\API\CommonController.cs" />
@@ -409,6 +410,11 @@
     <Content Include="SourceApp\Components\Department\Templates\view.html" />
     <Content Include="SourceApp\Components\Department\Templates\index.html" />
     <Content Include="SourceApp\Components\Department\Templates\tree.html" />
+    <Content Include="SourceApp\Components\DisciplineSummary\disciplineSummaryByPeriod-directive.js" />
+    <Content Include="SourceApp\Components\DisciplineSummary\disciplineSummary-factory.js" />
+    <Content Include="SourceApp\Components\DisciplineSummary\disciplineSummary-model.js" />
+    <Content Include="SourceApp\Components\DisciplineSummary\disciplineSummaryByPeriod-controller.js" />
+    <Content Include="SourceApp\Components\DisciplineSummary\Templates\disciplineSummaryByPeriod.html" />
     <Content Include="SourceApp\Components\Employee\employee-directive.js" />
     <Content Include="SourceApp\Components\Employee\employee.css">
       <DependentUpon>employee.less</DependentUpon>
@@ -658,6 +664,7 @@
     <Content Include="Libs\angular-filter\dist\angular-filter.zip" />
     <Content Include="Libs\angular-filter\license.md" />
     <Content Include="Content\Site\_evaluationProcess.less" />
+    <Content Include="ExcelTemplates\DisciplineSummaryByPeriodReport.xls" />
     <None Include="Libs\angular-resource.min.js.map" />
     <None Include="Libs\angular-route.min.js.map" />
     <None Include="Libs\angular.min.js.map" />
@@ -686,7 +693,7 @@
     <Content Include="SourceApp\Components\TargetEmployeeSetting\targetEmployeeSetting.less" />
     <Content Include="SourceApp\Components\Period\period.less" />
     <Content Include="SourceApp\Components\EPA\epa.less" />
-    <Content Include="SourceApp\Components\Period\ExcelTemplates\EmployeeFlowSettingReport.xls" />
+    <Content Include="ExcelTemplates\EmployeeFlowSettingReport.xls" />
     <Content Include="Views\Emails\StartDateEmailToHR.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -738,8 +745,8 @@
     <Content Include="Views\Emails\EmailNotifyChangeSetting.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="SourceApp\Components\AttendanceSummary\ExcelTemplates\DisciplineSummaryReport.xls" />
-    <Content Include="SourceApp\Components\AttendanceSummary\ExcelTemplates\DisciplineDetailReport.xls" />
+    <Content Include="ExcelTemplates\DisciplineSummaryReport.xls" />
+    <Content Include="ExcelTemplates\DisciplineDetailReport.xls" />
     <Content Include="SourceApp\Components\EPA\_ratingByStar.less" />
   </ItemGroup>
   <ItemGroup>

@@ -4,11 +4,11 @@
     using System.Collections.Generic;
     using System.Configuration;
     using System.Linq;
-    using NexFB.Core.Utilities;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
+    using SMS.EPA.Core.Utilities;
     using SMS.EPA.Criteria.Period;
     using SMS.EPA.Criteria.Period.GenerationEvaluation;
     using SMS.EPA.Model;

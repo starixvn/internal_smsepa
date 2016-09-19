@@ -1,14 +1,14 @@
-﻿namespace NexFB.Core.Utilities
+﻿namespace SMS.EPA.Core.Utilities
 {
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Linq;
     using System.Reflection;
-    using NexFB.Core.Utilities.NPOIExtensions;
     using NPOI.HSSF.UserModel;
     using NPOI.SS.UserModel;
     using NPOI.SS.Util;
+    using SMS.EPA.Core.Utilities.NPOIExtensions;
 
     public class ExcelTemplateWriter
     {
@@ -176,5 +176,10 @@
         }
 
         #endregion Row related methods
+
+        public void CreateFreezePane(int colSplit, int rowSplit)
+        {
+            this._sheet.CreateFreezePane(colSplit, rowSplit);
+        }
     }
 }

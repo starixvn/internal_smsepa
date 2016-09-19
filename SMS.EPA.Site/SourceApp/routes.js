@@ -166,3 +166,10 @@ var monthlyPeriodModule = angular.module("monthlyPeriodModule", ['ngRoute'])
     $routeProvider.when('/MonthlyPeriod/Update/:id',
     { templateUrl: baseUrl + 'SourceApp/Components/MonthlyPeriod/Templates/edit.html', caseInsensitiveMatch: true });
 }]);
+
+angular.module('disciplineSummaryModule', ['ngRoute'])
+.config(['$routeProvider', function ($routeProvider) {
+    var baseUrl = $("base").first().attr("href");
+    $routeProvider.when('/DisciplineSummaryByPeriod/Index',
+    { templateUrl: baseUrl + 'SourceApp/Components/DisciplineSummary/Templates/disciplineSummaryByPeriod.html', caseInsensitiveMatch: true });
+}]);

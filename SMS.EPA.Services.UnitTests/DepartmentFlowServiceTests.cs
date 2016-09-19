@@ -11,9 +11,9 @@
     [TestFixture]
     public class DepartmentFlowServiceTests
     {
-        private DepartmentFlowService departmentFlowService;
-        private IFlowSettingRepository flowSettingRepository;
-        private IBaseRepository baseRepository;
+        //// private DepartmentFlowService departmentFlowService;
+        //// private IFlowSettingRepository flowSettingRepository;
+        //// private IBaseRepository baseRepository;
 
         #region Helpers
 

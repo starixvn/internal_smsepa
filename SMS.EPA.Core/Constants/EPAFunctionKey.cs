@@ -61,5 +61,7 @@
         public const string MonthlyEPAHistory = "MonthlyEPAHistory";
 
         public const string UpdateFinalScore = "UpdateFinalScore";
+
+        public const string DisciplineSummaryByPeriod = "DisciplineSummaryByPeriod";
     }
 }

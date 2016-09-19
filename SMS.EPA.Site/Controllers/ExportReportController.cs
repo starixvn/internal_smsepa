@@ -2,12 +2,14 @@
 {
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Web.Mvc;
     using SMS.EPA.Core.Services;
-    using SMS.EPA.Core.Services.Interfaces;
+    using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.AttendanceSummary;
     using SMS.EPA.Criteria.Period;
     using SMS.EPA.Criteria.Report;
+    using SMS.EPA.Model;
     using SMS.EPA.Model.AttendanceSummary;
     using SMS.EPA.Model.Period;
     using SMS.EPA.Model.Report.EPADetail;
@@ -18,19 +20,21 @@
 
     public class ExportReportController : Controller
     {
-        private const string EmployeeFlowSettingReportTemplatePath = @"~\SourceApp\Components\Period\ExcelTemplates\EmployeeFlowSettingReport.xls";
-        private const string DisciplineSummaryTemplatePath = @"~\SourceApp\Components\AttendanceSummary\ExcelTemplates\DisciplineSummaryReport.xls";
-        private const string DisciplineDetailTemplatePath = @"~\SourceApp\Components\AttendanceSummary\ExcelTemplates\DisciplineDetailReport.xls";
+        private const string EmployeeFlowSettingReportTemplatePath = @"~\ExcelTemplates\EmployeeFlowSettingReport.xls";
+        private const string DisciplineSummaryTemplatePath = @"~\ExcelTemplates\DisciplineSummaryReport.xls";
+        private const string DisciplineDetailTemplatePath = @"~\ExcelTemplates\DisciplineDetailReport.xls";
+        private const string DisciplineSummaryByPeriodTemplatePath = @"~\ExcelTemplates\DisciplineSummaryByPeriodReport.xls";
 
         private readonly IPeriodService periodService;
         private readonly IReportService reportService;
         private readonly IAttendanceSummaryService attendanceService;
         private readonly IEPADetailReportService epaDetailReportService;
         private readonly IMonthlyEPADetailReportService monthlyEPADetailReportService;
+        private readonly IDisciplineSummaryService disciplineSummaryService;
         private ISessionService sessionService;
 
         public ExportReportController()
-            : this(null, null, null, null, null, null)
+            : this(null, null, null, null, null, null, null)
         {
         }
 
@@ -40,6 +44,7 @@
             IAttendanceSummaryService attendanceService,
             IEPADetailReportService epaDetailReportService,
             IMonthlyEPADetailReportService monthlyEPADetailReportService,
+            IDisciplineSummaryService disciplineSummaryService,
             ISessionService sessionService)
         {
             this.periodService = periodService ?? new PeriodService();
@@ -47,6 +52,7 @@
             this.attendanceService = attendanceService ?? new AttendanceSummaryService();
             this.epaDetailReportService = epaDetailReportService ?? new EPADetailReportService();
             this.monthlyEPADetailReportService = monthlyEPADetailReportService ?? new MonthlyEPADetailReportService();
+            this.disciplineSummaryService = disciplineSummaryService ?? new DisciplineSummaryService();
             this.sessionService = sessionService ?? new SessionService();
         }
 
@@ -124,7 +130,7 @@
                 criteria.ApproverId = sessionService.CurrentUser.EmployeeId;
                 attendanceEmployees = attendanceService.GetAttendanceSummary(criteria);
 
-                if (attendanceEmployees != null)
+                if (attendanceEmployees != null && attendanceEmployees.Any())
                 {
                     string templatePath = Server.MapPath(DisciplineSummaryTemplatePath);
                     attendanceService.ExportAttendanceSummaryReport(criteria, attendanceEmployees, templatePath);
@@ -143,10 +149,26 @@
                 criteria.ApproverId = sessionService.CurrentUser.EmployeeId;
                 attendanceViolations = attendanceService.GetAttendanceDetail(criteria);
 
-                if (attendanceViolations != null)
+                if (attendanceViolations != null && attendanceViolations.Any())
                 {
                     string templatePath = Server.MapPath(DisciplineDetailTemplatePath);
                     attendanceService.ExportAttendanceDetailReport(criteria, attendanceViolations, templatePath);
+                }
+            }
+
+            return new EmptyResult();
+        }
+
+        public ActionResult ExportDisciplineSummaryByPeriodReport(GetDisciplineSummaryByPeriodCriteria criteria)
+        {
+            if (criteria != null)
+            {
+                IEnumerable<DisciplineSummaryModel> employeeDisciplines = disciplineSummaryService.GetDisciplineSummaryByPeriod(criteria);
+
+                if (employeeDisciplines != null && employeeDisciplines.Any())
+                {
+                    string templatePath = Server.MapPath(DisciplineSummaryByPeriodTemplatePath);
+                    disciplineSummaryService.ExportDisciplineSummaryByPeriodReport(criteria, employeeDisciplines, templatePath);
                 }
             }
 

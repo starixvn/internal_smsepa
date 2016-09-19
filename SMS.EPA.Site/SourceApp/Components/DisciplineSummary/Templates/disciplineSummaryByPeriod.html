@@ -1,0 +1,115 @@
+﻿<div class="col-sm-12" ng-controller="DisciplineSummaryByPeriodController as disciplineSummaryByPeriodCtrl">
+    <div class="sub-header">
+        <ul class="row breadcrumb">
+            <li class="current" data-translate="DisciplineSummary"></li>
+        </ul>
+    </div>
+    <form novalidate class="row form-horizontal filter">
+        <div class="form-group">
+            <label class="col-sm-1 control-label" data-translate="Department"></label>
+            <div class="col-sm-2 field">
+                <select class="department-select form-control" ng-model="disciplineSummaryByPeriodCtrl.filter.departmentId"
+                        ng-options="opt.DepartmentId as opt.Name for opt in disciplineSummaryByPeriodCtrl.treeDepartment">
+                    <option value="">-- Select a Department / Section --</option>
+                </select>
+            </div>
+            <label class="col-sm-1 control-label" data-translate="Category"></label>
+            <div class="col-sm-2">
+                <select class="form-control" ng-model="disciplineSummaryByPeriodCtrl.filter.isLocal">
+                    <option value="">-- {{"All" | translate}} --</option>
+                    <option value="false">{{"Expat" | translate}}</option>
+                    <option value="true">{{"Local" | translate}}</option>
+                </select>
+            </div>
+            <label class="col-sm-1 control-label" data-translate="Employee"></label>
+            <div class="col-sm-1 field">
+                <input class="form-control employee-search" ng-model="disciplineSummaryByPeriodCtrl.searchEmployee"
+                       placeholder="Enter full name or nick name" epa-search-auto-complete search-employees="disciplineSummaryByPeriodCtrl.getEmployee()"
+                       ng-change="disciplineSummaryByPeriodCtrl.unSelectEmployee()" employee="disciplineSummaryByPeriodCtrl.filter.employee" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label" data-translate="Period"></label>
+            <div class="col-sm-2 field">
+                <select class="form-control" ng-model="disciplineSummaryByPeriodCtrl.filter.periodId"
+                        ng-options="opt.PeriodId as opt.Name for opt in disciplineSummaryByPeriodCtrl.periods">
+                    <option value="">-- All --</option>
+                </select>
+            </div>
+            <label class="col-sm-1 control-label" data-translate="Reason"></label>
+            <div class="col-sm-2 field">
+                <select class="form-control" ng-model="disciplineSummaryByPeriodCtrl.filter.disciplineTypeId"
+                        ng-options="opt.Id as opt.Name for opt in disciplineSummaryByPeriodCtrl.disciplineTypes">
+                    <option value="">-- Select a Reason --</option>
+                </select>
+            </div>
+            <div class="col-sm-1">
+                <input type="button" value="Search" class="button" ng-click="disciplineSummaryByPeriodCtrl.query(disciplineSummaryByPeriodCtrl.filter)" />
+            </div>
+        </div>
+    </form>
+    <table class="row table table-bordered table-striped">
+        <thead>
+            <tr class="header-table">
+                <th colspan="15">
+                    <input class="btnExcel pull-right" export-discipline-summary-by-period-report
+                           ng-click="disciplineSummaryByPeriodCtrl.exportReport(disciplineSummaryByPeriodCtrl.filter)"
+                           type="button" title="Export to Excel">
+                    <input type="text" ng-model="disciplineSummaryByPeriodCtrl.searchKey" ng-change="disciplineSummaryByPeriodCtrl.search()" class="search-inline-textbox search pull-right">
+                </th>
+            </tr>
+            <tr class="headerName">
+                <th data-translate="SymbolCount"></th>
+                <th data-translate="Section"></th>
+                <th data-translate="Code"></th>
+                <th data-translate="NickName"></th>
+                <th>No time in &amp; out</th>
+                <th>Tardiness</th>
+                <th>Unpaid leave</th>
+                <th>Undertime</th>
+                <th>Misconduction case</th>
+                <th data-translate="MinusScoringSystem"></th>
+                <th data-translate="MinusScoringApprover"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr dir-paginate="employee in disciplineSummaryByPeriodCtrl.filteredItems | itemsPerPage: disciplineSummaryByPeriodCtrl.pageSize" pagination-id="summary" current-page="disciplineSummaryByPeriodCtrl.currentPage">
+                <td class="text-center" ng-bind="disciplineSummaryByPeriodCtrl.getIndex($index, disciplineSummaryByPeriodCtrl.currentPage, disciplineSummaryByPeriodCtrl.pageSize)"></td>
+                <td class="text-center" ng-bind="employee.Employee.Group.GroupName"></td>
+                <td class="text-center" ng-bind="employee.Employee.Code"></td>
+                <td>
+                    <span ng-bind="employee.Employee.NickName" popover-avatar avatar-src="{{employee.Employee.Avatar}}"></span>
+                </td>
+                <td class="text-right" ng-bind="employee.MissingCheckInOut"></td>
+                <td class="text-right" ng-bind="employee.LateIn"></td>
+                <td class="text-right" ng-bind="employee.UnpaidLeave"></td>
+                <td class="text-right" ng-bind="employee.WorkingUndertime"></td>
+                <td class="text-right" ng-bind="employee.OtherDisciplines"></td>
+                <td class="text-right">
+                    <span class="red" ng-show="employee.SystemSubtractScore > 0">-{{employee.SystemSubtractScore | number: 1}}</span>
+                    <span ng-show="employee.SystemSubtractScore == 0">{{employee.SystemSubtractScore | number: 1}}</span>
+                </td>
+                <td class="text-right">
+                    <span class="red" ng-show="employee.ApproverSubtractScore > 0">-{{employee.ApproverSubtractScore | number: 1}}</span>
+                    <span ng-show="employee.ApproverSubtractScore == 0">{{employee.ApproverSubtractScore | number: 1}}</span>
+                </td>
+            </tr>
+            <tr ng-show="disciplineSummaryByPeriodCtrl.filteredItems.length == 0">
+                <td class="empty-result" colspan="15" data-translate="EmptyResult"></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="15" class="paging">
+                    <span data-translate="Show"></span>
+                    <select class="dropdown-entry form-control" ng-model="disciplineSummaryByPeriodCtrl.pageSize"
+                            ng-options="entry for entry in disciplineSummaryByPeriodCtrl.entries"></select>
+                    <span data-translate="entries"></span>
+                    <div class="pull-right custom-paging">
+                        <dir-pagination-controls pagination-id="summary" boundary-links="true"></dir-pagination-controls>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

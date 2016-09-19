@@ -52,6 +52,7 @@
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Authentication\LoginModel.cs" />
+    <Compile Include="DisciplineSummary\DisciplineSummaryModel.cs" />
     <Compile Include="EmployeeEPA\EmployeeOtherViolationDetailModel.cs" />
     <Compile Include="EmployeeEPA\EPAEmployeeModel.cs" />
     <Compile Include="EmployeeEPA\EPAPeriodModel.cs" />
