@@ -1,8 +1,7 @@
-﻿(function (flowMngModule) {
+﻿(function (angular) {
     'use strict';
 
-    flowMngModule.factory('PersonalFlowModel', personalFlowModel);
-
+    angular.module('flowMngModule').factory('PersonalFlowModel', personalFlowModel);
     personalFlowModel.$inject = ['$modal', 'FlowSettingModel', 'personalFlowFactory', 'notificationFactory', 'errorFactory'];
 
     function personalFlowModel($modal, FlowSettingModel, personalFlowFactory, notificationFactory, errorFactory) {
@@ -124,4 +123,4 @@
 
         return flowModel;
     }
-})(angular.module('flowMngModule'));
+})(angular);

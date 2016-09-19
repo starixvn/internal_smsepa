@@ -1,8 +1,7 @@
-﻿(function (flowMngModule) {
+﻿(function (angular) {
     'use strict';
 
-    flowMngModule.factory('flowTemplateFactory', flowTemplateFactory);
-
+    angular.module('flowMngModule').factory('flowTemplateFactory', flowTemplateFactory);
     flowTemplateFactory.$inject = ['$http', 'baseUrl'];
 
     function flowTemplateFactory($http, baseUrl) {
@@ -35,4 +34,4 @@
             }
         };
     }
-})(angular.module('flowMngModule'));
+})(angular);

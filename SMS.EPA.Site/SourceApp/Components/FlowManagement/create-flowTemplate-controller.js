@@ -1,6 +1,5 @@
 ﻿(function (angular) {
     'use strict';
-    /*global flowMngModule*/
 
     angular.module('flowMngModule').controller('CreateFlowTemplateController', createFlowTemplateController);
     createFlowTemplateController.$inject = ['$modalInstance', 'FlowTemplateModel', 'CommonModel', 'enumerationsFactory'];

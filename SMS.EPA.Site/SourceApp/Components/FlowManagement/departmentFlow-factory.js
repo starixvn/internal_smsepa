@@ -1,8 +1,7 @@
-﻿(function (flowMngModule) {
+﻿(function (angular) {
     'use strict';
 
-    flowMngModule.factory('deptFlowFactory', deptFlowFactory);
-
+    angular.module('flowMngModule').factory('deptFlowFactory', deptFlowFactory);
     deptFlowFactory.$inject = ['$http', 'baseUrl'];
 
     function deptFlowFactory($http, baseUrl) {
@@ -19,7 +18,7 @@
                 });
             },
             getDepartmentFlow: function (flowTemplateId) {
-                return $http.get(baseUrl + 'api/DepartmentFlow/GetDepartmentFlow', {
+                return $http.get(baseUrl + 'api/DepartmentFlow/GetDepartmentFlowByFlowTemplateId', {
                     params: {
                         flowTemplateId: flowTemplateId
                     }
@@ -38,4 +37,4 @@
             }
         };
     }
-})(angular.module('flowMngModule'));
+})(angular);

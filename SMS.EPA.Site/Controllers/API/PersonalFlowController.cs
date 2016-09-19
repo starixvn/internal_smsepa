@@ -27,7 +27,7 @@
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Read)]
-        public IEnumerable<PersonalFlowModel> GetPersonalFlow(int flowTemplateId)
+        public IEnumerable<PersonalFlowModel> GetPersonalFlowByFlowTemplateId(int flowTemplateId)
         {
             return personalFlowService.GetPersonalFlowByFlowTemplateId(flowTemplateId);
         }

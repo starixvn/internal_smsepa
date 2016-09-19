@@ -13,21 +13,21 @@ var employeeModule = angular.module("employeeModule", ['ngRoute'])
 
 var commonModule = angular.module("commonModule", ['ngRoute']);
 
-var kpiModule = angular.module("kpiModule", ['ngRoute'])
+angular.module("kpiModule", ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
     var baseUrl = $("base").first().attr("href");
     $routeProvider.when('/KPI/Index',
     { templateUrl: baseUrl + 'SourceApp/Components/KPI/Templates/index.html', caseInsensitiveMatch: true });
 }]);
 
-var kpiGroupModule = angular.module("kpiGroupModule", ['ngRoute'])
+angular.module("kpiGroupModule", ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
     var baseUrl = $("base").first().attr("href");
     $routeProvider.when('/KPIGroup/Index',
     { templateUrl: baseUrl + 'SourceApp/Components/KPIGroup/Templates/index.html', caseInsensitiveMatch: true });
 }]);
 
-var roleModule = angular.module("roleModule", ['ngRoute'])
+angular.module("roleModule", ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
     var baseUrl = $("base").first().attr("href");
     $routeProvider.when('/Role/Index',
@@ -47,13 +47,11 @@ var targetTemplateModule = angular.module("targetTemplateModule", ['ngRoute'])
     { templateUrl: baseUrl + 'SourceApp/Components/TargetTemplate/Templates/detail.html', caseInsensitiveMatch: true });
 }]);
 
-var flowMngModule = angular.module("flowMngModule", ['ngRoute'])
+angular.module("flowMngModule", ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
     var baseUrl = $("base").first().attr("href");
     $routeProvider.when('/Flow/Index',
     { templateUrl: baseUrl + 'SourceApp/Components/FlowManagement/Templates/index.html', caseInsensitiveMatch: true });
-    $routeProvider.when('/Flow/Create',
-    { templateUrl: baseUrl + 'SourceApp/Components/FlowManagement/Templates/create.html', caseInsensitiveMatch: true });
     $routeProvider.when('/Flow/Update/:id',
     { templateUrl: baseUrl + 'SourceApp/Components/FlowManagement/Templates/update.html', caseInsensitiveMatch: true });
 }]);
@@ -65,7 +63,7 @@ var targetEmployeeSettingModule = angular.module("targetEmployeeSettingModule", 
     { templateUrl: baseUrl + 'SourceApp/Components/TargetEmployeeSetting/Templates/index.html', caseInsensitiveMatch: true });
 }]);
 
-var departmentModule = angular.module("departmentModule", ['ngRoute'])
+angular.module("departmentModule", ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
     var baseUrl = $("base").first().attr("href");
     $routeProvider.when('/Department/Index',
@@ -120,7 +118,7 @@ var periodModule = angular.module("periodModule", ['ngRoute'])
     { templateUrl: baseUrl + 'SourceApp/Components/Period/Templates/edit.html', caseInsensitiveMatch: true });
 }]);
 
-var dashboardModule = angular.module("dashboardModule", ['ngRoute'])
+angular.module("dashboardModule", ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
     var baseUrl = $("base").first().attr("href");
     $routeProvider.when('/',

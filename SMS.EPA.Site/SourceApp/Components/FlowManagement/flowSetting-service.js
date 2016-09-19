@@ -1,15 +1,19 @@
-﻿'use strict';
-/*global flowMngModule*/
+﻿(function (angular) {
+    'use strict';
 
-flowMngModule.service('cacheService', function () {
-    var property;
+    angular.module('flowMngModule').service('cacheService', cacheService);
+    cacheService.$inject = [];
 
-    return {
-        getProperty: function () {
-            return property;
-        },
-        setProperty: function (value) {
-            property = value;
-        }
-    };
-});
+    function cacheService() {
+        var property;
+
+        return {
+            getProperty: function () {
+                return property;
+            },
+            setProperty: function (value) {
+                property = value;
+            }
+        };
+    }
+})(angular);

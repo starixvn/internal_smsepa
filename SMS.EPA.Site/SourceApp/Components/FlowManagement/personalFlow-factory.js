@@ -1,14 +1,13 @@
-﻿(function (flowMngModule) {
+﻿(function (angular) {
     'use strict';
 
-    flowMngModule.factory('personalFlowFactory', personalFlowFactory);
-
+    angular.module('flowMngModule').factory('personalFlowFactory', personalFlowFactory);
     personalFlowFactory.$inject = ['$http', 'baseUrl'];
 
     function personalFlowFactory($http, baseUrl) {
         return {
             getPersonalFlow: function (flowTemplateId) {
-                return $http.get(baseUrl + 'api/PersonalFlow/GetPersonalFlow', {
+                return $http.get(baseUrl + 'api/PersonalFlow/GetPersonalFlowByFlowTemplateId', {
                     params: {
                         flowTemplateId: flowTemplateId
                     }
@@ -44,4 +43,4 @@
             }
         };
     }
-})(angular.module('flowMngModule'));
+})(angular);
