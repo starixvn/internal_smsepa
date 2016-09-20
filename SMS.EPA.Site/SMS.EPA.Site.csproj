@@ -664,6 +664,7 @@
     <Content Include="Libs\angular-filter\license.md" />
     <Content Include="Content\Site\_evaluationProcess.less" />
     <Content Include="ExcelTemplates\DisciplineSummaryByPeriodReport.xls" />
+    <Content Include="Content\Site\components\_panel.less" />
     <None Include="Libs\angular-resource.min.js.map" />
     <None Include="Libs\angular-route.min.js.map" />
     <None Include="Libs\angular.min.js.map" />

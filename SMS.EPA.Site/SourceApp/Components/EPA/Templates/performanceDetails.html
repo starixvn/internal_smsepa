@@ -6,8 +6,8 @@
     </div>
 </div>
 <div class="list-kpi-rating" ng-repeat="kpiGroup in memberEPAInfoCtrl.epaInfo.KPIGroups"
-     ng-init="memberEPAInfoCtrl.collapses[kpiGroup.Name] = false;"
-     ng-show="kpiGroup.KPIs.length > 0">
+     ng-init="memberEPAInfoCtrl.collapses[kpiGroup.Name] = false;" ng-show="kpiGroup.KPIs.length > 0">
+
     <div class="boxtitle col-sm-12" ng-click="memberEPAInfoCtrl.collapses[kpiGroup.Name] = !memberEPAInfoCtrl.collapses[kpiGroup.Name]">
         <div class="col-sm-8 kpiGroup-name">{{kpiGroup.Name}} <strong>({{kpiGroup.Weight | customScore}} pts)</strong></div>
     </div>

@@ -78,16 +78,14 @@ epaModule.directive('autoCollapse', ['$timeout', function ($timeout) {
     return {
         restrict: 'A',
         scope: {
-            collapse: "="
+            collapsed: "="
         },
         link: function (scope, el, attrs) {
-            var autoCollapse = attrs.autoCollapse;
-
-            if (autoCollapse === 'true') {
+            if (attrs.collapsed === 'true') {
                 $timeout(function () {
                     $(el).collapse('hide');
-                    scope.collapse = true;
-                    attrs.$set('autoCollapse', false);
+                    scope.collapsed = true;
+                    attrs.$set('collapsed', false);
                 }, 5000);
             }
         }

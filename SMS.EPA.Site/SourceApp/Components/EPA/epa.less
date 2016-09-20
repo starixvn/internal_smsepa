@@ -106,6 +106,10 @@
         color: #333;
     }
 
+    .note {
+        color: #df1501;
+    }
+
     .list-group-item {
         padding: 0;
         border-top: none;
@@ -126,15 +130,9 @@
 
             .row-item {
                 padding: 5px 0;
-                /*.col-score {
-                    width: 8%;
-                }*/
+
                 .score-star-rating {
                     display: inline-block;
-                }
-
-                .note {
-                    color: #df1501;
                 }
 
                 .textarea-comment {
@@ -157,7 +155,11 @@
     }
 }
 
-.general-info-section {
+.general-info {
+    .row {
+        margin: 0;
+    }
+
     .img-user {
         border: 1px solid #d9d9d9;
         background-color: #fff;
@@ -176,15 +178,13 @@
     }
 
     .row-item {
+        padding: 5px 0;
+
         &.line {
             border-bottom: 1px solid #e5e3e3;
 
             [class^=col-] {
                 padding: 0;
-            }
-
-            &:last-child {
-                border-bottom: none;
             }
         }
     }
@@ -420,7 +420,6 @@
 
         tr td {
             background: #ebe4d4;
-            width: 20%;
         }
     }
 

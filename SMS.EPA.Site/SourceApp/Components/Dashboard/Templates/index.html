@@ -1,33 +1,40 @@
 ﻿<div class="row dashboard" ng-controller="DashboardController as dashboardCtrl">
     <div class="row">
-        <div ng-init="dashboardCtrl.collapses['PersonalProfile'] = false;">
-            <div class="boxtitle first" data-translate="PersonalProfile"
-                 ng-click="dashboardCtrl.collapses['PersonalProfile'] = !dashboardCtrl.collapses['PersonalProfile']"></div>
-            <div class="boxcontent" collapse="dashboardCtrl.collapses['PersonalProfile']"
-                 ng-include src="'/SourceApp/Components/Dashboard/Templates/personalProfile.html'"></div>
+        <div class="panel panel-default">
+            <div class="panel-heading" data-toggle="collapse" data-target=".personal-profile">
+                <h4 class="panel-title text-uppercase" data-translate="PersonalProfile"></h4>
+            </div>
+            <div class="panel-collapse collapse in personal-profile">
+                <div class="panel-body" ng-include src="'/SourceApp/Components/Dashboard/Templates/personalProfile.html'"></div>
+            </div>
         </div>
     </div>
     <div ng-include src="'/SourceApp/Components/Dashboard/Templates/evaluationProcess.html'"></div>
     <div class="row">
-        <div ng-init="dashboardCtrl.collapses['MyEPA'] = false;" ng-if="!dashboardCtrl.employee.HasMonthlyEPA">
-            <div class="boxtitle" data-translate="MyEPAs"
-                 ng-click="dashboardCtrl.collapses['MyEPA'] = !dashboardCtrl.collapses['MyEPA']"></div>
-            <div class="boxcontent" collapse="dashboardCtrl.collapses['MyEPA']"
-                 ng-include src="'/SourceApp/Components/Dashboard/Templates/myEPA.html'"></div>
+        <div class="panel panel-default" ng-if="!dashboardCtrl.employee.HasMonthlyEPA">
+            <div class="panel-heading" data-toggle="collapse" data-target=".my-epas">
+                <h4 class="panel-title" data-translate="MyEPAs"></h4>
+            </div>
+            <div class="panel-collapse my-epas collapse in">
+                <div class="panel-body" ng-include src="'/SourceApp/Components/Dashboard/Templates/myEPA.html'"></div>
+            </div>
         </div>
-        <div ng-init="dashboardCtrl.collapses['EPAs'] = false;" ng-if="dashboardCtrl.employee.HasMonthlyEPA">
-            <div class="boxtitle" data-translate="EPAs"
-                 ng-click="dashboardCtrl.collapses['EPAs'] = !dashboardCtrl.collapses['EPAs']"></div>
-            <div class="boxcontent" collapse="dashboardCtrl.collapses['EPAs']">
-                <div class="target-tabset" ng-show="dashboardCtrl.employee.HasMonthlyEPA">
-                    <tabset id="EPATab">
-                        <tab heading="My EPAs" class="tab-cursor">
-                            <div ng-include src="'/SourceApp/Components/Dashboard/Templates/myEPA.html'"></div>
-                        </tab>
-                        <tab heading="Monthly EPAs" class="tab-cursor">
-                            <div ng-include src="'/SourceApp/Components/Dashboard/Templates/monthlyEPA.html'"></div>
-                        </tab>
-                    </tabset>
+        <div class="panel panel-default" ng-if="dashboardCtrl.employee.HasMonthlyEPA">
+            <div class="panel-heading" data-toggle="collapse" data-target=".epas">
+                <h4 class="panel-title" data-translate="EPAs"></h4>
+            </div>
+            <div class="panel-collapse epas collapse in">
+                <div class="panel-body">
+                    <div class="target-tabset">
+                        <tabset id="EPATab">
+                            <tab heading="My EPAs" class="tab-cursor">
+                                <div ng-include src="'/SourceApp/Components/Dashboard/Templates/myEPA.html'"></div>
+                            </tab>
+                            <tab heading="Monthly EPAs" class="tab-cursor">
+                                <div ng-include src="'/SourceApp/Components/Dashboard/Templates/monthlyEPA.html'"></div>
+                            </tab>
+                        </tabset>
+                    </div>
                 </div>
             </div>
         </div>

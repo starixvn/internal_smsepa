@@ -7,28 +7,36 @@
     <div class="col-sm-12">
         <div class="row epa-form">
             <div class="text-center epa-title" data-translate="EPATilte"></div>
-            <div class="col-sm-12 list-group-item bottom-buffer general-info-section" ng-init="memberEPAInfoCtrl.collapses['GeneralInfo'] = false;">
-                <div class="boxtitle" data-translate="GeneralInfo"
-                     ng-click="memberEPAInfoCtrl.collapses['GeneralInfo'] = !memberEPAInfoCtrl.collapses['GeneralInfo']"></div>
-                <div class="boxcontent" collapse="memberEPAInfoCtrl.collapses['GeneralInfo']"
-                     ng-include src="'/SourceApp/Components/EPA/Templates/generalInformation.html'"></div>
-            </div>
-            <div class="col-sm-12 list-group-item bottom-buffer evaluation-process-section"
-                 ng-init="memberEPAInfoCtrl.collapses['EvaluationProcess'] = false;">
-                <div class="boxtitle text-uppercase" data-translate="EvaluationProcess"
-                     ng-click="memberEPAInfoCtrl.collapses['EvaluationProcess'] = !memberEPAInfoCtrl.collapses['EvaluationProcess']"></div>
-                <div class="boxcontent" auto-collapse="true" collapse="memberEPAInfoCtrl.collapses['EvaluationProcess']">
-                    <div class="row row-item">
-                        <div ng-include src="'/SourceApp/Components/EPA/Templates/evaluationProcess.html'"></div>
-                    </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading" data-toggle="collapse" data-target=".generalInfo">
+                    <h4 class="panel-title" data-translate="GeneralInfo"></h4>
+                </div>
+                <div class="panel-collapse collapse in generalInfo">
+                    <div class="panel-body general-info" ng-include src="'/SourceApp/Components/EPA/Templates/generalInformation.html'"></div>
                 </div>
             </div>
-            <div class="col-sm-12 list-group-item bottom-buffer summary-section" ng-init="memberEPAInfoCtrl.collapses['PerformanceResult'] = false;">
-                <div class="boxtitle text-uppercase" data-translate="PerformanceResult"
-                     ng-click="memberEPAInfoCtrl.collapses['PerformanceResult'] = !memberEPAInfoCtrl.collapses['PerformanceResult']"></div>
-                <div class="boxcontent" collapse="memberEPAInfoCtrl.collapses['PerformanceResult']"
-                     ng-include src="'/SourceApp/Components/EPA/Reviewer/Templates/performanceResult.html'"></div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading" data-toggle="collapse" data-target=".evaluationProcess">
+                    <h4 class="panel-title text-uppercase" data-translate="EvaluationProcess"></h4>
+                </div>
+                <div class="panel-collapse collapse in evaluationProcess" auto-collapse data-collapsed="true">
+                    <div class="panel-body evaluation-process-section" ng-include src="'/SourceApp/Components/EPA/Templates/evaluationProcess.html'"></div>
+                </div>
             </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading" data-toggle="collapse" data-target=".performanceResult">
+                    <h4 class="panel-title text-uppercase" data-translate="PerformanceResult"></h4>
+                </div>
+                <div class="panel-collapse collapse in performanceResult">
+                    <div class="panel-body summary-section" ng-include src="'/SourceApp/Components/EPA/Reviewer/Templates/performanceResult.html'"></div>
+                </div>
+            </div>
+
+            <div>&ensp;</div>
+
             <div class="col-sm-12 list-group-item">
                 <div ng-include src="'/SourceApp/Components/EPA/Templates/performanceDetails.html'"></div>
             </div>
