@@ -76,7 +76,7 @@ BEGIN
 		GROUP BY PeriodId
 		) AS peF ON peF.PeriodId = pe.PeriodId
 		LEFT JOIN (
-		SELECT PeriodId
+		SELECT epa1.PeriodId
 			,COUNT(EmployeeId) AS TotalEmployeesUnfinished
 		FROM dbo.EPA AS epa1 WITH (NOLOCK)
 			INNER JOIN dbo.Period AS period1 WITH (NOLOCK) ON epa1.PeriodId = period1.PeriodId

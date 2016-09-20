@@ -55,7 +55,7 @@
                 Promotion: 5
             };
 
-        return {
+        var utilities = {
             dateTimeFormatString: dateTimeFormatString,
             epaStatus: epaStatus,
             formatString: formatString,
@@ -69,7 +69,6 @@
             openPopupEndDate: openPopupEndDate,
             openPopupStartDate: openPopupStartDate,
             pageOption: pageOption,
-            parseFloat: parseFloat,
             policy: policy,
             processStatusType: processStatusType,
             processType: processType,
@@ -82,6 +81,14 @@
             statusEndProcess: statusEndProcess,
             targetType: targetType
         };
+
+        utilities.parseFloat = function (input) {
+            var result = input ? parseFloat(input).toFixed(2) : 0;
+
+            return parseFloat(result);
+        };
+
+        return utilities;
 
         function dateTimeFormatString() {
             return dateTimeFormatString;
@@ -162,12 +169,6 @@
 
             vm.calendar.startDateOpened = true;
             vm.calendar.endDateOpened = false;
-        }
-
-        function parseFloat(input) {
-            var result = input ? parseFloat(input).toFixed(2) : 0;
-
-            return parseFloat(result);
         }
 
         function readLess(item) {

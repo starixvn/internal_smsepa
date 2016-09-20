@@ -63,7 +63,7 @@ BEGIN
 		OR d.WorkingUndertime > 0
 		OR d.UnpaidLeaveAbsent > 0
 
-	SELECT DISTINCT empF.EPAId
+	SELECT DISTINCT d.EPAId
 		,(CASE srt.ScoreRatingTypeId
 			WHEN 1 THEN srt.Attendance - (d.SystemSubtractScore + d.OtherDisciplines)
 			WHEN 2 THEN srt.Attendance - d.OtherDisciplines
@@ -77,6 +77,7 @@ BEGIN
 			WHEN 2 THEN srt.Attendance - d.OtherDisciplines
 			ELSE 0 END
 			) AS DisciplineScore
+		,d.OtherDisciplines
 	FROM #EmployeeDisciplineScore AS d
 		INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON d.EPAId = epa.EPAId
 		INNER JOIN dbo.ScoreRatingType AS srt WITH (NOLOCK) ON epa.ScoreRatingTypeId = srt.ScoreRatingTypeId
@@ -85,6 +86,7 @@ BEGIN
 	SELECT epat.EPAId
 		,srt.Attendance AS SystemDisciplineScore
 		,srt.Attendance AS DisciplineScore
+		,0 AS OtherDisciplines
 	FROM #EPA AS epat
 		INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON epat.EPAId = epa.EPAId
 		INNER JOIN dbo.ScoreRatingType AS srt ON epa.ScoreRatingTypeId = srt.ScoreRatingTypeId

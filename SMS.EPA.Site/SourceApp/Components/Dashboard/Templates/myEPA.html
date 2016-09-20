@@ -40,9 +40,11 @@
                     <div ng-show="myEPA.EPAId > 0 && !myEPA.Period.IsEndPeriod" data-translate="Pending"></div>
                     <div ng-show="myEPA.EPAId < 0" ng-bind="'-'"></div>
                 </div>
-                <div class="col-percent-40" ng-if="myEPA.EPAId > 0 && myEPA.Period.IsEndPeriod && myEPA.HasOtherViolation">
+                <div class="col-percent-40" ng-if="myEPA.EPAId > 0 && myEPA.Period.IsEndPeriod && myEPA.OtherDisciplines > 0">
                     <a class="glyphicon icon-alert" href="" ng-click="dashboardCtrl.viewOtherViolationDetail(myEPA)"
-                       ng-attr-title='{{"ViewOtherViolation" | translate}}'></a>
+                       ng-if="myEPA.HasOtherViolation" ng-attr-title='{{"ViewOtherViolation" | translate}}'></a>
+                    <a class="glyphicon icon-alert" href=""
+                       ng-if="!myEPA.HasOtherViolation" ng-attr-title='Misconduction case: {{myEPA.OtherDisciplines}}'></a>
                 </div>
             </td>
             <td class="text-center">

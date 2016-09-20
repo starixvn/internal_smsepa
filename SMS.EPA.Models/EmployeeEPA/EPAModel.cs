@@ -62,6 +62,8 @@
 
         public bool HasMaxScoreOnKPI { get; set; }
 
+        public float OtherDisciplines { get; set; }
+
         public bool HasOtherViolation { get; set; }
 
         public EvaluationProcessModel Process { get; set; }

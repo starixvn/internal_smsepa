@@ -62,6 +62,7 @@ BEGIN
 		EPAId INT
 		,SystemDisciplineScore FLOAT
 		,ApproverSubtractScore FLOAT
+		,OtherDisciplines FLOAT
 		)
 
 	SET @ToDay = CAST(GETDATE() AS DATE)

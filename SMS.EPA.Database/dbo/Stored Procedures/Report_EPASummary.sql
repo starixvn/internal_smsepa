@@ -54,6 +54,7 @@ BEGIN
 		EPAId INT
 		,SystemDisciplineScore FLOAT
 		,ApproverSubtractScore FLOAT
+		,OtherDisciplines FLOAT
 		)
 
 	DECLARE @Ids NVARCHAR(MAX)

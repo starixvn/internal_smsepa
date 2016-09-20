@@ -65,7 +65,6 @@
     <Folder Include="dbo\Functions\" />
     <Folder Include="dbo\Stored Procedures\" />
     <Folder Include="dbo\User Defined Types\" />
-    <Folder Include="Security\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\EvaluationGlobalSetting.sql" />
@@ -192,7 +191,6 @@
     <Build Include="dbo\Stored Procedures\Sync_Department.sql" />
     <Build Include="dbo\Stored Procedures\Sync_CalculateLeftRightGroupDepartment.sql" />
     <Build Include="dbo\Stored Procedures\Sync_AttendanceViolation.sql" />
-    <Build Include="dbo\Stored Procedures\Sync_Attendance.sql" />
     <Build Include="dbo\Stored Procedures\SettingEmployeeFlow_Set.sql" />
     <Build Include="dbo\Stored Procedures\SettingEmployeeFlow_GetById.sql" />
     <Build Include="dbo\Stored Procedures\SettingEmployeeFlow_Get.sql" />
@@ -361,7 +359,6 @@
     <Build Include="dbo\Stored Procedures\EmployeeDisciplineSummary_GetByPeriod.sql" />
     <Build Include="dbo\Stored Procedures\EmployeeDisciplineSummary_GetByEPA.sql" />
     <Build Include="dbo\Stored Procedures\Department_Get.sql" />
-    <Build Include="Security\RoleMemberships.sql" />
     <Build Include="dbo\Stored Procedures\EpaPeriod_EditEmployeeSetting_CheckEmployeeOverlap_xpre.sql" />
     <Build Include="dbo\Stored Procedures\EpaPeriod_AddEmployee_CheckEmployeeOverlap_xpre.sql" />
   </ItemGroup>

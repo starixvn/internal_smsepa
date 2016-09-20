@@ -22,6 +22,7 @@ BEGIN
 		EPAId INT
 		,SystemDisciplineScore FLOAT
 		,ApproverSubtractScore FLOAT
+		,OtherDisciplines FLOAT
 		)
 
 	SET @ToDay = CAST(GETDATE() AS DATE)
@@ -65,6 +66,7 @@ BEGIN
 						ELSE ds.ApproverSubtractScore END
 						) END
 				) AS DisciplineScore
+			,ds.OtherDisciplines
 			,srt.Attendance AS MaxDisciplineScore
 			,(CASE 
 				WHEN tbl.NumberOtherViolation > 0 THEN 1
@@ -142,9 +144,11 @@ BEGIN
 				INNER JOIN @TblEPAIds AS epat1 ON epa1.EPAId = epat1.Id
 				INNER JOIN dbo.Period AS period1 WITH (NOLOCK) ON epa1.PeriodId = period1.PeriodId
 				AND period1.IsActive = 1
-				INNER JOIN dbo.EmployeeOtherViolation AS ov WITH (NOLOCK) ON epa1.EmployeeId = ov.EmpId
-				AND CAST(ov.WorkDate AS DATE) BETWEEN CAST(period1.AttendanceStartDate AS DATE)
+				INNER JOIN dbo.EmployeeDiscipline AS dis WITH (NOLOCK) ON epa1.EmployeeId = dis.EmpId
+				AND CAST(dis.WorkDate AS DATE) BETWEEN CAST(period1.AttendanceStartDate AS DATE)
 					AND CAST(period1.AttendanceEndDate AS DATE)
+				INNER JOIN dbo.DisciplineType AS dtype WITH (NOLOCK) ON dis.DisciplineTypeId = dtype.DisciplineTypeId
+				AND dtype.DisciplineTypeId < 0
 			GROUP BY epa1.EPAId
 			) AS tbl ON epa.EPAId = tbl.EPAId
 		
@@ -154,6 +158,7 @@ BEGIN
 			,0 AS HasMonthlyEPA
 			,0 AS HasDisciplineScore
 			,0 AS DisciplineScore
+			,0 AS OtherDisciplines
 			,0 AS MaxDisciplineScore
 			,0 AS HasOtherViolation
 			,1 AS IsEndProcessBySelf

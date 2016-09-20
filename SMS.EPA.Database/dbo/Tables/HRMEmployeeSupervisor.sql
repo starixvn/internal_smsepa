@@ -8,6 +8,9 @@
     [OrderNo]      SMALLINT     NULL,
     [OrderCode]    VARCHAR (10) NULL,
     [SyncDate]     DATETIME     NULL,
+    [IsDeleted]    BIT          NULL,
     CONSTRAINT [PK_HRMEmployeeSupervisor] PRIMARY KEY CLUSTERED ([OwnerId] ASC, [EmpId] ASC, [ActionType] ASC, [RequestType] ASC)
 );
+
+
 

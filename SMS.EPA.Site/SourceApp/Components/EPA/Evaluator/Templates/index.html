@@ -129,9 +129,11 @@
                                 <span ng-show="!memberEPA.DisciplineScore" ng-bind="'-'"></span>
                             </div>
                         </div>
-                        <div class="col-percent-40" ng-if="memberEPA.HasOtherViolation">
+                        <div class="col-percent-40" ng-if="memberEPA.OtherDisciplines > 0">
                             <a class="glyphicon icon-alert" href="" ng-click="evaluatorCtrl.viewOtherViolationDetail(memberEPA)"
-                               ng-attr-title='{{"ViewOtherViolation" | translate}}'></a>
+                               ng-if="memberEPA.HasOtherViolation" ng-attr-title='{{"ViewOtherViolation" | translate}}'></a>
+                            <a class="glyphicon icon-alert" href=""
+                               ng-if="!memberEPA.HasOtherViolation" ng-attr-title='Misconduction case: {{memberEPA.OtherDisciplines}}'></a>
                         </div>
                     </td>
                     <td class="text-center">

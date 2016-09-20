@@ -23,6 +23,7 @@ BEGIN
 		EPAId INT
 		,SystemDisciplineScore FLOAT
 		,DisciplineScore FLOAT
+		,OtherDisciplines FLOAT
 		)
 
 	SET @Yesterday = DATEADD(DAY, - 1, GETDATE())
