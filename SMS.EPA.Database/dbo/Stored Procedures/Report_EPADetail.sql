@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[Report_EPADetail] @EmployeeId INT
+﻿
+CREATE PROCEDURE [dbo].[Report_EPADetail] @EmployeeId INT
 	,@PeriodId INT = NULL
 	,@PhaseIds NVARCHAR(10) = NULL
 	,@DepartmentId INT = NULL
@@ -315,7 +316,7 @@ BEGIN
 	FROM #TblEPAs
 
 	INSERT INTO #DisciplineScores
-	EXECUTE dbo.EpaAttendanceSummary_GetByEPA @Ids
+	EXECUTE dbo.EmployeeDisciplineSummary_GetByEPA @Ids
 
 	-- Phase selected
 	SELECT CAST(lkd.Value AS TINYINT) AS PhaseId

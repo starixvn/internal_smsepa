@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[TargetTemplate_Update] @TargetTemplateId INT
+﻿
+CREATE PROCEDURE [dbo].[TargetTemplate_Update] @TargetTemplateId INT
 	,@KPIs VARCHAR(MAX) = ''
 	,@ModifiedBy INT
 	,@ErrCode INT = 0 OUTPUT
@@ -94,7 +95,7 @@ BEGIN
 	END CATCH
 
 	DECLARE @Data NVARCHAR(MAX)
-	DECLARE @OldData NVARCHAR(MAX)
+		,@OldData NVARCHAR(MAX)
 
 	EXEC @OldData = [dbo].[fncGetDataForWriteLog_TargetTemplate_UpdateKPI] @ObjectId = @TargetTemplateId
 

@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[KPI_UpdateRequiredEvaluate] @KPIId INT
+﻿
+CREATE PROCEDURE [dbo].[KPI_UpdateRequiredEvaluate] @KPIId INT
 	,@IsRequiredEvaluate BIT = 0
 	,@ModifiedBy INT
 	,@ErrCode INT = 0 OUTPUT

@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[EPA_UpdateFinalScoreEndEvaluation] @ModifiedBy INT
+﻿
+CREATE PROCEDURE [dbo].[EPA_UpdateFinalScoreEndEvaluation] @ModifiedBy INT
 	,@EPAScores VARCHAR(MAX)
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg VARCHAR(200) = '' OUTPUT
@@ -67,9 +68,6 @@ BEGIN
 			INNER JOIN #EPAScore AS epaS ON epa.EPAId = epaS.EPAId
 
 		COMMIT TRANSACTION
-
-		SELECT @ErrCode = 0
-			,@ErrMsg = ''
 	END TRY
 
 	BEGIN CATCH

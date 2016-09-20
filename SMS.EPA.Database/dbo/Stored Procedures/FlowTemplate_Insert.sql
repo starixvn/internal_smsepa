@@ -1,8 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.FlowTemplate_Insert    Script Date: 5/16/2016 2:20:09 PM ******/
-/****** Object:  Stored Procedure dbo.FlowTemplate_Insert    Script Date: 5/16/2016 2:15:31 PM ******/
-/****** Object:  Stored Procedure dbo.FlowTemplate_Insert    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.FlowTemplate_Insert    Script Date: 4/6/2016 11:27:46 AM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[FlowTemplate_Insert] @FlowTemplateId INT OUTPUT
 	,@Name NVARCHAR(200)
 	,@Description NVARCHAR(500) = NULL
@@ -23,7 +19,7 @@ Param's Explanation:
 
 */
 BEGIN
-	SET NOCOUNT ON;
+	SET NOCOUNT ON
 
 	IF EXISTS (
 			SELECT 1
@@ -50,15 +46,15 @@ BEGIN
 	END
 
 	BEGIN TRY
-		BEGIN TRANSACTION;
+		BEGIN TRANSACTION
 
 		INSERT INTO dbo.FlowTemplate (
 			[Name]
-			,[TargetTypeId]
+			,TargetTypeId
 			,[Description]
-			,[IsActive]
-			,[CreatedBy]
-			,[CreatedDate]
+			,IsActive
+			,CreatedBy
+			,CreatedDate
 			)
 		VALUES (
 			@Name
@@ -71,21 +67,26 @@ BEGIN
 
 		SELECT @FlowTemplateId = SCOPE_IDENTITY();
 
-		COMMIT TRANSACTION;
-
 		DECLARE @Data NVARCHAR(MAX)
 
-		EXEC @Data = [dbo].[fncGetDataForWriteLog] @ObjectId = @FlowTemplateId, @ObjectType = 6
-		EXEC [dbo].[LogDetail_Insert] @ActorId = @CreatedBy, @SpName = 'FlowTemplate_Insert', @ObjectId = @FlowTemplateId, @ObjectTypeId = 6, @Data = @Data, @OldData = NULL, @ObjectIds = NULL
+		EXEC @Data = dbo.fncGetDataForWriteLog @ObjectId = @FlowTemplateId
+			,@ObjectType = 6
 
-		SELECT @ErrCode = 0
-			,@ErrMsg = ''
+		EXEC dbo.LogDetail_Insert @ActorId = @CreatedBy
+			,@SpName = 'FlowTemplate_Insert'
+			,@ObjectId = @FlowTemplateId
+			,@ObjectTypeId = 6
+			,@Data = @Data
+			,@OldData = NULL
+			,@ObjectIds = NULL
+
+		COMMIT TRANSACTION
 	END TRY
 
 	BEGIN CATCH
 		ROLLBACK TRANSACTION
 
 		SELECT @ErrCode = 1
-			,@ErrMsg = N'Insert Flow Template unsuccessfully.'
+			,@ErrMsg = N'Insert unsuccessfully.'
 	END CATCH
 END

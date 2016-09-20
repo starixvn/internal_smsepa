@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[TargetTemplate_RemoveKPIGroup] @TargetTemplateId INT
+﻿
+CREATE PROCEDURE [dbo].[TargetTemplate_RemoveKPIGroup] @TargetTemplateId INT
 	,@KPIGroupId INT
 	,@ModifiedBy INT
 	,@ErrCode INT = 0 OUTPUT
@@ -57,8 +58,5 @@ BEGIN
 			,@Data = @Data
 			,@OldData = @OldData
 			,@ObjectIds = NULL
-
-		SELECT @ErrCode = 0
-			,@ErrMsg = ''
 	END
 END

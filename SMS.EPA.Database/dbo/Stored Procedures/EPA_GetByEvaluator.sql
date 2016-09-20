@@ -1,7 +1,4 @@
 ﻿
-/****** Object:  Stored Procedure dbo.EPA_GetByEvaluator    Script Date: 5/16/2016 2:20:13 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_GetByEvaluator    Script Date: 5/16/2016 2:15:34 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_GetByEvaluator    Script Date: 5/16/2016 1:59:44 PM ******/
 CREATE PROCEDURE [dbo].[EPA_GetByEvaluator] @EvaluatorId INT
 	,@EmployeeIds VARCHAR(MAX) = NULL
 	,@GroupId INT = NULL
@@ -47,7 +44,7 @@ BEGIN
 		AND pcEva.EvaluatorId = @EvaluatorId
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 		INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
-	WHERE epa.[Status] = 0 -- inprogress
+	WHERE epa.[Status] = 0  -- inprogress
 		AND (
 			@EmployeeIds IS NULL
 			OR epa.EmployeeId IN (

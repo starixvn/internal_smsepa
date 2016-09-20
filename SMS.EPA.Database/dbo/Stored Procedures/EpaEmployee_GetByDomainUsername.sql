@@ -1,9 +1,5 @@
-﻿/****** Object:  Stored Procedure dbo.EpaEmployee_GetByDomainUsername    Script Date: 5/16/2016 2:20:07 PM ******/
-/****** Object:  Stored Procedure dbo.EpaEmployee_GetByDomainUsername    Script Date: 5/16/2016 2:15:29 PM ******/
-/****** Object:  Stored Procedure dbo.EpaEmployee_GetByDomainUsername    Script Date: 5/16/2016 1:59:43 PM ******/
-/****** Object:  Stored Procedure dbo.EpaEmployee_GetByDomainUsername    Script Date: 4/6/2016 11:27:44 AM ******/
-
-CREATE PROCEDURE dbo.EpaEmployee_GetByDomainUsername --'sms\thuthi'
+﻿
+CREATE PROCEDURE [dbo].[EpaEmployee_GetByDomainUsername] --'sms\thuthi'
 	@DomainUsername NVARCHAR(50) = NULL
 AS
 /*

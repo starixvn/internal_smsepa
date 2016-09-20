@@ -1,8 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EPA_UpdateScore    Script Date: 5/16/2016 2:20:11 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_UpdateScore    Script Date: 5/16/2016 2:15:34 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_UpdateScore    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_UpdateScore    Script Date: 4/6/2016 11:27:42 AM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[EPA_UpdateScore] @EPAId INT
 	,@ProcessId TINYINT
 	,@EmployeeId INT
@@ -82,7 +78,7 @@ BEGIN
 
 		RETURN
 	END
-	
+
 	IF EXISTS (
 			SELECT 1
 			FROM dbo.EPA AS epa WITH (NOLOCK)
@@ -148,9 +144,11 @@ BEGIN
 	END CATCH
 
 	DECLARE @Data NVARCHAR(MAX)
-	DECLARE @OldData NVARCHAR(MAX)
+		,@OldData NVARCHAR(MAX)
 
-	EXEC @OldData = [dbo].[fncGetDataForWriteLog_EPA_UpdateScore] @EPAId = @EPAId, @ProcessId = @ProcessId, @EvaluatorId = @EvaluatorId
+	EXEC @OldData = [dbo].[fncGetDataForWriteLog_EPA_UpdateScore] @EPAId = @EPAId
+		,@ProcessId = @ProcessId
+		,@EvaluatorId = @EvaluatorId
 
 	BEGIN TRY
 		BEGIN TRANSACTION
@@ -189,13 +187,19 @@ BEGIN
 			,ModifiedDate = @ModifiedDate
 		WHERE EPAId = @EPAId
 
+		EXEC @Data = [dbo].[fncGetDataForWriteLog_EPA_UpdateScore] @EPAId = @EPAId
+			,@ProcessId = @ProcessId
+			,@EvaluatorId = @EvaluatorId
+
+		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy
+			,@SpName = 'EPA_UpdateScore'
+			,@ObjectId = @EPAId
+			,@ObjectTypeId = 10
+			,@Data = @Data
+			,@OldData = @OldData
+			,@ObjectIds = NULL
+
 		COMMIT TRANSACTION
-
-		EXEC @Data = [dbo].[fncGetDataForWriteLog_EPA_UpdateScore] @EPAId = @EPAId, @ProcessId = @ProcessId, @EvaluatorId = @EvaluatorId
-		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy, @SpName = 'EPA_UpdateScore', @ObjectId = @EPAId, @ObjectTypeId = 10, @Data = @Data, @OldData = @OldData, @ObjectIds = NULL
-
-		SELECT @ErrCode = 0
-			,@ErrMsg = ''
 	END TRY
 
 	BEGIN CATCH

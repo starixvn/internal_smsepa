@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[EPA_SemiAnnual_GetMonthly] @EPAIds NVARCHAR(MAX)
+﻿
+CREATE PROCEDURE [dbo].[EPA_SemiAnnual_GetMonthly] @EPAIds NVARCHAR(MAX)
 AS
 /*
 Created: 20150904@Tim.Trinh
@@ -119,21 +120,21 @@ BEGIN
 			,period.[Name]
 			,period.StartDate
 			,(CASE 
-			WHEN tt.TargetTypeId IN (2, 3) THEN (CASE 
-					WHEN CAST(pc.EndDate AS DATE) >= CAST(period.EndDate AS DATE) THEN (CASE 
-							WHEN CAST(pc.EndDate AS DATE) < @ToDay THEN 1
-							ELSE 0 END
-							)
-					ELSE (CASE 
-							WHEN CAST(period.EndDate AS DATE) <= @ToDay THEN 1
-							ELSE 0 END
-							) END
-					)
-			ELSE (CASE 
-					WHEN CAST(pc.EndDate AS DATE) < @ToDay THEN 1
-					ELSE 0 END
-					) END
-			) AS IsEndPeriod
+				WHEN tt.TargetTypeId IN (2, 3) THEN (CASE 
+						WHEN CAST(period.EndDate AS DATE) >= CAST(period.EndDate AS DATE) THEN (CASE 
+								WHEN CAST(period.EndDate AS DATE) < @ToDay THEN 1
+								ELSE 0 END
+								)
+						ELSE (CASE 
+								WHEN CAST(period.EndDate AS DATE) <= @ToDay THEN 1
+								ELSE 0 END
+								) END
+						)
+				ELSE (CASE 
+						WHEN CAST(period.EndDate AS DATE) < @ToDay THEN 1
+						ELSE 0 END
+						) END
+				) AS IsEndPeriod
 			,tt.TargetTypeId
 			,tt.[Name] AS TargetTypeName
 			,srt.ScoreRatingTypeId
@@ -145,14 +146,6 @@ BEGIN
 			,srt.Attendance
 		FROM #TblEPA AS tbl
 			INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON tbl.EPAId = epa.EPAId
-			INNER JOIN (
-		SELECT pc1.EPAId
-			,MIN(pc1.StartDate) AS StartDate
-			,MAX(pc1.EndDate) AS EndDate
-		FROM dbo.EPAProcess AS pc1 WITH (NOLOCK)
-			INNER JOIN #TblEPA AS epaId1 ON pc1.EPAId = epaId1.EPAId
-		GROUP BY pc1.EPAId
-		) AS pc ON epa.EPAId = pc.EPAId
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
 			INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 			AND period.IsActive = 1
@@ -175,5 +168,3 @@ BEGIN
 		DROP TABLE #TblSemiEPA
 	END
 END
-
-

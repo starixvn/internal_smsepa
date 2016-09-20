@@ -1,8 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EPA_AdjustScoreByReviewerOrManagement    Script Date: 5/16/2016 2:20:13 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_AdjustScoreByReviewerOrManagement    Script Date: 5/16/2016 2:15:34 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_AdjustScoreByReviewerOrManagement    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_AdjustScoreByReviewerOrManagement    Script Date: 4/6/2016 11:27:40 AM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[EPA_AdjustScoreByReviewerOrManagement] @EPADetails NVARCHAR(MAX) = ''
 	,@ModifiedBy INT
 	,@ErrCode INT = 0 OUTPUT
@@ -128,8 +124,6 @@ BEGIN
 			AND pc.ProcessId = dt.ProcessId
 			AND pc.EvaluatorId = dt.EvaluatorId
 
-		COMMIT TRANSACTION
-
 		DECLARE @Data NVARCHAR(MAX)
 
 		EXEC @Data = [dbo].[fncGetDataForWriteLog_EPA_AdjustScore] @EPADetails = @EPADetails
@@ -141,6 +135,8 @@ BEGIN
 			,@Data = @Data
 			,@OldData = NULL
 			,@ObjectIds = NULL
+
+		COMMIT TRANSACTION
 	END TRY
 
 	BEGIN CATCH

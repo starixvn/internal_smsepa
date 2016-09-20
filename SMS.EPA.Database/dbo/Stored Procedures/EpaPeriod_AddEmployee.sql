@@ -1,8 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EpaPeriod_AddEmployee    Script Date: 5/16/2016 2:20:08 PM ******/
-/****** Object:  Stored Procedure dbo.EpaPeriod_AddEmployee    Script Date: 5/16/2016 2:15:30 PM ******/
-/****** Object:  Stored Procedure dbo.EpaPeriod_AddEmployee    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EpaPeriod_AddEmployee    Script Date: 4/6/2016 11:27:45 AM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[EpaPeriod_AddEmployee] @PeriodId INT
 	,@Departments VARCHAR(MAX) = NULL
 	,@EmployeeId INT = NULL
@@ -214,7 +210,7 @@ BEGIN
 		INNER JOIN @OverlapEmployeeIds AS overlap ON empId.Id = overlap.Id
 
 	DECLARE @Data NVARCHAR(MAX)
-	DECLARE @OldData NVARCHAR(MAX)
+		,@OldData NVARCHAR(MAX)
 
 	EXEC @OldData = dbo.fncGetDataForWriteLog_Period_AddEmployee @PeriodId = @PeriodId
 
@@ -418,8 +414,6 @@ BEGIN
 			END
 		END
 
-		COMMIT TRANSACTION
-
 		EXEC @Data = dbo.fncGetDataForWriteLog_Period_AddEmployee @PeriodId = @PeriodId
 
 		EXEC dbo.LogDetail_Insert @ActorId = @ModifiedBy
@@ -512,6 +506,8 @@ BEGIN
 				SET @ErrMsg = 'Start Date / End Date of <b>' + @OverlapEmployees + '</b> overlap on monthly.'
 			END
 		END
+
+		COMMIT TRANSACTION
 	END TRY
 
 	BEGIN CATCH

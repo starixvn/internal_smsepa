@@ -1,7 +1,6 @@
-﻿/****** Object:  Stored Procedure dbo.EpaAuto_GetEPAEndEvaluationPeriod    Script Date: 5/16/2016 2:20:11 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_GetEPAEndEvaluationPeriod    Script Date: 5/16/2016 2:15:34 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_GetEPAEndEvaluationPeriod    Script Date: 5/16/2016 1:59:44 PM ******/
-
+﻿
+/****** Object:  Stored Procedure dbo.EpaAuto_GetEPAEndEvaluationPeriod    Script Date: 7/21/2016 3:01:35 PM ******/
+/****** Object:  Stored Procedure dbo.EpaAuto_GetEPAEndEvaluationPeriod    Script Date: 7/21/2016 2:45:48 PM ******/
 CREATE PROCEDURE [dbo].[EpaAuto_GetEPAEndEvaluationPeriod]
 AS
 /*
@@ -88,7 +87,7 @@ BEGIN
 	FROM @TblEPAId
 
 	INSERT INTO #DisciplineScores
-	EXECUTE dbo.EpaAttendanceSummary_GetByEPA @EPAIds
+	EXECUTE dbo.EmployeeDisciplineSummary_GetByEPA @EPAIds
 
 	-- General Info
 	SELECT DISTINCT epa.EPAId

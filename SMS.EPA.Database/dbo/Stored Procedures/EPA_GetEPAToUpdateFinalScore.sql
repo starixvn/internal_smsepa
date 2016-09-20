@@ -1,4 +1,6 @@
-﻿CREATE PROCEDURE [dbo].[EPA_GetEPAToUpdateFinalScore] @PeriodId INT
+﻿
+/****** Object:  Stored Procedure dbo.EPA_GetEPAToUpdateFinalScore    Script Date: 7/21/2016 2:45:43 PM ******/
+CREATE PROCEDURE [dbo].[EPA_GetEPAToUpdateFinalScore] @PeriodId INT
 	,@GroupId INT = NULL
 	,@EmployeeId INT = NULL
 AS
@@ -129,7 +131,7 @@ BEGIN
 	FROM @TblEPAId
 
 	INSERT INTO #DisciplineScores
-	EXECUTE dbo.EpaAttendanceSummary_GetByEPA @EPAIds
+	EXECUTE dbo.EmployeeDisciplineSummary_GetByEPA @EPAIds
 
 	-- General Info
 	SELECT DISTINCT epa.EPAId

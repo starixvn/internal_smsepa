@@ -1,8 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.SettingEmployeeFlow_Set    Script Date: 5/16/2016 2:20:10 PM ******/
-/****** Object:  Stored Procedure dbo.SettingEmployeeFlow_Set    Script Date: 5/16/2016 2:15:32 PM ******/
-/****** Object:  Stored Procedure dbo.SettingEmployeeFlow_Set    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.SettingEmployeeFlow_Set    Script Date: 4/6/2016 11:27:47 AM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[SettingEmployeeFlow_Set] @EmployeeId INT
 	,@FlowTemplateId INT
 	,@FlowDetails VARCHAR(MAX)
@@ -30,7 +26,7 @@ Param's Explanation:
 • @ErrMsg: Error description.
 */
 BEGIN
-	SET NOCOUNT ON;
+	SET NOCOUNT ON
 
 	DECLARE @EmployeeFlows TABLE (
 		ProcessId INT
@@ -74,12 +70,13 @@ BEGIN
 	END CATCH
 
 	DECLARE @Data NVARCHAR(MAX)
-	DECLARE @OldData NVARCHAR(MAX)
+		,@OldData NVARCHAR(MAX)
 
-	EXEC @OldData = [dbo].[fncGetDataForWriteLog_Flow_EmployeeSetting] @FlowTemplateId = @FlowTemplateId, @EmployeeId = @EmployeeId
+	EXEC @OldData = [dbo].[fncGetDataForWriteLog_Flow_EmployeeSetting] @FlowTemplateId = @FlowTemplateId
+		,@EmployeeId = @EmployeeId
 
 	BEGIN TRY
-		BEGIN TRANSACTION;
+		BEGIN TRANSACTION
 
 		DELETE
 		FROM dbo.SettingEmployeeFlow
@@ -110,13 +107,18 @@ BEGIN
 			,GETDATE()
 		FROM @EmployeeFlows AS ef
 
-		COMMIT TRANSACTION;
+		EXEC @Data = [dbo].[fncGetDataForWriteLog_Flow_EmployeeSetting] @FlowTemplateId = @FlowTemplateId
+			,@EmployeeId = @EmployeeId
 
-		EXEC @Data = [dbo].[fncGetDataForWriteLog_Flow_EmployeeSetting] @FlowTemplateId = @FlowTemplateId, @EmployeeId = @EmployeeId
-		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy, @SpName = 'SettingEmployeeFlow_Set', @ObjectId = @FlowTemplateId, @ObjectTypeId = 6, @Data = @Data, @OldData = @OldData, @ObjectIds = NULL
+		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy
+			,@SpName = 'SettingEmployeeFlow_Set'
+			,@ObjectId = @FlowTemplateId
+			,@ObjectTypeId = 6
+			,@Data = @Data
+			,@OldData = @OldData
+			,@ObjectIds = NULL
 
-		SELECT @ErrCode = 0
-			,@ErrMsg = ''
+		COMMIT TRANSACTION
 	END TRY
 
 	BEGIN CATCH

@@ -1,8 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EPA_CheckPermission    Script Date: 5/16/2016 2:20:11 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_CheckPermission    Script Date: 5/16/2016 2:15:33 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_CheckPermission    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_CheckPermission    Script Date: 4/6/2016 11:27:40 AM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[EPA_CheckPermission] @EPAId INT
 	,@ActorUserId INT
 	,@ProcessId INT = NULL

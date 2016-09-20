@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[TargetTemplate_UpdateStatus] @TargetTemplateId INT
+﻿
+CREATE PROCEDURE [dbo].[TargetTemplate_UpdateStatus] @TargetTemplateId INT
 	,@IsActive BIT = 0
 	,@ModifiedBy INT
 	,@ErrCode INT = 0 OUTPUT

@@ -21,6 +21,10 @@
     [SyncDate]       DATETIME       NULL,
     [IsLocal]        BIT            NULL,
     [HasMonthlyEPA]  BIT            NULL,
+    [ResignedDate]   DATETIME       NULL,
+    [ConfirmedDate]  DATETIME       NULL,
     CONSTRAINT [PK_Employee] PRIMARY KEY CLUSTERED ([EmployeeId] ASC)
 );
+
+
 

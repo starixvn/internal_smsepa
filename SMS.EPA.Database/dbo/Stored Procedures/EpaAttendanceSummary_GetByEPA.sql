@@ -1,4 +1,7 @@
-﻿CREATE PROCEDURE [dbo].[EpaAttendanceSummary_GetByEPA] @EPAIds NVARCHAR(MAX)
+﻿
+
+/****** Object:  Stored Procedure dbo.EpaAttendanceSummary_GetByEPA    Script Date: 7/21/2016 2:45:47 PM ******/
+CREATE PROCEDURE [dbo].[EpaAttendanceSummary_GetByEPA] @EPAIds NVARCHAR(MAX)
 AS
 /*
 Created: 2015-08-26@Josh.Phan
@@ -130,13 +133,13 @@ BEGIN
 		,empD.WorkDate
 		,empD.EmpId
 		,(empD.ChangeShift * dbo.fncGetDisciplineScoreById(1)
-			+ empD.MissingCheckInOut * dbo.fncGetDisciplineScoreById(2)
-			+ empD.LateIn * dbo.fncGetDisciplineScoreById(3)
-			+ empD.EarlyOut * dbo.fncGetDisciplineScoreById(4)
-			+ empD.[Absent] * dbo.fncGetDisciplineScoreById(5)
-			+ empD.UnpaidLeave * dbo.fncGetDisciplineScoreById(6)
-			+ empD.WorkingUnderTime * dbo.fncGetDisciplineScoreById(7)
-			+ empD.UnpaidLeaveAbsent * dbo.fncGetDisciplineScoreById(8)) AS SystemSubtractScore
+		  + empD.MissingCheckInOut * dbo.fncGetDisciplineScoreById(2)
+		  + empD.LateIn * dbo.fncGetDisciplineScoreById(3)
+		  + empD.EarlyOut * dbo.fncGetDisciplineScoreById(4)
+		  + empD.[Absent] * dbo.fncGetDisciplineScoreById(5)
+		  + empD.UnpaidLeave * dbo.fncGetDisciplineScoreById(6)
+		  + empD.WorkingUnderTime * dbo.fncGetDisciplineScoreById(7)
+		  + empD.UnpaidLeaveAbsent * dbo.fncGetDisciplineScoreById(8)) AS SystemSubtractScore
 		,(CASE 
 			WHEN ignored.ApproverIgnoredScore IS NOT NULL THEN ignored.ApproverIgnoredScore
 			ELSE 0 END

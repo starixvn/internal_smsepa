@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[EPA_GetPeriodToUpdateFinalScore]
+﻿
+CREATE PROCEDURE [dbo].[EPA_GetPeriodToUpdateFinalScore]
 AS
 /*
 Created: 20160601@Tim.Trinh

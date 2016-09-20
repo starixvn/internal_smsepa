@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[KPIGroup_UpdateStatus] @KPIGroupId INT
+﻿
+CREATE PROCEDURE [dbo].[KPIGroup_UpdateStatus] @KPIGroupId INT
 	,@IsActive BIT = 0
 	,@ModifiedBy INT
 	,@ErrCode INT = 0 OUTPUT

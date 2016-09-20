@@ -1,8 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.FlowTemplate_Update    Script Date: 5/16/2016 2:20:09 PM ******/
-/****** Object:  Stored Procedure dbo.FlowTemplate_Update    Script Date: 5/16/2016 2:15:31 PM ******/
-/****** Object:  Stored Procedure dbo.FlowTemplate_Update    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.FlowTemplate_Update    Script Date: 4/6/2016 11:27:46 AM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[FlowTemplate_Update] @FlowTemplateId INT
 	,@Name NVARCHAR(200)
 	,@Description NVARCHAR(500) = NULL
@@ -29,7 +25,7 @@ BEGIN
 			SELECT 1
 			FROM dbo.FlowTemplate WITH (NOLOCK)
 			WHERE [Name] = @Name
-				AND [FlowTemplateId] != @FlowTemplateId
+				AND FlowTemplateId != @FlowTemplateId
 			)
 	BEGIN
 		SELECT @ErrCode = 1
@@ -42,7 +38,7 @@ BEGIN
 			SELECT 1
 			FROM dbo.FlowTemplate WITH (NOLOCK)
 			WHERE TargetTypeId = @TargetTypeId
-				AND [FlowTemplateId] != @FlowTemplateId
+				AND FlowTemplateId != @FlowTemplateId
 			)
 	BEGIN
 		SELECT @ErrCode = 1
@@ -52,35 +48,41 @@ BEGIN
 	END
 
 	DECLARE @Data NVARCHAR(MAX)
-	DECLARE @OldData NVARCHAR(MAX)
+		,@OldData NVARCHAR(MAX)
 
-	EXEC @OldData = [dbo].[fncGetDataForWriteLog] @ObjectId = @FlowTemplateId, @ObjectType = 6
+	EXEC @OldData = dbo.fncGetDataForWriteLog @ObjectId = @FlowTemplateId
+		,@ObjectType = 6
 
 	BEGIN TRY
-		BEGIN TRANSACTION;
+		BEGIN TRANSACTION
 
 		UPDATE dbo.FlowTemplate WITH (ROWLOCK, UPDLOCK)
 		SET [Name] = @Name
-			,[TargetTypeId] = @TargetTypeId
+			,TargetTypeId = @TargetTypeId
 			,[Description] = @Description
-			,[IsActive] = @IsActive
-			,[ModifiedBy] = @ModifiedBy
-			,[ModifiedDate] = GETDATE()
-		WHERE [FlowTemplateId] = @FlowTemplateId
+			,IsActive = @IsActive
+			,ModifiedBy = @ModifiedBy
+			,ModifiedDate = GETDATE()
+		WHERE FlowTemplateId = @FlowTemplateId
 
-		COMMIT TRANSACTION;
+		EXEC @Data = dbo.fncGetDataForWriteLog @ObjectId = @FlowTemplateId
+			,@ObjectType = 6
 
-		EXEC @Data = [dbo].[fncGetDataForWriteLog] @ObjectId = @FlowTemplateId, @ObjectType = 6
-		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy, @SpName = 'FlowTemplate_Update', @ObjectId = @FlowTemplateId, @ObjectTypeId = 6, @Data = @Data, @OldData = @OldData, @ObjectIds = NULL
+		EXEC dbo.LogDetail_Insert @ActorId = @ModifiedBy
+			,@SpName = 'FlowTemplate_Update'
+			,@ObjectId = @FlowTemplateId
+			,@ObjectTypeId = 6
+			,@Data = @Data
+			,@OldData = @OldData
+			,@ObjectIds = NULL
 
-		SELECT @ErrCode = 0
-			,@ErrMsg = ''
+		COMMIT TRANSACTION
 	END TRY
 
 	BEGIN CATCH
 		ROLLBACK TRANSACTION
 
 		SELECT @ErrCode = 1
-			,@ErrMsg = N'Update Flow Template unsuccessfully.'
+			,@ErrMsg = N'Update unsuccessfully.'
 	END CATCH
 END

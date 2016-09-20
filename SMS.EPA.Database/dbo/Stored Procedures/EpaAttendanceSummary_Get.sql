@@ -1,4 +1,6 @@
-﻿CREATE PROCEDURE [dbo].[EpaAttendanceSummary_Get] @StartDate DATE
+﻿
+
+CREATE PROCEDURE [dbo].[EpaAttendanceSummary_Get] @StartDate DATE
 	,@EndDate DATE
 	,@ApproverId INT
 	,@DepartmentId INT = NULL

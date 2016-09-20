@@ -1,14 +1,10 @@
-﻿/****** Object:  User Defined Function dbo.fncGetDataForWriteLog_TargetTemplate_SetKPIGroup    Script Date: 5/16/2016 2:20:06 PM ******/
-/****** Object:  User Defined Function dbo.fncGetDataForWriteLog_TargetTemplate_SetKPIGroup    Script Date: 5/16/2016 2:15:28 PM ******/
-/****** Object:  User Defined Function dbo.fncGetDataForWriteLog_TargetTemplate_SetKPIGroup    Script Date: 5/16/2016 1:59:43 PM ******/
-/****** Object:  User Defined Function dbo.fncGetDataForWriteLog_TargetTemplate_SetKPIGroup    Script Date: 4/6/2016 11:27:50 AM ******/
-
+﻿
 CREATE FUNCTION [dbo].[fncGetDataForWriteLog_TargetTemplate_SetKPIGroup] (@ObjectId INT)
 RETURNS NVARCHAR(MAX)
 AS
 BEGIN
 	DECLARE @Data NVARCHAR(MAX)
-	DECLARE @KpiGroups NVARCHAR(MAX)
+		,@KpiGroups NVARCHAR(MAX)
 
 	SET @KpiGroups = ''
 

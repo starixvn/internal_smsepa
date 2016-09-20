@@ -1,5 +1,4 @@
 ﻿
-
 CREATE PROCEDURE [dbo].[EPA_RatingByKPI_GetPeriodToView] @EvaluatorId INT
 AS
 /*
@@ -42,4 +41,3 @@ BEGIN
 		AND pc.EvaluatorId = @EvaluatorId
 	ORDER BY period.[Name]
 END
-

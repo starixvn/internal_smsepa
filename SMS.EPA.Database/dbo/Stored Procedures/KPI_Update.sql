@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[KPI_Update] @KPIId INT
+﻿
+CREATE PROCEDURE [dbo].[KPI_Update] @KPIId INT
 	,@Name NVARCHAR(500)
 	,@Description NVARCHAR(MAX) = NULL
 	,@KPIGroupIds VARCHAR(500) = ''

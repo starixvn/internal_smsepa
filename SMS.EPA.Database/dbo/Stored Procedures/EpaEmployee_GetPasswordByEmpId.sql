@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[EpaEmployee_GetPasswordByEmpId] @EmployeeId INT
+﻿
+CREATE PROCEDURE [dbo].[EpaEmployee_GetPasswordByEmpId] @EmployeeId INT
 AS
 /*
 Created: 2016-08-22@Tim.Trinh

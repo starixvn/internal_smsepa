@@ -1,8 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EpaMonthlyPeriod_Get    Script Date: 5/16/2016 2:20:11 PM ******/
-/****** Object:  Stored Procedure dbo.EpaMonthlyPeriod_Get    Script Date: 5/16/2016 2:15:34 PM ******/
-/****** Object:  Stored Procedure dbo.EpaMonthlyPeriod_Get    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EpaMonthlyPeriod_Get    Script Date: 4/6/2016 11:27:45 AM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[EpaMonthlyPeriod_Get] @FromDate DATE
 	,@ToDate DATE
 AS
@@ -80,8 +76,8 @@ BEGIN
 		GROUP BY PeriodId
 		) AS peF ON peF.PeriodId = pe.PeriodId
 		LEFT JOIN (
-		SELECT epa1.PeriodId
-			,COUNT(epa1.EmployeeId) AS TotalEmployeesUnfinished
+		SELECT PeriodId
+			,COUNT(EmployeeId) AS TotalEmployeesUnfinished
 		FROM dbo.EPA AS epa1 WITH (NOLOCK)
 			INNER JOIN dbo.Period AS period1 WITH (NOLOCK) ON epa1.PeriodId = period1.PeriodId
 		WHERE epa1.[Status] = 0

@@ -1,8 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.Sync_Department_GetMaxModifiedDate    Script Date: 5/16/2016 2:20:10 PM ******/
-/****** Object:  Stored Procedure dbo.Sync_Department_GetMaxModifiedDate    Script Date: 5/16/2016 2:15:33 PM ******/
-/****** Object:  Stored Procedure dbo.Sync_Department_GetMaxModifiedDate    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.Sync_Department_GetMaxModifiedDate    Script Date: 4/6/2016 11:27:48 AM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[Sync_Department_GetMaxModifiedDate]
 AS
 /*
@@ -17,11 +13,11 @@ Param's Explanation:
 */
 BEGIN
 	SET NOCOUNT ON;
-	
+
 	DECLARE @ModifiedDate DATETIME
 
-	SELECT @ModifiedDate  = ISNULL(MAX(ModifiedDate), '2010-01-01')
+	SELECT @ModifiedDate = ISNULL(MAX(ModifiedDate), '2010-01-01')
 	FROM dbo.Department WITH (NOLOCK)
 
-	SELECT ISNULL(@ModifiedDate , '2010-01-01')  AS ModifiedDate
+	SELECT ISNULL(@ModifiedDate, '2010-01-01') AS ModifiedDate
 END

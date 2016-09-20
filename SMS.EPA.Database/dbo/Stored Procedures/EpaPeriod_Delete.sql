@@ -1,8 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EpaPeriod_Delete    Script Date: 5/16/2016 2:20:08 PM ******/
-/****** Object:  Stored Procedure dbo.EpaPeriod_Delete    Script Date: 5/16/2016 2:15:30 PM ******/
-/****** Object:  Stored Procedure dbo.EpaPeriod_Delete    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EpaPeriod_Delete    Script Date: 4/6/2016 11:27:45 AM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[EpaPeriod_Delete] @PeriodId INT
 	,@ModifiedBy INT
 	,@ErrCode INT = 0 OUTPUT
@@ -47,7 +43,8 @@ BEGIN
 
 	DECLARE @OldData NVARCHAR(MAX)
 
-	EXEC @OldData = [dbo].[fncGetDataForWriteLog] @ObjectId = @PeriodId, @ObjectType = 8
+	EXEC @OldData = [dbo].[fncGetDataForWriteLog] @ObjectId = @PeriodId
+		,@ObjectType = 8
 
 	BEGIN TRY
 		BEGIN TRANSACTION
@@ -55,27 +52,32 @@ BEGIN
 		DELETE
 		FROM [dbo].[Period]
 		WHERE [PeriodId] = @PeriodId
-		
+
 		DELETE
 		FROM [dbo].[PeriodExcludedEmployee]
 		WHERE [PeriodId] = @PeriodId
-		
+
 		DELETE
 		FROM [dbo].[PeriodFlowSetting]
 		WHERE [PeriodId] = @PeriodId
-		
+
 		DELETE
 		FROM [dbo].[PeriodProcessSetting]
 		WHERE [PeriodId] = @PeriodId
-		
+
 		DELETE
 		FROM [dbo].[PeriodTargetSetting]
 		WHERE [PeriodId] = @PeriodId
 
-		COMMIT TRANSACTION
+		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy
+			,@SpName = 'EpaPeriod_Delete'
+			,@ObjectId = @PeriodId
+			,@ObjectTypeId = 8
+			,@Data = NULL
+			,@OldData = @OldData
+			,@ObjectIds = NULL
 
-		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy, @SpName = 'EpaPeriod_Delete', @ObjectId = @PeriodId, @ObjectTypeId = 8, @Data = NULL, @OldData = @OldData, @ObjectIds = NULL
-		
+		COMMIT TRANSACTION
 	END TRY
 
 	BEGIN CATCH

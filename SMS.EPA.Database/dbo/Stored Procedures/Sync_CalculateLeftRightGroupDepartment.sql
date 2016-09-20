@@ -1,8 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.Sync_CalculateLeftRightGroupDepartment    Script Date: 5/16/2016 2:20:11 PM ******/
-/****** Object:  Stored Procedure dbo.Sync_CalculateLeftRightGroupDepartment    Script Date: 5/16/2016 2:15:33 PM ******/
-/****** Object:  Stored Procedure dbo.Sync_CalculateLeftRightGroupDepartment    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.Sync_CalculateLeftRightGroupDepartment    Script Date: 4/6/2016 11:27:48 AM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[Sync_CalculateLeftRightGroupDepartment]
 AS
 /*
@@ -43,7 +39,7 @@ BEGIN
 	SELECT [DepartmentId]
 	FROM [dbo].[Department] WITH (NOLOCK)
 	WHERE [ParentId] = @ParentDepartmentId
-	AND [IsActive] = 1
+		AND [IsActive] = 1
 	ORDER BY [DepartmentId]
 
 	OPEN department_cursor
@@ -92,6 +88,7 @@ BEGIN
 		END
 
 		CLOSE group_cursor
+
 		DEALLOCATE group_cursor
 
 		UPDATE [dbo].[Department] WITH (ROWLOCK, UPDLOCK)
@@ -107,6 +104,7 @@ BEGIN
 	END
 
 	CLOSE department_cursor;
+
 	DEALLOCATE department_cursor;
 
 	UPDATE [dbo].[Department] WITH (ROWLOCK, UPDLOCK)

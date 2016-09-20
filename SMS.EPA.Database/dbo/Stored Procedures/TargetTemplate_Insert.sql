@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[TargetTemplate_Insert] @Name NVARCHAR(200)
+﻿
+CREATE PROCEDURE [dbo].[TargetTemplate_Insert] @Name NVARCHAR(200)
 	,@Description NVARCHAR(MAX) = ''
 	,@TargetTypeId TINYINT
 	,@ScoreRatingTypeId TINYINT
@@ -80,8 +81,5 @@ BEGIN
 			,@Data = @Data
 			,@OldData = NULL
 			,@ObjectIds = NULL
-
-		SELECT @ErrCode = 0
-			,@ErrMsg = ''
 	END
 END

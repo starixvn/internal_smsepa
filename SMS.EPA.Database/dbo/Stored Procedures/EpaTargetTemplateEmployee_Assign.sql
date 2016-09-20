@@ -1,8 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EpaTargetTemplateEmployee_Assign    Script Date: 5/16/2016 2:20:09 PM ******/
-/****** Object:  Stored Procedure dbo.EpaTargetTemplateEmployee_Assign    Script Date: 5/16/2016 2:15:31 PM ******/
-/****** Object:  Stored Procedure dbo.EpaTargetTemplateEmployee_Assign    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EpaTargetTemplateEmployee_Assign    Script Date: 4/6/2016 11:27:46 AM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[EpaTargetTemplateEmployee_Assign] @TargetTemplateId INT
 	,@EmployeeIds VARCHAR(MAX)
 	,@ModifiedBy INT = NULL
@@ -12,7 +8,7 @@ AS
 /*
 Created: 2015-06-12@Josh.Phan
 Task: Assign target template to employee.
-DB: Redmine
+DB: SMSEPA
 Original: 
 
 Revisions:  
@@ -132,8 +128,6 @@ BEGIN
 				,GETDATE()
 			FROM #TargetEmployee
 
-			COMMIT TRANSACTION
-
 			DECLARE @Data NVARCHAR(MAX)
 
 			SET @Data = '<r>'
@@ -168,8 +162,15 @@ BEGIN
 
 			SET @Data = @Data + '</r>'
 
-			EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy, @SpName = 'EpaTargetTemplateEmployee_Assign', @ObjectId = NULL, @ObjectTypeId = 7, @Data = @Data, @OldData = @OldData, @ObjectIds = NULL
+			EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy
+				,@SpName = 'EpaTargetTemplateEmployee_Assign'
+				,@ObjectId = NULL
+				,@ObjectTypeId = 7
+				,@Data = @Data
+				,@OldData = @OldData
+				,@ObjectIds = NULL
 
+			COMMIT TRANSACTION
 		END TRY
 
 		BEGIN CATCH

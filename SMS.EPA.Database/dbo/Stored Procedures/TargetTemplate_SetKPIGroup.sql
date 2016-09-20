@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[TargetTemplate_SetKPIGroup] @TargetTemplateId INT
+﻿
+CREATE PROCEDURE [dbo].[TargetTemplate_SetKPIGroup] @TargetTemplateId INT
 	,@KPIGroups VARCHAR(5000) = ''
 	,@ModifiedBy INT
 	,@ErrCode INT = 0 OUTPUT
@@ -67,7 +68,7 @@ BEGIN
 
 	-- End read xml
 	DECLARE @Data NVARCHAR(MAX)
-	DECLARE @OldData NVARCHAR(MAX)
+		,@OldData NVARCHAR(MAX)
 
 	EXEC @OldData = [dbo].[fncGetDataForWriteLog_TargetTemplate_SetKPIGroup] @ObjectId = @TargetTemplateId
 

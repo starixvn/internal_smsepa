@@ -1,7 +1,5 @@
-﻿/****** Object:  Stored Procedure dbo.EpaAuto_GenerateEPA    Script Date: 5/16/2016 2:20:10 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_GenerateEPA    Script Date: 5/16/2016 2:15:33 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_GenerateEPA    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_GenerateEPA    Script Date: 4/6/2016 11:27:43 AM ******/
+﻿/****** Object:  Stored Procedure dbo.EpaAuto_GenerateEPA    Script Date: 7/21/2016 3:01:35 PM ******/
+/****** Object:  Stored Procedure dbo.EpaAuto_GenerateEPA    Script Date: 7/21/2016 2:45:47 PM ******/
 
 CREATE PROCEDURE [dbo].[EpaAuto_GenerateEPA] @PeriodId INT
 	,@EmployeeIds VARCHAR(MAX) = NULL

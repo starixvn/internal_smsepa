@@ -1,7 +1,5 @@
-﻿/****** Object:  Stored Procedure dbo.EpaAuto_Promotion_GetEmployees    Script Date: 5/16/2016 2:20:07 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_Promotion_GetEmployees    Script Date: 5/16/2016 2:15:29 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_Promotion_GetEmployees    Script Date: 5/16/2016 1:59:43 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_Promotion_GetEmployees    Script Date: 4/6/2016 11:27:43 AM ******/
+﻿/****** Object:  Stored Procedure dbo.EpaAuto_Promotion_GetEmployees    Script Date: 7/21/2016 3:01:36 PM ******/
+/****** Object:  Stored Procedure dbo.EpaAuto_Promotion_GetEmployees    Script Date: 7/21/2016 2:45:49 PM ******/
 
 CREATE PROCEDURE [dbo].[EpaAuto_Promotion_GetEmployees]
 AS

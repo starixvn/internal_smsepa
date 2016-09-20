@@ -1,11 +1,7 @@
-﻿/****** Object:  Stored Procedure dbo.SettingDepartmentFlow_Set    Script Date: 5/16/2016 2:20:10 PM ******/
-/****** Object:  Stored Procedure dbo.SettingDepartmentFlow_Set    Script Date: 5/16/2016 2:15:32 PM ******/
-/****** Object:  Stored Procedure dbo.SettingDepartmentFlow_Set    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.SettingDepartmentFlow_Set    Script Date: 4/6/2016 11:27:47 AM ******/
-CREATE PROCEDURE [dbo].[SettingDepartmentFlow_Set] 
-     @DepartmentId INT
-     ,@FlowTemplateId INT
-     ,@IsGroup BIT
+﻿
+CREATE PROCEDURE [dbo].[SettingDepartmentFlow_Set] @DepartmentId INT
+	,@FlowTemplateId INT
+	,@IsGroup BIT
 	,@FlowDetails VARCHAR(5000)
 	,@ModifiedBy INT
 	,@ErrCode INT = 0 OUTPUT
@@ -31,7 +27,7 @@ Param's Explanation:
 • @ErrMsg: Error description.
 */
 BEGIN
-	SET NOCOUNT ON;
+	SET NOCOUNT ON
 
 	DECLARE @DepartmentFlows TABLE (
 		Duration INT
@@ -59,16 +55,10 @@ BEGIN
 		SELECT ProcessId
 			,EvaluatorId
 			,[Priority]
-		     ,Duration
+			,Duration
 			,HasSendMail
 			,RemindDay
-		FROM OPENXML(@DocHandler, '/ROOT/Process/Evaluator', 1) 
-		WITH (ProcessId INT '../@ProcessId'
-		     ,EvaluatorId INT '@EvaluatorId'
-		     ,[Priority] TINYINT '@Priority'
-		     ,Duration INT '../@Duration'
-		     ,HasSendMail BIT '../@HasSendMail'
-		     ,RemindDay TINYINT '../@RemindDay') AS Data
+		FROM OPENXML(@DocHandler, '/ROOT/Process/Evaluator', 1) WITH (ProcessId INT '../@ProcessId', EvaluatorId INT '@EvaluatorId', [Priority] TINYINT '@Priority', Duration INT '../@Duration', HasSendMail BIT '../@HasSendMail', RemindDay TINYINT '../@RemindDay') AS Data
 
 		EXEC sp_xml_removedocument @DocHandler
 	END TRY
@@ -81,18 +71,20 @@ BEGIN
 	END CATCH
 
 	DECLARE @Data NVARCHAR(MAX)
-	DECLARE @OldData NVARCHAR(MAX)
+		,@OldData NVARCHAR(MAX)
 
-	EXEC @OldData = [dbo].[fncGetDataForWriteLog_Flow_DepartmentSetting] @DepartmentId = @DepartmentId, @FlowTemplateId = @FlowTemplateId, @IsGroup = @IsGroup
+	EXEC @OldData = [dbo].[fncGetDataForWriteLog_Flow_DepartmentSetting] @DepartmentId = @DepartmentId
+		,@FlowTemplateId = @FlowTemplateId
+		,@IsGroup = @IsGroup
 
 	BEGIN TRY
-		BEGIN TRANSACTION;
+		BEGIN TRANSACTION
 
 		DELETE
 		FROM dbo.SettingDepartmentFlow
 		WHERE DepartmentId = @DepartmentId
-		     AND FlowTemplateId = @FlowTemplateId
-		     AND IsGroup = @IsGroup
+			AND FlowTemplateId = @FlowTemplateId
+			AND IsGroup = @IsGroup
 
 		INSERT INTO dbo.SettingDepartmentFlow (
 			DepartmentId
@@ -119,14 +111,20 @@ BEGIN
 			,@ModifiedBy
 			,GETDATE()
 		FROM @DepartmentFlows AS df
-		
-		COMMIT TRANSACTION;
 
-		EXEC @Data = [dbo].[fncGetDataForWriteLog_Flow_DepartmentSetting] @DepartmentId = @DepartmentId, @FlowTemplateId = @FlowTemplateId, @IsGroup = @IsGroup
-		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy, @SpName = 'SettingDepartmentFlow_Set', @ObjectId = @FlowTemplateId, @ObjectTypeId = 6, @Data = @Data, @OldData = @OldData, @ObjectIds = NULL
+		EXEC @Data = [dbo].[fncGetDataForWriteLog_Flow_DepartmentSetting] @DepartmentId = @DepartmentId
+			,@FlowTemplateId = @FlowTemplateId
+			,@IsGroup = @IsGroup
 
-		SELECT @ErrCode = 0
-			,@ErrMsg = ''
+		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy
+			,@SpName = 'SettingDepartmentFlow_Set'
+			,@ObjectId = @FlowTemplateId
+			,@ObjectTypeId = 6
+			,@Data = @Data
+			,@OldData = @OldData
+			,@ObjectIds = NULL
+
+		COMMIT TRANSACTION
 	END TRY
 
 	BEGIN CATCH

@@ -1,5 +1,4 @@
 ﻿
-/****** Object:  Stored Procedure dbo.EpaPeriod_GetAllPeriodIncludeImport    Script Date: 4/6/2016 11:27:45 AM ******/
 CREATE PROCEDURE [dbo].[EpaPeriod_GetAllPeriodIncludeImport]
 AS
 /*

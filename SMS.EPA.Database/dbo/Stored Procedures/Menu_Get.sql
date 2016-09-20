@@ -1,7 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.Menu_Get    Script Date: 5/16/2016 2:20:10 PM ******/
-/****** Object:  Stored Procedure dbo.Menu_Get    Script Date: 5/16/2016 2:15:32 PM ******/
-/****** Object:  Stored Procedure dbo.Menu_Get    Script Date: 5/16/2016 1:59:44 PM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[Menu_Get]
 	@EmployeeId INT = NULL
 AS

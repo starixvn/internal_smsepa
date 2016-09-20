@@ -1,8 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.TargetType_Get    Script Date: 5/16/2016 2:20:13 PM ******/
-/****** Object:  Stored Procedure dbo.TargetType_Get    Script Date: 5/16/2016 2:15:34 PM ******/
-/****** Object:  Stored Procedure dbo.TargetType_Get    Script Date: 5/16/2016 1:59:45 PM ******/
-/****** Object:  Stored Procedure dbo.TargetType_Get    Script Date: 4/6/2016 11:27:49 AM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[TargetType_Get] @ExcludeTargetTypeIds NVARCHAR(200) = NULL
 	,@IsActive BIT = 1
 AS
@@ -17,18 +13,18 @@ Param's Explanation:
 
 */
 BEGIN
-	SET NOCOUNT ON;
+	SET NOCOUNT ON
 
-	CREATE TABLE #TargetTypeId (TargetTypeId INT)
+	DECLARE @TargetTypeIds IntId
 
 	IF ISNULL(@ExcludeTargetTypeIds, '') <> ''
 	BEGIN
-		INSERT INTO #TargetTypeId
+		INSERT INTO @TargetTypeIds (Id)
 		SELECT DISTINCT val
 		FROM fnc_strSplit(@ExcludeTargetTypeIds, ',')
 	END
 
-	SELECT [TargetTypeId]
+	SELECT TargetTypeId
 		,[Name]
 	FROM dbo.TargetType WITH (NOLOCK)
 	WHERE (
@@ -36,10 +32,8 @@ BEGIN
 			OR IsActive = @IsActive
 			)
 		AND TargetTypeId NOT IN (
-			SELECT DISTINCT TargetTypeId
-			FROM #TargetTypeId
+			SELECT DISTINCT Id
+			FROM @TargetTypeIds
 			)
 	ORDER BY DisplayOrder
-
-	DROP TABLE #TargetTypeId
 END

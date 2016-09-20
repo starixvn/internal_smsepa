@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[Report_EPASummary] @EmployeeId INT
+﻿
+CREATE PROCEDURE [dbo].[Report_EPASummary] @EmployeeId INT
 	,@PeriodIds NVARCHAR(MAX) = NULL
 	,@DepartmentId INT = NULL
 	,@IsLocal BIT = NULL
@@ -287,7 +288,7 @@ BEGIN
 	FROM #EPA
 
 	INSERT INTO #DisciplineScore
-	EXECUTE dbo.EpaAttendanceSummary_GetByEPA @Ids
+	EXECUTE dbo.EmployeeDisciplineSummary_GetByEPA @Ids
 
 	SELECT PeriodId
 		,[Name]

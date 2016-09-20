@@ -1,4 +1,6 @@
-﻿CREATE PROCEDURE [dbo].[Menu_GetByEmployeeId] @EmployeeId INT
+﻿
+
+CREATE PROCEDURE [dbo].[Menu_GetByEmployeeId] @EmployeeId INT
 AS
 /*
 Created: 2016-08-09@Tim.Trinh

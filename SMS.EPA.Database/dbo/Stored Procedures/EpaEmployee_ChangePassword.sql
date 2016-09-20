@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[EpaEmployee_ChangePassword] @EmployeeId INT
+﻿
+CREATE PROCEDURE [dbo].[EpaEmployee_ChangePassword] @EmployeeId INT
 	,@NewPassword NVARCHAR(100)
 	,@ModifiedBy INT = NULL
 	,@ErrCode INT = 0 OUTPUT

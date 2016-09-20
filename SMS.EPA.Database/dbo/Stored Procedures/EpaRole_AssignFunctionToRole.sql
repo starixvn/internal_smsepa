@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[EpaRole_AssignFunctionToRole] @RoleId INT
+﻿
+CREATE PROCEDURE [dbo].[EpaRole_AssignFunctionToRole] @RoleId INT
 	,@Functions VARCHAR(5000) = ''
 	,@ModifiedBy INT
 	,@ErrCode INT = 0 OUTPUT
@@ -7,7 +8,7 @@ AS
 /*
 Created: 20150609@Josh.Phan
 Task: Assign function to role.
-DB: SPM
+DB: SMSEPA
 Original: 
 
 Revisions:  

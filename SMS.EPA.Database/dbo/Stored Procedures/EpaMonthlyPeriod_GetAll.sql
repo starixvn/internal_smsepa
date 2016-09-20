@@ -1,5 +1,4 @@
 ﻿
-/****** Object:  Stored Procedure dbo.EpaMonthlyPeriod_Get    Script Date: 4/6/2016 11:27:45 AM ******/
 CREATE PROCEDURE [dbo].[EpaMonthlyPeriod_GetAll]
 AS
 /*

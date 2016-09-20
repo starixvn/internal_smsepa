@@ -1,9 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EPA_GetLastScore    Script Date: 5/16/2016 2:20:13 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_GetLastScore    Script Date: 5/16/2016 2:15:34 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_GetLastScore    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_GetLastScore    Script Date: 4/6/2016 11:27:41 AM ******/
-
-
+﻿
 CREATE PROCEDURE [dbo].[EPA_GetLastScore] @EPAIds IntId READONLY
 AS
 /*

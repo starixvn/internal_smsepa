@@ -1,5 +1,4 @@
 ﻿
-
 CREATE PROCEDURE [dbo].[EPA_RatingByKPI_Get] @EvaluatorId INT
 	,@PeriodId INT
 	,@TargetTemplateId INT
@@ -258,4 +257,3 @@ BEGIN
 
 	DROP TABLE #TblKPIGroup
 END
-

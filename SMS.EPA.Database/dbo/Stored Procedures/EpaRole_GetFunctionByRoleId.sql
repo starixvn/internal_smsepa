@@ -1,9 +1,10 @@
-﻿CREATE PROCEDURE [dbo].[EpaRole_GetFunctionByRoleId] @RoleId INT
+﻿
+CREATE PROCEDURE [dbo].[EpaRole_GetFunctionByRoleId] @RoleId INT
 AS
 /*
 Created: 20150609@Josh.Phan
 Task: Get function of role by role Id.
-DB: SPM
+DB: SMSEPA
 Original: 
 
 Revisions:  

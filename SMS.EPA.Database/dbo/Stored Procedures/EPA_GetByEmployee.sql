@@ -1,7 +1,4 @@
 ﻿
-/****** Object:  Stored Procedure dbo.EPA_GetByEmployee    Script Date: 5/16/2016 2:20:13 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_GetByEmployee    Script Date: 5/16/2016 2:15:34 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_GetByEmployee    Script Date: 5/16/2016 1:59:44 PM ******/
 CREATE PROCEDURE [dbo].[EPA_GetByEmployee] @EmployeeId INT
 AS
 /*

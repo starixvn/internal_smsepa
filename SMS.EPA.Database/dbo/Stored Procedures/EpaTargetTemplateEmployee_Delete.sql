@@ -1,8 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EpaTargetTemplateEmployee_Delete    Script Date: 5/16/2016 2:20:09 PM ******/
-/****** Object:  Stored Procedure dbo.EpaTargetTemplateEmployee_Delete    Script Date: 5/16/2016 2:15:31 PM ******/
-/****** Object:  Stored Procedure dbo.EpaTargetTemplateEmployee_Delete    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EpaTargetTemplateEmployee_Delete    Script Date: 4/6/2016 11:27:46 AM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[EpaTargetTemplateEmployee_Delete] @TargetTemplateId INT
 	,@EmployeeId INT
 	,@ModifiedBy INT
@@ -12,7 +8,7 @@ AS
 /*
 Created: 2015-06-12@Josh.Phan
 Task: Delete target template setting of employee.
-DB: Redmine
+DB: SMSEPA
 Original: 
 
 Revisions:  
@@ -22,7 +18,7 @@ BEGIN
 	SET NOCOUNT ON;
 
 	DECLARE @Data NVARCHAR(MAX)
-	DECLARE @OldData NVARCHAR(MAX)
+		,@OldData NVARCHAR(MAX)
 
 	EXEC @OldData = [dbo].[fncGetDataForWriteLog_TargetTemplateSetting_Employee] @EmployeeId = @EmployeeId
 
@@ -34,8 +30,6 @@ BEGIN
 		WHERE [TargetTemplateId] = @TargetTemplateId
 			AND [EmployeeId] = @EmployeeId
 
-		COMMIT TRANSACTION
-
 		EXEC @Data = [dbo].[fncGetDataForWriteLog_TargetTemplateSetting_Employee] @EmployeeId = @EmployeeId
 
 		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy
@@ -45,6 +39,8 @@ BEGIN
 			,@Data = @Data
 			,@OldData = @OldData
 			,@ObjectIds = NULL
+
+		COMMIT TRANSACTION
 	END TRY
 
 	BEGIN CATCH

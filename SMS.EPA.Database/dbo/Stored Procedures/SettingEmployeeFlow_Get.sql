@@ -1,8 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.SettingEmployeeFlow_Get    Script Date: 5/16/2016 2:20:10 PM ******/
-/****** Object:  Stored Procedure dbo.SettingEmployeeFlow_Get    Script Date: 5/16/2016 2:15:32 PM ******/
-/****** Object:  Stored Procedure dbo.SettingEmployeeFlow_Get    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.SettingEmployeeFlow_Get    Script Date: 4/6/2016 11:27:47 AM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[SettingEmployeeFlow_Get] @FlowTemplateId INT
 AS
 /*
@@ -16,7 +12,7 @@ Param's Explanation:
 
 */
 BEGIN
-	SET NOCOUNT ON;
+	SET NOCOUNT ON
 
 	SELECT DISTINCT emp.EmployeeId
 		,emp.Code
@@ -24,7 +20,7 @@ BEGIN
 		,emp.FullName
 		,gr.GroupId
 		,gr.Code AS GroupCode
-		,gr.NAME AS GroupName
+		,gr.[Name] AS GroupName
 	FROM dbo.SettingEmployeeFlow AS ef WITH (NOLOCK)
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON ef.EmployeeId = emp.EmployeeId
 		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId

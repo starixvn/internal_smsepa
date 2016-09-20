@@ -1,4 +1,7 @@
-﻿CREATE PROCEDURE [dbo].[EpaAttendanceSummary_GetViolationType] @IncludeOtherViolate BIT
+﻿/****** Object:  Stored Procedure dbo.EpaAttendanceSummary_GetViolationType    Script Date: 7/21/2016 3:01:35 PM ******/
+/****** Object:  Stored Procedure dbo.EpaAttendanceSummary_GetViolationType    Script Date: 7/21/2016 2:45:47 PM ******/
+
+CREATE PROCEDURE [dbo].[EpaAttendanceSummary_GetViolationType] @IncludeOtherViolate BIT
 	,@IsActive BIT = NULL
 AS
 /*

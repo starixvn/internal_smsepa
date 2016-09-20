@@ -1,8 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EpaTargetTemplateDepartment_Get    Script Date: 5/16/2016 2:20:09 PM ******/
-/****** Object:  Stored Procedure dbo.EpaTargetTemplateDepartment_Get    Script Date: 5/16/2016 2:15:31 PM ******/
-/****** Object:  Stored Procedure dbo.EpaTargetTemplateDepartment_Get    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EpaTargetTemplateDepartment_Get    Script Date: 4/6/2016 11:27:46 AM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[EpaTargetTemplateDepartment_Get] @DepartmentId INT = NULL
 	,@IsGroup BIT = NULL
 	,@TargetTypeId INT = NULL
@@ -11,7 +7,7 @@ AS
 /*
 Created: 2015-06-12@Josh.Phan
 Task: Get all departments and their target template.
-DB: Redmine
+DB: SMSEPA
 Original: 
 
 Revisions:  

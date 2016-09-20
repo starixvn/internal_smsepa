@@ -1,8 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.SettingEmployeeFlow_Delete    Script Date: 5/16/2016 2:20:10 PM ******/
-/****** Object:  Stored Procedure dbo.SettingEmployeeFlow_Delete    Script Date: 5/16/2016 2:15:32 PM ******/
-/****** Object:  Stored Procedure dbo.SettingEmployeeFlow_Delete    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.SettingEmployeeFlow_Delete    Script Date: 4/6/2016 11:27:47 AM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[SettingEmployeeFlow_Delete] @EmployeeId INT
 	,@FlowTemplateId INT
 	,@ModifiedBy INT
@@ -24,28 +20,34 @@ Param's Explanation:
 
 */
 BEGIN
-	SET NOCOUNT ON;
+	SET NOCOUNT ON
 
 	DECLARE @Data NVARCHAR(MAX)
-	DECLARE @OldData NVARCHAR(MAX)
+		,@OldData NVARCHAR(MAX)
 
-	EXEC @OldData = [dbo].[fncGetDataForWriteLog_Flow_EmployeeSetting] @FlowTemplateId = @FlowTemplateId, @EmployeeId = @EmployeeId
+	EXEC @OldData = [dbo].[fncGetDataForWriteLog_Flow_EmployeeSetting] @FlowTemplateId = @FlowTemplateId
+		,@EmployeeId = @EmployeeId
 
 	BEGIN TRY
-		BEGIN TRANSACTION;
+		BEGIN TRANSACTION
 
 		DELETE
 		FROM dbo.SettingEmployeeFlow
 		WHERE EmployeeId = @EmployeeId
 			AND FlowTemplateId = @FlowTemplateId
 
-		COMMIT TRANSACTION;
+		EXEC @Data = [dbo].[fncGetDataForWriteLog_Flow_EmployeeSetting] @FlowTemplateId = @FlowTemplateId
+			,@EmployeeId = @EmployeeId
 
-		EXEC @Data = [dbo].[fncGetDataForWriteLog_Flow_EmployeeSetting] @FlowTemplateId = @FlowTemplateId, @EmployeeId = @EmployeeId
-		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy, @SpName = 'SettingEmployeeFlow_Delete', @ObjectId = @FlowTemplateId, @ObjectTypeId = 6, @Data = @Data, @OldData = @OldData, @ObjectIds = NULL
+		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy
+			,@SpName = 'SettingEmployeeFlow_Delete'
+			,@ObjectId = @FlowTemplateId
+			,@ObjectTypeId = 6
+			,@Data = @Data
+			,@OldData = @OldData
+			,@ObjectIds = NULL
 
-		SELECT @ErrCode = 0
-			,@ErrMsg = ''
+		COMMIT TRANSACTION
 	END TRY
 
 	BEGIN CATCH

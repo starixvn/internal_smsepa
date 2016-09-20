@@ -1,8 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EPA_GetLastPerformanceScore    Script Date: 5/16/2016 2:20:07 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_GetLastPerformanceScore    Script Date: 5/16/2016 2:15:30 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_GetLastPerformanceScore    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_GetLastPerformanceScore    Script Date: 4/6/2016 11:27:41 AM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[EPA_GetLastPerformanceScore] @EPAId INT
 AS
 /*

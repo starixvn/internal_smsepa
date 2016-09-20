@@ -1,7 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EPA_GetInfoByReviewer    Script Date: 5/16/2016 2:20:11 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_GetInfoByReviewer    Script Date: 5/16/2016 2:15:33 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_GetInfoByReviewer    Script Date: 5/16/2016 1:59:44 PM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[EPA_GetInfoByReviewer] @EPAId INT
 	,@ReviewerId INT
 AS

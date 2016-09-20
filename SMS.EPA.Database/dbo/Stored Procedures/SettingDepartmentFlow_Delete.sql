@@ -1,11 +1,7 @@
-﻿/****** Object:  Stored Procedure dbo.SettingDepartmentFlow_Delete    Script Date: 5/16/2016 2:20:10 PM ******/
-/****** Object:  Stored Procedure dbo.SettingDepartmentFlow_Delete    Script Date: 5/16/2016 2:15:32 PM ******/
-/****** Object:  Stored Procedure dbo.SettingDepartmentFlow_Delete    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.SettingDepartmentFlow_Delete    Script Date: 4/6/2016 11:27:47 AM ******/
-CREATE PROCEDURE [dbo].[SettingDepartmentFlow_Delete] 
-     @DepartmentId INT
-     ,@FlowTemplateId INT
-     ,@IsGroup BIT
+﻿
+CREATE PROCEDURE [dbo].[SettingDepartmentFlow_Delete] @DepartmentId INT
+	,@FlowTemplateId INT
+	,@IsGroup BIT
 	,@ModifiedBy INT
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg VARCHAR(200) = '' OUTPUT
@@ -25,30 +21,37 @@ Param's Explanation:
 
 */
 BEGIN
-	SET NOCOUNT ON;
-     
+	SET NOCOUNT ON
+
 	DECLARE @Data NVARCHAR(MAX)
-	DECLARE @OldData NVARCHAR(MAX)
+		,@OldData NVARCHAR(MAX)
 
-	EXEC @OldData = [dbo].[fncGetDataForWriteLog_Flow_DepartmentSetting] @DepartmentId = @DepartmentId, @FlowTemplateId = @FlowTemplateId, @IsGroup = @IsGroup
+	EXEC @OldData = [dbo].[fncGetDataForWriteLog_Flow_DepartmentSetting] @DepartmentId = @DepartmentId
+		,@FlowTemplateId = @FlowTemplateId
+		,@IsGroup = @IsGroup
 
-     BEGIN TRY
-		BEGIN TRANSACTION;
-		
-	     DELETE
-	     FROM dbo.SettingDepartmentFlow
-	     WHERE DepartmentId = @DepartmentId
-	          AND FlowTemplateId = @FlowTemplateId
-	          AND IsGroup = @IsGroup
-	     
-	     COMMIT TRANSACTION;
+	BEGIN TRY
+		BEGIN TRANSACTION
 
-		 EXEC @Data = [dbo].[fncGetDataForWriteLog_Flow_DepartmentSetting] @DepartmentId = @DepartmentId, @FlowTemplateId = @FlowTemplateId, @IsGroup = @IsGroup
-		 EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy, @SpName = 'SettingDepartmentFlow_Delete', @ObjectId = @FlowTemplateId, @ObjectTypeId = 6, @Data = @Data, @OldData = @OldData, @ObjectIds = NULL
+		DELETE
+		FROM dbo.SettingDepartmentFlow
+		WHERE DepartmentId = @DepartmentId
+			AND FlowTemplateId = @FlowTemplateId
+			AND IsGroup = @IsGroup
 
+		EXEC @Data = [dbo].[fncGetDataForWriteLog_Flow_DepartmentSetting] @DepartmentId = @DepartmentId
+			,@FlowTemplateId = @FlowTemplateId
+			,@IsGroup = @IsGroup
 
-		SELECT @ErrCode = 0
-			,@ErrMsg = ''
+		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy
+			,@SpName = 'SettingDepartmentFlow_Delete'
+			,@ObjectId = @FlowTemplateId
+			,@ObjectTypeId = 6
+			,@Data = @Data
+			,@OldData = @OldData
+			,@ObjectIds = NULL
+
+		COMMIT TRANSACTION
 	END TRY
 
 	BEGIN CATCH

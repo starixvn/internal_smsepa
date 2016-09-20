@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[TargetTemplate_GetAll] @TargetTypeId INT = NULL
+﻿
+CREATE PROCEDURE [dbo].[TargetTemplate_GetAll] @TargetTypeId INT = NULL
 	,@IsActive TINYINT = NULL
 AS
 /*

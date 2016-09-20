@@ -1,4 +1,8 @@
-﻿CREATE PROCEDURE [dbo].[KPI_Get] @KPIGroupId INT = NULL
+﻿/****** Object:  Stored Procedure dbo.KPI_Get    Script Date: 7/21/2016 3:01:42 PM ******/
+/****** Object:  Stored Procedure dbo.KPI_Get    Script Date: 7/21/2016 2:45:56 PM ******/
+
+CREATE PROCEDURE [dbo].[KPI_Get]
+     @KPIGroupId INT = NULL
 	,@IsActive BIT = NULL
 	,@IsRequiredEvaluate BIT = NULL
 AS
@@ -31,10 +35,11 @@ BEGIN
 			@IsActive IS NULL
 			OR k.IsActive = @IsActive
 			)
-		AND (
-			@IsRequiredEvaluate IS NULL
-			OR k.IsRequiredEvaluate = @IsRequiredEvaluate
-			)
+	     AND
+		  (
+		     @IsRequiredEvaluate IS NULL
+		     OR k.IsRequiredEvaluate = @IsRequiredEvaluate
+		     )
 		AND (
 			@KPIGroupId IS NULL
 			OR g.KPIGroupId = @KPIGroupId

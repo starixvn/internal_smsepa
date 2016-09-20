@@ -1,7 +1,5 @@
-﻿/****** Object:  Stored Procedure dbo.EpaAuto_Monthly_GetPeriodStartedToday    Script Date: 5/16/2016 2:20:11 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_Monthly_GetPeriodStartedToday    Script Date: 5/16/2016 2:15:34 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_Monthly_GetPeriodStartedToday    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_Monthly_GetPeriodStartedToday    Script Date: 4/6/2016 11:27:43 AM ******/
+﻿/****** Object:  Stored Procedure dbo.EpaAuto_Monthly_GetPeriodStartedToday    Script Date: 7/21/2016 3:01:36 PM ******/
+/****** Object:  Stored Procedure dbo.EpaAuto_Monthly_GetPeriodStartedToday    Script Date: 7/21/2016 2:45:48 PM ******/
 
 CREATE PROCEDURE [dbo].[EpaAuto_Monthly_GetPeriodStartedToday]
 AS

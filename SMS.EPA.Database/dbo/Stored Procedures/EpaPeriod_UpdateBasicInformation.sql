@@ -1,15 +1,11 @@
-﻿/****** Object:  Stored Procedure dbo.EpaPeriod_UpdateBasicInformation    Script Date: 5/16/2016 2:20:08 PM ******/
-/****** Object:  Stored Procedure dbo.EpaPeriod_UpdateBasicInformation    Script Date: 5/16/2016 2:15:31 PM ******/
-/****** Object:  Stored Procedure dbo.EpaPeriod_UpdateBasicInformation    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EpaPeriod_UpdateBasicInformation    Script Date: 4/6/2016 11:27:45 AM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[EpaPeriod_UpdateBasicInformation] @PeriodId INT
 	,@Name NVARCHAR(200) = NULL
 	,@TargetTypeId INT
-	,@StartDate DATETIME = NULL
-	,@EndDate DATETIME = NULL
-	,@AttendanceStartDate DATETIME = NULL
-	,@AttendanceEndDate DATETIME = NULL
+	,@StartDate DATE = NULL
+	,@EndDate DATE = NULL
+	,@AttendanceStartDate DATE = NULL
+	,@AttendanceEndDate DATE = NULL
 	,@IsActive BIT = 1
 	,@Description NVARCHAR(MAX) = NULL
 	,@ModifiedBy INT = NULL
@@ -78,13 +74,18 @@ BEGIN
 	END
 
 	DECLARE @Data NVARCHAR(MAX)
-	DECLARE @OldData NVARCHAR(MAX)
+		,@OldData NVARCHAR(MAX)
+		,@OldEndDate DATE
 
 	EXEC @OldData = [dbo].[fncGetDataForWriteLog] @ObjectId = @PeriodId
 		,@ObjectType = 8
 
 	BEGIN TRY
 		BEGIN TRANSACTION
+
+		SELECT @OldEndDate = EndDate
+		FROM dbo.Period WITH (NOLOCK)
+		WHERE PeriodId = @PeriodId
 
 		UPDATE [dbo].[Period] WITH (ROWLOCK, UPDLOCK)
 		SET [Name] = @Name
@@ -99,7 +100,36 @@ BEGIN
 			,[ModifiedDate] = GETDATE()
 		WHERE [PeriodId] = @PeriodId
 
-		COMMIT TRANSACTION
+		IF (
+				ISNULL(@OldEndDate, '') <> ''
+				AND ISNULL(@EndDate, '') <> ''
+				AND @OldEndDate <> @EndDate
+				)
+			OR (
+				ISNULL(@OldEndDate, '') = ''
+				AND ISNULL(@EndDate, '') <> ''
+				)
+		BEGIN
+			UPDATE epa
+			SET epa.[Status] = (CASE 
+					WHEN CAST(period.EndDate AS DATE) > CAST(pc.EndDate AS DATE) THEN 0
+					WHEN CAST(period.EndDate AS DATE) < CAST(GETDATE() AS DATE)
+						AND CAST(pc.EndDate AS DATE) < CAST(GETDATE() AS DATE) THEN 1 END
+					)
+			FROM dbo.EPA AS epa
+				INNER JOIN (
+				SELECT DISTINCT EPAId
+					,MAX(EndDate) AS EndDate
+				FROM dbo.EPAProcess
+				GROUP BY EPAId
+				) AS pc ON epa.EPAId = pc.EPAId
+				INNER JOIN dbo.Period AS period ON epa.PeriodId = period.PeriodId
+			WHERE period.PeriodId = @PeriodId
+				AND (
+					epa.[Status] = 0
+					OR epa.[Status] = 1
+					)
+		END
 
 		EXEC @Data = [dbo].[fncGetDataForWriteLog] @ObjectId = @PeriodId
 			,@ObjectType = 8
@@ -111,6 +141,8 @@ BEGIN
 			,@Data = @Data
 			,@OldData = @OldData
 			,@ObjectIds = NULL
+
+		COMMIT TRANSACTION
 	END TRY
 
 	BEGIN CATCH

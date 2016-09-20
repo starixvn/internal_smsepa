@@ -1,8 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EpaTargetTemplateDepartment_Assign    Script Date: 5/16/2016 2:20:09 PM ******/
-/****** Object:  Stored Procedure dbo.EpaTargetTemplateDepartment_Assign    Script Date: 5/16/2016 2:15:31 PM ******/
-/****** Object:  Stored Procedure dbo.EpaTargetTemplateDepartment_Assign    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EpaTargetTemplateDepartment_Assign    Script Date: 4/6/2016 11:27:46 AM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[EpaTargetTemplateDepartment_Assign] @TargetTemplateId INT
 	,@Departments VARCHAR(MAX)
 	,@ModifiedBy INT = NULL
@@ -154,8 +150,6 @@ BEGIN
 			,GETDATE()
 		FROM #DepartmentSetting
 
-		COMMIT TRANSACTION
-
 		DECLARE @Data NVARCHAR(MAX)
 
 		SET @Data = '<r>'
@@ -194,7 +188,15 @@ BEGIN
 
 		SET @Data = @Data + '</r>'
 
-		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy, @SpName = 'EpaTargetTemplateDepartment_Assign', @ObjectId = NULL, @ObjectTypeId = 7, @Data = @Data, @OldData = @OldData, @ObjectIds = NULL
+		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy
+			,@SpName = 'EpaTargetTemplateDepartment_Assign'
+			,@ObjectId = NULL
+			,@ObjectTypeId = 7
+			,@Data = @Data
+			,@OldData = @OldData
+			,@ObjectIds = NULL
+
+		COMMIT TRANSACTION
 
 		DROP TABLE #DepartmentSetting
 	END TRY

@@ -1,8 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EpaPeriod_GetById    Script Date: 5/16/2016 2:20:08 PM ******/
-/****** Object:  Stored Procedure dbo.EpaPeriod_GetById    Script Date: 5/16/2016 2:15:31 PM ******/
-/****** Object:  Stored Procedure dbo.EpaPeriod_GetById    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EpaPeriod_GetById    Script Date: 4/6/2016 11:27:45 AM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[EpaPeriod_GetById] @PeriodId INT
 AS
 /*

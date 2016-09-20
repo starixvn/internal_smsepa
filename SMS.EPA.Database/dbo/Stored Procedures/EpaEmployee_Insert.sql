@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[EpaEmployee_Insert] @NickName NVARCHAR(20)
+﻿
+CREATE PROCEDURE [dbo].[EpaEmployee_Insert] @NickName NVARCHAR(20)
 	,@FullName NVARCHAR(50) = ''
 	,@GroupId INT = ''
 	,@JobTitleId INT = ''

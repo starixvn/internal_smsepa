@@ -1,8 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.Sync_AttendanceViolation    Script Date: 5/16/2016 2:20:10 PM ******/
-/****** Object:  Stored Procedure dbo.Sync_AttendanceViolation    Script Date: 5/16/2016 2:15:32 PM ******/
-/****** Object:  Stored Procedure dbo.Sync_AttendanceViolation    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.Sync_AttendanceViolation    Script Date: 4/6/2016 11:27:48 AM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[Sync_AttendanceViolation] @VialationXml NVARCHAR(MAX)
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg NVARCHAR(MAX) = '' OUTPUT
@@ -61,6 +57,8 @@ BEGIN
 		,[ChangeShiftEmployeeComment] NVARCHAR(500)
 		,[LeaveApproverComment] NVARCHAR(500)
 		,[LeaveEmployeeComment] NVARCHAR(500)
+		,[InOutMissApproverComment] NVARCHAR(500)
+		,[InOutMissEmployeeComment] NVARCHAR(500)
 		,[ModifiedDate] DATETIME
 		,[IsDeleted] BIT
 		)
@@ -94,6 +92,8 @@ BEGIN
 			,[ChangeShiftEmployeeComment]
 			,[LeaveApproverComment]
 			,[LeaveEmployeeComment]
+			,[InOutMissApproverComment]
+			,[InOutMissEmployeeComment]
 			,[ModifiedDate]
 			,[IsDeleted]
 			)
@@ -127,9 +127,11 @@ BEGIN
 			,REPLACE(REPLACE(REPLACE(REPLACE(REPLACE([ChangeShiftEmployeeComment], '&amp;', '&'), '&#39;', ''''), '&lt;', '<'), '&gt;', '>'), '&quot;', '"')
 			,REPLACE(REPLACE(REPLACE(REPLACE(REPLACE([LeaveApproverComment], '&amp;', '&'), '&#39;', ''''), '&lt;', '<'), '&gt;', '>'), '&quot;', '"')
 			,REPLACE(REPLACE(REPLACE(REPLACE(REPLACE([LeaveEmployeeComment], '&amp;', '&'), '&#39;', ''''), '&lt;', '<'), '&gt;', '>'), '&quot;', '"')
+			,REPLACE(REPLACE(REPLACE(REPLACE(REPLACE([InOutMissApproverComment], '&amp;', '&'), '&#39;', ''''), '&lt;', '<'), '&gt;', '>'), '&quot;', '"')
+			,REPLACE(REPLACE(REPLACE(REPLACE(REPLACE([InOutMissEmployeeComment], '&amp;', '&'), '&#39;', ''''), '&lt;', '<'), '&gt;', '>'), '&quot;', '"')
 			,[ModifiedDate]
 			,[IsDeleted]
-		FROM OPENXML(@DocHandler, '/ROOT/Violation', 1) WITH ([WorkDate] DATETIME, [EmpId] INT, [MissingCheckInOut] INT, [LateIn] INT, [EarlyOut] INT, [ChangeShift] INT, [WorkingBelowTime] INT, [Absent] INT, [UnpaidLeaveAbsent] INT, [UnpaidLeave] FLOAT, [ShiftName] VARCHAR(50), [InFixed] DATETIME, [OutFixed] DATETIME, [LateInValue] INT, [EarlyOutValue] INT, [TotalWorkHours] DECIMAL(18, 2), [LateInApproverComment] NVARCHAR(500), [LateInEmployeeComment] NVARCHAR(500), [EarlyOutApproverComment] NVARCHAR(500), [EarlyOutEmployeeComment] NVARCHAR(500), [ChangeShiftApproverComment] NVARCHAR(500), [ChangeShiftEmployeeComment] NVARCHAR(500), [LeaveApproverComment] NVARCHAR(500), [LeaveEmployeeComment] NVARCHAR(500), [ModifiedDate] DATETIME, [IsDeleted] BIT) AS Data
+		FROM OPENXML(@DocHandler, '/ROOT/Violation', 1) WITH ([WorkDate] DATETIME, [EmpId] INT, [MissingCheckInOut] INT, [LateIn] INT, [EarlyOut] INT, [ChangeShift] INT, [WorkingBelowTime] INT, [Absent] INT, [UnpaidLeaveAbsent] INT, [UnpaidLeave] FLOAT, [ShiftName] VARCHAR(50), [InFixed] DATETIME, [OutFixed] DATETIME, [LateInValue] INT, [EarlyOutValue] INT, [TotalWorkHours] DECIMAL(18, 2), [LateInApproverComment] NVARCHAR(500), [LateInEmployeeComment] NVARCHAR(500), [EarlyOutApproverComment] NVARCHAR(500), [EarlyOutEmployeeComment] NVARCHAR(500), [ChangeShiftApproverComment] NVARCHAR(500), [ChangeShiftEmployeeComment] NVARCHAR(500), [LeaveApproverComment] NVARCHAR(500), [LeaveEmployeeComment] NVARCHAR(500), [InOutMissApproverComment] NVARCHAR(500), [InOutMissEmployeeComment] NVARCHAR(500), [ModifiedDate] DATETIME, [IsDeleted] BIT) AS Data
 
 		EXEC sp_xml_removedocument @DocHandler
 	END TRY
@@ -138,7 +140,6 @@ BEGIN
 		SELECT @ErrCode = 100
 			,@ErrMsg = N'Paramter invalid.'
 
-		-- ,@ErrMsg = @VialationXml
 		RETURN
 	END CATCH;
 
@@ -175,6 +176,8 @@ BEGIN
 		,[ChangeShiftEmployeeComment]
 		,[LeaveApproverComment]
 		,[LeaveEmployeeComment]
+		,[InOutMissApproverComment]
+		,[InOutMissEmployeeComment]
 		,[ModifiedDate]
 		,[SyncDate]
 		,[IsDeleted]
@@ -692,6 +695,8 @@ BEGIN
 		,new.[ChangeShiftEmployeeComment]
 		,new.[LeaveApproverComment]
 		,new.[LeaveEmployeeComment]
+		,new.InOutMissApproverComment
+		,new.InOutMissEmployeeComment
 		,new.[ModifiedDate]
 		,@SyncDate
 		,new.[IsDeleted]
@@ -1214,6 +1219,8 @@ BEGIN
 		,curr.[ChangeShiftEmployeeComment] = new.[ChangeShiftEmployeeComment]
 		,curr.[LeaveApproverComment] = new.[LeaveApproverComment]
 		,curr.[LeaveEmployeeComment] = new.[LeaveEmployeeComment]
+		,curr.InOutMissApproverComment = new.InOutMissApproverComment
+		,curr.InOutMissEmployeeComment = new.InOutMissEmployeeComment
 		,curr.[ModifiedDate] = new.[ModifiedDate]
 		,curr.SyncDate = @SyncDate
 		,curr.IsDeleted = new.IsDeleted
@@ -1265,11 +1272,10 @@ BEGIN
 						)
 					)
 			)
-	
-	DELETE FROM [dbo].[HRMEmployeeAttendanceViolation] WHERE IsDeleted = 1
 
-	SELECT @ErrCode = 0
-		,@ErrMsg = ''
+	DELETE
+	FROM [dbo].[HRMEmployeeAttendanceViolation]
+	WHERE IsDeleted = 1
 
 	IF OBJECT_ID('tempdb..#Vialation') IS NOT NULL
 	BEGIN

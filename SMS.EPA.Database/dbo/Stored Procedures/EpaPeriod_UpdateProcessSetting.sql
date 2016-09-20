@@ -1,8 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EpaPeriod_UpdateProcessSetting    Script Date: 5/16/2016 2:20:09 PM ******/
-/****** Object:  Stored Procedure dbo.EpaPeriod_UpdateProcessSetting    Script Date: 5/16/2016 2:15:31 PM ******/
-/****** Object:  Stored Procedure dbo.EpaPeriod_UpdateProcessSetting    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EpaPeriod_UpdateProcessSetting    Script Date: 4/6/2016 11:27:45 AM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[EpaPeriod_UpdateProcessSetting] @PeriodId INT
 	,@ProcessSettings NVARCHAR(MAX)
 	,@ModifiedBy INT = NULL
@@ -30,7 +26,7 @@ BEGIN
 		,@ProcessSettings
 
 	DECLARE @Data NVARCHAR(MAX)
-	DECLARE @OldData NVARCHAR(MAX)
+		,@OldData NVARCHAR(MAX)
 
 	EXEC @OldData = [dbo].[fncGetDataForWriteLog_Period_ProcessSetting] @PeriodId = @PeriodId
 
@@ -61,8 +57,6 @@ BEGIN
 
 		EXEC sp_xml_removedocument @DocHandler
 
-		COMMIT TRANSACTION
-
 		EXEC @Data = [dbo].[fncGetDataForWriteLog_Period_ProcessSetting] @PeriodId = @PeriodId
 
 		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy
@@ -72,6 +66,8 @@ BEGIN
 			,@Data = @Data
 			,@OldData = @OldData
 			,@ObjectIds = NULL
+
+		COMMIT TRANSACTION
 	END TRY
 
 	BEGIN CATCH

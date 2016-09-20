@@ -1,5 +1,4 @@
 ﻿
-
 CREATE PROCEDURE [dbo].[EPA_RatingByKPI_GetEvaluatorByTargetTemplate] @PeriodId INT
 	,@TargetTemplateId INT
 AS
@@ -47,4 +46,3 @@ BEGIN
 	ORDER BY emp.NickName
 		,emp.Code
 END
-

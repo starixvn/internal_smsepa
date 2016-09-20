@@ -1,8 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EpaEmployee_UpdateHasMonthlyEPA    Script Date: 5/16/2016 2:20:07 PM ******/
-/****** Object:  Stored Procedure dbo.EpaEmployee_UpdateHasMonthlyEPA    Script Date: 5/16/2016 2:15:30 PM ******/
-/****** Object:  Stored Procedure dbo.EpaEmployee_UpdateHasMonthlyEPA    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EpaEmployee_UpdateHasMonthlyEPA    Script Date: 4/6/2016 11:27:44 AM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[EpaEmployee_UpdateHasMonthlyEPA] @EmployeeId INT
 	,@HasMonthlyEPA BIT
 	,@ModifiedBy INT
@@ -75,7 +71,7 @@ BEGIN
 			WHERE EmployeeId = @EmployeeId
 
 			SELECT @ErrCode = 1
-				,@ErrMsg = 'Cannot unset monthly evaluation for <b>' + @NickName + '</b> because <b>' + @NickName + '</b> has been included in monthly/semi period.'
+				,@ErrMsg = 'Cannot unset monthly evaluation for <b>' + @NickName + '</b> because <b>' + @NickName + '</b> has been included in Monthly or Semi period.'
 
 			RETURN
 		END

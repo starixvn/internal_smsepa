@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[EPA_GetGeneralInfo] @TblEPAIds IntId READONLY
+﻿
+CREATE PROCEDURE [dbo].[EPA_GetGeneralInfo] @TblEPAIds IntId READONLY
 AS
 /*
 Created: 20150827@Tim.Trinh
@@ -44,7 +45,7 @@ BEGIN
 	FROM @TblEPAIds
 
 	INSERT INTO #DisciplineScores
-	EXECUTE dbo.EpaAttendanceSummary_GetByEPA @EPAIds
+	EXECUTE dbo.EmployeeDisciplineSummary_GetByEPA @EPAIds
 
 	INSERT INTO #LastEPA
 	EXECUTE dbo.EPA_GetLastScore @TblEPAIds
@@ -91,9 +92,8 @@ BEGIN
 		,emp.NickName
 		,emp.FullName
 		,emp.Email
-		,emp.JoinedDate
 		,dept.DepartmentId
-		,dept.[Name] AS DepartmentName
+		,dept.[Name]
 		,gr.GroupId
 		,gr.Code AS GroupCode
 		,gr.[Name] AS GroupName

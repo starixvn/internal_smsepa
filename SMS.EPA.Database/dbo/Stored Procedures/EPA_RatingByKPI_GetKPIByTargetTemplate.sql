@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[EPA_RatingByKPI_GetKPIByTargetTemplate] @EvaluatorId INT
+﻿
+CREATE PROCEDURE [dbo].[EPA_RatingByKPI_GetKPIByTargetTemplate] @EvaluatorId INT
 	,@PeriodId INT
 	,@TargetTemplateId INT
 AS

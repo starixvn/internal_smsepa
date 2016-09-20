@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[KPIGroup_Insert] @KPIGroupId INT OUTPUT
+﻿
+CREATE PROCEDURE [dbo].[KPIGroup_Insert] @KPIGroupId INT OUTPUT
 	,@Name NVARCHAR(500)
 	,@Description NVARCHAR(MAX) = ''
 	,@IsActive BIT = 1

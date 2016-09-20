@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[TargetTemplate_UpdateBasicInformation] @TargetTemplateId INT
+﻿
+CREATE PROCEDURE [dbo].[TargetTemplate_UpdateBasicInformation] @TargetTemplateId INT
 	,@Name VARCHAR(200)
 	,@Description NVARCHAR(MAX) = ''
 	,@TargetTypeId TINYINT

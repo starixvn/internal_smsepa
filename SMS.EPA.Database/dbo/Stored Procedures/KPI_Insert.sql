@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[KPI_Insert] @KPIId INT OUTPUT
+﻿
+CREATE PROCEDURE [dbo].[KPI_Insert] @KPIId INT OUTPUT
 	,@Name NVARCHAR(500)
 	,@Description NVARCHAR(MAX) = NULL
 	,@KPIGroupIds VARCHAR(500) = ''

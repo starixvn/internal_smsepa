@@ -1,8 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EpaPeriod_UpdateStatus    Script Date: 5/16/2016 2:20:09 PM ******/
-/****** Object:  Stored Procedure dbo.EpaPeriod_UpdateStatus    Script Date: 5/16/2016 2:15:31 PM ******/
-/****** Object:  Stored Procedure dbo.EpaPeriod_UpdateStatus    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EpaPeriod_UpdateStatus    Script Date: 4/6/2016 11:27:45 AM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[EpaPeriod_UpdateStatus] @PeriodId INT
 	,@IsActive BIT = 1
 	,@ModifiedBy INT = NULL
@@ -34,9 +30,10 @@ BEGIN
 	END
 
 	DECLARE @Data NVARCHAR(MAX)
-	DECLARE @OldData NVARCHAR(MAX)
+		,@OldData NVARCHAR(MAX)
 
-	EXEC @OldData = [dbo].[fncGetDataForWriteLog_UpdateStatus] @ObjectId = @PeriodId, @ObjectType = 8
+	EXEC @OldData = [dbo].[fncGetDataForWriteLog_UpdateStatus] @ObjectId = @PeriodId
+		,@ObjectType = 8
 
 	BEGIN TRY
 		BEGIN TRANSACTION
@@ -47,11 +44,18 @@ BEGIN
 			,[ModifiedDate] = GETDATE()
 		WHERE [PeriodId] = @PeriodId
 
+		EXEC @Data = [dbo].[fncGetDataForWriteLog_UpdateStatus] @ObjectId = @PeriodId
+			,@ObjectType = 8
+
+		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy
+			,@SpName = 'EpaPeriod_UpdateStatus'
+			,@ObjectId = @PeriodId
+			,@ObjectTypeId = 8
+			,@Data = @Data
+			,@OldData = @OldData
+			,@ObjectIds = NULL
+
 		COMMIT TRANSACTION
-
-		EXEC @Data = [dbo].[fncGetDataForWriteLog_UpdateStatus] @ObjectId = @PeriodId, @ObjectType = 8
-		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy, @SpName = 'EpaPeriod_UpdateStatus', @ObjectId = @PeriodId, @ObjectTypeId = 8, @Data = @Data, @OldData = @OldData, @ObjectIds = NULL
-
 	END TRY
 
 	BEGIN CATCH

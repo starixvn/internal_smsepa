@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[EPA_GetGroup] @ActorUserId INT
+﻿
+CREATE PROCEDURE [dbo].[EPA_GetGroup] @ActorUserId INT
 	,@ProcessId INT
 AS
 /*
@@ -24,10 +25,9 @@ BEGIN
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 		AND pc.EvaluatorId = @ActorUserId
 		AND pc.ProcessId = @ProcessId
-		AND @ToDay >= CAST(pc.StartDate AS DATE)
-		--AND CAST(pc.StartDate AS DATE) <= @ToDay
-		--AND CAST(pc.EndDate AS DATE) >= @ToDay
-		--AND pc.IsEndProcess = 0
+		AND CAST(pc.StartDate AS DATE) <= @ToDay
+		AND CAST(pc.EndDate AS DATE) >= @ToDay
+		AND pc.IsEndProcess = 0
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 		AND period.IsActive = 1
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId

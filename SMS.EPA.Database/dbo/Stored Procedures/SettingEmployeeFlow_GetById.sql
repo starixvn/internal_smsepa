@@ -1,8 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.SettingEmployeeFlow_GetById    Script Date: 5/16/2016 2:20:08 PM ******/
-/****** Object:  Stored Procedure dbo.SettingEmployeeFlow_GetById    Script Date: 5/16/2016 2:15:30 PM ******/
-/****** Object:  Stored Procedure dbo.SettingEmployeeFlow_GetById    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.SettingEmployeeFlow_GetById    Script Date: 4/6/2016 11:27:47 AM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[SettingEmployeeFlow_GetById] @EmployeeId INT
 	,@FlowTemplateId INT
 AS
@@ -17,7 +13,7 @@ Param's Explanation:
 
 */
 BEGIN
-	SET NOCOUNT ON;
+	SET NOCOUNT ON
 
 	SELECT ef.ProcessId
 		,ef.[Priority]
@@ -25,7 +21,7 @@ BEGIN
 		,ef.HasSendMail
 		,ef.RemindDay
 		,ft.FlowTemplateId
-		,ft.NAME
+		,ft.[Name]
 		,ef.EvaluatorId AS EmployeeId
 		,e.Code
 		,e.NickName

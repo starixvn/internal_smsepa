@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[EPA_GetEmployeeToUpdateFinalScore] @PeriodId INT
+﻿
+CREATE PROCEDURE [dbo].[EPA_GetEmployeeToUpdateFinalScore] @PeriodId INT
 	,@GroupId INT = NULL
 	,@Query NVARCHAR(100) = NULL
 AS

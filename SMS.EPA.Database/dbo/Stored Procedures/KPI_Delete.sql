@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[KPI_Delete] @KPIId INT
+﻿
+CREATE PROCEDURE [dbo].[KPI_Delete] @KPIId INT
 	,@ModifiedBy INT
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg VARCHAR(200) = '' OUTPUT

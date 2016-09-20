@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[TargetTemplate_Delete] @TargetTemplateId INT
+﻿
+CREATE PROCEDURE [dbo].[TargetTemplate_Delete] @TargetTemplateId INT
 	,@ModifiedBy INT
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg VARCHAR(200) = '' OUTPUT
@@ -76,8 +77,5 @@ BEGIN
 			,@Data = NULL
 			,@OldData = @OldData
 			,@ObjectIds = NULL
-
-		SELECT @ErrCode = 0
-			,@ErrMsg = ''
 	END
 END

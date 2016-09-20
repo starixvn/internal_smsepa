@@ -1,4 +1,7 @@
-﻿CREATE PROCEDURE [dbo].[EpaAttendanceSummary_GetOtherViolations] @EmployeeId INT
+﻿
+/****** Object:  Stored Procedure dbo.EpaAttendanceSummary_GetOtherViolations    Script Date: 7/21/2016 2:45:47 PM ******/
+
+CREATE PROCEDURE [dbo].[EpaAttendanceSummary_GetOtherViolations] @EmployeeId INT
 	,@StartDate DATE
 	,@EndDate DATE
 	,@WorkDate DATE = NULL

@@ -1,8 +1,4 @@
 ﻿
-
-
-/****** Object:  Stored Procedure dbo.Epa_GetEPAHistory    Script Date: 4/6/2016 11:27:40 AM ******/
-
 CREATE PROCEDURE [dbo].[Epa_GetEPAHistory] @PeriodId INT = NULL
 	,@EvaluatorId INT
 	,@EmployeeId INT = NULL
@@ -35,12 +31,10 @@ BEGIN
 		,epaA.[EncodeGrade]
 		,epaA.[HasEPAForm]
 		,epaA.[EPAId]
-		,epaA.[HasMonthlyEPA]
 		,epaA.[PeriodId]
 		,epaA.[Name]
 		,epaA.[StartDate]
 		,epaA.[EndDate]
-		,epaA.[TargetTypeId]
 		,epaA.[EmployeeId]
 		,epaA.[NickName]
 		,epaA.[FullName]
@@ -50,12 +44,10 @@ BEGIN
 			,epa.[Grade] AS EncodeGrade
 			,1 AS HasEPAForm
 			,epa.[EPAId]
-			,epa.HasMonthlyEPA
 			,pe.[PeriodId]
 			,pe.[Name]
 			,pe.[StartDate]
 			,pe.[EndDate]
-			,pe.[TargetTypeId]
 			,emp.[EmployeeId]
 			,emp.[NickName]
 			,emp.[FullName]
@@ -73,6 +65,7 @@ BEGIN
 				)
 			AND epa.[Status] = 1 -- Closed
 			AND pe.TargetTypeId <> 2 -- monthly
+			--AND CAST(pe.[EndDate] AS DATE) <= CAST(GETDATE() AS DATE)
 			AND (
 				@Is_HR_SA = 1 -- SA, HR can view all member of period
 				OR EXISTS (
@@ -196,12 +189,10 @@ BEGIN
 			,NULL AS EncodeGrade
 			,0 AS HasEPAForm
 			,NULL AS EPAId
-			,0 AS HasMonthlyEPA
 			,[PeriodId]
 			,[PeriodName] AS NAME
 			,[PeriodDate] AS StartDate
 			,DATEADD(DAY, 29, [PeriodDate]) AS EndDate
-			,NULL as TargetTypeId
 			,[Id] AS EmployeeId
 			,epa.[NickName]
 			,epa.[FullName]
@@ -337,5 +328,3 @@ BEGIN
 	ORDER BY epaA.[StartDate] DESC
 		,epaA.[Code]
 END
-
-
