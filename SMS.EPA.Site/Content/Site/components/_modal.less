@@ -1,0 +1,91 @@
+﻿.modal-dialog {
+    .modal-header {
+        padding: 7px 15px 8px;
+        border-bottom: 1px solid #979797;
+        #gradient .vertical(#EDEDED, #C4C4C4);
+        .border-radius( 3px 3px 0 0);
+
+        .popup-header {
+            font-size: @font-size - 1;
+            font-weight: bold;
+            color: #4F4F4F;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+
+            .close-popup {
+                background: url(images/sprites.png);
+                height: 15px;
+                width: 16px;
+                position: absolute;
+                right: 10px;
+                top: 9px;
+                cursor: pointer;
+
+                &:hover {
+                    background-position: -16px 0;
+                }
+            }
+        }
+
+        input[type="text"] {
+            height: 25px;
+            .border-radius(4px);
+            width: 30%;
+        }
+    }
+
+    .modal-body {
+        width: 100%;
+
+        label {
+            font-weight: normal;
+        }
+
+        .common-form {
+            .form-group {
+                .control-label {
+                    font-weight: normal;
+                    text-align: left;
+                    line-height: 13px;
+                }
+
+                .form-control {
+                    .border-radius(3px);
+                    border: 1px solid #C8C8C8;
+                    height: 30px;
+                    font-size: 13px;
+                }
+
+                select.form-control {
+                    padding: 4px 5px;
+                }
+            }
+        }
+
+        .empty-result {
+            text-align: center;
+            color: red;
+        }
+
+        .form-control {
+            font-size: @font-size;
+        }
+
+        #txtEmployee {
+            .border-radius(3px);
+            border: 1px solid #C8C8C8;
+            box-shadow: 1px 1px 3px 3px #F2F2F2;
+            height: 28px;
+            padding: 0 0 0 7px;
+        }
+
+        .table-popup {
+            padding: 0;
+        }
+    }
+
+    .modal-footer {
+        .border-radius( 0 0 3x 3px);
+        padding: 12px 20px;
+        margin-top: 0;
+    }
+}

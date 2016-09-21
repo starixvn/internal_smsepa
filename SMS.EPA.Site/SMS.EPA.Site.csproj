@@ -665,6 +665,9 @@
     <Content Include="Content\Site\_evaluationProcess.less" />
     <Content Include="ExcelTemplates\DisciplineSummaryByPeriodReport.xls" />
     <Content Include="Content\Site\components\_panel.less" />
+    <Content Include="Content\Site\components\_header.less" />
+    <Content Include="Content\Site\components\_modal.less" />
+    <Content Include="Content\Site\components\_table.less" />
     <None Include="Libs\angular-resource.min.js.map" />
     <None Include="Libs\angular-route.min.js.map" />
     <None Include="Libs\angular.min.js.map" />

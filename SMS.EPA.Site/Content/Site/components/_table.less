@@ -1,0 +1,193 @@
+﻿.table {
+    margin: 10px 0 20px;
+    font-size: @font-size;
+    border: none;
+    background-color: #fff;
+    width: 100%;
+
+    thead tr {
+        th {
+            background: @header-bg repeat-x;
+            border-right: 1px solid @header-border-color;
+            color: @header-color;
+            height: 20px;
+            text-align: center;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.8);
+            font-size: @font-size - 1;
+        }
+
+        &.header-table th {
+            background: #818181;
+            border: 1px solid #515151;
+            border-width: 0 1px 1px 0;
+            border-color: none #515151 #515151 #ddd;
+            margin: 0 1%;
+            padding: 0;
+            width: 98%;
+            color: #fff;
+            text-shadow: none;
+            font-weight: normal;
+
+            .btnExcel {
+                background: rgba(0, 0, 0, 0) url("images/excel-icon.png") no-repeat scroll 0 -26px;
+                border: 0 solid red;
+                cursor: pointer;
+                font-size: 11px;
+                height: 17px;
+                margin: 8px 5px 2px;
+                overflow: visible;
+                padding-left: 6px;
+                padding-right: 6px;
+                width: 18px;
+            }
+
+            .table-entries, .search {
+                margin: 5px;
+            }
+
+            .search {
+                margin: 5px;
+            }
+
+            .table-entries {
+                margin-left: 10px;
+
+                select {
+                    color: @font-color;
+                    height: 23px;
+                    margin: 0 3px;
+                    padding: 0;
+                    .box-shadow(none);
+                }
+            }
+
+            label {
+                font-weight: normal;
+                margin: 0;
+            }
+
+            .search-inline-textbox {
+                background: url(../images/icon-search.png) #fff no-repeat 188px center;
+                border: 1px solid #ccc;
+                width: 210px;
+                height: 23px;
+                color: #555;
+                padding: 0 24px 0 3px;
+                .border-radius(3px);
+                .box-shadow(none);
+            }
+
+            .button-icon.create-button {
+                margin: 5px 0 0 5px;
+                height: 23px;
+
+                .plus {
+                    background-position: -4px -74px;
+                    height: 20px;
+                    width: 17px;
+                }
+
+                .button-text {
+                    top: -6px;
+                    padding: 0;
+                }
+
+                .email {
+                    background-position: -123px -26px;
+                    height: 21px;
+                    width: 17px;
+                }
+            }
+        }
+    }
+
+    thead tr th, tbody tr td {
+        padding: 6px 10px;
+        vertical-align: middle;
+    }
+
+    &.table-bordered {
+        td {
+            border-color: @table-border-color;
+        }
+
+        thead tr {
+            th {
+                border-width: 0 1px 0 0;
+
+                &:first-child {
+                    border-left: 1px solid #373737;
+                }
+            }
+
+            &.header-table th {
+                border-width: 0 1px 1px 1px;
+            }
+        }
+    }
+
+    &.table-striped > tbody > tr:nth-child(2n+1) > td,
+    &.table-striped > tbody > tr:nth-child(2n+1) > th {
+        background-color: @odd-td-bg;
+    }
+    /* Paging */
+    .pagingactive {
+        color: #fff !important;
+        background-color: #428bca !important;
+    }
+
+    tfoot td.paging {
+        background-color: white;
+        color: #666666;
+        padding: 6px 3px 3px 7px;
+
+        select {
+            display: inline-block;
+            height: 30px;
+            margin-top: 2px;
+            font-size: 13px;
+            padding: 2px 12px;
+            width: auto;
+        }
+
+        .custom-paging {
+            margin: 0;
+        }
+
+        ul, li {
+            margin: 0;
+        }
+    }
+
+    tfoot tr {
+        border: 0;
+    }
+}
+
+.table-custom {
+    thead tr {
+        th {
+            background: #ebe4d4;
+            color: #61463b;
+            text-shadow: none;
+            border-top: 1px solid #cec5c2 !important;
+            border-right: 1px solid #cec5c2 !important;
+
+            &:first-child {
+                border-left: 1px solid #cec5c2 !important;
+            }
+        }
+    }
+
+    tbody tr {
+        td {
+            color: #61463b;
+            border-bottom: 1px solid #cec5c2 !important;
+            border-right: 1px solid #cec5c2 !important;
+
+            &:first-child {
+                border-left: 1px solid #cec5c2 !important;
+            }
+        }
+    }
+}
