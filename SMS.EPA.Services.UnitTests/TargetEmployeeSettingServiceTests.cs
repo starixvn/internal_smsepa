@@ -4,8 +4,8 @@
     using NUnit.Framework;
     using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.TargetEmployeeSetting;
+    using SMS.EPA.Model;
     using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Model.TargetEmployeeSetting;
     using SMS.EPA.Repositories.Interfaces;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
@@ -28,16 +28,16 @@
             var actual = targetEmployeeSettingService.GetTargetEmployeeSetting(Arg.Any<GetAllTargetEmployeeSettingCriteria>());
 
             // Assert
-            Assert.IsInstanceOf(typeof(IEnumerable<TargetEmployeeModel>), actual);
+            Assert.IsInstanceOf(typeof(IEnumerable<TargetEmployeeSetting>), actual);
         }
 
         [Test]
-        public void GetTargetEmployeeSetting_VaidArg_ReturnExpectedTargetTypes()
+        public void GetTargetEmployeeSetting_VaidArg_ReturnExpectedTargetEmployees()
         {
             // Arrange
             var criteria = new GetAllTargetEmployeeSettingCriteria();
-            var expectedTargetEmployees = new List<TargetEmployeeModel>();
-            expectedTargetEmployees.Add(new TargetEmployeeModel());
+            var expectedTargetEmployees = new List<TargetEmployeeSetting>();
+            expectedTargetEmployees.Add(new TargetEmployeeSetting());
             ArrangeGetTargetEmployeeSetting(expectedTargetEmployees);
 
             // Act
@@ -81,11 +81,13 @@
 
         #endregion
 
-        private void ArrangeGetTargetEmployeeSetting(IEnumerable<TargetEmployeeModel> targetEmployees = null)
+        private void ArrangeGetTargetEmployeeSetting(IEnumerable<TargetEmployeeSetting> targetEmployees = null)
         {
             targetEmployeeSettingRepository = Substitute.For<ITargetEmployeeSettingRepository>();
 
-            //// targetEmployeeSettingRepository.GetTargetEmployeeSetting(Arg.Any<GetAllTargetEmployeeSettingCriteria>()).Returns(targetEmployees);
+            targetEmployeeSettingRepository.GetTargetTemplateEmployee(Arg.Any<GetAllTargetEmployeeSettingCriteria>())
+                .Returns(targetEmployees ?? new List<TargetEmployeeSetting>());
+            targetEmployeeSettingService = new TargetEmployeeSettingService(targetEmployeeSettingRepository);
         }
 
         private CommonService ArrangeGetAllGroup(IEnumerable<Group> groups = null)

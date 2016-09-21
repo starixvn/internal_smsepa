@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Model;
-    using SMS.EPA.Model.Department;
     using SMS.EPA.Model.Enitites;
 
     [Serializable]

@@ -104,11 +104,11 @@
     <Compile Include="Report\EPASummary\EPASummaryPeriodModel.cs" />
     <Compile Include="RoleManagement\RoleFunctionModel.cs" />
     <Compile Include="ScoreRatingType\ScoreRatingTypeModel.cs" />
-    <Compile Include="TargetEmployeeSetting\TargetDepartmentSettingModel.cs" />
-    <Compile Include="TargetEmployeeSetting\TargetEmployeeSettingModel.cs" />
-    <Compile Include="TargetEmployeeSetting\TargetSettingAssignModel.cs" />
-    <Compile Include="TargetEmployeeSetting\TargetDepartmentModel.cs" />
-    <Compile Include="TargetEmployeeSetting\TargetEmployeeModel.cs" />
+    <Compile Include="TargetSetting\TargetDepartmentSetting.cs" />
+    <Compile Include="TargetSetting\TargetEmployeeSetting.cs" />
+    <Compile Include="TargetTemplate\TargetTemplateDepartment.cs" />
+    <Compile Include="TargetTemplate\TargetTemplateEmployee.cs" />
+    <Compile Include="TargetSetting\TargetSettingAssignModel.cs" />
     <Compile Include="TargetTemplate\TargetTemplateKPIGroupModel.cs" />
     <Compile Include="TargetTemplate\TargetTemplateKPIModel.cs" />
     <Compile Include="TargetTemplate\TargetTemplate.cs" />

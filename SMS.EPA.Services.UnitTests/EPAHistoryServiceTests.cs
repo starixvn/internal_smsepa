@@ -4,7 +4,6 @@
     using NUnit.Framework;
     using SMS.EPA.Criteria.Department;
     using SMS.EPA.Criteria.EPAHistory;
-    using SMS.EPA.Model.Department;
     using SMS.EPA.Model.EPAHistory;
     using SMS.EPA.Model.Period;
     using SMS.EPA.Repositories.Interfaces;

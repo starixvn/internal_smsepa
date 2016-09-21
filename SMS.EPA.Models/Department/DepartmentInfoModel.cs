@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Model.Department
+﻿namespace SMS.EPA.Model
 {
     using SMS.EPA.Model.Enitites;
     using System.Collections.Generic;

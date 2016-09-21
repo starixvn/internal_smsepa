@@ -1,19 +1,19 @@
 ﻿namespace SMS.EPA.Services.Interfaces
 {
-    using System.Collections.Generic;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.TargetEmployeeSetting;
-    using SMS.EPA.Model.TargetEmployeeSetting;
+    using SMS.EPA.Model;
+    using System.Collections.Generic;
 
     public interface ITargetEmployeeSettingService
     {
-        IList<TargetEmployeeModel> GetTargetEmployeeSetting(GetAllTargetEmployeeSettingCriteria criteria);
+        IList<TargetEmployeeSetting> GetTargetEmployeeSetting(GetAllTargetEmployeeSettingCriteria criteria);
+
+        IList<TargetDepartmentSetting> GetTargetDepartmentSetting(GetTargetDepartmentSettingCriteria criteria);
 
         CommandResult AssignTargetTemplateToEmployee(AssignTargetTemplateToEmployeeCriteria criteria);
 
         CommandResult DeleteTargetEmployeeSetting(DeleteTargetEmployeeSettingCriteria criteria);
-
-        IList<TargetDepartmentModel> GetTargetDepartmentSetting(GetTargetDepartmentSettingCriteria criteria);
 
         CommandResult AssignTargetTemplateToDepartment(AssignTargetDepartmentSettingCriteria criteria);
 

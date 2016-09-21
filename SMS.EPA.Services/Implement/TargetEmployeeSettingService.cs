@@ -7,7 +7,6 @@
     using SMS.EPA.Criteria.TargetEmployeeSetting;
     using SMS.EPA.Model;
     using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Model.TargetEmployeeSetting;
     using SMS.EPA.Repositories.Implement;
     using SMS.EPA.Repositories.Interfaces;
     using SMS.EPA.Services.Interfaces;
@@ -26,17 +25,28 @@
             this.targetEmployeeSettingRepository = targetEmployeeSettingRepository ?? new TargetEmployeeSettingRepository();
         }
 
-        public IList<TargetEmployeeModel> GetTargetEmployeeSetting(GetAllTargetEmployeeSettingCriteria criteria)
+        public IList<TargetEmployeeSetting> GetTargetEmployeeSetting(GetAllTargetEmployeeSettingCriteria criteria)
         {
-            var targetEmployeeSettings = new List<TargetEmployeeModel>();
+            IList<TargetEmployeeSetting> targetEmployees = null;
 
             if (criteria != null && criteria.IsValid())
             {
-                TargetEmployeeSettingModel rawEmployeeSetting = targetEmployeeSettingRepository.GetTargetEmployeeSetting(criteria);
-                targetEmployeeSettings = ConvertToTargetEmployeeModel(rawEmployeeSetting);
+                targetEmployees = targetEmployeeSettingRepository.GetTargetTemplateEmployee(criteria);
             }
 
-            return targetEmployeeSettings;
+            return targetEmployees ?? new List<TargetEmployeeSetting>();
+        }
+
+        public IList<TargetDepartmentSetting> GetTargetDepartmentSetting(GetTargetDepartmentSettingCriteria criteria)
+        {
+            IList<TargetDepartmentSetting> targetDepartments = null;
+
+            if (criteria != null && criteria.IsValid())
+            {
+                targetDepartments = targetEmployeeSettingRepository.GetTargetTemplateDepartment(criteria);
+            }
+
+            return targetDepartments ?? new List<TargetDepartmentSetting>();
         }
 
         public CommandResult AssignTargetTemplateToEmployee(AssignTargetTemplateToEmployeeCriteria criteria)
@@ -63,19 +73,6 @@
             return commandResult;
         }
 
-        public IList<TargetDepartmentModel> GetTargetDepartmentSetting(GetTargetDepartmentSettingCriteria criteria)
-        {
-            var targetDepartmentSettings = new List<TargetDepartmentModel>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                TargetDepartmentSettingModel rawDepartmentSeting = targetEmployeeSettingRepository.GetTargetDepartmentSetting(criteria);
-                targetDepartmentSettings = ConvertToTargetDepartmentModel(rawDepartmentSeting);
-            }
-
-            return targetDepartmentSettings;
-        }
-
         public CommandResult AssignTargetTemplateToDepartment(AssignTargetDepartmentSettingCriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
@@ -98,96 +95,6 @@
             }
 
             return commandResult;
-        }
-
-        private List<TargetEmployeeModel> ConvertToTargetEmployeeModel(TargetEmployeeSettingModel employeeSetting)
-        {
-            var targetEmployeeSettings = new List<TargetEmployeeModel>();
-
-            if (employeeSetting != null)
-            {
-                foreach (Employee employee in employeeSetting.Employees)
-                {
-                    var targetEmployeeSetting = new TargetEmployeeModel
-                    {
-                        Employee = employee,
-                        Group = employee.Group
-                    };
-
-                    if (employeeSetting.TargetEmployees != null)
-                    {
-                        IEnumerable<TargetEmployeeModel> targetEmployees = employeeSetting.TargetEmployees.Where(x => x.EmployeeId == employee.EmployeeId);
-
-                        if (targetEmployees != null && targetEmployees.Any())
-                        {
-                            targetEmployeeSetting.TargetTemplates = GetTargetTemplateOfEmployee(targetEmployees);
-                        }
-                    }
-
-                    targetEmployeeSettings.Add(targetEmployeeSetting);
-                }
-            }
-
-            return targetEmployeeSettings;
-        }
-
-        private IList<TargetTemplate> GetTargetTemplateOfEmployee(IEnumerable<TargetEmployeeModel> targetEmployees)
-        {
-            IList<TargetTemplate> targetTemplates = targetEmployees.Select(x => new TargetTemplate
-            {
-                TargetTemplateId = x.RawTargetTemplate.TargetTemplateId,
-                Name = x.RawTargetTemplate.Name,
-                TargetTypeId = x.RawTargetTemplate.TargetTypeId,
-                TargetTypeName = x.RawTargetTemplate.TargetTypeName
-            }).ToList();
-
-            return targetTemplates;
-        }
-
-        private List<TargetDepartmentModel> ConvertToTargetDepartmentModel(TargetDepartmentSettingModel departmentSeting)
-        {
-            var targetDepartmentSettings = new List<TargetDepartmentModel>();
-
-            if (departmentSeting != null)
-            {
-                foreach (Department department in departmentSeting.Departments)
-                {
-                    var targetDepartmentSetting = new TargetDepartmentModel
-                    {
-                        DepartmentId = department.DepartmentId,
-                        Name = department.Name,
-                        ParentId = department.ParentId,
-                        IsActive = department.IsActive,
-                        IsGroup = department.IsGroup
-                    };
-
-                    if (departmentSeting.TargetDepartments != null)
-                    {
-                        IEnumerable<TargetDepartmentModel> rawTargetDepartments = departmentSeting.TargetDepartments
-                                                    .Where(x => x.DepartmentId == department.DepartmentId && x.IsGroup == department.IsGroup);
-
-                        if (rawTargetDepartments != null && rawTargetDepartments.Any())
-                        {
-                            targetDepartmentSetting.TargetTemplates = GetTargetTemplateOfDepartment(rawTargetDepartments);
-                        }
-                    }
-
-                    targetDepartmentSettings.Add(targetDepartmentSetting);
-                }
-            }
-
-            return targetDepartmentSettings;
-        }
-
-        private IList<TargetTemplate> GetTargetTemplateOfDepartment(IEnumerable<TargetDepartmentModel> targetDepartments)
-        {
-            return targetDepartments.Select(x => new TargetTemplate
-            {
-                TargetTemplateId = x.RawTargetTemplate.TargetTemplateId,
-                Name = x.RawTargetTemplate.Name,
-                TargetTypeId = x.RawTargetTemplate.TargetTypeId,
-                TargetTypeName = x.RawTargetTemplate.TargetTypeName
-            }).ToList();
         }
     }
 }

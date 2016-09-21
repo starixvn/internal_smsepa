@@ -1,15 +1,15 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
-    using System.Collections.Generic;
-    using System.Web.Http;
     using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria.TargetEmployeeSetting;
-    using SMS.EPA.Model.TargetEmployeeSetting;
+    using SMS.EPA.Model;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
+    using System.Collections.Generic;
+    using System.Web.Http;
 
     public class TargetEmployeeSettingController : BaseController
     {
@@ -26,7 +26,7 @@
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetEmployeeSetting, Policy = Policy.Read)]
-        public IList<TargetEmployeeModel> GetTargetEmployeeSetting(
+        public IList<TargetEmployeeSetting> GetTargetEmployeeSetting(
             int? groupId = null,
             int? employeeId = null,
             int? targetTypeId = null,
@@ -40,7 +40,7 @@
                 ShowAll = showAll
             };
 
-            IList<TargetEmployeeModel> targetEmployeeSettings = targetEmployeeSettingService.GetTargetEmployeeSetting(criteria);
+            IList<TargetEmployeeSetting> targetEmployeeSettings = targetEmployeeSettingService.GetTargetEmployeeSetting(criteria);
             return targetEmployeeSettings;
         }
 
@@ -73,7 +73,7 @@
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.TargetEmployeeSetting, Policy = Policy.Read)]
-        public IList<TargetDepartmentModel> GetTargetDepartmentSetting(
+        public IList<TargetDepartmentSetting> GetTargetDepartmentSetting(
             int? departmentId = null,
             bool? isGroup = null,
             int? targetTypeId = null,
@@ -86,7 +86,7 @@
                 TargetTypeId = targetTypeId,
                 ShowAll = showAll
             };
-            IList<TargetDepartmentModel> targetDepartments = targetEmployeeSettingService.GetTargetDepartmentSetting(criteria);
+            IList<TargetDepartmentSetting> targetDepartments = targetEmployeeSettingService.GetTargetDepartmentSetting(criteria);
             return targetDepartments;
         }
 

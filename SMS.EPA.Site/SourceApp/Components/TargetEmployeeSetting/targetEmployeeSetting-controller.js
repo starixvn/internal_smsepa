@@ -254,8 +254,8 @@ function ($scope, TargetEmployeeSettingModel, CommonModel, TargetTemplateModel, 
         angular.forEach(targetDepartmentSettings, function (targetDepartment) {
             if (targetDepartment.Selected) {
                 var department = {
-                    DepartmentId: targetDepartment.DepartmentId,
-                    IsGroup: targetDepartment.IsGroup
+                    DepartmentId: targetDepartment.Department.DepartmentId,
+                    IsGroup: targetDepartment.Department.IsGroup
                 };
                 departments.push(department);
             }
@@ -289,11 +289,11 @@ function ($scope, TargetEmployeeSettingModel, CommonModel, TargetTemplateModel, 
 
     vm.syncSelectedDepartment = function (department, selected) {
         angular.forEach(vm.targetDepartmentSettings, function (targetDepartment) {
-            if (targetDepartment.DepartmentId === department.DepartmentId
-                    && targetDepartment.IsGroup === department.IsGroup) {
+            if (targetDepartment.Department.DepartmentId === department.Department.DepartmentId
+                    && targetDepartment.Department.IsGroup === department.Department.IsGroup) {
                 angular.forEach(vm.filteredItems, function (filterItem) {
-                    if (targetDepartment.DepartmentId === filterItem.DepartmentId
-                            && targetDepartment.IsGroup === filterItem.IsGroup) {
+                    if (targetDepartment.Department.DepartmentId === filterItem.Department.DepartmentId
+                            && targetDepartment.Department.IsGroup === filterItem.Department.IsGroup) {
                         filterItem.Selected = selected;
                         targetDepartment.Selected = selected;
                     }

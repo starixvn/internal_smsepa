@@ -1,13 +1,13 @@
 ﻿namespace SMS.EPA.Repositories.Interfaces
 {
     using Fanex.Data.Repository;
-    using SMS.EPA.Model.TargetEmployeeSetting;
+    using SMS.EPA.Model;
     using System.Collections.Generic;
 
     public interface ITargetEmployeeSettingRepository
     {
-        TargetEmployeeSettingModel GetTargetEmployeeSetting(ICriteria criteria);
+        IList<TargetEmployeeSetting> GetTargetTemplateEmployee(ICriteria criteria);
 
-        TargetDepartmentSettingModel GetTargetDepartmentSetting(ICriteria criteria);
+        IList<TargetDepartmentSetting> GetTargetTemplateDepartment(ICriteria criteria);
     }
 }

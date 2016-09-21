@@ -3,7 +3,7 @@
     using NSubstitute;
     using NUnit.Framework;
     using SMS.EPA.Criteria.Department;
-    using SMS.EPA.Model.Department;
+    using SMS.EPA.Model;
     using SMS.EPA.Services.Interfaces;
     using SMS.EPA.Site.Controllers.API;
 

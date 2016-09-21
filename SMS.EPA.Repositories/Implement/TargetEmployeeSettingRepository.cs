@@ -1,18 +1,16 @@
 ﻿namespace SMS.EPA.Repositories.Implement
 {
-    using System.Collections.Generic;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using SMS.EPA.Model;
-    using SMS.EPA.Model.Department;
     using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Model.TargetEmployeeSetting;
     using SMS.EPA.Repositories.Interfaces;
+    using System.Collections.Generic;
     using System.Linq;
 
     public class TargetEmployeeSettingRepository : ITargetEmployeeSettingRepository
     {
-        public TargetEmployeeSettingModel GetTargetEmployeeSetting(ICriteria criteria)
+        public IList<TargetEmployeeSetting> GetTargetTemplateEmployee(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
@@ -26,26 +24,14 @@
                         },
                         "GroupId");
 
-                    IEnumerable<TargetEmployeeModel> targetEmployees = multi.Read<TargetEmployeeModel, TargetTemplate, TargetEmployeeModel>(
-                        (tarEmp, tar) =>
-                        {
-                            tarEmp.RawTargetTemplate = tar;
-                            return tarEmp;
-                        },
-                        "TargetTemplateId");
+                    IEnumerable<TargetTemplateEmployee> targetEmployees = multi.Read<TargetTemplateEmployee>();
 
-                    var targetEmployeeSetting = new TargetEmployeeSettingModel
-                    {
-                        Employees = employees,
-                        TargetEmployees = targetEmployees
-                    };
-
-                    return targetEmployeeSetting;
+                    return MappingTargetTemplateEmployee(employees, targetEmployees);
                 }
             }
         }
 
-        public TargetDepartmentSettingModel GetTargetDepartmentSetting(ICriteria criteria)
+        public IList<TargetDepartmentSetting> GetTargetTemplateDepartment(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
@@ -53,23 +39,49 @@
                 {
                     IEnumerable<Department> deparments = multi.Read<Department>();
 
-                    IEnumerable<TargetDepartmentModel> targetDepartments = multi.Read<TargetDepartmentModel, TargetTemplate, TargetDepartmentModel>(
-                        (tarEmp, tar) =>
-                        {
-                            tarEmp.RawTargetTemplate = tar;
-                            return tarEmp;
-                        },
-                        "TargetTemplateId");
+                    IEnumerable<TargetTemplateDepartment> targetDepartments = multi.Read<TargetTemplateDepartment>();
 
-                    var targetDepartmentSetting = new TargetDepartmentSettingModel
-                    {
-                        Departments = deparments,
-                        TargetDepartments = targetDepartments
-                    };
-
-                    return targetDepartmentSetting;
+                    return MappingTargetTemplateDepartment(deparments, targetDepartments);
                 }
             }
+        }
+
+        private IList<TargetEmployeeSetting> MappingTargetTemplateEmployee(IEnumerable<Employee> employees, IEnumerable<TargetTemplateEmployee> targetTemplateEmployees)
+        {
+            var targetEmployees = new List<TargetEmployeeSetting>();
+            IList<TargetTemplateEmployee> tempTargetTemplateEmployees;
+
+            foreach (Employee employee in employees)
+            {
+                tempTargetTemplateEmployees = targetTemplateEmployees.Where(t => t.EmployeeId == employee.EmployeeId).ToList();
+                targetEmployees.Add(new TargetEmployeeSetting()
+                {
+                    Employee = employee,
+                    TargetTemplates = tempTargetTemplateEmployees
+                });
+            }
+
+            return targetEmployees;
+        }
+
+        private IList<TargetDepartmentSetting> MappingTargetTemplateDepartment(
+            IEnumerable<Department> departments, 
+            IEnumerable<TargetTemplateDepartment> targetTemplateDepartments)
+        {
+            var targetDepartments = new List<TargetDepartmentSetting>();
+            IList<TargetTemplateDepartment> tempTargetTemplateDepartments;
+
+            foreach (Department department in departments)
+            {
+                tempTargetTemplateDepartments = targetTemplateDepartments.Where(t => t.DepartmentId == department.DepartmentId).ToList();
+                targetDepartments.Add(new TargetDepartmentSetting()
+                {
+                    Department = department,
+                    TargetTemplates = tempTargetTemplateDepartments
+                });
+            }
+
+            return targetDepartments;
         }
     }
 }

@@ -7,7 +7,6 @@
     using SMS.EPA.Criteria.Period;
     using SMS.EPA.Criteria.TargetType;
     using SMS.EPA.Model;
-    using SMS.EPA.Model.Department;
     using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.Period;

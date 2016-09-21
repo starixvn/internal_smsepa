@@ -128,7 +128,7 @@ function ($modal, targetEmployeeSettingFactory, notificationFactory, errorFactor
         });
 
         modalInstance.result.then(function () {
-            return targetEmployeeSettingFactory.deleteTargetDepartmentSetting(targetTemplate.TargetTemplateId, department.DepartmentId, department.IsGroup)
+            return targetEmployeeSettingFactory.deleteTargetDepartmentSetting(targetTemplate.TargetTemplateId, department.Department.DepartmentId, department.Department.IsGroup)
                 .success(function (response) {
                 if (response.IsSuccessful) {
                     var index = department.TargetTemplates.indexOf(targetTemplate);
