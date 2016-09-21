@@ -20,12 +20,17 @@
                 </div>
             </div>
 
-            <div class="col-sm-12 list-group-item bottom-buffer summary-section" ng-init="memberEPAInfoCtrl.collapses['PerformanceResult'] = false;">
-                <div class="boxtitle text-uppercase" data-translate="PerformanceResult"
-                     ng-click="memberEPAInfoCtrl.collapses['PerformanceResult'] = !memberEPAInfoCtrl.collapses['PerformanceResult']"></div>
-                <div class="boxcontent" collapse="memberEPAInfoCtrl.collapses['PerformanceResult']"
-                     ng-include src="'/SourceApp/Components/EPA/Templates/performanceResult.html'"></div>
+            <div class="panel panel-default">
+                <div class="panel-heading" data-toggle="collapse" data-target=".performanceResult">
+                    <h4 class="panel-title text-uppercase" data-translate="PerformanceResult"></h4>
+                </div>
+                <div class="panel-collapse collapse in performanceResult">
+                    <div class="panel-body summary-section" ng-include src="'/SourceApp/Components/EPA/Templates/performanceResult.html'"></div>
+                </div>
             </div>
+
+            <div>&ensp;</div>
+
             <div class="col-sm-12 list-group-item">
                 <div ng-include src="'/SourceApp/Components/EPA/Templates/performanceDetails.html'"></div>
             </div>

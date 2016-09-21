@@ -1,187 +1,184 @@
-﻿<div class="row row-item">
-    <table class="table table-bordered table-striped table-performance-result table-custom">
-        <thead>
-            <tr>
-                <th colspan="2" data-translate="Employee"></th>
-                <th colspan="3">
-                    <span data-translate="Evaluator"></span>
-                    <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess">
-                        ({{memberEPAInfoCtrl.epaInfo.Process.AverageScoreByEvaluators | customScore}})
+﻿<table class="table table-bordered table-striped table-performance-result table-custom">
+    <thead>
+        <tr>
+            <th colspan="2" data-translate="Employee"></th>
+            <th colspan="3">
+                <span data-translate="Evaluator"></span>
+                <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess">
+                    ({{memberEPAInfoCtrl.epaInfo.Process.AverageScoreByEvaluators | customScore}})
+                </span>
+            </th>
+            <th colspan="3" ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers.length > 0">
+                <span data-translate="Reviewer"></span>
+                <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers[0].IsEndProcess">
+                    ({{memberEPAInfoCtrl.epaInfo.Process.AverageScoreByReviewers | customScore}})
+                </span>
+            </th>
+            <th colspan="3" ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements.length > 0">
+                <span data-translate="Management"></span>
+                <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements[0].IsEndProcess">
+                    ({{memberEPAInfoCtrl.epaInfo.Process.AverageScoreByManagements | customScore}})
+                </span>
+            </th>
+            <th rowspan="2" data-translate="DisciplineScore" class="col-score"></th>
+            <th rowspan="2" data-translate="FinalScore" class="col-score"></th>
+            <th rowspan="2" data-translate="Grade" class="col-score" ng-show="!memberEPAInfoCtrl.epaInfo.IsMonthly"></th>
+        </tr>
+        <tr>
+            <th data-translate="PerformanceScore" class="col-score"></th>
+            <th data-translate="Comment"></th>
+            <th data-translate="NickName"></th>
+            <th data-translate="PerformanceScore" class="col-score"></th>
+            <th data-translate="Comment"></th>
+            <th ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers.length > 0" data-translate="NickName"></th>
+            <th ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers.length > 0" data-translate="PerformanceScore" class="col-score"></th>
+            <th ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers.length > 0" data-translate="Comment"></th>
+            <th ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements.length > 0" data-translate="NickName"></th>
+            <th ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements.length > 0" data-translate="PerformanceScore" class="col-score"></th>
+            <th ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements.length > 0" data-translate="Comment"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="opt in memberEPAInfoCtrl.range(memberEPAInfoCtrl.epaInfo.Rowspan) track by $index">
+            <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center col-score" ng-show="$first">
+                <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">
+                    <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.TotalScore || memberEPAInfoCtrl.epaInfo.Process.Self.TotalScore == 0">
+                        {{memberEPAInfoCtrl.epaInfo.Process.Self.TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.Process.Self.MaxTotalScore | customScore}}
                     </span>
-                </th>
-                <th colspan="3" ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers.length > 0">
-                    <span data-translate="Reviewer"></span>
-                    <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers[0].IsEndProcess">
-                        ({{memberEPAInfoCtrl.epaInfo.Process.AverageScoreByReviewers | customScore}})
-                    </span>
-                </th>
-                <th colspan="3" ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements.length > 0">
-                    <span data-translate="Management"></span>
-                    <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements[0].IsEndProcess">
-                        ({{memberEPAInfoCtrl.epaInfo.Process.AverageScoreByManagements | customScore}})
-                    </span>
-                </th>
-                <th rowspan="2" data-translate="DisciplineScore" class="col-score"></th>
-                <th rowspan="2" data-translate="FinalScore" class="col-score"></th>
-                <th rowspan="2" data-translate="Grade" class="col-score" ng-show="!memberEPAInfoCtrl.epaInfo.IsMonthly"></th>
-            </tr>
-            <tr>
-                <th data-translate="PerformanceScore" class="col-score"></th>
-                <th data-translate="Comment"></th>
-                <th data-translate="NickName"></th>
-                <th data-translate="PerformanceScore" class="col-score"></th>
-                <th data-translate="Comment"></th>
-                <th ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers.length > 0" data-translate="NickName"></th>
-                <th ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers.length > 0" data-translate="PerformanceScore" class="col-score"></th>
-                <th ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers.length > 0" data-translate="Comment"></th>
-                <th ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements.length > 0" data-translate="NickName"></th>
-                <th ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements.length > 0" data-translate="PerformanceScore" class="col-score"></th>
-                <th ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements.length > 0" data-translate="Comment"></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="opt in memberEPAInfoCtrl.range(memberEPAInfoCtrl.epaInfo.Rowspan) track by $index">
-                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center col-score" ng-show="$first">
-                    <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">
-                        <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.TotalScore || memberEPAInfoCtrl.epaInfo.Process.Self.TotalScore == 0">
-                            {{memberEPAInfoCtrl.epaInfo.Process.Self.TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.Process.Self.MaxTotalScore | customScore}}
-                        </span>
-                        <span data-translate="NotAvailable"
-                              ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.TotalScore && memberEPAInfoCtrl.epaInfo.Process.Self.TotalScore != 0"></span>
-                    </div>
-                    <div data-translate="Pending" ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess"></div>
-                </td>
-                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center col-comment" ng-show="$first">
-                    <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">
-                        <a class="glyphicon icon-view" href="" ng-attr-title='{{"ViewComment" | translate}}'
-                           ng-click="memberEPAInfoCtrl.openPopupViewComment(memberEPAInfoCtrl.epaInfo.Process.Self.Comment)"
-                           ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.Comment.length > 0">
-                        </a>
-                    </div>
-                    <div data-translate="Pending" ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess"></div>
-                </td>
-                <td class="text-center">
-                    <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index]"
-                         ng-bind="memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].NickName"
-                         popover-avatar avatar-src="{{memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].Avatar}}"></div>
-                </td>
-                <td class="text-center col-score">
-                    <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index]
+                    <span data-translate="NotAvailable"
+                          ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.TotalScore && memberEPAInfoCtrl.epaInfo.Process.Self.TotalScore != 0"></span>
+                </div>
+                <div data-translate="Pending" ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess"></div>
+            </td>
+            <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center col-comment" ng-show="$first">
+                <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">
+                    <a class="glyphicon icon-view" href="" ng-attr-title='{{"ViewComment" | translate}}'
+                       ng-click="memberEPAInfoCtrl.openPopupViewComment(memberEPAInfoCtrl.epaInfo.Process.Self.Comment)"
+                       ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.Comment.length > 0">
+                    </a>
+                </div>
+                <div data-translate="Pending" ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess"></div>
+            </td>
+            <td class="text-center">
+                <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index]"
+                     ng-bind="memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].NickName"
+                     popover-avatar avatar-src="{{memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].Avatar}}"></div>
+            </td>
+            <td class="text-center col-score">
+                <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index]
                             && memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].IsEndProcess">
-                        <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].TotalScore
+                    <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].TotalScore
                               || memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].TotalScore == 0">
-                            {{memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].MaxTotalScore | customScore}}
-                        </span>
-                        <span data-translate="NotAvailable" ng-show="!memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].TotalScore
+                        {{memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].MaxTotalScore | customScore}}
+                    </span>
+                    <span data-translate="NotAvailable" ng-show="!memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].TotalScore
                                 && memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].TotalScore != 0">
-                        </span>
-                    </div>
-                    <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index]
+                    </span>
+                </div>
+                <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index]
                             && !memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].IsEndProcess" data-translate="Pending"></div>
-                </td>
-                <td class="text-center col-comment">
-                    <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index]
+            </td>
+            <td class="text-center col-comment">
+                <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index]
                             && memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].IsEndProcess">
-                        <a class="glyphicon icon-view" href="" ng-attr-title='{{"ViewComment" | translate}}'
-                           ng-click="memberEPAInfoCtrl.openPopupViewComment(memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].Comment)"
-                           ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].Comment.length > 0">
-                        </a>
-                    </div>
-                    <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index]
+                    <a class="glyphicon icon-view" href="" ng-attr-title='{{"ViewComment" | translate}}'
+                       ng-click="memberEPAInfoCtrl.openPopupViewComment(memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].Comment)"
+                       ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].Comment.length > 0">
+                    </a>
+                </div>
+                <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index]
                             && !memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].IsEndProcess" data-translate="Pending"></div>
-                </td>
-                <td class="text-center" ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers.length > 0">
-                    <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index]"
-                         ng-bind="memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index].NickName"
-                         popover-avatar avatar-src="{{memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index].Avatar}}">></div>
-                </td>
-                <td class="text-center col-score" ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers.length > 0">
-                    <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index]
+            </td>
+            <td class="text-center" ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers.length > 0">
+                <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index]"
+                     ng-bind="memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index].NickName"
+                     popover-avatar avatar-src="{{memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index].Avatar}}">></div>
+            </td>
+            <td class="text-center col-score" ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers.length > 0">
+                <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index]
                             && memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index].IsEndProcess">
-                        <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index].TotalScore
+                    <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index].TotalScore
                               || memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index].TotalScore == 0">
-                            {{memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index].TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index].MaxTotalScore | customScore}}
-                        </span>
-                        <span data-translate="NotAvailable" ng-show="!memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index].TotalScore
+                        {{memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index].TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index].MaxTotalScore | customScore}}
+                    </span>
+                    <span data-translate="NotAvailable" ng-show="!memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index].TotalScore
                                                              && memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index].TotalScore != 0">
-                        </span>
-                    </div>
-                    <div data-translate="Pending" ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index]
+                    </span>
+                </div>
+                <div data-translate="Pending" ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index]
                             && !memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index].IsEndProcess"></div>
-                </td>
-                <td class="text-center col-comment" ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers.length > 0">
-                    <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index]
+            </td>
+            <td class="text-center col-comment" ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers.length > 0">
+                <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index]
                             && memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index].IsEndProcess">
-                        <a class="glyphicon icon-view" href="" ng-attr-title='{{"ViewComment" | translate}}'
-                           ng-click="memberEPAInfoCtrl.openPopupViewComment(memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index].Comment)"
-                           ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index].Comment.length > 0">
-                        </a>
-                    </div>
-                    <div data-translate="Pending" ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index]
+                    <a class="glyphicon icon-view" href="" ng-attr-title='{{"ViewComment" | translate}}'
+                       ng-click="memberEPAInfoCtrl.openPopupViewComment(memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index].Comment)"
+                       ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index].Comment.length > 0">
+                    </a>
+                </div>
+                <div data-translate="Pending" ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index]
                             && !memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index].IsEndProcess"></div>
-                </td>
-                <td class="text-center" ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements.length > 0">
-                    <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements[$index]"
-                         ng-bind="memberEPAInfoCtrl.epaInfo.Process.Managements[$index].NickName"
-                         popover-avatar avatar-src="{{memberEPAInfoCtrl.epaInfo.Process.Managements[$index].Avatar}}">></div>
-                </td>
-                <td class="text-center col-score" ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements.length > 0">
-                    <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements[$index]
+            </td>
+            <td class="text-center" ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements.length > 0">
+                <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements[$index]"
+                     ng-bind="memberEPAInfoCtrl.epaInfo.Process.Managements[$index].NickName"
+                     popover-avatar avatar-src="{{memberEPAInfoCtrl.epaInfo.Process.Managements[$index].Avatar}}">></div>
+            </td>
+            <td class="text-center col-score" ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements.length > 0">
+                <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements[$index]
                             && memberEPAInfoCtrl.epaInfo.Process.Managements[$index].IsEndProcess">
-                        <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements[$index].TotalScore
+                    <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements[$index].TotalScore
                               || memberEPAInfoCtrl.epaInfo.Process.Managements[$index].TotalScore == 0">
-                            {{memberEPAInfoCtrl.epaInfo.Process.Managements[$index].TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.Process.Managements[$index].MaxTotalScore | customScore}}
-                        </span>
-                        <span data-translate="NotAvailable" ng-show="!memberEPAInfoCtrl.epaInfo.Process.Managements[$index].TotalScore
+                        {{memberEPAInfoCtrl.epaInfo.Process.Managements[$index].TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.Process.Managements[$index].MaxTotalScore | customScore}}
+                    </span>
+                    <span data-translate="NotAvailable" ng-show="!memberEPAInfoCtrl.epaInfo.Process.Managements[$index].TotalScore
                                             && memberEPAInfoCtrl.epaInfo.Process.Managements[$index].TotalScore != 0">
-                        </span>
-                    </div>
-                    <div data-translate="Pending" ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements[$index]
+                    </span>
+                </div>
+                <div data-translate="Pending" ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements[$index]
                             && !memberEPAInfoCtrl.epaInfo.Process.Managements[$index].IsEndProcess"></div>
-                </td>
-                <td class="text-center col-comment" ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements.length > 0">
-                    <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements[$index]
+            </td>
+            <td class="text-center col-comment" ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements.length > 0">
+                <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements[$index]
                             && memberEPAInfoCtrl.epaInfo.Process.Managements[$index].IsEndProcess">
-                        <a class="glyphicon icon-view" href="" ng-attr-title='{{"ViewComment" | translate}}'
-                           ng-click="memberEPAInfoCtrl.openPopupViewComment(memberEPAInfoCtrl.epaInfo.Process.Managements[$index].Comment)"
-                           ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements[$index].Comment.length > 0">
-                        </a>
-                    </div>
-                    <div data-translate="Pending" ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements[$index]
+                    <a class="glyphicon icon-view" href="" ng-attr-title='{{"ViewComment" | translate}}'
+                       ng-click="memberEPAInfoCtrl.openPopupViewComment(memberEPAInfoCtrl.epaInfo.Process.Managements[$index].Comment)"
+                       ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements[$index].Comment.length > 0">
+                    </a>
+                </div>
+                <div data-translate="Pending" ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements[$index]
                             && !memberEPAInfoCtrl.epaInfo.Process.Managements[$index].IsEndProcess"></div>
-                </td>
-                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center" ng-show="$first">
-                    <strong ng-show="memberEPAInfoCtrl.epaInfo.HasDisciplineScore">
-                        <span ng-class="memberEPAInfoCtrl.epaInfo.DisciplineScore < 0 ? 'red' : ''"
-                              ng-bind="memberEPAInfoCtrl.epaInfo.DisciplineScore | customScore"></span> / <span ng-bind="memberEPAInfoCtrl.epaInfo.MaxDisciplineScore | customScore"></span>
-                    </strong>
-                    <div ng-show="!memberEPAInfoCtrl.epaInfo.HasDisciplineScore">
-                        <strong ng-show="memberEPAInfoCtrl.epaInfo.DisciplineScore"
-                                ng-class="memberEPAInfoCtrl.epaInfo.DisciplineScore < 0 ? 'red' : ''"
-                                ng-bind="memberEPAInfoCtrl.epaInfo.DisciplineScore | customScore"></strong>
-                        <strong ng-show="!memberEPAInfoCtrl.epaInfo.DisciplineScore" ng-bind="'-'"></strong>
-                    </div>
-                </td>
-                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center" ng-show="$first">
-                    <strong ng-show="memberEPAInfoCtrl.epaInfo.Period.IsEndPeriod">
-                        <span ng-show="memberEPAInfoCtrl.epaInfo.FinalScore || memberEPAInfoCtrl.epaInfo.FinalScore == 0">
-                            {{memberEPAInfoCtrl.epaInfo.FinalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore | customScore}}
-                        </span>
-                        <span ng-show="!memberEPAInfoCtrl.epaInfo.FinalScore && memberEPAInfoCtrl.epaInfo.FinalScore != 0" data-translate="NotAvailable"></span>
-                    </strong>
-                    <strong ng-show="!memberEPAInfoCtrl.epaInfo.Period.IsEndPeriod" data-translate="Pending"></strong>
-                </td>
-                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center" ng-show="$first && !memberEPAInfoCtrl.epaInfo.IsMonthly">
-                    <strong ng-show="memberEPAInfoCtrl.epaInfo.Period.IsEndPeriod">
-                        <span ng-show="memberEPAInfoCtrl.epaInfo.Grade" ng-bind="memberEPAInfoCtrl.epaInfo.Grade"></span>
-                        <span ng-show="!memberEPAInfoCtrl.epaInfo.Grade" data-translate="NotAvailable"></span>
-                    </strong>
-                    <strong ng-show="!memberEPAInfoCtrl.epaInfo.Period.IsEndPeriod" data-translate="Pending"></strong>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<div class="row row-item">
-    <div ng-include src="'/SourceApp/Components/EPA/Templates/performanceGradingScale.html'"></div>
-</div>
+            </td>
+            <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center" ng-show="$first">
+                <strong ng-show="memberEPAInfoCtrl.epaInfo.HasDisciplineScore">
+                    <span ng-class="memberEPAInfoCtrl.epaInfo.DisciplineScore < 0 ? 'red' : ''"
+                          ng-bind="memberEPAInfoCtrl.epaInfo.DisciplineScore | customScore"></span> / <span ng-bind="memberEPAInfoCtrl.epaInfo.MaxDisciplineScore | customScore"></span>
+                </strong>
+                <div ng-show="!memberEPAInfoCtrl.epaInfo.HasDisciplineScore">
+                    <strong ng-show="memberEPAInfoCtrl.epaInfo.DisciplineScore"
+                            ng-class="memberEPAInfoCtrl.epaInfo.DisciplineScore < 0 ? 'red' : ''"
+                            ng-bind="memberEPAInfoCtrl.epaInfo.DisciplineScore | customScore"></strong>
+                    <strong ng-show="!memberEPAInfoCtrl.epaInfo.DisciplineScore" ng-bind="'-'"></strong>
+                </div>
+            </td>
+            <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center" ng-show="$first">
+                <strong ng-show="memberEPAInfoCtrl.epaInfo.Period.IsEndPeriod">
+                    <span ng-show="memberEPAInfoCtrl.epaInfo.FinalScore || memberEPAInfoCtrl.epaInfo.FinalScore == 0">
+                        {{memberEPAInfoCtrl.epaInfo.FinalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore | customScore}}
+                    </span>
+                    <span ng-show="!memberEPAInfoCtrl.epaInfo.FinalScore && memberEPAInfoCtrl.epaInfo.FinalScore != 0" data-translate="NotAvailable"></span>
+                </strong>
+                <strong ng-show="!memberEPAInfoCtrl.epaInfo.Period.IsEndPeriod" data-translate="Pending"></strong>
+            </td>
+            <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center" ng-show="$first && !memberEPAInfoCtrl.epaInfo.IsMonthly">
+                <strong ng-show="memberEPAInfoCtrl.epaInfo.Period.IsEndPeriod">
+                    <span ng-show="memberEPAInfoCtrl.epaInfo.Grade" ng-bind="memberEPAInfoCtrl.epaInfo.Grade"></span>
+                    <span ng-show="!memberEPAInfoCtrl.epaInfo.Grade" data-translate="NotAvailable"></span>
+                </strong>
+                <strong ng-show="!memberEPAInfoCtrl.epaInfo.Period.IsEndPeriod" data-translate="Pending"></strong>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<div ng-include src="'/SourceApp/Components/EPA/Templates/performanceGradingScale.html'"></div>
