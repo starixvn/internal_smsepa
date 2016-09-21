@@ -93,26 +93,29 @@
 
         private object CreateRecordDisciplineSummaryByPeriod(DisciplineSummaryModel employeeDiscipline, ref int rowIndex)
         {
-            decimal otherDisciplines = employeeDiscipline.OtherDisciplines > 0 ? -employeeDiscipline.OtherDisciplines : 0,
-                systemSubtractScore = employeeDiscipline.SystemSubtractScore > 0 ? -employeeDiscipline.SystemSubtractScore : 0,
+            decimal missingCheckInOut = employeeDiscipline.MissingCheckInOut > 0 ? -employeeDiscipline.MissingCheckInOut : 0,
+                lateIn = employeeDiscipline.LateIn > 0 ? -employeeDiscipline.LateIn : 0,
+                unpaidLeave = employeeDiscipline.UnpaidLeave > 0 ? -employeeDiscipline.UnpaidLeave : 0,
+                workingUndertime = employeeDiscipline.WorkingUndertime > 0 ? -employeeDiscipline.WorkingUndertime : 0,
+                otherDisciplines = employeeDiscipline.OtherDisciplines > 0 ? -employeeDiscipline.OtherDisciplines : 0,
                 approverSubtractScore = employeeDiscipline.ApproverSubtractScore > 0 ? -employeeDiscipline.ApproverSubtractScore : 0;
 
             var record = new
             {
                 Count = rowIndex,
-                Section = employeeDiscipline.Employee.Group != null ? employeeDiscipline.Employee.Group.GroupName : string.Empty,
+                Period = employeeDiscipline.Period.Name,
                 Code = employeeDiscipline.Employee.Code,
                 Nick = employeeDiscipline.Employee.NickName,
                 FullName = employeeDiscipline.Employee.FullName,
+                Section = employeeDiscipline.Employee.Group != null ? employeeDiscipline.Employee.Group.GroupName : string.Empty,
                 JobTitle = employeeDiscipline.Employee.JobTitle != null ? employeeDiscipline.Employee.JobTitle.JobTitleName : string.Empty,
                 JoinedDate = employeeDiscipline.Employee.JoinedDate.ToString(Constants.DateFormat),
                 Category = employeeDiscipline.Employee.Category,
-                MissingCheckInOut = employeeDiscipline.MissingCheckInOut,
-                LateIn = employeeDiscipline.LateIn,
-                UnpaidLeave = employeeDiscipline.UnpaidLeave,
-                WorkingUndertime = employeeDiscipline.WorkingUndertime,
+                MissingCheckInOut = missingCheckInOut,
+                LateIn = lateIn,
+                UnpaidLeave = unpaidLeave,
+                WorkingUndertime = workingUndertime,
                 OtherDisciplines = otherDisciplines,
-                SystemSubtractScore = systemSubtractScore,
                 ApproverSubtractScore = approverSubtractScore
             };
             rowIndex++;

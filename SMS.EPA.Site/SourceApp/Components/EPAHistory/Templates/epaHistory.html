@@ -1,7 +1,7 @@
-﻿<div class="col-sm-12" ng-controller="monthlyEPAHistoryController as epaHistoryCtrl">
+﻿<div class="col-sm-12" ng-controller="EPAHistoryController as epaHistoryCtrl">
     <div class="sub-header">
         <ul class="row breadcrumb">
-            <li class="current" data-translate="MonthlyEPAHistory"></li>
+            <li class="current" data-translate="EPAHistory"></li>
         </ul>
     </div>
 
@@ -13,6 +13,21 @@
                 <option value="">-- {{"All" | translate}} --</option>
             </select>
         </div>
+        <div class="form-group">
+            <label data-translate="DepartmentSection"></label>
+            <select class="form-control lstBox-limit" ng-model="epaHistoryCtrl.filter.departmentId"
+                    ng-options="opt.DepartmentId as opt.Name for opt in epaHistoryCtrl.treeDepartment">
+                <option value="">-- {{"All" | translate}} --</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label data-translate="Category"></label>
+            <select class="form-control" ng-model="epaHistoryCtrl.filter.isLocal">
+                <option value="">-- {{"All" | translate}} --</option>
+                <option value="false">{{"Expat" | translate}}</option>
+                <option value="true">{{"Local" | translate}}</option>
+            </select>
+        </div>
         <div class="form-group" ng-show="!epaHistoryCtrl.onlyEmployeeRole">
             <label class="control-label" data-translate="Employee"></label>
             <input class="form-control employee-search" ng-model="epaHistoryCtrl.searchEmployee"
@@ -20,13 +35,13 @@
                    ng-change="epaHistoryCtrl.unSelectEmployee()" employee="epaHistoryCtrl.filter.employee" />
         </div>
         <div class="form-group">
-            <button class="button" ng-click="epaHistoryCtrl.query()" data-translate="Search"></button>
+            <button class="button" ng-click="epaHistoryCtrl.query(epaHistoryCtrl.filter)" data-translate="Search"></button>
         </div>
     </form>
     <table class="row table table-bordered table-striped">
         <thead>
             <tr class="header-table">
-                <th colspan="8">
+                <th colspan="9">
                     <a class="pull-left button-icon back-button" ng-click="epaHistoryCtrl.backToList()" ng-show="epaHistoryCtrl.fromEPAListing">
                         <span class="icon back"></span>
                         <span class="button-back-text" data-translate="BackToList"></span>
@@ -38,8 +53,10 @@
                 <th data-translate="SymbolCount"></th>
                 <th data-translate="NickName"></th>
                 <th data-translate="Code"></th>
+                <th data-translate="Section"></th>
                 <th data-translate="PeriodName"></th>
-                <th data-translate="StartDate"></th></th>
+                <th data-translate="StartDate"></th>
+                <th data-translate="EndDate"></th>
                 <th data-translate="FinalScore"></th>
                 <th data-translate="Grade"></th>
             </tr>
@@ -51,12 +68,13 @@
                     <span ng-bind="epa.Employee.NickName" popover-avatar avatar-src="{{epa.Employee.Avatar}}"></span>
                 </td>
                 <td class="text-center" ng-bind="epa.Employee.Code"></td>
-                <td class="text-center" ng-bind="epa.Period.Name"></td>
+                <td ng-bind="epa.Employee.GroupName"></td>
+                <td ng-bind="epa.Period.Name"></td>
                 <td class="text-center" ng-bind="epa.Period.StartDate | date: epaHistoryCtrl.dateFormat"></td>
                 <td class="text-center" ng-bind="epa.Period.EndDate | date: epaHistoryCtrl.dateFormat"></td>
                 <td class="text-center">
-                    <a href="{{epaHistoryCtrl.viewEPADetailUrl}}" ng-show="epa.HasEPAForm && epa.Grade && epa.FinalScore >= 0"
-                       ng-click="epaHistoryCtrl.viewDetailEPA(epa.EPAId)" ng-bind="epa.FinalScore"></a>
+                    <a href="{{epaHistoryCtrl.viewEPADetailUrl}}" ng-show="epa.HasEPAForm && epa.Grade && epa.FinalScore >= 0" 
+                       ng-click="epaHistoryCtrl.viewDetailEPA(epa)" ng-bind="epa.FinalScore" ></a>
                     <span ng-bind="epa.FinalScore" ng-show="!epa.HasEPAForm"></span>
                     <span data-translate="NotAvailable" ng-show="!epa.Grade && epa.HasEPAForm"></span>
                 </td>
@@ -66,12 +84,12 @@
                 </td>
             </tr>
             <tr ng-show="epaHistoryCtrl.filteredItems.length == 0">
-                <td class="empty-result" colspan="8" data-translate="EmptyResult"></td>
+                <td class="empty-result" colspan="9" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="8" class="paging">
+                <td colspan="9" class="paging">
                     <span data-translate="Show"></span>
                     <select class="dropdown-entry form-control" ng-model="epaHistoryCtrl.pageSize"
                             ng-options="entry for entry in epaHistoryCtrl.entries"></select>

@@ -8,6 +8,10 @@
 
         public int EvaluatorId { get; set; }
 
+        public int? DepartmentId { get; set; }
+
+        public bool? IsLocal { get; set; }
+
         public int? EmployeeId { get; set; }
 
         public override bool IsValid()

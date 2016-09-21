@@ -1,29 +1,45 @@
-﻿'use strict';
-/*global epaHistoryModule*/
+﻿(function (angular) {
+    'use strict';
 
-epaHistoryModule.factory('EPAHistoryModel', ['epaHistoryFactory', 'errorFactory',
-function (epaHistoryFactory, errorFactory) {
-    var epaHistoryModel = {};
+    angular.module('epaHistoryModule').factory('EPAHistoryModel', epaHistoryModel);
+    epaHistoryModel.$inject = ['epaHistoryFactory', 'errorFactory'];
 
-    epaHistoryModel.epas = [];
-    epaHistoryModel.onlyEmployeeRole = false;
+    function epaHistoryModel(epaHistoryFactory, errorFactory) {
+        var epas = [],
+            onlyEmployeeRole = false;
 
-    epaHistoryModel.getEPAHistory = function (periodId, employeeId) {
-        return epaHistoryFactory.getEPAHistory(periodId, employeeId).success(function (epas) {
-            epaHistoryModel.epas = epas;
-        })
-        .error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
+        var model = {
+            epas: epas,
+            onlyEmployeeRole: onlyEmployeeRole,
+            checkHasOnlyEmployeeRole: checkHasOnlyEmployeeRole,
+            getEPAHistory: getEPAHistory,
+            getMonthlyEPAHistory: getMonthlyEPAHistory
+        };
 
-    epaHistoryModel.checkHasOnlyEmployeeRole = function () {
-        return epaHistoryFactory.checkHasOnlyEmployeeRole().success(function (onlyEmployeeRole) {
-            epaHistoryModel.onlyEmployeeRole = onlyEmployeeRole;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
+        return model;
 
-    return epaHistoryModel;
-}]);
+        function checkHasOnlyEmployeeRole() {
+            return epaHistoryFactory.checkHasOnlyEmployeeRole().success(function (onlyEmployeeRole) {
+                model.onlyEmployeeRole = onlyEmployeeRole;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        }
+
+        function getEPAHistory(periodId, departmentId, isLocal, employeeId) {
+            return epaHistoryFactory.getEPAHistory(periodId, departmentId, isLocal, employeeId).success(function (epas) {
+                model.epas = epas;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        }
+
+        function getMonthlyEPAHistory(periodId, employeeId) {
+            return epaHistoryFactory.getMonthlyEPAHistory(periodId, employeeId).success(function (epas) {
+                model.epas = epas;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        }
+    }
+})(angular);

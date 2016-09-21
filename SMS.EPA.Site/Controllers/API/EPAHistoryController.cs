@@ -27,12 +27,18 @@
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.EPAHistory, Policy = Policy.Read)]
-        public IList<EPAHistoryModel> GetEPAHistory(int? periodId = null, int? employeeId = null)
+        public IList<EPAHistoryModel> GetEPAHistory(
+            int? periodId = null,
+            int? departmentId = null,
+            bool? isLocal = null,
+            int? employeeId = null)
         {
             var criteria = new GetEPAHistoryCriteria
             {
                 PeriodId = periodId,
                 EvaluatorId = this.SessionService.EmployeeId,
+                DepartmentId = departmentId,
+                IsLocal = isLocal,
                 EmployeeId = employeeId
             };
 

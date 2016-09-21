@@ -1,94 +1,111 @@
-﻿'use strict';
-/*global epaHistoryModule*/
+﻿(function (angular) {
+    'use strict';
 
-epaHistoryModule.controller('EPAHistoryController',
-['$routeParams', 'EPAHistoryModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl',
-function ($routeParams, EPAHistoryModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
-    var vm = this;
-    vm.epas = EPAHistoryModel.epas;
-    vm.periodOptions = CommonModel.periodOptions;
-    vm.onlyEmployeeRole = EPAHistoryModel.onlyEmployeeRole;
-    vm.targetTypeEnum = utilitiesFactory.targetType;
+    angular.module('epaHistoryModule').controller('EPAHistoryController', epaHistoryController);
+    epaHistoryController.$inject = ['$routeParams', 'EPAHistoryModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl'];
 
-    vm.filter = {
-        periodId: $routeParams.periodId ? $routeParams.periodId : null,
-        employee: null,
-        employeeId: $routeParams.empId ? $routeParams.empId : null
-    };
+    function epaHistoryController($routeParams, EPAHistoryModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
+        var vm = this;
 
-    if (vm.filter.employeeId) {
-        vm.fromEPAListing = true;
-    }
+        vm.currentPage = 1;
+        vm.epas = [];
+        vm.filter = {
+            periodId: $routeParams.periodId ? $routeParams.periodId : null,
+            departmentId: '',
+            isLocal: '',
+            employee: null,
+            employeeId: $routeParams.empId ? $routeParams.empId : null
+        };
+        vm.onlyEmployeeRole = false;
+        vm.pageSize = 20;
+        vm.periodOptions = [];
+        vm.targetTypeEnum = utilitiesFactory.targetType;
+        vm.treeDepartment = null;
 
-    vm.currentPage = 1;
-    vm.pageSize = 20;
+        vm.backToList = backToList;
+        vm.getEmployee = getEmployee;
+        vm.getIndex = getIndex;
+        vm.query = query;
+        vm.unSelectEmployee = unSelectEmployee;
+        vm.viewDetailEPA = viewDetailEPA;
 
-    utilitiesFactory.numberEntryList(vm);
-    utilitiesFactory.getDateFormat(vm);
+        utilitiesFactory.numberEntryList(vm);
+        utilitiesFactory.getDateFormat(vm);
+        initialize();
 
-    CommonModel.getAllPeriodIncludeImport().then(function () {
-        vm.periodOptions = CommonModel.periodOptions;
-    });
+        function backToList() {
+            historyFactory.back();
+        }
 
-    if (vm.filter.employeeId) {
-        CommonModel.getEmployeeById(vm.filter.employeeId).then(function () {
-            vm.filter.employee = CommonModel.employee;
-            vm.filter.employee.Name = vm.filter.employee.NickName;
-            vm.searchEmployee = vm.filter.employee.NickName + ' (' + vm.filter.employee.FullName + ')';
-        });
-    }
+        function getEmployee() {
+            return CommonModel.getAllEmployee(vm.searchEmployee);
+        }
 
-    EPAHistoryModel.checkHasOnlyEmployeeRole().then(function () {
-        vm.onlyEmployeeRole = EPAHistoryModel.onlyEmployeeRole;
-    });
+        function getEPAHistory(periodId, departmentId, isLocal, employeeId) {
+            lockScreenService.start();
 
-    vm.getEmployee = function () {
-        return CommonModel.getAllEmployee(vm.searchEmployee);
-    };
+            EPAHistoryModel.getEPAHistory(periodId, departmentId, isLocal, employeeId).then(function () {
+                vm.epas = EPAHistoryModel.epas;
+                utilitiesFactory.searchOnPage(vm, vm.epas);
+                lockScreenService.stop();
+            });
+        }
 
-    vm.unSelectEmployee = function () {
-        if (vm.searchEmployee.trim() === '') {
-            if (vm.filter.employee) {
-                vm.filter.employee = null;
+        function getIndex(index, currentPage, pageSize) {
+            return CommonModel.getIndex(index, currentPage, pageSize);
+        }
+
+        function initialize() {
+            CommonModel.getAllPeriodIncludeImport().then(function () {
+                vm.periodOptions = CommonModel.periodOptions;
+            });
+
+            EPAHistoryModel.checkHasOnlyEmployeeRole().then(function () {
+                vm.onlyEmployeeRole = EPAHistoryModel.onlyEmployeeRole;
+            });
+
+            CommonModel.getDepartment().then(function () {
+                vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
+            });
+
+            if (vm.filter.employeeId) {
+                vm.fromEPAListing = true;
+
+                CommonModel.getEmployeeById(vm.filter.employeeId).then(function () {
+                    vm.filter.employee = CommonModel.employee;
+                    vm.filter.employee.Name = vm.filter.employee.NickName;
+                    vm.searchEmployee = vm.filter.employee.NickName + ' (' + vm.filter.employee.FullName + ')';
+                });
+            }
+
+            getEPAHistory(vm.filter.periodId, vm.filter.departmentId, vm.filter.isLocal, vm.filter.employeeId);
+        }
+
+        function query(filter) {
+            vm.currentPage = 1;
+            var employeeId = null;
+
+            if (filter.employee) {
+                employeeId = filter.employee.EmployeeId;
+            }
+
+            getEPAHistory(filter.periodId, filter.departmentId, filter.isLocal, employeeId);
+        }
+
+        function unSelectEmployee() {
+            if (vm.searchEmployee.trim() === '') {
+                if (vm.filter.employee) {
+                    vm.filter.employee = null;
+                }
             }
         }
-    };
 
-    var getEPAHistory = function (periodId, employeeId) {
-        lockScreenService.start();
-
-        EPAHistoryModel.getEPAHistory(periodId, employeeId).then(function () {
-            vm.epas = EPAHistoryModel.epas;
-            utilitiesFactory.searchOnPage(vm, vm.epas);
-            lockScreenService.stop();
-        });
-    };
-
-    getEPAHistory(vm.filter.periodId, vm.filter.employeeId);
-
-    vm.query = function (filter) {
-        var employeeId = null;
-
-        if (filter.employee) {
-            employeeId = filter.employee.EmployeeId;
+        function viewDetailEPA(epa) {
+            if (epa.HasMonthlyEPA && epa.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
+                vm.viewEPADetailUrl = baseUrl + 'EPA/SemiDetail/' + epa.EPAId;
+            } else {
+                vm.viewEPADetailUrl = baseUrl + 'EPA/Detail/' + epa.EPAId;
+            }
         }
-
-        getEPAHistory(filter.periodId, employeeId);
-    };
-
-    vm.getIndex = function (index, currentPage, pageSize) {
-        return CommonModel.getIndex(index, currentPage, pageSize);
-    };
-
-    vm.backToList = function () {
-        historyFactory.back();
-    };
-
-    vm.viewDetailEPA = function (epa) {
-        if (epa.HasMonthlyEPA && epa.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
-            vm.viewEPADetailUrl = baseUrl + 'EPA/SemiDetail/' + epa.EPAId;
-        } else {
-            vm.viewEPADetailUrl = baseUrl + 'EPA/Detail/' + epa.EPAId;
-        }
-    };
-}]);
+    }
+})(angular);

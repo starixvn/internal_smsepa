@@ -434,6 +434,7 @@
     <Content Include="SourceApp\Components\Employee\Templates\index.html" />
     <Content Include="SourceApp\Components\Employee\Templates\modalConfirmSetUnsetMonthlyEvaluation.html" />
     <Content Include="SourceApp\Components\Employee\Templates\resetPassword.html" />
+    <Content Include="SourceApp\Components\EPAHistory\Templates\monthlyEPAHistory.html" />
     <Content Include="SourceApp\Components\FlowManagement\update-flowTemplate-basic-info-controller.js" />
     <Content Include="SourceApp\Components\FlowManagement\update-flowTemplate-controller.js" />
     <Content Include="SourceApp\Components\FlowManagement\create-flowTemplate-controller.js" />
@@ -450,14 +451,11 @@
     <Content Include="SourceApp\Components\KPI\create-kpi-controller.js" />
     <Content Include="SourceApp\Components\KPI\update-kpi-controller.js" />
     <Content Include="SourceApp\Components\KPI\kpi-directive.js" />
-    <Content Include="SourceApp\Components\MonthlyEPAHistory\monthlyEPAHistory-controller.js" />
-    <Content Include="SourceApp\Components\MonthlyEPAHistory\monthlyEPAHistory-factory.js" />
-    <Content Include="SourceApp\Components\MonthlyEPAHistory\monthlyEPAHistory-model.js" />
-    <Content Include="SourceApp\Components\MonthlyEPAHistory\Templates\index.html" />
+    <Content Include="SourceApp\Components\EPAHistory\monthlyEPAHistory-controller.js" />
     <Content Include="SourceApp\Components\EPAHistory\epaHistory-controller.js" />
     <Content Include="SourceApp\Components\EPAHistory\epaHistory-factory.js" />
     <Content Include="SourceApp\Components\EPAHistory\epaHistory-model.js" />
-    <Content Include="SourceApp\Components\EPAHistory\Templates\index.html" />
+    <Content Include="SourceApp\Components\EPAHistory\Templates\epaHistory.html" />
     <Content Include="SourceApp\Components\EPA\Convert\convertEPA-controller.js" />
     <Content Include="SourceApp\Components\EPA\Convert\Templates\detail.html" />
     <Content Include="SourceApp\Components\EPA\employeeEPA-controller.js" />

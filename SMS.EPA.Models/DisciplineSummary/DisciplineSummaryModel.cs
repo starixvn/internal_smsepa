@@ -1,10 +1,13 @@
 ﻿namespace SMS.EPA.Model
 {
     using SMS.EPA.Model.Enitites;
+    using SMS.EPA.Model.Period;
 
     public class DisciplineSummaryModel
     {
         public Employee Employee { get; set; }
+
+        public PeriodModel Period { get; set; }
 
         public decimal ChangeShift { get; set; }
 

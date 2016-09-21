@@ -51,7 +51,7 @@
     <table class="row table table-bordered table-striped">
         <thead>
             <tr class="header-table">
-                <th colspan="15">
+                <th colspan="11">
                     <input class="btnExcel pull-right" export-discipline-summary-by-period-report
                            ng-click="disciplineSummaryByPeriodCtrl.exportReport(disciplineSummaryByPeriodCtrl.filter)"
                            type="button" title="Export to Excel">
@@ -60,47 +60,59 @@
             </tr>
             <tr class="headerName">
                 <th data-translate="SymbolCount"></th>
-                <th data-translate="Section"></th>
+                <th data-translate="Period"></th>
                 <th data-translate="Code"></th>
                 <th data-translate="NickName"></th>
-                <th>No time in &amp; out</th>
+                <th data-translate="Section"></th>
+                <th>Missing check in/out</th>
                 <th>Tardiness</th>
                 <th>Unpaid leave</th>
                 <th>Undertime</th>
-                <th>Misconduction case</th>
-                <th data-translate="MinusScoringSystem"></th>
-                <th data-translate="MinusScoringApprover"></th>
+                <th>Misconduction</th>
+                <th data-translate="Disciplinary"></th>
             </tr>
         </thead>
         <tbody>
-            <tr dir-paginate="employee in disciplineSummaryByPeriodCtrl.filteredItems | itemsPerPage: disciplineSummaryByPeriodCtrl.pageSize" pagination-id="summary" current-page="disciplineSummaryByPeriodCtrl.currentPage">
+            <tr dir-paginate="discipline in disciplineSummaryByPeriodCtrl.filteredItems | itemsPerPage: disciplineSummaryByPeriodCtrl.pageSize" pagination-id="summary" current-page="disciplineSummaryByPeriodCtrl.currentPage">
                 <td class="text-center" ng-bind="disciplineSummaryByPeriodCtrl.getIndex($index, disciplineSummaryByPeriodCtrl.currentPage, disciplineSummaryByPeriodCtrl.pageSize)"></td>
-                <td class="text-center" ng-bind="employee.Employee.Group.GroupName"></td>
-                <td class="text-center" ng-bind="employee.Employee.Code"></td>
+                <td class="text-center" ng-bind="discipline.Period.Name"></td>
+                <td class="text-center" ng-bind="discipline.Employee.Code"></td>
                 <td>
-                    <span ng-bind="employee.Employee.NickName" popover-avatar avatar-src="{{employee.Employee.Avatar}}"></span>
+                    <span ng-bind="discipline.Employee.NickName" popover-avatar avatar-src="{{discipline.Employee.Avatar}}"></span>
                 </td>
-                <td class="text-right" ng-bind="employee.MissingCheckInOut"></td>
-                <td class="text-right" ng-bind="employee.LateIn"></td>
-                <td class="text-right" ng-bind="employee.UnpaidLeave"></td>
-                <td class="text-right" ng-bind="employee.WorkingUndertime"></td>
-                <td class="text-right" ng-bind="employee.OtherDisciplines"></td>
+                <td class="text-center" ng-bind="discipline.Employee.Group.GroupName"></td>
                 <td class="text-right">
-                    <span class="red" ng-show="employee.SystemSubtractScore > 0">-{{employee.SystemSubtractScore | number: 1}}</span>
-                    <span ng-show="employee.SystemSubtractScore == 0">{{employee.SystemSubtractScore | number: 1}}</span>
+                    <span class="red" ng-show="discipline.MissingCheckInOut > 0">-{{discipline.MissingCheckInOut | number: 1}}</span>
+                    <span ng-show="discipline.MissingCheckInOut == 0">{{discipline.MissingCheckInOut | number: 1}}</span>
                 </td>
                 <td class="text-right">
-                    <span class="red" ng-show="employee.ApproverSubtractScore > 0">-{{employee.ApproverSubtractScore | number: 1}}</span>
-                    <span ng-show="employee.ApproverSubtractScore == 0">{{employee.ApproverSubtractScore | number: 1}}</span>
+                    <span class="red" ng-show="discipline.LateIn > 0">-{{discipline.LateIn | number: 1}}</span>
+                    <span ng-show="discipline.LateIn == 0">{{discipline.LateIn | number: 1}}</span>
+                </td>
+                <td class="text-right">
+                    <span class="red" ng-show="discipline.UnpaidLeave > 0">-{{discipline.UnpaidLeave | number: 1}}</span>
+                    <span ng-show="discipline.UnpaidLeave == 0">{{discipline.UnpaidLeave | number: 1}}</span>
+                </td>
+                <td class="text-right">
+                    <span class="red" ng-show="discipline.WorkingUndertime > 0">-{{discipline.WorkingUndertime | number: 1}}</span>
+                    <span ng-show="discipline.WorkingUndertime == 0">{{discipline.WorkingUndertime | number: 1}}</span>
+                </td>
+                <td class="text-right">
+                    <span class="red" ng-show="discipline.OtherDisciplines > 0">-{{discipline.OtherDisciplines | number: 1}}</span>
+                    <span ng-show="discipline.OtherDisciplines == 0">{{discipline.OtherDisciplines | number: 1}}</span>
+                </td>
+                <td class="text-right">
+                    <span class="red" ng-show="discipline.ApproverSubtractScore > 0">-{{discipline.ApproverSubtractScore | number: 1}}</span>
+                    <span ng-show="discipline.ApproverSubtractScore == 0">{{discipline.ApproverSubtractScore | number: 1}}</span>
                 </td>
             </tr>
             <tr ng-show="disciplineSummaryByPeriodCtrl.filteredItems.length == 0">
-                <td class="empty-result" colspan="15" data-translate="EmptyResult"></td>
+                <td class="empty-result" colspan="11" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="15" class="paging">
+                <td colspan="11" class="paging">
                     <span data-translate="Show"></span>
                     <select class="dropdown-entry form-control" ng-model="disciplineSummaryByPeriodCtrl.pageSize"
                             ng-options="entry for entry in disciplineSummaryByPeriodCtrl.entries"></select>

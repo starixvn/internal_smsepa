@@ -1,13 +1,33 @@
-﻿'use strict';
-/*global epaHistoryModule*/
+﻿(function (angular) {
+    'use strict';
 
-epaHistoryModule.factory('epaHistoryFactory', ['$http', 'baseUrl', function ($http, baseUrl) {
-    return {
-        getEPAHistory: function (periodId, employeeId) {
-            return $http.get(baseUrl + 'api/EPAHistory/GetEPAHistory', { params: { periodId: periodId, employeeId: employeeId } });
-        },
-        checkHasOnlyEmployeeRole: function () {
+    angular.module('epaHistoryModule').factory('epaHistoryFactory', epaHistoryFactory);
+    epaHistoryFactory.$inject = ['$http', 'baseUrl'];
+
+    function epaHistoryFactory($http, baseUrl) {
+        return {
+            checkHasOnlyEmployeeRole: checkHasOnlyEmployeeRole,
+            getEPAHistory: getEPAHistory,
+            getMonthlyEPAHistory: getMonthlyEPAHistory
+        };
+
+        function checkHasOnlyEmployeeRole() {
             return $http.get(baseUrl + 'api/EPAHistory/HasOnlyEmployeeRole');
         }
-    };
-}]);
+
+        function getEPAHistory(periodId, departmentId, isLocal, employeeId) {
+            return $http.get(baseUrl + 'api/EPAHistory/GetEPAHistory', {
+                params: {
+                    periodId: periodId,
+                    departmentId: departmentId,
+                    isLocal: isLocal,
+                    employeeId: employeeId
+                }
+            });
+        }
+
+        function getMonthlyEPAHistory(periodId, employeeId) {
+            return $http.get(baseUrl + 'api/EPAHistory/GetMonthlyEPAHistory', { params: { periodId: periodId, employeeId: employeeId } });
+        }
+    }
+})(angular);

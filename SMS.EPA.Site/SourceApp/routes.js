@@ -149,13 +149,13 @@ var reportModule = angular.module("reportModule", ['ngRoute'])
     { templateUrl: baseUrl + 'SourceApp/Components/Report/Templates/MonthlyEPASummaryReport.html', caseInsensitiveMatch: true });
 }]);
 
-var epaHistoryModule = angular.module("epaHistoryModule", ['ngRoute'])
+angular.module("epaHistoryModule", ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
     var baseUrl = $("base").first().attr("href");
     $routeProvider.when('/EPAHistory/Index',
-    { templateUrl: baseUrl + 'SourceApp/Components/EPAHistory/Templates/index.html', caseInsensitiveMatch: true });
-    $routeProvider.when('/monthlyEPAHistory/Index',
-    { templateUrl: baseUrl + 'SourceApp/Components/MonthlyEPAHistory/Templates/index.html', caseInsensitiveMatch: true });
+    { templateUrl: baseUrl + 'SourceApp/Components/EPAHistory/Templates/epaHistory.html', caseInsensitiveMatch: true });
+    $routeProvider.when('/MonthlyEPAHistory/Index',
+    { templateUrl: baseUrl + 'SourceApp/Components/EPAHistory/Templates/monthlyEPAHistory.html', caseInsensitiveMatch: true });
 }]);
 
 var monthlyPeriodModule = angular.module("monthlyPeriodModule", ['ngRoute'])
