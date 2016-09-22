@@ -1,7 +1,10 @@
-﻿'use strict';
+﻿(function (angular) {
+    'use strict';
 
-(function (angular) {
-    function UpdateFinalScoreController(EmployeeEPAModel, CommonModel, notificationFactory, utilitiesFactory) {
+    angular.module('epaModule').controller('UpdateFinalScoreController', updateFinalScoreController);
+    updateFinalScoreController.$inject = ['EmployeeEPAModel', 'CommonModel', 'notificationFactory', 'utilitiesFactory', 'lockScreenService'];
+
+    function updateFinalScoreController(EmployeeEPAModel, CommonModel, notificationFactory, utilitiesFactory, lockScreenService) {
         var vm = this;
 
         vm.currentPage = 1;
@@ -17,6 +20,17 @@
         vm.periods = [];
         vm.selectedAll = false;
 
+        vm.checkAll = checkAll;
+        vm.getEmployee = getEmployee;
+        vm.getEPAToUpdateFinalScore = getEPAToUpdateFinalScore;
+        vm.getIndex = getIndex;
+        vm.updateFinalScore = updateFinalScore;
+        vm.unSelectEmployee = unSelectEmployee;
+        vm.syncSelectedEPA = syncSelectedEPA;
+
+        utilitiesFactory.numberEntryList(vm);
+        initialize();
+
         function checkAll(selectedAll) {
             angular.forEach(vm.epaInfos, function (epaInfo) {
                 epaInfo.Selected = selectedAll;
@@ -31,6 +45,7 @@
 
         function getEPAToUpdateFinalScore(filter) {
             if (vm.filter.periodId > 0) {
+                lockScreenService.start();
                 var employeeId = filter.employee ? filter.employee.EmployeeId : null;
 
                 EmployeeEPAModel.getEPAToUpdateFinalScore(filter.periodId, filter.groupId, employeeId).then(function () {
@@ -39,6 +54,7 @@
                     vm.epaInfos = EmployeeEPAModel.epaInfos;
                     utilitiesFactory.searchOnPage(vm, vm.epaInfos);
                     vm.selectedAll = false;
+                    lockScreenService.stop();
                 });
             }
         }
@@ -113,22 +129,5 @@
                 vm.filter.employee = null;
             }
         }
-
-        vm.checkAll = checkAll;
-        vm.getEmployee = getEmployee;
-        vm.getEPAToUpdateFinalScore = getEPAToUpdateFinalScore;
-        vm.getIndex = getIndex;
-        vm.updateFinalScore = updateFinalScore;
-        vm.unSelectEmployee = unSelectEmployee;
-        vm.syncSelectedEPA = syncSelectedEPA;
-
-        utilitiesFactory.numberEntryList(vm);
-        initialize();
     }
-
-    UpdateFinalScoreController.$inject = ['EmployeeEPAModel', 'CommonModel', 'notificationFactory', 'utilitiesFactory'];
-
-    angular
-        .module('epaModule')
-        .controller('UpdateFinalScoreController', UpdateFinalScoreController);
 })(angular);

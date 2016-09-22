@@ -2,8 +2,8 @@
 /*global epaModule*/
 
 epaModule.controller('EvaluatorController',
-['EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'baseUrl',
-function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, historyFactory, baseUrl) {
+['EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl',
+function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
     var vm = this;
 
     vm.memberEPAs = [];
@@ -67,6 +67,7 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, hi
     };
 
     function getEPAByEvaluator(groupId, isLocal, isMonthly, employeeIds) {
+        lockScreenService.start();
         vm.sortBySelfScore = { ascending: false, descending: false };
 
         SelfEvalutorModel.getEPAByEvaluator(groupId, isLocal, isMonthly, employeeIds).then(function () {
@@ -96,6 +97,8 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, hi
             } else {
                 vm.monthlyFilterSelected = false;
             }
+
+            lockScreenService.stop();
         });
 
         historyFactory.saveState(vm.filter);

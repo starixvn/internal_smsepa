@@ -122,11 +122,9 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
 
     // self
     selfEvalutorModel.getUserPermissionOnEmployee = function () {
-        return employeeEPAFactory.getUserPermissionOnEmployee()
-        .success(function (permission) {
+        return employeeEPAFactory.getUserPermissionOnEmployee().success(function (permission) {
             selfEvalutorModel.permission = parseInt(permission);
-        })
-        .error(function (response, status) {
+        }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
     };
@@ -141,8 +139,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     };
 
     selfEvalutorModel.getEPAInfoByEmployee = function (epaId) {
-        return employeeEPAFactory.getEPAInfoByEmployee(epaId)
-        .success(function (epaInfo) {
+        return employeeEPAFactory.getEPAInfoByEmployee(epaId).success(function (epaInfo) {
             selfEvalutorModel.epaInfo = epaInfo;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
@@ -157,13 +154,11 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
             KPIGroups: vm.epaInfo.KPIGroups
         };
 
-        return employeeEPAFactory.updateEPAScoreByEmployee(criteria)
-        .success(function (response) {
+        return employeeEPAFactory.updateEPAScoreByEmployee(criteria).success(function (response) {
             if (response.IsSuccessful) {
                 notificationFactory.success("UpdatedSuccessfully");
                 vm.dataSaved = true;
-            }
-            else {
+            } else {
                 notificationFactory.error("", response.Message);
             }
         }).error(function (response, status) {
@@ -173,18 +168,15 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
 
     // evaluator
     selfEvalutorModel.getUserPermissionOnEvaluator = function () {
-        return employeeEPAFactory.getUserPermissionOnEvaluator()
-        .success(function (permission) {
+        return employeeEPAFactory.getUserPermissionOnEvaluator().success(function (permission) {
             selfEvalutorModel.permission = parseInt(permission);
-        })
-        .error(function (response, status) {
+        }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
     };
 
     selfEvalutorModel.getGroupByEvaluator = function () {
-        return employeeEPAFactory.getGroupByEvaluator()
-        .success(function (groups) {
+        return employeeEPAFactory.getGroupByEvaluator().success(function (groups) {
             selfEvalutorModel.groups = groups;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
@@ -192,8 +184,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     };
 
     selfEvalutorModel.getMemberByEvaluator = function (groupId, isLocal, isMonthly) {
-        return employeeEPAFactory.getMemberByEvaluator(groupId, isLocal, isMonthly)
-        .success(function (members) {
+        return employeeEPAFactory.getMemberByEvaluator(groupId, isLocal, isMonthly).success(function (members) {
             selfEvalutorModel.members = members;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
@@ -201,8 +192,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     };
 
     selfEvalutorModel.getEPAByEvaluator = function (groupId, isLocal, isMonthly, employeeIds) {
-        return employeeEPAFactory.getEPAByEvaluator(groupId, isLocal, isMonthly, employeeIds)
-        .success(function (memberEPAs) {
+        return employeeEPAFactory.getEPAByEvaluator(groupId, isLocal, isMonthly, employeeIds).success(function (memberEPAs) {
             selfEvalutorModel.memberEPAs = memberEPAs;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
@@ -210,8 +200,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     };
 
     selfEvalutorModel.getEPAInfoByEvaluator = function (epaId, evaluatorId) {
-        return employeeEPAFactory.getEPAInfoByEvaluator(epaId, evaluatorId)
-        .success(function (epaInfo) {
+        return employeeEPAFactory.getEPAInfoByEvaluator(epaId, evaluatorId).success(function (epaInfo) {
             selfEvalutorModel.epaInfo = epaInfo;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
@@ -226,13 +215,11 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
             KPIGroups: vm.epaInfo.KPIGroups
         };
 
-        return employeeEPAFactory.updateEPAScoreByEvaluator(criteria)
-        .success(function (response) {
+        return employeeEPAFactory.updateEPAScoreByEvaluator(criteria).success(function (response) {
             if (response.IsSuccessful) {
                 notificationFactory.success("UpdatedSuccessfully");
                 vm.dataSaved = true;
-            }
-            else {
+            } else {
                 notificationFactory.error("", response.Message);
             }
         }).error(function (response, status) {

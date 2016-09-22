@@ -2,8 +2,8 @@
 /*global monthlyPeriodModule*/
 
 monthlyPeriodModule.controller('MonthlyPeriodController',
-['MonthlyPeriodModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'baseUrl',
-function (MonthlyPeriodModel, CommonModel, utilitiesFactory, historyFactory, baseUrl) {
+['MonthlyPeriodModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl',
+function (MonthlyPeriodModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
     var vm = this;
     vm.policyEnum = utilitiesFactory.policy;
     vm.filter = {};
@@ -18,17 +18,19 @@ function (MonthlyPeriodModel, CommonModel, utilitiesFactory, historyFactory, bas
     }
 
     function getMonthlyPeriod(fromDate, toDate) {
+        lockScreenService.start();
         toDate = new Date(toDate.getFullYear(), toDate.getMonth() + 1, 0);
 
         MonthlyPeriodModel.getMonthlyPeriod(fromDate, toDate).then(function () {
             vm.periods = MonthlyPeriodModel.periods;
             utilitiesFactory.searchOnPage(vm, vm.periods);
+            lockScreenService.stop();
         });
 
         historyFactory.saveState(vm.filter);
     }
 
-    vm.initialize = function () {
+    function initialize() {
         vm.filter = initFilter();
         vm.periods = MonthlyPeriodModel.periods;
         vm.permission = MonthlyPeriodModel.permission;
@@ -51,9 +53,9 @@ function (MonthlyPeriodModel, CommonModel, utilitiesFactory, historyFactory, bas
         });
 
         getMonthlyPeriod(vm.filter.fromDate, vm.filter.toDate);
-    };
+    }
 
-    vm.initialize();
+    initialize();
 
     vm.openPopupFromDate = function (event) {
         event.preventDefault();

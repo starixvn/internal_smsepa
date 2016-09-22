@@ -2,8 +2,8 @@
 /*global epaModule*/
 
 epaModule.controller('EmployeeEPAController',
-['SelfEvalutorModel', 'utilitiesFactory', 'baseUrl',
-function (SelfEvalutorModel, utilitiesFactory, baseUrl) {
+['SelfEvalutorModel', 'utilitiesFactory', 'lockScreenService', 'baseUrl',
+function (SelfEvalutorModel, utilitiesFactory, lockScreenService, baseUrl) {
     var vm = this;
 
     vm.myEPAs = SelfEvalutorModel.myEPAs;
@@ -22,8 +22,11 @@ function (SelfEvalutorModel, utilitiesFactory, baseUrl) {
     };
 
     function initialize() {
+        lockScreenService.start();
+
         SelfEvalutorModel.getEPAByEmployee().then(function () {
             vm.myEPAs = SelfEvalutorModel.myEPAs;
+            lockScreenService.stop();
         });
     }
 

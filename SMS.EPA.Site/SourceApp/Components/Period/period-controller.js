@@ -2,8 +2,8 @@
 /*global periodModule*/
 
 periodModule.controller('PeriodController',
-['PeriodModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'baseUrl',
-function (PeriodModel, CommonModel, utilitiesFactory, historyFactory, baseUrl) {
+['PeriodModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl',
+function (PeriodModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
     var vm = this;
 
     vm.periods = PeriodModel.periods;
@@ -36,13 +36,16 @@ function (PeriodModel, CommonModel, utilitiesFactory, historyFactory, baseUrl) {
         vm.targetTypes = CommonModel.targetTypes;
     });
 
-    var getPeriod = function (targetTypeId, isActive) {
+    function getPeriod(targetTypeId, isActive) {
+        lockScreenService.start();
+
         PeriodModel.getPeriod(targetTypeId, isActive).then(function () {
             vm.periods = PeriodModel.periods;
             utilitiesFactory.searchOnPage(vm, vm.periods);
+            lockScreenService.stop();
         });
         historyFactory.saveState(vm.filter);
-    };
+    }
 
     getPeriod(vm.filter.targetTypeId, vm.filter.isActive);
 

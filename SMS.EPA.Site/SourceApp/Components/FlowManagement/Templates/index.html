@@ -30,9 +30,8 @@
                 <tr class="header-table">
                     <th colspan="6">
                         <a class="pull-left button-icon create-button" ng-show="flowTemplateCtrl.permission == flowTemplateCtrl.policyEnum.Host"
-                           href="" ng-href="{{flowTemplateCtrl.createFlowTemplateUrl}}"
-                           ng-click="flowTemplateCtrl.createFlowTemplate()">
-                            <span class="icon plus"></span>
+                           href="" ng-click="flowTemplateCtrl.createFlowTemplate()">
+                            <span class="glyphicon glyphicon-plus icon-add"></span>
                             <span class="button-text" data-translate="CreateFlowTemplate"></span>
                         </a>
                         <input type="text" ng-model="flowTemplateCtrl.searchKey" ng-change="flowTemplateCtrl.search()"

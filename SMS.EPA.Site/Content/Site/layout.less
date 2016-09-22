@@ -1,5 +1,7 @@
 ﻿@import "variables.less";
 @import "mixins.less";
+@import "components/_buttons.less";
+@import "components/_forms.less";
 @import "components/_header.less";
 @import "components/_modal.less";
 @import "components/_panel.less";
@@ -57,10 +59,9 @@ a:focus {
     select option {
         padding: 4px 10px;
     }
-    /*input[type='text'],*/ select {
-        .border-radius(3px);
+
+    select {
         border: 1px solid #C8C8C8;
-        box-shadow: 1px 1px 3px 3px #F2F2F2;
         height: 28px;
         padding: 0 0 0 7px;
 
@@ -119,60 +120,6 @@ a:focus {
                 padding: 0 8px;
                 color: @menu-color;
             }
-        }
-    }
-
-    .button-icon {
-        #gradient .vertical(#EEE, #C8C8C8);
-        .border-radius(3px);
-        border: 1px solid @border-color;
-        border-color: @border-color @border-color #959595;
-        .box-shadow(1px 1px 0 rgba(255, 255, 255, 0.3) inset);
-        color: #707070;
-        display: inline-block;
-        font-size: 12px;
-        height: 27px;
-        line-height: 22px;
-        padding: 0 8px;
-        position: relative;
-        text-align: center;
-        text-decoration: none;
-        text-shadow: 0 1px 0 #FBFBFB;
-        cursor: pointer;
-
-        a {
-            color: #707070;
-            height: 100%;
-            padding: 0 8px 0 5px;
-            z-index: 2;
-
-            &:hover {
-                text-decoration: none;
-            }
-        }
-
-        &:hover {
-            #gradient .vertical(#FBFBFB, #D4D4D4);
-        }
-
-        .icon-edit, .icon-back, .icon-plus {
-            color: #3394D3;
-            font-size: @font-size + 1;
-            font-weight: bold;
-            margin-right: 3px;
-            position: relative;
-            top: 2px;
-            left: 4px;
-        }
-
-        .icon-back {
-            font-weight: normal;
-        }
-
-        .button-text {
-            padding: 0 8px 0 5px;
-            position: relative;
-            top: -7px;
         }
     }
 
@@ -274,7 +221,6 @@ a:focus {
     .search-inline-textbox {
         background: url(images/icon-search.png) #fff no-repeat right center;
         border: 1px solid #ccc;
-        .border-radius(3px);
     }
 
     .icon-save-submit {
@@ -347,7 +293,6 @@ a:focus {
         min-width: 600px;
         padding: 15px 25px;
         margin: 7px 0 10px;
-        .border-radius(2px);
 
         .lstBox-limit {
             width: 180px;
@@ -369,7 +314,6 @@ a:focus {
             font-size: @font-size;
             height: 27px;
             padding: 3px 4px;
-            .border-radius(3px);
         }
     }
 
@@ -499,18 +443,17 @@ select.ddlMenu {
 /********************************************************/
 
 .calendar-form-control {
-    background-color: #FFF;
+    background-color: #fff;
     background-image: none;
-    border: 1px solid #CCC;
-    border-radius: 4px;
+    border: 1px solid #ccc;
     font-size: @font-size;
-    height: 30px;
+    height: 28px;
     width: 100px;
     padding: 4px;
 }
 
 .calendar-form-control[disabled] {
-    background-color: #EEEEEE;
+    background-color: #eee;
     cursor: not-allowed;
     opacity: 1;
 }
@@ -614,59 +557,6 @@ select.ddlMenu {
             }
         }
     }
-}
-
-/********************************************************/
-/*                         Button                         */
-/********************************************************/
-.button {
-    #gradient .vertical(#5EB2D5, #308FB7);
-    border: 1px solid #256F8E;
-    border-color: #256F8E #256F8E #1B5066;
-    .border-radius(3px);
-    .box-shadow(1px 1px 0 rgba(255, 255, 255, 0.3) inset);
-    color: #FFF;
-    display: inline-block;
-    font-size: 12px;
-    height: 27px;
-    line-height: 24px;
-    margin-right: 0;
-    padding: 0 15px 4px;
-    text-align: center;
-    text-decoration: none;
-    text-shadow: 0 -1px 0 #256F8E;
-    vertical-align: bottom;
-    cursor: pointer;
-
-    &:hover {
-        #gradient .vertical(#72BCDA, #369FCA);
-        text-decoration: none;
-    }
-}
-
-.btn-delete {
-    #gradient .vertical(#d87a6a, #b76051);
-    border: 1px solid #9c5a4e;
-    text-shadow: 0 -1px 0 #d87a6a;
-
-    &:hover {
-        #gradient .vertical(#d78374, #c77062);
-        text-decoration: none;
-    }
-}
-
-.btn.customize {
-    font-size: 13px;
-    height: 27px;
-    line-height: 24px;
-    padding: 0 15px 4px;
-}
-
-.btn-save {
-    background: url(Images/save_submit.png) no-repeat;
-    width: 16px;
-    height: 16px;
-    display: inline-block;
 }
 
 .form-inline.form-order {
@@ -990,63 +880,6 @@ select.ddlMenu {
 .removePadding {
     thead tr th, tbody tr td {
         padding: 1px 10px !important;
-    }
-}
-/********************************************************/
-/*                           Form                         */
-/********************************************************/
-
-.common-form {
-    border: 1px solid @border-light-color;
-    padding: 10px;
-    margin: 10px 1%;
-    background-color: #F4F4F4;
-    .border-radius(2px);
-    .box-shadow(1px 1px 2px #ccc);
-
-    .form-group {
-        margin: 0;
-
-        .button-icon {
-            margin: 0 5px 0 0;
-        }
-
-        .checkbox {
-            margin-left: 20px;
-        }
-    }
-
-    label {
-        font-weight: normal;
-        color: @font-color;
-        margin-top: 5px;
-        text-align: left;
-    }
-
-    [class*="col-"] {
-        padding: 5px 15px;
-    }
-
-    .form-control {
-        .border-radius(3px);
-        border: 1px solid #C8C8C8;
-        box-shadow: 1px 1px 3px 3px #F2F2F2;
-        height: 30px;
-        font-size: @font-size;
-        padding: 3px 12px 6px;
-    }
-
-    select.form-control {
-        padding: 4px 5px;
-    }
-
-    textarea.form-control {
-        min-height: 80px;
-        resize: none;
-    }
-
-    .colons .control-label:after {
-        content: ":";
     }
 }
 

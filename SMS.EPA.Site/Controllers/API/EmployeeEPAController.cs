@@ -295,7 +295,7 @@
             int? groupId = null,
             bool? isLocal = null)
         {
-            return GetMemberByEvaluatorOrReviewerOrManagement((int)ProcessType.Management, groupId, isLocal);
+            return GetMemberByEvaluatorOrReviewerOrManagement((int)ProcessType.Management, groupId, isLocal, false);
         }
 
         [HttpGet]

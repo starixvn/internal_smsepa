@@ -83,8 +83,20 @@
                     <th data-translate="AdjustScore"></th>
                     <th data-translate="Comment"></th>
                     <th data-translate="SystemDisciplineScore"></th>
-                    <th data-translate="DisciplineScore"></th>
-                    <th data-translate="TotalScore"></th>
+                    <th class="sorting">
+                        <div class="col-sm-9 lab" data-translate="DisciplineScore"></div>
+                        <div class="col-sm-3 icon" ng-show="reviewerCtrl.memberEPAs.length > 1">
+                            <a class="icon-sorting-bg" ng-class="reviewerCtrl.selectedCls('DisciplineScore')"
+                               ng-click="reviewerCtrl.changeSorting('DisciplineScore')"></a>
+                        </div>
+                    </th>
+                    <th class="sorting">
+                        <div class="col-sm-9 lab" data-translate="TotalScore"></div>
+                        <div class="col-sm-3 icon" ng-show="reviewerCtrl.memberEPAs.length > 1">
+                            <a class="icon-sorting-bg" ng-class="reviewerCtrl.selectedCls('TotalScore')"
+                               ng-click="reviewerCtrl.changeSorting('TotalScore')"></a>
+                        </div>
+                    </th>
                     <th>
                         <span ng-show="!reviewerCtrl.monthlyFilterSelected" data-translate="LastFinalScore"></span>
                         <span ng-show="reviewerCtrl.monthlyFilterSelected" data-translate="LastMonthScore"></span>

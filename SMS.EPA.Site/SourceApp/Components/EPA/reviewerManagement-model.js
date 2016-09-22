@@ -212,11 +212,9 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
 
     // reviewer
     reviewerMngModel.getUserPermissionOnReviewer = function () {
-        return employeeEPAFactory.getUserPermissionOnReviewer()
-        .success(function (permission) {
+        return employeeEPAFactory.getUserPermissionOnReviewer().success(function (permission) {
             reviewerMngModel.permission = parseInt(permission);
-        })
-        .error(function (response, status) {
+        }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
     };
@@ -231,8 +229,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     };
 
     reviewerMngModel.getMemberByReviewer = function (groupId, isLocal, isMonthly) {
-        return employeeEPAFactory.getMemberByReviewer(groupId, isLocal, isMonthly)
-        .success(function (members) {
+        return employeeEPAFactory.getMemberByReviewer(groupId, isLocal, isMonthly).success(function (members) {
             reviewerMngModel.members = members;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
@@ -240,8 +237,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     };
 
     reviewerMngModel.getEPAByReviewer = function (groupId, isLocal, isMonthly, employeeIds) {
-        return employeeEPAFactory.getEPAByReviewer(groupId, isLocal, isMonthly, employeeIds)
-        .success(function (memberEPAs) {
+        return employeeEPAFactory.getEPAByReviewer(groupId, isLocal, isMonthly, employeeIds).success(function (memberEPAs) {
             reviewerMngModel.memberEPAs = memberEPAs;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
@@ -249,8 +245,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     };
 
     reviewerMngModel.getEPAInfoByReviewer = function (epaId) {
-        return employeeEPAFactory.getEPAInfoByReviewer(epaId)
-        .success(function (epaInfo) {
+        return employeeEPAFactory.getEPAInfoByReviewer(epaId).success(function (epaInfo) {
             reviewerMngModel.epaInfo = epaInfo;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
@@ -258,13 +253,11 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     };
 
     reviewerMngModel.adjustScoreByReviewer = function (vm, memberEPAs) {
-        return employeeEPAFactory.adjustScoreByReviewer(memberEPAs)
-        .success(function (response) {
+        return employeeEPAFactory.adjustScoreByReviewer(memberEPAs).success(function (response) {
             if (response.IsSuccessful) {
                 vm.dataSaved = true;
                 notificationFactory.success("UpdatedSuccessfully");
-            }
-            else {
+            } else {
                 notificationFactory.error("", response.Message);
             }
         }).error(function (response, status) {
@@ -274,8 +267,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
 
     // management
     reviewerMngModel.getUserPermissionOnManagement = function () {
-        return employeeEPAFactory.getUserPermissionOnManagement()
-        .success(function (permission) {
+        return employeeEPAFactory.getUserPermissionOnManagement().success(function (permission) {
             reviewerMngModel.permission = parseInt(permission);
         })
         .error(function (response, status) {
@@ -284,8 +276,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     };
 
     reviewerMngModel.getGroupByManagement = function () {
-        return employeeEPAFactory.getGroupByManagement()
-        .success(function (groups) {
+        return employeeEPAFactory.getGroupByManagement().success(function (groups) {
             reviewerMngModel.groups = groups;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
@@ -293,8 +284,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     };
 
     reviewerMngModel.getMemberByManagement = function (groupId, isLocal) {
-        return employeeEPAFactory.getMemberByManagement(groupId, isLocal)
-        .success(function (members) {
+        return employeeEPAFactory.getMemberByManagement(groupId, isLocal).success(function (members) {
             reviewerMngModel.members = members;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
@@ -302,8 +292,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     };
 
     reviewerMngModel.getEPAByManagement = function (groupId, isLocal, employeeIds) {
-        return employeeEPAFactory.getEPAByManagement(groupId, isLocal, employeeIds)
-        .success(function (memberEPAs) {
+        return employeeEPAFactory.getEPAByManagement(groupId, isLocal, employeeIds).success(function (memberEPAs) {
             reviewerMngModel.memberEPAs = memberEPAs;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
@@ -311,8 +300,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     };
 
     reviewerMngModel.getEPAInfoByManagement = function (epaId) {
-        return employeeEPAFactory.getEPAInfoByManagement(epaId)
-        .success(function (epaInfo) {
+        return employeeEPAFactory.getEPAInfoByManagement(epaId).success(function (epaInfo) {
             reviewerMngModel.epaInfo = epaInfo;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
@@ -320,13 +308,11 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     };
 
     reviewerMngModel.adjustScoreByManagement = function (vm, memberEPAs) {
-        return employeeEPAFactory.adjustScoreByManagement(memberEPAs)
-        .success(function (response) {
+        return employeeEPAFactory.adjustScoreByManagement(memberEPAs).success(function (response) {
             if (response.IsSuccessful) {
                 vm.dataSaved = true;
                 notificationFactory.success("UpdatedSuccessfully");
-            }
-            else {
+            } else {
                 notificationFactory.error("", response.Message);
             }
         }).error(function (response, status) {

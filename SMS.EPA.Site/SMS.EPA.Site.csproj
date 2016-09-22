@@ -666,6 +666,8 @@
     <Content Include="Content\Site\components\_header.less" />
     <Content Include="Content\Site\components\_modal.less" />
     <Content Include="Content\Site\components\_table.less" />
+    <Content Include="Content\Site\components\_buttons.less" />
+    <Content Include="Content\Site\components\_forms.less" />
     <None Include="Libs\angular-resource.min.js.map" />
     <None Include="Libs\angular-route.min.js.map" />
     <None Include="Libs\angular.min.js.map" />
