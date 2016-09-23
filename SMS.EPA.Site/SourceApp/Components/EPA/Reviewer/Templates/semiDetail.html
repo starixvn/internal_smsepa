@@ -37,12 +37,12 @@
 
             <div>&ensp;</div>
 
-            <div class="col-sm-12 list-group-item summary-section" ng-init="memberEPAInfoCtrl.collapses['monthlyEPAs'] = false;">
-                <div class="boxtitle" data-translate="monthlyEPAs"
-                     ng-click="memberEPAInfoCtrl.collapses['monthlyEPAs'] = !memberEPAInfoCtrl.collapses['monthlyEPAs']">
+            <div class="panel panel-default">
+                <div class="panel-heading" data-toggle="collapse" data-target=".monthlyEPAs">
+                    <h4 class="panel-title" data-translate="monthlyEPAs"></h4>
                 </div>
-                <div class="boxcontent" collapse="memberEPAInfoCtrl.collapses['monthlyEPAs']"
-                     ng-include src="'/SourceApp/Components/EPA/Templates/monthlyEPAs.html'">
+                <div class="panel-collapse collapse in monthlyEPAs">
+                    <div class="panel-body summary-section" ng-include src="'/SourceApp/Components/EPA/Templates/monthlyEPAs.html'"></div>
                 </div>
             </div>
         </div>

@@ -257,12 +257,12 @@
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Reviewer, Policy = Policy.Host)]
-        public CommandResult AdjustScoreByReviewer(IEnumerable<EPAModel> memberEPAs)
+        public CommandResult AdjustScoreByReviewer(IEnumerable<AdjustScoreViewModel> epaInfos)
         {
             var criteria = new AdjustScoreByReviewerOrManagementCriteria()
             {
                 ProcessId = (int)ProcessType.Reviewer,
-                MemberEPAs = memberEPAs,
+                EpaInfos = epaInfos,
                 ModifiedBy = this.SessionService.EmployeeId
             };
 
@@ -340,16 +340,16 @@
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Management, Policy = Policy.Host)]
-        public CommandResult AdjustScoreByManagement(IEnumerable<EPAModel> memberEPAs)
+        public CommandResult AdjustScoreByManagement(IEnumerable<AdjustScoreViewModel> epaInfos)
         {
             CommandResult commandResult = new CommandResult();
 
-            if (memberEPAs != null && memberEPAs.Any())
+            if (epaInfos != null && epaInfos.Any())
             {
                 var criteria = new AdjustScoreByReviewerOrManagementCriteria()
                 {
                     ProcessId = (int)ProcessType.Management,
-                    MemberEPAs = memberEPAs,
+                    EpaInfos = epaInfos,
                     ModifiedBy = this.SessionService.EmployeeId
                 };
 

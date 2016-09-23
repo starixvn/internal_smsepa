@@ -129,13 +129,11 @@ function ($modalInstance, EmployeeEPAModel, ReviewerManagementModel, utilitiesFa
     vm.ok = function () {
         if (!vm.adjust.Score) {
             notificationFactory.error("ScoreRequire");
-        }
-        else {
+        } else {
             if (vm.isReviewer) {
                 ReviewerManagementModel.calculateAdjustScoreMultiple(vm.selectedEmployees, vm.adjust, true);
                 ReviewerManagementModel.adjustScoreByReviewer(vm, vm.selectedEmployees);
-            }
-            else {
+            } else {
                 ReviewerManagementModel.calculateAdjustScoreMultiple(vm.selectedEmployees, vm.adjust, false);
                 ReviewerManagementModel.adjustScoreByManagement(vm, vm.selectedEmployees);
             }
@@ -150,33 +148,33 @@ function ($modalInstance, EmployeeEPAModel, ReviewerManagementModel, utilitiesFa
 }]);
 
 epaModule.controller('ModalUpdateCommentController',
-['$modalInstance', 'EmployeeEPAModel', 'ReviewerManagementModel', 'utilitiesFactory', 'memberEPA', 'comment', 'isEdit', 'isReviewer',
-function ($modalInstance, EmployeeEPAModel, ReviewerManagementModel, utilitiesFactory, memberEPA, comment, isEdit, isReviewer) {
+['$modalInstance', 'EmployeeEPAModel', 'ReviewerManagementModel', 'utilitiesFactory', 'epaInfo', 'comment', 'isEdit', 'isReviewer',
+function ($modalInstance, EmployeeEPAModel, ReviewerManagementModel, utilitiesFactory, epaInfo, comment, isEdit, isReviewer) {
     var vm = this;
 
     vm.comment = comment;
     vm.isEdit = isEdit;
     vm.isReviewer = isReviewer;
-    vm.memberEPA = memberEPA;
+    vm.epaInfo = epaInfo;
 
     vm.ok = function () {
-        var model = [], scoreAdjusted = utilitiesFactory.parseFloat(vm.memberEPA.Process.CurrentProcess.AdjustScoreOriginal),
-            averageScore = vm.memberEPA.Process.AverageScoreByEvaluators,
+        var model = [], scoreAdjusted = utilitiesFactory.parseFloat(vm.epaInfo.Process.CurrentProcess.AdjustScoreOriginal),
+            averageScore = vm.epaInfo.Process.AverageScoreByEvaluators,
             totalScore;
 
-        if (!vm.isReviewer && vm.memberEPA.Process.Reviewers.length > 0) {
-            averageScore = vm.memberEPA.Process.AverageScoreByReviewers;
+        if (!vm.isReviewer && vm.epaInfo.Process.Reviewers.length > 0) {
+            averageScore = vm.epaInfo.Process.AverageScoreByReviewers;
         }
 
-        if (vm.memberEPA.HasDisciplineScore) {
-            averageScore -= vm.memberEPA.DisciplineScore;
+        if (vm.epaInfo.HasDisciplineScore) {
+            averageScore -= vm.epaInfo.DisciplineScore;
         }
 
         totalScore = averageScore + scoreAdjusted;
-        vm.memberEPA.Process.CurrentProcess.TotalScore = totalScore;
-        vm.memberEPA.Process.CurrentProcess.AdjustScore = scoreAdjusted;
-        vm.memberEPA.Process.CurrentProcess.Comment = vm.comment;
-        model.push(vm.memberEPA);
+        vm.epaInfo.Process.CurrentProcess.TotalScore = totalScore;
+        vm.epaInfo.Process.CurrentProcess.AdjustScore = scoreAdjusted;
+        vm.epaInfo.Process.CurrentProcess.Comment = vm.comment;
+        model.push(vm.epaInfo);
 
         if (vm.isReviewer) {
             ReviewerManagementModel.adjustScoreByReviewer(vm, model);

@@ -1,19 +1,23 @@
-﻿'use strict';
-/* global appModule */
+﻿(function (angular) {
+    'use strict';
 
-appModule.factory('resourceFactory', ['$http', '$q', 'baseUrl', function ($http, $q, baseUrl) {
-    return function (options) {
-        var deferred = $q.defer();
+    angular.module('appModule').factory('resourceFactory', resourceFactory);
+    resourceFactory.$inject = ['$http', '$q', 'baseUrl'];
 
-        $http.get(baseUrl + 'api/Resources/Get?lang=' + options.key)
-            .success(function (data) {
-                if (data) {
-                    data = angular.fromJson(angular.fromJson(data));
-                }
+    function resourceFactory($http, $q, baseUrl) {
+        return function (options) {
+            var deferred = $q.defer();
 
-                deferred.resolve(data);
-            }).error(deferred.reject);
+            $http.get(baseUrl + 'api/Resources/Get?lang=' + options.key)
+                .success(function (data) {
+                    if (data) {
+                        data = angular.fromJson(angular.fromJson(data));
+                    }
 
-        return deferred.promise;
-    };
-} ]);
+                    deferred.resolve(data);
+                }).error(deferred.reject);
+
+            return deferred.promise;
+        };
+    }
+})(angular);

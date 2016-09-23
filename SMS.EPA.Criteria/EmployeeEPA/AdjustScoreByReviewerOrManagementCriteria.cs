@@ -19,20 +19,20 @@
             {
                 var epaXml = new StringBuilder(Constants.BeginRootTag);
 
-                foreach (EPAModel memberEPA in MemberEPAs)
+                foreach (AdjustScoreViewModel epaInfo in EpaInfos)
                 {
-                    var cipherTotalScore = EncodeService.Encode(memberEPA.Process.CurrentProcess.TotalScore);
-                    var cipherAdjustScore = EncodeService.Encode(memberEPA.Process.CurrentProcess.AdjustScore);
+                    var totalScoreEncrypt = EncodeService.Encode(epaInfo.TotalScore);
+                    var adjustScoreEncrypt = EncodeService.Encode(epaInfo.AdjustScore);
 
                     epaXml.AppendFormat(
                         EPAXmlTemplate,
-                        memberEPA.EPAId,
+                        epaInfo.EPAId,
                         ProcessId,
-                        memberEPA.Employee.EmployeeId,
+                        epaInfo.EmployeeId,
                         ModifiedBy,
-                        cipherAdjustScore,
-                        cipherTotalScore,
-                        HttpUtility.HtmlEncode(memberEPA.Process.CurrentProcess.Comment));
+                        adjustScoreEncrypt,
+                        totalScoreEncrypt,
+                        HttpUtility.HtmlEncode(epaInfo.Comment));
                 }
 
                 epaXml.Append(Constants.EndRootTag);
@@ -44,7 +44,7 @@
         public int ModifiedBy { get; set; }
 
         [SpParam(Ignored = true)]
-        public IEnumerable<EPAModel> MemberEPAs { get; set; }
+        public IEnumerable<AdjustScoreViewModel> EpaInfos { get; set; }
 
         public int ProcessId { get; set; }
 

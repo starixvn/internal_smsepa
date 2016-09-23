@@ -9,16 +9,16 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     reviewerMngModel.epaInfo = {};
     reviewerMngModel.groups = [];
     reviewerMngModel.members = [];
-    reviewerMngModel.memberEPAs = [];
+    reviewerMngModel.epaInfos = [];
     reviewerMngModel.permission = 0;
 
     // common
-    reviewerMngModel.getSelectedEmployee = function (memberEPAs) {
+    reviewerMngModel.getEPASelected = function (epaInfos) {
         var result = [];
 
-        angular.forEach(memberEPAs, function (memberEPA) {
-            if (memberEPA.Selected) {
-                result.push(memberEPA);
+        angular.forEach(epaInfos, function (epaInfo) {
+            if (epaInfo.Selected) {
+                result.push(epaInfo);
             }
         });
 
@@ -44,14 +44,14 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         return vm.modalInstance.result;
     };
 
-    reviewerMngModel.openPopupUpdateComment = function (vm, memberEPA, comment, isEdit, isReviewer) {
+    reviewerMngModel.openPopupUpdateComment = function (vm, epaInfo, comment, isEdit, isReviewer) {
         vm.modalInstance = $modal.open({
             templateUrl: 'SourceApp/Components/EPA/Templates/modalUpdateComment.html',
             controller: "ModalUpdateCommentController as modalUpdateCommentCtrl",
             backdrop: 'static',
             resolve: {
-                memberEPA: function () {
-                    return angular.copy(memberEPA);
+                epaInfo: function () {
+                    return angular.copy(epaInfo);
                 },
                 comment: function () {
                     return comment;
@@ -69,12 +69,12 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         return vm.modalInstance.result;
     };
 
-    reviewerMngModel.checkAdjustScoreChanged = function (memberEPAs) {
+    reviewerMngModel.checkAdjustScoreChanged = function (epaInfos) {
         var hasChange = false;
 
-        for (var i = 0; i < memberEPAs.length; i++) {
-            var adjustScoreOriginal = utilitiesFactory.parseFloat(memberEPAs[i].Process.CurrentProcess.AdjustScoreOriginal),
-                adjustScore = utilitiesFactory.parseFloat(memberEPAs[i].Process.CurrentProcess.AdjustScore);
+        for (var i = 0; i < epaInfos.length; i++) {
+            var adjustScoreOriginal = utilitiesFactory.parseFloat(epaInfos[i].Process.CurrentProcess.AdjustScoreOriginal),
+                adjustScore = utilitiesFactory.parseFloat(epaInfos[i].Process.CurrentProcess.AdjustScore);
 
             if (adjustScoreOriginal !== adjustScore) {
                 hasChange = true;
@@ -106,30 +106,30 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         return true;
     };
 
-    reviewerMngModel.calculateScore = function (memberEPA, isReviewer) {
-        var scoreAdjusted = utilitiesFactory.parseFloat(memberEPA.Process.CurrentProcess.AdjustScore),
-            averageScore = memberEPA.Process.AverageScoreByEvaluators,
+    reviewerMngModel.calculateScore = function (epaInfo, isReviewer) {
+        var scoreAdjusted = utilitiesFactory.parseFloat(epaInfo.Process.CurrentProcess.AdjustScore),
+            averageScore = epaInfo.Process.AverageScoreByEvaluators,
             totalScore = 0;
 
-        if (memberEPA.HasMonthlyEPA) {
-            averageScore = memberEPA.MonthlyEPA.AverageReviewerScoreConverted;
+        if (epaInfo.HasMonthlyEPA) {
+            averageScore = epaInfo.MonthlyEPA.AverageReviewerScoreConverted;
         }
 
-        if (!isReviewer && memberEPA.Process.Reviewers.length > 0) {
-            averageScore = memberEPA.Process.AverageScoreByReviewers;
+        if (!isReviewer && epaInfo.Process.Reviewers.length > 0) {
+            averageScore = epaInfo.Process.AverageScoreByReviewers;
         }
 
         totalScore = utilitiesFactory.parseFloat(averageScore + scoreAdjusted);
 
-        if (totalScore > memberEPA.Process.CurrentProcess.MaxTotalScore) {
-            scoreAdjusted = memberEPA.Process.CurrentProcess.MaxTotalScore - averageScore;
+        if (totalScore > epaInfo.Process.CurrentProcess.MaxTotalScore) {
+            scoreAdjusted = epaInfo.Process.CurrentProcess.MaxTotalScore - averageScore;
         } else if (totalScore < 0) {
             scoreAdjusted = -averageScore;
         }
 
-        memberEPA.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(averageScore + scoreAdjusted);
-        memberEPA.FinalScore = averageScore + scoreAdjusted + memberEPA.DisciplineScore;
-        memberEPA.FinalScore = EmployeeEPAModel.checkScore(memberEPA.FinalScore, 0, memberEPA.Process.CurrentProcess.MaxPerformanceScore);
+        epaInfo.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(averageScore + scoreAdjusted);
+        epaInfo.FinalScore = averageScore + scoreAdjusted + epaInfo.DisciplineScore;
+        epaInfo.FinalScore = EmployeeEPAModel.checkScore(epaInfo.FinalScore, 0, epaInfo.Process.CurrentProcess.MaxPerformanceScore);
     };
 
     reviewerMngModel.calculatePerformanceScore = function (vm, isReviewer) {
@@ -152,59 +152,59 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
     };
 
-    reviewerMngModel.calculateAdjustScore = function (memberEPAs, isReviewer) {
-        angular.forEach(memberEPAs, function (memberEPA) {
-            var scoreAdjusted = utilitiesFactory.parseFloat(memberEPA.Process.CurrentProcess.AdjustScore),
-                averageScore = memberEPA.Process.AverageScoreByEvaluators,
+    reviewerMngModel.calculateAdjustScore = function (epaInfos, isReviewer) {
+        angular.forEach(epaInfos, function (epaInfo) {
+            var scoreAdjusted = utilitiesFactory.parseFloat(epaInfo.Process.CurrentProcess.AdjustScore),
+                averageScore = epaInfo.Process.AverageScoreByEvaluators,
                 totalScore = 0;
 
-            if (!isReviewer && memberEPA.Process.Reviewers.length > 0) {
-                averageScore = memberEPA.Process.AverageScoreByReviewers;
+            if (!isReviewer && epaInfo.Process.Reviewers.length > 0) {
+                averageScore = epaInfo.Process.AverageScoreByReviewers;
             }
 
             totalScore = utilitiesFactory.parseFloat(scoreAdjusted + averageScore);
 
-            if (totalScore > memberEPA.Process.CurrentProcess.MaxTotalScore) {
-                scoreAdjusted = utilitiesFactory.parseFloat(memberEPA.Process.CurrentProcess.MaxTotalScore - averageScore);
+            if (totalScore > epaInfo.Process.CurrentProcess.MaxTotalScore) {
+                scoreAdjusted = utilitiesFactory.parseFloat(epaInfo.Process.CurrentProcess.MaxTotalScore - averageScore);
             } else if (totalScore < 0) {
                 scoreAdjusted = -averageScore;
             }
 
-            memberEPA.Process.CurrentProcess.AdjustScore = scoreAdjusted;
+            epaInfo.Process.CurrentProcess.AdjustScore = scoreAdjusted;
         });
     };
 
-    reviewerMngModel.calculateAdjustScoreMultiple = function (memberEPAs, adjust, isReviewer) {
+    reviewerMngModel.calculateAdjustScoreMultiple = function (epaInfos, adjust, isReviewer) {
         var scoreAdjusted, averageScore, totalScore;
 
-        angular.forEach(memberEPAs, function (memberEPA) {
-            if (memberEPA.Selected) {
+        angular.forEach(epaInfos, function (epaInfo) {
+            if (epaInfo.Selected) {
                 scoreAdjusted = utilitiesFactory.parseFloat(adjust.Score);
-                averageScore = memberEPA.Process.AverageScoreByEvaluators;
+                averageScore = epaInfo.Process.AverageScoreByEvaluators;
 
-                if (!isReviewer && memberEPA.Process.Reviewers.length > 0) {
-                    averageScore = memberEPA.Process.AverageScoreByReviewers;
+                if (!isReviewer && epaInfo.Process.Reviewers.length > 0) {
+                    averageScore = epaInfo.Process.AverageScoreByReviewers;
                 }
 
                 totalScore = utilitiesFactory.parseFloat(scoreAdjusted + averageScore);
 
-                if (totalScore > memberEPA.Process.CurrentProcess.MaxTotalScore) {
-                    scoreAdjusted = utilitiesFactory.parseFloat(memberEPA.Process.CurrentProcess.MaxTotalScore - averageScore);
+                if (totalScore > epaInfo.Process.CurrentProcess.MaxTotalScore) {
+                    scoreAdjusted = utilitiesFactory.parseFloat(epaInfo.Process.CurrentProcess.MaxTotalScore - averageScore);
                 } else if (totalScore < 0) {
                     scoreAdjusted = -averageScore;
                 }
 
-                memberEPA.Process.CurrentProcess.AdjustScore = scoreAdjusted;
-                memberEPA.Process.CurrentProcess.AdjustScoreOriginal = memberEPA.Process.CurrentProcess.AdjustScore;
-                memberEPA.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(averageScore + scoreAdjusted);
-                memberEPA.Process.CurrentProcess.TotalScoreOriginal = memberEPA.Process.CurrentProcess.TotalScore;
-                memberEPA.FinalScore = averageScore + scoreAdjusted + memberEPA.DisciplineScore;
-                memberEPA.FinalScore = EmployeeEPAModel.checkScore(memberEPA.FinalScore, 0, memberEPA.Process.CurrentProcess.MaxPerformanceScore);
+                epaInfo.Process.CurrentProcess.AdjustScore = scoreAdjusted;
+                epaInfo.Process.CurrentProcess.AdjustScoreOriginal = epaInfo.Process.CurrentProcess.AdjustScore;
+                epaInfo.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(averageScore + scoreAdjusted);
+                epaInfo.Process.CurrentProcess.TotalScoreOriginal = epaInfo.Process.CurrentProcess.TotalScore;
+                epaInfo.FinalScore = averageScore + scoreAdjusted + epaInfo.DisciplineScore;
+                epaInfo.FinalScore = EmployeeEPAModel.checkScore(epaInfo.FinalScore, 0, epaInfo.Process.CurrentProcess.MaxPerformanceScore);
 
-                if (memberEPA.Process.CurrentProcess.Comment && memberEPA.Process.CurrentProcess.Comment.length > 0) {
-                    memberEPA.Process.CurrentProcess.Comment = memberEPA.Process.CurrentProcess.Comment + '\n' + adjust.Comment;
+                if (epaInfo.Process.CurrentProcess.Comment && epaInfo.Process.CurrentProcess.Comment.length > 0) {
+                    epaInfo.Process.CurrentProcess.Comment = epaInfo.Process.CurrentProcess.Comment + '\n' + adjust.Comment;
                 } else {
-                    memberEPA.Process.CurrentProcess.Comment = adjust.Comment;
+                    epaInfo.Process.CurrentProcess.Comment = adjust.Comment;
                 }
             }
         });
@@ -220,8 +220,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     };
 
     reviewerMngModel.getGroupByReviewer = function () {
-        return employeeEPAFactory.getGroupByReviewer()
-        .success(function (groups) {
+        return employeeEPAFactory.getGroupByReviewer().success(function (groups) {
             reviewerMngModel.groups = groups;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
@@ -237,8 +236,8 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     };
 
     reviewerMngModel.getEPAByReviewer = function (groupId, isLocal, isMonthly, employeeIds) {
-        return employeeEPAFactory.getEPAByReviewer(groupId, isLocal, isMonthly, employeeIds).success(function (memberEPAs) {
-            reviewerMngModel.memberEPAs = memberEPAs;
+        return employeeEPAFactory.getEPAByReviewer(groupId, isLocal, isMonthly, employeeIds).success(function (epaInfos) {
+            reviewerMngModel.epaInfos = epaInfos;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
@@ -252,8 +251,24 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         });
     };
 
-    reviewerMngModel.adjustScoreByReviewer = function (vm, memberEPAs) {
-        return employeeEPAFactory.adjustScoreByReviewer(memberEPAs).success(function (response) {
+    reviewerMngModel.adjustScoreByReviewer = function (vm, epaInfos) {
+        var models = [];
+
+        angular.forEach(epaInfos, function (epaInfo) {
+            var model = {
+                EPAId: epaInfo.EPAId,
+                EmployeeId: epaInfo.Employee.EmployeeId,
+                ProcessId: epaInfo.Process.CurrentProcess.ProcessId,
+                EvaluatorId: epaInfo.Process.CurrentProcess.EvaluatorId,
+                AdjustScore: epaInfo.Process.CurrentProcess.AdjustScore,
+                TotalScore: epaInfo.Process.CurrentProcess.TotalScore,
+                Comment: epaInfo.Process.CurrentProcess.Comment
+            };
+
+            models.push(model);
+        });
+
+        return employeeEPAFactory.adjustScoreByReviewer(models).success(function (response) {
             if (response.IsSuccessful) {
                 vm.dataSaved = true;
                 notificationFactory.success("UpdatedSuccessfully");
@@ -269,8 +284,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     reviewerMngModel.getUserPermissionOnManagement = function () {
         return employeeEPAFactory.getUserPermissionOnManagement().success(function (permission) {
             reviewerMngModel.permission = parseInt(permission);
-        })
-        .error(function (response, status) {
+        }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
     };
@@ -292,8 +306,8 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     };
 
     reviewerMngModel.getEPAByManagement = function (groupId, isLocal, employeeIds) {
-        return employeeEPAFactory.getEPAByManagement(groupId, isLocal, employeeIds).success(function (memberEPAs) {
-            reviewerMngModel.memberEPAs = memberEPAs;
+        return employeeEPAFactory.getEPAByManagement(groupId, isLocal, employeeIds).success(function (epaInfos) {
+            reviewerMngModel.epaInfos = epaInfos;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
@@ -307,8 +321,24 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         });
     };
 
-    reviewerMngModel.adjustScoreByManagement = function (vm, memberEPAs) {
-        return employeeEPAFactory.adjustScoreByManagement(memberEPAs).success(function (response) {
+    reviewerMngModel.adjustScoreByManagement = function (vm, epaInfos) {
+        var models = [];
+
+        angular.forEach(epaInfos, function (epaInfo) {
+            var model = {
+                EPAId: epaInfo.EPAId,
+                EmployeeId: epaInfo.Employee.EmployeeId,
+                ProcessId: epaInfo.Process.CurrentProcess.ProcessId,
+                EvaluatorId: epaInfo.Process.CurrentProcess.EvaluatorId,
+                AdjustScore: epaInfo.Process.CurrentProcess.AdjustScore,
+                TotalScore: epaInfo.Process.CurrentProcess.TotalScore,
+                Comment: epaInfo.Process.CurrentProcess.Comment
+            };
+
+            models.push(model);
+        });
+
+        return employeeEPAFactory.adjustScoreByManagement(models).success(function (response) {
             if (response.IsSuccessful) {
                 vm.dataSaved = true;
                 notificationFactory.success("UpdatedSuccessfully");
@@ -320,12 +350,12 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         });
     };
 
-    reviewerMngModel.updateSelectedEmployees = function (memberEPAs, selectedEmployees) {
-        angular.forEach(memberEPAs, function (memberEPA) {
-            if (!memberEPA.Process.CurrentProcess.IsEndProcess) {
+    reviewerMngModel.updateSelectedEmployees = function (epaInfos, selectedEmployees) {
+        angular.forEach(epaInfos, function (epaInfo) {
+            if (!epaInfo.Process.CurrentProcess.IsEndProcess) {
                 angular.forEach(selectedEmployees, function (selectedEmployee) {
-                    if (memberEPA.EPAId === selectedEmployee.EPAId) {
-                        memberEPA.Selected = true;
+                    if (epaInfo.EPAId === selectedEmployee.EPAId) {
+                        epaInfo.Selected = true;
                     }
                 });
             }

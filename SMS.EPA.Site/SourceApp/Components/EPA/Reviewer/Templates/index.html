@@ -45,8 +45,8 @@
         </form>
         <table class="row table table-bordered table-striped">
             <thead>
-                <tr class="header-table" ng-if="reviewerCtrl.memberEPAs.length > 0  && !reviewerCtrl.isEndProcessAll && reviewerCtrl.permission == reviewerCtrl.policyEnum.Host">
-                    <th colspan="16">
+                <tr class="header-table" ng-if="reviewerCtrl.epaInfos.length > 0  && !reviewerCtrl.isEndProcessAll && reviewerCtrl.permission == reviewerCtrl.policyEnum.Host">
+                    <th colspan="17">
                         <a class="pull-left button-icon" ng-click="reviewerCtrl.adjustScore()">
                             <span class="icon-edit glyphicon glyphicon-edit"></span>
                             <span class="button-text" data-translate="AdjustScore"></span>
@@ -58,7 +58,7 @@
                     </th>
                 </tr>
                 <tr class="headerName">
-                    <th ng-if="reviewerCtrl.memberEPAs.length > 0  && !reviewerCtrl.isEndProcessAll && reviewerCtrl.permission == reviewerCtrl.policyEnum.Host">
+                    <th ng-if="reviewerCtrl.epaInfos.length > 0  && !reviewerCtrl.isEndProcessAll && reviewerCtrl.permission == reviewerCtrl.policyEnum.Host">
                         <input type="checkbox" ng-model="reviewerCtrl.selectedAll" ng-click="reviewerCtrl.checkAll(reviewerCtrl.selectedAll)" />
                     </th>
                     <th data-translate="SymbolCount"></th>
@@ -68,14 +68,14 @@
                     <th data-translate="JobTitle"></th>
                     <th class="sorting">
                         <div class="col-sm-9 lab" data-translate="SelfScore"></div>
-                        <div class="col-sm-3 icon" ng-show="reviewerCtrl.memberEPAs.length > 1">
+                        <div class="col-sm-3 icon" ng-show="reviewerCtrl.epaInfos.length > 1">
                             <a class="icon-sorting-bg" ng-class="reviewerCtrl.selectedCls('SelfScore')"
                                ng-click="reviewerCtrl.changeSorting('SelfScore')"></a>
                         </div>
                     </th>
                     <th class="sorting">
                         <div class="col-sm-9 lab" data-translate="EvaluatorScore"></div>
-                        <div class="col-sm-3 icon" ng-show="reviewerCtrl.memberEPAs.length > 1">
+                        <div class="col-sm-3 icon" ng-show="reviewerCtrl.epaInfos.length > 1">
                             <a class="icon-sorting-bg" ng-class="reviewerCtrl.selectedCls('EvaluatorScore')"
                                ng-click="reviewerCtrl.changeSorting('EvaluatorScore')"></a>
                         </div>
@@ -85,18 +85,19 @@
                     <th data-translate="SystemDisciplineScore"></th>
                     <th class="sorting">
                         <div class="col-sm-9 lab" data-translate="DisciplineScore"></div>
-                        <div class="col-sm-3 icon" ng-show="reviewerCtrl.memberEPAs.length > 1">
+                        <div class="col-sm-3 icon" ng-show="reviewerCtrl.epaInfos.length > 1">
                             <a class="icon-sorting-bg" ng-class="reviewerCtrl.selectedCls('DisciplineScore')"
                                ng-click="reviewerCtrl.changeSorting('DisciplineScore')"></a>
                         </div>
                     </th>
                     <th class="sorting">
                         <div class="col-sm-9 lab" data-translate="TotalScore"></div>
-                        <div class="col-sm-3 icon" ng-show="reviewerCtrl.memberEPAs.length > 1">
+                        <div class="col-sm-3 icon" ng-show="reviewerCtrl.epaInfos.length > 1">
                             <a class="icon-sorting-bg" ng-class="reviewerCtrl.selectedCls('TotalScore')"
                                ng-click="reviewerCtrl.changeSorting('TotalScore')"></a>
                         </div>
                     </th>
+                    <th data-translate="Grade"></th>
                     <th>
                         <span ng-show="!reviewerCtrl.monthlyFilterSelected" data-translate="LastFinalScore"></span>
                         <span ng-show="reviewerCtrl.monthlyFilterSelected" data-translate="LastMonthScore"></span>
@@ -106,126 +107,129 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-class="{'row-highlight': (memberEPA.HasMaxScoreOnKPI && memberEPA.Process.Self.IsEndProcess)}"
-                    ng-repeat="memberEPA in reviewerCtrl.memberEPAs">
+                <tr ng-class="{'row-highlight': (epaInfo.HasMaxScoreOnKPI && epaInfo.Process.Self.IsEndProcess)}"
+                    ng-repeat="epaInfo in reviewerCtrl.epaInfos">
                     <td class="text-center" ng-if="!reviewerCtrl.isEndProcessAll && reviewerCtrl.permission == reviewerCtrl.policyEnum.Host">
-                        <input ng-if="!memberEPA.Process.CurrentProcess.IsEndProcess" type="checkbox" ng-model="memberEPA.Selected" />
+                        <input ng-if="!epaInfo.Process.CurrentProcess.IsEndProcess" type="checkbox" ng-model="epaInfo.Selected" />
                     </td>
                     <td class="text-center" ng-bind="$index + 1"></td>
-                    <td ng-bind="memberEPA.Period.Name"></td>
+                    <td ng-bind="epaInfo.Period.Name"></td>
                     <td class="text-center">
-                        <span tooltip="{{memberEPA.Employee.GroupName}}" ng-bind="memberEPA.Employee.GroupCode"></span>
+                        <span tooltip="{{epaInfo.Employee.GroupName}}" ng-bind="epaInfo.Employee.GroupCode"></span>
                     </td>
                     <td class="text-center">
-                        <span ng-bind="memberEPA.Employee.NickName" popover-avatar avatar-src="{{memberEPA.Employee.Avatar}}"></span>
+                        <span ng-bind="epaInfo.Employee.NickName" popover-avatar avatar-src="{{epaInfo.Employee.Avatar}}"></span>
                     </td>
-                    <td ng-bind="memberEPA.Employee.JobTitleName"></td>
-                    <td class="text-center" ng-switch="memberEPA.Process.Self.IsEndProcess">
-                        <div ng-switch-when="true" ng-switch="memberEPA.HasMonthlyEPA">
+                    <td ng-bind="epaInfo.Employee.JobTitleName"></td>
+                    <td class="text-center" ng-switch="epaInfo.Process.Self.IsEndProcess">
+                        <div ng-switch-when="true" ng-switch="epaInfo.HasMonthlyEPA">
                             <span ng-switch-when="true">
-                                {{memberEPA.MonthlyEPA.AverageSelfScoreConverted | customScore}} / {{memberEPA.ScoreRatingType.SelfEvaluated | customScore}}
+                                {{epaInfo.MonthlyEPA.AverageSelfScoreConverted | customScore}} / {{epaInfo.ScoreRatingType.SelfEvaluated | customScore}}
                             </span>
                             <span ng-switch-default>
-                                {{memberEPA.Process.Self.TotalScore | customScore}} / {{memberEPA.ScoreRatingType.SelfEvaluated | customScore}}
+                                {{epaInfo.Process.Self.TotalScore | customScore}} / {{epaInfo.ScoreRatingType.SelfEvaluated | customScore}}
                             </span>
                         </div>
                         <div ng-switch-default data-translate="Pending"></div>
                     </td>
-                    <td class="text-center" ng-switch="memberEPA.Process.Evaluators[0].IsEndProcess">
-                        <div ng-switch-when="true" ng-switch="memberEPA.HasMonthlyEPA">
+                    <td class="text-center" ng-switch="epaInfo.Process.Evaluators[0].IsEndProcess">
+                        <div ng-switch-when="true" ng-switch="epaInfo.HasMonthlyEPA">
                             <span ng-switch-when="true">
-                                {{memberEPA.MonthlyEPA.AverageEvaluatorScoreConverted | customScore}} / {{memberEPA.ScoreRatingType.Evaluator | customScore}}
+                                {{epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted | customScore}} / {{epaInfo.ScoreRatingType.Evaluator | customScore}}
                             </span>
                             <span ng-switch-default>
-                                {{memberEPA.Process.AverageScoreByEvaluators | customScore}} / {{memberEPA.ScoreRatingType.Evaluator | customScore}}
+                                {{epaInfo.Process.AverageScoreByEvaluators | customScore}} / {{epaInfo.ScoreRatingType.Evaluator | customScore}}
                             </span>
                         </div>
                         <div ng-switch-default data-translate="Pending"></div>
                     </td>
                     <td class="text-right">
-                        <div ng-if="memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId == reviewerCtrl.targetTypeEnum.SemiAnnual" class="form-inline-block">
-                            {{memberEPA.MonthlyEPA.AverageReviewerScoreConverted}}
+                        <div ng-if="epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == reviewerCtrl.targetTypeEnum.SemiAnnual" class="form-inline-block">
+                            {{epaInfo.MonthlyEPA.AverageReviewerScoreConverted}}
                             <input type="text" maxlength="6" class="form-control text-center epa-input-score"
-                                   ng-readonly="!memberEPA.IsAllowedToEdit || reviewerCtrl.permission != reviewerCtrl.policyEnum.Host"
-                                   ng-model="memberEPA.Process.CurrentProcess.AdjustScore" numeric decimals="2" ng-change="reviewerCtrl.inputScore(memberEPA)"
-                                   tooltip="{{reviewerCtrl.getNotificationInputScore(memberEPA)}}" tooltip-trigger="focus" />
+                                   ng-readonly="!epaInfo.IsAllowedToEdit || reviewerCtrl.permission != reviewerCtrl.policyEnum.Host"
+                                   ng-model="epaInfo.Process.CurrentProcess.AdjustScore" numeric decimals="2" ng-change="reviewerCtrl.inputScore(epaInfo)"
+                                   tooltip="{{reviewerCtrl.getNotificationInputScore(epaInfo)}}" tooltip-trigger="focus" />
                         </div>
-                        <div ng-if="!memberEPA.HasMonthlyEPA" class="form-inline-block">
+                        <div ng-if="!epaInfo.HasMonthlyEPA" class="form-inline-block">
                             <input type="text" maxlength="6" class="form-control text-center epa-input-score"
-                                   ng-readonly="!memberEPA.IsAllowedToEdit || reviewerCtrl.permission != reviewerCtrl.policyEnum.Host"
-                                   ng-model="memberEPA.Process.CurrentProcess.AdjustScore" numeric decimals="2" ng-change="reviewerCtrl.inputScore(memberEPA)"
-                                   tooltip="{{reviewerCtrl.getNotificationInputScore(memberEPA)}}" tooltip-trigger="focus" />
+                                   ng-readonly="!epaInfo.IsAllowedToEdit || reviewerCtrl.permission != reviewerCtrl.policyEnum.Host"
+                                   ng-model="epaInfo.Process.CurrentProcess.AdjustScore" numeric decimals="2" ng-change="reviewerCtrl.inputScore(epaInfo)"
+                                   tooltip="{{reviewerCtrl.getNotificationInputScore(epaInfo)}}" tooltip-trigger="focus" />
                         </div>
                     </td>
                     <td class="text-center">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-attr-title='{{"Edit" | translate}}'
-                           ng-click="reviewerCtrl.updateComment(memberEPA, memberEPA.Process.CurrentProcess.Comment, true)"
-                           ng-if="memberEPA.IsAllowedToEdit && reviewerCtrl.permission == reviewerCtrl.policyEnum.Host"></a>
+                           ng-click="reviewerCtrl.updateComment(epaInfo, epaInfo.Process.CurrentProcess.Comment, true)"
+                           ng-if="epaInfo.IsAllowedToEdit && reviewerCtrl.permission == reviewerCtrl.policyEnum.Host"></a>
                         <a class="glyphicon icon-view" href="" ng-attr-title='{{"View" | translate}}'
-                           ng-click="reviewerCtrl.updateComment(memberEPA, memberEPA.Process.CurrentProcess.Comment, false)"
-                           ng-if="memberEPA.Process.CurrentProcess.Comment && memberEPA.Process.CurrentProcess.Comment.length > 0
-                                && (!memberEPA.IsAllowedToEdit || reviewerCtrl.permission != reviewerCtrl.policyEnum.Host)"></a>
+                           ng-click="reviewerCtrl.updateComment(epaInfo, epaInfo.Process.CurrentProcess.Comment, false)"
+                           ng-if="epaInfo.Process.CurrentProcess.Comment && epaInfo.Process.CurrentProcess.Comment.length > 0
+                                && (!epaInfo.IsAllowedToEdit || reviewerCtrl.permission != reviewerCtrl.policyEnum.Host)"></a>
                     </td>
                     <td class="text-center">
-                        <div ng-show="memberEPA.HasDisciplineScore">
-                            <span ng-class="memberEPA.SystemDisciplineScore < 0 ? 'red' : ''"
-                                  ng-bind="memberEPA.SystemDisciplineScore | customScore"></span> / <span ng-bind="memberEPA.MaxDisciplineScore | customScore"></span>
+                        <div ng-show="epaInfo.HasDisciplineScore">
+                            <span ng-class="epaInfo.SystemDisciplineScore < 0 ? 'red' : ''"
+                                  ng-bind="epaInfo.SystemDisciplineScore | customScore"></span> / <span ng-bind="epaInfo.MaxDisciplineScore | customScore"></span>
                         </div>
-                        <div ng-show="!memberEPA.HasDisciplineScore">
-                            <span ng-show="memberEPA.SystemDisciplineScore"
-                                  ng-class="memberEPA.SystemDisciplineScore < 0 ? 'red' : ''"
-                                  ng-bind="memberEPA.SystemDisciplineScore | customScore"></span>
-                            <span ng-show="!memberEPA.SystemDisciplineScore" ng-bind="'-'"></span>
+                        <div ng-show="!epaInfo.HasDisciplineScore">
+                            <span ng-show="epaInfo.SystemDisciplineScore"
+                                  ng-class="epaInfo.SystemDisciplineScore < 0 ? 'red' : ''"
+                                  ng-bind="epaInfo.SystemDisciplineScore | customScore"></span>
+                            <span ng-show="!epaInfo.SystemDisciplineScore" ng-bind="'-'"></span>
                         </div>
                     </td>
                     <td class="text-center">
                         <div class="col-percent-60">
-                            <div ng-show="memberEPA.HasDisciplineScore">
-                                <span ng-class="memberEPA.DisciplineScore < 0 ? 'red' : ''"
-                                      ng-bind="memberEPA.DisciplineScore | customScore"></span>  / <span ng-bind="memberEPA.MaxDisciplineScore | customScore"></span>
+                            <div ng-show="epaInfo.HasDisciplineScore">
+                                <span ng-class="epaInfo.DisciplineScore < 0 ? 'red' : ''"
+                                      ng-bind="epaInfo.DisciplineScore | customScore"></span>  / <span ng-bind="epaInfo.MaxDisciplineScore | customScore"></span>
                             </div>
-                            <div ng-show="!memberEPA.HasDisciplineScore">
-                                <span ng-show="memberEPA.DisciplineScore"
-                                      ng-class="memberEPA.DisciplineScore < 0 ? 'red' : ''"
-                                      ng-bind="memberEPA.DisciplineScore | customScore"></span>
-                                <span ng-show="!memberEPA.DisciplineScore" ng-bind="'-'"></span>
+                            <div ng-show="!epaInfo.HasDisciplineScore">
+                                <span ng-show="epaInfo.DisciplineScore"
+                                      ng-class="epaInfo.DisciplineScore < 0 ? 'red' : ''"
+                                      ng-bind="epaInfo.DisciplineScore | customScore"></span>
+                                <span ng-show="!epaInfo.DisciplineScore" ng-bind="'-'"></span>
                             </div>
                         </div>
-                        <div class="col-percent-40" ng-if="memberEPA.OtherDisciplines > 0">
-                            <a class="glyphicon icon-alert" href="" ng-click="reviewerCtrl.viewOtherViolationDetail(memberEPA)"
-                               ng-if="memberEPA.HasOtherViolation" ng-attr-title='{{"ViewOtherViolation" | translate}}'></a>
+                        <div class="col-percent-40" ng-if="epaInfo.OtherDisciplines > 0">
+                            <a class="glyphicon icon-alert" href="" ng-click="reviewerCtrl.viewOtherViolationDetail(epaInfo)"
+                               ng-if="epaInfo.HasOtherViolation" ng-attr-title='{{"ViewOtherViolation" | translate}}'></a>
                             <a class="glyphicon icon-alert" href=""
-                               ng-if="!memberEPA.HasOtherViolation" ng-attr-title='Misconduction case: {{memberEPA.OtherDisciplines}}'></a>
+                               ng-if="!epaInfo.HasOtherViolation" ng-attr-title='Misconduction: {{epaInfo.OtherDisciplines}}'></a>
                         </div>
                     </td>
                     <td class="text-center">
-                        {{memberEPA.FinalScore | customScore}} / {{memberEPA.Process.CurrentProcess.MaxPerformanceScore | customScore}}
+                        {{epaInfo.FinalScore | customScore}} / {{epaInfo.Process.CurrentProcess.MaxPerformanceScore | customScore}}
                     </td>
                     <td class="text-center">
-                        <div ng-show="memberEPA.LastFinalScore != null" ng-bind="memberEPA.LastFinalScore | customScore"></div>
-                        <div ng-show="memberEPA.LastFinalScore == null" ng-bind="'-'"></div>
+                        <strong class="red" ng-bind="epaInfo.Grade"></strong>
                     </td>
                     <td class="text-center">
-                        <div ng-show="memberEPA.Process.CurrentProcess.Evaluated" class="glyphicon glyphicon-ok"></div>
+                        <div ng-show="epaInfo.LastFinalScore != null" ng-bind="epaInfo.LastFinalScore | customScore"></div>
+                        <div ng-show="epaInfo.LastFinalScore == null" ng-bind="'-'"></div>
                     </td>
-                    <td class="text-center col-action" ng-switch="memberEPA.IsAllowedToEdit">
-                        <a ng-switch-when="true" class="glyphicon glyphicon-edit icon-edit" href="" ng-click="reviewerCtrl.viewEPADetail(memberEPA)"
+                    <td class="text-center">
+                        <div ng-show="epaInfo.Process.CurrentProcess.Evaluated" class="glyphicon glyphicon-ok"></div>
+                    </td>
+                    <td class="text-center col-action" ng-switch="epaInfo.IsAllowedToEdit">
+                        <a ng-switch-when="true" class="glyphicon glyphicon-edit icon-edit" href="" ng-click="reviewerCtrl.viewEPADetail(epaInfo)"
                            ng-href="{{reviewerCtrl.viewEPADetailUrl}}" ng-attr-title='{{"EvaluateNow" | translate}}'></a>
-                        <a ng-switch-default class="glyphicon icon-view" href="" ng-click="reviewerCtrl.viewEPAResult(memberEPA)"
+                        <a ng-switch-default class="glyphicon icon-view" href="" ng-click="reviewerCtrl.viewEPAResult(epaInfo)"
                            ng-href="{{reviewerCtrl.viewEPAResultUrl}}" ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
                     </td>
                 </tr>
             </tbody>
-            <tfoot ng-show="reviewerCtrl.memberEPAs.length > 0">
+            <tfoot ng-show="reviewerCtrl.epaInfos.length > 0">
                 <tr>
-                    <td colspan="16">
+                    <td colspan="17">
                         {{"AverageScoreByEvaluators" | translate}}: {{reviewerCtrl.averageScore | customScore}}
                     </td>
                 </tr>
             </tfoot>
-            <tbody ng-show="reviewerCtrl.memberEPAs.length == 0">
+            <tbody ng-show="reviewerCtrl.epaInfos.length == 0">
                 <tr>
-                    <td class="empty-result" colspan="16" data-translate="EmptyResult"></td>
+                    <td class="empty-result" colspan="17" data-translate="EmptyResult"></td>
                 </tr>
             </tbody>
         </table>

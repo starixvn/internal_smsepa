@@ -9,7 +9,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     selfEvalutorModel.myEPAs = [];
     selfEvalutorModel.groups = [];
     selfEvalutorModel.members = [];
-    selfEvalutorModel.memberEPAs = [];
+    selfEvalutorModel.epaInfos = [];
     selfEvalutorModel.epaInfo = {};
     selfEvalutorModel.permission = 0;
 
@@ -192,8 +192,8 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     };
 
     selfEvalutorModel.getEPAByEvaluator = function (groupId, isLocal, isMonthly, employeeIds) {
-        return employeeEPAFactory.getEPAByEvaluator(groupId, isLocal, isMonthly, employeeIds).success(function (memberEPAs) {
-            selfEvalutorModel.memberEPAs = memberEPAs;
+        return employeeEPAFactory.getEPAByEvaluator(groupId, isLocal, isMonthly, employeeIds).success(function (epaInfos) {
+            selfEvalutorModel.epaInfos = epaInfos;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });

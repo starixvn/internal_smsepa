@@ -6,7 +6,7 @@
             targetTemplates: [],
             kpis: [],
             evaluators: [],
-            memberEPAs: []
+            epaInfos: []
         };
 
         function getPeriodToView() {
@@ -38,8 +38,8 @@
 
         function getEmployeeEPAToView(periodId, targetTemplateId, kpiId, evaluatorId) {
             return epaByKPIFactory.getEmployeeEPAToView(periodId, targetTemplateId, kpiId, evaluatorId)
-            .success(function (memberEPAs) {
-                epaByKPIModel.memberEPAs = memberEPAs;
+            .success(function (epaInfos) {
+                epaByKPIModel.epaInfos = epaInfos;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });

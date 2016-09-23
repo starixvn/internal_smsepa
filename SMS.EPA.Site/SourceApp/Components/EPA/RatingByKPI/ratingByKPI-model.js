@@ -9,7 +9,7 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
     ratingByKPIModel.periods = [];
     ratingByKPIModel.targetTemplates = [];
     ratingByKPIModel.kpis = [];
-    ratingByKPIModel.memberEPAs = [];
+    ratingByKPIModel.epaInfos = [];
     ratingByKPIModel.permission = 0;
 
     ratingByKPIModel.getUserPermissionOnRatingByKPI = function () {
@@ -51,8 +51,8 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
 
     ratingByKPIModel.getEmployeeEPAByKPI = function (periodId, targetTemplateId, kpiId, groupId, employeeIds) {
         return ratingByKPIFactory.getEmployeeEPAByKPI(periodId, targetTemplateId, kpiId, groupId, employeeIds)
-        .success(function (memberEPAs) {
-            ratingByKPIModel.memberEPAs = memberEPAs;
+        .success(function (epaInfos) {
+            ratingByKPIModel.epaInfos = epaInfos;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
@@ -67,8 +67,8 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
                 kpiSelected: function () {
                     return vm.kpiSelected;
                 },
-                memberEPAs: function () {
-                    return vm.memberEPAs;
+                epaInfos: function () {
+                    return vm.epaInfos;
                 }
             },
             windowClass: "modal-confirm-center"
@@ -157,9 +157,9 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
     };
 
     ratingByKPIModel.validateEPA = function (vm) {
-        for (var i = 0; i < vm.memberEPAs.length; i++) {
-            for (var j = 0; j < vm.memberEPAs[i].KPIGroup.KPIs.length; j++) {
-                var kpi = vm.memberEPAs[i].KPIGroup.KPIs[j];
+        for (var i = 0; i < vm.epaInfos.length; i++) {
+            for (var j = 0; j < vm.epaInfos[i].KPIGroup.KPIs.length; j++) {
+                var kpi = vm.epaInfos[i].KPIGroup.KPIs[j];
 
                 if (kpi.KPIId === vm.kpiSelected.KPIId
                     && kpi.HasComment && (!kpi.Comment || kpi.Comment.lenght === 0)
@@ -167,7 +167,7 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
                     if (kpi.IsRequiredComment) {
                         openPopupNotificationComment(vm.evaluateEPAInvalidMessage);
                         return false;
-                    } else if (vm.memberEPAs[i].RequiredCommentOnMaxScore && kpi.IsMaxScore) {
+                    } else if (vm.epaInfos[i].RequiredCommentOnMaxScore && kpi.IsMaxScore) {
                         openPopupNotificationComment(vm.requiredCommentForRatingMaxScore);
                         return false;
                     }
@@ -179,7 +179,7 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
     };
 
     ratingByKPIModel.updateKPIScore = function (vm, modalInstance) {
-        return ratingByKPIFactory.updateKPIScore(vm.memberEPAs)
+        return ratingByKPIFactory.updateKPIScore(vm.epaInfos)
         .success(function (response) {
             if (response.IsSuccessful) {
                 notificationFactory.success("UpdatedSuccessfully");
@@ -190,8 +190,8 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
                 }
 
                 var completedEvaluation = true;
-                angular.forEach(vm.memberEPAs, function (memberEPA) {
-                    angular.forEach(memberEPA.KPIGroup.KPIs, function (kpi) {
+                angular.forEach(vm.epaInfos, function (epaInfo) {
+                    angular.forEach(epaInfo.KPIGroup.KPIs, function (kpi) {
                         if (kpi.AdjustRate > 0 || kpi.AdjustScore > 0) {
                             kpi.Rate = kpi.AdjustRate;
                             kpi.Score = kpi.AdjustScore;
@@ -202,10 +202,10 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
                         }
                     });
 
-                    if (memberEPA.KPIGroup.HasKPIOptional) {
-                        memberEPA.TotalScoreOriginal = memberEPA.TotalScoreOriginal;
+                    if (epaInfo.KPIGroup.HasKPIOptional) {
+                        epaInfo.TotalScoreOriginal = epaInfo.TotalScoreOriginal;
                     } else {
-                        memberEPA.TotalScoreOriginal = memberEPA.TotalScore;
+                        epaInfo.TotalScoreOriginal = epaInfo.TotalScore;
                     }
                 });
 

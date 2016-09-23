@@ -11,7 +11,7 @@
         vm.periods = [];
         vm.targetTemplates = [];
         vm.kpis = [];
-        vm.memberEPAs = [];
+        vm.epaInfos = [];
         vm.maxStar = utilitiesFactory.maxStar;
         vm.currentPage = 1;
         vm.pageSize = 20;
@@ -71,7 +71,7 @@
         function getKPIByToView(filter) {
             vm.kpiSelected = null;
             vm.filter.kpiId = '';
-            vm.memberEPAs = [];
+            vm.epaInfos = [];
 
             EPAByKPIModel.getKPIToView(filter.periodId, filter.targetTemplateId, filter.evaluatorId).then(function () {
                 vm.kpis = EPAByKPIModel.kpis;
@@ -92,22 +92,22 @@
 
         function query() {
             EPAByKPIModel.getEmployeeEPAToView(vm.filter.periodId, vm.filter.targetTemplateId, vm.filter.kpiId, vm.filter.evaluatorId).then(function () {
-                vm.memberEPAs = EPAByKPIModel.memberEPAs;
-                utilitiesFactory.searchOnPage(vm, vm.memberEPAs);
+                vm.epaInfos = EPAByKPIModel.epaInfos;
+                utilitiesFactory.searchOnPage(vm, vm.epaInfos);
 
-                angular.forEach(vm.memberEPAs, function (memberEPA) {
-                    if (memberEPA.RatingType.RatingTypeId === vm.RatingType.Star
-                        || memberEPA.RatingType.RatingTypeId === vm.RatingType.HalfStar
-                        || (memberEPA.RatingType.RatingTypeId === vm.RatingType.Score && memberEPA.KPIGroup.NumberKPIOptional > 0)) {
+                angular.forEach(vm.epaInfos, function (epaInfo) {
+                    if (epaInfo.RatingType.RatingTypeId === vm.RatingType.Star
+                        || epaInfo.RatingType.RatingTypeId === vm.RatingType.HalfStar
+                        || (epaInfo.RatingType.RatingTypeId === vm.RatingType.Score && epaInfo.KPIGroup.NumberKPIOptional > 0)) {
                         vm.hasRatingByStar = true;
                     }
 
-                    if (memberEPA.KPIGroup.HasKPIOptional) {
+                    if (epaInfo.KPIGroup.HasKPIOptional) {
                         var totalStarEvaluated = 0,
-                            numberKPIOptional = memberEPA.KPIGroup.NumberKPIOptional,
-                            totalScoreOriginal = utilitiesFactory.parseFloat(memberEPA.TotalScoreOriginal);
+                            numberKPIOptional = epaInfo.KPIGroup.NumberKPIOptional,
+                            totalScoreOriginal = utilitiesFactory.parseFloat(epaInfo.TotalScoreOriginal);
 
-                        angular.forEach(memberEPA.KPIGroup.KPIs, function (kpi) {
+                        angular.forEach(epaInfo.KPIGroup.KPIs, function (kpi) {
                             if (kpi.Rate > 0) {
                                 totalStarEvaluated += kpi.Rate;
                             }
@@ -117,21 +117,21 @@
                             }
                         });
 
-                        var totalKPIMustEvaluate = memberEPA.KPIGroup.KPIs.length - numberKPIOptional,
+                        var totalKPIMustEvaluate = epaInfo.KPIGroup.KPIs.length - numberKPIOptional,
                             totalStarMustEvaluate = totalKPIMustEvaluate * vm.maxStar,
-                            totalScoreEvaluated = (memberEPA.KPIGroup.Weight * totalStarEvaluated) / totalStarMustEvaluate;
+                            totalScoreEvaluated = (epaInfo.KPIGroup.Weight * totalStarEvaluated) / totalStarMustEvaluate;
 
                         totalScoreEvaluated = utilitiesFactory.parseFloat(totalScoreEvaluated);
-                        memberEPA.TotalScoreOriginal = utilitiesFactory.parseFloat(totalScoreOriginal - totalScoreEvaluated);
+                        epaInfo.TotalScoreOriginal = utilitiesFactory.parseFloat(totalScoreOriginal - totalScoreEvaluated);
                     }
 
-                    EmployeeEPAModel.scoreSpread(memberEPA.KPIGroup);
+                    EmployeeEPAModel.scoreSpread(epaInfo.KPIGroup);
                 });
             });
         }
 
-        function viewDetail(memberEPA) {
-            var url = baseUrl + 'Evaluator/Detail/' + memberEPA.EPAId + '?evaluatorId=' + vm.filter.evaluatorId + '&newTab=' + true;
+        function viewDetail(epaInfo) {
+            var url = baseUrl + 'Evaluator/Detail/' + epaInfo.EPAId + '?evaluatorId=' + vm.filter.evaluatorId + '&newTab=' + true;
             $window.open(url, '_blank');
         }
 
