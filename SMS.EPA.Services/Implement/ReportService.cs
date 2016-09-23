@@ -13,7 +13,7 @@
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Utilities;
     using SMS.EPA.Criteria.Report;
-    using SMS.EPA.Model.EmployeeEPA;
+    using SMS.EPA.Model;
     using SMS.EPA.Model.Period;
     using SMS.EPA.Model.Report.Dashboard;
     using SMS.EPA.Model.Report.EPADetail;

@@ -1,16 +1,15 @@
-﻿namespace SMS.EPA.Criteria.EmployeeEPA
+﻿namespace SMS.EPA.Criteria
 {
     using System.Text;
     using Fanex.Data.Repository;
+    using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Services;
-    using SMS.EPA.Model.EmployeeEPA;
+    using SMS.EPA.Model;
 
     public class ResetScoreCriteria : CriteriaBase
     {
         private const string EPAXmlTemplate = "<EPA ProcessId='{0}' TotalScore='{1}' AdjustScore='{2}'></EPA>";
-        private const string BeginRootTag = "<ROOT>";
-        private const string EndRootTag = "</ROOT>";
 
         public int EPAId { get; set; }
 
@@ -23,7 +22,7 @@
         {
             get
             {
-                var epaXml = new StringBuilder(BeginRootTag);
+                var epaXml = new StringBuilder(Constants.BeginRootTag);
 
                 if (EPAInfo.HasMonthlyEPA
                     && EPAInfo.Period.TargetTypeId == (int)TargetTypes.SemiAnnual)
@@ -67,7 +66,7 @@
                         string.Empty);
                 }
 
-                epaXml.Append(EndRootTag);
+                epaXml.Append(Constants.EndRootTag);
 
                 return epaXml.ToString();
             }

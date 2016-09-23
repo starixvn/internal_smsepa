@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Model.EmployeeEPA
+﻿namespace SMS.EPA.Model
 {
     using SMS.EPA.Core.Services;
 

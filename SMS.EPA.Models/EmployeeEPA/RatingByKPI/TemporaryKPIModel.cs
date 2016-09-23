@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Model.EmployeeEPA.RatingByKPI
+﻿namespace SMS.EPA.Model
 {
     public class TemporaryKPIModel
     {

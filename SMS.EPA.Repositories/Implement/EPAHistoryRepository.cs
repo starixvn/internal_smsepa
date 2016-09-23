@@ -4,7 +4,7 @@
     using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using SMS.EPA.Model.EmployeeEPA;
+    using SMS.EPA.Model;
     using SMS.EPA.Model.EPAHistory;
     using SMS.EPA.Repositories.Interfaces;
 

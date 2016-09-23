@@ -7,7 +7,7 @@
     using System.Web;
     using Fanex.Logging;
     using SelectPdf;
-    using SMS.EPA.Criteria.EmployeeEPA;
+    using SMS.EPA.Criteria;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
 

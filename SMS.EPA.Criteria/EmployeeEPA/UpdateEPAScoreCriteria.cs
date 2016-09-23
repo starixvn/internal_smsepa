@@ -1,17 +1,16 @@
-﻿namespace SMS.EPA.Criteria.EmployeeEPA
+﻿namespace SMS.EPA.Criteria
 {
     using System.Collections.Generic;
     using System.Text;
     using System.Web;
     using Fanex.Data.Repository;
+    using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Services;
-    using SMS.EPA.Model.EmployeeEPA;
+    using SMS.EPA.Model;
 
     public class UpdateEPAScoreCriteria : CriteriaBase
     {
         private const string KPIScoreXmlTemplate = "<KPI KPIId='{0}' KPIGroupId='{1}' Score='{2}' Rate='{3}' IsMaxScore='{4}' Comment='{5}'></KPI>";
-        private const string BeginRootTag = "<ROOT>";
-        private const string EndRootTag = "</ROOT>";
 
         public int EPAId { get; set; }
 
@@ -42,7 +41,7 @@
         {
             get
             {
-                var kpiDetailXml = new StringBuilder(BeginRootTag);
+                var kpiDetailXml = new StringBuilder(Constants.BeginRootTag);
 
                 foreach (EPAKPIGroupModel kpiGroup in KPIGroups)
                 {
@@ -65,7 +64,7 @@
                     }
                 }
 
-                kpiDetailXml.Append(EndRootTag);
+                kpiDetailXml.Append(Constants.EndRootTag);
 
                 return kpiDetailXml.ToString();
             }

@@ -4,7 +4,7 @@
     using Fanex.Data.Repository;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Services;
-    using SMS.EPA.Model.EmployeeEPA;
+    using SMS.EPA.Model;
 
     public class UpdateTotalScoreOfSemiHasMonthlyCriteria : CriteriaBase
     {

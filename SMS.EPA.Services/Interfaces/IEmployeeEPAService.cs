@@ -2,11 +2,8 @@
 {
     using System.Collections.Generic;
     using SMS.EPA.Core.Model;
-    using SMS.EPA.Criteria.EmployeeEPA;
-    using SMS.EPA.Criteria.EmployeeEPA.RatingByKPI;
+    using SMS.EPA.Criteria;
     using SMS.EPA.Model;
-    using SMS.EPA.Model.EmployeeEPA;
-    using SMS.EPA.Model.EmployeeEPA.RatingByKPI;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.ScoreRatingType;
 

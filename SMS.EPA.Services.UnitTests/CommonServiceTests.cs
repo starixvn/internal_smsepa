@@ -1,20 +1,18 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
+    using System.Collections.Generic;
     using NSubstitute;
     using NUnit.Framework;
     using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.Department;
-    using SMS.EPA.Criteria.EmployeeEPA;
     using SMS.EPA.Criteria.EPAHistory;
     using SMS.EPA.Criteria.Period;
     using SMS.EPA.Criteria.TargetType;
     using SMS.EPA.Model;
-    using SMS.EPA.Model.EmployeeEPA;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.Period;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
-    using System.Collections.Generic;
 
     [TestFixture]
     public class CommonServiceTests
@@ -32,6 +30,7 @@
         private ICommonService commonService;
 
         #region GetTargetType
+
         [Test]
         public void GetTargetType_AnyArg_ReturnInstanceOfListOfTargetTypeModel()
         {
@@ -61,9 +60,10 @@
             Assert.AreEqual(expectedTargetTypes, actual);
         }
 
-        #endregion
-        
+        #endregion GetTargetType
+
         #region GetKPI
+
         [Test]
         public void GetKPI_AnyArg_ReturnInstanceOfListOfKPIModel()
         {
@@ -93,9 +93,10 @@
             Assert.AreEqual(expectedKPIs, actual);
         }
 
-        #endregion
+        #endregion GetKPI
 
         #region GetKPIGroup
+
         [Test]
         public void GetKPIGroup_AnyArg_ReturnInstanceOfListOfKPIGroupModel()
         {
@@ -125,9 +126,10 @@
             Assert.AreEqual(expectedKPIGroups, actual);
         }
 
-        #endregion
+        #endregion GetKPIGroup
 
         #region GetAllEmployee
+
         [Test]
         public void GetAllEmployee_AnyArg_ReturnInstanceOfListOfEmployeeModel()
         {
@@ -157,9 +159,10 @@
             Assert.AreEqual(expectedEmployees, actual);
         }
 
-        #endregion
+        #endregion GetAllEmployee
 
         #region GetEmployeeByDepartmentId
+
         [Test]
         public void GetEmployeeByDepartmentId_AnyArg_ReturnInstanceOfListOfEmployeeModel()
         {
@@ -188,9 +191,10 @@
             Assert.AreEqual(expectedEmployees, actual);
         }
 
-        #endregion
+        #endregion GetEmployeeByDepartmentId
 
         #region GetEmployeeByGroupId
+
         [Test]
         public void GetEmployeeByGroupId_AnyArg_ReturnInstanceOfListOfEmployeeModel()
         {
@@ -219,10 +223,10 @@
             Assert.AreEqual(expectedEmployees, actual);
         }
 
-        #endregion
+        #endregion GetEmployeeByGroupId
 
         #region GetEmployeeById
-        
+
         [Test]
         public void GetEmployeeById_VaidArg_ReturnExpectedEmployee()
         {
@@ -237,9 +241,10 @@
             Assert.AreEqual(expectedEmployee, actual);
         }
 
-        #endregion
+        #endregion GetEmployeeById
 
         #region GetAllGroup
+
         [Test]
         public void GetAllGroup_AnyArg_ReturnInstanceOfListOfGroup()
         {
@@ -269,9 +274,10 @@
             Assert.AreEqual(expectedGroups, actual);
         }
 
-        #endregion
+        #endregion GetAllGroup
 
         #region GetDepartment
+
         [Test]
         public void GetDepartment_AnyArg_ReturnInstanceOfDepartmentInfoModel()
         {
@@ -333,9 +339,10 @@
             Assert.IsNull(expectedDepartment.TreeDepartment);
         }
 
-        #endregion
+        #endregion GetDepartment
 
         #region GetPeriod
+
         [Test]
         public void GetPeriod_VaidArg_ReturnInstanceOfListOfPeriodModel()
         {
@@ -364,9 +371,10 @@
             Assert.AreEqual(expectedPeriods, actual);
         }
 
-        #endregion
+        #endregion GetPeriod
 
         #region GetStandardGrade
+
         [Test]
         public void GetStandardGrade_VaidArg_ReturnInstanceOfListOfStandardGradeModel()
         {
@@ -395,9 +403,10 @@
             Assert.AreEqual(expectedGrades, actual);
         }
 
-        #endregion
+        #endregion GetStandardGrade
 
         #region GetAllPeriodIncludeImport
+
         [Test]
         public void GetAllPeriodIncludeImport_AnyArg_ReturnInstanceOfListOfPeriodModel()
         {
@@ -426,9 +435,10 @@
             Assert.AreEqual(expectedPeriods, actual);
         }
 
-        #endregion
+        #endregion GetAllPeriodIncludeImport
 
         #region GetOtherViolationDetailByEPAId
+
         [Test]
         public void GetOtherViolationDetailByEPAId_AnyArg_ReturnInstanceOfListOfEmployeeOtherViolationDetailModel()
         {
@@ -457,9 +467,10 @@
             Assert.AreEqual(otherViolations, actual);
         }
 
-        #endregion
+        #endregion GetOtherViolationDetailByEPAId
 
         #region GetAllTargetTemplate
+
         [Test]
         public void GetAllTargetTemplate_AnyArg_ReturnInstanceOfListOfTargetTemplateModel()
         {
@@ -488,9 +499,10 @@
             Assert.AreEqual(targetTemplates, actual);
         }
 
-        #endregion
+        #endregion GetAllTargetTemplate
 
         #region GetMenusByEmployeeId
+
         [Test]
         public void GetMenusByEmployeeId_AnyArg_ReturnInstanceOfListOfEmployeeModel()
         {
@@ -519,9 +531,10 @@
             Assert.AreEqual(expectedMenuGroups, actual);
         }
 
-        #endregion
+        #endregion GetMenusByEmployeeId
 
         #region GetAllJobTitle
+
         [Test]
         public void GetAllJobTitle_AnyArg_ReturnInstanceOfListOfTargetTemplateModel()
         {
@@ -551,7 +564,7 @@
             Assert.AreEqual(expectedJobTitles, actual);
         }
 
-        #endregion
+        #endregion GetAllJobTitle
 
         private void ArrangeCommon()
         {

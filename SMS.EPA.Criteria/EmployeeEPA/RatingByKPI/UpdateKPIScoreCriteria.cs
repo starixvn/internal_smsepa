@@ -1,18 +1,17 @@
-﻿namespace SMS.EPA.Criteria.EmployeeEPA.RatingByKPI
+﻿namespace SMS.EPA.Criteria
 {
     using System.Collections.Generic;
     using System.Text;
     using System.Web;
     using Fanex.Data.Repository;
+    using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Services;
-    using SMS.EPA.Model.EmployeeEPA.RatingByKPI;
+    using SMS.EPA.Model;
 
     public class UpdateKPIScoreCriteria : CriteriaBase
     {
         private const string EPAXmlTemplate = "<EPA EPAId='{0}' EmployeeId='{1}' KPIGroupId='{2}' TotalScore='{3}'>{4}</EPA>";
         private const string EPADetailXmlTemplate = "<EPADetail KPIId ='{0}' Rate='{1}' Score='{2}' IsMaxScore='{3}' Comment='{4}' />";
-        private const string BeginRootTag = "<ROOT>";
-        private const string EndRootTag = "</ROOT>";
 
         public int EvaluatorId { get; set; }
 
@@ -44,7 +43,7 @@
 
         private string ConvertToXml(IEnumerable<RatingByKPIModel> epaInfos)
         {
-            var epaXml = new StringBuilder(BeginRootTag);
+            var epaXml = new StringBuilder(Constants.BeginRootTag);
 
             foreach (RatingByKPIModel epaInfo in epaInfos)
             {
@@ -66,7 +65,7 @@
                 }
             }
 
-            epaXml.Append(EndRootTag);
+            epaXml.Append(Constants.EndRootTag);
 
             return epaXml.ToString();
         }

@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.AutoGenerateEvaluation.Service
 {
     using System.Collections.Generic;
-    using SMS.EPA.Model.EmployeeEPA;
+    using SMS.EPA.Model;
     using SMS.EPA.Model.Period;
 
     public interface IAutoMailService

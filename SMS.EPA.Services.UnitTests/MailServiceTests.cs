@@ -1,14 +1,14 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
+    using System;
     using NSubstitute;
     using NUnit.Framework;
     using SMS.EPA.Core;
     using SMS.EPA.Core.Services.Interfaces;
-    using SMS.EPA.Model.EmployeeEPA;
+    using SMS.EPA.Model;
     using SMS.EPA.Model.Period;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
-    using System;
 
     [TestFixture]
     public class MailServiceTests
@@ -159,7 +159,7 @@
             var epaModel = new EPAModel();
             epaModel.Process.Managements.Add(new EPAProcessModel() { TotalScore = "30" });
             epaModel.Process.Reviewers.Add(new EPAProcessModel() { TotalScore = "30" });
-            
+
             ArrangeEmail();
 
             // Act

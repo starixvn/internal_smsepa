@@ -1,8 +1,8 @@
 ﻿namespace SMS.EPA.Model.Report.Dashboard
 {
-    using SMS.EPA.Model.EmployeeEPA;
-    using SMS.EPA.Model.Enitites;
     using System.Collections.Generic;
+    using SMS.EPA.Model;
+    using SMS.EPA.Model.Enitites;
 
     public class DashboardModel
     {

@@ -8,7 +8,7 @@
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Services.Implement;
     using SMS.EPA.Core.Services.Interfaces;
-    using SMS.EPA.Model.EmployeeEPA;
+    using SMS.EPA.Model;
     using SMS.EPA.Model.Period;
     using SMS.EPA.Resources;
     using SMS.EPA.Services.Interfaces;

@@ -1,25 +1,23 @@
-﻿namespace SMS.EPA.Criteria.EmployeeEPA
+﻿namespace SMS.EPA.Criteria
 {
     using System.Collections.Generic;
     using System.Text;
     using System.Web;
     using Fanex.Data.Repository;
+    using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Services;
-    using SMS.EPA.Model.EmployeeEPA;
+    using SMS.EPA.Model;
 
     public class AdjustScoreByReviewerOrManagementCriteria : CriteriaBase
     {
         private const string EPAXmlTemplate = @"<EPA EPAId='{0}' ProcessId='{1}' EmployeeId='{2}'
             EvaluatorId='{3}' AdjustScore='{4}' TotalScore='{5}' Comment='{6}'></EPA>";
 
-        private const string BeginRootTag = "<ROOT>";
-        private const string EndRootTag = "</ROOT>";
-
         public string EPADetails
         {
             get
             {
-                var epaXml = new StringBuilder(BeginRootTag);
+                var epaXml = new StringBuilder(Constants.BeginRootTag);
 
                 foreach (EPAModel memberEPA in MemberEPAs)
                 {
@@ -37,7 +35,7 @@
                         HttpUtility.HtmlEncode(memberEPA.Process.CurrentProcess.Comment));
                 }
 
-                epaXml.Append(EndRootTag);
+                epaXml.Append(Constants.EndRootTag);
 
                 return epaXml.ToString();
             }
@@ -48,12 +46,11 @@
         [SpParam(Ignored = true)]
         public IEnumerable<EPAModel> MemberEPAs { get; set; }
 
-        [SpParam(Ignored = true)]
         public int ProcessId { get; set; }
 
         public override bool IsValid()
         {
-            return ModifiedBy > 0;
+            return ModifiedBy > 0 && ProcessId > 0;
         }
 
         public override string GetSettingKey()

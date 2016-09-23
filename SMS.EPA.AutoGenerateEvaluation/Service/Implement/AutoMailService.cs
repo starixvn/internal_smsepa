@@ -5,7 +5,7 @@
     using System.IO;
     using System.Linq;
     using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Model.EmployeeEPA;
+    using SMS.EPA.Model;
     using SMS.EPA.Model.Period;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;

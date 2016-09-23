@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Criteria.EmployeeEPA
+﻿namespace SMS.EPA.Criteria
 {
     using Fanex.Data.Repository;
 

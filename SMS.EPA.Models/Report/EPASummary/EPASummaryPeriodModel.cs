@@ -1,6 +1,6 @@
 ﻿namespace SMS.EPA.Model.Report.EPASummary
 {
-    using SMS.EPA.Model.EmployeeEPA;
+    using SMS.EPA.Model;
 
     public class EPASummaryPeriodModel
     {

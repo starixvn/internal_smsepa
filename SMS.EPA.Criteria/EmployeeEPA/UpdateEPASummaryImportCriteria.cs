@@ -1,9 +1,9 @@
-﻿namespace SMS.EPA.Criteria.EmployeeEPA
+﻿namespace SMS.EPA.Criteria
 {
     using System.Collections.Generic;
     using System.Text;
     using Fanex.Data.Repository;
-    using SMS.EPA.Model.EmployeeEPA;
+    using SMS.EPA.Model;
 
     public class UpdateEPASummaryImportCriteria : CriteriaBase
     {
