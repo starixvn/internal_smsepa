@@ -11,8 +11,8 @@
         <div class="form-group">
             <label class="control-label" data-translate="Employee"></label>
             <input class="form-control employee-search" ng-model="personnelCtrl.searchEmployee"
-                    placeholder="Enter full name or nick name" epa-search-auto-complete search-employees="personnelCtrl.getEmployee()"
-                    ng-change="personnelCtrl.unSelectEmployee()" employee="personnelCtrl.filter.employee" />
+                   placeholder="Enter full name or nick name" epa-search-auto-complete search-employees="personnelCtrl.getEmployee()"
+                   ng-change="personnelCtrl.unSelectEmployee()" employee="personnelCtrl.filter.employee" />
         </div>
         <div class="form-group">
             <label data-translate="TargetType"></label>
@@ -27,7 +27,7 @@
             <input class="form-control" type="checkbox" ng-model="personnelCtrl.filter.showAll" />
         </div>
         <div class="form-group">
-            <button class="button" ng-click="personnelCtrl.query(personnelCtrl.filter)" data-translate="Search"></button>
+            <button class="btn btn-primary" ng-click="personnelCtrl.query(personnelCtrl.filter)" data-translate="Search"></button>
         </div>
     </form>
 
@@ -38,11 +38,11 @@
                     <div class="pull-left div-target-templatesetting" ng-show="targetCtrl.permission == targetCtrl.policyEnum.Host">
                         <label class="control-label" data-translate="TargetTemplate">
                         </label>
-                        <select ng-model="personnelCtrl.targetEmployeeSetting.targetTemplateId" 
+                        <select ng-model="personnelCtrl.targetEmployeeSetting.targetTemplateId"
                                 ng-options="opt.TargetTemplateId as opt.Name for opt in personnelCtrl.targetTemplates"
                                 class="target-template-setting-select lstBox-limit"></select>
                     </div>
-                    <button class="button pull-left btn-assign" data-translate="Assign" ng-click="personnelCtrl.assignTargetTemplate()"
+                    <button class="btn btn-primary pull-left btn-assign" data-translate="Assign" ng-click="personnelCtrl.assignTargetTemplate()"
                             ng-show="targetCtrl.permission == targetCtrl.policyEnum.Host"></button>
                     <input type="text" ng-model="personnelCtrl.searchKey" ng-change="personnelCtrl.search()" class="search-inline-textbox search pull-right">
                 </th>

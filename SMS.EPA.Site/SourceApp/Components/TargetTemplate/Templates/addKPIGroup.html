@@ -1,8 +1,7 @@
 ﻿<div class="modal-addKPI" id="modal-addKPI">
     <div class="modal-header">
         <div class="popup-header">
-            <span data-translate="KPIGroup"></span><span class="close-popup" ng-click="addKPIGroupCtrl.cancel()">
-            </span>
+            <span data-translate="KPIGroup"></span><span class="close-popup" ng-click="addKPIGroupCtrl.cancel()"></span>
         </div>
     </div>
     <div class="modal-body">
@@ -12,14 +11,10 @@
                     <th class="middle-align">
                         <input type="checkbox" ng-model="addKPIGroupCtrl.selectedAll" ng-click="addKPIGroupCtrl.checkAll(addKPIGroupCtrl.selectedAll)" />
                     </th>
-                    <th class="middle-align" data-translate="Name">
-                    </th>
-                    <th class="middle-align" data-translate="Weight">
-                    </th>
-                    <th class="spread-weight-max middle-align" data-translate="SpreadWeight">
-                    </th>
-                    <th class="middle-align" data-translate="Priority">
-                    </th>
+                    <th class="middle-align" data-translate="Name"></th>
+                    <th class="middle-align" data-translate="Weight"></th>
+                    <th class="spread-weight-max middle-align" data-translate="SpreadWeight"></th>
+                    <th class="middle-align" data-translate="Priority"></th>
                 </tr>
             </thead>
             <tbody list-sortable>
@@ -47,7 +42,7 @@
     </div>
     <div class="modal-footer error-message">
         <span class="pull-left" data-translate="UncheckKPIGroupWarning"></span>
-        <button class="button" get-group-weight data-translate="OK"></button>
-        <button class="btn btn-default customize" ng-click="addKPIGroupCtrl.cancel()" data-translate="Cancel"></button>
+        <button class="btn btn-primary" get-group-weight data-translate="OK"></button>
+        <button class="btn btn-default" ng-click="addKPIGroupCtrl.cancel()" data-translate="Cancel"></button>
     </div>
 </div>

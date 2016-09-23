@@ -520,6 +520,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Created By.
+        /// </summary>
+        public static string CreatedBy {
+            get {
+                return ResourceManager.GetString("CreatedBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Created Date.
         /// </summary>
         public static string CreatedDate {

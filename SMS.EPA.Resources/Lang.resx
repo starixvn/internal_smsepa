@@ -1317,7 +1317,7 @@
   <data name="MonthlyEPAHistory" xml:space="preserve">
     <value>Monthly EPA History</value>
   </data>
-   <data name="ManagementScore" xml:space="preserve">
+  <data name="ManagementScore" xml:space="preserve">
     <value>Management Score</value>
   </data>
   <data name="UpdateFinalScore" xml:space="preserve">
@@ -1331,5 +1331,8 @@
   </data>
   <data name="SelectEPABeforeEditSettingWarning" xml:space="preserve">
     <value>Please select at least an EPA before update final score!</value>
+  </data>
+  <data name="CreatedBy" xml:space="preserve">
+    <value>Created By</value>
   </data>
 </root>

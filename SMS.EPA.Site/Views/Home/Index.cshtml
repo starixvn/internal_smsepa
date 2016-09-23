@@ -12,13 +12,15 @@
     <div class="col-xs-12 col-sm-10">
         <div ng-include src="'/SourceApp/Components/Common/Templates/topMenu.html'"></div>
         <div id="user_utilities" class="user-info info" data-ng-controller="EmployeeProfileController as employeeProfileCtrl">
-            <h2>@Model.FullName - @Model.NickName
+            <h2>
+                @Model.FullName - @Model.NickName
             </h2>
             <a class="dropdown-arrow" href="javascript:;"></a>
             <ol>
                 @if (@Model.IsSpecialUser)
-                { 
-                    <li><a href="javascript:;" data-ng-click="employeeProfileCtrl.changePassword()">@Lang.ChangePassword</a>
+                {
+                    <li>
+                        <a href="javascript:;" data-ng-click="employeeProfileCtrl.changePassword()">@Lang.ChangePassword</a>
                     </li>
                 }
                 <li><a href="javascript:;" data-ng-click="employeeProfileCtrl.logout()">@Lang.Logout</a> </li>
@@ -30,4 +32,3 @@
     <div class="loading-process" style="display: none"></div>
     <div data-ng-view></div>
 </div>
-

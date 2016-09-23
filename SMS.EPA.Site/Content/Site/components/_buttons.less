@@ -1,26 +1,4 @@
-﻿.button {
-    #gradient .vertical(#5eb2d5, #308fb7);
-    border: none;
-    color: #fff;
-    display: inline-block;
-    font-size: 12px;
-    height: 27px;
-    line-height: 24px;
-    margin-right: 0;
-    padding: 0 15px 4px;
-    text-align: center;
-    text-decoration: none;
-    text-shadow: none;
-    vertical-align: bottom;
-    cursor: pointer;
-
-    &:hover {
-        #gradient .vertical(#72bcda, #369fca);
-        text-decoration: none;
-    }
-}
-
-.btn-delete {
+﻿.btn-delete {
     #gradient .vertical(#d87a6a, #b76051);
     border: none;
     text-shadow: none;
@@ -29,16 +7,6 @@
     &:hover {
         #gradient .vertical(#d78374, #c77062);
     }
-}
-
-.btn.customize {
-    font-size: 13px;
-    height: 27px;
-    line-height: 24px;
-    padding: 0 15px 4px;
-    .border-radius(0);
-    text-shadow: none;
-    box-shadow: none;
 }
 
 .btn-save {
@@ -95,5 +63,17 @@
 
     .button-text {
         padding: 0 8px 0 5px;
+    }
+}
+
+.btn {
+    padding: 3px 12px;
+    font-size: 13px;
+    .border-radius(0);
+    text-shadow: none;
+    .box-shadow(none);
+
+    &.btn-primary {
+        border-color: none;
     }
 }

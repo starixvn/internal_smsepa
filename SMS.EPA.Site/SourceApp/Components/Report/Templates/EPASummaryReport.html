@@ -10,7 +10,7 @@
                 <label class="col-sm-2 col-percent-14 control-label" data-translate="EvaluationPeriod"></label>
                 <div class="col-sm-2">
                     <epa-add-class-to-role-filter class="multi-select" multi-select input-model="epaSummaryReportCtrl.periods" button-label="Name"
-                                              helper-elements="all reset filter" item-label="Name" tick-property="ticked" group-property="msGroup" max-labels="0">
+                                                  helper-elements="all reset filter" item-label="Name" tick-property="ticked" group-property="msGroup" max-labels="0">
                     </epa-add-class-to-role-filter>
                 </div>
                 <label class="col-sm-2 col-percent-14 control-label" data-translate="DepartmentSection"></label>
@@ -29,7 +29,7 @@
                     </select>
                 </div>
                 <div class="col-sm-1">
-                    <button class="button" ng-click="epaSummaryReportCtrl.query(epaSummaryReportCtrl.filter)" data-translate="Search"></button>
+                    <button class="btn btn-primary" ng-click="epaSummaryReportCtrl.query(epaSummaryReportCtrl.filter)" data-translate="Search"></button>
                 </div>
             </div>
         </form>

@@ -35,26 +35,26 @@
                 <textarea type="text" class="form-control" maxlength="2000" ng-model="createKPICtrl.kpi.Description"></textarea>
             </div>
         </div>
-        <div class="form-group"> 
+        <div class="form-group">
             <div class="col-sm-offset-4 col-sm-8">
                 <div class="checkbox col-sm-5">
                     <label>
-                        <input type="checkbox" ng-model="createKPICtrl.kpi.HasComment" 
-                            ng-click="createKPICtrl.changeHasComment()" /> {{"Comment" | translate}}
+                        <input type="checkbox" ng-model="createKPICtrl.kpi.HasComment"
+                               ng-click="createKPICtrl.changeHasComment()" /> {{"Comment" | translate}}
                     </label>
                 </div>
                 <div class="checkbox col-sm-7">
                     <label>
-                        <input type="checkbox" ng-model="createKPICtrl.kpi.IsRequiredComment" 
-                            ng-disabled="!createKPICtrl.kpi.HasComment" /> {{"RequireComment" | translate}}
+                        <input type="checkbox" ng-model="createKPICtrl.kpi.IsRequiredComment"
+                               ng-disabled="!createKPICtrl.kpi.HasComment" /> {{"RequireComment" | translate}}
                     </label>
                 </div>
-             </div>
+            </div>
         </div>
     </form>
 </div>
 <div class="modal-footer">
-    <button class="button" ng-click="createKPICtrl.save(false)" data-translate="Submit"></button>
-    <button class="button" ng-click="createKPICtrl.save(true)" data-translate="SubmitAndContinue"></button>
-    <button class="btn btn-default customize" ng-click="createKPICtrl.cancel()" data-translate="Cancel"></button>
+    <button class="btn btn-primary" ng-click="createKPICtrl.save(false)" data-translate="Submit"></button>
+    <button class="btn btn-primary" ng-click="createKPICtrl.save(true)" data-translate="SubmitAndContinue"></button>
+    <button class="btn btn-default" ng-click="createKPICtrl.cancel()" data-translate="Cancel"></button>
 </div>

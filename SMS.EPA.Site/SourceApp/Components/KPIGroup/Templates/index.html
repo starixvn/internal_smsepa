@@ -15,7 +15,7 @@
                 </select>
             </div>
             <div class="form-group">
-                <button class="button" ng-click="kpiGroupCtrl.query(kpiGroupCtrl.filter)" data-translate="Submit"></button>
+                <button class="btn btn-primary" ng-click="kpiGroupCtrl.query(kpiGroupCtrl.filter)" data-translate="Submit"></button>
             </div>
         </form>
         <table class="row table table-bordered table-striped">
@@ -63,8 +63,7 @@
                     <td class="text-center col-action" ng-if="kpiGroupCtrl.permission == kpiGroupCtrl.policyEnum.Host">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="kpiGroupCtrl.updateKPIGroup(kpiGroup)" ng-attr-title='{{"Edit" | translate}}'></a>
                         <a class="glyphicon glyphicon-remove icon-remove" href="" ng-click="kpiGroupCtrl.deleteKPIGroup(kpiGroup)" ng-attr-title='{{"Delete" | translate}}'></a>
-                        <a class="glyphicon glyphicon-plus icon-add" href=""
-                           ng-if="kpiGroupCtrl.permissionOnKPI == kpiGroupCtrl.policyEnum.Host"
+                        <a class="glyphicon glyphicon-plus icon-add" href="" ng-if="kpiGroupCtrl.permissionOnKPI == kpiGroupCtrl.policyEnum.Host"
                            ng-click="kpiGroupCtrl.addKPI(kpiGroup)" ng-attr-title='{{"AddKPI" | translate}}'></a>
                     </td>
                 </tr>

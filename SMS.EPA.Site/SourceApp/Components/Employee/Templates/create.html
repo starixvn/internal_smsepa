@@ -38,7 +38,8 @@
             <label class="col-sm-3 control-label" data-translate="Section">
             </label>
             <div class="col-sm-8 field">
-                <select ng-model="employeeCtrl.employee.GroupId" ng-options="group.GroupId as group.GroupName for group in employeeCtrl.groupOptions"
+                <select ng-model="employeeCtrl.employee.GroupId"
+                        ng-options="group.GroupId as group.GroupName for group in employeeCtrl.groupOptions"
                         required class="form-control">
                     <option value="">-- {{"Select" | translate}} --</option>
                 </select>
@@ -64,8 +65,9 @@
             <label class="col-sm-3 control-label" data-translate="JobTitle">
             </label>
             <div class="col-sm-8 field">
-                <select ng-model="employeeCtrl.employee.JobTitleId" ng-options="jobTitle.JobTitleId as jobTitle.JobTitleName for jobTitle in employeeCtrl.jobTitleOptions"
-                    required class="form-control">
+                <select ng-model="employeeCtrl.employee.JobTitleId"
+                        ng-options="jobTitle.JobTitleId as jobTitle.JobTitleName for jobTitle in employeeCtrl.jobTitleOptions"
+                        required class="form-control">
                     <option value="">-- {{"Select" | translate}} --</option>
                 </select>
             </div>
@@ -81,9 +83,6 @@
 </div>
 
 <div class="modal-footer">
-    <button class="button" data-translate="Submit" ng-click="employeeCtrl.save(employeeCtrl.employee)"></button>
-    <button class="btn btn-default customize" ng-click="employeeCtrl.cancel()" data-translate="Cancel"></button>
+    <button class="btn btn-primary" data-translate="Submit" ng-click="employeeCtrl.save(employeeCtrl.employee)"></button>
+    <button class="btn btn-default" ng-click="employeeCtrl.cancel()" data-translate="Cancel"></button>
 </div>
-
-
-

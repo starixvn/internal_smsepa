@@ -80,7 +80,7 @@
                                datepicker-popup ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.HumanResources)"
                                is-open="updatePeriodSettingCtrl.flowCalendar.humanResource.startDateOpened" />
                         <epa-calendar-image class="calendar-image period-calendar"
-                                        ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.HumanResources)"></epa-calendar-image>
+                                            ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.HumanResources)"></epa-calendar-image>
                     </td>
                     <td class="text-center">
                         <input readonly class="calendar-form-control" type="text"
@@ -89,7 +89,7 @@
                                datepicker-popup
                                is-open="updatePeriodSettingCtrl.flowCalendar.selfEvaluator.startDateOpened" />
                         <epa-calendar-image class="calendar-image period-calendar"
-                                        ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.SelfEvaluator)"></epa-calendar-image>
+                                            ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.SelfEvaluator)"></epa-calendar-image>
                     </td>
                     <td class="text-center">
                         <input readonly class="calendar-form-control" type="text"
@@ -98,7 +98,7 @@
                                datepicker-popup
                                is-open="updatePeriodSettingCtrl.flowCalendar.evaluator.startDateOpened" />
                         <epa-calendar-image class="calendar-image period-calendar"
-                                        ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.Evaluator)"></epa-calendar-image>
+                                            ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.Evaluator)"></epa-calendar-image>
                     </td>
                     <td class="text-center">
                         <input readonly class="calendar-form-control" type="text"
@@ -107,7 +107,7 @@
                                datepicker-popup
                                is-open="updatePeriodSettingCtrl.flowCalendar.reviewer.startDateOpened" />
                         <epa-calendar-image class="calendar-image period-calendar"
-                                        ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.Reviewer)"></epa-calendar-image>
+                                            ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.Reviewer)"></epa-calendar-image>
                     </td>
                 </tr>
                 <tr>
@@ -121,7 +121,7 @@
                                datepicker-popup ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.HumanResources)"
                                is-open="updatePeriodSettingCtrl.flowCalendar.humanResource.endDateOpened" />
                         <epa-calendar-image class="calendar-image period-calendar"
-                                        ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.HumanResources)"></epa-calendar-image>
+                                            ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.HumanResources)"></epa-calendar-image>
                     </td>
                     <td class="text-center">
                         <input readonly class="calendar-form-control" type="text"
@@ -130,7 +130,7 @@
                                datepicker-popup
                                is-open="updatePeriodSettingCtrl.flowCalendar.selfEvaluator.endDateOpened" />
                         <epa-calendar-image class="calendar-image period-calendar"
-                                        ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.SelfEvaluator)"></epa-calendar-image>
+                                            ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.SelfEvaluator)"></epa-calendar-image>
                     </td>
                     <td class="text-center">
                         <input readonly class="calendar-form-control" type="text"
@@ -139,7 +139,7 @@
                                datepicker-popup
                                is-open="updatePeriodSettingCtrl.flowCalendar.evaluator.endDateOpened" />
                         <epa-calendar-image class="calendar-image period-calendar"
-                                        ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.Evaluator)"></epa-calendar-image>
+                                            ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.Evaluator)"></epa-calendar-image>
                     </td>
                     <td class="text-center">
                         <input readonly class="calendar-form-control" type="text"
@@ -148,15 +148,15 @@
                                datepicker-popup
                                is-open="updatePeriodSettingCtrl.flowCalendar.reviewer.endDateOpened" />
                         <epa-calendar-image class="calendar-image period-calendar"
-                                        ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.Reviewer)"></epa-calendar-image>
+                                            ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.Reviewer)"></epa-calendar-image>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
     <div class="modal-footer">
-        <button class="button" ng-click="updatePeriodSettingCtrl.save()" data-translate="OK"
+        <button class="btn btn-primary" ng-click="updatePeriodSettingCtrl.save()" data-translate="OK"
                 ng-show="updatePeriodSettingCtrl.permission == updatePeriodSettingCtrl.policyEnum.Host"></button>
-        <button class="btn btn-default customize" ng-click="updatePeriodSettingCtrl.cancel()" data-translate="Cancel"></button>
+        <button class="btn btn-default" ng-click="updatePeriodSettingCtrl.cancel()" data-translate="Cancel"></button>
     </div>
 </div>

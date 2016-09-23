@@ -416,12 +416,6 @@
     <Content Include="SourceApp\Components\DisciplineSummary\disciplineSummaryByPeriod-controller.js" />
     <Content Include="SourceApp\Components\DisciplineSummary\Templates\disciplineSummaryByPeriod.html" />
     <Content Include="SourceApp\Components\Employee\employee-directive.js" />
-    <Content Include="SourceApp\Components\Employee\employee.css">
-      <DependentUpon>employee.less</DependentUpon>
-    </Content>
-    <Content Include="SourceApp\Components\Employee\employee.min.css">
-      <DependentUpon>employee.css</DependentUpon>
-    </Content>
     <Content Include="SourceApp\Components\Employee\Templates\assignRole.html" />
     <Content Include="SourceApp\Components\Employee\Templates\changePassword.html" />
     <Content Include="SourceApp\Components\Common\common-factory.js" />

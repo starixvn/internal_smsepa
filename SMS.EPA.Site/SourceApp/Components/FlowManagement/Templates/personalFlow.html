@@ -29,16 +29,16 @@
                                     ng-options="e.EmployeeId as e.NickName + ' (' + e.FullName + ')' for e in personalFlowCtrl.defaultFlowSettings | filter: personalFlowCtrl.filterDefaultSelect"></select>
                         </div>
                         <div class="col-sm-1 buttons">
-                            <a title="Move Right" class="button glyphicon glyphicon-arrow-right"
+                            <a title="Move Right" class="btn btn-primary glyphicon glyphicon-arrow-right"
                                ng-click="personalFlowCtrl.moveItem(personalFlowCtrl.defaultSelect, personalFlowCtrl.defaultFlowSettings, personalFlowCtrl.personalFlowSettings)">
                             </a>
-                            <a title="Move Left" class="button glyphicon glyphicon-arrow-left"
+                            <a title="Move Left" class="btn btn-primary glyphicon glyphicon-arrow-left"
                                ng-click="personalFlowCtrl.moveItem(personalFlowCtrl.personalSelect, personalFlowCtrl.personalFlowSettings, personalFlowCtrl.defaultFlowSettings)">
                             </a>
-                            <a title="Move Right All" class="button glyphicon glyphicon-fast-forward"
+                            <a title="Move Right All" class="btn btn-primary glyphicon glyphicon-fast-forward"
                                ng-click="personalFlowCtrl.moveAll(personalFlowCtrl.defaultFlowSettings, personalFlowCtrl.personalFlowSettings)">
                             </a>
-                            <a title="Move Left All" class="button glyphicon glyphicon-fast-backward"
+                            <a title="Move Left All" class="btn btn-primary glyphicon glyphicon-fast-backward"
                                ng-click="personalFlowCtrl.moveAll(personalFlowCtrl.personalFlowSettings, personalFlowCtrl.defaultFlowSettings)">
                             </a>
                         </div>
@@ -155,11 +155,11 @@
                                         </tbody>
                                     </table>
                                     <form class="row form-inline department-form" role="form">
-                                        <button class="button" ng-click="personalFlowCtrl.savePersonalFlow()"
+                                        <button class="btn btn-primary" ng-click="personalFlowCtrl.savePersonalFlow()"
                                                 ng-show="updateCtrl.permission == updateCtrl.policyEnum.Host" data-translate="Save"></button>
-                                        <button class="button" ng-click="personalFlowCtrl.deletePersonalFlow()" data-translate="Delete"
+                                        <button class="btn btn-primary" ng-click="personalFlowCtrl.deletePersonalFlow()" data-translate="Delete"
                                                 ng-show="personalFlowCtrl.showDeleteButton && updateCtrl.permission == updateCtrl.policyEnum.Host"></button>
-                                        <button class="btn btn-default customize" ng-click="personalFlowCtrl.cancel()" data-translate="Cancel"></button>
+                                        <button class="btn btn-default" ng-click="personalFlowCtrl.cancel()" data-translate="Cancel"></button>
                                     </form>
                                 </div>
                             </div>

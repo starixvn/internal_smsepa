@@ -22,7 +22,7 @@
                 </select>
             </div>
             <div class="form-group">
-                <button class="button" ng-click="targetTemplateCtrl.query(targetTemplateCtrl.filter)" data-translate="Submit"></button>
+                <button class="btn btn-primary" ng-click="targetTemplateCtrl.query(targetTemplateCtrl.filter)" data-translate="Submit"></button>
             </div>
         </form>
         <table class="row table table-bordered table-striped">
@@ -51,22 +51,19 @@
             </thead>
             <tbody>
                 <tr dir-paginate="targetTemplate in targetTemplateCtrl.filteredItems | itemsPerPage: targetTemplateCtrl.pageSize" current-page="targetTemplateCtrl.currentPage">
-                    <td class="text-center" ng-bind="targetTemplateCtrl.getIndex($index, targetTemplateCtrl.currentPage, targetTemplateCtrl.pageSize)">
-                    </td>
+                    <td class="text-center" ng-bind="targetTemplateCtrl.getIndex($index, targetTemplateCtrl.currentPage, targetTemplateCtrl.pageSize)"></td>
                     <td class="column-limit">
                         <a href="{{targetTemplateCtrl.detailTargetTemplateUrl}}" ng-click="targetTemplateCtrl.detail(targetTemplate)" ng-bind="targetTemplate.Name"></a>
                     </td>
-                    <td class="text-center" ng-bind="targetTemplate.TargetTypeName">
-                    </td>
-                    <td class="text-center" ng-bind="targetTemplate.ScoreRatingTypeName">
-                    </td>
+                    <td class="text-center" ng-bind="targetTemplate.TargetTypeName"></td>
+                    <td class="text-center" ng-bind="targetTemplate.ScoreRatingTypeName"></td>
                     <td class="text-center" ng-bind="targetTemplate.RatingTypeName"></td>
                     <td class="col-description">
                         {{targetTemplate.Description | limitTo: targetTemplate.numLimit > 0 ? targetTemplate.numLimit: targetTemplateCtrl.maxLengthDescription}}
                         <a ng-show="!targetTemplate.showReadMore && (targetTemplate.Description.length >= targetTemplateCtrl.maxLengthDescription)"
-                            href="javascript:;" ng-click="targetTemplateCtrl.readMore(targetTemplate)" data-translate="ReadMore"></a>
+                           href="javascript:;" ng-click="targetTemplateCtrl.readMore(targetTemplate)" data-translate="ReadMore"></a>
                         <a ng-show="targetTemplate.showReadMore && (targetTemplate.Description.length >= targetTemplateCtrl.maxLengthDescription)"
-                            href="javascript:;" ng-click="targetTemplateCtrl.readLess(targetTemplate)" data-translate="ReadLess"></a>
+                           href="javascript:;" ng-click="targetTemplateCtrl.readLess(targetTemplate)" data-translate="ReadLess"></a>
                     </td>
                     <td class="text-center">
                         <a href="{{targetTemplateCtrl.updateTargetTemplateUrl}}" ng-if="targetTemplateCtrl.permission == targetTemplateCtrl.policyEnum.Host"
@@ -86,8 +83,7 @@
                     </td>
                 </tr>
                 <tr ng-show="targetTemplateCtrl.filteredItems.length == 0">
-                    <td class="empty-result" colspan="9" data-translate="EmptyResult">
-                    </td>
+                    <td class="empty-result" colspan="9" data-translate="EmptyResult"></td>
                 </tr>
             </tbody>
             <tfoot>

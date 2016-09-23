@@ -1,7 +1,7 @@
 ﻿<div ng-controller="KPIListController as kpiListCtrl">
     <form class="form-horizontal common-form project-form" novalidate>
         <div>
-            <a class="button" title="Manage KPI Group" ng-click="kpiListCtrl.addKPIGroup()">
+            <a class="btn btn-primary" title="Manage KPI Group" ng-click="kpiListCtrl.addKPIGroup()">
                 <span class="glyphicon glyphicon-cog icon-setting"></span> {{"ManageKPIGroupTargetTemplate" | translate}}
             </a>
             <input class="search-textbox pull-right" placeholder="KPI Name..." type="text" ng-model="KPIName" ng-keypress="kpiListCtrl.preventEnter($event)" />
@@ -79,8 +79,8 @@
                         </tfoot>
                     </table>
                     <div class="col-sm-offset-5 top-buffer">
-                        <button class="button" get-weight data-translate="Submit" type="submit"></button>
-                        <button class="btn btn-default customize" ng-click="kpiListCtrl.cancel()" data-translate="Cancel"></button>
+                        <button class="btn btn-primary" get-weight data-translate="Submit" type="submit"></button>
+                        <button class="btn btn-default" ng-click="kpiListCtrl.cancel()" data-translate="Cancel"></button>
                     </div>
                 </div>
             </div>

@@ -48,7 +48,7 @@
                 </select>
             </div>
             <div class="col-sm-1">
-                <button class="button" ng-click="empSettingCtrl.query(empSettingCtrl.filter)" data-translate="Search"></button>
+                <button class="btn btn-primary" ng-click="empSettingCtrl.query(empSettingCtrl.filter)" data-translate="Search"></button>
             </div>
         </div>
     </form>
@@ -59,7 +59,7 @@
                     <div class="pull-left div-period-department-setting" name="multiSelectOption" ng-show="updateCtrl.permission == updateCtrl.policyEnum.Host">
                         <label class="control-label" data-translate="DepartmentSection"></label>
                         <epa-add-class-to-role-filter multi-select input-model="empSettingCtrl.departmentOptions" button-label="Name" helper-elements="all reset"
-                                                  item-label="Name" tick-property="ticked" max-labels="0" class="multi-select period-department-select">
+                                                      item-label="Name" tick-property="ticked" max-labels="0" class="multi-select period-department-select">
                         </epa-add-class-to-role-filter>
                     </div>
                     <div class="pull-left div-period-employee-setting" ng-show="updateCtrl.permission == updateCtrl.policyEnum.Host">
@@ -68,7 +68,7 @@
                                placeholder="Enter full name or nick name" epa-search-auto-complete search-employees="empSettingCtrl.getEmployee()"
                                ng-change="empSettingCtrl.unSelectEmployee()" employee="empSettingCtrl.filterAssign.employee" />
                     </div>
-                    <button class="button pull-left period-add" ng-click="empSettingCtrl.addEmployeeToMonthlyPeriod(empSettingCtrl.filterAssign)"
+                    <button class="btn btn-primary pull-left period-add" ng-click="empSettingCtrl.addEmployeeToMonthlyPeriod(empSettingCtrl.filterAssign)"
                             ng-show="updateCtrl.permission == updateCtrl.policyEnum.Host" data-translate="Add"></button>
                     <input type="text" ng-model="empSettingCtrl.searchKey" ng-change="empSettingCtrl.search()" class="search-inline-textbox search pull-right">
                 </th>

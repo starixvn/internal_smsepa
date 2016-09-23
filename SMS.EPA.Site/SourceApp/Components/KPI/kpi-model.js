@@ -14,7 +14,7 @@
             getUserPermissionOnKPI: getUserPermissionOnKPI,
             kpis: kpis,
             openPopupCreateKPI: openPopupCreateKPI,
-            openPopupDeleteKP: openPopupDeleteKPI,
+            openPopupDeleteKPI: openPopupDeleteKPI,
             openPopupUpdateKPI: openPopupUpdateKPI,
             openPopupUpdateRequiredEvaluateKPI: openPopupUpdateRequiredEvaluateKPI,
             openPopupUpdateStatusKPI: openPopupUpdateStatusKPI,

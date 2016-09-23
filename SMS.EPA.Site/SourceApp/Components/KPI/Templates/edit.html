@@ -10,10 +10,10 @@
             <label class="col-sm-4 control-label" data-translate="Group"></label>
             <div class="col-sm-8 field">
                 <select disabled class="form-control select-kpi-group" multiple chosen
-                    options="updateKPICtrl.kpiGroups"
-                    ng-model="updateKPICtrl.currentChosenKPIGroups"
-                    data-placeholder="Select the group"
-                    ng-options="opt.KPIGroupId as opt.Name for opt in updateKPICtrl.kpiGroups"></select>
+                        options="updateKPICtrl.kpiGroups"
+                        ng-model="updateKPICtrl.currentChosenKPIGroups"
+                        data-placeholder="Select the group"
+                        ng-options="opt.KPIGroupId as opt.Name for opt in updateKPICtrl.kpiGroups"></select>
             </div>
         </div>
         <div class="form-group required">
@@ -34,25 +34,25 @@
                 <textarea type="text" class="form-control" maxlength="2000" ng-model="updateKPICtrl.kpi.Description"></textarea>
             </div>
         </div>
-        <div class="form-group"> 
+        <div class="form-group">
             <div class="col-sm-offset-4 col-sm-8">
                 <div class="checkbox col-sm-5">
                     <label>
-                        <input type="checkbox" ng-model="updateKPICtrl.kpi.HasComment" 
-                            ng-click="updateKPICtrl.changeHasComment()" /> {{"Comment" | translate}}
+                        <input type="checkbox" ng-model="updateKPICtrl.kpi.HasComment"
+                               ng-click="updateKPICtrl.changeHasComment()" /> {{"Comment" | translate}}
                     </label>
                 </div>
                 <div class="checkbox col-sm-7">
                     <label>
-                        <input type="checkbox" ng-model="updateKPICtrl.kpi.IsRequiredComment" 
-                            ng-disabled="!updateKPICtrl.kpi.HasComment" /> {{"RequireComment" | translate}}
+                        <input type="checkbox" ng-model="updateKPICtrl.kpi.IsRequiredComment"
+                               ng-disabled="!updateKPICtrl.kpi.HasComment" /> {{"RequireComment" | translate}}
                     </label>
                 </div>
-             </div>
+            </div>
         </div>
     </form>
 </div>
 <div class="modal-footer">
-    <button class="button" ng-click="updateKPICtrl.save()" data-translate="Submit"></button>
-    <button class="btn btn-default customize" ng-click="updateKPICtrl.cancel()" data-translate="Cancel"></button>
+    <button class="btn btn-primary" ng-click="updateKPICtrl.save()" data-translate="Submit"></button>
+    <button class="btn btn-default" ng-click="updateKPICtrl.cancel()" data-translate="Cancel"></button>
 </div>

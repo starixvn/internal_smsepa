@@ -9,11 +9,9 @@
             <div class="form-group">
                 <label data-translate="Role" class="control-label"></label>
                 <select class="form-control" ng-model="roleCtrl.filter.roleId"
-                        ng-options="opt.RoleId as opt.RoleCode for opt in roleCtrl.systemRoleOptions">
-                </select>
+                        ng-options="opt.RoleId as opt.RoleCode for opt in roleCtrl.systemRoleOptions"></select>
             </div>
-            <button class="button" ng-click="roleCtrl.query(roleCtrl.filter)" ng-disabled="submitted" data-translate="Submit">
-            </button>
+            <button class="btn btn-primary" ng-click="roleCtrl.query(roleCtrl.filter)" ng-disabled="submitted" data-translate="Submit"></button>
         </form>
     </div>
     <div class="row ">
@@ -36,7 +34,7 @@
                 </tr>
             </table>
             <div>
-                <button class="button" get-role-permission ng-if="!roleCtrl.isSystemAdmin" data-translate="Save"></button>
+                <button class="btn btn-primary" get-role-permission ng-if="!roleCtrl.isSystemAdmin" data-translate="Save"></button>
             </div>
         </form>
     </div>

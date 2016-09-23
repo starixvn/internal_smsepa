@@ -27,7 +27,7 @@
                 <label class="col-sm-1 control-label" data-translate="Employee"></label>
                 <div class="col-sm-2">
                     <epa-add-class-to-role-filter class="multi-select" multi-select input-model="reviewerCtrl.members" button-label="EmployeeId"
-                                              helper-elements="all reset filter" item-label="NickName" tick-property="ticked" max-labels="0">
+                                                  helper-elements="all reset filter" item-label="NickName" tick-property="ticked" max-labels="0">
                     </epa-add-class-to-role-filter>
                 </div>
             </div>
@@ -39,7 +39,7 @@
                     </label>
                 </div>
                 <div class="col-sm-1">
-                    <button class="button" ng-click="reviewerCtrl.query(reviewerCtrl.filter)" data-translate="Submit"></button>
+                    <button class="btn btn-primary" ng-click="reviewerCtrl.query(reviewerCtrl.filter)" data-translate="Submit"></button>
                 </div>
             </div>
         </form>

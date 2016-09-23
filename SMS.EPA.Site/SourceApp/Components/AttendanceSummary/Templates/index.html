@@ -53,7 +53,7 @@
                 <epa-calendar-image class="calendar-image" ng-click="attendanceCtrl.openPopupEndDate($event)"></epa-calendar-image>
             </div>
             <div class="col-sm-1">
-                <input type="button" value="Search" class="button" ng-click="attendanceCtrl.query(attendanceCtrl.filter)" />
+                <input type="button" value="Search" class="btn btn-primary" ng-click="attendanceCtrl.query(attendanceCtrl.filter)" />
             </div>
         </div>
     </form>
@@ -62,8 +62,7 @@
             <tr class="header-table">
                 <th colspan="17">
                     <input class="btnExcel pull-right" export-attendance-summary-report
-                           ng-click="attendanceCtrl.exportReport(attendanceCtrl.filter)"
-                           type="button" title="Export to Excel">
+                           ng-click="attendanceCtrl.exportReport(attendanceCtrl.filter)" type="button" title="Export to Excel">
                     <input type="text" ng-model="attendanceCtrl.searchKey" ng-change="attendanceCtrl.search()" class="search-inline-textbox search pull-right">
                 </th>
             </tr>

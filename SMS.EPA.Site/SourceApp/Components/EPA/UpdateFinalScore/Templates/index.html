@@ -30,7 +30,7 @@
                            ng-change="updateCtrl.unSelectEmployee()" employee="updateCtrl.filter.employee" />
                 </div>
                 <div class="col-sm-1">
-                    <button class="button" ng-click="updateCtrl.getEPAToUpdateFinalScore(updateCtrl.filter)" data-translate="Submit"></button>
+                    <button class="btn btn-primary" ng-click="updateCtrl.getEPAToUpdateFinalScore(updateCtrl.filter)" data-translate="Submit"></button>
                 </div>
             </div>
         </form>
@@ -40,7 +40,7 @@
             <thead>
                 <tr class="header-table">
                     <th colspan="8">
-                        <button class="button pull-left" style="margin: 5px;"
+                        <button class="btn btn-primary pull-left" style="margin: 5px;"
                                 ng-show="updateCtrl.filteredItems.length > 0" ng-click="updateCtrl.updateFinalScore()" data-translate="Update"></button>
                         <input type="text" ng-model="updateCtrl.searchKey" ng-change="updateCtrl.search()" class="search-inline-textbox search pull-right">
                     </th>

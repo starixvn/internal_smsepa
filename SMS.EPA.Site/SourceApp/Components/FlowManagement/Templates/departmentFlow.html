@@ -112,11 +112,11 @@
                 </tbody>
             </table>
             <form class="row form-inline department-form" role="form">
-                <button class="button" ng-click="deptFlowCtrl.saveDepartmentFlow()"
+                <button class="btn btn-primary" ng-click="deptFlowCtrl.saveDepartmentFlow()"
                         ng-show="updateCtrl.permission == updateCtrl.policyEnum.Host" data-translate="Save"></button>
-                <button class="button" ng-click="deptFlowCtrl.deleteDepartmentFlow()" data-translate="Delete"
+                <button class="btn btn-primary" ng-click="deptFlowCtrl.deleteDepartmentFlow()" data-translate="Delete"
                         ng-show="deptFlowCtrl.showDeleteButton && updateCtrl.permission == updateCtrl.policyEnum.Host"></button>
-                <button class="btn btn-default customize" ng-click="deptFlowCtrl.cancel()" data-translate="Cancel"></button>
+                <button class="btn btn-default" ng-click="deptFlowCtrl.cancel()" data-translate="Cancel"></button>
             </form>
         </div>
     </div>
