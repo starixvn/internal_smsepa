@@ -12,7 +12,7 @@
 
         public override bool IsValid()
         {
-            return true;
+            return TargetTemplateId > 0;
         }
 
         public override string GetSettingKey()

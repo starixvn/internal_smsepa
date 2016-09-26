@@ -1,7 +1,10 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
+    using Fanex.Data.Repository;
     using NSubstitute;
     using NUnit.Framework;
+    using SMS.EPA.Core.Model;
+    using SMS.EPA.Core.Repositories;
     using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.TargetEmployeeSetting;
     using SMS.EPA.Model;
@@ -15,14 +18,14 @@
     public class TargetEmployeeSettingServiceTests
     {
         private ITargetEmployeeSettingRepository targetEmployeeSettingRepository;
-        private ITargetEmployeeSettingService targetEmployeeSettingService;
+        private TargetEmployeeSettingService targetEmployeeSettingService;
 
         #region GetTargetEmployeeSetting
         [Test]
-        public void GetTargetEmployeeSetting_AnyArg_ReturnInstanceOfListOfTargetTypeModel()
+        public void GetTargetEmployeeSetting_AnyArg_ReturnInstanceOfListOfTargetEmployeeSetting()
         {
             // Arrange
-            targetEmployeeSettingService = Substitute.For<ITargetEmployeeSettingService>();
+            targetEmployeeSettingService = Substitute.For<TargetEmployeeSettingService>();
 
             // Act
             var actual = targetEmployeeSettingService.GetTargetEmployeeSetting(Arg.Any<GetAllTargetEmployeeSettingCriteria>());
@@ -47,39 +50,218 @@
             Assert.AreEqual(expectedTargetEmployees, actual);
         }
 
-        #endregion
-
-        #region GetAllGroup
         [Test]
-        public void GetAllGroup_AnyArg_ReturnInstanceOfListOfGroup()
-        {
-            ////// Arrange
-            ////commonService = Substitute.For<ICommonService>();
-
-            ////// Act
-            ////var actual = commonService.GetAllGroup(Arg.Any<GetAllGroupCriteria>());
-
-            ////// Assert
-            ////Assert.IsInstanceOf(typeof(IEnumerable<Group>), actual);
-        }
-
-        [Test]
-        public void GetAllGroup_VaidArg_ReturnExpectedGroups()
+        public void GetTargetEmployeeSetting_InVaidArg_ReturnEmptyListOfTargetEmployee()
         {
             // Arrange
-            var criteria = new GetAllGroupCriteria();
-            var expectedGroups = new List<Group>();
-            expectedGroups.Add(new Group());
-            var commonService = ArrangeGetAllGroup(expectedGroups);
+            var expectedTargetEmployees = new List<TargetEmployeeSetting>();
+            expectedTargetEmployees.Add(new TargetEmployeeSetting());
+            ArrangeGetTargetEmployeeSetting(expectedTargetEmployees);
 
             // Act
-            var actual = commonService.GetAllGroup(criteria);
+            var actual = targetEmployeeSettingService.GetTargetEmployeeSetting(null);
 
             // Assert
-            Assert.AreEqual(expectedGroups, actual);
+            Assert.AreNotEqual(expectedTargetEmployees, actual);
+            Assert.AreEqual(actual.Count, 0);
         }
 
         #endregion
+
+        #region GetTargetDepartmentSetting
+        [Test]
+        public void GetTargetDepartmentSetting_AnyArg_ReturnInstanceOfListOfTargetDepartmentSetting()
+        {
+            // Arrange
+            targetEmployeeSettingService = Substitute.For<TargetEmployeeSettingService>();
+
+            // Act
+            var actual = targetEmployeeSettingService.GetTargetDepartmentSetting(Arg.Any<GetTargetDepartmentSettingCriteria>());
+
+            // Assert
+            Assert.IsInstanceOf(typeof(IEnumerable<TargetDepartmentSetting>), actual);
+        }
+
+        [Test]
+        public void GetTargetDepartmentSetting_VaidArg_ReturnExpectedTargetDepartments()
+        {
+            // Arrange
+            var criteria = new GetTargetDepartmentSettingCriteria();
+            var expectedTargetDepartments = new List<TargetDepartmentSetting>();
+            expectedTargetDepartments.Add(new TargetDepartmentSetting());
+            ArrangeGetTargetDepartmentSetting(expectedTargetDepartments);
+
+            // Act
+            var actual = targetEmployeeSettingService.GetTargetDepartmentSetting(criteria);
+
+            // Assert
+            Assert.AreEqual(expectedTargetDepartments, actual);
+        }
+
+        [Test]
+        public void GetTargetEmployeeSetting_InVaidArg_ReturnEmptyListOfTargetDepartment()
+        {
+            // Arrange
+            var expectedTargetEmployees = new List<TargetDepartmentSetting>();
+            expectedTargetEmployees.Add(new TargetDepartmentSetting());
+            ArrangeGetTargetDepartmentSetting(expectedTargetEmployees);
+
+            // Act
+            var actual = targetEmployeeSettingService.GetTargetEmployeeSetting(null);
+
+            // Assert
+            Assert.AreNotEqual(expectedTargetEmployees, actual);
+            Assert.AreEqual(actual.Count, 0);
+        }
+
+        #endregion
+
+        #region AssignTargetTemplateToEmployee
+
+        [Test]
+        public void AssignTargetTemplateToEmployee_AnyArg_ReturnInstanceOfCommandResult()
+        {
+            // Arrange
+            ArrangeTargetTemplateSetting();
+
+            // Act
+            var actual = targetEmployeeSettingService.AssignTargetTemplateToEmployee(Arg.Any<AssignTargetTemplateToEmployeeCriteria>());
+
+            // Assert
+            Assert.IsInstanceOf(typeof(CommandResult), actual);
+        }
+
+        [Test]
+        public void AssignTargetTemplateToEmployee_ValidArg_ExpectedToExecuteUpdate()
+        {
+            // Arrange
+            var criteria = new AssignTargetTemplateToEmployeeCriteria();
+            ArrangeTargetTemplateSetting();
+
+            // Act
+            targetEmployeeSettingService.AssignTargetTemplateToEmployee(criteria);
+
+            // Assert
+            targetEmployeeSettingService.Repository.Received().Update(Arg.Is<AssignTargetTemplateToEmployeeCriteria>(x => x.IsValid()));
+        }
+
+        #endregion
+
+        #region AssignTargetTemplateToDepartment
+
+        [Test]
+        public void AssignTargetTemplateToDepartment_AnyArg_ReturnInstanceOfCommandResult()
+        {
+            // Arrange
+            ArrangeTargetTemplateSetting();
+
+            // Act
+            var actual = targetEmployeeSettingService.AssignTargetTemplateToDepartment(Arg.Any<AssignTargetDepartmentSettingCriteria>());
+
+            // Assert
+            Assert.IsInstanceOf(typeof(CommandResult), actual);
+        }
+
+        [Test]
+        public void AssignTargetTemplateToDepartment_ValidArg_ExpectedToExecuteUpdate()
+        {
+            // Arrange
+            var criteria = new AssignTargetDepartmentSettingCriteria();
+            ArrangeTargetTemplateSetting();
+
+            // Act
+            targetEmployeeSettingService.AssignTargetTemplateToDepartment(criteria);
+
+            // Assert
+            targetEmployeeSettingService.Repository.Received().Update(Arg.Is<AssignTargetDepartmentSettingCriteria>(x => x.IsValid()));
+        }
+
+        #endregion
+
+        #region DeleteTargetEmployeeSetting
+
+        [Test]
+        public void DeleteTargetEmployeeSetting_AnyArg_ReturnInstanceOfCommandResult()
+        {
+            // Arrange
+            ArrangeTargetTemplateSetting();
+
+            // Act
+            var actual = targetEmployeeSettingService.DeleteTargetEmployeeSetting(Arg.Any<DeleteTargetEmployeeSettingCriteria>());
+
+            // Assert
+            Assert.IsInstanceOf(typeof(CommandResult), actual);
+        }
+
+        [Test]
+        public void DeleteTargetEmployeeSetting_ValidArg_ExpectedToExecuteUpdate()
+        {
+            // Arrange
+            var criteria = new DeleteTargetEmployeeSettingCriteria()
+            {
+                EmployeeId = 1,
+                TargetTemplateId = 1
+            };
+            ArrangeTargetTemplateSetting();
+
+            // Act
+            targetEmployeeSettingService.DeleteTargetEmployeeSetting(criteria);
+
+            // Assert
+            targetEmployeeSettingService.Repository.Received().Delete(Arg.Is<DeleteTargetEmployeeSettingCriteria>(x => x.IsValid()));
+        }
+
+        #endregion
+
+        #region DeleteTargetDepartmentSetting
+
+        [Test]
+        public void DeleteTargetDepartmentSetting_AnyArg_ReturnInstanceOfCommandResult()
+        {
+            // Arrange
+            ArrangeTargetTemplateSetting();
+
+            // Act
+            var actual = targetEmployeeSettingService.DeleteTargetDepartmentSetting(Arg.Any<DeleteTargetDepartmentSettingCriteria>());
+
+            // Assert
+            Assert.IsInstanceOf(typeof(CommandResult), actual);
+        }
+
+        [Test]
+        public void DeleteTargetDepartmentSetting_ValidArg_ExpectedToExecuteUpdate()
+        {
+            // Arrange
+            var criteria = new DeleteTargetDepartmentSettingCriteria()
+            {
+                DepartmentId = 1,
+                TargetTemplateId = 1
+            };
+            ArrangeTargetTemplateSetting();
+
+            // Act
+            targetEmployeeSettingService.DeleteTargetDepartmentSetting(criteria);
+
+            // Assert
+            targetEmployeeSettingService.Repository.Received().Delete(criteria);
+        }
+
+        #endregion
+
+        private IBaseRepository FakeBaseRepository()
+        {
+            var repository = Substitute.For<IBaseRepository>();
+
+            return repository;
+        }
+
+        private TargetEmployeeSettingService GetTargetEmployeeSettingService(IBaseRepository baseRepository = null)
+        {
+            var service = new TargetEmployeeSettingService();
+            service.Repository = baseRepository;
+
+            return service;
+        }
 
         private void ArrangeGetTargetEmployeeSetting(IEnumerable<TargetEmployeeSetting> targetEmployees = null)
         {
@@ -90,11 +272,22 @@
             targetEmployeeSettingService = new TargetEmployeeSettingService(targetEmployeeSettingRepository);
         }
 
-        private CommonService ArrangeGetAllGroup(IEnumerable<Group> groups = null)
+        private void ArrangeGetTargetDepartmentSetting(IEnumerable<TargetDepartmentSetting> targetDepartments = null)
         {
-            var commonService = Substitute.For<CommonService>();
-            commonService.GetData<Group>(Arg.Any<GetAllGroupCriteria>()).Returns(groups ?? new List<Group>());
-            return commonService;
+            targetEmployeeSettingRepository = Substitute.For<ITargetEmployeeSettingRepository>();
+
+            targetEmployeeSettingRepository.GetTargetTemplateDepartment(Arg.Any<GetTargetDepartmentSettingCriteria>())
+                .Returns(targetDepartments ?? new List<TargetDepartmentSetting>());
+            targetEmployeeSettingService = new TargetEmployeeSettingService(targetEmployeeSettingRepository);
+        }
+
+        private void ArrangeTargetTemplateSetting(CommandResult result = null)
+        {
+            var baseRepository = FakeBaseRepository();
+            targetEmployeeSettingService = GetTargetEmployeeSettingService(baseRepository);
+            targetEmployeeSettingService.Repository.Insert(Arg.Any<ICriteria>()).Returns(result ?? new CommandResult());
+            targetEmployeeSettingService.Repository.Update(Arg.Any<ICriteria>()).Returns(result ?? new CommandResult());
+            targetEmployeeSettingService.Repository.Delete(Arg.Any<ICriteria>()).Returns(result ?? new CommandResult());
         }
     }
 }
