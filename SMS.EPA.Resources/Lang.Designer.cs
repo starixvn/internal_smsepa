@@ -3679,20 +3679,11 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Working Under Time.
+        ///   Looks up a localized string similar to Working Undertime.
         /// </summary>
-        public static string WorkingTime {
+        public static string WorkingUndertime {
             get {
-                return ResourceManager.GetString("WorkingTime", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Working Under Time.
-        /// </summary>
-        public static string WorkingUnderTime {
-            get {
-                return ResourceManager.GetString("WorkingUnderTime", resourceCulture);
+                return ResourceManager.GetString("WorkingUndertime", resourceCulture);
             }
         }
         

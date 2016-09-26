@@ -385,10 +385,13 @@
     <Content Include="Libs\ui-bootstrap-tpls-0.13.0.min.js" />
     <Content Include="Libs\_references.js" />
     <Content Include="SourceApp\app.js" />
-    <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary-controller.js" />
-    <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary-directive.js" />
-    <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary-factory.js" />
-    <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary-model.js" />
+    <Content Include="SourceApp\Components\AttendanceSummary\attendance-detail-controller.js" />
+    <Content Include="SourceApp\Components\AttendanceSummary\other-violations-controller.js" />
+    <Content Include="SourceApp\Components\AttendanceSummary\attendance-summary-controller.js" />
+    <Content Include="SourceApp\Components\AttendanceSummary\export-attendance-detail-directive.js" />
+    <Content Include="SourceApp\Components\AttendanceSummary\export-attendance-summary-directive.js" />
+    <Content Include="SourceApp\Components\AttendanceSummary\attendance-summary-factory.js" />
+    <Content Include="SourceApp\Components\AttendanceSummary\attendance-summary-model.js" />
     <Content Include="SourceApp\Components\AttendanceSummary\Templates\detail.html" />
     <Content Include="SourceApp\Components\AttendanceSummary\Templates\index.html" />
     <Content Include="SourceApp\Components\AttendanceSummary\Templates\otherViolation.html" />

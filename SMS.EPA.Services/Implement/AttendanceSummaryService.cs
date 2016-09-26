@@ -113,7 +113,8 @@
                 writer.CopyRows(3, 1);
 
                 FillContentSummaryRow(attendanceEmployees, ref writer);
-                writer.SyncColumnsWidth(17);
+                writer.SyncColumnsWidth(19);
+                writer.CreateFreezePane(0, 3);
 
                 writer.Render();
             }
@@ -154,7 +155,8 @@
                 writer.CopyRows(3, 1);
 
                 FillContentDetailRow(attendanceViolations, ref writer);
-                writer.SyncColumnsWidth(20);
+                writer.SyncColumnsWidth(24);
+                writer.CreateFreezePane(0, 3);
 
                 writer.Render();
             }
@@ -222,7 +224,15 @@
         private void FillDetailRow(AttendanceDetailModel attendanceViolation, ref ExcelTemplateWriter writer, ref int rowIndex)
         {
             object record = CreateDetailRecord(attendanceViolation, ref rowIndex);
-            writer.WriteRow(4, record);
+
+            if (attendanceViolation.IsWeekend)
+            {
+                writer.WriteRow(5, record);
+            }
+            else
+            {
+                writer.WriteRow(4, record);
+            }
         }
 
         private object CreateDetailRecord(AttendanceDetailModel attendanceViolation, ref int rowIndex)
@@ -239,7 +249,7 @@
                 JobTitle = attendanceViolation.Employee.JobTitle != null ? attendanceViolation.Employee.JobTitle.JobTitleName : string.Empty,
                 JoinedDate = attendanceViolation.Employee.JoinedDate.ToString(Constants.DateFormat),
                 Category = attendanceViolation.Employee.Category,
-                Date = attendanceViolation.WorkDate,
+                Date = attendanceViolation.WorkDateToString,
                 Code = attendanceViolation.ShiftName,
                 CheckIn = attendanceViolation.CheckIn.HasValue ? attendanceViolation.CheckIn.Value.ToString(Constants.TimeFormat) : string.Empty,
                 CheckOut = attendanceViolation.CheckOut.HasValue ? attendanceViolation.CheckOut.Value.ToString(Constants.TimeFormat) : string.Empty,

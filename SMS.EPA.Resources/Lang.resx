@@ -906,9 +906,6 @@
   <data name="UnpaidLeave" xml:space="preserve">
     <value>Unpaid Leave</value>
   </data>
-  <data name="WorkingTime" xml:space="preserve">
-    <value>Working Under Time</value>
-  </data>
   <data name="ChangeShift" xml:space="preserve">
     <value>Change Shift</value>
   </data>
@@ -1197,8 +1194,8 @@
   <data name="Category" xml:space="preserve">
     <value>Category</value>
   </data>
-  <data name="WorkingUnderTime" xml:space="preserve">
-    <value>Working Under Time</value>
+  <data name="WorkingUndertime" xml:space="preserve">
+    <value>Working Undertime</value>
   </data>
   <data name="EndPeriod" xml:space="preserve">
     <value>End Period</value>

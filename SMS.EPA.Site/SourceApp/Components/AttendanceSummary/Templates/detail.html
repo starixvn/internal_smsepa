@@ -1,4 +1,4 @@
-﻿<div class="col-sm-12" ng-controller="DetailAttendanceSummaryController as detailAttendanceCtrl">
+﻿<div class="col-sm-12" ng-controller="AttendanceDetailController as detailAttendanceCtrl">
     <div class="sub-header">
         <ul class="row breadcrumb">
             <li class="current" data-translate="DisciplineSummaryDetail"></li>
@@ -89,7 +89,7 @@
                 <th data-translate="CheckOut"></th>
                 <th data-translate="TotalHours"></th>
                 <th data-translate="CheckInOut"></th>
-                <th data-translate="WorkingUnderTime"></th>
+                <th data-translate="WorkingUndertime"></th>
                 <th data-translate="LateIn"></th>
                 <th data-translate="EarlyOut"></th>
                 <th data-translate="Absent"></th>
@@ -104,12 +104,12 @@
         </thead>
         <tbody>
             <tr dir-paginate="employee in detailAttendanceCtrl.filteredItems | itemsPerPage: detailAttendanceCtrl.pageSize"
-                pagination-id="detail" current-page="detailAttendanceCtrl.currentPage">
+                pagination-id="detail" current-page="detailAttendanceCtrl.currentPage" ng-class="{'highlight': employee.IsWeekend}">
                 <td class="width-200">
                     <span ng-bind="employee.Employee.NickName" popover-avatar avatar-src="{{employee.Employee.Avatar}}"></span>
                 </td>
                 <td class="text-center" ng-bind="employee.Employee.Group.GroupName"></td>
-                <td class="text-center width250" ng-bind="employee.WorkDate | date: detailAttendanceCtrl.dateFormat"></td>
+                <td class="text-center width250" ng-bind="employee.WorkDateToString"></td>
                 <td class="text-center width180" ng-bind="employee.ShiftName"></td>
                 <td class="width-100">
                     <span ng-show="employee.CheckIn" ng-bind="employee.CheckIn | date:detailAttendanceCtrl.timeFormat"></span>

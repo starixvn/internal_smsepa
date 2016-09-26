@@ -49,5 +49,21 @@
         public string ApproverComment { get; set; }
 
         public string EmployeeComment { get; set; }
+
+        public string WorkDateToString
+        {
+            get
+            {
+                return WorkDate.ToString("ddd, dd MMM, yyyy");
+            }
+        }
+
+        public bool IsWeekend
+        {
+            get
+            {
+                return WorkDate.DayOfWeek == DayOfWeek.Saturday || WorkDate.DayOfWeek == DayOfWeek.Sunday;
+            }
+        }
     }
 }
