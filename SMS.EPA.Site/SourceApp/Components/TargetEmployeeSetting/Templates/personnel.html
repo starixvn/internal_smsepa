@@ -1,8 +1,7 @@
 ﻿<div ng-controller="TargetPersonnelSettingController as personnelCtrl">
     <form novalidate class="row form-inline filter">
         <div class="form-group">
-            <label class="control-label" data-translate="Section">
-            </label>
+            <label class="control-label" data-translate="Section"></label>
             <select ng-model="personnelCtrl.filter.groupId" ng-options="opt.GroupId as opt.GroupName for opt in personnelCtrl.groupOptions"
                     class="form-control lstBox-limit">
                 <option value="">-- {{"All" | translate}} --</option>
@@ -22,8 +21,7 @@
             </select>
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="ShowAll">
-            </label>
+            <label class="control-label" data-translate="ShowAll"></label>
             <input class="form-control" type="checkbox" ng-model="personnelCtrl.filter.showAll" />
         </div>
         <div class="form-group">
@@ -36,8 +34,7 @@
             <tr class="header-table">
                 <th colspan="9">
                     <div class="pull-left div-target-templatesetting" ng-show="targetCtrl.permission == targetCtrl.policyEnum.Host">
-                        <label class="control-label" data-translate="TargetTemplate">
-                        </label>
+                        <label class="control-label" data-translate="TargetTemplate"></label>
                         <select ng-model="personnelCtrl.targetEmployeeSetting.targetTemplateId"
                                 ng-options="opt.TargetTemplateId as opt.Name for opt in personnelCtrl.targetTemplates"
                                 class="target-template-setting-select lstBox-limit"></select>
@@ -52,22 +49,14 @@
                     <input type="checkbox" ng-click="personnelCtrl.checkAll(personnelCtrl.selectedAll)"
                            ng-model="personnelCtrl.selectedAll" />
                 </th>
-                <th data-translate="SymbolCount">
-                </th>
-                <th data-translate="Code">
-                </th>
-                <th data-translate="Section">
-                </th>
-                <th data-translate="NickName">
-                </th>
-                <th data-translate="FullName">
-                </th>
-                <th data-translate="TargetType">
-                </th>
-                <th data-translate="TargetTemplate">
-                </th>
-                <th data-translate="Delete" ng-show="targetCtrl.permission == targetCtrl.policyEnum.Host">
-                </th>
+                <th data-translate="SymbolCount"></th>
+                <th data-translate="Code"></th>
+                <th data-translate="Section"></th>
+                <th data-translate="NickName"></th>
+                <th data-translate="FullName"></th>
+                <th data-translate="TargetType"></th>
+                <th data-translate="TargetTemplate"></th>
+                <th data-translate="Delete" ng-show="targetCtrl.permission == targetCtrl.policyEnum.Host"></th>
             </tr>
         </thead>
         <tbody class="table-body" current-page="personnelCtrl.currentPage" ng-class="{oddRow: $index % 2 == 0, evenRow: $index % 2 != 0}"

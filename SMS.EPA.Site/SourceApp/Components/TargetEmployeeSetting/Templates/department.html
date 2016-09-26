@@ -1,8 +1,7 @@
 ﻿<div ng-controller="TargetDepartmentSettingController as departmentCtrl">
     <form novalidate class="row form-inline filter">
         <div class="form-group">
-            <label class="control-label" data-translate="DepartmentSection">
-            </label>
+            <label class="control-label" data-translate="DepartmentSection"></label>
             <select ng-model="departmentCtrl.filter.departmentId" ng-options="opt.DepartmentId as opt.Name for opt in departmentCtrl.treeDepartment"
                     class="form-control lstBox-limit" ng-change="departmentCtrl.updateIsGroup(departmentCtrl.filter.departmentId)">
                 <option value="">-- {{"All" | translate}} --</option>
@@ -16,8 +15,7 @@
             </select>
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="ShowAll">
-            </label>
+            <label class="control-label" data-translate="ShowAll"></label>
             <input class="form-control" type="checkbox" ng-model="departmentCtrl.filter.showAll" />
         </div>
         <div class="form-group">
@@ -30,8 +28,7 @@
             <tr class="header-table">
                 <th colspan="6">
                     <div class="pull-left div-target-templatesetting" ng-show="targetCtrl.permission == targetCtrl.policyEnum.Host">
-                        <label class="control-label" data-translate="TargetTemplate">
-                        </label>
+                        <label class="control-label" data-translate="TargetTemplate"></label>
                         <select ng-model="departmentCtrl.targetDepartmentSetting.targetTemplateId"
                                 ng-options="opt.TargetTemplateId as opt.Name for opt in departmentCtrl.targetTemplates"
                                 class="target-template-setting-select lstBox-limit"></select>
@@ -46,16 +43,11 @@
                     <input type="checkbox" ng-click="departmentCtrl.checkAll(departmentCtrl.selectedAll)"
                            ng-model="departmentCtrl.selectedAll" />
                 </th>
-                <th data-translate="SymbolCount">
-                </th>
-                <th data-translate="DepartmentSection">
-                </th>
-                <th data-translate="TargetType">
-                </th>
-                <th data-translate="TargetTemplate">
-                </th>
-                <th data-translate="Delete" ng-show="targetCtrl.permission == targetCtrl.policyEnum.Host">
-                </th>
+                <th data-translate="SymbolCount"></th>
+                <th data-translate="DepartmentSection"></th>
+                <th data-translate="TargetType"></th>
+                <th data-translate="TargetTemplate"></th>
+                <th data-translate="Delete" ng-show="targetCtrl.permission == targetCtrl.policyEnum.Host"></th>
             </tr>
         </thead>
         <tbody class="table-body" dir-paginate="department in departmentCtrl.filteredItems | itemsPerPage: departmentCtrl.pageSize"

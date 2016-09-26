@@ -1,5 +1,5 @@
 ﻿'use strict';
-/*exported employeeModule, commonModule, targetTemplateModule, targetEmployeeSettingModule*/
+/*exported employeeModule, commonModule, targetTemplateModule*/
 /*exported epaModule, periodModule, epaHistoryModule, monthlyPeriodModule*/
 
 var employeeModule = angular.module('employeeModule', ['ngRoute'])
@@ -54,7 +54,7 @@ angular.module('flowMngModule', ['ngRoute'])
     { templateUrl: baseUrl + 'SourceApp/Components/FlowManagement/Templates/update.html', caseInsensitiveMatch: true });
 }]);
 
-var targetEmployeeSettingModule = angular.module('targetEmployeeSettingModule', ['ngRoute'])
+angular.module('targetEmployeeSettingModule', ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
     var baseUrl = $('base').first().attr('href');
     $routeProvider.when('/TargetEmployeeSetting/Index',

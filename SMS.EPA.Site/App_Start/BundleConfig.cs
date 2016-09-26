@@ -115,6 +115,8 @@
                             "~/SourceApp/Components/TargetEmployeeSetting/targetEmployeeSetting-factory.js",
                             "~/SourceApp/Components/TargetEmployeeSetting/targetEmployeeSetting-model.js",
                             "~/SourceApp/Components/TargetEmployeeSetting/targetEmployeeSetting-controller.js",
+                            "~/SourceApp/Components/TargetEmployeeSetting/target-department-setting-controller.js",
+                            "~/SourceApp/Components/TargetEmployeeSetting/target-personnel-setting-controller.js",
                             "~/SourceApp/Components/Department/department-factory.js",
                             "~/SourceApp/Components/Department/department-model.js",
                             "~/SourceApp/Components/Department/department-controller.js",
