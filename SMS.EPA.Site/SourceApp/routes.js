@@ -136,7 +136,7 @@ var attendanceModule = angular.module("attendanceModule", ['ngRoute'])
     { templateUrl: baseUrl + 'SourceApp/Components/AttendanceSummary/Templates/detail.html', caseInsensitiveMatch: true });
 }]);
 
-var reportModule = angular.module("reportModule", ['ngRoute'])
+angular.module("reportModule", ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
     var baseUrl = $("base").first().attr("href");
     $routeProvider.when('/Report/EPASummaryReport',
