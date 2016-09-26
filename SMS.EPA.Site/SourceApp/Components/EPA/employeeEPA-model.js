@@ -12,8 +12,7 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
     employeeEPAModel.epaInfos = [];
 
     employeeEPAModel.getEPAInfoById = function (epaId) {
-        return employeeEPAFactory.getEPAInfoById(epaId)
-        .success(function (epaInfo) {
+        return employeeEPAFactory.getEPAInfoById(epaId).success(function (epaInfo) {
             employeeEPAModel.epaInfo = epaInfo;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
@@ -52,14 +51,14 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
     employeeEPAModel.openPopupViewComment = function (vm, comment) {
         vm.modalInstance = $modal.open({
             templateUrl: 'SourceApp/Components/EPA/Templates/modalViewComment.html',
-            controller: "ModalViewCommentController as modalViewCommentCtrl",
+            controller: 'ModalViewCommentController as modalViewCommentCtrl',
             backdrop: 'static',
             resolve: {
                 comment: function () {
                     return comment;
                 }
             },
-            windowClass: "modal-confirm-center"
+            windowClass: 'modal-confirm-center'
         });
 
         return vm.modalInstance.result;
@@ -104,26 +103,23 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
     };
 
     employeeEPAModel.getPeriodToUpdateFinalScore = function () {
-        return employeeEPAFactory.getPeriodToUpdateFinalScore()
-        .success(function (periods) {
+        return employeeEPAFactory.getPeriodToUpdateFinalScore().success(function (periods) {
             employeeEPAModel.periods = periods;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
     };
 
-    employeeEPAModel.getEmployeeToUpdateFinalScore = function (periodId, groupId, query) {
-        return employeeEPAFactory.getEmployeeToUpdateFinalScore(periodId, groupId, query)
-        .success(function (employees) {
+    employeeEPAModel.getEmployeeToUpdateFinalScore = function (periodId, groupId, isLocal, query) {
+        return employeeEPAFactory.getEmployeeToUpdateFinalScore(periodId, groupId, isLocal, query).success(function (employees) {
             employeeEPAModel.employees = employees;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
     };
 
-    employeeEPAModel.getEPAToUpdateFinalScore = function (periodId, groupId, employeeId) {
-        return employeeEPAFactory.getEPAToUpdateFinalScore(periodId, groupId, employeeId)
-        .success(function (epaInfos) {
+    employeeEPAModel.getEPAToUpdateFinalScore = function (periodId, groupId, isLocal, employeeId) {
+        return employeeEPAFactory.getEPAToUpdateFinalScore(periodId, groupId, isLocal, employeeId).success(function (epaInfos) {
             employeeEPAModel.epaInfos = epaInfos;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
@@ -133,7 +129,7 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
     employeeEPAModel.updateFinalScore = function (vm, selectedEPAs) {
         var modalInstance = $modal.open({
             templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
-            controller: "ModalConfirmController as modalConfirmCtrl",
+            controller: 'ModalConfirmController as modalConfirmCtrl',
             backdrop: 'static',
             resolve: {
                 name: function () {
@@ -143,17 +139,17 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
                     return 'update final score for selected employee(s)';
                 }
             },
-            windowClass: "modal-confirm-center"
+            windowClass: 'modal-confirm-center'
         });
 
         modalInstance.result.then(function () {
-            return employeeEPAFactory.updateFinalScore(selectedEPAs)
-            .success(function (response) {
+            return employeeEPAFactory.updateFinalScore(selectedEPAs).success(function (response) {
                 if (response.IsSuccessful) {
-                    notificationFactory.success("UpdatedSuccessfully");
+                    vm.dataSaved = true;
+                    notificationFactory.success('UpdatedSuccessfully');
 
                     var employeeId = vm.filter.employee ? vm.filter.employee.EmployeeId : null;
-                    employeeEPAFactory.getEPAToUpdateFinalScore(vm.filter.periodId, vm.filter.groupId, employeeId)
+                    employeeEPAFactory.getEPAToUpdateFinalScore(vm.filter.periodId, vm.filter.groupId, vm.filter.isLocal, employeeId)
                     .success(function (epaInfos) {
                         angular.forEach(vm.epaInfos, function (epaInfo) {
                             if (epaInfo.Selected) {
@@ -168,7 +164,7 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
                         errorFactory.errorHandle(status);
                     });
                 } else {
-                    notificationFactory.error("", response.Message);
+                    notificationFactory.error('', response.Message);
                 }
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);

@@ -8,7 +8,7 @@
 
         public int EmployeeId { get; set; }
 
-        public string FinalScoreEncode { get; set; }
+        public string FinalScoreEncrypt { get; set; }
 
         public string FinalScore { get; set; }
 
@@ -18,7 +18,7 @@
 
         public float MaxDisciplineScore { get; set; }
 
-        public string GradeEncode { get; set; }
+        public string GradeEncrypt { get; set; }
 
         public string Grade { get; set; }
 

@@ -161,20 +161,20 @@
     <Setting Key="EPA_CheckPermission" SpName="EPA_CheckPermission" DbName="SMSEPA" Plain="0">
     </Setting>
     <Setting Key="EPA_GetByEmployee" SpName="EPA_GetByEmployee" DbName="SMSEPA" Plain="0">
-      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-      <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncode" />
-      <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncode" />
-      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
+      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncrypt" />
+      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncrypt" />
+      <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncrypt" />
+      <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncrypt" />
+      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncrypt" />
     </Setting>
     <Setting Key="EPA_GetInfoByEmployee" SpName="EPA_GetInfoByEmployee" DbName="SMSEPA" Plain="0">
-      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-      <Mapping DataField="Score" ObjectProperty="ScoreEncode" />
-      <Mapping DataField="Rate" ObjectProperty="RateEncode" />
-      <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncode" />
-      <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncode" />
-      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
+      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncrypt" />
+      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncrypt" />
+      <Mapping DataField="Score" ObjectProperty="ScoreEncrypt" />
+      <Mapping DataField="Rate" ObjectProperty="RateEncrypt" />
+      <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncrypt" />
+      <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncrypt" />
+      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncrypt" />
     </Setting>
     <Setting Key="EPA_UpdateScore" SpName="EPA_UpdateScore" DbName="SMSEPA" Plain="0">
     </Setting>
@@ -183,61 +183,61 @@
     <Setting Key="EPA_GetGroup" SpName="EPA_GetGroup" DbName="SMSEPA" Plain="0">
     </Setting>
     <Setting Key="EPA_GetByEvaluator" SpName="EPA_GetByEvaluator" DbName="SMSEPA" Plain="0">
-      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-      <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncode" />
-      <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncode" />
-      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
+      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncrypt" />
+      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncrypt" />
+      <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncrypt" />
+      <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncrypt" />
+      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncrypt" />
     </Setting>
     <Setting Key="EPA_GetInfoByEvaluator" SpName="EPA_GetInfoByEvaluator" DbName="SMSEPA" Plain="0">
-      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-      <Mapping DataField="Score" ObjectProperty="ScoreEncode" />
-      <Mapping DataField="Rate" ObjectProperty="RateEncode" />
-      <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncode" />
-      <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncode" />
-      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
+      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncrypt" />
+      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncrypt" />
+      <Mapping DataField="Score" ObjectProperty="ScoreEncrypt" />
+      <Mapping DataField="Rate" ObjectProperty="RateEncrypt" />
+      <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncrypt" />
+      <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncrypt" />
+      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncrypt" />
     </Setting>
     <Setting Key="EPA_GetByReviewer" SpName="EPA_GetByReviewer" DbName="SMSEPA" Plain="0">
-      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-      <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncode" />
-      <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncode" />
-      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
+      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncrypt" />
+      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncrypt" />
+      <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncrypt" />
+      <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncrypt" />
+      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncrypt" />
     </Setting>
     <Setting Key="EPA_GetInfoByReviewer" SpName="EPA_GetInfoByReviewer" DbName="SMSEPA" Plain="0">
-      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-      <Mapping DataField="Score" ObjectProperty="ScoreEncode" />
-      <Mapping DataField="Rate" ObjectProperty="RateEncode" />
-      <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncode" />
-      <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncode" />
-      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
+      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncrypt" />
+      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncrypt" />
+      <Mapping DataField="Score" ObjectProperty="ScoreEncrypt" />
+      <Mapping DataField="Rate" ObjectProperty="RateEncrypt" />
+      <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncrypt" />
+      <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncrypt" />
+      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncrypt" />
     </Setting>
     <Setting Key="EPA_GetByManagement" SpName="EPA_GetByManagement" DbName="SMSEPA" Plain="0">
-      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-      <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncode" />
-      <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncode" />
-      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
+      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncrypt" />
+      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncrypt" />
+      <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncrypt" />
+      <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncrypt" />
+      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncrypt" />
     </Setting>
     <Setting Key="EPA_GetInfoByManagement" SpName="EPA_GetInfoByManagement" DbName="SMSEPA" Plain="0">
-      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-      <Mapping DataField="Score" ObjectProperty="ScoreEncode" />
-      <Mapping DataField="Rate" ObjectProperty="RateEncode" />
-      <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncode" />
-      <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncode" />
-      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
+      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncrypt" />
+      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncrypt" />
+      <Mapping DataField="Score" ObjectProperty="ScoreEncrypt" />
+      <Mapping DataField="Rate" ObjectProperty="RateEncrypt" />
+      <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncrypt" />
+      <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncrypt" />
+      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncrypt" />
     </Setting>
     <Setting Key="EPA_GetInfoById" SpName="EPA_GetInfoById" DbName="SMSEPA" Plain="0">
-      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-      <Mapping DataField="Score" ObjectProperty="ScoreEncode" />
-      <Mapping DataField="Rate" ObjectProperty="RateEncode" />
-      <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncode" />
-      <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncode" />
-      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
+      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncrypt" />
+      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncrypt" />
+      <Mapping DataField="Score" ObjectProperty="ScoreEncrypt" />
+      <Mapping DataField="Rate" ObjectProperty="RateEncrypt" />
+      <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncrypt" />
+      <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncrypt" />
+      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncrypt" />
     </Setting>
     <Setting Key="EPA_AdjustScoreByReviewerOrManagement" SpName="EPA_AdjustScoreByReviewerOrManagement" DbName="SMSEPA" Plain="0">
     </Setting>
@@ -250,18 +250,19 @@
     <Setting Key="EPA_GetOtherViolations" SpName="EPA_GetOtherViolations" DbName="SMSEPA" Plain="0">
     </Setting>
     <Setting Key="EPA_SemiAnnual_GetMonthly" SpName="EPA_SemiAnnual_GetMonthly" DbName="SMSEPA" Plain="0">
-      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
+      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncrypt" />
+      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncrypt" />
+      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncrypt" />
     </Setting>
     <Setting Key="EPA_ResetScore" SpName="EPA_ResetScore" DbName="SMSEPA" Plain="0">
     </Setting>
     <Setting Key="EPA_UpdateFinalScoreEndEvaluation" SpName="EPA_UpdateFinalScoreEndEvaluation" DbName="SMSEPA" Plain="0">
     </Setting>
     <Setting Key="EPA_GetEPAToUpdateFinalScore" SpName="EPA_GetEPAToUpdateFinalScore" DbName="SMSEPA" Plain="0">
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
-      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
+      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncrypt" />
+      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncrypt" />
+      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncrypt" />
+      <Mapping DataField="OldFinalScore" ObjectProperty="OldFinalScoreEncrypt" />
     </Setting>
     <Setting Key="EPA_GetEmployeeToUpdateFinalScore" SpName="EPA_GetEmployeeToUpdateFinalScore" DbName="SMSEPA" Plain="0">
     </Setting>
@@ -303,8 +304,8 @@
   </Function>
   <Function Name="Dashboard">
     <Setting Key="Epa_Dashboard" SpName="Epa_Dashboard" DbName="SMSEPA" Plain="0">
-      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
+      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncrypt" />
+      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncrypt" />
     </Setting>
   </Function>
   <Function Name="Generation Evaluation">
@@ -315,8 +316,8 @@
     <Setting Key="EpaAuto_GetPeriodHasStartedProcess" SpName="EpaAuto_GetPeriodHasStartedProcess" DbName="SMSEPA" Plain="0">
     </Setting>
     <Setting Key="EpaAuto_GetEPAEndEvaluationPeriod" SpName="EpaAuto_GetEPAEndEvaluationPeriod" DbName="SMSEPA" Plain="0">
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
+      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncrypt" />
+      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncrypt" />
     </Setting>
   </Function>
   <Function Name="Attendance Summary">
@@ -346,36 +347,36 @@
     </Setting>
     <Setting Key="EPA_RatingByKPI_GetEvaluatorByTargetTemplate" SpName="EPA_RatingByKPI_GetEvaluatorByTargetTemplate" DbName="SMSEPA" Plain="0"></Setting>
     <Setting Key="EPA_RatingByKPI_Get" SpName="EPA_RatingByKPI_Get" DbName="SMSEPA" Plain="0">
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-      <Mapping DataField="Score" ObjectProperty="ScoreEncode" />
-      <Mapping DataField="Rate" ObjectProperty="RateEncode" />
+      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncrypt" />
+      <Mapping DataField="Score" ObjectProperty="ScoreEncrypt" />
+      <Mapping DataField="Rate" ObjectProperty="RateEncrypt" />
     </Setting>
     <Setting Key="EPA_RatingByKPI_GetEmployeeToView" SpName="EPA_RatingByKPI_GetEmployeeToView" DbName="SMSEPA" Plain="0">
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-      <Mapping DataField="Score" ObjectProperty="ScoreEncode" />
-      <Mapping DataField="Rate" ObjectProperty="RateEncode" />
+      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncrypt" />
+      <Mapping DataField="Score" ObjectProperty="ScoreEncrypt" />
+      <Mapping DataField="Rate" ObjectProperty="RateEncrypt" />
     </Setting>
     <Setting Key="EPA_RatingByKPI_UpdateKPIScore" SpName="EPA_RatingByKPI_UpdateKPIScore" DbName="SMSEPA" Plain="0">
     </Setting>
   </Function>
   <Function Name="Report">
     <Setting Key="Report_EPASummary" SpName="Report_EPASummary" DbName="SMSEPA" Plain="0">
-      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
-      <Mapping DataField="Grade" ObjectProperty="GradeEncode" />
+      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncrypt" />
+      <Mapping DataField="Grade" ObjectProperty="GradeEncrypt" />
     </Setting>
     <Setting Key="Report_MonthlyEPASummary" SpName="Report_MonthlyEPASummary" DbName="SMSEPA" Plain="0">
-      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
-      <Mapping DataField="Grade" ObjectProperty="GradeEncode" />
+      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncrypt" />
+      <Mapping DataField="Grade" ObjectProperty="GradeEncrypt" />
     </Setting>
     <Setting Key="Report_EPADetail" SpName="Report_EPADetail" DbName="SMSEPA" Plain="0">
-      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-      <Mapping DataField="Grade" ObjectProperty="GradeEncode" />
+      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncrypt" />
+      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncrypt" />
+      <Mapping DataField="Grade" ObjectProperty="GradeEncrypt" />
     </Setting>
     <Setting Key="Report_MonthlyEPADetail" SpName="Report_MonthlyEPADetail" DbName="SMSEPA" Plain="0">
-      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-      <Mapping DataField="Grade" ObjectProperty="GradeEncode" />
+      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncrypt" />
+      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncrypt" />
+      <Mapping DataField="Grade" ObjectProperty="GradeEncrypt" />
     </Setting>
   </Function>
   <Function Name="EPA History">

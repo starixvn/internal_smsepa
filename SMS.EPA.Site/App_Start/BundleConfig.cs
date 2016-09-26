@@ -181,6 +181,7 @@
                             "~/SourceApp/Components/MonthlyPeriod/monthlyPeriod-employeeSetting-controller.js",
                             "~/SourceApp/Components/Report/monthlyEPADetailReport-controller.js",
                             "~/SourceApp/Components/Report/monthlyEPASummaryReport-controller.js",
+                            "~/SourceApp/Components/EPA/UpdateFinalScore/export-excel-directive.js",
                             "~/SourceApp/Components/EPA/UpdateFinalScore/updateFinalScore-controller.js",
                             "~/SourceApp/Components/DisciplineSummary/disciplineSummary-factory.js",
                             "~/SourceApp/Components/DisciplineSummary/disciplineSummary-model.js",

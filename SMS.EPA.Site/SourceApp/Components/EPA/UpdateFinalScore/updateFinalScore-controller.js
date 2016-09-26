@@ -2,18 +2,20 @@
     'use strict';
 
     angular.module('epaModule').controller('UpdateFinalScoreController', updateFinalScoreController);
-    updateFinalScoreController.$inject = ['EmployeeEPAModel', 'CommonModel', 'notificationFactory', 'utilitiesFactory', 'lockScreenService'];
+    updateFinalScoreController.$inject = ['$scope', 'EmployeeEPAModel', 'CommonModel', 'notificationFactory', 'utilitiesFactory', 'lockScreenService'];
 
-    function updateFinalScoreController(EmployeeEPAModel, CommonModel, notificationFactory, utilitiesFactory, lockScreenService) {
+    function updateFinalScoreController($scope, EmployeeEPAModel, CommonModel, notificationFactory, utilitiesFactory, lockScreenService) {
         var vm = this;
 
         vm.currentPage = 1;
+        vm.dataSaved = false;
         vm.groups = [];
         vm.employees = [];
         vm.epaInfos = [];
         vm.filter = {
             periodId: '',
             groupId: '',
+            isLocal: '',
             employee: null
         };
         vm.pageSize = 20;
@@ -21,6 +23,7 @@
         vm.selectedAll = false;
 
         vm.checkAll = checkAll;
+        vm.exportExcel = exportExcel;
         vm.getEmployee = getEmployee;
         vm.getEPAToUpdateFinalScore = getEPAToUpdateFinalScore;
         vm.getIndex = getIndex;
@@ -37,23 +40,41 @@
             });
         }
 
+        function exportExcel() {
+            var index = vm.periods.map(function (e) { return e.PeriodId; }).indexOf(vm.filter.periodId);
+            var selectedEPAs = getSelectedEPA(vm.filteredItems);
+            var employeeIds = selectedEPAs.map(function (e) { return e.Employee.EmployeeId }).join(',');
+
+            vm.exportCriteria = {
+                periodId: vm.filter.periodId,
+                periodName: index !== -1 ? vm.periods[index].Name : '',
+                groupId: vm.filter.groupId,
+                isLocal: vm.filter.isLocal,
+                employeeId: vm.filter.employee ? vm.filter.employee.EmployeeId : null,
+                employeeIds: employeeIds
+            };
+
+            $scope.$broadcast('exportEpaAfterUpdateFinalScore');
+        }
+
         function getEmployee() {
             if (vm.filter.periodId > 0) {
-                return EmployeeEPAModel.getEmployeeToUpdateFinalScore(vm.filter.periodId, vm.filter.groupId, vm.searchEmployee);
+                return EmployeeEPAModel.getEmployeeToUpdateFinalScore(vm.filter.periodId, vm.filter.groupId, vm.filter.isLocal, vm.searchEmployee);
             }
         }
 
         function getEPAToUpdateFinalScore(filter) {
             if (vm.filter.periodId > 0) {
+                vm.dataSaved = false;
+                vm.searchKey = '';
+                vm.currentPage = 1;
+                vm.selectedAll = false;
                 lockScreenService.start();
                 var employeeId = filter.employee ? filter.employee.EmployeeId : null;
 
-                EmployeeEPAModel.getEPAToUpdateFinalScore(filter.periodId, filter.groupId, employeeId).then(function () {
-                    vm.searchKey = '';
-                    vm.currentPage = 1;
+                EmployeeEPAModel.getEPAToUpdateFinalScore(filter.periodId, filter.groupId, filter.isLocal, employeeId).then(function () {
                     vm.epaInfos = EmployeeEPAModel.epaInfos;
                     utilitiesFactory.searchOnPage(vm, vm.epaInfos);
-                    vm.selectedAll = false;
                     lockScreenService.stop();
                 });
             }

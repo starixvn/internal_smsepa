@@ -435,6 +435,7 @@
     <Content Include="SourceApp\Components\EPA\Evaluator\evaluator-access-controller.js" />
     <Content Include="SourceApp\Components\EPA\Management\management-access-controller.js" />
     <Content Include="SourceApp\Components\EPA\Reviewer\reviewer-access-controller.js" />
+    <Content Include="SourceApp\Components\EPA\UpdateFinalScore\export-excel-directive.js" />
     <Content Include="SourceApp\Components\FlowManagement\update-flowTemplate-basic-info-controller.js" />
     <Content Include="SourceApp\Components\FlowManagement\update-flowTemplate-controller.js" />
     <Content Include="SourceApp\Components\FlowManagement\create-flowTemplate-controller.js" />
@@ -675,6 +676,7 @@
     <Content Include="Content\Site\components\_table.less" />
     <Content Include="Content\Site\components\_buttons.less" />
     <Content Include="Content\Site\components\_forms.less" />
+    <Content Include="ExcelTemplates\UpdateFinalScore.xls" />
     <None Include="Libs\angular-resource.min.js.map" />
     <None Include="Libs\angular-route.min.js.map" />
     <None Include="Libs\angular.min.js.map" />

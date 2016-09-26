@@ -169,7 +169,7 @@
                         {
                             EPAId = evaluationProcess.EPAId,
                             ProcessId = evaluationProcess.ProcessId,
-                            AverageScore = EncodeService.Encode(averageScore.ToString())
+                            AverageScore = CryptographyService.Encrypt(averageScore.ToString())
                         };
                         CommandResult commandResult = evaluationService.UpdateTotalScoreOfProcess(updateTotalScoreCriteria);
                         messageResult = commandResult.IsSuccessful ? "0" : commandResult.Message;
@@ -309,14 +309,14 @@
         private void EncodeAndUpdateFinalScore(float performanceScore, float disciplineScore, int evaluationId, string grade)
         {
             float finalScore = performanceScore + disciplineScore;
-            string finalScoreEncode = EncodeService.Encode(finalScore.ToString());
-            Log.Info("Result of encode final score of EPA " + evaluationId + ": " + finalScoreEncode);
+            string finalScoreEncrypt = CryptographyService.Encrypt(finalScore.ToString());
+            Log.Info("Result of encode final score of EPA " + evaluationId + ": " + finalScoreEncrypt);
 
-            string gradeEncode = EncodeService.Encode(grade);
-            Log.Info("Result of encode grade of EPA " + evaluationId + ": " + gradeEncode);
+            string gradeEncrypt = CryptographyService.Encrypt(grade);
+            Log.Info("Result of encode grade of EPA " + evaluationId + ": " + gradeEncrypt);
 
             var criteria = new UpdateFinalScoreEndEvaluationCriteria();
-            criteria.EvaluationScores = criteria.ConvertToXml(evaluationId, finalScoreEncode, disciplineScore, gradeEncode);
+            criteria.EvaluationScores = criteria.ConvertToXml(evaluationId, finalScoreEncrypt, disciplineScore, gradeEncrypt);
 
             CommandResult commandResult = evaluationService.UpdateFinalScoreEndEvaluation(criteria);
             Log.Info("Result of update final score and discipline score of EPA " + evaluationId + ": " + (commandResult.IsSuccessful ? "0" : commandResult.Message));

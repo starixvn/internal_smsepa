@@ -34,9 +34,13 @@
 
         public bool RequiredCommentOnMaxScore { get; set; }
 
-        public string FinalScoreEncode { get; set; }
+        public string FinalScoreEncrypt { get; set; }
 
         public string FinalScore { get; set; }
+
+        public string OldFinalScoreEncrypt { get; set; }
+
+        public string OldFinalScore { get; set; }
 
         public bool HasMonthlyEPA { get; set; }
 
@@ -48,7 +52,7 @@
             }
         }
 
-        public string GradeEncode { get; set; }
+        public string GradeEncrypt { get; set; }
 
         public string Grade { get; set; }
 
@@ -74,11 +78,11 @@
 
         public float LastDisciplineScore { get; set; }
 
-        public string LastFinalScoreEncode { get; set; }
+        public string LastFinalScoreEncrypt { get; set; }
 
         public string LastFinalScore { get; set; }
 
-        public string LastGradeEncode { get; set; }
+        public string LastGradeEncrypt { get; set; }
 
         public string LastGrade { get; set; }
 

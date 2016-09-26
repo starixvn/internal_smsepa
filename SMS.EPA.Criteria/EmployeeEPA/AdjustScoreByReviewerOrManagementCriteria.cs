@@ -21,8 +21,8 @@
 
                 foreach (AdjustScoreViewModel epaInfo in EpaInfos)
                 {
-                    var totalScoreEncrypt = EncodeService.Encode(epaInfo.TotalScore);
-                    var adjustScoreEncrypt = EncodeService.Encode(epaInfo.AdjustScore);
+                    var totalScoreEncrypt = CryptographyService.Encrypt(epaInfo.TotalScore);
+                    var adjustScoreEncrypt = CryptographyService.Encrypt(epaInfo.AdjustScore);
 
                     epaXml.AppendFormat(
                         EPAXmlTemplate,

@@ -20,7 +20,7 @@
 
     public class EmployeeEPAService : BaseService, IEmployeeEPAService
     {
-        private readonly IEmployeeEPARepository _employeeEPARepository;
+        private readonly IEmployeeEPARepository employeeEPARepository;
 
         public EmployeeEPAService()
             : this(null)
@@ -29,7 +29,7 @@
 
         public EmployeeEPAService(IEmployeeEPARepository employeeEPARepository)
         {
-            _employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
+            this.employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
         }
 
         #region Self
@@ -40,7 +40,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                epas = _employeeEPARepository.GetEPA(criteria);
+                epas = employeeEPARepository.GetEPA(criteria);
 
                 foreach (EPAModel epa in epas)
                 {
@@ -57,7 +57,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
+                epaInfo = employeeEPARepository.GetEPAInfo(criteria);
                 epaInfo.Process.CurrentProcess = CopyEPAProcess(epaInfo.Process.Self);
                 SetMaxPerformanceScore(epaInfo);
                 SpreadKPIScore(epaInfo.KPIGroups);
@@ -87,7 +87,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                memberEPAs = _employeeEPARepository.GetEPA(criteria);
+                memberEPAs = employeeEPARepository.GetEPA(criteria);
 
                 IList<EPAModel> monthlyEPAs = new List<EPAModel>();
                 string epaIds = string.Join(",", memberEPAs.Where(x => x.HasMonthlyEPA && x.Period.TargetTypeId == (int)TargetTypes.SemiAnnual).Select(x => x.EPAId));
@@ -115,7 +115,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
+                epaInfo = employeeEPARepository.GetEPAInfo(criteria);
                 epaInfo.Process.CurrentProcess = CopyEPAProcess(epaInfo.Process.Evaluators.FirstOrDefault(x => x.EvaluatorId == criteria.EvaluatorId));
                 SetMaxPerformanceScore(epaInfo);
                 SpreadKPIScore(epaInfo.KPIGroups);
@@ -145,7 +145,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                memberEPAs = _employeeEPARepository.GetEPA(criteria);
+                memberEPAs = employeeEPARepository.GetEPA(criteria);
 
                 IList<EPAModel> monthlyEPAs = new List<EPAModel>();
                 string epaIds = string.Join(",", memberEPAs.Where(x => x.HasMonthlyEPA && x.Period.TargetTypeId == (int)TargetTypes.SemiAnnual).Select(x => x.EPAId));
@@ -174,7 +174,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
+                epaInfo = employeeEPARepository.GetEPAInfo(criteria);
                 epaInfo.Process.CurrentProcess = CopyEPAProcess(epaInfo.Process.Reviewers.FirstOrDefault(x => x.EvaluatorId == criteria.ReviewerId));
                 SetMaxPerformanceScore(epaInfo);
                 SpreadKPIScore(epaInfo.KPIGroups);
@@ -199,7 +199,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                memberEPAs = _employeeEPARepository.GetEPA(criteria);
+                memberEPAs = employeeEPARepository.GetEPA(criteria);
 
                 IList<EPAModel> monthlyEPAs = new List<EPAModel>();
                 string epaIds = string.Join(",", memberEPAs.Where(x => x.HasMonthlyEPA && x.Period.TargetTypeId == (int)TargetTypes.SemiAnnual).Select(x => x.EPAId));
@@ -228,7 +228,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
+                epaInfo = employeeEPARepository.GetEPAInfo(criteria);
                 epaInfo.Process.CurrentProcess = CopyEPAProcess(epaInfo.Process.Managements.FirstOrDefault(x => x.EvaluatorId == criteria.ManagementId));
                 SetMaxPerformanceScore(epaInfo);
                 SpreadKPIScore(epaInfo.KPIGroups);
@@ -301,7 +301,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                kpis = _employeeEPARepository.GetKPIByTargetTemplate(criteria);
+                kpis = employeeEPARepository.GetKPIByTargetTemplate(criteria);
             }
 
             return kpis;
@@ -313,7 +313,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                kpis = _employeeEPARepository.GetKPIToView(criteria);
+                kpis = employeeEPARepository.GetKPIToView(criteria);
             }
 
             return kpis;
@@ -325,7 +325,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                epas = _employeeEPARepository.GetEmployeeEPAToView(criteria);
+                epas = employeeEPARepository.GetEmployeeEPAToView(criteria);
             }
 
             return epas;
@@ -337,7 +337,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                epas = _employeeEPARepository.GetEmployeeEPAByKPI(criteria);
+                epas = employeeEPARepository.GetEmployeeEPAByKPI(criteria);
             }
 
             return epas;
@@ -375,7 +375,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
+                epaInfo = employeeEPARepository.GetEPAInfo(criteria);
                 SpreadKPIScore(epaInfo.KPIGroups);
 
                 if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetTypes.SemiAnnual)
@@ -394,7 +394,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                epaInfos = _employeeEPARepository.GetEPAEndEvaluationPeriod(criteria);
+                epaInfos = employeeEPARepository.GetEPAEndEvaluationPeriod(criteria);
             }
 
             return epaInfos;
@@ -533,7 +533,7 @@
                 EPAIds = epaIds
             };
 
-            monthlyEPAs = _employeeEPARepository.GetEPA(criteria).ToList();
+            monthlyEPAs = employeeEPARepository.GetEPA(criteria).ToList();
 
             return monthlyEPAs;
         }
@@ -580,7 +580,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                epaInfos = _employeeEPARepository.GetEPAToUpdateFinalScore(criteria);
+                epaInfos = employeeEPARepository.GetEPAToUpdateFinalScore(criteria);
             }
 
             return epaInfos;
@@ -635,6 +635,27 @@
 
                 averageScore = (monthlyEPA.AverageReviewerScores * scoreRatingType.Reviewer) / monthlyScoreRatingType.Reviewer;
                 monthlyEPA.AverageReviewerScoreConverted = (float)Math.Round(averageScore, 2);
+            }
+        }
+
+        public void ExportEPAAfterUpdateFinalScore(string periodName, IList<EPAModel> epaInfos, string templatePath)
+        {
+            if (epaInfos != null && epaInfos.Any())
+            {
+                var writer = new ExcelTemplateWriter(templatePath, "Update_Final_Score", "Update Final Score");
+
+                // Fill report title.
+                writer.WriteRow(0, new object[] { periodName });
+                writer.CopyRows(1, 1);
+
+                // Fill report header.
+                writer.CopyRows(2, 1);
+
+                FillContentRow(epaInfos, ref writer);
+                writer.SyncColumnsWidth(9);
+                writer.CreateFreezePane(0, 3);
+
+                writer.Render();
             }
         }
 
@@ -758,6 +779,40 @@
 
                 return (EPAProcessModel)formatter.Deserialize(ms);
             }
+        }
+
+        private void FillContentRow(IList<EPAModel> epaInfos, ref ExcelTemplateWriter writer)
+        {
+            int rowIndex = 1;
+
+            foreach (EPAModel epaInfo in epaInfos)
+            {
+                FillRow(epaInfo, ref writer, ref rowIndex);
+            }
+        }
+
+        private void FillRow(EPAModel epaInfo, ref ExcelTemplateWriter writer, ref int rowIndex)
+        {
+            object record = CreateRecord(epaInfo, ref rowIndex);
+            writer.WriteRow(3, record);
+        }
+
+        private object CreateRecord(EPAModel epaInfo, ref int rowIndex)
+        {
+            var record = new
+            {
+                Count = rowIndex,
+                Code = epaInfo.Employee.Code,
+                Nick = epaInfo.Employee.NickName,
+                FullName = epaInfo.Employee.FullName,
+                Section = epaInfo.Employee.GroupName,
+                JobTitle = epaInfo.Employee.JobTitleName,
+                OldFinalScore = epaInfo.OldFinalScore,
+                NewFinalScore = epaInfo.FinalScore
+            };
+            rowIndex++;
+
+            return record;
         }
     }
 }

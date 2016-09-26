@@ -39,7 +39,7 @@
 
                     foreach (EPAModel epaInfo in epaInfos)
                     {
-                        DecodeAllScore(epaInfo);
+                        DecryptAllScore(epaInfo);
                     }
 
                     return epaInfos;
@@ -89,7 +89,7 @@
                             GroupEvaluationOnEachKPI(kpiGroup.KPIs, evaluations);
                         }
 
-                        DecodeAllScore(epaInfo);
+                        DecryptAllScore(epaInfo);
                     }
 
                     return epaInfo;
@@ -120,7 +120,7 @@
 
                     foreach (EPAModel epaInfo in epaInfos)
                     {
-                        DecodeAllScore(epaInfo);
+                        DecryptAllScore(epaInfo);
                     }
 
                     return epaInfos;
@@ -151,7 +151,7 @@
 
                     foreach (EPAModel epaInfo in epaInfos)
                     {
-                        DecodeAllScore(epaInfo);
+                        DecryptAllScore(epaInfo);
                     }
 
                     return epaInfos;
@@ -183,7 +183,7 @@
 
                     foreach (EPAModel epaInfo in result.MyEPAs)
                     {
-                        DecodeAllScore(epaInfo);
+                        DecryptAllScore(epaInfo);
                     }
                 }
             }
@@ -259,7 +259,7 @@
                        "KPIGroupId");
                     GroupKPIByEPA(epaInfos, kpis);
                     GroupKPIBySelf(epaInfos, kpisBySelf);
-                    DecodeAllScore(epaInfos);
+                    DecryptAllScore(epaInfos);
                 }
             }
 
@@ -300,7 +300,7 @@
                        "KPIGroupId");
                     GroupKPIByEPA(epaInfos, kpis);
                     GroupKPIBySelf(epaInfos, kpisBySelf);
-                    DecodeAllScore(epaInfos);
+                    DecryptAllScore(epaInfos);
                 }
             }
 
@@ -402,41 +402,42 @@
             }
         }
 
-        private void DecodeAllScore(EPAModel epaInfo)
+        private void DecryptAllScore(EPAModel epaInfo)
         {
-            epaInfo.LastFinalScore = EncodeService.Decode(epaInfo.LastFinalScoreEncode);
-            epaInfo.LastGrade = EncodeService.Decode(epaInfo.LastGradeEncode);
-            epaInfo.FinalScore = EncodeService.Decode(epaInfo.FinalScoreEncode);
-            epaInfo.Grade = EncodeService.Decode(epaInfo.GradeEncode);
-            DecodeTotalScore(epaInfo.Process.Self);
-            DecodeTotalScore(epaInfo.Process.Evaluators);
-            DecodeTotalScore(epaInfo.Process.Reviewers);
-            DecodeTotalScore(epaInfo.Process.Managements);
-            DecodeTotalScore(epaInfo.LastProcesses);
+            epaInfo.LastFinalScore = CryptographyService.Decrypt(epaInfo.LastFinalScoreEncrypt);
+            epaInfo.LastGrade = CryptographyService.Decrypt(epaInfo.LastGradeEncrypt);
+            epaInfo.FinalScore = CryptographyService.Decrypt(epaInfo.FinalScoreEncrypt);
+            epaInfo.Grade = CryptographyService.Decrypt(epaInfo.GradeEncrypt);
+            epaInfo.OldFinalScore = CryptographyService.Decrypt(epaInfo.OldFinalScoreEncrypt);
+            DecryptTotalScore(epaInfo.Process.Self);
+            DecryptTotalScore(epaInfo.Process.Evaluators);
+            DecryptTotalScore(epaInfo.Process.Reviewers);
+            DecryptTotalScore(epaInfo.Process.Managements);
+            DecryptTotalScore(epaInfo.LastProcesses);
 
             foreach (EPAKPIModel kpi in epaInfo.KPIGroups.SelectMany(x => x.KPIs))
             {
-                DecodeScore(kpi.EvaluationBySelf);
-                DecodeScore(kpi.EvaluationByEvaluators);
+                DecryptScore(kpi.EvaluationBySelf);
+                DecryptScore(kpi.EvaluationByEvaluators);
             }
         }
 
-        private void DecodeAllScore(IEnumerable<RatingByKPIModel> epaInfos)
+        private void DecryptAllScore(IEnumerable<RatingByKPIModel> epaInfos)
         {
             foreach (RatingByKPIModel epaInfo in epaInfos)
             {
-                epaInfo.TotalScore = EncodeService.Decode(epaInfo.TotalScoreEncode);
+                epaInfo.TotalScore = CryptographyService.Decrypt(epaInfo.TotalScoreEncrypt);
 
                 foreach (TemporaryKPIModel kpi in epaInfo.KPIGroup.KPIs)
                 {
                     float rate = 0;
 
-                    if (!string.IsNullOrEmpty(kpi.RateEncode))
+                    if (!string.IsNullOrEmpty(kpi.RateEncrypt))
                     {
-                        rate = float.Parse(EncodeService.Decode(kpi.RateEncode));
+                        rate = float.Parse(CryptographyService.Decrypt(kpi.RateEncrypt));
                     }
 
-                    kpi.Score = EncodeService.Decode(kpi.ScoreEncode).Replace("_" + kpi.KPIId, string.Empty);
+                    kpi.Score = CryptographyService.Decrypt(kpi.ScoreEncrypt).Replace("_" + kpi.KPIId, string.Empty);
                     kpi.Rate = rate;
                 }
 
@@ -444,56 +445,55 @@
                 {
                     float rate = 0;
 
-                    if (!string.IsNullOrEmpty(kpi.RateEncode))
+                    if (!string.IsNullOrEmpty(kpi.RateEncrypt))
                     {
-                        rate = float.Parse(EncodeService.Decode(kpi.RateEncode));
+                        rate = float.Parse(CryptographyService.Decrypt(kpi.RateEncrypt));
                     }
 
-                    kpi.Score = EncodeService.Decode(kpi.ScoreEncode).Replace("_" + kpi.KPIId, string.Empty);
+                    kpi.Score = CryptographyService.Decrypt(kpi.ScoreEncrypt).Replace("_" + kpi.KPIId, string.Empty);
                     kpi.Rate = rate;
                 }
             }
         }
 
-        private void DecodeTotalScore(EPAProcessModel process)
+        private void DecryptTotalScore(EPAProcessModel process)
         {
             if (process != null)
             {
-                process.TotalScore = EncodeService.Decode(process.TotalScoreEncode);
-                process.AdjustScore = EncodeService.Decode(process.AdjustScoreEncode);
+                process.TotalScore = CryptographyService.Decrypt(process.TotalScoreEncrypt);
+                process.AdjustScore = CryptographyService.Decrypt(process.AdjustScoreEncrypt);
             }
         }
 
-        private void DecodeTotalScore(IList<EPAProcessModel> processes)
+        private void DecryptTotalScore(IList<EPAProcessModel> processes)
         {
             foreach (EPAProcessModel process in processes)
             {
-                DecodeTotalScore(process);
+                DecryptTotalScore(process);
             }
         }
 
-        private void DecodeScore(EvaluationModel evaluation)
+        private void DecryptScore(EvaluationModel evaluation)
         {
             if (evaluation != null)
             {
                 float rate = 0;
 
-                if (!string.IsNullOrEmpty(evaluation.RateEncode))
+                if (!string.IsNullOrEmpty(evaluation.RateEncrypt))
                 {
-                    rate = float.Parse(EncodeService.Decode(evaluation.RateEncode));
+                    rate = float.Parse(CryptographyService.Decrypt(evaluation.RateEncrypt));
                 }
 
-                evaluation.Score = EncodeService.Decode(evaluation.ScoreEncode)
-                    .Replace("_" + evaluation.KPIId, string.Empty);
+                evaluation.Score = CryptographyService.Decrypt(evaluation.ScoreEncrypt).Replace("_" + evaluation.KPIId, string.Empty);
                 evaluation.Rate = rate;
             }
         }
 
-        private void DecodeScore(IList<EvaluationModel> evaluations)
+        private void DecryptScore(IList<EvaluationModel> evaluations)
         {
             foreach (EvaluationModel evaluation in evaluations)
             {
-                DecodeScore(evaluation);
+                DecryptScore(evaluation);
             }
         }
     }

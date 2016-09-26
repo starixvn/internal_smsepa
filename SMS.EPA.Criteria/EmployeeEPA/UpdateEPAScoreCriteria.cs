@@ -33,7 +33,7 @@
             get
             {
                 string totalScore = EPAProcess.TotalScore;
-                return EncodeService.Encode(totalScore);
+                return CryptographyService.Encrypt(totalScore);
             }
         }
 
@@ -49,8 +49,8 @@
                     {
                         string score = kpi.CurrentEvaluation.Score,
                             rate = kpi.CurrentEvaluation.Rate > 0 ? kpi.CurrentEvaluation.Rate.ToString() : string.Empty,
-                            cipherScore = EncodeService.Encode(score + "_" + kpi.KPIId),
-                            cipherRate = EncodeService.Encode(rate);
+                            cipherScore = CryptographyService.Encrypt(score + "_" + kpi.KPIId),
+                            cipherRate = CryptographyService.Encrypt(rate);
                         bool isMaxScore = kpi.CurrentEvaluation.IsMaxScore;
 
                         kpiDetailXml.AppendFormat(

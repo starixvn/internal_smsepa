@@ -22,6 +22,7 @@
         private const string DisciplineSummaryTemplatePath = @"~\ExcelTemplates\DisciplineSummaryReport.xls";
         private const string DisciplineDetailTemplatePath = @"~\ExcelTemplates\DisciplineDetailReport.xls";
         private const string DisciplineSummaryByPeriodTemplatePath = @"~\ExcelTemplates\DisciplineSummaryByPeriodReport.xls";
+        private const string UpdateFinalScoreTemplatePath = @"~\ExcelTemplates\UpdateFinalScore.xls";
 
         private readonly IPeriodService periodService;
         private readonly IReportService reportService;
@@ -29,10 +30,11 @@
         private readonly IEPADetailReportService epaDetailReportService;
         private readonly IMonthlyEPADetailReportService monthlyEPADetailReportService;
         private readonly IDisciplineSummaryService disciplineSummaryService;
+        private readonly IEmployeeEPAService employeeEPAService;
         private ISessionService sessionService;
 
         public ExportReportController()
-            : this(null, null, null, null, null, null, null)
+            : this(null, null, null, null, null, null, null, null)
         {
         }
 
@@ -43,6 +45,7 @@
             IEPADetailReportService epaDetailReportService,
             IMonthlyEPADetailReportService monthlyEPADetailReportService,
             IDisciplineSummaryService disciplineSummaryService,
+            IEmployeeEPAService employeeEPAService,
             ISessionService sessionService)
         {
             this.periodService = periodService ?? new PeriodService();
@@ -52,6 +55,7 @@
             this.monthlyEPADetailReportService = monthlyEPADetailReportService ?? new MonthlyEPADetailReportService();
             this.disciplineSummaryService = disciplineSummaryService ?? new DisciplineSummaryService();
             this.sessionService = sessionService ?? new SessionService();
+            this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
         }
 
         public ActionResult ExportEmployeeSettingReport(GetPeriodEmployeeSettingCriteria criteria)
@@ -167,6 +171,24 @@
                 {
                     string templatePath = Server.MapPath(DisciplineSummaryByPeriodTemplatePath);
                     disciplineSummaryService.ExportDisciplineSummaryByPeriodReport(criteria, employeeDisciplines, templatePath);
+                }
+            }
+
+            return new EmptyResult();
+        }
+
+        public ActionResult ExportEPAAfterUpdateFinalScore(GetEPAToUpdateFinalScoreCriteria criteria)
+        {
+            if (criteria != null)
+            {
+                IList<EPAModel> epaInfos = employeeEPAService.GetEPAToUpdateFinalScore(criteria);
+                string[] employeeIds = criteria.EmployeeIds.Split(',');
+                epaInfos = epaInfos.Join(employeeIds, x => x.Employee.EmployeeId.ToString(), y => y, (x, y) => x).ToList();
+
+                if (epaInfos != null && epaInfos.Any())
+                {
+                    string templatePath = Server.MapPath(UpdateFinalScoreTemplatePath);
+                    employeeEPAService.ExportEPAAfterUpdateFinalScore(criteria.PeriodName, epaInfos, templatePath);
                 }
             }
 

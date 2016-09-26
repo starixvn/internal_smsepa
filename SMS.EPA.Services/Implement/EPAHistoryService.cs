@@ -62,8 +62,8 @@
         {
             foreach (EPAHistoryModel epa in epas)
             {
-                epa.FinalScore = !string.IsNullOrWhiteSpace(epa.EncodeFinalScore) ? float.Parse(EncodeService.Decode(epa.EncodeFinalScore)) : 0;
-                epa.Grade = !string.IsNullOrWhiteSpace(epa.EncodeGrade) ? EncodeService.Decode(epa.EncodeGrade) : string.Empty;
+                epa.FinalScore = !string.IsNullOrWhiteSpace(epa.EncodeFinalScore) ? float.Parse(CryptographyService.Decrypt(epa.EncodeFinalScore)) : 0;
+                epa.Grade = !string.IsNullOrWhiteSpace(epa.EncodeGrade) ? CryptographyService.Decrypt(epa.EncodeGrade) : string.Empty;
             }
         }
 

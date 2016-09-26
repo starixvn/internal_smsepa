@@ -43,7 +43,7 @@
 
         public float MaxTotalScore { get; set; }
 
-        public string TotalScoreEncode { get; set; }
+        public string TotalScoreEncrypt { get; set; }
 
         public string TotalScore { get; set; }
 
@@ -55,7 +55,7 @@
             }
         }
 
-        public string AdjustScoreEncode { get; set; }
+        public string AdjustScoreEncrypt { get; set; }
 
         public string AdjustScore { get; set; }
 

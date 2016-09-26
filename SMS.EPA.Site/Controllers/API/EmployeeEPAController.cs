@@ -625,12 +625,14 @@
         public HttpResponseMessage GetEmployeeToUpdateFinalScore(
             int periodId,
             int? groupId = null,
+            bool? isLocal = null,
             string query = "")
         {
             var criteria = new GetEmployeeToUpdateFinalScoreCriteria
             {
                 PeriodId = periodId,
                 GroupId = groupId,
+                IsLocal = isLocal,
                 Query = query
             };
             IList<EPAEmployeeModel> employees = employeeEPAService.GetEmployeeToUpdateFinalScore(criteria);
@@ -642,12 +644,14 @@
         public HttpResponseMessage GetEPAToUpdateFinalScore(
             int periodId,
             int? groupId = null,
+            bool? isLocal = null,
             int? employeeId = null)
         {
             var criteria = new GetEPAToUpdateFinalScoreCriteria
             {
                 PeriodId = periodId,
                 GroupId = groupId,
+                IsLocal = isLocal,
                 EmployeeId = employeeId
             };
             IList<EPAModel> epaInfos = employeeEPAService.GetEPAToUpdateFinalScore(criteria);
@@ -668,9 +672,9 @@
                     finalScore = averagePerformanceScore + epaInfo.DisciplineScore;
 
                 finalScore = finalScore >= 0 ? finalScore : 0;
-                epaInfo.FinalScore = EncodeService.Encode(finalScore.ToString());
+                epaInfo.FinalScore = CryptographyService.Encrypt(finalScore.ToString());
                 string grade = employeeEPAService.ConvertScoreToGrade(finalScore, standardGrades);
-                epaInfo.Grade = EncodeService.Encode(grade);
+                epaInfo.Grade = CryptographyService.Encrypt(grade);
             }
 
             var updateFinalScoreCriteria = new UpdateFinalScoreEPAEndEvaluationCriteria

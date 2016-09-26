@@ -8,6 +8,8 @@
 
         public int? GroupId { get; set; }
 
+        public bool? IsLocal { get; set; }
+
         public string Query { get; set; }
 
         public override string GetSettingKey()

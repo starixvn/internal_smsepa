@@ -14,13 +14,13 @@
 
         public int ProcessId { get; set; }
 
-        public string TotalScoreEncode { get; set; }
+        public string TotalScoreEncrypt { get; set; }
 
         public string TotalScore
         {
             get
             {
-                return EncodeService.Decode(TotalScoreEncode);
+                return CryptographyService.Decrypt(TotalScoreEncrypt);
             }
         }
 

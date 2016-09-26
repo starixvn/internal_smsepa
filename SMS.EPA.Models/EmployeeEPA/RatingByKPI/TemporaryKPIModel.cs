@@ -20,13 +20,13 @@
 
         public bool Evaluated { get; set; }
 
-        public string ScoreEncode { get; set; }
+        public string ScoreEncrypt { get; set; }
 
         public string Score { get; set; }
 
         public bool IsMaxScore { get; set; }
 
-        public string RateEncode { get; set; }
+        public string RateEncrypt { get; set; }
 
         public float Rate { get; set; }
 

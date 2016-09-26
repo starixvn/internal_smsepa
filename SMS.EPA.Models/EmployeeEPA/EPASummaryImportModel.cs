@@ -12,7 +12,7 @@
         {
             get
             {
-                return EncodeService.Encode(OriginFinalScore.ToString());
+                return CryptographyService.Encrypt(OriginFinalScore.ToString());
             }
         }
     }

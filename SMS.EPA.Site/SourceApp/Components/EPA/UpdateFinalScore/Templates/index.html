@@ -1,4 +1,4 @@
-﻿﻿<div ng-controller="UpdateFinalScoreController as updateCtrl">
+﻿﻿<div ng-controller="UpdateFinalScoreController as updateFinalScoreCtrl">
     <div class="col-sm-12 sub-header">
         <ul class="row breadcrumb">
             <li class="current" data-translate="UpdateFinalScore"></li>
@@ -10,27 +10,38 @@
                 <div class="required">
                     <label class="col-sm-1 control-label" data-translate="Period"></label>
                     <div class="col-sm-2">
-                        <select class="form-control" ng-model="updateCtrl.filter.periodId"
-                                ng-options="opt.PeriodId as opt.Name for opt in updateCtrl.periods">
+                        <select class="form-control" ng-model="updateFinalScoreCtrl.filter.periodId"
+                                ng-options="opt.PeriodId as opt.Name for opt in updateFinalScoreCtrl.periods">
                             <option style="display: none" value="">-- {{"All" | translate}} --</option>
                         </select>
                     </div>
                 </div>
                 <label class="col-sm-1 control-label" data-translate="Section"></label>
                 <div class="col-sm-2">
-                    <select class="form-control" ng-model="updateCtrl.filter.groupId"
-                            ng-options="opt.GroupId as opt.GroupName for opt in updateCtrl.groups">
+                    <select class="form-control" ng-model="updateFinalScoreCtrl.filter.groupId"
+                            ng-options="opt.GroupId as opt.GroupName for opt in updateFinalScoreCtrl.groups">
                         <option value="">-- {{"All" | translate}} --</option>
                     </select>
                 </div>
+                <label class="col-sm-2 control-label" data-translate="Category"></label>
+                <div class="col-sm-2">
+                    <select class="form-control" ng-model="updateFinalScoreCtrl.filter.isLocal">
+                        <option value="">-- {{"All" | translate}} --</option>
+                        <option value="false">{{"Expat" | translate}}</option>
+                        <option value="true">{{"Local" | translate}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-sm-1 control-label" data-translate="Employee"></label>
                 <div class="col-sm-2">
                     <input class="form-control" type="text" placeholder="full name or nick name"
-                           ng-model="updateCtrl.searchEmployee" epa-search-auto-complete search-employees="updateCtrl.getEmployee()"
-                           ng-change="updateCtrl.unSelectEmployee()" employee="updateCtrl.filter.employee" />
+                           ng-model="updateFinalScoreCtrl.searchEmployee" epa-search-auto-complete search-employees="updateFinalScoreCtrl.getEmployee()"
+                           ng-change="updateFinalScoreCtrl.unSelectEmployee()" employee="updateFinalScoreCtrl.filter.employee" />
                 </div>
+                <label class="col-sm-1"></label>
                 <div class="col-sm-1">
-                    <button class="btn btn-primary" ng-click="updateCtrl.getEPAToUpdateFinalScore(updateCtrl.filter)" data-translate="Submit"></button>
+                    <button class="btn btn-primary" ng-click="updateFinalScoreCtrl.getEPAToUpdateFinalScore(updateFinalScoreCtrl.filter)" data-translate="Submit"></button>
                 </div>
             </div>
         </form>
@@ -41,13 +52,22 @@
                 <tr class="header-table">
                     <th colspan="8">
                         <button class="btn btn-primary pull-left" style="margin: 5px;"
-                                ng-show="updateCtrl.filteredItems.length > 0" ng-click="updateCtrl.updateFinalScore()" data-translate="Update"></button>
-                        <input type="text" ng-model="updateCtrl.searchKey" ng-change="updateCtrl.search()" class="search-inline-textbox search pull-right">
+                                ng-show="updateFinalScoreCtrl.filteredItems.length > 0"
+                                ng-click="updateFinalScoreCtrl.updateFinalScore()" data-translate="Update"></button>
+                        <input class="btnExcel pull-right" export-epa-after-update-final-score
+                               ng-show="updateFinalScoreCtrl.filteredItems.length > 0 && updateFinalScoreCtrl.dataSaved"
+                               ng-click="updateFinalScoreCtrl.exportExcel(updateFinalScoreCtrl.filter)"
+                               type="button" title="Export to Excel">
+                        <input class="btnExcel disabled pull-right" type="button"
+                               ng-show="updateFinalScoreCtrl.filteredItems.length > 0 && !updateFinalScoreCtrl.dataSaved" />
+                        <input type="text pull-right" ng-model="updateFinalScoreCtrl.searchKey"
+                               ng-change="updateFinalScoreCtrl.search()" class="search-inline-textbox search pull-right">
                     </th>
                 </tr>
                 <tr class="headerName">
-                    <th>
-                        <input type="checkbox" ng-click="updateCtrl.checkAll(updateCtrl.selectedAll)" ng-model="updateCtrl.selectedAll" />
+                    <th ng-show="updateFinalScoreCtrl.filteredItems.length > 0">
+                        <input type="checkbox" ng-click="updateFinalScoreCtrl.checkAll(updateFinalScoreCtrl.selectedAll)"
+                               ng-model="updateFinalScoreCtrl.selectedAll" />
                     </th>
                     <th data-translate="SymbolCount"></th>
                     <th data-translate="Code"></th>
@@ -59,12 +79,12 @@
                 </tr>
             </thead>
             <tbody>
-                <tr dir-paginate="epaInfo in updateCtrl.filteredItems | itemsPerPage: updateCtrl.pageSize" current-page="updateCtrl.currentPage">
-                    <td class="text-center">
-                        <input type="checkbox" ng-model="epaInfo.Selected" ng-click="updateCtrl.syncSelectedEPA(epaInfo.EPAId, epaInfo.Selected)" />
+                <tr dir-paginate="epaInfo in updateFinalScoreCtrl.filteredItems | itemsPerPage: updateFinalScoreCtrl.pageSize" current-page="updateFinalScoreCtrl.currentPage">
+                    <td class="text-center" ng-show="updateFinalScoreCtrl.filteredItems.length > 0">
+                        <input type="checkbox" ng-model="epaInfo.Selected" ng-click="updateFinalScoreCtrl.syncSelectedEPA(epaInfo.EPAId, epaInfo.Selected)" />
                     </td>
-                    <td class="text-center" ng-bind="updateCtrl.getIndex($index, updateCtrl.currentPage, updateCtrl.pageSize)"></td>
-                    <td ng-bind="epaInfo.Employee.Code"></td>
+                    <td class="text-center" ng-bind="updateFinalScoreCtrl.getIndex($index, updateFinalScoreCtrl.currentPage, updateFinalScoreCtrl.pageSize)"></td>
+                    <td class="text-center" ng-bind="epaInfo.Employee.Code"></td>
                     <td ng-bind="epaInfo.Employee.NickName"></td>
                     <td ng-bind="epaInfo.Employee.FullName"></td>
                     <td ng-bind="epaInfo.Employee.GroupName"></td>
@@ -76,16 +96,16 @@
                         <span ng-show="epaInfo.NewFinalScore" ng-bind="epaInfo.NewFinalScore | customScore"></span>
                     </td>
                 </tr>
-                <tr ng-show="!updateCtrl.filteredItems || updateCtrl.filteredItems.length == 0">
+                <tr ng-show="!updateFinalScoreCtrl.filteredItems || updateFinalScoreCtrl.filteredItems.length == 0">
                     <td class="empty-result" colspan="8" data-translate="EmptyResult"></td>
                 </tr>
             </tbody>
-            <tfoot ng-show="updateCtrl.filteredItems.length > 0">
+            <tfoot ng-show="updateFinalScoreCtrl.filteredItems.length > 0">
                 <tr>
                     <td colspan="8" class="paging">
                         <span data-translate="Show"></span>
-                        <select class="dropdown-entry form-control" ng-model="updateCtrl.pageSize"
-                                ng-options="entry for entry in updateCtrl.entries"></select>
+                        <select class="dropdown-entry form-control" ng-model="updateFinalScoreCtrl.pageSize"
+                                ng-options="entry for entry in updateFinalScoreCtrl.entries"></select>
                         <span data-translate="entries"></span>
                         <div class="pull-right custom-paging">
                             <dir-pagination-controls boundary-links="true"></dir-pagination-controls>

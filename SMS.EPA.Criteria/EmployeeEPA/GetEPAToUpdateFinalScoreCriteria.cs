@@ -8,7 +8,15 @@
 
         public int? GroupId { get; set; }
 
+        public bool? IsLocal { get; set; }
+
         public int? EmployeeId { get; set; }
+
+        [SpParam(Ignored = true)]
+        public string PeriodName { get; set; }
+
+        [SpParam(Ignored = true)]
+        public string EmployeeIds { get; set; }
 
         public override string GetSettingKey()
         {
