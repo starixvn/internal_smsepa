@@ -1,10 +1,13 @@
 ﻿<div class="textarea-comment">
     <div class="lable-comment-if-any control-label" data-translate="CommentByEmployee"></div>
-    <textarea class="form-control" ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess"
+    <textarea class="form-control" maxlength="2000"
+              ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess"
               ng-model="memberEPAInfoCtrl.epaInfo.Process.Self.Comment" ng-readonly="true"></textarea>
-    <textarea class="form-control" ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" ng-readonly="true">Pending</textarea>
+    <textarea class="form-control" maxlength="2000"
+              ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" ng-readonly="true">Pending</textarea>
     <div class="lable-comment-if-any control-label" data-translate="CommentByEvaluator"></div>
-    <textarea class="form-control" ng-model="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.Comment"
+    <textarea class="form-control" maxlength="2000"
+              ng-model="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.Comment"
               ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"></textarea>
 </div>
 

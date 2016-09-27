@@ -190,13 +190,15 @@
                                     <div ng-repeat="kpi in epaInfo.KPIGroup.KPIs" ng-if="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
                                         <div class="required-comment" ng-show="kpi.HasComment && kpi.IsRequiredComment">
                                             <div class="textarea">
-                                                <textarea class="form-control" ng-show="kpi.HasComment" ng-model="kpi.Comment"
+                                                <textarea class="form-control" maxlength="2000"
+                                                          ng-show="kpi.HasComment" ng-model="kpi.Comment"
                                                           ng-readonly="ratingByKPICtrl.permission != ratingByKPICtrl.policyEnum.Host"></textarea>
                                             </div>
                                             <div class="note" data-translate="(*)"></div>
                                         </div>
                                         <div class="optional-comment" ng-show="kpi.HasComment && !kpi.IsRequiredComment">
-                                            <textarea class="form-control" ng-show="kpi.HasComment" ng-model="kpi.Comment"
+                                            <textarea class="form-control" maxlength="2000"
+                                                      ng-show="kpi.HasComment" ng-model="kpi.Comment"
                                                       ng-readonly="ratingByKPICtrl.permission != ratingByKPICtrl.policyEnum.Host"></textarea>
                                         </div>
                                     </div>

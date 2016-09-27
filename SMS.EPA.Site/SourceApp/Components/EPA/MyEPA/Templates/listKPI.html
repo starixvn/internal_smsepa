@@ -70,7 +70,9 @@
                                ng-click="kpi.ExpandedComment = !kpi.ExpandedComment" ng-attr-title='{{"Expand comment" | translate}}'></a>
                         </div>
                         <div class="textarea" ng-show="kpi.ExpandedComment">
-                            <textarea class="form-control" ng-model="kpi.CurrentEvaluation.Comment" ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"></textarea>
+                            <textarea class="form-control" maxlength="2000"
+                                      ng-model="kpi.CurrentEvaluation.Comment"
+                                      ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"></textarea>
                         </div>
                         <div class="note" data-translate="(*)" ng-show="kpi.HasComment && kpi.IsRequiredComment && kpi.ExpandedComment"></div>
                     </div>

@@ -104,7 +104,7 @@
                         <div class="textarea" ng-show="kpi.ExpandedCommentByEmployee">
                             <textarea class="form-control" ng-model="kpi.EvaluationBySelf.Comment"
                                       ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" ng-readonly="true"></textarea>
-                            <textarea class="form-control" ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" ng-readonly="true">N/A</textarea>
+                            <textarea class="form-control" ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" ng-readonly="true"></textarea>
                         </div>
                     </div>
                     <div class="row kpi-comment comment-by-evaluator" ng-show="kpi.HasComment">
@@ -123,7 +123,9 @@
                             <div class="error-message" ng-show="kpi.CurrentEvaluation.CommentInvalid && kpi.HasComment && !kpi.IsRequiredComment"
                                  data-translate="RequiredCommentForRatingMaxScore"></div>
                             <div class="textarea">
-                                <textarea class="form-control" ng-model="kpi.CurrentEvaluation.Comment" ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"></textarea>
+                                <textarea class="form-control" maxlength="2000"
+                                          ng-model="kpi.CurrentEvaluation.Comment"
+                                          ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"></textarea>
                             </div>
                             <div class="note" data-translate="(*)" ng-show="kpi.HasComment && kpi.IsRequiredComment"></div>
                         </div>

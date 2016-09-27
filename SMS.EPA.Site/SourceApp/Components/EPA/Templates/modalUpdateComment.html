@@ -12,7 +12,8 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label" data-translate="Comment"></label>
                     <div class="col-sm-8 field">
-                        <textarea type="text" class="form-control comment" ng-readonly="!modalUpdateCommentCtrl.isEdit"
+                        <textarea type="text" class="form-control comment" maxlength="2000"
+                                  ng-readonly="!modalUpdateCommentCtrl.isEdit"
                                   ng-model="modalUpdateCommentCtrl.comment"></textarea>
                     </div>
                 </div>

@@ -61,7 +61,8 @@
                        tooltip="{{memberEPAInfoCtrl.getNotificationInputScore(memberEPAInfoCtrl.epaInfo.Process.CurrentProcess)}}" tooltip-trigger="focus" />
             </td>
             <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="summary-comment" ng-show="$first">
-                <textarea class="form-control" ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
+                <textarea class="form-control" maxlength="2000"
+                          ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
                           ng-model="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.Comment"></textarea>
             </td>
             <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center" ng-show="$first && !memberEPAInfoCtrl.epaInfo.IsMonthly">

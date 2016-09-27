@@ -37,7 +37,8 @@
                 </span>
             </td>
             <td>
-                <textarea class="form-control" ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
+                <textarea class="form-control" maxlength="2000"
+                          ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
                           ng-model="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.Comment"></textarea>
             </td>
             <td class="text-center">
