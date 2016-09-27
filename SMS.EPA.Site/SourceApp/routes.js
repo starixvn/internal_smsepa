@@ -37,8 +37,6 @@ var targetTemplateModule = angular.module('targetTemplateModule', ['ngRoute'])
     var baseUrl = $('base').first().attr('href');
     $routeProvider.when('/TargetTemplate/Index',
     { templateUrl: baseUrl + 'SourceApp/Components/TargetTemplate/Templates/index.html', caseInsensitiveMatch: true });
-    $routeProvider.when('/TargetTemplate/Create',
-    { templateUrl: baseUrl + 'SourceApp/Components/TargetTemplate/Templates/create.html', caseInsensitiveMatch: true });
     $routeProvider.when('/TargetTemplate/Update/:id',
     { templateUrl: baseUrl + 'SourceApp/Components/TargetTemplate/Templates/update.html', caseInsensitiveMatch: true });
     $routeProvider.when('/TargetTemplate/Detail/:id',

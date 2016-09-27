@@ -1,6 +1,6 @@
-﻿'use strict';
+﻿(function (angular) {
+    'use strict';
 
-(function (angular) {
     angular.module('targetTemplateModule').factory('TargetTemplateModel', TargetTemplateModel);
     TargetTemplateModel.$inject = ['$modal', 'targetTemplateFactory', 'errorFactory', 'notificationFactory', 'utilitiesFactory'];
 
@@ -28,6 +28,7 @@
             kpiGroups: kpiGroups,
             kpiList: kpiList,
             openPopupAddKPIGroup: openPopupAddKPIGroup,
+            openPopupCreateTargetTemplate: openPopupCreateTargetTemplate,
             openPopupDeleteKPIGroup: openPopupDeleteKPIGroup,
             openPopupDeleteTargetTemplate: openPopupDeleteTargetTemplate,
             openPopupUpdateStatusTargetTemplate: openPopupUpdateStatusTargetTemplate,
@@ -51,8 +52,7 @@
                 } else {
                     notificationFactory.error("", response.Message);
                 }
-            })
-            .error(function (response, status) {
+            }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         }
@@ -87,10 +87,11 @@
             }
         }
 
-        function createTargetTemplate(targetTemplate) {
+        function createTargetTemplate(targetTemplate, modalInstance) {
             return targetTemplateFactory.createTargetTemplate(targetTemplate).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("CreatedSuccessfully");
+                    modalInstance.close();
                 } else {
                     notificationFactory.error("", response.Message);
                 }
@@ -102,8 +103,7 @@
         function getKPIGroupOfTargetTemplate(targetTemplateId) {
             return targetTemplateFactory.getKPIGroupOfTargetTemplate(targetTemplateId).success(function (groups) {
                 targetTemplateModel.kpiGroups = groups;
-            })
-            .error(function (response, status) {
+            }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         }
@@ -135,8 +135,7 @@
         function getScoreRatingType(scoreRatingTypeId, isActive) {
             return targetTemplateFactory.getScoreRatingType(scoreRatingTypeId, isActive).success(function (scoreRatingTypes) {
                 targetTemplateModel.scoreRatingTypes = scoreRatingTypes;
-            })
-            .error(function (response, status) {
+            }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         }
@@ -152,8 +151,7 @@
         function getTargetTemplateById(targetTemplateId) {
             return targetTemplateFactory.getTargetTemplateById(targetTemplateId).success(function (targetTemplate) {
                 targetTemplateModel.targetTemplate = targetTemplate;
-            })
-            .error(function (response, status) {
+            }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         }
@@ -176,6 +174,17 @@
 
             return vm.modalInstance.result;
         }
+
+        function openPopupCreateTargetTemplate(vm) {
+            vm.modalInstance = $modal.open({
+                templateUrl: '/SourceApp/Components/TargetTemplate/Templates/create.html',
+                controller: "CreateTargetTemplateController as createTargetTemplateCtrl",
+                backdrop: 'static',
+                windowClass: "modal-confirm-center"
+            });
+
+            return vm.modalInstance.result;
+        };
 
         function openPopupDeleteKPIGroup(targetTemplateId, kpiGroup) {
             var modalInstance = $modal.open({
@@ -269,8 +278,7 @@
             var keyMessage = '';
 
             modalInstance.result.then(function () {
-                targetTemplateFactory.updateStatusTargetTemplate(newTargetTemplate)
-                .success(function (response) {
+                targetTemplateFactory.updateStatusTargetTemplate(newTargetTemplate).success(function (response) {
                     if (response.IsSuccessful) {
                         keyMessage = action === "activate" ? "ActivationSuccess" : "DeactivationSuccess";
                         notificationFactory.success(keyMessage);
@@ -279,8 +287,7 @@
                         targetTemplate.IsActive = !newTargetTemplate.IsActive;
                         notificationFactory.error(keyMessage);
                     }
-                })
-                .error(function (response, status) {
+                }).error(function (response, status) {
                     if (status === 405) {
                         errorFactory.errorHandle(status);
                     } else {
@@ -308,8 +315,7 @@
                 } else {
                     notificationFactory.error("", response.Message);
                 }
-            })
-            .error(function (response, status) {
+            }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         }
@@ -325,8 +331,7 @@
                 } else {
                     notificationFactory.error("", response.Message);
                 }
-            })
-            .error(function (response, status) {
+            }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         }

@@ -25,7 +25,6 @@
                 "Role/Index",
                 "Home/AccessDenied",
                 "TargetTemplate/Index",
-                "TargetTemplate/Create",
                 "TargetTemplate/Update/{id}",
                 "TargetTemplate/Detail/{id}",
                 "Flow/Index",

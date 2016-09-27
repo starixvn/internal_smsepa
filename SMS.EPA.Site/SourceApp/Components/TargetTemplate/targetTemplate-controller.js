@@ -41,14 +41,14 @@ function (TargetTemplateModel, CommonModel, lockScreenService, utilitiesFactory)
         vm.targetTypes = CommonModel.targetTypes;
     });
 
-    var getTargetTemplate = function (targetTypeId, isActive) {
+    function getTargetTemplate(targetTypeId, isActive) {
         lockScreenService.start();
         TargetTemplateModel.getTargetTemplate(targetTypeId, isActive).then(function () {
             vm.targetTemplates = TargetTemplateModel.targetTemplates;
             utilitiesFactory.searchOnPage(vm, vm.targetTemplates);
             lockScreenService.stop();
         });
-    };
+    }
 
     getTargetTemplate(vm.filter.targetTypeId, vm.filter.isActive);
 
@@ -63,7 +63,10 @@ function (TargetTemplateModel, CommonModel, lockScreenService, utilitiesFactory)
     };
 
     vm.create = function () {
-        vm.createTargetTemplateUrl = '/TargetTemplate/Create';
+        TargetTemplateModel.openPopupCreateTargetTemplate(vm).then(function () {
+            vm.modalInstance = null;
+            getTargetTemplate(vm.filter.targetTypeId, vm.filter.isActive);
+        });
     };
 
     vm.confirmActive = function (targetTemplate) {
@@ -85,53 +88,6 @@ function (TargetTemplateModel, CommonModel, lockScreenService, utilitiesFactory)
 
     vm.detail = function (targetTemplate) {
         vm.detailTargetTemplateUrl = '/TargetTemplate/Detail/' + targetTemplate.TargetTemplateId;
-    };
-}]);
-
-targetTemplateModule.controller('CreateTargetTemplateController',
-['$location', 'TargetTemplateModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'baseUrl',
-function ($location, TargetTemplateModel, CommonModel, utilitiesFactory, historyFactory, baseUrl) {
-    var vm = this;
-    vm.scoreRatingTypeOptions = TargetTemplateModel.scoreRatingTypes;
-    vm.permission = TargetTemplateModel.permission;
-    vm.ratingTypes = TargetTemplateModel.ratingTypes;
-
-    if (vm.permission !== utilitiesFactory.policy.Host) {
-        $location.path(baseUrl + 'Home/AccessDenied');
-    }
-
-    vm.targetTemplate = {
-        Name: '',
-        TargetTypeId: '',
-        ScoreRatingTypeId: '',
-        RatingTypeId: '',
-        IsActive: true,
-        Description: ''
-    };
-    vm.targetTypes = CommonModel.targetTypes;
-
-    CommonModel.getTargetType(true).then(function () {
-        vm.targetTypes = CommonModel.targetTypes;
-    });
-
-    TargetTemplateModel.getScoreRatingType(null, true).then(function () {
-        vm.scoreRatingTypeOptions = TargetTemplateModel.scoreRatingTypes;
-    });
-
-    TargetTemplateModel.getRatingType().then(function () {
-        vm.ratingTypes = TargetTemplateModel.ratingTypes;
-    });
-
-    vm.save = function (targetTemplate) {
-        if (TargetTemplateModel.validateTargetTemplate(targetTemplate)) {
-            TargetTemplateModel.createTargetTemplate(targetTemplate).then(function () {
-                historyFactory.back();
-            });
-        }
-    };
-
-    vm.cancel = function () {
-        historyFactory.back();
     };
 }]);
 
@@ -516,7 +472,8 @@ function ($routeParams, TargetTemplateModel, utilitiesFactory, historyFactory) {
     };
 }]);
 
-targetTemplateModule.controller("ModalConfirmChangeTargetTypeController", ['$modalInstance',
+targetTemplateModule.controller("ModalConfirmChangeTargetTypeController",
+['$modalInstance',
  function ($modalInstance) {
      var vm = this;
 

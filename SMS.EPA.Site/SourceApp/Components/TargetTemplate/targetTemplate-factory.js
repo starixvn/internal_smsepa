@@ -1,6 +1,6 @@
-﻿'use strict';
+﻿(function (angular) {
+    'use strict';
 
-(function (angular) {
     angular.module('targetTemplateModule').factory('targetTemplateFactory', targetTemplateFactory);
     targetTemplateFactory.$inject = ['$http', 'baseUrl'];
 

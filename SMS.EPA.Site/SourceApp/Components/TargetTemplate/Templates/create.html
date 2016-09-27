@@ -1,68 +1,61 @@
-﻿<div ng-controller="CreateTargetTemplateController as createCtrl">
-    <div class="col-sm-12 sub-header">
-        <ul class="row breadcrumb">
-            <li class="current" data-translate="CreateTargetTemplate"></li>
-        </ul>
+﻿<div class="modal-header">
+    <div class="popup-header">
+        {{"CreateTargetTemplate" | translate}}
+        <span class="close-popup" ng-click="createTargetTemplateCtrl.cancel()"></span>
     </div>
-    <div>
-        <form class="col-sm-6 form-horizontal common-form" novalidate>
-            <div class="form-group required">
-                <label class="col-sm-3 control-label" data-translate="Name">
-                </label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" ng-model="createCtrl.targetTemplate.Name" required maxlength="200" />
-                </div>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal" role="form">
+        <div class="form-group required">
+            <label class="col-sm-3 control-label" data-translate="Name">
+            </label>
+            <div class="col-sm-8 field">
+                <input type="text" class="form-control" ng-model="createTargetTemplateCtrl.targetTemplate.Name" required maxlength="200" />
             </div>
-            <div class="form-group top-buffer required">
-                <label class="col-sm-3 control-label" data-translate="TargetType">
-                </label>
-                <div class="col-sm-9">
-                    <select class="form-control" ng-options="targetType.TargetTypeId as targetType.Name for targetType in createCtrl.targetTypes"
-                            ng-model="createCtrl.targetTemplate.TargetTypeId" required name="targetType">
-                        <option value="">-- {{"Select" | translate}} --</option>
-                    </select>
-                </div>
+        </div>
+        <div class="form-group required">
+            <label class="col-sm-3 control-label" data-translate="TargetType"></label>
+            <div class="col-sm-8 field">
+                <select class="form-control" ng-options="targetType.TargetTypeId as targetType.Name for targetType in createTargetTemplateCtrl.targetTypes"
+                        ng-model="createTargetTemplateCtrl.targetTemplate.TargetTypeId" required name="targetType">
+                    <option value="">-- {{"Select" | translate}} --</option>
+                </select>
             </div>
-            <div class="form-group top-buffer required">
-                <label class="col-sm-3 control-label" data-translate="ScoreRatingType">
-                </label>
-                <div class="col-sm-9">
-                    <select class="form-control" ng-options="scoreType.ScoreRatingTypeId as scoreType.Name for scoreType in createCtrl.scoreRatingTypeOptions"
-                            ng-model="createCtrl.targetTemplate.ScoreRatingTypeId" required>
-                        <option value="">-- {{"Select" | translate}} --</option>
-                    </select>
-                </div>
+        </div>
+        <div class="form-group required">
+            <label class="col-sm-3 control-label" data-translate="ScoreRatingType"></label>
+            <div class="col-sm-8">
+                <select class="form-control" ng-options="scoreType.ScoreRatingTypeId as scoreType.Name for scoreType in createTargetTemplateCtrl.scoreRatingTypeOptions"
+                        ng-model="createTargetTemplateCtrl.targetTemplate.ScoreRatingTypeId" required>
+                    <option value="">-- {{"Select" | translate}} --</option>
+                </select>
             </div>
-            <div class="form-group top-buffer required">
-                <label class="col-sm-3 control-label" data-translate="RatingType">
-                </label>
-                <div class="col-sm-9">
-                    <select class="form-control" ng-options="type.RatingTypeId as type.Name for type in createCtrl.ratingTypes"
-                            ng-model="createCtrl.targetTemplate.RatingTypeId" required>
-                        <option value="">-- {{"Select" | translate}} --</option>
-                    </select>
-                </div>
+        </div>
+        <div class="form-group required">
+            <label class="col-sm-3 control-label" data-translate="RatingType"></label>
+            <div class="col-sm-8">
+                <select class="form-control" ng-options="type.RatingTypeId as type.Name for type in createTargetTemplateCtrl.ratingTypes"
+                        ng-model="createTargetTemplateCtrl.targetTemplate.RatingTypeId" required>
+                    <option value="">-- {{"Select" | translate}} --</option>
+                </select>
             </div>
-            <div class="form-group top-buffer">
-                <label class="col-sm-3 control-label" data-translate="Active"></label>
-                <div class="col-sm-9 field active-div">
-                    <input ng-model="createCtrl.targetTemplate.IsActive" type="checkbox">
-                </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label" data-translate="Active"></label>
+            <div class="col-sm-8 field active-label">
+                <input ng-model="createTargetTemplateCtrl.targetTemplate.IsActive" type="checkbox" />
             </div>
-            <div class="form-group top-buffer">
-                <label class="col-sm-3 control-label" data-translate="Description">
-                </label>
-                <div class="col-sm-9">
-                    <textarea class="form-control custom-texarea" ng-model="createCtrl.targetTemplate.Description" id="description"
-                              maxlength="500"></textarea>
-                </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label" data-translate="Description"></label>
+            <div class="col-sm-8 field">
+                <textarea class="form-control custom-texarea" ng-model="createTargetTemplateCtrl.targetTemplate.Description" maxlength="2000"></textarea>
             </div>
-            <div class="form-group top-buffer">
-                <div class="col-sm-offset-5">
-                    <button class="btn btn-primary" ng-click="createCtrl.save(createCtrl.targetTemplate)" data-translate="Submit"></button>
-                    <button class="btn btn-default" ng-click="createCtrl.cancel()" data-translate="Cancel"></button>
-                </div>
-            </div>
-        </form>
-    </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-primary" data-translate="Submit" ng-click="createTargetTemplateCtrl.save(createTargetTemplateCtrl.targetTemplate)"></button>
+    <button class="btn btn-default" ng-click="createTargetTemplateCtrl.cancel()" data-translate="Cancel"></button>
 </div>

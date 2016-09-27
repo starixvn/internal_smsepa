@@ -475,6 +475,7 @@
     <Content Include="SourceApp\Components\Report\Templates\MonthlyEPADetailReport.html" />
     <Content Include="SourceApp\Components\TargetEmployeeSetting\target-department-setting-controller.js" />
     <Content Include="SourceApp\Components\TargetEmployeeSetting\target-personnel-setting-controller.js" />
+    <Content Include="SourceApp\Components\TargetTemplate\create-target-template-controller.js" />
     <Content Include="SourceApp\Shared\Directives\epa-datepickerPopup-directive.js" />
     <Content Include="SourceApp\Shared\Directives\epa-numberDot-directive.js" />
     <Content Include="SourceApp\Shared\Directives\epa-calendarImage-directive.js" />

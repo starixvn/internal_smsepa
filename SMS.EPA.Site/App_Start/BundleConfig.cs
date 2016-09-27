@@ -97,6 +97,7 @@
                             "~/SourceApp/Components/TargetTemplate/targetTemplate-model.js",
                             "~/SourceApp/Components/TargetTemplate/targetTemplate-directive.js",
                             "~/SourceApp/Components/TargetTemplate/targetTemplate-controller.js",
+                            "~/SourceApp/Components/TargetTemplate/create-target-template-controller.js",
                             "~/SourceApp/Components/FlowManagement/flowSetting-service.js",
                             "~/SourceApp/Components/FlowManagement/flowSetting-model.js",
                             "~/SourceApp/Components/FlowManagement/flowTemplate-factory.js",

@@ -263,8 +263,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
     periodModel.getPeriod = function (targetTypeId, isActive) {
         return periodFactory.getPeriod(targetTypeId, isActive).success(function (periods) {
             periodModel.periods = periods;
-        })
-        .error(function (response, status) {
+        }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
     };
@@ -336,8 +335,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             else {
                 notificationFactory.error("", response.Message);
             }
-        })
-        .error(function (response, status) {
+        }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
     };
@@ -354,8 +352,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             else {
                 notificationFactory.error("", response.Message);
             }
-        })
-        .error(function (response, status) {
+        }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
     };
@@ -363,8 +360,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
     periodModel.getPeriodById = function (periodId) {
         return periodFactory.getPeriodById(periodId).success(function (period) {
             periodModel.period = period;
-        })
-        .error(function (response, status) {
+        }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
     };
@@ -396,8 +392,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         var keyMessage = '';
 
         modalInstance.result.then(function () {
-            periodFactory.updateStatusPeriod(newPeriod)
-            .success(function (response) {
+            periodFactory.updateStatusPeriod(newPeriod).success(function (response) {
                 if (response.IsSuccessful) {
                     keyMessage = action === "activate" ? "ActivationSuccess" : "DeactivationSuccess";
                     notificationFactory.success(keyMessage);
@@ -407,8 +402,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                     period.IsActive = !newPeriod.IsActive;
                     notificationFactory.error(keyMessage);
                 }
-            })
-            .error(function (response, status) {
+            }).error(function (response, status) {
                 if (status === 405) {
                     errorFactory.errorHandle(status);
                 }
@@ -464,8 +458,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         return periodFactory.getPeriodEmployeeSettingById(periodId, departmentId, isLocal, isExcludedEmployee, isGeneratedEPA, isEvaluated, hasMonthlyEPA, epaStatus)
         .success(function (employeeSettings) {
             periodModel.employeeSettings = employeeSettings;
-        })
-        .error(function (response, status) {
+        }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
     };
@@ -478,8 +471,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             else {
                 notificationFactory.error("", response.Message);
             }
-        })
-        .error(function (response, status) {
+        }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
     };
@@ -519,8 +511,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             else {
                 notificationFactory.error("", response.Message);
             }
-        })
-        .error(function (response, status) {
+        }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
     };
@@ -647,8 +638,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         });
 
         modalInstance.result.then(function () {
-            periodFactory.updateIncludeStatusEmployeePeriod(newEmployeeStatus)
-            .success(function (response) {
+            periodFactory.updateIncludeStatusEmployeePeriod(newEmployeeStatus).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("UpdatedSuccessfully");
                 }
@@ -658,8 +648,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                 }
 
                 vm.query(vm.filter);
-            })
-            .error(function (response, status) {
+            }).error(function (response, status) {
                 if (status === 405) {
                     errorFactory.errorHandle(status);
                 }
@@ -726,8 +715,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                 else {
                     notificationFactory.error('', response.Message);
                 }
-            })
-            .error(function (response, status) {
+            }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         })['finally'](function () {
@@ -738,8 +726,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
     periodModel.getProcessSettingByPeriodId = function (periodId) {
         return periodFactory.getProcessSettingByPeriodId(periodId).success(function (processSettings) {
             periodModel.processSettings = processSettings;
-        })
-        .error(function (response, status) {
+        }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
     };
@@ -752,8 +739,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             else {
                 notificationFactory.error("UpdatedUnsuccessfully");
             }
-        })
-        .error(function (response, status) {
+        }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
     };
@@ -761,8 +747,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
     periodModel.checkSelfProcessStarted = function (periodId, employeeIds) {
         return periodFactory.checkSelfProcessStarted(periodId, employeeIds).success(function (hasSelfStarted) {
             periodModel.hasSelfStarted = hasSelfStarted;
-        })
-        .error(function (response, status) {
+        }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
     };
