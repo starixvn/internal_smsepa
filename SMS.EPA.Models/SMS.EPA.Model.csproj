@@ -42,15 +42,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AttendanceSummary\AttendanceDetailModel.cs" />
-    <Compile Include="AttendanceSummary\AttendanceSummaryModel.cs" />
-    <Compile Include="AttendanceSummary\OtherViolationModel.cs" />
-    <Compile Include="AttendanceSummary\ViolationTypeModel.cs" />
-    <Compile Include="AttendanceSummary\ViolationModel.cs">
+    <Compile Include="DisciplineSummary\DisciplineDetailModel.cs" />
+    <Compile Include="DisciplineSummary\DisciplineSummaryModel.cs" />
+    <Compile Include="DisciplineSummary\OtherViolationModel.cs" />
+    <Compile Include="DisciplineSummary\DisciplineTypeModel.cs" />
+    <Compile Include="DisciplineSummary\ViolationModel.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Authentication\LoginModel.cs" />
-    <Compile Include="DisciplineSummary\DisciplineSummaryModel.cs" />
+    <Compile Include="DisciplineSummary\DisciplineSummaryByPeriodModel.cs" />
     <Compile Include="EmployeeEPA\AdjustScoreViewModel.cs" />
     <Compile Include="EmployeeEPA\EmployeeOtherViolationDetailModel.cs" />
     <Compile Include="EmployeeEPA\EPAEmployeeModel.cs" />

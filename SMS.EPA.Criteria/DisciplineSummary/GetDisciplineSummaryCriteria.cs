@@ -3,7 +3,7 @@
     using System;
     using Fanex.Data.Repository;
 
-    public class GetAttendanceSummaryCriteria : CriteriaBase
+    public class GetDisciplineSummaryCriteria : CriteriaBase
     {
         public DateTime StartDate { get; set; }
 
@@ -18,6 +18,8 @@
         public int? EmployeeId { get; set; }
 
         public int? ReasonId { get; set; }
+
+        public bool IsShowAll { get; set; }
 
         [SpParam(Ignored = true)]
         public string EmployeeName { get; set; }

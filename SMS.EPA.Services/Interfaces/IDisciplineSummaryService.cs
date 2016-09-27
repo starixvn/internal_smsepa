@@ -6,11 +6,29 @@
 
     public interface IDisciplineSummaryService
     {
-        IEnumerable<DisciplineSummaryModel> GetDisciplineSummaryByPeriod(GetDisciplineSummaryByPeriodCriteria criteria);
+        IEnumerable<DisciplineSummaryModel> GetDisciplineSummary(GetDisciplineSummaryCriteria criteria);
+
+        IEnumerable<OtherViolationModel> GetOtherViolations(GetOtherViolationsByEmployeeIdCriteria criteria);
+
+        IEnumerable<DisciplineTypeModel> GetDisciplineType(GetDisciplineTypeCriteria criteria);
+
+        IEnumerable<DisciplineDetailModel> GetDisciplineDetail(GetDisciplineDetailCriteria criteria);
+
+        IEnumerable<DisciplineSummaryByPeriodModel> GetDisciplineSummaryByPeriod(GetDisciplineSummaryByPeriodCriteria criteria);
+
+        void ExportDisciplineSummaryReport(
+            GetDisciplineSummaryCriteria criteria,
+            IEnumerable<DisciplineSummaryModel> employeeDisciplines,
+            string templatePath);
+
+        void ExportDisciplineDetailReport(
+            GetDisciplineDetailCriteria criteria,
+            IEnumerable<DisciplineDetailModel> employeeDisciplines,
+            string templatePath);
 
         void ExportDisciplineSummaryByPeriodReport(
             GetDisciplineSummaryByPeriodCriteria criteria,
-            IEnumerable<DisciplineSummaryModel> employeeDisciplines,
+            IEnumerable<DisciplineSummaryByPeriodModel> employeeDisciplines,
             string templatePath);
     }
 }

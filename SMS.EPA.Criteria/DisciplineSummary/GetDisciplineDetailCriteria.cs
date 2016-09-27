@@ -3,7 +3,7 @@
     using System;
     using Fanex.Data.Repository;
 
-    public class GetDetailAttendanceCriteria : CriteriaBase
+    public class GetDisciplineDetailCriteria : CriteriaBase
     {
         public DateTime StartDate { get; set; }
 

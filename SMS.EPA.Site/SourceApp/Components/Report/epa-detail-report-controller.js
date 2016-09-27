@@ -13,13 +13,13 @@
         vm.pageOption = utilitiesFactory.pageOption;
         vm.periods = [];
         vm.scoredBy = [
-            { ColumnId: 7, PhaseId: 2, Name: 'Self' },
-            { ColumnId: 8, PhaseId: 3, Name: 'Evaluator' },
-            { ColumnId: 9, PhaseId: 4, Name: 'Reviewer' },
-            { ColumnId: 10, PhaseId: 5, Name: 'Management' }
+            { ColumnId: 8, PhaseId: 2, Name: 'Self' },
+            { ColumnId: 9, PhaseId: 3, Name: 'Evaluator' },
+            { ColumnId: 10, PhaseId: 4, Name: 'Reviewer' },
+            { ColumnId: 11, PhaseId: 5, Name: 'Management' }
         ];
-        vm.showColumns = [7, 8, 9, 10];
-        vm.showColumnsOriginal = [7, 8, 9, 10];
+        vm.showColumns = [8, 9, 10, 11];
+        vm.showColumnsOriginal = [8, 9, 10, 11];
         vm.treeDepartment = {};
 
         initialize();

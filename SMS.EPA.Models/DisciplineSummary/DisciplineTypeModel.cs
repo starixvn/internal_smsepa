@@ -1,6 +1,6 @@
 ﻿namespace SMS.EPA.Model
 {
-    public class ViolationTypeModel
+    public class DisciplineTypeModel
     {
         public int ViolationId { get; set; }
 

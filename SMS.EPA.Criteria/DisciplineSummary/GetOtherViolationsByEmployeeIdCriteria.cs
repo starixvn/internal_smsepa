@@ -3,7 +3,7 @@
     using System;
     using Fanex.Data.Repository;
 
-    public class GetOtherViolationsOfEmployeeCriteria : CriteriaBase
+    public class GetOtherViolationsByEmployeeIdCriteria : CriteriaBase
     {
         public int EmployeeId { get; set; }
 

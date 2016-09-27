@@ -1,15 +1,15 @@
 ﻿(function (angular) {
     'use strict';
 
-    angular.module('attendanceModule').controller('AttendanceDetailController', attendanceDetailController);
-    attendanceDetailController.$inject = ['$scope', '$routeParams', 'AttendanceModel', 'CommonModel',
+    angular.module('disciplineModule').controller('AttendanceDetailController', attendanceDetailController);
+    attendanceDetailController.$inject = ['$scope', '$routeParams', 'DisciplineSummaryModel', 'CommonModel',
         'utilitiesFactory', 'lockScreenService', 'historyFactory'];
 
-    function attendanceDetailController($scope, $routeParams, AttendanceModel, CommonModel,
+    function attendanceDetailController($scope, $routeParams, DisciplineSummaryModel, CommonModel,
         utilitiesFactory, lockScreenService, historyFactory) {
         var vm = this;
 
-        vm.attendanceDetails = [];
+        vm.employeeDisciplines = [];
         vm.calendar = {
             startDateOpened: false,
             endDateOpened: false
@@ -18,24 +18,24 @@
         vm.filter = {};
         vm.fromSummaryPage = $routeParams.id ? true : false;
         vm.pageSize = 15;
-        vm.violationOptions = [];
+        vm.disciplineTypes = [];
 
         utilitiesFactory.numberEntryList(vm);
         utilitiesFactory.getDateFormat(vm);
         utilitiesFactory.getTimeFormat(vm);
 
-        function getAttendanceDetail(startDate, endDate, employeeId, departmentId, isLocal, reasonId, hasIgnored) {
+        function getDisciplineDetail(startDate, endDate, employeeId, departmentId, isLocal, reasonId, hasIgnored) {
             lockScreenService.start();
 
-            AttendanceModel.getAttendanceDetail(startDate, endDate, employeeId, departmentId, isLocal, reasonId, hasIgnored).then(function () {
-                vm.attendanceDetails = AttendanceModel.attendanceDetails;
-                utilitiesFactory.searchOnPage(vm, vm.attendanceDetails);
+            DisciplineSummaryModel.getDisciplineDetail(startDate, endDate, employeeId, departmentId, isLocal, reasonId, hasIgnored).then(function () {
+                vm.employeeDisciplines = DisciplineSummaryModel.employeeDisciplines;
+                utilitiesFactory.searchOnPage(vm, vm.employeeDisciplines);
                 lockScreenService.stop();
             });
         }
 
         function initFilter() {
-            var dateRangeFilter = AttendanceModel.getRangeDateFilter();
+            var dateRangeFilter = DisciplineSummaryModel.getRangeDateFilter();
 
             vm.filter = {
                 startDate: $routeParams.startDate ? new Date($routeParams.startDate) : dateRangeFilter.startDate,
@@ -65,11 +65,11 @@
                 vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
             });
 
-            AttendanceModel.getViolationType(false, true).then(function () {
-                vm.violationOptions = AttendanceModel.violationTypes;
+            DisciplineSummaryModel.getDisciplineType(false, true).then(function () {
+                vm.disciplineTypes = DisciplineSummaryModel.disciplineTypes;
             });
 
-            getAttendanceDetail(
+            getDisciplineDetail(
                 vm.filter.startDate,
                 vm.filter.endDate,
                 vm.filter.employeeId,
@@ -88,11 +88,11 @@
         vm.exportReport = function (filter) {
             vm.exportCriteria = angular.copy(filter);
             vm.exportCriteria.employeeName = filter.employee ? filter.employee.Name : '';
-            vm.exportCriteria.departmentName = filter.departmentId ? AttendanceModel.getDepartmentName(filter.departmentId, vm.departments) : '';
+            vm.exportCriteria.departmentName = filter.departmentId ? DisciplineSummaryModel.getDepartmentName(filter.departmentId, vm.departments) : '';
             vm.exportCriteria.isLocal = filter.isLocal;
             vm.exportCriteria.startDate = filter.startDate.toDateString();
             vm.exportCriteria.endDate = filter.endDate.toDateString();
-            $scope.$broadcast('exportAttendanceDetailReport');
+            $scope.$broadcast('exportDisciplineDetailReport');
         };
 
         vm.getEmployee = function () {
@@ -114,7 +114,7 @@
                 employeeId = filter.employee.EmployeeId;
             }
 
-            getAttendanceDetail(
+            getDisciplineDetail(
                 vm.filter.startDate,
                 vm.filter.endDate,
                 employeeId,

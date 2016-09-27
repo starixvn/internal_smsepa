@@ -123,17 +123,6 @@ angular.module('dashboardModule', ['ngRoute'])
     { templateUrl: baseUrl + 'SourceApp/Components/Dashboard/Templates/index.html', caseInsensitiveMatch: true });
 }]);
 
-angular.module('attendanceModule', ['ngRoute'])
-.config(['$routeProvider', function ($routeProvider) {
-    var baseUrl = $('base').first().attr('href');
-    $routeProvider.when('/Discipline/Index',
-    { templateUrl: baseUrl + 'SourceApp/Components/AttendanceSummary/Templates/index.html', caseInsensitiveMatch: true });
-    $routeProvider.when('/Discipline/Detail/:id',
-    { templateUrl: baseUrl + 'SourceApp/Components/AttendanceSummary/Templates/detail.html', caseInsensitiveMatch: true });
-    $routeProvider.when('/Discipline/Detail',
-    { templateUrl: baseUrl + 'SourceApp/Components/AttendanceSummary/Templates/detail.html', caseInsensitiveMatch: true });
-}]);
-
 angular.module('reportModule', ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
     var baseUrl = $('base').first().attr('href');
@@ -165,9 +154,15 @@ var monthlyPeriodModule = angular.module('monthlyPeriodModule', ['ngRoute'])
     { templateUrl: baseUrl + 'SourceApp/Components/MonthlyPeriod/Templates/edit.html', caseInsensitiveMatch: true });
 }]);
 
-angular.module('disciplineSummaryModule', ['ngRoute'])
+angular.module('disciplineModule', ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
     var baseUrl = $('base').first().attr('href');
+    $routeProvider.when('/Discipline/Index',
+    { templateUrl: baseUrl + 'SourceApp/Components/DisciplineSummary/Templates/index.html', caseInsensitiveMatch: true });
+    $routeProvider.when('/Discipline/Detail/:id',
+    { templateUrl: baseUrl + 'SourceApp/Components/DisciplineSummary/Templates/detail.html', caseInsensitiveMatch: true });
+    $routeProvider.when('/Discipline/Detail',
+    { templateUrl: baseUrl + 'SourceApp/Components/DisciplineSummary/Templates/detail.html', caseInsensitiveMatch: true });
     $routeProvider.when('/DisciplineSummaryByPeriod/Index',
     { templateUrl: baseUrl + 'SourceApp/Components/DisciplineSummary/Templates/disciplineSummaryByPeriod.html', caseInsensitiveMatch: true });
 }]);

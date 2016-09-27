@@ -65,9 +65,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Implement\DisciplineSummaryRepository.cs" />
-    <Compile Include="Implement\AttendanceSummaryRepository.cs">
-      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
-    </Compile>
     <Compile Include="Implement\DepartmentRepository.cs" />
     <Compile Include="Implement\EmployeeRepository.cs" />
     <Compile Include="Implement\EPAHistoryRepository.cs" />
@@ -79,7 +76,6 @@
     <Compile Include="Implement\TargetEmployeeSettingRepository.cs" />
     <Compile Include="Implement\TargetTemplateRepository.cs" />
     <Compile Include="Interfaces\IDisciplineSummaryRepository.cs" />
-    <Compile Include="Interfaces\IAttendanceSummaryRepository.cs" />
     <Compile Include="Interfaces\IDepartmentRepository.cs" />
     <Compile Include="Interfaces\IEmployeeRepository.cs" />
     <Compile Include="Implement\KPIRepository.cs" />

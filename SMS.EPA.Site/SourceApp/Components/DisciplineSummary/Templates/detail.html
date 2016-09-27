@@ -40,7 +40,7 @@
             <label class="col-sm-1 control-label" data-translate="Reason"></label>
             <div class="col-sm-2 field">
                 <select class="form-control" ng-model="detailAttendanceCtrl.filter.reasonId"
-                        ng-options="opt.ViolationId as opt.Name for opt in detailAttendanceCtrl.violationOptions">
+                        ng-options="opt.ViolationId as opt.Name for opt in detailAttendanceCtrl.disciplineTypes">
                     <option value="">-- Select a Reason --</option>
                 </select>
             </div>
@@ -74,7 +74,7 @@
                         <span class="icon back"></span>
                         <span class="button-back-text" data-translate="BackToList"></span>
                     </a>
-                    <input class="btnExcel pull-right" export-attendance-detail-report
+                    <input class="btnExcel pull-right" export-discipline-detail-report
                            ng-click="detailAttendanceCtrl.exportReport(detailAttendanceCtrl.filter)"
                            type="button" title="Export to Excel">
                     <input type="text" ng-model="detailAttendanceCtrl.searchKey" ng-change="detailAttendanceCtrl.search()" class="search-inline-textbox search pull-right">

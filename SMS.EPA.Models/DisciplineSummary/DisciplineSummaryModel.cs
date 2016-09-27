@@ -1,41 +1,37 @@
 ﻿namespace SMS.EPA.Model
 {
+    using System;
     using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Model.Period;
 
+    [Serializable]
     public class DisciplineSummaryModel
     {
         public Employee Employee { get; set; }
 
-        public PeriodModel Period { get; set; }
+        public int MissingCheckInOut { get; set; }
 
-        public decimal ChangeShift { get; set; }
+        public int WorkingUnderTime { get; set; }
 
-        public decimal MissingCheckInOut { get; set; }
+        public int LateIn { get; set; }
 
-        public decimal LateIn { get; set; }
+        public int EarlyOut { get; set; }
 
-        public decimal EarlyOut { get; set; }
+        public int Absent { get; set; }
 
-        public decimal Absent { get; set; }
+        public int UnpaidLeave { get; set; }
 
-        public decimal UnpaidLeave { get; set; }
+        public int UnpaidLeaveAbsent { get; set; }
 
-        public decimal WorkingUndertime { get; set; }
+        public int ChangeShift { get; set; }
 
-        public decimal UnpaidLeaveAbsent { get; set; }
+        public float OtherViolationsScore { get; set; }
 
-        public decimal OtherDisciplines { get; set; }
+        public float SystemSubtractScore { get; set; }
 
-        public decimal SystemSubtractScore { get; set; }
+        public float ApproverIgnoredScore { get; set; }
 
-        public decimal ApproverSubtractScore
-        {
-            get
-            {
-                decimal total = ChangeShift + MissingCheckInOut + LateIn + EarlyOut + Absent + UnpaidLeave + WorkingUndertime + UnpaidLeaveAbsent + OtherDisciplines;
-                return total;
-            }
-        }
+        public float ApproverSubtractScore { get; set; }
+
+        public int Permission { get; set; }
     }
 }

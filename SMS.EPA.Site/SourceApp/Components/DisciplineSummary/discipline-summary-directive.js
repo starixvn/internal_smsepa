@@ -1,15 +1,15 @@
 ﻿(function (angular) {
     'use strict';
 
-    angular.module('attendanceModule').directive('exportAttendanceDetailReport', exportAttendanceDetailReport);
-    exportAttendanceDetailReport.$inject = ['baseUrl'];
+    angular.module('disciplineModule').directive('exportDisciplineSummaryReport', exportDisciplineSummaryReport);
+    exportDisciplineSummaryReport.$inject = ['baseUrl'];
 
-    function exportAttendanceDetailReport(baseUrl) {
+    function exportDisciplineSummaryReport(baseUrl) {
         return {
             link: function (scope) {
-                scope.$on('exportAttendanceDetailReport', function () {
-                    var data = $.param(scope.detailAttendanceCtrl.exportCriteria),
-                        url = baseUrl + 'ExportReport/ExportAttendanceDetailReport',
+                scope.$on('exportDisciplineSummaryReport', function () {
+                    var data = $.param(scope.attendanceCtrl.exportCriteria),
+                        url = baseUrl + 'ExportReport/ExportDisciplineSummaryReport',
                         downloadUrl = url + "?" + data,
                         iframe = $('body iframe');
 

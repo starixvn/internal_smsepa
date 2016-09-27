@@ -65,10 +65,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AttendanceSummary\GetAttendanceSummaryCriteria.cs" />
-    <Compile Include="AttendanceSummary\GetDetailAttendanceCriteria.cs" />
-    <Compile Include="AttendanceSummary\GetOtherViolationsOfEmployeeCriteria.cs" />
-    <Compile Include="AttendanceSummary\GetViolationTypeCriteria.cs" />
+    <Compile Include="DisciplineSummary\GetDisciplineSummaryCriteria.cs" />
+    <Compile Include="DisciplineSummary\GetDisciplineDetailCriteria.cs" />
+    <Compile Include="DisciplineSummary\GetOtherViolationsByEmployeeIdCriteria.cs" />
+    <Compile Include="DisciplineSummary\GetDisciplineTypeCriteria.cs" />
     <Compile Include="Authentication\GetEmployeeLoginCriteria.cs" />
     <Compile Include="Authentication\InsertEmployeeIPAddressCriteria.cs" />
     <Compile Include="DisciplineSummary\GetDisciplineSummaryByPeriodCriteria.cs" />

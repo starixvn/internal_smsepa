@@ -63,7 +63,7 @@
                             "~/SourceApp/Components/Period/period.less",
                             "~/SourceApp/Components/EPA/epa.less",
                             "~/SourceApp/Components/Dashboard/dashboard.less",
-                            "~/SourceApp/Components/AttendanceSummary/attendanceSummary.less",
+                            "~/SourceApp/Components/DisciplineSummary/disciplineSummary.less",
                             "~/SourceApp/Components/Report/report.less");
 
             bundles.Add(new ScriptBundle("~/bundles/app").Include(
@@ -145,13 +145,6 @@
                             "~/SourceApp/Components/Dashboard/dashboard-factory.js",
                             "~/SourceApp/Components/Dashboard/dashboard-model.js",
                             "~/SourceApp/Components/Dashboard/dashboard-controller.js",
-                            "~/SourceApp/Components/AttendanceSummary/attendance-summary-factory.js",
-                            "~/SourceApp/Components/AttendanceSummary/attendance-summary-model.js",
-                             "~/SourceApp/Components/AttendanceSummary/export-attendance-summary-directive.js",
-                             "~/SourceApp/Components/AttendanceSummary/export-attendance-detail-directive.js",
-                            "~/SourceApp/Components/AttendanceSummary/attendance-summary-controller.js",
-                            "~/SourceApp/Components/AttendanceSummary/attendance-detail-controller.js",
-                            "~/SourceApp/Components/AttendanceSummary/other-violations-controller.js",
                             "~/SourceApp/Components/EPA/RatingByKPI/ratingByKPI-factory.js",
                             "~/SourceApp/Components/EPA/RatingByKPI/ratingByKPI-model.js",
                             "~/SourceApp/Components/EPA/RatingByKPI/ratingByKPI-controller.js",
@@ -183,10 +176,15 @@
                             "~/SourceApp/Components/Report/monthlyEPASummaryReport-controller.js",
                             "~/SourceApp/Components/EPA/UpdateFinalScore/export-excel-directive.js",
                             "~/SourceApp/Components/EPA/UpdateFinalScore/updateFinalScore-controller.js",
-                            "~/SourceApp/Components/DisciplineSummary/disciplineSummary-factory.js",
-                            "~/SourceApp/Components/DisciplineSummary/disciplineSummary-model.js",
-                            "~/SourceApp/Components/DisciplineSummary/disciplineSummaryByPeriod-directive.js",
-                            "~/SourceApp/Components/DisciplineSummary/disciplineSummaryByPeriod-controller.js"));
+                            "~/SourceApp/Components/DisciplineSummary/discipline-summary-factory.js",
+                            "~/SourceApp/Components/DisciplineSummary/discipline-summary-model.js",
+                             "~/SourceApp/Components/DisciplineSummary/discipline-summary-directive.js",
+                             "~/SourceApp/Components/DisciplineSummary/discipline-detail-directive.js",
+                            "~/SourceApp/Components/DisciplineSummary/discipline-summary-by-period-directive.js",
+                            "~/SourceApp/Components/DisciplineSummary/discipline-summary-controller.js",
+                            "~/SourceApp/Components/DisciplineSummary/discipline-detail-controller.js",
+                            "~/SourceApp/Components/DisciplineSummary/other-violations-controller.js",
+                            "~/SourceApp/Components/DisciplineSummary/discipline-summary-by-period-controller.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/Directives/epa-addClassToRoleFilter-directive.js",

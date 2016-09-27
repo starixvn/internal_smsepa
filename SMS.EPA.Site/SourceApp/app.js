@@ -3,7 +3,7 @@
 
 var appModule = angular.module("appModule", ['employeeModule', 'commonModule', 'kpiModule', 'kpiGroupModule', 'roleModule',
 'targetTemplateModule', 'flowMngModule', 'targetEmployeeSettingModule', 'departmentModule', 'epaModule', 'periodModule',
-'dashboardModule', 'attendanceModule', 'reportModule', 'epaHistoryModule', 'monthlyPeriodModule', 'disciplineSummaryModule',
+'dashboardModule', 'reportModule', 'epaHistoryModule', 'monthlyPeriodModule', 'disciplineModule',
 'ui.bootstrap.contextMenu', 'ui.bootstrap', 'angular.chosen', 'pascalprecht.translate', 'angularUtils.directives.dirPagination',
 'ngRoute', 'multi-select', 'purplefox.numeric', 'angular.filter'])
 .config(['$translateProvider', '$locationProvider', 'paginationTemplateProvider', '$routeProvider',

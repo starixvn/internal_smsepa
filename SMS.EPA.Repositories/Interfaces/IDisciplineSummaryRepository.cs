@@ -6,6 +6,10 @@
 
     public interface IDisciplineSummaryRepository
     {
-        IEnumerable<DisciplineSummaryModel> GetDisciplineSummaryByPeriod(ICriteria criteria);
+        IEnumerable<DisciplineSummaryModel> GetDisciplineSummary(ICriteria criteria);
+
+        IEnumerable<DisciplineDetailModel> GetDisciplineDetail(ICriteria criteria);
+
+        IEnumerable<DisciplineSummaryByPeriodModel> GetDisciplineSummaryByPeriod(ICriteria criteria);
     }
 }

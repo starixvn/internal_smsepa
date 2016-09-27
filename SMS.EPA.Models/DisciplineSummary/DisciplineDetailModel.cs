@@ -4,7 +4,7 @@
     using SMS.EPA.Model.Enitites;
 
     [Serializable]
-    public class AttendanceDetailModel
+    public class DisciplineDetailModel
     {
         public int EmployeeId { get; set; }
 

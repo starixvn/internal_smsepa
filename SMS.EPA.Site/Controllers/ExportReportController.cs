@@ -26,7 +26,6 @@
 
         private readonly IPeriodService periodService;
         private readonly IReportService reportService;
-        private readonly IAttendanceSummaryService attendanceService;
         private readonly IEPADetailReportService epaDetailReportService;
         private readonly IMonthlyEPADetailReportService monthlyEPADetailReportService;
         private readonly IDisciplineSummaryService disciplineSummaryService;
@@ -34,14 +33,13 @@
         private ISessionService sessionService;
 
         public ExportReportController()
-            : this(null, null, null, null, null, null, null, null)
+            : this(null, null, null, null, null, null, null)
         {
         }
 
         public ExportReportController(
             IPeriodService periodService,
             IReportService reportService,
-            IAttendanceSummaryService attendanceService,
             IEPADetailReportService epaDetailReportService,
             IMonthlyEPADetailReportService monthlyEPADetailReportService,
             IDisciplineSummaryService disciplineSummaryService,
@@ -50,7 +48,6 @@
         {
             this.periodService = periodService ?? new PeriodService();
             this.reportService = reportService ?? new ReportService();
-            this.attendanceService = attendanceService ?? new AttendanceSummaryService();
             this.epaDetailReportService = epaDetailReportService ?? new EPADetailReportService();
             this.monthlyEPADetailReportService = monthlyEPADetailReportService ?? new MonthlyEPADetailReportService();
             this.disciplineSummaryService = disciplineSummaryService ?? new DisciplineSummaryService();
@@ -123,38 +120,34 @@
             return new EmptyResult();
         }
 
-        public ActionResult ExportAttendanceSummaryReport(GetAttendanceSummaryCriteria criteria)
+        public ActionResult ExportDisciplineSummaryReport(GetDisciplineSummaryCriteria criteria)
         {
-            IEnumerable<AttendanceSummaryModel> attendanceEmployees = null;
-
             if (criteria != null)
             {
                 criteria.ApproverId = sessionService.CurrentUser.EmployeeId;
-                attendanceEmployees = attendanceService.GetAttendanceSummary(criteria);
+                IEnumerable<DisciplineSummaryModel> employeeDisciplines = disciplineSummaryService.GetDisciplineSummary(criteria);
 
-                if (attendanceEmployees != null && attendanceEmployees.Any())
+                if (employeeDisciplines != null && employeeDisciplines.Any())
                 {
                     string templatePath = Server.MapPath(DisciplineSummaryTemplatePath);
-                    attendanceService.ExportAttendanceSummaryReport(criteria, attendanceEmployees, templatePath);
+                    disciplineSummaryService.ExportDisciplineSummaryReport(criteria, employeeDisciplines, templatePath);
                 }
             }
 
             return new EmptyResult();
         }
 
-        public ActionResult ExportAttendanceDetailReport(GetDetailAttendanceCriteria criteria)
+        public ActionResult ExportDisciplineDetailReport(GetDisciplineDetailCriteria criteria)
         {
-            IEnumerable<AttendanceDetailModel> attendanceViolations = null;
-
             if (criteria != null)
             {
                 criteria.ApproverId = sessionService.CurrentUser.EmployeeId;
-                attendanceViolations = attendanceService.GetAttendanceDetail(criteria);
+                IEnumerable<DisciplineDetailModel> employeeDisciplines = disciplineSummaryService.GetDisciplineDetail(criteria);
 
-                if (attendanceViolations != null && attendanceViolations.Any())
+                if (employeeDisciplines != null && employeeDisciplines.Any())
                 {
                     string templatePath = Server.MapPath(DisciplineDetailTemplatePath);
-                    attendanceService.ExportAttendanceDetailReport(criteria, attendanceViolations, templatePath);
+                    disciplineSummaryService.ExportDisciplineDetailReport(criteria, employeeDisciplines, templatePath);
                 }
             }
 
@@ -165,7 +158,7 @@
         {
             if (criteria != null)
             {
-                IEnumerable<DisciplineSummaryModel> employeeDisciplines = disciplineSummaryService.GetDisciplineSummaryByPeriod(criteria);
+                IEnumerable<DisciplineSummaryByPeriodModel> employeeDisciplines = disciplineSummaryService.GetDisciplineSummaryByPeriod(criteria);
 
                 if (employeeDisciplines != null && employeeDisciplines.Any())
                 {

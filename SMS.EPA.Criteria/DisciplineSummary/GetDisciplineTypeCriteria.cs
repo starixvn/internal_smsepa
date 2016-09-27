@@ -2,7 +2,7 @@
 {
     using Fanex.Data.Repository;
 
-    public class GetViolationTypeCriteria : CriteriaBase
+    public class GetDisciplineTypeCriteria : CriteriaBase
     {
         public bool IncludeOtherViolate { get; set; }
 

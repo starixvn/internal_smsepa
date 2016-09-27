@@ -185,7 +185,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\API\DisciplineSummaryController.cs" />
-    <Compile Include="Controllers\API\AttendanceSummaryController.cs" />
     <Compile Include="Controllers\API\BaseController.cs" />
     <Compile Include="Controllers\API\CommonController.cs" />
     <Compile Include="Controllers\API\DashboardController.cs" />
@@ -385,16 +384,14 @@
     <Content Include="Libs\ui-bootstrap-tpls-0.13.0.min.js" />
     <Content Include="Libs\_references.js" />
     <Content Include="SourceApp\app.js" />
-    <Content Include="SourceApp\Components\AttendanceSummary\attendance-detail-controller.js" />
-    <Content Include="SourceApp\Components\AttendanceSummary\other-violations-controller.js" />
-    <Content Include="SourceApp\Components\AttendanceSummary\attendance-summary-controller.js" />
-    <Content Include="SourceApp\Components\AttendanceSummary\export-attendance-detail-directive.js" />
-    <Content Include="SourceApp\Components\AttendanceSummary\export-attendance-summary-directive.js" />
-    <Content Include="SourceApp\Components\AttendanceSummary\attendance-summary-factory.js" />
-    <Content Include="SourceApp\Components\AttendanceSummary\attendance-summary-model.js" />
-    <Content Include="SourceApp\Components\AttendanceSummary\Templates\detail.html" />
-    <Content Include="SourceApp\Components\AttendanceSummary\Templates\index.html" />
-    <Content Include="SourceApp\Components\AttendanceSummary\Templates\otherViolation.html" />
+    <Content Include="SourceApp\Components\DisciplineSummary\discipline-detail-controller.js" />
+    <Content Include="SourceApp\Components\DisciplineSummary\other-violations-controller.js" />
+    <Content Include="SourceApp\Components\DisciplineSummary\discipline-summary-controller.js" />
+    <Content Include="SourceApp\Components\DisciplineSummary\discipline-detail-directive.js" />
+    <Content Include="SourceApp\Components\DisciplineSummary\discipline-summary-directive.js" />
+    <Content Include="SourceApp\Components\DisciplineSummary\Templates\detail.html" />
+    <Content Include="SourceApp\Components\DisciplineSummary\Templates\index.html" />
+    <Content Include="SourceApp\Components\DisciplineSummary\Templates\otherViolation.html" />
     <Content Include="SourceApp\Components\Common\common-controller.js" />
     <Content Include="SourceApp\Components\Common\Templates\modalViewOtherViolationDetail.html" />
     <Content Include="SourceApp\Components\Common\Templates\topMenu.html" />
@@ -413,10 +410,10 @@
     <Content Include="SourceApp\Components\Department\Templates\view.html" />
     <Content Include="SourceApp\Components\Department\Templates\index.html" />
     <Content Include="SourceApp\Components\Department\Templates\tree.html" />
-    <Content Include="SourceApp\Components\DisciplineSummary\disciplineSummaryByPeriod-directive.js" />
-    <Content Include="SourceApp\Components\DisciplineSummary\disciplineSummary-factory.js" />
-    <Content Include="SourceApp\Components\DisciplineSummary\disciplineSummary-model.js" />
-    <Content Include="SourceApp\Components\DisciplineSummary\disciplineSummaryByPeriod-controller.js" />
+    <Content Include="SourceApp\Components\DisciplineSummary\discipline-summary-by-period-directive.js" />
+    <Content Include="SourceApp\Components\DisciplineSummary\discipline-summary-factory.js" />
+    <Content Include="SourceApp\Components\DisciplineSummary\discipline-summary-model.js" />
+    <Content Include="SourceApp\Components\DisciplineSummary\discipline-summary-by-period-controller.js" />
     <Content Include="SourceApp\Components\DisciplineSummary\Templates\disciplineSummaryByPeriod.html" />
     <Content Include="SourceApp\Components\Employee\employee-directive.js" />
     <Content Include="SourceApp\Components\Employee\Templates\assignRole.html" />
@@ -647,7 +644,9 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="SourceApp\Components\AttendanceSummary\Templates\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
       <SubType>Designer</SubType>
@@ -752,7 +751,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="SourceApp\Components\Dashboard\dashboard.less" />
-    <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary.less" />
+    <Content Include="SourceApp\Components\DisciplineSummary\disciplineSummary.less" />
     <Content Include="SourceApp\Components\Report\report.less" />
     <Content Include="Views\Emails\EmailNotifyChangeSetting.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

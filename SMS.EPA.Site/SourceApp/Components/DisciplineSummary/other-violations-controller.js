@@ -1,10 +1,10 @@
 ﻿(function (angular) {
     'use strict';
 
-    angular.module('attendanceModule').controller('OtherViolationsController', otherViolationsController);
-    otherViolationsController.$inject = ['$modalInstance', 'AttendanceModel', 'utilitiesFactory', 'employee', 'startDate', 'endDate'];
+    angular.module('disciplineModule').controller('OtherViolationsController', otherViolationsController);
+    otherViolationsController.$inject = ['$modalInstance', 'DisciplineSummaryModel', 'utilitiesFactory', 'employee', 'startDate', 'endDate'];
 
-    function otherViolationsController($modalInstance, AttendanceModel, utilitiesFactory, employee, startDate, endDate) {
+    function otherViolationsController($modalInstance, DisciplineSummaryModel, utilitiesFactory, employee, startDate, endDate) {
         var vm = this;
 
         vm.employee = employee;
@@ -22,8 +22,8 @@
         };
 
         function getOtherViolations(employeeId, startDate, endDate) {
-            AttendanceModel.getOtherViolations(employeeId, startDate, endDate).then(function () {
-                vm.otherViolations = AttendanceModel.otherViolations;
+            DisciplineSummaryModel.getOtherViolations(employeeId, startDate, endDate).then(function () {
+                vm.otherViolations = DisciplineSummaryModel.otherViolations;
             });
         }
 

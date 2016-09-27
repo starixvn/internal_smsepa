@@ -1,7 +1,7 @@
 ﻿(function (angular) {
     'use strict';
 
-    angular.module('disciplineSummaryModule').controller('DisciplineSummaryByPeriodController', disciplineSummaryByPeriodController);
+    angular.module('disciplineModule').controller('DisciplineSummaryByPeriodController', disciplineSummaryByPeriodController);
     disciplineSummaryByPeriodController.$inject = ['$scope', 'DisciplineSummaryModel', 'CommonModel', 'lockScreenService',
         'utilitiesFactory', 'historyFactory', 'baseUrl'];
 

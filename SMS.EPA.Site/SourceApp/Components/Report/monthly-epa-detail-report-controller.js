@@ -14,12 +14,12 @@
         vm.pageOption = utilitiesFactory.pageOption;
         vm.periods = [];
         vm.scoredBy = [
-            { ColumnId: 6, PhaseId: 2, Name: 'Self' },
-            { ColumnId: 7, PhaseId: 3, Name: 'Evaluator' },
-            { ColumnId: 8, PhaseId: 4, Name: 'Reviewer' },
+            { ColumnId: 7, PhaseId: 2, Name: 'Self' },
+            { ColumnId: 8, PhaseId: 3, Name: 'Evaluator' },
+            { ColumnId: 9, PhaseId: 4, Name: 'Reviewer' },
         ];
-        vm.showColumns = [6, 7, 8];
-        vm.showColumnsOriginal = [6, 7, 8];
+        vm.showColumns = [7, 8, 9];
+        vm.showColumnsOriginal = [7, 8, 9];
         vm.treeDepartment = {};
 
         initialize();

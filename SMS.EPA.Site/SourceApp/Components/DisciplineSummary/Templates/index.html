@@ -32,7 +32,7 @@
             <label class="col-sm-1 control-label" data-translate="Reason"></label>
             <div class="col-sm-2 field">
                 <select class="form-control" ng-model="attendanceCtrl.filter.reasonId"
-                        ng-options="opt.ViolationId as opt.Name for opt in attendanceCtrl.violationOptions">
+                        ng-options="opt.ViolationId as opt.Name for opt in attendanceCtrl.disciplineTypes">
                     <option value="">-- Select a Reason --</option>
                 </select>
             </div>
@@ -52,6 +52,11 @@
                        is-open="attendanceCtrl.calendar.endDateOpened" />
                 <epa-calendar-image class="calendar-image" ng-click="attendanceCtrl.openPopupEndDate($event)"></epa-calendar-image>
             </div>
+            <div class="checkbox col-sm-1">
+                <label>
+                    <input type="checkbox" ng-model="attendanceCtrl.filter.isShowAll"> Show all
+                </label>
+            </div>
             <div class="col-sm-1">
                 <input type="button" value="Search" class="btn btn-primary" ng-click="attendanceCtrl.query(attendanceCtrl.filter)" />
             </div>
@@ -61,7 +66,7 @@
         <thead>
             <tr class="header-table">
                 <th colspan="17">
-                    <input class="btnExcel pull-right" export-attendance-summary-report
+                    <input class="btnExcel pull-right" export-discipline-summary-report
                            ng-click="attendanceCtrl.exportReport(attendanceCtrl.filter)" type="button" title="Export to Excel">
                     <input type="text" ng-model="attendanceCtrl.searchKey" ng-change="attendanceCtrl.search()" class="search-inline-textbox search pull-right">
                 </th>

@@ -1,7 +1,7 @@
 ﻿(function (angular) {
     'use strict';
 
-    angular.module('disciplineSummaryModule').directive('exportDisciplineSummaryByPeriodReport', exportDisciplineSummaryByPeriodReport);
+    angular.module('disciplineModule').directive('exportDisciplineSummaryByPeriodReport', exportDisciplineSummaryByPeriodReport);
     exportDisciplineSummaryByPeriodReport.$inject = ['baseUrl'];
 
     function exportDisciplineSummaryByPeriodReport(baseUrl) {
