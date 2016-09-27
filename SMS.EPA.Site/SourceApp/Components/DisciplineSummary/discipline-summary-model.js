@@ -28,7 +28,6 @@
         var model = {
             disciplineTypes: [],
             employeeDisciplines: [],
-            getDepartmentName: getDepartmentName,
             getDisciplineDetail: getDisciplineDetail,
             getDisciplineSummary: getDisciplineSummary,
             getDisciplineSummaryByPeriod: getDisciplineSummaryByPeriod,
@@ -46,18 +45,6 @@
         };
 
         return model;
-
-        function getDepartmentName(departmentId, departments) {
-            var departmentName = '';
-
-            angular.forEach(departments, function (department) {
-                if (department.DepartmentId === departmentId) {
-                    departmentName = department.Name;
-                }
-            });
-
-            return departmentName;
-        }
 
         function getDisciplineDetail(startDate, endDate, employeeId, departmentId, isLocal, reasonId, hasIgnored) {
             return disciplineSummaryFactory.getDisciplineDetail(startDate, endDate, employeeId, departmentId, isLocal, reasonId, hasIgnored)

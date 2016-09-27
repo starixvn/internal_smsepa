@@ -86,9 +86,11 @@
         };
 
         vm.exportReport = function (filter) {
+            var index = vm.departments.map(function (e) { return e.DepartmentId; }).indexOf(filter.departmentId);
+
             vm.exportCriteria = angular.copy(filter);
             vm.exportCriteria.employeeName = filter.employee ? filter.employee.Name : '';
-            vm.exportCriteria.departmentName = filter.departmentId ? DisciplineSummaryModel.getDepartmentName(filter.departmentId, vm.departments) : '';
+            vm.exportCriteria.departmentName = index !== -1 ? vm.departments[index].Name : '';
             vm.exportCriteria.isLocal = filter.isLocal;
             vm.exportCriteria.startDate = filter.startDate.toDateString();
             vm.exportCriteria.endDate = filter.endDate.toDateString();

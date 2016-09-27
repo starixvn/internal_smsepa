@@ -29,22 +29,12 @@
         initialize();
 
         function exportReport(filter) {
+            var index = vm.departments.map(function (e) { return e.DepartmentId; }).indexOf(filter.departmentId);
+
             vm.exportCriteria = angular.copy(filter);
             vm.exportCriteria.employeeName = filter.employee ? filter.employee.Name : '';
-            vm.exportCriteria.departmentName = filter.departmentId ? getDepartmentName(filter.departmentId, vm.departments) : '';
+            vm.exportCriteria.departmentName = index !== -1 ? vm.departments[index].Name : '';
             $scope.$broadcast('exportDisciplineSummaryByPeriodReport');
-        }
-
-        function getDepartmentName(departmentId, departments) {
-            var departmentName = '';
-
-            angular.forEach(departments, function (department) {
-                if (department.DepartmentId === departmentId) {
-                    departmentName = department.Name;
-                }
-            });
-
-            return departmentName;
         }
 
         function getDisciplineSummaryByPeriod(periodId, disciplineTypeId, departmentId, isLocal, employeeId) {
