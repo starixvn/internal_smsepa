@@ -1,7 +1,6 @@
-﻿namespace SMS.EPA.Model.Report.EPADetail
+﻿namespace SMS.EPA.Model
 {
     using System.Collections.Generic;
-    using SMS.EPA.Model;
 
     public class EPADetailModel
     {

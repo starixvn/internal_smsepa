@@ -1,5 +1,6 @@
 ﻿(function (angular) {
     'use strict';
+    /* jshint latedef:nofunc */
 
     angular.module('epaModule').directive('exportEpaAfterUpdateFinalScore', exportEpaAfterUpdateFinalScore);
     exportEpaAfterUpdateFinalScore.$inject = ['baseUrl'];

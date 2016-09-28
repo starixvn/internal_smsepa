@@ -65,6 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dashboard\GetToDoListCriteria.cs" />
     <Compile Include="DisciplineSummary\GetDisciplineSummaryCriteria.cs" />
     <Compile Include="DisciplineSummary\GetDisciplineDetailCriteria.cs" />
     <Compile Include="DisciplineSummary\GetOtherViolationsByEmployeeIdCriteria.cs" />
@@ -115,7 +116,7 @@
     <Compile Include="Period\CheckSelfProcessStartedCriteria.cs" />
     <Compile Include="Period\GetProcessSettingPeriodCriteria.cs" />
     <Compile Include="Period\UpdateProcessSettingPeriodCriteria.cs" />
-    <Compile Include="Report\GetDashboardCriteria.cs" />
+    <Compile Include="Dashboard\GetDashboardCriteria.cs" />
     <Compile Include="Department\GetDepartmentCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEPAByManagementCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEPAByReviewerCriteria.cs" />

@@ -1,5 +1,6 @@
 ﻿(function (angular) {
     'use strict';
+    /* jshint latedef:nofunc */
 
     angular.module('appModule').directive('epaAddClassToRoleFilter', addClassToRoleFilter);
     addClassToRoleFilter.$inject = ['$compile'];

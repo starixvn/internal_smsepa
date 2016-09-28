@@ -384,6 +384,11 @@
     <Content Include="Libs\ui-bootstrap-tpls-0.13.0.min.js" />
     <Content Include="Libs\_references.js" />
     <Content Include="SourceApp\app.js" />
+    <Content Include="SourceApp\Components\Dashboard\Templates\monthlies.html" />
+    <Content Include="SourceApp\Components\Dashboard\Templates\probations.html" />
+    <Content Include="SourceApp\Components\Dashboard\Templates\promotions.html" />
+    <Content Include="SourceApp\Components\Dashboard\Templates\semiAnnuals.html" />
+    <Content Include="SourceApp\Components\Dashboard\Templates\todoList.html" />
     <Content Include="SourceApp\Components\DisciplineSummary\discipline-detail-controller.js" />
     <Content Include="SourceApp\Components\DisciplineSummary\other-violations-controller.js" />
     <Content Include="SourceApp\Components\DisciplineSummary\discipline-summary-controller.js" />

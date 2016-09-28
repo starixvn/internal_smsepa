@@ -9,8 +9,6 @@
     using SMS.EPA.Model;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.Period;
-    using SMS.EPA.Model.Report.EPADetail;
-    using SMS.EPA.Model.Report.EPASummary;
     using SMS.EPA.Model.ScoreRatingType;
     using SMS.EPA.Repositories.Interfaces;
 

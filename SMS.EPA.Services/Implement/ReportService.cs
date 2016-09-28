@@ -12,12 +12,10 @@
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Utilities;
+    using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.Report;
     using SMS.EPA.Model;
     using SMS.EPA.Model.Period;
-    using SMS.EPA.Model.Report.Dashboard;
-    using SMS.EPA.Model.Report.EPADetail;
-    using SMS.EPA.Model.Report.EPASummary;
     using SMS.EPA.Repositories.Implement;
     using SMS.EPA.Repositories.Interfaces;
     using SMS.EPA.Resources;
@@ -45,13 +43,19 @@
             this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
         }
 
-        public DashboardModel GetDashboard(GetDashboardCriteria criteria)
+        public DashboardModel GetDashboard(int employeeId)
         {
-            DashboardModel result = new DashboardModel();
+            var criteria = new GetDashboardCriteria
+            {
+                EmployeeId = employeeId
+            };
+            var result = new DashboardModel();
 
-            if (criteria != null && criteria.IsValid())
+            if (criteria.IsValid())
             {
                 result = employeeEPARepository.GetDashboard(criteria);
+                result.MonthlyEPAs = result.MyEPAs.Where(x => x.Period.TargetTypeId == (int)TargetTypes.Monthly);
+                result.MyEPAs = result.MyEPAs.Where(x => x.Period.TargetTypeId != (int)TargetTypes.Monthly);
             }
 
             return result;

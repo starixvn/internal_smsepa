@@ -13,7 +13,6 @@
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Model;
-    using SMS.EPA.Model.Report.EPADetail;
     using SMS.EPA.Resources;
     using SMS.EPA.Services.Interfaces;
 

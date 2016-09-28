@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using Fanex.Data.Repository;
     using SMS.EPA.Model;
-    using SMS.EPA.Model.Report.Dashboard;
 
     public interface IEmployeeEPARepository
     {

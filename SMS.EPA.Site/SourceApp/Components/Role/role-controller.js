@@ -1,5 +1,6 @@
 ﻿(function (angular) {
     'use strict';
+    /* jshint latedef:nofunc */
 
     angular.module('roleModule').controller('RoleController', roleController);
     roleController.$inject = ['RoleModel', 'CommonModel'];

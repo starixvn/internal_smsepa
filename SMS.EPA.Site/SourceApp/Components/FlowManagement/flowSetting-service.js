@@ -1,5 +1,6 @@
 ﻿(function (angular) {
     'use strict';
+    /* jshint latedef:nofunc */
 
     angular.module('flowMngModule').service('cacheService', cacheService);
     cacheService.$inject = [];

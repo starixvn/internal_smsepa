@@ -1,5 +1,6 @@
 ﻿(function (angular) {
     'use strict';
+    /* jshint latedef:nofunc */
 
     angular.module('disciplineModule').directive('exportDisciplineSummaryByPeriodReport', exportDisciplineSummaryByPeriodReport);
     exportDisciplineSummaryByPeriodReport.$inject = ['baseUrl'];

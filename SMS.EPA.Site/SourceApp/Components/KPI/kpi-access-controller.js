@@ -1,5 +1,6 @@
 ﻿(function (angular) {
     'use strict';
+    /* jshint latedef:nofunc */
 
     angular.module('kpiModule').controller('KPIController', kpiController);
     kpiController.$inject = ['$routeParams', 'KPIModel', 'KPIGroupModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'lockScreenService'];

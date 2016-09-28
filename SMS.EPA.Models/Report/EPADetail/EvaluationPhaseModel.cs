@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Model.Report.EPADetail
+﻿namespace SMS.EPA.Model
 {
     public class EvaluationPhaseModel
     {

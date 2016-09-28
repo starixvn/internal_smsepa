@@ -1,5 +1,6 @@
 ﻿(function (angular) {
     'use strict';
+    /* jshint latedef:nofunc */
 
     angular.module('roleModule').factory('RoleModel', roleModel);
     roleModel.$inject = ['roleFactory', 'errorFactory', 'notificationFactory'];

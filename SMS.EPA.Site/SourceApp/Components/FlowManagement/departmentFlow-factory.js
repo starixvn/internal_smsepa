@@ -1,5 +1,6 @@
 ﻿(function (angular) {
     'use strict';
+    /* jshint latedef:nofunc */
 
     angular.module('flowMngModule').factory('deptFlowFactory', deptFlowFactory);
     deptFlowFactory.$inject = ['$http', 'baseUrl'];

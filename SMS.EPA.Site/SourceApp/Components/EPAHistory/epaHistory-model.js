@@ -1,5 +1,6 @@
 ﻿(function (angular) {
     'use strict';
+    /* jshint latedef:nofunc */
 
     angular.module('epaHistoryModule').factory('EPAHistoryModel', epaHistoryModel);
     epaHistoryModel.$inject = ['epaHistoryFactory', 'errorFactory'];

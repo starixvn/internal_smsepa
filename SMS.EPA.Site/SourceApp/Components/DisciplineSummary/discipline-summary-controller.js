@@ -1,5 +1,6 @@
 ﻿(function (angular) {
     'use strict';
+    /* jshint latedef:nofunc */
 
     angular.module('disciplineModule').controller('AttendanceSummaryController', attendanceSummaryController);
     attendanceSummaryController.$inject = ['$scope', 'DisciplineSummaryModel', 'CommonModel', 'utilitiesFactory', 'baseUrl', 'lockScreenService', 'historyFactory'];

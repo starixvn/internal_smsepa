@@ -1,5 +1,6 @@
 ﻿(function (angular) {
     'use strict';
+    /* jshint latedef:nofunc */
 
     angular.module('kpiModule').factory('kpiFactory', kpiFactory);
     kpiFactory.$inject = ['$http', 'baseUrl'];

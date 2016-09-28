@@ -1366,6 +1366,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Finished.
+        /// </summary>
+        public static string Finished {
+            get {
+                return ResourceManager.GetString("Finished", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Flow Management.
         /// </summary>
         public static string FlowManagement {
@@ -3319,6 +3328,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to To Do List.
+        /// </summary>
+        public static string ToDoList {
+            get {
+                return ResourceManager.GetString("ToDoList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Total Employees.
         /// </summary>
         public static string TotalEmployees {
@@ -3396,6 +3414,15 @@ namespace SMS.EPA.Resources {
         public static string UncheckKPIGroupWarning {
             get {
                 return ResourceManager.GetString("UncheckKPIGroupWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unfinished.
+        /// </summary>
+        public static string Unfinished {
+            get {
+                return ResourceManager.GetString("Unfinished", resourceCulture);
             }
         }
         

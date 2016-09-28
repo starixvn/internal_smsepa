@@ -1,0 +1,52 @@
+﻿<div class="panel panel-default" ng-if="dashboardCtrl.todoList.Promotions.length > 0">
+    <div class="panel-heading" data-toggle="collapse" data-target=".promotions">
+        <h4 class="panel-title" data-translate="Promotion"></h4>
+    </div>
+    <div class="panel-collapse collapse in promotions">
+        <div class="panel-body">
+            <table class="table table-bordered table-striped table-custom">
+                <thead>
+                    <tr>
+                        <th data-translate="SymbolCount" rowspan="2"></th>
+                        <th data-translate="Period" rowspan="2"></th>
+                        <th data-translate="Evaluator" colspan="2" ng-show="dashboardCtrl.todoList.PromotionHasEvaluator"></th>
+                        <th data-translate="Reviewer" colspan="2" ng-show="dashboardCtrl.todoList.PromotionHasReviewer"></th>
+                        <th data-translate="Management" colspan="2" ng-show="dashboardCtrl.todoList.PromotionHasManagement"></th>
+                    </tr>
+                    <tr>
+                        <th data-translate="Unfinished" ng-show="dashboardCtrl.todoList.PromotionHasEvaluator"></th>
+                        <th data-translate="Finished" ng-show="dashboardCtrl.todoList.PromotionHasEvaluator"></th>
+                        <th data-translate="Unfinished" ng-show="dashboardCtrl.todoList.PromotionHasReviewer"></th>
+                        <th data-translate="Finished" ng-show="dashboardCtrl.todoList.PromotionHasReviewer"></th>
+                        <th data-translate="Unfinished" ng-show="dashboardCtrl.todoList.PromotionHasManagement"></th>
+                        <th data-translate="Finished" ng-show="dashboardCtrl.todoList.PromotionHasManagement"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="period in dashboardCtrl.todoList.Promotions">
+                        <td class="text-center" ng-bind="$index + 1"></td>
+                        <td ng-bind="period.Period.Name"></td>
+                        <td class="text-center" ng-show="dashboardCtrl.todoList.PromotionHasEvaluator">
+                            <a href="" ng-bind="period.NumberOfEmployeesUnfinishedByEvaluator"></a>
+                        </td>
+                        <td class="text-center" ng-show="dashboardCtrl.todoList.PromotionHasEvaluator">
+                            <a href="" ng-bind="period.NumberOfEmployeesFinishedByEvaluator"></a>
+                        </td>
+                        <td class="text-center" ng-show="dashboardCtrl.todoList.PromotionHasReviewer">
+                            <a href="" ng-bind="period.NumberOfEmployeesUnfinishedByReviewer"></a>
+                        </td>
+                        <td class="text-center" ng-show="dashboardCtrl.todoList.PromotionHasReviewer">
+                            <a href="" ng-bind="period.NumberOfEmployeesFinishedByReviewer"></a>
+                        </td>
+                        <td class="text-center" ng-show="dashboardCtrl.todoList.PromotionHasManagement">
+                            <a href="" ng-bind="period.NumberOfEmployeesFinishedByManagement"></a>
+                        </td>
+                        <td class="text-center" ng-show="dashboardCtrl.todoList.PromotionHasManagement">
+                            <a href="" ng-bind="period.NumberOfEmployeesUnfinishedByManagement"></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

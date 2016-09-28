@@ -1,5 +1,6 @@
 ﻿(function (angular) {
     'use strict';
+    /* jshint latedef:nofunc */
 
     angular.module('disciplineModule').factory('disciplineSummaryFactory', disciplineSummaryFactory);
     disciplineSummaryFactory.$inject = ['$http', 'baseUrl'];

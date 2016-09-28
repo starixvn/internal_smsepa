@@ -1,5 +1,6 @@
 ﻿(function (angular) {
     'use strict';
+    /* jshint latedef:nofunc */
 
     angular.module('reportModule').factory('ReportModel', reportModel);
     reportModel.$inject = ['reportFactory', 'notificationFactory', 'errorFactory'];

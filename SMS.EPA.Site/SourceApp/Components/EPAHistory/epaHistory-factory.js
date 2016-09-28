@@ -1,5 +1,6 @@
 ﻿(function (angular) {
     'use strict';
+    /* jshint latedef:nofunc */
 
     angular.module('epaHistoryModule').factory('epaHistoryFactory', epaHistoryFactory);
     epaHistoryFactory.$inject = ['$http', 'baseUrl'];

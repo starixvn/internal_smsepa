@@ -1,6 +1,7 @@
-﻿'use strict';
+﻿(function (angular) {
+    'use strict';
+    /* jshint latedef:nofunc */
 
-(function (angular) {
     angular.module('roleModule').factory('roleFactory', roleFactory);
     roleFactory.$inject = ['$http', 'baseUrl'];
 

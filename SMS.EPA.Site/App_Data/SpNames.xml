@@ -307,6 +307,7 @@
       <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncrypt" />
       <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncrypt" />
     </Setting>
+    <Setting Key="Dashboard_GetToDoList" SpName="Dashboard_GetToDoList" DbName="SMSEPA" Plain="0"></Setting>
   </Function>
   <Function Name="Generation Evaluation">
     <Setting Key="EpaAuto_GenerateEPA" SpName="EpaAuto_GenerateEPA" DbName="SMSEPA" Plain="0">

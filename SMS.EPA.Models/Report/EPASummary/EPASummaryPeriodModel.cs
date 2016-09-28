@@ -1,7 +1,5 @@
-﻿namespace SMS.EPA.Model.Report.EPASummary
+﻿namespace SMS.EPA.Model
 {
-    using SMS.EPA.Model;
-
     public class EPASummaryPeriodModel
     {
         public int PeriodId { get; set; }

@@ -1,5 +1,6 @@
 ﻿(function (angular) {
     'use strict';
+    /* jshint latedef:nofunc */
 
     angular.module('reportModule').factory('reportFactory', reportFactory);
     reportFactory.$inject = ['$http', 'baseUrl'];

@@ -99,6 +99,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implement\DashboardService.cs" />
     <Compile Include="Implement\DisciplineSummaryService.cs" />
     <Compile Include="Implement\CommonService.cs" />
     <Compile Include="Implement\DepartmentService.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="Implement\TargetTemplateService.cs" />
     <Compile Include="Implement\TargetTypeService.cs" />
     <Compile Include="Implement\RoleService.cs" />
+    <Compile Include="Interfaces\IDashboardService.cs" />
     <Compile Include="Interfaces\IDisciplineSummaryService.cs" />
     <Compile Include="Interfaces\ICommonService.cs" />
     <Compile Include="Interfaces\IDepartmentService.cs" />

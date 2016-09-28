@@ -1,0 +1,16 @@
+﻿<div ng-if="dashboardCtrl.todoList.Probations.length > 0
+        || dashboardCtrl.todoList.Promotions.length > 0
+        || dashboardCtrl.todoList.Monthlies.length > 0
+        || dashboardCtrl.todoList.SemiAnnuals.length > 0 ">
+    <div class="panel panel-default">
+        <div class="panel-heading" data-toggle="collapse" data-target=".todoList">
+            <h4 class="panel-title text-uppercase" data-translate="ToDoList"></h4>
+        </div>
+        <div class="panel-collapse collapse in todoList">
+            <div ng-include src="'/SourceApp/Components/Dashboard/Templates/probations.html'"></div>
+            <div ng-include src="'/SourceApp/Components/Dashboard/Templates/semiAnnuals.html'"></div>
+            <div ng-include src="'/SourceApp/Components/Dashboard/Templates/promotions.html'"></div>
+            <div ng-include src="'/SourceApp/Components/Dashboard/Templates/monthlies.html'"></div>
+        </div>
+    </div>
+</div>

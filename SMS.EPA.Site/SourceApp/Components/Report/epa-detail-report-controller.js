@@ -1,5 +1,6 @@
 ﻿(function (angular) {
     'use strict';
+    /* jshint latedef:nofunc */
 
     angular.module('reportModule').controller('EPADetailReportController', epaDetailReportController);
     epaDetailReportController.$inject = ['$scope', '$window', '$timeout', 'ReportModel', 'CommonModel',

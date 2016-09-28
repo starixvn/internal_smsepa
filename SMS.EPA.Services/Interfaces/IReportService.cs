@@ -1,14 +1,13 @@
 ﻿namespace SMS.EPA.Services.Interfaces
 {
     using System.IO;
+    using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.Report;
-    using SMS.EPA.Model.Report.Dashboard;
-    using SMS.EPA.Model.Report.EPADetail;
-    using SMS.EPA.Model.Report.EPASummary;
+    using SMS.EPA.Model;
 
     public interface IReportService
     {
-        DashboardModel GetDashboard(GetDashboardCriteria criteria);
+        DashboardModel GetDashboard(int employeeId);
 
         EPASummaryModel GetEPASummaryReport(GetEPASummaryCriteria criteria);
 

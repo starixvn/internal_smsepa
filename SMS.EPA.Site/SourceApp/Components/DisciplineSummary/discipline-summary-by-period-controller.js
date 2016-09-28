@@ -1,5 +1,6 @@
 ﻿(function (angular) {
     'use strict';
+    /* jshint latedef:nofunc */
 
     angular.module('disciplineModule').controller('DisciplineSummaryByPeriodController', disciplineSummaryByPeriodController);
     disciplineSummaryByPeriodController.$inject = ['$scope', 'DisciplineSummaryModel', 'CommonModel', 'lockScreenService',

@@ -1,5 +1,6 @@
 ﻿(function (angular) {
     'use strict';
+    /* jshint latedef:nofunc */
 
     angular.module('epaModule').controller('UpdateFinalScoreController', updateFinalScoreController);
     updateFinalScoreController.$inject = ['$scope', 'EmployeeEPAModel', 'CommonModel', 'notificationFactory', 'utilitiesFactory', 'lockScreenService'];

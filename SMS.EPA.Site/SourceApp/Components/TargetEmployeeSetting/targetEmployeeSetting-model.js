@@ -1,5 +1,6 @@
 ﻿(function (angular) {
     'use strict';
+    /* jshint latedef:nofunc */
 
     angular.module('targetEmployeeSettingModule').factory('TargetEmployeeSettingModel', targetEmployeeSettingModel);
     targetEmployeeSettingModel.$inject = ['$modal', 'targetEmployeeSettingFactory', 'notificationFactory', 'errorFactory'];

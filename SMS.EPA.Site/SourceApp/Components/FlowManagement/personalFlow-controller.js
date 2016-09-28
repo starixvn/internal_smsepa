@@ -1,5 +1,6 @@
 ﻿(function (angular) {
     'use strict';
+    /* jshint latedef:nofunc */
 
     angular.module('flowMngModule').controller('PersonalFlowController', personalFlowController);
     personalFlowController.$inject = ['$scope', '$routeParams', 'FlowSettingModel', 'PersonalFlowModel', 'CommonModel', 'cacheService', 'utilitiesFactory', 'historyFactory'];

@@ -1,6 +1,7 @@
-﻿'use strict';
+﻿(function (angular) {
+    'use strict';
+    /* jshint latedef:nofunc */
 
-(function (angular) {
     // Assign Permission to Role
     angular.module('roleModule').directive('assignPermission', assignPermission);
     // get role permission when click save button

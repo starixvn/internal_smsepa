@@ -1,5 +1,6 @@
 ﻿(function (angular) {
     'use strict';
+    /* jshint latedef:nofunc */
 
     angular.module('flowMngModule').factory('FlowTemplateModel', flowTemplateModel);
     flowTemplateModel.$inject = ['$modal', 'flowTemplateFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory'];

@@ -1,5 +1,6 @@
 ﻿(function (angular) {
     'use strict';
+    /* jshint latedef:nofunc */
 
     angular.module('reportModule').directive('gridMonthlyEpaDetailReport', gridMonthlyEpaDetailReport);
     gridMonthlyEpaDetailReport.$inject = ['$timeout', 'utilitiesFactory'];

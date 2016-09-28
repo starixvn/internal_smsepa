@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Model.Report.EPASummary
+﻿namespace SMS.EPA.Model
 {
     using System;
     using System.Collections.Generic;

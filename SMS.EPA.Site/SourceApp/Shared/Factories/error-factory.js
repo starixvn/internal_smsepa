@@ -1,5 +1,6 @@
 ﻿(function (angular) {
     'use strict';
+    /* jshint latedef:nofunc */
 
     angular.module('appModule').factory('errorFactory', errorFactory);
     errorFactory.$inject = ['$location', '$window', 'baseUrl'];

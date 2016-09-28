@@ -1,5 +1,6 @@
 ﻿(function (angular) {
     'use strict';
+    /* jshint latedef:nofunc */
 
     angular.module('kpiModule').factory('KPIModel', kpiModel);
     kpiModel.$inject = ['$modal', 'kpiFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory'];

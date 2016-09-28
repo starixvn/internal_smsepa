@@ -64,6 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implement\DashboardRepository.cs" />
     <Compile Include="Implement\DisciplineSummaryRepository.cs" />
     <Compile Include="Implement\DepartmentRepository.cs" />
     <Compile Include="Implement\EmployeeRepository.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Implement\ReportRepository.cs" />
     <Compile Include="Implement\TargetEmployeeSettingRepository.cs" />
     <Compile Include="Implement\TargetTemplateRepository.cs" />
+    <Compile Include="Interfaces\IDashboardRepository.cs" />
     <Compile Include="Interfaces\IDisciplineSummaryRepository.cs" />
     <Compile Include="Interfaces\IDepartmentRepository.cs" />
     <Compile Include="Interfaces\IEmployeeRepository.cs" />

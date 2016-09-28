@@ -9,8 +9,9 @@
         var vm = this;
 
         vm.epaStatusEnum = utilitiesFactory.epaStatus;
-        vm.targetTypeEnum = utilitiesFactory.targetType;
         vm.statusEndProcessEnum = utilitiesFactory.statusEndProcess;
+        vm.targetTypeEnum = utilitiesFactory.targetType;
+        vm.todoList = {};
 
         vm.getClassProgress = getClassProgress;
         vm.viewEPADetail = viewEPADetail;
@@ -21,6 +22,10 @@
 
         function initialize() {
             lockScreenService.start();
+
+            DashboardModel.getToDoList().then(function () {
+                vm.todoList = DashboardModel.todoList;
+            });
 
             DashboardModel.getDashboard().then(function () {
                 var dashboardInfo = DashboardModel.dashboardInfo;
