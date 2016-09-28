@@ -32,10 +32,6 @@ function ($timeout, $routeParams, EmployeeEPAModel, CommonModel, utilitiesFactor
         utilitiesFactory.readLess(item);
     };
 
-    vm.openPopupViewComment = function (comment) {
-        EmployeeEPAModel.openPopupViewComment(vm, comment);
-    };
-
     vm.range = function (n) {
         return new Array(n);
     };
@@ -99,18 +95,6 @@ function ($timeout, $routeParams, EmployeeEPAModel, CommonModel, utilitiesFactor
     }
 
     initialize();
-}]);
-
-epaModule.controller('ModalViewCommentController',
-['$modalInstance', 'comment',
-function ($modalInstance, comment) {
-    var vm = this;
-
-    vm.comment = comment;
-
-    vm.cancel = function () {
-        $modalInstance.dismiss('cancel');
-    };
 }]);
 
 epaModule.controller('ModalAdjustScoreController',

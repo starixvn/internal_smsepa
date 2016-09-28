@@ -1,5 +1,6 @@
 ﻿(function (angular) {
     'use strict';
+    /* jshint latedef:nofunc */
 
     angular.module('dashboardModule').factory('dashboardFactory', dashboardFactory);
     dashboardFactory.$inject = ['$http', 'baseUrl'];

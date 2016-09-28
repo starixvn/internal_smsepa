@@ -162,10 +162,11 @@
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-attr-title='{{"Edit" | translate}}'
                            ng-click="reviewerCtrl.updateComment(epaInfo, epaInfo.Process.CurrentProcess.Comment, true)"
                            ng-if="epaInfo.IsAllowedToEdit && reviewerCtrl.permission == reviewerCtrl.policyEnum.Host"></a>
-                        <a class="glyphicon icon-view" href="" ng-attr-title='{{"View" | translate}}'
-                           ng-click="reviewerCtrl.updateComment(epaInfo, epaInfo.Process.CurrentProcess.Comment, false)"
-                           ng-if="epaInfo.Process.CurrentProcess.Comment && epaInfo.Process.CurrentProcess.Comment.length > 0
-                                && (!epaInfo.IsAllowedToEdit || reviewerCtrl.permission != reviewerCtrl.policyEnum.Host)"></a>
+
+                        <span class="glyphicon icon-view"
+                              ng-show="epaInfo.Process.CurrentProcess.Comment.length > 0 &&
+                                    (!epaInfo.IsAllowedToEdit || reviewerCtrl.permission != reviewerCtrl.policyEnum.Host)"
+                              tooltip="{{epaInfo.Process.CurrentProcess.Comment}}" tooltip-placement="top"></span>
                     </td>
                     <td class="text-center">
                         <div ng-show="epaInfo.HasDisciplineScore">

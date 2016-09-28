@@ -25,10 +25,6 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
         }, 1);
     };
 
-    vm.openPopupViewComment = function (comment) {
-        EmployeeEPAModel.openPopupViewComment(vm, comment);
-    };
-
     vm.range = function (n) {
         return new Array(n);
     };

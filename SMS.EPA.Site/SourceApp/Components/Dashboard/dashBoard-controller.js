@@ -1,5 +1,6 @@
 ﻿(function (angular) {
     'use strict';
+    /* jshint latedef:nofunc */
 
     angular.module('dashboardModule').controller('DashboardController', dashboardController);
     dashboardController.$inject = ['DashboardModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService', 'baseUrl'];

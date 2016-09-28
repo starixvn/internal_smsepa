@@ -48,22 +48,6 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         }
     };
 
-    employeeEPAModel.openPopupViewComment = function (vm, comment) {
-        vm.modalInstance = $modal.open({
-            templateUrl: 'SourceApp/Components/EPA/Templates/modalViewComment.html',
-            controller: 'ModalViewCommentController as modalViewCommentCtrl',
-            backdrop: 'static',
-            resolve: {
-                comment: function () {
-                    return comment;
-                }
-            },
-            windowClass: 'modal-confirm-center'
-        });
-
-        return vm.modalInstance.result;
-    };
-
     employeeEPAModel.convertScoreToGrade = function (finalScore, standardGrades) {
         var score = utilitiesFactory.parseFloat(finalScore);
         var grade;

@@ -19,10 +19,6 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
     vm.hasRatingByStar = false;
     vm.showRatingScoreByStar = true;
 
-    vm.openPopupViewComment = function (comment) {
-        EmployeeEPAModel.openPopupViewComment(vm, comment);
-    };
-
     vm.range = function (n) {
         return new Array(n);
     };
@@ -81,6 +77,7 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
     function getEPAInfoByReviewer() {
         ReviewerManagementModel.getEPAInfoByReviewer(vm.epaId).then(function () {
             vm.epaInfo = ReviewerManagementModel.epaInfo;
+            vm.epaInfo.Rowspan = vm.epaInfo.Process.Evaluators.length;
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
 
             if (vm.epaInfo.RatingType.RatingTypeId === vm.ratingTypeEnum.Star
