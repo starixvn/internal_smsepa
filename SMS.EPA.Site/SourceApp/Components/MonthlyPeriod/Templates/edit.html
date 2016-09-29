@@ -1,12 +1,11 @@
 ﻿<div class="col-sm-12 monthly-period" ng-controller="UpdateMonthlyPeriodController as updateCtrl">
     <div class="sub-header">
-        <ul class="row breadcrumb inline-block">
+        <ul class="row breadcrumb period-breadcrumb">
             <li class="current" data-translate="UpdateMonthlyPeriod"></li>
         </ul>
-        <div class="button-icon button-back">
-            <span class="glyphicon glyphicon-arrow-left icon-back"></span>
-            <a data-translate="BackToList" ng-click="updateCtrl.backToList()" href="" class="ng-scope"></a>
-        </div>
+        <button ng-click="updateCtrl.backToList()" class="btn btn-cancel">
+            <span class="glyphicon glyphicon-menu-left"></span> <span data-translate="BackToList"></span>
+        </button>
     </div>
     <div class="target-tabset">
         <tabset id="MonthlyPeriodTab">

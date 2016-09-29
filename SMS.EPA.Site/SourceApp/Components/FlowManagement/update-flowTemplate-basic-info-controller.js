@@ -3,18 +3,21 @@
     /* jshint latedef:nofunc */
 
     angular.module('flowMngModule').controller('UpdateFlowTemplateBasicInfoController', updateFlowTemplateBasicInfoController);
-    updateFlowTemplateBasicInfoController.$inject = ['$scope', '$routeParams', 'FlowTemplateModel', 'CommonModel', 'historyFactory'];
+    updateFlowTemplateBasicInfoController.$inject = ['$scope', '$routeParams', 'FlowTemplateModel', 'CommonModel', 'historyFactory', 'lockScreenService'];
 
-    function updateFlowTemplateBasicInfoController($scope, $routeParams, FlowTemplateModel, CommonModel, historyFactory) {
+    function updateFlowTemplateBasicInfoController($scope, $routeParams, FlowTemplateModel, CommonModel, historyFactory, lockScreenService) {
         var vm = this;
 
         vm.flowTemplateId = parseInt($routeParams.id);
-        vm.targetTypes = CommonModel.targetTypes;
+        vm.isFirstLoad = true;
+        vm.targetTypes = [];
 
-        $scope.$watch(function () { return $scope.updateCtrl.flowTemplate; },
+        $scope.$watch(function () { return $scope.updateCtrl.dataTab.generalInfo && $scope.updateCtrl.flowTemplate; },
             function (newVal) {
-                if (newVal) {
+                if (newVal && vm.isFirstLoad) {
+                    lockScreenService.start();
                     vm.flowTemplate = $scope.updateCtrl.flowTemplate;
+                    vm.isFirstLoad = false;
 
                     CommonModel.getTargetType(true).then(function () {
                         vm.targetTypes = CommonModel.targetTypes;
@@ -23,6 +26,8 @@
                         if (index === -1) {
                             vm.targetTypes.push(vm.flowTemplate.TargetType);
                         }
+
+                        lockScreenService.stop();
                     });
                 }
             });

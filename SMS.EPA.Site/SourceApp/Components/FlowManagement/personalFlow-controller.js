@@ -3,9 +3,11 @@
     /* jshint latedef:nofunc */
 
     angular.module('flowMngModule').controller('PersonalFlowController', personalFlowController);
-    personalFlowController.$inject = ['$scope', '$routeParams', 'FlowSettingModel', 'PersonalFlowModel', 'CommonModel', 'cacheService', 'utilitiesFactory', 'historyFactory'];
+    personalFlowController.$inject = ['$scope', '$routeParams', 'FlowSettingModel', 'PersonalFlowModel', 'CommonModel',
+        'utilitiesFactory', 'historyFactory', 'lockScreenService'];
 
-    function personalFlowController($scope, $routeParams, FlowSettingModel, PersonalFlowModel, CommonModel, cacheService, utilitiesFactory, historyFactory) {
+    function personalFlowController($scope, $routeParams, FlowSettingModel, PersonalFlowModel, CommonModel,
+        utilitiesFactory, historyFactory, lockScreenService) {
         var vm = this;
 
         vm.FlowTemplateId = parseInt($routeParams.id);
@@ -20,6 +22,7 @@
         vm.showListEmployee = true;
         vm.department = null;
         vm.showDeleteButton = false;
+        vm.isFirstLoad = true;
         vm.defaultFlowSettings = [];
         vm.personalFlowSettings = [];
 
@@ -145,17 +148,12 @@
             getEmployeeById(val.sender, val.id, val.to);
         });
 
-        $scope.$watch(function () {
-            return cacheService.getProperty();
-        }, function (value) {
-            if (value === 2) {
-                CommonModel.getEmployeeByDepartmentId().then(function () {
-                    vm.employees = CommonModel.employeesInDepartment;
-                });
+        $scope.$watch(function () { return $scope.updateCtrl.dataTab.personal && $scope.updateCtrl.flowTemplate; },
+        function (newVal) {
+            if (newVal && vm.isFirstLoad) {
+                lockScreenService.start();
 
-                vm.department = $scope.updateCtrl.treeDepartment[0];
-                vm.onSelectedDepartment();
-
+                vm.isFirstLoad = false;
                 FlowSettingModel.resetCurrentFlow(vm);
                 vm.flowTemplate = $scope.updateCtrl.flowTemplate;
                 vm.showListEmployee = true;
@@ -163,6 +161,14 @@
                 vm.departmentId = null;
                 vm.defaultFlowSettings = [];
                 vm.personalFlowSettings = [];
+
+                vm.department = $scope.updateCtrl.treeDepartment[0];
+                vm.onSelectedDepartment();
+
+                CommonModel.getEmployeeByDepartmentId().then(function () {
+                    vm.employees = CommonModel.employeesInDepartment;
+                    lockScreenService.stop();
+                });
             }
         });
 

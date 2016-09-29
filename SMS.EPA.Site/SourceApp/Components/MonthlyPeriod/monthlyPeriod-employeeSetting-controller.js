@@ -2,8 +2,8 @@
 /*global monthlyPeriodModule*/
 
 monthlyPeriodModule.controller('EmployeeSettingMonthlyPeriodController',
-['$scope', '$routeParams', '$window', 'MonthlyPeriodModel', 'utilitiesFactory', 'CommonModel', 'notificationFactory',
-function ($scope, $routeParams, $window, MonthlyPeriodModel, utilitiesFactory, CommonModel, notificationFactory) {
+['$scope', '$routeParams', 'MonthlyPeriodModel', 'utilitiesFactory', 'CommonModel', 'notificationFactory', 'lockScreenService',
+function ($scope, $routeParams, MonthlyPeriodModel, utilitiesFactory, CommonModel, notificationFactory, lockScreenService) {
     var vm = this;
 
     vm.period = null;
@@ -33,6 +33,8 @@ function ($scope, $routeParams, $window, MonthlyPeriodModel, utilitiesFactory, C
     };
 
     function getEmployeeSetting(filter) {
+        lockScreenService.start();
+
         MonthlyPeriodModel.getEmployeeSettingMonthlyPeriodById(
             filter.periodId,
             filter.departmentId,
@@ -46,6 +48,7 @@ function ($scope, $routeParams, $window, MonthlyPeriodModel, utilitiesFactory, C
             utilitiesFactory.searchOnPage(vm, vm.employeeSettings);
             vm.isFirstLoad = false;
             vm.selectedAll = false;
+            lockScreenService.stop();
         });
     }
 

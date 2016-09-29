@@ -3,30 +3,51 @@
     /* jshint latedef:nofunc */
 
     angular.module('flowMngModule').controller('UpdateFlowTemplateController', updateFlowTemplateController);
-    updateFlowTemplateController.$inject = ['$routeParams', 'FlowTemplateModel', 'CommonModel', 'utilitiesFactory', 'cacheService'];
+    updateFlowTemplateController.$inject = ['$routeParams', 'FlowTemplateModel', 'CommonModel', 'utilitiesFactory'];
 
-    function updateFlowTemplateController($routeParams, FlowTemplateModel, CommonModel, utilitiesFactory, cacheService) {
+    function updateFlowTemplateController($routeParams, FlowTemplateModel, CommonModel, utilitiesFactory) {
         var vm = this;
 
-        vm.flowTemplateId = parseInt($routeParams.id);
+        vm.dataTab = {
+            generalInfo: true,
+            department: false,
+            personal: false,
+            result: false
+        };
         vm.departments = CommonModel.departments;
-        vm.treeDepartment = CommonModel.treeDepartment;
-        vm.remindDay = CommonModel.remindDay;
-        vm.permission = FlowTemplateModel.permission;
-
+        vm.flowTemplateId = parseInt($routeParams.id);
+        vm.permission = 0;
         vm.policyEnum = utilitiesFactory.policy;
+        vm.remindDay = CommonModel.remindDay;
         vm.targetTypeEnum = utilitiesFactory.targetType;
+        vm.treeDepartment = CommonModel.treeDepartment;
+
+        vm.tabGeneralInfoSelected = function () {
+            vm.dataTab.generalInfo = true;
+            vm.dataTab.department = false;
+            vm.dataTab.personal = false;
+            vm.dataTab.result = false;
+        };
 
         vm.tabDepartmentSelected = function () {
-            cacheService.setProperty(1);
+            vm.dataTab.generalInfo = false;
+            vm.dataTab.department = true;
+            vm.dataTab.personal = false;
+            vm.dataTab.result = false;
         };
 
         vm.tabPersonalSelected = function () {
-            cacheService.setProperty(2);
+            vm.dataTab.generalInfo = false;
+            vm.dataTab.department = false;
+            vm.dataTab.personal = true;
+            vm.dataTab.result = false;
         };
 
         vm.tabResultSettingSelected = function () {
-            cacheService.setProperty(3);
+            vm.dataTab.generalInfo = false;
+            vm.dataTab.department = false;
+            vm.dataTab.personal = false;
+            vm.dataTab.result = true;
         };
 
         function initialize() {

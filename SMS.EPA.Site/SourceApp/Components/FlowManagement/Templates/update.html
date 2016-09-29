@@ -6,7 +6,7 @@
     </div>
     <div class="target-tabset">
         <tabset id="FlowTemplateTab">
-            <tab heading="GENERAL INFORMATION" class="tab-cursor">
+            <tab heading="GENERAL INFORMATION" class="tab-cursor" select="updateCtrl.tabGeneralInfoSelected()">
                 <div ng-include src="'/SourceApp/Components/FlowManagement/Templates/generalInformation.html'"></div>
             </tab>
             <tab heading="DEPARTMENT / SECTION" class="tab-cursor" select="updateCtrl.tabDepartmentSelected()">

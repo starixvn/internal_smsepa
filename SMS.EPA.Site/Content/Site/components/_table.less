@@ -16,76 +16,78 @@
             font-size: @font-size - 1;
         }
 
-        &.header-table th {
-            background: #818181;
-            border: 1px solid #515151;
-            border-width: 0 1px 1px 0;
-            border-color: none #515151 #515151 #ddd;
-            margin: 0 1%;
-            padding: 0;
-            width: 98%;
-            color: #fff;
-            text-shadow: none;
-            font-weight: normal;
+        &.header-table {
+            th {
+                background: #818181;
+                border: 1px solid #515151;
+                border-width: 0 1px 1px 0;
+                border-color: none #515151 #515151 #ddd;
+                margin: 0 1%;
+                width: 98%;
+                color: #fff;
+                padding: 2px 0;
+                text-shadow: none;
+                font-weight: normal;
 
-            .btnExcel {
-                background: rgba(0, 0, 0, 0) url("../images/excel-icon.png") no-repeat scroll 0 -26px;
-                cursor: pointer;
-                font-size: 11px;
-                width: 18px;
-                height: 18px;
-                margin: 8px 5px 2px;
-                overflow: visible;
-                padding: 0 6px;
-                border: 0;
+                .btnExcel {
+                    background: rgba(0, 0, 0, 0) url("../images/excel-icon.png") no-repeat scroll 0 -26px;
+                    cursor: pointer;
+                    font-size: 11px;
+                    width: 18px;
+                    height: 18px;
+                    margin: 8px 5px 2px;
+                    overflow: visible;
+                    padding: 0 6px;
+                    border: 0;
 
-                &.disabled {
-                    background: rgba(0, 0, 0, 0) url("../images/excel-icon.png") no-repeat scroll 0 0;
+                    &.disabled {
+                        background: rgba(0, 0, 0, 0) url("../images/excel-icon.png") no-repeat scroll 0 0;
+                    }
                 }
-            }
 
-            .table-entries, .search {
-                margin: 5px;
-            }
+                .table-entries, .search {
+                    margin: 5px;
+                }
 
-            .search {
-                margin: 5px;
-            }
+                .search {
+                    margin: 5px;
+                }
 
-            .table-entries {
-                margin-left: 10px;
+                .table-entries {
+                    margin-left: 10px;
 
-                select {
-                    color: @font-color;
+                    select {
+                        color: @font-color;
+                        height: 23px;
+                        margin: 0 3px;
+                        padding: 0;
+                        .box-shadow(none);
+                    }
+                }
+
+                label {
+                    font-weight: normal;
+                    margin: 0;
+                }
+
+                .search-inline-textbox {
+                    background: url(../images/icon-search.png) #fff no-repeat 188px center;
+                    border: 1px solid #ccc;
+                    width: 210px;
                     height: 23px;
-                    margin: 0 3px;
-                    padding: 0;
+                    color: #555;
+                    padding: 0 24px 0 3px;
                     .box-shadow(none);
                 }
-            }
 
-            label {
-                font-weight: normal;
-                margin: 0;
-            }
+                .button-icon.create-button {
+                    margin: 5px 0 0 5px;
 
-            .search-inline-textbox {
-                background: url(../images/icon-search.png) #fff no-repeat 188px center;
-                border: 1px solid #ccc;
-                width: 210px;
-                height: 23px;
-                color: #555;
-                padding: 0 24px 0 3px;
-                .box-shadow(none);
-            }
-
-            .button-icon.create-button {
-                margin: 5px 0 0 5px;
-
-                .email {
-                    background-position: -123px -26px;
-                    height: 21px;
-                    width: 17px;
+                    .email {
+                        background-position: -123px -26px;
+                        height: 21px;
+                        width: 17px;
+                    }
                 }
             }
         }

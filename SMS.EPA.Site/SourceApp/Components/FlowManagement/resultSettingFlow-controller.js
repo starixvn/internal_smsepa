@@ -3,35 +3,37 @@
     /* jshint latedef:nofunc */
 
     angular.module('flowMngModule').controller('ResultFlowSettingController', resultFlowSettingController);
-    resultFlowSettingController.$inject = ['$scope', '$routeParams', 'DeptFlowModel', 'PersonalFlowModel', 'cacheService', 'historyFactory'];
+    resultFlowSettingController.$inject = ['$scope', '$routeParams', 'DeptFlowModel', 'PersonalFlowModel', 'historyFactory'];
 
-    function resultFlowSettingController($scope, $routeParams, DeptFlowModel, PersonalFlowModel, cacheService, historyFactory) {
+    function resultFlowSettingController($scope, $routeParams, DeptFlowModel, PersonalFlowModel, historyFactory) {
         var vm = this;
 
         vm.flowSettings = [];
         vm.flowTemplateId = parseInt($routeParams.id);
 
-        vm.tabDepartmentSelected = function () {
-            cacheService.setProperty(4);
-        };
+        vm.tabDepartmentSelected = null;
+        vm.tabPersonalSelected = null;
 
-        vm.tabPersonalSelected = function () {
-            cacheService.setProperty(5);
-        };
+        function tabDepartmentSelected() {
+            DeptFlowModel.getDepartmentFlow(vm.flowTemplateId).then(function () {
+                vm.flowSettings = DeptFlowModel.flowSettings;
+            });
+        }
 
-        $scope.$watch(function () {
-            return cacheService.getProperty();
-        }, function (value) {
-            if (value === 4) {
-                DeptFlowModel.getDepartmentFlow(vm.flowTemplateId).then(function () {
-                    vm.flowSettings = DeptFlowModel.flowSettings;
-                });
-            } else if (value === 5) {
-                PersonalFlowModel.getPersonalFlow(vm.flowTemplateId).then(function () {
-                    vm.flowSettings = PersonalFlowModel.flowSettings;
-                });
-            }
-        });
+        function tabPersonalSelected() {
+            PersonalFlowModel.getPersonalFlow(vm.flowTemplateId).then(function () {
+                vm.flowSettings = PersonalFlowModel.flowSettings;
+            });
+        }
+
+        $scope.$watch(function () { return $scope.updateCtrl.dataTab.result; },
+            function (newVal) {
+                if (newVal) {
+                    tabDepartmentSelected();
+                    vm.tabDepartmentSelected = tabDepartmentSelected;
+                    vm.tabPersonalSelected = tabPersonalSelected;
+                }
+            });
 
         vm.cancel = function () {
             historyFactory.back();

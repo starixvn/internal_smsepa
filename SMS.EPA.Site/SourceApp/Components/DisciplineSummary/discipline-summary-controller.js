@@ -3,9 +3,10 @@
     /* jshint latedef:nofunc */
 
     angular.module('disciplineModule').controller('AttendanceSummaryController', attendanceSummaryController);
-    attendanceSummaryController.$inject = ['$scope', 'DisciplineSummaryModel', 'CommonModel', 'utilitiesFactory', 'baseUrl', 'lockScreenService', 'historyFactory'];
+    attendanceSummaryController.$inject = ['$scope', 'DisciplineSummaryModel', 'CommonModel',
+        'utilitiesFactory', 'lockScreenService', 'historyFactory', 'baseUrl'];
 
-    function attendanceSummaryController($scope, DisciplineSummaryModel, CommonModel, utilitiesFactory, baseUrl, lockScreenService, historyFactory) {
+    function attendanceSummaryController($scope, DisciplineSummaryModel, CommonModel, utilitiesFactory, lockScreenService, historyFactory, baseUrl) {
         var vm = this;
 
         vm.employeeDisciplines = [];

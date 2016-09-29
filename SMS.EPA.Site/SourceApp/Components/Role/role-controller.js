@@ -3,9 +3,9 @@
     /* jshint latedef:nofunc */
 
     angular.module('roleModule').controller('RoleController', roleController);
-    roleController.$inject = ['RoleModel', 'CommonModel'];
+    roleController.$inject = ['RoleModel', 'CommonModel', 'lockScreenService'];
 
-    function roleController(RoleModel, CommonModel) {
+    function roleController(RoleModel, CommonModel, lockScreenService) {
         var vm = this;
 
         vm.filter = {
@@ -20,6 +20,8 @@
         initialize();
 
         function getFunctionsOfRole(roleId) {
+            lockScreenService.start();
+
             RoleModel.getRoleFunctionByRoleId(roleId).then(function () {
                 vm.roleFunctions = RoleModel.roleFunctions;
                 if (roleId === 1) {
@@ -28,6 +30,8 @@
                 else {
                     vm.isSystemAdmin = false;
                 }
+
+                lockScreenService.stop();
             });
         }
 

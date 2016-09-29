@@ -7,7 +7,6 @@
 
     function utilitiesFactory($filter) {
         var limitNumber = 100,
-            dateTimeFormatString = "MM/DD/YYYY HH:mm",
             dateFormat = "dd MMM, yyyy",
             timeFormat = 'HH:mm',
             maxStar = 5,
@@ -57,7 +56,6 @@
             };
 
         var utilities = {
-            dateTimeFormatString: dateTimeFormatString,
             epaStatus: epaStatus,
             formatString: formatString,
             getDateFormat: getDateFormat,
@@ -90,10 +88,6 @@
         };
 
         return utilities;
-
-        function dateTimeFormatString() {
-            return dateTimeFormatString;
-        }
 
         function formatString() {
             var theString = arguments[0];

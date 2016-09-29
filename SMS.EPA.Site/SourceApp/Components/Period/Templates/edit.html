@@ -3,10 +3,9 @@
         <ul class="row breadcrumb period-breadcrumb">
             <li class="current" data-translate="UpdatePeriod"></li>
         </ul>
-        <div class="button-icon button-period-back">
-            <span class="glyphicon glyphicon-arrow-left icon-back"></span>
-            <a data-translate="BackToList" ng-click="updateCtrl.backToList()" href="" class="ng-scope"></a>
-        </div>
+        <button ng-click="updateCtrl.backToList()" class="btn btn-cancel">
+            <span class="glyphicon glyphicon-menu-left"></span> <span data-translate="BackToList"></span>
+        </button>
     </div>
     <div class="target-tabset">
         <tabset id="PeriodTab">
