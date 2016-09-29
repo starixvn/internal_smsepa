@@ -7,7 +7,7 @@
 
     function historyFactory($window) {
         var isBack = false;
-        var model = {};
+        var model = null;
 
         var service = {
             saveState: function (filter) {
