@@ -27,13 +27,14 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
                 }
             });
         },
-        getEPAByEvaluator: function (groupId, isLocal, isMonthly, employeeIds) {
+        getEPAByEvaluator: function (groupId, isLocal, isMonthly, employeeIds, statusProcess) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAByEvaluator', {
                 params: {
                     groupId: groupId,
                     isLocal: isLocal,
                     isMonthly: isMonthly,
-                    employeeIds: employeeIds
+                    employeeIds: employeeIds,
+                    statusProcess: statusProcess
                 }
             });
         },
@@ -61,13 +62,14 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
                 }
             });
         },
-        getEPAByReviewer: function (groupId, isLocal, isMonthly, employeeIds) {
+        getEPAByReviewer: function (groupId, isLocal, isMonthly, employeeIds, statusProcess) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAByReviewer', {
                 params: {
                     groupId: groupId,
                     isLocal: isLocal,
                     isMonthly: isMonthly,
-                    employeeIds: employeeIds
+                    employeeIds: employeeIds,
+                    statusProcess: statusProcess
                 }
             });
         },
@@ -88,12 +90,13 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
                 }
             });
         },
-        getEPAByManagement: function (groupId, isLocal, isMonthly, employeeIds) {
+        getEPAByManagement: function (groupId, isLocal, employeeIds, statusProcess) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAByManagement', {
                 params: {
                     groupId: groupId,
                     isLocal: isLocal,
-                    employeeIds: employeeIds
+                    employeeIds: employeeIds,
+                    statusProcess: statusProcess
                 }
             });
         },

@@ -1,5 +1,6 @@
 ﻿(function (angular) {
     'use strict';
+    /* global toastr */
     /* jshint latedef:nofunc */
 
     angular.module('appModule').factory('notificationFactory', notificationFactory);

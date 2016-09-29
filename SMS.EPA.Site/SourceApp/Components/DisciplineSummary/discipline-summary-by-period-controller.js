@@ -4,10 +4,10 @@
 
     angular.module('disciplineModule').controller('DisciplineSummaryByPeriodController', disciplineSummaryByPeriodController);
     disciplineSummaryByPeriodController.$inject = ['$scope', 'DisciplineSummaryModel', 'CommonModel', 'lockScreenService',
-        'utilitiesFactory', 'historyFactory', 'baseUrl'];
+        'utilitiesFactory', 'historyFactory'];
 
     function disciplineSummaryByPeriodController($scope, DisciplineSummaryModel, CommonModel, lockScreenService,
-        utilitiesFactory, historyFactory, baseUrl) {
+        utilitiesFactory, historyFactory) {
         var vm = this;
 
         vm.currentPage = 1;

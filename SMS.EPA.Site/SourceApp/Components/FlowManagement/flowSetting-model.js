@@ -152,7 +152,7 @@
                         break;
                 }
             });
-        }
+        };
 
         return flowModel;
     }

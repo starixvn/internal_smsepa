@@ -1,7 +1,6 @@
 ﻿namespace SMS.EPA.Services.Interfaces
 {
     using System.IO;
-    using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.Report;
     using SMS.EPA.Model;
 

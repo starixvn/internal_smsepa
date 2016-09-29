@@ -20,7 +20,7 @@
 
         function cancel() {
             $modalInstance.dismiss('cancel');
-        };
+        }
 
         function getOtherViolations(employeeId, startDate, endDate) {
             DisciplineSummaryModel.getOtherViolations(employeeId, startDate, endDate).then(function () {

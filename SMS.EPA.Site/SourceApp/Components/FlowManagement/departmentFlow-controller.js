@@ -161,7 +161,10 @@
 
         vm.deleteDepartmentFlow = function () {
             DeptFlowModel.openPopupDeleteDepartmentFlow(vm).then(function () {
-                var index = vm.departmentSettings.map(function (e) { return e.IsGroup ? -e.DepartmentId : e.DepartmentId; }).indexOf(vm.department.DepartmentId);
+                var index = vm.departmentSettings.map(function (e) {
+                    return e.IsGroup ? -e.DepartmentId : e.DepartmentId;
+                }).indexOf(vm.department.DepartmentId);
+
                 vm.departmentSettings.splice(index, 1);
                 vm.departmentHasSettingName = getNameDepartment(vm.departmentSettings);
             });

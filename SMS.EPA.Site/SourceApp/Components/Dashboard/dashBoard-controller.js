@@ -1,11 +1,12 @@
 ﻿(function (angular) {
     'use strict';
     /* jshint latedef:nofunc */
+    /* jshint validthis:true */
 
     angular.module('dashboardModule').controller('DashboardController', dashboardController);
-    dashboardController.$inject = ['DashboardModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService', 'baseUrl'];
+    dashboardController.$inject = ['$window', 'DashboardModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService', 'baseUrl'];
 
-    function dashboardController(DashboardModel, CommonModel, utilitiesFactory, lockScreenService, baseUrl) {
+    function dashboardController($window, DashboardModel, CommonModel, utilitiesFactory, lockScreenService, baseUrl) {
         var vm = this;
 
         vm.epaStatusEnum = utilitiesFactory.epaStatus;
@@ -14,6 +15,9 @@
         vm.todoList = {};
 
         vm.getClassProgress = getClassProgress;
+        vm.goToEvaluatorListing = goToEvaluatorListing;
+        vm.goToManagementListing = goToManagementListing;
+        vm.goToReviewerListing = goToReviewerListing;
         vm.viewEPADetail = viewEPADetail;
         vm.viewEPAResult = viewEPAResult;
         vm.viewOtherViolationDetail = viewOtherViolationDetail;
@@ -66,6 +70,18 @@
             } else {
                 return 'open';
             }
+        }
+
+        function goToEvaluatorListing(finished, isMonthly) {
+            $window.location.href = baseUrl + 'Evaluator/Index?isMonthly=' + isMonthly + '&statusProcess=' + finished;
+        }
+
+        function goToManagementListing(finished) {
+            $window.location.href = baseUrl + 'Management/Index?statusProcess=' + finished;
+        }
+
+        function goToReviewerListing(finished, isMonthly) {
+            $window.location.href = baseUrl + 'Reviewer/Index?isMonthly=' + isMonthly + '&statusProcess=' + finished;
         }
 
         function viewEPADetail(epa) {

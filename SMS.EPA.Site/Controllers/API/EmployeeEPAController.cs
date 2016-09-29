@@ -121,7 +121,8 @@
             int? groupId = null,
             bool? isLocal = null,
             bool isMonthly = false,
-            string employeeIds = null)
+            string employeeIds = null,
+            bool? statusProcess = null)
         {
             var criteria = new GetEPAByEvaluatorCriteria()
             {
@@ -129,7 +130,8 @@
                 GroupId = groupId,
                 IsLocal = isLocal,
                 IsMonthly = isMonthly,
-                EmployeeIds = employeeIds
+                EmployeeIds = employeeIds,
+                StatusProcess = statusProcess
             };
 
             return employeeEPAService.GetEPAByEvaluator(criteria);
@@ -216,7 +218,8 @@
             int? groupId = null,
             bool? isLocal = null,
             bool isMonthly = false,
-            string employeeIds = null)
+            string employeeIds = null,
+            bool? statusProcess = null)
         {
             var criteria = new GetEPAByReviewerCriteria()
             {
@@ -224,7 +227,8 @@
                 GroupId = groupId,
                 IsLocal = isLocal,
                 IsMonthly = isMonthly,
-                EmployeeIds = employeeIds
+                EmployeeIds = employeeIds,
+                StatusProcess = statusProcess
             };
 
             return employeeEPAService.GetEPAByReviewer(criteria);
@@ -300,14 +304,16 @@
         public IEnumerable<EPAModel> GetEPAByManagement(
             int? groupId = null,
             bool? isLocal = null,
-            string employeeIds = null)
+            string employeeIds = null,
+            bool? statusProcess = null)
         {
             var criteria = new GetEPAByManagementCriteria()
             {
                 ManagementId = this.SessionService.EmployeeId,
                 GroupId = groupId,
                 IsLocal = isLocal,
-                EmployeeIds = employeeIds
+                EmployeeIds = employeeIds,
+                StatusProcess = statusProcess
             };
 
             return employeeEPAService.GetEPAByManagement(criteria);

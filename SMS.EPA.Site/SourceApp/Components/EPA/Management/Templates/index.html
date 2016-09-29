@@ -30,6 +30,17 @@
                                                   helper-elements="all reset filter" item-label="NickName" tick-property="ticked" max-labels="0">
                     </epa-add-class-to-role-filter>
                 </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-1 control-label" data-translate="Status"></label>
+                <div class="col-sm-2">
+                    <select class="form-control" ng-model="managementCtrl.filter.statusProcess">
+                        <option value="">-- {{"All" | translate}} --</option>
+                        <option value="true">{{"Finished" | translate}}</option>
+                        <option value="false">{{"Unfinished" | translate}}</option>
+                    </select>
+                </div>
+                <label class="col-sm-1">&nbsp;</label>
                 <div class="col-sm-1">
                     <button class="btn btn-primary" ng-click="managementCtrl.query(managementCtrl.filter)" data-translate="Submit"></button>
                 </div>

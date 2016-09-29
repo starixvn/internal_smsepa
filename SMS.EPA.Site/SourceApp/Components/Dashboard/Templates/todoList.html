@@ -1,16 +1,72 @@
-﻿<div ng-if="dashboardCtrl.todoList.Probations.length > 0
-        || dashboardCtrl.todoList.Promotions.length > 0
-        || dashboardCtrl.todoList.Monthlies.length > 0
-        || dashboardCtrl.todoList.SemiAnnuals.length > 0 ">
+﻿<div ng-if="dashboardCtrl.todoList.ToDoList.length > 0">
     <div class="panel panel-default">
         <div class="panel-heading" data-toggle="collapse" data-target=".todoList">
             <h4 class="panel-title text-uppercase" data-translate="ToDoList"></h4>
         </div>
         <div class="panel-collapse collapse in todoList">
-            <div ng-include src="'/SourceApp/Components/Dashboard/Templates/probations.html'"></div>
-            <div ng-include src="'/SourceApp/Components/Dashboard/Templates/semiAnnuals.html'"></div>
-            <div ng-include src="'/SourceApp/Components/Dashboard/Templates/promotions.html'"></div>
-            <div ng-include src="'/SourceApp/Components/Dashboard/Templates/monthlies.html'"></div>
+            <div class="panel-body">
+                <table class="table table-bordered table-striped table-custom">
+                    <thead>
+                        <tr>
+                            <th data-translate="SymbolCount" rowspan="2"></th>
+                            <th data-translate="Period" rowspan="2"></th>
+                            <th data-translate="Evaluator" colspan="2" ng-show="dashboardCtrl.todoList.HasEvaluator"></th>
+                            <th data-translate="Reviewer" colspan="2" ng-show="dashboardCtrl.todoList.HasReviewer"></th>
+                            <th data-translate="Management" colspan="2" ng-show="dashboardCtrl.todoList.HasManagement"></th>
+                        </tr>
+                        <tr>
+                            <th data-translate="Unfinished" ng-show="dashboardCtrl.todoList.HasEvaluator"></th>
+                            <th data-translate="Finished" ng-show="dashboardCtrl.todoList.HasEvaluator"></th>
+                            <th data-translate="Unfinished" ng-show="dashboardCtrl.todoList.HasReviewer"></th>
+                            <th data-translate="Finished" ng-show="dashboardCtrl.todoList.HasReviewer"></th>
+                            <th data-translate="Unfinished" ng-show="dashboardCtrl.todoList.HasManagement"></th>
+                            <th data-translate="Finished" ng-show="dashboardCtrl.todoList.HasManagement"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="period in dashboardCtrl.todoList.ToDoList">
+                            <td class="text-center" ng-bind="$index + 1"></td>
+                            <td ng-bind="period.Period.Name"></td>
+                            <td class="text-center" ng-show="dashboardCtrl.todoList.HasEvaluator">
+                                <a href="" ng-bind="period.NumberOfEmployeesUnfinishedByEvaluator"
+                                   ng-show="period.NumberOfEmployeesUnfinishedByEvaluator > 0"
+                                   ng-click="dashboardCtrl.goToEvaluatorListing(false, period.IsMonthly)"></a>
+                                <span ng-show="period.NumberOfEmployeesUnfinishedByEvaluator == 0">0</span>
+                            </td>
+                            <td class="text-center" ng-show="dashboardCtrl.todoList.HasEvaluator">
+                                <a href="" ng-bind="period.NumberOfEmployeesFinishedByEvaluator"
+                                   ng-show="period.NumberOfEmployeesFinishedByEvaluator > 0"
+                                   ng-click="dashboardCtrl.goToEvaluatorListing(true, period.IsMonthly)"></a>
+                                <span ng-show="period.NumberOfEmployeesFinishedByEvaluator == 0">0</span>
+                            </td>
+                            <td class="text-center" ng-show="dashboardCtrl.todoList.HasReviewer">
+                                <a href="" ng-bind="period.NumberOfEmployeesUnfinishedByReviewer"
+                                   ng-show="period.NumberOfEmployeesUnfinishedByReviewer > 0"
+                                   ng-click="dashboardCtrl.goToReviewerListing(false, period.IsMonthly)"></a>
+                                <span ng-show="period.NumberOfEmployeesUnfinishedByReviewer == 0">0</span>
+                            </td>
+                            <td class="text-center" ng-show="dashboardCtrl.todoList.HasReviewer">
+                                <a href="" ng-bind="period.NumberOfEmployeesFinishedByReviewer"
+                                   ng-show="period.NumberOfEmployeesFinishedByReviewer > 0"
+                                   ng-click="dashboardCtrl.goToReviewerListing(true, period.IsMonthly)"></a>
+                                <span ng-show="period.NumberOfEmployeesFinishedByReviewer == 0">0</span>
+                            </td>
+                            <td class="text-center" ng-show="dashboardCtrl.todoList.HasManagement">
+                                <a href="" ng-bind="period.NumberOfEmployeesUnfinishedByManagement"
+                                   ng-show="period.NumberOfEmployeesUnfinishedByManagement > 0"
+                                   ng-click="dashboardCtrl.goToManagementListing(false)"></a>
+                                <span ng-show="period.NumberOfEmployeesUnfinishedByManagement == 0">0</span>
+                            </td>
+                            <td class="text-center" ng-show="dashboardCtrl.todoList.HasManagement">
+                                <a href="" ng-bind="period.NumberOfEmployeesFinishedByManagement"
+                                   ng-show="period.NumberOfEmployeesFinishedByManagement > 0"
+                                   ng-click="dashboardCtrl.goToManagementListing(true)"></a>
+                                <span ng-show="period.NumberOfEmployeesFinishedByManagement == 0">0</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

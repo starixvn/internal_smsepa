@@ -12,6 +12,8 @@
 
         public bool? IsLocal { get; set; }
 
+        public bool? StatusProcess { get; set; }
+
         public override string GetSettingKey()
         {
             return "EPA_GetByManagement";

@@ -5,7 +5,7 @@
     // Assign Permission to Role
     angular.module('roleModule').directive('assignPermission', assignPermission);
     // get role permission when click save button
-    angular.module('roleModule').directive('getRolePermission', assignPermission);
+    angular.module('roleModule').directive('getRolePermission', getRolePermission);
 
     function assignPermission() {
         var updateParent = function (checked, type) {

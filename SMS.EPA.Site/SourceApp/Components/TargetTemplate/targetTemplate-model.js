@@ -1,17 +1,18 @@
 ﻿(function (angular) {
     'use strict';
+    /* jshint latedef:nofunc */
 
     angular.module('targetTemplateModule').factory('TargetTemplateModel', TargetTemplateModel);
     TargetTemplateModel.$inject = ['$modal', 'targetTemplateFactory', 'errorFactory', 'notificationFactory', 'utilitiesFactory'];
 
     function TargetTemplateModel($modal, targetTemplateFactory, errorFactory, notificationFactory, utilitiesFactory) {
         var targetTemplates = [],
-        targetTemplate = {},
-        kpiGroups = [],
-        kpiList = [],
-        permission = 0,
-        scoreRatingTypes = [],
-        ratingTypes = [];
+            targetTemplate = {},
+            kpiGroups = [],
+            kpiList = [],
+            permission = 0,
+            scoreRatingTypes = [],
+            ratingTypes = [];
 
         var targetTemplateModel = {
             addKPIGroupWeight: addKPIGroupWeight,
@@ -184,7 +185,7 @@
             });
 
             return vm.modalInstance.result;
-        };
+        }
 
         function openPopupDeleteKPIGroup(targetTemplateId, kpiGroup) {
             var modalInstance = $modal.open({

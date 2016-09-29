@@ -37,7 +37,7 @@
             });
 
             return vm.modalInstance.result;
-        }
+        };
 
         flowModel.validateFlowTemplate = function (flowTemplate) {
             if (!flowTemplate) {

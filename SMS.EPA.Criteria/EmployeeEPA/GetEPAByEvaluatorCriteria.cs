@@ -14,6 +14,8 @@
 
         public int? GroupId { get; set; }
 
+        public bool? StatusProcess { get; set; }
+
         public override string GetSettingKey()
         {
             return "EPA_GetByEvaluator";

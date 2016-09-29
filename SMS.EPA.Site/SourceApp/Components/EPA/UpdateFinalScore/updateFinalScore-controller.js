@@ -44,7 +44,7 @@
         function exportExcel() {
             var index = vm.periods.map(function (e) { return e.PeriodId; }).indexOf(vm.filter.periodId);
             var selectedEPAs = getSelectedEPA(vm.filteredItems);
-            var employeeIds = selectedEPAs.map(function (e) { return e.Employee.EmployeeId }).join(',');
+            var employeeIds = selectedEPAs.map(function (e) { return e.Employee.EmployeeId; }).join(',');
 
             vm.exportCriteria = {
                 periodId: vm.filter.periodId,

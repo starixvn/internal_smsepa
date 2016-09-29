@@ -235,8 +235,8 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         });
     };
 
-    reviewerMngModel.getEPAByReviewer = function (groupId, isLocal, isMonthly, employeeIds) {
-        return employeeEPAFactory.getEPAByReviewer(groupId, isLocal, isMonthly, employeeIds).success(function (epaInfos) {
+    reviewerMngModel.getEPAByReviewer = function (groupId, isLocal, isMonthly, employeeIds, statusProcess) {
+        return employeeEPAFactory.getEPAByReviewer(groupId, isLocal, isMonthly, employeeIds, statusProcess).success(function (epaInfos) {
             reviewerMngModel.epaInfos = epaInfos;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
@@ -305,8 +305,8 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         });
     };
 
-    reviewerMngModel.getEPAByManagement = function (groupId, isLocal, employeeIds) {
-        return employeeEPAFactory.getEPAByManagement(groupId, isLocal, employeeIds).success(function (epaInfos) {
+    reviewerMngModel.getEPAByManagement = function (groupId, isLocal, employeeIds, statusProcess) {
+        return employeeEPAFactory.getEPAByManagement(groupId, isLocal, employeeIds, statusProcess).success(function (epaInfos) {
             reviewerMngModel.epaInfos = epaInfos;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);

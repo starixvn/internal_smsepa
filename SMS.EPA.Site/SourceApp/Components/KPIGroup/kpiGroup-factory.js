@@ -40,10 +40,6 @@
             return $http.put(baseUrl + 'api/KPIGroup/UpdateKPIGroup', kpiGroup);
         }
 
-        function updateRequiredEvaluateKPI(kpi) {
-            return $http.put(baseUrl + 'api/KPI/UpdateRequiredEvaluateKPI', kpi);
-        }
-
         function updateStatusKPIGroup(kpiGroup) {
             return $http.put(baseUrl + 'api/KPIGroup/UpdateStatusKPIGroup', kpiGroup);
         }

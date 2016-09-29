@@ -2,8 +2,8 @@
 /*global epaModule*/
 
 epaModule.controller('EvaluatorController',
-['EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl',
-function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
+['$routeParams', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl',
+function ($routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
     var vm = this;
 
     vm.epaInfos = [];
@@ -19,7 +19,8 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, hi
         return filter ? filter : {
             groupId: '',
             isLocal: '',
-            isMonthly: false,
+            statusProcess: $routeParams.statusProcess ? $routeParams.statusProcess : '',
+            isMonthly: $routeParams.isMonthly ? $routeParams.isMonthly === 'true' : false,
             employeeIds: ''
         };
     }
@@ -66,11 +67,11 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, hi
         }
     };
 
-    function getEPAByEvaluator(groupId, isLocal, isMonthly, employeeIds) {
+    function getEPAByEvaluator(groupId, isLocal, isMonthly, employeeIds, statusProcess) {
         lockScreenService.start();
         vm.sortBySelfScore = { ascending: false, descending: false };
 
-        SelfEvalutorModel.getEPAByEvaluator(groupId, isLocal, isMonthly, employeeIds).then(function () {
+        SelfEvalutorModel.getEPAByEvaluator(groupId, isLocal, isMonthly, employeeIds, statusProcess).then(function () {
             vm.epaInfos = SelfEvalutorModel.epaInfos;
 
             angular.forEach(vm.epaInfos, function (epaInfo) {
@@ -106,7 +107,7 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, hi
 
     vm.query = function (filter) {
         filter.employeeIds = utilitiesFactory.getSelectedData(vm.members, 'EmployeeId');
-        getEPAByEvaluator(filter.groupId, filter.isLocal, filter.isMonthly, filter.employeeIds);
+        getEPAByEvaluator(filter.groupId, filter.isLocal, filter.isMonthly, filter.employeeIds, filter.statusProcess);
     };
 
     vm.viewEPADetail = function (epaInfo) {
@@ -139,7 +140,7 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, hi
 
         CommonModel.getStandardGrade().then(function () {
             vm.standardGrades = CommonModel.standardGrades;
-            getEPAByEvaluator(vm.filter.groupId, vm.filter.isLocal, vm.filter.isMonthly, vm.filter.employeeIds);
+            getEPAByEvaluator(vm.filter.groupId, vm.filter.isLocal, vm.filter.isMonthly, vm.filter.employeeIds, vm.filter.statusProcess);
         });
     }
 

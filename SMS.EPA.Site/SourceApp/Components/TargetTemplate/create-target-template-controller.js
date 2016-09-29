@@ -1,5 +1,6 @@
 ﻿(function (angular) {
     'use strict';
+    /* jshint latedef:nofunc */
 
     angular.module('targetTemplateModule').controller('CreateTargetTemplateController', createTargetTemplateController);
     createTargetTemplateController.$inject = ['$modalInstance', 'TargetTemplateModel', 'CommonModel'];

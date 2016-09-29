@@ -3,9 +3,9 @@
     /* jshint latedef:nofunc */
 
     angular.module('disciplineModule').factory('DisciplineSummaryModel', disciplineSummaryModel);
-    disciplineSummaryModel.$inject = ['disciplineSummaryFactory', 'errorFactory'];
+    disciplineSummaryModel.$inject = ['$modal', 'disciplineSummaryFactory', 'errorFactory'];
 
-    function disciplineSummaryModel(disciplineSummaryFactory, errorFactory) {
+    function disciplineSummaryModel($modal, disciplineSummaryFactory, errorFactory) {
         var date = new Date(),
             summaryPaging = {
                 currentPage: 1,
