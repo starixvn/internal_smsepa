@@ -135,7 +135,10 @@
         public void AssignTargetTemplateToEmployee_ValidArg_ExpectedToExecuteUpdate()
         {
             // Arrange
-            var criteria = new AssignTargetTemplateToEmployeeCriteria();
+            var criteria = new AssignTargetTemplateToEmployeeCriteria()
+            {
+                TargetTemplateId = 1
+            };
             ArrangeTargetTemplateSetting();
 
             // Act
@@ -166,7 +169,10 @@
         public void AssignTargetTemplateToDepartment_ValidArg_ExpectedToExecuteUpdate()
         {
             // Arrange
-            var criteria = new AssignTargetDepartmentSettingCriteria();
+            var criteria = new AssignTargetDepartmentSettingCriteria()
+            {
+                TargetTemplateId = 1
+            };
             ArrangeTargetTemplateSetting();
 
             // Act

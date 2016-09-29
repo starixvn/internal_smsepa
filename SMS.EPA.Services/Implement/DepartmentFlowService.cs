@@ -83,12 +83,7 @@
             {
                 FlowTemplateId = flowTemplateId
             };
-            IList<Department> departments = new List<Department>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                departments = this.GetData<Department>(criteria).ToList();
-            }
+            IList<Department> departments = GetData<Department>(criteria).ToList();
 
             return departments;
         }

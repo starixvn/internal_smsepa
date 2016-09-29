@@ -71,6 +71,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Department\GetDepartmentCriteriaTests.cs" />
+    <Compile Include="FlowSetting\DeletePersonalFlowCriteriaTests.cs" />
+    <Compile Include="FlowSetting\DeleteDepartmentFlowCriteriaTests.cs" />
+    <Compile Include="FlowSetting\CreatePersonalFlowCriteriaTests.cs" />
+    <Compile Include="FlowSetting\CreateDepartmentFlowCriteriaTests.cs" />
+    <Compile Include="FlowSetting\UpdateStatusFlowTemplateCriteriaTests.cs" />
+    <Compile Include="FlowSetting\GetPersonalFlowByIdCriteriaTests.cs" />
+    <Compile Include="FlowSetting\GetPersonalFlowByFlowTemplateIdCriteriaTests.cs" />
+    <Compile Include="FlowSetting\GetEmployeeFlowSettingCriteriaTests.cs" />
+    <Compile Include="FlowSetting\GetDepartmentSectionHasSettingCriteriaTests.cs" />
+    <Compile Include="FlowSetting\GetDepartmentFlowByIdCriteriaTests.cs" />
+    <Compile Include="FlowSetting\GetDepartmentFlowByFlowTemplateIdCriteriaTests.cs" />
     <Compile Include="KPIGroup\CreateKPIGroupCriteriaTests.cs" />
     <Compile Include="KPIGroup\DeleteKPIGroupCriteriaTests.cs" />
     <Compile Include="KPIGroup\GetKPIGroupByIdCriteriaTests.cs" />
@@ -97,6 +108,10 @@
     <ProjectReference Include="..\SMS.EPA.Criteria\SMS.EPA.Criteria.csproj">
       <Project>{23bd1141-64a1-4684-8a1e-83e8cc0d46aa}</Project>
       <Name>SMS.EPA.Criteria</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SMS.EPA.Models\SMS.EPA.Model.csproj">
+      <Project>{235c8d9e-97ec-4183-baf2-3783f2f816cc}</Project>
+      <Name>SMS.EPA.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

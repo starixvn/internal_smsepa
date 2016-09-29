@@ -25,10 +25,10 @@
         public void GetFlowTemplate_AnyArg_ReturnInstanceOfListOfFlowTemplateModel()
         {
             // Arrange
-            ArrangeGetFlowTemplate();
+            flowTemplateService = Substitute.For<FlowTemplateService>();
 
             // Act
-            var actual = flowTemplateService.GetFlowTemplate(new GetFlowTemplateCriteria());
+            var actual = flowTemplateService.GetFlowTemplate(Arg.Any<GetFlowTemplateCriteria>());
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<FlowTemplateModel>), actual);
