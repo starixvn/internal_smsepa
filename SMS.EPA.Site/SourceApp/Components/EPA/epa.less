@@ -93,6 +93,10 @@
     color: #11d123;
 }
 
+.error-message {
+    color: #df1501 !important;
+}
+
 .epa-form {
     padding: 0;
     margin: 0 0 70px;
@@ -110,45 +114,6 @@
 
     .note {
         color: #df1501;
-    }
-
-    .list-group-item {
-        padding: 0;
-        border-top: none;
-        color: #61463b;
-        border-radius: 0;
-
-        &.bottom-buffer {
-            margin-bottom: 10px;
-        }
-
-        .boxcontent {
-            padding: 3px 30px 8px;
-
-            .row-item {
-                padding: 5px 0;
-
-                .score-star-rating {
-                    display: inline-block;
-                }
-
-                .textarea-comment {
-                    padding: 0;
-
-                    label {
-                        color: #39f;
-                    }
-                }
-            }
-
-            .error-message {
-                color: #F00 !important;
-            }
-        }
-
-        .employee-score {
-            padding: 0;
-        }
     }
 
     .glyphicon {
@@ -211,76 +176,171 @@
     }
 }
 
+.table-evaluation {
+    tbody + tbody {
+        border-top: 1px solid #ddd;
+    }
+
+    tbody {
+        tr {
+            td {
+                border-top: 0;
+
+                &:first-child {
+                    border-left: 1px solid #aaa;
+                }
+
+                &:last-child {
+                    border-right: 1px solid #aaa;
+                }
+            }
+
+            &.kpi-group-name {
+                color: #fff;
+                background-color: #8b8f9e;
+                cursor: pointer;
+                padding-top: 8px;
+                padding-bottom: 8px;
+            }
+
+            &.row-comment {
+                td {
+                    padding-top: 0;
+                }
+            }
+
+            .kpi-name {
+                .name {
+                }
+
+                .description {
+                    color: #535353;
+                    font-style: italic;
+                    font-size: 12px;
+                }
+            }
+
+            .score-star-rating {
+                display: inline-block;
+
+                .rating-xs {
+                    font-size: 13px;
+                }
+            }
+
+            .rating-by-star {
+                display: flex;
+
+                .remove-rating {
+                    min-width: 18px;
+
+                    .remove-star {
+                        color: #de5245;
+                        margin-right: 3px;
+                        cursor: pointer;
+                        font-size: 16px;
+                        top: 2px;
+                    }
+                }
+
+                .rating-form {
+                    .rating-xs {
+                        font-size: 1em;
+                    }
+
+                    .glyphicon {
+                        font-size: 25px;
+                        color: #4493c4;
+
+                        &.glyphicon-star {
+                            color: #f67f46;
+                        }
+                    }
+                }
+
+                .kpi-percent {
+                    .badge.percent {
+                        width: 55px;
+                        font-weight: normal;
+                        font-size: 11px;
+                    }
+                }
+            }
+
+            .rating-by-score {
+                .kpi-score {
+                    padding: 5px !important;
+                    height: 24px !important;
+                    width: 85px;
+                    margin: 0 auto;
+                    border-radius: 0;
+                    box-shadow: none;
+                }
+            }
+
+            .kpi-comment {
+                .collapse-expanse {
+                    width: 15px;
+                    float: left;
+                    display: inline-block;
+
+                    .icon-minus, .icon-plus {
+                        margin-top: -3px;
+                    }
+                }
+
+                .textarea {
+                    width: 94%;
+                    display: inline-block;
+                    float: left;
+                }
+
+                .note {
+                    width: 20px;
+                    margin-left: 5px;
+                    color: #df1501;
+                    display: inline-block;
+                    float: left;
+                }
+
+                &.comment-by-employee, &.comment-by-evaluator {
+                    .control-label {
+                        color: #39f;
+                        float: left;
+                        display: inline-block;
+                        margin-right: 5px;
+                    }
+
+                    .collapse-expanse {
+                        display: block;
+                        float: unset;
+                        width: unset;
+                    }
+                }
+            }
+
+            textarea {
+                height: 2.5em;
+                -moz-transition: all 0.5s ease;
+                -o-transition: all 0.5s ease;
+                -webkit-transition: all 0.5s ease;
+                transition: all 0.5s ease;
+                color: #39F;
+
+                &:focus {
+                    height: 4em;
+                }
+            }
+        }
+    }
+}
+
 .action-section {
     background: #f7f7f9;
     height: 50px;
 
     .container {
         padding: 10px 0;
-    }
-}
-
-.list-kpi-rating {
-    .kpiGroup-name {
-        padding: 0;
-    }
-
-    .glyphicon {
-        font-size: 18px;
-        color: #4493C4;
-
-        &.glyphicon-star {
-            color: #F67F46;
-        }
-    }
-
-    .list-star {
-        .cancel-rating, .rating, .percent-rating {
-            padding: 0;
-        }
-
-        .remove-star {
-            color: #DE5245;
-            margin-right: 3px;
-            cursor: pointer;
-            font-size: 16px;
-            top: 2px;
-        }
-
-        .badge.percent {
-            width: 55px;
-            font-weight: normal;
-            font-size: 11px;
-        }
-    }
-
-    .kpi-score {
-        padding: 5px !important;
-        height: 24px !important;
-        width: 85px;
-        margin: 0 auto;
-        border-radius: 0;
-        box-shadow: none;
-    }
-
-    .textarea-comment {
-        margin-top: 10px;
-
-        &.comment-by-evaluator {
-            margin-top: 10px;
-
-            div.note {
-                padding-left: 0;
-
-                label.note {
-                    color: #df1501;
-                }
-            }
-        }
-
-        .required-comment {
-            padding-left: 0;
-        }
     }
 }
 
@@ -294,7 +354,7 @@
     }
 }
 
-.rating-section, .summary-section {
+.summary-section {
     textarea {
         border-radius: 0;
         box-shadow: none;
@@ -305,110 +365,7 @@
         -webkit-transition: all 0.5s ease;
         transition: all 0.5s ease;
         color: #39F;
-    }
-}
 
-.rating-section {
-    .row-item {
-        padding-bottom: 0 !important;
-    }
-
-    .icon-plus, .icon-minus {
-        display: inline-block;
-        width: 13px;
-        height: 20px;
-        cursor: pointer;
-    }
-
-    .icon-plus {
-        background: url(../../../Content/Site/images/plus-icon.gif);
-    }
-
-    .icon-minus {
-        background: url(../../../Content/Site/images/minus-icon.gif);
-    }
-
-    .error-message {
-        color: #f00;
-    }
-
-    .note {
-        color: #df1501;
-    }
-
-    .kpi-description, .kpi-comment {
-        margin: 0;
-        padding: 0;
-    }
-
-    .kpi-description {
-        color: #535353;
-        font-style: italic;
-        font-size: 12px;
-    }
-
-    .kpi-comment {
-        .collapse-expanse {
-            width: 2%;
-            float: left;
-            display: inline-block;
-        }
-
-        .textarea {
-            width: 92%;
-            margin-top: 8px;
-            display: inline-block;
-            float: left;
-        }
-
-        .note {
-            width: 5%;
-            margin-left: 5px;
-            margin-top: 8px;
-            color: #df1501;
-            display: inline-block;
-            float: left;
-        }
-
-        &.comment-by-employee, &.comment-by-evaluator {
-            .control-label {
-                color: #39f;
-                float: left;
-                display: inline-block;
-                margin-right: 5px;
-            }
-
-            .collapse-expanse {
-                display: block;
-                float: unset;
-                width: unset;
-            }
-
-            .textarea, .note {
-                margin-top: 0;
-            }
-
-            .textarea {
-                width: 94%;
-            }
-        }
-
-        &.comment-by-evaluator {
-            .control-label {
-                margin-top: 5px;
-            }
-        }
-    }
-
-    textarea {
-        &:focus {
-            height: 4em;
-        }
-    }
-}
-
-.summary-section {
-    textarea {
         &:focus {
             height: 8em;
         }
@@ -438,10 +395,6 @@
         &:first-child {
             padding-top: unset;
         }
-    }
-
-    .error-message {
-        color: #df1501 !important;
     }
 }
 
@@ -591,16 +544,6 @@
     }
 }
 
-.kpiGroup-box {
-    padding: 3px 15px 8px;
-
-    .kpi-name, .kpi-description, .kpi-comment {
-        [class^='col'] {
-            padding: 0;
-        }
-    }
-}
-
 .epa-saved {
     color: #25ad25 !important;
     font-size: 17px;
@@ -609,111 +552,6 @@
 .epa-unsaved {
     color: #DE5245 !important;
     font-size: 17px;
-}
-
-.kpi-name {
-    margin-top: 5px;
-
-    .feature {
-        width: 80%;
-        float: left;
-    }
-
-    .kpi-start {
-        width: 14%;
-        float: left;
-        text-align: right;
-
-        .remove-rating {
-            display: inline-block;
-
-            .remove-star {
-                color: #de5245;
-                margin-right: 3px;
-                cursor: pointer;
-                font-size: 16px;
-                top: 2px;
-            }
-        }
-
-        .rating-form {
-            padding-left: 5px;
-            display: inline-block;
-
-            .rating-xs {
-                font-size: 1em;
-            }
-
-            .glyphicon {
-                font-size: 25px;
-                color: #4493c4;
-
-                &.glyphicon-star {
-                    //cursor: pointer;
-                    color: #f67f46;
-                }
-            }
-        }
-    }
-
-    .kpi-percent {
-        width: 5%;
-        float: left;
-        padding-left: 5px;
-
-        .badge.percent {
-            width: 55px;
-            font-weight: normal;
-            font-size: 11px;
-        }
-    }
-
-    .rating-by-score {
-        float: right;
-    }
-}
-
-.evaluator-container {
-    .kpi-name {
-        .feature {
-            width: 60%;
-        }
-
-        .kpi-start {
-            width: 14%;
-        }
-
-        .employee-score {
-            width: 20%;
-            float: left;
-            text-align: center;
-
-            .score-star-rating {
-                display: inline-block;
-
-                .rating-xs {
-                    font-size: 13px;
-                }
-            }
-        }
-    }
-
-    .panel-default {
-        .panel-heading {
-            .panel-title {
-                display: flex;
-
-                .kpiGroup-name {
-                    flex-basis: 60%;
-                }
-
-                .employee-score {
-                    flex-basis: 20%;
-                    text-align: center;
-                }
-            }
-        }
-    }
 }
 
 .form-inline-block {
@@ -742,43 +580,9 @@
     }
 }
 
-@media (max-width: 1350px) {
-    .kpi-name {
-        .feature {
-            width: 70%;
-        }
-
-        .kpi-start {
-            width: 24%;
-        }
-    }
-}
-
 @media (max-width: 800px) {
     .user-info {
         clear: left;
-    }
-
-    .evaluator-container {
-        .panel-default {
-            .panel-heading {
-                .panel-title {
-                    .employee-score {
-                        flex-basis: 16%;
-                    }
-                }
-            }
-        }
-
-        .kpi-name {
-            .employee-score {
-                width: 16%;
-            }
-
-            .kpi-start {
-                width: 18%;
-            }
-        }
     }
 }
 
@@ -816,42 +620,6 @@
                 text-align: center;
                 margin-left: 0;
             }
-        }
-    }
-}
-
-@media (min-width:1200px) {
-    .list-kpi-rating {
-        .list-star {
-            padding: 0 30px;
-        }
-    }
-}
-
-@media (min-width:1500px) {
-    .list-kpi-rating {
-        .list-star {
-            padding: 0 50px;
-        }
-    }
-}
-
-@media (min-width:1700px) {
-    .list-kpi-rating {
-        .list-star {
-            padding: 0 60px;
-        }
-
-        .kpi-score {
-            width: 80px;
-        }
-    }
-}
-
-@media (min-width:1800px) {
-    .list-kpi-rating {
-        .list-star {
-            padding: 0 80px;
         }
     }
 }

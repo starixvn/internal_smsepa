@@ -42,10 +42,10 @@
 
             <any ng-switch="memberEPAInfoCtrl.viewBySelf()">
                 <any ng-switch-when="true">
-                    <div class="list-group-item" ng-include src="'/SourceApp/Components/EPA/Evaluator/Templates/listKPI.html'"></div>
+                    <div ng-include src="'/SourceApp/Components/EPA/Evaluator/Templates/listKPI.html'"></div>
                 </any>
                 <any ng-switch-when="false">
-                    <div class="list-group-item" ng-include src="'/SourceApp/Components/EPA/Evaluator/Templates/listKPIToView.html'"></div>
+                    <div ng-include src="'/SourceApp/Components/EPA/Evaluator/Templates/listKPIToView.html'"></div>
                 </any>
             </any>
 
