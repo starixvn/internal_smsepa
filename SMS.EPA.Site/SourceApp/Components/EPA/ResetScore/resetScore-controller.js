@@ -9,12 +9,7 @@ function ($routeParams, employeeEPAFactory, notificationFactory, errorFactory) {
     vm.epaId = parseInt($routeParams.id);
 
     vm.resetScore = function () {
-        var criteria = {
-            EPAId: vm.epaId
-        };
-
-        return employeeEPAFactory.resetScore(criteria)
-        .success(function (response) {
+        return employeeEPAFactory.resetScore(vm.epaId).success(function (response) {
             if (response.IsSuccessful) {
                 notificationFactory.success("UpdatedSuccessfully");
             }

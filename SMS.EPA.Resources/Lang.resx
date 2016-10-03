@@ -1341,4 +1341,13 @@
   <data name="Unfinished" xml:space="preserve">
     <value>Unfinished</value>
   </data>
+  <data name="PerformanceGradingScale" xml:space="preserve">
+    <value>Performance Grading Scale</value>
+  </data>
+  <data name="Employee" xml:space="preserve">
+    <value>Employee</value>
+  </data>
+  <data name="Score" xml:space="preserve">
+    <value>Score</value>
+  </data>
 </root>

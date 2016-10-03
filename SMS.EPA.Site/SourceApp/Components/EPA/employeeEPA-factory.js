@@ -121,8 +121,8 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
         convertEPA: function () {
             return $http.put(baseUrl + 'api/EmployeeEPA/ConvertEPA');
         },
-        resetScore: function (criteria) {
-            return $http.put(baseUrl + 'api/EmployeeEPA/ResetScore', criteria);
+        resetScore: function (epaId) {
+            return $http.put(baseUrl + 'api/EmployeeEPA/ResetScore', { params: { epaId: epaId } });
         },
         getPeriodToUpdateFinalScore: function () {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetPeriodToUpdateFinalScore');

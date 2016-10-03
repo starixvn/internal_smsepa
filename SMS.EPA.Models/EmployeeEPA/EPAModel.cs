@@ -111,10 +111,14 @@
             {
                 List<int> numbers = new List<int>
                     {
-                        Process.Evaluators.Count,
                         Process.Reviewers.Count,
                         Process.Managements.Count
                     };
+
+                if (!HasMonthlyEPA)
+                {
+                    numbers.Add(Process.Evaluators.Count);
+                }
 
                 return numbers.Max();
             }

@@ -871,6 +871,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Employee.
+        /// </summary>
+        public static string Employee {
+            get {
+                return ResourceManager.GetString("Employee", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Employee Code.
         /// </summary>
         public static string EmployeeCode {
@@ -2365,6 +2374,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Performance Grading Scale.
+        /// </summary>
+        public static string PerformanceGradingScale {
+            get {
+                return ResourceManager.GetString("PerformanceGradingScale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Performance Result.
         /// </summary>
         public static string PerformanceResult {
@@ -2730,6 +2748,15 @@ namespace SMS.EPA.Resources {
         public static string Save {
             get {
                 return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Score.
+        /// </summary>
+        public static string Score {
+            get {
+                return ResourceManager.GetString("Score", resourceCulture);
             }
         }
         

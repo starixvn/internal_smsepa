@@ -369,11 +369,15 @@
 
         #endregion Rating By KPI
 
-        public EPAModel GetEPAInfoById(GetEPAInfoByIdCriteria criteria)
+        public EPAModel GetEPAInfoById(int epaId)
         {
+            var criteria = new GetEPAInfoByIdCriteria
+            {
+                EPAId = epaId
+            };
             EPAModel epaInfo = new EPAModel();
 
-            if (criteria != null && criteria.IsValid())
+            if (criteria.IsValid())
             {
                 epaInfo = employeeEPARepository.GetEPAInfo(criteria);
                 SpreadKPIScore(epaInfo.KPIGroups);

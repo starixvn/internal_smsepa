@@ -67,7 +67,7 @@
 
         IEnumerable<EPAModel> GetEPAEndEvaluationPeriod(GetEPAEndEvaluationPeriodCriteria criteria);
 
-        EPAModel GetEPAInfoById(GetEPAInfoByIdCriteria criteria);
+        EPAModel GetEPAInfoById(int epaId);
 
         CommandResult UpdateEPAScore(UpdateEPAScoreCriteria criteria);
 

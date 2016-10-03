@@ -136,11 +136,7 @@
 
                 foreach (AutoEmployeePeriodModel evaluationProcess in semiEvaluationProcesses)
                 {
-                    var getEPAInfoCriteria = new GetEPAInfoByIdCriteria
-                    {
-                        EPAId = evaluationProcess.EPAId
-                    };
-                    EPAModel epaInfo = employeeEPAService.GetEPAInfoById(getEPAInfoCriteria);
+                    EPAModel epaInfo = employeeEPAService.GetEPAInfoById(evaluationProcess.EPAId);
 
                     var updateTotalScoreOfSemiHasMonthlyCriteria = new UpdateTotalScoreOfSemiHasMonthlyCriteria
                     {
@@ -156,11 +152,7 @@
                 {
                     if (string.IsNullOrEmpty(evaluationProcess.TotalScore))
                     {
-                        var getEvaluationInfoCriteria = new GetEPAInfoByIdCriteria
-                        {
-                            EPAId = evaluationProcess.EPAId
-                        };
-                        EPAModel epaInfo = employeeEPAService.GetEPAInfoById(getEvaluationInfoCriteria);
+                        EPAModel epaInfo = employeeEPAService.GetEPAInfoById(evaluationProcess.EPAId);
 
                         float averageScore = GetAverageScorePreProcess(epaInfo, evaluationProcess.ProcessId);
                         Log.Info("Result of get average score of pre-process of EPA " + evaluationProcess.EPAId + " : " + averageScore);

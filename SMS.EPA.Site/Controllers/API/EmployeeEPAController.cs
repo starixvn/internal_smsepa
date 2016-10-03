@@ -547,12 +547,7 @@
                     return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
 
                 default:
-                    var criteria = new GetEPAInfoByIdCriteria()
-                    {
-                        EPAId = epaId
-                    };
-
-                    epaInfo = employeeEPAService.GetEPAInfoById(criteria);
+                    epaInfo = employeeEPAService.GetEPAInfoById(epaId);
 
                     return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
             }
@@ -573,13 +568,13 @@
         }
 
         [HttpPut]
-        public HttpResponseMessage ResetScore(GetEPAInfoByIdCriteria criteria)
+        public HttpResponseMessage ResetScore(int epaId)
         {
             HttpResponseMessage response = null;
 
             if (this.SessionService.CurrentUser.Roles.Select(x => x.RoleId).Contains((int)SystemRole.SystemAdmin))
             {
-                EPAModel epaInfo = employeeEPAService.GetEPAInfoById(criteria);
+                EPAModel epaInfo = employeeEPAService.GetEPAInfoById(epaId);
 
                 var resetScoreCriteria = new ResetScoreCriteria()
                 {
