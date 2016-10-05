@@ -87,10 +87,9 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
                 vm.hasRatingByStar = true;
             }
 
-            if (vm.epaInfo.HasMonthlyEPA && vm.epaInfo.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual && !vm.epaInfo.Process.CurrentProcess.TotalScore) {
+            if (vm.epaInfo.IsSemiHasMonthly && !vm.epaInfo.Process.CurrentProcess.TotalScore) {
                 vm.epaInfo.Process.CurrentProcess.TotalScore = vm.epaInfo.MonthlyEPA.AverageReviewerScoreConverted;
-            } else if (!vm.epaInfo.Process.CurrentProcess.TotalScore
-                && vm.epaInfo.Process.Evaluators[0].IsEndProcess) {
+            } else if (!vm.epaInfo.Process.CurrentProcess.TotalScore && vm.epaInfo.Process.Evaluators[0].IsEndProcess) {
                 vm.epaInfo.Process.CurrentProcess.TotalScore = vm.epaInfo.Process.AverageScoreByEvaluators;
             }
 

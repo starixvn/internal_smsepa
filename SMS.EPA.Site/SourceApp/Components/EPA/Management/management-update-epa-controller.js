@@ -89,7 +89,7 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
             if (vm.epaInfo.Process.Reviewers.length > 0 && vm.epaInfo.Process.Reviewers[0].IsEndProcess && !vm.epaInfo.Process.CurrentProcess.TotalScore) {
                 vm.epaInfo.Process.CurrentProcess.TotalScore = vm.epaInfo.Process.AverageScoreByReviewers;
             } else if (vm.epaInfo.Process.Evaluators[0].IsEndProcess && !vm.epaInfo.Process.CurrentProcess.TotalScore) {
-                if (vm.epaInfo.HasMonthlyEPA && vm.epaInfo.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
+                if (vm.epaInfo.IsSemiHasMonthly) {
                     vm.epaInfo.Process.CurrentProcess.TotalScore = vm.epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted;
                 } else {
                     vm.epaInfo.Process.CurrentProcess.TotalScore = vm.epaInfo.Process.AverageScoreByEvaluators;

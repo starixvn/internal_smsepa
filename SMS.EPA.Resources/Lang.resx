@@ -1350,4 +1350,7 @@
   <data name="Score" xml:space="preserve">
     <value>Score</value>
   </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
 </root>

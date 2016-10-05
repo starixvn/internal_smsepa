@@ -29,11 +29,11 @@ function ($routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilit
         var tempa = epaInfo1.Process.Self.TotalScore ? parseFloat(epaInfo1.Process.Self.TotalScore) : 0,
             tempb = epaInfo2.Process.Self.TotalScore ? parseFloat(epaInfo2.Process.Self.TotalScore) : 0;
 
-        if (epaInfo1.HasMonthlyEPA && epaInfo1.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
+        if (epaInfo1.IsSemiHasMonthly) {
             tempa = epaInfo1.MonthlyEPA.AverageSelfScoreConverted;
         }
 
-        if (epaInfo2.HasMonthlyEPA && epaInfo2.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
+        if (epaInfo2.IsSemiHasMonthly) {
             tempb = epaInfo2.MonthlyEPA.AverageSelfScoreConverted;
         }
 
@@ -75,7 +75,7 @@ function ($routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilit
             vm.epaInfos = SelfEvalutorModel.epaInfos;
 
             angular.forEach(vm.epaInfos, function (epaInfo) {
-                if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
+                if (epaInfo.IsSemiHasMonthly) {
                     epaInfo.Process.Self.TotalScore = epaInfo.MonthlyEPA.AverageSelfScoreConverted;
                     epaInfo.FinalScore = utilitiesFactory.parseFloat(epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted) + epaInfo.DisciplineScore;
                 } else {

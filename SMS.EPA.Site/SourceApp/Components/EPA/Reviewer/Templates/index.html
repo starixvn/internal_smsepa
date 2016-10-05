@@ -153,7 +153,7 @@
                         <div ng-switch-default data-translate="Pending"></div>
                     </td>
                     <td class="text-right">
-                        <div ng-if="epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == reviewerCtrl.targetTypeEnum.SemiAnnual" class="form-inline-block">
+                        <div ng-if="epaInfo.IsSemiHasMonthly" class="form-inline-block">
                             {{epaInfo.MonthlyEPA.AverageReviewerScoreConverted}}
                             <input type="text" maxlength="6" class="form-control text-center epa-input-score"
                                    ng-readonly="!epaInfo.IsAllowedToEdit || reviewerCtrl.permission != reviewerCtrl.policyEnum.Host"

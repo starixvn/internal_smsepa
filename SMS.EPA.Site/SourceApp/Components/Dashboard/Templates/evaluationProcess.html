@@ -11,7 +11,7 @@
             <div class="panel-body">
                 <ul class="evaluation-process" class="evaluation-process">
                     <li ng-class="dashboardCtrl.getClassProgress(epaInfo.Process.Self.StatusEndProcess)" class="process-item"
-                        ng-if="!(epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == dashboardCtrl.targetTypeEnum.SemiAnnual)">
+                        ng-if="!epaInfo.IsSemiHasMonthly">
                         <div><strong data-translate="Self"></strong></div>
                         <div>
                             <span ng-bind="epaInfo.Process.Self.StartDate | customDate"></span>
@@ -29,7 +29,7 @@
                         </div>
                     </li>
                     <li ng-class="dashboardCtrl.getClassProgress(epaInfo.Process.Evaluators[0].StatusEndProcess)" class="process-item"
-                        ng-if="!(epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == dashboardCtrl.targetTypeEnum.SemiAnnual)">
+                        ng-if="!epaInfo.IsSemiHasMonthly">
                         <div>
                             <strong>{{"Evaluator" | translate}}: </strong>
                             <span ng-show="epaInfo.Process.Evaluators.length == 1" ng-bind="epaInfo.Process.Evaluators[0].NickName"

@@ -54,11 +54,11 @@ function ($translate, $location, $routeParams, EmployeeEPAModel, ReviewerManagem
         var tempa = epaInfo1.Process.Self.TotalScore ? parseFloat(epaInfo1.Process.Self.TotalScore) : 0,
             tempb = epaInfo2.Process.Self.TotalScore ? parseFloat(epaInfo2.Process.Self.TotalScore) : 0;
 
-        if (epaInfo1.HasMonthlyEPA && epaInfo1.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
+        if (epaInfo1.IsSemiHasMonthly) {
             tempa = epaInfo1.MonthlyEPA.AverageSelfScoreConverted;
         }
 
-        if (epaInfo2.HasMonthlyEPA && epaInfo2.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
+        if (epaInfo2.IsSemiHasMonthly) {
             tempb = epaInfo2.MonthlyEPA.AverageSelfScoreConverted;
         }
 
@@ -69,11 +69,11 @@ function ($translate, $location, $routeParams, EmployeeEPAModel, ReviewerManagem
         var tempa = epaInfo1.Process.AverageScoreByEvaluators,
             tempb = epaInfo2.Process.AverageScoreByEvaluators;
 
-        if (epaInfo1.HasMonthlyEPA && epaInfo1.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
+        if (epaInfo1.IsSemiHasMonthly) {
             tempa = epaInfo1.MonthlyEPA.AverageEvaluatorScoreConverted;
         }
 
-        if (epaInfo2.HasMonthlyEPA && epaInfo2.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
+        if (epaInfo2.IsSemiHasMonthly) {
             tempb = epaInfo2.MonthlyEPA.AverageEvaluatorScoreConverted;
         }
 
