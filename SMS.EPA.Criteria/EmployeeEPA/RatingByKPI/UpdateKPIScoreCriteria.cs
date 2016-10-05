@@ -38,7 +38,9 @@
 
         private string Encrypt(string plainText)
         {
-            return CryptographyService.Encrypt(plainText);
+            ICryptographyService cryptographyService = new CryptographyService();
+
+            return cryptographyService.Encrypt(plainText);
         }
 
         private string ConvertToXml(IEnumerable<RatingByKPIModel> epaInfos)

@@ -22,6 +22,7 @@
         {
             get
             {
+                ICryptographyService cryptographyService = new CryptographyService();
                 var epaXml = new StringBuilder(Constants.BeginRootTag);
 
                 if (EPAInfo.HasMonthlyEPA
@@ -30,19 +31,19 @@
                     epaXml.AppendFormat(
                         EPAXmlTemplate,
                         (int)ProcessType.Self,
-                        CryptographyService.Encrypt(EPAInfo.MonthlyEPA.AverageSelfScoreConverted.ToString()),
+                        cryptographyService.Encrypt(EPAInfo.MonthlyEPA.AverageSelfScoreConverted.ToString()),
                         string.Empty);
 
                     epaXml.AppendFormat(
                         EPAXmlTemplate,
                         (int)ProcessType.Evaluator,
-                        CryptographyService.Encrypt(EPAInfo.MonthlyEPA.AverageEvaluatorScoreConverted.ToString()),
+                        cryptographyService.Encrypt(EPAInfo.MonthlyEPA.AverageEvaluatorScoreConverted.ToString()),
                         string.Empty);
 
                     epaXml.AppendFormat(
                         EPAXmlTemplate,
                         (int)ProcessType.Reviewer,
-                        CryptographyService.Encrypt(EPAInfo.MonthlyEPA.AverageReviewerScoreConverted.ToString()),
+                        cryptographyService.Encrypt(EPAInfo.MonthlyEPA.AverageReviewerScoreConverted.ToString()),
                         string.Empty);
 
                     epaXml.AppendFormat(

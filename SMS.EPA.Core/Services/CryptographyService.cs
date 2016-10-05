@@ -3,9 +3,9 @@
     using Constants;
     using Fanex.Common;
 
-    public static class CryptographyService
+    public class CryptographyService : ICryptographyService
     {
-        public static string Encrypt(string plainText)
+        public string Encrypt(string plainText)
         {
             string cipherText = string.Empty;
 
@@ -17,7 +17,7 @@
             return cipherText;
         }
 
-        public static string Decrypt(string cipherText)
+        public string Decrypt(string cipherText)
         {
             string plainText = string.Empty;
 

@@ -17,12 +17,13 @@
         {
             get
             {
+                ICryptographyService cryptographyService = new CryptographyService();
                 var epaXml = new StringBuilder(Constants.BeginRootTag);
 
                 foreach (AdjustScoreViewModel epaInfo in EpaInfos)
                 {
-                    var totalScoreEncrypt = CryptographyService.Encrypt(epaInfo.TotalScore);
-                    var adjustScoreEncrypt = CryptographyService.Encrypt(epaInfo.AdjustScore);
+                    var totalScoreEncrypt = cryptographyService.Encrypt(epaInfo.TotalScore);
+                    var adjustScoreEncrypt = cryptographyService.Encrypt(epaInfo.AdjustScore);
 
                     epaXml.AppendFormat(
                         EPAXmlTemplate,

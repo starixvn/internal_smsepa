@@ -11,6 +11,12 @@
     public class UpdateEPAScoreCriteria : CriteriaBase
     {
         private const string KPIScoreXmlTemplate = "<KPI KPIId='{0}' KPIGroupId='{1}' Score='{2}' Rate='{3}' IsMaxScore='{4}' Comment='{5}'></KPI>";
+        private ICryptographyService cryptographyService;
+
+        public UpdateEPAScoreCriteria()
+        {
+            cryptographyService = new CryptographyService();
+        }
 
         public int EPAId { get; set; }
 
@@ -33,7 +39,7 @@
             get
             {
                 string totalScore = EPAProcess.TotalScore;
-                return CryptographyService.Encrypt(totalScore);
+                return cryptographyService.Encrypt(totalScore);
             }
         }
 
@@ -49,8 +55,8 @@
                     {
                         string score = kpi.CurrentEvaluation.Score,
                             rate = kpi.CurrentEvaluation.Rate > 0 ? kpi.CurrentEvaluation.Rate.ToString() : string.Empty,
-                            cipherScore = CryptographyService.Encrypt(score + "_" + kpi.KPIId),
-                            cipherRate = CryptographyService.Encrypt(rate);
+                            cipherScore = cryptographyService.Encrypt(score + "_" + kpi.KPIId),
+                            cipherRate = cryptographyService.Encrypt(rate);
                         bool isMaxScore = kpi.CurrentEvaluation.IsMaxScore;
 
                         kpiDetailXml.AppendFormat(

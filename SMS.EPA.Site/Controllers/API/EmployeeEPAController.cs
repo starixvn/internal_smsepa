@@ -20,15 +20,17 @@
     public class EmployeeEPAController : BaseController
     {
         private readonly IEmployeeEPAService employeeEPAService;
+        private readonly ICryptographyService cryptographyService;
 
         public EmployeeEPAController()
-            : this(null)
+            : this(null, null)
         {
         }
 
-        public EmployeeEPAController(IEmployeeEPAService employeeEPAService)
+        public EmployeeEPAController(IEmployeeEPAService employeeEPAService, ICryptographyService cryptographyService)
         {
             this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
+            this.cryptographyService = cryptographyService ?? new CryptographyService();
         }
 
         #region Self
@@ -672,9 +674,9 @@
                     finalScore = averagePerformanceScore + epaInfo.DisciplineScore;
 
                 finalScore = finalScore >= 0 ? finalScore : 0;
-                epaInfo.FinalScore = CryptographyService.Encrypt(finalScore.ToString());
+                epaInfo.FinalScore = cryptographyService.Encrypt(finalScore.ToString());
                 string grade = employeeEPAService.ConvertScoreToGrade(finalScore, standardGrades);
-                epaInfo.Grade = CryptographyService.Encrypt(grade);
+                epaInfo.Grade = cryptographyService.Encrypt(grade);
             }
 
             var updateFinalScoreCriteria = new UpdateFinalScoreEPAEndEvaluationCriteria

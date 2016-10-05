@@ -20,7 +20,8 @@
         {
             get
             {
-                return CryptographyService.Decrypt(TotalScoreEncrypt);
+                ICryptographyService cryptographyService = new CryptographyService();
+                return cryptographyService.Decrypt(TotalScoreEncrypt);
             }
         }
 

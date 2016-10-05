@@ -1,27 +1,25 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
+    using System.Collections.Generic;
     using NSubstitute;
     using NUnit.Framework;
-    using SMS.EPA.Criteria.Department;
+    using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.EPAHistory;
     using SMS.EPA.Model.EPAHistory;
     using SMS.EPA.Model.Period;
     using SMS.EPA.Repositories.Interfaces;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     [TestFixture]
     public class EPAHistoryServiceTests
     {
         private IEPAHistoryRepository epaHistoryRepository;
         private IEPAHistoryService epaHistoryService;
+        private ICryptographyService cryptographyService;
 
         #region GetEPAHistory
+
         [Test]
         public void GetEPAHistory_AnyArg_ReturnInstanceOfListOfEPAHistoryModel()
         {
@@ -70,9 +68,10 @@
             Assert.AreNotEqual(expectedEPAs, actual);
         }
 
-        #endregion
+        #endregion GetEPAHistory
 
         #region GetMonthlyEPAHistory
+
         [Test]
         public void GetMonthlyEPAHistory_AnyArg_ReturnInstanceOfListOfEPAHistoryModel()
         {
@@ -121,9 +120,10 @@
             Assert.AreNotEqual(expectedEPAs, actual);
         }
 
-        #endregion
+        #endregion GetMonthlyEPAHistory
 
         #region GetAllPeriodIncludeImport
+
         [Test]
         public void GetAllPeriodIncludeImport_AnyArg_ReturnInstanceOfListOfPeriodModel()
         {
@@ -153,7 +153,7 @@
             Assert.AreEqual(expectedPeriods, actual);
         }
 
-        #endregion
+        #endregion GetAllPeriodIncludeImport
 
         private IEPAHistoryRepository FakeEPAHistoryRepository()
         {
@@ -162,18 +162,27 @@
             return repository;
         }
 
+        private ICryptographyService FakeCryptographyService()
+        {
+            var repository = Substitute.For<ICryptographyService>();
+
+            return repository;
+        }
+
         private void ArrangeGetEPAHistory(IList<EPAHistoryModel> expectedEPAs = null)
         {
             epaHistoryRepository = FakeEPAHistoryRepository();
+            cryptographyService = FakeCryptographyService();
             epaHistoryRepository.GetEPAHistory(Arg.Any<GetEPAHistoryCriteria>()).Returns(expectedEPAs ?? new List<EPAHistoryModel>());
-            epaHistoryService = new EPAHistoryService(epaHistoryRepository);
+            epaHistoryService = new EPAHistoryService(epaHistoryRepository, cryptographyService);
         }
 
         private void ArrangeGetMonthlyEPAHistory(IList<EPAHistoryModel> expectedEPAs = null)
         {
             epaHistoryRepository = FakeEPAHistoryRepository();
+            cryptographyService = FakeCryptographyService();
             epaHistoryRepository.GetMonthlyEPAHistory(Arg.Any<GetMonthlyEPAHistoryCriteria>()).Returns(expectedEPAs ?? new List<EPAHistoryModel>());
-            epaHistoryService = new EPAHistoryService(epaHistoryRepository);
+            epaHistoryService = new EPAHistoryService(epaHistoryRepository, cryptographyService);
         }
 
         private EPAHistoryService ArrangeGetAllPeriodIncludeImport(IList<PeriodModel> periods = null)

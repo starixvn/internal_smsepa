@@ -14,6 +14,18 @@
 
     public class ReportRepository : IReportRepository
     {
+        private readonly ICryptographyService cryptographyService;
+
+        public ReportRepository()
+            : this(null)
+        {
+        }
+
+        public ReportRepository(ICryptographyService cryptographyService)
+        {
+            this.cryptographyService = cryptographyService ?? new CryptographyService();
+        }
+
         public EPASummaryModel GetEPASummary(ICriteria criteria)
         {
             EPASummaryModel epaSummary = new EPASummaryModel();
@@ -214,8 +226,8 @@
         {
             foreach (EPASummaryPeriodModel period in epaSummaries.SelectMany(x => x.Periods))
             {
-                period.FinalScore = CryptographyService.Decrypt(period.FinalScoreEncrypt);
-                period.Grade = CryptographyService.Decrypt(period.GradeEncrypt);
+                period.FinalScore = cryptographyService.Decrypt(period.FinalScoreEncrypt);
+                period.Grade = cryptographyService.Decrypt(period.GradeEncrypt);
             }
         }
 
@@ -223,8 +235,8 @@
         {
             foreach (EPAModel epaInfo in epaInfos)
             {
-                epaInfo.FinalScore = CryptographyService.Decrypt(epaInfo.FinalScoreEncrypt);
-                epaInfo.Grade = CryptographyService.Decrypt(epaInfo.GradeEncrypt);
+                epaInfo.FinalScore = cryptographyService.Decrypt(epaInfo.FinalScoreEncrypt);
+                epaInfo.Grade = cryptographyService.Decrypt(epaInfo.GradeEncrypt);
                 DecodeTotalScore(epaInfo.Process.Self);
                 DecodeTotalScore(epaInfo.Process.Evaluators);
                 DecodeTotalScore(epaInfo.Process.Reviewers);
@@ -236,8 +248,8 @@
         {
             if (process != null)
             {
-                process.TotalScore = CryptographyService.Decrypt(process.TotalScoreEncrypt);
-                process.AdjustScore = CryptographyService.Decrypt(process.AdjustScoreEncrypt);
+                process.TotalScore = cryptographyService.Decrypt(process.TotalScoreEncrypt);
+                process.AdjustScore = cryptographyService.Decrypt(process.AdjustScoreEncrypt);
             }
         }
 

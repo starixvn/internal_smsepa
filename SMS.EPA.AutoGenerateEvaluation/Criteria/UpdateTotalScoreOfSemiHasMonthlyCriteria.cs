@@ -21,22 +21,23 @@
         {
             get
             {
+                ICryptographyService cryptographyService = new CryptographyService();
                 var epaXml = new StringBuilder(BeginRootTag);
 
                 epaXml.AppendFormat(
                         EPAXmlTemplate,
                         (int)ProcessType.Self,
-                        CryptographyService.Encrypt(MonthlyEPA.AverageSelfScoreConverted.ToString()));
+                        cryptographyService.Encrypt(MonthlyEPA.AverageSelfScoreConverted.ToString()));
 
                 epaXml.AppendFormat(
                         EPAXmlTemplate,
                         (int)ProcessType.Evaluator,
-                        CryptographyService.Encrypt(MonthlyEPA.AverageEvaluatorScoreConverted.ToString()));
+                        cryptographyService.Encrypt(MonthlyEPA.AverageEvaluatorScoreConverted.ToString()));
 
                 epaXml.AppendFormat(
                         EPAXmlTemplate,
                         (int)ProcessType.Reviewer,
-                        CryptographyService.Encrypt(MonthlyEPA.AverageReviewerScoreConverted.ToString()));
+                        cryptographyService.Encrypt(MonthlyEPA.AverageReviewerScoreConverted.ToString()));
 
                 epaXml.Append(EndRootTag);
 

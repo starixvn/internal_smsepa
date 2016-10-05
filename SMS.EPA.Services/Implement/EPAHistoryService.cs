@@ -13,15 +13,17 @@
     public class EPAHistoryService : BaseService, IEPAHistoryService
     {
         private readonly IEPAHistoryRepository epaHistoryRepository;
+        private readonly ICryptographyService cryptographyService;
 
         public EPAHistoryService()
-            : this(null)
+            : this(null, null)
         {
         }
 
-        public EPAHistoryService(IEPAHistoryRepository epaHistoryRepository)
+        public EPAHistoryService(IEPAHistoryRepository epaHistoryRepository, ICryptographyService cryptographyService)
         {
             this.epaHistoryRepository = epaHistoryRepository ?? new EPAHistoryRepository();
+            this.cryptographyService = cryptographyService ?? new CryptographyService();
         }
 
         public IList<EPAHistoryModel> GetEPAHistory(GetEPAHistoryCriteria criteria)
@@ -62,8 +64,8 @@
         {
             foreach (EPAHistoryModel epa in epas)
             {
-                epa.FinalScore = !string.IsNullOrWhiteSpace(epa.EncodeFinalScore) ? float.Parse(CryptographyService.Decrypt(epa.EncodeFinalScore)) : 0;
-                epa.Grade = !string.IsNullOrWhiteSpace(epa.EncodeGrade) ? CryptographyService.Decrypt(epa.EncodeGrade) : string.Empty;
+                epa.FinalScore = !string.IsNullOrWhiteSpace(epa.EncodeFinalScore) ? float.Parse(cryptographyService.Decrypt(epa.EncodeFinalScore)) : 0;
+                epa.Grade = !string.IsNullOrWhiteSpace(epa.EncodeGrade) ? cryptographyService.Decrypt(epa.EncodeGrade) : string.Empty;
             }
         }
 

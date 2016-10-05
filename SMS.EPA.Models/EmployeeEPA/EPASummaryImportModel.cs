@@ -12,7 +12,8 @@
         {
             get
             {
-                return CryptographyService.Encrypt(OriginFinalScore.ToString());
+                ICryptographyService cryptographyService = new CryptographyService();
+                return cryptographyService.Encrypt(OriginFinalScore.ToString());
             }
         }
     }

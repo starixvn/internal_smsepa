@@ -33,6 +33,7 @@
         private readonly ISemiAnnualService semiAnnualService;
         private readonly IProbationService probationService;
         private readonly IPromotionService promotionService;
+        private readonly ICryptographyService cryptographyService;
         private bool _isBusy;
 
         public AutoService()
@@ -45,6 +46,7 @@
             updateCounterTimer.Elapsed += ExecuteJob;
             updateCounterTimer.Enabled = false;
 
+            cryptographyService = new CryptographyService();
             evaluationService = new EvaluationService();
             periodService = new PeriodService();
             autoMailService = new AutoMailService();
@@ -161,7 +163,7 @@
                         {
                             EPAId = evaluationProcess.EPAId,
                             ProcessId = evaluationProcess.ProcessId,
-                            AverageScore = CryptographyService.Encrypt(averageScore.ToString())
+                            AverageScore = cryptographyService.Encrypt(averageScore.ToString())
                         };
                         CommandResult commandResult = evaluationService.UpdateTotalScoreOfProcess(updateTotalScoreCriteria);
                         messageResult = commandResult.IsSuccessful ? "0" : commandResult.Message;
@@ -199,7 +201,7 @@
                 epaInfo.Grade = employeeEPAService.ConvertScoreToGrade(finalScore, standardGrades);
                 Log.Info("Result of get grade of final score of EPA " + epaInfo.EPAId + ": " + epaInfo.Grade);
 
-                EncodeAndUpdateFinalScore(averagePerformanceScore, epaInfo.DisciplineScore, epaInfo.EPAId, epaInfo.Grade);
+                EncryptAndUpdateFinalScore(averagePerformanceScore, epaInfo.DisciplineScore, epaInfo.EPAId, epaInfo.Grade);
 
                 if (AppSetting.SendMailEndPeriod)
                 {
@@ -296,14 +298,14 @@
             return finalScore;
         }
 
-        private void EncodeAndUpdateFinalScore(float performanceScore, float disciplineScore, int evaluationId, string grade)
+        private void EncryptAndUpdateFinalScore(float performanceScore, float disciplineScore, int evaluationId, string grade)
         {
             float finalScore = performanceScore + disciplineScore;
-            string finalScoreEncrypt = CryptographyService.Encrypt(finalScore.ToString());
-            Log.Info("Result of encode final score of EPA " + evaluationId + ": " + finalScoreEncrypt);
+            string finalScoreEncrypt = cryptographyService.Encrypt(finalScore.ToString());
+            Log.Info("Result of encrypt final score of EPA " + evaluationId + ": " + finalScoreEncrypt);
 
-            string gradeEncrypt = CryptographyService.Encrypt(grade);
-            Log.Info("Result of encode grade of EPA " + evaluationId + ": " + gradeEncrypt);
+            string gradeEncrypt = cryptographyService.Encrypt(grade);
+            Log.Info("Result of encrypt grade of EPA " + evaluationId + ": " + gradeEncrypt);
 
             var criteria = new UpdateFinalScoreEndEvaluationCriteria();
             criteria.EvaluationScores = criteria.ConvertToXml(evaluationId, finalScoreEncrypt, disciplineScore, gradeEncrypt);

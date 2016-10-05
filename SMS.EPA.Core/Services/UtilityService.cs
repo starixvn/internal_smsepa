@@ -25,11 +25,7 @@
 
             if ((number % 1) != 0)
             {
-                int index = number.ToString().IndexOf('.');
-                string naturalFraction = number.ToString().Substring(0, index),
-                    decimalFraction = number.ToString().Substring(index + 1);
-
-                result = double.Parse(naturalFraction + "." + decimalFraction.Substring(0, Math.Min(decimalFraction.Length, numberOfDecimals)));
+                result = Math.Truncate(number * Math.Pow(10, numberOfDecimals)) / Math.Pow(10, numberOfDecimals);
             }
 
             return result;

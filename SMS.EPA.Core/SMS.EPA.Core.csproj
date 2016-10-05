@@ -148,6 +148,7 @@
     <Compile Include="Services\CryptographyService.cs" />
     <Compile Include="Services\Interfaces\IBaseMailService.cs" />
     <Compile Include="Services\BaseMailService.cs" />
+    <Compile Include="Services\Interfaces\ICryptographyService.cs" />
     <Compile Include="Services\Interfaces\ISessionService.cs" />
     <Compile Include="Services\Interfaces\IUtilityService.cs" />
     <Compile Include="Services\SessionService.cs" />

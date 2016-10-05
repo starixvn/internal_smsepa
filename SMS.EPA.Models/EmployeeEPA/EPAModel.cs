@@ -148,8 +148,7 @@
             {
                 bool isAllowedToEdit = !(Process.CurrentProcess == null
                     || Process.CurrentProcess.IsEndProcess
-                    || (Period.TargetTypeId == (int)TargetTypes.SemiAnnual
-                        && HasMonthlyEPA
+                    || (IsSemiHasMonthly
                         && (Process.CurrentProcess.ProcessId == (int)ProcessType.Self || Process.CurrentProcess.ProcessId == (int)ProcessType.Evaluator))
                     || Status.StatusId == (int)Core.Enumerations.EPAStatus.Closed
                     || Period.IsEndPeriod);

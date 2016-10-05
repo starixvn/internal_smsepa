@@ -13,6 +13,18 @@
 
     public class EmployeeEPARepository : IEmployeeEPARepository
     {
+        private readonly ICryptographyService cryptographyService;
+
+        public EmployeeEPARepository()
+            : this(null)
+        {
+        }
+
+        public EmployeeEPARepository(ICryptographyService cryptographyService)
+        {
+            this.cryptographyService = cryptographyService ?? new CryptographyService();
+        }
+
         public IEnumerable<EPAModel> GetEPA(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
@@ -403,11 +415,11 @@
 
         private void DecryptAllScore(EPAModel epaInfo)
         {
-            epaInfo.LastFinalScore = CryptographyService.Decrypt(epaInfo.LastFinalScoreEncrypt);
-            epaInfo.LastGrade = CryptographyService.Decrypt(epaInfo.LastGradeEncrypt);
-            epaInfo.FinalScore = CryptographyService.Decrypt(epaInfo.FinalScoreEncrypt);
-            epaInfo.Grade = CryptographyService.Decrypt(epaInfo.GradeEncrypt);
-            epaInfo.OldFinalScore = CryptographyService.Decrypt(epaInfo.OldFinalScoreEncrypt);
+            epaInfo.LastFinalScore = cryptographyService.Decrypt(epaInfo.LastFinalScoreEncrypt);
+            epaInfo.LastGrade = cryptographyService.Decrypt(epaInfo.LastGradeEncrypt);
+            epaInfo.FinalScore = cryptographyService.Decrypt(epaInfo.FinalScoreEncrypt);
+            epaInfo.Grade = cryptographyService.Decrypt(epaInfo.GradeEncrypt);
+            epaInfo.OldFinalScore = cryptographyService.Decrypt(epaInfo.OldFinalScoreEncrypt);
             DecryptTotalScore(epaInfo.Process.Self);
             DecryptTotalScore(epaInfo.Process.Evaluators);
             DecryptTotalScore(epaInfo.Process.Reviewers);
@@ -425,7 +437,7 @@
         {
             foreach (RatingByKPIModel epaInfo in epaInfos)
             {
-                epaInfo.TotalScore = CryptographyService.Decrypt(epaInfo.TotalScoreEncrypt);
+                epaInfo.TotalScore = cryptographyService.Decrypt(epaInfo.TotalScoreEncrypt);
 
                 foreach (TemporaryKPIModel kpi in epaInfo.KPIGroup.KPIs)
                 {
@@ -433,10 +445,10 @@
 
                     if (!string.IsNullOrEmpty(kpi.RateEncrypt))
                     {
-                        rate = float.Parse(CryptographyService.Decrypt(kpi.RateEncrypt));
+                        rate = float.Parse(cryptographyService.Decrypt(kpi.RateEncrypt));
                     }
 
-                    kpi.Score = CryptographyService.Decrypt(kpi.ScoreEncrypt).Replace("_" + kpi.KPIId, string.Empty);
+                    kpi.Score = cryptographyService.Decrypt(kpi.ScoreEncrypt).Replace("_" + kpi.KPIId, string.Empty);
                     kpi.Rate = rate;
                 }
 
@@ -446,10 +458,10 @@
 
                     if (!string.IsNullOrEmpty(kpi.RateEncrypt))
                     {
-                        rate = float.Parse(CryptographyService.Decrypt(kpi.RateEncrypt));
+                        rate = float.Parse(cryptographyService.Decrypt(kpi.RateEncrypt));
                     }
 
-                    kpi.Score = CryptographyService.Decrypt(kpi.ScoreEncrypt).Replace("_" + kpi.KPIId, string.Empty);
+                    kpi.Score = cryptographyService.Decrypt(kpi.ScoreEncrypt).Replace("_" + kpi.KPIId, string.Empty);
                     kpi.Rate = rate;
                 }
             }
@@ -459,8 +471,8 @@
         {
             if (process != null)
             {
-                process.TotalScore = CryptographyService.Decrypt(process.TotalScoreEncrypt);
-                process.AdjustScore = CryptographyService.Decrypt(process.AdjustScoreEncrypt);
+                process.TotalScore = cryptographyService.Decrypt(process.TotalScoreEncrypt);
+                process.AdjustScore = cryptographyService.Decrypt(process.AdjustScoreEncrypt);
             }
         }
 
@@ -480,10 +492,10 @@
 
                 if (!string.IsNullOrEmpty(evaluation.RateEncrypt))
                 {
-                    rate = float.Parse(CryptographyService.Decrypt(evaluation.RateEncrypt));
+                    rate = float.Parse(cryptographyService.Decrypt(evaluation.RateEncrypt));
                 }
 
-                evaluation.Score = CryptographyService.Decrypt(evaluation.ScoreEncrypt).Replace("_" + evaluation.KPIId, string.Empty);
+                evaluation.Score = cryptographyService.Decrypt(evaluation.ScoreEncrypt).Replace("_" + evaluation.KPIId, string.Empty);
                 evaluation.Rate = rate;
             }
         }
