@@ -1,6 +1,8 @@
 ﻿namespace SMS.EPA.Model
 {
     using System.Collections.Generic;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Core.Services;
 
     public class EPAKPIModel
     {
@@ -26,6 +28,22 @@
         public bool IsRequiredEvaluate { get; set; }
 
         public double Weight { get; set; }
+
+        public string WeightToDisplay
+        {
+            get
+            {
+                var result = string.Empty;
+
+                if (Weight > 0)
+                {
+                    IUtilityService utilityService = new UtilityService();
+                    result = utilityService.SplitNumber(Weight, Constants.NumberOfDecimalDefault).ToString();
+                }
+
+                return result;
+            }
+        }
 
         public EvaluationModel CurrentEvaluation { get; set; }
 

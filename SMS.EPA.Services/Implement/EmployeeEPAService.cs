@@ -387,6 +387,10 @@
                     epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId.ToString());
                     ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
                 }
+
+                IEnumerable<StandardGradeModel> standardGrades = GetStandardGrade();
+                float finalScore = epaInfo.FinalScore.Length > 0 ? float.Parse(epaInfo.FinalScore) : 0;
+                epaInfo.Grade = ConvertScoreToGrade(finalScore, standardGrades);
             }
 
             return epaInfo;
@@ -452,11 +456,12 @@
             return groups;
         }
 
-        public IEnumerable<StandardGradeModel> GetStandardGrade(GetStandardGradeCriteria criteria)
+        public IEnumerable<StandardGradeModel> GetStandardGrade()
         {
+            var criteria = new GetStandardGradeCriteria();
             IEnumerable<StandardGradeModel> standardGrades = new List<StandardGradeModel>();
 
-            if (criteria != null && criteria.IsValid())
+            if (criteria.IsValid())
             {
                 standardGrades = GetData<StandardGradeModel>(criteria);
             }
@@ -665,12 +670,13 @@
 
         private void SpreadKPIScore(IList<EPAKPIGroupModel> kpiGroups)
         {
+            IUtilityService utilityService = new UtilityService();
             foreach (EPAKPIGroupModel kpiGroup in kpiGroups)
             {
                 if (!kpiGroup.HasKPIOptional && kpiGroup.IsSpreadKPI && kpiGroup.Weight != null)
                 {
                     double averageWeight = kpiGroup.Weight.Value / kpiGroup.KPIs.Count;
-                    averageWeight = SplitNumber(averageWeight, Constants.NumberOfDecimals);
+                    averageWeight = utilityService.SplitNumber(averageWeight, Constants.NumberOfDecimals);
 
                     foreach (EPAKPIModel kpi in kpiGroup.KPIs)
                     {
@@ -678,23 +684,6 @@
                     }
                 }
             }
-        }
-
-        private double SplitNumber(double number, int numberOfDecimals)
-        {
-            double result = number;
-            numberOfDecimals = numberOfDecimals <= 0 ? Constants.NumberOfDecimalDefault : numberOfDecimals;
-
-            if ((number % 1) != 0)
-            {
-                int index = number.ToString().IndexOf('.');
-                string naturalFraction = number.ToString().Substring(0, index),
-                    decimalFraction = number.ToString().Substring(index + 1);
-
-                result = double.Parse(naturalFraction + "." + decimalFraction.Substring(0, Math.Min(decimalFraction.Length, numberOfDecimals)));
-            }
-
-            return result;
         }
 
         private void SetMaxPerformanceScore(EPAModel epaInfo)

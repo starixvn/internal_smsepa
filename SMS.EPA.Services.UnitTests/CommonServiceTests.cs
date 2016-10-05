@@ -382,7 +382,7 @@
             commonService = Substitute.For<ICommonService>();
 
             // Act
-            var actual = commonService.GetStandardGrade(Arg.Any<GetStandardGradeCriteria>());
+            var actual = commonService.GetStandardGrade();
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<StandardGradeModel>), actual);
@@ -397,7 +397,7 @@
             ArrangeGetStandardGrade(expectedGrades);
 
             // Act
-            var actual = commonService.GetStandardGrade(Arg.Any<GetStandardGradeCriteria>());
+            var actual = commonService.GetStandardGrade();
 
             // Assert
             Assert.AreEqual(expectedGrades, actual);
@@ -655,7 +655,7 @@
         private void ArrangeGetStandardGrade(IEnumerable<StandardGradeModel> grades = null)
         {
             ArrangeCommon();
-            employeeEPAService.GetStandardGrade(Arg.Any<GetStandardGradeCriteria>()).Returns(grades ?? new List<StandardGradeModel>());
+            employeeEPAService.GetStandardGrade().Returns(grades ?? new List<StandardGradeModel>());
         }
 
         private void ArrangeGetAllPeriodIncludeImport(IList<PeriodModel> periods = null)

@@ -77,7 +77,7 @@
 
         IEnumerable<Group> GetGroupByEvaluatorOrReviewerOrManagement(GetGroupByEvaluatorOrReviewerOrManagementCriteria criteria);
 
-        IEnumerable<StandardGradeModel> GetStandardGrade(GetStandardGradeCriteria criteria);
+        IEnumerable<StandardGradeModel> GetStandardGrade();
 
         IEnumerable<EPASummaryImportModel> GetMemberEPASummaryImport(GetEPASummaryImportCriteria criteria);
 

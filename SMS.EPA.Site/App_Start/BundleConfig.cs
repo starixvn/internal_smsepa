@@ -14,12 +14,12 @@
                             "~/Content/Site/auth/style.less");
 
             bundles.Add(new StyleBundle("~/Content/Common/css").Include(
-                            "~/Libs/bootstrap-3.3.7/css/bootstrap.min.css",
-                            "~/Libs/bootstrap-3.3.7/css/bootstrap-theme.min.css",
                             "~/Content/Common/toastr.css",
                             "~/Content/Common/angular-multi-select.css",
                             "~/Content/Common/jquery-ui.min.css",
                             "~/Content/Common/chosen.min.css")
+                            .Include("~/Libs/bootstrap-3.3.7/css/bootstrap.min.css", new CssRewriteUrlTransform())
+                            .Include("~/Libs/bootstrap-3.3.7/css/bootstrap-theme.min.css", new CssRewriteUrlTransform())
                             .Include("~/Libs/FanexGrid/Fanex.Grid.css", new CssRewriteUrlTransform())
                             .Include("~/Libs/FanexGrid/Fanex.Pagination.css", new CssRewriteUrlTransform())
                             .Include("~/Libs/BootstrapStarRating/css/star-rating.min.css", new CssRewriteUrlTransform()));

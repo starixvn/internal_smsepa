@@ -97,30 +97,24 @@
 
         vm.exportPdf = function (epaId, hasMonthlyEPA) {
             if (hasMonthlyEPA) {
-                ReportModel.requestExportSemiEPA(epaId)
-                .then(function () {
-                    $timeout(function () {
-                        var url = baseUrl + 'ExportPDF/DownloadEPADetail?epaId=' + epaId + '&fileName=' + ReportModel.pdfFileName;
-                        var iframe = $('body iframe');
-                        if (iframe.length === 0) {
-                            iframe = $('<iframe width="0" height="0" class="display-none"></iframe>');
-                            iframe.appendTo('body');
-                        }
-                        iframe.attr('src', url);
-                    }, 4000);
+                $timeout(function () {
+                    var url = baseUrl + 'ExportPDF/ExportPdf?epaId=' + epaId;
+                    var iframe = $('body iframe');
+                    if (iframe.length === 0) {
+                        iframe = $('<iframe width="0" height="0" class="display-none"></iframe>');
+                        iframe.appendTo('body');
+                    }
+                    iframe.attr('src', url);
                 });
             } else {
-                ReportModel.requestExportEPA(epaId)
-                .then(function () {
-                    $timeout(function () {
-                        var url = baseUrl + 'ExportPDF/DownloadEPADetail?epaId=' + epaId + '&fileName=' + ReportModel.pdfFileName;
-                        var iframe = $('body iframe');
-                        if (iframe.length === 0) {
-                            iframe = $('<iframe width="0" height="0" class="display-none"></iframe>');
-                            iframe.appendTo('body');
-                        }
-                        iframe.attr('src', url);
-                    }, 4000);
+                $timeout(function () {
+                    var url = baseUrl + 'ExportPDF/ExportPdf?epaId=' + epaId;
+                    var iframe = $('body iframe');
+                    if (iframe.length === 0) {
+                        iframe = $('<iframe width="0" height="0" class="display-none"></iframe>');
+                        iframe.appendTo('body');
+                    }
+                    iframe.attr('src', url);
                 });
             }
         };

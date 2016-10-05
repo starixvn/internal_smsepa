@@ -3,5 +3,7 @@
     public interface IUtilityService
     {
         string GetAvatar(string code);
+
+        double SplitNumber(double number, int numberOfDecimals);
     }
 }

@@ -664,8 +664,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UpdateFinalScore, Policy = Policy.Host)]
         public HttpResponseMessage UpdateFinalScore(IList<EPAModel> selectedEPAs)
         {
-            var getStandardGradeCriteria = new GetStandardGradeCriteria();
-            IEnumerable<StandardGradeModel> standardGrades = employeeEPAService.GetStandardGrade(getStandardGradeCriteria);
+            IEnumerable<StandardGradeModel> standardGrades = employeeEPAService.GetStandardGrade();
 
             foreach (EPAModel epaInfo in selectedEPAs)
             {

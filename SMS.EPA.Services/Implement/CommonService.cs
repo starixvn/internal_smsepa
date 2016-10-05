@@ -126,9 +126,9 @@
             return periodService.GetPeriod(criteria);
         }
 
-        public IEnumerable<StandardGradeModel> GetStandardGrade(GetStandardGradeCriteria criteria)
+        public IEnumerable<StandardGradeModel> GetStandardGrade()
         {
-            return employeeEPAService.GetStandardGrade(criteria);
+            return employeeEPAService.GetStandardGrade();
         }
 
         public IList<PeriodModel> GetAllPeriodIncludeImport(GetAllPeriodIncludeImportCriteria criteria)

@@ -73,17 +73,5 @@
                      data-translate="Pending"></div>
             </td>
         </tr>
-        <tr>
-            <td class="text-right"><strong data-translate="DisciplineScore"></strong></td>
-            <td colspan="3" class="text-center">
-                <strong ng-show="memberEPAInfoCtrl.epaInfo.HasDisciplineScore">
-                    {{memberEPAInfoCtrl.epaInfo.DisciplineScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxDisciplineScore | customScore}}
-                </strong>
-                <div ng-show="!memberEPAInfoCtrl.epaInfo.HasDisciplineScore">
-                    <strong ng-show="memberEPAInfoCtrl.epaInfo.DisciplineScore" ng-bind="memberEPAInfoCtrl.epaInfo.DisciplineScore | customScore"></strong>
-                    <strong ng-show="!memberEPAInfoCtrl.epaInfo.DisciplineScore" ng-bind="'-'"></strong>
-                </div>
-            </td>
-        </tr>
     </tbody>
 </table>
