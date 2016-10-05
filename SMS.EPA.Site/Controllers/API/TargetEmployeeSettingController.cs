@@ -30,7 +30,7 @@
             int? groupId = null,
             int? employeeId = null,
             int? targetTypeId = null,
-            bool? showAll = null)
+            bool showAll = false)
         {
             var criteria = new GetAllTargetEmployeeSettingCriteria
             {
@@ -77,7 +77,7 @@
             int? departmentId = null,
             bool? isGroup = null,
             int? targetTypeId = null,
-            bool? showAll = null)
+            bool showAll = false)
         {
             var criteria = new GetTargetDepartmentSettingCriteria
             {

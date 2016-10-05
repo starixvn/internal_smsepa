@@ -99,7 +99,7 @@
                 departmentId: null,
                 isGroup: null,
                 targetTypeId: null,
-                showAll: null
+                showAll: false
             };
         }
 

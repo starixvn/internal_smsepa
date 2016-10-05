@@ -31,7 +31,7 @@
         <div class="form-group" ng-show="!epaHistoryCtrl.onlyEmployeeRole">
             <label class="control-label" data-translate="Employee"></label>
             <input class="form-control employee-search" ng-model="epaHistoryCtrl.searchEmployee"
-                   placeholder="Enter full name or nick name" epa-search-auto-complete search-employees="epaHistoryCtrl.getEmployee()"
+                   placeholder="Enter full name or nick name" search-auto-complete search-employees="epaHistoryCtrl.getEmployee()"
                    ng-change="epaHistoryCtrl.unSelectEmployee()" employee="epaHistoryCtrl.filter.employee" />
         </div>
         <div class="form-group">

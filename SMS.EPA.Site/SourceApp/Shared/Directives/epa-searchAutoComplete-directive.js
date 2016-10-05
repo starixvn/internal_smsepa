@@ -2,7 +2,7 @@
     'use strict';
     /* jshint latedef:nofunc */
 
-    angular.module('appModule').directive('epaSearchAutoComplete', searchAutoComplete);
+    angular.module('appModule').directive('searchAutoComplete', searchAutoComplete);
     searchAutoComplete.$inject = ['$timeout', 'errorFactory'];
 
     function searchAutoComplete($timeout, errorFactory) {
@@ -45,6 +45,10 @@
                     },
                     select: function (event, ui) {
                         scope.employee = ui.item.employee;
+
+                        $timeout(function () {
+                            //iElement.trigger('input');
+                        }, 0);
                     },
                     appendTo: iElement.parent(),
                     delay: 500,

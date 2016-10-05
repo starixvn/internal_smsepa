@@ -9,8 +9,8 @@
         </div>
         <div class="form-group">
             <label class="control-label" data-translate="Employee"></label>
-            <input class="form-control employee-search" ng-model="personnelCtrl.searchEmployee"
-                   placeholder="Enter full name or nick name" epa-search-auto-complete search-employees="personnelCtrl.getEmployee()"
+            <input class="form-control employee-search" type="text" placeholder="full name or nick name"
+                   ng-model="personnelCtrl.searchEmployee" search-auto-complete search-employees="personnelCtrl.getEmployee()"
                    ng-change="personnelCtrl.unSelectEmployee()" employee="personnelCtrl.filter.employee" />
         </div>
         <div class="form-group">
@@ -63,17 +63,18 @@
                dir-paginate="employee in personnelCtrl.filteredItems | itemsPerPage: personnelCtrl.pageSize" pagination-id="personnel">
             <tr ng-repeat="targetTemplate in employee.TargetTemplates" ng-show="employee.TargetTemplates.length > 0">
                 <td class="text-center" rowspan="{{employee.NumberTargetTemplates}}" ng-show="$first">
-                    <input type="checkbox" ng-model="employee.Selected" ng-click="personnelCtrl.syncSelectedEmployee(employee.Employee.EmployeeId, employee.Selected)" />
+                    <input type="checkbox" ng-model="employee.Selected" 
+                           ng-click="personnelCtrl.syncSelectedEmployee(employee.Employee.EmployeeId, employee.Selected)" />
                 </td>
                 <td class="text-center" ng-bind="personnelCtrl.getIndex($parent.$index, personnelCtrl.currentPage, personnelCtrl.pageSize)"
                     ng-show="$first" rowspan="{{employee.NumberTargetTemplates}}"></td>
                 <td class="text-center" ng-bind="employee.Employee.Code" ng-show="$first" rowspan="{{employee.NumberTargetTemplates}}"></td>
                 <td class="text-center" ng-show="$first" rowspan="{{employee.NumberTargetTemplates}}">
-                    <span tooltip="{{employee.Employee.Group.GroupName}}" ng-bind="employee.Employee.Group.GroupCode"></span>
+                    <span tooltip="{{employee.Employee.Group.GroupName}}" ng-bind="employee.Employee.Group.GroupName"></span>
                 </td>
                 <td class="text-center" ng-bind="employee.Employee.NickName" ng-show="$first" rowspan="{{employee.NumberTargetTemplates}}"></td>
                 <td ng-bind="employee.Employee.FullName" ng-show="$first" rowspan="{{employee.NumberTargetTemplates}}"></td>
-                <td class="text-center" ng-bind="targetTemplate.TargetTypeName"></td>
+                <td ng-bind="targetTemplate.TargetTypeName"></td>
                 <td ng-bind="targetTemplate.Name"></td>
                 <td class="text-center" ng-show="targetCtrl.permission == targetCtrl.policyEnum.Host">
                     <a class="glyphicon glyphicon-remove icon-remove" href="" ng-click="personnelCtrl.deleteTargetTemplate(employee, targetTemplate)"
@@ -87,7 +88,7 @@
                 <td class="text-center" ng-bind="personnelCtrl.getIndex($index, personnelCtrl.currentPage, personnelCtrl.pageSize)"></td>
                 <td class="text-center" ng-bind="employee.Employee.Code"></td>
                 <td class="text-center">
-                    <span tooltip="{{employee.Group.GroupName}}" ng-bind="employee.Group.GroupCode"></span>
+                    <span tooltip="{{employee.Employee.Group.GroupName}}" ng-bind="employee.Employee.Group.GroupCode"></span>
                 </td>
                 <td class="text-center" ng-bind="employee.Employee.NickName"></td>
                 <td ng-bind="employee.Employee.FullName"></td>

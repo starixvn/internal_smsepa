@@ -24,7 +24,7 @@
             <label class="col-sm-1 control-label" data-translate="Employee"></label>
             <div class="col-sm-1 field">
                 <input class="form-control employee-search" ng-model="attendanceCtrl.searchEmployee"
-                       placeholder="Enter full name or nick name" epa-search-auto-complete search-employees="attendanceCtrl.getEmployee()"
+                       placeholder="Enter full name or nick name" search-auto-complete search-employees="attendanceCtrl.getEmployee()"
                        ng-change="attendanceCtrl.unSelectEmployee()" employee="attendanceCtrl.filter.employee" />
             </div>
         </div>

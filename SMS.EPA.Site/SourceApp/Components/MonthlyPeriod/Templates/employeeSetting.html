@@ -65,7 +65,7 @@
                     <div class="pull-left div-period-employee-setting" ng-show="updateCtrl.permission == updateCtrl.policyEnum.Host">
                         <label class="control-label" data-translate="Employee"></label>
                         <input class="form-control period-employee" ng-model="empSettingCtrl.searchEmployee"
-                               placeholder="Enter full name or nick name" epa-search-auto-complete search-employees="empSettingCtrl.getEmployee()"
+                               placeholder="Enter full name or nick name" search-auto-complete search-employees="empSettingCtrl.getEmployee()"
                                ng-change="empSettingCtrl.unSelectEmployee()" employee="empSettingCtrl.filterAssign.employee" />
                     </div>
                     <button class="btn btn-primary pull-left period-add" ng-click="empSettingCtrl.addEmployeeToMonthlyPeriod(empSettingCtrl.filterAssign)"

@@ -59,7 +59,7 @@
                 <td class="text-center" ng-bind="departmentCtrl.getIndex($parent.$index, departmentCtrl.currentPage, departmentCtrl.pageSize)"
                     ng-show="$first" rowspan="{{department.NumberTargetTemplates}}"></td>
                 <td class="text-center" ng-bind="department.Department.Name" ng-show="$first" rowspan="{{department.NumberTargetTemplates}}"></td>
-                <td class="text-center" ng-bind="targetTemplate.TargetTypeName"></td>
+                <td ng-bind="targetTemplate.TargetTypeName"></td>
                 <td ng-bind="targetTemplate.Name"></td>
                 <td class="text-center" ng-show="targetCtrl.permission == targetCtrl.policyEnum.Host">
                     <a class="glyphicon glyphicon-remove icon-remove" href="" ng-click="departmentCtrl.deleteTargetTemplate(department, targetTemplate)"

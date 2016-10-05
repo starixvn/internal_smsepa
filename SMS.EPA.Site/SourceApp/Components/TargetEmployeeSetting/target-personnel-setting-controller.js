@@ -100,7 +100,7 @@
                 groupId: null,
                 targetTypeId: null,
                 employee: null,
-                showAll: null
+                showAll: false
             };
         }
 
@@ -152,7 +152,7 @@
         }
 
         function unSelectEmployee() {
-            if (vm.searchEmployee.trim() === '' && vm.filter.employee) {
+            if (vm.searchEmployee.trim() === '') {
                 vm.filter.employee = null;
             }
         }

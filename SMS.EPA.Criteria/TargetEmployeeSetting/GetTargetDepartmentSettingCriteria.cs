@@ -10,7 +10,7 @@
 
         public int? TargetTypeId { get; set; }
 
-        public bool? ShowAll { get; set; }
+        public bool ShowAll { get; set; }
 
         public override bool IsValid()
         {
