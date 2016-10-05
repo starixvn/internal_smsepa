@@ -15,9 +15,7 @@
             getEPADetailReport: getEPADetailReport,
             getEPASummaryReport: getEPASummaryReport,
             getMonthlyEPADetailReport: getMonthlyEPADetailReport,
-            getMonthlyEPASummaryReport: getMonthlyEPASummaryReport,
-            requestExportEPA: requestExportEPA,
-            requestExportSemiEPA: requestExportSemiEPA
+            getMonthlyEPASummaryReport: getMonthlyEPASummaryReport
         };
 
         return model;
@@ -61,22 +59,6 @@
             return reportFactory.getMonthlyEPASummaryReport(periodIds, departmentId, isLocal, sortColumnName, sortDirection, pageIndex, itemsPerPage)
             .success(function (epaSummary) {
                 model.epaSummary = epaSummary;
-            }).error(function (response, status) {
-                errorFactory.errorHandle(status);
-            });
-        }
-
-        function requestExportEPA(epaId) {
-            return reportFactory.requestExportEPA(epaId).success(function (fileName) {
-                model.pdfFileName = fileName;
-            }).error(function (response, status) {
-                errorFactory.errorHandle(status);
-            });
-        }
-
-        function requestExportSemiEPA(epaId) {
-            return reportFactory.requestExportSemiEPA(epaId).success(function (fileName) {
-                model.pdfFileName = fileName;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });

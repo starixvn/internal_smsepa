@@ -84,9 +84,6 @@ commonModule.factory('commonFactory', ['$http', 'baseUrl', function ($http, base
                 }
             });
         },
-        displayOnNormalWidthPage: function (epaId) {
-            return $http.get(baseUrl + 'api/Common/DisplayOnNormalWidthPage', { params: { epaId: epaId } });
-        },
         getAllMonthlyPeriod: function () {
             return $http.get(baseUrl + 'api/MonthlyPeriod/GetAllMonthlyPeriod');
         },

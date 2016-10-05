@@ -89,11 +89,7 @@
         }
 
         function viewEPAResult(epa) {
-            if (epa.HasMonthlyEPA && epa.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
-                vm.viewEPAResultUrl = baseUrl + 'EPA/SemiDetail/' + epa.EPAId;
-            } else {
-                vm.viewEPAResultUrl = baseUrl + 'EPA/Detail/' + epa.EPAId;
-            }
+            vm.viewEPAResultUrl = baseUrl + 'EPA/Detail/' + epa.EPAId;
         }
 
         function viewOtherViolationDetail(epa) {

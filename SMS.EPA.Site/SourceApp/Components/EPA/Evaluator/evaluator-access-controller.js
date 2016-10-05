@@ -115,11 +115,7 @@ function ($routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilit
     };
 
     vm.viewEPAResult = function (epaInfo) {
-        if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
-            vm.viewEPAResultUrl = baseUrl + 'EPA/SemiDetail/' + epaInfo.EPAId;
-        } else {
-            vm.viewEPAResultUrl = baseUrl + 'EPA/Detail/' + epaInfo.EPAId;
-        }
+        vm.viewEPAResultUrl = baseUrl + 'EPA/Detail/' + epaInfo.EPAId;
     };
 
     vm.viewOtherViolationDetail = function (epaInfo) {

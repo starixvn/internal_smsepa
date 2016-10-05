@@ -11,9 +11,7 @@
             getEPADetailReport: getEPADetailReport,
             getEPASummaryReport: getEPASummaryReport,
             getMonthlyEPADetailReport: getMonthlyEPADetailReport,
-            getMonthlyEPASummaryReport: getMonthlyEPASummaryReport,
-            requestExportEPA: requestExportEPA,
-            requestExportSemiEPA: requestExportSemiEPA
+            getMonthlyEPASummaryReport: getMonthlyEPASummaryReport
         };
 
         function getAllPeriodIncludeImport() {
@@ -80,14 +78,6 @@
                         itemsPerPage: itemsPerPage
                     }
                 });
-        }
-
-        function requestExportEPA(epaId) {
-            return $http.get(baseUrl + 'ExportPDF/RequestExportEPA/', { params: { epaId: epaId } });
-        }
-
-        function requestExportSemiEPA(epaId) {
-            return $http.get(baseUrl + 'ExportPDF/RequestExportSemiEPA/', { params: { epaId: epaId } });
         }
     }
 })(angular);

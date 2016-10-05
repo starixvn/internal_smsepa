@@ -105,11 +105,9 @@
     <Compile Include="Implement\DepartmentService.cs" />
     <Compile Include="Implement\EmployeeService.cs" />
     <Compile Include="Implement\EPAHistoryService.cs" />
-    <Compile Include="Implement\ExportFile\ExportPdfService.cs" />
     <Compile Include="Implement\DepartmentFlowService.cs" />
     <Compile Include="Implement\FlowTemplateService.cs" />
     <Compile Include="Implement\MenuService.cs" />
-    <Compile Include="Interfaces\ExportFile\IExportPdfService.cs" />
     <Compile Include="Implement\ExportFile\MonthlyEPADetailReportService.cs" />
     <Compile Include="Implement\ExportFile\EPADetailReportService.cs" />
     <Compile Include="Implement\PersonalFlowService.cs" />

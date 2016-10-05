@@ -607,18 +607,6 @@
             return commandResult;
         }
 
-        public int GetNumberOfRow(GetNumberOfRowCriteria criteria)
-        {
-            var result = 0;
-
-            if (criteria != null && criteria.IsValid())
-            {
-                result = GetDataEntity<int>(criteria);
-            }
-
-            return result;
-        }
-
         public void GroupMonthlyEPABySemi(EPAModel semiEPA, IList<EPAModel> monthlyEPAs)
         {
             if (semiEPA != null && monthlyEPAs != null && monthlyEPAs.Count > 0)

@@ -74,7 +74,6 @@
     <Compile Include="Authentication\InsertEmployeeIPAddressCriteria.cs" />
     <Compile Include="DisciplineSummary\GetDisciplineSummaryByPeriodCriteria.cs" />
     <Compile Include="EmployeeEPA\AdjustScoreByReviewerOrManagementCriteria.cs" />
-    <Compile Include="EmployeeEPA\GetNumberOfRowCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEmployeePermissionCriteria.cs" />
     <Compile Include="EmployeeEPA\GetPeriodToUpdateFinalScoreCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEmployeeToUpdateFinalScoreCriteria.cs" />

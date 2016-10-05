@@ -26,7 +26,6 @@ function ($modal, commonFactory, errorFactory) {
     commonModel.targetTemplates = [];
     commonModel.menus = [];
     commonModel.remindDay = [0, 1, 2, 3, 4, 5, 6, 7];
-    commonModel.isOnNormalPdfPage = true;
     commonModel.jobTitles = [];
     commonModel.permission = 0;
 
@@ -212,14 +211,6 @@ function ($modal, commonFactory, errorFactory) {
     commonModel.getTargetTemplate = function (targetTypeId, isActive) {
         return commonFactory.getTargetTemplate(targetTypeId, isActive).success(function (targetTemplates) {
             commonModel.targetTemplates = targetTemplates;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
-
-    commonModel.displayOnNormalWidthPage = function (epaId) {
-        return commonFactory.displayOnNormalWidthPage(epaId).success(function (isOnNormalPdfPage) {
-            commonModel.isOnNormalPdfPage = isOnNormalPdfPage;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });

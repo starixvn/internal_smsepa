@@ -20,17 +20,15 @@
     public class CommonController : BaseController
     {
         private readonly ICommonService commonService;
-        private readonly IExportPdfService exportPdfService;
 
         public CommonController()
-            : this(null, null)
+            : this(null)
         {
         }
 
-        public CommonController(ICommonService commonService, IExportPdfService exportPdfService)
+        public CommonController(ICommonService commonService)
         {
             this.commonService = commonService ?? new CommonService();
-            this.exportPdfService = exportPdfService ?? new ExportPdfService();
         }
 
         [HttpGet]
@@ -216,12 +214,6 @@
             };
 
             return commonService.GetAllTargetTemplate(criteria);
-        }
-
-        [HttpGet]
-        public bool DisplayOnNormalWidthPage(int epaId)
-        {
-            return exportPdfService.DisplayOnNormalWidthPage(epaId);
         }
 
         [HttpGet]

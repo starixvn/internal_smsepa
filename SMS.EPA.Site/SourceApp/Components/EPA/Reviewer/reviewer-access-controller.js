@@ -197,20 +197,12 @@ function ($translate, $location, $routeParams, EmployeeEPAModel, ReviewerManagem
                 vm.modalInstance = '';
             });
         } else {
-            if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
-                vm.viewEPADetailUrl = baseUrl + 'Reviewer/SemiDetail/' + epaInfo.EPAId;
-            } else {
-                vm.viewEPADetailUrl = baseUrl + 'Reviewer/Detail/' + epaInfo.EPAId;
-            }
+            vm.viewEPADetailUrl = baseUrl + 'Reviewer/Detail/' + epaInfo.EPAId;
         }
     };
 
     vm.viewEPAResult = function (epaInfo) {
-        if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
-            vm.viewEPAResultUrl = baseUrl + 'EPA/SemiDetail/' + epaInfo.EPAId;
-        } else {
-            vm.viewEPAResultUrl = baseUrl + 'EPA/Detail/' + epaInfo.EPAId;
-        }
+        vm.viewEPAResultUrl = baseUrl + 'EPA/Detail/' + epaInfo.EPAId;
     };
 
     vm.viewOtherViolationDetail = function (epaInfo) {

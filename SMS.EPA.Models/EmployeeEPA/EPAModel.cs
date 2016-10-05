@@ -105,6 +105,14 @@
 
         public MonthlyEPAModel MonthlyEPA { get; set; }
 
+        public bool IsSemiHasMonthly
+        {
+            get
+            {
+                return HasMonthlyEPA && Period.TargetTypeId == (int)TargetTypes.SemiAnnual;
+            }
+        }
+
         public int Rowspan
         {
             get

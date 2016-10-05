@@ -25,7 +25,7 @@
                 </div>
                 <div ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="Pending"></div>
             </td>
-            <td class="text-center col-score-small">
+            <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center col-score-small" ng-show="$first">
                 <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess">
                     {{memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted | customScore}} / {{memberEPAInfoCtrl.epaInfo.ScoreRatingType.Evaluator | customScore}}
                 </div>

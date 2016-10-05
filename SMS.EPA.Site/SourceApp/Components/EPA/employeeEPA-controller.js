@@ -84,13 +84,6 @@ function ($timeout, $routeParams, EmployeeEPAModel, CommonModel, utilitiesFactor
             vm.standardGrades = CommonModel.standardGrades;
 
             getEPAInfoById();
-
-            if (vm.exportPDF) {
-                angular.element("#headerSection").remove();
-                angular.element("#titleSection").remove();
-                angular.element("#footerSection").remove();
-                vm.isRemovedPadding = CommonModel.displayOnNormalWidthPage(vm.epaId);
-            }
         });
     }
 

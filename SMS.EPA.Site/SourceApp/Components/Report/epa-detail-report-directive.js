@@ -113,8 +113,8 @@
                         cssReviewerScore = memberEPA.EPAId > 0 && !memberEPA.Process.Reviewers[0].IsEndProcess ? 'red' : '',
                         cssManagementScore = '',
                         cssDisciplineScore = memberEPA.EPAId > 0 && memberEPA.DisciplineScore < 0 ? 'red' : '',
-                        pdfIcon = '<a class="icon-pdf exportPDF" data-epaid="' + memberEPA.EPAId + '" data-hasmonthlyepa="' + memberEPA.HasMonthlyEPA + '"></a>',
-                        viewIcon = '<a class="icon-view viewEPADetail" data-epaid="' + memberEPA.EPAId + '" data-hasmonthlyepa="' + memberEPA.HasMonthlyEPA + '"></a>';
+                        pdfIcon = '<a class="icon-pdf exportPDF" data-epaid="' + memberEPA.EPAId + '"></a>',
+                        viewIcon = '<a class="icon-view viewEPADetail" data-epaid="' + memberEPA.EPAId + '"></a>';
 
                     if (memberEPA.EPAId > 0
                         && memberEPA.Process.Managements
@@ -218,17 +218,15 @@
                             $('a.exportPDF').on('click', function (event) {
                                 event.preventDefault();
 
-                                var epaId = parseInt($(this).data('epaid')),
-                                    hasMonthlyEPA = $(this).data('hasmonthlyepa');
-                                $scope.exportPdf(epaId, hasMonthlyEPA);
+                                var epaId = parseInt($(this).data('epaid'));
+                                $scope.exportPdf(epaId);
                             });
 
                             $('a.viewEPADetail').on('click', function (event) {
                                 event.preventDefault();
 
-                                var epaId = parseInt($(this).data('epaid')),
-                                    hasMonthlyEPA = $(this).data('hasmonthlyepa');
-                                $scope.viewEpaDetail(epaId, hasMonthlyEPA);
+                                var epaId = parseInt($(this).data('epaid'));
+                                $scope.viewEpaDetail(epaId);
                             });
                         }
                     });

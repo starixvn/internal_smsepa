@@ -156,8 +156,6 @@
     </Setting>
   </Function>
   <Function Name="EPA">
-    <Setting Key="EPA_GetNumberOfRow" SpName="EPA_GetNumberOfRow" DbName="SMSEPA" Plain="0">
-    </Setting>
     <Setting Key="EPA_CheckPermission" SpName="EPA_CheckPermission" DbName="SMSEPA" Plain="0">
     </Setting>
     <Setting Key="EPA_GetByEmployee" SpName="EPA_GetByEmployee" DbName="SMSEPA" Plain="0">
