@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.Model.Period
 {
+    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Services;
 
     public class AutoEmployeePeriodModel
@@ -28,5 +29,13 @@
         public int EmployeeId { get; set; }
 
         public bool HasMonthlyEPA { get; set; }
+
+        public bool IsSemiHasMonthly
+        {
+            get
+            {
+                return TargetTypeId == (int)TargetTypes.SemiAnnual && HasMonthlyEPA;
+            }
+        }
     }
 }

@@ -601,7 +601,7 @@
 
         private PdfPTable RenderPerformanceDetail(EPAModel epaInfo)
         {
-            float[] widths = new float[] { 30, 280, 40, 180, 50, 40, 180 };
+            float[] widths = new float[] { 30, 270, 40, 180, 60, 40, 180 };
             PdfPTable detail = new PdfPTable(7)
             {
                 TotalWidth = totalWidth,
