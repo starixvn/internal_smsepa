@@ -8,5 +8,10 @@
         {
             return "JobTitle_Get";
         }
+
+        public override bool IsValid()
+        {
+            return true;
+        }
     }
 }

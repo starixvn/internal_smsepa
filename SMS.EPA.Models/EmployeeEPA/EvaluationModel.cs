@@ -19,8 +19,6 @@
 
         public string FullName { get; set; }
 
-        public string ScoreEncrypt { get; set; }
-
         public string Score { get; set; }
 
         public string RateEncrypt { get; set; }

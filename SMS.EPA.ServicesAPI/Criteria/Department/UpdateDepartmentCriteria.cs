@@ -1,12 +1,12 @@
 ﻿namespace SMS.EPA.ServicesAPI.Criteria.Department
 {
-    using Fanex.Data.Repository;
-
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Web;
+    using Fanex.Data;
+    using Fanex.Data.Repository;
 
     public class UpdateDepartmentCriteria : CriteriaBase
     {

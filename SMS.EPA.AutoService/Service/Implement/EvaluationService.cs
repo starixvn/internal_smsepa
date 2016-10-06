@@ -17,20 +17,23 @@
         private readonly IEvaluationRepository generateEvaluationRepository;
         private readonly IPeriodService periodService;
         private readonly IAutoMailService autoMailService;
+        private readonly ICryptographyService cryptographyService;
 
         public EvaluationService()
-            : this(null, null, null)
+            : this(null, null, null, null)
         {
         }
 
         public EvaluationService(
             IEvaluationRepository generationEvaluationRepository,
             IPeriodService periodService,
-            IAutoMailService autoMailService)
+            IAutoMailService autoMailService,
+            ICryptographyService cryptographyService)
         {
             this.generateEvaluationRepository = generationEvaluationRepository ?? new EvaluationRepository();
             this.periodService = periodService ?? new PeriodService();
             this.autoMailService = autoMailService ?? new AutoMailService();
+            this.cryptographyService = cryptographyService ?? new CryptographyService();
         }
 
         public IEnumerable<AutoEmployeePeriodModel> GetPeriodHasReminderProcess(GetPeriodHasReminderProcessCriteria criteria)
@@ -52,6 +55,7 @@
             if (criteria != null && criteria.IsValid())
             {
                 evaluationProcesses = GetData<AutoEmployeePeriodModel>(criteria);
+                DecryptTotalScore(evaluationProcesses);
             }
 
             return evaluationProcesses;
@@ -162,6 +166,14 @@
             IEnumerable<PeriodFlowModel> employeeSettings = periodService.GetEmployeeSettingByPeriodId(criteria);
 
             return employeeSettings;
+        }
+
+        private void DecryptTotalScore(IEnumerable<AutoEmployeePeriodModel> evaluationProcesses)
+        {
+            foreach (AutoEmployeePeriodModel evaluationProcesse in evaluationProcesses)
+            {
+                evaluationProcesse.TotalScore = cryptographyService.Decrypt(evaluationProcesse.TotalScore);
+            }
         }
     }
 }

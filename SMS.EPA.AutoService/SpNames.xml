@@ -21,9 +21,7 @@
     </Setting>
     <Setting Key="EpaAuto_Promotion_GetEmployees" SpName="EpaAuto_Promotion_GetEmployees" DbName="SMSEPA" Plain="0">
     </Setting>
-    <Setting Key="EpaAuto_CheckEndProcess" SpName="EpaAuto_CheckEndProcess" DbName="SMSEPA" Plain="0">
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncrypt" />
-    </Setting>
+    <Setting Key="EpaAuto_CheckEndProcess" SpName="EpaAuto_CheckEndProcess" DbName="SMSEPA" Plain="0"></Setting>
     <Setting Key="EpaAuto_UpdateIsEndProcess" SpName="EpaAuto_UpdateIsEndProcess" DbName="SMSEPA" Plain="0">
     </Setting>
     <Setting Key="EpaAttendanceSummary_GetByEPA" SpName="EpaAttendanceSummary_GetByEPA" DbName="SMSEPA" Plain="0">
@@ -32,25 +30,15 @@
     </Setting>
     <Setting Key="EpaAuto_CheckLastestEndEvaluationPeriod" SpName="EpaAuto_CheckLastestEndEvaluationPeriod" DbName="SMSEPA" Plain="0">
     </Setting>
-    <Setting Key="EpaAuto_GetEPAEndEvaluationPeriod" SpName="EpaAuto_GetEPAEndEvaluationPeriod" DbName="SMSEPA" Plain="0">
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncrypt" />
-      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncrypt" />
-    </Setting>
+    <Setting Key="EpaAuto_GetEPAEndEvaluationPeriod" SpName="EpaAuto_GetEPAEndEvaluationPeriod" DbName="SMSEPA" Plain="0"></Setting>
     <Setting Key="EPA_GetInfoById" SpName="EPA_GetInfoById" DbName="SMSEPA" Plain="0">
-      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncrypt" />
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncrypt" />
-      <Mapping DataField="Score" ObjectProperty="ScoreEncrypt" />
       <Mapping DataField="Rate" ObjectProperty="RateEncrypt" />
     </Setting>
     <Setting Key="EPA_GetStandardGrade" SpName="EPA_GetStandardGrade" DbName="SMSEPA" Plain="0">
     </Setting>
     <Setting Key="EpaAuto_UpdateTotalScoreWhenNull" SpName="EpaAuto_UpdateTotalScoreWhenNull" DbName="SMSEPA" Plain="0">
     </Setting>
-    <Setting Key="EPA_SemiAnnual_GetMonthly" SpName="EPA_SemiAnnual_GetMonthly" DbName="SMSEPA" Plain="0">
-      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncrypt" />
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncrypt" />
-      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncrypt" />
-    </Setting>
+    <Setting Key="EPA_SemiAnnual_GetMonthly" SpName="EPA_SemiAnnual_GetMonthly" DbName="SMSEPA" Plain="0"></Setting>
     <Setting Key="EpaAuto_SemiAnnual_UpdateTotalScore" SpName="EpaAuto_SemiAnnual_UpdateTotalScore" DbName="SMSEPA" Plain="0">
     </Setting>
   </Function>

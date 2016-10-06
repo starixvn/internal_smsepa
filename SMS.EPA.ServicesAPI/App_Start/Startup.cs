@@ -1,14 +1,15 @@
 ﻿namespace SMS.EPA.ServicesAPI
 {
-    using Fanex.Data.Configuration;
+    using System;
+    using System.Web.Http;
+    using Fanex.Data;
+    using Fanex.Data.OldConnectionStringProvider;
     using Microsoft.Owin;
     using Microsoft.Owin.Cors;
     using Microsoft.Owin.Security.OAuth;
     using Owin;
     using SMS.EPA.ServicesAPI.Providers;
     using SMS.EPA.ServicesAPI.Utilities;
-    using System;
-    using System.Web.Http;
 
     public class Startup
     {
@@ -25,7 +26,14 @@
             app.UseCors(CorsOptions.AllowAll);
             app.UseWebApi(config);
 
-            DbSettingProviderManager.Current.Start();
+            DbSettingProviderManager
+            .StartNewSession()
+            .Use(new OldConnectionStringProvider())
+            .UseDefaultDbSettingProvider(
+                resourcePath: "~/App_Data",
+                ignoreRedundantParameters: false,
+                enableWatching: true)
+            .Run();
         }
 
         public void ConfigureAuth(IAppBuilder app)

@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.Criteria.Period
 {
+    using Fanex.Data;
     using Fanex.Data.Repository;
 
     public class GetPeriodEmployeeSettingCriteria : CriteriaBase

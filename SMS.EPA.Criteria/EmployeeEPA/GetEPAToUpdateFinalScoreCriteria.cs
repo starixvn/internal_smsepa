@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.Criteria
 {
+    using Fanex.Data;
     using Fanex.Data.Repository;
 
     public class GetEPAToUpdateFinalScoreCriteria : CriteriaBase

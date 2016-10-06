@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.Repositories.Implement
 {
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using Fanex.Data;
@@ -32,7 +33,8 @@
 
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                Hashtable parameters = criteria.GetSpParams();
+                using (GridReaderWrapper multi = db.QueryMultiple(parameters))
                 {
                     epaSummary.PeriodSelecteds = multi.Read<PeriodModel>().ToList();
 
@@ -55,14 +57,11 @@
                         },
                         "StatusId").ToList();
 
-                    var hashParam = db.GetOuputParams();
-                    var totalItem = (int)hashParam["totalitem"];
-
-                    epaSummary.TotalItem = totalItem;
-
                     GroupPeriodByEmployee(epaSummary.EPAInfos, periods);
                     DecodeFinalScoreAndGrade(epaSummary.EPAInfos);
                 }
+
+                ////epaSummary.TotalItem = (int)parameters["totalitem"];
             }
 
             return epaSummary;
@@ -74,7 +73,8 @@
 
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                Hashtable parameters = criteria.GetSpParams();
+                using (GridReaderWrapper multi = db.QueryMultiple(parameters))
                 {
                     epaDetail.PhaseSelecteds = multi.Read<EvaluationPhaseModel>();
 
@@ -92,14 +92,11 @@
 
                     IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
 
-                    var hashParam = db.GetOuputParams();
-                    var totalItem = (int)hashParam["totalitem"];
-
-                    epaDetail.TotalItem = totalItem;
-
                     GroupEPAProcessByEPA(epaDetail.MemberEPAs, processes);
                     DecodeAllScore(epaDetail.MemberEPAs);
                 }
+
+                ////epaDetail.TotalItem = (int)parameters["totalitem"];
             }
 
             return epaDetail;
@@ -111,7 +108,8 @@
 
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                Hashtable parameters = criteria.GetSpParams();
+                using (GridReaderWrapper multi = db.QueryMultiple(parameters))
                 {
                     epaDetail.PhaseSelecteds = multi.Read<EvaluationPhaseModel>();
 
@@ -128,14 +126,11 @@
 
                     IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
 
-                    var hashParam = db.GetOuputParams();
-                    var totalItem = (int)hashParam["totalitem"];
-
-                    epaDetail.TotalItem = totalItem;
-
                     GroupEPAProcessByEPA(epaDetail.MemberEPAs, processes);
                     DecodeAllScore(epaDetail.MemberEPAs);
                 }
+
+                ////epaDetail.TotalItem = (int)parameters["totalitem"];
             }
 
             return epaDetail;
@@ -147,7 +142,9 @@
 
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                Hashtable parameters = criteria.GetSpParams();
+
+                using (GridReaderWrapper multi = db.QueryMultiple(parameters))
                 {
                     epaSummary.PeriodSelecteds = multi.Read<PeriodModel>().ToList();
 
@@ -170,14 +167,11 @@
                         },
                         "StatusId").ToList();
 
-                    var hashParam = db.GetOuputParams();
-                    var totalItem = (int)hashParam["totalitem"];
-
-                    epaSummary.TotalItem = totalItem;
-
                     GroupPeriodByEmployee(epaSummary.EPAInfos, periods);
                     DecodeFinalScoreAndGrade(epaSummary.EPAInfos);
                 }
+
+                ////epaSummary.TotalItem = (int)parameters["totalitem"];
             }
 
             return epaSummary;
@@ -226,8 +220,8 @@
         {
             foreach (EPASummaryPeriodModel period in epaSummaries.SelectMany(x => x.Periods))
             {
-                period.FinalScore = cryptographyService.Decrypt(period.FinalScoreEncrypt);
-                period.Grade = cryptographyService.Decrypt(period.GradeEncrypt);
+                period.FinalScore = cryptographyService.Decrypt(period.FinalScore);
+                period.Grade = cryptographyService.Decrypt(period.Grade);
             }
         }
 
@@ -235,8 +229,8 @@
         {
             foreach (EPAModel epaInfo in epaInfos)
             {
-                epaInfo.FinalScore = cryptographyService.Decrypt(epaInfo.FinalScoreEncrypt);
-                epaInfo.Grade = cryptographyService.Decrypt(epaInfo.GradeEncrypt);
+                epaInfo.FinalScore = cryptographyService.Decrypt(epaInfo.FinalScore);
+                epaInfo.Grade = cryptographyService.Decrypt(epaInfo.Grade);
                 DecodeTotalScore(epaInfo.Process.Self);
                 DecodeTotalScore(epaInfo.Process.Evaluators);
                 DecodeTotalScore(epaInfo.Process.Reviewers);
@@ -248,8 +242,8 @@
         {
             if (process != null)
             {
-                process.TotalScore = cryptographyService.Decrypt(process.TotalScoreEncrypt);
-                process.AdjustScore = cryptographyService.Decrypt(process.AdjustScoreEncrypt);
+                process.TotalScore = cryptographyService.Decrypt(process.TotalScore);
+                process.AdjustScore = cryptographyService.Decrypt(process.AdjustScore);
             }
         }
 

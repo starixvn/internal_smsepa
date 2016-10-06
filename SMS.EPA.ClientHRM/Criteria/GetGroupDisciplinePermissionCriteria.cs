@@ -11,5 +11,10 @@
         {
             return "GroupSupervisor_GetForSync";
         }
+
+        public override bool IsValid()
+        {
+            return true;
+        }
     }
 }

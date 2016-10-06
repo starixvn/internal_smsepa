@@ -35,7 +35,7 @@
 
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     flows = multi.Read<DepartmentFlowModel>();
                     IEnumerable<ProcessFlowModel> processes = multi.Read<ProcessFlowModel>();
@@ -53,7 +53,7 @@
 
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     flows = multi.Read<PersonalFlowModel, Group, PersonalFlowModel>(
                         (flow, gr) =>

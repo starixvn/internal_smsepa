@@ -11,5 +11,10 @@
         {
             return "Employee_Get";
         }
+
+        public override bool IsValid()
+        {
+            return true;
+        }
     }
 }

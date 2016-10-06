@@ -1,12 +1,12 @@
 ﻿namespace SMS.EPA.ClientHRM
 {
-    using Fanex.Logging;
-    using SMS.EPA.ClientHRM.Model;
-    using SMS.EPA.ClientHRM.Services;
     using System;
     using System.ComponentModel;
     using System.ServiceProcess;
     using System.Timers;
+    using Fanex.Logging;
+    using SMS.EPA.ClientHRM.Model;
+    using SMS.EPA.ClientHRM.Services;
 
     [RunInstaller(true)]
     public partial class WinService : ServiceBase

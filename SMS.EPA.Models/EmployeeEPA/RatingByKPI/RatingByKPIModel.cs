@@ -6,8 +6,6 @@
 
         public EPAEmployeeModel Employee { get; set; }
 
-        public string TotalScoreEncrypt { get; set; }
-
         public string TotalScore { get; set; }
 
         public string TotalScoreOriginal

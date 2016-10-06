@@ -7,7 +7,8 @@
     using System.Web.Optimization;
     using System.Web.Routing;
     using System.Web.SessionState;
-    using Fanex.Data.Configuration;
+    using Fanex.Data;
+    using Fanex.Data.OldConnectionStringProvider;
     using Fanex.Logging;
 
     public class WebApiApplication : HttpApplication
@@ -23,7 +24,14 @@
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            DbSettingProviderManager.Current.Start();
+            DbSettingProviderManager
+            .StartNewSession()
+            .Use(new OldConnectionStringProvider())
+            .UseDefaultDbSettingProvider(
+                resourcePath: "~/App_Data",
+                ignoreRedundantParameters: false,
+                enableWatching: true)
+            .Run();
         }
 
         protected void Application_PostAuthorizeRequest()

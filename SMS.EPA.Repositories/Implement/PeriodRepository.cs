@@ -46,7 +46,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     IEnumerable<PeriodEmployeeSettingModel> employeeSettings =
                         multi.Read<PeriodEmployeeSettingModel, Employee, Department, Group, JobTitle, TargetTemplate, PeriodEmployeeSettingModel>(

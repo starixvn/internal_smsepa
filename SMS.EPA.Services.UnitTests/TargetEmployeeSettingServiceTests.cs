@@ -1,18 +1,15 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
+    using System.Collections.Generic;
     using Fanex.Data.Repository;
     using NSubstitute;
     using NUnit.Framework;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Repositories;
-    using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.TargetEmployeeSetting;
     using SMS.EPA.Model;
-    using SMS.EPA.Model.Enitites;
     using SMS.EPA.Repositories.Interfaces;
     using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
-    using System.Collections.Generic;
 
     [TestFixture]
     public class TargetEmployeeSettingServiceTests
@@ -21,6 +18,7 @@
         private TargetEmployeeSettingService targetEmployeeSettingService;
 
         #region GetTargetEmployeeSetting
+
         [Test]
         public void GetTargetEmployeeSetting_AnyArg_ReturnInstanceOfListOfTargetEmployeeSetting()
         {
@@ -66,9 +64,10 @@
             Assert.AreEqual(actual.Count, 0);
         }
 
-        #endregion
+        #endregion GetTargetEmployeeSetting
 
         #region GetTargetDepartmentSetting
+
         [Test]
         public void GetTargetDepartmentSetting_AnyArg_ReturnInstanceOfListOfTargetDepartmentSetting()
         {
@@ -114,7 +113,7 @@
             Assert.AreEqual(actual.Count, 0);
         }
 
-        #endregion
+        #endregion GetTargetDepartmentSetting
 
         #region AssignTargetTemplateToEmployee
 
@@ -148,7 +147,7 @@
             targetEmployeeSettingService.Repository.Received().Update(Arg.Is<AssignTargetTemplateToEmployeeCriteria>(x => x.IsValid()));
         }
 
-        #endregion
+        #endregion AssignTargetTemplateToEmployee
 
         #region AssignTargetTemplateToDepartment
 
@@ -182,7 +181,7 @@
             targetEmployeeSettingService.Repository.Received().Update(Arg.Is<AssignTargetDepartmentSettingCriteria>(x => x.IsValid()));
         }
 
-        #endregion
+        #endregion AssignTargetTemplateToDepartment
 
         #region DeleteTargetEmployeeSetting
 
@@ -217,7 +216,7 @@
             targetEmployeeSettingService.Repository.Received().Delete(Arg.Is<DeleteTargetEmployeeSettingCriteria>(x => x.IsValid()));
         }
 
-        #endregion
+        #endregion DeleteTargetEmployeeSetting
 
         #region DeleteTargetDepartmentSetting
 
@@ -252,7 +251,7 @@
             targetEmployeeSettingService.Repository.Received().Delete(criteria);
         }
 
-        #endregion
+        #endregion DeleteTargetDepartmentSetting
 
         private IBaseRepository FakeBaseRepository()
         {

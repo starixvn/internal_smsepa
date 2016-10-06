@@ -1,12 +1,12 @@
 ﻿namespace SMS.EPA.Repositories.Implement
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using SMS.EPA.Model;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Repositories.Interfaces;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class TargetEmployeeSettingRepository : ITargetEmployeeSettingRepository
     {
@@ -14,7 +14,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     IEnumerable<Employee> employees = multi.Read<Employee, Group, Employee>(
                         (emp, gr) =>
@@ -35,7 +35,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     IEnumerable<Department> deparments = multi.Read<Department>();
 
@@ -65,7 +65,7 @@
         }
 
         private IList<TargetDepartmentSetting> MappingTargetTemplateDepartment(
-            IEnumerable<Department> departments, 
+            IEnumerable<Department> departments,
             IEnumerable<TargetTemplateDepartment> targetTemplateDepartments)
         {
             var targetDepartments = new List<TargetDepartmentSetting>();

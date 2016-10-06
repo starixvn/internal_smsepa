@@ -1,7 +1,6 @@
 ﻿namespace SMS.EPA.Criteria.Report
 {
     using Fanex.Data.Repository;
-    using SMS.EPA.Core.Attribute;
 
     public class GetMonthlyEPASummaryCriteria : CriteriaBase
     {
@@ -21,7 +20,6 @@
 
         public int? ItemsPerPage { get; set; }
 
-        [Output]
         public int? TotalItem { get; set; }
 
         public override string GetSettingKey()

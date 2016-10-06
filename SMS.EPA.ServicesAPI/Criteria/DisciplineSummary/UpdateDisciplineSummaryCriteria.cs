@@ -1,10 +1,11 @@
 ﻿namespace SMS.EPA.ServicesAPI.Criteria.EmployeeDiscipline
 {
-    using Fanex.Data.Repository;
-    using SMS.EPA.ServicesAPI.Model;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using Fanex.Data;
+    using Fanex.Data.Repository;
+    using SMS.EPA.ServicesAPI.Model;
 
     public class UpdateDisciplineSummaryCriteria : CriteriaBase
     {

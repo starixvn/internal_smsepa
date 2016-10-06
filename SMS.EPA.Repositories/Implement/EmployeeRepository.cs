@@ -15,7 +15,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     IEnumerable<Employee> employees = multi.Read<Employee, JobTitle, Group, Employee>(
                            (emp, jb, gr) =>
@@ -51,7 +51,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     UserSession user = multi.Read<UserSession>().FirstOrDefault();
 
@@ -70,7 +70,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     Employee employee = multi.Read<Employee, JobTitle, Department, Group, Employee>(
                            (emp, jb, dept, gr) =>

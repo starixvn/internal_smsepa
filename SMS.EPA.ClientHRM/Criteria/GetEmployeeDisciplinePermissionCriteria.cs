@@ -11,5 +11,10 @@
         {
             return "EmployeeSupervisor_GetForSync";
         }
+
+        public override bool IsValid()
+        {
+            return true;
+        }
     }
 }

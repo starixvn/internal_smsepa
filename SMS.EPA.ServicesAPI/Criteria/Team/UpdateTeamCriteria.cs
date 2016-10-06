@@ -1,11 +1,12 @@
 ﻿namespace SMS.EPA.ServicesAPI.Criteria.Team
 {
-    using Fanex.Data.Repository;
-    using SMS.EPA.ServicesAPI.Model;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Web;
+    using Fanex.Data;
+    using Fanex.Data.Repository;
+    using SMS.EPA.ServicesAPI.Model;
 
     public class UpdateTeamCriteria : CriteriaBase
     {

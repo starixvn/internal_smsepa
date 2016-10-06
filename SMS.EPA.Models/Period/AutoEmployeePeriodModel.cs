@@ -15,16 +15,7 @@
 
         public int ProcessId { get; set; }
 
-        public string TotalScoreEncrypt { get; set; }
-
-        public string TotalScore
-        {
-            get
-            {
-                ICryptographyService cryptographyService = new CryptographyService();
-                return cryptographyService.Decrypt(TotalScoreEncrypt);
-            }
-        }
+        public string TotalScore { get; set; }
 
         public int EmployeeId { get; set; }
 

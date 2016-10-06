@@ -1,11 +1,11 @@
 ﻿namespace SMS.EPA.ServicesAPI.Criteria.TeamDisciplinePermission
 {
-    using Fanex.Data.Repository;
-    using SMS.EPA.ServicesAPI.Model;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using System.Web;
+    using Fanex.Data;
+    using Fanex.Data.Repository;
+    using SMS.EPA.ServicesAPI.Model;
 
     public class UpdateTeamDisciplinePermissionCriteria : CriteriaBase
     {

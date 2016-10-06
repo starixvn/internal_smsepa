@@ -43,8 +43,6 @@
 
         public float MaxTotalScore { get; set; }
 
-        public string TotalScoreEncrypt { get; set; }
-
         public string TotalScore { get; set; }
 
         public string TotalScoreOriginal
@@ -54,8 +52,6 @@
                 return TotalScore;
             }
         }
-
-        public string AdjustScoreEncrypt { get; set; }
 
         public string AdjustScore { get; set; }
 

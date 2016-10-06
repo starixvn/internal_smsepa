@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using Fanex.Data;
     using Fanex.Data.Repository;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Model;

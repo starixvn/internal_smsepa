@@ -1,8 +1,6 @@
 ﻿namespace SMS.EPA.Core.Criteria
 {
-    using Fanex.Data.Repository;
-
-    public class ResultCriteria : CriteriaBase
+    public class ResultCriteria
     {
         public int ErrCode { get; set; }
 

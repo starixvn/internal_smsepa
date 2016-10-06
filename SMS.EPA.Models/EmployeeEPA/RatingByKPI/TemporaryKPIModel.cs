@@ -20,8 +20,6 @@
 
         public bool Evaluated { get; set; }
 
-        public string ScoreEncrypt { get; set; }
-
         public string Score { get; set; }
 
         public bool IsMaxScore { get; set; }

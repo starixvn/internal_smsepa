@@ -1,19 +1,28 @@
 ﻿namespace SMS.EPA.ClientHRM
 {
-    using Fanex.Data.Configuration;
-    using SMS.EPA.ClientHRM.Services;
     using System;
     using System.Net;
     using System.Net.Security;
     using System.Reflection;
     using System.Security.Cryptography.X509Certificates;
     using System.ServiceProcess;
+    using Fanex.Data;
+    using Fanex.Data.OldConnectionStringProvider;
+    using SMS.EPA.ClientHRM.Services;
 
     public class Program
     {
         public static void Main(string[] args)
         {
-            DbSettingProviderManager.Current.Start();
+            DbSettingProviderManager
+            .StartNewSession()
+            .Use(new OldConnectionStringProvider())
+            .UseDefaultDbSettingProvider(
+                resourcePath: "~/",
+                ignoreRedundantParameters: false,
+                enableWatching: true)
+            .Run();
+
             ServicePointManager.ServerCertificateValidationCallback = delegate(
                 object obj,
                 X509Certificate certificate,
@@ -25,9 +34,9 @@
 
             Bootstrap.Start();
 
-            var servicesToRun = new ServiceBase[] 
-            { 
-                new WinService(Bootstrap.Container.GetInstance<ISynchronizeService>()) 
+            var servicesToRun = new ServiceBase[]
+            {
+                new WinService(Bootstrap.Container.GetInstance<ISynchronizeService>())
             };
 
             if (Environment.UserInteractive)

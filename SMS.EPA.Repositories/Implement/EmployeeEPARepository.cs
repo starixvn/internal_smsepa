@@ -29,7 +29,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     IEnumerable<EPAModel> epaInfos = multi.Read<EPAModel, EPAEmployeeModel, RatingTypeModel, EPAStatusModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
                     (epaInfo, employee, ratingType, status, period, scoreRatingType) =>
@@ -63,7 +63,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     EPAModel epaInfo = new EPAModel();
 
@@ -112,7 +112,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     IEnumerable<EPAModel> epaInfos = multi.Read<EPAModel, EPAStatusModel, EPAEmployeeModel, EPAPeriodModel, EPAModel>(
                     (epaInfo, status, emp, period) =>
@@ -143,7 +143,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     IList<EPAModel> epaInfos = multi.Read<EPAModel, EPAStatusModel, EPAEmployeeModel, EPAPeriodModel, EPAModel>(
                     (epaInfo, status, emp, period) =>
@@ -176,7 +176,7 @@
 
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     result.MyEPAs = multi.Read<EPAModel, EPAStatusModel, EPAPeriodModel, EPAModel>(
                         (epa, status, period) =>
@@ -241,7 +241,7 @@
             IEnumerable<RatingByKPIModel> epaInfos = new List<RatingByKPIModel>();
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     epaInfos = multi.Read<RatingByKPIModel, EPAEmployeeModel, RatingTypeModel, TemporaryKPIGroupModel, RatingByKPIModel>(
                         (epaInfo, employee, type, kgr) =>
@@ -282,7 +282,7 @@
             IEnumerable<RatingByKPIModel> epaInfos = new List<RatingByKPIModel>();
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     epaInfos = multi.Read<RatingByKPIModel, EPAEmployeeModel, RatingTypeModel, TemporaryKPIGroupModel, RatingByKPIModel>(
                         (epaInfo, employee, type, kgr) =>
@@ -415,11 +415,11 @@
 
         private void DecryptAllScore(EPAModel epaInfo)
         {
-            epaInfo.LastFinalScore = cryptographyService.Decrypt(epaInfo.LastFinalScoreEncrypt);
-            epaInfo.LastGrade = cryptographyService.Decrypt(epaInfo.LastGradeEncrypt);
-            epaInfo.FinalScore = cryptographyService.Decrypt(epaInfo.FinalScoreEncrypt);
-            epaInfo.Grade = cryptographyService.Decrypt(epaInfo.GradeEncrypt);
-            epaInfo.OldFinalScore = cryptographyService.Decrypt(epaInfo.OldFinalScoreEncrypt);
+            epaInfo.LastFinalScore = cryptographyService.Decrypt(epaInfo.LastFinalScore);
+            epaInfo.LastGrade = cryptographyService.Decrypt(epaInfo.LastGrade);
+            epaInfo.FinalScore = cryptographyService.Decrypt(epaInfo.FinalScore);
+            epaInfo.Grade = cryptographyService.Decrypt(epaInfo.Grade);
+            epaInfo.OldFinalScore = cryptographyService.Decrypt(epaInfo.OldFinalScore);
             DecryptTotalScore(epaInfo.Process.Self);
             DecryptTotalScore(epaInfo.Process.Evaluators);
             DecryptTotalScore(epaInfo.Process.Reviewers);
@@ -437,7 +437,7 @@
         {
             foreach (RatingByKPIModel epaInfo in epaInfos)
             {
-                epaInfo.TotalScore = cryptographyService.Decrypt(epaInfo.TotalScoreEncrypt);
+                epaInfo.TotalScore = cryptographyService.Decrypt(epaInfo.TotalScore);
 
                 foreach (TemporaryKPIModel kpi in epaInfo.KPIGroup.KPIs)
                 {
@@ -448,7 +448,7 @@
                         rate = float.Parse(cryptographyService.Decrypt(kpi.RateEncrypt));
                     }
 
-                    kpi.Score = cryptographyService.Decrypt(kpi.ScoreEncrypt).Replace("_" + kpi.KPIId, string.Empty);
+                    kpi.Score = cryptographyService.Decrypt(kpi.Score).Replace("_" + kpi.KPIId, string.Empty);
                     kpi.Rate = rate;
                 }
 
@@ -461,7 +461,7 @@
                         rate = float.Parse(cryptographyService.Decrypt(kpi.RateEncrypt));
                     }
 
-                    kpi.Score = cryptographyService.Decrypt(kpi.ScoreEncrypt).Replace("_" + kpi.KPIId, string.Empty);
+                    kpi.Score = cryptographyService.Decrypt(kpi.Score).Replace("_" + kpi.KPIId, string.Empty);
                     kpi.Rate = rate;
                 }
             }
@@ -471,8 +471,8 @@
         {
             if (process != null)
             {
-                process.TotalScore = cryptographyService.Decrypt(process.TotalScoreEncrypt);
-                process.AdjustScore = cryptographyService.Decrypt(process.AdjustScoreEncrypt);
+                process.TotalScore = cryptographyService.Decrypt(process.TotalScore);
+                process.AdjustScore = cryptographyService.Decrypt(process.AdjustScore);
             }
         }
 
@@ -495,7 +495,7 @@
                     rate = float.Parse(cryptographyService.Decrypt(evaluation.RateEncrypt));
                 }
 
-                evaluation.Score = cryptographyService.Decrypt(evaluation.ScoreEncrypt).Replace("_" + evaluation.KPIId, string.Empty);
+                evaluation.Score = cryptographyService.Decrypt(evaluation.Score).Replace("_" + evaluation.KPIId, string.Empty);
                 evaluation.Rate = rate;
             }
         }

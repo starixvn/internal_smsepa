@@ -1,6 +1,7 @@
 ﻿namespace SMS.EPA.AutoService.Criteria
 {
     using System.Text;
+    using Fanex.Data;
     using Fanex.Data.Repository;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Services;

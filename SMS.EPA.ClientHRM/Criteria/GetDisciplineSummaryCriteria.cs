@@ -11,5 +11,10 @@
         {
             return "EmployeeDiscipline_GetSummaryByPeriod";
         }
+
+        public override bool IsValid()
+        {
+            return true;
+        }
     }
 }
