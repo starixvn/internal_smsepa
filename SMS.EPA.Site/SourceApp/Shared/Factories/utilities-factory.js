@@ -1,6 +1,7 @@
 ﻿(function (angular) {
     'use strict';
     /* jshint latedef:nofunc */
+    /* global moment */
 
     angular.module('appModule').factory('utilitiesFactory', utilitiesFactory);
     utilitiesFactory.$inject = ['$filter'];

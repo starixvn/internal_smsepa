@@ -89,7 +89,14 @@
 
                     if (epaInfo != null)
                     {
-                        IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
+                        IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel, EPAEmployeeModel, EPAProcessModel>(
+                        (process, evaluator) =>
+                        {
+                            process.ModifiedBy = evaluator;
+
+                            return process;
+                        },
+                        "ModifiedById");
 
                         epaInfo.KPIGroups = multi.Read<EPAKPIGroupModel>().ToList();
 
@@ -132,7 +139,14 @@
                     },
                     "StatusId, EmployeeId, PeriodId");
 
-                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
+                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel, EPAEmployeeModel, EPAProcessModel>(
+                    (process, evaluator) =>
+                    {
+                        process.ModifiedBy = evaluator;
+
+                        return process;
+                    },
+                    "ModifiedById");
 
                     GroupEPAProcessByEPA(epaInfos, processes);
 
@@ -163,7 +177,14 @@
                     },
                     "StatusId, EmployeeId, PeriodId").ToList();
 
-                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
+                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel, EPAEmployeeModel, EPAProcessModel>(
+                    (process, evaluator) =>
+                    {
+                        process.ModifiedBy = evaluator;
+
+                        return process;
+                    },
+                    "ModifiedById");
 
                     GroupEPAProcessByEPA(epaInfos, processes);
 
@@ -195,7 +216,14 @@
                         },
                         "StatusId, PeriodId");
 
-                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
+                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel, EPAEmployeeModel, EPAProcessModel>(
+                    (process, evaluator) =>
+                    {
+                        process.ModifiedBy = evaluator;
+
+                        return process;
+                    },
+                    "ModifiedById");
 
                     GroupEPAProcessByEPA(result.MyEPAs, processes);
 

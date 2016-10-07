@@ -3202,6 +3202,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Summary Comment.
+        /// </summary>
+        public static string SummaryComment {
+            get {
+                return ResourceManager.GetString("SummaryComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Support.
         /// </summary>
         public static string Support {

@@ -1353,4 +1353,7 @@
   <data name="Dashboard" xml:space="preserve">
     <value>Dashboard</value>
   </data>
+  <data name="SummaryComment" xml:space="preserve">
+    <value>Summary Comment</value>
+  </data>
 </root>
