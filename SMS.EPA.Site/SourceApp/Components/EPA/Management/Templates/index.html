@@ -165,7 +165,8 @@
                         <input type="text" maxlength="6" class="form-control text-center epa-input-score"
                                ng-readonly="!epaInfo.IsAllowedToEdit || managementCtrl.permission != managementCtrl.policyEnum.Host"
                                ng-model="epaInfo.Process.CurrentProcess.AdjustScore" numeric decimals="2" ng-change="managementCtrl.inputScore(epaInfo)"
-                               tooltip="{{managementCtrl.getNotificationInputScore(epaInfo)}}" tooltip-trigger="focus" />
+                               tooltip="{{managementCtrl.getNotificationInputScore(epaInfo)}}" tooltip-trigger="focus"
+                               title="Adjusted by {{epaInfo.Process.CurrentProcess.ModifiedBy.NickName}}" />
                     </td>
                     <td class="text-center">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-attr-title='{{"Edit" | translate}}'

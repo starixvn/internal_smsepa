@@ -156,10 +156,12 @@
     </Setting>
   </Function>
   <Function Name="EPA">
-    <Setting Key="EPA_CheckPermission" SpName="EPA_CheckPermission" DbName="SMSEPA" Plain="0">
+    <Setting Key="EPA_CheckPermission" SpName="EPA_CheckPermission" DbName="SMSEPA" Plain="0"></Setting>
+    <Setting Key="EPA_GetByEmployee" SpName="EPA_GetByEmployee" DbName="SMSEPA" Plain="0">
+      <Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
     </Setting>
-    <Setting Key="EPA_GetByEmployee" SpName="EPA_GetByEmployee" DbName="SMSEPA" Plain="0"></Setting>
     <Setting Key="EPA_GetInfoByEmployee" SpName="EPA_GetInfoByEmployee" DbName="SMSEPA" Plain="0">
+      <Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
       <Mapping DataField="Rate" ObjectProperty="RateEncrypt" />
     </Setting>
     <Setting Key="EPA_UpdateScore" SpName="EPA_UpdateScore" DbName="SMSEPA" Plain="0"></Setting>
@@ -169,12 +171,18 @@
     <Setting Key="EPA_GetInfoByEvaluator" SpName="EPA_GetInfoByEvaluator" DbName="SMSEPA" Plain="0">
       <Mapping DataField="Rate" ObjectProperty="RateEncrypt" />
     </Setting>
-    <Setting Key="EPA_GetByReviewer" SpName="EPA_GetByReviewer" DbName="SMSEPA" Plain="0"></Setting>
+    <Setting Key="EPA_GetByReviewer" SpName="EPA_GetByReviewer" DbName="SMSEPA" Plain="0">
+      <Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
+    </Setting>
     <Setting Key="EPA_GetInfoByReviewer" SpName="EPA_GetInfoByReviewer" DbName="SMSEPA" Plain="0">
+      <Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
       <Mapping DataField="Rate" ObjectProperty="RateEncrypt" />
     </Setting>
-    <Setting Key="EPA_GetByManagement" SpName="EPA_GetByManagement" DbName="SMSEPA" Plain="0"></Setting>
+    <Setting Key="EPA_GetByManagement" SpName="EPA_GetByManagement" DbName="SMSEPA" Plain="0">
+      <Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
+    </Setting>
     <Setting Key="EPA_GetInfoByManagement" SpName="EPA_GetInfoByManagement" DbName="SMSEPA" Plain="0">
+      <Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
       <Mapping DataField="Rate" ObjectProperty="RateEncrypt" />
     </Setting>
     <Setting Key="EPA_GetInfoById" SpName="EPA_GetInfoById" DbName="SMSEPA" Plain="0">

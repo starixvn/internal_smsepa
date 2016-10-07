@@ -1,11 +1,9 @@
 ﻿namespace SMS.EPA.Criteria
 {
     using Fanex.Data.Repository;
-    using SMS.EPA.Core.Attribute;
 
     public class CreateKPICriteria : CriteriaBase
     {
-        [Output]
         public int KPIId { get; set; }
 
         public string Name { get; set; }

@@ -242,9 +242,8 @@
 
             foreach (AutoEmployeePeriodModel periodProcess in reminderProcess)
             {
-                if (periodProcess.TargetTypeId == (int)TargetTypes.SemiAnnual
-                    && (periodProcess.ProcessId == (int)ProcessType.Self || periodProcess.ProcessId == (int)ProcessType.Evaluator)
-                    && periodProcess.HasMonthlyEPA)
+                if (periodProcess.IsSemiHasMonthly
+                    && (periodProcess.ProcessId == (int)ProcessType.Self || periodProcess.ProcessId == (int)ProcessType.Evaluator))
                 {
                     continue;
                 }

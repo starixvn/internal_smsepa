@@ -1,7 +1,6 @@
 ﻿namespace SMS.EPA.Model.Period
 {
     using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Core.Services;
 
     public class AutoEmployeePeriodModel
     {

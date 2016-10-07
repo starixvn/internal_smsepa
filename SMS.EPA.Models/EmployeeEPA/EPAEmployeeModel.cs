@@ -3,6 +3,7 @@
     using System;
     using SMS.EPA.Core.Services;
 
+    [Serializable]
     public class EPAEmployeeModel
     {
         public int EPAId { get; set; }

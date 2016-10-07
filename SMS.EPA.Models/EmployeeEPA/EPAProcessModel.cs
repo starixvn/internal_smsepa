@@ -72,5 +72,7 @@
         public float MaxSubtractScore { get; set; }
 
         public float MaxAdditionScore { get; set; }
+
+        public EPAEmployeeModel ModifiedBy { get; set; }
     }
 }

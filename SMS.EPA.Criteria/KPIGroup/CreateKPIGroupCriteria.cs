@@ -1,11 +1,9 @@
 ﻿namespace SMS.EPA.Criteria
 {
     using Fanex.Data.Repository;
-    using SMS.EPA.Core.Attribute;
 
     public class CreateKPIGroupCriteria : CriteriaBase
     {
-        [Output]
         public int KPIGroupId { get; set; }
 
         public string Name { get; set; }

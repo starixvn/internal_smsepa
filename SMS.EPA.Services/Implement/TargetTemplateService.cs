@@ -161,7 +161,7 @@
 
                 if (onlyKPISelected)
                 {
-                    kpiGroups = GetSelectedKPI(kpiGroups);
+                    kpiGroups = kpiGroups.Where(x => x.KPIs.Any(p => p.Selected == true));
                 }
             }
 
@@ -218,11 +218,6 @@
             });
 
             return listKPI;
-        }
-
-        private IEnumerable<TargetTemplateKPIGroupModel> GetSelectedKPI(IEnumerable<TargetTemplateKPIGroupModel> kpiGroups)
-        {
-            return kpiGroups.Where(x => x.KPIs.Any(p => p.Selected == true));
         }
     }
 }

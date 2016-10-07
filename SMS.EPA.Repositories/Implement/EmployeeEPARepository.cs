@@ -44,7 +44,14 @@
                     },
                     "EmployeeId, RatingTypeId, StatusId, PeriodId, ScoreRatingTypeId");
 
-                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
+                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel, EPAEmployeeModel, EPAProcessModel>(
+                    (process, evaluator) =>
+                    {
+                        process.ModifiedBy = evaluator;
+
+                        return process;
+                    },
+                    "ModifiedById");
 
                     GroupEPAProcessByEPA(epaInfos, processes);
 

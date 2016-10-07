@@ -1,11 +1,9 @@
 ﻿namespace SMS.EPA.Criteria
 {
     using Fanex.Data.Repository;
-    using SMS.EPA.Core.Attribute;
 
     public class CreateFlowTemplateCriteria : CriteriaBase
     {
-        [Output]
         public int FlowTemplateId { get; set; }
 
         public string Name { get; set; }

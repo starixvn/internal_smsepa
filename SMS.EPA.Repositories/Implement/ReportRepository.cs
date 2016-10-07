@@ -61,7 +61,7 @@
                     DecodeFinalScoreAndGrade(epaSummary.EPAInfos);
                 }
 
-                ////epaSummary.TotalItem = (int)parameters["totalitem"];
+                epaSummary.TotalItem = (int)parameters["totalitem"];
             }
 
             return epaSummary;
@@ -96,7 +96,7 @@
                     DecodeAllScore(epaDetail.MemberEPAs);
                 }
 
-                ////epaDetail.TotalItem = (int)parameters["totalitem"];
+                epaDetail.TotalItem = (int)parameters["totalitem"];
             }
 
             return epaDetail;
@@ -130,7 +130,7 @@
                     DecodeAllScore(epaDetail.MemberEPAs);
                 }
 
-                ////epaDetail.TotalItem = (int)parameters["totalitem"];
+                epaDetail.TotalItem = (int)parameters["totalitem"];
             }
 
             return epaDetail;
@@ -171,7 +171,7 @@
                     DecodeFinalScoreAndGrade(epaSummary.EPAInfos);
                 }
 
-                ////epaSummary.TotalItem = (int)parameters["totalitem"];
+                epaSummary.TotalItem = (int)parameters["totalitem"];
             }
 
             return epaSummary;

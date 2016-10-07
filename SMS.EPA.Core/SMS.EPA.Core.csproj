@@ -48,7 +48,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Fanex.Data, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Fanex.Data.2.0.1.4\lib\net40\Fanex.Data.dll</HintPath>
+      <HintPath>..\packages\Fanex.Data.2.0.1.5\lib\net40\Fanex.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Fanex.Data.Repository, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -129,10 +129,8 @@
     <Compile Include="Attribute\ApiAuthorizeAttribute.cs" />
     <Compile Include="Attribute\DeflateCompressionAttribute.cs" />
     <Compile Include="Attribute\ExceptionHandlingAttribute.cs" />
-    <Compile Include="Attribute\OutputAttribute.cs" />
     <Compile Include="Constants\Constants.cs" />
     <Compile Include="Constants\EPAFunctionKey.cs" />
-    <Compile Include="Criteria\ResultCriteria.cs" />
     <Compile Include="Enumerations\HashProvider.cs" />
     <Compile Include="Enumerations\MailMode.cs" />
     <Compile Include="Enumerations\Policy.cs" />
