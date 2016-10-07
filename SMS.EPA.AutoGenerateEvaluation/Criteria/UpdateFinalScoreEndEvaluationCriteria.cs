@@ -1,6 +1,7 @@
 ﻿namespace SMS.EPA.AutoGenerateEvaluation.Criteria
 {
     using System.Text;
+    using Fanex.Data;
     using Fanex.Data.Repository;
 
     public class UpdateFinalScoreEndEvaluationCriteria : CriteriaBase
