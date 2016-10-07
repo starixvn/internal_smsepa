@@ -31,27 +31,27 @@
             {
                 using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    IEnumerable<EPAModel> epaInfos = multi.Read<EPAModel, EPAEmployeeModel, RatingTypeModel, EPAStatusModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
-                    (epaInfo, employee, ratingType, status, period, scoreRatingType) =>
+                    IEnumerable<EPAModel> epaInfos = multi.Read<EPAModel, EPAEmployeeModel, RatingTypeModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
+                    (epaInfo, employee, ratingType, period, scoreRatingType) =>
                     {
                         epaInfo.Employee = employee;
                         epaInfo.RatingType = ratingType;
                         epaInfo.ScoreRatingType = scoreRatingType;
-                        epaInfo.Status = status;
                         epaInfo.Period = period;
 
                         return epaInfo;
                     },
-                    "EmployeeId, RatingTypeId, StatusId, PeriodId, ScoreRatingTypeId");
+                    "EmployeeId, RatingTypeId, PeriodId, ScoreRatingTypeId");
 
-                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel, EPAEmployeeModel, EPAProcessModel>(
-                    (process, evaluator) =>
+                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel, EPAEmployeeModel, EPAEmployeeModel, EPAProcessModel>(
+                    (process, evaluator, modifiedBy) =>
                     {
-                        process.ModifiedBy = evaluator;
+                        process.EvaluatorInfo = evaluator;
+                        process.ModifiedBy = modifiedBy;
 
                         return process;
                     },
-                    "ModifiedById");
+                    "EvaluatorId, ModifiedById");
 
                     GroupEPAProcessByEPA(epaInfos, processes);
 
@@ -74,29 +74,29 @@
                 {
                     EPAModel epaInfo = new EPAModel();
 
-                    epaInfo = multi.Read<EPAModel, EPAEmployeeModel, RatingTypeModel, EPAStatusModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
-                    (info, employee, ratingType, status, period, scoreRatingType) =>
+                    epaInfo = multi.Read<EPAModel, EPAEmployeeModel, RatingTypeModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
+                    (info, employee, ratingType, period, scoreRatingType) =>
                     {
                         info.Employee = employee;
                         info.RatingType = ratingType;
                         info.ScoreRatingType = scoreRatingType;
-                        info.Status = status;
                         info.Period = period;
 
                         return info;
                     },
-                    "EmployeeId, RatingTypeId, StatusId, PeriodId, ScoreRatingTypeId").FirstOrDefault();
+                    "EmployeeId, RatingTypeId, PeriodId, ScoreRatingTypeId").FirstOrDefault();
 
                     if (epaInfo != null)
                     {
-                        IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel, EPAEmployeeModel, EPAProcessModel>(
-                        (process, evaluator) =>
+                        IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel, EPAEmployeeModel, EPAEmployeeModel, EPAProcessModel>(
+                        (process, evaluator, modifiedBy) =>
                         {
-                            process.ModifiedBy = evaluator;
+                            process.EvaluatorInfo = evaluator;
+                            process.ModifiedBy = modifiedBy;
 
                             return process;
                         },
-                        "ModifiedById");
+                        "EvaluatorId, ModifiedById");
 
                         epaInfo.KPIGroups = multi.Read<EPAKPIGroupModel>().ToList();
 
@@ -128,25 +128,25 @@
             {
                 using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    IEnumerable<EPAModel> epaInfos = multi.Read<EPAModel, EPAStatusModel, EPAEmployeeModel, EPAPeriodModel, EPAModel>(
-                    (epaInfo, status, emp, period) =>
+                    IEnumerable<EPAModel> epaInfos = multi.Read<EPAModel, EPAEmployeeModel, EPAPeriodModel, EPAModel>(
+                    (epaInfo, emp, period) =>
                     {
-                        epaInfo.Status = status;
                         epaInfo.Employee = emp;
                         epaInfo.Period = period;
 
                         return epaInfo;
                     },
-                    "StatusId, EmployeeId, PeriodId");
+                    "EmployeeId, PeriodId");
 
-                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel, EPAEmployeeModel, EPAProcessModel>(
-                    (process, evaluator) =>
+                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel, EPAEmployeeModel, EPAEmployeeModel, EPAProcessModel>(
+                    (process, evaluator, modifiedBy) =>
                     {
-                        process.ModifiedBy = evaluator;
+                        process.EvaluatorInfo = evaluator;
+                        process.ModifiedBy = modifiedBy;
 
                         return process;
                     },
-                    "ModifiedById");
+                    "EvaluatorId, ModifiedById");
 
                     GroupEPAProcessByEPA(epaInfos, processes);
 
@@ -166,25 +166,25 @@
             {
                 using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    IList<EPAModel> epaInfos = multi.Read<EPAModel, EPAStatusModel, EPAEmployeeModel, EPAPeriodModel, EPAModel>(
-                    (epaInfo, status, emp, period) =>
+                    IList<EPAModel> epaInfos = multi.Read<EPAModel, EPAEmployeeModel, EPAPeriodModel, EPAModel>(
+                    (epaInfo, emp, period) =>
                     {
-                        epaInfo.Status = status;
                         epaInfo.Employee = emp;
                         epaInfo.Period = period;
 
                         return epaInfo;
                     },
-                    "StatusId, EmployeeId, PeriodId").ToList();
+                    "EmployeeId, PeriodId").ToList();
 
-                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel, EPAEmployeeModel, EPAProcessModel>(
-                    (process, evaluator) =>
+                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel, EPAEmployeeModel, EPAEmployeeModel, EPAProcessModel>(
+                    (process, evaluator, modifiedBy) =>
                     {
-                        process.ModifiedBy = evaluator;
+                        process.EvaluatorInfo = evaluator;
+                        process.ModifiedBy = modifiedBy;
 
                         return process;
                     },
-                    "ModifiedById");
+                    "EvaluatorId, ModifiedById");
 
                     GroupEPAProcessByEPA(epaInfos, processes);
 
@@ -206,24 +206,24 @@
             {
                 using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    result.MyEPAs = multi.Read<EPAModel, EPAStatusModel, EPAPeriodModel, EPAModel>(
-                        (epa, status, period) =>
+                    result.MyEPAs = multi.Read<EPAModel, EPAPeriodModel, EPAModel>(
+                        (epa, period) =>
                         {
-                            epa.Status = status;
                             epa.Period = period;
 
                             return epa;
                         },
-                        "StatusId, PeriodId");
+                        "PeriodId");
 
-                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel, EPAEmployeeModel, EPAProcessModel>(
-                    (process, evaluator) =>
+                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel, EPAEmployeeModel, EPAEmployeeModel, EPAProcessModel>(
+                    (process, evaluator, modifiedBy) =>
                     {
-                        process.ModifiedBy = evaluator;
+                        process.EvaluatorInfo = evaluator;
+                        process.ModifiedBy = modifiedBy;
 
                         return process;
                     },
-                    "ModifiedById");
+                    "EvaluatorId, ModifiedById");
 
                     GroupEPAProcessByEPA(result.MyEPAs, processes);
 

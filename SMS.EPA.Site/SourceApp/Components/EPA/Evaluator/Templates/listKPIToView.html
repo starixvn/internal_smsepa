@@ -14,7 +14,7 @@
             </td>
             <td data-translate="EmployeeScore" class="text-center width-120"></td>
             <td class="text-center width-250">
-                <span data-translate="EvaluatorScore"></span> ({{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.NickName}})
+                <span data-translate="EvaluatorScore"></span> ({{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.EvaluatorInfo.NickName}})
             </td>
         </tr>
         <tr ng-repeat-start="kpi in kpiGroup.KPIs" class="panel-collapse collapse in kpiGroup-{{$parent.$index}}">

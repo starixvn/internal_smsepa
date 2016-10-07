@@ -251,11 +251,11 @@
                 email.Body = _baseMailService.ReadTextFile(templateEmailPath);
                 email.Body = string.Format(
                     email.Body,
-                    humanResource.NickName,
+                    humanResource.EvaluatorInfo.NickName,
                     evaluationInfo.Employee.NickName,
                     evaluationInfo.Employee.EmployeeId,
                     evaluationInfo.Period.Name);
-                email.ReceiverEmail = humanResource.Email;
+                email.ReceiverEmail = humanResource.EvaluatorInfo.Email;
 
                 _baseMailService.SendEmail(email);
             }
@@ -290,7 +290,7 @@
 
         private string GetEvaluator(IList<EPAProcessModel> evaluators)
         {
-            string names = string.Join(",", evaluators.Select(x => x.NickName));
+            string names = string.Join(",", evaluators.Select(x => x.EvaluatorInfo.NickName));
 
             return names;
         }

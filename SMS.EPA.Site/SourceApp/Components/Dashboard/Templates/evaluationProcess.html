@@ -1,5 +1,5 @@
 ﻿<div class="row evaluation-process-section" ng-repeat="epaInfo in dashboardCtrl.evaluationProcesses"
-     ng-show="epaInfo.Status.StatusId == dashboardCtrl.epaStatusEnum.Open" ng-init="dashboardCtrl.collapses[epaInfo.Period.Name] = false;">
+     ng-show="epaInfo.StatusId == dashboardCtrl.epaStatusEnum.Open" ng-init="dashboardCtrl.collapses[epaInfo.Period.Name] = false;">
 
     <div class="panel panel-default">
         <div class="panel-heading" data-toggle="collapse" data-target=".process-{{$index}}">
@@ -32,11 +32,11 @@
                         ng-if="!epaInfo.IsSemiHasMonthly">
                         <div>
                             <strong>{{"Evaluator" | translate}}: </strong>
-                            <span ng-show="epaInfo.Process.Evaluators.length == 1" ng-bind="epaInfo.Process.Evaluators[0].NickName"
-                                  popover-avatar avatar-src="{{epaInfo.Process.Evaluators[0].Avatar}}"></span>
+                            <span ng-show="epaInfo.Process.Evaluators.length == 1" ng-bind="epaInfo.Process.Evaluators[0].EvaluatorInfo.NickName"
+                                  popover-avatar avatar-src="{{epaInfo.Process.Evaluators[0].EvaluatorInfo.Avatar}}"></span>
                             <span ng-show="epaInfo.Process.Evaluators.length > 1" ng-repeat="evaluator in epaInfo.Process.Evaluators">
-                                <span ng-show="!$last" popover-avatar avatar-src="{{evaluator.Avatar}}">{{evaluator.NickName}}, </span>
-                                <span ng-show="$last" popover-avatar avatar-src="{{evaluator.Avatar}}">{{evaluator.NickName}}</span>
+                                <span ng-show="!$last" popover-avatar avatar-src="{{evaluator.EvaluatorInfo.Avatar}}">{{evaluator.EvaluatorInfo.NickName}}, </span>
+                                <span ng-show="$last" popover-avatar avatar-src="{{evaluator.EvaluatorInfo.Avatar}}">{{evaluator.EvaluatorInfo.NickName}}</span>
                             </span>
                         </div>
                         <div>
@@ -58,11 +58,11 @@
                         ng-class="dashboardCtrl.getClassProgress(epaInfo.Process.Reviewers[0].StatusEndProcess)" class="process-item">
                         <div>
                             <strong>{{"Reviewer" | translate}}:</strong>
-                            <span ng-show="epaInfo.Process.Reviewers.length == 1" ng-bind="epaInfo.Process.Reviewers[0].NickName"
-                                  popover-avatar avatar-src="{{epaInfo.Process.Reviewers[0].Avatar}}"></span>
+                            <span ng-show="epaInfo.Process.Reviewers.length == 1" ng-bind="epaInfo.Process.Reviewers[0].EvaluatorInfo.NickName"
+                                  popover-avatar avatar-src="{{epaInfo.Process.Reviewers[0].EvaluatorInfo.Avatar}}"></span>
                             <span ng-show="epaInfo.Process.Reviewers.length > 1" ng-repeat="reviewer in epaInfo.Process.Reviewers">
-                                <span ng-show="!$last" popover-avatar avatar-src="{{reviewer.Avatar}}">{{reviewer.NickName}}, </span>
-                                <span ng-show="$last" popover-avatar avatar-src="{{reviewer.Avatar}}">{{reviewer.NickName}}</span>
+                                <span ng-show="!$last" popover-avatar avatar-src="{{reviewer.EvaluatorInfo.Avatar}}">{{reviewer.EvaluatorInfo.NickName}}, </span>
+                                <span ng-show="$last" popover-avatar avatar-src="{{reviewer.EvaluatorInfo.Avatar}}">{{reviewer.EvaluatorInfo.NickName}}</span>
                             </span>
                         </div>
                         <div>
@@ -84,11 +84,11 @@
                         ng-class="dashboardCtrl.getClassProgress(epaInfo.Process.Managements[0].StatusEndProcess)" class="process-item">
                         <div>
                             <strong>{{"Management" | translate}}:</strong>
-                            <span ng-show="epaInfo.Process.Managements.length == 1" ng-bind="epaInfo.Process.Managements[0].NickName"
-                                  popover-avatar avatar-src="{{epaInfo.Process.Managements[0].Avatar}}"></span>
+                            <span ng-show="epaInfo.Process.Managements.length == 1" ng-bind="epaInfo.Process.Managements[0].EvaluatorInfo.NickName"
+                                  popover-avatar avatar-src="{{epaInfo.Process.Managements[0].EvaluatorInfo.Avatar}}"></span>
                             <span ng-show="epaInfo.Process.Managements.length > 1" ng-repeat="management in epaInfo.Process.Managements">
-                                <span ng-show="!$last" popover-avatar avatar-src="{{management.Avatar}}">{{management.NickName}}, </span>
-                                <span ng-show="$last" popover-avatar avatar-src="{{management.Avatar}}">{{management.NickName}}</span>
+                                <span ng-show="!$last" popover-avatar avatar-src="{{management.EvaluatorInfo.Avatar}}">{{management.EvaluatorInfo.NickName}}, </span>
+                                <span ng-show="$last" popover-avatar avatar-src="{{management.EvaluatorInfo.Avatar}}">{{management.EvaluatorInfo.NickName}}</span>
                             </span>
                         </div>
                         <div>

@@ -99,7 +99,7 @@
 
                 foreach (EPAModel memberEPA in memberEPAs)
                 {
-                    memberEPA.Process.CurrentProcess = CopyEPAProcess(memberEPA.Process.Evaluators.FirstOrDefault(x => x.EvaluatorId == criteria.EvaluatorId));
+                    memberEPA.Process.CurrentProcess = CopyEPAProcess(memberEPA.Process.Evaluators.FirstOrDefault(x => x.EvaluatorInfo.EmployeeId == criteria.EvaluatorId));
                     SetMaxPerformanceScore(memberEPA);
                     GroupMonthlyEPABySemi(memberEPA, monthlyEPAs);
                     ConvertAverageMonthlyScore(memberEPA.MonthlyEPA, memberEPA.ScoreRatingType);
@@ -116,7 +116,7 @@
             if (criteria != null && criteria.IsValid())
             {
                 epaInfo = employeeEPARepository.GetEPAInfo(criteria);
-                epaInfo.Process.CurrentProcess = CopyEPAProcess(epaInfo.Process.Evaluators.FirstOrDefault(x => x.EvaluatorId == criteria.EvaluatorId));
+                epaInfo.Process.CurrentProcess = CopyEPAProcess(epaInfo.Process.Evaluators.FirstOrDefault(x => x.EvaluatorInfo.EmployeeId == criteria.EvaluatorId));
                 SetMaxPerformanceScore(epaInfo);
                 SpreadKPIScore(epaInfo.KPIGroups);
 
@@ -157,7 +157,7 @@
 
                 foreach (EPAModel memberEPA in memberEPAs)
                 {
-                    memberEPA.Process.CurrentProcess = CopyEPAProcess(memberEPA.Process.Reviewers.FirstOrDefault(x => x.EvaluatorId == criteria.ReviewerId));
+                    memberEPA.Process.CurrentProcess = CopyEPAProcess(memberEPA.Process.Reviewers.FirstOrDefault(x => x.EvaluatorInfo.EmployeeId == criteria.ReviewerId));
                     SetMaxPerformanceScore(memberEPA);
                     GroupMonthlyEPABySemi(memberEPA, monthlyEPAs);
                     ConvertAverageMonthlyScore(memberEPA.MonthlyEPA, memberEPA.ScoreRatingType);
@@ -175,7 +175,7 @@
             if (criteria != null && criteria.IsValid())
             {
                 epaInfo = employeeEPARepository.GetEPAInfo(criteria);
-                epaInfo.Process.CurrentProcess = CopyEPAProcess(epaInfo.Process.Reviewers.FirstOrDefault(x => x.EvaluatorId == criteria.ReviewerId));
+                epaInfo.Process.CurrentProcess = CopyEPAProcess(epaInfo.Process.Reviewers.FirstOrDefault(x => x.EvaluatorInfo.EmployeeId == criteria.ReviewerId));
                 SetMaxPerformanceScore(epaInfo);
                 SpreadKPIScore(epaInfo.KPIGroups);
 
@@ -211,7 +211,7 @@
 
                 foreach (EPAModel memberEPA in memberEPAs)
                 {
-                    memberEPA.Process.CurrentProcess = CopyEPAProcess(memberEPA.Process.Managements.FirstOrDefault(x => x.EvaluatorId == criteria.ManagementId));
+                    memberEPA.Process.CurrentProcess = CopyEPAProcess(memberEPA.Process.Managements.FirstOrDefault(x => x.EvaluatorInfo.EmployeeId == criteria.ManagementId));
                     SetMaxPerformanceScore(memberEPA);
                     GroupMonthlyEPABySemi(memberEPA, monthlyEPAs);
                     ConvertAverageMonthlyScore(memberEPA.MonthlyEPA, memberEPA.ScoreRatingType);
@@ -229,7 +229,7 @@
             if (criteria != null && criteria.IsValid())
             {
                 epaInfo = employeeEPARepository.GetEPAInfo(criteria);
-                epaInfo.Process.CurrentProcess = CopyEPAProcess(epaInfo.Process.Managements.FirstOrDefault(x => x.EvaluatorId == criteria.ManagementId));
+                epaInfo.Process.CurrentProcess = CopyEPAProcess(epaInfo.Process.Managements.FirstOrDefault(x => x.EvaluatorInfo.EmployeeId == criteria.ManagementId));
                 SetMaxPerformanceScore(epaInfo);
                 SpreadKPIScore(epaInfo.KPIGroups);
 

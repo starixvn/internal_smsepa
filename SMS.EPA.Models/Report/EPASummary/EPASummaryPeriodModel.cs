@@ -18,6 +18,6 @@
 
         public bool IsEndPeriod { get; set; }
 
-        public EPAStatusModel Status { get; set; }
+        public int StatusId { get; set; }
     }
 }

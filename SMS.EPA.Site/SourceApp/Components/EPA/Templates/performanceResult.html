@@ -58,8 +58,8 @@
             </td>
             <td class="text-center">
                 <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index]"
-                     ng-bind="memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].NickName"
-                     popover-avatar avatar-src="{{memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].Avatar}}"></div>
+                     ng-bind="memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].EvaluatorInfo.NickName"
+                     popover-avatar avatar-src="{{memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].EvaluatorInfo.Avatar}}"></div>
             </td>
             <td class="text-center col-score">
                 <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index]
@@ -86,8 +86,8 @@
             </td>
             <td class="text-center" ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers.length > 0">
                 <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index]"
-                     ng-bind="memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index].NickName"
-                     popover-avatar avatar-src="{{memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index].Avatar}}">></div>
+                     ng-bind="memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index].EvaluatorInfo.NickName"
+                     popover-avatar avatar-src="{{memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index].EvaluatorInfo.Avatar}}">></div>
             </td>
             <td class="text-center col-score" ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers.length > 0">
                 <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index]
@@ -115,8 +115,8 @@
             </td>
             <td class="text-center" ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements.length > 0">
                 <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements[$index]"
-                     ng-bind="memberEPAInfoCtrl.epaInfo.Process.Managements[$index].NickName"
-                     popover-avatar avatar-src="{{memberEPAInfoCtrl.epaInfo.Process.Managements[$index].Avatar}}">></div>
+                     ng-bind="memberEPAInfoCtrl.epaInfo.Process.Managements[$index].EvaluatorInfo.NickName"
+                     popover-avatar avatar-src="{{memberEPAInfoCtrl.epaInfo.Process.Managements[$index].EvaluatorInfo.Avatar}}">></div>
             </td>
             <td class="text-center col-score" ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements.length > 0">
                 <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements[$index]

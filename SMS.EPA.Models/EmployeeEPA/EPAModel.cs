@@ -26,7 +26,7 @@
 
         public EPAPeriodModel Period { get; set; }
 
-        public EPAStatusModel Status { get; set; }
+        public int StatusId { get; set; }
 
         public ScoreRatingTypeModel ScoreRatingType { get; set; }
 
@@ -140,7 +140,7 @@
                     || Process.CurrentProcess.IsEndProcess
                     || (IsSemiHasMonthly
                         && (Process.CurrentProcess.ProcessId == (int)ProcessType.Self || Process.CurrentProcess.ProcessId == (int)ProcessType.Evaluator))
-                    || Status.StatusId == (int)Core.Enumerations.EPAStatus.Closed
+                    || StatusId == (int)Core.Enumerations.EPAStatus.Closed
                     || Period.IsEndPeriod);
 
                 return isAllowedToEdit;

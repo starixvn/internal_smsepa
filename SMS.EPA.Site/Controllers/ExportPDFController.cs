@@ -459,7 +459,7 @@
             {
                 if (index < epaInfo.Process.Evaluators.Count())
                 {
-                    cell = new PdfPCell(new Phrase(epaInfo.Process.Evaluators[index].NickName, normalFont));
+                    cell = new PdfPCell(new Phrase(epaInfo.Process.Evaluators[index].EvaluatorInfo.NickName, normalFont));
                     cell.BorderColor = borderColor;
                     cell.VerticalAlignment = Element.ALIGN_MIDDLE;
                     table.AddCell(cell);
@@ -479,7 +479,7 @@
 
                 if (index < epaInfo.Process.Reviewers.Count())
                 {
-                    cell = new PdfPCell(new Phrase(epaInfo.Process.Reviewers[index].NickName, normalFont));
+                    cell = new PdfPCell(new Phrase(epaInfo.Process.Reviewers[index].EvaluatorInfo.NickName, normalFont));
                     cell.BorderColor = borderColor;
                     cell.VerticalAlignment = Element.ALIGN_MIDDLE;
                     table.AddCell(cell);
@@ -501,7 +501,7 @@
                 {
                     if (index < epaInfo.Process.Managements.Count())
                     {
-                        cell = new PdfPCell(new Phrase(epaInfo.Process.Managements[index].NickName, normalFont));
+                        cell = new PdfPCell(new Phrase(epaInfo.Process.Managements[index].EvaluatorInfo.NickName, normalFont));
                         cell.BorderColor = borderColor;
                         cell.VerticalAlignment = Element.ALIGN_MIDDLE;
                         table.AddCell(cell);
@@ -854,7 +854,7 @@
             {
                 if (index < epaInfo.Process.Reviewers.Count())
                 {
-                    cell = new PdfPCell(new Phrase(epaInfo.Process.Reviewers[index].NickName, normalFont));
+                    cell = new PdfPCell(new Phrase(epaInfo.Process.Reviewers[index].EvaluatorInfo.NickName, normalFont));
                     cell.BorderColor = borderColor;
                     cell.VerticalAlignment = Element.ALIGN_MIDDLE;
                     table.AddCell(cell);
@@ -876,7 +876,7 @@
                 {
                     if (index < epaInfo.Process.Managements.Count())
                     {
-                        cell = new PdfPCell(new Phrase(epaInfo.Process.Managements[index].NickName, normalFont));
+                        cell = new PdfPCell(new Phrase(epaInfo.Process.Managements[index].EvaluatorInfo.NickName, normalFont));
                         cell.BorderColor = borderColor;
                         cell.VerticalAlignment = Element.ALIGN_MIDDLE;
                         table.AddCell(cell);
@@ -1103,7 +1103,7 @@
 
             if (!epaInfo.IsSemiHasMonthly)
             {
-                cell = new PdfPCell(new Phrase(epaInfo.Process.Self.FullName + " (" + epaInfo.Process.Self.NickName + ")", normalFont));
+                cell = new PdfPCell(new Phrase(epaInfo.Process.Self.EvaluatorInfo.FullName + " (" + epaInfo.Process.Self.EvaluatorInfo.NickName + ")", normalFont));
                 cell.BorderColor = borderColor;
                 cell.VerticalAlignment = Element.ALIGN_MIDDLE;
                 table.AddCell(cell);
@@ -1121,7 +1121,7 @@
 
                 foreach (EPAProcessModel evaluator in epaInfo.Process.Evaluators)
                 {
-                    cell = new PdfPCell(new Phrase(evaluator.FullName + " (" + evaluator.NickName + ")", normalFont));
+                    cell = new PdfPCell(new Phrase(evaluator.EvaluatorInfo.FullName + " (" + evaluator.EvaluatorInfo.NickName + ")", normalFont));
                     cell.BorderColor = borderColor;
                     cell.VerticalAlignment = Element.ALIGN_MIDDLE;
                     table.AddCell(cell);
@@ -1141,7 +1141,7 @@
 
             foreach (EPAProcessModel reviewer in epaInfo.Process.Reviewers)
             {
-                cell = new PdfPCell(new Phrase(reviewer.FullName + " (" + reviewer.NickName + ")", normalFont));
+                cell = new PdfPCell(new Phrase(reviewer.EvaluatorInfo.FullName + " (" + reviewer.EvaluatorInfo.NickName + ")", normalFont));
                 cell.BorderColor = borderColor;
                 cell.VerticalAlignment = Element.ALIGN_MIDDLE;
                 table.AddCell(cell);
@@ -1162,7 +1162,7 @@
 
                 foreach (EPAProcessModel management in epaInfo.Process.Managements)
                 {
-                    cell = new PdfPCell(new Phrase(management.FullName + " (" + management.NickName + ")", normalFont));
+                    cell = new PdfPCell(new Phrase(management.EvaluatorInfo.FullName + " (" + management.EvaluatorInfo.NickName + ")", normalFont));
                     cell.BorderColor = borderColor;
                     cell.VerticalAlignment = Element.ALIGN_MIDDLE;
                     table.AddCell(cell);

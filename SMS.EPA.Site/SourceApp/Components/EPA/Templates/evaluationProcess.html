@@ -22,12 +22,12 @@
         <div>
             <strong>{{"Evaluator" | translate}}: </strong>
             <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators.length == 1"
-                  ng-bind="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].NickName"
-                  popover-avatar avatar-src="{{memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].Avatar}}"></span>
+                  ng-bind="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].EvaluatorInfo.NickName"
+                  popover-avatar avatar-src="{{memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].EvaluatorInfo.Avatar}}"></span>
             <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators.length > 1"
                   ng-repeat="evaluator in memberEPAInfoCtrl.epaInfo.Process.Evaluators">
-                <span ng-show="!$last" popover-avatar avatar-src="{{evaluator.Avatar}}">{{evaluator.NickName}}, </span>
-                <span ng-show="$last" popover-avatar avatar-src="{{evaluator.Avatar}}">{{evaluator.NickName}}</span>
+                <span ng-show="!$last" popover-avatar avatar-src="{{evaluator.EvaluatorInfo.Avatar}}">{{evaluator.EvaluatorInfo.NickName}}, </span>
+                <span ng-show="$last" popover-avatar avatar-src="{{evaluator.EvaluatorInfo.Avatar}}">{{evaluator.EvaluatorInfo.NickName}}</span>
             </span>
         </div>
         <div>
@@ -50,12 +50,12 @@
         <div>
             <strong>{{"Reviewer" | translate}}:</strong>
             <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers.length == 1"
-                  ng-bind="memberEPAInfoCtrl.epaInfo.Process.Reviewers[0].NickName"
-                  popover-avatar avatar-src="{{memberEPAInfoCtrl.epaInfo.Process.Reviewers[0].Avatar}}">></span>
+                  ng-bind="memberEPAInfoCtrl.epaInfo.Process.Reviewers[0].EvaluatorInfo.NickName"
+                  popover-avatar avatar-src="{{memberEPAInfoCtrl.epaInfo.Process.Reviewers[0].EvaluatorInfo.Avatar}}">></span>
             <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers.length > 1"
                   ng-repeat="reviewer in memberEPAInfoCtrl.epaInfo.Process.Reviewers">
-                <span ng-show="!$last" popover-avatar avatar-src="{{reviewer.Avatar}}">{{reviewer.NickName}}, </span>
-                <span ng-show="$last" popover-avatar avatar-src="{{reviewer.Avatar}}">{{reviewer.NickName}}</span>
+                <span ng-show="!$last" popover-avatar avatar-src="{{reviewer.EvaluatorInfo.Avatar}}">{{reviewer.EvaluatorInfo.NickName}}, </span>
+                <span ng-show="$last" popover-avatar avatar-src="{{reviewer.EvaluatorInfo.Avatar}}">{{reviewer.EvaluatorInfo.NickName}}</span>
             </span>
         </div>
         <div>
@@ -78,12 +78,12 @@
         <div>
             <strong>{{"Management" | translate}}:</strong>
             <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements.length == 1"
-                  ng-bind="memberEPAInfoCtrl.epaInfo.Process.Managements[0].NickName"
-                  popover-avatar avatar-src="{{memberEPAInfoCtrl.epaInfo.Process.Managements[0].Avatar}}"></span>
+                  ng-bind="memberEPAInfoCtrl.epaInfo.Process.Managements[0].EvaluatorInfo.NickName"
+                  popover-avatar avatar-src="{{memberEPAInfoCtrl.epaInfo.Process.Managements[0].EvaluatorInfo.Avatar}}"></span>
             <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements.length > 1"
                   ng-repeat="management in memberEPAInfoCtrl.epaInfo.Process.Managements">
-                <span ng-show="!$last" popover-avatar avatar-src="{{management.Avatar}}">{{management.NickName}}, </span>
-                <span ng-show="$last" popover-avatar avatar-src="{{management.Avatar}}">{{management.NickName}}</span>
+                <span ng-show="!$last" popover-avatar avatar-src="{{management.EvaluatorInfo.Avatar}}">{{management.EvaluatorInfo.NickName}}, </span>
+                <span ng-show="$last" popover-avatar avatar-src="{{management.EvaluatorInfo.Avatar}}">{{management.EvaluatorInfo.NickName}}</span>
             </span>
         </div>
         <div>

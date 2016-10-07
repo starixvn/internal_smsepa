@@ -48,14 +48,7 @@
                         },
                         "GroupId, JobTitleId").ToList();
 
-                    IList<EPASummaryPeriodModel> periods = multi.Read<EPASummaryPeriodModel, EPAStatusModel, EPASummaryPeriodModel>(
-                        (res, status) =>
-                        {
-                            res.Status = status;
-
-                            return res;
-                        },
-                        "StatusId").ToList();
+                    IList<EPASummaryPeriodModel> periods = multi.Read<EPASummaryPeriodModel>().ToList();
 
                     GroupPeriodByEmployee(epaSummary.EPAInfos, periods);
                     DecodeFinalScoreAndGrade(epaSummary.EPAInfos);
@@ -78,17 +71,16 @@
                 {
                     epaDetail.PhaseSelecteds = multi.Read<EvaluationPhaseModel>();
 
-                    epaDetail.MemberEPAs = multi.Read<EPAModel, EPAEmployeeModel, EPAStatusModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
-                    (info, employee, status, period, scoreRatingType) =>
+                    epaDetail.MemberEPAs = multi.Read<EPAModel, EPAEmployeeModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
+                    (info, employee, period, scoreRatingType) =>
                     {
                         info.Employee = employee;
-                        info.Status = status;
                         info.Period = period;
                         info.ScoreRatingType = scoreRatingType;
 
                         return info;
                     },
-                    "EmployeeId, StatusId, PeriodId, ScoreRatingTypeId");
+                    "EmployeeId, PeriodId, ScoreRatingTypeId");
 
                     IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
 
@@ -113,16 +105,15 @@
                 {
                     epaDetail.PhaseSelecteds = multi.Read<EvaluationPhaseModel>();
 
-                    epaDetail.MemberEPAs = multi.Read<EPAModel, EPAEmployeeModel, EPAStatusModel, EPAPeriodModel, EPAModel>(
-                    (info, employee, status, period) =>
+                    epaDetail.MemberEPAs = multi.Read<EPAModel, EPAEmployeeModel, EPAPeriodModel, EPAModel>(
+                    (info, employee, period) =>
                     {
                         info.Employee = employee;
-                        info.Status = status;
                         info.Period = period;
 
                         return info;
                     },
-                    "EmployeeId, StatusId, PeriodId");
+                    "EmployeeId, PeriodId");
 
                     IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
 
@@ -158,14 +149,7 @@
                         },
                         "GroupId, JobTitleId").ToList();
 
-                    IList<EPASummaryPeriodModel> periods = multi.Read<EPASummaryPeriodModel, EPAStatusModel, EPASummaryPeriodModel>(
-                        (res, status) =>
-                        {
-                            res.Status = status;
-
-                            return res;
-                        },
-                        "StatusId").ToList();
+                    IList<EPASummaryPeriodModel> periods = multi.Read<EPASummaryPeriodModel>().ToList();
 
                     GroupPeriodByEmployee(epaSummary.EPAInfos, periods);
                     DecodeFinalScoreAndGrade(epaSummary.EPAInfos);

@@ -259,7 +259,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
                 EPAId: epaInfo.EPAId,
                 EmployeeId: epaInfo.Employee.EmployeeId,
                 ProcessId: epaInfo.Process.CurrentProcess.ProcessId,
-                EvaluatorId: epaInfo.Process.CurrentProcess.EvaluatorId,
+                EvaluatorId: epaInfo.Process.CurrentProcess.EvaluatorInfo.EmployeeId,
                 AdjustScore: epaInfo.Process.CurrentProcess.AdjustScore,
                 TotalScore: epaInfo.Process.CurrentProcess.TotalScore,
                 Comment: epaInfo.Process.CurrentProcess.Comment
@@ -329,7 +329,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
                 EPAId: epaInfo.EPAId,
                 EmployeeId: epaInfo.Employee.EmployeeId,
                 ProcessId: epaInfo.Process.CurrentProcess.ProcessId,
-                EvaluatorId: epaInfo.Process.CurrentProcess.EvaluatorId,
+                EvaluatorId: epaInfo.Process.CurrentProcess.EvaluatorInfo.EmployeeId,
                 AdjustScore: epaInfo.Process.CurrentProcess.AdjustScore,
                 TotalScore: epaInfo.Process.CurrentProcess.TotalScore,
                 Comment: epaInfo.Process.CurrentProcess.Comment
