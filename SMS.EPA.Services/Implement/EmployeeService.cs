@@ -1,17 +1,17 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Security;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria;
     using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Repositories.Implement;
-    using SMS.EPA.Repositories.Interfaces;
+    using SMS.EPA.Repositories;
+
     using SMS.EPA.Resources;
     using SMS.EPA.Services.Interfaces;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class EmployeeService : BaseService, IEmployeeService
     {

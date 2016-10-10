@@ -14,8 +14,8 @@
     using SMS.EPA.Model;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.ScoreRatingType;
-    using SMS.EPA.Repositories.Implement;
-    using SMS.EPA.Repositories.Interfaces;
+    using SMS.EPA.Repositories;
+
     using SMS.EPA.Services.Interfaces;
 
     public class EmployeeEPAService : BaseService, IEmployeeEPAService
@@ -67,7 +67,7 @@
                     kpi.CurrentEvaluation = kpi.EvaluationBySelf;
                 }
 
-                if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetTypes.SemiAnnual)
+                if (epaInfo.IsSemiHasMonthly)
                 {
                     epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId.ToString());
                     ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
@@ -125,7 +125,7 @@
                     kpi.CurrentEvaluation = kpi.EvaluationByEvaluators.FirstOrDefault();
                 }
 
-                if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetTypes.SemiAnnual)
+                if (epaInfo.IsSemiHasMonthly)
                 {
                     epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId.ToString());
                     ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
@@ -179,10 +179,17 @@
                 SetMaxPerformanceScore(epaInfo);
                 SpreadKPIScore(epaInfo.KPIGroups);
 
-                if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetTypes.SemiAnnual)
+                if (epaInfo.IsSemiHasMonthly)
                 {
                     epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId.ToString());
                     ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
+                }
+
+                if (epaInfo.Period.TargetTypeId == (int)TargetTypes.Probation
+                    || epaInfo.Period.TargetTypeId == (int)TargetTypes.Promotion
+                    || epaInfo.Period.TargetTypeId == (int)TargetTypes.SemiAnnual)
+                {
+                    epaInfo.Recommendation = GetRecommendationByEPAId(epaInfo.EPAId);
                 }
             }
 
@@ -233,10 +240,17 @@
                 SetMaxPerformanceScore(epaInfo);
                 SpreadKPIScore(epaInfo.KPIGroups);
 
-                if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetTypes.SemiAnnual)
+                if (epaInfo.IsSemiHasMonthly)
                 {
                     epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId.ToString());
                     ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
+                }
+
+                if (epaInfo.Period.TargetTypeId == (int)TargetTypes.Probation
+                    || epaInfo.Period.TargetTypeId == (int)TargetTypes.Promotion
+                    || epaInfo.Period.TargetTypeId == (int)TargetTypes.SemiAnnual)
+                {
+                    epaInfo.Recommendation = GetRecommendationByEPAId(epaInfo.EPAId);
                 }
             }
 
@@ -382,10 +396,17 @@
                 epaInfo = employeeEPARepository.GetEPAInfo(criteria);
                 SpreadKPIScore(epaInfo.KPIGroups);
 
-                if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetTypes.SemiAnnual)
+                if (epaInfo.IsSemiHasMonthly)
                 {
                     epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId.ToString());
                     ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
+                }
+
+                if (epaInfo.Period.TargetTypeId == (int)TargetTypes.Probation
+                    || epaInfo.Period.TargetTypeId == (int)TargetTypes.Promotion
+                    || epaInfo.Period.TargetTypeId == (int)TargetTypes.SemiAnnual)
+                {
+                    epaInfo.Recommendation = GetRecommendationByEPAId(epaInfo.EPAId);
                 }
 
                 IEnumerable<StandardGradeModel> standardGrades = GetStandardGrade();
@@ -406,6 +427,22 @@
             }
 
             return epaInfos;
+        }
+
+        public EPARecommendationModel GetRecommendationByEPAId(int epaId)
+        {
+            var criteria = new GetRecommendationByEPAIdCriteria
+            {
+                EPAId = epaId
+            };
+            var recommendation = new EPARecommendationModel();
+
+            if (criteria.IsValid())
+            {
+                recommendation = employeeEPARepository.GetRecommendationById(criteria);
+            }
+
+            return recommendation;
         }
 
         public CommandResult UpdateEPAScore(UpdateEPAScoreCriteria criteria)
@@ -711,7 +748,7 @@
             switch (epaInfo.Process.CurrentProcess.ProcessId)
             {
                 case (int)ProcessType.Reviewer:
-                    if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetTypes.SemiAnnual)
+                    if (epaInfo.IsSemiHasMonthly)
                     {
                         epaInfo.Process.CurrentProcess.MaxSubtractScore = -epaInfo.MonthlyEPA.AverageReviewerScoreConverted;
                         maxAdditionScore = epaInfo.Process.CurrentProcess.MaxTotalScore - epaInfo.MonthlyEPA.AverageReviewerScoreConverted;
@@ -733,7 +770,7 @@
                     }
                     else
                     {
-                        if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetTypes.SemiAnnual)
+                        if (epaInfo.IsSemiHasMonthly)
                         {
                             epaInfo.Process.CurrentProcess.MaxSubtractScore = -epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted;
                             maxAdditionScore = epaInfo.Process.CurrentProcess.MaxTotalScore - epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted;

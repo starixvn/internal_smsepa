@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Repositories.Implement
+﻿namespace SMS.EPA.Repositories
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -8,7 +8,6 @@
     using SMS.EPA.Model;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.Period;
-    using SMS.EPA.Repositories.Interfaces;
 
     public class PeriodRepository : IPeriodRepository
     {

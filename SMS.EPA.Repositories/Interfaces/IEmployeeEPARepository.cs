@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Repositories.Interfaces
+﻿namespace SMS.EPA.Repositories
 {
     using System.Collections.Generic;
     using Fanex.Data.Repository;
@@ -23,5 +23,7 @@
         DashboardModel GetDashboard(ICriteria criteria);
 
         IList<EPAModel> GetEPAToUpdateFinalScore(ICriteria criteria);
+
+        EPARecommendationModel GetRecommendationById(ICriteria criteria);
     }
 }

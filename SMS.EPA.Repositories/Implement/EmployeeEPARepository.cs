@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Repositories.Implement
+﻿namespace SMS.EPA.Repositories
 {
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
@@ -9,7 +9,6 @@
     using SMS.EPA.Core.Services;
     using SMS.EPA.Model;
     using SMS.EPA.Model.ScoreRatingType;
-    using SMS.EPA.Repositories.Interfaces;
 
     public class EmployeeEPARepository : IEmployeeEPARepository
     {
@@ -237,6 +236,22 @@
             return result;
         }
 
+        public EPARecommendationModel GetRecommendationById(ICriteria criteria)
+        {
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                return db.Query<EPARecommendationModel, JobGradeModel, EPARecommendationModel>(
+                    (recommendation, job) =>
+                    {
+                        recommendation.JobGrade = job;
+
+                        return recommendation;
+                    },
+                    "JobGradeId",
+                    criteria.GetSpParams()).FirstOrDefault();
+            }
+        }
+
         #region Rating By KPI
 
         public IEnumerable<TemporaryKPIModel> GetKPIByTargetTemplate(ICriteria criteria)
@@ -303,6 +318,7 @@
                            return kpi;
                        },
                        "KPIGroupId");
+
                     GroupKPIByEPA(epaInfos, kpis);
                     GroupKPIBySelf(epaInfos, kpisBySelf);
                     DecryptAllScore(epaInfos);
@@ -344,6 +360,7 @@
                            return kpi;
                        },
                        "KPIGroupId");
+
                     GroupKPIByEPA(epaInfos, kpis);
                     GroupKPIBySelf(epaInfos, kpisBySelf);
                     DecryptAllScore(epaInfos);

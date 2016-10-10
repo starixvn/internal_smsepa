@@ -16,8 +16,8 @@
     using SMS.EPA.Criteria.Report;
     using SMS.EPA.Model;
     using SMS.EPA.Model.Period;
-    using SMS.EPA.Repositories.Implement;
-    using SMS.EPA.Repositories.Interfaces;
+    using SMS.EPA.Repositories;
+
     using SMS.EPA.Resources;
     using SMS.EPA.Services.Interfaces;
 

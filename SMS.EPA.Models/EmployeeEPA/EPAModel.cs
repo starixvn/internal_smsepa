@@ -68,6 +68,10 @@
 
         public IList<EPAKPIGroupModel> KPIGroups { get; set; }
 
+        public MonthlyEPAModel MonthlyEPA { get; set; }
+
+        public EPARecommendationModel Recommendation { get; set; }
+
         #region Last score
 
         public float LastDisciplineScore { get; set; }
@@ -92,8 +96,6 @@
         }
 
         #endregion Last score
-
-        public MonthlyEPAModel MonthlyEPA { get; set; }
 
         public bool IsSemiHasMonthly
         {

@@ -8,7 +8,7 @@
     using SMS.EPA.Core.Repositories;
     using SMS.EPA.Criteria.TargetEmployeeSetting;
     using SMS.EPA.Model;
-    using SMS.EPA.Repositories.Interfaces;
+    using SMS.EPA.Repositories;
     using SMS.EPA.Services.Implement;
 
     [TestFixture]

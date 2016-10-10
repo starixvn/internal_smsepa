@@ -1,17 +1,13 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
+    using System.Collections.Generic;
     using NSubstitute;
     using NUnit.Framework;
     using SMS.EPA.Criteria.Department;
     using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Repositories.Interfaces;
+    using SMS.EPA.Repositories;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     [TestFixture]
     public class DepartmentServiceTests

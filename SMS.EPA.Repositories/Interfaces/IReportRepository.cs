@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Repositories.Interfaces
+﻿namespace SMS.EPA.Repositories
 {
     using Fanex.Data.Repository;
     using SMS.EPA.Model;

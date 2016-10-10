@@ -62,6 +62,7 @@
     <Compile Include="EmployeeEPA\RatingByKPI\TemporaryKPIGroupModel.cs" />
     <Compile Include="EmployeeEPA\RatingByKPI\TemporaryKPIModel.cs" />
     <Compile Include="EmployeeEPA\RatingTypeModel.cs" />
+    <Compile Include="EmployeeEPA\EPARecommendationModel.cs" />
     <Compile Include="EmployeeEPA\StandardGradeModel.cs" />
     <Compile Include="Enitites\RatingType.cs" />
     <Compile Include="EPAHistory\EPAHistoryModel.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="FlowSetting\EvaluatorInfoViewModel.cs" />
     <Compile Include="FlowSetting\PersonalFlowModel.cs" />
     <Compile Include="FlowSetting\ProcessFlowModel.cs" />
+    <Compile Include="JobGrade\JobGradeModel.cs" />
     <Compile Include="Menu\MenuGroupModel.cs" />
     <Compile Include="Menu\MenuItemModel.cs" />
     <Compile Include="Dashboard\DashboardModel.cs" />

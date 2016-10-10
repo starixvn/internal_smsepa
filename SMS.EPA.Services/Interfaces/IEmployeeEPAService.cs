@@ -69,6 +69,8 @@
 
         EPAModel GetEPAInfoById(int epaId);
 
+        EPARecommendationModel GetRecommendationByEPAId(int epaId);
+
         CommandResult UpdateEPAScore(UpdateEPAScoreCriteria criteria);
 
         CommandResult AdjustScoreByReviewerOrManagement(AdjustScoreByReviewerOrManagementCriteria criteria);

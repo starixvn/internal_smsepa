@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Repositories.Implement
+﻿namespace SMS.EPA.Repositories
 {
     using System.Collections;
     using System.Collections.Generic;
@@ -11,7 +11,7 @@
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.Period;
     using SMS.EPA.Model.ScoreRatingType;
-    using SMS.EPA.Repositories.Interfaces;
+    using SMS.EPA.Repositories;
 
     public class ReportRepository : IReportRepository
     {

@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
+    using System.Collections.Generic;
     using Fanex.Data.Repository;
     using NSubstitute;
     using NUnit.Framework;
@@ -8,9 +9,8 @@
     using SMS.EPA.Criteria;
     using SMS.EPA.Model;
     using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Repositories.Interfaces;
+    using SMS.EPA.Repositories;
     using SMS.EPA.Services.Implement;
-    using System.Collections.Generic;
 
     [TestFixture]
     public class DepartmentFlowServiceTests
@@ -63,7 +63,7 @@
             Assert.IsEmpty(actual);
         }
 
-        #endregion
+        #endregion GetDepartmentFlowByFlowTemplateId
 
         #region GetDepartmentFlowById
 
@@ -84,8 +84,8 @@
         public void GetDepartmentFlowById_VaidArg_ReturnExpectedFlows()
         {
             // Arrange
-            var citeria = new GetDepartmentFlowByIdCriteria() 
-            { 
+            var citeria = new GetDepartmentFlowByIdCriteria()
+            {
                 DepartmentId = 1,
                 FlowTemplateId = 1
             };
@@ -113,7 +113,7 @@
             Assert.IsEmpty(actual);
         }
 
-        #endregion
+        #endregion GetDepartmentFlowById
 
         #region CreateDepartmentFlow
 
@@ -149,7 +149,7 @@
             departmentFlowService.Repository.Received().Insert(Arg.Is<CreateDepartmentFlowCriteria>(x => x.IsValid()));
         }
 
-        #endregion
+        #endregion CreateDepartmentFlow
 
         #region DeleteDepartmentFlow
 
@@ -185,7 +185,7 @@
             departmentFlowService.Repository.Received().Delete(Arg.Is<DeleteDepartmentFlowCriteria>(x => x.IsValid()));
         }
 
-        #endregion
+        #endregion DeleteDepartmentFlow
 
         #region GetDepartmentHasSettingByFlowTemplateId
 
@@ -217,7 +217,7 @@
             Assert.AreEqual(expectedDepartments, actual);
         }
 
-        #endregion
+        #endregion GetDepartmentHasSettingByFlowTemplateId
 
         #region Helpers
 

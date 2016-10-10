@@ -1,6 +1,7 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
-    using Fanex.Data.Repository;
+    using System.Collections.Generic;
+    using System.Linq;
     using NSubstitute;
     using NUnit.Framework;
     using SMS.EPA.Core.Enumerations;
@@ -9,10 +10,8 @@
     using SMS.EPA.Core.Security;
     using SMS.EPA.Criteria;
     using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Repositories.Interfaces;
+    using SMS.EPA.Repositories;
     using SMS.EPA.Services.Implement;
-    using System.Collections.Generic;
-    using System.Linq;
 
     [TestFixture]
     public class EmployeeServiceTests

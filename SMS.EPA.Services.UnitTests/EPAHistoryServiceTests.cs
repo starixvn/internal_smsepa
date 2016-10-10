@@ -7,7 +7,7 @@
     using SMS.EPA.Criteria.EPAHistory;
     using SMS.EPA.Model.EPAHistory;
     using SMS.EPA.Model.Period;
-    using SMS.EPA.Repositories.Interfaces;
+    using SMS.EPA.Repositories;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
 

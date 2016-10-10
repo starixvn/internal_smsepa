@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Repositories.Implement
+﻿namespace SMS.EPA.Repositories
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -6,7 +6,6 @@
     using Fanex.Data.Repository;
     using SMS.EPA.Model;
     using SMS.EPA.Model.EPAHistory;
-    using SMS.EPA.Repositories.Interfaces;
 
     public class EPAHistoryRepository : IEPAHistoryRepository
     {
