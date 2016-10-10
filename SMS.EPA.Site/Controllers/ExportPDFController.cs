@@ -103,6 +103,7 @@
             Font font = FontFactory.GetFont("ARIALUNI", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED, 10, Font.BOLD, defaultColor);
             PdfPCell cell = new PdfPCell(new Phrase(Lang.EPATilte + " - " + periodName, font));
             cell.FixedHeight = 30;
+            cell.HorizontalAlignment = Element.ALIGN_CENTER;
             cell.VerticalAlignment = Element.ALIGN_MIDDLE;
             cell.BackgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#ebe4d4"));
             cell.Border = 0;
@@ -1112,7 +1113,7 @@
                 cell.BorderColor = borderColor;
                 table.AddCell(cell);
 
-                cell = new PdfPCell(new Phrase(Lang.Evaluator, normalFont));
+                cell = new PdfPCell(new Phrase(Lang.Evaluator, boldFont));
                 cell.Colspan = 2;
                 cell.BackgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#ececec"));
                 cell.BorderColor = borderColor;
@@ -1132,7 +1133,7 @@
                 }
             }
 
-            cell = new PdfPCell(new Phrase(Lang.Reviewer, normalFont));
+            cell = new PdfPCell(new Phrase(Lang.Reviewer, boldFont));
             cell.Colspan = 2;
             cell.BackgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#ececec"));
             cell.BorderColor = borderColor;
@@ -1153,7 +1154,7 @@
 
             if (epaInfo.Process.Managements.Any())
             {
-                cell = new PdfPCell(new Phrase(Lang.Management, normalFont));
+                cell = new PdfPCell(new Phrase(Lang.Management, boldFont));
                 cell.Colspan = 2;
                 cell.BackgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#ececec"));
                 cell.BorderColor = borderColor;

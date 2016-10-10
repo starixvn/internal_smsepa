@@ -153,10 +153,33 @@
             return menus;
         }
 
-        public IEnumerable<JobTitle> GetAllJobTitle(GetAllJobTitleCriteria criteria)
+        public IEnumerable<JobTitle> GetAllJobTitle()
         {
-            var jobTitles = GetData<JobTitle>(criteria);
+            var criteria = new GetAllJobTitleCriteria();
+            IEnumerable<JobTitle> jobTitles = new List<JobTitle>();
+
+            if (criteria.IsValid())
+            {
+                jobTitles = GetData<JobTitle>(criteria);
+            }
+
             return jobTitles;
+        }
+
+        public IEnumerable<JobGradeModel> GetJobGrade(bool? isActive)
+        {
+            var criteria = new GetJobGradeCriteria
+            {
+                IsActive = isActive
+            };
+            IEnumerable<JobGradeModel> jobGrades = new List<JobGradeModel>();
+
+            if (criteria.IsValid())
+            {
+                jobGrades = GetData<JobGradeModel>(criteria);
+            }
+
+            return jobGrades;
         }
     }
 }

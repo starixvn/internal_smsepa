@@ -97,14 +97,6 @@
 
         #endregion Last score
 
-        public bool IsSemiHasMonthly
-        {
-            get
-            {
-                return HasMonthlyEPA && Period.TargetTypeId == (int)TargetTypes.SemiAnnual;
-            }
-        }
-
         public int Rowspan
         {
             get
@@ -115,7 +107,7 @@
                         Process.Managements.Count
                     };
 
-                if (!HasMonthlyEPA)
+                if (!IsSemiHasMonthly)
                 {
                     numbers.Add(Process.Evaluators.Count);
                 }
@@ -134,6 +126,38 @@
             }
         }
 
+        public bool IsProbation
+        {
+            get
+            {
+                return Period != null && Period.TargetTypeId == (int)TargetTypes.Probation;
+            }
+        }
+
+        public bool IsPromotion
+        {
+            get
+            {
+                return Period != null && Period.TargetTypeId == (int)TargetTypes.Promotion;
+            }
+        }
+
+        public bool IsSemiAnnual
+        {
+            get
+            {
+                return Period != null && Period.TargetTypeId == (int)TargetTypes.SemiAnnual;
+            }
+        }
+
+        public bool IsSemiHasMonthly
+        {
+            get
+            {
+                return HasMonthlyEPA && Period != null && Period.TargetTypeId == (int)TargetTypes.SemiAnnual;
+            }
+        }
+
         public bool IsAllowedToEdit
         {
             get
@@ -142,7 +166,7 @@
                     || Process.CurrentProcess.IsEndProcess
                     || (IsSemiHasMonthly
                         && (Process.CurrentProcess.ProcessId == (int)ProcessType.Self || Process.CurrentProcess.ProcessId == (int)ProcessType.Evaluator))
-                    || StatusId == (int)Core.Enumerations.EPAStatus.Closed
+                    || StatusId == (int)EPAStatus.Closed
                     || Period.IsEndPeriod);
 
                 return isAllowedToEdit;

@@ -314,4 +314,7 @@
   <Function Name="Discipline Summary">
     <Setting Key="EmployeeDisciplineSummary_GetByPeriod" SpName="EmployeeDisciplineSummary_GetByPeriod" DbName="SMSEPA" Plain="0"></Setting>
   </Function>
+  <Function Name="Job Grade">
+    <Setting Key="JobGrade_Get" SpName="JobGrade_Get" DbName="SMSEPA" Plain="0"></Setting>
+  </Function>
 </Functions>

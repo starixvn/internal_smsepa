@@ -1,0 +1,30 @@
+﻿<div class="panel panel-default">
+    <div class="panel-heading" data-toggle="collapse" data-target=".recommendation">
+        <h4 class="panel-title text-uppercase" data-translate="Recommendation"></h4>
+    </div>
+    <div class="panel-collapse collapse in recommendation">
+        <div class="panel-body recommendation-section">
+            <div class="radio" ng-class="{'disabled': !memberEPAInfoCtrl.epaInfo.IsAllowedToEdit}">
+                <label>
+                    <input type="radio" name="optionsRadios" ng-model="memberEPAInfoCtrl.epaInfo.Recommendation.PassedProbation"
+                           ng-disabled="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit">
+                    {{"PassProbation" | translate}}
+                </label>
+            </div>
+            <div class="radio" ng-class="{'disabled': !memberEPAInfoCtrl.epaInfo.IsAllowedToEdit}">
+                <label>
+                    <input type="radio" name="optionsRadios" ng-model="memberEPAInfoCtrl.epaInfo.Recommendation.ExtendedProbation"
+                           ng-disabled="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit">
+                    {{"ExtendProbation" | translate}}
+                </label>
+            </div>
+            <div class="radio" ng-class="{'disabled': !memberEPAInfoCtrl.epaInfo.IsAllowedToEdit}">
+                <label>
+                    <input type="radio" name="optionsRadios" ng-model="memberEPAInfoCtrl.epaInfo.Recommendation.FailedProbation"
+                           ng-disabled="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit">
+                    {{"FailProbation" | translate}}
+                </label>
+            </div>
+        </div>
+    </div>
+</div>

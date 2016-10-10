@@ -169,6 +169,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Annual Increment.
+        /// </summary>
+        public static string AnnualIncrement {
+            get {
+                return ResourceManager.GetString("AnnualIncrement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Apply to Department / Section.
         /// </summary>
         public static string ApplyToDepartment {
@@ -1366,6 +1375,24 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Extend Probation.
+        /// </summary>
+        public static string ExtendProbation {
+            get {
+                return ResourceManager.GetString("ExtendProbation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fail Probation.
+        /// </summary>
+        public static string FailProbation {
+            get {
+                return ResourceManager.GetString("FailProbation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This field is required!.
         /// </summary>
         public static string FieldRequire {
@@ -1713,6 +1740,15 @@ namespace SMS.EPA.Resources {
         public static string IsSpecialUser {
             get {
                 return ResourceManager.GetString("IsSpecialUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Job Grade.
+        /// </summary>
+        public static string JobGrade {
+            get {
+                return ResourceManager.GetString("JobGrade", resourceCulture);
             }
         }
         
@@ -2356,6 +2392,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pass Probation.
+        /// </summary>
+        public static string PassProbation {
+            get {
+                return ResourceManager.GetString("PassProbation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password must be between 6-32 characters!.
         /// </summary>
         public static string PasswordLengthWarning {
@@ -2473,6 +2518,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Promotion.
+        /// </summary>
+        public static string Promotion {
+            get {
+                return ResourceManager.GetString("Promotion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rating criteria.
         /// </summary>
         public static string RatingCriteria {
@@ -2532,6 +2586,15 @@ namespace SMS.EPA.Resources {
         public static string ReadMore {
             get {
                 return ResourceManager.GetString("ReadMore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recommendation.
+        /// </summary>
+        public static string Recommendation {
+            get {
+                return ResourceManager.GetString("Recommendation", resourceCulture);
             }
         }
         

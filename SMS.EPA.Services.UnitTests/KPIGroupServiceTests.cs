@@ -19,7 +19,7 @@
         #region GetKPIGroup
 
         [Test]
-        public void GetKPIGroup_AnyArg_ReturnInstanceOfListOfKPIModel()
+        public void GetKPIGroup_AnyArg_ReturnInstanceOfListOfKPIGroupModel()
         {
             // Arrange
             ArrangeGetKPIGroup();

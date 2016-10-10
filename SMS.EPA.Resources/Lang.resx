@@ -1356,4 +1356,25 @@
   <data name="SummaryComment" xml:space="preserve">
     <value>Summary Comment</value>
   </data>
+  <data name="AnnualIncrement" xml:space="preserve">
+    <value>Annual Increment</value>
+  </data>
+  <data name="ExtendProbation" xml:space="preserve">
+    <value>Extend Probation</value>
+  </data>
+  <data name="FailProbation" xml:space="preserve">
+    <value>Fail Probation</value>
+  </data>
+  <data name="JobGrade" xml:space="preserve">
+    <value>Job Grade</value>
+  </data>
+  <data name="PassProbation" xml:space="preserve">
+    <value>Pass Probation</value>
+  </data>
+  <data name="Promotion" xml:space="preserve">
+    <value>Promotion</value>
+  </data>
+  <data name="Recommendation" xml:space="preserve">
+    <value>Recommendation</value>
+  </data>
 </root>

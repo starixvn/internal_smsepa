@@ -1,0 +1,54 @@
+﻿<div class="panel panel-default">
+    <div class="panel-heading" data-toggle="collapse" data-target=".recommendation">
+        <h4 class="panel-title text-uppercase" data-translate="Recommendation"></h4>
+    </div>
+    <div class="panel-collapse collapse in recommendation">
+        <div class="panel-body recommendation-section">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td colspan="2">
+                            <div class="checkbox" ng-class="{'disabled': !memberEPAInfoCtrl.epaInfo.IsAllowedToEdit}">
+                                <label>
+                                    <input type="checkbox" ng-model="memberEPAInfoCtrl.epaInfo.Recommendation.Promoted"
+                                           ng-disabled="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit">
+                                    {{"Promotion" | translate}}
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="checkbox" ng-class="{'disabled': !memberEPAInfoCtrl.epaInfo.IsAllowedToEdit}">
+                                <label>
+                                    <input type="checkbox" ng-model="memberEPAInfoCtrl.epaInfo.Recommendation.PayIncreased"
+                                           ng-disabled="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit">
+                                    {{"AnnualIncrement" | translate}}
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="checkbox" ng-class="{'disabled': !memberEPAInfoCtrl.epaInfo.IsAllowedToEdit}">
+                                <label>
+                                    <input type="checkbox" ng-model="memberEPAInfoCtrl.epaInfo.Recommendation.JobGradeIncreased"
+                                           ng-disabled="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit">
+                                    {{"JobGrade" | translate}}
+                                </label>
+                            </div>
+                        </td>
+                        <td>
+                            <select class="jobGrades" ng-model="memberEPAInfoCtrl.epaInfo.Recommendation.JobGrade.JobGradeId"
+                                    ng-show="memberEPAInfoCtrl.epaInfo.Recommendation.JobGradeIncreased"
+                                    ng-disabled="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
+                                    ng-options="opt.JobGradeId as opt.Name for opt in memberEPAInfoCtrl.jobGrades">
+                                <option style="display: none" value="">-- Select a job grade --</option>
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

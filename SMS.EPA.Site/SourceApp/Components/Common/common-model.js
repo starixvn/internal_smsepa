@@ -27,6 +27,7 @@ function ($modal, commonFactory, errorFactory) {
     commonModel.menus = [];
     commonModel.remindDay = [0, 1, 2, 3, 4, 5, 6, 7];
     commonModel.jobTitles = [];
+    commonModel.jobGrades = [];
     commonModel.permission = 0;
 
     commonModel.getTargetType = function (isActive, excludeTargetTypeIds) {
@@ -243,6 +244,14 @@ function ($modal, commonFactory, errorFactory) {
     commonModel.getUserPermissionOnFlowManagement = function () {
         return commonFactory.getUserPermissionOnFlowManagement().success(function (permission) {
             commonModel.permission = parseInt(permission, 10);
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    commonModel.getJobGrade = function (isActive) {
+        return commonFactory.getJobGrade(isActive).success(function (jobGrades) {
+            commonModel.jobGrades = jobGrades;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });

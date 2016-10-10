@@ -8,7 +8,8 @@ function ($timeout, $routeParams, EmployeeEPAModel, CommonModel, utilitiesFactor
 
     vm.epaId = parseInt($routeParams.id);
     vm.exportPDF = $routeParams.exportpdf;
-    vm.standardGrades = CommonModel.standardGrades;
+    vm.jobGrades = [];
+    vm.standardGrades = [];
     vm.ratingTypeEnum = utilitiesFactory.ratingType;
     vm.statusEndProcessEnum = utilitiesFactory.statusEndProcess;
     vm.isViewDetail = true;
@@ -80,6 +81,10 @@ function ($timeout, $routeParams, EmployeeEPAModel, CommonModel, utilitiesFactor
     }
 
     function initialize() {
+        CommonModel.getJobGrade(true).then(function () {
+            vm.jobGrades = CommonModel.jobGrades;
+        });
+
         CommonModel.getStandardGrade().then(function () {
             vm.standardGrades = CommonModel.standardGrades;
 

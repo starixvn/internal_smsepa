@@ -542,7 +542,7 @@
             commonService = Substitute.For<ICommonService>();
 
             // Act
-            var actual = commonService.GetAllJobTitle(Arg.Any<GetAllJobTitleCriteria>());
+            var actual = commonService.GetAllJobTitle();
 
             // Assert
             Assert.IsInstanceOf(typeof(IEnumerable<JobTitle>), actual);
@@ -552,19 +552,53 @@
         public void GetAllJobTitle_VaidArg_ReturnExpectedJobTitles()
         {
             // Arrange
-            var criteria = new GetAllJobTitleCriteria();
             var expectedJobTitles = new List<JobTitle>();
             expectedJobTitles.Add(new JobTitle());
             var commonService = ArrangeGetAllJobTitle(expectedJobTitles);
 
             // Act
-            var actual = commonService.GetAllJobTitle(criteria);
+            var actual = commonService.GetAllJobTitle();
 
             // Assert
             Assert.AreEqual(expectedJobTitles, actual);
         }
 
         #endregion GetAllJobTitle
+
+        #region GetJobGrade
+
+        [Test]
+        public void GetJobGrade_AnyArg_ReturnInstanceOfListOfJobGradeModel()
+        {
+            // Arrange
+            CommonService service = ArrangeGetJobGrade();
+
+            // Act
+            var actual = service.GetJobGrade(Arg.Any<bool?>());
+
+            // Assert
+            Assert.IsInstanceOf(typeof(IEnumerable<JobGradeModel>), actual);
+        }
+
+        [Test]
+        public void GetJobGrade_ValidArg_ReturnListOfJobGradeModel()
+        {
+            // Arrange
+            bool? isActive = false;
+            IEnumerable<JobGradeModel> result = GetListOfJobGradeForTest();
+            CommonService service = ArrangeGetJobGrade(result);
+
+            // Act
+            var actual = service.GetJobGrade(isActive);
+
+            // Assert
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(result, actual);
+        }
+
+        #endregion GetJobGrade
+
+        #region Helpers
 
         private void ArrangeCommon()
         {
@@ -689,5 +723,35 @@
             commonService.GetData<JobTitle>(Arg.Any<GetAllJobTitleCriteria>()).Returns(jobTitles ?? new List<JobTitle>());
             return commonService;
         }
+
+        private IEnumerable<JobGradeModel> GetListOfJobGradeForTest()
+        {
+            var jobGrades = new List<JobGradeModel>
+            {
+                new JobGradeModel
+                {
+                    JobGradeId = 1,
+                    Name = "A1"
+                },
+                new JobGradeModel
+                {
+                    JobGradeId = 2,
+                    Name = "A2"
+                }
+            };
+
+            return jobGrades;
+        }
+
+        private CommonService ArrangeGetJobGrade(IEnumerable<JobGradeModel> result = null)
+        {
+            CommonService commonService = Substitute.For<CommonService>();
+            commonService.When(x => x.GetData<JobGradeModel>(Arg.Any<GetJobGradeCriteria>())).DoNotCallBase();
+            commonService.GetData<JobGradeModel>(Arg.Any<GetJobGradeCriteria>()).Returns(result ?? new List<JobGradeModel>());
+
+            return commonService;
+        }
+
+        #endregion Helpers
     }
 }

@@ -8,7 +8,8 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
 
     vm.permission = 0;
     vm.epaId = parseInt($routeParams.id);
-    vm.standardGrades = CommonModel.standardGrades;
+    vm.jobGrades = [];
+    vm.standardGrades = [];
     vm.policyEnum = utilitiesFactory.policy;
     vm.targetTypeEnum = utilitiesFactory.targetType;
     vm.statusEndProcessEnum = utilitiesFactory.statusEndProcess;
@@ -130,6 +131,10 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
     function initialize() {
         $translate('ScoreInputValid').then(function (message) {
             vm.scoreInputValidMessage = message;
+        });
+
+        CommonModel.getJobGrade(true).then(function () {
+            vm.jobGrades = CommonModel.jobGrades;
         });
 
         CommonModel.getStandardGrade().then(function () {

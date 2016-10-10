@@ -224,16 +224,19 @@
 
         public IEnumerable<JobTitle> GetAllJobTitle()
         {
-            var criteria = new GetAllJobTitleCriteria();
-            IEnumerable<JobTitle> jobTitles = commonService.GetAllJobTitle(criteria);
-
-            return jobTitles;
+            return commonService.GetAllJobTitle();
         }
 
         public int GetUserPermissionOnFlowManagement()
         {
             int permission = this.SessionService.GetPermission(EPAFunctionKey.FlowManagement);
             return permission;
+        }
+
+        [HttpGet]
+        public IEnumerable<JobGradeModel> GetJobGrade(bool? isActive)
+        {
+            return commonService.GetJobGrade(isActive);
         }
     }
 }

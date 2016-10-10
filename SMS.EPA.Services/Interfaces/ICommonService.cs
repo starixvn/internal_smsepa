@@ -42,6 +42,8 @@
 
         IEnumerable<MenuGroupModel> GetMenusByEmployeeId(int employeeId);
 
-        IEnumerable<JobTitle> GetAllJobTitle(GetAllJobTitleCriteria criteria);
+        IEnumerable<JobTitle> GetAllJobTitle();
+
+        IEnumerable<JobGradeModel> GetJobGrade(bool? isActive);
     }
 }
