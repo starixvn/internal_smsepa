@@ -98,12 +98,14 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     };
 
     reviewerMngModel.validateEvaluation = function (score) {
-        if (!score || parseFloat(score) < 0) {
+        var isValid = true;
+
+        if (score === null || parseFloat(score) < 0) {
             notificationFactory.error("ScoreRequire");
-            return false;
+            isValid = false;
         }
 
-        return true;
+        return isValid;
     };
 
     reviewerMngModel.calculateScore = function (epaInfo, isReviewer) {
@@ -210,6 +212,25 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         });
     };
 
+    reviewerMngModel.validateRecommendation = function (epaInfo) {
+        var isValid = true;
+
+        if (epaInfo.Recommendation && epaInfo.Recommendation.EPAId > 0) {
+            if ((epaInfo.IsProbation || epaInfo.IsPromotion) && epaInfo.Recommendation.ProbationStatus === null) {
+                epaInfo.Recommendation.Invalid = true;
+                isValid = false;
+            } else if (epaInfo.IsSemiAnnual && epaInfo.Recommendation.JobGradeIncreased
+                && (!epaInfo.Recommendation.JobGrade || !epaInfo.Recommendation.JobGrade.JobGradeId)) {
+                epaInfo.Recommendation.Invalid = true;
+                isValid = false;
+            } else {
+                epaInfo.Recommendation.Invalid = false;
+            }
+        }
+
+        return isValid;
+    };
+
     // reviewer
     reviewerMngModel.getUserPermissionOnReviewer = function () {
         return employeeEPAFactory.getUserPermissionOnReviewer().success(function (permission) {
@@ -252,7 +273,10 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     };
 
     reviewerMngModel.adjustScoreByReviewer = function (vm, epaInfos) {
-        var models = [];
+        var criteria = {
+            EpaInfos: [],
+            Recommendations: []
+        };
 
         angular.forEach(epaInfos, function (epaInfo) {
             var model = {
@@ -265,15 +289,19 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
                 Comment: epaInfo.Process.CurrentProcess.Comment
             };
 
-            models.push(model);
+            if (epaInfo.Recommendation && epaInfo.Recommendation.EPAId > 0) {
+                criteria.Recommendations.push(epaInfo.Recommendation);
+            }
+
+            criteria.EpaInfos.push(model);
         });
 
-        return employeeEPAFactory.adjustScoreByReviewer(models).success(function (response) {
+        return employeeEPAFactory.adjustScoreByReviewer(criteria).success(function (response) {
             if (response.IsSuccessful) {
                 vm.dataSaved = true;
                 notificationFactory.success("UpdatedSuccessfully");
             } else {
-                notificationFactory.error("", response.Message);
+                notificationFactory.error('', response.Message);
             }
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
@@ -322,7 +350,9 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     };
 
     reviewerMngModel.adjustScoreByManagement = function (vm, epaInfos) {
-        var models = [];
+        var criteria = {
+            EpaInfos: []
+        };
 
         angular.forEach(epaInfos, function (epaInfo) {
             var model = {
@@ -335,15 +365,15 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
                 Comment: epaInfo.Process.CurrentProcess.Comment
             };
 
-            models.push(model);
+            criteria.EpaInfos.push(model);
         });
 
-        return employeeEPAFactory.adjustScoreByManagement(models).success(function (response) {
+        return employeeEPAFactory.adjustScoreByManagement(criteria).success(function (response) {
             if (response.IsSuccessful) {
                 vm.dataSaved = true;
                 notificationFactory.success("UpdatedSuccessfully");
             } else {
-                notificationFactory.error("", response.Message);
+                notificationFactory.error('', response.Message);
             }
         }).error(function (response, status) {
             errorFactory.errorHandle(status);

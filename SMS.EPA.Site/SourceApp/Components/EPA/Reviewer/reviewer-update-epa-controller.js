@@ -20,6 +20,12 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
     vm.hasRatingByStar = false;
     vm.showRatingScoreByStar = true;
 
+    vm.probationStatusTypes = {
+        Failed: 0,
+        Passed: 1,
+        Extended: 2
+    };
+
     vm.range = function (n) {
         return new Array(n);
     };
@@ -58,7 +64,7 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
     vm.save = function (epaInfo) {
         var totalcore = epaInfo.Process.CurrentProcess.TotalScore;
 
-        if (ReviewerManagementModel.validateEvaluation(totalcore)) {
+        if (ReviewerManagementModel.validateEvaluation(totalcore) && ReviewerManagementModel.validateRecommendation(epaInfo)) {
             var model = new Array(epaInfo);
 
             ReviewerManagementModel.adjustScoreByReviewer(vm, model);

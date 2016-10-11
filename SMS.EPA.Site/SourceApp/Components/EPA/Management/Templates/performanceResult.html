@@ -92,7 +92,7 @@
                         && !memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index].IsEndProcess"></span>
             </td>
             <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="total-score" ng-show="$first">
-                <input type="text" maxlength="6" class="form-control text-center" ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
+                <input type="text" maxlength="7" class="form-control text-center" ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
                        ng-model="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.TotalScore" numeric decimals="2"
                        ng-change="memberEPAInfoCtrl.inputScore(memberEPAInfoCtrl.epaInfo.Process.CurrentProcess)"
                        tooltip="{{memberEPAInfoCtrl.getNotificationInputScore(memberEPAInfoCtrl.epaInfo.Process.CurrentProcess)}}" tooltip-trigger="focus" />

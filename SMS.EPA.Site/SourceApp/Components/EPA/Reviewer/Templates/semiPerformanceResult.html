@@ -30,7 +30,7 @@
             <td>
                 <span ng-bind="memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageReviewerScoreConverted | customScore"></span>
                 <span style="display: inline-block; vertical-align:middle">
-                    <input type="text" maxlength="6" class="form-control text-center width-80" ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
+                    <input type="text" maxlength="7" class="form-control text-center width-80" ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
                            ng-model="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.TotalScore" numeric decimals="2"
                            ng-change="memberEPAInfoCtrl.inputScore(memberEPAInfoCtrl.epaInfo.Process.CurrentProcess)"
                            tooltip="{{memberEPAInfoCtrl.getNotificationInputScore(memberEPAInfoCtrl.epaInfo.Process.CurrentProcess)}}" tooltip-trigger="focus" />

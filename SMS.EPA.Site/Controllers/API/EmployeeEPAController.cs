@@ -263,16 +263,19 @@
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Reviewer, Policy = Policy.Host)]
-        public CommandResult AdjustScoreByReviewer(IEnumerable<AdjustScoreViewModel> epaInfos)
+        public CommandResult AdjustScoreByReviewer(AdjustScoreByReviewerOrManagementCriteria criteria)
         {
-            var criteria = new AdjustScoreByReviewerOrManagementCriteria()
-            {
-                ProcessId = (int)ProcessType.Reviewer,
-                EpaInfos = epaInfos,
-                ModifiedBy = this.SessionService.EmployeeId
-            };
+            var commandResult = new CommandResult();
 
-            return AdjustScoreByReviewerOrManagement(criteria);
+            if (criteria != null)
+            {
+                criteria.ProcessId = (int)ProcessType.Reviewer;
+                criteria.ModifiedBy = this.SessionService.EmployeeId;
+
+                commandResult = employeeEPAService.AdjustScoreByReviewerOrManagement(criteria);
+            }
+
+            return commandResult;
         }
 
         public int GetUserPermissionOnReviewer()
@@ -348,20 +351,16 @@
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Management, Policy = Policy.Host)]
-        public CommandResult AdjustScoreByManagement(IEnumerable<AdjustScoreViewModel> epaInfos)
+        public CommandResult AdjustScoreByManagement(AdjustScoreByReviewerOrManagementCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
-            if (epaInfos != null && epaInfos.Any())
+            if (criteria != null)
             {
-                var criteria = new AdjustScoreByReviewerOrManagementCriteria()
-                {
-                    ProcessId = (int)ProcessType.Management,
-                    EpaInfos = epaInfos,
-                    ModifiedBy = this.SessionService.EmployeeId
-                };
+                criteria.ProcessId = (int)ProcessType.Management;
+                criteria.ModifiedBy = this.SessionService.EmployeeId;
 
-                commandResult = AdjustScoreByReviewerOrManagement(criteria);
+                commandResult = employeeEPAService.AdjustScoreByReviewerOrManagement(criteria);
             }
 
             return commandResult;
@@ -725,11 +724,6 @@
             };
 
             return employeeEPAService.GetGroupByEvaluatorOrReviewerOrManagement(criteria);
-        }
-
-        private CommandResult AdjustScoreByReviewerOrManagement(AdjustScoreByReviewerOrManagementCriteria criteria)
-        {
-            return employeeEPAService.AdjustScoreByReviewerOrManagement(criteria);
         }
 
         private int CheckEmployeePermission(

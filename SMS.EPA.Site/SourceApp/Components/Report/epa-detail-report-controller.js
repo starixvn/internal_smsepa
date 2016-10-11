@@ -98,10 +98,12 @@
         vm.exportPdf = function (epaId) {
             var url = baseUrl + 'ExportPDF/ExportPdf?epaId=' + epaId;
             var iframe = $('body iframe');
+
             if (iframe.length === 0) {
                 iframe = $('<iframe width="0" height="0" class="display-none"></iframe>');
                 iframe.appendTo('body');
             }
+
             iframe.attr('src', url);
         };
 
@@ -142,8 +144,12 @@
             getEPADetailReport(vm.filter);
         };
 
-        vm.viewEPADetail = function (epaId) {
-            $window.location.href = baseUrl + 'EPA/Detail/' + epaId;
+        vm.viewEPADetail = function (epaId, exportPdf) {
+            if (exportPdf) {
+                $window.location.href = baseUrl + 'EPA/Detail/' + epaId + '?exportPdf';
+            } else {
+                $window.location.href = baseUrl + 'EPA/Detail/' + epaId;
+            }
         };
     }
 })(angular);

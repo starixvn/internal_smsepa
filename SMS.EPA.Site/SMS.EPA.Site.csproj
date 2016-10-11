@@ -707,7 +707,6 @@
     <Content Include="Web.local.config" />
     <Content Include="SourceApp\Components\TargetEmployeeSetting\targetEmployeeSetting.less" />
     <Content Include="SourceApp\Components\Period\period.less" />
-    <Content Include="SourceApp\Components\EPA\epa.less" />
     <Content Include="ExcelTemplates\EmployeeFlowSettingReport.xls" />
     <Content Include="Views\Emails\StartDateEmailToHR.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -763,6 +762,7 @@
     <Content Include="ExcelTemplates\DisciplineSummaryReport.xls" />
     <Content Include="ExcelTemplates\DisciplineDetailReport.xls" />
     <Content Include="SourceApp\Components\EPA\_ratingByStar.less" />
+    <Content Include="SourceApp\Components\EPA\epa.less" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">

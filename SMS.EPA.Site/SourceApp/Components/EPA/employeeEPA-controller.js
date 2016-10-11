@@ -7,7 +7,7 @@ function ($timeout, $routeParams, EmployeeEPAModel, CommonModel, utilitiesFactor
     var vm = this;
 
     vm.epaId = parseInt($routeParams.id);
-    vm.exportPDF = $routeParams.exportpdf;
+    vm.allowedExportPdf = $routeParams.exportPdf;
     vm.jobGrades = [];
     vm.standardGrades = [];
     vm.ratingTypeEnum = utilitiesFactory.ratingType;
@@ -39,6 +39,18 @@ function ($timeout, $routeParams, EmployeeEPAModel, CommonModel, utilitiesFactor
 
     vm.back = function () {
         historyFactory.back();
+    };
+
+    vm.exportPdf = function () {
+        var url = baseUrl + 'ExportPDF/ExportPdf?epaId=' + vm.epaId;
+        var iframe = $('body iframe');
+
+        if (iframe.length === 0) {
+            iframe = $('<iframe width="0" height="0" class="display-none"></iframe>');
+            iframe.appendTo('body');
+        }
+
+        iframe.attr('src', url);
     };
 
     function getEPAInfoById() {

@@ -162,7 +162,7 @@
                         <div ng-switch-default data-translate="Pending"></div>
                     </td>
                     <td class="text-center">
-                        <input type="text" maxlength="6" class="form-control text-center epa-input-score"
+                        <input type="text" maxlength="7" class="form-control text-center epa-input-score"
                                ng-readonly="!epaInfo.IsAllowedToEdit || managementCtrl.permission != managementCtrl.policyEnum.Host"
                                ng-model="epaInfo.Process.CurrentProcess.AdjustScore" numeric decimals="2" ng-change="managementCtrl.inputScore(epaInfo)"
                                tooltip="{{managementCtrl.getNotificationInputScore(epaInfo)}}" tooltip-trigger="focus"
@@ -180,12 +180,12 @@
                     </td>
                     <td class="text-center">
                         <div ng-show="epaInfo.HasDisciplineScore">
-                            <span ng-class="epaInfo.SystemDisciplineScore < 0 ? 'red' : ''"
+                            <span ng-class="epaInfo.SystemDisciplineScore < 0 ? 'error-message' : ''"
                                   ng-bind="epaInfo.SystemDisciplineScore | customScore"></span> / <span ng-bind="epaInfo.MaxDisciplineScore | customScore"></span>
                         </div>
                         <div ng-show="!epaInfo.HasDisciplineScore">
                             <span ng-show="epaInfo.SystemDisciplineScore"
-                                  ng-class="epaInfo.SystemDisciplineScore < 0 ? 'red' : ''"
+                                  ng-class="epaInfo.SystemDisciplineScore < 0 ? 'error-message' : ''"
                                   ng-bind="epaInfo.SystemDisciplineScore | customScore"></span>
                             <span ng-show="!epaInfo.SystemDisciplineScore" ng-bind="'-'"></span>
                         </div>
@@ -193,12 +193,12 @@
                     <td class="text-center">
                         <div class="col-percent-60">
                             <div ng-show="epaInfo.HasDisciplineScore">
-                                <span ng-class="epaInfo.DisciplineScore < 0 ? 'red' : ''"
+                                <span ng-class="epaInfo.DisciplineScore < 0 ? 'error-message' : ''"
                                       ng-bind="epaInfo.DisciplineScore | customScore"></span> / <span ng-bind="epaInfo.MaxDisciplineScore | customScore"></span>
                             </div>
                             <div ng-show="!epaInfo.HasDisciplineScore">
                                 <span ng-show="epaInfo.DisciplineScore"
-                                      ng-class="epaInfo.DisciplineScore < 0 ? 'red' : ''"
+                                      ng-class="epaInfo.DisciplineScore < 0 ? 'error-message' : ''"
                                       ng-bind="epaInfo.DisciplineScore | customScore"></span>
                                 <span ng-show="!epaInfo.DisciplineScore" ng-bind="'-'"></span>
                             </div>
@@ -214,7 +214,7 @@
                         {{epaInfo.FinalScore | customScore}} / {{epaInfo.Process.CurrentProcess.MaxPerformanceScore | customScore}}
                     </td>
                     <td class="text-center">
-                        <strong class="red" ng-bind="epaInfo.Grade"></strong>
+                        <strong class="error-message" ng-bind="epaInfo.Grade"></strong>
                     </td>
                     <td class="text-center">
                         <div ng-show="epaInfo.LastFinalScore != null" ng-bind="epaInfo.LastFinalScore | customScore"></div>

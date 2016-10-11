@@ -114,7 +114,8 @@
                         cssManagementScore = '',
                         cssDisciplineScore = memberEPA.EPAId > 0 && memberEPA.DisciplineScore < 0 ? 'red' : '',
                         pdfIcon = '<a class="icon-pdf exportPDF" data-epaid="' + memberEPA.EPAId + '"></a>',
-                        viewIcon = '<a class="icon-view viewEPADetail" data-epaid="' + memberEPA.EPAId + '"></a>';
+                        viewIcon = '<a class="icon-view viewEPADetail" data-epaid="' + memberEPA.EPAId + '" data-export-pdf="'
+                            + (memberEPA.StatusId === 1 && memberEPA.Period.IsEndPeriod) + '"></a>';
 
                     if (memberEPA.EPAId > 0
                         && memberEPA.Process.Managements
@@ -141,7 +142,7 @@
                             { Name: "FinalScore", Value: score.FinalScore },
                             { Name: "Grade", Value: score.Grade },
                             { Name: "ExportPdf", Value: memberEPA.EPAId > 0 && memberEPA.StatusId === 1 && memberEPA.Period.IsEndPeriod ? pdfIcon : "" },
-                            { Name: "ViewDetail", Value: memberEPA.EPAId > 0 && memberEPA.StatusId === 1 && memberEPA.Period.IsEndPeriod ? viewIcon : "" }
+                            { Name: "ViewDetail", Value: memberEPA.EPAId > 0 ? viewIcon : '' }
                         ]
                     };
 
@@ -225,8 +226,9 @@
                             $('a.viewEPADetail').on('click', function (event) {
                                 event.preventDefault();
 
-                                var epaId = parseInt($(this).data('epaid'));
-                                $scope.viewEpaDetail(epaId);
+                                var epaId = parseInt($(this).data('epaid')),
+                                    exportPdf = $(this).data('export-pdf');
+                                $scope.viewEpaDetail(epaId, exportPdf);
                             });
                         }
                     });

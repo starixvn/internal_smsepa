@@ -1377,4 +1377,7 @@
   <data name="Recommendation" xml:space="preserve">
     <value>Recommendation</value>
   </data>
+  <data name="ExportPdf" xml:space="preserve">
+    <value>Export Pdf</value>
+  </data>
 </root>

@@ -112,11 +112,11 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
         updateEPAScoreByEvaluator: function (model) {
             return $http.put(baseUrl + 'api/EmployeeEPA/UpdateEPAScoreByEvaluator', model);
         },
-        adjustScoreByReviewer: function (models) {
-            return $http.put(baseUrl + 'api/EmployeeEPA/AdjustScoreByReviewer', models);
+        adjustScoreByReviewer: function (criteria) {
+            return $http.put(baseUrl + 'api/EmployeeEPA/AdjustScoreByReviewer', criteria);
         },
-        adjustScoreByManagement: function (models) {
-            return $http.put(baseUrl + 'api/EmployeeEPA/AdjustScoreByManagement', models);
+        adjustScoreByManagement: function (criteria) {
+            return $http.put(baseUrl + 'api/EmployeeEPA/AdjustScoreByManagement', criteria);
         },
         convertEPA: function () {
             return $http.put(baseUrl + 'api/EmployeeEPA/ConvertEPA');

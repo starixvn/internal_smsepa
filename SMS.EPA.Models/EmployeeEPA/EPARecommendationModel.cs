@@ -6,7 +6,7 @@
     {
         public int EPAId { get; set; }
 
-        public int? StatusProbation { get; set; }
+        public int? ProbationStatus { get; set; }
 
         public bool Promoted { get; set; }
 
@@ -20,7 +20,7 @@
         {
             get
             {
-                return StatusProbation.HasValue && StatusProbation.Value == (int)StatusProbationTypes.PassProbation;
+                return ProbationStatus.HasValue && ProbationStatus.Value == (int)ProbationStatusTypes.PassProbation;
             }
         }
 
@@ -28,7 +28,7 @@
         {
             get
             {
-                return StatusProbation.HasValue && StatusProbation.Value == (int)StatusProbationTypes.ExtendProbation;
+                return ProbationStatus.HasValue && ProbationStatus.Value == (int)ProbationStatusTypes.ExtendProbation;
             }
         }
 
@@ -36,7 +36,7 @@
         {
             get
             {
-                return StatusProbation.HasValue && StatusProbation.Value == (int)StatusProbationTypes.FailProbation;
+                return ProbationStatus.HasValue && ProbationStatus.Value == (int)ProbationStatusTypes.FailProbation;
             }
         }
     }

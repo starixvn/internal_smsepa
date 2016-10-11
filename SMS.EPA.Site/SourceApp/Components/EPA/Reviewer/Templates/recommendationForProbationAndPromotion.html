@@ -4,24 +4,33 @@
     </div>
     <div class="panel-collapse collapse in recommendation">
         <div class="panel-body recommendation-section">
+            <div class="error-message" ng-show="memberEPAInfoCtrl.epaInfo.Recommendation.Invalid">
+                You must select 1 in 3 options
+            </div>
             <div class="radio" ng-class="{'disabled': !memberEPAInfoCtrl.epaInfo.IsAllowedToEdit}">
                 <label>
-                    <input type="radio" name="optionsRadios" ng-model="memberEPAInfoCtrl.epaInfo.Recommendation.PassedProbation"
-                           ng-disabled="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit">
+                    <input type="radio" name="optionsRadios"
+                           ng-checked="memberEPAInfoCtrl.epaInfo.Recommendation.PassedProbation"
+                           ng-disabled="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
+                           ng-click="memberEPAInfoCtrl.epaInfo.Recommendation.ProbationStatus = memberEPAInfoCtrl.probationStatusTypes.Passed" />
                     {{"PassProbation" | translate}}
                 </label>
             </div>
             <div class="radio" ng-class="{'disabled': !memberEPAInfoCtrl.epaInfo.IsAllowedToEdit}">
                 <label>
-                    <input type="radio" name="optionsRadios" ng-model="memberEPAInfoCtrl.epaInfo.Recommendation.ExtendedProbation"
-                           ng-disabled="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit">
+                    <input type="radio" name="optionsRadios"
+                           ng-checked="memberEPAInfoCtrl.epaInfo.Recommendation.ExtendedProbation"
+                           ng-disabled="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
+                           ng-click="memberEPAInfoCtrl.epaInfo.Recommendation.ProbationStatus = memberEPAInfoCtrl.probationStatusTypes.Extended" />
                     {{"ExtendProbation" | translate}}
                 </label>
             </div>
             <div class="radio" ng-class="{'disabled': !memberEPAInfoCtrl.epaInfo.IsAllowedToEdit}">
                 <label>
-                    <input type="radio" name="optionsRadios" ng-model="memberEPAInfoCtrl.epaInfo.Recommendation.FailedProbation"
-                           ng-disabled="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit">
+                    <input type="radio" name="optionsRadios"
+                           ng-checked="memberEPAInfoCtrl.epaInfo.Recommendation.FailedProbation"
+                           ng-disabled="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
+                           ng-click="memberEPAInfoCtrl.epaInfo.Recommendation.ProbationStatus = memberEPAInfoCtrl.probationStatusTypes.Failed" />
                     {{"FailProbation" | translate}}
                 </label>
             </div>

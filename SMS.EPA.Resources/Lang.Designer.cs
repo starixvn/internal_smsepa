@@ -1375,6 +1375,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Export Pdf.
+        /// </summary>
+        public static string ExportPdf {
+            get {
+                return ResourceManager.GetString("ExportPdf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Extend Probation.
         /// </summary>
         public static string ExtendProbation {

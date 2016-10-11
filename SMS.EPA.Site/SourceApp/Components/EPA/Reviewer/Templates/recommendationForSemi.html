@@ -10,7 +10,8 @@
                         <td colspan="2">
                             <div class="checkbox" ng-class="{'disabled': !memberEPAInfoCtrl.epaInfo.IsAllowedToEdit}">
                                 <label>
-                                    <input type="checkbox" ng-model="memberEPAInfoCtrl.epaInfo.Recommendation.Promoted"
+                                    <input type="checkbox"
+                                           ng-model="memberEPAInfoCtrl.epaInfo.Recommendation.Promoted"
                                            ng-disabled="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit">
                                     {{"Promotion" | translate}}
                                 </label>
@@ -21,30 +22,38 @@
                         <td colspan="2">
                             <div class="checkbox" ng-class="{'disabled': !memberEPAInfoCtrl.epaInfo.IsAllowedToEdit}">
                                 <label>
-                                    <input type="checkbox" ng-model="memberEPAInfoCtrl.epaInfo.Recommendation.PayIncreased"
+                                    <input type="checkbox"
+                                           ng-model="memberEPAInfoCtrl.epaInfo.Recommendation.PayIncreased"
                                            ng-disabled="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit">
                                     {{"AnnualIncrement" | translate}}
                                 </label>
                             </div>
                         </td>
                     </tr>
+                    <tr ng-show="memberEPAInfoCtrl.epaInfo.Recommendation.Invalid">
+                        <td colspan="2" class="error-message">
+                            You must select Job Grade
+                        </td>
+                    </tr>
                     <tr>
-                        <td>
+                        <td class="width-250">
                             <div class="checkbox" ng-class="{'disabled': !memberEPAInfoCtrl.epaInfo.IsAllowedToEdit}">
                                 <label>
-                                    <input type="checkbox" ng-model="memberEPAInfoCtrl.epaInfo.Recommendation.JobGradeIncreased"
+                                    <input type="checkbox"
+                                           ng-model="memberEPAInfoCtrl.epaInfo.Recommendation.JobGradeIncreased"
                                            ng-disabled="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit">
                                     {{"JobGrade" | translate}}
                                 </label>
                             </div>
                         </td>
-                        <td>
-                            <select class="jobGrades" ng-model="memberEPAInfoCtrl.epaInfo.Recommendation.JobGrade.JobGradeId"
-                                    ng-show="memberEPAInfoCtrl.epaInfo.Recommendation.JobGradeIncreased"
+                        <td ng-show="memberEPAInfoCtrl.epaInfo.Recommendation.JobGradeIncreased">
+                            <select class="jobGrades"
+                                    ng-model="memberEPAInfoCtrl.epaInfo.Recommendation.JobGrade.JobGradeId"
                                     ng-disabled="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
                                     ng-options="opt.JobGradeId as opt.Name for opt in memberEPAInfoCtrl.jobGrades">
                                 <option style="display: none" value="">-- Select a job grade --</option>
                             </select>
+                            <label class="error-message">(*)</label>
                         </td>
                     </tr>
                 </tbody>

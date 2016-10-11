@@ -77,6 +77,8 @@
         </div>
         <div class="navbar navbar-default navbar-fixed-bottom action-section">
             <div class="container text-center">
+                <button class="btn btn-primary" ng-click="memberEPAInfoCtrl.exportPdf()" data-translate="ExportPdf"
+                        ng-show="memberEPAInfoCtrl.allowedExportPdf && memberEPAInfoCtrl.epaInfo.Period.IsEndPeriod"></button>
                 <button class="btn btn-warning" ng-click="memberEPAInfoCtrl.back()" data-translate="Back"></button>
             </div>
         </div>

@@ -97,7 +97,7 @@
                             { Name: "ReviewerScore", Value: "<span class='" + cssReviewerScore + "'>" + score.ReviewerScore + "</span>" },
                             { Name: "FinalScore", Value: score.FinalScore },
                             { Name: "Grade", Value: score.Grade },
-                            { Name: "ViewDetail", Value: memberEPA.EPAId > 0 && memberEPA.StatusId === 1 && memberEPA.Period.IsEndPeriod ? viewIcon : "" }
+                            { Name: "ViewDetail", Value: memberEPA.EPAId > 0 ? viewIcon : "" }
                         ]
                     };
 

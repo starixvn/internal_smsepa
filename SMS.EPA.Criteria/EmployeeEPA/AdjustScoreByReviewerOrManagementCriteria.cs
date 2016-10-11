@@ -14,6 +14,9 @@
         private const string EPAXmlTemplate = @"<EPA EPAId='{0}' ProcessId='{1}' EmployeeId='{2}'
             EvaluatorId='{3}' AdjustScore='{4}' TotalScore='{5}' Comment='{6}'></EPA>";
 
+        private const string RecommendationXmlTemplate = @"<Recommendation EPAId='{0}' ProbationStatus='{1}' Promoted='{2}' PayIncreased='{3}'
+            JobGradeIncreased='{4}' JobGradeId='{5}'></Recommendation>";
+
         public string EPADetails
         {
             get
@@ -43,10 +46,39 @@
             }
         }
 
+        public string RecommendationXml
+        {
+            get
+            {
+                var result = new StringBuilder(Constants.BeginRootTag);
+
+                foreach (EPARecommendationModel recommendation in Recommendations)
+                {
+                    int? jobGradeId = (recommendation.JobGrade == null || !recommendation.JobGradeIncreased) ? (int?)null : recommendation.JobGrade.JobGradeId;
+
+                    result.AppendFormat(
+                            RecommendationXmlTemplate,
+                            recommendation.EPAId,
+                            recommendation.ProbationStatus,
+                            recommendation.Promoted,
+                            recommendation.PayIncreased,
+                            recommendation.JobGradeIncreased,
+                            jobGradeId);
+                }
+
+                result.Append(Constants.EndRootTag);
+
+                return result.ToString();
+            }
+        }
+
         public int ModifiedBy { get; set; }
 
         [SpParam(Ignored = true)]
         public IEnumerable<AdjustScoreViewModel> EpaInfos { get; set; }
+
+        [SpParam(Ignored = true)]
+        public IEnumerable<EPARecommendationModel> Recommendations { get; set; }
 
         public int ProcessId { get; set; }
 
