@@ -33,71 +33,6 @@
             this.cryptographyService = cryptographyService ?? new CryptographyService();
         }
 
-        #region Self
-
-        [HttpGet]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.Self, Policy = Policy.Read)]
-        public IEnumerable<EPAModel> GetEPAByEmployee()
-        {
-            var criteria = new GetEPAByEmployeeCriteria
-            {
-                EmployeeId = this.SessionService.EmployeeId
-            };
-
-            return employeeEPAService.GetEPAByEmployee(criteria);
-        }
-
-        [HttpGet]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.Self, Policy = Policy.Read)]
-        public HttpResponseMessage GetEPAInfoByEmployee(int epaId)
-        {
-            EPAModel epaInfo = new EPAModel();
-            int permission = CheckEmployeePermission(epaId, this.SessionService.EmployeeId, (int)ProcessType.Self);
-
-            switch (permission)
-            {
-                case (int)Policy.None:
-                    return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
-
-                default:
-                    var criteria = new GetEPAInfoByEmployeeCriteria()
-                    {
-                        EPAId = epaId,
-                        EmployeeId = this.SessionService.EmployeeId
-                    };
-
-                    epaInfo = employeeEPAService.GetEPAInfoByEmployee(criteria);
-
-                    return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
-            }
-        }
-
-        [HttpPut]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.Self, Policy = Policy.Host)]
-        public CommandResult UpdateEPAScoreByEmployee(UpdateEPAScoreCriteria criteria)
-        {
-            CommandResult commandResult = new CommandResult();
-
-            if (criteria != null)
-            {
-                criteria.ProcessId = (int)ProcessType.Self;
-                criteria.EvaluatorId = this.SessionService.EmployeeId;
-                criteria.ModifiedBy = this.SessionService.EmployeeId;
-
-                commandResult = UpdateEPAScoreByEmployeeOrEvaluator(criteria);
-            }
-
-            return commandResult;
-        }
-
-        public int GetUserPermissionOnEmployee()
-        {
-            int permission = this.SessionService.GetPermission(EPAFunctionKey.Self);
-            return permission;
-        }
-
-        #endregion Self
-
         #region Evaluator
 
         [HttpGet]
@@ -181,7 +116,7 @@
                 criteria.EvaluatorId = this.SessionService.EmployeeId;
                 criteria.ModifiedBy = this.SessionService.EmployeeId;
 
-                commandResult = UpdateEPAScoreByEmployeeOrEvaluator(criteria);
+                commandResult = employeeEPAService.UpdateEPAScore(criteria);
             }
 
             return commandResult;
@@ -691,11 +626,6 @@
         }
 
         #endregion Update Final Score
-
-        private CommandResult UpdateEPAScoreByEmployeeOrEvaluator(UpdateEPAScoreCriteria criteria)
-        {
-            return employeeEPAService.UpdateEPAScore(criteria);
-        }
 
         private IEnumerable<Employee> GetMemberByEvaluatorOrReviewerOrManagement(
             int processId,

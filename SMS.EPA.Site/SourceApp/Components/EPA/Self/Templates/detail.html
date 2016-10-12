@@ -43,7 +43,9 @@
 
             <div>&ensp;</div>
 
-            <div ng-include src="'/SourceApp/Components/EPA/MyEPA/Templates/listKPI.html'"></div>
+            <div ng-include src="'/SourceApp/Components/EPA/Self/Templates/listKPI.html'"></div>
+
+            <div>&ensp;</div>
 
             <div class="panel panel-default">
                 <div class="panel-heading" data-toggle="collapse" data-target=".summary">
@@ -57,7 +59,7 @@
                                       ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
                                       ng-model="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.Comment"></textarea>
                         </div>
-                        <div ng-include src="'/SourceApp/Components/EPA/MyEPA/Templates/summary.html'"></div>
+                        <div ng-include src="'/SourceApp/Components/EPA/Self/Templates/summary.html'"></div>
                         <div ng-include src="'/SourceApp/Components/EPA/Templates/performanceGradingScale.html'"></div>
                         <label class="error-message">{{"Note" | translate }}: (*) {{"RequiredField" | translate}}!</label>
                     </div>

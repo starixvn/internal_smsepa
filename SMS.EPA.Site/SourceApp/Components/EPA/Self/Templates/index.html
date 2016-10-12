@@ -16,19 +16,19 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="myEPA in empEPACtrl.myEPAs">
+                <tr ng-repeat="epaInfo in empEPACtrl.epaInfos">
                     <td class="text-center" ng-bind="$index + 1"></td>
-                    <td ng-bind="myEPA.Period.Name"></td>
-                    <td class="text-center">{{ myEPA.Process.CurrentProcess.StartDate | customDate }}</td>
-                    <td class="text-center">{{ myEPA.Process.CurrentProcess.EndDate | customDate }}</td>
-                    <td class="text-center col-action" ng-switch="myEPA.IsAllowedToEdit">
-                        <a ng-switch-when="true" class="glyphicon glyphicon-edit icon-edit" href="" ng-click="empEPACtrl.viewEPADetail(myEPA)"
+                    <td ng-bind="epaInfo.Period.Name"></td>
+                    <td class="text-center">{{ epaInfo.Process.CurrentProcess.StartDate | customDate }}</td>
+                    <td class="text-center">{{ epaInfo.Process.CurrentProcess.EndDate | customDate }}</td>
+                    <td class="text-center col-action" ng-switch="epaInfo.IsAllowedToEdit">
+                        <a ng-switch-when="true" class="glyphicon glyphicon-edit icon-edit" href="" ng-click="empEPACtrl.viewEPADetail(epaInfo)"
                            ng-href="{{empEPACtrl.viewEPADetailUrl}}" ng-attr-title='{{"EvaluateNow" | translate}}'></a>
-                        <a ng-switch-default class="glyphicon icon-view" href="" ng-click="empEPACtrl.viewEPAResult(myEPA)"
+                        <a ng-switch-default class="glyphicon icon-view" href="" ng-click="empEPACtrl.viewEPAResult(epaInfo)"
                            ng-href="{{empEPACtrl.viewEPAResultUrl}}" ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
                     </td>
                 </tr>
-                <tr ng-show="empEPACtrl.myEPAs.length == 0">
+                <tr ng-show="empEPACtrl.epaInfos.length == 0">
                     <td class="empty-result" colspan="5" data-translate="EmptyResult"></td>
                 </tr>
             </tbody>

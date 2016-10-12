@@ -32,53 +32,6 @@
             this.employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
         }
 
-        #region Self
-
-        public IEnumerable<EPAModel> GetEPAByEmployee(GetEPAByEmployeeCriteria criteria)
-        {
-            IEnumerable<EPAModel> epas = new List<EPAModel>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                epas = employeeEPARepository.GetEPA(criteria);
-
-                foreach (EPAModel epa in epas)
-                {
-                    epa.Process.CurrentProcess = CopyEPAProcess(epa.Process.Self);
-                }
-            }
-
-            return epas;
-        }
-
-        public EPAModel GetEPAInfoByEmployee(GetEPAInfoByEmployeeCriteria criteria)
-        {
-            EPAModel epaInfo = new EPAModel();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                epaInfo = employeeEPARepository.GetEPAInfo(criteria);
-                epaInfo.Process.CurrentProcess = CopyEPAProcess(epaInfo.Process.Self);
-                SetMaxPerformanceScore(epaInfo);
-                SpreadKPIScore(epaInfo.KPIGroups);
-
-                foreach (EPAKPIModel kpi in epaInfo.KPIGroups.SelectMany(x => x.KPIs))
-                {
-                    kpi.CurrentEvaluation = kpi.EvaluationBySelf;
-                }
-
-                if (epaInfo.IsSemiHasMonthly)
-                {
-                    epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId.ToString());
-                    ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
-                }
-            }
-
-            return epaInfo;
-        }
-
-        #endregion Self
-
         #region Evaluator
 
         public IEnumerable<EPAModel> GetEPAByEvaluator(GetEPAByEvaluatorCriteria criteria)
@@ -99,7 +52,7 @@
 
                 foreach (EPAModel memberEPA in memberEPAs)
                 {
-                    memberEPA.Process.CurrentProcess = CopyEPAProcess(memberEPA.Process.Evaluators.FirstOrDefault(x => x.EvaluatorInfo.EmployeeId == criteria.EvaluatorId));
+                    memberEPA.Process.CurrentProcess = CloneEPAProcess(memberEPA.Process.Evaluators.FirstOrDefault(x => x.EvaluatorInfo.EmployeeId == criteria.EvaluatorId));
                     SetMaxPerformanceScore(memberEPA);
                     GroupMonthlyEPABySemi(memberEPA, monthlyEPAs);
                     ConvertAverageMonthlyScore(memberEPA.MonthlyEPA, memberEPA.ScoreRatingType);
@@ -116,7 +69,7 @@
             if (criteria != null && criteria.IsValid())
             {
                 epaInfo = employeeEPARepository.GetEPAInfo(criteria);
-                epaInfo.Process.CurrentProcess = CopyEPAProcess(epaInfo.Process.Evaluators.FirstOrDefault(x => x.EvaluatorInfo.EmployeeId == criteria.EvaluatorId));
+                epaInfo.Process.CurrentProcess = CloneEPAProcess(epaInfo.Process.Evaluators.FirstOrDefault(x => x.EvaluatorInfo.EmployeeId == criteria.EvaluatorId));
                 SetMaxPerformanceScore(epaInfo);
                 SpreadKPIScore(epaInfo.KPIGroups);
 
@@ -157,7 +110,7 @@
 
                 foreach (EPAModel memberEPA in memberEPAs)
                 {
-                    memberEPA.Process.CurrentProcess = CopyEPAProcess(memberEPA.Process.Reviewers.FirstOrDefault(x => x.EvaluatorInfo.EmployeeId == criteria.ReviewerId));
+                    memberEPA.Process.CurrentProcess = CloneEPAProcess(memberEPA.Process.Reviewers.FirstOrDefault(x => x.EvaluatorInfo.EmployeeId == criteria.ReviewerId));
                     SetMaxPerformanceScore(memberEPA);
                     GroupMonthlyEPABySemi(memberEPA, monthlyEPAs);
                     ConvertAverageMonthlyScore(memberEPA.MonthlyEPA, memberEPA.ScoreRatingType);
@@ -175,7 +128,7 @@
             if (criteria != null && criteria.IsValid())
             {
                 epaInfo = employeeEPARepository.GetEPAInfo(criteria);
-                epaInfo.Process.CurrentProcess = CopyEPAProcess(epaInfo.Process.Reviewers.FirstOrDefault(x => x.EvaluatorInfo.EmployeeId == criteria.ReviewerId));
+                epaInfo.Process.CurrentProcess = CloneEPAProcess(epaInfo.Process.Reviewers.FirstOrDefault(x => x.EvaluatorInfo.EmployeeId == criteria.ReviewerId));
                 SetMaxPerformanceScore(epaInfo);
                 SpreadKPIScore(epaInfo.KPIGroups);
 
@@ -218,7 +171,7 @@
 
                 foreach (EPAModel memberEPA in memberEPAs)
                 {
-                    memberEPA.Process.CurrentProcess = CopyEPAProcess(memberEPA.Process.Managements.FirstOrDefault(x => x.EvaluatorInfo.EmployeeId == criteria.ManagementId));
+                    memberEPA.Process.CurrentProcess = CloneEPAProcess(memberEPA.Process.Managements.FirstOrDefault(x => x.EvaluatorInfo.EmployeeId == criteria.ManagementId));
                     SetMaxPerformanceScore(memberEPA);
                     GroupMonthlyEPABySemi(memberEPA, monthlyEPAs);
                     ConvertAverageMonthlyScore(memberEPA.MonthlyEPA, memberEPA.ScoreRatingType);
@@ -236,7 +189,7 @@
             if (criteria != null && criteria.IsValid())
             {
                 epaInfo = employeeEPARepository.GetEPAInfo(criteria);
-                epaInfo.Process.CurrentProcess = CopyEPAProcess(epaInfo.Process.Managements.FirstOrDefault(x => x.EvaluatorInfo.EmployeeId == criteria.ManagementId));
+                epaInfo.Process.CurrentProcess = CloneEPAProcess(epaInfo.Process.Managements.FirstOrDefault(x => x.EvaluatorInfo.EmployeeId == criteria.ManagementId));
                 SetMaxPerformanceScore(epaInfo);
                 SpreadKPIScore(epaInfo.KPIGroups);
 
@@ -693,25 +646,7 @@
             }
         }
 
-        private void SpreadKPIScore(IList<EPAKPIGroupModel> kpiGroups)
-        {
-            IUtilityService utilityService = new UtilityService();
-            foreach (EPAKPIGroupModel kpiGroup in kpiGroups)
-            {
-                if (!kpiGroup.HasKPIOptional && kpiGroup.IsSpreadKPI && kpiGroup.Weight != null)
-                {
-                    double averageWeight = kpiGroup.Weight.Value / kpiGroup.KPIs.Count;
-                    averageWeight = utilityService.SplitNumber(averageWeight, Constants.NumberOfDecimals);
-
-                    foreach (EPAKPIModel kpi in kpiGroup.KPIs)
-                    {
-                        kpi.Weight = averageWeight;
-                    }
-                }
-            }
-        }
-
-        private void SetMaxPerformanceScore(EPAModel epaInfo)
+        public void SetMaxPerformanceScore(EPAModel epaInfo)
         {
             switch (epaInfo.Process.CurrentProcess.ProcessId)
             {
@@ -738,6 +673,36 @@
             {
                 epaInfo.Process.Self.MaxPerformanceScore += epaInfo.MaxDisciplineScore;
                 epaInfo.Process.CurrentProcess.MaxPerformanceScore += epaInfo.MaxDisciplineScore;
+            }
+        }
+
+        public EPAProcessModel CloneEPAProcess(EPAProcessModel process)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                var formatter = new BinaryFormatter();
+                formatter.Serialize(ms, process);
+                ms.Position = 0;
+
+                return (EPAProcessModel)formatter.Deserialize(ms);
+            }
+        }
+
+        public void SpreadKPIScore(IList<EPAKPIGroupModel> kpiGroups)
+        {
+            IUtilityService utilityService = new UtilityService();
+            foreach (EPAKPIGroupModel kpiGroup in kpiGroups)
+            {
+                if (!kpiGroup.HasKPIOptional && kpiGroup.IsSpreadKPI && kpiGroup.Weight != null)
+                {
+                    double averageWeight = kpiGroup.Weight.Value / kpiGroup.KPIs.Count;
+                    averageWeight = utilityService.SplitNumber(averageWeight, Constants.NumberOfDecimals);
+
+                    foreach (EPAKPIModel kpi in kpiGroup.KPIs)
+                    {
+                        kpi.Weight = averageWeight;
+                    }
+                }
             }
         }
 
@@ -784,18 +749,6 @@
 
                     epaInfo.Process.CurrentProcess.MaxAdditionScore = (float)Math.Round(maxAdditionScore, Constants.NumberOfDecimalDefault);
                     break;
-            }
-        }
-
-        private EPAProcessModel CopyEPAProcess(EPAProcessModel process)
-        {
-            using (MemoryStream ms = new MemoryStream())
-            {
-                var formatter = new BinaryFormatter();
-                formatter.Serialize(ms, process);
-                ms.Position = 0;
-
-                return (EPAProcessModel)formatter.Deserialize(ms);
             }
         }
 

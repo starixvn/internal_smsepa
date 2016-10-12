@@ -70,9 +70,9 @@ var epaModule = angular.module('epaModule', ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
     var baseUrl = $('base').first().attr('href');
     $routeProvider.when('/SelfEvaluation/Index',
-    { templateUrl: baseUrl + 'SourceApp/Components/EPA/MyEPA/Templates/index.html', caseInsensitiveMatch: true });
+    { templateUrl: baseUrl + 'SourceApp/Components/EPA/Self/Templates/index.html', caseInsensitiveMatch: true });
     $routeProvider.when('/SelfEvaluation/Detail/:id',
-    { templateUrl: baseUrl + 'SourceApp/Components/EPA/MyEPA/Templates/detail.html', caseInsensitiveMatch: true });
+    { templateUrl: baseUrl + 'SourceApp/Components/EPA/Self/Templates/detail.html', caseInsensitiveMatch: true });
     $routeProvider.when('/Evaluator/Index',
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/Evaluator/Templates/index.html', caseInsensitiveMatch: true });
     $routeProvider.when('/Evaluator/Detail/:id',

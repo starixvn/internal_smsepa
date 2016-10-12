@@ -90,6 +90,7 @@
     <Compile Include="Implement\DisciplineSummaryService.cs" />
     <Compile Include="Implement\CommonService.cs" />
     <Compile Include="Implement\DepartmentService.cs" />
+    <Compile Include="Implement\SelfEvaluationService.cs" />
     <Compile Include="Implement\EmployeeService.cs" />
     <Compile Include="Implement\EPAHistoryService.cs" />
     <Compile Include="Implement\DepartmentFlowService.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="Interfaces\IDisciplineSummaryService.cs" />
     <Compile Include="Interfaces\ICommonService.cs" />
     <Compile Include="Interfaces\IDepartmentService.cs" />
+    <Compile Include="Interfaces\ISelfEvaluationService.cs" />
     <Compile Include="Interfaces\IEmployeeService.cs" />
     <Compile Include="Interfaces\ExportFile\IMonthlyEPADetailReportService.cs" />
     <Compile Include="Interfaces\ExportFile\IEPADetailReportService.cs" />
