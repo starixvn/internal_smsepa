@@ -13,7 +13,6 @@
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria;
     using SMS.EPA.Model;
-    using SMS.EPA.Model.Enitites;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
 
@@ -32,94 +31,6 @@
             this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
             this.cryptographyService = cryptographyService ?? new CryptographyService();
         }
-
-        #region Management
-
-        [HttpGet]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.Management, Policy = Policy.Read)]
-        public IEnumerable<Group> GetGroupByManagement()
-        {
-            return GetGroupByEvaluatorOrReviewerOrManagement((int)ProcessType.Management);
-        }
-
-        [HttpGet]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.Management, Policy = Policy.Read)]
-        public IEnumerable<Employee> GetMemberByManagement(
-            int? groupId = null,
-            bool? isLocal = null)
-        {
-            return GetMemberByEvaluatorOrReviewerOrManagement((int)ProcessType.Management, groupId, isLocal, false);
-        }
-
-        [HttpGet]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.Management, Policy = Policy.Read)]
-        public IEnumerable<EPAModel> GetEPAByManagement(
-            int? groupId = null,
-            bool? isLocal = null,
-            string employeeIds = null,
-            bool? statusProcess = null)
-        {
-            var criteria = new GetEPAByManagementCriteria()
-            {
-                ManagementId = this.SessionService.EmployeeId,
-                GroupId = groupId,
-                IsLocal = isLocal,
-                EmployeeIds = employeeIds,
-                StatusProcess = statusProcess
-            };
-
-            return employeeEPAService.GetEPAByManagement(criteria);
-        }
-
-        [HttpGet]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.Management, Policy = Policy.Read)]
-        public HttpResponseMessage GetEPAInfoByManagement(int epaId)
-        {
-            EPAModel epaInfo = new EPAModel();
-            int permission = CheckEmployeePermission(epaId, this.SessionService.EmployeeId, (int)ProcessType.Management);
-
-            switch (permission)
-            {
-                case (int)Policy.None:
-                    return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
-
-                default:
-                    var criteria = new GetEPAInfoByManagementCriteria()
-                    {
-                        EPAId = epaId,
-                        ManagementId = this.SessionService.EmployeeId
-                    };
-
-                    epaInfo = employeeEPAService.GetEPAInfoByManagement(criteria);
-
-                    return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
-            }
-        }
-
-        [HttpPut]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.Management, Policy = Policy.Host)]
-        public CommandResult AdjustScoreByManagement(AdjustScoreByReviewerOrManagementCriteria criteria)
-        {
-            var commandResult = new CommandResult();
-
-            if (criteria != null)
-            {
-                criteria.ProcessId = (int)ProcessType.Management;
-                criteria.ModifiedBy = this.SessionService.EmployeeId;
-
-                commandResult = employeeEPAService.AdjustScoreByReviewerOrManagement(criteria);
-            }
-
-            return commandResult;
-        }
-
-        public int GetUserPermissionOnManagement()
-        {
-            int permission = this.SessionService.GetPermission(EPAFunctionKey.Management);
-            return permission;
-        }
-
-        #endregion Management
 
         [HttpGet]
         public HttpResponseMessage GetEPAInfoById(int epaId)
@@ -169,8 +80,7 @@
                 };
 
                 CommandResult commandResult;
-                if (epaInfo.HasMonthlyEPA
-                    && epaInfo.Period.TargetTypeId == (int)TargetTypes.SemiAnnual)
+                if (epaInfo.IsSemiHasMonthly)
                 {
                     if (epaInfo.Process.Reviewers.Any()
                         && epaInfo.Process.Reviewers.First().StartDate.Date <= DateTime.Now.Date)
@@ -276,35 +186,6 @@
         }
 
         #endregion Update Final Score
-
-        private IEnumerable<Employee> GetMemberByEvaluatorOrReviewerOrManagement(
-            int processId,
-            int? groupId = null,
-            bool? isLocal = null,
-            bool? isMonthly = null)
-        {
-            var criteria = new GetMemberByEvaluatorOrReviewerOrManagementCriteria()
-            {
-                ActorUserId = this.SessionService.EmployeeId,
-                ProcessId = processId,
-                GroupId = groupId,
-                IsLocal = isLocal,
-                IsMonthly = isMonthly
-            };
-
-            return employeeEPAService.GetMemberByEvaluatorOrReviewerOrManagement(criteria);
-        }
-
-        private IEnumerable<Group> GetGroupByEvaluatorOrReviewerOrManagement(int processId)
-        {
-            var criteria = new GetGroupByEvaluatorOrReviewerOrManagementCriteria()
-            {
-                ActorUserId = this.SessionService.EmployeeId,
-                ProcessId = processId
-            };
-
-            return employeeEPAService.GetGroupByEvaluatorOrReviewerOrManagement(criteria);
-        }
 
         private int CheckEmployeePermission(
             int epaId,

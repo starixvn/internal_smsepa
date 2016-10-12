@@ -60,7 +60,7 @@
             }
 
             if (epaInfo.EPAId > 0 && epaInfo.Process.Self.StatusEndProcess !== utilitiesFactory.processStatusType.Open) {
-                if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId === utilitiesFactory.targetType.SemiAnnual) {
+                if (epaInfo.IsSemiHasMonthly) {
                     result.SelfScore = epaInfo.MonthlyEPA.AverageSelfScoreConverted;
                 } else {
                     result.SelfScore = utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore);
@@ -68,7 +68,7 @@
             }
 
             if (epaInfo.EPAId > 0 && epaInfo.Process.Evaluators[0].StatusEndProcess !== utilitiesFactory.processStatusType.Open) {
-                if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId === utilitiesFactory.targetType.SemiAnnual) {
+                if (epaInfo.IsSemiHasMonthly) {
                     result.EvaluatorScore = epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted;
                 } else {
                     result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators;

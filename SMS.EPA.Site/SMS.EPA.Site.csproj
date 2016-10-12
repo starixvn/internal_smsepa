@@ -204,6 +204,7 @@
     <Compile Include="Controllers\API\CommonController.cs" />
     <Compile Include="Controllers\API\DashboardController.cs" />
     <Compile Include="Controllers\API\DepartmentController.cs" />
+    <Compile Include="Controllers\API\ManagementEPAController.cs" />
     <Compile Include="Controllers\API\ReviewerEPAController.cs" />
     <Compile Include="Controllers\API\EvaluatorByKPIController.cs" />
     <Compile Include="Controllers\API\EvaluatorEPAController.cs" />
@@ -445,6 +446,8 @@
     <Content Include="SourceApp\Components\EPA\Evaluator\evaluator-epa-factory.js" />
     <Content Include="SourceApp\Components\EPA\Evaluator\evaluator-epa-model.js" />
     <Content Include="SourceApp\Components\EPA\Management\management-access-controller.js" />
+    <Content Include="SourceApp\Components\EPA\Management\management-epa-factory.js" />
+    <Content Include="SourceApp\Components\EPA\Management\management-epa-model.js" />
     <Content Include="SourceApp\Components\EPA\Reviewer\reviewer-epa-model.js" />
     <Content Include="SourceApp\Components\EPA\Reviewer\reviewer-epa-factory.js" />
     <Content Include="SourceApp\Components\EPA\Reviewer\reviewer-access-controller.js" />
@@ -525,7 +528,7 @@
     <Content Include="SourceApp\Components\EPA\RatingByKPI\Templates\modalConfirmSaveChanges.html" />
     <Content Include="SourceApp\Components\EPA\RatingByKPI\Templates\index.html" />
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\summary.html" />
-    <Content Include="SourceApp\Components\EPA\Management\management-update-epa-controller.js" />
+    <Content Include="SourceApp\Components\EPA\Management\management-detail-controller.js" />
     <Content Include="SourceApp\Components\EPA\Management\Templates\detail.html" />
     <Content Include="SourceApp\Components\EPA\Management\Templates\index.html" />
     <Content Include="SourceApp\Components\EPA\Management\Templates\performanceResult.html" />

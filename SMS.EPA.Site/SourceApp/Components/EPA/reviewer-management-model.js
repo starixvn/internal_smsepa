@@ -6,13 +6,6 @@ epaModule.factory('ReviewerManagementModel',
 function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notificationFactory, errorFactory) {
     var reviewerMngModel = this;
 
-    reviewerMngModel.epaInfo = {};
-    reviewerMngModel.groups = [];
-    reviewerMngModel.members = [];
-    reviewerMngModel.epaInfos = [];
-    reviewerMngModel.permission = 0;
-
-    // common
     reviewerMngModel.getEPASelected = function (epaInfos) {
         var result = [];
 
@@ -209,78 +202,6 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
                     epaInfo.Process.CurrentProcess.Comment = adjust.Comment;
                 }
             }
-        });
-    };
-
-    // management
-    reviewerMngModel.getUserPermissionOnManagement = function () {
-        return employeeEPAFactory.getUserPermissionOnManagement().success(function (permission) {
-            reviewerMngModel.permission = parseInt(permission);
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
-
-    reviewerMngModel.getGroupByManagement = function () {
-        return employeeEPAFactory.getGroupByManagement().success(function (groups) {
-            reviewerMngModel.groups = groups;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
-
-    reviewerMngModel.getMemberByManagement = function (groupId, isLocal) {
-        return employeeEPAFactory.getMemberByManagement(groupId, isLocal).success(function (members) {
-            reviewerMngModel.members = members;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
-
-    reviewerMngModel.getEPAByManagement = function (groupId, isLocal, employeeIds, statusProcess) {
-        return employeeEPAFactory.getEPAByManagement(groupId, isLocal, employeeIds, statusProcess).success(function (epaInfos) {
-            reviewerMngModel.epaInfos = epaInfos;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
-
-    reviewerMngModel.getEPAInfoByManagement = function (epaId) {
-        return employeeEPAFactory.getEPAInfoByManagement(epaId).success(function (epaInfo) {
-            reviewerMngModel.epaInfo = epaInfo;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
-
-    reviewerMngModel.adjustScoreByManagement = function (vm, epaInfos) {
-        var criteria = {
-            EpaInfos: []
-        };
-
-        angular.forEach(epaInfos, function (epaInfo) {
-            var model = {
-                EPAId: epaInfo.EPAId,
-                EmployeeId: epaInfo.Employee.EmployeeId,
-                ProcessId: epaInfo.Process.CurrentProcess.ProcessId,
-                EvaluatorId: epaInfo.Process.CurrentProcess.EvaluatorInfo.EmployeeId,
-                AdjustScore: epaInfo.Process.CurrentProcess.AdjustScore,
-                TotalScore: epaInfo.Process.CurrentProcess.TotalScore,
-                Comment: epaInfo.Process.CurrentProcess.Comment
-            };
-
-            criteria.EpaInfos.push(model);
-        });
-
-        return employeeEPAFactory.adjustScoreByManagement(criteria).success(function (response) {
-            if (response.IsSuccessful) {
-                vm.dataSaved = true;
-                notificationFactory.success("UpdatedSuccessfully");
-            } else {
-                notificationFactory.error('', response.Message);
-            }
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
         });
     };
 

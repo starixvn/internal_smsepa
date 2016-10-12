@@ -37,7 +37,7 @@
                 epaInfos = evaluationRepository.GetEPA(criteria);
 
                 IList<EPAModel> monthlyEPAs = new List<EPAModel>();
-                string epaIds = string.Join(",", epaInfos.Where(x => x.HasMonthlyEPA && x.Period.TargetTypeId == (int)TargetTypes.SemiAnnual).Select(x => x.EPAId));
+                string epaIds = string.Join(",", epaInfos.Where(x => x.IsSemiHasMonthly).Select(x => x.EPAId));
 
                 if (!string.IsNullOrEmpty(epaIds))
                 {
@@ -76,9 +76,7 @@
                     evaluationService.ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
                 }
 
-                if (epaInfo.Period.TargetTypeId == (int)TargetTypes.Probation
-                    || epaInfo.Period.TargetTypeId == (int)TargetTypes.Promotion
-                    || epaInfo.Period.TargetTypeId == (int)TargetTypes.SemiAnnual)
+                if (epaInfo.IsProbation || epaInfo.IsPromotion || epaInfo.IsSemiAnnual)
                 {
                     epaInfo.Recommendation = evaluationService.GetRecommendationByEPAId(epaInfo.EPAId);
                 }

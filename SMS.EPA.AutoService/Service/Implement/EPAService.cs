@@ -182,13 +182,11 @@
 
                     if (epaInfo.Period != null)
                     {
-                        if (epaInfo.Period.TargetTypeId == (int)TargetTypes.Probation
-                            || epaInfo.Period.TargetTypeId == (int)TargetTypes.Promotion)
+                        if (epaInfo.IsProbation || epaInfo.IsPromotion)
                         {
                             autoMailService.SendEndEvaluationMailToHumanResourceByEmployee(epaInfo);
                         }
-                        else if ((epaInfo.Period.TargetTypeId == (int)TargetTypes.SemiAnnual || epaInfo.Period.TargetTypeId == (int)TargetTypes.Monthly)
-                            && !periods.Contains(epaInfo.Period.PeriodId))
+                        else if ((epaInfo.IsSemiAnnual || epaInfo.IsMonthly) && !periods.Contains(epaInfo.Period.PeriodId))
                         {
                             periods.Add(epaInfo.Period.PeriodId);
                         }

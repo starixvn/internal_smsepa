@@ -2,8 +2,10 @@
 /*global epaModule*/
 
 epaModule.controller('MemberEPAInfoOfManagentController',
-['$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'baseUrl',
-function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManagementModel, CommonModel, utilitiesFactory, historyFactory, baseUrl) {
+['$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'ManagementEPAModel', 'ReviewerManagementModel', 'CommonModel',
+    'utilitiesFactory', 'historyFactory', 'baseUrl',
+function ($timeout, $translate, $routeParams, EmployeeEPAModel, ManagementEPAModel, ReviewerManagementModel, CommonModel,
+    utilitiesFactory, historyFactory, baseUrl) {
     var vm = this;
 
     vm.permission = 0;
@@ -67,7 +69,7 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
         if (ReviewerManagementModel.validateEvaluation(totalcore)) {
             var model = new Array(epaInfo);
 
-            ReviewerManagementModel.adjustScoreByManagement(vm, model);
+            ManagementEPAModel.adjustScoreByManagement(vm, model);
         }
     };
 
@@ -76,8 +78,8 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
     };
 
     function getEPAInfoByManagement() {
-        ReviewerManagementModel.getEPAInfoByManagement(vm.epaId).then(function () {
-            vm.epaInfo = ReviewerManagementModel.epaInfo;
+        ManagementEPAModel.getEPAInfoByManagement(vm.epaId).then(function () {
+            vm.epaInfo = ManagementEPAModel.epaInfo;
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
 
             if (vm.epaInfo.RatingType.RatingTypeId === vm.ratingTypeEnum.Star
@@ -118,8 +120,8 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
             vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
             vm.evaluatedDate = vm.epaInfo.Process.CurrentProcess.EvaluateDate ? vm.epaInfo.Process.CurrentProcess.EvaluateDate : null;
 
-            ReviewerManagementModel.getUserPermissionOnManagement().then(function () {
-                vm.permission = ReviewerManagementModel.permission;
+            ManagementEPAModel.getUserPermissionOnManagement().then(function () {
+                vm.permission = ManagementEPAModel.permission;
 
                 if (vm.permission !== vm.policyEnum.Host) {
                     vm.epaInfo.IsAllowedToEdit = false;

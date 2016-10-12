@@ -26,8 +26,7 @@
                 ICryptographyService cryptographyService = new CryptographyService();
                 var epaXml = new StringBuilder(Constants.BeginRootTag);
 
-                if (EPAInfo.HasMonthlyEPA
-                    && EPAInfo.Period.TargetTypeId == (int)TargetTypes.SemiAnnual)
+                if (EPAInfo.IsSemiHasMonthly)
                 {
                     epaXml.AppendFormat(
                         EPAXmlTemplate,

@@ -31,67 +31,6 @@
             this.employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
         }
 
-        #region Management
-
-        public IEnumerable<EPAModel> GetEPAByManagement(GetEPAByManagementCriteria criteria)
-        {
-            IEnumerable<EPAModel> memberEPAs = new List<EPAModel>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                memberEPAs = employeeEPARepository.GetEPA(criteria);
-
-                IList<EPAModel> monthlyEPAs = new List<EPAModel>();
-                string epaIds = string.Join(",", memberEPAs.Where(x => x.HasMonthlyEPA && x.Period.TargetTypeId == (int)TargetTypes.SemiAnnual).Select(x => x.EPAId));
-
-                if (!string.IsNullOrEmpty(epaIds))
-                {
-                    monthlyEPAs = GetMonthlyEPAOfSemi(epaIds);
-                }
-
-                foreach (EPAModel memberEPA in memberEPAs)
-                {
-                    memberEPA.Process.CurrentProcess = CloneEPAProcess(memberEPA.Process.Managements.FirstOrDefault(x => x.EvaluatorInfo.EmployeeId == criteria.ManagementId));
-                    SetMaxPerformanceScore(memberEPA);
-                    GroupMonthlyEPABySemi(memberEPA, monthlyEPAs);
-                    ConvertAverageMonthlyScore(memberEPA.MonthlyEPA, memberEPA.ScoreRatingType);
-                    SetMaxSubtractAndMaxAdditionScore(memberEPA);
-                }
-            }
-
-            return memberEPAs;
-        }
-
-        public EPAModel GetEPAInfoByManagement(GetEPAInfoByManagementCriteria criteria)
-        {
-            EPAModel epaInfo = new EPAModel();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                epaInfo = employeeEPARepository.GetEPAInfo(criteria);
-                epaInfo.Process.CurrentProcess = CloneEPAProcess(epaInfo.Process.Managements.FirstOrDefault(x => x.EvaluatorInfo.EmployeeId == criteria.ManagementId));
-                SetMaxPerformanceScore(epaInfo);
-                SpreadKPIScore(epaInfo.KPIGroups);
-
-                if (epaInfo.IsSemiHasMonthly)
-                {
-                    epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId.ToString());
-                    ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
-                }
-
-                if (epaInfo.Period.TargetTypeId == (int)TargetTypes.Probation
-                    || epaInfo.Period.TargetTypeId == (int)TargetTypes.Promotion
-                    || epaInfo.Period.TargetTypeId == (int)TargetTypes.SemiAnnual)
-                {
-                    epaInfo.Recommendation = GetRecommendationByEPAId(epaInfo.EPAId);
-                }
-            }
-
-            return epaInfo;
-        }
-
-        #endregion Management
-
         public EPAModel GetEPAInfoById(int epaId)
         {
             var criteria = new GetEPAInfoByIdCriteria
@@ -111,9 +50,7 @@
                     ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
                 }
 
-                if (epaInfo.Period.TargetTypeId == (int)TargetTypes.Probation
-                    || epaInfo.Period.TargetTypeId == (int)TargetTypes.Promotion
-                    || epaInfo.Period.TargetTypeId == (int)TargetTypes.SemiAnnual)
+                if (epaInfo.IsProbation || epaInfo.IsPromotion || epaInfo.IsSemiAnnual)
                 {
                     epaInfo.Recommendation = GetRecommendationByEPAId(epaInfo.EPAId);
                 }
@@ -152,18 +89,6 @@
             }
 
             return recommendation;
-        }
-
-        public CommandResult AdjustScoreByReviewerOrManagement(AdjustScoreByReviewerOrManagementCriteria criteria)
-        {
-            CommandResult commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.Update(criteria);
-            }
-
-            return commandResult;
         }
 
         public IEnumerable<Employee> GetMemberByEvaluatorOrReviewerOrManagement(GetMemberByEvaluatorOrReviewerOrManagementCriteria criteria)

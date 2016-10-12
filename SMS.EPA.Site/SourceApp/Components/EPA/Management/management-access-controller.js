@@ -2,9 +2,9 @@
 /*global epaModule*/
 
 epaModule.controller('ManagementController',
-['$translate', '$location', '$routeParams', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel',
+['$translate', '$location', '$routeParams', 'EmployeeEPAModel', 'ManagementEPAModel', 'ReviewerManagementModel', 'CommonModel',
     'utilitiesFactory', 'notificationFactory', 'historyFactory', 'lockScreenService', 'baseUrl',
-function ($translate, $location, $routeParams, EmployeeEPAModel, ReviewerManagementModel, CommonModel,
+function ($translate, $location, $routeParams, EmployeeEPAModel, ManagementEPAModel, ReviewerManagementModel, CommonModel,
     utilitiesFactory, notificationFactory, historyFactory, lockScreenService, baseUrl) {
     var vm = this;
 
@@ -212,8 +212,8 @@ function ($translate, $location, $routeParams, EmployeeEPAModel, ReviewerManagem
     };
 
     vm.getMember = function (groupId, isLocal) {
-        ReviewerManagementModel.getMemberByManagement(groupId, isLocal).then(function () {
-            vm.members = ReviewerManagementModel.members;
+        ManagementEPAModel.getMemberByManagement(groupId, isLocal).then(function () {
+            vm.members = ManagementEPAModel.members;
             utilitiesFactory.setSelectedItem(vm.members, "EmployeeId", vm.filter.employeeIds);
         });
     };
@@ -292,7 +292,7 @@ function ($translate, $location, $routeParams, EmployeeEPAModel, ReviewerManagem
             notificationFactory.error("SelectEmployeeBeforeAdjustScoreWarning");
         } else {
             ReviewerManagementModel.calculateAdjustScore(epaInfos, false);
-            ReviewerManagementModel.adjustScoreByManagement(vm, epaInfos)['finally'](function () {
+            ManagementEPAModel.adjustScoreByManagement(vm, epaInfos)['finally'](function () {
                 getEPAByManagement(vm.filter.groupId, vm.filter.isLocal, vm.filter.employeeIds, epaInfos, vm.filter.statusProcess);
             });
         }
@@ -321,8 +321,8 @@ function ($translate, $location, $routeParams, EmployeeEPAModel, ReviewerManagem
         vm.isEndProcessAll = false;
         resetSorting();
 
-        ReviewerManagementModel.getEPAByManagement(groupId, isLocal, employeeIds, statusProcess).then(function () {
-            vm.epaInfos = ReviewerManagementModel.epaInfos;
+        ManagementEPAModel.getEPAByManagement(groupId, isLocal, employeeIds, statusProcess).then(function () {
+            vm.epaInfos = ManagementEPAModel.epaInfos;
 
             var averageScore = 0, countEndProcess = 0;
             angular.forEach(vm.epaInfos, function (epaInfo) {
@@ -381,12 +381,12 @@ function ($translate, $location, $routeParams, EmployeeEPAModel, ReviewerManagem
             vm.adjustScoreInvalidMessage = message;
         });
 
-        ReviewerManagementModel.getUserPermissionOnManagement().then(function () {
-            vm.permission = ReviewerManagementModel.permission;
+        ManagementEPAModel.getUserPermissionOnManagement().then(function () {
+            vm.permission = ManagementEPAModel.permission;
         });
 
-        ReviewerManagementModel.getGroupByManagement().then(function () {
-            vm.groupOptions = ReviewerManagementModel.groups;
+        ManagementEPAModel.getGroupByManagement().then(function () {
+            vm.groupOptions = ManagementEPAModel.groups;
         });
 
         vm.getMember(vm.filter.groupId, vm.filter.isLocal);

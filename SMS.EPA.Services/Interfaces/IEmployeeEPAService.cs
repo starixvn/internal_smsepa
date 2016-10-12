@@ -9,21 +9,11 @@
 
     public interface IEmployeeEPAService
     {
-        #region Management
-
-        IEnumerable<EPAModel> GetEPAByManagement(GetEPAByManagementCriteria criteria);
-
-        EPAModel GetEPAInfoByManagement(GetEPAInfoByManagementCriteria criteria);
-
-        #endregion Management
-
         IEnumerable<EPAModel> GetEPAEndEvaluationPeriod(GetEPAEndEvaluationPeriodCriteria criteria);
 
         EPAModel GetEPAInfoById(int epaId);
 
         EPARecommendationModel GetRecommendationByEPAId(int epaId);
-
-        CommandResult AdjustScoreByReviewerOrManagement(AdjustScoreByReviewerOrManagementCriteria criteria);
 
         IEnumerable<Employee> GetMemberByEvaluatorOrReviewerOrManagement(GetMemberByEvaluatorOrReviewerOrManagementCriteria criteria);
 

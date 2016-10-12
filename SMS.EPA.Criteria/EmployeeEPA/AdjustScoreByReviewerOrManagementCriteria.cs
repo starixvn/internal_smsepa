@@ -1,6 +1,7 @@
 ﻿namespace SMS.EPA.Criteria
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
     using System.Web;
     using Fanex.Data;
@@ -52,18 +53,22 @@
             {
                 var result = new StringBuilder(Constants.BeginRootTag);
 
-                foreach (EPARecommendationModel recommendation in Recommendations)
+                if (Recommendations != null && Recommendations.Any())
                 {
-                    int? jobGradeId = (recommendation.JobGrade == null || !recommendation.JobGradeIncreased) ? (int?)null : recommendation.JobGrade.JobGradeId;
+                    foreach (EPARecommendationModel recommendation in Recommendations)
+                    {
+                        int? jobGradeId =
+                            (recommendation.JobGrade == null || !recommendation.JobGradeIncreased) ? (int?)null : recommendation.JobGrade.JobGradeId;
 
-                    result.AppendFormat(
-                            RecommendationXmlTemplate,
-                            recommendation.EPAId,
-                            recommendation.ProbationStatus,
-                            recommendation.Promoted,
-                            recommendation.PayIncreased,
-                            recommendation.JobGradeIncreased,
-                            jobGradeId);
+                        result.AppendFormat(
+                                RecommendationXmlTemplate,
+                                recommendation.EPAId,
+                                recommendation.ProbationStatus,
+                                recommendation.Promoted,
+                                recommendation.PayIncreased,
+                                recommendation.JobGradeIncreased,
+                                jobGradeId);
+                    }
                 }
 
                 result.Append(Constants.EndRootTag);

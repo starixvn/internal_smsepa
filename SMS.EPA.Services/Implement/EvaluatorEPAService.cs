@@ -37,7 +37,7 @@
                 epaInfos = evaluationRepository.GetEPA(criteria);
 
                 IList<EPAModel> monthlyEPAs = new List<EPAModel>();
-                string epaIds = string.Join(",", epaInfos.Where(x => x.HasMonthlyEPA && x.Period.TargetTypeId == (int)TargetTypes.SemiAnnual).Select(x => x.EPAId));
+                string epaIds = string.Join(",", epaInfos.Where(x => x.IsSemiHasMonthly).Select(x => x.EPAId));
 
                 if (!string.IsNullOrEmpty(epaIds))
                 {
@@ -64,7 +64,7 @@
             if (criteria != null && criteria.IsValid())
             {
                 epaInfo = evaluationRepository.GetEPAInfo(criteria);
-                epaInfo.Process.CurrentProcess = 
+                epaInfo.Process.CurrentProcess =
                     evaluationService.CloneEPAProcess(epaInfo.Process.Evaluators.FirstOrDefault(x => x.EvaluatorInfo.EmployeeId == criteria.EvaluatorId));
                 evaluationService.SetMaxPerformanceScore(epaInfo);
                 evaluationService.SpreadKPIScore(epaInfo.KPIGroups);
