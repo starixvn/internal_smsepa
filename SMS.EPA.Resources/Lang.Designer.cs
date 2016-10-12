@@ -2527,6 +2527,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You must select 1 in 3 options.
+        /// </summary>
+        public static string ProbationRecommendationWarning {
+            get {
+                return ResourceManager.GetString("ProbationRecommendationWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Promotion.
         /// </summary>
         public static string Promotion {
@@ -3063,6 +3072,15 @@ namespace SMS.EPA.Resources {
         public static string SemiAverage {
             get {
                 return ResourceManager.GetString("SemiAverage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Job Grade is required.
+        /// </summary>
+        public static string SemiRecommendationWarning {
+            get {
+                return ResourceManager.GetString("SemiRecommendationWarning", resourceCulture);
             }
         }
         

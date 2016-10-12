@@ -4,9 +4,7 @@
     </div>
     <div class="panel-collapse collapse in recommendation">
         <div class="panel-body recommendation-section">
-            <div class="error-message" ng-show="memberEPAInfoCtrl.epaInfo.Recommendation.Invalid">
-                You must select 1 in 3 options
-            </div>
+            <div class="error-message" ng-show="memberEPAInfoCtrl.epaInfo.Recommendation.Invalid" data-translate="ProbationRecommendationWarning"></div>
             <div class="radio" ng-class="{'disabled': !memberEPAInfoCtrl.epaInfo.IsAllowedToEdit}">
                 <label>
                     <input type="radio" name="optionsRadios"

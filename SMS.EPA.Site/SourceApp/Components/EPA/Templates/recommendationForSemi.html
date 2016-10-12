@@ -27,7 +27,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>
+                        <td class="width-250">
                             <div class="checkbox disabled">
                                 <label>
                                     <input type="checkbox" ng-checked="memberEPAInfoCtrl.epaInfo.Recommendation.JobGradeIncreased" disabled>
@@ -35,10 +35,9 @@
                                 </label>
                             </div>
                         </td>
-                        <td>
-                            <select class="jobGrades"
-                                    ng-show="memberEPAInfoCtrl.epaInfo.Recommendation.JobGradeIncreased"
-                                    ng-model="memberEPAInfoCtrl.epaInfo.Recommendation.JobGradeId" disabled
+                        <td ng-show="memberEPAInfoCtrl.epaInfo.Recommendation.JobGradeIncreased">
+                            <select class="jobGrades" disabled
+                                    ng-model="memberEPAInfoCtrl.epaInfo.Recommendation.JobGrade.JobGradeId"
                                     ng-options="opt.JobGradeId as opt.Name for opt in memberEPAInfoCtrl.jobGrades">
                                 <option style="display: none" value="">-- Select a job grade --</option>
                             </select>

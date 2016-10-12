@@ -89,6 +89,14 @@ function ($timeout, $routeParams, EmployeeEPAModel, CommonModel, utilitiesFactor
             } else {
                 vm.epaInfo.FinalScore = null;
             }
+
+            if (vm.epaInfo.Recommendation && vm.epaInfo.Recommendation.JobGrade && vm.epaInfo.Recommendation.JobGrade.JobGradeId) {
+                var index = vm.jobGrades.map(function (e) { return e.JobGradeId; }).indexOf(vm.epaInfo.Recommendation.JobGrade.JobGradeId);
+
+                if (index === -1) {
+                    vm.jobGrades.push(vm.epaInfo.Recommendation.JobGrade);
+                }
+            }
         });
     }
 

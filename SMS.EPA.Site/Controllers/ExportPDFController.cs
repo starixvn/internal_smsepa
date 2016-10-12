@@ -46,19 +46,19 @@
             normalFont = FontFactory.GetFont("ARIALUNI", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED, FontSize, Font.NORMAL, defaultColor);
             boldFont = FontFactory.GetFont("ARIALUNI", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED, FontSize, Font.BOLD, defaultColor);
 
-            Document document = new Document(PageSize.A4, 0, 0, 50f, 50f);
+            Document document = new Document(PageSize.A4, 0, 0, 30f, 30f);
             PdfWriter writer = PdfWriter.GetInstance(document, Response.OutputStream);
-            writer.AddViewerPreference(PdfName.HIDEMENUBAR, new PdfBoolean(true));
             document.Open();
 
             PdfPTable table = new PdfPTable(1);
             table.TotalWidth = TotalWidth;
             table.DefaultCell.Border = 0;
 
-            PdfPTable performanceResult, performanceDetail;
+            PdfPTable performanceResult, performanceDetail, recommendation;
 
-            PdfPTable title = RenderTitle(epaInfo.Period.Name);
-            PdfPTable generalInfo = RenderGeneralInfo(epaInfo.Employee);
+            PdfPTable title = RenderTitle(epaInfo.Period.Name),
+                generalInfo = RenderGeneralInfo(epaInfo.Employee),
+                summaryComment = RenderSummaryComment(epaInfo);
 
             if (epaInfo.IsSemiHasMonthly)
             {
@@ -71,11 +71,24 @@
                 performanceDetail = RenderPerformanceDetail(epaInfo);
             }
 
-            PdfPTable summaryComment = RenderSummaryComment(epaInfo);
-
             table.AddCell(title);
             table.AddCell(generalInfo);
             table.AddCell(performanceResult);
+
+            if (epaInfo.Recommendation != null)
+            {
+                if (epaInfo.IsProbation || epaInfo.IsPromotion)
+                {
+                    recommendation = RenderRecommendationForProbationAndPromotion(epaInfo);
+                    table.AddCell(recommendation);
+                }
+                else if (epaInfo.IsSemiAnnual)
+                {
+                    recommendation = RenderRecommendationForSemi(epaInfo);
+                    table.AddCell(recommendation);
+                }
+            }
+
             table.AddCell(performanceDetail);
             table.AddCell(summaryComment);
 
@@ -114,7 +127,7 @@
             return table;
         }
 
-        private string GetImagePath(string code)
+        private string GetAvatar(string code)
         {
             string path = System.IO.File.Exists(Server.MapPath("~/avatars/avatar.jpg")) ? Server.MapPath("~/avatars/avatar.jpg") : string.Empty;
             code += ".jpg";
@@ -148,7 +161,7 @@
             cell.Border = 0;
             table.AddCell(cell);
 
-            string imagePath = GetImagePath(employeeInfo.Code);
+            string imagePath = GetAvatar(employeeInfo.Code);
             Image img = Image.GetInstance(imagePath);
             img.ScaleToFit(60, 60);
 
@@ -316,7 +329,7 @@
 
             if (!epaInfo.Process.Managements.Any())
             {
-                totalCol = 7;
+                totalCol = 8;
             }
             else
             {
@@ -1175,6 +1188,188 @@
             }
 
             return table;
+        }
+
+        private PdfPTable RenderRecommendationForSemi(EPAModel epaInfo)
+        {
+            Font font = FontFactory.GetFont("ARIALUNI", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED, 9, Font.NORMAL, whiteColor);
+            borderColor = new Color(System.Drawing.ColorTranslator.FromHtml("#cec5c2"));
+            float[] widths = new float[] { 10, 580 };
+
+            PdfPTable table = new PdfPTable(2)
+            {
+                TotalWidth = TotalWidth,
+                LockedWidth = true
+            };
+            table.SetWidths(widths);
+            table.DefaultCell.Border = 0;
+
+            PdfPCell cell = new PdfPCell(new Phrase(Lang.Recommendation, font));
+            cell.FixedHeight = 20;
+            cell.PaddingLeft = 5;
+            cell.PaddingRight = 5;
+            cell.Colspan = 2;
+            cell.VerticalAlignment = Element.ALIGN_MIDDLE;
+            cell.BackgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#8b8f9e"));
+            cell.Border = 0;
+            table.AddCell(cell);
+
+            string imagePath = GetCheckbox(epaInfo.Recommendation.Promoted);
+            Image img = Image.GetInstance(imagePath);
+            img.ScaleToFit(10, 10);
+            cell = new PdfPCell(img, false);
+            cell.BorderColor = borderColor;
+            cell.BorderWidthTop = 0;
+            cell.BorderWidthRight = 0;
+            cell.BorderWidthBottom = 0;
+            table.AddCell(cell);
+
+            cell = new PdfPCell(new Phrase(Lang.Promotion, normalFont));
+            cell.VerticalAlignment = Element.ALIGN_MIDDLE;
+            cell.BorderColor = borderColor;
+            cell.BorderWidthTop = 0;
+            cell.BorderWidthLeft = 0;
+            cell.BorderWidthBottom = 0;
+            table.AddCell(cell);
+
+            imagePath = GetCheckbox(epaInfo.Recommendation.PayIncreased);
+            img = Image.GetInstance(imagePath);
+            img.ScaleToFit(10, 10);
+            cell = new PdfPCell(img, false);
+            cell.BorderColor = borderColor;
+            cell.BorderWidthTop = 0;
+            cell.BorderWidthRight = 0;
+            cell.BorderWidthBottom = 0;
+            table.AddCell(cell);
+
+            cell = new PdfPCell(new Phrase(Lang.AnnualIncrement, normalFont));
+            cell.VerticalAlignment = Element.ALIGN_MIDDLE;
+            cell.BorderColor = borderColor;
+            cell.BorderWidthTop = 0;
+            cell.BorderWidthLeft = 0;
+            cell.BorderWidthBottom = 0;
+            table.AddCell(cell);
+
+            imagePath = GetCheckbox(epaInfo.Recommendation.JobGradeIncreased);
+            img = Image.GetInstance(imagePath);
+            img.ScaleToFit(10, 10);
+            cell = new PdfPCell(img, false);
+            cell.BorderColor = borderColor;
+            cell.BorderWidthTop = 0;
+            cell.BorderWidthRight = 0;
+            table.AddCell(cell);
+
+            string jobGrade = epaInfo.Recommendation.JobGrade != null ? Lang.JobGrade + ": " + epaInfo.Recommendation.JobGrade.Name : Lang.JobGrade;
+            cell = new PdfPCell(new Phrase(jobGrade, normalFont));
+            cell.VerticalAlignment = Element.ALIGN_MIDDLE;
+            cell.BorderColor = borderColor;
+            cell.BorderColor = borderColor;
+            cell.BorderWidthTop = 0;
+            cell.BorderWidthLeft = 0;
+            table.AddCell(cell);
+
+            return table;
+        }
+
+        private PdfPTable RenderRecommendationForProbationAndPromotion(EPAModel epaInfo)
+        {
+            Font font = FontFactory.GetFont("ARIALUNI", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED, 9, Font.NORMAL, whiteColor);
+            borderColor = new Color(System.Drawing.ColorTranslator.FromHtml("#cec5c2"));
+            float[] widths = new float[] { 10, 580 };
+
+            PdfPTable table = new PdfPTable(2)
+            {
+                TotalWidth = TotalWidth,
+                LockedWidth = true
+            };
+            table.SetWidths(widths);
+            table.DefaultCell.Border = 0;
+
+            PdfPCell cell = new PdfPCell(new Phrase(Lang.Recommendation, font));
+            cell.FixedHeight = 20;
+            cell.PaddingLeft = 5;
+            cell.PaddingRight = 5;
+            cell.Colspan = 2;
+            cell.VerticalAlignment = Element.ALIGN_MIDDLE;
+            cell.BackgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#8b8f9e"));
+            cell.Border = 0;
+            table.AddCell(cell);
+
+            string imagePath = GetRadioButton(epaInfo.Recommendation.PassedProbation);
+            Image img = Image.GetInstance(imagePath);
+            img.ScaleToFit(10, 10);
+            cell = new PdfPCell(img, false);
+            cell.BorderColor = borderColor;
+            cell.BorderWidthTop = 0;
+            cell.BorderWidthRight = 0;
+            cell.BorderWidthBottom = 0;
+            table.AddCell(cell);
+
+            cell = new PdfPCell(new Phrase(Lang.PassProbation, normalFont));
+            cell.VerticalAlignment = Element.ALIGN_MIDDLE;
+            cell.BorderColor = borderColor;
+            cell.BorderWidthTop = 0;
+            cell.BorderWidthLeft = 0;
+            cell.BorderWidthBottom = 0;
+            table.AddCell(cell);
+
+            imagePath = GetRadioButton(epaInfo.Recommendation.ExtendedProbation);
+            img = Image.GetInstance(imagePath);
+            img.ScaleToFit(10, 10);
+            cell = new PdfPCell(img, false);
+            cell.BorderColor = borderColor;
+            cell.BorderWidthTop = 0;
+            cell.BorderWidthRight = 0;
+            cell.BorderWidthBottom = 0;
+            table.AddCell(cell);
+
+            cell = new PdfPCell(new Phrase(Lang.ExtendProbation, normalFont));
+            cell.VerticalAlignment = Element.ALIGN_MIDDLE;
+            cell.BorderColor = borderColor;
+            cell.BorderWidthTop = 0;
+            cell.BorderWidthLeft = 0;
+            cell.BorderWidthBottom = 0;
+            table.AddCell(cell);
+
+            imagePath = GetRadioButton(epaInfo.Recommendation.FailedProbation);
+            img = Image.GetInstance(imagePath);
+            img.ScaleToFit(10, 10);
+            cell = new PdfPCell(img, false);
+            cell.BorderColor = borderColor;
+            cell.BorderWidthTop = 0;
+            cell.BorderWidthRight = 0;
+            table.AddCell(cell);
+
+            cell = new PdfPCell(new Phrase(Lang.FailProbation, normalFont));
+            cell.VerticalAlignment = Element.ALIGN_MIDDLE;
+            cell.BorderColor = borderColor;
+            cell.BorderWidthTop = 0;
+            cell.BorderWidthLeft = 0;
+            table.AddCell(cell);
+
+            return table;
+        }
+
+        private string GetRadioButton(bool value)
+        {
+            string path = Server.MapPath("~/content/site/images/radiobutton_no.png");
+            if (value)
+            {
+                path = Server.MapPath("~/content/site/images/radiobutton_yes.png");
+            }
+
+            return path;
+        }
+
+        private string GetCheckbox(bool value)
+        {
+            string path = Server.MapPath("~/content/site/images/checkbox_no.png");
+            if (value)
+            {
+                path = Server.MapPath("~/content/site/images/checkbox_yes.png");
+            }
+
+            return path;
         }
     }
 }

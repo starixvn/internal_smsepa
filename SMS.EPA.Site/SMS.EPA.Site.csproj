@@ -272,6 +272,8 @@
     <Content Include="Content\Site\images\bg-login.png" />
     <Content Include="Content\Site\images\bullet-grey.png" />
     <Content Include="Content\Site\images\calendar.png" />
+    <Content Include="Content\Site\images\checkbox_no.png" />
+    <Content Include="Content\Site\images\checkbox_yes.png" />
     <Content Include="Content\Site\images\excel-icon.png" />
     <Content Include="Content\Site\images\icon-alert.png" />
     <Content Include="Content\Site\images\icon-breadcrumb.png" />
@@ -281,6 +283,8 @@
     <Content Include="Content\Site\images\loading.gif" />
     <Content Include="Content\Site\images\pdf-icon-inactive.png" />
     <Content Include="Content\Site\images\pdf-icon.png" />
+    <Content Include="Content\Site\images\radiobutton_no.png" />
+    <Content Include="Content\Site\images\radiobutton_yes.png" />
     <Content Include="Content\Site\images\sms_epa_logo.png" />
     <Content Include="Content\Site\images\minus-icon.gif" />
     <Content Include="Content\Site\images\plus-icon.gif" />

@@ -117,6 +117,14 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
             vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
             vm.evaluatedDate = vm.epaInfo.Process.CurrentProcess.EvaluateDate ? vm.epaInfo.Process.CurrentProcess.EvaluateDate : null;
 
+            if (vm.epaInfo.Recommendation && vm.epaInfo.Recommendation.JobGrade && vm.epaInfo.Recommendation.JobGrade.JobGradeId) {
+                var index = vm.jobGrades.map(function (e) { return e.JobGradeId; }).indexOf(vm.epaInfo.Recommendation.JobGrade.JobGradeId);
+
+                if (index === -1) {
+                    vm.jobGrades.push(vm.epaInfo.Recommendation.JobGrade);
+                }
+            }
+
             ReviewerManagementModel.getUserPermissionOnReviewer().then(function () {
                 vm.permission = ReviewerManagementModel.permission;
 

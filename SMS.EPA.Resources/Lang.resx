@@ -1380,4 +1380,10 @@
   <data name="ExportPdf" xml:space="preserve">
     <value>Export Pdf</value>
   </data>
+  <data name="ProbationRecommendationWarning" xml:space="preserve">
+    <value>You must select 1 in 3 options</value>
+  </data>
+  <data name="SemiRecommendationWarning" xml:space="preserve">
+    <value>Job Grade is required</value>
+  </data>
 </root>
