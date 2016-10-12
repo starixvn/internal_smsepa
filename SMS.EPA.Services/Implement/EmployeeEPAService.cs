@@ -32,64 +32,6 @@
             this.employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
         }
 
-        #region Evaluator
-
-        public IEnumerable<EPAModel> GetEPAByEvaluator(GetEPAByEvaluatorCriteria criteria)
-        {
-            IEnumerable<EPAModel> memberEPAs = new List<EPAModel>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                memberEPAs = employeeEPARepository.GetEPA(criteria);
-
-                IList<EPAModel> monthlyEPAs = new List<EPAModel>();
-                string epaIds = string.Join(",", memberEPAs.Where(x => x.HasMonthlyEPA && x.Period.TargetTypeId == (int)TargetTypes.SemiAnnual).Select(x => x.EPAId));
-
-                if (!string.IsNullOrEmpty(epaIds))
-                {
-                    monthlyEPAs = GetMonthlyEPAOfSemi(epaIds);
-                }
-
-                foreach (EPAModel memberEPA in memberEPAs)
-                {
-                    memberEPA.Process.CurrentProcess = CloneEPAProcess(memberEPA.Process.Evaluators.FirstOrDefault(x => x.EvaluatorInfo.EmployeeId == criteria.EvaluatorId));
-                    SetMaxPerformanceScore(memberEPA);
-                    GroupMonthlyEPABySemi(memberEPA, monthlyEPAs);
-                    ConvertAverageMonthlyScore(memberEPA.MonthlyEPA, memberEPA.ScoreRatingType);
-                }
-            }
-
-            return memberEPAs;
-        }
-
-        public EPAModel GetEPAInfoByEvaluator(GetEPAInfoByEvaluatorCriteria criteria)
-        {
-            EPAModel epaInfo = new EPAModel();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                epaInfo = employeeEPARepository.GetEPAInfo(criteria);
-                epaInfo.Process.CurrentProcess = CloneEPAProcess(epaInfo.Process.Evaluators.FirstOrDefault(x => x.EvaluatorInfo.EmployeeId == criteria.EvaluatorId));
-                SetMaxPerformanceScore(epaInfo);
-                SpreadKPIScore(epaInfo.KPIGroups);
-
-                foreach (EPAKPIModel kpi in epaInfo.KPIGroups.SelectMany(x => x.KPIs))
-                {
-                    kpi.CurrentEvaluation = kpi.EvaluationByEvaluators.FirstOrDefault();
-                }
-
-                if (epaInfo.IsSemiHasMonthly)
-                {
-                    epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId.ToString());
-                    ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
-                }
-            }
-
-            return epaInfo;
-        }
-
-        #endregion Evaluator
-
         #region Reviewer
 
         public IEnumerable<EPAModel> GetEPAByReviewer(GetEPAByReviewerCriteria criteria)
@@ -396,18 +338,6 @@
             }
 
             return recommendation;
-        }
-
-        public CommandResult UpdateEPAScore(UpdateEPAScoreCriteria criteria)
-        {
-            CommandResult commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.Update(criteria);
-            }
-
-            return commandResult;
         }
 
         public CommandResult AdjustScoreByReviewerOrManagement(AdjustScoreByReviewerOrManagementCriteria criteria)

@@ -204,6 +204,7 @@
     <Compile Include="Controllers\API\CommonController.cs" />
     <Compile Include="Controllers\API\DashboardController.cs" />
     <Compile Include="Controllers\API\DepartmentController.cs" />
+    <Compile Include="Controllers\API\EvaluatorEPAController.cs" />
     <Compile Include="Controllers\API\EmployeeEPAController.cs" />
     <Compile Include="Controllers\API\EPAHistoryController.cs" />
     <Compile Include="Controllers\API\DepartmentFlowController.cs" />
@@ -439,6 +440,8 @@
     <Content Include="SourceApp\Components\Employee\Templates\resetPassword.html" />
     <Content Include="SourceApp\Components\EPAHistory\Templates\monthlyEPAHistory.html" />
     <Content Include="SourceApp\Components\EPA\Evaluator\evaluator-access-controller.js" />
+    <Content Include="SourceApp\Components\EPA\Evaluator\evaluator-epa-factory.js" />
+    <Content Include="SourceApp\Components\EPA\Evaluator\evaluator-epa-model.js" />
     <Content Include="SourceApp\Components\EPA\Management\management-access-controller.js" />
     <Content Include="SourceApp\Components\EPA\Reviewer\reviewer-access-controller.js" />
     <Content Include="SourceApp\Components\EPA\Reviewer\Templates\recommendationForSemi.html" />
@@ -508,7 +511,7 @@
     <Content Include="SourceApp\Components\EPA\Reviewer\Templates\semiPerformanceResult.html" />
     <Content Include="SourceApp\Components\EPA\Templates\monthlyEPAs.html" />
     <Content Include="SourceApp\Components\EPA\Templates\semiPerformanceResult.html" />
-    <Content Include="SourceApp\Components\EPA\Evaluator\evaluator-update-epa-controller.js" />
+    <Content Include="SourceApp\Components\EPA\Evaluator\evaluator-detail-controller.js" />
     <Content Include="SourceApp\Components\EPA\RatingByKPI\ratingByKPI-controller.js" />
     <Content Include="SourceApp\Components\EPA\RatingByKPI\ratingByKPI-factory.js" />
     <Content Include="SourceApp\Components\EPA\RatingByKPI\ratingByKPI-model.js" />
@@ -530,7 +533,7 @@
     <Content Include="SourceApp\Components\EPA\Reviewer\Templates\index.html" />
     <Content Include="SourceApp\Components\EPA\Reviewer\reviewer-update-epa-controller.js" />
     <Content Include="SourceApp\Components\EPA\Reviewer\Templates\performanceResult.html" />
-    <Content Include="SourceApp\Components\EPA\selfEvaluator-model.js" />
+    <Content Include="SourceApp\Components\EPA\self-evaluator-model.js" />
     <Content Include="SourceApp\Components\EPA\Templates\evaluationProcess.html" />
     <Content Include="SourceApp\Components\EPA\Templates\generalInformation.html" />
     <Content Include="SourceApp\Components\EPA\Self\Templates\index.html" />

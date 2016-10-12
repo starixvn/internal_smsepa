@@ -43,10 +43,10 @@
             kpi.CurrentEvaluation.Score = null;
 
             if (kpiGroup.HasKPIOptional) {
-                SelfEvalutorModel.scoreSpreadForKPIGroupHasKPIOptional(kpiGroup, vm.maxStar);
+                SelfEvalutorModel.spreadScoreForKPIGroupHasKPIOptional(kpiGroup, vm.maxStar);
             }
 
-            SelfEvalutorModel.calculateScore(vm, true);
+            SelfEvalutorModel.calculateScore(vm);
         }
 
         function checkStatus(epaInfo) {
@@ -108,10 +108,10 @@
                     score = utilitiesFactory.splitNumber(score, 4);
                     kpi.CurrentEvaluation.Score = score;
                 } else {
-                    SelfEvalutorModel.scoreSpreadForKPIGroupHasKPIOptional(kpiGroup, vm.maxStar);
+                    SelfEvalutorModel.spreadScoreForKPIGroupHasKPIOptional(kpiGroup, vm.maxStar);
                 }
 
-                SelfEvalutorModel.calculateScore(vm, true);
+                SelfEvalutorModel.calculateScore(vm);
             }
         }
 
@@ -142,7 +142,7 @@
                 kpi.CurrentEvaluation.Score = null;
             }
 
-            SelfEvalutorModel.calculateScore(vm, true);
+            SelfEvalutorModel.calculateScore(vm);
         }
 
         function save(epaInfo) {

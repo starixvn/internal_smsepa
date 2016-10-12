@@ -9,14 +9,6 @@
 
     public interface IEmployeeEPAService
     {
-        #region Evaluator
-
-        IEnumerable<EPAModel> GetEPAByEvaluator(GetEPAByEvaluatorCriteria criteria);
-
-        EPAModel GetEPAInfoByEvaluator(GetEPAInfoByEvaluatorCriteria criteria);
-
-        #endregion Evaluator
-
         #region Reviewer
 
         IEnumerable<EPAModel> GetEPAByReviewer(GetEPAByReviewerCriteria criteria);
@@ -62,8 +54,6 @@
         EPAModel GetEPAInfoById(int epaId);
 
         EPARecommendationModel GetRecommendationByEPAId(int epaId);
-
-        CommandResult UpdateEPAScore(UpdateEPAScoreCriteria criteria);
 
         CommandResult AdjustScoreByReviewerOrManagement(AdjustScoreByReviewerOrManagementCriteria criteria);
 

@@ -2,8 +2,10 @@
 /*global epaModule*/
 
 epaModule.controller('EvaluatorController',
-['$routeParams', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl',
-function ($routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
+['$routeParams', 'EmployeeEPAModel', 'EvaluatorEPAModel', 'SelfEvalutorModel', 'CommonModel',
+    'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl',
+function ($routeParams, EmployeeEPAModel, EvaluatorEPAModel, SelfEvalutorModel, CommonModel,
+    utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
     var vm = this;
 
     vm.epaInfos = [];
@@ -53,8 +55,8 @@ function ($routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilit
     };
 
     vm.getMember = function () {
-        SelfEvalutorModel.getMemberByEvaluator(vm.filter.groupId, vm.filter.isLocal, vm.filter.isMonthly).then(function () {
-            vm.members = SelfEvalutorModel.members;
+        EvaluatorEPAModel.getMemberByEvaluator(vm.filter.groupId, vm.filter.isLocal, vm.filter.isMonthly).then(function () {
+            vm.members = EvaluatorEPAModel.members;
             utilitiesFactory.setSelectedItem(vm.members, "EmployeeId", vm.filter.employeeIds);
         });
     };
@@ -71,8 +73,8 @@ function ($routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilit
         lockScreenService.start();
         vm.sortBySelfScore = { ascending: false, descending: false };
 
-        SelfEvalutorModel.getEPAByEvaluator(groupId, isLocal, isMonthly, employeeIds, statusProcess).then(function () {
-            vm.epaInfos = SelfEvalutorModel.epaInfos;
+        EvaluatorEPAModel.getEPAByEvaluator(groupId, isLocal, isMonthly, employeeIds, statusProcess).then(function () {
+            vm.epaInfos = EvaluatorEPAModel.epaInfos;
 
             angular.forEach(vm.epaInfos, function (epaInfo) {
                 if (epaInfo.IsSemiHasMonthly) {
@@ -128,8 +130,8 @@ function ($routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilit
 
     function initialize() {
         vm.filter = initFilter();
-        SelfEvalutorModel.getGroupByEvaluator().then(function () {
-            vm.groupOptions = SelfEvalutorModel.groups;
+        EvaluatorEPAModel.getGroupByEvaluator().then(function () {
+            vm.groupOptions = EvaluatorEPAModel.groups;
         });
 
         vm.getMember();

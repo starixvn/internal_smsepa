@@ -3,41 +3,6 @@
 
 epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, baseUrl) {
     return {
-        getUserPermissionOnEvaluator: function () {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetUserPermissionOnEvaluator');
-        },
-        getGroupByEvaluator: function () {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetGroupByEvaluator');
-        },
-        getMemberByEvaluator: function (groupId, isLocal, isMonthly) {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetMemberByEvaluator', {
-                params: {
-                    groupId: groupId,
-                    isLocal: isLocal,
-                    isMonthly: isMonthly
-                }
-            });
-        },
-        getEPAByEvaluator: function (groupId, isLocal, isMonthly, employeeIds, statusProcess) {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAByEvaluator', {
-                params: {
-                    groupId: groupId,
-                    isLocal: isLocal,
-                    isMonthly: isMonthly,
-                    employeeIds: employeeIds,
-                    statusProcess: statusProcess
-                }
-            });
-        },
-        getEPAInfoByEvaluator: function (epaId, evaluatorId) {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAInfoByEvaluator',
-            {
-                params: {
-                    epaId: epaId,
-                    evaluatorId: evaluatorId
-                }
-            });
-        },
         getUserPermissionOnReviewer: function () {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetUserPermissionOnReviewer');
         },
@@ -96,9 +61,6 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
         },
         getEPAInfoById: function (epaId) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAInfoById', { params: { epaId: epaId } });
-        },
-        updateEPAScoreByEvaluator: function (model) {
-            return $http.put(baseUrl + 'api/EmployeeEPA/UpdateEPAScoreByEvaluator', model);
         },
         adjustScoreByReviewer: function (criteria) {
             return $http.put(baseUrl + 'api/EmployeeEPA/AdjustScoreByReviewer', criteria);

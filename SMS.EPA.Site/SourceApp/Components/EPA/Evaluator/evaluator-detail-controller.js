@@ -2,8 +2,10 @@
 /*global epaModule*/
 
 epaModule.controller('MemberEPAInfoOfEvaluatorController',
-['$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'baseUrl',
-function ($timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, historyFactory, baseUrl) {
+['$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'EvaluatorEPAModel', 'SelfEvalutorModel', 'CommonModel',
+    'utilitiesFactory', 'historyFactory', 'baseUrl',
+function ($timeout, $translate, $routeParams, EmployeeEPAModel, EvaluatorEPAModel, SelfEvalutorModel, CommonModel,
+    utilitiesFactory, historyFactory, baseUrl) {
     var vm = this;
 
     vm.permission = 0;
@@ -19,6 +21,8 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorMode
     vm.ratingTypeEnum = utilitiesFactory.ratingType;
     vm.hasRatingByStar = false;
     vm.showRatingScoreByStar = true;
+
+    vm.hoveringLeave = null;
 
     vm.viewBySelf = function () {
         return !vm.evaluatorId;
@@ -57,7 +61,7 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorMode
             kpi.CurrentEvaluation.Score = null;
         }
 
-        SelfEvalutorModel.calculateScore(vm, false);
+        SelfEvalutorModel.calculateScore(vm);
     };
 
     vm.cancelRating = function (kpiGroup, kpi) {
@@ -66,10 +70,10 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorMode
         $("#star_" + kpi.KPIId).rating('update', kpi.CurrentEvaluation.Rate);
 
         if (kpiGroup.HasKPIOptional) {
-            SelfEvalutorModel.scoreSpreadForKPIGroupHasKPIOptional(kpiGroup, vm.maxStar);
+            SelfEvalutorModel.spreadScoreForKPIGroupHasKPIOptional(kpiGroup, vm.maxStar);
         }
 
-        SelfEvalutorModel.calculateScore(vm, false);
+        SelfEvalutorModel.calculateScore(vm);
     };
 
     vm.cancel = function () {
@@ -77,10 +81,9 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorMode
     };
 
     vm.save = function (epaInfo) {
-        if (SelfEvalutorModel.validateEPA(epaInfo)) {
-            SelfEvalutorModel.updateEPAScoreByEvaluator(vm);
-        }
-        else {
+        if (EvaluatorEPAModel.validateEPA(epaInfo)) {
+            EvaluatorEPAModel.updateEPAScoreByEvaluator(vm);
+        } else {
             SelfEvalutorModel.openPopupNotificationInvalidComment(vm, vm.evaluateEPAInvalidMessage);
         }
     };
@@ -92,30 +95,28 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorMode
     };
 
     function checkStatus(epaInfo) {
-        if (!epaInfo.IsAllowedToEdit) {
-            vm.hoveringLeave = null;
+        if (epaInfo.IsAllowedToEdit) {
+            vm.hoveringLeave = hoveringLeave;
         }
-        else {
-            vm.hoveringLeave = function (kpiGroup, kpi) {
-                if (kpi.CurrentEvaluation.Rate > 0) {
-                    if (kpiGroup.NumberKPIOptional === 0) {
-                        var score = (kpi.Weight * kpi.CurrentEvaluation.Rate) / vm.maxStar;
-                        score = utilitiesFactory.splitNumber(score, 4);
-                        kpi.CurrentEvaluation.Score = score;
-                    }
-                    else {
-                        SelfEvalutorModel.scoreSpreadForKPIGroupHasKPIOptional(kpiGroup, vm.maxStar);
-                    }
+    }
 
-                    SelfEvalutorModel.calculateScore(vm, false);
-                }
-            };
+    function hoveringLeave(kpiGroup, kpi) {
+        if (kpi.CurrentEvaluation.Rate > 0) {
+            if (kpiGroup.NumberKPIOptional === 0) {
+                var score = (kpi.Weight * kpi.CurrentEvaluation.Rate) / vm.maxStar;
+                score = utilitiesFactory.splitNumber(score, 4);
+                kpi.CurrentEvaluation.Score = score;
+            } else {
+                SelfEvalutorModel.spreadScoreForKPIGroupHasKPIOptional(kpiGroup, vm.maxStar);
+            }
+
+            SelfEvalutorModel.calculateScore(vm);
         }
     }
 
     function getEPAInfoByEvaluator() {
-        SelfEvalutorModel.getEPAInfoByEvaluator(vm.epaId, vm.evaluatorId).then(function () {
-            vm.epaInfo = SelfEvalutorModel.epaInfo;
+        EvaluatorEPAModel.getEPAInfoByEvaluator(vm.epaId, vm.evaluatorId).then(function () {
+            vm.epaInfo = EvaluatorEPAModel.epaInfo;
             checkStatus(vm.epaInfo);
 
             if (vm.epaInfo.RatingType.RatingTypeId === vm.ratingTypeEnum.Star
@@ -144,8 +145,8 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorMode
             vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
             vm.evaluatedDate = vm.epaInfo.Process.CurrentProcess.EvaluateDate ? vm.epaInfo.Process.CurrentProcess.EvaluateDate : null;
 
-            SelfEvalutorModel.getUserPermissionOnEvaluator().then(function () {
-                vm.permission = SelfEvalutorModel.permission;
+            EvaluatorEPAModel.getUserPermissionOnEvaluator().then(function () {
+                vm.permission = EvaluatorEPAModel.permission;
 
                 if (vm.permission !== vm.policyEnum.Host) {
                     vm.epaInfo.IsAllowedToEdit = false;
