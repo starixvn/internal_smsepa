@@ -1,5 +1,10 @@
-﻿'use strict';
-(function (angular) {
+﻿(function (angular) {
+    'use strict';
+    /* jshint latedef:nofunc */
+
+    angular.module('epaModule').factory('EPAByKPIModel', EPAByKPIModel);
+    EPAByKPIModel.$inject = ['epaByKPIFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory'];
+
     function EPAByKPIModel(epaByKPIFactory, utilitiesFactory, notificationFactory, errorFactory) {
         var epaByKPIModel = {
             periods: [],
@@ -10,8 +15,7 @@
         };
 
         function getPeriodToView() {
-            return epaByKPIFactory.getPeriodToView()
-            .success(function (periods) {
+            return epaByKPIFactory.getPeriodToView().success(function (periods) {
                 epaByKPIModel.periods = periods;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
@@ -19,8 +23,7 @@
         }
 
         function getTargetTemplateToView(periodId) {
-            return epaByKPIFactory.getTargetTemplateToView(periodId)
-            .success(function (targetTemplates) {
+            return epaByKPIFactory.getTargetTemplateToView(periodId).success(function (targetTemplates) {
                 epaByKPIModel.targetTemplates = targetTemplates;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
@@ -28,8 +31,7 @@
         }
 
         function getKPIToView(periodId, targetTemplateId, evaluatorId) {
-            return epaByKPIFactory.getKPIToView(periodId, targetTemplateId, evaluatorId)
-            .success(function (kpis) {
+            return epaByKPIFactory.getKPIToView(periodId, targetTemplateId, evaluatorId).success(function (kpis) {
                 epaByKPIModel.kpis = kpis;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
@@ -37,8 +39,7 @@
         }
 
         function getEmployeeEPAToView(periodId, targetTemplateId, kpiId, evaluatorId) {
-            return epaByKPIFactory.getEmployeeEPAToView(periodId, targetTemplateId, kpiId, evaluatorId)
-            .success(function (epaInfos) {
+            return epaByKPIFactory.getEmployeeEPAToView(periodId, targetTemplateId, kpiId, evaluatorId).success(function (epaInfos) {
                 epaByKPIModel.epaInfos = epaInfos;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
@@ -46,8 +47,7 @@
         }
 
         function getEvaluatorsByTargetTemplate(periodId, targetTemplateId) {
-            return epaByKPIFactory.getEvaluatorsByTargetTemplate(periodId, targetTemplateId)
-            .success(function (evaluators) {
+            return epaByKPIFactory.getEvaluatorsByTargetTemplate(periodId, targetTemplateId).success(function (evaluators) {
                 epaByKPIModel.evaluators = evaluators;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
@@ -89,6 +89,7 @@
                     } else {
                         kpi.IsMaxScore = false;
                     }
+
                     var score = (averageWeight * kpi.Rate) / maxStar;
                     kpi.Score = utilitiesFactory.splitNumber(score, 4);
                 } else if (kpi.AdjustRate > 0) {
@@ -97,6 +98,7 @@
                     } else {
                         kpi.IsMaxScore = false;
                     }
+
                     var adjustScore = (averageWeight * kpi.AdjustRate) / maxStar;
                     kpi.AdjustScore = utilitiesFactory.splitNumber(adjustScore, 4);
                 }
@@ -112,10 +114,4 @@
 
         return epaByKPIModel;
     }
-
-    EPAByKPIModel.$inject = ['epaByKPIFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory'];
-
-    angular
-    .module('epaModule')
-    .factory('EPAByKPIModel', EPAByKPIModel);
 })(angular);

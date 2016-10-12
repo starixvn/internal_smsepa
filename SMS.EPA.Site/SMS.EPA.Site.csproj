@@ -204,6 +204,7 @@
     <Compile Include="Controllers\API\CommonController.cs" />
     <Compile Include="Controllers\API\DashboardController.cs" />
     <Compile Include="Controllers\API\DepartmentController.cs" />
+    <Compile Include="Controllers\API\EvaluatorByKPIController.cs" />
     <Compile Include="Controllers\API\EvaluatorEPAController.cs" />
     <Compile Include="Controllers\API\EmployeeEPAController.cs" />
     <Compile Include="Controllers\API\EPAHistoryController.cs" />
@@ -512,9 +513,9 @@
     <Content Include="SourceApp\Components\EPA\Templates\monthlyEPAs.html" />
     <Content Include="SourceApp\Components\EPA\Templates\semiPerformanceResult.html" />
     <Content Include="SourceApp\Components\EPA\Evaluator\evaluator-detail-controller.js" />
-    <Content Include="SourceApp\Components\EPA\RatingByKPI\ratingByKPI-controller.js" />
-    <Content Include="SourceApp\Components\EPA\RatingByKPI\ratingByKPI-factory.js" />
-    <Content Include="SourceApp\Components\EPA\RatingByKPI\ratingByKPI-model.js" />
+    <Content Include="SourceApp\Components\EPA\RatingByKPI\rating-by-kpi-controller.js" />
+    <Content Include="SourceApp\Components\EPA\RatingByKPI\rating-by-kpi-factory.js" />
+    <Content Include="SourceApp\Components\EPA\RatingByKPI\rating-by-kpi-model.js" />
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\detail.html" />
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\index.html" />
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\listKPI.html" />

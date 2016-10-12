@@ -13,18 +13,15 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
     ratingByKPIModel.permission = 0;
 
     ratingByKPIModel.getUserPermissionOnRatingByKPI = function () {
-        return ratingByKPIFactory.getUserPermissionOnRatingByKPI()
-        .success(function (permission) {
+        return ratingByKPIFactory.getUserPermissionOnRatingByKPI().success(function (permission) {
             ratingByKPIModel.permission = parseInt(permission);
-        })
-        .error(function (response, status) {
+        }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
     };
 
     ratingByKPIModel.getPeriodByEvaluator = function () {
-        return ratingByKPIFactory.getPeriodByEvaluator()
-        .success(function (periods) {
+        return ratingByKPIFactory.getPeriodByEvaluator().success(function (periods) {
             ratingByKPIModel.periods = periods;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
@@ -32,8 +29,7 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
     };
 
     ratingByKPIModel.getTargetTemplateByPeriod = function (periodId) {
-        return ratingByKPIFactory.getTargetTemplateByPeriod(periodId)
-        .success(function (targetTemplates) {
+        return ratingByKPIFactory.getTargetTemplateByPeriod(periodId).success(function (targetTemplates) {
             ratingByKPIModel.targetTemplates = targetTemplates;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
@@ -41,8 +37,7 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
     };
 
     ratingByKPIModel.getKPIByTargetTemplate = function (periodId, targetTemplateId) {
-        return ratingByKPIFactory.getKPIByTargetTemplate(periodId, targetTemplateId)
-        .success(function (kpis) {
+        return ratingByKPIFactory.getKPIByTargetTemplate(periodId, targetTemplateId).success(function (kpis) {
             ratingByKPIModel.kpis = kpis;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
@@ -50,8 +45,7 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
     };
 
     ratingByKPIModel.getEmployeeEPAByKPI = function (periodId, targetTemplateId, kpiId, groupId, employeeIds) {
-        return ratingByKPIFactory.getEmployeeEPAByKPI(periodId, targetTemplateId, kpiId, groupId, employeeIds)
-        .success(function (epaInfos) {
+        return ratingByKPIFactory.getEmployeeEPAByKPI(periodId, targetTemplateId, kpiId, groupId, employeeIds).success(function (epaInfos) {
             ratingByKPIModel.epaInfos = epaInfos;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
@@ -126,6 +120,7 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
                 } else {
                     kpi.IsMaxScore = false;
                 }
+
                 var score = (averageWeight * kpi.Rate) / maxStar;
                 kpi.Score = utilitiesFactory.splitNumber(score, 4);
             } else if (kpi.AdjustRate > 0) {
@@ -134,6 +129,7 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
                 } else {
                     kpi.IsMaxScore = false;
                 }
+
                 var adjustScore = (averageWeight * kpi.AdjustRate) / maxStar;
                 kpi.AdjustScore = utilitiesFactory.splitNumber(adjustScore, 4);
             }
@@ -179,8 +175,7 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
     };
 
     ratingByKPIModel.updateKPIScore = function (vm, modalInstance) {
-        return ratingByKPIFactory.updateKPIScore(vm.epaInfos)
-        .success(function (response) {
+        return ratingByKPIFactory.updateKPIScore(vm.epaInfos).success(function (response) {
             if (response.IsSuccessful) {
                 notificationFactory.success("UpdatedSuccessfully");
                 vm.dataSaved = true;

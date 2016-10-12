@@ -1,8 +1,21 @@
-﻿'use strict';
-(function (angular) {
+﻿(function (angular) {
+    'use strict';
+    /* jshint latedef:nofunc */
+
+    angular.module('epaModule').factory('epaByKPIFactory', epaByKPIFactory);
+    epaByKPIFactory.$inject = ['$http', 'baseUrl'];
+
     function epaByKPIFactory($http, baseUrl) {
+        return {
+            getPeriodToView: getPeriodToView,
+            getTargetTemplateToView: getTargetTemplateToView,
+            getKPIToView: getKPIToView,
+            getEvaluatorsByTargetTemplate: getEvaluatorsByTargetTemplate,
+            getEmployeeEPAToView: getEmployeeEPAToView
+        };
+
         function getEvaluatorsByTargetTemplate(periodId, targetTemplateId) {
-            return $http.get(baseUrl + 'api/EmployeeEPA/getEvaluatorsByTargetTemplate', {
+            return $http.get(baseUrl + 'api/EvaluatorByKPI/GetEvaluatorsByTargetTemplate', {
                 params: {
                     periodId: periodId,
                     targetTemplateId: targetTemplateId
@@ -11,7 +24,7 @@
         }
 
         function getEmployeeEPAToView(periodId, targetTemplateId, kpiId, evaluatorId) {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetEmployeeEPAToView', {
+            return $http.get(baseUrl + 'api/EvaluatorByKPI/GetEmployeeEPAToView', {
                 params: {
                     periodId: periodId,
                     targetTemplateId: targetTemplateId,
@@ -22,7 +35,7 @@
         }
 
         function getKPIToView(periodId, targetTemplateId, evaluatorId) {
-            return $http.get(baseUrl + 'api/EmployeeEPA/getKPIToView', {
+            return $http.get(baseUrl + 'api/EvaluatorByKPI/GetKPIToView', {
                 params: {
                     periodId: periodId,
                     targetTemplateId: targetTemplateId,
@@ -32,30 +45,16 @@
         }
 
         function getPeriodToView() {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetPeriodToView');
+            return $http.get(baseUrl + 'api/EvaluatorByKPI/GetPeriodToView');
         }
 
         function getTargetTemplateToView(periodId) {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetTargetTemplateToView',
+            return $http.get(baseUrl + 'api/EvaluatorByKPI/GetTargetTemplateToView',
             {
                 params: {
                     periodId: periodId
                 }
             });
         }
-
-        return {
-            getPeriodToView: getPeriodToView,
-            getTargetTemplateToView: getTargetTemplateToView,
-            getKPIToView: getKPIToView,
-            getEvaluatorsByTargetTemplate: getEvaluatorsByTargetTemplate,
-            getEmployeeEPAToView: getEmployeeEPAToView
-        };
     }
-
-    epaByKPIFactory.$inject = ['$http', 'baseUrl'];
-
-    angular
-        .module('epaModule')
-        .factory('epaByKPIFactory', epaByKPIFactory);
 })(angular);

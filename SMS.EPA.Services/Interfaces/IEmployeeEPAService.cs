@@ -25,30 +25,6 @@
 
         #endregion Management
 
-        #region Rating By KPI
-
-        IEnumerable<EPAPeriodModel> GetPeriodByEvaluator(GetPeriodByEvaluatorCriteria criteria);
-
-        IEnumerable<TargetTemplate> GetTargetTemplateByEvaluator(GetTargetTemplateByEvaluatorCriteria criteria);
-
-        IEnumerable<TargetTemplate> GetTargetTemplateToView(GetTargetTemplateToViewCriteria criteria);
-
-        IEnumerable<TemporaryKPIModel> GetKPIByTargetTemplate(GetKPIByTargetTemplateCriteria criteria);
-
-        IEnumerable<EPAPeriodModel> GetPeriodToView(GetPeriodToViewCriteria criteria);
-
-        IEnumerable<TemporaryKPIModel> GetKPIToView(GetKPIToViewCriteria criteria);
-
-        IEnumerable<RatingByKPIModel> GetEmployeeEPAByKPI(GetEmployeeEPAByKPICriteria criteria);
-
-        IEnumerable<RatingByKPIModel> GetEmployeeEPAToView(GetEmployeeEPAToViewCriteria criteria);
-
-        IEnumerable<Employee> GetEvaluatorsByTargetTemplate(GetEvaluatorsByTargetTemplateCriteria criteria);
-
-        CommandResult UpdateKPIScore(UpdateKPIScoreCriteria criteria);
-
-        #endregion Rating By KPI
-
         IEnumerable<EPAModel> GetEPAEndEvaluationPeriod(GetEPAEndEvaluationPeriodCriteria criteria);
 
         EPAModel GetEPAInfoById(int epaId);

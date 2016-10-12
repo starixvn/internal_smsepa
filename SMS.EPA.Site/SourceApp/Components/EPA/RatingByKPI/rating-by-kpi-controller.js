@@ -85,8 +85,7 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
                     vm.filter.targetTemplateId = angular.copy(vm.targetTemplateIdOriginal);
                     vm.filter.kpiId = angular.copy(vm.kpiIdOriginal);
                 } else if (result.confirmResult === 1) {
-                    RatingByKPIModel.getKPIByTargetTemplate(vm.filter.periodId, vm.filter.targetTemplateId)
-                    .then(function () {
+                    RatingByKPIModel.getKPIByTargetTemplate(vm.filter.periodId, vm.filter.targetTemplateId).then(function () {
                         vm.kpis = RatingByKPIModel.kpis;
                     });
                     vm.epaInfos = [];
@@ -95,8 +94,7 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
                     vm.kpiIdOriginal = null;
                     vm.dataSaved = false;
                 } else {
-                    RatingByKPIModel.getKPIByTargetTemplate(vm.filter.periodId, vm.filter.targetTemplateId)
-                    .then(function () {
+                    RatingByKPIModel.getKPIByTargetTemplate(vm.filter.periodId, vm.filter.targetTemplateId).then(function () {
                         vm.kpis = RatingByKPIModel.kpis;
                     });
                     vm.epaInfos = [];
@@ -115,8 +113,7 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
             vm.epaInfos = [];
             vm.filteredItems = [];
 
-            RatingByKPIModel.getKPIByTargetTemplate(vm.filter.periodId, vm.filter.targetTemplateId)
-            .then(function () {
+            RatingByKPIModel.getKPIByTargetTemplate(vm.filter.periodId, vm.filter.targetTemplateId).then(function () {
                 vm.kpis = RatingByKPIModel.kpis;
             });
         }
@@ -150,8 +147,7 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
 
         if (!RatingByKPIModel.validateScoreInput(adjustScore, 0, kpiWeight, vm.scoreInputValidMessage)) {
             kpi.AdjustScore = null;
-        }
-        else {
+        } else {
             if (adjustScore === kpiWeight) {
                 kpi.IsMaxScore = true;
             } else {
@@ -238,8 +234,7 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
         vm.orderByCurrentScore = { ascending: false, descending: false };
         vm.orderByAdjustScore = { ascending: false, descending: false };
 
-        RatingByKPIModel.getEmployeeEPAByKPI(vm.filter.periodId, vm.filter.targetTemplateId, vm.filter.kpiId, vm.filter.groupId, null)
-        .then(function () {
+        RatingByKPIModel.getEmployeeEPAByKPI(vm.filter.periodId, vm.filter.targetTemplateId, vm.filter.kpiId, vm.filter.groupId, null).then(function () {
             vm.epaInfos = RatingByKPIModel.epaInfos;
             utilitiesFactory.searchOnPage(vm, vm.epaInfos);
 

@@ -4,16 +4,16 @@
 epaModule.factory('ratingByKPIFactory', ['$http', 'baseUrl', function ($http, baseUrl) {
     return {
         getUserPermissionOnRatingByKPI: function () {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetUserPermissionOnRatingByKPI');
+            return $http.get(baseUrl + 'api/EvaluatorByKPI/GetUserPermissionOnRatingByKPI');
         },
         getPeriodByEvaluator: function () {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetPeriodByEvaluator');
+            return $http.get(baseUrl + 'api/EvaluatorByKPI/GetPeriodByEvaluator');
         },
         getTargetTemplateByPeriod: function (periodId) {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetTargetTemplateByEvaluator', { params: { periodId: periodId } });
+            return $http.get(baseUrl + 'api/EvaluatorByKPI/GetTargetTemplateByEvaluator', { params: { periodId: periodId } });
         },
         getKPIByTargetTemplate: function (periodId, targetTemplateId) {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetKPIByTargetTemplate', {
+            return $http.get(baseUrl + 'api/EvaluatorByKPI/GetKPIByTargetTemplate', {
                 params: {
                     periodId: periodId,
                     targetTemplateId: targetTemplateId
@@ -21,8 +21,7 @@ epaModule.factory('ratingByKPIFactory', ['$http', 'baseUrl', function ($http, ba
             });
         },
         getEmployeeEPAByKPI: function (periodId, targetTemplateId, kpiId, groupId, employeeIds) {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetEmployeeEPAByKPI',
-            {
+            return $http.get(baseUrl + 'api/EvaluatorByKPI/GetEmployeeEPAByKPI', {
                 params: {
                     periodId: periodId,
                     targetTemplateId: targetTemplateId,
@@ -33,7 +32,7 @@ epaModule.factory('ratingByKPIFactory', ['$http', 'baseUrl', function ($http, ba
             });
         },
         updateKPIScore: function (models) {
-            return $http.put(baseUrl + 'api/EmployeeEPA/UpdateKPIScore', models);
+            return $http.put(baseUrl + 'api/EvaluatorByKPI/UpdateKPIScore', models);
         }
     };
 }]);
