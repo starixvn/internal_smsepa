@@ -15,7 +15,6 @@
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Model.ScoreRatingType;
     using SMS.EPA.Repositories;
-
     using SMS.EPA.Services.Interfaces;
 
     public class EmployeeEPAService : BaseService, IEmployeeEPAService
@@ -31,67 +30,6 @@
         {
             this.employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
         }
-
-        #region Reviewer
-
-        public IEnumerable<EPAModel> GetEPAByReviewer(GetEPAByReviewerCriteria criteria)
-        {
-            IEnumerable<EPAModel> memberEPAs = new List<EPAModel>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                memberEPAs = employeeEPARepository.GetEPA(criteria);
-
-                IList<EPAModel> monthlyEPAs = new List<EPAModel>();
-                string epaIds = string.Join(",", memberEPAs.Where(x => x.HasMonthlyEPA && x.Period.TargetTypeId == (int)TargetTypes.SemiAnnual).Select(x => x.EPAId));
-
-                if (!string.IsNullOrEmpty(epaIds))
-                {
-                    monthlyEPAs = GetMonthlyEPAOfSemi(epaIds);
-                }
-
-                foreach (EPAModel memberEPA in memberEPAs)
-                {
-                    memberEPA.Process.CurrentProcess = CloneEPAProcess(memberEPA.Process.Reviewers.FirstOrDefault(x => x.EvaluatorInfo.EmployeeId == criteria.ReviewerId));
-                    SetMaxPerformanceScore(memberEPA);
-                    GroupMonthlyEPABySemi(memberEPA, monthlyEPAs);
-                    ConvertAverageMonthlyScore(memberEPA.MonthlyEPA, memberEPA.ScoreRatingType);
-                    SetMaxSubtractAndMaxAdditionScore(memberEPA);
-                }
-            }
-
-            return memberEPAs;
-        }
-
-        public EPAModel GetEPAInfoByReviewer(GetEPAInfoByReviewerCriteria criteria)
-        {
-            EPAModel epaInfo = new EPAModel();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                epaInfo = employeeEPARepository.GetEPAInfo(criteria);
-                epaInfo.Process.CurrentProcess = CloneEPAProcess(epaInfo.Process.Reviewers.FirstOrDefault(x => x.EvaluatorInfo.EmployeeId == criteria.ReviewerId));
-                SetMaxPerformanceScore(epaInfo);
-                SpreadKPIScore(epaInfo.KPIGroups);
-
-                if (epaInfo.IsSemiHasMonthly)
-                {
-                    epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId.ToString());
-                    ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
-                }
-
-                if (epaInfo.Period.TargetTypeId == (int)TargetTypes.Probation
-                    || epaInfo.Period.TargetTypeId == (int)TargetTypes.Promotion
-                    || epaInfo.Period.TargetTypeId == (int)TargetTypes.SemiAnnual)
-                {
-                    epaInfo.Recommendation = GetRecommendationByEPAId(epaInfo.EPAId);
-                }
-            }
-
-            return epaInfo;
-        }
-
-        #endregion Reviewer
 
         #region Management
 
@@ -512,7 +450,7 @@
             }
         }
 
-        private void SetMaxSubtractAndMaxAdditionScore(EPAModel epaInfo)
+        public void SetMaxSubtractAndMaxAdditionScore(EPAModel epaInfo)
         {
             float maxAdditionScore = 0;
 

@@ -9,14 +9,6 @@
 
     public interface IEmployeeEPAService
     {
-        #region Reviewer
-
-        IEnumerable<EPAModel> GetEPAByReviewer(GetEPAByReviewerCriteria criteria);
-
-        EPAModel GetEPAInfoByReviewer(GetEPAInfoByReviewerCriteria criteria);
-
-        #endregion Reviewer
-
         #region Management
 
         IEnumerable<EPAModel> GetEPAByManagement(GetEPAByManagementCriteria criteria);
@@ -70,6 +62,8 @@
         EPAProcessModel CloneEPAProcess(EPAProcessModel process);
 
         void SpreadKPIScore(IList<EPAKPIGroupModel> kpiGroups);
+
+        void SetMaxSubtractAndMaxAdditionScore(EPAModel epaInfo);
 
         void ExportEPAAfterUpdateFinalScore(string periodName, IList<EPAModel> epaInfos, string templatePath);
     }

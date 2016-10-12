@@ -2,8 +2,10 @@
 /*global epaModule*/
 
 epaModule.controller('MemberEPAInfoOfReviewerController',
-['$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'baseUrl',
-function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManagementModel, CommonModel, utilitiesFactory, historyFactory, baseUrl) {
+['$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'ReviewerEPAModel', 'ReviewerManagementModel', 'CommonModel',
+    'utilitiesFactory', 'historyFactory', 'baseUrl',
+function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerEPAModel, ReviewerManagementModel, CommonModel,
+    utilitiesFactory, historyFactory, baseUrl) {
     var vm = this;
 
     vm.permission = 0;
@@ -64,10 +66,10 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
     vm.save = function (epaInfo) {
         var totalcore = epaInfo.Process.CurrentProcess.TotalScore;
 
-        if (ReviewerManagementModel.validateEvaluation(totalcore) && ReviewerManagementModel.validateRecommendation(epaInfo)) {
+        if (ReviewerManagementModel.validateEvaluation(totalcore) && ReviewerEPAModel.validateRecommendation(epaInfo)) {
             var model = new Array(epaInfo);
 
-            ReviewerManagementModel.adjustScoreByReviewer(vm, model);
+            ReviewerEPAModel.adjustScoreByReviewer(vm, model);
         }
     };
 
@@ -82,8 +84,8 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
     };
 
     function getEPAInfoByReviewer() {
-        ReviewerManagementModel.getEPAInfoByReviewer(vm.epaId).then(function () {
-            vm.epaInfo = ReviewerManagementModel.epaInfo;
+        ReviewerEPAModel.getEPAInfoByReviewer(vm.epaId).then(function () {
+            vm.epaInfo = ReviewerEPAModel.epaInfo;
             vm.epaInfo.Rowspan = vm.epaInfo.Process.Evaluators.length;
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
 
@@ -125,8 +127,8 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
                 }
             }
 
-            ReviewerManagementModel.getUserPermissionOnReviewer().then(function () {
-                vm.permission = ReviewerManagementModel.permission;
+            ReviewerEPAModel.getUserPermissionOnReviewer().then(function () {
+                vm.permission = ReviewerEPAModel.permission;
 
                 if (vm.permission !== vm.policyEnum.Host) {
                     vm.epaInfo.IsAllowedToEdit = false;

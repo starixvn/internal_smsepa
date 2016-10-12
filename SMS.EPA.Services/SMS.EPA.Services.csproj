@@ -90,6 +90,7 @@
     <Compile Include="Implement\DisciplineSummaryService.cs" />
     <Compile Include="Implement\CommonService.cs" />
     <Compile Include="Implement\DepartmentService.cs" />
+    <Compile Include="Implement\ReviewerEPAService.cs" />
     <Compile Include="Implement\EvaluatorByKPIService.cs" />
     <Compile Include="Implement\EvaluatorEPAService.cs" />
     <Compile Include="Implement\SelfEvaluationService.cs" />
@@ -116,6 +117,7 @@
     <Compile Include="Interfaces\IDisciplineSummaryService.cs" />
     <Compile Include="Interfaces\ICommonService.cs" />
     <Compile Include="Interfaces\IDepartmentService.cs" />
+    <Compile Include="Interfaces\IReviewerEPAService.cs" />
     <Compile Include="Interfaces\IEvaluatorByKPIService.cs" />
     <Compile Include="Interfaces\IEvaluatorEPAService.cs" />
     <Compile Include="Interfaces\ISelfEvaluationService.cs" />

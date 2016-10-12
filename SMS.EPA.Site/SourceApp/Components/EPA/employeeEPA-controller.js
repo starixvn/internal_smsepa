@@ -116,8 +116,10 @@ function ($timeout, $routeParams, EmployeeEPAModel, CommonModel, utilitiesFactor
 }]);
 
 epaModule.controller('ModalAdjustScoreController',
-['$modalInstance', 'EmployeeEPAModel', 'ReviewerManagementModel', 'utilitiesFactory', 'notificationFactory', 'selectedEmployees', 'isReviewer',
-function ($modalInstance, EmployeeEPAModel, ReviewerManagementModel, utilitiesFactory, notificationFactory, selectedEmployees, isReviewer) {
+['$modalInstance', 'EmployeeEPAModel', 'ReviewerEPAModel', 'ReviewerManagementModel',
+    'utilitiesFactory', 'notificationFactory', 'selectedEmployees', 'isReviewer',
+function ($modalInstance, EmployeeEPAModel, ReviewerEPAModel, ReviewerManagementModel,
+    utilitiesFactory, notificationFactory, selectedEmployees, isReviewer) {
     var vm = this;
 
     vm.adjust = {
@@ -134,7 +136,7 @@ function ($modalInstance, EmployeeEPAModel, ReviewerManagementModel, utilitiesFa
         } else {
             if (vm.isReviewer) {
                 ReviewerManagementModel.calculateAdjustScoreMultiple(vm.selectedEmployees, vm.adjust, true);
-                ReviewerManagementModel.adjustScoreByReviewer(vm, vm.selectedEmployees);
+                ReviewerEPAModel.adjustScoreByReviewer(vm, vm.selectedEmployees);
             } else {
                 ReviewerManagementModel.calculateAdjustScoreMultiple(vm.selectedEmployees, vm.adjust, false);
                 ReviewerManagementModel.adjustScoreByManagement(vm, vm.selectedEmployees);
@@ -150,8 +152,8 @@ function ($modalInstance, EmployeeEPAModel, ReviewerManagementModel, utilitiesFa
 }]);
 
 epaModule.controller('ModalUpdateCommentController',
-['$modalInstance', 'EmployeeEPAModel', 'ReviewerManagementModel', 'utilitiesFactory', 'epaInfo', 'comment', 'isEdit', 'isReviewer',
-function ($modalInstance, EmployeeEPAModel, ReviewerManagementModel, utilitiesFactory, epaInfo, comment, isEdit, isReviewer) {
+['$modalInstance', 'EmployeeEPAModel', 'ReviewerEPAModel', 'ReviewerManagementModel', 'utilitiesFactory', 'epaInfo', 'comment', 'isEdit', 'isReviewer',
+function ($modalInstance, EmployeeEPAModel, ReviewerEPAModel, ReviewerManagementModel, utilitiesFactory, epaInfo, comment, isEdit, isReviewer) {
     var vm = this;
 
     vm.comment = comment;
@@ -179,9 +181,8 @@ function ($modalInstance, EmployeeEPAModel, ReviewerManagementModel, utilitiesFa
         model.push(vm.epaInfo);
 
         if (vm.isReviewer) {
-            ReviewerManagementModel.adjustScoreByReviewer(vm, model);
-        }
-        else {
+            ReviewerEPAModel.adjustScoreByReviewer(vm, model);
+        } else {
             ReviewerManagementModel.adjustScoreByManagement(vm, model);
         }
 

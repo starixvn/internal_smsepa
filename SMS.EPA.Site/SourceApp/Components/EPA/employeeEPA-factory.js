@@ -3,35 +3,6 @@
 
 epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, baseUrl) {
     return {
-        getUserPermissionOnReviewer: function () {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetUserPermissionOnReviewer');
-        },
-        getGroupByReviewer: function () {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetGroupByReviewer');
-        },
-        getMemberByReviewer: function (groupId, isLocal, isMonthly) {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetMemberByReviewer', {
-                params: {
-                    groupId: groupId,
-                    isLocal: isLocal,
-                    isMonthly: isMonthly
-                }
-            });
-        },
-        getEPAByReviewer: function (groupId, isLocal, isMonthly, employeeIds, statusProcess) {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAByReviewer', {
-                params: {
-                    groupId: groupId,
-                    isLocal: isLocal,
-                    isMonthly: isMonthly,
-                    employeeIds: employeeIds,
-                    statusProcess: statusProcess
-                }
-            });
-        },
-        getEPAInfoByReviewer: function (epaId) {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAInfoByReviewer', { params: { epaId: epaId } });
-        },
         getUserPermissionOnManagement: function () {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetUserPermissionOnManagement');
         },
@@ -61,9 +32,6 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
         },
         getEPAInfoById: function (epaId) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAInfoById', { params: { epaId: epaId } });
-        },
-        adjustScoreByReviewer: function (criteria) {
-            return $http.put(baseUrl + 'api/EmployeeEPA/AdjustScoreByReviewer', criteria);
         },
         adjustScoreByManagement: function (criteria) {
             return $http.put(baseUrl + 'api/EmployeeEPA/AdjustScoreByManagement', criteria);

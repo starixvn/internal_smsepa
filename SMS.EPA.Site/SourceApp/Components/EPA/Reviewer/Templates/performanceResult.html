@@ -38,7 +38,7 @@
                 </span>
                 <span ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="Pending"></span>
             </td>
-            <td ng-bind="memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].NickName" class="text-center"></td>
+            <td ng-bind="memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].EvaluatorInfo.NickName" class="text-center"></td>
             <td class="text-center col-score">
                 <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index] && memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].IsEndProcess">
                     {{memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.ScoreRatingType.Evaluator | customScore}}

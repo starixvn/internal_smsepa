@@ -204,6 +204,7 @@
     <Compile Include="Controllers\API\CommonController.cs" />
     <Compile Include="Controllers\API\DashboardController.cs" />
     <Compile Include="Controllers\API\DepartmentController.cs" />
+    <Compile Include="Controllers\API\ReviewerEPAController.cs" />
     <Compile Include="Controllers\API\EvaluatorByKPIController.cs" />
     <Compile Include="Controllers\API\EvaluatorEPAController.cs" />
     <Compile Include="Controllers\API\EmployeeEPAController.cs" />
@@ -444,6 +445,8 @@
     <Content Include="SourceApp\Components\EPA\Evaluator\evaluator-epa-factory.js" />
     <Content Include="SourceApp\Components\EPA\Evaluator\evaluator-epa-model.js" />
     <Content Include="SourceApp\Components\EPA\Management\management-access-controller.js" />
+    <Content Include="SourceApp\Components\EPA\Reviewer\reviewer-epa-model.js" />
+    <Content Include="SourceApp\Components\EPA\Reviewer\reviewer-epa-factory.js" />
     <Content Include="SourceApp\Components\EPA\Reviewer\reviewer-access-controller.js" />
     <Content Include="SourceApp\Components\EPA\Reviewer\Templates\recommendationForSemi.html" />
     <Content Include="SourceApp\Components\EPA\Reviewer\Templates\recommendationForProbationAndPromotion.html" />
@@ -529,10 +532,10 @@
     <Content Include="SourceApp\Components\EPA\Self\self-evaluation-access-controller.js" />
     <Content Include="SourceApp\Components\EPA\Self\Templates\detail.html" />
     <Content Include="SourceApp\Components\EPA\Self\Templates\summary.html" />
-    <Content Include="SourceApp\Components\EPA\reviewerManagement-model.js" />
+    <Content Include="SourceApp\Components\EPA\reviewer-management-model.js" />
     <Content Include="SourceApp\Components\EPA\Reviewer\Templates\detail.html" />
     <Content Include="SourceApp\Components\EPA\Reviewer\Templates\index.html" />
-    <Content Include="SourceApp\Components\EPA\Reviewer\reviewer-update-epa-controller.js" />
+    <Content Include="SourceApp\Components\EPA\Reviewer\reviewer-detail-controller.js" />
     <Content Include="SourceApp\Components\EPA\Reviewer\Templates\performanceResult.html" />
     <Content Include="SourceApp\Components\EPA\self-evaluator-model.js" />
     <Content Include="SourceApp\Components\EPA\Templates\evaluationProcess.html" />
