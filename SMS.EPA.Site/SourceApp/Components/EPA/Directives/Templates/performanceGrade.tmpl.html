@@ -2,8 +2,8 @@
 <table class="table table-bordered table-standard-grade">
     <tbody>
         <tr>
-            <td data-translate="PerformanceGradingScale">Performance Grading Scale</td>
-            <td ng-repeat="standardGrade in memberEPAInfoCtrl.standardGrades">
+            <td data-translate="PerformanceGradingScale"></td>
+            <td ng-repeat="standardGrade in performanceGradeCtrl.standardGrades">
                 {{standardGrade.Code}}. {{standardGrade.Name}}: {{standardGrade.LeftScore | customScore}} ~ {{standardGrade.RightScore | customScore}}
             </td>
         </tr>

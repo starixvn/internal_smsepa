@@ -4,7 +4,9 @@
               ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess"
               ng-model="memberEPAInfoCtrl.epaInfo.Process.Self.Comment" ng-readonly="true"></textarea>
     <textarea class="form-control" maxlength="2000"
-              ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" ng-readonly="true">Pending</textarea>
+              ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" ng-readonly="true">
+        Pending
+    </textarea>
     <div class="lable-comment-if-any control-label" data-translate="CommentByEvaluator"></div>
     <textarea class="form-control" maxlength="2000"
               ng-model="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.Comment"
@@ -97,4 +99,4 @@
     </tbody>
 </table>
 
-<div ng-if="!memberEPAInfoCtrl.epaInfo.IsMonthly" ng-include src="'/SourceApp/Components/EPA/Templates/performanceGradingScale.html'"></div>
+<epa-performance-grade data-standard-grades="memberEPAInfoCtrl.standardGrades" ng-if="!memberEPAInfoCtrl.epaInfo.IsMonthly"></epa-performance-grade>

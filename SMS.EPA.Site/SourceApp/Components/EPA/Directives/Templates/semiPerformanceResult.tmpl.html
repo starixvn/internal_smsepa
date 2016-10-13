@@ -1,0 +1,114 @@
+﻿<table class="table table-bordered table-striped table-performance-result table-custom">
+    <thead>
+        <tr>
+            <th rowspan="2" data-translate="EmployeeScore" class="col-score-small"></th>
+            <th rowspan="2" data-translate="EvaluatorScore" class="col-score-small"></th>
+            <th colspan="3" data-translate="Reviewer"></th>
+            <th colspan="3" data-translate="Management"></th>
+            <th rowspan="2" data-translate="DisciplineScore" class="col-score-small"></th>
+            <th rowspan="2" data-translate="TotalScore" class="col-score-small"></th>
+            <th rowspan="2" data-translate="Grade" class="col-score-small"></th>
+        </tr>
+        <tr>
+            <th class="col-score-small" data-translate="NickName"></th>
+            <th class="col-score-small" data-translate="PerformanceScore"></th>
+            <th data-translate="Comment" class="col-score-small"></th>
+            <th class="col-score-small" data-translate="NickName"></th>
+            <th data-translate="PerformanceScore" class="col-score-small"></th>
+            <th data-translate="Comment" class="col-comment"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="opt in performanceResultCtrl.range(performanceResultCtrl.epaInfo.Rowspan) track by $index">
+            <td rowspan="{{performanceResultCtrl.epaInfo.Rowspan}}" class="text-center col-score" ng-show="$first">
+                <div ng-show="performanceResultCtrl.process.Self.IsEndProcess">
+                    {{performanceResultCtrl.epaInfo.MonthlyEPA.AverageSelfScoreConverted | customScore}} / {{performanceResultCtrl.epaInfo.ScoreRatingType.SelfEvaluated | customScore}}
+                </div>
+                <div ng-show="!performanceResultCtrl.process.Self.IsEndProcess" data-translate="Pending"></div>
+            </td>
+            <td class="text-center col-score">
+                <div ng-show="performanceResultCtrl.process.Evaluators[0].IsEndProcess">
+                    {{performanceResultCtrl.epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted | customScore}} / {{performanceResultCtrl.epaInfo.ScoreRatingType.Evaluator | customScore}}
+                </div>
+                <div ng-show="!performanceResultCtrl.process.Evaluators[0].IsEndProcess" data-translate="Pending"></div>
+            </td>
+            <td class="text-center col-score" ng-show="performanceResultCtrl.process.Reviewers.length > 0">
+                <div ng-show="performanceResultCtrl.process.Reviewers[$index]"
+                     ng-bind="performanceResultCtrl.process.Reviewers[$index].EvaluatorInfo.NickName"></div>
+            </td>
+            <td class="text-center col-score" ng-show="performanceResultCtrl.process.Reviewers.length > 0">
+                <div ng-show="performanceResultCtrl.process.Reviewers[$index]
+                            && performanceResultCtrl.process.Reviewers[$index].IsEndProcess">
+                    {{performanceResultCtrl.process.Reviewers[$index].TotalScore | customScore}} / {{performanceResultCtrl.epaInfo.ScoreRatingType.Reviewer | customScore}}
+                </div>
+                <div ng-show="performanceResultCtrl.process.Reviewers[$index]
+                         && !performanceResultCtrl.process.Reviewers[$index].IsEndProcess" data-translate="Pending"></div>
+            </td>
+            <td class="text-center col-score" ng-show="performanceResultCtrl.process.Reviewers.length > 0">
+                <span class="glyphicon icon-view"
+                      ng-show="performanceResultCtrl.process.Reviewers[$index]
+                        && performanceResultCtrl.process.Reviewers[$index].IsEndProcess
+                        && performanceResultCtrl.process.Reviewers[$index].Comment.length > 0"
+                      tooltip="{{performanceResultCtrl.process.Reviewers[$index].Comment}}" tooltip-placement="top"></span>
+                <span data-translate="Pending"
+                      ng-show="performanceResultCtrl.process.Reviewers[$index]
+                        && !performanceResultCtrl.process.Reviewers[$index].IsEndProcess"></span>
+            </td>
+            <td class="text-center col-score" ng-show="performanceResultCtrl.process.Managements.length > 0">
+                <div ng-show="performanceResultCtrl.process.Managements[$index]"
+                     ng-bind="performanceResultCtrl.process.Managements[$index].EvaluatorInfo.NickName"></div>
+            </td>
+            <td class="text-center col-score" ng-show="performanceResultCtrl.process.Managements.length > 0">
+                <div ng-show="performanceResultCtrl.process.Managements[$index]
+                            && performanceResultCtrl.process.Managements[$index].IsEndProcess">
+                    <span ng-show="performanceResultCtrl.process.Managements[$index].TotalScore
+                              || performanceResultCtrl.process.Managements[$index].TotalScore == 0">
+                        {{performanceResultCtrl.process.Managements[$index].TotalScore | customScore}} / {{performanceResultCtrl.process.Managements[$index].MaxTotalScore | customScore}}
+                    </span>
+                    <span data-translate="NotAvailable" ng-show="!performanceResultCtrl.process.Managements[$index].TotalScore
+                                            && performanceResultCtrl.process.Managements[$index].TotalScore != 0"></span>
+                </div>
+                <div data-translate="Pending" ng-show="performanceResultCtrl.process.Managements[$index]
+                            && !performanceResultCtrl.process.Managements[$index].IsEndProcess"></div>
+            </td>
+            <td class="text-center col-comment" ng-show="performanceResultCtrl.process.Managements.length > 0">
+                <span class="glyphicon icon-view"
+                      ng-show="performanceResultCtrl.process.Managements[$index]
+                        && performanceResultCtrl.process.Managements[$index].IsEndProcess
+                        && performanceResultCtrl.process.Managements[$index].Comment.length > 0"
+                      tooltip="{{performanceResultCtrl.process.Managements[$index].Comment}}" tooltip-placement="left"></span>
+                <span data-translate="Pending"
+                      ng-show="performanceResultCtrl.process.Managements[$index]
+                        && !performanceResultCtrl.process.Managements[$index].IsEndProcess"></span>
+            </td>
+            <td rowspan="{{performanceResultCtrl.epaInfo.Rowspan}}" class="text-center col-score" ng-show="$first">
+                <strong ng-show="performanceResultCtrl.epaInfo.HasDisciplineScore">
+                    <span ng-class="performanceResultCtrl.epaInfo.DisciplineScore < 0 ? 'red' : ''"
+                          ng-bind="performanceResultCtrl.epaInfo.DisciplineScore | customScore"></span> / <span ng-bind="performanceResultCtrl.epaInfo.MaxDisciplineScore | customScore"></span>
+                </strong>
+                <div ng-show="!performanceResultCtrl.epaInfo.HasDisciplineScore">
+                    <strong ng-show="performanceResultCtrl.epaInfo.DisciplineScore"
+                            ng-class="performanceResultCtrl.epaInfo.DisciplineScore < 0 ? 'red' : ''"
+                            ng-bind="performanceResultCtrl.epaInfo.DisciplineScore | customScore"></strong>
+                    <strong ng-show="!performanceResultCtrl.epaInfo.DisciplineScore" ng-bind="'-'"></strong>
+                </div>
+            </td>
+            <td rowspan="{{performanceResultCtrl.epaInfo.Rowspan}}" class="text-center col-score" ng-show="$first">
+                <strong ng-show="performanceResultCtrl.epaInfo.Period.IsEndPeriod">
+                    <span ng-show="performanceResultCtrl.epaInfo.FinalScore || performanceResultCtrl.epaInfo.FinalScore == 0">
+                        {{performanceResultCtrl.epaInfo.FinalScore | customScore}} / {{performanceResultCtrl.epaInfo.MaxFinalScore | customScore}}
+                    </span>
+                    <span ng-show="!performanceResultCtrl.epaInfo.FinalScore && performanceResultCtrl.epaInfo.FinalScore != 0" data-translate="NotAvailable"></span>
+                </strong>
+                <strong ng-show="!performanceResultCtrl.epaInfo.Period.IsEndPeriod" data-translate="Pending"></strong>
+            </td>
+            <td rowspan="{{performanceResultCtrl.epaInfo.Rowspan}}" class="text-center col-score" ng-show="$first">
+                <strong ng-show="performanceResultCtrl.epaInfo.Period.IsEndPeriod">
+                    <span ng-show="performanceResultCtrl.epaInfo.Grade" ng-bind="performanceResultCtrl.epaInfo.Grade"></span>
+                    <span ng-show="!performanceResultCtrl.epaInfo.Grade" data-translate="NotAvailable"></span>
+                </strong>
+                <strong ng-show="!performanceResultCtrl.epaInfo.Period.IsEndPeriod" data-translate="Pending"></strong>
+            </td>
+        </tr>
+    </tbody>
+</table>

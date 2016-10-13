@@ -2,40 +2,15 @@
 /*global epaModule*/
 
 epaModule.controller('ViewEPADetailController',
-['$timeout', '$routeParams', 'EvaluationModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'baseUrl',
-function ($timeout, $routeParams, EvaluationModel, CommonModel, utilitiesFactory, historyFactory, baseUrl) {
+['$routeParams', 'EvaluationModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'baseUrl',
+function ($routeParams, EvaluationModel, CommonModel, utilitiesFactory, historyFactory, baseUrl) {
     var vm = this;
 
     vm.epaId = parseInt($routeParams.id);
     vm.allowedExportPdf = $routeParams.exportPdf;
     vm.jobGrades = [];
     vm.standardGrades = [];
-    vm.ratingTypeEnum = utilitiesFactory.ratingType;
-    vm.statusEndProcessEnum = utilitiesFactory.statusEndProcess;
     vm.isViewDetail = true;
-    vm.hasRatingByStar = false;
-    vm.showRatingScoreByStar = true;
-
-    vm.generateRatingStar = function () {
-        $timeout(function () {
-            $(".rating-loading").rating();
-        }, 1);
-    };
-
-    // Event read more / less text.
-    utilitiesFactory.maxLengthDescription(vm);
-
-    vm.readMore = function (item) {
-        utilitiesFactory.readMore(item);
-    };
-
-    vm.readLess = function (item) {
-        utilitiesFactory.readLess(item);
-    };
-
-    vm.range = function (n) {
-        return new Array(n);
-    };
 
     vm.back = function () {
         historyFactory.back();
@@ -57,13 +32,6 @@ function ($timeout, $routeParams, EvaluationModel, CommonModel, utilitiesFactory
         EvaluationModel.getEPAInfoById(vm.epaId).then(function () {
             vm.epaInfo = EvaluationModel.epaInfo;
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
-
-            if (vm.epaInfo.RatingType.RatingTypeId === vm.ratingTypeEnum.Star
-                    || vm.epaInfo.RatingType.RatingTypeId === vm.ratingTypeEnum.HalfStar
-                    || (vm.epaInfo.RatingType.RatingTypeId === vm.ratingTypeEnum.Score
-                        && $.grep(vm.epaInfo.KPIGroups, function (e) { return e.NumberKPIOptional > 0; }).length > 0)) {
-                vm.hasRatingByStar = true;
-            }
 
             // self
             vm.epaInfo.Process.Self.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.Self.TotalScore);

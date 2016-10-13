@@ -8,7 +8,7 @@
     function ratingInstruction() {
         return {
             restrict: 'E',
-            templateUrl: '/SourceApp/Components/EPA/Templates/ratingInstruction.tmpl.html'
+            templateUrl: '/SourceApp/Components/EPA/Directives/Templates/ratingInstruction.tmpl.html'
         };
     }
 })(angular);

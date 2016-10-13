@@ -33,7 +33,10 @@
                             <h4 class="panel-title text-uppercase" data-translate="PerformanceResult"></h4>
                         </div>
                         <div class="panel-collapse collapse in performanceResult">
-                            <div class="panel-body summary-section" ng-include src="'/SourceApp/Components/EPA/Templates/semiPerformanceResult.html'"></div>
+                            <div class="panel-body summary-section">
+                                <epa-semi-performance-result data-epa-info="memberEPAInfoCtrl.epaInfo"></epa-semi-performance-result>
+                                <epa-performance-grade data-standard-grades="memberEPAInfoCtrl.standardGrades"></epa-performance-grade>
+                            </div>
                         </div>
                     </div>
                 </any>
@@ -44,7 +47,10 @@
                             <h4 class="panel-title text-uppercase" data-translate="PerformanceResult"></h4>
                         </div>
                         <div class="panel-collapse collapse in performanceResult">
-                            <div class="panel-body summary-section" ng-include src="'/SourceApp/Components/EPA/Templates/performanceResult.html'"></div>
+                            <div class="panel-body summary-section">
+                                <epa-performance-result data-epa-info="memberEPAInfoCtrl.epaInfo"></epa-performance-result>
+                                <epa-performance-grade data-standard-grades="memberEPAInfoCtrl.standardGrades"></epa-performance-grade>
+                            </div>
                         </div>
                     </div>
                 </any>
@@ -70,13 +76,15 @@
                             <h4 class="panel-title">{{"Monthly EPAs" | translate}}</h4>
                         </div>
                         <div class="panel-collapse collapse in monthlyEPAs">
-                            <div class="panel-body summary-section" ng-include src="'/SourceApp/Components/EPA/Templates/monthlyEPAs.html'"></div>
+                            <div class="panel-body">
+                                <epa-monthly-result data-epa-info="memberEPAInfoCtrl.epaInfo"></epa-monthly-result>
+                            </div>
                         </div>
                     </div>
                 </any>
 
                 <any ng-switch-default>
-                    <div ng-include src="'/SourceApp/Components/EPA/Templates/performanceDetails.html'"></div>
+                    <epa-performance-detail data-epa-info="memberEPAInfoCtrl.epaInfo"></epa-performance-detail>
                 </any>
             </any>
         </div>
