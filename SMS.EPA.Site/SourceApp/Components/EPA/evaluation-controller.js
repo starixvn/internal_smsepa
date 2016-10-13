@@ -2,8 +2,8 @@
 /*global epaModule*/
 
 epaModule.controller('ViewEPADetailController',
-['$timeout', '$routeParams', 'EmployeeEPAModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'baseUrl',
-function ($timeout, $routeParams, EmployeeEPAModel, CommonModel, utilitiesFactory, historyFactory, baseUrl) {
+['$timeout', '$routeParams', 'EvaluationModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'baseUrl',
+function ($timeout, $routeParams, EvaluationModel, CommonModel, utilitiesFactory, historyFactory, baseUrl) {
     var vm = this;
 
     vm.epaId = parseInt($routeParams.id);
@@ -54,8 +54,8 @@ function ($timeout, $routeParams, EmployeeEPAModel, CommonModel, utilitiesFactor
     };
 
     function getEPAInfoById() {
-        EmployeeEPAModel.getEPAInfoById(vm.epaId).then(function () {
-            vm.epaInfo = EmployeeEPAModel.epaInfo;
+        EvaluationModel.getEPAInfoById(vm.epaId).then(function () {
+            vm.epaInfo = EvaluationModel.epaInfo;
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
 
             if (vm.epaInfo.RatingType.RatingTypeId === vm.ratingTypeEnum.Star
@@ -85,7 +85,7 @@ function ($timeout, $routeParams, EmployeeEPAModel, CommonModel, utilitiesFactor
 
             if (vm.epaInfo.Period.IsEndPeriod && vm.epaInfo.FinalScore.length > 0) {
                 vm.epaInfo.FinalScore = utilitiesFactory.parseFloat(vm.epaInfo.FinalScore);
-                vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.epaInfo.FinalScore, vm.standardGrades);
+                vm.epaInfo.Grade = EvaluationModel.convertScoreToGrade(vm.epaInfo.FinalScore, vm.standardGrades);
             } else {
                 vm.epaInfo.FinalScore = null;
             }
@@ -116,9 +116,9 @@ function ($timeout, $routeParams, EmployeeEPAModel, CommonModel, utilitiesFactor
 }]);
 
 epaModule.controller('ModalAdjustScoreController',
-['$modalInstance', 'EmployeeEPAModel', 'ReviewerEPAModel', 'ManagementEPAModel', 'ReviewerManagementModel',
+['$modalInstance', 'EvaluationModel', 'ReviewerEPAModel', 'ManagementEPAModel', 'ReviewerManagementModel',
     'utilitiesFactory', 'notificationFactory', 'selectedEmployees', 'isReviewer',
-function ($modalInstance, EmployeeEPAModel, ReviewerEPAModel, ManagementEPAModel, ReviewerManagementModel,
+function ($modalInstance, EvaluationModel, ReviewerEPAModel, ManagementEPAModel, ReviewerManagementModel,
     utilitiesFactory, notificationFactory, selectedEmployees, isReviewer) {
     var vm = this;
 
@@ -152,9 +152,9 @@ function ($modalInstance, EmployeeEPAModel, ReviewerEPAModel, ManagementEPAModel
 }]);
 
 epaModule.controller('ModalUpdateCommentController',
-['$modalInstance', 'EmployeeEPAModel', 'ReviewerEPAModel', 'ManagementEPAModel', 'ReviewerManagementModel',
+['$modalInstance', 'EvaluationModel', 'ReviewerEPAModel', 'ManagementEPAModel', 'ReviewerManagementModel',
     'utilitiesFactory', 'epaInfo', 'comment', 'isEdit', 'isReviewer',
-function ($modalInstance, EmployeeEPAModel, ReviewerEPAModel, ManagementEPAModel, ReviewerManagementModel,
+function ($modalInstance, EvaluationModel, ReviewerEPAModel, ManagementEPAModel, ReviewerManagementModel,
     utilitiesFactory, epaInfo, comment, isEdit, isReviewer) {
     var vm = this;
 

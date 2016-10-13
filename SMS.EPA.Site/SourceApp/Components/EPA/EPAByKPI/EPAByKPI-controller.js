@@ -3,10 +3,10 @@
     /* jshint latedef:nofunc */
 
     angular.module('epaModule').controller('EPAByKPIController', epaByKPIController);
-    epaByKPIController.$inject = ['$window', '$timeout', '$translate', 'EPAByKPIModel', 'EmployeeEPAModel',
+    epaByKPIController.$inject = ['$window', '$timeout', '$translate', 'EPAByKPIModel', 'EvaluationModel',
         'CommonModel', 'utilitiesFactory', 'historyFactory', 'baseUrl'];
 
-    function epaByKPIController($window, $timeout, $translate, EPAByKPIModel, EmployeeEPAModel,
+    function epaByKPIController($window, $timeout, $translate, EPAByKPIModel, EvaluationModel,
         CommonModel, utilitiesFactory, historyFactory, baseUrl) {
         var vm = this;
         vm.periods = [];
@@ -126,7 +126,7 @@
                         epaInfo.TotalScoreOriginal = utilitiesFactory.parseFloat(totalScoreOriginal - totalScoreEvaluated);
                     }
 
-                    EmployeeEPAModel.scoreSpread(epaInfo.KPIGroup);
+                    EvaluationModel.scoreSpread(epaInfo.KPIGroup);
                 });
             });
         }

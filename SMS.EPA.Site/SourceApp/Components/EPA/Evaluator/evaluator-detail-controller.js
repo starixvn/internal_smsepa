@@ -2,9 +2,9 @@
 /*global epaModule*/
 
 epaModule.controller('MemberEPAInfoOfEvaluatorController',
-['$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'EvaluatorEPAModel', 'SelfEvalutorModel', 'CommonModel',
+['$timeout', '$translate', '$routeParams', 'EvaluationModel', 'EvaluatorEPAModel', 'SelfEvalutorModel', 'CommonModel',
     'utilitiesFactory', 'historyFactory', 'baseUrl',
-function ($timeout, $translate, $routeParams, EmployeeEPAModel, EvaluatorEPAModel, SelfEvalutorModel, CommonModel,
+function ($timeout, $translate, $routeParams, EvaluationModel, EvaluatorEPAModel, SelfEvalutorModel, CommonModel,
     utilitiesFactory, historyFactory, baseUrl) {
     var vm = this;
 
@@ -42,12 +42,12 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, EvaluatorEPAMode
     };
 
     vm.getClassProgress = function (statusEndProcess) {
-        return EmployeeEPAModel.getClassProgress(statusEndProcess);
+        return EvaluationModel.getClassProgress(statusEndProcess);
     };
 
     vm.getNotificationInputScore = function (kpi) {
         var weight = utilitiesFactory.splitNumber(kpi.Weight, 2);
-        return EmployeeEPAModel.getNotificationInputScore(0, weight, vm.scoreInputValidMessage);
+        return EvaluationModel.getNotificationInputScore(0, weight, vm.scoreInputValidMessage);
     };
 
     vm.inputScore = function (kpi) {
@@ -57,7 +57,7 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, EvaluatorEPAMode
         score = utilitiesFactory.splitNumber(score, 2);
         kpi.CurrentEvaluation.Rate = 0;
 
-        if (!EmployeeEPAModel.validateScoreInput(score, 0, weight, vm.scoreInputValidMessage)) {
+        if (!EvaluationModel.validateScoreInput(score, 0, weight, vm.scoreInputValidMessage)) {
             kpi.CurrentEvaluation.Score = null;
         }
 
@@ -131,9 +131,9 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, EvaluatorEPAMode
             vm.epaInfo.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.CurrentProcess.TotalScore);
 
             vm.finalScoreOfSelf = vm.epaInfo.Process.Self.TotalScore + vm.epaInfo.DisciplineScore;
-            vm.finalScoreOfSelf = EmployeeEPAModel.checkScore(vm.finalScoreOfSelf, 0, vm.epaInfo.Process.Self.MaxPerformanceScore);
+            vm.finalScoreOfSelf = EvaluationModel.checkScore(vm.finalScoreOfSelf, 0, vm.epaInfo.Process.Self.MaxPerformanceScore);
             vm.finalScore = vm.epaInfo.Process.CurrentProcess.TotalScore + vm.epaInfo.DisciplineScore;
-            vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.epaInfo.Process.CurrentProcess.MaxPerformanceScore);
+            vm.finalScore = EvaluationModel.checkScore(vm.finalScore, 0, vm.epaInfo.Process.CurrentProcess.MaxPerformanceScore);
 
             if (vm.epaInfo.LastFinalScore.length > 0) {
                 vm.epaInfo.LastFinalScore = utilitiesFactory.parseFloat(vm.epaInfo.LastFinalScore);
@@ -141,8 +141,8 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, EvaluatorEPAMode
                 vm.epaInfo.LastFinalScore = null;
             }
 
-            vm.gradeOfSelf = EmployeeEPAModel.convertScoreToGrade(vm.finalScoreOfSelf, vm.standardGrades);
-            vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
+            vm.gradeOfSelf = EvaluationModel.convertScoreToGrade(vm.finalScoreOfSelf, vm.standardGrades);
+            vm.epaInfo.Grade = EvaluationModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
             vm.evaluatedDate = vm.epaInfo.Process.CurrentProcess.EvaluateDate ? vm.epaInfo.Process.CurrentProcess.EvaluateDate : null;
 
             EvaluatorEPAModel.getUserPermissionOnEvaluator().then(function () {

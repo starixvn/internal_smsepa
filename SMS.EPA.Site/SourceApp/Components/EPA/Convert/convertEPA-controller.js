@@ -2,12 +2,12 @@
 /*global epaModule*/
 
 epaModule.controller('ConvertEPAController',
-['employeeEPAFactory', 'notificationFactory', 'errorFactory',
-function (employeeEPAFactory, notificationFactory, errorFactory) {
+['evaluationFactory', 'notificationFactory', 'errorFactory',
+function (evaluationFactory, notificationFactory, errorFactory) {
     var vm = this;
 
     vm.convertEPA = function () {
-        return employeeEPAFactory.convertEPA()
+        return evaluationFactory.convertEPA()
         .success(function (response) {
             if (response.IsSuccessful) {
                 notificationFactory.success("UpdatedSuccessfully");

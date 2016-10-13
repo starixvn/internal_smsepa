@@ -3,9 +3,9 @@
     /* jshint latedef:nofunc */
 
     angular.module('epaModule').factory('SelfEvalutorModel', selfEvalutorModel);
-    selfEvalutorModel.$inject = ['$modal', 'EmployeeEPAModel', 'utilitiesFactory'];
+    selfEvalutorModel.$inject = ['$modal', 'EvaluationModel', 'utilitiesFactory'];
 
-    function selfEvalutorModel($modal, EmployeeEPAModel, utilitiesFactory) {
+    function selfEvalutorModel($modal, EvaluationModel, utilitiesFactory) {
         var model = {
             calculateScore: calculateScore,
             openPopupNotificationInvalidComment: openPopupNotificationInvalidComment,
@@ -41,12 +41,12 @@
 
             vm.epaInfo.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(totalScore);
             var maxTotalScore = vm.epaInfo.Process.CurrentProcess.MaxTotalScore;
-            vm.epaInfo.Process.CurrentProcess.TotalScore = EmployeeEPAModel.checkScore(vm.epaInfo.Process.CurrentProcess.TotalScore, 0, maxTotalScore);
+            vm.epaInfo.Process.CurrentProcess.TotalScore = EvaluationModel.checkScore(vm.epaInfo.Process.CurrentProcess.TotalScore, 0, maxTotalScore);
 
             vm.finalScore = utilitiesFactory.parseFloat(totalScore + vm.epaInfo.DisciplineScore);
-            vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.epaInfo.Process.CurrentProcess.MaxPerformanceScore);
+            vm.finalScore = EvaluationModel.checkScore(vm.finalScore, 0, vm.epaInfo.Process.CurrentProcess.MaxPerformanceScore);
 
-            vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
+            vm.epaInfo.Grade = EvaluationModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
         }
 
         function openPopupNotificationInvalidComment(vm, message) {

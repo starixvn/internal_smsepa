@@ -2,8 +2,8 @@
 /*global epaModule*/
 
 epaModule.controller('RatingByKPIController',
-['$window', '$timeout', '$translate', 'RatingByKPIModel', 'EmployeeEPAModel', 'CommonModel', 'utilitiesFactory', 'baseUrl', 'historyFactory',
-function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, CommonModel, utilitiesFactory, baseUrl, historyFactory) {
+['$window', '$timeout', '$translate', 'RatingByKPIModel', 'EvaluationModel', 'CommonModel', 'utilitiesFactory', 'baseUrl', 'historyFactory',
+function ($window, $timeout, $translate, RatingByKPIModel, EvaluationModel, CommonModel, utilitiesFactory, baseUrl, historyFactory) {
     var vm = this;
 
     vm.periods = [];
@@ -268,7 +268,7 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
                     epaInfo.TotalScoreOriginal = utilitiesFactory.parseFloat(totalScoreOriginal - totalScoreEvaluated);
                 }
 
-                EmployeeEPAModel.scoreSpread(epaInfo.KPIGroup);
+                EvaluationModel.scoreSpread(epaInfo.KPIGroup);
             });
         });
     };

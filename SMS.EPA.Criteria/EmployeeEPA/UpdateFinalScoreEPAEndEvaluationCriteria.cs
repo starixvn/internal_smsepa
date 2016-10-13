@@ -22,17 +22,19 @@
             get
             {
                 var epaXmlBuilder = new StringBuilder();
-                epaXmlBuilder.Append(Constants.BeginRootTag);
 
                 if (EPAInfos != null && EPAInfos.Any())
                 {
+                    epaXmlBuilder.Append(Constants.BeginRootTag);
+
                     foreach (EPAModel epaInfo in EPAInfos)
                     {
                         epaXmlBuilder.AppendFormat(TemplateXml, epaInfo.EPAId, epaInfo.FinalScore, epaInfo.DisciplineScore, epaInfo.Grade);
                     }
+
+                    epaXmlBuilder.Append(Constants.EndRootTag);
                 }
 
-                epaXmlBuilder.Append(Constants.EndRootTag);
                 return epaXmlBuilder.ToString();
             }
         }

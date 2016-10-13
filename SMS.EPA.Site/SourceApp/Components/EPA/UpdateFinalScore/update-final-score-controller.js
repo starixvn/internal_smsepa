@@ -3,9 +3,9 @@
     /* jshint latedef:nofunc */
 
     angular.module('epaModule').controller('UpdateFinalScoreController', updateFinalScoreController);
-    updateFinalScoreController.$inject = ['$scope', 'EmployeeEPAModel', 'CommonModel', 'notificationFactory', 'utilitiesFactory', 'lockScreenService'];
+    updateFinalScoreController.$inject = ['$scope', 'UpdateFinalScoreModel', 'CommonModel', 'notificationFactory', 'utilitiesFactory', 'lockScreenService'];
 
-    function updateFinalScoreController($scope, EmployeeEPAModel, CommonModel, notificationFactory, utilitiesFactory, lockScreenService) {
+    function updateFinalScoreController($scope, UpdateFinalScoreModel, CommonModel, notificationFactory, utilitiesFactory, lockScreenService) {
         var vm = this;
 
         vm.currentPage = 1;
@@ -60,7 +60,7 @@
 
         function getEmployee() {
             if (vm.filter.periodId > 0) {
-                return EmployeeEPAModel.getEmployeeToUpdateFinalScore(vm.filter.periodId, vm.filter.groupId, vm.filter.isLocal, vm.searchEmployee);
+                return UpdateFinalScoreModel.getEmployeeToUpdateFinalScore(vm.filter.periodId, vm.filter.groupId, vm.filter.isLocal, vm.searchEmployee);
             }
         }
 
@@ -73,8 +73,8 @@
                 lockScreenService.start();
                 var employeeId = filter.employee ? filter.employee.EmployeeId : null;
 
-                EmployeeEPAModel.getEPAToUpdateFinalScore(filter.periodId, filter.groupId, filter.isLocal, employeeId).then(function () {
-                    vm.epaInfos = EmployeeEPAModel.epaInfos;
+                UpdateFinalScoreModel.getEPAToUpdateFinalScore(filter.periodId, filter.groupId, filter.isLocal, employeeId).then(function () {
+                    vm.epaInfos = UpdateFinalScoreModel.epaInfos;
                     utilitiesFactory.searchOnPage(vm, vm.epaInfos);
                     lockScreenService.stop();
                 });
@@ -98,8 +98,8 @@
         }
 
         function initialize() {
-            EmployeeEPAModel.getPeriodToUpdateFinalScore().then(function () {
-                vm.periods = EmployeeEPAModel.periods;
+            UpdateFinalScoreModel.getPeriodToUpdateFinalScore().then(function () {
+                vm.periods = UpdateFinalScoreModel.periods;
             });
 
             CommonModel.getAllGroup().then(function () {
@@ -142,7 +142,7 @@
             if (!selectedEPAs || selectedEPAs.length === 0) {
                 notificationFactory.error('SelectEPABeforeEditSettingWarning');
             } else {
-                EmployeeEPAModel.updateFinalScore(vm, selectedEPAs);
+                UpdateFinalScoreModel.updateFinalScore(vm, selectedEPAs);
             }
         }
 

@@ -2,8 +2,8 @@
 /*global epaModule*/
 
 epaModule.factory('ReviewerManagementModel',
-['$modal', 'EmployeeEPAModel', 'employeeEPAFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory',
-function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notificationFactory, errorFactory) {
+['$modal', 'EvaluationModel', 'evaluationFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory',
+function ($modal, EvaluationModel, evaluationFactory, utilitiesFactory, notificationFactory, errorFactory) {
     var reviewerMngModel = this;
 
     reviewerMngModel.getEPASelected = function (epaInfos) {
@@ -124,7 +124,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
 
         epaInfo.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(averageScore + scoreAdjusted);
         epaInfo.FinalScore = averageScore + scoreAdjusted + epaInfo.DisciplineScore;
-        epaInfo.FinalScore = EmployeeEPAModel.checkScore(epaInfo.FinalScore, 0, epaInfo.Process.CurrentProcess.MaxPerformanceScore);
+        epaInfo.FinalScore = EvaluationModel.checkScore(epaInfo.FinalScore, 0, epaInfo.Process.CurrentProcess.MaxPerformanceScore);
     };
 
     reviewerMngModel.calculatePerformanceScore = function (vm, isReviewer) {
@@ -140,11 +140,11 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         }
 
         vm.finalScore = totalScore + vm.epaInfo.DisciplineScore;
-        vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.maxPerformanceScore);
+        vm.finalScore = EvaluationModel.checkScore(vm.finalScore, 0, vm.maxPerformanceScore);
 
         vm.epaInfo.Process.CurrentProcess.AdjustScore = utilitiesFactory.parseFloat(totalScore - averageScore);
         vm.epaInfo.Process.CurrentProcess.AdjustScoreOriginal = vm.epaInfo.Process.CurrentProcess.AdjustScore;
-        vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
+        vm.epaInfo.Grade = EvaluationModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
     };
 
     reviewerMngModel.calculateAdjustScore = function (epaInfos, isReviewer) {
@@ -194,7 +194,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
                 epaInfo.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(averageScore + scoreAdjusted);
                 epaInfo.Process.CurrentProcess.TotalScoreOriginal = epaInfo.Process.CurrentProcess.TotalScore;
                 epaInfo.FinalScore = averageScore + scoreAdjusted + epaInfo.DisciplineScore;
-                epaInfo.FinalScore = EmployeeEPAModel.checkScore(epaInfo.FinalScore, 0, epaInfo.Process.CurrentProcess.MaxPerformanceScore);
+                epaInfo.FinalScore = EvaluationModel.checkScore(epaInfo.FinalScore, 0, epaInfo.Process.CurrentProcess.MaxPerformanceScore);
 
                 if (epaInfo.Process.CurrentProcess.Comment && epaInfo.Process.CurrentProcess.Comment.length > 0) {
                     epaInfo.Process.CurrentProcess.Comment = epaInfo.Process.CurrentProcess.Comment + '\n' + adjust.Comment;

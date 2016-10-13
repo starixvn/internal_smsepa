@@ -2,9 +2,9 @@
 /*global epaModule*/
 
 epaModule.controller('ManagementController',
-['$translate', '$location', '$routeParams', 'EmployeeEPAModel', 'ManagementEPAModel', 'ReviewerManagementModel', 'CommonModel',
+['$translate', '$location', '$routeParams', 'EvaluationModel', 'ManagementEPAModel', 'ReviewerManagementModel', 'CommonModel',
     'utilitiesFactory', 'notificationFactory', 'historyFactory', 'lockScreenService', 'baseUrl',
-function ($translate, $location, $routeParams, EmployeeEPAModel, ManagementEPAModel, ReviewerManagementModel, CommonModel,
+function ($translate, $location, $routeParams, EvaluationModel, ManagementEPAModel, ReviewerManagementModel, CommonModel,
     utilitiesFactory, notificationFactory, historyFactory, lockScreenService, baseUrl) {
     var vm = this;
 
@@ -253,19 +253,19 @@ function ($translate, $location, $routeParams, EmployeeEPAModel, ManagementEPAMo
         var maxSubtractScore = epaInfo.Process.CurrentProcess.MaxSubtractScore,
             maxAdditionScore = epaInfo.Process.CurrentProcess.MaxAdditionScore;
 
-        return EmployeeEPAModel.getNotificationInputScore(maxSubtractScore, maxAdditionScore, vm.scoreInputValidMessage);
+        return EvaluationModel.getNotificationInputScore(maxSubtractScore, maxAdditionScore, vm.scoreInputValidMessage);
     };
 
     vm.inputScore = function (epaInfo) {
         var maxSubtractScore = epaInfo.Process.CurrentProcess.MaxSubtractScore,
             maxAdditionScore = epaInfo.Process.CurrentProcess.MaxAdditionScore;
 
-        if (!EmployeeEPAModel.validateScoreInput(epaInfo.Process.CurrentProcess.AdjustScore, maxSubtractScore, maxAdditionScore, vm.scoreInputValidMessage)) {
+        if (!EvaluationModel.validateScoreInput(epaInfo.Process.CurrentProcess.AdjustScore, maxSubtractScore, maxAdditionScore, vm.scoreInputValidMessage)) {
             epaInfo.Process.CurrentProcess.AdjustScore = null;
         }
 
         ReviewerManagementModel.calculateScore(epaInfo, false);
-        epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(epaInfo.FinalScore, vm.standardGrades);
+        epaInfo.Grade = EvaluationModel.convertScoreToGrade(epaInfo.FinalScore, vm.standardGrades);
     };
 
     vm.adjustScore = function () {
@@ -277,7 +277,7 @@ function ($translate, $location, $routeParams, EmployeeEPAModel, ManagementEPAMo
             ReviewerManagementModel.openPopupAdjustScore(vm, epaInfos, false).then(function (adjust) {
                 ReviewerManagementModel.calculateAdjustScoreMultiple(epaInfos, adjust, false);
                 angular.forEach(epaInfos, function (epaInfo) {
-                    epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(epaInfo.FinalScore, vm.standardGrades);
+                    epaInfo.Grade = EvaluationModel.convertScoreToGrade(epaInfo.FinalScore, vm.standardGrades);
                 });
             })['finally'](function () {
                 vm.modalInstance = null;
@@ -309,7 +309,7 @@ function ($translate, $location, $routeParams, EmployeeEPAModel, ManagementEPAMo
                 vm.epaInfos[index].Process.CurrentProcess.Evaluated = true;
 
                 ReviewerManagementModel.calculateScore(vm.epaInfos[index], false);
-                vm.epaInfos[index].Grade = EmployeeEPAModel.convertScoreToGrade(vm.epaInfos[index].FinalScore, vm.standardGrades);
+                vm.epaInfos[index].Grade = EvaluationModel.convertScoreToGrade(vm.epaInfos[index].FinalScore, vm.standardGrades);
             }
         })['finally'](function () {
             vm.modalInstance = null;
@@ -333,8 +333,8 @@ function ($translate, $location, $routeParams, EmployeeEPAModel, ManagementEPAMo
                 epaInfo.Process.Self.TotalScore = utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore);
                 epaInfo.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(epaInfo.Process.CurrentProcess.TotalScore);
                 epaInfo.FinalScore = epaInfo.Process.CurrentProcess.TotalScore + epaInfo.DisciplineScore;
-                epaInfo.FinalScore = EmployeeEPAModel.checkScore(epaInfo.FinalScore, 0, epaInfo.Process.CurrentProcess.MaxPerformanceScore);
-                epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(epaInfo.FinalScore, vm.standardGrades);
+                epaInfo.FinalScore = EvaluationModel.checkScore(epaInfo.FinalScore, 0, epaInfo.Process.CurrentProcess.MaxPerformanceScore);
+                epaInfo.Grade = EvaluationModel.convertScoreToGrade(epaInfo.FinalScore, vm.standardGrades);
 
                 if (epaInfo.LastFinalScore.length > 0) {
                     epaInfo.LastFinalScore = utilitiesFactory.parseFloat(epaInfo.LastFinalScore);

@@ -2,9 +2,9 @@
 /*global epaModule*/
 
 epaModule.controller('EvaluatorController',
-['$routeParams', 'EmployeeEPAModel', 'EvaluatorEPAModel', 'SelfEvalutorModel', 'CommonModel',
+['$routeParams', 'EvaluationModel', 'EvaluatorEPAModel', 'SelfEvalutorModel', 'CommonModel',
     'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl',
-function ($routeParams, EmployeeEPAModel, EvaluatorEPAModel, SelfEvalutorModel, CommonModel,
+function ($routeParams, EvaluationModel, EvaluatorEPAModel, SelfEvalutorModel, CommonModel,
     utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
     var vm = this;
 
@@ -84,7 +84,7 @@ function ($routeParams, EmployeeEPAModel, EvaluatorEPAModel, SelfEvalutorModel, 
                     epaInfo.Process.Self.TotalScore = utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore);
                     epaInfo.FinalScore = utilitiesFactory.parseFloat(epaInfo.Process.CurrentProcess.TotalScore) + epaInfo.DisciplineScore;
                 }
-                epaInfo.FinalScore = EmployeeEPAModel.checkScore(epaInfo.FinalScore, 0, epaInfo.Process.CurrentProcess.MaxPerformanceScore);
+                epaInfo.FinalScore = EvaluationModel.checkScore(epaInfo.FinalScore, 0, epaInfo.Process.CurrentProcess.MaxPerformanceScore);
 
                 if (epaInfo.LastFinalScore.length > 0) {
                     epaInfo.LastFinalScore = utilitiesFactory.parseFloat(epaInfo.LastFinalScore);
@@ -92,7 +92,7 @@ function ($routeParams, EmployeeEPAModel, EvaluatorEPAModel, SelfEvalutorModel, 
                     epaInfo.LastFinalScore = null;
                 }
 
-                epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(epaInfo.FinalScore, vm.standardGrades);
+                epaInfo.Grade = EvaluationModel.convertScoreToGrade(epaInfo.FinalScore, vm.standardGrades);
             });
 
             if (isMonthly) {
