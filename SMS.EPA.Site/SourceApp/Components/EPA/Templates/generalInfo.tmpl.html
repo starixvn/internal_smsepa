@@ -2,7 +2,7 @@
     <div class="col-sm-2 text-center">
         <div class="row pull-left">
             <div class="img-user">
-                <img class="img-default" ng-src="{{memberEPAInfoCtrl.epaInfo.Employee.Avatar}}" alt="User" />
+                <img class="img-default" ng-src="{{generalInfoCtrl.employeeInfo.Avatar}}" alt="User" />
             </div>
         </div>
     </div>
@@ -11,13 +11,13 @@
             <div class="col-sm-6">
                 <div class="col-sm-4" data-translate="EmployeeCode"></div>
                 <div class="col-sm-7">
-                    <strong ng-bind="memberEPAInfoCtrl.epaInfo.Employee.Code"></strong>
+                    <strong ng-bind="generalInfoCtrl.employeeInfo.Code"></strong>
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="col-sm-4" data-translate="NickName"></div>
                 <div class="col-sm-7">
-                    <strong ng-bind="memberEPAInfoCtrl.epaInfo.Employee.NickName"></strong>
+                    <strong ng-bind="generalInfoCtrl.employeeInfo.NickName"></strong>
                 </div>
             </div>
         </div>
@@ -25,13 +25,13 @@
             <div class="col-sm-6">
                 <div class="col-sm-4" data-translate="FullName"></div>
                 <div class="col-sm-7">
-                    <strong ng-bind="memberEPAInfoCtrl.epaInfo.Employee.FullName"></strong>
+                    <strong ng-bind="generalInfoCtrl.employeeInfo.FullName"></strong>
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="col-sm-4" data-translate="JobTitle"></div>
                 <div class="col-sm-7">
-                    <strong ng-bind="memberEPAInfoCtrl.epaInfo.Employee.JobTitleName"></strong>
+                    <strong ng-bind="generalInfoCtrl.employeeInfo.JobTitleName"></strong>
                 </div>
             </div>
         </div>
@@ -39,13 +39,13 @@
             <div class="col-sm-6">
                 <div class="col-sm-4" data-translate="Department"></div>
                 <div class="col-sm-7">
-                    <strong ng-bind="memberEPAInfoCtrl.epaInfo.Employee.DepartmentName"></strong>
+                    <strong ng-bind="generalInfoCtrl.employeeInfo.DepartmentName"></strong>
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="col-sm-4" data-translate="Section"></div>
                 <div class="col-sm-7">
-                    <strong ng-bind="memberEPAInfoCtrl.epaInfo.Employee.GroupName"></strong>
+                    <strong ng-bind="generalInfoCtrl.employeeInfo.GroupName"></strong>
                 </div>
             </div>
         </div>
@@ -53,16 +53,14 @@
             <div class="col-sm-6">
                 <div class="col-sm-4" data-translate="GroupDate"></div>
                 <div class="col-sm-7">
-                    <strong ng-bind="memberEPAInfoCtrl.epaInfo.Employee.JoinedDate | customDate"></strong>
+                    <strong ng-bind="generalInfoCtrl.employeeInfo.JoinedDate | customDate"></strong>
                 </div>
             </div>
-            <div class="col-sm-6" ng-show="!memberEPAInfoCtrl.isViewDetail">
+            <div class="col-sm-6" ng-show="!generalInfoCtrl.isViewDetail">
                 <div class="col-sm-4" data-translate="Evaluated"></div>
                 <div class="col-sm-7">
-                    <span class="glyphicon glyphicon-saved epa-saved"
-                          ng-show="memberEPAInfoCtrl.evaluatedDate || memberEPAInfoCtrl.dataSaved"></span>
-                    <span class="glyphicon glyphicon-list-alt epa-unsaved"
-                          ng-show="memberEPAInfoCtrl.evaluatedDate == null && !memberEPAInfoCtrl.dataSaved"></span>
+                    <span class="glyphicon glyphicon-saved epa-saved" ng-show="generalInfoCtrl.evaluatedDate || generalInfoCtrl.saved"></span>
+                    <span class="glyphicon glyphicon-list-alt epa-unsaved" ng-show="generalInfoCtrl.evaluatedDate === null && !generalInfoCtrl.saved"></span>
                 </div>
             </div>
         </div>

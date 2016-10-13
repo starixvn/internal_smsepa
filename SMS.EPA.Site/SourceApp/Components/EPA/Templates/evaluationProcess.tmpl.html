@@ -1,0 +1,110 @@
+﻿<ul class="evaluation-process" class="evaluation-process">
+    <li ng-if="!evaluationProcessCtrl.epaInfo.HasMonthlyEPA"
+        ng-class="evaluationProcessCtrl.getClassProgress(evaluationProcessCtrl.epaInfo.Process.Self.StatusEndProcess)" class="process-item">
+        <div><strong data-translate="Self"></strong></div>
+        <div>
+            <span ng-bind="evaluationProcessCtrl.epaInfo.Process.Self.StartDate | customDate"></span>
+            <span> - </span>
+            <span ng-bind="evaluationProcessCtrl.epaInfo.Process.Self.EndDate | customDate"></span>
+        </div>
+        <div ng-show="evaluationProcessCtrl.epaInfo.Process.Self.StatusEndProcess === evaluationProcessCtrl.statusTypes.EndProcess">
+            <label data-translate="EndProcess"></label><span class="icon-process"></span>
+        </div>
+        <div ng-show="evaluationProcessCtrl.epaInfo.Process.Self.StatusEndProcess === evaluationProcessCtrl.statusTypes.InProgress">
+            <label data-translate="InProgress"></label><span class="icon-process"></span>
+        </div>
+        <div ng-show="evaluationProcessCtrl.epaInfo.Process.Self.StatusEndProcess === evaluationProcessCtrl.statusTypes.Open">
+            <label data-translate="Open"></label><span class="icon-process"></span>
+        </div>
+    </li>
+    <li ng-if="!evaluationProcessCtrl.epaInfo.HasMonthlyEPA"
+        ng-class="evaluationProcessCtrl.getClassProgress(evaluationProcessCtrl.epaInfo.Process.Evaluators[0].StatusEndProcess)" class="process-item">
+        <div>
+            <strong>{{"Evaluator" | translate}}: </strong>
+            <span ng-show="evaluationProcessCtrl.epaInfo.Process.Evaluators.length === 1"
+                  ng-bind="evaluationProcessCtrl.epaInfo.Process.Evaluators[0].EvaluatorInfo.NickName"
+                  popover-avatar avatar-src="{{evaluationProcessCtrl.epaInfo.Process.Evaluators[0].EvaluatorInfo.Avatar}}"></span>
+            <span ng-show="evaluationProcessCtrl.epaInfo.Process.Evaluators.length > 1"
+                  ng-repeat="evaluator in evaluationProcessCtrl.epaInfo.Process.Evaluators">
+                <span ng-show="!$last" popover-avatar avatar-src="{{evaluator.EvaluatorInfo.Avatar}}">{{evaluator.EvaluatorInfo.NickName}}, </span>
+                <span ng-show="$last" popover-avatar avatar-src="{{evaluator.EvaluatorInfo.Avatar}}">{{evaluator.EvaluatorInfo.NickName}}</span>
+            </span>
+        </div>
+        <div>
+            <span ng-bind="evaluationProcessCtrl.epaInfo.Process.Evaluators[0].StartDate | customDate"></span>
+            <span> - </span>
+            <span ng-bind="evaluationProcessCtrl.epaInfo.Process.Evaluators[0].EndDate | customDate"></span>
+        </div>
+        <div ng-show="evaluationProcessCtrl.epaInfo.Process.Evaluators[0].StatusEndProcess === evaluationProcessCtrl.statusTypes.EndProcess">
+            <label data-translate="EndProcess"></label><span class="icon-process"></span>
+        </div>
+        <div ng-show="evaluationProcessCtrl.epaInfo.Process.Evaluators[0].StatusEndProcess === evaluationProcessCtrl.statusTypes.InProgress">
+            <label data-translate="InProgress"></label><span class="icon-process"></span>
+        </div>
+        <div ng-show="evaluationProcessCtrl.epaInfo.Process.Evaluators[0].StatusEndProcess === evaluationProcessCtrl.statusTypes.Open">
+            <label data-translate="Open"></label><span class="icon-process"></span>
+        </div>
+    </li>
+    <li ng-if="evaluationProcessCtrl.epaInfo.Process.Reviewers.length > 0"
+        ng-class="evaluationProcessCtrl.getClassProgress(evaluationProcessCtrl.epaInfo.Process.Reviewers[0].StatusEndProcess)" class="process-item">
+        <div>
+            <strong>{{"Reviewer" | translate}}:</strong>
+            <span ng-show="evaluationProcessCtrl.epaInfo.Process.Reviewers.length === 1"
+                  ng-bind="evaluationProcessCtrl.epaInfo.Process.Reviewers[0].EvaluatorInfo.NickName"
+                  popover-avatar avatar-src="{{evaluationProcessCtrl.epaInfo.Process.Reviewers[0].EvaluatorInfo.Avatar}}">></span>
+            <span ng-show="evaluationProcessCtrl.epaInfo.Process.Reviewers.length > 1"
+                  ng-repeat="reviewer in evaluationProcessCtrl.epaInfo.Process.Reviewers">
+                <span ng-show="!$last" popover-avatar avatar-src="{{reviewer.EvaluatorInfo.Avatar}}">{{reviewer.EvaluatorInfo.NickName}}, </span>
+                <span ng-show="$last" popover-avatar avatar-src="{{reviewer.EvaluatorInfo.Avatar}}">{{reviewer.EvaluatorInfo.NickName}}</span>
+            </span>
+        </div>
+        <div>
+            <span ng-bind="evaluationProcessCtrl.epaInfo.Process.Reviewers[0].StartDate | customDate"></span>
+            <span> - </span>
+            <span ng-bind="evaluationProcessCtrl.epaInfo.Process.Reviewers[0].EndDate | customDate"></span>
+        </div>
+        <div ng-show="evaluationProcessCtrl.epaInfo.Process.Reviewers[0].StatusEndProcess === evaluationProcessCtrl.statusTypes.EndProcess">
+            <label data-translate="EndProcess"></label><span class="icon-process"></span>
+        </div>
+        <div ng-show="evaluationProcessCtrl.epaInfo.Process.Reviewers[0].StatusEndProcess === evaluationProcessCtrl.statusTypes.InProgress">
+            <label data-translate="InProgress"></label><span class="icon-process"></span>
+        </div>
+        <div ng-show="evaluationProcessCtrl.epaInfo.Process.Reviewers[0].StatusEndProcess === evaluationProcessCtrl.statusTypes.Open">
+            <label data-translate="Open"></label><span class="icon-process"></span>
+        </div>
+    </li>
+    <li ng-if="evaluationProcessCtrl.epaInfo.Process.Managements.length > 0"
+        ng-class="evaluationProcessCtrl.getClassProgress(evaluationProcessCtrl.epaInfo.Process.Managements[0].StatusEndProcess)" class="process-item">
+        <div>
+            <strong>{{"Management" | translate}}:</strong>
+            <span ng-show="evaluationProcessCtrl.epaInfo.Process.Managements.length === 1"
+                  ng-bind="evaluationProcessCtrl.epaInfo.Process.Managements[0].EvaluatorInfo.NickName"
+                  popover-avatar avatar-src="{{evaluationProcessCtrl.epaInfo.Process.Managements[0].EvaluatorInfo.Avatar}}"></span>
+            <span ng-show="evaluationProcessCtrl.epaInfo.Process.Managements.length > 1"
+                  ng-repeat="management in evaluationProcessCtrl.epaInfo.Process.Managements">
+                <span ng-show="!$last" popover-avatar avatar-src="{{management.EvaluatorInfo.Avatar}}">{{management.EvaluatorInfo.NickName}}, </span>
+                <span ng-show="$last" popover-avatar avatar-src="{{management.EvaluatorInfo.Avatar}}">{{management.EvaluatorInfo.NickName}}</span>
+            </span>
+        </div>
+        <div>
+            <span ng-bind="evaluationProcessCtrl.epaInfo.Process.Managements[0].StartDate | customDate"></span>
+            <span> - </span>
+            <span ng-bind="evaluationProcessCtrl.epaInfo.Process.Managements[0].EndDate | customDate"></span>
+        </div>
+        <div ng-show="evaluationProcessCtrl.epaInfo.Process.Managements[0].StatusEndProcess === evaluationProcessCtrl.statusTypes.EndProcess">
+            <label data-translate="EndProcess"></label><span class="icon-process"></span>
+        </div>
+        <div ng-show="evaluationProcessCtrl.epaInfo.Process.Managements[0].StatusEndProcess === evaluationProcessCtrl.statusTypes.InProgress">
+            <label data-translate="InProgress"></label><span class="icon-process"></span>
+        </div>
+        <div ng-show="evaluationProcessCtrl.epaInfo.Process.Managements[0].StatusEndProcess === evaluationProcessCtrl.statusTypes.Open">
+            <label data-translate="Open"></label><span class="icon-process"></span>
+        </div>
+    </li>
+    <li class="process-item final" ng-if="evaluationProcessCtrl.epaInfo.IsMonthly || evaluationProcessCtrl.epaInfo.IsSemiAnnual">
+        <div><strong data-translate="FinalScore"></strong></div>
+        <div>
+            <span data-translate="EndPeriod"></span>: <span ng-bind="evaluationProcessCtrl.epaInfo.Period.EndDate | customDate"></span>
+        </div>
+    </li>
+</ul>

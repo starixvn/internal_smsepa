@@ -1,0 +1,50 @@
+﻿.target-tabset {
+    margin-top: 15px;
+
+    .common-form.info-form {
+        background: none;
+        border: none;
+        float: none;
+        margin: 0;
+        padding: 0;
+        .box-shadow(none);
+    }
+
+    .nav-tabs {
+        cursor: pointer;
+        border-color: @border-light-color;
+
+        li.active > a, > li.active > a:hover, li.active > a:focus {
+            border-color: @border-light-color @border-light-color rgba(0, 0, 0, 0);
+            color: #777;
+            font-weight: bold;
+            background-color: #fafafa;
+        }
+
+        li > a {
+            .border-radius(3px 3px 0 0);
+            padding: 7px 15px;
+            text-transform: uppercase;
+
+            &:hover {
+                background-color: #fafafa;
+                border-color: @border-light-color;
+            }
+        }
+    }
+
+    .tab-content {
+        border: 1px solid @border-light-color;
+        border-width: 0 1px 1px;
+        padding: 10px 15px;
+        background-color: #fafafa;
+
+        .filter {
+            margin-top: 12px;
+        }
+
+        .common-form {
+            margin-top: 10px;
+        }
+    }
+}

@@ -282,7 +282,6 @@
     <Content Include="Content\Site\images\checkbox_yes.png" />
     <Content Include="Content\Site\images\excel-icon.png" />
     <Content Include="Content\Site\images\icon-alert.png" />
-    <Content Include="Content\Site\images\icon-breadcrumb.png" />
     <Content Include="Content\Site\images\icon-search.png" />
     <Content Include="Content\Site\images\icon_sprite.png" />
     <Content Include="Content\Site\images\line-menu.png" />
@@ -299,7 +298,6 @@
     <Content Include="Content\Site\images\sprite_ico_2012-05-15.png" />
     <Content Include="Content\Site\images\sprite_process.png" />
     <Content Include="Content\Site\images\success.png" />
-    <Content Include="Content\Site\images\table_header_repeat.jpg" />
     <Content Include="Content\Site\images\user.png" />
     <Content Include="favicon.ico" />
     <CodeAnalysisDictionary Include="FxCopDictionary.xml" />
@@ -443,6 +441,9 @@
     <Content Include="SourceApp\Components\Employee\Templates\modalConfirmSetUnsetMonthlyEvaluation.html" />
     <Content Include="SourceApp\Components\Employee\Templates\resetPassword.html" />
     <Content Include="SourceApp\Components\EPAHistory\Templates\monthlyEPAHistory.html" />
+    <Content Include="SourceApp\Components\EPA\rating-instruction-directive.js" />
+    <Content Include="SourceApp\Components\EPA\evaluation-process-directive.js" />
+    <Content Include="SourceApp\Components\EPA\general-info-directive.js" />
     <Content Include="SourceApp\Components\EPA\Evaluator\evaluator-access-controller.js" />
     <Content Include="SourceApp\Components\EPA\Evaluator\evaluator-epa-factory.js" />
     <Content Include="SourceApp\Components\EPA\Evaluator\evaluator-epa-model.js" />
@@ -457,6 +458,8 @@
     <Content Include="SourceApp\Components\EPA\Self\self-evaluation-factory.js" />
     <Content Include="SourceApp\Components\EPA\Self\self-evaluation-detail-controller.js" />
     <Content Include="SourceApp\Components\EPA\Self\self-evaluation-model.js" />
+    <Content Include="SourceApp\Components\EPA\Templates\evaluationProcess.tmpl.html" />
+    <Content Include="SourceApp\Components\EPA\Templates\generalInfo.tmpl.html" />
     <Content Include="SourceApp\Components\EPA\Templates\recommendationForProbationAndPromotion.html" />
     <Content Include="SourceApp\Components\EPA\Templates\recommendationForSemi.html" />
     <Content Include="SourceApp\Components\EPA\UpdateFinalScore\update-final-score-model.js" />
@@ -544,8 +547,6 @@
     <Content Include="SourceApp\Components\EPA\Reviewer\reviewer-detail-controller.js" />
     <Content Include="SourceApp\Components\EPA\Reviewer\Templates\performanceResult.html" />
     <Content Include="SourceApp\Components\EPA\self-evaluator-model.js" />
-    <Content Include="SourceApp\Components\EPA\Templates\evaluationProcess.html" />
-    <Content Include="SourceApp\Components\EPA\Templates\generalInformation.html" />
     <Content Include="SourceApp\Components\EPA\Self\Templates\index.html" />
     <Content Include="SourceApp\Components\EPA\Self\Templates\listKPI.html" />
     <Content Include="SourceApp\Components\EPA\Templates\modalAdjustScore.html" />
@@ -555,7 +556,7 @@
     <Content Include="SourceApp\Components\EPA\Templates\performanceDetails.html" />
     <Content Include="SourceApp\Components\EPA\Templates\performanceGradingScale.html" />
     <Content Include="SourceApp\Components\EPA\Templates\performanceResult.html" />
-    <Content Include="SourceApp\Components\EPA\Templates\ratingInstruction.html" />
+    <Content Include="SourceApp\Components\EPA\Templates\ratingInstruction.tmpl.html" />
     <Content Include="SourceApp\Components\EPA\Templates\viewDetail.html" />
     <Content Include="SourceApp\Components\FlowManagement\departmentFlow-controller.js" />
     <Content Include="SourceApp\Components\FlowManagement\flowTemplate-access-controller.js" />
@@ -701,6 +702,14 @@
     <Content Include="ExcelTemplates\UpdateFinalScore.xls" />
     <Content Include="Content\Site\components\_tooltip.less" />
     <Content Include="Content\Fonts\ARIALUNI.TTF" />
+    <Content Include="Content\Site\components\_icons.less" />
+    <Content Include="Content\Site\components\_tabs.less" />
+    <Content Include="Content\Site\components\_dropdowns.less" />
+    <Content Include="Content\Site\components\_toasts.less" />
+    <Content Include="Content\Site\components\_canlendar.less" />
+    <Content Include="Content\Site\components\_multiSelect.less" />
+    <Content Include="Content\Site\components\_widthSystem.less" />
+    <Content Include="Content\Site\components\_base.less" />
     <None Include="Libs\angular-resource.min.js.map" />
     <None Include="Libs\angular-route.min.js.map" />
     <None Include="Libs\angular.min.js.map" />

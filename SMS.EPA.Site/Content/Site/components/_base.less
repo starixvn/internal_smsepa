@@ -1,0 +1,127 @@
+﻿body {
+    font-family: @font-family;
+    font-size: @font-size;
+    color: @font-color;
+    min-width: 760px;
+}
+
+*:focus {
+    outline: none;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+.required .control-label:after {
+    color: #FF0000;
+    content: "*";
+    padding-left: 5px;
+}
+
+.required-label:after {
+    color: #FF0000;
+    content: "*";
+    padding-left: 5px;
+}
+
+.container-fluid.page {
+    width: 100%;
+    min-width: 760px;
+
+    select {
+        border: 1px solid #ccc;
+        height: 27px;
+        padding: 0 0 0 7px;
+
+        option {
+            padding: 4px 10px;
+        }
+    }
+
+    label {
+        font-weight: normal;
+    }
+
+    .active-div {
+        margin-top: 5px;
+    }
+
+    .title {
+        color: #313131;
+        font-size: @font-size + 5;
+        margin: 10px 10px 10px 20px;
+    }
+
+    .empty-result {
+        text-align: center;
+        color: red;
+    }
+}
+
+a {
+    color: @link-color;
+    outline: none;
+
+    &:focus {
+        outline: none;
+    }
+
+    &.glyphicon {
+        &:hover, &:focus {
+            text-decoration: none;
+        }
+
+        &.icon-add {
+            color: #8CBF26;
+        }
+
+        &.icon-remove {
+            color: #DE5144;
+            margin-right: 5px;
+        }
+
+        &.icon-edit, &.icon-save {
+            color: #1BA0E1;
+            margin-right: 5px;
+        }
+
+        &.icon-delete {
+            color: #6f6e6e;
+            margin-right: 5px;
+        }
+    }
+
+    &.button {
+        color: #fff;
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
+}
+
+.loading-process {
+    background: rgba(255, 255, 255, .7) url('../images/loading.gif') 45% 45% no-repeat;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: 9998;
+}
+
+.txt-warning {
+    margin: 0;
+    color: #fc5809;
+
+    .icon-warning {
+        margin-right: 5px;
+        font-size: @font-size + 2;
+        top: 2px;
+    }
+}
+
+.ui-menu {
+    background: #eeeeee;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}

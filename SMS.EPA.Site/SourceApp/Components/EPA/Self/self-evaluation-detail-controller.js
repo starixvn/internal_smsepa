@@ -19,13 +19,11 @@
         vm.policyEnum = utilitiesFactory.policy;
         vm.ratingTypeEnum = utilitiesFactory.ratingType;
         vm.standardGrades = [];
-        vm.statusEndProcessEnum = utilitiesFactory.statusEndProcess;
         vm.targetTypeEnum = utilitiesFactory.targetType;
 
         vm.cancel = cancel;
         vm.cancelRating = cancelRating;
         vm.generateRatingStar = generateRatingStar;
-        vm.getClassProgress = getClassProgress;
         vm.getNotificationInputScore = getNotificationInputScore;
         vm.hoveringLeave = null;
         vm.inputScore = inputScore;
@@ -59,10 +57,6 @@
             $timeout(function () {
                 $(".rating-loading").rating();
             }, 1);
-        }
-
-        function getClassProgress(statusEndProcess) {
-            return EvaluationModel.getClassProgress(statusEndProcess);
         }
 
         function getEPAInfoByEmployee() {

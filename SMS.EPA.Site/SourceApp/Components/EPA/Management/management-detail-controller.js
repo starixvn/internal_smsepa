@@ -14,7 +14,6 @@ function ($timeout, $translate, $routeParams, EvaluationModel, ManagementEPAMode
     vm.standardGrades = [];
     vm.policyEnum = utilitiesFactory.policy;
     vm.targetTypeEnum = utilitiesFactory.targetType;
-    vm.statusEndProcessEnum = utilitiesFactory.statusEndProcess;
     vm.ratingTypeEnum = utilitiesFactory.ratingType;
     vm.dataSaved = false;
     vm.evaluatedDate = null;
@@ -30,10 +29,6 @@ function ($timeout, $translate, $routeParams, EvaluationModel, ManagementEPAMode
 
     vm.range = function (n) {
         return new Array(n);
-    };
-
-    vm.getClassProgress = function (statusEndProcess) {
-        return EvaluationModel.getClassProgress(statusEndProcess);
     };
 
     vm.getNotificationInputScore = function (processByManagement) {

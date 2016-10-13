@@ -16,7 +16,12 @@
                     <h4 class="panel-title" data-translate="GeneralInfo"></h4>
                 </div>
                 <div class="panel-collapse collapse in generalInfo">
-                    <div class="panel-body general-info" ng-include src="'/SourceApp/Components/EPA/Templates/generalInformation.html'"></div>
+                    <div class="panel-body general-info">
+                        <epa-general-infomation data-is-view-detail="memberEPAInfoCtrl.isViewDetail"
+                                                data-employee-info="memberEPAInfoCtrl.epaInfo.Employee"
+                                                data-evaluated-date="memberEPAInfoCtrl.evaluatedDate"
+                                                data-saved="memberEPAInfoCtrl.dataSaved"></epa-general-infomation>
+                    </div>
                 </div>
             </div>
 

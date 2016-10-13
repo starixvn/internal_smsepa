@@ -17,7 +17,6 @@ function ($timeout, $translate, $routeParams, EvaluationModel, EvaluatorEPAModel
     vm.standardGrades = CommonModel.standardGrades;
     vm.policyEnum = utilitiesFactory.policy;
     vm.targetTypeEnum = utilitiesFactory.targetType;
-    vm.statusEndProcessEnum = utilitiesFactory.statusEndProcess;
     vm.ratingTypeEnum = utilitiesFactory.ratingType;
     vm.hasRatingByStar = false;
     vm.showRatingScoreByStar = true;
@@ -39,10 +38,6 @@ function ($timeout, $translate, $routeParams, EvaluationModel, EvaluatorEPAModel
         else {
             kpi.ExpandedCommentByEmployee = false;
         }
-    };
-
-    vm.getClassProgress = function (statusEndProcess) {
-        return EvaluationModel.getClassProgress(statusEndProcess);
     };
 
     vm.getNotificationInputScore = function (kpi) {

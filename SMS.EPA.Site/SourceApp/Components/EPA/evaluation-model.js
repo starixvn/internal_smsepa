@@ -33,16 +33,6 @@ function (evaluationFactory, utilitiesFactory, notificationFactory, errorFactory
         return isValid;
     };
 
-    model.getClassProgress = function (statusEndProcess) {
-        if (statusEndProcess === 0) {
-            return 'in-process';
-        } else if (statusEndProcess === 1) {
-            return 'end-process';
-        } else {
-            return 'open';
-        }
-    };
-
     model.convertScoreToGrade = function (finalScore, standardGrades) {
         var score = utilitiesFactory.parseFloat(finalScore),
             grade;
