@@ -53,18 +53,7 @@
             bundles.AddAndInclude(
                             "~/bundles/less",
                             "~/Content/Less/bootstrap.less",
-                            "~/Content/Site/layout.less",
-                            "~/SourceApp/Components/KPI/kpi.less",
-                            "~/SourceApp/Components/Employee/employee.less",
-                            "~/SourceApp/Components/Role/role.less",
-                            "~/SourceApp/Components/TargetTemplate/targetTemplate.less",
-                            "~/SourceApp/Components/FlowManagement/flowManagement.less",
-                            "~/SourceApp/Components/TargetEmployeeSetting/targetEmployeeSetting.less",
-                            "~/SourceApp/Components/Period/period.less",
-                            "~/SourceApp/Components/EPA/epa.less",
-                            "~/SourceApp/Components/Dashboard/dashboard.less",
-                            "~/SourceApp/Components/DisciplineSummary/disciplineSummary.less",
-                            "~/SourceApp/Components/Report/report.less");
+                            "~/Content/Site/layout.less");
 
             bundles.Add(new ScriptBundle("~/bundles/app").Include(
                             "~/SourceApp/app.js",

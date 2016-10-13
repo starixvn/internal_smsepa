@@ -691,7 +691,7 @@
     <Content Include="Libs\angular-filter\bower.json" />
     <Content Include="Libs\angular-filter\dist\angular-filter.zip" />
     <Content Include="Libs\angular-filter\license.md" />
-    <Content Include="Content\Site\_evaluationProcess.less" />
+    <Content Include="Content\Site\views\_evaluationProcess.less" />
     <Content Include="ExcelTemplates\DisciplineSummaryByPeriodReport.xls" />
     <Content Include="Content\Site\components\_panel.less" />
     <Content Include="Content\Site\components\_header.less" />
@@ -729,14 +729,14 @@
     <Content Include="Libs\bootstrap-3.3.7\fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Libs\jquery-2.1.0.min.map" />
     <Content Include="Views\Auth\Login.cshtml" />
-    <Content Include="SourceApp\Components\KPI\kpi.less" />
-    <Content Include="SourceApp\Components\Employee\employee.less" />
-    <Content Include="SourceApp\Components\Role\role.less" />
-    <Content Include="SourceApp\Components\FlowManagement\flowManagement.less" />
-    <Content Include="SourceApp\Components\TargetTemplate\targetTemplate.less" />
+    <Content Include="Content\Site\views\_kpi.less" />
+    <Content Include="Content\Site\views\_employee.less" />
+    <Content Include="Content\Site\views\_role.less" />
+    <Content Include="Content\Site\views\_flowManagement.less" />
+    <Content Include="Content\Site\views\_targetTemplate.less" />
     <Content Include="Web.local.config" />
-    <Content Include="SourceApp\Components\TargetEmployeeSetting\targetEmployeeSetting.less" />
-    <Content Include="SourceApp\Components\Period\period.less" />
+    <Content Include="Content\Site\views\_targetEmployeeSetting.less" />
+    <Content Include="Content\Site\views\_period.less" />
     <Content Include="ExcelTemplates\EmployeeFlowSettingReport.xls" />
     <Content Include="Views\Emails\StartDateEmailToHR.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -783,16 +783,16 @@
     <Content Include="Views\Emails\RemindDateEmailToSpecialManagement.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="SourceApp\Components\Dashboard\dashboard.less" />
-    <Content Include="SourceApp\Components\DisciplineSummary\disciplineSummary.less" />
-    <Content Include="SourceApp\Components\Report\report.less" />
+    <Content Include="Content\Site\views\_dashboard.less" />
+    <Content Include="Content\Site\views\_disciplineSummary.less" />
+    <Content Include="Content\Site\views\_report.less" />
     <Content Include="Views\Emails\EmailNotifyChangeSetting.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="ExcelTemplates\DisciplineSummaryReport.xls" />
     <Content Include="ExcelTemplates\DisciplineDetailReport.xls" />
-    <Content Include="SourceApp\Components\EPA\_ratingByStar.less" />
-    <Content Include="SourceApp\Components\EPA\epa.less" />
+    <Content Include="Content\Site\views\_ratingByStar.less" />
+    <Content Include="Content\Site\views\_epa.less" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">
