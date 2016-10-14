@@ -2,8 +2,8 @@
 /*global epaModule*/
 
 epaModule.factory('ReviewerManagementModel',
-['$modal', 'EvaluationModel', 'evaluationFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory',
-function ($modal, EvaluationModel, evaluationFactory, utilitiesFactory, notificationFactory, errorFactory) {
+['$modal', 'EvaluationModel', 'evaluationFactory', 'utilitiesFactory', 'notificationFactory',
+function ($modal, EvaluationModel, evaluationFactory, utilitiesFactory, notificationFactory) {
     var reviewerMngModel = this;
 
     reviewerMngModel.getEPASelected = function (epaInfos) {

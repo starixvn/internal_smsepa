@@ -6,8 +6,7 @@
     evaluationModel.$inject = ['evaluationFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory'];
 
     function evaluationModel(evaluationFactory, utilitiesFactory, notificationFactory, errorFactory) {
-        var model = this,
-            epaInfo = {};
+        var epaInfo = {};
 
         var model = {
             epaInfo: epaInfo,

@@ -9,6 +9,7 @@
     function utilitiesFactory($filter) {
         var limitNumber = 100,
             dateFormat = "dd MMM, yyyy",
+            dateTimeFormatString = "MM/DD/YYYY HH:mm",
             timeFormat = 'HH:mm',
             maxStar = 5,
             epaStatus = {
