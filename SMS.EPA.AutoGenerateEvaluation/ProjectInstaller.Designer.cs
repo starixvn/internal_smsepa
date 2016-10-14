@@ -46,7 +46,7 @@
             // 
             // _serviceInstaller1
             // 
-            this._serviceInstaller1.ServiceName = "SMS.EPA.AutoGenerateEPA";
+            this._serviceInstaller1.ServiceName = "_SMS.EPA.AutoService";
             this._serviceInstaller1.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
             // 
             // ProjectInstaller
