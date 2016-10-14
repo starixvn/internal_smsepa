@@ -15,7 +15,7 @@
 
     public class MailService : IMailService
     {
-        private readonly IBaseMailService _baseMailService;
+        private readonly IBaseMailService baseMailService;
 
         public MailService()
             : this(null)
@@ -24,7 +24,7 @@
 
         public MailService(IBaseMailService baseMailService)
         {
-            _baseMailService = baseMailService ?? new BaseMailService();
+            this.baseMailService = baseMailService ?? new BaseMailService();
         }
 
         public void SendMailToHRStartDate(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName)
@@ -37,11 +37,11 @@
 
                 email.Subject = string.Format(Lang.StartDateEmailToHRSubject, periodName, startDate, endDate);
                 email.Title = ConfigurationManager.AppSettings["Email.SenderName"];
-                email.Body = _baseMailService.ReadTextFile(templateEmailPath);
+                email.Body = baseMailService.ReadTextFile(templateEmailPath);
                 email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, email.Title, periodName, startDate, endDate);
                 email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
 
-                _baseMailService.SendEmail(email);
+                baseMailService.SendEmail(email);
             }
         }
 
@@ -55,11 +55,11 @@
 
                 email.Subject = string.Format(Lang.StartDateEmailToSelfSubject, periodName, startDate, endDate);
                 email.Title = ConfigurationManager.AppSettings["Email.SenderName"];
-                email.Body = _baseMailService.ReadTextFile(templateEmailPath);
+                email.Body = baseMailService.ReadTextFile(templateEmailPath);
                 email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, email.Title, periodName, startDate, endDate);
                 email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
 
-                _baseMailService.SendEmail(email);
+                baseMailService.SendEmail(email);
             }
         }
 
@@ -73,11 +73,11 @@
 
                 email.Subject = string.Format(Lang.StartDateEmailToEvaluatorSubject, periodName, startDate, endDate);
                 email.Title = ConfigurationManager.AppSettings["Email.SenderName"];
-                email.Body = _baseMailService.ReadTextFile(templateEmailPath);
+                email.Body = baseMailService.ReadTextFile(templateEmailPath);
                 email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, email.Title, periodName, startDate, endDate);
                 email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
 
-                _baseMailService.SendEmail(email);
+                baseMailService.SendEmail(email);
             }
         }
 
@@ -91,11 +91,11 @@
 
                 email.Subject = string.Format(Lang.StartDateEmailToReviewerSubject, periodName, startDate, endDate);
                 email.Title = ConfigurationManager.AppSettings["Email.SenderName"];
-                email.Body = _baseMailService.ReadTextFile(templateEmailPath);
+                email.Body = baseMailService.ReadTextFile(templateEmailPath);
                 email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, email.Title, periodName, startDate, endDate);
                 email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
 
-                _baseMailService.SendEmail(email);
+                baseMailService.SendEmail(email);
             }
         }
 
@@ -109,11 +109,11 @@
 
                 email.Subject = string.Format(Lang.StartDateEmailToManagementSubject, periodName, startDate, endDate);
                 email.Title = ConfigurationManager.AppSettings["Email.SenderName"];
-                email.Body = _baseMailService.ReadTextFile(templateEmailPath);
+                email.Body = baseMailService.ReadTextFile(templateEmailPath);
                 email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, email.Title, periodName, startDate, endDate);
                 email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
 
-                _baseMailService.SendEmail(email);
+                baseMailService.SendEmail(email);
             }
         }
 
@@ -126,11 +126,11 @@
                     endDate = employeeSetting.EndDate.HasValue ? ChangeEndDate(employeeSetting.EndDate.Value) : string.Empty;
 
                 email.Subject = string.Format(Lang.RemindDateEmailToSelfSubject, periodName, startDate, endDate);
-                email.Body = _baseMailService.ReadTextFile(templateEmailPath);
+                email.Body = baseMailService.ReadTextFile(templateEmailPath);
                 email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, periodName, startDate, endDate);
                 email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
 
-                _baseMailService.SendEmail(email);
+                baseMailService.SendEmail(email);
             }
         }
 
@@ -143,11 +143,11 @@
                     endDate = employeeSetting.EndDate.HasValue ? ChangeEndDate(employeeSetting.EndDate.Value) : string.Empty;
 
                 email.Subject = string.Format(Lang.RemindDateEmailToEvaluatorSubject, periodName, startDate, endDate);
-                email.Body = _baseMailService.ReadTextFile(templateEmailPath);
+                email.Body = baseMailService.ReadTextFile(templateEmailPath);
                 email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, startDate, endDate);
                 email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
 
-                _baseMailService.SendEmail(email);
+                baseMailService.SendEmail(email);
             }
         }
 
@@ -160,11 +160,11 @@
                     endDate = employeeSetting.EndDate.HasValue ? ChangeEndDate(employeeSetting.EndDate.Value) : string.Empty;
 
                 email.Subject = string.Format(Lang.RemindDateEmailToReviewerSubject, periodName, startDate, endDate);
-                email.Body = _baseMailService.ReadTextFile(templateEmailPath);
+                email.Body = baseMailService.ReadTextFile(templateEmailPath);
                 email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, startDate, endDate);
                 email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
 
-                _baseMailService.SendEmail(email);
+                baseMailService.SendEmail(email);
             }
         }
 
@@ -177,11 +177,11 @@
                     endDate = employeeSetting.EndDate.HasValue ? ChangeEndDate(employeeSetting.EndDate.Value) : string.Empty;
 
                 email.Subject = string.Format(Lang.RemindDateEmailToManagementSubject, periodName, startDate, endDate);
-                email.Body = _baseMailService.ReadTextFile(templateEmailPath);
+                email.Body = baseMailService.ReadTextFile(templateEmailPath);
                 email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, startDate, endDate);
                 email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
 
-                _baseMailService.SendEmail(email);
+                baseMailService.SendEmail(email);
             }
         }
 
@@ -192,11 +192,11 @@
                 MailModel email = new MailModel();
 
                 email.Subject = string.Format(Lang.NotifyEmailChangeSetting, periodName);
-                email.Body = _baseMailService.ReadTextFile(templateEmailPath);
+                email.Body = baseMailService.ReadTextFile(templateEmailPath);
                 email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, periodName);
                 email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
 
-                _baseMailService.SendEmail(email);
+                baseMailService.SendEmail(email);
             }
         }
 
@@ -219,7 +219,7 @@
 
                 finalScore = finalScore >= 0 ? finalScore : 0;
 
-                email.Body = _baseMailService.ReadTextFile(templateEmailPath);
+                email.Body = baseMailService.ReadTextFile(templateEmailPath);
                 email.Body = string.Format(
                     email.Body,
                     evaluationInfo.Employee.NickName,
@@ -234,7 +234,7 @@
                     managementNames);
                 email.ReceiverEmail = evaluationInfo.Employee.Email;
 
-                _baseMailService.SendEmail(email);
+                baseMailService.SendEmail(email);
             }
         }
 
@@ -248,7 +248,7 @@
                 MailModel email = new MailModel();
 
                 email.Subject = string.Format(Lang.EndMailEvaluationToSelf, evaluationInfo.Period.Name);
-                email.Body = _baseMailService.ReadTextFile(templateEmailPath);
+                email.Body = baseMailService.ReadTextFile(templateEmailPath);
                 email.Body = string.Format(
                     email.Body,
                     humanResource.EvaluatorInfo.NickName,
@@ -257,7 +257,7 @@
                     evaluationInfo.Period.Name);
                 email.ReceiverEmail = humanResource.EvaluatorInfo.Email;
 
-                _baseMailService.SendEmail(email);
+                baseMailService.SendEmail(email);
             }
         }
 
@@ -268,11 +268,11 @@
                 MailModel email = new MailModel();
 
                 email.Subject = string.Format(Lang.EndMailEvaluationToSelf, periodName);
-                email.Body = _baseMailService.ReadTextFile(templateEmailPath);
+                email.Body = baseMailService.ReadTextFile(templateEmailPath);
                 email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, periodName);
                 email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
 
-                _baseMailService.SendEmail(email);
+                baseMailService.SendEmail(email);
             }
         }
 

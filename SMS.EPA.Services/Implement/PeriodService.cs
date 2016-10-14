@@ -14,14 +14,13 @@
     using SMS.EPA.Model;
     using SMS.EPA.Model.Period;
     using SMS.EPA.Repositories;
-
     using SMS.EPA.Resources;
     using SMS.EPA.Services.Interfaces;
 
     public class PeriodService : BaseService, IPeriodService
     {
-        private readonly IPeriodRepository _periodRepository;
-        private readonly IManualMailService _manualMailService;
+        private readonly IPeriodRepository periodRepository;
+        private readonly IManualMailService manualMailService;
 
         public PeriodService()
             : this(null, null)
@@ -30,8 +29,8 @@
 
         public PeriodService(IPeriodRepository periodRepository, IManualMailService manualMailService)
         {
-            _periodRepository = periodRepository ?? new PeriodRepository();
-            _manualMailService = manualMailService ?? new ManualMailService();
+            this.periodRepository = periodRepository ?? new PeriodRepository();
+            this.manualMailService = manualMailService ?? new ManualMailService();
         }
 
         public IEnumerable<PeriodModel> GetPeriod(GetPeriodCriteria criteria)
@@ -40,19 +39,23 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                periods = _periodRepository.GetPeriod(criteria);
+                periods = periodRepository.GetPeriod(criteria);
             }
 
             return periods;
         }
 
-        public PeriodModel GetPeriodById(GetPeriodByIdCriteria criteria)
+        public PeriodModel GetPeriodById(int periodId)
         {
-            PeriodModel period = new PeriodModel();
-
-            if (criteria != null && criteria.IsValid())
+            var criteria = new GetPeriodByIdCriteria
             {
-                period = _periodRepository.GetPeriodById(criteria);
+                PeriodId = periodId
+            };
+            var period = new PeriodModel();
+
+            if (criteria.IsValid())
+            {
+                period = periodRepository.GetPeriodById(criteria);
             }
 
             return period;
@@ -148,7 +151,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                employeeSettings = _periodRepository.GetPeriodEmployeeSettingById(criteria);
+                employeeSettings = periodRepository.GetPeriodEmployeeSettingById(criteria);
             }
 
             return employeeSettings;
@@ -227,7 +230,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                employeeSettings = _periodRepository.GetEmployeeSettingByPeriodId(criteria);
+                employeeSettings = periodRepository.GetEmployeeSettingByPeriodId(criteria);
             }
 
             return employeeSettings;
@@ -377,32 +380,19 @@
 
         private void GetAndSendEmailToAllRelatedEmployee(MailMode mailMode, int periodId, string employeeIds, int? processId)
         {
-            PeriodModel period = GetPeriodInformation(periodId);
+            PeriodModel period = GetPeriodById(periodId);
             IEnumerable<PeriodFlowModel> employeeSettings = GetEmployeeSettings(periodId, employeeIds, processId);
 
             switch (mailMode)
             {
                 case MailMode.Start:
-                    _manualMailService.SendStartMail(period, employeeSettings);
+                    manualMailService.SendStartMail(period, employeeSettings);
                     break;
 
                 case MailMode.NotifyChange:
-                    _manualMailService.SendNotifyMail(period, employeeSettings);
+                    manualMailService.SendNotifyMail(period, employeeSettings);
                     break;
             }
-        }
-
-        private PeriodModel GetPeriodInformation(int periodId)
-        {
-            var period = new PeriodModel();
-
-            var criteria = new GetPeriodByIdCriteria
-            {
-                PeriodId = periodId
-            };
-            period = GetPeriodById(criteria);
-
-            return period;
         }
 
         private IEnumerable<PeriodFlowModel> GetEmployeeSettings(int periodId, string employeeIds, int? processId)

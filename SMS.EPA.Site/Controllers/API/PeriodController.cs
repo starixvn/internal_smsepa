@@ -110,12 +110,8 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Read)]
         public PeriodModel GetPeriodById(int periodId)
         {
-            var criteria = new GetPeriodByIdCriteria
-            {
-                PeriodId = periodId
-            };
+            PeriodModel period = periodService.GetPeriodById(periodId);
 
-            PeriodModel period = periodService.GetPeriodById(criteria);
             return period;
         }
 

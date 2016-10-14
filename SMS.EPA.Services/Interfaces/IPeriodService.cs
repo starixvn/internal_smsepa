@@ -11,7 +11,7 @@
     {
         IEnumerable<PeriodModel> GetPeriod(GetPeriodCriteria criteria);
 
-        PeriodModel GetPeriodById(GetPeriodByIdCriteria criteria);
+        PeriodModel GetPeriodById(int periodId);
 
         IEnumerable<PeriodModel> GetMonthlyPeriod(GetMonthlyPeriodCriteria criteria);
 

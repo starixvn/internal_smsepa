@@ -2,13 +2,12 @@
 {
     using System.Collections.Generic;
     using System.Text;
+    using SMS.EPA.Core.Constants;
     using SMS.EPA.Model.Enitites;
 
     public class TargetSettingAssignModel
     {
         private const string DepartmentXmlTemplate = "<Department DepartmentId='{0}' IsGroup='{1}'></Department>";
-        private const string BeginRootTag = "<ROOT>";
-        private const string EndRootTag = "</ROOT>";
 
         public int TargetTemplateId { get; set; }
 
@@ -16,7 +15,7 @@
 
         public string ConvertToXml()
         {
-            var departmentXml = new StringBuilder(BeginRootTag);
+            var departmentXml = new StringBuilder(Constants.BeginRootTag);
 
             if (DepartmentSettings != null)
             {
@@ -26,8 +25,7 @@
                 }
             }
 
-            departmentXml.Append(EndRootTag);
-            return departmentXml.ToString();
+            return departmentXml.Append(Constants.EndRootTag).ToString();
         }
     }
 }

@@ -3,6 +3,7 @@
     using System.Text;
     using Fanex.Data;
     using Fanex.Data.Repository;
+    using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Model;
@@ -10,8 +11,6 @@
     public class UpdateTotalScoreOfSemiHasMonthlyCriteria : CriteriaBase
     {
         private const string EPAXmlTemplate = "<EPA ProcessId='{0}' TotalScore='{1}'></EPA>";
-        private const string BeginRootTag = "<ROOT>";
-        private const string EndRootTag = "</ROOT>";
 
         public int EPAId { get; set; }
 
@@ -23,7 +22,7 @@
             get
             {
                 ICryptographyService cryptographyService = new CryptographyService();
-                var epaXml = new StringBuilder(BeginRootTag);
+                var epaXml = new StringBuilder(Constants.BeginRootTag);
 
                 epaXml.AppendFormat(
                         EPAXmlTemplate,
@@ -40,9 +39,7 @@
                         (int)ProcessType.Reviewer,
                         cryptographyService.Encrypt(MonthlyEPA.AverageReviewerScoreConverted.ToString()));
 
-                epaXml.Append(EndRootTag);
-
-                return epaXml.ToString();
+                return epaXml.Append(Constants.EndRootTag).ToString();
             }
         }
 

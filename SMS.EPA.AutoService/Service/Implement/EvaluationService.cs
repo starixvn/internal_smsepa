@@ -2,11 +2,9 @@
 {
     using System.Collections.Generic;
     using SMS.EPA.AutoService.Criteria;
-    using SMS.EPA.AutoService.Repository;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria.Period;
     using SMS.EPA.Criteria.Period.GenerationEvaluation;
     using SMS.EPA.Model.Period;
     using SMS.EPA.Services.Implement;
@@ -14,23 +12,20 @@
 
     public class EvaluationService : BaseService, IEvaluationService
     {
-        private readonly IEvaluationRepository generateEvaluationRepository;
         private readonly IPeriodService periodService;
         private readonly IAutoMailService autoMailService;
         private readonly ICryptographyService cryptographyService;
 
         public EvaluationService()
-            : this(null, null, null, null)
+            : this(null, null, null)
         {
         }
 
         public EvaluationService(
-            IEvaluationRepository generationEvaluationRepository,
             IPeriodService periodService,
             IAutoMailService autoMailService,
             ICryptographyService cryptographyService)
         {
-            this.generateEvaluationRepository = generationEvaluationRepository ?? new EvaluationRepository();
             this.periodService = periodService ?? new PeriodService();
             this.autoMailService = autoMailService ?? new AutoMailService();
             this.cryptographyService = cryptographyService ?? new CryptographyService();
@@ -48,11 +43,12 @@
             return reminderPeriods;
         }
 
-        public IEnumerable<AutoEmployeePeriodModel> CheckEndProcess(CheckEndProcessCriteria criteria)
+        public IEnumerable<AutoEmployeePeriodModel> CheckEndProcess()
         {
+            var criteria = new CheckEndProcessCriteria();
             IEnumerable<AutoEmployeePeriodModel> evaluationProcesses = new List<AutoEmployeePeriodModel>();
 
-            if (criteria != null && criteria.IsValid())
+            if (criteria.IsValid())
             {
                 evaluationProcesses = GetData<AutoEmployeePeriodModel>(criteria);
                 DecryptTotalScore(evaluationProcesses);
@@ -85,11 +81,15 @@
             return comandResult;
         }
 
-        public int CheckLastestProcessOfPeriod(CheckLastestProcessOfPeriodCriteria criteria)
+        public int CheckLastestProcessOfPeriod(int periodId)
         {
+            var criteria = new CheckLastestProcessOfPeriodCriteria
+            {
+                PeriodId = periodId
+            };
             int lastestProcess = 0;
 
-            if (criteria != null && criteria.IsValid())
+            if (criteria.IsValid())
             {
                 lastestProcess = GetDataEntity<int>(criteria);
             }
@@ -123,7 +123,7 @@
 
         public void GetAndSendEmailToAllRelatedEmployee(int periodId, string employeeIds, int? processId, int mailMode)
         {
-            PeriodModel period = GetPeriodInformation(periodId);
+            PeriodModel period = periodService.GetPeriodById(periodId);
             IEnumerable<PeriodFlowModel> employeeSettings = GetEmployeeSettings(periodId, employeeIds, processId);
 
             switch (mailMode)
@@ -140,18 +140,6 @@
                     autoMailService.SendEndEvaluationMailToHumanResourceByPeriod(period, employeeSettings);
                     break;
             }
-        }
-
-        private PeriodModel GetPeriodInformation(int periodId)
-        {
-            var criteria = new GetPeriodByIdCriteria
-            {
-                PeriodId = periodId
-            };
-
-            PeriodModel period = periodService.GetPeriodById(criteria);
-
-            return period;
         }
 
         private IEnumerable<PeriodFlowModel> GetEmployeeSettings(int periodId, string employeeIds, int? processId)

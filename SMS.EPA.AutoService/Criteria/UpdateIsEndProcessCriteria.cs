@@ -4,13 +4,12 @@
     using System.Text;
     using Fanex.Data;
     using Fanex.Data.Repository;
+    using SMS.EPA.Core.Constants;
     using SMS.EPA.Model.Period;
 
     public class UpdateIsEndProcessCriteria : CriteriaBase
     {
         private const string ProcessXmlTemplate = "<EPAProcess EPAId='{0}' ProcessId='{1}'></EPAProcess>";
-        private const string BeginRootTag = "<ROOT>";
-        private const string EndRootTag = "</ROOT>";
 
         public string EPAProcess
         {
@@ -35,16 +34,14 @@
 
         private string ConvertEvaluationProcessToXml(IEnumerable<AutoEmployeePeriodModel> evaluationProcesses)
         {
-            var epaProcessXmlBuilder = new StringBuilder(BeginRootTag);
+            var epaProcessXmlBuilder = new StringBuilder(Constants.BeginRootTag);
 
             foreach (AutoEmployeePeriodModel evaluationProcess in evaluationProcesses)
             {
                 epaProcessXmlBuilder.AppendFormat(ProcessXmlTemplate, evaluationProcess.EPAId, evaluationProcess.ProcessId);
             }
 
-            epaProcessXmlBuilder.Append(EndRootTag);
-
-            return epaProcessXmlBuilder.ToString();
+            return epaProcessXmlBuilder.Append(Constants.EndRootTag).ToString();
         }
     }
 }

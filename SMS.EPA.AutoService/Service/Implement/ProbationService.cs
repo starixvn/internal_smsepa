@@ -1,11 +1,12 @@
 ﻿namespace SMS.EPA.AutoService.Service
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
     using System.Threading.Tasks;
     using log4net;
     using SMS.EPA.AutoService.Criteria;
     using SMS.EPA.AutoService.Repository;
-    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.Period.GenerationEvaluation;
@@ -16,9 +17,9 @@
     public class ProbationService : BaseService, IProbationService
     {
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private readonly IEvaluationRepository generateEvaluationRepository;
-        private readonly IEvaluationService evaluationService;
+        private readonly IEvaluationRepository evaluationRepository;
         private readonly IPeriodService periodService;
+        private readonly IAutoMailService autoMailService;
 
         public ProbationService()
             : this(null, null, null)
@@ -26,13 +27,13 @@
         }
 
         public ProbationService(
-            IEvaluationRepository generationEvaluationRepository,
-            IEvaluationService evaluationService,
-            IPeriodService periodService)
+            IEvaluationRepository evaluationRepository,
+            IPeriodService periodService,
+            IAutoMailService autoMailService)
         {
-            this.generateEvaluationRepository = generationEvaluationRepository ?? new EvaluationRepository();
-            this.evaluationService = evaluationService ?? new EvaluationService();
+            this.evaluationRepository = evaluationRepository ?? new EvaluationRepository();
             this.periodService = periodService ?? new PeriodService();
+            this.autoMailService = autoMailService ?? new AutoMailService();
         }
 
         public void CheckProbationPeriod()
@@ -42,61 +43,94 @@
 
             if (!string.IsNullOrWhiteSpace(employeePeriod.EmployeeIds) && employeePeriod.PeriodId > 0)
             {
-                AddEmployeeAndGenerateEPAProbation(employeePeriod);
+                AddEmployeeToEPA(employeePeriod);
+                GenerateEPA(employeePeriod);
+                SendStartEmail(employeePeriod.PeriodId, employeePeriod.EmployeeIds);
             }
         }
 
-        public void AddEmployeeAndGenerateEPAProbation(AutoEmployeePeriodModel employeePeriod)
-        {
-            var insertEmployeeCriteria = new InsertEmployeeToProbationPeriodCriteria
-            {
-                PeriodId = employeePeriod.PeriodId,
-                EmployeeIds = employeePeriod.EmployeeIds
-            };
-            CommandResult insertEmployeeResult = InsertEmployeeToProbationPeriod(insertEmployeeCriteria);
-            string messageResult = insertEmployeeResult.IsSuccessful ? "0" : insertEmployeeResult.Message;
-            Log.Info("Result of auto add employee to probation period " + employeePeriod.PeriodId + ": " + messageResult);
-
-            var generateEvaluationCriteria = new AutoGenerateEvaluationCriteria
-            {
-                PeriodId = employeePeriod.PeriodId,
-                EmployeeIds = employeePeriod.EmployeeIds
-            };
-            CommandResult generateEvaluationResult = periodService.GenerateEvaluation(generateEvaluationCriteria);
-            Log.Info("Result of auto generate EPA to all employees of current probation period " + employeePeriod.PeriodId + ": " + messageResult);
-
-            if (AppSetting.SendMailAllWhenPeriodStarted)
-            {
-                Task.Factory.StartNew(() =>
-                {
-                    evaluationService.GetAndSendEmailToAllRelatedEmployee(employeePeriod.PeriodId, employeePeriod.EmployeeIds, null, (int)MailMode.Start);
-                });
-            }
-        }
-
-        public AutoEmployeePeriodModel GetEmployeeProbationEvaluation()
+        private AutoEmployeePeriodModel GetEmployeeProbationEvaluation()
         {
             var criteria = new GetEmployeeProbationEvaluationCriteria();
             AutoEmployeePeriodModel employeePeriod = new AutoEmployeePeriodModel();
 
-            if (criteria != null && criteria.IsValid())
+            if (criteria.IsValid())
             {
-                employeePeriod = generateEvaluationRepository.GetEmployeeProbationEvaluation(criteria);
+                employeePeriod = evaluationRepository.GetEmployeeProbationEvaluation(criteria);
             }
 
             return employeePeriod;
         }
 
-        public CommandResult InsertEmployeeToProbationPeriod(InsertEmployeeToProbationPeriodCriteria criteria)
+        private void AddEmployeeToEPA(AutoEmployeePeriodModel employeePeriod)
         {
-            CommandResult comandResult = new CommandResult();
+            var criteria = new InsertEmployeeToProbationPeriodCriteria
+            {
+                PeriodId = employeePeriod.PeriodId,
+                EmployeeIds = employeePeriod.EmployeeIds
+            };
+            var comandResult = new CommandResult();
 
-            if (criteria != null && criteria.IsValid())
+            if (criteria.IsValid())
             {
                 comandResult = Repository.Insert(criteria);
             }
 
-            return comandResult;
+            string messageResult = comandResult.IsSuccessful ? "0" : comandResult.Message;
+            Log.Info("Result of auto add employee to probation period " + employeePeriod.PeriodId + ": " + messageResult);
+        }
+
+        private void GenerateEPA(AutoEmployeePeriodModel employeePeriod)
+        {
+            var criteria = new AutoGenerateEvaluationCriteria
+            {
+                PeriodId = employeePeriod.PeriodId,
+                EmployeeIds = employeePeriod.EmployeeIds
+            };
+
+            var commandResult = new CommandResult();
+
+            if (criteria.IsValid())
+            {
+                commandResult = periodService.GenerateEvaluation(criteria);
+            }
+
+            string messageResult = commandResult.IsSuccessful ? "0" : commandResult.Message;
+            Log.Info("Result of auto generate EPA to all employees of current probation period " + employeePeriod.PeriodId + ": " + messageResult);
+        }
+
+        private void SendStartEmail(int periodId, string employeeIds)
+        {
+            if (AppSetting.SendMailAllWhenPeriodStarted)
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    PeriodModel period = periodService.GetPeriodById(periodId);
+                    IEnumerable<PeriodFlowModel> employeeSettings = GetEmployeeSettings(periodId, employeeIds);
+
+                    if (employeeSettings != null && employeeSettings.Any())
+                    {
+                        autoMailService.SendStartMail(period, employeeSettings);
+                    }
+                });
+            }
+        }
+
+        private IEnumerable<PeriodFlowModel> GetEmployeeSettings(int periodId, string employeeIds)
+        {
+            IEnumerable<PeriodFlowModel> employeeSettings = new List<PeriodFlowModel>();
+            var criteria = new GetEmployeeSettingByPeriodIdCriteria
+            {
+                PeriodId = periodId,
+                EmployeeIds = employeeIds
+            };
+
+            if (criteria.IsValid())
+            {
+                employeeSettings = periodService.GetEmployeeSettingByPeriodId(criteria);
+            }
+
+            return employeeSettings;
         }
     }
 }

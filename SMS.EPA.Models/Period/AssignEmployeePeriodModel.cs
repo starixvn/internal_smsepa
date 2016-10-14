@@ -2,13 +2,12 @@
 {
     using System.Collections.Generic;
     using System.Text;
+    using SMS.EPA.Core.Constants;
     using SMS.EPA.Model.Enitites;
 
     public class AssignEmployeePeriodModel
     {
         private const string DepartmentXmlTemplate = "<Department DepartmentId='{0}' IsGroup='{1}'></Department>";
-        private const string BeginRootTag = "<ROOT>";
-        private const string EndRootTag = "</ROOT>";
 
         public int PeriodId { get; set; }
 
@@ -18,7 +17,7 @@
 
         public string ConvertToXml()
         {
-            var departmentXml = new StringBuilder(BeginRootTag);
+            var departmentXml = new StringBuilder(Constants.BeginRootTag);
 
             if (Departments != null)
             {
@@ -28,8 +27,7 @@
                 }
             }
 
-            departmentXml.Append(EndRootTag);
-            return departmentXml.ToString();
+            return departmentXml.Append(Constants.EndRootTag).ToString();
         }
     }
 }

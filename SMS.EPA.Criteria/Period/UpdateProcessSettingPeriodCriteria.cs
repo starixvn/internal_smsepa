@@ -4,13 +4,12 @@
     using System.Text;
     using Fanex.Data;
     using Fanex.Data.Repository;
+    using SMS.EPA.Core.Constants;
     using SMS.EPA.Model;
 
     public class UpdateProcessSettingPeriodCriteria : CriteriaBase
     {
         private const string ProcessItemXmTemplate = "<ProcessSetting ProcessId='{0}' Duration='{1}' NoticeAtBegin='{2}' RemindDay='{3}'></ProcessSetting>";
-        private const string BeginRootTag = "<ROOT>";
-        private const string EndRootTag = "</ROOT>";
 
         public int PeriodId { get; set; }
 
@@ -43,14 +42,14 @@
 
             if (Processes != null)
             {
-                var processXmlBuilder = new StringBuilder(BeginRootTag);
+                var processXmlBuilder = new StringBuilder(Constants.BeginRootTag);
 
                 foreach (FlowModel item in Processes)
                 {
                     processXmlBuilder.AppendFormat(ProcessItemXmTemplate, item.ProcessId, item.Duration, item.HasSendMail, item.RemindDay);
                 }
 
-                processXmlBuilder.Append(EndRootTag);
+                processXmlBuilder.Append(Constants.EndRootTag);
                 processXml = processXmlBuilder.ToString();
             }
 

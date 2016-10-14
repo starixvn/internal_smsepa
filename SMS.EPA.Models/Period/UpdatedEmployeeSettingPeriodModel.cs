@@ -2,15 +2,12 @@
 {
     using System.Collections.Generic;
     using System.Text;
+    using SMS.EPA.Core.Constants;
 
     public class UpdatedEmployeeSettingPeriodModel
     {
         private const string AssignmentXmlTemplate = @"<Assignment EmployeeId='{0}' ProcessId='{1}' EvaluatorId='{2}'
                 StartDate='{3}' EndDate='{4}' Priority='{5}'></Assignment>";
-
-        private const string BeginRootTag = "<ROOT>";
-
-        private const string EndRootTag = "</ROOT>";
 
         public int PeriodId { get; set; }
 
@@ -22,7 +19,7 @@
 
         public string ConvertToXml()
         {
-            var assignmentXml = new StringBuilder(BeginRootTag);
+            var assignmentXml = new StringBuilder(Constants.BeginRootTag);
 
             if (EmployeeAssignments != null)
             {
@@ -39,8 +36,7 @@
                 }
             }
 
-            assignmentXml.Append(EndRootTag);
-            return assignmentXml.ToString();
+            return assignmentXml.Append(Constants.EndRootTag).ToString();
         }
     }
 }

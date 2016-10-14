@@ -6,7 +6,6 @@
     using System.Threading.Tasks;
     using log4net;
     using SMS.EPA.AutoService.Criteria;
-    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.Period.GenerationEvaluation;
@@ -17,8 +16,8 @@
     public class PromotionService : BaseService, IPromotionService
     {
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private readonly IEvaluationService evaluationService;
         private readonly IPeriodService periodService;
+        private readonly IAutoMailService autoMailService;
 
         public PromotionService()
             : this(null, null)
@@ -26,11 +25,11 @@
         }
 
         public PromotionService(
-            IEvaluationService evaluationService,
-            IPeriodService periodService)
+            IPeriodService periodService,
+            IAutoMailService autoMailService)
         {
-            this.evaluationService = evaluationService ?? new EvaluationService();
             this.periodService = periodService ?? new PeriodService();
+            this.autoMailService = autoMailService ?? new AutoMailService();
         }
 
         public void CheckPromotionPeriod()
@@ -39,34 +38,18 @@
 
             if (employeePeriods != null && employeePeriods.Any())
             {
-                GenerateEPAPromotion(employeePeriods);
-            }
-        }
-
-        public void GenerateEPAPromotion(IEnumerable<AutoEmployeePeriodModel> employeePeriods)
-        {
-            foreach (AutoEmployeePeriodModel period in employeePeriods)
-            {
-                var generateEvaluationCriteria = new AutoGenerateEvaluationCriteria
+                foreach (AutoEmployeePeriodModel employeePeriod in employeePeriods)
                 {
-                    PeriodId = period.PeriodId,
-                    EmployeeIds = period.EmployeeIds
-                };
-                CommandResult generateEvaluationResult = periodService.GenerateEvaluation(generateEvaluationCriteria);
-                string messageResult = generateEvaluationResult.IsSuccessful ? "0" : generateEvaluationResult.Message;
-                Log.Info("Result of auto generate EPA to all employees of current promotion period " + period.PeriodId + ": " + messageResult);
-
-                if (AppSetting.SendMailAllWhenPeriodStarted)
-                {
-                    Task.Factory.StartNew(() =>
+                    if (!string.IsNullOrWhiteSpace(employeePeriod.EmployeeIds) && employeePeriod.PeriodId > 0)
                     {
-                        evaluationService.GetAndSendEmailToAllRelatedEmployee(period.PeriodId, period.EmployeeIds, null, (int)MailMode.Start);
-                    });
+                        GenerateEPA(employeePeriod);
+                        SendStartEmail(employeePeriod.PeriodId, employeePeriod.EmployeeIds);
+                    }
                 }
             }
         }
 
-        public IEnumerable<AutoEmployeePeriodModel> GetEmployeePromotionEvaluation()
+        private IEnumerable<AutoEmployeePeriodModel> GetEmployeePromotionEvaluation()
         {
             var criteria = new GetEmployeePromotionEvaluationCriteria();
             IEnumerable<AutoEmployeePeriodModel> employeePeriods = new List<AutoEmployeePeriodModel>();
@@ -77,18 +60,63 @@
                 employeePeriods = employeePeriods.GroupBy(x => x.PeriodId).Select(x => new AutoEmployeePeriodModel
                 {
                     PeriodId = x.Key,
-                    EmployeeIds = JoinEmployeeId(x.ToList())
+                    EmployeeIds = string.Join(",", x.Select(i => i.EmployeeId.ToString()))
                 });
             }
 
             return employeePeriods;
         }
 
-        private string JoinEmployeeId(List<AutoEmployeePeriodModel> employeePeriods)
+        private void GenerateEPA(AutoEmployeePeriodModel employeePeriod)
         {
-            string employeeIds = string.Join(",", employeePeriods.Select(x => x.EmployeeId.ToString()));
+            var criteria = new AutoGenerateEvaluationCriteria
+            {
+                PeriodId = employeePeriod.PeriodId,
+                EmployeeIds = employeePeriod.EmployeeIds
+            };
+            var commandResult = new CommandResult();
 
-            return employeeIds;
+            if (criteria.IsValid())
+            {
+                commandResult = periodService.GenerateEvaluation(criteria);
+            }
+
+            string messageResult = commandResult.IsSuccessful ? "0" : commandResult.Message;
+            Log.Info("Result of auto generate EPA to all employees of current promotion period " + employeePeriod.PeriodId + ": " + messageResult);
+        }
+
+        private void SendStartEmail(int periodId, string employeeIds)
+        {
+            if (AppSetting.SendMailAllWhenPeriodStarted)
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    PeriodModel period = periodService.GetPeriodById(periodId);
+                    IEnumerable<PeriodFlowModel> employeeSettings = GetEmployeeSettings(periodId, employeeIds);
+
+                    if (employeeSettings != null && employeeSettings.Any())
+                    {
+                        autoMailService.SendStartMail(period, employeeSettings);
+                    }
+                });
+            }
+        }
+
+        private IEnumerable<PeriodFlowModel> GetEmployeeSettings(int periodId, string employeeIds)
+        {
+            IEnumerable<PeriodFlowModel> employeeSettings = new List<PeriodFlowModel>();
+            var criteria = new GetEmployeeSettingByPeriodIdCriteria
+            {
+                PeriodId = periodId,
+                EmployeeIds = employeeIds
+            };
+
+            if (criteria.IsValid())
+            {
+                employeeSettings = periodService.GetEmployeeSettingByPeriodId(criteria);
+            }
+
+            return employeeSettings;
         }
     }
 }
