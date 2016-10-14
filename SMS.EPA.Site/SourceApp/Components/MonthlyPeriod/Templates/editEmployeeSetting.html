@@ -6,7 +6,7 @@
         </div>
     </div>
     <div class="modal-body">
-        <form novalidate class="row form-horizontal form-multiLine filter" evaluator-chosen>
+        <form novalidate class="row form-horizontal form-multiLine" evaluator-chosen>
             <div class="form-group">
                 <label class="col-sm-2 control-label" data-translate="Employee"></label>
                 <div class="col-sm-8 employee-name-period">
@@ -157,6 +157,6 @@
     <div class="modal-footer">
         <button class="btn btn-primary" ng-click="updatePeriodSettingCtrl.save()" data-translate="OK"
                 ng-show="updatePeriodSettingCtrl.permission == updatePeriodSettingCtrl.policyEnum.Host"></button>
-        <button class="btn btn-default" ng-click="updatePeriodSettingCtrl.cancel()" data-translate="Cancel"></button>
+        <button class="btn btn-cancel" ng-click="updatePeriodSettingCtrl.cancel()" data-translate="Cancel"></button>
     </div>
 </div>
