@@ -18,7 +18,7 @@
             },
             controllerAs: 'monthlyResultCtrl',
             bindToController: true,
-            templateUrl: '/SourceApp/Components/EPA/Directives/Templates/monthlyEPAs.tmpl.html'
+            templateUrl: '/SourceApp/Components/EPA/Share/Directives/Templates/monthlyEPAs.tmpl.html'
         };
     }
 })(angular);

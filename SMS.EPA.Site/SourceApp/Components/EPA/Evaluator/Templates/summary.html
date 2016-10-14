@@ -1,16 +1,16 @@
 ﻿<div class="textarea-comment">
     <div class="lable-comment-if-any control-label" data-translate="CommentByEmployee"></div>
     <textarea class="form-control" maxlength="2000"
-              ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess"
-              ng-model="memberEPAInfoCtrl.epaInfo.Process.Self.Comment" ng-readonly="true"></textarea>
+              ng-show="evaluatorDetailCtrl.epaInfo.Process.Self.IsEndProcess"
+              ng-model="evaluatorDetailCtrl.epaInfo.Process.Self.Comment" ng-readonly="true"></textarea>
     <textarea class="form-control" maxlength="2000"
-              ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" ng-readonly="true">
+              ng-show="!evaluatorDetailCtrl.epaInfo.Process.Self.IsEndProcess" ng-readonly="true">
         Pending
     </textarea>
     <div class="lable-comment-if-any control-label" data-translate="CommentByEvaluator"></div>
     <textarea class="form-control" maxlength="2000"
-              ng-model="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.Comment"
-              ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"></textarea>
+              ng-model="evaluatorDetailCtrl.epaInfo.Process.CurrentProcess.Comment"
+              ng-readonly="!evaluatorDetailCtrl.epaInfo.IsAllowedToEdit"></textarea>
 </div>
 
 <table class="table table-bordered table-striped table-custom table-summary">
@@ -26,77 +26,77 @@
         <tr>
             <td class="text-right"><strong data-translate="PerformanceScore"></strong></td>
             <td class="text-center col-score">
-                <strong ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">
-                    {{memberEPAInfoCtrl.epaInfo.Process.Self.TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.Process.Self.MaxTotalScore | customScore}}
+                <strong ng-show="evaluatorDetailCtrl.epaInfo.Process.Self.IsEndProcess">
+                    {{evaluatorDetailCtrl.epaInfo.Process.Self.TotalScore | customScore}} / {{evaluatorDetailCtrl.epaInfo.Process.Self.MaxTotalScore | customScore}}
                 </strong>
-                <strong ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="Pending"></strong>
+                <strong ng-show="!evaluatorDetailCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="Pending"></strong>
             </td>
             <td class="text-center col-score">
                 <strong>
-                    {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.MaxTotalScore | customScore}}
+                    {{evaluatorDetailCtrl.epaInfo.Process.CurrentProcess.TotalScore | customScore}} / {{evaluatorDetailCtrl.epaInfo.Process.CurrentProcess.MaxTotalScore | customScore}}
                 </strong>
             </td>
             <td class="text-center col-score">
-                <strong ng-show="memberEPAInfoCtrl.epaInfo.LastPerformanceScore != null"
-                        ng-bind="memberEPAInfoCtrl.epaInfo.LastPerformanceScore | customScore"></strong>
-                <strong ng-show="memberEPAInfoCtrl.epaInfo.LastPerformanceScore == null" ng-bind="'-'"></strong>
+                <strong ng-show="evaluatorDetailCtrl.epaInfo.LastPerformanceScore != null"
+                        ng-bind="evaluatorDetailCtrl.epaInfo.LastPerformanceScore | customScore"></strong>
+                <strong ng-show="evaluatorDetailCtrl.epaInfo.LastPerformanceScore == null" ng-bind="'-'"></strong>
             </td>
         </tr>
-        <tr class="text-right" ng-if="!memberEPAInfoCtrl.epaInfo.IsMonthly">
+        <tr class="text-right" ng-if="!evaluatorDetailCtrl.epaInfo.IsMonthly">
             <td><strong data-translate="DisciplineScore"></strong></td>
             <td class="text-center" colspan="2">
-                <strong ng-show="memberEPAInfoCtrl.epaInfo.HasDisciplineScore">
-                    <span ng-class="memberEPAInfoCtrl.epaInfo.DisciplineScore < 0 ? 'red' : ''"
-                          ng-bind="memberEPAInfoCtrl.epaInfo.DisciplineScore | customScore"></span> / <span ng-bind="memberEPAInfoCtrl.epaInfo.MaxDisciplineScore | customScore"></span>
+                <strong ng-show="evaluatorDetailCtrl.epaInfo.HasDisciplineScore">
+                    <span ng-class="evaluatorDetailCtrl.epaInfo.DisciplineScore < 0 ? 'red' : ''"
+                          ng-bind="evaluatorDetailCtrl.epaInfo.DisciplineScore | customScore"></span> / <span ng-bind="evaluatorDetailCtrl.epaInfo.MaxDisciplineScore | customScore"></span>
                 </strong>
-                <div ng-show="!memberEPAInfoCtrl.epaInfo.HasDisciplineScore">
-                    <strong ng-show="memberEPAInfoCtrl.epaInfo.DisciplineScore" ng-class="memberEPAInfoCtrl.epaInfo.DisciplineScore < 0 ? 'red' : ''"
-                            ng-bind="memberEPAInfoCtrl.epaInfo.DisciplineScore | customScore"></strong>
-                    <strong ng-show="!memberEPAInfoCtrl.epaInfo.DisciplineScore" ng-bind="'-'"></strong>
+                <div ng-show="!evaluatorDetailCtrl.epaInfo.HasDisciplineScore">
+                    <strong ng-show="evaluatorDetailCtrl.epaInfo.DisciplineScore" ng-class="evaluatorDetailCtrl.epaInfo.DisciplineScore < 0 ? 'red' : ''"
+                            ng-bind="evaluatorDetailCtrl.epaInfo.DisciplineScore | customScore"></strong>
+                    <strong ng-show="!evaluatorDetailCtrl.epaInfo.DisciplineScore" ng-bind="'-'"></strong>
                 </div>
             </td>
             <td class="text-center col-score">
-                <div ng-show="memberEPAInfoCtrl.epaInfo.HasDisciplineScore">
-                    <strong ng-show="memberEPAInfoCtrl.epaInfo.LastPerformanceScore != null" ng-bind="memberEPAInfoCtrl.epaInfo.LastDisciplineScore | customScore"></strong>
-                    <strong ng-show="memberEPAInfoCtrl.epaInfo.LastPerformanceScore == null" ng-bind="'-'"></strong>
+                <div ng-show="evaluatorDetailCtrl.epaInfo.HasDisciplineScore">
+                    <strong ng-show="evaluatorDetailCtrl.epaInfo.LastPerformanceScore != null" ng-bind="evaluatorDetailCtrl.epaInfo.LastDisciplineScore | customScore"></strong>
+                    <strong ng-show="evaluatorDetailCtrl.epaInfo.LastPerformanceScore == null" ng-bind="'-'"></strong>
                 </div>
-                <div ng-show="!memberEPAInfoCtrl.epaInfo.HasDisciplineScore">
-                    <strong ng-show="memberEPAInfoCtrl.epaInfo.LastPerformanceScore != null" ng-bind="memberEPAInfoCtrl.epaInfo.LastDisciplineScore | customScore"></strong>
-                    <strong ng-show="memberEPAInfoCtrl.epaInfo.LastPerformanceScore == null" ng-bind="'-'"></strong>
+                <div ng-show="!evaluatorDetailCtrl.epaInfo.HasDisciplineScore">
+                    <strong ng-show="evaluatorDetailCtrl.epaInfo.LastPerformanceScore != null" ng-bind="evaluatorDetailCtrl.epaInfo.LastDisciplineScore | customScore"></strong>
+                    <strong ng-show="evaluatorDetailCtrl.epaInfo.LastPerformanceScore == null" ng-bind="'-'"></strong>
                 </div>
             </td>
         </tr>
-        <tr class="text-right" ng-if="!memberEPAInfoCtrl.epaInfo.IsMonthly">
+        <tr class="text-right" ng-if="!evaluatorDetailCtrl.epaInfo.IsMonthly">
             <td><strong data-translate="TotalScore"></strong></td>
             <td class="text-center col-score">
-                <strong ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">
-                    {{memberEPAInfoCtrl.finalScoreOfSelf | customScore}} / {{memberEPAInfoCtrl.epaInfo.Process.Self.MaxPerformanceScore | customScore}}
+                <strong ng-show="evaluatorDetailCtrl.epaInfo.Process.Self.IsEndProcess">
+                    {{evaluatorDetailCtrl.finalScoreOfSelf | customScore}} / {{evaluatorDetailCtrl.epaInfo.Process.Self.MaxPerformanceScore | customScore}}
                 </strong>
-                <strong ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="Pending"></strong>
+                <strong ng-show="!evaluatorDetailCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="Pending"></strong>
             </td>
             <td class="text-center col-score">
-                <strong>{{memberEPAInfoCtrl.finalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.MaxPerformanceScore | customScore}}</strong>
+                <strong>{{evaluatorDetailCtrl.finalScore | customScore}} / {{evaluatorDetailCtrl.epaInfo.Process.CurrentProcess.MaxPerformanceScore | customScore}}</strong>
             </td>
             <td class="text-center col-score">
-                <strong ng-show="memberEPAInfoCtrl.epaInfo.LastFinalScore != null" ng-bind="memberEPAInfoCtrl.epaInfo.LastFinalScore | customScore"></strong>
-                <strong ng-show="memberEPAInfoCtrl.epaInfo.LastFinalScore == null" ng-bind="'-'"></strong>
+                <strong ng-show="evaluatorDetailCtrl.epaInfo.LastFinalScore != null" ng-bind="evaluatorDetailCtrl.epaInfo.LastFinalScore | customScore"></strong>
+                <strong ng-show="evaluatorDetailCtrl.epaInfo.LastFinalScore == null" ng-bind="'-'"></strong>
             </td>
         </tr>
-        <tr class="text-right" ng-if="!memberEPAInfoCtrl.epaInfo.IsMonthly">
+        <tr class="text-right" ng-if="!evaluatorDetailCtrl.epaInfo.IsMonthly">
             <td><strong data-translate="Grade"></strong></td>
             <td class="text-center col-score">
-                <strong ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" ng-bind="memberEPAInfoCtrl.gradeOfSelf"></strong>
-                <strong ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="Pending"></strong>
+                <strong ng-show="evaluatorDetailCtrl.epaInfo.Process.Self.IsEndProcess" ng-bind="evaluatorDetailCtrl.gradeOfSelf"></strong>
+                <strong ng-show="!evaluatorDetailCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="Pending"></strong>
             </td>
             <td class="text-center col-score">
-                <strong ng-bind="memberEPAInfoCtrl.epaInfo.Grade"></strong>
+                <strong ng-bind="evaluatorDetailCtrl.epaInfo.Grade"></strong>
             </td>
             <td class="text-center col-score">
-                <strong ng-show="memberEPAInfoCtrl.epaInfo.LastGrade" ng-bind="memberEPAInfoCtrl.epaInfo.LastGrade"></strong>
-                <strong ng-show="!memberEPAInfoCtrl.epaInfo.LastGrade" ng-bind="'-'"></strong>
+                <strong ng-show="evaluatorDetailCtrl.epaInfo.LastGrade" ng-bind="evaluatorDetailCtrl.epaInfo.LastGrade"></strong>
+                <strong ng-show="!evaluatorDetailCtrl.epaInfo.LastGrade" ng-bind="'-'"></strong>
             </td>
         </tr>
     </tbody>
 </table>
 
-<epa-performance-grade data-standard-grades="memberEPAInfoCtrl.standardGrades" ng-if="!memberEPAInfoCtrl.epaInfo.IsMonthly"></epa-performance-grade>
+<epa-performance-grade data-standard-grades="evaluatorDetailCtrl.standardGrades" ng-if="!evaluatorDetailCtrl.epaInfo.IsMonthly"></epa-performance-grade>

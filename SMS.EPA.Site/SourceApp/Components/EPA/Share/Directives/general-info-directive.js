@@ -18,7 +18,7 @@
             },
             controllerAs: 'generalInfoCtrl',
             bindToController: true,
-            templateUrl: '/SourceApp/Components/EPA/Directives/Templates/generalInfo.tmpl.html'
+            templateUrl: '/SourceApp/Components/EPA/Share/Directives/Templates/generalInfo.tmpl.html'
         };
     }
 })(angular);

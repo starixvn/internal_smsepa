@@ -8,11 +8,11 @@
                 <tbody>
                     <tr>
                         <td colspan="2">
-                            <div class="checkbox" ng-class="{'disabled': !memberEPAInfoCtrl.epaInfo.IsAllowedToEdit}">
+                            <div class="checkbox" ng-class="{'disabled': !reviewerDetailCtrl.epaInfo.IsAllowedToEdit}">
                                 <label>
                                     <input type="checkbox"
-                                           ng-model="memberEPAInfoCtrl.epaInfo.Recommendation.Promoted"
-                                           ng-disabled="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit">
+                                           ng-model="reviewerDetailCtrl.epaInfo.Recommendation.Promoted"
+                                           ng-disabled="!reviewerDetailCtrl.epaInfo.IsAllowedToEdit">
                                     {{"Promotion" | translate}}
                                 </label>
                             </div>
@@ -20,35 +20,35 @@
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <div class="checkbox" ng-class="{'disabled': !memberEPAInfoCtrl.epaInfo.IsAllowedToEdit}">
+                            <div class="checkbox" ng-class="{'disabled': !reviewerDetailCtrl.epaInfo.IsAllowedToEdit}">
                                 <label>
                                     <input type="checkbox"
-                                           ng-model="memberEPAInfoCtrl.epaInfo.Recommendation.PayIncreased"
-                                           ng-disabled="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit">
+                                           ng-model="reviewerDetailCtrl.epaInfo.Recommendation.PayIncreased"
+                                           ng-disabled="!reviewerDetailCtrl.epaInfo.IsAllowedToEdit">
                                     {{"AnnualIncrement" | translate}}
                                 </label>
                             </div>
                         </td>
                     </tr>
-                    <tr ng-show="memberEPAInfoCtrl.epaInfo.Recommendation.Invalid">
+                    <tr ng-show="reviewerDetailCtrl.epaInfo.Recommendation.Invalid">
                         <td colspan="2" class="error-message" data-translate="SemiRecommendationWarning"></td>
                     </tr>
                     <tr>
                         <td class="width-250">
-                            <div class="checkbox" ng-class="{'disabled': !memberEPAInfoCtrl.epaInfo.IsAllowedToEdit}">
+                            <div class="checkbox" ng-class="{'disabled': !reviewerDetailCtrl.epaInfo.IsAllowedToEdit}">
                                 <label>
                                     <input type="checkbox"
-                                           ng-model="memberEPAInfoCtrl.epaInfo.Recommendation.JobGradeIncreased"
-                                           ng-disabled="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit">
+                                           ng-model="reviewerDetailCtrl.epaInfo.Recommendation.JobGradeIncreased"
+                                           ng-disabled="!reviewerDetailCtrl.epaInfo.IsAllowedToEdit">
                                     {{"JobGrade" | translate}}
                                 </label>
                             </div>
                         </td>
-                        <td ng-show="memberEPAInfoCtrl.epaInfo.Recommendation.JobGradeIncreased">
+                        <td ng-show="reviewerDetailCtrl.epaInfo.Recommendation.JobGradeIncreased">
                             <select class="jobGrades"
-                                    ng-model="memberEPAInfoCtrl.epaInfo.Recommendation.JobGrade.JobGradeId"
-                                    ng-disabled="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
-                                    ng-options="opt.JobGradeId as opt.Name for opt in memberEPAInfoCtrl.jobGrades">
+                                    ng-model="reviewerDetailCtrl.epaInfo.Recommendation.JobGrade.JobGradeId"
+                                    ng-disabled="!reviewerDetailCtrl.epaInfo.IsAllowedToEdit"
+                                    ng-options="opt.JobGradeId as opt.Name for opt in reviewerDetailCtrl.jobGrades">
                                 <option style="display: none" value="">-- Select a job grade --</option>
                             </select>
                             <label class="error-message">(*)</label>

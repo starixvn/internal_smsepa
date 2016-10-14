@@ -4,31 +4,31 @@
     </div>
     <div class="panel-collapse collapse in recommendation">
         <div class="panel-body recommendation-section">
-            <div class="error-message" ng-show="memberEPAInfoCtrl.epaInfo.Recommendation.Invalid" data-translate="ProbationRecommendationWarning"></div>
-            <div class="radio" ng-class="{'disabled': !memberEPAInfoCtrl.epaInfo.IsAllowedToEdit}">
+            <div class="error-message" ng-show="reviewerDetailCtrl.epaInfo.Recommendation.Invalid" data-translate="ProbationRecommendationWarning"></div>
+            <div class="radio" ng-class="{'disabled': !reviewerDetailCtrl.epaInfo.IsAllowedToEdit}">
                 <label>
                     <input type="radio" name="optionsRadios"
-                           ng-checked="memberEPAInfoCtrl.epaInfo.Recommendation.PassedProbation"
-                           ng-disabled="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
-                           ng-click="memberEPAInfoCtrl.epaInfo.Recommendation.ProbationStatus = memberEPAInfoCtrl.probationStatusTypes.Passed" />
+                           ng-checked="reviewerDetailCtrl.epaInfo.Recommendation.PassedProbation"
+                           ng-disabled="!reviewerDetailCtrl.epaInfo.IsAllowedToEdit"
+                           ng-click="reviewerDetailCtrl.epaInfo.Recommendation.ProbationStatus = reviewerDetailCtrl.probationStatusTypes.Passed" />
                     {{"PassProbation" | translate}}
                 </label>
             </div>
-            <div class="radio" ng-class="{'disabled': !memberEPAInfoCtrl.epaInfo.IsAllowedToEdit}">
+            <div class="radio" ng-class="{'disabled': !reviewerDetailCtrl.epaInfo.IsAllowedToEdit}">
                 <label>
                     <input type="radio" name="optionsRadios"
-                           ng-checked="memberEPAInfoCtrl.epaInfo.Recommendation.ExtendedProbation"
-                           ng-disabled="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
-                           ng-click="memberEPAInfoCtrl.epaInfo.Recommendation.ProbationStatus = memberEPAInfoCtrl.probationStatusTypes.Extended" />
+                           ng-checked="reviewerDetailCtrl.epaInfo.Recommendation.ExtendedProbation"
+                           ng-disabled="!reviewerDetailCtrl.epaInfo.IsAllowedToEdit"
+                           ng-click="reviewerDetailCtrl.epaInfo.Recommendation.ProbationStatus = reviewerDetailCtrl.probationStatusTypes.Extended" />
                     {{"ExtendProbation" | translate}}
                 </label>
             </div>
-            <div class="radio" ng-class="{'disabled': !memberEPAInfoCtrl.epaInfo.IsAllowedToEdit}">
+            <div class="radio" ng-class="{'disabled': !reviewerDetailCtrl.epaInfo.IsAllowedToEdit}">
                 <label>
                     <input type="radio" name="optionsRadios"
-                           ng-checked="memberEPAInfoCtrl.epaInfo.Recommendation.FailedProbation"
-                           ng-disabled="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
-                           ng-click="memberEPAInfoCtrl.epaInfo.Recommendation.ProbationStatus = memberEPAInfoCtrl.probationStatusTypes.Failed" />
+                           ng-checked="reviewerDetailCtrl.epaInfo.Recommendation.FailedProbation"
+                           ng-disabled="!reviewerDetailCtrl.epaInfo.IsAllowedToEdit"
+                           ng-click="reviewerDetailCtrl.epaInfo.Recommendation.ProbationStatus = reviewerDetailCtrl.probationStatusTypes.Failed" />
                     {{"FailProbation" | translate}}
                 </label>
             </div>

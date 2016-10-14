@@ -1,6 +1,6 @@
 ﻿<table class="table table-evaluation">
-    <tbody ng-repeat="kpiGroup in memberEPAInfoCtrl.epaInfo.KPIGroups"
-           repeat-end="memberEPAInfoCtrl.generateRatingStar()" ng-show="kpiGroup.KPIs.length > 0">
+    <tbody ng-repeat="kpiGroup in empDetailCtrl.epaInfo.KPIGroups"
+           repeat-end="empDetailCtrl.generateRatingStar()" ng-show="kpiGroup.KPIs.length > 0">
         <tr data-toggle="collapse" data-target=".kpiGroup-{{$index}}" class="kpi-group-name">
             <td colspan="2">
                 {{kpiGroup.Name}} <strong>({{kpiGroup.Weight | customScore}} pts)</strong>
@@ -18,29 +18,29 @@
             </td>
             <td class="text-center width-250">
                 <div class="rating-by-star"
-                     ng-if="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.Star
-                        || memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.HalfStar
-                        || (memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.Score && kpiGroup.NumberKPIOptional > 0)">
+                     ng-if="empDetailCtrl.epaInfo.RatingType.RatingTypeId == empDetailCtrl.ratingTypeEnum.Star
+                        || empDetailCtrl.epaInfo.RatingType.RatingTypeId == empDetailCtrl.ratingTypeEnum.HalfStar
+                        || (empDetailCtrl.epaInfo.RatingType.RatingTypeId == empDetailCtrl.ratingTypeEnum.Score && kpiGroup.NumberKPIOptional > 0)">
                     <div class="remove-rating">
-                        <a ng-show="memberEPAInfoCtrl.epaInfo.IsAllowedToEdit && kpi.CurrentEvaluation.Rate > 0"
+                        <a ng-show="empDetailCtrl.epaInfo.IsAllowedToEdit && kpi.CurrentEvaluation.Rate > 0"
                            class="glyphicon glyphicon-remove-circle remove-star"
-                           title="Cancel" href="javascript:;" ng-click="memberEPAInfoCtrl.cancelRating(kpiGroup, kpi)"></a>
+                           title="Cancel" href="javascript:;" ng-click="empDetailCtrl.cancelRating(kpiGroup, kpi)"></a>
                     </div>
                     <div class="rating-form">
                         <input id="star_{{kpi.KPIId}}" type="number" class="rating-loading"
-                               ng-if="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.Star
-                                    || (memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.Score && kpiGroup.NumberKPIOptional > 0)"
-                               ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit" data-size="xs"
-                               data-min=0 data-max={{memberEPAInfoCtrl.maxStar}} data-step=1 ng-model="kpi.CurrentEvaluation.Rate"
+                               ng-if="empDetailCtrl.epaInfo.RatingType.RatingTypeId == empDetailCtrl.ratingTypeEnum.Star
+                                    || (empDetailCtrl.epaInfo.RatingType.RatingTypeId == empDetailCtrl.ratingTypeEnum.Score && kpiGroup.NumberKPIOptional > 0)"
+                               ng-readonly="!empDetailCtrl.epaInfo.IsAllowedToEdit" data-size="xs"
+                               data-min=0 data-max={{empDetailCtrl.maxStar}} data-step=1 ng-model="kpi.CurrentEvaluation.Rate"
                                data-show-caption="false" data-show-clear="false"
-                               ng-change="memberEPAInfoCtrl.hoveringLeave(kpiGroup, kpi)">
+                               ng-change="empDetailCtrl.hoveringLeave(kpiGroup, kpi)">
 
                         <input id="star_{{kpi.KPIId}}" type="number" class="rating-loading"
-                               ng-if="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.HalfStar"
-                               ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit" data-size="xs"
-                               data-min=0 data-max={{memberEPAInfoCtrl.maxStar}} data-step=0.5 ng-model="kpi.CurrentEvaluation.Rate"
+                               ng-if="empDetailCtrl.epaInfo.RatingType.RatingTypeId == empDetailCtrl.ratingTypeEnum.HalfStar"
+                               ng-readonly="!empDetailCtrl.epaInfo.IsAllowedToEdit" data-size="xs"
+                               data-min=0 data-max={{empDetailCtrl.maxStar}} data-step=0.5 ng-model="kpi.CurrentEvaluation.Rate"
                                data-show-caption="false" data-show-clear="false"
-                               ng-change="memberEPAInfoCtrl.hoveringLeave(kpiGroup, kpi)">
+                               ng-change="empDetailCtrl.hoveringLeave(kpiGroup, kpi)">
                     </div>
                     <div class="kpi-percent">
                         <span class="badge percent" ng-show="kpiGroup.NumberKPIOptional == 0 && kpi.CurrentEvaluation.Rate > 0">
@@ -48,11 +48,11 @@
                         </span>
                     </div>
                 </div>
-                <div ng-if="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.Score && kpiGroup.NumberKPIOptional == 0"
+                <div ng-if="empDetailCtrl.epaInfo.RatingType.RatingTypeId == empDetailCtrl.ratingTypeEnum.Score && kpiGroup.NumberKPIOptional == 0"
                      class="rating-by-score">
-                    <input type="text" maxlength="5" class="form-control text-center kpi-score" ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
-                           ng-model="kpi.CurrentEvaluation.Score" numeric decimals="2" ng-change="memberEPAInfoCtrl.inputScore(kpi)"
-                           tooltip="{{memberEPAInfoCtrl.getNotificationInputScore(kpi)}}" tooltip-trigger="focus" />
+                    <input type="text" maxlength="5" class="form-control text-center kpi-score" ng-readonly="!empDetailCtrl.epaInfo.IsAllowedToEdit"
+                           ng-model="kpi.CurrentEvaluation.Score" numeric decimals="2" ng-change="empDetailCtrl.inputScore(kpi)"
+                           tooltip="{{empDetailCtrl.getNotificationInputScore(kpi)}}" tooltip-trigger="focus" />
                 </div>
             </td>
         </tr>
@@ -70,7 +70,7 @@
                 </div>
                 <div class="textarea" ng-show="kpi.ExpandedComment">
                     <textarea class="form-control" maxlength="2000" ng-model="kpi.CurrentEvaluation.Comment"
-                              ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"></textarea>
+                              ng-readonly="!empDetailCtrl.epaInfo.IsAllowedToEdit"></textarea>
                 </div>
                 <div class="note" data-translate="(*)" ng-show="kpi.HasComment && kpi.IsRequiredComment && kpi.ExpandedComment"></div>
             </td>

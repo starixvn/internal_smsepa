@@ -16,7 +16,7 @@
             },
             controllerAs: 'performanceGradeCtrl',
             bindToController: true,
-            templateUrl: '/SourceApp/Components/EPA/Directives/Templates/performanceGrade.tmpl.html'
+            templateUrl: '/SourceApp/Components/EPA/Share/Directives/Templates/performanceGrade.tmpl.html'
         };
     }
 })(angular);

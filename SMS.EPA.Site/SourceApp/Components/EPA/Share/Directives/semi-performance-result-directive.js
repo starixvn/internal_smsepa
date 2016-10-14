@@ -2,7 +2,7 @@
     'use strict';
     /* jshint latedef:nofunc */
 
-    angular.module('epaModule').directive('epaPerformanceResult', performanceResult);
+    angular.module('epaModule').directive('epaSemiPerformanceResult', performanceResult);
     performanceResult.$inject = [];
 
     function performanceResult() {
@@ -22,7 +22,7 @@
             },
             controllerAs: 'performanceResultCtrl',
             bindToController: true,
-            templateUrl: '/SourceApp/Components/EPA/Directives/Templates/performanceResult.tmpl.html'
+            templateUrl: '/SourceApp/Components/EPA/Share/Directives/Templates/semiPerformanceResult.tmpl.html'
         };
     }
 })(angular);

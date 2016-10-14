@@ -1,0 +1,72 @@
+﻿<div class="panel panel-default">
+    <div class="panel-heading" data-toggle="collapse" data-target=".recommendation">
+        <h4 class="panel-title text-uppercase" data-translate="Recommendation"></h4>
+    </div>
+    <div class="panel-collapse collapse in recommendation">
+        <div class="panel-body recommendation-section">
+            <div ng-if="recommendationCtrl.epaInfo.IsSemiAnnual">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td colspan="2">
+                                <div class="checkbox disabled">
+                                    <label>
+                                        <input type="checkbox" ng-checked="recommendationCtrl.epaInfo.Recommendation.Promoted" disabled>
+                                        {{"Promotion" | translate}}
+                                    </label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div class="checkbox disabled">
+                                    <label>
+                                        <input type="checkbox" ng-checked="recommendationCtrl.epaInfo.Recommendation.PayIncreased" disabled>
+                                        {{"AnnualIncrement" | translate}}
+                                    </label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="width-250">
+                                <div class="checkbox disabled">
+                                    <label>
+                                        <input type="checkbox" ng-checked="recommendationCtrl.epaInfo.Recommendation.JobGradeIncreased" disabled>
+                                        {{"JobGrade" | translate}}
+                                    </label>
+                                </div>
+                            </td>
+                            <td ng-show="recommendationCtrl.epaInfo.Recommendation.JobGradeIncreased">
+                                <select class="jobGrades" disabled
+                                        ng-model="recommendationCtrl.epaInfo.Recommendation.JobGrade.JobGradeId"
+                                        ng-options="opt.JobGradeId as opt.Name for opt in recommendationCtrl.jobGrades">
+                                    <option style="display: none" value="">-- Select a job grade --</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div ng-if="recommendationCtrl.epaInfo.IsProbation || recommendationCtrl.epaInfo.IsPromotion">
+                <div class="radio disabled">
+                    <label>
+                        <input type="radio" name="optionsRadios" ng-checked="recommendationCtrl.epaInfo.Recommendation.PassedProbation" disabled>
+                        {{"PassProbation" | translate}}
+                    </label>
+                </div>
+                <div class="radio disabled">
+                    <label>
+                        <input type="radio" name="optionsRadios" ng-checked="recommendationCtrl.epaInfo.Recommendation.ExtendedProbation" disabled>
+                        {{"ExtendProbation" | translate}}
+                    </label>
+                </div>
+                <div class="radio disabled">
+                    <label>
+                        <input type="radio" name="optionsRadios" ng-checked="recommendationCtrl.epaInfo.Recommendation.FailedProbation" disabled>
+                        {{"FailProbation" | translate}}
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

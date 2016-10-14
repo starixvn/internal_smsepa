@@ -29,7 +29,7 @@
             },
             controllerAs: 'evaluationProcessCtrl',
             bindToController: true,
-            templateUrl: '/SourceApp/Components/EPA/Directives/Templates/evaluationProcess.tmpl.html'
+            templateUrl: '/SourceApp/Components/EPA/Share/Directives/Templates/evaluationProcess.tmpl.html'
         };
     }
 })(angular);

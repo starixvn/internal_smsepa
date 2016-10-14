@@ -1,4 +1,4 @@
-﻿<div ng-controller="EmployeeEPAInfoController as memberEPAInfoCtrl">
+﻿<div ng-controller="EmployeeEPAInfoController as empDetailCtrl">
     <div class="col-sm-12 sub-header">
         <ul class="row breadcrumb">
             <li class="current" data-translate="MyEPA"></li>
@@ -8,7 +8,7 @@
         <div class="row epa-form">
             <div class="text-center epa-title">
                 <span data-translate="EPATilte"></span>
-                <span> - {{memberEPAInfoCtrl.epaInfo.Period.Name}}</span>
+                <span> - {{empDetailCtrl.epaInfo.Period.Name}}</span>
             </div>
 
             <div class="panel panel-default">
@@ -17,10 +17,10 @@
                 </div>
                 <div class="panel-collapse collapse in generalInfo">
                     <div class="panel-body general-info">
-                        <epa-general-infomation data-is-view-detail="memberEPAInfoCtrl.isViewDetail"
-                                                data-employee-info="memberEPAInfoCtrl.epaInfo.Employee"
-                                                data-evaluated-date="memberEPAInfoCtrl.evaluatedDate"
-                                                data-saved="memberEPAInfoCtrl.dataSaved"></epa-general-infomation>
+                        <epa-general-infomation data-is-view-detail="empDetailCtrl.isViewDetail"
+                                                data-employee-info="empDetailCtrl.epaInfo.Employee"
+                                                data-evaluated-date="empDetailCtrl.evaluatedDate"
+                                                data-saved="empDetailCtrl.dataSaved"></epa-general-infomation>
                     </div>
                 </div>
             </div>
@@ -31,7 +31,7 @@
                 </div>
                 <div class="panel-collapse collapse in evaluationProcess" auto-collapse data-collapsed="true">
                     <div class="panel-body evaluation-process-section">
-                        <epa-evaluation-process data-epa-info="memberEPAInfoCtrl.epaInfo"></epa-evaluation-process>
+                        <epa-evaluation-process data-epa-info="empDetailCtrl.epaInfo"></epa-evaluation-process>
                     </div>
                 </div>
             </div>
@@ -63,11 +63,11 @@
                         <div class="lable-comment-if-any" data-translate="CommentsIfAny"></div>
                         <div class="textarea-comment">
                             <textarea class="form-control" maxlength="2000"
-                                      ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
-                                      ng-model="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.Comment"></textarea>
+                                      ng-readonly="!empDetailCtrl.epaInfo.IsAllowedToEdit"
+                                      ng-model="empDetailCtrl.epaInfo.Process.CurrentProcess.Comment"></textarea>
                         </div>
                         <div ng-include src="'/SourceApp/Components/EPA/Self/Templates/summary.html'"></div>
-                        <epa-performance-grade data-standard-grades="memberEPAInfoCtrl.standardGrades"></epa-performance-grade>
+                        <epa-performance-grade data-standard-grades="empDetailCtrl.standardGrades"></epa-performance-grade>
                         <label class="error-message">{{"Note" | translate }}: (*) {{"RequiredField" | translate}}!</label>
                     </div>
                 </div>
@@ -75,9 +75,9 @@
         </div>
         <div class="navbar navbar-default navbar-fixed-bottom action-section">
             <div class="container text-center">
-                <button class="btn btn-primary" ng-click="memberEPAInfoCtrl.save(memberEPAInfoCtrl.epaInfo)"
-                        ng-if="memberEPAInfoCtrl.epaInfo && memberEPAInfoCtrl.epaInfo.IsAllowedToEdit" data-translate="Save"></button>
-                <button class="btn btn-warning" ng-click="memberEPAInfoCtrl.cancel()" data-translate="Back"></button>
+                <button class="btn btn-primary" ng-click="empDetailCtrl.save(empDetailCtrl.epaInfo)"
+                        ng-if="empDetailCtrl.epaInfo && empDetailCtrl.epaInfo.IsAllowedToEdit" data-translate="Save"></button>
+                <button class="btn btn-warning" ng-click="empDetailCtrl.cancel()" data-translate="Back"></button>
             </div>
         </div>
     </div>

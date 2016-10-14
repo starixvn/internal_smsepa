@@ -16,47 +16,47 @@
     <tbody>
         <tr>
             <td class="text-center">
-                <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">
-                    {{memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageSelfScoreConverted | customScore}} / {{memberEPAInfoCtrl.epaInfo.ScoreRatingType.SelfEvaluated | customScore}}
+                <div ng-show="reviewerDetailCtrl.epaInfo.Process.Self.IsEndProcess">
+                    {{reviewerDetailCtrl.epaInfo.MonthlyEPA.AverageSelfScoreConverted | customScore}} / {{reviewerDetailCtrl.epaInfo.ScoreRatingType.SelfEvaluated | customScore}}
                 </div>
-                <div ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="Pending"></div>
+                <div ng-show="!reviewerDetailCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="Pending"></div>
             </td>
             <td class="text-center">
-                <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess">
-                    {{memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted | customScore}} / {{memberEPAInfoCtrl.epaInfo.ScoreRatingType.Evaluator | customScore}}
+                <div ng-show="reviewerDetailCtrl.epaInfo.Process.Evaluators[0].IsEndProcess">
+                    {{reviewerDetailCtrl.epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted | customScore}} / {{reviewerDetailCtrl.epaInfo.ScoreRatingType.Evaluator | customScore}}
                 </div>
-                <div ng-show="!memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess" data-translate="Pending"></div>
+                <div ng-show="!reviewerDetailCtrl.epaInfo.Process.Evaluators[0].IsEndProcess" data-translate="Pending"></div>
             </td>
             <td>
-                <span ng-bind="memberEPAInfoCtrl.epaInfo.MonthlyEPA.AverageReviewerScoreConverted | customScore"></span>
+                <span ng-bind="reviewerDetailCtrl.epaInfo.MonthlyEPA.AverageReviewerScoreConverted | customScore"></span>
                 <span style="display: inline-block; vertical-align:middle">
-                    <input type="text" maxlength="7" class="form-control text-center width-80" ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
-                           ng-model="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.TotalScore" numeric decimals="2"
-                           ng-change="memberEPAInfoCtrl.inputScore(memberEPAInfoCtrl.epaInfo.Process.CurrentProcess)"
-                           tooltip="{{memberEPAInfoCtrl.getNotificationInputScore(memberEPAInfoCtrl.epaInfo.Process.CurrentProcess)}}" tooltip-trigger="focus" />
+                    <input type="text" maxlength="7" class="form-control text-center width-80" ng-readonly="!reviewerDetailCtrl.epaInfo.IsAllowedToEdit"
+                           ng-model="reviewerDetailCtrl.epaInfo.Process.CurrentProcess.TotalScore" numeric decimals="2"
+                           ng-change="reviewerDetailCtrl.inputScore(reviewerDetailCtrl.epaInfo.Process.CurrentProcess)"
+                           tooltip="{{reviewerDetailCtrl.getNotificationInputScore(reviewerDetailCtrl.epaInfo.Process.CurrentProcess)}}" tooltip-trigger="focus" />
                 </span>
             </td>
             <td>
                 <textarea class="form-control" maxlength="2000"
-                          ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
-                          ng-model="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.Comment"></textarea>
+                          ng-readonly="!reviewerDetailCtrl.epaInfo.IsAllowedToEdit"
+                          ng-model="reviewerDetailCtrl.epaInfo.Process.CurrentProcess.Comment"></textarea>
             </td>
             <td class="text-center">
-                <strong ng-show="memberEPAInfoCtrl.epaInfo.HasDisciplineScore">
-                    <span ng-class="memberEPAInfoCtrl.epaInfo.DisciplineScore < 0 ? 'red' : ''"
-                          ng-bind="memberEPAInfoCtrl.epaInfo.DisciplineScore | customScore"></span> / <span ng-bind="memberEPAInfoCtrl.epaInfo.MaxDisciplineScore | customScore"></span>
+                <strong ng-show="reviewerDetailCtrl.epaInfo.HasDisciplineScore">
+                    <span ng-class="reviewerDetailCtrl.epaInfo.DisciplineScore < 0 ? 'red' : ''"
+                          ng-bind="reviewerDetailCtrl.epaInfo.DisciplineScore | customScore"></span> / <span ng-bind="reviewerDetailCtrl.epaInfo.MaxDisciplineScore | customScore"></span>
                 </strong>
-                <div ng-show="!memberEPAInfoCtrl.epaInfo.HasDisciplineScore">
-                    <strong ng-show="memberEPAInfoCtrl.epaInfo.DisciplineScore"
-                            ng-class="memberEPAInfoCtrl.epaInfo.DisciplineScore < 0 ? 'red' : ''"
-                            ng-bind="memberEPAInfoCtrl.epaInfo.DisciplineScore | customScore"></strong>
-                    <strong ng-show="!memberEPAInfoCtrl.epaInfo.DisciplineScore" ng-bind="'-'"></strong>
+                <div ng-show="!reviewerDetailCtrl.epaInfo.HasDisciplineScore">
+                    <strong ng-show="reviewerDetailCtrl.epaInfo.DisciplineScore"
+                            ng-class="reviewerDetailCtrl.epaInfo.DisciplineScore < 0 ? 'red' : ''"
+                            ng-bind="reviewerDetailCtrl.epaInfo.DisciplineScore | customScore"></strong>
+                    <strong ng-show="!reviewerDetailCtrl.epaInfo.DisciplineScore" ng-bind="'-'"></strong>
                 </div>
             </td>
             <td class="text-center">
-                <strong>{{memberEPAInfoCtrl.finalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.MaxPerformanceScore | customScore}}</strong>
+                <strong>{{reviewerDetailCtrl.finalScore | customScore}} / {{reviewerDetailCtrl.epaInfo.Process.CurrentProcess.MaxPerformanceScore | customScore}}</strong>
             </td>
-            <td class="text-center"><strong ng-bind="memberEPAInfoCtrl.epaInfo.Grade"></strong></td>
+            <td class="text-center"><strong ng-bind="reviewerDetailCtrl.epaInfo.Grade"></strong></td>
         </tr>
     </tbody>
 </table>

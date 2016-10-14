@@ -1,75 +1,87 @@
-﻿'use strict';
-/*global epaModule*/
+﻿(function (angular) {
+    'use strict';
+    /* jshint latedef:nofunc */
 
-epaModule.factory('EvaluationModel',
-['evaluationFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory',
-function (evaluationFactory, utilitiesFactory, notificationFactory, errorFactory) {
-    var model = this;
+    angular.module('epaModule').factory('EvaluationModel', evaluationModel);
+    evaluationModel.$inject = ['evaluationFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory'];
 
-    model.epaInfo = {};
+    function evaluationModel(evaluationFactory, utilitiesFactory, notificationFactory, errorFactory) {
+        var model = this,
+            epaInfo = {};
 
-    model.getEPAInfoById = function (epaId) {
-        return evaluationFactory.getEPAInfoById(epaId).success(function (epaInfo) {
-            model.epaInfo = epaInfo;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
+        var model = {
+            epaInfo: epaInfo,
+            checkScore: checkScore,
+            convertScoreToGrade: convertScoreToGrade,
+            getEPAInfoById: getEPAInfoById,
+            getNotificationInputScore: getNotificationInputScore,
+            scoreSpread: scoreSpread,
+            validateScoreInput: validateScoreInput
+        };
 
-    model.getNotificationInputScore = function (minScore, maxScore, message) {
-        return utilitiesFactory.formatString(message, minScore, maxScore);
-    };
+        return model;
 
-    model.validateScoreInput = function (weight, minScore, maxScore, message) {
-        var isValid = true;
+        function checkScore(score, minScore, maxScore) {
+            var result = score;
 
-        if (weight > maxScore || weight < minScore) {
-            isValid = false;
+            if (score > maxScore) {
+                result = maxScore;
+            } else if (score < minScore) {
+                result = minScore;
+            }
 
-            var msg = utilitiesFactory.formatString(message, minScore, maxScore);
-            notificationFactory.error('', msg);
+            return result;
         }
 
-        return isValid;
-    };
+        function convertScoreToGrade(finalScore, standardGrades) {
+            var score = utilitiesFactory.parseFloat(finalScore),
+                grade;
 
-    model.convertScoreToGrade = function (finalScore, standardGrades) {
-        var score = utilitiesFactory.parseFloat(finalScore),
-            grade;
+            angular.forEach(standardGrades, function (standardGrade) {
+                if (score >= standardGrade.LeftScore && score <= standardGrade.RightScore) {
+                    grade = standardGrade.Code;
+                }
+            });
 
-        angular.forEach(standardGrades, function (standardGrade) {
-            if (score >= standardGrade.LeftScore && score <= standardGrade.RightScore) {
-                grade = standardGrade.Code;
-            }
-        });
+            return grade;
+        }
 
-        return grade;
-    };
-
-    model.scoreSpread = function (kpiGroup) {
-        var averageWeight;
-
-        if (!kpiGroup.HasKPIOptional && kpiGroup.IsSpreadKPI) {
-            averageWeight = kpiGroup.Weight / kpiGroup.KPIs.length;
-            averageWeight = utilitiesFactory.splitNumber(averageWeight, 4);
-
-            angular.forEach(kpiGroup.KPIs, function (kpi) {
-                kpi.Weight = averageWeight;
+        function getEPAInfoById(epaId) {
+            return evaluationFactory.getEPAInfoById(epaId).success(function (epaInfo) {
+                model.epaInfo = epaInfo;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
             });
         }
-    };
 
-    model.checkScore = function (score, minScore, maxScore) {
-        var result = score;
-
-        if (score > maxScore) {
-            result = maxScore;
-        } else if (score < minScore) {
-            result = minScore;
+        function getNotificationInputScore(minScore, maxScore, message) {
+            return utilitiesFactory.formatString(message, minScore, maxScore);
         }
 
-        return result;
-    };
+        function scoreSpread(kpiGroup) {
+            var averageWeight;
 
-    return model;
-}]);
+            if (!kpiGroup.HasKPIOptional && kpiGroup.IsSpreadKPI) {
+                averageWeight = kpiGroup.Weight / kpiGroup.KPIs.length;
+                averageWeight = utilitiesFactory.splitNumber(averageWeight, 4);
+
+                angular.forEach(kpiGroup.KPIs, function (kpi) {
+                    kpi.Weight = averageWeight;
+                });
+            }
+        }
+
+        function validateScoreInput(weight, minScore, maxScore, message) {
+            var isValid = true;
+
+            if (weight > maxScore || weight < minScore) {
+                isValid = false;
+
+                var msg = utilitiesFactory.formatString(message, minScore, maxScore);
+                notificationFactory.error('', msg);
+            }
+
+            return isValid;
+        }
+    }
+})(angular);

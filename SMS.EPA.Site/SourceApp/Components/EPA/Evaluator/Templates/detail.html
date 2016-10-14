@@ -1,4 +1,4 @@
-﻿<div class="form-evaluator" ng-controller="MemberEPAInfoOfEvaluatorController as memberEPAInfoCtrl">
+﻿<div class="form-evaluator" ng-controller="MemberEPAInfoOfEvaluatorController as evaluatorDetailCtrl">
     <div class="col-sm-12 sub-header">
         <ul class="row breadcrumb">
             <li class="current" data-translate="MemberEPA"></li>
@@ -8,7 +8,7 @@
         <div class="row epa-form">
             <div class="text-center epa-title">
                 <span data-translate="EPATilte"></span>
-                <span> - {{memberEPAInfoCtrl.epaInfo.Period.Name}}</span>
+                <span> - {{evaluatorDetailCtrl.epaInfo.Period.Name}}</span>
             </div>
 
             <div class="panel panel-default">
@@ -17,10 +17,10 @@
                 </div>
                 <div class="panel-collapse collapse in generalInfo">
                     <div class="panel-body general-info">
-                        <epa-general-infomation data-is-view-detail="memberEPAInfoCtrl.isViewDetail"
-                                                data-employee-info="memberEPAInfoCtrl.epaInfo.Employee"
-                                                data-evaluated-date="memberEPAInfoCtrl.evaluatedDate"
-                                                data-saved="memberEPAInfoCtrl.dataSaved"></epa-general-infomation>
+                        <epa-general-infomation data-is-view-detail="evaluatorDetailCtrl.isViewDetail"
+                                                data-employee-info="evaluatorDetailCtrl.epaInfo.Employee"
+                                                data-evaluated-date="evaluatorDetailCtrl.evaluatedDate"
+                                                data-saved="evaluatorDetailCtrl.dataSaved"></epa-general-infomation>
                     </div>
                 </div>
             </div>
@@ -31,7 +31,7 @@
                 </div>
                 <div class="panel-collapse collapse in evaluationProcess" auto-collapse data-collapsed="true">
                     <div class="panel-body evaluation-process-section">
-                        <epa-evaluation-process data-epa-info="memberEPAInfoCtrl.epaInfo"></epa-evaluation-process>
+                        <epa-evaluation-process data-epa-info="evaluatorDetailCtrl.epaInfo"></epa-evaluation-process>
                     </div>
                 </div>
             </div>
@@ -50,7 +50,7 @@
 
             <div>&ensp;</div>
 
-            <any ng-switch="memberEPAInfoCtrl.viewBySelf()">
+            <any ng-switch="evaluatorDetailCtrl.viewBySelf()">
                 <any ng-switch-when="true">
                     <div ng-include src="'/SourceApp/Components/EPA/Evaluator/Templates/listKPI.html'"></div>
                 </any>
@@ -73,11 +73,12 @@
                 </div>
             </div>
         </div>
-        <div ng-if="memberEPAInfoCtrl.viewBySelf()" class="navbar navbar-default navbar-fixed-bottom action-section">
+        <div ng-if="evaluatorDetailCtrl.viewBySelf()" class="navbar navbar-default navbar-fixed-bottom action-section">
             <div class="container text-center">
-                <button class="btn btn-primary" ng-click="memberEPAInfoCtrl.save(memberEPAInfoCtrl.epaInfo)"
-                        ng-if="memberEPAInfoCtrl.epaInfo && memberEPAInfoCtrl.epaInfo.IsAllowedToEdit" data-translate="Save"></button>
-                <button class="btn btn-warning" ng-if="memberEPAInfoCtrl.viewBackButton()" ng-click="memberEPAInfoCtrl.cancel()" data-translate="Back"></button>
+                <button class="btn btn-primary" ng-click="evaluatorDetailCtrl.save(evaluatorDetailCtrl.epaInfo)"
+                        ng-if="evaluatorDetailCtrl.epaInfo && evaluatorDetailCtrl.epaInfo.IsAllowedToEdit" data-translate="Save"></button>
+                <button class="btn btn-warning" ng-if="evaluatorDetailCtrl.viewBackButton()" 
+                        ng-click="evaluatorDetailCtrl.cancel()" data-translate="Back"></button>
             </div>
         </div>
     </div>

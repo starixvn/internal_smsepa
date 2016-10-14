@@ -45,7 +45,7 @@
             },
             controllerAs: 'performanceDetailCtrl',
             bindToController: true,
-            templateUrl: '/SourceApp/Components/EPA/Directives/Templates/performanceDetails.tmpl.html'
+            templateUrl: '/SourceApp/Components/EPA/Share/Directives/Templates/performanceDetails.tmpl.html'
         };
     }
 })(angular);

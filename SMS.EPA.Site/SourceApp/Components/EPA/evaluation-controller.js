@@ -1,7 +1,7 @@
 ﻿'use strict';
 /*global epaModule*/
 
-epaModule.controller('ViewEPADetailController',
+epaModule.controller('EPADetailController',
 ['$routeParams', 'EvaluationModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'baseUrl',
 function ($routeParams, EvaluationModel, CommonModel, utilitiesFactory, historyFactory, baseUrl) {
     var vm = this;

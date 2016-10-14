@@ -1,4 +1,4 @@
-﻿<div ng-controller="ViewEPADetailController as memberEPAInfoCtrl">
+﻿<div ng-controller="EPADetailController as epaDetailCtrl">
     <div class="col-sm-12 sub-header">
         <ul class="row breadcrumb">
             <li class="current" data-translate="EPAResult"></li>
@@ -8,7 +8,7 @@
         <div class="row epa-form">
             <div class="text-center epa-title">
                 <span data-translate="EPATilte"></span>
-                <span> - {{memberEPAInfoCtrl.epaInfo.Period.Name}}</span>
+                <span> - {{epaDetailCtrl.epaInfo.Period.Name}}</span>
             </div>
 
             <div class="panel panel-default">
@@ -17,16 +17,16 @@
                 </div>
                 <div class="panel-collapse collapse in generalInfo">
                     <div class="panel-body general-info">
-                        <epa-general-infomation data-is-view-detail="memberEPAInfoCtrl.isViewDetail"
-                                                data-employee-info="memberEPAInfoCtrl.epaInfo.Employee"
-                                                data-evaluated-date="memberEPAInfoCtrl.evaluatedDate"
-                                                data-saved="memberEPAInfoCtrl.dataSaved"></epa-general-infomation>
+                        <epa-general-infomation data-is-view-detail="epaDetailCtrl.isViewDetail"
+                                                data-employee-info="epaDetailCtrl.epaInfo.Employee"
+                                                data-evaluated-date="epaDetailCtrl.evaluatedDate"
+                                                data-saved="epaDetailCtrl.dataSaved"></epa-general-infomation>
                     </div>
                 </div>
             </div>
 
             <!-- performance result -->
-            <any ng-switch="memberEPAInfoCtrl.epaInfo.IsSemiHasMonthly">
+            <any ng-switch="epaDetailCtrl.epaInfo.IsSemiHasMonthly">
                 <any ng-switch-when="true">
                     <div class="panel panel-default">
                         <div class="panel-heading" data-toggle="collapse" data-target=".performanceResult">
@@ -34,8 +34,8 @@
                         </div>
                         <div class="panel-collapse collapse in performanceResult">
                             <div class="panel-body summary-section">
-                                <epa-semi-performance-result data-epa-info="memberEPAInfoCtrl.epaInfo"></epa-semi-performance-result>
-                                <epa-performance-grade data-standard-grades="memberEPAInfoCtrl.standardGrades"></epa-performance-grade>
+                                <epa-semi-performance-result data-epa-info="epaDetailCtrl.epaInfo"></epa-semi-performance-result>
+                                <epa-performance-grade data-standard-grades="epaDetailCtrl.standardGrades"></epa-performance-grade>
                             </div>
                         </div>
                     </div>
@@ -48,8 +48,8 @@
                         </div>
                         <div class="panel-collapse collapse in performanceResult">
                             <div class="panel-body summary-section">
-                                <epa-performance-result data-epa-info="memberEPAInfoCtrl.epaInfo"></epa-performance-result>
-                                <epa-performance-grade data-standard-grades="memberEPAInfoCtrl.standardGrades"></epa-performance-grade>
+                                <epa-performance-result data-epa-info="epaDetailCtrl.epaInfo"></epa-performance-result>
+                                <epa-performance-grade data-standard-grades="epaDetailCtrl.standardGrades"></epa-performance-grade>
                             </div>
                         </div>
                     </div>
@@ -57,19 +57,14 @@
             </any>
 
             <!-- recommendation -->
-            <any ng-if="memberEPAInfoCtrl.epaInfo.Recommendation && memberEPAInfoCtrl.epaInfo.Recommendation.EPAId > 0">
-                <any ng-if="memberEPAInfoCtrl.epaInfo.IsProbation || memberEPAInfoCtrl.epaInfo.IsPromotion">
-                    <div ng-include src="'/SourceApp/Components/EPA/Templates/recommendationForProbationAndPromotion.html'"></div>
-                </any>
-                <any ng-if="memberEPAInfoCtrl.epaInfo.IsSemiAnnual">
-                    <div ng-include src="'/SourceApp/Components/EPA/Templates/recommendationForSemi.html'"></div>
-                </any>
-            </any>
+            <epa-recommendation data-epa-info="epaDetailCtrl.epaInfo"
+                                data-job-grades="epaDetailCtrl.jobGrades"
+                                ng-if="epaDetailCtrl.epaInfo.Recommendation && epaDetailCtrl.epaInfo.Recommendation.EPAId > 0"></epa-recommendation>
 
             <div>&ensp;</div>
 
             <!-- performance detail -->
-            <any ng-switch="memberEPAInfoCtrl.epaInfo.IsSemiHasMonthly">
+            <any ng-switch="epaDetailCtrl.epaInfo.IsSemiHasMonthly">
                 <any ng-switch-when="true">
                     <div class="panel panel-default">
                         <div class="panel-heading" data-toggle="collapse" data-target=".monthlyEPAs">
@@ -77,22 +72,22 @@
                         </div>
                         <div class="panel-collapse collapse in monthlyEPAs">
                             <div class="panel-body">
-                                <epa-monthly-result data-epa-info="memberEPAInfoCtrl.epaInfo"></epa-monthly-result>
+                                <epa-monthly-result data-epa-info="epaDetailCtrl.epaInfo"></epa-monthly-result>
                             </div>
                         </div>
                     </div>
                 </any>
 
                 <any ng-switch-default>
-                    <epa-performance-detail data-epa-info="memberEPAInfoCtrl.epaInfo"></epa-performance-detail>
+                    <epa-performance-detail data-epa-info="epaDetailCtrl.epaInfo"></epa-performance-detail>
                 </any>
             </any>
         </div>
         <div class="navbar navbar-default navbar-fixed-bottom action-section">
             <div class="container text-center">
-                <button class="btn btn-primary" ng-click="memberEPAInfoCtrl.exportPdf()" data-translate="ExportPdf"
-                        ng-show="memberEPAInfoCtrl.allowedExportPdf && memberEPAInfoCtrl.epaInfo.Period.IsEndPeriod"></button>
-                <button class="btn btn-warning" ng-click="memberEPAInfoCtrl.back()" data-translate="Back"></button>
+                <button class="btn btn-primary" ng-click="epaDetailCtrl.exportPdf()" data-translate="ExportPdf"
+                        ng-show="epaDetailCtrl.allowedExportPdf && epaDetailCtrl.epaInfo.Period.IsEndPeriod"></button>
+                <button class="btn btn-warning" ng-click="epaDetailCtrl.back()" data-translate="Back"></button>
             </div>
         </div>
     </div>
