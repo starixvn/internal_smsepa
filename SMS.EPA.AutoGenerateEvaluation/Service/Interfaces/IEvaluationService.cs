@@ -9,13 +9,13 @@
     {
         IEnumerable<AutoEmployeePeriodModel> GetPeriodHasReminderProcess(GetPeriodHasReminderProcessCriteria criteria);
 
-        IEnumerable<AutoEmployeePeriodModel> CheckEndProcess(CheckEndProcessCriteria criteria);
+        IEnumerable<AutoEmployeePeriodModel> CheckEndProcess();
 
         CommandResult UpdateEndProcess(UpdateIsEndProcessCriteria criteria);
 
         CommandResult UpdateFinalScoreEndEvaluation(UpdateFinalScoreEndEvaluationCriteria criteria);
 
-        int CheckLastestProcessOfPeriod(CheckLastestProcessOfPeriodCriteria criteria);
+        int CheckLastestProcessOfPeriod(int periodId);
 
         CommandResult UpdateTotalScoreOfProcess(UpdateTotalScoreOfProcessCriteria criteria);
 

@@ -3,12 +3,11 @@
     using System.Text;
     using Fanex.Data;
     using Fanex.Data.Repository;
+    using SMS.EPA.Core.Constants;
 
     public class UpdateFinalScoreEndEvaluationCriteria : CriteriaBase
     {
         private const string TemplateXml = "<EPA EPAId='{0}' FinalScore='{1}' DisciplineScore='{2}' Grade='{3}'></EPA>";
-        private const string BeginRootTag = "<ROOT>";
-        private const string EndRootTag = "</ROOT>";
 
         [SpParam(SqlParamName = "EPAScores")]
         public string EvaluationScores { get; set; }
@@ -25,10 +24,10 @@
 
         public string ConvertToXml(int evaluationId, string finalScore, float disciplineScore, string grade)
         {
-            var epaXmlBuilder = new StringBuilder(BeginRootTag);
+            var epaXmlBuilder = new StringBuilder(Constants.BeginRootTag);
 
             epaXmlBuilder.AppendFormat(TemplateXml, evaluationId, finalScore, disciplineScore, grade);
-            epaXmlBuilder.Append(EndRootTag);
+            epaXmlBuilder.Append(Constants.EndRootTag);
 
             return epaXmlBuilder.ToString();
         }

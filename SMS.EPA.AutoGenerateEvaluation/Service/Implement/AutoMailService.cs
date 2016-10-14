@@ -27,7 +27,7 @@
         private string _endMailToHumanResourcesByEmployee = "Views\\Emails\\EndEvaluationEmailToHRByEmployee.cshtml";
         private string _endMailToHumanReouscesByPeriod = "Views\\Emails\\EndEvaluationEmailToHRByPeriod.cshtml";
 
-        private IMailService _mailService;
+        private IMailService mailService;
 
         public AutoMailService()
             : this(null)
@@ -36,7 +36,7 @@
 
         public AutoMailService(IMailService mailService)
         {
-            _mailService = mailService ?? new MailService();
+            this.mailService = mailService ?? new MailService();
         }
 
         public void SendStartMail(PeriodModel period, IEnumerable<PeriodFlowModel> employeeSettings)
@@ -52,27 +52,27 @@
                     {
                         case (int)ProcessType.HumanResource:
                             templateEmailPath = Path.Combine(assemblyPath, _startDateMailToHumanResources);
-                            _mailService.SendMailToHRStartDate(templateEmailPath, employeeSetting, period.Name);
+                            mailService.SendMailToHRStartDate(templateEmailPath, employeeSetting, period.Name);
                             break;
 
                         case (int)ProcessType.Self:
                             templateEmailPath = Path.Combine(assemblyPath, _startDateMailToSelf);
-                            _mailService.SendMailToSelfStartDate(templateEmailPath, employeeSetting, period.Name);
+                            mailService.SendMailToSelfStartDate(templateEmailPath, employeeSetting, period.Name);
                             break;
 
                         case (int)ProcessType.Evaluator:
                             templateEmailPath = Path.Combine(assemblyPath, _startDateMailToEvaluator);
-                            _mailService.SendMailToEvaluatorStartDate(templateEmailPath, employeeSetting, period.Name);
+                            mailService.SendMailToEvaluatorStartDate(templateEmailPath, employeeSetting, period.Name);
                             break;
 
                         case (int)ProcessType.Reviewer:
                             templateEmailPath = Path.Combine(assemblyPath, _startDateMailToReviewer);
-                            _mailService.SendMailToReviewerStartDate(templateEmailPath, employeeSetting, period.Name);
+                            mailService.SendMailToReviewerStartDate(templateEmailPath, employeeSetting, period.Name);
                             break;
 
                         case (int)ProcessType.Management:
                             templateEmailPath = Path.Combine(assemblyPath, _startDateMailToManagement);
-                            _mailService.SendMailToManagementStartDate(templateEmailPath, employeeSetting, period.Name);
+                            mailService.SendMailToManagementStartDate(templateEmailPath, employeeSetting, period.Name);
                             break;
                     }
                 }
@@ -92,25 +92,22 @@
                     {
                         case (int)ProcessType.Self:
                             templateEmailPath = Path.Combine(assemblyPath, _reminderMailToSelf);
-                            _mailService.SendMailToSelfRemindDate(templateEmailPath, employeeSetting, period.Name);
+                            mailService.SendMailToSelfRemindDate(templateEmailPath, employeeSetting, period.Name);
                             break;
 
                         case (int)ProcessType.Evaluator:
                             templateEmailPath = Path.Combine(assemblyPath, _reminderMailToEvaluator);
-                            _mailService.SendMailToEvaluatorRemindDate(templateEmailPath, employeeSetting, period.Name);
-
+                            mailService.SendMailToEvaluatorRemindDate(templateEmailPath, employeeSetting, period.Name);
                             break;
 
                         case (int)ProcessType.Reviewer:
                             templateEmailPath = Path.Combine(assemblyPath, _reminderMailToReviewer);
-                            _mailService.SendMailToReviewerRemindDate(templateEmailPath, employeeSetting, period.Name);
-
+                            mailService.SendMailToReviewerRemindDate(templateEmailPath, employeeSetting, period.Name);
                             break;
 
                         case (int)ProcessType.Management:
                             templateEmailPath = Path.Combine(assemblyPath, _reminderMailToManagement);
-                            _mailService.SendMailToManagementRemindDate(templateEmailPath, employeeSetting, period.Name);
-
+                            mailService.SendMailToManagementRemindDate(templateEmailPath, employeeSetting, period.Name);
                             break;
                     }
                 }
@@ -125,7 +122,7 @@
             string assemblyPath = AppDomain.CurrentDomain.BaseDirectory,
                 templateEmailPath = Path.Combine(assemblyPath, _endMailToSelf);
 
-            _mailService.SendMailToSelfEndEvaluation(templateEmailPath, evaluationInfo, averagePerformanceScore, disciplineScore);
+            mailService.SendMailToSelfEndEvaluation(templateEmailPath, evaluationInfo, averagePerformanceScore, disciplineScore);
         }
 
         public void SendEndEvaluationMailToHumanResourceByEmployee(EPAModel evaluationInfo)
@@ -137,7 +134,7 @@
 
                 foreach (EPAProcessModel humanResource in evaluationInfo.Process.HumanResources)
                 {
-                    _mailService.SendMailEndToHumanResourcesByEmployee(templateEmailPath, evaluationInfo, humanResource);
+                    mailService.SendMailEndToHumanResourcesByEmployee(templateEmailPath, evaluationInfo, humanResource);
                 }
             }
         }
@@ -151,7 +148,7 @@
 
                 foreach (PeriodFlowModel employeeSetting in employeeSettings)
                 {
-                    _mailService.SendMailEndToHumanResourceByPeriod(templateEmailPath, employeeSetting, period.Name);
+                    mailService.SendMailEndToHumanResourceByPeriod(templateEmailPath, employeeSetting, period.Name);
                 }
             }
         }

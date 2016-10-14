@@ -98,19 +98,16 @@
                         case (int)ProcessType.Evaluator:
                             templateEmailPath = Path.Combine(assemblyPath, _reminderMailToEvaluator);
                             mailService.SendMailToEvaluatorRemindDate(templateEmailPath, employeeSetting, period.Name);
-
                             break;
 
                         case (int)ProcessType.Reviewer:
                             templateEmailPath = Path.Combine(assemblyPath, _reminderMailToReviewer);
                             mailService.SendMailToReviewerRemindDate(templateEmailPath, employeeSetting, period.Name);
-
                             break;
 
                         case (int)ProcessType.Management:
                             templateEmailPath = Path.Combine(assemblyPath, _reminderMailToManagement);
                             mailService.SendMailToManagementRemindDate(templateEmailPath, employeeSetting, period.Name);
-
                             break;
                     }
                 }
