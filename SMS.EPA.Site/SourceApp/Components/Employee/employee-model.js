@@ -2,8 +2,8 @@
 /*global employeeModule*/
 
 employeeModule.factory('EmployeeModel',
-['$modal', 'employeeFactory', 'errorFactory', 'notificationFactory',
-function ($modal, employeeFactory, errorFactory, notificationFactory) {
+['$modal', '$window', 'employeeFactory', 'errorFactory', 'notificationFactory',
+function ($modal, $window, employeeFactory, errorFactory, notificationFactory) {
     var employeeModel = {},
         emailPattern = /^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
 
@@ -12,11 +12,9 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
     employeeModel.permission = 0;
 
     employeeModel.getAllEmployee = function (query, groupId, isLocal, isSpecialUser, isDisabledUser, hasMonthlyEPA) {
-        return employeeFactory.getAllEmployee(query, groupId, isLocal, isSpecialUser, isDisabledUser, hasMonthlyEPA)
-        .success(function (employees) {
+        return employeeFactory.getAllEmployee(query, groupId, isLocal, isSpecialUser, isDisabledUser, hasMonthlyEPA).success(function (employees) {
             employeeModel.employees = employees;
-        })
-        .error(function (response, status) {
+        }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
     };
@@ -37,8 +35,7 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
             if (response.IsSuccessful) {
                 notificationFactory.success("CreatedSuccessfully");
                 modalInstance.close();
-            }
-            else {
+            } else {
                 notificationFactory.error("", response.Message);
             }
         }).error(function (response, status) {
@@ -54,32 +51,25 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
             if (!employee.NickName) {
                 notificationFactory.error("NickNameRequried");
                 return false;
-            }
-            else if (!employee.FullName) {
+            } else if (!employee.FullName) {
                 notificationFactory.error("FullNameRequried");
                 return false;
-            }
-            else if (!employee.Username) {
+            } else if (!employee.Username) {
                 notificationFactory.error("UsernameRequried");
                 return false;
-            }
-            else if (employee.Username.indexOf(' ') !== -1) {
+            } else if (employee.Username.indexOf(' ') !== -1) {
                 notificationFactory.error("UsernameNotSpaceWarning");
                 return false;
-            }
-            else if (mode === 'create' && !employee.Password) {
+            } else if (mode === 'create' && !employee.Password) {
                 notificationFactory.error("PasswordRequried");
                 return false;
-            }
-            else if (mode === 'create' && (employee.Password.length < 6 || employee.Password.length > 32)) {
+            } else if (mode === 'create' && (employee.Password.length < 6 || employee.Password.length > 32)) {
                 notificationFactory.error("PasswordLengthWarning");
                 return false;
-            }
-            else if (!employee.GroupId) {
+            } else if (!employee.GroupId) {
                 notificationFactory.error("SectionRequired");
                 return false;
-            }
-            else if (employee.Email && !emailPattern.test(employee.Email)) {
+            } else if (employee.Email && !emailPattern.test(employee.Email)) {
                 notificationFactory.error("EmailWrongPatternWarning");
                 return false;
             }
@@ -109,8 +99,7 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
             if (response.IsSuccessful) {
                 notificationFactory.success("UpdatedSuccessfully");
                 modalInstance.close(updatedEmployee);
-            }
-            else {
+            } else {
                 notificationFactory.error("", response.Message);
             }
         }).error(function (response, status) {
@@ -171,16 +160,13 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
             if (!password.oldPassword) {
                 notificationFactory.error("OldPasswordRequired");
                 return false;
-            }
-            else if (!password.newPassword) {
+            } else if (!password.newPassword) {
                 notificationFactory.error("NewPasswordRequired");
                 return false;
-            }
-            else if (!password.confirmPassword) {
+            } else if (!password.confirmPassword) {
                 notificationFactory.error("ConfirmPasswordRequired");
                 return false;
-            }
-            else if (password.newPassword !== password.confirmPassword) {
+            } else if (password.newPassword !== password.confirmPassword) {
                 notificationFactory.error("WrongConfirmPassword");
                 return false;
             }
@@ -194,8 +180,7 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
             if (response.IsSuccessful) {
                 notificationFactory.success("UpdatedSuccessfully");
                 modalInstance.close();
-            }
-            else {
+            } else {
                 notificationFactory.error("", response.Message);
             }
         }).error(function (response, status) {
@@ -234,12 +219,10 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
         return employeeFactory.assignRoleToEmployee(employeeRoles).success(function (response) {
             if (response.IsSuccessful) {
                 notificationFactory.success("UpdatedSuccessfully");
-            }
-            else {
+            } else {
                 notificationFactory.error("", response.Message);
             }
-        })
-        .error(function (response, status) {
+        }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
     };
@@ -287,8 +270,8 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
             employeeFactory.resetPassword(employee.EmployeeId).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("UpdatedSuccessfully");
-                }
-                else {
+                    $window.location.href = "Auth/Logout";
+                } else {
                     notificationFactory.error("", response.Message);
                 }
             }).error(function (response, status) {
@@ -324,21 +307,17 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
         });
 
         modalInstance.result.then(function () {
-            employeeFactory.updateHasMonthlyEPA(newEmployee)
-            .success(function (response) {
+            employeeFactory.updateHasMonthlyEPA(newEmployee).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("UpdatedSuccessfully");
-                }
-                else {
+                } else {
                     employee.HasMonthlyEPA = !newEmployee.HasMonthlyEPA;
                     notificationFactory.error("", response.Message);
                 }
-            })
-            .error(function (response, status) {
+            }).error(function (response, status) {
                 if (status === 405) {
                     errorFactory.errorHandle(status);
-                }
-                else {
+                } else {
                     employee.HasMonthlyEPA = !newEmployee.HasMonthlyEPA;
                     notificationFactory.error("UpdatedUnsuccessfully");
                 }
@@ -351,11 +330,9 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
     };
 
     employeeModel.getUserPermissionOnEmployee = function () {
-        return employeeFactory.getUserPermissionOnEmployee()
-        .success(function (permission) {
+        return employeeFactory.getUserPermissionOnEmployee().success(function (permission) {
             employeeModel.permission = parseInt(permission);
-        })
-        .error(function (response, status) {
+        }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
     };
