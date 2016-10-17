@@ -12,19 +12,22 @@ Param's Explanation:
 
 */
 BEGIN
-	SET NOCOUNT ON;
+	SET NOCOUNT ON
 
 	DECLARE @EPAIds IntId
 		,@EvaluatorIds IntId
+		,@Today DATE
+
+	SET @Today = CAST(GETDATE() AS DATE)
 
 	INSERT INTO @EPAIds
 	SELECT DISTINCT epa.EPAId
 	FROM dbo.EPA AS epa WITH (NOLOCK)
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
-		AND pc.ProcessId IN (3)
-		AND pc.IsEndProcess = 1
+		AND pc.ProcessId = 3
+		AND CAST(pc.EndDate AS DATE) < @Today
 		INNER JOIN dbo.EPADetail AS dt WITH (NOLOCK) ON epa.EPAId = dt.EPAId
-		AND dt.ProcessId IN (3)
+		AND dt.ProcessId = 3
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 	WHERE epa.[Status] = 0 -- open
 		AND epa.HasMonthlyEPA = 0

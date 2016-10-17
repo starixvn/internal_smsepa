@@ -3,6 +3,7 @@ CREATE PROCEDURE [dbo].[EPA_GetByManagement] @ManagementId INT
 	,@EmployeeIds VARCHAR(MAX) = NULL
 	,@GroupId INT = NULL
 	,@IsLocal BIT = NULL
+	,@StatusProcess BIT = NULL
 AS
 /*
 Created: 20150828@Tim.Trinh
@@ -73,6 +74,18 @@ BEGIN
 				AND @ToDay BETWEEN CAST(pc.StartDate AS DATE)
 					AND CAST(pc.EndDate AS DATE)
 				AND pc.ProcessId IN (5)
+				)
+			)
+		AND (
+			@StatusProcess IS NULL
+			OR (
+				@StatusProcess = 0
+				AND @ToDay BETWEEN CAST(pc.StartDate AS DATE)
+					AND CAST(pc.EndDate AS DATE)
+				)
+			OR (
+				@StatusProcess = 1
+				AND @ToDay > CAST(pc.EndDate AS DATE)
 				)
 			)
 

@@ -1,5 +1,4 @@
 ﻿
-
 CREATE PROCEDURE [dbo].[EpaAttendanceSummary_Get] @StartDate DATE
 	,@EndDate DATE
 	,@ApproverId INT
@@ -7,6 +6,7 @@ CREATE PROCEDURE [dbo].[EpaAttendanceSummary_Get] @StartDate DATE
 	,@EmployeeId INT = NULL
 	,@ReasonId INT = NULL
 	,@IsLocal BIT = NULL
+	,@IsShowAll BIT = 0
 AS
 /*
 Created: 2015-08-26@Josh.Phan
@@ -117,13 +117,13 @@ BEGIN
 	SELECT empD.WorkDate
 		,empD.EmpId
 		,(empD.ChangeShift * dbo.fncGetDisciplineScoreById(1)
-		+ empD.MissingCheckInOut * dbo.fncGetDisciplineScoreById(2)
-		+ empD.LateIn * dbo.fncGetDisciplineScoreById(3)
-		+ empD.EarlyOut * dbo.fncGetDisciplineScoreById(4)
-		+ empD.[Absent] * dbo.fncGetDisciplineScoreById(5)
-		+ empD.UnpaidLeave * dbo.fncGetDisciplineScoreById(6)
-		+ empD.WorkingUnderTime * dbo.fncGetDisciplineScoreById(7)
-		+ empD.UnpaidLeaveAbsent * dbo.fncGetDisciplineScoreById(8)) AS SystemSubtractScore
+		  + empD.MissingCheckInOut * dbo.fncGetDisciplineScoreById(2)
+		  + empD.LateIn * dbo.fncGetDisciplineScoreById(3)
+		  + empD.EarlyOut * dbo.fncGetDisciplineScoreById(4)
+		  + empD.[Absent] * dbo.fncGetDisciplineScoreById(5)
+		  + empD.UnpaidLeave * dbo.fncGetDisciplineScoreById(6)
+		  + empD.WorkingUnderTime * dbo.fncGetDisciplineScoreById(7)
+		  + empD.UnpaidLeaveAbsent * dbo.fncGetDisciplineScoreById(8)) AS SystemSubtractScore
 		,(CASE 
 			WHEN ignored.ApproverIgnoredScore IS NOT NULL THEN ignored.ApproverIgnoredScore
 			ELSE 0 END
@@ -169,7 +169,7 @@ BEGIN
 				) AS ApproverIgnoredScore
 		FROM dbo.EmployeeDiscipline AS dis WITH (NOLOCK)
 			INNER JOIN dbo.DisciplineType AS dtype WITH (NOLOCK) ON dis.DisciplineTypeId = dtype.DisciplineTypeId
-		WHERE dis.DisciplineTypeId = 1
+		WHERE dis.DisciplineTypeId > 0
 			AND ISNULL(dis.IsDeleted, 0) = 0
 			AND dis.WorkDate BETWEEN @StartDate
 				AND @EndDate
@@ -183,9 +183,9 @@ BEGIN
 			OR UnpaidLeave > 0
 			OR empD.WorkingUnderTime > 0
 			OR UnpaidLeaveAbsent > 0
-			OR OtherViolationsScore > 0
 			OR MissingCheckInOut > 0
 			)
+		AND OtherViolationsScore = 0
 
 	DECLARE @Is_HR_MGT_SA BIT
 
@@ -240,7 +240,7 @@ BEGIN
 		,emp.JobTitle AS JobTitleId
 		,job.[Name] AS JobTitleName
 	FROM dbo.Employee AS emp WITH (NOLOCK)
-		INNER JOIN #EmployeeDiscipline AS empD ON emp.EmployeeId = empD.EmpId
+		LEFT JOIN #EmployeeDiscipline AS empD ON emp.EmployeeId = empD.EmpId
 		LEFT JOIN #EmployeeDisciplineFinalScore AS empF ON empD.WorkDate = empF.WorkDate
 		AND empD.EmpId = empF.EmpId
 		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
@@ -248,7 +248,18 @@ BEGIN
 		AND lk.LookupId = 11
 		LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
 	WHERE emp.[Enabled] = 1
-		AND emp.IsDeleted = 0
+		AND ISNULL(emp.IsDeleted, 0) = 0
+		AND (
+			@IsShowAll = 1
+			OR (
+				@IsShowAll = 0
+				AND EXISTS (
+					SELECT 1
+					FROM #EmployeeDiscipline
+					WHERE emp.EmployeeId = EmpId
+					)
+				)
+			)
 		AND (
 			@Is_HR_MGT_SA = 1 -- SA/HR/MGT
 			OR EXISTS (

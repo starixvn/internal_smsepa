@@ -350,6 +350,7 @@ BEGIN
 						) END
 				) AS DisciplineScore
 			,srt.Attendance AS MaxDisciplineScore
+			,epa.[Status] AS StatusId
 			,emp.EmployeeId
 			,emp.Code
 			,emp.NickName
@@ -364,7 +365,6 @@ BEGIN
 			,gr.[Name] AS GroupName
 			,job.Id AS JobTitleId
 			,job.[Name] AS JobTitleName
-			,epa.[Status] AS StatusId
 			,period.PeriodId
 			,period.[Name]
 			,(CASE 
@@ -420,6 +420,7 @@ BEGIN
 			,0 AS HasDisciplineScore
 			,0 AS DisciplineScore
 			,0 AS MaxDisciplineScore
+			,1 AS StatusId
 			,emp.EmployeeId
 			,emp.Code
 			,emp.NickName
@@ -434,7 +435,6 @@ BEGIN
 			,gr.[Name] AS GroupName
 			,job.Id AS JobTitleId
 			,job.[Name] AS JobTitleName
-			,1 AS StatusId
 			,epa.PeriodId
 			,epa.PeriodName AS [Name]
 			,1 AS IsEndPeriod

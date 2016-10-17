@@ -25,17 +25,11 @@ BEGIN
 		,pc.StartDate
 		,pc.EndDate
 		,(CASE 
-			WHEN (
-					pc.IsEndProcess = 0
-					AND @ToDay BETWEEN CAST(pc.StartDate AS DATE)
-						AND CAST(pc.EndDate AS DATE)
-					) THEN 0 -- in progress
-			WHEN pc.IsEndProcess = 1 THEN 1 -- end process
-			WHEN (
-					pc.IsEndProcess = 0
-					AND CAST(pc.StartDate AS DATE) > @ToDay
-					) THEN 2 END -- pending
-			) AS StatusEndProcess
+			WHEN CAST(pc.StartDate AS DATE) > @ToDay THEN 2
+			WHEN @ToDay BETWEEN CAST(pc.StartDate AS DATE)
+					AND CAST(pc.EndDate AS DATE) THEN 0
+			WHEN CAST(pc.EndDate AS DATE) < @ToDay THEN 1 END
+			) AS StatusEndProcess -- 0: in progress; 1: end process; 2: pending
 		,pc.IsEndProcess
 		,pc.EvaluateDate
 		,pc.[Priority]
@@ -64,6 +58,10 @@ BEGIN
 		,emp.Code
 		,emp.NickName
 		,emp.FullName
+		,eva.EmployeeId AS ModifiedById
+		,eva.Code
+		,eva.NickName
+		,eva.FullName
 	FROM @EPAIds AS epat
 		INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON epat.Id = epa.EPAId
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
@@ -85,6 +83,7 @@ BEGIN
 		INNER JOIN dbo.ScoreRatingType AS srt WITH (NOLOCK) ON epa.ScoreRatingTypeId = srt.ScoreRatingTypeId
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pc.EvaluatorId = emp.EmployeeId
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
+		LEFT JOIN dbo.Employee AS eva WITH (NOLOCK) ON pc.ModifiedBy = eva.EmployeeId
 	ORDER BY epa.EPAId
 		,pc.ProcessId
 		,pc.[Priority]

@@ -67,7 +67,7 @@ BEGIN
 		INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON epat.EPAId = epa.EPAId
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
-		AND emp.IsDeleted = 0
+		AND ISNULL(emp.IsDeleted, 0) = 0
 		AND emp.[Enabled] = 1
 
 	INSERT INTO #EmployeeDiscipline
@@ -188,7 +188,7 @@ BEGIN
 			INNER JOIN #EPA AS epat ON dis.EmpId = epat.EmpId
 			AND dis.WorkDate BETWEEN epat.AttendanceStartDate
 				AND epat.AttendanceEndDate
-		WHERE dis.DisciplineTypeId = 1
+		WHERE dis.DisciplineTypeId > 0
 			AND ISNULL(dis.IsDeleted, 0) = 0
 		) AS ignored ON empD.EmpId = ignored.EmpId
 		AND empD.WorkDate = ignored.WorkDate

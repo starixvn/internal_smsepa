@@ -1,9 +1,5 @@
-﻿/****** Object:  Stored Procedure dbo.EpaAuto_CheckEndEvaluationPeriod    Script Date: 5/16/2016 2:20:10 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_CheckEndEvaluationPeriod    Script Date: 5/16/2016 2:15:33 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_CheckEndEvaluationPeriod    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_CheckEndEvaluationPeriod    Script Date: 4/6/2016 11:27:43 AM ******/
-
-CREATE PROCEDURE dbo.EpaAuto_CheckEndEvaluationPeriod
+﻿
+CREATE PROCEDURE [dbo].[EpaAuto_CheckEndEvaluationPeriod]
 AS
 /*
 Created: 2015-08-26@Josh.Phan

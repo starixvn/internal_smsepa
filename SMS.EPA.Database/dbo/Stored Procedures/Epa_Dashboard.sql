@@ -39,7 +39,7 @@ BEGIN
 		AND period.IsActive = 1
 		INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
 	WHERE (
-			epa.[Status] = 0 -- inprogress
+			ISNULL(epa.[Status], 0) = 0 -- inprogress
 			AND CAST(selfpc.StartDate AS DATE) <= @ToDay
 			)
 		OR epa.[Status] = 1 -- closed
@@ -73,6 +73,7 @@ BEGIN
 				ELSE 0 END
 				) AS HasOtherViolation
 			,selfpc.IsEndProcess AS IsEndProcessBySelf
+			,epa.[Status] AS StatusId
 			,emp.EmployeeId
 			,emp.Code
 			,emp.NickName
@@ -85,7 +86,6 @@ BEGIN
 			,gr.[Name] AS GroupName
 			,job.Id AS JobTitleId
 			,job.[Name] AS JobTitleName
-			,epa.[Status] AS StatusId
 			,period.PeriodId
 			,period.[Name]
 			,CAST(pc.StartDate AS DATE) AS StartDate
@@ -162,6 +162,7 @@ BEGIN
 			,0 AS MaxDisciplineScore
 			,0 AS HasOtherViolation
 			,1 AS IsEndProcessBySelf
+			,1 AS StatusId
 			,emp.EmployeeId
 			,emp.Code
 			,emp.NickName
@@ -174,7 +175,6 @@ BEGIN
 			,gr.[Name] AS GroupName
 			,job.Id AS JobTitleId
 			,job.[Name] AS JobTitleName
-			,1 AS StatusId
 			,epa.PeriodId AS PeriodId
 			,epa.PeriodName AS [Name]
 			,epa.PeriodDate AS StartDate

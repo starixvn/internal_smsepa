@@ -20,9 +20,10 @@ BEGIN
 	FROM dbo.EPA AS epa WITH (NOLOCK)
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
-		AND emp.IsDeleted = 0
+		AND ISNULL(emp.IsDeleted, 0) = 0
 		AND emp.[Enabled] = 1
 		INNER JOIN dbo.EmployeeDiscipline AS dis WITH (NOLOCK) ON emp.EmployeeId = dis.EmpId
+		AND ISNULL(dis.IsDeleted, 0) = 0
 		AND CAST(dis.WorkDate AS DATE) BETWEEN CAST(period.AttendanceStartDate AS DATE)
 			AND CAST(period.AttendanceEndDate AS DATE)
 		INNER JOIN dbo.DisciplineType AS dtype WITH (NOLOCK) ON dis.DisciplineTypeId = dtype.DisciplineTypeId

@@ -37,5 +37,6 @@ BEGIN
 			ISNULL(@WorkDate, '') = ''
 			OR dis.WorkDate = @WorkDate
 			)
+		AND dis.IsDeleted = 0
 	ORDER BY dis.WorkDate
 END

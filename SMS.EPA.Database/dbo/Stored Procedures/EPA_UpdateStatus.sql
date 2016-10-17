@@ -23,7 +23,11 @@ Param's Explanation:
 
 */
 BEGIN
-	SET NOCOUNT ON;
+	SET NOCOUNT ON
+
+	DECLARE @Today DATE
+
+	SET @Today = CAST(GETDATE() AS DATE)
 
 	IF NOT EXISTS (
 			SELECT 1
@@ -50,7 +54,7 @@ BEGIN
 				AND pc.ProcessId = @ProcessId
 				AND pc.EvaluatorId = @EvaluatorId
 				AND epa.EmployeeId = @EmployeeId
-				AND pc.[IsEndProcess] = 1
+				AND CAST(pc.EndDate AS DATE) < @Today
 			)
 	BEGIN
 		SELECT @ErrCode = 1

@@ -1,6 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EpaAuto_SemiAnnual_UpdateTotalScore    Script Date: 7/21/2016 3:01:36 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_SemiAnnual_UpdateTotalScore    Script Date: 7/21/2016 2:45:49 PM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[EpaAuto_SemiAnnual_UpdateTotalScore] @EPAId INT
 	,@Details NVARCHAR(MAX)
 	,@ErrCode INT = 0 OUTPUT
@@ -45,7 +43,7 @@ BEGIN
 
 	BEGIN CATCH
 		SELECT @ErrCode = 1
-			,@ErrMsg = N'Update Total Score unsuccessfully. Parameter invalid.'
+			,@ErrMsg = N'Parameter invalid.'
 
 		RETURN
 	END CATCH
@@ -71,6 +69,6 @@ BEGIN
 		ROLLBACK TRANSACTION
 
 		SELECT @ErrCode = 1
-			,@ErrMsg = N'Update Total Score unsuccessfully.'
+			,@ErrMsg = N'Update unsuccessfully.'
 	END CATCH;
 END

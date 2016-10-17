@@ -17,7 +17,7 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON
 
-	SELECT 0 AS ChangeShift
+	SELECT DISTINCT 0 AS ChangeShift
 		,SUM(d.MissingCheckInOut) AS MissingCheckInOut
 		,SUM(d.LateIn) AS LateIn
 		,0 AS EarlyOut
@@ -27,6 +27,10 @@ BEGIN
 		,0 AS UnpaidLeaveAbsent
 		,SUM(d.OtherDisciplines) AS OtherDisciplines
 		,SUM(d.SystemSubtractScore - d.ChangeShift - d.EarlyOut - d.[Absent] - d.UnpaidLeaveAbsent) AS SystemSubtractScore
+		,period.PeriodId
+		,period.[Name]
+		,period.StartDate
+		,period.EndDate
 		,emp.EmployeeId
 		,emp.NickName
 		,emp.FullName
@@ -39,8 +43,9 @@ BEGIN
 		,job.[Name] AS JobTitleName
 	FROM dbo.Employee AS emp WITH (NOLOCK)
 		INNER JOIN dbo.EmployeeDisciplineSummary AS d WITH (NOLOCK) ON emp.EmployeeId = d.EmployeeId
-		LEFT JOIN dbo.Period AS period WITH (NOLOCK) ON d.Period BETWEEN period.StartDate
-			AND period.EndDate
+		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON d.Period BETWEEN period.AttendanceStartDate
+			AND period.AttendanceEndDate
+		AND period.TargetTypeId = 3 -- semi
 		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		LEFT JOIN dbo.LookupData AS lk WITH (NOLOCK) ON emp.IsLocal = CAST(lk.Value AS BIT)
 		AND lk.LookupId = 11
@@ -124,7 +129,11 @@ BEGIN
 			@IsLocal IS NULL
 			OR emp.IsLocal = @IsLocal
 			)
-	GROUP BY emp.EmployeeId
+	GROUP BY period.PeriodId
+		,period.[Name]
+		,period.StartDate
+		,period.EndDate
+		,emp.EmployeeId
 		,emp.NickName
 		,emp.FullName
 		,lk.[Name]
@@ -134,6 +143,7 @@ BEGIN
 		,gr.[Name]
 		,emp.JobTitle
 		,job.[Name]
-	ORDER BY gr.[Name]
+	ORDER BY period.EndDate
+		,gr.[Name]
 		,emp.Code
 END

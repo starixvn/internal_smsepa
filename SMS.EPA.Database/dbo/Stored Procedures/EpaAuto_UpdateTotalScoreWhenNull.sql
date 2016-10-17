@@ -1,6 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EpaAuto_UpdateTotalScoreWhenNull    Script Date: 7/21/2016 3:01:37 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_UpdateTotalScoreWhenNull    Script Date: 7/21/2016 2:45:50 PM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[EpaAuto_UpdateTotalScoreWhenNull] @EPAId INT
 	,@ProcessId INT
 	,@AverageScore NVARCHAR(100) = NULL

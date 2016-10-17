@@ -308,7 +308,6 @@
     <Build Include="dbo\Stored Procedures\EpaAttendanceSummary_Get.sql" />
     <Build Include="dbo\Stored Procedures\EpaAttendanceSummary_Delete.sql" />
     <Build Include="dbo\Stored Procedures\EPA_UpdateStatus.sql" />
-    <Build Include="dbo\Stored Procedures\EPA_UpdateScoreByReviewerOrManagement.sql" />
     <Build Include="dbo\Stored Procedures\EPA_UpdateScore.sql" />
     <Build Include="dbo\Stored Procedures\EPA_UpdateFinalScoreEndEvaluation.sql" />
     <Build Include="dbo\Stored Procedures\EPA_SemiAnnual_GetMonthly.sql" />
@@ -361,5 +360,11 @@
     <Build Include="dbo\Stored Procedures\Department_Get.sql" />
     <Build Include="dbo\Stored Procedures\EpaPeriod_EditEmployeeSetting_CheckEmployeeOverlap_xpre.sql" />
     <Build Include="dbo\Stored Procedures\EpaPeriod_AddEmployee_CheckEmployeeOverlap_xpre.sql" />
+    <Build Include="dbo\Tables\JobGrade.sql" />
+    <Build Include="dbo\Tables\EPARecommendation.sql" />
+    <Build Include="dbo\Functions\fncGetDataForWriteLog_EPA_UpdateFinalScore.sql" />
+    <Build Include="dbo\Stored Procedures\JobGrade_Get.sql" />
+    <Build Include="dbo\Stored Procedures\EPA_GetRecommendationById.sql" />
+    <Build Include="dbo\Stored Procedures\Dashboard_GetToDoList.sql" />
   </ItemGroup>
 </Project>

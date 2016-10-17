@@ -1,7 +1,5 @@
-﻿/****** Object:  Stored Procedure dbo.EpaAuto_GetPeriodHasStartedProcess    Script Date: 7/21/2016 3:01:36 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_GetPeriodHasStartedProcess    Script Date: 7/21/2016 2:45:48 PM ******/
-
-CREATE PROCEDURE dbo.EpaAuto_GetPeriodHasStartedProcess @PeriodId INT = NULL
+﻿
+CREATE PROCEDURE [dbo].[EpaAuto_GetPeriodHasStartedProcess] @PeriodId INT = NULL
 AS
 /*
 Created: 2015-08-26@Josh.Phan

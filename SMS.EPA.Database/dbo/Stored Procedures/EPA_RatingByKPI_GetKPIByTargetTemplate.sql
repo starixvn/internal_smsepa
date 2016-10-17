@@ -13,9 +13,9 @@ Param's Explanation:
 
 */
 BEGIN
-	SET NOCOUNT ON;
+	SET NOCOUNT ON
 
-	DECLARE @ToDay DATE
+	DECLARE @Today DATE
 
 	CREATE TABLE #KPIGroup (
 		TargetTemplateId INT
@@ -36,7 +36,7 @@ BEGIN
 		,NumberEmpNotEvaluated INT
 		)
 
-	SET @ToDay = CAST(GETDATE() AS DATE)
+	SET @Today = CAST(GETDATE() AS DATE)
 
 	INSERT INTO #KPIGroup
 	SELECT DISTINCT dt.TargetTemplateId
@@ -47,9 +47,8 @@ BEGIN
 		AND dt.ProcessId = 3 -- evaluator phase
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 		AND pc.ProcessId = 3 -- evaluator phase
-		AND CAST(pc.StartDate AS DATE) <= @ToDay
-		AND CAST(pc.EndDate AS DATE) >= @ToDay
-		AND pc.IsEndProcess = 0
+		AND @Today BETWEEN CAST(pc.StartDate AS DATE)
+			AND CAST(pc.EndDate AS DATE)
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 	WHERE pc.EvaluatorId = @EvaluatorId
 		AND dt.EvaluatorId = @EvaluatorId
@@ -69,9 +68,8 @@ BEGIN
 		AND dt.ProcessId = 3 -- evaluator phase
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 		AND pc.ProcessId = 3 -- evaluator phase
-		AND CAST(pc.StartDate AS DATE) <= @ToDay
-		AND CAST(pc.EndDate AS DATE) >= @ToDay
-		AND pc.IsEndProcess = 0
+		AND @Today BETWEEN CAST(pc.StartDate AS DATE)
+			AND CAST(pc.EndDate AS DATE)
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 	WHERE pc.EvaluatorId = @EvaluatorId
 		AND dt.EvaluatorId = @EvaluatorId
@@ -93,8 +91,8 @@ BEGIN
 		AND dt.ProcessId = 3 -- evaluator phase
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 		AND pc.ProcessId = 3 -- evaluator phase
-		AND CAST(pc.StartDate AS DATE) <= @ToDay
-		AND CAST(pc.EndDate AS DATE) >= @ToDay
+		AND @Today BETWEEN CAST(pc.StartDate AS DATE)
+			AND CAST(pc.EndDate AS DATE)
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 	WHERE pc.EvaluatorId = @EvaluatorId
 		AND dt.EvaluatorId = @EvaluatorId
@@ -133,9 +131,8 @@ BEGIN
 		AND dt.ProcessId = 3 -- evaluator
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 		AND pc.ProcessId = 3 -- evaluator
-		AND CAST(pc.StartDate AS DATE) <= @ToDay
-		AND CAST(pc.EndDate AS DATE) >= @ToDay
-		AND pc.IsEndProcess = 0
+		AND @Today BETWEEN CAST(pc.StartDate AS DATE)
+			AND CAST(pc.EndDate AS DATE)
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 		INNER JOIN dbo.TargetTemplate AS tt WITH (NOLOCK) ON dt.TargetTemplateId = tt.TargetTemplateId
 		INNER JOIN dbo.KPIHistory AS khis WITH (NOLOCK) ON dt.KPIId = khis.KPIId

@@ -1,6 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EpaAuto_GenerateEPA    Script Date: 7/21/2016 3:01:35 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_GenerateEPA    Script Date: 7/21/2016 2:45:47 PM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[EpaAuto_GenerateEPA] @PeriodId INT
 	,@EmployeeIds VARCHAR(MAX) = NULL
 	,@ErrCode INT = 0 OUTPUT
@@ -20,6 +18,9 @@ BEGIN
 
 	DECLARE @TargetTypeId INT
 		,@NumberEmployeeHasEPA INT
+		,@Today DATE
+
+	SET @Today = CAST(GETDATE() AS DATE)
 
 	SELECT @TargetTypeId = TargetTypeId
 	FROM dbo.Period WITH (NOLOCK)
@@ -55,7 +56,7 @@ BEGIN
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON peFS.EmployeeId = emp.EmployeeId
 			AND emp.IsDeleted = 0
 			AND emp.[Enabled] = 1
-		WHERE CAST(GETDATE() AS DATE) = CAST(pe.StartDate AS DATE)
+		WHERE CAST(pe.StartDate AS DATE) = @Today
 			AND pe.IsActive = 1
 			AND pe.PeriodId = @PeriodId
 			AND NOT EXISTS (
@@ -80,13 +81,11 @@ BEGIN
 			,val
 		FROM fnc_strSplit(@EmployeeIds, ',')
 
-		SET @NumberEmployeeHasEPA = (
-				SELECT COUNT(epa.EPAId)
-				FROM dbo.EPA AS epa WITH (NOLOCK)
-					INNER JOIN #EmployeeTemp AS emp ON emp.PeriodId = epa.PeriodId
-					AND emp.EmployeeId = epa.EmployeeId
-				GROUP BY epa.PeriodId
-				)
+		SELECT @NumberEmployeeHasEPA = COUNT(epa.EPAId)
+		FROM dbo.EPA AS epa WITH (NOLOCK)
+			INNER JOIN #EmployeeTemp AS emp ON emp.PeriodId = epa.PeriodId
+			AND emp.EmployeeId = epa.EmployeeId
+		GROUP BY epa.PeriodId
 
 		DELETE emp
 		FROM #EmployeeTemp AS emp
@@ -123,7 +122,7 @@ BEGIN
 	END
 
 	DECLARE @Data NVARCHAR(MAX)
-	DECLARE @OldData NVARCHAR(MAX)
+		,@OldData NVARCHAR(MAX)
 
 	EXEC @OldData = dbo.fncGetDataForWriteLog_Period_GenerateEPA @PeriodId = @PeriodId
 		,@EmployeeIds = @EmployeeIds
@@ -144,15 +143,15 @@ BEGIN
 			)
 		SELECT EmployeeId
 			,PeriodId
-			,CASE 
-				WHEN CAST((
-							SELECT MAX(EndDate)
-							FROM dbo.PeriodFlowSetting WITH (NOLOCK)
-							WHERE PeriodId = peEmp.PeriodId
-								AND EmployeeId = peEmp.EmployeeId
-							) AS DATE) < CAST(GETDATE() AS DATE) THEN 1 -- Closed
-				ELSE 0 -- Opened
-				END
+			,(CASE 
+				WHEN (
+						SELECT CAST(MAX(EndDate) AS DATE)
+						FROM dbo.PeriodFlowSetting WITH (NOLOCK)
+						WHERE PeriodId = peEmp.PeriodId
+							AND EmployeeId = peEmp.EmployeeId
+						) < @Today THEN 1
+				ELSE 0 END
+				) AS [Status] -- 0: Opened; 1: Closed
 			,NULL
 			,NULL
 			,GETDATE()
@@ -231,7 +230,7 @@ BEGIN
 			INNER JOIN dbo.TargetTemplateKPI AS tarKPI WITH (NOLOCK) ON peEmp.TargetTemplateId = tarKPI.TargetTemplateId
 			AND tarGr.KPIGroupId = tarKPI.KPIGroupId
 			INNER JOIN dbo.KPI AS kpi WITH (NOLOCK) ON tarKPI.KPIId = kpi.KPIId
-		WHERE peFS.ProcessId IN (2, 3) -- Self-evaluator and Evaluator process
+		WHERE peFS.ProcessId IN (2, 3) -- Self and Evaluator process
 
 		INSERT INTO dbo.EPAProcess (
 			EPAId
@@ -261,15 +260,15 @@ BEGIN
 			,NULL
 			,peFS.StartDate
 			,peFS.EndDate
-			,CASE 
-				WHEN @TargetTypeId = 3 -- semi
-					AND peFS.ProcessId IN (2, 3) -- self
-					AND peEmp.HasMonthlyEPA = 1 THEN 1 -- end progress
-				ELSE CASE 
-						WHEN CAST(peFS.EndDate AS DATE) < CAST(GETDATE() AS DATE) THEN 1 -- end progress
-						ELSE 0 -- in progress
-						END
-				END
+			,(CASE 
+				WHEN (
+						@TargetTypeId = 3 -- semi
+						AND peFS.ProcessId IN (2, 3) -- self
+						AND peEmp.HasMonthlyEPA = 1
+						)
+					OR (CAST(peFS.EndDate AS DATE) < @Today) THEN 1
+				ELSE 0 END
+				) AS IsEndProcess -- 0: in progress; 1: end progress
 			,NULL
 			,NULL
 			,pePro.NoticeAtBegin
@@ -296,10 +295,10 @@ BEGIN
 			)
 		SELECT epa.EPAId
 			,semiSD.[Month]
-			,CASE 
+			,(CASE 
 				WHEN semiSD.IsLastYear = 1 THEN YEAR(period.StartDate) - 1
-				ELSE YEAR(period.StartDate)
-				END
+				ELSE YEAR(period.StartDate) END
+				) AS [Year]
 		FROM #PeriodEmployee AS peEmp
 			INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON peEmp.PeriodId = epa.PeriodId
 			AND peEmp.EmployeeId = epa.EmployeeId
@@ -311,7 +310,26 @@ BEGIN
 			AND semiSD.IsActive = 1
 		WHERE epa.HasMonthlyEPA = 1
 
-		COMMIT TRANSACTION
+		-- recommendation
+		INSERT INTO dbo.EPARecommendation (
+			EPAId
+			,ProbationStatus
+			,Promoted
+			,PayIncreased
+			,JobGradeIncreased
+			,JobGradeId
+			)
+		SELECT epa.EPAId
+			,NULL
+			,NULL
+			,NULL
+			,NULL
+			,NULL
+		FROM #PeriodEmployee AS peEmp
+			INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON peEmp.PeriodId = epa.PeriodId
+			AND peEmp.EmployeeId = epa.EmployeeId
+			INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
+			AND period.TargetTypeId <> 2 -- monthly
 
 		EXEC @Data = dbo.fncGetDataForWriteLog_Period_GenerateEPA @PeriodId = @PeriodId
 			,@EmployeeIds = @EmployeeIds
@@ -334,6 +352,8 @@ BEGIN
 
 			RETURN
 		END
+
+		COMMIT TRANSACTION
 
 		DROP TABLE #PeriodEmployee
 	END TRY

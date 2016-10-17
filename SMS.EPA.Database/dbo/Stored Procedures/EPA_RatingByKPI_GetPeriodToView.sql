@@ -12,11 +12,11 @@ Param's Explanation:
 
 */
 BEGIN
-	SET NOCOUNT ON;
+	SET NOCOUNT ON
 
-	DECLARE @ToDay DATE
+	DECLARE @Today DATE
 
-	SET @ToDay = CAST(GETDATE() AS DATE)
+	SET @Today = CAST(GETDATE() AS DATE)
 
 	SELECT DISTINCT period.PeriodId
 		,period.[Name]
@@ -25,11 +25,11 @@ BEGIN
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 		AND pc.ProcessId IN (4, 5)
 		AND pc.IsEndProcess = 0
-		AND CAST(pc.StartDate AS DATE) <= @ToDay
-		AND CAST(pc.EndDate AS DATE) >= @ToDay
+		AND @Today BETWEEN CAST(pc.StartDate AS DATE)
+			AND CAST(pc.EndDate AS DATE)
 		INNER JOIN dbo.EPAProcess AS pc1 WITH (NOLOCK) ON epa.EPAId = pc1.EPAId
 		AND pc1.ProcessId = 3
-		AND pc1.IsEndProcess = 1
+		AND CAST(pc1.EndDate AS DATE) < @Today
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 		AND period.IsActive = 1
 		AND period.TargetTypeId IN (2, 3) -- Monthly, semi

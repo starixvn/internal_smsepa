@@ -2,7 +2,7 @@
 CREATE PROCEDURE [dbo].[EpaTargetTemplateDepartment_Get] @DepartmentId INT = NULL
 	,@IsGroup BIT = NULL
 	,@TargetTypeId INT = NULL
-	,@ShowAll BIT = NULL
+	,@ShowAll BIT = 0
 AS
 /*
 Created: 2015-06-12@Josh.Phan
@@ -16,31 +16,31 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	SELECT deptSet.[DepartmentId]
+	SELECT deptSet.DepartmentId
 		,deptSet.[Name]
-		,deptSet.[ParentId]
-		,deptSet.[IsActive]
-		,deptSet.[IsGroup]
+		,deptSet.ParentId
+		,deptSet.IsActive
+		,deptSet.IsGroup
 	FROM (
-		SELECT [DepartmentId]
+		SELECT DepartmentId
 			,[Name]
-			,[ParentId]
-			,[IsActive]
+			,ParentId
+			,IsActive
 			,0 AS IsGroup
-		FROM [dbo].[Department]
-		WHERE [IsActive] = 1
+		FROM dbo.Department
+		WHERE IsActive = 1
 			AND (
 				@IsGroup IS NULL
 				OR (
 					@IsGroup = 0
-					AND [DepartmentId] = @DepartmentId
+					AND DepartmentId = @DepartmentId
 					)
 				)
 			AND (
 				(
-					ISNULL(@ShowAll, '') = ''
-					AND [DepartmentId] IN (
-						SELECT DISTINCT tarTemp.[DepartmentId]
+					@ShowAll = 0
+					AND DepartmentId IN (
+						SELECT DISTINCT tarTemp.DepartmentId
 						FROM [dbo].[TargetTemplateDepartment] AS tarTemp WITH (NOLOCK)
 							INNER JOIN [dbo].[Department] AS dept WITH (NOLOCK) ON tarTemp.[DepartmentId] = dept.[DepartmentId]
 							AND tarTemp.[IsGroup] = 0
@@ -77,7 +77,7 @@ BEGIN
 				)
 			AND (
 				(
-					ISNULL(@ShowAll, '') = ''
+					@ShowAll = 0
 					AND [GroupId] IN (
 						SELECT DISTINCT tarTemp.[DepartmentId] AS GroupId
 						FROM [dbo].[TargetTemplateDepartment] AS tarTemp WITH (NOLOCK)

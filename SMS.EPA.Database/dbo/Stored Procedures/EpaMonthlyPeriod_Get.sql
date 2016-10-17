@@ -1,6 +1,6 @@
 ﻿
-CREATE PROCEDURE [dbo].[EpaMonthlyPeriod_Get] @FromDate DATE
-	,@ToDate DATE
+CREATE PROCEDURE [dbo].[EpaMonthlyPeriod_Get] @FromDate DATETIME
+	,@ToDate DATETIME
 AS
 /*
 Created: 20160215@Tim.Trinh
@@ -36,8 +36,8 @@ BEGIN
 				AND peFS.PeriodId = peExcluded.PeriodId
 			)
 		AND period.TargetTypeId = 2 -- Monhtly
-		AND CAST(period.StartDate AS DATE) BETWEEN @FromDate
-			AND @ToDate
+		AND CAST(period.StartDate AS DATE) BETWEEN CAST(@FromDate AS DATE)
+			AND CAST(@ToDate AS DATE)
 	
 	UNION
 	SELECT period.PeriodId
@@ -57,8 +57,8 @@ BEGIN
 				AND peTS.PeriodId = peExcluded.PeriodId
 			)
 		AND period.TargetTypeId = 2 -- Monhtly
-		AND CAST(period.StartDate AS DATE) BETWEEN @FromDate
-			AND @ToDate
+		AND CAST(period.StartDate AS DATE) BETWEEN CAST(@FromDate AS DATE)
+			AND CAST(@ToDate AS DATE)
 
 	SELECT DISTINCT pe.PeriodId
 		,pe.[Name]
@@ -90,8 +90,8 @@ BEGIN
 		GROUP BY epa1.PeriodId
 		) AS epa ON epa.PeriodId = pe.PeriodId
 	WHERE pe.TargetTypeId = 2 -- Monhtly
-		AND CAST(pe.StartDate AS DATE) BETWEEN @FromDate
-			AND @ToDate
+		AND CAST(pe.StartDate AS DATE) BETWEEN CAST(@FromDate AS DATE)
+			AND CAST(@ToDate AS DATE)
 	ORDER BY pe.StartDate DESC
 
 	IF OBJECT_ID('tempdb..#EmployeeSetting') IS NOT NULL

@@ -16,11 +16,11 @@ Param's Explanation:
 
 */
 BEGIN
-	SET NOCOUNT ON;
+	SET NOCOUNT ON
 
 	DECLARE @Employees IntId
 		,@RequiredCommentOnMaxScore BIT
-		,@ToDay DATE
+		,@Today DATE
 
 	CREATE TABLE #EPA (
 		EPAId INT
@@ -39,7 +39,7 @@ BEGIN
 		,NumberKPIOptional INT
 		)
 
-	SET @ToDay = CAST(GETDATE() AS DATE)
+	SET @Today = CAST(GETDATE() AS DATE)
 
 	INSERT INTO #KPIGroup
 	SELECT DISTINCT dt.TargetTemplateId
@@ -50,9 +50,8 @@ BEGIN
 		AND dt.ProcessId = 3 -- evaluator phase
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 		AND pc.ProcessId = 3 -- evaluator phase
-		AND CAST(pc.StartDate AS DATE) <= @ToDay
-		AND CAST(pc.EndDate AS DATE) >= @ToDay
-		AND pc.IsEndProcess = 0
+		AND @Today BETWEEN CAST(pc.StartDate AS DATE)
+			AND CAST(pc.EndDate AS DATE)
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 	WHERE dt.EvaluatorId = @EvaluatorId
 		AND pc.EvaluatorId = @EvaluatorId
@@ -73,9 +72,8 @@ BEGIN
 		AND dt.ProcessId = 3 -- evaluator phase
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 		AND pc.ProcessId = 3 -- evaluator phase
-		AND CAST(pc.StartDate AS DATE) <= @ToDay
-		AND CAST(pc.EndDate AS DATE) >= @ToDay
-		AND pc.IsEndProcess = 0
+		AND @Today BETWEEN CAST(pc.StartDate AS DATE)
+			AND CAST(pc.EndDate AS DATE)
 	WHERE dt.EvaluatorId = @EvaluatorId
 		AND pc.EvaluatorId = @EvaluatorId
 		AND period.PeriodId = @PeriodId
@@ -104,9 +102,8 @@ BEGIN
 	FROM dbo.EPA AS epa WITH (NOLOCK)
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 		AND pc.ProcessId = 3 -- evaluator phase
-		AND CAST(pc.StartDate AS DATE) <= @ToDay
-		AND CAST(pc.EndDate AS DATE) >= @ToDay
-		AND pc.IsEndProcess = 0
+		AND @ToDay BETWEEN CAST(pc.StartDate AS DATE)
+			AND CAST(pc.EndDate AS DATE)
 		INNER JOIN dbo.EPADetail AS dt WITH (NOLOCK) ON epa.EPAId = dt.EPAId
 		AND dt.ProcessId = 3 -- evaluator phase
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId

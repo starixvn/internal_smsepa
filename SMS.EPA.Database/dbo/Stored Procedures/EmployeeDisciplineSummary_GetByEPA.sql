@@ -36,14 +36,15 @@ BEGIN
 	INSERT INTO #EPA
 	SELECT DISTINCT epa.EPAId
 		,epa.EmployeeId
-		,period.StartDate
-		,period.EndDate
+		,period.AttendanceStartDate
+		,period.AttendanceEndDate
 	FROM #EPAId AS epat
 		INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON epat.EPAId = epa.EPAId
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
 		AND emp.IsDeleted = 0
 		AND emp.[Enabled] = 1
+	WHERE period.TargetTypeId = 3 -- semi
 
 	INSERT INTO #EmployeeDisciplineScore
 	SELECT epa.EPAId

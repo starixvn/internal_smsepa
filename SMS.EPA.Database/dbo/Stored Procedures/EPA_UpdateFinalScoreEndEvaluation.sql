@@ -17,7 +17,14 @@ Param's Explanation:
 				</ROOT>'
 */
 BEGIN
-	SET NOCOUNT ON;
+	SET NOCOUNT ON
+
+	CREATE TABLE #EPA (
+		EPAId INT
+		,FinalScore NVARCHAR(100)
+		,DisciplineScore FLOAT
+		,Grade NVARCHAR(100)
+		)
 
 	CREATE TABLE #EPAScore (
 		EPAId INT
@@ -54,18 +61,49 @@ BEGIN
 		RETURN
 	END CATCH
 
+	INSERT INTO #EPA
+	SELECT epa.EPAId
+		,epa.FinalScore
+		,epa.DisciplineScore
+		,epa.Grade
+	FROM dbo.EPA AS epa
+		INNER JOIN #EPAScore AS tbl ON epa.EPAId = tbl.EPAId
+
+	DECLARE @EPAIds NVARCHAR(MAX)
+		,@Data NVARCHAR(MAX)
+		,@OldData NVARCHAR(MAX)
+
+	SELECT @EPAIds = COALESCE(@EPAIds + ',', '') + CAST(EPAId AS NVARCHAR(20))
+	FROM #EPAScore
+
+	EXEC @OldData = dbo.fncGetDataForWriteLog_EPA_UpdateFinalScore @EPAIds
+
 	BEGIN TRY
 		BEGIN TRANSACTION
 
-		UPDATE dbo.EPA
-		SET FinalScore = epaS.FinalScore
-			,DisciplineScore = epaS.DisciplineScore
-			,Grade = epaS.Grade
+		UPDATE epa
+		SET FinalScore = new.FinalScore
+			,DisciplineScore = new.DisciplineScore
+			,Grade = new.Grade
+			,OldFinalScore = old.FinalScore
+			,OldDisciplineScore = old.DisciplineScore
+			,OldGrade = old.Grade
 			,[Status] = 1 -- closed
 			,ModifiedBy = @ModifiedBy
 			,ModifiedDate = GETDATE()
 		FROM dbo.EPA AS epa WITH (NOLOCK)
-			INNER JOIN #EPAScore AS epaS ON epa.EPAId = epaS.EPAId
+			INNER JOIN #EPAScore AS new ON epa.EPAId = new.EPAId
+			INNER JOIN #EPA AS old ON epa.EPAId = old.EPAId
+
+		EXEC @Data = dbo.fncGetDataForWriteLog_EPA_UpdateFinalScore @EPAIds
+		
+		EXEC dbo.LogDetail_Insert @ActorId = @ModifiedBy
+			,@SpName = 'EPA_UpdateFinalScoreEndEvaluation'
+			,@ObjectId = NULL
+			,@ObjectTypeId = 10
+			,@Data = @Data
+			,@OldData = @OldData
+			,@ObjectIds = NULL
 
 		COMMIT TRANSACTION
 	END TRY
@@ -75,5 +113,9 @@ BEGIN
 
 		SELECT @ErrCode = 1
 			,@ErrMsg = N'Update final score unsuccessfully.'
-	END CATCH;
+	END CATCH
+
+	DROP TABLE #EPA
+
+	DROP TABLE #EPAScore
 END

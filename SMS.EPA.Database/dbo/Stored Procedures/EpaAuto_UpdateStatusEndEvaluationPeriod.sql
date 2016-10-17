@@ -1,8 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EpaAuto_UpdateStatusEndEvaluationPeriod    Script Date: 5/16/2016 2:20:07 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_UpdateStatusEndEvaluationPeriod    Script Date: 5/16/2016 2:15:29 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_UpdateStatusEndEvaluationPeriod    Script Date: 5/16/2016 1:59:43 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_UpdateStatusEndEvaluationPeriod    Script Date: 4/6/2016 11:27:44 AM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[EpaAuto_UpdateStatusEndEvaluationPeriod] @EPAIds VARCHAR(MAX)
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg VARCHAR(200) = '' OUTPUT

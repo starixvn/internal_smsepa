@@ -11,22 +11,21 @@ Param's Explanation:
 
 */
 BEGIN
-	SET NOCOUNT ON;
+	SET NOCOUNT ON
 
-	DECLARE @ToDay DATE
+	DECLARE @Today DATE
 
-	SET @ToDay = CAST(GETDATE() AS DATE)
+	SET @Today = CAST(GETDATE() AS DATE)
 
-	SELECT DISTINCT gr.[GroupId]
+	SELECT DISTINCT gr.GroupId
 		,gr.[Name] AS GroupName
-		,gr.[Code] AS GroupCode
+		,gr.Code AS GroupCode
 	FROM dbo.EPA AS epa WITH (NOLOCK)
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 		AND pc.ProcessId = 3
 		AND pc.EvaluatorId = @EvaluatorId
-		AND CAST(pc.StartDate AS DATE) <= @ToDay
-		AND CAST(pc.EndDate AS DATE) >= @ToDay
-		AND pc.IsEndProcess = 0
+		AND @Today BETWEEN CAST(pc.StartDate AS DATE)
+			AND CAST(pc.EndDate AS DATE)
 		INNER JOIN dbo.EPADetail AS dt WITH (NOLOCK) ON epa.EPAId = dt.EPAId
 		AND dt.ProcessId = 3
 		AND dt.EvaluatorId = @EvaluatorId

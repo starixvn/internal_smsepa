@@ -27,6 +27,9 @@ BEGIN
 		,@EmployeeIds IntId
 		,@OverlapEmployeeIds IntId
 		,@OverlapEmployees NVARCHAR(MAX)
+		,@Today DATE
+	
+	SET @Today = CAST(GETDATE() AS DATE)
 
 	SELECT @TargetTypeId = TargetTypeId
 	FROM dbo.Period WITH (NOLOCK)
@@ -515,7 +518,7 @@ BEGIN
 				,empP.StartDate
 				,empP.EndDate
 				,CASE 
-					WHEN CAST(empP.EndDate AS DATE) < CAST(GETDATE() AS DATE) THEN 1 -- end progress
+					WHEN CAST(empP.EndDate AS DATE) < @Today THEN 1 -- end progress
 					ELSE 0 -- in progress
 					END
 				,NULL
@@ -548,7 +551,7 @@ BEGIN
 						AND epaP.ProcessId IN (2, 3) -- self
 						AND epa.HasMonthlyEPA = 1 THEN 1 -- end progress
 					ELSE CASE 
-							WHEN CAST(empP.EndDate AS DATE) < CAST(GETDATE() AS DATE) THEN 1 -- end progress
+							WHEN CAST(empP.EndDate AS DATE) < @Today THEN 1 -- end progress
 							ELSE 0 -- in progress
 							END
 					END
@@ -584,17 +587,17 @@ BEGIN
 						AND (
 							(
 								CAST(period.EndDate AS DATE) >= CAST(epaP.EndDate AS DATE)
-								AND CAST(period.EndDate AS DATE) < CAST(GETDATE() AS DATE)
+								AND CAST(period.EndDate AS DATE) < @Today
 								)
 							OR (
 								CAST(period.EndDate AS DATE) < CAST(epaP.EndDate AS DATE)
-								AND CAST(epaP.EndDate AS DATE) < CAST(GETDATE() AS DATE)
+								AND CAST(epaP.EndDate AS DATE) < @Today
 								)
 							)
 						)
 					OR (
 						period.TargetTypeId NOT IN (2, 3)
-						AND CAST(epaP.EndDate AS DATE) < CAST(GETDATE() AS DATE)
+						AND CAST(epaP.EndDate AS DATE) < @Today
 						)
 					)
 
@@ -610,7 +613,7 @@ BEGIN
 				GROUP BY pc.EPAId
 				) AS epaP ON epa.EPAId = epaP.EPAId
 			WHERE epa.[Status] <> 2
-				AND CAST(epaP.EndDate AS DATE) >= CAST(GETDATE() AS DATE)
+				AND CAST(epaP.EndDate AS DATE) >= @Today
 
 			DROP TABLE #ProcessNew
 

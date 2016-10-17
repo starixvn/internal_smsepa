@@ -13,24 +13,18 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @ToDay DATE
+	DECLARE @Today DATE
 
-	SET @ToDay = CAST(GETDATE() AS DATE)
+	SET @Today = CAST(GETDATE() AS DATE)
 
 	SELECT epa.EPAId
 		,pc.ProcessId
 		,(CASE 
-			WHEN (
-					pc.IsEndProcess = 0
-					AND CAST(pc.StartDate AS DATE) <= @ToDay
-					AND CAST(pc.EndDate AS DATE) >= @ToDay
-					) THEN 0 -- in progress
-			WHEN pc.IsEndProcess = 1 THEN 1 -- end process
-			WHEN (
-					pc.IsEndProcess = 0
-					AND CAST(pc.StartDate AS DATE) > @ToDay
-					) THEN 2 END -- pending
-			) AS StatusEndProcess
+			WHEN CAST(pc.StartDate AS DATE) > @Today THEN 2
+			WHEN @Today BETWEEN CAST(pc.StartDate AS DATE)
+					AND CAST(pc.EndDate AS DATE) THEN 0
+			WHEN CAST(pc.EndDate AS DATE) > @Today THEN 1 END
+			) AS StatusEndProcess -- 0: in progress; 1: end process; 2: pending
 		,pc.IsEndProcess
 		,eva.EmployeeId AS EvaluatorId
 		,eva.Code

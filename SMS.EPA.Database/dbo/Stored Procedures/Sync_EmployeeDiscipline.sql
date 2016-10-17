@@ -228,6 +228,14 @@ BEGIN
 		LEFT JOIN [dbo].[EmployeeDiscipline] curr WITH (NOLOCK) ON new.[EmpId] = curr.[EmpId]
 		AND new.[WorkDate] = curr.[WorkDate]
 	WHERE curr.[EmpId] IS NULL
+	AND new.IsDeleted = 0
+
+	DELETE curr 
+	FROM #Violation new
+		INNER JOIN [dbo].[EmployeeDiscipline] curr WITH (NOLOCK) ON new.[EmpId] = curr.[EmpId]
+		AND new.[WorkDate] = curr.[WorkDate]
+	WHERE curr.[EmpId] IS NULL
+	AND new.IsDeleted = 1
 
 	UPDATE curr
 	SET curr.[WorkDate] = new.[WorkDate]

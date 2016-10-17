@@ -14,9 +14,12 @@ Param's Explanation:
 
 */
 BEGIN
-	SET NOCOUNT ON;
+	SET NOCOUNT ON
 
 	DECLARE @RequiredCommentOnMaxScore BIT
+		,@Today DATE
+
+	SET @Today = CAST(GETDATE() AS DATE)
 
 	CREATE TABLE #EPA (
 		EPAId INT
@@ -44,7 +47,7 @@ BEGIN
 		AND dt.ProcessId = 3 -- evaluator phase
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 		AND pc.ProcessId = 3 -- evaluator phase
-		AND pc.IsEndProcess = 1
+		AND CAST(pc.EndDate AS DATE) < @Today
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 	WHERE epa.HasMonthlyEPA = 0
 		AND dt.EvaluatorId = @EvaluatorId
@@ -64,7 +67,7 @@ BEGIN
 		AND dt.ProcessId = 3 -- evaluator phase
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 		AND pc.ProcessId = 3 -- evaluator phase
-		AND pc.IsEndProcess = 1
+		AND CAST(pc.EndDate AS DATE) < @Today
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 	WHERE dt.IsRequiredEvaluate = 0 -- kpi optional
 		AND epa.HasMonthlyEPA = 0
@@ -87,7 +90,7 @@ BEGIN
 	FROM dbo.EPA AS epa WITH (NOLOCK)
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 		AND pc.ProcessId = 3 -- evaluator phase
-		AND pc.IsEndProcess = 1
+		AND CAST(pc.EndDate AS DATE) < @Today
 		INNER JOIN dbo.EPADetail AS dt WITH (NOLOCK) ON epa.EPAId = dt.EPAId
 		AND dt.ProcessId = 3 -- evaluator phase
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId

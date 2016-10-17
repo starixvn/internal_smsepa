@@ -29,10 +29,12 @@ BEGIN
 		,emp.FullName
 		,emp.[Enabled]
 		,emp.Email
+		,epa.EPAId
 	FROM dbo.EPA AS epa WITH (NOLOCK)
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 		AND pc.EvaluatorId = @ActorUserId
 		AND pc.ProcessId = @ProcessId
+		AND CAST(pc.StartDate AS DATE) <= @ToDay
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
 		AND emp.[Enabled] = 1
 		AND emp.IsDeleted = 0
@@ -40,7 +42,8 @@ BEGIN
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 		AND period.IsActive = 1
 		INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
-	WHERE (
+	WHERE epa.[Status] = 0
+		AND (
 			@GroupId IS NULL
 			OR g.GroupId = @GroupId
 			)
@@ -48,9 +51,9 @@ BEGIN
 			@IsLocal IS NULL
 			OR emp.IsLocal = @IsLocal
 			)
-		AND (
+		/*AND (
 			(
-				tt.TargetTypeId IN (2,3) -- semi
+				tt.TargetTypeId IN (2, 3) -- semi
 				AND @ToDay >= CAST(pc.StartDate AS DATE)
 				AND (
 					@ToDay < CAST(period.EndDate AS DATE)
@@ -61,14 +64,15 @@ BEGIN
 					)
 				)
 			OR (
-				tt.TargetTypeId NOT IN (2,3)
+				tt.TargetTypeId NOT IN (2, 3)
 				AND @ToDay BETWEEN CAST(pc.StartDate AS DATE)
 					AND CAST(pc.EndDate AS DATE)
 				AND pc.ProcessId >= @ProcessId
 				)
-			)
+			)*/
 		AND (
-			(
+			@IsMonthly IS NULL
+			OR (
 				@IsMonthly = 1
 				AND tt.TargetTypeId = 2
 				)

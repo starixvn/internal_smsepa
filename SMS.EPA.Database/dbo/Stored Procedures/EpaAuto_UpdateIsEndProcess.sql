@@ -1,7 +1,5 @@
-﻿/****** Object:  Stored Procedure dbo.EpaAuto_UpdateIsEndProcess    Script Date: 7/21/2016 3:01:37 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_UpdateIsEndProcess    Script Date: 7/21/2016 2:45:50 PM ******/
-
-CREATE PROCEDURE dbo.EpaAuto_UpdateIsEndProcess @EPAProcess NVARCHAR(MAX)
+﻿
+CREATE PROCEDURE [dbo].[EpaAuto_UpdateIsEndProcess] @EPAProcess NVARCHAR(MAX)
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg VARCHAR(200) = '' OUTPUT
 AS
@@ -43,6 +41,12 @@ BEGIN
 	FROM dbo.EPAProcess AS pc
 		INNER JOIN #EPAProcessTemp AS pcT ON pc.EPAId = pcT.EPAId
 		AND pc.ProcessId = pcT.ProcessId
+
+	UPDATE pc WITH (ROWLOCK, UPDLOCK)
+	SET pc.IsEndProcess = 1
+	FROM dbo.EPAProcess AS pc
+	WHERE pc.IsEndProcess = 0
+		AND CAST(pc.EndDate AS DATE) < CAST(GETDATE() AS DATE)
 
 	DROP TABLE #EPAProcessTemp
 END

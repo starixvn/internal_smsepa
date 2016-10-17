@@ -2,6 +2,7 @@
 /****** Object:  Stored Procedure dbo.EPA_GetEPAToUpdateFinalScore    Script Date: 7/21/2016 2:45:43 PM ******/
 CREATE PROCEDURE [dbo].[EPA_GetEPAToUpdateFinalScore] @PeriodId INT
 	,@GroupId INT = NULL
+	,@IsLocal BIT = NULL
 	,@EmployeeId INT = NULL
 AS
 /*
@@ -64,6 +65,10 @@ BEGIN
 				OR gr.GroupId = @GroupId
 				)
 			AND (
+				@IsLocal IS NULL
+				OR emp.IsLocal = @IsLocal
+				)
+			AND (
 				ISNULL(@EmployeeId, '') = ''
 				OR emp.EmployeeId = @EmployeeId
 				)
@@ -91,6 +96,10 @@ BEGIN
 			AND (
 				ISNULL(@GroupId, '') = ''
 				OR gr.GroupId = @GroupId
+				)
+			AND (
+				@IsLocal IS NULL
+				OR emp.IsLocal = @IsLocal
 				)
 			AND (
 				ISNULL(@EmployeeId, '') = ''
@@ -123,6 +132,10 @@ BEGIN
 				OR gr.GroupId = @GroupId
 				)
 			AND (
+				@IsLocal IS NULL
+				OR emp.IsLocal = @IsLocal
+				)
+			AND (
 				ISNULL(@EmployeeId, '') = ''
 				OR emp.EmployeeId = @EmployeeId
 				)
@@ -137,6 +150,7 @@ BEGIN
 	-- General Info
 	SELECT DISTINCT epa.EPAId
 		,epa.FinalScore
+		,epa.OldFinalScore
 		,(CASE srt.ScoreRatingTypeId
 			WHEN 1 THEN 1
 			ELSE 0 END
@@ -151,11 +165,14 @@ BEGIN
 		,emp.NickName
 		,emp.FullName
 		,emp.Email
+		,emp.JoinedDate
 		,dept.DepartmentId
 		,dept.[Name] AS DepartmentName
 		,gr.GroupId
 		,gr.Code AS GroupCode
 		,gr.[Name] AS GroupName
+		,job.Id AS JobTitleId
+		,job.[Name] AS JobTitleName
 		,period.PeriodId
 		,period.[Name]
 		,tt.TargetTypeId
@@ -170,6 +187,7 @@ BEGIN
 		LEFT JOIN #DisciplineScores AS ds ON epa.EPAId = ds.EPAId
 		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
+		LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
 	ORDER BY emp.NickName
 
 	-- Process

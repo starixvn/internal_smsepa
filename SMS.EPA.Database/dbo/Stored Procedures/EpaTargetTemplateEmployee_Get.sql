@@ -2,7 +2,7 @@
 CREATE PROCEDURE [dbo].[EpaTargetTemplateEmployee_Get] @GroupId INT = NULL
 	,@EmployeeId INT = NULL
 	,@TargetTypeId INT = NULL
-	,@ShowAll BIT = NULL
+	,@ShowAll BIT = 0
 AS
 /*
 Created: 2015-06-12@Josh.Phan
@@ -16,32 +16,32 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	SELECT DISTINCT emp.[EmployeeId]
-		,emp.[Code]
-		,emp.[NickName]
-		,emp.[FullName]
+	SELECT DISTINCT emp.EmployeeId
+		,emp.Code
+		,emp.NickName
+		,emp.FullName
 		,emp.[Enabled]
-		,empGr.[GroupId]
-		,empGr.[Name] AS GroupName
-		,empGr.[Code] AS GroupCode
-	FROM [dbo].[Employee] AS emp WITH (NOLOCK)
-		LEFT JOIN [dbo].[Group] AS empGr WITH (NOLOCK) ON emp.[GroupId] = empGr.[GroupId]
+		,gr.GroupId
+		,gr.[Name] AS GroupName
+		,gr.Code AS GroupCode
+	FROM dbo.Employee AS emp WITH (NOLOCK)
+		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 	WHERE emp.[Enabled] = 1
-		AND emp.[IsDeleted] = 0
+		AND emp.IsDeleted = 0
 		AND (
 			ISNULL(@GroupId, '') = ''
-			OR empGr.[GroupId] = @GroupId
+			OR gr.[GroupId] = @GroupId
 			)
 		AND (
 			ISNULL(@EmployeeId, '') = ''
-			OR emp.[EmployeeId] = @EmployeeId
+			OR emp.EmployeeId = @EmployeeId
 			)
 		AND (
 			(
-				ISNULl(@ShowAll, '') = ''
-				AND emp.[EmployeeId] IN (
-					SELECT DISTINCT [EmployeeId]
-					FROM [dbo].[TargetTemplateEmployee] WITH (NOLOCK)
+				@ShowAll = 0
+				AND emp.EmployeeId IN (
+					SELECT DISTINCT EmployeeId
+					FROM dbo.TargetTemplateEmployee WITH (NOLOCK)
 					)
 				)
 			OR @ShowAll = 1

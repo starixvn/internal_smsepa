@@ -3,7 +3,8 @@ CREATE PROCEDURE [dbo].[EPA_GetByEvaluator] @EvaluatorId INT
 	,@EmployeeIds VARCHAR(MAX) = NULL
 	,@GroupId INT = NULL
 	,@IsLocal BIT = NULL
-	,@IsMonthly BIT
+	,@IsMonthly BIT = 0
+	,@StatusProcess BIT = NULL
 AS
 /*
 Created: 20150817@Tim.Trinh
@@ -44,7 +45,7 @@ BEGIN
 		AND pcEva.EvaluatorId = @EvaluatorId
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 		INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
-	WHERE epa.[Status] = 0  -- inprogress
+	WHERE epa.[Status] = 0 -- inprogress
 		AND (
 			@EmployeeIds IS NULL
 			OR epa.EmployeeId IN (
@@ -87,6 +88,18 @@ BEGIN
 				AND @ToDay BETWEEN CAST(pc.StartDate AS DATE)
 					AND CAST(pc.EndDate AS DATE)
 				AND pc.ProcessId IN (3, 4, 5)
+				)
+			)
+		AND (
+			@StatusProcess IS NULL
+			OR (
+				@StatusProcess = 0
+				AND @ToDay BETWEEN CAST(pcEva.StartDate AS DATE)
+					AND CAST(pcEva.EndDate AS DATE)
+				)
+			OR (
+				@StatusProcess = 1
+				AND @ToDay > CAST(pcEva.EndDate AS DATE)
 				)
 			)
 

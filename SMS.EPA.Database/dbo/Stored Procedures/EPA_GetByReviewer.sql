@@ -3,7 +3,8 @@ CREATE PROCEDURE [dbo].[EPA_GetByReviewer] @ReviewerId INT
 	,@EmployeeIds VARCHAR(MAX) = NULL
 	,@GroupId INT = NULL
 	,@IsLocal BIT = NULL
-	,@IsMonthly BIT
+	,@IsMonthly BIT = 0
+	,@StatusProcess BIT = NULL
 AS
 /*
 Created: 20150824@Tim.Trinh
@@ -86,6 +87,18 @@ BEGIN
 				AND @ToDay BETWEEN CAST(pc.StartDate AS DATE)
 					AND CAST(pc.EndDate AS DATE)
 				AND pc.ProcessId IN (4, 5)
+				)
+			)
+		AND (
+			@StatusProcess IS NULL
+			OR (
+				@StatusProcess = 0
+				AND @ToDay BETWEEN CAST(pcRev.StartDate AS DATE)
+					AND CAST(pcRev.EndDate AS DATE)
+				)
+			OR (
+				@StatusProcess = 1
+				AND @ToDay > CAST(pcRev.EndDate AS DATE)
 				)
 			)
 

@@ -89,13 +89,15 @@ BEGIN
 			ELSE 0 END
 			) AS HasMaxScoreOnKPI
 		,@RequiredCommentOnMaxScore AS RequiredCommentOnMaxScore
+		,epa.[Status] AS StatusId
 		,emp.EmployeeId
 		,emp.Code
 		,emp.NickName
 		,emp.FullName
 		,emp.Email
+		,emp.JoinedDate
 		,dept.DepartmentId
-		,dept.[Name]
+		,dept.[Name] AS DepartmentName
 		,gr.GroupId
 		,gr.Code AS GroupCode
 		,gr.[Name] AS GroupName
@@ -104,7 +106,6 @@ BEGIN
 		,CAST(lkd.Value AS TINYINT) AS RatingTypeId
 		,lkd.Code
 		,lkd.[Name]
-		,epa.[Status] AS StatusId
 		,period.PeriodId
 		,period.[Name]
 		,CAST(pc.StartDate AS DATE) AS StartDate

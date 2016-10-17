@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[EPA_RatingByKPI_GetKPIToView] @PeriodId INT
+﻿
+CREATE PROCEDURE [dbo].[EPA_RatingByKPI_GetKPIToView] @PeriodId INT
 	,@TargetTemplateId INT
 	,@EvaluatorId INT
 AS
@@ -13,7 +14,11 @@ Param's Explanation:
 
 */
 BEGIN
-	SET NOCOUNT ON;
+	SET NOCOUNT ON
+
+	DECLARE @Today DATE
+
+	SET @Today = CAST(GETDATE() AS DATE)
 
 	CREATE TABLE #KPIGroup (
 		TargetTemplateId INT
@@ -43,7 +48,7 @@ BEGIN
 		AND dt.ProcessId = 3 -- evaluator phase
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 		AND pc.ProcessId IN (3) -- evaluator phase
-		AND pc.IsEndProcess = 1
+		AND CAST(pc.EndDate AS DATE) < @Today
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 	WHERE epa.HasMonthlyEPA = 0
 		AND pc.EvaluatorId = @EvaluatorId
@@ -63,7 +68,7 @@ BEGIN
 		AND dt.ProcessId = 3 -- evaluator phase
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 		AND pc.ProcessId IN (3) -- evaluator phase
-		AND pc.IsEndProcess = 1
+		AND CAST(pc.EndDate AS DATE) < @Today
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 	WHERE dt.IsRequiredEvaluate = 0 -- kpi optional
 		AND epa.HasMonthlyEPA = 0
@@ -85,7 +90,7 @@ BEGIN
 		AND dt.ProcessId = 3 -- evaluator phase
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 		AND pc.ProcessId = 3 -- evaluator phase
-		AND pc.IsEndProcess = 1
+		AND CAST(pc.EndDate AS DATE) < @Today
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 	WHERE pc.EvaluatorId = @EvaluatorId
 		AND dt.EvaluatorId = @EvaluatorId
@@ -124,7 +129,7 @@ BEGIN
 		AND dt.ProcessId = 3 -- evaluator
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 		AND pc.ProcessId = 3 -- evaluator
-		AND pc.IsEndProcess = 1
+		AND CAST(pc.EndDate AS DATE) < @Today
 		INNER JOIN dbo.TargetTemplate AS tt WITH (NOLOCK) ON dt.TargetTemplateId = tt.TargetTemplateId
 		INNER JOIN dbo.KPIHistory AS khis WITH (NOLOCK) ON dt.KPIId = khis.KPIId
 		AND dt.KPILogNo = khis.LogNo

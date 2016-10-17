@@ -26,8 +26,8 @@ BEGIN
 		AND pc.EvaluatorId = @ActorUserId
 		AND pc.ProcessId = @ProcessId
 		AND CAST(pc.StartDate AS DATE) <= @ToDay
-		AND CAST(pc.EndDate AS DATE) >= @ToDay
-		AND pc.IsEndProcess = 0
+		--AND CAST(pc.EndDate AS DATE) >= @ToDay
+		--AND pc.IsEndProcess = 0
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 		AND period.IsActive = 1
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId

@@ -138,7 +138,7 @@ BEGIN
 
 	BEGIN CATCH
 		SELECT @ErrCode = 1
-			,@ErrMsg = N'Evaluate unsuccessfully. Parameter invalid.'
+			,@ErrMsg = N'Parameter invalid.'
 
 		RETURN
 	END CATCH
@@ -206,7 +206,7 @@ BEGIN
 		ROLLBACK TRANSACTION
 
 		SELECT @ErrCode = 1
-			,@ErrMsg = N'Evaluate unsuccessfully.'
+			,@ErrMsg = N'Update unsuccessfully.'
 	END CATCH;
 
 	DROP TABLE #Evaluator

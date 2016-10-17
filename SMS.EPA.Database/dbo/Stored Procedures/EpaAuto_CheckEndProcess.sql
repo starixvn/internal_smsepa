@@ -1,6 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EpaAuto_CheckEndProcess    Script Date: 7/21/2016 3:01:35 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_CheckEndProcess    Script Date: 7/21/2016 2:45:47 PM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[EpaAuto_CheckEndProcess]
 AS
 /*

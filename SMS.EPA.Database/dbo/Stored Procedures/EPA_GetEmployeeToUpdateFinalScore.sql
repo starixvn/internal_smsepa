@@ -1,6 +1,7 @@
 ﻿
 CREATE PROCEDURE [dbo].[EPA_GetEmployeeToUpdateFinalScore] @PeriodId INT
 	,@GroupId INT = NULL
+	,@IsLocal BIT = NULL
 	,@Query NVARCHAR(100) = NULL
 AS
 /*
@@ -53,6 +54,10 @@ BEGIN
 				OR gr.GroupId = @GroupId
 				)
 			AND (
+				@IsLocal IS NULL
+				OR emp.IsLocal = @IsLocal
+				)
+			AND (
 				ISNULL(@Query, '') = ''
 				OR emp.FullName LIKE '%' + @Query + '%'
 				OR emp.NickName LIKE '%' + @Query + '%'
@@ -81,6 +86,10 @@ BEGIN
 			AND (
 				ISNULL(@GroupId, '') = ''
 				OR gr.GroupId = @GroupId
+				)
+			AND (
+				@IsLocal IS NULL
+				OR emp.IsLocal = @IsLocal
 				)
 			AND (
 				ISNULL(@Query, '') = ''
@@ -112,6 +121,10 @@ BEGIN
 			AND (
 				ISNULL(@GroupId, '') = ''
 				OR gr.GroupId = @GroupId
+				)
+			AND (
+				@IsLocal IS NULL
+				OR emp.IsLocal = @IsLocal
 				)
 			AND (
 				ISNULL(@Query, '') = ''

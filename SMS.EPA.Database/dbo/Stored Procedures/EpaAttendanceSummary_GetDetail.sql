@@ -133,7 +133,7 @@ BEGIN
 	FROM dbo.EmployeeDiscipline AS empV WITH (NOLOCK)
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON empV.EmpId = emp.EmployeeId
 		AND emp.[Enabled] = 1
-		AND emp.IsDeleted = 0
+		AND ISNULL(emp.IsDeleted, 0) = 0
 		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		INNER JOIN [dbo].[LookupData] AS lk WITH (NOLOCK) ON emp.IsLocal = CAST(lk.[Value] AS BIT)
 		AND lk.LookupId = 11
