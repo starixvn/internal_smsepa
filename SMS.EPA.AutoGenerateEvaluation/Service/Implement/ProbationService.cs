@@ -43,7 +43,7 @@
 
             if (!string.IsNullOrWhiteSpace(employeePeriod.EmployeeIds) && employeePeriod.PeriodId > 0)
             {
-                AddEmployeeToEPA(employeePeriod);
+                InsertEmployeeToPeriod(employeePeriod);
                 GenerateEPA(employeePeriod);
                 SendStartEmail(employeePeriod.PeriodId, employeePeriod.EmployeeIds);
             }
@@ -62,7 +62,7 @@
             return employeePeriod;
         }
 
-        private void AddEmployeeToEPA(AutoEmployeePeriodModel employeePeriod)
+        private void InsertEmployeeToPeriod(AutoEmployeePeriodModel employeePeriod)
         {
             var criteria = new InsertEmployeeToProbationPeriodCriteria
             {
