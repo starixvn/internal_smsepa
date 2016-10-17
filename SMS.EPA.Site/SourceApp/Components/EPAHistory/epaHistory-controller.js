@@ -10,13 +10,6 @@
 
         vm.currentPage = 1;
         vm.epas = [];
-        vm.filter = {
-            periodId: $routeParams.periodId ? $routeParams.periodId : null,
-            departmentId: '',
-            isLocal: '',
-            employee: null,
-            employeeId: $routeParams.empId ? $routeParams.empId : null
-        };
         vm.onlyEmployeeRole = false;
         vm.pageSize = 20;
         vm.periodOptions = [];
@@ -56,10 +49,18 @@
             return CommonModel.getIndex(index, currentPage, pageSize);
         }
 
+        function initFilter() {
+            vm.filter = {
+                periodId: $routeParams.periodId ? $routeParams.periodId : null,
+                departmentId: '',
+                isLocal: '',
+                employee: null,
+                employeeId: $routeParams.empId ? $routeParams.empId : null
+            };
+        }
+
         function initialize() {
-            CommonModel.getAllPeriodIncludeImport().then(function () {
-                vm.periodOptions = CommonModel.periodOptions;
-            });
+            initFilter();
 
             EPAHistoryModel.checkHasOnlyEmployeeRole().then(function () {
                 vm.onlyEmployeeRole = EPAHistoryModel.onlyEmployeeRole;
@@ -79,7 +80,15 @@
                 });
             }
 
-            getEPAHistory(vm.filter.periodId, vm.filter.departmentId, vm.filter.isLocal, vm.filter.employeeId);
+            CommonModel.getAllPeriodIncludeImport().then(function () {
+                vm.periodOptions = CommonModel.periodOptions;
+
+                if (vm.periodOptions.length > 0 && !$routeParams.periodId) {
+                    vm.filter.periodId = vm.periodOptions[0].PeriodId;
+                }
+
+                getEPAHistory(vm.filter.periodId, vm.filter.departmentId, vm.filter.isLocal, vm.filter.employeeId);
+            });
         }
 
         function query(filter) {

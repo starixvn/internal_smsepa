@@ -5,10 +5,10 @@
 
     angular.module('epaModule').controller('EmployeeEPAInfoController', employeeEPAInfoController);
     employeeEPAInfoController.$inject = ['$timeout', '$translate', '$routeParams', 'EvaluationModel', 'SelfEvalutorModel',
-        'SelfEvalutionModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'baseUrl'];
+        'SelfEvalutionModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl'];
 
     function employeeEPAInfoController($timeout, $translate, $routeParams, EvaluationModel, SelfEvalutorModel,
-        SelfEvalutionModel, CommonModel, utilitiesFactory, historyFactory, baseUrl) {
+        SelfEvalutionModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
         var vm = this;
 
         vm.dataSaved = false;
@@ -86,6 +86,8 @@
                         vm.hoveringLeave = null;
                     }
                 });
+
+                lockScreenService.stop();
             });
         }
 
@@ -110,6 +112,8 @@
         }
 
         function initialize() {
+            lockScreenService.start();
+
             $translate('ScoreInputValid').then(function (message) {
                 vm.scoreInputValidMessage = message;
             });

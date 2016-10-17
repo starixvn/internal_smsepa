@@ -12,11 +12,6 @@
 
         vm.currentPage = 1;
         vm.epas = [];
-        vm.filter = {
-            periodId: $routeParams.periodId ? $routeParams.periodId : null,
-            employee: null,
-            employeeId: $routeParams.empId ? $routeParams.empId : null
-        };
         vm.onlyEmployeeRole = EPAHistoryModel.onlyEmployeeRole;
         vm.pageSize = 20;
         vm.periodOptions = [];
@@ -55,10 +50,16 @@
             });
         }
 
+        function initFilter() {
+            vm.filter = {
+                periodId: $routeParams.periodId ? $routeParams.periodId : null,
+                employee: null,
+                employeeId: $routeParams.empId ? $routeParams.empId : null
+            };
+        }
+
         function initialize() {
-            CommonModel.getAllMonthlyPeriod().then(function () {
-                vm.periodOptions = CommonModel.monthlyPeriods;
-            });
+            initFilter();
 
             EPAHistoryModel.checkHasOnlyEmployeeRole().then(function () {
                 vm.onlyEmployeeRole = EPAHistoryModel.onlyEmployeeRole;
@@ -78,7 +79,15 @@
                 });
             }
 
-            getMonthlyEPAHistory(vm.filter.periodId, vm.filter.employeeId);
+            CommonModel.getAllMonthlyPeriod().then(function () {
+                vm.periodOptions = CommonModel.monthlyPeriods;
+
+                if (vm.periodOptions.length > 0 && !$routeParams.periodId) {
+                    vm.filter.periodId = vm.periodOptions[0].PeriodId;
+                }
+
+                getMonthlyEPAHistory(vm.filter.periodId, vm.filter.employeeId);
+            });
         }
 
         function query() {

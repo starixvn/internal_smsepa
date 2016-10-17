@@ -63,7 +63,7 @@
         [HttpGet]
         public bool HasOnlyEmployeeRole()
         {
-            bool onlyEmployeeRole = this.SessionService.CurrentUser.Roles.All(x => x.RoleId == (int)SystemRole.Employee);
+            bool onlyEmployeeRole = this.SessionService.CurrentUser.Roles.Any(x => x.RoleId == (int)SystemRole.Employee);
             return onlyEmployeeRole;
         }
     }

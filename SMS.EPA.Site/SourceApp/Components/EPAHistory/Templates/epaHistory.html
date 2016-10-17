@@ -10,7 +10,7 @@
             <label data-translate="Period"></label>
             <select class="form-control lstBox-limit" ng-model="epaHistoryCtrl.filter.periodId"
                     ng-options="opt.PeriodId as opt.Name group by opt.Year for opt in epaHistoryCtrl.periodOptions">
-                <option value="">-- {{"All" | translate}} --</option>
+                <option value="" style="display: none">-- {{"All" | translate}} --</option>
             </select>
         </div>
         <div class="form-group">

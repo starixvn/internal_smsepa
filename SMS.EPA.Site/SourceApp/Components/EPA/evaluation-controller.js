@@ -2,8 +2,8 @@
 /*global epaModule*/
 
 epaModule.controller('EPADetailController',
-['$routeParams', 'EvaluationModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'baseUrl',
-function ($routeParams, EvaluationModel, CommonModel, utilitiesFactory, historyFactory, baseUrl) {
+['$routeParams', 'EvaluationModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl',
+function ($routeParams, EvaluationModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
     var vm = this;
 
     vm.epaId = parseInt($routeParams.id);
@@ -65,10 +65,14 @@ function ($routeParams, EvaluationModel, CommonModel, utilitiesFactory, historyF
                     vm.jobGrades.push(vm.epaInfo.Recommendation.JobGrade);
                 }
             }
+
+            lockScreenService.stop();
         });
     }
 
     function initialize() {
+        lockScreenService.start();
+
         CommonModel.getJobGrade(true).then(function () {
             vm.jobGrades = CommonModel.jobGrades;
         });

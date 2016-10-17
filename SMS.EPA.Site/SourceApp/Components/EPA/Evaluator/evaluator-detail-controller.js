@@ -3,9 +3,9 @@
 
 epaModule.controller('MemberEPAInfoOfEvaluatorController',
 ['$timeout', '$translate', '$routeParams', 'EvaluationModel', 'EvaluatorEPAModel', 'SelfEvalutorModel', 'CommonModel',
-    'utilitiesFactory', 'historyFactory', 'baseUrl',
+    'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl',
 function ($timeout, $translate, $routeParams, EvaluationModel, EvaluatorEPAModel, SelfEvalutorModel, CommonModel,
-    utilitiesFactory, historyFactory, baseUrl) {
+    utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
     var vm = this;
 
     vm.permission = 0;
@@ -148,10 +148,14 @@ function ($timeout, $translate, $routeParams, EvaluationModel, EvaluatorEPAModel
                     vm.hoveringLeave = null;
                 }
             });
+
+            lockScreenService.stop();
         });
     }
 
     function initialize() {
+        lockScreenService.start();
+
         $translate('ScoreInputValid').then(function (message) {
             vm.scoreInputValidMessage = message;
         });

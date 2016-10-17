@@ -2698,7 +2698,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Comment is required for for rating max score.
+        ///   Looks up a localized string similar to Comment is required for rating max score.
         /// </summary>
         public static string RequiredCommentForRatingMaxScore {
             get {
