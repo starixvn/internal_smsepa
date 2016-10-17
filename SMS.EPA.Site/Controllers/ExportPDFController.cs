@@ -89,12 +89,15 @@
                 }
             }
 
-            table.AddCell(performanceDetail);
-            table.AddCell(summaryComment);
+            ////table.AddCell(performanceDetail);
+            ////table.AddCell(summaryComment);
 
-            table.SplitLate = false;
+            ////table.SplitLate = false;
+            ////table.SplitRows = true;
 
             document.Add(table);
+            document.Add(performanceDetail);
+            document.Add(summaryComment);
             document.Close();
 
             Response.ContentType = "application/pdf";
@@ -1216,8 +1219,9 @@
 
             string imagePath = GetCheckbox(epaInfo.Recommendation.Promoted);
             Image img = Image.GetInstance(imagePath);
-            img.ScaleToFit(10, 10);
+            img.ScaleToFit(8, 8);
             cell = new PdfPCell(img, false);
+            cell.PaddingTop = 2;
             cell.BorderColor = borderColor;
             cell.BorderWidthTop = 0;
             cell.BorderWidthRight = 0;
@@ -1234,8 +1238,9 @@
 
             imagePath = GetCheckbox(epaInfo.Recommendation.PayIncreased);
             img = Image.GetInstance(imagePath);
-            img.ScaleToFit(10, 10);
+            img.ScaleToFit(8, 8);
             cell = new PdfPCell(img, false);
+            cell.PaddingTop = 2;
             cell.BorderColor = borderColor;
             cell.BorderWidthTop = 0;
             cell.BorderWidthRight = 0;
@@ -1252,8 +1257,9 @@
 
             imagePath = GetCheckbox(epaInfo.Recommendation.JobGradeIncreased);
             img = Image.GetInstance(imagePath);
-            img.ScaleToFit(10, 10);
+            img.ScaleToFit(8, 8);
             cell = new PdfPCell(img, false);
+            cell.PaddingTop = 2;
             cell.BorderColor = borderColor;
             cell.BorderWidthTop = 0;
             cell.BorderWidthRight = 0;
@@ -1297,8 +1303,9 @@
 
             string imagePath = GetRadioButton(epaInfo.Recommendation.PassedProbation);
             Image img = Image.GetInstance(imagePath);
-            img.ScaleToFit(10, 10);
+            img.ScaleToFit(8, 8);
             cell = new PdfPCell(img, false);
+            cell.PaddingTop = 2;
             cell.BorderColor = borderColor;
             cell.BorderWidthTop = 0;
             cell.BorderWidthRight = 0;
@@ -1315,8 +1322,9 @@
 
             imagePath = GetRadioButton(epaInfo.Recommendation.ExtendedProbation);
             img = Image.GetInstance(imagePath);
-            img.ScaleToFit(10, 10);
+            img.ScaleToFit(8, 8);
             cell = new PdfPCell(img, false);
+            cell.PaddingTop = 2;
             cell.BorderColor = borderColor;
             cell.BorderWidthTop = 0;
             cell.BorderWidthRight = 0;
@@ -1333,8 +1341,9 @@
 
             imagePath = GetRadioButton(epaInfo.Recommendation.FailedProbation);
             img = Image.GetInstance(imagePath);
-            img.ScaleToFit(10, 10);
+            img.ScaleToFit(8, 8);
             cell = new PdfPCell(img, false);
+            cell.PaddingTop = 2;
             cell.BorderColor = borderColor;
             cell.BorderWidthTop = 0;
             cell.BorderWidthRight = 0;

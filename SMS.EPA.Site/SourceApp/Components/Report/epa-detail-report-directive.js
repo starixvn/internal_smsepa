@@ -142,7 +142,7 @@
                             { Name: "FinalScore", Value: score.FinalScore },
                             { Name: "Grade", Value: score.Grade },
                             { Name: "ExportPdf", Value: memberEPA.EPAId > 0 && memberEPA.StatusId === 1 && memberEPA.Period.IsEndPeriod ? pdfIcon : "" },
-                            { Name: "ViewDetail", Value: memberEPA.EPAId > 0 ? viewIcon : '' }
+                            { Name: "ViewDetail", Value: memberEPA.EPAId > 0 && memberEPA.StatusId === 1 && memberEPA.Period.IsEndPeriod ? viewIcon : '' }
                         ]
                     };
 

@@ -15,7 +15,13 @@
 
         public int StatusEndProcess { get; set; }
 
-        public bool IsEndProcess { get; set; }
+        public bool IsEndProcess
+        {
+            get
+            {
+                return DateTime.Compare(EndDate.Date, DateTime.Now.Date) < 0;
+            }
+        }
 
         public EPAEmployeeModel EvaluatorInfo { get; set; }
 
