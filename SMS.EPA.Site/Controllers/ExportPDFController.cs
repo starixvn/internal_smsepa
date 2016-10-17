@@ -1221,7 +1221,8 @@
             Image img = Image.GetInstance(imagePath);
             img.ScaleToFit(8, 8);
             cell = new PdfPCell(img, false);
-            cell.PaddingTop = 2;
+            cell.PaddingTop = 3;
+            cell.PaddingLeft = 2;
             cell.BorderColor = borderColor;
             cell.BorderWidthTop = 0;
             cell.BorderWidthRight = 0;
@@ -1240,7 +1241,8 @@
             img = Image.GetInstance(imagePath);
             img.ScaleToFit(8, 8);
             cell = new PdfPCell(img, false);
-            cell.PaddingTop = 2;
+            cell.PaddingTop = 3;
+            cell.PaddingLeft = 2;
             cell.BorderColor = borderColor;
             cell.BorderWidthTop = 0;
             cell.BorderWidthRight = 0;
@@ -1259,7 +1261,8 @@
             img = Image.GetInstance(imagePath);
             img.ScaleToFit(8, 8);
             cell = new PdfPCell(img, false);
-            cell.PaddingTop = 2;
+            cell.PaddingTop = 3;
+            cell.PaddingLeft = 2;
             cell.BorderColor = borderColor;
             cell.BorderWidthTop = 0;
             cell.BorderWidthRight = 0;
@@ -1305,7 +1308,8 @@
             Image img = Image.GetInstance(imagePath);
             img.ScaleToFit(8, 8);
             cell = new PdfPCell(img, false);
-            cell.PaddingTop = 2;
+            cell.PaddingTop = 3;
+            cell.PaddingLeft = 2;
             cell.BorderColor = borderColor;
             cell.BorderWidthTop = 0;
             cell.BorderWidthRight = 0;
@@ -1324,7 +1328,8 @@
             img = Image.GetInstance(imagePath);
             img.ScaleToFit(8, 8);
             cell = new PdfPCell(img, false);
-            cell.PaddingTop = 2;
+            cell.PaddingTop = 3;
+            cell.PaddingLeft = 2;
             cell.BorderColor = borderColor;
             cell.BorderWidthTop = 0;
             cell.BorderWidthRight = 0;
@@ -1343,7 +1348,8 @@
             img = Image.GetInstance(imagePath);
             img.ScaleToFit(8, 8);
             cell = new PdfPCell(img, false);
-            cell.PaddingTop = 2;
+            cell.PaddingTop = 3;
+            cell.PaddingLeft = 2;
             cell.BorderColor = borderColor;
             cell.BorderWidthTop = 0;
             cell.BorderWidthRight = 0;
