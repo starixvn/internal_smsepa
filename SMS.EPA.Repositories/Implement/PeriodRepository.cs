@@ -7,7 +7,6 @@
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Model;
     using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Model.Period;
 
     public class PeriodRepository : IPeriodRepository
     {

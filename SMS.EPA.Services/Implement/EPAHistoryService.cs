@@ -4,10 +4,9 @@
     using System.Linq;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria.EPAHistory;
+    using SMS.EPA.Model;
     using SMS.EPA.Model.EPAHistory;
-    using SMS.EPA.Model.Period;
     using SMS.EPA.Repositories;
-
     using SMS.EPA.Services.Interfaces;
 
     public class EPAHistoryService : BaseService, IEPAHistoryService

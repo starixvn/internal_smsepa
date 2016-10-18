@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.AutoService.Repository
 {
     using Fanex.Data.Repository;
-    using SMS.EPA.Model.Period;
+    using SMS.EPA.Model;
 
     public interface IEvaluationRepository
     {

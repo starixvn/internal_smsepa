@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Criteria.Period
+﻿namespace SMS.EPA.Criteria
 {
     using System;
     using Fanex.Data.Repository;

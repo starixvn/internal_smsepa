@@ -4,7 +4,7 @@
     using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using SMS.EPA.Model.Period;
+    using SMS.EPA.Model;
 
     public class EvaluationRepository : IEvaluationRepository
     {

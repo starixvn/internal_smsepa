@@ -5,8 +5,8 @@
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria.Period.GenerationEvaluation;
-    using SMS.EPA.Model.Period;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Model;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
 

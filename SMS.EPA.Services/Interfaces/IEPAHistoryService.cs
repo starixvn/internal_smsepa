@@ -2,8 +2,8 @@
 {
     using System.Collections.Generic;
     using SMS.EPA.Criteria.EPAHistory;
+    using SMS.EPA.Model;
     using SMS.EPA.Model.EPAHistory;
-    using SMS.EPA.Model.Period;
 
     public interface IEPAHistoryService
     {

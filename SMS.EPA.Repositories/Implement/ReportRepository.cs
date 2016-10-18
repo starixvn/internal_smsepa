@@ -9,9 +9,7 @@
     using SMS.EPA.Core.Services;
     using SMS.EPA.Model;
     using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Model.Period;
     using SMS.EPA.Model.ScoreRatingType;
-    using SMS.EPA.Repositories;
 
     public class ReportRepository : IReportRepository
     {

@@ -1,7 +1,6 @@
 ﻿namespace SMS.EPA.Model
 {
     using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Model.Period;
 
     public class ToDoListModel
     {

@@ -8,10 +8,8 @@
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Core.Utilities;
-    using SMS.EPA.Criteria.Period;
-    using SMS.EPA.Criteria.Period.GenerationEvaluation;
+    using SMS.EPA.Criteria;
     using SMS.EPA.Model;
-    using SMS.EPA.Model.Period;
     using SMS.EPA.Repositories;
     using SMS.EPA.Resources;
     using SMS.EPA.Services.Interfaces;

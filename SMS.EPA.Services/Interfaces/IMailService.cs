@@ -1,7 +1,6 @@
 ﻿namespace SMS.EPA.Services.Interfaces
 {
     using SMS.EPA.Model;
-    using SMS.EPA.Model.Period;
 
     public interface IMailService
     {

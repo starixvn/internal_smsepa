@@ -6,10 +6,8 @@
     using System.Web.Mvc;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria;
-    using SMS.EPA.Criteria.Period;
     using SMS.EPA.Criteria.Report;
     using SMS.EPA.Model;
-    using SMS.EPA.Model.Period;
     using SMS.EPA.Resources;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;

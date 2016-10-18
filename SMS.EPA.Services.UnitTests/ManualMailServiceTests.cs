@@ -4,7 +4,7 @@
     using NSubstitute;
     using NUnit.Framework;
     using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Model.Period;
+    using SMS.EPA.Model;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
 

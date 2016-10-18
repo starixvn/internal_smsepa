@@ -5,7 +5,7 @@
     using Fanex.Data;
     using Fanex.Data.Repository;
     using SMS.EPA.Core.Constants;
-    using SMS.EPA.Model.Period;
+    using SMS.EPA.Model;
 
     public class UpdateIsEndProcessCriteria : CriteriaBase
     {

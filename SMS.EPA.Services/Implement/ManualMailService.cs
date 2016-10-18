@@ -4,7 +4,7 @@
     using System.Linq;
     using System.Web;
     using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Model.Period;
+    using SMS.EPA.Model;
     using SMS.EPA.Services.Interfaces;
 
     public class ManualMailService : IManualMailService

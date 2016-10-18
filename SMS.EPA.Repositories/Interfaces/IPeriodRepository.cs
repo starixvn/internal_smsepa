@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using Fanex.Data.Repository;
-    using SMS.EPA.Model.Period;
+    using SMS.EPA.Model;
 
     public interface IPeriodRepository
     {

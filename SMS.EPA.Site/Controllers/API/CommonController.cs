@@ -9,11 +9,9 @@
     using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.Department;
     using SMS.EPA.Criteria.EPAHistory;
-    using SMS.EPA.Criteria.Period;
     using SMS.EPA.Criteria.TargetType;
     using SMS.EPA.Model;
     using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Model.Period;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
 

@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DepartmentFlowServiceTests.cs" />
+    <Compile Include="PeriodServiceTests.cs" />
     <Compile Include="TargetEmployeeSettingServiceTests.cs" />
     <Compile Include="CommonServiceTests.cs" />
     <Compile Include="TargetTypeServiceTests.cs" />

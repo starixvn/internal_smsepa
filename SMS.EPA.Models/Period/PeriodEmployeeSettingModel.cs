@@ -1,9 +1,8 @@
-﻿namespace SMS.EPA.Model.Period
+﻿namespace SMS.EPA.Model
 {
     using System;
     using System.Collections.Generic;
     using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Model;
     using SMS.EPA.Model.Enitites;
 
     [Serializable]

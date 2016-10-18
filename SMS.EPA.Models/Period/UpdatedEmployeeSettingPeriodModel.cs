@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Model.Period
+﻿namespace SMS.EPA.Model
 {
     using System.Collections.Generic;
     using System.Text;

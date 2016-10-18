@@ -8,7 +8,6 @@
     using Fanex.Data.Repository;
     using SMS.EPA.Model;
     using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Model.Period;
 
     public class DisciplineSummaryRepository : IDisciplineSummaryRepository
     {

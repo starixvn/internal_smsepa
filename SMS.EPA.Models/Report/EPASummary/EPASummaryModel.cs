@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using SMS.EPA.Core.Constants;
-    using SMS.EPA.Model.Period;
 
     public class EPASummaryModel
     {

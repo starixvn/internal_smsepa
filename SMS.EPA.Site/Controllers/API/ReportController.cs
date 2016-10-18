@@ -10,7 +10,6 @@
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Criteria.Report;
     using SMS.EPA.Model;
-    using SMS.EPA.Model.Period;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
 

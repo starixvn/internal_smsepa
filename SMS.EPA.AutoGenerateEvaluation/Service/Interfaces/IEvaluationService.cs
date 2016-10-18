@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using SMS.EPA.AutoGenerateEvaluation.Criteria;
     using SMS.EPA.Core.Model;
-    using SMS.EPA.Model.Period;
+    using SMS.EPA.Model;
 
     public interface IEvaluationService
     {
