@@ -3,9 +3,9 @@
     /* jshint latedef:nofunc */
 
     angular.module('flowMngModule').controller('UpdateFlowTemplateController', updateFlowTemplateController);
-    updateFlowTemplateController.$inject = ['$routeParams', 'FlowTemplateModel', 'CommonModel', 'utilitiesFactory'];
+    updateFlowTemplateController.$inject = ['$routeParams', 'FlowTemplateModel', 'CommonModel', 'utilitiesFactory', 'historyFactory'];
 
-    function updateFlowTemplateController($routeParams, FlowTemplateModel, CommonModel, utilitiesFactory) {
+    function updateFlowTemplateController($routeParams, FlowTemplateModel, CommonModel, utilitiesFactory, historyFactory) {
         var vm = this;
 
         vm.dataTab = {
@@ -48,6 +48,10 @@
             vm.dataTab.department = false;
             vm.dataTab.personal = false;
             vm.dataTab.result = true;
+        };
+
+        vm.backToList = function () {
+            historyFactory.back();
         };
 
         function initialize() {

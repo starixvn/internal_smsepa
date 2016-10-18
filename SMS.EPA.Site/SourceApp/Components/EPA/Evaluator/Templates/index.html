@@ -40,13 +40,13 @@
                         <option value="false">{{"Unfinished" | translate}}</option>
                     </select>
                 </div>
-                <label class="col-sm-1">&nbsp;</label>
+                <label class="col-sm-1 control-label">&nbsp;</label>
                 <div class="col-sm-2 checkbox">
                     <label>
                         <input type="checkbox" ng-model="evaluatorCtrl.filter.isMonthly" ng-change="evaluatorCtrl.getMember()">{{"IsMonthly" | translate}}
                     </label>
                 </div>
-                <label class="col-sm-1">&nbsp;</label>
+                <label class="col-sm-1 control-label">&nbsp;</label>
                 <div class="col-sm-1">
                     <button class="btn btn-primary" ng-click="evaluatorCtrl.query(evaluatorCtrl.filter)" data-translate="Submit"></button>
                 </div>

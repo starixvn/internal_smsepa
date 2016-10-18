@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.Model.Period
 {
-    using SMS.EPA.Model.Enitites;
     using System;
+    using SMS.EPA.Model.Enitites;
 
     public class PeriodModel
     {

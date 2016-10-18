@@ -1,6 +1,3 @@
-@import "../../../Content/Site/variables.less";
-@import "../../../Content/Site/mixins.less";
-
 .flow-management {
     .table.table-striped {
         .col-active {
@@ -201,7 +198,14 @@
             .icon-close {
                 position: absolute;
                 right: 6px;
-                top: 6px; 
+                top: 6px;
+                color: #d9534f;
+            }
+
+            tr {
+                td {
+                    vertical-align: top;
+                }
             }
         }
     }
@@ -249,8 +253,6 @@
 
 .result-setting-flow {
     .table.table-bordered {
-        margin-bottom: 20px;
-
         td ul {
             padding-left: 12px;
             margin-bottom: 0;

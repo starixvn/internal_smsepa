@@ -4,10 +4,10 @@
 
     angular.module('flowMngModule').controller('PersonalFlowController', personalFlowController);
     personalFlowController.$inject = ['$scope', '$routeParams', 'FlowSettingModel', 'PersonalFlowModel', 'CommonModel',
-        'utilitiesFactory', 'historyFactory', 'lockScreenService'];
+        'utilitiesFactory', 'lockScreenService'];
 
     function personalFlowController($scope, $routeParams, FlowSettingModel, PersonalFlowModel, CommonModel,
-        utilitiesFactory, historyFactory, lockScreenService) {
+        utilitiesFactory, lockScreenService) {
         var vm = this;
 
         vm.FlowTemplateId = parseInt($routeParams.id);
@@ -180,10 +180,6 @@
 
         vm.deletePersonalFlow = function () {
             PersonalFlowModel.openPopupDeletePersonalFlow(vm);
-        };
-
-        vm.cancel = function () {
-            historyFactory.back();
         };
     }
 })(angular);

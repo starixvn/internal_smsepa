@@ -1,8 +1,11 @@
 ﻿<div class="col-sm-12" ng-controller="UpdateFlowTemplateController as updateCtrl">
     <div class="sub-header">
-        <ul class="row breadcrumb">
+        <ul class="row breadcrumb float-left">
             <li class="current" data-translate="EditFlowTemplate"></li>
         </ul>
+        <button ng-click="updateCtrl.backToList()" class="btn btn-cancel">
+            <span class="glyphicon glyphicon-menu-left"></span> <span data-translate="BackToList"></span>
+        </button>
     </div>
     <div class="target-tabset">
         <tabset id="FlowTemplateTab">

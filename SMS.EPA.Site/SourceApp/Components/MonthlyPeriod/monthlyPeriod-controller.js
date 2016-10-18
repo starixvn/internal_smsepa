@@ -195,8 +195,8 @@ function ($routeParams, MonthlyPeriodModel, utilitiesFactory, historyFactory) {
 }]);
 
 monthlyPeriodModule.controller('UpdateBasicInfoMonthlyPeriodController',
-['$scope', 'MonthlyPeriodModel', 'historyFactory',
-function ($scope, MonthlyPeriodModel, historyFactory) {
+['$scope', 'MonthlyPeriodModel',
+function ($scope, MonthlyPeriodModel) {
     var vm = this;
 
     vm.period = {};
@@ -226,19 +226,15 @@ function ($scope, MonthlyPeriodModel, historyFactory) {
             MonthlyPeriodModel.updateBasicInfoMonthlyPeriod(period);
         }
     };
-
-    vm.cancel = function () {
-        historyFactory.back();
-    };
 }]);
 
 monthlyPeriodModule.controller('UpdateProcessSettingMonthlyPeriodController',
-['$scope', 'MonthlyPeriodModel', 'CommonModel', 'historyFactory',
-function ($scope, MonthlyPeriodModel, CommonModel, historyFactory) {
+['$scope', 'MonthlyPeriodModel', 'CommonModel',
+function ($scope, MonthlyPeriodModel, CommonModel) {
     var vm = this;
 
     vm.period = {};
-    vm.processSettings = MonthlyPeriodModel.processSettings;
+    vm.processSettings = [];
     vm.remindDay = CommonModel.remindDay;
     vm.isFirstLoad = true;
 
@@ -264,9 +260,5 @@ function ($scope, MonthlyPeriodModel, CommonModel, historyFactory) {
         };
 
         MonthlyPeriodModel.updateProcessSettingMonthlyPeriod(processSetting);
-    };
-
-    vm.cancel = function () {
-        historyFactory.back();
     };
 }]);

@@ -3,10 +3,9 @@
     /* jshint latedef:nofunc */
 
     angular.module('flowMngModule').controller('DepartmentFlowController', departmentFlowController);
-    departmentFlowController.$inject = ['$scope', '$routeParams', 'FlowSettingModel', 'DeptFlowModel', 'CommonModel',
-        'historyFactory', 'lockScreenService'];
+    departmentFlowController.$inject = ['$scope', '$routeParams', 'FlowSettingModel', 'DeptFlowModel', 'CommonModel', 'lockScreenService'];
 
-    function departmentFlowController($scope, $routeParams, FlowSettingModel, DeptFlowModel, CommonModel, historyFactory, lockScreenService) {
+    function departmentFlowController($scope, $routeParams, FlowSettingModel, DeptFlowModel, CommonModel, lockScreenService) {
         var vm = this;
 
         vm.FlowTemplateId = parseInt($routeParams.id);
@@ -186,10 +185,6 @@
                 vm.departmentSettings.splice(index, 1);
                 vm.departmentHasSettingName = getNameDepartment(vm.departmentSettings);
             });
-        };
-
-        vm.cancel = function () {
-            historyFactory.back();
         };
     }
 })(angular);

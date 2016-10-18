@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Configuration;
     using System.Linq;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
@@ -21,16 +20,21 @@
     {
         private readonly IPeriodRepository periodRepository;
         private readonly IManualMailService manualMailService;
+        private readonly IConfigurationManagerService configurationManager;
 
         public PeriodService()
-            : this(null, null)
+            : this(null, null, null)
         {
         }
 
-        public PeriodService(IPeriodRepository periodRepository, IManualMailService manualMailService)
+        public PeriodService(
+            IPeriodRepository periodRepository,
+            IManualMailService manualMailService,
+            IConfigurationManagerService configurationManager)
         {
             this.periodRepository = periodRepository ?? new PeriodRepository();
             this.manualMailService = manualMailService ?? new ManualMailService();
+            this.configurationManager = configurationManager ?? new ConfigurationManagerService();
         }
 
         public IEnumerable<PeriodModel> GetPeriod(GetPeriodCriteria criteria)
@@ -172,12 +176,13 @@
         public CommandResult UpdateEmployeeSettingOfPeriod(UpdateEmployeeSettingOfPeriodCriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
+            string sendMailWhenEditEmployeeSetting = configurationManager.GetAppSetting("SendMailWhenEditEmployeeSetting");
 
             if (criteria != null && criteria.IsValid())
             {
                 commandResult = Repository.Update(criteria);
 
-                if (commandResult.IsSuccessful && ConfigurationManager.AppSettings["SendMailWhenEditEmployeeSetting"].Equals("true", StringComparison.OrdinalIgnoreCase))
+                if (commandResult.IsSuccessful && sendMailWhenEditEmployeeSetting.Equals("true", StringComparison.OrdinalIgnoreCase))
                 {
                     GetAndSendEmailToAllRelatedEmployee(MailMode.NotifyChange, criteria.PeriodId, criteria.EmployeeIds, null);
                 }
@@ -399,13 +404,13 @@
         {
             IEnumerable<PeriodFlowModel> employeeSettings = new List<PeriodFlowModel>();
 
-            var getEmployeeSettingCriteria = new GetEmployeeSettingByPeriodIdCriteria
+            var criteria = new GetEmployeeSettingByPeriodIdCriteria
             {
                 PeriodId = periodId,
                 EmployeeIds = employeeIds,
                 ProcessId = processId
             };
-            employeeSettings = GetEmployeeSettingByPeriodId(getEmployeeSettingCriteria);
+            employeeSettings = GetEmployeeSettingByPeriodId(criteria);
 
             return employeeSettings;
         }

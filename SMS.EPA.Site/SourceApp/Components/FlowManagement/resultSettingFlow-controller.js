@@ -3,9 +3,9 @@
     /* jshint latedef:nofunc */
 
     angular.module('flowMngModule').controller('ResultFlowSettingController', resultFlowSettingController);
-    resultFlowSettingController.$inject = ['$scope', '$routeParams', 'DeptFlowModel', 'PersonalFlowModel', 'historyFactory'];
+    resultFlowSettingController.$inject = ['$scope', '$routeParams', 'DeptFlowModel', 'PersonalFlowModel'];
 
-    function resultFlowSettingController($scope, $routeParams, DeptFlowModel, PersonalFlowModel, historyFactory) {
+    function resultFlowSettingController($scope, $routeParams, DeptFlowModel, PersonalFlowModel) {
         var vm = this;
 
         vm.flowSettings = [];
@@ -34,9 +34,5 @@
                     vm.tabPersonalSelected = tabPersonalSelected;
                 }
             });
-
-        vm.cancel = function () {
-            historyFactory.back();
-        };
     }
 })(angular);

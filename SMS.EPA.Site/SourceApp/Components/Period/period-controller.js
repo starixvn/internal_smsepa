@@ -92,7 +92,7 @@ periodModule.controller('CreatePeriodController',
 function ($modalInstance, PeriodModel, CommonModel, utilitiesFactory) {
     var vm = this;
 
-    vm.targetTypes = CommonModel.targetTypes;
+    vm.targetTypes = [];
     vm.targetTypeEnum = utilitiesFactory.targetType;
 
     CommonModel.getTargetType(true, vm.targetTypeEnum.Monthly).then(function () {
@@ -199,11 +199,11 @@ function ($routeParams, PeriodModel, utilitiesFactory, historyFactory) {
 }]);
 
 periodModule.controller('UpdateBasicInformationPeriodController',
-['$scope', 'PeriodModel', 'CommonModel', 'utilitiesFactory', 'historyFactory',
-function ($scope, PeriodModel, CommonModel, utilitiesFactory, historyFactory) {
+['$scope', 'PeriodModel', 'CommonModel', 'utilitiesFactory',
+function ($scope, PeriodModel, CommonModel, utilitiesFactory) {
     var vm = this;
 
-    vm.targetTypes = CommonModel.targetTypes;
+    vm.targetTypes = [];
     vm.period = {};
     vm.isFirstLoad = true;
 
@@ -227,12 +227,12 @@ function ($scope, PeriodModel, CommonModel, utilitiesFactory, historyFactory) {
         PeriodModel.openPopupAttendanceEndDate(event);
     };
 
-    var getTargetType = function () {
+    function getTargetType() {
         CommonModel.getTargetType(true, vm.targetTypeEnum.Monthly).then(function () {
             vm.targetTypes = CommonModel.targetTypes;
             vm.isFirstLoad = false;
         });
-    };
+    }
 
     $scope.$watch(function () { return $scope.updateCtrl.period; },
         function (newVal) {
@@ -267,28 +267,24 @@ function ($scope, PeriodModel, CommonModel, utilitiesFactory, historyFactory) {
             PeriodModel.updateBasicInformationPeriod(period);
         }
     };
-
-    vm.cancel = function () {
-        historyFactory.back();
-    };
 }]);
 
 periodModule.controller('ProcessSettingPeriodController',
-['$scope', 'PeriodModel', 'CommonModel', 'historyFactory',
-function ($scope, PeriodModel, CommonModel, historyFactory) {
+['$scope', 'PeriodModel', 'CommonModel',
+function ($scope, PeriodModel, CommonModel) {
     var vm = this;
 
     vm.period = {};
     vm.isFirstLoad = true;
-    vm.processSettings = PeriodModel.processSettings;
+    vm.processSettings = [];
     vm.remindDay = CommonModel.remindDay;
 
-    var getProcessSetting = function (periodId) {
+    function getProcessSetting(periodId) {
         PeriodModel.getProcessSettingByPeriodId(periodId).then(function () {
             vm.processSettings = PeriodModel.processSettings;
             vm.isFirstLoad = false;
         });
-    };
+    }
 
     $scope.$watch(function () { return $scope.updateCtrl.period; },
         function (newVal) {
@@ -315,9 +311,5 @@ function ($scope, PeriodModel, CommonModel, historyFactory) {
         };
 
         PeriodModel.updatePeriodProcessSetting(periodProcessSetting);
-    };
-
-    vm.cancel = function () {
-        historyFactory.back();
     };
 }]);

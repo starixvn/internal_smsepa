@@ -157,9 +157,8 @@
                                     <form class="row form-inline department-form" role="form">
                                         <button class="btn btn-primary" ng-click="personalFlowCtrl.savePersonalFlow()"
                                                 ng-show="updateCtrl.permission == updateCtrl.policyEnum.Host" data-translate="Save"></button>
-                                        <button class="btn btn-primary" ng-click="personalFlowCtrl.deletePersonalFlow()" data-translate="Delete"
+                                        <button class="btn btn-delete" ng-click="personalFlowCtrl.deletePersonalFlow()" data-translate="Delete"
                                                 ng-show="personalFlowCtrl.showDeleteButton && updateCtrl.permission == updateCtrl.policyEnum.Host"></button>
-                                        <button class="btn btn-cancel" ng-click="personalFlowCtrl.cancel()" data-translate="Cancel"></button>
                                     </form>
                                 </div>
                             </div>

@@ -3,9 +3,9 @@
     /* jshint latedef:nofunc */
 
     angular.module('flowMngModule').controller('UpdateFlowTemplateBasicInfoController', updateFlowTemplateBasicInfoController);
-    updateFlowTemplateBasicInfoController.$inject = ['$scope', '$routeParams', 'FlowTemplateModel', 'CommonModel', 'historyFactory', 'lockScreenService'];
+    updateFlowTemplateBasicInfoController.$inject = ['$scope', '$routeParams', 'FlowTemplateModel', 'CommonModel', 'lockScreenService'];
 
-    function updateFlowTemplateBasicInfoController($scope, $routeParams, FlowTemplateModel, CommonModel, historyFactory, lockScreenService) {
+    function updateFlowTemplateBasicInfoController($scope, $routeParams, FlowTemplateModel, CommonModel, lockScreenService) {
         var vm = this;
 
         vm.flowTemplateId = parseInt($routeParams.id);
@@ -36,10 +36,6 @@
             if (FlowTemplateModel.validateFlowTemplate(flowTemplate)) {
                 FlowTemplateModel.updateFlowTemplate(flowTemplate);
             }
-        };
-
-        vm.cancel = function () {
-            historyFactory.back();
         };
     }
 })(angular);

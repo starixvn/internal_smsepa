@@ -92,8 +92,8 @@ function (TargetTemplateModel, CommonModel, lockScreenService, utilitiesFactory)
 }]);
 
 targetTemplateModule.controller('UpdateTargetTemplateController',
-['$routeParams', 'TargetTemplateModel',
-function ($routeParams, TargetTemplateModel) {
+['$routeParams', 'TargetTemplateModel', 'historyFactory',
+function ($routeParams, TargetTemplateModel, historyFactory) {
     var vm = this;
 
     vm.targetTemplateId = parseInt($routeParams.id);
@@ -123,16 +123,20 @@ function ($routeParams, TargetTemplateModel) {
         vm.dataTab.information = false;
         vm.dataTab.kpi = true;
     };
+
+    vm.backToList = function () {
+        historyFactory.back();
+    };
 }]);
 
 targetTemplateModule.controller('TargetTemplateGeneralInformationController',
-['$scope', 'TargetTemplateModel', 'CommonModel', 'historyFactory',
-function ($scope, TargetTemplateModel, CommonModel, historyFactory) {
+['$scope', 'TargetTemplateModel', 'CommonModel',
+function ($scope, TargetTemplateModel, CommonModel) {
     var vm = this;
 
-    vm.scoreRatingTypeOptions = TargetTemplateModel.scoreRatingTypes;
-    vm.targetTypes = CommonModel.targetTypes;
-    vm.ratingTypes = TargetTemplateModel.ratingTypes;
+    vm.scoreRatingTypeOptions = [];
+    vm.targetTypes = [];
+    vm.ratingTypes = [];
 
     CommonModel.getTargetType(true).then(function () {
         vm.targetTypes = CommonModel.targetTypes;
@@ -155,15 +159,11 @@ function ($scope, TargetTemplateModel, CommonModel, historyFactory) {
             });
         }
     };
-
-    vm.cancel = function () {
-        historyFactory.back();
-    };
 }]);
 
 targetTemplateModule.controller('KPIListController',
-['$scope', '$translate', 'TargetTemplateModel', 'utilitiesFactory', 'historyFactory',
-function ($scope, $translate, TargetTemplateModel, utilitiesFactory, historyFactory) {
+['$scope', '$translate', 'TargetTemplateModel', 'utilitiesFactory',
+function ($scope, $translate, TargetTemplateModel, utilitiesFactory) {
     var vm = this;
 
     vm.targetTemplateId = $scope.updateCtrl.targetTemplateId;
@@ -362,10 +362,6 @@ function ($scope, $translate, TargetTemplateModel, utilitiesFactory, historyFact
     vm.save = function (targetTemplate) {
         var totalWeight = getTotalWeight(vm.kpiList);
         TargetTemplateModel.updateTargetTemplate(targetTemplate, totalWeight, vm);
-    };
-
-    vm.cancel = function () {
-        historyFactory.back();
     };
 }]);
 
