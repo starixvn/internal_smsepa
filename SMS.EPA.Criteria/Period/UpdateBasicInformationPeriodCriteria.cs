@@ -27,7 +27,7 @@
 
         public override bool IsValid()
         {
-            return PeriodId > 0 && !string.IsNullOrWhiteSpace(Name) && TargetTypeId > 0;
+            return PeriodId > 0 && !string.IsNullOrWhiteSpace(Name) && TargetTypeId > 0 && ModifiedBy > 0;
         }
 
         public override string GetSettingKey()

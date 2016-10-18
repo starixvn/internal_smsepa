@@ -25,7 +25,7 @@
 
         public override bool IsValid()
         {
-            return !string.IsNullOrWhiteSpace(Name) && TargetTypeId > 0;
+            return !string.IsNullOrWhiteSpace(Name) && TargetTypeId > 0 && CreatedBy > 0;
         }
 
         public override string GetSettingKey()
