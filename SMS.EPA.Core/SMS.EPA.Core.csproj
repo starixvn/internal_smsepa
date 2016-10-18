@@ -153,9 +153,11 @@
     <Compile Include="Security\Encryption.cs" />
     <Compile Include="Security\Random.cs" />
     <Compile Include="Services\BaseService.cs" />
+    <Compile Include="Services\ConfigurationManagerService.cs" />
     <Compile Include="Services\CryptographyService.cs" />
     <Compile Include="Services\Interfaces\IBaseMailService.cs" />
     <Compile Include="Services\BaseMailService.cs" />
+    <Compile Include="Services\Interfaces\IConfigurationManagerService.cs" />
     <Compile Include="Services\Interfaces\ICryptographyService.cs" />
     <Compile Include="Services\Interfaces\ISessionService.cs" />
     <Compile Include="Services\Interfaces\IUtilityService.cs" />

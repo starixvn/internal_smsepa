@@ -340,29 +340,6 @@
             Assert.IsFalse(result.IsSuccessful);
         }
 
-        ////[Test]
-        ////public void ChangePassword_ValidArg_ExpectedToExecuteUpdate()
-        ////{
-        ////    // Arrange
-        ////    var oldPassword = "123456";
-        ////    var newPassword = "1234567";
-        ////    var criteria = new ChangePasswordCriteria
-        ////    {
-        ////        EmployeeId = 1,
-        ////        NewPassword = newPassword,
-        ////        OldPassword = oldPassword,
-        ////        ConfirmPassword = newPassword,
-        ////        ModifiedBy = 1
-        ////    };
-        ////    ArrangeChangePassword();
-
-        ////    // Act
-        ////    employeeService.ChangePassword(criteria);
-
-        ////    // Assert
-        ////    employeeService.Repository.Received().Update(Arg.Is<ChangePasswordCriteria>(x => x != null));
-        ////}
-
         #endregion ChangePassword
 
         #region AssignRoleToEmployee
@@ -545,6 +522,45 @@
 
         #endregion UpdateHasMonthlyEPA
 
+        #region ResetPassword
+
+        [Test]
+        public void ResetPassword_AnyArg_ReturnInstanceOfCommandResult()
+        {
+            // Arrange
+            ArrangeResetPassword();
+
+            // Act
+            var actual = employeeService.ResetPassword(new ResetPasswordCriteria());
+
+            // Assert
+            Assert.IsInstanceOf(typeof(CommandResult), actual);
+        }
+
+        [Test]
+        public void ResetPassword_ValidArg_ExpectedToEncryptPassword()
+        {
+            // Arrange
+            var newPassword = "1234567";
+            var criteria = new ResetPasswordCriteria
+            {
+                EmployeeId = 1,
+                NewPassword = newPassword,
+                ModifiedBy = 1
+            };
+
+            ArrangeResetPassword();
+
+            // Act
+            employeeService.ResetPassword(criteria);
+
+            // Assert
+            Assert.AreNotEqual(newPassword, criteria.NewPassword);
+            Assert.IsTrue(Encryption.CompareStringToHash(HashProvider.Sha1, newPassword, criteria.NewPassword));
+        }
+
+        #endregion ResetPassword
+
         #region Helpers
 
         private IBaseRepository FakeBaseRepository()
@@ -631,6 +647,14 @@
             employeeService.Repository = baseRepository;
             employeeService.GetDataEntity<string>(Arg.Any<GetPasswordByEmpIdCriteria>()).Returns(Encryption.ComputeHash(HashProvider.Sha1, "123456"));
             employeeService.Repository.Update(Arg.Any<ChangePasswordCriteria>()).Returns(result ?? new CommandResult());
+        }
+
+        private void ArrangeResetPassword(CommandResult result = null)
+        {
+            baseRepository = FakeBaseRepository();
+            employeeService = Substitute.For<EmployeeService>();
+            employeeService.Repository = baseRepository;
+            employeeService.Repository.Update(Arg.Any<ResetPasswordCriteria>()).Returns(result ?? new CommandResult());
         }
 
         private void ArrangeAssignRoleToEmployee(CommandResult result = null)

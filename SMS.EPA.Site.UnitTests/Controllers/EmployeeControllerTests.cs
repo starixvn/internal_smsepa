@@ -15,6 +15,7 @@
     {
         private IEmployeeService employeeService;
         private ISessionService sessionService;
+        private IConfigurationManagerService configurationManager;
         private EmployeeController employeeController;
 
         #region GetAllEmployee
@@ -202,10 +203,10 @@
             // Arrange
             employeeService = FakeEmployeeService();
             sessionService = FakeSessionService();
-            string oldPassword = "123456";
-            employeeService.GetPasswordByEmployeeId(Arg.Any<int>()).Returns(oldPassword);
-            employeeService.ChangePassword(Arg.Any<ChangePasswordCriteria>()).Returns(new CommandResult());
-            employeeController = GetEmployeeController(employeeService, sessionService);
+            configurationManager = FakeConfigurationManagerService();
+            configurationManager.GetAppSetting(Arg.Any<string>()).Returns("123456");
+            employeeService.ResetPassword(Arg.Any<ResetPasswordCriteria>()).Returns(new CommandResult());
+            employeeController = GetEmployeeController(employeeService, sessionService, configurationManager);
 
             // Act
             var actual = employeeController.ResetPassword(Arg.Any<int>());
@@ -266,11 +267,19 @@
             return service;
         }
 
+        private IConfigurationManagerService FakeConfigurationManagerService()
+        {
+            IConfigurationManagerService service = Substitute.For<IConfigurationManagerService>();
+
+            return service;
+        }
+
         private EmployeeController GetEmployeeController(
             IEmployeeService employeeService = null,
-            ISessionService sessionService = null)
+            ISessionService sessionService = null,
+            IConfigurationManagerService configurationManager = null)
         {
-            var controller = new EmployeeController(employeeService);
+            var controller = new EmployeeController(employeeService, configurationManager);
             controller.SessionService = sessionService;
 
             return controller;

@@ -6,6 +6,7 @@
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
+    using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Services.Implement;
@@ -14,15 +15,19 @@
     public class EmployeeController : BaseController
     {
         private readonly IEmployeeService employeeService;
+        private readonly IConfigurationManagerService configurationManager;
 
         public EmployeeController()
-            : this(null)
+            : this(null, null)
         {
         }
 
-        public EmployeeController(IEmployeeService employeeService)
+        public EmployeeController(
+            IEmployeeService employeeService,
+            IConfigurationManagerService configurationManager)
         {
             this.employeeService = employeeService ?? new EmployeeService();
+            this.configurationManager = configurationManager ?? new ConfigurationManagerService();
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Read)]
@@ -85,11 +90,6 @@
 
             CommandResult commandResult = employeeService.ChangePassword(criteria);
 
-            /*if (commandResult.IsSuccessful)
-            {
-                return Request.CreateResponse(HttpStatusCode.Unauthorized, commandResult);
-            }*/
-
             return commandResult;
         }
 
@@ -110,17 +110,15 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Host)]
         public CommandResult ResetPassword(int employeeId)
         {
-            string oldPassword = employeeService.GetPasswordByEmployeeId(employeeId);
-            var criteria = new ChangePasswordCriteria
+            string newPassword = configurationManager.GetAppSetting("PasswordToReset");
+            var criteria = new ResetPasswordCriteria
             {
                 EmployeeId = employeeId,
-                OldPassword = oldPassword,
-                NewPassword = Constants.ResetDefaultPassword,
-                ConfirmPassword = Constants.ResetDefaultPassword,
+                NewPassword = newPassword,
                 ModifiedBy = this.SessionService.EmployeeId
             };
 
-            CommandResult commandResult = employeeService.ChangePassword(criteria);
+            CommandResult commandResult = employeeService.ResetPassword(criteria);
             return commandResult;
         }
 
@@ -140,7 +138,7 @@
         [HttpGet]
         public string GetDefaultPassword()
         {
-            string defaultPassword = Constants.ResetDefaultPassword;
+            string defaultPassword = configurationManager.GetAppSetting("PasswordToReset");
             return defaultPassword;
         }
 

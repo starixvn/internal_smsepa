@@ -118,6 +118,15 @@
     <Compile Include="Service\Interfaces\ISemiAnnualService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.pro.gwi.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="App.pro.hm.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="App.pro.sms.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>

@@ -93,6 +93,7 @@
     <Compile Include="EmployeeEPA\UpdateEPASummaryImportCriteria.cs" />
     <Compile Include="EmployeeEPA\UpdateFinalScoreEPAEndEvaluationCriteria.cs" />
     <Compile Include="Employee\GetPasswordByEmpIdCriteria.cs" />
+    <Compile Include="Employee\ResetPasswordCriteria.cs" />
     <Compile Include="Employee\UpdateHasMonthlyEPACriteria.cs" />
     <Compile Include="EPAHistory\GetAllPeriodIncludeImportCriteria.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>

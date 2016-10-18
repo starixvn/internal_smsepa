@@ -4,10 +4,6 @@
     {
         public const string CurrentSessionKey = "SMS.EPA.CurrentSession";
 
-        public const string DefaultPassword = "SMSep@1320$!";
-
-        public const string ResetDefaultPassword = "123456";
-
         public const string KeyCryptography = "SMSEPA02072015";
 
         public const string EmployeeFlowSettingReport = "SMS.EPA.Report.EmployeeFlowSettingReport";

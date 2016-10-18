@@ -805,6 +805,15 @@
     <Content Include="ExcelTemplates\DisciplineDetailReport.xls" />
     <Content Include="Content\Site\views\_ratingByStar.less" />
     <Content Include="Content\Site\views\_epa.less" />
+    <None Include="Web.pro.gwi.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web.pro.hm.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web.pro.sms.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">

@@ -3,7 +3,6 @@
     using System.Web;
     using System.Web.Mvc;
     using System.Web.Security;
-    using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Security;
@@ -18,16 +17,21 @@
     {
         private readonly ISessionService sessionService;
         private readonly IEmployeeService employeeService;
+        private readonly IConfigurationManagerService configurationManager;
 
         public AuthController()
-            : this(null, null)
+            : this(null, null, null)
         {
         }
 
-        public AuthController(ISessionService sessionService, IEmployeeService employeeService)
+        public AuthController(
+            ISessionService sessionService,
+            IEmployeeService employeeService,
+            IConfigurationManagerService configurationManager)
         {
             this.sessionService = sessionService ?? new SessionService();
             this.employeeService = employeeService ?? new EmployeeService();
+            this.configurationManager = configurationManager ?? new ConfigurationManagerService();
         }
 
         [HttpGet]
@@ -87,9 +91,11 @@
         private bool ValidateEmployee(UserSession user, string password)
         {
             var isValid = false;
+            string defaultPassword = configurationManager.GetAppSetting("DefaultPassword");
+
             if (!string.IsNullOrWhiteSpace(password) && user != null)
             {
-                if (string.Compare(password, Constants.DefaultPassword, System.StringComparison.OrdinalIgnoreCase) == 0)
+                if (string.Compare(password, defaultPassword, System.StringComparison.OrdinalIgnoreCase) == 0)
                 {
                     isValid = true;
                 }

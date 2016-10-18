@@ -21,6 +21,8 @@
 
         CommandResult ChangePassword(ChangePasswordCriteria criteria);
 
+        CommandResult ResetPassword(ResetPasswordCriteria criteria);
+
         CommandResult AssignRoleToEmployee(AssignRoleToEmployeeCriteria criteria);
 
         IEnumerable<Employee> GetEmployeeByDepartmentId(int? departmentId);

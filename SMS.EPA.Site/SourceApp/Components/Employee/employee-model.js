@@ -2,8 +2,8 @@
 /*global employeeModule*/
 
 employeeModule.factory('EmployeeModel',
-['$modal', '$window', 'employeeFactory', 'errorFactory', 'notificationFactory',
-function ($modal, $window, employeeFactory, errorFactory, notificationFactory) {
+['$modal', '$window', '$timeout', 'employeeFactory', 'errorFactory', 'notificationFactory',
+function ($modal, $window, $timeout, employeeFactory, errorFactory, notificationFactory) {
     var employeeModel = {},
         emailPattern = /^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
 
@@ -180,6 +180,10 @@ function ($modal, $window, employeeFactory, errorFactory, notificationFactory) {
             if (response.IsSuccessful) {
                 notificationFactory.success("UpdatedSuccessfully");
                 modalInstance.close();
+
+                $timeout(function () {
+                    $window.location.href = "Auth/Logout";
+                }, 1000);
             } else {
                 notificationFactory.error("", response.Message);
             }
@@ -270,7 +274,6 @@ function ($modal, $window, employeeFactory, errorFactory, notificationFactory) {
             employeeFactory.resetPassword(employee.EmployeeId).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("UpdatedSuccessfully");
-                    $window.location.href = "Auth/Logout";
                 } else {
                     notificationFactory.error("", response.Message);
                 }
