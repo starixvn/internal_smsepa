@@ -19,9 +19,11 @@
     public class PeriodServiceTests
     {
         private PeriodService periodService;
+
         ////private IManualMailService manualMailService;
         ////private IConfigurationManagerService configurationManager;
         private IBaseRepository baseRepository;
+
         private IPeriodRepository periodRepository;
 
         #region GetPeriod
@@ -327,6 +329,111 @@
 
         #endregion DeletePeriod
 
+        #region AddEmployeeToPeriod
+
+        [Test]
+        public void AddEmployeeToPeriod_AnyArg_ReturnInstanceOfCommandResult()
+        {
+            // Arrange
+            ArrangeAddEmployeeToPeriod();
+
+            // Act
+            var actual = periodService.AddEmployeeToPeriod(new AddEmployeeToPeriodCriteria());
+
+            // Assert
+            Assert.IsInstanceOf(typeof(CommandResult), actual);
+        }
+
+        [Test]
+        public void AddEmployeeToPeriod_ValidArg_ExpectedToExecuteUpdate()
+        {
+            // Arrange
+            var criteria = new AddEmployeeToPeriodCriteria
+            {
+                PeriodId = 1,
+                ModifiedBy = 1
+            };
+            ArrangeAddEmployeeToPeriod();
+
+            // Act
+            periodService.AddEmployeeToPeriod(criteria);
+
+            // Assert
+            periodService.Repository.Received().Update(Arg.Is<AddEmployeeToPeriodCriteria>(x => x.IsValid()));
+        }
+
+        #endregion AddEmployeeToPeriod
+
+        #region UpdateIncludeStatusEmployeePeriod
+
+        [Test]
+        public void UpdateIncludeStatusEmployeePeriod_AnyArg_ReturnInstanceOfCommandResult()
+        {
+            // Arrange
+            ArrangeUpdateIncludeStatusEmployeePeriod();
+
+            // Act
+            var actual = periodService.UpdateIncludeStatusEmployeePeriod(new UpdateIncludeStatusEmployeePeriodCriteria());
+
+            // Assert
+            Assert.IsInstanceOf(typeof(CommandResult), actual);
+        }
+
+        [Test]
+        public void UpdateIncludeStatusEmployeePeriod_ValidArg_ExpectedToExecuteUpdate()
+        {
+            // Arrange
+            var criteria = new UpdateIncludeStatusEmployeePeriodCriteria
+            {
+                PeriodId = 1,
+                EmployeeId = 1,
+                ModifiedBy = 1
+            };
+            ArrangeUpdateIncludeStatusEmployeePeriod();
+
+            // Act
+            periodService.UpdateIncludeStatusEmployeePeriod(criteria);
+
+            // Assert
+            periodService.Repository.Received().Update(Arg.Is<UpdateIncludeStatusEmployeePeriodCriteria>(x => x.IsValid()));
+        }
+
+        #endregion UpdateIncludeStatusEmployeePeriod
+
+        #region GenerateEvaluation
+
+        [Test]
+        public void GenerateEvaluation_AnyArg_ReturnInstanceOfCommandResult()
+        {
+            // Arrange
+            ArrangeGenerateEvaluation();
+
+            // Act
+            var actual = periodService.GenerateEvaluation(new AutoGenerateEvaluationCriteria());
+
+            // Assert
+            Assert.IsInstanceOf(typeof(CommandResult), actual);
+        }
+
+        [Test]
+        public void GenerateEvaluation_ValidArg_ExpectedToExecuteInsert()
+        {
+            // Arrange
+            var criteria = new AutoGenerateEvaluationCriteria
+            {
+                PeriodId = 1
+            };
+            ArrangeGenerateEvaluation();
+
+            // Act
+            periodService.GenerateEvaluation(criteria);
+
+            // Assert
+            periodService.Repository.Received().Insert(Arg.Is<AutoGenerateEvaluationCriteria>(x => x.IsValid()));
+        }
+
+        #endregion GenerateEvaluation
+
         #region Helpers
 
         private IBaseRepository FakeBaseRepository()
@@ -438,6 +545,27 @@
             baseRepository = FakeBaseRepository();
             periodService = GetPeriodService(baseRepository);
             periodService.Repository.Delete(Arg.Any<DeletePeriodCriteria>()).Returns(result ?? new CommandResult());
+        }
+
+        private void ArrangeAddEmployeeToPeriod(CommandResult result = null)
+        {
+            baseRepository = FakeBaseRepository();
+            periodService = GetPeriodService(baseRepository);
+            periodService.Repository.Update(Arg.Any<AddEmployeeToPeriodCriteria>()).Returns(result ?? new CommandResult());
+        }
+
+        private void ArrangeUpdateIncludeStatusEmployeePeriod(CommandResult result = null)
+        {
+            baseRepository = FakeBaseRepository();
+            periodService = GetPeriodService(baseRepository);
+            periodService.Repository.Update(Arg.Any<UpdateIncludeStatusEmployeePeriodCriteria>()).Returns(result ?? new CommandResult());
+        }
+
+        private void ArrangeGenerateEvaluation(CommandResult result = null)
+        {
+            baseRepository = FakeBaseRepository();
+            periodService = GetPeriodService(baseRepository);
+            periodService.Repository.Insert(Arg.Any<AutoGenerateEvaluationCriteria>()).Returns(result ?? new CommandResult());
         }
 
         #endregion Helpers

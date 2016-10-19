@@ -108,13 +108,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Read)]
         public IEnumerable<FlowModel> GetProcessSettingByPeriodId(int periodId)
         {
-            var criteria = new GetProcessSettingPeriodCriteria
-            {
-                PeriodId = periodId
-            };
-
-            IEnumerable<FlowModel> processSettings = periodService.GetProcessSettingByPeriodId(criteria);
-
+            IEnumerable<FlowModel> processSettings = periodService.GetProcessSettingByPeriodId(periodId);
             return processSettings;
         }
 
@@ -127,13 +121,7 @@
             if (criteria != null)
             {
                 criteria.ModifiedBy = this.SessionService.EmployeeId;
-
                 commandResult = periodService.UpdateProcessSettingPeriod(criteria);
-            }
-            else
-            {
-                commandResult.Code = 1;
-                commandResult.Message = Lang.ParameterInvalid;
             }
 
             return commandResult;
@@ -177,7 +165,7 @@
             };
 
             IEnumerable<PeriodEmployeeSettingModel> employeeSettings = periodService.GetPeriodEmployeeSettingById(criteria);
-            employeeSettings = employeeSettings.OrderBy(x => x.Group.GroupCode).ThenBy(x => x.Employee.NickName);
+            employeeSettings = employeeSettings.OrderBy(x => x.Employee.Group.GroupCode).ThenBy(x => x.Employee.NickName);
 
             return employeeSettings;
         }

@@ -39,13 +39,13 @@
 
         void SendEmailNoticeAtBegin(int? periodId);
 
-        IEnumerable<AutoEmployeePeriodModel> GetPeriodHasStartedProcess(GetPeriodHasStartedProcessCriteria criteria);
+        IEnumerable<AutoEmployeePeriodModel> GetPeriodHasStartedProcess(int? periodId = null);
 
         IEnumerable<PeriodFlowModel> GetEmployeeSettingByPeriodId(GetEmployeeSettingByPeriodIdCriteria criteria);
 
-        IEnumerable<FlowModel> GetProcessSettingByPeriodId(GetProcessSettingPeriodCriteria criteria);
+        IEnumerable<FlowModel> GetProcessSettingByPeriodId(int periodId);
 
-        IEnumerable<FlowModel> GetEvaluationGlobalSettingByTargetTypeId(GetEvaluationGlobalSettingByTargetTypeIdCriteria criteria);
+        IEnumerable<FlowModel> GetEvaluationGlobalSettingByTargetTypeId(int targetTypeId);
 
         CommandResult UpdateProcessSettingPeriod(UpdateProcessSettingPeriodCriteria criteria);
 

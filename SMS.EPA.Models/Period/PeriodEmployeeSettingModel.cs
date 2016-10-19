@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Model.Enitites;
 
@@ -10,7 +11,6 @@
     {
         public PeriodEmployeeSettingModel()
         {
-            Group = new Group();
             HumanResources = new List<PeriodFlowModel>();
             SelfEvaluators = new List<PeriodFlowModel>();
             Evaluators = new List<PeriodFlowModel>();
@@ -22,13 +22,7 @@
 
         public string Name { get; set; }
 
-        public Employee Employee { get; set; }
-
-        public Department Department { get; set; }
-
-        public Group Group { get; set; }
-
-        public JobTitle JobTitle { get; set; }
+        public EmployeeViewModel Employee { get; set; }
 
         public IList<PeriodFlowModel> HumanResources { get; set; }
 
@@ -44,7 +38,13 @@
 
         public TargetTemplate TargetTemplate { get; set; }
 
-        public int NumberEvaluators { get; set; }
+        public int NumberEvaluators
+        {
+            get
+            {
+                return SelfEvaluators.Count() + Evaluators.Count() + Reviewers.Count() + Managements.Count();
+            }
+        }
 
         public bool IsSemiHasMonthly
         {

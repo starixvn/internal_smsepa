@@ -244,8 +244,7 @@
 
         private void CheckSendNoticeAtBeginEmail()
         {
-            var criteria = new GetPeriodHasStartedProcessCriteria();
-            IEnumerable<AutoEmployeePeriodModel> startedProcess = periodService.GetPeriodHasStartedProcess(criteria);
+            IEnumerable<AutoEmployeePeriodModel> startedProcess = periodService.GetPeriodHasStartedProcess();
 
             foreach (AutoEmployeePeriodModel periodProcess in startedProcess)
             {

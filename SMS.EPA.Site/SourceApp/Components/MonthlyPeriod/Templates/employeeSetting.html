@@ -113,13 +113,13 @@
                 <td class="text-center" ng-bind="empSettingCtrl.getIndex($index, empSettingCtrl.currentPage, empSettingCtrl.pageSize)"
                     rowspan="{{employee.NumberEvaluators}}"></td>
                 <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
-                    <span tooltip="{{employee.Group.GroupName}}" ng-bind="employee.Group.GroupCode"></span>
+                    <span tooltip="{{employee.Employee.Group.GroupName}}" ng-bind="employee.Employee.Group.GroupCode"></span>
                 </td>
                 <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
                     <div ng-bind="employee.Employee.FullName"></div>
                     <div ng-bind="employee.Employee.Code"></div>
                     <div>({{employee.Employee.NickName}})</div>
-                    <div ng-bind="employee.JobTitle.JobTitleName"></div>
+                    <div ng-bind="employee.Employee.JobTitle.JobTitleName"></div>
                 </td>
                 <td class="width-190" ng-bind="employee.TargetTemplate.Name" rowspan="{{employee.NumberEvaluators}}"></td>
                 <td data-translate="SelfEvaluator"></td>

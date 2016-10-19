@@ -186,7 +186,7 @@
 
                     case (int)TargetTypes.Monthly:
                     case (int)TargetTypes.SemiAnnual:
-                        periodEmployeeSettings = periodEmployeeSettings.OrderBy(x => x.Group.GroupCode).ThenBy(x => x.Employee.NickName);
+                        periodEmployeeSettings = periodEmployeeSettings.OrderBy(x => x.Employee.Group.GroupCode).ThenBy(x => x.Employee.NickName);
                         break;
                 }
             }
@@ -291,12 +291,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Read)]
         public IEnumerable<FlowModel> GetProcessSettingByPeriodId(int periodId)
         {
-            var criteria = new GetProcessSettingPeriodCriteria
-            {
-                PeriodId = periodId
-            };
-
-            IEnumerable<FlowModel> processSettings = periodService.GetProcessSettingByPeriodId(criteria);
+            IEnumerable<FlowModel> processSettings = periodService.GetProcessSettingByPeriodId(periodId);
             return processSettings;
         }
 
@@ -310,11 +305,6 @@
             {
                 criteria.ModifiedBy = this.SessionService.EmployeeId;
                 commandResult = periodService.UpdateProcessSettingPeriod(criteria);
-            }
-            else
-            {
-                commandResult.Code = 1;
-                commandResult.Message = Lang.ParameterInvalid;
             }
 
             return commandResult;

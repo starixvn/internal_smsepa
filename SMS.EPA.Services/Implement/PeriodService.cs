@@ -213,13 +213,9 @@
             return commandResult;
         }
 
-        public void SendEmailNoticeAtBegin(int? periodId)
+        public void SendEmailNoticeAtBegin(int? periodId = null)
         {
-            var criteria = new GetPeriodHasStartedProcessCriteria
-            {
-                PeriodId = periodId
-            };
-            IEnumerable<AutoEmployeePeriodModel> startedProcess = GetPeriodHasStartedProcess(criteria);
+            IEnumerable<AutoEmployeePeriodModel> startedProcess = GetPeriodHasStartedProcess(periodId);
 
             foreach (AutoEmployeePeriodModel periodProcess in startedProcess)
             {
@@ -239,11 +235,15 @@
             return employeeSettings;
         }
 
-        public IEnumerable<AutoEmployeePeriodModel> GetPeriodHasStartedProcess(GetPeriodHasStartedProcessCriteria criteria)
+        public IEnumerable<AutoEmployeePeriodModel> GetPeriodHasStartedProcess(int? periodId)
         {
+            var criteria = new GetPeriodHasStartedProcessCriteria
+            {
+                PeriodId = periodId
+            };
             IEnumerable<AutoEmployeePeriodModel> startedPeriods = new List<AutoEmployeePeriodModel>();
 
-            if (criteria != null && criteria.IsValid())
+            if (criteria.IsValid())
             {
                 startedPeriods = GetData<AutoEmployeePeriodModel>(criteria);
             }
@@ -251,11 +251,15 @@
             return startedPeriods;
         }
 
-        public IEnumerable<FlowModel> GetProcessSettingByPeriodId(GetProcessSettingPeriodCriteria criteria)
+        public IEnumerable<FlowModel> GetProcessSettingByPeriodId(int periodId)
         {
+            var criteria = new GetProcessSettingPeriodCriteria
+            {
+                PeriodId = periodId
+            };
             IEnumerable<FlowModel> processSettings = new List<FlowModel>();
 
-            if (criteria != null && criteria.IsValid())
+            if (criteria.IsValid())
             {
                 processSettings = GetData<FlowModel>(criteria);
             }
@@ -263,11 +267,15 @@
             return processSettings;
         }
 
-        public IEnumerable<FlowModel> GetEvaluationGlobalSettingByTargetTypeId(GetEvaluationGlobalSettingByTargetTypeIdCriteria criteria)
+        public IEnumerable<FlowModel> GetEvaluationGlobalSettingByTargetTypeId(int targetTypeId)
         {
+            var criteria = new GetEvaluationGlobalSettingByTargetTypeIdCriteria
+            {
+                TargetTypeId = targetTypeId
+            };
             IEnumerable<FlowModel> processSettings = new List<FlowModel>();
 
-            if (criteria != null && criteria.IsValid())
+            if (criteria.IsValid())
             {
                 processSettings = GetData<FlowModel>(criteria);
             }
@@ -350,12 +358,12 @@
             var record = new
             {
                 Count = rowIndex,
-                Department = employeeSetting.Department != null ? employeeSetting.Department.Name : string.Empty,
-                Section = employeeSetting.Group != null ? employeeSetting.Group.GroupName : string.Empty,
+                Department = employeeSetting.Employee.Department != null ? employeeSetting.Employee.Department.Name : string.Empty,
+                Section = employeeSetting.Employee.Group != null ? employeeSetting.Employee.Group.GroupName : string.Empty,
                 ID = employeeSetting.Employee.Code,
                 FullName = employeeSetting.Employee.FullName,
                 NickName = employeeSetting.Employee.NickName,
-                JobTitle = employeeSetting.JobTitle.JobTitleName,
+                JobTitle = employeeSetting.Employee.JobTitle.JobTitleName,
                 JoinedDate = employeeSetting.Employee.JoinedDate.ToString(Constants.DateFormat),
                 Category = employeeSetting.Employee.Category,
                 Evaluator = GetEvaluator(employeeSetting.Evaluators),

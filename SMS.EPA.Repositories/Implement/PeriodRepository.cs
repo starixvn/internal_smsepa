@@ -47,14 +47,15 @@
                 using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     IEnumerable<PeriodEmployeeSettingModel> employeeSettings =
-                        multi.Read<PeriodEmployeeSettingModel, Employee, Department, Group, JobTitle, TargetTemplate, PeriodEmployeeSettingModel>(
+                        multi.Read<PeriodEmployeeSettingModel, EmployeeViewModel, DepartmentViewModel, Group, JobTitle, TargetTemplate, PeriodEmployeeSettingModel>(
                             (pe, emp, dep, gr, job, tar) =>
                             {
+                                emp.Department = dep;
+                                emp.Group = gr;
+                                emp.JobTitle = job;
                                 pe.Employee = emp;
-                                pe.Department = dep;
-                                pe.Group = gr;
-                                pe.JobTitle = job;
                                 pe.TargetTemplate = tar;
+
                                 return pe;
                             },
                             "EmployeeId, DepartmentId, GroupId, JobTitleId, TargetTemplateId");
@@ -93,9 +94,7 @@
             }
         }
 
-        private static void GetFlowSetting(
-            IEnumerable<PeriodFlowSettingModel> flowSettings,
-            PeriodEmployeeSettingModel employeeSetting)
+        private void GetFlowSetting(IEnumerable<PeriodFlowSettingModel> flowSettings, PeriodEmployeeSettingModel employeeSetting)
         {
             if (flowSettings != null)
             {
@@ -105,18 +104,11 @@
                 foreach (PeriodFlowSettingModel employeeFlowSetting in employeeFlowSettings)
                 {
                     employeeSetting = GetEvaluators(employeeFlowSetting, employeeSetting);
-
-                    if (employeeFlowSetting.ProcessId != (int)ProcessType.HumanResource)
-                    {
-                        employeeSetting.NumberEvaluators++;
-                    }
                 }
             }
         }
 
-        private static PeriodEmployeeSettingModel GetEvaluators(
-            PeriodFlowSettingModel flowSetting,
-            PeriodEmployeeSettingModel employeeSetting)
+        private PeriodEmployeeSettingModel GetEvaluators(PeriodFlowSettingModel flowSetting, PeriodEmployeeSettingModel employeeSetting)
         {
             switch (flowSetting.ProcessId)
             {
@@ -149,7 +141,7 @@
             return employeeSetting;
         }
 
-        private static PeriodFlowModel CreateEvaluator(PeriodFlowSettingModel rawFlowSetting)
+        private PeriodFlowModel CreateEvaluator(PeriodFlowSettingModel rawFlowSetting)
         {
             var evaluator = new PeriodFlowModel
             {

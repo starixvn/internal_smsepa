@@ -9,7 +9,6 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
     periodModel.periods = [];
     periodModel.period = {};
     periodModel.periodDateFormat = 'dd MMM';
-    periodModel.shortNameMonth = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     periodModel.employeeSettings = [];
     periodModel.processSettings = [];
     periodModel.hasSelfStarted = false;
@@ -189,8 +188,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                 notificationFactory.error("StartDateGreaterThanEndDateWarning");
                 return false;
             }
-        }
-        else {
+        } else {
             notificationFactory.error("HumanResourcePhaseRequired");
             return false;
         }
@@ -217,8 +215,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                 notificationFactory.error("SelfRangeDateGreaterThanEvaluatorRangeDateWarning");
                 return false;
             }
-        }
-        else {
+        } else {
             notificationFactory.error("EvaluatorPhaseRequired");
             return false;
         }
@@ -248,8 +245,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                     notificationFactory.error("ReviewerRangeDateGreaterThanManagementRangeDateWarning");
                     return false;
                 }
-            }
-            else {
+            } else {
                 if (new Date(employeeOptions.evaluator.EndDate).setHours(0, 0, 0, 0) > new Date(employeeOptions.management.StartDate).setHours(0, 0, 0, 0)) {
                     notificationFactory.error("EvaluatorRangeDateGreaterThanManagementRangeDateWarning");
                     return false;
@@ -282,17 +278,14 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
     periodModel.validatePeriod = function (period) {
         if (!period) {
             return false;
-        }
-        else {
+        } else {
             if (!period.Name) {
                 notificationFactory.error("NameRequired");
                 return false;
-            }
-            else if (!period.TargetTypeId) {
+            } else if (!period.TargetTypeId) {
                 notificationFactory.error("TargetTypeRequired");
                 return false;
-            }
-            else if (period.TargetTypeId === periodModel.targetType.SemiAnnual || period.TargetTypeId === periodModel.targetType.Promotion) {
+            } else if (period.TargetTypeId === periodModel.targetType.SemiAnnual || period.TargetTypeId === periodModel.targetType.Promotion) {
                 if (!period.RawStartDate) {
                     notificationFactory.error("StartDatePeriodRequired");
                     return false;
@@ -302,20 +295,16 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                     if (!period.RawEndDate) {
                         notificationFactory.error("EndDatePeriodRequired");
                         return false;
-                    }
-                    else if (!period.RawAttendanceStartDate) {
+                    } else if (!period.RawAttendanceStartDate) {
                         notificationFactory.error("DisciplineStartDatePeriodRequired");
                         return false;
-                    }
-                    else if (!period.RawAttendanceEndDate) {
+                    } else if (!period.RawAttendanceEndDate) {
                         notificationFactory.error("DisciplineEndDatePeriodRequired");
                         return false;
-                    }
-                    else if (new Date(period.RawStartDate).setHours(0, 0, 0, 0) > new Date(period.RawEndDate).setHours(0, 0, 0, 0)) {
+                    } else if (new Date(period.RawStartDate).setHours(0, 0, 0, 0) > new Date(period.RawEndDate).setHours(0, 0, 0, 0)) {
                         notificationFactory.error("StartDateGreaterThanEndDateWarning");
                         return false;
-                    }
-                    else if (new Date(period.RawAttendanceStartDate).setHours(0, 0, 0, 0) > new Date(period.RawAttendanceEndDate).setHours(0, 0, 0, 0)) {
+                    } else if (new Date(period.RawAttendanceStartDate).setHours(0, 0, 0, 0) > new Date(period.RawAttendanceEndDate).setHours(0, 0, 0, 0)) {
                         notificationFactory.error("DisciplineStartDateGreaterThanEndDateWarning");
                         return false;
                     }
@@ -331,8 +320,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             if (response.IsSuccessful) {
                 notificationFactory.success("CreatedSuccessfully");
                 modalInstance.close();
-            }
-            else {
+            } else {
                 notificationFactory.error("", response.Message);
             }
         }).error(function (response, status) {
@@ -340,16 +328,11 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         });
     };
 
-    periodModel.getShortNameMonth = function (index) {
-        return periodModel.shortNameMonth[index];
-    };
-
     periodModel.updateBasicInformationPeriod = function (period) {
         return periodFactory.updateBasicInformationPeriod(period).success(function (response) {
             if (response.IsSuccessful) {
                 notificationFactory.success("UpdatedSuccessfully");
-            }
-            else {
+            } else {
                 notificationFactory.error("", response.Message);
             }
         }).error(function (response, status) {
@@ -396,8 +379,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                 if (response.IsSuccessful) {
                     keyMessage = action === "activate" ? "ActivationSuccess" : "DeactivationSuccess";
                     notificationFactory.success(keyMessage);
-                }
-                else {
+                } else {
                     keyMessage = action === "activate" ? "ActivationFail" : "DeactivationFail";
                     period.IsActive = !newPeriod.IsActive;
                     notificationFactory.error(keyMessage);
@@ -405,8 +387,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             }).error(function (response, status) {
                 if (status === 405) {
                     errorFactory.errorHandle(status);
-                }
-                else {
+                } else {
                     keyMessage = action === "activate" ? "ActivationFail" : "DeactivationFail";
                     period.IsActive = !newPeriod.IsActive;
                     notificationFactory.error(keyMessage);
@@ -442,8 +423,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                     vm.periods.splice(index, 1);
                     utilitiesFactory.searchOnPage(vm, vm.periods);
                     notificationFactory.success("DeletedSuccessfully");
-                }
-                else {
+                } else {
                     notificationFactory.error("", response.Message);
                 }
             }).error(function (response, status) {
@@ -467,8 +447,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         return periodFactory.addEmployeeToPeriod(employeeInfo).success(function (response) {
             if (response.IsSuccessful) {
                 notificationFactory.success("CreatedSuccessfully");
-            }
-            else {
+            } else {
                 notificationFactory.error("", response.Message);
             }
         }).error(function (response, status) {
@@ -507,8 +486,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         return periodFactory.updateEmployeeSettingOfPeriod(employeeSetting).success(function (response) {
             if (response.IsSuccessful) {
                 notificationFactory.success("UpdatedSuccessfully");
-            }
-            else {
+            } else {
                 notificationFactory.error("", response.Message);
             }
         }).error(function (response, status) {
@@ -641,8 +619,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             periodFactory.updateIncludeStatusEmployeePeriod(newEmployeeStatus).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("UpdatedSuccessfully");
-                }
-                else {
+                } else {
                     employee.IsIncluded = !newEmployeeStatus.IsIncluded;
                     notificationFactory.error("UpdatedUnsuccessfully");
                 }
@@ -651,8 +628,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             }).error(function (response, status) {
                 if (status === 405) {
                     errorFactory.errorHandle(status);
-                }
-                else {
+                } else {
                     employee.IsIncluded = !newEmployeeStatus.IsIncluded;
                     notificationFactory.error("UpdatedUnsuccessfully");
                 }
@@ -711,8 +687,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             return periodFactory.generateEvaluation(period).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("CreatedSuccessfully");
-                }
-                else {
+                } else {
                     notificationFactory.error('', response.Message);
                 }
             }).error(function (response, status) {
@@ -735,8 +710,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         return periodFactory.updatePeriodProcessSetting(periodProcessSetting).success(function (response) {
             if (response.IsSuccessful) {
                 notificationFactory.success("UpdatedSuccessfully");
-            }
-            else {
+            } else {
                 notificationFactory.error("UpdatedUnsuccessfully");
             }
         }).error(function (response, status) {
@@ -752,7 +726,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         });
     };
 
-    var updateEvaluatorToEmployee = function (employee, employeeOptions) {
+    function updateEvaluatorToEmployee(employee, employeeOptions) {
         if (employeeOptions.humanResource.ids && employeeOptions.humanResource.ids.length > 0) {
             if (employee.HumanResources && employee.HumanResources.length > 0) {
                 var originalHumanResource = employee.HumanResources[0];
@@ -770,8 +744,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
 
                     employee.HumanResources.push(humanResource);
                 });
-            }
-            else {
+            } else {
                 angular.forEach(employeeOptions.humanResource.ids, function (id) {
                     var humanResource = {
                         ProcessId: periodModel.evaluatorType.HumanResources,
@@ -802,8 +775,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
 
                     employee.Evaluators.push(evaluator);
                 });
-            }
-            else {
+            } else {
                 angular.forEach(employeeOptions.evaluator.ids, function (id) {
                     var evaluator = {
                         ProcessId: periodModel.evaluatorType.Evaluator,
@@ -834,8 +806,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
 
                     employee.Reviewers.push(reviewer);
                 });
-            }
-            else {
+            } else {
                 angular.forEach(employeeOptions.reviewer.ids, function (id) {
                     var reviewer = {
                         ProcessId: periodModel.evaluatorType.Reviewer,
@@ -866,8 +837,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
 
                     employee.Managements.push(management);
                 });
-            }
-            else {
+            } else {
                 angular.forEach(employeeOptions.management.ids, function (id) {
                     var management = {
                         ProcessId: periodModel.evaluatorType.Management,
@@ -882,9 +852,9 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         }
 
         return employee;
-    };
+    }
 
-    var updateStartDateToEmployee = function (employee, employeeOptions) {
+    function updateStartDateToEmployee(employee, employeeOptions) {
         angular.forEach(employee.HumanResources, function (humanResource) {
             humanResource.StartDate = employeeOptions.humanResource.StartDate;
         });
@@ -906,9 +876,9 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         });
 
         return employee;
-    };
+    }
 
-    var updateEndDateToEmployee = function (employee, employeeOptions) {
+    function updateEndDateToEmployee(employee, employeeOptions) {
         angular.forEach(employee.HumanResources, function (humanResource) {
             humanResource.EndDate = employeeOptions.humanResource.EndDate;
         });
@@ -930,7 +900,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         });
 
         return employee;
-    };
+    }
 
     periodModel.updateEmployeeSettings = function (employeeOptions, fieldEdit, selectedEmployees) {
         angular.forEach(selectedEmployees, function (employee) {
@@ -960,8 +930,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                     notificationFactory.error("StartDateGreaterThanEndDateWarning");
                     return false;
                 }
-            }
-            else {
+            } else {
                 notificationFactory.error("HumanResourcePhaseRequired");
                 return false;
             }
@@ -988,8 +957,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                     notificationFactory.error("SelfRangeDateGreaterThanEvaluatorRangeDateWarning");
                     return false;
                 }
-            }
-            else {
+            } else {
                 notificationFactory.error("EvaluatorPhaseRequired");
                 return false;
             }
@@ -1019,8 +987,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                         notificationFactory.error("ReviewerRangeDateGreaterThanManagementRangeDateWarning");
                         return false;
                     }
-                }
-                else {
+                } else {
                     if (new Date(employee.Evaluators[0].EndDate).setHours(0, 0, 0, 0) > (employee.Managements[0].StartDate).setHours(0, 0, 0, 0)) {
                         notificationFactory.error("EvaluatorRangeDateGreaterThanManagementRangeDateWarning");
                         return false;
@@ -1132,17 +1099,13 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
 
         if (fieldEdit.targetTemplate) {
             hasEdited = true;
-        }
-        else if (fieldEdit.evaluator) {
+        } else if (fieldEdit.evaluator) {
             hasEdited = true;
-        }
-        else if (fieldEdit.startDate) {
+        } else if (fieldEdit.startDate) {
             hasEdited = true;
-        }
-        else if (fieldEdit.endDate) {
+        } else if (fieldEdit.endDate) {
             hasEdited = true;
-        }
-        else {
+        } else {
             notificationFactory.error("PeriodEditSettingWarning");
         }
 
@@ -1156,28 +1119,23 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             if (!employeeSetting.TargetTemplate) {
                 notificationFactory.error("NoneTargetTemplateSettingWarning");
                 return false;
-            }
-            else if (employeeSetting.HumanResources && employeeSetting.HumanResources.length > 0
+            } else if (employeeSetting.HumanResources && employeeSetting.HumanResources.length > 0
                 && (!employeeSetting.HumanResources[0].StartDate || !employeeSetting.HumanResources[0].EndDate)) {
                 notificationFactory.error("NoneDateSettingWarning");
                 return false;
-            }
-            else if (employeeSetting.SelfEvaluators && employeeSetting.SelfEvaluators.length > 0
+            } else if (employeeSetting.SelfEvaluators && employeeSetting.SelfEvaluators.length > 0
                 && (!employeeSetting.SelfEvaluators[0].StartDate || !employeeSetting.SelfEvaluators[0].EndDate)) {
                 notificationFactory.error("NoneDateSettingWarning");
                 return false;
-            }
-            else if (employeeSetting.Evaluators && employeeSetting.Evaluators.length > 0
+            } else if (employeeSetting.Evaluators && employeeSetting.Evaluators.length > 0
                 && (!employeeSetting.Evaluators[0].StartDate || !employeeSetting.Evaluators[0].EndDate)) {
                 notificationFactory.error("NoneDateSettingWarning");
                 return false;
-            }
-            else if (employeeSetting.Reviewers && employeeSetting.Reviewers.length > 0
+            } else if (employeeSetting.Reviewers && employeeSetting.Reviewers.length > 0
                 && (!employeeSetting.Reviewers[0].StartDate || !employeeSetting.Reviewers[0].EndDate)) {
                 notificationFactory.error("NoneDateSettingWarning");
                 return false;
-            }
-            else if (employeeSetting.Managements && employeeSetting.Managements.length > 0
+            } else if (employeeSetting.Managements && employeeSetting.Managements.length > 0
                 && (!employeeSetting.Managements[0].StartDate || !employeeSetting.Managements[0].EndDate)) {
                 notificationFactory.error("NoneDateSettingWarning");
                 return false;

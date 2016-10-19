@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Department\DepartmentViewModel.cs" />
     <Compile Include="DisciplineSummary\DisciplineDetailModel.cs" />
     <Compile Include="DisciplineSummary\DisciplineSummaryModel.cs" />
     <Compile Include="DisciplineSummary\OtherViolationModel.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="EmployeeEPA\RatingTypeModel.cs" />
     <Compile Include="EmployeeEPA\EPARecommendationModel.cs" />
     <Compile Include="EmployeeEPA\StandardGradeModel.cs" />
+    <Compile Include="Employee\EmployeeViewModel.cs" />
     <Compile Include="Enitites\RatingType.cs" />
     <Compile Include="EPAHistory\EPAHistoryModel.cs" />
     <Compile Include="FlowSetting\DepartmentFlowModel.cs" />

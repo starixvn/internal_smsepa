@@ -442,9 +442,6 @@ function ($scope, $modalInstance, PeriodModel, CommonModel, utilitiesFactory, pe
         });
     }
 
-    /*
-   ** Get employees flow and target setting.
-   */
     CommonModel.getTargetTemplate(vm.period.TargetType.TargetTypeId, true).then(function () {
         vm.targetTemplates = CommonModel.targetTemplates;
         vm.employeeOptions.targetTemplateId = vm.targetTemplates.length > 0 ? vm.targetTemplates[0].TargetTemplateId : null;

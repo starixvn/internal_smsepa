@@ -14,7 +14,7 @@
 
         public override bool IsValid()
         {
-            return PeriodId > 0;
+            return PeriodId > 0 && ModifiedBy > 0;
         }
 
         public override string GetSettingKey()

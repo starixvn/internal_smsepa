@@ -1,315 +1,92 @@
-﻿'use strict';
-/*global periodModule*/
+﻿(function (angular) {
+    'use strict';
+    /* jshint latedef:nofunc */
 
-periodModule.controller('PeriodController',
-['PeriodModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl',
-function (PeriodModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
-    var vm = this;
+    angular.module('periodModule').controller('PeriodController', periodController);
+    periodController.$inject = ['PeriodModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl'];
 
-    vm.periods = PeriodModel.periods;
-    vm.targetTypes = CommonModel.targetTypes;
-    vm.permission = PeriodModel.permission;
+    function periodController(PeriodModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
+        var vm = this;
 
-    vm.policyEnum = utilitiesFactory.policy;
-    vm.targetTypeEnum = utilitiesFactory.targetType;
-
-    vm.filter = {};
-
-    function initFilter() {
-        var filter = historyFactory.getState();
-
-        return filter ? filter : {
-            targetTypeId: null,
-            isActive: 'true'
-        };
-    }
-
-    vm.filter = initFilter();
-
-    vm.currentPage = 1;
-    vm.pageSize = 20;
-
-    utilitiesFactory.numberEntryList(vm);
-    utilitiesFactory.getDateFormat(vm);
-
-    CommonModel.getTargetType(true, vm.targetTypeEnum.Monthly).then(function () {
-        vm.targetTypes = CommonModel.targetTypes;
-    });
-
-    function getPeriod(targetTypeId, isActive) {
-        lockScreenService.start();
-
-        PeriodModel.getPeriod(targetTypeId, isActive).then(function () {
-            vm.periods = PeriodModel.periods;
-            utilitiesFactory.searchOnPage(vm, vm.periods);
-            lockScreenService.stop();
-        });
-        historyFactory.saveState(vm.filter);
-    }
-
-    getPeriod(vm.filter.targetTypeId, vm.filter.isActive);
-
-    vm.query = function (filter) {
-        vm.searchKey = '';
+        vm.periods = [];
+        vm.targetTypes = [];
+        vm.permission = PeriodModel.permission;
+        vm.policyEnum = utilitiesFactory.policy;
+        vm.targetTypeEnum = utilitiesFactory.targetType;
+        vm.filter = {};
         vm.currentPage = 1;
-        getPeriod(filter.targetTypeId, filter.isActive);
-    };
+        vm.pageSize = 20;
+        utilitiesFactory.numberEntryList(vm);
+        utilitiesFactory.getDateFormat(vm);
 
-    vm.getIndex = function (index, currentPage, pageSize) {
-        return CommonModel.getIndex(index, currentPage, pageSize);
-    };
+        function initFilter() {
+            var filter = historyFactory.getState();
 
-    vm.create = function () {
-        PeriodModel.openPopupCreatePeriod(vm).then(function () {
-            vm.modalInstance = null;
-            getPeriod(vm.filter.targetTypeId, vm.filter.isActive);
-        });
-    };
-
-    vm.update = function (periodId) {
-        vm.updatePeriodUrl = baseUrl + 'Period/Update/' + periodId;
-    };
-
-    vm.confirmActive = function (period) {
-        PeriodModel.openPopupUpdateStatusPeriod(period);
-    };
-
-    vm.delete = function (period) {
-        PeriodModel.openPopupDeletePeriod(vm, period);
-    };
-
-    PeriodModel.getPermissionOnPeriod().then(function () {
-        vm.permission = PeriodModel.permission;
-    });
-
-    vm.viewEmployeeSetting = function (period, inprogress) {
-        vm.viewEmployeeSettingUrl = baseUrl + 'Period/Update/' + period.PeriodId + '?viewSetting&inprogress=' + inprogress;
-    };
-}]);
-
-periodModule.controller('CreatePeriodController',
-['$modalInstance', 'PeriodModel', 'CommonModel', 'utilitiesFactory',
-function ($modalInstance, PeriodModel, CommonModel, utilitiesFactory) {
-    var vm = this;
-
-    vm.targetTypes = [];
-    vm.targetTypeEnum = utilitiesFactory.targetType;
-
-    CommonModel.getTargetType(true, vm.targetTypeEnum.Monthly).then(function () {
-        vm.targetTypes = CommonModel.targetTypes;
-    });
-
-    vm.period = {
-        Name: null,
-        TargetTypeId: null,
-        StartDate: null,
-        EndDate: null,
-        RawStartDate: null,
-        RawEndDate: null,
-        AttendanceStartDate: null,
-        AttendanceEndDate: null,
-        IsActive: true,
-        Description: null
-    };
-
-    vm.calendar = PeriodModel.calendar;
-
-    vm.openPopupStartDate = function (event) {
-        PeriodModel.openPopupStartDate(event);
-    };
-
-    vm.openPopupEndDate = function (event) {
-        PeriodModel.openPopupEndDate(event);
-    };
-
-    vm.openPopupAttendanceStartDate = function (event) {
-        PeriodModel.openPopupAttendanceStartDate(event);
-    };
-
-    vm.openPopupAttendanceEndDate = function (event) {
-        PeriodModel.openPopupAttendanceEndDate(event);
-    };
-
-    vm.save = function (period) {
-        if (PeriodModel.validatePeriod(period)) {
-            period.StartDate = period.RawStartDate ? period.RawStartDate.toDateString() : null;
-            period.EndDate = period.RawEndDate ? period.RawEndDate.toDateString() : null;
-            period.AttendanceStartDate = period.RawAttendanceStartDate ? period.RawAttendanceStartDate.toDateString() : null;
-            period.AttendanceEndDate = period.RawAttendanceEndDate ? period.RawAttendanceEndDate.toDateString() : null;
-
-            PeriodModel.createPeriod(period, $modalInstance);
+            return filter ? filter : {
+                targetTypeId: null,
+                isActive: 'true'
+            };
         }
-    };
 
-    vm.cancel = function () {
-        $modalInstance.dismiss("cancel");
-    };
-}]);
+        function getPeriod(targetTypeId, isActive) {
+            lockScreenService.start();
 
-periodModule.controller('UpdatePeriodController',
-['$routeParams', 'PeriodModel', 'utilitiesFactory', 'historyFactory',
-function ($routeParams, PeriodModel, utilitiesFactory, historyFactory) {
-    var vm = this;
+            PeriodModel.getPeriod(targetTypeId, isActive).then(function () {
+                vm.periods = PeriodModel.periods;
+                utilitiesFactory.searchOnPage(vm, vm.periods);
+                lockScreenService.stop();
+            });
 
-    vm.policyEnum = utilitiesFactory.policy;
-
-    vm.period = null;
-    vm.periodId = parseInt($routeParams.id);
-    vm.viewMode = $routeParams.viewSetting ? true : false;
-
-    vm.date = new Date();
-    vm.permission = null;
-
-    vm.dataTab = {
-        basicInformation: !vm.viewMode,
-        employeeSetting: vm.viewMode,
-        processSetting: false
-    };
-
-    vm.tabBasicSelect = function () {
-        vm.dataTab.basicInformation = true;
-        vm.dataTab.employeeSetting = false;
-        vm.dataTab.processSetting = false;
-    };
-
-    vm.tabEmployeeSettingSelect = function () {
-        vm.dataTab.basicInformation = false;
-        vm.dataTab.employeeSetting = true;
-        vm.dataTab.processSetting = false;
-    };
-
-    vm.tabProcessSettingSelect = function () {
-        vm.dataTab.basicInformation = false;
-        vm.dataTab.employeeSetting = false;
-        vm.dataTab.processSetting = true;
-    };
-
-    PeriodModel.getPeriodById(vm.periodId).then(function () {
-        vm.period = PeriodModel.period;
-        vm.period.TargetTypeId = vm.period.TargetType.TargetTypeId;
-    });
-
-    vm.backToList = function () {
-        historyFactory.back();
-    };
-
-    PeriodModel.getPermissionOnPeriod().then(function () {
-        vm.permission = PeriodModel.permission;
-    });
-}]);
-
-periodModule.controller('UpdateBasicInformationPeriodController',
-['$scope', 'PeriodModel', 'CommonModel', 'utilitiesFactory',
-function ($scope, PeriodModel, CommonModel, utilitiesFactory) {
-    var vm = this;
-
-    vm.targetTypes = [];
-    vm.period = {};
-    vm.isFirstLoad = true;
-
-    vm.targetTypeEnum = utilitiesFactory.targetType;
-
-    vm.calendar = PeriodModel.calendar;
-
-    vm.openPopupStartDate = function (event) {
-        PeriodModel.openPopupStartDate(event);
-    };
-
-    vm.openPopupEndDate = function (event) {
-        PeriodModel.openPopupEndDate(event);
-    };
-
-    vm.openPopupAttendanceStartDate = function (event) {
-        PeriodModel.openPopupAttendanceStartDate(event);
-    };
-
-    vm.openPopupAttendanceEndDate = function (event) {
-        PeriodModel.openPopupAttendanceEndDate(event);
-    };
-
-    function getTargetType() {
-        CommonModel.getTargetType(true, vm.targetTypeEnum.Monthly).then(function () {
-            vm.targetTypes = CommonModel.targetTypes;
-            vm.isFirstLoad = false;
-        });
-    }
-
-    $scope.$watch(function () { return $scope.updateCtrl.period; },
-        function (newVal) {
-            if (newVal) {
-                vm.period = $scope.updateCtrl.period;
-
-                vm.period.RawStartDate = vm.period.StartDate ? new Date(vm.period.StartDate) : null;
-                vm.period.RawEndDate = vm.period.EndDate ? new Date(vm.period.EndDate) : null;
-                vm.period.RawAttendanceStartDate = vm.period.AttendanceStartDate ? new Date(vm.period.AttendanceStartDate) : null;
-                vm.period.RawAttendanceEndDate = vm.period.AttendanceEndDate ? new Date(vm.period.AttendanceEndDate) : null;
-
-                if ($scope.updateCtrl.dataTab.basicInformation && vm.isFirstLoad && vm.period.PeriodId) {
-                    getTargetType();
-                }
-            }
-        });
-
-    $scope.$watch(function () { return $scope.updateCtrl.dataTab.basicInformation; },
-        function (newVal) {
-            if (newVal && vm.isFirstLoad && vm.period.PeriodId) {
-                getTargetType();
-            }
-        });
-
-    vm.save = function (period) {
-        if (PeriodModel.validatePeriod(period)) {
-            period.StartDate = period.RawStartDate ? period.RawStartDate.toDateString() : null;
-            period.EndDate = period.RawEndDate ? period.RawEndDate.toDateString() : null;
-            period.AttendanceStartDate = period.RawAttendanceStartDate ? period.RawAttendanceStartDate.toDateString() : null;
-            period.AttendanceEndDate = period.RawAttendanceEndDate ? period.RawAttendanceEndDate.toDateString() : null;
-
-            PeriodModel.updateBasicInformationPeriod(period);
+            historyFactory.saveState(vm.filter);
         }
-    };
-}]);
 
-periodModule.controller('ProcessSettingPeriodController',
-['$scope', 'PeriodModel', 'CommonModel',
-function ($scope, PeriodModel, CommonModel) {
-    var vm = this;
-
-    vm.period = {};
-    vm.isFirstLoad = true;
-    vm.processSettings = [];
-    vm.remindDay = CommonModel.remindDay;
-
-    function getProcessSetting(periodId) {
-        PeriodModel.getProcessSettingByPeriodId(periodId).then(function () {
-            vm.processSettings = PeriodModel.processSettings;
-            vm.isFirstLoad = false;
-        });
-    }
-
-    $scope.$watch(function () { return $scope.updateCtrl.period; },
-        function (newVal) {
-            if (newVal) {
-                vm.period = $scope.updateCtrl.period;
-
-                if ($scope.updateCtrl.dataTab.processSetting && vm.isFirstLoad && vm.period.PeriodId) {
-                    getProcessSetting(vm.period.PeriodId);
-                }
-            }
-        });
-
-    $scope.$watch(function () { return $scope.updateCtrl.dataTab.processSetting; },
-    function (newVal) {
-        if (newVal && vm.isFirstLoad && vm.period) {
-            getProcessSetting(vm.period.PeriodId);
-        }
-    });
-
-    vm.save = function () {
-        var periodProcessSetting = {
-            PeriodId: vm.period.PeriodId,
-            Processes: vm.processSettings
+        vm.query = function (filter) {
+            vm.searchKey = '';
+            vm.currentPage = 1;
+            getPeriod(filter.targetTypeId, filter.isActive);
         };
 
-        PeriodModel.updatePeriodProcessSetting(periodProcessSetting);
-    };
-}]);
+        vm.getIndex = function (index, currentPage, pageSize) {
+            return CommonModel.getIndex(index, currentPage, pageSize);
+        };
+
+        vm.create = function () {
+            PeriodModel.openPopupCreatePeriod(vm).then(function () {
+                vm.modalInstance = null;
+                getPeriod(vm.filter.targetTypeId, vm.filter.isActive);
+            });
+        };
+
+        vm.update = function (periodId) {
+            vm.updatePeriodUrl = baseUrl + 'Period/Update/' + periodId;
+        };
+
+        vm.confirmActive = function (period) {
+            PeriodModel.openPopupUpdateStatusPeriod(period);
+        };
+
+        vm.delete = function (period) {
+            PeriodModel.openPopupDeletePeriod(vm, period);
+        };
+
+        vm.viewEmployeeSetting = function (period, inprogress) {
+            vm.viewEmployeeSettingUrl = baseUrl + 'Period/Update/' + period.PeriodId + '?viewSetting&inprogress=' + inprogress;
+        };
+
+        function initialize() {
+            vm.filter = initFilter();
+
+            PeriodModel.getPermissionOnPeriod().then(function () {
+                vm.permission = PeriodModel.permission;
+            });
+
+            CommonModel.getTargetType(true, vm.targetTypeEnum.Monthly).then(function () {
+                vm.targetTypes = CommonModel.targetTypes;
+            });
+
+            getPeriod(vm.filter.targetTypeId, vm.filter.isActive);
+        }
+
+        initialize();
+    }
+})(angular);

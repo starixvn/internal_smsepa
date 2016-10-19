@@ -511,6 +511,10 @@
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\listKPIToView.html" />
     <Content Include="SourceApp\Components\EPA\UpdateFinalScore\Templates\index.html" />
     <Content Include="SourceApp\Components\EPA\UpdateFinalScore\update-final-score-controller.js" />
+    <Content Include="SourceApp\Components\Period\update-process-setting-controller.js" />
+    <Content Include="SourceApp\Components\Period\update-basic-info-controller.js" />
+    <Content Include="SourceApp\Components\Period\update-period-controller.js" />
+    <Content Include="SourceApp\Components\Period\create-period-controller.js" />
     <Content Include="SourceApp\Components\Report\export-monthly-epa-detail-report-directive.js" />
     <Content Include="SourceApp\Components\Report\export-epa-detail-report-directive.js" />
     <Content Include="SourceApp\Components\Report\export-monthly-epa-summary-report-directive.js" />

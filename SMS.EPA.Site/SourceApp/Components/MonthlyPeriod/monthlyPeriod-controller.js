@@ -238,12 +238,12 @@ function ($scope, MonthlyPeriodModel, CommonModel) {
     vm.remindDay = CommonModel.remindDay;
     vm.isFirstLoad = true;
 
-    var getProcessSetting = function (periodId) {
+    function getProcessSetting(periodId) {
         MonthlyPeriodModel.getProcessSettingByPeriodId(periodId).then(function () {
             vm.processSettings = MonthlyPeriodModel.processSettings;
             vm.isFirstLoad = false;
         });
-    };
+    }
 
     $scope.$watch(function () { return $scope.updateCtrl.dataTab.processSetting; },
     function (newVal) {
