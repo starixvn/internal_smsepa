@@ -8,10 +8,11 @@
 
     function notificationFactory($translate) {
         var normalOptions = {
-            timeout: 4000
+            timeOut: 4000
         },
         errorOptions = {
-            timeout: 5000,
+            timeOut: 7000,
+            extendedTimeOut: 500,
             escapeHtml: true
         };
 
@@ -19,37 +20,37 @@
             success: function (keyMessage, message) {
                 if (message === '' || message === null || message === undefined) {
                     $translate(keyMessage).then(function (responseMessage) {
-                        toastr.success(responseMessage, normalOptions);
+                        toastr.success(responseMessage, null, normalOptions);
                     });
                 } else {
-                    toastr.success(message, errorOptions);
+                    toastr.success(message, null, errorOptions);
                 }
             },
             error: function (keyMessage, message) {
                 if (message === '' || message === null || message === undefined) {
                     $translate(keyMessage).then(function (responseMessage) {
-                        toastr.error(responseMessage, errorOptions);
+                        toastr.error(responseMessage, null, errorOptions);
                     });
                 } else {
-                    toastr.error(message, errorOptions);
+                    toastr.error(message, null, errorOptions);
                 }
             },
             warning: function (keyMessage, message) {
                 if (message === '' || message === null || message === undefined) {
                     $translate(keyMessage).then(function (responseMessage) {
-                        toastr.warning(responseMessage, errorOptions);
+                        toastr.warning(responseMessage, null, errorOptions);
                     });
                 } else {
-                    toastr.warning(message, errorOptions);
+                    toastr.warning(message, null, errorOptions);
                 }
             },
             info: function (keyMessage, message) {
                 if (message === '' || message === null || message === undefined) {
                     $translate(keyMessage).then(function (responseMessage) {
-                        toastr.info(responseMessage, normalOptions);
+                        toastr.info(responseMessage, null, normalOptions);
                     });
                 } else {
-                    toastr.info(message, normalOptions);
+                    toastr.info(message, null, normalOptions);
                 }
             }
         };

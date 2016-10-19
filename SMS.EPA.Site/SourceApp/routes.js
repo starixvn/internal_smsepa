@@ -1,6 +1,6 @@
 ﻿'use strict';
 /*exported employeeModule, commonModule, targetTemplateModule*/
-/*exported epaModule, periodModule, epaHistoryModule, monthlyPeriodModule*/
+/*exported epaModule, epaHistoryModule*/
 
 var employeeModule = angular.module('employeeModule', ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
@@ -99,7 +99,7 @@ var epaModule = angular.module('epaModule', ['ngRoute'])
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/UpdateFinalScore/Templates/index.html', caseInsensitiveMatch: true });
 }]);
 
-var periodModule = angular.module('periodModule', ['ngRoute'])
+angular.module('periodModule', ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
     var baseUrl = $('base').first().attr('href');
     $routeProvider.when('/Period/Index',
@@ -137,7 +137,7 @@ angular.module('epaHistoryModule', ['ngRoute'])
     { templateUrl: baseUrl + 'SourceApp/Components/EPAHistory/Templates/monthlyEPAHistory.html', caseInsensitiveMatch: true });
 }]);
 
-var monthlyPeriodModule = angular.module('monthlyPeriodModule', ['ngRoute'])
+angular.module('monthlyPeriodModule', ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
     var baseUrl = $('base').first().attr('href');
     $routeProvider.when('/MonthlyPeriod/Index',

@@ -1,0 +1,45 @@
+﻿(function (angular) {
+    'use strict';
+    /* jshint latedef:nofunc */
+
+    angular.module('monthlyPeriodModule').controller('CreateMonthlyPeriodController', createMonthlyPeriodController);
+    createMonthlyPeriodController.$inject = ['$modalInstance', 'MonthlyPeriodModel'];
+
+    function createMonthlyPeriodController($modalInstance, MonthlyPeriodModel) {
+        var vm = this,
+        date = new Date();
+
+        vm.period = {
+            Name: null,
+            StartDate: new Date(date.getFullYear(), date.getMonth(), 1),
+            EndDate: new Date(date.getFullYear(), date.getMonth() + 1, 0),
+            Description: null
+        };
+
+        vm.calendar = {
+            startDateOpened: false,
+            endDateOpened: false
+        };
+
+        vm.openPopupStartDate = function (event) {
+            MonthlyPeriodModel.openPopupStartDate(event, vm);
+        };
+
+        vm.openPopupEndDate = function (event) {
+            MonthlyPeriodModel.openPopupEndDate(event, vm);
+        };
+
+        vm.save = function (period) {
+            if (MonthlyPeriodModel.validateMonthlyPeriod(period)) {
+                period.StartDate = period.StartDate.toDateString();
+                period.EndDate = period.EndDate.toDateString();
+
+                MonthlyPeriodModel.createMonthlyPeriod(period, $modalInstance);
+            }
+        };
+
+        vm.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+    }
+})(angular);
