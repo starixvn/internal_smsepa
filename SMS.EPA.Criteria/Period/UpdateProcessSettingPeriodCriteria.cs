@@ -28,7 +28,7 @@
 
         public override bool IsValid()
         {
-            return PeriodId > 0 && !string.IsNullOrWhiteSpace(ProcessSettings);
+            return PeriodId > 0 && ModifiedBy > 0 && !string.IsNullOrEmpty(ProcessSettings);
         }
 
         public override string GetSettingKey()

@@ -5,6 +5,11 @@
     [Serializable]
     public class EPAProcessModel
     {
+        public EPAProcessModel()
+        {
+            EvaluatorInfo = new EPAEmployeeModel();
+        }
+
         public int EPAId { get; set; }
 
         public int ProcessId { get; set; }

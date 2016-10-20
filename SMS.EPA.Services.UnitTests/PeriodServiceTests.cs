@@ -19,12 +19,10 @@
     public class PeriodServiceTests
     {
         private PeriodService periodService;
-
+        private IBaseRepository baseRepository;
+        private IPeriodRepository periodRepository;
         ////private IManualMailService manualMailService;
         ////private IConfigurationManagerService configurationManager;
-        private IBaseRepository baseRepository;
-
-        private IPeriodRepository periodRepository;
 
         #region GetPeriod
 
@@ -309,6 +307,24 @@
             Assert.IsInstanceOf(typeof(IEnumerable<PeriodEmployeeSettingModel>), actual);
         }
 
+        [Test]
+        public void GetPeriodEmployeeSettingById_ValidArg_ReturnExpectedSetting()
+        {
+            // Arrange
+            var criteria = new GetPeriodEmployeeSettingCriteria
+            {
+                PeriodId = 1
+            };
+            IEnumerable<PeriodEmployeeSettingModel> result = GetListOfPeriodEmployeeSettingForTest();
+            ArrangeGetPeriodEmployeeSettingById(result);
+
+            // Act
+            var actual = periodService.GetPeriodEmployeeSettingById(criteria);
+
+            // Assert
+            Assert.AreEqual(result, actual);
+        }
+
         #endregion GetPeriodEmployeeSettingById
 
         #region DeletePeriod
@@ -451,6 +467,160 @@
 
         #endregion GenerateEvaluation
 
+        #region GetEmployeeSettingByPeriodId
+
+        [Test]
+        public void GetEmployeeSettingByPeriodId_AnyArg_ReturnInstanceOfListOfPeriodFlowModel()
+        {
+            // Arrange
+            ArrangeGetEmployeeSettingByPeriodId();
+
+            // Act
+            var actual = periodService.GetEmployeeSettingByPeriodId(Arg.Any<GetEmployeeSettingByPeriodIdCriteria>());
+
+            // Assert
+            Assert.IsInstanceOf(typeof(IEnumerable<PeriodFlowModel>), actual);
+        }
+
+        #endregion GetEmployeeSettingByPeriodId
+
+        #region GetProcessSettingByPeriodId
+
+        [Test]
+        public void GetProcessSettingByPeriodId_AnyArg_ReturnInstanceOfListOfFlowModel()
+        {
+            // Arrange
+            int periodId = 1;
+            ArrangeGetProcessSettingByPeriodId();
+
+            // Act
+            var actual = periodService.GetProcessSettingByPeriodId(periodId);
+
+            // Assert
+            Assert.IsInstanceOf(typeof(IEnumerable<FlowModel>), actual);
+        }
+
+        [Test]
+        public void GetProcessSettingByPeriodId_ValidArg_ReturnExpectedSettings()
+        {
+            // Arrange
+            int periodId = 1;
+            IEnumerable<FlowModel> result = GetProcessSettingForTest();
+            ArrangeGetProcessSettingByPeriodId(result);
+
+            // Act
+            var actual = periodService.GetProcessSettingByPeriodId(periodId);
+
+            // Assert
+            Assert.AreEqual(result, actual);
+        }
+
+        #endregion GetProcessSettingByPeriodId
+
+        #region GetEvaluationGlobalSettingByTargetTypeId
+
+        [Test]
+        public void GetEvaluationGlobalSettingByTargetTypeId_AnyArg_ReturnInstanceOfListOfFlowModel()
+        {
+            // Arrange
+            int targetTypeId = 1;
+            ArrangeGetEvaluationGlobalSettingByTargetTypeId();
+
+            // Act
+            var actual = periodService.GetEvaluationGlobalSettingByTargetTypeId(targetTypeId);
+
+            // Assert
+            Assert.IsInstanceOf(typeof(IEnumerable<FlowModel>), actual);
+        }
+
+        [Test]
+        public void GetEvaluationGlobalSettingByTargetTypeId_ValidArg_ReturnExpectedFlows()
+        {
+            // Arrange
+            int targetTypeId = 1;
+            IEnumerable<FlowModel> result = GetEvaluationGlobalSettingForTest();
+            ArrangeGetEvaluationGlobalSettingByTargetTypeId(result);
+
+            // Act
+            var actual = periodService.GetEvaluationGlobalSettingByTargetTypeId(targetTypeId);
+
+            // Assert
+            Assert.AreEqual(result, actual);
+        }
+
+        #endregion GetEvaluationGlobalSettingByTargetTypeId
+
+        #region UpdateProcessSettingPeriod
+
+        [Test]
+        public void UpdateProcessSettingPeriod_AnyArg_ReturnInstanceOfCommandResult()
+        {
+            // Arrange
+            ArrangeUpdateProcessSettingPeriod();
+
+            // Act
+            var actual = periodService.UpdateProcessSettingPeriod(Arg.Any<UpdateProcessSettingPeriodCriteria>());
+
+            // Assert
+            Assert.IsInstanceOf(typeof(CommandResult), actual);
+        }
+
+        [Test]
+        public void UpdateProcessSettingPeriod_ValidArg_ExpectedToExecuteUpdate()
+        {
+            // Arrange
+            var criteria = new UpdateProcessSettingPeriodCriteria
+            {
+                PeriodId = 1,
+                ModifiedBy = 1,
+                Processes = new List<FlowModel>()
+            };
+            ArrangeUpdateProcessSettingPeriod();
+
+            // Act
+            periodService.UpdateProcessSettingPeriod(criteria);
+
+            // Assert
+            periodService.Repository.Received().Update(Arg.Is<UpdateProcessSettingPeriodCriteria>(x => x.IsValid()));
+        }
+
+        #endregion UpdateProcessSettingPeriod
+
+        #region CheckSelfProcessStarted
+
+        [Test]
+        public void CheckSelfProcessStarted_AnyArg_ReturnIntanceOfBoolean()
+        {
+            // Arrange
+            ArrangeCheckSelfProcessStarted();
+
+            // Act
+            var actual = periodService.CheckSelfProcessStarted(Arg.Any<CheckSelfProcessStartedCriteria>());
+
+            // Assert
+            Assert.IsInstanceOf(typeof(bool), actual);
+        }
+
+        [Test]
+        public void CheckSelfProcessStarted_ValidArg_ReturnAsExpected()
+        {
+            // Arrange
+            var criteria = new CheckSelfProcessStartedCriteria
+            {
+                PeriodId = 1,
+                EmployeeIds = "1,2"
+            };
+            ArrangeCheckSelfProcessStarted(true);
+
+            // Act
+            var actual = periodService.CheckSelfProcessStarted(criteria);
+
+            // Assert
+            Assert.IsTrue(actual);
+        }
+
+        #endregion CheckSelfProcessStarted
+
         #region Helpers
 
         private IBaseRepository FakeBaseRepository()
@@ -513,6 +683,62 @@
             };
 
             return periods;
+        }
+
+        private IEnumerable<PeriodEmployeeSettingModel> GetListOfPeriodEmployeeSettingForTest()
+        {
+            var settings = new List<PeriodEmployeeSettingModel>
+            {
+                new PeriodEmployeeSettingModel
+                {
+                    PeriodId = 1,
+                    Name = "test"
+                }
+            };
+
+            return settings;
+        }
+
+        private IEnumerable<FlowModel> GetProcessSettingForTest()
+        {
+            var settings = new List<FlowModel>
+            {
+                new FlowModel
+                {
+                    ProcessId = 1,
+                    Duration = 1,
+                    RemindDay = 1
+                },
+                new FlowModel
+                {
+                    ProcessId = 2,
+                    Duration = 1,
+                    RemindDay = 1
+                }
+            };
+
+            return settings;
+        }
+
+        private IEnumerable<FlowModel> GetEvaluationGlobalSettingForTest()
+        {
+            var settings = new List<FlowModel>
+            {
+                new FlowModel
+                {
+                    ProcessId = 1,
+                    Duration = 1,
+                    RemindDay = 1
+                },
+                new FlowModel
+                {
+                    ProcessId = 2,
+                    Duration = 1,
+                    RemindDay = 1
+                }
+            };
+
+            return settings;
         }
 
         private void ArrangeGetPeriod(IEnumerable<PeriodModel> result = null)
@@ -590,6 +816,38 @@
             baseRepository = FakeBaseRepository();
             periodService = GetPeriodService(baseRepository);
             periodService.Repository.Insert(Arg.Any<AutoGenerateEvaluationCriteria>()).Returns(result ?? new CommandResult());
+        }
+
+        private void ArrangeGetEmployeeSettingByPeriodId(IEnumerable<PeriodFlowModel> result = null)
+        {
+            periodRepository = FakePeriodRepository();
+            periodRepository.GetEmployeeSettingByPeriodId(Arg.Any<GetEmployeeSettingByPeriodIdCriteria>()).Returns(result ?? new List<PeriodFlowModel>());
+            periodService = GetPeriodService(null, periodRepository);
+        }
+
+        private void ArrangeGetProcessSettingByPeriodId(IEnumerable<FlowModel> result = null)
+        {
+            periodService = Substitute.For<PeriodService>();
+            periodService.GetData<FlowModel>(Arg.Any<GetProcessSettingPeriodCriteria>()).Returns(result ?? new List<FlowModel>());
+        }
+
+        private void ArrangeGetEvaluationGlobalSettingByTargetTypeId(IEnumerable<FlowModel> result = null)
+        {
+            periodService = Substitute.For<PeriodService>();
+            periodService.GetData<FlowModel>(Arg.Any<GetEvaluationGlobalSettingByTargetTypeIdCriteria>()).Returns(result ?? new List<FlowModel>());
+        }
+
+        private void ArrangeUpdateProcessSettingPeriod(CommandResult result = null)
+        {
+            baseRepository = FakeBaseRepository();
+            periodService = GetPeriodService(baseRepository);
+            periodService.Repository.Update(Arg.Any<UpdateProcessSettingPeriodCriteria>()).Returns(result ?? new CommandResult());
+        }
+
+        private void ArrangeCheckSelfProcessStarted(bool result = false)
+        {
+            periodService = Substitute.For<PeriodService>();
+            periodService.GetDataEntity<bool>(Arg.Any<CheckSelfProcessStartedCriteria>()).Returns(result);
         }
 
         #endregion Helpers

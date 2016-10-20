@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
@@ -301,7 +300,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                hasStarted = GetData<bool>(criteria).First();
+                hasStarted = GetDataEntity<bool>(criteria);
             }
 
             return hasStarted;
