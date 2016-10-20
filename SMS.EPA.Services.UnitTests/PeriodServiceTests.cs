@@ -294,6 +294,23 @@
 
         #endregion UpdateStatusPeriod
 
+        #region GetPeriodEmployeeSettingById
+
+        [Test]
+        public void GetPeriodEmployeeSettingById_AnyArg_ReturnInstanceOfListOfPeriodEmployeeSettingModel()
+        {
+            // Arrange
+            ArrangeGetPeriodEmployeeSettingById();
+
+            // Act
+            var actual = periodService.GetPeriodEmployeeSettingById(Arg.Any<GetPeriodEmployeeSettingCriteria>());
+
+            // Assert
+            Assert.IsInstanceOf(typeof(IEnumerable<PeriodEmployeeSettingModel>), actual);
+        }
+
+        #endregion GetPeriodEmployeeSettingById
+
         #region DeletePeriod
 
         [Test]
@@ -545,6 +562,13 @@
             baseRepository = FakeBaseRepository();
             periodService = GetPeriodService(baseRepository);
             periodService.Repository.Delete(Arg.Any<DeletePeriodCriteria>()).Returns(result ?? new CommandResult());
+        }
+
+        private void ArrangeGetPeriodEmployeeSettingById(IEnumerable<PeriodEmployeeSettingModel> result = null)
+        {
+            periodRepository = FakePeriodRepository();
+            periodRepository.GetPeriodEmployeeSettingById(Arg.Any<GetPeriodEmployeeSettingCriteria>()).Returns(result ?? new List<PeriodEmployeeSettingModel>());
+            periodService = GetPeriodService(null, periodRepository);
         }
 
         private void ArrangeAddEmployeeToPeriod(CommandResult result = null)

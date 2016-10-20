@@ -37,7 +37,7 @@
         {
             InitializeComponent();
 
-            var schedulerTime = DateTime.Today.AddDays(1).AddHours(1);
+            var schedulerTime = DateTime.Today.AddDays(1).AddHours(AppSetting.HoursToStartService);
 
             updateCounterTimer = new Timer { Interval = schedulerTime.Subtract(DateTime.Now).TotalSeconds * 1000 };
             updateCounterTimer.Elapsed += ExecuteJob;

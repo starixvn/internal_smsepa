@@ -21,6 +21,14 @@
             }
         }
 
+        public static double HoursToStartService
+        {
+            get
+            {
+                return Convert.ToDouble(ConfigurationManager.AppSettings["HoursToStartService"]);
+            }
+        }
+
         public static bool SendMailAllWhenPeriodStarted
         {
             get
