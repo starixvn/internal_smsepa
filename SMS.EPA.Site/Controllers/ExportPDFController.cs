@@ -40,7 +40,7 @@
         public void ExportPdf(int epaId)
         {
             EPAModel epaInfo = employeeEPAService.GetEPAInfoById(epaId);
-            string fileName = string.Format("{0}_{1}.pdf", epaInfo.Employee.NickName, epaInfo.Employee.Code);
+            string fileName = string.Format("{0}_{1}.pdf", epaInfo.Employee.Code, epaInfo.Employee.NickName);
 
             FontFactory.Register(Server.MapPath("~/content/fonts/ARIALUNI.TTF"), "ARIALUNI");
             normalFont = FontFactory.GetFont("ARIALUNI", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED, FontSize, Font.NORMAL, defaultColor);
