@@ -1,15 +1,14 @@
 ﻿'use strict';
-/*exported employeeModule, commonModule, targetTemplateModule*/
-/*exported epaModule, epaHistoryModule*/
+/*exported epaModule*/
 
-var employeeModule = angular.module('employeeModule', ['ngRoute'])
+angular.module('employeeModule', ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
     var baseUrl = $('base').first().attr('href');
     $routeProvider.when('/Employee/Index',
     { templateUrl: baseUrl + 'SourceApp/Components/Employee/Templates/index.html', caseInsensitiveMatch: true });
 }]);
 
-var commonModule = angular.module('commonModule', ['ngRoute']);
+angular.module('commonModule', ['ngRoute']);
 
 angular.module('kpiModule', ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
@@ -32,7 +31,7 @@ angular.module('roleModule', ['ngRoute'])
     { templateUrl: baseUrl + 'SourceApp/Components/Role/Templates/index.html', caseInsensitiveMatch: true });
 }]);
 
-var targetTemplateModule = angular.module('targetTemplateModule', ['ngRoute'])
+angular.module('targetTemplateModule', ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
     var baseUrl = $('base').first().attr('href');
     $routeProvider.when('/TargetTemplate/Index',

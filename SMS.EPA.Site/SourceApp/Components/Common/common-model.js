@@ -1,261 +1,264 @@
-﻿'use strict';
-/*global commonModule*/
+﻿(function (angular) {
+    'use strict';
+    /* jshint latedef:nofunc */
 
-commonModule.factory('CommonModel',
-['$modal', 'commonFactory', 'errorFactory',
-function ($modal, commonFactory, errorFactory) {
-    var commonModel = {};
+    angular.module('commonModule').factory('CommonModel', commonModel);
+    commonModel.$inject = ['$modal', 'commonFactory', 'errorFactory'];
 
-    commonModel.targetTypes = [];
-    commonModel.systemRoles = [];
-    commonModel.kpis = [];
-    commonModel.kpiGroups = [];
-    commonModel.groups = [];
-    commonModel.employees = [];
-    commonModel.employeesInDepartment = [];
-    commonModel.employeesInGroup = [];
-    commonModel.employee = {};
-    commonModel.departments = [];
-    commonModel.treeDepartment = {};
-    commonModel.statusList = [];
-    commonModel.periods = [];
-    commonModel.monthlyPeriods = [];
-    commonModel.standardGrades = [];
-    commonModel.periodOptions = [];
-    commonModel.otherViolationDetails = [];
-    commonModel.targetTemplates = [];
-    commonModel.menus = [];
-    commonModel.remindDay = [0, 1, 2, 3, 4, 5, 6, 7];
-    commonModel.jobTitles = [];
-    commonModel.jobGrades = [];
-    commonModel.permission = 0;
+    function commonModel($modal, commonFactory, errorFactory) {
+        var model = {};
 
-    commonModel.getTargetType = function (isActive, excludeTargetTypeIds) {
-        return commonFactory.getTargetType(isActive, excludeTargetTypeIds).success(function (targetTypes) {
-            commonModel.targetTypes = targetTypes;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
+        model.targetTypes = [];
+        model.systemRoles = [];
+        model.kpis = [];
+        model.kpiGroups = [];
+        model.groups = [];
+        model.employees = [];
+        model.employeesInDepartment = [];
+        model.employeesInGroup = [];
+        model.employee = {};
+        model.departments = [];
+        model.treeDepartment = {};
+        model.statusList = [];
+        model.periods = [];
+        model.monthlyPeriods = [];
+        model.standardGrades = [];
+        model.periodOptions = [];
+        model.otherViolationDetails = [];
+        model.targetTemplates = [];
+        model.menus = [];
+        model.remindDay = [0, 1, 2, 3, 4, 5, 6, 7];
+        model.jobTitles = [];
+        model.jobGrades = [];
+        model.permission = 0;
 
-    commonModel.getIndex = function (index, currentPage, pageSize) {
-        var indexOfRow = pageSize * (currentPage - 1) + index + 1;
-        return indexOfRow;
-    };
+        model.getTargetType = function (isActive, excludeTargetTypeIds) {
+            return commonFactory.getTargetType(isActive, excludeTargetTypeIds).success(function (targetTypes) {
+                model.targetTypes = targetTypes;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
 
-    commonModel.getSystemRoles = function (exceptNone) {
-        return commonFactory.getSystemRoles(exceptNone).success(function (systemRoles) {
-            commonModel.systemRoles = systemRoles;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
+        model.getIndex = function (index, currentPage, pageSize) {
+            var indexOfRow = pageSize * (currentPage - 1) + index + 1;
+            return indexOfRow;
+        };
 
-    commonModel.getKPI = function (kpiGroupId, isActive, isRequiredEvaluate) {
-        return commonFactory.getKPI(kpiGroupId, isActive, isRequiredEvaluate).success(function (kpis) {
-            commonModel.kpis = kpis;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
+        model.getSystemRoles = function (exceptNone) {
+            return commonFactory.getSystemRoles(exceptNone).success(function (systemRoles) {
+                model.systemRoles = systemRoles;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
 
-    commonModel.getKPIGroup = function (isActive) {
-        return commonFactory.getKPIGroup(isActive).success(function (kpiGroups) {
-            commonModel.kpiGroups = kpiGroups;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
+        model.getKPI = function (kpiGroupId, isActive, isRequiredEvaluate) {
+            return commonFactory.getKPI(kpiGroupId, isActive, isRequiredEvaluate).success(function (kpis) {
+                model.kpis = kpis;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
 
-    commonModel.getAllGroup = function () {
-        return commonFactory.getAllGroup().success(function (groups) {
-            commonModel.groups = groups;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
+        model.getKPIGroup = function (isActive) {
+            return commonFactory.getKPIGroup(isActive).success(function (kpiGroups) {
+                model.kpiGroups = kpiGroups;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
 
-    commonModel.getAllEmployee = function (query, groupId, isSpecialUser, isDisabledUser, getByApprover, includeVerifier) {
-        return commonFactory.getAllEmployee(query, groupId, isSpecialUser, isDisabledUser, getByApprover, includeVerifier).success(function (employees) {
-            commonModel.employees = employees;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
+        model.getAllGroup = function () {
+            return commonFactory.getAllGroup().success(function (groups) {
+                model.groups = groups;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
 
-    commonModel.getEmployeeByDepartmentId = function (departmentId) {
-        return commonFactory.getEmployeeByDepartmentId(departmentId).success(function (employees) {
-            commonModel.employeesInDepartment = employees;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
+        model.getAllEmployee = function (query, groupId, isSpecialUser, isDisabledUser, getByApprover, includeVerifier) {
+            return commonFactory.getAllEmployee(query, groupId, isSpecialUser, isDisabledUser, getByApprover, includeVerifier).success(function (employees) {
+                model.employees = employees;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
 
-    commonModel.getEmployeeByGroupId = function (groupId) {
-        return commonFactory.getEmployeeByGroupId(groupId).success(function (employees) {
-            commonModel.employeesInGroup = employees;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
+        model.getEmployeeByDepartmentId = function (departmentId) {
+            return commonFactory.getEmployeeByDepartmentId(departmentId).success(function (employees) {
+                model.employeesInDepartment = employees;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
 
-    commonModel.getEmployeeById = function (employeeId) {
-        return commonFactory.getEmployeeById(employeeId).success(function (employee) {
-            commonModel.employee = employee;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
+        model.getEmployeeByGroupId = function (groupId) {
+            return commonFactory.getEmployeeByGroupId(groupId).success(function (employees) {
+                model.employeesInGroup = employees;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
 
-    function createLabel(item, level) {
-        var label = '',
-            space = '',
-            levelTemp = level;
+        model.getEmployeeById = function (employeeId) {
+            return commonFactory.getEmployeeById(employeeId).success(function (employee) {
+                model.employee = employee;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
 
-        if (level > 0) {
-            while (levelTemp > 0) {
-                label = label + " " + space;
-                space = String.fromCharCode(160) + String.fromCharCode(160) + String.fromCharCode(160);
-                levelTemp--;
+        function createLabel(item, level) {
+            var label = '',
+                space = '',
+                levelTemp = level;
+
+            if (level > 0) {
+                while (levelTemp > 0) {
+                    label = label + " " + space;
+                    space = String.fromCharCode(160) + String.fromCharCode(160) + String.fromCharCode(160);
+                    levelTemp--;
+                }
+
+                label = label + ' ├─○ ' + item.Name;
+            } else {
+                label = item.Name;
             }
 
-            label = label + ' ├─○ ' + item.Name;
-        } else {
-            label = item.Name;
+            return label;
         }
 
-        return label;
-    }
-
-    function generateTreeDepartment(departments, options, level) {
-        angular.forEach(departments, function (item) {
-            options.push({
-                Name: createLabel(item, level),
-                DepartmentId: item.DepartmentId,
-                IsGroup: item.IsGroup
+        function generateTreeDepartment(departments, options, level) {
+            angular.forEach(departments, function (item) {
+                options.push({
+                    Name: createLabel(item, level),
+                    DepartmentId: item.DepartmentId,
+                    IsGroup: item.IsGroup
+                });
+                generateTreeDepartment(item.Childrens, options, level + 1);
             });
-            generateTreeDepartment(item.Childrens, options, level + 1);
-        });
 
-        return options;
+            return options;
+        }
+
+        model.generateTreeDepartment = function (departments) {
+            return generateTreeDepartment(departments, [], 0);
+        };
+
+        model.getDepartment = function (parentId, isActive) {
+            return commonFactory.getDepartment(parentId, isActive).success(function (data) {
+                model.treeDepartment = data.TreeDepartment;
+                model.departments = data.Departments;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.getAllStatus = function () {
+            return commonFactory.getAllStatus().success(function (statusList) {
+                model.statusList = statusList;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.getPeriod = function (targetTypeId, isActive) {
+            return commonFactory.getPeriod(targetTypeId, isActive).success(function (periods) {
+                model.periods = periods;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.getStandardGrade = function () {
+            return commonFactory.getStandardGrade().success(function (standardGrades) {
+                model.standardGrades = standardGrades;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.getAllPeriodIncludeImport = function () {
+            return commonFactory.getAllPeriodIncludeImport().success(function (periods) {
+                model.periodOptions = periods;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.getOtherViolationDetailByEPAId = function (epaId) {
+            return commonFactory.getOtherViolationDetailByEPAId(epaId).success(function (otherViolationDetails) {
+                model.otherViolationDetails = otherViolationDetails;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.openPopupViewOtherViolationDetail = function (epaId) {
+            var modalInstance = $modal.open({
+                templateUrl: 'SourceApp/Components/Common/Templates/modalViewOtherViolationDetail.html',
+                controller: "OtherViolationDetailController as otherViolationCtrl",
+                backdrop: 'static',
+                resolve: {
+                    epaId: function () {
+                        return epaId;
+                    }
+                },
+                windowClass: "modal-confirm-center"
+            });
+
+            return modalInstance.result;
+        };
+
+        model.getTargetTemplate = function (targetTypeId, isActive) {
+            return commonFactory.getTargetTemplate(targetTypeId, isActive).success(function (targetTemplates) {
+                model.targetTemplates = targetTemplates;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.getAllMonthlyPeriod = function () {
+            return commonFactory.getAllMonthlyPeriod().success(function (periods) {
+                model.monthlyPeriods = periods;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.getMenusByEmployeeId = function () {
+            return commonFactory.getMenusByEmployeeId().success(function (menus) {
+                model.menus = menus;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.getAllJobTitle = function () {
+            return commonFactory.getAllJobTitle().success(function (jobTitles) {
+                model.jobTitles = jobTitles;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.getUserPermissionOnFlowManagement = function () {
+            return commonFactory.getUserPermissionOnFlowManagement().success(function (permission) {
+                model.permission = parseInt(permission, 10);
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.getJobGrade = function (isActive) {
+            return commonFactory.getJobGrade(isActive).success(function (jobGrades) {
+                model.jobGrades = jobGrades;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        return model;
     }
-
-    commonModel.generateTreeDepartment = function (departments) {
-        return generateTreeDepartment(departments, [], 0);
-    };
-
-    commonModel.getDepartment = function (parentId, isActive) {
-        return commonFactory.getDepartment(parentId, isActive).success(function (data) {
-            commonModel.treeDepartment = data.TreeDepartment;
-            commonModel.departments = data.Departments;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
-
-    commonModel.getAllStatus = function () {
-        return commonFactory.getAllStatus().success(function (statusList) {
-            commonModel.statusList = statusList;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
-
-    commonModel.getPeriod = function (targetTypeId, isActive) {
-        return commonFactory.getPeriod(targetTypeId, isActive).success(function (periods) {
-            commonModel.periods = periods;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
-
-    commonModel.getStandardGrade = function () {
-        return commonFactory.getStandardGrade().success(function (standardGrades) {
-            commonModel.standardGrades = standardGrades;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
-
-    commonModel.getAllPeriodIncludeImport = function () {
-        return commonFactory.getAllPeriodIncludeImport().success(function (periods) {
-            commonModel.periodOptions = periods;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
-
-    commonModel.getOtherViolationDetailByEPAId = function (epaId) {
-        return commonFactory.getOtherViolationDetailByEPAId(epaId).success(function (otherViolationDetails) {
-            commonModel.otherViolationDetails = otherViolationDetails;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
-
-    commonModel.openPopupViewOtherViolationDetail = function (epaId) {
-        var modalInstance = $modal.open({
-            templateUrl: 'SourceApp/Components/Common/Templates/modalViewOtherViolationDetail.html',
-            controller: "OtherViolationDetailController as otherViolationCtrl",
-            backdrop: 'static',
-            resolve: {
-                epaId: function () {
-                    return epaId;
-                }
-            },
-            windowClass: "modal-confirm-center"
-        });
-
-        return modalInstance.result;
-    };
-
-    commonModel.getTargetTemplate = function (targetTypeId, isActive) {
-        return commonFactory.getTargetTemplate(targetTypeId, isActive).success(function (targetTemplates) {
-            commonModel.targetTemplates = targetTemplates;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
-
-    commonModel.getAllMonthlyPeriod = function () {
-        return commonFactory.getAllMonthlyPeriod().success(function (periods) {
-            commonModel.monthlyPeriods = periods;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
-
-    commonModel.getMenusByEmployeeId = function () {
-        return commonFactory.getMenusByEmployeeId().success(function (menus) {
-            commonModel.menus = menus;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
-
-    commonModel.getAllJobTitle = function () {
-        return commonFactory.getAllJobTitle().success(function (jobTitles) {
-            commonModel.jobTitles = jobTitles;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
-
-    commonModel.getUserPermissionOnFlowManagement = function () {
-        return commonFactory.getUserPermissionOnFlowManagement().success(function (permission) {
-            commonModel.permission = parseInt(permission, 10);
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
-
-    commonModel.getJobGrade = function (isActive) {
-        return commonFactory.getJobGrade(isActive).success(function (jobGrades) {
-            commonModel.jobGrades = jobGrades;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
-
-    return commonModel;
-}]);
+})(angular);
