@@ -1,7 +1,7 @@
-﻿namespace SMS.EPA.Criteria.UnitTests.Department
+﻿namespace SMS.EPA.Criteria.UnitTests
 {
     using NUnit.Framework;
-    using SMS.EPA.Criteria.TargetEmployeeSetting;
+    using SMS.EPA.Criteria;
 
     [TestFixture]
     public class DeletePersonalFlowCriteriaTests
@@ -24,7 +24,7 @@
         public void IsValid_ModifiedByAndEmployeeIdAndFlowTemplateIdGreaterThanZero_ReturnTrue()
         {
             // Arrange
-            var criteria = new DeletePersonalFlowCriteria() 
+            var criteria = new DeletePersonalFlowCriteria()
             {
                 FlowTemplateId = 1,
                 EmployeeId = 1,

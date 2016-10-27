@@ -1,7 +1,7 @@
-﻿namespace SMS.EPA.Criteria.UnitTests.Department
+﻿namespace SMS.EPA.Criteria.UnitTests
 {
     using NUnit.Framework;
-    using SMS.EPA.Criteria.TargetEmployeeSetting;
+    using SMS.EPA.Criteria;
 
     [TestFixture]
     public class GetPersonalFlowByIdCriteriaTests
@@ -24,7 +24,7 @@
         public void IsValid_EmployeeIdFlowAndTemplateIdGreaterThanZero_ReturnTrue()
         {
             // Arrange
-            var criteria = new GetPersonalFlowByIdCriteria() 
+            var criteria = new GetPersonalFlowByIdCriteria()
             {
                 FlowTemplateId = 1,
                 EmployeeId = 1

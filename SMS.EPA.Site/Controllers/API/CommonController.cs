@@ -7,7 +7,6 @@
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Utilities;
     using SMS.EPA.Criteria;
-    using SMS.EPA.Criteria.Department;
     using SMS.EPA.Criteria.EPAHistory;
     using SMS.EPA.Criteria.TargetType;
     using SMS.EPA.Model;

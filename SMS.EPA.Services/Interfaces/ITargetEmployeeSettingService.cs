@@ -1,9 +1,9 @@
 ﻿namespace SMS.EPA.Services.Interfaces
 {
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Criteria.TargetEmployeeSetting;
-    using SMS.EPA.Model;
     using System.Collections.Generic;
+    using SMS.EPA.Core.Model;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Model;
 
     public interface ITargetEmployeeSettingService
     {

@@ -1,10 +1,17 @@
 ﻿namespace SMS.EPA.Criteria
 {
+    using System.Collections.Generic;
+    using System.Text;
     using Fanex.Data;
     using Fanex.Data.Repository;
+    using SMS.EPA.Core.Constants;
+    using SMS.EPA.Model;
 
     public class UpdateEmployeeSettingOfPeriodCriteria : CriteriaBase
     {
+        private const string AssignmentXmlTemplate = @"<Assignment EmployeeId='{0}' ProcessId='{1}' EvaluatorId='{2}'
+                StartDate='{3}' EndDate='{4}' Priority='{5}'></Assignment>";
+
         public int PeriodId { get; set; }
 
         [SpParam(Ignored = true)]
@@ -12,13 +19,40 @@
 
         public int? TargetTemplateId { get; set; }
 
-        public string EmployeeAssignments { get; set; }
+        [SpParam(SqlParamName = "EmployeeAssignments")]
+        public string EmployeeAssignmentXml
+        {
+            get
+            {
+                var assignmentXml = new StringBuilder(Constants.BeginRootTag);
+
+                if (EmployeeAssignments != null)
+                {
+                    foreach (PeriodFlowModel assignment in EmployeeAssignments)
+                    {
+                        assignmentXml.AppendFormat(
+                            AssignmentXmlTemplate,
+                            assignment.EmployeeId,
+                            assignment.ProcessId,
+                            assignment.EvaluatorInfo.EmployeeId,
+                            assignment.StartDate,
+                            assignment.EndDate,
+                            assignment.Priority);
+                    }
+                }
+
+                return assignmentXml.Append(Constants.EndRootTag).ToString();
+            }
+        }
+
+        [SpParam(Ignored = true)]
+        public IEnumerable<PeriodFlowModel> EmployeeAssignments { get; set; }
 
         public int ModifiedBy { get; set; }
 
         public override bool IsValid()
         {
-            return PeriodId > 0;
+            return PeriodId > 0 && ModifiedBy > 0;
         }
 
         public override string GetSettingKey()

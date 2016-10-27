@@ -1,14 +1,14 @@
 ﻿namespace SMS.EPA.Site.UnitTests.Controllers
 {
+    using System.Collections.Generic;
     using NSubstitute;
     using NUnit.Framework;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria.TargetEmployeeSetting;
+    using SMS.EPA.Criteria;
     using SMS.EPA.Model;
     using SMS.EPA.Services.Interfaces;
     using SMS.EPA.Site.Controllers.API;
-    using System.Collections.Generic;
 
     [TestFixture]
     public class TargetEmployeeSettingControllerTests
@@ -46,7 +46,7 @@
             Assert.IsInstanceOf(typeof(IEnumerable<TargetEmployeeSetting>), actual);
         }
 
-        #endregion
+        #endregion GetTargetEmployeeSetting
 
         #region GetTargetDepartmentSetting
 
@@ -78,7 +78,7 @@
             Assert.IsInstanceOf(typeof(IEnumerable<TargetEmployeeSetting>), actual);
         }
 
-        #endregion
+        #endregion GetTargetDepartmentSetting
 
         #region AssignTargetTemplateToEmployee
 
@@ -99,8 +99,8 @@
         public void AssignTargetTemplateToEmployee_AnyArg_ReturnExpectedCommandResult()
         {
             // Arrange
-            var expectedCommandResult = new CommandResult() 
-            { 
+            var expectedCommandResult = new CommandResult()
+            {
                 Code = 1
             };
             ArrangeAssignTargetTemplateToEmployee(expectedCommandResult);
@@ -112,7 +112,7 @@
             Assert.AreEqual(expectedCommandResult, actual);
         }
 
-        #endregion
+        #endregion AssignTargetTemplateToEmployee
 
         #region DeleteTargetEmployeeSetting
 
@@ -146,7 +146,7 @@
             Assert.AreEqual(expectedCommandResult, actual);
         }
 
-        #endregion
+        #endregion DeleteTargetEmployeeSetting
 
         #region AssignTargetTemplateToDepartment
 
@@ -194,7 +194,7 @@
             Assert.AreEqual(expectedCommandResult.Code, actual.Code);
         }
 
-        #endregion
+        #endregion AssignTargetTemplateToDepartment
 
         #region DeleteTargetDepartmentSetting
 
@@ -228,7 +228,7 @@
             Assert.AreEqual(expectedCommandResult, actual);
         }
 
-        #endregion
+        #endregion DeleteTargetDepartmentSetting
 
         #region GetUserPermissionOnTargetEmployeeSetting
 
@@ -247,7 +247,7 @@
             Assert.AreEqual(expectedPermission, actual);
         }
 
-        #endregion
+        #endregion GetUserPermissionOnTargetEmployeeSetting
 
         private ISessionService FakeSessionService(int? permission = null)
         {

@@ -10,7 +10,6 @@
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria;
     using SMS.EPA.Model;
-    using SMS.EPA.Resources;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
 
@@ -74,11 +73,6 @@
                 criteria.CreatedBy = this.SessionService.EmployeeId;
                 commandResult = periodService.CreatePeriod(criteria);
             }
-            else
-            {
-                commandResult.Code = 1;
-                commandResult.Message = Lang.ParameterInvalid;
-            }
 
             return commandResult;
         }
@@ -95,11 +89,6 @@
                 criteria.IsActive = true;
                 criteria.ModifiedBy = this.SessionService.EmployeeId;
                 commandResult = periodService.UpdateBasicInformationPeriod(criteria);
-            }
-            else
-            {
-                commandResult.Code = 1;
-                commandResult.Message = Lang.ParameterInvalid;
             }
 
             return commandResult;
@@ -172,26 +161,14 @@
 
         [HttpPost]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Host)]
-        public CommandResult AddEmployeeToMonthlyPeriod(AssignEmployeePeriodModel model)
+        public CommandResult AddEmployeeToMonthlyPeriod(AddEmployeeToPeriodCriteria criteria)
         {
             var commandResult = new CommandResult();
 
-            if (ModelState.IsValid && model != null)
+            if (criteria != null)
             {
-                var criteria = new AddEmployeeToPeriodCriteria
-                {
-                    PeriodId = model.PeriodId,
-                    EmployeeId = model.EmployeeId,
-                    Departments = model.ConvertToXml(),
-                    ModifiedBy = this.SessionService.EmployeeId
-                };
-
+                criteria.ModifiedBy = this.SessionService.EmployeeId;
                 commandResult = periodService.AddEmployeeToPeriod(criteria);
-            }
-            else
-            {
-                commandResult.Code = 1;
-                commandResult.Message = Lang.ParameterInvalid;
             }
 
             return commandResult;
@@ -199,27 +176,14 @@
 
         [HttpPut]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyPeriod, Policy = Policy.Host)]
-        public CommandResult UpdateEmployeeSettingOfPeriod(UpdatedEmployeeSettingPeriodModel model)
+        public CommandResult UpdateEmployeeSettingOfPeriod(UpdateEmployeeSettingOfPeriodCriteria criteria)
         {
             var commandResult = new CommandResult();
 
-            if (ModelState.IsValid && model != null)
+            if (criteria != null)
             {
-                var criteria = new UpdateEmployeeSettingOfPeriodCriteria
-                {
-                    PeriodId = model.PeriodId,
-                    EmployeeIds = model.EmployeeIds,
-                    TargetTemplateId = model.TargetTemplateId,
-                    EmployeeAssignments = model.ConvertToXml(),
-                    ModifiedBy = this.SessionService.EmployeeId
-                };
-
+                criteria.ModifiedBy = this.SessionService.EmployeeId;
                 commandResult = periodService.UpdateEmployeeSettingOfPeriod(criteria);
-            }
-            else
-            {
-                commandResult.Code = 1;
-                commandResult.Message = Lang.ParameterInvalid;
             }
 
             return commandResult;
@@ -254,11 +218,6 @@
             {
                 criteria.ModifiedBy = this.SessionService.EmployeeId;
                 commandResult = periodService.UpdateIncludeStatusEmployeePeriod(criteria);
-            }
-            else
-            {
-                commandResult.Code = 1;
-                commandResult.Message = Lang.ParameterInvalid;
             }
 
             return commandResult;

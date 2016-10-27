@@ -1,9 +1,9 @@
-﻿namespace SMS.EPA.Criteria.UnitTests.Department
+﻿namespace SMS.EPA.Criteria.UnitTests
 {
-    using NUnit.Framework;
-    using SMS.EPA.Criteria.TargetEmployeeSetting;
-    using SMS.EPA.Model;
     using System.Collections.Generic;
+    using NUnit.Framework;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Model;
 
     [TestFixture]
     public class CreatePersonalFlowCriteriaTests
@@ -26,7 +26,7 @@
         public void IsValid_ModifiedByAndEmployeeIdAndFlowTemplateIdGreaterThanZero_ReturnTrue()
         {
             // Arrange
-            var criteria = new CreatePersonalFlowCriteria() 
+            var criteria = new CreatePersonalFlowCriteria()
             {
                 FlowTemplateId = 1,
                 ModifiedBy = 1,
@@ -46,7 +46,7 @@
             // Arrange
             var criteria = new CreatePersonalFlowCriteria()
             {
-               Selfs = GetSelf(employeeId: -1),
+                Selfs = GetSelf(employeeId: -1),
                 FlowTemplateId = 1,
                 ModifiedBy = 1
             };

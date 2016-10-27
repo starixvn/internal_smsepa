@@ -1,16 +1,15 @@
 ﻿namespace SMS.EPA.Site.UnitTests.Controllers
 {
+    using System.Collections.Generic;
     using NSubstitute;
     using NUnit.Framework;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria;
-    using SMS.EPA.Criteria.TargetEmployeeSetting;
     using SMS.EPA.Model;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Services.Interfaces;
     using SMS.EPA.Site.Controllers.API;
-    using System.Collections.Generic;
 
     [TestFixture]
     public class DepartmentFlowControllerTests
@@ -48,7 +47,7 @@
             Assert.IsInstanceOf(typeof(IEnumerable<DepartmentFlowModel>), actual);
         }
 
-        #endregion
+        #endregion GetDepartmentFlowByFlowTemplateId
 
         #region GetDepartmentFlowById
 
@@ -80,7 +79,7 @@
             Assert.IsInstanceOf(typeof(IEnumerable<FlowModel>), actual);
         }
 
-        #endregion
+        #endregion GetDepartmentFlowById
 
         #region CreateDepartmentFlow
 
@@ -128,7 +127,7 @@
             Assert.AreEqual(expectedCommandResult.Code, actual.Code);
         }
 
-        #endregion
+        #endregion CreateDepartmentFlow
 
         #region DeleteDepartmentFlow
 
@@ -176,7 +175,7 @@
             Assert.AreEqual(expectedCommandResult.Code, actual.Code);
         }
 
-        #endregion
+        #endregion DeleteDepartmentFlow
 
         #region GetDepartmentHasSetting
 
@@ -208,7 +207,7 @@
             Assert.IsInstanceOf(typeof(IList<Department>), actual);
         }
 
-        #endregion
+        #endregion GetDepartmentHasSetting
 
         private ISessionService FakeSessionService(int? permission = null)
         {

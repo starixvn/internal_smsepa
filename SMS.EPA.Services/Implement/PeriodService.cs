@@ -173,11 +173,11 @@
         public CommandResult UpdateEmployeeSettingOfPeriod(UpdateEmployeeSettingOfPeriodCriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
-            string sendMailWhenEditEmployeeSetting = configurationManager.GetAppSetting("SendMailWhenEditEmployeeSetting");
 
             if (criteria != null && criteria.IsValid())
             {
                 commandResult = Repository.Update(criteria);
+                string sendMailWhenEditEmployeeSetting = configurationManager.GetAppSetting("SendMailWhenEditEmployeeSetting");
 
                 if (commandResult.IsSuccessful && sendMailWhenEditEmployeeSetting.Equals("true", StringComparison.OrdinalIgnoreCase))
                 {

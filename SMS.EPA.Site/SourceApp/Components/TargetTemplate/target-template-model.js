@@ -2,10 +2,10 @@
     'use strict';
     /* jshint latedef:nofunc */
 
-    angular.module('targetTemplateModule').factory('TargetTemplateModel', TargetTemplateModel);
-    TargetTemplateModel.$inject = ['$modal', 'targetTemplateFactory', 'errorFactory', 'notificationFactory', 'utilitiesFactory'];
+    angular.module('targetTemplateModule').factory('TargetTemplateModel', targetTemplateModel);
+    targetTemplateModel.$inject = ['$modal', 'targetTemplateFactory', 'errorFactory', 'notificationFactory', 'utilitiesFactory'];
 
-    function TargetTemplateModel($modal, targetTemplateFactory, errorFactory, notificationFactory, utilitiesFactory) {
+    function targetTemplateModel($modal, targetTemplateFactory, errorFactory, notificationFactory, utilitiesFactory) {
         var targetTemplates = [],
             targetTemplate = {},
             kpiGroups = [],
@@ -14,7 +14,7 @@
             scoreRatingTypes = [],
             ratingTypes = [];
 
-        var targetTemplateModel = {
+        var model = {
             addKPIGroupWeight: addKPIGroupWeight,
             checkSelectedAllKPI: checkSelectedAllKPI,
             checkSelectedAllKPIGroup: checkSelectedAllKPIGroup,
@@ -44,7 +44,7 @@
             validateTargetTemplate: validateTargetTemplate
         };
 
-        return targetTemplateModel;
+        return model;
 
         function addKPIGroupWeight(kpiGroupWeightModel) {
             return targetTemplateFactory.addKPIGroupWeight(kpiGroupWeightModel).success(function (response) {
@@ -103,7 +103,7 @@
 
         function getKPIGroupOfTargetTemplate(targetTemplateId) {
             return targetTemplateFactory.getKPIGroupOfTargetTemplate(targetTemplateId).success(function (groups) {
-                targetTemplateModel.kpiGroups = groups;
+                model.kpiGroups = groups;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
@@ -111,7 +111,7 @@
 
         function getKPIOfTargetTemplate(targetTemplateId, onlySelected) {
             return targetTemplateFactory.getKPIOfTargetTemplate(targetTemplateId, onlySelected).success(function (kpiGroups) {
-                targetTemplateModel.kpiList = kpiGroups;
+                model.kpiList = kpiGroups;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
@@ -119,7 +119,7 @@
 
         function getPermissionOnTargetTemplate() {
             return targetTemplateFactory.getPermissonOnTargetTemplate().success(function (permission) {
-                targetTemplateModel.permission = permission;
+                model.permission = permission;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
@@ -127,7 +127,7 @@
 
         function getRatingType() {
             return targetTemplateFactory.getRatingType().success(function (ratingTypes) {
-                targetTemplateModel.ratingTypes = ratingTypes;
+                model.ratingTypes = ratingTypes;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
@@ -135,7 +135,7 @@
 
         function getScoreRatingType(scoreRatingTypeId, isActive) {
             return targetTemplateFactory.getScoreRatingType(scoreRatingTypeId, isActive).success(function (scoreRatingTypes) {
-                targetTemplateModel.scoreRatingTypes = scoreRatingTypes;
+                model.scoreRatingTypes = scoreRatingTypes;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
@@ -143,7 +143,7 @@
 
         function getTargetTemplate(targetTypeId, isActive) {
             return targetTemplateFactory.getTargetTemplate(targetTypeId, isActive).success(function (targetTemplates) {
-                targetTemplateModel.targetTemplates = targetTemplates;
+                model.targetTemplates = targetTemplates;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
@@ -151,7 +151,7 @@
 
         function getTargetTemplateById(targetTemplateId) {
             return targetTemplateFactory.getTargetTemplateById(targetTemplateId).success(function (targetTemplate) {
-                targetTemplateModel.targetTemplate = targetTemplate;
+                model.targetTemplate = targetTemplate;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });

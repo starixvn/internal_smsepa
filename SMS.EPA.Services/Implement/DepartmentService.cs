@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria.Department;
+    using SMS.EPA.Criteria;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Repositories;
 

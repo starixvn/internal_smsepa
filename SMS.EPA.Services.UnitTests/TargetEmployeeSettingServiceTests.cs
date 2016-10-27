@@ -6,7 +6,7 @@
     using NUnit.Framework;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Repositories;
-    using SMS.EPA.Criteria.TargetEmployeeSetting;
+    using SMS.EPA.Criteria;
     using SMS.EPA.Model;
     using SMS.EPA.Repositories;
     using SMS.EPA.Services.Implement;

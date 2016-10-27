@@ -21,8 +21,8 @@
         private PeriodService periodService;
         private IBaseRepository baseRepository;
         private IPeriodRepository periodRepository;
-        ////private IManualMailService manualMailService;
-        ////private IConfigurationManagerService configurationManager;
+        private IManualMailService manualMailService;
+        private IConfigurationManagerService configurationManager;
 
         #region GetPeriod
 
@@ -397,6 +397,98 @@
 
         #endregion AddEmployeeToPeriod
 
+        #region UpdateEmployeeSettingOfPeriod
+
+        [Test]
+        public void UpdateEmployeeSettingOfPeriod_InvalidArg_ReturnInstanceOfCommandResult()
+        {
+            // Arrange
+            var criteria = new UpdateEmployeeSettingOfPeriodCriteria
+            {
+                PeriodId = 0
+            };
+            ArrangeUpdateEmployeeSettingOfPeriod();
+
+            // Act
+            var actual = periodService.UpdateEmployeeSettingOfPeriod(criteria);
+
+            // Assert
+            Assert.IsInstanceOf(typeof(CommandResult), actual);
+        }
+
+        [Test]
+        public void UpdateEmployeeSettingOfPeriod_UpdateSuccessfully_ExpectedNotSendMail()
+        {
+            // Arrange
+            var criteria = new UpdateEmployeeSettingOfPeriodCriteria
+            {
+                PeriodId = 1,
+                ModifiedBy = 1
+            };
+            var commandResult = new CommandResult
+            {
+                Code = 0
+            };
+            ArrangeUpdateEmployeeSettingOfPeriod(commandResult, "false");
+
+            // Act
+            var actual = periodService.UpdateEmployeeSettingOfPeriod(criteria);
+
+            // Assert
+            Assert.AreEqual(commandResult.Code, actual.Code);
+            manualMailService.DidNotReceive().SendNotifyMail(Arg.Any<PeriodModel>(), Arg.Any<List<PeriodFlowModel>>());
+        }
+
+        [Test]
+        public void UpdateEmployeeSettingOfPeriod_UpdateSuccessfully_ExpectedSendMail()
+        {
+            // Arrange
+            var criteria = new UpdateEmployeeSettingOfPeriodCriteria
+            {
+                PeriodId = 1,
+                ModifiedBy = 1
+            };
+            var commandResult = new CommandResult
+            {
+                Code = 0
+            };
+            ArrangeUpdateEmployeeSettingOfPeriod(commandResult, "true");
+
+            // Act
+            var actual = periodService.UpdateEmployeeSettingOfPeriod(criteria);
+
+            // Assert
+            Assert.AreEqual(commandResult.Code, actual.Code);
+            manualMailService.Received().SendNotifyMail(Arg.Any<PeriodModel>(), Arg.Any<List<PeriodFlowModel>>());
+        }
+
+        [TestCase("true")]
+        [TestCase("false")]
+        [Test]
+        public void UpdateEmployeeSettingOfPeriod_UpdateUnsuccessful_ExpectedNotSendMail(string appSetting)
+        {
+            // Arrange
+            var criteria = new UpdateEmployeeSettingOfPeriodCriteria
+            {
+                PeriodId = 1,
+                ModifiedBy = 1
+            };
+            var commandResult = new CommandResult
+            {
+                Code = 1
+            };
+            ArrangeUpdateEmployeeSettingOfPeriod(commandResult, appSetting);
+
+            // Act
+            var actual = periodService.UpdateEmployeeSettingOfPeriod(criteria);
+
+            // Assert
+            Assert.AreEqual(commandResult.Code, actual.Code);
+            manualMailService.DidNotReceive().SendNotifyMail(Arg.Any<PeriodModel>(), Arg.Any<List<PeriodFlowModel>>());
+        }
+
+        #endregion UpdateEmployeeSettingOfPeriod
+
         #region UpdateIncludeStatusEmployeePeriod
 
         [Test]
@@ -637,6 +729,13 @@
             return repository;
         }
 
+        private IManualMailService FakeManualMailService()
+        {
+            IManualMailService service = Substitute.For<IManualMailService>();
+
+            return service;
+        }
+
         private IConfigurationManagerService FakeConfigurationManagerService()
         {
             IConfigurationManagerService service = Substitute.For<IConfigurationManagerService>();
@@ -848,6 +947,23 @@
         {
             periodService = Substitute.For<PeriodService>();
             periodService.GetDataEntity<bool>(Arg.Any<CheckSelfProcessStartedCriteria>()).Returns(result);
+        }
+
+        private void ArrangeUpdateEmployeeSettingOfPeriod(CommandResult result = null, string appSetting = null)
+        {
+            var period = new PeriodModel();
+            var employeeSettings = new List<PeriodFlowModel>();
+
+            baseRepository = FakeBaseRepository();
+            configurationManager = FakeConfigurationManagerService();
+            manualMailService = FakeManualMailService();
+            periodRepository = FakePeriodRepository();
+
+            periodService = GetPeriodService(baseRepository, periodRepository, manualMailService, configurationManager);
+            periodService.Repository.Update(Arg.Any<UpdateEmployeeSettingOfPeriodCriteria>()).Returns(result ?? new CommandResult());
+            configurationManager.GetAppSetting(Arg.Any<string>()).Returns(appSetting ?? string.Empty);
+            periodRepository.GetPeriodById(Arg.Any<GetPeriodByIdCriteria>()).Returns(period);
+            periodRepository.GetEmployeeSettingByPeriodId(Arg.Any<GetEmployeeSettingByPeriodIdCriteria>()).Returns(employeeSettings);
         }
 
         #endregion Helpers

@@ -1,7 +1,7 @@
-﻿namespace SMS.EPA.Criteria.UnitTests.Department
+﻿namespace SMS.EPA.Criteria.UnitTests
 {
     using NUnit.Framework;
-    using SMS.EPA.Criteria.Department;
+    using SMS.EPA.Criteria;
 
     [TestFixture]
     public class GetDepartmentCriteriaTests

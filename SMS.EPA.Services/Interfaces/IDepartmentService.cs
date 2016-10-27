@@ -1,8 +1,8 @@
 ﻿namespace SMS.EPA.Services.Interfaces
 {
-    using SMS.EPA.Criteria.Department;
-    using SMS.EPA.Model.Enitites;
     using System.Collections.Generic;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Model.Enitites;
 
     public interface IDepartmentService
     {

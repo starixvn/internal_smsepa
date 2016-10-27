@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.Criteria.UnitTests.Department
 {
     using NUnit.Framework;
-    using SMS.EPA.Criteria.TargetEmployeeSetting;
+    using SMS.EPA.Criteria;
 
     [TestFixture]
     public class AssignTargetTemplateToEmployeeCriteriaTests

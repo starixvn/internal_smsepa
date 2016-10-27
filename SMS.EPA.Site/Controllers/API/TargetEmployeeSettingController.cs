@@ -1,15 +1,15 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
+    using System.Collections.Generic;
+    using System.Web.Http;
     using SMS.EPA.Core.Attribute;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
-    using SMS.EPA.Criteria.TargetEmployeeSetting;
+    using SMS.EPA.Criteria;
     using SMS.EPA.Model;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
-    using System.Collections.Generic;
-    using System.Web.Http;
 
     public class TargetEmployeeSettingController : BaseController
     {

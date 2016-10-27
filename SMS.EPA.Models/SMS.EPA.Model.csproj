@@ -97,9 +97,7 @@
     <Compile Include="Period\PeriodEmployeeSettingModel.cs" />
     <Compile Include="Period\PeriodFlowModel.cs" />
     <Compile Include="Period\PeriodModel.cs" />
-    <Compile Include="Period\AssignEmployeePeriodModel.cs" />
     <Compile Include="Period\PeriodFlowSettingModel.cs" />
-    <Compile Include="Period\UpdatedEmployeeSettingPeriodModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Dashboard\ToDoListViewModel.cs" />
     <Compile Include="Dashboard\ToDoListModel.cs" />

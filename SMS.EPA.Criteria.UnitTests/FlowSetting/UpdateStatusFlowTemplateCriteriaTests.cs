@@ -1,7 +1,7 @@
-﻿namespace SMS.EPA.Criteria.UnitTests.Department
+﻿namespace SMS.EPA.Criteria.UnitTests
 {
     using NUnit.Framework;
-    using SMS.EPA.Criteria.TargetEmployeeSetting;
+    using SMS.EPA.Criteria;
 
     [TestFixture]
     public class UpdateStatusFlowTemplateCriteriaTests
@@ -24,7 +24,7 @@
         public void IsValid_ModifiedByAndFlowTemplateIdGreaterThanZero_ReturnTrue()
         {
             // Arrange
-            var criteria = new UpdateStatusFlowTemplateCriteria() 
+            var criteria = new UpdateStatusFlowTemplateCriteria()
             {
                 FlowTemplateId = 1,
                 ModifiedBy = 1
