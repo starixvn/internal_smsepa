@@ -88,6 +88,7 @@
     <Compile Include="Controllers\KPIGroupControllerTests.cs" />
     <Compile Include="Controllers\RoleControllerTests.cs" />
     <Compile Include="Controllers\TargetTemplateControllerTests.cs" />
+    <Compile Include="Controllers\MonthlyPeriodControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

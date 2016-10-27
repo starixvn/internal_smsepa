@@ -45,9 +45,7 @@
 
         public IEnumerable<PeriodModel> GetAllMonthlyPeriod()
         {
-            var criteria = new GetAllMonthlyPeriodCriteria();
-
-            IEnumerable<PeriodModel> periods = periodService.GetAllMonthlyPeriod(criteria);
+            IEnumerable<PeriodModel> periods = periodService.GetAllMonthlyPeriod();
 
             return periods;
         }

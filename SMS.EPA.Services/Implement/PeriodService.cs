@@ -74,11 +74,12 @@
             return periods;
         }
 
-        public IEnumerable<PeriodModel> GetAllMonthlyPeriod(GetAllMonthlyPeriodCriteria criteria)
+        public IEnumerable<PeriodModel> GetAllMonthlyPeriod()
         {
+            var criteria = new GetAllMonthlyPeriodCriteria();
             IEnumerable<PeriodModel> periods = new List<PeriodModel>();
 
-            if (criteria != null && criteria.IsValid())
+            if (criteria.IsValid())
             {
                 periods = GetData<PeriodModel>(criteria);
             }

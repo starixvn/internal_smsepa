@@ -13,7 +13,7 @@
 
         IEnumerable<PeriodModel> GetMonthlyPeriod(GetMonthlyPeriodCriteria criteria);
 
-        IEnumerable<PeriodModel> GetAllMonthlyPeriod(GetAllMonthlyPeriodCriteria criteria);
+        IEnumerable<PeriodModel> GetAllMonthlyPeriod();
 
         CommandResult CreatePeriod(CreatePeriodCriteria criteria);
 

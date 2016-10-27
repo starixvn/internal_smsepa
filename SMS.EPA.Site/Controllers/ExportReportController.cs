@@ -24,7 +24,7 @@
         private readonly IReportService reportService;
         private readonly IEPADetailReportService epaDetailReportService;
         private readonly IMonthlyEPADetailReportService monthlyEPADetailReportService;
-        private readonly IDisciplineSummaryService disciplineSummaryService;
+        private readonly IDisciplineService disciplineService;
         private readonly IEmployeeEPAService employeeEPAService;
         private ISessionService sessionService;
 
@@ -38,7 +38,7 @@
             IReportService reportService,
             IEPADetailReportService epaDetailReportService,
             IMonthlyEPADetailReportService monthlyEPADetailReportService,
-            IDisciplineSummaryService disciplineSummaryService,
+            IDisciplineService disciplineService,
             IEmployeeEPAService employeeEPAService,
             ISessionService sessionService)
         {
@@ -46,7 +46,7 @@
             this.reportService = reportService ?? new ReportService();
             this.epaDetailReportService = epaDetailReportService ?? new EPADetailReportService();
             this.monthlyEPADetailReportService = monthlyEPADetailReportService ?? new MonthlyEPADetailReportService();
-            this.disciplineSummaryService = disciplineSummaryService ?? new DisciplineSummaryService();
+            this.disciplineService = disciplineService ?? new DisciplineService();
             this.sessionService = sessionService ?? new SessionService();
             this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
         }
@@ -121,12 +121,12 @@
             if (criteria != null)
             {
                 criteria.ApproverId = sessionService.CurrentUser.EmployeeId;
-                IEnumerable<DisciplineSummaryModel> employeeDisciplines = disciplineSummaryService.GetDisciplineSummary(criteria);
+                IEnumerable<DisciplineSummaryModel> employeeDisciplines = disciplineService.GetDisciplineSummary(criteria);
 
                 if (employeeDisciplines != null && employeeDisciplines.Any())
                 {
                     string templatePath = Server.MapPath(DisciplineSummaryTemplatePath);
-                    disciplineSummaryService.ExportDisciplineSummaryReport(criteria, employeeDisciplines, templatePath);
+                    disciplineService.ExportDisciplineSummaryReport(criteria, employeeDisciplines, templatePath);
                 }
             }
 
@@ -138,12 +138,12 @@
             if (criteria != null)
             {
                 criteria.ApproverId = sessionService.CurrentUser.EmployeeId;
-                IEnumerable<DisciplineDetailModel> employeeDisciplines = disciplineSummaryService.GetDisciplineDetail(criteria);
+                IEnumerable<DisciplineDetailModel> employeeDisciplines = disciplineService.GetDisciplineDetail(criteria);
 
                 if (employeeDisciplines != null && employeeDisciplines.Any())
                 {
                     string templatePath = Server.MapPath(DisciplineDetailTemplatePath);
-                    disciplineSummaryService.ExportDisciplineDetailReport(criteria, employeeDisciplines, templatePath);
+                    disciplineService.ExportDisciplineDetailReport(criteria, employeeDisciplines, templatePath);
                 }
             }
 
@@ -154,12 +154,12 @@
         {
             if (criteria != null)
             {
-                IEnumerable<DisciplineSummaryByPeriodModel> employeeDisciplines = disciplineSummaryService.GetDisciplineSummaryByPeriod(criteria);
+                IEnumerable<DisciplineSummaryByPeriodModel> employeeDisciplines = disciplineService.GetDisciplineSummaryByPeriod(criteria);
 
                 if (employeeDisciplines != null && employeeDisciplines.Any())
                 {
                     string templatePath = Server.MapPath(DisciplineSummaryByPeriodTemplatePath);
-                    disciplineSummaryService.ExportDisciplineSummaryByPeriodReport(criteria, employeeDisciplines, templatePath);
+                    disciplineService.ExportDisciplineSummaryByPeriodReport(criteria, employeeDisciplines, templatePath);
                 }
             }
 

@@ -4,7 +4,7 @@
     using SMS.EPA.Criteria;
     using SMS.EPA.Model;
 
-    public interface IDisciplineSummaryService
+    public interface IDisciplineService
     {
         IEnumerable<DisciplineSummaryModel> GetDisciplineSummary(GetDisciplineSummaryCriteria criteria);
 

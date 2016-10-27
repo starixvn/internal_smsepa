@@ -12,16 +12,16 @@
     using SMS.EPA.Resources;
     using SMS.EPA.Services.Interfaces;
 
-    public class DisciplineSummaryService : BaseService, IDisciplineSummaryService
+    public class DisciplineService : BaseService, IDisciplineService
     {
         private readonly IDisciplineSummaryRepository disciplineSummaryRepository;
 
-        public DisciplineSummaryService()
+        public DisciplineService()
             : this(null)
         {
         }
 
-        public DisciplineSummaryService(IDisciplineSummaryRepository disciplineSummaryRepository)
+        public DisciplineService(IDisciplineSummaryRepository disciplineSummaryRepository)
         {
             this.disciplineSummaryRepository = disciplineSummaryRepository ?? new DisciplineSummaryRepository();
         }
