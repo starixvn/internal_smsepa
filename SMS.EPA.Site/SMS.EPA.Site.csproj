@@ -240,6 +240,19 @@
     <Content Include="Content\Common\angular-multi-select.css" />
     <Content Include="Content\Common\chosen-sprite.png" />
     <Content Include="Content\Common\chosen.min.css" />
+    <Content Include="Content\Common\Images\404\404.svg" />
+    <Content Include="Content\Common\Images\404\balloon.svg" />
+    <Content Include="Content\Common\Images\404\cloud-big.svg" />
+    <Content Include="Content\Common\Images\404\cloud-small.svg" />
+    <Content Include="Content\Common\Images\404\wind.svg" />
+    <Content Include="Content\Common\Images\405\door.svg" />
+    <Content Include="Content\Common\Images\405\seal.svg" />
+    <Content Include="Content\Common\Images\405\short-seal.svg" />
+    <Content Include="Content\Common\Images\405\signage.svg" />
+    <Content Include="Content\Common\Images\500\bluscreen.svg" />
+    <Content Include="Content\Common\Images\500\desktop.svg" />
+    <Content Include="Content\Common\Images\500\Error.svg" />
+    <Content Include="Content\Common\Images\500\leave.svg" />
     <Content Include="Content\Common\Images\animated-overlay.gif" />
     <Content Include="Content\Common\Images\auth-bg.png" />
     <Content Include="Content\Common\Images\collapse-small.png" />
@@ -747,6 +760,7 @@
     <Content Include="Content\Site\components\_multiSelect.less" />
     <Content Include="Content\Site\components\_widthSystem.less" />
     <Content Include="Content\Site\components\_base.less" />
+    <Content Include="Content\Site\components\_page.less" />
     <None Include="Libs\angularjs\angular-resource.min.js.map" />
     <None Include="Libs\angularjs\angular-route.min.js.map" />
     <None Include="Libs\angularjs\angular.min.js.map" />

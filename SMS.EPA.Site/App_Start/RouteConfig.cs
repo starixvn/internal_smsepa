@@ -19,11 +19,13 @@
 
             var homeRouteUrls = new List<string>
             {
+                "Home",
+                "Home/AccessDenied",
+                "Home/InternalError",
                 "Employee/Index",
                 "KPI/Index",
                 "KPIGroup/Index",
                 "Role/Index",
-                "Home/AccessDenied",
                 "TargetTemplate/Index",
                 "TargetTemplate/Update/{id}",
                 "TargetTemplate/Detail/{id}",
@@ -44,7 +46,6 @@
                 "OldEPA/Convert",
                 "Period/Index",
                 "Period/Update/{id}",
-                "Home",
                 "Discipline/Index",
                 "RatingByKPI/Index",
                 "Discipline/Detail/{id}",
@@ -60,7 +61,6 @@
                 "ViewEPAByKPI/Index",
                 "UpdateFinalScore/Index",
                 "MonthlyEPAHistory/Index",
-                "Home/InternalError",
                 "DisciplineSummaryByPeriod/Index"
             };
 
