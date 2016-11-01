@@ -449,6 +449,9 @@
     <Content Include="SourceApp\Components\Employee\Templates\modalConfirmSetUnsetMonthlyEvaluation.html" />
     <Content Include="SourceApp\Components\Employee\Templates\resetPassword.html" />
     <Content Include="SourceApp\Components\EPAHistory\Templates\monthlyEPAHistory.html" />
+    <Content Include="SourceApp\Components\EPA\Share\Controllers\epa-detail-controller.js" />
+    <Content Include="SourceApp\Components\EPA\Share\Directives\repeat-end-directive.js" />
+    <Content Include="SourceApp\Components\EPA\Share\Directives\auto-collapse-directive.js" />
     <Content Include="SourceApp\Components\EPA\Share\Directives\performance-grade-directive.js" />
     <Content Include="SourceApp\Components\EPA\Share\Directives\monthly-epa-result-directive.js" />
     <Content Include="SourceApp\Components\EPA\Share\Directives\performance-detail-directive.js" />
@@ -479,6 +482,8 @@
     <Content Include="SourceApp\Components\EPA\Share\Directives\Templates\evaluationProcess.tmpl.html" />
     <Content Include="SourceApp\Components\EPA\Share\Directives\Templates\generalInfo.tmpl.html" />
     <Content Include="SourceApp\Components\EPA\Share\Directives\Templates\performanceResult.tmpl.html" />
+    <Content Include="SourceApp\Components\EPA\Share\Filters\custom-score-filter.js" />
+    <Content Include="SourceApp\Components\EPA\Share\Filters\split-score-filter.js" />
     <Content Include="SourceApp\Components\EPA\UpdateFinalScore\update-final-score-model.js" />
     <Content Include="SourceApp\Components\EPA\UpdateFinalScore\update-final-score-factory.js" />
     <Content Include="SourceApp\Components\EPA\UpdateFinalScore\export-excel-directive.js" />
@@ -506,7 +511,6 @@
     <Content Include="SourceApp\Components\EPA\Convert\convertEPA-controller.js" />
     <Content Include="SourceApp\Components\EPA\Convert\Templates\detail.html" />
     <Content Include="SourceApp\Components\EPA\evaluation-controller.js" />
-    <Content Include="SourceApp\Components\EPA\evaluation-directive.js" />
     <Content Include="SourceApp\Components\EPA\evaluation-factory.js" />
     <Content Include="SourceApp\Components\EPA\evaluation-model.js" />
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\listKPIToView.html" />
@@ -557,6 +561,7 @@
     <Content Include="SourceApp\Components\TargetTemplate\Templates\KPIList.html" />
     <Content Include="SourceApp\Components\TargetTemplate\Templates\update.html" />
     <Content Include="SourceApp\Components\TargetTemplate\update-target-template-controller.js" />
+    <Content Include="SourceApp\Shared\Directives\popover-avatar-directive.js" />
     <Content Include="SourceApp\Shared\Directives\epa-datepickerPopup-directive.js" />
     <Content Include="SourceApp\Shared\Directives\epa-numberDot-directive.js" />
     <Content Include="SourceApp\Shared\Directives\epa-calendarImage-directive.js" />
