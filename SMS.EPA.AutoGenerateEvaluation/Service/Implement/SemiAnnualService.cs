@@ -1,11 +1,11 @@
-﻿namespace SMS.EPA.AutoGenerateEvaluation.Service
+﻿namespace SMS.EPA.AutoService.Service
 {
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
     using System.Threading.Tasks;
     using log4net;
-    using SMS.EPA.AutoGenerateEvaluation.Criteria;
+    using SMS.EPA.AutoService.Criteria;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria;

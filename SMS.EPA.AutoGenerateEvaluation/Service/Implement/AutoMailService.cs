@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.AutoGenerateEvaluation.Service
+﻿namespace SMS.EPA.AutoService.Service
 {
     using System;
     using System.Collections.Generic;

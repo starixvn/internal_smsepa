@@ -1,7 +1,7 @@
-﻿namespace SMS.EPA.AutoGenerateEvaluation.Service
+﻿namespace SMS.EPA.AutoService.Service
 {
     using System.Collections.Generic;
-    using SMS.EPA.AutoGenerateEvaluation.Criteria;
+    using SMS.EPA.AutoService.Criteria;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Model;
 

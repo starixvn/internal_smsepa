@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.AutoGenerateEvaluation
+﻿namespace SMS.EPA.AutoService
 {
     using System.ComponentModel;
 

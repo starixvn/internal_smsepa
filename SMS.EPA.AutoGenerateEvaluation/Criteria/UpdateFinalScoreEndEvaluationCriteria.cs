@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.AutoGenerateEvaluation.Criteria
+﻿namespace SMS.EPA.AutoService.Criteria
 {
     using System.Text;
     using Fanex.Data;
