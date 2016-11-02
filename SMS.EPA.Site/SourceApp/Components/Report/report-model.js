@@ -28,26 +28,24 @@
             });
         }
 
-        function getEPADetailReport(periodId, departmentId, isLocal, phaseIds, sortColumnName, sortDirection, pageIndex, itemsPerPage) {
-            return reportFactory.getEPADetailReport(periodId, departmentId, isLocal, phaseIds, sortColumnName, sortDirection, pageIndex, itemsPerPage)
-            .success(function (epaDetail) {
+        function getEPADetailReport(periodId, departmentId, isLocal, phaseIds, sortColumnName, sortDirection) {
+            return reportFactory.getEPADetailReport(periodId, departmentId, isLocal, phaseIds, sortColumnName, sortDirection).success(function (epaDetail) {
                 model.epaDetail = epaDetail;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         }
 
-        function getEPASummaryReport(periodIds, departmentId, isLocal, sortColumnName, sortDirection, pageIndex, itemsPerPage) {
-            return reportFactory.getEPASummaryReport(periodIds, departmentId, isLocal, sortColumnName, sortDirection, pageIndex, itemsPerPage)
-            .success(function (epaSummary) {
+        function getEPASummaryReport(periodIds, departmentId, isLocal, sortColumnName, sortDirection) {
+            return reportFactory.getEPASummaryReport(periodIds, departmentId, isLocal, sortColumnName, sortDirection).success(function (epaSummary) {
                 model.epaSummary = epaSummary;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         }
 
-        function getMonthlyEPADetailReport(periodId, departmentId, isLocal, phaseIds, sortColumnName, sortDirection, pageIndex, itemsPerPage) {
-            return reportFactory.getMonthlyEPADetailReport(periodId, departmentId, isLocal, phaseIds, sortColumnName, sortDirection, pageIndex, itemsPerPage)
+        function getMonthlyEPADetailReport(periodId, departmentId, isLocal, phaseIds, sortColumnName, sortDirection) {
+            return reportFactory.getMonthlyEPADetailReport(periodId, departmentId, isLocal, phaseIds, sortColumnName, sortDirection)
             .success(function (epaDetail) {
                 model.epaDetail = epaDetail;
             }).error(function (response, status) {
@@ -55,8 +53,8 @@
             });
         }
 
-        function getMonthlyEPASummaryReport(periodIds, departmentId, isLocal, sortColumnName, sortDirection, pageIndex, itemsPerPage) {
-            return reportFactory.getMonthlyEPASummaryReport(periodIds, departmentId, isLocal, sortColumnName, sortDirection, pageIndex, itemsPerPage)
+        function getMonthlyEPASummaryReport(periodIds, departmentId, isLocal, sortColumnName, sortDirection) {
+            return reportFactory.getMonthlyEPASummaryReport(periodIds, departmentId, isLocal, sortColumnName, sortDirection)
             .success(function (epaSummary) {
                 model.epaSummary = epaSummary;
             }).error(function (response, status) {

@@ -13,10 +13,10 @@
             periodIds: '',
             departmentId: '',
             isLocal: '',
-            pageIndex: utilitiesFactory.pageOption.pageIndex,
-            itemsPerPage: utilitiesFactory.pageOption.itemsPerPage,
             sortColumnName: '',
-            sortDirection: ''
+            sortDirection: '',
+            pageIndex: utilitiesFactory.pageOption.pageIndex,
+            itemsPerPage: utilitiesFactory.pageOption.itemsPerPage
         };
         vm.pageOption = utilitiesFactory.pageOption;
         vm.periods = [];
@@ -32,9 +32,7 @@
                 filter.departmentId,
                 filter.isLocal,
                 filter.sortColumnName,
-                filter.sortDirection,
-                filter.pageIndex,
-                filter.itemsPerPage)
+                filter.sortDirection)
             .then(function () {
                 vm.epaSummary = ReportModel.epaSummary;
                 lockScreenService.stop();
@@ -119,13 +117,6 @@
             };
 
             $scope.$broadcast('exportEpaSummaryReport');
-        };
-
-        vm.pageChanging = function (pageIndex, itemsPerPage) {
-            vm.filter.pageIndex = pageIndex;
-            vm.filter.itemsPerPage = itemsPerPage;
-
-            getEPASummaryReport(vm.filter);
         };
 
         vm.query = function (filter) {

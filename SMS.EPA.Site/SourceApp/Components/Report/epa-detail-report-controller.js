@@ -3,10 +3,9 @@
     /* jshint latedef:nofunc */
 
     angular.module('reportModule').controller('EPADetailReportController', epaDetailReportController);
-    epaDetailReportController.$inject = ['$scope', '$window', '$timeout', 'ReportModel', 'CommonModel',
-        'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl'];
+    epaDetailReportController.$inject = ['$scope', 'ReportModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'lockScreenService'];
 
-    function epaDetailReportController($scope, $window, $timeout, ReportModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
+    function epaDetailReportController($scope, ReportModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService) {
         var vm = this;
 
         vm.epaDetail = [];
@@ -34,9 +33,7 @@
                 filter.isLocal,
                 filter.phaseIds,
                 filter.sortColumnName,
-                filter.sortDirection,
-                filter.pageIndex,
-                filter.itemsPerPage)
+                filter.sortDirection)
             .then(function () {
                 vm.epaDetail = ReportModel.epaDetail;
                 lockScreenService.stop();
@@ -70,10 +67,10 @@
                 departmentId: '',
                 isLocal: '',
                 phaseIds: '',
+                sortColumnName: '',
+                sortDirection: '',
                 pageIndex: utilitiesFactory.pageOption.pageIndex,
                 itemsPerPage: utilitiesFactory.pageOption.itemsPerPage,
-                sortColumnName: '',
-                sortDirection: ''
             };
         }
 
@@ -95,18 +92,6 @@
             });
         }
 
-        vm.exportPdf = function (epaId) {
-            var url = baseUrl + 'ExportPDF/ExportPdf?epaId=' + epaId;
-            var iframe = $('body iframe');
-
-            if (iframe.length === 0) {
-                iframe = $('<iframe width="0" height="0" class="display-none"></iframe>');
-                iframe.appendTo('body');
-            }
-
-            iframe.attr('src', url);
-        };
-
         vm.exportReport = function () {
             vm.exportCriteria = {
                 periodId: vm.filter.periodId,
@@ -118,13 +103,6 @@
             };
 
             $scope.$broadcast('exportEpaDetailReport');
-        };
-
-        vm.pageChanging = function (pageIndex, itemsPerPage) {
-            vm.filter.pageIndex = pageIndex;
-            vm.filter.itemsPerPage = itemsPerPage;
-
-            getEPADetailReport(vm.filter);
         };
 
         vm.query = function (filter) {
@@ -142,14 +120,6 @@
             vm.filter.sortDirection = sortDirection;
 
             getEPADetailReport(vm.filter);
-        };
-
-        vm.viewEPADetail = function (epaId, exportPdf) {
-            if (exportPdf) {
-                $window.location.href = baseUrl + 'EPA/Detail/' + epaId + '?exportPdf';
-            } else {
-                $window.location.href = baseUrl + 'EPA/Detail/' + epaId;
-            }
         };
     }
 })(angular);

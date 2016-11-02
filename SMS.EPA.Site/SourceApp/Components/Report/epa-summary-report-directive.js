@@ -121,7 +121,6 @@
             scope: {
                 gridData: "=",
                 pageOption: '=',
-                onPageChanging: '=',
                 onSortChanging: '=',
                 exportReport: '=',
                 sortColumnName: '=',
@@ -133,7 +132,6 @@
                     customizeHeader: true,
                     gridExpandHeight: $scope.gridExpandHeight,
                     showPager: true,
-                    customPager: true,
                     autoFixFrozenRowHeight: true,
                     autoResizeColumn: true,
                     showTitle: true,
@@ -154,14 +152,9 @@
                 $scope.$watch('gridData', function (gridData) {
                     $timeout(function () {
                         if (gridData.PeriodSelecteds && gridData.EPAInfos) {
-                            var columnHeaders = generateColumnHeaders($scope, gridData.PeriodSelecteds),
-                                groupHeaderRows = generateGroupHeaders(gridData.PeriodSelecteds);
-
-                            var bodyRows = generateBodyRows(gridData, $scope.pageOption);
-
-                            gridOptions.groupHeaderRows = groupHeaderRows;
-                            gridOptions.columns = columnHeaders;
-                            gridOptions.bodyRows = bodyRows;
+                            gridOptions.groupHeaderRows = generateGroupHeaders(gridData.PeriodSelecteds);
+                            gridOptions.columns = generateColumnHeaders($scope, gridData.PeriodSelecteds);
+                            gridOptions.bodyRows = generateBodyRows(gridData, $scope.pageOption);
 
                             if (gridData.PeriodSelecteds.length > 0) {
                                 gridOptions.numberOfFrozenColumn = 6;
@@ -169,13 +162,10 @@
 
                             gridOptions.pagerOption = {
                                 startPerPage: utilitiesFactory.pageOption.itemsPerPage,
-                                totalItem: gridData ? gridData.TotalItem : 0,
+                                totalItem: gridData ? gridData.EPAInfos.length : 0,
                                 itemsPerPageArray: utilitiesFactory.pageOption.itemsPerPageArray,
                                 itemsPerPage: $scope.pageOption.itemsPerPage,
-                                currentPage: $scope.pageOption.pageIndex,
-                                pagerSelectCallBack: function (pageIndex, itemsPerPage) {
-                                    $scope.onPageChanging(pageIndex, itemsPerPage);
-                                }
+                                currentPage: $scope.pageOption.pageIndex
                             };
 
                             $(iElement).fanexGrid(gridOptions);

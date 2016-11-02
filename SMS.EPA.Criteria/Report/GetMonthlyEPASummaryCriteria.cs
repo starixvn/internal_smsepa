@@ -16,12 +16,6 @@
 
         public string SortDirection { get; set; }
 
-        public int? PageIndex { get; set; }
-
-        public int? ItemsPerPage { get; set; }
-
-        public int? TotalItem { get; set; }
-
         public override string GetSettingKey()
         {
             return "Report_MonthlyEPASummary";

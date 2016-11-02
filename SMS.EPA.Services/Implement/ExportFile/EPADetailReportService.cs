@@ -181,11 +181,11 @@
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(GetScoreByPhaseSelected(_epaDetail.PhaseSelecteds, score.SelfScore, (int)ProcessType.Self));
 
-                if (_currentRow % 2 == 0 && !memberEPA.Process.Evaluators[0].IsEndProcess)
+                if (_currentRow % 2 == 0 && !memberEPA.Process.Evaluators.First().IsEndProcess)
                 {
                     bodyStyle = evenRedStyle;
                 }
-                else if (_currentRow % 2 != 0 && !memberEPA.Process.Evaluators[0].IsEndProcess)
+                else if (_currentRow % 2 != 0 && !memberEPA.Process.Evaluators.First().IsEndProcess)
                 {
                     bodyStyle = oddRedStyle;
                 }
@@ -194,11 +194,11 @@
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(GetScoreByPhaseSelected(_epaDetail.PhaseSelecteds, score.EvaluatorScore, (int)ProcessType.Evaluator));
 
-                if (_currentRow % 2 == 0 && !memberEPA.Process.Reviewers[0].IsEndProcess)
+                if (_currentRow % 2 == 0 && !memberEPA.Process.Reviewers.First().IsEndProcess)
                 {
                     bodyStyle = evenRedStyle;
                 }
-                else if (_currentRow % 2 != 0 && !memberEPA.Process.Reviewers[0].IsEndProcess)
+                else if (_currentRow % 2 != 0 && !memberEPA.Process.Reviewers.First().IsEndProcess)
                 {
                     bodyStyle = oddRedStyle;
                 }
@@ -207,7 +207,7 @@
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(GetScoreByPhaseSelected(_epaDetail.PhaseSelecteds, score.ReviewerScore, (int)ProcessType.Reviewer));
 
-                if (memberEPA.Process.Managements != null && memberEPA.Process.Managements.Any() && !memberEPA.Process.Managements[0].IsEndProcess)
+                if (memberEPA.Process.Managements != null && memberEPA.Process.Managements.Any() && !memberEPA.Process.Managements.First().IsEndProcess)
                 {
                     if (_currentRow % 2 == 0)
                     {
@@ -295,7 +295,7 @@
             if (memberEPA.EPAId > 0
                 && memberEPA.Process.Evaluators != null
                 && memberEPA.Process.Evaluators.Any()
-                && memberEPA.Process.Evaluators[0].StatusEndProcess != (int)ProcessStatusType.Open)
+                && memberEPA.Process.Evaluators.First().StatusEndProcess != (int)ProcessStatusType.Open)
             {
                 evaluatorScore = Math.Round(memberEPA.Process.AverageScoreByEvaluators, 2).ToString();
 
@@ -308,7 +308,7 @@
             if (memberEPA.EPAId > 0
                 && memberEPA.Process.Reviewers != null
                 && memberEPA.Process.Reviewers.Any()
-                && memberEPA.Process.Reviewers[0].StatusEndProcess != (int)ProcessStatusType.Open)
+                && memberEPA.Process.Reviewers.First().StatusEndProcess != (int)ProcessStatusType.Open)
             {
                 reviewerScore = Math.Round(memberEPA.Process.AverageScoreByReviewers, 2).ToString();
             }
@@ -316,7 +316,7 @@
             if (memberEPA.EPAId > 0
                 && memberEPA.Process.Managements != null
                 && memberEPA.Process.Managements.Any()
-                && memberEPA.Process.Managements[0].StatusEndProcess != (int)ProcessStatusType.Open)
+                && memberEPA.Process.Managements.First().StatusEndProcess != (int)ProcessStatusType.Open)
             {
                 managementScore = Math.Round(memberEPA.Process.AverageScoreByManagements, 2).ToString();
             }

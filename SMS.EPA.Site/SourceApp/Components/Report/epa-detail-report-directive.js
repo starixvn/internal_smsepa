@@ -3,9 +3,9 @@
     /* jshint latedef:nofunc */
 
     angular.module('reportModule').directive('gridEpaDetailReport', gridEpaDetailReport);
-    gridEpaDetailReport.$inject = ['$timeout', 'utilitiesFactory'];
+    gridEpaDetailReport.$inject = ['$window', '$timeout', 'utilitiesFactory', 'baseUrl'];
 
-    function gridEpaDetailReport($timeout, utilitiesFactory) {
+    function gridEpaDetailReport($window, $timeout, utilitiesFactory, baseUrl) {
         var status = {
             NotAvailable: 'N/A',
             Pending: 'Pending'
@@ -153,6 +153,43 @@
             return rows;
         }
 
+        function registerViewEPADetailEvent() {
+            $('.freegrid').off('click', '.table-cell a.viewEPADetail');
+
+            $('.freegrid').on('click', '.table-cell a.viewEPADetail', function (event) {
+                event.preventDefault();
+
+                var epaId = parseInt($(this).data('epaid')),
+                    exportPdf = $(this).data('export-pdf');
+
+                if (exportPdf) {
+                    $window.location.href = baseUrl + 'EPA/Detail/' + epaId + '?exportPdf';
+                } else {
+                    $window.location.href = baseUrl + 'EPA/Detail/' + epaId;
+                }
+            });
+        }
+
+        function registerExportPdfEvent() {
+            $('.freegrid').off('click', '.table-cell a.exportPDF');
+
+            $('.freegrid').on('click', '.table-cell a.exportPDF', function (event) {
+                event.preventDefault();
+
+                var epaId = parseInt($(this).data('epaid'));
+
+                var url = baseUrl + 'ExportPDF/ExportPdf?epaId=' + epaId;
+                var iframe = $('body iframe');
+
+                if (iframe.length === 0) {
+                    iframe = $('<iframe width="0" height="0" class="display-none"></iframe>');
+                    iframe.appendTo('body');
+                }
+
+                iframe.attr('src', url);
+            });
+        }
+
         return {
             restrict: "A",
             scope: {
@@ -162,8 +199,6 @@
                 onSortChanging: '=',
                 hideColumns: '=',
                 exportReport: '=',
-                exportPdf: '=',
-                viewEpaDetail: '=',
                 sortColumnName: '=',
                 sortDirection: '=',
                 gridExpandHeight: '@'
@@ -172,7 +207,6 @@
                 var gridOptions = {
                     gridExpandHeight: $scope.gridExpandHeight,
                     showPager: true,
-                    customPager: true,
                     numberOfFrozenColumn: 8,
                     autoFixFrozenRowHeight: true,
                     autoResizeColumn: true,
@@ -196,40 +230,22 @@
                 $scope.$watch('gridData', function (gridData) {
                     $timeout(function () {
                         if (gridData.MemberEPAs) {
-                            var columHeaders = generateColumnHeaders($scope),
-                                bodyRows = generateBodyRows(gridData, $scope.pageOption);
-
-                            gridOptions.columns = columHeaders;
-                            gridOptions.bodyRows = bodyRows;
+                            gridOptions.columns = generateColumnHeaders($scope);
+                            gridOptions.bodyRows = generateBodyRows(gridData, $scope.pageOption);
 
                             gridOptions.pagerOption = {
                                 startPerPage: utilitiesFactory.pageOption.itemsPerPage,
-                                totalItem: gridData ? gridData.TotalItem : 0,
+                                totalItem: gridData ? gridData.MemberEPAs.length : 0,
                                 itemsPerPageArray: utilitiesFactory.pageOption.itemsPerPageArray,
                                 itemsPerPage: $scope.pageOption.itemsPerPage,
-                                currentPage: $scope.pageOption.pageIndex,
-                                pagerSelectCallBack: function (pageIndex, itemsPerPage) {
-                                    $scope.onPageChanging(pageIndex, itemsPerPage);
-                                }
+                                currentPage: $scope.pageOption.pageIndex
                             };
 
                             $(iElement).fanexGrid(gridOptions);
                             $(iElement).fanexGrid("hideColumns", gridOptions, $scope.hideColumns);
 
-                            $('a.exportPDF').on('click', function (event) {
-                                event.preventDefault();
-
-                                var epaId = parseInt($(this).data('epaid'));
-                                $scope.exportPdf(epaId);
-                            });
-
-                            $('a.viewEPADetail').on('click', function (event) {
-                                event.preventDefault();
-
-                                var epaId = parseInt($(this).data('epaid')),
-                                    exportPdf = $(this).data('export-pdf');
-                                $scope.viewEpaDetail(epaId, exportPdf);
-                            });
+                            registerViewEPADetailEvent();
+                            registerExportPdfEvent();
                         }
                     });
                 });

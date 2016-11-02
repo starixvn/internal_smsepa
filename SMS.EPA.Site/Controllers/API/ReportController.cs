@@ -38,9 +38,7 @@
             int? departmentId = null,
             bool? isLocal = null,
             string sortColumnName = null,
-            string sortDirection = null,
-            int? pageIndex = null,
-            int? itemsPerPage = null)
+            string sortDirection = null)
         {
             var criteria = new GetEPASummaryCriteria()
             {
@@ -49,9 +47,7 @@
                 DepartmentId = departmentId,
                 IsLocal = isLocal,
                 SortColumnName = sortColumnName,
-                SortDirection = sortDirection,
-                PageIndex = pageIndex,
-                ItemsPerPage = itemsPerPage
+                SortDirection = sortDirection
             };
 
             EPASummaryModel epaInfos = reportService.GetEPASummaryReport(criteria);
@@ -67,9 +63,7 @@
             bool? isLocal = null,
             string phaseIds = null,
             string sortColumnName = null,
-            string sortDirection = null,
-            int? pageIndex = null,
-            int? itemsPerPage = null)
+            string sortDirection = null)
         {
             var criteria = new GetEPADetailCriteria()
             {
@@ -79,9 +73,7 @@
                 IsLocal = isLocal,
                 PhaseIds = phaseIds,
                 SortColumnName = sortColumnName,
-                SortDirection = sortDirection,
-                PageIndex = pageIndex,
-                ItemsPerPage = itemsPerPage
+                SortDirection = sortDirection
             };
 
             EPADetailModel epaInfos = reportService.GetEPADetailReport(criteria);
@@ -96,9 +88,7 @@
             bool? isLocal = null,
             string phaseIds = null,
             string sortColumnName = null,
-            string sortDirection = null,
-            int? pageIndex = null,
-            int? itemsPerPage = null)
+            string sortDirection = null)
         {
             var criteria = new GetMonthlyEPADetailCriteria()
             {
@@ -108,9 +98,7 @@
                 IsLocal = isLocal,
                 PhaseIds = phaseIds,
                 SortColumnName = sortColumnName,
-                SortDirection = sortDirection,
-                PageIndex = pageIndex,
-                ItemsPerPage = itemsPerPage
+                SortDirection = sortDirection
             };
 
             EPADetailModel epaInfos = reportService.GetMonthlyEPADetailReport(criteria);
@@ -124,9 +112,7 @@
             int? departmentId = null,
             bool? isLocal = null,
             string sortColumnName = null,
-            string sortDirection = null,
-            int? pageIndex = null,
-            int? itemsPerPage = null)
+            string sortDirection = null)
         {
             var criteria = new GetMonthlyEPASummaryCriteria()
             {
@@ -135,9 +121,7 @@
                 DepartmentId = departmentId,
                 IsLocal = isLocal,
                 SortColumnName = sortColumnName,
-                SortDirection = sortDirection,
-                PageIndex = pageIndex,
-                ItemsPerPage = itemsPerPage
+                SortDirection = sortDirection
             };
 
             EPASummaryModel epaInfos = reportService.GetMonthlyEPASummaryReport(criteria);

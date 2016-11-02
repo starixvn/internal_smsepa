@@ -3,9 +3,9 @@
     /* jshint latedef:nofunc */
 
     angular.module('reportModule').directive('gridMonthlyEpaDetailReport', gridMonthlyEpaDetailReport);
-    gridMonthlyEpaDetailReport.$inject = ['$timeout', 'utilitiesFactory'];
+    gridMonthlyEpaDetailReport.$inject = ['$window', '$timeout', 'utilitiesFactory', 'baseUrl'];
 
-    function gridMonthlyEpaDetailReport($timeout, utilitiesFactory) {
+    function gridMonthlyEpaDetailReport($window, $timeout, utilitiesFactory, baseUrl) {
         var status = {
             NotAvailable: 'N/A',
             Pending: 'Pending'
@@ -108,16 +108,25 @@
             return rows;
         }
 
+        function registerViewEPADetailEvent() {
+            $('.freegrid').off('click', '.table-cell a.viewEPADetail');
+
+            $('.freegrid').on('click', '.table-cell a.viewEPADetail', function (event) {
+                event.preventDefault();
+
+                var epaId = parseInt($(this).data('epaid'));
+                $window.location.href = baseUrl + 'EPA/Detail/' + epaId;
+            });
+        }
+
         return {
             restrict: "A",
             scope: {
                 gridData: "=",
                 pageOption: '=',
-                onPageChanging: '=',
                 onSortChanging: '=',
                 hideColumns: '=',
                 exportReport: '=',
-                viewEpaDetail: '=',
                 sortColumnName: '=',
                 sortDirection: '=',
                 gridExpandHeight: '@'
@@ -158,24 +167,16 @@
 
                             gridOptions.pagerOption = {
                                 startPerPage: utilitiesFactory.pageOption.itemsPerPage,
-                                totalItem: gridData ? gridData.TotalItem : 0,
+                                totalItem: gridData ? gridData.MemberEPAs.length : 0,
                                 itemsPerPageArray: utilitiesFactory.pageOption.itemsPerPageArray,
                                 itemsPerPage: $scope.pageOption.itemsPerPage,
-                                currentPage: $scope.pageOption.pageIndex,
-                                pagerSelectCallBack: function (pageIndex, itemsPerPage) {
-                                    $scope.onPageChanging(pageIndex, itemsPerPage);
-                                }
+                                currentPage: $scope.pageOption.pageIndex
                             };
 
                             $(iElement).fanexGrid(gridOptions);
                             $(iElement).fanexGrid("hideColumns", gridOptions, $scope.hideColumns);
 
-                            $('a.viewEPADetail').on('click', function (event) {
-                                event.preventDefault();
-
-                                var epaId = parseInt($(this).data('epaid'));
-                                $scope.viewEpaDetail(epaId);
-                            });
+                            registerViewEPADetailEvent();
                         }
                     });
                 });

@@ -22,7 +22,5 @@
                 return Constants.MaxFinalScore;
             }
         }
-
-        public int TotalItem { get; set; }
     }
 }

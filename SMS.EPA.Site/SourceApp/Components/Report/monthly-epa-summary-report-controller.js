@@ -59,9 +59,7 @@
                 vm.filter.departmentId,
                 vm.filter.isLocal,
                 vm.filter.sortColumnName,
-                vm.filter.sortDirection,
-                vm.filter.pageIndex,
-                vm.filter.itemsPerPage)
+                vm.filter.sortDirection)
             .then(function () {
                 vm.epaSummary = ReportModel.epaSummary;
                 lockScreenService.stop();
@@ -139,13 +137,6 @@
             };
 
             $scope.$broadcast('exportMonthlyEpaSummaryReport');
-        };
-
-        vm.pageChanging = function (pageIndex, itemsPerPage) {
-            vm.filter.pageIndex = pageIndex;
-            vm.filter.itemsPerPage = itemsPerPage;
-
-            getMonthlyEPASummaryReport();
         };
 
         vm.query = function () {

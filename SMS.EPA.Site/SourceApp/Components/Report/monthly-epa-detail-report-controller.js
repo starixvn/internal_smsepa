@@ -3,11 +3,9 @@
     /* jshint latedef:nofunc */
 
     angular.module('reportModule').controller('MonthlyEPADetailReportController', monthlyEPADetailReportController);
-    monthlyEPADetailReportController.$inject = ['$scope', '$window', '$timeout', 'ReportModel', 'CommonModel',
-        'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl'];
+    monthlyEPADetailReportController.$inject = ['$scope', 'ReportModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'lockScreenService'];
 
-    function monthlyEPADetailReportController($scope, $window, $timeout, ReportModel, CommonModel,
-        utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
+    function monthlyEPADetailReportController($scope, ReportModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService) {
         var vm = this;
 
         vm.epaDetail = [];
@@ -66,9 +64,7 @@
                 filter.isLocal,
                 filter.phaseIds,
                 filter.sortColumnName,
-                filter.sortDirection,
-                filter.pageIndex,
-                filter.itemsPerPage)
+                filter.sortDirection)
             .then(function () {
                 vm.epaDetail = ReportModel.epaDetail;
                 lockScreenService.stop();
@@ -107,13 +103,6 @@
             $scope.$broadcast('exportMonthlyEpaDetailReport');
         };
 
-        vm.pageChanging = function (pageIndex, itemsPerPage) {
-            vm.filter.pageIndex = pageIndex;
-            vm.filter.itemsPerPage = itemsPerPage;
-
-            getMonthlyEPADetailReport(vm.filter);
-        };
-
         vm.query = function (filter) {
             getShowHideColumns();
             filter.pageIndex = utilitiesFactory.pageOption.pageIndex;
@@ -129,10 +118,6 @@
             vm.filter.sortDirection = sortDirection;
 
             getMonthlyEPADetailReport(vm.filter);
-        };
-
-        vm.viewEPADetail = function (epaId) {
-            $window.location.href = baseUrl + 'EPA/Detail/' + epaId;
         };
     }
 })(angular);
