@@ -57,12 +57,12 @@
                 <div ng-show="!myEPA.Period.IsEndPeriod" data-translate="Pending"></div>
             </td>
             <td class="text-center col-action">
-                <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="dashboardCtrl.viewEPADetail(myEPA)"
+                <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="dashboardCtrl.selfEvaluationDetail(myEPA)"
                    ng-if="myEPA.EPAId > 0 && (myEPA.IsAllowedToEdit || !myEPA.IsEndProcessBySelf)"
-                   ng-href="{{dashboardCtrl.viewEPADetailUrl}}" ng-attr-title='{{"EvaluateNow" | translate}}'></a>
+                   ng-attr-title='{{"EvaluateNow" | translate}}'></a>
                 <a class="glyphicon icon-view" href="" ng-click="dashboardCtrl.viewEPAResult(myEPA)"
                    ng-if="myEPA.EPAId > 0 && !(myEPA.IsAllowedToEdit || !myEPA.IsEndProcessBySelf)"
-                   ng-href="{{dashboardCtrl.viewEPAResultUrl}}" ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
+                   ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
             </td>
         </tr>
     </tbody>

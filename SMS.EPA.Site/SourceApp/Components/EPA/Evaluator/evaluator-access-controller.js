@@ -2,9 +2,9 @@
 /*global epaModule*/
 
 epaModule.controller('EvaluatorController',
-['$routeParams', 'EvaluationModel', 'EvaluatorEPAModel', 'SelfEvalutorModel', 'CommonModel',
+['$location', '$routeParams', 'EvaluationModel', 'EvaluatorEPAModel', 'SelfEvalutorModel', 'CommonModel',
     'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl',
-function ($routeParams, EvaluationModel, EvaluatorEPAModel, SelfEvalutorModel, CommonModel,
+function ($location, $routeParams, EvaluationModel, EvaluatorEPAModel, SelfEvalutorModel, CommonModel,
     utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
     var vm = this;
 
@@ -113,11 +113,11 @@ function ($routeParams, EvaluationModel, EvaluatorEPAModel, SelfEvalutorModel, C
     };
 
     vm.viewEPADetail = function (epaInfo) {
-        vm.viewEPADetailUrl = baseUrl + 'Evaluator/Detail/' + epaInfo.EPAId;
+        $location.url(baseUrl + 'Evaluator/Detail/' + epaInfo.EPAId);
     };
 
     vm.viewEPAResult = function (epaInfo) {
-        vm.viewEPAResultUrl = baseUrl + 'EPA/Detail/' + epaInfo.EPAId;
+        $location.url(baseUrl + 'EPA/Detail/' + epaInfo.EPAId);
     };
 
     vm.viewOtherViolationDetail = function (epaInfo) {
@@ -125,7 +125,7 @@ function ($routeParams, EvaluationModel, EvaluatorEPAModel, SelfEvalutorModel, C
     };
 
     vm.viewEPAHistory = function (employeeId) {
-        vm.viewEPAHistoryUrl = baseUrl + 'EPAHistory/Index?empId=' + employeeId;
+        $location.url(baseUrl + 'EPAHistory/Index?empId=' + employeeId);
     };
 
     function initialize() {

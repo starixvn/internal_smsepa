@@ -23,9 +23,9 @@
                     <td class="text-center">{{ epaInfo.Process.CurrentProcess.EndDate | customDate }}</td>
                     <td class="text-center col-action" ng-switch="epaInfo.IsAllowedToEdit">
                         <a ng-switch-when="true" class="glyphicon glyphicon-edit icon-edit" href="" ng-click="empEPACtrl.viewEPADetail(epaInfo)"
-                           ng-href="{{empEPACtrl.viewEPADetailUrl}}" ng-attr-title='{{"EvaluateNow" | translate}}'></a>
+                           ng-attr-title='{{"EvaluateNow" | translate}}'></a>
                         <a ng-switch-default class="glyphicon icon-view" href="" ng-click="empEPACtrl.viewEPAResult(epaInfo)"
-                           ng-href="{{empEPACtrl.viewEPAResultUrl}}" ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
+                           ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
                     </td>
                 </tr>
                 <tr ng-show="empEPACtrl.epaInfos.length == 0">

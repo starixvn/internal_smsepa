@@ -156,14 +156,13 @@
                         <div ng-show="epaInfo.Process.CurrentProcess.Evaluated" class="glyphicon glyphicon-ok"></div>
                     </td>
                     <td class="text-center">
-                        <a data-translate="View" ng-click="evaluatorCtrl.viewEPAHistory(epaInfo.Employee.EmployeeId)"
-                           href="{{evaluatorCtrl.viewEPAHistoryUrl}}"></a>
+                        <a data-translate="View" ng-click="evaluatorCtrl.viewEPAHistory(epaInfo.Employee.EmployeeId)" href=""></a>
                     </td>
                     <td class="text-center text-uppercase col-action" ng-switch="epaInfo.IsAllowedToEdit">
                         <a ng-switch-when="true" class="glyphicon glyphicon-edit icon-edit" href="" ng-click="evaluatorCtrl.viewEPADetail(epaInfo)"
-                           ng-href="{{evaluatorCtrl.viewEPADetailUrl}}" ng-attr-title='{{"EvaluateNow" | translate}}'></a>
+                           ng-attr-title='{{"EvaluateNow" | translate}}'></a>
                         <a ng-switch-default class="glyphicon icon-view" href="" ng-click="evaluatorCtrl.viewEPAResult(epaInfo)"
-                           ng-href="{{evaluatorCtrl.viewEPAResultUrl}}" ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
+                           ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
                     </td>
                 </tr>
                 <tr ng-show="evaluatorCtrl.epaInfos.length == 0">

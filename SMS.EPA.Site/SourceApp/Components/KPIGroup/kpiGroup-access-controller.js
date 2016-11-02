@@ -3,9 +3,9 @@
     /* jshint latedef:nofunc */
 
     angular.module('kpiGroupModule').controller('KPIGroupController', KPIGroupController);
-    KPIGroupController.$inject = ['KPIGroupModel', 'KPIModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl'];
+    KPIGroupController.$inject = ['$location', 'KPIGroupModel', 'KPIModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl'];
 
-    function KPIGroupController(KPIGroupModel, KPIModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
+    function KPIGroupController($location, KPIGroupModel, KPIModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
         var vm = this;
 
         vm.currentPage = 1;
@@ -109,7 +109,7 @@
         }
 
         function viewKPI(kpiGroupId) {
-            vm.viewKPIUrl = baseUrl + 'KPI/Index' + '?groupId=' + kpiGroupId;
+            $location.url(baseUrl + 'KPI/Index' + '?groupId=' + kpiGroupId);
         }
     }
 })(angular);

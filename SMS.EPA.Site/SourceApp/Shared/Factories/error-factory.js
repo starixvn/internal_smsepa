@@ -3,19 +3,23 @@
     /* jshint latedef:nofunc */
 
     angular.module('appModule').factory('errorFactory', errorFactory);
-    errorFactory.$inject = ['$location', '$window', 'baseUrl'];
+    errorFactory.$inject = ['$location', '$window', 'notificationFactory', 'baseUrl'];
 
-    function errorFactory($location, $window, baseUrl) {
+    function errorFactory($location, $window, notificationFactory, baseUrl) {
         return {
-            errorHandle: function (status) {
-                if (status === 405) {
-                    $location.path(baseUrl + 'Home/AccessDenied');
-                }
-                else if (status === 401) {
+            errorHandle: function (status, internalPageRedirect) {
+                if (status === 401) {
                     $window.location.href = baseUrl + "Auth/Login";
-                }
-                else {
-                    $location.path(baseUrl + 'Home/InternalError');
+                } else if (status === 404) {
+                    $location.path(baseUrl + 'Home/PageNotFound');
+                } else if (status === 405) {
+                    $location.path(baseUrl + 'Home/AccessDenied');
+                } else {
+                    notificationFactory.error("ErrorMessage");
+
+                    if (internalPageRedirect) {
+                        $location.path(baseUrl + 'Home/InternalError');
+                    }
                 }
             }
         };

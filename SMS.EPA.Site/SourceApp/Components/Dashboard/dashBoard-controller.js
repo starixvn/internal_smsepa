@@ -4,9 +4,9 @@
     /* jshint validthis:true */
 
     angular.module('dashboardModule').controller('DashboardController', dashboardController);
-    dashboardController.$inject = ['$window', 'DashboardModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService', 'baseUrl'];
+    dashboardController.$inject = ['$location', 'DashboardModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService', 'baseUrl'];
 
-    function dashboardController($window, DashboardModel, CommonModel, utilitiesFactory, lockScreenService, baseUrl) {
+    function dashboardController($location, DashboardModel, CommonModel, utilitiesFactory, lockScreenService, baseUrl) {
         var vm = this;
 
         vm.epaStatusEnum = utilitiesFactory.epaStatus;
@@ -18,7 +18,7 @@
         vm.goToEvaluatorListing = goToEvaluatorListing;
         vm.goToManagementListing = goToManagementListing;
         vm.goToReviewerListing = goToReviewerListing;
-        vm.viewEPADetail = viewEPADetail;
+        vm.selfEvaluationDetail = selfEvaluationDetail;
         vm.viewEPAResult = viewEPAResult;
         vm.viewOtherViolationDetail = viewOtherViolationDetail;
 
@@ -73,23 +73,23 @@
         }
 
         function goToEvaluatorListing(finished, isMonthly) {
-            $window.location.href = baseUrl + 'Evaluator/Index?isMonthly=' + isMonthly + '&statusProcess=' + finished;
+            $location.url(baseUrl + 'Evaluator/Index?isMonthly=' + isMonthly + '&statusProcess=' + finished);
         }
 
         function goToManagementListing(finished) {
-            $window.location.href = baseUrl + 'Management/Index?statusProcess=' + finished;
+            $location.url(baseUrl + 'Management/Index?statusProcess=' + finished);
         }
 
         function goToReviewerListing(finished, isMonthly) {
-            $window.location.href = baseUrl + 'Reviewer/Index?isMonthly=' + isMonthly + '&statusProcess=' + finished;
+            $location.url(baseUrl + 'Reviewer/Index?isMonthly=' + isMonthly + '&statusProcess=' + finished);
         }
 
-        function viewEPADetail(epa) {
-            vm.viewEPADetailUrl = baseUrl + 'SelfEvaluation/Detail/' + epa.EPAId;
+        function selfEvaluationDetail(epa) {
+            $location.url(baseUrl + 'SelfEvaluation/Detail/' + epa.EPAId);
         }
 
         function viewEPAResult(epa) {
-            vm.viewEPAResultUrl = baseUrl + 'EPA/Detail/' + epa.EPAId;
+            $location.url(baseUrl + 'EPA/Detail/' + epa.EPAId);
         }
 
         function viewOtherViolationDetail(epa) {

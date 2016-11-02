@@ -11,16 +11,22 @@ var appModule = angular.module("appModule", ['employeeModule', 'commonModule', '
 function ($translateProvider, $locationProvider, paginationTemplateProvider, $routeProvider,
     datepickerConfig, datepickerPopupConfig, $provide) {
     $translateProvider.useLoader('resourceFactory', {});
+    $translateProvider.preferredLanguage('en');
+
     $routeProvider
         .when('/Home/AccessDenied', { templateUrl: '/SourceApp/Shared/Templates/AccessDenied.html' })
         .when('/Home/InternalError', { templateUrl: '/SourceApp/Shared/Templates/InternalError.html' })
+        .when('/Home/PageNotFound', { templateUrl: '/SourceApp/Shared/Templates/PageNotFound.html' })
         .otherwise({ templateUrl: '/SourceApp/Shared/Templates/PageNotFound.html' });
-    $translateProvider.preferredLanguage('en');
+
     $locationProvider.html5Mode(true);
+
     datepickerConfig.showWeeks = false;
     datepickerPopupConfig.showButtonBar = false;
     datepickerPopupConfig.datepickerPopup = 'dd MMM, yyyy';
+
     paginationTemplateProvider.setPath('SourceApp/Shared/Templates/dirPagination.tpl.html');
+
     var baseUrl = $("base").first().attr("href");
     $provide.value("baseUrl", baseUrl);
 }]);

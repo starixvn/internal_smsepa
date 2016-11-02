@@ -4,9 +4,9 @@
     /* jshint validthis:true */
 
     angular.module('epaModule').controller('EmployeeEPAController', employeeEPAController);
-    employeeEPAController.$inject = ['SelfEvalutionModel', 'lockScreenService', 'baseUrl'];
+    employeeEPAController.$inject = ['$location', 'SelfEvalutionModel', 'lockScreenService', 'baseUrl'];
 
-    function employeeEPAController(SelfEvalutionModel, lockScreenService, baseUrl) {
+    function employeeEPAController($location, SelfEvalutionModel, lockScreenService, baseUrl) {
         var vm = this;
 
         vm.epaInfos = [];
@@ -26,11 +26,11 @@
         }
 
         function viewEPADetail(epaInfo) {
-            vm.viewEPADetailUrl = baseUrl + 'SelfEvaluation/Detail/' + epaInfo.EPAId;
+            $location.url(baseUrl + 'SelfEvaluation/Detail/' + epaInfo.EPAId);
         }
 
         function viewEPAResult(epaInfo) {
-            vm.viewEPAResultUrl = baseUrl + 'EPA/Detail/' + epaInfo.EPAId;
+            $location.url(baseUrl + 'EPA/Detail/' + epaInfo.EPAId);
         }
     }
 })(angular);

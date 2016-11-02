@@ -22,6 +22,7 @@
                 "Home",
                 "Home/AccessDenied",
                 "Home/InternalError",
+                "Home/PageNotFound",
                 "Employee/Index",
                 "KPI/Index",
                 "KPIGroup/Index",

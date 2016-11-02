@@ -45,7 +45,7 @@
                     <td ng-bind="kpiGroup.Name"></td>
                     <td class="text-center col-number-kpis">
                         <a href="" ng-if="kpiGroup.NumberKPI > 0 && kpiGroupCtrl.permissionOnKPI > 0" ng-click="kpiGroupCtrl.viewKPI(kpiGroup.KPIGroupId)"
-                           ng-bind="kpiGroup.NumberKPI" ng-href="{{kpiGroupCtrl.viewKPIUrl}}" class="number-kpi"></a>
+                           ng-bind="kpiGroup.NumberKPI" class="number-kpi"></a>
                         <span ng-if="kpiGroup.NumberKPI === 0 || kpiGroupCtrl.permissionOnKPI != kpiGroupCtrl.policyEnum.Host" ng-bind="kpiGroup.NumberKPI"></span>
                     </td>
                     <td class="text-center col-active">

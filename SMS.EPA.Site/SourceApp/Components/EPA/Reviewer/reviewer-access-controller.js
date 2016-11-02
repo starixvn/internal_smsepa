@@ -2,9 +2,9 @@
 /*global epaModule*/
 
 epaModule.controller('ReviewerController',
-['$translate', '$location', '$routeParams', 'EvaluationModel', 'ReviewerEPAModel', 'ReviewerManagementModel', 'CommonModel',
+['$location', '$translate', '$routeParams', 'EvaluationModel', 'ReviewerEPAModel', 'ReviewerManagementModel', 'CommonModel',
     'utilitiesFactory', 'notificationFactory', 'historyFactory', 'lockScreenService', 'baseUrl',
-function ($translate, $location, $routeParams, EvaluationModel, ReviewerEPAModel, ReviewerManagementModel, CommonModel,
+function ($location, $translate, $routeParams, EvaluationModel, ReviewerEPAModel, ReviewerManagementModel, CommonModel,
     utilitiesFactory, notificationFactory, historyFactory, lockScreenService, baseUrl) {
     var vm = this;
 
@@ -191,18 +191,17 @@ function ($translate, $location, $routeParams, EvaluationModel, ReviewerEPAModel
     vm.viewEPADetail = function (epaInfo) {
         if (ReviewerManagementModel.checkAdjustScoreChanged(vm.epaInfos)) {
             ReviewerManagementModel.openPopupRemindSaveChange(vm).then(function () {
-                vm.viewEPADetailUrl = baseUrl + 'Reviewer/Detail/' + epaInfo.EPAId;
-                $location.url(vm.viewEPADetailUrl);
+                $location.url(baseUrl + 'Reviewer/Detail/' + epaInfo.EPAId);
             })['finally'](function () {
                 vm.modalInstance = '';
             });
         } else {
-            vm.viewEPADetailUrl = baseUrl + 'Reviewer/Detail/' + epaInfo.EPAId;
+            $location.url(baseUrl + 'Reviewer/Detail/' + epaInfo.EPAId);
         }
     };
 
     vm.viewEPAResult = function (epaInfo) {
-        vm.viewEPAResultUrl = baseUrl + 'EPA/Detail/' + epaInfo.EPAId;
+        $location.url(baseUrl + 'EPA/Detail/' + epaInfo.EPAId);
     };
 
     vm.viewOtherViolationDetail = function (epaInfo) {
