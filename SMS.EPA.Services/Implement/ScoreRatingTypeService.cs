@@ -2,8 +2,8 @@
 {
     using System.Collections.Generic;
     using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria.ScoreRatingType;
-    using SMS.EPA.Model.ScoreRatingType;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Model;
     using SMS.EPA.Services.Interfaces;
 
     public class ScoreRatingTypeService : BaseService, IScoreRatingTypeService

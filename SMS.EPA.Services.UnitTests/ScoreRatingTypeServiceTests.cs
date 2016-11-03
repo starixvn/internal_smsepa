@@ -1,11 +1,11 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
+    using System.Collections.Generic;
     using NSubstitute;
     using NUnit.Framework;
-    using SMS.EPA.Criteria.ScoreRatingType;
-    using SMS.EPA.Model.ScoreRatingType;
+    using SMS.EPA.Criteria;
+    using SMS.EPA.Model;
     using SMS.EPA.Services.Implement;
-    using System.Collections.Generic;
 
     [TestFixture]
     public class ScoreRatingTypeServiceTests

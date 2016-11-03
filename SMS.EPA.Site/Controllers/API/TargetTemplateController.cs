@@ -7,10 +7,8 @@
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Criteria;
-    using SMS.EPA.Criteria.ScoreRatingType;
     using SMS.EPA.Model;
     using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Model.ScoreRatingType;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
 

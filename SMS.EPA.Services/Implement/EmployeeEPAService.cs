@@ -13,7 +13,6 @@
     using SMS.EPA.Criteria;
     using SMS.EPA.Model;
     using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Model.ScoreRatingType;
     using SMS.EPA.Repositories;
     using SMS.EPA.Services.Interfaces;
 

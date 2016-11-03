@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Criteria.ScoreRatingType
+﻿namespace SMS.EPA.Criteria
 {
     using Fanex.Data.Repository;
 

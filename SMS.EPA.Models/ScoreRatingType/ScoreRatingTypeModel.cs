@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.Model.ScoreRatingType
+﻿namespace SMS.EPA.Model
 {
     public class ScoreRatingTypeModel
     {

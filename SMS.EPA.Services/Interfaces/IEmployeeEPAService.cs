@@ -5,7 +5,6 @@
     using SMS.EPA.Criteria;
     using SMS.EPA.Model;
     using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Model.ScoreRatingType;
 
     public interface IEmployeeEPAService
     {

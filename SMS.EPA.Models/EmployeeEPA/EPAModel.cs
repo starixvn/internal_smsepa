@@ -4,7 +4,6 @@
     using System.Linq;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Model.ScoreRatingType;
 
     public class EPAModel
     {

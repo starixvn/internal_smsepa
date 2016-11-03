@@ -9,7 +9,6 @@
     using SMS.EPA.Core.Services;
     using SMS.EPA.Model;
     using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Model.ScoreRatingType;
 
     public class ReportRepository : IReportRepository
     {

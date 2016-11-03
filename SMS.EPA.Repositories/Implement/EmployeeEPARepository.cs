@@ -8,7 +8,6 @@
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Model;
-    using SMS.EPA.Model.ScoreRatingType;
 
     public class EmployeeEPARepository : IEmployeeEPARepository
     {
