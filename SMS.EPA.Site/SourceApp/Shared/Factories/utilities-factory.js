@@ -116,8 +116,7 @@
         }
 
         function getSelectedData(data, propName) {
-            var selectedProperties = [],
-                allProperties = [];
+            var selectedProperties = [];
 
             angular.forEach(data, function (item) {
                 var selectedValue = propName ? item[propName] : item;
@@ -125,16 +124,12 @@
                 if (item.ticked) {
                     selectedProperties.push(selectedValue);
                 }
-
-                allProperties.push(selectedValue);
             });
 
             var result = null;
 
             if (selectedProperties.length > 0) {
                 result = propName ? selectedProperties.join(',') : selectedProperties;
-            } else if (allProperties.length > 0) {
-                result = propName ? allProperties.join(',') : allProperties;
             }
 
             return result;

@@ -114,8 +114,7 @@
                         cssManagementScore = '',
                         cssDisciplineScore = memberEPA.EPAId > 0 && memberEPA.DisciplineScore < 0 ? 'red' : '',
                         pdfIcon = '<a class="icon-pdf exportPDF" data-epaid="' + memberEPA.EPAId + '"></a>',
-                        viewIcon = '<a class="icon-view viewEPADetail" data-epaid="' + memberEPA.EPAId + '" data-export-pdf="'
-                            + (memberEPA.StatusId === 1 && memberEPA.Period.IsEndPeriod) + '"></a>';
+                        viewIcon = '<a class="icon-view viewEPADetail" data-epaid="' + memberEPA.EPAId + '"></a>';
 
                     if (memberEPA.EPAId > 0
                         && memberEPA.Process.Managements
@@ -153,20 +152,14 @@
             return rows;
         }
 
-        function registerViewEPADetailEvent() {
+        function registerViewEPADetailEvent(pageOption) {
             $('.freegrid').off('click', '.table-cell a.viewEPADetail');
 
             $('.freegrid').on('click', '.table-cell a.viewEPADetail', function (event) {
                 event.preventDefault();
 
-                var epaId = parseInt($(this).data('epaid')),
-                    exportPdf = $(this).data('export-pdf');
-
-                if (exportPdf) {
-                    $window.location.href = baseUrl + 'EPA/Detail/' + epaId + '?exportPdf';
-                } else {
-                    $window.location.href = baseUrl + 'EPA/Detail/' + epaId;
-                }
+                var epaId = parseInt($(this).data('epaid'));
+                $window.location.href = baseUrl + 'EPA/Detail/' + epaId + '?exportPdf';
             });
         }
 
@@ -244,7 +237,7 @@
                             $(iElement).fanexGrid(gridOptions);
                             $(iElement).fanexGrid("hideColumns", gridOptions, $scope.hideColumns);
 
-                            registerViewEPADetailEvent();
+                            registerViewEPADetailEvent($scope.pageOption);
                             registerExportPdfEvent();
                         }
                     });

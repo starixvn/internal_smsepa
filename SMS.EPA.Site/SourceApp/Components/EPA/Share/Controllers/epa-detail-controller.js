@@ -4,7 +4,8 @@
     /* jshint validthis:true */
 
     angular.module('epaModule').controller('EPADetailController', epaDetailController);
-    epaDetailController.$inject = ['$routeParams', 'EvaluationModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl'];
+    epaDetailController.$inject = ['$routeParams', 'EvaluationModel', 'CommonModel', 'utilitiesFactory', 'historyFactory',
+        'lockScreenService', 'baseUrl'];
 
     function epaDetailController($routeParams, EvaluationModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
         var vm = this;

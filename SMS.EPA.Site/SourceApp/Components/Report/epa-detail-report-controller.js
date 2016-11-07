@@ -3,9 +3,9 @@
     /* jshint latedef:nofunc */
 
     angular.module('reportModule').controller('EPADetailReportController', epaDetailReportController);
-    epaDetailReportController.$inject = ['$scope', 'ReportModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'lockScreenService'];
+    epaDetailReportController.$inject = ['$scope', 'ReportModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService'];
 
-    function epaDetailReportController($scope, ReportModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService) {
+    function epaDetailReportController($scope, ReportModel, CommonModel, utilitiesFactory, lockScreenService) {
         var vm = this;
 
         vm.epaDetail = [];
@@ -39,7 +39,7 @@
                 lockScreenService.stop();
             });
 
-            historyFactory.saveState(vm.filter);
+            localStorage.setItem('EPADetailReport', JSON.stringify(vm.filter));
         }
 
         function getShowHideColumns() {
@@ -61,8 +61,9 @@
         }
 
         function initFilter() {
-            var filter = historyFactory.getState();
-            return filter ? filter : {
+            var filter = localStorage.getItem('EPADetailReport');
+
+            return filter ? JSON.parse(filter) : {
                 periodId: '',
                 departmentId: '',
                 isLocal: '',
@@ -70,12 +71,14 @@
                 sortColumnName: '',
                 sortDirection: '',
                 pageIndex: utilitiesFactory.pageOption.pageIndex,
-                itemsPerPage: utilitiesFactory.pageOption.itemsPerPage,
+                itemsPerPage: utilitiesFactory.pageOption.itemsPerPage
             };
         }
 
         function initialize() {
             vm.filter = initFilter();
+            utilitiesFactory.setSelectedItem(vm.scoredBy, 'PhaseId', vm.filter.phaseIds);
+            getShowHideColumns();
 
             CommonModel.getDepartment().then(function () {
                 vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
@@ -84,7 +87,7 @@
             ReportModel.getAllPeriodIncludeImport().then(function () {
                 vm.periods = ReportModel.periods;
 
-                if (vm.periods.length > 0) {
+                if (!vm.filter.periodId && vm.periods.length > 0) {
                     vm.filter.periodId = vm.periods[0].PeriodId;
                 }
 
