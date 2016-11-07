@@ -24,9 +24,7 @@
         initialize();
 
         function initFilter() {
-            var filter = localStorage.getItem('MonthlyEPADetailReport');
-
-            return filter ? JSON.parse(filter) : {
+            var filter = {
                 periodId: '',
                 departmentId: '',
                 isLocal: '',
@@ -36,12 +34,12 @@
                 sortColumnName: '',
                 sortDirection: ''
             };
+
+            return filter;
         }
 
         function initialize() {
             vm.filter = initFilter();
-            utilitiesFactory.setSelectedItem(vm.scoredBy, 'PhaseId', vm.filter.phaseIds);
-            getShowHideColumns();
 
             CommonModel.getDepartment().then(function () {
                 vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
@@ -50,7 +48,7 @@
             CommonModel.getAllMonthlyPeriod().then(function () {
                 vm.periods = CommonModel.monthlyPeriods;
 
-                if (!vm.filter.periodId && vm.periods.length > 0) {
+                if (vm.periods.length > 0) {
                     vm.filter.periodId = vm.periods[0].PeriodId;
                 }
 
@@ -72,8 +70,6 @@
                 vm.epaDetail = ReportModel.epaDetail;
                 lockScreenService.stop();
             });
-
-            localStorage.setItem('MonthlyEPADetailReport', JSON.stringify(vm.filter));
         }
 
         function getShowHideColumns() {

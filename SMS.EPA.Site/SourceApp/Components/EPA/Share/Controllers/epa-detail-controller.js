@@ -4,10 +4,10 @@
     /* jshint validthis:true */
 
     angular.module('epaModule').controller('EPADetailController', epaDetailController);
-    epaDetailController.$inject = ['$routeParams', 'EvaluationModel', 'CommonModel', 'utilitiesFactory', 'historyFactory',
+    epaDetailController.$inject = ['$location', '$routeParams', 'EvaluationModel', 'CommonModel', 'utilitiesFactory', 'historyFactory',
         'lockScreenService', 'baseUrl'];
 
-    function epaDetailController($routeParams, EvaluationModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
+    function epaDetailController($location, $routeParams, EvaluationModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
         var vm = this;
 
         vm.epaId = parseInt($routeParams.id);
@@ -17,7 +17,14 @@
         vm.isViewDetail = true;
 
         vm.back = function () {
-            historyFactory.back();
+            if ($routeParams.fromEPADetailReport) {
+                $location.url(baseUrl + 'Report/EPADetailReport?periodId=' + $routeParams.periodId
+                    + '&departmentId=' + $routeParams.departmentId
+                    + '&phaseIds=' + $routeParams.phaseIds
+                    + '&isLocal=' + $routeParams.isLocal);
+            } else {
+                historyFactory.back();
+            }
         };
 
         vm.exportPdf = function () {

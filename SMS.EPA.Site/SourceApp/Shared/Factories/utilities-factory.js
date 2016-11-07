@@ -126,7 +126,7 @@
                 }
             });
 
-            var result = null;
+            var result = '';
 
             if (selectedProperties.length > 0) {
                 result = propName ? selectedProperties.join(',') : selectedProperties;

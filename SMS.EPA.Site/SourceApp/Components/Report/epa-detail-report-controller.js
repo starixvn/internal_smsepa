@@ -3,9 +3,9 @@
     /* jshint latedef:nofunc */
 
     angular.module('reportModule').controller('EPADetailReportController', epaDetailReportController);
-    epaDetailReportController.$inject = ['$scope', 'ReportModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService'];
+    epaDetailReportController.$inject = ['$scope', '$routeParams', 'ReportModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService'];
 
-    function epaDetailReportController($scope, ReportModel, CommonModel, utilitiesFactory, lockScreenService) {
+    function epaDetailReportController($scope, $routeParams, ReportModel, CommonModel, utilitiesFactory, lockScreenService) {
         var vm = this;
 
         vm.epaDetail = [];
@@ -61,18 +61,18 @@
         }
 
         function initFilter() {
-            var filter = localStorage.getItem('EPADetailReport');
-
-            return filter ? JSON.parse(filter) : {
-                periodId: '',
-                departmentId: '',
-                isLocal: '',
-                phaseIds: '',
+            var filter = {
+                periodId: $routeParams.periodId ? parseInt($routeParams.periodId) : '',
+                departmentId: $routeParams.departmentId ? parseInt($routeParams.departmentId) : '',
+                isLocal: $routeParams.isLocal ? $routeParams.isLocal : '',
+                phaseIds: $routeParams.phaseIds ? $routeParams.phaseIds : '',
                 sortColumnName: '',
                 sortDirection: '',
                 pageIndex: utilitiesFactory.pageOption.pageIndex,
                 itemsPerPage: utilitiesFactory.pageOption.itemsPerPage
             };
+
+            return filter;
         }
 
         function initialize() {

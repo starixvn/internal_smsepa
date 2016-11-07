@@ -159,7 +159,12 @@
                 event.preventDefault();
 
                 var epaId = parseInt($(this).data('epaid'));
-                $window.location.href = baseUrl + 'EPA/Detail/' + epaId + '?exportPdf';
+                $window.location.href = baseUrl + 'EPA/Detail/' + epaId
+                    + '?periodId=' + pageOption.periodId
+                    + '&departmentId=' + pageOption.departmentId
+                    + '&phaseIds=' + pageOption.phaseIds
+                    + '&isLocal=' + pageOption.isLocal
+                    + '&exportPdf&fromEPADetailReport';
             });
         }
 
