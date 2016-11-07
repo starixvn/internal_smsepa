@@ -4,6 +4,7 @@
     using System.IO;
     using System.Linq;
     using System.Web.Mvc;
+    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.Report;
@@ -99,9 +100,23 @@
         {
             criteria.EmployeeId = sessionService.CurrentUser.EmployeeId;
 
-            EPADetailModel epaDetail = reportService.GetEPADetailReport(criteria);
+            EPADetailModel epaInfos = reportService.GetEPADetailReport(criteria);
 
-            epaDetailReportService.Render(epaDetail);
+            if (string.IsNullOrEmpty(criteria.SortColumnName) && epaInfos.MemberEPAs.Any())
+            {
+                switch (epaInfos.MemberEPAs.First().Period.TargetTypeId)
+                {
+                    case (int)TargetTypes.Probation:
+                        epaInfos.MemberEPAs = epaInfos.MemberEPAs.OrderByDescending(x => x.Employee.Code);
+                        break;
+
+                    default:
+                        epaInfos.MemberEPAs = epaInfos.MemberEPAs.OrderBy(x => x.Employee.GroupCode).ThenBy(x => x.Employee.Code);
+                        break;
+                }
+            }
+
+            epaDetailReportService.Render(epaInfos);
 
             return new EmptyResult();
         }
