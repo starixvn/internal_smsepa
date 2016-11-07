@@ -713,9 +713,9 @@
                     EvaluationModel self = kpiGroup.KPIs[index].EvaluationBySelf;
                     score =
                         epaInfo.Process.Self.IsEndProcess
-                        ? (string.IsNullOrEmpty(self.Score) ? Lang.NotAvailable : self.ScoreToDisplay)
+                        ? (string.IsNullOrEmpty(self.Score) ? Lang.NotAvailable : self.ScoreToDisplay + " pts")
                         : Lang.Pending;
-                    cell = new PdfPCell(new Phrase(score + " pts", normalFont));
+                    cell = new PdfPCell(new Phrase(score, normalFont));
                     cell.Rowspan = rowspan;
                     cell.BorderColor = borderColor;
                     cell.HorizontalAlignment = Element.ALIGN_CENTER;
@@ -736,9 +736,9 @@
 
                         score =
                             epaInfo.Process.Evaluators.First().IsEndProcess
-                            ? (string.IsNullOrEmpty(evaluator.Score) ? Lang.NotAvailable : evaluator.ScoreToDisplay)
+                            ? (string.IsNullOrEmpty(evaluator.Score) ? Lang.NotAvailable : evaluator.ScoreToDisplay + " pts")
                             : Lang.Pending;
-                        cell = new PdfPCell(new Phrase(score + " pts", normalFont));
+                        cell = new PdfPCell(new Phrase(score, normalFont));
                         cell.BorderColor = borderColor;
                         cell.HorizontalAlignment = Element.ALIGN_CENTER;
                         cell.VerticalAlignment = Element.ALIGN_MIDDLE;
