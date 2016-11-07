@@ -61,12 +61,10 @@
             <td class="text-center col-score" ng-show="performanceResultCtrl.process.Managements.length > 0">
                 <div ng-show="performanceResultCtrl.process.Managements[$index]
                             && performanceResultCtrl.process.Managements[$index].IsEndProcess">
-                    <span ng-show="performanceResultCtrl.process.Managements[$index].TotalScore
-                              || performanceResultCtrl.process.Managements[$index].TotalScore == 0">
+                    <span ng-show="performanceResultCtrl.process.Managements[$index].TotalScore.length > 0">
                         {{performanceResultCtrl.process.Managements[$index].TotalScore | customScore}} / {{performanceResultCtrl.process.Managements[$index].MaxTotalScore | customScore}}
                     </span>
-                    <span data-translate="NotAvailable" ng-show="!performanceResultCtrl.process.Managements[$index].TotalScore
-                                            && performanceResultCtrl.process.Managements[$index].TotalScore != 0"></span>
+                    <span data-translate="NotAvailable" ng-show="performanceResultCtrl.process.Managements[$index].TotalScore.length === 0"></span>
                 </div>
                 <div data-translate="Pending" ng-show="performanceResultCtrl.process.Managements[$index]
                             && !performanceResultCtrl.process.Managements[$index].IsEndProcess"></div>
@@ -95,10 +93,10 @@
             </td>
             <td rowspan="{{performanceResultCtrl.epaInfo.Rowspan}}" class="text-center col-score" ng-show="$first">
                 <strong ng-show="performanceResultCtrl.epaInfo.Period.IsEndPeriod">
-                    <span ng-show="performanceResultCtrl.epaInfo.FinalScore || performanceResultCtrl.epaInfo.FinalScore == 0">
+                    <span ng-show="performanceResultCtrl.epaInfo.FinalScore.length > 0">
                         {{performanceResultCtrl.epaInfo.FinalScore | customScore}} / {{performanceResultCtrl.epaInfo.MaxFinalScore | customScore}}
                     </span>
-                    <span ng-show="!performanceResultCtrl.epaInfo.FinalScore && performanceResultCtrl.epaInfo.FinalScore != 0" data-translate="NotAvailable"></span>
+                    <span ng-show="performanceResultCtrl.epaInfo.FinalScore.length === 0" data-translate="NotAvailable"></span>
                 </strong>
                 <strong ng-show="!performanceResultCtrl.epaInfo.Period.IsEndPeriod" data-translate="Pending"></strong>
             </td>

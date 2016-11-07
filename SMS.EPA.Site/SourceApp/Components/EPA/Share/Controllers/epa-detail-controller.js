@@ -44,29 +44,8 @@
                 vm.epaInfo = EvaluationModel.epaInfo;
                 vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
 
-                // self
-                vm.epaInfo.Process.Self.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.Self.TotalScore);
-
-                // evaluator
-                angular.forEach(vm.epaInfo.Process.Evaluators, function (evaluator) {
-                    evaluator.TotalScore = utilitiesFactory.parseFloat(evaluator.TotalScore);
-                });
-
-                // reviewer
-                angular.forEach(vm.epaInfo.Process.Reviewers, function (reviewer) {
-                    reviewer.TotalScore = utilitiesFactory.parseFloat(reviewer.TotalScore);
-                });
-
-                // management
-                angular.forEach(vm.epaInfo.Process.Managements, function (management) {
-                    management.TotalScore = utilitiesFactory.parseFloat(management.TotalScore);
-                });
-
                 if (vm.epaInfo.Period.IsEndPeriod && vm.epaInfo.FinalScore.length > 0) {
-                    vm.epaInfo.FinalScore = utilitiesFactory.parseFloat(vm.epaInfo.FinalScore);
                     vm.epaInfo.Grade = EvaluationModel.convertScoreToGrade(vm.epaInfo.FinalScore, vm.standardGrades);
-                } else {
-                    vm.epaInfo.FinalScore = null;
                 }
 
                 if (vm.epaInfo.Recommendation && vm.epaInfo.Recommendation.JobGrade && vm.epaInfo.Recommendation.JobGrade.JobGradeId) {
