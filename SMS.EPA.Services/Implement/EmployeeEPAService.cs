@@ -280,7 +280,6 @@
         {
             if (monthlyEPA.MonthlyEPAs.Any())
             {
-                float? nullValue = null;
                 float averageScore = 0;
                 ScoreRatingTypeModel monthlyScoreRatingType = monthlyEPA.MonthlyEPAs.First().ScoreRatingType;
 
