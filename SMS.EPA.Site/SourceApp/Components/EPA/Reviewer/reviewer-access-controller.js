@@ -315,7 +315,7 @@ function ($location, $translate, $routeParams, EvaluationModel, ReviewerEPAModel
                     epaInfo.LastFinalScore = null;
                 }
 
-                if (epaInfo.Process.CurrentProcess.IsEndProcess && (epaInfo.IsSemiAnnual || epaInfo.IsMonthly)) {
+                if (epaInfo.Process.CurrentProcess.IsEndProcess || !(epaInfo.IsSemiAnnual || epaInfo.IsMonthly)) {
                     countEndProcess += 1;
                 }
                 averageScore += epaInfo.Process.AverageScoreByEvaluators;
