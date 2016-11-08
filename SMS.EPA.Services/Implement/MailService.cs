@@ -202,7 +202,7 @@
         public void SendMailToSelfEndEvaluation(
             string templateEmailPath,
             EPAModel evaluationInfo,
-            float averagePerformanceScore,
+            float? averagePerformanceScore,
             float disciplineScore)
         {
             if (evaluationInfo != null)
@@ -210,13 +210,11 @@
                 MailModel email = new MailModel();
                 email.Subject = string.Format(Lang.EndMailEvaluationToSelf, evaluationInfo.Period.Name);
 
-                float finalScore = averagePerformanceScore + disciplineScore,
-                    adjustmentScore = GetAdjustmentScore(evaluationInfo, averagePerformanceScore);
+                float? finalScore = averagePerformanceScore.HasValue ? (averagePerformanceScore.Value + disciplineScore) : (float?)null,
+                    adjustmentScore = averagePerformanceScore.HasValue ? GetAdjustmentScore(evaluationInfo, averagePerformanceScore.Value) : (float?)null;
                 string evaluatorNames = GetEvaluator(evaluationInfo.Process.Evaluators),
                     reviewerNames = GetEvaluator(evaluationInfo.Process.Reviewers),
                     managementNames = GetEvaluator(evaluationInfo.Process.Managements);
-
-                finalScore = finalScore >= 0 ? finalScore : 0;
 
                 email.Body = baseMailService.ReadTextFile(templateEmailPath);
                 email.Body = string.Format(
@@ -224,9 +222,9 @@
                     evaluationInfo.Employee.NickName,
                     evaluationInfo.Period.Name,
                     disciplineScore,
-                    averagePerformanceScore,
-                    adjustmentScore,
-                    Math.Round(finalScore, 2),
+                    averagePerformanceScore.HasValue ? averagePerformanceScore.Value.ToString() : Lang.NotAvailable,
+                    adjustmentScore.HasValue ? adjustmentScore.Value.ToString() : Lang.NotAvailable,
+                    finalScore.HasValue ? finalScore.Value.ToString() : Lang.NotAvailable,
                     evaluationInfo.Grade,
                     evaluatorNames,
                     reviewerNames,
@@ -294,24 +292,31 @@
             return names;
         }
 
-        private float GetAdjustmentScore(EPAModel evaluationInfo, float averagePerformanceScore)
+        private float? GetAdjustmentScore(EPAModel evaluationInfo, float averagePerformanceScore)
         {
-            float adjustScore = 0;
+            float? adjustScore = null;
 
-            if (evaluationInfo.Process.AverageScoreByManagements > 0)
+            if (evaluationInfo.Process.Managements.Any() && evaluationInfo.Process.AverageScoreByManagements.HasValue)
             {
-                if (evaluationInfo.Process.AverageScoreByReviewers > 0)
+                if (evaluationInfo.Process.AverageScoreByReviewers.HasValue)
                 {
-                    adjustScore = averagePerformanceScore - evaluationInfo.Process.AverageScoreByReviewers;
+                    adjustScore = averagePerformanceScore - evaluationInfo.Process.AverageScoreByReviewers.Value;
                 }
                 else
                 {
-                    adjustScore = averagePerformanceScore - evaluationInfo.Process.AverageScoreByEvaluators;
+                    adjustScore = averagePerformanceScore;
                 }
             }
-            else if (evaluationInfo.Process.AverageScoreByReviewers > 0)
+            else if (evaluationInfo.Process.AverageScoreByReviewers.HasValue)
             {
-                adjustScore = averagePerformanceScore - evaluationInfo.Process.AverageScoreByEvaluators;
+                if (evaluationInfo.Process.AverageScoreByEvaluators.HasValue)
+                {
+                    adjustScore = averagePerformanceScore - evaluationInfo.Process.AverageScoreByEvaluators.Value;
+                }
+                else
+                {
+                    adjustScore = averagePerformanceScore;
+                }
             }
 
             return adjustScore;

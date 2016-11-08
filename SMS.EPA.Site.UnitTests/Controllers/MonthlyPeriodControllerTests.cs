@@ -28,7 +28,7 @@
             };
 
             periodService = FakePeriodService();
-            periodService.GetPeriodById(Arg.Any<int>()).Returns(period);
+            periodService.GetPeriodById(periodId).Returns(period);
             monthlyPeriodController = GetMonthlyPeriodController(periodService);
 
             // Act

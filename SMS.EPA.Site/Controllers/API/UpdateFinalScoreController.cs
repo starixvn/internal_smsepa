@@ -86,13 +86,12 @@
 
             foreach (EPAModel epaInfo in epaInfos)
             {
-                float averagePerformanceScore = GetFinalScoreOfEPA(epaInfo),
-                    finalScore = averagePerformanceScore + epaInfo.DisciplineScore;
+                float? averagePerformanceScore = GetFinalScoreOfEPA(epaInfo),
+                    finalScore = averagePerformanceScore.HasValue ? (averagePerformanceScore.Value + epaInfo.DisciplineScore) : (float?)null;
 
-                finalScore = finalScore >= 0 ? finalScore : 0;
-                epaInfo.FinalScore = cryptographyService.Encrypt(finalScore.ToString());
-                string grade = evaluationService.ConvertScoreToGrade(finalScore, standardGrades);
-                epaInfo.Grade = cryptographyService.Encrypt(grade);
+                epaInfo.FinalScore = finalScore.HasValue ? cryptographyService.Encrypt(finalScore.Value.ToString()) : string.Empty;
+                string grade = finalScore.HasValue ? evaluationService.ConvertScoreToGrade(finalScore.Value, standardGrades) : string.Empty;
+                epaInfo.Grade = !string.IsNullOrEmpty(grade) ? cryptographyService.Encrypt(grade) : string.Empty;
             }
 
             var criteria = new UpdateFinalScoreEPAEndEvaluationCriteria
@@ -107,17 +106,17 @@
             return response;
         }
 
-        private float GetFinalScoreOfEPA(EPAModel epaInfo)
+        private float? GetFinalScoreOfEPA(EPAModel epaInfo)
         {
-            float finalScore = 0;
+            float? finalScore = null;
 
-            if (epaInfo.Process.Managements.Any())
+            if (epaInfo.Process.Managements.Any() && epaInfo.Process.AverageScoreByManagements.HasValue)
             {
-                finalScore = epaInfo.Process.AverageScoreByManagements;
+                finalScore = epaInfo.Process.AverageScoreByManagements.Value;
             }
-            else if (epaInfo.Process.Reviewers.Any())
+            else if (epaInfo.Process.Reviewers.Any() && epaInfo.Process.AverageScoreByReviewers.HasValue)
             {
-                finalScore = epaInfo.Process.AverageScoreByReviewers;
+                finalScore = epaInfo.Process.AverageScoreByReviewers.Value;
             }
 
             return finalScore;

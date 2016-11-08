@@ -11,7 +11,6 @@
     using NPOI.SS.Util;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Core.Utilities;
     using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.Report;
     using SMS.EPA.Model;
@@ -129,19 +128,6 @@
             return result;
         }
 
-        public void ExportMonthlyEPADetailReport(EPADetailModel epaDetail, string templatePath)
-        {
-            string reportName = Lang.MonthlyEPADetailReportName;
-            var writer = new ExcelTemplateWriter(templatePath, reportName, Lang.MonthlyEPADetailReportSheet);
-
-            writer.CopyRows(0, 3);
-
-            FillContentRowMonthlyEPADetailReport(epaDetail, ref writer);
-            writer.SyncColumnsWidth(11);
-
-            writer.Render();
-        }
-
         public EPASummaryModel GetMonthlyEPASummaryReport(GetMonthlyEPASummaryCriteria criteria)
         {
             EPASummaryModel result = new EPASummaryModel();
@@ -155,6 +141,58 @@
         }
 
         #endregion Monthly EPA Detail Report
+
+        private MemoryStream ExportEPASummaryReport(EPASummaryModel epaSummary, string title)
+        {
+            IList<string> titleHeaders = new List<string>
+            {
+                Lang.SymbolCount,
+                Lang.Code,
+                Lang.FullName,
+                Lang.NickName,
+                Lang.Category,
+                Lang.Section,
+                Lang.JobTitle,
+                Lang.GroupDate
+            };
+
+            HSSFWorkbook workbook = new HSSFWorkbook();
+            ISheet sheet = workbook.CreateSheet(Lang.EPASummaryReportSheet);
+
+            IRow rowTitle = sheet.CreateRow(0);
+
+            IFont font = workbook.CreateFont();
+            font.FontHeightInPoints = 18;
+            font.Boldweight = (short)FontBoldWeight.Bold;
+
+            ICell cell = rowTitle.CreateCell(0);
+            cell.SetCellValue(title);
+            cell.CellStyle = workbook.CreateCellStyle();
+            cell.CellStyle.Alignment = HorizontalAlignment.Center;
+            cell.CellStyle.VerticalAlignment = VerticalAlignment.Center;
+            cell.CellStyle.SetFont(font);
+
+            sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, titleHeaders.Count + (epaSummary.PeriodSelecteds.Count * 2) - 1));
+
+            RenderHeaderEPASummaryReport(epaSummary.PeriodSelecteds, ref workbook, ref sheet, titleHeaders);
+            RenderContentRowEPASummaryReport(epaSummary, ref workbook, ref sheet);
+
+            MemoryStream output = null;
+            try
+            {
+                output = new MemoryStream();
+                workbook.Write(output);
+
+                return output;
+            }
+            finally
+            {
+                if (output != null)
+                {
+                    output.Dispose();
+                }
+            }
+        }
 
         private void RenderHeaderEPASummaryReport(
             IList<PeriodModel> periodSelecteds,
@@ -382,125 +420,6 @@
             }
         }
 
-        private void FillContentRowEPADetailReport(
-            EPADetailModel epaDetail,
-            ref ExcelTemplateWriter writer)
-        {
-            int rowIndex = 1;
-
-            foreach (EPAModel memberEPA in epaDetail.MemberEPAs)
-            {
-                FillRowEPADetailReport(memberEPA, epaDetail.PhaseSelecteds, ref writer, ref rowIndex);
-            }
-        }
-
-        private void FillContentRowMonthlyEPADetailReport(
-            EPADetailModel epaDetail,
-            ref ExcelTemplateWriter writer)
-        {
-            int rowIndex = 1;
-
-            foreach (EPAModel memberEPA in epaDetail.MemberEPAs)
-            {
-                FillRowMonthlyEPADetailReport(memberEPA, epaDetail.PhaseSelecteds, ref writer, ref rowIndex);
-            }
-        }
-
-        private void FillRowEPADetailReport(
-            EPAModel memberEPA,
-            IEnumerable<EvaluationPhaseModel> phaseSelecteds,
-            ref ExcelTemplateWriter writer,
-            ref int rowIndex)
-        {
-            object record = CreateRecordEPADetailReport(memberEPA, phaseSelecteds, ref rowIndex);
-
-            if ((rowIndex - 1) % 2 == 0)
-            {
-                writer.WriteRow(4, record);
-            }
-            else
-            {
-                writer.WriteRow(3, record);
-            }
-        }
-
-        private void FillRowMonthlyEPADetailReport(
-            EPAModel memberEPA,
-            IEnumerable<EvaluationPhaseModel> phaseSelecteds,
-            ref ExcelTemplateWriter writer,
-            ref int rowIndex)
-        {
-            object record = CreateRecordMonthlyEPADetailReport(memberEPA, phaseSelecteds, ref rowIndex);
-
-            if ((rowIndex - 1) % 2 == 0)
-            {
-                writer.WriteRow(4, record);
-            }
-            else
-            {
-                writer.WriteRow(3, record);
-            }
-        }
-
-        private object CreateRecordEPADetailReport(
-            EPAModel memberEPA,
-            IEnumerable<EvaluationPhaseModel> phaseSelecteds,
-            ref int rowIndex)
-        {
-            dynamic score = CalculateScore(memberEPA);
-
-            var record = new
-            {
-                Count = rowIndex,
-                Code = memberEPA.Employee.Code,
-                FullName = memberEPA.Employee.FullName,
-                NickName = memberEPA.Employee.NickName,
-                Category = memberEPA.Employee.Category,
-                Section = memberEPA.Employee.GroupName,
-                JobTitle = memberEPA.Employee.JobTitleName,
-                JoinedDate = memberEPA.Employee.JoinedDate.ToString(Constants.DateFormat),
-                TargetType = memberEPA.Period.TargetTypeName,
-                SelfScore = GetScoreByPhaseSelected(phaseSelecteds, score.SelfScore, (int)ProcessType.Self),
-                EvaluatorScore = GetScoreByPhaseSelected(phaseSelecteds, score.EvaluatorScore, (int)ProcessType.Evaluator),
-                ReviewerScore = GetScoreByPhaseSelected(phaseSelecteds, score.ReviewerScore, (int)ProcessType.Reviewer),
-                ManagementScore = GetScoreByPhaseSelected(phaseSelecteds, score.ManagementScore.ToString(), (int)ProcessType.Management),
-                DisciplineScore = score.DisciplineScore,
-                FinalScore = score.FinalScore,
-                Grade = score.Grade
-            };
-            rowIndex++;
-
-            return record;
-        }
-
-        private object CreateRecordMonthlyEPADetailReport(
-            EPAModel memberEPA,
-            IEnumerable<EvaluationPhaseModel> phaseSelecteds,
-            ref int rowIndex)
-        {
-            dynamic score = CalculateScore(memberEPA);
-
-            var record = new
-            {
-                Count = rowIndex,
-                Code = memberEPA.Employee.Code,
-                FullName = memberEPA.Employee.FullName,
-                NickName = memberEPA.Employee.NickName,
-                Category = memberEPA.Employee.Category,
-                Section = memberEPA.Employee.GroupName,
-                JobTitle = memberEPA.Employee.JobTitleName,
-                JoinedDate = memberEPA.Employee.JoinedDate.ToString(Constants.DateFormat),
-                SelfScore = GetScoreByPhaseSelected(phaseSelecteds, score.SelfScore, (int)ProcessType.Self),
-                EvaluatorScore = GetScoreByPhaseSelected(phaseSelecteds, score.EvaluatorScore, (int)ProcessType.Evaluator),
-                ReviewerScore = GetScoreByPhaseSelected(phaseSelecteds, score.ReviewerScore, (int)ProcessType.Reviewer),
-                FinalScore = score.FinalScore,
-                Grade = score.Grade
-            };
-            rowIndex++;
-
-            return record;
-        }
-
         private string GetScoreByPhaseSelected(
             IEnumerable<EvaluationPhaseModel> phaseSelecteds,
             string score,
@@ -516,156 +435,9 @@
             return result;
         }
 
-        [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
-        private dynamic CalculateScore(EPAModel memberEPA)
-        {
-            string disciplineScore = string.Empty,
-                selfScore = string.Empty,
-                evaluatorScore = string.Empty,
-                reviewerScore = string.Empty,
-                managementScore = string.Empty,
-                finalScore = string.Empty,
-                grade = string.Empty;
-
-            if (memberEPA.HasDisciplineScore)
-            {
-                if (memberEPA.DisciplineScore < 0)
-                {
-                    memberEPA.DisciplineScore = 0;
-                }
-
-                disciplineScore = memberEPA.DisciplineScore.ToString();
-            }
-            else
-            {
-                if (memberEPA.DisciplineScore != 0)
-                {
-                    disciplineScore = memberEPA.DisciplineScore.ToString();
-                }
-                else
-                {
-                    disciplineScore = "-";
-                }
-            }
-
-            if (memberEPA.EPAId > 0)
-            {
-                float score = memberEPA.Process.Self.TotalScore.Length > 0 ? float.Parse(memberEPA.Process.Self.TotalScore) : 0;
-
-                if (memberEPA.IsSemiHasMonthly)
-                {
-                    score = memberEPA.MonthlyEPA.AverageSelfScoreConverted;
-                }
-
-                selfScore = Math.Round(score, 2).ToString();
-            }
-
-            if (memberEPA.EPAId > 0 && memberEPA.Process.Evaluators != null && memberEPA.Process.Evaluators.Any())
-            {
-                evaluatorScore = Math.Round(memberEPA.Process.AverageScoreByEvaluators, 2).ToString();
-
-                if (memberEPA.IsSemiHasMonthly)
-                {
-                    evaluatorScore = Math.Round(memberEPA.MonthlyEPA.AverageEvaluatorScoreConverted, 2).ToString();
-                }
-            }
-
-            if (memberEPA.EPAId > 0 && memberEPA.Process.Reviewers != null && memberEPA.Process.Reviewers.Any())
-            {
-                reviewerScore = Math.Round(memberEPA.Process.AverageScoreByReviewers, 2).ToString();
-            }
-
-            if (memberEPA.EPAId > 0 && memberEPA.Process.Managements != null && memberEPA.Process.Managements.Any())
-            {
-                managementScore = Math.Round(memberEPA.Process.AverageScoreByManagements, 2).ToString();
-            }
-
-            if (memberEPA.Period != null && memberEPA.Period.IsEndPeriod)
-            {
-                if (string.IsNullOrEmpty(memberEPA.FinalScore))
-                {
-                    finalScore = Lang.NotAvailable;
-                    grade = Lang.NotAvailable;
-                }
-                else
-                {
-                    finalScore = Math.Round(float.Parse(memberEPA.FinalScore), 2).ToString();
-                    grade = memberEPA.Grade;
-                }
-            }
-            else
-            {
-                finalScore = Lang.Pending;
-                grade = Lang.Pending;
-            }
-
-            return new
-            {
-                SelfScore = selfScore,
-                EvaluatorScore = evaluatorScore,
-                ReviewerScore = reviewerScore,
-                ManagementScore = managementScore,
-                DisciplineScore = disciplineScore,
-                FinalScore = finalScore,
-                Grade = grade
-            };
-        }
-
         private void SetColumnWidth(ref ISheet sheet, int columnIndex, int width)
         {
             sheet.SetColumnWidth(columnIndex, width * ExcelColumnWidth);
-        }
-
-        private MemoryStream ExportEPASummaryReport(EPASummaryModel epaSummary, string title)
-        {
-            IList<string> titleHeaders = new List<string>
-            {
-                Lang.SymbolCount,
-                Lang.Code,
-                Lang.FullName,
-                Lang.NickName,
-                Lang.Category,
-                Lang.Section,
-                Lang.JobTitle,
-                Lang.GroupDate
-            };
-
-            HSSFWorkbook workbook = new HSSFWorkbook();
-            ISheet sheet = workbook.CreateSheet(Lang.EPASummaryReportSheet);
-
-            IRow rowTitle = sheet.CreateRow(0);
-
-            IFont font = workbook.CreateFont();
-            font.FontHeightInPoints = 18;
-            font.Boldweight = (short)FontBoldWeight.Bold;
-
-            ICell cell = rowTitle.CreateCell(0);
-            cell.SetCellValue(title);
-            cell.CellStyle = workbook.CreateCellStyle();
-            cell.CellStyle.Alignment = HorizontalAlignment.Center;
-            cell.CellStyle.VerticalAlignment = VerticalAlignment.Center;
-            cell.CellStyle.SetFont(font);
-
-            sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, titleHeaders.Count + (epaSummary.PeriodSelecteds.Count * 2) - 1));
-
-            RenderHeaderEPASummaryReport(epaSummary.PeriodSelecteds, ref workbook, ref sheet, titleHeaders);
-            RenderContentRowEPASummaryReport(epaSummary, ref workbook, ref sheet);
-
-            MemoryStream output = null;
-            try
-            {
-                output = new MemoryStream();
-                workbook.Write(output);
-
-                return output;
-            }
-            finally
-            {
-                if (output != null)
-                {
-                    output.Dispose();
-                }
-            }
         }
     }
 }

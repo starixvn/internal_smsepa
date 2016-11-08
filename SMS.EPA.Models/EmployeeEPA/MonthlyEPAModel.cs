@@ -15,7 +15,7 @@
 
         public IList<EPAModel> MonthlyEPAs { get; set; }
 
-        public float AverageSelfScore
+        public float? AverageSelfScore
         {
             get
             {
@@ -23,7 +23,7 @@
             }
         }
 
-        public float AverageEvaluatorScores
+        public float? AverageEvaluatorScores
         {
             get
             {
@@ -31,7 +31,7 @@
             }
         }
 
-        public float AverageReviewerScores
+        public float? AverageReviewerScores
         {
             get
             {
@@ -39,16 +39,17 @@
             }
         }
 
-        public float AverageSelfScoreConverted { get; set; }
+        public float? AverageSelfScoreConverted { get; set; }
 
-        public float AverageEvaluatorScoreConverted { get; set; }
+        public float? AverageEvaluatorScoreConverted { get; set; }
 
-        public float AverageReviewerScoreConverted { get; set; }
+        public float? AverageReviewerScoreConverted { get; set; }
 
-        private float CalculateAverageScore(int processType)
+        private float? CalculateAverageScore(int processType)
         {
             float average = 0;
             int count = 0;
+            float? result = null;
 
             var finishedMonthlyEPAs = MonthlyEPAs.Where(x => x.Period.IsEndPeriod);
             foreach (EPAModel monthlyEPA in finishedMonthlyEPAs)
@@ -65,19 +66,19 @@
                         break;
 
                     case (int)ProcessType.Evaluator:
-                        if (monthlyEPA.Process.AverageScoreByEvaluators > 0)
+                        if (monthlyEPA.Process.AverageScoreByEvaluators.HasValue)
                         {
                             count++;
-                            average += monthlyEPA.Process.AverageScoreByEvaluators;
+                            average += monthlyEPA.Process.AverageScoreByEvaluators.Value;
                         }
 
                         break;
 
                     case (int)ProcessType.Reviewer:
-                        if (monthlyEPA.Process.AverageScoreByReviewers > 0)
+                        if (monthlyEPA.Process.AverageScoreByReviewers.HasValue)
                         {
                             count++;
-                            average += monthlyEPA.Process.AverageScoreByReviewers;
+                            average += monthlyEPA.Process.AverageScoreByReviewers.Value;
                         }
 
                         break;
@@ -86,11 +87,10 @@
 
             if (count > 0)
             {
-                average = average / count;
-                return (float)Math.Round(average, Constants.NumberOfDecimalDefault);
+                result = (float)Math.Round(average / count, Constants.NumberOfDecimalDefault);
             }
 
-            return average;
+            return result;
         }
     }
 }

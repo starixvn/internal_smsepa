@@ -260,68 +260,85 @@
                 finalScore = string.Empty,
                 grade = string.Empty;
 
+            float? score = null;
+
             if (memberEPA.HasDisciplineScore)
             {
-                if (memberEPA.DisciplineScore < 0)
-                {
-                    memberEPA.DisciplineScore = 0;
-                }
-
-                disciplineScore = memberEPA.DisciplineScore.ToString();
+                disciplineScore = memberEPA.DisciplineScore < 0 ? "0" : memberEPA.DisciplineScore.ToString();
             }
             else
             {
-                if (memberEPA.DisciplineScore != 0)
-                {
-                    disciplineScore = memberEPA.DisciplineScore.ToString();
-                }
-                else
-                {
-                    disciplineScore = "-";
-                }
+                disciplineScore = memberEPA.DisciplineScore != 0 ? memberEPA.DisciplineScore.ToString() : "-";
             }
 
-            if (memberEPA.EPAId > 0 && memberEPA.Process.Self.StatusEndProcess != (int)ProcessStatusType.Open)
+            if (memberEPA.EPAId > 0)
             {
-                float score = memberEPA.Process.Self.TotalScore.Length > 0 ? float.Parse(memberEPA.Process.Self.TotalScore) : 0;
+                switch (memberEPA.Process.Self.StatusEndProcess)
+                {
+                    case (int)ProcessStatusType.InProgress:
+                        score = !string.IsNullOrEmpty(memberEPA.Process.Self.TotalScore) ? float.Parse(memberEPA.Process.Self.TotalScore) : 0;
+                        selfScore = Math.Round(score.Value, 2).ToString();
+                        break;
+
+                    case (int)ProcessStatusType.Closed:
+                        selfScore = !string.IsNullOrEmpty(memberEPA.Process.Self.TotalScore)
+                            ? Math.Round(float.Parse(memberEPA.Process.Self.TotalScore), 2).ToString() : Lang.NotAvailable;
+                        break;
+                }
+
+                switch (memberEPA.Process.Evaluators.First().StatusEndProcess)
+                {
+                    case (int)ProcessStatusType.InProgress:
+                        evaluatorScore = memberEPA.Process.AverageScoreByEvaluators.HasValue
+                            ? memberEPA.Process.AverageScoreByEvaluators.Value.ToString() : "0";
+                        break;
+
+                    case (int)ProcessStatusType.Closed:
+                        evaluatorScore = memberEPA.Process.AverageScoreByEvaluators.HasValue
+                            ? memberEPA.Process.AverageScoreByEvaluators.Value.ToString() : Lang.NotAvailable;
+                        break;
+                }
+
+                switch (memberEPA.Process.Reviewers.First().StatusEndProcess)
+                {
+                    case (int)ProcessStatusType.InProgress:
+                        reviewerScore = memberEPA.Process.AverageScoreByReviewers.HasValue
+                            ? memberEPA.Process.AverageScoreByReviewers.Value.ToString() : "0";
+                        break;
+
+                    case (int)ProcessStatusType.Closed:
+                        reviewerScore = memberEPA.Process.AverageScoreByReviewers.HasValue
+                            ? memberEPA.Process.AverageScoreByReviewers.Value.ToString() : Lang.NotAvailable;
+                        break;
+                }
+
+                if (memberEPA.Process.Managements.Any())
+                {
+                    switch (memberEPA.Process.Reviewers.First().StatusEndProcess)
+                    {
+                        case (int)ProcessStatusType.InProgress:
+                            managementScore = memberEPA.Process.AverageScoreByManagements.HasValue
+                                ? memberEPA.Process.AverageScoreByManagements.Value.ToString() : "0";
+                            break;
+
+                        case (int)ProcessStatusType.Closed:
+                            managementScore = memberEPA.Process.AverageScoreByManagements.HasValue
+                                ? memberEPA.Process.AverageScoreByManagements.Value.ToString() : Lang.NotAvailable;
+                            break;
+                    }
+                }
+
                 if (memberEPA.IsSemiHasMonthly)
                 {
-                    score = memberEPA.MonthlyEPA.AverageSelfScoreConverted;
-                }
+                    selfScore = memberEPA.MonthlyEPA.AverageSelfScoreConverted.HasValue
+                        ? memberEPA.MonthlyEPA.AverageSelfScoreConverted.Value.ToString() : Lang.NotAvailable;
 
-                selfScore = Math.Round(score, 2).ToString();
-            }
-
-            if (memberEPA.EPAId > 0
-                && memberEPA.Process.Evaluators != null
-                && memberEPA.Process.Evaluators.Any()
-                && memberEPA.Process.Evaluators.First().StatusEndProcess != (int)ProcessStatusType.Open)
-            {
-                evaluatorScore = Math.Round(memberEPA.Process.AverageScoreByEvaluators, 2).ToString();
-
-                if (memberEPA.IsSemiHasMonthly)
-                {
-                    evaluatorScore = Math.Round(memberEPA.MonthlyEPA.AverageEvaluatorScoreConverted, 2).ToString();
+                    evaluatorScore = memberEPA.MonthlyEPA.AverageEvaluatorScoreConverted.HasValue
+                        ? memberEPA.MonthlyEPA.AverageEvaluatorScoreConverted.Value.ToString() : Lang.NotAvailable;
                 }
             }
 
-            if (memberEPA.EPAId > 0
-                && memberEPA.Process.Reviewers != null
-                && memberEPA.Process.Reviewers.Any()
-                && memberEPA.Process.Reviewers.First().StatusEndProcess != (int)ProcessStatusType.Open)
-            {
-                reviewerScore = Math.Round(memberEPA.Process.AverageScoreByReviewers, 2).ToString();
-            }
-
-            if (memberEPA.EPAId > 0
-                && memberEPA.Process.Managements != null
-                && memberEPA.Process.Managements.Any()
-                && memberEPA.Process.Managements.First().StatusEndProcess != (int)ProcessStatusType.Open)
-            {
-                managementScore = Math.Round(memberEPA.Process.AverageScoreByManagements, 2).ToString();
-            }
-
-            if (memberEPA.Period != null && memberEPA.Period.IsEndPeriod)
+            if (memberEPA.Period.IsEndPeriod)
             {
                 if (string.IsNullOrEmpty(memberEPA.FinalScore))
                 {

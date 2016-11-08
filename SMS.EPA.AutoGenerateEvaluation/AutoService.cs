@@ -176,14 +176,14 @@
                 {
                     EPAModel epaInfo = employeeEPAService.GetEPAInfoById(evaluationProcess.EPAId);
 
-                    float averageScore = GetAverageScorePreProcess(epaInfo, evaluationProcess.ProcessId);
+                    float? averageScore = GetAverageScorePreProcess(epaInfo, evaluationProcess.ProcessId);
                     Log.Info("Result of get average score of pre-process of EPA " + evaluationProcess.EPAId + " : " + averageScore);
 
                     var criteria = new UpdateTotalScoreOfProcessCriteria
                     {
                         EPAId = evaluationProcess.EPAId,
                         ProcessId = evaluationProcess.ProcessId,
-                        AverageScore = cryptographyService.Encrypt(averageScore.ToString())
+                        AverageScore = averageScore.HasValue ? cryptographyService.Encrypt(averageScore.Value.ToString()) : string.Empty
                     };
                     var commandResult = new CommandResult();
 
@@ -216,13 +216,12 @@
 
             foreach (EPAModel epaInfo in epaInfos)
             {
-                float averagePerformanceScore = GetFinalScoreOfEvalution(epaInfo);
-                Log.Info("Result of get average performance score of EPA " + epaInfo.EPAId + " :  " + averagePerformanceScore);
+                float? averagePerformanceScore = GetFinalScoreOfEvalution(epaInfo);
+                Log.Info("Result of get average performance score of EPA " + epaInfo.EPAId + " : " + averagePerformanceScore);
 
-                float finalScore = averagePerformanceScore + epaInfo.DisciplineScore;
-                finalScore = finalScore >= 0 ? finalScore : 0;
+                float? finalScore = averagePerformanceScore.HasValue ? (averagePerformanceScore.Value + epaInfo.DisciplineScore) : (float?)null;
 
-                epaInfo.Grade = employeeEPAService.ConvertScoreToGrade(finalScore, standardGrades);
+                epaInfo.Grade = finalScore.HasValue ? employeeEPAService.ConvertScoreToGrade(finalScore.Value, standardGrades) : string.Empty;
                 Log.Info("Result of get grade of final score of EPA " + epaInfo.EPAId + ": " + epaInfo.Grade);
 
                 EncryptAndUpdateFinalScore(averagePerformanceScore, epaInfo.DisciplineScore, epaInfo.EPAId, epaInfo.Grade);
@@ -298,30 +297,26 @@
             }
         }
 
-        private float GetFinalScoreOfEvalution(EPAModel epaInfo)
+        private float? GetFinalScoreOfEvalution(EPAModel epaInfo)
         {
-            float finalScore = 0;
+            float? finalScore = null;
 
-            if (epaInfo.Process.Managements.Any())
+            if (epaInfo.Process.Managements.Any() && epaInfo.Process.AverageScoreByManagements.HasValue)
             {
-                finalScore = epaInfo.Process.AverageScoreByManagements;
+                finalScore = epaInfo.Process.AverageScoreByManagements.Value;
             }
-            else if (epaInfo.Process.Reviewers.Any())
+            else if (epaInfo.Process.Reviewers.Any() && epaInfo.Process.AverageScoreByReviewers.HasValue)
             {
-                finalScore = epaInfo.Process.AverageScoreByReviewers;
-            }
-            else if (epaInfo.Process.Evaluators.Any())
-            {
-                finalScore = epaInfo.Process.AverageScoreByEvaluators;
+                finalScore = epaInfo.Process.AverageScoreByReviewers.Value;
             }
 
             return finalScore;
         }
 
-        private void EncryptAndUpdateFinalScore(float performanceScore, float disciplineScore, int evaluationId, string grade)
+        private void EncryptAndUpdateFinalScore(float? performanceScore, float disciplineScore, int evaluationId, string grade)
         {
-            float finalScore = performanceScore + disciplineScore;
-            string finalScoreEncrypt = cryptographyService.Encrypt(finalScore.ToString());
+            float? finalScore = performanceScore.HasValue ? (performanceScore.Value + disciplineScore) : (float?)null;
+            string finalScoreEncrypt = finalScore.HasValue ? cryptographyService.Encrypt(finalScore.Value.ToString()) : string.Empty;
             Log.Info("Result of encrypt final score of EPA " + evaluationId + ": " + finalScoreEncrypt);
 
             string gradeEncrypt = cryptographyService.Encrypt(grade);
@@ -335,18 +330,18 @@
             Log.Info("Result of update final score and discipline score of EPA " + evaluationId + ": " + messageResult);
         }
 
-        private float GetAverageScorePreProcess(EPAModel epaInfo, int processId)
+        private float? GetAverageScorePreProcess(EPAModel epaInfo, int processId)
         {
-            float averageScore = 0;
+            float? averageScore = null;
 
             switch (processId)
             {
                 case (int)ProcessType.Reviewer:
-                    averageScore = epaInfo.Process.AverageScoreByEvaluators;
+                    averageScore = epaInfo.Process.AverageScoreByEvaluators.HasValue ? epaInfo.Process.AverageScoreByEvaluators.Value : (float?)null;
                     break;
 
                 case (int)ProcessType.Management:
-                    averageScore = epaInfo.Process.Reviewers.Any() ? epaInfo.Process.AverageScoreByReviewers : epaInfo.Process.AverageScoreByEvaluators;
+                    averageScore = epaInfo.Process.AverageScoreByReviewers.HasValue ? epaInfo.Process.AverageScoreByReviewers.Value : (float?)null;
                     break;
             }
 

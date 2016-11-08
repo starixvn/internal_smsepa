@@ -115,7 +115,7 @@
 
         public void SendEndEvaluationMailToSelf(
             EPAModel evaluationInfo,
-            float averagePerformanceScore,
+            float? averagePerformanceScore,
             float disciplineScore)
         {
             string assemblyPath = AppDomain.CurrentDomain.BaseDirectory,

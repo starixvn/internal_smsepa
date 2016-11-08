@@ -15,7 +15,7 @@
             Managements = new List<EPAProcessModel>();
         }
 
-        public float AverageScoreByEvaluators
+        public float? AverageScoreByEvaluators
         {
             get
             {
@@ -23,7 +23,7 @@
             }
         }
 
-        public float AverageScoreByReviewers
+        public float? AverageScoreByReviewers
         {
             get
             {
@@ -31,7 +31,7 @@
             }
         }
 
-        public float AverageScoreByManagements
+        public float? AverageScoreByManagements
         {
             get
             {
@@ -45,15 +45,15 @@
             {
                 float maxPerformanceScore = 0;
 
-                if (Managements.Count > 0)
+                if (Managements.Count() > 0)
                 {
                     maxPerformanceScore = Managements.First().MaxTotalScore;
                 }
-                else if (Reviewers.Count > 0)
+                else if (Reviewers.Count() > 0)
                 {
                     maxPerformanceScore = Reviewers.First().MaxTotalScore;
                 }
-                else if (Evaluators.Count > 0)
+                else if (Evaluators.Count() > 0)
                 {
                     maxPerformanceScore = Evaluators.First().MaxTotalScore;
                 }
@@ -62,17 +62,17 @@
             }
         }
 
-        public float PerformanceScore
+        public float? PerformanceScore
         {
             get
             {
-                float performanceScore = AverageScoreByEvaluators;
+                float? performanceScore = AverageScoreByEvaluators;
 
-                if (Managements.Count > 0)
+                if (Managements.Count() > 0)
                 {
                     performanceScore = AverageScoreByManagements;
                 }
-                else if (Reviewers.Count > 0)
+                else if (Reviewers.Count() > 0)
                 {
                     performanceScore = AverageScoreByReviewers;
                 }
@@ -93,10 +93,11 @@
 
         public IList<EPAProcessModel> Managements { get; set; }
 
-        public float CalculateAverageScore(IList<EPAProcessModel> processes)
+        public float? CalculateAverageScore(IList<EPAProcessModel> processes)
         {
             float average = 0;
             int count = 0;
+            float? result = null;
 
             foreach (EPAProcessModel process in processes.Where(x => !string.IsNullOrEmpty(x.TotalScore)))
             {
@@ -106,10 +107,10 @@
 
             if (count > 0)
             {
-                average = (float)Math.Round(average / count, Constants.NumberOfDecimalDefault);
+                result = (float)Math.Round(average / count, Constants.NumberOfDecimalDefault);
             }
 
-            return average;
+            return result;
         }
     }
 }

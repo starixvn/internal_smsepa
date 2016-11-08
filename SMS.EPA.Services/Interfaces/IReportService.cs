@@ -18,8 +18,6 @@
 
         EPADetailModel GetMonthlyEPADetailReport(GetMonthlyEPADetailCriteria criteria);
 
-        void ExportMonthlyEPADetailReport(EPADetailModel epaDetail, string templatePath);
-
         EPASummaryModel GetMonthlyEPASummaryReport(GetMonthlyEPASummaryCriteria criteria);
     }
 }

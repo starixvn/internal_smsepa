@@ -235,29 +235,51 @@
                 finalScore = string.Empty,
                 grade = string.Empty;
 
-            if (memberEPA.EPAId > 0 && memberEPA.Process.Self.StatusEndProcess != (int)ProcessStatusType.Open)
-            {
-                float score = memberEPA.Process.Self.TotalScore.Length > 0 ? float.Parse(memberEPA.Process.Self.TotalScore) : 0;
+            float? score = null;
 
-                selfScore = Math.Round(score, 2).ToString();
+            if (memberEPA.EPAId > 0)
+            {
+                switch (memberEPA.Process.Self.StatusEndProcess)
+                {
+                    case (int)ProcessStatusType.InProgress:
+                        score = !string.IsNullOrEmpty(memberEPA.Process.Self.TotalScore) ? float.Parse(memberEPA.Process.Self.TotalScore) : 0;
+                        selfScore = Math.Round(score.Value, 2).ToString();
+                        break;
+
+                    case (int)ProcessStatusType.Closed:
+                        selfScore = !string.IsNullOrEmpty(memberEPA.Process.Self.TotalScore)
+                            ? Math.Round(float.Parse(memberEPA.Process.Self.TotalScore), 2).ToString() : Lang.NotAvailable;
+                        break;
+                }
+
+                switch (memberEPA.Process.Evaluators.First().StatusEndProcess)
+                {
+                    case (int)ProcessStatusType.InProgress:
+                        evaluatorScore = memberEPA.Process.AverageScoreByEvaluators.HasValue
+                            ? memberEPA.Process.AverageScoreByEvaluators.Value.ToString() : "0";
+                        break;
+
+                    case (int)ProcessStatusType.Closed:
+                        evaluatorScore = memberEPA.Process.AverageScoreByEvaluators.HasValue
+                            ? memberEPA.Process.AverageScoreByEvaluators.Value.ToString() : Lang.NotAvailable;
+                        break;
+                }
+
+                switch (memberEPA.Process.Reviewers.First().StatusEndProcess)
+                {
+                    case (int)ProcessStatusType.InProgress:
+                        reviewerScore = memberEPA.Process.AverageScoreByReviewers.HasValue
+                            ? memberEPA.Process.AverageScoreByReviewers.Value.ToString() : "0";
+                        break;
+
+                    case (int)ProcessStatusType.Closed:
+                        reviewerScore = memberEPA.Process.AverageScoreByReviewers.HasValue
+                            ? memberEPA.Process.AverageScoreByReviewers.Value.ToString() : Lang.NotAvailable;
+                        break;
+                }
             }
 
-            if (memberEPA.EPAId > 0 && memberEPA.Process.Evaluators != null
-                && memberEPA.Process.Evaluators.Any()
-                && memberEPA.Process.Evaluators.First().StatusEndProcess != (int)ProcessStatusType.Open)
-            {
-                evaluatorScore = Math.Round(memberEPA.Process.AverageScoreByEvaluators, 2).ToString();
-            }
-
-            if (memberEPA.EPAId > 0
-                && memberEPA.Process.Reviewers != null
-                && memberEPA.Process.Reviewers.Any()
-                && memberEPA.Process.Reviewers.First().StatusEndProcess != (int)ProcessStatusType.Open)
-            {
-                reviewerScore = Math.Round(memberEPA.Process.AverageScoreByReviewers, 2).ToString();
-            }
-
-            if (memberEPA.Period != null && memberEPA.Period.IsEndPeriod)
+            if (memberEPA.Period.IsEndPeriod)
             {
                 if (string.IsNullOrEmpty(memberEPA.FinalScore))
                 {

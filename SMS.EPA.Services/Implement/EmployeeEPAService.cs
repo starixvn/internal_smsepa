@@ -1,6 +1,5 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -280,16 +279,17 @@
         {
             if (monthlyEPA.MonthlyEPAs.Any())
             {
+                float? nullValue = null;
                 ScoreRatingTypeModel monthlyScoreRatingType = monthlyEPA.MonthlyEPAs.First().ScoreRatingType;
 
-                float averageScore = (monthlyEPA.AverageSelfScore * scoreRatingType.SelfEvaluated) / monthlyScoreRatingType.SelfEvaluated;
-                monthlyEPA.AverageSelfScoreConverted = (float)Math.Round(averageScore, 2);
+                monthlyEPA.AverageSelfScoreConverted = monthlyEPA.AverageSelfScore.HasValue
+                    ? (monthlyEPA.AverageSelfScore.Value * scoreRatingType.SelfEvaluated) / monthlyScoreRatingType.SelfEvaluated : nullValue;
 
-                averageScore = (monthlyEPA.AverageEvaluatorScores * scoreRatingType.Evaluator) / monthlyScoreRatingType.Evaluator;
-                monthlyEPA.AverageEvaluatorScoreConverted = (float)Math.Round(averageScore, 2);
+                monthlyEPA.AverageEvaluatorScoreConverted = monthlyEPA.AverageEvaluatorScores.HasValue
+                    ? (monthlyEPA.AverageEvaluatorScores.Value * scoreRatingType.Evaluator) / monthlyScoreRatingType.Evaluator : nullValue;
 
-                averageScore = (monthlyEPA.AverageReviewerScores * scoreRatingType.Reviewer) / monthlyScoreRatingType.Reviewer;
-                monthlyEPA.AverageReviewerScoreConverted = (float)Math.Round(averageScore, 2);
+                monthlyEPA.AverageReviewerScoreConverted = monthlyEPA.AverageReviewerScores.HasValue
+                    ? (monthlyEPA.AverageReviewerScores.Value * scoreRatingType.Reviewer) / monthlyScoreRatingType.Reviewer : nullValue;
             }
         }
 
@@ -376,46 +376,51 @@
 
         public void SetMaxSubtractAndMaxAdditionScore(EPAModel epaInfo)
         {
-            float maxAdditionScore = 0;
+            float maxAdditionScore = 0, score = 0;
 
             switch (epaInfo.Process.CurrentProcess.ProcessId)
             {
                 case (int)ProcessType.Reviewer:
                     if (epaInfo.IsSemiHasMonthly)
                     {
-                        epaInfo.Process.CurrentProcess.MaxSubtractScore = -epaInfo.MonthlyEPA.AverageReviewerScoreConverted;
-                        maxAdditionScore = epaInfo.Process.CurrentProcess.MaxTotalScore - epaInfo.MonthlyEPA.AverageReviewerScoreConverted;
+                        score = epaInfo.MonthlyEPA.AverageReviewerScoreConverted.HasValue ? -epaInfo.MonthlyEPA.AverageReviewerScoreConverted.Value : 0;
+                        epaInfo.Process.CurrentProcess.MaxSubtractScore = score;
+                        maxAdditionScore = epaInfo.Process.CurrentProcess.MaxTotalScore + score;
                     }
                     else
                     {
-                        epaInfo.Process.CurrentProcess.MaxSubtractScore = -epaInfo.Process.AverageScoreByEvaluators;
-                        maxAdditionScore = epaInfo.Process.CurrentProcess.MaxTotalScore - epaInfo.Process.AverageScoreByEvaluators;
+                        score = epaInfo.Process.AverageScoreByEvaluators.HasValue ? -epaInfo.Process.AverageScoreByEvaluators.Value : 0;
+                        epaInfo.Process.CurrentProcess.MaxSubtractScore = score;
+                        maxAdditionScore = epaInfo.Process.CurrentProcess.MaxTotalScore + score;
                     }
 
-                    epaInfo.Process.CurrentProcess.MaxAdditionScore = (float)Math.Round(maxAdditionScore, Constants.NumberOfDecimalDefault);
+                    epaInfo.Process.CurrentProcess.MaxAdditionScore = maxAdditionScore;
                     break;
 
                 case (int)ProcessType.Management:
-                    if (epaInfo.Process.Reviewers.Count > 0)
+                    if (epaInfo.Process.Reviewers.Count() > 0)
                     {
-                        epaInfo.Process.CurrentProcess.MaxSubtractScore = -epaInfo.Process.AverageScoreByReviewers;
-                        maxAdditionScore = epaInfo.Process.CurrentProcess.MaxTotalScore - epaInfo.Process.AverageScoreByReviewers;
+                        score = epaInfo.Process.AverageScoreByReviewers.HasValue ? -epaInfo.Process.AverageScoreByReviewers.Value : 0;
+                        epaInfo.Process.CurrentProcess.MaxSubtractScore = score;
+                        maxAdditionScore = epaInfo.Process.CurrentProcess.MaxTotalScore + score;
                     }
                     else
                     {
                         if (epaInfo.IsSemiHasMonthly)
                         {
-                            epaInfo.Process.CurrentProcess.MaxSubtractScore = -epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted;
-                            maxAdditionScore = epaInfo.Process.CurrentProcess.MaxTotalScore - epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted;
+                            score = epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted.HasValue ? -epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted.Value : 0;
+                            epaInfo.Process.CurrentProcess.MaxSubtractScore = score;
+                            maxAdditionScore = epaInfo.Process.CurrentProcess.MaxTotalScore + score;
                         }
                         else
                         {
-                            epaInfo.Process.CurrentProcess.MaxSubtractScore = -epaInfo.Process.AverageScoreByEvaluators;
-                            maxAdditionScore = epaInfo.Process.CurrentProcess.MaxTotalScore - epaInfo.Process.AverageScoreByEvaluators;
+                            score = epaInfo.Process.AverageScoreByEvaluators.HasValue ? -epaInfo.Process.AverageScoreByEvaluators.Value : 0;
+                            epaInfo.Process.CurrentProcess.MaxSubtractScore = score;
+                            maxAdditionScore = epaInfo.Process.CurrentProcess.MaxTotalScore + score;
                         }
                     }
 
-                    epaInfo.Process.CurrentProcess.MaxAdditionScore = (float)Math.Round(maxAdditionScore, Constants.NumberOfDecimalDefault);
+                    epaInfo.Process.CurrentProcess.MaxAdditionScore = maxAdditionScore;
                     break;
             }
         }
