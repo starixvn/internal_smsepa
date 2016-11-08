@@ -210,7 +210,7 @@ function ($location, $translate, $routeParams, EvaluationModel, ReviewerEPAModel
 
     vm.checkAll = function (selectedAll) {
         angular.forEach(vm.epaInfos, function (epaInfo) {
-            if (!epaInfo.Process.CurrentProcess.IsEndProcess) {
+            if (!epaInfo.Process.CurrentProcess.IsEndProcess && (epaInfo.IsSemiAnnual || epaInfo.IsMonthly)) {
                 epaInfo.Selected = selectedAll;
             } else {
                 epaInfo.Selected = false;
@@ -315,7 +315,7 @@ function ($location, $translate, $routeParams, EvaluationModel, ReviewerEPAModel
                     epaInfo.LastFinalScore = null;
                 }
 
-                if (epaInfo.Process.CurrentProcess.IsEndProcess) {
+                if (epaInfo.Process.CurrentProcess.IsEndProcess && (epaInfo.IsSemiAnnual || epaInfo.IsMonthly)) {
                     countEndProcess += 1;
                 }
                 averageScore += epaInfo.Process.AverageScoreByEvaluators;

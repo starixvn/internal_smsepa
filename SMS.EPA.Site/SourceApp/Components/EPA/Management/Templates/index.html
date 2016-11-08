@@ -135,10 +135,10 @@
                     <td ng-bind="epaInfo.Employee.JobTitleName"></td>
                     <td class="text-center" ng-switch="epaInfo.Process.Self.IsEndProcess">
                         <div ng-switch-when="true">
-                            <div ng-show="!epaInfo.HasMonthlyEPA">
+                            <div ng-show="!epaInfo.IsSemiHasMonthly">
                                 {{epaInfo.Process.Self.TotalScore | customScore}} / {{epaInfo.ScoreRatingType.SelfEvaluated | customScore}}
                             </div>
-                            <div ng-show="epaInfo.HasMonthlyEPA">
+                            <div ng-show="epaInfo.IsSemiHasMonthly">
                                 {{epaInfo.MonthlyEPA.AverageSelfScoreConverted | customScore}} / {{epaInfo.ScoreRatingType.SelfEvaluated | customScore}}
                             </div>
                         </div>
@@ -146,10 +146,10 @@
                     </td>
                     <td class="text-center" ng-switch="epaInfo.Process.Evaluators[0].IsEndProcess">
                         <div ng-switch-when="true">
-                            <div ng-show="!epaInfo.HasMonthlyEPA">
+                            <div ng-show="!epaInfo.IsSemiHasMonthly">
                                 {{epaInfo.Process.AverageScoreByEvaluators | customScore}} / {{epaInfo.ScoreRatingType.Evaluator | customScore}}
                             </div>
-                            <div ng-show="epaInfo.HasMonthlyEPA">
+                            <div ng-show="epaInfo.IsSemiHasMonthly">
                                 {{epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted | customScore}} / {{epaInfo.ScoreRatingType.Evaluator | customScore}}
                             </div>
                         </div>
