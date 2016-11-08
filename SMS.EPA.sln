@@ -47,7 +47,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS.EPA.Site.UnitTests", "S
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{14B58E2B-4A04-421B-ADE5-3E222C3B8706}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS.EPA.AutoService", "SMS.EPA.AutoGenerateEvaluation\SMS.EPA.AutoService.csproj", "{11846569-7D7F-43FE-959B-359878D494E7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS.EPA.AutoService", "SMS.EPA.AutoService\SMS.EPA.AutoService.csproj", "{11846569-7D7F-43FE-959B-359878D494E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
