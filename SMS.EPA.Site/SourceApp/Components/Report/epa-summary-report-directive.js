@@ -86,7 +86,7 @@
                                 grade = '';
 
                             if (epaInfo.Periods[index].IsEndPeriod) {
-                                if (epaInfo.Periods[index].FinalScore) {
+                                if (epaInfo.Periods[index].FinalScore.length > 0) {
                                     finalScore = utilitiesFactory.parseFloat(epaInfo.Periods[index].FinalScore);
                                     grade = epaInfo.Periods[index].Grade;
                                 } else {

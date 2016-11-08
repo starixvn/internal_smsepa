@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -280,16 +281,38 @@
             if (monthlyEPA.MonthlyEPAs.Any())
             {
                 float? nullValue = null;
+                float averageScore = 0;
                 ScoreRatingTypeModel monthlyScoreRatingType = monthlyEPA.MonthlyEPAs.First().ScoreRatingType;
 
-                monthlyEPA.AverageSelfScoreConverted = monthlyEPA.AverageSelfScore.HasValue
-                    ? (monthlyEPA.AverageSelfScore.Value * scoreRatingType.SelfEvaluated) / monthlyScoreRatingType.SelfEvaluated : nullValue;
+                if (monthlyEPA.AverageSelfScore.HasValue)
+                {
+                    averageScore = (monthlyEPA.AverageSelfScore.Value * scoreRatingType.SelfEvaluated) / monthlyScoreRatingType.SelfEvaluated;
+                    monthlyEPA.AverageSelfScoreConverted = (float)Math.Round(averageScore, 2);
+                }
+                else
+                {
+                    monthlyEPA.AverageSelfScoreConverted = (float?)null;
+                }
 
-                monthlyEPA.AverageEvaluatorScoreConverted = monthlyEPA.AverageEvaluatorScores.HasValue
-                    ? (monthlyEPA.AverageEvaluatorScores.Value * scoreRatingType.Evaluator) / monthlyScoreRatingType.Evaluator : nullValue;
+                if (monthlyEPA.AverageEvaluatorScores.HasValue)
+                {
+                    averageScore = (monthlyEPA.AverageEvaluatorScores.Value * scoreRatingType.Evaluator) / monthlyScoreRatingType.Evaluator;
+                    monthlyEPA.AverageEvaluatorScoreConverted = (float)Math.Round(averageScore, 2);
+                }
+                else
+                {
+                    monthlyEPA.AverageEvaluatorScoreConverted = (float?)null;
+                }
 
-                monthlyEPA.AverageReviewerScoreConverted = monthlyEPA.AverageReviewerScores.HasValue
-                    ? (monthlyEPA.AverageReviewerScores.Value * scoreRatingType.Reviewer) / monthlyScoreRatingType.Reviewer : nullValue;
+                if (monthlyEPA.AverageReviewerScores.HasValue)
+                {
+                    averageScore = (monthlyEPA.AverageReviewerScores.Value * scoreRatingType.Reviewer) / monthlyScoreRatingType.Reviewer;
+                    monthlyEPA.AverageReviewerScoreConverted = (float)Math.Round(averageScore, 2);
+                }
+                else
+                {
+                    monthlyEPA.AverageReviewerScoreConverted = (float?)null;
+                }
             }
         }
 

@@ -43,20 +43,43 @@
                 Grade: ''
             };
 
-            if (epaInfo.EPAId > 0 && epaInfo.Process.Self.StatusEndProcess !== utilitiesFactory.processStatusType.Open) {
-                result.SelfScore = utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore);
-            }
+            if (epaInfo.EPAId > 0) {
+                switch (epaInfo.Process.Self.StatusEndProcess) {
+                    case utilitiesFactory.processStatusType.InProgress:
+                        result.SelfScore = epaInfo.Process.Self.TotalScore.length > 0
+                            ? utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore) : 0;
+                        break;
+                    case utilitiesFactory.processStatusType.Closed:
+                        result.SelfScore = epaInfo.Process.Self.TotalScore.length > 0
+                            ? utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore) : status.NotAvailable;
+                        break;
+                }
 
-            if (epaInfo.EPAId > 0 && epaInfo.Process.Evaluators[0].StatusEndProcess !== utilitiesFactory.processStatusType.Open) {
-                result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators;
-            }
+                switch (epaInfo.Process.Evaluators[0].StatusEndProcess) {
+                    case utilitiesFactory.processStatusType.InProgress:
+                        result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators !== null
+                            ? epaInfo.Process.AverageScoreByEvaluators : 0;
+                        break;
+                    case utilitiesFactory.processStatusType.Closed:
+                        result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators !== null
+                            ? epaInfo.Process.AverageScoreByEvaluators : status.NotAvailable;
+                        break;
+                }
 
-            if (epaInfo.EPAId > 0 && epaInfo.Process.Reviewers[0].StatusEndProcess !== utilitiesFactory.processStatusType.Open) {
-                result.ReviewerScore = epaInfo.Process.AverageScoreByReviewers;
+                switch (epaInfo.Process.Reviewers[0].StatusEndProcess) {
+                    case utilitiesFactory.processStatusType.InProgress:
+                        result.ReviewerScore = epaInfo.Process.AverageScoreByReviewers !== null
+                            ? epaInfo.Process.AverageScoreByReviewers : 0;
+                        break;
+                    case utilitiesFactory.processStatusType.Closed:
+                        result.ReviewerScore = epaInfo.Process.AverageScoreByReviewers !== null ?
+                            epaInfo.Process.AverageScoreByReviewers : status.NotAvailable;
+                        break;
+                }
             }
 
             if (epaInfo.Period.IsEndPeriod) {
-                if (epaInfo.FinalScore) {
+                if (epaInfo.FinalScore.length > 0) {
                     result.FinalScore = utilitiesFactory.parseFloat(epaInfo.FinalScore);
                     result.Grade = epaInfo.Grade;
                 } else {

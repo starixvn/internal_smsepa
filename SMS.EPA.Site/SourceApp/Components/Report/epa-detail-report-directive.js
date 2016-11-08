@@ -18,10 +18,10 @@
             var columnHeaders = [
                 { HeaderText: "#", Width: 40, Name: "No", HeaderAlign: "center", CellAlign: "center" },
                 { HeaderText: "Code", Width: 60, Name: "Code", HeaderAlign: "center", CellAlign: "center", Sort: true, SortDirection: sortCode, SortType: 'string' },
-                { HeaderText: "Full Name", Width: 160, Name: "FullName", HeaderAlign: "center", CellAlign: "left", CanResize: true },
+                { HeaderText: "Full Name", Width: 140, Name: "FullName", HeaderAlign: "center", CellAlign: "left", CanResize: true },
                 { HeaderText: "Nick Name", Width: 100, Name: "NickName", HeaderAlign: "center", CellAlign: "center" },
                 { HeaderText: "Section", Width: 120, Name: "Section", HeaderAlign: "center", CellAlign: "left", Sort: true, SortDirection: sortSection, SortType: 'string' },
-                { HeaderText: "Job Title", Width: 180, Name: "JobTitle", HeaderAlign: "center", CellAlign: "left", CanResize: true },
+                { HeaderText: "Job Title", Width: 160, Name: "JobTitle", HeaderAlign: "center", CellAlign: "left", CanResize: true },
                 { HeaderText: "Group Date", Width: 80, Name: "GroupDate", HeaderAlign: "center", CellAlign: "center", FormatDateTime: "DD MMM, YYYY" },
                 { HeaderText: "Target Type", Width: 120, Name: "TargetType", HeaderAlign: "center", CellAlign: "left" },
                 { HeaderText: "Self Score", Width: 80, Name: "SelfScore", HeaderAlign: "center", CellAlign: "center" },
@@ -59,34 +59,64 @@
                 }
             }
 
-            if (epaInfo.EPAId > 0 && epaInfo.Process.Self.StatusEndProcess !== utilitiesFactory.processStatusType.Open) {
-                if (epaInfo.IsSemiHasMonthly) {
-                    result.SelfScore = epaInfo.MonthlyEPA.AverageSelfScoreConverted;
-                } else {
-                    result.SelfScore = utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore);
+            if (epaInfo.EPAId > 0) {
+                switch (epaInfo.Process.Self.StatusEndProcess) {
+                    case utilitiesFactory.processStatusType.InProgress:
+                        result.SelfScore = epaInfo.Process.Self.TotalScore.length > 0
+                            ? utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore) : 0;
+                        break;
+                    case utilitiesFactory.processStatusType.Closed:
+                        result.SelfScore = epaInfo.Process.Self.TotalScore.length > 0
+                            ? utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore) : status.NotAvailable;
+                        break;
                 }
-            }
 
-            if (epaInfo.EPAId > 0 && epaInfo.Process.Evaluators[0].StatusEndProcess !== utilitiesFactory.processStatusType.Open) {
-                if (epaInfo.IsSemiHasMonthly) {
-                    result.EvaluatorScore = epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted;
-                } else {
-                    result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators;
+                switch (epaInfo.Process.Evaluators[0].StatusEndProcess) {
+                    case utilitiesFactory.processStatusType.InProgress:
+                        result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators !== null
+                            ? epaInfo.Process.AverageScoreByEvaluators : 0;
+                        break;
+                    case utilitiesFactory.processStatusType.Closed:
+                        result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators !== null
+                            ? epaInfo.Process.AverageScoreByEvaluators : status.NotAvailable;
+                        break;
                 }
-            }
 
-            if (epaInfo.EPAId > 0 && epaInfo.Process.Reviewers[0].StatusEndProcess !== utilitiesFactory.processStatusType.Open) {
-                result.ReviewerScore = epaInfo.Process.AverageScoreByReviewers;
-            }
+                switch (epaInfo.Process.Reviewers[0].StatusEndProcess) {
+                    case utilitiesFactory.processStatusType.InProgress:
+                        result.ReviewerScore = epaInfo.Process.AverageScoreByReviewers !== null
+                            ? epaInfo.Process.AverageScoreByReviewers : 0;
+                        break;
+                    case utilitiesFactory.processStatusType.Closed:
+                        result.ReviewerScore = epaInfo.Process.AverageScoreByReviewers !== null ?
+                            epaInfo.Process.AverageScoreByReviewers : status.NotAvailable;
+                        break;
+                }
 
-            if (epaInfo.EPAId > 0
-                && epaInfo.Process.Managements.length > 0
-                && epaInfo.Process.Managements[0].StatusEndProcess !== utilitiesFactory.processStatusType.Open) {
-                result.ManagementScore = epaInfo.Process.AverageScoreByManagements;
+                if (epaInfo.Process.Managements.length > 0) {
+                    switch (epaInfo.Process.Managements[0].StatusEndProcess) {
+                        case utilitiesFactory.processStatusType.InProgress:
+                            result.ManagementScore = epaInfo.Process.AverageScoreByManagements !== null
+                                ? epaInfo.Process.AverageScoreByManagements : 0;
+                            break;
+                        case utilitiesFactory.processStatusType.Closed:
+                            result.ManagementScore = epaInfo.Process.AverageScoreByManagements !== null
+                                ? epaInfo.Process.AverageScoreByManagements : status.NotAvailable;
+                            break;
+                    }
+                }
+
+                if (epaInfo.IsSemiHasMonthly) {
+                    result.SelfScore = epaInfo.MonthlyEPA.AverageSelfScoreConverted !== null
+                        ? epaInfo.MonthlyEPA.AverageSelfScoreConverted : status.NotAvailable;
+
+                    result.EvaluatorScore = epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted !== null
+                        ? epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted : status.NotAvailable;
+                }
             }
 
             if (epaInfo.Period.IsEndPeriod) {
-                if (epaInfo.FinalScore) {
+                if (epaInfo.FinalScore.length > 0) {
                     result.FinalScore = utilitiesFactory.parseFloat(epaInfo.FinalScore);
                     result.Grade = epaInfo.Grade;
                 } else {
