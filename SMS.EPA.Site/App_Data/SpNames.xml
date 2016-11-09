@@ -297,6 +297,7 @@
     <Setting Key="Report_MonthlyEPASummary" SpName="Report_MonthlyEPASummary" DbName="SMSEPA" Plain="0"></Setting>
     <Setting Key="Report_EPADetail" SpName="Report_EPADetail" DbName="SMSEPA" Plain="0"></Setting>
     <Setting Key="Report_MonthlyEPADetail" SpName="Report_MonthlyEPADetail" DbName="SMSEPA" Plain="0"></Setting>
+    <Setting Key="Report_GetEmployees" SpName="Report_GetEmployees" DbName="SMSEPA" Plain="0"></Setting>
   </Function>
   <Function Name="EPA History">
     <Setting Key="Epa_GetEPAHistory" SpName="Epa_GetEPAHistory" DbName="SMSEPA" Plain="0"></Setting>

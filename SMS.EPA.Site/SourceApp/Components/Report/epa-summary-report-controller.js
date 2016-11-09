@@ -16,7 +16,9 @@
             sortColumnName: '',
             sortDirection: '',
             pageIndex: utilitiesFactory.pageOption.pageIndex,
-            itemsPerPage: utilitiesFactory.pageOption.itemsPerPage
+            itemsPerPage: utilitiesFactory.pageOption.itemsPerPage,
+            employee: null,
+            employeeId: null
         };
         vm.pageOption = utilitiesFactory.pageOption;
         vm.periods = [];
@@ -31,6 +33,7 @@
                 filter.periodIds,
                 filter.departmentId,
                 filter.isLocal,
+                filter.employeeId,
                 filter.sortColumnName,
                 filter.sortDirection)
             .then(function () {
@@ -107,11 +110,18 @@
             });
         }
 
+        vm.getEmployee = function () {
+            vm.filter.periodIds = utilitiesFactory.getSelectedData(vm.periods, 'PeriodId');
+
+            return ReportModel.getEmployeeByActorId(vm.searchEmployee, vm.filter.periodIds, vm.filter.departmentId, vm.filter.isLocal);
+        };
+
         vm.exportReport = function () {
             vm.exportCriteria = {
                 periodIds: utilitiesFactory.getSelectedData(vm.periods, 'PeriodId'),
                 departmentId: vm.filter.departmentId,
                 isLocal: vm.filter.isLocal,
+                employeeId: vm.filter.employee ? vm.filter.employee.EmployeeId : null,
                 sortColumnName: vm.filter.sortColumnName,
                 sortDirection: vm.filter.sortDirection
             };
@@ -125,6 +135,10 @@
             filter.sortColumnName = '';
             filter.sortDirection = '';
 
+            if (filter.employee) {
+                vm.filter.employeeId = filter.employee.EmployeeId;
+            }
+
             getEPASummaryReport(filter);
         };
 
@@ -133,6 +147,13 @@
             vm.filter.sortDirection = sortDirection;
 
             getEPASummaryReport(vm.filter);
+        };
+
+        vm.unSelectEmployee = function () {
+            if (vm.searchEmployee.trim() === '') {
+                vm.filter.employee = null;
+                vm.filter.employeeId = null;
+            }
         };
     }
 })(angular);

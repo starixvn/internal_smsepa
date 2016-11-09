@@ -4,7 +4,9 @@
 
     public class GetEPADetailCriteria : CriteriaBase
     {
-        public int EmployeeId { get; set; }
+        public int ActorId { get; set; }
+
+        public int? EmployeeId { get; set; }
 
         public string PhaseIds { get; set; }
 
@@ -25,7 +27,7 @@
 
         public override bool IsValid()
         {
-            return EmployeeId > 0;
+            return ActorId > 0;
         }
     }
 }

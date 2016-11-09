@@ -3679,7 +3679,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to UserName.
+        ///   Looks up a localized string similar to Username.
         /// </summary>
         public static string Username {
             get {
@@ -3688,7 +3688,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The UserName must not contain white space!.
+        ///   Looks up a localized string similar to The Username must not contain white space!.
         /// </summary>
         public static string UsernameNotSpaceWarning {
             get {
@@ -3697,7 +3697,7 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The UserName field is required!.
+        ///   Looks up a localized string similar to The Username field is required!.
         /// </summary>
         public static string UsernameRequried {
             get {

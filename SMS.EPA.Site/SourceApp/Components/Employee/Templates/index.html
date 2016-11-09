@@ -47,7 +47,7 @@
         <table class="row table table-bordered table-striped" id="data">
             <thead>
                 <tr class="header-table">
-                    <th colspan="11">
+                    <th colspan="12">
                         <a class="pull-left button-icon create-button" ng-click="employeeCtrl.createEmployee()" ng-if="employeeCtrl.permission == employeeCtrl.policyEnum.Host">
                             <span class="glyphicon glyphicon-plus icon-add"></span>
                             <span class="button-text" data-translate="CreateUser"></span>
@@ -58,6 +58,7 @@
                 <tr class="headerName">
                     <th data-translate="SymbolCount"></th>
                     <th data-translate="Code"></th>
+                    <th data-translate="Username"></th>
                     <th data-translate="NickName"></th>
                     <th data-translate="FullName"></th>
                     <th data-translate="JobTitle"></th>
@@ -73,6 +74,7 @@
                 <tr dir-paginate="employee in employeeCtrl.filteredItems | itemsPerPage: employeeCtrl.pageSize" current-page="employeeCtrl.currentPage">
                     <td class="text-center" ng-bind="employeeCtrl.getIndex($index, employeeCtrl.currentPage, employeeCtrl.pageSize)"></td>
                     <td class="text-center" ng-bind="employee.Code"></td>
+                    <td ng-bind="employee.Username"></td>
                     <td class="text-center" ng-bind="employee.NickName"></td>
                     <td ng-bind="employee.FullName"></td>
                     <td ng-bind="employee.JobTitle.JobTitleName"></td>
@@ -105,12 +107,12 @@
                     </td>
                 </tr>
                 <tr ng-show="employeeCtrl.filteredItems.length == 0">
-                    <td class="empty-result" colspan="11" data-translate="EmptyResult"></td>
+                    <td class="empty-result" colspan="12" data-translate="EmptyResult"></td>
                 </tr>
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="11" class="paging">
+                    <td colspan="12" class="paging">
                         <span data-translate="Show"></span>
                         <select class="dropdown-entry form-control" ng-model="employeeCtrl.pageSize"
                                 ng-options="entry for entry in employeeCtrl.entries"></select>

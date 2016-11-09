@@ -265,7 +265,7 @@
     <value>Created Unsuccessfully!</value>
   </data>
   <data name="Username" xml:space="preserve">
-    <value>UserName</value>
+    <value>Username</value>
   </data>
   <data name="Select" xml:space="preserve">
     <value>Select</value>
@@ -286,7 +286,7 @@
     <value>The Password field is required!</value>
   </data>
   <data name="UsernameRequried" xml:space="preserve">
-    <value>The UserName field is required!</value>
+    <value>The Username field is required!</value>
   </data>
   <data name="EditUser" xml:space="preserve">
     <value>Edit User</value>
@@ -508,7 +508,7 @@
     <value>Password must be between 6-32 characters!</value>
   </data>
   <data name="UsernameNotSpaceWarning" xml:space="preserve">
-    <value>The UserName must not contain white space!</value>
+    <value>The Username must not contain white space!</value>
   </data>
   <data name="EPAProcessing" xml:space="preserve">
     <value>EPA Processing</value>

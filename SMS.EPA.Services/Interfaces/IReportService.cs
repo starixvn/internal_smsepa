@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.Services.Interfaces
 {
+    using System.Collections.Generic;
     using System.IO;
     using SMS.EPA.Criteria.Report;
     using SMS.EPA.Model;
@@ -19,5 +20,7 @@
         EPADetailModel GetMonthlyEPADetailReport(GetMonthlyEPADetailCriteria criteria);
 
         EPASummaryModel GetMonthlyEPASummaryReport(GetMonthlyEPASummaryCriteria criteria);
+
+        IEnumerable<EmployeeViewModel> GetEmployeeByActorId(GetEmployeeByActorIdCriteria criteria);
     }
 }

@@ -74,7 +74,7 @@
         {
             string fileName = Lang.EPASummaryReportName + ".xls";
 
-            criteria.EmployeeId = sessionService.CurrentUser.EmployeeId;
+            criteria.ActorId = sessionService.CurrentUser.EmployeeId;
 
             EPASummaryModel epaSummary = reportService.GetEPASummaryReport(criteria);
 
@@ -98,7 +98,7 @@
 
         public ActionResult ExportEPADetailReport(GetEPADetailCriteria criteria)
         {
-            criteria.EmployeeId = sessionService.CurrentUser.EmployeeId;
+            criteria.ActorId = sessionService.CurrentUser.EmployeeId;
 
             EPADetailModel epaInfos = reportService.GetEPADetailReport(criteria);
 

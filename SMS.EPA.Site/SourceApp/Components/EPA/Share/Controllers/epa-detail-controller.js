@@ -21,7 +21,8 @@
                 $location.url(baseUrl + 'Report/EPADetailReport?periodId=' + $routeParams.periodId
                     + '&departmentId=' + $routeParams.departmentId
                     + '&phaseIds=' + $routeParams.phaseIds
-                    + '&isLocal=' + $routeParams.isLocal);
+                    + '&isLocal=' + $routeParams.isLocal
+                    + '&employeeId=' + $routeParams.employeeId);
             } else {
                 historyFactory.back();
             }

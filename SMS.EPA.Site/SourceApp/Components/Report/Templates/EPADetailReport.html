@@ -21,7 +21,7 @@
                     </epa-add-class-to-role-filter>
                 </div>
             </div>
-            <div class="form-group last">
+            <div class="form-group">
                 <label class="col-sm-2 control-label" data-translate="DepartmentSection"></label>
                 <div class="col-sm-2">
                     <select class="form-control" ng-model="epaDetailReportCtrl.filter.departmentId"
@@ -37,8 +37,17 @@
                         <option value="true">{{"Local" | translate}}</option>
                     </select>
                 </div>
-                <div class="col-sm-offset-1 col-sm-1">
-                    <button class="btn btn-primary btn-search" ng-click="epaDetailReportCtrl.query(epaDetailReportCtrl.filter)" data-translate="Search"></button>
+            </div>
+            <div class="form-group last">
+                <label class="col-sm-2 control-label" data-translate="Employee"></label>
+                <div class="col-sm-2">
+                    <input class="form-control" ng-model="epaDetailReportCtrl.searchEmployee"
+                           placeholder="Enter full name or nick name" search-auto-complete search-employees="epaDetailReportCtrl.getEmployee()"
+                           ng-change="epaDetailReportCtrl.unSelectEmployee()" employee="epaDetailReportCtrl.filter.employee" />
+                </div>
+                <label class="col-sm-2 control-label"></label>
+                <div class="col-sm-1">
+                    <button class="btn btn-primary" ng-click="epaDetailReportCtrl.query(epaDetailReportCtrl.filter)" data-translate="Search"></button>
                 </div>
             </div>
         </form>

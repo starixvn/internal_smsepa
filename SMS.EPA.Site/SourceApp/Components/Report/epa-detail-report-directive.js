@@ -194,6 +194,7 @@
                     + '&departmentId=' + pageOption.departmentId
                     + '&phaseIds=' + pageOption.phaseIds
                     + '&isLocal=' + pageOption.isLocal
+                    + '&employeeId=' + pageOption.employeeId
                     + '&exportPdf&fromEPADetailReport';
             });
         }

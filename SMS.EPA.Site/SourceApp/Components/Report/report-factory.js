@@ -8,6 +8,7 @@
     function reportFactory($http, baseUrl) {
         return {
             getAllPeriodIncludeImport: getAllPeriodIncludeImport,
+            getEmployeeByActorId: getEmployeeByActorId,
             getEPADetailReport: getEPADetailReport,
             getEPASummaryReport: getEPASummaryReport,
             getMonthlyEPADetailReport: getMonthlyEPADetailReport,
@@ -18,12 +19,24 @@
             return $http.get(baseUrl + 'api/Report/GetAllPeriodIncludeImport');
         }
 
-        function getEPADetailReport(periodId, departmentId, isLocal, phaseIds, sortColumnName, sortDirection) {
+        function getEmployeeByActorId(query, periodIds, departmentId, isLocal) {
+            return $http.get(baseUrl + 'api/Report/GetEmployeeByActorId', {
+                params: {
+                    query: query,
+                    periodIds: periodIds,
+                    departmentId: departmentId,
+                    isLocal: isLocal
+                }
+            });
+        }
+
+        function getEPADetailReport(periodId, departmentId, isLocal, employeeId, phaseIds, sortColumnName, sortDirection) {
             return $http.get(baseUrl + 'api/Report/GetEPADetailReport', {
                 params: {
                     periodId: periodId,
                     departmentId: departmentId,
                     isLocal: isLocal,
+                    employeeId: employeeId,
                     phaseIds: phaseIds,
                     sortColumnName: sortColumnName,
                     sortDirection: sortDirection
@@ -31,12 +44,13 @@
             });
         }
 
-        function getEPASummaryReport(periodIds, departmentId, isLocal, sortColumnName, sortDirection) {
+        function getEPASummaryReport(periodIds, departmentId, isLocal, employeeId, sortColumnName, sortDirection) {
             return $http.get(baseUrl + 'api/Report/GetEPASummaryReport', {
                 params: {
                     periodIds: periodIds,
                     departmentId: departmentId,
                     isLocal: isLocal,
+                    employeeId: employeeId,
                     sortColumnName: sortColumnName,
                     sortDirection: sortDirection
                 }

@@ -31,6 +31,7 @@
                 filter.periodId,
                 filter.departmentId,
                 filter.isLocal,
+                filter.employeeId,
                 filter.phaseIds,
                 filter.sortColumnName,
                 filter.sortDirection)
@@ -38,8 +39,6 @@
                 vm.epaDetail = ReportModel.epaDetail;
                 lockScreenService.stop();
             });
-
-            localStorage.setItem('EPADetailReport', JSON.stringify(vm.filter));
         }
 
         function getShowHideColumns() {
@@ -69,8 +68,17 @@
                 sortColumnName: '',
                 sortDirection: '',
                 pageIndex: utilitiesFactory.pageOption.pageIndex,
-                itemsPerPage: utilitiesFactory.pageOption.itemsPerPage
+                itemsPerPage: utilitiesFactory.pageOption.itemsPerPage,
+                employee: null,
+                employeeId: $routeParams.employeeId ? $routeParams.employeeId : null
             };
+
+            if (filter.employeeId) {
+                CommonModel.getEmployeeById(filter.employeeId).then(function () {
+                    filter.employee = CommonModel.employee;
+                    vm.searchEmployee = filter.employee.NickName + ' (' + filter.employee.FullName + ')';
+                });
+            }
 
             return filter;
         }
@@ -95,11 +103,16 @@
             });
         }
 
+        vm.getEmployee = function () {
+            return ReportModel.getEmployeeByActorId(vm.searchEmployee, vm.filter.periodId, vm.filter.departmentId, vm.filter.isLocal);
+        };
+
         vm.exportReport = function () {
             vm.exportCriteria = {
                 periodId: vm.filter.periodId,
                 departmentId: vm.filter.departmentId,
                 isLocal: vm.filter.isLocal,
+                employeeId: vm.filter.employee ? vm.filter.employee.EmployeeId : null,
                 phaseIds: vm.filter.phaseIds,
                 sortColumnName: vm.filter.sortColumnName,
                 sortDirection: vm.filter.sortDirection
@@ -115,6 +128,10 @@
             filter.sortColumnName = '';
             filter.sortDirection = '';
 
+            if (filter.employee) {
+                vm.filter.employeeId = filter.employee.EmployeeId;
+            }
+
             getEPADetailReport(filter);
         };
 
@@ -123,6 +140,13 @@
             vm.filter.sortDirection = sortDirection;
 
             getEPADetailReport(vm.filter);
+        };
+
+        vm.unSelectEmployee = function () {
+            if (vm.searchEmployee.trim() === '') {
+                vm.filter.employee = null;
+                vm.filter.employeeId = null;
+            }
         };
     }
 })(angular);

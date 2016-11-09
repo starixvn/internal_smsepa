@@ -37,12 +37,14 @@
             string periodIds = null,
             int? departmentId = null,
             bool? isLocal = null,
+            int? employeeId = null,
             string sortColumnName = null,
             string sortDirection = null)
         {
             var criteria = new GetEPASummaryCriteria()
             {
-                EmployeeId = this.SessionService.EmployeeId,
+                ActorId = this.SessionService.EmployeeId,
+                EmployeeId = employeeId,
                 PeriodIds = periodIds,
                 DepartmentId = departmentId,
                 IsLocal = isLocal,
@@ -62,12 +64,14 @@
             int? departmentId = null,
             bool? isLocal = null,
             string phaseIds = null,
+            int? employeeId = null,
             string sortColumnName = null,
             string sortDirection = null)
         {
             var criteria = new GetEPADetailCriteria()
             {
-                EmployeeId = this.SessionService.EmployeeId,
+                ActorId = this.SessionService.EmployeeId,
+                EmployeeId = employeeId,
                 PeriodId = periodId,
                 DepartmentId = departmentId,
                 IsLocal = isLocal,
@@ -154,6 +158,26 @@
             }
 
             return periods;
+        }
+
+        public IEnumerable<EmployeeViewModel> GetEmployeeByActorId(
+            string query = "",
+            string periodIds = null,
+            int? departmentId = null,
+            bool? isLocal = null)
+        {
+            var criteria = new GetEmployeeByActorIdCriteria
+            {
+                Query = query,
+                PeriodIds = periodIds,
+                DepartmentId = departmentId,
+                IsLocal = isLocal,
+                ActorId = this.SessionService.EmployeeId
+            };
+
+            IEnumerable<EmployeeViewModel> employees = reportService.GetEmployeeByActorId(criteria);
+
+            return employees;
         }
     }
 }

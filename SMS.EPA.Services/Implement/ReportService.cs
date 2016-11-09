@@ -11,6 +11,7 @@
     using NPOI.SS.Util;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Core.Services;
     using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.Report;
     using SMS.EPA.Model;
@@ -18,7 +19,7 @@
     using SMS.EPA.Resources;
     using SMS.EPA.Services.Interfaces;
 
-    public class ReportService : IReportService
+    public class ReportService : BaseService, IReportService
     {
         private const int ExcelColumnWidth = 256;
         private readonly IReportRepository reportRepository;
@@ -58,8 +59,6 @@
             return result;
         }
 
-        #region EPA Summary Report
-
         public EPASummaryModel GetEPASummaryReport(GetEPASummaryCriteria criteria)
         {
             EPASummaryModel result = new EPASummaryModel();
@@ -76,10 +75,6 @@
         {
             return ExportEPASummaryReport(epaSummary, Lang.EPASummaryReportTitle);
         }
-
-        #endregion EPA Summary Report
-
-        #region EPA Detail Report
 
         public EPADetailModel GetEPADetailReport(GetEPADetailCriteria criteria)
         {
@@ -106,10 +101,6 @@
 
             return result;
         }
-
-        #endregion EPA Detail Report
-
-        #region Monthly EPA Detail Report
 
         public MemoryStream ExportMonthlyEPASummaryReport(EPASummaryModel epaSummary)
         {
@@ -140,7 +131,17 @@
             return result;
         }
 
-        #endregion Monthly EPA Detail Report
+        public IEnumerable<EmployeeViewModel> GetEmployeeByActorId(GetEmployeeByActorIdCriteria criteria)
+        {
+            IEnumerable<EmployeeViewModel> employees = new List<EmployeeViewModel>();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                employees = GetData<EmployeeViewModel>(criteria);
+            }
+
+            return employees;
+        }
 
         private MemoryStream ExportEPASummaryReport(EPASummaryModel epaSummary, string title)
         {
