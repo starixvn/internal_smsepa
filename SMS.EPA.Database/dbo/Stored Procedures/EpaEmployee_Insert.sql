@@ -53,11 +53,12 @@ BEGIN
 		,@EmpId INT
 
 	SET @MinSpecialEmployee = 100000
-	SET @NumberSpecialEmployee = (
-			SELECT COUNT([EmployeeId])
-			FROM [dbo].[Employee] WITH (NOLOCK)
-			WHERE [IsSpecialUser] = 1
-			)
+
+	SELECT @NumberSpecialEmployee = MAX(EmployeeId)
+	FROM [dbo].[Employee] WITH (NOLOCK)
+	WHERE [IsSpecialUser] = 1
+
+	SELECT @EmpId = @MinSpecialEmployee + @NumberSpecialEmployee + 1
 
 	BEGIN TRY
 		BEGIN TRANSACTION
@@ -85,7 +86,7 @@ BEGIN
 			,[Email]
 			)
 		VALUES (
-			@MinSpecialEmployee + @NumberSpecialEmployee + 1
+			@EmpId
 			,@DomainUsername
 			,''
 			,@NickName
@@ -106,8 +107,6 @@ BEGIN
 			,@IsLocal
 			,@Email
 			)
-
-		SELECT @EmpId = @MinSpecialEmployee + @NumberSpecialEmployee + 1
 
 		DECLARE @Data NVARCHAR(MAX)
 

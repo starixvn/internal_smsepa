@@ -12,15 +12,16 @@ Param's Explanation:
 
 */
 BEGIN
-	SET NOCOUNT ON;
+	SET NOCOUNT ON
 
-	DECLARE @TblEPA TABLE (
+	CREATE TABLE #TblEPA (
 		EPAId INT
 		,EmployeeId INT
 		,TargetTypeId INT
 		,StartDate DATE
 		)
-	DECLARE @TblLastEPA TABLE (
+
+	CREATE TABLE #TblLastEPA (
 		LastEPAId INT
 		,EPAId INT
 		,EmployeeId INT
@@ -31,24 +32,26 @@ BEGIN
 		,DisciplineScore FLOAT
 		)
 
-	INSERT INTO @TblEPA
+	INSERT INTO #TblEPA
 	SELECT DISTINCT epa.EPAId
 		,emp.EmployeeId
 		,tt.TargetTypeId
-		,CAST(period.StartDate AS DATE)
+		,pc.StartDate
 	FROM dbo.EPA AS epa WITH (NOLOCK)
 		INNER JOIN @EPAIds AS epat ON epa.EPAId = epat.Id
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 		AND period.IsActive = 1
 		INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
+		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
+		AND pc.ProcessId = 2 -- self
 
-	INSERT INTO @TblLastEPA
+	INSERT INTO #TblLastEPA
 	SELECT DISTINCT epa.EPAId
 		,tblEPA.EPAId
 		,emp.EmployeeId
 		,emp.Code
-		,CAST(period.StartDate AS DATE)
+		,pc.EndDate
 		,epa.FinalScore
 		,epa.Grade
 		,epa.DisciplineScore
@@ -57,9 +60,9 @@ BEGIN
 		AND period.IsActive = 1
 		INNER JOIN dbo.TargetType AS tt ON period.TargetTypeId = tt.TargetTypeId
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
-		INNER JOIN @TblEPA AS tblEPA ON emp.EmployeeId = tblEPA.EmployeeId
+		INNER JOIN #TblEPA AS tblEPA ON emp.EmployeeId = tblEPA.EmployeeId
 		AND tt.TargetTypeId = tblEPA.TargetTypeId
-		AND CAST(period.StartDate AS DATE) < tblEPA.StartDate
+		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 	WHERE epa.[Status] = 1 -- closed
 		AND epa.EPAId NOT IN (
 			SELECT Id
@@ -67,12 +70,17 @@ BEGIN
 			)
 		AND EXISTS (
 			SELECT 1
-			FROM dbo.Period AS period1 WITH (NOLOCK)
-			WHERE period.PeriodId = period1.PeriodId
-				AND period1.CreatedDate IN (
-					SELECT MAX(period2.CreatedDate)
-					FROM dbo.Period AS period2 WITH (NOLOCK)
-					GROUP BY CAST(period2.StartDate AS DATE)
+			FROM dbo.EPA AS epa1 WITH (NOLOCK)
+				INNER JOIN dbo.EPAProcess AS pc1 WITH (NOLOCK) ON epa1.EPAId = pc1.EPAId
+			WHERE epa1.EPAId = epa.EPAId
+				AND pc1.ProcessId = pc.ProcessId
+				AND pc1.EvaluatorId = pc.EvaluatorId
+				AND pc.EndDate IN (
+					SELECT MAX(pc2.EndDate)
+					FROM dbo.EPA AS epa2 WITH (NOLOCK)
+						INNER JOIN dbo.EPAProcess AS pc2 WITH (NOLOCK) ON epa2.EPAId = pc2.EPAId
+					WHERE epa1.EPAId = epa2.EPAId
+					GROUP BY epa2.EPAId
 					)
 			)
 	
@@ -81,39 +89,46 @@ BEGIN
 		,tblEPA.EPAId
 		,emp.EmployeeId
 		,emp.Code
-		,CAST(lastEPA.PeriodDate AS DATE)
+		,lastEPA.PeriodDate
 		,lastEPA.FinalScore
 		,NULL
 		,NULL
 	FROM dbo.EPASummaryImport AS lastEPA WITH (NOLOCK)
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON lastEPA.Code = emp.Code
-		INNER JOIN @TblEPA AS tblEPA ON emp.EmployeeId = tblEPA.EmployeeId
-		AND tblEPA.TargetTypeId = 3
+		INNER JOIN #TblEPA AS tblEPA ON emp.EmployeeId = tblEPA.EmployeeId
+		AND tblEPA.TargetTypeId = 3 -- semi
 		INNER JOIN (
 		SELECT lastEPA1.Code
 			,MAX(CAST(lastEPA1.PeriodDate AS DATE)) AS PeriodDate
 		FROM dbo.EPASummaryImport AS lastEPA1 WITH (NOLOCK)
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON lastEPA1.Code = emp.Code
-			INNER JOIN @TblEPA AS tbl ON emp.EmployeeId = tbl.EmployeeId
-			AND tbl.TargetTypeId = 3
+			INNER JOIN #TblEPA AS tbl ON emp.EmployeeId = tbl.EmployeeId
+			AND tbl.TargetTypeId = 3 -- semi
 		GROUP BY lastEPA1.Code
 		) AS tblData ON lastEPA.Code = tblData.Code
 		AND CAST(lastEPA.PeriodDate AS DATE) = tblData.PeriodDate
 
 	SELECT DISTINCT tbl.EPAId
 		,tbl.EmployeeId
-		,tbl.Code
-		,tbl.FinalScore
-		,tbl.Grade
-		,tbl.DisciplineScore
-	FROM @TblLastEPA AS tbl
+		,tbl1.Code
+		,tbl1.FinalScore
+		,tbl1.Grade
+		,tbl1.DisciplineScore
+	FROM #TblEPA AS tbl
 		INNER JOIN (
-		SELECT EmployeeId
-			,Code
-			,MAX([Date]) AS MaxDate
-		FROM @TblLastEPA
-		GROUP BY EmployeeId
-			,Code
+		SELECT *
+		FROM #TblLastEPA
+		WHERE [Date] = (
+				SELECT TOP 1 MAX([Date])
+				FROM #TblLastEPA
+				WHERE EmployeeId = EmployeeId
+					AND EPAId = EPAId
+				GROUP BY EmployeeId
+				)
 		) AS tbl1 ON tbl.EmployeeId = tbl1.EmployeeId
-		AND tbl.[Date] = tbl1.MaxDate
+		AND tbl.EPAId = tbl1.EPAId
+
+	DROP TABLE #TblEPA
+
+	DROP TABLE #TblLastEPA
 END

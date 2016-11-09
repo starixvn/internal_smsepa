@@ -104,6 +104,8 @@ BEGIN
 				INNER JOIN #Details AS dt ON epa.EPAId = dt.EPAId
 				AND pc.ProcessId = dt.ProcessId
 				AND pc.EvaluatorId = dt.EvaluatorId
+				AND @Today NOT BETWEEN CAST(pc.StartDate AS DATE)
+					AND CAST(pc.EndDate AS DATE)
 				AND CAST(pc.EndDate AS DATE) > @Today
 			)
 	BEGIN
@@ -114,6 +116,8 @@ BEGIN
 			INNER JOIN dbo.EPAProcess AS pc ON epa.EPAId = pc.EPAId
 			AND dt.EvaluatorId = pc.EvaluatorId
 			AND dt.ProcessId = pc.ProcessId
+			AND @Today NOT BETWEEN CAST(pc.StartDate AS DATE)
+				AND CAST(pc.EndDate AS DATE)
 			AND CAST(pc.EndDate AS DATE) > @Today
 
 		DECLARE @NumberAdjustEmployee INT

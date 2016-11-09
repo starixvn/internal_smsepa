@@ -1,6 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EpaAuto_Promotion_GetEmployees    Script Date: 7/21/2016 3:01:36 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_Promotion_GetEmployees    Script Date: 7/21/2016 2:45:49 PM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[EpaAuto_Promotion_GetEmployees]
 AS
 /*

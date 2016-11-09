@@ -100,14 +100,17 @@ BEGIN
 			,[ModifiedDate] = GETDATE()
 		WHERE [PeriodId] = @PeriodId
 
-		IF (
-				ISNULL(@OldEndDate, '') <> ''
-				AND ISNULL(@EndDate, '') <> ''
-				AND @OldEndDate <> @EndDate
-				)
-			OR (
-				ISNULL(@OldEndDate, '') = ''
-				AND ISNULL(@EndDate, '') <> ''
+		IF @TargetTypeId IN (2, 3)
+			AND (
+				(
+					ISNULL(@OldEndDate, '') <> ''
+					AND ISNULL(@EndDate, '') <> ''
+					AND @OldEndDate <> @EndDate
+					)
+				OR (
+					ISNULL(@OldEndDate, '') = ''
+					AND ISNULL(@EndDate, '') <> ''
+					)
 				)
 		BEGIN
 			UPDATE epa

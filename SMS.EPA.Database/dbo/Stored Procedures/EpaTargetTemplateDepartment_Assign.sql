@@ -19,41 +19,38 @@ Param's Explanation:
 					</ROOT>
 */
 BEGIN
-	SET NOCOUNT ON;
+	SET NOCOUNT ON
 
 	DECLARE @TargetTypeId INT
 		,@AllowMultiple BIT
 		,@DocHandler INT
 
-	SET @TargetTypeId = (
-			SELECT tarTemp.[TargetTypeId]
-			FROM [dbo].[TargetTemplate] AS tarTemp WITH (NOLOCK)
-				INNER JOIN [dbo].[TargetType] AS tar WITH (NOLOCK) ON tarTemp.[TargetTypeId] = tar.[TargetTypeId]
-			WHERE tarTemp.[TargetTemplateId] = @TargetTemplateId
-			)
-	SET @AllowMultiple = (
-			SELECT tar.[AllowMultiple]
-			FROM [dbo].[TargetTemplate] AS tarTemp WITH (NOLOCK)
-				INNER JOIN [dbo].[TargetType] AS tar WITH (NOLOCK) ON tarTemp.[TargetTypeId] = tar.[TargetTypeId]
-			WHERE tarTemp.[TargetTemplateId] = @TargetTemplateId
-			)
+	SELECT @TargetTypeId = tarTemp.TargetTypeId
+	FROM dbo.TargetTemplate AS tarTemp WITH (NOLOCK)
+		INNER JOIN dbo.TargetType AS tar WITH (NOLOCK) ON tarTemp.TargetTypeId = tar.TargetTypeId
+	WHERE tarTemp.TargetTemplateId = @TargetTemplateId
+
+	SELECT @AllowMultiple = tar.AllowMultiple
+	FROM dbo.TargetTemplate AS tarTemp WITH (NOLOCK)
+		INNER JOIN dbo.TargetType AS tar WITH (NOLOCK) ON tarTemp.TargetTypeId = tar.TargetTypeId
+	WHERE tarTemp.TargetTemplateId = @TargetTemplateId
 
 	CREATE TABLE #DepartmentSetting (
-		[DepartmentId] INT
-		,[IsGroup] BIT
-		,[TargetTemplateId] INT
+		DepartmentId INT
+		,IsGroup BIT
+		,TargetTemplateId INT
 		)
 
 	EXEC sp_xml_preparedocument @DocHandler OUTPUT
 		,@Departments
 
 	INSERT INTO #DepartmentSetting (
-		[DepartmentId]
-		,[IsGroup]
-		,[TargetTemplateId]
+		DepartmentId
+		,IsGroup
+		,TargetTemplateId
 		)
-	SELECT [DepartmentId]
-		,[IsGroup]
+	SELECT DepartmentId
+		,IsGroup
 		,@TargetTemplateId
 	FROM OPENXML(@DocHandler, '/ROOT/Department', 1) WITH (DepartmentId INT, IsGroup BIT) AS Data
 
@@ -69,8 +66,8 @@ BEGIN
 	SET @Dept = CURSOR
 	FOR
 
-	SELECT [DepartmentId]
-		,[IsGroup]
+	SELECT DepartmentId
+		,IsGroup
 	FROM #DepartmentSetting
 
 	OPEN @Dept
@@ -84,7 +81,7 @@ BEGIN
 	BEGIN
 		SET @DeptLogDetail = ''
 
-		EXEC @DeptLogDetail = [dbo].[fncGetDataForWriteLog_TargetTemplateSetting_Department] @DepartmentId = @DepartmentId
+		EXEC @DeptLogDetail = dbo.fncGetDataForWriteLog_TargetTemplateSetting_Department @DepartmentId = @DepartmentId
 			,@IsGroup = @IsGroup
 
 		SET @OldData = @OldData + @DeptLogDetail
@@ -111,7 +108,7 @@ BEGIN
 			DELETE
 			FROM [dbo].[TargetTemplateDepartment]
 			WHERE EXISTS (
-					SELECT TOP 1 1
+					SELECT 1
 					FROM #DepartmentSetting AS deptSet
 					WHERE [dbo].[TargetTemplateDepartment].[DepartmentId] = deptSet.DepartmentId
 						AND [dbo].[TargetTemplateDepartment].[IsGroup] = deptSet.IsGroup
@@ -124,7 +121,7 @@ BEGIN
 			DELETE
 			FROM [dbo].[TargetTemplateDepartment]
 			WHERE EXISTS (
-					SELECT TOP 1 1
+					SELECT 1
 					FROM #DepartmentSetting AS deptSet
 					WHERE [dbo].[TargetTemplateDepartment].[DepartmentId] = deptSet.[DepartmentId]
 						AND [dbo].[TargetTemplateDepartment].[IsGroup] = deptSet.[IsGroup]

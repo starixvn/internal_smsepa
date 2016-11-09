@@ -1,14 +1,12 @@
 ﻿
-CREATE PROCEDURE [dbo].[Report_EPADetail] @EmployeeId INT
+CREATE PROCEDURE [dbo].[Report_EPADetail] @ActorId INT
 	,@PeriodId INT = NULL
 	,@PhaseIds NVARCHAR(10) = NULL
 	,@DepartmentId INT = NULL
 	,@IsLocal BIT = NULL
+	,@EmployeeId INT = NULL
 	,@SortColumnName NVARCHAR(100) = NULL
 	,@SortDirection NVARCHAR(10) = NULL
-	,@PageIndex INT = NULL
-	,@ItemsPerPage INT = NULL
-	,@TotalItem INT = NULL OUT
 AS
 /*
 Created: 20151001@Tim.Trinh
@@ -24,7 +22,7 @@ BEGIN
 	SET NOCOUNT ON;
 
 	DECLARE @Phases IntId
-		,@ToDay DATE
+		,@Today DATE
 		,@Ids NVARCHAR(MAX)
 		,@SortCode NVARCHAR(10)
 		,@SortSection NVARCHAR(10)
@@ -33,11 +31,6 @@ BEGIN
 		EPAId INT
 		,Code NVARCHAR(10)
 		,GroupName NVARCHAR(150)
-		,EndDate DATE
-		)
-
-	CREATE TABLE #TblEPAs (
-		EPAId INT
 		,EndDate DATE
 		)
 
@@ -65,7 +58,7 @@ BEGIN
 		,OtherDisciplines FLOAT
 		)
 
-	SET @ToDay = CAST(GETDATE() AS DATE)
+	SET @Today = CAST(GETDATE() AS DATE)
 	SET @SortCode = 'code'
 	SET @SortSection = 'section'
 
@@ -101,7 +94,7 @@ BEGIN
 		FROM dbo.EPA AS epa WITH (NOLOCK)
 			INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 			AND pc.ProcessId = 2
-			AND CAST(pc.StartDate AS DATE) <= @ToDay
+			AND CAST(pc.StartDate AS DATE) <= @Today
 			INNER JOIN #TblPeriods AS period ON epa.PeriodId = period.PeriodId
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
 			LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
@@ -149,12 +142,16 @@ BEGIN
 			OR tblData.IsLocal = @IsLocal
 			)
 		AND (
+			@EmployeeId IS NULL
+			OR tblData.EmployeeId = @EmployeeId
+			)
+		AND (
 			EXISTS (
 				SELECT 1
 				FROM dbo.EmployeeRole AS ro WITH (NOLOCK)
 					INNER JOIN dbo.LookupData AS lo WITH (NOLOCK) ON ro.RoleId = lo.Value
 					AND lo.LookupId = 2 -- role
-				WHERE ro.EmployeeId = @EmployeeId
+				WHERE ro.EmployeeId = @ActorId
 					AND ro.RoleId IN (1, 2) -- SA, HR can view all member
 				)
 			OR EXISTS (
@@ -162,7 +159,7 @@ BEGIN
 				FROM dbo.EmployeeRole AS empRole WITH (NOLOCK)
 					INNER JOIN dbo.Employee AS emp1 WITH (NOLOCK) ON empRole.EmployeeId = emp1.EmployeeId
 				WHERE empRole.RoleId = 3 -- management
-					AND empRole.EmployeeId = @EmployeeId
+					AND empRole.EmployeeId = @ActorId
 					AND EXISTS (
 						SELECT 1
 						FROM dbo.EPA AS epa1 WITH (NOLOCK)
@@ -177,7 +174,7 @@ BEGIN
 				FROM dbo.EmployeeRole AS empRole WITH (NOLOCK)
 					INNER JOIN dbo.Employee AS emp1 ON empRole.EmployeeId = emp1.EmployeeId
 				WHERE empRole.RoleId = 4 -- reviewer
-					AND empRole.EmployeeId = @EmployeeId
+					AND empRole.EmployeeId = @ActorId
 					AND EXISTS (
 						SELECT 1
 						FROM dbo.EPA AS epa1 WITH (NOLOCK)
@@ -192,7 +189,7 @@ BEGIN
 				FROM dbo.EmployeeRole AS empRole WITH (NOLOCK)
 					INNER JOIN dbo.Employee AS emp1 WITH (NOLOCK) ON empRole.EmployeeId = emp1.EmployeeId
 				WHERE empRole.RoleId = 5 -- evaluator
-					AND empRole.EmployeeId = @EmployeeId
+					AND empRole.EmployeeId = @ActorId
 					AND EXISTS (
 						SELECT 1
 						FROM dbo.EPA AS epa1 WITH (NOLOCK)
@@ -206,15 +203,15 @@ BEGIN
 			--	SELECT TOP 1 1
 			--	FROM dbo.HRMGroupSupervisor AS grS WITH (NOLOCK)
 			--	WHERE tblData.GroupId = grS.GroupId
-			--		AND grS.OwnerId = @EmployeeId
+			--		AND grS.OwnerId = @ActorId
 			--		AND grS.ActionType = 3 -- Approver
 			--	)
 			OR EXISTS (
 				SELECT 1
 				FROM dbo.EmployeeRole AS empRole WITH (NOLOCK)
 				WHERE RoleId = 6 -- Employee can view their EPA
-					AND empRole.EmployeeId = @EmployeeId
-					AND tblData.EmployeeId = @EmployeeId
+					AND empRole.EmployeeId = @ActorId
+					AND tblData.EmployeeId = @ActorId
 				)
 			)
 	ORDER BY tblData.GroupName
@@ -239,7 +236,7 @@ BEGIN
 		FROM dbo.EPA AS epa WITH (NOLOCK)
 			INNER JOIN dbo.EPAProcess AS pcSelf WITH (NOLOCK) ON epa.EPAId = pcSelf.EPAId
 			AND pcSelf.ProcessId = 2
-			AND CAST(pcSelf.StartDate AS DATE) <= @ToDay
+			AND CAST(pcSelf.StartDate AS DATE) <= @Today
 			INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 			INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 			INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
@@ -263,58 +260,8 @@ BEGIN
 	ORDER BY tbl.GroupName
 		,tbl.Code
 
-	IF @PageIndex IS NOT NULL
-		AND @ItemsPerPage IS NOT NULL
-	BEGIN
-		INSERT INTO #TblEPAs
-		SELECT EPAId
-			,EndDate
-		FROM #EPAs
-		ORDER BY CASE 
-				WHEN ISNULL(@SortColumnName, '') <> ''
-					AND ISNULL(@SortDirection, '') <> ''
-					AND @SortDirection = 'desc' THEN CASE LOWER(@SortColumnName)
-						WHEN @SortCode THEN Code
-						WHEN @SortSection THEN GroupName
-						END
-				END DESC
-			,CASE 
-				WHEN ISNULL(@SortColumnName, '') <> ''
-					AND ISNULL(@SortDirection, '') <> ''
-					AND @SortDirection = 'asc' THEN CASE LOWER(@SortColumnName)
-						WHEN @SortCode THEN Code
-						WHEN @SortSection THEN GroupName
-						END
-				END OFFSET(@PageIndex * @ItemsPerPage) ROWS
-
-		FETCH NEXT @ItemsPerPage ROWS ONLY;
-	END
-	ELSE
-	BEGIN
-		INSERT INTO #TblEPAs
-		SELECT EPAId
-			,EndDate
-		FROM #EPAs
-		ORDER BY CASE 
-				WHEN ISNULL(@SortColumnName, '') <> ''
-					AND ISNULL(@SortDirection, '') <> ''
-					AND @SortDirection = 'desc' THEN CASE LOWER(@SortColumnName)
-						WHEN @SortCode THEN Code
-						WHEN @SortSection THEN GroupName
-						END
-				END DESC
-			,CASE 
-				WHEN ISNULL(@SortColumnName, '') <> ''
-					AND ISNULL(@SortDirection, '') <> ''
-					AND @SortDirection = 'asc' THEN CASE LOWER(@SortColumnName)
-						WHEN @SortCode THEN Code
-						WHEN @SortSection THEN GroupName
-						END
-				END
-	END
-
 	SELECT @Ids = COALESCE(@Ids + ',', '') + CAST(EPAId AS NVARCHAR)
-	FROM #TblEPAs
+	FROM #EPAs
 
 	INSERT INTO #DisciplineScores
 	EXECUTE dbo.EmployeeDisciplineSummary_GetByEPA @Ids
@@ -370,16 +317,16 @@ BEGIN
 			,(CASE 
 				WHEN ttype.TargetTypeId IN (2, 3) THEN (CASE 
 						WHEN CAST(pc.EndDate AS DATE) >= CAST(period.EndDate AS DATE) THEN (CASE 
-								WHEN CAST(pc.EndDate AS DATE) < @ToDay THEN 1
+								WHEN CAST(pc.EndDate AS DATE) < @Today THEN 1
 								ELSE 0 END
 								)
 						ELSE (CASE 
-								WHEN CAST(period.EndDate AS DATE) <= @ToDay THEN 1
+								WHEN CAST(period.EndDate AS DATE) <= @Today THEN 1
 								ELSE 0 END
 								) END
 						)
 				ELSE (CASE 
-						WHEN CAST(pc.EndDate AS DATE) < @ToDay THEN 1
+						WHEN CAST(pc.EndDate AS DATE) < @Today THEN 1
 						ELSE 0 END
 						) END
 				) AS IsEndPeriod
@@ -391,14 +338,14 @@ BEGIN
 			,srt.Reviewer
 			,srt.Management
 			,srt.Attendance
-		FROM #TblEPAs AS tbl
+		FROM #EPAs AS tbl
 			INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON tbl.EPAId = epa.EPAId
 			INNER JOIN (
 			SELECT pc1.EPAId
 				,MIN(pc1.StartDate) AS StartDate
 				,MAX(pc1.EndDate) AS EndDate
 			FROM dbo.EPAProcess AS pc1 WITH (NOLOCK)
-				INNER JOIN #TblEPAs AS tbl1 ON pc1.EPAId = tbl1.EPAId
+				INNER JOIN #EPAs AS tbl1 ON pc1.EPAId = tbl1.EPAId
 			GROUP BY pc1.EPAId
 			) AS pc ON epa.EPAId = pc.EPAId
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
@@ -446,7 +393,7 @@ BEGIN
 			,NULL AS Reviewer
 			,NULL AS Management
 			,NULL AS Attendance
-		FROM #TblEPAs AS tbl
+		FROM #EPAs AS tbl
 			INNER JOIN dbo.EPASummaryImport AS epa WITH (NOLOCK) ON tbl.EPAId = - epa.Id
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.Code = emp.Code
 			LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
@@ -476,22 +423,19 @@ BEGIN
 	SELECT DISTINCT epa.EPAId
 		,pc.ProcessId
 		,pc.TotalScore
-		,pc.IsEndProcess
+		,pc.StartDate
+		,pc.EndDate
 		,(CASE 
-			WHEN ISNULL(epa.EPAId, '') <> '' THEN CASE 
-					WHEN pc.IsEndProcess = 0 THEN CASE 
-							WHEN CAST(pc.StartDate AS DATE) > CAST(GETDATE() AS DATE) THEN 1 -- Open
-							ELSE 2 -- In Progress
-							END
-					ELSE 3 -- Closed
-					END
-			ELSE 0 END
-			) AS StatusEndProcess
+			WHEN CAST(pc.StartDate AS DATE) > @Today THEN 1
+			WHEN @Today BETWEEN CAST(pc.StartDate AS DATE)
+					AND CAST(pc.EndDate AS DATE) THEN 2
+			WHEN @Today > CAST(pc.EndDate AS DATE) THEN 3 END
+			) AS StatusEndProcess -- 1:Open; 2:In Progress; 3:Closed
 		,emp.EmployeeId AS EvaluatorId
 		,emp.Code
 		,emp.NickName
 		,emp.FullName
-	FROM #TblEPAs AS tbl
+	FROM #EPAs AS tbl
 		INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON tbl.EPAId = epa.EPAId
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 		AND pc.ProcessId > 1 -- ignore HR phase
@@ -500,12 +444,7 @@ BEGIN
 	ORDER BY epa.EPAId
 		,pc.ProcessId
 
-	SELECT @TotalItem = COUNT(*)
-	FROM #EPAs
-
 	DROP TABLE #EPAs
-
-	DROP TABLE #TblEPAs
 
 	DROP TABLE #Employees
 

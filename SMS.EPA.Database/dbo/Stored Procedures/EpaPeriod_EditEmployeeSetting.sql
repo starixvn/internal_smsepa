@@ -28,7 +28,7 @@ BEGIN
 		,@OverlapEmployeeIds IntId
 		,@OverlapEmployees NVARCHAR(MAX)
 		,@Today DATE
-	
+
 	SET @Today = CAST(GETDATE() AS DATE)
 
 	SELECT @TargetTypeId = TargetTypeId
@@ -276,6 +276,9 @@ BEGIN
 				SET epa.FinalScore = NULL
 					,epa.DisciplineScore = NULL
 					,epa.Grade = NULL
+					,epa.OldFinalScore = NULL
+					,epa.OldDisciplineScore = NULL
+					,epa.OldGrade = NULL
 				FROM dbo.EPA AS epa
 					INNER JOIN #EmployeeChangedTarget AS empT ON epa.EPAId = empT.EPAId
 
@@ -284,6 +287,8 @@ BEGIN
 					,epaP.AdjustScore = NULL
 					,epaP.EvaluateDate = NULL
 					,epaP.Comment = NULL
+					,epaP.ModifiedBy = NULL
+					,epaP.ModifiedDate = NULL
 				FROM dbo.EPAProcess AS epaP
 					INNER JOIN #EmployeeChangedTarget AS empT ON epaP.EPAId = empT.EPAId
 
@@ -574,46 +579,55 @@ BEGIN
 				INNER JOIN dbo.Period AS period ON epa.PeriodId = period.PeriodId
 				INNER JOIN (
 				SELECT DISTINCT pc.EPAId
-					,MAX(pc.EndDate) AS EndDate
+					,CAST(MAX(pc.EndDate) AS DATE) AS EndDate
 				FROM dbo.EPAProcess AS pc WITH (NOLOCK)
-					INNER JOIN #EmployeeProcess AS empP ON pc.EPAId = empP.EPAId
-					AND pc.ProcessId = empP.ProcessId
+					INNER JOIN dbo.EPA AS epa1 WITH (NOLOCK) ON pc.EPAId = epa1.EPAId
+				WHERE epa1.PeriodId = @PeriodId
 				GROUP BY pc.EPAId
 				) AS epaP ON epa.EPAId = epaP.EPAId
-			WHERE epa.[Status] <> 2 -- reject
+			WHERE epa.PeriodId = @PeriodId
+				AND epa.[Status] <> 2 -- reject
 				AND (
 					(
 						period.TargetTypeId IN (2, 3) -- monthly, semi
 						AND (
 							(
-								CAST(period.EndDate AS DATE) >= CAST(epaP.EndDate AS DATE)
+								CAST(period.EndDate AS DATE) > epaP.EndDate
 								AND CAST(period.EndDate AS DATE) < @Today
 								)
 							OR (
-								CAST(period.EndDate AS DATE) < CAST(epaP.EndDate AS DATE)
+								CAST(period.EndDate AS DATE) < epaP.EndDate
 								AND CAST(epaP.EndDate AS DATE) < @Today
 								)
 							)
 						)
 					OR (
 						period.TargetTypeId NOT IN (2, 3)
-						AND CAST(epaP.EndDate AS DATE) < @Today
+						AND epaP.EndDate < @Today
 						)
 					)
 
 			UPDATE epa WITH (ROWLOCK, UPDLOCK)
 			SET [Status] = 0 -- Opened
 			FROM dbo.EPA AS epa
+				INNER JOIN dbo.Period AS period ON epa.PeriodId = period.PeriodId
 				INNER JOIN (
 				SELECT DISTINCT pc.EPAId
-					,MAX(pc.EndDate) AS EndDate
+					,CAST(MAX(pc.EndDate) AS DATE) AS EndDate
 				FROM dbo.EPAProcess AS pc WITH (NOLOCK)
-					INNER JOIN #EmployeeProcess AS empP ON pc.EPAId = empP.EPAId
-					AND pc.ProcessId = empP.ProcessId
+					INNER JOIN dbo.EPA AS epa1 WITH (NOLOCK) ON pc.EPAId = epa1.EPAId
+				WHERE epa1.PeriodId = @PeriodId
 				GROUP BY pc.EPAId
 				) AS epaP ON epa.EPAId = epaP.EPAId
-			WHERE epa.[Status] <> 2
-				AND CAST(epaP.EndDate AS DATE) >= @Today
+			WHERE epa.PeriodId = @PeriodId
+				AND epa.[Status] <> 2
+				AND (
+					(
+						period.EndDate IS NOT NULL
+						AND CAST(period.EndDate AS DATE) > @Today
+						)
+					OR epaP.EndDate >= @Today
+					)
 
 			DROP TABLE #ProcessNew
 

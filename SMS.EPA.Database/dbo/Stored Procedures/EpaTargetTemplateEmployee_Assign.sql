@@ -28,18 +28,15 @@ BEGIN
 		DECLARE @TargetTypeId INT
 			,@AllowMultiple BIT
 
-		SET @TargetTypeId = (
-				SELECT tarTemp.[TargetTypeId]
-				FROM [dbo].[TargetTemplate] AS tarTemp WITH (NOLOCK)
-					INNER JOIN [dbo].[TargetType] AS tar WITH (NOLOCK) ON tarTemp.[TargetTypeId] = tar.[TargetTypeId]
-				WHERE tarTemp.[TargetTemplateId] = @TargetTemplateId
-				)
-		SET @AllowMultiple = (
-				SELECT tar.[AllowMultiple]
-				FROM [dbo].[TargetTemplate] AS tarTemp WITH (NOLOCK)
-					INNER JOIN [dbo].[TargetType] AS tar WITH (NOLOCK) ON tarTemp.[TargetTypeId] = tar.[TargetTypeId]
-				WHERE tarTemp.[TargetTemplateId] = @TargetTemplateId
-				)
+		SELECT @TargetTypeId = tarTemp.[TargetTypeId]
+		FROM [dbo].[TargetTemplate] AS tarTemp WITH (NOLOCK)
+			INNER JOIN [dbo].[TargetType] AS tar WITH (NOLOCK) ON tarTemp.[TargetTypeId] = tar.[TargetTypeId]
+		WHERE tarTemp.[TargetTemplateId] = @TargetTemplateId
+
+		SELECT @AllowMultiple = tar.[AllowMultiple]
+		FROM [dbo].[TargetTemplate] AS tarTemp WITH (NOLOCK)
+			INNER JOIN [dbo].[TargetType] AS tar WITH (NOLOCK) ON tarTemp.[TargetTypeId] = tar.[TargetTypeId]
+		WHERE tarTemp.[TargetTemplateId] = @TargetTemplateId
 
 		INSERT INTO #TargetEmployee (
 			[TargetTemplateId]

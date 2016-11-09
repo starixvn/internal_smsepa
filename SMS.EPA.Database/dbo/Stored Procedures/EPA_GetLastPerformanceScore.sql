@@ -11,9 +11,17 @@ Param's Explanation:
 
 */
 BEGIN
-	SET NOCOUNT ON;
+	SET NOCOUNT ON
 
-	DECLARE @TblLastEPA TABLE (
+	DECLARE @TargetTypeId INT
+
+	SELECT @TargetTypeId = tt.TargetTypeId
+	FROM dbo.EPA AS epa WITH (NOLOCK)
+		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
+		INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
+	WHERE epa.EPAId = @EPAId
+
+	CREATE TABLE #TblLastEPA (
 		LastEPAId INT
 		,EPAId INT
 		,EmployeeId INT
@@ -22,25 +30,19 @@ BEGIN
 		,MaxProcessId INT
 		)
 
-	INSERT INTO @TblLastEPA
+	INSERT INTO #TblLastEPA
 	SELECT DISTINCT epa.EPAId
 		,@EPAId
 		,emp.EmployeeId
 		,emp.Code
-		,CAST(period.StartDate AS DATE)
+		,MAX(pc.StartDate)
 		,MAX(pc.ProcessId)
 	FROM dbo.EPA AS epa WITH (NOLOCK)
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 		INNER JOIN dbo.Period AS period ON epa.PeriodId = period.PeriodId
 		AND period.IsActive = 1
 		INNER JOIN dbo.TargetType AS ttype WITH (NOLOCK) ON period.TargetTypeId = ttype.TargetTypeId
-		INNER JOIN (
-		SELECT DISTINCT tt1.TargetTypeId
-		FROM dbo.EPA AS epa1 WITH (NOLOCK)
-			INNER JOIN dbo.Period AS period1 WITH (NOLOCK) ON epa1.PeriodId = period1.PeriodId
-			INNER JOIN dbo.TargetType AS tt1 WITH (NOLOCK) ON period1.TargetTypeId = tt1.TargetTypeId
-		WHERE epa1.EPAId = @EPAId
-		) AS ttype1 ON ttype.TargetTypeId = ttype1.TargetTypeId
+		AND ttype.TargetTypeId = @TargetTypeId
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
 	WHERE epa.[Status] = 1 -- closed
 		AND epa.EPAId <> @EPAId
@@ -52,7 +54,6 @@ BEGIN
 	GROUP BY epa.EPAId
 		,emp.EmployeeId
 		,emp.Code
-		,period.StartDate
 
 	SELECT DISTINCT tbl.EPAId
 		,pc.ProcessId
@@ -68,13 +69,13 @@ BEGIN
 		SELECT DISTINCT lastEPA.LastEPAId
 			,lastEPA.EPAId
 			,lastEPA.MaxProcessId
-		FROM @TblLastEPA AS lastEPA
+		FROM #TblLastEPA AS lastEPA
 			INNER JOIN (
 			SELECT EmployeeId
 				,Code
 				,MAX([Date]) AS MaxDate
 				,MaxProcessId
-			FROM @TblLastEPA
+			FROM #TblLastEPA
 			GROUP BY EmployeeId
 				,Code
 				,MaxProcessId
@@ -83,4 +84,6 @@ BEGIN
 			AND lastEPA.MaxProcessId = tbl1.MaxProcessId
 		) AS tbl ON epa.EPAId = tbl.LastEPAId
 		AND pc.ProcessId = tbl.MaxProcessId
+	
+	DROP TABLE #TblLastEPA
 END

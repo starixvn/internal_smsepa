@@ -22,7 +22,7 @@ Revisions:
 Param's Explanation:
 */
 BEGIN
-	SET NOCOUNT ON;
+	SET NOCOUNT ON
 
 	IF EXISTS (
 			SELECT 1
@@ -85,6 +85,7 @@ BEGIN
 			,AttendanceEndDate
 			,IsActive
 			,[Description]
+			,EvaluationTimes
 			,CreatedBy
 			,CreatedDate
 			)
@@ -97,6 +98,10 @@ BEGIN
 			,@AttendanceEndDate
 			,@IsActive
 			,@Description
+			,CASE 
+				WHEN @TargetTypeId = 1 THEN 1 -- probation
+				ELSE NULL
+				END
 			,@CreatedBy
 			,GETDATE()
 			)

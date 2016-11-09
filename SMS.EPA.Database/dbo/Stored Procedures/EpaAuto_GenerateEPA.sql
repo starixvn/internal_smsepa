@@ -14,7 +14,7 @@ Revisions:
 Param's Explanation:
 */
 BEGIN
-	SET NOCOUNT ON;
+	SET NOCOUNT ON
 
 	DECLARE @TargetTypeId INT
 		,@NumberEmployeeHasEPA INT
@@ -43,18 +43,18 @@ BEGIN
 			)
 		SELECT DISTINCT peFS.PeriodId
 			,peFS.EmployeeId
-			,CASE 
+			,(CASE 
 				WHEN pe.TargetTypeId = 3 -- semi
 					AND emp.HasMonthlyEPA = 1 THEN 1
-				ELSE 0
-				END
+				ELSE 0 END
+				) AS HasMonthlyEPA
 			,peTS.TargetTemplateId
 		FROM dbo.Period AS pe WITH (NOLOCK)
 			INNER JOIN dbo.PeriodFlowSetting AS peFS WITH (NOLOCK) ON pe.PeriodId = peFS.PeriodId
 			INNER JOIN dbo.PeriodTargetSetting AS peTS WITH (NOLOCK) ON peFS.PeriodId = peTS.PeriodId
 			AND peFS.EmployeeId = peTS.EmployeeId
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON peFS.EmployeeId = emp.EmployeeId
-			AND emp.IsDeleted = 0
+			AND ISNULL(emp.IsDeleted, 0) = 0
 			AND emp.[Enabled] = 1
 		WHERE CAST(pe.StartDate AS DATE) = @Today
 			AND pe.IsActive = 1
@@ -79,7 +79,7 @@ BEGIN
 			)
 		SELECT DISTINCT @PeriodId
 			,val
-		FROM fnc_strSplit(@EmployeeIds, ',')
+		FROM dbo.fnc_strSplit(@EmployeeIds, ',')
 
 		SELECT @NumberEmployeeHasEPA = COUNT(epa.EPAId)
 		FROM dbo.EPA AS epa WITH (NOLOCK)
@@ -100,16 +100,16 @@ BEGIN
 			)
 		SELECT DISTINCT empT.PeriodId
 			,peTS.EmployeeId
-			,CASE 
+			,(CASE 
 				WHEN emp.HasMonthlyEPA = 1 THEN 1
-				ELSE 0
-				END
+				ELSE 0 END
+				) AS HasMonthlyEPA
 			,peTS.TargetTemplateId
 		FROM #EmployeeTemp AS empT WITH (NOLOCK)
 			INNER JOIN dbo.PeriodTargetSetting AS peTS WITH (NOLOCK) ON empT.PeriodId = peTS.PeriodId
 			AND empT.EmployeeId = peTS.EmployeeId
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON empT.EmployeeId = emp.EmployeeId
-			AND emp.IsDeleted = 0
+			AND ISNULL(emp.IsDeleted, 0) = 0
 			AND emp.[Enabled] = 1
 		WHERE NOT EXISTS (
 				SELECT 1
@@ -134,35 +134,49 @@ BEGIN
 			EmployeeId
 			,PeriodId
 			,[Status]
-			,FinalScore
-			,ModifiedBy
-			,ModifiedDate
 			,ScoreRatingTypeId
 			,RatingTypeId
 			,HasMonthlyEPA
+			,FinalScore
+			,Grade
+			,DisciplineScore
+			,OldFinalScore
+			,OldGrade
+			,OldDisciplineScore
+			,ModifiedBy
+			,ModifiedDate
 			)
-		SELECT EmployeeId
-			,PeriodId
+		SELECT peEmp.EmployeeId
+			,peEmp.PeriodId
 			,(CASE 
-				WHEN (
-						SELECT CAST(MAX(EndDate) AS DATE)
-						FROM dbo.PeriodFlowSetting WITH (NOLOCK)
-						WHERE PeriodId = peEmp.PeriodId
-							AND EmployeeId = peEmp.EmployeeId
-						) < @Today THEN 1
+				WHEN pfs.EndDate < @Today THEN 1
 				ELSE 0 END
 				) AS [Status] -- 0: Opened; 1: Closed
+			,tg.ScoreRatingTypeId
+			,tg.RatingTypeId
+			,(CASE 
+				WHEN @TargetTypeId <> 3 THEN 0
+				ELSE peEmp.HasMonthlyEPA END
+				) AS HasMonthlyEPA
+			,NULL
+			,NULL
+			,NULL
+			,NULL
+			,NULL
 			,NULL
 			,NULL
 			,GETDATE()
-			,tg.ScoreRatingTypeId
-			,tg.RatingTypeId
-			,CASE -- semi
-				WHEN @TargetTypeId <> 3 THEN 0
-				ELSE peEmp.HasMonthlyEPA
-				END
 		FROM #PeriodEmployee AS peEmp
 			INNER JOIN dbo.TargetTemplate AS tg WITH (NOLOCK) ON peEmp.TargetTemplateId = tg.TargetTemplateId
+			INNER JOIN (
+			SELECT DISTINCT pfs.PeriodId
+				,pfs.EmployeeId
+				,CAST(MAX(pfs.EndDate) AS DATE) AS EndDate
+			FROM dbo.PeriodFlowSetting AS pfs WITH (NOLOCK)
+			GROUP BY pfs.PeriodId
+				,pfs.EmployeeId
+			) AS pfs ON pfs.PeriodId = peEmp.PeriodId
+			AND pfs.EmployeeId = peEmp.EmployeeId
 
 		INSERT INTO dbo.EPADetail (
 			EPAId
@@ -189,28 +203,28 @@ BEGIN
 			)
 		SELECT epa.EPAId
 			,peFS.ProcessId
-			,CASE peFS.EvaluatorId
+			,(CASE peFS.EvaluatorId
 				WHEN - 1 THEN epa.EmployeeId
-				ELSE peFS.EvaluatorId
-				END
+				ELSE peFS.EvaluatorId END
+				) AS EvaluatorId
 			,tarGr.TargetTemplateId
 			,kpi.KPIId
 			,kpiGr.KPIGroupId
 			,NULL
 			,NULL
-			,CASE 
+			,(CASE 
 				WHEN tarKPI.HasComment IS NOT NULL THEN tarKPI.HasComment
-				ELSE kpi.HasComment
-				END
-			,CASE 
+				ELSE kpi.HasComment END
+				) AS HasComment
+			,(CASE 
 				WHEN tarKPI.IsRequiredComment IS NOT NULL THEN tarKPI.IsRequiredComment
-				ELSE kpi.IsRequiredComment
-				END
+				ELSE kpi.IsRequiredComment END
+				) AS IsRequiredComment
 			,NULL
-			,CASE 
+			,(CASE 
 				WHEN tarKPI.IsRequiredEvaluate IS NOT NULL THEN tarKPI.IsRequiredEvaluate
-				ELSE kpi.IsRequiredEvaluate
-				END
+				ELSE kpi.IsRequiredEvaluate END
+				) AS IsRequiredEvaluate
 			,kpi.LogNo
 			,kpiGr.LogNo
 			,tarKPI.DisplayOrder

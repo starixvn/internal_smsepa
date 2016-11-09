@@ -1,5 +1,5 @@
 ﻿
-CREATE PROCEDURE dbo.[EPA_CheckPermission] @EPAId INT
+CREATE PROCEDURE [dbo].[EPA_CheckPermission] @EPAId INT
 	,@ActorUserId INT
 	,@ProcessId INT = NULL
 AS
@@ -27,35 +27,20 @@ BEGIN
 			WHERE epa.EPAId = @EPAId
 				AND epa.[Status] = 0 -- open
 			)
+		AND @ProcessId IS NOT NULL
 	BEGIN
-		IF @ProcessId IS NOT NULL
-		BEGIN
-			IF EXISTS (
-					SELECT 1
-					FROM dbo.EPA AS epa WITH (NOLOCK)
-						INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
-						AND pc.EvaluatorId = @ActorUserId
-						AND pc.ProcessId = @ProcessId
-						AND CAST(pc.StartDate AS DATE) <= @ToDay
-					WHERE epa.EPAId = @EPAId
-					)
-				SET @Permission = 1
-			ELSE
-				SET @Permission = 0 -- don't permission
-		END
+		IF EXISTS (
+				SELECT 1
+				FROM dbo.EPA AS epa WITH (NOLOCK)
+					INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
+					AND pc.EvaluatorId = @ActorUserId
+					AND pc.ProcessId = @ProcessId
+					AND CAST(pc.StartDate AS DATE) <= @ToDay
+				WHERE epa.EPAId = @EPAId
+				)
+			SET @Permission = 1
 		ELSE
-		BEGIN
-			IF EXISTS (
-					SELECT 1
-					FROM dbo.EPA AS epa WITH (NOLOCK)
-						INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
-						AND pc.EvaluatorId = @ActorUserId
-					WHERE epa.EPAId = @EPAId
-					)
-				SET @Permission = 1
-			ELSE
-				SET @Permission = 0 -- don't permission
-		END
+			SET @Permission = 0 -- don't permission
 	END
 	ELSE
 	BEGIN

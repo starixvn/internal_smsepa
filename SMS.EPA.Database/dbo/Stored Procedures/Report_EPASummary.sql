@@ -1,13 +1,11 @@
 ﻿
-CREATE PROCEDURE [dbo].[Report_EPASummary] @EmployeeId INT
+CREATE PROCEDURE [dbo].[Report_EPASummary] @ActorId INT
 	,@PeriodIds NVARCHAR(MAX) = NULL
 	,@DepartmentId INT = NULL
 	,@IsLocal BIT = NULL
+	,@EmployeeId INT = NULL
 	,@SortColumnName NVARCHAR(100) = NULL
 	,@SortDirection NVARCHAR(10) = NULL
-	,@PageIndex INT = NULL
-	,@ItemsPerPage INT = NULL
-	,@TotalItem INT = NULL OUT
 AS
 /*
 Created: 20150924@Tim.Trinh
@@ -28,12 +26,6 @@ BEGIN
 		)
 
 	CREATE TABLE #Employee (
-		EmployeeId INT
-		,Code NVARCHAR(10)
-		,GroupName NVARCHAR(150)
-		)
-
-	CREATE TABLE #EmployeeTemp (
 		EmployeeId INT
 		,Code NVARCHAR(10)
 		,GroupName NVARCHAR(150)
@@ -145,10 +137,14 @@ BEGIN
 			OR tblData.IsLocal = @IsLocal
 			)
 		AND (
+			@EmployeeId IS NULL
+			OR tblData.EmployeeId = @EmployeeId
+			)
+		AND (
 			EXISTS (
 				SELECT 1
 				FROM dbo.EmployeeRole AS ro WITH (NOLOCK)
-				WHERE ro.EmployeeId = @EmployeeId
+				WHERE ro.EmployeeId = @ActorId
 					AND ro.RoleId IN (1, 2) -- SA, HR can view all member
 				)
 			OR EXISTS (
@@ -156,7 +152,7 @@ BEGIN
 				FROM dbo.EmployeeRole AS empRole WITH (NOLOCK)
 					INNER JOIN dbo.Employee AS emp1 WITH (NOLOCK) ON empRole.EmployeeId = emp1.EmployeeId
 				WHERE empRole.RoleId = 3 -- management
-					AND empRole.EmployeeId = @EmployeeId
+					AND empRole.EmployeeId = @ActorId
 					AND EXISTS (
 						SELECT 1
 						FROM dbo.EPA AS epa1 WITH (NOLOCK)
@@ -171,7 +167,7 @@ BEGIN
 				FROM dbo.EmployeeRole AS empRole WITH (NOLOCK)
 					INNER JOIN dbo.Employee AS emp1 WITH (NOLOCK) ON empRole.EmployeeId = emp1.EmployeeId
 				WHERE empRole.RoleId = 4 -- reviewer
-					AND empRole.EmployeeId = @EmployeeId
+					AND empRole.EmployeeId = @ActorId
 					AND EXISTS (
 						SELECT 1
 						FROM dbo.EPA AS epa1 WITH (NOLOCK)
@@ -186,7 +182,7 @@ BEGIN
 				FROM dbo.EmployeeRole AS empRole WITH (NOLOCK)
 					INNER JOIN dbo.Employee AS emp1 WITH (NOLOCK) ON empRole.EmployeeId = emp1.EmployeeId
 				WHERE empRole.RoleId = 5 -- evaluator
-					AND empRole.EmployeeId = @EmployeeId
+					AND empRole.EmployeeId = @ActorId
 					AND EXISTS (
 						SELECT 1
 						FROM dbo.EPA AS epa1 WITH (NOLOCK)
@@ -200,71 +196,19 @@ BEGIN
 			--	SELECT TOP 1 1
 			--	FROM dbo.HRMGroupSupervisor AS grS WITH (NOLOCK)
 			--	WHERE tblData.GroupId = grS.GroupId
-			--		AND grS.OwnerId = @EmployeeId
+			--		AND grS.OwnerId = @ActorId
 			--		AND grS.ActionType = 3 -- Approver
 			--	)
 			OR EXISTS (
 				SELECT 1
 				FROM dbo.EmployeeRole AS empRole WITH (NOLOCK)
 				WHERE RoleId = 6 -- Employee can view their EPA
-					AND empRole.EmployeeId = @EmployeeId
-					AND tblData.EmployeeId = @EmployeeId
+					AND empRole.EmployeeId = @ActorId
+					AND tblData.EmployeeId = @ActorId
 				)
 			)
 	ORDER BY tblData.GroupName
 		,tblData.Code
-
-	IF @PageIndex IS NOT NULL
-		AND @ItemsPerPage IS NOT NULL
-	BEGIN
-		INSERT INTO #EmployeeTemp
-		SELECT EmployeeId
-			,Code
-			,GroupName
-		FROM #Employee
-		ORDER BY CASE 
-				WHEN ISNULL(@SortColumnName, '') <> ''
-					AND ISNULL(@SortDirection, '') <> ''
-					AND @SortDirection = 'desc' THEN CASE LOWER(@SortColumnName)
-						WHEN @SortCode THEN Code
-						WHEN @SortSection THEN GroupName
-						END
-				END DESC
-			,CASE 
-				WHEN ISNULL(@SortColumnName, '') <> ''
-					AND ISNULL(@SortDirection, '') <> ''
-					AND @SortDirection = 'asc' THEN CASE LOWER(@SortColumnName)
-						WHEN @SortCode THEN Code
-						WHEN @SortSection THEN GroupName
-						END
-				END OFFSET(@PageIndex * @ItemsPerPage) ROWS
-
-		FETCH NEXT @ItemsPerPage ROWS ONLY;
-	END
-	ELSE
-	BEGIN
-		INSERT INTO #EmployeeTemp
-		SELECT EmployeeId
-			,Code
-			,GroupName
-		FROM #Employee
-		ORDER BY CASE 
-				WHEN ISNULL(@SortColumnName, '') <> ''
-					AND ISNULL(@SortDirection, '') <> ''
-					AND @SortDirection = 'desc' THEN CASE LOWER(@SortColumnName)
-						WHEN @SortCode THEN Code
-						WHEN @SortSection THEN GroupName
-						END
-				END DESC
-			,CASE 
-				WHEN ISNULL(@SortColumnName, '') <> ''
-					AND ISNULL(@SortDirection, '') <> ''
-					AND @SortDirection = 'asc' THEN CASE LOWER(@SortColumnName)
-						WHEN @SortCode THEN Code
-						WHEN @SortSection THEN GroupName
-						END
-				END
-	END
 
 	INSERT INTO #EPA
 	SELECT DISTINCT epa.EPAId
@@ -276,7 +220,7 @@ BEGIN
 			ELSE MAX(CAST(pc.EndDate AS DATE)) END
 			) AS EndDate
 	FROM dbo.EPA AS epa WITH (NOLOCK)
-		INNER JOIN #EmployeeTemp AS emp ON epa.EmployeeId = emp.EmployeeId
+		INNER JOIN #Employee AS emp ON epa.EmployeeId = emp.EmployeeId
 		INNER JOIN #PeriodTemp AS period ON epa.PeriodId = period.PeriodId
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 		INNER JOIN dbo.Period AS period1 WITH (NOLOCK) ON epa.PeriodId = period1.PeriodId
@@ -307,7 +251,7 @@ BEGIN
 		,emp.JobTitle AS JobTitleId
 		,job.[Name] AS JobTitleName
 	FROM dbo.Employee AS emp WITH (NOLOCK)
-		INNER JOIN #EmployeeTemp AS tblEmp ON emp.EmployeeId = tblEmp.EmployeeId
+		INNER JOIN #Employee AS tblEmp ON emp.EmployeeId = tblEmp.EmployeeId
 		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
 		LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
@@ -364,7 +308,7 @@ BEGIN
 			INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 			INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
-			INNER JOIN #EmployeeTemp AS tblEmp ON emp.EmployeeId = tblEmp.EmployeeId
+			INNER JOIN #Employee AS tblEmp ON emp.EmployeeId = tblEmp.EmployeeId
 			INNER JOIN #Period AS period1 ON epa.PeriodId = period1.PeriodId
 			INNER JOIN dbo.ScoreRatingType AS srt WITH (NOLOCK) ON epa.ScoreRatingTypeId = srt.ScoreRatingTypeId
 			LEFT JOIN #DisciplineScore AS ds ON epa.EPAId = ds.EPAId
@@ -383,17 +327,12 @@ BEGIN
 		FROM dbo.EPASummaryImport AS epa WITH (NOLOCK)
 			INNER JOIN #Period AS period ON epa.PeriodId = period.PeriodId
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.Code = emp.Code
-			INNER JOIN #EmployeeTemp AS tblEmp ON emp.EmployeeId = tblEmp.EmployeeId
+			INNER JOIN #Employee AS tblEmp ON emp.EmployeeId = tblEmp.EmployeeId
 		) AS tbl
-
-	SELECT @TotalItem = COUNT(*)
-	FROM #Employee
 
 	DROP TABLE #EPA
 
 	DROP TABLE #Employee
-
-	DROP TABLE #EmployeeTemp
 
 	DROP TABLE #DisciplineScore
 

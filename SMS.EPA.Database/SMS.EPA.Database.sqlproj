@@ -366,5 +366,8 @@
     <Build Include="dbo\Stored Procedures\JobGrade_Get.sql" />
     <Build Include="dbo\Stored Procedures\EPA_GetRecommendationById.sql" />
     <Build Include="dbo\Stored Procedures\Dashboard_GetToDoList.sql" />
+    <Build Include="dbo\Tables\OrdinalNumbers.sql" />
+    <Build Include="dbo\Stored Procedures\Report_GetEmployees.sql" />
+    <Build Include="dbo\Stored Procedures\EpaAuto_Probation_InsertPeriod.sql" />
   </ItemGroup>
 </Project>

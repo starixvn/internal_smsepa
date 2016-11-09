@@ -1,6 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EpaAuto_Probation_AddEmployeeToPeriod    Script Date: 7/21/2016 3:01:36 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_Probation_AddEmployeeToPeriod    Script Date: 7/21/2016 2:45:49 PM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[EpaAuto_Probation_AddEmployeeToPeriod] @PeriodId INT
 	,@EmployeeIds VARCHAR(MAX)
 	,@ErrCode INT = 0 OUTPUT
@@ -274,34 +272,31 @@ BEGIN
 				AND pTS.PeriodId = @PeriodId
 			)
 
-	IF ISNULL(@StartDate, '') <> ''
-	BEGIN
-		UPDATE pe
-		SET pe.StartDate = DATEADD(DAY, ISNULL(aa.Duration - peP.Duration, 0), @StartDate)
-			,pe.EndDate = DATEADD(DAY, (CASE 
-					WHEN ISNULL(aa.Duration, 0) - 1 < 0 THEN 0
-					ELSE ISNULL(aa.Duration, 0) - 1 END
-					), @StartDate)
-		FROM dbo.PeriodFlowSetting AS pe
-			INNER JOIN dbo.PeriodProcessSetting AS peP ON pe.PeriodId = peP.PeriodId
-			AND pe.ProcessId = peP.ProcessId
-			INNER JOIN (
-			SELECT set1.PeriodId
-				,set1.ProcessId
-				,SUM(CASE 
-						WHEN set2.ProcessId <= set1.ProcessId THEN set2.Duration
-						ELSE 0
-						END) AS Duration
-			FROM dbo.PeriodProcessSetting AS set1 WITH (NOLOCK)
-				INNER JOIN dbo.PeriodProcessSetting AS set2 WITH (NOLOCK) ON set1.PeriodId = set2.PeriodId
-			WHERE set1.PeriodId = @PeriodId
-			GROUP BY set1.PeriodId
-				,set1.ProcessId
-			) AS aa ON pe.PeriodId = aa.PeriodId
-			AND pe.ProcessId = aa.ProcessId
-			INNER JOIN @Employees AS empId ON pe.EmployeeId = empId.Id
-		WHERE pe.PeriodId = @PeriodId
-	END
+	UPDATE pe
+	SET pe.StartDate = DATEADD(DAY, ISNULL(aa.Duration - peP.Duration, 0), @StartDate)
+		,pe.EndDate = DATEADD(DAY, (CASE 
+				WHEN ISNULL(aa.Duration, 0) - 1 < 0 THEN 0
+				ELSE ISNULL(aa.Duration, 0) - 1 END
+				), @StartDate)
+	FROM dbo.PeriodFlowSetting AS pe
+		INNER JOIN dbo.PeriodProcessSetting AS peP ON pe.PeriodId = peP.PeriodId
+		AND pe.ProcessId = peP.ProcessId
+		INNER JOIN (
+		SELECT set1.PeriodId
+			,set1.ProcessId
+			,SUM(CASE 
+					WHEN set2.ProcessId <= set1.ProcessId THEN set2.Duration
+					ELSE 0
+					END) AS Duration
+		FROM dbo.PeriodProcessSetting AS set1 WITH (NOLOCK)
+			INNER JOIN dbo.PeriodProcessSetting AS set2 WITH (NOLOCK) ON set1.PeriodId = set2.PeriodId
+		WHERE set1.PeriodId = @PeriodId
+		GROUP BY set1.PeriodId
+			,set1.ProcessId
+		) AS aa ON pe.PeriodId = aa.PeriodId
+		AND pe.ProcessId = aa.ProcessId
+		INNER JOIN @Employees AS empId ON pe.EmployeeId = empId.Id
+	WHERE pe.PeriodId = @PeriodId
 
 	IF ISNULL(@NoneSettingEmployeeIds, '') <> ''
 	BEGIN
