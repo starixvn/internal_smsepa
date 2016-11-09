@@ -178,6 +178,8 @@
             RenderHeaderEPASummaryReport(epaSummary.PeriodSelecteds, ref workbook, ref sheet, titleHeaders);
             RenderContentRowEPASummaryReport(epaSummary, ref workbook, ref sheet);
 
+            sheet.CreateFreezePane(0, 4);
+
             MemoryStream output = null;
             try
             {
@@ -279,14 +281,7 @@
 
             foreach (var epaInfo in epaSummary.EPAInfos)
             {
-                if (rowIndex % 2 == 0)
-                {
-                    bodyStyle = bodyStyle2;
-                }
-                else
-                {
-                    bodyStyle = bodyStyle1;
-                }
+                bodyStyle = rowIndex % 2 == 0 ? bodyStyle2 : bodyStyle1;
 
                 IRow row = sheet.CreateRow(rowIndex);
                 cellBody = row.CreateCell(0);
@@ -299,42 +294,21 @@
                 cellBody.SetCellValue(epaInfo.Code);
                 SetColumnWidth(ref sheet, 1, 10);
 
-                if (rowIndex % 2 == 0)
-                {
-                    bodyStyle = bodyStyle4;
-                }
-                else
-                {
-                    bodyStyle = bodyStyle3;
-                }
+                bodyStyle = rowIndex % 2 == 0 ? bodyStyle4 : bodyStyle3;
 
                 cellBody = row.CreateCell(2);
                 cellBody.CellStyle = bodyStyle;
                 cellBody.SetCellValue(epaInfo.FullName);
                 SetColumnWidth(ref sheet, 2, 20);
 
-                if (rowIndex % 2 == 0)
-                {
-                    bodyStyle = bodyStyle2;
-                }
-                else
-                {
-                    bodyStyle = bodyStyle1;
-                }
+                bodyStyle = rowIndex % 2 == 0 ? bodyStyle2 : bodyStyle1;
 
                 cellBody = row.CreateCell(3);
                 cellBody.CellStyle = bodyStyle;
                 cellBody.SetCellValue(epaInfo.NickName);
                 SetColumnWidth(ref sheet, 3, 12);
 
-                if (rowIndex % 2 == 0)
-                {
-                    bodyStyle = bodyStyle4;
-                }
-                else
-                {
-                    bodyStyle = bodyStyle3;
-                }
+                bodyStyle = rowIndex % 2 == 0 ? bodyStyle4 : bodyStyle3;
 
                 cellBody = row.CreateCell(4);
                 cellBody.CellStyle = bodyStyle;
@@ -351,19 +325,12 @@
                 cellBody.SetCellValue(epaInfo.JobTitle.JobTitleName);
                 SetColumnWidth(ref sheet, 6, 25);
 
+                bodyStyle = rowIndex % 2 == 0 ? bodyStyle2 : bodyStyle1;
+
                 cellBody = row.CreateCell(7);
                 cellBody.CellStyle = bodyStyle;
                 cellBody.SetCellValue(epaInfo.JoinedDate.ToString(Constants.DateFormat));
-                SetColumnWidth(ref sheet, 7, 25);
-
-                if (rowIndex % 2 == 0)
-                {
-                    bodyStyle = bodyStyle2;
-                }
-                else
-                {
-                    bodyStyle = bodyStyle1;
-                }
+                SetColumnWidth(ref sheet, 7, 15);
 
                 List<int> periodIds = epaInfo.Periods.Select(x => x.PeriodId).ToList();
                 for (int i = 0; i < epaSummary.PeriodSelecteds.Count; i++)

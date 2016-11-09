@@ -18,12 +18,11 @@
 
     public class MonthlyEPADetailReportService : IMonthlyEPADetailReportService
     {
+        private const int ExcelColumnWidth = 256;
+
         private HSSFWorkbook _workbook;
-
         private ISheet _sheet;
-
         private int _currentRow = 0;
-
         private IList<string> _columnsName;
 
         public EPADetailModel _epaDetail { get; set; }
@@ -41,6 +40,8 @@
             _currentRow++;
 
             WriteContentTable();
+            _sheet.CreateFreezePane(0, 3);
+
             using (var output = new MemoryStream())
             {
                 _workbook.Write(output);
@@ -80,7 +81,7 @@
             cell.CellStyle.VerticalAlignment = VerticalAlignment.Center;
             cell.CellStyle.SetFont(font);
 
-            _sheet.AddMergedRegion(new CellRangeAddress(_currentRow, _currentRow, 0, _columnsName.Count));
+            _sheet.AddMergedRegion(new CellRangeAddress(_currentRow, _currentRow, 0, _columnsName.Count - 1));
         }
 
         private void WriteTitleTable()
@@ -114,12 +115,14 @@
             IFont redFont = _workbook.CreateFont();
             redFont.Color = HSSFColor.Red.Index;
 
-            ICellStyle evenStyle = CreateEvenStyle();
-            ICellStyle oddStyle = CreateOddStyle();
-            ICellStyle evenRedStyle = CreateEvenStyle();
+            ICellStyle evenStyleCenter = CreateEvenStyleCenter();
+            ICellStyle oddStyleCenter = CreateOddStyleCenter();
+            ICellStyle evenRedStyle = CreateEvenStyleCenter();
             evenRedStyle.SetFont(redFont);
-            ICellStyle oddRedStyle = CreateOddStyle();
+            ICellStyle oddRedStyle = CreateOddStyleCenter();
             oddRedStyle.SetFont(redFont);
+            ICellStyle evenStyleLeft = CreateEvenStyleLeft();
+            ICellStyle oddStyleLeft = CreateOddStyleLeft();
 
             var index = 1;
             foreach (var memberEPA in _epaDetail.MemberEPAs)
@@ -127,83 +130,87 @@
                 var currentColumn = 0;
 
                 ICellStyle bodyStyle = _workbook.CreateCellStyle();
-                bodyStyle = _currentRow % 2 == 0 ? evenStyle : oddStyle;
+                bodyStyle = _currentRow % 2 == 0 ? evenStyleCenter : oddStyleCenter;
 
                 IRow row = _sheet.CreateRow(_currentRow);
                 dynamic score = CalculateScore(memberEPA);
 
-                var cell = row.CreateCell(currentColumn++);
+                var cell = row.CreateCell(currentColumn);
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(index++);
+                SetColumnWidth(ref _sheet, currentColumn++, 5);
 
-                cell = row.CreateCell(currentColumn++);
+                cell = row.CreateCell(currentColumn);
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(memberEPA.Employee.Code);
+                SetColumnWidth(ref _sheet, currentColumn++, 10);
 
-                cell = row.CreateCell(currentColumn++);
-                cell.CellStyle = bodyStyle;
-                cell.SetCellValue(memberEPA.Employee.NickName);
+                bodyStyle = _currentRow % 2 == 0 ? evenStyleLeft : oddStyleLeft;
 
-                cell = row.CreateCell(currentColumn++);
+                cell = row.CreateCell(currentColumn);
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(memberEPA.Employee.FullName);
+                SetColumnWidth(ref _sheet, currentColumn++, 20);
 
-                cell = row.CreateCell(currentColumn++);
+                bodyStyle = _currentRow % 2 == 0 ? evenStyleCenter : oddStyleCenter;
+
+                cell = row.CreateCell(currentColumn);
+                cell.CellStyle = bodyStyle;
+                cell.SetCellValue(memberEPA.Employee.NickName);
+                SetColumnWidth(ref _sheet, currentColumn++, 12);
+
+                bodyStyle = _currentRow % 2 == 0 ? evenStyleLeft : oddStyleLeft;
+
+                cell = row.CreateCell(currentColumn);
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(memberEPA.Employee.Category);
+                SetColumnWidth(ref _sheet, currentColumn++, 12);
 
-                cell = row.CreateCell(currentColumn++);
+                cell = row.CreateCell(currentColumn);
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(memberEPA.Employee.GroupName);
+                SetColumnWidth(ref _sheet, currentColumn++, 16);
 
-                cell = row.CreateCell(currentColumn++);
+                cell = row.CreateCell(currentColumn);
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(memberEPA.Employee.JobTitleName);
+                SetColumnWidth(ref _sheet, currentColumn++, 25);
 
-                cell = row.CreateCell(currentColumn++);
+                bodyStyle = _currentRow % 2 == 0 ? evenStyleCenter : oddStyleCenter;
+
+                cell = row.CreateCell(currentColumn);
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(memberEPA.Employee.JoinedDate.ToString(Constants.DateFormat));
+                SetColumnWidth(ref _sheet, currentColumn++, 15);
 
-                if (_currentRow % 2 == 0 && !memberEPA.Process.Self.IsEndProcess)
+                if (!memberEPA.Process.Self.IsEndProcess)
                 {
-                    bodyStyle = evenRedStyle;
-                }
-                else if (_currentRow % 2 != 0 && !memberEPA.Process.Self.IsEndProcess)
-                {
-                    bodyStyle = oddRedStyle;
+                    bodyStyle = _currentRow % 2 == 0 ? evenRedStyle : oddRedStyle;
                 }
 
                 cell = row.CreateCell(currentColumn++);
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(GetScoreByPhaseSelected(_epaDetail.PhaseSelecteds, score.SelfScore, (int)ProcessType.Self));
 
-                if (_currentRow % 2 == 0 && !memberEPA.Process.Evaluators.First().IsEndProcess)
+                if (!memberEPA.Process.Evaluators.First().IsEndProcess)
                 {
-                    bodyStyle = evenRedStyle;
-                }
-                else if (_currentRow % 2 != 0 && !memberEPA.Process.Evaluators.First().IsEndProcess)
-                {
-                    bodyStyle = oddRedStyle;
+                    bodyStyle = _currentRow % 2 == 0 ? evenRedStyle : oddRedStyle;
                 }
 
                 cell = row.CreateCell(currentColumn++);
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(GetScoreByPhaseSelected(_epaDetail.PhaseSelecteds, score.EvaluatorScore, (int)ProcessType.Evaluator));
 
-                if (_currentRow % 2 == 0 && !memberEPA.Process.Reviewers.First().IsEndProcess)
+                if (!memberEPA.Process.Reviewers.First().IsEndProcess)
                 {
-                    bodyStyle = evenRedStyle;
-                }
-                else if (_currentRow % 2 != 0 && !memberEPA.Process.Reviewers.First().IsEndProcess)
-                {
-                    bodyStyle = oddRedStyle;
+                    bodyStyle = _currentRow % 2 == 0 ? evenRedStyle : oddRedStyle;
                 }
 
                 cell = row.CreateCell(currentColumn++);
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(GetScoreByPhaseSelected(_epaDetail.PhaseSelecteds, score.ReviewerScore, (int)ProcessType.Reviewer));
 
-                bodyStyle = _currentRow % 2 == 0 ? evenStyle : oddStyle;
+                bodyStyle = _currentRow % 2 == 0 ? evenStyleCenter : oddStyleCenter;
 
                 cell = row.CreateCell(currentColumn++);
                 cell.CellStyle = bodyStyle;
@@ -309,7 +316,7 @@
             };
         }
 
-        private ICellStyle CreateOddStyle()
+        private ICellStyle CreateOddStyleCenter()
         {
             ICellStyle oddStyle = _workbook.CreateCellStyle();
             oddStyle.Alignment = HorizontalAlignment.Center;
@@ -318,10 +325,31 @@
             return oddStyle;
         }
 
-        private ICellStyle CreateEvenStyle()
+        private ICellStyle CreateOddStyleLeft()
+        {
+            ICellStyle oddStyle = _workbook.CreateCellStyle();
+            oddStyle.Alignment = HorizontalAlignment.Left;
+            oddStyle.VerticalAlignment = VerticalAlignment.Center;
+
+            return oddStyle;
+        }
+
+        private ICellStyle CreateEvenStyleCenter()
         {
             ICellStyle evenStyle = _workbook.CreateCellStyle();
             evenStyle.Alignment = HorizontalAlignment.Center;
+            evenStyle.VerticalAlignment = VerticalAlignment.Center;
+            evenStyle.FillForegroundColor = HSSFColor.LightCornflowerBlue.Index;
+            evenStyle.FillPattern = FillPattern.SolidForeground;
+            evenStyle.FillBackgroundColor = HSSFColor.LightCornflowerBlue.Index;
+
+            return evenStyle;
+        }
+
+        private ICellStyle CreateEvenStyleLeft()
+        {
+            ICellStyle evenStyle = _workbook.CreateCellStyle();
+            evenStyle.Alignment = HorizontalAlignment.Left;
             evenStyle.VerticalAlignment = VerticalAlignment.Center;
             evenStyle.FillForegroundColor = HSSFColor.LightCornflowerBlue.Index;
             evenStyle.FillPattern = FillPattern.SolidForeground;
@@ -348,6 +376,11 @@
                 Lang.FinalScore,
                 Lang.Grade
             };
+        }
+
+        private void SetColumnWidth(ref ISheet sheet, int columnIndex, int width)
+        {
+            sheet.SetColumnWidth(columnIndex, width * ExcelColumnWidth);
         }
     }
 }
