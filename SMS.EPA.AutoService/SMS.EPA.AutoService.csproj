@@ -40,16 +40,16 @@
       <HintPath>..\packages\Dapper.1.50.2\lib\net40\Dapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Fanex.Data, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Fanex.Data.2.0.1.5\lib\net40\Fanex.Data.dll</HintPath>
+    <Reference Include="Fanex.Data, Version=2.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Fanex.Data.2.0.2.1\lib\net40\Fanex.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Fanex.Data.OldConnectionStringProvider, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Fanex.Data.OldConnectionStringProvider.1.0.1\lib\net40\Fanex.Data.OldConnectionStringProvider.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Fanex.Data.Repository, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Fanex.Data.Repository.1.0.0\lib\net40\Fanex.Data.Repository.dll</HintPath>
+    <Reference Include="Fanex.Data.Repository, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Fanex.Data.Repository.1.0.1\lib\net40\Fanex.Data.Repository.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="log4net">
