@@ -159,7 +159,6 @@
 
             HSSFWorkbook workbook = new HSSFWorkbook();
             ISheet sheet = workbook.CreateSheet(Lang.EPASummaryReportSheet);
-
             IRow rowTitle = sheet.CreateRow(0);
 
             IFont font = workbook.CreateFont();
@@ -177,7 +176,6 @@
 
             RenderHeaderEPASummaryReport(epaSummary.PeriodSelecteds, ref workbook, ref sheet, titleHeaders);
             RenderContentRowEPASummaryReport(epaSummary, ref workbook, ref sheet);
-
             sheet.CreateFreezePane(0, 4);
 
             MemoryStream output = null;
