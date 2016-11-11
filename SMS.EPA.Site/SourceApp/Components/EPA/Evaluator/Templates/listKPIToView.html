@@ -7,7 +7,8 @@
 </div>
 
 <table class="table table-evaluation">
-    <tbody ng-repeat="kpiGroup in evaluatorDetailCtrl.epaInfo.KPIGroups" ng-show="kpiGroup.KPIs.length > 0">
+    <tbody ng-repeat="kpiGroup in evaluatorDetailCtrl.epaInfo.KPIGroups"
+           repeat-end="evaluatorDetailCtrl.generateRatingStar()" ng-show="kpiGroup.KPIs.length > 0">
         <tr data-toggle="collapse" data-target=".kpiGroup-{{$index}}" class="kpi-group-name">
             <td>
                 {{kpiGroup.Name}} <strong>({{kpiGroup.Weight | customScore}} pts)</strong>

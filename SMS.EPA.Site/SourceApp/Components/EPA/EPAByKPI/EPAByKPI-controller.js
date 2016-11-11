@@ -74,9 +74,11 @@
             vm.filter.kpiId = '';
             vm.epaInfos = [];
 
-            EPAByKPIModel.getKPIToView(filter.periodId, filter.targetTemplateId, filter.evaluatorId).then(function () {
-                vm.kpis = EPAByKPIModel.kpis;
-            });
+            if (filter.periodId > 0 && filter.targetTemplateId > 0 && filter.evaluatorId > 0) {
+                EPAByKPIModel.getKPIToView(filter.periodId, filter.targetTemplateId, filter.evaluatorId).then(function () {
+                    vm.kpis = EPAByKPIModel.kpis;
+                });
+            }
         }
 
         function KPIChange(kpiId) {
