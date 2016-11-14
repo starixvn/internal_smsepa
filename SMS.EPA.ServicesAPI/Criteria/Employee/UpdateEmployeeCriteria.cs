@@ -6,14 +6,17 @@
     using System.Web;
     using Fanex.Data;
     using Fanex.Data.Repository;
+    using SMS.EPA.Core.Enumerations;
+    using SMS.EPA.Core.Security;
+    using SMS.EPA.Core.Services;
     using SMS.EPA.ServicesAPI.Model;
 
     public class UpdateEmployeeCriteria : CriteriaBase
     {
         private const string _UserTpl =
-            "<User EmployeeId='{0}' DomainUsername='{1}' Code='{2}' "
-            + "NickName='{3}' FullName='{4}' TeamId='{5}' JobTitleId='{6}' Phone='{7}' "
-            + " Email='{8}' CardNumber='{9}' IsEnabled='{10}' IsDeleted='{11}' Password='{12}' "
+            "<User EmployeeId='{0}' DomainUsername='{1}' Code='{2}'"
+            + " NickName='{3}' FullName='{4}' TeamId='{5}' JobTitleId='{6}' Phone='{7}'"
+            + " Email='{8}' CardNumber='{9}' IsEnabled='{10}' IsDeleted='{11}' Password='{12}'"
             + " JoinedDate='{13}' ModifiedDate='{14}' IsLocal='{15}' ResignedDate ='{16}' ConfirmedDate='{17}'></User>";
 
         [SpParam(Ignored = true)]
@@ -24,11 +27,19 @@
             get
             {
                 var value = new StringBuilder("<ROOT>");
+                IConfigurationManagerService configurationManager = new ConfigurationManagerService();
+                bool encryptedPassword = bool.Parse(configurationManager.GetAppSetting("EncryptedPassword"));
 
-                if (Employees != null)
+                if (Employees != null && Employees.Any())
                 {
                     foreach (Employee employee in Employees)
                     {
+                        string password = employee.Password;
+                        if (!encryptedPassword)
+                        {
+                            password = Encryption.ComputeHash(HashProvider.Sha1, employee.Password);
+                        }
+
                         value.AppendFormat(
                             _UserTpl,
                             employee.EmployeeId,
