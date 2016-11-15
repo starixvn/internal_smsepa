@@ -70,7 +70,7 @@
                 pageIndex: utilitiesFactory.pageOption.pageIndex,
                 itemsPerPage: utilitiesFactory.pageOption.itemsPerPage,
                 employee: null,
-                employeeId: $routeParams.employeeId ? $routeParams.employeeId : null
+                employeeId: $routeParams.employeeId ? parseInt($routeParams.employeeId) : ''
             };
 
             if (filter.employeeId) {

@@ -52,7 +52,6 @@
 
             bundles.AddAndInclude(
                             "~/bundles/less",
-                            "~/Content/Less/bootstrap.less",
                             "~/Content/Site/layout.less");
 
             bundles.Add(new ScriptBundle("~/bundles/app").Include(

@@ -54,7 +54,7 @@
                             employee.EmployeeCard,
                             employee.IsEnabled,
                             employee.IsDeleted,
-                            employee.Password,
+                            password,
                             employee.JoinedDate,
                             employee.ModifiedDate,
                             employee.IsLocal,
