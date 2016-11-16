@@ -501,6 +501,7 @@
     <Content Include="SourceApp\Components\EPA\UpdateFinalScore\update-final-score-model.js" />
     <Content Include="SourceApp\Components\EPA\UpdateFinalScore\update-final-score-factory.js" />
     <Content Include="SourceApp\Components\EPA\UpdateFinalScore\export-excel-directive.js" />
+    <Content Include="SourceApp\Components\FlowManagement\export-personal-flow-setting-directive.js" />
     <Content Include="SourceApp\Components\FlowManagement\update-flowTemplate-basic-info-controller.js" />
     <Content Include="SourceApp\Components\FlowManagement\update-flowTemplate-controller.js" />
     <Content Include="SourceApp\Components\FlowManagement\create-flowTemplate-controller.js" />
@@ -764,6 +765,7 @@
     <Content Include="Content\Site\components\_page.less" />
     <Content Include="ExcelTemplates\EmployeeBasicInfoTemplate.xls" />
     <Content Include="ExcelTemplates\EmployeeFlowSettingTemplate.xls" />
+    <Content Include="ExcelTemplates\PersonalFlowSettingTemplate.xls" />
     <None Include="Libs\angularjs\angular-resource.min.js.map" />
     <None Include="Libs\angularjs\angular-route.min.js.map" />
     <None Include="Libs\angularjs\angular.min.js.map" />

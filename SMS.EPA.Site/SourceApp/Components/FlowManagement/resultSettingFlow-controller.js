@@ -11,8 +11,18 @@
         vm.flowSettings = [];
         vm.flowTemplateId = parseInt($routeParams.id);
 
+        vm.exportPersonalFlowSetting = exportPersonalFlowSetting;
         vm.tabDepartmentSelected = null;
         vm.tabPersonalSelected = null;
+
+        function exportPersonalFlowSetting() {
+            vm.exportCriteria = {
+                flowTemplateId: vm.flowTemplateId,
+                flowTemplateName: vm.flowTemplate.Name
+            };
+
+            $scope.$broadcast('exportPersonalFlowSettingReport');
+        }
 
         function tabDepartmentSelected() {
             DeptFlowModel.getDepartmentFlow(vm.flowTemplateId).then(function () {
@@ -26,12 +36,14 @@
             });
         }
 
-        $scope.$watch(function () { return $scope.updateCtrl.dataTab.result; },
+        $scope.$watch(function () { return $scope.updateCtrl.flowTemplate && $scope.updateCtrl.dataTab.result; },
             function (newVal) {
                 if (newVal) {
                     tabDepartmentSelected();
                     vm.tabDepartmentSelected = tabDepartmentSelected;
                     vm.tabPersonalSelected = tabPersonalSelected;
+
+                    vm.flowTemplate = $scope.updateCtrl.flowTemplate;
                 }
             });
     }

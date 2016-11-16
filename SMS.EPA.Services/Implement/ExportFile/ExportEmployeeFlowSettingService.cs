@@ -72,7 +72,7 @@
                 Count = rowIndex,
                 Department = employeeSetting.Employee.Department != null ? employeeSetting.Employee.Department.Name : string.Empty,
                 Section = employeeSetting.Employee.Group != null ? employeeSetting.Employee.Group.GroupName : string.Empty,
-                ID = employeeSetting.Employee.Code,
+                Code = employeeSetting.Employee.Code,
                 FullName = employeeSetting.Employee.FullName,
                 NickName = employeeSetting.Employee.NickName,
                 JobTitle = employeeSetting.Employee.JobTitle.JobTitleName,

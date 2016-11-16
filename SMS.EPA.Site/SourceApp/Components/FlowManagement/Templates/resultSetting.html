@@ -58,7 +58,14 @@
         <tab heading="PERSONAL" class="tab-cursor" select="resultFlowSettingCtrl.tabPersonalSelected()">
             <table table class="row table table-bordered table-striped">
                 <thead>
-                    <tr>
+                    <tr class="header-table">
+                        <th colspan="9">
+                            <input class="btnExcel pull-right" export-personal-flow-setting-report
+                                   ng-click="resultFlowSettingCtrl.exportPersonalFlowSetting()"
+                                   type="button" title="Export to Excel">
+                        </th>
+                    </tr>
+                    <tr class="headerName">
                         <th class="text-center" data-translate="SymbolCount"></th>
                         <th data-translate="Code"></th>
                         <th data-translate="NickName"></th>

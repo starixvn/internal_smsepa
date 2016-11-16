@@ -23,6 +23,7 @@
 
         private readonly IEmployeeService employeeService;
         private readonly IPeriodService periodService;
+        private readonly IPersonalFlowService personalFlowService;
         private readonly IReportService reportService;
         private readonly IEPADetailReportService epaDetailReportService;
         private readonly IMonthlyEPADetailReportService monthlyEPADetailReportService;
@@ -30,16 +31,18 @@
         private readonly IEmployeeEPAService employeeEPAService;
         private readonly IExportEmployeeFlowSettingService exportEmployeeFlowSettingService;
         private readonly IExportEmployeeInfoService exportEmployeeInfoService;
+        private readonly IExportPersonalFlowSettingService exportPersonalFlowSettingService;
         private ISessionService sessionService;
 
         public ExportReportController()
-            : this(null, null, null, null, null, null, null, null, null, null)
+            : this(null, null, null, null, null, null, null, null, null, null, null, null)
         {
         }
 
         public ExportReportController(
             IEmployeeService employeeService,
             IPeriodService periodService,
+            IPersonalFlowService personalFlowService,
             IReportService reportService,
             IEPADetailReportService epaDetailReportService,
             IMonthlyEPADetailReportService monthlyEPADetailReportService,
@@ -47,10 +50,12 @@
             IEmployeeEPAService employeeEPAService,
             IExportEmployeeFlowSettingService exportEmployeeFlowSettingService,
             IExportEmployeeInfoService exportEmployeeInfoService,
+            IExportPersonalFlowSettingService exportPersonalFlowSettingService,
             ISessionService sessionService)
         {
             this.employeeService = employeeService ?? new EmployeeService();
             this.periodService = periodService ?? new PeriodService();
+            this.personalFlowService = personalFlowService ?? new PersonalFlowService();
             this.reportService = reportService ?? new ReportService();
             this.epaDetailReportService = epaDetailReportService ?? new EPADetailReportService();
             this.monthlyEPADetailReportService = monthlyEPADetailReportService ?? new MonthlyEPADetailReportService();
@@ -59,6 +64,7 @@
             this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
             this.exportEmployeeFlowSettingService = exportEmployeeFlowSettingService ?? new ExportEmployeeFlowSettingService();
             this.exportEmployeeInfoService = exportEmployeeInfoService ?? new ExportEmployeeInfoService();
+            this.exportPersonalFlowSettingService = exportPersonalFlowSettingService ?? new ExportPersonalFlowSettingService();
         }
 
         public ActionResult ExportEmployeeFlowSettingReport(GetPeriodEmployeeSettingCriteria criteria)
@@ -214,6 +220,21 @@
                 if (employees != null && employees.Any())
                 {
                     exportEmployeeInfoService.Export(employees);
+                }
+            }
+
+            return new EmptyResult();
+        }
+
+        public ActionResult ExportPersonalFlowSettingReport(int flowTemplateId, string flowTemplateName)
+        {
+            if (flowTemplateId > 0 && !string.IsNullOrEmpty(flowTemplateName))
+            {
+                IEnumerable<PersonalFlowModel> flowSettings = personalFlowService.GetPersonalFlowByFlowTemplateId(flowTemplateId);
+
+                if (flowSettings != null && flowSettings.Any())
+                {
+                    exportPersonalFlowSettingService.Export(flowSettings, flowTemplateName);
                 }
             }
 
