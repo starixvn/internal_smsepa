@@ -442,6 +442,7 @@
     <Content Include="SourceApp\Components\DisciplineSummary\discipline-summary-by-period-controller.js" />
     <Content Include="SourceApp\Components\DisciplineSummary\Templates\disciplineSummaryByPeriod.html" />
     <Content Include="SourceApp\Components\Employee\assign-role-controller.js" />
+    <Content Include="SourceApp\Components\Employee\export-employee-info-directive.js" />
     <Content Include="SourceApp\Components\Employee\set-monthly-evaluation-controller.js" />
     <Content Include="SourceApp\Components\Employee\employee-profile-controller.js" />
     <Content Include="SourceApp\Components\Employee\reset-password-controller.js" />
@@ -761,6 +762,8 @@
     <Content Include="Content\Site\components\_widthSystem.less" />
     <Content Include="Content\Site\components\_base.less" />
     <Content Include="Content\Site\components\_page.less" />
+    <Content Include="ExcelTemplates\EmployeeBasicInfoTemplate.xls" />
+    <Content Include="ExcelTemplates\EmployeeFlowSettingTemplate.xls" />
     <None Include="Libs\angularjs\angular-resource.min.js.map" />
     <None Include="Libs\angularjs\angular-route.min.js.map" />
     <None Include="Libs\angularjs\angular.min.js.map" />
@@ -788,7 +791,6 @@
     <Content Include="Web.local.config" />
     <Content Include="Content\Site\views\_targetEmployeeSetting.less" />
     <Content Include="Content\Site\views\_period.less" />
-    <Content Include="ExcelTemplates\EmployeeFlowSettingReport.xls" />
     <Content Include="Views\Emails\StartDateEmailToHR.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

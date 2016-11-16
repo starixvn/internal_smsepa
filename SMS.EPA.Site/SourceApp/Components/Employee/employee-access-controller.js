@@ -4,9 +4,9 @@
     /* jshint validthis:true */
 
     angular.module('employeeModule').controller('EmployeeController', employeeController);
-    employeeController.$inject = ['$window', 'EmployeeModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService'];
+    employeeController.$inject = ['$window', '$scope', 'EmployeeModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService'];
 
-    function employeeController($window, EmployeeModel, CommonModel, utilitiesFactory, lockScreenService) {
+    function employeeController($window, $scope, EmployeeModel, CommonModel, utilitiesFactory, lockScreenService) {
         var vm = this;
 
         vm.currentPage = 1;
@@ -19,6 +19,7 @@
 
         vm.assignRole = assignRole;
         vm.createEmployee = createEmployee;
+        vm.exportReport = exportReport;
         vm.getIndex = getIndex;
         vm.queryEmployee = queryEmployee;
         vm.resetPassword = resetPassword;
@@ -37,6 +38,12 @@
                 vm.modalInstance = '';
                 getEmployee(vm.filter.query, vm.filter.groupId, vm.filter.isLocal, vm.filter.isSpecialUser);
             });
+        }
+
+        function exportReport(filter) {
+            vm.exportCriteria = filter;
+
+            $scope.$broadcast('exportEmployeeInfoReport');
         }
 
         function getEmployee(query, groupId, isLocal, isSpecialUser, isDisabledUser, hasMonthlyEPA) {

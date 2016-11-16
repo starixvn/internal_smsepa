@@ -259,7 +259,7 @@
                 isExcludedEmployee: filter.isExcludedEmployee
             };
 
-            $scope.$broadcast('exportEmployeeSettingReport');
+            $scope.$broadcast('exportEmployeeFlowSettingReport');
         };
     }
 })(angular);

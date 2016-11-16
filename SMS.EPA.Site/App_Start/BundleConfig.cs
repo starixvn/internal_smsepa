@@ -66,6 +66,7 @@
                             "~/SourceApp/Components/Employee/employee-factory.js",
                             "~/SourceApp/Components/Employee/employee-model.js",
                             "~/SourceApp/Components/Employee/get-employee-permission-directive.js",
+                            "~/SourceApp/Components/Employee/export-employee-info-directive.js",
                             "~/SourceApp/Components/Employee/employee-access-controller.js",
                             "~/SourceApp/Components/Employee/employee-profile-controller.js",
                             "~/SourceApp/Components/Employee/assign-role-controller.js",

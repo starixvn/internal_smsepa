@@ -5,8 +5,8 @@
     angular.module('periodModule').directive('updatedChosenPeriod', updatedChosenPeriod);
     updatedChosenPeriod.$inject = [];
 
-    angular.module('periodModule').directive('exportEmployeeSettingReport', exportEmployeeSettingReport);
-    exportEmployeeSettingReport.$inject = ['baseUrl'];
+    angular.module('periodModule').directive('exportEmployeeFlowSettingReport', exportEmployeeFlowSettingReport);
+    exportEmployeeFlowSettingReport.$inject = ['baseUrl'];
 
     function updatedChosenPeriod() {
         return {
@@ -29,12 +29,12 @@
         };
     }
 
-    function exportEmployeeSettingReport(baseUrl) {
+    function exportEmployeeFlowSettingReport(baseUrl) {
         return {
             link: function (scope) {
-                scope.$on('exportEmployeeSettingReport', function () {
+                scope.$on('exportEmployeeFlowSettingReport', function () {
                     var data = $.param(scope.empSettingCtrl.exportCriteria),
-                        url = baseUrl + 'ExportReport/ExportEmployeeSettingReport',
+                        url = baseUrl + 'ExportReport/ExportEmployeeFlowSettingReport',
                         downloadUrl = url + "?" + data,
                         iframe = $('body iframe');
 

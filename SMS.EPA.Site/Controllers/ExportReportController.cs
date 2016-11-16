@@ -9,40 +9,47 @@
     using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.Report;
     using SMS.EPA.Model;
+    using SMS.EPA.Model.Enitites;
     using SMS.EPA.Resources;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
 
     public class ExportReportController : Controller
     {
-        private const string EmployeeFlowSettingReportTemplatePath = @"~\ExcelTemplates\EmployeeFlowSettingReport.xls";
         private const string DisciplineSummaryTemplatePath = @"~\ExcelTemplates\DisciplineSummaryReport.xls";
         private const string DisciplineDetailTemplatePath = @"~\ExcelTemplates\DisciplineDetailReport.xls";
         private const string DisciplineSummaryByPeriodTemplatePath = @"~\ExcelTemplates\DisciplineSummaryByPeriodReport.xls";
         private const string UpdateFinalScoreTemplatePath = @"~\ExcelTemplates\UpdateFinalScore.xls";
 
+        private readonly IEmployeeService employeeService;
         private readonly IPeriodService periodService;
         private readonly IReportService reportService;
         private readonly IEPADetailReportService epaDetailReportService;
         private readonly IMonthlyEPADetailReportService monthlyEPADetailReportService;
         private readonly IDisciplineService disciplineService;
         private readonly IEmployeeEPAService employeeEPAService;
+        private readonly IExportEmployeeFlowSettingService exportEmployeeFlowSettingService;
+        private readonly IExportEmployeeInfoService exportEmployeeInfoService;
         private ISessionService sessionService;
 
         public ExportReportController()
-            : this(null, null, null, null, null, null, null)
+            : this(null, null, null, null, null, null, null, null, null, null)
         {
         }
 
         public ExportReportController(
+            IEmployeeService employeeService,
             IPeriodService periodService,
             IReportService reportService,
             IEPADetailReportService epaDetailReportService,
             IMonthlyEPADetailReportService monthlyEPADetailReportService,
             IDisciplineService disciplineService,
             IEmployeeEPAService employeeEPAService,
+            IExportEmployeeFlowSettingService exportEmployeeFlowSettingService,
+            IExportEmployeeInfoService exportEmployeeInfoService,
             ISessionService sessionService)
         {
+            this.employeeService = employeeService ?? new EmployeeService();
             this.periodService = periodService ?? new PeriodService();
             this.reportService = reportService ?? new ReportService();
             this.epaDetailReportService = epaDetailReportService ?? new EPADetailReportService();
@@ -50,20 +57,19 @@
             this.disciplineService = disciplineService ?? new DisciplineService();
             this.sessionService = sessionService ?? new SessionService();
             this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
+            this.exportEmployeeFlowSettingService = exportEmployeeFlowSettingService ?? new ExportEmployeeFlowSettingService();
+            this.exportEmployeeInfoService = exportEmployeeInfoService ?? new ExportEmployeeInfoService();
         }
 
-        public ActionResult ExportEmployeeSettingReport(GetPeriodEmployeeSettingCriteria criteria)
+        public ActionResult ExportEmployeeFlowSettingReport(GetPeriodEmployeeSettingCriteria criteria)
         {
-            IEnumerable<PeriodEmployeeSettingModel> employeeFlowSettings = null;
-
             if (criteria != null)
             {
-                employeeFlowSettings = periodService.GetPeriodEmployeeSettingById(criteria);
+                IEnumerable<PeriodEmployeeSettingModel> employeeFlowSettings = periodService.GetPeriodEmployeeSettingById(criteria);
 
-                if (employeeFlowSettings != null)
+                if (employeeFlowSettings != null && employeeFlowSettings.Any())
                 {
-                    string templatePath = Server.MapPath(EmployeeFlowSettingReportTemplatePath);
-                    periodService.ExportEmployeeSettingReport(employeeFlowSettings, templatePath, criteria.PeriodName);
+                    exportEmployeeFlowSettingService.Export(employeeFlowSettings, criteria.PeriodName);
                 }
             }
 
@@ -193,6 +199,21 @@
                 {
                     string templatePath = Server.MapPath(UpdateFinalScoreTemplatePath);
                     employeeEPAService.ExportEPAAfterUpdateFinalScore(criteria.PeriodName, epaInfos, templatePath);
+                }
+            }
+
+            return new EmptyResult();
+        }
+
+        public ActionResult ExportEmployeeInfoReport(GetAllEmployeeCriteria criteria)
+        {
+            if (criteria != null)
+            {
+                IEnumerable<Employee> employees = employeeService.GetAllEmployee(criteria);
+
+                if (employees != null && employees.Any())
+                {
+                    exportEmployeeInfoService.Export(employees);
                 }
             }
 
