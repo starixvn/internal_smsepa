@@ -37,7 +37,7 @@
 
         public void CreateMonthlyPeriod()
         {
-            IEnumerable<FlowModel> processSettings = periodService.GetEvaluationGlobalSettingByTargetTypeId((int)TargetTypes.Monthly);
+            IEnumerable<FlowModel> processSettings = periodService.GetEvaluationGlobalSettingByTargetTypeId((int)TargetType.Monthly);
 
             if (processSettings != null && processSettings.Any())
             {

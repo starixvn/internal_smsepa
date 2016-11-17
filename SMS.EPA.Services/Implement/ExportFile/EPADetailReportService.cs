@@ -125,7 +125,7 @@
             ICellStyle oddStyleLeft = CreateOddStyleLeft();
 
             var index = 1;
-            foreach (var memberEPA in _epaDetail.MemberEPAs)
+            foreach (var memberEPA in _epaDetail.EpaInfos)
             {
                 var currentColumn = 0;
 

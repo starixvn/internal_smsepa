@@ -35,10 +35,10 @@
             if (criteria.IsValid())
             {
                 IEnumerable<ToDoListModel> todoList = dashboardRepository.GetToDoList(criteria);
-                result.ToDoList = todoList.Where(x => x.Period.TargetType.TargetTypeId == (int)TargetTypes.Probation)
-                    .Concat(todoList.Where(x => x.Period.TargetType.TargetTypeId == (int)TargetTypes.SemiAnnual))
-                    .Concat(todoList.Where(x => x.Period.TargetType.TargetTypeId == (int)TargetTypes.Promotion))
-                    .Concat(todoList.Where(x => x.Period.TargetType.TargetTypeId == (int)TargetTypes.Monthly)).ToList();
+                result.ToDoList = todoList.Where(x => x.Period.TargetType.TargetTypeId == (int)TargetType.Probation)
+                    .Concat(todoList.Where(x => x.Period.TargetType.TargetTypeId == (int)TargetType.SemiAnnual))
+                    .Concat(todoList.Where(x => x.Period.TargetType.TargetTypeId == (int)TargetType.Promotion))
+                    .Concat(todoList.Where(x => x.Period.TargetType.TargetTypeId == (int)TargetType.Monthly)).ToList();
             }
 
             return result;

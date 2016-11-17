@@ -1,13 +1,12 @@
 ﻿namespace SMS.EPA.Model
 {
     using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Model.Enitites;
 
     public class FlowTemplateModel
     {
         public FlowTemplateModel()
         {
-            TargetType = new TargetType();
+            TargetType = new TargetTypeModel();
         }
 
         public int FlowTemplateId { get; set; }
@@ -18,13 +17,13 @@
 
         public bool IsActive { get; set; }
 
-        public TargetType TargetType { get; set; }
+        public TargetTypeModel TargetType { get; set; }
 
         public bool IsMonthly
         {
             get
             {
-                return TargetType.TargetTypeId == (int)TargetTypes.Monthly;
+                return TargetType.TargetTypeId == (int)SMS.EPA.Core.Enumerations.TargetType.Monthly;
             }
         }
     }

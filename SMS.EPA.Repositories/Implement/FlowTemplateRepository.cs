@@ -12,7 +12,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                return db.Query<FlowTemplateModel, TargetType, FlowTemplateModel>(
+                return db.Query<FlowTemplateModel, TargetTypeModel, FlowTemplateModel>(
                    (ft, tt) =>
                    {
                        ft.TargetType = tt;
@@ -27,7 +27,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                return db.QueryEntity<FlowTemplateModel, TargetType, FlowTemplateModel>(
+                return db.QueryEntity<FlowTemplateModel, TargetTypeModel, FlowTemplateModel>(
                    (ft, tt) =>
                    {
                        ft.TargetType = tt;

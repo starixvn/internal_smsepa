@@ -20,7 +20,7 @@
         {
             get
             {
-                return ProbationStatus.HasValue && ProbationStatus.Value == (int)ProbationStatusTypes.PassProbation;
+                return ProbationStatus.HasValue && ProbationStatus.Value == (int)ProbationStatusType.PassProbation;
             }
         }
 
@@ -28,7 +28,7 @@
         {
             get
             {
-                return ProbationStatus.HasValue && ProbationStatus.Value == (int)ProbationStatusTypes.ExtendProbation;
+                return ProbationStatus.HasValue && ProbationStatus.Value == (int)ProbationStatusType.ExtendProbation;
             }
         }
 
@@ -36,7 +36,7 @@
         {
             get
             {
-                return ProbationStatus.HasValue && ProbationStatus.Value == (int)ProbationStatusTypes.FailProbation;
+                return ProbationStatus.HasValue && ProbationStatus.Value == (int)ProbationStatusType.FailProbation;
             }
         }
     }

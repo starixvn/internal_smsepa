@@ -1,11 +1,11 @@
 ﻿namespace SMS.EPA.Services.UnitTests
 {
+    using System.Collections.Generic;
     using NSubstitute;
     using NUnit.Framework;
     using SMS.EPA.Criteria.TargetType;
-    using SMS.EPA.Model.Enitites;
+    using SMS.EPA.Model;
     using SMS.EPA.Services.Implement;
-    using System.Collections.Generic;
 
     [TestFixture]
     public class TargetTypeServiceTests
@@ -14,8 +14,8 @@
         public void GetTargetType_AnyArg_ReturnExpectedTargetTypes()
         {
             // Arrange
-            var expectedTargetTypes = new List<TargetType>();
-            expectedTargetTypes.Add(new TargetType());
+            var expectedTargetTypes = new List<TargetTypeModel>();
+            expectedTargetTypes.Add(new TargetTypeModel());
             var targetTypeService = ArrangeGetTargetType(expectedTargetTypes);
 
             // Act
@@ -25,10 +25,10 @@
             Assert.AreEqual(expectedTargetTypes, actual);
         }
 
-        private TargetTypeService ArrangeGetTargetType(IEnumerable<TargetType> targetTypes = null)
+        private TargetTypeService ArrangeGetTargetType(IEnumerable<TargetTypeModel> targetTypes = null)
         {
             var targetTypeService = Substitute.For<TargetTypeService>();
-            targetTypeService.GetData<TargetType>(Arg.Any<GetTargetTypeCriteria>()).Returns(targetTypes ?? new List<TargetType>());
+            targetTypeService.GetData<TargetTypeModel>(Arg.Any<GetTargetTypeCriteria>()).Returns(targetTypes ?? new List<TargetTypeModel>());
             return targetTypeService;
         }
     }

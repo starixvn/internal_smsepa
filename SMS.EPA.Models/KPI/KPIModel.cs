@@ -31,7 +31,7 @@
 
         public IList<KPIGroupModel> KPIGroups { get; set; }
 
-        public TargetType TargetType { get; set; }
+        public TargetTypeModel TargetType { get; set; }
 
         public int CreatedBy { get; set; }
 

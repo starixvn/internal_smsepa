@@ -24,7 +24,7 @@
         {
             get
             {
-                return TargetTypeId == (int)TargetTypes.SemiAnnual && HasMonthlyEPA;
+                return TargetTypeId == (int)TargetType.SemiAnnual && HasMonthlyEPA;
             }
         }
     }

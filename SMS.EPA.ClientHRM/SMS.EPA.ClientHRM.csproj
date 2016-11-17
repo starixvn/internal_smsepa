@@ -218,6 +218,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <CodeAnalysisDictionary Include="FxCopDictionary.xml" />
     <Content Include="SpName.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -1,6 +1,6 @@
 ﻿namespace SMS.EPA.Core.Enumerations
 {
-    public enum TargetTypes : int
+    public enum TargetType : int
     {
         None = 0,
 

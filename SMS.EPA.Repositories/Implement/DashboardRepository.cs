@@ -12,7 +12,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                IEnumerable<ToDoListModel> departments = db.Query<ToDoListModel, PeriodModel, TargetType, ToDoListModel>(
+                IEnumerable<ToDoListModel> departments = db.Query<ToDoListModel, PeriodModel, TargetTypeModel, ToDoListModel>(
                    (todo, period, ttype) =>
                    {
                        period.TargetType = ttype;

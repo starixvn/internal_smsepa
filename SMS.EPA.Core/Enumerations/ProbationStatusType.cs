@@ -2,7 +2,7 @@
 {
     using System.ComponentModel;
 
-    public enum ProbationStatusTypes
+    public enum ProbationStatusType
     {
         [Description("Fail Probation")]
         FailProbation = 0,

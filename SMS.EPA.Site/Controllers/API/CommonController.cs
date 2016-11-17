@@ -29,7 +29,7 @@
         }
 
         [HttpGet]
-        public IEnumerable<TargetType> GetTargetType(
+        public IEnumerable<TargetTypeModel> GetTargetType(
             bool? isActive = true,
             string excludeTargetTypeIds = "")
         {

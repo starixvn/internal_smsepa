@@ -36,12 +36,12 @@
             };
 
             IEnumerable<PeriodModel> periods = periodService.GetPeriod(criteria);
-            IEnumerable<PeriodModel> probationPeriods = periods.Where(x => x.TargetType.TargetTypeId == (int)TargetTypes.Probation);
+            IEnumerable<PeriodModel> probationPeriods = periods.Where(x => x.TargetType.TargetTypeId == (int)TargetType.Probation);
             IEnumerable<PeriodModel> promotionPeriods = periods.Where(
-                x => x.TargetType.TargetTypeId == (int)TargetTypes.Promotion)
+                x => x.TargetType.TargetTypeId == (int)TargetType.Promotion)
                 .OrderByDescending(x => x.StartDate);
             IEnumerable<PeriodModel> semiPeriods = periods.Where(
-                x => x.TargetType.TargetTypeId == (int)TargetTypes.SemiAnnual)
+                x => x.TargetType.TargetTypeId == (int)TargetType.SemiAnnual)
                 .OrderByDescending(x => x.StartDate);
 
             IEnumerable<PeriodModel> periodList = new List<PeriodModel>();
@@ -163,13 +163,13 @@
 
                 switch (targetTypeId)
                 {
-                    case (int)TargetTypes.Probation:
-                    case (int)TargetTypes.Promotion:
+                    case (int)TargetType.Probation:
+                    case (int)TargetType.Promotion:
                         periodEmployeeSettings = periodEmployeeSettings.OrderByDescending(x => x.SelfEvaluators.First().StartDate);
                         break;
 
-                    case (int)TargetTypes.Monthly:
-                    case (int)TargetTypes.SemiAnnual:
+                    case (int)TargetType.Monthly:
+                    case (int)TargetType.SemiAnnual:
                         periodEmployeeSettings = periodEmployeeSettings.OrderBy(x => x.Employee.Group.GroupCode).ThenBy(x => x.Employee.NickName);
                         break;
                 }

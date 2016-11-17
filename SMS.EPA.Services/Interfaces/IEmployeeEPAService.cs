@@ -20,7 +20,7 @@
 
         IEnumerable<StandardGradeModel> GetStandardGrade();
 
-        IEnumerable<EPASummaryImportModel> GetMemberEPASummaryImport(GetEPASummaryImportCriteria criteria);
+        IEnumerable<EPASummaryImportModel> GetMemberEPASummaryImport();
 
         CommandResult UpdateEPASummaryImport(UpdateEPASummaryImportCriteria criteria);
 

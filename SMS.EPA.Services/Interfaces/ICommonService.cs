@@ -9,7 +9,7 @@
 
     public interface ICommonService
     {
-        IEnumerable<TargetType> GetTargetType(GetTargetTypeCriteria criteria);
+        IEnumerable<TargetTypeModel> GetTargetType(GetTargetTypeCriteria criteria);
 
         IEnumerable<KPIModel> GetKPI(GetKPICriteria criteria);
 

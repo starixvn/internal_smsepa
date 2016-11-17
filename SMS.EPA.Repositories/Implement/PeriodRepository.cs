@@ -14,7 +14,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                return db.Query<PeriodModel, TargetType, PeriodModel>(
+                return db.Query<PeriodModel, TargetTypeModel, PeriodModel>(
                     (pe, tar) =>
                     {
                         pe.TargetType = tar;
@@ -29,7 +29,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                return db.QueryEntity<PeriodModel, TargetType, PeriodModel>(
+                return db.QueryEntity<PeriodModel, TargetTypeModel, PeriodModel>(
                     (pe, tar) =>
                     {
                         pe.TargetType = tar;

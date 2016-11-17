@@ -131,7 +131,7 @@
     <Compile Include="Attribute\ExceptionHandlingAttribute.cs" />
     <Compile Include="Constants\Constants.cs" />
     <Compile Include="Constants\EPAFunctionKey.cs" />
-    <Compile Include="Enumerations\ProbationStatusTypes.cs" />
+    <Compile Include="Enumerations\ProbationStatusType.cs" />
     <Compile Include="Enumerations\HashProvider.cs" />
     <Compile Include="Enumerations\MailMode.cs" />
     <Compile Include="Enumerations\Policy.cs" />
@@ -140,7 +140,7 @@
     <Compile Include="Enumerations\StandardGrade.cs" />
     <Compile Include="Enumerations\EPAStatus.cs" />
     <Compile Include="Enumerations\SystemRole.cs" />
-    <Compile Include="Enumerations\TargetTypes.cs" />
+    <Compile Include="Enumerations\TargetType.cs" />
     <Compile Include="Helpers\CompressionHelper.cs" />
     <Compile Include="Model\CommandResult.cs" />
     <Compile Include="Model\FunctionModel.cs" />
@@ -165,7 +165,6 @@
     <Compile Include="Services\UtilityService.cs" />
     <Compile Include="Utilities\Enumerations.cs" />
     <Compile Include="Utilities\ExcelTemplateWriter.cs" />
-    <Compile Include="Utilities\FileUtilities.cs" />
     <Compile Include="Utilities\NPOIExtensions\HSSFCellExtensions.cs" />
     <Compile Include="Utilities\NPOIExtensions\HSSFCellRangeAddressExtensions.cs" />
     <Compile Include="Utilities\NPOIExtensions\HSSFRowExtensions.cs" />

@@ -116,7 +116,7 @@
     <Compile Include="TargetTemplate\TargetTemplateKPIGroupModel.cs" />
     <Compile Include="TargetTemplate\TargetTemplateKPIModel.cs" />
     <Compile Include="TargetTemplate\TargetTemplate.cs" />
-    <Compile Include="Enitites\TargetType.cs" />
+    <Compile Include="TargetType\TargetTypeModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">

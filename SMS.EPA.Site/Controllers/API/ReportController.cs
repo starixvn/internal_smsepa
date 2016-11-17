@@ -82,16 +82,16 @@
 
             EPADetailModel epaInfos = reportService.GetEPADetailReport(criteria);
 
-            if (string.IsNullOrEmpty(sortColumnName) && epaInfos.MemberEPAs.Any())
+            if (string.IsNullOrEmpty(sortColumnName) && epaInfos.EpaInfos.Any())
             {
-                switch (epaInfos.MemberEPAs.First().Period.TargetTypeId)
+                switch (epaInfos.EpaInfos.First().Period.TargetTypeId)
                 {
-                    case (int)TargetTypes.Probation:
-                        epaInfos.MemberEPAs = epaInfos.MemberEPAs.OrderByDescending(x => x.Employee.Code);
+                    case (int)TargetType.Probation:
+                        epaInfos.EpaInfos = epaInfos.EpaInfos.OrderByDescending(x => x.Employee.Code);
                         break;
 
                     default:
-                        epaInfos.MemberEPAs = epaInfos.MemberEPAs.OrderBy(x => x.Employee.GroupCode).ThenBy(x => x.Employee.Code);
+                        epaInfos.EpaInfos = epaInfos.EpaInfos.OrderBy(x => x.Employee.GroupCode).ThenBy(x => x.Employee.Code);
                         break;
                 }
             }

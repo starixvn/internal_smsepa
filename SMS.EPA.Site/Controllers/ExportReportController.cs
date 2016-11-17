@@ -97,23 +97,23 @@
         {
             criteria.ActorId = sessionService.CurrentUser.EmployeeId;
 
-            EPADetailModel epaInfos = reportService.GetEPADetailReport(criteria);
+            EPADetailModel epaDetail = reportService.GetEPADetailReport(criteria);
 
-            if (string.IsNullOrEmpty(criteria.SortColumnName) && epaInfos.MemberEPAs.Any())
+            if (string.IsNullOrEmpty(criteria.SortColumnName) && epaDetail.EpaInfos.Any())
             {
-                switch (epaInfos.MemberEPAs.First().Period.TargetTypeId)
+                switch (epaDetail.EpaInfos.First().Period.TargetTypeId)
                 {
-                    case (int)TargetTypes.Probation:
-                        epaInfos.MemberEPAs = epaInfos.MemberEPAs.OrderByDescending(x => x.Employee.Code);
+                    case (int)TargetType.Probation:
+                        epaDetail.EpaInfos = epaDetail.EpaInfos.OrderByDescending(x => x.Employee.Code);
                         break;
 
                     default:
-                        epaInfos.MemberEPAs = epaInfos.MemberEPAs.OrderBy(x => x.Employee.GroupCode).ThenBy(x => x.Employee.Code);
+                        epaDetail.EpaInfos = epaDetail.EpaInfos.OrderBy(x => x.Employee.GroupCode).ThenBy(x => x.Employee.Code);
                         break;
                 }
             }
 
-            epaDetailReportService.Render(epaInfos);
+            epaDetailReportService.Render(epaDetail);
 
             return new EmptyResult();
         }

@@ -52,7 +52,7 @@
             this.menuService = menuService ?? new MenuService();
         }
 
-        public IEnumerable<TargetType> GetTargetType(GetTargetTypeCriteria criteria)
+        public IEnumerable<TargetTypeModel> GetTargetType(GetTargetTypeCriteria criteria)
         {
             return targetTypeService.GetTargetType(criteria);
         }

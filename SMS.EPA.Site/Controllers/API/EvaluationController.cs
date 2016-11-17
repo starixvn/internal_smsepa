@@ -48,11 +48,10 @@
         [HttpPut]
         public CommandResult ConvertEPA()
         {
-            var getEPASummaryImportCriteria = new GetEPASummaryImportCriteria();
-            IEnumerable<EPASummaryImportModel> memberEPAs = evaluationService.GetMemberEPASummaryImport(getEPASummaryImportCriteria);
+            IEnumerable<EPASummaryImportModel> epaInfos = evaluationService.GetMemberEPASummaryImport();
             var criteria = new UpdateEPASummaryImportCriteria()
             {
-                MemberEPAs = memberEPAs
+                EpaInfos = epaInfos
             };
 
             CommandResult result = evaluationService.UpdateEPASummaryImport(criteria);

@@ -2,13 +2,12 @@
 {
     using System;
     using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Model.Enitites;
 
     public class PeriodModel
     {
         public PeriodModel()
         {
-            TargetType = new TargetType();
+            TargetType = new TargetTypeModel();
         }
 
         public int PeriodId { get; set; }
@@ -31,7 +30,7 @@
 
         public bool IsActive { get; set; }
 
-        public TargetType TargetType { get; set; }
+        public TargetTypeModel TargetType { get; set; }
 
         public int? Year
         {
@@ -52,7 +51,7 @@
         {
             get
             {
-                return TargetType.TargetTypeId == (int)TargetTypes.SemiAnnual;
+                return TargetType.TargetTypeId == (int)SMS.EPA.Core.Enumerations.TargetType.SemiAnnual;
             }
         }
     }

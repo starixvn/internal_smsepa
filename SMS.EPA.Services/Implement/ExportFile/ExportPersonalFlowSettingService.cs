@@ -32,7 +32,6 @@
 
             if (flowSettings.Any())
             {
-                string fileName = "Personal_Flow_Setting";
                 string reportTitle = string.Format("{0} - Personal Flow Setting", flowTemplateName),
                     templatePath = HttpContext.Current.Server.MapPath(TemplatePath);
 

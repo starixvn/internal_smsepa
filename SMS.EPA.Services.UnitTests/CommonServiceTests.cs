@@ -38,7 +38,7 @@
             var actual = commonService.GetTargetType(Arg.Any<GetTargetTypeCriteria>());
 
             // Assert
-            Assert.IsInstanceOf(typeof(IEnumerable<TargetType>), actual);
+            Assert.IsInstanceOf(typeof(IEnumerable<TargetTypeModel>), actual);
         }
 
         [Test]
@@ -46,8 +46,8 @@
         {
             // Arrange
             var criteria = new GetTargetTypeCriteria();
-            var expectedTargetTypes = new List<TargetType>();
-            expectedTargetTypes.Add(new TargetType());
+            var expectedTargetTypes = new List<TargetTypeModel>();
+            expectedTargetTypes.Add(new TargetTypeModel());
             ArrangeGetTargetType(expectedTargetTypes);
 
             // Act
@@ -622,7 +622,7 @@
                 menuService);
         }
 
-        private void ArrangeGetTargetType(IEnumerable<TargetType> targetTypes = null)
+        private void ArrangeGetTargetType(IEnumerable<TargetTypeModel> targetTypes = null)
         {
             ArrangeCommon();
             targetTypeService.GetTargetType(Arg.Any<GetTargetTypeCriteria>()).Returns(targetTypes);

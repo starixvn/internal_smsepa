@@ -15,7 +15,7 @@
     [AttributeUsage(AttributeTargets.All, AllowMultiple = true)]
     public class ApiAuthorizeAttribute : AuthorizeAttribute
     {
-        private ISessionService sessionService;
+        private readonly ISessionService sessionService;
 
         public ApiAuthorizeAttribute()
             : this(null)

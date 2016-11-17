@@ -50,7 +50,7 @@
         {
             get
             {
-                return Employee != null && Employee.HasMonthlyEPA && TargetTemplate != null && TargetTemplate.TargetTypeId == (int)TargetTypes.SemiAnnual;
+                return Employee != null && Employee.HasMonthlyEPA && TargetTemplate != null && TargetTemplate.TargetTypeId == (int)TargetType.SemiAnnual;
             }
         }
     }

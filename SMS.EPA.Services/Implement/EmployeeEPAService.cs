@@ -127,11 +127,12 @@
             return standardGrades;
         }
 
-        public IEnumerable<EPASummaryImportModel> GetMemberEPASummaryImport(GetEPASummaryImportCriteria criteria)
+        public IEnumerable<EPASummaryImportModel> GetMemberEPASummaryImport()
         {
+            var criteria = new GetEPASummaryImportCriteria();
             IEnumerable<EPASummaryImportModel> memberEPAs = new List<EPASummaryImportModel>();
 
-            if (criteria != null && criteria.IsValid())
+            if (criteria.IsValid())
             {
                 memberEPAs = GetData<EPASummaryImportModel>(criteria);
             }

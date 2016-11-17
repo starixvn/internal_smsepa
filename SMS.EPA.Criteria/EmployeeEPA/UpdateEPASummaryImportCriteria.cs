@@ -1,6 +1,7 @@
 ﻿namespace SMS.EPA.Criteria
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
     using Fanex.Data;
     using Fanex.Data.Repository;
@@ -11,17 +12,17 @@
         private const string EPAXmlTemplate = "<EPA Id='{0}' FinalScore='{1}'></EPA>";
 
         [SpParam(Ignored = true)]
-        public IEnumerable<EPASummaryImportModel> MemberEPAs { get; set; }
+        public IEnumerable<EPASummaryImportModel> EpaInfos { get; set; }
 
-        public string EPADetailXML
+        public string EPADetailXml
         {
             get
             {
                 var epaXmlBuilder = new StringBuilder("<ROOT>");
 
-                if (MemberEPAs != null)
+                if (EpaInfos != null && EpaInfos.Any())
                 {
-                    foreach (EPASummaryImportModel epa in MemberEPAs)
+                    foreach (EPASummaryImportModel epa in EpaInfos)
                     {
                         epaXmlBuilder.AppendFormat(
                             EPAXmlTemplate,
@@ -37,7 +38,7 @@
 
         public override bool IsValid()
         {
-            return !string.IsNullOrWhiteSpace(EPADetailXML);
+            return !string.IsNullOrWhiteSpace(EPADetailXml);
         }
 
         public override string GetSettingKey()

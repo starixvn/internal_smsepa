@@ -141,34 +141,34 @@
             var rows = [];
             var rowIndex = pageOption.itemsPerPage * pageOption.pageIndex;
 
-            if (gridData.MemberEPAs) {
-                angular.forEach(gridData.MemberEPAs, function (memberEPA, index) {
-                    var score = calculateScore(memberEPA),
-                        cssSelfScore = memberEPA.EPAId > 0 && !memberEPA.HasMonthlyEPA && !memberEPA.Process.Self.IsEndProcess ? 'red' : '',
-                        cssEvaluatorScore = memberEPA.EPAId > 0 && !memberEPA.HasMonthlyEPA && !memberEPA.Process.Evaluators[0].IsEndProcess ? 'red' : '',
-                        cssReviewerScore = memberEPA.EPAId > 0 && !memberEPA.Process.Reviewers[0].IsEndProcess ? 'red' : '',
+            if (gridData.EpaInfos) {
+                angular.forEach(gridData.EpaInfos, function (epaInfo, index) {
+                    var score = calculateScore(epaInfo),
+                        cssSelfScore = epaInfo.EPAId > 0 && !epaInfo.HasMonthlyEPA && !epaInfo.Process.Self.IsEndProcess ? 'red' : '',
+                        cssEvaluatorScore = epaInfo.EPAId > 0 && !epaInfo.HasMonthlyEPA && !epaInfo.Process.Evaluators[0].IsEndProcess ? 'red' : '',
+                        cssReviewerScore = epaInfo.EPAId > 0 && !epaInfo.Process.Reviewers[0].IsEndProcess ? 'red' : '',
                         cssManagementScore = '',
-                        cssDisciplineScore = memberEPA.EPAId > 0 && memberEPA.DisciplineScore < 0 ? 'red' : '',
-                        pdfIcon = '<a class="icon-pdf exportPDF" data-epaid="' + memberEPA.EPAId + '"></a>',
-                        viewIcon = '<a class="icon-view viewEPADetail" data-epaid="' + memberEPA.EPAId + '"></a>';
+                        cssDisciplineScore = epaInfo.EPAId > 0 && epaInfo.DisciplineScore < 0 ? 'red' : '',
+                        pdfIcon = '<a class="icon-pdf exportPDF" data-epaid="' + epaInfo.EPAId + '"></a>',
+                        viewIcon = '<a class="icon-view viewEPADetail" data-epaid="' + epaInfo.EPAId + '"></a>';
 
-                    if (memberEPA.EPAId > 0
-                        && memberEPA.Process.Managements
-                        && memberEPA.Process.Managements.length > 0
-                        && !memberEPA.Process.Managements[0].IsEndProcess) {
+                    if (epaInfo.EPAId > 0
+                        && epaInfo.Process.Managements
+                        && epaInfo.Process.Managements.length > 0
+                        && !epaInfo.Process.Managements[0].IsEndProcess) {
                         cssManagementScore = 'red';
                     }
 
                     var currentRow = {
                         Columns: [
                             { Name: "No", Value: rowIndex + index + 1 },
-                            { Name: "Code", Value: memberEPA.Employee.Code },
-                            { Name: "FullName", Value: memberEPA.Employee.FullName },
-                            { Name: "NickName", Value: memberEPA.Employee.NickName },
-                            { Name: "Section", Value: memberEPA.Employee.GroupName },
-                            { Name: "JobTitle", Value: memberEPA.Employee.JobTitleName },
-                            { Name: "GroupDate", Value: memberEPA.Employee.JoinedDate },
-                            { Name: "TargetType", Value: memberEPA.Period.TargetTypeName },
+                            { Name: "Code", Value: epaInfo.Employee.Code },
+                            { Name: "FullName", Value: epaInfo.Employee.FullName },
+                            { Name: "NickName", Value: epaInfo.Employee.NickName },
+                            { Name: "Section", Value: epaInfo.Employee.GroupName },
+                            { Name: "JobTitle", Value: epaInfo.Employee.JobTitleName },
+                            { Name: "GroupDate", Value: epaInfo.Employee.JoinedDate },
+                            { Name: "TargetType", Value: epaInfo.Period.TargetTypeName },
                             { Name: "SelfScore", Value: "<span class='" + cssSelfScore + "'>" + score.SelfScore + "</span>" },
                             { Name: "EvaluatorScore", Value: "<span class='" + cssEvaluatorScore + "'>" + score.EvaluatorScore + "</span>" },
                             { Name: "ReviewerScore", Value: "<span class='" + cssReviewerScore + "'>" + score.ReviewerScore + "</span>" },
@@ -176,8 +176,8 @@
                             { Name: "DisciplineScore", Value: "<span class='" + cssDisciplineScore + "'>" + score.DisciplineScore + "</span>" },
                             { Name: "FinalScore", Value: score.FinalScore },
                             { Name: "Grade", Value: score.Grade },
-                            { Name: "ExportPdf", Value: memberEPA.EPAId > 0 ? pdfIcon : "" },
-                            { Name: "ViewDetail", Value: memberEPA.EPAId > 0 ? viewIcon : '' }
+                            { Name: "ExportPdf", Value: epaInfo.EPAId > 0 ? pdfIcon : "" },
+                            { Name: "ViewDetail", Value: epaInfo.EPAId > 0 ? viewIcon : '' }
                         ]
                     };
 
@@ -264,13 +264,13 @@
 
                 $scope.$watch('gridData', function (gridData) {
                     $timeout(function () {
-                        if (gridData.MemberEPAs) {
+                        if (gridData.EpaInfos) {
                             gridOptions.columns = generateColumnHeaders($scope);
                             gridOptions.bodyRows = generateBodyRows(gridData, $scope.pageOption);
 
                             gridOptions.pagerOption = {
                                 startPerPage: utilitiesFactory.pageOption.itemsPerPage,
-                                totalItem: gridData ? gridData.MemberEPAs.length : 0,
+                                totalItem: gridData ? gridData.EpaInfos.length : 0,
                                 itemsPerPageArray: utilitiesFactory.pageOption.itemsPerPageArray,
                                 itemsPerPage: $scope.pageOption.itemsPerPage,
                                 currentPage: $scope.pageOption.pageIndex

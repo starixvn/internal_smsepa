@@ -22,7 +22,7 @@
         {
             get
             {
-                return Period.TargetType.TargetTypeId == (int)TargetTypes.Monthly;
+                return Period.TargetType.TargetTypeId == (int)TargetType.Monthly;
             }
         }
     }

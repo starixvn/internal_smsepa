@@ -64,7 +64,7 @@
                 {
                     epaDetail.PhaseSelecteds = multi.Read<EvaluationPhaseModel>();
 
-                    epaDetail.MemberEPAs = multi.Read<EPAModel, EPAEmployeeModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
+                    epaDetail.EpaInfos = multi.Read<EPAModel, EPAEmployeeModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
                     (info, employee, period, scoreRatingType) =>
                     {
                         info.Employee = employee;
@@ -77,8 +77,8 @@
 
                     IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
 
-                    GroupEPAProcessByEPA(epaDetail.MemberEPAs, processes);
-                    DecodeAllScore(epaDetail.MemberEPAs);
+                    GroupEPAProcessByEPA(epaDetail.EpaInfos, processes);
+                    DecodeAllScore(epaDetail.EpaInfos);
                 }
             }
 
@@ -95,7 +95,7 @@
                 {
                     epaDetail.PhaseSelecteds = multi.Read<EvaluationPhaseModel>();
 
-                    epaDetail.MemberEPAs = multi.Read<EPAModel, EPAEmployeeModel, EPAPeriodModel, EPAModel>(
+                    epaDetail.EpaInfos = multi.Read<EPAModel, EPAEmployeeModel, EPAPeriodModel, EPAModel>(
                     (info, employee, period) =>
                     {
                         info.Employee = employee;
@@ -107,8 +107,8 @@
 
                     IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
 
-                    GroupEPAProcessByEPA(epaDetail.MemberEPAs, processes);
-                    DecodeAllScore(epaDetail.MemberEPAs);
+                    GroupEPAProcessByEPA(epaDetail.EpaInfos, processes);
+                    DecodeAllScore(epaDetail.EpaInfos);
                 }
             }
 

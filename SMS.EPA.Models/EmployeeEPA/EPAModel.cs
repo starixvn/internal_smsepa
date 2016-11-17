@@ -121,7 +121,7 @@
         {
             get
             {
-                return Period.TargetTypeId == (int)TargetTypes.Monthly;
+                return Period.TargetTypeId == (int)TargetType.Monthly;
             }
         }
 
@@ -129,7 +129,7 @@
         {
             get
             {
-                return Period.TargetTypeId == (int)TargetTypes.Probation;
+                return Period.TargetTypeId == (int)TargetType.Probation;
             }
         }
 
@@ -137,7 +137,7 @@
         {
             get
             {
-                return Period.TargetTypeId == (int)TargetTypes.Promotion;
+                return Period.TargetTypeId == (int)TargetType.Promotion;
             }
         }
 
@@ -145,7 +145,7 @@
         {
             get
             {
-                return Period.TargetTypeId == (int)TargetTypes.SemiAnnual;
+                return Period.TargetTypeId == (int)TargetType.SemiAnnual;
             }
         }
 
@@ -153,7 +153,7 @@
         {
             get
             {
-                return HasMonthlyEPA && Period.TargetTypeId == (int)TargetTypes.SemiAnnual;
+                return HasMonthlyEPA && Period.TargetTypeId == (int)TargetType.SemiAnnual;
             }
         }
 

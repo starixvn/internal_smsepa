@@ -3,7 +3,7 @@
     /* jshint latedef:nofunc */
     /* jshint validthis:true */
 
-    angular.module('epaModule').controller('evaluatorDetailController', evaluatorDetailController);
+    angular.module('epaModule').controller('EvaluatorDetailController', evaluatorDetailController);
     evaluatorDetailController.$inject = ['$timeout', '$translate', '$routeParams', 'EvaluationModel', 'EvaluatorEPAModel', 'SelfEvalutorModel',
         'CommonModel', 'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl'];
 

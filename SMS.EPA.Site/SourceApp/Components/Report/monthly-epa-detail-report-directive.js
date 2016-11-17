@@ -104,29 +104,29 @@
             var rows = [];
             var rowIndex = pageOption.itemsPerPage * pageOption.pageIndex;
 
-            if (gridData.MemberEPAs) {
-                angular.forEach(gridData.MemberEPAs, function (memberEPA, index) {
-                    var score = calculateScore(memberEPA),
-                    viewIcon = '<a class="icon-view viewEPADetail" data-epaid="' + memberEPA.EPAId + '"></a>',
-                    cssSelfScore = memberEPA.EPAId > 0 && memberEPA.Process.Self.IsEndProcess ? '' : 'red',
-                    cssEvaluatorScore = memberEPA.EPAId > 0 && memberEPA.Process.Evaluators[0].IsEndProcess ? '' : 'red',
-                    cssReviewerScore = memberEPA.EPAId > 0 && memberEPA.Process.Reviewers[0].IsEndProcess ? '' : 'red';
+            if (gridData.EpaInfos) {
+                angular.forEach(gridData.EpaInfos, function (epaInfo, index) {
+                    var score = calculateScore(epaInfo),
+                    viewIcon = '<a class="icon-view viewEPADetail" data-epaid="' + epaInfo.EPAId + '"></a>',
+                    cssSelfScore = epaInfo.EPAId > 0 && epaInfo.Process.Self.IsEndProcess ? '' : 'red',
+                    cssEvaluatorScore = epaInfo.EPAId > 0 && epaInfo.Process.Evaluators[0].IsEndProcess ? '' : 'red',
+                    cssReviewerScore = epaInfo.EPAId > 0 && epaInfo.Process.Reviewers[0].IsEndProcess ? '' : 'red';
 
                     var currentRow = {
                         Columns: [
                             { Name: "No", Value: rowIndex + index + 1 },
-                            { Name: "Code", Value: memberEPA.Employee.Code },
-                            { Name: "FullName", Value: memberEPA.Employee.FullName },
-                            { Name: "NickName", Value: memberEPA.Employee.NickName },
-                            { Name: "Section", Value: memberEPA.Employee.GroupName },
-                            { Name: "JobTitle", Value: memberEPA.Employee.JobTitleName },
-                            { Name: "GroupDate", Value: memberEPA.Employee.JoinedDate },
+                            { Name: "Code", Value: epaInfo.Employee.Code },
+                            { Name: "FullName", Value: epaInfo.Employee.FullName },
+                            { Name: "NickName", Value: epaInfo.Employee.NickName },
+                            { Name: "Section", Value: epaInfo.Employee.GroupName },
+                            { Name: "JobTitle", Value: epaInfo.Employee.JobTitleName },
+                            { Name: "GroupDate", Value: epaInfo.Employee.JoinedDate },
                             { Name: "SelfScore", Value: "<span class='" + cssSelfScore + "'>" + score.SelfScore + "</span>" },
                             { Name: "EvaluatorScore", Value: "<span class='" + cssEvaluatorScore + "'>" + score.EvaluatorScore + "</span>" },
                             { Name: "ReviewerScore", Value: "<span class='" + cssReviewerScore + "'>" + score.ReviewerScore + "</span>" },
                             { Name: "FinalScore", Value: score.FinalScore },
                             { Name: "Grade", Value: score.Grade },
-                            { Name: "ViewDetail", Value: memberEPA.EPAId > 0 ? viewIcon : '' }
+                            { Name: "ViewDetail", Value: epaInfo.EPAId > 0 ? viewIcon : '' }
                         ]
                     };
 
@@ -187,7 +187,7 @@
 
                 $scope.$watch('gridData', function (gridData) {
                     $timeout(function () {
-                        if (gridData.MemberEPAs) {
+                        if (gridData.EpaInfos) {
                             var columHeaders = generateColumnHeaders($scope),
                                 bodyRows = generateBodyRows(gridData, $scope.pageOption);
 
@@ -196,7 +196,7 @@
 
                             gridOptions.pagerOption = {
                                 startPerPage: utilitiesFactory.pageOption.itemsPerPage,
-                                totalItem: gridData ? gridData.MemberEPAs.length : 0,
+                                totalItem: gridData ? gridData.EpaInfos.length : 0,
                                 itemsPerPageArray: utilitiesFactory.pageOption.itemsPerPageArray,
                                 itemsPerPage: $scope.pageOption.itemsPerPage,
                                 currentPage: $scope.pageOption.pageIndex

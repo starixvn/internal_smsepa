@@ -294,7 +294,7 @@
                 {
                     FlowTemplateId = 1,
                     Name = "test 1",
-                    TargetType = new TargetType
+                    TargetType = new TargetTypeModel
                     {
                         TargetTypeId = 1,
                         Name = "Monthly"
@@ -304,7 +304,7 @@
                 {
                     FlowTemplateId = 2,
                     Name = "test 2",
-                    TargetType = new TargetType
+                    TargetType = new TargetTypeModel
                     {
                         TargetTypeId = 2,
                         Name = "Semi-annual"
