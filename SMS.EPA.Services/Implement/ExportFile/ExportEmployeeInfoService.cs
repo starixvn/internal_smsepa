@@ -5,35 +5,52 @@
     using System.Web;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Utilities;
+    using SMS.EPA.Criteria;
     using SMS.EPA.Model.Enitites;
     using SMS.EPA.Services.Interfaces;
 
     public class ExportEmployeeInfoService : IExportEmployeeInfoService
     {
         private const string TemplatePath = @"~\ExcelTemplates\EmployeeBasicInfoTemplate.xls";
-
         private const int RowStartHeader = 2;
         private const int RowStartBody = 3;
         private const int TotalColumns = 11;
 
-        public void Export(IEnumerable<Employee> employees)
+        private readonly IEmployeeService employeeService;
+
+        public ExportEmployeeInfoService()
+            : this(null)
         {
-            string fileName = "Employee_Infomation",
-                templatePath = HttpContext.Current.Server.MapPath(TemplatePath);
+        }
 
-            var writer = new ExcelTemplateWriter(templatePath, fileName, "Employee Infomation");
+        public ExportEmployeeInfoService(IEmployeeService employeeService)
+        {
+            this.employeeService = employeeService ?? new EmployeeService();
+        }
 
-            // Fill report title.
-            writer.CopyRows(0, 2);
+        public void Export(GetAllEmployeeCriteria criteria)
+        {
+            IEnumerable<Employee> employees = employeeService.GetAllEmployee(criteria);
 
-            // Fill report header.
-            writer.CopyRows(RowStartHeader, 1);
+            if (employees.Any())
+            {
+                string fileName = "Employee_Infomation",
+                    templatePath = HttpContext.Current.Server.MapPath(TemplatePath);
 
-            FillContentRow(employees, ref writer);
-            writer.SyncColumnsWidth(TotalColumns);
-            writer.CreateFreezePane(0, RowStartBody);
+                var writer = new ExcelTemplateWriter(templatePath, fileName, "Employee Infomation");
 
-            writer.Render();
+                // Fill report title.
+                writer.CopyRows(0, 2);
+
+                // Fill report header.
+                writer.CopyRows(RowStartHeader, 1);
+
+                FillContentRow(employees, ref writer);
+                writer.SyncColumnsWidth(TotalColumns);
+                writer.CreateFreezePane(0, RowStartBody);
+
+                writer.Render();
+            }
         }
 
         private void FillContentRow(IEnumerable<Employee> employees, ref ExcelTemplateWriter writer)

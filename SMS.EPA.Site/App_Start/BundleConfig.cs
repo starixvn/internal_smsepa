@@ -240,7 +240,9 @@
                             "~/SourceApp/Shared/Factories/lockScreen-factory.js",
                             "~/SourceApp/Shared/Factories/notification-factory.js",
                             "~/SourceApp/Shared/Factories/utilities-factory.js",
-                            "~/SourceApp/Shared/epa-filter.js",
+                            "~/SourceApp/Shared/Filters/customDate-filter.js",
+                            "~/SourceApp/Shared/Filters/customNumber-filter.js",
+                            "~/SourceApp/Shared/Filters/range-filter.js",
                             "~/SourceApp/Shared/modalconfirm-controller.js"));
         }
     }

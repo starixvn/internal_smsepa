@@ -1,26 +1,21 @@
-﻿'use strict';
-/*global epaModule*/
+﻿(function (angular) {
+    'use strict';
+    /* jshint latedef:nofunc */
 
-epaModule.factory('ratingByKPIFactory', ['$http', 'baseUrl', function ($http, baseUrl) {
-    return {
-        getUserPermissionOnRatingByKPI: function () {
-            return $http.get(baseUrl + 'api/EvaluatorByKPI/GetUserPermissionOnRatingByKPI');
-        },
-        getPeriodByEvaluator: function () {
-            return $http.get(baseUrl + 'api/EvaluatorByKPI/GetPeriodByEvaluator');
-        },
-        getTargetTemplateByPeriod: function (periodId) {
-            return $http.get(baseUrl + 'api/EvaluatorByKPI/GetTargetTemplateByEvaluator', { params: { periodId: periodId } });
-        },
-        getKPIByTargetTemplate: function (periodId, targetTemplateId) {
-            return $http.get(baseUrl + 'api/EvaluatorByKPI/GetKPIByTargetTemplate', {
-                params: {
-                    periodId: periodId,
-                    targetTemplateId: targetTemplateId
-                }
-            });
-        },
-        getEmployeeEPAByKPI: function (periodId, targetTemplateId, kpiId, groupId, employeeIds) {
+    angular.module('epaModule').factory('ratingByKPIFactory', ratingByKPIFactory);
+    ratingByKPIFactory.$inject = ['$http', 'baseUrl'];
+
+    function ratingByKPIFactory($http, baseUrl) {
+        return {
+            getEmployeeEPAByKPI: getEmployeeEPAByKPI,
+            getKPIByTargetTemplate: getKPIByTargetTemplate,
+            getPeriodByEvaluator: getPeriodByEvaluator,
+            getTargetTemplateByPeriod: getTargetTemplateByPeriod,
+            getUserPermissionOnRatingByKPI: getUserPermissionOnRatingByKPI,
+            updateKPIScore: updateKPIScore
+        };
+
+        function getEmployeeEPAByKPI(periodId, targetTemplateId, kpiId, groupId, employeeIds) {
             return $http.get(baseUrl + 'api/EvaluatorByKPI/GetEmployeeEPAByKPI', {
                 params: {
                     periodId: periodId,
@@ -30,9 +25,31 @@ epaModule.factory('ratingByKPIFactory', ['$http', 'baseUrl', function ($http, ba
                     employeeIds: employeeIds
                 }
             });
-        },
-        updateKPIScore: function (models) {
+        }
+
+        function getKPIByTargetTemplate(periodId, targetTemplateId) {
+            return $http.get(baseUrl + 'api/EvaluatorByKPI/GetKPIByTargetTemplate', {
+                params: {
+                    periodId: periodId,
+                    targetTemplateId: targetTemplateId
+                }
+            });
+        }
+
+        function getPeriodByEvaluator() {
+            return $http.get(baseUrl + 'api/EvaluatorByKPI/GetPeriodByEvaluator');
+        }
+
+        function getTargetTemplateByPeriod(periodId) {
+            return $http.get(baseUrl + 'api/EvaluatorByKPI/GetTargetTemplateByEvaluator', { params: { periodId: periodId } });
+        }
+
+        function getUserPermissionOnRatingByKPI() {
+            return $http.get(baseUrl + 'api/EvaluatorByKPI/GetUserPermissionOnRatingByKPI');
+        }
+
+        function updateKPIScore(models) {
             return $http.put(baseUrl + 'api/EvaluatorByKPI/UpdateKPIScore', models);
         }
-    };
-}]);
+    }
+})(angular);

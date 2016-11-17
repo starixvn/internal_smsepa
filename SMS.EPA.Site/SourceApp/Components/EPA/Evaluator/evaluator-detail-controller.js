@@ -1,175 +1,179 @@
-﻿'use strict';
-/*global epaModule*/
+﻿(function (angular) {
+    'use strict';
+    /* jshint latedef:nofunc */
+    /* jshint validthis:true */
 
-epaModule.controller('MemberEPAInfoOfEvaluatorController',
-['$timeout', '$translate', '$routeParams', 'EvaluationModel', 'EvaluatorEPAModel', 'SelfEvalutorModel', 'CommonModel',
-    'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl',
-function ($timeout, $translate, $routeParams, EvaluationModel, EvaluatorEPAModel, SelfEvalutorModel, CommonModel,
-    utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
-    var vm = this;
+    angular.module('epaModule').controller('evaluatorDetailController', evaluatorDetailController);
+    evaluatorDetailController.$inject = ['$timeout', '$translate', '$routeParams', 'EvaluationModel', 'EvaluatorEPAModel', 'SelfEvalutorModel',
+        'CommonModel', 'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl'];
 
-    vm.permission = 0;
-    vm.epaId = parseInt($routeParams.id);
-    vm.evaluatorId = parseInt($routeParams.evaluatorId);
-    vm.maxStar = utilitiesFactory.maxStar;
-    vm.dataSaved = false;
-    vm.evaluatedDate = null;
-    vm.standardGrades = CommonModel.standardGrades;
-    vm.policyEnum = utilitiesFactory.policy;
-    vm.targetTypeEnum = utilitiesFactory.targetType;
-    vm.ratingTypeEnum = utilitiesFactory.ratingType;
-    vm.hasRatingByStar = false;
-    vm.showRatingScoreByStar = true;
+    function evaluatorDetailController($timeout, $translate, $routeParams, EvaluationModel, EvaluatorEPAModel, SelfEvalutorModel, CommonModel,
+        utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
+        var vm = this;
 
-    vm.hoveringLeave = null;
+        vm.permission = 0;
+        vm.epaId = parseInt($routeParams.id);
+        vm.evaluatorId = parseInt($routeParams.evaluatorId);
+        vm.maxStar = utilitiesFactory.maxStar;
+        vm.dataSaved = false;
+        vm.evaluatedDate = null;
+        vm.standardGrades = CommonModel.standardGrades;
+        vm.policyEnum = utilitiesFactory.policy;
+        vm.targetTypeEnum = utilitiesFactory.targetType;
+        vm.ratingTypeEnum = utilitiesFactory.ratingType;
+        vm.hasRatingByStar = false;
+        vm.showRatingScoreByStar = true;
 
-    vm.viewBySelf = function () {
-        return !vm.evaluatorId;
-    };
+        vm.hoveringLeave = null;
 
-    vm.viewBackButton = function () {
-        return !$routeParams.newTab;
-    };
+        vm.viewBySelf = function () {
+            return !vm.evaluatorId;
+        };
 
-    vm.initCollapseExpandCommentByEmployee = function (epaInfo, kpi) {
-        if (epaInfo.Process.Self.IsEndProcess && (kpi.EvaluationBySelf.Comment && kpi.EvaluationBySelf.Comment.length > 0)) {
-            kpi.ExpandedCommentByEmployee = true;
-        }
-        else {
-            kpi.ExpandedCommentByEmployee = false;
-        }
-    };
+        vm.viewBackButton = function () {
+            return !$routeParams.newTab;
+        };
 
-    vm.getNotificationInputScore = function (kpi) {
-        var weight = utilitiesFactory.splitNumber(kpi.Weight, 2);
-        return EvaluationModel.getNotificationInputScore(0, weight, vm.scoreInputValidMessage);
-    };
+        vm.initCollapseExpandCommentByEmployee = function (epaInfo, kpi) {
+            if (epaInfo.Process.Self.IsEndProcess && (kpi.EvaluationBySelf.Comment && kpi.EvaluationBySelf.Comment.length > 0)) {
+                kpi.ExpandedCommentByEmployee = true;
+            }
+            else {
+                kpi.ExpandedCommentByEmployee = false;
+            }
+        };
 
-    vm.inputScore = function (kpi) {
-        var weight = utilitiesFactory.splitNumber(kpi.Weight, 2),
-            score = kpi.CurrentEvaluation.Score ? parseFloat(kpi.CurrentEvaluation.Score) : 0;
+        vm.getNotificationInputScore = function (kpi) {
+            var weight = utilitiesFactory.splitNumber(kpi.Weight, 2);
+            return EvaluationModel.getNotificationInputScore(0, weight, vm.scoreInputValidMessage);
+        };
 
-        score = utilitiesFactory.splitNumber(score, 2);
-        kpi.CurrentEvaluation.Rate = 0;
+        vm.inputScore = function (kpi) {
+            var weight = utilitiesFactory.splitNumber(kpi.Weight, 2),
+                score = kpi.CurrentEvaluation.Score ? parseFloat(kpi.CurrentEvaluation.Score) : 0;
 
-        if (!EvaluationModel.validateScoreInput(score, 0, weight, vm.scoreInputValidMessage)) {
+            score = utilitiesFactory.splitNumber(score, 2);
+            kpi.CurrentEvaluation.Rate = 0;
+
+            if (!EvaluationModel.validateScoreInput(score, 0, weight, vm.scoreInputValidMessage)) {
+                kpi.CurrentEvaluation.Score = null;
+            }
+
+            SelfEvalutorModel.calculateScore(vm);
+        };
+
+        vm.cancelRating = function (kpiGroup, kpi) {
+            kpi.CurrentEvaluation.Rate = 0;
             kpi.CurrentEvaluation.Score = null;
-        }
+            $("#star_" + kpi.KPIId).rating('update', kpi.CurrentEvaluation.Rate);
 
-        SelfEvalutorModel.calculateScore(vm);
-    };
-
-    vm.cancelRating = function (kpiGroup, kpi) {
-        kpi.CurrentEvaluation.Rate = 0;
-        kpi.CurrentEvaluation.Score = null;
-        $("#star_" + kpi.KPIId).rating('update', kpi.CurrentEvaluation.Rate);
-
-        if (kpiGroup.HasKPIOptional) {
-            SelfEvalutorModel.spreadScoreForKPIGroupHasKPIOptional(kpiGroup, vm.maxStar);
-        }
-
-        SelfEvalutorModel.calculateScore(vm);
-    };
-
-    vm.cancel = function () {
-        historyFactory.back();
-    };
-
-    vm.save = function (epaInfo) {
-        if (EvaluatorEPAModel.validateEPA(epaInfo)) {
-            EvaluatorEPAModel.updateEPAScoreByEvaluator(vm);
-        } else {
-            SelfEvalutorModel.openPopupNotificationInvalidComment(vm, vm.evaluateEPAInvalidMessage);
-        }
-    };
-
-    vm.generateRatingStar = function () {
-        $timeout(function () {
-            $(".rating-loading").rating();
-        }, 1);
-    };
-
-    function checkStatus(epaInfo) {
-        if (epaInfo.IsAllowedToEdit) {
-            vm.hoveringLeave = hoveringLeave;
-        }
-    }
-
-    function hoveringLeave(kpiGroup, kpi) {
-        if (kpi.CurrentEvaluation.Rate > 0) {
-            if (kpiGroup.NumberKPIOptional === 0) {
-                var score = (kpi.Weight * kpi.CurrentEvaluation.Rate) / vm.maxStar;
-                score = utilitiesFactory.splitNumber(score, 4);
-                kpi.CurrentEvaluation.Score = score;
-            } else {
+            if (kpiGroup.HasKPIOptional) {
                 SelfEvalutorModel.spreadScoreForKPIGroupHasKPIOptional(kpiGroup, vm.maxStar);
             }
 
             SelfEvalutorModel.calculateScore(vm);
-        }
-    }
+        };
 
-    function getEPAInfoByEvaluator() {
-        EvaluatorEPAModel.getEPAInfoByEvaluator(vm.epaId, vm.evaluatorId).then(function () {
-            vm.epaInfo = EvaluatorEPAModel.epaInfo;
-            checkStatus(vm.epaInfo);
+        vm.cancel = function () {
+            historyFactory.back();
+        };
 
-            if (vm.epaInfo.RatingType.RatingTypeId === vm.ratingTypeEnum.Star
-                    || vm.epaInfo.RatingType.RatingTypeId === vm.ratingTypeEnum.HalfStar
-                    || (vm.epaInfo.RatingType.RatingTypeId === vm.ratingTypeEnum.Score
-                        && $.grep(vm.epaInfo.KPIGroups, function (e) { return e.NumberKPIOptional > 0; }).length > 0)) {
-                vm.hasRatingByStar = true;
-            }
-
-            vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
-            vm.epaInfo.Process.Self.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.Self.TotalScore);
-            vm.epaInfo.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.CurrentProcess.TotalScore);
-
-            vm.finalScoreOfSelf = vm.epaInfo.Process.Self.TotalScore + vm.epaInfo.DisciplineScore;
-            vm.finalScoreOfSelf = EvaluationModel.checkScore(vm.finalScoreOfSelf, 0, vm.epaInfo.Process.Self.MaxPerformanceScore);
-            vm.finalScore = vm.epaInfo.Process.CurrentProcess.TotalScore + vm.epaInfo.DisciplineScore;
-            vm.finalScore = EvaluationModel.checkScore(vm.finalScore, 0, vm.epaInfo.Process.CurrentProcess.MaxPerformanceScore);
-
-            if (vm.epaInfo.LastFinalScore.length > 0) {
-                vm.epaInfo.LastFinalScore = utilitiesFactory.parseFloat(vm.epaInfo.LastFinalScore);
+        vm.save = function (epaInfo) {
+            if (EvaluatorEPAModel.validateEPA(epaInfo)) {
+                EvaluatorEPAModel.updateEPAScoreByEvaluator(vm);
             } else {
-                vm.epaInfo.LastFinalScore = null;
+                SelfEvalutorModel.openPopupNotificationInvalidComment(vm, vm.evaluateEPAInvalidMessage);
             }
+        };
 
-            vm.gradeOfSelf = EvaluationModel.convertScoreToGrade(vm.finalScoreOfSelf, vm.standardGrades);
-            vm.epaInfo.Grade = EvaluationModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
-            vm.evaluatedDate = vm.epaInfo.Process.CurrentProcess.EvaluateDate ? vm.epaInfo.Process.CurrentProcess.EvaluateDate : null;
+        vm.generateRatingStar = function () {
+            $timeout(function () {
+                $(".rating-loading").rating();
+            }, 1);
+        };
 
-            EvaluatorEPAModel.getUserPermissionOnEvaluator().then(function () {
-                vm.permission = EvaluatorEPAModel.permission;
+        function checkStatus(epaInfo) {
+            if (epaInfo.IsAllowedToEdit) {
+                vm.hoveringLeave = hoveringLeave;
+            }
+        }
 
-                if (vm.permission !== vm.policyEnum.Host) {
-                    vm.epaInfo.IsAllowedToEdit = false;
-                    vm.hoveringLeave = null;
+        function hoveringLeave(kpiGroup, kpi) {
+            if (kpi.CurrentEvaluation.Rate > 0) {
+                if (kpiGroup.NumberKPIOptional === 0) {
+                    var score = (kpi.Weight * kpi.CurrentEvaluation.Rate) / vm.maxStar;
+                    score = utilitiesFactory.splitNumber(score, 4);
+                    kpi.CurrentEvaluation.Score = score;
+                } else {
+                    SelfEvalutorModel.spreadScoreForKPIGroupHasKPIOptional(kpiGroup, vm.maxStar);
                 }
+
+                SelfEvalutorModel.calculateScore(vm);
+            }
+        }
+
+        function getEPAInfoByEvaluator() {
+            EvaluatorEPAModel.getEPAInfoByEvaluator(vm.epaId, vm.evaluatorId).then(function () {
+                vm.epaInfo = EvaluatorEPAModel.epaInfo;
+                checkStatus(vm.epaInfo);
+
+                if (vm.epaInfo.RatingType.RatingTypeId === vm.ratingTypeEnum.Star
+                        || vm.epaInfo.RatingType.RatingTypeId === vm.ratingTypeEnum.HalfStar
+                        || (vm.epaInfo.RatingType.RatingTypeId === vm.ratingTypeEnum.Score
+                            && $.grep(vm.epaInfo.KPIGroups, function (e) { return e.NumberKPIOptional > 0; }).length > 0)) {
+                    vm.hasRatingByStar = true;
+                }
+
+                vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
+                vm.epaInfo.Process.Self.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.Self.TotalScore);
+                vm.epaInfo.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.CurrentProcess.TotalScore);
+
+                vm.finalScoreOfSelf = vm.epaInfo.Process.Self.TotalScore + vm.epaInfo.DisciplineScore;
+                vm.finalScoreOfSelf = EvaluationModel.checkScore(vm.finalScoreOfSelf, 0, vm.epaInfo.Process.Self.MaxPerformanceScore);
+                vm.finalScore = vm.epaInfo.Process.CurrentProcess.TotalScore + vm.epaInfo.DisciplineScore;
+                vm.finalScore = EvaluationModel.checkScore(vm.finalScore, 0, vm.epaInfo.Process.CurrentProcess.MaxPerformanceScore);
+
+                if (vm.epaInfo.LastFinalScore.length > 0) {
+                    vm.epaInfo.LastFinalScore = utilitiesFactory.parseFloat(vm.epaInfo.LastFinalScore);
+                } else {
+                    vm.epaInfo.LastFinalScore = null;
+                }
+
+                vm.gradeOfSelf = EvaluationModel.convertScoreToGrade(vm.finalScoreOfSelf, vm.standardGrades);
+                vm.epaInfo.Grade = EvaluationModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
+                vm.evaluatedDate = vm.epaInfo.Process.CurrentProcess.EvaluateDate ? vm.epaInfo.Process.CurrentProcess.EvaluateDate : null;
+
+                EvaluatorEPAModel.getUserPermissionOnEvaluator().then(function () {
+                    vm.permission = EvaluatorEPAModel.permission;
+
+                    if (vm.permission !== vm.policyEnum.Host) {
+                        vm.epaInfo.IsAllowedToEdit = false;
+                        vm.hoveringLeave = null;
+                    }
+                });
+
+                lockScreenService.stop();
+            });
+        }
+
+        function initialize() {
+            lockScreenService.start();
+
+            $translate('ScoreInputValid').then(function (message) {
+                vm.scoreInputValidMessage = message;
             });
 
-            lockScreenService.stop();
-        });
+            $translate('EvaluateEPAInvalid').then(function (message) {
+                vm.evaluateEPAInvalidMessage = message;
+            });
+
+            CommonModel.getStandardGrade().then(function () {
+                vm.standardGrades = CommonModel.standardGrades;
+
+                getEPAInfoByEvaluator();
+            });
+        }
+
+        initialize();
     }
-
-    function initialize() {
-        lockScreenService.start();
-
-        $translate('ScoreInputValid').then(function (message) {
-            vm.scoreInputValidMessage = message;
-        });
-
-        $translate('EvaluateEPAInvalid').then(function (message) {
-            vm.evaluateEPAInvalidMessage = message;
-        });
-
-        CommonModel.getStandardGrade().then(function () {
-            vm.standardGrades = CommonModel.standardGrades;
-
-            getEPAInfoByEvaluator();
-        });
-    }
-
-    initialize();
-}]);
+})(angular);

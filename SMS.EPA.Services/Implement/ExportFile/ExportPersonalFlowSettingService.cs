@@ -10,33 +10,47 @@
     public class ExportPersonalFlowSettingService : IExportPersonalFlowSettingService
     {
         private const string TemplatePath = @"~\ExcelTemplates\PersonalFlowSettingTemplate.xls";
-
         private const int RowStartHeader = 2;
         private const int RowStartBody = 3;
         private const int TotalColumns = 9;
 
-        public void Export(
-            IEnumerable<PersonalFlowModel> flowSettings,
-            string flowTemplateName)
+        private readonly IPersonalFlowService personalFlowService;
+
+        public ExportPersonalFlowSettingService()
+            : this(null)
         {
-            string fileName = "Personal_Flow_Setting";
-            string reportTitle = string.Format("{0} - Personal Flow Setting", flowTemplateName),
-                templatePath = HttpContext.Current.Server.MapPath(TemplatePath);
+        }
 
-            var writer = new ExcelTemplateWriter(templatePath, "Personal_Flow_Setting", "Personal Flow");
+        public ExportPersonalFlowSettingService(IPersonalFlowService personalFlowService)
+        {
+            this.personalFlowService = personalFlowService ?? new PersonalFlowService();
+        }
 
-            // Fill report title.
-            writer.WriteRow(0, new object[] { reportTitle });
-            writer.CopyRows(1, 1);
+        public void Export(int flowTemplateId, string flowTemplateName)
+        {
+            IEnumerable<PersonalFlowModel> flowSettings = personalFlowService.GetPersonalFlowByFlowTemplateId(flowTemplateId);
 
-            // Fill report header.
-            writer.CopyRows(RowStartHeader, 1);
+            if (flowSettings.Any())
+            {
+                string fileName = "Personal_Flow_Setting";
+                string reportTitle = string.Format("{0} - Personal Flow Setting", flowTemplateName),
+                    templatePath = HttpContext.Current.Server.MapPath(TemplatePath);
 
-            FillContentRow(flowSettings, ref writer);
-            writer.SyncColumnsWidth(TotalColumns);
-            writer.CreateFreezePane(0, RowStartBody);
+                var writer = new ExcelTemplateWriter(templatePath, "Personal_Flow_Setting", "Personal Flow");
 
-            writer.Render();
+                // Fill report title.
+                writer.WriteRow(0, new object[] { reportTitle });
+                writer.CopyRows(1, 1);
+
+                // Fill report header.
+                writer.CopyRows(RowStartHeader, 1);
+
+                FillContentRow(flowSettings, ref writer);
+                writer.SyncColumnsWidth(TotalColumns);
+                writer.CreateFreezePane(0, RowStartBody);
+
+                writer.Render();
+            }
         }
 
         private void FillContentRow(

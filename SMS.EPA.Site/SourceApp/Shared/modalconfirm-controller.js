@@ -1,18 +1,22 @@
-﻿/*global appModule*/
-'use strict';
+﻿(function (angular) {
+    'use strict';
+    /* jshint latedef:nofunc */
 
-appModule.controller("ModalConfirmController", ['$modalInstance', 'name', 'action',
- function ($modalInstance, name, action) {
-    var vm = this;
+    angular.module('appModule').controller('ModalConfirmController', modalConfirmController);
+    modalConfirmController.$inject = ['$modalInstance', 'name', 'action'];
 
-    vm.name = name;
-    vm.action = action;
+    function modalConfirmController($modalInstance, name, action) {
+        var vm = this;
 
-    vm.ok = function () {
-        $modalInstance.close();
-    };
+        vm.name = name;
+        vm.action = action;
 
-    vm.cancel = function () {
-        $modalInstance.dismiss("cancel");
-    };
- }]);
+        vm.ok = function () {
+            $modalInstance.close();
+        };
+
+        vm.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+    }
+})(angular);

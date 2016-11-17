@@ -1,10 +1,9 @@
 ﻿namespace SMS.EPA.Services.Interfaces
 {
-    using System.Collections.Generic;
-    using SMS.EPA.Model;
+    using SMS.EPA.Criteria;
 
     public interface IExportEmployeeFlowSettingService
     {
-        void Export(IEnumerable<PeriodEmployeeSettingModel> employeeFlowSettings, string periodName);
+        void Export(GetPeriodEmployeeSettingCriteria criteria);
     }
 }

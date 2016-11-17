@@ -9,7 +9,6 @@
     using SMS.EPA.Criteria;
     using SMS.EPA.Criteria.Report;
     using SMS.EPA.Model;
-    using SMS.EPA.Model.Enitites;
     using SMS.EPA.Resources;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
@@ -21,9 +20,6 @@
         private const string DisciplineSummaryByPeriodTemplatePath = @"~\ExcelTemplates\DisciplineSummaryByPeriodReport.xls";
         private const string UpdateFinalScoreTemplatePath = @"~\ExcelTemplates\UpdateFinalScore.xls";
 
-        private readonly IEmployeeService employeeService;
-        private readonly IPeriodService periodService;
-        private readonly IPersonalFlowService personalFlowService;
         private readonly IReportService reportService;
         private readonly IEPADetailReportService epaDetailReportService;
         private readonly IMonthlyEPADetailReportService monthlyEPADetailReportService;
@@ -35,14 +31,11 @@
         private ISessionService sessionService;
 
         public ExportReportController()
-            : this(null, null, null, null, null, null, null, null, null, null, null, null)
+            : this(null, null, null, null, null, null, null, null, null)
         {
         }
 
         public ExportReportController(
-            IEmployeeService employeeService,
-            IPeriodService periodService,
-            IPersonalFlowService personalFlowService,
             IReportService reportService,
             IEPADetailReportService epaDetailReportService,
             IMonthlyEPADetailReportService monthlyEPADetailReportService,
@@ -53,9 +46,6 @@
             IExportPersonalFlowSettingService exportPersonalFlowSettingService,
             ISessionService sessionService)
         {
-            this.employeeService = employeeService ?? new EmployeeService();
-            this.periodService = periodService ?? new PeriodService();
-            this.personalFlowService = personalFlowService ?? new PersonalFlowService();
             this.reportService = reportService ?? new ReportService();
             this.epaDetailReportService = epaDetailReportService ?? new EPADetailReportService();
             this.monthlyEPADetailReportService = monthlyEPADetailReportService ?? new MonthlyEPADetailReportService();
@@ -71,12 +61,7 @@
         {
             if (criteria != null)
             {
-                IEnumerable<PeriodEmployeeSettingModel> employeeFlowSettings = periodService.GetPeriodEmployeeSettingById(criteria);
-
-                if (employeeFlowSettings != null && employeeFlowSettings.Any())
-                {
-                    exportEmployeeFlowSettingService.Export(employeeFlowSettings, criteria.PeriodName);
-                }
+                exportEmployeeFlowSettingService.Export(criteria);
             }
 
             return new EmptyResult();
@@ -215,12 +200,7 @@
         {
             if (criteria != null)
             {
-                IEnumerable<Employee> employees = employeeService.GetAllEmployee(criteria);
-
-                if (employees != null && employees.Any())
-                {
-                    exportEmployeeInfoService.Export(employees);
-                }
+                exportEmployeeInfoService.Export(criteria);
             }
 
             return new EmptyResult();
@@ -230,12 +210,7 @@
         {
             if (flowTemplateId > 0 && !string.IsNullOrEmpty(flowTemplateName))
             {
-                IEnumerable<PersonalFlowModel> flowSettings = personalFlowService.GetPersonalFlowByFlowTemplateId(flowTemplateId);
-
-                if (flowSettings != null && flowSettings.Any())
-                {
-                    exportPersonalFlowSettingService.Export(flowSettings, flowTemplateName);
-                }
+                exportPersonalFlowSettingService.Export(flowTemplateId, flowTemplateName);
             }
 
             return new EmptyResult();

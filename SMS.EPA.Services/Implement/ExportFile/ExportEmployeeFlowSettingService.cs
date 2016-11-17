@@ -5,6 +5,7 @@
     using System.Web;
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Utilities;
+    using SMS.EPA.Criteria;
     using SMS.EPA.Model;
     using SMS.EPA.Resources;
     using SMS.EPA.Services.Interfaces;
@@ -12,34 +13,48 @@
     public class ExportEmployeeFlowSettingService : IExportEmployeeFlowSettingService
     {
         private const string TemplatePath = @"~\ExcelTemplates\EmployeeFlowSettingTemplate.xls";
-
         private const int RowStartHeader = 2;
         private const int RowStartBody = 3;
         private const int TotalColumns = 13;
 
-        public void Export(
-            IEnumerable<PeriodEmployeeSettingModel> employeeFlowSettings,
-            string periodName)
+        private readonly IPeriodService periodService;
+
+        public ExportEmployeeFlowSettingService()
+            : this(null)
         {
-            string fileName = string.Format(Lang.EmployeeFlowSettingReportName, periodName);
-            fileName = fileName.Replace(" ", "_");
-            string reportTitle = string.Format(Lang.EmployeeFlowSettingReportTitle, periodName),
-                templatePath = HttpContext.Current.Server.MapPath(TemplatePath);
+        }
 
-            var writer = new ExcelTemplateWriter(templatePath, fileName, Lang.EmployeeFlowSettingReportSheet);
+        public ExportEmployeeFlowSettingService(IPeriodService periodService)
+        {
+            this.periodService = periodService ?? new PeriodService();
+        }
 
-            // Fill report title.
-            writer.WriteRow(0, new object[] { reportTitle });
-            writer.CopyRows(1, 1);
+        public void Export(GetPeriodEmployeeSettingCriteria criteria)
+        {
+            IEnumerable<PeriodEmployeeSettingModel> employeeFlowSettings = periodService.GetPeriodEmployeeSettingById(criteria);
 
-            // Fill report header.
-            writer.CopyRows(RowStartHeader, 1);
+            if (employeeFlowSettings.Any())
+            {
+                string fileName = string.Format(Lang.EmployeeFlowSettingReportName, criteria.PeriodName);
+                fileName = fileName.Replace(" ", "_");
+                string reportTitle = string.Format(Lang.EmployeeFlowSettingReportTitle, criteria.PeriodName),
+                    templatePath = HttpContext.Current.Server.MapPath(TemplatePath);
 
-            FillContentRow(employeeFlowSettings, ref writer);
-            writer.SyncColumnsWidth(TotalColumns);
-            writer.CreateFreezePane(0, RowStartBody);
+                var writer = new ExcelTemplateWriter(templatePath, fileName, Lang.EmployeeFlowSettingReportSheet);
 
-            writer.Render();
+                // Fill report title.
+                writer.WriteRow(0, new object[] { reportTitle });
+                writer.CopyRows(1, 1);
+
+                // Fill report header.
+                writer.CopyRows(RowStartHeader, 1);
+
+                FillContentRow(employeeFlowSettings, ref writer);
+                writer.SyncColumnsWidth(TotalColumns);
+                writer.CreateFreezePane(0, RowStartBody);
+
+                writer.Render();
+            }
         }
 
         private void FillContentRow(

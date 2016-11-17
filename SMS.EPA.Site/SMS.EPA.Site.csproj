@@ -695,9 +695,11 @@
     <Content Include="SourceApp\routes.js">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Content>
-    <Content Include="SourceApp\Shared\epa-filter.js" />
     <Content Include="SourceApp\Shared\Factories\history-factory.js" />
     <Content Include="SourceApp\Shared\Factories\lockScreen-factory.js" />
+    <Content Include="SourceApp\Shared\Filters\customDate-filter.js" />
+    <Content Include="SourceApp\Shared\Filters\customNumber-filter.js" />
+    <Content Include="SourceApp\Shared\Filters\range-filter.js" />
     <Content Include="SourceApp\Shared\modalconfirm-controller.js" />
     <Content Include="SourceApp\Shared\Directives\epa-numberOnly-directives.js" />
     <Content Include="SourceApp\Shared\Factories\notification-factory.js" />

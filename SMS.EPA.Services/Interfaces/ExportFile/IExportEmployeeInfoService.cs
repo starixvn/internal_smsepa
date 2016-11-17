@@ -1,10 +1,9 @@
 ﻿namespace SMS.EPA.Services.Interfaces
 {
-    using System.Collections.Generic;
-    using SMS.EPA.Model.Enitites;
+    using SMS.EPA.Criteria;
 
     public interface IExportEmployeeInfoService
     {
-        void Export(IEnumerable<Employee> employees);
+        void Export(GetAllEmployeeCriteria criteria);
     }
 }
