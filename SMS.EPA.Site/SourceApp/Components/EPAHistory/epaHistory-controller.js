@@ -1,6 +1,7 @@
 ﻿(function (angular) {
     'use strict';
     /* jshint latedef:nofunc */
+    /* jshint validthis:true */
 
     angular.module('epaHistoryModule').controller('EPAHistoryController', epaHistoryController);
     epaHistoryController.$inject = ['$routeParams', 'EPAHistoryModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl'];

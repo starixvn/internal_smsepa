@@ -1,6 +1,7 @@
 ﻿(function (angular) {
     'use strict';
     /* jshint latedef:nofunc */
+    /* jshint validthis:true */
 
     angular.module('periodModule').controller('UpdateEmployeeSettingPeriodController', updateEmployeeSettingPeriodController);
     updateEmployeeSettingPeriodController.$inject = ['$scope', '$modalInstance', 'PeriodModel', 'CommonModel',
@@ -14,7 +15,7 @@
         vm.period = period;
         vm.selectedEmployees = selectedEmployees;
         vm.singleMode = vm.selectedEmployees.length === 1 ? true : false;
-        vm.isEditOnEPAHasMonthly = vm.selectedEmployees[0].Employee.HasMonthlyEPA && vm.period.TargetType.TargetTypeId === utilitiesFactory.targetType.SemiAnnual;
+        vm.isEditOnEPAHasMonthly = vm.selectedEmployees[0].Employee.HasMonthlyEPA && vm.period.TargetType.IsSemiAnnual;
 
         vm.permission = permission;
         vm.periodDateFormat = PeriodModel.periodDateFormat;

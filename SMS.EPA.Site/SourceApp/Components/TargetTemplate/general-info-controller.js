@@ -1,6 +1,7 @@
 ﻿(function (angular) {
     'use strict';
     /* jshint latedef:nofunc */
+    /* jshint validthis:true */
 
     angular.module('targetTemplateModule').controller('TargetTemplateGeneralInfoController', generalInfoController);
     generalInfoController.$inject = ['$scope', 'TargetTemplateModel', 'CommonModel'];

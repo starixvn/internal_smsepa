@@ -1,6 +1,7 @@
 ﻿(function (angular) {
     'use strict';
     /* jshint latedef:nofunc */
+    /* jshint validthis:true */
 
     angular.module('disciplineModule').controller('AttendanceDetailController', attendanceDetailController);
     attendanceDetailController.$inject = ['$scope', '$routeParams', 'DisciplineSummaryModel', 'CommonModel',

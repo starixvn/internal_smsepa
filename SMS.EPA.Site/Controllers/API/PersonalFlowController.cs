@@ -77,13 +77,18 @@
 
         [HttpGet]
         [ApiAuthorize(FunctionKey = EPAFunctionKey.FlowManagement, Policy = Policy.Read)]
-        public EmployeeFlowSettingModel GetEmployeeFlowSetting(int flowTemplateId, int? departmentId = null, int? groupId = null)
+        public EmployeeFlowSettingModel GetEmployeeFlowSetting(
+            int flowTemplateId,
+            int? departmentId = null,
+            int? groupId = null,
+            bool? isMonthlyPeriod = null)
         {
             var criteria = new GetEmployeeFlowSettingCriteria()
             {
                 FlowTemplateId = flowTemplateId,
                 DepartmentId = departmentId,
-                GroupId = groupId
+                GroupId = groupId,
+                IsMonthlyPeriod = isMonthlyPeriod
             };
 
             EmployeeFlowSettingModel result = personalFlowService.GetEmployeeFlowSetting(criteria);

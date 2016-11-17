@@ -17,10 +17,16 @@
 
             var columnHeaders = [
                 { HeaderText: "#", Width: 40, Name: "No", HeaderAlign: "center", CellAlign: "center" },
-                { HeaderText: "Code", Width: 60, Name: "Code", HeaderAlign: "center", CellAlign: "center", Sort: true, SortDirection: sortCode, SortType: 'string' },
+                {
+                    HeaderText: "Code", Width: 60, Name: "Code", HeaderAlign: "center", CellAlign: "center",
+                    Sort: true, SortDirection: sortCode, SortType: 'string'
+                },
                 { HeaderText: "Full Name", Width: 160, Name: "FullName", HeaderAlign: "center", CellAlign: "left", CanResize: true },
                 { HeaderText: "Nick Name", Width: 120, Name: "NickName", HeaderAlign: "center", CellAlign: "center" },
-                { HeaderText: "Section", Width: 150, Name: "Section", HeaderAlign: "center", CellAlign: "left", Sort: true, SortDirection: sortSection, SortType: 'string' },
+                {
+                    HeaderText: "Section", Width: 150, Name: "Section", HeaderAlign: "center", CellAlign: "left",
+                    Sort: true, SortDirection: sortSection, SortType: 'string'
+                },
                 { HeaderText: "Job Title", Width: 180, Name: "JobTitle", HeaderAlign: "center", CellAlign: "left", CanResize: true },
                 { HeaderText: "Group Date", Width: 80, Name: "GroupDate", HeaderAlign: "center", CellAlign: "center", FormatDateTime: "DD MMM, YYYY" },
                 { HeaderText: "Self Score", Width: 80, Name: "SelfScore", HeaderAlign: "center", CellAlign: "center" },

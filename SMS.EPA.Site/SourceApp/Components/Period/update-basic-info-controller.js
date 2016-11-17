@@ -1,6 +1,7 @@
 ﻿(function (angular) {
     'use strict';
     /* jshint latedef:nofunc */
+    /* jshint validthis:true */
 
     angular.module('periodModule').controller('UpdateBasicInformationPeriodController', updateBasicInformationPeriodController);
     updateBasicInformationPeriodController.$inject = ['$scope', 'PeriodModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService'];

@@ -10,6 +10,8 @@
 
         public int? GroupId { get; set; }
 
+        public bool? IsMonthlyPeriod { get; set; }
+
         public override bool IsValid()
         {
             return FlowTemplateId > 0;

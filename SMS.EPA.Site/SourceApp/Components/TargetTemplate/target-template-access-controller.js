@@ -1,6 +1,7 @@
 ﻿(function (angular) {
     'use strict';
     /* jshint latedef:nofunc */
+    /* jshint validthis:true */
 
     angular.module('targetTemplateModule').controller('TargetTemplateController', targetTemplateController);
     targetTemplateController.$inject = ['TargetTemplateModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService'];

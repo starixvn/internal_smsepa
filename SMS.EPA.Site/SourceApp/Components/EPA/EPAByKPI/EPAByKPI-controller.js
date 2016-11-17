@@ -1,6 +1,7 @@
 ﻿(function (angular) {
     'use strict';
     /* jshint latedef:nofunc */
+    /* jshint validthis:true */
 
     angular.module('epaModule').controller('EPAByKPIController', epaByKPIController);
     epaByKPIController.$inject = ['$window', '$timeout', '$translate', 'EPAByKPIModel', 'EvaluationModel',

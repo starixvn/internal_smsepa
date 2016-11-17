@@ -1,6 +1,7 @@
 ﻿(function (angular) {
     'use strict';
     /* jshint latedef:nofunc */
+    /* jshint validthis:true */
 
     angular.module('flowMngModule').controller('CreateFlowTemplateController', createFlowTemplateController);
     createFlowTemplateController.$inject = ['$modalInstance', 'FlowTemplateModel', 'CommonModel', 'utilitiesFactory'];

@@ -1,6 +1,7 @@
 ﻿(function (angular) {
     'use strict';
     /* jshint latedef:nofunc */
+    /* jshint validthis:true */
 
     angular.module('targetEmployeeSettingModule').controller('TargetDepartmentSettingController', targetDepartmentSettingController);
     targetDepartmentSettingController.$inject = ['$scope', 'TargetEmployeeSettingModel', 'CommonModel', 'TargetTemplateModel',

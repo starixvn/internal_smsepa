@@ -1,6 +1,7 @@
 ﻿(function (angular) {
     'use strict';
     /* jshint latedef:nofunc */
+    /* jshint validthis:true */
 
     angular.module('departmentModule').controller('DepartmentController', departmentController);
     departmentController.$inject = ['DepartmentModel', 'utilitiesFactory', 'lockScreenService'];

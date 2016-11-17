@@ -1,12 +1,13 @@
 ﻿(function (angular) {
     'use strict';
     /* jshint latedef:nofunc */
+    /* jshint validthis:true */
 
-    angular.module('monthlyPeriodModule').controller('UpdateEmployeeSettingMonthlyPeriodController', updateEmployeeSettingMonthlyPeriodController);
-    updateEmployeeSettingMonthlyPeriodController.$inject = ['$scope', '$modalInstance', 'MonthlyPeriodModel', 'CommonModel',
+    angular.module('monthlyPeriodModule').controller('UpdateEmployeeSettingMonthlyPeriodController', updateEmployeeSettingController);
+    updateEmployeeSettingController.$inject = ['$scope', '$modalInstance', 'MonthlyPeriodModel', 'CommonModel',
         'utilitiesFactory', 'period', 'selectedEmployees', 'permission'];
 
-    function updateEmployeeSettingMonthlyPeriodController($scope, $modalInstance, MonthlyPeriodModel, CommonModel,
+    function updateEmployeeSettingController($scope, $modalInstance, MonthlyPeriodModel, CommonModel,
         utilitiesFactory, period, selectedEmployees, permission) {
         var vm = this,
             date = new Date();
@@ -618,7 +619,11 @@
             if (vm.singleMode) {
                 if (MonthlyPeriodModel.validateEmployeeSetting(vm.employeeOptions)) {
                     if (checkChangeEmployeeSetting(vm.employeeOptions, vm.selectedEmployees[0])) {
-                        employeeAssignmentSetting = createAssignmentSettings(vm.employeeOptions, vm.period.PeriodId, vm.selectedEmployees, vm.selectedEmployeeIds);
+                        employeeAssignmentSetting = createAssignmentSettings(
+                            vm.employeeOptions,
+                            vm.period.PeriodId,
+                            vm.selectedEmployees,
+                            vm.selectedEmployeeIds);
 
                         MonthlyPeriodModel.updateEmployeeSettingOfPeriod(employeeAssignmentSetting).then(function () {
                             $modalInstance.close();

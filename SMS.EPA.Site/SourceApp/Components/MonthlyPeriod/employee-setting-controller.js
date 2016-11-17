@@ -1,6 +1,7 @@
 ﻿(function (angular) {
     'use strict';
     /* jshint latedef:nofunc */
+    /* jshint validthis:true */
 
     angular.module('monthlyPeriodModule').controller('EmployeeSettingMonthlyPeriodController', employeeSettingMonthlyPeriodController);
     employeeSettingMonthlyPeriodController.$inject = ['$scope', '$routeParams', 'MonthlyPeriodModel', 'CommonModel',

@@ -1,6 +1,7 @@
 ﻿(function (angular) {
     'use strict';
     /* jshint latedef:nofunc */
+    /* jshint validthis:true */
 
     angular.module('epaModule').controller('UpdateFinalScoreController', updateFinalScoreController);
     updateFinalScoreController.$inject = ['$scope', 'UpdateFinalScoreModel', 'CommonModel', 'notificationFactory', 'utilitiesFactory', 'lockScreenService'];

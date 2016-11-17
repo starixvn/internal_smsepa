@@ -1,6 +1,7 @@
 ﻿(function (angular) {
     'use strict';
     /* jshint latedef:nofunc */
+    /* jshint validthis:true */
 
     angular.module('monthlyPeriodModule').controller('MonthlyPeriodController', monthlyPeriodController);
     monthlyPeriodController.$inject = ['MonthlyPeriodModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl'];

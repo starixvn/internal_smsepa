@@ -3,9 +3,9 @@
     /* jshint latedef:nofunc */
 
     angular.module('flowMngModule').factory('DeptFlowModel', deptFlowModel);
-    deptFlowModel.$inject = ['$modal', 'FlowSettingModel', 'deptFlowFactory', 'notificationFactory', 'errorFactory'];
+    deptFlowModel.$inject = ['$modal', 'FlowSettingModel', 'deptFlowFactory', 'notificationFactory', 'errorFactory', 'baseUrl'];
 
-    function deptFlowModel($modal, FlowSettingModel, deptFlowFactory, notificationFactory, errorFactory) {
+    function deptFlowModel($modal, FlowSettingModel, deptFlowFactory, notificationFactory, errorFactory, baseUrl) {
         var flowModel = {};
 
         flowModel.selfs = angular.copy(FlowSettingModel.selfs);
@@ -30,7 +30,11 @@
                 if (flows.length > 0) {
                     FlowSettingModel.successGetFlow(flows, flowModel);
                 } else {
-                    flowModel.selfs.employees = [{ NickName: 'Self', EmployeeId: -1 }];
+                    flowModel.selfs.employees = [{
+                        EmployeeId: -1,
+                        NickName: 'Self',
+                        Avatar: baseUrl + 'avatars/avatar.jpg'
+                    }];
                 }
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);

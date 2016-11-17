@@ -12,7 +12,6 @@
                 standardGrades: '='
             },
             controller: function () {
-                var vm = this;
             },
             controllerAs: 'performanceGradeCtrl',
             bindToController: true,

@@ -1,6 +1,7 @@
 ﻿(function (angular) {
     'use strict';
     /* jshint latedef:nofunc */
+    /* jshint validthis:true */
 
     angular.module('disciplineModule').controller('OtherViolationsController', otherViolationsController);
     otherViolationsController.$inject = ['$modalInstance', 'DisciplineSummaryModel', 'utilitiesFactory', 'employee', 'startDate', 'endDate'];

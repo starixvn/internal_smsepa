@@ -1,11 +1,12 @@
 ﻿(function (angular) {
     'use strict';
     /* jshint latedef:nofunc */
+    /* jshint validthis:true */
 
-    angular.module('monthlyPeriodModule').controller('UpdateBasicInfoMonthlyPeriodController', updateBasicInfoMonthlyPeriodController);
-    updateBasicInfoMonthlyPeriodController.$inject = ['$scope', 'MonthlyPeriodModel'];
+    angular.module('monthlyPeriodModule').controller('UpdateBasicInfoMonthlyPeriodController', updateBasicInfoController);
+    updateBasicInfoController.$inject = ['$scope', 'MonthlyPeriodModel'];
 
-    function updateBasicInfoMonthlyPeriodController($scope, MonthlyPeriodModel) {
+    function updateBasicInfoController($scope, MonthlyPeriodModel) {
         var vm = this;
 
         vm.period = {};

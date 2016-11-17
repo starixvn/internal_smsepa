@@ -1,6 +1,7 @@
 ﻿(function (angular) {
     'use strict';
     /* jshint latedef:nofunc */
+    /* jshint validthis:true */
 
     angular.module('epaModule').controller('ConvertEPAController', convertEPAController);
     convertEPAController.$inject = ['evaluationFactory', 'notificationFactory', 'errorFactory'];

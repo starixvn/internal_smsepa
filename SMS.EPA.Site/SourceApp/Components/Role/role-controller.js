@@ -1,6 +1,7 @@
 ﻿(function (angular) {
     'use strict';
     /* jshint latedef:nofunc */
+    /* jshint validthis:true */
 
     angular.module('roleModule').controller('RoleController', roleController);
     roleController.$inject = ['RoleModel', 'CommonModel', 'lockScreenService'];

@@ -1,6 +1,7 @@
 ﻿(function (angular) {
     'use strict';
     /* jshint latedef:nofunc */
+    /* jshint validthis:true */
 
     angular.module('targetTemplateModule').controller('KPIListController', kpiListController);
     kpiListController.$inject = ['$scope', '$translate', 'TargetTemplateModel', 'utilitiesFactory'];
@@ -21,7 +22,7 @@
                 vm.kpiList = TargetTemplateModel.kpiList;
                 TargetTemplateModel.checkSelectedAllKPI(vm, vm.kpiList);
             });
-        };
+        }
 
         vm.addKPIGroup = function () {
             TargetTemplateModel.openPopupAddKPIGroup(vm, vm.targetTemplateId, vm.maxWeight).then(function () {
@@ -187,7 +188,7 @@
             });
 
             return utilitiesFactory.parseFloat(totalWeight);
-        };
+        }
 
         vm.save = function (targetTemplate) {
             var totalWeight = getTotalWeight(vm.kpiList);

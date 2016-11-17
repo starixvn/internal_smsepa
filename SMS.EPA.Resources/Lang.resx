@@ -1389,4 +1389,7 @@
   <data name="ErrorMessage" xml:space="preserve">
     <value>Server cannot handle your request. Please try again later!</value>
   </data>
+  <data name="ReviewerPhaseRequired" xml:space="preserve">
+    <value>Please setting flow for Reviewer!</value>
+  </data>
 </root>

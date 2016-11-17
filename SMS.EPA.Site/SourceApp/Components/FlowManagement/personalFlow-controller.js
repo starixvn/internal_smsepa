@@ -1,13 +1,14 @@
 ﻿(function (angular) {
     'use strict';
     /* jshint latedef:nofunc */
+    /* jshint validthis:true */
 
     angular.module('flowMngModule').controller('PersonalFlowController', personalFlowController);
     personalFlowController.$inject = ['$scope', '$routeParams', 'FlowSettingModel', 'PersonalFlowModel', 'CommonModel',
-        'utilitiesFactory', 'lockScreenService'];
+        'utilitiesFactory', 'lockScreenService', 'baseUrl'];
 
     function personalFlowController($scope, $routeParams, FlowSettingModel, PersonalFlowModel, CommonModel,
-        utilitiesFactory, lockScreenService) {
+        utilitiesFactory, lockScreenService, baseUrl) {
         var vm = this;
 
         vm.FlowTemplateId = parseInt($routeParams.id);
@@ -19,6 +20,7 @@
         vm.humanResources = PersonalFlowModel.humanResources;
 
         vm.employees = [];
+        vm.employeeIds = '';
         vm.showListEmployee = true;
         vm.department = null;
         vm.showDeleteButton = false;
@@ -43,8 +45,7 @@
                 CommonModel.getEmployeeByDepartmentId(vm.departmentId).then(function () {
                     vm.employees = CommonModel.employeesInDepartment;
                 });
-            }
-            else if (vm.departmentId < 0) {
+            } else if (vm.departmentId < 0) {
                 CommonModel.getEmployeeByGroupId(Math.abs(vm.departmentId)).then(function () {
                     vm.employees = CommonModel.employeesInGroup;
                 });
@@ -52,23 +53,24 @@
         };
 
         vm.onSelectedDepartment = function () {
-            if (vm.department.DepartmentId > 0) {
-                PersonalFlowModel.getEmployeeFlowSetting(vm.FlowTemplateId, vm.department.DepartmentId, null).then(function () {
-                    vm.defaultFlowSettings = PersonalFlowModel.defaultFlowSettings;
-                    vm.personalFlowSettings = PersonalFlowModel.personalFlowSettings;
-                });
-            }
-            else if (vm.department.DepartmentId < 0) {
-                PersonalFlowModel.getEmployeeFlowSetting(vm.FlowTemplateId, null, Math.abs(vm.department.DepartmentId)).then(function () {
-                    vm.defaultFlowSettings = PersonalFlowModel.defaultFlowSettings;
-                    vm.personalFlowSettings = PersonalFlowModel.personalFlowSettings;
-                });
-            }
-
             FlowSettingModel.resetCurrentFlow(vm);
             vm.defaultSelect = null;
             vm.personalSelect = null;
             vm.showDeleteButton = false;
+
+            var isMonthlyPeriod = vm.flowTemplate.IsMonthly ? true : null;
+
+            if (vm.department.DepartmentId > 0) {
+                PersonalFlowModel.getEmployeeFlowSetting(vm.FlowTemplateId, vm.department.DepartmentId, null, isMonthlyPeriod).then(function () {
+                    vm.defaultFlowSettings = PersonalFlowModel.defaultFlowSettings;
+                    vm.personalFlowSettings = PersonalFlowModel.personalFlowSettings;
+                });
+            } else if (vm.department.DepartmentId < 0) {
+                PersonalFlowModel.getEmployeeFlowSetting(vm.FlowTemplateId, null, Math.abs(vm.department.DepartmentId), isMonthlyPeriod).then(function () {
+                    vm.defaultFlowSettings = PersonalFlowModel.defaultFlowSettings;
+                    vm.personalFlowSettings = PersonalFlowModel.personalFlowSettings;
+                });
+            }
         };
 
         vm.moveItem = function (item, from, to) {
@@ -97,28 +99,41 @@
         }
 
         vm.getPersonalFlowById = function (item) {
-            var employeeId = parseInt(item[0]);
-            vm.employeeId = employeeId;
+            if (item && item.length > 0) {
+                if (item.length === 1) {
+                    var employeeId = parseInt(item[0]);
+                    vm.employeeId = employeeId;
+                    vm.employeeIds = employeeId.toString();
 
-            PersonalFlowModel.getPersonalFlowById(employeeId, vm.FlowTemplateId).then(function () {
-                vm.selfs = PersonalFlowModel.selfs;
-                vm.evaluators = PersonalFlowModel.evaluators;
-                vm.reviewers = PersonalFlowModel.reviewers;
-                vm.managements = PersonalFlowModel.managements;
-                vm.humanResources = PersonalFlowModel.humanResources;
+                    PersonalFlowModel.getPersonalFlowById(employeeId, vm.FlowTemplateId).then(function () {
+                        vm.selfs = PersonalFlowModel.selfs;
+                        vm.evaluators = PersonalFlowModel.evaluators;
+                        vm.reviewers = PersonalFlowModel.reviewers;
+                        vm.managements = PersonalFlowModel.managements;
+                        vm.humanResources = PersonalFlowModel.humanResources;
 
-                if (vm.selfs.employees.length > 0) {
-                    vm.showDeleteButton = true;
-                    vm.employeeSelected = vm.selfs.employees[0];
-                } else {
-                    CommonModel.getEmployeeById(employeeId).then(function () {
-                        vm.selfs.employees.push(CommonModel.employee);
-                        vm.employeeSelected = CommonModel.employee;
+                        if (vm.selfs.employees.length > 0) {
+                            vm.showDeleteButton = true;
+                            vm.employeeSelected = vm.selfs.employees[0];
+                        } else {
+                            CommonModel.getEmployeeById(employeeId).then(function () {
+                                vm.selfs.employees.push(CommonModel.employee);
+                                vm.employeeSelected = CommonModel.employee;
+                            });
+
+                            vm.showDeleteButton = false;
+                        }
                     });
-
-                    vm.showDeleteButton = false;
+                } else {
+                    FlowSettingModel.resetCurrentFlow(vm);
+                    vm.selfs.employees = [{
+                        EmployeeId: -1,
+                        NickName: 'Self',
+                        Avatar: baseUrl + 'avatars/avatar.jpg'
+                    }];
+                    vm.employeeIds = item.join(',');
                 }
-            });
+            }
         };
 
         // Sort item in list.
@@ -148,7 +163,7 @@
             getEmployeeById(val.sender, val.id, val.to);
         });
 
-        $scope.$watch(function () { return $scope.updateCtrl.dataTab.personal && $scope.updateCtrl.flowTemplate; },
+        $scope.$watch(function () { return $scope.updateCtrl.flowTemplate && $scope.updateCtrl.dataTab.personal; },
         function (newVal) {
             if (newVal && vm.isFirstLoad) {
                 lockScreenService.start();

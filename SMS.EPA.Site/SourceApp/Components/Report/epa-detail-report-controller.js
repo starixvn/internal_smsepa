@@ -1,6 +1,7 @@
 ﻿(function (angular) {
     'use strict';
     /* jshint latedef:nofunc */
+    /* jshint validthis:true */
 
     angular.module('reportModule').controller('EPADetailReportController', epaDetailReportController);
     epaDetailReportController.$inject = ['$scope', '$routeParams', 'ReportModel', 'CommonModel', 'utilitiesFactory', 'lockScreenService'];

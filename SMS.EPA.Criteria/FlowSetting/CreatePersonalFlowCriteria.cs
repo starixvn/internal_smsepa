@@ -14,13 +14,7 @@
         private const string ProcessXmlTemplate = "<Process ProcessId='{0}' Duration='{1}' HasSendMail='{2}' RemindDay='{3}'>{4}</Process>";
         private const string EvaluatorXmlTemplate = "<Evaluator EvaluatorId='{0}' Priority='{1}'></Evaluator>";
 
-        public int EmployeeId
-        {
-            get
-            {
-                return Selfs.Employees.First().EmployeeId;
-            }
-        }
+        public string EmployeeIds { get; set; }
 
         public int FlowTemplateId { get; set; }
 
@@ -121,7 +115,7 @@
 
         public override bool IsValid()
         {
-            return EmployeeId > 0 && FlowTemplateId > 0 && ModifiedBy > 0;
+            return !string.IsNullOrWhiteSpace(EmployeeIds) && FlowTemplateId > 0 && ModifiedBy > 0;
         }
 
         public override string GetSettingKey()

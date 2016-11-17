@@ -97,8 +97,7 @@
                                                 <th class="col-sm-2 text-center" data-translate="SelfEvaluator"></th>
                                                 <th class="col-sm-2 text-center" data-translate="Evaluator"></th>
                                                 <th class="col-sm-2 text-center" data-translate="Reviewer"></th>
-                                                <th class="col-sm-2 text-center" data-translate="Management"
-                                                    ng-show="personalFlowCtrl.flowTemplate.TargetTypeId != updateCtrl.targetTypeEnum.Monthly"></th>
+                                                <th class="col-sm-2 text-center" data-translate="Management" ng-show="!personalFlowCtrl.flowTemplate.IsMonthly"></th>
                                             </tr>
                                         </thead>
                                         <tbody class="table-body">
@@ -141,7 +140,7 @@
                                                         </li>
                                                     </ul>
                                                 </td>
-                                                <td class="col-sm-2 col-management" ng-show="personalFlowCtrl.flowTemplate.TargetTypeId != updateCtrl.targetTypeEnum.Monthly">
+                                                <td class="col-sm-2 col-management" ng-show="!personalFlowCtrl.flowTemplate.IsMonthly">
                                                     <ul list-sortable class="sortable custom-ul list-unstyled" id="managementList">
                                                         <li class="alert alert-info nomargin" ng-repeat="management in personalFlowCtrl.managements.employees">
                                                             <a href="javascript:;" class="glyphicon glyphicon-remove icon-close"

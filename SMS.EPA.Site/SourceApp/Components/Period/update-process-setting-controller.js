@@ -1,6 +1,7 @@
 ﻿(function (angular) {
     'use strict';
     /* jshint latedef:nofunc */
+    /* jshint validthis:true */
 
     angular.module('periodModule').controller('ProcessSettingPeriodController', processSettingPeriodController);
     processSettingPeriodController.$inject = ['$scope', 'PeriodModel', 'CommonModel', 'lockScreenService'];

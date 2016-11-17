@@ -35,11 +35,8 @@
         };
 
         flowModel.validatePersonalFlow = function (vm) {
-            if (!vm.employeeSelected) {
+            if (vm.employeeIds.length === 0) {
                 notificationFactory.error('EmployeeNotSelectedWarning');
-                return false;
-            } else if (vm.flowTemplate.TargetType.TargetTypeId === vm.targetTypeEnum.Monthly && !vm.employeeSelected.HasMonthlyEPA) {
-                notificationFactory.error('EmployeeNotSetMonthlyEvaluation');
                 return false;
             } else if (vm.humanResources.employees.length === 0 || vm.evaluators.employees.length === 0 || vm.reviewers.employees.length === 0) {
                 notificationFactory.error('SettingFlowWarning');
@@ -51,6 +48,7 @@
 
         flowModel.createPersonalFlow = function (vm) {
             var model = {
+                employeeIds: vm.employeeIds,
                 flowTemplateId: vm.FlowTemplateId,
                 selfs: vm.selfs,
                 evaluators: vm.evaluators,
@@ -113,8 +111,8 @@
             });
         };
 
-        flowModel.getEmployeeFlowSetting = function (flowTemplateId, departmentId, groupId) {
-            return personalFlowFactory.getEmployeeFlowSetting(flowTemplateId, departmentId, groupId).success(function (data) {
+        flowModel.getEmployeeFlowSetting = function (flowTemplateId, departmentId, groupId, isMonthlyPeriod) {
+            return personalFlowFactory.getEmployeeFlowSetting(flowTemplateId, departmentId, groupId, isMonthlyPeriod).success(function (data) {
                 flowModel.defaultFlowSettings = data.DefaultFlowSettings;
                 flowModel.personalFlowSettings = data.PersonalFlowSettings;
             }).error(function (response, status) {

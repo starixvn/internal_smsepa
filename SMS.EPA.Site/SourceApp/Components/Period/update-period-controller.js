@@ -1,6 +1,7 @@
 ﻿(function (angular) {
     'use strict';
     /* jshint latedef:nofunc */
+    /* jshint validthis:true */
 
     angular.module('periodModule').controller('UpdatePeriodController', updatePeriodController);
     updatePeriodController.$inject = ['$routeParams', 'PeriodModel', 'utilitiesFactory', 'historyFactory'];

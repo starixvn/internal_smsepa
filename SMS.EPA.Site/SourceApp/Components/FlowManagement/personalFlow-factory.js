@@ -33,12 +33,13 @@
                     }
                 });
             },
-            getEmployeeFlowSetting: function (flowTemplateId, departmentId, groupId) {
+            getEmployeeFlowSetting: function (flowTemplateId, departmentId, groupId, isMonthlyPeriod) {
                 return $http.get(baseUrl + 'api/PersonalFlow/GetEmployeeFlowSetting', {
                     params: {
                         flowTemplateId: flowTemplateId,
                         departmentId: departmentId,
-                        groupId: groupId
+                        groupId: groupId,
+                        isMonthlyPeriod: isMonthlyPeriod
                     }
                 });
             }

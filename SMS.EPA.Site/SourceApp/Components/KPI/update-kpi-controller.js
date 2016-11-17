@@ -1,6 +1,7 @@
 ﻿(function (angular) {
     'use strict';
     /* jshint latedef:nofunc */
+    /* jshint validthis:true */
 
     angular.module('kpiModule').controller('UpdateKPIController', updateKPIController);
     updateKPIController.$inject = ['$modalInstance', 'KPIModel', 'CommonModel', 'kpi'];

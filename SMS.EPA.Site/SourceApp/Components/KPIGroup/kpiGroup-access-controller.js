@@ -1,9 +1,11 @@
 ﻿(function (angular) {
     'use strict';
     /* jshint latedef:nofunc */
+    /* jshint validthis:true */
 
     angular.module('kpiGroupModule').controller('KPIGroupController', KPIGroupController);
-    KPIGroupController.$inject = ['$location', 'KPIGroupModel', 'KPIModel', 'CommonModel', 'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl'];
+    KPIGroupController.$inject = ['$location', 'KPIGroupModel', 'KPIModel', 'CommonModel',
+        'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl'];
 
     function KPIGroupController($location, KPIGroupModel, KPIModel, CommonModel, utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
         var vm = this;

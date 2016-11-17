@@ -1,10 +1,16 @@
 ﻿namespace SMS.EPA.Model
 {
     using System;
+    using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Model.Enitites;
 
     public class PeriodModel
     {
+        public PeriodModel()
+        {
+            TargetType = new TargetType();
+        }
+
         public int PeriodId { get; set; }
 
         public string Name { get; set; }
@@ -39,6 +45,14 @@
                 }
 
                 return year;
+            }
+        }
+
+        public bool IsSemiAnnual
+        {
+            get
+            {
+                return TargetType.TargetTypeId == (int)TargetTypes.SemiAnnual;
             }
         }
     }

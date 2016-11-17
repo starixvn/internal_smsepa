@@ -1,6 +1,7 @@
 ﻿(function (angular) {
     'use strict';
     /* jshint latedef:nofunc */
+    /* jshint validthis:true */
 
     angular.module('epaHistoryModule').controller('MonthlyEPAHistoryController', monthlyEPAHistoryController);
     monthlyEPAHistoryController.$inject = ['$routeParams', 'EPAHistoryModel', 'CommonModel',

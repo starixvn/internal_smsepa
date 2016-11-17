@@ -9,7 +9,7 @@
                         <th data-translate="HumanResource"></th>
                         <th data-translate="Evaluator"></th>
                         <th data-translate="Reviewer"></th>
-                        <th data-translate="Management" ng-show="updateCtrl.flowTemplate.TargetTypeId != updateCtrl.targetTypeEnum.Monthly"></th>
+                        <th data-translate="Management" ng-show="!updateCtrl.flowTemplate.IsMonthly"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -40,7 +40,7 @@
                                 <ul><li ng-repeat="reviewer in flow.Reviewers">{{reviewer.FullName}} ({{reviewer.NickName}})</li></ul>
                             </div>
                         </td>
-                        <td ng-show="updateCtrl.flowTemplate.TargetTypeId != updateCtrl.targetTypeEnum.Monthly">
+                        <td ng-show="!updateCtrl.flowTemplate.IsMonthly">
                             <div ng-show="flow.Managements.length == 1">
                                 {{flow.Managements[0].FullName}} ({{flow.Managements[0].NickName}})
                             </div>
@@ -74,7 +74,7 @@
                         <th data-translate="HumanResource"></th>
                         <th data-translate="Evaluator"></th>
                         <th data-translate="Reviewer"></th>
-                        <th data-translate="Management" ng-show="updateCtrl.flowTemplate.TargetTypeId != updateCtrl.targetTypeEnum.Monthly"></th>
+                        <th data-translate="Management" ng-show="!updateCtrl.flowTemplate.IsMonthly"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -108,7 +108,7 @@
                                 <ul><li ng-repeat="reviewer in flow.Reviewers">{{reviewer.FullName}} ({{reviewer.NickName}})</li></ul>
                             </div>
                         </td>
-                        <td ng-show="updateCtrl.flowTemplate.TargetTypeId != updateCtrl.targetTypeEnum.Monthly">
+                        <td ng-show="!updateCtrl.flowTemplate.IsMonthly">
                             <div ng-show="flow.Managements.length == 1">
                                 {{flow.Managements[0].FullName}} ({{flow.Managements[0].NickName}})
                             </div>

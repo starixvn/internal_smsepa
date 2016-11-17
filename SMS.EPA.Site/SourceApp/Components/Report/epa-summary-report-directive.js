@@ -41,10 +41,16 @@
 
             var columnHeaders = [
                 { HeaderText: "#", Width: 40, Name: "No", HeaderAlign: "center", CellAlign: "center" },
-                { HeaderText: "Code", Width: 70, Name: "Code", HeaderAlign: "center", CellAlign: "center", Sort: true, SortDirection: sortCode, SortType: 'string' },
+                {
+                    HeaderText: "Code", Width: 70, Name: "Code", HeaderAlign: "center", CellAlign: "center",
+                    Sort: true, SortDirection: sortCode, SortType: 'string'
+                },
                 { HeaderText: "Full Name", Width: 180, Name: "FullName", HeaderAlign: "center", CellAlign: "left", CanResize: true },
                 { HeaderText: "Nick Name", Width: 120, Name: "NickName", HeaderAlign: "center", CellAlign: "center" },
-                { HeaderText: "Section", Width: 120, Name: "Section", HeaderAlign: "center", CellAlign: "left", Sort: true, SortDirection: sortSection, SortType: 'string' },
+                {
+                    HeaderText: "Section", Width: 120, Name: "Section", HeaderAlign: "center", CellAlign: "left",
+                    Sort: true, SortDirection: sortSection, SortType: 'string'
+                },
                 { HeaderText: "Job Title", Width: 225, Name: "JobTitle", HeaderAlign: "center", CellAlign: "left", CanResize: true }
             ];
 

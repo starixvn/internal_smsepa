@@ -2779,6 +2779,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please setting flow for Reviewer!.
+        /// </summary>
+        public static string ReviewerPhaseRequired {
+            get {
+                return ResourceManager.GetString("ReviewerPhaseRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The End Date of Reviewer must be less than or equal the Start Date of Management!.
         /// </summary>
         public static string ReviewerRangeDateGreaterThanManagementRangeDateWarning {
