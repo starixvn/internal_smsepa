@@ -68,7 +68,7 @@
                 evaluationService.SetMaxPerformanceScore(epaInfo);
                 evaluationService.SpreadKPIScore(epaInfo.KPIGroups);
 
-                foreach (EPAKPIModel kpi in epaInfo.KPIGroups.SelectMany(x => x.KPIs))
+                foreach (EPAKpiModel kpi in epaInfo.KPIGroups.SelectMany(x => x.KPIs))
                 {
                     kpi.CurrentEvaluation = kpi.EvaluationByEvaluators.FirstOrDefault();
                 }

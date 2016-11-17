@@ -386,21 +386,6 @@
             }
         }
 
-        private string GetScoreByPhaseSelected(
-            IEnumerable<EvaluationPhaseModel> phaseSelecteds,
-            string score,
-            int phaseId)
-        {
-            var result = "-";
-
-            if (phaseSelecteds.Count(x => x.PhaseId == phaseId).Equals(1))
-            {
-                result = score;
-            }
-
-            return result;
-        }
-
         private void SetColumnWidth(ref ISheet sheet, int columnIndex, int width)
         {
             sheet.SetColumnWidth(columnIndex, width * ExcelColumnWidth);

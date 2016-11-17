@@ -4,9 +4,9 @@
     using SMS.EPA.Core.Constants;
     using SMS.EPA.Core.Services;
 
-    public class EPAKPIModel
+    public class EPAKpiModel
     {
-        public EPAKPIModel()
+        public EPAKpiModel()
         {
             EvaluationByEvaluators = new List<EvaluationModel>();
         }

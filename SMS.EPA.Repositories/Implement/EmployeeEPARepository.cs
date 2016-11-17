@@ -96,9 +96,9 @@
                         },
                         "EvaluatorId, ModifiedById");
 
-                        epaInfo.KPIGroups = multi.Read<EPAKPIGroupModel>().ToList();
+                        epaInfo.KPIGroups = multi.Read<EPAKpiGroupModel>().ToList();
 
-                        IEnumerable<EPAKPIModel> kpis = multi.Read<EPAKPIModel>();
+                        IEnumerable<EPAKpiModel> kpis = multi.Read<EPAKpiModel>();
 
                         IEnumerable<EvaluationModel> evaluations = multi.Read<EvaluationModel>();
 
@@ -107,7 +107,7 @@
                         GroupEPAProcessByEPA(epaInfo, processes);
                         GroupKPIByKPIGroup(epaInfo.KPIGroups, kpis);
 
-                        foreach (EPAKPIGroupModel kpiGroup in epaInfo.KPIGroups)
+                        foreach (EPAKpiGroupModel kpiGroup in epaInfo.KPIGroups)
                         {
                             GroupEvaluationOnEachKPI(kpiGroup.KPIs, evaluations);
                         }
@@ -411,20 +411,20 @@
             }
         }
 
-        private void GroupKPIByKPIGroup(IList<EPAKPIGroupModel> kpiGroups, IEnumerable<EPAKPIModel> kpis)
+        private void GroupKPIByKPIGroup(IList<EPAKpiGroupModel> kpiGroups, IEnumerable<EPAKpiModel> kpis)
         {
-            foreach (EPAKPIGroupModel kpiGroup in kpiGroups)
+            foreach (EPAKpiGroupModel kpiGroup in kpiGroups)
             {
-                foreach (EPAKPIModel kpi in kpis.Where(x => x.EPAId.Equals(kpiGroup.EPAId) && x.KPIGroupId.Equals(kpiGroup.KPIGroupId)))
+                foreach (EPAKpiModel kpi in kpis.Where(x => x.EPAId.Equals(kpiGroup.EPAId) && x.KPIGroupId.Equals(kpiGroup.KPIGroupId)))
                 {
                     kpiGroup.KPIs.Add(kpi);
                 }
             }
         }
 
-        private void GroupEvaluationOnEachKPI(IEnumerable<EPAKPIModel> kpis, IEnumerable<EvaluationModel> evaluations)
+        private void GroupEvaluationOnEachKPI(IEnumerable<EPAKpiModel> kpis, IEnumerable<EvaluationModel> evaluations)
         {
-            foreach (EPAKPIModel kpi in kpis)
+            foreach (EPAKpiModel kpi in kpis)
             {
                 foreach (EvaluationModel evaluation in evaluations.Where(x => x.EPAId.Equals(kpi.EPAId) && x.KPIId.Equals(kpi.KPIId)))
                 {
@@ -477,7 +477,7 @@
             DecryptTotalScore(epaInfo.Process.Managements);
             DecryptTotalScore(epaInfo.LastProcesses);
 
-            foreach (EPAKPIModel kpi in epaInfo.KPIGroups.SelectMany(x => x.KPIs))
+            foreach (EPAKpiModel kpi in epaInfo.KPIGroups.SelectMany(x => x.KPIs))
             {
                 DecryptScore(kpi.EvaluationBySelf);
                 DecryptScore(kpi.EvaluationByEvaluators);

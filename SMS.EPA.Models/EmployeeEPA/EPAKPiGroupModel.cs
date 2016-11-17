@@ -2,11 +2,11 @@
 {
     using System.Collections.Generic;
 
-    public class EPAKPIGroupModel
+    public class EPAKpiGroupModel
     {
-        public EPAKPIGroupModel()
+        public EPAKpiGroupModel()
         {
-            KPIs = new List<EPAKPIModel>();
+            KPIs = new List<EPAKpiModel>();
         }
 
         public int EPAId { get; set; }
@@ -27,6 +27,6 @@
 
         public int NumberKPIOptional { get; set; }
 
-        public IList<EPAKPIModel> KPIs { get; set; }
+        public IList<EPAKpiModel> KPIs { get; set; }
     }
 }

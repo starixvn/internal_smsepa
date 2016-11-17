@@ -379,17 +379,17 @@
             }
         }
 
-        public void SpreadKPIScore(IList<EPAKPIGroupModel> kpiGroups)
+        public void SpreadKPIScore(IList<EPAKpiGroupModel> kpiGroups)
         {
             IUtilityService utilityService = new UtilityService();
-            foreach (EPAKPIGroupModel kpiGroup in kpiGroups)
+            foreach (EPAKpiGroupModel kpiGroup in kpiGroups)
             {
                 if (!kpiGroup.HasKPIOptional && kpiGroup.IsSpreadKPI && kpiGroup.Weight != null)
                 {
                     double averageWeight = kpiGroup.Weight.Value / kpiGroup.KPIs.Count;
                     averageWeight = utilityService.SplitNumber(averageWeight, Constants.NumberOfDecimals);
 
-                    foreach (EPAKPIModel kpi in kpiGroup.KPIs)
+                    foreach (EPAKpiModel kpi in kpiGroup.KPIs)
                     {
                         kpi.Weight = averageWeight;
                     }

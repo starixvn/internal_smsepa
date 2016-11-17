@@ -34,7 +34,7 @@
 
         CommandResult ResetScore(ResetScoreCriteria criteria);
 
-        void GroupMonthlyEPABySemi(EPAModel semiEPA, IList<EPAModel> monthlyEPAs);
+        void GroupMonthlyEPABySemi(EPAModel semiEPA, IList<EPAModel> monthlyEpas);
 
         void ConvertAverageMonthlyScore(MonthlyEPAModel monthlyEPA, ScoreRatingTypeModel scoreRatingType);
 
@@ -50,7 +50,7 @@
 
         EPAProcessModel CloneEPAProcess(EPAProcessModel process);
 
-        void SpreadKPIScore(IList<EPAKPIGroupModel> kpiGroups);
+        void SpreadKPIScore(IList<EPAKpiGroupModel> kpiGroups);
 
         void SetMaxSubtractAndMaxAdditionScore(EPAModel epaInfo);
 

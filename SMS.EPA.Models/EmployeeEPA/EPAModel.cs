@@ -9,7 +9,7 @@
     {
         public EPAModel()
         {
-            KPIGroups = new List<EPAKPIGroupModel>();
+            KPIGroups = new List<EPAKpiGroupModel>();
             LastProcesses = new List<EPAProcessModel>();
             MonthlyEPA = new MonthlyEPAModel();
             Process = new EvaluationProcessModel();
@@ -65,7 +65,7 @@
 
         public EvaluationProcessModel Process { get; set; }
 
-        public IList<EPAKPIGroupModel> KPIGroups { get; set; }
+        public IList<EPAKpiGroupModel> KPIGroups { get; set; }
 
         public MonthlyEPAModel MonthlyEPA { get; set; }
 

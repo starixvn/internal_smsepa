@@ -50,9 +50,9 @@
             {
                 var kpiDetailXml = new StringBuilder(Constants.BeginRootTag);
 
-                foreach (EPAKPIGroupModel kpiGroup in KPIGroups)
+                foreach (EPAKpiGroupModel kpiGroup in KPIGroups)
                 {
-                    foreach (EPAKPIModel kpi in kpiGroup.KPIs)
+                    foreach (EPAKpiModel kpi in kpiGroup.KPIs)
                     {
                         string score = kpi.CurrentEvaluation.Score,
                             rate = kpi.CurrentEvaluation.Rate > 0 ? kpi.CurrentEvaluation.Rate.ToString() : string.Empty,
@@ -83,7 +83,7 @@
         public EPAProcessModel EPAProcess { get; set; }
 
         [SpParam(Ignored = true)]
-        public IList<EPAKPIGroupModel> KPIGroups { get; set; }
+        public IList<EPAKpiGroupModel> KPIGroups { get; set; }
 
         public override bool IsValid()
         {

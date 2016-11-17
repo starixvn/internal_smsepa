@@ -47,7 +47,6 @@
             boldFont = FontFactory.GetFont("ARIALUNI", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED, FontSize, Font.BOLD, defaultColor);
 
             Document document = new Document(PageSize.A4, 0, 0, 30f, 30f);
-            PdfWriter writer = PdfWriter.GetInstance(document, Response.OutputStream);
             document.Open();
 
             PdfPTable table = new PdfPTable(1);
@@ -89,12 +88,6 @@
                 }
             }
 
-            ////table.AddCell(performanceDetail);
-            ////table.AddCell(summaryComment);
-
-            ////table.SplitLate = false;
-            ////table.SplitRows = true;
-
             document.Add(table);
             document.Add(performanceDetail);
             document.Add(summaryComment);
@@ -109,8 +102,6 @@
 
         private PdfPTable RenderTitle(string periodName)
         {
-            Paragraph p = new Paragraph();
-
             PdfPTable table = new PdfPTable(1)
             {
                 TotalWidth = TotalWidth,
@@ -602,7 +593,7 @@
             borderColor = new Color(System.Drawing.ColorTranslator.FromHtml("#cec5c2"));
             backgroundColor = new Color(System.Drawing.ColorTranslator.FromHtml("#ebe4d4"));
 
-            foreach (EPAKPIGroupModel kpiGroup in epaInfo.KPIGroups)
+            foreach (EPAKpiGroupModel kpiGroup in epaInfo.KPIGroups)
             {
                 PdfPCell cell = new PdfPCell(new Phrase(kpiGroup.Name + " (" + kpiGroup.Weight + " pts)", font));
                 cell.Colspan = 7;
