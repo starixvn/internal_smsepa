@@ -6,7 +6,7 @@
     updateFinalScoreModel.$inject = ['$modal', 'updateFinalScoreFactory', 'notificationFactory', 'errorFactory'];
 
     function updateFinalScoreModel($modal, updateFinalScoreFactory, notificationFactory, errorFactory) {
-        var model = this;
+        var model = {};
 
         model.periods = [];
         model.employees = [];

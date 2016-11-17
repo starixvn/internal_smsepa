@@ -22,6 +22,6 @@
                     iframe.attr('src', downloadUrl);
                 });
             }
-        }
+        };
     }
 })(angular);

@@ -1,6 +1,7 @@
 ﻿(function (angular) {
     'use strict';
     /* jshint latedef:nofunc */
+    /* jshint validthis:true */
 
     angular.module('appModule').controller('ModalConfirmController', modalConfirmController);
     modalConfirmController.$inject = ['$modalInstance', 'name', 'action'];

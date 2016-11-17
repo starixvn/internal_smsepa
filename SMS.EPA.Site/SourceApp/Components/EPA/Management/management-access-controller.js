@@ -260,9 +260,10 @@
 
         vm.inputScore = function (epaInfo) {
             var maxSubtractScore = epaInfo.Process.CurrentProcess.MaxSubtractScore,
-                maxAdditionScore = epaInfo.Process.CurrentProcess.MaxAdditionScore;
+                maxAdditionScore = epaInfo.Process.CurrentProcess.MaxAdditionScore,
+                adjustScore = epaInfo.Process.CurrentProcess.AdjustScore;
 
-            if (!EvaluationModel.validateScoreInput(epaInfo.Process.CurrentProcess.AdjustScore, maxSubtractScore, maxAdditionScore, vm.scoreInputValidMessage)) {
+            if (!EvaluationModel.validateScoreInput(adjustScore, maxSubtractScore, maxAdditionScore, vm.scoreInputValidMessage)) {
                 epaInfo.Process.CurrentProcess.AdjustScore = null;
             }
 
