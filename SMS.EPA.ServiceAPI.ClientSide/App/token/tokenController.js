@@ -1,10 +1,12 @@
-﻿(function () {
+﻿(function (angular) {
     'use strict';
-    angular
-        .module('app')
-        .controller('tokenController', TokenController);
-    TokenController.$inject = ['tokenService'];
-    function TokenController(tokenService) {
+    /* jshint latedef:nofunc */
+    /* jshint validthis:true */
+
+    angular.module('app').controller('TokenController', tokenController);
+
+    tokenController.$inject = ['tokenService'];
+    function tokenController(tokenService) {
         var vm = this;
 
         vm.loginModel = {
@@ -24,16 +26,14 @@
         vm.getExistedToken();
 
         function requestToken() {
-            tokenService.request(vm.loginModel)
-            .success(function (data) {
+            tokenService.request(vm.loginModel).success(function (data) {
                 vm.token.accessToken = data.access_token;
                 vm.token.expiresIn = data.expires_in;
 
                 sessionStorage.setItem('Token', vm.token.accessToken);
-            })
-            .error(function (response, status) {
+            }).error(function (response, status) {
                 console.log("error: " + status);
-            })
+            });
         }
 
         function deleteToken() {
@@ -41,7 +41,7 @@
             vm.token = {
                 accessToken: '',
                 expiresIn: 0
-            }
+            };
         }
 
         function getExistedToken() {
@@ -51,4 +51,4 @@
             }
         }
     };
-})();
+})(angular);

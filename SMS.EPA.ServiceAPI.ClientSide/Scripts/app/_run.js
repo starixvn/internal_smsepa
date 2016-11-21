@@ -1,4 +1,6 @@
-﻿$(function () {
+﻿'use strict';
+
+$(function () {
     app.initialize();
 
     // Activate Knockout

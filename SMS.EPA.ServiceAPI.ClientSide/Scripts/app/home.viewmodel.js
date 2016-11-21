@@ -1,4 +1,6 @@
-﻿function HomeViewModel(app, dataModel) {
+﻿'use strict';
+
+function HomeViewModel(app, dataModel) {
     var self = this;
 
     self.myHometown = ko.observable("");

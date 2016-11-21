@@ -1,14 +1,15 @@
-﻿(function () {
+﻿(function (angular) {
     'use strict';
+    /* jshint latedef:nofunc */
+    /* jshint validthis:true */
 
-    angular
-        .module('app')
-        .controller('departmentController', DepartmentController)
+    angular.module('app').controller('DepartmentController', departmentController);
 
-    DepartmentController.$inject = ['departmentService']
+    departmentController.$inject = ['departmentService'];
 
-    function DepartmentController(departmentService) {
+    function departmentController(departmentService) {
         var vm = this;
+
         vm.departmentModel = [{
             DepartmentId: 0,
             Code: '',
@@ -27,17 +28,15 @@
         vm.title = "Hello Department!";
 
         function insert() {
-            departmentService.insert(vm.departmentModel)
-            .success(function (response, status) {
+            departmentService.insert(vm.departmentModel).success(function (response, status) {
                 vm.result.code = status;
                 vm.result.message = response.Message;
-            })
-            .error(function (response, status) {
+            }).error(function (response, status) {
                 vm.result = {
                     code: status,
                     message: response.Message
                 };
-            })
+            });
         }
     }
-})();
+})(angular);

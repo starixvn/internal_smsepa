@@ -1,4 +1,5 @@
-﻿
+﻿'use strict';
+
 window.common = (function () {
     var common = {};
 

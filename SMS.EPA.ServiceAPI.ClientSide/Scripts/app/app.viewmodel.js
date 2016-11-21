@@ -1,4 +1,6 @@
-﻿function AppViewModel(dataModel) {
+﻿'use strict';
+
+function AppViewModel(dataModel) {
     // Private state
     var self = this;
 
@@ -69,7 +71,7 @@
 
     self.initialize = function () {
         Sammy().run();
-    }
+    };
 }
 
 var app = new AppViewModel(new AppDataModel());

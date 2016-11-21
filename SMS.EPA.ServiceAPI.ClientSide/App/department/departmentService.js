@@ -1,9 +1,9 @@
-﻿(function () {
-    'use strict'
+﻿(function (angular) {
+    'use strict';
+    /* jshint latedef:nofunc */
+    /* jshint validthis:true */
 
-    angular
-        .module('app')
-        .factory('departmentService', departmentService);
+    angular.module('app').factory('departmentService', departmentService);
 
     departmentService.$inject = ['$http'];
 
@@ -25,5 +25,4 @@
                 });
         }
     }
-
-})();
+})(angular);
