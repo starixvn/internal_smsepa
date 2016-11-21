@@ -4,7 +4,7 @@
     using System.Web.Http.Filters;
     using SMS.EPA.Core.Helpers;
 
-    public class DeflateCompressionAttribute : ActionFilterAttribute
+    public sealed class DeflateCompressionAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
         {

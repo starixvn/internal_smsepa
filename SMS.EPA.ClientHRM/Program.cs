@@ -10,7 +10,7 @@
     using Fanex.Data.OldConnectionStringProvider;
     using SMS.EPA.ClientHRM.Services;
 
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {

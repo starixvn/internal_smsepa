@@ -5,7 +5,7 @@
     using SMS.EPA.ClientHRM.Services;
     using SMS.EPA.ClientHRM.ThirdPartyAPIs;
 
-    public class Bootstrap
+    public static class Bootstrap
     {
         private static Container _container;
 

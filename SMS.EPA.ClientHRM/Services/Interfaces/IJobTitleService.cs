@@ -7,6 +7,6 @@
     {
         IEnumerable<JobTitle> GetJobTitles();
 
-        CommandResult Update(IEnumerable<JobTitle> jobtitles, TokenAccess token);
+        CommandResult Update(IEnumerable<JobTitle> jobTitles, TokenAccess token);
     }
 }

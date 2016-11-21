@@ -10,10 +10,9 @@
     using SMS.EPA.Core.Enumerations;
     using SMS.EPA.Core.Model;
     using SMS.EPA.Core.Services;
-    using SMS.EPA.Core.Services.Interfaces;
 
     [AttributeUsage(AttributeTargets.All, AllowMultiple = true)]
-    public class ApiAuthorizeAttribute : AuthorizeAttribute
+    public sealed class ApiAuthorizeAttribute : AuthorizeAttribute
     {
         private readonly ISessionService sessionService;
 

@@ -9,6 +9,7 @@
   </Words>
   <Acronyms>
     <CasingExceptions>
+      <Acronym>API</Acronym>
       <Acronym>HRM</Acronym>
     </CasingExceptions>
   </Acronyms>

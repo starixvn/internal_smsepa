@@ -1,21 +1,18 @@
 ﻿namespace SMS.EPA.ClientHRM.Services
 {
-    using Fanex.Data.Repository;
-    using SMS.EPA.ClientHRM.Model;
-    using SMS.EPA.ClientHRM.ThirdPartyAPIs;
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using SMS.EPA.ClientHRM.Model;
+    using SMS.EPA.ClientHRM.ThirdPartyAPIs;
 
     public class PhotoService : IPhotoService
     {
-        private readonly IDynamicRepository dynamicRepository;
         private readonly IPhotoAPI photoAPI;
 
-        public PhotoService(IDynamicRepository dynamicRepository, IPhotoAPI photoAPI)
+        public PhotoService(IPhotoAPI photoAPI)
         {
-            this.dynamicRepository = dynamicRepository;
             this.photoAPI = photoAPI;
         }
 

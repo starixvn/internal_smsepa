@@ -10,6 +10,6 @@
 
         DateTime GetLastModifiedDate(TokenAccess token);
 
-        CommandResult Update(IEnumerable<Employee> departments, TokenAccess token);
+        CommandResult Update(IEnumerable<Employee> employees, TokenAccess token);
     }
 }

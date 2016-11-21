@@ -6,7 +6,7 @@
     using Fanex.Logging;
 
     [AttributeUsage(AttributeTargets.All)]
-    public class ExceptionHandlingAttribute : ExceptionFilterAttribute
+    public sealed class ExceptionHandlingAttribute : ExceptionFilterAttribute
     {
         public override void OnException(HttpActionExecutedContext actionExecutedContext)
         {

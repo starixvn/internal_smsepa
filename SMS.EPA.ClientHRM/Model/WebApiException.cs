@@ -4,6 +4,7 @@
     using System.Net;
     using System.Net.Http;
 
+    [Serializable]
     public class WebApiException : Exception
     {
         public WebApiException(HttpStatusCode statusCode, HttpRequestMessage requestMessage, string data)
