@@ -15,21 +15,24 @@ body {
     box-shadow: 0 0 3px 1px #cfcdcb;
     background-color: @login-bg;
     margin-top: 12%;
+    padding: 0;
+
+    .row {
+        margin: 0;
+    }
 
     .header-login {
-        background: url(images/titlebg.png) repeat-x scroll 0 0 transparent;
-        height: 55px;
-        padding-left: 20px;
-        padding-right: 20px;
+        height: 70px;
+        padding: 10px 30px 0;
 
         .header-contain {
-            background: url(../images/sms_epa_logo.png) center left no-repeat, url(images/signin_icon.png) center right no-repeat;
+            background: url(../images/epa_logo.png) center left no-repeat, url(images/lock-icon.png) center right no-repeat;
             height: 100%;
         }
     }
 
     .auth {
-        padding: 35px 35px 70px;
+        padding: 30px;
     }
 
     .username, .password {
@@ -56,7 +59,7 @@ body {
         color: @login-button-color;
         font-size: @font-size + 3;
         margin: 20px 0;
-        .box-shadow(0px 2px 0 #5f636a);
+        .box-shadow(0 2px 0 #5f636a);
         .border-radius(4px);
 
         &:hover {
