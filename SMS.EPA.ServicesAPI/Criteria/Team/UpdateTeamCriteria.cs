@@ -11,7 +11,7 @@
     public class UpdateTeamCriteria : CriteriaBase
     {
         private const string _UserTpl = "<Team TeamId='{0}' Code='{1}' "
-            + "Name='{2}' LeaderId='{3}' AssistantLeaderId='{4}' Rank='{5}' IsDeleted='{6}' ModifiedDate='{7}' DepartmentId='{8}'></Team>";
+            + " Name='{2}' LeaderId='{3}' AssistantLeaderId='{4}' Rank='{5}' IsDeleted='{6}' ModifiedDate='{7}' DepartmentId='{8}'></Team>";
 
         [SpParam(Ignored = true)]
         public IList<Team> Teams { get; set; }
