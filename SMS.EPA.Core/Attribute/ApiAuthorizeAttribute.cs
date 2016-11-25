@@ -14,7 +14,7 @@
     [AttributeUsage(AttributeTargets.All, AllowMultiple = true)]
     public sealed class ApiAuthorizeAttribute : AuthorizeAttribute
     {
-        private readonly ISessionService sessionService;
+        private ISessionService sessionService;
 
         public ApiAuthorizeAttribute()
             : this(null)
@@ -29,6 +29,14 @@
         public string FunctionKey { get; set; }
 
         public Policy Policy { get; set; }
+
+        public ISessionService SessionService
+        {
+            get
+            {
+                return sessionService;
+            }
+        }
 
         public override void OnAuthorization(HttpActionContext actionContext)
         {

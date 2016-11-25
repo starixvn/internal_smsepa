@@ -1,9 +1,11 @@
 ﻿namespace SMS.EPA.Core.Attribute
 {
+    using System;
     using System.Net.Http;
     using System.Web.Http.Filters;
     using SMS.EPA.Core.Helpers;
 
+    [AttributeUsage(AttributeTargets.All)]
     public sealed class DeflateCompressionAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)

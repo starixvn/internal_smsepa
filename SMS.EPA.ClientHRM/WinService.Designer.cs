@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.ClientHRM
+﻿namespace SMS.EPA.ClientHrm
 {
     public partial class WinService
     {

@@ -1,7 +1,7 @@
-﻿namespace SMS.EPA.ClientHRM
+﻿namespace SMS.EPA.ClientHrm
 {
-    using SMS.EPA.ClientHRM.Model;
     using System.Configuration;
+    using SMS.EPA.ClientHrm.Model;
 
     public static class ApplicationConfig
     {

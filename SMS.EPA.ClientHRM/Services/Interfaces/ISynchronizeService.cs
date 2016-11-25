@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.ClientHRM.Services
+﻿namespace SMS.EPA.ClientHrm.Services
 {
     public interface ISynchronizeService
     {

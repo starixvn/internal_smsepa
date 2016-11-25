@@ -37,12 +37,12 @@
                 vm.employee = dashboardInfo.Employee;
                 vm.employee.Avatar = baseUrl + vm.employee.Avatar;
                 vm.evaluationProcesses = [];
-                vm.myEPAs = dashboardInfo.MyEPAs;
-                vm.monthlyEPAs = dashboardInfo.MonthlyEPAs;
+                vm.myEPAs = dashboardInfo.MyEpaInfos;
+                vm.monthlyEPAs = dashboardInfo.MonthlyEpaInfos;
 
                 angular.forEach(vm.myEPAs, function (myEPA) {
-                    if (myEPA.Period.IsEndPeriod && myEPA.FinalScore.length > 0) {
-                        myEPA.FinalScore = utilitiesFactory.parseFloat(myEPA.FinalScore);
+                    if (myEPA.Period.IsEndPeriod) {
+                        myEPA.FinalScore = myEPA.FinalScore.length > 0 ? utilitiesFactory.parseFloat(myEPA.FinalScore) : null;
                     } else {
                         myEPA.FinalScore = null;
                         vm.evaluationProcesses.push(myEPA);
@@ -51,7 +51,7 @@
 
                 angular.forEach(vm.monthlyEPAs, function (monthlyEPA) {
                     if (monthlyEPA.Period.IsEndPeriod) {
-                        monthlyEPA.FinalScore = utilitiesFactory.parseFloat(monthlyEPA.FinalScore);
+                        monthlyEPA.FinalScore = monthlyEPA.FinalScore.length > 0 ? utilitiesFactory.parseFloat(monthlyEPA.FinalScore) : null;
                     } else {
                         monthlyEPA.FinalScore = null;
                         vm.evaluationProcesses.push(monthlyEPA);

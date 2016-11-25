@@ -1,9 +1,9 @@
-﻿namespace SMS.EPA.ClientHRM
+﻿namespace SMS.EPA.ClientHrm
 {
     using Fanex.Data.Repository;
     using SimpleInjector;
-    using SMS.EPA.ClientHRM.Services;
-    using SMS.EPA.ClientHRM.ThirdPartyAPIs;
+    using SMS.EPA.ClientHrm.Services;
+    using SMS.EPA.ClientHrm.ThirdPartyAPIs;
 
     public static class Bootstrap
     {

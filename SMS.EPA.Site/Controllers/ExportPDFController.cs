@@ -12,7 +12,7 @@
     using SMS.EPA.Services.Interfaces;
 
     [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
-    public class ExportPDFController : Controller
+    public class ExportPdfController : Controller
     {
         private const float TotalWidth = 590;
         private const int FontSize = 8;
@@ -27,12 +27,12 @@
         private Color redColor = new Color(System.Drawing.ColorTranslator.FromHtml("#df1501"));
         private Color whiteColor = new Color(System.Drawing.ColorTranslator.FromHtml("#fff"));
 
-        public ExportPDFController()
+        public ExportPdfController()
             : this(null)
         {
         }
 
-        public ExportPDFController(IEmployeeEPAService employeeEPAService)
+        public ExportPdfController(IEmployeeEPAService employeeEPAService)
         {
             this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
         }

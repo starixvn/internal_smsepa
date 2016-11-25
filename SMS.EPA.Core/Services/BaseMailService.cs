@@ -22,7 +22,7 @@
             var mailItem = new MailRecord
             {
                 MailTo = email.ReceiverEmail,
-                MailCc = email.MailCc,
+                MailCc = email.MailCC,
                 Subject = email.Subject,
                 Title = ConfigurationManager.AppSettings["Email.SenderName"],
                 Body = email.Body

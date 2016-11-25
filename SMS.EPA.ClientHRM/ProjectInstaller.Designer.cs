@@ -37,7 +37,7 @@
             this._serviceProcessInstaller1 = new System.ServiceProcess.ServiceProcessInstaller();
             this._serviceInstaller1 = new System.ServiceProcess.ServiceInstaller();
             // 
-            // serviceProcessInstaller1
+            // _serviceProcessInstaller1
             // 
             this._serviceProcessInstaller1.Account = System.ServiceProcess.ServiceAccount.LocalSystem;
             this._serviceProcessInstaller1.Password = null;

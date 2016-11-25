@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.ClientHRM.Model
+﻿namespace SMS.EPA.ClientHrm.Model
 {
     using System;
 

@@ -1,8 +1,8 @@
-﻿namespace SMS.EPA.ClientHRM.Model
+﻿namespace SMS.EPA.ClientHrm.Model
 {
-    using Newtonsoft.Json;
     using System;
     using System.Globalization;
+    using Newtonsoft.Json;
 
     public class TokenAccess
     {

@@ -1,12 +1,11 @@
-﻿namespace SMS.EPA.ClientHRM.ThirdPartyAPIs
+﻿namespace SMS.EPA.ClientHrm.ThirdPartyAPIs
 {
-    using Newtonsoft.Json;
-    using SMS.EPA.ClientHRM.Model;
-    using System;
     using System.Collections.Generic;
     using System.Net;
     using System.Net.Http;
     using System.Net.Http.Formatting;
+    using Newtonsoft.Json;
+    using SMS.EPA.ClientHrm.Model;
 
     public class TokenAPI : ITokenAPI
     {

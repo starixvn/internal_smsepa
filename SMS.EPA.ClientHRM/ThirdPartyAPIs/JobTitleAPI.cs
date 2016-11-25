@@ -1,10 +1,10 @@
-﻿namespace SMS.EPA.ClientHRM.ThirdPartyAPIs
+﻿namespace SMS.EPA.ClientHrm.ThirdPartyAPIs
 {
-    using SMS.EPA.ClientHRM.Model;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net.Http;
     using System.Net.Http.Headers;
+    using SMS.EPA.ClientHrm.Model;
 
     public class JobTitleAPI : IJobTitleAPI
     {

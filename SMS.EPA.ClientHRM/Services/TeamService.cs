@@ -1,11 +1,11 @@
-﻿namespace SMS.EPA.ClientHRM.Services
+﻿namespace SMS.EPA.ClientHrm.Services
 {
-    using Fanex.Data.Repository;
-    using SMS.EPA.ClientHRM.Criteria;
-    using SMS.EPA.ClientHRM.Model;
-    using SMS.EPA.ClientHRM.ThirdPartyAPIs;
     using System;
     using System.Collections.Generic;
+    using Fanex.Data.Repository;
+    using SMS.EPA.ClientHrm.Criteria;
+    using SMS.EPA.ClientHrm.Model;
+    using SMS.EPA.ClientHrm.ThirdPartyAPIs;
 
     public class TeamService : ITeamService
     {

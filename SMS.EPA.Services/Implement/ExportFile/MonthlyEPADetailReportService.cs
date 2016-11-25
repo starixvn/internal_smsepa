@@ -110,6 +110,7 @@
         }
 
         [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
+        [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "Reviewed. Suppression is OK here.")]
         private void WriteContentTable()
         {
             IFont redFont = workbook.CreateFont();
@@ -138,50 +139,50 @@
                 var cell = row.CreateCell(currentColumn);
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(index++);
-                SetColumnWidth(ref sheet, currentColumn++, 5);
+                SetColumnWidth(currentColumn++, 5);
 
                 cell = row.CreateCell(currentColumn);
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(epaInfo.Employee.Code);
-                SetColumnWidth(ref sheet, currentColumn++, 10);
+                SetColumnWidth(currentColumn++, 10);
 
                 bodyStyle = currentRow % 2 == 0 ? evenStyleLeft : oddStyleLeft;
 
                 cell = row.CreateCell(currentColumn);
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(epaInfo.Employee.FullName);
-                SetColumnWidth(ref sheet, currentColumn++, 20);
+                SetColumnWidth(currentColumn++, 20);
 
                 bodyStyle = currentRow % 2 == 0 ? evenStyleCenter : oddStyleCenter;
 
                 cell = row.CreateCell(currentColumn);
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(epaInfo.Employee.NickName);
-                SetColumnWidth(ref sheet, currentColumn++, 12);
+                SetColumnWidth(currentColumn++, 12);
 
                 bodyStyle = currentRow % 2 == 0 ? evenStyleLeft : oddStyleLeft;
 
                 cell = row.CreateCell(currentColumn);
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(epaInfo.Employee.Category);
-                SetColumnWidth(ref sheet, currentColumn++, 12);
+                SetColumnWidth(currentColumn++, 12);
 
                 cell = row.CreateCell(currentColumn);
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(epaInfo.Employee.GroupName);
-                SetColumnWidth(ref sheet, currentColumn++, 16);
+                SetColumnWidth(currentColumn++, 16);
 
                 cell = row.CreateCell(currentColumn);
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(epaInfo.Employee.JobTitleName);
-                SetColumnWidth(ref sheet, currentColumn++, 25);
+                SetColumnWidth(currentColumn++, 25);
 
                 bodyStyle = currentRow % 2 == 0 ? evenStyleCenter : oddStyleCenter;
 
                 cell = row.CreateCell(currentColumn);
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(epaInfo.Employee.JoinedDate.ToString(Constants.DateFormat));
-                SetColumnWidth(ref sheet, currentColumn++, 15);
+                SetColumnWidth(currentColumn++, 15);
 
                 if (!epaInfo.Process.Self.IsEndProcess)
                 {
@@ -233,6 +234,7 @@
         }
 
         [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
+        [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "Reviewed. Suppression is OK here.")]
         private dynamic CalculateScore(EPAModel epaInfo)
         {
             string disciplineScore = string.Empty,
@@ -378,7 +380,7 @@
             };
         }
 
-        private void SetColumnWidth(ref ISheet sheet, int columnIndex, int width)
+        private void SetColumnWidth(int columnIndex, int width)
         {
             sheet.SetColumnWidth(columnIndex, width * ExcelColumnWidth);
         }

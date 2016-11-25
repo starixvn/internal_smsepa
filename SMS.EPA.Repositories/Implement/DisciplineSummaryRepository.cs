@@ -61,6 +61,7 @@
         }
 
         [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
+        [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "Reviewed. Suppression is OK here.")]
         private IEnumerable<DisciplineDetailModel> MappingObjectForAttendanceDetail(IEnumerable<dynamic> violationDetails)
         {
             return violationDetails.Select(violation =>

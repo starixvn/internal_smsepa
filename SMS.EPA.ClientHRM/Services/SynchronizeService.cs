@@ -1,11 +1,10 @@
-﻿namespace SMS.EPA.ClientHRM.Services
+﻿namespace SMS.EPA.ClientHrm.Services
 {
-    using Fanex.Logging;
-    using SMS.EPA.ClientHRM.Model;
-    using SMS.EPA.ServicesAPI.Model;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Fanex.Logging;
+    using SMS.EPA.ClientHrm.Model;
 
     public class SynchronizeService : ISynchronizeService
     {

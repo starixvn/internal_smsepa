@@ -1,7 +1,7 @@
-﻿namespace SMS.EPA.ClientHRM.ThirdPartyAPIs
+﻿namespace SMS.EPA.ClientHrm.ThirdPartyAPIs
 {
-    using SMS.EPA.ClientHRM.Model;
     using System.Collections.Generic;
+    using SMS.EPA.ClientHrm.Model;
 
     public interface IJobTitleAPI
     {

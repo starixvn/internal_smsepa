@@ -1,9 +1,8 @@
-﻿namespace SMS.EPA.ClientHRM.Services
+﻿namespace SMS.EPA.ClientHrm.Services
 {
-    using SMS.EPA.ClientHRM.Model;
-    using SMS.EPA.ServicesAPI.Model;
     using System;
     using System.Collections.Generic;
+    using SMS.EPA.ClientHrm.Model;
 
     public interface IDisciplineService
     {

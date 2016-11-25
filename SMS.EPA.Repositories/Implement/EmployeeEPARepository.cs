@@ -204,7 +204,7 @@
             {
                 using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    result.MyEPAs = multi.Read<EPAModel, EPAPeriodModel, EPAModel>(
+                    result.MyEpaInfos = multi.Read<EPAModel, EPAPeriodModel, EPAModel>(
                         (epa, period) =>
                         {
                             epa.Period = period;
@@ -223,9 +223,9 @@
                     },
                     "EvaluatorId, ModifiedById");
 
-                    GroupEPAProcessByEPA(result.MyEPAs, processes);
+                    GroupEPAProcessByEPA(result.MyEpaInfos, processes);
 
-                    foreach (EPAModel epaInfo in result.MyEPAs)
+                    foreach (EPAModel epaInfo in result.MyEpaInfos)
                     {
                         DecryptAllScore(epaInfo);
                     }

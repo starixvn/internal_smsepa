@@ -1,11 +1,11 @@
-﻿namespace SMS.EPA.ClientHRM.Services
+﻿namespace SMS.EPA.ClientHrm.Services
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using SMS.EPA.ClientHRM.Model;
-    using SMS.EPA.ClientHRM.ThirdPartyAPIs;
+    using SMS.EPA.ClientHrm.Model;
+    using SMS.EPA.ClientHrm.ThirdPartyAPIs;
 
     public class PhotoService : IPhotoService
     {

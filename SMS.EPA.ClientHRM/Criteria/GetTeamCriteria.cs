@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.ClientHRM.Criteria
+﻿namespace SMS.EPA.ClientHrm.Criteria
 {
     using System;
     using Fanex.Data.Repository;

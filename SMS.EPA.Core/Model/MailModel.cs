@@ -14,6 +14,6 @@
 
         public string ReceiverEmail { get; set; }
 
-        public string MailCc { get; set; }
+        public string MailCC { get; set; }
     }
 }

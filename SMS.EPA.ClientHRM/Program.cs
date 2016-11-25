@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.ClientHRM
+﻿namespace SMS.EPA.ClientHrm
 {
     using System;
     using System.Net;
@@ -8,7 +8,7 @@
     using System.ServiceProcess;
     using Fanex.Data;
     using Fanex.Data.OldConnectionStringProvider;
-    using SMS.EPA.ClientHRM.Services;
+    using SMS.EPA.ClientHrm.Services;
 
     public static class Program
     {

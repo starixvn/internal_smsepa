@@ -52,8 +52,8 @@
             if (criteria.IsValid())
             {
                 result = employeeEPARepository.GetDashboard(criteria);
-                result.MonthlyEPAs = result.MyEPAs.Where(x => x.Period.TargetTypeId == (int)TargetType.Monthly);
-                result.MyEPAs = result.MyEPAs.Where(x => x.Period.TargetTypeId != (int)TargetType.Monthly);
+                result.MonthlyEpaInfos = result.MyEpaInfos.Where(x => x.Period.TargetTypeId == (int)TargetType.Monthly);
+                result.MyEpaInfos = result.MyEpaInfos.Where(x => x.Period.TargetTypeId != (int)TargetType.Monthly);
             }
 
             return result;

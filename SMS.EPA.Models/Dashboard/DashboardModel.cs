@@ -7,8 +7,8 @@
     {
         public Employee Employee { get; set; }
 
-        public IEnumerable<EPAModel> MyEPAs { get; set; }
+        public IEnumerable<EPAModel> MyEpaInfos { get; set; }
 
-        public IEnumerable<EPAModel> MonthlyEPAs { get; set; }
+        public IEnumerable<EPAModel> MonthlyEpaInfos { get; set; }
     }
 }
