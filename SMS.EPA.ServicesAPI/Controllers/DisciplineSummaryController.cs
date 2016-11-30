@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.ServicesAPI.Controllers
 {
+    using Fanex.Logging;
     using SMS.EPA.Core.Model;
     using SMS.EPA.ServicesAPI.Criteria.DisciplineSummary;
     using SMS.EPA.ServicesAPI.Criteria.EmployeeDiscipline;
@@ -34,6 +35,8 @@
 
          public IHttpActionResult Update(DisciplineSummary[] disciplines)
          {
+             LogService.Info("update discipline summary log by server");
+
              var criteria = new UpdateDisciplineSummaryCriteria()
              {
                  Disciplines = disciplines

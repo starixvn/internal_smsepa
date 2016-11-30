@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.ServicesAPI.Controllers
 {
+    using Fanex.Logging;
     using SMS.EPA.Core.Model;
     using SMS.EPA.ServicesAPI.Criteria.Department;
     using SMS.EPA.ServicesAPI.Model;
@@ -25,6 +26,8 @@
 
         public IHttpActionResult Update(Department[] departments)
         {
+            LogService.Info("update department log by server");
+
             var criteria = new UpdateDepartmentCriteria
             {
                 Departments = departments

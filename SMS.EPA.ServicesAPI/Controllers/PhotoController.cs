@@ -30,6 +30,8 @@
 
         public IHttpActionResult Update(Photo[] photos)
         {
+            LogService.Info("update Photo log by server");
+
             LogService.Info(photos.Count().ToString());
             string fullPath = string.Empty;
             foreach (Photo photo in photos)

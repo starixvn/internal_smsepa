@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.ServicesAPI.Controllers
 {
+    using Fanex.Logging;
     using SMS.EPA.Core.Model;
     using SMS.EPA.ServicesAPI.Criteria.Team;
     using SMS.EPA.ServicesAPI.Model;
@@ -33,6 +34,8 @@
 
         public IHttpActionResult Update(Team[] teams)
         {
+            LogService.Info("update Team log by server");
+
             var criteria = new UpdateTeamCriteria()
             {
                 Teams = teams

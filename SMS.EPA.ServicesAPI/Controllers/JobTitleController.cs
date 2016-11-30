@@ -1,5 +1,6 @@
 ﻿namespace SMS.EPA.ServicesAPI.Controllers
 {
+    using Fanex.Logging;
     using SMS.EPA.Core.Model;
     using SMS.EPA.ServicesAPI.Criteria.JobTitle;
     using SMS.EPA.ServicesAPI.Model;
@@ -23,6 +24,8 @@
 
         public IHttpActionResult Update(JobTitle[] titles)
         {
+            LogService.Info("update JobTitle log by server");
+
             var criteria = new UpdateJobTitleCriteria()
             {
                 JobTitles = titles
