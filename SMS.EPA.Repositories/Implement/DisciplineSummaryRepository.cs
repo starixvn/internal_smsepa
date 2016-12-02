@@ -32,10 +32,9 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                IEnumerable<dynamic> violations = db.Query<dynamic>(criteria.GetSpParams());
+                IEnumerable<dynamic> disciplines = db.Query<dynamic>(criteria.GetSpParams());
 
-                IEnumerable<DisciplineDetailModel> violationDetails = MappingObjectForAttendanceDetail(violations);
-                CalculateScore(violationDetails);
+                IEnumerable<DisciplineDetailModel> violationDetails = MappingObjectForAttendanceDetail(disciplines);
 
                 return violationDetails;
             }
@@ -200,35 +199,6 @@
                 Score = violation.UnpaidLeaveAbsentScore,
                 HasIgnored = violation.UnpaidLeaveAbsentHasIgnored
             };
-        }
-
-        private void CalculateScore(IEnumerable<DisciplineDetailModel> violationDetails)
-        {
-            foreach (DisciplineDetailModel violationDetail in violationDetails)
-            {
-                CalculateSubtractScore(violationDetail);
-            }
-        }
-
-        private void CalculateSubtractScore(DisciplineDetailModel violationDetail)
-        {
-            var violations = new List<ViolationModel>
-            {
-                violationDetail.MissingCheckInOut,
-                violationDetail.LateIn,
-                violationDetail.EarlyOut,
-                violationDetail.WorkingUnderTime,
-                violationDetail.Absent,
-                violationDetail.UnpaidLeave,
-                violationDetail.UnpaidLeaveAbsent,
-                violationDetail.ChangeShift
-            };
-
-            foreach (ViolationModel violation in violations.Where(violation => violation != null))
-            {
-                violationDetail.SystemSubtractScore += violation.Value * violation.Score;
-                violationDetail.ApproverSubtractScore += violation.HasIgnored.Equals(false) ? (violation.Value * violation.Score) : 0;
-            }
         }
 
         private string ConvertNumberToTime(double number)

@@ -1,6 +1,8 @@
 ﻿namespace SMS.EPA.Model
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using SMS.EPA.Model.Enitites;
 
     [Serializable]
@@ -42,9 +44,57 @@
 
         public ViolationModel ChangeShift { get; set; }
 
-        public decimal SystemSubtractScore { get; set; }
+        public decimal SystemSubtractScore
+        {
+            get
+            {
+                decimal score = 0;
+                var violations = new List<ViolationModel>
+                {
+                    MissingCheckInOut,
+                    LateIn,
+                    EarlyOut,
+                    WorkingUnderTime,
+                    Absent,
+                    UnpaidLeave,
+                    UnpaidLeaveAbsent,
+                    ChangeShift
+                };
 
-        public decimal ApproverSubtractScore { get; set; }
+                foreach (ViolationModel violation in violations.Where(violation => violation != null))
+                {
+                    score += violation.Value * violation.Score;
+                }
+
+                return score;
+            }
+        }
+
+        public decimal ApproverSubtractScore
+        {
+            get
+            {
+                decimal score = 0;
+                var violations = new List<ViolationModel>
+                {
+                    MissingCheckInOut,
+                    LateIn,
+                    EarlyOut,
+                    WorkingUnderTime,
+                    Absent,
+                    UnpaidLeave,
+                    UnpaidLeaveAbsent,
+                    ChangeShift
+                };
+
+                foreach (ViolationModel violation in violations.Where(violation => violation != null))
+                {
+                    score += !violation.HasIgnored ? (violation.Value * violation.Score) : 0;
+                }
+
+                return score;
+            }
+        }
 
         public string ApproverComment { get; set; }
 
