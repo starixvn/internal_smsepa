@@ -233,7 +233,7 @@
                 maxAdditionScore = epaInfo.Process.CurrentProcess.MaxAdditionScore,
                 addjustScore = epaInfo.Process.CurrentProcess.AdjustScore;
 
-            if (!EvaluationModel.validateScoreInput(adjustScore, maxSubtractScore, maxAdditionScore, vm.scoreInputValidMessage)) {
+            if (!EvaluationModel.validateScoreInput(addjustScore, maxSubtractScore, maxAdditionScore, vm.scoreInputValidMessage)) {
                 epaInfo.Process.CurrentProcess.AdjustScore = null;
             }
 
