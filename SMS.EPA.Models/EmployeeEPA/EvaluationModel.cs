@@ -35,7 +35,7 @@
             {
                 var result = string.Empty;
 
-                if (Score.Length > 0)
+                if (!string.IsNullOrEmpty(Score))
                 {
                     double score = double.Parse(Score);
                     IUtilityService utilityService = new UtilityService();
