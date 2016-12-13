@@ -58,10 +58,6 @@ function ($modalInstance, EvaluationModel, ReviewerEPAModel, ManagementEPAModel,
             averageScore = vm.epaInfo.Process.AverageScoreByReviewers;
         }
 
-        if (vm.epaInfo.HasDisciplineScore) {
-            averageScore -= vm.epaInfo.DisciplineScore;
-        }
-
         totalScore = averageScore + scoreAdjusted;
         vm.epaInfo.Process.CurrentProcess.TotalScore = totalScore;
         vm.epaInfo.Process.CurrentProcess.AdjustScore = scoreAdjusted;
