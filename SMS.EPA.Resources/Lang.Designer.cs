@@ -331,6 +331,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unauthorized IP request.
+        /// </summary>
+        public static string BadIPRequest {
+            get {
+                return ResourceManager.GetString("BadIPRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Below Average.
         /// </summary>
         public static string BelowAverage {
@@ -795,6 +804,15 @@ namespace SMS.EPA.Resources {
         public static string DisciplineSummaryDetail {
             get {
                 return ResourceManager.GetString("DisciplineSummaryDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Domain.
+        /// </summary>
+        public static string Domain {
+            get {
+                return ResourceManager.GetString("Domain", resourceCulture);
             }
         }
         
@@ -1627,6 +1645,15 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to HTTPS Required.
+        /// </summary>
+        public static string HTTPSRequired {
+            get {
+                return ResourceManager.GetString("HTTPSRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Human Resource.
         /// </summary>
         public static string HumanResource {
@@ -1704,6 +1731,15 @@ namespace SMS.EPA.Resources {
         public static string InProgress {
             get {
                 return ResourceManager.GetString("InProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sorry for the inconvenience! Please contact Admin to supported!.
+        /// </summary>
+        public static string InternalServerError {
+            get {
+                return ResourceManager.GetString("InternalServerError", resourceCulture);
             }
         }
         
@@ -3184,11 +3220,29 @@ namespace SMS.EPA.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Source.
+        /// </summary>
+        public static string Source {
+            get {
+                return ResourceManager.GetString("Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Spread KPIs Weight.
         /// </summary>
         public static string SpreadWeight {
             get {
                 return ResourceManager.GetString("SpreadWeight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to StackTrace.
+        /// </summary>
+        public static string StackTrace {
+            get {
+                return ResourceManager.GetString("StackTrace", resourceCulture);
             }
         }
         
@@ -3369,6 +3423,15 @@ namespace SMS.EPA.Resources {
         public static string TargetEmployeeSettingTemplate {
             get {
                 return ResourceManager.GetString("TargetEmployeeSettingTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TargetSite.
+        /// </summary>
+        public static string TargetSite {
+            get {
+                return ResourceManager.GetString("TargetSite", resourceCulture);
             }
         }
         

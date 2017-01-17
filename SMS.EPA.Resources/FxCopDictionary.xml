@@ -3,7 +3,9 @@
   <Words>
     <Recognized />
     <Unrecognized />
-    <Deprecated />
+    <Deprecated>
+      <Term PreferredAlternate="UserName">Username</Term>
+    </Deprecated>
     <Compound />
     <DiscreteExceptions />
   </Words>

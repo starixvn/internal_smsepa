@@ -26,8 +26,6 @@
 
         public IHttpActionResult Update(Department[] departments)
         {
-            LogService.Info("update department log by server");
-
             var criteria = new UpdateDepartmentCriteria
             {
                 Departments = departments

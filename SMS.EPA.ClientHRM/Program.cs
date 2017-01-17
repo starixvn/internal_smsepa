@@ -49,7 +49,6 @@
                     method.Invoke(service, new object[] { args });
                 }
 
-                Console.WriteLine("Press any key to exit!");
                 Console.ReadLine();
 
                 foreach (var service in servicesToRun)

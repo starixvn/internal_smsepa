@@ -34,8 +34,6 @@
 
         public IHttpActionResult Update(Team[] teams)
         {
-            LogService.Info("update Team log by server");
-
             var criteria = new UpdateTeamCriteria()
             {
                 Teams = teams

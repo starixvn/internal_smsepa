@@ -1,6 +1,8 @@
 ﻿namespace SMS.EPA.ServicesAPI
 {
     using Fanex.Logging;
+    using SMS.EPA.Resources;
+    using System;
     using System.Net;
     using System.Net.Http;
     using System.Threading;
@@ -16,17 +18,19 @@
             var exception = context.Exception;
 
             string message = exception.Message +
-                    "\r\nSource: " + exception.Source +
-                    "\r\nDomain: " + HttpContext.Current.Request.Headers["Host"] +
-                    "\r\nTargetSite: " + exception.TargetSite +
-                    "\r\nStackTrace: " + exception.StackTrace;
+                         Environment.NewLine + Lang.Source + exception.Source +
+                        Environment.NewLine + Lang.Domain + HttpContext.Current.Request.Headers["Host"] +
+                        Environment.NewLine + Lang.TargetSite + exception.TargetSite +
+                        Environment.NewLine + Lang.StackTrace + exception.StackTrace;
             LogService.Error(message);
 
-            var response = context.Request.CreateResponse(
-                HttpStatusCode.InternalServerError,
-                "Sorry for the inconvenience! Please contact Admin to supported!");
+            using (var response = new HttpResponseMessage())
+            {
+                response.StatusCode = HttpStatusCode.InternalServerError;
+                response.Content = new StringContent(Lang.InternalServerError);
 
-            context.Result = new ResponseMessageResult(response);
+                context.Result = new ResponseMessageResult(response);
+            }
 
             return Task.FromResult<object>(null);
         }

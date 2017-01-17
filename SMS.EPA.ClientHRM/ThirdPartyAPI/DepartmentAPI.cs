@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.ClientHrm.ThirdPartyAPIs
+﻿namespace SMS.EPA.ClientHrm.ThirdPartyAPI
 {
     using System;
     using System.Collections.Generic;
@@ -8,7 +8,7 @@
     using System.Net.Http.Headers;
     using SMS.EPA.ClientHrm.Model;
 
-    public class EmployeeAPI : IEmployeeAPI
+    public class DepartmentAPI : IDepartmentAPI
     {
         public DateTime GetLastModifiedDate(TokenAccess token)
         {
@@ -16,24 +16,19 @@
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
 
-                var result = client.GetAsync(ApplicationConfig.ServiceAPI + "Employee").Result;
-
-                if (result.StatusCode != HttpStatusCode.OK)
-                {
-                    throw new WebApiException(result.StatusCode, result.RequestMessage);
-                }
+                var result = client.GetAsync(new Uri(ApplicationConfig.ServiceAPI + "Department")).Result;
 
                 return result.Content.ReadAsAsync<DateTime>().Result;
             }
         }
 
-        public CommandResult Update(IEnumerable<Employee> employees, TokenAccess token)
+        public CommandResult Update(IEnumerable<Department> departments, TokenAccess token)
         {
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
 
-                var result = client.PostAsJsonAsync<Employee[]>(ApplicationConfig.ServiceAPI + "Employee", employees.ToArray()).Result;
+                var result = client.PostAsJsonAsync<Department[]>(ApplicationConfig.ServiceAPI + "Department", departments.ToArray()).Result;
 
                 return new CommandResult { Code = (int)result.StatusCode };
             }

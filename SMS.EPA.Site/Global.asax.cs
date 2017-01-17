@@ -1,5 +1,9 @@
 ﻿namespace SMS.EPA.Site
 {
+    using Fanex.Data;
+    using Fanex.Data.OldConnectionStringProvider;
+    using Fanex.Logging;
+    using SMS.EPA.Resources;
     using System;
     using System.Web;
     using System.Web.Http;
@@ -7,9 +11,6 @@
     using System.Web.Optimization;
     using System.Web.Routing;
     using System.Web.SessionState;
-    using Fanex.Data;
-    using Fanex.Data.OldConnectionStringProvider;
-    using Fanex.Logging;
 
     public class WebApiApplication : HttpApplication
     {
@@ -46,10 +47,10 @@
         {
             Exception ex = Server.GetLastError().GetBaseException();
             string message = ex.Message +
-                    "\r\nSource: " + ex.Source +
-                    "\r\nDomain: " + HttpContext.Current.Request.Headers["Host"] +
-                    "\r\nTargetSite: " + ex.TargetSite +
-                    "\r\nStackTrace: " + ex.StackTrace;
+                         Environment.NewLine + Lang.Source + ex.Source +
+                        Environment.NewLine + Lang.Domain + HttpContext.Current.Request.Headers["Host"] +
+                        Environment.NewLine + Lang.TargetSite + ex.TargetSite +
+                        Environment.NewLine + Lang.StackTrace + ex.StackTrace;
 
             LogService.Error(message);
         }

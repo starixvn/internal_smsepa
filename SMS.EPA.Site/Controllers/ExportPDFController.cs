@@ -47,7 +47,7 @@
             boldFont = FontFactory.GetFont("ARIALUNI", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED, FontSize, Font.BOLD, defaultColor);
 
             Document document = new Document(PageSize.A4, 0, 0, 30f, 30f);
-            PdfWriter writer = PdfWriter.GetInstance(document, Response.OutputStream);
+            PdfWriter.GetInstance(document, Response.OutputStream);
             document.Open();
 
             PdfPTable table = new PdfPTable(1);

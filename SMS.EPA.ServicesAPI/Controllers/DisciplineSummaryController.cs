@@ -35,8 +35,6 @@
 
          public IHttpActionResult Update(DisciplineSummary[] disciplines)
          {
-             LogService.Info("update discipline summary log by server");
-
              var criteria = new UpdateDisciplineSummaryCriteria()
              {
                  Disciplines = disciplines

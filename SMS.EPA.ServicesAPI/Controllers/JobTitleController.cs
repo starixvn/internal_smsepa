@@ -24,8 +24,6 @@
 
         public IHttpActionResult Update(JobTitle[] titles)
         {
-            LogService.Info("update JobTitle log by server");
-
             var criteria = new UpdateJobTitleCriteria()
             {
                 JobTitles = titles

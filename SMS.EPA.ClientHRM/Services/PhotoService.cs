@@ -5,7 +5,7 @@
     using System.IO;
     using System.Linq;
     using SMS.EPA.ClientHrm.Model;
-    using SMS.EPA.ClientHrm.ThirdPartyAPIs;
+    using SMS.EPA.ClientHrm.ThirdPartyAPI;
 
     public class PhotoService : IPhotoService
     {

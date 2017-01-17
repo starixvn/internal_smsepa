@@ -1,12 +1,5 @@
 ﻿namespace SMS.EPA.AutoService
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
-    using System.ServiceProcess;
-    using System.Threading.Tasks;
-    using System.Timers;
     using log4net;
     using SMS.EPA.AutoService.Criteria;
     using SMS.EPA.AutoService.Service;
@@ -17,6 +10,14 @@
     using SMS.EPA.Model;
     using SMS.EPA.Services.Implement;
     using SMS.EPA.Services.Interfaces;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
+    using System.Reflection;
+    using System.ServiceProcess;
+    using System.Threading.Tasks;
+    using System.Timers;
 
     public partial class AutoService : ServiceBase
     {
@@ -39,8 +40,8 @@
 
             var schedulerTime = DateTime.Today.AddDays(1).AddHours(AppSetting.HoursToStartService);
 
-            updateCounterTimer = new Timer { Interval = schedulerTime.Subtract(DateTime.Now).TotalSeconds * 1000 };
-            updateCounterTimer.Elapsed += ExecuteJob;
+            updateCounterTimer = new Timer(schedulerTime.Subtract(DateTime.Now).TotalSeconds * 1000);
+            updateCounterTimer.Elapsed += new ElapsedEventHandler(ExecuteJob);
             updateCounterTimer.Enabled = false;
 
             cryptographyService = new CryptographyService();
@@ -66,6 +67,7 @@
             Log.Info("Service stopped at " + DateTime.Now);
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Reviewed. Suppression is OK here.")]
         private void ExecuteJob(object sender, ElapsedEventArgs e)
         {
             try

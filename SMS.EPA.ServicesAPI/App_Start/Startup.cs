@@ -21,19 +21,21 @@
         {
             ConfigureAuth(app);
 
-            var config = new HttpConfiguration();
-            WebApiConfig.Register(config);
-            app.UseCors(CorsOptions.AllowAll);
-            app.UseWebApi(config);
+            using (var config = new HttpConfiguration())
+            {
+                WebApiConfig.Register(config);
+                app.UseCors(CorsOptions.AllowAll);
+                app.UseWebApi(config);
 
-            DbSettingProviderManager
-            .StartNewSession()
-            .Use(new OldConnectionStringProvider())
-            .UseDefaultDbSettingProvider(
-                resourcePath: "~/App_Data",
-                ignoreRedundantParameters: false,
-                enableWatching: true)
-            .Run();
+                DbSettingProviderManager
+                .StartNewSession()
+                .Use(new OldConnectionStringProvider())
+                .UseDefaultDbSettingProvider(
+                    resourcePath: "~/App_Data",
+                    ignoreRedundantParameters: false,
+                    enableWatching: true)
+                .Run();
+            }
         }
 
         public void ConfigureAuth(IAppBuilder app)

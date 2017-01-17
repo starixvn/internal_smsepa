@@ -34,8 +34,6 @@
 
         public IHttpActionResult Update(Employee[] employees)
         {
-            LogService.Info("update employee log by server");
-
             var criteria = new UpdateEmployeeCriteria()
             {
                 Employees = employees

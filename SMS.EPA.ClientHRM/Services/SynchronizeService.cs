@@ -45,33 +45,15 @@
 
         public void Synchronize()
         {
-            WriteLog("Department");
             SynchronizeDepartment();
-            WriteLog("Team");
             SynchronizeTeam();
-            WriteLog("Employee");
             SynchronizeEmployee();
-            WriteLog("Jobtitle");
             SynchronizeJobTitle();
-            WriteLog("Employee Discipline Permission");
             SynchronizeEmployeeDisciplinePermission();
-            WriteLog("Section Discipline Permission");
             SynchronizeGroupDisciplinePermission();
-            WriteLog("Discipline");
             SynchronizeDiscipline();
-            WriteLog("DisciplineSummary");
             SynchronizeDisciplineSummary();
-            WriteLog("Photo");
             SynchronizePhoto();
-            WriteLog("Done!");
-        }
-
-        private void WriteLog(string text)
-        {
-            if (ApplicationConfig.IsWriteLog)
-            {
-                LogService.Info(text);
-            }
         }
 
         private void SynchronizeDepartment()
