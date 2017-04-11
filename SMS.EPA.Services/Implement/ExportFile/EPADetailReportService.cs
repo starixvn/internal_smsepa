@@ -61,7 +61,20 @@
 
             response.Clear();
             response.ContentType = "application/vnd.ms-excel";
-            response.AddHeader("Content-Disposition", string.Format("attachment; filename={0}.xls", Lang.EPADetailReportName));
+
+            if (string.IsNullOrEmpty(epaDetail.EpaYear) || string.IsNullOrEmpty(epaDetail.EpaEvaluationPeriod))
+            {
+                response.AddHeader(
+                    "Content-Disposition",
+                    $"attachment; filename={Lang.EPADetailReportName}.xls");
+            }
+            else
+            {
+                response.AddHeader(
+                    "Content-Disposition",
+                    $"attachment; filename={epaDetail.EpaYear}_{epaDetail.EpaEvaluationPeriod}_{Lang.EPADetailReportName}.xls");
+            }
+            
 
             workbook.Write(response.OutputStream);
         }

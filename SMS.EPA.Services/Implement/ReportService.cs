@@ -97,6 +97,23 @@
                     employeeEPAService.GroupMonthlyEPABySemi(epaInfo, monthlyEPAs);
                     employeeEPAService.ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
                 }
+
+                if (criteria.PeriodId != null)
+                {
+                    GetPeriodByIdCriteria getPeriodByIdCriteria =
+                        new GetPeriodByIdCriteria
+                        {
+                            PeriodId = criteria.PeriodId.Value
+                        };
+
+                    PeriodModel period = GetDataEntity<PeriodModel>(getPeriodByIdCriteria);
+
+                    if (period.StartDate.HasValue)
+                    {
+                        result.EpaYear = period.StartDate.Value.Year.ToString();
+                        result.EpaEvaluationPeriod = period.StartDate.Value.Month <= 6 ? "1H" : "2H";
+                    }
+                }
             }
 
             return result;
