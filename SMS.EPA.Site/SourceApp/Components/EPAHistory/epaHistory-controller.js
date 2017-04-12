@@ -85,7 +85,13 @@
                 vm.periodOptions = CommonModel.periodOptions;
 
                 if (vm.periodOptions.length > 0 && !$routeParams.periodId) {
-                    vm.filter.periodId = vm.periodOptions[0].PeriodId;
+                    if (vm.periodOptions.length > 1) {
+                        /* Select last period */
+                        vm.filter.periodId = vm.periodOptions[1].PeriodId;
+                    } else {
+                        /* Select latest period since it's the only option */
+                        vm.filter.periodId = vm.periodOptions[0].PeriodId;
+                    }
                 }
 
                 getEPAHistory(vm.filter.periodId, vm.filter.departmentId, vm.filter.isLocal, vm.filter.employeeId);
