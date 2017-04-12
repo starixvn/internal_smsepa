@@ -14,8 +14,20 @@
 
         public IEnumerable<EvaluationPhaseModel> PhaseSelecteds { get; set; }
 
-        public string EpaYear { get; set; }
+        public PeriodModel Period { get; set; }
 
-        public string EpaEvaluationPeriod { get; set; }
+        public string EpaYear => Period.StartDate?.Year.ToString() ?? string.Empty;
+
+        public string EpaEvaluationPeriod
+        {
+            get
+            {
+                if (Period.StartDate.HasValue)
+                {
+                    return Period.StartDate.Value.Month <= 6 ? "1H" : "2H";
+                }
+                return string.Empty;
+            }
+        }
     }
 }

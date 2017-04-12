@@ -17,6 +17,8 @@
 
         EPADetailModel GetEPADetailReport(GetEPADetailCriteria criteria);
 
+        PeriodModel GetEPADetailPeriodForExportedFileName(GetEPADetailCriteria criteria);
+
         EPADetailModel GetMonthlyEPADetailReport(GetMonthlyEPADetailCriteria criteria);
 
         EPASummaryModel GetMonthlyEPASummaryReport(GetMonthlyEPASummaryCriteria criteria);

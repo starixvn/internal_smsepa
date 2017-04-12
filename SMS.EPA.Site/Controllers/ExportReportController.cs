@@ -99,6 +99,8 @@
 
             EPADetailModel epaDetail = reportService.GetEPADetailReport(criteria);
 
+            epaDetail.Period = reportService.GetEPADetailPeriodForExportedFileName(criteria);
+
             if (string.IsNullOrEmpty(criteria.SortColumnName) && epaDetail.EpaInfos.Any())
             {
                 switch (epaDetail.EpaInfos.First().Period.TargetTypeId)

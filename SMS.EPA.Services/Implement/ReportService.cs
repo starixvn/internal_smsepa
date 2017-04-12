@@ -1,23 +1,23 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.IO;
-    using System.Linq;
+    using Core.Constants;
+    using Core.Enumerations;
+    using Core.Services;
+    using Criteria.Report;
+    using Criteria;
+    using Interfaces;
+    using Model;
     using NPOI.HSSF.UserModel;
     using NPOI.HSSF.Util;
     using NPOI.SS.UserModel;
     using NPOI.SS.Util;
-    using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Criteria.Report;
-    using SMS.EPA.Model;
-    using SMS.EPA.Repositories;
-    using SMS.EPA.Resources;
-    using SMS.EPA.Services.Interfaces;
+    using Repositories;
+    using Resources;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.IO;
+    using System.Linq;
+    using System;
 
     public class ReportService : BaseService, IReportService
     {
@@ -26,8 +26,7 @@
         private readonly IEmployeeEPARepository employeeEPARepository;
         private readonly IEmployeeEPAService employeeEPAService;
 
-        public ReportService()
-            : this(null, null, null)
+        public ReportService() : this(null, null, null)
         {
         }
 
@@ -97,26 +96,24 @@
                     employeeEPAService.GroupMonthlyEPABySemi(epaInfo, monthlyEPAs);
                     employeeEPAService.ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
                 }
-
-                if (criteria.PeriodId != null)
-                {
-                    GetPeriodByIdCriteria getPeriodByIdCriteria =
-                        new GetPeriodByIdCriteria
-                        {
-                            PeriodId = criteria.PeriodId.Value
-                        };
-
-                    PeriodModel period = GetDataEntity<PeriodModel>(getPeriodByIdCriteria);
-
-                    if (period.StartDate.HasValue)
-                    {
-                        result.EpaYear = period.StartDate.Value.Year.ToString();
-                        result.EpaEvaluationPeriod = period.StartDate.Value.Month <= 6 ? "1H" : "2H";
-                    }
-                }
             }
 
             return result;
+        }
+
+        public PeriodModel GetEPADetailPeriodForExportedFileName(GetEPADetailCriteria criteria)
+        {
+            if (criteria.PeriodId != null)
+            {
+                GetPeriodByIdCriteria getPeriodByIdCriteria =
+                    new GetPeriodByIdCriteria
+                    {
+                        PeriodId = criteria.PeriodId.Value
+                    };
+
+                return GetDataEntity<PeriodModel>(getPeriodByIdCriteria);
+            }
+            return null;
         }
 
         public MemoryStream ExportMonthlyEPASummaryReport(EPASummaryModel epaSummary)
