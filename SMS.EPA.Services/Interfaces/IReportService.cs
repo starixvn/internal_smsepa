@@ -2,8 +2,8 @@
 {
     using System.Collections.Generic;
     using System.IO;
-    using SMS.EPA.Criteria.Report;
-    using SMS.EPA.Model;
+    using Criteria.Report;
+    using Model;
 
     public interface IReportService
     {
@@ -17,7 +17,7 @@
 
         EPADetailModel GetEPADetailReport(GetEPADetailCriteria criteria);
 
-        PeriodModel GetEPADetailPeriodForExportedFileName(GetEPADetailCriteria criteria);
+        PeriodModel GetEPADetailPeriodForExportedFileName(string periodId);
 
         EPADetailModel GetMonthlyEPADetailReport(GetMonthlyEPADetailCriteria criteria);
 

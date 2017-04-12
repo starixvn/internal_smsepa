@@ -101,14 +101,16 @@
             return result;
         }
 
-        public PeriodModel GetEPADetailPeriodForExportedFileName(GetEPADetailCriteria criteria)
+        public PeriodModel GetEPADetailPeriodForExportedFileName(string periodId)
         {
-            if (criteria.PeriodId != null)
+            int id;
+
+            if (!string.IsNullOrEmpty(periodId) && int.TryParse(periodId, out id))
             {
                 GetPeriodByIdCriteria getPeriodByIdCriteria =
                     new GetPeriodByIdCriteria
                     {
-                        PeriodId = criteria.PeriodId.Value
+                        PeriodId = id
                     };
 
                 return GetDataEntity<PeriodModel>(getPeriodByIdCriteria);

@@ -103,6 +103,7 @@
     <Compile Include="Dashboard\ToDoListModel.cs" />
     <Compile Include="Report\EPADetail\EPADetailModel.cs" />
     <Compile Include="Report\EPADetail\EvaluationPhaseModel.cs" />
+    <Compile Include="Report\EPAReportConditionalFilename.cs" />
     <Compile Include="Report\EPASummary\EPASummaryEmployeeModel.cs" />
     <Compile Include="Report\EPASummary\EPASummaryModel.cs" />
     <Compile Include="Report\EPASummary\EPASummaryPeriodModel.cs" />

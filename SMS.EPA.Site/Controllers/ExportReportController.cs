@@ -4,14 +4,14 @@
     using System.IO;
     using System.Linq;
     using System.Web.Mvc;
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Criteria.Report;
-    using SMS.EPA.Model;
-    using SMS.EPA.Resources;
-    using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
+    using Core.Enumerations;
+    using Core.Services;
+    using Criteria;
+    using Criteria.Report;
+    using Model;
+    using Resources;
+    using Services.Implement;
+    using Services.Interfaces;
 
     public class ExportReportController : Controller
     {
@@ -69,15 +69,28 @@
 
         public ActionResult ExportEPASummaryReport(GetEPASummaryCriteria criteria)
         {
-            string fileName = Lang.EPASummaryReportName + ".xls";
-
             criteria.ActorId = sessionService.CurrentUser.EmployeeId;
 
             EPASummaryModel epaSummary = reportService.GetEPASummaryReport(criteria);
-
+            epaSummary.Period = reportService.GetEPADetailPeriodForExportedFileName(criteria.PeriodIds);
+            
             MemoryStream output = reportService.ExportEPASummaryReport(epaSummary);
 
+            string fileName = GetEPASummaryReportFilename(epaSummary);
+
             return File(output.ToArray(), "application/vnd.ms-excel", fileName);
+        }
+
+        private string GetEPASummaryReportFilename(EPASummaryModel epaSummary)
+        {
+            string fileName = $"{Lang.EPASummaryReportName}.xls";
+
+            if (!string.IsNullOrEmpty(epaSummary.EpaYear) && !string.IsNullOrEmpty(epaSummary.EpaEvaluationPeriod))
+            {
+                fileName = $"{epaSummary.EpaYear}_{epaSummary.EpaEvaluationPeriod}_{Lang.EPASummaryReportName}.xls";
+            }
+
+            return fileName;
         }
 
         public ActionResult ExportMonthlyEPASummaryReport(GetMonthlyEPASummaryCriteria criteria)
@@ -99,7 +112,7 @@
 
             EPADetailModel epaDetail = reportService.GetEPADetailReport(criteria);
 
-            epaDetail.Period = reportService.GetEPADetailPeriodForExportedFileName(criteria);
+            epaDetail.Period = reportService.GetEPADetailPeriodForExportedFileName(criteria.PeriodId?.ToString());
 
             if (string.IsNullOrEmpty(criteria.SortColumnName) && epaDetail.EpaInfos.Any())
             {

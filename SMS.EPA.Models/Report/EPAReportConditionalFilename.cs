@@ -1,0 +1,21 @@
+﻿namespace SMS.EPA.Model.Report
+{
+    public abstract class EPAReportConditionalFilename
+    {
+        public PeriodModel Period { get; set; }
+
+        public string EpaYear => Period?.StartDate?.Year.ToString() ?? string.Empty;
+
+        public string EpaEvaluationPeriod
+        {
+            get
+            {
+                if (Period?.StartDate != null)
+                {
+                    return Period.StartDate.Value.Month <= 6 ? "1H" : "2H";
+                }
+                return string.Empty;
+            }
+        }
+    }
+}

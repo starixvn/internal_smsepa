@@ -1,9 +1,10 @@
 ﻿namespace SMS.EPA.Model
 {
     using System.Collections.Generic;
-    using SMS.EPA.Core.Constants;
+    using Core.Constants;
+    using Report;
 
-    public class EPASummaryModel
+    public class EPASummaryModel : EPAReportConditionalFilename
     {
         public EPASummaryModel()
         {
@@ -15,12 +16,6 @@
 
         public IList<EPASummaryEmployeeModel> EPAInfos { get; set; }
 
-        public int MaxFinalScore
-        {
-            get
-            {
-                return Constants.MaxFinalScore;
-            }
-        }
+        public int MaxFinalScore => Constants.MaxFinalScore;
     }
 }
