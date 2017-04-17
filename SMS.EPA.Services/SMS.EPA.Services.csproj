@@ -90,6 +90,7 @@
     <Compile Include="Implement\DisciplineService.cs" />
     <Compile Include="Implement\CommonService.cs" />
     <Compile Include="Implement\DepartmentService.cs" />
+    <Compile Include="Implement\ExportFile\ExportExcelService.cs" />
     <Compile Include="Implement\ExportFile\ExportPersonalFlowSettingService.cs" />
     <Compile Include="Implement\ExportFile\ExportEmployeeFlowSettingService.cs" />
     <Compile Include="Implement\ExportFile\ExportEmployeeInfoService.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="Implement\TargetTemplateService.cs" />
     <Compile Include="Implement\TargetTypeService.cs" />
     <Compile Include="Implement\RoleService.cs" />
+    <Compile Include="Interfaces\ExportFile\IExportExcelService.cs" />
     <Compile Include="Interfaces\ExportFile\IExportPersonalFlowSettingService.cs" />
     <Compile Include="Interfaces\ExportFile\IExportEmployeeFlowSettingService.cs" />
     <Compile Include="Interfaces\ExportFile\IExportEmployeeInfoService.cs" />

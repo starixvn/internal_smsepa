@@ -1,9 +1,11 @@
 ﻿namespace SMS.EPA.Model
 {
-    using SMS.EPA.Model.Enitites;
+    using Enitites;
     using System.Collections.Generic;
+    using System.Linq;
+    using Report;
 
-    public class TargetEmployeeSetting
+    public class TargetEmployeeSetting : IExcelRecord
     {
         public TargetEmployeeSetting()
         {
@@ -24,5 +26,20 @@
         }
 
         public bool Selected { get; set; }
+
+        public object ConvertToExcelRecord()
+        {
+            var record = new
+            {
+                Code = Employee.Code,
+                Section = Employee.Group != null ? Employee.Group.GroupName : string.Empty,
+                NickName = Employee.NickName,
+                FullName = Employee.FullName,
+                TargetType = TargetTemplates.FirstOrDefault()?.TargetTypeName,
+                TargetTemplate = TargetTemplates.FirstOrDefault()?.Name
+            };
+
+            return record;
+        }
     }
 }

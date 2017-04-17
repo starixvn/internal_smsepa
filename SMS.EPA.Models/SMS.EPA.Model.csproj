@@ -107,6 +107,7 @@
     <Compile Include="Report\EPASummary\EPASummaryEmployeeModel.cs" />
     <Compile Include="Report\EPASummary\EPASummaryModel.cs" />
     <Compile Include="Report\EPASummary\EPASummaryPeriodModel.cs" />
+    <Compile Include="Report\IExcelRecord.cs" />
     <Compile Include="RoleManagement\RoleFunctionModel.cs" />
     <Compile Include="ScoreRatingType\ScoreRatingTypeModel.cs" />
     <Compile Include="TargetSetting\TargetDepartmentSetting.cs" />
@@ -128,7 +129,6 @@
   <ItemGroup>
     <CodeAnalysisDictionary Include="FxCopDictionary.xml" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

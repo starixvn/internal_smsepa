@@ -11,7 +11,9 @@
     using Model;
     using Resources;
     using Services.Implement;
+    using Services.Implement.ExportFile;
     using Services.Interfaces;
+    using Services.Interfaces.ExportFile;
 
     public class ExportReportController : Controller
     {
@@ -19,6 +21,7 @@
         private const string DisciplineDetailTemplatePath = @"~\ExcelTemplates\DisciplineDetailReport.xls";
         private const string DisciplineSummaryByPeriodTemplatePath = @"~\ExcelTemplates\DisciplineSummaryByPeriodReport.xls";
         private const string UpdateFinalScoreTemplatePath = @"~\ExcelTemplates\UpdateFinalScore.xls";
+        private const string TargetPersonnelSettingTemplate = @"~\ExcelTemplates\TargetPersonnelSettingTemplate.xls";
 
         private readonly IReportService reportService;
         private readonly IEPADetailReportService epaDetailReportService;
@@ -28,10 +31,12 @@
         private readonly IExportEmployeeFlowSettingService exportEmployeeFlowSettingService;
         private readonly IExportEmployeeInfoService exportEmployeeInfoService;
         private readonly IExportPersonalFlowSettingService exportPersonalFlowSettingService;
+        private readonly IExportExcelService _exportExcelService;
+        private readonly ITargetEmployeeSettingService _targetEmployeeSettingService;
         private ISessionService sessionService;
 
         public ExportReportController()
-            : this(null, null, null, null, null, null, null, null, null)
+            : this(null, null, null, null, null, null, null, null, null, null, null)
         {
         }
 
@@ -44,6 +49,8 @@
             IExportEmployeeFlowSettingService exportEmployeeFlowSettingService,
             IExportEmployeeInfoService exportEmployeeInfoService,
             IExportPersonalFlowSettingService exportPersonalFlowSettingService,
+            IExportExcelService exportExcelService,
+            ITargetEmployeeSettingService targetEmployeeSettingService,
             ISessionService sessionService)
         {
             this.reportService = reportService ?? new ReportService();
@@ -55,6 +62,8 @@
             this.exportEmployeeFlowSettingService = exportEmployeeFlowSettingService ?? new ExportEmployeeFlowSettingService();
             this.exportEmployeeInfoService = exportEmployeeInfoService ?? new ExportEmployeeInfoService();
             this.exportPersonalFlowSettingService = exportPersonalFlowSettingService ?? new ExportPersonalFlowSettingService();
+            _exportExcelService = exportExcelService ?? new ExportExcelService();
+            _targetEmployeeSettingService = targetEmployeeSettingService ?? new TargetEmployeeSettingService();
         }
 
         public ActionResult ExportEmployeeFlowSettingReport(GetPeriodEmployeeSettingCriteria criteria)
@@ -226,6 +235,21 @@
             if (flowTemplateId > 0 && !string.IsNullOrEmpty(flowTemplateName))
             {
                 exportPersonalFlowSettingService.Export(flowTemplateId, flowTemplateName);
+            }
+
+            return new EmptyResult();
+        }
+
+        public ActionResult ExportTargetPersonnelSettingReport(GetAllTargetEmployeeSettingCriteria criteria)
+        {
+            if (criteria != null)
+            {
+                var datas = _targetEmployeeSettingService.GetTargetEmployeeSetting(criteria);
+
+                _exportExcelService.FileName = "Target_Personnel_Setting";
+                _exportExcelService.SheetName = "Target Personnel Setting";
+                _exportExcelService.TemplatePath = TargetPersonnelSettingTemplate;
+                _exportExcelService.Export(datas);
             }
 
             return new EmptyResult();

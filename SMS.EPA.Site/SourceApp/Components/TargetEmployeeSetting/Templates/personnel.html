@@ -41,6 +41,9 @@
                     </div>
                     <button class="btn btn-primary pull-left btn-assign" data-translate="Assign" ng-click="personnelCtrl.assignTargetTemplate()"
                             ng-show="targetCtrl.permission == targetCtrl.policyEnum.Host"></button>
+                    <input class="btnExcel pull-right"
+                           ng-click="personnelCtrl.exportReport(personnelCtrl.filter)"
+                           type="button" title="Export to Excel">
                     <input type="text" ng-model="personnelCtrl.searchKey" ng-change="personnelCtrl.search()" class="search-inline-textbox search pull-right">
                 </th>
             </tr>
