@@ -101,6 +101,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Dashboard\ToDoListViewModel.cs" />
     <Compile Include="Dashboard\ToDoListModel.cs" />
+    <Compile Include="Report\ConditionalCellStyle.cs" />
     <Compile Include="Report\EPADetail\EPADetailModel.cs" />
     <Compile Include="Report\EPADetail\EvaluationPhaseModel.cs" />
     <Compile Include="Report\EPAReportConditionalFilename.cs" />

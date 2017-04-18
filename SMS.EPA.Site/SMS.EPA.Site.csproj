@@ -792,7 +792,6 @@
     <Content Include="ExcelTemplates\EmployeeBasicInfoTemplate.xls" />
     <Content Include="ExcelTemplates\EmployeeFlowSettingTemplate.xls" />
     <Content Include="ExcelTemplates\PersonalFlowSettingTemplate.xls" />
-    <Content Include="ExcelTemplates\TargetPersonnelSettingTemplate.xls" />
     <None Include="Libs\angularjs\angular-resource.min.js.map" />
     <None Include="Libs\angularjs\angular-route.min.js.map" />
     <None Include="Libs\angularjs\angular.min.js.map" />
