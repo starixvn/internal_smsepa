@@ -9,6 +9,9 @@
     using Criteria;
     using Criteria.Report;
     using Model;
+    using Model.Report;
+    using NPOI.HSSF.Util;
+    using NPOI.SS.UserModel;
     using Resources;
     using Services.Implement;
     using Services.Implement.ExportFile;
@@ -248,7 +251,26 @@
 
                 _exportExcelService.FileName = "Target_Personnel_Setting";
                 _exportExcelService.SheetName = "Target Personnel Setting";
-                _exportExcelService.TemplatePath = TargetPersonnelSettingTemplate;
+                _exportExcelService.Title = "Target Personnel Setting";
+                _exportExcelService.Init();
+
+                //REVIEW: add format to a column base on condition
+                //int index = _exportExcelService.CreateNewColumnStyle();
+                ////Set Cell Style
+                //ICellStyle style = _exportExcelService.ColumnsStyles[index];
+                //style.FillBackgroundColor = HSSFColor.Red.Index;
+                //style.FillForegroundColor = HSSFColor.Red.Index;
+                //style.FillPattern = FillPattern.SolidForeground;
+                //style.Alignment = HorizontalAlignment.Justify;
+
+                //ConditionalCellStyle conditionalCellStyle = new ConditionalCellStyle
+                //{
+                //    ColumnIndex = 0,
+                //    StyleIndex = index,
+                //    Condition = (x) => x.ToString().Length > 4
+                //};
+                //_exportExcelService.ConditionalCellStyles.Add(conditionalCellStyle);
+
                 _exportExcelService.Export(datas);
             }
 

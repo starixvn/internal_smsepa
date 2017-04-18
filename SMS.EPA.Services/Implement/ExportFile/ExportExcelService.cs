@@ -16,64 +16,140 @@
         {
         }
 
-        public ExportExcelService(string templatePath, string fileName, string sheetName, int totalColumns)
+        public ExportExcelService(string fileName, string sheetName, string title) : this()
         {
-            TemplatePath = templatePath;
             FileName = fileName;
             SheetName = sheetName;
-            TotalColumns = totalColumns;
+            Title = title;
         }
 
-        public string TemplatePath { get; set; }
+        public IWorkbook Workbook { get; set; }
 
-        public int RowStartHeader { get; set; } = 2;
+        public ISheet Sheet { get; set; }
 
-        public int RowStartBody { get; set; } = 3;
+        public int TitleRowIndex { get; set; } = 0;
+
+        public int HeaderRowIndex { get; set; } = 1;
+
+        public int ContentRowStartIndex { get; set; } = 2;
 
         public int TotalColumns { get; set; }
 
         public string FileName { get; set; }
 
         public string SheetName { get; set; }
-        
-        public void Export(IEnumerable<IExcelRecord> datas)
+
+        public string Title { get; set; }
+
+        public ICellStyle TitleStyle { get; set; }
+
+        public IList<ICellStyle> HeaderStyles { get; set; }
+
+        public IList<ICellStyle> ColumnsStyles { get; set; }
+
+        public IList<ConditionalCellStyle> ConditionalCellStyles { get; set; }
+
+        public void Init()
         {
-            HSSFWorkbook wordbook = new HSSFWorkbook();
-            ISheet sheet = wordbook.CreateSheet(SheetName);
+            Workbook = new HSSFWorkbook();
+            Sheet = Workbook.CreateSheet(SheetName);
 
-            var sampleRecord = datas.FirstOrDefault()?.ConvertToExcelRecord();
-            Type recordType = sampleRecord?.GetType();
-            if (recordType != null)
+            TitleStyle = Workbook.CreateCellStyle();
+            HeaderStyles = new List<ICellStyle>();
+
+            ConditionalCellStyles = new List<ConditionalCellStyle>();
+            ColumnsStyles = new List<ICellStyle>();
+        }
+
+        private void WriteTitle()
+        {
+            IRow titleRow = Sheet.CreateRow(TitleRowIndex);
+            ICell cell = titleRow.CreateCell(0, CellType.String);
+            cell.SetCellValue(Title);
+            cell.CellStyle = TitleStyle;
+        }
+        
+        private void WriteHeaders(object sampleRecord)
+        {
+            Type recordType = sampleRecord.GetType();
+
+            var columns = recordType.GetProperties();
+
+            IRow headerRow = Sheet.CreateRow(HeaderRowIndex);
+
+            for (var index = 0; index < columns.Length; index++)
             {
-                var columns = recordType.GetProperties();
-                IRow headerRow = sheet.CreateRow(0);
-                for (var index = 0; index < columns.Length; index++)
-                {
-                    PropertyInfo propertyInfo = columns[index];
-                    headerRow.CreateCell(index).SetCellValue(propertyInfo.Name);
-                    sheet.AutoSizeColumn(index);
-                }
+                PropertyInfo propertyInfo = columns[index];
+                headerRow.CreateCell(index).SetCellValue(propertyInfo.Name);
+                HeaderStyles.Add(Workbook.CreateCellStyle());
             }
+        }
 
-            int rowId = 1;
+        private void WriteData(IEnumerable<IExcelRecord> datas)
+        {
+            int rowId = ContentRowStartIndex;
 
             foreach (IExcelRecord data in datas)
             {
-                IRow row = sheet.CreateRow(rowId);
+                IRow row = Sheet.CreateRow(rowId);
                 var objectData = data.ConvertToExcelRecord();
                 PropertyInfo[] infos = objectData.GetType().GetProperties();
                 for (int index = 0; index < infos.Length; index++)
                 {
                     ICell cell = row.CreateCell(index);
-                    cell.SetCellValue(infos[index].GetValue(objectData, null));
+
+                    var value = infos[index].GetValue(objectData, null);
+
+                    cell.SetCellValue(value);
+
+
+                    foreach (ConditionalCellStyle conditionalCellStyle in ConditionalCellStyles)
+                    {
+                        if (index == conditionalCellStyle.ColumnIndex && conditionalCellStyle.Condition(value))
+                        {
+                            cell.CellStyle = ColumnsStyles[conditionalCellStyle.StyleIndex];
+                        }
+                    }
                 }
 
                 rowId++;
             }
+        }
 
-            sheet.CreateFreezePane(0, RowStartBody);
+        public int CreateNewColumnStyle()
+        {
+            if (ColumnsStyles != null)
+            {
+                ICellStyle style = Workbook.CreateCellStyle();
+                ColumnsStyles.Add(style);
+                return ColumnsStyles.IndexOf(style);
+            }
+            return 0;
+        }
+        
+        public void Export(IEnumerable<IExcelRecord> datas)
+        {
+            if (datas == null || !datas.Any())
+            {
+                return;
+            }
 
-            wordbook.ToReponseStream(FileName);
+            WriteTitle();
+
+            WriteHeaders(datas.First().ConvertToExcelRecord());
+
+            WriteData(datas);
+
+            int totalColumns = datas.First().GetType().GetProperties().Length;
+
+            for (int i = 0; i < totalColumns; i++)
+            {
+                Sheet.AutoSizeColumn(i);
+            }
+
+            Sheet.CreateFreezePane(0, ContentRowStartIndex);
+
+            Workbook.ToReponseStream(FileName);
         }
     }
 }
