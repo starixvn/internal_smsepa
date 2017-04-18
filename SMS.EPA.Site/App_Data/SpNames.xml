@@ -212,7 +212,7 @@
     </Setting>
     <Setting Key="EPA_ResetScore" SpName="EPA_ResetScore" DbName="SMSEPA" Plain="0"></Setting>
     <Setting Key="EPA_UpdateFinalScoreEndEvaluation" SpName="EPA_UpdateFinalScoreEndEvaluation" DbName="SMSEPA" Plain="0"></Setting>
-    <Setting Key="EPA_GetEPAToUpdateFinalScore" SpName="EPA_GetEPAToUpdateFinalScore" DbName="SMSEPA" Plain="0">
+    <Setting Key="EPA_GetEPAToUpdateFinalScore_xtest" SpName="EPA_GetEPAToUpdateFinalScore_xtest" DbName="SMSEPA" Plain="0">
       <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
       <Mapping DataField="ModifiedById" ObjectProperty="EmployeeId" />
     </Setting>

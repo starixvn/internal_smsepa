@@ -16,10 +16,10 @@
                         </select>
                     </div>
                 </div>
-                <label class="col-sm-1 control-label" data-translate="Section"></label>
+                <label class="col-sm-1 control-label" data-translate="DepartmentSection"></label>
                 <div class="col-sm-2">
-                    <select class="form-control" ng-model="updateFinalScoreCtrl.filter.groupId"
-                            ng-options="opt.GroupId as opt.GroupName for opt in updateFinalScoreCtrl.groups">
+                    <select class="form-control lstBox-limit" ng-model="updateFinalScoreCtrl.filter.departmentId"
+                            ng-options="opt.DepartmentId as opt.Name for opt in updateFinalScoreCtrl.treeDepartment">
                         <option value="">-- {{"All" | translate}} --</option>
                     </select>
                 </div>

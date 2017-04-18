@@ -20,16 +20,16 @@
             });
         };
 
-        model.getEmployeeToUpdateFinalScore = function (periodId, groupId, isLocal, query) {
-            return updateFinalScoreFactory.getEmployeeToUpdateFinalScore(periodId, groupId, isLocal, query).success(function (employees) {
+        model.getEmployeeToUpdateFinalScore = function (periodId, departmentId, isLocal, query) {
+            return updateFinalScoreFactory.getEmployeeToUpdateFinalScore(periodId, departmentId, isLocal, query).success(function (employees) {
                 model.employees = employees;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         };
 
-        model.getEPAToUpdateFinalScore = function (periodId, groupId, isLocal, employeeId) {
-            return updateFinalScoreFactory.getEPAToUpdateFinalScore(periodId, groupId, isLocal, employeeId).success(function (epaInfos) {
+        model.getEPAToUpdateFinalScore = function (periodId, departmentId, isLocal, employeeId) {
+            return updateFinalScoreFactory.getEPAToUpdateFinalScore(periodId, departmentId, isLocal, employeeId).success(function (epaInfos) {
                 model.epaInfos = epaInfos;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
@@ -59,7 +59,7 @@
                         notificationFactory.success('UpdatedSuccessfully');
 
                         var employeeId = vm.filter.employee ? vm.filter.employee.EmployeeId : null;
-                        updateFinalScoreFactory.getEPAToUpdateFinalScore(vm.filter.periodId, vm.filter.groupId, vm.filter.isLocal, employeeId)
+                        updateFinalScoreFactory.getEPAToUpdateFinalScore(vm.filter.periodId, vm.filter.departmentId, vm.filter.isLocal, employeeId)
                         .success(function (epaInfos) {
                             angular.forEach(vm.epaInfos, function (epaInfo) {
                                 if (epaInfo.Selected) {

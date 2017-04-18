@@ -1,24 +1,26 @@
 ﻿namespace SMS.EPA.Site.Controllers.API
 {
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
+    using System.Text;
     using System.Web.Http;
-    using SMS.EPA.Core.Attribute;
-    using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
+    using Core.Attribute;
+    using Core.Constants;
+    using Core.Enumerations;
+    using Core.Model;
+    using Core.Services;
+    using Criteria;
+    using Model;
+    using Services.Implement;
+    using Services.Interfaces;
 
     public class UpdateFinalScoreController : BaseController
     {
-        private readonly IEmployeeEPAService evaluationService;
-        private readonly ICryptographyService cryptographyService;
+        private readonly IEmployeeEPAService _evaluationService;
+        private readonly ICryptographyService _cryptographyService;
 
         public UpdateFinalScoreController()
             : this(null, null)
@@ -27,15 +29,15 @@
 
         public UpdateFinalScoreController(IEmployeeEPAService evaluationService, ICryptographyService cryptographyService)
         {
-            this.evaluationService = evaluationService ?? new EmployeeEPAService();
-            this.cryptographyService = cryptographyService ?? new CryptographyService();
+            _evaluationService = evaluationService ?? new EmployeeEPAService();
+            _cryptographyService = cryptographyService ?? new CryptographyService();
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UpdateFinalScore, Policy = Policy.Read)]
         public HttpResponseMessage GetPeriodToUpdateFinalScore()
         {
             var criteria = new GetPeriodToUpdateFinalScoreCriteria();
-            IList<EPAPeriodModel> periods = evaluationService.GetPeriodToUpdateFinalScore(criteria);
+            IList<EPAPeriodModel> periods = _evaluationService.GetPeriodToUpdateFinalScore(criteria);
 
             return Request.CreateResponse(HttpStatusCode.OK, periods);
         }
@@ -54,7 +56,8 @@
                 IsLocal = isLocal,
                 Query = query
             };
-            IList<EPAEmployeeModel> employees = evaluationService.GetEmployeeToUpdateFinalScore(criteria);
+
+            IList<EPAEmployeeModel> employees = _evaluationService.GetEmployeeToUpdateFinalScore(criteria);
 
             return Request.CreateResponse(HttpStatusCode.OK, employees);
         }
@@ -62,18 +65,19 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UpdateFinalScore, Policy = Policy.Read)]
         public HttpResponseMessage GetEPAToUpdateFinalScore(
             int periodId,
-            int? groupId = null,
+            int? departmentId = null,
             bool? isLocal = null,
             int? employeeId = null)
         {
             var criteria = new GetEPAToUpdateFinalScoreCriteria
             {
                 PeriodId = periodId,
-                GroupId = groupId,
                 IsLocal = isLocal,
+                DepartmentId = departmentId,
                 EmployeeId = employeeId
             };
-            IList<EPAModel> epaInfos = evaluationService.GetEPAToUpdateFinalScore(criteria);
+            
+            IList<EPAModel> epaInfos = _evaluationService.GetEPAToUpdateFinalScore(criteria);
 
             return Request.CreateResponse(HttpStatusCode.OK, epaInfos);
         }
@@ -82,25 +86,25 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UpdateFinalScore, Policy = Policy.Host)]
         public HttpResponseMessage UpdateFinalScore(List<EPAModel> epaInfos)
         {
-            IEnumerable<StandardGradeModel> standardGrades = evaluationService.GetStandardGrade();
+            IEnumerable<StandardGradeModel> standardGrades = _evaluationService.GetStandardGrade();
 
             foreach (EPAModel epaInfo in epaInfos)
             {
                 float? averagePerformanceScore = GetFinalScoreOfEPA(epaInfo),
                     finalScore = averagePerformanceScore.HasValue ? (averagePerformanceScore.Value + epaInfo.DisciplineScore) : (float?)null;
 
-                epaInfo.FinalScore = finalScore.HasValue ? cryptographyService.Encrypt(finalScore.Value.ToString()) : string.Empty;
-                string grade = finalScore.HasValue ? evaluationService.ConvertScoreToGrade(finalScore.Value, standardGrades) : string.Empty;
-                epaInfo.Grade = !string.IsNullOrEmpty(grade) ? cryptographyService.Encrypt(grade) : string.Empty;
+                epaInfo.FinalScore = finalScore.HasValue ? _cryptographyService.Encrypt(finalScore.Value.ToString(CultureInfo.InvariantCulture)) : string.Empty;
+                string grade = finalScore.HasValue ? _evaluationService.ConvertScoreToGrade(finalScore.Value, standardGrades) : string.Empty;
+                epaInfo.Grade = !string.IsNullOrEmpty(grade) ? _cryptographyService.Encrypt(grade) : string.Empty;
             }
 
             var criteria = new UpdateFinalScoreEPAEndEvaluationCriteria
             {
-                ModifiedBy = this.SessionService.EmployeeId,
+                ModifiedBy = SessionService.EmployeeId,
                 EPAInfos = epaInfos
             };
 
-            CommandResult commandResult = evaluationService.UpdateFinalScoreEPAEndEvaluation(criteria);
+            CommandResult commandResult = _evaluationService.UpdateFinalScoreEPAEndEvaluation(criteria);
             HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, commandResult);
 
             return response;

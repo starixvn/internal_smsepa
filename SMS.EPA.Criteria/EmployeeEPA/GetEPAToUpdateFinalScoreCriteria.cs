@@ -7,7 +7,7 @@
     {
         public int PeriodId { get; set; }
 
-        public int? GroupId { get; set; }
+        public int? DepartmentId { get; set; }
 
         public bool? IsLocal { get; set; }
 
@@ -21,7 +21,7 @@
 
         public override string GetSettingKey()
         {
-            return "EPA_GetEPAToUpdateFinalScore";
+            return "EPA_GetEPAToUpdateFinalScore_xtest";
         }
 
         public override bool IsValid()

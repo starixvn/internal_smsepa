@@ -16,10 +16,12 @@
         vm.epaInfos = [];
         vm.filter = {
             periodId: '',
-            groupId: '',
+            departmentId: '',
             isLocal: '',
             employee: null
         };
+        vm.treeDepartment = null;
+
         vm.pageSize = 20;
         vm.periods = [];
         vm.selectedAll = false;
@@ -50,7 +52,7 @@
             vm.exportCriteria = {
                 periodId: vm.filter.periodId,
                 periodName: index !== -1 ? vm.periods[index].Name : '',
-                groupId: vm.filter.groupId,
+                departmentId: vm.filter.departmentId,
                 isLocal: vm.filter.isLocal,
                 employeeId: vm.filter.employee ? vm.filter.employee.EmployeeId : null,
                 employeeIds: employeeIds
@@ -61,7 +63,7 @@
 
         function getEmployee() {
             if (vm.filter.periodId > 0) {
-                return UpdateFinalScoreModel.getEmployeeToUpdateFinalScore(vm.filter.periodId, vm.filter.groupId, vm.filter.isLocal, vm.searchEmployee);
+                return UpdateFinalScoreModel.getEmployeeToUpdateFinalScore(vm.filter.periodId, vm.filter.departmentId, vm.filter.isLocal, vm.searchEmployee);
             }
         }
 
@@ -74,7 +76,7 @@
                 lockScreenService.start();
                 var employeeId = filter.employee ? filter.employee.EmployeeId : null;
 
-                UpdateFinalScoreModel.getEPAToUpdateFinalScore(filter.periodId, filter.groupId, filter.isLocal, employeeId).then(function () {
+                UpdateFinalScoreModel.getEPAToUpdateFinalScore(filter.periodId, filter.departmentId, filter.isLocal, employeeId).then(function () {
                     vm.epaInfos = UpdateFinalScoreModel.epaInfos;
                     utilitiesFactory.searchOnPage(vm, vm.epaInfos);
                     lockScreenService.stop();
@@ -101,6 +103,10 @@
         function initialize() {
             UpdateFinalScoreModel.getPeriodToUpdateFinalScore().then(function () {
                 vm.periods = UpdateFinalScoreModel.periods;
+            });
+
+            CommonModel.getDepartment().then(function () {
+                vm.treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
             });
 
             CommonModel.getAllGroup().then(function () {

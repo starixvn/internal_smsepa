@@ -13,22 +13,22 @@
             updateFinalScore: updateFinalScore
         };
 
-        function getEmployeeToUpdateFinalScore(periodId, groupId, isLocal, query) {
+        function getEmployeeToUpdateFinalScore(periodId, departmentId, isLocal, query) {
             return $http.get(baseUrl + 'api/UpdateFinalScore/GetEmployeeToUpdateFinalScore', {
                 params: {
                     periodId: periodId,
-                    groupId: groupId,
+                    departmentId: departmentId,
                     isLocal: isLocal,
                     query: query
                 }
             });
         }
 
-        function getEPAToUpdateFinalScore(periodId, groupId, isLocal, employeeId) {
+        function getEPAToUpdateFinalScore(periodId, departmentId, isLocal, employeeId) {
             return $http.get(baseUrl + 'api/UpdateFinalScore/GetEPAToUpdateFinalScore', {
                 params: {
                     periodId: periodId,
-                    groupId: groupId,
+                    departmentId: departmentId,
                     isLocal: isLocal,
                     employeeId: employeeId
                 }
