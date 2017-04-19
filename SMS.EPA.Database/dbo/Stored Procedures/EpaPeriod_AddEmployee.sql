@@ -15,6 +15,10 @@ Original:
 Revisions:  
 Param's Explanation:
 	@Departments = <ROOT><Department DepartmentId='1' IsGroup='1'></Department</ROOT>
+	
+Edited: 2017-04-13@hunter.tran
+Issue: 75171: Web - Enhance - Do not add employee to Semi-annual if Employee's Group Date < Discipline Start Date
+
 */
 BEGIN
 	SET NOCOUNT ON;
@@ -31,20 +35,25 @@ BEGIN
 		RETURN
 	END
 
-	DECLARE @DocHandler INT
-		,@TargetTypeId INT
-		,@StartDate DATETIME
-		,@EmployeeIds IntId
-		,@ExistedEmployeeIds IntId
-		,@NoneSettingEmployeeIds NVARCHAR(MAX)
-		,@OverlapEmployeeIds IntId
-		,@NumberEmployeeSuccessfully INT
-		,@NoneSettingEmployees NVARCHAR(MAX)
-		,@OverlapEmployees NVARCHAR(MAX)
+	DECLARE @DocHandler INT,
+			@TargetTypeId INT,
+			@StartDate DATETIME,
+			@EmployeeIds IntId,
+			@ExistedEmployeeIds IntId,
+			@NoneSettingEmployeeIds NVARCHAR(MAX),
+			@OverlapEmployeeIds IntId,
+			@NumberEmployeeSuccessfully INT,
+			@NoneSettingEmployees NVARCHAR(MAX),
+			@OverlapEmployees NVARCHAR(MAX),
+			@AttendanceStartDate datetime
 
 	SELECT @TargetTypeId = TargetTypeId
 		,@StartDate = StartDate
 	FROM dbo.Period WITH (NOLOCK)
+	WHERE PeriodId = @PeriodId
+
+	SELECT @AttendanceStartDate = AttendanceStartDate
+	FROM dbo.[Period]
 	WHERE PeriodId = @PeriodId
 
 	CREATE TABLE #Department (
@@ -62,8 +71,7 @@ BEGIN
 	INSERT INTO #DeptFlowAndTargetTemplate
 	EXEC GetFlowAndTargetTemplateSetting @TargetTypeId
 
-	EXEC sp_xml_preparedocument @DocHandler OUTPUT
-		,@Departments
+	EXEC sp_xml_preparedocument @DocHandler OUTPUT, @Departments
 
 	IF ISNULL(@Departments, '') <> ''
 	BEGIN
@@ -87,10 +95,12 @@ BEGIN
 				INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON gr.lft >= dept.lft
 				AND gr.rgt <= dept.rgt
 				AND gr.IsDeleted = 0
-				INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON gr.GroupId = emp.GroupId
+				INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON gr.GroupId = emp.GroupId				
+				INNER JOIN dbo.Period AS pe WITH (NOLOCK) ON CAST(pe.AttendanceStartDate AS DATE) >= CAST(emp.JoinedDate AS DATE)
 			WHERE emp.IsDeleted = 0
 				AND emp.[Enabled] = 1
-			
+				AND PeriodId = @PeriodId
+				AND emp.ResignedDate IS NULL
 			UNION
 			SELECT DISTINCT emp.EmployeeId
 			FROM #Department AS deptT WITH (NOLOCK)
@@ -98,8 +108,11 @@ BEGIN
 				AND deptT.IsGroup = 1
 				AND gr.IsDeleted = 0
 				INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON gr.GroupId = emp.GroupId
+				INNER JOIN dbo.Period AS pe WITH (NOLOCK) ON CAST(pe.AttendanceStartDate AS DATE) >= CAST(emp.JoinedDate AS DATE)
 			WHERE emp.IsDeleted = 0
 				AND emp.[Enabled] = 1
+				AND PeriodId = @PeriodId
+				AND emp.ResignedDate IS NULL
 			) AS tblEmp
 		WHERE ISNULL(@EmployeeId, '') = ''
 			OR tblEmp.EmployeeId <> @EmployeeId
@@ -107,10 +120,30 @@ BEGIN
 
 	IF ISNULL(@EmployeeId, '') <> ''
 	BEGIN
+		--No department selected / Single EmployeeId
+		
+		--check if employee JoinDate > Discipline Start Date
+		IF NOT EXISTS
+		(
+			SELECT distinct 1
+			FROM dbo.Employee
+			WHERE [Enabled] = 1
+				AND IsDeleted = 0
+				AND EmployeeId = @EmployeeId
+				AND ResignedDate IS NULL
+				AND @AttendanceStartDate >= JoinedDate
+				OR @AttendanceStartDate is NULL
+		)
+		BEGIN
+			SELECT @ErrCode = 1
+				,@ErrMsg = N'Employee Group Date < Discipline Start Date or Employee resigned'
+
+			RETURN
+		END
 		INSERT INTO @EmployeeIds (Id)
 		VALUES (@EmployeeId)
 	END
-
+	
 	-- check employees has set monthly EPA
 	IF @TargetTypeId = 2
 	BEGIN

@@ -9,6 +9,7 @@ Original:
 
 Revisions:  
     20160226@Razor.Nguyen: Monthly
+	20170419@Hunter.Tran: add last EPAId to result
 Param's Explanation:
 
 */
@@ -75,6 +76,7 @@ BEGIN
 			WHEN tbl1.NumberOtherViolation > 0 THEN 1
 			ELSE 0 END
 			) AS HasOtherViolation
+		,ls.EPAId AS LastEPAId
 		,ls.FinalScore AS LastFinalScore
 		,epa.HasMonthlyEPA AS HasMonthlyEPA
 		,ls.Grade AS LastGrade
