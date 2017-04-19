@@ -2,8 +2,8 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Enumerations;
+    using Core.Constants;
+    using Core.Enumerations;
 
     public class EPAModel
     {
@@ -39,13 +39,7 @@
 
         public bool HasMonthlyEPA { get; set; }
 
-        public int MaxFinalScore
-        {
-            get
-            {
-                return Constants.MaxFinalScore;
-            }
-        }
+        public int MaxFinalScore => Constants.MaxFinalScore;
 
         public string Grade { get; set; }
 
@@ -72,6 +66,8 @@
         public EPARecommendationModel Recommendation { get; set; }
 
         #region Last score
+
+        public int LastEPAId { get; set; }
 
         public float LastDisciplineScore { get; set; }
 
@@ -117,45 +113,15 @@
 
         public bool IsEndProcessBySelf { get; set; }
 
-        public bool IsMonthly
-        {
-            get
-            {
-                return Period.TargetTypeId == (int)TargetType.Monthly;
-            }
-        }
+        public bool IsMonthly => Period.TargetTypeId == (int)TargetType.Monthly;
 
-        public bool IsProbation
-        {
-            get
-            {
-                return Period.TargetTypeId == (int)TargetType.Probation;
-            }
-        }
+        public bool IsProbation => Period.TargetTypeId == (int)TargetType.Probation;
 
-        public bool IsPromotion
-        {
-            get
-            {
-                return Period.TargetTypeId == (int)TargetType.Promotion;
-            }
-        }
+        public bool IsPromotion => Period.TargetTypeId == (int)TargetType.Promotion;
 
-        public bool IsSemiAnnual
-        {
-            get
-            {
-                return Period.TargetTypeId == (int)TargetType.SemiAnnual;
-            }
-        }
+        public bool IsSemiAnnual => Period.TargetTypeId == (int)TargetType.SemiAnnual;
 
-        public bool IsSemiHasMonthly
-        {
-            get
-            {
-                return HasMonthlyEPA && Period.TargetTypeId == (int)TargetType.SemiAnnual;
-            }
-        }
+        public bool IsSemiHasMonthly => HasMonthlyEPA && Period.TargetTypeId == (int)TargetType.SemiAnnual;
 
         public bool IsAllowedToEdit
         {

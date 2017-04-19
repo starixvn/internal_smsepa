@@ -54,7 +54,7 @@
         </form>
         <table class="row table table-bordered table-striped">
             <thead>
-                <tr class="header-table" 
+                <tr class="header-table"
                     ng-if="reviewerCtrl.epaInfos.length > 0  && !reviewerCtrl.isEndProcessAll && reviewerCtrl.permission === reviewerCtrl.policyEnum.Host">
                     <th colspan="17">
                         <a class="pull-left button-icon" ng-click="reviewerCtrl.adjustScore()">
@@ -228,7 +228,9 @@
                         <strong class="error-message" ng-bind="epaInfo.Grade"></strong>
                     </td>
                     <td class="text-center">
-                        <div ng-show="epaInfo.LastFinalScore != null" ng-bind="epaInfo.LastFinalScore | customScore"></div>
+                        <a href="{{'/Reviewer/Detail/' + epaInfo.LastEPAId}}" ng-show="epaInfo.LastFinalScore != null"
+                           ng-bind="epaInfo.LastFinalScore | customScore"></a>
+                        <!--<div ng-show="epaInfo.LastFinalScore != null" ng-bind="epaInfo.LastFinalScore | customScore"></div>-->
                         <div ng-show="epaInfo.LastFinalScore == null" ng-bind="'-'"></div>
                     </td>
                     <td class="text-center">

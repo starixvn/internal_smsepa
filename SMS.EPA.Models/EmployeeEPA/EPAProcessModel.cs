@@ -20,13 +20,7 @@
 
         public int StatusEndProcess { get; set; }
 
-        public bool IsEndProcess
-        {
-            get
-            {
-                return DateTime.Compare(EndDate.Date, DateTime.Now.Date) < 0;
-            }
-        }
+        public bool IsEndProcess => DateTime.Compare(EndDate.Date, DateTime.Now.Date) < 0;
 
         public EPAEmployeeModel EvaluatorInfo { get; set; }
 
@@ -36,23 +30,11 @@
 
         public string TotalScore { get; set; }
 
-        public string TotalScoreOriginal
-        {
-            get
-            {
-                return TotalScore;
-            }
-        }
+        public string TotalScoreOriginal => TotalScore;
 
         public string AdjustScore { get; set; }
 
-        public string AdjustScoreOriginal
-        {
-            get
-            {
-                return AdjustScore;
-            }
-        }
+        public string AdjustScoreOriginal => AdjustScore;
 
         public bool Evaluated { get; set; }
 

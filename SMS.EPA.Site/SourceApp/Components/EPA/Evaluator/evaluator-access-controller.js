@@ -1,14 +1,33 @@
-﻿(function (angular) {
+﻿(function(angular) {
     'use strict';
     /* jshint latedef:nofunc */
     /* jshint validthis:true */
 
     angular.module('epaModule').controller('EvaluatorController', evaluatorController);
-    evaluatorController.$inject = ['$location', '$routeParams', 'EvaluationModel', 'EvaluatorEPAModel', 'SelfEvalutorModel', 'CommonModel',
-        'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl'];
+    evaluatorController.$inject = [
+        '$location',
+        '$routeParams',
+        'EvaluationModel',
+        'EvaluatorEPAModel',
+        'SelfEvalutorModel',
+        'CommonModel',
+        'utilitiesFactory',
+        'historyFactory',
+        'lockScreenService',
+        'baseUrl'
+    ];
 
-    function evaluatorController($location, $routeParams, EvaluationModel, EvaluatorEPAModel, SelfEvalutorModel, CommonModel,
-        utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
+    function evaluatorController(
+        $location,
+        $routeParams,
+        EvaluationModel,
+        EvaluatorEPAModel,
+        SelfEvalutorModel,
+        CommonModel,
+        utilitiesFactory,
+        historyFactory,
+        lockScreenService,
+        baseUrl) {
         var vm = this;
 
         vm.epaInfos = [];
@@ -21,13 +40,15 @@
 
         function initFilter() {
             var filter = historyFactory.getState();
-            return filter ? filter : {
-                groupId: '',
-                isLocal: '',
-                statusProcess: $routeParams.statusProcess ? $routeParams.statusProcess : '',
-                isMonthly: $routeParams.isMonthly ? $routeParams.isMonthly === 'true' : false,
-                employeeIds: ''
-            };
+            return filter
+                ? filter
+                : {
+                    groupId: '',
+                    isLocal: '',
+                    statusProcess: $routeParams.statusProcess ? $routeParams.statusProcess : '',
+                    isMonthly: $routeParams.isMonthly ? $routeParams.isMonthly === 'true' : false,
+                    employeeIds: ''
+                };
         }
 
         function sortBySelfScore(epaInfo1, epaInfo2) {
@@ -45,7 +66,7 @@
             return tempa - tempb;
         }
 
-        vm.changeSorting = function () {
+        vm.changeSorting = function() {
             if (!vm.sortBySelfScore.ascending) {
                 vm.sortBySelfScore.ascending = true;
                 vm.sortBySelfScore.descending = false;
@@ -57,91 +78,110 @@
             }
         };
 
-        vm.getMember = function () {
-            EvaluatorEPAModel.getMemberByEvaluator(vm.filter.groupId, vm.filter.isLocal, vm.filter.isMonthly).then(function () {
-                vm.members = EvaluatorEPAModel.members;
-                utilitiesFactory.setSelectedItem(vm.members, "EmployeeId", vm.filter.employeeIds);
-            });
+        vm.getMember = function() {
+            EvaluatorEPAModel.getMemberByEvaluator(vm.filter.groupId, vm.filter.isLocal, vm.filter.isMonthly).then(
+                function() {
+                    vm.members = EvaluatorEPAModel.members;
+                    utilitiesFactory.setSelectedItem(vm.members, "EmployeeId", vm.filter.employeeIds);
+                });
         };
 
-        vm.selectedCls = function () {
+        vm.selectedCls = function() {
             if (vm.sortBySelfScore.ascending) {
                 return 'sorting-asc';
             } else if (vm.sortBySelfScore.descending) {
                 return 'sorting-desc';
             }
+            return 'sorting-asc';
         };
 
         function getEPAByEvaluator(groupId, isLocal, isMonthly, employeeIds, statusProcess) {
             lockScreenService.start();
             vm.sortBySelfScore = { ascending: false, descending: false };
 
-            EvaluatorEPAModel.getEPAByEvaluator(groupId, isLocal, isMonthly, employeeIds, statusProcess).then(function () {
-                vm.epaInfos = EvaluatorEPAModel.epaInfos;
+            EvaluatorEPAModel.getEPAByEvaluator(groupId, isLocal, isMonthly, employeeIds, statusProcess).then(
+                function() {
+                    vm.epaInfos = EvaluatorEPAModel.epaInfos;
 
-                angular.forEach(vm.epaInfos, function (epaInfo) {
-                    if (epaInfo.IsSemiHasMonthly) {
-                        epaInfo.Process.Self.TotalScore = epaInfo.MonthlyEPA.AverageSelfScoreConverted;
-                        epaInfo.FinalScore = utilitiesFactory.parseFloat(epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted) + epaInfo.DisciplineScore;
+                    angular.forEach(vm.epaInfos,
+                        function(epaInfo) {
+                            if (epaInfo.IsSemiHasMonthly) {
+                                epaInfo.Process.Self.TotalScore = epaInfo.MonthlyEPA.AverageSelfScoreConverted;
+                                epaInfo.FinalScore =
+                                    utilitiesFactory.parseFloat(epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted) +
+                                    epaInfo.DisciplineScore;
+                            } else {
+                                epaInfo.Process.Self.TotalScore =
+                                    utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore);
+                                epaInfo.FinalScore =
+                                    utilitiesFactory.parseFloat(epaInfo.Process.CurrentProcess.TotalScore) +
+                                    epaInfo.DisciplineScore;
+                            }
+                            epaInfo.FinalScore = EvaluationModel.checkScore(epaInfo.FinalScore,
+                                0,
+                                epaInfo.Process.CurrentProcess.MaxPerformanceScore);
+
+                            if (epaInfo.LastFinalScore.length > 0) {
+                                epaInfo.LastFinalScore = utilitiesFactory.parseFloat(epaInfo.LastFinalScore);
+                            } else {
+                                epaInfo.LastFinalScore = null;
+                            }
+
+                            epaInfo.Grade = EvaluationModel.convertScoreToGrade(epaInfo.FinalScore, vm.standardGrades);
+                        });
+
+                    if (isMonthly) {
+                        vm.monthlyFilterSelected = true;
                     } else {
-                        epaInfo.Process.Self.TotalScore = utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore);
-                        epaInfo.FinalScore = utilitiesFactory.parseFloat(epaInfo.Process.CurrentProcess.TotalScore) + epaInfo.DisciplineScore;
-                    }
-                    epaInfo.FinalScore = EvaluationModel.checkScore(epaInfo.FinalScore, 0, epaInfo.Process.CurrentProcess.MaxPerformanceScore);
-
-                    if (epaInfo.LastFinalScore.length > 0) {
-                        epaInfo.LastFinalScore = utilitiesFactory.parseFloat(epaInfo.LastFinalScore);
-                    } else {
-                        epaInfo.LastFinalScore = null;
+                        vm.monthlyFilterSelected = false;
                     }
 
-                    epaInfo.Grade = EvaluationModel.convertScoreToGrade(epaInfo.FinalScore, vm.standardGrades);
+                    lockScreenService.stop();
                 });
-
-                if (isMonthly) {
-                    vm.monthlyFilterSelected = true;
-                } else {
-                    vm.monthlyFilterSelected = false;
-                }
-
-                lockScreenService.stop();
-            });
 
             historyFactory.saveState(vm.filter);
         }
 
-        vm.query = function (filter) {
+        vm.query = function(filter) {
             filter.employeeIds = utilitiesFactory.getSelectedData(vm.members, 'EmployeeId');
-            getEPAByEvaluator(filter.groupId, filter.isLocal, filter.isMonthly, filter.employeeIds, filter.statusProcess);
+            getEPAByEvaluator(filter.groupId,
+                filter.isLocal,
+                filter.isMonthly,
+                filter.employeeIds,
+                filter.statusProcess);
         };
 
-        vm.viewEPADetail = function (epaInfo) {
+        vm.viewEPADetail = function(epaInfo) {
             $location.url(baseUrl + 'Evaluator/Detail/' + epaInfo.EPAId);
         };
 
-        vm.viewEPAResult = function (epaInfo) {
+        vm.viewEPAResult = function(epaInfo) {
             $location.url(baseUrl + 'EPA/Detail/' + epaInfo.EPAId);
         };
 
-        vm.viewOtherViolationDetail = function (epaInfo) {
+        vm.viewOtherViolationDetail = function(epaInfo) {
             CommonModel.openPopupViewOtherViolationDetail(epaInfo.EPAId);
         };
 
-        vm.viewEPAHistory = function (employeeId) {
+        vm.viewEPAHistory = function(employeeId) {
             $location.url(baseUrl + 'EPAHistory/Index?empId=' + employeeId);
         };
 
         function initialize() {
             vm.filter = initFilter();
-            EvaluatorEPAModel.getGroupByEvaluator().then(function () {
+            EvaluatorEPAModel.getGroupByEvaluator().then(function() {
                 vm.groupOptions = EvaluatorEPAModel.groups;
             });
 
             vm.getMember();
 
-            CommonModel.getStandardGrade().then(function () {
+            CommonModel.getStandardGrade().then(function() {
                 vm.standardGrades = CommonModel.standardGrades;
-                getEPAByEvaluator(vm.filter.groupId, vm.filter.isLocal, vm.filter.isMonthly, vm.filter.employeeIds, vm.filter.statusProcess);
+                getEPAByEvaluator(vm.filter.groupId,
+                    vm.filter.isLocal,
+                    vm.filter.isMonthly,
+                    vm.filter.employeeIds,
+                    vm.filter.statusProcess);
             });
         }
 

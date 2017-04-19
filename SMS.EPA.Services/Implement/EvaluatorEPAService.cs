@@ -46,7 +46,9 @@
                 foreach (EPAModel epaInfo in epaInfos)
                 {
                     epaInfo.Process.CurrentProcess =
-                        evaluationService.CloneEPAProcess(epaInfo.Process.Evaluators.FirstOrDefault(x => x.EvaluatorInfo.EmployeeId == criteria.EvaluatorId));
+                        evaluationService.CloneEPAProcess(
+                            epaInfo.Process.Evaluators.FirstOrDefault(
+                                x => x.EvaluatorInfo.EmployeeId == criteria.EvaluatorId));
                     evaluationService.SetMaxPerformanceScore(epaInfo);
                     evaluationService.GroupMonthlyEPABySemi(epaInfo, monthlyEPAs);
                     evaluationService.ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
