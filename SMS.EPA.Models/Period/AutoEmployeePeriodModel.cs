@@ -20,12 +20,6 @@
 
         public bool HasMonthlyEPA { get; set; }
 
-        public bool IsSemiHasMonthly
-        {
-            get
-            {
-                return TargetTypeId == (int)TargetType.SemiAnnual && HasMonthlyEPA;
-            }
-        }
+        public bool IsSemiHasMonthly => TargetTypeId == (int)TargetType.SemiAnnual && HasMonthlyEPA;
     }
 }

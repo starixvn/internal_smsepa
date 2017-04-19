@@ -10,7 +10,8 @@ DB: SMSEPA
 Original: 
 
 Revisions:  
-Param's Explanation:
+	Param's Explanation:
+	20170419@Hunter.Tran: Check if period is active
 */
 BEGIN
 	SET NOCOUNT ON;
@@ -25,6 +26,7 @@ BEGIN
 	WHERE CAST(epaP.RemindDate AS DATE) = CAST(GETDATE() AS DATE)
 		AND epa.[Status] = 0 -- Open
 		AND pe.TargetTypeId IN (1, 5) -- Probation or Promotion
+		AND pe.IsActive = 1 -- Active
 	
 	UNION
 	SELECT DISTINCT period.PeriodId
@@ -42,5 +44,6 @@ BEGIN
 		AND pc.ProcessId = periodPS.ProcessId
 	WHERE epa.[Status] = 0 -- Open
 		AND period.TargetTypeId IN (2, 3) -- Monthly, Semi annual
+		AND period.IsActive = 1 -- Active
 		AND CAST(DATEADD(DAY, - periodPS.RemindDay, pc.EndDate) AS DATE) = CAST(GETDATE() AS DATE)
 END

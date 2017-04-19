@@ -1,36 +1,37 @@
 ﻿namespace SMS.EPA.AutoService
 {
+    using Core.Enumerations;
+    using Core.Model;
+    using Core.Services;
+    using Criteria;
+    using EPA.Criteria;
+    using log4net;
+    using Model;
+    using Service;
+    using Services.Implement;
+    using Services.Interfaces;
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Reflection;
     using System.ServiceProcess;
     using System.Threading.Tasks;
     using System.Timers;
-    using log4net;
-    using SMS.EPA.AutoService.Criteria;
-    using SMS.EPA.AutoService.Service;
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
 
     public partial class AutoService : ServiceBase
     {
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private readonly Timer updateCounterTimer;
-        private readonly IEvaluationService evaluationService;
-        private readonly IPeriodService periodService;
-        private readonly IAutoMailService autoMailService;
-        private readonly IEmployeeEPAService employeeEPAService;
-        private readonly IMonthlyService monthlyService;
-        private readonly ISemiAnnualService semiAnnualService;
-        private readonly IProbationService probationService;
-        private readonly IPromotionService promotionService;
-        private readonly ICryptographyService cryptographyService;
+        private readonly Timer _updateCounterTimer;
+        private readonly IEvaluationService _evaluationService;
+        private readonly IPeriodService _periodService;
+        private readonly IAutoMailService _autoMailService;
+        private readonly IEmployeeEPAService _employeeEPAService;
+        private readonly IMonthlyService _monthlyService;
+        private readonly ISemiAnnualService _semiAnnualService;
+        private readonly IProbationService _probationService;
+        private readonly IPromotionService _promotionService;
+        private readonly ICryptographyService _cryptographyService;
         private bool _isBusy;
 
         public AutoService()
@@ -39,30 +40,30 @@
 
             var schedulerTime = DateTime.Today.AddDays(1).AddHours(AppSetting.HoursToStartService);
 
-            updateCounterTimer = new Timer { Interval = schedulerTime.Subtract(DateTime.Now).TotalSeconds * 1000 };
-            updateCounterTimer.Elapsed += ExecuteJob;
-            updateCounterTimer.Enabled = false;
+            _updateCounterTimer = new Timer {Interval = schedulerTime.Subtract(DateTime.Now).TotalSeconds * 1000};
+            _updateCounterTimer.Elapsed += ExecuteJob;
+            _updateCounterTimer.Enabled = false;
 
-            cryptographyService = new CryptographyService();
-            evaluationService = new EvaluationService();
-            periodService = new PeriodService();
-            autoMailService = new AutoMailService();
-            employeeEPAService = new EmployeeEPAService();
-            monthlyService = new MonthlyService();
-            semiAnnualService = new SemiAnnualService();
-            probationService = new ProbationService();
-            promotionService = new PromotionService();
+            _cryptographyService = new CryptographyService();
+            _evaluationService = new EvaluationService();
+            _periodService = new PeriodService();
+            _autoMailService = new AutoMailService();
+            _employeeEPAService = new EmployeeEPAService();
+            _monthlyService = new MonthlyService();
+            _semiAnnualService = new SemiAnnualService();
+            _probationService = new ProbationService();
+            _promotionService = new PromotionService();
         }
 
         protected override void OnStart(string[] args)
         {
             Log.Info("Service started at " + DateTime.Now);
-            updateCounterTimer.Enabled = true;
+            _updateCounterTimer.Enabled = true;
         }
 
         protected override void OnStop()
         {
-            updateCounterTimer.Enabled = false;
+            _updateCounterTimer.Enabled = false;
             Log.Info("Service stopped at " + DateTime.Now);
         }
 
@@ -70,9 +71,9 @@
         {
             try
             {
-                if (Math.Abs(updateCounterTimer.Interval - (AppSetting.TimerInterval * 1000)) > 0)
+                if (Math.Abs(_updateCounterTimer.Interval - (AppSetting.TimerInterval * 1000)) > 0)
                 {
-                    updateCounterTimer.Interval = AppSetting.TimerInterval * 1000;
+                    _updateCounterTimer.Interval = AppSetting.TimerInterval * 1000;
                 }
 
                 if (!_isBusy)
@@ -85,7 +86,10 @@
             catch (Exception ex)
             {
                 _isBusy = false;
-                Log.Error("Error: " + ex.InnerException.Message);
+                if (ex.InnerException != null)
+                {
+                    Log.Error("Error: " + ex.InnerException.Message);
+                }
             }
         }
 
@@ -93,13 +97,13 @@
         {
             if (AppSetting.EnableMonthlyPeriod)
             {
-                monthlyService.CreateMonthlyPeriod();
-                monthlyService.CheckMonthlyPeriod();
+                _monthlyService.CreateMonthlyPeriod();
+                _monthlyService.CheckMonthlyPeriod();
             }
 
-            semiAnnualService.CheckSemiAnnualPeriod();
-            probationService.CheckProbationPeriod();
-            promotionService.CheckPromotionPeriod();
+            _semiAnnualService.CheckSemiAnnualPeriod();
+            _probationService.CheckProbationPeriod();
+            _promotionService.CheckPromotionPeriod();
 
             CheckSendMail();
             CheckEndProcess();
@@ -115,13 +119,14 @@
 
         private void CheckEndProcess()
         {
-            IEnumerable<AutoEmployeePeriodModel> evaluationProcesses = evaluationService.CheckEndProcess();
+            IEnumerable<AutoEmployeePeriodModel> evaluationProcesses = _evaluationService.CheckEndProcess();
 
             if (evaluationProcesses != null && evaluationProcesses.Any())
             {
                 UpdateEndProcess(evaluationProcesses);
-                UpdateTotalScoreOfSemiHasMonthly(evaluationProcesses.Where(x => x.ProcessId == (int)ProcessType.Evaluator && x.IsSemiHasMonthly));
-                UpdateTotalScoreOfProcess(evaluationProcesses.Where(x => x.ProcessId >= (int)ProcessType.Reviewer));
+                UpdateTotalScoreOfSemiHasMonthly(
+                    evaluationProcesses.Where(x => x.ProcessId == (int) ProcessType.Evaluator && x.IsSemiHasMonthly));
+                UpdateTotalScoreOfProcess(evaluationProcesses.Where(x => x.ProcessId >= (int) ProcessType.Reviewer));
             }
         }
 
@@ -135,7 +140,7 @@
 
             if (criteria.IsValid())
             {
-                commandResult = evaluationService.UpdateEndProcess(criteria);
+                commandResult = _evaluationService.UpdateEndProcess(criteria);
             }
 
             string messageResult = commandResult.IsSuccessful ? "0" : commandResult.Message;
@@ -144,11 +149,9 @@
 
         private void UpdateTotalScoreOfSemiHasMonthly(IEnumerable<AutoEmployeePeriodModel> evaluationProcesses)
         {
-            var messageResult = string.Empty;
-
             foreach (AutoEmployeePeriodModel evaluationProcess in evaluationProcesses)
             {
-                EPAModel epaInfo = employeeEPAService.GetEPAInfoById(evaluationProcess.EPAId);
+                EPAModel epaInfo = _employeeEPAService.GetEPAInfoById(evaluationProcess.EPAId);
                 var criteria = new UpdateTotalScoreOfSemiHasMonthlyCriteria
                 {
                     EPAId = evaluationProcess.EPAId,
@@ -158,42 +161,46 @@
 
                 if (criteria.IsValid())
                 {
-                    commandResult = evaluationService.UpdateTotalScoreOfSemiHasMonthly(criteria);
+                    commandResult = _evaluationService.UpdateTotalScoreOfSemiHasMonthly(criteria);
                 }
 
-                messageResult = commandResult.IsSuccessful ? "0" : commandResult.Message;
-                Log.Info("Result of update total score semi has monthly " + evaluationProcess.EPAId + " : " + messageResult);
+                var messageResult = commandResult.IsSuccessful ? "0" : commandResult.Message;
+                Log.Info("Result of update total score semi has monthly " + evaluationProcess.EPAId + " : " +
+                         messageResult);
             }
         }
 
         private void UpdateTotalScoreOfProcess(IEnumerable<AutoEmployeePeriodModel> evaluationProcesses)
         {
-            var messageResult = string.Empty;
-
             foreach (AutoEmployeePeriodModel evaluationProcess in evaluationProcesses)
             {
                 if (string.IsNullOrEmpty(evaluationProcess.TotalScore))
                 {
-                    EPAModel epaInfo = employeeEPAService.GetEPAInfoById(evaluationProcess.EPAId);
+                    EPAModel epaInfo = _employeeEPAService.GetEPAInfoById(evaluationProcess.EPAId);
 
                     float? averageScore = GetAverageScorePreProcess(epaInfo, evaluationProcess.ProcessId);
-                    Log.Info("Result of get average score of pre-process of EPA " + evaluationProcess.EPAId + " : " + averageScore);
+                    Log.Info("Result of get average score of pre-process of EPA " + evaluationProcess.EPAId + " : " +
+                             averageScore);
 
                     var criteria = new UpdateTotalScoreOfProcessCriteria
                     {
                         EPAId = evaluationProcess.EPAId,
                         ProcessId = evaluationProcess.ProcessId,
-                        AverageScore = averageScore.HasValue ? cryptographyService.Encrypt(averageScore.Value.ToString()) : string.Empty
+                        AverageScore = averageScore.HasValue
+                            ? _cryptographyService.Encrypt(averageScore.Value.ToString(CultureInfo.InvariantCulture))
+                            : string.Empty
                     };
+
                     var commandResult = new CommandResult();
 
                     if (criteria.IsValid())
                     {
-                        commandResult = evaluationService.UpdateTotalScoreOfProcess(criteria);
+                        commandResult = _evaluationService.UpdateTotalScoreOfProcess(criteria);
                     }
 
-                    messageResult = commandResult.IsSuccessful ? "0" : commandResult.Message;
-                    Log.Info("Result of update total score of process of EPA " + evaluationProcess.EPAId + " : " + messageResult);
+                    var messageResult = commandResult.IsSuccessful ? "0" : commandResult.Message;
+                    Log.Info("Result of update total score of process of EPA " + evaluationProcess.EPAId + " : " +
+                             messageResult);
                 }
             }
         }
@@ -201,7 +208,7 @@
         private void CheckEndEvaluationPeriod()
         {
             var criteria = new GetEPAEndEvaluationPeriodCriteria();
-            IEnumerable<EPAModel> allEvaluations = employeeEPAService.GetEPAEndEvaluationPeriod(criteria);
+            IEnumerable<EPAModel> allEvaluations = _employeeEPAService.GetEPAEndEvaluationPeriod(criteria);
 
             if (allEvaluations != null && allEvaluations.Any())
             {
@@ -212,29 +219,36 @@
         private void UpdateFinalScoreAndSendMail(IEnumerable<EPAModel> epaInfos)
         {
             IList<int> periods = new List<int>();
-            IEnumerable<StandardGradeModel> standardGrades = employeeEPAService.GetStandardGrade();
+            IEnumerable<StandardGradeModel> standardGrades = _employeeEPAService.GetStandardGrade();
 
             foreach (EPAModel epaInfo in epaInfos)
             {
                 float? averagePerformanceScore = GetFinalScoreOfEvalution(epaInfo);
-                Log.Info("Result of get average performance score of EPA " + epaInfo.EPAId + " : " + averagePerformanceScore);
+                Log.Info("Result of get average performance score of EPA " + epaInfo.EPAId + " : " +
+                         averagePerformanceScore);
 
-                float? finalScore = averagePerformanceScore.HasValue ? (averagePerformanceScore.Value + epaInfo.DisciplineScore) : (float?)null;
+                float? finalScore = averagePerformanceScore.HasValue
+                    ? (averagePerformanceScore.Value + epaInfo.DisciplineScore)
+                    : (float?) null;
 
-                epaInfo.Grade = finalScore.HasValue ? employeeEPAService.ConvertScoreToGrade(finalScore.Value, standardGrades) : string.Empty;
+                epaInfo.Grade = finalScore.HasValue
+                    ? _employeeEPAService.ConvertScoreToGrade(finalScore.Value, standardGrades)
+                    : string.Empty;
                 Log.Info("Result of get grade of final score of EPA " + epaInfo.EPAId + ": " + epaInfo.Grade);
 
-                EncryptAndUpdateFinalScore(averagePerformanceScore, epaInfo.DisciplineScore, epaInfo.EPAId, epaInfo.Grade);
+                EncryptAndUpdateFinalScore(averagePerformanceScore, epaInfo.DisciplineScore, epaInfo.EPAId,
+                    epaInfo.Grade);
 
                 if (AppSetting.SendMailEndPeriod)
                 {
-                    autoMailService.SendEndEvaluationMailToSelf(epaInfo, averagePerformanceScore, epaInfo.DisciplineScore);
+                    _autoMailService.SendEndEvaluationMailToSelf(epaInfo, averagePerformanceScore,
+                        epaInfo.DisciplineScore);
 
                     if (epaInfo.Period != null)
                     {
                         if (epaInfo.IsProbation || epaInfo.IsPromotion)
                         {
-                            autoMailService.SendEndEvaluationMailToHumanResourceByEmployee(epaInfo);
+                            _autoMailService.SendEndEvaluationMailToHumanResourceByEmployee(epaInfo);
                         }
                         else if (epaInfo.IsSemiHasMonthly && !periods.Contains(epaInfo.Period.PeriodId))
                         {
@@ -253,16 +267,16 @@
             {
                 foreach (int periodId in periods)
                 {
-                    int lastestProcessOfPeriod = evaluationService.CheckLastestProcessOfPeriod(periodId);
+                    int lastestProcessOfPeriod = _evaluationService.CheckLastestProcessOfPeriod(periodId);
                     Log.Info("Result of check the end of period " + periodId + " : " + lastestProcessOfPeriod);
 
                     if (lastestProcessOfPeriod == 1)
                     {
-                        evaluationService.GetAndSendEmailToAllRelatedEmployee(
+                        _evaluationService.GetAndSendEmailToAllRelatedEmployee(
                             periodId,
                             string.Empty,
-                            (int)ProcessType.HumanResource,
-                            (int)MailMode.EndPeriod);
+                            (int) ProcessType.HumanResource,
+                            (int) MailMode.EndPeriod);
                     }
                 }
             }
@@ -270,29 +284,32 @@
 
         private void CheckSendNoticeAtBeginEmail()
         {
-            IEnumerable<AutoEmployeePeriodModel> startedProcess = periodService.GetPeriodHasStartedProcess();
+            IEnumerable<AutoEmployeePeriodModel> startedProcess = _periodService.GetPeriodHasStartedProcess();
 
             foreach (AutoEmployeePeriodModel periodProcess in startedProcess)
             {
-                evaluationService.GetAndSendEmailToAllRelatedEmployee(periodProcess.PeriodId, string.Empty, periodProcess.ProcessId, (int)MailMode.Start);
+                _evaluationService.GetAndSendEmailToAllRelatedEmployee(periodProcess.PeriodId, string.Empty,
+                    periodProcess.ProcessId, (int) MailMode.Start);
             }
         }
 
         private void CheckSendReminderEmail()
         {
             var criteria = new GetPeriodHasReminderProcessCriteria();
-            IEnumerable<AutoEmployeePeriodModel> reminderProcess = evaluationService.GetPeriodHasReminderProcess(criteria);
+            IEnumerable<AutoEmployeePeriodModel> reminderProcess =
+                _evaluationService.GetPeriodHasReminderProcess(criteria);
 
             foreach (AutoEmployeePeriodModel periodProcess in reminderProcess)
             {
-                if (periodProcess.IsSemiHasMonthly
-                    && (periodProcess.ProcessId == (int)ProcessType.Self || periodProcess.ProcessId == (int)ProcessType.Evaluator))
+                if (!periodProcess.IsSemiHasMonthly
+                    || periodProcess.ProcessId != (int) ProcessType.Self
+                    && periodProcess.ProcessId != (int) ProcessType.Evaluator)
                 {
-                    continue;
-                }
-                else
-                {
-                    evaluationService.GetAndSendEmailToAllRelatedEmployee(periodProcess.PeriodId, string.Empty, periodProcess.ProcessId, (int)MailMode.Reminder);
+                    _evaluationService.GetAndSendEmailToAllRelatedEmployee(
+                        periodProcess.PeriodId,
+                        string.Empty,
+                        periodProcess.ProcessId,
+                        (int) MailMode.Reminder);
                 }
             }
         }
@@ -313,19 +330,23 @@
             return finalScore;
         }
 
-        private void EncryptAndUpdateFinalScore(float? performanceScore, float disciplineScore, int evaluationId, string grade)
+        private void EncryptAndUpdateFinalScore(float? performanceScore, float disciplineScore, int evaluationId,
+            string grade)
         {
-            float? finalScore = performanceScore.HasValue ? (performanceScore.Value + disciplineScore) : (float?)null;
-            string finalScoreEncrypt = finalScore.HasValue ? cryptographyService.Encrypt(finalScore.Value.ToString()) : string.Empty;
+            float? finalScore = performanceScore + disciplineScore;
+            string finalScoreEncrypt = finalScore.HasValue
+                ? _cryptographyService.Encrypt(finalScore.Value.ToString(CultureInfo.InvariantCulture))
+                : string.Empty;
             Log.Info("Result of encrypt final score of EPA " + evaluationId + ": " + finalScoreEncrypt);
 
-            string gradeEncrypt = cryptographyService.Encrypt(grade);
+            string gradeEncrypt = _cryptographyService.Encrypt(grade);
             Log.Info("Result of encrypt grade of EPA " + evaluationId + ": " + gradeEncrypt);
 
             var criteria = new UpdateFinalScoreEndEvaluationCriteria();
-            criteria.EvaluationScores = criteria.ConvertToXml(evaluationId, finalScoreEncrypt, disciplineScore, gradeEncrypt);
+            criteria.EvaluationScores =
+                criteria.ConvertToXml(evaluationId, finalScoreEncrypt, disciplineScore, gradeEncrypt);
 
-            CommandResult commandResult = evaluationService.UpdateFinalScoreEndEvaluation(criteria);
+            CommandResult commandResult = _evaluationService.UpdateFinalScoreEndEvaluation(criteria);
             string messageResult = commandResult.IsSuccessful ? "0" : commandResult.Message;
             Log.Info("Result of update final score and discipline score of EPA " + evaluationId + ": " + messageResult);
         }
@@ -336,12 +357,12 @@
 
             switch (processId)
             {
-                case (int)ProcessType.Reviewer:
-                    averageScore = epaInfo.Process.AverageScoreByEvaluators.HasValue ? epaInfo.Process.AverageScoreByEvaluators.Value : (float?)null;
+                case (int) ProcessType.Reviewer:
+                    averageScore = epaInfo.Process.AverageScoreByEvaluators;
                     break;
 
-                case (int)ProcessType.Management:
-                    averageScore = epaInfo.Process.AverageScoreByReviewers.HasValue ? epaInfo.Process.AverageScoreByReviewers.Value : (float?)null;
+                case (int) ProcessType.Management:
+                    averageScore = epaInfo.Process.AverageScoreByReviewers;
                     break;
             }
 
