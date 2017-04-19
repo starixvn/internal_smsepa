@@ -1,31 +1,31 @@
 ﻿(function (angular) {
-    'use strict';
+    "use strict";
     /* jshint latedef:nofunc */
 
-    angular.module('reportModule').directive('gridEpaDetailReport', gridEpaDetailReport);
-    gridEpaDetailReport.$inject = ['$window', '$timeout', 'utilitiesFactory', 'baseUrl'];
+    angular.module("reportModule").directive("gridEpaDetailReport", gridEpaDetailReport);
+    gridEpaDetailReport.$inject = ["$window", "$timeout", "utilitiesFactory", "baseUrl"];
 
     function gridEpaDetailReport($window, $timeout, utilitiesFactory, baseUrl) {
         var status = {
-            NotAvailable: 'N/A',
-            Pending: 'Pending'
+            NotAvailable: "N/A",
+            Pending: "Pending"
         };
 
         function generateColumnHeaders(scope) {
-            var sortCode = scope.sortColumnName === 'Code' ? scope.sortDirection : '',
-                sortSection = scope.sortColumnName === 'Section' ? scope.sortDirection : '';
+            var sortCode = scope.sortColumnName === "Code" ? scope.sortDirection : "",
+                sortSection = scope.sortColumnName === "Section" ? scope.sortDirection : "";
 
             var columnHeaders = [
                 { HeaderText: "#", Width: 40, Name: "No", HeaderAlign: "center", CellAlign: "center" },
                 {
                     HeaderText: "Code", Width: 60, Name: "Code", HeaderAlign: "center", CellAlign: "center",
-                    Sort: true, SortDirection: sortCode, SortType: 'string'
+                    Sort: true, SortDirection: sortCode, SortType: "string"
                 },
                 { HeaderText: "Full Name", Width: 140, Name: "FullName", HeaderAlign: "center", CellAlign: "left", CanResize: true },
                 { HeaderText: "Nick Name", Width: 100, Name: "NickName", HeaderAlign: "center", CellAlign: "center", AllowTruncate: true },
                 {
                     HeaderText: "Section", Width: 120, Name: "Section", HeaderAlign: "center", CellAlign: "left",
-                    Sort: true, SortDirection: sortSection, SortType: 'string'
+                    Sort: true, SortDirection: sortSection, SortType: "string"
                 },
                 { HeaderText: "Job Title", Width: 160, Name: "JobTitle", HeaderAlign: "center", CellAlign: "left", CanResize: true },
                 { HeaderText: "Group Date", Width: 80, Name: "GroupDate", HeaderAlign: "center", CellAlign: "center", FormatDateTime: "DD MMM, YYYY" },
@@ -46,13 +46,13 @@
 
         function calculateScore(epaInfo) {
             var result = {
-                SelfScore: '',
-                EvaluatorScore: '',
-                ReviewerScore: '',
-                ManagementScore: '',
-                DisciplineScore: '',
-                FinalScore: '',
-                Grade: ''
+                SelfScore: "",
+                EvaluatorScore: "",
+                ReviewerScore: "",
+                ManagementScore: "",
+                DisciplineScore: "",
+                FinalScore: "",
+                Grade: ""
             };
 
             if (epaInfo.HasDisciplineScore) {
@@ -61,77 +61,84 @@
                 if (epaInfo.DisciplineScore !== 0) {
                     result.DisciplineScore = epaInfo.DisciplineScore;
                 } else {
-                    result.DisciplineScore = '-';
+                    result.DisciplineScore = "-";
                 }
             }
 
             if (epaInfo.EPAId > 0) {
                 switch (epaInfo.Process.Self.StatusEndProcess) {
-                    case utilitiesFactory.processStatusType.InProgress:
-                        result.SelfScore = epaInfo.Process.Self.TotalScore.length > 0
-                            ? utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore) : 0;
-                        break;
-                    case utilitiesFactory.processStatusType.Closed:
-                        result.SelfScore = epaInfo.Process.Self.TotalScore.length > 0
-                            ? utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore) : status.NotAvailable;
-                        break;
+                case utilitiesFactory.processStatusType.InProgress:
+                    result.SelfScore = epaInfo.Process.Self.TotalScore.length > 0
+                        ? utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore)
+                        : 0;
+                    break;
+                case utilitiesFactory.processStatusType.Closed:
+                    result.SelfScore = epaInfo.Process.Self.TotalScore.length > 0
+                        ? utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore)
+                        : status.NotAvailable;
+                    break;
                 }
 
                 switch (epaInfo.Process.Evaluators[0].StatusEndProcess) {
-                    case utilitiesFactory.processStatusType.InProgress:
-                        result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators !== null
-                            ? epaInfo.Process.AverageScoreByEvaluators : 0;
-                        break;
-                    case utilitiesFactory.processStatusType.Closed:
-                        result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators !== null
-                            ? epaInfo.Process.AverageScoreByEvaluators : status.NotAvailable;
-                        break;
+                case utilitiesFactory.processStatusType.InProgress:
+                    result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators !== null
+                        ? epaInfo.Process.AverageScoreByEvaluators
+                        : 0;
+                    break;
+                case utilitiesFactory.processStatusType.Closed:
+                    result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators !== null
+                        ? epaInfo.Process.AverageScoreByEvaluators
+                        : status.NotAvailable;
+                    break;
                 }
 
                 switch (epaInfo.Process.Reviewers[0].StatusEndProcess) {
-                    case utilitiesFactory.processStatusType.InProgress:
-                        result.ReviewerScore = epaInfo.Process.AverageScoreByReviewers !== null
-                            ? epaInfo.Process.AverageScoreByReviewers : 0;
-                        break;
-                    case utilitiesFactory.processStatusType.Closed:
-                        result.ReviewerScore = epaInfo.Process.AverageScoreByReviewers !== null ?
-                            epaInfo.Process.AverageScoreByReviewers : status.NotAvailable;
-                        break;
+                case utilitiesFactory.processStatusType.InProgress:
+                    result.ReviewerScore = epaInfo.Process.AverageScoreByReviewers !== null
+                        ? epaInfo.Process.AverageScoreByReviewers
+                        : 0;
+                    break;
+                case utilitiesFactory.processStatusType.Closed:
+                    result.ReviewerScore = epaInfo.Process.AverageScoreByReviewers !== null
+                        ? epaInfo.Process.AverageScoreByReviewers
+                        : status.NotAvailable;
+                    break;
                 }
 
                 if (epaInfo.Process.Managements.length > 0) {
                     switch (epaInfo.Process.Managements[0].StatusEndProcess) {
-                        case utilitiesFactory.processStatusType.InProgress:
-                            result.ManagementScore = epaInfo.Process.AverageScoreByManagements !== null
-                                ? epaInfo.Process.AverageScoreByManagements : 0;
-                            break;
-                        case utilitiesFactory.processStatusType.Closed:
-                            result.ManagementScore = epaInfo.Process.AverageScoreByManagements !== null
-                                ? epaInfo.Process.AverageScoreByManagements : status.NotAvailable;
-                            break;
+                    case utilitiesFactory.processStatusType.InProgress:
+                        result.ManagementScore = epaInfo.Process.AverageScoreByManagements !== null
+                            ? epaInfo.Process.AverageScoreByManagements
+                            : 0;
+                        break;
+                    case utilitiesFactory.processStatusType.Closed:
+                        result.ManagementScore = epaInfo.Process.AverageScoreByManagements !== null
+                            ? epaInfo.Process.AverageScoreByManagements
+                            : status.NotAvailable;
+                        break;
                     }
                 }
 
                 if (epaInfo.IsSemiHasMonthly) {
                     result.SelfScore = epaInfo.MonthlyEPA.AverageSelfScoreConverted !== null
-                        ? epaInfo.MonthlyEPA.AverageSelfScoreConverted : status.NotAvailable;
+                        ? epaInfo.MonthlyEPA.AverageSelfScoreConverted
+                        : status.NotAvailable;
 
                     result.EvaluatorScore = epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted !== null
-                        ? epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted : status.NotAvailable;
+                        ? epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted
+                        : status.NotAvailable;
                 }
             }
 
-            if (epaInfo.Period.IsEndPeriod) {
-                if (epaInfo.FinalScore.length > 0) {
-                    result.FinalScore = utilitiesFactory.parseFloat(epaInfo.FinalScore);
-                    result.Grade = epaInfo.Grade;
-                } else {
-                    result.FinalScore = status.NotAvailable;
-                    result.Grade = status.NotAvailable;
-                }
+
+            if (epaInfo.FinalScore.length > 0) {
+                result.FinalScore = utilitiesFactory.parseFloat(epaInfo.FinalScore);
+                result.Grade = epaInfo.Grade;
             } else {
-                result.FinalScore = status.Pending;
-                result.Grade = status.Pending;
+                // Set default lowest value
+                result.FinalScore = 0;
+                result.Grade = "E";
             }
 
             return result;
@@ -144,11 +151,12 @@
             if (gridData.EpaInfos) {
                 angular.forEach(gridData.EpaInfos, function (epaInfo, index) {
                     var score = calculateScore(epaInfo),
-                        cssSelfScore = epaInfo.EPAId > 0 && !epaInfo.HasMonthlyEPA && !epaInfo.Process.Self.IsEndProcess ? 'red' : '',
-                        cssEvaluatorScore = epaInfo.EPAId > 0 && !epaInfo.HasMonthlyEPA && !epaInfo.Process.Evaluators[0].IsEndProcess ? 'red' : '',
-                        cssReviewerScore = epaInfo.EPAId > 0 && !epaInfo.Process.Reviewers[0].IsEndProcess ? 'red' : '',
-                        cssManagementScore = '',
-                        cssDisciplineScore = epaInfo.EPAId > 0 && epaInfo.DisciplineScore < 0 ? 'red' : '',
+                        cssSelfScore = epaInfo.EPAId > 0 && !epaInfo.HasMonthlyEPA && !epaInfo.Process.Self.IsEndProcess ? "red" : "",
+                        cssEvaluatorScore = epaInfo.EPAId > 0 && !epaInfo.HasMonthlyEPA && !epaInfo.Process.Evaluators[0].IsEndProcess ? "red" : "",
+                        cssReviewerScore = epaInfo.EPAId > 0 && !epaInfo.Process.Reviewers[0].IsEndProcess ? "red" : "",
+                        cssManagementScore = "",
+                        cssDisciplineScore = epaInfo.EPAId > 0 && epaInfo.DisciplineScore < 0 ? "red" : "",
+                        cssPendingShowDefaultRedValue = epaInfo.FinalScore.length > 0 ? "" : "red",
                         pdfIcon = '<a class="icon-pdf exportPDF" data-epaid="' + epaInfo.EPAId + '"></a>',
                         viewIcon = '<a class="icon-view viewEPADetail" data-epaid="' + epaInfo.EPAId + '"></a>';
 
@@ -156,7 +164,7 @@
                         && epaInfo.Process.Managements
                         && epaInfo.Process.Managements.length > 0
                         && !epaInfo.Process.Managements[0].IsEndProcess) {
-                        cssManagementScore = 'red';
+                        cssManagementScore = "red";
                     }
 
                     var currentRow = {
@@ -174,10 +182,10 @@
                             { Name: "ReviewerScore", Value: "<span class='" + cssReviewerScore + "'>" + score.ReviewerScore + "</span>" },
                             { Name: "ManagementScore", Value: "<span class='" + cssManagementScore + "'>" + score.ManagementScore + "</span>" },
                             { Name: "DisciplineScore", Value: "<span class='" + cssDisciplineScore + "'>" + score.DisciplineScore + "</span>" },
-                            { Name: "FinalScore", Value: score.FinalScore },
-                            { Name: "Grade", Value: score.Grade },
+                            { Name: "FinalScore", Value: "<span class='" + cssPendingShowDefaultRedValue + "'>" + score.FinalScore + "</span>" },
+                            { Name: "Grade", Value: "<span class='" + cssPendingShowDefaultRedValue + "'>" + score.Grade + "</span>" },
                             { Name: "ExportPdf", Value: epaInfo.EPAId > 0 ? pdfIcon : "" },
-                            { Name: "ViewDetail", Value: epaInfo.EPAId > 0 ? viewIcon : '' }
+                            { Name: "ViewDetail", Value: epaInfo.EPAId > 0 ? viewIcon : "" }
                         ]
                     };
 
@@ -189,39 +197,39 @@
         }
 
         function registerViewEPADetailEvent(pageOption) {
-            $('.freegrid').off('click', '.table-cell a.viewEPADetail');
+            $(".freegrid").off("click", ".table-cell a.viewEPADetail");
 
-            $('.freegrid').on('click', '.table-cell a.viewEPADetail', function (event) {
+            $(".freegrid").on("click", ".table-cell a.viewEPADetail", function (event) {
                 event.preventDefault();
 
-                var epaId = parseInt($(this).data('epaid'));
-                $window.location.href = baseUrl + 'EPA/Detail/' + epaId
-                    + '?periodId=' + pageOption.periodId
-                    + '&departmentId=' + pageOption.departmentId
-                    + '&phaseIds=' + pageOption.phaseIds
-                    + '&isLocal=' + pageOption.isLocal
-                    + '&employeeId=' + pageOption.employeeId
-                    + '&exportPdf&fromEPADetailReport';
+                var epaId = parseInt($(this).data("epaid"));
+                $window.location.href = baseUrl + "EPA/Detail/" + epaId
+                    + "?periodId=" + pageOption.periodId
+                    + "&departmentId=" + pageOption.departmentId
+                    + "&phaseIds=" + pageOption.phaseIds
+                    + "&isLocal=" + pageOption.isLocal
+                    + "&employeeId=" + pageOption.employeeId
+                    + "&exportPdf&fromEPADetailReport";
             });
         }
 
         function registerExportPdfEvent() {
-            $('.freegrid').off('click', '.table-cell a.exportPDF');
+            $(".freegrid").off("click", ".table-cell a.exportPDF");
 
-            $('.freegrid').on('click', '.table-cell a.exportPDF', function (event) {
+            $(".freegrid").on("click", ".table-cell a.exportPDF", function (event) {
                 event.preventDefault();
 
-                var epaId = parseInt($(this).data('epaid'));
+                var epaId = parseInt($(this).data("epaid"));
 
-                var url = baseUrl + 'ExportPdf/ExportPdf?epaId=' + epaId;
-                var iframe = $('body iframe');
+                var url = baseUrl + "ExportPdf/ExportPdf?epaId=" + epaId;
+                var iframe = $("body iframe");
 
                 if (iframe.length === 0) {
                     iframe = $('<iframe width="0" height="0" class="display-none"></iframe>');
-                    iframe.appendTo('body');
+                    iframe.appendTo("body");
                 }
 
-                iframe.attr('src', url);
+                iframe.attr("src", url);
             });
         }
 
@@ -229,14 +237,14 @@
             restrict: "A",
             scope: {
                 gridData: "=",
-                pageOption: '=',
-                onPageChanging: '=',
-                onSortChanging: '=',
-                hideColumns: '=',
-                exportReport: '=',
-                sortColumnName: '=',
-                sortDirection: '=',
-                gridExpandHeight: '@'
+                pageOption: "=",
+                onPageChanging: "=",
+                onSortChanging: "=",
+                hideColumns: "=",
+                exportReport: "=",
+                sortColumnName: "=",
+                sortDirection: "=",
+                gridExpandHeight: "@"
             },
             link: function ($scope, iElement) {
                 var gridOptions = {
@@ -262,7 +270,7 @@
                     }
                 };
 
-                $scope.$watch('gridData', function (gridData) {
+                $scope.$watch("gridData", function (gridData) {
                     $timeout(function () {
                         if (gridData.EpaInfos) {
                             gridOptions.columns = generateColumnHeaders($scope);
