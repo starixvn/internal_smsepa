@@ -5,10 +5,11 @@ AS
 Created: 2015-08-26@Josh.Phan
 Task: Get period has employee that started evaluation.
 DB: SMSEPA
-Original: 
+Original:
 
-Revisions:  
-Param's Explanation:
+Revisions:
+	Param's Explanation:
+	20170419@Hunter.Tran: Check if period is active
 */
 BEGIN
 	SET NOCOUNT ON;
@@ -16,7 +17,7 @@ BEGIN
 	SELECT DISTINCT pe.PeriodId
 		,pc.ProcessId
 		,pe.TargetTypeId
-		,CASE 
+		,CASE
 			WHEN pe.TargetTypeId = 3 -- semi
 				AND epa.HasMonthlyEPA = 1 THEN 1
 			ELSE 0
@@ -30,4 +31,5 @@ BEGIN
 			OR pe.PeriodId = @PeriodId
 			)
 		AND epa.[Status] = 0 -- Open
+		AND pe.IsActive = 1 -- Active period
 END
