@@ -3,10 +3,12 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using SMS.EPA.Model.Enitites;
+    using Core.Constants;
+    using Enitites;
+    using Report;
 
     [Serializable]
-    public class DisciplineDetailModel
+    public class DisciplineDetailModel : IExcelRecord
     {
         public int EmployeeId { get; set; }
 
@@ -100,20 +102,41 @@
 
         public string EmployeeComment { get; set; }
 
-        public string WorkDateToString
-        {
-            get
-            {
-                return WorkDate.ToString("ddd, dd MMM, yyyy");
-            }
-        }
+        public string WorkDateToString => WorkDate.ToString("ddd, dd MMM, yyyy");
 
-        public bool IsWeekend
+        public bool IsWeekend => WorkDate.DayOfWeek == DayOfWeek.Saturday || WorkDate.DayOfWeek == DayOfWeek.Sunday;
+
+        public object ConvertToExcelRecord()
         {
-            get
+            var record = new
             {
-                return WorkDate.DayOfWeek == DayOfWeek.Saturday || WorkDate.DayOfWeek == DayOfWeek.Sunday;
-            }
+                Shift = Employee.Code,
+                Nick = Employee.NickName,
+                FullName = Employee.FullName,
+                Section = Employee.Group != null ? Employee.Group.GroupName : string.Empty,
+                JobTitle = Employee.JobTitle != null ? Employee.JobTitle.JobTitleName : string.Empty,
+                JoinedDate = Employee.JoinedDate.ToString(Constants.DateFormat),
+                Category = Employee.Category,
+                Date = WorkDateToString,
+                Code = ShiftName,
+                CheckIn = CheckIn?.ToString(Constants.TimeFormat) ?? string.Empty,
+                CheckOut = CheckOut?.ToString(Constants.TimeFormat) ?? string.Empty,
+                TotalHours = !string.IsNullOrEmpty(TotalHours) ? TotalHours : string.Empty,
+                MissingCheckInOut = MissingCheckInOut.Value > 0 ? MissingCheckInOut.Value.ToString() : string.Empty,
+                WorkingUnderTime = WorkingUnderTime.Value > 0 ? "1" : string.Empty,
+                LateIn = !string.IsNullOrEmpty(NumberOfMinutesLateIn) ? NumberOfMinutesLateIn : string.Empty,
+                EarlyOut = !string.IsNullOrEmpty(NumberOfMinutesEarlyOut) ? NumberOfMinutesEarlyOut : string.Empty,
+                Absent = Absent.Value > 0 ? Absent.Value.ToString() : string.Empty,
+                UnpaidLeave = UnpaidLeave.Value > 0 ? UnpaidLeave.Value.ToString() : string.Empty,
+                UnpaidLeaveAbsent = UnpaidLeaveAbsent.Value > 0 ? UnpaidLeaveAbsent.Value.ToString() : string.Empty,
+                ChangeShift = ChangeShift.Value > 0 ? ChangeShift.Value.ToString() : string.Empty,
+                SystemSubtractScore = SystemSubtractScore > 0 ? -SystemSubtractScore : 0,
+                ApproverSubtractScore = ApproverSubtractScore > 0 ? -ApproverSubtractScore : 0,
+                ApproverComment = ApproverComment,
+                EmployeeComment = EmployeeComment
+            };
+
+            return record;
         }
     }
 }

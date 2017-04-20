@@ -18,6 +18,7 @@
     using System.IO;
     using System.Linq;
     using System;
+    using System.Globalization;
 
     public class ReportService : BaseService, IReportService
     {
@@ -267,8 +268,6 @@
         {
             var rowIndex = 4;
 
-            ICellStyle bodyStyle = workbook.CreateCellStyle();
-
             ICellStyle bodyStyle1 = workbook.CreateCellStyle();
             bodyStyle1.Alignment = HorizontalAlignment.Center;
             bodyStyle1.VerticalAlignment = VerticalAlignment.Center;
@@ -288,14 +287,13 @@
             bodyStyle4.FillForegroundColor = HSSFColor.LightCornflowerBlue.Index;
             bodyStyle4.FillPattern = FillPattern.SolidForeground;
             bodyStyle4.FillBackgroundColor = HSSFColor.LightCornflowerBlue.Index;
-            ICell cellBody;
 
             foreach (var epaInfo in epaSummary.EPAInfos)
             {
-                bodyStyle = rowIndex % 2 == 0 ? bodyStyle2 : bodyStyle1;
+                var bodyStyle = rowIndex % 2 == 0 ? bodyStyle2 : bodyStyle1;
 
                 IRow row = sheet.CreateRow(rowIndex);
-                cellBody = row.CreateCell(0);
+                var cellBody = row.CreateCell(0);
                 cellBody.CellStyle = bodyStyle;
                 cellBody.SetCellValue(rowIndex - 3);
                 SetColumnWidth(ref sheet, 0, 5);
@@ -348,8 +346,9 @@
                 {
                     if (periodIds.Contains(epaSummary.PeriodSelecteds[i].PeriodId))
                     {
-                        string finalScore = string.Empty,
-                            grade = string.Empty;
+                        string finalScore;
+                        string grade;
+
                         EPASummaryPeriodModel period = epaInfo.Periods.FirstOrDefault(x => x.PeriodId == epaSummary.PeriodSelecteds[i].PeriodId);
 
                         if (period != null && period.IsEndPeriod.Equals(true))
@@ -361,7 +360,7 @@
                             }
                             else
                             {
-                                finalScore = Math.Round(float.Parse(period.FinalScore), 2).ToString();
+                                finalScore = Math.Round(float.Parse(period.FinalScore), 2).ToString(CultureInfo.InvariantCulture);
                                 grade = period.Grade;
                             }
                         }

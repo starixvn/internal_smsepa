@@ -4,6 +4,7 @@
     using System.IO;
     using System.Linq;
     using System.Web.Mvc;
+    using Core.Constants;
     using Core.Enumerations;
     using Core.Services;
     using Criteria;
@@ -94,34 +95,11 @@
             EPASummaryModel epaSummary = _reportService.GetEPASummaryReport(criteria);
             epaSummary.Period = _reportService.GetEPADetailPeriodForExportedFileName(criteria.PeriodIds);
 
-            _exportExcelService.FileName = GetEPASummaryReportFilename(epaSummary);
-            _exportExcelService.SheetName = Lang.EPASummaryReportSheet;
-            _exportExcelService.Title = Lang.EPASummaryReportTitle;
-
-            _exportExcelService.Initialize();
-
-            IFont font = _exportExcelService.Workbook.CreateFont();
-            font.FontHeightInPoints = 18;
-            font.Boldweight = (short)FontBoldWeight.Bold;
-
-            _exportExcelService.TitleStyle.Alignment = HorizontalAlignment.Center;
-            _exportExcelService.TitleStyle.VerticalAlignment = VerticalAlignment.Center;
-            _exportExcelService.TitleStyle.SetFont(font);
-
-            IFont headerFont = _exportExcelService.Workbook.CreateFont();
-            headerFont.FontHeightInPoints = 11;
-            headerFont.Color = HSSFColor.White.Index;
-            headerFont.Boldweight = (short)FontBoldWeight.Bold;
-
-
-
             MemoryStream output = _reportService.ExportEPASummaryReport(epaSummary);
 
             string fileName = GetEPASummaryReportFilename(epaSummary);
 
             return File(output.ToArray(), "application/vnd.ms-excel", fileName);
-
-            //return new EmptyResult();
         }
 
         private string GetEPASummaryReportFilename(EPASummaryModel epaSummary)
@@ -186,6 +164,28 @@
             return new EmptyResult();
         }
 
+        private string GetDisciplineSummaryReportTitle(GetDisciplineSummaryCriteria criteria)
+        {
+            string reportTitle;
+            string startDate = criteria.StartDate.ToString(Constants.DateFormat);
+            string endDate = criteria.EndDate.ToString(Constants.DateFormat);
+
+            if (criteria.EmployeeId != null)
+            {
+                reportTitle = string.Format(Lang.AttendanceSummaryReportTitle, criteria.EmployeeName, startDate, endDate);
+            }
+            else if (criteria.DepartmentId != null)
+            {
+                reportTitle = string.Format(Lang.AttendanceSummaryReportTitle, criteria.DepartmentName, startDate, endDate);
+            }
+            else
+            {
+                reportTitle = string.Format(Lang.AttendanceSummaryReportTitleNoPrefix, startDate, endDate);
+            }
+
+            return reportTitle;
+        }
+
         public ActionResult ExportDisciplineSummaryReport(GetDisciplineSummaryCriteria criteria)
         {
             if (criteria != null)
@@ -195,12 +195,40 @@
 
                 if (employeeDisciplines != null && employeeDisciplines.Any())
                 {
-                    string templatePath = Server.MapPath(DisciplineSummaryTemplatePath);
-                    _disciplineService.ExportDisciplineSummaryReport(criteria, employeeDisciplines, templatePath);
+                    _exportExcelService.FileName = Lang.AttendanceSummaryReportName;
+                    _exportExcelService.SheetName = Lang.AttendanceSummaryReportSheet;
+                    _exportExcelService.Title = GetDisciplineSummaryReportTitle(criteria);
+
+                    _exportExcelService.InitializeWithTemplate(Server.MapPath(DisciplineSummaryTemplatePath));
+                    _exportExcelService.ContentRowStartIndex = 4;
+
+                    _exportExcelService.ExportWithTemplate(employeeDisciplines, true);
                 }
             }
 
             return new EmptyResult();
+        }
+
+        private string GetDisciplineDetailReportTitle(GetDisciplineDetailCriteria criteria)
+        {
+            string reportTitle = string.Empty;
+            string startDate = criteria.StartDate.ToString(Constants.DateFormat);
+            string endDate = criteria.EndDate.ToString(Constants.DateFormat);
+
+            if (criteria.EmployeeId != null)
+            {
+                reportTitle = string.Format(Lang.AttendanceDetailReportTitle, criteria.EmployeeName, startDate, endDate);
+            }
+            else if (criteria.DepartmentId != null)
+            {
+                reportTitle = string.Format(Lang.AttendanceDetailReportTitle, criteria.DepartmentName, startDate, endDate);
+            }
+            else
+            {
+                reportTitle = string.Format(Lang.AttendanceDetailReportTitleNoPrefix, startDate, endDate);
+            }
+
+            return reportTitle;
         }
 
         public ActionResult ExportDisciplineDetailReport(GetDisciplineDetailCriteria criteria)
@@ -208,12 +236,20 @@
             if (criteria != null)
             {
                 criteria.ApproverId = _sessionService.CurrentUser.EmployeeId;
-                IEnumerable<DisciplineDetailModel> employeeDisciplines = _disciplineService.GetDisciplineDetail(criteria);
+                IEnumerable<DisciplineDetailModel> employeeDisciplines =
+                    _disciplineService.GetDisciplineDetail(criteria);
 
                 if (employeeDisciplines != null && employeeDisciplines.Any())
                 {
-                    string templatePath = Server.MapPath(DisciplineDetailTemplatePath);
-                    _disciplineService.ExportDisciplineDetailReport(criteria, employeeDisciplines, templatePath);
+                    _exportExcelService.FileName = Lang.AttendanceDetailReportName;
+                    _exportExcelService.SheetName = Lang.AttendanceDetailReportSheet;
+                    _exportExcelService.Title = GetDisciplineDetailReportTitle(criteria);
+
+                    _exportExcelService.InitializeWithTemplate(Server.MapPath(DisciplineDetailTemplatePath));
+
+                    _exportExcelService.ContentRowStartIndex = employeeDisciplines.First().IsWeekend ? 4 : 5;
+
+                    _exportExcelService.ExportWithTemplate(employeeDisciplines, true);
                 }
             }
 

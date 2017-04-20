@@ -97,10 +97,10 @@
         {
             if (criteria != null)
             {
-                string reportName = Lang.AttendanceSummaryReportName,
-                    reportTitle = string.Empty,
-                    startDate = criteria.StartDate.ToString(Constants.DateFormat),
-                    endDate = criteria.EndDate.ToString(Constants.DateFormat);
+                string reportName = Lang.AttendanceSummaryReportName;
+                string reportTitle;
+                string startDate = criteria.StartDate.ToString(Constants.DateFormat);
+                string endDate = criteria.EndDate.ToString(Constants.DateFormat);
 
                 if (criteria.EmployeeId != null)
                 {
