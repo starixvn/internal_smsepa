@@ -1,13 +1,14 @@
 ﻿namespace SMS.EPA.Model
 {
-    using System;
+    using Core.Enumerations;
     using System.Collections.Generic;
+    using System;
     using System.Linq;
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Model.Enitites;
+    using Core.Constants;
+    using Report;
 
     [Serializable]
-    public class PeriodEmployeeSettingModel
+    public class PeriodEmployeeSettingModel : IExcelRecord
     {
         public PeriodEmployeeSettingModel()
         {
@@ -38,20 +39,51 @@
 
         public TargetTemplate TargetTemplate { get; set; }
 
-        public int NumberEvaluators
+        public int NumberEvaluators => SelfEvaluators.Count + Evaluators.Count + Reviewers.Count + Managements.Count;
+
+        public bool IsSemiHasMonthly =>
+            Employee != null
+            && Employee.HasMonthlyEPA
+            && TargetTemplate != null
+            && TargetTemplate.TargetTypeId == (int) TargetType.SemiAnnual;
+
+        private string GetEvaluator(IList<PeriodFlowModel> evaluators)
         {
-            get
-            {
-                return SelfEvaluators.Count() + Evaluators.Count() + Reviewers.Count() + Managements.Count();
-            }
+            IEnumerable<string> nickNames = evaluators
+                .Where(x => !string.IsNullOrEmpty(x.EvaluatorInfo.NickName))
+                .Select(x => x.EvaluatorInfo.NickName);
+
+            string evaluatorNames = string.Join(", ", nickNames);
+
+            return evaluatorNames;
         }
 
-        public bool IsSemiHasMonthly
+        public object ConvertToExcelRecord()
         {
-            get
+            var record = new
             {
-                return Employee != null && Employee.HasMonthlyEPA && TargetTemplate != null && TargetTemplate.TargetTypeId == (int)TargetType.SemiAnnual;
-            }
+                Count = 0,
+                Department = Employee.Department != null
+                    ? Employee.Department.Name
+                    : string.Empty,
+                Section = Employee.Group != null
+                    ? Employee.Group.GroupName
+                    : string.Empty,
+                Code = Employee.Code,
+                FullName = Employee.FullName,
+                NickName = Employee.NickName,
+                JobTitle = Employee.JobTitle.JobTitleName,
+                JoinedDate = Employee.JoinedDate.ToString(Constants.DateFormat),
+                Category = Employee.Category,
+                Evaluator = GetEvaluator(Evaluators),
+                Reviewer = GetEvaluator(Reviewers),
+                Management = GetEvaluator(Managements),
+                Form = TargetTemplate != null
+                    ? TargetTemplate.TargetTypeName
+                    : string.Empty
+            };
+
+            return record;
         }
     }
 }

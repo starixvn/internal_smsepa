@@ -24,18 +24,21 @@
         private const string DisciplineDetailTemplatePath = @"~\ExcelTemplates\DisciplineDetailReport.xls";
         private const string DisciplineSummaryByPeriodTemplatePath = @"~\ExcelTemplates\DisciplineSummaryByPeriodReport.xls";
         private const string UpdateFinalScoreTemplatePath = @"~\ExcelTemplates\UpdateFinalScore.xls";
+        private const string EmployeeFlowSettingTemplate = @"~\ExcelTemplates\EmployeeFlowSettingTemplate.xls";
 
-        private readonly IReportService reportService;
-        private readonly IEPADetailReportService epaDetailReportService;
-        private readonly IMonthlyEPADetailReportService monthlyEPADetailReportService;
-        private readonly IDisciplineService disciplineService;
-        private readonly IEmployeeEPAService employeeEPAService;
-        private readonly IExportEmployeeFlowSettingService exportEmployeeFlowSettingService;
-        private readonly IExportEmployeeInfoService exportEmployeeInfoService;
-        private readonly IExportPersonalFlowSettingService exportPersonalFlowSettingService;
+        private const int DefaultContentRowStartIndexForTemplate = 3;
+
+        private readonly IReportService _reportService;
+        private readonly IEPADetailReportService _epaDetailReportService;
+        private readonly IMonthlyEPADetailReportService _monthlyEPADetailReportService;
+        private readonly IDisciplineService _disciplineService;
+        private readonly IEmployeeEPAService _employeeEPAService;
+        private readonly IExportEmployeeInfoService _exportEmployeeInfoService;
+        private readonly IExportPersonalFlowSettingService _exportPersonalFlowSettingService;
         private readonly IExportExcelService _exportExcelService;
         private readonly ITargetEmployeeSettingService _targetEmployeeSettingService;
-        private ISessionService sessionService;
+        private readonly IPeriodService _periodService;
+        private readonly ISessionService _sessionService;
 
         public ExportReportController()
             : this(null, null, null, null, null, null, null, null, null, null, null)
@@ -48,48 +51,77 @@
             IMonthlyEPADetailReportService monthlyEPADetailReportService,
             IDisciplineService disciplineService,
             IEmployeeEPAService employeeEPAService,
-            IExportEmployeeFlowSettingService exportEmployeeFlowSettingService,
             IExportEmployeeInfoService exportEmployeeInfoService,
             IExportPersonalFlowSettingService exportPersonalFlowSettingService,
             IExportExcelService exportExcelService,
             ITargetEmployeeSettingService targetEmployeeSettingService,
+            IPeriodService periodService,
             ISessionService sessionService)
         {
-            this.reportService = reportService ?? new ReportService();
-            this.epaDetailReportService = epaDetailReportService ?? new EPADetailReportService();
-            this.monthlyEPADetailReportService = monthlyEPADetailReportService ?? new MonthlyEPADetailReportService();
-            this.disciplineService = disciplineService ?? new DisciplineService();
-            this.sessionService = sessionService ?? new SessionService();
-            this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
-            this.exportEmployeeFlowSettingService = exportEmployeeFlowSettingService ?? new ExportEmployeeFlowSettingService();
-            this.exportEmployeeInfoService = exportEmployeeInfoService ?? new ExportEmployeeInfoService();
-            this.exportPersonalFlowSettingService = exportPersonalFlowSettingService ?? new ExportPersonalFlowSettingService();
+            _reportService = reportService ?? new ReportService();
+            _epaDetailReportService = epaDetailReportService ?? new EPADetailReportService();
+            _monthlyEPADetailReportService = monthlyEPADetailReportService ?? new MonthlyEPADetailReportService();
+            _disciplineService = disciplineService ?? new DisciplineService();
+            _sessionService = sessionService ?? new SessionService();
+            _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
+            _exportEmployeeInfoService = exportEmployeeInfoService ?? new ExportEmployeeInfoService();
+            _exportPersonalFlowSettingService = exportPersonalFlowSettingService ?? new ExportPersonalFlowSettingService();
             _exportExcelService = exportExcelService ?? new ExportExcelService();
             _targetEmployeeSettingService = targetEmployeeSettingService ?? new TargetEmployeeSettingService();
+            _periodService = periodService ?? new PeriodService();
         }
 
         public ActionResult ExportEmployeeFlowSettingReport(GetPeriodEmployeeSettingCriteria criteria)
         {
-            if (criteria != null)
-            {
-                exportEmployeeFlowSettingService.Export(criteria);
-            }
+            var employeeFlowSettings = _periodService.GetPeriodEmployeeSettingById(criteria);
+
+            _exportExcelService.FileName = string.Format(Lang.EmployeeFlowSettingReportName, criteria.PeriodName);
+            _exportExcelService.SheetName = Lang.EmployeeFlowSettingReportSheet;
+            _exportExcelService.Title = string.Format(Lang.EmployeeFlowSettingReportTitle, criteria.PeriodName);
+            _exportExcelService.ContentRowStartIndex = DefaultContentRowStartIndexForTemplate;
+
+            _exportExcelService.InitializeWithTemplate(Server.MapPath(EmployeeFlowSettingTemplate));
+
+            _exportExcelService.ExportWithTemplate(employeeFlowSettings, true);
 
             return new EmptyResult();
         }
 
         public ActionResult ExportEPASummaryReport(GetEPASummaryCriteria criteria)
         {
-            criteria.ActorId = sessionService.CurrentUser.EmployeeId;
+            criteria.ActorId = _sessionService.CurrentUser.EmployeeId;
 
-            EPASummaryModel epaSummary = reportService.GetEPASummaryReport(criteria);
-            epaSummary.Period = reportService.GetEPADetailPeriodForExportedFileName(criteria.PeriodIds);
-            
-            MemoryStream output = reportService.ExportEPASummaryReport(epaSummary);
+            EPASummaryModel epaSummary = _reportService.GetEPASummaryReport(criteria);
+            epaSummary.Period = _reportService.GetEPADetailPeriodForExportedFileName(criteria.PeriodIds);
+
+            _exportExcelService.FileName = GetEPASummaryReportFilename(epaSummary);
+            _exportExcelService.SheetName = Lang.EPASummaryReportSheet;
+            _exportExcelService.Title = Lang.EPASummaryReportTitle;
+
+            _exportExcelService.Initialize();
+
+            IFont font = _exportExcelService.Workbook.CreateFont();
+            font.FontHeightInPoints = 18;
+            font.Boldweight = (short)FontBoldWeight.Bold;
+
+            _exportExcelService.TitleStyle.Alignment = HorizontalAlignment.Center;
+            _exportExcelService.TitleStyle.VerticalAlignment = VerticalAlignment.Center;
+            _exportExcelService.TitleStyle.SetFont(font);
+
+            IFont headerFont = _exportExcelService.Workbook.CreateFont();
+            headerFont.FontHeightInPoints = 11;
+            headerFont.Color = HSSFColor.White.Index;
+            headerFont.Boldweight = (short)FontBoldWeight.Bold;
+
+
+
+            MemoryStream output = _reportService.ExportEPASummaryReport(epaSummary);
 
             string fileName = GetEPASummaryReportFilename(epaSummary);
 
             return File(output.ToArray(), "application/vnd.ms-excel", fileName);
+
+            //return new EmptyResult();
         }
 
         private string GetEPASummaryReportFilename(EPASummaryModel epaSummary)
@@ -108,22 +140,22 @@
         {
             string fileName = Lang.MonthlyEPASummaryReportName + ".xls";
 
-            criteria.EmployeeId = sessionService.CurrentUser.EmployeeId;
+            criteria.EmployeeId = _sessionService.CurrentUser.EmployeeId;
 
-            EPASummaryModel epaSummary = reportService.GetMonthlyEPASummaryReport(criteria);
+            EPASummaryModel epaSummary = _reportService.GetMonthlyEPASummaryReport(criteria);
 
-            MemoryStream output = reportService.ExportMonthlyEPASummaryReport(epaSummary);
+            MemoryStream output = _reportService.ExportMonthlyEPASummaryReport(epaSummary);
 
             return File(output.ToArray(), "application/vnd.ms-excel", fileName);
         }
 
         public ActionResult ExportEPADetailReport(GetEPADetailCriteria criteria)
         {
-            criteria.ActorId = sessionService.CurrentUser.EmployeeId;
+            criteria.ActorId = _sessionService.CurrentUser.EmployeeId;
 
-            EPADetailModel epaDetail = reportService.GetEPADetailReport(criteria);
+            EPADetailModel epaDetail = _reportService.GetEPADetailReport(criteria);
 
-            epaDetail.Period = reportService.GetEPADetailPeriodForExportedFileName(criteria.PeriodId?.ToString());
+            epaDetail.Period = _reportService.GetEPADetailPeriodForExportedFileName(criteria.PeriodId?.ToString());
 
             if (string.IsNullOrEmpty(criteria.SortColumnName) && epaDetail.EpaInfos.Any())
             {
@@ -139,17 +171,17 @@
                 }
             }
 
-            epaDetailReportService.Render(epaDetail);
+            _epaDetailReportService.Render(epaDetail);
 
             return new EmptyResult();
         }
 
         public ActionResult ExportMonthlyEPADetailReport(GetMonthlyEPADetailCriteria criteria)
         {
-            criteria.EmployeeId = sessionService.CurrentUser.EmployeeId;
+            criteria.EmployeeId = _sessionService.CurrentUser.EmployeeId;
 
-            EPADetailModel epaDetail = reportService.GetMonthlyEPADetailReport(criteria);
-            monthlyEPADetailReportService.Render(epaDetail);
+            EPADetailModel epaDetail = _reportService.GetMonthlyEPADetailReport(criteria);
+            _monthlyEPADetailReportService.Render(epaDetail);
 
             return new EmptyResult();
         }
@@ -158,13 +190,13 @@
         {
             if (criteria != null)
             {
-                criteria.ApproverId = sessionService.CurrentUser.EmployeeId;
-                IEnumerable<DisciplineSummaryModel> employeeDisciplines = disciplineService.GetDisciplineSummary(criteria);
+                criteria.ApproverId = _sessionService.CurrentUser.EmployeeId;
+                IEnumerable<DisciplineSummaryModel> employeeDisciplines = _disciplineService.GetDisciplineSummary(criteria);
 
                 if (employeeDisciplines != null && employeeDisciplines.Any())
                 {
                     string templatePath = Server.MapPath(DisciplineSummaryTemplatePath);
-                    disciplineService.ExportDisciplineSummaryReport(criteria, employeeDisciplines, templatePath);
+                    _disciplineService.ExportDisciplineSummaryReport(criteria, employeeDisciplines, templatePath);
                 }
             }
 
@@ -175,13 +207,13 @@
         {
             if (criteria != null)
             {
-                criteria.ApproverId = sessionService.CurrentUser.EmployeeId;
-                IEnumerable<DisciplineDetailModel> employeeDisciplines = disciplineService.GetDisciplineDetail(criteria);
+                criteria.ApproverId = _sessionService.CurrentUser.EmployeeId;
+                IEnumerable<DisciplineDetailModel> employeeDisciplines = _disciplineService.GetDisciplineDetail(criteria);
 
                 if (employeeDisciplines != null && employeeDisciplines.Any())
                 {
                     string templatePath = Server.MapPath(DisciplineDetailTemplatePath);
-                    disciplineService.ExportDisciplineDetailReport(criteria, employeeDisciplines, templatePath);
+                    _disciplineService.ExportDisciplineDetailReport(criteria, employeeDisciplines, templatePath);
                 }
             }
 
@@ -192,12 +224,12 @@
         {
             if (criteria != null)
             {
-                IEnumerable<DisciplineSummaryByPeriodModel> employeeDisciplines = disciplineService.GetDisciplineSummaryByPeriod(criteria);
+                IEnumerable<DisciplineSummaryByPeriodModel> employeeDisciplines = _disciplineService.GetDisciplineSummaryByPeriod(criteria);
 
                 if (employeeDisciplines != null && employeeDisciplines.Any())
                 {
                     string templatePath = Server.MapPath(DisciplineSummaryByPeriodTemplatePath);
-                    disciplineService.ExportDisciplineSummaryByPeriodReport(criteria, employeeDisciplines, templatePath);
+                    _disciplineService.ExportDisciplineSummaryByPeriodReport(criteria, employeeDisciplines, templatePath);
                 }
             }
 
@@ -208,14 +240,14 @@
         {
             if (criteria != null)
             {
-                IList<EPAModel> epaInfos = employeeEPAService.GetEPAToUpdateFinalScore(criteria);
+                IList<EPAModel> epaInfos = _employeeEPAService.GetEPAToUpdateFinalScore(criteria);
                 string[] employeeIds = criteria.EmployeeIds.Split(',');
                 epaInfos = epaInfos.Join(employeeIds, x => x.Employee.EmployeeId.ToString(), y => y, (x, y) => x).ToList();
 
                 if (epaInfos != null && epaInfos.Any())
                 {
                     string templatePath = Server.MapPath(UpdateFinalScoreTemplatePath);
-                    employeeEPAService.ExportEPAAfterUpdateFinalScore(criteria.PeriodName, epaInfos, templatePath);
+                    _employeeEPAService.ExportEPAAfterUpdateFinalScore(criteria.PeriodName, epaInfos, templatePath);
                 }
             }
 
@@ -226,7 +258,7 @@
         {
             if (criteria != null)
             {
-                exportEmployeeInfoService.Export(criteria);
+                _exportEmployeeInfoService.Export(criteria);
             }
 
             return new EmptyResult();
@@ -236,7 +268,7 @@
         {
             if (flowTemplateId > 0 && !string.IsNullOrEmpty(flowTemplateName))
             {
-                exportPersonalFlowSettingService.Export(flowTemplateId, flowTemplateName);
+                _exportPersonalFlowSettingService.Export(flowTemplateId, flowTemplateName);
             }
 
             return new EmptyResult();
@@ -251,7 +283,7 @@
                 _exportExcelService.FileName = "Target_Personnel_Setting";
                 _exportExcelService.SheetName = "Target Personnel Setting";
                 _exportExcelService.Title = "Target Personnel Setting";
-                _exportExcelService.Init();
+                _exportExcelService.Initialize();
 
                 //REVIEW: add format to a column base on condition
                 //int index = _exportExcelService.CreateNewColumnStyle();

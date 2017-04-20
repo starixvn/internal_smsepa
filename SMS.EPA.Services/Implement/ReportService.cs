@@ -204,10 +204,7 @@
             }
             finally
             {
-                if (output != null)
-                {
-                    output.Dispose();
-                }
+                output?.Dispose();
             }
         }
 

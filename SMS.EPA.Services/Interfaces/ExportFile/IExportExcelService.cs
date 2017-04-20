@@ -16,7 +16,7 @@
 
         int ContentRowStartIndex { get; set; }
 
-        int TotalColumns { get; set; }
+        int TotalColumns { get; }
 
         string FileName { get; set; }
 
@@ -35,7 +35,9 @@
         /// </summary>
         IList<ConditionalCellStyle> ConditionalCellStyles { get; set; }
 
-        void Init();
+        void Initialize();
+
+        void InitializeWithTemplate(string templatePath);
 
         /// <summary>
         /// Return index of newly created style in ColumnsStyles list
@@ -43,6 +45,18 @@
         /// <returns></returns>
         int CreateNewColumnStyle();
 
-        void Export(IEnumerable<IExcelRecord> datas);
+        /// <summary>
+        /// Export Excel file
+        /// </summary>
+        /// <param name="datas">data to export</param>
+        /// <param name="firstColumnAutoIncrement">set to true to set first column is row number with auto increment</param>
+        void Export(IEnumerable<IExcelRecord> datas, bool firstColumnAutoIncrement = false);
+
+        /// <summary>
+        /// Export Excel file using Template
+        /// </summary>
+        /// <param name="datas">data to export</param>
+        /// /// <param name="firstColumnAutoIncrement">set to true to set first column is row number with auto increment</param>
+        void ExportWithTemplate(IEnumerable<IExcelRecord> datas, bool firstColumnAutoIncrement = false);
     }
 }

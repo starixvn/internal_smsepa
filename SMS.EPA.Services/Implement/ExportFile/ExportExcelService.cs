@@ -1,14 +1,15 @@
 ﻿namespace SMS.EPA.Services.Implement.ExportFile
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
     using Core.Utilities.NPOIExtensions;
     using Interfaces.ExportFile;
     using Model.Report;
     using NPOI.HSSF.UserModel;
     using NPOI.SS.UserModel;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Reflection;
 
     public class ExportExcelService : IExportExcelService
     {
@@ -33,7 +34,7 @@
 
         public int ContentRowStartIndex { get; set; } = 2;
 
-        public int TotalColumns { get; set; }
+        public int TotalColumns { get; private set; }
 
         public string FileName { get; set; }
 
@@ -49,7 +50,7 @@
 
         public IList<ConditionalCellStyle> ConditionalCellStyles { get; set; }
 
-        public void Init()
+        public void Initialize()
         {
             Workbook = new HSSFWorkbook();
             Sheet = Workbook.CreateSheet(SheetName);
@@ -61,6 +62,25 @@
             ColumnsStyles = new List<ICellStyle>();
         }
 
+        public void InitializeWithTemplate(string templatePath)
+        {
+            try
+            {
+                using (FileStream fireStream = new FileStream(templatePath, FileMode.Open, FileAccess.Read))
+                {
+                    Workbook = new HSSFWorkbook(fireStream, true);
+                    Sheet = Workbook.GetSheetAt(0);
+
+                    ConditionalCellStyles = new List<ConditionalCellStyle>();
+                    ColumnsStyles = new List<ICellStyle>();
+                }
+            }
+            catch (Exception exception)
+            {
+                //TODO: log out why throw exception
+            }
+        }
+
         private void WriteTitle()
         {
             IRow titleRow = Sheet.CreateRow(TitleRowIndex);
@@ -68,7 +88,7 @@
             cell.SetCellValue(Title);
             cell.CellStyle = TitleStyle;
         }
-        
+
         private void WriteHeaders(object sampleRecord)
         {
             Type recordType = sampleRecord.GetType();
@@ -77,7 +97,7 @@
 
             IRow headerRow = Sheet.CreateRow(HeaderRowIndex);
 
-            for (var index = 0; index < columns.Length; index++)
+            for (var index = 0; index < TotalColumns; index++)
             {
                 PropertyInfo propertyInfo = columns[index];
                 headerRow.CreateCell(index).SetCellValue(propertyInfo.Name);
@@ -85,16 +105,20 @@
             }
         }
 
-        private void WriteData(IEnumerable<IExcelRecord> datas)
+        private void WriteData(IEnumerable<IExcelRecord> datas, bool firstColumnAutoIncrement)
         {
             int rowId = ContentRowStartIndex;
+
+            int rowNumber = 1;
 
             foreach (IExcelRecord data in datas)
             {
                 IRow row = Sheet.CreateRow(rowId);
+
                 var objectData = data.ConvertToExcelRecord();
                 PropertyInfo[] infos = objectData.GetType().GetProperties();
-                for (int index = 0; index < infos.Length; index++)
+
+                for (int index = 0; index < TotalColumns; index++)
                 {
                     ICell cell = row.CreateCell(index);
 
@@ -102,6 +126,10 @@
 
                     cell.SetCellValue(value);
 
+                    if (index == 0 && firstColumnAutoIncrement)
+                    {
+                        cell.SetCellValue(rowNumber);
+                    }
 
                     foreach (ConditionalCellStyle conditionalCellStyle in ConditionalCellStyles)
                     {
@@ -113,6 +141,7 @@
                 }
 
                 rowId++;
+                rowNumber++;
             }
         }
 
@@ -126,28 +155,53 @@
             }
             return 0;
         }
-        
-        public void Export(IEnumerable<IExcelRecord> datas)
+
+        private void FormatSheet()
         {
-            if (datas == null || !datas.Any())
-            {
-                return;
-            }
-
-            WriteTitle();
-
-            WriteHeaders(datas.First().ConvertToExcelRecord());
-
-            WriteData(datas);
-
-            int totalColumns = datas.First().GetType().GetProperties().Length;
-
-            for (int i = 0; i < totalColumns; i++)
+            for (int i = 0; i < TotalColumns; i++)
             {
                 Sheet.AutoSizeColumn(i);
             }
 
             Sheet.CreateFreezePane(0, ContentRowStartIndex);
+        }
+
+        public void Export(IEnumerable<IExcelRecord> datas, bool firstColumnAutoIncrement = false)
+        {
+            var dataList = datas as IList<IExcelRecord> ?? datas.ToList();
+
+            if (!dataList.Any())
+            {
+                return;
+            }
+
+            TotalColumns = dataList.First().GetType().GetProperties().Length;
+
+            WriteTitle();
+
+            WriteHeaders(dataList.First().ConvertToExcelRecord());
+
+            WriteData(dataList, firstColumnAutoIncrement);
+
+            FormatSheet();
+
+            Workbook.ToReponseStream(FileName);
+        }
+
+        public void ExportWithTemplate(IEnumerable<IExcelRecord> datas, bool firstColumnAutoIncrement = false)
+        {
+            var dataList = datas as IList<IExcelRecord> ?? datas.ToList();
+
+            if (!dataList.Any())
+            {
+                return;
+            }
+
+            TotalColumns = dataList.First().GetType().GetProperties().Length;
+
+            WriteData(dataList, firstColumnAutoIncrement);
+
+            FormatSheet();
 
             Workbook.ToReponseStream(FileName);
         }
