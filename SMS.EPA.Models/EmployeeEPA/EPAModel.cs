@@ -4,8 +4,9 @@
     using System.Linq;
     using Core.Constants;
     using Core.Enumerations;
+    using Report;
 
-    public class EPAModel
+    public class EPAModel : IExcelRecord
     {
         public EPAModel()
         {
@@ -136,6 +137,23 @@
 
                 return isAllowedToEdit;
             }
+        }
+
+        public object ConvertToExcelRecord()
+        {
+            var record = new
+            {
+                Count = 0,
+                Code = Employee.Code,
+                Nick = Employee.NickName,
+                FullName = Employee.FullName,
+                Section = Employee.GroupName,
+                JobTitle = Employee.JobTitleName,
+                OldFinalScore = OldFinalScore,
+                NewFinalScore = FinalScore
+            };
+
+            return record;
         }
     }
 }

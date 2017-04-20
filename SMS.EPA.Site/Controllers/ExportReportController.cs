@@ -10,6 +10,7 @@
     using Criteria;
     using Criteria.Report;
     using Model;
+    using Model.Enitites;
     using Model.Report;
     using NPOI.HSSF.Util;
     using NPOI.SS.UserModel;
@@ -26,6 +27,8 @@
         private const string DisciplineSummaryByPeriodTemplatePath = @"~\ExcelTemplates\DisciplineSummaryByPeriodReport.xls";
         private const string UpdateFinalScoreTemplatePath = @"~\ExcelTemplates\UpdateFinalScore.xls";
         private const string EmployeeFlowSettingTemplate = @"~\ExcelTemplates\EmployeeFlowSettingTemplate.xls";
+        private const string EmployeeBasicInfoTemplate = @"~\ExcelTemplates\EmployeeBasicInfoTemplate.xls";
+        private const string PersonalFlowSettingTemplate = @"~\ExcelTemplates\PersonalFlowSettingTemplate.xls";
 
         private const int DefaultContentRowStartIndexForTemplate = 3;
 
@@ -34,15 +37,15 @@
         private readonly IMonthlyEPADetailReportService _monthlyEPADetailReportService;
         private readonly IDisciplineService _disciplineService;
         private readonly IEmployeeEPAService _employeeEPAService;
-        private readonly IExportEmployeeInfoService _exportEmployeeInfoService;
-        private readonly IExportPersonalFlowSettingService _exportPersonalFlowSettingService;
         private readonly IExportExcelService _exportExcelService;
         private readonly ITargetEmployeeSettingService _targetEmployeeSettingService;
         private readonly IPeriodService _periodService;
+        private readonly IEmployeeService _employeeService;
+        private readonly IPersonalFlowService _personalFlowService;
         private readonly ISessionService _sessionService;
 
         public ExportReportController()
-            : this(null, null, null, null, null, null, null, null, null, null, null)
+            : this(null, null, null, null, null, null, null, null, null, null, null, null)
         {
         }
 
@@ -53,10 +56,11 @@
             IDisciplineService disciplineService,
             IEmployeeEPAService employeeEPAService,
             IExportEmployeeInfoService exportEmployeeInfoService,
-            IExportPersonalFlowSettingService exportPersonalFlowSettingService,
             IExportExcelService exportExcelService,
             ITargetEmployeeSettingService targetEmployeeSettingService,
             IPeriodService periodService,
+            IEmployeeService employeeService,
+            IPersonalFlowService personalFlowService,
             ISessionService sessionService)
         {
             _reportService = reportService ?? new ReportService();
@@ -65,11 +69,11 @@
             _disciplineService = disciplineService ?? new DisciplineService();
             _sessionService = sessionService ?? new SessionService();
             _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
-            _exportEmployeeInfoService = exportEmployeeInfoService ?? new ExportEmployeeInfoService();
-            _exportPersonalFlowSettingService = exportPersonalFlowSettingService ?? new ExportPersonalFlowSettingService();
             _exportExcelService = exportExcelService ?? new ExportExcelService();
             _targetEmployeeSettingService = targetEmployeeSettingService ?? new TargetEmployeeSettingService();
             _periodService = periodService ?? new PeriodService();
+            _employeeService = employeeService ?? new EmployeeService();
+            _personalFlowService = personalFlowService ?? new PersonalFlowService();
         }
 
         public ActionResult ExportEmployeeFlowSettingReport(GetPeriodEmployeeSettingCriteria criteria)
@@ -83,7 +87,7 @@
 
             _exportExcelService.InitializeWithTemplate(Server.MapPath(EmployeeFlowSettingTemplate));
 
-            _exportExcelService.ExportWithTemplate(employeeFlowSettings, true);
+            _exportExcelService.ExportWithTemplate(employeeFlowSettings, true, true);
 
             return new EmptyResult();
         }
@@ -202,7 +206,7 @@
                     _exportExcelService.InitializeWithTemplate(Server.MapPath(DisciplineSummaryTemplatePath));
                     _exportExcelService.ContentRowStartIndex = 4;
 
-                    _exportExcelService.ExportWithTemplate(employeeDisciplines, true);
+                    _exportExcelService.ExportWithTemplate(employeeDisciplines, true, true);
                 }
             }
 
@@ -211,7 +215,7 @@
 
         private string GetDisciplineDetailReportTitle(GetDisciplineDetailCriteria criteria)
         {
-            string reportTitle = string.Empty;
+            string reportTitle;
             string startDate = criteria.StartDate.ToString(Constants.DateFormat);
             string endDate = criteria.EndDate.ToString(Constants.DateFormat);
 
@@ -249,11 +253,31 @@
 
                     _exportExcelService.ContentRowStartIndex = employeeDisciplines.First().IsWeekend ? 4 : 5;
 
-                    _exportExcelService.ExportWithTemplate(employeeDisciplines, true);
+                    _exportExcelService.ExportWithTemplate(employeeDisciplines, true, true);
                 }
             }
 
             return new EmptyResult();
+        }
+
+        private string GetDisciplineSummaryByPeriodReportTitle(GetDisciplineSummaryByPeriodCriteria criteria)
+        {
+            string reportTitle;
+
+            if (criteria.EmployeeId != null)
+            {
+                reportTitle = $"{criteria.EmployeeName} - Discipline Summary Report";
+            }
+            else if (criteria.DepartmentId != null)
+            {
+                reportTitle = $"{criteria.DepartmentName} - Discipline Summary Report";
+            }
+            else
+            {
+                reportTitle = "Discipline Summary Report";
+            }
+
+            return reportTitle;
         }
 
         public ActionResult ExportDisciplineSummaryByPeriodReport(GetDisciplineSummaryByPeriodCriteria criteria)
@@ -264,8 +288,15 @@
 
                 if (employeeDisciplines != null && employeeDisciplines.Any())
                 {
-                    string templatePath = Server.MapPath(DisciplineSummaryByPeriodTemplatePath);
-                    _disciplineService.ExportDisciplineSummaryByPeriodReport(criteria, employeeDisciplines, templatePath);
+                    _exportExcelService.FileName = "Discipline_Summary_Report";
+                    _exportExcelService.SheetName = "Discipline Summary";
+                    _exportExcelService.Title = GetDisciplineSummaryByPeriodReportTitle(criteria);
+
+                    _exportExcelService.InitializeWithTemplate(Server.MapPath(DisciplineSummaryByPeriodTemplatePath));
+
+                    _exportExcelService.ContentRowStartIndex = DefaultContentRowStartIndexForTemplate;
+
+                    _exportExcelService.ExportWithTemplate(employeeDisciplines, true, true);
                 }
             }
 
@@ -280,10 +311,17 @@
                 string[] employeeIds = criteria.EmployeeIds.Split(',');
                 epaInfos = epaInfos.Join(employeeIds, x => x.Employee.EmployeeId.ToString(), y => y, (x, y) => x).ToList();
 
-                if (epaInfos != null && epaInfos.Any())
+                if (epaInfos.Any())
                 {
-                    string templatePath = Server.MapPath(UpdateFinalScoreTemplatePath);
-                    _employeeEPAService.ExportEPAAfterUpdateFinalScore(criteria.PeriodName, epaInfos, templatePath);
+                    _exportExcelService.FileName = "Update_Final_Score";
+                    _exportExcelService.SheetName = "Update Final Score";
+                    _exportExcelService.Title = criteria.PeriodName;
+
+                    _exportExcelService.InitializeWithTemplate(Server.MapPath(UpdateFinalScoreTemplatePath));
+
+                    _exportExcelService.ContentRowStartIndex = DefaultContentRowStartIndexForTemplate;
+
+                    _exportExcelService.ExportWithTemplate(epaInfos, true, true);
                 }
             }
 
@@ -294,7 +332,19 @@
         {
             if (criteria != null)
             {
-                _exportEmployeeInfoService.Export(criteria);
+                IEnumerable<Employee> employees = _employeeService.GetAllEmployee(criteria);
+
+                if (employees.Any())
+                {
+                    _exportExcelService.FileName = "Employee_Infomation";
+                    _exportExcelService.SheetName = "Employee Infomation";
+
+                    _exportExcelService.InitializeWithTemplate(Server.MapPath(EmployeeBasicInfoTemplate));
+
+                    _exportExcelService.ContentRowStartIndex = DefaultContentRowStartIndexForTemplate;
+
+                    _exportExcelService.ExportWithTemplate(employees, true);
+                }
             }
 
             return new EmptyResult();
@@ -304,7 +354,17 @@
         {
             if (flowTemplateId > 0 && !string.IsNullOrEmpty(flowTemplateName))
             {
-                _exportPersonalFlowSettingService.Export(flowTemplateId, flowTemplateName);
+                IEnumerable<PersonalFlowModel> flowSettings = _personalFlowService.GetPersonalFlowByFlowTemplateId(flowTemplateId);
+
+                _exportExcelService.FileName = "Personal_Flow_Setting";
+                _exportExcelService.SheetName = "Personal Flow";
+                _exportExcelService.Title = $"{flowTemplateName} - Personal Flow Setting";
+
+                _exportExcelService.InitializeWithTemplate(Server.MapPath(PersonalFlowSettingTemplate));
+
+                _exportExcelService.ContentRowStartIndex = DefaultContentRowStartIndexForTemplate;
+
+                _exportExcelService.ExportWithTemplate(flowSettings, true, true);
             }
 
             return new EmptyResult();

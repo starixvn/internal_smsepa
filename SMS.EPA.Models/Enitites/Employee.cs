@@ -1,12 +1,15 @@
 ﻿namespace SMS.EPA.Model.Enitites
 {
-    using SMS.EPA.Core.Model;
+    using Core.Services;
     using System;
     using System.Collections.Generic;
-    using SMS.EPA.Core.Services;
+    using System.Linq;
+    using Core.Constants;
+    using Core.Model;
+    using Report;
 
     [Serializable]
-    public class Employee
+    public class Employee : IExcelRecord
     {
         public Employee()
         {
@@ -48,13 +51,9 @@
 
         public bool HasMonthlyEPA { get; set; }
 
-        public string Username
-        {
-            get
-            {
-                return !string.IsNullOrWhiteSpace(DomainUsername) && IsSpecialUser ? DomainUsername.Replace("sms\\", string.Empty) : string.Empty;
-            }
-        }
+        public string Username => !string.IsNullOrWhiteSpace(DomainUsername) && IsSpecialUser
+            ? DomainUsername.Replace("sms\\", string.Empty)
+            : string.Empty;
 
         public bool IsSpecialUser { get; set; }
 
@@ -67,5 +66,25 @@
         public Group Group { get; set; }
 
         public IList<SystemRoleModel> Roles { get; set; }
+
+        public object ConvertToExcelRecord()
+        {
+            var record = new
+            {
+                Count = 0,
+                Code = Code,
+                Username = Username,
+                FullName = FullName,
+                NickName = NickName,
+                Section = Group != null ? Group.GroupName : string.Empty,
+                JobTitle = JobTitle.JobTitleName,
+                Category = Category,
+                JoinedDate = JoinedDate.ToString(Constants.DateFormat),
+                Email = Email,
+                Roles = string.Join(", ", Roles.Select(x => x.RoleCode))
+            };
+
+            return record;
+        }
     }
 }

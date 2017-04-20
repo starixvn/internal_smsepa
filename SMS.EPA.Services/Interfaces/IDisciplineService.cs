@@ -1,8 +1,8 @@
 ﻿namespace SMS.EPA.Services.Interfaces
 {
     using System.Collections.Generic;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
+    using Criteria;
+    using Model;
 
     public interface IDisciplineService
     {
@@ -15,20 +15,5 @@
         IEnumerable<DisciplineDetailModel> GetDisciplineDetail(GetDisciplineDetailCriteria criteria);
 
         IEnumerable<DisciplineSummaryByPeriodModel> GetDisciplineSummaryByPeriod(GetDisciplineSummaryByPeriodCriteria criteria);
-
-        void ExportDisciplineSummaryReport(
-            GetDisciplineSummaryCriteria criteria,
-            IEnumerable<DisciplineSummaryModel> employeeDisciplines,
-            string templatePath);
-
-        void ExportDisciplineDetailReport(
-            GetDisciplineDetailCriteria criteria,
-            IEnumerable<DisciplineDetailModel> employeeDisciplines,
-            string templatePath);
-
-        void ExportDisciplineSummaryByPeriodReport(
-            GetDisciplineSummaryByPeriodCriteria criteria,
-            IEnumerable<DisciplineSummaryByPeriodModel> employeeDisciplines,
-            string templatePath);
     }
 }

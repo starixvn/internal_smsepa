@@ -188,7 +188,10 @@
             Workbook.ToReponseStream(FileName);
         }
 
-        public void ExportWithTemplate(IEnumerable<IExcelRecord> datas, bool firstColumnAutoIncrement = false)
+        public void ExportWithTemplate(
+            IEnumerable<IExcelRecord> datas,
+            bool firstColumnAutoIncrement = false,
+            bool rewriteTitle = false)
         {
             var dataList = datas as IList<IExcelRecord> ?? datas.ToList();
 
@@ -198,6 +201,11 @@
             }
 
             TotalColumns = dataList.First().GetType().GetProperties().Length;
+
+            if (rewriteTitle)
+            {
+                WriteTitle();
+            }
 
             WriteData(dataList, firstColumnAutoIncrement);
 
