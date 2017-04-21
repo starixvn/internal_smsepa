@@ -75,7 +75,7 @@
                 DepartmentId = departmentId,
                 EmployeeId = employeeId
             };
-            
+
             IList<EPAModel> epaInfos = _evaluationService.GetEPAToUpdateFinalScore(criteria);
 
             return Request.CreateResponse(HttpStatusCode.OK, epaInfos);
