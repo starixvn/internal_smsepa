@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.ClientHrm.ThirdPartyAPIs
+﻿namespace SMS.EPA.ClientHrm.ThirdPartyAPI
 {
     using System;
     using System.Collections.Generic;
@@ -7,6 +7,7 @@
     using System.Net.Http;
     using System.Net.Http.Headers;
     using SMS.EPA.ClientHrm.Model;
+    using SMS.EPA.ClientHrm.ThirdPartyAPI;
 
     public class DisciplineAPI : IDisciplineAPI
     {
@@ -16,11 +17,7 @@
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
 
-                var result = client.GetAsync(ApplicationConfig.ServiceAPI + "Discipline/GetLastModifiedDate").Result;
-                if (result.StatusCode != HttpStatusCode.OK)
-                {
-                    throw new WebApiException(result.StatusCode, result.RequestMessage);
-                }
+                var result = client.GetAsync(new Uri(ApplicationConfig.ServiceAPI + "Discipline/GetLastModifiedDate")).Result;
 
                 return result.Content.ReadAsAsync<DateTime>().Result;
             }
@@ -32,11 +29,7 @@
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
 
-                var result = client.GetAsync(ApplicationConfig.ServiceAPI + "Discipline/GetFromDateDiscipline").Result;
-                if (result.StatusCode != HttpStatusCode.OK)
-                {
-                    throw new WebApiException(result.StatusCode, result.RequestMessage);
-                }
+                var result = client.GetAsync(new Uri(ApplicationConfig.ServiceAPI + "Discipline/GetFromDateDiscipline")).Result;
 
                 return result.Content.ReadAsAsync<DateTime>().Result;
             }

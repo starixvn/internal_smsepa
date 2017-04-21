@@ -1,6 +1,7 @@
 ﻿namespace SMS.EPA.ServicesAPI.Model
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
 
     public class Discipline
     {
@@ -8,6 +9,7 @@
 
         public DateTime WorkDate { get; set; }
 
+        [SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods", Justification = "OK")]
         public int Type { get; set; }
 
         public string ShiftName { get; set; }

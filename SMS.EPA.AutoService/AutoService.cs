@@ -67,6 +67,7 @@
             Log.Info("Service stopped at " + DateTime.Now);
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Reviewed. Suppression is OK here.")]
         private void ExecuteJob(object sender, ElapsedEventArgs e)
         {
             try

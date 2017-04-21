@@ -225,9 +225,7 @@
     <Compile Include="Controllers\API\CommonController.cs" />
     <Compile Include="Controllers\API\DashboardController.cs" />
     <Compile Include="Controllers\API\DepartmentController.cs" />
-    <Compile Include="Controllers\API\UpdateFinalScoreController.cs">
-      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
-    </Compile>
+    <Compile Include="Controllers\API\UpdateFinalScoreController.cs" />
     <Compile Include="Controllers\API\ManagementEPAController.cs" />
     <Compile Include="Controllers\API\ReviewerEPAController.cs" />
     <Compile Include="Controllers\API\EvaluatorByKPIController.cs" />

@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.ClientHrm.ThirdPartyAPIs
+﻿namespace SMS.EPA.ClientHrm.ThirdPartyAPI
 {
     using System;
     using System.Collections.Generic;
@@ -6,7 +6,7 @@
 
     public interface ITeamSupervisorAPI
     {
-        CommandResult Update(IEnumerable<GroupDisciplinePermission> groups, TokenAccess token);
+        CommandResult Update(IEnumerable<GroupDisciplinePermission> groupSupervisors, TokenAccess token);
 
         DateTime GetLastModifiedDate(TokenAccess token);
     }

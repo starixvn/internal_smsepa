@@ -270,11 +270,11 @@
             return commandResult;
         }
 
-        public void GroupMonthlyEPABySemi(EPAModel semiEPA, IList<EPAModel> monthlies)
+        public void GroupMonthlyEPABySemi(EPAModel semiEPA, IList<EPAModel> monthlyEPAs)
         {
-            if (semiEPA != null && monthlies != null && monthlies.Count > 0)
+            if (semiEPA != null && monthlyEPAs != null && monthlyEPAs.Count > 0)
             {
-                foreach (EPAModel monthlyEPA in monthlies.Where(x => x.EPAParentId.Equals(semiEPA.EPAId)))
+                foreach (EPAModel monthlyEPA in monthlyEPAs.Where(x => x.EPAParentId.Equals(semiEPA.EPAId)))
                 {
                     semiEPA.MonthlyEPA.MonthlyEPAs.Add(monthlyEPA);
                 }

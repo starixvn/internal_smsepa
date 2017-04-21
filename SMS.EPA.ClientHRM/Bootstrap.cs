@@ -3,48 +3,38 @@
     using Fanex.Data.Repository;
     using SimpleInjector;
     using SMS.EPA.ClientHrm.Services;
-    using SMS.EPA.ClientHrm.ThirdPartyAPIs;
+    using SMS.EPA.ClientHrm.ThirdPartyAPI;
 
     public static class Bootstrap
     {
-        private static Container _container;
+        public static Container Container { get; set; }
 
-        public static Container Container
-        {
-            get
-            {
-                return _container;
-            }
-        }
-
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling", Justification = "Ok.")]
         public static void Start()
         {
-            _container = new Container();
-            _container.Register<IDepartmentService, DepartmentService>(Lifestyle.Singleton);
-            _container.Register<IDisciplineService, DisciplineService>(Lifestyle.Singleton);
-            _container.Register<IDisciplineSummaryService, DisciplineSummaryService>(Lifestyle.Singleton);
-            _container.Register<IEmployeeService, EmployeeService>(Lifestyle.Singleton);
-            _container.Register<IJobTitleService, JobTitleService>(Lifestyle.Singleton);
-            _container.Register<ISupervisorService, DisciplinePermissionService>(Lifestyle.Singleton);
-            _container.Register<ITokenService, TokenService>(Lifestyle.Singleton);
-            _container.Register<ISynchronizeService, SynchronizeService>(Lifestyle.Singleton);
-            _container.Register<ITeamService, TeamService>(Lifestyle.Singleton);
-            _container.Register<IPhotoService, PhotoService>(Lifestyle.Singleton);
+            Container.Register<IDepartmentService, DepartmentService>(Lifestyle.Singleton);
+            Container.Register<IDisciplineService, DisciplineService>(Lifestyle.Singleton);
+            Container.Register<IDisciplineSummaryService, DisciplineSummaryService>(Lifestyle.Singleton);
+            Container.Register<IEmployeeService, EmployeeService>(Lifestyle.Singleton);
+            Container.Register<IJobTitleService, JobTitleService>(Lifestyle.Singleton);
+            Container.Register<ISupervisorService, DisciplinePermissionService>(Lifestyle.Singleton);
+            Container.Register<ITokenService, TokenService>(Lifestyle.Singleton);
+            Container.Register<ISynchronizeService, SynchronizeService>(Lifestyle.Singleton);
+            Container.Register<ITeamService, TeamService>(Lifestyle.Singleton);
+            Container.Register<IPhotoService, PhotoService>(Lifestyle.Singleton);
+            Container.Register<IDynamicRepository, DynamicRepository>(Lifestyle.Singleton);
+            Container.Register<IDepartmentAPI, DepartmentAPI>(Lifestyle.Singleton);
+            Container.Register<IDisciplineAPI, DisciplineAPI>(Lifestyle.Singleton);
+            Container.Register<IDisciplineSummaryAPI, DisciplineSummaryAPI>(Lifestyle.Singleton);
+            Container.Register<IEmployeeAPI, EmployeeAPI>(Lifestyle.Singleton);
+            Container.Register<IJobTitleAPI, JobTitleAPI>(Lifestyle.Singleton);
+            Container.Register<IEmployeeSupervisorAPI, EmployeeDisciplinePermissionAPI>(Lifestyle.Singleton);
+            Container.Register<ITeamSupervisorAPI, TeamDisciplinePermissionAPI>(Lifestyle.Singleton);
+            Container.Register<ITeamAPI, TeamAPI>(Lifestyle.Singleton);
+            Container.Register<IPhotoAPI, PhotoAPI>(Lifestyle.Singleton);
+            Container.Register<ITokenAPI, TokenAPI>(Lifestyle.Singleton);
 
-            _container.Register<IDynamicRepository, DynamicRepository>(Lifestyle.Singleton);
-
-            _container.Register<IDepartmentAPI, DepartmentAPI>(Lifestyle.Singleton);
-            _container.Register<IDisciplineAPI, DisciplineAPI>(Lifestyle.Singleton);
-            _container.Register<IDisciplineSummaryAPI, DisciplineSummaryAPI>(Lifestyle.Singleton);
-            _container.Register<IEmployeeAPI, EmployeeAPI>(Lifestyle.Singleton);
-            _container.Register<IJobTitleAPI, JobTitleAPI>(Lifestyle.Singleton);
-            _container.Register<IEmployeeSupervisorAPI, EmployeeDisciplinePermissionAPI>(Lifestyle.Singleton);
-            _container.Register<ITeamSupervisorAPI, TeamDisciplinePermissionAPI>(Lifestyle.Singleton);
-            _container.Register<ITeamAPI, TeamAPI>(Lifestyle.Singleton);
-            _container.Register<IPhotoAPI, PhotoAPI>(Lifestyle.Singleton);
-            _container.Register<ITokenAPI, TokenAPI>(Lifestyle.Singleton);
-
-            _container.Verify();
+            Container.Verify();
         }
     }
 }

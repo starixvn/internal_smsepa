@@ -32,6 +32,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>FanexRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -263,6 +264,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\SpName.xml" />
+    <CodeAnalysisDictionary Include="FxCopDictionary.xml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -283,6 +285,10 @@
     <ProjectReference Include="..\SMS.EPA.Core\SMS.EPA.Core.csproj">
       <Project>{76ee2da4-7127-4c21-b218-adff51b2b74e}</Project>
       <Name>SMS.EPA.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SMS.EPA.Resources\SMS.EPA.Resources.csproj">
+      <Project>{f855c077-310d-43dc-a8f6-ade400bc74ef}</Project>
+      <Name>SMS.EPA.Resources</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

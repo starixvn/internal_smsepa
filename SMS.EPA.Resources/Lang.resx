@@ -1392,4 +1392,25 @@
   <data name="ReviewerPhaseRequired" xml:space="preserve">
     <value>Please setting flow for Reviewer!</value>
   </data>
+  <data name="Domain" xml:space="preserve">
+    <value>Domain</value>
+  </data>
+  <data name="Source" xml:space="preserve">
+    <value>Source</value>
+  </data>
+  <data name="StackTrace" xml:space="preserve">
+    <value>StackTrace</value>
+  </data>
+  <data name="TargetSite" xml:space="preserve">
+    <value>TargetSite</value>
+  </data>
+  <data name="BadIPRequest" xml:space="preserve">
+    <value>Unauthorized IP request</value>
+  </data>
+  <data name="HTTPSRequired" xml:space="preserve">
+    <value>HTTPS Required</value>
+  </data>
+  <data name="InternalServerError" xml:space="preserve">
+    <value>Sorry for the inconvenience! Please contact Admin to supported!</value>
+  </data>
 </root>

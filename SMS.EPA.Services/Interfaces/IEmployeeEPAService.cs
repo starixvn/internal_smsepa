@@ -34,7 +34,7 @@
 
         CommandResult ResetScore(ResetScoreCriteria criteria);
 
-        void GroupMonthlyEPABySemi(EPAModel semiEPA, IList<EPAModel> monthlyEpas);
+        void GroupMonthlyEPABySemi(EPAModel semiEPA, IList<EPAModel> monthlyEPAs);
 
         void ConvertAverageMonthlyScore(MonthlyEPAModel monthlyEPA, ScoreRatingTypeModel scoreRatingType);
 

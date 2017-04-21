@@ -1,12 +1,12 @@
 ﻿namespace SMS.EPA.ClientHrm
 {
+    using Fanex.Logging;
+    using SMS.EPA.ClientHrm.Services;
     using System;
     using System.ComponentModel;
+    using System.Diagnostics.CodeAnalysis;
     using System.ServiceProcess;
     using System.Timers;
-    using Fanex.Logging;
-    using SMS.EPA.ClientHrm.Model;
-    using SMS.EPA.ClientHrm.Services;
 
     [RunInstaller(true)]
     public partial class WinService : ServiceBase
@@ -26,18 +26,17 @@
 
         protected override void OnStart(string[] args)
         {
-            LogService.Info("start");
             _isWorking = true;
             _timer.Enabled = true;
         }
 
         protected override void OnStop()
         {
-            LogService.Info("stop");
             _isWorking = false;
             _timer.Enabled = false;
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "OK")]
         private void ExecuteJob(object sender, ElapsedEventArgs e)
         {
             if (_isWorking)
@@ -49,17 +48,7 @@
                 }
                 catch (Exception ex)
                 {
-                    var message = ex.Message + Environment.NewLine +
-                        "StackTrace: " + ex.StackTrace;
-                    if (ex is WebApiException)
-                    {
-                        var customException = ex as WebApiException;
-                        message = "Status Code: " + customException.StatusCode + Environment.NewLine;
-                        message += "Http Request Message: " + customException.RequestMessage + Environment.NewLine;
-                        message += "Data :" + customException.AttachedData + Environment.NewLine;
-                    }
-
-                    LogService.Error(message);
+                    LogService.Error(ex.Message);
                 }
 
                 _isWorking = true;

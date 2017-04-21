@@ -36,9 +36,11 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>FanexRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -56,10 +58,16 @@
     <ManifestKeyFile>SMS.EPA.ClientHRM_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <GenerateManifests>true</GenerateManifests>
+    <GenerateManifests>false</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
@@ -139,7 +147,6 @@
     <Compile Include="Bootstrap.cs" />
     <Compile Include="Model\DisciplineSummary.cs" />
     <Compile Include="Model\Photo.cs" />
-    <Compile Include="Model\WebApiException.cs" />
     <Compile Include="Model\Department.cs" />
     <Compile Include="Model\Employee.cs" />
     <Compile Include="Model\Discipline.cs" />
@@ -161,38 +168,38 @@
     <Compile Include="Services\Interfaces\IDisciplineSummaryService.cs" />
     <Compile Include="Services\PhotoService.cs" />
     <Compile Include="Services\Interfaces\IPhotoService.cs" />
-    <Compile Include="ThirdPartyAPIs\DisciplineSummaryAPI.cs" />
-    <Compile Include="ThirdPartyAPIs\DisciplineAPI.cs" />
+    <Compile Include="ThirdPartyAPI\DisciplineSummaryAPI.cs" />
+    <Compile Include="ThirdPartyAPI\DisciplineAPI.cs" />
     <Compile Include="Services\DisciplineService.cs" />
-    <Compile Include="ThirdPartyAPIs\Interfaces\IDisciplineSummaryAPI.cs" />
-    <Compile Include="ThirdPartyAPIs\Interfaces\IPhotoAPI.cs" />
-    <Compile Include="ThirdPartyAPIs\PhotoAPI.cs" />
-    <Compile Include="ThirdPartyAPIs\Interfaces\IDisciplineAPI.cs" />
+    <Compile Include="ThirdPartyAPI\Interfaces\IDisciplineSummaryAPI.cs" />
+    <Compile Include="ThirdPartyAPI\Interfaces\IPhotoAPI.cs" />
+    <Compile Include="ThirdPartyAPI\PhotoAPI.cs" />
+    <Compile Include="ThirdPartyAPI\Interfaces\IDisciplineAPI.cs" />
     <Compile Include="Services\Interfaces\IDisciplineService.cs" />
     <Compile Include="Services\Interfaces\IDisciplinePermissionService.cs" />
-    <Compile Include="ThirdPartyAPIs\Interfaces\ITeamDisciplinePermissionAPI.cs" />
-    <Compile Include="ThirdPartyAPIs\Interfaces\IEmployeeDisciplinePermissionAPI.cs" />
+    <Compile Include="ThirdPartyAPI\Interfaces\ITeamDisciplinePermissionAPI.cs" />
+    <Compile Include="ThirdPartyAPI\Interfaces\IEmployeeDisciplinePermissionAPI.cs" />
     <Compile Include="Services\JobTitleService.cs" />
-    <Compile Include="ThirdPartyAPIs\TeamDisciplinePermissionAPI.cs" />
-    <Compile Include="ThirdPartyAPIs\EmployeeDisciplinePermissionAPI.cs" />
+    <Compile Include="ThirdPartyAPI\TeamDisciplinePermissionAPI.cs" />
+    <Compile Include="ThirdPartyAPI\EmployeeDisciplinePermissionAPI.cs" />
     <Compile Include="Services\DisciplinePermissionService.cs" />
     <Compile Include="Services\TeamService.cs" />
     <Compile Include="Services\EmployeeService.cs" />
     <Compile Include="Services\DepartmentService.cs" />
-    <Compile Include="ThirdPartyAPIs\JobTitleAPI.cs" />
-    <Compile Include="ThirdPartyAPIs\TeamAPI.cs" />
-    <Compile Include="ThirdPartyAPIs\EmployeeAPI.cs" />
-    <Compile Include="ThirdPartyAPIs\DepartmentAPI.cs" />
-    <Compile Include="ThirdPartyAPIs\Interfaces\ITeamAPI.cs" />
-    <Compile Include="ThirdPartyAPIs\Interfaces\IJobTitleAPI.cs" />
-    <Compile Include="ThirdPartyAPIs\Interfaces\IEmployeeAPI.cs" />
-    <Compile Include="ThirdPartyAPIs\Interfaces\ITokenAPI.cs" />
+    <Compile Include="ThirdPartyAPI\JobTitleAPI.cs" />
+    <Compile Include="ThirdPartyAPI\TeamAPI.cs" />
+    <Compile Include="ThirdPartyAPI\EmployeeAPI.cs" />
+    <Compile Include="ThirdPartyAPI\DepartmentAPI.cs" />
+    <Compile Include="ThirdPartyAPI\Interfaces\ITeamAPI.cs" />
+    <Compile Include="ThirdPartyAPI\Interfaces\IJobTitleAPI.cs" />
+    <Compile Include="ThirdPartyAPI\Interfaces\IEmployeeAPI.cs" />
+    <Compile Include="ThirdPartyAPI\Interfaces\ITokenAPI.cs" />
     <Compile Include="Services\TokenService.cs" />
-    <Compile Include="ThirdPartyAPIs\Interfaces\IDepartmentAPI.cs" />
+    <Compile Include="ThirdPartyAPI\Interfaces\IDepartmentAPI.cs" />
     <Compile Include="Services\Interfaces\ISynchronizeService.cs" />
     <Compile Include="Model\TokenAccess.cs" />
     <Compile Include="Services\SynchronizeService.cs" />
-    <Compile Include="ThirdPartyAPIs\TokenAPI.cs" />
+    <Compile Include="ThirdPartyAPI\TokenAPI.cs" />
     <Compile Include="WinService.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -210,7 +217,7 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="SMS.EPA.ClientHRM_TemporaryKey.pfx" />
+    <None Include="Properties\app.manifest" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ProjectInstaller.resx">
@@ -218,7 +225,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <CodeAnalysisDictionary Include="FxCopDictionary.xml" />
+    <CodeAnalysisDictionary Include="FxCopDictionary.xml">
+      <SubType>Designer</SubType>
+    </CodeAnalysisDictionary>
     <Content Include="SpName.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

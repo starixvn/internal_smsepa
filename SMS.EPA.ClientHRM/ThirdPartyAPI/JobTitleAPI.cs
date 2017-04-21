@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.ClientHrm.ThirdPartyAPIs
+﻿namespace SMS.EPA.ClientHrm.ThirdPartyAPI
 {
     using System.Collections.Generic;
     using System.Linq;

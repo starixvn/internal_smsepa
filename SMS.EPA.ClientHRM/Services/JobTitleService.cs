@@ -4,7 +4,7 @@
     using Fanex.Data.Repository;
     using SMS.EPA.ClientHrm.Criteria;
     using SMS.EPA.ClientHrm.Model;
-    using SMS.EPA.ClientHrm.ThirdPartyAPIs;
+    using SMS.EPA.ClientHrm.ThirdPartyAPI;
 
     public class JobTitleService : IJobTitleService
     {

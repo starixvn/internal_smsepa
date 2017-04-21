@@ -1,4 +1,4 @@
-﻿namespace SMS.EPA.ClientHrm.ThirdPartyAPIs
+﻿namespace SMS.EPA.ClientHrm.ThirdPartyAPI
 {
     using System;
     using System.Collections.Generic;
@@ -16,11 +16,7 @@
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
 
-                var result = client.GetAsync(ApplicationConfig.ServiceAPI + "DisciplineSummary/GetLastModifiedDate").Result;
-                if (result.StatusCode != HttpStatusCode.OK)
-                {
-                    throw new WebApiException(result.StatusCode, result.RequestMessage);
-                }
+                var result = client.GetAsync(new Uri(ApplicationConfig.ServiceAPI + "DisciplineSummary/GetLastModifiedDate")).Result;
 
                 return result.Content.ReadAsAsync<DateTime>().Result;
             }

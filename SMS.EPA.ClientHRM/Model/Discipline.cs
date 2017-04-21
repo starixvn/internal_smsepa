@@ -1,6 +1,7 @@
 ﻿namespace SMS.EPA.ClientHrm.Model
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
 
     public class Discipline
     {
@@ -20,6 +21,7 @@
 
         public int? EarlyOut { get; set; }
 
+        [SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods", Justification = "Ok.")]
         public int Type { get; set; }
 
         public decimal DisciplineScore { get; set; }
