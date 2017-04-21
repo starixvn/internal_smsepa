@@ -14,6 +14,7 @@
                 {
                     return Period.StartDate.Value.Month <= 6 ? "1H" : "2H";
                 }
+
                 return string.Empty;
             }
         }

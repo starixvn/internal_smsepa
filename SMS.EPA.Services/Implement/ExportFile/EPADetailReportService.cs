@@ -1,20 +1,20 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
+    using Core.Constants;
+    using Core.Enumerations;
+    using Interfaces;
+    using Model;
+    using NPOI.HSSF.UserModel;
+    using NPOI.HSSF.Util;
+    using NPOI.SS.UserModel;
+    using NPOI.SS.Util;
+    using Resources;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Linq;
     using System.Web;
-    using NPOI.HSSF.UserModel;
-    using NPOI.HSSF.Util;
-    using NPOI.SS.UserModel;
-    using NPOI.SS.Util;
-    using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Model;
-    using SMS.EPA.Resources;
-    using SMS.EPA.Services.Interfaces;
 
     public class EPADetailReportService : IEPADetailReportService
     {
@@ -74,7 +74,6 @@
                     "Content-Disposition",
                     $"attachment; filename={epaDetail.EpaYear}_{epaDetail.EpaEvaluationPeriod}_{Lang.EPADetailReportName}.xls");
             }
-            
 
             workbook.Write(response.OutputStream);
         }

@@ -1,11 +1,11 @@
 ﻿namespace SMS.EPA.Model
 {
-    using Core.Enumerations;
-    using System.Collections.Generic;
-    using System;
-    using System.Linq;
     using Core.Constants;
+    using Core.Enumerations;
     using Report;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     [Serializable]
     public class PeriodEmployeeSettingModel : IExcelRecord
@@ -45,7 +45,7 @@
             Employee != null
             && Employee.HasMonthlyEPA
             && TargetTemplate != null
-            && TargetTemplate.TargetTypeId == (int) TargetType.SemiAnnual;
+            && TargetTemplate.TargetTypeId == (int)TargetType.SemiAnnual;
 
         private string GetEvaluator(IList<PeriodFlowModel> evaluators)
         {

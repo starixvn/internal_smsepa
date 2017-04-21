@@ -7,6 +7,7 @@
     using NPOI.SS.UserModel;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Reflection;
@@ -75,9 +76,9 @@
                     ColumnsStyles = new List<ICellStyle>();
                 }
             }
-            catch (Exception exception)
+            catch (IOException exception)
             {
-                //TODO: log out why throw exception
+                Debug.WriteLine(exception.Message);
             }
         }
 
@@ -153,6 +154,7 @@
                 ColumnsStyles.Add(style);
                 return ColumnsStyles.IndexOf(style);
             }
+
             return 0;
         }
 

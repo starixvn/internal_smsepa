@@ -1,13 +1,13 @@
 ﻿namespace SMS.EPA.Repositories
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using Fanex.Data;
-    using Fanex.Data.Repository;
     using Core.Enumerations;
     using Core.Services;
+    using Fanex.Data;
+    using Fanex.Data.Repository;
     using Model;
     using Model.Enitites;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class ReportRepository : IReportRepository
     {

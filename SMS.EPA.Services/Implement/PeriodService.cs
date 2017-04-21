@@ -1,14 +1,14 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
-    using System;
-    using System.Collections.Generic;
     using Core.Enumerations;
     using Core.Model;
     using Core.Services;
     using Criteria;
+    using Interfaces;
     using Model;
     using Repositories;
-    using Interfaces;
+    using System;
+    using System.Collections.Generic;
 
     public class PeriodService : BaseService, IPeriodService
     {

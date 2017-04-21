@@ -39,14 +39,14 @@
         public object ConvertToExcelRecord()
         {
             float otherViolations = OtherViolationsScore > 0
-                    ? -OtherViolationsScore
-                    : 0;
+                ? -OtherViolationsScore
+                : 0;
             float systemSubtractScore = SystemSubtractScore > 0
-                    ? -SystemSubtractScore
-                    : 0;
+                ? -SystemSubtractScore
+                : 0;
             float approverSubtractScore = ApproverSubtractScore > 0
-                    ? -ApproverSubtractScore
-                    : 0;
+                ? -ApproverSubtractScore
+                : 0;
 
             var record = new
             {
@@ -70,9 +70,9 @@
                 UnpaidLeave = UnpaidLeave,
                 UnpaidLeaveAbsent = UnpaidLeaveAbsent,
                 ChangeShift = ChangeShift,
-                OtherViolation = (decimal) otherViolations,
-                SystemSubtractScore = (decimal) systemSubtractScore,
-                ApproverSubtractScore = (decimal) approverSubtractScore
+                OtherViolation = (decimal)otherViolations,
+                SystemSubtractScore = (decimal)systemSubtractScore,
+                ApproverSubtractScore = (decimal)approverSubtractScore
             };
 
             return record;

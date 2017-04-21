@@ -162,7 +162,7 @@
             {
                 foreach (StandardGrade gradeEnum in standardGrades
                     .Where(x => x.LeftScore <= score && x.RightScore >= score)
-                    .Select(x => (StandardGrade) x.GradeId))
+                    .Select(x => (StandardGrade)x.GradeId))
                 {
                     grade = Enumerations.GetDescription(gradeEnum);
                     break;
@@ -292,7 +292,7 @@
                 {
                     averageScore = monthlyEPA.AverageSelfScore.Value * scoreRatingType.SelfEvaluated /
                                    monthlyScoreRatingType.SelfEvaluated;
-                    monthlyEPA.AverageSelfScoreConverted = (float) Math.Round(averageScore, 2);
+                    monthlyEPA.AverageSelfScoreConverted = (float)Math.Round(averageScore, 2);
                 }
                 else
                 {
@@ -303,7 +303,7 @@
                 {
                     averageScore = monthlyEPA.AverageEvaluatorScores.Value * scoreRatingType.Evaluator /
                                    monthlyScoreRatingType.Evaluator;
-                    monthlyEPA.AverageEvaluatorScoreConverted = (float) Math.Round(averageScore, 2);
+                    monthlyEPA.AverageEvaluatorScoreConverted = (float)Math.Round(averageScore, 2);
                 }
                 else
                 {
@@ -314,7 +314,7 @@
                 {
                     averageScore = monthlyEPA.AverageReviewerScores.Value * scoreRatingType.Reviewer /
                                    monthlyScoreRatingType.Reviewer;
-                    monthlyEPA.AverageReviewerScoreConverted = (float) Math.Round(averageScore, 2);
+                    monthlyEPA.AverageReviewerScoreConverted = (float)Math.Round(averageScore, 2);
                 }
                 else
                 {
@@ -330,7 +330,7 @@
                 var writer = new ExcelTemplateWriter(templatePath, "Update_Final_Score", "Update Final Score");
 
                 // Fill report title.
-                writer.WriteRow(0, new object[] {periodName});
+                writer.WriteRow(0, new object[] { periodName });
                 writer.CopyRows(1, 1);
 
                 // Fill report header.
@@ -348,19 +348,19 @@
         {
             switch (epaInfo.Process.CurrentProcess.ProcessId)
             {
-                case (int) ProcessType.Self:
+                case (int)ProcessType.Self:
                     epaInfo.Process.CurrentProcess.MaxPerformanceScore = epaInfo.ScoreRatingType.SelfEvaluated;
                     break;
 
-                case (int) ProcessType.Evaluator:
+                case (int)ProcessType.Evaluator:
                     epaInfo.Process.CurrentProcess.MaxPerformanceScore = epaInfo.ScoreRatingType.Evaluator;
                     break;
 
-                case (int) ProcessType.Reviewer:
+                case (int)ProcessType.Reviewer:
                     epaInfo.Process.CurrentProcess.MaxPerformanceScore = epaInfo.ScoreRatingType.Reviewer;
                     break;
 
-                case (int) ProcessType.Management:
+                case (int)ProcessType.Management:
                     epaInfo.Process.CurrentProcess.MaxPerformanceScore = epaInfo.ScoreRatingType.Management;
                     break;
             }
@@ -382,7 +382,7 @@
                 formatter.Serialize(ms, process);
                 ms.Position = 0;
 
-                return (EPAProcessModel) formatter.Deserialize(ms);
+                return (EPAProcessModel)formatter.Deserialize(ms);
             }
         }
 
@@ -411,7 +411,7 @@
 
             switch (epaInfo.Process.CurrentProcess.ProcessId)
             {
-                case (int) ProcessType.Reviewer:
+                case (int)ProcessType.Reviewer:
                     if (epaInfo.IsSemiHasMonthly)
                     {
                         score = -epaInfo.MonthlyEPA.AverageReviewerScoreConverted ?? 0;
@@ -428,7 +428,7 @@
                     epaInfo.Process.CurrentProcess.MaxAdditionScore = maxAdditionScore;
                     break;
 
-                case (int) ProcessType.Management:
+                case (int)ProcessType.Management:
                     if (epaInfo.Process.Reviewers.Any())
                     {
                         score = -epaInfo.Process.AverageScoreByReviewers ?? 0;
