@@ -35,6 +35,7 @@
         private readonly ICryptographyService _cryptographyService;
         private bool _isBusy;
 
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Reviewed")]
         public AutoService()
         {
             InitializeComponent();
