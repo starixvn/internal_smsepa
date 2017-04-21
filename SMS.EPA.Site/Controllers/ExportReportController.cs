@@ -45,7 +45,7 @@
         private readonly ISessionService _sessionService;
 
         public ExportReportController()
-            : this(null, null, null, null, null, null, null, null, null, null, null, null)
+            : this(null, null, null, null, null, null, null, null, null, null, null)
         {
         }
 
@@ -55,7 +55,6 @@
             IMonthlyEPADetailReportService monthlyEPADetailReportService,
             IDisciplineService disciplineService,
             IEmployeeEPAService employeeEPAService,
-            IExportEmployeeInfoService exportEmployeeInfoService,
             IExportExcelService exportExcelService,
             ITargetEmployeeSettingService targetEmployeeSettingService,
             IPeriodService periodService,
