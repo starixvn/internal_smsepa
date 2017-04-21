@@ -1,10 +1,10 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
+    using Core.Services;
+    using Criteria.TargetType;
+    using Interfaces;
+    using Model;
     using System.Collections.Generic;
-    using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria.TargetType;
-    using SMS.EPA.Model;
-    using SMS.EPA.Services.Interfaces;
 
     public class TargetTypeService : BaseService, ITargetTypeService
     {

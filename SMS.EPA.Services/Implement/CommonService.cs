@@ -1,27 +1,27 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
+    using Core.Services;
+    using Criteria;
+    using Criteria.EPAHistory;
+    using Criteria.TargetType;
+    using Interfaces;
+    using Model;
+    using Model.Enitites;
     using System.Collections.Generic;
     using System.Linq;
-    using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Criteria.EPAHistory;
-    using SMS.EPA.Criteria.TargetType;
-    using SMS.EPA.Model;
-    using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Services.Interfaces;
 
     public class CommonService : BaseService, ICommonService
     {
-        private readonly ITargetTypeService targetTypeService;
-        private readonly IKPIService kpiService;
-        private readonly IKPIGroupService kpiGroupService;
-        private readonly IEmployeeService employeeService;
-        private readonly IDepartmentService departmentService;
-        private readonly IPeriodService periodService;
-        private readonly IEmployeeEPAService employeeEPAService;
-        private readonly IEPAHistoryService epaHistoryService;
-        private readonly ITargetTemplateService targetTemplateService;
-        private readonly IMenuService menuService;
+        private readonly ITargetTypeService _targetTypeService;
+        private readonly IKPIService _kpiService;
+        private readonly IKPIGroupService _kpiGroupService;
+        private readonly IEmployeeService _employeeService;
+        private readonly IDepartmentService _departmentService;
+        private readonly IPeriodService _periodService;
+        private readonly IEmployeeEPAService _employeeEPAService;
+        private readonly IEPAHistoryService _epaHistoryService;
+        private readonly ITargetTemplateService _targetTemplateService;
+        private readonly IMenuService _menuService;
 
         public CommonService()
             : this(null, null, null, null, null, null, null, null, null, null)
@@ -40,51 +40,51 @@
             ITargetTemplateService targetTemplateService,
             IMenuService menuService)
         {
-            this.targetTypeService = targetTypeService ?? new TargetTypeService();
-            this.kpiService = kpiService ?? new KPIService();
-            this.kpiGroupService = kpiGroupService ?? new KPIGroupService();
-            this.employeeService = employeeService ?? new EmployeeService();
-            this.departmentService = departmentService ?? new DepartmentService();
-            this.periodService = periodService ?? new PeriodService();
-            this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
-            this.epaHistoryService = epaHistoryService ?? new EPAHistoryService();
-            this.targetTemplateService = targetTemplateService ?? new TargetTemplateService();
-            this.menuService = menuService ?? new MenuService();
+            _targetTypeService = targetTypeService ?? new TargetTypeService();
+            _kpiService = kpiService ?? new KPIService();
+            _kpiGroupService = kpiGroupService ?? new KPIGroupService();
+            _employeeService = employeeService ?? new EmployeeService();
+            _departmentService = departmentService ?? new DepartmentService();
+            _periodService = periodService ?? new PeriodService();
+            _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
+            _epaHistoryService = epaHistoryService ?? new EPAHistoryService();
+            _targetTemplateService = targetTemplateService ?? new TargetTemplateService();
+            _menuService = menuService ?? new MenuService();
         }
 
         public IEnumerable<TargetTypeModel> GetTargetType(GetTargetTypeCriteria criteria)
         {
-            return targetTypeService.GetTargetType(criteria);
+            return _targetTypeService.GetTargetType(criteria);
         }
 
         public IEnumerable<KPIModel> GetKPI(GetKPICriteria criteria)
         {
-            return kpiService.GetKPI(criteria);
+            return _kpiService.GetKPI(criteria);
         }
 
         public IEnumerable<KPIGroupModel> GetKPIGroup(GetKPIGroupCriteria criteria)
         {
-            return kpiGroupService.GetKPIGroup(criteria);
+            return _kpiGroupService.GetKPIGroup(criteria);
         }
 
         public IEnumerable<Employee> GetAllEmployee(GetAllEmployeeCriteria criteria)
         {
-            return employeeService.GetAllEmployee(criteria);
+            return _employeeService.GetAllEmployee(criteria);
         }
 
         public IEnumerable<Employee> GetEmployeeByDepartmentId(int? departmentId)
         {
-            return employeeService.GetEmployeeByDepartmentId(departmentId);
+            return _employeeService.GetEmployeeByDepartmentId(departmentId);
         }
 
         public IEnumerable<Employee> GetEmployeeByGroupId(int groupId)
         {
-            return employeeService.GetEmployeeByGroupId(groupId);
+            return _employeeService.GetEmployeeByGroupId(groupId);
         }
 
         public Employee GetEmployeeById(int employeeId)
         {
-            return employeeService.GetEmployeeById(employeeId);
+            return _employeeService.GetEmployeeById(employeeId);
         }
 
         public IEnumerable<Group> GetAllGroup(GetAllGroupCriteria criteria)
@@ -95,7 +95,7 @@
 
         public DepartmentInfoModel GetDepartment(GetDepartmentCriteria criteria)
         {
-            IList<Department> departments = departmentService.GetDepartment(criteria);
+            IList<Department> departments = _departmentService.GetDepartment(criteria);
             Department treeList = GetRootDepartment(departments);
             var departmentInfo = new DepartmentInfoModel
             {
@@ -120,32 +120,32 @@
 
         public IEnumerable<PeriodModel> GetPeriod(GetPeriodCriteria criteria)
         {
-            return periodService.GetPeriod(criteria);
+            return _periodService.GetPeriod(criteria);
         }
 
         public IEnumerable<StandardGradeModel> GetStandardGrade()
         {
-            return employeeEPAService.GetStandardGrade();
+            return _employeeEPAService.GetStandardGrade();
         }
 
         public IList<PeriodModel> GetAllPeriodIncludeImport(GetAllPeriodIncludeImportCriteria criteria)
         {
-            return epaHistoryService.GetAllPeriodIncludeImport(criteria);
+            return _epaHistoryService.GetAllPeriodIncludeImport(criteria);
         }
 
         public IEnumerable<EmployeeOtherViolationDetailModel> GetOtherViolationDetailByEPAId(GetOtherViolationDetailByEPAIdCriteria criteria)
         {
-            return employeeEPAService.GetOtherViolationDetailByEPAId(criteria);
+            return _employeeEPAService.GetOtherViolationDetailByEPAId(criteria);
         }
 
         public IEnumerable<TargetTemplate> GetAllTargetTemplate(GetAllTargetTemplateCriteria criteria)
         {
-            return targetTemplateService.GetAllTargetTemplate(criteria);
+            return _targetTemplateService.GetAllTargetTemplate(criteria);
         }
 
         public IEnumerable<MenuGroupModel> GetMenusByEmployeeId(int employeeId)
         {
-            var menus = menuService.GetMenusByEmployeeId(employeeId);
+            var menus = _menuService.GetMenusByEmployeeId(employeeId);
 
             return menus;
         }

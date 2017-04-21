@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using SMS.EPA.Model.Enitites;
 
     [Serializable]
     public class Department

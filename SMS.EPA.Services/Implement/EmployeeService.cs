@@ -1,21 +1,20 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
+    using Core.Enumerations;
+    using Core.Model;
+    using Core.Security;
+    using Core.Services;
+    using Criteria;
+    using Interfaces;
+    using Model.Enitites;
+    using Repositories;
+    using Resources;
     using System.Collections.Generic;
     using System.Linq;
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Core.Security;
-    using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Repositories;
-
-    using SMS.EPA.Resources;
-    using SMS.EPA.Services.Interfaces;
 
     public class EmployeeService : BaseService, IEmployeeService
     {
-        private readonly IEmployeeRepository employeeRepository;
+        private readonly IEmployeeRepository _employeeRepository;
 
         public EmployeeService()
             : this(null)
@@ -24,7 +23,7 @@
 
         public EmployeeService(IEmployeeRepository employeeRepository)
         {
-            this.employeeRepository = employeeRepository ?? new EmployeeRepository();
+            _employeeRepository = employeeRepository ?? new EmployeeRepository();
         }
 
         public UserSession GetEmployeeLogin(GetEmployeeLoginCriteria criteria)
@@ -33,7 +32,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                employee = employeeRepository.GetEmployeeLogin(criteria);
+                employee = _employeeRepository.GetEmployeeLogin(criteria);
             }
 
             return employee;
@@ -51,7 +50,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                employees = employeeRepository.GetAllEmployee(criteria);
+                employees = _employeeRepository.GetAllEmployee(criteria);
             }
 
             return employees;
@@ -67,7 +66,7 @@
 
             if (criteria.IsValid())
             {
-                employee = employeeRepository.GetEmployeeById(criteria);
+                employee = _employeeRepository.GetEmployeeById(criteria);
             }
 
             return employee;
@@ -104,7 +103,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                string oldPassword = this.GetPasswordByEmployeeId(criteria.EmployeeId);
+                string oldPassword = GetPasswordByEmployeeId(criteria.EmployeeId);
                 if (ValidatePassword(criteria.OldPassword, oldPassword))
                 {
                     criteria.NewPassword = Encryption.ComputeHash(HashProvider.Sha1, criteria.NewPassword);

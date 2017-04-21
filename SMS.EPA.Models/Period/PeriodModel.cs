@@ -1,7 +1,6 @@
 ﻿namespace SMS.EPA.Model
 {
     using System;
-    using SMS.EPA.Core.Enumerations;
 
     public class PeriodModel
     {
@@ -47,12 +46,6 @@
             }
         }
 
-        public bool IsSemiAnnual
-        {
-            get
-            {
-                return TargetType.TargetTypeId == (int)SMS.EPA.Core.Enumerations.TargetType.SemiAnnual;
-            }
-        }
+        public bool IsSemiAnnual => TargetType.TargetTypeId == (int)Core.Enumerations.TargetType.SemiAnnual;
     }
 }

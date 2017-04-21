@@ -29,7 +29,7 @@
             manualMailService.SendStartMail(new PeriodModel(), employeeSettings);
 
             // Assert
-            mailService.Received().SendMailToHRStartDate(Arg.Any<string>(), Arg.Any<PeriodFlowModel>(), Arg.Any<string>());
+            mailService.Received().SendMailToHrStartDate(Arg.Any<string>(), Arg.Any<PeriodFlowModel>(), Arg.Any<string>());
         }
 
         [Test]

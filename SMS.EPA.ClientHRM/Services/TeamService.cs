@@ -1,39 +1,39 @@
 ﻿namespace SMS.EPA.ClientHrm.Services
 {
+    using Criteria;
+    using Fanex.Data.Repository;
+    using Model;
     using System;
     using System.Collections.Generic;
-    using Fanex.Data.Repository;
-    using SMS.EPA.ClientHrm.Criteria;
-    using SMS.EPA.ClientHrm.Model;
-    using SMS.EPA.ClientHrm.ThirdPartyAPI;
+    using ThirdPartyAPI;
 
     public class TeamService : ITeamService
     {
-        private readonly IDynamicRepository dynamicRepository;
-        private readonly ITeamAPI teamAPI;
+        private readonly IDynamicRepository _dynamicRepository;
+        private readonly ITeamAPI _teamApi;
 
-        public TeamService(IDynamicRepository dynamicRepository, ITeamAPI teamAPI)
+        public TeamService(IDynamicRepository dynamicRepository, ITeamAPI teamApi)
         {
-            this.dynamicRepository = dynamicRepository;
-            this.teamAPI = teamAPI;
+            _dynamicRepository = dynamicRepository;
+            _teamApi = teamApi;
         }
 
         public IEnumerable<Team> GetTeams(DateTime? fromDate)
         {
             var criteria = new GetTeamCriteria { FromDate = fromDate };
-            IEnumerable<Team> teams = dynamicRepository.Fetch<Team>(criteria);
+            IEnumerable<Team> teams = _dynamicRepository.Fetch<Team>(criteria);
 
             return teams;
         }
 
         public DateTime GetLastModifiedDate(TokenAccess token)
         {
-            return teamAPI.GetLastModifiedDate(token);
+            return _teamApi.GetLastModifiedDate(token);
         }
 
         public CommandResult Update(IEnumerable<Team> teams, TokenAccess token)
         {
-            return teamAPI.Update(teams, token);
+            return _teamApi.Update(teams, token);
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿namespace SMS.EPA.ClientHrm.ThirdPartyAPI
 {
+    using Model;
     using System;
     using System.Collections.Generic;
-    using SMS.EPA.ClientHrm.Model;
 
     public interface IDisciplineAPI
     {

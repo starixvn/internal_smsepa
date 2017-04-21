@@ -1,9 +1,9 @@
 ﻿namespace SMS.EPA.Model
 {
+    using Core.Constants;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using SMS.EPA.Core.Constants;
 
     public class EvaluationProcessModel
     {
@@ -15,29 +15,11 @@
             Managements = new List<EPAProcessModel>();
         }
 
-        public float? AverageScoreByEvaluators
-        {
-            get
-            {
-                return CalculateAverageScore(Evaluators);
-            }
-        }
+        public float? AverageScoreByEvaluators => CalculateAverageScore(Evaluators);
 
-        public float? AverageScoreByReviewers
-        {
-            get
-            {
-                return CalculateAverageScore(Reviewers);
-            }
-        }
+        public float? AverageScoreByReviewers => CalculateAverageScore(Reviewers);
 
-        public float? AverageScoreByManagements
-        {
-            get
-            {
-                return CalculateAverageScore(Managements);
-            }
-        }
+        public float? AverageScoreByManagements => CalculateAverageScore(Managements);
 
         public float MaxPerformanceScore
         {
@@ -45,15 +27,15 @@
             {
                 float maxPerformanceScore = 0;
 
-                if (Managements.Count() > 0)
+                if (Managements.Any())
                 {
                     maxPerformanceScore = Managements.First().MaxTotalScore;
                 }
-                else if (Reviewers.Count() > 0)
+                else if (Reviewers.Any())
                 {
                     maxPerformanceScore = Reviewers.First().MaxTotalScore;
                 }
-                else if (Evaluators.Count() > 0)
+                else if (Evaluators.Any())
                 {
                     maxPerformanceScore = Evaluators.First().MaxTotalScore;
                 }
@@ -68,11 +50,11 @@
             {
                 float? performanceScore = AverageScoreByEvaluators;
 
-                if (Managements.Count() > 0)
+                if (Managements.Any())
                 {
                     performanceScore = AverageScoreByManagements;
                 }
-                else if (Reviewers.Count() > 0)
+                else if (Reviewers.Any())
                 {
                     performanceScore = AverageScoreByReviewers;
                 }

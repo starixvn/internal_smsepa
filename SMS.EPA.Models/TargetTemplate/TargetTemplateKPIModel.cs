@@ -12,13 +12,7 @@
 
         public bool IsSpreadKPI { get; set; }
 
-        public bool IsSpreadKPIOriginal
-        {
-            get
-            {
-                return IsSpreadKPI;
-            }
-        }
+        public bool IsSpreadKPIOriginal => IsSpreadKPI;
 
         public double? Weight { get; set; }
 

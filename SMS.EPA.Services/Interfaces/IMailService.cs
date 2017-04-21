@@ -1,10 +1,11 @@
 ﻿namespace SMS.EPA.Services.Interfaces
 {
-    using SMS.EPA.Model;
+    using Model;
 
     public interface IMailService
     {
-        void SendMailToHRStartDate(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName);
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Hr", Justification = "Reviewed")]
+        void SendMailToHrStartDate(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName);
 
         void SendMailToSelfStartDate(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName);
 

@@ -1,8 +1,8 @@
 ﻿namespace SMS.EPA.Services.Interfaces
 {
     using System.Collections.Generic;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
+    using Criteria;
+    using Model;
 
     public interface IScoreRatingTypeService
     {

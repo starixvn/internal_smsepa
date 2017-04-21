@@ -1,6 +1,6 @@
 ﻿namespace SMS.EPA.Model
 {
-    using SMS.EPA.Core.Services;
+    using Core.Services;
 
     public class EvaluatorInfoViewModel
     {

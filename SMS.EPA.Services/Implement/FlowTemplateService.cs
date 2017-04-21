@@ -1,17 +1,16 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
+    using Core.Model;
+    using Core.Services;
+    using Criteria;
+    using Interfaces;
+    using Model;
+    using Repositories;
     using System.Collections.Generic;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Repositories;
-
-    using SMS.EPA.Services.Interfaces;
 
     public class FlowTemplateService : BaseService, IFlowTemplateService
     {
-        private readonly IFlowTemplateRepository flowTemplateRepository;
+        private readonly IFlowTemplateRepository _flowTemplateRepository;
 
         public FlowTemplateService()
             : this(null)
@@ -20,7 +19,7 @@
 
         public FlowTemplateService(IFlowTemplateRepository flowTemplateRepository)
         {
-            this.flowTemplateRepository = flowTemplateRepository ?? new FlowTemplateRepository();
+            _flowTemplateRepository = flowTemplateRepository ?? new FlowTemplateRepository();
         }
 
         public IEnumerable<FlowTemplateModel> GetFlowTemplate(GetFlowTemplateCriteria criteria)
@@ -29,7 +28,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                flowTemplates = flowTemplateRepository.GetFlowTemplate(criteria);
+                flowTemplates = _flowTemplateRepository.GetFlowTemplate(criteria);
             }
 
             return flowTemplates;
@@ -45,7 +44,7 @@
 
             if (criteria.IsValid())
             {
-                flowTemplate = flowTemplateRepository.GetFlowTemplateById(criteria);
+                flowTemplate = _flowTemplateRepository.GetFlowTemplateById(criteria);
             }
 
             return flowTemplate;

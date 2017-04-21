@@ -1,23 +1,17 @@
 ﻿namespace SMS.EPA.AutoService.Criteria
 {
-    using System.Collections.Generic;
-    using System.Text;
+    using Core.Constants;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using SMS.EPA.Core.Constants;
-    using SMS.EPA.Model;
+    using Model;
+    using System.Collections.Generic;
+    using System.Text;
 
     public class UpdateIsEndProcessCriteria : CriteriaBase
     {
         private const string ProcessXmlTemplate = "<EPAProcess EPAId='{0}' ProcessId='{1}'></EPAProcess>";
 
-        public string EPAProcess
-        {
-            get
-            {
-                return ConvertEvaluationProcessToXml(EvaluationProcesses);
-            }
-        }
+        public string EPAProcess => ConvertEvaluationProcessToXml(EvaluationProcesses);
 
         [SpParam(Ignored = true)]
         public IEnumerable<AutoEmployeePeriodModel> EvaluationProcesses { get; set; }

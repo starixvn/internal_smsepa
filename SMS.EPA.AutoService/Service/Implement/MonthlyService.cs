@@ -1,26 +1,26 @@
 ﻿namespace SMS.EPA.AutoService.Service
 {
+    using Core.Constants;
+    using Core.Enumerations;
+    using Core.Model;
+    using Core.Services;
+    using Criteria;
+    using EPA.Criteria;
+    using log4net;
+    using Model;
+    using Services.Implement;
+    using Services.Interfaces;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
     using System.Threading.Tasks;
-    using log4net;
-    using SMS.EPA.AutoService.Criteria;
-    using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
 
     public class MonthlyService : BaseService, IMonthlyService
     {
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private readonly IPeriodService periodService;
-        private readonly IAutoMailService autoMailService;
+        private readonly IPeriodService _periodService;
+        private readonly IAutoMailService _autoMailService;
 
         public MonthlyService()
             : this(null, null)
@@ -31,13 +31,13 @@
             IPeriodService periodService,
             IAutoMailService autoMailService)
         {
-            this.periodService = periodService ?? new PeriodService();
-            this.autoMailService = autoMailService ?? new AutoMailService();
+            _periodService = periodService ?? new PeriodService();
+            _autoMailService = autoMailService ?? new AutoMailService();
         }
 
         public void CreateMonthlyPeriod()
         {
-            IEnumerable<FlowModel> processSettings = periodService.GetEvaluationGlobalSettingByTargetTypeId((int)TargetType.Monthly);
+            IEnumerable<FlowModel> processSettings = _periodService.GetEvaluationGlobalSettingByTargetTypeId((int)TargetType.Monthly);
 
             if (processSettings != null && processSettings.Any())
             {
@@ -53,7 +53,7 @@
                         EndDate = today.AddDays(processSettings.Sum(p => p.Duration))
                     };
 
-                    CommandResult commandResult = periodService.AutoCreateMonthlyPeriod(criteria);
+                    CommandResult commandResult = _periodService.AutoCreateMonthlyPeriod(criteria);
                     Log.Info("Result of Create monthly period: " + (commandResult.IsSuccessful ? "0" : commandResult.Message));
                 }
             }
@@ -64,7 +64,7 @@
             IEnumerable<int> monthlyPeriods = GetMonthlyPeriodStarted();
             Log.Info("Result of check the start of monthly period: " + string.Join(",", monthlyPeriods));
 
-            if (monthlyPeriods != null && monthlyPeriods.Any())
+            if (monthlyPeriods.Any())
             {
                 foreach (int periodId in monthlyPeriods)
                 {
@@ -115,7 +115,7 @@
 
             if (criteria.IsValid())
             {
-                commandResult = periodService.GenerateEvaluation(criteria);
+                commandResult = _periodService.GenerateEvaluation(criteria);
             }
 
             string messageResult = commandResult.IsSuccessful ? "0" : commandResult.Message;
@@ -128,12 +128,12 @@
             {
                 Task.Factory.StartNew(() =>
                 {
-                    PeriodModel period = periodService.GetPeriodById(periodId);
+                    PeriodModel period = _periodService.GetPeriodById(periodId);
                     IEnumerable<PeriodFlowModel> employeeSettings = GetEmployeeSettings(periodId);
 
                     if (employeeSettings != null && employeeSettings.Any())
                     {
-                        autoMailService.SendStartMail(period, employeeSettings);
+                        _autoMailService.SendStartMail(period, employeeSettings);
                     }
                 });
             }
@@ -149,7 +149,7 @@
 
             if (criteria.IsValid())
             {
-                employeeSettings = periodService.GetEmployeeSettingByPeriodId(criteria);
+                employeeSettings = _periodService.GetEmployeeSettingByPeriodId(criteria);
             }
 
             return employeeSettings;

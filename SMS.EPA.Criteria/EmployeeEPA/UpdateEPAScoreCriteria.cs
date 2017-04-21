@@ -1,22 +1,23 @@
 ﻿namespace SMS.EPA.Criteria
 {
-    using System.Collections.Generic;
-    using System.Text;
-    using System.Web;
+    using Core.Constants;
+    using Core.Services;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Services;
-    using SMS.EPA.Model;
+    using Model;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Text;
+    using System.Web;
 
     public class UpdateEPAScoreCriteria : CriteriaBase
     {
         private const string KPIScoreXmlTemplate = "<KPI KPIId='{0}' KPIGroupId='{1}' Score='{2}' Rate='{3}' IsMaxScore='{4}' Comment='{5}'></KPI>";
-        private ICryptographyService cryptographyService;
+        private readonly ICryptographyService _cryptographyService;
 
         public UpdateEPAScoreCriteria()
         {
-            cryptographyService = new CryptographyService();
+            _cryptographyService = new CryptographyService();
         }
 
         public int EPAId { get; set; }
@@ -27,20 +28,14 @@
 
         public int EvaluatorId { get; set; }
 
-        public string Comment
-        {
-            get
-            {
-                return EPAProcess.Comment;
-            }
-        }
+        public string Comment => EPAProcess.Comment;
 
         public string Score
         {
             get
             {
                 string totalScore = EPAProcess.TotalScore;
-                return cryptographyService.Encrypt(totalScore);
+                return _cryptographyService.Encrypt(totalScore);
             }
         }
 
@@ -54,10 +49,10 @@
                 {
                     foreach (EPAKpiModel kpi in kpiGroup.KPIs)
                     {
-                        string score = kpi.CurrentEvaluation.Score,
-                            rate = kpi.CurrentEvaluation.Rate > 0 ? kpi.CurrentEvaluation.Rate.ToString() : string.Empty,
-                            cipherScore = cryptographyService.Encrypt(score + "_" + kpi.KPIId),
-                            cipherRate = cryptographyService.Encrypt(rate);
+                        string score = kpi.CurrentEvaluation.Score;
+                        string rate = kpi.CurrentEvaluation.Rate > 0 ? kpi.CurrentEvaluation.Rate.ToString(CultureInfo.InvariantCulture) : string.Empty;
+                        string cipherScore = _cryptographyService.Encrypt(score + "_" + kpi.KPIId);
+                        string cipherRate = _cryptographyService.Encrypt(rate);
                         bool isMaxScore = kpi.CurrentEvaluation.IsMaxScore;
 
                         kpiDetailXml.AppendFormat(

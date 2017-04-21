@@ -8,13 +8,7 @@
 
         public string TotalScore { get; set; }
 
-        public string TotalScoreOriginal
-        {
-            get
-            {
-                return TotalScore;
-            }
-        }
+        public string TotalScoreOriginal => TotalScore;
 
         public RatingTypeModel RatingType { get; set; }
 

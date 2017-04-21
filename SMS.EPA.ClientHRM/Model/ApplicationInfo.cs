@@ -2,12 +2,7 @@
 {
     public class ApplicationInfo
     {
-        private const string GRANTTYPE = "password";
-
-        public string GrantType
-        {
-            get { return GRANTTYPE; }
-        }
+        public string GrantType => "password";
 
         public string UserName { get; set; }
 

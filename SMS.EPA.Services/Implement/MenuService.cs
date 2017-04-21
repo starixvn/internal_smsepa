@@ -1,11 +1,11 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
+    using Core.Services;
+    using Criteria;
+    using Interfaces;
+    using Model;
     using System.Collections.Generic;
     using System.Linq;
-    using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Services.Interfaces;
 
     public class MenuService : BaseService, IMenuService
     {

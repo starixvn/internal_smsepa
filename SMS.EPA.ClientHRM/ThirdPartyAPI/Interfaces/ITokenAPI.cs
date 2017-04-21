@@ -1,6 +1,6 @@
 ﻿namespace SMS.EPA.ClientHrm.ThirdPartyAPI
 {
-    using SMS.EPA.ClientHrm.Model;
+    using Model;
 
     public interface ITokenAPI
     {

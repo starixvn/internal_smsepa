@@ -28,7 +28,7 @@
             ArrangeEmail();
 
             // Act
-            mailService.SendMailToHRStartDate(Arg.Any<string>(), periodFlow, Arg.Any<string>());
+            mailService.SendMailToHrStartDate(Arg.Any<string>(), periodFlow, Arg.Any<string>());
 
             // Assert
             baseMailService.Received().SendEmail(Arg.Any<MailModel>());

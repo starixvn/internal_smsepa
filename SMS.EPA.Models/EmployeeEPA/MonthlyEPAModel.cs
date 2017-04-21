@@ -1,10 +1,10 @@
 ﻿namespace SMS.EPA.Model
 {
+    using Core.Constants;
+    using Core.Enumerations;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Enumerations;
 
     public class MonthlyEPAModel
     {
@@ -15,29 +15,11 @@
 
         public IList<EPAModel> MonthlyEPAs { get; set; }
 
-        public float? AverageSelfScore
-        {
-            get
-            {
-                return CalculateAverageScore((int)ProcessType.Self);
-            }
-        }
+        public float? AverageSelfScore => CalculateAverageScore((int)ProcessType.Self);
 
-        public float? AverageEvaluatorScores
-        {
-            get
-            {
-                return CalculateAverageScore((int)ProcessType.Evaluator);
-            }
-        }
+        public float? AverageEvaluatorScores => CalculateAverageScore((int)ProcessType.Evaluator);
 
-        public float? AverageReviewerScores
-        {
-            get
-            {
-                return CalculateAverageScore((int)ProcessType.Reviewer);
-            }
-        }
+        public float? AverageReviewerScores => CalculateAverageScore((int)ProcessType.Reviewer);
 
         public float? AverageSelfScoreConverted { get; set; }
 

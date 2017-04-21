@@ -1,18 +1,18 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
+    using Core.Enumerations;
+    using Core.Services;
+    using Criteria;
+    using Model;
+    using Repositories;
     using System.Collections.Generic;
     using System.Linq;
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Repositories;
 
-    using SMS.EPA.Services.Interfaces;
+    using Interfaces;
 
     public class DashboardService : BaseService, IDashboardService
     {
-        private readonly IDashboardRepository dashboardRepository;
+        private readonly IDashboardRepository _dashboardRepository;
 
         public DashboardService()
             : this(null)
@@ -21,7 +21,7 @@
 
         public DashboardService(IDashboardRepository dashboardRepository)
         {
-            this.dashboardRepository = dashboardRepository ?? new DashboardRepository();
+            _dashboardRepository = dashboardRepository ?? new DashboardRepository();
         }
 
         public ToDoListViewModel GetToDoList(int employeeId)
@@ -34,7 +34,7 @@
 
             if (criteria.IsValid())
             {
-                IEnumerable<ToDoListModel> todoList = dashboardRepository.GetToDoList(criteria);
+                IEnumerable<ToDoListModel> todoList = _dashboardRepository.GetToDoList(criteria);
                 result.ToDoList = todoList.Where(x => x.Period.TargetType.TargetTypeId == (int)TargetType.Probation)
                     .Concat(todoList.Where(x => x.Period.TargetType.TargetTypeId == (int)TargetType.SemiAnnual))
                     .Concat(todoList.Where(x => x.Period.TargetType.TargetTypeId == (int)TargetType.Promotion))

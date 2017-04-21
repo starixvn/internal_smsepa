@@ -1,8 +1,8 @@
 ﻿namespace SMS.EPA.Services.Interfaces
 {
     using System.Collections.Generic;
-    using SMS.EPA.Criteria.TargetType;
-    using SMS.EPA.Model;
+    using Criteria.TargetType;
+    using Model;
 
     public interface ITargetTypeService
     {

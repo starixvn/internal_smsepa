@@ -1,12 +1,12 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
+    using Core.Model;
+    using Core.Services;
+    using Criteria;
+    using Interfaces;
+    using Model;
     using System.Collections.Generic;
     using System.Linq;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Services.Interfaces;
 
     public class RoleService : BaseService, IRoleService
     {
@@ -41,7 +41,7 @@
 
         private IEnumerable<RoleFunctionModel> GroupFunction(IEnumerable<RoleFunctionModel> rawFunctions)
         {
-            IEnumerable<RoleFunctionModel> functions = rawFunctions.Where<RoleFunctionModel>(func => func.ParentFunctionId == null);
+            IEnumerable<RoleFunctionModel> functions = rawFunctions.Where(func => func.ParentFunctionId == null);
 
             foreach (RoleFunctionModel function in functions)
             {

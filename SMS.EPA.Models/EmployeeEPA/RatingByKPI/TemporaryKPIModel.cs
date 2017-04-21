@@ -28,13 +28,7 @@
 
         public float Rate { get; set; }
 
-        public string CommentOriginal
-        {
-            get
-            {
-                return Comment;
-            }
-        }
+        public string CommentOriginal => Comment;
 
         public string Comment { get; set; }
 

@@ -1,13 +1,14 @@
 ﻿namespace SMS.EPA.Criteria
 {
-    using System.Collections.Generic;
-    using System.Text;
-    using System.Web;
+    using Core.Constants;
+    using Core.Services;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Services;
-    using SMS.EPA.Model;
+    using Model;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Text;
+    using System.Web;
 
     public class UpdateKPIScoreCriteria : CriteriaBase
     {
@@ -16,13 +17,7 @@
 
         public int EvaluatorId { get; set; }
 
-        public string KPIDetails
-        {
-            get
-            {
-                return ConvertToXml(EpaInfos);
-            }
-        }
+        public string KPIDetails => ConvertToXml(EpaInfos);
 
         [SpParam(Ignored = true)]
         public IEnumerable<RatingByKPIModel> EpaInfos { get; set; }
@@ -75,7 +70,7 @@
 
         private StringBuilder GenerateEpaDetailXml(TemporaryKPIModel kpi, string score, float rate)
         {
-            string kpiRate = rate > 0 ? rate.ToString() : string.Empty;
+            string kpiRate = rate > 0 ? rate.ToString(CultureInfo.InvariantCulture) : string.Empty;
             string cipherScore = Encrypt(score + "_" + kpi.KPIId);
             string cipherRate = Encrypt(kpiRate);
 

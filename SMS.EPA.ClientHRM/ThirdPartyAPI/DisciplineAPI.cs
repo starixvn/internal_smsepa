@@ -1,13 +1,11 @@
 ﻿namespace SMS.EPA.ClientHrm.ThirdPartyAPI
 {
+    using Model;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Net;
     using System.Net.Http;
     using System.Net.Http.Headers;
-    using SMS.EPA.ClientHrm.Model;
-    using SMS.EPA.ClientHrm.ThirdPartyAPI;
 
     public class DisciplineAPI : IDisciplineAPI
     {
@@ -41,7 +39,7 @@
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
 
-                var result = client.PostAsJsonAsync<Discipline[]>(ApplicationConfig.ServiceAPI + "Discipline", disciplines.ToArray()).Result;
+                var result = client.PostAsJsonAsync(ApplicationConfig.ServiceAPI + "Discipline", disciplines.ToArray()).Result;
 
                 return new CommandResult { Code = (int)result.StatusCode };
             }

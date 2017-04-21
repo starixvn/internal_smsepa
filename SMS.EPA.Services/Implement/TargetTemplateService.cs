@@ -1,19 +1,18 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
+    using Core.Model;
+    using Core.Services;
+    using Criteria;
+    using Interfaces;
+    using Model;
+    using Model.Enitites;
+    using Repositories;
     using System.Collections.Generic;
     using System.Linq;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Repositories;
-
-    using SMS.EPA.Services.Interfaces;
 
     public class TargetTemplateService : BaseService, ITargetTemplateService
     {
-        private readonly ITargetTemplateRepository targetTemplateRepository;
+        private readonly ITargetTemplateRepository _targetTemplateRepository;
 
         public TargetTemplateService()
             : this(null)
@@ -22,7 +21,7 @@
 
         public TargetTemplateService(ITargetTemplateRepository targetTemplateRepository)
         {
-            this.targetTemplateRepository = targetTemplateRepository ?? new TargetTemplateRepository();
+            _targetTemplateRepository = targetTemplateRepository ?? new TargetTemplateRepository();
         }
 
         public TargetTemplate GetTargetTemplateById(GetTargetTemplateByIdCriteria criteria)
@@ -156,7 +155,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                IEnumerable<KPIModel> kpiList = targetTemplateRepository.GetKPIOfTargetTemplate(criteria);
+                IEnumerable<KPIModel> kpiList = _targetTemplateRepository.GetKPIOfTargetTemplate(criteria);
                 kpiGroups = GroupKPI(kpiList);
 
                 if (onlyKPISelected)

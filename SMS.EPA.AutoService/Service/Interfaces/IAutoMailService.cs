@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.AutoService.Service
 {
+    using Model;
     using System.Collections.Generic;
-    using SMS.EPA.Model;
 
     public interface IAutoMailService
     {

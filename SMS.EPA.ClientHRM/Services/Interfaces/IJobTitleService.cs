@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.ClientHrm.Services
 {
+    using Model;
     using System.Collections.Generic;
-    using SMS.EPA.ClientHrm.Model;
 
     public interface IJobTitleService
     {

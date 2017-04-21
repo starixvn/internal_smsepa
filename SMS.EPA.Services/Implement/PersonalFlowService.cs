@@ -1,18 +1,17 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
+    using Core.Model;
+    using Core.Services;
+    using Criteria;
+    using Interfaces;
+    using Model;
+    using Repositories;
     using System.Collections.Generic;
     using System.Linq;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Repositories;
-
-    using SMS.EPA.Services.Interfaces;
 
     public class PersonalFlowService : BaseService, IPersonalFlowService
     {
-        private readonly IFlowSettingRepository flowSettingRepository;
+        private readonly IFlowSettingRepository _flowSettingRepository;
 
         public PersonalFlowService()
             : this(null)
@@ -21,7 +20,7 @@
 
         public PersonalFlowService(IFlowSettingRepository flowSettingRepository)
         {
-            this.flowSettingRepository = flowSettingRepository ?? new FlowSettingRepository();
+            _flowSettingRepository = flowSettingRepository ?? new FlowSettingRepository();
         }
 
         public IEnumerable<PersonalFlowModel> GetPersonalFlowByFlowTemplateId(int flowTemplateId)
@@ -34,7 +33,7 @@
 
             if (criteria.IsValid())
             {
-                flows = flowSettingRepository.GetPersonalFlowByFlowTemplateId(criteria).OrderBy(i => i.Group.GroupName);
+                flows = _flowSettingRepository.GetPersonalFlowByFlowTemplateId(criteria).OrderBy(i => i.Group.GroupName);
             }
 
             return flows;
@@ -46,7 +45,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                flow = flowSettingRepository.GetFlowSettingByFlowTemplateId(criteria);
+                flow = _flowSettingRepository.GetFlowSettingByFlowTemplateId(criteria);
             }
 
             return flow;
@@ -58,7 +57,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                result = this.Repository.Insert(criteria);
+                result = Repository.Insert(criteria);
             }
 
             return result;
@@ -70,7 +69,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                result = this.Repository.Delete(criteria);
+                result = Repository.Delete(criteria);
             }
 
             return result;
@@ -82,9 +81,9 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                IEnumerable<EvaluatorInfoViewModel> data = this.GetData<EvaluatorInfoViewModel>(criteria).OrderBy(i => i.NickName);
+                IEnumerable<EvaluatorInfoViewModel> data = GetData<EvaluatorInfoViewModel>(criteria).OrderBy(i => i.NickName);
                 result.DefaultFlowSettings = data.Where(x => x.IsExistsSetting == false);
-                result.PersonalFlowSettings = data.Where(x => x.IsExistsSetting == true);
+                result.PersonalFlowSettings = data.Where(x => x.IsExistsSetting);
             }
 
             return result;

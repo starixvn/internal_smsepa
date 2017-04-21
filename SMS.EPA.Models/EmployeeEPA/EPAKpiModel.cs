@@ -1,8 +1,9 @@
 ﻿namespace SMS.EPA.Model
 {
+    using Core.Constants;
+    using Core.Services;
     using System.Collections.Generic;
-    using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Services;
+    using System.Globalization;
 
     public class EPAKpiModel
     {
@@ -38,7 +39,7 @@
                 if (Weight > 0)
                 {
                     IUtilityService utilityService = new UtilityService();
-                    result = utilityService.SplitNumber(Weight, Constants.NumberOfDecimalDefault).ToString();
+                    result = utilityService.SplitNumber(Weight, Constants.NumberOfDecimalDefault).ToString(CultureInfo.InvariantCulture);
                 }
 
                 return result;

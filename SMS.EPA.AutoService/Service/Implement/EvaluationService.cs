@@ -1,20 +1,20 @@
 ﻿namespace SMS.EPA.AutoService.Service
 {
+    using Core.Enumerations;
+    using Core.Model;
+    using Core.Services;
+    using Criteria;
+    using EPA.Criteria;
+    using Model;
+    using Services.Implement;
+    using Services.Interfaces;
     using System.Collections.Generic;
-    using SMS.EPA.AutoService.Criteria;
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
 
     public class EvaluationService : BaseService, IEvaluationService
     {
-        private readonly IPeriodService periodService;
-        private readonly IAutoMailService autoMailService;
-        private readonly ICryptographyService cryptographyService;
+        private readonly IPeriodService _periodService;
+        private readonly IAutoMailService _autoMailService;
+        private readonly ICryptographyService _cryptographyService;
 
         public EvaluationService()
             : this(null, null, null)
@@ -26,9 +26,9 @@
             IAutoMailService autoMailService,
             ICryptographyService cryptographyService)
         {
-            this.periodService = periodService ?? new PeriodService();
-            this.autoMailService = autoMailService ?? new AutoMailService();
-            this.cryptographyService = cryptographyService ?? new CryptographyService();
+            _periodService = periodService ?? new PeriodService();
+            _autoMailService = autoMailService ?? new AutoMailService();
+            _cryptographyService = cryptographyService ?? new CryptographyService();
         }
 
         public IEnumerable<AutoEmployeePeriodModel> GetPeriodHasReminderProcess(GetPeriodHasReminderProcessCriteria criteria)
@@ -123,21 +123,21 @@
 
         public void GetAndSendEmailToAllRelatedEmployee(int periodId, string employeeIds, int? processId, int mailMode)
         {
-            PeriodModel period = periodService.GetPeriodById(periodId);
+            PeriodModel period = _periodService.GetPeriodById(periodId);
             IEnumerable<PeriodFlowModel> employeeSettings = GetEmployeeSettings(periodId, employeeIds, processId);
 
             switch (mailMode)
             {
                 case (int)MailMode.Start:
-                    autoMailService.SendStartMail(period, employeeSettings);
+                    _autoMailService.SendStartMail(period, employeeSettings);
                     break;
 
                 case (int)MailMode.Reminder:
-                    autoMailService.SendReminderMail(period, employeeSettings);
+                    _autoMailService.SendReminderMail(period, employeeSettings);
                     break;
 
                 case (int)MailMode.EndPeriod:
-                    autoMailService.SendEndEvaluationMailToHumanResourceByPeriod(period, employeeSettings);
+                    _autoMailService.SendEndEvaluationMailToHumanResourceByPeriod(period, employeeSettings);
                     break;
             }
         }
@@ -151,7 +151,7 @@
                 ProcessId = processId
             };
 
-            IEnumerable<PeriodFlowModel> employeeSettings = periodService.GetEmployeeSettingByPeriodId(criteria);
+            IEnumerable<PeriodFlowModel> employeeSettings = _periodService.GetEmployeeSettingByPeriodId(criteria);
 
             return employeeSettings;
         }
@@ -160,7 +160,7 @@
         {
             foreach (AutoEmployeePeriodModel evaluationProcesse in evaluationProcesses)
             {
-                evaluationProcesse.TotalScore = cryptographyService.Decrypt(evaluationProcesse.TotalScore);
+                evaluationProcesse.TotalScore = _cryptographyService.Decrypt(evaluationProcesse.TotalScore);
             }
         }
     }

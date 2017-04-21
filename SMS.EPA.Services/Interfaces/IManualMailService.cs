@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.Services.Interfaces
 {
     using System.Collections.Generic;
-    using SMS.EPA.Model;
+    using Model;
 
     public interface IManualMailService
     {

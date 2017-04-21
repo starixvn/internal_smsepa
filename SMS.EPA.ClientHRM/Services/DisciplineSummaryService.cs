@@ -1,21 +1,21 @@
 ﻿namespace SMS.EPA.ClientHrm.Services
 {
+    using Criteria;
+    using Fanex.Data.Repository;
+    using Model;
     using System;
     using System.Collections.Generic;
-    using Fanex.Data.Repository;
-    using SMS.EPA.ClientHrm.Criteria;
-    using SMS.EPA.ClientHrm.Model;
-    using SMS.EPA.ClientHrm.ThirdPartyAPI;
+    using ThirdPartyAPI;
 
     public class DisciplineSummaryService : IDisciplineSummaryService
     {
-        private readonly IDynamicRepository dynamicRepository;
-        private readonly IDisciplineSummaryAPI attendanceAPI;
+        private readonly IDynamicRepository _dynamicRepository;
+        private readonly IDisciplineSummaryAPI _attendanceApi;
 
-        public DisciplineSummaryService(IDynamicRepository dynamicRepository, IDisciplineSummaryAPI attendanceAPI)
+        public DisciplineSummaryService(IDynamicRepository dynamicRepository, IDisciplineSummaryAPI attendanceApi)
         {
-            this.dynamicRepository = dynamicRepository;
-            this.attendanceAPI = attendanceAPI;
+            _dynamicRepository = dynamicRepository;
+            _attendanceApi = attendanceApi;
         }
 
         public IEnumerable<DisciplineSummary> GetDisciplineSummary(DateTime lastModifiedDate)
@@ -25,19 +25,19 @@
                 LastModifiedDate = lastModifiedDate
             };
 
-            IEnumerable<DisciplineSummary> disciplines = dynamicRepository.Fetch<DisciplineSummary>(criteria);
+            IEnumerable<DisciplineSummary> disciplines = _dynamicRepository.Fetch<DisciplineSummary>(criteria);
 
             return disciplines;
         }
 
         public DateTime GetLastModifiedDate(TokenAccess token)
         {
-            return attendanceAPI.GetLastModifiedDate(token);
+            return _attendanceApi.GetLastModifiedDate(token);
         }
 
         public CommandResult Update(IEnumerable<DisciplineSummary> disciplines, TokenAccess token)
         {
-            return attendanceAPI.Update(disciplines, token);
+            return _attendanceApi.Update(disciplines, token);
         }
     }
 }

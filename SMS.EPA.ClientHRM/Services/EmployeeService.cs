@@ -1,39 +1,39 @@
 ﻿namespace SMS.EPA.ClientHrm.Services
 {
+    using Criteria;
+    using Fanex.Data.Repository;
+    using Model;
     using System;
     using System.Collections.Generic;
-    using Fanex.Data.Repository;
-    using SMS.EPA.ClientHrm.Criteria;
-    using SMS.EPA.ClientHrm.Model;
-    using SMS.EPA.ClientHrm.ThirdPartyAPI;
+    using ThirdPartyAPI;
 
     public class EmployeeService : IEmployeeService
     {
-        private readonly IDynamicRepository dynamicRepository;
-        private readonly IEmployeeAPI employeeAPI;
+        private readonly IDynamicRepository _dynamicRepository;
+        private readonly IEmployeeAPI _employeeApi;
 
-        public EmployeeService(IDynamicRepository dynamicRepository, IEmployeeAPI employeeAPI)
+        public EmployeeService(IDynamicRepository dynamicRepository, IEmployeeAPI employeeApi)
         {
-            this.dynamicRepository = dynamicRepository;
-            this.employeeAPI = employeeAPI;
+            _dynamicRepository = dynamicRepository;
+            _employeeApi = employeeApi;
         }
 
         public IEnumerable<Employee> GetEmployees(DateTime? fromDate)
         {
             var criteria = new GetEmployeeCriteria { FromDate = fromDate };
-            IEnumerable<Employee> employees = dynamicRepository.Fetch<Employee>(criteria);
+            IEnumerable<Employee> employees = _dynamicRepository.Fetch<Employee>(criteria);
 
             return employees;
         }
 
         public DateTime GetLastModifiedDate(TokenAccess token)
         {
-            return employeeAPI.GetLastModifiedDate(token);
+            return _employeeApi.GetLastModifiedDate(token);
         }
 
         public CommandResult Update(IEnumerable<Employee> employees, TokenAccess token)
         {
-            return employeeAPI.Update(employees, token);
+            return _employeeApi.Update(employees, token);
         }
     }
 }

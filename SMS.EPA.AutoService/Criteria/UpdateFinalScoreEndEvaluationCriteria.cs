@@ -1,9 +1,9 @@
 ﻿namespace SMS.EPA.AutoService.Criteria
 {
-    using System.Text;
+    using Core.Constants;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using SMS.EPA.Core.Constants;
+    using System.Text;
 
     public class UpdateFinalScoreEndEvaluationCriteria : CriteriaBase
     {

@@ -1,26 +1,26 @@
 ﻿namespace SMS.EPA.ClientHrm.Services
 {
+    using Model;
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using SMS.EPA.ClientHrm.Model;
-    using SMS.EPA.ClientHrm.ThirdPartyAPI;
+    using ThirdPartyAPI;
 
     public class PhotoService : IPhotoService
     {
-        private readonly IPhotoAPI photoAPI;
+        private readonly IPhotoAPI _photoApi;
 
-        public PhotoService(IPhotoAPI photoAPI)
+        public PhotoService(IPhotoAPI photoApi)
         {
-            this.photoAPI = photoAPI;
+            _photoApi = photoApi;
         }
 
         public IEnumerable<Photo> GetPhotos(DateTime? fromDate)
         {
             var photos = new List<Photo>();
             DirectoryInfo directory = new DirectoryInfo(ApplicationConfig.PhotoPath);
-            DateTime modifiedDate = fromDate.HasValue ? fromDate.Value : new DateTime(2010, 1, 1);
+            DateTime modifiedDate = fromDate ?? new DateTime(2010, 1, 1);
             IEnumerable<FileInfo> files = directory.GetFiles().Where(file => file.LastWriteTime >= modifiedDate
                 && file.Extension.Equals(".jpg", StringComparison.OrdinalIgnoreCase));
 
@@ -39,12 +39,12 @@
 
         public DateTime GetLastModifiedDate(TokenAccess token)
         {
-            return photoAPI.GetLastModifiedDate(token);
+            return _photoApi.GetLastModifiedDate(token);
         }
 
         public CommandResult Update(IEnumerable<Photo> photos, TokenAccess token)
         {
-            return photoAPI.Update(photos, token);
+            return _photoApi.Update(photos, token);
         }
     }
 }

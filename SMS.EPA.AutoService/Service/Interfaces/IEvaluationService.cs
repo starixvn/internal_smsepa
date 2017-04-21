@@ -1,9 +1,9 @@
 ﻿namespace SMS.EPA.AutoService.Service
 {
+    using Core.Model;
+    using Criteria;
+    using Model;
     using System.Collections.Generic;
-    using SMS.EPA.AutoService.Criteria;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Model;
 
     public interface IEvaluationService
     {

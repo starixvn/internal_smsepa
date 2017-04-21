@@ -1,11 +1,11 @@
 ﻿namespace SMS.EPA.Criteria
 {
-    using System.Collections.Generic;
-    using System.Text;
+    using Core.Constants;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using SMS.EPA.Core.Constants;
-    using SMS.EPA.Model.Enitites;
+    using Model.Enitites;
+    using System.Collections.Generic;
+    using System.Text;
 
     public class AddEmployeeToPeriodCriteria : CriteriaBase
     {

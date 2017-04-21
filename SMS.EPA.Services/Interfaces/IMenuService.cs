@@ -1,8 +1,7 @@
 ﻿namespace SMS.EPA.Services.Interfaces
 {
+    using Model;
     using System.Collections.Generic;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
 
     public interface IMenuService
     {

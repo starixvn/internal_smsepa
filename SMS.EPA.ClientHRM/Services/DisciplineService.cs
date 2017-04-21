@@ -1,21 +1,21 @@
 ﻿namespace SMS.EPA.ClientHrm.Services
 {
+    using Criteria;
+    using Fanex.Data.Repository;
+    using Model;
     using System;
     using System.Collections.Generic;
-    using Fanex.Data.Repository;
-    using SMS.EPA.ClientHrm.Criteria;
-    using SMS.EPA.ClientHrm.Model;
-    using SMS.EPA.ClientHrm.ThirdPartyAPI;
+    using ThirdPartyAPI;
 
     public class DisciplineService : IDisciplineService
     {
-        private readonly IDynamicRepository dynamicRepository;
-        private readonly IDisciplineAPI disciplineAPI;
+        private readonly IDynamicRepository _dynamicRepository;
+        private readonly IDisciplineAPI _disciplineApi;
 
-        public DisciplineService(IDynamicRepository dynamicRepository, IDisciplineAPI attendanceAPI)
+        public DisciplineService(IDynamicRepository dynamicRepository, IDisciplineAPI attendanceApi)
         {
-            this.dynamicRepository = dynamicRepository;
-            this.disciplineAPI = attendanceAPI;
+            _dynamicRepository = dynamicRepository;
+            _disciplineApi = attendanceApi;
         }
 
         public IEnumerable<Discipline> GetDiscipline(DateTime fromDate, DateTime lastModifiedDate)
@@ -26,24 +26,24 @@
                 LastModifiedDate = lastModifiedDate
             };
 
-            IEnumerable<Discipline> violations = dynamicRepository.Fetch<Discipline>(criteria);
+            IEnumerable<Discipline> violations = _dynamicRepository.Fetch<Discipline>(criteria);
 
             return violations;
         }
 
         public DateTime GetLastModifiedDate(TokenAccess token)
         {
-            return disciplineAPI.GetLastModifiedDate(token);
+            return _disciplineApi.GetLastModifiedDate(token);
         }
 
         public DateTime GetFromDateDiscipline(TokenAccess token)
         {
-            return disciplineAPI.GetFromDateDiscipline(token);
+            return _disciplineApi.GetFromDateDiscipline(token);
         }
 
         public CommandResult Update(IEnumerable<Discipline> disciplines, TokenAccess token)
         {
-            return disciplineAPI.Update(disciplines, token);
+            return _disciplineApi.Update(disciplines, token);
         }
     }
 }

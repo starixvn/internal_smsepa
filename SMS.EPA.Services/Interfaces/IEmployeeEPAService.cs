@@ -1,10 +1,10 @@
 ﻿namespace SMS.EPA.Services.Interfaces
 {
     using System.Collections.Generic;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Model.Enitites;
+    using Core.Model;
+    using Criteria;
+    using Model;
+    using Model.Enitites;
 
     public interface IEmployeeEPAService
     {

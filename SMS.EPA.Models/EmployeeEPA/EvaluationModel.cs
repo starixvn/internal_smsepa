@@ -1,7 +1,8 @@
 ﻿namespace SMS.EPA.Model
 {
-    using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Services;
+    using Core.Constants;
+    using Core.Services;
+    using System.Globalization;
 
     public class EvaluationModel
     {
@@ -39,7 +40,7 @@
                 {
                     double score = double.Parse(Score);
                     IUtilityService utilityService = new UtilityService();
-                    result = utilityService.SplitNumber(score, Constants.NumberOfDecimalDefault).ToString();
+                    result = utilityService.SplitNumber(score, Constants.NumberOfDecimalDefault).ToString(CultureInfo.InvariantCulture);
                 }
 
                 return result;

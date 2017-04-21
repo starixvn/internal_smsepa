@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.Model
 {
+    using Core.Model;
     using System.Collections.Generic;
-    using SMS.EPA.Core.Model;
 
     public class RoleFunctionModel : FunctionModel
     {

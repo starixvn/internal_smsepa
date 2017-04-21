@@ -1,16 +1,16 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
+    using Core.Model;
+    using Core.Services;
+    using Criteria;
+    using Interfaces;
+    using Model;
+    using Repositories;
     using System.Collections.Generic;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Repositories;
-    using SMS.EPA.Services.Interfaces;
 
     public class TargetEmployeeSettingService : BaseService, ITargetEmployeeSettingService
     {
-        private readonly ITargetEmployeeSettingRepository targetEmployeeSettingRepository;
+        private readonly ITargetEmployeeSettingRepository _targetEmployeeSettingRepository;
 
         public TargetEmployeeSettingService()
             : this(null)
@@ -19,7 +19,7 @@
 
         public TargetEmployeeSettingService(ITargetEmployeeSettingRepository targetEmployeeSettingRepository)
         {
-            this.targetEmployeeSettingRepository = targetEmployeeSettingRepository ?? new TargetEmployeeSettingRepository();
+            _targetEmployeeSettingRepository = targetEmployeeSettingRepository ?? new TargetEmployeeSettingRepository();
         }
 
         public IList<TargetEmployeeSetting> GetTargetEmployeeSetting(GetAllTargetEmployeeSettingCriteria criteria)
@@ -28,7 +28,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                targetEmployees = targetEmployeeSettingRepository.GetTargetTemplateEmployee(criteria);
+                targetEmployees = _targetEmployeeSettingRepository.GetTargetTemplateEmployee(criteria);
             }
 
             return targetEmployees ?? new List<TargetEmployeeSetting>();
@@ -40,7 +40,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                targetDepartments = targetEmployeeSettingRepository.GetTargetTemplateDepartment(criteria);
+                targetDepartments = _targetEmployeeSettingRepository.GetTargetTemplateDepartment(criteria);
             }
 
             return targetDepartments ?? new List<TargetDepartmentSetting>();

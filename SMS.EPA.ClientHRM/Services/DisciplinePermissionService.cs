@@ -1,32 +1,32 @@
 ﻿namespace SMS.EPA.ClientHrm.Services
 {
+    using Criteria;
+    using Fanex.Data.Repository;
+    using Model;
     using System;
     using System.Collections.Generic;
-    using Fanex.Data.Repository;
-    using SMS.EPA.ClientHrm.Criteria;
-    using SMS.EPA.ClientHrm.Model;
-    using SMS.EPA.ClientHrm.ThirdPartyAPI;
+    using ThirdPartyAPI;
 
     public class DisciplinePermissionService : ISupervisorService
     {
-        private readonly IDynamicRepository dynamicRepository;
-        private readonly IEmployeeSupervisorAPI employeeSupervisorAPI;
-        private readonly ITeamSupervisorAPI teamSupervisorAPI;
+        private readonly IDynamicRepository _dynamicRepository;
+        private readonly IEmployeeSupervisorAPI _employeeSupervisorApi;
+        private readonly ITeamSupervisorAPI _teamSupervisorApi;
 
         public DisciplinePermissionService(
             IDynamicRepository dynamicRepository,
-            IEmployeeSupervisorAPI employeeSupervisorAPI,
-            ITeamSupervisorAPI teamSupervisorAPI)
+            IEmployeeSupervisorAPI employeeSupervisorApi,
+            ITeamSupervisorAPI teamSupervisorApi)
         {
-            this.dynamicRepository = dynamicRepository;
-            this.employeeSupervisorAPI = employeeSupervisorAPI;
-            this.teamSupervisorAPI = teamSupervisorAPI;
+            _dynamicRepository = dynamicRepository;
+            _employeeSupervisorApi = employeeSupervisorApi;
+            _teamSupervisorApi = teamSupervisorApi;
         }
 
         public IEnumerable<EmployeeDisciplinePermission> GetEmployees(DateTime fromDate)
         {
             var criteria = new GetEmployeeDisciplinePermissionCriteria { FromDate = fromDate };
-            IEnumerable<EmployeeDisciplinePermission> employeeSupervisors = dynamicRepository.Fetch<EmployeeDisciplinePermission>(criteria);
+            IEnumerable<EmployeeDisciplinePermission> employeeSupervisors = _dynamicRepository.Fetch<EmployeeDisciplinePermission>(criteria);
 
             return employeeSupervisors;
         }
@@ -34,29 +34,29 @@
         public IEnumerable<GroupDisciplinePermission> GetGroups(DateTime fromDate)
         {
             var criteria = new GetGroupDisciplinePermissionCriteria { FromDate = fromDate };
-            IEnumerable<GroupDisciplinePermission> groupSupervisors = dynamicRepository.Fetch<GroupDisciplinePermission>(criteria);
+            IEnumerable<GroupDisciplinePermission> groupSupervisors = _dynamicRepository.Fetch<GroupDisciplinePermission>(criteria);
 
             return groupSupervisors;
         }
 
         public CommandResult UpdateEmployees(IEnumerable<EmployeeDisciplinePermission> employees, TokenAccess token)
         {
-            return employeeSupervisorAPI.Update(employees, token);
+            return _employeeSupervisorApi.Update(employees, token);
         }
 
         public CommandResult UpdateGroups(IEnumerable<GroupDisciplinePermission> groups, TokenAccess token)
         {
-            return teamSupervisorAPI.Update(groups, token);
+            return _teamSupervisorApi.Update(groups, token);
         }
 
         public DateTime GetLastModifiedDateForEmployee(TokenAccess token)
         {
-            return employeeSupervisorAPI.GetLastModifiedDate(token);
+            return _employeeSupervisorApi.GetLastModifiedDate(token);
         }
 
         public DateTime GetLastModifiedDateForGroup(TokenAccess token)
         {
-            return teamSupervisorAPI.GetLastModifiedDate(token);
+            return _teamSupervisorApi.GetLastModifiedDate(token);
         }
     }
 }

@@ -1,20 +1,20 @@
 ﻿namespace SMS.EPA.ClientHrm.Services
 {
-    using SMS.EPA.ClientHrm.Model;
-    using SMS.EPA.ClientHrm.ThirdPartyAPI;
+    using Model;
+    using ThirdPartyAPI;
 
     public class TokenService : ITokenService
     {
-        private readonly ITokenAPI tokenAPI;
+        private readonly ITokenAPI _tokenApi;
 
-        public TokenService(ITokenAPI tokenAPI)
+        public TokenService(ITokenAPI tokenApi)
         {
-            this.tokenAPI = tokenAPI;
+            _tokenApi = tokenApi;
         }
 
         public TokenAccess Request(ApplicationInfo info)
         {
-            return tokenAPI.Request(info);
+            return _tokenApi.Request(info);
         }
     }
 }

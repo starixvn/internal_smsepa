@@ -4,13 +4,7 @@
 
     public class TargetTemplateKPIGroupModel : KPIGroupModel
     {
-        public bool IsSpreadKPIOriginal
-        {
-            get
-            {
-                return IsSpreadKPI;
-            }
-        }
+        public bool IsSpreadKPIOriginal => IsSpreadKPI;
 
         public IEnumerable<KPIModel> KPIs { get; set; }
     }

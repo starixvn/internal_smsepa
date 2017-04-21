@@ -1,11 +1,11 @@
 ﻿namespace SMS.EPA.Criteria
 {
-    using System.Collections.Generic;
-    using System.Text;
+    using Core.Constants;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using SMS.EPA.Core.Constants;
-    using SMS.EPA.Model;
+    using Model;
+    using System.Collections.Generic;
+    using System.Text;
 
     public class UpdateTargetTemplateCriteria : CriteriaBase
     {
@@ -15,13 +15,7 @@
 
         public int TargetTemplateId { get; set; }
 
-        public string KPIs
-        {
-            get
-            {
-                return ConvertKPIItemToXml(KPIIds);
-            }
-        }
+        public string KPIs => ConvertKPIItemToXml(KPIIds);
 
         public int ModifiedBy { get; set; }
 

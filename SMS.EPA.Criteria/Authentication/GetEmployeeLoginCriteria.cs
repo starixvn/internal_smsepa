@@ -10,13 +10,9 @@
         [SpParam(Ignored = true)]
         public string Username { get; set; }
 
-        public string DomainUsername
-        {
-            get
-            {
-                return Username.Contains("sms") ? Username : string.Format("sms\\{0}", Username);
-            }
-        }
+        public string DomainUsername => Username.Contains("sms")
+            ? Username
+            : $"sms\\{Username}";
 
         public override bool IsValid()
         {

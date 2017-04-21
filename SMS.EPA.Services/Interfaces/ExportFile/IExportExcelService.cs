@@ -57,6 +57,7 @@
         /// </summary>
         /// <param name="datas">data to export</param>
         /// /// <param name="firstColumnAutoIncrement">set to true to set first column is row number with auto increment</param>
+        /// <param name="rewriteTitle">Rewrite title with your text</param>
         void ExportWithTemplate(IEnumerable<IExcelRecord> datas, bool firstColumnAutoIncrement = false, bool rewriteTitle = false);
     }
 }

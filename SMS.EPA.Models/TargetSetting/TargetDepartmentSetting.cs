@@ -1,6 +1,6 @@
 ﻿namespace SMS.EPA.Model
 {
-    using SMS.EPA.Model.Enitites;
+    using Enitites;
     using System.Collections.Generic;
 
     public class TargetDepartmentSetting

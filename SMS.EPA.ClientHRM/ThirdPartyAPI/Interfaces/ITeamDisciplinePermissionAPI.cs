@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using SMS.EPA.ClientHrm.Model;
+    using Model;
 
     public interface ITeamSupervisorAPI
     {

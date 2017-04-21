@@ -1,6 +1,6 @@
 ﻿namespace SMS.EPA.Model
 {
-    using SMS.EPA.Core.Enumerations;
+    using Core.Enumerations;
 
     public class ToDoListModel
     {
@@ -18,12 +18,6 @@
 
         public int NumberOfEmployeesUnfinishedByManagement { get; set; }
 
-        public bool IsMonthly
-        {
-            get
-            {
-                return Period.TargetType.TargetTypeId == (int)TargetType.Monthly;
-            }
-        }
+        public bool IsMonthly => Period.TargetType.TargetTypeId == (int)TargetType.Monthly;
     }
 }

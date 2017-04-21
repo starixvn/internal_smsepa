@@ -1,17 +1,16 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
+    using Core.Model;
+    using Core.Services;
+    using Criteria;
+    using Interfaces;
+    using Model;
+    using Repositories;
     using System.Collections.Generic;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Repositories;
-
-    using SMS.EPA.Services.Interfaces;
 
     public class KPIService : BaseService, IKPIService
     {
-        private readonly IKPIRepository kpiRepository;
+        private readonly IKPIRepository _kpiRepository;
 
         public KPIService()
             : this(null)
@@ -20,7 +19,7 @@
 
         public KPIService(IKPIRepository kpiRepository)
         {
-            this.kpiRepository = kpiRepository ?? new KPIRepository();
+            _kpiRepository = kpiRepository ?? new KPIRepository();
         }
 
         public IEnumerable<KPIModel> GetKPI(GetKPICriteria criteria)
@@ -29,7 +28,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                kpis = kpiRepository.GetKPI(criteria);
+                kpis = _kpiRepository.GetKPI(criteria);
             }
 
             return kpis;

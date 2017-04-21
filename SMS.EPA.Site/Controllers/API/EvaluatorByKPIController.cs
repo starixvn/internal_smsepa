@@ -162,7 +162,7 @@
                 EmployeeIds = employeeIds
             };
 
-            return evaluatorByKPIService.GetEmployeeEPAByKPI(criteria);
+            return evaluatorByKPIService.GetEmployeeEpabyKPI(criteria);
         }
 
         [HttpPut]

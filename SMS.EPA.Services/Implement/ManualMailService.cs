@@ -1,22 +1,22 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
+    using Core.Enumerations;
+    using Interfaces;
+    using Model;
     using System.Collections.Generic;
     using System.Linq;
     using System.Web;
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Model;
-    using SMS.EPA.Services.Interfaces;
 
     public class ManualMailService : IManualMailService
     {
+        private readonly IMailService _mailService;
+
         private string _startDateMailToHumanResources = "~/Views/Emails/StartDateEmailToHR.cshtml";
         private string _startDateMailToSelf = "~/Views/Emails/StartDateEmailToSelf.cshtml";
         private string _startDateMailToEvaluator = "~/Views/Emails/StartDateEmailToEvaluator.cshtml";
         private string _startDateMailToReviewer = "~/Views/Emails/StartDateEmailToReviewer.cshtml";
         private string _startDateMailToManagement = "~/Views/Emails/StartDateEmailToManagement.cshtml";
         private string _mailNotifyChangeSetting = "~/Views/Emails/EmailNotifyChangeSetting.cshtml";
-
-        private IMailService _mailService;
 
         public ManualMailService()
             : this(null)
@@ -32,15 +32,14 @@
         {
             if (employeeSettings != null && employeeSettings.Any() && period != null)
             {
-                string templateEmailPath = string.Empty;
-
                 foreach (PeriodFlowModel employeeSetting in employeeSettings)
                 {
+                    string templateEmailPath;
                     switch (employeeSetting.ProcessId)
                     {
                         case (int)ProcessType.HumanResource:
                             templateEmailPath = GetFullPath(_startDateMailToHumanResources);
-                            _mailService.SendMailToHRStartDate(templateEmailPath, employeeSetting, period.Name);
+                            _mailService.SendMailToHrStartDate(templateEmailPath, employeeSetting, period.Name);
                             break;
 
                         case (int)ProcessType.Self:
@@ -86,7 +85,7 @@
         private string GetFullPath(string path)
         {
             string fullPath = string.Empty;
-            if (!string.IsNullOrWhiteSpace(path) && HttpContext.Current != null && HttpContext.Current.Server != null)
+            if (!string.IsNullOrWhiteSpace(path) && HttpContext.Current != null)
             {
                 fullPath = HttpContext.Current.Server.MapPath(path);
             }

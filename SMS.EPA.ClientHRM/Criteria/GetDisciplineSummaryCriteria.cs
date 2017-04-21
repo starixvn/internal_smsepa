@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.ClientHrm.Criteria
 {
-    using System;
     using Fanex.Data.Repository;
+    using System;
 
     public class GetDisciplineSummaryCriteria : CriteriaBase
     {

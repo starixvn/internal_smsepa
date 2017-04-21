@@ -1,33 +1,33 @@
 ﻿namespace SMS.EPA.ClientHrm.Services
 {
-    using System.Collections.Generic;
+    using Criteria;
     using Fanex.Data.Repository;
-    using SMS.EPA.ClientHrm.Criteria;
-    using SMS.EPA.ClientHrm.Model;
-    using SMS.EPA.ClientHrm.ThirdPartyAPI;
+    using Model;
+    using System.Collections.Generic;
+    using ThirdPartyAPI;
 
     public class JobTitleService : IJobTitleService
     {
-        private readonly IDynamicRepository dynamicRepository;
-        private readonly IJobTitleAPI jobTitleAPI;
+        private readonly IDynamicRepository _dynamicRepository;
+        private readonly IJobTitleAPI _jobTitleApi;
 
-        public JobTitleService(IDynamicRepository dynamicRepository, IJobTitleAPI jobTitleAPI)
+        public JobTitleService(IDynamicRepository dynamicRepository, IJobTitleAPI jobTitleApi)
         {
-            this.dynamicRepository = dynamicRepository;
-            this.jobTitleAPI = jobTitleAPI;
+            _dynamicRepository = dynamicRepository;
+            _jobTitleApi = jobTitleApi;
         }
 
         public IEnumerable<JobTitle> GetJobTitles()
         {
             var criteria = new GetJobTitleCriteria();
-            IEnumerable<JobTitle> jobTitles = dynamicRepository.Fetch<JobTitle>(criteria);
+            IEnumerable<JobTitle> jobTitles = _dynamicRepository.Fetch<JobTitle>(criteria);
 
             return jobTitles;
         }
 
         public CommandResult Update(IEnumerable<JobTitle> jobTitles, TokenAccess token)
         {
-            return jobTitleAPI.Update(jobTitles, token);
+            return _jobTitleApi.Update(jobTitles, token);
         }
     }
 }

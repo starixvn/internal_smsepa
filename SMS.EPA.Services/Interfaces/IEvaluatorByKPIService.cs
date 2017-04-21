@@ -1,10 +1,10 @@
 ﻿namespace SMS.EPA.Services.Interfaces
 {
     using System.Collections.Generic;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Model.Enitites;
+    using Core.Model;
+    using Criteria;
+    using Model;
+    using Model.Enitites;
 
     public interface IEvaluatorByKPIService
     {
@@ -20,7 +20,7 @@
 
         IEnumerable<TemporaryKPIModel> GetKPIToView(GetKPIToViewCriteria criteria);
 
-        IEnumerable<RatingByKPIModel> GetEmployeeEPAByKPI(GetEmployeeEPAByKPICriteria criteria);
+        IEnumerable<RatingByKPIModel> GetEmployeeEpabyKPI(GetEmployeeEPAByKPICriteria criteria);
 
         IEnumerable<RatingByKPIModel> GetEmployeeEPAToView(GetEmployeeEPAToViewCriteria criteria);
 

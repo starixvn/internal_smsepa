@@ -1,7 +1,5 @@
 ﻿namespace SMS.EPA.Model
 {
-    using SMS.EPA.Core.Enumerations;
-
     public class FlowTemplateModel
     {
         public FlowTemplateModel()
@@ -19,12 +17,6 @@
 
         public TargetTypeModel TargetType { get; set; }
 
-        public bool IsMonthly
-        {
-            get
-            {
-                return TargetType.TargetTypeId == (int)SMS.EPA.Core.Enumerations.TargetType.Monthly;
-            }
-        }
+        public bool IsMonthly => TargetType.TargetTypeId == (int)Core.Enumerations.TargetType.Monthly;
     }
 }

@@ -1,11 +1,11 @@
 ﻿namespace SMS.EPA.Criteria
 {
-    using System.Collections.Generic;
-    using System.Text;
+    using Core.Constants;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using SMS.EPA.Core.Constants;
-    using SMS.EPA.Model;
+    using Model;
+    using System.Collections.Generic;
+    using System.Text;
 
     public class UpdateProcessSettingPeriodCriteria : CriteriaBase
     {
@@ -13,13 +13,7 @@
 
         public int PeriodId { get; set; }
 
-        public string ProcessSettings
-        {
-            get
-            {
-                return ConvertProcessSettingToXml();
-            }
-        }
+        public string ProcessSettings => ConvertProcessSettingToXml();
 
         public int ModifiedBy { get; set; }
 

@@ -1,11 +1,11 @@
 ﻿namespace SMS.EPA.Criteria
 {
-    using System.Collections.Generic;
-    using System.Text;
+    using Core.Constants;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using SMS.EPA.Core.Constants;
-    using SMS.EPA.Model;
+    using Model;
+    using System.Collections.Generic;
+    using System.Text;
 
     public class SetKPIGroupOfTargetTemplateCriteria : CriteriaBase
     {
@@ -14,13 +14,7 @@
         public int TargetTemplateId { get; set; }
 
         [SpParam(SqlParamName = "KPIGroups")]
-        public string KPIGroupXml
-        {
-            get
-            {
-                return ConvertKPIGroupWeightToXml();
-            }
-        }
+        public string KPIGroupXml => ConvertKPIGroupWeightToXml();
 
         [SpParam(Ignored = true)]
         public List<KPIGroupModel> KPIGroups { get; set; }
@@ -47,7 +41,7 @@
 
                 foreach (KPIGroupModel item in KPIGroups)
                 {
-                    int spreadKPI = item.IsSpreadKPI == true ? 1 : 0;
+                    int spreadKPI = item.IsSpreadKPI ? 1 : 0;
                     kpiGroupXmlBuilder.AppendFormat(KPIGroupXmlTemplate, item.KPIGroupId, item.Weight, spreadKPI, item.DisplayOrder);
                 }
 

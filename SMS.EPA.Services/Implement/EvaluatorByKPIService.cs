@@ -1,17 +1,17 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
+    using Core.Model;
+    using Core.Services;
+    using Criteria;
+    using Interfaces;
+    using Model;
+    using Model.Enitites;
+    using Repositories;
     using System.Collections.Generic;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Repositories;
-    using SMS.EPA.Services.Interfaces;
 
     public class EvaluatorByKPIService : BaseService, IEvaluatorByKPIService
     {
-        private readonly IEmployeeEPARepository evaluationRepository;
+        private readonly IEmployeeEPARepository _evaluationRepository;
 
         public EvaluatorByKPIService()
             : this(null)
@@ -20,7 +20,7 @@
 
         public EvaluatorByKPIService(IEmployeeEPARepository evaluationRepository)
         {
-            this.evaluationRepository = evaluationRepository ?? new EmployeeEPARepository();
+            _evaluationRepository = evaluationRepository ?? new EmployeeEPARepository();
         }
 
         public IEnumerable<EPAPeriodModel> GetPeriodByEvaluator(GetPeriodByEvaluatorCriteria criteria)
@@ -77,7 +77,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                kpis = evaluationRepository.GetKPIByTargetTemplate(criteria);
+                kpis = _evaluationRepository.GetKPIByTargetTemplate(criteria);
             }
 
             return kpis;
@@ -89,7 +89,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                kpis = evaluationRepository.GetKPIToView(criteria);
+                kpis = _evaluationRepository.GetKPIToView(criteria);
             }
 
             return kpis;
@@ -101,19 +101,19 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                epas = evaluationRepository.GetEmployeeEPAToView(criteria);
+                epas = _evaluationRepository.GetEmployeeEPAToView(criteria);
             }
 
             return epas;
         }
 
-        public IEnumerable<RatingByKPIModel> GetEmployeeEPAByKPI(GetEmployeeEPAByKPICriteria criteria)
+        public IEnumerable<RatingByKPIModel> GetEmployeeEpabyKPI(GetEmployeeEPAByKPICriteria criteria)
         {
             IEnumerable<RatingByKPIModel> epas = new List<RatingByKPIModel>();
 
             if (criteria != null && criteria.IsValid())
             {
-                epas = evaluationRepository.GetEmployeeEPAByKPI(criteria);
+                epas = _evaluationRepository.GetEmployeeEPAByKPI(criteria);
             }
 
             return epas;

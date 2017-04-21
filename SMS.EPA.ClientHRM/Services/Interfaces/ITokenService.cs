@@ -1,6 +1,6 @@
 ﻿namespace SMS.EPA.ClientHrm.Services
 {
-    using SMS.EPA.ClientHrm.Model;
+    using Model;
 
     public interface ITokenService
     {

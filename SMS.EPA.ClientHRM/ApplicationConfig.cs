@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.ClientHrm
 {
+    using Model;
     using System.Configuration;
-    using SMS.EPA.ClientHrm.Model;
 
     public static class ApplicationConfig
     {
@@ -9,18 +9,12 @@
         {
             get
             {
-                var interval = ConfigurationManager.AppSettings["Interval"].ToString();
+                var interval = ConfigurationManager.AppSettings["Interval"];
                 return double.Parse(interval) * 1000;
             }
         }
 
-        public static string ServiceAPI
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["ServiceAPI"];
-            }
-        }
+        public static string ServiceAPI => ConfigurationManager.AppSettings["ServiceAPI"];
 
         public static ApplicationInfo ApplicationInfo
         {

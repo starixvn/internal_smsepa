@@ -1,19 +1,18 @@
 ﻿namespace SMS.EPA.Services.Implement
 {
+    using Core.Model;
+    using Core.Services;
+    using Criteria;
+    using Interfaces;
+    using Model;
+    using Model.Enitites;
+    using Repositories;
     using System.Collections.Generic;
     using System.Linq;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Model.Enitites;
-    using SMS.EPA.Repositories;
-
-    using SMS.EPA.Services.Interfaces;
 
     public class DepartmentFlowService : BaseService, IDepartmentFlowService
     {
-        private readonly IFlowSettingRepository flowSettingRepository;
+        private readonly IFlowSettingRepository _flowSettingRepository;
 
         public DepartmentFlowService()
             : this(null)
@@ -22,7 +21,7 @@
 
         public DepartmentFlowService(IFlowSettingRepository flowSettingRepository)
         {
-            this.flowSettingRepository = flowSettingRepository ?? new FlowSettingRepository();
+            _flowSettingRepository = flowSettingRepository ?? new FlowSettingRepository();
         }
 
         public IEnumerable<DepartmentFlowModel> GetDepartmentFlowByFlowTemplateId(int flowTemplateId)
@@ -35,7 +34,7 @@
 
             if (criteria.IsValid())
             {
-                flows = flowSettingRepository.GetDepartmentFlowByFlowTemplateId(criteria).OrderBy(i => i.Name);
+                flows = _flowSettingRepository.GetDepartmentFlowByFlowTemplateId(criteria).OrderBy(i => i.Name);
             }
 
             return flows;
@@ -47,7 +46,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                flow = flowSettingRepository.GetFlowSettingByFlowTemplateId(criteria);
+                flow = _flowSettingRepository.GetFlowSettingByFlowTemplateId(criteria);
             }
 
             return flow;
@@ -59,7 +58,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                result = this.Repository.Insert(criteria);
+                result = Repository.Insert(criteria);
             }
 
             return result;
@@ -71,7 +70,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                result = this.Repository.Delete(criteria);
+                result = Repository.Delete(criteria);
             }
 
             return result;

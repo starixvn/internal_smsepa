@@ -18,13 +18,9 @@
         [SpParam(Ignored = true)]
         public string Username { get; set; }
 
-        public string DomainUsername
-        {
-            get
-            {
-                return Username.Contains("sms") ? Username : string.Format("sms\\{0}", Username);
-            }
-        }
+        public string DomainUsername => Username.Contains("sms")
+            ? Username
+            : $"sms\\{Username}";
 
         public bool Enabled { get; set; }
 
@@ -37,11 +33,11 @@
         public override bool IsValid()
         {
             return EmployeeId > 0
-                && !string.IsNullOrWhiteSpace(NickName)
-                && !string.IsNullOrEmpty(FullName)
-                && !string.IsNullOrWhiteSpace(Username)
-                && Username.IndexOf(' ') == -1
-                && ModifiedBy > 0;
+                   && !string.IsNullOrWhiteSpace(NickName)
+                   && !string.IsNullOrEmpty(FullName)
+                   && !string.IsNullOrWhiteSpace(Username)
+                   && Username.IndexOf(' ') == -1
+                   && ModifiedBy > 0;
         }
 
         public override string GetSettingKey()

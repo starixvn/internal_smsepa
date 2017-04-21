@@ -1,6 +1,6 @@
 ﻿namespace SMS.EPA.Services.Interfaces
 {
-    using SMS.EPA.Model;
+    using Model;
 
     public interface IDashboardService
     {

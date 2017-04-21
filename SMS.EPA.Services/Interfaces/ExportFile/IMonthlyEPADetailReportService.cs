@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.Services.Interfaces
 {
     using System.IO;
-    using SMS.EPA.Model;
+    using Model;
 
     public interface IMonthlyEPADetailReportService
     {

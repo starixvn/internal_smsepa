@@ -1,6 +1,6 @@
 ﻿namespace SMS.EPA.ClientHrm.ThirdPartyAPI
 {
-    using SMS.EPA.ClientHrm.Model;
+    using Model;
     using System;
     using System.Collections.Generic;
     using System.Net.Http;

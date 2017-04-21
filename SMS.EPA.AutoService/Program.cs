@@ -1,8 +1,8 @@
 ﻿namespace SMS.EPA.AutoService
 {
-    using System.ServiceProcess;
     using Fanex.Data;
     using Fanex.Data.OldConnectionStringProvider;
+    using System.ServiceProcess;
 
     public static class Program
     {
@@ -18,12 +18,11 @@
             .Run();
             log4net.Config.XmlConfigurator.Configure();
 
-            ServiceBase[] _servicesToRun;
-            _servicesToRun = new ServiceBase[]
+            var servicesToRun = new ServiceBase[]
             {
                 new AutoService()
             };
-            ServiceBase.Run(_servicesToRun);
+            ServiceBase.Run(servicesToRun);
         }
     }
 }

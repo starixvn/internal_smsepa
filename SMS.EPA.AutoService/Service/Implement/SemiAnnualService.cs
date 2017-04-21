@@ -1,23 +1,23 @@
 ﻿namespace SMS.EPA.AutoService.Service
 {
+    using Core.Model;
+    using Core.Services;
+    using Criteria;
+    using EPA.Criteria;
+    using log4net;
+    using Model;
+    using Services.Implement;
+    using Services.Interfaces;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
     using System.Threading.Tasks;
-    using log4net;
-    using SMS.EPA.AutoService.Criteria;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Core.Services;
-    using SMS.EPA.Criteria;
-    using SMS.EPA.Model;
-    using SMS.EPA.Services.Implement;
-    using SMS.EPA.Services.Interfaces;
 
     public class SemiAnnualService : BaseService, ISemiAnnualService
     {
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private readonly IPeriodService periodService;
-        private readonly IAutoMailService autoMailService;
+        private readonly IPeriodService _periodService;
+        private readonly IAutoMailService _autoMailService;
 
         public SemiAnnualService()
             : this(null, null)
@@ -28,8 +28,8 @@
             IPeriodService periodService,
             IAutoMailService autoMailService)
         {
-            this.periodService = periodService ?? new PeriodService();
-            this.autoMailService = autoMailService ?? new AutoMailService();
+            _periodService = periodService ?? new PeriodService();
+            _autoMailService = autoMailService ?? new AutoMailService();
         }
 
         public void CheckSemiAnnualPeriod()
@@ -37,7 +37,7 @@
             IEnumerable<int> semiAnnualPeriods = CheckStartSemiAnnual();
             Log.Info("Result of check the start of semi annual period: " + string.Join(",", semiAnnualPeriods));
 
-            if (semiAnnualPeriods != null && semiAnnualPeriods.Any())
+            if (semiAnnualPeriods.Any())
             {
                 foreach (int periodId in semiAnnualPeriods)
                 {
@@ -88,7 +88,7 @@
 
             if (criteria.IsValid())
             {
-                commandResult = periodService.GenerateEvaluation(criteria);
+                commandResult = _periodService.GenerateEvaluation(criteria);
             }
 
             string messageResult = commandResult.IsSuccessful ? "0" : commandResult.Message;
@@ -101,12 +101,12 @@
             {
                 Task.Factory.StartNew(() =>
                 {
-                    PeriodModel period = periodService.GetPeriodById(periodId);
+                    PeriodModel period = _periodService.GetPeriodById(periodId);
                     IEnumerable<PeriodFlowModel> employeeSettings = GetEmployeeSettings(periodId);
 
                     if (employeeSettings != null && employeeSettings.Any())
                     {
-                        autoMailService.SendStartMail(period, employeeSettings);
+                        _autoMailService.SendStartMail(period, employeeSettings);
                     }
                 });
             }
@@ -122,7 +122,7 @@
 
             if (criteria.IsValid())
             {
-                employeeSettings = periodService.GetEmployeeSettingByPeriodId(criteria);
+                employeeSettings = _periodService.GetEmployeeSettingByPeriodId(criteria);
             }
 
             return employeeSettings;

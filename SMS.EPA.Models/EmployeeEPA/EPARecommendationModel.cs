@@ -1,6 +1,6 @@
 ﻿namespace SMS.EPA.Model
 {
-    using SMS.EPA.Core.Enumerations;
+    using Core.Enumerations;
 
     public class EPARecommendationModel
     {
@@ -16,28 +16,10 @@
 
         public JobGradeModel JobGrade { get; set; }
 
-        public bool PassedProbation
-        {
-            get
-            {
-                return ProbationStatus.HasValue && ProbationStatus.Value == (int)ProbationStatusType.PassProbation;
-            }
-        }
+        public bool PassedProbation => ProbationStatus.HasValue && ProbationStatus.Value == (int)ProbationStatusType.PassProbation;
 
-        public bool ExtendedProbation
-        {
-            get
-            {
-                return ProbationStatus.HasValue && ProbationStatus.Value == (int)ProbationStatusType.ExtendProbation;
-            }
-        }
+        public bool ExtendedProbation => ProbationStatus.HasValue && ProbationStatus.Value == (int)ProbationStatusType.ExtendProbation;
 
-        public bool FailedProbation
-        {
-            get
-            {
-                return ProbationStatus.HasValue && ProbationStatus.Value == (int)ProbationStatusType.FailProbation;
-            }
-        }
+        public bool FailedProbation => ProbationStatus.HasValue && ProbationStatus.Value == (int)ProbationStatusType.FailProbation;
     }
 }

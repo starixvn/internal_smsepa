@@ -1,6 +1,7 @@
 ﻿namespace SMS.EPA.Model
 {
-    using SMS.EPA.Core.Services;
+    using Core.Services;
+    using System.Globalization;
 
     public class EPASummaryImportModel
     {
@@ -13,7 +14,7 @@
             get
             {
                 ICryptographyService cryptographyService = new CryptographyService();
-                return cryptographyService.Encrypt(OriginFinalScore.ToString());
+                return cryptographyService.Encrypt(OriginFinalScore.ToString(CultureInfo.InvariantCulture));
             }
         }
     }

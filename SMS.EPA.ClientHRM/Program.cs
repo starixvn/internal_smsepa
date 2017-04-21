@@ -1,14 +1,12 @@
 ﻿namespace SMS.EPA.ClientHrm
 {
-    using System;
-    using System.Net;
-    using System.Net.Security;
-    using System.Reflection;
-    using System.Security.Cryptography.X509Certificates;
-    using System.ServiceProcess;
     using Fanex.Data;
     using Fanex.Data.OldConnectionStringProvider;
-    using SMS.EPA.ClientHrm.Services;
+    using Services;
+    using System;
+    using System.Net;
+    using System.Reflection;
+    using System.ServiceProcess;
 
     public static class Program
     {
@@ -23,14 +21,7 @@
                 enableWatching: true)
             .Run();
 
-            ServicePointManager.ServerCertificateValidationCallback = delegate(
-                object obj,
-                X509Certificate certificate,
-                X509Chain chain,
-                SslPolicyErrors errors)
-                {
-                    return true;
-                };
+            ServicePointManager.ServerCertificateValidationCallback = (obj, certificate, chain, errors) => true;
 
             Bootstrap.Start();
 

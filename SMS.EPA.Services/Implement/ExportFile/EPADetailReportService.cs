@@ -12,6 +12,7 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Web;
@@ -20,31 +21,31 @@
     {
         private const int ExcelColumnWidth = 256;
 
-        private HSSFWorkbook workbook;
-        private ISheet sheet;
-        private int currentRow = 0;
-        private IList<string> columnsName;
+        private HSSFWorkbook _workbook;
+        private ISheet _sheet;
+        private int _currentRow;
+        private IList<string> _columnsName;
 
         public EPADetailModel EpaDetail { get; set; }
 
         public MemoryStream Export(EPADetailModel epaDetail)
         {
             EpaDetail = epaDetail;
-            workbook = new HSSFWorkbook();
-            sheet = workbook.CreateSheet(Lang.EPADetailReportSheet);
-            columnsName = CreateColumnsName();
+            _workbook = new HSSFWorkbook();
+            _sheet = _workbook.CreateSheet(Lang.EPADetailReportSheet);
+            _columnsName = CreateColumnsName();
             WriteTitleSheet();
-            currentRow += 2;
+            _currentRow += 2;
 
             WriteTitleTable();
-            currentRow++;
+            _currentRow++;
 
             WriteContentTable();
-            sheet.CreateFreezePane(0, 3);
+            _sheet.CreateFreezePane(0, 3);
 
             using (var output = new MemoryStream())
             {
-                workbook.Write(output);
+                _workbook.Write(output);
 
                 return output;
             }
@@ -52,7 +53,7 @@
 
         public void Render(EPADetailModel epaDetail)
         {
-            if (workbook == null)
+            if (_workbook == null)
             {
                 Export(epaDetail);
             }
@@ -75,35 +76,35 @@
                     $"attachment; filename={epaDetail.EpaYear}_{epaDetail.EpaEvaluationPeriod}_{Lang.EPADetailReportName}.xls");
             }
 
-            workbook.Write(response.OutputStream);
+            _workbook.Write(response.OutputStream);
         }
 
         private void WriteTitleSheet()
         {
-            IRow rowTitle = sheet.CreateRow(currentRow);
+            IRow rowTitle = _sheet.CreateRow(_currentRow);
 
-            IFont font = workbook.CreateFont();
+            IFont font = _workbook.CreateFont();
             font.FontHeightInPoints = 18;
             font.Boldweight = (short)FontBoldWeight.Bold;
 
             ICell cell = rowTitle.CreateCell(0);
             cell.SetCellValue(Lang.EPADetailReportSheet);
-            cell.CellStyle = workbook.CreateCellStyle();
+            cell.CellStyle = _workbook.CreateCellStyle();
             cell.CellStyle.Alignment = HorizontalAlignment.Center;
             cell.CellStyle.VerticalAlignment = VerticalAlignment.Center;
             cell.CellStyle.SetFont(font);
 
-            sheet.AddMergedRegion(new CellRangeAddress(currentRow, currentRow, 0, columnsName.Count - 1));
+            _sheet.AddMergedRegion(new CellRangeAddress(_currentRow, _currentRow, 0, _columnsName.Count - 1));
         }
 
         private void WriteTitleTable()
         {
-            IFont font = workbook.CreateFont();
+            IFont font = _workbook.CreateFont();
             font.FontHeightInPoints = 11;
             font.Color = HSSFColor.White.Index;
             font.Boldweight = (short)FontBoldWeight.Bold;
 
-            ICellStyle cellStyle = workbook.CreateCellStyle();
+            ICellStyle cellStyle = _workbook.CreateCellStyle();
             cellStyle.FillForegroundColor = HSSFColor.Grey80Percent.Index;
             cellStyle.FillPattern = FillPattern.SolidForeground;
             cellStyle.FillBackgroundColor = HSSFColor.Grey80Percent.Index;
@@ -111,13 +112,13 @@
             cellStyle.VerticalAlignment = VerticalAlignment.Center;
             cellStyle.SetFont(font);
 
-            IRow row = sheet.CreateRow(currentRow);
-            for (int i = 0; i < columnsName.Count; i++)
+            IRow row = _sheet.CreateRow(_currentRow);
+            for (int i = 0; i < _columnsName.Count; i++)
             {
                 var cell = row.CreateCell(i);
                 cell.CellStyle = cellStyle;
-                cell.SetCellValue(columnsName[i]);
-                sheet.AutoSizeColumn(i);
+                cell.SetCellValue(_columnsName[i]);
+                _sheet.AutoSizeColumn(i);
             }
         }
 
@@ -125,7 +126,7 @@
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "Reviewed. Suppression is OK here.")]
         private void WriteContentTable()
         {
-            IFont redFont = workbook.CreateFont();
+            IFont redFont = _workbook.CreateFont();
             redFont.Color = HSSFColor.Red.Index;
 
             ICellStyle evenStyleCenter = CreateEvenStyleCenter();
@@ -142,10 +143,9 @@
             {
                 var currentColumn = 0;
 
-                ICellStyle bodyStyle = workbook.CreateCellStyle();
-                bodyStyle = currentRow % 2 == 0 ? evenStyleCenter : oddStyleCenter;
+                var bodyStyle = _currentRow % 2 == 0 ? evenStyleCenter : oddStyleCenter;
 
-                IRow row = sheet.CreateRow(currentRow);
+                IRow row = _sheet.CreateRow(_currentRow);
                 dynamic score = CalculateScore(epaInfo);
 
                 var cell = row.CreateCell(currentColumn);
@@ -158,21 +158,21 @@
                 cell.SetCellValue(epaInfo.Employee.Code);
                 SetColumnWidth(currentColumn++, 10);
 
-                bodyStyle = currentRow % 2 == 0 ? evenStyleLeft : oddStyleLeft;
+                bodyStyle = _currentRow % 2 == 0 ? evenStyleLeft : oddStyleLeft;
 
                 cell = row.CreateCell(currentColumn);
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(epaInfo.Employee.FullName);
                 SetColumnWidth(currentColumn++, 20);
 
-                bodyStyle = currentRow % 2 == 0 ? evenStyleCenter : oddStyleCenter;
+                bodyStyle = _currentRow % 2 == 0 ? evenStyleCenter : oddStyleCenter;
 
                 cell = row.CreateCell(currentColumn);
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(epaInfo.Employee.NickName);
                 SetColumnWidth(currentColumn++, 12);
 
-                bodyStyle = currentRow % 2 == 0 ? evenStyleLeft : oddStyleLeft;
+                bodyStyle = _currentRow % 2 == 0 ? evenStyleLeft : oddStyleLeft;
 
                 cell = row.CreateCell(currentColumn);
                 cell.CellStyle = bodyStyle;
@@ -189,24 +189,24 @@
                 cell.SetCellValue(epaInfo.Employee.JobTitleName);
                 SetColumnWidth(currentColumn++, 25);
 
-                bodyStyle = currentRow % 2 == 0 ? evenStyleCenter : oddStyleCenter;
+                bodyStyle = _currentRow % 2 == 0 ? evenStyleCenter : oddStyleCenter;
 
                 cell = row.CreateCell(currentColumn);
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(epaInfo.Employee.JoinedDate.ToString(Constants.DateFormat));
                 SetColumnWidth(currentColumn++, 15);
 
-                bodyStyle = currentRow % 2 == 0 ? evenStyleLeft : oddStyleLeft;
+                bodyStyle = _currentRow % 2 == 0 ? evenStyleLeft : oddStyleLeft;
 
                 cell = row.CreateCell(currentColumn++);
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(epaInfo.Period.TargetTypeName);
 
-                bodyStyle = currentRow % 2 == 0 ? evenStyleCenter : oddStyleCenter;
+                bodyStyle = _currentRow % 2 == 0 ? evenStyleCenter : oddStyleCenter;
 
                 if (!epaInfo.Process.Self.IsEndProcess)
                 {
-                    bodyStyle = currentRow % 2 == 0 ? evenRedStyle : oddRedStyle;
+                    bodyStyle = _currentRow % 2 == 0 ? evenRedStyle : oddRedStyle;
                 }
 
                 cell = row.CreateCell(currentColumn++);
@@ -215,7 +215,7 @@
 
                 if (!epaInfo.Process.Evaluators.First().IsEndProcess)
                 {
-                    bodyStyle = currentRow % 2 == 0 ? evenRedStyle : oddRedStyle;
+                    bodyStyle = _currentRow % 2 == 0 ? evenRedStyle : oddRedStyle;
                 }
 
                 cell = row.CreateCell(currentColumn++);
@@ -224,7 +224,7 @@
 
                 if (!epaInfo.Process.Reviewers.First().IsEndProcess)
                 {
-                    bodyStyle = currentRow % 2 == 0 ? evenRedStyle : oddRedStyle;
+                    bodyStyle = _currentRow % 2 == 0 ? evenRedStyle : oddRedStyle;
                 }
 
                 cell = row.CreateCell(currentColumn++);
@@ -233,14 +233,14 @@
 
                 if (epaInfo.Process.Managements.Any() && !epaInfo.Process.Managements.First().IsEndProcess)
                 {
-                    bodyStyle = currentRow % 2 == 0 ? evenRedStyle : oddRedStyle;
+                    bodyStyle = _currentRow % 2 == 0 ? evenRedStyle : oddRedStyle;
                 }
 
                 cell = row.CreateCell(currentColumn++);
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(GetScoreByPhaseSelected(EpaDetail.PhaseSelecteds, score.ManagementScore.ToString(), (int)ProcessType.Management));
 
-                bodyStyle = currentRow % 2 == 0 ? evenStyleCenter : oddStyleCenter;
+                bodyStyle = _currentRow % 2 == 0 ? evenStyleCenter : oddStyleCenter;
 
                 cell = row.CreateCell(currentColumn++);
                 cell.CellStyle = bodyStyle;
@@ -250,11 +250,11 @@
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(score.FinalScore);
 
-                cell = row.CreateCell(currentColumn++);
+                cell = row.CreateCell(currentColumn);
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(score.Grade);
 
-                currentRow++;
+                _currentRow++;
             }
         }
 
@@ -270,23 +270,21 @@
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "Reviewed. Suppression is OK here.")]
         private dynamic CalculateScore(EPAModel epaInfo)
         {
-            string disciplineScore = string.Empty,
-                selfScore = string.Empty,
-                evaluatorScore = string.Empty,
-                reviewerScore = string.Empty,
-                managementScore = string.Empty,
-                finalScore = string.Empty,
-                grade = string.Empty;
-
-            float? score = null;
+            string disciplineScore;
+            string selfScore = string.Empty;
+            string evaluatorScore = string.Empty;
+            string reviewerScore = string.Empty;
+            string managementScore = string.Empty;
+            string finalScore;
+            string grade;
 
             if (epaInfo.HasDisciplineScore)
             {
-                disciplineScore = epaInfo.DisciplineScore < 0 ? "0" : epaInfo.DisciplineScore.ToString();
+                disciplineScore = epaInfo.DisciplineScore < 0 ? "0" : epaInfo.DisciplineScore.ToString(CultureInfo.InvariantCulture);
             }
             else
             {
-                disciplineScore = epaInfo.DisciplineScore != 0 ? epaInfo.DisciplineScore.ToString() : "-";
+                disciplineScore = epaInfo.DisciplineScore != 0 ? epaInfo.DisciplineScore.ToString(CultureInfo.InvariantCulture) : "-";
             }
 
             if (epaInfo.EPAId > 0)
@@ -294,39 +292,35 @@
                 switch (epaInfo.Process.Self.StatusEndProcess)
                 {
                     case (int)ProcessStatusType.InProgress:
-                        score = !string.IsNullOrEmpty(epaInfo.Process.Self.TotalScore) ? float.Parse(epaInfo.Process.Self.TotalScore) : 0;
-                        selfScore = Math.Round(score.Value, 2).ToString();
+                        float? score = !string.IsNullOrEmpty(epaInfo.Process.Self.TotalScore) ? float.Parse(epaInfo.Process.Self.TotalScore) : 0;
+                        selfScore = Math.Round(score.Value, 2).ToString(CultureInfo.InvariantCulture);
                         break;
 
                     case (int)ProcessStatusType.Closed:
                         selfScore = !string.IsNullOrEmpty(epaInfo.Process.Self.TotalScore)
-                            ? Math.Round(float.Parse(epaInfo.Process.Self.TotalScore), 2).ToString() : Lang.NotAvailable;
+                            ? Math.Round(float.Parse(epaInfo.Process.Self.TotalScore), 2).ToString(CultureInfo.InvariantCulture) : Lang.NotAvailable;
                         break;
                 }
 
                 switch (epaInfo.Process.Evaluators.First().StatusEndProcess)
                 {
                     case (int)ProcessStatusType.InProgress:
-                        evaluatorScore = epaInfo.Process.AverageScoreByEvaluators.HasValue
-                            ? epaInfo.Process.AverageScoreByEvaluators.Value.ToString() : "0";
+                        evaluatorScore = epaInfo.Process.AverageScoreByEvaluators?.ToString() ?? "0";
                         break;
 
                     case (int)ProcessStatusType.Closed:
-                        evaluatorScore = epaInfo.Process.AverageScoreByEvaluators.HasValue
-                            ? epaInfo.Process.AverageScoreByEvaluators.Value.ToString() : Lang.NotAvailable;
+                        evaluatorScore = epaInfo.Process.AverageScoreByEvaluators?.ToString() ?? Lang.NotAvailable;
                         break;
                 }
 
                 switch (epaInfo.Process.Reviewers.First().StatusEndProcess)
                 {
                     case (int)ProcessStatusType.InProgress:
-                        reviewerScore = epaInfo.Process.AverageScoreByReviewers.HasValue
-                            ? epaInfo.Process.AverageScoreByReviewers.Value.ToString() : "0";
+                        reviewerScore = epaInfo.Process.AverageScoreByReviewers?.ToString() ?? "0";
                         break;
 
                     case (int)ProcessStatusType.Closed:
-                        reviewerScore = epaInfo.Process.AverageScoreByReviewers.HasValue
-                            ? epaInfo.Process.AverageScoreByReviewers.Value.ToString() : Lang.NotAvailable;
+                        reviewerScore = epaInfo.Process.AverageScoreByReviewers?.ToString() ?? Lang.NotAvailable;
                         break;
                 }
 
@@ -335,24 +329,20 @@
                     switch (epaInfo.Process.Reviewers.First().StatusEndProcess)
                     {
                         case (int)ProcessStatusType.InProgress:
-                            managementScore = epaInfo.Process.AverageScoreByManagements.HasValue
-                                ? epaInfo.Process.AverageScoreByManagements.Value.ToString() : "0";
+                            managementScore = epaInfo.Process.AverageScoreByManagements?.ToString() ?? "0";
                             break;
 
                         case (int)ProcessStatusType.Closed:
-                            managementScore = epaInfo.Process.AverageScoreByManagements.HasValue
-                                ? epaInfo.Process.AverageScoreByManagements.Value.ToString() : Lang.NotAvailable;
+                            managementScore = epaInfo.Process.AverageScoreByManagements?.ToString() ?? Lang.NotAvailable;
                             break;
                     }
                 }
 
                 if (epaInfo.IsSemiHasMonthly)
                 {
-                    selfScore = epaInfo.MonthlyEPA.AverageSelfScoreConverted.HasValue
-                        ? epaInfo.MonthlyEPA.AverageSelfScoreConverted.Value.ToString() : Lang.NotAvailable;
+                    selfScore = epaInfo.MonthlyEPA.AverageSelfScoreConverted?.ToString() ?? Lang.NotAvailable;
 
-                    evaluatorScore = epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted.HasValue
-                        ? epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted.Value.ToString() : Lang.NotAvailable;
+                    evaluatorScore = epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted?.ToString() ?? Lang.NotAvailable;
                 }
             }
 
@@ -365,7 +355,7 @@
                 }
                 else
                 {
-                    finalScore = Math.Round(float.Parse(epaInfo.FinalScore), 2).ToString();
+                    finalScore = Math.Round(float.Parse(epaInfo.FinalScore), 2).ToString(CultureInfo.InvariantCulture);
                     grade = epaInfo.Grade;
                 }
             }
@@ -389,7 +379,7 @@
 
         private ICellStyle CreateOddStyleCenter()
         {
-            ICellStyle oddStyle = workbook.CreateCellStyle();
+            ICellStyle oddStyle = _workbook.CreateCellStyle();
             oddStyle.Alignment = HorizontalAlignment.Center;
             oddStyle.VerticalAlignment = VerticalAlignment.Center;
 
@@ -398,7 +388,7 @@
 
         private ICellStyle CreateOddStyleLeft()
         {
-            ICellStyle oddStyle = workbook.CreateCellStyle();
+            ICellStyle oddStyle = _workbook.CreateCellStyle();
             oddStyle.Alignment = HorizontalAlignment.Left;
             oddStyle.VerticalAlignment = VerticalAlignment.Center;
 
@@ -407,7 +397,7 @@
 
         private ICellStyle CreateEvenStyleCenter()
         {
-            ICellStyle evenStyle = workbook.CreateCellStyle();
+            ICellStyle evenStyle = _workbook.CreateCellStyle();
             evenStyle.Alignment = HorizontalAlignment.Center;
             evenStyle.VerticalAlignment = VerticalAlignment.Center;
             evenStyle.FillForegroundColor = HSSFColor.LightCornflowerBlue.Index;
@@ -419,7 +409,7 @@
 
         private ICellStyle CreateEvenStyleLeft()
         {
-            ICellStyle evenStyle = workbook.CreateCellStyle();
+            ICellStyle evenStyle = _workbook.CreateCellStyle();
             evenStyle.Alignment = HorizontalAlignment.Left;
             evenStyle.VerticalAlignment = VerticalAlignment.Center;
             evenStyle.FillForegroundColor = HSSFColor.LightCornflowerBlue.Index;
@@ -454,7 +444,7 @@
 
         private void SetColumnWidth(int columnIndex, int width)
         {
-            sheet.SetColumnWidth(columnIndex, width * ExcelColumnWidth);
+            _sheet.SetColumnWidth(columnIndex, width * ExcelColumnWidth);
         }
     }
 }
