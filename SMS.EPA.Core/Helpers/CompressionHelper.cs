@@ -1,6 +1,7 @@
 ﻿namespace SMS.EPA.Core.Helpers
 {
     using System.IO;
+    using Ionic.Zlib;
 
     public static class CompressionHelper
     {
@@ -13,9 +14,13 @@
 
             using (var output = new MemoryStream())
             {
-                var compressor = new Ionic.Zlib.DeflateStream(output, Ionic.Zlib.CompressionMode.Compress, Ionic.Zlib.CompressionLevel.BestSpeed);
-                    compressor.Write(str, 0, str.Length);
-                    return output.ToArray();
+                using (var streamCompressor =
+                    new DeflateStream(output, CompressionMode.Compress, CompressionLevel.BestSpeed))
+                {
+                    streamCompressor.Write(str, 0, str.Length);
+                }
+
+                return output.ToArray();
             }
         }
     }
