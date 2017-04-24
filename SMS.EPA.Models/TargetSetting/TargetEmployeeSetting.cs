@@ -31,6 +31,7 @@
         {
             var record = new
             {
+                No = 0,
                 Code = Employee.Code,
                 Section = Employee.Group != null ? Employee.Group.GroupName : string.Empty,
                 NickName = Employee.NickName,

@@ -26,6 +26,7 @@
         private const string EmployeeFlowSettingTemplate = @"~\ExcelTemplates\EmployeeFlowSettingTemplate.xls";
         private const string EmployeeBasicInfoTemplate = @"~\ExcelTemplates\EmployeeBasicInfoTemplate.xls";
         private const string PersonalFlowSettingTemplate = @"~\ExcelTemplates\PersonalFlowSettingTemplate.xls";
+        private const string TargetPersonnelSettingTemplate = @"~\ExcelTemplates\TargetPersonnelSettingTemplate.xls";
 
         private const int DefaultContentRowStartIndexForTemplate = 3;
 
@@ -375,9 +376,10 @@
                 _exportExcelService.FileName = "Target_Personnel_Setting";
                 _exportExcelService.SheetName = "Target Personnel Setting";
                 _exportExcelService.Title = "Target Personnel Setting";
-                _exportExcelService.Initialize();
 
-                _exportExcelService.Export(datas);
+                _exportExcelService.InitializeWithTemplate(Server.MapPath(TargetPersonnelSettingTemplate));
+
+                _exportExcelService.ExportWithTemplate(datas, true);
             }
 
             return new EmptyResult();
