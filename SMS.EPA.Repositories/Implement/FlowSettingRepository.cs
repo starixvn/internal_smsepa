@@ -1,12 +1,12 @@
 ﻿namespace SMS.EPA.Repositories
 {
-    using System.Collections.Generic;
-    using System.Linq;
+    using Core.Enumerations;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Model;
-    using SMS.EPA.Model.Enitites;
+    using Model;
+    using Model.Enitites;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class FlowSettingRepository : IFlowSettingRepository
     {
@@ -30,7 +30,7 @@
 
         public IEnumerable<DepartmentFlowModel> GetDepartmentFlowByFlowTemplateId(ICriteria criteria)
         {
-            IEnumerable<DepartmentFlowModel> flows = new List<DepartmentFlowModel>();
+            IEnumerable<DepartmentFlowModel> flows;
 
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
@@ -48,7 +48,7 @@
 
         public IEnumerable<PersonalFlowModel> GetPersonalFlowByFlowTemplateId(ICriteria criteria)
         {
-            IEnumerable<PersonalFlowModel> flows = new List<PersonalFlowModel>();
+            IEnumerable<PersonalFlowModel> flows;
 
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {

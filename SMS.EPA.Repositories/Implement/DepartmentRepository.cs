@@ -1,9 +1,9 @@
 ﻿namespace SMS.EPA.Repositories
 {
-    using System.Collections.Generic;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using SMS.EPA.Model.Enitites;
+    using Model.Enitites;
+    using System.Collections.Generic;
 
     public class DepartmentRepository : IDepartmentRepository
     {

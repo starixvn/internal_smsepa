@@ -1,18 +1,17 @@
 ﻿namespace SMS.EPA.Repositories
 {
-    using System.Collections.Generic;
-    using System.Data;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
+    using Core.Enumerations;
+    using Core.Services;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Core.Services;
-    using SMS.EPA.Model;
+    using Model;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
 
     public class EmployeeEPARepository : IEmployeeEPARepository
     {
-        private readonly ICryptographyService cryptographyService;
+        private readonly ICryptographyService _cryptographyService;
 
         public EmployeeEPARepository()
             : this(null)
@@ -21,7 +20,7 @@
 
         public EmployeeEPARepository(ICryptographyService cryptographyService)
         {
-            this.cryptographyService = cryptographyService ?? new CryptographyService();
+            _cryptographyService = cryptographyService ?? new CryptographyService();
         }
 
         public IEnumerable<EPAModel> GetEPA(ICriteria criteria)
@@ -30,27 +29,29 @@
             {
                 using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    IEnumerable<EPAModel> epaInfos = multi.Read<EPAModel, EPAEmployeeModel, RatingTypeModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
-                    (epaInfo, employee, ratingType, period, scoreRatingType) =>
-                    {
-                        epaInfo.Employee = employee;
-                        epaInfo.RatingType = ratingType;
-                        epaInfo.ScoreRatingType = scoreRatingType;
-                        epaInfo.Period = period;
+                    IEnumerable<EPAModel> epaInfos = multi
+                        .Read<EPAModel, EPAEmployeeModel, RatingTypeModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
+                        (epaInfo, employee, ratingType, period, scoreRatingType) =>
+                            {
+                                epaInfo.Employee = employee;
+                                epaInfo.RatingType = ratingType;
+                                epaInfo.ScoreRatingType = scoreRatingType;
+                                epaInfo.Period = period;
 
-                        return epaInfo;
-                    },
-                    "EmployeeId, RatingTypeId, PeriodId, ScoreRatingTypeId");
+                                return epaInfo;
+                            },
+                            "EmployeeId, RatingTypeId, PeriodId, ScoreRatingTypeId");
 
-                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel, EPAEmployeeModel, EPAEmployeeModel, EPAProcessModel>(
-                    (process, evaluator, modifiedBy) =>
-                    {
-                        process.EvaluatorInfo = evaluator;
-                        process.ModifiedBy = modifiedBy;
+                    IEnumerable<EPAProcessModel> processes =
+                        multi.Read<EPAProcessModel, EPAEmployeeModel, EPAEmployeeModel, EPAProcessModel>(
+                            (process, evaluator, modifiedBy) =>
+                            {
+                                process.EvaluatorInfo = evaluator;
+                                process.ModifiedBy = modifiedBy;
 
-                        return process;
-                    },
-                    "EvaluatorId, ModifiedById");
+                                return process;
+                            },
+                            "EvaluatorId, ModifiedById");
 
                     GroupEPAProcessByEPA(epaInfos, processes);
 
@@ -64,38 +65,40 @@
             }
         }
 
-        [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Need to review here.")]
+        [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan",
+            Justification = "Need to review here.")]
         public EPAModel GetEPAInfo(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
                 using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    EPAModel epaInfo = new EPAModel();
+                    var epaInfo = multi
+                        .Read<EPAModel, EPAEmployeeModel, RatingTypeModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
+                            (info, employee, ratingType, period, scoreRatingType) =>
+                            {
+                                info.Employee = employee;
+                                info.RatingType = ratingType;
+                                info.ScoreRatingType = scoreRatingType;
+                                info.Period = period;
 
-                    epaInfo = multi.Read<EPAModel, EPAEmployeeModel, RatingTypeModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
-                    (info, employee, ratingType, period, scoreRatingType) =>
-                    {
-                        info.Employee = employee;
-                        info.RatingType = ratingType;
-                        info.ScoreRatingType = scoreRatingType;
-                        info.Period = period;
-
-                        return info;
-                    },
-                    "EmployeeId, RatingTypeId, PeriodId, ScoreRatingTypeId").FirstOrDefault();
+                                return info;
+                            },
+                            "EmployeeId, RatingTypeId, PeriodId, ScoreRatingTypeId")
+                        .FirstOrDefault();
 
                     if (epaInfo != null)
                     {
-                        IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel, EPAEmployeeModel, EPAEmployeeModel, EPAProcessModel>(
-                        (process, evaluator, modifiedBy) =>
-                        {
-                            process.EvaluatorInfo = evaluator;
-                            process.ModifiedBy = modifiedBy;
+                        IEnumerable<EPAProcessModel> processes =
+                            multi.Read<EPAProcessModel, EPAEmployeeModel, EPAEmployeeModel, EPAProcessModel>(
+                                (process, evaluator, modifiedBy) =>
+                                {
+                                    process.EvaluatorInfo = evaluator;
+                                    process.ModifiedBy = modifiedBy;
 
-                            return process;
-                        },
-                        "EvaluatorId, ModifiedById");
+                                    return process;
+                                },
+                                "EvaluatorId, ModifiedById");
 
                         epaInfo.KPIGroups = multi.Read<EPAKpiGroupModel>().ToList();
 
@@ -128,24 +131,25 @@
                 using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     IEnumerable<EPAModel> epaInfos = multi.Read<EPAModel, EPAEmployeeModel, EPAPeriodModel, EPAModel>(
-                    (epaInfo, emp, period) =>
-                    {
-                        epaInfo.Employee = emp;
-                        epaInfo.Period = period;
+                        (epaInfo, emp, period) =>
+                        {
+                            epaInfo.Employee = emp;
+                            epaInfo.Period = period;
 
-                        return epaInfo;
-                    },
-                    "EmployeeId, PeriodId");
+                            return epaInfo;
+                        },
+                        "EmployeeId, PeriodId");
 
-                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel, EPAEmployeeModel, EPAEmployeeModel, EPAProcessModel>(
-                    (process, evaluator, modifiedBy) =>
-                    {
-                        process.EvaluatorInfo = evaluator;
-                        process.ModifiedBy = modifiedBy;
+                    IEnumerable<EPAProcessModel> processes =
+                        multi.Read<EPAProcessModel, EPAEmployeeModel, EPAEmployeeModel, EPAProcessModel>(
+                            (process, evaluator, modifiedBy) =>
+                            {
+                                process.EvaluatorInfo = evaluator;
+                                process.ModifiedBy = modifiedBy;
 
-                        return process;
-                    },
-                    "EvaluatorId, ModifiedById");
+                                return process;
+                            },
+                            "EvaluatorId, ModifiedById");
 
                     GroupEPAProcessByEPA(epaInfos, processes);
 
@@ -166,24 +170,26 @@
                 using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     IList<EPAModel> epaInfos = multi.Read<EPAModel, EPAEmployeeModel, EPAPeriodModel, EPAModel>(
-                    (epaInfo, emp, period) =>
-                    {
-                        epaInfo.Employee = emp;
-                        epaInfo.Period = period;
+                            (epaInfo, emp, period) =>
+                            {
+                                epaInfo.Employee = emp;
+                                epaInfo.Period = period;
 
-                        return epaInfo;
-                    },
-                    "EmployeeId, PeriodId").ToList();
+                                return epaInfo;
+                            },
+                            "EmployeeId, PeriodId")
+                        .ToList();
 
-                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel, EPAEmployeeModel, EPAEmployeeModel, EPAProcessModel>(
-                    (process, evaluator, modifiedBy) =>
-                    {
-                        process.EvaluatorInfo = evaluator;
-                        process.ModifiedBy = modifiedBy;
+                    IEnumerable<EPAProcessModel> processes =
+                        multi.Read<EPAProcessModel, EPAEmployeeModel, EPAEmployeeModel, EPAProcessModel>(
+                            (process, evaluator, modifiedBy) =>
+                            {
+                                process.EvaluatorInfo = evaluator;
+                                process.ModifiedBy = modifiedBy;
 
-                        return process;
-                    },
-                    "EvaluatorId, ModifiedById");
+                                return process;
+                            },
+                            "EvaluatorId, ModifiedById");
 
                     GroupEPAProcessByEPA(epaInfos, processes);
 
@@ -214,15 +220,16 @@
                         },
                         "PeriodId");
 
-                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel, EPAEmployeeModel, EPAEmployeeModel, EPAProcessModel>(
-                    (process, evaluator, modifiedBy) =>
-                    {
-                        process.EvaluatorInfo = evaluator;
-                        process.ModifiedBy = modifiedBy;
+                    IEnumerable<EPAProcessModel> processes =
+                        multi.Read<EPAProcessModel, EPAEmployeeModel, EPAEmployeeModel, EPAProcessModel>(
+                            (process, evaluator, modifiedBy) =>
+                            {
+                                process.EvaluatorInfo = evaluator;
+                                process.ModifiedBy = modifiedBy;
 
-                        return process;
-                    },
-                    "EvaluatorId, ModifiedById");
+                                return process;
+                            },
+                            "EvaluatorId, ModifiedById");
 
                     GroupEPAProcessByEPA(result.MyEpaInfos, processes);
 
@@ -241,14 +248,15 @@
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
                 return db.Query<EPARecommendationModel, JobGradeModel, EPARecommendationModel>(
-                    (recommendation, job) =>
-                    {
-                        recommendation.JobGrade = job;
+                        (recommendation, job) =>
+                        {
+                            recommendation.JobGrade = job;
 
-                        return recommendation;
-                    },
-                    "JobGradeId",
-                    criteria.GetSpParams()).FirstOrDefault();
+                            return recommendation;
+                        },
+                        "JobGradeId",
+                        criteria.GetSpParams())
+                    .FirstOrDefault();
             }
         }
 
@@ -288,36 +296,39 @@
 
         public IEnumerable<RatingByKPIModel> GetEmployeeEPAByKPI(ICriteria criteria)
         {
-            IEnumerable<RatingByKPIModel> epaInfos = new List<RatingByKPIModel>();
+            IEnumerable<RatingByKPIModel> epaInfos;
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
                 using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    epaInfos = multi.Read<RatingByKPIModel, EPAEmployeeModel, RatingTypeModel, TemporaryKPIGroupModel, RatingByKPIModel>(
-                        (epaInfo, employee, type, kgr) =>
-                        {
-                            epaInfo.Employee = employee;
-                            epaInfo.RatingType = type;
-                            epaInfo.KPIGroup = kgr;
-                            return epaInfo;
-                        },
-                        "EmployeeId, RatingTypeId, KPIGroupId");
+                    epaInfos = multi
+                        .Read<RatingByKPIModel, EPAEmployeeModel, RatingTypeModel, TemporaryKPIGroupModel, RatingByKPIModel>(
+                            (epaInfo, employee, type, kgr) =>
+                            {
+                                epaInfo.Employee = employee;
+                                epaInfo.RatingType = type;
+                                epaInfo.KPIGroup = kgr;
+                                return epaInfo;
+                            },
+                            "EmployeeId, RatingTypeId, KPIGroupId");
 
-                    IEnumerable<TemporaryKPIModel> kpis = multi.Read<TemporaryKPIModel, TemporaryKPIGroupModel, TemporaryKPIModel>(
-                        (kpi, kgr) =>
-                        {
-                            kpi.KPIGroup = kgr;
-                            return kpi;
-                        },
-                        "KPIGroupId");
+                    IEnumerable<TemporaryKPIModel> kpis = multi
+                        .Read<TemporaryKPIModel, TemporaryKPIGroupModel, TemporaryKPIModel>(
+                            (kpi, kgr) =>
+                            {
+                                kpi.KPIGroup = kgr;
+                                return kpi;
+                            },
+                            "KPIGroupId");
 
-                    IEnumerable<TemporaryKPIModel> kpisBySelf = multi.Read<TemporaryKPIModel, TemporaryKPIGroupModel, TemporaryKPIModel>(
-                       (kpi, kgr) =>
-                       {
-                           kpi.KPIGroup = kgr;
-                           return kpi;
-                       },
-                       "KPIGroupId");
+                    IEnumerable<TemporaryKPIModel> kpisBySelf =
+                        multi.Read<TemporaryKPIModel, TemporaryKPIGroupModel, TemporaryKPIModel>(
+                            (kpi, kgr) =>
+                            {
+                                kpi.KPIGroup = kgr;
+                                return kpi;
+                            },
+                            "KPIGroupId");
 
                     GroupKPIByEPA(epaInfos, kpis);
                     GroupKPIBySelf(epaInfos, kpisBySelf);
@@ -330,36 +341,39 @@
 
         public IEnumerable<RatingByKPIModel> GetEmployeeEPAToView(ICriteria criteria)
         {
-            IEnumerable<RatingByKPIModel> epaInfos = new List<RatingByKPIModel>();
+            IEnumerable<RatingByKPIModel> epaInfos;
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
                 using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    epaInfos = multi.Read<RatingByKPIModel, EPAEmployeeModel, RatingTypeModel, TemporaryKPIGroupModel, RatingByKPIModel>(
-                        (epaInfo, employee, type, kgr) =>
-                        {
-                            epaInfo.Employee = employee;
-                            epaInfo.RatingType = type;
-                            epaInfo.KPIGroup = kgr;
-                            return epaInfo;
-                        },
-                        "EmployeeId, RatingTypeId, KPIGroupId");
+                    epaInfos = multi
+                        .Read<RatingByKPIModel, EPAEmployeeModel, RatingTypeModel, TemporaryKPIGroupModel, RatingByKPIModel>(
+                            (epaInfo, employee, type, kgr) =>
+                            {
+                                epaInfo.Employee = employee;
+                                epaInfo.RatingType = type;
+                                epaInfo.KPIGroup = kgr;
+                                return epaInfo;
+                            },
+                            "EmployeeId, RatingTypeId, KPIGroupId");
 
-                    IEnumerable<TemporaryKPIModel> kpis = multi.Read<TemporaryKPIModel, TemporaryKPIGroupModel, TemporaryKPIModel>(
-                        (kpi, kgr) =>
-                        {
-                            kpi.KPIGroup = kgr;
-                            return kpi;
-                        },
-                        "KPIGroupId");
+                    IEnumerable<TemporaryKPIModel> kpis = multi
+                        .Read<TemporaryKPIModel, TemporaryKPIGroupModel, TemporaryKPIModel>(
+                            (kpi, kgr) =>
+                            {
+                                kpi.KPIGroup = kgr;
+                                return kpi;
+                            },
+                            "KPIGroupId");
 
-                    IEnumerable<TemporaryKPIModel> kpisBySelf = multi.Read<TemporaryKPIModel, TemporaryKPIGroupModel, TemporaryKPIModel>(
-                       (kpi, kgr) =>
-                       {
-                           kpi.KPIGroup = kgr;
-                           return kpi;
-                       },
-                       "KPIGroupId");
+                    IEnumerable<TemporaryKPIModel> kpisBySelf =
+                        multi.Read<TemporaryKPIModel, TemporaryKPIGroupModel, TemporaryKPIModel>(
+                            (kpi, kgr) =>
+                            {
+                                kpi.KPIGroup = kgr;
+                                return kpi;
+                            },
+                            "KPIGroupId");
 
                     GroupKPIByEPA(epaInfos, kpis);
                     GroupKPIBySelf(epaInfos, kpisBySelf);
@@ -416,7 +430,8 @@
         {
             foreach (EPAKpiGroupModel kpiGroup in kpiGroups)
             {
-                foreach (EPAKpiModel kpi in kpis.Where(x => x.EPAId.Equals(kpiGroup.EPAId) && x.KPIGroupId.Equals(kpiGroup.KPIGroupId)))
+                foreach (EPAKpiModel kpi in kpis.Where(
+                    x => x.EPAId.Equals(kpiGroup.EPAId) && x.KPIGroupId.Equals(kpiGroup.KPIGroupId)))
                 {
                     kpiGroup.KPIs.Add(kpi);
                 }
@@ -427,7 +442,8 @@
         {
             foreach (EPAKpiModel kpi in kpis)
             {
-                foreach (EvaluationModel evaluation in evaluations.Where(x => x.EPAId.Equals(kpi.EPAId) && x.KPIId.Equals(kpi.KPIId)))
+                foreach (EvaluationModel evaluation in evaluations.Where(
+                    x => x.EPAId.Equals(kpi.EPAId) && x.KPIId.Equals(kpi.KPIId)))
                 {
                     switch (evaluation.ProcessId)
                     {
@@ -447,7 +463,8 @@
         {
             foreach (RatingByKPIModel epaInfo in epaInfos)
             {
-                foreach (TemporaryKPIModel kpi in kpis.Where(x => x.EPAId.Equals(epaInfo.EPAId) && x.KPIGroup.KPIGroupId.Equals(epaInfo.KPIGroup.KPIGroupId)))
+                foreach (TemporaryKPIModel kpi in kpis.Where(
+                    x => x.EPAId.Equals(epaInfo.EPAId) && x.KPIGroup.KPIGroupId.Equals(epaInfo.KPIGroup.KPIGroupId)))
                 {
                     epaInfo.KPIGroup.KPIs.Add(kpi);
                 }
@@ -458,7 +475,8 @@
         {
             foreach (RatingByKPIModel epaInfo in epaInfos)
             {
-                foreach (TemporaryKPIModel kpi in kpis.Where(x => x.EPAId.Equals(epaInfo.EPAId) && x.KPIGroup.KPIGroupId.Equals(epaInfo.KPIGroup.KPIGroupId)))
+                foreach (TemporaryKPIModel kpi in kpis.Where(
+                    x => x.EPAId.Equals(epaInfo.EPAId) && x.KPIGroup.KPIGroupId.Equals(epaInfo.KPIGroup.KPIGroupId)))
                 {
                     epaInfo.KPIGroup.KPIsBySelf.Add(kpi);
                 }
@@ -467,11 +485,11 @@
 
         private void DecryptAllScore(EPAModel epaInfo)
         {
-            epaInfo.LastFinalScore = cryptographyService.Decrypt(epaInfo.LastFinalScore);
-            epaInfo.LastGrade = cryptographyService.Decrypt(epaInfo.LastGrade);
-            epaInfo.FinalScore = cryptographyService.Decrypt(epaInfo.FinalScore);
-            epaInfo.Grade = cryptographyService.Decrypt(epaInfo.Grade);
-            epaInfo.OldFinalScore = cryptographyService.Decrypt(epaInfo.OldFinalScore);
+            epaInfo.LastFinalScore = _cryptographyService.Decrypt(epaInfo.LastFinalScore);
+            epaInfo.LastGrade = _cryptographyService.Decrypt(epaInfo.LastGrade);
+            epaInfo.FinalScore = _cryptographyService.Decrypt(epaInfo.FinalScore);
+            epaInfo.Grade = _cryptographyService.Decrypt(epaInfo.Grade);
+            epaInfo.OldFinalScore = _cryptographyService.Decrypt(epaInfo.OldFinalScore);
             DecryptTotalScore(epaInfo.Process.Self);
             DecryptTotalScore(epaInfo.Process.Evaluators);
             DecryptTotalScore(epaInfo.Process.Reviewers);
@@ -489,7 +507,7 @@
         {
             foreach (RatingByKPIModel epaInfo in epaInfos)
             {
-                epaInfo.TotalScore = cryptographyService.Decrypt(epaInfo.TotalScore);
+                epaInfo.TotalScore = _cryptographyService.Decrypt(epaInfo.TotalScore);
 
                 foreach (TemporaryKPIModel kpi in epaInfo.KPIGroup.KPIs)
                 {
@@ -497,10 +515,10 @@
 
                     if (!string.IsNullOrEmpty(kpi.RateEncrypt))
                     {
-                        rate = float.Parse(cryptographyService.Decrypt(kpi.RateEncrypt));
+                        rate = float.Parse(_cryptographyService.Decrypt(kpi.RateEncrypt));
                     }
 
-                    kpi.Score = cryptographyService.Decrypt(kpi.Score).Replace("_" + kpi.KPIId, string.Empty);
+                    kpi.Score = _cryptographyService.Decrypt(kpi.Score).Replace("_" + kpi.KPIId, string.Empty);
                     kpi.Rate = rate;
                 }
 
@@ -510,10 +528,10 @@
 
                     if (!string.IsNullOrEmpty(kpi.RateEncrypt))
                     {
-                        rate = float.Parse(cryptographyService.Decrypt(kpi.RateEncrypt));
+                        rate = float.Parse(_cryptographyService.Decrypt(kpi.RateEncrypt));
                     }
 
-                    kpi.Score = cryptographyService.Decrypt(kpi.Score).Replace("_" + kpi.KPIId, string.Empty);
+                    kpi.Score = _cryptographyService.Decrypt(kpi.Score).Replace("_" + kpi.KPIId, string.Empty);
                     kpi.Rate = rate;
                 }
             }
@@ -523,8 +541,8 @@
         {
             if (process != null)
             {
-                process.TotalScore = cryptographyService.Decrypt(process.TotalScore);
-                process.AdjustScore = cryptographyService.Decrypt(process.AdjustScore);
+                process.TotalScore = _cryptographyService.Decrypt(process.TotalScore);
+                process.AdjustScore = _cryptographyService.Decrypt(process.AdjustScore);
             }
         }
 
@@ -544,10 +562,11 @@
 
                 if (!string.IsNullOrEmpty(evaluation.RateEncrypt))
                 {
-                    rate = float.Parse(cryptographyService.Decrypt(evaluation.RateEncrypt));
+                    rate = float.Parse(_cryptographyService.Decrypt(evaluation.RateEncrypt));
                 }
 
-                evaluation.Score = cryptographyService.Decrypt(evaluation.Score).Replace("_" + evaluation.KPIId, string.Empty);
+                evaluation.Score = _cryptographyService.Decrypt(evaluation.Score)
+                    .Replace("_" + evaluation.KPIId, string.Empty);
                 evaluation.Rate = rate;
             }
         }

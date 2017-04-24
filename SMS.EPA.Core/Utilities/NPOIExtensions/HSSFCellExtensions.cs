@@ -1,8 +1,8 @@
 ﻿namespace SMS.EPA.Core.Utilities.NPOIExtensions
 {
-    using System;
     using NPOI.SS.UserModel;
     using NPOI.SS.Util;
+    using System;
 
     public static class HSSFCellExtensions
     {
@@ -66,10 +66,7 @@
 
         public static void SetCellValue(this ICell cell, decimal value)
         {
-            if (cell != null)
-            {
-                cell.SetCellValue(Convert.ToDouble(value));
-            }
+            cell?.SetCellValue(Convert.ToDouble(value));
         }
 
         public static void SetCellValue(this ICell cell, decimal? value)
@@ -80,10 +77,7 @@
 
         public static void SetCellValue(this ICell cell, int value)
         {
-            if (cell != null)
-            {
-                cell.SetCellValue(Convert.ToDouble(value));
-            }
+            cell?.SetCellValue(Convert.ToDouble(value));
         }
 
         public static void SetCellValue(this ICell cell, int? value)
@@ -97,10 +91,7 @@
 
         public static void SetCellValue(this ICell cell, long value)
         {
-            if (cell != null)
-            {
-                cell.SetCellValue(Convert.ToDouble(value));
-            }
+            cell?.SetCellValue(Convert.ToDouble(value));
         }
 
         public static void SetCellValue(this ICell cell, long? value)

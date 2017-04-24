@@ -2,7 +2,7 @@
 {
     using System.ComponentModel;
 
-    public enum StandardGrade : int
+    public enum StandardGrade
     {
         None = 0,
 

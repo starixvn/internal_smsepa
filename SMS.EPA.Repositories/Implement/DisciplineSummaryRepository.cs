@@ -1,13 +1,13 @@
 ﻿namespace SMS.EPA.Repositories
 {
+    using Fanex.Data;
+    using Fanex.Data.Repository;
+    using Model;
+    using Model.Enitites;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
-    using Fanex.Data;
-    using Fanex.Data.Repository;
-    using SMS.EPA.Model;
-    using SMS.EPA.Model.Enitites;
 
     public class DisciplineSummaryRepository : IDisciplineSummaryRepository
     {

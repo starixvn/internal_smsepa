@@ -1,9 +1,9 @@
 ﻿namespace SMS.EPA.Repositories
 {
-    using System.Collections.Generic;
+    using Core.Model;
     using Fanex.Data.Repository;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Model.Enitites;
+    using Model.Enitites;
+    using System.Collections.Generic;
 
     public interface IEmployeeRepository
     {

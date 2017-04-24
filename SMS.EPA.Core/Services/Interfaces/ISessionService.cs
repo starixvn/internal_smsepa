@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.Core.Services
 {
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Core.Model;
+    using Enumerations;
+    using Model;
 
     public interface ISessionService
     {

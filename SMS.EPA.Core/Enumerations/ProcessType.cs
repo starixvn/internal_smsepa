@@ -2,7 +2,7 @@
 {
     using System.ComponentModel;
 
-    public enum ProcessType : int
+    public enum ProcessType
     {
         None = 0,
 

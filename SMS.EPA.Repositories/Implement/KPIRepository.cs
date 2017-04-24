@@ -1,10 +1,10 @@
 ﻿namespace SMS.EPA.Repositories
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using SMS.EPA.Model;
+    using Model;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class KPIRepository : IKPIRepository
     {

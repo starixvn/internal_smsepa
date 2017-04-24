@@ -2,7 +2,7 @@
 {
     using System.ComponentModel;
 
-    public enum SystemRole : int
+    public enum SystemRole
     {
         None = 0,
 

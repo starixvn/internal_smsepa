@@ -1,12 +1,12 @@
 ﻿namespace SMS.EPA.Repositories
 {
-    using System.Collections.Generic;
-    using System.Linq;
+    using Core.Enumerations;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Model;
-    using SMS.EPA.Model.Enitites;
+    using Model;
+    using Model.Enitites;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class PeriodRepository : IPeriodRepository
     {
@@ -94,12 +94,16 @@
             }
         }
 
-        private void GetFlowSetting(IEnumerable<PeriodFlowSettingModel> flowSettings, PeriodEmployeeSettingModel employeeSetting)
+        private void GetFlowSetting(
+            IEnumerable<PeriodFlowSettingModel> flowSettings,
+            PeriodEmployeeSettingModel employeeSetting)
         {
             if (flowSettings != null)
             {
+                var setting = employeeSetting;
                 IEnumerable<PeriodFlowSettingModel> employeeFlowSettings =
-                           flowSettings.Where(x => x.PeriodId == employeeSetting.PeriodId && x.EmployeeId == employeeSetting.Employee.EmployeeId);
+                    flowSettings.Where(x => x.PeriodId == setting.PeriodId &&
+                                            x.EmployeeId == setting.Employee.EmployeeId);
 
                 foreach (PeriodFlowSettingModel employeeFlowSetting in employeeFlowSettings)
                 {

@@ -1,5 +1,8 @@
 ﻿namespace SMS.EPA.Core.Attribute
 {
+    using Enumerations;
+    using Model;
+    using Services;
     using System;
     using System.Collections.ObjectModel;
     using System.Net;
@@ -7,14 +10,11 @@
     using System.Web;
     using System.Web.Http;
     using System.Web.Http.Controllers;
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Core.Services;
 
     [AttributeUsage(AttributeTargets.All, AllowMultiple = true)]
     public sealed class ApiAuthorizeAttribute : AuthorizeAttribute
     {
-        private ISessionService sessionService;
+        private readonly ISessionService _sessionService;
 
         public ApiAuthorizeAttribute()
             : this(null)
@@ -23,36 +23,28 @@
 
         public ApiAuthorizeAttribute(ISessionService sessionService)
         {
-            this.sessionService = sessionService ?? new SessionService();
+            _sessionService = sessionService ?? new SessionService();
         }
 
         public string FunctionKey { get; set; }
 
         public Policy Policy { get; set; }
 
-        public ISessionService SessionService
-        {
-            get
-            {
-                return sessionService;
-            }
-        }
+        public ISessionService SessionService => _sessionService;
 
         public override void OnAuthorization(HttpActionContext actionContext)
         {
             if (HttpContext.Current.User.Identity.IsAuthenticated)
             {
-                UserSession currentUser = sessionService.CurrentUser;
+                UserSession currentUser = _sessionService.CurrentUser;
 
                 if (currentUser != null)
                 {
                     CheckUserPermission(actionContext);
                     return;
                 }
-                else
-                {
-                    HandleUnauthorizedRequest(actionContext);
-                }
+
+                HandleUnauthorizedRequest(actionContext);
             }
             else
             {
@@ -82,7 +74,7 @@
 
             foreach (ApiAuthorizeAttribute item in attributes)
             {
-                if (sessionService.HasPermissionOnFunction(item.FunctionKey, item.Policy))
+                if (_sessionService.HasPermissionOnFunction(item.FunctionKey, item.Policy))
                 {
                     hasPermission = true;
                 }

@@ -1,10 +1,10 @@
 ﻿namespace SMS.EPA.Core.Repositories
 {
-    using System;
-    using System.Collections;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using SMS.EPA.Core.Model;
+    using Model;
+    using System;
+    using System.Collections;
 
     public class BaseRepository : IBaseRepository
     {

@@ -2,7 +2,7 @@
 {
     using System.ComponentModel;
 
-    public enum ProcessStatusType : int
+    public enum ProcessStatusType
     {
         [Description("None")]
         None = 0,

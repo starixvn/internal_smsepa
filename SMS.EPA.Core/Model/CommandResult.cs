@@ -1,6 +1,6 @@
 ﻿namespace SMS.EPA.Core.Model
 {
-    using SMS.EPA.Resources;
+    using Resources;
 
     public class CommandResult
     {
@@ -16,12 +16,6 @@
 
         public string Message { get; set; }
 
-        public bool IsSuccessful
-        {
-            get
-            {
-                return Code == 0;
-            }
-        }
+        public bool IsSuccessful => Code == 0;
     }
 }

@@ -1,11 +1,11 @@
 ﻿namespace SMS.EPA.Repositories
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using SMS.EPA.Model;
-    using SMS.EPA.Model.Enitites;
+    using Model;
+    using Model.Enitites;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class TargetEmployeeSettingRepository : ITargetEmployeeSettingRepository
     {
@@ -50,11 +50,12 @@
             IEnumerable<TargetTemplateEmployee> targetTemplateEmployees)
         {
             var targetEmployees = new List<TargetEmployeeSetting>();
-            IList<TargetTemplateEmployee> tempTargetTemplateEmployees;
 
             foreach (Employee employee in employees)
             {
-                tempTargetTemplateEmployees = targetTemplateEmployees.Where(t => t.EmployeeId == employee.EmployeeId).ToList();
+                IList<TargetTemplateEmployee> tempTargetTemplateEmployees = targetTemplateEmployees
+                    .Where(t => t.EmployeeId == employee.EmployeeId)
+                    .ToList();
                 targetEmployees.Add(new TargetEmployeeSetting()
                 {
                     Employee = employee,
@@ -70,12 +71,12 @@
             IEnumerable<TargetTemplateDepartment> targetTemplateDepartments)
         {
             var targetDepartments = new List<TargetDepartmentSetting>();
-            IList<TargetTemplateDepartment> tempTargetTemplateDepartments;
 
             foreach (Department department in departments)
             {
-                tempTargetTemplateDepartments = targetTemplateDepartments.Where(
-                    t => t.DepartmentId == department.DepartmentId && t.IsGroup == department.IsGroup).ToList();
+                IList<TargetTemplateDepartment> tempTargetTemplateDepartments = targetTemplateDepartments.Where(
+                        t => t.DepartmentId == department.DepartmentId && t.IsGroup == department.IsGroup)
+                    .ToList();
                 targetDepartments.Add(new TargetDepartmentSetting()
                 {
                     Department = department,

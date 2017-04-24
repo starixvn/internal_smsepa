@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.Core.Repositories
 {
     using Fanex.Data.Repository;
-    using SMS.EPA.Core.Model;
+    using Model;
 
     public interface IBaseRepository
     {

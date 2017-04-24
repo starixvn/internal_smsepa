@@ -1,10 +1,10 @@
 ﻿namespace SMS.EPA.Core.Utilities.NPOIExtensions
 {
+    using NPOI.SS.UserModel;
+    using NPOI.SS.Util;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using NPOI.SS.UserModel;
-    using NPOI.SS.Util;
 
     public static class HSSFSheetExtensions
     {
@@ -89,10 +89,7 @@
 
         public static void RemoveRow(this ISheet sheet, int rowIndex)
         {
-            if (sheet != null)
-            {
-                sheet.RemoveRow(sheet.GetRow(rowIndex));
-            }
+            sheet?.RemoveRow(sheet.GetRow(rowIndex));
         }
 
         public static void RemoveColumns(this ISheet sheet, List<int> columns)

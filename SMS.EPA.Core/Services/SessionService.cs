@@ -1,10 +1,10 @@
 ﻿namespace SMS.EPA.Core.Services
 {
+    using Constants;
+    using Enumerations;
+    using Model;
     using System.Linq;
     using System.Web;
-    using SMS.EPA.Core.Constants;
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Core.Model;
 
     public class SessionService : ISessionService
     {
@@ -16,10 +16,8 @@
                 {
                     return (UserSession)HttpContext.Current.Session[Constants.CurrentSessionKey];
                 }
-                else
-                {
-                    return null;
-                }
+
+                return null;
             }
 
             set
@@ -30,15 +28,9 @@
 
         public int EmployeeId
         {
-            get
-            {
-                return CurrentUser.EmployeeId;
-            }
+            get { return CurrentUser.EmployeeId; }
 
-            set
-            {
-                CurrentUser.EmployeeId = value;
-            }
+            set { CurrentUser.EmployeeId = value; }
         }
 
         public int GetPermission(string functionKey)
@@ -59,24 +51,21 @@
 
         public bool HasPermissionOnFunction(string functionKey, Policy policy)
         {
-            if (CurrentUser != null)
+            FunctionModel currentFunction =
+                CurrentUser?.Functions.FirstOrDefault(func => func.FunctionKey.Equals(functionKey));
+
+            if (currentFunction != null)
             {
-                FunctionModel currentFunction = CurrentUser.Functions
-                            .Where(func => func.FunctionKey.Equals(functionKey)).FirstOrDefault();
-
-                if (currentFunction != null)
+                switch (policy)
                 {
-                    switch (policy)
-                    {
-                        case Policy.None:
-                            return false;
+                    case Policy.None:
+                        return false;
 
-                        case Policy.Read:
-                            return currentFunction.IsRead || currentFunction.IsHost;
+                    case Policy.Read:
+                        return currentFunction.IsRead || currentFunction.IsHost;
 
-                        case Policy.Host:
-                            return currentFunction.IsHost;
-                    }
+                    case Policy.Host:
+                        return currentFunction.IsHost;
                 }
             }
 

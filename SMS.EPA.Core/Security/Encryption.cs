@@ -1,9 +1,9 @@
 ﻿namespace SMS.EPA.Core.Security
 {
+    using Enumerations;
     using System;
     using System.Security.Cryptography;
     using System.Text;
-    using SMS.EPA.Core.Enumerations;
 
     public static class Encryption
     {
@@ -48,7 +48,6 @@
                     hash = new SHA512Managed();
                     break;
 
-                case HashProvider.MD5:
                 default:
                     hash = new MD5CryptoServiceProvider();
                     break;
@@ -59,7 +58,7 @@
 
         private static string ComputeHash(HashProvider hashAlgorithm, string plainText, byte[] salt)
         {
-            plainText = plainText == null ? string.Empty : plainText;
+            plainText = plainText ?? string.Empty;
             //// Convert plain text into a byte array
             byte[] data = Encoding.UTF8.GetBytes(plainText);
             int dataLength = data.Length;

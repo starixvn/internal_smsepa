@@ -1,6 +1,6 @@
 ﻿namespace SMS.EPA.Core.Constants
 {
-    public sealed class Constants
+    public static class Constants
     {
         public const string CurrentSessionKey = "SMS.EPA.CurrentSession";
 
@@ -39,9 +39,5 @@
         public const string BeginRootTag = "<ROOT>";
 
         public const string EndRootTag = "</ROOT>";
-
-        private Constants()
-        {
-        }
     }
 }
