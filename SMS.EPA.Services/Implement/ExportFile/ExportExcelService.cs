@@ -177,7 +177,7 @@
                 return;
             }
 
-            TotalColumns = dataList.First().GetType().GetProperties().Length;
+            TotalColumns = dataList.First().ConvertToExcelRecord().GetType().GetProperties().Length;
 
             WriteTitle();
 
@@ -202,7 +202,7 @@
                 return;
             }
 
-            TotalColumns = dataList.First().GetType().GetProperties().Length;
+            TotalColumns = dataList.First().ConvertToExcelRecord().GetType().GetProperties().Length;
 
             if (rewriteTitle)
             {
