@@ -1,9 +1,9 @@
 ﻿namespace SMS.EPA.ServicesAPI.Services
 {
+    using Core.Model;
+    using Core.Services;
     using Fanex.Data.Repository;
     using Fanex.Logging;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.Core.Services;
     using System;
 
     public class ServiceAPI : BaseService, IServiceAPI
@@ -13,7 +13,7 @@
             LogService.Info(criteria.GetSettingKey());
             var commandResult = new CommandResult();
 
-            if (criteria != null && criteria.IsValid())
+            if (criteria.IsValid())
             {
                 commandResult = Repository.Update(criteria);
             }

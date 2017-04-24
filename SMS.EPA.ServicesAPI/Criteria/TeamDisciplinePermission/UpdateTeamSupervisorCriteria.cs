@@ -5,11 +5,11 @@
     using System.Text;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using SMS.EPA.ServicesAPI.Model;
+    using Model;
 
     public class UpdateTeamDisciplinePermissionCriteria : CriteriaBase
     {
-        private const string _SupervisorTpl =
+        private const string SupervisorTpl =
              "<Supervisor OwnerId='{0}' GroupId='{1}' ModifiedDate='{2}' IsDeleted='{3}'></Supervisor>";
 
         [SpParam(Ignored = true)]
@@ -26,7 +26,7 @@
                     foreach (TeamDisciplinePermission supervisor in EmployeeDisciplines)
                     {
                         value.AppendFormat(
-                            _SupervisorTpl,
+                            SupervisorTpl,
                             supervisor.OwnerId,
                             supervisor.TeamId,
                             supervisor.ModifiedDate,

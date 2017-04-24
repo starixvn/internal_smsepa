@@ -6,11 +6,11 @@
     using System.Web;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using SMS.EPA.ServicesAPI.Model;
+    using Model;
 
     public class UpdateJobTitleCriteria : CriteriaBase
     {
-        private const string _JobTitleTpl = "<JobTitle JobTitleId='{0}' Code='{1}' Name='{2}'></JobTitle>";
+        private const string JobTitleTpl = "<JobTitle JobTitleId='{0}' Code='{1}' Name='{2}'></JobTitle>";
 
         [SpParam(Ignored = true)]
         public IList<JobTitle> JobTitles { get; set; }
@@ -26,7 +26,7 @@
                     foreach (JobTitle jobTitle in JobTitles)
                     {
                         value.AppendFormat(
-                            _JobTitleTpl,
+                            JobTitleTpl,
                             jobTitle.JobTitleId,
                             jobTitle.Code,
                             HttpUtility.HtmlEncode(jobTitle.Name));

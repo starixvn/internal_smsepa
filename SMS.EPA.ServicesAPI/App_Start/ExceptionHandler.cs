@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.ServicesAPI
 {
     using Fanex.Logging;
-    using SMS.EPA.Resources;
+    using Resources;
     using System;
     using System.Net;
     using System.Net.Http;

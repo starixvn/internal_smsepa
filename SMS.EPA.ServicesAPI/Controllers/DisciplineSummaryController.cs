@@ -1,11 +1,10 @@
 ﻿namespace SMS.EPA.ServicesAPI.Controllers
 {
-    using Fanex.Logging;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.ServicesAPI.Criteria.DisciplineSummary;
-    using SMS.EPA.ServicesAPI.Criteria.EmployeeDiscipline;
-    using SMS.EPA.ServicesAPI.Model;
-    using SMS.EPA.ServicesAPI.Services;
+    using Core.Model;
+    using Criteria.DisciplineSummary;
+    using Criteria.EmployeeDiscipline;
+    using Model;
+    using Services;
     using System;
     using System.Net;
     using System.Web.Http;
@@ -13,7 +12,7 @@
     [Authorize]
     public class DisciplineSummaryController : ApiController
     {
-         private readonly IServiceAPI service;
+         private readonly IServiceAPI _service;
 
         public DisciplineSummaryController() : this(null)
         {
@@ -21,14 +20,14 @@
 
         public DisciplineSummaryController(IServiceAPI service)
         {
-            this.service = service ?? new ServiceAPI();
+            _service = service ?? new ServiceAPI();
         }
 
         public IHttpActionResult GetLastModifiedDate()
          {
              var criteria = new GetLastModifiedDateForDisciplineSummaryCriteria();
 
-             DateTime fromDate = service.GetLastModifiedDate(criteria);
+             DateTime fromDate = _service.GetLastModifiedDate(criteria);
 
              return Ok(fromDate);
          }
@@ -40,7 +39,7 @@
                  Disciplines = disciplines
              };
 
-             CommandResult result = service.Update(criteria);
+             CommandResult result = _service.Update(criteria);
 
              return result.IsSuccessful ? StatusCode(HttpStatusCode.OK) : StatusCode(HttpStatusCode.NotModified);
          }

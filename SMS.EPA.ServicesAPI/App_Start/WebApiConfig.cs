@@ -1,7 +1,7 @@
 ﻿namespace SMS.EPA.ServicesAPI
 {
+    using Filters;
     using Microsoft.Owin.Security.OAuth;
-    using SMS.EPA.ServicesAPI.Filters;
     using System.Web.Http;
     using System.Web.Http.ExceptionHandling;
 

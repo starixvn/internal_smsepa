@@ -6,11 +6,11 @@
     using System.Web;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using SMS.EPA.ServicesAPI.Model;
+    using Model;
 
     public class UpdateTeamCriteria : CriteriaBase
     {
-        private const string _UserTpl = "<Team TeamId='{0}' Code='{1}' "
+        private const string UserTpl = "<Team TeamId='{0}' Code='{1}' "
             + " Name='{2}' LeaderId='{3}' AssistantLeaderId='{4}' Rank='{5}' IsDeleted='{6}' ModifiedDate='{7}' DepartmentId='{8}'></Team>";
 
         [SpParam(Ignored = true)]
@@ -27,7 +27,7 @@
                     foreach (Team team in Teams)
                     {
                         value.AppendFormat(
-                            _UserTpl,
+                            UserTpl,
                             team.TeamId,
                             HttpUtility.HtmlEncode(team.Code),
                             HttpUtility.HtmlEncode(team.Name),

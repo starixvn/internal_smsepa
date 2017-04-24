@@ -1,19 +1,19 @@
 ﻿namespace SMS.EPA.ServicesAPI.Criteria.Employee
 {
+    using Core.Enumerations;
+    using Core.Security;
+    using Core.Services;
+    using Fanex.Data;
+    using Fanex.Data.Repository;
+    using Model;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Web;
-    using Fanex.Data;
-    using Fanex.Data.Repository;
-    using SMS.EPA.Core.Enumerations;
-    using SMS.EPA.Core.Security;
-    using SMS.EPA.Core.Services;
-    using SMS.EPA.ServicesAPI.Model;
 
     public class UpdateEmployeeCriteria : CriteriaBase
     {
-        private const string _UserTpl =
+        private const string UserTpl =
             "<User EmployeeId='{0}' DomainUsername='{1}' Code='{2}'"
             + " NickName='{3}' FullName='{4}' TeamId='{5}' JobTitleId='{6}' Phone='{7}'"
             + " Email='{8}' CardNumber='{9}' IsEnabled='{10}' IsDeleted='{11}' Password='{12}'"
@@ -41,7 +41,7 @@
                         }
 
                         value.AppendFormat(
-                            _UserTpl,
+                            UserTpl,
                             employee.EmployeeId,
                             employee.DomainUsername,
                             employee.Code,

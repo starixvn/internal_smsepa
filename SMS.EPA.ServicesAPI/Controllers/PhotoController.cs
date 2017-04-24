@@ -1,13 +1,13 @@
 ﻿namespace SMS.EPA.ServicesAPI.Controllers
 {
-    using SMS.EPA.ServicesAPI.Model;
-    using SMS.EPA.ServicesAPI.Utilities;
+    using Fanex.Logging;
+    using Model;
     using System;
     using System.IO;
     using System.Linq;
     using System.Net;
     using System.Web.Http;
-    using Fanex.Logging;
+    using Utilities;
 
     [Authorize]
     public class PhotoController : ApiController
@@ -21,7 +21,7 @@
 
             if (lastModifiedFile != null)
             {
-                /// -2: for get different GMT+7 and GMT+8
+                // -2: for get different GMT+7 and GMT+8
                 lastModifiedDate = lastModifiedFile.LastWriteTime.AddHours(-2);
             }
 
@@ -30,12 +30,11 @@
 
         public IHttpActionResult Update(Photo[] photos)
         {
-            LogService.Info(photos.Count().ToString());
-            string fullPath = string.Empty;
+            LogService.Info(photos.Length.ToString());
             foreach (Photo photo in photos)
             {
-                fullPath = AppConfig.PhotoPath + "\\" + photo.Code;
-                File.WriteAllBytes(@fullPath, photo.PhotoData);
+                var fullPath = AppConfig.PhotoPath + "\\" + photo.Code;
+                File.WriteAllBytes(fullPath, photo.PhotoData);
             }
 
             return StatusCode(HttpStatusCode.OK);

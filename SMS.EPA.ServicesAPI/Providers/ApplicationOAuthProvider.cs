@@ -1,13 +1,13 @@
 ﻿namespace SMS.EPA.ServicesAPI.Providers
 {
     using Microsoft.Owin.Security.OAuth;
-    using SMS.EPA.ServicesAPI.Utilities;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
+    using Utilities;
 
     public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
     {
@@ -17,7 +17,7 @@
         {
             if (publicClientId == null)
             {
-                throw new ArgumentNullException("publicClientId");
+                throw new ArgumentNullException(nameof(publicClientId));
             }
 
             _publicClientId = publicClientId;
@@ -25,7 +25,7 @@
 
         public override Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-            var isValidAppId = AppConfig.PartnerIds.Where(i => i == context.UserName).Any();
+            var isValidAppId = AppConfig.PartnerIds.Any(i => i == context.UserName);
             if (isValidAppId)
             {
                 context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });

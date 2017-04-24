@@ -1,10 +1,9 @@
 ﻿namespace SMS.EPA.ServicesAPI.Controllers
 {
-    using Fanex.Logging;
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.ServicesAPI.Criteria.Department;
-    using SMS.EPA.ServicesAPI.Model;
-    using SMS.EPA.ServicesAPI.Services;
+    using Core.Model;
+    using Criteria.Department;
+    using Model;
+    using Services;
     using System;
     using System.Net;
     using System.Web.Http;
@@ -12,7 +11,7 @@
     [Authorize]
     public class DepartmentController : ApiController
     {
-        private readonly IServiceAPI service;
+        private readonly IServiceAPI _service;
 
         public DepartmentController()
             : this(null)
@@ -21,7 +20,7 @@
 
         public DepartmentController(IServiceAPI employeeService)
         {
-            this.service = employeeService ?? new ServiceAPI();
+            _service = employeeService ?? new ServiceAPI();
         }
 
         public IHttpActionResult Update(Department[] departments)
@@ -31,7 +30,7 @@
                 Departments = departments
             };
 
-            CommandResult result = service.Update(criteria);
+            CommandResult result = _service.Update(criteria);
             return result.IsSuccessful ? StatusCode(HttpStatusCode.OK) : StatusCode(HttpStatusCode.NotModified);
         }
 
@@ -39,7 +38,7 @@
         {
             var criteria = new GetLastModifiedDateForDepartmentCriteria();
 
-            DateTime modifiedDate = service.GetLastModifiedDate(criteria);
+            DateTime modifiedDate = _service.GetLastModifiedDate(criteria);
 
             return Ok(modifiedDate);
         }

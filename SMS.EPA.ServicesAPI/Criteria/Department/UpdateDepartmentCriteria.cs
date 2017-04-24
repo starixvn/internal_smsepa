@@ -10,7 +10,7 @@
 
     public class UpdateDepartmentCriteria : CriteriaBase
     {
-        private const string _DepartmentTpl = "<Department DepartmentId='{0}' Code='{1}' "
+        private const string DepartmentTpl = "<Department DepartmentId='{0}' Code='{1}' "
             + " Name='{2}' ParentId='{3}' ManagerId='{4}' DepartmentLevel='{5}' IsActive='{6}' ModifiedDate='{7}'></Department>";
 
         [SpParam(Ignored = true)]
@@ -25,7 +25,7 @@
                 foreach (Model.Department department in Departments)
                 {
                     value.AppendFormat(
-                        _DepartmentTpl,
+                        DepartmentTpl,
                         department.DepartmentId,
                         department.Code,
                         HttpUtility.HtmlEncode(department.Name),

@@ -1,22 +1,22 @@
 ﻿namespace SMS.EPA.ServicesAPI.Filters
 {
-    using SMS.EPA.Resources;
-    using SMS.EPA.ServicesAPI.Utilities;
+    using Resources;
     using System;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http.Controllers;
     using System.Web.Http.Filters;
+    using Utilities;
 
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
     public sealed class IPHostValidationAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
             string userIP = actionContext.Request.GetOwinContext().Request.RemoteIpAddress;
             var supportedIps = AppConfig.SupportedIPs;
-            var isExist = supportedIps.Where(i => i == userIP).Any();
+            var isExist = supportedIps.Any(i => i == userIP);
             if (supportedIps.Any() && !isExist)
             {
                 using (var response = new HttpResponseMessage())

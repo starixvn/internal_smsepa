@@ -1,9 +1,9 @@
 ﻿namespace SMS.EPA.ServicesAPI.Controllers
 {
-    using SMS.EPA.Core.Model;
-    using SMS.EPA.ServicesAPI.Criteria.EmployeeDiscipline;
-    using SMS.EPA.ServicesAPI.Model;
-    using SMS.EPA.ServicesAPI.Services;
+    using Core.Model;
+    using Criteria.EmployeeDiscipline;
+    using Model;
+    using Services;
     using System;
     using System.Net;
     using System.Web.Http;
@@ -11,7 +11,7 @@
     [Authorize]
     public class DisciplineController : ApiController
     {
-         private readonly IServiceAPI service;
+         private readonly IServiceAPI _service;
 
         public DisciplineController() : this(null)
         {
@@ -19,14 +19,14 @@
 
         public DisciplineController(IServiceAPI service)
         {
-            this.service = service ?? new ServiceAPI();
+            _service = service ?? new ServiceAPI();
         }
 
         public IHttpActionResult GetLastModifiedDate()
          {
              var criteria = new GetLastModifiedDateForDisciplineCriteria();
 
-             DateTime fromDate = service.GetLastModifiedDate(criteria);
+             DateTime fromDate = _service.GetLastModifiedDate(criteria);
 
              return Ok(fromDate);
          }
@@ -35,7 +35,7 @@
          {
              var criteria = new GetFromDateForDisciplineCriteria();
 
-             DateTime fromDate = service.GetLastModifiedDate(criteria);
+             DateTime fromDate = _service.GetLastModifiedDate(criteria);
 
              return Ok(fromDate);
          }
@@ -47,7 +47,7 @@
                  Disciplines = disciplines
              };
 
-             CommandResult result = service.Update(criteria);
+             CommandResult result = _service.Update(criteria);
 
              return result.IsSuccessful ? StatusCode(HttpStatusCode.OK) : StatusCode(HttpStatusCode.NotModified);
          }

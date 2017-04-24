@@ -3,7 +3,7 @@
     using Fanex.Data;
     using Fanex.Data.OldConnectionStringProvider;
     using Fanex.Logging;
-    using SMS.EPA.Resources;
+    using Resources;
     using System;
     using System.Web;
     using System.Web.Http;
@@ -15,7 +15,7 @@
     public class WebApiApplication : HttpApplication
     {
         private const string WebApiPrefix = "api";
-        private static readonly string WebApiExecutionPath = string.Format("~/{0}", WebApiPrefix);
+        private static readonly string WebApiExecutionPath = $"~/{WebApiPrefix}";
 
         protected void Application_Start()
         {

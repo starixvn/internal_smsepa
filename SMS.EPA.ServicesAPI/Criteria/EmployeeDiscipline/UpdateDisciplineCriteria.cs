@@ -1,16 +1,16 @@
 ﻿namespace SMS.EPA.ServicesAPI.Criteria.EmployeeDiscipline
 {
+    using Fanex.Data;
+    using Fanex.Data.Repository;
+    using Model;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Web;
-    using Fanex.Data;
-    using Fanex.Data.Repository;
-    using SMS.EPA.ServicesAPI.Model;
 
     public class UpdateDisciplineCriteria : CriteriaBase
     {
-        private const string _VialationTpl =
+        private const string VialationTpl =
             "<Violation EmpId='{0}' WorkDate='{1}' ShiftName='{2}' CheckIn='{3}' CheckOut='{4}' TotalHours='{5}'"
             + " LateIn='{6}' EarlyOut='{7}' Type='{8}' DisciplineScore='{9}'"
             + " EmployeeComment='{10}' ApproverComment='{11}' IsMissingCheckInOut='{12}' IsIgnoredMissingCheckInOut='{13}'"
@@ -33,13 +33,13 @@
                     foreach (Discipline discipline in Disciplines)
                     {
                         value.AppendFormat(
-                            _VialationTpl,
+                            VialationTpl,
                             discipline.EmployeeId,
                             discipline.WorkDate,
                             discipline.ShiftName,
                             discipline.CheckIn,
                             discipline.CheckOut,
-                            discipline.TotalHours == null ? 0 : discipline.TotalHours,
+                            discipline.TotalHours ?? 0,
                             discipline.LateIn,
                             discipline.EarlyOut,
                             discipline.Type,

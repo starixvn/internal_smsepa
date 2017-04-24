@@ -5,11 +5,11 @@
     using System.Text;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using SMS.EPA.ServicesAPI.Model;
+    using Model;
 
     public class UpdateDisciplineSummaryCriteria : CriteriaBase
     {
-        private const string _DisciplineTpl =
+        private const string DisciplineTpl =
             "<Discipline EmpId='{0}' Period='{1}' ChangeShift='{2}' MissingCheckInOut='{3}' LateIn='{4}' EarlyOut='{5}'"
             + " Absent='{6}' UnpaidLeave='{7}' WorkingUndertime='{8}' UnpaidLeaveAbsent='{9}'"
             + " OtherDisciplines='{10}' SystemSubtractScore='{11}' ModifiedDate='{12}'></Discipline>";
@@ -28,7 +28,7 @@
                     foreach (DisciplineSummary discipline in Disciplines)
                     {
                         value.AppendFormat(
-                            _DisciplineTpl,
+                            DisciplineTpl,
                             discipline.EmployeeId,
                             discipline.Period,
                             discipline.ChangeShift,
